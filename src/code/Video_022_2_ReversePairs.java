@@ -2,7 +2,7 @@ package code;
 
 // 翻转对数量
 // 测试链接 : https://leetcode.cn/problems/reverse-pairs/
-public class Video_023_ReversePairs {
+public class Video_022_2_ReversePairs {
 
 	public static int MAXN = 50001;
 

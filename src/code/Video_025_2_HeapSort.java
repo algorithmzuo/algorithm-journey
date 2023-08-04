@@ -3,7 +3,7 @@ package code;
 // 堆结构和堆排序，填函数练习风格
 // 测试链接 : https://leetcode.cn/problems/sort-an-array/
 
-public class Video_026_2_HeapSort {
+public class Video_025_2_HeapSort {
 
 	public static int[] sortArray(int[] nums) {
 		if (nums.length > 1) {

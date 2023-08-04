@@ -13,7 +13,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 
-public class Video_026_1_HeapSort {
+public class Video_025_1_HeapSort {
 	
 	public static int MAXN = 501;
 

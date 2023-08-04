@@ -5,7 +5,7 @@ import java.util.PriorityQueue;
 
 // 合并K个有序链表
 // 测试链接：https://www.nowcoder.com/practice/65cfde9e5b9b4cf2b6bafa5f3ef33fa6
-public class Video_028_MergeKSortedLists {
+public class Video_027_1_MergeKSortedLists {
 
 	// 不要提交这个类
 	public static class ListNode {

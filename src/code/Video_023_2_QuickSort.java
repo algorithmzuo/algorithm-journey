@@ -3,7 +3,7 @@ package code;
 // 随机快速排序，填函数练习风格
 // 测试链接 : https://leetcode.cn/problems/sort-an-array/
 
-public class Video_024_2_QuickSort {
+public class Video_023_2_QuickSort {
 
 	public static int[] sortArray(int[] nums) {
 		if (nums.length > 1) {

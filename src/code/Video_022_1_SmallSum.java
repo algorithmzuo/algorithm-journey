@@ -13,7 +13,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 
-public class Video_022_SmallSum {
+public class Video_022_1_SmallSum {
 
 	public static int MAXN = 100001;
 

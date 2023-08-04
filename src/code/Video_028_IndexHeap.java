@@ -5,7 +5,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.TreeSet;
 
-public class Video_030_IndexHeap {
+public class Video_028_IndexHeap {
 
 	// 索引堆的实现
 	// 可以把T变成你想要的类型，这里泛型实现了

@@ -2,7 +2,7 @@ package code;
 
 // 无序数组中第K大的元素
 // 测试链接 : https://leetcode.cn/problems/kth-largest-element-in-an-array/
-public class Video_025_KthLargestElementInArray {
+public class Video_024_KthLargestElementInArray {
 
 	// 改写快排的方式，时间复杂度O(n)
 	public static int findKthLargest(int[] nums, int k) {
