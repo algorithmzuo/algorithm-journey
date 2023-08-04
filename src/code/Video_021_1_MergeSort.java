@@ -53,11 +53,11 @@ public class Video_021_1_MergeSort {
 	}
 
 	// 归并排序递归版
-	// l...r n个数
+	// 假设l...r一共n个数
 	// T(n) = 2 * T(n/2) + O(n)
 	// a = 2, b = 2, c = 1
-	// 时间复杂度，O(n * logn)
-	// 空间复杂度，O(n)
+	// 根据master公式，时间复杂度O(n * logn)
+	// 空间复杂度O(n)
 	public static void mergeSort1(int l, int r) {
 		if (l == r) {
 			return;
@@ -69,8 +69,12 @@ public class Video_021_1_MergeSort {
 	}
 
 	// 归并排序非递归版
+	// 时间复杂度O(n * logn)
+	// 空间复杂度O(n)
 	public static void mergeSort2() {
+		// 一共发生O(logn)次
 		for (int l, m, r, step = 1; step < n; step <<= 1) {
+			// 内部分组merge，时间复杂度O(n)
 			l = 0;
 			while (l < n) {
 				m = l + step - 1;
@@ -84,6 +88,8 @@ public class Video_021_1_MergeSort {
 		}
 	}
 
+	// l....r 一共有n个数
+	// O(n)
 	public static void merge(int l, int m, int r) {
 		int i = l;
 		int a = l;
