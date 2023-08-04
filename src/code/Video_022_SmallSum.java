@@ -51,8 +51,7 @@ public class Video_022_SmallSum {
 	public static long merge(int l, int m, int r) {
 		// 统计部分
 		long ans = 0;
-		long sum = 0;
-		for (int j = m + 1, i = l; j <= r; j++) {
+		for (int j = m + 1, i = l, sum = 0; j <= r; j++) {
 			while (i <= m && arr[i] <= arr[j]) {
 				sum += arr[i++];
 			}
