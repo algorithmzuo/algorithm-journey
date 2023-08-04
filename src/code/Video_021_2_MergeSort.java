@@ -40,14 +40,14 @@ public class Video_021_2_MergeSort {
 		int n = arr.length;
 		for (int l, m, r, step = 1; step < n; step <<= 1) {
 			l = 0;
-			while (l < n && step < n - l) {
+			while (l < n) {
 				m = l + step - 1;
-				r = m + Math.min(step, n - m - 1);
+				r = Math.min(l + (step << 1) - 1, n - 1);
+				if (m >= n) {
+					break;
+				}
 				merge(arr, l, m, r);
 				l = r + 1;
-			}
-			if (step > n / 2) {
-				break;
 			}
 		}
 	}

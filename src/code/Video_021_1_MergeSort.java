@@ -53,6 +53,11 @@ public class Video_021_1_MergeSort {
 	}
 
 	// 归并排序递归版
+	// l...r n个数
+	// T(n) = 2 * T(n/2) + O(n)
+	// a = 2, b = 2, c = 1
+	// 时间复杂度，O(n * logn)
+	// 空间复杂度，O(n)
 	public static void mergeSort1(int l, int r) {
 		if (l == r) {
 			return;
@@ -67,14 +72,14 @@ public class Video_021_1_MergeSort {
 	public static void mergeSort2() {
 		for (int l, m, r, step = 1; step < n; step <<= 1) {
 			l = 0;
-			while (l < n && step < n - l) {
+			while (l < n) {
 				m = l + step - 1;
-				r = m + Math.min(step, n - m - 1);
+				r = Math.min(l + (step << 1) - 1, n - 1);
+				if (m >= n) {
+					break;
+				}
 				merge(l, m, r);
 				l = r + 1;
-			}
-			if (step > n / 2) {
-				break;
 			}
 		}
 	}
@@ -86,6 +91,7 @@ public class Video_021_1_MergeSort {
 		while (a <= m && b <= r) {
 			help[i++] = arr[a] <= arr[b] ? arr[a++] : arr[b++];
 		}
+		// 左侧指针、右侧指针，必有一个越界、另一个不越界
 		while (a <= m) {
 			help[i++] = arr[a++];
 		}

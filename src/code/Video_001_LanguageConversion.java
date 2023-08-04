@@ -21,18 +21,18 @@ public class Video_001_LanguageConversion {
 		// 以下是归并排序
 		public static int[] help = new int[MAXN];
 
-		public static void mergeSort(int[] nums) {
-			int n = nums.length;
+		public static void mergeSort(int[] arr) {
+			int n = arr.length;
 			for (int l, m, r, step = 1; step < n; step <<= 1) {
 				l = 0;
-				while (l < n && step < n - l) {
+				while (l < n) {
 					m = l + step - 1;
-					r = m + Math.min(step, n - m - 1);
-					merge(nums, l, m, r);
+					r = Math.min(l + (step << 1) - 1, n - 1);
+					if (m >= n) {
+						break;
+					}
+					merge(arr, l, m, r);
 					l = r + 1;
-				}
-				if (step > n / 2) {
-					break;
 				}
 			}
 		}
