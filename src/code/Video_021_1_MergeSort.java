@@ -75,7 +75,7 @@ public class Video_021_1_MergeSort {
 			while (l < n) {
 				m = l + step - 1;
 				r = Math.min(l + (step << 1) - 1, n - 1);
-				if (m >= n) {
+				if (m + 1 >= n) {
 					break;
 				}
 				merge(l, m, r);
