@@ -42,10 +42,10 @@ public class Video_021_2_MergeSort {
 			l = 0;
 			while (l < n) {
 				m = l + step - 1;
-				r = Math.min(l + (step << 1) - 1, n - 1);
 				if (m + 1 >= n) {
 					break;
 				}
+				r = Math.min(l + (step << 1) - 1, n - 1);
 				merge(arr, l, m, r);
 				l = r + 1;
 			}
