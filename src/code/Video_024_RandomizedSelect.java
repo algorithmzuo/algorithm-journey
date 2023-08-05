@@ -2,15 +2,15 @@ package code;
 
 // 无序数组中第K大的元素
 // 测试链接 : https://leetcode.cn/problems/kth-largest-element-in-an-array/
-public class Video_024_SelectAlgorithm {
+public class Video_024_RandomizedSelect {
 
-	// 改写快排的方式，时间复杂度O(n)
+	// 随机选择算法，时间复杂度O(n)
 	public static int findKthLargest(int[] nums, int k) {
-		return ith(nums, nums.length - k);
+		return randomizedSelect(nums, nums.length - k);
 	}
 
 	// 如果arr排序的话，在i位置的数字是什么
-	public static int ith(int[] arr, int i) {
+	public static int randomizedSelect(int[] arr, int i) {
 		int ans = 0;
 		for (int l = 0, r = arr.length - 1; l <= r;) {
 			// 随机这一下，常数时间比较大
