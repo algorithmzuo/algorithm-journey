@@ -12,6 +12,8 @@ public class Video_022_2_ReversePairs {
 		return counts(arr, 0, arr.length - 1);
 	}
 
+	// 统计l...r范围上，翻转对的数量，同时l...r范围统计完后变有序
+	// 时间复杂度O(n * logn)
 	public static int counts(int[] arr, int l, int r) {
 		if (l == r) {
 			return 0;

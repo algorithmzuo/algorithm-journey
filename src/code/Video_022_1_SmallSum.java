@@ -41,6 +41,8 @@ public class Video_022_1_SmallSum {
 
 	// 结果比较大，用int会溢出的，所以返回long类型
 	// 特别注意溢出这个点，笔试常见坑
+	// 返回arr[l...r]范围上，小和的累加和，同时请把arr[l..r]变有序
+	// 时间复杂度O(n * logn)
 	public static long smallSum(int l, int r) {
 		if (l == r) {
 			return 0;
@@ -49,6 +51,8 @@ public class Video_022_1_SmallSum {
 		return smallSum(l, m) + smallSum(m + 1, r) + merge(l, m, r);
 	}
 
+	// 返回跨左右产生的小和累加和，左侧有序、右侧有序，让左右两侧整体有序
+	// arr[l...m] arr[m+1...r]
 	public static long merge(int l, int m, int r) {
 		// 统计部分
 		long ans = 0;
