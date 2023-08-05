@@ -40,6 +40,7 @@ public class Video_022_1_SmallSum {
 	}
 
 	// 结果比较大，用int会溢出的，所以返回long类型
+	// 特别注意溢出这个点，笔试常见坑
 	public static long smallSum(int l, int r) {
 		if (l == r) {
 			return 0;
