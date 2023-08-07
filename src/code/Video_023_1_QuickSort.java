@@ -31,7 +31,7 @@ public class Video_023_1_QuickSort {
 				in.nextToken();
 				arr[i] = (int) in.nval;
 			}
-			quickSort(0, n - 1);
+			quickSort2(0, n - 1);
 			out.print(arr[0]);
 			for (int i = 1; i < n; i++) {
 				out.print(" " + arr[i]);
@@ -42,23 +42,57 @@ public class Video_023_1_QuickSort {
 		out.close();
 	}
 
-	// 随机快速排序
-	public static void quickSort(int l, int r) {
+	// 随机快速排序经典版(不推荐)
+	public static void quickSort1(int l, int r) {
 		if (l >= r) {
 			return;
 		}
 		// 随机这一下，常数时间比较大
 		// 但只有这一下随机，才能在概率上把快速排序的时间复杂度收敛到O(n * logn)
 		int x = arr[l + (int) (Math.random() * (r - l + 1))];
-		partition(l, r, x);
-		quickSort(l, first - 1);
-		quickSort(last + 1, r);
+		int mid = partition1(l, r, x);
+		quickSort1(l, mid - 1);
+		quickSort1(mid + 1, r);
+	}
+
+	public static int partition1(int l, int r, int x) {
+		int a = l, xi = 0;
+		for (int i = l; i <= r; i++) {
+			if (arr[i] <= x) {
+				swap(a, i);
+				if (arr[a] == x) {
+					xi = a;
+				}
+				a++;
+			}
+		}
+		swap(xi, a - 1);
+		return a - 1;
+	}
+
+	public static void swap(int i, int j) {
+		int tmp = arr[i];
+		arr[i] = arr[j];
+		arr[j] = tmp;
+	}
+
+	// 随机快速排序改进版(推荐)
+	public static void quickSort2(int l, int r) {
+		if (l >= r) {
+			return;
+		}
+		// 随机这一下，常数时间比较大
+		// 但只有这一下随机，才能在概率上把快速排序的时间复杂度收敛到O(n * logn)
+		int x = arr[l + (int) (Math.random() * (r - l + 1))];
+		partition2(l, r, x);
+		quickSort2(l, first - 1);
+		quickSort2(last + 1, r);
 	}
 
 	// 荷兰国旗问题
 	public static int first, last;
 
-	public static void partition(int l, int r, int x) {
+	public static void partition2(int l, int r, int x) {
 		first = l;
 		last = r;
 		int i = l;
@@ -71,12 +105,6 @@ public class Video_023_1_QuickSort {
 				swap(i, last--);
 			}
 		}
-	}
-
-	public static void swap(int i, int j) {
-		int tmp = arr[i];
-		arr[i] = arr[j];
-		arr[j] = tmp;
 	}
 
 }
