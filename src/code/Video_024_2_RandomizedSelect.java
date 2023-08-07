@@ -1,12 +1,12 @@
 package code;
 
 // 无序数组中第K大的元素
-// 测试链接 : https://www.nowcoder.com/practice/e016ad9b7f0b45048c58a9f27ba618bf
-public class Video_024_RandomizedSelect {
+// 测试链接 : https://leetcode.cn/problems/kth-largest-element-in-an-array/
+public class Video_024_2_RandomizedSelect {
 
 	// 随机选择算法，时间复杂度O(n)
-	public static int findKth(int[] nums, int n, int k) {
-		return randomizedSelect(nums, n - k);
+	public static int findKthLargest(int[] nums, int k) {
+		return randomizedSelect(nums, nums.length - k);
 	}
 
 	// 如果arr排序的话，在i位置的数字是什么

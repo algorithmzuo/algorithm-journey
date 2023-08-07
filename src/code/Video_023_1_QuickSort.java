@@ -44,11 +44,14 @@ public class Video_023_1_QuickSort {
 
 	// 随机快速排序经典版(不推荐)
 	public static void quickSort1(int l, int r) {
+		// l == r，只有一个数
+		// l > r，范围不存在，不用管
 		if (l >= r) {
 			return;
 		}
 		// 随机这一下，常数时间比较大
 		// 但只有这一下随机，才能在概率上把快速排序的时间复杂度收敛到O(n * logn)
+		// l......r 随机选一个位置，x这个值，做划分
 		int x = arr[l + (int) (Math.random() * (r - l + 1))];
 		int mid = partition1(l, r, x);
 		quickSort1(l, mid - 1);
