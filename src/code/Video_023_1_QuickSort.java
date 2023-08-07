@@ -55,6 +55,8 @@ public class Video_023_1_QuickSort {
 		quickSort1(mid + 1, r);
 	}
 
+	// 已知arr[l....r]范围上一定有x这个值
+	// 划分数组 <=x放左边，>x放右边，并且确保划分完成后<=x区域的最后一个数字是x
 	public static int partition1(int l, int r, int x) {
 		int a = l, xi = 0;
 		for (int i = l; i <= r; i++) {
@@ -92,6 +94,9 @@ public class Video_023_1_QuickSort {
 	// 荷兰国旗问题
 	public static int first, last;
 
+	// 已知arr[l....r]范围上一定有x这个值
+	// 划分数组 <x放左边，==x放中间，>x放右边
+	// 把全局变量first, last，更新成==x区域的左右边界
 	public static void partition2(int l, int r, int x) {
 		first = l;
 		last = r;
