@@ -17,6 +17,7 @@ public class Video_025_2_HeapSort {
 	}
 
 	// i位置的数，向上调整大根堆
+	// arr[i] = x，x是新来的！往上看，直到不比父亲大，或者来到0位置(顶)
 	public static void heapInsert(int[] arr, int i) {
 		while (arr[i] > arr[(i - 1) / 2]) {
 			swap(arr, i, (i - 1) / 2);
@@ -24,12 +25,17 @@ public class Video_025_2_HeapSort {
 		}
 	}
 
-	// i位置的数，向下调整大根堆
+	// i位置的数，变小了，又想维持大根堆结构
+	// 向下调整大根堆
 	// 当前堆的大小为size
 	public static void heapify(int[] arr, int i, int size) {
 		int l = i * 2 + 1;
 		while (l < size) {
+			// 有左孩子，l
+			// 右孩子，l+1
+			// 评选，最强的孩子，是哪个下标的孩子
 			int best = l + 1 < size && arr[l + 1] > arr[l] ? l + 1 : l;
+			// 上面已经评选了最强的孩子，接下来，当前的数和最强的孩子之前，最强下标是谁
 			best = arr[best] > arr[i] ? best : i;
 			if (best == i) {
 				break;
