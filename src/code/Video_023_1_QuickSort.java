@@ -58,6 +58,8 @@ public class Video_023_1_QuickSort {
 	// 已知arr[l....r]范围上一定有x这个值
 	// 划分数组 <=x放左边，>x放右边，并且确保划分完成后<=x区域的最后一个数字是x
 	public static int partition1(int l, int r, int x) {
+		// a : arr[l....a-1]范围是<=x的区域
+		// xi : 记录在<=x的区域上任何一个x的位置，哪一个都可以
 		int a = l, xi = 0;
 		for (int i = l; i <= r; i++) {
 			if (arr[i] <= x) {
