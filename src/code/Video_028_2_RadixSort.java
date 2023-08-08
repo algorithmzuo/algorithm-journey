@@ -4,7 +4,7 @@ import java.util.Arrays;
 
 // 基数排序
 // 测试链接 : https://leetcode.cn/problems/sort-an-array/
-public class Video_028_RadixSort {
+public class Video_028_2_RadixSort {
 
 	public static int[] sortArray(int[] nums) {
 		if (nums.length > 1) {
@@ -22,36 +22,36 @@ public class Video_028_RadixSort {
 
 	public static int[] cnts = new int[BASE];
 
-	public static void radixSort(int[] nums) {
-		int n = nums.length;
-		Arrays.fill(help, 0, n, 0);
-		int min = nums[0];
+	// 如果会溢出，那么要改用long类型数组来排序
+	public static void radixSort(int[] arr) {
+		int n = arr.length;
+		int min = arr[0];
 		for (int i = 1; i < n; i++) {
-			min = Math.min(min, nums[i]);
+			min = Math.min(min, arr[i]);
 		}
 		int max = 0;
 		for (int i = 0; i < n; i++) {
-			nums[i] -= min;
-			max = Math.max(max, nums[i]);
+			arr[i] -= min;
+			max = Math.max(max, arr[i]);
 		}
 		int m = bits(max);
 		for (int offset = 1; m > 0; offset *= BASE, m--) {
 			Arrays.fill(cnts, 0);
 			for (int i = 0; i < n; i++) {
-				cnts[(nums[i] / offset) % BASE]++;
+				cnts[(arr[i] / offset) % BASE]++;
 			}
 			for (int i = 1; i < BASE; i++) {
 				cnts[i] = cnts[i] + cnts[i - 1];
 			}
 			for (int i = n - 1; i >= 0; i--) {
-				help[--cnts[(nums[i] / offset) % BASE]] = nums[i];
+				help[--cnts[(arr[i] / offset) % BASE]] = arr[i];
 			}
 			for (int i = 0; i < n; i++) {
-				nums[i] = help[i];
+				arr[i] = help[i];
 			}
 		}
 		for (int i = 0; i < n; i++) {
-			nums[i] += min;
+			arr[i] += min;
 		}
 	}
 
