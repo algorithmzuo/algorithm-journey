@@ -26,30 +26,46 @@ public class Video_026_1_HashSetAndHashMap {
 
 		System.out.println("===========");
 
-		HashMap<String, String> map = new HashMap<>();
-		map.put(str1, "World");
-		System.out.println(map.containsKey("Hello"));
-		System.out.println(map.containsKey(str2));
-		System.out.println(map.get(str2));
-		System.out.println(map.get("你好"));
-		map.remove("Hello");
-		System.out.println(map.size());
-		map.clear();
-		System.out.println(map.isEmpty());
+		HashMap<String, String> map1 = new HashMap<>();
+		map1.put(str1, "World");
+		System.out.println(map1.containsKey("Hello"));
+		System.out.println(map1.containsKey(str2));
+		System.out.println(map1.get(str2));
+		System.out.println(map1.get("你好"));
+		map1.remove("Hello");
+		System.out.println(map1.size());
+		map1.clear();
+		System.out.println(map1.isEmpty());
 
 		System.out.println("===========");
-		
-		HashMap<Student, String> map2 = new HashMap<>();
+
+		// 一般在笔试中，未必需要申请哈希表
+		HashMap<Integer, Integer> map2 = new HashMap<>();
+		map2.put(56, 7285);
+		map2.put(34, 3671263);
+		map2.put(17, 716311);
+		map2.put(24, 1263161);
+		// 上面的map2行为，可以被如下数组的行为替代
+		int[] arr = new int[100];
+		arr[56] = 7285;
+		arr[34] = 3671263;
+		arr[17] = 716311;
+		arr[24] = 1263161;
+		// 哈希表的增、删、改、查，都可以被数组替代，前提是key的范围是固定的、可控的
+		System.out.println("在笔试场合中哈希表往往会被数组替代");
+
+		System.out.println("===========");
+
+		HashMap<Student, String> map3 = new HashMap<>();
 		Student s1 = new Student(17, "张三");
 		Student s2 = new Student(17, "张三");
-		map2.put(s1, "这是张三");
-		System.out.println(map2.containsKey(s1));
-		System.out.println(map2.containsKey(s2));
-		map2.put(s2, "这另一个是张三");
-		System.out.println(map2.size());
-		System.out.println(map2.get(s1));
-		System.out.println(map2.get(s2));
-
+		map3.put(s1, "这是张三");
+		System.out.println(map3.containsKey(s1));
+		System.out.println(map3.containsKey(s2));
+		map3.put(s2, "这另一个是张三");
+		System.out.println(map3.size());
+		System.out.println(map3.get(s1));
+		System.out.println(map3.get(s2));
 	}
 
 	public static class Student {
