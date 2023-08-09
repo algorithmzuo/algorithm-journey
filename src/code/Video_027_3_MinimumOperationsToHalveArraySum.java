@@ -6,6 +6,7 @@ import java.util.PriorityQueue;
 // 测试链接 : https://leetcode.cn/problems/minimum-operations-to-halve-array-sum/
 public class Video_027_3_MinimumOperationsToHalveArraySum {
 
+	// 提交时把halveArray1改名为halveArray
 	public static int halveArray1(int[] nums) {
 		PriorityQueue<Double> heap = new PriorityQueue<>((a, b) -> b.compareTo(a));
 		double sum = 0;
@@ -28,6 +29,7 @@ public class Video_027_3_MinimumOperationsToHalveArraySum {
 
 	public static int size;
 
+	// 提交时把halveArray2改名为halveArray
 	public static int halveArray2(int[] nums) {
 		size = nums.length;
 		long sum = 0;
