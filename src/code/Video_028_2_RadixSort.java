@@ -28,8 +28,7 @@ public class Video_028_2_RadixSort {
 				arr[i] -= min;
 				max = Math.max(max, arr[i]);
 			}
-			int m = bits(max);
-			radixSort(arr, n, m);
+			radixSort(arr, n, bits(max));
 			for (int i = 0; i < n; i++) {
 				arr[i] += min;
 			}
