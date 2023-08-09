@@ -42,21 +42,30 @@ public class Video_027_2_MaxCover {
 	}
 
 	public static int compute() {
+		// 堆的清空
 		size = 0;
+		
+		// 线段一共有n条，line[0...n-1][2] : line[i][0]   line[i][1], 左闭右闭
+		// 所有线段，根据开始位置排序，结束位置无所谓
+		// 比较器的用法
+		// line [0...n) 排序 : 所有小数组，开始位置谁小谁在前
 		Arrays.sort(line, 0, n, (a, b) -> a[0] - b[0]);
-		int max = 0;
+		int ans = 0;
 		for (int i = 0; i < n; i++) {
+			// i :  line[i][0] line[i][1]
 			while (size > 0 && heap[0] <= line[i][0]) {
 				pop();
 			}
 			add(line[i][1]);
-			max = Math.max(max, size);
+			ans = Math.max(ans, size);
 		}
-		return max;
+		return ans;
 	}
 
+	// 小根堆，堆顶0位置
 	public static int[] heap = new int[MAXN];
 
+	// 堆的大小
 	public static int size;
 
 	public static void add(int x) {

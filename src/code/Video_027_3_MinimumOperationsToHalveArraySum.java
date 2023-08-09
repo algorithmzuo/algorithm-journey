@@ -8,12 +8,14 @@ public class Video_027_3_MinimumOperationsToHalveArraySum {
 
 	// 提交时把halveArray1改名为halveArray
 	public static int halveArray1(int[] nums) {
+		// 大根堆
 		PriorityQueue<Double> heap = new PriorityQueue<>((a, b) -> b.compareTo(a));
 		double sum = 0;
 		for (int num : nums) {
 			heap.add((double) num);
 			sum += num;
 		}
+		// sum，整体累加和，-> 要减少的目标！
 		sum /= 2;
 		int ans = 0;
 		for (double minus = 0, cur; minus < sum; ans++, minus += cur) {

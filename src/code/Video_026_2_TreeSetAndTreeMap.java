@@ -7,6 +7,7 @@ import java.util.TreeSet;
 public class Video_026_2_TreeSetAndTreeMap {
 
 	public static void main(String[] args) {
+		// 底层红黑树
 		TreeMap<Integer, String> treeMap = new TreeMap<>();
 		treeMap.put(5, "这是5");
 		treeMap.put(7, "这是7");
@@ -27,7 +28,9 @@ public class Video_026_2_TreeSetAndTreeMap {
 
 		System.out.println(treeMap.firstKey());
 		System.out.println(treeMap.lastKey());
+		// TreeMap中，所有的key，<= 4且最近的key是什么
 		System.out.println(treeMap.floorKey(4));
+		// TreeMap中，所有的key，>= 4且最近的key是什么
 		System.out.println(treeMap.ceilingKey(4));
 
 		System.out.println("========");
@@ -42,16 +45,27 @@ public class Video_026_2_TreeSetAndTreeMap {
 			System.out.println(set.pollFirst());
 			// System.out.println(set.pollLast());
 		}
-		
-		// 堆
-		PriorityQueue<Integer> heap = new PriorityQueue<>();
-		heap.add(3);
-		heap.add(3);
-		heap.add(4);
-		heap.add(4);
-		System.out.println("堆大小 : " + heap.size());
-		while(!heap.isEmpty()) {
-			System.out.println(heap.poll());
+
+		// 堆，默认小根堆、如果要大根堆，定制比较器！
+		PriorityQueue<Integer> heap1 = new PriorityQueue<>();
+		heap1.add(3);
+		heap1.add(3);
+		heap1.add(4);
+		heap1.add(4);
+		System.out.println("堆大小 : " + heap1.size());
+		while (!heap1.isEmpty()) {
+			System.out.println(heap1.poll());
+		}
+
+		// 定制的大根堆，用比较器！
+		PriorityQueue<Integer> heap2 = new PriorityQueue<>((a, b) -> b - a);
+		heap2.add(3);
+		heap2.add(3);
+		heap2.add(4);
+		heap2.add(4);
+		System.out.println("堆大小 : " + heap2.size());
+		while (!heap2.isEmpty()) {
+			System.out.println(heap2.poll());
 		}
 
 	}

@@ -51,7 +51,7 @@ public class Video_026_3_Comparator {
 		}
 
 		System.out.println("=====");
-
+		// 所有员工，先按照谁的公司编号小，谁在前；如果公司编号一样，谁年龄小谁在前
 		Arrays.sort(arr, (a, b) -> a.company != b.company ? (a.company - b.company) : (a.age - b.age));
 		for (Employee e : arr) {
 			System.out.println(e.company + " , " + e.age);
@@ -69,7 +69,8 @@ public class Video_026_3_Comparator {
 
 		System.out.println("===");
 
-		// 如果不想去重，就需要增加更多的比较，比如对象的内存地址、或者如果对象有数组下标之类的独特信息
+		// 如果不想去重，就需要增加更多的比较
+		// 比如对象的内存地址、或者如果对象有数组下标之类的独特信息
 		TreeSet<Employee> treeSet2 = new TreeSet<>((a, b) -> a.company != b.company ? (a.company - b.company)
 				: a.age != b.age ? (a.age - b.age) : a.toString().compareTo(b.toString()));
 		for (Employee e : arr) {
@@ -80,7 +81,7 @@ public class Video_026_3_Comparator {
 		// 不会去重
 		treeSet2.add(new Employee(2, 27));
 		System.out.println(treeSet2.size());
-		
+
 		System.out.println("===");
 
 		// PriorityQueue不会去重，不再展示了
@@ -88,7 +89,6 @@ public class Video_026_3_Comparator {
 		// 字典序
 		String str1 = "abcde";
 		String str2 = "ks";
-
 		System.out.println(str1.compareTo(str2));
 		System.out.println(str2.compareTo(str1));
 	}

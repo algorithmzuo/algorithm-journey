@@ -14,9 +14,11 @@ public class Video_027_1_MergeKSortedLists {
 	}
 
 	// 提交以下的方法
-	public static ListNode mergeKLists(ArrayList<ListNode> lists) {
+	public static ListNode mergeKLists(ArrayList<ListNode> arr) {
+		// 小根堆
 		PriorityQueue<ListNode> heap = new PriorityQueue<>((a, b) -> a.val - b.val);
-		for (ListNode h : lists) {
+		for (ListNode h : arr) {
+			// 遍历所有的头！
 			if (h != null) {
 				heap.add(h);
 			}
@@ -24,8 +26,9 @@ public class Video_027_1_MergeKSortedLists {
 		if (heap.isEmpty()) {
 			return null;
 		}
-		ListNode head = heap.poll();
-		ListNode pre = head;
+		// 先弹出一个节点，做总头部
+		ListNode h = heap.poll();
+		ListNode pre = h;
 		if (pre.next != null) {
 			heap.add(pre.next);
 		}
@@ -37,7 +40,7 @@ public class Video_027_1_MergeKSortedLists {
 				heap.add(cur.next);
 			}
 		}
-		return head;
+		return h;
 	}
 
 }

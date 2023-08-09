@@ -7,8 +7,8 @@ public class Video_026_1_HashSetAndHashMap {
 
 	public static void main(String[] args) {
 		// Integer、Long、Double、Float
-		// Byte、Short、Character、Boolean、String
-		// 等都有这个特征
+		// Byte、Short、Character、Boolean
+		// String等都有这个特征
 		String str1 = new String("Hello");
 		String str2 = new String("Hello");
 		// false，因为不同的内存地址
@@ -57,14 +57,13 @@ public class Video_026_1_HashSetAndHashMap {
 		System.out.println("在笔试场合中哈希表往往会被数组替代");
 
 		System.out.println("===========");
-
-		HashMap<Student, String> map3 = new HashMap<>();
 		Student s1 = new Student(17, "张三");
 		Student s2 = new Student(17, "张三");
+		HashMap<Student, String> map3 = new HashMap<>();
 		map3.put(s1, "这是张三");
 		System.out.println(map3.containsKey(s1));
 		System.out.println(map3.containsKey(s2));
-		map3.put(s2, "这另一个是张三");
+		map3.put(s2, "这是另一个张三");
 		System.out.println(map3.size());
 		System.out.println(map3.get(s1));
 		System.out.println(map3.get(s2));
