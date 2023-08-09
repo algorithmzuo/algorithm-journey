@@ -14,7 +14,7 @@ import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 import java.util.Arrays;
 
-public class Video_027_3_MaxCover {
+public class Video_027_2_MaxCover {
 
 	public static int MAXN = 10001;
 
