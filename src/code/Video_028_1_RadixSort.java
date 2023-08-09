@@ -43,7 +43,7 @@ public class Video_028_1_RadixSort {
 				in.nextToken();
 				arr[i] = (int) in.nval;
 			}
-			radixSort();
+			sort();
 			out.print(arr[0]);
 			for (int i = 1; i < n; i++) {
 				out.print(" " + arr[i]);
@@ -54,8 +54,7 @@ public class Video_028_1_RadixSort {
 		out.close();
 	}
 
-	// 如果会溢出，那么要改用long类型数组来排序
-	public static void radixSort() {
+	public static void sort() {
 		int min = arr[0];
 		for (int i = 1; i < n; i++) {
 			min = Math.min(min, arr[i]);
@@ -65,7 +64,27 @@ public class Video_028_1_RadixSort {
 			arr[i] -= min;
 			max = Math.max(max, arr[i]);
 		}
-		int m = bits(max);
+		radixSort(bits(max));
+		for (int i = 0; i < n; i++) {
+			arr[i] += min;
+		}
+	}
+
+	// 返回number在BASE进制下有几位
+	public static int bits(int number) {
+		int ans = 0;
+		while (number > 0) {
+			ans++;
+			number /= BASE;
+		}
+		return ans;
+	}
+
+	// 基数排序核心代码
+	// arr内要保证没有负数
+	// m是arr中最大值在BASE进制下有几位
+	public static void radixSort(int m) {
+		// 理解的时候可以假设BASE = 10
 		for (int offset = 1; m > 0; offset *= BASE, m--) {
 			Arrays.fill(cnts, 0);
 			for (int i = 0; i < n; i++) {
@@ -81,18 +100,6 @@ public class Video_028_1_RadixSort {
 				arr[i] = help[i];
 			}
 		}
-		for (int i = 0; i < n; i++) {
-			arr[i] += min;
-		}
-	}
-
-	public static int bits(int max) {
-		int ans = 0;
-		while (max > 0) {
-			ans++;
-			max /= BASE;
-		}
-		return ans;
 	}
 
 }
