@@ -23,7 +23,7 @@ public class Video_026_2_TreeSetAndTreeMap {
 		System.out.println(treeMap.get(4));
 
 		treeMap.remove(4);
-		System.out.println(treeMap.get(4));
+		System.out.println(treeMap.get(4) == null);
 
 		System.out.println(treeMap.firstKey());
 		System.out.println(treeMap.lastKey());
