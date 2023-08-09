@@ -6,7 +6,7 @@ import java.util.HashSet;
 public class Video_026_1_HashSetAndHashMap {
 
 	public static void main(String[] args) {
-		// String、Integer、Long、Double、Float等都有这个特征
+		// Integer、Long、Double、Float、Byte、Short、Character、Boolean、String等都有这个特征
 		String str1 = new String("Hello");
 		String str2 = new String("Hello");
 		// false，因为不同的内存地址
