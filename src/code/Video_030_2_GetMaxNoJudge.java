@@ -16,7 +16,7 @@ public class Video_030_2_GetMaxNoJudge {
 		return flip(n >>> 31);
 	}
 
-	// 有溢出风险
+	// 有溢出风险的实现
 	public static int getMax1(int a, int b) {
 		int c = a - b;
 		int returnA = sign(c);
@@ -24,7 +24,7 @@ public class Video_030_2_GetMaxNoJudge {
 		return a * returnA + b * returnB;
 	}
 
-	// 没有任何问题
+	// 没有任何问题的实现
 	public static int getMax2(int a, int b) {
 		int c = a - b;
 		int sa = sign(a);
