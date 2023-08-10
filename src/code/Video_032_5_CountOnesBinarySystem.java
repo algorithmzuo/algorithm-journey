@@ -11,7 +11,7 @@ public class Video_032_5_CountOnesBinarySystem {
 	}
 
 	// 返回n的二进制中有几个1
-	// 是不是头皮发麻啊？代码看着很魔幻吧？别慌
+	// 是不是看着头皮发麻啊？代码看着很魔幻吧？别慌
 	public static int cntOnes(int n) {
 		n = (n & 0x55555555) + ((n >>> 1) & 0x55555555);
 		n = (n & 0x33333333) + ((n >>> 2) & 0x33333333);
