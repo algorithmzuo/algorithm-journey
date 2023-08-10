@@ -1,6 +1,15 @@
 package code;
 
 // 位图的实现
+// Bitset是一种能以紧凑形式存储位的数据结构
+// Bitset(int n) : 初始化n个位，所有位都是0
+// void fix(int i) : 将下标i的位上的值更新为1
+// void unfix(int i) : 将下标i的位上的值更新为0
+// void flip() : 翻转所有位的值
+// boolean all() : 是否所有位都是1
+// boolean one() : 是否至少有一位是1
+// int count() : 返回所有位中1的数量
+// String toString() : 返回所有位的状态
 public class Video_031_Bitset {
 
 	// 测试链接 : https://leetcode-cn.com/problems/design-bitset/
@@ -21,9 +30,9 @@ public class Video_031_Bitset {
 			reverse = false;
 		}
 
-		public void fix(int idx) {
-			int index = idx / 32;
-			int bit = idx % 32;
+		public void fix(int i) {
+			int index = i / 32;
+			int bit = i % 32;
 			if (!reverse) {
 				if ((bits[index] & (1 << bit)) == 0) {
 					zeros--;
@@ -39,9 +48,9 @@ public class Video_031_Bitset {
 			}
 		}
 
-		public void unfix(int idx) {
-			int index = idx / 32;
-			int bit = idx % 32;
+		public void unfix(int i) {
+			int index = i / 32;
+			int bit = i % 32;
 			if (!reverse) {
 				if ((bits[index] & (1 << bit)) != 0) {
 					ones--;
@@ -78,12 +87,17 @@ public class Video_031_Bitset {
 
 		public String toString() {
 			StringBuilder builder = new StringBuilder();
-			for (int i = 0; i < size; i++) {
-				int status = bits[i / 32] & (1 << (i % 32));
-				builder.append(reverse ? (status == 0 ? '1' : '0') : (status == 0 ? '0' : '1'));
+			for (int i = 0, k = 0, number, status; i < size; k++) {
+				number = bits[k];
+				for (int j = 0; j < 32 && i < size; j++, i++) {
+					status = (number >> j) & 1;
+					status ^= reverse ? 1 : 0;
+					builder.append(status);
+				}
 			}
 			return builder.toString();
 		}
+
 	}
 
 }
