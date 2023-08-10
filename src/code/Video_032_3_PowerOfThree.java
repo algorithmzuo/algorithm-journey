@@ -10,7 +10,7 @@ public class Video_032_3_PowerOfThree {
 	// 1162261467 % n == 0
 	// 反之如果1162261467 % n != 0 说明n一定含有其他因子
 	public static boolean isPowerOfThree(int n) {
-		return (n > 0 && 1162261467 % n == 0);
+		return n > 0 && 1162261467 % n == 0;
 	}
 
 }
