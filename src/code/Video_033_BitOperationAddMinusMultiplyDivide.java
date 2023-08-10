@@ -1,7 +1,7 @@
 package code;
 
 // 不用任何算术运算，只用位运算实现加减乘除
-// 实现中你找不到任何一个算术运算符
+// 代码实现中你找不到任何一个算术运算符
 // 测试链接 : https://leetcode.cn/problems/divide-two-integers/
 public class Video_033_BitOperationAddMinusMultiplyDivide {
 
@@ -47,10 +47,11 @@ public class Video_033_BitOperationAddMinusMultiplyDivide {
 		if (b == MIN) {
 			return 0;
 		}
+		// a是整数最小，b是-1，根据题目的要求，返回整数最大
 		if (b == neg(1)) {
 			return Integer.MAX_VALUE;
 		}
-		// a是整数最小，b不是整数最小
+		// a是整数最小，b不是整数最小也不是-1
 		a = add(a, b < 0 ? neg(b) : b);
 		int ans = div(a, b);
 		int offset = a < 0 ^ b < 0 ? neg(1) : 1;
