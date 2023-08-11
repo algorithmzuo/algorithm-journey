@@ -6,11 +6,11 @@ package code;
 // 测试链接 : https://leetcode.cn/problems/bitwise-and-of-numbers-range/
 public class Video_031_4_LeftToRightAnd {
 
-	public static int rangeBitwiseAnd(int m, int n) {
-		while (m < n) {
-			n -= n & -n;
+	public static int rangeBitwiseAnd(int left, int right) {
+		while (left < right) {
+			right -= right & -right;
 		}
-		return n;
+		return right;
 	}
 
 }

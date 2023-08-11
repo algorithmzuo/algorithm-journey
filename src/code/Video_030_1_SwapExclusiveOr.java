@@ -4,8 +4,8 @@ package code;
 public class Video_030_1_SwapExclusiveOr {
 
 	public static void main(String[] args) {
-		int a = 10;
-		int b = -2313;
+		int a = -2323;
+		int b = 10;
 		a = a ^ b;
 		b = a ^ b;
 		a = a ^ b;

@@ -19,6 +19,10 @@ public class Video_030_2_GetMaxWithoutJudge {
 	// 有溢出风险的实现
 	public static int getMax1(int a, int b) {
 		int c = a - b;
+		// c非负，returnA -> 1
+		// c非负，returnB -> 0
+		// c负数，returnA -> 0
+		// c负数，returnB -> 1
 		int returnA = sign(c);
 		int returnB = flip(returnA);
 		return a * returnA + b * returnB;
@@ -26,11 +30,17 @@ public class Video_030_2_GetMaxWithoutJudge {
 
 	// 没有任何问题的实现
 	public static int getMax2(int a, int b) {
+		// c可能是溢出的
 		int c = a - b;
+		// a的符号
 		int sa = sign(a);
+		// b的符号
 		int sb = sign(b);
+		// c的符号
 		int sc = sign(c);
+		// 判断A和B，符号是不是不一样，如果不一样diffAB=1，如果一样diffAB=0
 		int diffAB = sa ^ sb;
+		// 判断A和B，符号是不是一样，如果一样sameAB=1，如果不一样sameAB=0
 		int sameAB = flip(diffAB);
 		int returnA = diffAB * sa + sameAB * sc;
 		int returnB = flip(returnA);

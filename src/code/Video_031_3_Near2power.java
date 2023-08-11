@@ -3,7 +3,7 @@ package code;
 // 已知n是非负数
 // 返回大于等于n的最小的2某次方
 // 如果int范围内不存在这样的数，返回整数最小值
-public class Video_031_1_Near2power {
+public class Video_031_3_Near2power {
 
 	public static final int near2power(int n) {
 		if (n <= 0) {
@@ -19,7 +19,7 @@ public class Video_031_1_Near2power {
 	}
 
 	public static void main(String[] args) {
-		int number = 17;
+		int number = 69;
 		System.out.println(near2power(number));
 	}
 

@@ -25,9 +25,9 @@ public class Video_033_BitOperationAddMinusMultiplyDivide {
 			return Integer.MAX_VALUE;
 		}
 		// a是整数最小，b不是整数最小，b也不是-1
-		a = add(a, b < 0 ? neg(b) : b);
+		a = add(a, b > 0 ? b : neg(b));
 		int ans = div(a, b);
-		int offset = b < 0 ? 1 : neg(1);
+		int offset = b > 0 ? neg(1) : 1;
 		return add(ans, offset);
 	}
 

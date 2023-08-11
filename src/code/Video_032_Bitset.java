@@ -30,6 +30,7 @@ public class Video_032_Bitset {
 			reverse = false;
 		}
 
+		// 把i位置的状态设置成1
 		public void fix(int i) {
 			int index = i / 32;
 			int bit = i % 32;
@@ -48,6 +49,7 @@ public class Video_032_Bitset {
 			}
 		}
 
+		// 把i位置的状态设置成0
 		public void unfix(int i) {
 			int index = i / 32;
 			int bit = i % 32;
