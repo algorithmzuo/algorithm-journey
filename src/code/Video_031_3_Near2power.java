@@ -19,7 +19,7 @@ public class Video_031_3_Near2power {
 	}
 
 	public static void main(String[] args) {
-		int number = 69;
+		int number = 100;
 		System.out.println(near2power(number));
 	}
 
