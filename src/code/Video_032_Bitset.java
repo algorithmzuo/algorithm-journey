@@ -10,7 +10,7 @@ package code;
 // boolean one() : 是否至少有一位是1
 // int count() : 返回所有位中1的数量
 // String toString() : 返回所有位的状态
-public class Video_031_Bitset {
+public class Video_032_Bitset {
 
 	// 测试链接 : https://leetcode-cn.com/problems/design-bitset/
 	class Bitset {

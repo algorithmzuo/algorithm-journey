@@ -2,7 +2,7 @@ package code;
 
 // 判断一个整数是不是3的幂
 // 测试链接 : https://leetcode.cn/problems/power-of-three/
-public class Video_032_3_PowerOfThree {
+public class Video_031_3_PowerOfThree {
 
 	// 如果一个数字是3的某次幂，那么这个数一定只含有3这个质数因子
 	// 1162261467是int型范围内，最大的3的幂，它是3的19次方

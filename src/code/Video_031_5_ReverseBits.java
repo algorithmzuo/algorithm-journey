@@ -2,7 +2,7 @@ package code;
 
 // 逆序二进制的状态
 // 测试链接 : https://leetcode.cn/problems/reverse-bits/
-public class Video_032_5_ReverseBits {
+public class Video_031_5_ReverseBits {
 
 	// 逆序二进制的状态
 	// 是不是看着头皮发麻啊？代码看着很魔幻吧？别慌

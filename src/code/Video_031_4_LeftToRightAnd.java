@@ -4,7 +4,7 @@ package code;
 // 返回此区间内所有数字 & 的结果
 // 包含 left 、right 端点
 // 测试链接 : https://leetcode.cn/problems/bitwise-and-of-numbers-range/
-public class Video_032_4_LeftToRightAnd {
+public class Video_031_4_LeftToRightAnd {
 
 	public static int rangeBitwiseAnd(int m, int n) {
 		while (m < n) {
