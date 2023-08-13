@@ -31,8 +31,7 @@ public class Video_033_BitOperationAddMinusMultiplyDivide {
 		return add(ans, offset);
 	}
 
-	// 必须保证a和b都不是整数最小值
-	// 返回a除以b的结果
+	// 必须保证a和b都不是整数最小值，返回a除以b的结果
 	public static int div(int a, int b) {
 		int x = a < 0 ? neg(a) : a;
 		int y = b < 0 ? neg(b) : b;
