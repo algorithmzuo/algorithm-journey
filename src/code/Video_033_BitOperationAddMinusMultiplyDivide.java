@@ -48,7 +48,9 @@ public class Video_033_BitOperationAddMinusMultiplyDivide {
 	public static int add(int a, int b) {
 		int ans = a;
 		while (b != 0) {
+			// ans : a和b无进位相加的结果
 			ans = a ^ b;
+			// b : a和b相加时的进位信息
 			b = (a & b) << 1;
 			a = ans;
 		}
@@ -67,6 +69,7 @@ public class Video_033_BitOperationAddMinusMultiplyDivide {
 		int ans = 0;
 		while (b != 0) {
 			if ((b & 1) != 0) {
+				// 考察b当前最右的状态！
 				ans = add(ans, a);
 			}
 			a <<= 1;
