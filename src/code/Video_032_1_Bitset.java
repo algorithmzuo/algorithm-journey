@@ -39,7 +39,7 @@ public class Video_032_1_Bitset {
 
 	}
 
-	// 为了测试
+	// 对数器测试
 	public static void main(String[] args) {
 		int n = 1000;
 		int testTimes = 10000;
