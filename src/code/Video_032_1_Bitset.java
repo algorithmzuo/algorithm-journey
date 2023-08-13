@@ -15,6 +15,7 @@ public class Video_032_1_Bitset {
 	public static class Bitset {
 		public int[] set;
 
+		// n个数字 : 0~n-1
 		public Bitset(int n) {
 			// a/b如果结果想向上取整，可以写成 : (a+b-1)/b
 			// 前提是a和b都是非负数
@@ -51,6 +52,7 @@ public class Video_032_1_Bitset {
 		System.out.println("调用阶段开始");
 		for (int i = 0; i < testTimes; i++) {
 			double decide = Math.random();
+			// number -> 0 ~ n-1，等概率得到
 			int number = (int) (Math.random() * n);
 			if (decide < 0.333) {
 				bitSet.add(number);

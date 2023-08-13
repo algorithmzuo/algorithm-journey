@@ -14,54 +14,60 @@ public class Video_032_2_DesignBitsetTest {
 
 	// 测试链接 : https://leetcode-cn.com/problems/design-bitset/
 	class Bitset {
-		private int[] bits;
+		private int[] set;
 		private final int size;
 		private int zeros;
 		private int ones;
 		private boolean reverse;
 
 		public Bitset(int n) {
-			bits = new int[(n + 31) / 32];
+			set = new int[(n + 31) / 32];
 			size = n;
 			zeros = n;
 			ones = 0;
 			reverse = false;
 		}
 
-		// 把i位置的状态设置成1
+		// 把i这个数字加入到位图
 		public void fix(int i) {
 			int index = i / 32;
 			int bit = i % 32;
 			if (!reverse) {
-				if ((bits[index] & (1 << bit)) == 0) {
+				// 位图所有位的状态，维持原始含义
+				// 0 : 不存在
+				// 1 : 存在
+				if ((set[index] & (1 << bit)) == 0) {
 					zeros--;
 					ones++;
-					bits[index] |= (1 << bit);
+					set[index] |= (1 << bit);
 				}
 			} else {
-				if ((bits[index] & (1 << bit)) != 0) {
+				// 位图所有位的状态，翻转了
+				// 0 : 存在
+				// 1 : 不存在
+				if ((set[index] & (1 << bit)) != 0) {
 					zeros--;
 					ones++;
-					bits[index] ^= (1 << bit);
+					set[index] ^= (1 << bit);
 				}
 			}
 		}
 
-		// 把i位置的状态设置成0
+		// 把i这个数字从位图中移除
 		public void unfix(int i) {
 			int index = i / 32;
 			int bit = i % 32;
 			if (!reverse) {
-				if ((bits[index] & (1 << bit)) != 0) {
+				if ((set[index] & (1 << bit)) != 0) {
 					ones--;
 					zeros++;
-					bits[index] ^= (1 << bit);
+					set[index] ^= (1 << bit);
 				}
 			} else {
-				if ((bits[index] & (1 << bit)) == 0) {
+				if ((set[index] & (1 << bit)) == 0) {
 					ones--;
 					zeros++;
-					bits[index] |= (1 << bit);
+					set[index] |= (1 << bit);
 				}
 			}
 		}
@@ -88,7 +94,7 @@ public class Video_032_2_DesignBitsetTest {
 		public String toString() {
 			StringBuilder builder = new StringBuilder();
 			for (int i = 0, k = 0, number, status; i < size; k++) {
-				number = bits[k];
+				number = set[k];
 				for (int j = 0; j < 32 && i < size; j++, i++) {
 					status = (number >> j) & 1;
 					status ^= reverse ? 1 : 0;
