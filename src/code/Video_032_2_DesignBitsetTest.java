@@ -10,7 +10,7 @@ package code;
 // boolean one() : 是否至少有一位是1
 // int count() : 返回所有位中1的数量
 // String toString() : 返回所有位的状态
-public class Video_032_Bitset {
+public class Video_032_2_DesignBitsetTest {
 
 	// 测试链接 : https://leetcode-cn.com/problems/design-bitset/
 	class Bitset {
@@ -21,8 +21,6 @@ public class Video_032_Bitset {
 		private boolean reverse;
 
 		public Bitset(int n) {
-			// a/b如果结果想向上取整，可以写成 : (a+b-1)/b
-			// 前提是a和b都是非负数
 			bits = new int[(n + 31) / 32];
 			size = n;
 			zeros = n;
