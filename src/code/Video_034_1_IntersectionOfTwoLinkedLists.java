@@ -36,9 +36,8 @@ public class Video_034_1_IntersectionOfTwoLinkedLists {
 			b = h1;
 		}
 		diff = Math.abs(diff);
-		while (diff != 0) {
+		while (diff-- != 0) {
 			a = a.next;
-			diff--;
 		}
 		while (a != b) {
 			a = a.next;
