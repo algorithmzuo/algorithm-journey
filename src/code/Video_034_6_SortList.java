@@ -12,6 +12,7 @@ public class Video_034_6_SortList {
 		public ListNode next;
 	}
 
+	// 提交如下的方法
 	// mergeSort排序链表
 	// 时间复杂度O(n*logn)，额外空间复杂度O(1)，有稳定性
 	// 注意为了额外空间复杂度O(1)不能使用递归，因为mergeSort递归需要O(log n)的额外空间
