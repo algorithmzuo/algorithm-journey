@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 
-// 插入、删除和获取随机元素O(1)时间 - 允许重复
+// 插入、删除和获取随机元素O(1)时间且允许有重复数字的结构
 public class Video_035_4_InsertDeleteRandomDuplicatesAllowed {
 
 	// 测试链接 :

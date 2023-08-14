@@ -3,7 +3,7 @@ package code;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-// 插入、删除和获取随机元素O(1)时间
+// 插入、删除和获取随机元素O(1)时间的结构
 public class Video_035_3_InsertDeleteRandom {
 
 	// 测试链接 : https://leetcode.cn/problems/insert-delete-getrandom-o1/
