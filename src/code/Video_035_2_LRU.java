@@ -8,7 +8,7 @@ public class Video_035_2_LRU {
 	// 测试链接 : https://leetcode.cn/problems/lru-cache/
 	class LRUCache {
 
-		 class DoubleNode {
+		class DoubleNode {
 			public int key;
 			public int val;
 			public DoubleNode last;
@@ -64,7 +64,7 @@ public class Video_035_2_LRU {
 				if (head == null) {
 					return null;
 				}
-				DoubleNode ans = this.head;
+				DoubleNode ans = head;
 				if (head == tail) {
 					head = null;
 					tail = null;

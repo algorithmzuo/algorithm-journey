@@ -14,11 +14,11 @@ public class Video_035_6_MaximumFrequencyStack {
 		// 每层节点
 		private HashMap<Integer, ArrayList<Integer>> cntValues = new HashMap<>();
 		// 每一个数出现了几次
-		private HashMap<Integer, Integer> valueTopTime = new HashMap<>();
+		private HashMap<Integer, Integer> valueTimes = new HashMap<>();
 
 		public void push(int val) {
-			valueTopTime.put(val, valueTopTime.getOrDefault(val, 0) + 1);
-			int curTopTimes = valueTopTime.get(val);
+			valueTimes.put(val, valueTimes.getOrDefault(val, 0) + 1);
+			int curTopTimes = valueTimes.get(val);
 			if (!cntValues.containsKey(curTopTimes)) {
 				cntValues.put(curTopTimes, new ArrayList<>());
 			}
@@ -33,11 +33,11 @@ public class Video_035_6_MaximumFrequencyStack {
 			if (topTimeValues.size() == 0) {
 				cntValues.remove(topTimes--);
 			}
-			int times = valueTopTime.get(ans);
+			int times = valueTimes.get(ans);
 			if (times == 1) {
-				valueTopTime.remove(ans);
+				valueTimes.remove(ans);
 			} else {
-				valueTopTime.put(ans, times - 1);
+				valueTimes.put(ans, times - 1);
 			}
 			return ans;
 		}
