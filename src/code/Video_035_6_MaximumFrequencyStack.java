@@ -17,7 +17,6 @@ public class Video_035_6_MaximumFrequencyStack {
 		private HashMap<Integer, Integer> valueTopTime = new HashMap<>();
 
 		public void push(int val) {
-			// 当前数词频+1
 			valueTopTime.put(val, valueTopTime.getOrDefault(val, 0) + 1);
 			int curTopTimes = valueTopTime.get(val);
 			if (!cntValues.containsKey(curTopTimes)) {
@@ -29,7 +28,6 @@ public class Video_035_6_MaximumFrequencyStack {
 		}
 
 		public int pop() {
-			// 最大词频的那一层的链表(动态数组)
 			ArrayList<Integer> topTimeValues = cntValues.get(topTimes);
 			int ans = topTimeValues.remove(topTimeValues.size() - 1);
 			if (topTimeValues.size() == 0) {
