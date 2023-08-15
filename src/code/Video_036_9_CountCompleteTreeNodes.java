@@ -19,21 +19,21 @@ public class Video_036_9_CountCompleteTreeNodes {
 		return f(head, 1, mostLeft(head, 1));
 	}
 
-	public static int f(TreeNode node, int Level, int h) {
+	public static int f(TreeNode cur, int Level, int h) {
 		if (Level == h) {
 			return 1;
 		}
-		if (mostLeft(node.right, Level + 1) == h) {
-			return (1 << (h - Level)) + f(node.right, Level + 1, h);
+		if (mostLeft(cur.right, Level + 1) == h) {
+			return (1 << (h - Level)) + f(cur.right, Level + 1, h);
 		} else {
-			return (1 << (h - Level - 1)) + f(node.left, Level + 1, h);
+			return (1 << (h - Level - 1)) + f(cur.left, Level + 1, h);
 		}
 	}
 
-	public static int mostLeft(TreeNode node, int level) {
-		while (node != null) {
+	public static int mostLeft(TreeNode cur, int level) {
+		while (cur != null) {
 			level++;
-			node = node.left;
+			cur = cur.left;
 		}
 		return level - 1;
 	}

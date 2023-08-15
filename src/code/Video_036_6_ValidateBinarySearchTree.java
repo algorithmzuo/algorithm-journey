@@ -43,21 +43,22 @@ public class Video_036_6_ValidateBinarySearchTree {
 
 	public static long min, max;
 
+	// 提交时改名为isValidBST
 	public static boolean isValidBST2(TreeNode head) {
 		if (head == null) {
 			min = Long.MAX_VALUE;
 			max = Long.MIN_VALUE;
 			return true;
 		}
-		boolean leftBalanced = isValidBST2(head.left);
+		boolean lok = isValidBST2(head.left);
 		long lmin = min;
 		long lmax = max;
-		boolean rightBalanced = isValidBST2(head.right);
+		boolean rok = isValidBST2(head.right);
 		long rmin = min;
 		long rmax = max;
 		min = Math.min(Math.min(lmin, rmin), head.val);
 		max = Math.max(Math.max(lmax, rmax), head.val);
-		return leftBalanced && rightBalanced && lmax < head.val && head.val < rmin;
+		return lok && rok && lmax < head.val && head.val < rmin;
 	}
 
 }

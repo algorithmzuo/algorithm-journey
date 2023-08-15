@@ -13,17 +13,17 @@ public class Video_037_1_SymmetricTree {
 
 	// 提交如下的方法
 	public boolean isSymmetric(TreeNode root) {
-		return isMirror(root, root);
+		return mirror(root, root);
 	}
 
-	public static boolean isMirror(TreeNode head1, TreeNode head2) {
+	public static boolean mirror(TreeNode head1, TreeNode head2) {
 		if (head1 == null && head2 == null) {
 			return true;
 		}
-		if (head1 != null && head2 != null) {
-			return head1.val == head2.val && isMirror(head1.left, head2.right) && isMirror(head1.right, head2.left);
+		if (head1 == null || head2 == null) {
+			return false;
 		}
-		return false;
+		return head1.val == head2.val && mirror(head1.left, head2.right) && mirror(head1.right, head2.left);
 	}
 
 }
