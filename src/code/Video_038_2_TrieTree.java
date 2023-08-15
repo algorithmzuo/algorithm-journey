@@ -1,9 +1,8 @@
 package code;
 
 // 用类描述实现前缀树，路径是数组结构
-// 测试链接 :
-// https://leetcode.cn/problems/implement-trie-ii-prefix-tree/
-public class  Video_038_2_TrieTree {
+// 测试链接 : https://leetcode.cn/problems/implement-trie-ii-prefix-tree/
+public class Video_038_2_TrieTree {
 
 	class Trie {
 

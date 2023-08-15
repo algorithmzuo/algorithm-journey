@@ -3,8 +3,7 @@ package code;
 import java.util.HashMap;
 
 // 用类描述实现前缀树，路径是哈希表结构
-// 测试链接 :
-// https://leetcode.cn/problems/implement-trie-ii-prefix-tree/
+// 测试链接 : https://leetcode.cn/problems/implement-trie-ii-prefix-tree/
 public class Video_038_3_TrieTree {
 
 	class Trie {
