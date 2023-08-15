@@ -32,16 +32,9 @@ public class Video_036_2_ZigzagLevelOrderTraversal {
 			while (l < r) {
 				int size = r - l;
 				ArrayList<Integer> list = new ArrayList<Integer>();
-				if (!reverse) {
-					for (int i = l, j = 0; j < size; i++, j++) {
-						TreeNode cur = queue[i];
-						list.add(cur.val);
-					}
-				} else {
-					for (int i = r - 1, j = 0; j < size; i--, j++) {
-						TreeNode cur = queue[i];
-						list.add(cur.val);
-					}
+				for (int i = reverse ? r - 1 : l, j = reverse ? -1 : 1, k = 0; k < size; i += j, k++) {
+					TreeNode cur = queue[i];
+					list.add(cur.val);
 				}
 				for (int i = 0; i < size; i++) {
 					TreeNode cur = queue[l++];
