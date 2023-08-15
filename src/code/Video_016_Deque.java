@@ -3,6 +3,7 @@ package code;
 import java.util.Deque;
 import java.util.LinkedList;
 
+// 设计循环双端队列
 // 测试链接 : https://leetcode.cn/problems/design-circular-deque/
 public class Video_016_Deque {
 

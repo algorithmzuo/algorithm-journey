@@ -1,5 +1,9 @@
 package code;
 
+// 给你一个链表的头节点 head 和一个特定值 x
+// 请你对链表进行分隔，使得所有 小于 x 的节点都出现在 大于或等于 x 的节点之前。
+// 你应当 保留 两个分区中每个节点的初始相对位置
+// 测试链接 : https://leetcode.cn/problems/partition-list/
 public class Video_012_PartitionList {
 
 	// 不要提交这个类
@@ -17,7 +21,6 @@ public class Video_012_PartitionList {
 		}
 	}
 
-	// 测试链接 : https://leetcode.cn/problems/partition-list/
 	class Solution {
 
 		public static ListNode partition(ListNode head, int x) {
@@ -25,10 +28,6 @@ public class Video_012_PartitionList {
 			ListNode rightHead = null, rightTail = null; // >=x的区域
 			ListNode next = null;
 			while (head != null) {
-				// 6  5     3      4 2 1 1 7  x = 4
-				//    h    next
-				// <  x 区域 ： 3 2 1 1
-				// >= x 区域 ： 6 5 4 7
 				next = head.next;
 				head.next = null;
 				if (head.val < x) {

@@ -4,12 +4,15 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Stack;
 
+// 用栈实现队列
+// 用队列实现栈
 public class Video_014_ConvertQueueAndStack {
 
 	// 测试链接 : https://leetcode.cn/problems/implement-queue-using-stacks/
 	class MyQueue {
 
 		public Stack<Integer> in;
+
 		public Stack<Integer> out;
 
 		public MyQueue() {

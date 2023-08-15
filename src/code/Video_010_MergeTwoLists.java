@@ -1,5 +1,8 @@
 package code;
 
+// 将两个升序链表合并为一个新的 升序 链表并返回
+// 新链表是通过拼接给定的两个链表的所有节点组成的
+// 测试链接 : https://leetcode.cn/problems/merge-two-sorted-lists/
 public class Video_010_MergeTwoLists {
 
 	// 不要提交这个类
@@ -17,7 +20,6 @@ public class Video_010_MergeTwoLists {
 		}
 	}
 
-	// 测试链接 : https://leetcode.cn/problems/merge-two-sorted-lists/
 	class Solution {
 
 		public static ListNode mergeTwoLists(ListNode head1, ListNode head2) {
