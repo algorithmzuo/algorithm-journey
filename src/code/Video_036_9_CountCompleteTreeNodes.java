@@ -16,17 +16,17 @@ public class Video_036_9_CountCompleteTreeNodes {
 		if (head == null) {
 			return 0;
 		}
-		return bs(head, 1, mostLeft(head, 1));
+		return f(head, 1, mostLeft(head, 1));
 	}
 
-	public static int bs(TreeNode node, int Level, int h) {
+	public static int f(TreeNode node, int Level, int h) {
 		if (Level == h) {
 			return 1;
 		}
 		if (mostLeft(node.right, Level + 1) == h) {
-			return (1 << (h - Level)) + bs(node.right, Level + 1, h);
+			return (1 << (h - Level)) + f(node.right, Level + 1, h);
 		} else {
-			return (1 << (h - Level - 1)) + bs(node.left, Level + 1, h);
+			return (1 << (h - Level - 1)) + f(node.left, Level + 1, h);
 		}
 	}
 
