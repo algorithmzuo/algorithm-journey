@@ -5,7 +5,7 @@ import java.util.List;
 
 // 收集累加和等于aim的所有路径
 // 测试链接 : https://leetcode.cn/problems/path-sum-ii/
-public class Video_037_7_PathSumII {
+public class Video_037_4_PathSumII {
 
 	// 不提交这个类
 	public static class TreeNode {

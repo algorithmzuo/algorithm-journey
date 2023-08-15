@@ -2,7 +2,7 @@ package code;
 
 // 二叉树按层序列化和反序列化
 // 测试链接 : https://leetcode.cn/problems/serialize-and-deserialize-binary-tree/
-public class Video_037_4_LevelorderSerializeAndDeserialize {
+public class Video_036_5_LevelorderSerializeAndDeserialize {
 
 	// 不提交这个类
 	public static class TreeNode {
