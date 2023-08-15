@@ -1,6 +1,6 @@
 package code;
 
-// 二叉树最大特殊宽度
+// 二叉树的最大特殊宽度
 // 测试链接 : https://leetcode.cn/problems/maximum-width-of-binary-tree/
 public class Video_036_3_WidthOfBinaryTree {
 

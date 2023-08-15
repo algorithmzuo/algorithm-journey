@@ -2,7 +2,7 @@ package code;
 
 import java.util.HashMap;
 
-// 从先序与中序遍历序列构造二叉树
+// 利用先序与中序遍历序列构造二叉树
 // 测试链接 : https://leetcode.cn/problems/construct-binary-tree-from-preorder-and-inorder-traversal/
 public class Video_037_6_PreorderInorderBuildBinaryTree {
 
