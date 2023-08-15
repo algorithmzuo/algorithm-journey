@@ -16,21 +16,22 @@ public class Video_036_4_DepthOfBinaryTree {
 	}
 
 	// 测试链接 : https://leetcode.cn/problems/minimum-depth-of-binary-tree/
-	public static int minDepth(TreeNode root) {
+	public int minDepth(TreeNode root) {
 		if (root == null) {
 			return 0;
 		}
 		if (root.left == null && root.right == null) {
 			return 1;
 		}
-		int ans = Integer.MAX_VALUE;
+		int ldeep = Integer.MAX_VALUE;
+		int rdeep = Integer.MAX_VALUE;
 		if (root.left != null) {
-			ans = Math.min(ans, minDepth(root.left));
+			ldeep = minDepth(root.left);
 		}
 		if (root.right != null) {
-			ans = Math.min(ans, minDepth(root.right));
+			rdeep = minDepth(root.right);
 		}
-		return ans + 1;
+		return Math.min(ldeep, rdeep) + 1;
 	}
 
 }
