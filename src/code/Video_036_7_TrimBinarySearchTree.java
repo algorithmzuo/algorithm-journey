@@ -1,6 +1,6 @@
 package code;
 
-// 修剪二叉搜索树
+// 修剪搜索二叉树
 // 测试链接 : https://leetcode.cn/problems/trim-a-binary-search-tree/
 public class Video_036_7_TrimBinarySearchTree {
 
