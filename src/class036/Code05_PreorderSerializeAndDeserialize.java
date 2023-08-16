@@ -32,36 +32,37 @@ public class Code05_PreorderSerializeAndDeserialize {
 
 		public String serialize(TreeNode root) {
 			StringBuilder builder = new StringBuilder();
-			serialize(root, builder);
+			f(root, builder);
 			return builder.toString();
 		}
 
-		void serialize(TreeNode root, StringBuilder builder) {
+		void f(TreeNode root, StringBuilder builder) {
 			if (root == null) {
 				builder.append("#,");
 			} else {
 				builder.append(root.val + ",");
-				serialize(root.left, builder);
-				serialize(root.right, builder);
+				f(root.left, builder);
+				f(root.right, builder);
 			}
 		}
 
 		public TreeNode deserialize(String data) {
 			String[] vals = data.split(",");
 			cnt = 0;
-			return deserialize(vals);
+			return g(vals);
 		}
 
+		// 当前数组消费到哪了
 		public static int cnt;
 
-		TreeNode deserialize(String[] vals) {
+		TreeNode g(String[] vals) {
 			String cur = vals[cnt++];
 			if (cur.equals("#")) {
 				return null;
 			} else {
 				TreeNode head = new TreeNode(Integer.valueOf(cur));
-				head.left = deserialize(vals);
-				head.right = deserialize(vals);
+				head.left = g(vals);
+				head.right = g(vals);
 				return head;
 			}
 		}

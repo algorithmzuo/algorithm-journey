@@ -28,10 +28,16 @@ public class Code02_ZigzagLevelOrderTraversal {
 		if (root != null) {
 			l = r = 0;
 			queue[r++] = root;
-			boolean reverse = false;
+			// false 代表从左往右
+			// true 代表从右往左
+			boolean reverse = false; 
 			while (l < r) {
 				int size = r - l;
 				ArrayList<Integer> list = new ArrayList<Integer>();
+				// reverse == false, 左 -> 右， l....r-1, 收集size个
+				// reverse == true,  右 -> 左， r-1....l, 收集size个
+				// 左 -> 右, i = i + 1
+				// 右 -> 左, i = i - 1
 				for (int i = reverse ? r - 1 : l, j = reverse ? -1 : 1, k = 0; k < size; i += j, k++) {
 					TreeNode cur = queue[i];
 					list.add(cur.val);

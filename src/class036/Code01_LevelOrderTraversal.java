@@ -17,7 +17,7 @@ public class Code01_LevelOrderTraversal {
 		public TreeNode right;
 	}
 
-	// 提交时把方法名改为levelOrder，此方法为普通bfs，不推荐
+	// 提交时把方法名改为levelOrder，此方法为普通bfs，此题不推荐
 	public static List<List<Integer>> levelOrder1(TreeNode root) {
 		List<List<Integer>> ans = new ArrayList<>();
 		if (root != null) {
@@ -52,13 +52,13 @@ public class Code01_LevelOrderTraversal {
 
 	public static int l, r;
 
-	// 提交时把方法名改为levelOrder，此方法为每次处理一层的优化bfs，推荐
+	// 提交时把方法名改为levelOrder，此方法为每次处理一层的优化bfs，此题推荐
 	public static List<List<Integer>> levelOrder2(TreeNode root) {
 		List<List<Integer>> ans = new ArrayList<>();
 		if (root != null) {
 			l = r = 0;
 			queue[r++] = root;
-			while (l < r) {
+			while (l < r) { // 队列里还有东西
 				int size = r - l;
 				ArrayList<Integer> list = new ArrayList<Integer>();
 				for (int i = 0; i < size; i++) {

@@ -37,9 +37,12 @@ public class Code07_PreorderInorderBuildBinaryTree {
 		if (l1 == r1) {
 			return head;
 		}
-		int find = map.get(pre[l1]);
-		head.left = f(pre, l1 + 1, l1 + find - l2, in, l2, find - 1, map);
-		head.right = f(pre, l1 + find - l2 + 1, r1, in, find + 1, r2, map);
+		int k = map.get(pre[l1]);
+		// pre : l1(........)[.......r1]
+		// in  : (l2......)k[........r2]
+		// (...)是左树对应，[...]是右树的对应
+		head.left = f(pre, l1 + 1, l1 + k - l2, in, l2, k - 1, map);
+		head.right = f(pre, l1 + k - l2 + 1, r1, in, k + 1, r2, map);
 		return head;
 	}
 
