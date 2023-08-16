@@ -3,10 +3,11 @@ package code;
 import java.util.HashSet;
 
 // 数组中两个数的最大异或值
-// leetcode的测试数据规定 : 数组中都是非负数
 // 测试链接 : https://leetcode.cn/problems/maximum-xor-of-two-numbers-in-an-array/
 public class Video_038_5_FindMaximumXor {
 
+	// 准备这么多静态空间就够了，实验出来的
+	// 如果测试数据升级了规模，就改大这个值
 	public static int MAXN = 3000001;
 
 	public static int[][] tree = new int[MAXN][2];
@@ -44,10 +45,7 @@ public class Video_038_5_FindMaximumXor {
 		int cur = 1;
 		for (int i = left, status, want; i >= 0; i--) {
 			status = (num >> i) & 1;
-			// 虽然测试数据一定不包含负数
-			// 但是这一句是按照数组可能有正、负、0这种情况来设计的
-			// 也就是数组即便有正、负、0，也能算对正确的结果
-			want = i == 31 ? status : (status ^ 1);
+			want = status ^ 1;
 			if (tree[cur][want] == 0) {
 				want ^= 1;
 			}
@@ -63,9 +61,8 @@ public class Video_038_5_FindMaximumXor {
 		}
 	}
 
-	// 测试数据规定nums一定不包含负数
-	// 返回两个数的最大异或值
-	// 但是这个方法是随便nums有没有负数，都能返回正确的结果
+	// 前缀树的做法
+	// 好想
 	public static int findMaximumXOR1(int[] nums) {
 		build(nums);
 		int ans = 0;
@@ -77,10 +74,8 @@ public class Video_038_5_FindMaximumXor {
 		return ans;
 	}
 
-	// 用哈希表的做法，运行时间很快
-	// 但这种方法其实有着很大的问题
-	// 具体请看讲解019-算法笔试中处理输入和输出，讲了为什么不推荐笔试、比赛时使用动态空间
-	// 笔试、比赛时，使用动态空间的办法可能会被判定空间占用过大，导致不能通过
+	// 用哈希表的做法
+	// 难想
 	public int findMaximumXOR2(int[] nums) {
 		int max = Integer.MIN_VALUE;
 		for (int num : nums) {
@@ -89,7 +84,7 @@ public class Video_038_5_FindMaximumXor {
 		int ans = 0;
 		HashSet<Integer> set = new HashSet<>();
 		for (int i = 31 - Integer.numberOfLeadingZeros(max); i >= 0; i--) {
-			int better = i == 31 ? 0 : (ans | (1 << i));
+			int better = ans | (1 << i);
 			set.clear();
 			for (int num : nums) {
 				num = (num >> i) << i;
