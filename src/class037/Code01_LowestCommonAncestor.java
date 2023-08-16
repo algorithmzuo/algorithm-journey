@@ -14,16 +14,21 @@ public class Code01_LowestCommonAncestor {
 	// 提交如下的方法
 	public static TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
 		if (root == null || root == p || root == q) {
+			// 遇到空，或者p，或者q，直接返回
 			return root;
 		}
 		TreeNode l = lowestCommonAncestor(root.left, p, q);
 		TreeNode r = lowestCommonAncestor(root.right, p, q);
 		if (l != null && r != null) {
+			// 左树也搜到，右树也搜到，返回root
 			return root;
 		}
 		if (l == null && r == null) {
+			// 都没搜到返回空
 			return null;
 		}
+		// l和r一个为空，一个不为空
+		// 返回不空的那个
 		return l != null ? l : r;
 	}
 

@@ -12,19 +12,21 @@ public class Code06_TrimBinarySearchTree {
 	}
 
 	// 提交以下的方法
-	public static TreeNode trimBST(TreeNode root, int low, int high) {
-		if (root == null) {
+	// [low, high]
+	public static TreeNode trimBST(TreeNode cur, int low, int high) {
+		if (cur == null) {
 			return null;
 		}
-		if (root.val < low) {
-			return trimBST(root.right, low, high);
+		if (cur.val < low) {
+			return trimBST(cur.right, low, high);
 		}
-		if (root.val > high) {
-			return trimBST(root.left, low, high);
+		if (cur.val > high) {
+			return trimBST(cur.left, low, high);
 		}
-		root.left = trimBST(root.left, low, high);
-		root.right = trimBST(root.right, low, high);
-		return root;
+		// cur在范围中
+		cur.left = trimBST(cur.left, low, high);
+		cur.right = trimBST(cur.right, low, high);
+		return cur;
 	}
 
 }

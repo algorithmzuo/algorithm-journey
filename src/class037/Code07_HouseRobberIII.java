@@ -17,8 +17,12 @@ public class Code07_HouseRobberIII {
 		return Math.max(yes, no);
 	}
 
+	// 全局变量，完成了X子树的遍历，返回之后
+	// yes变成，X子树在偷头节点的情况下，最大的收益
 	public static int yes;
 
+	// 全局变量，完成了X子树的遍历，返回之后
+	// no变成，X子树在不偷头节点的情况下，最大的收益
 	public static int no;
 
 	public static void f(TreeNode root) {
@@ -28,10 +32,10 @@ public class Code07_HouseRobberIII {
 		} else {
 			int y = root.val;
 			int n = 0;
-			rob(root.left);
+			f(root.left);
 			y += no;
 			n += Math.max(yes, no);
-			rob(root.right);
+			f(root.right);
 			y += no;
 			n += Math.max(yes, no);
 			yes = y;

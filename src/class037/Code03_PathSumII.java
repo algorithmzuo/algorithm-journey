@@ -19,25 +19,27 @@ public class Code03_PathSumII {
 		List<List<Integer>> ans = new ArrayList<>();
 		if (root != null) {
 			List<Integer> path = new ArrayList<>();
-			process(root, aim, 0, path, ans);
+			f(root, aim, 0, path, ans);
 		}
 		return ans;
 	}
 
-	public static void process(TreeNode h, int aim, int sum, List<Integer> path, List<List<Integer>> ans) {
-		if (h.left == null && h.right == null) {
-			if (h.val + sum == aim) {
-				path.add(h.val);
+	public static void f(TreeNode cur, int aim, int sum, List<Integer> path, List<List<Integer>> ans) {
+		if (cur.left == null && cur.right == null) {
+			// 叶节点
+			if (cur.val + sum == aim) {
+				path.add(cur.val);
 				copy(path, ans);
 				path.remove(path.size() - 1);
 			}
 		} else {
-			path.add(h.val);
-			if (h.left != null) {
-				process(h.left, aim, sum + h.val, path, ans);
+			// 不是叶节点
+			path.add(cur.val);
+			if (cur.left != null) {
+				f(cur.left, aim, sum + cur.val, path, ans);
 			}
-			if (h.right != null) {
-				process(h.right, aim, sum + h.val, path, ans);
+			if (cur.right != null) {
+				f(cur.right, aim, sum + cur.val, path, ans);
 			}
 			path.remove(path.size() - 1);
 		}

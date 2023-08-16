@@ -23,12 +23,12 @@ public class Code04_BalancedBinaryTree {
 	}
 
 	// 一旦发现不平衡，返回什么高度已经不重要了
-	public static int height(TreeNode root) {
-		if (!balance || root == null) {
+	public static int height(TreeNode cur) {
+		if (!balance || cur == null) {
 			return 0;
 		}
-		int lh = height(root.left);
-		int rh = height(root.right);
+		int lh = height(cur.left);
+		int rh = height(cur.right);
 		if (Math.abs(lh - rh) > 1) {
 			balance = false;
 		}
