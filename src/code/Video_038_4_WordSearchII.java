@@ -18,7 +18,7 @@ public class Video_038_4_WordSearchII {
 
 	public static int cnt;
 
-	public static void buildTrie(String[] words) {
+	public static void build(String[] words) {
 		cnt = 1;
 		for (String word : words) {
 			int cur = 1;
@@ -35,7 +35,7 @@ public class Video_038_4_WordSearchII {
 		}
 	}
 
-	public static void clearTrie() {
+	public static void clear() {
 		for (int i = 1; i <= cnt; i++) {
 			Arrays.fill(tree[i], 0);
 			pass[i] = 0;
@@ -44,14 +44,14 @@ public class Video_038_4_WordSearchII {
 	}
 
 	public static List<String> findWords(char[][] board, String[] words) {
-		buildTrie(words);
+		build(words);
 		List<String> ans = new ArrayList<>();
 		for (int i = 0; i < board.length; i++) {
 			for (int j = 0; j < board[0].length; j++) {
 				dfs(board, i, j, 1, ans);
 			}
 		}
-		clearTrie();
+		clear();
 		return ans;
 	}
 
@@ -62,7 +62,7 @@ public class Video_038_4_WordSearchII {
 		char tmp = board[i][j];
 		int road = tmp - 'a';
 		t = tree[t][road];
-		if (t == 0 || pass[t] == 0) {
+		if (pass[t] == 0) {
 			return 0;
 		}
 		int fix = 0;
