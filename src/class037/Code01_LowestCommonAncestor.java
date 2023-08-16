@@ -2,7 +2,7 @@ package class037;
 
 // 普通二叉树上寻找两个节点的最近公共祖先
 // 测试链接 : https://leetcode.cn/problems/lowest-common-ancestor-of-a-binary-tree/
-public class Code02_LowestCommonAncestor {
+public class Code01_LowestCommonAncestor {
 
 	// 不提交这个类
 	public static class TreeNode {

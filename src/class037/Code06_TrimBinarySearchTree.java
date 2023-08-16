@@ -2,7 +2,7 @@ package class037;
 
 // 修剪搜索二叉树
 // 测试链接 : https://leetcode.cn/problems/trim-a-binary-search-tree/
-public class Code07_TrimBinarySearchTree {
+public class Code06_TrimBinarySearchTree {
 
 	// 不提交这个类
 	public static class TreeNode {

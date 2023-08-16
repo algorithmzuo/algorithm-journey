@@ -2,7 +2,7 @@ package class037;
 
 // 二叉树打家劫舍问题
 // 测试链接 : https://leetcode.cn/problems/house-robber-iii/
-public class Code08_HouseRobberIII {
+public class Code07_HouseRobberIII {
 
 	// 不提交这个类
 	public static class TreeNode {

@@ -2,7 +2,7 @@ package class037;
 
 // 验证搜索二叉树
 // 测试链接 : https://leetcode.cn/problems/validate-binary-search-tree/
-public class Code06_ValidateBinarySearchTree {
+public class Code05_ValidateBinarySearchTree {
 
 	// 不提交这个类
 	public static class TreeNode {

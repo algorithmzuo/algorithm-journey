@@ -2,7 +2,7 @@ package class037;
 
 // 验证平衡二叉树
 // 测试链接 : https://leetcode.cn/problems/balanced-binary-tree/
-public class Code05_BalancedBinaryTree {
+public class Code04_BalancedBinaryTree {
 
 	// 不提交这个类
 	public static class TreeNode {
