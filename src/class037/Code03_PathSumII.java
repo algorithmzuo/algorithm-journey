@@ -17,18 +17,14 @@ public class Code03_PathSumII {
 	// 提交如下的方法
 	public static List<List<Integer>> pathSum(TreeNode root, int aim) {
 		List<List<Integer>> ans = new ArrayList<>();
-		if (root == null) {
-			return ans;
+		if (root != null) {
+			List<Integer> path = new ArrayList<>();
+			process(root, aim, 0, path, ans);
 		}
-		List<Integer> path = new ArrayList<>();
-		process(root, aim, 0, path, ans);
 		return ans;
 	}
 
 	public static void process(TreeNode h, int aim, int sum, List<Integer> path, List<List<Integer>> ans) {
-		if (h == null) {
-			return;
-		}
 		if (h.left == null && h.right == null) {
 			if (h.val + sum == aim) {
 				path.add(h.val);
@@ -37,8 +33,12 @@ public class Code03_PathSumII {
 			}
 		} else {
 			path.add(h.val);
-			process(h.left, aim, sum + h.val, path, ans);
-			process(h.right, aim, sum + h.val, path, ans);
+			if (h.left != null) {
+				process(h.left, aim, sum + h.val, path, ans);
+			}
+			if (h.right != null) {
+				process(h.right, aim, sum + h.val, path, ans);
+			}
 			path.remove(path.size() - 1);
 		}
 	}
