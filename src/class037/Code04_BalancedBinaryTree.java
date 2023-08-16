@@ -22,11 +22,9 @@ public class Code04_BalancedBinaryTree {
 		return balance;
 	}
 
+	// 一旦发现不平衡，返回什么高度已经不重要了
 	public static int height(TreeNode root) {
-		if (!balance) {
-			return -1;
-		}
-		if (root == null) {
+		if (!balance || root == null) {
 			return 0;
 		}
 		int lh = height(root.left);
