@@ -1,6 +1,6 @@
 package class041;
 
-public class Code02_RandomToRandom {
+public class Code03_RandomToRandom {
 
 	// 作为条件
 	public static class Tool {

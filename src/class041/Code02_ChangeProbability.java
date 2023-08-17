@@ -1,6 +1,6 @@
 package class041;
 
-public class Code03_ChangeProbability {
+public class Code02_ChangeProbability {
 
 	public static double random1() {
 		return Math.random();
