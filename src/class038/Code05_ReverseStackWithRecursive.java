@@ -3,7 +3,6 @@ package class038;
 import java.util.Stack;
 
 // 用递归函数逆序栈
-// 测试链接 : https://www.nowcoder.com/practice/ba7d7f5d1edf4d1690d66e12e951f6ea
 public class Code05_ReverseStackWithRecursive {
 
 	public static void reverse(Stack<Integer> stack) {

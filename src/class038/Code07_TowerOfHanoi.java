@@ -1,7 +1,6 @@
 package class038;
 
 // 打印n层汉诺塔问题的移动轨迹
-// 测试链接 : https://www.nowcoder.com/practice/84ce91c6099a45dc869355fa1c4f589d
 public class Code07_TowerOfHanoi {
 
 	public static void hanoi(int n) {
