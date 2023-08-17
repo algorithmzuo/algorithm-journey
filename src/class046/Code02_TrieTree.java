@@ -1,4 +1,4 @@
-package class038;
+package class046;
 
 // 用类描述实现前缀树，路径是数组结构
 // 测试链接 : https://leetcode.cn/problems/implement-trie-ii-prefix-tree/
