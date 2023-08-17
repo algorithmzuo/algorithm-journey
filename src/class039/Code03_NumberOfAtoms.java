@@ -31,8 +31,8 @@ public class Code03_NumberOfAtoms {
 			if (s[i] >= 'A' && s[i] <= 'Z' || s[i] == '(') {
 				fill(ans, name, cnt, pre);
 				name.setLength(0);
-				pre = null;
 				cnt = 0;
+				pre = null;
 				if (s[i] >= 'A' && s[i] <= 'Z') {
 					name.append(s[i++]);
 				} else {
