@@ -64,7 +64,7 @@ public class Code02_RandomToRandom {
 	public static void main(String[] args) {
 		int a = 3;
 		int b = 6;
-		// tool一旦建立，就是唯一的随机源，不可更改
+		// tool一旦建立就是唯一的随机源
 		Tool tool = new Tool(a, b);
 		int c = 8;
 		int d = 16;

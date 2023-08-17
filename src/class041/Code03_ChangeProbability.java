@@ -23,8 +23,8 @@ public class Code03_ChangeProbability {
 				cnt2++;
 			}
 		}
-		System.out.println((double) cnt1 / (double) times);
-		System.out.println((double) cnt2 / (double) times);
+		System.out.println("random1()得到 [0," + x + ") 范围数字的概率 : " + (double) cnt1 / (double) times);
+		System.out.println("random2()得到 [0," + x + ") 范围数字的概率 : " + (double) cnt2 / (double) times);
 	}
 
 }
