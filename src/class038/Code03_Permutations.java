@@ -1,14 +1,13 @@
 package class038;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 
-// 有重复项数组的去重全排列
-// 测试链接 : https://leetcode.cn/problems/permutations-ii/
-public class Code04_GetAllPermutation {
+// 没有重复项数字的全排列
+// 测试链接 : https://leetcode.cn/problems/permutations/
+public class Code03_Permutations {
 
-	public static List<List<Integer>> permuteUnique(int[] nums) {
+	public static List<List<Integer>> permute(int[] nums) {
 		List<List<Integer>> ans = new ArrayList<>();
 		f(nums, 0, ans);
 		return ans;
@@ -22,14 +21,10 @@ public class Code04_GetAllPermutation {
 			}
 			ans.add(cur);
 		} else {
-			HashSet<Integer> set = new HashSet<>();
 			for (int j = i; j < nums.length; j++) {
-				if (!set.contains(nums[j])) {
-					set.add(nums[j]);
-					swap(nums, i, j);
-					f(nums, i + 1, ans);
-					swap(nums, i, j);
-				}
+				swap(nums, i, j);
+				f(nums, i + 1, ans);
+				swap(nums, i, j);
 			}
 		}
 	}

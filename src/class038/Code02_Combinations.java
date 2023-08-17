@@ -10,7 +10,7 @@ import java.util.List;
 // 比如输入：nums = [1,2,2]
 // 输出：[[],[1],[1,2],[1,2,2],[2],[2,2]]
 // 测试链接 : https://leetcode.cn/problems/subsets-ii/
-public class Code02_GetAllCombination {
+public class Code02_Combinations {
 
 	public static List<List<Integer>> subsetsWithDup(int[] nums) {
 		List<List<Integer>> ans = new ArrayList<>();

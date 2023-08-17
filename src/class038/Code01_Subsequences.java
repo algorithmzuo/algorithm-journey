@@ -4,7 +4,7 @@ import java.util.HashSet;
 
 // 字符串的全部子序列
 // 测试链接 : https://www.nowcoder.com/practice/92e6247998294f2c933906fdedbc6e6a
-public class Code01_GetAllSubsequence {
+public class Code01_Subsequences {
 
 	public static String[] generatePermutation(String str) {
 		char[] s = str.toCharArray();
