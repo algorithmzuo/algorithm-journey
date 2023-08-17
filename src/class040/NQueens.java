@@ -2,7 +2,7 @@ package class040;
 
 // N皇后问题
 // 测试链接 : https://leetcode.cn/problems/n-queens-ii/
-public class WaysOfNQueens {
+public class NQueens {
 
 	public static int totalNQueens1(int n) {
 		if (n < 1) {
