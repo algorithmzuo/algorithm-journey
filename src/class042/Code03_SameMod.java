@@ -10,7 +10,7 @@ public class Code03_SameMod {
 		return (long) (Math.random() * Long.MAX_VALUE);
 	}
 
-	// 计算 ((a+b)*(c-d)+(a*c-b*d)) % mod 的结果
+	// 计算 ((a + b) * (c - d) + (a * c - b * d)) % mod 的结果
 	public static int f1(long a, long b, long c, long d, int mod) {
 		BigInteger o1 = new BigInteger(String.valueOf(a)); // a
 		BigInteger o2 = new BigInteger(String.valueOf(b)); // b
@@ -22,8 +22,8 @@ public class Code03_SameMod {
 		BigInteger o8 = o2.multiply(o4); // b * d
 		BigInteger o9 = o5.multiply(o6); // (a + b) * (c - d)
 		BigInteger o10 = o7.subtract(o8); // (a * c - b * d)
-		BigInteger o11 = o9.add(o10); // ( (a + b) * (c - d) + (a * c - b * d) )
-		// ( (a + b) * (c - d) + (a * c - b * d) ) % mod
+		BigInteger o11 = o9.add(o10); // ((a + b) * (c - d) + (a * c - b * d))
+		// ((a + b) * (c - d) + (a * c - b * d)) % mod
 		BigInteger o12 = o11.mod(new BigInteger(String.valueOf(mod)));
 		if (o12.signum() == -1) {
 			// 如果是负数那么+mod返回
@@ -34,7 +34,7 @@ public class Code03_SameMod {
 		}
 	}
 
-	// 计算 ((a+b)*(c-d)+(a*c-b*d)) % mod 的结果
+	// 计算 ((a + b) * (c - d) + (a * c - b * d)) % mod 的结果
 	public static int f2(long a, long b, long c, long d, int mod) {
 		int o1 = (int) (a % mod); // a
 		int o2 = (int) (b % mod); // b
@@ -46,13 +46,13 @@ public class Code03_SameMod {
 		int o8 = (int) (((long) o2 * o4) % mod); // b * d
 		int o9 = (int) (((long) o5 * o6) % mod); // (a + b) * (c - d)
 		int o10 = (o7 - o8 + mod) % mod; // (a * c - b * d)
-		int ans = (o9 + o10) % mod; // ((a+b)*(c-d)+(a*c-b*d)) % mod
+		int ans = (o9 + o10) % mod; // ((a + b) * (c - d) + (a * c - b * d)) % mod
 		return ans;
 	}
 
 	public static void main(String[] args) {
 		System.out.println("测试开始");
-		int testTime = 10000;
+		int testTime = 100000;
 		int mod = 1000000007;
 		for (int i = 0; i < testTime; i++) {
 			long a = random();
