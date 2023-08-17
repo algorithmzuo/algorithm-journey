@@ -1,4 +1,4 @@
-package class046;
+package class045;
 
 // 用固定数组实现前缀树，空间使用是静态的，路径是数组结构
 // 测试链接 : https://www.nowcoder.com/practice/7f8a8553ddbf4eaab749ec988726702b
