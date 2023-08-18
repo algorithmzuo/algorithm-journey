@@ -3,7 +3,7 @@ package class042;
 import java.math.BigInteger;
 
 // 加法、减法、乘法的同余原理
-// 不包括除法，因为除法要求逆元后续课讲述
+// 不包括除法，因为除法必须求逆元，后续课讲述
 public class Code03_SameMod {
 
 	// 为了测试
