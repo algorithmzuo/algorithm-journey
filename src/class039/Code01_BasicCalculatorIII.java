@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 // 含有嵌套的表达式求值
 // 测试链接 : https://leetcode.cn/problems/basic-calculator-iii/
-public class Code02_BasicCalculatorIII {
+public class Code01_BasicCalculatorIII {
 
 	public static int calculate(String str) {
 		where = 0;

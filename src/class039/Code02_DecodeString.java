@@ -2,7 +2,7 @@ package class039;
 
 // 含有嵌套的字符串解码
 // 测试链接 : https://leetcode.cn/problems/decode-string/
-public class Code01_DecodeString {
+public class Code02_DecodeString {
 
 	public static String decodeString(String str) {
 		where = 0;
