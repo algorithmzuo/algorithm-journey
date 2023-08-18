@@ -18,13 +18,9 @@ public class Code01_AppleMinBags {
 			return 0;
 		}
 		int p1 = f(rest - 8);
-		if (p1 != Integer.MAX_VALUE) {
-			p1++;
-		}
 		int p2 = f(rest - 6);
-		if (p2 != Integer.MAX_VALUE) {
-			p2++;
-		}
+		p1 += p1 != Integer.MAX_VALUE ? 1 : 0;
+		p2 += p2 != Integer.MAX_VALUE ? 1 : 0;
 		return Math.min(p1, p2);
 	}
 
@@ -33,8 +29,16 @@ public class Code01_AppleMinBags {
 			return -1;
 		}
 		if (apple < 18) {
-			return apple == 0 ? 0
-					: (apple == 6 || apple == 8) ? 1 : (apple == 12 || apple == 14 || apple == 16) ? 2 : -1;
+			if (apple == 0) {
+				return 0;
+			}
+			if (apple == 6 || apple == 8) {
+				return 1;
+			}
+			if (apple == 12 || apple == 14 || apple == 16) {
+				return 2;
+			}
+			return -1;
 		}
 		return (apple - 18) / 8 + 3;
 	}

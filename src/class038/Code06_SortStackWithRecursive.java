@@ -16,7 +16,7 @@ public class Code06_SortStackWithRecursive {
 		int deep = deep(stack);
 		while (deep > 0) {
 			int max = max(stack, deep);
-			int k = times(stack, max, deep);
+			int k = times(stack, deep, max);
 			down(stack, deep, max, k);
 			deep -= k;
 		}
@@ -49,12 +49,12 @@ public class Code06_SortStackWithRecursive {
 
 	// 从栈当前的顶部开始，往下数deep层，已知最大值是max了
 	// 返回，max出现了几次，不改变栈的数据状况
-	public static int times(Stack<Integer> stack, int max, int deep) {
+	public static int times(Stack<Integer> stack, int deep, int max) {
 		if (deep == 0) {
 			return 0;
 		}
 		int num = stack.pop();
-		int restTimes = times(stack, max, deep - 1);
+		int restTimes = times(stack, deep - 1, max);
 		int times = restTimes + (num == max ? 1 : 0);
 		stack.push(num);
 		return times;
