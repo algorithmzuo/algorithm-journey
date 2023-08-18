@@ -11,22 +11,27 @@ public class Code02_DecodeString {
 
 	public static int where;
 
+	// s[i....]开始计算，遇到字符串终止 或者 遇到 ] 停止
+	// 返回 : 自己负责的这一段字符串的结果
+	// 返回之间，更新全局变量where，为了上游函数知道从哪继续！
 	public static String f(char[] s, int i) {
-		StringBuilder ans = new StringBuilder();
+		StringBuilder path = new StringBuilder();
 		int cnt = 0;
 		while (i < s.length && s[i] != ']') {
 			if ((s[i] >= 'a' && s[i] <= 'z') || (s[i] >= 'A' && s[i] <= 'Z')) {
-				ans.append(s[i++]);
+				path.append(s[i++]);
 			} else if (s[i] >= '0' && s[i] <= '9') {
 				cnt = cnt * 10 + s[i++] - '0';
 			} else {
-				ans.append(get(cnt, f(s, i + 1)));
+				// 遇到 [ 
+				// cnt = 7 * ? 
+				path.append(get(cnt, f(s, i + 1)));
 				i = where + 1;
 				cnt = 0;
 			}
 		}
 		where = i;
-		return ans.toString();
+		return path.toString();
 	}
 
 	public static String get(int cnt, String str) {
