@@ -9,19 +9,19 @@ public class Code05_ReverseStackWithRecursive {
 		if (stack.isEmpty()) {
 			return;
 		}
-		int num = removeBottom(stack);
+		int num = bottomOut(stack);
 		reverse(stack);
 		stack.push(num);
 	}
 
 	// 栈底元素移除掉，上面的元素盖下来
 	// 返回移除掉的栈底元素
-	public static int removeBottom(Stack<Integer> stack) {
+	public static int bottomOut(Stack<Integer> stack) {
 		int ans = stack.pop();
 		if (stack.isEmpty()) {
 			return ans;
 		} else {
-			int last = removeBottom(stack);
+			int last = bottomOut(stack);
 			stack.push(ans);
 			return last;
 		}

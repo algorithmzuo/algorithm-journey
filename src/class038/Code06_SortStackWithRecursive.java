@@ -6,10 +6,10 @@ import java.util.Stack;
 // 栈只提供push、pop、isEmpty三个方法
 // 请完成无序栈的排序，要求排完序之后，从栈顶到栈底从小到大
 // 只能使用栈提供的push、pop、isEmpty三个方法、以及递归函数
-// 除此之外不能使用任何的容器，连数组也不行，也不能自己定义任何结构体
-// 就是只用：
+// 除此之外不能使用任何的容器，数组也不行
+// 就是排序过程中只能用：
 // 1) 栈提供的push、pop、isEmpty三个方法
-// 2) 简单返回值的递归函数
+// 2) 递归函数，并且返回值最多为单个整数
 public class Code06_SortStackWithRecursive {
 
 	public static void sort(Stack<Integer> stack) {
@@ -76,7 +76,8 @@ public class Code06_SortStackWithRecursive {
 		}
 	}
 
-	// 为了测试，生成随机栈
+	// 为了测试
+	// 生成随机栈
 	public static Stack<Integer> randomStack(int n, int v) {
 		Stack<Integer> ans = new Stack<Integer>();
 		for (int i = 0; i < n; i++) {
@@ -85,7 +86,8 @@ public class Code06_SortStackWithRecursive {
 		return ans;
 	}
 
-	// 为了测试，检测栈是不是有序的
+	// 为了测试
+	// 检测栈是不是从顶到底依次有序
 	public static boolean isSorted(Stack<Integer> stack) {
 		int step = Integer.MIN_VALUE;
 		while (!stack.isEmpty()) {

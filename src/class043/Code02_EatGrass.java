@@ -6,27 +6,29 @@ package class043;
 public class Code02_EatGrass {
 
 	public static String win1(int n) {
-		if (n < 5) {
-			return (n == 0 || n == 2) ? "后手" : "先手";
+		return f(n, "A");
+	}
+
+	public static String f(int rest, String cur) {
+		String enemy = cur.equals("A") ? "B" : "A";
+		if (rest < 5) {
+			return (rest == 0 || rest == 2) ? enemy : cur;
 		}
-		int base = 1;
-		while (base <= n) {
-			if (win1(n - base).equals("后手")) {
-				return "先手";
+		int pick = 1;
+		while (pick <= rest) {
+			if (f(rest - pick, enemy).equals(cur)) {
+				return cur;
 			}
-			if (base > n / 4) {
-				break;
-			}
-			base *= 4;
+			pick *= 4;
 		}
-		return "后手";
+		return enemy;
 	}
 
 	public static String win2(int n) {
 		if (n % 5 == 0 || n % 5 == 2) {
-			return "后手";
+			return "B";
 		} else {
-			return "先手";
+			return "A";
 		}
 	}
 
