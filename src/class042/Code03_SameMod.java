@@ -71,13 +71,13 @@ public class Code03_SameMod {
 		long b = random();
 		long c = random();
 		long d = random();
-		System.out.println(a);
-		System.out.println(b);
-		System.out.println(c);
-		System.out.println(d);
+		System.out.println("a : " + a);
+		System.out.println("b : " + b);
+		System.out.println("c : " + c);
+		System.out.println("d : " + d);
 		System.out.println("===");
-		System.out.println(f1(a, b, c, d, mod));
-		System.out.println(f2(a, b, c, d, mod));
+		System.out.println("f1 : " + f1(a, b, c, d, mod));
+		System.out.println("f2 : " + f2(a, b, c, d, mod));
 	}
 
 }
