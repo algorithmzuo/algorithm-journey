@@ -44,13 +44,13 @@ public class Code01_Subsequences {
 		return ans;
 	}
 
-	public static void f2(char[] s, int i, char[] path, int j, HashSet<String> set) {
+	public static void f2(char[] s, int i, char[] path, int size, HashSet<String> set) {
 		if (i == s.length) {
-			set.add(String.valueOf(path, 0, j));
+			set.add(String.valueOf(path, 0, size));
 		} else {
-			path[j] = s[i];
-			f2(s, i + 1, path, j + 1, set);
-			f2(s, i + 1, path, j, set);
+			path[size] = s[i];
+			f2(s, i + 1, path, size + 1, set);
+			f2(s, i + 1, path, size, set);
 		}
 	}
 

@@ -35,4 +35,15 @@ public class Code03_Permutations {
 		nums[j] = tmp;
 	}
 
+	public static void main(String[] args) {
+		int[] nums = { 1, 2, 3 };
+		List<List<Integer>> ans = permute(nums);
+		for (List<Integer> list : ans) {
+			for (int num : list) {
+				System.out.print(num + " ");
+			}
+			System.out.println();
+		}
+	}
+
 }
