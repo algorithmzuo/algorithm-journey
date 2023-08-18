@@ -1,6 +1,6 @@
 package class038;
 
-// 打印n层汉诺塔问题的移动轨迹
+// 打印n层汉诺塔问题的最优移动轨迹
 public class Code07_TowerOfHanoi {
 
 	public static void hanoi(int n) {
