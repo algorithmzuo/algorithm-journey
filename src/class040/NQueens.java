@@ -11,23 +11,23 @@ public class NQueens {
 		return f1(0, new int[n], n);
 	}
 
-	public static int f1(int i, int[] record, int n) {
+	public static int f1(int i, int[] path, int n) {
 		if (i == n) {
 			return 1;
 		}
 		int res = 0;
 		for (int j = 0; j < n; j++) {
-			if (isValid(record, i, j)) {
-				record[i] = j;
-				res += f1(i + 1, record, n);
+			if (isValid(path, i, j)) {
+				path[i] = j;
+				res += f1(i + 1, path, n);
 			}
 		}
 		return res;
 	}
 
-	public static boolean isValid(int[] record, int i, int j) {
+	public static boolean isValid(int[] path, int i, int j) {
 		for (int k = 0; k < i; k++) {
-			if (j == record[k] || Math.abs(record[k] - j) == Math.abs(i - k)) {
+			if (j == path[k] || Math.abs(path[k] - j) == Math.abs(i - k)) {
 				return false;
 			}
 		}
@@ -49,13 +49,13 @@ public class NQueens {
 		if (col == limit) {
 			return 1;
 		}
-		int pos = limit & (~(col | left | right));
-		int rightOne = 0;
+		int candidates = limit & (~(col | left | right));
+		int fix = 0;
 		int ans = 0;
-		while (pos != 0) {
-			rightOne = pos & (~pos + 1);
-			pos = pos - rightOne;
-			ans += f2(limit, col | rightOne, (left | rightOne) << 1, (right | rightOne) >>> 1);
+		while (candidates != 0) {
+			fix = candidates & (-candidates);
+			candidates ^= fix;
+			ans += f2(limit, col | fix, (left | fix) << 1, (right | fix) >>> 1);
 		}
 		return ans;
 	}
@@ -63,6 +63,7 @@ public class NQueens {
 	public static void main(String[] args) {
 		int n = 14;
 		long start, end;
+		System.out.println("测试开始");
 		start = System.currentTimeMillis();
 		System.out.println("方法1答案 : " + totalNQueens1(n));
 		end = System.currentTimeMillis();
@@ -72,6 +73,7 @@ public class NQueens {
 		System.out.println("方法2答案 : " + totalNQueens2(n));
 		end = System.currentTimeMillis();
 		System.out.println("方法2运行时间 : " + (end - start) + " 毫秒");
+		System.out.println("测试结束");
 	}
 
 }
