@@ -27,11 +27,14 @@ public class Code02_Combinations {
 			}
 			ans.add(cur);
 		} else {
+			// 下一组的第一个数的位置
 			int j = i + 1;
 			while (j < nums.length && nums[i] == nums[j]) {
 				j++;
 			}
+			// 当前数x，要0个
 			f(nums, j, path, size, ans);
+			// 当前数x，要1个、要2个、要3个...都尝试
 			for (; i < j; i++) {
 				path[size++] = nums[i];
 				f(nums, j, path, size, ans);

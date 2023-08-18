@@ -24,6 +24,7 @@ public class Code04_PermutationWithoutRepetition {
 		} else {
 			HashSet<Integer> set = new HashSet<>();
 			for (int j = i; j < nums.length; j++) {
+				// nums[j]没有来到过i位置，才会去尝试
 				if (!set.contains(nums[j])) {
 					set.add(nums[j]);
 					swap(nums, i, j);

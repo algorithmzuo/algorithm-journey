@@ -24,7 +24,7 @@ public class Code03_Permutations {
 			for (int j = i; j < nums.length; j++) {
 				swap(nums, i, j);
 				f(nums, i + 1, ans);
-				swap(nums, i, j);
+				swap(nums, i, j); // 特别重要，课上进行了详细的图解
 			}
 		}
 	}

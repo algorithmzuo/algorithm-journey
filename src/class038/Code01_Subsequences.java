@@ -20,13 +20,14 @@ public class Code01_Subsequences {
 		return ans;
 	}
 
+	// s[i...]，之前决定的路径path，set收集结果时去重
 	public static void f1(char[] s, int i, StringBuilder path, HashSet<String> set) {
 		if (i == s.length) {
 			set.add(path.toString());
 		} else {
-			path.append(s[i]);
+			path.append(s[i]); // 加到路径中去
 			f1(s, i + 1, path, set);
-			path.deleteCharAt(path.length() - 1);
+			path.deleteCharAt(path.length() - 1); // 从路径中移除
 			f1(s, i + 1, path, set);
 		}
 	}
