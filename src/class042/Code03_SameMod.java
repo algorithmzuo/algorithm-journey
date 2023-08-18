@@ -65,6 +65,19 @@ public class Code03_SameMod {
 			}
 		}
 		System.out.println("测试结束");
+
+		System.out.println("===");
+		long a = random();
+		long b = random();
+		long c = random();
+		long d = random();
+		System.out.println(a);
+		System.out.println(b);
+		System.out.println(c);
+		System.out.println(d);
+		System.out.println("===");
+		System.out.println(f1(a, b, c, d, mod));
+		System.out.println(f2(a, b, c, d, mod));
 	}
 
 }
