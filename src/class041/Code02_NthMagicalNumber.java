@@ -1,4 +1,4 @@
-package class042;
+package class041;
 
 // 一个正整数如果能被 a 或 b 整除，那么它是神奇的。
 // 给定三个整数 n , a , b ，返回第 n 个神奇的数字。

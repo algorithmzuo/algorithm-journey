@@ -1,4 +1,4 @@
-package class043;
+package class042;
 
 // 判断一个数字是否是若干数量(数量>1)的连续正整数的和
 public class Code03_IsSumOfConsecutiveNumbers {

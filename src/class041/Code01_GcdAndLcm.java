@@ -1,4 +1,4 @@
-package class042;
+package class041;
 
 // 求最大公约数、最小公倍数
 public class Code01_GcdAndLcm {
