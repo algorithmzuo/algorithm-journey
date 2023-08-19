@@ -4,6 +4,7 @@ package class040;
 // 测试链接 : https://leetcode.cn/problems/n-queens-ii/
 public class NQueens {
 
+	// 用数组表示路径实现的N皇后问题，不推荐
 	public static int totalNQueens1(int n) {
 		if (n < 1) {
 			return 0;
@@ -27,13 +28,14 @@ public class NQueens {
 
 	public static boolean check(int[] path, int i, int j) {
 		for (int k = 0; k < i; k++) {
-			if (j == path[k] || Math.abs(path[k] - j) == Math.abs(i - k)) {
+			if (j == path[k] || Math.abs(i - k) == Math.abs(path[k] - j)) {
 				return false;
 			}
 		}
 		return true;
 	}
 
+	// 用位信息表示路径实现的N皇后问题，推荐
 	public static int totalNQueens2(int n) {
 		if (n < 1) {
 			return 0;
