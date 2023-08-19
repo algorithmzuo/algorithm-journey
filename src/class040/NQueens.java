@@ -17,7 +17,7 @@ public class NQueens {
 		}
 		int res = 0;
 		for (int j = 0; j < n; j++) {
-			if (isValid(path, i, j)) {
+			if (check(path, i, j)) {
 				path[i] = j;
 				res += f1(i + 1, path, n);
 			}
@@ -25,7 +25,7 @@ public class NQueens {
 		return res;
 	}
 
-	public static boolean isValid(int[] path, int i, int j) {
+	public static boolean check(int[] path, int i, int j) {
 		for (int k = 0; k < i; k++) {
 			if (j == path[k] || Math.abs(path[k] - j) == Math.abs(i - k)) {
 				return false;
@@ -38,7 +38,7 @@ public class NQueens {
 		if (n < 1) {
 			return 0;
 		}
-		int limit = n == 32 ? -1 : (1 << n) - 1;
+		int limit = (1 << n) - 1;
 		return f2(limit, 0, 0, 0);
 	}
 
@@ -49,13 +49,14 @@ public class NQueens {
 		if (col == limit) {
 			return 1;
 		}
-		int candidates = limit & (~(col | left | right));
-		int fix = 0;
+		int ban = col | left | right;
+		int candidate = limit & (~ban);
+		int place = 0;
 		int ans = 0;
-		while (candidates != 0) {
-			fix = candidates & (-candidates);
-			candidates ^= fix;
-			ans += f2(limit, col | fix, (left | fix) << 1, (right | fix) >>> 1);
+		while (candidate != 0) {
+			place = candidate & (-candidate);
+			candidate ^= place;
+			ans += f2(limit, col | place, (left | place) << 1, (right | place) >>> 1);
 		}
 		return ans;
 	}
