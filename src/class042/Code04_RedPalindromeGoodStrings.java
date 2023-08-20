@@ -30,8 +30,9 @@ public class Code04_RedPalindromeGoodStrings {
 					}
 				}
 			}
-			return cnt;
+			return cnt == 1 ? 1 : 0;
 		} else {
+			// i正常位置
 			int ans = 0;
 			path[i] = 'r';
 			ans += f(path, i + 1);

@@ -10,6 +10,7 @@ public class Code01_AppleMinBags {
 		return ans == Integer.MAX_VALUE ? -1 : ans;
 	}
 
+	// 当前还有rest个苹果，使用的每个袋子必须装满，返回至少几个袋子
 	public static int f(int rest) {
 		if (rest < 0) {
 			return Integer.MAX_VALUE;
@@ -17,7 +18,9 @@ public class Code01_AppleMinBags {
 		if (rest == 0) {
 			return 0;
 		}
+		// 使用8规格的袋子，剩余的苹果还需要几个袋子，有可能返回无效解
 		int p1 = f(rest - 8);
+		// 使用6规格的袋子，剩余的苹果还需要几个袋子，有可能返回无效解
 		int p2 = f(rest - 6);
 		p1 += p1 != Integer.MAX_VALUE ? 1 : 0;
 		p2 += p2 != Integer.MAX_VALUE ? 1 : 0;
@@ -44,7 +47,7 @@ public class Code01_AppleMinBags {
 	}
 
 	public static void main(String[] args) {
-		for (int apple = 1; apple < 100; apple++) {
+		for (int apple = 0; apple < 100; apple++) {
 			System.out.println(apple + " : " + bags1(apple));
 		}
 	}
