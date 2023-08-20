@@ -11,7 +11,7 @@ public class Code03_SameMod {
 		return (long) (Math.random() * Long.MAX_VALUE);
 	}
 
-	// 计算 ((a + b) * (c - d) + (a * c - b * d)) % mod 的结果
+	// 计算 ((a + b) * (c - d) + (a * c - b * d)) % mod 的非负结果
 	public static int f1(long a, long b, long c, long d, int mod) {
 		BigInteger o1 = new BigInteger(String.valueOf(a)); // a
 		BigInteger o2 = new BigInteger(String.valueOf(b)); // b
@@ -35,7 +35,7 @@ public class Code03_SameMod {
 		}
 	}
 
-	// 计算 ((a + b) * (c - d) + (a * c - b * d)) % mod 的结果
+	// 计算 ((a + b) * (c - d) + (a * c - b * d)) % mod 的非负结果
 	public static int f2(long a, long b, long c, long d, int mod) {
 		int o1 = (int) (a % mod); // a
 		int o2 = (int) (b % mod); // b

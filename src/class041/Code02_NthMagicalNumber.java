@@ -9,8 +9,12 @@ public class Code02_NthMagicalNumber {
 	public static int nthMagicalNumber(int n, int a, int b) {
 		long lcm = lcm(a, b);
 		long ans = 0;
+		// l = 0
+		// r = (long) n * Math.min(a, b)
+		// l......r
 		for (long l = 0, r = (long) n * Math.min(a, b), m = 0; l <= r;) {
 			m = (l + r) / 2;
+			// 1....m
 			if (m / a + m / b - m / lcm >= n) {
 				ans = m;
 				r = m - 1;
