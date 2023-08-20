@@ -67,6 +67,7 @@ public class NQueens {
 		int n = 14;
 		long start, end;
 		System.out.println("测试开始");
+		System.out.println("解决" + n + "皇后问题");
 		start = System.currentTimeMillis();
 		System.out.println("方法1答案 : " + totalNQueens1(n));
 		end = System.currentTimeMillis();
@@ -77,6 +78,14 @@ public class NQueens {
 		end = System.currentTimeMillis();
 		System.out.println("方法2运行时间 : " + (end - start) + " 毫秒");
 		System.out.println("测试结束");
+
+		System.out.println("=======");
+		System.out.println("只有位运算的版本，才能10秒内跑完16皇后问题的求解过程");
+		start = System.currentTimeMillis();
+		int ans = totalNQueens2(16);
+		end = System.currentTimeMillis();
+		System.out.println("16皇后问题的答案 : " + ans);
+		System.out.println("运行时间 : " + (end - start) + " 毫秒");
 	}
 
 }
