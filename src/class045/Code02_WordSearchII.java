@@ -1,4 +1,4 @@
-package class044;
+package class045;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -6,7 +6,7 @@ import java.util.List;
 
 // 在二维字符数组中搜索可能的单词
 // 测试链接 : https://leetcode.cn/problems/word-search-ii/
-public class Code04_WordSearchII {
+public class Code02_WordSearchII {
 
 	public static int MAXN = 10001;
 
