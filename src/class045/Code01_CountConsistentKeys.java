@@ -12,7 +12,7 @@ import java.util.Arrays;
 public class Code01_CountConsistentKeys {
 
 	// 如果将来增加了数据量，就改大这个值
-	public static int MAXN = 5001;
+	public static int MAXN = 2000001;
 
 	public static int[][] tree = new int[MAXN][12];
 
