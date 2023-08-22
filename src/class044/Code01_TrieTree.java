@@ -42,6 +42,8 @@ public class Code01_TrieTree {
 			node.end++;
 		}
 
+		// 如果之前word插入过前缀树，那么此时删掉一次
+		// 如果之前word没有插入过前缀树，那么什么也不做
 		public void erase(String word) {
 			if (countWordsEqualTo(word) > 0) {
 				TrieNode node = root;
@@ -58,6 +60,7 @@ public class Code01_TrieTree {
 			}
 		}
 
+		// 查询前缀树里，word单词出现了几次
 		public int countWordsEqualTo(String word) {
 			TrieNode node = root;
 			for (int i = 0, path; i < word.length(); i++) {
@@ -70,6 +73,7 @@ public class Code01_TrieTree {
 			return node.end;
 		}
 
+		// 查询前缀树里，有多少单词以pre做前缀
 		public int countWordsStartingWith(String pre) {
 			TrieNode node = root;
 			for (int i = 0, path; i < pre.length(); i++) {
