@@ -20,6 +20,10 @@ public class Code01_CountConsistentKeys {
 
 	public static int cnt;
 
+	public static void build() {
+		cnt = 1;
+	}
+
 	public static int path(char cha) {
 		if (cha == '#') {
 			return 10;
@@ -55,8 +59,15 @@ public class Code01_CountConsistentKeys {
 		return pass[cur];
 	}
 
+	public static void clear() {
+		for (int i = 1; i <= cnt; i++) {
+			Arrays.fill(tree[i], 0);
+			pass[i] = 0;
+		}
+	}
+
 	public static int[] countConsistentKeys(int[][] b, int[][] a) {
-		cnt = 1;
+		build();
 		StringBuilder builder = new StringBuilder();
 		for (int[] nums : a) {
 			builder.setLength(0);
@@ -74,10 +85,7 @@ public class Code01_CountConsistentKeys {
 			}
 			ans[i] = count(builder.toString());
 		}
-		for (int i = 1; i <= cnt; i++) {
-			Arrays.fill(tree[i], 0);
-			pass[i] = 0;
-		}
+		clear();
 		return ans;
 	}
 

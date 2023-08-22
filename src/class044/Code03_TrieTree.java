@@ -25,6 +25,10 @@ public class Code03_TrieTree {
 
 	public static int cnt;
 
+	public static void build() {
+		cnt = 1;
+	}
+
 	public static void insert(String word) {
 		int cur = 1;
 		pass[cur]++;
@@ -78,6 +82,14 @@ public class Code03_TrieTree {
 		return pass[cur];
 	}
 
+	public static void clear() {
+		for (int i = 1; i <= cnt; i++) {
+			Arrays.fill(tree[i], 0);
+			end[i] = 0;
+			pass[i] = 0;
+		}
+	}
+
 	public static int m, op;
 
 	public static String[] splits;
@@ -87,7 +99,7 @@ public class Code03_TrieTree {
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
 		String line = null;
 		while ((line = in.readLine()) != null) {
-			cnt = 1;
+			build();
 			m = Integer.valueOf(line);
 			for (int i = 1; i <= m; i++) {
 				splits = in.readLine().split(" ");
@@ -102,11 +114,7 @@ public class Code03_TrieTree {
 					out.println(prefixNumber(splits[1]));
 				}
 			}
-			for (int i = 1; i <= cnt; i++) {
-				Arrays.fill(tree[i], 0);
-				end[i] = 0;
-				pass[i] = 0;
-			}
+			clear();
 		}
 		out.flush();
 		in.close();
