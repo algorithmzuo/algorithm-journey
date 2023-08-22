@@ -2,7 +2,7 @@ package class044;
 
 import java.util.HashMap;
 
-// 用类描述实现前缀树
+// 用类描述实现前缀树。不推荐！
 // 测试链接 : https://leetcode.cn/problems/implement-trie-ii-prefix-tree/
 public class Code01_TrieTree {
 
