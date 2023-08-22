@@ -2,7 +2,7 @@ package class044;
 
 import java.util.HashMap;
 
-// 用类描述实现前缀树，路径是数组结构
+// 用类描述实现前缀树
 // 测试链接 : https://leetcode.cn/problems/implement-trie-ii-prefix-tree/
 public class Code01_TrieTree {
 
@@ -83,8 +83,8 @@ public class Code01_TrieTree {
 		}
 
 	}
-	
-	// 路是数组实现的
+
+	// 路是哈希表实现的
 	// 提交时把类名、构造方法改为Trie
 	class Trie2 {
 
