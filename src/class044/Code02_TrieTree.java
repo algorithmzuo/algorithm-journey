@@ -15,6 +15,7 @@ import java.util.Arrays;
 
 public class Code02_TrieTree {
 
+	// 如果将来增加了数据量，就改大这个值
 	public static int MAXN = 150001;
 
 	public static int[][] tree = new int[MAXN][26];
@@ -43,21 +44,6 @@ public class Code02_TrieTree {
 		end[cur]++;
 	}
 
-	public static void delete(String word) {
-		if (search(word)) {
-			int cur = 1;
-			for (int i = 0, path; i < word.length(); i++) {
-				path = word.charAt(i) - 'a';
-				if (--pass[tree[cur][path]] == 0) {
-					tree[cur][path] = 0;
-					return;
-				}
-				cur = tree[cur][path];
-			}
-			end[cur]--;
-		}
-	}
-
 	public static boolean search(String word) {
 		int cur = 1;
 		for (int i = 0, path; i < word.length(); i++) {
@@ -80,6 +66,21 @@ public class Code02_TrieTree {
 			cur = tree[cur][path];
 		}
 		return pass[cur];
+	}
+
+	public static void delete(String word) {
+		if (search(word)) {
+			int cur = 1;
+			for (int i = 0, path; i < word.length(); i++) {
+				path = word.charAt(i) - 'a';
+				if (--pass[tree[cur][path]] == 0) {
+					tree[cur][path] = 0;
+					return;
+				}
+				cur = tree[cur][path];
+			}
+			end[cur]--;
+		}
 	}
 
 	public static void clear() {
