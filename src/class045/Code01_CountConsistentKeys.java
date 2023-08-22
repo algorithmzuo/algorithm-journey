@@ -8,6 +8,8 @@ import java.util.Arrays;
 // 对于任意 0 <= i < length(b)，有b[i+1] - b[i] == a[i+1] - a[i]
 // 现在给定了m个密匙 b 的数组，以及n个密匙 a 的数组
 // 请你返回一个长度为 m 的结果数组 ans，表示每个密匙b都有多少一致的密匙
+// 数组 a 和数组 b 中的元素个数均不超过 10^5
+// 1 <= m, n <= 1000
 // 测试链接 : https://www.nowcoder.com/practice/c552d3b4dfda49ccb883a6371d9a6932
 public class Code01_CountConsistentKeys {
 
