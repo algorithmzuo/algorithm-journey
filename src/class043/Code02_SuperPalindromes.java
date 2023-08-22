@@ -17,12 +17,12 @@ public class Code02_SuperPalindromes {
 		long enlarge = 0;
 		int ans = 0;
 		do {
-			enlarge = enlarge2(seed);
-			if (isValid(enlarge * enlarge, l, r)) {
+			enlarge = evenEnlarge(seed);
+			if (check(enlarge * enlarge, l, r)) {
 				ans++;
 			}
-			enlarge = enlarge1(seed);
-			if (isValid(enlarge * enlarge, l, r)) {
+			enlarge = oddEnlarge(seed);
+			if (check(enlarge * enlarge, l, r)) {
 				ans++;
 			}
 			seed++;
@@ -30,7 +30,16 @@ public class Code02_SuperPalindromes {
 		return ans;
 	}
 
-	public static long enlarge1(long seed) {
+	public static long evenEnlarge(long seed) {
+		long ans = seed;
+		while (seed != 0) {
+			ans = ans * 10 + seed % 10;
+			seed /= 10;
+		}
+		return ans;
+	}
+
+	public static long oddEnlarge(long seed) {
 		long ans = seed;
 		seed /= 10;
 		while (seed != 0) {
@@ -40,16 +49,7 @@ public class Code02_SuperPalindromes {
 		return ans;
 	}
 
-	public static long enlarge2(long seed) {
-		long ans = seed;
-		while (seed != 0) {
-			ans = ans * 10 + seed % 10;
-			seed /= 10;
-		}
-		return ans;
-	}
-
-	public static boolean isValid(long ans, long l, long r) {
+	public static boolean check(long ans, long l, long r) {
 		return isPalindrome(ans) && ans >= l && ans <= r;
 	}
 
@@ -98,12 +98,12 @@ public class Code02_SuperPalindromes {
 		long enlarge = 0;
 		ArrayList<Long> ans = new ArrayList<>();
 		do {
-			enlarge = enlarge2(seed);
-			if (isValid(enlarge * enlarge, l, r)) {
+			enlarge = evenEnlarge(seed);
+			if (check(enlarge * enlarge, l, r)) {
 				ans.add(enlarge * enlarge);
 			}
-			enlarge = enlarge1(seed);
-			if (isValid(enlarge * enlarge, l, r)) {
+			enlarge = oddEnlarge(seed);
+			if (check(enlarge * enlarge, l, r)) {
 				ans.add(enlarge * enlarge);
 			}
 			seed++;

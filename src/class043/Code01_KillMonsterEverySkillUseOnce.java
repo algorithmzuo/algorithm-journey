@@ -49,13 +49,15 @@ public class Code01_KillMonsterEverySkillUseOnce {
 				}
 				int ans = f(n, 0, m);
 				out.println(ans == Integer.MAX_VALUE ? -1 : ans);
-				out.flush();
 			}
 		}
+		out.flush();
+		br.close();
+		out.close();
 	}
 
-	public static int f(int n, int i, int rest) {
-		if (rest <= 0) {
+	public static int f(int n, int i, int r) {
+		if (r <= 0) {
 			return i;
 		}
 		if (i == n) {
@@ -64,10 +66,10 @@ public class Code01_KillMonsterEverySkillUseOnce {
 		int ans = Integer.MAX_VALUE;
 		for (int j = i; j < n; j++) {
 			swap(i, j);
-			if (rest > blood[i]) {
-				ans = Math.min(ans, f(n, i + 1, rest - kill[i]));
+			if (r > blood[i]) {
+				ans = Math.min(ans, f(n, i + 1, r - kill[i]));
 			} else {
-				ans = Math.min(ans, f(n, i + 1, rest - kill[i] * 2));
+				ans = Math.min(ans, f(n, i + 1, r - kill[i] * 2));
 			}
 			swap(i, j);
 		}
@@ -75,12 +77,12 @@ public class Code01_KillMonsterEverySkillUseOnce {
 	}
 
 	public static void swap(int i, int j) {
-		int a = kill[i];
-		int b = blood[i];
+		int tmp = kill[i];
 		kill[i] = kill[j];
+		kill[j] = tmp;
+		tmp = blood[i];
 		blood[i] = blood[j];
-		kill[j] = a;
-		blood[j] = b;
+		blood[j] = tmp;
 	}
 
 }
