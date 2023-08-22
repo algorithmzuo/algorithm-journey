@@ -66,11 +66,7 @@ public class Code01_KillMonsterEverySkillUseOnce {
 		int ans = Integer.MAX_VALUE;
 		for (int j = i; j < n; j++) {
 			swap(i, j);
-			if (r > blood[i]) {
-				ans = Math.min(ans, f(n, i + 1, r - kill[i]));
-			} else {
-				ans = Math.min(ans, f(n, i + 1, r - kill[i] * 2));
-			}
+			ans = Math.min(ans, f(n, i + 1, r - (r > blood[i] ? kill[i] : kill[i] * 2)));
 			swap(i, j);
 		}
 		return ans;
