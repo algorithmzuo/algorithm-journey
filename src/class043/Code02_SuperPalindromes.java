@@ -6,7 +6,10 @@ import java.util.List;
 // 如果一个正整数自身是回文数，而且它也是一个回文数的平方，那么我们称这个数为超级回文数。
 // 现在，给定两个正整数 L 和 R （以字符串形式表示），
 // 返回包含在范围 [L, R] 中的超级回文数的数目。
-// 测试链接 : https://leetcode.cn/problems/super-palindromes/
+// 1 <= len(L) <= 18
+// 1 <= len(R) <= 18
+// L 和 R 是表示 [1, 10^18) 范围的整数的字符串
+//测试链接 : https://leetcode.cn/problems/super-palindromes/
 public class Code02_SuperPalindromes {
 
 	public static int superpalindromesInRange1(String left, String right) {
@@ -56,18 +59,18 @@ public class Code02_SuperPalindromes {
 		return ans >= l && ans <= r && isPalindrome(ans);
 	}
 
-	public static boolean isPalindrome(long n) {
+	public static boolean isPalindrome(long num) {
 		long offset = 1;
-		// 注意防止溢出的设计
-		while (n / offset >= 10) {
+		// 注意这么写是为了防止溢出
+		while (num / offset >= 10) {
 			offset *= 10;
 		}
 		// 首尾判断
-		while (n != 0) {
-			if (n / offset != n % 10) {
+		while (num != 0) {
+			if (num / offset != num % 10) {
 				return false;
 			}
-			n = (n % offset) / 10;
+			num = (num % offset) / 10;
 			offset /= 100;
 		}
 		return true;
