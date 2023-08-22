@@ -14,22 +14,23 @@ public class Code02_SuperPalindromes {
 		long r = Long.valueOf(right);
 		long limit = (long) Math.sqrt((double) r);
 		long seed = 1;
-		long enlarge = 0;
+		long num = 0;
 		int ans = 0;
 		do {
-			enlarge = evenEnlarge(seed);
-			if (check(enlarge * enlarge, l, r)) {
+			num = evenEnlarge(seed);
+			if (check(num * num, l, r)) {
 				ans++;
 			}
-			enlarge = oddEnlarge(seed);
-			if (check(enlarge * enlarge, l, r)) {
+			num = oddEnlarge(seed);
+			if (check(num * num, l, r)) {
 				ans++;
 			}
 			seed++;
-		} while (enlarge < limit);
+		} while (num < limit);
 		return ans;
 	}
 
+	// 根据种子扩充到偶数长度的回文数字并返回
 	public static long evenEnlarge(long seed) {
 		long ans = seed;
 		while (seed != 0) {
@@ -39,6 +40,7 @@ public class Code02_SuperPalindromes {
 		return ans;
 	}
 
+	// 根据种子扩充到奇数长度的回文数字并返回
 	public static long oddEnlarge(long seed) {
 		long ans = seed;
 		seed /= 10;
@@ -49,21 +51,24 @@ public class Code02_SuperPalindromes {
 		return ans;
 	}
 
+	// 判断ans是不是属于[l,r]范围的回文数
 	public static boolean check(long ans, long l, long r) {
-		return isPalindrome(ans) && ans >= l && ans <= r;
+		return ans >= l && ans <= r && isPalindrome(ans);
 	}
 
 	public static boolean isPalindrome(long n) {
-		long help = 1;
-		while (n / help >= 10) {
-			help *= 10;
+		long offset = 1;
+		// 注意防止溢出的设计
+		while (n / offset >= 10) {
+			offset *= 10;
 		}
+		// 首尾判断
 		while (n != 0) {
-			if (n / help != n % 10) {
+			if (n / offset != n % 10) {
 				return false;
 			}
-			n = (n % help) / 10;
-			help /= 100;
+			n = (n % offset) / 10;
+			offset /= 100;
 		}
 		return true;
 	}
