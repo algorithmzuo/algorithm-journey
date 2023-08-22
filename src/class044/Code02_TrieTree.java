@@ -44,16 +44,16 @@ public class Code02_TrieTree {
 		end[cur]++;
 	}
 
-	public static boolean search(String word) {
+	public static int search(String word) {
 		int cur = 1;
 		for (int i = 0, path; i < word.length(); i++) {
 			path = word.charAt(i) - 'a';
 			if (tree[cur][path] == 0) {
-				return false;
+				return 0;
 			}
 			cur = tree[cur][path];
 		}
-		return end[cur] > 0;
+		return end[cur];
 	}
 
 	public static int prefixNumber(String pre) {
@@ -69,7 +69,7 @@ public class Code02_TrieTree {
 	}
 
 	public static void delete(String word) {
-		if (search(word)) {
+		if (search(word) > 0) {
 			int cur = 1;
 			for (int i = 0, path; i < word.length(); i++) {
 				path = word.charAt(i) - 'a';
@@ -110,7 +110,7 @@ public class Code02_TrieTree {
 				} else if (op == 2) {
 					delete(splits[1]);
 				} else if (op == 3) {
-					out.println(search(splits[1]) ? "YES" : "NO");
+					out.println(search(splits[1]) > 0 ? "YES" : "NO");
 				} else if (op == 4) {
 					out.println(prefixNumber(splits[1]));
 				}
