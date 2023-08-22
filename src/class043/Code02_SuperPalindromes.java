@@ -73,6 +73,9 @@ public class Code02_SuperPalindromes {
 		return true;
 	}
 
+	// 打表的方法
+	// 必然最优解
+	// 连二分都懒得用
 	public static int superpalindromesInRange2(String left, String right) {
 		long l = Long.parseLong(left);
 		long r = Long.parseLong(right);
