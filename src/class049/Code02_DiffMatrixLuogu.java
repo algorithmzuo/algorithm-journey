@@ -20,7 +20,7 @@ public class Code02_DiffMatrixLuogu {
 
 	public static long[][] diff = new long[MAXN][MAXN];
 
-	public static int n, m;
+	public static int n, q;
 
 	public static void set(int a, int b, int c, int d, int k) {
 		diff[a][b] += k;
@@ -52,8 +52,8 @@ public class Code02_DiffMatrixLuogu {
 		while (in.nextToken() != StreamTokenizer.TT_EOF) {
 			n = (int) in.nval;
 			in.nextToken();
-			m = (int) in.nval;
-			for (int i = 1, a, b, c, d; i <= m; i++) {
+			q = (int) in.nval;
+			for (int i = 1, a, b, c, d; i <= q; i++) {
 				in.nextToken();
 				a = (int) in.nval;
 				in.nextToken();
