@@ -13,7 +13,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 
-public class Code01_DiffMatrix {
+public class Code01_DiffMatrixNowcoder {
 
 	public static int MAXN = 1005;
 

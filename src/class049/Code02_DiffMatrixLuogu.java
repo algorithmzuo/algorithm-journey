@@ -14,7 +14,7 @@ import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 
 // 洛谷对java语言不友好，经常卡空间，多提交几次能全部通过的
-public class Code02_DiffMatrix {
+public class Code02_DiffMatrixLuogu {
 
 	public static int MAXN = 1002;
 
