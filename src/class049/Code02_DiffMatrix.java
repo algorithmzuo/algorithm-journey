@@ -5,7 +5,6 @@ package class049;
 // 请同学们务必参考如下代码中关于输入、输出的处理
 // 这是输入输出处理效率很高的写法
 // 提交以下的code，提交时请把类名改成"Main"
-// 洛谷对java语言不友好，多提交几次能全部通过的
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -14,6 +13,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 
+// 洛谷对java语言不友好，经常卡空间，多提交几次能全部通过的
 public class Code02_DiffMatrix {
 
 	public static int MAXN = 1002;
