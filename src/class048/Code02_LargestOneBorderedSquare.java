@@ -7,7 +7,7 @@ package class048;
 // 测试链接 : https://leetcode.cn/problems/largest-1-bordered-square/
 // 打败比例不高，但完全是常数时间的问题
 // 本文件的实现，时间复杂度O(n * m * min(n,m))，额外空间复杂度O(1)
-// 指标上绝对是最优解
+// 追求复杂度指标上的绝对最优解
 public class Code02_LargestOneBorderedSquare {
 
 	public static int largest1BorderedSquare(int[][] g) {
