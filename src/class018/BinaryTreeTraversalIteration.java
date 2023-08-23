@@ -89,13 +89,10 @@ public class BinaryTreeTraversalIteration {
 			// 之后h的含义 : 上一次打印的节点
 			while (!stack.isEmpty()) {
 				TreeNode cur = stack.peek();
-				if (cur.left != null
-						&& h != cur.left
-						&& h != cur.right) {
+				if (cur.left != null && h != cur.left && h != cur.right) {
 					// 有左树且左树没处理过
 					stack.push(cur.left);
-				} else if (cur.right != null
-						&& h != cur.right) {
+				} else if (cur.right != null && h != cur.right) {
 					// 有右树且右树没处理过
 					stack.push(cur.right);
 				} else {
@@ -125,12 +122,6 @@ public class BinaryTreeTraversalIteration {
 		posOrderOneStack(head);
 		System.out.println("后序遍历非递归版 - 1个栈实现");
 	}
-
-
-
-
-
-
 
 	// 用一个栈完成先序遍历
 	// 测试链接 : https://leetcode.cn/problems/binary-tree-preorder-traversal/
@@ -202,7 +193,7 @@ public class BinaryTreeTraversalIteration {
 	// 用一个栈完成后序遍历
 	// 提交时函数名改为postorderTraversal
 	// 测试链接 : https://leetcode.cn/problems/binary-tree-postorder-traversal/
-	public List<Integer> postorderTraversalOneStack(TreeNode h) {
+	public static List<Integer> postorderTraversalOneStack(TreeNode h) {
 		List<Integer> ans = new ArrayList<>();
 		if (h != null) {
 			Stack<TreeNode> stack = new Stack<>();
