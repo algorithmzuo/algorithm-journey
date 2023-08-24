@@ -7,7 +7,20 @@ import java.util.HashSet;
 // 1 <= nums.length <= 2 * 10^5
 // 0 <= nums[i] <= 2^31 - 1
 // 测试链接 : https://leetcode.cn/problems/maximum-xor-of-two-numbers-in-an-array/
-public class Code03_TwoNumbersMaximumXor {
+public class Code02_TwoNumbersMaximumXor {
+
+	// 前缀树的做法
+	// 好想
+	public static int findMaximumXOR1(int[] nums) {
+		build(nums);
+		int ans = 0;
+		for (int num : nums) {
+			insert(num);
+			ans = Math.max(ans, maxXor(num));
+		}
+		clear();
+		return ans;
+	}
 
 	// 准备这么多静态空间就够了，实验出来的
 	// 如果测试数据升级了规模，就改大这个值
@@ -62,19 +75,6 @@ public class Code03_TwoNumbersMaximumXor {
 		for (int i = 1; i <= cnt; i++) {
 			tree[i][0] = tree[i][1] = 0;
 		}
-	}
-
-	// 前缀树的做法
-	// 好想
-	public static int findMaximumXOR1(int[] nums) {
-		build(nums);
-		int ans = 0;
-		for (int num : nums) {
-			insert(num);
-			ans = Math.max(ans, maxXor(num));
-		}
-		clear();
-		return ans;
 	}
 
 	// 用哈希表的做法
