@@ -31,7 +31,8 @@ public class Code02_WaterHeight {
 	// 左、右侧可能超过正式位置差不多OFFSET的规模
 	// 所以准备一个长度为OFFSET + MAXN + OFFSET的数组
 	// 这样一来，左侧影响最远的位置...右侧影响最远的位置，
-	// 都可以被arr中的下标表示出来，详细解释看change方法的注释
+	// 都可以被arr中的下标表示出来，就省去了很多越界讨论
+	// 详细解释看change方法的注释
 	public static int[] arr = new int[OFFSET + MAXN + OFFSET];
 
 	public static int n, m;
@@ -71,8 +72,10 @@ public class Code02_WaterHeight {
 	}
 
 	public static void change(int v, int x) {
-		// 为了防止x - 3 * v + 1是个负数，从而进行更多边界讨论
-		// 所以加一个较大的数字，这样一来如下的下标就都在0以上了
+		// 为了防止x - 3 * v + 1是个负数，进而有很多、很烦的边界讨论
+		// 所以任何位置，都加上一个较大的数字(OFFSET)
+		// 这样一来，所有下标就都在0以上了，省去了太多的边界问题
+		// 这就是为什么arr在初始化的时候要准备OFFSET + MAXN + OFFSET这么多的空间
 		arr[x - 3 * v + 1 + OFFSET] += 1;
 		arr[x - 2 * v + 1 + OFFSET] -= 2;
 		arr[x + 1 + OFFSET] += 2;
