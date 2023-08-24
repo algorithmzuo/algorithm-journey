@@ -15,7 +15,6 @@ public class Code02_TwoNumbersMaximumXor {
 		build(nums);
 		int ans = 0;
 		for (int num : nums) {
-			insert(num);
 			ans = Math.max(ans, maxXor(num));
 		}
 		clear();
@@ -32,22 +31,26 @@ public class Code02_TwoNumbersMaximumXor {
 	public static int cnt;
 
 	// 数字只需要从哪一位开始考虑
-	public static int left;
+	public static int high;
 
 	public static void build(int[] nums) {
 		cnt = 1;
+		// 找个最大值
 		int max = Integer.MIN_VALUE;
 		for (int num : nums) {
 			max = Math.max(num, max);
 		}
 		// 计算数组最大值的二进制状态，有多少个前缀的0
 		// 可以忽略这些前置的0，从left位开始考虑
-		left = 31 - Integer.numberOfLeadingZeros(max);
+		high = 31 - Integer.numberOfLeadingZeros(max);
+		for (int num : nums) {
+			insert(num);
+		}
 	}
 
 	public static void insert(int num) {
 		int cur = 1;
-		for (int i = left, path; i >= 0; i--) {
+		for (int i = high, path; i >= 0; i--) {
 			path = (num >> i) & 1;
 			if (tree[cur][path] == 0) {
 				tree[cur][path] = ++cnt;
@@ -57,14 +60,20 @@ public class Code02_TwoNumbersMaximumXor {
 	}
 
 	public static int maxXor(int num) {
+		// 最终异或的结果(尽量大)
 		int ans = 0;
+		// 前缀树目前来到的节点编号
 		int cur = 1;
-		for (int i = left, status, want; i >= 0; i--) {
+		for (int i = high, status, want; i >= 0; i--) {
+			// status : num第i位的状态
 			status = (num >> i) & 1;
+			// want : num第i位希望遇到的状态
 			want = status ^ 1;
-			if (tree[cur][want] == 0) {
+			if (tree[cur][want] == 0) { // 询问前缀树，能不能达成
+				// 不能达成
 				want ^= 1;
 			}
+			// want变成真的往下走的路
 			ans |= (status ^ want) << i;
 			cur = tree[cur][want];
 		}
@@ -87,11 +96,14 @@ public class Code02_TwoNumbersMaximumXor {
 		int ans = 0;
 		HashSet<Integer> set = new HashSet<>();
 		for (int i = 31 - Integer.numberOfLeadingZeros(max); i >= 0; i--) {
+			// ans : 31....i+1 已经达成的目标
 			int better = ans | (1 << i);
 			set.clear();
 			for (int num : nums) {
+				// num : 31.....i 这些状态保留，剩下全成0
 				num = (num >> i) << i;
 				set.add(num);
+				// num ^ 某状态 是否能 达成better目标，就在set中找 某状态 : better ^ num
 				if (set.contains(better ^ num)) {
 					ans = better;
 					break;

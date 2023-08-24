@@ -16,6 +16,7 @@ public class Code01_CountConsistentKeys {
 	public static int[] countConsistentKeys(int[][] b, int[][] a) {
 		build();
 		StringBuilder builder = new StringBuilder();
+		// [3,6,50,10] -> "3#44#-40#"
 		for (int[] nums : a) {
 			builder.setLength(0);
 			for (int i = 1; i < nums.length; i++) {
@@ -49,6 +50,9 @@ public class Code01_CountConsistentKeys {
 		cnt = 1;
 	}
 
+	// '0' ~ '9' 10个 0~9
+	// '#' 10
+	// '-' 11
 	public static int path(char cha) {
 		if (cha == '#') {
 			return 10;
