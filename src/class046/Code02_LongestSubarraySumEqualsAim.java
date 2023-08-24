@@ -25,6 +25,8 @@ public class Code02_LongestSubarraySumEqualsAim {
 
 	public static int n, aim;
 
+	// key : 某个前缀和
+	// value : 这个前缀和最早出现的位置
 	public static HashMap<Integer, Integer> map = new HashMap<>();
 
 	public static void main(String[] args) throws IOException {
@@ -48,6 +50,7 @@ public class Code02_LongestSubarraySumEqualsAim {
 
 	public static int compute() {
 		map.clear();
+		// 重要 : 0这个前缀和，一个数字也没有的时候，就存在了
 		map.put(0, -1);
 		int ans = 0;
 		for (int i = 0, sum = 0; i < n; i++) {
