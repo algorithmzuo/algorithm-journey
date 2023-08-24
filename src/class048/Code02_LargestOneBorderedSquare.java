@@ -5,11 +5,11 @@ package class048;
 // 请你找出边界全部由 1 组成的最大 正方形 子网格
 // 并返回该子网格中的元素数量。如果不存在，则返回 0。
 // 测试链接 : https://leetcode.cn/problems/largest-1-bordered-square/
-// 打败比例不高，但完全是常数时间的问题
-// 本文件的实现，时间复杂度O(n * m * min(n,m))，额外空间复杂度O(1)
-// 追求复杂度指标上的绝对最优解
 public class Code02_LargestOneBorderedSquare {
 
+	// 打败比例不高，但完全是常数时间的问题
+	// 时间复杂度O(n * m * min(n,m))，额外空间复杂度O(1)
+	// 这绝对是最优解
 	public static int largest1BorderedSquare(int[][] g) {
 		int n = g.length;
 		int m = g[0].length;

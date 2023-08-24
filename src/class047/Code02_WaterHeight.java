@@ -29,15 +29,10 @@ public class Code02_WaterHeight {
 
 	// 湖泊宽度是MAXN，是正式位置的范围
 	// 左、右侧可能超过正式位置差不多OFFSET的规模
-	// 所以准备一个长度为OFFSET + MAXN + OFFSET的diff数组
-	// 这样一来，左侧影响最远的位置......右侧影响最远的位置，
-	// 都可以被diff中的下标表示得下，详细解释看change方法的注释
-	public static int[] diff = new int[OFFSET + MAXN + OFFSET];
-
-	// 收集正式位置的水位，所以ans准备MAXN大小即可
-	// 其实可以只用一个数组diff就完成所有功能
-	// 但是我不想把代码写的太让人困惑，所以用两个数组分开表示吧
-	public static int[] ans = new int[MAXN];
+	// 所以准备一个长度为OFFSET + MAXN + OFFSET的数组
+	// 这样一来，左侧影响最远的位置...右侧影响最远的位置，
+	// 都可以被arr中的下标表示出来，详细解释看change方法的注释
+	public static int[] arr = new int[OFFSET + MAXN + OFFSET];
 
 	public static int n, m;
 
@@ -54,12 +49,19 @@ public class Code02_WaterHeight {
 				v = (int) in.nval;
 				in.nextToken();
 				x = (int) in.nval;
+				// v体积的朋友，在x处落水，修改差分数组
 				change(v, x);
 			}
+			// 生成水位数组
 			compute();
-			out.print(ans[1]);
+			// 开始收集答案
+			// 0...OFFSET这些位置是之前的辅助位置，为了防止越界设计的
+			// 从OFFSET+1开始往下数m个，才是正式的位置
+			// 打印这些位置，就是返回所有正式位置的答案
+			int start = OFFSET + 1;
+			out.print(arr[start++]);
 			for (int i = 2; i <= m; i++) {
-				out.print(" " + ans[i]);
+				out.print(" " + arr[start++]);
 			}
 			out.println();
 		}
@@ -71,30 +73,21 @@ public class Code02_WaterHeight {
 	public static void change(int v, int x) {
 		// 为了防止x - 3 * v + 1是个负数，从而进行更多边界讨论
 		// 所以加一个较大的数字，这样一来如下的下标就都在0以上了
-		diff[x - 3 * v + 1 + OFFSET] += 1;
-		diff[x - 2 * v + 1 + OFFSET] -= 2;
-		diff[x + 1 + OFFSET] += 2;
-		diff[x + 2 * v + 1 + OFFSET] -= 2;
-		diff[x + 3 * v + 1 + OFFSET] += 1;
+		arr[x - 3 * v + 1 + OFFSET] += 1;
+		arr[x - 2 * v + 1 + OFFSET] -= 2;
+		arr[x + 1 + OFFSET] += 2;
+		arr[x + 2 * v + 1 + OFFSET] -= 2;
+		arr[x + 3 * v + 1 + OFFSET] += 1;
 	}
 
 	public static void compute() {
-		// 先把diff加工成 "增幅数组"
+		// 先把arr加工成 "增幅数组"
 		for (int i = 1; i <= m + OFFSET; i++) {
-			diff[i] += diff[i - 1];
+			arr[i] += arr[i - 1];
 		}
-		// cur = 0表示: 一开始i=0位置的水位是0
-		int cur = 0;
-		// 正式的水位信息收集开始之前，先得到i=OFFSET位置的水位
-		for (int i = 1; i <= OFFSET; i++) {
-			cur += diff[i];
-		}
-		// i = OFFSET + 1位置，就是正式位置(1位置)的开始
-		// 每一步得到水位数值，记录在ans中
-		// 收集完成后，在主函数打印ans即可
-		for (int i = OFFSET + 1, j = 1; i <= m + OFFSET; i++, j++) {
-			cur += diff[i];
-			ans[j] = cur;
+		// 最后把arr加工成 "水位数组"
+		for (int i = 1; i <= m + OFFSET; i++) {
+			arr[i] += arr[i - 1];
 		}
 	}
 
