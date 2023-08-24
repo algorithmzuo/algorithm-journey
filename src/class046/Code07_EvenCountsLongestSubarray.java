@@ -7,16 +7,15 @@ import java.util.Arrays;
 // 每个元音字母，即 'a'，'e'，'i'，'o'，'u'
 // 在子字符串中都恰好出现了偶数次。
 // 测试链接 : https://leetcode.cn/problems/find-the-longest-substring-containing-vowels-in-even-counts/
-public class Code06_EvenCountsLongestSubarray {
+public class Code07_EvenCountsLongestSubarray {
 
 	public static int findTheLongestSubstring(String s) {
+		int n = s.length();
 		int[] map = new int[32];
 		Arrays.fill(map, -2);
 		map[0] = -1;
-		int status = 0;
 		int ans = 0;
-		int n = s.length();
-		for (int i = 0, m; i < n; i++) {
+		for (int i = 0, status = 0, m; i < n; i++) {
 			m = move(s.charAt(i));
 			if (m != -1) {
 				status ^= 1 << m;
@@ -31,18 +30,13 @@ public class Code06_EvenCountsLongestSubarray {
 	}
 
 	public static int move(char cha) {
-		if (cha == 'a') {
-			return 0;
-		} else if (cha == 'e') {
-			return 1;
-		} else if (cha == 'i') {
-			return 2;
-		} else if (cha == 'o') {
-			return 3;
-		} else if (cha == 'u') {
-			return 4;
-		} else {
-			return -1;
+		switch (cha) {
+		    case 'a': return 0;
+		    case 'e': return 1;
+		    case 'i': return 2;
+		    case 'o': return 3;
+		    case 'u': return 4;
+		    default: return -1;
 		}
 	}
 

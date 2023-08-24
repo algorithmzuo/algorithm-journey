@@ -49,8 +49,8 @@ public class Code02_LongestSubarraySumEqualsAim {
 	public static int compute() {
 		map.clear();
 		map.put(0, -1);
-		int sum = 0, ans = 0;
-		for (int i = 0; i < n; i++) {
+		int ans = 0;
+		for (int i = 0, sum = 0; i < n; i++) {
 			sum += arr[i];
 			if (map.containsKey(sum - aim)) {
 				ans = Math.max(ans, i - map.get(sum - aim));

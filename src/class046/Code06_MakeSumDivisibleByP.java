@@ -8,10 +8,9 @@ import java.util.HashMap;
 // 请你返回你需要移除的最短子数组的长度，如果无法满足题目要求，返回 -1 。
 // 子数组 定义为原数组中连续的一组元素。
 // 测试链接 : https://leetcode.cn/problems/make-sum-divisible-by-p/
-public class Code05_MakeSumDivisibleByP {
+public class Code06_MakeSumDivisibleByP {
 
 	public static int minSubarray(int[] nums, int p) {
-		int n = nums.length;
 		int mod = 0;
 		for (int num : nums) {
 			mod = (mod + num) % p;
@@ -22,7 +21,7 @@ public class Code05_MakeSumDivisibleByP {
 		HashMap<Integer, Integer> map = new HashMap<>();
 		map.put(0, -1);
 		int ans = Integer.MAX_VALUE;
-		for (int i = 0, cur = 0, find; i < n; i++) {
+		for (int i = 0, cur = 0, find; i < nums.length; i++) {
 			cur = (cur + nums[i]) % p;
 			find = (cur - mod + p) % p;
 			if (map.containsKey(find)) {
@@ -30,7 +29,7 @@ public class Code05_MakeSumDivisibleByP {
 			}
 			map.put(cur, i);
 		}
-		return ans == n ? -1 : ans;
+		return ans == nums.length ? -1 : ans;
 	}
 
 }
