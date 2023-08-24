@@ -30,11 +30,13 @@ public class Code02_WaterHeight {
 	// 湖泊宽度是MAXN，是正式位置的范围
 	// 左、右侧可能超过正式位置差不多OFFSET的规模
 	// 所以准备一个长度为OFFSET + MAXN + OFFSET的diff数组
-	// 这样一来，左侧影响最远的位置......右侧影响最远的位置，都可以被diff表示得下
-	// 详细解释看代码中的注释
+	// 这样一来，左侧影响最远的位置......右侧影响最远的位置，
+	// 都可以被diff中的下标表示得下，详细解释看change方法的注释
 	public static int[] diff = new int[OFFSET + MAXN + OFFSET];
 
 	// 收集正式位置的水位，所以ans准备MAXN大小即可
+	// 其实可以只用一个数组diff就完成所有功能
+	// 但是我不想把代码写的太让人困惑，所以用两个数组分开表示吧
 	public static int[] ans = new int[MAXN];
 
 	public static int n, m;
