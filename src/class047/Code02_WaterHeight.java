@@ -56,9 +56,9 @@ public class Code02_WaterHeight {
 			// 生成水位数组
 			compute();
 			// 开始收集答案
-			// 0...OFFSET这些位置是之前的辅助位置，为了防止越界设计的
-			// 从OFFSET+1开始往下数m个，才是正式的位置
-			// 打印这些位置，就是返回所有正式位置的答案
+			// 0...OFFSET这些位置是辅助位置，为了防止越界设计的
+			// 从OFFSET+1开始往下数m个，才是正式的位置1...m
+			// 打印这些位置，就是返回正式位置1...m的水位
 			int start = OFFSET + 1;
 			out.print(arr[start++]);
 			for (int i = 2; i <= m; i++) {
