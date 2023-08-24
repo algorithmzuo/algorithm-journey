@@ -9,7 +9,7 @@ public class Code02_LargestOneBorderedSquare {
 
 	// 打败比例不高，但完全是常数时间的问题
 	// 时间复杂度O(n * m * min(n,m))，额外空间复杂度O(1)
-	// 这绝对是最优解
+	// 从复杂度指标上说，本方法绝对是最优解
 	public static int largest1BorderedSquare(int[][] g) {
 		int n = g.length;
 		int m = g[0].length;
