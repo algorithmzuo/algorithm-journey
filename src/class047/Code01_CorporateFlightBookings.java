@@ -10,12 +10,18 @@ package class047;
 // 测试链接 : https://leetcode.cn/problems/corporate-flight-bookings/
 public class Code01_CorporateFlightBookings {
 
+	// bookings
+	// [1,5,6]
+	// [2,9,3]
+	// ...
 	public static int[] corpFlightBookings(int[][] bookings, int n) {
 		int[] cnt = new int[n + 2];
+		// 设置差分数组，每一个操作对应两个设置
 		for (int[] book : bookings) {
 			cnt[book[0]] += book[2];
 			cnt[book[1] + 1] -= book[2];
 		}
+		// 加工前缀和
 		for (int i = 1; i < cnt.length; i++) {
 			cnt[i] += cnt[i - 1];
 		}

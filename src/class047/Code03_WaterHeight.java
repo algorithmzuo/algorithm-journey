@@ -42,14 +42,14 @@ public class Code03_WaterHeight {
 		StreamTokenizer in = new StreamTokenizer(br);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
 		while (in.nextToken() != StreamTokenizer.TT_EOF) {
+			// n有多少个人落水，每个人落水意味着四个等差数列操作
 			n = (int) in.nval;
 			in.nextToken();
+			// 一共有多少位置，1~m个位置，最终要打印每个位置的水位
 			m = (int) in.nval;
 			for (int i = 0, v, x; i < n; i++) {
-				in.nextToken();
-				v = (int) in.nval;
-				in.nextToken();
-				x = (int) in.nval;
+				in.nextToken(); v = (int) in.nval;
+				in.nextToken(); x = (int) in.nval;
 				// v体积的朋友，在x处落水，修改差分数组
 				fall(v, x);
 			}
