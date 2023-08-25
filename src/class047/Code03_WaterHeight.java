@@ -32,7 +32,7 @@ public class Code03_WaterHeight {
 	// 所以准备一个长度为OFFSET + MAXN + OFFSET的数组
 	// 这样一来，左侧影响最远的位置...右侧影响最远的位置，
 	// 都可以被arr中的下标表示出来，就省去了很多越界讨论
-	// 详细解释看fall方法的注释
+	// 详细解释看set方法的注释
 	public static int[] arr = new int[OFFSET + MAXN + OFFSET];
 
 	public static int n, m;
@@ -53,7 +53,7 @@ public class Code03_WaterHeight {
 				// v体积的朋友，在x处落水，修改差分数组
 				fall(v, x);
 			}
-			// 生成水位数组
+			// 生成最终的水位数组
 			build();
 			// 开始收集答案
 			// 0...OFFSET这些位置是辅助位置，为了防止越界设计的
@@ -72,21 +72,21 @@ public class Code03_WaterHeight {
 	}
 
 	public static void fall(int v, int x) {
-		// 为了防止x - 3 * v + 1是个负数，进而有很多、很烦的边界讨论
-		// 所以任何位置，都加上一个较大的数字(OFFSET)
-		// 这样一来，所有下标就都在0以上了，省去了太多的边界问题
-		// 这就是为什么arr在初始化的时候要准备OFFSET + MAXN + OFFSET这么多的空间
-		set(x - 3 * v + 1 + OFFSET, x - 2 * v + OFFSET, 1, v, 1);
-		set(x - 2 * v + 1 + OFFSET, x + OFFSET, v - 1, -v, -1);
-		set(x + 1 + OFFSET, x + 2 * v + OFFSET, -v + 1, v, 1);
-		set(x + 2 * v + 1 + OFFSET, x + 3 * v - 1 + OFFSET, v - 1, 1, -1);
+		set(x - 3 * v + 1, x - 2 * v, 1, v, 1);
+		set(x - 2 * v + 1, x, v - 1, -v, -1);
+		set(x + 1, x + 2 * v, -v + 1, v, 1);
+		set(x + 2 * v + 1, x + 3 * v - 1, v - 1, 1, -1);
 	}
 
 	public static void set(int l, int r, int s, int e, int d) {
-		arr[l] += s;
-		arr[l + 1] += d - s;
-		arr[r + 1] -= d + e;
-		arr[r + 2] += e;
+		// 为了防止x - 3 * v + 1出现负数下标，进而有很多很烦的边界讨论
+		// 所以任何位置，都加上一个较大的数字(OFFSET)
+		// 这样一来，所有下标就都在0以上了，省去了大量边界讨论
+		// 这就是为什么arr在初始化的时候要准备OFFSET + MAXN + OFFSET这么多的空间
+		arr[l + OFFSET] += s;
+		arr[l + 1 + OFFSET] += d - s;
+		arr[r + 1 + OFFSET] -= d + e;
+		arr[r + 2 + OFFSET] += e;
 	}
 
 	public static void build() {
