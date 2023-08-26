@@ -1,4 +1,4 @@
-package class048;
+package class049;
 
 // 二维差分模版(洛谷)
 // 测试链接 : https://www.luogu.com.cn/problem/P3397
@@ -13,7 +13,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 
-public class Code04_DiffMatrixLuogu {
+public class Code02_DiffMatrixLuogu {
 
 	public static int MAXN = 1002;
 

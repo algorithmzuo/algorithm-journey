@@ -1,4 +1,4 @@
-package class049;
+package class050;
 
 // 给定一个长度为n的二维数组graph，代表一张图
 // graph[i] = {a,b,c,d} 表示i讨厌(a,b,c,d)，讨厌关系为双向的

@@ -1,4 +1,4 @@
-package class048;
+package class049;
 
 // 用邮票贴满网格图
 // 给你一个 m x n 的二进制矩阵 grid
@@ -10,7 +10,7 @@ package class048;
 // 邮票不允许旋转，邮票必须完全在矩阵内
 // 如果在满足上述要求的前提下，可以放入邮票，请返回 true ，否则返回 false
 // 测试链接 : https://leetcode.cn/problems/stamping-the-grid/
-public class Code05_StampingTheGrid {
+public class Code03_StampingTheGrid {
 
 	public static boolean possibleToStamp(int[][] grid, int h, int w) {
 		int n = grid.length;

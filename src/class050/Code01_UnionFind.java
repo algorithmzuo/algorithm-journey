@@ -1,7 +1,7 @@
-package class049;
+package class050;
 
-// 并查集模版(洛谷)
-// 测试链接 : https://www.luogu.com.cn/problem/P3367
+// 并查集模版(牛客)
+// 测试链接 : https://www.nowcoder.com/practice/e7ed657974934a30b2010046536a5372
 // 请同学们务必参考如下代码中关于输入、输出的处理
 // 这是输入输出处理效率很高的写法
 // 提交以下的code，提交时请把类名改成"Main"，可以直接通过
@@ -13,9 +13,9 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 
-public class Code02_UnionFind {
+public class Code01_UnionFind {
 
-	public static int MAXN = 10001;
+	public static int MAXN = 1000001;
 
 	public static int[] father = new int[MAXN];
 
@@ -73,15 +73,15 @@ public class Code02_UnionFind {
 			int m = (int) in.nval;
 			for (int i = 0; i < m; i++) {
 				in.nextToken();
-				int z = (int) in.nval;
+				int op = (int) in.nval;
 				in.nextToken();
 				int x = (int) in.nval;
 				in.nextToken();
 				int y = (int) in.nval;
-				if (z == 1) {
-					union(x, y);
+				if (op == 1) {
+					out.println(isSameSet(x, y) ? "Yes" : "No");
 				} else {
-					out.println(isSameSet(x, y) ? "Y" : "N");
+					union(x, y);
 				}
 			}
 		}
