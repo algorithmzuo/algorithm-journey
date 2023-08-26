@@ -1,4 +1,4 @@
-package class049;
+package class048;
 
 // 二维差分模版(牛客)
 // 测试链接 : https://www.nowcoder.com/practice/50e1a93989df42efb0b1dec386fb4ccc
@@ -13,7 +13,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 
-public class Code01_DiffMatrixNowcoder {
+public class Code03_DiffMatrixNowcoder {
 
 	public static int MAXN = 1005;
 

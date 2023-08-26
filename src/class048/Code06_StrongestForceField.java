@@ -1,4 +1,4 @@
-package class049;
+package class048;
 
 import java.util.Arrays;
 
@@ -12,7 +12,7 @@ import java.util.Arrays;
 // 请求出在这片地带中 力场强度 最强处的 力场强度
 // 注意：力场范围的边缘同样被力场覆盖。
 // 测试链接 : https://leetcode.cn/problems/xepqZ5/
-public class Code04_StrongestForceField {
+public class Code06_StrongestForceField {
 
 	public static int fieldOfGreatestBlessing(int[][] fields) {
 		int n = fields.length;
