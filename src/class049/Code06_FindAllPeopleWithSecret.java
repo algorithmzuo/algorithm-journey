@@ -1,4 +1,4 @@
-package class050;
+package class049;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -17,49 +17,13 @@ import java.util.List;
 // 在所有会议都结束之后，返回所有知晓这个秘密的专家列表
 // 你可以按 任何顺序 返回答案
 // 链接测试 : https://leetcode.cn/problems/find-all-people-with-secret/
-public class Code03_FindAllPeopleWithSecret {
-
-	public static List<Integer> findAllPeople(int n, int[][] meetings, int first) {
-		build(n, first);
-		int m = meetings.length;
-		Arrays.sort(meetings, (a, b) -> a[2] - b[2]);
-		int[] help = new int[m << 1];
-		help[0] = meetings[0][0];
-		help[1] = meetings[0][1];
-		int size = 2;
-		for (int i = 1; i < m; i++) {
-			if (meetings[i][2] != meetings[i - 1][2]) {
-				share(help, size);
-				help[0] = meetings[i][0];
-				help[1] = meetings[i][1];
-				size = 2;
-			} else {
-				help[size++] = meetings[i][0];
-				help[size++] = meetings[i][1];
-			}
-		}
-		share(help, size);
-		List<Integer> ans = new ArrayList<>();
-		for (int i = 0; i < n; i++) {
-			if (know(i)) {
-				ans.add(i);
-			}
-		}
-		return ans;
-	}
-
-	public static void share(int[] help, int size) {
-		for (int i = 0; i < size; i += 2) {
-			union(help[i], help[i + 1]);
-		}
-		for (int i = 0; i < size; i++) {
-			if (!know(help[i])) {
-				isolate(help[i]);
-			}
-		}
-	}
+public class Code06_FindAllPeopleWithSecret {
 
 	public static int MAXN = 100001;
+
+	public static int[] team = new int[MAXN << 1];
+
+	public static int size;
 
 	public static int[] father = new int[MAXN];
 
@@ -85,8 +49,8 @@ public class Code03_FindAllPeopleWithSecret {
 		int fx = find(x);
 		int fy = find(y);
 		if (fx != fy) {
-			father[fy] = fx;
-			secret[fx] |= secret[fy];
+			father[fx] = fy;
+			secret[fy] |= secret[fx];
 		}
 	}
 
@@ -96,6 +60,42 @@ public class Code03_FindAllPeopleWithSecret {
 
 	public static void isolate(int i) {
 		father[i] = i;
+	}
+
+	public static List<Integer> findAllPeople(int n, int[][] meetings, int first) {
+		build(n, first);
+		int m = meetings.length;
+		Arrays.sort(meetings, (a, b) -> a[2] - b[2]);
+		size = 0;
+		team[size++] = meetings[0][0];
+		team[size++] = meetings[0][1];
+		for (int i = 1; i < m; i++) {
+			if (meetings[i][2] != meetings[i - 1][2]) {
+				share();
+				size = 0;
+			}
+			team[size++] = meetings[i][0];
+			team[size++] = meetings[i][1];
+		}
+		share();
+		List<Integer> ans = new ArrayList<>();
+		for (int i = 0; i < n; i++) {
+			if (know(i)) {
+				ans.add(i);
+			}
+		}
+		return ans;
+	}
+
+	public static void share() {
+		for (int i = 0; i < size; i += 2) {
+			union(team[i], team[i + 1]);
+		}
+		for (int i = 0; i < size; i++) {
+			if (!know(team[i])) {
+				isolate(team[i]);
+			}
+		}
 	}
 
 }

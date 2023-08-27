@@ -14,7 +14,7 @@ public class Code02_MakingLargeIsland {
 		for (int i = 0; i < n; i++) {
 			for (int j = 0; j < m; j++) {
 				if (grid[i][j] == 1) {
-					infect(grid, i, j, id++, n, m);
+					dfs(grid, i, j, id++, n, m);
 				}
 			}
 		}
@@ -60,15 +60,15 @@ public class Code02_MakingLargeIsland {
 		return ans;
 	}
 
-	public static void infect(int[][] grid, int i, int j, int v, int n, int m) {
+	public static void dfs(int[][] grid, int i, int j, int v, int n, int m) {
 		if (i < 0 || i == n || j < 0 || j == m || grid[i][j] != 1) {
 			return;
 		}
 		grid[i][j] = v;
-		infect(grid, i - 1, j, v, n, m);
-		infect(grid, i + 1, j, v, n, m);
-		infect(grid, i, j - 1, v, n, m);
-		infect(grid, i, j + 1, v, n, m);
+		dfs(grid, i - 1, j, v, n, m);
+		dfs(grid, i + 1, j, v, n, m);
+		dfs(grid, i, j - 1, v, n, m);
+		dfs(grid, i, j + 1, v, n, m);
 	}
 
 }

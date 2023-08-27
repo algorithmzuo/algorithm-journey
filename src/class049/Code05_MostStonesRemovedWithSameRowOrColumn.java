@@ -12,8 +12,6 @@ public class Code05_MostStonesRemovedWithSameRowOrColumn {
 
 	public static int removeStones(int[][] stones) {
 		int n = stones.length;
-		HashMap<Integer, Integer> rowFirst = new HashMap<Integer, Integer>();
-		HashMap<Integer, Integer> colFirst = new HashMap<Integer, Integer>();
 		build(n);
 		for (int i = 0; i < n; i++) {
 			int x = stones[i][0];
@@ -32,6 +30,10 @@ public class Code05_MostStonesRemovedWithSameRowOrColumn {
 		return n - sets;
 	}
 
+	public static HashMap<Integer, Integer> rowFirst = new HashMap<Integer, Integer>();
+
+	public static HashMap<Integer, Integer> colFirst = new HashMap<Integer, Integer>();
+
 	public static int MAXN = 1001;
 
 	public static int[] father = new int[MAXN];
@@ -39,6 +41,8 @@ public class Code05_MostStonesRemovedWithSameRowOrColumn {
 	public static int sets;
 
 	public static void build(int n) {
+		rowFirst.clear();
+		colFirst.clear();
 		for (int i = 0; i < n; i++) {
 			father[i] = i;
 		}
