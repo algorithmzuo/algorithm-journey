@@ -1,4 +1,4 @@
-package class050;
+package class049;
 
 // 情侣牵手
 // n对情侣坐在连续排列的 2n 个座位上，想要牵到对方的手

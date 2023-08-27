@@ -1,4 +1,4 @@
-package class051;
+package class050;
 
 // 最大人工岛
 // 给你一个大小为 n * n 二进制矩阵 grid 。最多 只能将一格 0 变成 1 。
