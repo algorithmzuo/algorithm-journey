@@ -76,22 +76,22 @@ public class Code01_NumberOfIslands {
 			for (int j = 0; j < board[0].length; j++) {
 				if (board[i][j] == '1') {
 					islands++;
-					fill(board, i, j);
+					dfs(board, i, j);
 				}
 			}
 		}
 		return islands;
 	}
 
-	public static void fill(char[][] board, int i, int j) {
+	public static void dfs(char[][] board, int i, int j) {
 		if (i < 0 || i == board.length || j < 0 || j == board[0].length || board[i][j] != '1') {
 			return;
 		}
 		board[i][j] = 0;
-		fill(board, i - 1, j);
-		fill(board, i + 1, j);
-		fill(board, i, j - 1);
-		fill(board, i, j + 1);
+		dfs(board, i - 1, j);
+		dfs(board, i + 1, j);
+		dfs(board, i, j - 1);
+		dfs(board, i, j + 1);
 	}
 
 }
