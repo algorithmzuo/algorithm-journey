@@ -22,43 +22,27 @@ public class Code04_CouplesHoldingHands {
 
 	public static int[] father = new int[MAXN];
 
-	public static int[] size = new int[MAXN];
-
-	public static int[] stack = new int[MAXN];
-
 	public static int sets;
 
 	public static void build(int m) {
 		for (int i = 0; i < m; i++) {
 			father[i] = i;
-			size[i] = 1;
 		}
 		sets = m;
 	}
 
 	public static int find(int i) {
-		int size = 0;
-		while (i != father[i]) {
-			stack[size++] = i;
-			i = father[i];
+		if (i != father[i]) {
+			father[i] = find(father[i]);
 		}
-		while (size > 0) {
-			father[stack[--size]] = i;
-		}
-		return i;
+		return father[i];
 	}
 
 	public static void union(int x, int y) {
 		int fx = find(x);
 		int fy = find(y);
 		if (fx != fy) {
-			if (size[fx] >= size[fy]) {
-				father[fy] = fx;
-				size[fx] = size[fx] + size[fy];
-			} else {
-				father[fx] = fy;
-				size[fy] = size[fx] + size[fy];
-			}
+			father[fx] = fy;
 			sets--;
 		}
 	}

@@ -63,8 +63,6 @@ public class Code03_FindAllPeopleWithSecret {
 
 	public static int[] father = new int[MAXN];
 
-	public static int[] stack = new int[MAXN];
-
 	public static boolean[] secret = new boolean[MAXN];
 
 	public static void build(int n, int first) {
@@ -77,15 +75,10 @@ public class Code03_FindAllPeopleWithSecret {
 	}
 
 	public static int find(int i) {
-		int size = 0;
-		while (i != father[i]) {
-			stack[size++] = i;
-			i = father[i];
+		if (i != father[i]) {
+			father[i] = find(father[i]);
 		}
-		while (size > 0) {
-			father[stack[--size]] = i;
-		}
-		return i;
+		return father[i];
 	}
 
 	public static void union(int x, int y) {

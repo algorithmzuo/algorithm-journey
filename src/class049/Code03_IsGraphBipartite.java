@@ -30,27 +30,17 @@ public class Code03_IsGraphBipartite {
 
 	public static int[] father = new int[MAXN];
 
-	public static int[] size = new int[MAXN];
-
-	public static int[] stack = new int[MAXN];
-
 	public static void build(int n) {
 		for (int i = 0; i < n; i++) {
 			father[i] = i;
-			size[i] = 1;
 		}
 	}
 
 	public static int find(int i) {
-		int size = 0;
-		while (i != father[i]) {
-			stack[size++] = i;
-			i = father[i];
+		if (i != father[i]) {
+			father[i] = find(father[i]);
 		}
-		while (size > 0) {
-			father[stack[--size]] = i;
-		}
-		return i;
+		return father[i];
 	}
 
 	public static boolean isSameSet(int i, int j) {
@@ -58,17 +48,7 @@ public class Code03_IsGraphBipartite {
 	}
 
 	public static void union(int x, int y) {
-		int fx = find(x);
-		int fy = find(y);
-		if (fx != fy) {
-			if (size[fx] >= size[fy]) {
-				father[fy] = fx;
-				size[fx] = size[fx] + size[fy];
-			} else {
-				father[fx] = fy;
-				size[fy] = size[fx] + size[fy];
-			}
-		}
+		father[find(x)] = find(y);
 	}
 
 }

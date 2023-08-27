@@ -1,6 +1,7 @@
 package class049;
 
 // 并查集模版(洛谷)
+// 本实现只有路径压缩，一般情况下小挂大的优化可以省略
 // 测试链接 : https://www.luogu.com.cn/problem/P3367
 // 请同学们务必参考如下代码中关于输入、输出的处理
 // 这是输入输出处理效率很高的写法
@@ -19,29 +20,19 @@ public class Code02_UnionFind {
 
 	public static int[] father = new int[MAXN];
 
-	public static int[] size = new int[MAXN];
-
-	public static int[] stack = new int[MAXN];
-
 	public static int n;
 
 	public static void build() {
 		for (int i = 0; i <= n; i++) {
 			father[i] = i;
-			size[i] = 1;
 		}
 	}
 
 	public static int find(int i) {
-		int size = 0;
-		while (i != father[i]) {
-			stack[size++] = i;
-			i = father[i];
+		if (i != father[i]) {
+			father[i] = find(father[i]);
 		}
-		while (size > 0) {
-			father[stack[--size]] = i;
-		}
-		return i;
+		return father[i];
 	}
 
 	public static boolean isSameSet(int x, int y) {
@@ -49,17 +40,7 @@ public class Code02_UnionFind {
 	}
 
 	public static void union(int x, int y) {
-		int fx = find(x);
-		int fy = find(y);
-		if (fx != fy) {
-			if (size[fx] >= size[fy]) {
-				size[fx] += size[fy];
-				father[fy] = fx;
-			} else {
-				size[fy] += size[fx];
-				father[fx] = fy;
-			}
-		}
+		father[find(x)] = find(y);
 	}
 
 	public static void main(String[] args) throws IOException {

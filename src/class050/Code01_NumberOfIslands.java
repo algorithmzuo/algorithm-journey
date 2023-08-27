@@ -31,10 +31,6 @@ public class Code01_NumberOfIslands {
 
 	public static int[] father = new int[MAXSIZE];
 
-	public static int[] size = new int[MAXSIZE];
-
-	public static int[] stack = new int[MAXSIZE];
-
 	public static int col;
 
 	public static int sets;
@@ -47,7 +43,6 @@ public class Code01_NumberOfIslands {
 				if (board[a][b] == '1') {
 					index = index(a, b);
 					father[index] = index;
-					size[index] = 1;
 					sets++;
 				}
 			}
@@ -59,28 +54,17 @@ public class Code01_NumberOfIslands {
 	}
 
 	public static int find(int i) {
-		int size = 0;
-		while (i != father[i]) {
-			stack[size++] = i;
-			i = father[i];
+		if (i != father[i]) {
+			father[i] = find(father[i]);
 		}
-		while (size > 0) {
-			father[stack[--size]] = i;
-		}
-		return i;
+		return father[i];
 	}
 
 	public static void union(int a, int b, int c, int d) {
 		int fx = find(index(a, b));
 		int fy = find(index(c, d));
 		if (fx != fy) {
-			if (size[fx] >= size[fy]) {
-				size[fx] += size[fy];
-				father[fy] = fx;
-			} else {
-				size[fy] += size[fx];
-				father[fx] = fy;
-			}
+			father[fx] = fy;
 			sets--;
 		}
 	}

@@ -17,17 +17,18 @@ import java.util.Arrays;
 public class Code04_BricksFallingWhenHit {
 
 	public static int[] hitBricks(int[][] g, int[][] h) {
+		grid = g;
 		for (int i = 0; i < h.length; i++) {
-			if (g[h[i][0]][h[i][1]] == 1) {
-				g[h[i][0]][h[i][1]] = 2;
+			if (grid[h[i][0]][h[i][1]] == 1) {
+				grid[h[i][0]][h[i][1]] = 2;
 			}
 		}
-		grid = g;
 		build();
 		int[] ans = new int[h.length];
 		for (int i = h.length - 1; i >= 0; i--) {
-			if (g[h[i][0]][h[i][1]] == 2) {
-				ans[i] = finger(h[i][0], h[i][1]);
+			if (grid[h[i][0]][h[i][1]] == 2) {
+				grid[h[i][0]][h[i][1]] = 1;
+				ans[i] = connect(h[i][0], h[i][1]);
 			}
 		}
 		return ans;
@@ -41,8 +42,6 @@ public class Code04_BricksFallingWhenHit {
 
 	public static int[] size = new int[MAXN];
 
-	public static int[] stack = new int[MAXN];
-
 	public static boolean[] celling = new boolean[MAXN];
 
 	public static int n, m, connects;
@@ -55,15 +54,9 @@ public class Code04_BricksFallingWhenHit {
 		Arrays.fill(size, 0, n * m, 0);
 		Arrays.fill(celling, 0, n * m, false);
 		for (int row = 0; row < n; row++) {
-			for (int col = 0, index; col < m; col++) {
+			for (int col = 0; col < m; col++) {
 				if (grid[row][col] == 1) {
-					index = index(row, col);
-					father[index] = index;
-					size[index] = 1;
-					if (row == 0) {
-						celling[index] = true;
-						connects++;
-					}
+					addOne(row, col);
 				}
 			}
 		}
@@ -77,38 +70,39 @@ public class Code04_BricksFallingWhenHit {
 		}
 	}
 
-	public static int finger(int row, int col) {
-		grid[row][col] = 1;
-		int cur = index(row, col);
+	public static void addOne(int row, int col) {
+		int index = index(row, col);
 		if (row == 0) {
-			celling[cur] = true;
+			celling[index] = true;
 			connects++;
 		}
-		father[cur] = cur;
-		size[cur] = 1;
-		int pre = connects;
+		father[index] = index;
+		size[index] = 1;
+	}
+
+	public static int index(int row, int col) {
+		return row * m + col;
+	}
+
+	public static int connect(int row, int col) {
+		addOne(row, col);
+		int tmp = connects;
 		union(row, col, row - 1, col);
 		union(row, col, row + 1, col);
 		union(row, col, row, col - 1);
 		union(row, col, row, col + 1);
-		int now = connects;
 		if (row == 0) {
-			return now - pre;
+			return connects - tmp;
 		} else {
-			return now == pre ? 0 : now - pre - 1;
+			return connects == tmp ? 0 : connects - tmp - 1;
 		}
 	}
 
 	public static int find(int i) {
-		int size = 0;
-		while (i != father[i]) {
-			stack[size++] = i;
-			i = father[i];
+		if (i != father[i]) {
+			father[i] = find(father[i]);
 		}
-		while (size > 0) {
-			father[stack[--size]] = i;
-		}
-		return i;
+		return father[i];
 	}
 
 	public static void union(int r1, int c1, int r2, int c2) {
@@ -116,31 +110,14 @@ public class Code04_BricksFallingWhenHit {
 			int f1 = find(index(r1, c1));
 			int f2 = find(index(r2, c2));
 			if (f1 != f2) {
-				int size1 = size[f1];
-				int size2 = size[f2];
-				boolean status1 = celling[f1];
-				boolean status2 = celling[f2];
-				if (size1 <= size2) {
-					father[f1] = f2;
-					size[f2] = size1 + size2;
-					if (status1 ^ status2) {
-						celling[f2] = true;
-						connects += status1 ? size2 : size1;
-					}
-				} else {
-					father[f2] = f1;
-					size[f1] = size1 + size2;
-					if (status1 ^ status2) {
-						celling[f1] = true;
-						connects += status1 ? size2 : size1;
-					}
+				father[f1] = f2;
+				if (celling[f1] ^ celling[f2]) {
+					connects += celling[f1] ? size[f2] : size[f1];
 				}
+				size[f2] += size[f1];
+				celling[f2] |= celling[f1];
 			}
 		}
-	}
-
-	public static int index(int row, int col) {
-		return row * m + col;
 	}
 
 	public static boolean check(int row, int col) {
