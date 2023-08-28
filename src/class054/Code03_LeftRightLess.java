@@ -1,6 +1,6 @@
 package class054;
 
-// 单调栈模版
+// 单调栈求每个位置左右两侧，离当前位置最近、且值严格小于的位置
 // 给定一个可能含有重复值的数组 arr
 // 找到每一个 i 位置左边和右边离 i 位置最近且值比 arr[i] 小的位置
 // 返回所有位置相应的信息。
@@ -21,7 +21,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 
-public class Code03_MonotonousStack {
+public class Code03_LeftRightLess {
 
 	public static int MAXN = 1000001;
 
