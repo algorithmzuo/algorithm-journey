@@ -1,4 +1,4 @@
-package class055;
+package class054;
 
 // 最大矩形
 // 给定一个仅包含 0 和 1 、大小为 rows * cols 的二维二进制矩阵

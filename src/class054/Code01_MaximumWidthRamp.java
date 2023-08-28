@@ -1,4 +1,4 @@
-package class055;
+package class054;
 
 // 最大宽度坡
 // 给定一个整数数组 A，坡是元组 (i, j)，其中  i < j 且 A[i] <= A[j]
