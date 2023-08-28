@@ -6,25 +6,26 @@ package class055;
 // 测试链接：https://leetcode.cn/problems/largest-rectangle-in-histogram
 public class Code05_LargestRectangleInHistogram {
 
+	public static int MAXN = 100001;
+
+	public static int[] stack = new int[MAXN];
+
 	public static int largestRectangleArea(int[] height) {
 		int n = height.length;
-		int[] stack = new int[n];
-		int r = 0;
-		int ans = 0;
-		for (int i = 0; i < height.length; i++) {
-			while (r != 0 && height[i] <= height[stack[r - 1]]) {
-				int j = stack[--r];
-				int k = r == 0 ? -1 : stack[r - 1];
-				int curArea = (i - k - 1) * height[j];
-				ans = Math.max(ans, curArea);
+		int size = 0;
+		int ans = 0, cur, left;
+		for (int i = 0; i < n; i++) {
+			while (size != 0 && height[i] <= height[stack[size - 1]]) {
+				cur = stack[--size];
+				left = size == 0 ? -1 : stack[size - 1];
+				ans = Math.max(ans, (i - left - 1) * height[cur]);
 			}
-			stack[r++] = i;
+			stack[size++] = i;
 		}
-		while (r > 0) {
-			int j = stack[--r];
-			int k = r == 0 ? -1 : stack[r - 1];
-			int curArea = (height.length - k - 1) * height[j];
-			ans = Math.max(ans, curArea);
+		while (size > 0) {
+			cur = stack[--size];
+			left = size == 0 ? -1 : stack[size - 1];
+			ans = Math.max(ans, (n - left - 1) * height[cur]);
 		}
 		return ans;
 	}
