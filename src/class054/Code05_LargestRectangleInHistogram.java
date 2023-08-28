@@ -10,21 +10,23 @@ public class Code05_LargestRectangleInHistogram {
 
 	public static int[] stack = new int[MAXN];
 
+	public static int r;
+
 	public static int largestRectangleArea(int[] height) {
 		int n = height.length;
-		int size = 0;
+		r = 0;
 		int ans = 0, cur, left;
 		for (int i = 0; i < n; i++) {
-			while (size != 0 && height[i] <= height[stack[size - 1]]) {
-				cur = stack[--size];
-				left = size == 0 ? -1 : stack[size - 1];
+			while (r > 0 && height[i] <= height[stack[r - 1]]) {
+				cur = stack[--r];
+				left = r == 0 ? -1 : stack[r - 1];
 				ans = Math.max(ans, (i - left - 1) * height[cur]);
 			}
-			stack[size++] = i;
+			stack[r++] = i;
 		}
-		while (size > 0) {
-			cur = stack[--size];
-			left = size == 0 ? -1 : stack[size - 1];
+		while (r > 0) {
+			cur = stack[--r];
+			left = r == 0 ? -1 : stack[r - 1];
 			ans = Math.max(ans, (n - left - 1) * height[cur]);
 		}
 		return ans;
