@@ -24,10 +24,10 @@ public class Code01_PrefixSumMatrix {
 			}
 		}
 
-		public int sumRegion(int row1, int col1, int row2, int col2) {
-			row2++;
-			col2++;
-			return sum[row2][col2] - sum[row2][col1] - sum[row1][col2] + sum[row1][col1];
+		public int sumRegion(int a, int b, int c, int d) {
+			c++;
+			d++;
+			return sum[c][d] - sum[c][b] - sum[a][d] + sum[a][b];
 		}
 
 	}

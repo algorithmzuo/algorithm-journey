@@ -10,7 +10,7 @@ package class048;
 // 邮票不允许旋转，邮票必须完全在矩阵内
 // 如果在满足上述要求的前提下，可以放入邮票，请返回 true ，否则返回 false
 // 测试链接 : https://leetcode.cn/problems/stamping-the-grid/
-public class Code05_StampingTheGrid {
+public class Code04_StampingTheGrid {
 
 	public static boolean possibleToStamp(int[][] grid, int h, int w) {
 		int n = grid.length;
@@ -32,7 +32,7 @@ public class Code05_StampingTheGrid {
 			for (int b = 1, d = b + w - 1; d <= m; b++, d++) {
 				// (a,b) (c,d)
 				if (empty(sum, a, b, c, d)) {
-					set(diff, a, b, c, d);
+					add(diff, a, b, c, d);
 				}
 			}
 		}
@@ -60,7 +60,7 @@ public class Code05_StampingTheGrid {
 		return sum[c][d] - sum[c][b - 1] - sum[a - 1][d] + sum[a - 1][b - 1] == 0;
 	}
 
-	public static void set(int[][] diff, int a, int b, int c, int d) {
+	public static void add(int[][] diff, int a, int b, int c, int d) {
 		diff[a][b] += 1;
 		diff[c + 1][d + 1] += 1;
 		diff[c + 1][b] -= 1;

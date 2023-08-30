@@ -13,7 +13,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 
-public class Code04_DiffMatrixLuogu {
+public class Code03_DiffMatrixLuogu {
 
 	public static int MAXN = 1002;
 
@@ -21,7 +21,7 @@ public class Code04_DiffMatrixLuogu {
 
 	public static int n, q;
 
-	public static void set(int a, int b, int c, int d, int k) {
+	public static void add(int a, int b, int c, int d, int k) {
 		diff[a][b] += k;
 		diff[c + 1][b] -= k;
 		diff[a][d + 1] -= k;
@@ -61,7 +61,7 @@ public class Code04_DiffMatrixLuogu {
 				c = (int) in.nval;
 				in.nextToken();
 				d = (int) in.nval;
-				set(a, b, c, d, 1);
+				add(a, b, c, d, 1);
 			}
 			build();
 			for (int i = 1; i <= n; i++) {

@@ -12,7 +12,7 @@ import java.util.Arrays;
 // 请求出在这片地带中 力场强度 最强处的 力场强度
 // 注意：力场范围的边缘同样被力场覆盖。
 // 测试链接 : https://leetcode.cn/problems/xepqZ5/
-public class Code06_StrongestForceField {
+public class Code05_StrongestForceField {
 
 	public static int fieldOfGreatestBlessing(int[][] fields) {
 		int n = fields.length;
@@ -39,7 +39,7 @@ public class Code06_StrongestForceField {
 			b = rank(ys, (y << 1) - r, sizey);
 			c = rank(xs, (x << 1) + r, sizex);
 			d = rank(ys, (y << 1) + r, sizey);
-			set(diff, a, b, c, d);
+			add(diff, a, b, c, d);
 		}
 		int ans = 0;
 		for (int i = 1; i < diff.length; i++) {
@@ -79,7 +79,7 @@ public class Code06_StrongestForceField {
 	}
 
 	// 二维差分
-	public static void set(int[][] diff, int a, int b, int c, int d) {
+	public static void add(int[][] diff, int a, int b, int c, int d) {
 		diff[a][b] += 1;
 		diff[c + 1][d + 1] += 1;
 		diff[c + 1][b] -= 1;

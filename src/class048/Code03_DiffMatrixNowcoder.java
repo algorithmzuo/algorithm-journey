@@ -23,7 +23,7 @@ public class Code03_DiffMatrixNowcoder {
 
 	public static int n, m, q;
 
-	public static void set(int a, int b, int c, int d, int k) {
+	public static void add(int a, int b, int c, int d, int k) {
 		diff[a][b] += k;
 		diff[c + 1][b] -= k;
 		diff[a][d + 1] -= k;
@@ -59,7 +59,7 @@ public class Code03_DiffMatrixNowcoder {
 			for (int i = 1; i <= n; i++) {
 				for (int j = 1; j <= m; j++) {
 					in.nextToken();
-					set(i, j, i, j, (int) in.nval);
+					add(i, j, i, j, (int) in.nval);
 				}
 			}
 			for (int i = 1, a, b, c, d, k; i <= q; i++) {
@@ -73,7 +73,7 @@ public class Code03_DiffMatrixNowcoder {
 				d = (int) in.nval;
 				in.nextToken();
 				k = (int) in.nval;
-				set(a, b, c, d, k);
+				add(a, b, c, d, k);
 			}
 			build();
 			for (int i = 1; i <= n; i++) {
