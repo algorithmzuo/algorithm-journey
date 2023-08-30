@@ -14,6 +14,7 @@ import java.util.Arrays;
 // 测试链接 : https://leetcode.cn/problems/xepqZ5/
 public class Code05_StrongestForceField {
 
+	// 时间复杂度O(n^2)，额外空间复杂度O(n^2)，n是力场的个数
 	public static int fieldOfGreatestBlessing(int[][] fields) {
 		int n = fields.length;
 		// n : 矩形的个数，x 2*n个坐标
@@ -28,8 +29,11 @@ public class Code05_StrongestForceField {
 			ys[p++] = (y << 1) - r;
 			ys[p++] = (y << 1) + r;
 		}
+		// xs数组中，排序了且相同值只留一份，返回有效长度
 		int sizex = sort(xs);
+		// ys数组中，排序了且相同值只留一份，返回有效长度
 		int sizey = sort(ys);
+		// n个力场，sizex : 2 * n, sizey : 2 * n
 		int[][] diff = new int[sizex + 2][sizey + 2];
 		for (int i = 0, a, b, c, d; i < n; i++) {
 			long x = fields[i][0];
@@ -42,6 +46,7 @@ public class Code05_StrongestForceField {
 			add(diff, a, b, c, d);
 		}
 		int ans = 0;
+		// O(n^2)
 		for (int i = 1; i < diff.length; i++) {
 			for (int j = 1; j < diff[0].length; j++) {
 				diff[i][j] += diff[i - 1][j] + diff[i][j - 1] - diff[i - 1][j - 1];
@@ -51,7 +56,12 @@ public class Code05_StrongestForceField {
 		return ans;
 	}
 
-	public static int sort(long[] nums) {
+	// [50,70,30,70,30,60] 长度6
+	// [30,30,50,60,70,70]
+	// [30,50,60,70] 60 -> 3
+	//  1  2  3  4
+	// 长度4，
+ 	public static int sort(long[] nums) {
 		Arrays.sort(nums);
 		int size = 1;
 		for (int i = 1; i < nums.length; i++) {
@@ -62,6 +72,8 @@ public class Code05_StrongestForceField {
 		return size;
 	}
 
+ 	// nums 有序数组，有效长度是size，0~size-1范围上无重复值
+ 	// 已知v一定在nums[0~size-1]，返回v所对应的编号
 	public static int rank(long[] nums, long v, int size) {
 		int l = 0;
 		int r = size - 1;
