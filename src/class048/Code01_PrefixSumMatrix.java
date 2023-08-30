@@ -12,9 +12,9 @@ public class Code01_PrefixSumMatrix {
 			int n = matrix.length;
 			int m = matrix[0].length;
 			sum = new int[n + 1][m + 1];
-			for (int a = 1, b = 0; b < n; a++, b++) {
-				for (int c = 1, d = 0; d < m; c++, d++) {
-					sum[a][c] = matrix[b][d];
+			for (int a = 1, c = 0; c < n; a++, c++) {
+				for (int b = 1, d = 0; d < m; b++, d++) {
+					sum[a][b] = matrix[c][d];
 				}
 			}
 			for (int i = 1; i <= n; i++) {
