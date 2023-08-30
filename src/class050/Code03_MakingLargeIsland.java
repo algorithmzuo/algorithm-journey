@@ -5,7 +5,7 @@ package class050;
 // 返回执行此操作后，grid 中最大的岛屿面积是多少？
 // 岛屿 由一组上、下、左、右四个方向相连的 1 形成
 // 测试链接 : https://leetcode.cn/problems/making-a-large-island/
-public class Code02_MakingLargeIsland {
+public class Code03_MakingLargeIsland {
 
 	public static int largestIsland(int[][] grid) {
 		int n = grid.length;

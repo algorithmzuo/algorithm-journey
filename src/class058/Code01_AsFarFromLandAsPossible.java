@@ -8,7 +8,7 @@ package class058;
 // 我们这里说的距离是「曼哈顿距离」（ Manhattan Distance）：
 // (x0, y0) 和 (x1, y1) 这两个单元格之间的距离是 |x0 - x1| + |y0 - y1| 。
 // 测试链接 : https://leetcode.cn/problems/as-far-from-land-as-possible/
-public class Code05_AsFarFromLandAsPossible {
+public class Code01_AsFarFromLandAsPossible {
 
 	public static int MAXN = 101;
 

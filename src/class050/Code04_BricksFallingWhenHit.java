@@ -12,7 +12,7 @@ package class050;
 // 返回一个数组 result ，其中 result[i] 表示第 i 次消除操作对应掉落的砖块数目。
 // 注意，消除可能指向是没有砖块的空白位置，如果发生这种情况，则没有砖块掉落。
 // 测试链接 : https://leetcode.cn/problems/bricks-falling-when-hit/
-public class Code03_BricksFallingWhenHit {
+public class Code04_BricksFallingWhenHit {
 
 	public static int n, m;
 
