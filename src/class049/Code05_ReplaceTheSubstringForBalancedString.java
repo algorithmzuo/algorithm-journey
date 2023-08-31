@@ -19,26 +19,28 @@ public class Code05_ReplaceTheSubstringForBalancedString {
 			arr[i] = c == 'W' ? 1 : (c == 'E' ? 2 : (c == 'R' ? 3 : 0));
 			cnts[arr[i]]++;
 		}
+		int require = n / 4;
 		int ans = n;
 		for (int l = 0, r = 0; l < n; l++) {
-			while (!ok(cnts, l, r) && r < n) {
+			while (!ok(cnts, r - l, require) && r < n) {
 				cnts[arr[r++]]--;
 			}
-			if (ok(cnts, l, r)) {
+			if (ok(cnts, r - l, require)) {
 				ans = Math.min(ans, r - l);
-			} else {
-				break;
 			}
 			cnts[arr[l]]++;
 		}
 		return ans;
 	}
 
-	public static boolean ok(int[] cnts, int l, int r) {
-		int maxCnt = Math.max(Math.max(cnts[0], cnts[1]), Math.max(cnts[2], cnts[3]));
-		int changes = maxCnt * 4 - cnts[0] - cnts[1] - cnts[2] - cnts[3];
-		int rest = r - l - changes;
-		return rest >= 0 && rest % 4 == 0;
+	public static boolean ok(int[] cnts, int len, int require) {
+		for (int i = 0; i < 4; i++) {
+			if (cnts[i] > require) {
+				return false;
+			}
+			len -= require - cnts[i];
+		}
+		return len == 0;
 	}
 
 }
