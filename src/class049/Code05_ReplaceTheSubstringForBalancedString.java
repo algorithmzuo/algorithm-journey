@@ -7,8 +7,8 @@ package class049;
 // 你可以用和「待替换子串」长度相同的 任何 其他字符串来完成替换。
 // 请返回待替换子串的最小可能长度。
 // 如果原字符串自身就是一个平衡字符串，则返回 0。
-//测试链接 : https://leetcode.cn/problems/replace-the-substring-for-balanced-string/
-public class Code03_ReplaceTheSubstringForBalancedString {
+// 测试链接 : https://leetcode.cn/problems/replace-the-substring-for-balanced-string/
+public class Code05_ReplaceTheSubstringForBalancedString {
 
 	public static int balancedString(String str) {
 		int n = str.length();

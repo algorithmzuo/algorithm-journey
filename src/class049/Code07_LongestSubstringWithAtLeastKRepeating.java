@@ -7,7 +7,7 @@ import java.util.Arrays;
 // 要求该子串中的每一字符出现次数都不少于 k 。返回这一子串的长度
 // 如果不存在这样的子字符串，则返回 0。
 // 测试链接 : https://leetcode.cn/problems/longest-substring-with-at-least-k-repeating-characters/
-public class Code06_LongestSubstringWithAtLeastKRepeating {
+public class Code07_LongestSubstringWithAtLeastKRepeating {
 
 	public static int longestSubstring(String s, int k) {
 		char[] str = s.toCharArray();
