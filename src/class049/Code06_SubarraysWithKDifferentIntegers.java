@@ -20,20 +20,18 @@ public class Code06_SubarraysWithKDifferentIntegers {
 	public static int[] cnts = new int[MAXN];
 
 	public static int numsMostK(int[] arr, int k) {
-		int i = 0, ans = 0;
 		Arrays.fill(cnts, 1, arr.length + 1, 0);
-		for (int j = 0; j < arr.length; ++j) {
-			if (cnts[arr[j]] == 0) {
+		int ans = 0;
+		for (int l = 0, r = 0; r < arr.length; r++) {
+			if (++cnts[arr[r]] == 1) {
 				k--;
 			}
-			cnts[arr[j]]++;
 			while (k < 0) {
-				if (--cnts[arr[i]] == 0) {
+				if (--cnts[arr[l++]] == 0) {
 					k++;
 				}
-				i++;
 			}
-			ans += j - i + 1;
+			ans += r - l + 1;
 		}
 		return ans;
 	}

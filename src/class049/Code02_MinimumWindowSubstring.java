@@ -6,35 +6,33 @@ package class049;
 // 测试链接 : https://leetcode.cn/problems/minimum-window-substring/
 public class Code02_MinimumWindowSubstring {
 
-	public static String minWindow(String str, String target) {
-		if (str.length() < target.length()) {
+	public static String minWindow(String str, String tar) {
+		if (str.length() < tar.length()) {
 			return "";
 		}
 		char[] s = str.toCharArray();
-		char[] t = target.toCharArray();
-		int[] map = new int[256];
+		char[] t = tar.toCharArray();
+		int[] cnts = new int[256];
 		for (char cha : t) {
-			map[cha]++;
+			cnts[cha]++;
 		}
-		int window = Integer.MAX_VALUE;
+		int len = Integer.MAX_VALUE;
 		int left = 0;
 		for (int l = 0, r = 0, debt = t.length; r < s.length; r++) {
-			if (--map[s[r]] >= 0) {
+			if (--cnts[s[r]] >= 0) {
 				debt--;
 			}
 			if (debt == 0) {
-				while (debt == 0) {
-					if (++map[s[l++]] > 0) {
-						debt++;
-					}
+				while (cnts[s[l]] < 0) {
+					++cnts[s[l++]];
 				}
-				if (r - l + 2 < window) {
-					window = r - l + 2;
-					left = l - 1;
+				if (r - l + 1 < len) {
+					len = r - l + 1;
+					left = l;
 				}
 			}
 		}
-		return window == Integer.MAX_VALUE ? "" : str.substring(left, left + window);
+		return len == Integer.MAX_VALUE ? "" : str.substring(left, left + len);
 	}
 
 }
