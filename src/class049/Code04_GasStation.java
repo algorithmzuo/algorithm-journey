@@ -12,16 +12,16 @@ public class Code04_GasStation {
 
 	public static int canCompleteCircuit(int[] gas, int[] cost) {
 		int n = gas.length;
-		for (int i = 0, len = 0, sum = 0, j = 0; i < n; i++) {
+		for (int l = 0, r = 0, len = 0, sum = 0; l < n; l++) {
 			while (len < n && sum >= 0) {
-				j = (i + (len++)) % n;
-				sum += gas[j] - cost[j];
+				r = (l + (len++)) % n;
+				sum += gas[r] - cost[r];
 			}
 			if (sum >= 0) {
-				return i;
+				return l;
 			} else {
 				len--;
-				sum -= gas[i] - cost[i];
+				sum -= gas[l] - cost[l];
 			}
 		}
 		return -1;

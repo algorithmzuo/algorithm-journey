@@ -8,14 +8,15 @@ import java.util.Arrays;
 public class Code03_LongestSubstringWithoutRepeatingCharacters {
 
 	public static int lengthOfLongestSubstring(String str) {
-		int n = str.length();
+		char[] s = str.toCharArray();
+		int n = s.length;
 		int[] last = new int[256];
 		Arrays.fill(last, -1);
 		int ans = 0;
 		for (int l = 0, r = 0; r < n; r++) {
-			l = Math.min(r - last[str.charAt(r)], l + 1);
+			l = Math.min(r - last[s[r]], l + 1);
 			ans = Math.max(ans, l);
-			last[str.charAt(r)] = r;
+			last[s[r]] = r;
 		}
 		return ans;
 	}
