@@ -72,7 +72,7 @@ public class Code02_Dijkstra {
 
 	public static int cur, wei;
 
-	// 从堆里弹出记录，更新到cur和wei
+	// 从堆顶拿出记录，更新到cur和wei，供上游使用
 	// 弹出数据后，继续维持小根堆
 	public static void heapPop() {
 		cur = heap[0][0];
