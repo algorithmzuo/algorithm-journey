@@ -2,7 +2,7 @@ package class051;
 
 import java.util.Arrays;
 
-// 同时运行 N 台电脑的最长时间
+// 同时运行N台电脑的最长时间
 // 你有 n 台电脑。给你整数 n 和一个下标从 0 开始的整数数组 batteries
 // 其中第 i 个电池可以让一台电脑 运行 batteries[i] 分钟
 // 你想使用这些电池让 全部 n 台电脑 同时 运行。
