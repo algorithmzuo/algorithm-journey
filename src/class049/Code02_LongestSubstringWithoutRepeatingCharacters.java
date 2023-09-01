@@ -14,8 +14,8 @@ public class Code02_LongestSubstringWithoutRepeatingCharacters {
 		Arrays.fill(last, -1);
 		int ans = 0;
 		for (int l = 0, r = 0; r < n; r++) {
-			l = Math.min(r - last[s[r]], l + 1);
-			ans = Math.max(ans, l);
+			l = Math.max(l, last[s[r]] + 1);
+			ans = Math.max(ans, r - l + 1);
 			last[s[r]] = r;
 		}
 		return ans;
