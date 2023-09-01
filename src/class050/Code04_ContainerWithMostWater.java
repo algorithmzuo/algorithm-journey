@@ -6,7 +6,7 @@ package class050;
 // 返回容器可以储存的最大水量
 // 说明：你不能倾斜容器
 // 测试链接 : https://leetcode.cn/problems/container-with-most-water/
-public class Code02_ContainerWithMostWater {
+public class Code04_ContainerWithMostWater {
 
 	public static int maxArea(int[] h) {
 		int max = 0;
