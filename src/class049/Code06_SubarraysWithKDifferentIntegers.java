@@ -12,25 +12,35 @@ import java.util.Arrays;
 public class Code06_SubarraysWithKDifferentIntegers {
 
 	public static int subarraysWithKDistinct(int[] arr, int k) {
-		return numsMostK(arr, k) - numsMostK(arr, k - 1);
+		return numsOfMostKinds(arr, k) - numsOfMostKinds(arr, k - 1);
 	}
 
 	public static int MAXN = 20001;
 
 	public static int[] cnts = new int[MAXN];
 
-	public static int numsMostK(int[] arr, int k) {
+	// arr中有多少子数组，数字种类不超过k
+	// arr的长度是n，arr里的数值1~n之间
+	public static int numsOfMostKinds(int[] arr, int k) {
 		Arrays.fill(cnts, 1, arr.length + 1, 0);
 		int ans = 0;
-		for (int l = 0, r = 0; r < arr.length; r++) {
+		for (int l = 0, r = 0, collect = 0; r < arr.length; r++) {
+			// r(刚进)
 			if (++cnts[arr[r]] == 1) {
-				k--;
+				collect++;
 			}
-			while (k < 0) {
+			// l.....r    要求不超过3种，已经4种，l往右（吐数字）
+			while (collect > k) {
 				if (--cnts[arr[l++]] == 0) {
-					k++;
+					collect--;
 				}
 			}
+			// l.....r不超过了
+			// 0...3
+			// 0~3
+			// 1~3
+			// 2~3
+			// 3~3
 			ans += r - l + 1;
 		}
 		return ans;

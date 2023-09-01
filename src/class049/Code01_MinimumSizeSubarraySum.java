@@ -12,6 +12,8 @@ public class Code01_MinimumSizeSubarraySum {
 		for (int l = 0, r = 0, sum = 0; r < nums.length; r++) {
 			sum += nums[r];
 			while (sum - nums[l] >= target) {
+				// sum : nums[l....r]
+				// 如果l位置的数从窗口出去，还能继续达标，那就出去
 				sum -= nums[l++];
 			}
 			if (sum >= target) {
