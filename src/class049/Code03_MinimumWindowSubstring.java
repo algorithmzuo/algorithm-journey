@@ -4,7 +4,7 @@ package class049;
 // 给你一个字符串 s 、一个字符串 t 。返回 s 中涵盖 t 所有字符的最小子串
 // 如果 s 中不存在涵盖 t 所有字符的子串，则返回空字符串 "" 。
 // 测试链接 : https://leetcode.cn/problems/minimum-window-substring/
-public class Code02_MinimumWindowSubstring {
+public class Code03_MinimumWindowSubstring {
 
 	public static String minWindow(String str, String tar) {
 		if (str.length() < tar.length()) {
@@ -17,7 +17,7 @@ public class Code02_MinimumWindowSubstring {
 			cnts[cha]--;
 		}
 		int len = Integer.MAX_VALUE;
-		int left = 0;
+		int start = 0;
 		for (int l = 0, r = 0, debt = t.length; r < s.length; r++) {
 			if (++cnts[s[r]] <= 0) {
 				debt--;
@@ -28,11 +28,11 @@ public class Code02_MinimumWindowSubstring {
 				}
 				if (r - l + 1 < len) {
 					len = r - l + 1;
-					left = l;
+					start = l;
 				}
 			}
 		}
-		return len == Integer.MAX_VALUE ? "" : str.substring(left, left + len);
+		return len == Integer.MAX_VALUE ? "" : str.substring(start, start + len);
 	}
 
 }
