@@ -13,7 +13,7 @@ import java.util.Arrays;
 // 注意，你不能给电池充电。
 // 请你返回你可以让 n 台电脑同时运行的 最长 分钟数。
 // 测试链接 : https://leetcode.cn/problems/maximum-running-time-of-n-computers/
-public class Code05_MaximumRunningTimeOfNComputers {
+public class Code06_MaximumRunningTimeOfNComputers {
 
 	public static long maxRunTime(int n, int[] arr) {
 		Arrays.sort(arr);

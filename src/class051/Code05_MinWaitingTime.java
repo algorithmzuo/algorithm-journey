@@ -8,7 +8,7 @@ import java.util.PriorityQueue;
 // 假设：m远远大于n，比如n<=1000, m <= 10的9次方，该怎么做？
 // 谷歌曾经在面试阶段，这个题连考了2个月
 // 没有找到测试链接，写了对数器验证
-public class Code06_MinWaitingTime {
+public class Code05_MinWaitingTime {
 
 	// 堆模拟
 	public static int minWaitingTime1(int[] arr, int m) {
