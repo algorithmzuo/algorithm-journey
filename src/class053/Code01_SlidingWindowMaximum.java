@@ -7,10 +7,15 @@ package class053;
 // 测试链接 : https://leetcode.cn/problems/sliding-window-maximum/
 public class Code01_SlidingWindowMaximum {
 
+	public static int MAXN = 100001;
+
+	public static int[] deque = new int[MAXN];
+
+	public static int l, r;
+
 	public static int[] maxSlidingWindow(int[] arr, int w) {
 		int n = arr.length;
-		int[] deque = new int[n];
-		int l = 0, r = 0;
+		l = r = 0;
 		int[] ans = new int[n - w + 1];
 		for (int i = 0, fill = 0; i < n; i++) {
 			while (l < r && arr[deque[r - 1]] <= arr[i]) {

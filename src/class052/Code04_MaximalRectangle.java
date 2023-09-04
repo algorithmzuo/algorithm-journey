@@ -6,7 +6,7 @@ import java.util.Arrays;
 // 给定一个仅包含 0 和 1 、大小为 rows * cols 的二维二进制矩阵
 // 找出只包含 1 的最大矩形，并返回其面积
 // 测试链接：https://leetcode.cn/problems/maximal-rectangle/
-public class Code06_MaximalRectangle {
+public class Code04_MaximalRectangle {
 
 	public static int maximalRectangle(char[][] map) {
 		int n = map.length;

@@ -5,7 +5,7 @@ package class052;
 // 需保证 返回结果的字典序最小
 // 要求不能打乱其他字符的相对位置
 // 测试链接 : https://leetcode.cn/problems/remove-duplicate-letters/
-public class Code02_RemoveDuplicateLetters {
+public class Code06_RemoveDuplicateLetters {
 
 	public static String removeDuplicateLetters(String s) {
 		int[] cnts = new int[26];

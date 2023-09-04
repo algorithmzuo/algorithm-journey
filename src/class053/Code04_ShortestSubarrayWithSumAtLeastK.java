@@ -5,29 +5,33 @@ package class053;
 // 给定一个正数k
 // 返回累加和>=k的所有子数组中，最短的子数组长度
 // 本题测试链接 : https://leetcode.cn/problems/shortest-subarray-with-sum-at-least-k/
-public class Code03_ShortestSubarrayWithSumAtLeastK {
+public class Code04_ShortestSubarrayWithSumAtLeastK {
+
+	public static int MAXN = 100001;
+
+	public static long[] sum = new long[MAXN];
+
+	public static int[] deque = new int[MAXN];
+
+	public static int l, r;
 
 	public static int shortestSubarray(int[] arr, int K) {
-		int N = arr.length;
-		long[] sum = new long[N + 1];
-		for (int i = 0; i < N; i++) {
+		int n = arr.length;
+		for (int i = 0; i < n; i++) {
 			sum[i + 1] = sum[i] + arr[i];
 		}
 		int ans = Integer.MAX_VALUE;
-		int[] dq = new int[N + 1];
-		int l = 0;
-		int r = 0;
-		for (int i = 0; i < N + 1; i++) {
-			while (l != r && sum[i] - sum[dq[l]] >= K) {
-				ans = Math.min(ans, i - dq[l++]);
+		l = r = 0;
+		for (int i = 0; i < n + 1; i++) {
+			while (l != r && sum[i] - sum[deque[l]] >= K) {
+				ans = Math.min(ans, i - deque[l++]);
 			}
-			while (l != r && sum[dq[r - 1]] >= sum[i]) {
+			while (l != r && sum[deque[r - 1]] >= sum[i]) {
 				r--;
 			}
-			dq[r++] = i;
+			deque[r++] = i;
 		}
 		return ans != Integer.MAX_VALUE ? ans : -1;
 	}
 
 }
-

@@ -21,7 +21,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 
-public class Code03_LeftRightLess {
+public class Code01_LeftRightLess {
 
 	public static int MAXN = 1000001;
 
