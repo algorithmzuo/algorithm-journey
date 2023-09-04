@@ -8,19 +8,17 @@ package class050;
 // 测试链接 : https://leetcode.cn/problems/container-with-most-water/
 public class Code05_ContainerWithMostWater {
 
-	public static int maxArea(int[] h) {
-		int max = 0;
-		int l = 0;
-		int r = h.length - 1;
-		while (l < r) {
-			max = Math.max(max, Math.min(h[l], h[r]) * (r - l));
-			if (h[l] > h[r]) {
-				r--;
-			} else {
+	public static int maxArea(int[] height) {
+		int ans = 0;
+		for (int l = 0, r = height.length - 1; l < r;) {
+			ans = Math.max(ans, Math.min(height[l], height[r]) * (r - l));
+			if (height[l] <= height[r]) {
 				l++;
+			} else {
+				r--;
 			}
 		}
-		return max;
+		return ans;
 	}
 
 }

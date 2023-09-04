@@ -9,7 +9,7 @@ public class Code07_FirstMissingPositive {
 	public static int firstMissingPositive(int[] arr) {
 		int l = 0;
 		int r = arr.length;
-		while (l != r) {
+		while (l < r) {
 			if (arr[l] == l + 1) {
 				l++;
 			} else if (arr[l] <= l || arr[l] > r || arr[arr[l] - 1] == arr[l]) {

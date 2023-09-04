@@ -31,7 +31,9 @@ public class Code06_Heaters {
 	// 如果a < b, 说明是最优，供暖不应该跳下一个位置
 	// 如果a >= b, 说明不是最优，应该跳下一个位置
 	public static boolean best(int[] houses, int[] heaters, int i, int j) {
-		return j == heaters.length - 1 || Math.abs(heaters[j] - houses[i]) < Math.abs(heaters[j + 1] - houses[i]);
+		return j == heaters.length - 1 
+				||
+			   Math.abs(heaters[j] - houses[i]) < Math.abs(heaters[j + 1] - houses[i]);
 	}
 
 }
