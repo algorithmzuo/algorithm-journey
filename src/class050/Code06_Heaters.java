@@ -9,7 +9,7 @@ import java.util.Arrays;
 // 请你找出并返回可以覆盖所有房屋的最小加热半径。
 // 说明：所有供暖器都遵循你的半径标准，加热的半径也一样。
 // 测试链接 : https://leetcode.cn/problems/heaters/
-public class Code05_Heaters {
+public class Code06_Heaters {
 
 	public static int findRadius(int[] houses, int[] heaters) {
 		Arrays.sort(houses);
