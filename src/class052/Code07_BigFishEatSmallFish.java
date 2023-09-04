@@ -7,6 +7,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 
+// 大鱼吃小鱼
 // 给定一个数组arr，每个值代表鱼的体重
 // 每一轮每条鱼都会吃掉右边离自己最近比自己体重小的鱼，每条鱼向右找只吃一条
 // 但是吃鱼这件事是同时发生的，也就是同一轮在A吃掉B的同时，A也可能被别的鱼吃掉
@@ -29,8 +30,6 @@ public class Code07_BigFishEatSmallFish {
 
 	public static int[][] stack = new int[MAXN][2];
 
-	public static int size;
-
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StreamTokenizer in = new StreamTokenizer(br);
@@ -49,15 +48,15 @@ public class Code07_BigFishEatSmallFish {
 	}
 
 	public static int turns() {
-		size = 0;
+		int r = 0;
 		int ans = 0;
 		for (int i = n - 1, curAns; i >= 0; i--) {
 			curAns = 0;
-			while (size > 0 && stack[size - 1][0] < arr[i]) {
-				curAns = Math.max(curAns + 1, stack[--size][1]);
+			while (r > 0 && stack[r - 1][0] < arr[i]) {
+				curAns = Math.max(curAns + 1, stack[--r][1]);
 			}
-			stack[size][0] = arr[i];
-			stack[size++][1] = curAns;
+			stack[r][0] = arr[i];
+			stack[r++][1] = curAns;
 			ans = Math.max(ans, curAns);
 		}
 		return ans;
