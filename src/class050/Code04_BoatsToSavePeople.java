@@ -10,6 +10,7 @@ import java.util.Arrays;
 // 测试链接 : https://leetcode.cn/problems/boats-to-save-people/
 public class Code04_BoatsToSavePeople {
 
+	// 时间复杂度O(n * logn)，因为有排序，额外空间复杂度O(1)
 	public static int numRescueBoats(int[] people, int limit) {
 		Arrays.sort(people);
 		int ans = 0;

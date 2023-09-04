@@ -11,11 +11,14 @@ import java.util.Arrays;
 // 测试链接 : https://leetcode.cn/problems/heaters/
 public class Code06_Heaters {
 
+	// 时间复杂度O(n * logn)，因为有排序，额外空间复杂度O(1)
 	public static int findRadius(int[] houses, int[] heaters) {
 		Arrays.sort(houses);
 		Arrays.sort(heaters);
 		int ans = 0;
 		for (int i = 0, j = 0; i < houses.length; i++) {
+			// i号房屋
+			// j号供暖器
 			while (!best(houses, heaters, i, j)) {
 				j++;
 			}

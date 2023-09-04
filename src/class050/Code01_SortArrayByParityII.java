@@ -8,6 +8,7 @@ package class050;
 // 测试链接 : https://leetcode.cn/problems/sort-array-by-parity-ii/
 public class Code01_SortArrayByParityII {
 
+	// 时间复杂度O(n)，额外空间复杂度O(1)
 	public static int[] sortArrayByParityII(int[] nums) {
 		int n = nums.length;
 		for (int odd = 1, even = 0; odd < n && even < n;) {

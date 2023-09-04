@@ -8,6 +8,7 @@ package class050;
 // 测试链接 : https://leetcode.cn/problems/find-the-duplicate-number/
 public class Code02_FindTheDuplicateNumber {
 
+	// 时间复杂度O(n)，额外空间复杂度O(1)
 	public static int findDuplicate(int[] nums) {
 		if (nums == null || nums.length < 2) {
 			return -1;
@@ -18,6 +19,7 @@ public class Code02_FindTheDuplicateNumber {
 			slow = nums[slow];
 			fast = nums[nums[fast]];
 		}
+		// 相遇了，快指针回开头
 		fast = 0;
 		while (slow != fast) {
 			fast = nums[fast];
