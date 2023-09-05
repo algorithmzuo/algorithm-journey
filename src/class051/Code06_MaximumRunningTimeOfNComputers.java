@@ -13,13 +13,52 @@ package class051;
 // 测试链接 : https://leetcode.cn/problems/maximum-running-time-of-n-computers/
 public class Code06_MaximumRunningTimeOfNComputers {
 
-	public static long maxRunTime(int num, int[] arr) {
+	// 单纯的二分答案法
+	// 提交时把函数名改为maxRunTime
+	public static long maxRunTime1(int num, int[] arr) {
+		long sum = 0;
+		for (int x : arr) {
+			sum += x;
+		}
+		long ans = 0;
+		for (long l = 0, r = sum, m; l <= r;) {
+			m = l + ((r - l) >> 1);
+			if (f1(arr, num, m)) {
+				ans = m;
+				l = m + 1;
+			} else {
+				r = m - 1;
+			}
+		}
+		return ans;
+	}
+
+	public static boolean f1(int[] arr, int num, long time) {
+		// 碎片电量总和
+		long sum = 0;
+		for (int x : arr) {
+			if (x > time) {
+				num--;
+			} else {
+				sum += x;
+			}
+			if (sum >= (long) num * time) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	// 二分答案法 + 增加分析(贪心)
+	// 提交时把函数名改为maxRunTime
+	public static long maxRunTime2(int num, int[] arr) {
 		int max = 0;
 		long sum = 0;
 		for (int x : arr) {
 			max = Math.max(max, x);
 			sum += x;
 		}
+		// 就是增加了这里的逻辑
 		if (sum > (long) max * num) {
 			// 所有电池的最大电量是max
 			// 如果此时sum > (long) max * num，
@@ -32,7 +71,7 @@ public class Code06_MaximumRunningTimeOfNComputers {
 		int ans = 0;
 		for (int l = 0, r = max, m; l <= r;) {
 			m = l + ((r - l) >> 1);
-			if (f(arr, num, m)) {
+			if (f2(arr, num, m)) {
 				ans = m;
 				l = m + 1;
 			} else {
@@ -42,8 +81,8 @@ public class Code06_MaximumRunningTimeOfNComputers {
 		return ans;
 	}
 
-	public static boolean f(int[] arr, int num, int time) {
-		// 碎片总和
+	public static boolean f2(int[] arr, int num, int time) {
+		// 碎片电量总和
 		long sum = 0;
 		for (int x : arr) {
 			if (x > time) {
