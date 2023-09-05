@@ -13,10 +13,7 @@ public class Code05_WaitingTime {
 	// 堆模拟
 	// 验证方法，不是重点
 	// 如果m很大，该方法会超时
-	public static int minWaitingTime1(int[] arr, int m) {
-		if (arr == null || arr.length == 0) {
-			return -1;
-		}
+	public static int waitingTime1(int[] arr, int m) {
 		PriorityQueue<int[]> heap = new PriorityQueue<>((a, b) -> (a[0] - b[0]));
 		int n = arr.length;
 		for (int i = 0; i < n; i++) {
@@ -32,13 +29,10 @@ public class Code05_WaitingTime {
 
 	// 二分答案法
 	// 最优解
-	public static int minWaitingTime2(int[] arr, int wait) {
-		if (arr == null || arr.length == 0) {
-			return -1;
-		}
+	public static int waitingTime2(int[] arr, int wait) {
 		int min = Integer.MAX_VALUE;
-		for (int num : arr) {
-			min = Math.min(min, num);
+		for (int x : arr) {
+			min = Math.min(min, x);
 		}
 		int ans = 0;
 		for (int l = 0, r = min * wait, m; l <= r;) {
@@ -73,8 +67,8 @@ public class Code05_WaitingTime {
 			int n = (int) (Math.random() * N) + 1;
 			int[] arr = randomArray(n, V);
 			int m = (int) (Math.random() * M);
-			int ans1 = minWaitingTime1(arr, m);
-			int ans2 = minWaitingTime2(arr, m);
+			int ans1 = waitingTime1(arr, m);
+			int ans2 = waitingTime2(arr, m);
 			if (ans1 != ans2) {
 				System.out.println("出错了!");
 			}
