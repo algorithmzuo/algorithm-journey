@@ -21,6 +21,12 @@ public class Code06_MaximumRunningTimeOfNComputers {
 			sum += x;
 		}
 		if (sum > (long) max * num) {
+			// 所有电池的最大电量是max
+			// 如果此时sum > (long) max * num，
+			// 说明 : 最终的供电时间一定在 >= max，而如果最终的供电时间 >= max
+			// 说明 : 对于最终的答案X来说，所有电池都是课上讲的"碎片拼接"的概念
+			// 那么寻找 ? * num <= sum 的情况中，尽量大的 ? 即可
+			// 即sum / num
 			return sum / num;
 		}
 		int ans = 0;
@@ -37,6 +43,7 @@ public class Code06_MaximumRunningTimeOfNComputers {
 	}
 
 	public static boolean f(int[] arr, int num, int time) {
+		// 碎片总和
 		long sum = 0;
 		for (int x : arr) {
 			if (x > time) {
