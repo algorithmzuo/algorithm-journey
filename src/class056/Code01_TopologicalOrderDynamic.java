@@ -15,7 +15,7 @@ import java.io.StreamTokenizer;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class Code01_TopologicalOrder {
+public class Code01_TopologicalOrderDynamic {
 
 	public static int MAXN = 200001;
 

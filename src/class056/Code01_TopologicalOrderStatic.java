@@ -14,7 +14,7 @@ import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 import java.util.Arrays;
 
-public class Code02_TopologicalOrder {
+public class Code01_TopologicalOrderStatic {
 
 	public static int MAXN = 200001;
 

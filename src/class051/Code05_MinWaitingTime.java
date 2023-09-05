@@ -6,7 +6,7 @@ import java.util.PriorityQueue;
 // 给定一个数组arr长度为n，表示n个服务员，每服务一个人的时间
 // 给定一个正数m，表示有m个人等位，如果你是刚来的人，请问你需要等多久？
 // 假设：m远远大于n，比如n<=1000, m <= 10的9次方，该怎么做？
-// 谷歌曾经在面试阶段，这个题连考了2个月
+// 谷歌的面试，这个题连考了2个月
 // 没有找到测试链接，写了对数器验证
 public class Code05_MinWaitingTime {
 
@@ -68,27 +68,19 @@ public class Code05_MinWaitingTime {
 
 	// 为了测试
 	public static void main(String[] args) {
-		int len = 50;
-		int value = 30;
-		int mMax = 3000;
-		int testTime = 20000;
 		System.out.println("测试开始");
+		int N = 50;
+		int V = 30;
+		int M = 3000;
+		int testTime = 20000;
 		for (int i = 0; i < testTime; i++) {
-			int n = (int) (Math.random() * len) + 1;
-			int[] arr = randomArray(n, value);
-			int m = (int) (Math.random() * mMax);
+			int n = (int) (Math.random() * N) + 1;
+			int[] arr = randomArray(n, V);
+			int m = (int) (Math.random() * M);
 			int ans1 = minWaitingTime1(arr, m);
 			int ans2 = minWaitingTime2(arr, m);
 			if (ans1 != ans2) {
 				System.out.println("出错了!");
-				for (int num : arr) {
-					System.out.print(num + " ");
-				}
-				System.out.println();
-				System.out.println("m : " + m);
-				System.out.println(ans1);
-				System.out.println(ans2);
-				break;
 			}
 		}
 		System.out.println("测试结束");
