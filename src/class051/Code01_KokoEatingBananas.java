@@ -12,30 +12,29 @@ package class051;
 public class Code01_KokoEatingBananas {
 
 	public static int minEatingSpeed(int[] piles, int h) {
-		int L = 1;
-		int R = 0;
+		int l = 1;
+		int r = 0;
 		for (int pile : piles) {
-			R = Math.max(R, pile);
+			r = Math.max(r, pile);
 		}
 		int ans = 0;
-		int M = 0;
-		while (L <= R) {
-			M = L + ((R - L) >> 1);
-			if (hours(piles, M) <= h) {
-				ans = M;
-				R = M - 1;
+		int m = 0;
+		while (l <= r) {
+			m = l + ((r - l) >> 1);
+			if (f(piles, m) <= h) {
+				ans = m;
+				r = m - 1;
 			} else {
-				L = M + 1;
+				l = m + 1;
 			}
 		}
 		return ans;
 	}
 
-	public static long hours(int[] piles, int speed) {
+	public static long f(int[] piles, int speed) {
 		long ans = 0;
-		int offset = speed - 1;
 		for (int pile : piles) {
-			ans += (pile + offset) / speed;
+			ans += (pile + speed - 1) / speed;
 		}
 		return ans;
 	}

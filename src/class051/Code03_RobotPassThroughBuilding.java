@@ -39,29 +39,33 @@ public class Code03_RobotPassThroughBuilding {
 			n = (int) in.nval;
 			int l = 0;
 			int r = 0;
-			int max = 0;
 			for (int i = 0; i < n; i++) {
 				in.nextToken();
 				arr[i] = (int) in.nval;
 				r = Math.max(r, arr[i]);
-				max = r;
 			}
-			int m, ans = -1;
-			while (l <= r) {
-				m = (l + r) / 2;
-				if (ok(m, max)) {
-					ans = m;
-					r = m - 1;
-				} else {
-					l = m + 1;
-				}
-			}
-			out.println(ans);
-			out.flush();
+			out.println(compute(l, r, r));
 		}
+		out.flush();
+		out.close();
+		br.close();
 	}
 
-	public static boolean ok(int sum, int max) {
+	public static int compute(int l, int r, int max) {
+		int m, ans = -1;
+		while (l <= r) {
+			m = l + ((r - l) >> 1);
+			if (f(m, max)) {
+				ans = m;
+				r = m - 1;
+			} else {
+				l = m + 1;
+			}
+		}
+		return ans;
+	}
+
+	public static boolean f(int sum, int max) {
 		// 注意！
 		// 如果你给的能量值很大，那么这个能量增长的将非常恐怖
 		// 甚至有可能超出long的范围，这就是为什么改成long也不对

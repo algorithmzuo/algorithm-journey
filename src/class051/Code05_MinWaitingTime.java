@@ -11,7 +11,7 @@ import java.util.PriorityQueue;
 public class Code05_MinWaitingTime {
 
 	// 堆模拟
-	// 为了验证
+	// 验证方法，不是重点
 	// 如果m很大，该方法会超时
 	public static int minWaitingTime1(int[] arr, int m) {
 		if (arr == null || arr.length == 0) {
@@ -30,45 +30,39 @@ public class Code05_MinWaitingTime {
 		return heap.peek()[0];
 	}
 
-	// 二分答案（最优解）
-	public static int minWaitingTime2(int[] arr, int m) {
+	// 二分答案法
+	// 最优解
+	public static int minWaitingTime2(int[] arr, int wait) {
 		if (arr == null || arr.length == 0) {
 			return -1;
 		}
-		int best = Integer.MAX_VALUE;
+		int min = Integer.MAX_VALUE;
 		for (int num : arr) {
-			best = Math.min(best, num);
+			min = Math.min(min, num);
 		}
-		int left = 0;
-		int right = best * m;
-		int mid = 0;
-		int near = 0;
-		while (left <= right) {
-			mid = (left + right) / 2;
-			int cover = 0;
-			for (int num : arr) {
-				cover += (mid / num) + 1;
-			}
-			if (cover >= m + 1) {
-				near = mid;
-				right = mid - 1;
+		int ans = 0;
+		for (int l = 0, r = min * wait, m; l <= r;) {
+			m = l + ((r - l) >> 1);
+			if (f(arr, m) >= wait + 1) {
+				ans = m;
+				r = m - 1;
 			} else {
-				left = mid + 1;
+				l = m + 1;
 			}
 		}
-		return near;
+		return ans;
 	}
 
-	// 为了测试
-	public static int[] randomArray(int n, int v) {
-		int[] arr = new int[n];
-		for (int i = 0; i < n; i++) {
-			arr[i] = (int) (Math.random() * v) + 1;
+	// 如果每个服务员工作time，可以接待几位客人（结束的、开始的客人都算）
+	public static int f(int[] arr, int time) {
+		int cover = 0;
+		for (int num : arr) {
+			cover += (time / num) + 1;
 		}
-		return arr;
+		return cover;
 	}
 
-	// 为了测试
+	// 对数器测试
 	public static void main(String[] args) {
 		System.out.println("测试开始");
 		int N = 50;
@@ -86,6 +80,15 @@ public class Code05_MinWaitingTime {
 			}
 		}
 		System.out.println("测试结束");
+	}
+
+	// 对数器测试
+	public static int[] randomArray(int n, int v) {
+		int[] arr = new int[n];
+		for (int i = 0; i < n; i++) {
+			arr[i] = (int) (Math.random() * v) + 1;
+		}
+		return arr;
 	}
 
 }

@@ -1,7 +1,5 @@
 package class051;
 
-import java.util.Arrays;
-
 // 同时运行N台电脑的最长时间
 // 你有 n 台电脑。给你整数 n 和一个下标从 0 开始的整数数组 batteries
 // 其中第 i 个电池可以让一台电脑 运行 batteries[i] 分钟
@@ -15,21 +13,20 @@ import java.util.Arrays;
 // 测试链接 : https://leetcode.cn/problems/maximum-running-time-of-n-computers/
 public class Code06_MaximumRunningTimeOfNComputers {
 
-	public static long maxRunTime(int n, int[] arr) {
-		Arrays.sort(arr);
-		int size = arr.length;
-		long[] sums = new long[size];
-		sums[0] = arr[0];
-		for (int i = 1; i < size; i++) {
-			sums[i] = sums[i - 1] + arr[i];
+	public static long maxRunTime(int num, int[] arr) {
+		int max = 0;
+		long sum = 0;
+		for (int x : arr) {
+			max = Math.max(max, x);
+			sum += x;
 		}
-		long l = 0;
-		long m = 0;
-		long r = sums[size - 1] / n;
-		long ans = -1;
-		while (l <= r) {
-			m = (l + r) / 2;
-			if (ok(arr, sums, m, n)) {
+		if (sum > (long) max * num) {
+			return sum / num;
+		}
+		int ans = 0;
+		for (int l = 0, r = max, m; l <= r;) {
+			m = l + ((r - l) >> 1);
+			if (f(arr, num, m)) {
 				ans = m;
 				l = m + 1;
 			} else {
@@ -39,23 +36,19 @@ public class Code06_MaximumRunningTimeOfNComputers {
 		return ans;
 	}
 
-	public static boolean ok(int[] arr, long[] sum, long time, int num) {
-		int l = 0;
-		int m = 0;
-		int r = arr.length - 1;
-		int left = arr.length;
-		while (l <= r) {
-			m = (l + r) / 2;
-			if (arr[m] >= time) {
-				left = m;
-				r = m - 1;
+	public static boolean f(int[] arr, int num, int time) {
+		long sum = 0;
+		for (int x : arr) {
+			if (x > time) {
+				num--;
 			} else {
-				l = m + 1;
+				sum += x;
+			}
+			if (sum >= (long) num * time) {
+				return true;
 			}
 		}
-		num -= arr.length - left;
-		long rest = left == 0 ? 0 : sum[left - 1];
-		return time * (long) num <= rest;
+		return false;
 	}
 
 }

@@ -13,17 +13,15 @@ public class Code04_FindKthSmallestPairDistance {
 	public static int smallestDistancePair(int[] nums, int k) {
 		int n = nums.length;
 		Arrays.sort(nums);
-		int l = 0;
-		int r = nums[n - 1] - nums[0];
 		int ans = 0;
-		while (l <= r) {
-			int dis = l + ((r - l) >> 1);
-			int cnt = f(nums, dis);
+		for (int l = 0, r = nums[n - 1] - nums[0], m, cnt; l <= r;) {
+			m = l + ((r - l) >> 1);
+			cnt = f(nums, m);
 			if (cnt >= k) {
-				ans = dis;
-				r = dis - 1;
+				ans = m;
+				r = m - 1;
 			} else {
-				l = dis + 1;
+				l = m + 1;
 			}
 		}
 		return ans;

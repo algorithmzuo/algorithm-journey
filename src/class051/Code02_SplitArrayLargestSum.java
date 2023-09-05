@@ -7,36 +7,32 @@ package class051;
 // 测试链接 : https://leetcode.cn/problems/split-array-largest-sum/
 public class Code02_SplitArrayLargestSum {
 
-	public static int splitArray(int[] nums, int M) {
+	public static int splitArray(int[] nums, int k) {
 		long sum = 0;
 		for (int i = 0; i < nums.length; i++) {
 			sum += nums[i];
 		}
-		long l = 0;
-		long r = sum;
 		long ans = 0;
-		while (l <= r) {
-			long mid = (l + r) / 2;
-			long cur = getNeedParts(nums, mid);
-			if (cur <= M) {
-				ans = mid;
-				r = mid - 1;
+		for (long l = 0, r = sum, m, cur; l <= r;) {
+			m = l + ((r - l) >> 1);
+			cur = f(nums, m);
+			if (cur <= k) {
+				ans = m;
+				r = m - 1;
 			} else {
-				l = mid + 1;
+				l = m + 1;
 			}
 		}
 		return (int) ans;
 	}
 
-	public static int getNeedParts(int[] arr, long aim) {
+	public static int f(int[] arr, long aim) {
+		int parts = 1;
+		int all = 0;
 		for (int i = 0; i < arr.length; i++) {
 			if (arr[i] > aim) {
 				return Integer.MAX_VALUE;
 			}
-		}
-		int parts = 1;
-		int all = arr[0];
-		for (int i = 1; i < arr.length; i++) {
 			if (all + arr[i] > aim) {
 				parts++;
 				all = arr[i];
