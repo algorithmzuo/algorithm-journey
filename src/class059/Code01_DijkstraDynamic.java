@@ -5,7 +5,7 @@ import java.util.PriorityQueue;
 
 // Dijkstra算法模版，leetcode测试
 // 测试链接 : https://leetcode.cn/problems/network-delay-time
-public class Code01_Dijkstra {
+public class Code01_DijkstraDynamic {
 
 	// 几乎都是动态结构，如果想要全静态结构看第二个实现，洛谷测试的实现
 	public static int networkDelayTime(int[][] times, int n, int k) {

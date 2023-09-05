@@ -12,7 +12,7 @@ import java.util.PriorityQueue;
 // 你从坐标方格的左上平台 (0，0) 出发。
 // 返回 你到达坐标方格的右下平台 (n-1, n-1) 所需的最少时间 。
 // 测试链接 ：https://leetcode.cn/problems/swim-in-rising-water
-public class Code03_SwimInRisingWater {
+public class Code02_SwimInRisingWater {
 
 	public static int swimInWater(int[][] grid) {
 		int n = grid.length;

@@ -17,7 +17,7 @@ import java.util.PriorityQueue;
 // 1 <= a,b <= 100000
 // 只会有一个士兵、一个敌人
 // 没有找到测试链接，对数器验证
-public class Code05_SoldierFindEnemy {
+public class Code04_SoldierFindEnemy {
 
 	// 暴力dfs
 	// 为了验证
