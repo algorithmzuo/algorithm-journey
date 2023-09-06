@@ -15,6 +15,7 @@ public class Code06_MaximumRunningTimeOfNComputers {
 
 	// 单纯的二分答案法
 	// 提交时把函数名改为maxRunTime
+	// 时间复杂度O(n * log(sum))，额外空间复杂度O(1)
 	public static long maxRunTime1(int num, int[] arr) {
 		long sum = 0;
 		for (int x : arr) {
@@ -51,6 +52,7 @@ public class Code06_MaximumRunningTimeOfNComputers {
 
 	// 二分答案法 + 增加分析(贪心)
 	// 提交时把函数名改为maxRunTime
+	// 时间复杂度O(n * log(max))，额外空间复杂度O(1)
 	public static long maxRunTime2(int num, int[] arr) {
 		int max = 0;
 		long sum = 0;

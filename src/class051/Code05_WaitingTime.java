@@ -5,7 +5,7 @@ import java.util.PriorityQueue;
 // 计算等位时间
 // 给定一个数组arr长度为n，表示n个服务员，每服务一个人的时间
 // 给定一个正数m，表示有m个人等位，如果你是刚来的人，请问你需要等多久？
-// 假设：m远远大于n，比如n <= 1000, m <= 10的9次方，该怎么做？
+// 假设：m远远大于n，比如n <= 10^3, m <= 10^9，该怎么做是最优解？
 // 谷歌的面试，这个题连考了2个月
 // 没有找到测试链接，写了对数器验证
 public class Code05_WaitingTime {
@@ -13,6 +13,7 @@ public class Code05_WaitingTime {
 	// 堆模拟
 	// 验证方法，不是重点
 	// 如果m很大，该方法会超时
+	// 时间复杂度O(m * log(n))，额外空间复杂度O(n)
 	public static int waitingTime1(int[] arr, int m) {
 		PriorityQueue<int[]> heap = new PriorityQueue<>((a, b) -> (a[0] - b[0]));
 		int n = arr.length;
@@ -29,6 +30,7 @@ public class Code05_WaitingTime {
 
 	// 二分答案法
 	// 最优解
+	// 时间复杂度O(n * log(m))，额外空间复杂度O(1)
 	public static int waitingTime2(int[] arr, int wait) {
 		int min = Integer.MAX_VALUE;
 		for (int x : arr) {

@@ -11,6 +11,7 @@ package class051;
 // 测试链接 : https://leetcode.cn/problems/koko-eating-bananas/
 public class Code01_KokoEatingBananas {
 
+	// 时间复杂度O(n * log(max))，额外空间复杂度O(1)
 	public static int minEatingSpeed(int[] piles, int h) {
 		int l = 1;
 		int r = 0;

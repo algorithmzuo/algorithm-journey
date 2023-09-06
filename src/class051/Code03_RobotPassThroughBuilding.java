@@ -51,6 +51,7 @@ public class Code03_RobotPassThroughBuilding {
 		br.close();
 	}
 
+	// 时间复杂度O(n * log(max))，额外空间复杂度O(n)
 	public static int compute(int l, int r, int max) {
 		int m, ans = -1;
 		while (l <= r) {

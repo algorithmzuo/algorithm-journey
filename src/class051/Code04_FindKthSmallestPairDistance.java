@@ -10,6 +10,7 @@ import java.util.Arrays;
 // 测试链接 : https://leetcode.cn/problems/find-k-th-smallest-pair-distance/
 public class Code04_FindKthSmallestPairDistance {
 
+	// 时间复杂度O(n * log(n) + log(max-min) * n)，额外空间复杂度O(1)
 	public static int smallestDistancePair(int[] nums, int k) {
 		int n = nums.length;
 		Arrays.sort(nums);

@@ -7,6 +7,7 @@ package class051;
 // 测试链接 : https://leetcode.cn/problems/split-array-largest-sum/
 public class Code02_SplitArrayLargestSum {
 
+	// 时间复杂度O(n * log(sum))，额外空间复杂度O(1)
 	public static int splitArray(int[] nums, int k) {
 		long sum = 0;
 		for (int i = 0; i < nums.length; i++) {
