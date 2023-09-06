@@ -35,6 +35,9 @@ public class Code01_KokoEatingBananas {
 	public static long f(int[] piles, int speed) {
 		long ans = 0;
 		for (int pile : piles) {
+			// (a/b)结果向上取整，如果a和b都是非负数，可以写成(a+b-1)/b
+			// "讲解032-位图"讲了这种写法，不会的同学可以去看看
+			// 这里不再赘述
 			ans += (pile + speed - 1) / speed;
 		}
 		return ans;
