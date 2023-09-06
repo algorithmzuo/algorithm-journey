@@ -8,7 +8,7 @@ import java.util.PriorityQueue;
 // 假设：m远远大于n，比如n <= 10^3, m <= 10^9，该怎么做是最优解？
 // 谷歌的面试，这个题连考了2个月
 // 没有找到测试链接，写了对数器验证
-public class Code05_WaitingTime {
+public class Code06_WaitingTime {
 
 	// 堆模拟
 	// 验证方法，不是重点
