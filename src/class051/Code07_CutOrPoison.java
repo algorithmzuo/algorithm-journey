@@ -82,8 +82,7 @@ public class Code07_CutOrPoison {
 		return false;
 	}
 
-	// 对数器
-	// 为了测试
+	// 对数器测试
 	public static void main(String[] args) {
 		// 随机测试的数据量不大
 		// 因为数据量大了，fast1方法会超时
@@ -109,8 +108,7 @@ public class Code07_CutOrPoison {
 		System.out.println("测试结束");
 	}
 
-	// 生成随机数组
-	// 为了测试
+	// 对数器测试
 	public static int[] randomArray(int n, int v) {
 		int[] ans = new int[n];
 		for (int i = 0; i < n; i++) {
