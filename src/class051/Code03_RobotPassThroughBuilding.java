@@ -1,10 +1,10 @@
 package class051;
 
-// 机器人通关问题
+// 机器人跳跃问题
 // 机器人正在玩一个古老的基于DOS的游戏
 // 游戏中有N+1座建筑，从0到N编号，从左到右排列
 // 编号为0的建筑高度为0个单位，编号为i的建筑的高度为H(i)个单位
-// 起初， 机器人在编号为0的建筑处
+// 起初机器人在编号为0的建筑处
 // 每一步，它跳到下一个（右边）建筑。假设机器人在第k个建筑，且它现在的能量值是E
 // 下一步它将跳到第个k+1建筑
 // 它将会得到或者失去正比于与H(k+1)与E之差的能量
@@ -39,7 +39,7 @@ public class Code03_RobotPassThroughBuilding {
 			n = (int) in.nval;
 			int l = 0;
 			int r = 0;
-			for (int i = 0; i < n; i++) {
+			for (int i = 1; i <= n; i++) {
 				in.nextToken();
 				arr[i] = (int) in.nval;
 				r = Math.max(r, arr[i]);
@@ -51,10 +51,13 @@ public class Code03_RobotPassThroughBuilding {
 		br.close();
 	}
 
-	// 时间复杂度O(n * log(max))，额外空间复杂度O(n)
+	// [l,r]通关所需最小能量的范围，不停二分
+	// max是所有建筑的最大高度
+	// 时间复杂度O(n * log(max))，额外空间复杂度O(1)
 	public static int compute(int l, int r, int max) {
 		int m, ans = -1;
 		while (l <= r) {
+			// m中点，此时通关所需规定的初始能量
 			m = l + ((r - l) >> 1);
 			if (f(m, max)) {
 				ans = m;
@@ -66,21 +69,29 @@ public class Code03_RobotPassThroughBuilding {
 		return ans;
 	}
 
-	public static boolean f(int sum, int max) {
+	// 初始能量为energy，max是建筑的最大高度，返回能不能通关
+	// 为什么要给定建筑的最大高度？
+	public static boolean f(int energy, int max) {
 		// 注意！
-		// 如果你给的能量值很大，那么这个能量增长的将非常恐怖
-		// 甚至有可能超出long的范围，这就是为什么改成long也不对
-		// 所以要加sum <= max这一句判断，一旦能量累加和超过高度的最大值
-		// 后面肯定通关了，可以提前返回
-		// 总之是很阴
-		for (int i = 0; i < n && sum >= 0 && sum <= max; i++) {
-			if (sum <= arr[i]) {
-				sum -= arr[i] - sum;
+		// 如果给的能量值很大，那么后续能量增长将非常恐怖
+		// 完全有可能超出long的范围
+		// 所以要在遍历时，一定要加入energy >= max的判断
+		// 一旦能量超过高度最大值，后面肯定通关了，可以提前返回了
+		// 这里很阴
+		for (int i = 1; i <= n; i++) {
+			if (energy <= arr[i]) {
+				energy -= arr[i] - energy;
 			} else {
-				sum += sum - arr[i];
+				energy += energy - arr[i];
+			}
+			if (energy >= max) {
+				return true;
+			}
+			if (energy < 0) {
+				return false;
 			}
 		}
-		return sum >= 0;
+		return true;
 	}
 
 }

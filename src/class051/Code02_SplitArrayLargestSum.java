@@ -10,14 +10,18 @@ public class Code02_SplitArrayLargestSum {
 	// 时间复杂度O(n * log(sum))，额外空间复杂度O(1)
 	public static int splitArray(int[] nums, int k) {
 		long sum = 0;
-		for (int i = 0; i < nums.length; i++) {
-			sum += nums[i];
+		for (int num : nums) {
+			sum += num;
 		}
 		long ans = 0;
-		for (long l = 0, r = sum, m, cur; l <= r;) {
+		// [0,sum]二分
+		for (long l = 0, r = sum, m, need; l <= r;) {
+			// 中点m
 			m = l + ((r - l) >> 1);
-			cur = f(nums, m);
-			if (cur <= k) {
+			// 必须让数组每一部分的累加和 <= m，请问划分成几个部分才够!
+			need = f(nums, m);
+			if (need <= k) {
+				// 达标
 				ans = m;
 				r = m - 1;
 			} else {
@@ -27,18 +31,20 @@ public class Code02_SplitArrayLargestSum {
 		return (int) ans;
 	}
 
-	public static int f(int[] arr, long aim) {
+	// 必须让数组arr每一部分的累加和 <= limit，请问划分成几个部分才够!
+	// 返回需要的部分数量
+	public static int f(int[] arr, long limit) {
 		int parts = 1;
-		int all = 0;
-		for (int i = 0; i < arr.length; i++) {
-			if (arr[i] > aim) {
+		int sum = 0;
+		for (int num : arr) {
+			if (num > limit) {
 				return Integer.MAX_VALUE;
 			}
-			if (all + arr[i] > aim) {
+			if (sum + num > limit) {
 				parts++;
-				all = arr[i];
+				sum = num;
 			} else {
-				all += arr[i];
+				sum += num;
 			}
 		}
 		return parts;

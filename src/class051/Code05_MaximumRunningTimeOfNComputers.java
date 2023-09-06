@@ -22,7 +22,9 @@ public class Code05_MaximumRunningTimeOfNComputers {
 			sum += x;
 		}
 		long ans = 0;
+		// [0, sum]，不停二分
 		for (long l = 0, r = sum, m; l <= r;) {
+			// m中点，让num台电脑共同运行m分钟，能不能做到
 			m = l + ((r - l) >> 1);
 			if (f1(arr, num, m)) {
 				ans = m;
@@ -34,6 +36,7 @@ public class Code05_MaximumRunningTimeOfNComputers {
 		return ans;
 	}
 
+	// 让num台电脑共同运行time分钟，能不能做到
 	public static boolean f1(int[] arr, int num, long time) {
 		// 碎片电量总和
 		long sum = 0;
@@ -41,9 +44,11 @@ public class Code05_MaximumRunningTimeOfNComputers {
 			if (x > time) {
 				num--;
 			} else {
+				// x <= time，是碎片电池
 				sum += x;
 			}
 			if (sum >= (long) num * time) {
+				// 碎片电量 >= 台数 * 要求
 				return true;
 			}
 		}
@@ -70,6 +75,9 @@ public class Code05_MaximumRunningTimeOfNComputers {
 			// 即sum / num
 			return sum / num;
 		}
+		// 最终的供电时间一定在 < max范围上
+		// [0, sum]二分范围，可能定的比较粗，虽然不影响，但毕竟是有点慢
+		// [0, max]二分范围！更精细的范围，二分次数会变少
 		int ans = 0;
 		for (int l = 0, r = max, m; l <= r;) {
 			m = l + ((r - l) >> 1);

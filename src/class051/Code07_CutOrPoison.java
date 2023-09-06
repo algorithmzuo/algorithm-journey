@@ -60,6 +60,7 @@ public class Code07_CutOrPoison {
 	public static int fast2(int[] cuts, int[] poisons, int hp) {
 		int ans = Integer.MAX_VALUE;
 		for (int l = 1, r = hp + 1, m; l <= r;) {
+			// m中点，一定要让怪兽在m回合内死掉，更多回合无意义
 			m = l + ((r - l) >> 1);
 			if (f(cuts, poisons, hp, m)) {
 				ans = m;
@@ -71,6 +72,9 @@ public class Code07_CutOrPoison {
 		return ans;
 	}
 
+	// cuts、posions，每一回合刀砍、毒杀的效果
+	// hp：怪兽血量
+	// limit：回合的限制
 	public static boolean f(int[] cuts, int[] posions, long hp, int limit) {
 		int n = Math.min(cuts.length, limit);
 		for (int i = 0, j = 1; i < n; i++, j++) {
