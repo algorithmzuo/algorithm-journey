@@ -22,21 +22,12 @@ public class Code04_PalindromeLinkedList {
 			fast = fast.next.next;
 		}
 		// 现在中点就是slow，从中点开始往后的节点逆序
-		ListNode pre = slow;
-		ListNode cur = pre.next;
-		ListNode next = null;
-		pre.next = null;
-		while (cur != null) {
-			next = cur.next;
-			cur.next = pre;
-			pre = cur;
-			cur = next;
-		}
+		ListNode endNode = reverseList(slow);
 		// 上面的过程已经把链表调整成从左右两侧往中间指
 		// head -> ... -> slow <- ... <- pre
 		boolean ans = true;
 		ListNode left = head;
-		ListNode right = pre;
+		ListNode right = endNode;
 		// left往右、right往左，每一步比对值是否一样，如果某一步不一样答案就是false
 		while (left != null && right != null) {
 			if (left.val != right.val) {
@@ -47,16 +38,24 @@ public class Code04_PalindromeLinkedList {
 			right = right.next;
 		}
 		// 本着不坑的原则，把链表调整回原来的样子再返回判断结果
-		cur = pre.next;
+		reverseList(endNode);
+		return ans;
+	}
+
+	/**
+	 * 翻转一个以|head|作为头节点的链表，返回翻转后的头节点
+	 */
+	public static ListNode reverseList(ListNode head) {
+		ListNode pre = head;
+		ListNode cur = pre.next;
+		ListNode next = null;
 		pre.next = null;
-		next = null;
 		while (cur != null) {
 			next = cur.next;
 			cur.next = pre;
 			pre = cur;
 			cur = next;
 		}
-		return ans;
+		return pre;
 	}
-
 }
