@@ -7,13 +7,17 @@ package class052;
 // 测试链接 : https://leetcode.cn/problems/daily-temperatures/
 public class Code02_DailyTemperatures {
 
+	public static int MAXN = 100001;
+
+	public static int[] stack = new int[MAXN];
+
+	public static int r;
+
 	public static int[] dailyTemperatures(int[] nums) {
 		int n = nums.length;
 		int[] ans = new int[n];
-		int[] stack = new int[n];
-		int r = 0;
-		stack[r++] = 0;
-		for (int i = 1; i < n; i++) {
+		r = 0;
+		for (int i = 0; i < n; i++) {
 			while (r > 0 && nums[stack[r - 1]] < nums[i]) {
 				int pop = stack[--r];
 				ans[pop] = i - pop;
