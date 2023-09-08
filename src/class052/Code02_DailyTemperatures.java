@@ -17,10 +17,11 @@ public class Code02_DailyTemperatures {
 		int n = nums.length;
 		int[] ans = new int[n];
 		r = 0;
-		for (int i = 0; i < n; i++) {
+		for (int i = 0, cur; i < n; i++) {
+			// 相等时候的处理，相等也加入单调栈
 			while (r > 0 && nums[stack[r - 1]] < nums[i]) {
-				int pop = stack[--r];
-				ans[pop] = i - pop;
+				cur = stack[--r];
+				ans[cur] = i - cur;
 			}
 			stack[r++] = i;
 		}

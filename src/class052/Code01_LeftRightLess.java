@@ -53,13 +53,16 @@ public class Code01_LeftRightLess {
 		br.close();
 	}
 
+	// arr[0...n-1]
 	public static void compute() {
 		r = 0;
 		int cur;
 		// 遍历阶段
 		for (int i = 0; i < n; i++) {
+			// i -> arr[i]
 			while (r > 0 && arr[stack[r - 1]] >= arr[i]) {
 				cur = stack[--r];
+				// cur当前弹出的位置，左边最近且小
 				ans[cur][0] = r > 0 ? stack[r - 1] : -1;
 				ans[cur][1] = i;
 			}

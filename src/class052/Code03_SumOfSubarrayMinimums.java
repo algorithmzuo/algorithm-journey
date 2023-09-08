@@ -17,6 +17,7 @@ public class Code03_SumOfSubarrayMinimums {
 	public static int sumSubarrayMins(int[] arr) {
 		long ans = 0;
 		r = 0;
+		// 注意课上讲的相等情况的修正
 		for (int i = 0; i < arr.length; i++) {
 			while (r > 0 && arr[stack[r - 1]] >= arr[i]) {
 				int cur = stack[--r];
