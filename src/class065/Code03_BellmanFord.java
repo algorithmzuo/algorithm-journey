@@ -2,7 +2,7 @@ package class065;
 
 import java.util.Arrays;
 
-public class Code02_BellmanFord {
+public class Code03_BellmanFord {
 
 	public static int findCheapestPrice(int n, int[][] flights, int src, int dst, int k) {
 		int[] cost = new int[n];

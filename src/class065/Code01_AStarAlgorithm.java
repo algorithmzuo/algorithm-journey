@@ -1,4 +1,4 @@
-package class064;
+package class065;
 
 import java.util.PriorityQueue;
 
@@ -9,7 +9,7 @@ import java.util.PriorityQueue;
 // 1）合适的吸引力可以提升算法的速度
 // 2）吸引力过强会出现错误
 // 预估终点距离选择曼哈顿距离
-public class Code06_AStarAlgorithm {
+public class Code01_AStarAlgorithm {
 
 	// Dijkstra算法
 	// map[i][j] == 0 代表障碍

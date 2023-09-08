@@ -13,7 +13,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 
-public class Code01_Floyd {
+public class Code02_Floyd {
 
 	public static int MAXN = 101;
 
