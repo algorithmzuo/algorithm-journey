@@ -20,7 +20,7 @@ import java.util.Queue;
 // 如果不存在这样的转换序列，返回一个空列表
 // 每个序列都应该以单词列表 [beginWord, s1, s2, ..., sk] 的形式返回
 // 测试链接 : https://leetcode.cn/problems/word-ladder-ii/
-public class Code06_WordLadderII {
+public class Code05_WordLadderII {
 
 	public static List<List<String>> findLadders(String start, String end, List<String> list) {
 		list.add(start);

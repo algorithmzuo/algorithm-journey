@@ -1,4 +1,4 @@
-package class062;
+package class063;
 
 import java.util.HashSet;
 import java.util.List;
@@ -13,7 +13,7 @@ import java.util.List;
 // 返回 从 beginWord 到 endWord 的 最短转换序列 中的 单词数目
 // 如果不存在这样的转换序列，返回 0 。
 // 测试链接 : https://leetcode.cn/problems/word-ladder/
-public class Code05_WordLadder {
+public class Code01_WordLadder {
 
 	public static int ladderLength(String begin, String end, List<String> wordList) {
 		HashSet<String> dict = new HashSet<>(wordList);

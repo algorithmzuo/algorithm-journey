@@ -1,4 +1,4 @@
-package class063;
+package class064;
 
 // Dijkstra算法模版，洛谷测试，静态空间实现
 // 测试链接 : https://www.luogu.com.cn/problem/P4779
