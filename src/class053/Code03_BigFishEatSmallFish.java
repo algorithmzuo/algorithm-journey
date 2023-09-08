@@ -30,6 +30,8 @@ public class Code03_BigFishEatSmallFish {
 
 	public static int[][] stack = new int[MAXN][2];
 
+	public static int r;
+
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StreamTokenizer in = new StreamTokenizer(br);
@@ -48,16 +50,16 @@ public class Code03_BigFishEatSmallFish {
 	}
 
 	public static int turns() {
-		int r = 0;
+		r = 0;
 		int ans = 0;
-		for (int i = n - 1, curAns; i >= 0; i--) {
-			curAns = 0;
+		for (int i = n - 1, curTurns; i >= 0; i--) {
+			curTurns = 0;
 			while (r > 0 && stack[r - 1][0] < arr[i]) {
-				curAns = Math.max(curAns + 1, stack[--r][1]);
+				curTurns = Math.max(curTurns + 1, stack[--r][1]);
 			}
 			stack[r][0] = arr[i];
-			stack[r++][1] = curAns;
-			ans = Math.max(ans, curAns);
+			stack[r++][1] = curTurns;
+			ans = Math.max(ans, curTurns);
 		}
 		return ans;
 	}
