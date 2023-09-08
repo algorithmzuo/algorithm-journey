@@ -8,6 +8,14 @@ import java.util.Arrays;
 // 测试链接：https://leetcode.cn/problems/maximal-rectangle/
 public class Code05_MaximalRectangle {
 
+	public static int MAXN = 201;
+
+	public static int[] height = new int[MAXN];
+
+	public static int[] stack = new int[MAXN];
+
+	public static int r;
+
 	public static int maximalRectangle(char[][] map) {
 		int n = map.length;
 		int m = map[0].length;
@@ -21,14 +29,6 @@ public class Code05_MaximalRectangle {
 		}
 		return ans;
 	}
-
-	public static int MAXN = 201;
-
-	public static int[] height = new int[MAXN];
-
-	public static int[] stack = new int[MAXN];
-
-	public static int r;
 
 	public static int largestRectangleArea(int m) {
 		r = 0;
