@@ -13,7 +13,7 @@ import java.util.Arrays;
 // -10^7 <= nums[i] <= 10^7
 // -10^9 <= goal <= 10^9
 // 测试链接 : https://leetcode.cn/problems/closest-subsequence-sum/
-public class Code04_ClosestSubsequenceSum {
+public class Code03_ClosestSubsequenceSum {
 
 	public static int MAXN = 1 << 20;
 
