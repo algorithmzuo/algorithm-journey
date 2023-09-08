@@ -4,7 +4,7 @@ package class055;
 // 给定一个数组arr，其中的值有可能正、负、0
 // 给定一个正数k
 // 返回累加和>=k的所有子数组中，最短的子数组长度
-// 本题测试链接 : https://leetcode.cn/problems/shortest-subarray-with-sum-at-least-k/
+// 测试链接 : https://leetcode.cn/problems/shortest-subarray-with-sum-at-least-k/
 public class Code01_ShortestSubarrayWithSumAtLeastK {
 
 	public static int MAXN = 100001;
