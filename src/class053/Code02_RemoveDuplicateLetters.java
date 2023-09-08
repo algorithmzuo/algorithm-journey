@@ -1,5 +1,7 @@
 package class053;
 
+import java.util.Arrays;
+
 // 去除重复字母
 // 给你一个字符串 s ，请你去除字符串中重复的字母，使得每个字母只出现一次
 // 需保证 返回结果的字典序最小
@@ -7,27 +9,36 @@ package class053;
 // 测试链接 : https://leetcode.cn/problems/remove-duplicate-letters/
 public class Code02_RemoveDuplicateLetters {
 
-	public static String removeDuplicateLetters(String s) {
-		int[] cnts = new int[26];
-		boolean[] enter = new boolean[26];
-		for (int i = 0; i < s.length(); i++) {
-			cnts[s.charAt(i) - 'a']++;
+	public static int MAXN = 26;
+
+	public static int[] cnts = new int[MAXN];
+
+	public static boolean[] enter = new boolean[MAXN];
+
+	public static char[] stack = new char[MAXN];
+
+	public static int r;
+
+	public static String removeDuplicateLetters(String str) {
+		Arrays.fill(cnts, 0);
+		Arrays.fill(enter, false);
+		r = 0;
+		char[] s = str.toCharArray();
+		for (char cha : s) {
+			cnts[cha - 'a']++;
 		}
-		char[] stack = new char[26];
-		int size = 0;
-		for (int i = 0; i < s.length(); i++) {
-			char cur = s.charAt(i);
+		for (char cur : s) {
 			if (!enter[cur - 'a']) {
-				while (size > 0 && stack[size - 1] > cur && cnts[stack[size - 1] - 'a'] > 0) {
-					enter[stack[size - 1] - 'a'] = false;
-					size--;
+				while (r > 0 && stack[r - 1] > cur && cnts[stack[r - 1] - 'a'] > 0) {
+					enter[stack[r - 1] - 'a'] = false;
+					r--;
 				}
-				stack[size++] = cur;
+				stack[r++] = cur;
 				enter[cur - 'a'] = true;
 			}
 			cnts[cur - 'a']--;
 		}
-		return String.valueOf(stack, 0, size);
+		return String.valueOf(stack, 0, r);
 	}
 
 }
