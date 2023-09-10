@@ -13,8 +13,8 @@ public class Code01_MaximumWidthRamp {
 	public static int r;
 
 	public static int maxWidthRamp(int[] arr) {
-		int n = arr.length;
 		r = 0;
+		int n = arr.length;
 		for (int i = 0; i < n; i++) {
 			if (r == 0 || arr[stack[r - 1]] > arr[i]) {
 				stack[r++] = i;

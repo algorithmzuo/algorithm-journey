@@ -61,8 +61,8 @@ public class Code04_CountSubmatricesWithAllOnes {
 	// 所以cur从栈里弹出时产生的数量 : 
 	// (cur位置的高度-Max{left位置的高度,i位置的高度}) * ((i-left-1)*(i-left)/2)
 	public static int countFromBottom(int m) {
-		int ans = 0;
 		r = 0;
+		int ans = 0;
 		for (int i = 0, left, len, bottom; i < m; i++) {
 			while (r > 0 && height[stack[r - 1]] >= height[i]) {
 				int cur = stack[--r];

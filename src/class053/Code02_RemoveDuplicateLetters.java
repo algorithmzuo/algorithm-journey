@@ -20,9 +20,9 @@ public class Code02_RemoveDuplicateLetters {
 	public static int r;
 
 	public static String removeDuplicateLetters(String str) {
+		r = 0;
 		Arrays.fill(cnts, 0);
 		Arrays.fill(enter, false);
-		r = 0;
 		char[] s = str.toCharArray();
 		for (char cha : s) {
 			cnts[cha - 'a']++;
