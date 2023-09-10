@@ -50,10 +50,14 @@ public class Code03_BigFishEatSmallFish {
 		br.close();
 	}
 
+	// arr[0...n-1]鱼的体重
+	// stack[...]随便用
 	public static int turns() {
 		r = 0;
 		int ans = 0;
 		for (int i = n - 1, curTurns; i >= 0; i--) {
+			// i号鱼，arr[i]
+			// 0轮是初始
 			curTurns = 0;
 			while (r > 0 && stack[r - 1][0] < arr[i]) {
 				curTurns = Math.max(curTurns + 1, stack[--r][1]);
