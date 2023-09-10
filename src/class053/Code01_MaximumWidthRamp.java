@@ -25,8 +25,7 @@ public class Code01_MaximumWidthRamp {
 		int ans = 0;
 		for (int j = n - 1; j >= 0; j--) {
 			while (r > 0 && arr[stack[r - 1]] <= arr[j]) {
-				int i = stack[--r];
-				ans = Math.max(ans, j - i);
+				ans = Math.max(ans, j - stack[--r]);
 			}
 		}
 		return ans;
