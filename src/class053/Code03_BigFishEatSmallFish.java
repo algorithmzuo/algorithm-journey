@@ -1,12 +1,5 @@
 package class053;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
-import java.io.StreamTokenizer;
-
 // 大鱼吃小鱼问题
 // 给定一个数组arr，每个值代表鱼的体重
 // 每一轮每条鱼都会吃掉右边离自己最近比自己体重小的鱼，每条鱼向右找只吃一条
@@ -20,6 +13,14 @@ import java.io.StreamTokenizer;
 // 第四轮 : 8吃7。数组剩下 8。
 // 过程结束，返回4
 // 测试链接 : https://www.nowcoder.com/practice/77199defc4b74b24b8ebf6244e1793de
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.io.StreamTokenizer;
+
 public class Code03_BigFishEatSmallFish {
 
 	public static int MAXN = 100001;
