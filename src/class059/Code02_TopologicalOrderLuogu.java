@@ -1,6 +1,6 @@
 package class059;
 
-// 拓扑排序模版，链式前向星建图
+// 拓扑排序模版（洛谷），链式前向星建图
 // 测试链接 : https://www.nowcoder.com/practice/88f7e156ca7d43a1a535f619cd3f495c
 // 请同学们务必参考如下代码中关于输入、输出的处理
 // 这是输入输出处理效率很高的写法
@@ -14,7 +14,7 @@ import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 import java.util.Arrays;
 
-public class Code02_TopologicalOrderStatic {
+public class Code02_TopologicalOrderLuogu {
 
 	public static int MAXN = 200001;
 
