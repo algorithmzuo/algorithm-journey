@@ -1,6 +1,6 @@
 package class064;
 
-// Dijkstra算法模版，洛谷测试，静态空间实现
+// Dijkstra算法模版（洛谷），静态空间实现
 // 测试链接 : https://www.luogu.com.cn/problem/P4779
 // 请同学们务必参考如下代码中关于输入、输出的处理
 // 这是输入输出处理效率很高的写法
@@ -17,7 +17,7 @@ import java.util.Arrays;
 // 即便是比赛，也能通过的实现
 // 建图用链式前向星、堆也是完全自己全实现一遍，不用任何动态结构
 // 这个实现留给有需要的同学，一般情况下并不需要做到这个程度
-public class Code02_DijkstraStatic {
+public class Code02_DijkstraLuogu {
 
 	public static int MAXN = 100001;
 
