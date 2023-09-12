@@ -31,7 +31,7 @@ public class Code03_FallingWaterSmallestFlowerPot {
 
 	public static int[] minDeque = new int[MAXN];
 
-	public static int maxl, maxr, minl, minr;
+	public static int maxh, maxt, minh, mint;
 
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -57,7 +57,7 @@ public class Code03_FallingWaterSmallestFlowerPot {
 
 	public static int compute() {
 		Arrays.sort(arr, 0, n, (a, b) -> a[0] - b[0]);
-		maxl = maxr = minl = minr = 0;
+		maxh = maxt = minh = mint = 0;
 		int ans = Integer.MAX_VALUE;
 		for (int l = 0, r = 0; l < n; l++) {
 			while (!ok() && r < n) {
@@ -72,28 +72,28 @@ public class Code03_FallingWaterSmallestFlowerPot {
 	}
 
 	public static boolean ok() {
-		int max = maxl < maxr ? arr[maxDeque[maxl]][1] : 0;
-		int min = minl < minr ? arr[minDeque[minl]][1] : 0;
+		int max = maxh < maxt ? arr[maxDeque[maxh]][1] : 0;
+		int min = minh < mint ? arr[minDeque[minh]][1] : 0;
 		return max - min >= d;
 	}
 
 	public static void push(int r) {
-		while (maxl < maxr && arr[maxDeque[maxr - 1]][1] <= arr[r][1]) {
-			maxr--;
+		while (maxh < maxt && arr[maxDeque[maxt - 1]][1] <= arr[r][1]) {
+			maxt--;
 		}
-		maxDeque[maxr++] = r;
-		while (minl < minr && arr[minDeque[minr - 1]][1] >= arr[r][1]) {
-			minr--;
+		maxDeque[maxt++] = r;
+		while (minh < mint && arr[minDeque[mint - 1]][1] >= arr[r][1]) {
+			mint--;
 		}
-		minDeque[minr++] = r;
+		minDeque[mint++] = r;
 	}
 
 	public static void pop(int l) {
-		if (maxl < maxr && maxDeque[maxl] == l) {
-			maxl++;
+		if (maxh < maxt && maxDeque[maxh] == l) {
+			maxh++;
 		}
-		if (minl < minr && minDeque[minl] == l) {
-			minl++;
+		if (minh < mint && minDeque[minh] == l) {
+			minh++;
 		}
 	}
 

@@ -14,12 +14,12 @@ public class Code02_LongestSubarrayAbsoluteLimit {
 
 	public static int[] minDeque = new int[MAXN];
 
-	public static int maxl, maxr, minl, minr;
+	public static int maxh, maxt, minh, mint;
 
 	public static int[] arr;
 
 	public static int longestSubarray(int[] nums, int limit) {
-		maxl = maxr = minl = minr = 0;
+		maxh = maxt = minh = mint = 0;
 		arr = nums;
 		int n = arr.length;
 		int ans = 0;
@@ -37,28 +37,28 @@ public class Code02_LongestSubarrayAbsoluteLimit {
 	// 依然 <= limit，返回true
 	// 不再 <= limit，返回false
 	public static boolean ok(int limit, int number) {
-		int max = maxl < maxr ? Math.max(arr[maxDeque[maxl]], number) : number;
-		int min = minl < minr ? Math.min(arr[minDeque[minl]], number) : number;
+		int max = maxh < maxt ? Math.max(arr[maxDeque[maxh]], number) : number;
+		int min = minh < mint ? Math.min(arr[minDeque[minh]], number) : number;
 		return max - min <= limit;
 	}
 
 	public static void push(int r) {
-		while (maxl < maxr && arr[maxDeque[maxr - 1]] <= arr[r]) {
-			maxr--;
+		while (maxh < maxt && arr[maxDeque[maxt - 1]] <= arr[r]) {
+			maxt--;
 		}
-		maxDeque[maxr++] = r;
-		while (minl < minr && arr[minDeque[minr - 1]] >= arr[r]) {
-			minr--;
+		maxDeque[maxt++] = r;
+		while (minh < mint && arr[minDeque[mint - 1]] >= arr[r]) {
+			mint--;
 		}
-		minDeque[minr++] = r;
+		minDeque[mint++] = r;
 	}
 
 	public static void pop(int l) {
-		if (maxl < maxr && maxDeque[maxl] == l) {
-			maxl++;
+		if (maxh < maxt && maxDeque[maxh] == l) {
+			maxh++;
 		}
-		if (minl < minr && minDeque[minl] == l) {
-			minl++;
+		if (minh < mint && minDeque[minh] == l) {
+			minh++;
 		}
 	}
 

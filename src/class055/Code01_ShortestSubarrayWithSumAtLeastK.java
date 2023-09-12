@@ -13,7 +13,7 @@ public class Code01_ShortestSubarrayWithSumAtLeastK {
 
 	public static int[] deque = new int[MAXN];
 
-	public static int l, r;
+	public static int h, t;
 
 	public static int shortestSubarray(int[] arr, int K) {
 		int n = arr.length;
@@ -21,15 +21,15 @@ public class Code01_ShortestSubarrayWithSumAtLeastK {
 			sum[i + 1] = sum[i] + arr[i];
 		}
 		int ans = Integer.MAX_VALUE;
-		l = r = 0;
-		for (int i = 0; i < n + 1; i++) {
-			while (l != r && sum[i] - sum[deque[l]] >= K) {
-				ans = Math.min(ans, i - deque[l++]);
+		h = t = 0;
+		for (int r = 0; r <= n; r++) {
+			while (h != t && sum[r] - sum[deque[h]] >= K) {
+				ans = Math.min(ans, r - deque[h++]);
 			}
-			while (l != r && sum[deque[r - 1]] >= sum[i]) {
-				r--;
+			while (h != t && sum[deque[t - 1]] >= sum[r]) {
+				t--;
 			}
-			deque[r++] = i;
+			deque[t++] = r;
 		}
 		return ans != Integer.MAX_VALUE ? ans : -1;
 	}

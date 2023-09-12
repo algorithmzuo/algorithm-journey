@@ -20,20 +20,20 @@ public class Code03_MaximumNumberOfTasksYouCanAssign {
 
 	public static int[] deque = new int[MAXN];
 
-	public static int l, r;
+	public static int h, t;
 
 	public static int maxTaskAssign(int[] tasks, int[] workers, int pills, int strength) {
 		int n = tasks.length;
 		Arrays.sort(tasks);
 		Arrays.sort(workers);
 		int ans = 0;
-		for (int left = 0, right = n, mid; left <= right;) {
-			mid = (left + right) / 2;
+		for (int l = 0, r = n, mid; l <= r;) {
+			mid = (l + r) / 2;
 			if (need(tasks, 0, mid - 1, workers, workers.length - mid, workers.length - 1, strength) <= pills) {
 				ans = mid;
-				left = mid + 1;
+				l = mid + 1;
 			} else {
-				right = mid - 1;
+				r = mid - 1;
 			}
 		}
 		return ans;
@@ -43,22 +43,22 @@ public class Code03_MaximumNumberOfTasksYouCanAssign {
 		if (wl < 0) {
 			return Integer.MAX_VALUE;
 		}
-		l = r = 0;
+		h = t = 0;
 		int ti = tl;
 		int ans = 0;
 		for (int wi = wl; wi <= wr; wi++) {
 			for (; ti <= tr && ts[ti] <= ws[wi]; ti++) {
-				deque[r++] = ti;
+				deque[t++] = ti;
 			}
-			if (l < r && ts[deque[l]] <= ws[wi]) {
-				l++;
+			if (h < t && ts[deque[h]] <= ws[wi]) {
+				h++;
 			} else {
 				for (; ti <= tr && ts[ti] <= ws[wi] + s; ti++) {
-					deque[r++] = ti;
+					deque[t++] = ti;
 				}
-				if (l < r) {
+				if (h < t) {
 					ans++;
-					r--;
+					t--;
 				} else {
 					return Integer.MAX_VALUE;
 				}

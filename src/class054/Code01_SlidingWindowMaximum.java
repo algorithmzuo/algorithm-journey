@@ -11,23 +11,27 @@ public class Code01_SlidingWindowMaximum {
 
 	public static int[] deque = new int[MAXN];
 
-	public static int l, r;
+	public static int h, t;
 
 	public static int[] maxSlidingWindow(int[] arr, int w) {
-		l = r = 0;
+		h = t = 0;
 		int n = arr.length;
-		int[] ans = new int[n - w + 1];
-		for (int i = 0, fill = 0; i < n; i++) {
-			while (l < r && arr[deque[r - 1]] <= arr[i]) {
-				r--;
+		for (int i = 0; i < w - 1; i++) {
+			while (h < t && arr[deque[t - 1]] <= arr[i]) {
+				t--;
 			}
-			deque[r++] = i;
-			if (i >= w - 1) {
-				ans[fill] = arr[deque[l]];
-				if (deque[l] == fill) {
-					l++;
-				}
-				fill++;
+			deque[t++] = i;
+		}
+		int m = n - w + 1;
+		int[] ans = new int[m];
+		for (int l = 0, r = w - 1; l < m; l++, r++) {
+			while (h < t && arr[deque[t - 1]] <= arr[r]) {
+				t--;
+			}
+			deque[t++] = r;
+			ans[l] = arr[deque[h]];
+			if (deque[h] == l) {
+				h++;
 			}
 		}
 		return ans;

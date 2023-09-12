@@ -15,26 +15,26 @@ public class Code02_MaxValueOfEquation {
 
 	public static int[][] deque = new int[MAXN][2];
 
-	public static int l, r;
+	public static int h, t;
 
 	public static int findMaxValueOfEquation(int[][] points, int k) {
+		h = t = 0;
 		int n = points.length;
-		l = r = 0;
 		int ans = Integer.MIN_VALUE;
-		for (int j = 0, x, y; j < n; j++) {
-			x = points[j][0];
-			y = points[j][1];
-			while (l < r && deque[l][0] + k < x) {
-				l++;
+		for (int r = 0, x, y; r < n; r++) {
+			x = points[r][0];
+			y = points[r][1];
+			while (h < t && deque[h][0] + k < x) {
+				h++;
 			}
-			if (l < r) {
-				ans = Math.max(ans, y + deque[l][1] + x - deque[l][0]);
+			if (h < t) {
+				ans = Math.max(ans, y + deque[h][1] + x - deque[h][0]);
 			}
-			while (l < r && deque[r - 1][1] - deque[r - 1][0] <= y - x) {
-				r--;
+			while (h < t && deque[t - 1][1] - deque[t - 1][0] <= y - x) {
+				t--;
 			}
-			deque[r][0] = x;
-			deque[r++][1] = y;
+			deque[t][0] = x;
+			deque[t++][1] = y;
 		}
 		return ans;
 	}
