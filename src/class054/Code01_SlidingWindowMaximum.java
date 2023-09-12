@@ -14,8 +14,8 @@ public class Code01_SlidingWindowMaximum {
 	public static int l, r;
 
 	public static int[] maxSlidingWindow(int[] arr, int w) {
-		int n = arr.length;
 		l = r = 0;
+		int n = arr.length;
 		int[] ans = new int[n - w + 1];
 		for (int i = 0, fill = 0; i < n; i++) {
 			while (l < r && arr[deque[r - 1]] <= arr[i]) {
