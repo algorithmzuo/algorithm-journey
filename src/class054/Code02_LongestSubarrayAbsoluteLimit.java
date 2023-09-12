@@ -10,8 +10,10 @@ public class Code02_LongestSubarrayAbsoluteLimit {
 
 	public static int MAXN = 100001;
 
+	// 窗口内最大值的更新结构（单调队列）
 	public static int[] maxDeque = new int[MAXN];
 
+	// 窗口内最小值的更新结构（单调队列）
 	public static int[] minDeque = new int[MAXN];
 
 	public static int maxh, maxt, minh, mint;
@@ -24,9 +26,11 @@ public class Code02_LongestSubarrayAbsoluteLimit {
 		int n = arr.length;
 		int ans = 0;
 		for (int l = 0, r = 0; l < n; l++) {
+			// [l,r)，r永远是没有进入窗口的、下一个数所在的位置
 			while (r < n && ok(limit, nums[r])) {
 				push(r++);
 			}
+			// 从while出来的时候，[l,r)是l开头的子数组能向右延伸的最大范围
 			ans = Math.max(ans, r - l);
 			pop(l);
 		}
@@ -37,11 +41,14 @@ public class Code02_LongestSubarrayAbsoluteLimit {
 	// 依然 <= limit，返回true
 	// 不再 <= limit，返回false
 	public static boolean ok(int limit, int number) {
+		// max : 如果number进来，新窗口的最大值
 		int max = maxh < maxt ? Math.max(arr[maxDeque[maxh]], number) : number;
+		// min : 如果number进来，新窗口的最小值
 		int min = minh < mint ? Math.min(arr[minDeque[minh]], number) : number;
 		return max - min <= limit;
 	}
 
+	// r位置的数字进入窗口，修改窗口内最大值的更新结构、修改窗口内最小值的更新结构
 	public static void push(int r) {
 		while (maxh < maxt && arr[maxDeque[maxt - 1]] <= arr[r]) {
 			maxt--;
@@ -53,6 +60,7 @@ public class Code02_LongestSubarrayAbsoluteLimit {
 		minDeque[mint++] = r;
 	}
 
+	// 窗口要吐出l位置的数了！检查过期！
 	public static void pop(int l) {
 		if (maxh < maxt && maxDeque[maxh] == l) {
 			maxh++;

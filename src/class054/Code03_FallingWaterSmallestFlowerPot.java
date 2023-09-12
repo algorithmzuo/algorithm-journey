@@ -56,10 +56,14 @@ public class Code03_FallingWaterSmallestFlowerPot {
 	}
 
 	public static int compute() {
+		// arr[0...n-1][2]: x(0), 高度(1)
+		// 所有水滴根据x排序，谁小谁在前
 		Arrays.sort(arr, 0, n, (a, b) -> a[0] - b[0]);
 		maxh = maxt = minh = mint = 0;
 		int ans = Integer.MAX_VALUE;
 		for (int l = 0, r = 0; l < n; l++) {
+			// [l,r) : 水滴的编号
+			// l : 当前花盘的左边界，arr[l][0]
 			while (!ok() && r < n) {
 				push(r++);
 			}
@@ -71,6 +75,7 @@ public class Code03_FallingWaterSmallestFlowerPot {
 		return ans;
 	}
 
+	// 当前窗口 最大值 - 最小值 是不是>=d
 	public static boolean ok() {
 		int max = maxh < maxt ? arr[maxDeque[maxh]][1] : 0;
 		int min = minh < mint ? arr[minDeque[minh]][1] : 0;
