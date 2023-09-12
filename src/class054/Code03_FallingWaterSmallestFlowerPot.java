@@ -61,7 +61,7 @@ public class Code03_FallingWaterSmallestFlowerPot {
 		int ans = Integer.MAX_VALUE;
 		for (int l = 0, r = 0; l < n; l++) {
 			while (!ok() && r < n) {
-				add(r++);
+				push(r++);
 			}
 			if (ok()) {
 				ans = Math.min(ans, arr[r - 1][0] - arr[l][0]);
@@ -77,7 +77,7 @@ public class Code03_FallingWaterSmallestFlowerPot {
 		return max - min >= d;
 	}
 
-	public static void add(int r) {
+	public static void push(int r) {
 		while (maxl < maxr && arr[maxDeque[maxr - 1]][1] <= arr[r][1]) {
 			maxr--;
 		}
