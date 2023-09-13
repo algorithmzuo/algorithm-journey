@@ -26,7 +26,9 @@ public class Code03_MaximumNumberOfTasksYouCanAssign {
 
 	public static int h, t;
 
-	// 时间复杂度O(log(n和m的最小值) * (n和m的最小值))
+	// 两个数组排序 : O(n * logn) + O(m * logm)
+	// 二分答案的过程，每次二分都用一下双端队列 : O((n和m最小值)*log(n和m最小值))
+	// 最复杂的反而是排序的过程了，所以时间复杂度O(n * logn) + O(m * logm)
 	public static int maxTaskAssign(int[] ts, int[] ws, int pills, int strength) {
 		tasks = ts;
 		workers = ws;
