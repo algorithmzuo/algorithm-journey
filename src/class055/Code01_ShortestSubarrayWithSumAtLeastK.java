@@ -20,8 +20,8 @@ public class Code01_ShortestSubarrayWithSumAtLeastK {
 		for (int i = 0; i < n; i++) {
 			sum[i + 1] = sum[i] + arr[i];
 		}
-		int ans = Integer.MAX_VALUE;
 		h = t = 0;
+		int ans = Integer.MAX_VALUE;
 		for (int r = 0; r <= n; r++) {
 			while (h != t && sum[r] - sum[deque[h]] >= K) {
 				ans = Math.min(ans, r - deque[h++]);
