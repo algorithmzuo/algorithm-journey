@@ -16,9 +16,9 @@ import java.util.Arrays;
 // 测试链接 : https://leetcode.cn/problems/maximum-number-of-tasks-you-can-assign/
 public class Code03_MaximumNumberOfTasksYouCanAssign {
 
-	public static int[] ts;
+	public static int[] tasks;
 
-	public static int[] ws;
+	public static int[] workers;
 
 	public static int MAXN = 50001;
 
@@ -26,21 +26,21 @@ public class Code03_MaximumNumberOfTasksYouCanAssign {
 
 	public static int h, t;
 
-	public static int maxTaskAssign(int[] tasks, int[] workers, int pills, int strength) {
-		ts = tasks;
-		ws = workers;
-		Arrays.sort(ts);
-		Arrays.sort(ws);
-		int n = ts.length;
-		int m = ws.length;
+	public static int maxTaskAssign(int[] ts, int[] ws, int pills, int strength) {
+		tasks = ts;
+		workers = ws;
+		Arrays.sort(tasks);
+		Arrays.sort(workers);
+		int tsize = tasks.length;
+		int wsize = workers.length;
 		int ans = 0;
-		for (int l = 0, r = n, mid; l <= r;) {
-			mid = (l + r) / 2;
-			if (need(0, mid - 1, m - mid, m - 1, strength) <= pills) {
-				ans = mid;
-				l = mid + 1;
+		for (int l = 0, r = tsize, m; l <= r;) {
+			m = (l + r) / 2;
+			if (need(0, m - 1, wsize - m, wsize - 1, strength) <= pills) {
+				ans = m;
+				l = m + 1;
 			} else {
-				r = mid - 1;
+				r = m - 1;
 			}
 		}
 		return ans;
@@ -53,13 +53,13 @@ public class Code03_MaximumNumberOfTasksYouCanAssign {
 		h = t = 0;
 		int ans = 0;
 		for (int i = wl, j = tl; i <= wr; i++) {
-			for (; j <= tr && ts[j] <= ws[i]; j++) {
+			for (; j <= tr && tasks[j] <= workers[i]; j++) {
 				deque[t++] = j;
 			}
-			if (h < t && ts[deque[h]] <= ws[i]) {
+			if (h < t && tasks[deque[h]] <= workers[i]) {
 				h++;
 			} else {
-				for (; j <= tr && ts[j] <= ws[i] + s; j++) {
+				for (; j <= tr && tasks[j] <= workers[i] + s; j++) {
 					deque[t++] = j;
 				}
 				if (h < t) {
