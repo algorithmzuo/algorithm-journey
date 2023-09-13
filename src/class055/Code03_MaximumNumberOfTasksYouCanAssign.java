@@ -26,6 +26,7 @@ public class Code03_MaximumNumberOfTasksYouCanAssign {
 
 	public static int h, t;
 
+	// 时间复杂度O(log(n和m的最小值) * (n和m的最小值))
 	public static int maxTaskAssign(int[] ts, int[] ws, int pills, int strength) {
 		tasks = ts;
 		workers = ws;
