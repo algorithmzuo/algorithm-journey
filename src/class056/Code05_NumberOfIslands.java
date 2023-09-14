@@ -49,8 +49,8 @@ public class Code05_NumberOfIslands {
 		}
 	}
 
-	public static int index(int r, int c) {
-		return r * cols + c;
+	public static int index(int a, int b) {
+		return a * cols + b;
 	}
 
 	public static int find(int i) {

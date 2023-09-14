@@ -33,12 +33,15 @@ public class Code01_UnionFindNowCoder {
 		}
 	}
 
+	// i号节点，往上一直找，找到代表节点返回！
 	public static int find(int i) {
+		// 沿途收集了几个点
 		int size = 0;
 		while (i != father[i]) {
 			stack[size++] = i;
 			i = father[i];
 		}
+		// 沿途节点收集好了，i已经跳到代表节点了
 		while (size > 0) {
 			father[stack[--size]] = i;
 		}
@@ -53,6 +56,8 @@ public class Code01_UnionFindNowCoder {
 		int fx = find(x);
 		int fy = find(y);
 		if (fx != fy) {
+			// fx是集合的代表：拿大小
+			// fy是集合的代表：拿大小
 			if (size[fx] >= size[fy]) {
 				size[fx] += size[fy];
 				father[fy] = fx;
