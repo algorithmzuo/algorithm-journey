@@ -31,12 +31,12 @@ public class Code05_NumberOfIslands {
 
 	public static int[] father = new int[MAXSIZE];
 
-	public static int col;
+	public static int cols;
 
 	public static int sets;
 
 	public static void build(int n, int m, char[][] board) {
-		col = m;
+		cols = m;
 		sets = 0;
 		for (int a = 0; a < n; a++) {
 			for (int b = 0, index; b < m; b++) {
@@ -50,7 +50,7 @@ public class Code05_NumberOfIslands {
 	}
 
 	public static int index(int r, int c) {
-		return r * col + c;
+		return r * cols + c;
 	}
 
 	public static int find(int i) {

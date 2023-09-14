@@ -93,6 +93,8 @@ public class Code02_FindAllPeopleWithSecret {
 		}
 		for (int i = 0; i < size; i++) {
 			if (!know(team[i])) {
+				// 有小的撤销行为，但这不是可撤销并查集
+				// 只是每一批没有知道秘密的专家重新建立集合而已
 				isolate(team[i]);
 			}
 		}
