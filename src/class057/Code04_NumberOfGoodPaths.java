@@ -2,33 +2,38 @@ package class057;
 
 import java.util.Arrays;
 
-// 按公因数计算最大组件大小
-// 给定一个由不同正整数的组成的非空数组 nums
-// 如果 nums[i] 和 nums[j] 有一个大于1的公因子，那么这两个数之间有一条无向边
-// 返回 nums中最大连通组件的大小。
-// 测试链接 : https://leetcode.cn/problems/largest-component-size-by-common-factor/
-public class Code04_LargestComponentSizeByCommonFactor {
+// 好路径的数目
+// 给你一棵 n 个节点的树（连通无向无环的图）
+// 节点编号从0到n-1，且恰好有n-1条边
+// 给你一个长度为 n 下标从 0 开始的整数数组 vals
+// 分别表示每个节点的值。同时给你一个二维整数数组 edges
+// 其中 edges[i] = [ai, bi] 表示节点 ai 和 bi 之间有一条 无向 边
+// 一条 好路径 需要满足以下条件：
+// 开始节点和结束节点的值 相同
+// 开始节点和结束节点中间的所有节点值都 小于等于 开始节点的值
+//（也就是说开始节点的值应该是路径上所有节点的最大值）
+// 请你返回不同好路径的数目
+// 注意，一条路径和它反向的路径算作 同一 路径
+// 比方说， 0 -> 1 与 1 -> 0 视为同一条路径。单个节点也视为一条合法路径
+// 测试链接 : https://leetcode.cn/problems/number-of-good-paths/
+public class Code04_NumberOfGoodPaths {
 
-	public static int MAXV = 100001;
+	public static int MAXN = 30001;
 
-	public static int MAXN = 100001;
-
-	public static int[] factors = new int[MAXV];
-
+	// 需要保证集合中，代表节点的值，一定是整个集合的最大值
 	public static int[] father = new int[MAXN];
 
-	public static int[] size = new int[MAXN];
+	// 集合中最大值的次数，也就是 集合中代表节点的值有几个
+	public static int[] cnt = new int[MAXN];
 
-	public static int n;
-
-	public static void build() {
+	public static void build(int n) {
 		for (int i = 0; i < n; i++) {
 			father[i] = i;
-			size[i] = 1;
+			cnt[i] = 1;
 		}
-		Arrays.fill(factors, -1);
 	}
 
+	// 这个并查集的优化只来自扁平化
 	public static int find(int i) {
 		if (i != father[i]) {
 			father[i] = find(father[i]);
@@ -36,49 +41,38 @@ public class Code04_LargestComponentSizeByCommonFactor {
 		return father[i];
 	}
 
-	public static void union(int x, int y) {
+	// 核心！
+	// 注意以下的写法
+	// 谁的值大，谁做代表节点
+	// 同时注意cnt数组的更新
+	public static int union(int x, int y, int[] vals) {
 		int fx = find(x);
 		int fy = find(y);
-		if (fx != fy) {
+		int path = 0;
+		if (vals[fx] > vals[fy]) {
+			father[fy] = fx;
+		} else if (vals[fx] < vals[fy]) {
 			father[fx] = fy;
-			size[fy] += size[fx];
+		} else {
+			path = cnt[fx] * cnt[fy];
+			father[fy] = fx;
+			cnt[fx] += cnt[fy];
 		}
+		return path;
 	}
 
-	public static int maxSize() {
-		int ans = 0;
-		for (int i = 0; i < n; i++) {
-			ans = Math.max(ans, size[i]);
+	public static int numberOfGoodPaths(int[] vals, int[][] edges) {
+		int n = vals.length;
+		build(n);
+		int ans = n;
+		// 核心排序！
+		// 处理边的时候，依次从小节点往大节点处理
+		// 课上重点讲这个排序
+		Arrays.sort(edges, (e1, e2) -> (Math.max(vals[e1[0]], vals[e1[1]]) - Math.max(vals[e2[0]], vals[e2[1]])));
+		for (int[] edge : edges) {
+			ans += union(edge[0], edge[1], vals);
 		}
 		return ans;
-	}
-
-	public static int largestComponentSize(int[] arr) {
-		n = arr.length;
-		build();
-		for (int i = 0, x; i < n; i++) {
-			x = arr[i];
-			for (int j = 2; j * j <= x; j++) {
-				if (x % j == 0) {
-					if (factors[j] == -1) {
-						factors[j] = i;
-					} else {
-						union(factors[j], i);
-					}
-					while (x % j == 0) {
-						x /= j;
-					}
-				}
-			}
-			if (factors[x] != -1) {
-				union(factors[x], i);
-			} else {
-				if (x > 1) {
-					factors[x] = i;
-				}
-			}
-		}
-		return maxSize();
 	}
 
 }
