@@ -19,36 +19,7 @@ import java.util.List;
 // 链接测试 : https://leetcode.cn/problems/find-all-people-with-secret/
 public class Code02_FindAllPeopleWithSecret {
 
-	public static List<Integer> findAllPeople(int n, int[][] meetings, int first) {
-		build(n, first);
-		int m = meetings.length;
-		Arrays.sort(meetings, (a, b) -> a[2] - b[2]);
-		size = 0;
-		team[size++] = meetings[0][0];
-		team[size++] = meetings[0][1];
-		for (int i = 1; i < m; i++) {
-			if (meetings[i][2] != meetings[i - 1][2]) {
-				share();
-				size = 0;
-			}
-			team[size++] = meetings[i][0];
-			team[size++] = meetings[i][1];
-		}
-		share();
-		List<Integer> ans = new ArrayList<>();
-		for (int i = 0; i < n; i++) {
-			if (know(i)) {
-				ans.add(i);
-			}
-		}
-		return ans;
-	}
-
 	public static int MAXN = 100001;
-
-	public static int[] team = new int[MAXN << 1];
-
-	public static int size;
 
 	public static int[] father = new int[MAXN];
 
@@ -79,25 +50,39 @@ public class Code02_FindAllPeopleWithSecret {
 		}
 	}
 
-	public static boolean know(int i) {
-		return secret[find(i)];
-	}
-
-	public static void isolate(int i) {
-		father[i] = i;
-	}
-
-	public static void share() {
-		for (int i = 0; i < size; i += 2) {
-			union(team[i], team[i + 1]);
+	public static List<Integer> findAllPeople(int n, int[][] meetings, int first) {
+		build(n, first);
+		Arrays.sort(meetings, (a, b) -> a[2] - b[2]);
+		int m = meetings.length;
+		for (int l = 0, r; l < m;) {
+			r = l;
+			while (r + 1 < m && meetings[l][2] == meetings[r + 1][2]) {
+				r++;
+			}
+			for (int i = l; i <= r; i++) {
+				union(meetings[i][0], meetings[i][1]);
+			}
+			// 有小的撤销行为，但这不是可撤销并查集
+			// 只是每一批没有知道秘密的专家重新建立集合而已
+			for (int i = l, a, b; i <= r; i++) {
+				a = meetings[i][0];
+				b = meetings[i][1];
+				if (!secret[find(a)]) {
+					father[a] = a;
+				}
+				if (!secret[find(b)]) {
+					father[b] = b;
+				}
+			}
+			l = r + 1;
 		}
-		for (int i = 0; i < size; i++) {
-			if (!know(team[i])) {
-				// 有小的撤销行为，但这不是可撤销并查集
-				// 只是每一批没有知道秘密的专家重新建立集合而已
-				isolate(team[i]);
+		List<Integer> ans = new ArrayList<>();
+		for (int i = 0; i < n; i++) {
+			if (secret[find(i)]) {
+				ans.add(i);
 			}
 		}
+		return ans;
 	}
 
 }
