@@ -16,7 +16,7 @@ import java.util.Arrays;
 // 注意，一条路径和它反向的路径算作 同一 路径
 // 比方说， 0 -> 1 与 1 -> 0 视为同一条路径。单个节点也视为一条合法路径
 // 测试链接 : https://leetcode.cn/problems/number-of-good-paths/
-public class Code04_NumberOfGoodPaths {
+public class Code03_NumberOfGoodPaths {
 
 	public static int MAXN = 30001;
 
