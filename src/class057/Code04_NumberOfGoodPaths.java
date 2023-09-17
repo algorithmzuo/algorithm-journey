@@ -24,12 +24,12 @@ public class Code04_NumberOfGoodPaths {
 	public static int[] father = new int[MAXN];
 
 	// 集合中最大值的次数，也就是 集合中代表节点的值有几个
-	public static int[] cnt = new int[MAXN];
+	public static int[] maxcnt = new int[MAXN];
 
 	public static void build(int n) {
 		for (int i = 0; i < n; i++) {
 			father[i] = i;
-			cnt[i] = 1;
+			maxcnt[i] = 1;
 		}
 	}
 
@@ -42,9 +42,9 @@ public class Code04_NumberOfGoodPaths {
 	}
 
 	// 核心！
-	// 注意以下的写法
+	// 注意以下的写法！
 	// 谁的值大，谁做代表节点
-	// 同时注意cnt数组的更新
+	// 同时注意 maxcnt 的更新
 	public static int union(int x, int y, int[] vals) {
 		int fx = find(x);
 		int fy = find(y);
@@ -54,9 +54,9 @@ public class Code04_NumberOfGoodPaths {
 		} else if (vals[fx] < vals[fy]) {
 			father[fx] = fy;
 		} else {
-			path = cnt[fx] * cnt[fy];
+			path = maxcnt[fx] * maxcnt[fy];
 			father[fy] = fx;
-			cnt[fx] += cnt[fy];
+			maxcnt[fx] += maxcnt[fy];
 		}
 		return path;
 	}
@@ -65,9 +65,8 @@ public class Code04_NumberOfGoodPaths {
 		int n = vals.length;
 		build(n);
 		int ans = n;
-		// 核心排序！
+		// 课上重点讲这个核心排序！
 		// 处理边的时候，依次从小节点往大节点处理
-		// 课上重点讲这个排序
 		Arrays.sort(edges, (e1, e2) -> (Math.max(vals[e1[0]], vals[e1[1]]) - Math.max(vals[e2[0]], vals[e2[1]])));
 		for (int[] edge : edges) {
 			ans += union(edge[0], edge[1], vals);
