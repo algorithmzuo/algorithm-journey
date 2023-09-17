@@ -10,26 +10,6 @@ import java.util.HashMap;
 // 测试链接 : https://leetcode.cn/problems/most-stones-removed-with-same-row-or-column/
 public class Code01_MostStonesRemovedWithSameRowOrColumn {
 
-	public static int removeStones(int[][] stones) {
-		int n = stones.length;
-		build(n);
-		for (int i = 0; i < n; i++) {
-			int x = stones[i][0];
-			int y = stones[i][1];
-			if (!rowFirst.containsKey(x)) {
-				rowFirst.put(x, i);
-			} else {
-				union(i, rowFirst.get(x));
-			}
-			if (!colFirst.containsKey(y)) {
-				colFirst.put(y, i);
-			} else {
-				union(i, colFirst.get(y));
-			}
-		}
-		return n - sets;
-	}
-
 	public static HashMap<Integer, Integer> rowFirst = new HashMap<Integer, Integer>();
 
 	public static HashMap<Integer, Integer> colFirst = new HashMap<Integer, Integer>();
@@ -63,6 +43,26 @@ public class Code01_MostStonesRemovedWithSameRowOrColumn {
 			father[fx] = fy;
 			sets--;
 		}
+	}
+
+	public static int removeStones(int[][] stones) {
+		int n = stones.length;
+		build(n);
+		for (int i = 0; i < n; i++) {
+			int x = stones[i][0];
+			int y = stones[i][1];
+			if (!rowFirst.containsKey(x)) {
+				rowFirst.put(x, i);
+			} else {
+				union(i, rowFirst.get(x));
+			}
+			if (!colFirst.containsKey(y)) {
+				colFirst.put(y, i);
+			} else {
+				union(i, colFirst.get(y));
+			}
+		}
+		return n - sets;
 	}
 
 }
