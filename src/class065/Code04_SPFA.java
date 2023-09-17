@@ -30,7 +30,7 @@ public class Code04_SPFA {
 
 	public static int cnt;
 
-	// spfa需要
+	// SPFA需要
 	public static int MAXQ = 4000001;
 
 	public static int[] queue = new int[MAXQ];
