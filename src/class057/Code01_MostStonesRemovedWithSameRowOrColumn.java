@@ -49,17 +49,17 @@ public class Code01_MostStonesRemovedWithSameRowOrColumn {
 		int n = stones.length;
 		build(n);
 		for (int i = 0; i < n; i++) {
-			int x = stones[i][0];
-			int y = stones[i][1];
-			if (!rowFirst.containsKey(x)) {
-				rowFirst.put(x, i);
+			int row = stones[i][0];
+			int col = stones[i][1];
+			if (!rowFirst.containsKey(row)) {
+				rowFirst.put(row, i);
 			} else {
-				union(i, rowFirst.get(x));
+				union(i, rowFirst.get(row));
 			}
-			if (!colFirst.containsKey(y)) {
-				colFirst.put(y, i);
+			if (!colFirst.containsKey(col)) {
+				colFirst.put(col, i);
 			} else {
-				union(i, colFirst.get(y));
+				union(i, colFirst.get(col));
 			}
 		}
 		return n - sets;
