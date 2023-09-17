@@ -43,7 +43,9 @@ public class Code03_NumberOfGoodPaths {
 	// 谁的值大，谁做代表节点
 	// 同时注意 maxcnt 的更新
 	public static int union(int x, int y, int[] vals) {
+		// fx : x所在集团的代表节点，同时也是x所在集团的最大值下标
 		int fx = find(x);
+		// fy : y所在集团的代表节点，同时也是y所在集团的最大值下标
 		int fy = find(y);
 		int path = 0;
 		if (vals[fx] > vals[fy]) {
@@ -51,6 +53,7 @@ public class Code03_NumberOfGoodPaths {
 		} else if (vals[fx] < vals[fy]) {
 			father[fx] = fy;
 		} else {
+			// 两个集团最大值一样！
 			path = maxcnt[fx] * maxcnt[fy];
 			father[fy] = fx;
 			maxcnt[fx] += maxcnt[fy];
@@ -69,6 +72,40 @@ public class Code03_NumberOfGoodPaths {
 			ans += union(edge[0], edge[1], vals);
 		}
 		return ans;
+	}
+
+	// 课上讲解的例子1和例子2
+	public static void main(String[] args) {
+		// 课上例子1
+		//              0  1  2  3  4  5  6  7
+		int[] vals1 = { 2, 1, 1, 2, 2, 1, 1, 2 };
+		int[][] edges1 = { 
+				{ 0, 1 },
+				{ 0, 2 },
+				{ 1, 3 },
+				{ 2, 4 },
+				{ 2, 5 },
+				{ 5, 6 },
+				{ 6, 7 } };
+		System.out.println(numberOfGoodPaths(vals1, edges1));
+
+		// 课上例子2
+		//              0  1  2  3  4  5  6  7  8  9 10 11 12
+		int[] vals2 = { 1, 2, 2, 3, 1, 2, 2, 1, 1, 3, 3, 3, 3 };
+		int[][] edges2 = {
+				{ 0, 1 },
+				{ 0, 2 },
+				{ 0, 3 },
+				{ 1, 4 },
+				{ 4, 7 },
+				{ 4, 8 },
+				{ 3, 5 },
+				{ 3, 6 },
+				{ 6, 9 },
+				{ 6, 10 },
+				{ 6, 11 },
+				{ 9, 12 } };
+		System.out.println(numberOfGoodPaths(vals2, edges2));
 	}
 
 }

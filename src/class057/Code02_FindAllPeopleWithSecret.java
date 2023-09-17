@@ -23,6 +23,8 @@ public class Code02_FindAllPeopleWithSecret {
 
 	public static int[] father = new int[MAXN];
 
+	// 集合的标签信息 : 设置集合的一些属性
+	// 属性在哪？secret[代表元素] 代表集合的属性
 	public static boolean[] secret = new boolean[MAXN];
 
 	public static void build(int n, int first) {
@@ -50,8 +52,12 @@ public class Code02_FindAllPeopleWithSecret {
 		}
 	}
 
+	// 会议排序 : m * log m
+	// 处理过程 : O(m)
+	// 收集答案 : O(n)
 	public static List<Integer> findAllPeople(int n, int[][] meetings, int first) {
 		build(n, first);
+		// {0 : 专家   1 : 专家编号   2 : 时刻}
 		Arrays.sort(meetings, (a, b) -> a[2] - b[2]);
 		int m = meetings.length;
 		for (int l = 0, r; l < m;) {
@@ -59,6 +65,7 @@ public class Code02_FindAllPeopleWithSecret {
 			while (r + 1 < m && meetings[l][2] == meetings[r + 1][2]) {
 				r++;
 			}
+			// l....r这些会议，一定是一个时刻
 			for (int i = l; i <= r; i++) {
 				union(meetings[i][0], meetings[i][1]);
 			}

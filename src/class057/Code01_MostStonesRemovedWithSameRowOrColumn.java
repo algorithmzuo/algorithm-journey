@@ -10,6 +10,8 @@ import java.util.HashMap;
 // 测试链接 : https://leetcode.cn/problems/most-stones-removed-with-same-row-or-column/
 public class Code01_MostStonesRemovedWithSameRowOrColumn {
 
+	// key : 某行
+	// value : 第一次遇到的石头编号
 	public static HashMap<Integer, Integer> rowFirst = new HashMap<Integer, Integer>();
 
 	public static HashMap<Integer, Integer> colFirst = new HashMap<Integer, Integer>();
