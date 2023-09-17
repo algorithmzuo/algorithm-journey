@@ -19,7 +19,7 @@ public class Code04_SPFA {
 
 	public static int MAXM = 6001;
 
-	// 链式前向星建图
+	// 链式前向星建图需要
 	public static int[] head = new int[MAXN];
 
 	public static int[] next = new int[MAXM];
@@ -31,20 +31,23 @@ public class Code04_SPFA {
 	public static int cnt;
 
 	// spfa需要
-	public static int[] distance = new int[MAXN];
-
-	public static int[] updateCnt = new int[MAXN];
-
 	public static int MAXQ = 4000001;
 
 	public static int[] queue = new int[MAXQ];
 
 	public static int l, r;
 
+	public static boolean[] enter = new boolean[MAXN];
+
+	public static int[] distance = new int[MAXN];
+
+	public static int[] updateCnt = new int[MAXN];
+
 	public static void build(int n) {
 		cnt = 1;
 		l = r = 0;
 		Arrays.fill(head, 1, n + 1, 0);
+		Arrays.fill(enter, 1, n + 1, false);
 		Arrays.fill(distance, 1, n + 1, Integer.MAX_VALUE);
 		Arrays.fill(updateCnt, 1, n + 1, 0);
 	}
@@ -63,13 +66,18 @@ public class Code04_SPFA {
 		in.nextToken();
 		int cases = (int) in.nval;
 		for (int i = 0, n, m; i < cases; i++) {
-			in.nextToken(); n = (int) in.nval;
-			in.nextToken(); m = (int) in.nval;
+			in.nextToken();
+			n = (int) in.nval;
+			in.nextToken();
+			m = (int) in.nval;
 			build(n);
 			for (int j = 0, u, v, w; j < m; j++) {
-				in.nextToken(); u = (int) in.nval;
-				in.nextToken(); v = (int) in.nval;
-				in.nextToken(); w = (int) in.nval;
+				in.nextToken();
+				u = (int) in.nval;
+				in.nextToken();
+				v = (int) in.nval;
+				in.nextToken();
+				w = (int) in.nval;
 				if (w >= 0) {
 					addEdge(u, v, w);
 					addEdge(v, u, w);
@@ -86,20 +94,25 @@ public class Code04_SPFA {
 
 	// bellman-ford + SPFA
 	public static boolean spfa(int n) {
+		queue[r++] = 1;
+		enter[1] = true;
 		distance[1] = 0;
 		updateCnt[1]++;
-		queue[r++] = 1;
 		while (l < r) {
 			int u = queue[l++];
+			enter[u] = false;
 			for (int edge = head[u], v, w; edge > 0; edge = next[edge]) {
 				v = to[edge];
 				w = weight[edge];
 				if (distance[u] + w < distance[v]) {
 					distance[v] = distance[u] + w;
-					if (updateCnt[v]++ == n) {
-						return true;
+					if (!enter[v]) {
+						if (updateCnt[v]++ == n) {
+							return true;
+						}
+						queue[r++] = v;
+						enter[v] = true;
 					}
-					queue[r++] = v;
 				}
 			}
 		}
