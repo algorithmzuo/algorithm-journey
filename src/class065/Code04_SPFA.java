@@ -84,6 +84,7 @@ public class Code04_SPFA {
 		br.close();
 	}
 
+	// bellman-ford + SPFA
 	public static boolean spfa(int n) {
 		distance[1] = 0;
 		updateCnt[1]++;
