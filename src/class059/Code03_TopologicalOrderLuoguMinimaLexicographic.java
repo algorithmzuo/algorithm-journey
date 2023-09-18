@@ -16,7 +16,7 @@ import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 import java.util.Arrays;
 
-public class Code03_TopologicalOrderMinimaLexicographic {
+public class Code03_TopologicalOrderLuoguMinimaLexicographic {
 
 	public static int MAXN = 100001;
 
