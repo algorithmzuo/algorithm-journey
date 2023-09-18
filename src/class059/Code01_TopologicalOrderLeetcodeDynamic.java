@@ -3,7 +3,7 @@ package class059;
 import java.util.ArrayList;
 
 // 拓扑排序模版（Leetcode）
-// 动态方式建图
+// 邻接表建图（动态方式）
 // 课程表 II
 // 现在你总共有 numCourses 门课需要选，记为 0 到 numCourses - 1
 // 给你一个数组 prerequisites ，其中 prerequisites[i] = [ai, bi]
