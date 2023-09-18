@@ -32,12 +32,12 @@ public class Code04_BricksFallingWhenHit {
 		for (int i = 0; i < m; i++) {
 			dfs(0, i);
 		}
-		for (int k = h.length - 1, i, j; k >= 0; k--) {
-			i = h[k][0];
-			j = h[k][1];
-			grid[i][j]++;
-			if (worth(i, j)) {
-				ans[k] = dfs(i, j) - 1;
+		for (int i = h.length - 1, row, col; i >= 0; i--) {
+			row = h[i][0];
+			col = h[i][1];
+			grid[row][col]++;
+			if (worth(row, col)) {
+				ans[i] = dfs(row, col) - 1;
 			}
 		}
 		return ans;
@@ -52,8 +52,8 @@ public class Code04_BricksFallingWhenHit {
 	}
 
 	public static boolean worth(int i, int j) {
-		return grid[i][j] == 1 
-				&& 
+		return grid[i][j] == 1
+				&&
 				(i == 0
 				|| (i > 0 && grid[i - 1][j] == 2)
 				|| (i < n - 1 && grid[i + 1][j] == 2)
