@@ -52,14 +52,13 @@ public class Code04_BricksFallingWhenHit {
 	}
 
 	public static boolean worth(int i, int j) {
-		if (grid[i][j] != 1) {
-			return false;
-		}
-		return i == 0
+		return grid[i][j] == 1 
+				&& 
+				(i == 0
 				|| (i > 0 && grid[i - 1][j] == 2)
 				|| (i < n - 1 && grid[i + 1][j] == 2)
 				|| (j > 0 && grid[i][j - 1] == 2)
-				|| (j < m - 1 && grid[i][j + 1] == 2);
+				|| (j < m - 1 && grid[i][j + 1] == 2));
 	}
 
 }

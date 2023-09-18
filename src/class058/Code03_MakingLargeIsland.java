@@ -28,15 +28,16 @@ public class Code03_MakingLargeIsland {
 			}
 		}
 		boolean[] visited = new boolean[id];
+		int up, down, left, right, merge;
 		for (int i = 0; i < n; i++) {
 			for (int j = 0; j < m; j++) {
 				if (grid[i][j] == 0) {
-					int up = i - 1 >= 0 ? grid[i - 1][j] : 0;
-					int down = i + 1 < n ? grid[i + 1][j] : 0;
-					int left = j - 1 >= 0 ? grid[i][j - 1] : 0;
-					int right = j + 1 < m ? grid[i][j + 1] : 0;
-					int merge = 1 + sizes[up];
+					up = i > 0 ? grid[i - 1][j] : 0;
+					down = i + 1 < n ? grid[i + 1][j] : 0;
+					left = j > 0 ? grid[i][j - 1] : 0;
+					right = j + 1 < m ? grid[i][j + 1] : 0;
 					visited[up] = true;
+					merge = 1 + sizes[up];
 					if (!visited[down]) {
 						merge += sizes[down];
 						visited[down] = true;
