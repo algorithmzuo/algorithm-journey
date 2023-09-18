@@ -1,7 +1,9 @@
 package class059;
 
-// 拓扑排序模版（洛谷），链式前向星建图
-// 测试链接 : https://www.nowcoder.com/practice/88f7e156ca7d43a1a535f619cd3f495c
+// 拓扑排序模版（洛谷）
+// 链式前向星建图
+// 同时要求最小字典序的拓扑排序结果
+// 测试链接 : https://www.luogu.com.cn/problem/U107394
 // 请同学们务必参考如下代码中关于输入、输出的处理
 // 这是输入输出处理效率很高的写法
 // 提交以下所有代码，把主类名改成Main，可以直接通过
@@ -14,11 +16,11 @@ import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 import java.util.Arrays;
 
-public class Code02_TopologicalOrderLuogu {
+public class Code02_TopologicalOrderMinimaLexicographic {
 
-	public static int MAXN = 200001;
+	public static int MAXN = 100001;
 
-	public static int MAXM = 200001;
+	public static int MAXM = 100001;
 
 	// 建图相关，链式前向星
 	public static int[] head = new int[MAXN];
@@ -29,18 +31,23 @@ public class Code02_TopologicalOrderLuogu {
 
 	public static int cnt;
 
-	public static int[] queue = new int[MAXN];
-
-	public static int l, r;
-
+	// 拓扑排序，入度表
 	public static int[] indegree = new int[MAXN];
 
+	// 不要队列了，用小根堆代替了，为了得到字典序最小的拓扑排序
+	public static int[] heap = new int[MAXN];
+
+	public static int heapSize;
+
+	// 收集拓扑排序的结果
 	public static int[] ans = new int[MAXN];
 
 	public static int n, m;
 
+	// 清理之前的脏数据
 	public static void build(int n) {
 		cnt = 1;
+		heapSize = 0;
 		Arrays.fill(head, 0, n + 1, 0);
 		Arrays.fill(indegree, 0, n + 1, 0);
 	}
@@ -50,6 +57,47 @@ public class Code02_TopologicalOrderLuogu {
 		next[cnt] = head[f];
 		to[cnt] = t;
 		head[f] = cnt++;
+	}
+
+	// 小根堆里加入数字
+	public static void push(int num) {
+		int i = heapSize++;
+		heap[i] = num;
+		while (heap[i] < heap[(i - 1) / 2]) {
+			swap(i, (i - 1) / 2);
+			i = (i - 1) / 2;
+		}
+	}
+
+	// 小根堆里弹出最小值
+	public static int pop() {
+		int ans = heap[0];
+		heap[0] = heap[--heapSize];
+		int i = 0;
+		int l = 1;
+		while (l < heapSize) {
+			int best = l + 1 < heapSize && heap[l + 1] < heap[l] ? l + 1 : l;
+			best = heap[best] < heap[i] ? best : i;
+			if (best == i) {
+				break;
+			}
+			swap(best, i);
+			i = best;
+			l = i * 2 + 1;
+		}
+		return ans;
+	}
+
+	// 判断小根堆是否为空
+	public static boolean isEmpty() {
+		return heapSize == 0;
+	}
+
+	// 交换堆上两个位置的数字
+	public static void swap(int i, int j) {
+		int tmp = heap[i];
+		heap[i] = heap[j];
+		heap[j] = tmp;
 	}
 
 	public static void main(String[] args) throws IOException {
@@ -69,39 +117,34 @@ public class Code02_TopologicalOrderLuogu {
 				addEdge(from, to);
 				indegree[to]++;
 			}
-			if (!topoSort()) {
-				out.println(-1);
-			} else {
-				for (int i = 0; i < n - 1; i++) {
-					out.print(ans[i] + " ");
-				}
-				out.println(ans[n - 1]);
+			topoSort();
+			for (int i = 0; i < n - 1; i++) {
+				out.print(ans[i] + " ");
 			}
+			out.println(ans[n - 1]);
 		}
 		out.flush();
 		out.close();
 		br.close();
 	}
 
-	public static boolean topoSort() {
-		l = r = 0;
+	public static void topoSort() {
 		for (int i = 1; i <= n; i++) {
 			if (indegree[i] == 0) {
-				queue[r++] = i;
+				push(i);
 			}
 		}
 		int fill = 0;
-		while (l < r) {
-			int cur = queue[l++];
+		while (!isEmpty()) {
+			int cur = pop();
 			ans[fill++] = cur;
 			// 用链式前向星，遍历cur的相邻节点
 			for (int edge = head[cur]; edge != 0; edge = next[edge]) {
 				if (--indegree[to[edge]] == 0) {
-					queue[r++] = to[edge];
+					push(to[edge]);
 				}
 			}
 		}
-		return fill == n;
 	}
 
 }
