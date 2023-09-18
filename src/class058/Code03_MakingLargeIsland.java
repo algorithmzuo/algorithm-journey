@@ -14,7 +14,7 @@ public class Code03_MakingLargeIsland {
 		for (int i = 0; i < n; i++) {
 			for (int j = 0; j < m; j++) {
 				if (grid[i][j] == 1) {
-					dfs(grid, i, j, id++, n, m);
+					dfs(grid, n, m, i, j, id++);
 				}
 			}
 		}
@@ -27,6 +27,7 @@ public class Code03_MakingLargeIsland {
 				}
 			}
 		}
+		// 讨论所有的0，变成1，能带来的最大岛的大小
 		boolean[] visited = new boolean[id];
 		int up, down, left, right, merge;
 		for (int i = 0; i < n; i++) {
@@ -61,15 +62,17 @@ public class Code03_MakingLargeIsland {
 		return ans;
 	}
 
-	public static void dfs(int[][] grid, int i, int j, int v, int n, int m) {
+	
+	public static void dfs(int[][] grid, int n, int m, int i, int j, int id) {
 		if (i < 0 || i == n || j < 0 || j == m || grid[i][j] != 1) {
 			return;
 		}
-		grid[i][j] = v;
-		dfs(grid, i - 1, j, v, n, m);
-		dfs(grid, i + 1, j, v, n, m);
-		dfs(grid, i, j - 1, v, n, m);
-		dfs(grid, i, j + 1, v, n, m);
+		//  grid[i][j] == 1
+		grid[i][j] = id;
+		dfs(grid, n, m, i - 1, j, id);
+		dfs(grid, n, m, i + 1, j, id);
+		dfs(grid, n, m, i, j - 1, id);
+		dfs(grid, n, m, i, j + 1, id);
 	}
 
 }

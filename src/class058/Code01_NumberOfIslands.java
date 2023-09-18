@@ -8,28 +8,33 @@ package class058;
 public class Code01_NumberOfIslands {
 
 	// 洪水填充的做法
+	// board : n * m
+	// O(n*m)最优解！
 	public static int numIslands(char[][] board) {
+		int n = board.length;
+		int m = board[0].length;
 		int islands = 0;
-		for (int i = 0; i < board.length; i++) {
-			for (int j = 0; j < board[0].length; j++) {
+		for (int i = 0; i < n; i++) {
+			for (int j = 0; j < m; j++) {
 				if (board[i][j] == '1') {
 					islands++;
-					dfs(board, i, j);
+					dfs(board, n, m, i, j);
 				}
 			}
 		}
 		return islands;
 	}
 
-	public static void dfs(char[][] board, int i, int j) {
-		if (i < 0 || i == board.length || j < 0 || j == board[0].length || board[i][j] != '1') {
+	public static void dfs(char[][] board, int n, int m, int i, int j) {
+		if (i < 0 || i == n || j < 0 || j == m || board[i][j] != '1') {
 			return;
 		}
+		// board[i][j] = '1'
 		board[i][j] = 0;
-		dfs(board, i - 1, j);
-		dfs(board, i + 1, j);
-		dfs(board, i, j - 1);
-		dfs(board, i, j + 1);
+		dfs(board, n, m, i - 1, j);
+		dfs(board, n, m, i + 1, j);
+		dfs(board, n, m, i, j - 1);
+		dfs(board, n, m, i, j + 1);
 	}
 
 }

@@ -38,7 +38,7 @@ public class Code02_SurroundedRegions {
 	}
 
 	public static void dfs(char[][] board, int n, int m, int i, int j) {
-		if (i == -1 || i == n || j == -1 || j == m || board[i][j] != 'O') {
+		if (i < 0 || i == n || j < 0 || j == m || board[i][j] != 'O') {
 			return;
 		}
 		board[i][j] = 'F';

@@ -43,6 +43,8 @@ public class Code04_BricksFallingWhenHit {
 		return ans;
 	}
 
+	// 从(i,j)格子出发，遇到1就感染成2
+	// 统计新增了几个2！
 	public static int dfs(int i, int j) {
 		if (i < 0 || i == n || j < 0 || j == m || grid[i][j] != 1) {
 			return 0;
