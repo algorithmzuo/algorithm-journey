@@ -15,7 +15,7 @@ import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 import java.util.Arrays;
 
-public class Code02_TopologicalOrderNowcoderStatic {
+public class Code02_TopoSortStaticNowcoder {
 
 	public static int MAXN = 200001;
 

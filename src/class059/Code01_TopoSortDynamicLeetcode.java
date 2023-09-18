@@ -12,7 +12,7 @@ import java.util.ArrayList;
 // 返回你为了学完所有课程所安排的学习顺序。可能会有多个正确的顺序
 // 你只要返回 任意一种 就可以了。如果不可能完成所有课程，返回 一个空数组
 // 测试链接 : https://leetcode.cn/problems/course-schedule-ii/
-public class Code01_TopologicalOrderLeetcodeDynamic {
+public class Code01_TopoSortDynamicLeetcode {
 
 	public static int[] findOrder(int n, int[][] need) {
 		ArrayList<ArrayList<Integer>> graph = new ArrayList<>();
