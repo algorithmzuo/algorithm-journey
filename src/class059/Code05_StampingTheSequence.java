@@ -19,7 +19,7 @@ import java.util.Arrays;
 // 另外，如果可以印出序列，那么需要保证可以在 10 * target.length 个回合内完成
 // 任何超过此数字的答案将不被接受
 // 测试链接 : https://leetcode.cn/problems/stamping-the-sequence/
-public class Code04_StampingTheSequence {
+public class Code05_StampingTheSequence {
 
 	public static int[] movesToStamp(String stamp, String target) {
 		char[] s = stamp.toCharArray();
