@@ -13,8 +13,8 @@ import java.util.Arrays;
 // 给定一个印章字符串stamp，目标是最终盖出target
 // 但是印章的使用次数必须在10*n次以内
 // 返回一个数组，该数组由每个回合中被印下的最左边字母的索引组成
-// 上面的例子返回[2,0]，表示印章最左字符依次和序列0位置、序列2位置对齐盖下去，能得到target
-// 如果不能印出序列，或者不能在10*n次内印出序列，就返回一个空数组
+// 上面的例子返回[2,0]，表示印章最左字符依次和序列2位置、序列0位置对齐盖下去，就得到了target
+// 如果不能在10*n次内印出序列，就返回一个空数组
 // 测试链接 : https://leetcode.cn/problems/stamping-the-sequence/
 public class Code05_StampingTheSequence {
 
