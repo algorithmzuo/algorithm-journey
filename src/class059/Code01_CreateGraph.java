@@ -58,7 +58,7 @@ public class Code01_CreateGraph {
 	}
 
 	// 有向图带权图
-	public static void direct(int[][] edges) {
+	public static void directGraph(int[][] edges) {
 		// 邻接矩阵建图
 		for (int[] edge : edges) {
 			graph1[edge[0]][edge[1]] = edge[2];
@@ -75,7 +75,7 @@ public class Code01_CreateGraph {
 	}
 
 	// 无向图带权图
-	public static void undirect(int[][] edges) {
+	public static void undirectGraph(int[][] edges) {
 		// 邻接矩阵建图
 		for (int[] edge : edges) {
 			graph1[edge[0]][edge[1]] = edge[2];
@@ -127,14 +127,14 @@ public class Code01_CreateGraph {
 		int n1 = 4;
 		int[][] edges1 = { { 1, 3, 6 }, { 4, 3, 4 }, { 2, 4, 2 }, { 1, 2, 7 }, { 2, 3, 5 }, { 3, 1, 1 } };
 		build(n1);
-		direct(edges1);
+		directGraph(edges1);
 		traversal(n1);
 		System.out.println("==============================");
 		// 课上例子2，无向图带权图
 		int n2 = 5;
 		int[][] edges2 = { { 3, 5, 4 }, { 4, 1, 1 }, { 3, 4, 2 }, { 5, 2, 4 }, { 2, 3, 7 }, { 1, 5, 5 }, { 4, 2, 6 } };
 		build(n2);
-		undirect(edges2);
+		undirectGraph(edges2);
 		traversal(n2);
 		// 理解了带权图的建立过程，也就理解了不带权图
 	}
