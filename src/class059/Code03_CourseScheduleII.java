@@ -2,7 +2,7 @@ package class059;
 
 import java.util.ArrayList;
 
-// 课程表 II
+// 课程表II
 // 现在你总共有 numCourses 门课需要选，记为 0 到 numCourses - 1
 // 给你一个数组 prerequisites ，其中 prerequisites[i] = [ai, bi]
 // 表示在选修课程 ai 前 必须 先选修 bi
