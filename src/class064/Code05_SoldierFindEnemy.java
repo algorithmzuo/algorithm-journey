@@ -75,64 +75,73 @@ public class Code05_SoldierFindEnemy {
 
 	// 正式方法
 	// Dijkstra算法
-	public static int minCost2(char[][] map, int a, int b) {
-		int n = map.length;
-		int m = map[0].length;
+	public static char[][] grid;
+
+	public static int n, m, a, b;
+
+	public static PriorityQueue<int[]> heap;
+
+	public static boolean[][][] visited;
+
+	public static int minCost2(char[][] map, int pass, int change) {
+		grid = map;
+		n = grid.length;
+		m = grid[0].length;
+		a = pass;
+		b = change;
 		int startX = 0;
 		int startY = 0;
 		for (int i = 0; i < n; i++) {
 			for (int j = 0; j < m; j++) {
-				if (map[i][j] == 'S') {
+				if (grid[i][j] == 'S') {
 					startX = i;
 					startY = j;
 				}
 			}
 		}
-		PriorityQueue<int[]> heap = new PriorityQueue<>((x, y) -> x[3] - y[3]);
-		// (startX, startY)
+		heap = new PriorityQueue<>((o1, o2) -> o1[3] - o2[3]);
+		// 0 : 行
+		// 1 : 列
+		// 2 : 方向
+		// 3 : 代价
 		heap.add(new int[] { startX, startY, 0, 0 });
 		heap.add(new int[] { startX, startY, 1, 0 });
 		heap.add(new int[] { startX, startY, 2, 0 });
 		heap.add(new int[] { startX, startY, 3, 0 });
-		// (i,j,朝向)
-		boolean[][][] visited = new boolean[n][m][4];
+		// (行, 列, 方向)是一个状态，判断状态有没有结算，用visited
+		visited = new boolean[n][m][4];
 		int ans = -1;
 		while (!heap.isEmpty()) {
 			int[] cur = heap.poll();
-//			int x = cur[0];
-//			int y = cur[1];
-//			int 朝向 = cur[2];
-//			int 代价 = cur[3];
-			if (visited[cur[0]][cur[1]][cur[2]]) {
+			int x = cur[0];
+			int y = cur[1];
+			int d = cur[2];
+			int c = cur[3];
+			if (visited[x][y][d]) {
 				continue;
 			}
-			if (map[cur[0]][cur[1]] == 'E') {
-				ans = cur[3];
+			if (grid[x][y] == 'E') {
+				ans = c;
 				break;
 			}
-			visited[cur[0]][cur[1]][cur[2]] = true;
-			add(cur[0] - 1, cur[1], 0, cur[2], cur[3], a, b, map, visited, heap);
-			add(cur[0] + 1, cur[1], 1, cur[2], cur[3], a, b, map, visited, heap);
-			add(cur[0], cur[1] - 1, 2, cur[2], cur[3], a, b, map, visited, heap);
-			add(cur[0], cur[1] + 1, 3, cur[2], cur[3], a, b, map, visited, heap);
+			visited[x][y][d] = true;
+			add(d, c, x - 1, y, 0);
+			add(d, c, x + 1, y, 1);
+			add(d, c, x, y - 1, 2);
+			add(d, c, x, y + 1, 3);
 		}
 		return ans;
 	}
 
-	// 从(x,y, preD) -> (i,j,d)
-	// 走格子的代价a
-	// 转向的代价是b
-	// preC + a
-	public static void add(int i, int j, int d, int preD, int preC, int a, int b, char[][] map, boolean[][][] visited,
-			PriorityQueue<int[]> heap) {
-		if (i < 0 || i == map.length || j < 0 || j == map[0].length || map[i][j] == 'X' || visited[i][j][d]) {
+	public static void add(int preDirect, int preCost, int x, int y, int d) {
+		if (x < 0 || x == n || y < 0 || y == m || grid[x][y] == 'X' || visited[x][y][d]) {
 			return;
 		}
-		int cost = preC + a;
-		if (d != preD) {
-			cost += b;
+		int c = preCost + a;
+		if (preDirect != d) {
+			c += b;
 		}
-		heap.add(new int[] { i, j, d, cost });
+		heap.add(new int[] { x, y, d, c });
 	}
 
 	// 为了测试

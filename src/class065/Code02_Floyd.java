@@ -59,12 +59,13 @@ public class Code02_Floyd {
 		// O(N^3)的过程
 		// 枚举每个跳板
 		// 注意! 跳板要最先枚举，然后是from和to
-		for (int jump = 0; jump < n; jump++) { // 中途！
+		for (int bridge = 0; bridge < n; bridge++) { // 跳点
 			for (int from = 0; from < n; from++) { // from
 				for (int to = 0; to < n; to++) { // to
-					if (distance[from][jump] != Integer.MAX_VALUE && distance[jump][to] != Integer.MAX_VALUE
-							&& distance[from][to] > distance[from][jump] + distance[jump][to]) {
-						distance[from][to] = distance[from][jump] + distance[jump][to];
+					if (distance[from][bridge] != Integer.MAX_VALUE 
+							&& distance[bridge][to] != Integer.MAX_VALUE
+							&& distance[from][to] > distance[from][bridge] + distance[bridge][to]) {
+						distance[from][to] = distance[from][bridge] + distance[bridge][to];
 					}
 				}
 			}
@@ -72,10 +73,10 @@ public class Code02_Floyd {
 		// 如下这么写是错的
 //		for (int from = 0; from < n; from++) {
 //			for (int to = 0; to < n; to++) {
-//				for (int jump = 0; jump < n; jump++) {
-//					if (distance[from][jump] != Integer.MAX_VALUE && distance[jump][to] != Integer.MAX_VALUE
-//							&& distance[from][to] > distance[from][jump] + distance[jump][to]) {
-//						distance[from][to] = distance[from][jump] + distance[jump][to];
+//				for (int bridge = 0; bridge < n; bridge++) {
+//					if (distance[from][bridge] != Integer.MAX_VALUE && distance[bridge][to] != Integer.MAX_VALUE
+//							&& distance[from][to] > distance[from][bridge] + distance[bridge][to]) {
+//						distance[from][to] = distance[from][bridge] + distance[bridge][to];
 //					}
 //				}
 //			}

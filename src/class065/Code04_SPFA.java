@@ -33,15 +33,15 @@ public class Code04_SPFA {
 	// SPFA需要
 	public static int MAXQ = 4000001;
 
+	public static int[] distance = new int[MAXN];
+
+	public static int[] updateCnt = new int[MAXN];
+
 	public static int[] queue = new int[MAXQ];
 
 	public static int l, r;
 
 	public static boolean[] enter = new boolean[MAXN];
-
-	public static int[] distance = new int[MAXN];
-
-	public static int[] updateCnt = new int[MAXN];
 
 	public static void build(int n) {
 		cnt = 1;
@@ -66,18 +66,13 @@ public class Code04_SPFA {
 		in.nextToken();
 		int cases = (int) in.nval;
 		for (int i = 0, n, m; i < cases; i++) {
-			in.nextToken();
-			n = (int) in.nval;
-			in.nextToken();
-			m = (int) in.nval;
+			in.nextToken(); n = (int) in.nval;
+			in.nextToken(); m = (int) in.nval;
 			build(n);
 			for (int j = 0, u, v, w; j < m; j++) {
-				in.nextToken();
-				u = (int) in.nval;
-				in.nextToken();
-				v = (int) in.nval;
-				in.nextToken();
-				w = (int) in.nval;
+				in.nextToken(); u = (int) in.nval;
+				in.nextToken(); v = (int) in.nval;
+				in.nextToken(); w = (int) in.nval;
 				if (w >= 0) {
 					addEdge(u, v, w);
 					addEdge(v, u, w);
@@ -94,10 +89,10 @@ public class Code04_SPFA {
 
 	// bellman-ford + SPFA
 	public static boolean spfa(int n) {
-		queue[r++] = 1;
-		enter[1] = true;
 		distance[1] = 0;
 		updateCnt[1]++;
+		queue[r++] = 1;
+		enter[1] = true;
 		while (l < r) {
 			int u = queue[l++];
 			enter[u] = false;
