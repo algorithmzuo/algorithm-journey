@@ -34,7 +34,7 @@ public class Code03_TopoSortSmallestLexicographical {
 	// 拓扑排序，入度表
 	public static int[] indegree = new int[MAXN];
 
-	// 不要队列了，用小根堆代替了，为了得到字典序最小的拓扑排序
+	// 拓扑排序，不用队列，用小根堆，为了得到字典序最小的拓扑排序
 	public static int[] heap = new int[MAXN];
 
 	public static int heapSize;
@@ -63,6 +63,7 @@ public class Code03_TopoSortSmallestLexicographical {
 	public static void push(int num) {
 		int i = heapSize++;
 		heap[i] = num;
+		// heapInsert的过程
 		while (heap[i] < heap[(i - 1) / 2]) {
 			swap(i, (i - 1) / 2);
 			i = (i - 1) / 2;
@@ -73,6 +74,7 @@ public class Code03_TopoSortSmallestLexicographical {
 	public static int pop() {
 		int ans = heap[0];
 		heap[0] = heap[--heapSize];
+		// heapify的过程
 		int i = 0;
 		int l = 1;
 		while (l < heapSize) {
@@ -138,7 +140,7 @@ public class Code03_TopoSortSmallestLexicographical {
 		while (!isEmpty()) {
 			int cur = pop();
 			ans[fill++] = cur;
-			// 用链式前向星，遍历cur的相邻节点
+			// 用链式前向星的方式，遍历cur的相邻节点
 			for (int edge = head[cur]; edge != 0; edge = next[edge]) {
 				if (--indegree[to[edge]] == 0) {
 					push(to[edge]);
