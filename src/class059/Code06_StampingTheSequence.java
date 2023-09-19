@@ -16,7 +16,7 @@ import java.util.Arrays;
 // 上面的例子返回[2,0]，表示印章最左字符依次和序列2位置、序列0位置对齐盖下去，就得到了target
 // 如果不能在10*n次内印出序列，就返回一个空数组
 // 测试链接 : https://leetcode.cn/problems/stamping-the-sequence/
-public class Code05_StampingTheSequence {
+public class Code06_StampingTheSequence {
 
 	public static int[] movesToStamp(String stamp, String target) {
 		char[] s = stamp.toCharArray();
