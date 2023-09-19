@@ -96,9 +96,9 @@ public class Code02_TopoSortStaticNowcoder {
 			int cur = queue[l++];
 			ans[fill++] = cur;
 			// 用链式前向星的方式，遍历cur的相邻节点
-			for (int edge = head[cur]; edge != 0; edge = next[edge]) {
-				if (--indegree[to[edge]] == 0) {
-					queue[r++] = to[edge];
+			for (int ei = head[cur]; ei != 0; ei = next[ei]) {
+				if (--indegree[to[ei]] == 0) {
+					queue[r++] = to[ei];
 				}
 			}
 		}

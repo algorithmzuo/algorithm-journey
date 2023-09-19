@@ -32,17 +32,17 @@ public class Code01_TopoSortDynamicLeetcode {
 				queue[r++] = i;
 			}
 		}
-		int count = 0;
+		int cnt = 0;
 		while (l < r) {
 			int cur = queue[l++];
-			count++;
+			cnt++;
 			for (int next : graph.get(cur)) {
 				if (--indegree[next] == 0) {
 					queue[r++] = next;
 				}
 			}
 		}
-		return count == n ? queue : new int[0];
+		return cnt == n ? queue : new int[0];
 	}
 
 }
