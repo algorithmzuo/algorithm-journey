@@ -6,18 +6,19 @@ import java.util.Arrays;
 public class Code01_CreateGraph {
 
 	// 点的最大数量
-	public static int MAXN = 21;
+	public static int MAXN = 11;
 
 	// 边的最大数量
 	// 只有链式前向星方式建图需要这个数量
-	// 注意如果有向图的最大数量是m条边，数量要准备m
 	// 注意如果无向图的最大数量是m条边，数量要准备m*2
+	// 因为一条无向边要加两条有向边
 	public static int MAXM = 21;
 
 	// 邻接矩阵方式建图
 	public static int[][] graph1 = new int[MAXN][MAXN];
 
 	// 邻接表方式建图
+	// public static ArrayList<ArrayList<Integer>> graph2 = new ArrayList<>();
 	public static ArrayList<ArrayList<int[]>> graph2 = new ArrayList<>();
 
 	// 链式前向星方式建图
@@ -27,6 +28,7 @@ public class Code01_CreateGraph {
 
 	public static int[] to = new int[MAXM];
 
+	// 如果边有权重，那么需要这个数组
 	public static int[] weight = new int[MAXM];
 
 	public static int cnt;
@@ -57,7 +59,7 @@ public class Code01_CreateGraph {
 		head[u] = cnt++;
 	}
 
-	// 有向图带权图
+	// 三种方式建立有向图带权图
 	public static void directGraph(int[][] edges) {
 		// 邻接矩阵建图
 		for (int[] edge : edges) {
@@ -74,7 +76,7 @@ public class Code01_CreateGraph {
 		}
 	}
 
-	// 无向图带权图
+	// 三种方式建立无向图带权图
 	public static void undirectGraph(int[][] edges) {
 		// 邻接矩阵建图
 		for (int[] edge : edges) {
