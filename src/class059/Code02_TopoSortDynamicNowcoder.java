@@ -16,7 +16,7 @@ import java.io.StreamTokenizer;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class Code01_TopoSortDynamicNowcoder {
+public class Code02_TopoSortDynamicNowcoder {
 
 	public static int MAXN = 200001;
 
