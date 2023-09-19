@@ -20,12 +20,15 @@ public class Code01_TopoSortDynamicNowcoder {
 
 	public static int MAXN = 200001;
 
+	// 拓扑排序，用到队列
 	public static int[] queue = new int[MAXN];
 
 	public static int l, r;
 
+	// 拓扑排序，入度表
 	public static int[] indegree = new int[MAXN];
 
+	// 收集拓扑排序的结果
 	public static int[] ans = new int[MAXN];
 
 	public static int n, m;

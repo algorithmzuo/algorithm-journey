@@ -31,13 +31,13 @@ public class Code03_TopoSortStaticSmallestLexicoLuogu {
 
 	public static int cnt;
 
-	// 拓扑排序，入度表
-	public static int[] indegree = new int[MAXN];
-
 	// 拓扑排序，不用队列，用小根堆，为了得到字典序最小的拓扑排序
 	public static int[] heap = new int[MAXN];
 
 	public static int heapSize;
+
+	// 拓扑排序，入度表
+	public static int[] indegree = new int[MAXN];
 
 	// 收集拓扑排序的结果
 	public static int[] ans = new int[MAXN];
