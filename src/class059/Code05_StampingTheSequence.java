@@ -23,8 +23,8 @@ public class Code05_StampingTheSequence {
 		char[] t = target.toCharArray();
 		int m = s.length;
 		int n = t.length;
-		int[] inDegrees = new int[n - m + 1];
-		Arrays.fill(inDegrees, m);
+		int[] indegree = new int[n - m + 1];
+		Arrays.fill(indegree, m);
 		ArrayList<ArrayList<Integer>> graph = new ArrayList<>();
 		for (int i = 0; i < n; i++) {
 			graph.add(new ArrayList<>());
@@ -34,7 +34,7 @@ public class Code05_StampingTheSequence {
 		for (int i = 0; i <= n - m; i++) {
 			for (int j = 0; j < m; j++) {
 				if (t[i + j] == s[j]) {
-					if (--inDegrees[i] == 0) {
+					if (--indegree[i] == 0) {
 						queue[r++] = i;
 					}
 				} else {
@@ -52,7 +52,7 @@ public class Code05_StampingTheSequence {
 				if (!visited[cur + i]) {
 					visited[cur + i] = true;
 					for (int next : graph.get(cur + i)) {
-						if (--inDegrees[next] == 0) {
+						if (--indegree[next] == 0) {
 							queue[r++] = next;
 						}
 					}
