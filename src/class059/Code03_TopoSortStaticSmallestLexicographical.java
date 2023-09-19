@@ -16,7 +16,7 @@ import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 import java.util.Arrays;
 
-public class Code03_TopoSortSmallestLexicographical {
+public class Code03_TopoSortStaticSmallestLexicographical {
 
 	public static int MAXN = 100001;
 
