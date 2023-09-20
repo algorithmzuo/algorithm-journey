@@ -53,6 +53,7 @@ public class Code01_CreateGraph {
 
 	// 链式前向星加边
 	public static void addEdge(int u, int v, int w) {
+		// u -> v , 边权重是w
 		next[cnt] = head[u];
 		to[cnt] = v;
 		weight[cnt] = w;
@@ -127,14 +128,14 @@ public class Code01_CreateGraph {
 	public static void main(String[] args) {
 		// 理解了带权图的建立过程，也就理解了不带权图
 		// 点的编号为1...n
-		// 课上例子1，有向图带权图
+		// 例子1自己画一下图，有向带权图，然后打印结果
 		int n1 = 4;
 		int[][] edges1 = { { 1, 3, 6 }, { 4, 3, 4 }, { 2, 4, 2 }, { 1, 2, 7 }, { 2, 3, 5 }, { 3, 1, 1 } };
 		build(n1);
 		directGraph(edges1);
 		traversal(n1);
 		System.out.println("==============================");
-		// 课上例子2，无向图带权图
+		// 例子2自己画一下图，无向带权图，然后打印结果
 		int n2 = 5;
 		int[][] edges2 = { { 3, 5, 4 }, { 4, 1, 1 }, { 3, 4, 2 }, { 5, 2, 4 }, { 2, 3, 7 }, { 1, 5, 5 }, { 4, 2, 6 } };
 		build(n2);

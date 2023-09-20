@@ -16,6 +16,7 @@ import java.util.Arrays;
 public class Code04_AlienDictionary {
 
 	public static String alienOrder(String[] words) {
+		// 入度表，26种字符
 		int[] indegree = new int[26];
 		Arrays.fill(indegree, -1);
 		for (String w : words) {
@@ -23,6 +24,10 @@ public class Code04_AlienDictionary {
 				indegree[w.charAt(i) - 'a'] = 0;
 			}
 		}
+		// 'a' -> 0
+		// 'b' -> 1
+		// 'z' -> 25
+		// x -> x - 'a'
 		ArrayList<ArrayList<Integer>> graph = new ArrayList<>();
 		for (int i = 0; i < 26; i++) {
 			graph.add(new ArrayList<>());

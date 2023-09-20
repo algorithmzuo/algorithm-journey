@@ -16,9 +16,11 @@ public class Code02_TopoSortDynamicLeetcode {
 
 	public static int[] findOrder(int numCourses, int[][] prerequisites) {
 		ArrayList<ArrayList<Integer>> graph = new ArrayList<>();
+		// 0 ~ n-1
 		for (int i = 0; i < numCourses; i++) {
 			graph.add(new ArrayList<>());
 		}
+		// 入度表
 		int[] indegree = new int[numCourses];
 		for (int[] edge : prerequisites) {
 			graph.get(edge[1]).add(edge[0]);
