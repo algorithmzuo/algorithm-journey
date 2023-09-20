@@ -125,6 +125,7 @@ public class Code01_CreateGraph {
 	}
 
 	public static void main(String[] args) {
+		// 理解了带权图的建立过程，也就理解了不带权图
 		// 课上例子1，有向图带权图
 		int n1 = 4;
 		int[][] edges1 = { { 1, 3, 6 }, { 4, 3, 4 }, { 2, 4, 2 }, { 1, 2, 7 }, { 2, 3, 5 }, { 3, 1, 1 } };
@@ -138,7 +139,6 @@ public class Code01_CreateGraph {
 		build(n2);
 		undirectGraph(edges2);
 		traversal(n2);
-		// 理解了带权图的建立过程，也就理解了不带权图
 	}
 
 }
