@@ -13,7 +13,7 @@ import java.util.Arrays;
 // 如果有多个解决方案，则返回其中任意一个
 // words中的单词一定都是小写英文字母组成的
 // 测试链接 : https://leetcode.cn/problems/alien-dictionary/
-public class Code05_AlienDictionary {
+public class Code04_AlienDictionary {
 
 	public static String alienOrder(String[] words) {
 		int[] indegree = new int[26];

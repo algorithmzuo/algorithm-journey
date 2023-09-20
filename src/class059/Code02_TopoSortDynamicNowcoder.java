@@ -1,6 +1,6 @@
 package class059;
 
-// 拓扑排序模版
+// 拓扑排序模版（牛客）
 // 邻接表建图（动态方式）
 // 测试链接 : https://www.nowcoder.com/practice/88f7e156ca7d43a1a535f619cd3f495c
 // 请同学们务必参考如下代码中关于输入、输出的处理
@@ -16,7 +16,7 @@ import java.io.StreamTokenizer;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class Code02_TopoSortDynamic {
+public class Code02_TopoSortDynamicNowcoder {
 
 	public static int MAXN = 200001;
 
