@@ -14,20 +14,20 @@ import java.util.ArrayList;
 // 测试链接 : https://leetcode.cn/problems/course-schedule-ii/
 public class Code02_TopoSortDynamicLeetcode {
 
-	public static int[] findOrder(int n, int[][] need) {
+	public static int[] findOrder(int numCourses, int[][] prerequisites) {
 		ArrayList<ArrayList<Integer>> graph = new ArrayList<>();
-		for (int i = 0; i < n; i++) {
+		for (int i = 0; i < numCourses; i++) {
 			graph.add(new ArrayList<>());
 		}
-		int[] indegree = new int[n];
-		for (int[] edge : need) {
+		int[] indegree = new int[numCourses];
+		for (int[] edge : prerequisites) {
 			graph.get(edge[1]).add(edge[0]);
 			indegree[edge[0]]++;
 		}
-		int[] queue = new int[n];
+		int[] queue = new int[numCourses];
 		int l = 0;
 		int r = 0;
-		for (int i = 0; i < n; i++) {
+		for (int i = 0; i < numCourses; i++) {
 			if (indegree[i] == 0) {
 				queue[r++] = i;
 			}
@@ -42,7 +42,7 @@ public class Code02_TopoSortDynamicLeetcode {
 				}
 			}
 		}
-		return cnt == n ? queue : new int[0];
+		return cnt == numCourses ? queue : new int[0];
 	}
 
 }
