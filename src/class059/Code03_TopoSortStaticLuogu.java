@@ -1,6 +1,6 @@
 package class059;
 
-// 拓扑排序（洛谷）
+// 字典序最小的拓扑排序
 // 要求返回所有正确的拓扑排序中 字典序最小 的结果
 // 建图请使用链式前向星方式，因为比赛平台用其他建图方式会卡空间
 // 测试链接 : https://www.luogu.com.cn/problem/U107394
@@ -16,7 +16,7 @@ import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 import java.util.Arrays;
 
-public class Code03_TopoSortStaticSmallestLexicoLuogu {
+public class Code03_TopoSortStaticLuogu {
 
 	public static int MAXN = 100001;
 
