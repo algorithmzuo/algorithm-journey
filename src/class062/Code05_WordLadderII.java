@@ -1,11 +1,10 @@
 package class062;
 
-import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
-import java.util.Queue;
 
 // 单词接龙 II
 // 按字典 wordList 完成从单词 beginWord 到单词 endWord 转化
@@ -22,79 +21,85 @@ import java.util.Queue;
 // 测试链接 : https://leetcode.cn/problems/word-ladder-ii/
 public class Code05_WordLadderII {
 
-	public static List<List<String>> findLadders(String start, String end, List<String> list) {
-		list.add(start);
-		HashMap<String, List<String>> graph = generateGraph(list);
-		HashMap<String, Integer> fromDistance = distances(start, graph);
-		List<List<String>> ans = new ArrayList<>();
-		if (!fromDistance.containsKey(end)) {
+	public static HashSet<String> dict;
+
+	public static HashMap<String, ArrayList<String>> graph = new HashMap<>();
+
+	public static LinkedList<String> path = new LinkedList<>();
+
+	public static List<List<String>> ans = new ArrayList<>();
+
+	public static HashSet<String> curLevel = new HashSet<>();
+
+	public static HashSet<String> nextLevel = new HashSet<>();
+
+	public static void build(String beginWord, List<String> wordList) {
+		dict = new HashSet<>(wordList);
+		graph.clear();
+		ans.clear();
+		curLevel.clear();
+		nextLevel.clear();
+	}
+
+	public static List<List<String>> findLadders(String beginWord, String endWord, List<String> wordList) {
+		build(beginWord, wordList);
+		if (!dict.contains(endWord)) {
 			return ans;
 		}
-		HashMap<String, Integer> toDistance = distances(end, graph);
-		ArrayList<String> path = new ArrayList<>();
-		paths(start, end, graph, fromDistance, toDistance, path, ans);
+		if (bfs(beginWord, endWord)) {
+			dfs(endWord, beginWord);
+		}
 		return ans;
 	}
 
-	public static HashMap<String, List<String>> generateGraph(List<String> words) {
-		HashSet<String> dict = new HashSet<>(words);
-		HashMap<String, List<String>> nexts = new HashMap<>();
-		for (int i = 0; i < words.size(); i++) {
-			nexts.put(words.get(i), nextWords(words.get(i), dict));
-		}
-		return nexts;
-	}
-
-	public static List<String> nextWords(String word, HashSet<String> dict) {
-		ArrayList<String> ans = new ArrayList<String>();
-		char[] chs = word.toCharArray();
-		for (char cur = 'a'; cur <= 'z'; cur++) {
-			for (int i = 0; i < chs.length; i++) {
-				if (chs[i] != cur) {
-					char tmp = chs[i];
-					chs[i] = cur;
-					if (dict.contains(String.valueOf(chs))) {
-						ans.add(String.valueOf(chs));
+	public static boolean bfs(String begin, String end) {
+		boolean find = false;
+		curLevel.add(begin);
+		while (!curLevel.isEmpty()) {
+			dict.removeAll(curLevel);
+			for (String word : curLevel) {
+				char[] w = word.toCharArray();
+				for (int i = 0; i < w.length; i++) {
+					char old = w[i];
+					for (char ch = 'a'; ch <= 'z'; ch++) {
+						w[i] = ch;
+						String str = String.valueOf(w);
+						if (dict.contains(str) && !str.equals(word)) {
+							if (str.equals(end)) {
+								find = true;
+							}
+							graph.putIfAbsent(str, new ArrayList<>());
+							graph.get(str).add(word);
+							if (!nextLevel.contains(str)) {
+								nextLevel.add(str);
+							}
+						}
 					}
-					chs[i] = tmp;
+					w[i] = old;
 				}
 			}
+			if (find) {
+				return true;
+			} else {
+				HashSet<String> tmp = curLevel;
+				curLevel = nextLevel;
+				nextLevel = tmp;
+				nextLevel.clear();
+			}
 		}
-		return ans;
+		return false;
 	}
 
-	public static HashMap<String, Integer> distances(String start, HashMap<String, List<String>> graph) {
-		HashMap<String, Integer> distances = new HashMap<>();
-		distances.put(start, 0);
-		Queue<String> queue = new ArrayDeque<>();
-		queue.offer(start);
-		while (!queue.isEmpty()) {
-			String cur = queue.poll();
-			for (String next : graph.get(cur)) {
-				if (!distances.containsKey(next)) {
-					distances.put(next, distances.get(cur) + 1);
-					queue.offer(next);
-				}
+	public static void dfs(String word, String aim) {
+		path.addFirst(word);
+		if (word.equals(aim)) {
+			ans.add(new ArrayList<>(path));
+		} else if (graph.containsKey(word)) {
+			for (String next : graph.get(word)) {
+				dfs(next, aim);
 			}
 		}
-		return distances;
-	}
-
-	public static void paths(String cur, String end, HashMap<String, List<String>> graph,
-			HashMap<String, Integer> fromDistance, HashMap<String, Integer> toDistance, ArrayList<String> path,
-			List<List<String>> ans) {
-		path.add(cur);
-		if (end.equals(cur)) {
-			ans.add(new ArrayList<String>(path));
-		} else {
-			for (String next : graph.get(cur)) {
-				if (fromDistance.get(next) == fromDistance.get(cur) + 1
-						&& toDistance.get(next) == toDistance.get(cur) - 1) {
-					paths(next, end, graph, fromDistance, toDistance, path, ans);
-				}
-			}
-		}
-		path.remove(path.size() - 1);
+		path.removeFirst();
 	}
 
 }
