@@ -1,7 +1,8 @@
 package class061;
 
-// Kruskal算法
-// 测试链接 : https://www.nowcoder.com/practice/c23eab7bb39748b6b224a8a3afbe396b
+// Kruskal算法模版（洛谷）
+// 静态空间实现
+// 测试链接 : https://www.luogu.com.cn/problem/P3366
 // 请同学们务必参考如下代码中关于输入、输出的处理
 // 这是输入输出处理效率很高的写法
 // 提交以下所有代码，把主类名改成Main，可以直接通过
@@ -15,46 +16,17 @@ import java.util.Arrays;
 
 public class Code01_Kruskal {
 
-	public static int MAXM = 100001;
+	public static int MAXN = 5001;
 
-	public static int[][] edges = new int[MAXM][3];
-
-	public static void main(String[] args) throws IOException {
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StreamTokenizer in = new StreamTokenizer(br);
-		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
-		while (in.nextToken() != StreamTokenizer.TT_EOF) {
-			int n = (int) in.nval;
-			in.nextToken();
-			int m = (int) in.nval;
-			for (int i = 0; i < m; i++) {
-				in.nextToken();
-				edges[i][0] = (int) in.nval;
-				in.nextToken();
-				edges[i][1] = (int) in.nval;
-				in.nextToken();
-				edges[i][2] = (int) in.nval;
-			}
-			Arrays.sort(edges, 0, m, (a, b) -> a[2] - b[2]);
-			build(n);
-			int ans = 0;
-			for (int[] edge : edges) {
-				if (union(edge[0], edge[1])) {
-					ans += edge[2];
-				}
-			}
-			out.println(ans);
-		}
-		out.flush();
-		out.close();
-		br.close();
-	}
-
-	public static int MAXN = 10001;
+	public static int MAXM = 200001;
 
 	public static int[] father = new int[MAXN];
 
-	public static void build(int n) {
+	public static int[][] edges = new int[MAXM][3];
+
+	public static int n, m;
+
+	public static void build() {
 		for (int i = 1; i <= n; i++) {
 			father[i] = i;
 		}
@@ -67,8 +39,8 @@ public class Code01_Kruskal {
 		return father[i];
 	}
 
-	// 如果x和y，原本是一个集合，返回false
-	// 如果x和y，不是一个集合，合并之后后返回true
+	// 如果x和y本来就是一个集合，返回false
+	// 如果x和y不是一个集合，合并之后返回true
 	public static boolean union(int x, int y) {
 		int fx = find(x);
 		int fy = find(y);
@@ -78,6 +50,39 @@ public class Code01_Kruskal {
 		} else {
 			return false;
 		}
+	}
+
+	public static void main(String[] args) throws IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StreamTokenizer in = new StreamTokenizer(br);
+		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
+		while (in.nextToken() != StreamTokenizer.TT_EOF) {
+			n = (int) in.nval;
+			in.nextToken();
+			m = (int) in.nval;
+			build();
+			for (int i = 0; i < m; i++) {
+				in.nextToken();
+				edges[i][0] = (int) in.nval;
+				in.nextToken();
+				edges[i][1] = (int) in.nval;
+				in.nextToken();
+				edges[i][2] = (int) in.nval;
+			}
+			Arrays.sort(edges, 0, m, (a, b) -> a[2] - b[2]);
+			int ans = 0;
+			int edgeCnt = 0;
+			for (int[] edge : edges) {
+				if (union(edge[0], edge[1])) {
+					edgeCnt++;
+					ans += edge[2];
+				}
+			}
+			out.println(edgeCnt == n - 1 ? ans : "orz");
+		}
+		out.flush();
+		out.close();
+		br.close();
 	}
 
 }
