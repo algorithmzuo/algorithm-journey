@@ -15,6 +15,10 @@ import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 import java.util.Arrays;
 
+// 以下的实现，即便是比赛也能通过
+// 建图用链式前向星、堆也是用数组结构手写的，不用任何动态结构
+// 这个实现留给有需要的同学，这个测试必须这么写才能通过
+// 但是一般情况下并不需要做到这个程度
 public class Code02_PrimStatic {
 
 	public static int MAXN = 5001;

@@ -3,7 +3,8 @@ package class064;
 import java.util.ArrayList;
 import java.util.PriorityQueue;
 
-// Dijkstra算法模版（Leetcode），动态空间实现
+// Dijkstra算法模版（Leetcode）
+// 动态空间实现
 // 网络延迟时间
 // 有 n 个网络节点，标记为 1 到 n
 // 给你一个列表 times，表示信号经过 有向 边的传递时间

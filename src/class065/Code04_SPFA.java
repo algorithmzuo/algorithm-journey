@@ -1,6 +1,6 @@
 package class065;
 
-// bellman-ford算法 + SPFA优化
+// bellman-ford + SPFA优化（洛谷）
 // 给定一个 n个点的有向图，请求出图中是否存在从顶点 1 出发能到达的负环
 // 负环的定义是：一条边权之和为负数的回路。
 // 测试链接 : https://www.luogu.com.cn/problem/P3385
