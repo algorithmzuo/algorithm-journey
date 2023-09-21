@@ -36,7 +36,7 @@ public class Code02_PrimStatic {
 
 	// 因为边的权重数据都在weight数组中
 	// 所以需要比较边的权重，只需要有边的编号
-	// 就可以从weight数组中拿出数比较了
+	// 就可以从weight数组中拿出数据比较了
 	// 所以小根堆只需要存储边的编号
 	public static int[] heap = new int[MAXM];
 
