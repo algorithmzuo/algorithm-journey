@@ -14,7 +14,7 @@ import java.util.ArrayList;
 // 在所有拥有的钱肯定不少于 person x 的人中，
 // person y 是最安静的人（也就是安静值 quiet[y] 最小的人）。
 // 测试链接 : https://leetcode.cn/problems/loud-and-rich/
-public class Code01_LoudAndRich {
+public class Code02_LoudAndRich {
 
 	public static int[] loudAndRich(int[][] richer, int[] quiet) {
 		int n = quiet.length;

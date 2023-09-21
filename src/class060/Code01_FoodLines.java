@@ -17,7 +17,7 @@ import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 import java.util.Arrays;
 
-public class Code02_FoodLines {
+public class Code01_FoodLines {
 
 	public static int MAXN = 5001;
 
