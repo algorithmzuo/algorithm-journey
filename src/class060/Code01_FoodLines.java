@@ -95,9 +95,11 @@ public class Code01_FoodLines {
 		while (l < r) {
 			int u = queue[l++];
 			if (head[u] == 0) {
+				// 当前的u节点不再有后续邻居了
 				ans = (ans + lines[u]) % MOD;
 			} else {
 				for (int ei = head[u], v; ei > 0; ei = next[ei]) {
+					// u -> v
 					v = to[ei];
 					lines[v] = (lines[v] + lines[u]) % MOD;
 					if (--indegree[v] == 0) {

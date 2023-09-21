@@ -42,7 +42,7 @@ public class Code02_LoudAndRich {
 		while (l < r) {
 			int cur = queue[l++];
 			for (int next : graph.get(cur)) {
-				if (quiet[ans[next]] > quiet[ans[cur]]) {
+				if (quiet[ans[cur]] < quiet[ans[next]] ) {
 					ans[next] = ans[cur];
 				}
 				if (--indegree[next] == 0) {

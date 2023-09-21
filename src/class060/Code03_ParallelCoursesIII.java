@@ -17,6 +17,7 @@ import java.util.ArrayList;
 public class Code03_ParallelCoursesIII {
 
 	public static int minimumTime(int n, int[][] relations, int[] time) {
+		// 点 : 1....n
 		ArrayList<ArrayList<Integer>> graph = new ArrayList<>();
 		for (int i = 0; i <= n; i++) {
 			graph.add(new ArrayList<>());
@@ -38,6 +39,8 @@ public class Code03_ParallelCoursesIII {
 		int ans = 0;
 		while (l < r) {
 			int cur = queue[l++];
+			// 1 : time[0]
+			// x : time[x-1]
 			cost[cur] += time[cur - 1];
 			ans = Math.max(ans, cost[cur]);
 			for (int next : graph.get(cur)) {
