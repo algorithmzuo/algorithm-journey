@@ -25,32 +25,39 @@ public class Code02_FoodLines {
 
 	public static int MOD = 80112002;
 
-	public static int[] indegree = new int[MAXN];
-
-	public static boolean[] food = new boolean[MAXN];
-
-	public static int[] lines = new int[MAXN];
-
-	public static int[] queue = new int[MAXN];
-
+	// 链式前向星建图
 	public static int[] head = new int[MAXN];
 
 	public static int[] next = new int[MAXM];
 
 	public static int[] to = new int[MAXM];
 
-	public static int cnt, n, m;
+	public static int cnt;
+
+	// 是不是食物链最顶层
+	public static boolean[] top = new boolean[MAXN];
+
+	// 拓扑排序需要的队列
+	public static int[] queue = new int[MAXN];
+
+	// 拓扑排序需要的入度表
+	public static int[] indegree = new int[MAXN];
+
+	// 拓扑排序需要的推送信息
+	public static int[] lines = new int[MAXN];
+
+	public static int n, m;
 
 	public static void build(int n) {
 		cnt = 1;
 		Arrays.fill(indegree, 0, n + 1, 0);
-		Arrays.fill(food, 0, n + 1, false);
+		Arrays.fill(top, 0, n + 1, true);
 		Arrays.fill(lines, 0, n + 1, 0);
 		Arrays.fill(head, 0, n + 1, 0);
 	}
 
 	public static void addEdge(int u, int v) {
-		food[u] = true;
+		top[u] = false;
 		indegree[v]++;
 		next[cnt] = head[u];
 		to[cnt] = v;
@@ -100,7 +107,7 @@ public class Code02_FoodLines {
 		}
 		int ans = 0;
 		for (int i = 1; i <= n; i++) {
-			if (!food[i]) {
+			if (top[i]) {
 				ans = (ans + lines[i]) % MOD;
 			}
 		}
