@@ -1,6 +1,6 @@
 package class061;
 
-// Prim算法（洛谷）
+// Prim算法模版（洛谷）
 // 静态空间实现
 // 测试链接 : https://www.luogu.com.cn/problem/P3366
 // 请同学们务必参考如下代码中关于输入、输出的处理
@@ -34,8 +34,10 @@ public class Code02_PrimStatic {
 
 	public static int cnt;
 
-	// 因为边的数据都在to、weight数组中
-	// 所以小根堆只需要边的编号，就可以完成堆的调整
+	// 因为边的权重数据都在weight数组中
+	// 所以需要比较边的权重，只需要有边的编号
+	// 就可以从weight数组中拿出数比较了
+	// 所以小根堆只需要存储边的编号
 	public static int[] heap = new int[MAXM];
 
 	public static int heapSize;
@@ -43,6 +45,7 @@ public class Code02_PrimStatic {
 	// 节点有没有进入集合
 	public static boolean[] set = new boolean[MAXN];
 
+	// 一共有多少个点进入了集合
 	public static int nodeCnt;
 
 	public static void build() {
@@ -60,6 +63,7 @@ public class Code02_PrimStatic {
 		head[u] = cnt++;
 	}
 
+	// 编号为e的边进入小根堆，根据边的权重来组织小根堆
 	public static void push(int e) {
 		int i = heapSize++;
 		heap[i] = e;
@@ -69,6 +73,7 @@ public class Code02_PrimStatic {
 		}
 	}
 
+	// 小根堆中弹出权重最小的边的编号
 	public static int pop() {
 		int e = heap[0];
 		heap[0] = heap[--heapSize];
@@ -91,7 +96,6 @@ public class Code02_PrimStatic {
 		return heapSize == 0;
 	}
 
-	// 交换堆上两个位置的数字
 	public static void swap(int i, int j) {
 		int tmp = heap[i];
 		heap[i] = heap[j];

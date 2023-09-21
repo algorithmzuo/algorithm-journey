@@ -1,6 +1,6 @@
 package class061;
 
-// Prim算法（洛谷）
+// Prim算法模版（洛谷）
 // 动态空间实现
 // 测试链接 : https://www.luogu.com.cn/problem/P3366
 // 请同学们务必参考如下代码中关于输入、输出的处理
