@@ -2,7 +2,7 @@ package class062;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
+import java.util.HashSet;
 
 // 贴纸拼词
 // 我们有 n 种不同的贴纸。每个贴纸上都有一个小写的英文单词。
@@ -12,57 +12,58 @@ import java.util.HashMap;
 // 注意：在所有的测试用例中，所有的单词都是从 1000 个最常见的美国英语单词中随机选择的
 // 并且 target 被选择为两个随机单词的连接。
 // 测试链接 : https://leetcode.cn/problems/stickers-to-spell-word/
-public class Code02_StickersToSpellWord {
+public class Code03_StickersToSpellWord {
 
-	// 如果leetcode增大了数据量导致不够用，就改大这个值
 	public static int MAXN = 501;
 
 	public static String[] queue = new String[MAXN];
 
 	public static int l, r;
 
-	public static ArrayList<ArrayList<String>> teams = new ArrayList<>();
+	public static ArrayList<ArrayList<String>> graph = new ArrayList<>();
 
-	public static HashMap<String, Integer> distance = new HashMap<>();
+	public static HashSet<String> visited = new HashSet<>();
 
 	static {
 		for (int i = 0; i < 26; i++) {
-			teams.add(new ArrayList<>());
+			graph.add(new ArrayList<>());
 		}
 	}
 
 	// 宽度优先遍历的解法
-	// 也可以动态规划的解法，不过并不好理解
+	// 也可以用动态规划的解法但是并不好理解
 	// 推荐宽度优先遍历的解法
 	public static int minStickers(String[] stickers, String target) {
 		for (int i = 0; i < 26; i++) {
-			teams.get(i).clear();
+			graph.get(i).clear();
 		}
-		distance.clear();
+		visited.clear();
 		for (String str : stickers) {
 			str = convert(str);
 			for (int i = 0; i < str.length(); i++) {
-				teams.get(str.charAt(i) - 'a').add(str);
+				graph.get(str.charAt(i) - 'a').add(str);
 			}
 		}
 		target = convert(target);
-		distance.put(target, 0);
+		visited.add(target);
 		l = r = 0;
 		queue[r++] = target;
+		int level = 0;
 		while (l < r) {
-			String t = queue[l++];
-			int dis = distance.get(t);
-			for (String s : teams.get(t.charAt(0) - 'a')) {
-				String next = minus(t, s);
-				if (next.equals("")) {
-					return dis + 1;
-				} else {
-					if (!distance.containsKey(next)) {
-						distance.put(next, dis + 1);
+			int size = r - l;
+			for (int i = 0; i < size; i++) {
+				String t = queue[l++];
+				for (String s : graph.get(t.charAt(0) - 'a')) {
+					String next = minus(t, s);
+					if (next.equals("")) {
+						return level + 1;
+					} else if (!visited.contains(next)) {
+						visited.add(next);
 						queue[r++] = next;
 					}
 				}
 			}
+			level++;
 		}
 		return -1;
 	}
