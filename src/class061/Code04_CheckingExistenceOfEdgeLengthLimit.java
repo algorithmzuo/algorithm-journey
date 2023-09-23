@@ -28,6 +28,8 @@ public class Code04_CheckingExistenceOfEdgeLengthLimit {
 		build(n);
 		boolean[] ans = new boolean[k];
 		for (int i = 0, j = 0; i < k; i++) {
+			// i : 问题编号
+			// j : 边的编号
 			for (; j < m && edges[j][2] < questions[i][2]; j++) {
 				union(edges[j][0], edges[j][1]);
 			}

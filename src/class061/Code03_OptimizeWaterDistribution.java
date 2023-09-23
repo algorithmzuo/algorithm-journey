@@ -16,6 +16,8 @@ public class Code03_OptimizeWaterDistribution {
 	public static int minCostToSupplyWater(int n, int[] wells, int[][] pipes) {
 		build(n);
 		for (int i = 0; i < n; i++, cnt++) {
+			// wells : 100   30
+			//         0(1)  1(2)
 			edges[cnt][0] = 0;
 			edges[cnt][1] = i + 1;
 			edges[cnt][2] = wells[i];

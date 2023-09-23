@@ -16,6 +16,7 @@ import java.io.StreamTokenizer;
 import java.util.ArrayList;
 import java.util.PriorityQueue;
 
+// 时间复杂度O(n + m) + O(m * log m)
 public class Code02_PrimDynamic {
 
 	public static void main(String[] args) throws IOException {
@@ -31,16 +32,23 @@ public class Code02_PrimDynamic {
 			in.nextToken();
 			int m = (int) in.nval;
 			for (int i = 0, u, v, w; i < m; i++) {
-				in.nextToken(); u = (int) in.nval;
-				in.nextToken(); v = (int) in.nval;
-				in.nextToken(); w = (int) in.nval;
+				in.nextToken();
+				u = (int) in.nval;
+				in.nextToken();
+				v = (int) in.nval;
+				in.nextToken();
+				w = (int) in.nval;
 				graph.get(u).add(new int[] { v, w });
 				graph.get(v).add(new int[] { u, w });
 			}
+			// int[] record
+			// record[0] : 到达的节点
+			// record[1] : 到达的花费
 			PriorityQueue<int[]> heap = new PriorityQueue<>((a, b) -> a[1] - b[1]);
 			for (int[] edge : graph.get(1)) {
 				heap.add(edge);
 			}
+			// 哪些节点已经发现过了
 			boolean[] set = new boolean[n + 1];
 			int nodeCnt = 1;
 			set[1] = true;

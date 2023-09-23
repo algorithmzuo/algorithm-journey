@@ -14,6 +14,7 @@ import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 import java.util.Arrays;
 
+// 时间复杂度O(m * log m) + O(n + m)
 public class Code01_Kruskal {
 
 	public static int MAXN = 5001;
@@ -22,6 +23,7 @@ public class Code01_Kruskal {
 
 	public static int[] father = new int[MAXN];
 
+	// u, v, w
 	public static int[][] edges = new int[MAXM][3];
 
 	public static int n, m;
