@@ -12,9 +12,8 @@ import java.util.PriorityQueue;
 // charge[i] 表示第 i 个城市每充 1 单位电量需要花费的单位时间。
 // 请返回小明最少需要花费多少单位时间从起点城市 start 抵达终点城市 end
 // 测试链接 : https://leetcode.cn/problems/DFPeFJ/
-public class Code03_VisitCityMinCost {
+public class Code04_VisitCityMinCost {
 
-	// 为了容易理解，不再进行更多优化了，课上已经讲的够多了
 	public static int electricCarPlan(int[][] paths, int cnt, int start, int end, int[] charge) {
 		int n = charge.length;
 		ArrayList<ArrayList<int[]>> graph = new ArrayList<>();

@@ -75,7 +75,6 @@ public class Code05_SoldierFindEnemy {
 
 	// 正式方法
 	// Dijkstra算法
-	// 为了容易理解，不再进行更多优化了，课上已经讲的够多了
 	public static char[][] grid;
 
 	public static int n, m, a, b;

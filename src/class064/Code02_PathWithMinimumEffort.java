@@ -16,7 +16,6 @@ public class Code02_PathWithMinimumEffort {
 	// 0:上，1:右，2:下，3:左
 	public static int[] move = new int[] { -1, 0, 1, 0, -1 };
 
-	// 为了容易理解，不再进行更多优化了，课上已经讲的够多了
 	public int minimumEffortPath(int[][] heights) {
 		int n = heights.length;
 		int m = heights[0].length;
