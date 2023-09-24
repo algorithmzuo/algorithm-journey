@@ -27,7 +27,8 @@ public class Code04_CutOffTreesForGolfEvent {
 
 	public static int[][] arr = new int[LIMIT][3];
 
-	public static int[] move = new int[] { 1, 0, -1, 0, 1 };
+	// 0:上，1:右，2:下，3:左
+	public static int[] move = new int[] { -1, 0, 1, 0, -1 };
 
 	public static int n, m;
 
@@ -136,13 +137,13 @@ public class Code04_CutOffTreesForGolfEvent {
 				if (x == c && y == d) {
 					return distance;
 				}
-				for (int i = 1; i < 5; i++) {
+				for (int i = 0; i < 4; i++) {
 					int nx = x + move[i];
-					int ny = y + move[i - 1];
+					int ny = y + move[i + 1];
 					if (nx == -1 || nx == n || ny == -1 || ny == m || f[nx][ny] == 0 || f[nx][ny] == block) {
 						continue;
 					}
-					if ((i == 1 && y < d) || (i == 2 && x > c) || (i == 3 && y > d) || (i == 4 && x < c)) {
+					if ((i == 0 && x > c) || (i == 1 && y < d) || (i == 2 && x < c) || (i == 3 && y > d)) {
 						// 离的更近
 						offerFirst(nx, ny, distance + 1);
 					} else {

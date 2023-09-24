@@ -75,11 +75,14 @@ public class Code05_SoldierFindEnemy {
 
 	// 正式方法
 	// Dijkstra算法
+	// 为了容易理解，不再进行更多优化了，课上已经讲的够多了
 	public static char[][] grid;
 
 	public static int n, m, a, b;
 
 	public static PriorityQueue<int[]> heap;
+
+	public static int[][][] distance;
 
 	public static boolean[][][] visited;
 
@@ -99,6 +102,20 @@ public class Code05_SoldierFindEnemy {
 				}
 			}
 		}
+		distance = new int[n][m][4];
+		for (int i = 0; i < n; i++) {
+			for (int j = 0; j < m; j++) {
+				for (int s = 0; s < 4; s++) {
+					distance[i][j][s] = Integer.MAX_VALUE;
+				}
+			}
+		}
+		distance[startX][startY][0] = 0;
+		distance[startX][startY][1] = 0;
+		distance[startX][startY][2] = 0;
+		distance[startX][startY][3] = 0;
+		// (行, 列, 方向)是一个状态，判断状态有没有结算，用visited
+		visited = new boolean[n][m][4];
 		heap = new PriorityQueue<>((o1, o2) -> o1[3] - o2[3]);
 		// 0 : 行
 		// 1 : 列
@@ -108,9 +125,6 @@ public class Code05_SoldierFindEnemy {
 		heap.add(new int[] { startX, startY, 1, 0 });
 		heap.add(new int[] { startX, startY, 2, 0 });
 		heap.add(new int[] { startX, startY, 3, 0 });
-		// (行, 列, 方向)是一个状态，判断状态有没有结算，用visited
-		visited = new boolean[n][m][4];
-		int ans = -1;
 		while (!heap.isEmpty()) {
 			int[] cur = heap.poll();
 			int x = cur[0];
@@ -121,8 +135,7 @@ public class Code05_SoldierFindEnemy {
 				continue;
 			}
 			if (grid[x][y] == 'E') {
-				ans = c;
-				break;
+				return c;
 			}
 			visited[x][y][d] = true;
 			add(d, c, x - 1, y, 0);
@@ -130,7 +143,7 @@ public class Code05_SoldierFindEnemy {
 			add(d, c, x, y - 1, 2);
 			add(d, c, x, y + 1, 3);
 		}
-		return ans;
+		return -1;
 	}
 
 	public static void add(int preDirect, int preCost, int x, int y, int d) {
@@ -141,7 +154,10 @@ public class Code05_SoldierFindEnemy {
 		if (preDirect != d) {
 			c += b;
 		}
-		heap.add(new int[] { x, y, d, c });
+		if (c < distance[x][y][d]) {
+			distance[x][y][d] = c;
+			heap.add(new int[] { x, y, d, c });
+		}
 	}
 
 	// 为了测试
@@ -186,7 +202,7 @@ public class Code05_SoldierFindEnemy {
 		System.out.println("性能测试开始");
 		n = 1000;
 		m = 1000;
-		v = 100000;
+		v = 100;
 		int a = (int) (Math.random() * v) + 1;
 		int b = (int) (Math.random() * v) + 1;
 		char[][] map = randomMap(n, m);

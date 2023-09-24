@@ -16,39 +16,47 @@ public class Code01_AStarAlgorithm {
 	// map[i][j] == 1 代表道路
 	public static int minDistance1(int[][] map, int startX, int startY, int targetX, int targetY) {
 		if (map[startX][startY] == 0 || map[targetX][targetY] == 0) {
-			return Integer.MAX_VALUE;
+			return -1;
 		}
 		int n = map.length;
 		int m = map[0].length;
-		PriorityQueue<int[]> heap = new PriorityQueue<>((a, b) -> a[0] - b[0]);
-		boolean[][] closed = new boolean[n][m];
-		heap.add(new int[] { 1, startX, startY });
-		int ans = Integer.MAX_VALUE;
+		int[][] distance = new int[n][m];
+		for (int i = 0; i < n; i++) {
+			for (int j = 0; j < m; j++) {
+				distance[i][j] = Integer.MAX_VALUE;
+			}
+		}
+		distance[startX][startY] = 1;
+		boolean[][] visited = new boolean[n][m];
+		PriorityQueue<int[]> heap = new PriorityQueue<>((a, b) -> a[2] - b[2]);
+		heap.add(new int[] { startX, startY, 1 });
 		while (!heap.isEmpty()) {
 			int[] cur = heap.poll();
-			int dis = cur[0];
-			int row = cur[1];
-			int col = cur[2];
-			if (closed[row][col]) {
+			int row = cur[0];
+			int col = cur[1];
+			int dis = cur[2];
+			if (visited[row][col]) {
 				continue;
 			}
-			closed[row][col] = true;
+			visited[row][col] = true;
 			if (row == targetX && col == targetY) {
-				ans = dis;
-				break;
+				return dis;
 			}
-			add1(dis, row - 1, col, n, m, map, closed, heap);
-			add1(dis, row + 1, col, n, m, map, closed, heap);
-			add1(dis, row, col - 1, n, m, map, closed, heap);
-			add1(dis, row, col + 1, n, m, map, closed, heap);
+			add1(dis, row - 1, col, n, m, map, visited, distance, heap);
+			add1(dis, row + 1, col, n, m, map, visited, distance, heap);
+			add1(dis, row, col - 1, n, m, map, visited, distance, heap);
+			add1(dis, row, col + 1, n, m, map, visited, distance, heap);
 		}
-		return ans;
+		return -1;
 	}
 
-	public static void add1(int pre, int row, int col, int n, int m, int[][] map, boolean[][] closed,
+	public static void add1(int pre, int row, int col, int n, int m, int[][] map, boolean[][] visited, int[][] distance,
 			PriorityQueue<int[]> heap) {
-		if (row >= 0 && row < n && col >= 0 && col < m && map[row][col] == 1 && !closed[row][col]) {
-			heap.add(new int[] { pre + 1, row, col });
+		if (row >= 0 && row < n && col >= 0 && col < m && map[row][col] == 1 && !visited[row][col]) {
+			if (pre + 1 < distance[row][col]) {
+				distance[row][col] = pre + 1;
+				heap.add(new int[] { row, col, pre + 1 });
+			}
 		}
 	}
 
@@ -57,41 +65,48 @@ public class Code01_AStarAlgorithm {
 	// map[i][j] == 1 代表道路
 	public static int minDistance2(int[][] map, int startX, int startY, int targetX, int targetY) {
 		if (map[startX][startY] == 0 || map[targetX][targetY] == 0) {
-			return Integer.MAX_VALUE;
+			return -1;
 		}
 		int n = map.length;
 		int m = map[0].length;
-		PriorityQueue<int[]> heap = new PriorityQueue<>((a, b) -> (a[0] + a[1]) - (b[0] + b[1]));
-		boolean[][] closed = new boolean[n][m];
-		heap.add(new int[] { 1, distance(startX, startY, targetX, targetY), startX, startY });
-		int ans = Integer.MAX_VALUE;
+		int[][] distance = new int[n][m];
+		for (int i = 0; i < n; i++) {
+			for (int j = 0; j < m; j++) {
+				distance[i][j] = Integer.MAX_VALUE;
+			}
+		}
+		distance[startX][startY] = 1;
+		boolean[][] visited = new boolean[n][m];
+		PriorityQueue<int[]> heap = new PriorityQueue<>((a, b) -> (a[2] + a[3]) - (b[2] + b[3]));
+		heap.add(new int[] { startX, startY, 1, distance(startX, startY, targetX, targetY) });
 		while (!heap.isEmpty()) {
 			int[] cur = heap.poll();
-			int fromDistance = cur[0];
-			int row = cur[2];
-			int col = cur[3];
-			if (closed[row][col]) {
+			int row = cur[0];
+			int col = cur[1];
+			int dis = cur[2];
+			if (visited[row][col]) {
 				continue;
 			}
-			closed[row][col] = true;
+			visited[row][col] = true;
 			if (row == targetX && col == targetY) {
-				ans = fromDistance;
-				break;
+				return dis;
 			}
-			add2(fromDistance, row - 1, col, targetX, targetY, n, m, map, closed, heap);
-			add2(fromDistance, row + 1, col, targetX, targetY, n, m, map, closed, heap);
-			add2(fromDistance, row, col - 1, targetX, targetY, n, m, map, closed, heap);
-			add2(fromDistance, row, col + 1, targetX, targetY, n, m, map, closed, heap);
+			add2(dis, row - 1, col, targetX, targetY, n, m, map, visited, distance, heap);
+			add2(dis, row + 1, col, targetX, targetY, n, m, map, visited, distance, heap);
+			add2(dis, row, col - 1, targetX, targetY, n, m, map, visited, distance, heap);
+			add2(dis, row, col + 1, targetX, targetY, n, m, map, visited, distance, heap);
 		}
-		return ans;
+		return -1;
 	}
 
 	public static void add2(int pre, int row, int col, int targetX, int targetY, int n, int m, int[][] map,
-			boolean[][] closed, PriorityQueue<int[]> heap) {
-		if (row >= 0 && row < n && col >= 0 && col < m && map[row][col] == 1 && !closed[row][col]) {
-			heap.add(new int[] { pre + 1, distance(row, col, targetX, targetY), row, col });
+			boolean[][] visited, int[][] distance, PriorityQueue<int[]> heap) {
+		if (row >= 0 && row < n && col >= 0 && col < m && map[row][col] == 1 && !visited[row][col]) {
+			if (pre + 1 < distance[row][col]) {
+				distance[row][col] = pre + 1;
+				heap.add(new int[] { row, col, pre + 1, distance(row, col, targetX, targetY) });
+			}
 		}
-
 	}
 
 	// 曼哈顿距离

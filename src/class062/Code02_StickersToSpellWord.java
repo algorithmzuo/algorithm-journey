@@ -12,7 +12,7 @@ import java.util.HashSet;
 // 注意：在所有的测试用例中，所有的单词都是从 1000 个最常见的美国英语单词中随机选择的
 // 并且 target 被选择为两个随机单词的连接。
 // 测试链接 : https://leetcode.cn/problems/stickers-to-spell-word/
-public class Code03_StickersToSpellWord {
+public class Code02_StickersToSpellWord {
 
 	public static int MAXN = 501;
 

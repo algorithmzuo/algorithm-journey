@@ -1,7 +1,7 @@
 package class064;
 
 // Dijkstra算法模版（洛谷）
-// 静态空间实现
+// 静态空间实现 : 链式前向星 + 反向索引堆
 // 测试链接 : https://www.luogu.com.cn/problem/P4779
 // 请同学们务必参考如下代码中关于输入、输出的处理
 // 这是输入输出处理效率很高的写法
@@ -15,17 +15,13 @@ import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 import java.util.Arrays;
 
-// 以下的实现，即便是比赛也能通过
-// 建图用链式前向星、堆也是用数组结构手写的，不用任何动态结构
-// 这个实现留给有需要的同学，这个测试必须这么写才能通过
-// 但是一般情况下并不需要做到这个程度
-public class Code02_DijkstraLuogu {
+public class Code01_DijkstraLuogu {
 
 	public static int MAXN = 100001;
 
 	public static int MAXM = 200001;
 
-	// head、next、to、weight、cnt是链式前向星建图需要的
+	// 链式前向星
 	public static int[] head = new int[MAXN];
 
 	public static int[] next = new int[MAXM];
@@ -36,25 +32,23 @@ public class Code02_DijkstraLuogu {
 
 	public static int cnt;
 
-	// 自己实现堆
-	// heap[i][0] : 来到的当前点
-	// heap[i][1] : 从s来到当前点的距离
-	// heap、hsize是建堆需要的
-	public static int[][] heap = new int[MAXM][2];
+	// 反向索引堆
+	public static int[] heap = new int[MAXN];
 
-	public static int hsize;
+	public static int[] where = new int[MAXN];
 
-	// ans[i] : s到i的最短距离
-	public static int[] ans = new int[MAXN];
+	public static int heapSize;
+
+	public static int[] distance = new int[MAXN];
 
 	public static int n, m, s;
 
-	// 该做的初始化
-	public static void build(int n) {
+	public static void build() {
 		cnt = 1;
-		hsize = 0;
-		Arrays.fill(head, 0, n + 1, 0);
-		Arrays.fill(ans, 0, n + 1, -1);
+		heapSize = 0;
+		Arrays.fill(head, 1, n + 1, 0);
+		Arrays.fill(where, 1, n + 1, -1);
+		Arrays.fill(distance, 1, n + 1, Integer.MAX_VALUE);
 	}
 
 	// 链式前向星建图
@@ -65,38 +59,38 @@ public class Code02_DijkstraLuogu {
 		head[u] = cnt++;
 	}
 
-	// 记录加入堆
-	public static void heapAdd(int v, int w) {
-		heap[hsize][0] = v;
-		heap[hsize][1] = w;
-		heapInsert(hsize++);
+	public static void addOrUpdateOrIgnore(int v, int w) {
+		if (where[v] == -1) {
+			heap[heapSize] = v;
+			where[v] = heapSize++;
+			distance[v] = w;
+			heapInsert(where[v]);
+		} else if (where[v] >= 0) {
+			distance[v] = Math.min(distance[v], w);
+			heapInsert(where[v]);
+		}
 	}
 
-	public static int cur, wei;
-
-	// 从堆顶拿出记录，更新到cur和wei，供上游使用
-	// 弹出数据后，继续维持小根堆
-	public static void heapPop() {
-		cur = heap[0][0];
-		wei = heap[0][1];
-		swap(0, --hsize);
-		heapify(0);
-	}
-
-	// 堆的常见方法
 	public static void heapInsert(int i) {
-		while (heap[i][1] < heap[(i - 1) / 2][1]) {
+		while (distance[heap[i]] < distance[heap[(i - 1) / 2]]) {
 			swap(i, (i - 1) / 2);
 			i = (i - 1) / 2;
 		}
 	}
 
-	// 堆的常见方法
+	public static int pop() {
+		int ans = heap[0];
+		swap(0, --heapSize);
+		heapify(0);
+		where[ans] = -2;
+		return ans;
+	}
+
 	public static void heapify(int i) {
-		int l = i * 2 + 1;
-		while (l < hsize) {
-			int best = l + 1 < hsize && heap[l + 1][1] < heap[l][1] ? l + 1 : l;
-			best = heap[best][1] < heap[i][1] ? best : i;
+		int l = 1;
+		while (l < heapSize) {
+			int best = l + 1 < heapSize && distance[heap[l + 1]] < distance[heap[l]] ? l + 1 : l;
+			best = distance[heap[best]] < distance[heap[i]] ? best : i;
 			if (best == i) {
 				break;
 			}
@@ -106,13 +100,16 @@ public class Code02_DijkstraLuogu {
 		}
 	}
 
+	public static boolean isEmpty() {
+		return heapSize == 0;
+	}
+
 	public static void swap(int i, int j) {
-		int tmp = heap[i][0];
-		heap[i][0] = heap[j][0];
-		heap[j][0] = tmp;
-		tmp = heap[i][1];
-		heap[i][1] = heap[j][1];
-		heap[j][1] = tmp;
+		int tmp = heap[i];
+		heap[i] = heap[j];
+		heap[j] = tmp;
+		where[heap[i]] = i;
+		where[heap[j]] = j;
 	}
 
 	public static void main(String[] args) throws IOException {
@@ -125,7 +122,7 @@ public class Code02_DijkstraLuogu {
 			m = (int) in.nval;
 			in.nextToken();
 			s = (int) in.nval;
-			build(n);
+			build();
 			for (int i = 0, u, v, w; i < m; i++) {
 				in.nextToken();
 				u = (int) in.nval;
@@ -136,9 +133,9 @@ public class Code02_DijkstraLuogu {
 				addEdge(u, v, w);
 			}
 			dijkstra();
-			out.print(ans[1]);
+			out.print(distance[1]);
 			for (int i = 2; i <= n; i++) {
-				out.print(" " + ans[i]);
+				out.print(" " + distance[i]);
 			}
 			out.println();
 		}
@@ -148,18 +145,11 @@ public class Code02_DijkstraLuogu {
 	}
 
 	public static void dijkstra() {
-		heapAdd(s, 0);
-		while (hsize > 0) {
-			heapPop();
-			if (ans[cur] != -1) {
-				continue;
-			}
-			ans[cur] = wei;
-			// 链式前向星的方式遍历
-			for (int edge = head[cur]; edge != 0; edge = next[edge]) {
-				if (ans[to[edge]] == -1) {
-					heapAdd(to[edge], weight[edge] + wei);
-				}
+		addOrUpdateOrIgnore(s, 0);
+		while (!isEmpty()) {
+			int v = pop();
+			for (int ei = head[v]; ei > 0; ei = next[ei]) {
+				addOrUpdateOrIgnore(to[ei], distance[v] + weight[ei]);
 			}
 		}
 	}

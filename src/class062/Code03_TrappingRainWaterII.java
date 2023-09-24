@@ -4,7 +4,7 @@ package class062;
 // 给你一个 m * n 的矩阵，其中的值均为非负整数，代表二维高度图每个单元的高度
 // 请计算图中形状最多能接多少体积的雨水。
 // 测试链接 : https://leetcode.cn/problems/trapping-rain-water-ii/
-public class Code02_TrappingRainWaterII {
+public class Code03_TrappingRainWaterII {
 
 	public static int MAXN = 201;
 
@@ -16,7 +16,8 @@ public class Code02_TrappingRainWaterII {
 
 	public static int[][] water = new int[MAXN][MAXM];
 
-	public static int[] moves = { -1, 0, 1, 0, -1 };
+	// 0:上，1:右，2:下，3:左
+	public static int[] move = new int[] { -1, 0, 1, 0, -1 };
 
 	public static int trapRainWater(int[][] height) {
 		int n = height.length;
@@ -38,7 +39,8 @@ public class Code02_TrappingRainWaterII {
 			int x = queue[l][0];
 			int y = queue[l++][1];
 			for (int i = 0; i < 4; i++) {
-				int nx = x + moves[i], ny = y + moves[i + 1];
+				int nx = x + move[i];
+				int ny = y + move[i + 1];
 				if (nx == -1 || nx == n || ny == -1 || ny == m) {
 					continue;
 				}
