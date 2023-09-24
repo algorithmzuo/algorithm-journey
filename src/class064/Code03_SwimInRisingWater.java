@@ -17,44 +17,57 @@ public class Code03_SwimInRisingWater {
 	// 0:上，1:右，2:下，3:左
 	public static int[] move = new int[] { -1, 0, 1, 0, -1 };
 
-	public static int swimInWater(int[][] grid) {
-		int n = grid.length;
-		int m = grid[0].length;
-		int[][] distance = new int[n][m];
+	public static int[][] grid;
+
+	public static int[][] distance;
+
+	public static boolean[][] visited;
+
+	public static PriorityQueue<int[]> heap;
+
+	public static int n, m;
+
+	public static int swimInWater(int[][] g) {
+		grid = g;
+		n = grid.length;
+		m = grid[0].length;
+		distance = new int[n][m];
 		for (int i = 0; i < n; i++) {
 			for (int j = 0; j < m; j++) {
 				distance[i][j] = Integer.MAX_VALUE;
 			}
 		}
 		distance[0][0] = grid[0][0];
-		boolean[][] visited = new boolean[n][m];
-		PriorityQueue<int[]> heap = new PriorityQueue<>((a, b) -> a[2] - b[2]);
+		visited = new boolean[n][m];
+		heap = new PriorityQueue<>((a, b) -> a[2] - b[2]);
 		heap.add(new int[] { 0, 0, grid[0][0] });
 		while (!heap.isEmpty()) {
-			int x = heap.peek()[0];
-			int y = heap.peek()[1];
-			int c = heap.peek()[2];
+			int r = heap.peek()[0];
+			int c = heap.peek()[1];
+			int v = heap.peek()[2];
 			heap.poll();
-			if (visited[x][y]) {
+			if (visited[r][c]) {
 				continue;
 			}
-			if (x == n - 1 && y == m - 1) {
-				return c;
+			visited[r][c] = true;
+			if (r == n - 1 && c == m - 1) {
+				return v;
 			}
-			visited[x][y] = true;
 			for (int i = 0; i < 4; i++) {
-				int nx = x + move[i];
-				int ny = y + move[i + 1];
-				if (nx >= 0 && nx < n && ny >= 0 && ny < m && !visited[nx][ny]) {
-					int nc = Math.max(c, grid[nx][ny]);
-					if (nc < distance[nx][ny]) {
-						distance[nx][ny] = nc;
-						heap.add(new int[] { nx, ny, nc });
-					}
-				}
+				add(r + move[i], c + move[i + 1], v);
 			}
 		}
 		return -1;
+	}
+
+	public static void add(int nr, int nc, int pv) {
+		if (nr >= 0 && nr < n && nc >= 0 && nc < m && !visited[nr][nc]) {
+			int nv = pv + Math.max(0, grid[nr][nc] - pv);
+			if (nv < distance[nr][nc]) {
+				distance[nr][nc] = nv;
+				heap.add(new int[] { nr, nc, nv });
+			}
+		}
 	}
 
 }
