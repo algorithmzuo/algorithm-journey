@@ -30,16 +30,12 @@ public class Code01_AsFarFromLandAsPossible {
 		int seas = 0;
 		for (int i = 0; i < n; i++) {
 			for (int j = 0; j < m; j++) {
-				visited[i][j] = false;
-			}
-		}
-		for (int i = 0; i < n; i++) {
-			for (int j = 0; j < m; j++) {
 				if (grid[i][j] == 1) {
 					visited[i][j] = true;
 					queue[r][0] = i;
 					queue[r++][1] = j;
 				} else {
+					visited[i][j] = false;
 					seas++;
 				}
 			}
