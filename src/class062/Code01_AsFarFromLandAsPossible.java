@@ -20,6 +20,9 @@ public class Code01_AsFarFromLandAsPossible {
 
 	public static boolean[][] visited = new boolean[MAXN][MAXM];
 
+	// 0:上，1:右，2:下，3:左
+	public static int[] move = new int[] { -1, 0, 1, 0, -1 };
+
 	public static int maxDistance(int[][] grid) {
 		l = r = 0;
 		int n = grid.length;
@@ -47,25 +50,22 @@ public class Code01_AsFarFromLandAsPossible {
 		int level = -1;
 		while (l < r) {
 			int size = r - l;
-			for (int i = 0, x, y; i < size; i++) {
+			for (int k = 0, x, y, nx, ny; k < size; k++) {
 				x = queue[l][0];
 				y = queue[l++][1];
-				add(x - 1, y, n, m, grid);
-				add(x + 1, y, n, m, grid);
-				add(x, y - 1, n, m, grid);
-				add(x, y + 1, n, m, grid);
+				for (int i = 0; i < 4; i++) {
+					nx = x + move[i];
+					ny = y + move[i + 1];
+					if (nx >= 0 && nx < n && ny >= 0 && ny < m && grid[nx][ny] == 0 && !visited[nx][ny]) {
+						visited[nx][ny] = true;
+						queue[r][0] = nx;
+						queue[r++][1] = ny;
+					}
+				}
 			}
 			level++;
 		}
 		return level;
-	}
-
-	public static void add(int i, int j, int n, int m, int[][] grid) {
-		if (i >= 0 && i < n && j >= 0 && j < m && grid[i][j] == 0 && !visited[i][j]) {
-			visited[i][j] = true;
-			queue[r][0] = i;
-			queue[r++][1] = j;
-		}
 	}
 
 }
