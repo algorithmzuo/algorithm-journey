@@ -28,8 +28,8 @@ public class Code03_TrappingRainWaterII {
 				maxHeight = Math.max(maxHeight, height[i][j]);
 			}
 		}
-		for (int i = 0; i < n; i++) {
-			for (int j = 0; j < m; j++) {
+		for (int i = 1; i < n - 1; i++) {
+			for (int j = 1; j < m - 1; j++) {
 				water[i][j] = maxHeight;
 			}
 		}
@@ -62,28 +62,20 @@ public class Code03_TrappingRainWaterII {
 
 	public static void boundaryEnqueue(int n, int m, int[][] height) {
 		for (int j = 0; j < m; j++) {
-			if (water[0][j] > height[0][j]) {
-				water[0][j] = height[0][j];
-				queue[r][0] = 0;
-				queue[r++][1] = j;
-			}
-			if (water[n - 1][j] > height[n - 1][j]) {
-				water[n - 1][j] = height[n - 1][j];
-				queue[r][0] = n - 1;
-				queue[r++][1] = j;
-			}
+			water[0][j] = height[0][j];
+			queue[r][0] = 0;
+			queue[r++][1] = j;
+			water[n - 1][j] = height[n - 1][j];
+			queue[r][0] = n - 1;
+			queue[r++][1] = j;
 		}
 		for (int i = 1; i < n - 1; i++) {
-			if (water[i][0] > height[i][0]) {
-				water[i][0] = height[i][0];
-				queue[r][0] = i;
-				queue[r++][1] = 0;
-			}
-			if (water[i][m - 1] > height[i][m - 1]) {
-				water[i][m - 1] = height[i][m - 1];
-				queue[r][0] = i;
-				queue[r++][1] = m - 1;
-			}
+			water[i][0] = height[i][0];
+			queue[r][0] = i;
+			queue[r++][1] = 0;
+			water[i][m - 1] = height[i][m - 1];
+			queue[r][0] = i;
+			queue[r++][1] = m - 1;
 		}
 	}
 

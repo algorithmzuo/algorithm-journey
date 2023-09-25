@@ -23,7 +23,7 @@ public class Code04_CutOffTreesForGolfEvent {
 
 	public static int LIMIT = MAXN * MAXM;
 
-	public static int[][] f = new int[MAXN][MAXM];
+	public static int[][] visited = new int[MAXN][MAXM];
 
 	public static int[][] arr = new int[LIMIT][3];
 
@@ -100,7 +100,7 @@ public class Code04_CutOffTreesForGolfEvent {
 		for (int i = 0; i < n; i++) {
 			for (int j = 0; j < m; j++) {
 				int value = forest.get(i).get(j);
-				f[i][j] = value > 0 ? 1 : 0;
+				visited[i][j] = value > 0 ? 1 : 0;
 				if (value > 1) {
 					arr[cnt][0] = value;
 					arr[cnt][1] = i;
@@ -132,15 +132,16 @@ public class Code04_CutOffTreesForGolfEvent {
 			int x = cur[0];
 			int y = cur[1];
 			int distance = cur[2];
-			if (f[x][y] != block) {
-				f[x][y] = block;
+			if (visited[x][y] != block) {
+				visited[x][y] = block;
 				if (x == c && y == d) {
 					return distance;
 				}
 				for (int i = 0; i < 4; i++) {
 					int nx = x + move[i];
 					int ny = y + move[i + 1];
-					if (nx == -1 || nx == n || ny == -1 || ny == m || f[nx][ny] == 0 || f[nx][ny] == block) {
+					if (nx == -1 || nx == n || ny == -1 || ny == m || visited[nx][ny] == 0
+							|| visited[nx][ny] == block) {
 						continue;
 					}
 					if ((i == 0 && x > c) || (i == 1 && y < d) || (i == 2 && x < c) || (i == 3 && y > d)) {
