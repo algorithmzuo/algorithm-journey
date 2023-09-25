@@ -23,15 +23,15 @@ public class Code05_WordLadderII {
 
 	public static HashSet<String> dict;
 
+	public static HashSet<String> curLevel = new HashSet<>();
+
+	public static HashSet<String> nextLevel = new HashSet<>();
+
 	public static HashMap<String, ArrayList<String>> graph = new HashMap<>();
 
 	public static LinkedList<String> path = new LinkedList<>();
 
 	public static List<List<String>> ans = new ArrayList<>();
-
-	public static HashSet<String> curLevel = new HashSet<>();
-
-	public static HashSet<String> nextLevel = new HashSet<>();
 
 	public static void build(String beginWord, List<String> wordList) {
 		dict = new HashSet<>(wordList);
