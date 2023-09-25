@@ -20,18 +20,16 @@ public class Code01_AsFarFromLandAsPossible {
 
 	public static boolean[][] visited = new boolean[MAXN][MAXM];
 
-	public static int find;
-
 	public static int maxDistance(int[][] grid) {
-		l = r = find = 0;
+		l = r = 0;
 		int n = grid.length;
 		int m = grid[0].length;
+		int seas = 0;
 		for (int i = 0; i < n; i++) {
 			for (int j = 0; j < m; j++) {
 				visited[i][j] = false;
 			}
 		}
-		int seas = 0;
 		for (int i = 0; i < n; i++) {
 			for (int j = 0; j < m; j++) {
 				if (grid[i][j] == 1) {
@@ -43,10 +41,13 @@ public class Code01_AsFarFromLandAsPossible {
 				}
 			}
 		}
-		int distance = 0;
-		while (l < r && find < seas) {
+		if (seas == 0 || seas == n * m) {
+			return -1;
+		}
+		int level = -1;
+		while (l < r) {
 			int size = r - l;
-			for (int i = 0, x, y; i < size && find < seas; i++) {
+			for (int i = 0, x, y; i < size; i++) {
 				x = queue[l][0];
 				y = queue[l++][1];
 				add(x - 1, y, n, m, grid);
@@ -54,14 +55,13 @@ public class Code01_AsFarFromLandAsPossible {
 				add(x, y - 1, n, m, grid);
 				add(x, y + 1, n, m, grid);
 			}
-			distance++;
+			level++;
 		}
-		return find == 0 ? -1 : distance;
+		return level;
 	}
 
 	public static void add(int i, int j, int n, int m, int[][] grid) {
 		if (i >= 0 && i < n && j >= 0 && j < m && grid[i][j] == 0 && !visited[i][j]) {
-			find++;
 			visited[i][j] = true;
 			queue[r][0] = i;
 			queue[r++][1] = j;
