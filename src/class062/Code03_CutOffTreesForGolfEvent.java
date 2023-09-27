@@ -15,7 +15,7 @@ import java.util.List;
 // 你将从 (0, 0) 点开始工作，返回你砍完所有树需要走的最小步数。 如果你无法砍完所有的树，返回 -1 。
 // 可以保证的是，没有两棵树的高度是相同的，并且你至少需要砍倒一棵树。
 // 测试链接 : https://leetcode.cn/problems/cut-off-trees-for-golf-event/
-public class Code04_CutOffTreesForGolfEvent {
+public class Code03_CutOffTreesForGolfEvent {
 
 	public static int MAXN = 51;
 
