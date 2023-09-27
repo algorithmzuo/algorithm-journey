@@ -22,6 +22,12 @@ public class Code01_AsFarFromLandAsPossible {
 
 	// 0:上，1:右，2:下，3:左
 	public static int[] move = new int[] { -1, 0, 1, 0, -1 };
+	//                                      0  1  2  3   4
+	//                                               i
+	// (x,y)  i来到0位置 : x + move[i], y + move[i+1] -> x - 1, y
+	// (x,y)  i来到1位置 : x + move[i], y + move[i+1] -> x, y + 1
+	// (x,y)  i来到2位置 : x + move[i], y + move[i+1] -> x + 1, y
+	// (x,y)  i来到3位置 : x + move[i], y + move[i+1] -> x, y - 1
 
 	public static int maxDistance(int[][] grid) {
 		l = r = 0;
@@ -43,25 +49,26 @@ public class Code01_AsFarFromLandAsPossible {
 		if (seas == 0 || seas == n * m) {
 			return -1;
 		}
-		int level = -1;
+		int level = 0;
 		while (l < r) {
+			level++;
 			int size = r - l;
 			for (int k = 0, x, y, nx, ny; k < size; k++) {
 				x = queue[l][0];
 				y = queue[l++][1];
 				for (int i = 0; i < 4; i++) {
+					// 上、右、下、左
 					nx = x + move[i];
 					ny = y + move[i + 1];
-					if (nx >= 0 && nx < n && ny >= 0 && ny < m && grid[nx][ny] == 0 && !visited[nx][ny]) {
+					if (nx >= 0 && nx < n && ny >= 0 && ny < m && !visited[nx][ny]) {
 						visited[nx][ny] = true;
 						queue[r][0] = nx;
 						queue[r++][1] = ny;
 					}
 				}
 			}
-			level++;
 		}
-		return level;
+		return level - 1;
 	}
 
 }
