@@ -31,22 +31,21 @@ public class Code03_MinimumObstacleRemovalToReachCorner {
 			int[] record = deque.pollFirst();
 			int x = record[0];
 			int y = record[1];
-			if (pop[x][y]) {
-				continue;
-			}
-			pop[x][y] = true;
 			if (x == m - 1 && y == n - 1) {
 				return distance[x][y];
 			}
-			for (int i = 0; i < 4; i++) {
-				int nx = x + move[i], ny = y + move[i + 1];
-				if (nx >= 0 && nx < m && ny >= 0 && ny < n && !pop[nx][ny]
-						&& distance[x][y] + grid[nx][ny] < distance[nx][ny]) {
-					distance[nx][ny] = distance[x][y] + grid[nx][ny];
-					if (grid[nx][ny] == 0) {
-						deque.addFirst(new int[] { nx, ny });
-					} else {
-						deque.addLast(new int[] { nx, ny });
+			if (!pop[x][y]) {
+				pop[x][y] = true;
+				for (int i = 0; i < 4; i++) {
+					int nx = x + move[i], ny = y + move[i + 1];
+					if (nx >= 0 && nx < m && ny >= 0 && ny < n && !pop[nx][ny]
+							&& distance[x][y] + grid[nx][ny] < distance[nx][ny]) {
+						distance[nx][ny] = distance[x][y] + grid[nx][ny];
+						if (grid[nx][ny] == 0) {
+							deque.addFirst(new int[] { nx, ny });
+						} else {
+							deque.addLast(new int[] { nx, ny });
+						}
 					}
 				}
 			}

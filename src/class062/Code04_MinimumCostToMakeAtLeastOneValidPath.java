@@ -37,24 +37,23 @@ public class Code04_MinimumCostToMakeAtLeastOneValidPath {
 			int[] record = q.pollFirst();
 			int x = record[0];
 			int y = record[1];
-			if (pop[x][y]) {
-				continue;
-			}
-			pop[x][y] = true;
 			if (x == m - 1 && y == n - 1) {
 				return distance[x][y];
 			}
-			for (int i = 1; i <= 4; i++) {
-				int nx = x + move[i][0];
-				int ny = y + move[i][1];
-				int weight = grid[x][y] != i ? 1 : 0;
-				if (nx >= 0 && nx < m && ny >= 0 && ny < n && !pop[nx][ny]
-						&& distance[x][y] + weight < distance[nx][ny]) {
-					distance[nx][ny] = distance[x][y] + weight;
-					if (grid[x][y] == i) {
-						q.offerFirst(new int[] { nx, ny });
-					} else {
-						q.offerLast(new int[] { nx, ny });
+			if (!pop[x][y]) {
+				pop[x][y] = true;
+				for (int i = 1; i <= 4; i++) {
+					int nx = x + move[i][0];
+					int ny = y + move[i][1];
+					int weight = grid[x][y] != i ? 1 : 0;
+					if (nx >= 0 && nx < m && ny >= 0 && ny < n && !pop[nx][ny]
+							&& distance[x][y] + weight < distance[nx][ny]) {
+						distance[nx][ny] = distance[x][y] + weight;
+						if (grid[x][y] == i) {
+							q.offerFirst(new int[] { nx, ny });
+						} else {
+							q.offerLast(new int[] { nx, ny });
+						}
 					}
 				}
 			}
