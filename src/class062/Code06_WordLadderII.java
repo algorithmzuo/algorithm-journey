@@ -21,19 +21,22 @@ import java.util.List;
 // 测试链接 : https://leetcode.cn/problems/word-ladder-ii/
 public class Code06_WordLadderII {
 
+	// 单词表 ： list -> hashSet
 	public static HashSet<String> dict;
 
 	public static HashSet<String> curLevel = new HashSet<>();
 
 	public static HashSet<String> nextLevel = new HashSet<>();
 
+	// 反向图
 	public static HashMap<String, ArrayList<String>> graph = new HashMap<>();
 
+	// 记录路径，当生成一条有效路的时候，拷贝进ans！
 	public static LinkedList<String> path = new LinkedList<>();
 
 	public static List<List<String>> ans = new ArrayList<>();
 
-	public static void build(String beginWord, List<String> wordList) {
+	public static void build(List<String> wordList) {
 		dict = new HashSet<>(wordList);
 		graph.clear();
 		ans.clear();
@@ -42,7 +45,7 @@ public class Code06_WordLadderII {
 	}
 
 	public static List<List<String>> findLadders(String beginWord, String endWord, List<String> wordList) {
-		build(beginWord, wordList);
+		build(wordList);
 		if (!dict.contains(endWord)) {
 			return ans;
 		}
@@ -52,12 +55,17 @@ public class Code06_WordLadderII {
 		return ans;
 	}
 
+	// begin -> end ，一层层bfs去，建图
+	// 返回值：真的能找到end，返回true；false
 	public static boolean bfs(String begin, String end) {
 		boolean find = false;
 		curLevel.add(begin);
 		while (!curLevel.isEmpty()) {
 			dict.removeAll(curLevel);
 			for (String word : curLevel) {
+				// word : 去扩
+				// 每个位置，字符a~z，换一遍！检查在词表中是否存在
+				// 避免，加工出自己
 				char[] w = word.toCharArray();
 				for (int i = 0; i < w.length; i++) {
 					char old = w[i];
@@ -70,9 +78,7 @@ public class Code06_WordLadderII {
 							}
 							graph.putIfAbsent(str, new ArrayList<>());
 							graph.get(str).add(word);
-							if (!nextLevel.contains(str)) {
-								nextLevel.add(str);
-							}
+							nextLevel.add(str);
 						}
 					}
 					w[i] = old;

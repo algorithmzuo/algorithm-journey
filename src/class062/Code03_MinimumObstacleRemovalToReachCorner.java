@@ -14,7 +14,7 @@ import java.util.ArrayDeque;
 public class Code03_MinimumObstacleRemovalToReachCorner {
 
 	public static int minimumObstacles(int[][] grid) {
-		int[] move = new int[] { -1, 0, 1, 0, -1 };
+		int[] move = { -1, 0, 1, 0, -1 };
 		int m = grid.length;
 		int n = grid[0].length;
 		int[][] distance = new int[m][n];
@@ -23,7 +23,6 @@ public class Code03_MinimumObstacleRemovalToReachCorner {
 				distance[i][j] = Integer.MAX_VALUE;
 			}
 		}
-		boolean[][] pop = new boolean[m][n];
 		ArrayDeque<int[]> deque = new ArrayDeque<>();
 		deque.addFirst(new int[] { 0, 0 });
 		distance[0][0] = 0;
@@ -34,18 +33,15 @@ public class Code03_MinimumObstacleRemovalToReachCorner {
 			if (x == m - 1 && y == n - 1) {
 				return distance[x][y];
 			}
-			if (!pop[x][y]) {
-				pop[x][y] = true;
-				for (int i = 0; i < 4; i++) {
-					int nx = x + move[i], ny = y + move[i + 1];
-					if (nx >= 0 && nx < m && ny >= 0 && ny < n && !pop[nx][ny]
-							&& distance[x][y] + grid[nx][ny] < distance[nx][ny]) {
-						distance[nx][ny] = distance[x][y] + grid[nx][ny];
-						if (grid[nx][ny] == 0) {
-							deque.addFirst(new int[] { nx, ny });
-						} else {
-							deque.addLast(new int[] { nx, ny });
-						}
+			for (int i = 0; i < 4; i++) {
+				int nx = x + move[i], ny = y + move[i + 1];
+				if (nx >= 0 && nx < m && ny >= 0 && ny < n &&
+						distance[x][y] + grid[nx][ny] < distance[nx][ny]) {
+					distance[nx][ny] = distance[x][y] + grid[nx][ny];
+					if (grid[nx][ny] == 0) {
+						deque.addFirst(new int[] { nx, ny });
+					} else {
+						deque.addLast(new int[] { nx, ny });
 					}
 				}
 			}

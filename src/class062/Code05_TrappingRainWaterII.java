@@ -12,11 +12,15 @@ public class Code05_TrappingRainWaterII {
 		int[] move = new int[] { -1, 0, 1, 0, -1 };
 		int n = height.length;
 		int m = height[0].length;
+		// 0 : 行
+		// 1 : 列
+		// 2 : 水线
 		PriorityQueue<int[]> heap = new PriorityQueue<>((a, b) -> a[2] - b[2]);
 		boolean[][] visited = new boolean[n][m];
 		for (int i = 0; i < n; i++) {
 			for (int j = 0; j < m; j++) {
 				if (i == 0 || i == n - 1 || j == 0 || j == m - 1) {
+					// 边界
 					heap.add(new int[] { i, j, height[i][j] });
 					visited[i][j] = true;
 				} else {
