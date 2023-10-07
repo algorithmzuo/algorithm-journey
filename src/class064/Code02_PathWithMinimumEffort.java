@@ -47,6 +47,7 @@ public class Code02_PathWithMinimumEffort {
 				if (nx >= 0 && nx < n && ny >= 0 && ny < m && !visited[nx][ny]) {
 					int nc = Math.max(c, Math.abs(heights[x][y] - heights[nx][ny]));
 					if (nc < distance[nx][ny]) {
+						distance[nx][ny] = nc;
 						heap.add(new int[] { nx, ny, nc });
 					}
 				}
