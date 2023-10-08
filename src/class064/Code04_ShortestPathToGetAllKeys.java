@@ -13,7 +13,7 @@ package class064;
 // 另外，代表钥匙和锁的字母互为大小写并按字母顺序排列
 // 返回获取所有钥匙所需要的移动的最少次数。如果无法获取所有钥匙，返回 -1 。
 // 测试链接：https://leetcode.cn/problems/shortest-path-to-get-all-keys
-public class Code05_ShortestPathToGetAllKeys {
+public class Code04_ShortestPathToGetAllKeys {
 
 	public static int MAXN = 31;
 
