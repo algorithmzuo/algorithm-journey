@@ -21,11 +21,10 @@ public class Code01_WordLadder {
 			return 0;
 		}
 		HashSet<String> froms = new HashSet<>();
-		HashSet<String> aims = new HashSet<>();
-		HashSet<String> visited = new HashSet<>();
-		froms.add(begin);
-		aims.add(end);
+		HashSet<String> ends = new HashSet<>();
 		HashSet<String> nexts = new HashSet<>();
+		froms.add(begin);
+		ends.add(end);
 		for (int len = 2; !froms.isEmpty(); len++) {
 			nexts.clear();
 			for (String word : froms) {
@@ -35,25 +34,25 @@ public class Code01_WordLadder {
 						if (c != word.charAt(j)) {
 							ch[j] = c;
 							String next = String.valueOf(ch);
-							if (aims.contains(next)) {
+							if (ends.contains(next)) {
 								return len;
 							}
-							if (dict.contains(next) && !visited.contains(next)) {
+							if (dict.contains(next)) {
+								dict.remove(next);
 								nexts.add(next);
-								visited.add(next);
 							}
 						}
 					}
 				}
 			}
-			if (nexts.size() <= aims.size()) {
+			if (nexts.size() <= ends.size()) {
 				HashSet<String> tmp = froms;
 				froms = nexts;
 				nexts = tmp;
 			} else {
 				HashSet<String> tmp = froms;
-				froms = aims;
-				aims = nexts;
+				froms = ends;
+				ends = nexts;
 				nexts = tmp;
 			}
 		}
