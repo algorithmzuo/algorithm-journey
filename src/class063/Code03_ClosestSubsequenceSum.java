@@ -40,6 +40,8 @@ public class Code03_ClosestSubsequenceSum {
 		if (min > goal) {
 			return (int) Math.abs(min - goal);
 		}
+		// 原始数组排序，为了后面递归的时候，还能剪枝
+		// 常数优化
 		Arrays.sort(nums);
 		fill = 0;
 		collect(nums, 0, n >> 1, 0, lsum);
@@ -63,11 +65,17 @@ public class Code03_ClosestSubsequenceSum {
 		if (i == e) {
 			sum[fill++] = s;
 		} else {
+			// nums[i.....]这一组，相同的数字有几个
 			int j = i + 1;
 			while (j < e && nums[j] == nums[i]) {
 				j++;
 			}
+			// nums[ 1 1 1 1 1 2....
+			//       i         j
 			for (int k = 0; k <= j - i; k++) {
+				// k = 0个
+				// k = 1个
+				// k = 2个
 				collect(nums, j, e, s + k * nums[i], sum);
 			}
 		}

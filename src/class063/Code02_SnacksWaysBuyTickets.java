@@ -74,14 +74,19 @@ public class Code02_SnacksWaysBuyTickets {
 		return ans;
 	}
 
+	// arr[i....e]结束，e再往右不展开了！
+	// 返回值 : ans数组填到了什么位置！
 	public static int f(int i, int e, long s, long w, long[] ans, int j) {
 		if (s > w) {
 			return j;
 		}
+		// s <= w
 		if (i == e) {
 			ans[j++] = s;
 		} else {
+			// 不要arr[i]位置的数
 			j = f(i + 1, e, s, w, ans, j);
+			// 要arr[i]位置的数
 			j = f(i + 1, e, s + arr[i], w, ans, j);
 		}
 		return j;
