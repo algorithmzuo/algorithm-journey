@@ -4,6 +4,9 @@ package class065;
 // 给定一个 n个点的有向图，请求出图中是否存在从顶点 1 出发能到达的负环
 // 负环的定义是：一条边权之和为负数的回路。
 // 测试链接 : https://www.luogu.com.cn/problem/P3385
+// 请同学们务必参考如下代码中关于输入、输出的处理
+// 这是输入输出处理效率很高的写法
+// 提交以下所有代码，把主类名改成Main，可以直接通过
 
 import java.io.BufferedReader;
 import java.io.IOException;

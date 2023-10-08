@@ -1,6 +1,6 @@
 package class065;
 
-// Floyd算法
+// Floyd算法模版（洛谷）
 // 本题测试链接 : https://www.luogu.com.cn/problem/P2910
 // 请同学们务必参考如下代码中关于输入、输出的处理
 // 这是输入输出处理效率很高的写法
