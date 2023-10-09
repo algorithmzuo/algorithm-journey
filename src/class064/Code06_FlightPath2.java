@@ -84,11 +84,11 @@ public class Code06_FlightPath2 {
 		}
 	}
 
-	public static int u, times, cost;
+	public static int u, use, cost;
 
 	public static void pop() {
 		u = heap[0][0];
-		times = heap[0][1];
+		use = heap[0][1];
 		cost = heap[0][2];
 		swap(0, --heapSize);
 		heapify();
@@ -145,23 +145,23 @@ public class Code06_FlightPath2 {
 		push(s, 0, 0);
 		while (heapSize > 0) {
 			pop();
-			if (visited[u][times]) {
+			if (visited[u][use]) {
 				continue;
 			}
-			visited[u][times] = true;
+			visited[u][use] = true;
 			if (u == t) {
 				return cost;
 			}
 			for (int ei = head[u], v, w; ei > 0; ei = next[ei]) {
 				v = to[ei];
 				w = weight[ei];
-				if (times < k && distance[v][times + 1] > distance[u][times]) {
-					distance[v][times + 1] = distance[u][times];
-					push(v, times + 1, distance[v][times + 1]);
+				if (use < k && distance[v][use + 1] > distance[u][use]) {
+					distance[v][use + 1] = distance[u][use];
+					push(v, use + 1, distance[v][use + 1]);
 				}
-				if (distance[v][times] > distance[u][times] + w) {
-					distance[v][times] = distance[u][times] + w;
-					push(v, times, distance[v][times]);
+				if (distance[v][use] > distance[u][use] + w) {
+					distance[v][use] = distance[u][use] + w;
+					push(v, use, distance[v][use]);
 				}
 			}
 		}

@@ -101,25 +101,25 @@ public class Code06_FlightPath1 {
 		while (!heap.isEmpty()) {
 			int[] record = heap.poll();
 			int u = record[0];
-			int times = record[1];
+			int use = record[1];
 			int cost = record[2];
-			if (visited[u][times]) {
+			if (visited[u][use]) {
 				continue;
 			}
-			visited[u][times] = true;
+			visited[u][use] = true;
 			if (u == t) {
 				return cost;
 			}
 			for (int ei = head[u], v, w; ei > 0; ei = next[ei]) {
 				v = to[ei];
 				w = weight[ei];
-				if (times < k && distance[v][times + 1] > distance[u][times]) {
-					distance[v][times + 1] = distance[u][times];
-					heap.add(new int[] { v, times + 1, distance[v][times + 1] });
+				if (use < k && distance[v][use + 1] > distance[u][use]) {
+					distance[v][use + 1] = distance[u][use];
+					heap.add(new int[] { v, use + 1, distance[v][use + 1] });
 				}
-				if (distance[v][times] > distance[u][times] + w) {
-					distance[v][times] = distance[u][times] + w;
-					heap.add(new int[] { v, times, distance[v][times] });
+				if (distance[v][use] > distance[u][use] + w) {
+					distance[v][use] = distance[u][use] + w;
+					heap.add(new int[] { v, use, distance[v][use] });
 				}
 			}
 		}
