@@ -33,9 +33,9 @@ public class Code01_DijkstraLeetcode {
 		boolean[] visited = new boolean[n + 1];
 		PriorityQueue<int[]> heap = new PriorityQueue<>((a, b) -> a[1] - b[1]);
 		heap.add(new int[] { k, 0 });
-		int nodeCnt = 0;
+		int find = 0;
 		int max = 0;
-		while (!heap.isEmpty() && nodeCnt < n) {
+		while (!heap.isEmpty()) {
 			int[] record = heap.poll();
 			int cur = record[0];
 			int delay = record[1];
@@ -43,7 +43,7 @@ public class Code01_DijkstraLeetcode {
 				continue;
 			}
 			visited[cur] = true;
-			nodeCnt++;
+			find++;
 			max = Math.max(max, delay);
 			for (int[] edge : graph.get(cur)) {
 				int v = edge[0];
@@ -54,7 +54,7 @@ public class Code01_DijkstraLeetcode {
 				}
 			}
 		}
-		return nodeCnt < n ? -1 : max;
+		return find < n ? -1 : max;
 	}
 
 	// 链式前向星+反向索引堆的实现
@@ -157,17 +157,17 @@ public class Code01_DijkstraLeetcode {
 			addEdge(edge[0], edge[1], edge[2]);
 		}
 		addOrUpdateOrIgnore(k, 0);
-		int nodeCnt = 0;
+		int find = 0;
 		int max = 0;
 		while (!isEmpty()) {
 			int v = pop();
-			nodeCnt++;
+			find++;
 			max = Math.max(max, distance[v]);
 			for (int ei = head[v]; ei > 0; ei = next[ei]) {
 				addOrUpdateOrIgnore(to[ei], distance[v] + weight[ei]);
 			}
 		}
-		return nodeCnt < n ? -1 : max;
+		return find < n ? -1 : max;
 	}
 
 }
