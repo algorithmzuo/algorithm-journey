@@ -121,10 +121,8 @@ public class Code01_DijkstraLuogu {
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
 		while (in.nextToken() != StreamTokenizer.TT_EOF) {
 			n = (int) in.nval;
-			in.nextToken();
-			m = (int) in.nval;
-			in.nextToken();
-			s = (int) in.nval;
+			in.nextToken(); m = (int) in.nval;
+			in.nextToken(); s = (int) in.nval;
 			build();
 			for (int i = 0, u, v, w; i < m; i++) {
 				in.nextToken(); u = (int) in.nval;
