@@ -21,8 +21,8 @@ public class Code01_DijkstraLeetcode {
 		for (int i = 0; i <= n; i++) {
 			graph.add(new ArrayList<>());
 		}
-		for (int[] delay : times) {
-			graph.get(delay[0]).add(new int[] { delay[1], delay[2] });
+		for (int[] edge : times) {
+			graph.get(edge[0]).add(new int[] { edge[1], edge[2] });
 		}
 		int[] distance = new int[n + 1];
 		Arrays.fill(distance, Integer.MAX_VALUE);
