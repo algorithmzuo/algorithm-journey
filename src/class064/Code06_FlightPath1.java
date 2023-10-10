@@ -9,7 +9,7 @@ import java.io.StreamTokenizer;
 import java.util.Arrays;
 import java.util.PriorityQueue;
 
-// 飞行路线（语言自己提供的堆）
+// 飞行路线（语言提供的堆）
 // Alice和Bob现在要乘飞机旅行，他们选择了一家相对便宜的航空公司
 // 该航空公司一共在n个城市设有业务，设这些城市分别标记为0 ~ n−1
 // 一共有m种航线，每种航线连接两个城市，并且航线有一定的价格
