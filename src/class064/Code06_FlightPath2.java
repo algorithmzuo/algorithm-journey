@@ -43,10 +43,12 @@ public class Code06_FlightPath2 {
 
 	public static boolean[][] visited = new boolean[MAXN][MAXK];
 
-	// 自己写的普通堆，不是反向索引堆
+	// 自己写的普通堆，静态结构，推荐
+	// 注意是自己写的普通堆，不是反向索引堆
 	// 因为(点编号，使用免费路线的次数)，两个参数的组合才是图中的点
-	// 所以反向索引堆不好写，其实也能实现，但是会造成很多困惑
-	// 静态结构，推荐
+	// 两个参数的组合对应一个点(一个堆的下标)，所以反向索引堆不好写
+	// 其实也能实现，二维点变成一维下标即可
+	// 但是会造成很多困惑，索性算了，就手写普通堆吧
 	public static int[][] heap = new int[MAXM * MAXK][3];
 
 	public static int heapSize;
