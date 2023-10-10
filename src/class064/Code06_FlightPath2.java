@@ -18,7 +18,6 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StreamTokenizer;
-import java.util.Arrays;
 
 public class Code06_FlightPath2 {
 
@@ -57,8 +56,8 @@ public class Code06_FlightPath2 {
 	public static void build() {
 		cnt = 1;
 		heapSize = 0;
-		Arrays.fill(head, 0, n, 0);
 		for (int i = 0; i < n; i++) {
+			head[i] = 0;
 			for (int j = 0; j <= k; j++) {
 				distance[i][j] = Integer.MAX_VALUE;
 				visited[i][j] = false;
