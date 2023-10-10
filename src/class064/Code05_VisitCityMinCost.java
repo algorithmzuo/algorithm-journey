@@ -48,12 +48,14 @@ public class Code05_VisitCityMinCost {
 			}
 			visited[cur][power] = true;
 			if (power < cnt) {
+				// 充一格电
 				if (!visited[cur][power + 1] && cost + charge[cur] < distance[cur][power + 1]) {
 					distance[cur][power + 1] = cost + charge[cur];
 					heap.add(new int[] { cur, power + 1, cost + charge[cur] });
 				}
 			}
 			for (int[] edge : graph.get(cur)) {
+				// 不充电去别的城市
 				int nextCity = edge[0];
 				int restPower = power - edge[1];
 				int nextCost = cost + edge[1];

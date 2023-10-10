@@ -73,12 +73,15 @@ public class Code04_ShortestPathToGetAllKeys {
 					ny = y + move[i + 1];
 					ns = s;
 					if (nx < 0 || nx == n || ny < 0 || ny == m || grid[nx][ny] == '#') {
+						// 越界或者障碍
 						continue;
 					}
 					if (grid[nx][ny] >= 'A' && grid[nx][ny] <= 'F' && ((ns & (1 << (grid[nx][ny] - 'A'))) == 0)) {
+						// 是锁，又没有对应的钥匙
 						continue;
 					}
 					if (grid[nx][ny] >= 'a' && grid[nx][ny] <= 'f') {
+						// 是某一把钥匙
 						ns |= (1 << (grid[nx][ny] - 'a'));
 					}
 					if (ns == key) {

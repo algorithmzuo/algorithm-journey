@@ -114,10 +114,12 @@ public class Code06_FlightPath1 {
 				v = to[ei];
 				w = weight[ei];
 				if (use < k && distance[v][use + 1] > distance[u][use]) {
+					// 使用免费
 					distance[v][use + 1] = distance[u][use];
 					heap.add(new int[] { v, use + 1, distance[v][use + 1] });
 				}
 				if (distance[v][use] > distance[u][use] + w) {
+					// 不用免费
 					distance[v][use] = distance[u][use] + w;
 					heap.add(new int[] { v, use, distance[v][use] });
 				}
