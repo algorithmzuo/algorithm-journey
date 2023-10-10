@@ -124,12 +124,9 @@ public class Code01_DijkstraLuogu {
 			s = (int) in.nval;
 			build();
 			for (int i = 0, u, v, w; i < m; i++) {
-				in.nextToken();
-				u = (int) in.nval;
-				in.nextToken();
-				v = (int) in.nval;
-				in.nextToken();
-				w = (int) in.nval;
+				in.nextToken(); u = (int) in.nval;
+				in.nextToken(); v = (int) in.nval;
+				in.nextToken(); w = (int) in.nval;
 				addEdge(u, v, w);
 			}
 			dijkstra();

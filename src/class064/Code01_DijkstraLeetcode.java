@@ -33,8 +33,6 @@ public class Code01_DijkstraLeetcode {
 		boolean[] visited = new boolean[n + 1];
 		PriorityQueue<int[]> heap = new PriorityQueue<>((a, b) -> a[1] - b[1]);
 		heap.add(new int[] { k, 0 });
-		int find = 0;
-		int max = 0;
 		while (!heap.isEmpty()) {
 			int[] record = heap.poll();
 			int cur = record[0];
@@ -43,8 +41,6 @@ public class Code01_DijkstraLeetcode {
 				continue;
 			}
 			visited[cur] = true;
-			find++;
-			max = Math.max(max, delay);
 			for (int[] edge : graph.get(cur)) {
 				int v = edge[0];
 				int w = edge[1];
@@ -54,10 +50,39 @@ public class Code01_DijkstraLeetcode {
 				}
 			}
 		}
-		return find < n ? -1 : max;
+		int ans = Integer.MIN_VALUE;
+		for (int i = 1; i <= n; i++) {
+			if (distance[i] == Integer.MAX_VALUE) {
+				return -1;
+			}
+			ans = Math.max(ans, distance[i]);
+		}
+		return ans;
 	}
 
 	// 链式前向星+反向索引堆的实现
+	public static int networkDelayTime2(int[][] times, int n, int k) {
+		build(n);
+		for (int[] edge : times) {
+			addEdge(edge[0], edge[1], edge[2]);
+		}
+		addOrUpdateOrIgnore(k, 0);
+		while (!isEmpty()) {
+			int v = pop();
+			for (int ei = head[v]; ei > 0; ei = next[ei]) {
+				addOrUpdateOrIgnore(to[ei], distance[v] + weight[ei]);
+			}
+		}
+		int ans = Integer.MIN_VALUE;
+		for (int i = 1; i <= n; i++) {
+			if (distance[i] == Integer.MAX_VALUE) {
+				return -1;
+			}
+			ans = Math.max(ans, distance[i]);
+		}
+		return ans;
+	}
+
 	public static int MAXN = 101;
 
 	public static int MAXM = 6001;
@@ -149,25 +174,6 @@ public class Code01_DijkstraLeetcode {
 		heap[j] = tmp;
 		where[heap[i]] = i;
 		where[heap[j]] = j;
-	}
-
-	public static int networkDelayTime2(int[][] times, int n, int k) {
-		build(n);
-		for (int[] edge : times) {
-			addEdge(edge[0], edge[1], edge[2]);
-		}
-		addOrUpdateOrIgnore(k, 0);
-		int find = 0;
-		int max = 0;
-		while (!isEmpty()) {
-			int v = pop();
-			find++;
-			max = Math.max(max, distance[v]);
-			for (int ei = head[v]; ei > 0; ei = next[ei]) {
-				addOrUpdateOrIgnore(to[ei], distance[v] + weight[ei]);
-			}
-		}
-		return find < n ? -1 : max;
 	}
 
 }
