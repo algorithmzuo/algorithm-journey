@@ -151,6 +151,9 @@ public class Code06_FlightPath2 {
 			}
 			visited[u][use] = true;
 			if (u == t) {
+				// 常见剪枝
+				// 发现终点直接返回
+				// 不用等都结束
 				return cost;
 			}
 			for (int ei = head[u], v, w; ei > 0; ei = next[ei]) {

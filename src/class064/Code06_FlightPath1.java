@@ -46,6 +46,9 @@ public class Code06_FlightPath1 {
 
 	// 用语言自己提供的堆
 	// 动态结构，不推荐
+	// 0 : 到达的城市编号
+	// 1 : 已经使用的免单次数
+	// 2 : 沿途的花费
 	public static PriorityQueue<int[]> heap = new PriorityQueue<>((a, b) -> a[2] - b[2]);
 
 	public static int n, m, k, s, t;
@@ -107,6 +110,9 @@ public class Code06_FlightPath1 {
 			}
 			visited[u][use] = true;
 			if (u == t) {
+				// 常见剪枝
+				// 发现终点直接返回
+				// 不用等都结束
 				return cost;
 			}
 			for (int ei = head[u], v, w; ei > 0; ei = next[ei]) {

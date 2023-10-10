@@ -28,6 +28,9 @@ public class Code03_SwimInRisingWater {
 		}
 		distance[0][0] = grid[0][0];
 		boolean[][] visited = new boolean[n][m];
+		// 0 : 格子的行
+		// 1 : 格子的列
+		// 2 : 源点到当前格子的代价
 		PriorityQueue<int[]> heap = new PriorityQueue<>((a, b) -> a[2] - b[2]);
 		heap.add(new int[] { 0, 0, grid[0][0] });
 		while (!heap.isEmpty()) {
@@ -40,13 +43,16 @@ public class Code03_SwimInRisingWater {
 			}
 			visited[x][y] = true;
 			if (x == n - 1 && y == m - 1) {
+				// 常见剪枝
+				// 发现终点直接返回
+				// 不用等都结束
 				return c;
 			}
 			for (int i = 0, nx, ny, nc; i < 4; i++) {
 				nx = x + move[i];
 				ny = y + move[i + 1];
 				if (nx >= 0 && nx < n && ny >= 0 && ny < m && !visited[nx][ny]) {
-					nc = c + Math.max(0, grid[nx][ny] - c);
+					nc = Math.max(c, grid[nx][ny]);
 					if (nc < distance[nx][ny]) {
 						distance[nx][ny] = nc;
 						heap.add(new int[] { nx, ny, nc });

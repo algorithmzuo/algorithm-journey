@@ -28,6 +28,9 @@ public class Code04_ShortestPathToGetAllKeys {
 
 	public static boolean[][][] visited = new boolean[MAXN][MAXM][1 << MAXK];
 
+	// 0 : 行
+	// 1 : 列
+	// 2 : 收集钥匙的状态
 	public static int[][] queue = new int[MAXN * MAXM * (1 << MAXK)][3];
 
 	public static int l, r, n, m, key;
@@ -44,6 +47,7 @@ public class Code04_ShortestPathToGetAllKeys {
 				if (grid[i][j] == '@') {
 					queue[r][0] = i;
 					queue[r][1] = j;
+					// 0 : 000000
 					queue[r++][2] = 0;
 				}
 				if (grid[i][j] >= 'a' && grid[i][j] <= 'f') {
@@ -85,6 +89,9 @@ public class Code04_ShortestPathToGetAllKeys {
 						ns |= (1 << (grid[nx][ny] - 'a'));
 					}
 					if (ns == key) {
+						// 常见剪枝
+						// 发现终点直接返回
+						// 不用等都结束
 						return level;
 					}
 					if (!visited[nx][ny][ns]) {

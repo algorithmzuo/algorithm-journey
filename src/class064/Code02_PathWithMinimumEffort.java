@@ -17,6 +17,8 @@ public class Code02_PathWithMinimumEffort {
 	public static int[] move = new int[] { -1, 0, 1, 0, -1 };
 
 	public int minimumEffortPath(int[][] heights) {
+		// (0,0)源点
+		// -> (x,y)
 		int n = heights.length;
 		int m = heights[0].length;
 		int[][] distance = new int[n][m];
@@ -27,6 +29,9 @@ public class Code02_PathWithMinimumEffort {
 		}
 		distance[0][0] = 0;
 		boolean[][] visited = new boolean[n][m];
+		// 0 : 格子的行
+		// 1 : 格子的列
+		// 2 : 源点到当前格子的代价
 		PriorityQueue<int[]> heap = new PriorityQueue<int[]>((a, b) -> a[2] - b[2]);
 		heap.add(new int[] { 0, 0, 0 });
 		while (!heap.isEmpty()) {
@@ -38,6 +43,9 @@ public class Code02_PathWithMinimumEffort {
 				continue;
 			}
 			if (x == n - 1 && y == m - 1) {
+				// 常见剪枝
+				// 发现终点直接返回
+				// 不用等都结束
 				return c;
 			}
 			visited[x][y] = true;
