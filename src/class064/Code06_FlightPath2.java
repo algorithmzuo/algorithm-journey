@@ -1,13 +1,5 @@
 package class064;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
-import java.io.StreamTokenizer;
-import java.util.Arrays;
-
 // 飞行路线（自己手撸的堆）
 // Alice和Bob现在要乘飞机旅行，他们选择了一家相对便宜的航空公司
 // 该航空公司一共在n个城市设有业务，设这些城市分别标记为0 ~ n−1
@@ -19,6 +11,14 @@ import java.util.Arrays;
 // 请同学们务必参考如下代码中关于输入、输出的处理
 // 这是输入输出处理效率很高的写法
 // 提交以下所有代码，把主类名改成Main，可以直接通过
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.io.StreamTokenizer;
+import java.util.Arrays;
 
 public class Code06_FlightPath2 {
 
