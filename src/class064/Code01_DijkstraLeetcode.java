@@ -13,9 +13,6 @@ import java.util.PriorityQueue;
 // 现在，从某个节点 K 发出一个信号。需要多久才能使所有节点都收到信号
 // 如果不能使所有节点收到信号，返回 -1
 // 测试链接 : https://leetcode.cn/problems/network-delay-time
-// 本题给的数据量太小了，什么解法都能通过
-// 打败比例最高的解，居然是用邻接矩阵建图的解
-// 而邻接矩阵建图的解毫无意义，点的数量一大就无法通过了
 public class Code01_DijkstraLeetcode {
 
 	// 动态建图+普通堆的实现
