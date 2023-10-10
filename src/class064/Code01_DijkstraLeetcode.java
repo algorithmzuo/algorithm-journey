@@ -33,7 +33,7 @@ public class Code01_DijkstraLeetcode {
 		while (!heap.isEmpty()) {
 			int[] record = heap.poll();
 			int cur = record[0];
-			int delay = record[1];
+			int cost = record[1];
 			if (visited[cur]) {
 				continue;
 			}
@@ -41,9 +41,9 @@ public class Code01_DijkstraLeetcode {
 			for (int[] edge : graph.get(cur)) {
 				int v = edge[0];
 				int w = edge[1];
-				if (!visited[v] && delay + w < distance[v]) {
-					distance[v] = delay + w;
-					heap.add(new int[] { v, delay + w });
+				if (!visited[v] && cost + w < distance[v]) {
+					distance[v] = cost + w;
+					heap.add(new int[] { v, cost + w });
 				}
 			}
 		}
