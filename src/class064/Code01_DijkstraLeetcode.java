@@ -101,6 +101,9 @@ public class Code01_DijkstraLeetcode {
 	// 反向索引堆
 	public static int[] heap = new int[MAXN];
 
+	// where[v] = -1，表示v这个节点，从来没有进入过堆
+	// where[v] = -2，表示v这个节点，已经弹出过了
+	// where[v] = i(>=0)，表示v这个节点，在堆上的i位置
 	public static int[] where = new int[MAXN];
 
 	public static int heapSize;
