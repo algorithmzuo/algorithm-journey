@@ -46,8 +46,11 @@ public class Code02_Floyd {
 				in.nextToken();
 				path[i] = (int) in.nval - 1;
 			}
-			build();
 			// 这道题给的图是邻接矩阵的形式
+			// 任意两点之间的边权都会给定
+			// 所以显得distance初始化不太必要
+			// 但是一般情况下，distance初始化一定要做
+			build();
 			for (int i = 0; i < n; i++) {
 				for (int j = 0; j < n; j++) {
 					in.nextToken();
