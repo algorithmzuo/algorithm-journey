@@ -58,8 +58,8 @@ public class Code02_Floyd {
 	public static void floyd() {
 		// O(N^3)的过程
 		// 枚举每个跳板
-		// 注意! 跳板要最先枚举，然后是from和to
-		for (int bridge = 0; bridge < n; bridge++) { // 跳点
+		// 注意，跳板要最先枚举！跳板要最先枚举！跳板要最先枚举！
+		for (int bridge = 0; bridge < n; bridge++) { // 跳板
 			for (int from = 0; from < n; from++) { // from
 				for (int to = 0; to < n; to++) { // to
 					if (distance[from][bridge] != Integer.MAX_VALUE 
@@ -70,17 +70,6 @@ public class Code02_Floyd {
 				}
 			}
 		}
-		// 如下这么写是错的
-//		for (int from = 0; from < n; from++) {
-//			for (int to = 0; to < n; to++) {
-//				for (int bridge = 0; bridge < n; bridge++) {
-//					if (distance[from][bridge] != Integer.MAX_VALUE && distance[bridge][to] != Integer.MAX_VALUE
-//							&& distance[from][to] > distance[from][bridge] + distance[bridge][to]) {
-//						distance[from][to] = distance[from][bridge] + distance[bridge][to];
-//					}
-//				}
-//			}
-//		}
 	}
 
 }
