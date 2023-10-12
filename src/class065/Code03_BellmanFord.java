@@ -14,19 +14,19 @@ public class Code03_BellmanFord {
 
 	// Bellman-Ford算法
 	public static int findCheapestPrice(int n, int[][] flights, int src, int dst, int k) {
-		int[] cost = new int[n];
-		Arrays.fill(cost, Integer.MAX_VALUE);
-		cost[src] = 0;
+		int[] distance = new int[n];
+		Arrays.fill(distance, Integer.MAX_VALUE);
+		distance[src] = 0;
 		for (int i = 0; i <= k; i++) {
-			int[] next = Arrays.copyOf(cost, n);
-			for (int[] f : flights) {
-				if (cost[f[0]] != Integer.MAX_VALUE) {
-					next[f[1]] = Math.min(next[f[1]], cost[f[0]] + f[2]);
+			int[] next = Arrays.copyOf(distance, n);
+			for (int[] flight : flights) {
+				if (distance[flight[0]] != Integer.MAX_VALUE) {
+					next[flight[1]] = Math.min(next[flight[1]], distance[flight[0]] + flight[2]);
 				}
 			}
-			cost = next;
+			distance = next;
 		}
-		return cost[dst] == Integer.MAX_VALUE ? -1 : cost[dst];
+		return distance[dst] == Integer.MAX_VALUE ? -1 : distance[dst];
 	}
 
 }
