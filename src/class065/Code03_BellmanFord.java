@@ -2,7 +2,7 @@ package class065;
 
 import java.util.Arrays;
 
-// Bellman-ford算法模版（Leetcode）
+// Bellman-Ford算法模版（Leetcode）
 // k站中转内最便宜的航班
 // 有 n 个城市通过一些航班连接。给你一个数组 flights
 // 其中 flights[i] = [fromi, toi, pricei]
@@ -12,7 +12,7 @@ import java.util.Arrays;
 // 测试链接 : https://leetcode.cn/problems/cheapest-flights-within-k-stops/
 public class Code03_BellmanFord {
 
-	// Bellman-ford算法
+	// Bellman-Ford算法
 	public static int findCheapestPrice(int n, int[][] flights, int src, int dst, int k) {
 		int[] cost = new int[n];
 		Arrays.fill(cost, Integer.MAX_VALUE);
