@@ -13,20 +13,21 @@ import java.util.Arrays;
 public class Code03_BellmanFord {
 
 	// Bellman-Ford算法
-	public static int findCheapestPrice(int n, int[][] flights, int src, int dst, int k) {
-		int[] distance = new int[n];
-		Arrays.fill(distance, Integer.MAX_VALUE);
-		distance[src] = 0;
+	public static int findCheapestPrice(int n, int[][] flights, int start, int target, int k) {
+		int[] cur = new int[n];
+		Arrays.fill(cur, Integer.MAX_VALUE);
+		cur[start] = 0;
 		for (int i = 0; i <= k; i++) {
-			int[] next = Arrays.copyOf(distance, n);
-			for (int[] flight : flights) {
-				if (distance[flight[0]] != Integer.MAX_VALUE) {
-					next[flight[1]] = Math.min(next[flight[1]], distance[flight[0]] + flight[2]);
+			int[] next = Arrays.copyOf(cur, n);
+			for (int[] edge : flights) {
+				// a -> b , w
+				if (cur[edge[0]] != Integer.MAX_VALUE) {
+					next[edge[1]] = Math.min(next[edge[1]], cur[edge[0]] + edge[2]);
 				}
 			}
-			distance = next;
+			cur = next;
 		}
-		return distance[dst] == Integer.MAX_VALUE ? -1 : distance[dst];
+		return cur[target] == Integer.MAX_VALUE ? -1 : cur[target];
 	}
 
 }

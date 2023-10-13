@@ -76,6 +76,9 @@ public class Code02_Floyd {
 		for (int bridge = 0; bridge < n; bridge++) { // 跳板
 			for (int i = 0; i < n; i++) {
 				for (int j = 0; j < n; j++) {
+					// i -> .....bridge .... -> j
+					// distance[i][j]能不能缩短
+					// distance[i][j] = min ( distance[i][j] , distance[i][bridge] + distance[bridge][j])
 					if (distance[i][bridge] != Integer.MAX_VALUE 
 							&& distance[bridge][j] != Integer.MAX_VALUE
 							&& distance[i][j] > distance[i][bridge] + distance[bridge][j]) {
