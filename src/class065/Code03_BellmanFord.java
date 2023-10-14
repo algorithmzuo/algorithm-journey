@@ -13,6 +13,7 @@ import java.util.Arrays;
 public class Code03_BellmanFord {
 
 	// Bellman-Ford算法
+	// 针对此题改写了松弛逻辑，课上讲了细节
 	public static int findCheapestPrice(int n, int[][] flights, int start, int target, int k) {
 		int[] cur = new int[n];
 		Arrays.fill(cur, Integer.MAX_VALUE);
