@@ -2,7 +2,7 @@ package class065;
 
 import java.util.Arrays;
 
-// Bellman-Ford算法模版（Leetcode）
+// Bellman-Ford算法应用（不是模版）
 // k站中转内最便宜的航班
 // 有 n 个城市通过一些航班连接。给你一个数组 flights
 // 其中 flights[i] = [fromi, toi, pricei]
