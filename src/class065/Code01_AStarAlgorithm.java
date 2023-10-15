@@ -106,7 +106,7 @@ public class Code01_AStarAlgorithm {
 
 	// 曼哈顿距离
 	public static int f1(int x, int y, int targetX, int targetY) {
-		return (Math.abs(targetX - x) + Math.abs(targetY - y)) +100;
+		return (Math.abs(targetX - x) + Math.abs(targetY - y));
 	}
 
 	// 对角线距离
