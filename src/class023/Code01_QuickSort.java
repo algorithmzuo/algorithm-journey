@@ -92,8 +92,12 @@ public class Code01_QuickSort {
 		// 但只有这一下随机，才能在概率上把快速排序的时间复杂度收敛到O(n * logn)
 		int x = arr[l + (int) (Math.random() * (r - l + 1))];
 		partition2(l, r, x);
-		quickSort2(l, first - 1);
-		quickSort2(last + 1, r);
+		// 为了防止底层的递归过程覆盖全局变量
+		// 这里用临时变量记录first、last
+		int left = first;
+		int right = last;
+		quickSort2(l, left - 1);
+		quickSort2(right + 1, r);
 	}
 
 	// 荷兰国旗问题

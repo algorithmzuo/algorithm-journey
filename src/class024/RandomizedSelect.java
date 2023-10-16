@@ -16,6 +16,9 @@ public class RandomizedSelect {
 			// 随机这一下，常数时间比较大
 			// 但只有这一下随机，才能在概率上把时间复杂度收敛到O(n)
 			partition(arr, l, r, arr[l + (int) (Math.random() * (r - l + 1))]);
+			// 因为左右两侧只需要走一侧
+			// 所以不需要临时变量记录全局的first、last
+			// 直接用即可
 			if (i < first) {
 				r = first - 1;
 			} else if (i > last) {
