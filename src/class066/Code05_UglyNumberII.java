@@ -9,7 +9,7 @@ public class Code05_UglyNumberII {
 	public static int nthUglyNumber(int n) {
 		int[] dp = new int[n + 1];
 		dp[1] = 1;
-		for (int i = 2, i2 = 1, i3 = 1, i5 = 1, cur, a, b, c; i <= n; i++) {
+		for (int i = 2, i2 = 1, i3 = 1, i5 = 1, a, b, c, cur; i <= n; i++) {
 			a = dp[i2] * 2;
 			b = dp[i3] * 3;
 			c = dp[i5] * 5;

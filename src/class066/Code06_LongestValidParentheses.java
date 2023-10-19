@@ -6,17 +6,14 @@ package class066;
 // 测试链接 : https://leetcode.cn/problems/longest-valid-parentheses/
 public class Code06_LongestValidParentheses {
 
-    public static int longestValidParentheses(String s) {
-		if (s == null || s.length() < 2) {
-			return 0;
-		}
-		char[] str = s.toCharArray();
-		int[] dp = new int[str.length];
+	public static int longestValidParentheses(String str) {
+		char[] s = str.toCharArray();
+		int[] dp = new int[s.length];
 		int ans = 0;
-		for (int i = 1, pre; i < str.length; i++) {
-			if (str[i] == ')') {
+		for (int i = 1, pre; i < s.length; i++) {
+			if (s[i] == ')') {
 				pre = i - dp[i - 1] - 1;
-				if (pre >= 0 && str[pre] == '(') {
+				if (pre >= 0 && s[pre] == '(') {
 					dp[i] = dp[i - 1] + 2 + (pre > 0 ? dp[pre - 1] : 0);
 				}
 			}
