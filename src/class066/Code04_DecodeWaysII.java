@@ -22,11 +22,12 @@ import java.util.Arrays;
 public class Code04_DecodeWaysII {
 
 	// 没有取模逻辑
-	// 纯纯最自然的暴力尝试
+	// 最自然的暴力尝试
 	public static int numDecodings1(String str) {
 		return f1(str.toCharArray(), 0);
 	}
 
+	// s[i....] 有多少种有效转化
 	public static int f1(char[] s, int i) {
 		if (i == s.length) {
 			return 1;
@@ -34,22 +35,43 @@ public class Code04_DecodeWaysII {
 		if (s[i] == '0') {
 			return 0;
 		}
+		// s[i] != '0'
+		// 2) i想单独转
 		int ans = f1(s, i + 1) * (s[i] == '*' ? 9 : 1);
+		// 3) i i+1 一起转化 <= 26
 		if (i + 1 < s.length) {
+			// 有i+1位置
 			if (s[i] != '*') {
 				if (s[i + 1] != '*') {
+					// num num
+					//  i  i+1
 					if ((s[i] - '0') * 10 + s[i + 1] - '0' <= 26) {
 						ans += f1(s, i + 2);
 					}
 				} else {
-					if (s[i] < '3') {
-						ans += f1(s, i + 2) * (s[i] == '1' ? 9 : 6);
+					// num  *
+					//  i  i+1
+					if (s[i] == '1') {
+						ans += f1(s, i + 2) * 9;
+					}
+					if (s[i] == '2') {
+						ans += f1(s, i + 2) * 6;
 					}
 				}
 			} else {
 				if (s[i + 1] != '*') {
-					ans += f1(s, i + 2) * (s[i + 1] < '7' ? 2 : 1);
+					// *  num
+					// i  i+1
+					if (s[i + 1] <= '6') {
+						ans += f1(s, i + 2) * 2;
+					} else {
+						ans += f1(s, i + 2);
+					}
 				} else {
+					// *  *
+					// i  i+1
+					// 11 12 ... 19 21 22 ... 26 -> 一共15种可能
+					// 没有10、20，因为*只能变1~9，并不包括0
 					ans += f1(s, i + 2) * 15;
 				}
 			}
@@ -84,13 +106,20 @@ public class Code04_DecodeWaysII {
 						ans += f2(s, i + 2, dp);
 					}
 				} else {
-					if (s[i] < '3') {
-						ans += f2(s, i + 2, dp) * (s[i] == '1' ? 9 : 6);
+					if (s[i] == '1') {
+						ans += f2(s, i + 2, dp) * 9;
+					}
+					if (s[i] == '2') {
+						ans += f2(s, i + 2, dp) * 6;
 					}
 				}
 			} else {
 				if (s[i + 1] != '*') {
-					ans += f2(s, i + 2, dp) * (s[i + 1] < '7' ? 2 : 1);
+					if (s[i + 1] <= '6') {
+						ans += f2(s, i + 2, dp) * 2;
+					} else {
+						ans += f2(s, i + 2, dp);
+					}
 				} else {
 					ans += f2(s, i + 2, dp) * 15;
 				}
@@ -116,13 +145,20 @@ public class Code04_DecodeWaysII {
 								dp[i] += dp[i + 2];
 							}
 						} else {
-							if (s[i] < '3') {
-								dp[i] += dp[i + 2] * (s[i] == '1' ? 9 : 6);
+							if (s[i] == '1') {
+								dp[i] += dp[i + 2] * 9;
+							}
+							if (s[i] == '2') {
+								dp[i] += dp[i + 2] * 6;
 							}
 						}
 					} else {
 						if (s[i + 1] != '*') {
-							dp[i] += dp[i + 2] * (s[i + 1] < '7' ? 2 : 1);
+							if (s[i + 1] <= '6') {
+								dp[i] += dp[i + 2] * 2;
+							} else {
+								dp[i] += dp[i + 2];
+							}
 						} else {
 							dp[i] += dp[i + 2] * 15;
 						}
@@ -148,13 +184,20 @@ public class Code04_DecodeWaysII {
 								cur += nextNext;
 							}
 						} else {
-							if (s[i] < '3') {
-								cur += nextNext * (s[i] == '1' ? 9 : 6);
+							if (s[i] == '1') {
+								cur += nextNext * 9;
+							}
+							if (s[i] == '2') {
+								cur += nextNext * 6;
 							}
 						}
 					} else {
 						if (s[i + 1] != '*') {
-							cur += nextNext * (s[i + 1] < '7' ? 2 : 1);
+							if (s[i + 1] <= '6') {
+								cur += nextNext * 2;
+							} else {
+								cur += nextNext;
+							}
 						} else {
 							cur += nextNext * 15;
 						}

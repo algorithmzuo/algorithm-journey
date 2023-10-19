@@ -4,7 +4,7 @@ package class066;
 // 给你一个只包含 '(' 和 ')' 的字符串
 // 找出最长有效（格式正确且连续）括号子串的长度。
 // 测试链接 : https://leetcode.cn/problems/longest-valid-parentheses/
-public class Code07_LongestValidParentheses {
+public class Code06_LongestValidParentheses {
 
     public static int longestValidParentheses(String s) {
 		if (s == null || s.length() < 2) {

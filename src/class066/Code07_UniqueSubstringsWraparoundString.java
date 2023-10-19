@@ -6,7 +6,7 @@ package class066;
 // "..zabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcd.."
 // 给你一个字符串 s ，请你统计并返回 s 中有多少 不同非空子串 也在 base 中出现
 // 测试链接 : https://leetcode.cn/problems/unique-substrings-in-wraparound-string/
-public class Code06_UniqueSubstringsWraparoundString {
+public class Code07_UniqueSubstringsWraparoundString {
 
 	public static int findSubstringInWraproundString(String str) {
 		char[] s = str.toCharArray();

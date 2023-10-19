@@ -17,63 +17,47 @@ import java.util.Arrays;
 // 测试链接 : https://leetcode.cn/problems/minimum-cost-for-tickets/
 public class Code02_MinimumCostForTickets {
 
-	// 最自然的暴力尝试
+	// 无论提交什么方法都带着这个数组      0  1  2
+	public static int[] durations = { 1, 7, 30 };
+
+	// 暴力尝试
 	public static int mincostTickets1(int[] days, int[] costs) {
 		return f1(days, costs, 0);
 	}
 
+	// days[i..... 最少花费是多少 
 	public static int f1(int[] days, int[] costs, int i) {
 		if (i == days.length) {
+			// 后续已经无旅行了
 			return 0;
 		}
-		int j = i;
-		while (j < days.length && days[i] + 1 > days[j]) {
-			j++;
-		}
-		int p1 = costs[0] + f1(days, costs, j);
-		while (j < days.length && days[i] + 7 > days[j]) {
-			j++;
-		}
-		int p2 = costs[1] + f1(days, costs, j);
-		while (j < days.length && days[i] + 30 > days[j]) {
-			j++;
-		}
-		int p3 = costs[2] + f1(days, costs, j);
-		return Math.min(Math.min(p1, p2), p3);
-	}
-
-	// 稍微在写法上进步了一些
-	// 但还是暴力尝试
-	public static int[] durations = { 1, 7, 30 };
-
-	public static int mincostTickets2(int[] days, int[] costs) {
-		return f2(days, costs, 0);
-	}
-
-	public static int f2(int[] days, int[] costs, int i) {
-		if (i == days.length) {
-			return 0;
-		}
+		// i下标 : 第days[i]天，有一场旅行
+		// i.... 最少花费是多少 
 		int ans = Integer.MAX_VALUE;
 		for (int k = 0, j = i; k < 3; k++) {
+			// k是方案编号 : 0 1 2
 			while (j < days.length && days[i] + durations[k] > days[j]) {
+				// 因为方案2持续的天数最多，30天
+				// 所以while循环最多执行30次
+				// 枚举行为可以认为是O(1)
 				j++;
 			}
-			ans = Math.min(ans, costs[k] + f2(days, costs, j));
+			ans = Math.min(ans, costs[k] + f1(days, costs, j));
 		}
 		return ans;
 	}
 
 	// 暴力尝试改记忆化搜索
-	public static int mincostTickets3(int[] days, int[] costs) {
+	// 从顶到底的动态规划
+	public static int mincostTickets2(int[] days, int[] costs) {
 		int[] dp = new int[days.length];
 		for (int i = 0; i < days.length; i++) {
 			dp[i] = Integer.MAX_VALUE;
 		}
-		return f3(days, costs, 0, dp);
+		return f2(days, costs, 0, dp);
 	}
 
-	public static int f3(int[] days, int[] costs, int i, int[] dp) {
+	public static int f2(int[] days, int[] costs, int i, int[] dp) {
 		if (i == days.length) {
 			return 0;
 		}
@@ -85,18 +69,19 @@ public class Code02_MinimumCostForTickets {
 			while (j < days.length && days[i] + durations[k] > days[j]) {
 				j++;
 			}
-			ans = Math.min(ans, costs[k] + f3(days, costs, j, dp));
+			ans = Math.min(ans, costs[k] + f2(days, costs, j, dp));
 		}
 		dp[i] = ans;
 		return ans;
 	}
 
 	// 严格位置依赖的动态规划
-	public static int MAXN = 401;
+	// 从底到顶的动态规划
+	public static int MAXN = 366;
 
 	public static int[] dp = new int[MAXN];
 
-	public static int mincostTickets4(int[] days, int[] costs) {
+	public static int mincostTickets3(int[] days, int[] costs) {
 		int n = days.length;
 		Arrays.fill(dp, 0, n + 1, Integer.MAX_VALUE);
 		dp[n] = 0;

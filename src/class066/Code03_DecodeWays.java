@@ -17,11 +17,13 @@ import java.util.Arrays;
 // 测试链接 : https://leetcode.cn/problems/decode-ways/
 public class Code03_DecodeWays {
 
-	// 最自然的暴力尝试
+	// 暴力尝试
 	public static int numDecodings1(String s) {
 		return f1(s.toCharArray(), 0);
 	}
 
+	// s : 数字字符串 
+	// s[i....]有多少种有效的转化方案
 	public static int f1(char[] s, int i) {
 		if (i == s.length) {
 			return 1;
@@ -86,7 +88,9 @@ public class Code03_DecodeWays {
 
 	// 严格位置依赖的动态规划 + 空间压缩
 	public static int numDecodings4(String s) {
+		// dp[i+1]
 		int next = 1;
+		// dp[i+2]
 		int nextNext = 0;
 		for (int i = s.length() - 1, cur; i >= 0; i--) {
 			if (s.charAt(i) == '0') {
