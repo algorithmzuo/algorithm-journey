@@ -9,15 +9,18 @@ package class066;
 public class Code07_UniqueSubstringsWraparoundString {
 
 	public static int findSubstringInWraproundString(String str) {
-		char[] s = str.toCharArray();
-		int n = s.length;
-		int[] dp = new int[256];
+		int n = str.length();
+		int[] s = new int[n];
+		for (int i = 0; i < n; i++) {
+			s[i] = str.charAt(i) - 'a';
+		}
+		int[] dp = new int[26];
 		dp[s[0]] = 1;
-		int len = 1;
-		for (int i = 1; i < n; i++) {
-			char cur = s[i];
-			char pre = s[i - 1];
-			if ((pre == 'z' && cur == 'a') || pre + 1 == cur) {
+		for (int i = 1, cur, pre, len = 1; i < n; i++) {
+			cur = s[i];
+			pre = s[i - 1];
+			if ((pre == 25 && cur == 0) || pre + 1 == cur) {
+				// (前一个字符是'z' && 当前字符是'a') || 前一个字符比当前字符的ascii码少1
 				len++;
 			} else {
 				len = 1;
@@ -25,7 +28,7 @@ public class Code07_UniqueSubstringsWraparoundString {
 			dp[cur] = Math.max(dp[cur], len);
 		}
 		int ans = 0;
-		for (int i = 0; i < 256; i++) {
+		for (int i = 0; i < 26; i++) {
 			ans += dp[i];
 		}
 		return ans;
