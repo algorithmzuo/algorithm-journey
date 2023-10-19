@@ -9,18 +9,16 @@ package class066;
 // 测试链接 : https://leetcode.cn/problems/distinct-subsequences-ii/
 public class Code08_DistinctSubsequencesII {
 
+	// 时间复杂度O(n)，n是字符串s的长度
 	public static int distinctSubseqII(String s) {
-		if (s == null || s.length() == 0) {
-			return 0;
-		}
 		int mod = 1000000007;
 		char[] str = s.toCharArray();
 		int[] cnt = new int[26];
 		int all = 1, newAdd;
 		for (char x : str) {
 			newAdd = (all - cnt[x - 'a'] + mod) % mod;
-			all = (all + newAdd) % mod;
 			cnt[x - 'a'] = (cnt[x - 'a'] + newAdd) % mod;
+			all = (all + newAdd) % mod;
 		}
 		return (all - 1 + mod) % mod;
 	}
