@@ -10,7 +10,7 @@ import java.util.Arrays;
 // 1 <= n, m <= 5000
 // 结果比较大请 % 1000000007 之后返回
 // 对数器验证
-public class Code05_FillCellsUseAllColorsWays {
+public class Code04_FillCellsUseAllColorsWays {
 
 	// 暴力方法
 	// 为了验证

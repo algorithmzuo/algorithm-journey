@@ -7,7 +7,7 @@ import java.util.List;
 // 给定两个字符串s1和s2
 // 返回s1至少删除多少字符可以成为s2的子串
 // 对数器验证
-public class Code04_MinimumDeleteBecomeSubstring {
+public class Code05_MinimumDeleteBecomeSubstring {
 
 	// 暴力方法
 	// 为了验证
