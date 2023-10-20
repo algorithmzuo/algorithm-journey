@@ -40,7 +40,7 @@ public class Code04_FillCellsUseAllColorsWays {
 	}
 
 	// 正式方法
-	// 时间复杂度O(N*M)
+	// 时间复杂度O(n * m)
 	public static int MAXN = 5001;
 
 	public static int[][] dp = new int[MAXN][MAXN];

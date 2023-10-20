@@ -73,15 +73,15 @@ public class Code05_MinimumDeleteBecomeSubstring {
 	// 为了验证
 	// 对数器
 	public static void main(String[] args) {
-		int N = 12;
-		int V = 3;
+		int n = 12;
+		int v = 3;
 		int testTime = 20000;
 		System.out.println("测试开始");
 		for (int i = 0; i < testTime; i++) {
-			int n = (int) (Math.random() * N) + 1;
-			int m = (int) (Math.random() * N) + 1;
-			String s1 = randomString(n, V);
-			String s2 = randomString(m, V);
+			int len1 = (int) (Math.random() * n) + 1;
+			int len2 = (int) (Math.random() * n) + 1;
+			String s1 = randomString(len1, v);
+			String s2 = randomString(len2, v);
 			int ans1 = minDelete1(s1, s2);
 			int ans2 = minDelete2(s1, s2);
 			if (ans1 != ans2) {
