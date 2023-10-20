@@ -33,8 +33,11 @@ public class Code05_MinimumDeleteBecomeSubstring {
 		}
 	}
 
-	// 正式方法
-	// 动态规划
+	// 正式方法，动态规划
+	// 已经展示太多次从递归到动态规划了
+	// 直接写动态规划吧
+	// 也不做空间压缩了，因为千篇一律
+	// 有兴趣同学自己试试
 	public static int minDelete2(String str1, String str2) {
 		char[] s1 = str1.toCharArray();
 		char[] s2 = str2.toCharArray();

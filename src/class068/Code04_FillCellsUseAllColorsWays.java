@@ -41,6 +41,10 @@ public class Code04_FillCellsUseAllColorsWays {
 
 	// 正式方法
 	// 时间复杂度O(n * m)
+	// 已经展示太多次从递归到动态规划了
+	// 直接写动态规划吧
+	// 也不做空间压缩了，因为千篇一律
+	// 有兴趣同学自己试试
 	public static int MAXN = 5001;
 
 	public static int[][] dp = new int[MAXN][MAXN];
