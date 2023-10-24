@@ -16,6 +16,7 @@ public class Code03_LongestCommonSubsequence {
 		return f1(s1, s2, n - 1, m - 1);
 	}
 
+	// s1[0....i1]与s2[0....i2]最长公共子序列长度
 	public static int f1(char[] s1, char[] s2, int i1, int i2) {
 		if (i1 < 0 || i2 < 0) {
 			return 0;
@@ -38,6 +39,8 @@ public class Code03_LongestCommonSubsequence {
 		return f2(s1, s2, n, m);
 	}
 
+	// s1[前缀长度为len1]对应s2[前缀长度为len2]
+	// 最长公共子序列长度
 	public static int f2(char[] s1, char[] s2, int len1, int len2) {
 		if (len1 == 0 || len2 == 0) {
 			return 0;
@@ -51,6 +54,7 @@ public class Code03_LongestCommonSubsequence {
 		return ans;
 	}
 
+	// 记忆化搜索
 	public static int longestCommonSubsequence3(String str1, String str2) {
 		char[] s1 = str1.toCharArray();
 		char[] s2 = str2.toCharArray();
@@ -82,6 +86,7 @@ public class Code03_LongestCommonSubsequence {
 		return ans;
 	}
 
+	// 严格位置依赖的动态规划
 	public static int longestCommonSubsequence4(String str1, String str2) {
 		char[] s1 = str1.toCharArray();
 		char[] s2 = str2.toCharArray();
@@ -100,6 +105,7 @@ public class Code03_LongestCommonSubsequence {
 		return dp[n][m];
 	}
 
+	// 严格位置依赖的动态规划 + 空间压缩
 	public static int longestCommonSubsequence5(String str1, String str2) {
 		char[] s1, s2;
 		if (str1.length() >= str2.length()) {
@@ -113,15 +119,15 @@ public class Code03_LongestCommonSubsequence {
 		int m = s2.length;
 		int[] dp = new int[m + 1];
 		for (int len1 = 1; len1 <= n; len1++) {
-			int tmp1 = 0, tmp2;
+			int leftUp = 0, backup;
 			for (int len2 = 1; len2 <= m; len2++) {
-				tmp2 = dp[len2];
+				backup = dp[len2];
 				if (s1[len1 - 1] == s2[len2 - 1]) {
-					dp[len2] = 1 + tmp1;
+					dp[len2] = 1 + leftUp;
 				} else {
 					dp[len2] = Math.max(dp[len2], dp[len2 - 1]);
 				}
-				tmp1 = tmp2;
+				leftUp = backup;
 			}
 		}
 		return dp[m];

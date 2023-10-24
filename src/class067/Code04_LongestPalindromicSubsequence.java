@@ -14,6 +14,8 @@ public class Code04_LongestPalindromicSubsequence {
 		return f1(s, 0, n - 1);
 	}
 
+	// s[l...r]最长回文子序列长度
+	// l <= r
 	public static int f1(char[] s, int l, int r) {
 		if (l == r) {
 			return 1;
@@ -79,20 +81,22 @@ public class Code04_LongestPalindromicSubsequence {
 		char[] s = str.toCharArray();
 		int n = s.length;
 		int[] dp = new int[n];
-		for (int l = n - 1, tmp1 = 0, tmp2; l >= 0; l--) {
+		for (int l = n - 1, leftDown = 0, backup; l >= 0; l--) {
+			// dp[l] : 想象中的dp[l][l]
 			dp[l] = 1;
 			if (l + 1 < n) {
-				tmp1 = dp[l + 1];
+				leftDown = dp[l + 1];
+				// dp[l+1] : 想象中的dp[l][l+1]
 				dp[l + 1] = s[l] == s[l + 1] ? 2 : 1;
 			}
 			for (int r = l + 2; r < n; r++) {
-				tmp2 = dp[r];
+				backup = dp[r];
 				if (s[l] == s[r]) {
-					dp[r] = 2 + tmp1;
+					dp[r] = 2 + leftDown;
 				} else {
 					dp[r] = Math.max(dp[r], dp[r - 1]);
 				}
-				tmp1 = tmp2;
+				leftDown = backup;
 			}
 		}
 		return dp[n - 1];

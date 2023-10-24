@@ -17,6 +17,7 @@ public class Code06_LongestIncreasingPath {
 		return ans;
 	}
 
+	// 从(i,j)出发，能走出来多长的递增路径，返回最长长度
 	public static int f1(int[][] grid, int i, int j) {
 		int next = 0;
 		if (i > 0 && grid[i][j] < grid[i - 1][j]) {

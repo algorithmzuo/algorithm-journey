@@ -48,10 +48,15 @@ public class Code05_NodenHeightNotLargerThanm {
 		}
 	}
 
+	// 二叉树节点数为n
+	// 高度不能超过m
+	// 结构数返回
+	// 记忆化搜索
 	public static int compute1(int n, int m) {
 		if (n == 0) {
 			return 1;
 		}
+		// n > 0
 		if (m == 0) {
 			return 0;
 		}
@@ -59,8 +64,9 @@ public class Code05_NodenHeightNotLargerThanm {
 			return (int) dp1[n][m];
 		}
 		long ans = 0;
+		// n个点，头占掉1个
 		for (int k = 0; k < n; k++) {
-			// 一共i个节点，头节点已经占用了1个名额
+			// 一共n个节点，头节点已经占用了1个名额
 			// 如果左树占用k个，那么右树就占用i-k-1个
 			ans = (ans + ((long) compute1(k, m - 1) * compute1(n - k - 1, m - 1)) % MOD) % MOD;
 		}
@@ -89,32 +95,25 @@ public class Code05_NodenHeightNotLargerThanm {
 	}
 
 	// 空间压缩
-	// 两个一维数组滚动更新
-	public static long[] pre = new long[MAXN];
-
-	public static long[] cur = new long[MAXN];
+	public static long[] dp3 = new long[MAXN];
 
 	public static int compute3(int n, int m) {
-		pre[0] = 1;
+		dp3[0] = 1;
 		for (int i = 1; i <= n; i++) {
-			pre[i] = 0;
+			dp3[i] = 0;
 		}
 		for (int j = 1; j <= m; j++) {
-			// 列在先
-			cur[0] = 1;
-			for (int i = 1; i <= n; i++) {
-				// 行在后
-				cur[i] = 0;
+			// 根据依赖，一定要先枚举列
+			for (int i = n; i >= 1; i--) {
+				// 再枚举行，而且i不需要到达0，i>=1即可
+				dp3[i] = 0;
 				for (int k = 0; k < i; k++) {
 					// 枚举
-					cur[i] = (cur[i] + pre[k] * pre[i - k - 1] % MOD) % MOD;
+					dp3[i] = (dp3[i] + dp3[k] * dp3[i - k - 1] % MOD) % MOD;
 				}
 			}
-			long[] tmp = pre;
-			pre = cur;
-			cur = tmp;
 		}
-		return (int) pre[n];
+		return (int) dp3[n];
 	}
 
 }
