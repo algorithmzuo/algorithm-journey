@@ -52,7 +52,7 @@ public class Code06_NodenHeightNotLargerThanm {
 		if (n == 0) {
 			return 1;
 		}
-		if ((long) n > (1L << m) - 1) {
+		if (m == 0) {
 			return 0;
 		}
 		if (dp1[n][m] != -1) {
@@ -89,6 +89,7 @@ public class Code06_NodenHeightNotLargerThanm {
 	}
 
 	// 空间压缩
+	// 两个一维数组滚动更新
 	public static long[] pre = new long[MAXN];
 
 	public static long[] cur = new long[MAXN];
