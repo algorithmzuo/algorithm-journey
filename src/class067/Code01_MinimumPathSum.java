@@ -7,25 +7,29 @@ package class067;
 // 测试链接 : https://leetcode.cn/problems/minimum-path-sum/
 public class Code01_MinimumPathSum {
 
+	// 暴力递归
 	public static int minPathSum1(int[][] grid) {
 		return f1(grid, grid.length - 1, grid[0].length - 1);
 	}
 
+	// 从(0,0)到(i,j)最小路径和
+	// 一定每次只能向右或者向下
 	public static int f1(int[][] grid, int i, int j) {
 		if (i == 0 && j == 0) {
 			return grid[0][0];
 		}
 		int up = Integer.MAX_VALUE;
 		int left = Integer.MAX_VALUE;
-		if (i > 0) {
+		if (i - 1 >= 0) {
 			up = f1(grid, i - 1, j);
 		}
-		if (j > 0) {
+		if (j - 1 >= 0) {
 			left = f1(grid, i, j - 1);
 		}
 		return grid[i][j] + Math.min(up, left);
 	}
 
+	// 记忆化搜索
 	public static int minPathSum2(int[][] grid) {
 		int n = grid.length;
 		int m = grid[0].length;
@@ -48,10 +52,10 @@ public class Code01_MinimumPathSum {
 		} else {
 			int up = Integer.MAX_VALUE;
 			int left = Integer.MAX_VALUE;
-			if (i > 0) {
+			if (i - 1 >= 0) {
 				up = f2(grid, i - 1, j, dp);
 			}
-			if (j > 0) {
+			if (j - 1 >= 0) {
 				left = f2(grid, i, j - 1, dp);
 			}
 			ans = grid[i][j] + Math.min(up, left);
@@ -60,6 +64,7 @@ public class Code01_MinimumPathSum {
 		return ans;
 	}
 
+	// 严格位置依赖的动态规划
 	public static int minPathSum3(int[][] grid) {
 		int n = grid.length;
 		int m = grid[0].length;
@@ -79,15 +84,22 @@ public class Code01_MinimumPathSum {
 		return dp[n - 1][m - 1];
 	}
 
+	// 严格位置依赖的动态规划 + 空间压缩技巧
 	public static int minPathSum4(int[][] grid) {
 		int n = grid.length;
 		int m = grid[0].length;
+		// 先让dp表，变成想象中的表的第0行的数据
 		int[] dp = new int[m];
 		dp[0] = grid[0][0];
 		for (int j = 1; j < m; j++) {
 			dp[j] = dp[j - 1] + grid[0][j];
 		}
 		for (int i = 1; i < n; i++) {
+			// i = 1，dp表变成想象中二维表的第1行的数据
+			// i = 2，dp表变成想象中二维表的第2行的数据
+			// i = 3，dp表变成想象中二维表的第3行的数据
+			// ...
+			// i = n-1，dp表变成想象中二维表的第n-1行的数据
 			dp[0] += grid[i][0];
 			for (int j = 1; j < m; j++) {
 				dp[j] = Math.min(dp[j - 1], dp[j]) + grid[i][j];

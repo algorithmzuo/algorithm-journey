@@ -6,7 +6,7 @@ package class067;
 // 如果不存在公共子序列，返回0
 // 两个字符串的 公共子序列 是这两个字符串所共同拥有的子序列
 // 测试链接 : https://leetcode.cn/problems/longest-common-subsequence/
-public class Code04_LongestCommonSubsequence {
+public class Code03_LongestCommonSubsequence {
 
 	public static int longestCommonSubsequence1(String str1, String str2) {
 		char[] s1 = str1.toCharArray();

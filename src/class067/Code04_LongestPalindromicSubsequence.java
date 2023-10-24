@@ -3,7 +3,7 @@ package class067;
 // 最长回文子序列
 // 给你一个字符串 s ，找出其中最长的回文子序列，并返回该序列的长度
 // 测试链接 : https://leetcode.cn/problems/longest-palindromic-subsequence/
-public class Code05_LongestPalindromicSubsequence {
+public class Code04_LongestPalindromicSubsequence {
 
 	// 最长回文子序列问题可以转化成最长公共子序列问题
 	// 不过这里讲述区间动态规划的思路
