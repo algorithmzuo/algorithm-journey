@@ -65,6 +65,9 @@ public class Code04_FillCellsUseAllColorsWays {
 	}
 
 	public static void main(String[] args) {
+		// 测试的数据量比较小
+		// 那是因为数据量大了，暴力方法过不了
+		// 但是这个数据量足够说明正式方法是正确的
 		int N = 9;
 		int M = 9;
 		System.out.println("功能测试开始");

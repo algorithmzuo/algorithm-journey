@@ -25,20 +25,21 @@ public class Code02_EditDistance {
 		char[] s2 = str2.toCharArray();
 		int n = s1.length;
 		int m = s2.length;
+		// dp[i][j] :
+		// s1[前缀长度为i]想变成s2[前缀长度为j]，至少付出多少代价
 		int[][] dp = new int[n + 1][m + 1];
-		for (int len1 = 1; len1 <= n; len1++) {
-			dp[len1][0] = len1 * b;
+		for (int i = 1; i <= n; i++) {
+			dp[i][0] = i * b;
 		}
-		for (int len2 = 1; len2 <= m; len2++) {
-			dp[0][len2] = len2 * a;
+		for (int j = 1; j <= m; j++) {
+			dp[0][j] = j * a;
 		}
-		for (int len1 = 1; len1 <= n; len1++) {
-			for (int len2 = 1; len2 <= m; len2++) {
-				if (s1[len1 - 1] == s2[len2 - 1]) {
-					dp[len1][len2] = dp[len1 - 1][len2 - 1];
+		for (int i = 1; i <= n; i++) {
+			for (int j = 1; j <= m; j++) {
+				if (s1[i - 1] == s2[j - 1]) {
+					dp[i][j] = dp[i - 1][j - 1];
 				} else {
-					dp[len1][len2] = Math.min(Math.min(dp[len1 - 1][len2] + b, dp[len1][len2 - 1] + a),
-							dp[len1 - 1][len2 - 1] + c);
+					dp[i][j] = Math.min(Math.min(dp[i - 1][j] + b, dp[i][j - 1] + a), dp[i - 1][j - 1] + c);
 				}
 			}
 		}
@@ -52,18 +53,18 @@ public class Code02_EditDistance {
 		int n = s1.length;
 		int m = s2.length;
 		int[] dp = new int[m + 1];
-		for (int len2 = 1; len2 <= m; len2++) {
-			dp[len2] = len2 * a;
+		for (int j = 1; j <= m; j++) {
+			dp[j] = j * a;
 		}
-		for (int len1 = 1, leftUp, backUp; len1 <= n; len1++) {
-			leftUp = (len1 - 1) * b;
-			dp[0] = len1 * b;
-			for (int len2 = 1; len2 <= m; len2++) {
-				backUp = dp[len2];
-				if (s1[len1 - 1] == s2[len2 - 1]) {
-					dp[len2] = leftUp;
+		for (int i = 1, leftUp, backUp; i <= n; i++) {
+			leftUp = (i - 1) * b;
+			dp[0] = i * b;
+			for (int j = 1; j <= m; j++) {
+				backUp = dp[j];
+				if (s1[i - 1] == s2[j - 1]) {
+					dp[j] = leftUp;
 				} else {
-					dp[len2] = Math.min(Math.min(dp[len2] + b, dp[len2 - 1] + a), leftUp + c);
+					dp[j] = Math.min(Math.min(dp[j] + b, dp[j - 1] + a), leftUp + c);
 				}
 				leftUp = backUp;
 			}

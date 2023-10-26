@@ -12,15 +12,17 @@ public class Code01_DistinctSubsequences {
 		char[] t = target.toCharArray();
 		int n = s.length;
 		int m = t.length;
+		// dp[i][j] :
+		// s[前缀长度为i]的所有子序列中，有多少个子序列等于t[前缀长度为j]
 		int[][] dp = new int[n + 1][m + 1];
 		for (int i = 0; i <= n; i++) {
 			dp[i][0] = 1;
 		}
-		for (int slen = 1; slen <= n; slen++) {
-			for (int tlen = 1; tlen <= m; tlen++) {
-				dp[slen][tlen] = dp[slen - 1][tlen];
-				if (s[slen - 1] == t[tlen - 1]) {
-					dp[slen][tlen] += dp[slen - 1][tlen - 1];
+		for (int i = 1; i <= n; i++) {
+			for (int j = 1; j <= m; j++) {
+				dp[i][j] = dp[i - 1][j];
+				if (s[i - 1] == t[j - 1]) {
+					dp[i][j] += dp[i - 1][j - 1];
 				}
 			}
 		}
@@ -35,10 +37,10 @@ public class Code01_DistinctSubsequences {
 		int m = t.length;
 		int[] dp = new int[m + 1];
 		dp[0] = 1;
-		for (int slen = 1; slen <= n; slen++) {
-			for (int tlen = m; tlen >= 1; tlen--) {
-				if (s[slen - 1] == t[tlen - 1]) {
-					dp[tlen] += dp[tlen - 1];
+		for (int i = 1; i <= n; i++) {
+			for (int j = m; j >= 1; j--) {
+				if (s[i - 1] == t[j - 1]) {
+					dp[j] += dp[j - 1];
 				}
 			}
 		}

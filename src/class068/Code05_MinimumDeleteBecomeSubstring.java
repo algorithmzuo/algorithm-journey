@@ -45,15 +45,15 @@ public class Code05_MinimumDeleteBecomeSubstring {
 		int n = s1.length;
 		int m = s2.length;
 		// dp[len1][len2] :
-		// s1[取len1长度]至少删除多少字符可以变成s2[取len2长度]的任意后缀串
+		// s1[前缀长度为i]至少删除多少字符，可以变成s2[前缀长度为j]的任意后缀串
 		int[][] dp = new int[n + 1][m + 1];
-		for (int len1 = 1; len1 <= n; len1++) {
-			dp[len1][0] = len1;
-			for (int len2 = 1; len2 <= m; len2++) {
-				if (s1[len1 - 1] == s2[len2 - 1]) {
-					dp[len1][len2] = dp[len1 - 1][len2 - 1];
+		for (int i = 1; i <= n; i++) {
+			dp[i][0] = i;
+			for (int j = 1; j <= m; j++) {
+				if (s1[i - 1] == s2[j - 1]) {
+					dp[i][j] = dp[i - 1][j - 1];
 				} else {
-					dp[len1][len2] = dp[len1 - 1][len2] + 1;
+					dp[i][j] = dp[i - 1][j] + 1;
 				}
 			}
 		}
@@ -77,6 +77,9 @@ public class Code05_MinimumDeleteBecomeSubstring {
 	// 为了验证
 	// 对数器
 	public static void main(String[] args) {
+		// 测试的数据量比较小
+		// 那是因为数据量大了，暴力方法过不了
+		// 但是这个数据量足够说明正式方法是正确的
 		int n = 12;
 		int v = 3;
 		int testTime = 20000;
