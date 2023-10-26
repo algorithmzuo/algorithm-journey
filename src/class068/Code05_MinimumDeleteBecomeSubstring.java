@@ -3,7 +3,7 @@ package class068;
 import java.util.ArrayList;
 import java.util.List;
 
-// 最少删除多少字符可以变成子串
+// 删除至少几个字符可以变成另一个字符串的子串
 // 给定两个字符串s1和s2
 // 返回s1至少删除多少字符可以成为s2的子串
 // 对数器验证
@@ -14,6 +14,11 @@ public class Code05_MinimumDeleteBecomeSubstring {
 	public static int minDelete1(String s1, String s2) {
 		List<String> list = new ArrayList<>();
 		f(s1.toCharArray(), 0, "", list);
+		// 排序 : 长度大的子序列先考虑
+		// 因为如果长度大的子序列是s2的子串
+		// 那么需要删掉的字符数量 = s1的长度 - s1子序列长度
+		// 子序列长度越大，需要删掉的字符数量就越少
+		// 所以长度大的子序列先考虑
 		list.sort((a, b) -> b.length() - a.length());
 		for (String str : list) {
 			if (s2.indexOf(str) != -1) {

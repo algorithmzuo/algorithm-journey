@@ -1,7 +1,8 @@
 package class068;
 
 // 交错字符串
-// 给定三个字符串 s1、s2、s3，请你帮忙验证 s3 是否是由 s1 和 s2 交错 组成的
+// 给定三个字符串 s1、s2、s3
+// 请帮忙验证s3是否由s1和s2交错组成
 // 测试链接 : https://leetcode.cn/problems/interleaving-string/
 public class Code03_InterleavingString {
 

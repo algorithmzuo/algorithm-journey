@@ -18,6 +18,10 @@ public class Code04_FillCellsUseAllColorsWays {
 		return f(new int[n], new boolean[m + 1], 0, n, m);
 	}
 
+	// 把所有填色的方法暴力枚举
+	// 然后一个一个验证是否有效
+	// 这是一个带路径的递归
+	// 无法改成动态规划
 	public static int f(int[] path, boolean[] set, int i, int n, int m) {
 		if (i == n) {
 			Arrays.fill(set, false);
@@ -52,6 +56,9 @@ public class Code04_FillCellsUseAllColorsWays {
 	public static int mod = 1000000007;
 
 	public static int ways2(int n, int m) {
+		// dp[i][j]:
+		// 一共有m种颜色
+		// 前i个格子涂满j种颜色的方法数
 		for (int i = 1; i <= n; i++) {
 			dp[i][1] = m;
 		}
