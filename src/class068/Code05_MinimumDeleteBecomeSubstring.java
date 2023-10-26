@@ -17,6 +17,7 @@ public class Code05_MinimumDeleteBecomeSubstring {
 		list.sort((a, b) -> b.length() - a.length());
 		for (String str : list) {
 			if (s2.indexOf(str) != -1) {
+				// 检查s2中，是否包含当前的s1子序列str
 				return s1.length() - str.length();
 			}
 		}

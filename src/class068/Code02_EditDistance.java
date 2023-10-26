@@ -55,17 +55,17 @@ public class Code02_EditDistance {
 		for (int len2 = 1; len2 <= m; len2++) {
 			dp[len2] = len2 * a;
 		}
-		for (int len1 = 1; len1 <= n; len1++) {
-			int tmp1 = (len1 - 1) * b, tmp2;
+		for (int len1 = 1, leftUp, backUp; len1 <= n; len1++) {
+			leftUp = (len1 - 1) * b;
 			dp[0] = len1 * b;
 			for (int len2 = 1; len2 <= m; len2++) {
-				tmp2 = dp[len2];
+				backUp = dp[len2];
 				if (s1[len1 - 1] == s2[len2 - 1]) {
-					dp[len2] = tmp1;
+					dp[len2] = leftUp;
 				} else {
-					dp[len2] = Math.min(Math.min(dp[len2] + b, dp[len2 - 1] + a), tmp1 + c);
+					dp[len2] = Math.min(Math.min(dp[len2] + b, dp[len2 - 1] + a), leftUp + c);
 				}
-				tmp1 = tmp2;
+				leftUp = backUp;
 			}
 		}
 		return dp[m];
