@@ -12,15 +12,16 @@ public class Code02_ProfitableSchemes {
 
 	// n : 员工的额度，不能超
 	// p : 利润的额度，不能少
-	// group[i] : 需要几个人
-	// profit[i] : 产生的利润
+	// group[i] : i号项目需要几个人
+	// profit[i] : i号项目产生的利润
+	// 返回能做到员工不能超过n，利润不能少于p的计划有多少个
 	public static int profitableSchemes1(int n, int minProfit, int[] group, int[] profit) {
 		return f1(group, profit, 0, n, minProfit);
 	}
 
 	// i : 来到i号项目
-	// r : 员工还有r人
-	// s : 利润还有s才能达成目标
+	// r : 员工额度还有r人
+	// s : 利润还有s才能达标
 	// 返回 : 有多少种方案
 	public static int f1(int[] g, int[] p, int i, int r, int s) {
 		if (r <= 0) {

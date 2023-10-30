@@ -10,6 +10,9 @@ public class Code01_OnesAndZeroes {
 
 	public static int zeros, ones;
 
+	// 统计一个字符串中0的1的数量
+	// 0的数量赋值给全局变量zeros
+	// 1的数量赋值给全局变量ones
 	public static void zerosAndOnes(String str) {
 		zeros = 0;
 		ones = 0;
@@ -30,7 +33,9 @@ public class Code01_OnesAndZeroes {
 		if (i == strs.length) {
 			return 0;
 		}
+		// 不使用当前的strs[i]字符串
 		int p1 = f1(strs, i + 1, z, o);
+		// 使用当前的strs[i]字符串
 		int p2 = 0;
 		zerosAndOnes(strs[i]);
 		if (zeros <= z && ones <= o) {
