@@ -21,15 +21,27 @@ public class Code05_ScrambleString {
 		return f1(s1, 0, n - 1, s2, 0, n - 1);
 	}
 
+	// s1[l1....r1]
+	// s2[l2....r2]
+	// 保证l1....r1与l2....r2
+	// 是不是扰乱串的关系
 	public static boolean f1(char[] s1, int l1, int r1, char[] s2, int l2, int r2) {
 		if (l1 == r1) {
+			// s1[l1..r1]
+			// s2[l2..r2]
 			return s1[l1] == s2[l2];
 		}
+		// s1[l1..i][i+1....r1]
+		// s2[l2..j][j+1....r2]
+		// 不交错去讨论扰乱关系
 		for (int i = l1, j = l2; i < r1; i++, j++) {
 			if (f1(s1, l1, i, s2, l2, j) && f1(s1, i + 1, r1, s2, j + 1, r2)) {
 				return true;
 			}
 		}
+		// 交错去讨论扰乱关系
+		// s1[l1..........i][i+1...r1]
+		// s2[l2...j-1][j..........r2]
 		for (int i = l1, j = r2; i < r1; i++, j--) {
 			if (f1(s1, l1, i, s2, j, r2) && f1(s1, i + 1, r1, s2, l2, j - 1)) {
 				return true;
@@ -38,6 +50,7 @@ public class Code05_ScrambleString {
 		return false;
 	}
 
+	// 依然暴力尝试，只不过四个可变参数，变成了三个
 	public static boolean isScramble2(String str1, String str2) {
 		char[] s1 = str1.toCharArray();
 		char[] s2 = str2.toCharArray();
@@ -49,11 +62,15 @@ public class Code05_ScrambleString {
 		if (len == 1) {
 			return s1[l1] == s2[l2];
 		}
+		// s1[l1.......]  len
+		// s2[l2.......]  len
+		// 左 : k个   右: len - k 个
 		for (int k = 1; k < len; k++) {
 			if (f2(s1, s2, l1, l2, k) && f2(s1, s2, l1 + k, l2 + k, len - k)) {
 				return true;
 			}
 		}
+		// 交错！
 		for (int i = l1 + 1, j = l2 + len - 1, k = 1; k < len; i++, j--, k++) {
 			if (f2(s1, s2, l1, j, k) && f2(s1, s2, i, l2, len - k)) {
 				return true;
@@ -66,6 +83,9 @@ public class Code05_ScrambleString {
 		char[] s1 = str1.toCharArray();
 		char[] s2 = str2.toCharArray();
 		int n = s1.length;
+		// dp[l1][l2][len] : int 0 -> 没展开过
+		// dp[l1][l2][len] : int -1 -> 展开过，返回的结果是false
+		// dp[l1][l2][len] : int 1 -> 展开过，返回的结果是true
 		int[][][] dp = new int[n][n][n + 1];
 		return f3(s1, s2, 0, 0, n, dp);
 	}
@@ -101,6 +121,7 @@ public class Code05_ScrambleString {
 		char[] s2 = str2.toCharArray();
 		int n = s1.length;
 		boolean[][][] dp = new boolean[n][n][n + 1];
+		// 填写len=1层，所有的格子
 		for (int l1 = 0; l1 < n; l1++) {
 			for (int l2 = 0; l2 < n; l2++) {
 				dp[l1][l2][1] = s1[l1] == s2[l2];

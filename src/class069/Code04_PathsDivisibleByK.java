@@ -16,11 +16,14 @@ public class Code04_PathsDivisibleByK {
 		return f1(grid, n, m, k, 0, 0, 0);
 	}
 
+	// 当前来到(i,j)位置，最终一定要走到右下角(n-1,m-1)
+	// 从(i,j)出发，最终一定要走到右下角(n-1,m-1)，有多少条路径，累加和%k的余数是r
 	public static int f1(int[][] grid, int n, int m, int k, int i, int j, int r) {
 		if (i == n - 1 && j == m - 1) {
 			return grid[i][j] % k == r ? 1 : 0;
 		}
-		int need = (k + r - grid[i][j] % k) % k;
+		// 后续需要凑出来的余数need
+ 		int need = (k + r - (grid[i][j] % k)) % k;
 		int ans = 0;
 		if (i + 1 < n) {
 			ans = f1(grid, n, m, k, i + 1, j, need);
