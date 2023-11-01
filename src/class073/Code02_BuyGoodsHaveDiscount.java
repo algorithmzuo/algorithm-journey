@@ -86,11 +86,7 @@ public class Code02_BuyGoodsHaveDiscount {
 				dp[j] = Math.max(dp[j], dp[j - costs[i]] + values[i]);
 			}
 		}
-		long ans = 0;
-		for (int j = 1; j <= x; j++) {
-			ans = Math.max(ans, dp[j]);
-		}
-		return ans;
+		return dp[x];
 	}
 
 }

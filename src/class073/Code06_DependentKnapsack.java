@@ -107,11 +107,7 @@ public class Code06_DependentKnapsack {
 				}
 			}
 		}
-		int ans = 0;
-		for (int i = 0; i <= n; i++) {
-			ans = Math.max(ans, dp[i]);
-		}
-		return ans;
+		return dp[n];
 	}
 
 }

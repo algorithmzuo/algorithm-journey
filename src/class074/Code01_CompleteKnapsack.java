@@ -6,7 +6,7 @@ package class074;
 // 每种货物都有体积costs[i]和价值values[i]
 // 返回在不超过总容量的情况下，怎么挑选货物能达到价值最大
 // 返回最大的价值
-// 测试链接 : https://www.luogu.com.cn/problem/P1048
+// 测试链接 : https://www.luogu.com.cn/problem/P1616
 // 请同学们务必参考如下代码中关于输入、输出的处理
 // 这是输入输出处理效率很高的写法
 // 提交以下的所有代码，并把主类名改成"Main"，可以直接通过
@@ -64,11 +64,7 @@ public class Code01_CompleteKnapsack {
 				dp[j] = Math.max(dp[j], dp[j - costs[i]] + values[i]);
 			}
 		}
-		long ans = 0;
-		for (int j = 1; j <= t; j++) {
-			ans = Math.max(ans, dp[j]);
-		}
-		return ans;
+		return dp[t];
 	}
 
 }

@@ -64,11 +64,7 @@ public class Code01_ZeroOneKnapsack {
 				dp[j] = Math.max(dp[j], dp[j - costs[i]] + values[i]);
 			}
 		}
-		int ans = 0;
-		for (int j = 1; j <= t; j++) {
-			ans = Math.max(ans, dp[j]);
-		}
-		return ans;
+		return dp[t];
 	}
 
 }
