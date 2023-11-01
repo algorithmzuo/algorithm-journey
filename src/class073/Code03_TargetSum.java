@@ -43,7 +43,7 @@ public class Code03_TargetSum {
 		return dp[n - 1][target - min];
 	}
 
-	// 转化为01动态规划
+	// 转化为01背包问题
 	// 优化1:
 	// 你可以认为nums中都是非负数
 	// 因为即便是nums中有负数，比如[3,-4,2]
