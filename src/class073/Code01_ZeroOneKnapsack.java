@@ -1,9 +1,9 @@
-package class074;
+package class073;
 
-// 完全背包问题(模版)
+// 01背包(模版)
 // 给定一个正数t，表示背包的容量
-// 有m种货物，每种货物可以选择任意个
-// 每种货物都有体积costs[i]和价值values[i]
+// 有m个货物，每个货物可以选择一次
+// 每个货物有自己的体积costs[i]和价值values[i]
 // 返回在不超过总容量的情况下，怎么挑选货物能达到价值最大
 // 返回最大的价值
 // 测试链接 : https://www.luogu.com.cn/problem/P1048
@@ -19,17 +19,17 @@ import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 import java.util.Arrays;
 
-public class Code01_CompleteKnapsackProblem {
+public class Code01_ZeroOneKnapsack {
 
-	public static int MAXM = 10001;
+	public static int MAXM = 101;
 
-	public static int MAXT = 10000001;
+	public static int MAXT = 1001;
 
 	public static int[] costs = new int[MAXM];
 
 	public static int[] values = new int[MAXM];
 
-	public static long[] dp = new long[MAXT];
+	public static int[] dp = new int[MAXT];
 
 	public static int t, m;
 
@@ -56,15 +56,15 @@ public class Code01_CompleteKnapsackProblem {
 
 	// dp[i][j] =
 	// 1) dp[i-1][j]
-	// 2) dp[i][j-costs[i]] + values[i]
-	public static long compute() {
+	// 2) dp[i-1][j-costs[i]] + values[i]
+	public static int compute() {
 		Arrays.fill(dp, 1, t + 1, 0);
 		for (int i = 0; i < m; i++) {
-			for (int j = costs[i]; j <= t; j++) {
+			for (int j = t; j >= costs[i]; j--) {
 				dp[j] = Math.max(dp[j], dp[j - costs[i]] + values[i]);
 			}
 		}
-		long ans = 0;
+		int ans = 0;
 		for (int j = 1; j <= t; j++) {
 			ans = Math.max(ans, dp[j]);
 		}
