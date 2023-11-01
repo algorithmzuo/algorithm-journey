@@ -1,4 +1,4 @@
-package class074;
+package class073;
 
 // 依赖背包(模版)
 // 物品分为两大类：主件和附件
@@ -30,7 +30,7 @@ import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 import java.util.Arrays;
 
-public class Code04_DependentKnapsack {
+public class Code06_DependentKnapsack {
 
 	public static int MAXN = 33001;
 

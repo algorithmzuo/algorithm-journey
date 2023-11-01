@@ -17,7 +17,7 @@ import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 import java.util.Arrays;
 
-public class Code05_GroupKnapsack {
+public class Code04_GroupKnapsack {
 
 	public static int MAXN = 1001;
 
