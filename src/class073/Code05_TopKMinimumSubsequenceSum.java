@@ -35,11 +35,40 @@ public class Code05_TopKMinimumSubsequenceSum {
 		}
 	}
 
-	// 正式方法
-	// 不用01背包，因为n和数值都很大
-	// 用堆来做
-	// 时间复杂度O(n * log n) + O(n * log k)
+	// 01背包来实现
+	// 这种方法此时不是最优解
+	// 因为当n很大，数值也很大时
+	// 动态规划的计算过程太耗时了
 	public static int[] topKSum2(int[] arr, int k) {
+		int sum = 0;
+		for (int num : arr) {
+			sum += num;
+		}
+		// dp[i][j]
+		// 1) dp[i-1][j]
+		// 2) dp[i-1][j-num]
+		int[] dp = new int[sum + 1];
+		dp[0] = 1;
+		for (int num : arr) {
+			for (int j = sum; j >= num; j--) {
+				dp[j] += dp[j - num];
+			}
+		}
+		int[] ans = new int[k];
+		int index = 0;
+		for (int j = 0; j <= sum && index < k; j++) {
+			for (int i = 0; i < dp[j] && index < k; i++) {
+				ans[index++] = j;
+			}
+		}
+		return ans;
+	}
+
+	// 正式方法
+	// 不用01背包，因为n和数值都很大，而k不大
+	// 用堆来做就是最优解了
+	// 时间复杂度O(n * log n) + O(n * log k)
+	public static int[] topKSum3(int[] arr, int k) {
 		Arrays.sort(arr);
 		// (最右的下标，集合的累加和)
 		PriorityQueue<int[]> heap = new PriorityQueue<>((a, b) -> a[1] - b[1]);
@@ -93,7 +122,8 @@ public class Code05_TopKMinimumSubsequenceSum {
 			int k = (int) (Math.random() * ((1 << len) - 1)) + 1;
 			int[] ans1 = topKSum1(arr, k);
 			int[] ans2 = topKSum2(arr, k);
-			if (!equals(ans1, ans2)) {
+			int[] ans3 = topKSum3(arr, k);
+			if (!equals(ans1, ans2) || !equals(ans1, ans3)) {
 				System.out.println("出错了！");
 			}
 		}

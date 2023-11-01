@@ -22,9 +22,8 @@ public class Code03_TargetSum {
 			return 0;
 		}
 		// dp[i][j]:
-		// 1) dp[i-1][j]
-		// 2) dp[i-1][j-nums[i]]
-		// 3) dp[i-1][j+nums[i]]
+		// 1) dp[i-1][j-nums[i]]
+		// 2) dp[i-1][j+nums[i]]
 		int n = nums.length;
 		int m = max - min + 1;
 		int[][] dp = new int[n][m];
