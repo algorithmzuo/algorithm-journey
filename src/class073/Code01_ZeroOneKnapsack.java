@@ -25,9 +25,9 @@ public class Code01_ZeroOneKnapsack {
 
 	public static int MAXT = 1001;
 
-	public static int[] costs = new int[MAXM];
+	public static int[] cost = new int[MAXM];
 
-	public static int[] values = new int[MAXM];
+	public static int[] val = new int[MAXM];
 
 	public static int[] dp = new int[MAXT];
 
@@ -43,25 +43,40 @@ public class Code01_ZeroOneKnapsack {
 			m = (int) in.nval;
 			for (int i = 0; i < m; i++) {
 				in.nextToken();
-				costs[i] = (int) in.nval;
+				cost[i] = (int) in.nval;
 				in.nextToken();
-				values[i] = (int) in.nval;
+				val[i] = (int) in.nval;
 			}
-			out.println(compute());
+			out.println(compute2());
 		}
 		out.flush();
 		out.close();
 		br.close();
 	}
 
-	// dp[i][j] =
-	// 1) dp[i-1][j]
-	// 2) dp[i-1][j-costs[i]] + values[i]
-	public static int compute() {
+	// 严格位置依赖的动态规划
+	public static int compute1() {
+		int[][] dp = new int[m][t + 1];
+		for (int j = cost[0]; j <= t; j++) {
+			dp[0][j] = val[0];
+		}
+		for (int i = 1; i < m; i++) {
+			for (int j = 0; j <= t; j++) {
+				dp[i][j] = dp[i - 1][j];
+				if (j - cost[i] >= 0) {
+					dp[i][j] = Math.max(dp[i][j], dp[i - 1][j - cost[i]] + val[i]);
+				}
+			}
+		}
+		return dp[m - 1][t];
+	}
+
+	// 空间压缩
+	public static int compute2() {
 		Arrays.fill(dp, 1, t + 1, 0);
 		for (int i = 0; i < m; i++) {
-			for (int j = t; j >= costs[i]; j--) {
-				dp[j] = Math.max(dp[j], dp[j - costs[i]] + values[i]);
+			for (int j = t; j >= cost[i]; j--) {
+				dp[j] = Math.max(dp[j], dp[j - cost[i]] + val[i]);
 			}
 		}
 		return dp[t];

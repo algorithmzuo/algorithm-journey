@@ -49,24 +49,50 @@ public class Code04_GroupKnapsack {
 				arr[i][2] = (int) in.nval;
 			}
 			Arrays.sort(arr, 0, n, (a, b) -> a[2] - b[2]);
-			out.println(compute());
-
+			out.println(compute2());
 		}
 		out.flush();
 		out.close();
 		br.close();
 	}
 
-	public static int compute() {
+	// 严格位置依赖的动态规划
+	public static int compute1() {
+		int teams = 1;
+		for (int i = 1; i < n; i++) {
+			if (arr[i - 1][2] != arr[i][2]) {
+				teams++;
+			}
+		}
+		int[][] dp = new int[teams + 1][m + 1];
+		for (int start = 0, end = 1, k = 1; start < n; k++) {
+			while (end < n && arr[end][2] == arr[start][2]) {
+				end++;
+			}
+			for (int j = 0; j <= m; j++) {
+				dp[k][j] = dp[k - 1][j];
+				for (int i = start; i < end; i++) {
+					if (j >= arr[i][0]) {
+						dp[k][j] = Math.max(dp[k][j], dp[k - 1][j - arr[i][0]] + arr[i][1]);
+					}
+				}
+			}
+			start = end++;
+		}
+		return dp[teams][m];
+	}
+
+	// 空间压缩
+	public static int compute2() {
 		Arrays.fill(dp, 0, m + 1, 0);
 		for (int start = 0, end = 1; start < n;) {
 			while (end < n && arr[end][2] == arr[start][2]) {
 				end++;
 			}
-			for (int r = m; r >= 0; r--) {
+			for (int j = m; j >= 0; j--) {
 				for (int i = start; i < end; i++) {
-					if (r >= arr[i][0]) {
-						dp[r] = Math.max(dp[r], arr[i][1] + dp[r - arr[i][0]]);
+					if (j >= arr[i][0]) {
+						dp[j] = Math.max(dp[j], arr[i][1] + dp[j - arr[i][0]]);
 					}
 				}
 			}

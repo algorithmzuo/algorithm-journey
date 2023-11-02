@@ -28,9 +28,9 @@ public class Code02_BuyGoodsHaveDiscount {
 
 	public static int MAXX = 100001;
 
-	public static int[] costs = new int[MAXN];
+	public static int[] cost = new int[MAXN];
 
-	public static long[] values = new long[MAXN];
+	public static long[] val = new long[MAXN];
 
 	public static long[] dp = new long[MAXX];
 
@@ -67,8 +67,8 @@ public class Code02_BuyGoodsHaveDiscount {
 					x += well;
 					ans += happy;
 				} else {
-					costs[m] = -well;
-					values[m++] = happy;
+					cost[m] = -well;
+					val[m++] = happy;
 				}
 			}
 			ans += compute();
@@ -82,8 +82,8 @@ public class Code02_BuyGoodsHaveDiscount {
 	public static long compute() {
 		Arrays.fill(dp, 1, x + 1, 0);
 		for (int i = 0; i < m; i++) {
-			for (int j = x; j >= costs[i]; j--) {
-				dp[j] = Math.max(dp[j], dp[j - costs[i]] + values[i]);
+			for (int j = x; j >= cost[i]; j--) {
+				dp[j] = Math.max(dp[j], dp[j - cost[i]] + val[i]);
 			}
 		}
 		return dp[x];

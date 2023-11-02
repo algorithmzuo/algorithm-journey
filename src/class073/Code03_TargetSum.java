@@ -21,9 +21,6 @@ public class Code03_TargetSum {
 		if (target < min || target > max) {
 			return 0;
 		}
-		// dp[i][j]:
-		// 1) dp[i-1][j-nums[i]]
-		// 2) dp[i-1][j+nums[i]]
 		int n = nums.length;
 		int m = max - min + 1;
 		int[][] dp = new int[n][m];
@@ -77,23 +74,46 @@ public class Code03_TargetSum {
 		for (int n : nums) {
 			sum += n;
 		}
-		return sum < target || ((target & 1) ^ (sum & 1)) != 0 ? 0 : subset(nums, (target + sum) >> 1);
+		return sum < target || ((target & 1) ^ (sum & 1)) != 0 ? 0 : subset2(nums, (target + sum) >> 1);
 	}
 
 	// 求非负数组nums有多少个子集累加和是sum
-	// 严格位置依赖动态规划 + 空间压缩
-	// dp[i][j] :
-	// 1) dp[i-1][j]
-	// 2) dp[i-1][j-nums[i]]
-	public static int subset(int[] nums, int sum) {
+	// 严格位置依赖动态规划
+	public static int subset1(int[] nums, int sum) {
+		if (sum < 0) {
+			return 0;
+		}
+		int n = nums.length;
+		int[][] dp = new int[n][sum + 1];
+		dp[0][0] = 1;
+		if (nums[0] <= sum) {
+			// 不要写成dp[0][nums[0]] = 1
+			// 想一下如果nums[0] == 0
+			// 就知道为啥这么写了
+			dp[0][nums[0]] += 1;
+		}
+		for (int i = 1; i < n; i++) {
+			for (int j = 0; j <= sum; j++) {
+				dp[i][j] = dp[i - 1][j];
+				if (j - nums[i] >= 0) {
+					dp[i][j] += dp[i - 1][j - nums[i]];
+				}
+			}
+		}
+		return dp[n - 1][sum];
+	}
+
+	// 求非负数组nums有多少个子集累加和是sum
+	// 空间压缩
+	public static int subset2(int[] nums, int sum) {
 		if (sum < 0) {
 			return 0;
 		}
 		int[] dp = new int[sum + 1];
 		dp[0] = 1;
 		for (int num : nums) {
-			for (int i = sum; i >= num; i--) {
-				dp[i] += dp[i - num];
+			for (int j = sum; j >= num; j--) {
+				dp[j] += dp[j - num];
 			}
 		}
 		return dp[sum];

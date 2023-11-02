@@ -80,14 +80,45 @@ public class Code06_DependentKnapsack {
 					attachs[q][fans[q]++] = i;
 				}
 			}
-			out.println(compute());
+			out.println(compute2());
 		}
 		out.flush();
 		out.close();
 		br.close();
 	}
 
-	public static int compute() {
+	// 严格位置依赖的动态规划
+	public static int compute1() {
+		int[][] dp = new int[m + 1][n + 1];
+		int p = 0;
+		for (int i = 1, fan1, fan2; i <= m; i++) {
+			if (belongs[i] == 0) {
+				for (int j = 0; j <= n; j++) {
+					dp[i][j] = dp[p][j];
+					if (j - cost[i] >= 0) {
+						dp[i][j] = Math.max(dp[i][j], dp[p][j - cost[i]] + val[i]);
+					}
+					fan1 = fans[i] >= 1 ? attachs[i][0] : -1;
+					fan2 = fans[i] >= 2 ? attachs[i][1] : -1;
+					if (fan1 != -1 && j - cost[i] - cost[fan1] >= 0) {
+						dp[i][j] = Math.max(dp[i][j], dp[p][j - cost[i] - cost[fan1]] + val[i] + val[fan1]);
+					}
+					if (fan2 != -1 && j - cost[i] - cost[fan2] >= 0) {
+						dp[i][j] = Math.max(dp[i][j], dp[p][j - cost[i] - cost[fan2]] + val[i] + val[fan2]);
+					}
+					if (fan1 != -1 && fan2 != -1 && j - cost[i] - cost[fan1] - cost[fan2] >= 0) {
+						dp[i][j] = Math.max(dp[i][j],
+								dp[p][j - cost[i] - cost[fan1] - cost[fan2]] + val[i] + val[fan1] + val[fan2]);
+					}
+				}
+				p = i;
+			}
+		}
+		return dp[p][n];
+	}
+
+	// 空间压缩
+	public static int compute2() {
 		Arrays.fill(dp, 0, n + 1, 0);
 		for (int i = 1, fan1, fan2; i <= m; i++) {
 			if (belongs[i] == 0) {

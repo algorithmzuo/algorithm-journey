@@ -20,9 +20,6 @@ public class Code04_LastStoneWeightII {
 			sum += num;
 		}
 		int t = sum / 2;
-		// dp[i][j] :
-		// 1) dp[i-1][j]
-		// 2) dp[i-1][j-arr[i]] + arr[i]
 		int[] dp = new int[t + 1];
 		for (int i = 0; i < n; i++) {
 			for (int j = t; j >= arr[i]; j--) {
