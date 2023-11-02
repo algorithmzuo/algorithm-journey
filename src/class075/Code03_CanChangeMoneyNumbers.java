@@ -23,7 +23,7 @@ import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 import java.util.Arrays;
 
-public class Code02_CanChangeMoneyNumbers {
+public class Code03_CanChangeMoneyNumbers {
 
 	public static int MAXN = 101;
 
