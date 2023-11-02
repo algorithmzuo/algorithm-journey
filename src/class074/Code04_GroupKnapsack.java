@@ -1,7 +1,7 @@
 package class074;
 
 // 分组背包(模版)
-// 自 01背包问世之后，小 A 对此深感兴趣
+// 自01背包问世之后，小 A 对此深感兴趣
 // 一天，小 A 去远游，却发现他的背包不同于 01 背包，他的物品大致可分为 k 组
 // 每组中的物品只能选择1件，现在他想知道最大的利用价值是多少
 // 测试链接 : https://www.luogu.com.cn/problem/P1757
@@ -40,7 +40,7 @@ public class Code04_GroupKnapsack {
 			m = (int) in.nval;
 			in.nextToken();
 			n = (int) in.nval;
-			for (int i = 0; i < n; i++) {
+			for (int i = 1; i <= n; i++) {
 				in.nextToken();
 				arr[i][0] = (int) in.nval;
 				in.nextToken();
@@ -48,7 +48,7 @@ public class Code04_GroupKnapsack {
 				in.nextToken();
 				arr[i][2] = (int) in.nval;
 			}
-			Arrays.sort(arr, 0, n, (a, b) -> a[2] - b[2]);
+			Arrays.sort(arr, 1, n + 1, (a, b) -> a[2] - b[2]);
 			out.println(compute2());
 		}
 		out.flush();
@@ -59,14 +59,14 @@ public class Code04_GroupKnapsack {
 	// 严格位置依赖的动态规划
 	public static int compute1() {
 		int teams = 1;
-		for (int i = 1; i < n; i++) {
+		for (int i = 2; i <= n; i++) {
 			if (arr[i - 1][2] != arr[i][2]) {
 				teams++;
 			}
 		}
 		int[][] dp = new int[teams + 1][m + 1];
-		for (int start = 0, end = 1, k = 1; start < n; k++) {
-			while (end < n && arr[end][2] == arr[start][2]) {
+		for (int start = 1, end = 2, k = 1; start <= n; k++) {
+			while (end <= n && arr[end][2] == arr[start][2]) {
 				end++;
 			}
 			for (int j = 0; j <= m; j++) {
@@ -85,8 +85,8 @@ public class Code04_GroupKnapsack {
 	// 空间压缩
 	public static int compute2() {
 		Arrays.fill(dp, 0, m + 1, 0);
-		for (int start = 0, end = 1; start < n;) {
-			while (end < n && arr[end][2] == arr[start][2]) {
+		for (int start = 1, end = 2; start <= n;) {
+			while (end <= n && arr[end][2] == arr[start][2]) {
 				end++;
 			}
 			for (int j = m; j >= 0; j--) {

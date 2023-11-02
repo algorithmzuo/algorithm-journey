@@ -42,12 +42,12 @@ public class Code02_BuyGoodsHaveDiscount {
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
 		while (in.nextToken() != StreamTokenizer.TT_EOF) {
 			n = (int) in.nval;
-			m = 0;
+			m = 1;
 			in.nextToken();
 			x = (int) in.nval;
 			long ans = 0;
 			long happy = 0;
-			for (int i = 0, pre, pos, well; i < n; i++) {
+			for (int i = 1, pre, pos, well; i <= n; i++) {
 				in.nextToken();
 				pre = (int) in.nval;
 				in.nextToken();
@@ -81,7 +81,7 @@ public class Code02_BuyGoodsHaveDiscount {
 
 	public static long compute() {
 		Arrays.fill(dp, 1, x + 1, 0);
-		for (int i = 0; i < m; i++) {
+		for (int i = 1; i <= m; i++) {
 			for (int j = x; j >= cost[i]; j--) {
 				dp[j] = Math.max(dp[j], dp[j - cost[i]] + val[i]);
 			}

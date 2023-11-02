@@ -41,7 +41,7 @@ public class Code01_CompleteKnapsack {
 			t = (int) in.nval;
 			in.nextToken();
 			m = (int) in.nval;
-			for (int i = 0; i < m; i++) {
+			for (int i = 1; i <= m; i++) {
 				in.nextToken();
 				cost[i] = (int) in.nval;
 				in.nextToken();
@@ -57,11 +57,8 @@ public class Code01_CompleteKnapsack {
 	// 严格位置依赖的动态规划
 	// 会空间不够
 	public static long compute1() {
-		int[][] dp = new int[m][t + 1];
-		for (int j = cost[0]; j <= t; j++) {
-			dp[0][j] = dp[0][j - cost[0]] + val[0];
-		}
-		for (int i = 1; i < m; i++) {
+		int[][] dp = new int[m + 1][t + 1];
+		for (int i = 1; i <= m; i++) {
 			for (int j = 0; j <= t; j++) {
 				dp[i][j] = dp[i - 1][j];
 				if (j - cost[i] >= 0) {
@@ -69,14 +66,14 @@ public class Code01_CompleteKnapsack {
 				}
 			}
 		}
-		return dp[m - 1][t];
+		return dp[m][t];
 	}
 
 	// 空间压缩
 	// 直接通过
 	public static long compute2() {
 		Arrays.fill(dp, 1, t + 1, 0);
-		for (int i = 0; i < m; i++) {
+		for (int i = 1; i <= m; i++) {
 			for (int j = cost[i]; j <= t; j++) {
 				dp[j] = Math.max(dp[j], dp[j - cost[i]] + val[i]);
 			}
