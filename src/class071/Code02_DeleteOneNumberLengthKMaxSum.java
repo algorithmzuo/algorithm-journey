@@ -1,8 +1,8 @@
 package class071;
 
 // 删掉1个数字后长度为k的子数组最大累加和
-// 给定一个数组nums，求删除任一元素后的新数组中
-// 长度为k的子数组最大累加和
+// 给定一个数组nums，求必须删除一个数字后的新数组中
+// 长度为k的子数组最大累加和，删除哪个数字随意
 // 对数器验证
 public class Code02_DeleteOneNumberLengthKMaxSum {
 
