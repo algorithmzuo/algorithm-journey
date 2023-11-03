@@ -68,7 +68,8 @@ public class Code01_BoundedKnapsack {
 	}
 
 	// 空间压缩
-	// 那也无法通过因为没有优化枚举
+	// 部分测试用例超时
+	// 因为没有优化枚举
 	public static int compute2() {
 		for (int i = 1; i <= n; i++) {
 			for (int j = t; j >= 0; j--) {
