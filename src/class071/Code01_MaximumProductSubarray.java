@@ -7,6 +7,7 @@ package class071;
 // 测试链接 : https://leetcode.cn/problems/maximum-product-subarray/
 public class Code01_MaximumProductSubarray {
 
+	// 本方法对于double类型的数组求最大累乘积也同样适用
 	public static int maxProduct(int[] nums) {
 		int ans = nums[0];
 		int min = nums[0];
