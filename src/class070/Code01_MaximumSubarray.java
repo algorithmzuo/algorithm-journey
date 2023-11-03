@@ -43,6 +43,9 @@ public class Code01_MaximumSubarray {
 
 	public static int sum;
 
+	// 找到拥有最大累加和的子数组
+	// 并更新好全局变量left、right、sum
+	// 上游调用函数可以直接使用这三个变量，等同于返回了三个值
 	public static void extra(int[] nums) {
 		sum = Integer.MIN_VALUE;
 		for (int l = 0, r = 0, pre = Integer.MIN_VALUE; r < nums.length; r++) {
