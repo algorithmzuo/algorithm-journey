@@ -36,6 +36,7 @@ public class Code01_MaximumSubarray {
 	// 1) 最大累加和子数组的开头left
 	// 2) 最大累加和子数组的结尾right
 	// 3) 最大累加和子数组的累加和sum
+	// 如果不止一个子数组拥有最大累加和，那么找到哪一个都可以
 	public static int left;
 
 	public static int right;
@@ -43,9 +44,8 @@ public class Code01_MaximumSubarray {
 	public static int sum;
 
 	public static void extra(int[] nums) {
-		left = right = 0;
-		sum = nums[0];
-		for (int l = 0, r = 1, pre = nums[0]; r < nums.length; r++) {
+		sum = Integer.MIN_VALUE;
+		for (int l = 0, r = 0, pre = Integer.MIN_VALUE; r < nums.length; r++) {
 			if (pre >= 0) {
 				pre += nums[r];
 			} else {
