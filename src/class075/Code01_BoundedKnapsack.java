@@ -6,6 +6,9 @@ package class075;
 // 每种货物的价值(v[i])、重量(w[i])、数量(c[i])都给出
 // 请返回选择货物不超过背包容量的情况下，能得到的最大的价值
 // 测试链接 : https://www.luogu.com.cn/problem/P1776
+// 请同学们务必参考如下代码中关于输入、输出的处理
+// 这是输入输出处理效率很高的写法
+// 提交以下的code，提交时请把类名改成"Main"，可以直接通过
 
 import java.io.BufferedReader;
 import java.io.IOException;
