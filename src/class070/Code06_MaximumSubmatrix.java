@@ -9,7 +9,8 @@ import java.util.Arrays;
 // 测试链接 : https://leetcode.cn/problems/max-submatrix-lcci/
 public class Code06_MaximumSubmatrix {
 
-	// 时间复杂度O(n^3)，是这道题的极限了
+	// 如果行和列的规模都是n
+	// 时间复杂度O(n^3)是这道题的极限了
 	public static int[] getMaxMatrix(int[][] grid) {
 		int n = grid.length;
 		int m = grid[0].length;
