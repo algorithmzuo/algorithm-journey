@@ -9,11 +9,7 @@ import java.util.Arrays;
 // 测试链接 : https://leetcode.cn/problems/max-submatrix-lcci/
 public class Code06_MaximumSubmatrix {
 
-	// 如果行和列的规模都是n
-	// 本节课讲述的方法时间复杂度O(n^3)，但这并不是这道题的极限
-	// 最优解需要用到二维线段树(树套树)
-	// 时间复杂度能做到O(n平方 * (logn)平方)
-	// 不过这个内容过于冷门，掌握本节课的解法已经足够了
+	// 如果行和列的规模都是n，时间复杂度O(n^3)，最优解了
 	public static int[] getMaxMatrix(int[][] grid) {
 		int n = grid.length;
 		int m = grid[0].length;
