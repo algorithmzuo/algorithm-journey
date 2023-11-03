@@ -9,6 +9,7 @@ public class Code01_MaximumSubarray {
 	// 动态规划
 	public static int maxSubArray1(int[] nums) {
 		int n = nums.length;
+		// dp[i] : 子数组必须以i位置的数做结尾，往左能延伸出来的最大累加和
 		int[] dp = new int[n];
 		dp[0] = nums[0];
 		int ans = nums[0];
@@ -24,13 +25,13 @@ public class Code01_MaximumSubarray {
 		int n = nums.length;
 		int ans = nums[0];
 		for (int i = 1, pre = nums[0]; i < n; i++) {
-			pre = Math.max(nums[i], nums[i] + pre);
+			pre = Math.max(nums[i], pre + nums[i]);
 			ans = Math.max(ans, pre);
 		}
 		return ans;
 	}
 
-	// 如下代码为扩展问题
+	// 如下代码为附加问题的实现
 	// 子数组中找到拥有最大累加和的子数组
 	// 并返回如下三个信息:
 	// 1) 最大累加和子数组的开头left
@@ -44,14 +45,19 @@ public class Code01_MaximumSubarray {
 	public static int sum;
 
 	// 找到拥有最大累加和的子数组
-	// 并更新好全局变量left、right、sum
-	// 上游调用函数可以直接使用这三个变量，等同于返回了三个值
+	// 更新好全局变量left、right、sum
+	// 上游调用函数可以直接使用这三个变量
+	// 相当于返回了三个值
 	public static void extra(int[] nums) {
 		sum = Integer.MIN_VALUE;
 		for (int l = 0, r = 0, pre = Integer.MIN_VALUE; r < nums.length; r++) {
 			if (pre >= 0) {
+				// 吸收前面的累加和有利可图
+				// 那就不换开头
 				pre += nums[r];
 			} else {
+				// 吸收前面的累加和已经无利可图
+				// 那就换开头
 				pre = nums[r];
 				l = r;
 			}

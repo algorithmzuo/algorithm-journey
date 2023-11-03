@@ -13,14 +13,16 @@ package class070;
 public class Code05_HouseRobberIV {
 
 	public static int minCapability(int[] nums, int k) {
-		int n = nums.length, l = nums[0], r = nums[0], m, ans = 0;
+		int n = nums.length, l = nums[0], r = nums[0];
 		for (int i = 1; i < n; i++) {
 			l = Math.min(l, nums[i]);
 			r = Math.max(r, nums[i]);
 		}
+		// l....r
+		int m, ans = 0;
 		while (l <= r) {
 			m = (l + r) / 2;
-			if (mostRob3(nums, n, m) >= k) {
+			if (mostRob1(nums, n, m) >= k) {
 				ans = m;
 				r = m - 1;
 			} else {
@@ -57,14 +59,14 @@ public class Code05_HouseRobberIV {
 		if (n == 2) {
 			return (nums[0] <= ability || nums[1] <= ability) ? 1 : 0;
 		}
-		int lastLast = nums[0] <= ability ? 1 : 0;
-		int last = (nums[0] <= ability || nums[1] <= ability) ? 1 : 0;
+		int prepre = nums[0] <= ability ? 1 : 0;
+		int pre = (nums[0] <= ability || nums[1] <= ability) ? 1 : 0;
 		for (int i = 2, cur; i < n; i++) {
-			cur = Math.max(last, (nums[i] <= ability ? 1 : 0) + lastLast);
-			lastLast = last;
-			last = cur;
+			cur = Math.max(pre, (nums[i] <= ability ? 1 : 0) + prepre);
+			prepre = pre;
+			pre = cur;
 		}
-		return last;
+		return pre;
 	}
 
 	// 继续贪心优化

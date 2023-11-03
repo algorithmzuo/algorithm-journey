@@ -8,15 +8,17 @@ package class070;
 public class Code03_MaximumSumCircularSubarray {
 
 	public static int maxSubarraySumCircular(int[] nums) {
-		int n = nums.length, sum = nums[0], maxsum = nums[0], minsum = nums[0];
+		int n = nums.length, all = nums[0], maxsum = nums[0], minsum = nums[0];
 		for (int i = 1, maxpre = nums[0], minpre = nums[0]; i < n; i++) {
-			sum += nums[i];
+			all += nums[i];
 			maxpre = Math.max(nums[i], nums[i] + maxpre);
 			maxsum = Math.max(maxsum, maxpre);
 			minpre = Math.min(nums[i], nums[i] + minpre);
 			minsum = Math.min(minsum, minpre);
 		}
-		return sum == minsum ? maxsum : Math.max(maxsum, sum - minsum);
+		// 1) maxsum
+		// 2) all - minsum
+		return all == minsum ? maxsum : Math.max(maxsum, all - minsum);
 	}
 
 }

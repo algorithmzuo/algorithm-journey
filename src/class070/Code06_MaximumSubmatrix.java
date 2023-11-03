@@ -10,30 +10,35 @@ import java.util.Arrays;
 public class Code06_MaximumSubmatrix {
 
 	// 如果行和列的规模都是n
-	// 时间复杂度O(n^3)是这道题的极限了
+	// 本节课讲述的方法时间复杂度O(n^3)，但这并不是这道题的极限
+	// 最优解需要用到二维线段树(树套树)
+	// 时间复杂度能做到O(n平方 * (logn)平方)
+	// 不过这个内容过于冷门，掌握本节课的解法已经足够了
 	public static int[] getMaxMatrix(int[][] grid) {
 		int n = grid.length;
 		int m = grid[0].length;
-		int max = grid[0][0];
+		int max = Integer.MIN_VALUE;
 		int a = 0, b = 0, c = 0, d = 0;
 		int[] nums = new int[m];
 		for (int up = 0; up < n; up++) {
 			Arrays.fill(nums, 0);
 			for (int down = up; down < n; down++) {
-				for (int left = 0, right = 0, pre = Integer.MIN_VALUE; right < m; right++) {
-					nums[right] += grid[down][right];
+				// 如下代码就是题目1的附加问题 :
+				// 子数组中找到拥有最大累加和的子数组
+				for (int l = 0, r = 0, pre = Integer.MIN_VALUE; r < m; r++) {
+					nums[r] += grid[down][r];
 					if (pre >= 0) {
-						pre += nums[right];
+						pre += nums[r];
 					} else {
-						pre = nums[right];
-						left = right;
+						pre = nums[r];
+						l = r;
 					}
 					if (pre > max) {
 						max = pre;
 						a = up;
-						b = left;
+						b = l;
 						c = down;
-						d = right;
+						d = r;
 					}
 				}
 			}
