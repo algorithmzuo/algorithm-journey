@@ -19,7 +19,7 @@ import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 import java.util.Arrays;
 
-public class Code01_ZeroOneKnapsack {
+public class Code01_01Knapsack {
 
 	public static int MAXM = 101;
 
