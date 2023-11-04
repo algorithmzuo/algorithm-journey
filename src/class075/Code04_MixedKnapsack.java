@@ -1,6 +1,6 @@
 package class075;
 
-// 多重背包普通窗口优化
+// 混合背包
 // 能成功找零的钱数种类
 // 每一种货币都给定面值val[i]，和拥有的数量cnt[i]
 // 想知道目前拥有的货币，在钱数为1、2、3...m时
@@ -24,7 +24,7 @@ import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 import java.util.Arrays;
 
-public class Code04_CanChangeMoneyNumbers {
+public class Code04_MixedKnapsack {
 
 	public static int MAXN = 101;
 
