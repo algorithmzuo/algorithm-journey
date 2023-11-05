@@ -45,7 +45,7 @@ public class Code06_DependentKnapsack {
 
 	public static int[] fans = new int[MAXM];
 
-	public static int[][] attachs = new int[MAXM][2];
+	public static int[][] follows = new int[MAXM][2];
 
 	public static int[] dp = new int[MAXN];
 
@@ -77,7 +77,7 @@ public class Code06_DependentKnapsack {
 				val[i] = v * p;
 				belongs[i] = q;
 				if (q != 0) {
-					attachs[q][fans[q]++] = i;
+					follows[q][fans[q]++] = i;
 				}
 			}
 			out.println(compute2());
@@ -98,8 +98,8 @@ public class Code06_DependentKnapsack {
 					if (j - cost[i] >= 0) {
 						dp[i][j] = Math.max(dp[i][j], dp[p][j - cost[i]] + val[i]);
 					}
-					fan1 = fans[i] >= 1 ? attachs[i][0] : -1;
-					fan2 = fans[i] >= 2 ? attachs[i][1] : -1;
+					fan1 = fans[i] >= 1 ? follows[i][0] : -1;
+					fan2 = fans[i] >= 2 ? follows[i][1] : -1;
 					if (fan1 != -1 && j - cost[i] - cost[fan1] >= 0) {
 						dp[i][j] = Math.max(dp[i][j], dp[p][j - cost[i] - cost[fan1]] + val[i] + val[fan1]);
 					}
@@ -124,8 +124,8 @@ public class Code06_DependentKnapsack {
 			if (belongs[i] == 0) {
 				for (int j = n; j >= cost[i]; j--) {
 					dp[j] = Math.max(dp[j], dp[j - cost[i]] + val[i]);
-					fan1 = fans[i] >= 1 ? attachs[i][0] : -1;
-					fan2 = fans[i] >= 2 ? attachs[i][1] : -1;
+					fan1 = fans[i] >= 1 ? follows[i][0] : -1;
+					fan2 = fans[i] >= 2 ? follows[i][1] : -1;
 					if (fan1 != -1 && j - cost[i] - cost[fan1] >= 0) {
 						dp[j] = Math.max(dp[j], dp[j - cost[i] - cost[fan1]] + val[i] + val[fan1]);
 					}
