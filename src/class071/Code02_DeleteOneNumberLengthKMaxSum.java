@@ -23,6 +23,7 @@ public class Code02_DeleteOneNumberLengthKMaxSum {
 
 	// 暴力方法
 	// 为了测试
+	// 删掉index位置的元素，然后返回新数组
 	public static int[] delete(int[] nums, int index) {
 		int len = nums.length - 1;
 		int[] ans = new int[len];
@@ -37,6 +38,7 @@ public class Code02_DeleteOneNumberLengthKMaxSum {
 
 	// 暴力方法
 	// 为了测试
+	// 枚举每一个子数组找到最大累加和
 	public static int lenKmaxSum(int[] nums, int k) {
 		int n = nums.length;
 		int ans = Integer.MIN_VALUE;
@@ -57,12 +59,15 @@ public class Code02_DeleteOneNumberLengthKMaxSum {
 		if (n <= k) {
 			return 0;
 		}
+		// 单调队列 : 维持窗口内最小值的更新结构
 		int[] window = new int[n];
 		int l = 0;
 		int r = 0;
+		// 窗口累加和
 		long sum = 0;
 		int ans = Integer.MIN_VALUE;
 		for (int i = 0; i < n; i++) {
+			// 单调队列 : i位置进入单调队列
 			while (l < r && nums[window[r - 1]] >= nums[i]) {
 				r--;
 			}
@@ -71,6 +76,7 @@ public class Code02_DeleteOneNumberLengthKMaxSum {
 			if (i >= k) {
 				ans = Math.max(ans, (int) (sum - nums[window[l]]));
 				if (window[l] == i - k) {
+					// 单调队列 : 如果单调队列最左侧的位置过期了，从队列中弹出
 					l++;
 				}
 				sum -= nums[i - k];

@@ -25,9 +25,16 @@ public class Code03_MagicScrollProbelm {
 		return Math.max(p1, Math.max(p2, p3));
 	}
 
+	// 暴力方法
 	// 为了测试
+	// nums[l...r]范围上一定要用一次卷轴情况下的最大累加和
 	public static int mustOneScroll(int[] nums, int l, int r) {
 		int ans = Integer.MIN_VALUE;
+		// l...r范围上包含a...b范围
+		// 如果a...b范围上的数字都变成0
+		// 返回剩下数字的累加和
+		// 所以枚举所有可能的a...b范围
+		// 相当暴力，但是正确
 		for (int a = l; a <= r; a++) {
 			for (int b = a; b <= r; b++) {
 				int curAns = 0;
