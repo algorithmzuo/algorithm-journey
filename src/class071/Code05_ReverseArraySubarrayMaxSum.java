@@ -55,11 +55,11 @@ public class Code05_ReverseArraySubarrayMaxSum {
 		int suffix = nums[0];
 		// maxSuffix :
 		// 0~i范围上，
-		// 以0位置结尾的子数组，最大累加和
-		// 以1位置结尾的子数组，最大累加和
+		// 以0位置结尾的子数组的最大累加和
+		// 以1位置结尾的子数组的最大累加和
 		// ...
-		// 以i位置结尾的子数组，最大累加和
-		// 其中最大的那个，就是maxSuffix
+		// 以i位置结尾的子数组的最大累加和
+		// 其中最大的那个累加和就是maxSuffix
 		int maxSuffix = nums[0];
 		for (int i = 1; i < n; i++) {
 			ans = Math.max(ans, maxSuffix + start[i]);
