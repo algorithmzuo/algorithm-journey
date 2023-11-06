@@ -1,6 +1,6 @@
 package class075;
 
-// 多重背包单调队列优化(模版)
+// 多重背包单调队列优化
 // 宝物筛选
 // 一共有n种货物, 背包容量为t
 // 每种货物的价值(v[i])、重量(w[i])、数量(c[i])都给出
@@ -17,7 +17,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 
-public class Code03_BoundedKnapsackWithMonotonicQueue {
+public class Code04_BoundedKnapsackWithMonotonicQueue {
 
 	public static int MAXN = 101;
 
