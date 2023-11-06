@@ -41,7 +41,7 @@ public class Code06_DependentKnapsack {
 
 	public static int[] val = new int[MAXM];
 
-	public static int[] belongs = new int[MAXM];
+	public static boolean[] king = new boolean[MAXM];
 
 	public static int[] fans = new int[MAXM];
 
@@ -67,15 +67,12 @@ public class Code06_DependentKnapsack {
 			m = (int) in.nval;
 			clean();
 			for (int i = 1, v, p, q; i <= m; i++) {
-				in.nextToken();
-				v = (int) in.nval;
-				in.nextToken();
-				p = (int) in.nval;
-				in.nextToken();
-				q = (int) in.nval;
+				in.nextToken(); v = (int) in.nval;
+				in.nextToken(); p = (int) in.nval;
+				in.nextToken(); q = (int) in.nval;
 				cost[i] = v;
 				val[i] = v * p;
-				belongs[i] = q;
+				king[i] = q == 0;
 				if (q != 0) {
 					follows[q][fans[q]++] = i;
 				}
@@ -92,7 +89,7 @@ public class Code06_DependentKnapsack {
 		int[][] dp = new int[m + 1][n + 1];
 		int p = 0;
 		for (int i = 1, fan1, fan2; i <= m; i++) {
-			if (belongs[i] == 0) {
+			if (king[i]) {
 				for (int j = 0; j <= n; j++) {
 					dp[i][j] = dp[p][j];
 					if (j - cost[i] >= 0) {
@@ -121,7 +118,7 @@ public class Code06_DependentKnapsack {
 	public static int compute2() {
 		Arrays.fill(dp, 0, n + 1, 0);
 		for (int i = 1, fan1, fan2; i <= m; i++) {
-			if (belongs[i] == 0) {
+			if (king[i]) {
 				for (int j = n; j >= cost[i]; j--) {
 					dp[j] = Math.max(dp[j], dp[j - cost[i]] + val[i]);
 					fan1 = fans[i] >= 1 ? follows[i][0] : -1;
