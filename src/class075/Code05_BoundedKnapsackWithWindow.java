@@ -1,6 +1,6 @@
 package class075;
 
-// 多重背包普通窗口优化
+// 混合背包 + 多重背包普通窗口优化
 // 能成功找零的钱数种类
 // 每一种货币都给定面值val[i]，和拥有的数量cnt[i]
 // 想知道目前拥有的货币，在钱数为1、2、3...m时
@@ -68,18 +68,21 @@ public class Code05_BoundedKnapsackWithWindow {
 		dp[0] = true;
 		for (int i = 1; i <= n; i++) {
 			if (cnt[i] == 1) {
+				// 01背包
 				for (int j = m; j >= val[i]; j--) {
 					if (dp[j - val[i]]) {
 						dp[j] = true;
 					}
 				}
 			} else if (val[i] * cnt[i] > m) {
+				// 完全背包
 				for (int j = val[i]; j <= m; j++) {
 					if (dp[j - val[i]]) {
 						dp[j] = true;
 					}
 				}
 			} else {
+				// 多重背包
 				for (int mod = 0; mod < val[i]; mod++) {
 					int trueCnt = 0;
 					for (int j = m - mod, size = 0; j >= 0 && size <= cnt[i]; j -= val[i], size++) {
