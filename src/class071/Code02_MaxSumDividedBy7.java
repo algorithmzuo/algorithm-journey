@@ -4,7 +4,7 @@ package class071;
 // 给定一个非负数组nums，可以任意选择数字组成子序列
 // 使子集累加和最大且为7的倍数，返回最大累加和
 // 对数器验证
-public class Code05_MaxSumDividedBy7 {
+public class Code02_MaxSumDividedBy7 {
 
 	// 暴力方法
 	// 为了验证

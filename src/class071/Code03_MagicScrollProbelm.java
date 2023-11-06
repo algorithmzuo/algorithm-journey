@@ -62,30 +62,30 @@ public class Code03_MagicScrollProbelm {
 		for (int num : nums) {
 			p1 += num;
 		}
-		// left[i] : 0~i范围上，一定要用1次卷轴的情况下最大累加和多少
-		int[] left = new int[n];
+		// prefix[i] : 0~i范围上，一定要用1次卷轴的情况下最大累加和多少
+		int[] prefix = new int[n];
 		int sum = nums[0];
 		int maxPresum = Math.max(0, sum);
 		for (int i = 1; i < n; i++) {
-			left[i] = Math.max(left[i - 1] + nums[i], maxPresum);
+			prefix[i] = Math.max(prefix[i - 1] + nums[i], maxPresum);
 			sum += nums[i];
 			maxPresum = Math.max(maxPresum, sum);
 		}
 		// 情况二 : 必须用1次卷轴
-		int p2 = left[n - 1];
-		// right[i] : i~n-1范围上，一定要用1次卷轴的情况下最大累加和多少
-		int[] right = new int[n];
+		int p2 = prefix[n - 1];
+		// suffix[i] : i~n-1范围上，一定要用1次卷轴的情况下最大累加和多少
+		int[] suffix = new int[n];
 		sum = nums[n - 1];
 		maxPresum = Math.max(0, sum);
 		for (int i = n - 2; i >= 0; i--) {
-			right[i] = Math.max(nums[i] + right[i + 1], maxPresum);
+			suffix[i] = Math.max(nums[i] + suffix[i + 1], maxPresum);
 			sum += nums[i];
 			maxPresum = Math.max(maxPresum, sum);
 		}
 		// 情况二 : 必须用2次卷轴
 		int p3 = Integer.MIN_VALUE;
 		for (int i = 1; i < n; i++) {
-			p3 = Math.max(p3, left[i - 1] + right[i]);
+			p3 = Math.max(p3, prefix[i - 1] + suffix[i]);
 		}
 		return Math.max(p1, Math.max(p2, p3));
 	}

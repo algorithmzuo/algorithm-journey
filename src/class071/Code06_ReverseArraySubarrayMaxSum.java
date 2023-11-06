@@ -31,13 +31,13 @@ public class Code06_ReverseArraySubarrayMaxSum {
 	}
 
 	public static int maxSum(int[] nums) {
-		int pre = nums[0];
-		int max = nums[0];
-		for (int i = 1; i < nums.length; i++) {
-			pre = Math.max(nums[i], nums[i] + pre);
-			max = Math.max(max, pre);
+		int n = nums.length;
+		int ans = nums[0];
+		for (int i = 1, pre = nums[0]; i < n; i++) {
+			pre = Math.max(nums[i], pre + nums[i]);
+			ans = Math.max(ans, pre);
 		}
-		return max;
+		return ans;
 	}
 
 	// 正式方法

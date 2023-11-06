@@ -20,30 +20,30 @@ public class Code04_MaximumSum3UnoverlappingSubarrays {
 				i++;
 			}
 		}
-		int[] left = new int[n];
+		int[] prefix = new int[n];
 		for (int i = 1, j = k; j < n; i++, j++) {
-			if (sums[i] > sums[left[j - 1]]) {
-				left[j] = i;
+			if (sums[i] > sums[prefix[j - 1]]) {
+				prefix[j] = i;
 			} else {
-				left[j] = left[j - 1];
+				prefix[j] = prefix[j - 1];
 			}
 		}
-		int[] right = new int[n];
-		right[n - k] = n - k;
+		int[] suffix = new int[n];
+		suffix[n - k] = n - k;
 		for (int i = n - k - 1; i >= 0; i--) {
-			if (sums[i] >= sums[right[i + 1]]) {
-				right[i] = i;
+			if (sums[i] >= sums[suffix[i + 1]]) {
+				suffix[i] = i;
 			} else {
-				right[i] = right[i + 1];
+				suffix[i] = suffix[i + 1];
 			}
 		}
 		int a = 0, b = 0, c = 0, max = 0;
 		for (int i = k, j = 2 * k - 1; j < n - k; i++, j++) {
-			if (sums[left[i - 1]] + sums[i] + sums[right[j + 1]] > max) {
-				max = sums[left[i - 1]] + sums[i] + sums[right[j + 1]];
-				a = left[i - 1];
+			if (sums[prefix[i - 1]] + sums[i] + sums[suffix[j + 1]] > max) {
+				max = sums[prefix[i - 1]] + sums[i] + sums[suffix[j + 1]];
+				a = prefix[i - 1];
 				b = i;
-				c = right[j + 1];
+				c = suffix[j + 1];
 			}
 		}
 		return new int[] { a, b, c };
