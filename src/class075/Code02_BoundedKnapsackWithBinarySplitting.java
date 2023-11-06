@@ -49,6 +49,10 @@ public class Code02_BoundedKnapsackWithBinarySplitting {
 				in.nextToken();
 				cnt = (int) in.nval;
 				// 整个文件最重要的逻辑 : 二进制分组
+				// 一般都使用这种技巧，这段代码非常重要
+				// 虽然时间复杂度不如单调队列优化的版本
+				// 但是好写，而且即便是比赛，时间复杂度也达标
+				// 二进制分组的时间复杂度为O(log cnt)
 				for (int k = 1; k <= cnt; k <<= 1) {
 					v[++m] = k * value;
 					w[m] = k * weight;
