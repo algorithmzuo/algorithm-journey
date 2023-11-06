@@ -46,15 +46,10 @@ public class Code03_MixedKnapsack {
 		while (in.nextToken() != StreamTokenizer.TT_EOF) {
 			hour1 = (int) in.nval;
 			// 跳过冒号
-			in.nextToken();
-			in.nextToken();
-			minute1 = (int) in.nval;
-			in.nextToken();
-			hour2 = (int) in.nval;
+			in.nextToken(); in.nextToken(); minute1 = (int) in.nval;
+			in.nextToken(); hour2 = (int) in.nval;
 			// 跳过冒号
-			in.nextToken();
-			in.nextToken();
-			minute2 = (int) in.nval;
+			in.nextToken(); in.nextToken(); minute2 = (int) in.nval;
 			if (minute1 > minute2) {
 				hour2--;
 				minute2 += 60;
@@ -64,12 +59,9 @@ public class Code03_MixedKnapsack {
 			n = (int) in.nval;
 			m = 0;
 			for (int i = 0, cost, val, cnt; i < n; i++) {
-				in.nextToken();
-				cost = (int) in.nval;
-				in.nextToken();
-				val = (int) in.nval;
-				in.nextToken();
-				cnt = (int) in.nval;
+				in.nextToken(); cost = (int) in.nval;
+				in.nextToken(); val = (int) in.nval;
+				in.nextToken(); cnt = (int) in.nval;
 				if (cnt == 0) {
 					cnt = ENOUGH;
 				}

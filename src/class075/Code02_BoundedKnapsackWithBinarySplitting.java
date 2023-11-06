@@ -42,12 +42,9 @@ public class Code02_BoundedKnapsackWithBinarySplitting {
 			t = (int) in.nval;
 			m = 0;
 			for (int i = 1, value, weight, cnt; i <= n; i++) {
-				in.nextToken();
-				value = (int) in.nval;
-				in.nextToken();
-				weight = (int) in.nval;
-				in.nextToken();
-				cnt = (int) in.nval;
+				in.nextToken(); value = (int) in.nval;
+				in.nextToken(); weight = (int) in.nval;
+				in.nextToken(); cnt = (int) in.nval;
 				// 整个文件最重要的逻辑 : 二进制分组
 				// 一般都使用这种技巧，这段代码非常重要
 				// 虽然时间复杂度不如单调队列优化的版本
