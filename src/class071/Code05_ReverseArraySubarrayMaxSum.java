@@ -6,7 +6,7 @@ package class071;
 // 比如翻转[1,2,3,4,5,6]的[2~4]范围，得到的是[1,2,5,4,3,6]
 // 返回必须随意翻转1次之后，子数组的最大累加和
 // 对数器验证
-public class Code06_ReverseArraySubarrayMaxSum {
+public class Code05_ReverseArraySubarrayMaxSum {
 
 	// 暴力方法
 	// 为了验证
@@ -44,16 +44,25 @@ public class Code06_ReverseArraySubarrayMaxSum {
 	// 时间复杂度O(n)
 	public static int maxSumReverse2(int[] nums) {
 		int n = nums.length;
-		int[] prefix = new int[n];
-		prefix[n - 1] = nums[n - 1];
+		// start[i] : 子数组必须以i开头的情况下，最大累加和
+		int[] start = new int[n];
+		start[n - 1] = nums[n - 1];
 		for (int i = n - 2; i >= 0; i--) {
-			prefix[i] = nums[i] + Math.max(0, prefix[i + 1]);
+			start[i] = nums[i] + Math.max(0, start[i + 1]);
 		}
-		int ans = prefix[0];
+		int ans = start[0];
+		// suffix : 子数组必须以i结尾的情况下，最大累加和
 		int suffix = nums[0];
-		int maxSuffix = suffix;
+		// maxSuffix :
+		// 0~i范围上，
+		// 以0位置结尾的子数组，最大累加和
+		// 以1位置结尾的子数组，最大累加和
+		// ...
+		// 以i位置结尾的子数组，最大累加和
+		// 其中最大的那个，就是maxSuffix
+		int maxSuffix = nums[0];
 		for (int i = 1; i < n; i++) {
-			ans = Math.max(ans, maxSuffix + prefix[i]);
+			ans = Math.max(ans, maxSuffix + start[i]);
 			suffix = nums[i] + Math.max(0, suffix);
 			maxSuffix = Math.max(maxSuffix, suffix);
 		}
