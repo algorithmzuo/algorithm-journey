@@ -10,6 +10,9 @@ public class Code02_MaxSumDividedBy7 {
 	// 暴力方法
 	// 为了验证
 	public static int maxSum1(int[] nums) {
+		// nums形成的所有子序列的累加和都求出来
+		// 其中%7==0的那些累加和中，返回最大的
+		// 就是如下f函数的功能
 		return f(nums, 0, 0);
 	}
 
@@ -24,7 +27,7 @@ public class Code02_MaxSumDividedBy7 {
 	// 时间复杂度O(n)
 	public static int maxSum2(int[] nums) {
 		int n = nums.length;
-		// dp[i][j] :
+		// dp[i][j] : nums[0...i-1]
 		// nums前i个数形成的子序列一定要做到，子序列累加和%7 == j
 		// 这样的子序列最大累加和是多少
 		// 注意 : dp[i][j] == -1代表不存在这样的子序列
@@ -33,14 +36,17 @@ public class Code02_MaxSumDividedBy7 {
 		for (int j = 1; j < 7; j++) {
 			dp[0][j] = -1;
 		}
-		for (int i = 1, cur, find; i <= n; i++) {
+		for (int i = 1, x, cur, need; i <= n; i++) {
+			x = nums[i - 1];
 			cur = nums[i - 1] % 7;
 			for (int j = 0; j < 7; j++) {
 				dp[i][j] = dp[i - 1][j];
-				// 这里求find是核心
-				find = (7 + j - cur) % 7;
-				if (dp[i - 1][find] != -1) {
-					dp[i][j] = Math.max(dp[i][j], dp[i - 1][find] + nums[i - 1]);
+				// 这里求need是核心
+				need = cur <= j ? (j - cur) : (j - cur + 7);
+				// 或者如下这种写法也对
+				// need = (7 + j - cur) % 7;
+				if (dp[i - 1][need] != -1) {
+					dp[i][j] = Math.max(dp[i][j], dp[i - 1][need] + x);
 				}
 			}
 		}

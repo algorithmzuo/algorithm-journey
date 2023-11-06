@@ -37,6 +37,7 @@ public class Code03_MagicScrollProbelm {
 		// 相当暴力，但是正确
 		for (int a = l; a <= r; a++) {
 			for (int b = a; b <= r; b++) {
+				// l...a...b...r
 				int curAns = 0;
 				for (int i = l; i < a; i++) {
 					curAns += nums[i];
@@ -62,10 +63,12 @@ public class Code03_MagicScrollProbelm {
 		for (int num : nums) {
 			p1 += num;
 		}
-		// prefix[i] : 0~i范围上，一定要用1次卷轴的情况下最大累加和多少
+		// prefix[i] : 0~i范围上一定要用1次卷轴的情况下，0~i范围上整体最大累加和多少
 		int[] prefix = new int[n];
+		// 每一步的前缀和
 		int sum = nums[0];
-		int maxPresum = Math.max(0, sum);
+		// maxPresum : 之前所有前缀和的最大值
+		int maxPresum = Math.max(0, nums[0]);
 		for (int i = 1; i < n; i++) {
 			prefix[i] = Math.max(prefix[i - 1] + nums[i], maxPresum);
 			sum += nums[i];
@@ -73,7 +76,7 @@ public class Code03_MagicScrollProbelm {
 		}
 		// 情况二 : 必须用1次卷轴
 		int p2 = prefix[n - 1];
-		// suffix[i] : i~n-1范围上，一定要用1次卷轴的情况下最大累加和多少
+		// suffix[i] : i~n-1范围上一定要用1次卷轴的情况下，i~n-1范围上整体最大累加和多少
 		int[] suffix = new int[n];
 		sum = nums[n - 1];
 		maxPresum = Math.max(0, sum);
@@ -85,6 +88,9 @@ public class Code03_MagicScrollProbelm {
 		// 情况二 : 必须用2次卷轴
 		int p3 = Integer.MIN_VALUE;
 		for (int i = 1; i < n; i++) {
+			// 枚举所有的划分点i
+			// 0~i-1 左
+			// i~n-1 右
 			p3 = Math.max(p3, prefix[i - 1] + suffix[i]);
 		}
 		return Math.max(p1, Math.max(p2, p3));
