@@ -51,7 +51,7 @@ public class Code03_MagicScrollProbelm {
 	}
 
 	// 正式方法
-	// 时间复杂度O(N)
+	// 时间复杂度O(n)
 	public static int maxSum2(int[] nums) {
 		int n = nums.length;
 		if (n == 0) {
@@ -65,22 +65,22 @@ public class Code03_MagicScrollProbelm {
 		// left[i] : 0~i范围上，一定要用1次卷轴的情况下最大累加和多少
 		int[] left = new int[n];
 		int sum = nums[0];
-		int maxSum = Math.max(0, sum);
+		int maxPresum = Math.max(0, sum);
 		for (int i = 1; i < n; i++) {
-			left[i] = Math.max(left[i - 1] + nums[i], maxSum);
+			left[i] = Math.max(left[i - 1] + nums[i], maxPresum);
 			sum += nums[i];
-			maxSum = Math.max(maxSum, sum);
+			maxPresum = Math.max(maxPresum, sum);
 		}
 		// 情况二 : 必须用1次卷轴
 		int p2 = left[n - 1];
 		// right[i] : i~n-1范围上，一定要用1次卷轴的情况下最大累加和多少
 		int[] right = new int[n];
 		sum = nums[n - 1];
-		maxSum = Math.max(0, sum);
+		maxPresum = Math.max(0, sum);
 		for (int i = n - 2; i >= 0; i--) {
-			right[i] = Math.max(nums[i] + right[i + 1], maxSum);
+			right[i] = Math.max(nums[i] + right[i + 1], maxPresum);
 			sum += nums[i];
-			maxSum = Math.max(maxSum, sum);
+			maxPresum = Math.max(maxPresum, sum);
 		}
 		// 情况二 : 必须用2次卷轴
 		int p3 = Integer.MIN_VALUE;
