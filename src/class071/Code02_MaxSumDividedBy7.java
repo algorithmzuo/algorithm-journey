@@ -10,38 +10,41 @@ public class Code02_MaxSumDividedBy7 {
 	// 暴力方法
 	// 为了验证
 	public static int maxSum1(int[] nums) {
-		return f1(nums, 0, 0);
+		return f(nums, 0, 0);
 	}
 
-	public static int f1(int[] nums, int i, int s) {
+	public static int f(int[] nums, int i, int s) {
 		if (i == nums.length) {
 			return s % 7 == 0 ? s : 0;
 		}
-		return Math.max(f1(nums, i + 1, s), f1(nums, i + 1, s + nums[i]));
+		return Math.max(f(nums, i + 1, s), f(nums, i + 1, s + nums[i]));
 	}
 
 	// 正式方法
 	// 时间复杂度O(n)
 	public static int maxSum2(int[] nums) {
 		int n = nums.length;
-		int[][] dp = new int[n][7];
-		for (int i = 0; i < n; i++) {
-			for (int j = 1; j < 7; j++) {
-				dp[i][j] = -1;
-			}
+		// dp[i][j] :
+		// nums前i个数形成的子序列一定要做到，子序列累加和%7 == j
+		// 这样的子序列最大累加和是多少
+		// 注意 : dp[i][j] == -1代表不存在这样的子序列
+		int[][] dp = new int[n + 1][7];
+		dp[0][0] = 0;
+		for (int j = 1; j < 7; j++) {
+			dp[0][j] = -1;
 		}
-		dp[0][nums[0] % 7] = nums[0];
-		for (int i = 1, cur; i < n; i++) {
-			cur = nums[i] % 7;
-			for (int j = 0, find; j < 7; j++) {
+		for (int i = 1, cur, find; i <= n; i++) {
+			cur = nums[i - 1] % 7;
+			for (int j = 0; j < 7; j++) {
 				dp[i][j] = dp[i - 1][j];
+				// 这里求find是核心
 				find = (7 + j - cur) % 7;
 				if (dp[i - 1][find] != -1) {
-					dp[i][j] = Math.max(dp[i][j], dp[i - 1][find] + nums[i]);
+					dp[i][j] = Math.max(dp[i][j], dp[i - 1][find] + nums[i - 1]);
 				}
 			}
 		}
-		return dp[n - 1][0] == -1 ? 0 : dp[n - 1][0];
+		return dp[n][0];
 	}
 
 	// 为了测试
