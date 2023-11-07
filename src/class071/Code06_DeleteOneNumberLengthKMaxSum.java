@@ -59,7 +59,7 @@ public class Code06_DeleteOneNumberLengthKMaxSum {
 		if (n <= k) {
 			return 0;
 		}
-		// 单调队列 : 维持窗口内最小值的更新结构
+		// 单调队列 : 维持窗口内最小值的更新结构，讲解054的内容
 		int[] window = new int[n];
 		int l = 0;
 		int r = 0;
