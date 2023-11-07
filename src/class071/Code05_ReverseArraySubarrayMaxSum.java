@@ -22,6 +22,7 @@ public class Code05_ReverseArraySubarrayMaxSum {
 		return ans;
 	}
 
+	// nums[l...r]范围上的数字进行逆序调整
 	public static void reverse(int[] nums, int l, int r) {
 		while (l < r) {
 			int tmp = nums[l];
@@ -30,6 +31,7 @@ public class Code05_ReverseArraySubarrayMaxSum {
 		}
 	}
 
+	// 返回子数组最大累加和
 	public static int maxSum(int[] nums) {
 		int n = nums.length;
 		int ans = nums[0];
