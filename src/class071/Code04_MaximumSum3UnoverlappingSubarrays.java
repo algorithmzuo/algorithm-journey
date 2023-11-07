@@ -11,7 +11,7 @@ public class Code04_MaximumSum3UnoverlappingSubarrays {
 
 	public static int[] maxSumOfThreeSubarrays(int[] nums, int k) {
 		int n = nums.length;
-		// sums[i] : 以i开头并且长度为k的子数组累加和
+		// sums[i] : 以i开头并且长度为k的子数组的累加和
 		int[] sums = new int[n];
 		for (int i = 0, j = 0, sum = 0; j < n; j++) {
 			sum += nums[j];
@@ -22,7 +22,7 @@ public class Code04_MaximumSum3UnoverlappingSubarrays {
 			}
 		}
 		// prefix[i] :
-		// 0~i范围上所有长度为k的子数组中，最大的累加和，是以什么位置开头的
+		// 0~i范围上所有长度为k的子数组中，拥有最大累加和的子数组，是以什么位置开头的
 		int[] prefix = new int[n];
 		for (int l = 1, r = k; r < n; l++, r++) {
 			if (sums[l] > sums[prefix[r - 1]]) {
@@ -32,7 +32,7 @@ public class Code04_MaximumSum3UnoverlappingSubarrays {
 			}
 		}
 		// suffix[i] :
-		// i~n-1范围上所有长度为k的子数组中，最大的累加和，是以什么位置开头的
+		// i~n-1范围上所有长度为k的子数组中，拥有最大累加和的子数组，是以什么位置开头的
 		int[] suffix = new int[n];
 		suffix[n - k] = n - k;
 		for (int i = n - k - 1; i >= 0; i--) {
