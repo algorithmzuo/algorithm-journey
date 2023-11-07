@@ -46,26 +46,31 @@ public class Code05_ReverseArraySubarrayMaxSum {
 	// 时间复杂度O(n)
 	public static int maxSumReverse2(int[] nums) {
 		int n = nums.length;
-		// start[i] : 子数组必须以i开头，其中的最大累加和
+		// start[i] : 所有必须以i开头的子数组中，最大累加和是多少
 		int[] start = new int[n];
 		start[n - 1] = nums[n - 1];
 		for (int i = n - 2; i >= 0; i--) {
-			start[i] = nums[i] + Math.max(0, start[i + 1]);
+			// nums[i]
+			// nums[i] + start[i+1]
+			start[i] = Math.max(nums[i], nums[i] + start[i + 1]);
 		}
 		int ans = start[0];
-		// end : 子数组必须以i结尾，其中的最大累加和
+		// end : 子数组必须以i-1结尾，其中的最大累加和
 		int end = nums[0];
 		// maxEnd :
-		// 0~i范围上，
+		// 0~i-1范围上，
 		// 子数组必须以0结尾，其中的最大累加和
 		// 子数组必须以1结尾，其中的最大累加和
 		// ...
-		// 子数组必须以i结尾，其中的最大累加和
+		// 子数组必须以i-1结尾，其中的最大累加和
 		// 所有情况中，最大的那个累加和就是maxEnd
 		int maxEnd = nums[0];
 		for (int i = 1; i < n; i++) {
+			// maxend   i....
+			// 枚举划分点 i...
 			ans = Math.max(ans, maxEnd + start[i]);
-			end = nums[i] + Math.max(0, end);
+			// 子数组必须以i结尾，其中的最大累加和
+			end = Math.max(nums[i], end + nums[i]);
 			maxEnd = Math.max(maxEnd, end);
 		}
 		ans = Math.max(ans, maxEnd);
