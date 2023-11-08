@@ -59,7 +59,8 @@ public class Code05_LongestNoDecreaseModifyKSubarray {
 		int ans = 0;
 		for (int i = 0, j = k, find; j < n; i++, j++) {
 			find = bs2(len, arr[j]);
-			ans = Math.max(ans, find + right[j] + k);
+			// 左长度 - 1 + k + 右长度 = find + k + right[j]
+			ans = Math.max(ans, find + k + right[j]);
 			find = bs2(len, arr[i]);
 			if (find == -1) {
 				ends[len++] = arr[i];
@@ -73,7 +74,7 @@ public class Code05_LongestNoDecreaseModifyKSubarray {
 
 	// 生成辅助数组right
 	// right[i] :
-	// 一定以arr[i]做开头的情况下，arr[i...]上最长不升序子序列长度是多少
+	// 一定以arr[i]做开头的情况下，arr[i...]上最长不上升子序列长度是多少
 	public static void right() {
 		int len = 0;
 		for (int i = n - 1, find; i >= 0; i--) {
@@ -88,8 +89,7 @@ public class Code05_LongestNoDecreaseModifyKSubarray {
 		}
 	}
 
-	// ends[0...len-1]是不升序的
-	// 在其中找到<num的最左位置，不存在返回-1
+	// 求最长不上升子序列长度的二分
 	public static int bs1(int len, int num) {
 		int l = 0, r = len - 1, m, ans = -1;
 		while (l <= r) {
@@ -104,8 +104,7 @@ public class Code05_LongestNoDecreaseModifyKSubarray {
 		return ans;
 	}
 
-	// ends[0...len-1]是不降序的
-	// 在其中找到>num的最左位置，不存在返回-1
+	// 求最长不下降子序列长度的二分
 	public static int bs2(int len, int num) {
 		int l = 0, r = len - 1, m, ans = -1;
 		while (l <= r) {
