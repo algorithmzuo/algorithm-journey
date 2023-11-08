@@ -14,24 +14,19 @@ public class Code02_RussianDollEnvelopes {
 
 	public static int maxEnvelopes(int[][] envelopes) {
 		int n = envelopes.length;
-		int[] nums = new int[n];
+		// 排序策略:
+		// 宽度从小到大
+		// 宽度一样，高度从大到小
 		Arrays.sort(envelopes, (a, b) -> a[0] != b[0] ? (a[0] - b[0]) : (b[1] - a[1]));
-		for (int i = 0; i < n; i++) {
-			nums[i] = envelopes[i][1];
-		}
-		return lengthOfLIS(nums);
-	}
-
-	public static int lengthOfLIS(int[] nums) {
-		int n = nums.length;
 		int[] ends = new int[n];
 		int len = 0;
-		for (int i = 0, find; i < n; i++) {
-			find = bs(ends, len, nums[i]);
+		for (int i = 0, find, num; i < n; i++) {
+			num = envelopes[i][1];
+			find = bs(ends, len, num);
 			if (find == -1) {
-				ends[len++] = nums[i];
+				ends[len++] = num;
 			} else {
-				ends[find] = nums[i];
+				ends[find] = num;
 			}
 		}
 		return len;
@@ -41,7 +36,7 @@ public class Code02_RussianDollEnvelopes {
 		int l = 0, r = len - 1, m, ans = -1;
 		while (l <= r) {
 			m = (l + r) / 2;
-			if (num <= ends[m]) {
+			if (ends[m] >= num) {
 				ans = m;
 				r = m - 1;
 			} else {

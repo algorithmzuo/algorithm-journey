@@ -20,9 +20,11 @@ public class Code03_MinimumOperationsToMakeArraykIncreasing {
 		int ans = 0;
 		for (int i = 0, size; i < k; i++) {
 			size = 0;
+			// 把每一组的数字放入容器
 			for (int j = i; j < n; j += k) {
 				nums[size++] = arr[j];
 			}
+			// 当前组长度 - 当前组最长不下降子序列长度 = 当前组至少需要修改的数字个数
 			ans += size - lengthOfNoDecreasing(size);
 		}
 		return ans;

@@ -14,7 +14,10 @@ public class Code04_MaximumLengthOfPairChain {
 
 	public static int findLongestChain(int[][] pairs) {
 		int n = pairs.length;
+		// 数对根据开始位置排序，从小到大
+		// 结束位置无所谓！
 		Arrays.sort(pairs, (a, b) -> a[0] - b[0]);
+		// 结尾的数值
 		int[] ends = new int[n];
 		int len = 0;
 		for (int[] pair : pairs) {
@@ -28,11 +31,12 @@ public class Code04_MaximumLengthOfPairChain {
 		return len;
 	}
 
+	// >= num最左位置
 	public static int bs(int[] ends, int len, int num) {
 		int l = 0, r = len - 1, m, ans = -1;
 		while (l <= r) {
 			m = (l + r) / 2;
-			if (num <= ends[m]) {
+			if (ends[m] >= num) {
 				ans = m;
 				r = m - 1;
 			} else {
