@@ -4,9 +4,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.PriorityQueue;
 
-// 前k个最小的子序列累加和
+// 非负数组前k个最小的子序列累加和
 // 给定一个数组arr，含有n个数字，都是非负数
 // 给定一个正数k，返回所有子序列中累加和最小的前k个累加和
+// 子序列是包含空集的
 // 注意 : 假设n很大，数值也很大！但是k不大，怎么算最快？
 // 对数器验证
 public class Code05_TopKMinimumSubsequenceSum {
@@ -65,7 +66,7 @@ public class Code05_TopKMinimumSubsequenceSum {
 	}
 
 	// 正式方法
-	// 不用01背包，因为n和数值都很大，而k不大
+	// 不用01背包，因为长度和数值都很大，而k不大
 	// 用堆来做就是最优解了
 	// 时间复杂度O(n * log n) + O(n * log k)
 	public static int[] topKSum3(int[] arr, int k) {
