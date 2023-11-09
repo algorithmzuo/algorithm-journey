@@ -10,7 +10,7 @@ import java.util.PriorityQueue;
 // 子序列是包含空集的
 // 注意 : 假设n很大，数值也很大！但是k不大，怎么算最快？
 // 对数器验证
-public class Code05_TopKMinimumSubsequenceSum {
+public class Code06_TopKMinimumSubsequenceSum {
 
 	// 暴力方法
 	// 为了验证
