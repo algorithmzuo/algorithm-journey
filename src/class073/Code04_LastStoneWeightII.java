@@ -13,18 +13,20 @@ package class073;
 // 测试链接 : https://leetcode.cn/problems/last-stone-weight-ii/
 public class Code04_LastStoneWeightII {
 
-	public static int lastStoneWeightII(int[] arr) {
+	public static int lastStoneWeightII(int[] nums) {
 		int sum = 0;
-		for (int num : arr) {
+		for (int num : nums) {
 			sum += num;
 		}
-		int near = near(arr, sum / 2);
+		int near = near(nums, sum / 2);
 		return sum - near - near;
 	}
 
-	public static int near(int[] arr, int t) {
+	// 非负数组nums中，子集累加和不超过t，但是最接近t的累加和是多少
+	// 空间压缩版01背包问题
+	public static int near(int[] nums, int t) {
 		int[] dp = new int[t + 1];
-		for (int num : arr) {
+		for (int num : nums) {
 			for (int j = t; j >= num; j--) {
 				dp[j] = Math.max(dp[j], dp[j - num] + num);
 			}
