@@ -7,7 +7,7 @@ package class074;
 // '*' 可以匹配任意字符序列（包括空字符序列）。
 // 判定匹配成功的充要条件是：字符模式必须能够 完全匹配 输入字符串（而不是部分匹配）
 // 测试链接 : https://leetcode.cn/problems/wildcard-matching/
-public class Code03_WildcardMatching {
+public class Code05_WildcardMatching {
 
 	// 暴力递归
 	public static boolean isMatch1(String str, String pat) {

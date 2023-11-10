@@ -17,7 +17,7 @@ import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 import java.util.Arrays;
 
-public class Code04_PartitionedKnapsack {
+public class Code01_PartitionedKnapsack {
 
 	public static int MAXN = 1001;
 

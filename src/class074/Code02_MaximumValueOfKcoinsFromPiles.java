@@ -9,7 +9,7 @@ import java.util.List;
 // 分别表示第 i 个栈里 从顶到底 的硬币面值。同时给你一个正整数 k
 // 请你返回在 恰好 进行 k 次操作的前提下，你钱包里硬币面值之和 最大为多少
 // 测试链接 : https://leetcode.cn/problems/maximum-value-of-k-coins-from-piles/
-public class Code05_MaximumValueOfKcoinsFromPiles {
+public class Code02_MaximumValueOfKcoinsFromPiles {
 
 	public static int maxValueOfCoins(List<List<Integer>> piles, int k) {
 		int[] dp = new int[k + 1];

@@ -7,7 +7,7 @@ package class074;
 // '*' 匹配零个或多个前面的那一个元素
 // 所谓匹配是要涵盖整个字符串s，而不是部分字符串
 // 测试链接 : https://leetcode.cn/problems/regular-expression-matching/
-public class Code02_RegularExpressionMatching {
+public class Code04_RegularExpressionMatching {
 
 	public static boolean isMatch1(String str, String pat) {
 		char[] s = str.toCharArray();
