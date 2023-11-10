@@ -41,8 +41,8 @@ public class Code06_TopKMinimumSubsequenceSum {
 
 	// 01背包来实现
 	// 这种方法此时不是最优解
-	// 因为当n很大，数值也很大时
-	// 动态规划的计算过程太耗时了
+	// 因为n很大，数值也很大，那么可能的累加和就更大
+	// 时间复杂度太差
 	public static int[] topKSum2(int[] nums, int k) {
 		int sum = 0;
 		for (int num : nums) {
