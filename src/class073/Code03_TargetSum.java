@@ -122,7 +122,7 @@ public class Code03_TargetSum {
 	}
 
 	// 求非负数组nums有多少个子集累加和是t
-	// 空间压缩版01背包问题
+	// 01背包问题(子集累加和严格是t) + 空间压缩
 	public static int subsets(int[] nums, int t) {
 		if (t < 0) {
 			return 0;
@@ -131,6 +131,7 @@ public class Code03_TargetSum {
 		dp[0] = 1;
 		for (int num : nums) {
 			for (int j = t; j >= num; j--) {
+				// dp[i][j] = dp[i-1][j] + dp[i-1][j-nums[i]]
 				dp[j] += dp[j - num];
 			}
 		}

@@ -23,11 +23,12 @@ public class Code04_LastStoneWeightII {
 	}
 
 	// 非负数组nums中，子集累加和不超过t，但是最接近t的累加和是多少
-	// 空间压缩版01背包问题
+	// 01背包问题(子集累加和尽量接近t) + 空间压缩
 	public static int near(int[] nums, int t) {
 		int[] dp = new int[t + 1];
 		for (int num : nums) {
 			for (int j = t; j >= num; j--) {
+				// dp[i][j] = Math.max(dp[i-1][j], dp[i-1][j-nums[i]]+nums[i])
 				dp[j] = Math.max(dp[j], dp[j - num] + num);
 			}
 		}
