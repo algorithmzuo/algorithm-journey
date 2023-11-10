@@ -1,5 +1,7 @@
 package class073;
 
+import java.util.HashMap;
+
 // 目标和
 // 给你一个非负整数数组 nums 和一个整数 target 。
 // 向数组中的每个整数前添加 '+' 或 '-' ，然后串联起所有整数
@@ -10,50 +12,90 @@ package class073;
 // 测试链接 : https://leetcode.cn/problems/target-sum/
 public class Code03_TargetSum {
 
-	// 普通尝试变成动态规划
+	// 普通尝试，暴力递归版
 	public static int findTargetSumWays1(int[] nums, int target) {
-		int sum = 0;
-		for (int num : nums) {
-			sum += num;
+		return f1(nums, target, 0, 0);
+	}
+
+	public static int f1(int[] nums, int target, int i, int sum) {
+		if (i == nums.length) {
+			return sum == target ? 1 : 0;
 		}
-		int min = -sum;
-		int max = sum;
-		if (target < min || target > max) {
+		return f1(nums, target, i + 1, sum + nums[i]) + f1(nums, target, i + 1, sum - nums[i]);
+	}
+
+	// 普通尝试，记忆化搜索版
+	public static int findTargetSumWays2(int[] nums, int target) {
+		HashMap<Integer, HashMap<Integer, Integer>> dp = new HashMap<>();
+		return f2(nums, target, 0, 0, dp);
+	}
+
+	public static int f2(int[] nums, int target, int i, int sum, HashMap<Integer, HashMap<Integer, Integer>> dp) {
+		if (i == nums.length) {
+			return sum == target ? 1 : 0;
+		}
+		if (dp.containsKey(i) && dp.get(i).containsKey(sum)) {
+			return dp.get(i).get(sum);
+		}
+		int ans = f2(nums, target, i + 1, sum + nums[i], dp) + f2(nums, target, i + 1, sum - nums[i], dp);
+		dp.putIfAbsent(i, new HashMap<>());
+		dp.get(i).put(sum, ans);
+		return ans;
+	}
+
+	// 普通尝试，严格位置依赖的动态规划（平移）
+	public static int findTargetSumWays3(int[] nums, int target) {
+		int s = 0;
+		for (int num : nums) {
+			s += num;
+		}
+		if (target < -s || target > s) {
 			return 0;
 		}
 		int n = nums.length;
-		int m = max - min + 1;
-		int[][] dp = new int[n][m];
-		dp[0][nums[0] - min] += 1;
-		dp[0][-nums[0] - min] += 1;
-		for (int i = 1; i < n; i++) {
-			for (int j = min; j <= max; j++) {
-				if (j - nums[i] - min >= 0) {
-					dp[i][j - min] = dp[i - 1][j - nums[i] - min];
+		int m = 2 * s + 1;
+		// 原本的dp[i][j]: nums[i...]范围上，形成累加和为j的不同表达式数目
+		// 为了下标不出现负数，"原本的dp[i][j]"由dp表中的dp[i][j + s]来表示
+		// 也就是平移操作！
+		// 一切"原本的dp[i][j]"一律平移到dp表中的dp[i][j + s]
+		int[][] dp = new int[n + 1][m];
+		// 原本的dp[n][target] = 1，平移！
+		dp[n][target + s] = 1;
+		for (int i = n - 1; i >= 0; i--) {
+			for (int j = -s; j <= s; j++) {
+				if (j + nums[i] + s < m) {
+					// 原本是 : dp[i][j] = dp[i + 1][j + nums[i]]
+					// 平移！
+					dp[i][j + s] = dp[i + 1][j + nums[i] + s];
 				}
-				if (j + nums[i] - min < m) {
-					dp[i][j - min] += dp[i - 1][j + nums[i] - min];
+				if (j - nums[i] + s >= 0) {
+					// 原本是 : dp[i][j] += dp[i + 1][j - nums[i]]
+					// 平移！
+					dp[i][j + s] += dp[i + 1][j - nums[i] + s];
 				}
+
 			}
 		}
-		return dp[n - 1][target - min];
+		// 原本应该返回dp[0][0]
+		// 平移！
+		// 返回dp[0][0 + s]
+		return dp[0][s];
 	}
 
-	// 转化为01背包问题
-	// 优化1:
-	// 你可以认为nums中都是非负数
-	// 因为即便是nums中有负数，比如[3,-4,2]
-	// 因为你能在每个数前面用+或者-号
-	// 所以[3,-4,2]其实和[3,4,2]达成一样的效果
-	// 那么我们就全把nums变成非负数，不会影响结果的
-	// 优化2:
+	// 新思路，转化为01背包问题
+	// 思考1:
+	// 虽然题目说nums是非负数组，但即使nums中有负数比如[3,-4,2]
+	// 因为能在每个数前面用+或者-号
+	// 所以[3,-4,2]其实和[3,4,2]会达成一样的结果
+	// 所以即使nums中有负数，也可以把负数直接变成正数，也不会影响结果
+	// 思考2:
 	// 如果nums都是非负数，并且所有数的累加和是sum
 	// 那么如果target>sum，很明显没有任何方法可以达到target，可以直接返回0
-	// 优化3:
+	// 思考3:
 	// nums内部的数组，不管怎么+和-，最终的结果都一定不会改变奇偶性
-	// 所以，如果所有数的累加和是sum，
-	// 并且与target的奇偶性不一样，没有任何方法可以达到target，可以直接返回0
-	// 优化4:
+	// 所以，如果所有数的累加和是sum，并且与target的奇偶性不一样
+	// 那么没有任何方法可以达到target，可以直接返回0
+	// 思考4(最重要):
 	// 比如说给定一个数组, nums = [1, 2, 3, 4, 5] 并且 target = 3
 	// 其中一个方案是 : +1 -2 +3 -4 +5 = 3
 	// 该方案中取了正的集合为P = {1，3，5}
@@ -65,58 +107,34 @@ public class Code03_TargetSum {
 	// sum(P) = (target + 数组所有数的累加和) / 2
 	// 也就是说，任何一个集合，只要累加和是(target + 数组所有数的累加和) / 2
 	// 那么就一定对应一种target的方式
-	// 也就是说，比如非负数组nums，target = 7, 而所有数累加和是11
-	// 求有多少方法组成7，其实就是求有多少种达到累加和(7+11)/2=9的方法
-	// 优化5:
-	// 二维动态规划的空间压缩技巧
-	public static int findTargetSumWays2(int[] nums, int target) {
+	// 比如非负数组nums，target = 7, nums所有数累加和是11
+	// 求有多少方法组成7，其实就是求，有多少种子集累加和达到9的方法（(7+11)/2=9）
+	// 至此已经转化为01背包问题了
+	public static int findTargetSumWays4(int[] nums, int target) {
 		int sum = 0;
 		for (int n : nums) {
 			sum += n;
 		}
-		return sum < target || ((target & 1) ^ (sum & 1)) != 0 ? 0 : subset2(nums, (target + sum) >> 1);
-	}
-
-	// 求非负数组nums有多少个子集累加和是sum
-	// 严格位置依赖动态规划
-	public static int subset1(int[] nums, int sum) {
-		if (sum < 0) {
+		if (sum < target || ((target & 1) ^ (sum & 1)) == 1) {
 			return 0;
 		}
-		int n = nums.length;
-		int[][] dp = new int[n][sum + 1];
-		dp[0][0] = 1;
-		if (nums[0] <= sum) {
-			// 不要写成dp[0][nums[0]] = 1
-			// 想一下如果nums[0] == 0
-			// 就知道为啥这么写了
-			dp[0][nums[0]] += 1;
-		}
-		for (int i = 1; i < n; i++) {
-			for (int j = 0; j <= sum; j++) {
-				dp[i][j] = dp[i - 1][j];
-				if (j - nums[i] >= 0) {
-					dp[i][j] += dp[i - 1][j - nums[i]];
-				}
-			}
-		}
-		return dp[n - 1][sum];
+		return subsets(nums, (target + sum) >> 1);
 	}
 
-	// 求非负数组nums有多少个子集累加和是sum
-	// 空间压缩
-	public static int subset2(int[] nums, int sum) {
-		if (sum < 0) {
+	// 求非负数组nums有多少个子集累加和是t
+	// 空间压缩版01背包问题
+	public static int subsets(int[] nums, int t) {
+		if (t < 0) {
 			return 0;
 		}
-		int[] dp = new int[sum + 1];
+		int[] dp = new int[t + 1];
 		dp[0] = 1;
 		for (int num : nums) {
-			for (int j = sum; j >= num; j--) {
+			for (int j = t; j >= num; j--) {
 				dp[j] += dp[j - num];
 			}
 		}
-		return dp[sum];
+		return dp[t];
 	}
 
 }

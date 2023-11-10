@@ -14,19 +14,22 @@ package class073;
 public class Code04_LastStoneWeightII {
 
 	public static int lastStoneWeightII(int[] arr) {
-		int n = arr.length;
 		int sum = 0;
 		for (int num : arr) {
 			sum += num;
 		}
-		int t = sum / 2;
+		int near = near(arr, sum / 2);
+		return sum - near - near;
+	}
+
+	public static int near(int[] arr, int t) {
 		int[] dp = new int[t + 1];
-		for (int i = 0; i < n; i++) {
-			for (int j = t; j >= arr[i]; j--) {
-				dp[j] = Math.max(dp[j], dp[j - arr[i]] + arr[i]);
+		for (int num : arr) {
+			for (int j = t; j >= num; j--) {
+				dp[j] = Math.max(dp[j], dp[j - num] + num);
 			}
 		}
-		return sum - dp[t] - dp[t];
+		return dp[t];
 	}
 
 }
