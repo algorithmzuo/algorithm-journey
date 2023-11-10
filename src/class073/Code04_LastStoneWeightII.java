@@ -18,11 +18,14 @@ public class Code04_LastStoneWeightII {
 		for (int num : nums) {
 			sum += num;
 		}
+		// nums中随意选择数字
+		// 累加和一定要 <= sum / 2
+		// 又尽量接近
 		int near = near(nums, sum / 2);
 		return sum - near - near;
 	}
 
-	// 非负数组nums中，子集累加和不超过t，但是最接近t的累加和是多少
+	// 非负数组nums中，子序列累加和不超过t，但是最接近t的累加和是多少
 	// 01背包问题(子集累加和尽量接近t) + 空间压缩
 	public static int near(int[] nums, int t) {
 		int[] dp = new int[t + 1];

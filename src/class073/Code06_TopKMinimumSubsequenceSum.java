@@ -50,7 +50,7 @@ public class Code06_TopKMinimumSubsequenceSum {
 		}
 		// dp[i][j]
 		// 1) dp[i-1][j]
-		// 2) dp[i-1][j-num]
+		// 2) dp[i-1][j-nums[i]
 		int[] dp = new int[sum + 1];
 		dp[0] = 1;
 		for (int num : nums) {
@@ -78,12 +78,12 @@ public class Code06_TopKMinimumSubsequenceSum {
 		int[] ans = new int[k];
 		for (int i = 1; i < k; i++) {
 			int[] cur = heap.poll();
-			int last = cur[0];
+			int right = cur[0];
 			int sum = cur[1];
 			ans[i] = sum;
-			if (last + 1 < nums.length) {
-				heap.add(new int[] { last + 1, sum - nums[last] + nums[last + 1] });
-				heap.add(new int[] { last + 1, sum + nums[last + 1] });
+			if (right + 1 < nums.length) {
+				heap.add(new int[] { right + 1, sum - nums[right] + nums[right + 1] });
+				heap.add(new int[] { right + 1, sum + nums[right + 1] });
 			}
 		}
 		return ans;

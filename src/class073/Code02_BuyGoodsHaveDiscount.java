@@ -28,6 +28,8 @@ public class Code02_BuyGoodsHaveDiscount {
 
 	public static int MAXX = 100001;
 
+	// 对于"一定要买的商品"，直接买！
+	// 只把"需要考虑的商品"放入cost、val数组
 	public static int[] cost = new int[MAXN];
 
 	public static long[] val = new long[MAXN];
@@ -47,14 +49,14 @@ public class Code02_BuyGoodsHaveDiscount {
 			x = (int) in.nval;
 			long ans = 0;
 			long happy = 0;
-			for (int i = 1, pre, pos, well; i <= n; i++) {
-				in.nextToken();
-				pre = (int) in.nval;
-				in.nextToken();
-				pos = (int) in.nval;
-				in.nextToken();
-				happy = (long) in.nval;
-				well = pre - pos - pos;
+			for (int i = 1, pre, cur, well; i <= n; i++) {
+				// 原价
+				in.nextToken(); pre = (int) in.nval;
+				// 现价
+				in.nextToken(); cur = (int) in.nval;
+				// 快乐值
+				in.nextToken(); happy = (long) in.nval;
+				well = pre - cur - cur;
 				// 如下是一件"一定要买的商品"
 				// 预算 = 100，商品原价 = 10，打折后 = 3
 				// 那么好处(well) = (10 - 3) - 3 = 4
@@ -81,7 +83,7 @@ public class Code02_BuyGoodsHaveDiscount {
 	}
 
 	public static long compute() {
-		Arrays.fill(dp, 1, x + 1, 0);
+		Arrays.fill(dp, 0, x + 1, 0);
 		for (int i = 1; i <= m; i++) {
 			for (int j = x; j >= cost[i]; j--) {
 				dp[j] = Math.max(dp[j], dp[j - cost[i]] + val[i]);

@@ -31,7 +31,7 @@ public class Code01_01Knapsack {
 
 	public static int[] dp = new int[MAXT];
 
-	public static int t, m;
+	public static int t, n;
 
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -40,8 +40,8 @@ public class Code01_01Knapsack {
 		while (in.nextToken() != StreamTokenizer.TT_EOF) {
 			t = (int) in.nval;
 			in.nextToken();
-			m = (int) in.nval;
-			for (int i = 1; i <= m; i++) {
+			n = (int) in.nval;
+			for (int i = 1; i <= n; i++) {
 				in.nextToken();
 				cost[i] = (int) in.nval;
 				in.nextToken();
@@ -55,23 +55,27 @@ public class Code01_01Knapsack {
 	}
 
 	// 严格位置依赖的动态规划
+	// n个物品编号1~n，第i号物品的花费cost[i]、价值val[i]
+	// cost、val数组是全局变量，已经把数据读入了
 	public static int compute1() {
-		int[][] dp = new int[m + 1][t + 1];
-		for (int i = 1; i <= m; i++) {
+		int[][] dp = new int[n + 1][t + 1];
+		for (int i = 1; i <= n; i++) {
 			for (int j = 0; j <= t; j++) {
+				// 不要i号物品
 				dp[i][j] = dp[i - 1][j];
 				if (j - cost[i] >= 0) {
+					// 要i号物品
 					dp[i][j] = Math.max(dp[i][j], dp[i - 1][j - cost[i]] + val[i]);
 				}
 			}
 		}
-		return dp[m][t];
+		return dp[n][t];
 	}
 
 	// 空间压缩
 	public static int compute2() {
-		Arrays.fill(dp, 1, t + 1, 0);
-		for (int i = 1; i <= m; i++) {
+		Arrays.fill(dp, 0, t + 1, 0);
+		for (int i = 1; i <= n; i++) {
 			for (int j = t; j >= cost[i]; j--) {
 				dp[j] = Math.max(dp[j], dp[j - cost[i]] + val[i]);
 			}

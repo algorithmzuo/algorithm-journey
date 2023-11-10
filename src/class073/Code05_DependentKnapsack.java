@@ -62,12 +62,9 @@ public class Code05_DependentKnapsack {
 			m = (int) in.nval;
 			clean();
 			for (int i = 1, v, p, q; i <= m; i++) {
-				in.nextToken();
-				v = (int) in.nval;
-				in.nextToken();
-				p = (int) in.nval;
-				in.nextToken();
-				q = (int) in.nval;
+				in.nextToken(); v = (int) in.nval;
+				in.nextToken(); p = (int) in.nval;
+				in.nextToken(); q = (int) in.nval;
 				cost[i] = v;
 				val[i] = v * p;
 				king[i] = q == 0;
@@ -84,24 +81,35 @@ public class Code05_DependentKnapsack {
 
 	// 严格位置依赖的动态规划
 	public static int compute1() {
+		// dp[0][....] = 0 : 无商品的时候
 		int[][] dp = new int[m + 1][n + 1];
+		// p : 上次展开的主商品编号
 		int p = 0;
 		for (int i = 1, fan1, fan2; i <= m; i++) {
 			if (king[i]) {
 				for (int j = 0; j <= n; j++) {
+					// dp[i][j] : 0...i范围上，只关心主商品，并且进行展开
+					//            花费不超过j的情况下，获得的最大收益
+					// 可能性1 : 不考虑当前主商品
 					dp[i][j] = dp[p][j];
 					if (j - cost[i] >= 0) {
+						// 可能性2 : 考虑当前主商品，只要主
 						dp[i][j] = Math.max(dp[i][j], dp[p][j - cost[i]] + val[i]);
 					}
+					// fan1 : 如果有附1商品，编号给fan1，如果没有，fan1 == -1
+					// fan2 : 如果有附2商品，编号给fan2，如果没有，fan2 == -1
 					fan1 = fans[i] >= 1 ? follows[i][0] : -1;
 					fan2 = fans[i] >= 2 ? follows[i][1] : -1;
 					if (fan1 != -1 && j - cost[i] - cost[fan1] >= 0) {
+						// 可能性3 : 主 + 附1
 						dp[i][j] = Math.max(dp[i][j], dp[p][j - cost[i] - cost[fan1]] + val[i] + val[fan1]);
 					}
 					if (fan2 != -1 && j - cost[i] - cost[fan2] >= 0) {
+						// 可能性4 : 主 + 附2
 						dp[i][j] = Math.max(dp[i][j], dp[p][j - cost[i] - cost[fan2]] + val[i] + val[fan2]);
 					}
 					if (fan1 != -1 && fan2 != -1 && j - cost[i] - cost[fan1] - cost[fan2] >= 0) {
+						// 可能性5 : 主 + 附1 + 附2
 						dp[i][j] = Math.max(dp[i][j],
 								dp[p][j - cost[i] - cost[fan1] - cost[fan2]] + val[i] + val[fan1] + val[fan2]);
 					}
