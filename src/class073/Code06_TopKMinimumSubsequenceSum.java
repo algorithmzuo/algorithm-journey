@@ -5,18 +5,21 @@ import java.util.Arrays;
 import java.util.PriorityQueue;
 
 // 非负数组前k个最小的子序列累加和
-// 给定一个数组arr，含有n个数字，都是非负数
+// 给定一个数组nums，含有n个数字，都是非负数
 // 给定一个正数k，返回所有子序列中累加和最小的前k个累加和
 // 子序列是包含空集的
-// 注意 : 假设n很大，数值也很大！但是k不大，怎么算最快？
+// 1 <= n <= 10^5
+// 1 <= nums[i] <= 10^6
+// 1 <= k <= 10^5
+// 注意这个数据量，用01背包的解法是不行的，时间复杂度太高了
 // 对数器验证
 public class Code06_TopKMinimumSubsequenceSum {
 
 	// 暴力方法
 	// 为了验证
-	public static int[] topKSum1(int[] arr, int k) {
+	public static int[] topKSum1(int[] nums, int k) {
 		ArrayList<Integer> allSubsequences = new ArrayList<>();
-		f1(arr, 0, 0, allSubsequences);
+		f1(nums, 0, 0, allSubsequences);
 		allSubsequences.sort((a, b) -> a.compareTo(b));
 		int[] ans = new int[k];
 		for (int i = 0; i < k; i++) {
@@ -27,12 +30,12 @@ public class Code06_TopKMinimumSubsequenceSum {
 
 	// 暴力方法
 	// 得到所有子序列的和
-	public static void f1(int[] arr, int index, int sum, ArrayList<Integer> ans) {
-		if (index == arr.length) {
+	public static void f1(int[] nums, int index, int sum, ArrayList<Integer> ans) {
+		if (index == nums.length) {
 			ans.add(sum);
 		} else {
-			f1(arr, index + 1, sum, ans);
-			f1(arr, index + 1, sum + arr[index], ans);
+			f1(nums, index + 1, sum, ans);
+			f1(nums, index + 1, sum + nums[index], ans);
 		}
 	}
 
@@ -40,9 +43,9 @@ public class Code06_TopKMinimumSubsequenceSum {
 	// 这种方法此时不是最优解
 	// 因为当n很大，数值也很大时
 	// 动态规划的计算过程太耗时了
-	public static int[] topKSum2(int[] arr, int k) {
+	public static int[] topKSum2(int[] nums, int k) {
 		int sum = 0;
-		for (int num : arr) {
+		for (int num : nums) {
 			sum += num;
 		}
 		// dp[i][j]
@@ -50,7 +53,7 @@ public class Code06_TopKMinimumSubsequenceSum {
 		// 2) dp[i-1][j-num]
 		int[] dp = new int[sum + 1];
 		dp[0] = 1;
-		for (int num : arr) {
+		for (int num : nums) {
 			for (int j = sum; j >= num; j--) {
 				dp[j] += dp[j - num];
 			}
@@ -66,23 +69,21 @@ public class Code06_TopKMinimumSubsequenceSum {
 	}
 
 	// 正式方法
-	// 不用01背包，因为长度和数值都很大，而k不大
-	// 用堆来做就是最优解了
-	// 时间复杂度O(n * log n) + O(n * log k)
-	public static int[] topKSum3(int[] arr, int k) {
-		Arrays.sort(arr);
-		// (最右的下标，集合的累加和)
+	// 用堆来做是最优解，时间复杂度O(n * log n) + O(k * log k)
+	public static int[] topKSum3(int[] nums, int k) {
+		Arrays.sort(nums);
+		// (子序列的最右下标，子序列的累加和)
 		PriorityQueue<int[]> heap = new PriorityQueue<>((a, b) -> a[1] - b[1]);
-		heap.add(new int[] { 0, arr[0] });
+		heap.add(new int[] { 0, nums[0] });
 		int[] ans = new int[k];
 		for (int i = 1; i < k; i++) {
 			int[] cur = heap.poll();
 			int last = cur[0];
 			int sum = cur[1];
 			ans[i] = sum;
-			if (last + 1 < arr.length) {
-				heap.add(new int[] { last + 1, sum - arr[last] + arr[last + 1] });
-				heap.add(new int[] { last + 1, sum + arr[last + 1] });
+			if (last + 1 < nums.length) {
+				heap.add(new int[] { last + 1, sum - nums[last] + nums[last + 1] });
+				heap.add(new int[] { last + 1, sum + nums[last + 1] });
 			}
 		}
 		return ans;
@@ -90,11 +91,11 @@ public class Code06_TopKMinimumSubsequenceSum {
 
 	// 为了测试
 	public static int[] randomArray(int len, int value) {
-		int[] arr = new int[len];
+		int[] ans = new int[len];
 		for (int i = 0; i < len; i++) {
-			arr[i] = (int) (Math.random() * value);
+			ans[i] = (int) (Math.random() * value);
 		}
-		return arr;
+		return ans;
 	}
 
 	// 为了测试
@@ -119,11 +120,11 @@ public class Code06_TopKMinimumSubsequenceSum {
 		System.out.println("测试开始");
 		for (int i = 0; i < testTime; i++) {
 			int len = (int) (Math.random() * n) + 1;
-			int[] arr = randomArray(len, v);
+			int[] nums = randomArray(len, v);
 			int k = (int) (Math.random() * ((1 << len) - 1)) + 1;
-			int[] ans1 = topKSum1(arr, k);
-			int[] ans2 = topKSum2(arr, k);
-			int[] ans3 = topKSum3(arr, k);
+			int[] ans1 = topKSum1(nums, k);
+			int[] ans2 = topKSum2(nums, k);
+			int[] ans3 = topKSum3(nums, k);
 			if (!equals(ans1, ans2) || !equals(ans1, ans3)) {
 				System.out.println("出错了！");
 			}
