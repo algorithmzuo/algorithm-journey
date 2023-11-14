@@ -11,22 +11,56 @@ import java.util.List;
 // 测试链接 : https://leetcode.cn/problems/maximum-value-of-k-coins-from-piles/
 public class Code02_MaximumValueOfKcoinsFromPiles {
 
-	public static int maxValueOfCoins(List<List<Integer>> piles, int k) {
-		int[] dp = new int[k + 1];
-		for (List<Integer> stack : piles) {
-			int n = Math.min(stack.size(), k);
-			int[] preSum = new int[n + 1];
-			for (int i = 0, sum = 0; i < n; i++) {
-				sum += stack.get(i);
-				preSum[i + 1] = sum;
+	// piles是一组一组的硬币
+	// m是容量，表示一定要进行m次操作
+	// dp[i][j] : 1~i组上，一共拿走j个硬币的情况下，获得的最大价值
+	// 1) 不要i组的硬币 : dp[i-1][j]
+	// 2) i组里尝试每一种方案
+	// 比如，i组里拿走前k个硬币的方案 : dp[i-1][j-k] + 从顶部开始前k个硬币的价值和
+	// 枚举每一个k，选出最大值
+	public static int maxValueOfCoins1(List<List<Integer>> piles, int m) {
+		int n = piles.size();
+		int[][] dp = new int[n + 1][m + 1];
+		for (int i = 1; i <= n; i++) {
+			// i从1组开始（我们的设定），但是题目中的piles是从下标0开始的
+			// 所以来到i的时候，piles.get(i-1)是当前组
+			List<Integer> team = piles.get(i - 1);
+			int t = Math.min(team.size(), m);
+			// 预处理前缀和，为了加速计算
+			int[] preSum = new int[t + 1];
+			for (int j = 0, sum = 0; j < t; j++) {
+				sum += team.get(j);
+				preSum[j + 1] = sum;
 			}
-			for (int w = k; w > 0; w--) {
-				for (int i = 1; i <= Math.min(n, w); i++) {
-					dp[w] = Math.max(dp[w], preSum[i] + dp[w - i]);
+			// 更新动态规划表
+			for (int j = 0; j <= m; j++) {
+				// 当前组一个硬币也不拿的方案
+				dp[i][j] = dp[i - 1][j];
+				for (int k = 1; k <= Math.min(t, j); k++) {
+					dp[i][j] = Math.max(dp[i][j], dp[i - 1][j - k] + preSum[k]);
 				}
 			}
 		}
-		return dp[k];
+		return dp[n][m];
+	}
+
+	// 空间压缩
+	public static int maxValueOfCoins2(List<List<Integer>> piles, int m) {
+		int[] dp = new int[m + 1];
+		for (List<Integer> team : piles) {
+			int t = Math.min(team.size(), m);
+			int[] preSum = new int[t + 1];
+			for (int j = 0, sum = 0; j < t; j++) {
+				sum += team.get(j);
+				preSum[j + 1] = sum;
+			}
+			for (int j = m; j > 0; j--) {
+				for (int k = 1; k <= Math.min(t, j); k++) {
+					dp[j] = Math.max(dp[j], dp[j - k] + preSum[k]);
+				}
+			}
+		}
+		return dp[m];
 	}
 
 }

@@ -55,14 +55,15 @@ public class Code03_UnboundedKnapsack {
 	}
 
 	// 严格位置依赖的动态规划
-	// 会空间不够
+	// 会空间不够，导致无法通过全部测试用例
 	public static long compute1() {
+		// dp[0][.....] = 0
 		int[][] dp = new int[m + 1][t + 1];
 		for (int i = 1; i <= m; i++) {
 			for (int j = 0; j <= t; j++) {
 				dp[i][j] = dp[i - 1][j];
 				if (j - cost[i] >= 0) {
-					dp[i][j] = Math.max(dp[i - 1][j], dp[i][j - cost[i]] + val[i]);
+					dp[i][j] = Math.max(dp[i][j], dp[i][j - cost[i]] + val[i]);
 				}
 			}
 		}
@@ -70,7 +71,7 @@ public class Code03_UnboundedKnapsack {
 	}
 
 	// 空间压缩
-	// 直接通过
+	// 可以通过全部测试用例
 	public static long compute2() {
 		Arrays.fill(dp, 1, t + 1, 0);
 		for (int i = 1; i <= m; i++) {

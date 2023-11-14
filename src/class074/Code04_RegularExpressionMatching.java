@@ -18,6 +18,7 @@ public class Code04_RegularExpressionMatching {
 	}
 
 	// s[i....]能不能被p[j....]完全匹配出来
+	// p[j]这个字符，一定不是'*'
 	public static boolean f1(char[] s, char[] p, int i, int j) {
 		if (i == s.length) {
 			// s没了
@@ -25,14 +26,17 @@ public class Code04_RegularExpressionMatching {
 				// 如果p也没了，返回true
 				return true;
 			} else {
+				// p还剩下一些后缀
 				// 如果p[j+1]是*，那么p[j..j+1]可以消掉，然后看看p[j+2....]是不是都能消掉
 				return j + 1 < p.length && p[j + 1] == '*' && f1(s, p, i, j + 2);
 			}
 		} else if (j == p.length) {
-			// s有
-			// p没了
+			// s有后缀
+			// p没后缀了
 			return false;
 		} else {
+			// s有后缀
+		    // p有后缀
 			if (j + 1 == p.length || p[j + 1] != '*') {
 				// s[i....]
 				// p[j....]
@@ -40,9 +44,10 @@ public class Code04_RegularExpressionMatching {
 				// 同时，后续也必须匹配上：process1(s, p, i + 1, j + 1);
 				return (s[i] == p[j] || p[j] == '.') && f1(s, p, i + 1, j + 1);
 			} else {
+				// 如果p[j+1]是*
+				// 完全背包！
 				// s[i....]
 				// p[j....]
-				// 如果p[j+1]是*
 				// 选择1: 当前p[j..j+1]是x*，就是不让它搞定s[i]，那么继续 : process1(s, p, i, j + 2)
 				boolean p1 = f1(s, p, i, j + 2);
 				// 选择2: 当前p[j..j+1]是x*，如果可以搞定s[i]，那么继续 : process1(s, p, i + 1, j)
@@ -100,12 +105,12 @@ public class Code04_RegularExpressionMatching {
 		int m = p.length;
 		boolean[][] dp = new boolean[n + 1][m + 1];
 		dp[n][m] = true;
-		for (int j = m - 2; j >= 0; j--) {
-			dp[n][j] = p[j + 1] == '*' && dp[n][j + 2];
+		for (int j = m - 1; j >= 0; j--) {
+			dp[n][j] = j + 1 < m && p[j + 1] == '*' && dp[n][j + 2];
 		}
 		for (int i = n - 1; i >= 0; i--) {
 			for (int j = m - 1; j >= 0; j--) {
-				if (j + 1 == p.length || p[j + 1] != '*') {
+				if (j + 1 == m || p[j + 1] != '*') {
 					dp[i][j] = (s[i] == p[j] || p[j] == '.') && dp[i + 1][j + 1];
 				} else {
 					dp[i][j] = dp[i][j + 2] || ((s[i] == p[j] || p[j] == '.') && dp[i + 1][j]);

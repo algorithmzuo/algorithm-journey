@@ -50,7 +50,7 @@ public class Code01_PartitionedKnapsack {
 				arr[i][2] = (int) in.nval;
 			}
 			Arrays.sort(arr, 1, n + 1, (a, b) -> a[2] - b[2]);
-			out.println(compute2());
+			out.println(compute1());
 		}
 		out.flush();
 		out.close();
@@ -65,17 +65,23 @@ public class Code01_PartitionedKnapsack {
 				teams++;
 			}
 		}
+		// 组的编号1~teams
+		// dp[i][j] : 1~i是组的范围，每个组的物品挑一件，容量不超过j的情况下，最大收益
 		int[][] dp = new int[teams + 1][m + 1];
-		for (int start = 1, end = 2, k = 1; start <= n; k++) {
+		// dp[0][....] = 0
+		for (int start = 1, end = 2, i = 1; start <= n; i++) {
 			while (end <= n && arr[end][2] == arr[start][2]) {
 				end++;
 			}
-			// arr[start...end-1]是当前组，组号一样
+			// start ... end-1 -> i组
 			for (int j = 0; j <= m; j++) {
-				dp[k][j] = dp[k - 1][j];
-				for (int i = start; i < end; i++) {
-					if (j >= arr[i][0]) {
-						dp[k][j] = Math.max(dp[k][j], dp[k - 1][j - arr[i][0]] + arr[i][1]);
+				// arr[start...end-1]是当前组，组号一样
+				// 其中的每一件商品枚举一遍
+				dp[i][j] = dp[i - 1][j];
+				for (int k = start; k < end; k++) {
+					// k是组内的一个商品编号
+					if (j - arr[k][0] >= 0) {
+						dp[i][j] = Math.max(dp[i][j], dp[i - 1][j - arr[k][0]] + arr[k][1]);
 					}
 				}
 			}
@@ -88,15 +94,17 @@ public class Code01_PartitionedKnapsack {
 
 	// 空间压缩
 	public static int compute2() {
+		// dp[0][...] = 0
 		Arrays.fill(dp, 0, m + 1, 0);
 		for (int start = 1, end = 2; start <= n;) {
 			while (end <= n && arr[end][2] == arr[start][2]) {
 				end++;
 			}
+			// start....end-1
 			for (int j = m; j >= 0; j--) {
-				for (int i = start; i < end; i++) {
-					if (j >= arr[i][0]) {
-						dp[j] = Math.max(dp[j], arr[i][1] + dp[j - arr[i][0]]);
+				for (int k = start; k < end; k++) {
+					if (j - arr[k][0] >= 0) {
+						dp[j] = Math.max(dp[j], arr[k][1] + dp[j - arr[k][0]]);
 					}
 				}
 			}
