@@ -5,7 +5,7 @@ package class076;
 // 每一次操作你都可以在字符串的任意位置插入任意字符
 // 请你返回让s成为回文串的最少操作次数
 // 测试链接 : https://leetcode.cn/problems/minimum-insertion-steps-to-make-a-string-palindrome/
-public class Code02_MinimumInsertionToPalindrome {
+public class Code01_MinimumInsertionToPalindrome {
 
 	public static int minInsertions1(String str) {
 		char[] s = str.toCharArray();

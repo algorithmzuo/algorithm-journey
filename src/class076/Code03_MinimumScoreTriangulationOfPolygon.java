@@ -8,7 +8,7 @@ package class076;
 // 三角剖分的分数是进行三角剖分后所有 n - 2 个三角形的值之和
 // 返回 多边形进行三角剖分后可以得到的最低分
 // 测试链接 : https://leetcode.cn/problems/minimum-score-triangulation-of-polygon/
-public class Code01_MinimumScoreTriangulationOfPolygon {
+public class Code03_MinimumScoreTriangulationOfPolygon {
 
 	public static int minScoreTriangulation1(int[] arr) {
 		int n = arr.length;
@@ -49,7 +49,5 @@ public class Code01_MinimumScoreTriangulationOfPolygon {
 		}
 		return dp[0][n - 1];
 	}
-
-	// 本题不做空间压缩，因为dp[l][r]依赖很多位置，并不仅仅有限几个位置
 
 }
