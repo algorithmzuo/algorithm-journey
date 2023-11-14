@@ -58,8 +58,8 @@ public class Code05_WildcardMatching {
 		int n = s.length;
 		int m = p.length;
 		// dp[i][j] == 0，表示没算过
-		// dp[i][j] == 1，表示没算过答案是true
-		// dp[i][j] == 2，表示没算过答案是false
+		// dp[i][j] == 1，表示算过，答案是true
+		// dp[i][j] == 2，表示算过，答案是false
 		int[][] dp = new int[n + 1][m + 1];
 		return f2(s, p, 0, 0, dp);
 	}
