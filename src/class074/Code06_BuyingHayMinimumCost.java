@@ -63,7 +63,7 @@ public class Code06_BuyingHayMinimumCost {
 	// 1) dp[i-1][j]
 	// 2) dp[i][j-val[i]] + cost[i]
 	// 两种可能性中选最小
-	// 但是关于j需要进行一定的扩充
+	// 但是关于j需要进行一定的扩充，原因视频里讲了
 	public static int compute1() {
 		int[][] dp = new int[n + 1][m + 1];
 		Arrays.fill(dp[0], 1, m + 1, Integer.MAX_VALUE);
