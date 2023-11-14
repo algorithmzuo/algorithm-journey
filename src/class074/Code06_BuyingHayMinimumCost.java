@@ -59,7 +59,7 @@ public class Code06_BuyingHayMinimumCost {
 		br.close();
 	}
 
-	// dp[i][j] : 0...i里挑公司，提供正好j磅干草，需要的最少花费
+	// dp[i][j] : 0...i里挑公司，购买严格j磅干草，需要的最少花费
 	// 1) dp[i-1][j]
 	// 2) dp[i][j-val[i]] + cost[i]
 	// 两种可能性中选最小
