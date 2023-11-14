@@ -69,6 +69,7 @@ public class Code01_PartitionedKnapsack {
 			while (end <= n && arr[end][2] == arr[start][2]) {
 				end++;
 			}
+			// arr[start...end-1]是当前组，组号一样
 			for (int j = 0; j <= m; j++) {
 				dp[k][j] = dp[k - 1][j];
 				for (int i = start; i < end; i++) {
@@ -77,6 +78,8 @@ public class Code01_PartitionedKnapsack {
 					}
 				}
 			}
+			// start去往下一组的第一个物品
+			// 继续处理剩下的组
 			start = end++;
 		}
 		return dp[teams][m];
