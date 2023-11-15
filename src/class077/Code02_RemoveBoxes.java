@@ -7,7 +7,7 @@ package class077;
 // 这样一轮之后你将得到 k * k 个积分
 // 返回你能获得的最大积分总和
 // 测试链接 : https://leetcode.cn/problems/remove-boxes/
-public class Code03_RemoveBoxes {
+public class Code02_RemoveBoxes {
 
 	public static int removeBoxes(int[] boxes) {
 		int n = boxes.length;

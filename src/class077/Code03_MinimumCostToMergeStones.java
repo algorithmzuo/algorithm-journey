@@ -6,7 +6,7 @@ package class077;
 // 返回把所有石头合并成一堆的最低成本
 // 如果无法合并成一堆返回-1
 // 测试链接 : https://leetcode.cn/problems/minimum-cost-to-merge-stones/
-public class Code04_MinimumCostToMergeStones {
+public class Code03_MinimumCostToMergeStones {
 
 	public static int mergeStones(int[] stones, int k) {
 		int n = stones.length;
