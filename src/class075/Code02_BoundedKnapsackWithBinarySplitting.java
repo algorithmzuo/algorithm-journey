@@ -32,8 +32,8 @@ public class Code02_BoundedKnapsackWithBinarySplitting {
 
 	public static int n, t, m;
 
-	// 时间复杂度O(t * (log(1组商品个数) + log(2组商品个数) + ... + log(n组商品个数)))
-	// 对每一组商品的个数取log，所以时间复杂度虽然大于O(n * t)，但也不会大多少
+	// 时间复杂度O(t * (log(第1种商品的个数) + log(第2种商品的个数) + ... + log(n组商品的个数)))
+	// 对每一种商品的个数取log，所以时间复杂度虽然大于O(n * t)，但也不会大多少
 	// 多重背包最常用的方式
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
