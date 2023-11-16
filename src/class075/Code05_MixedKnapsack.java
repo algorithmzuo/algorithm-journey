@@ -63,6 +63,7 @@ public class Code05_MixedKnapsack {
 		br.close();
 	}
 
+	// 直接提供空间压缩版
 	public static int compute() {
 		Arrays.fill(dp, 1, m + 1, false);
 		dp[0] = true;
