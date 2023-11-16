@@ -24,7 +24,7 @@ import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 import java.util.Arrays;
 
-public class Code05_BoundedKnapsackWithWindow {
+public class Code05_MixedKnapsack {
 
 	public static int MAXN = 101;
 

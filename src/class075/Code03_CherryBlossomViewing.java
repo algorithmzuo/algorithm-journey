@@ -1,6 +1,7 @@
 package class075;
 
-// 混合背包
+// 完全背包转化为多重背包
+// 多重背包再通过二进制分组优化转化为01背包
 // 观赏樱花
 // 给定一个背包的容量w，一共有n种货物，并且给定每种货物的信息
 // 花费(cost)、价值(val)、数量(cnt)
@@ -20,7 +21,7 @@ import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 import java.util.Arrays;
 
-public class Code03_MixedKnapsack {
+public class Code03_CherryBlossomViewing {
 
 	public static int MAXN = 100001;
 
@@ -46,10 +47,15 @@ public class Code03_MixedKnapsack {
 		while (in.nextToken() != StreamTokenizer.TT_EOF) {
 			hour1 = (int) in.nval;
 			// 跳过冒号
-			in.nextToken(); in.nextToken(); minute1 = (int) in.nval;
-			in.nextToken(); hour2 = (int) in.nval;
+			in.nextToken();
+			in.nextToken();
+			minute1 = (int) in.nval;
+			in.nextToken();
+			hour2 = (int) in.nval;
 			// 跳过冒号
-			in.nextToken(); in.nextToken(); minute2 = (int) in.nval;
+			in.nextToken();
+			in.nextToken();
+			minute2 = (int) in.nval;
 			if (minute1 > minute2) {
 				hour2--;
 				minute2 += 60;
@@ -59,9 +65,12 @@ public class Code03_MixedKnapsack {
 			n = (int) in.nval;
 			m = 0;
 			for (int i = 0, cost, val, cnt; i < n; i++) {
-				in.nextToken(); cost = (int) in.nval;
-				in.nextToken(); val = (int) in.nval;
-				in.nextToken(); cnt = (int) in.nval;
+				in.nextToken();
+				cost = (int) in.nval;
+				in.nextToken();
+				val = (int) in.nval;
+				in.nextToken();
+				cnt = (int) in.nval;
 				if (cnt == 0) {
 					cnt = ENOUGH;
 				}
