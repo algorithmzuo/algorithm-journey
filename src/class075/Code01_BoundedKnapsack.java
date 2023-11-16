@@ -42,12 +42,9 @@ public class Code01_BoundedKnapsack {
 			in.nextToken();
 			t = (int) in.nval;
 			for (int i = 1; i <= n; i++) {
-				in.nextToken();
-				v[i] = (int) in.nval;
-				in.nextToken();
-				w[i] = (int) in.nval;
-				in.nextToken();
-				c[i] = (int) in.nval;
+				in.nextToken(); v[i] = (int) in.nval;
+				in.nextToken(); w[i] = (int) in.nval;
+				in.nextToken(); c[i] = (int) in.nval;
 			}
 			out.println(compute2());
 		}
