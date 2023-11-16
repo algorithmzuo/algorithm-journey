@@ -54,6 +54,7 @@ public class Code01_BoundedKnapsack {
 	}
 
 	// 严格位置依赖的动态规划
+	// 时间复杂度O(n * t * 每种商品的平均个数)
 	public static int compute1() {
 		int[][] dp = new int[n + 1][t + 1];
 		for (int i = 1; i <= n; i++) {
@@ -70,6 +71,7 @@ public class Code01_BoundedKnapsack {
 	// 空间压缩
 	// 部分测试用例超时
 	// 因为没有优化枚举
+	// 时间复杂度O(n * t * 每种商品的平均个数)
 	public static int compute2() {
 		for (int i = 1; i <= n; i++) {
 			for (int j = t; j >= 0; j--) {
