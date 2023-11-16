@@ -20,7 +20,7 @@ import java.io.StreamTokenizer;
 import java.util.Arrays;
 
 // 完全背包转化为多重背包
-// 多重背包再通过二进制分组优化转化为01背包
+// 再把多重背包通过二进制分组转化为01背包
 public class Code03_CherryBlossomViewing {
 
 	public static int MAXN = 100001;
