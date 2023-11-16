@@ -24,6 +24,8 @@ public class Code02_BoundedKnapsackWithBinarySplitting {
 
 	public static int MAXW = 40001;
 
+	// 把每一种货物根据个数做二进制分组，去生成衍生商品
+	// 衍生出来的每一种商品，价值放入v、重量放入w
 	public static int[] v = new int[MAXN];
 
 	public static int[] w = new int[MAXN];
@@ -32,7 +34,7 @@ public class Code02_BoundedKnapsackWithBinarySplitting {
 
 	public static int n, t, m;
 
-	// 时间复杂度O(t * (log(第1种商品的个数) + log(第2种商品的个数) + ... + log(n组商品的个数)))
+	// 时间复杂度O(t * (log(第1种商品的个数) + log(第2种商品的个数) + ... + log(第n种商品的个数)))
 	// 对每一种商品的个数取log，所以时间复杂度虽然大于O(n * t)，但也不会大多少
 	// 多重背包最常用的方式
 	public static void main(String[] args) throws IOException {

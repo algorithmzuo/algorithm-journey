@@ -69,21 +69,23 @@ public class Code05_MixedKnapsack {
 		dp[0] = true;
 		for (int i = 1; i <= n; i++) {
 			if (cnt[i] == 1) {
-				// 01背包
+				// 01背包的空间压缩实现是从右往左更新的
 				for (int j = m; j >= val[i]; j--) {
 					if (dp[j - val[i]]) {
 						dp[j] = true;
 					}
 				}
 			} else if (val[i] * cnt[i] > m) {
-				// 完全背包
+				// 完全背包的空间压缩实现是从左往右更新的
 				for (int j = val[i]; j <= m; j++) {
 					if (dp[j - val[i]]) {
 						dp[j] = true;
 					}
 				}
 			} else {
-				// 多重背包
+				// 多重背包的空间压缩实现
+				// 根据余数分组
+				// 每一组都是从右往左更新的
 				for (int mod = 0; mod < val[i]; mod++) {
 					int trueCnt = 0;
 					for (int j = m - mod, size = 0; j >= 0 && size <= cnt[i]; j -= val[i], size++) {

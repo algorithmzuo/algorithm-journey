@@ -46,9 +46,12 @@ public class Code04_BoundedKnapsackWithMonotonicQueue {
 			in.nextToken();
 			t = (int) in.nval;
 			for (int i = 1; i <= n; i++) {
-				in.nextToken(); v[i] = (int) in.nval;
-				in.nextToken(); w[i] = (int) in.nval;
-				in.nextToken(); c[i] = (int) in.nval;
+				in.nextToken();
+				v[i] = (int) in.nval;
+				in.nextToken();
+				w[i] = (int) in.nval;
+				in.nextToken();
+				c[i] = (int) in.nval;
 			}
 			out.println(compute2());
 		}
@@ -63,16 +66,27 @@ public class Code04_BoundedKnapsackWithMonotonicQueue {
 		for (int i = 1; i <= n; i++) {
 			for (int mod = 0; mod <= Math.min(t, w[i] - 1); mod++) {
 				l = r = 0;
-				dp[i][mod] = dp[i - 1][mod];
-				queue[r++] = mod;
-				for (int j = mod + w[i]; j <= t; j += w[i]) {
+				for (int j = mod; j <= t; j += w[i]) {
+					// dp[i-1][j]
+					// dp[i][j]
+					// queue[r - 1] -> x
+					// j -> y
 					while (l < r && dp[i - 1][queue[r - 1]] + inc(j - queue[r - 1], i) <= dp[i - 1][j]) {
+						// queue[r-1]是队列尾部的列号 vs j这个列号
+						// 指标之间pk
 						r--;
 					}
 					queue[r++] = j;
 					if (queue[l] == j - w[i] * (c[i] + 1)) {
+						// 检查单调队列最左的列号，是否过期
+						// 比如
+						// i号物品，重量为3，个数4
+						// queue[l]是队列头部的列号，假设是2
+						// 当j == 17时，依赖的格子为dp[i-1][17、14、11、8、5]
+						// 所以此时头部的列号2，过期了，要弹出
 						l++;
 					}
+					// dp[i][j] = dp[i-1][拥有最强指标的列] + (j - 拥有最强指标的列) / i号物品重量 * i号物品价值
 					dp[i][j] = dp[i - 1][queue[l]] + inc(j - queue[l], i);
 				}
 			}
@@ -80,13 +94,14 @@ public class Code04_BoundedKnapsackWithMonotonicQueue {
 		return dp[n][t];
 	}
 
-	// s的空间如果全部用来装i号商品
-	// 可以提升多少价值
+	// s的容量用来装i号商品，可以得到多少价值
 	public static int inc(int s, int i) {
 		return s / w[i] * v[i];
 	}
 
 	// 单调队列优化枚举 + 空间压缩
+	// 理解了原理之后，这个函数就没有理解难度了
+	// 难度来自实现和注意边界条件，可以自己尝试一下
 	public static int compute2() {
 		for (int i = 1; i <= n; i++) {
 			for (int mod = 0; mod <= Math.min(t, w[i] - 1); mod++) {
