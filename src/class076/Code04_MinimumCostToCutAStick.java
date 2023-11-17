@@ -13,6 +13,7 @@ import java.util.Arrays;
 // 测试链接 : https://leetcode.cn/problems/minimum-cost-to-cut-a-stick/
 public class Code04_MinimumCostToCutAStick {
 
+	// 记忆化搜索
 	public static int minCost1(int n, int[] cuts) {
 		int m = cuts.length;
 		Arrays.sort(cuts);
@@ -50,6 +51,7 @@ public class Code04_MinimumCostToCutAStick {
 		return ans;
 	}
 
+	// 严格位置依赖的动态规划
 	public static int minCost2(int n, int[] cuts) {
 		int m = cuts.length;
 		Arrays.sort(cuts);

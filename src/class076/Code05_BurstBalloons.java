@@ -8,8 +8,9 @@ package class076;
 // 如果 i - 1或 i + 1 超出了数组的边界，那么就当它是一个数字为 1 的气球
 // 求所能获得硬币的最大数量
 // 测试链接 : https://leetcode.cn/problems/burst-balloons/
-public class Code06_BurstBalloons {
+public class Code05_BurstBalloons {
 
+	// 记忆化搜索
 	public static int maxCoins1(int[] nums) {
 		int n = nums.length;
 		int[] arr = new int[n + 2];
@@ -45,6 +46,7 @@ public class Code06_BurstBalloons {
 		return ans;
 	}
 
+	// 严格位置依赖的动态规划
 	public static int maxCoins2(int[] nums) {
 		int n = nums.length;
 		int[] arr = new int[n + 2];

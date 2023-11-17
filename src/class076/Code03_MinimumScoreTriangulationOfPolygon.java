@@ -10,6 +10,7 @@ package class076;
 // 测试链接 : https://leetcode.cn/problems/minimum-score-triangulation-of-polygon/
 public class Code03_MinimumScoreTriangulationOfPolygon {
 
+	// 记忆化搜索
 	public static int minScoreTriangulation1(int[] arr) {
 		int n = arr.length;
 		int[][] dp = new int[n][n];
@@ -36,6 +37,7 @@ public class Code03_MinimumScoreTriangulationOfPolygon {
 		return ans;
 	}
 
+	// 严格位置依赖的动态规划
 	public static int minScoreTriangulation2(int[] arr) {
 		int n = arr.length;
 		int[][] dp = new int[n][n];

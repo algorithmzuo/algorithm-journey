@@ -7,7 +7,40 @@ package class076;
 // 测试链接 : https://leetcode.cn/problems/minimum-insertion-steps-to-make-a-string-palindrome/
 public class Code01_MinimumInsertionToPalindrome {
 
+	// 记忆化搜索
 	public static int minInsertions1(String str) {
+		char[] s = str.toCharArray();
+		int n = s.length;
+		int[][] dp = new int[n][n];
+		for (int i = 0; i < n; i++) {
+			for (int j = i; j < n; j++) {
+				dp[i][j] = -1;
+			}
+		}
+		return f(s, 0, n - 1, dp);
+	}
+
+	public static int f(char[] s, int l, int r, int[][] dp) {
+		if (dp[l][r] != -1) {
+			return dp[l][r];
+		}
+		int ans;
+		if (l == r) {
+			ans = 0;
+		} else if (l + 1 == r) {
+			ans = s[l] == s[l + 1] ? 0 : 1;
+		} else {
+			ans = Math.min(f(s, l, r - 1, dp), f(s, l + 1, r, dp)) + 1;
+			if (s[l] == s[r]) {
+				ans = Math.min(ans, f(s, l + 1, r - 1, dp));
+			}
+		}
+		dp[l][r] = ans;
+		return ans;
+	}
+
+	// 严格位置依赖的动态规划
+	public static int minInsertions2(String str) {
 		char[] s = str.toCharArray();
 		int n = s.length;
 		int[][] dp = new int[n][n];
@@ -26,7 +59,7 @@ public class Code01_MinimumInsertionToPalindrome {
 	}
 
 	// 空间压缩
-	public static int minInsertions(String str) {
+	public static int minInsertions3(String str) {
 		char[] s = str.toCharArray();
 		int n = s.length;
 		if (n < 2) {

@@ -14,6 +14,7 @@ package class076;
 // 测试链接 : https://leetcode.cn/problems/predict-the-winner/
 public class Code02_PredictTheWinner {
 
+	// 暴力尝试
 	public static boolean predictTheWinner1(int[] nums) {
 		int sum = 0;
 		for (int num : nums) {
@@ -41,6 +42,7 @@ public class Code02_PredictTheWinner {
 		}
 	}
 
+	// 记忆化搜索
 	public static boolean predictTheWinner2(int[] nums) {
 		int sum = 0;
 		for (int num : nums) {
@@ -88,6 +90,7 @@ public class Code02_PredictTheWinner {
 		return ans;
 	}
 
+	// 化简尝试的想法，使用一张表的记忆化搜索
 	public static boolean predictTheWinner3(int[] nums) {
 		int sum = 0;
 		for (int num : nums) {
@@ -123,6 +126,7 @@ public class Code02_PredictTheWinner {
 		return ans;
 	}
 
+	// 严格位置依赖的动态规划，使用一张表
 	public static boolean predictTheWinner4(int[] nums) {
 		int sum = 0;
 		for (int num : nums) {

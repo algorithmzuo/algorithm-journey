@@ -9,8 +9,9 @@ package class076;
 // 目的是让表达式能够最终得出result的结果
 // 返回最终得出result有多少种不同的逻辑计算顺序
 // 测试链接 : https://leetcode.cn/problems/boolean-evaluation-lcci/
-public class Code05_BooleanEvaluation {
+public class Code06_BooleanEvaluation {
 
+	// 记忆化搜索
 	public static int countEval(String str, int result) {
 		char[] s = str.toCharArray();
 		int n = s.length;
@@ -31,8 +32,12 @@ public class Code05_BooleanEvaluation {
 		} else {
 			int[] tmp;
 			for (int k = l + 1, a, b, c, d; k < r; k += 2) {
-				tmp = f(s, l, k - 1, dp); a = tmp[0]; b = tmp[1];
-				tmp = f(s, k + 1, r, dp); c = tmp[0]; d = tmp[1];
+				tmp = f(s, l, k - 1, dp);
+				a = tmp[0];
+				b = tmp[1];
+				tmp = f(s, k + 1, r, dp);
+				c = tmp[0];
+				d = tmp[1];
 				if (s[k] == '&') {
 					f += a * c + a * d + b * c;
 					t += b * d;
