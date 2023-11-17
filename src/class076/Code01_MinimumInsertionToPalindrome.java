@@ -30,9 +30,16 @@ public class Code01_MinimumInsertionToPalindrome {
 		} else if (l + 1 == r) {
 			ans = s[l] == s[l + 1] ? 0 : 1;
 		} else {
-			ans = Math.min(f(s, l, r - 1, dp), f(s, l + 1, r, dp)) + 1;
+			// 如下这段逻辑是对的，但是可以进行贪心优化
+//			ans = Math.min(f(s, l, r - 1, dp), f(s, l + 1, r, dp)) + 1;
+//			if (s[l] == s[r]) {
+//				ans = Math.min(ans, f(s, l + 1, r - 1, dp));
+//			}
+			// 如下这段逻辑进行了贪心优化
 			if (s[l] == s[r]) {
-				ans = Math.min(ans, f(s, l + 1, r - 1, dp));
+				ans = f(s, l + 1, r - 1, dp);
+			} else {
+				ans = Math.min(f(s, l, r - 1, dp), f(s, l + 1, r, dp)) + 1;
 			}
 		}
 		dp[l][r] = ans;
@@ -49,9 +56,10 @@ public class Code01_MinimumInsertionToPalindrome {
 		}
 		for (int l = n - 3; l >= 0; l--) {
 			for (int r = l + 2; r < n; r++) {
-				dp[l][r] = Math.min(dp[l][r - 1], dp[l + 1][r]) + 1;
 				if (s[l] == s[r]) {
-					dp[l][r] = Math.min(dp[l][r], dp[l + 1][r - 1]);
+					dp[l][r] = dp[l + 1][r - 1];
+				} else {
+					dp[l][r] = Math.min(dp[l][r - 1], dp[l + 1][r]) + 1;
 				}
 			}
 		}
@@ -72,9 +80,10 @@ public class Code01_MinimumInsertionToPalindrome {
 			dp[l + 1] = s[l] == s[l + 1] ? 0 : 1;
 			for (int r = l + 2; r < n; r++) {
 				tmp = dp[r];
-				dp[r] = Math.min(dp[r - 1], dp[r]) + 1;
 				if (s[l] == s[r]) {
-					dp[r] = Math.min(dp[r], leftDown);
+					dp[r] = leftDown;
+				} else {
+					dp[r] = Math.min(dp[r - 1], dp[r]) + 1;
 				}
 				leftDown = tmp;
 			}
