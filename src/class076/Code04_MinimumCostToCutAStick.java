@@ -31,7 +31,9 @@ public class Code04_MinimumCostToCutAStick {
 		}
 		return f(arr, 1, m, dp);
 	}
-
+	
+	// 切点[l....r]，决定一个顺序
+	// 让切点都切完，总代价最小
 	public static int f(int[] arr, int l, int r, int[][] dp) {
 		if (l > r) {
 			return 0;

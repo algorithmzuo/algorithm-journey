@@ -14,13 +14,17 @@ public class Code01_MinimumInsertionToPalindrome {
 		return f1(s, 0, n - 1);
 	}
 
+	// s[l....r]这个范围上的字符串，整体都变成回文串
+	// 返回至少插入几个字符
 	public static int f1(char[] s, int l, int r) {
+		// l <= r
 		if (l == r) {
 			return 0;
 		}
 		if (l + 1 == r) {
 			return s[l] == s[r] ? 0 : 1;
 		}
+		// l...r不只两个字符
 		if (s[l] == s[r]) {
 			return f1(s, l + 1, r - 1);
 		} else {
@@ -29,7 +33,7 @@ public class Code01_MinimumInsertionToPalindrome {
 	}
 
 	// 记忆化搜索
-	public static int minInsertion2(String str) {
+	public static int minInsertions2(String str) {
 		char[] s = str.toCharArray();
 		int n = s.length;
 		int[][] dp = new int[n][n];
@@ -83,6 +87,7 @@ public class Code01_MinimumInsertionToPalindrome {
 
 	// 空间压缩
 	// 本题有关空间压缩的实现，可以参考讲解067，题目4，最长回文子序列问题的讲解
+	// 这两个题空间压缩写法高度相似
 	// 因为之前的课多次讲过空间压缩的内容，所以这里不再赘述
 	public static int minInsertions4(String str) {
 		char[] s = str.toCharArray();
@@ -92,17 +97,17 @@ public class Code01_MinimumInsertionToPalindrome {
 		}
 		int[] dp = new int[n];
 		dp[n - 1] = s[n - 2] == s[n - 1] ? 0 : 1;
-		for (int l = n - 3, leftDown, tmp; l >= 0; l--) {
+		for (int l = n - 3, leftDown, backUp; l >= 0; l--) {
 			leftDown = dp[l + 1];
 			dp[l + 1] = s[l] == s[l + 1] ? 0 : 1;
 			for (int r = l + 2; r < n; r++) {
-				tmp = dp[r];
+				backUp = dp[r];
 				if (s[l] == s[r]) {
 					dp[r] = leftDown;
 				} else {
 					dp[r] = Math.min(dp[r - 1], dp[r]) + 1;
 				}
-				leftDown = tmp;
+				leftDown = backUp;
 			}
 		}
 		return dp[n - 1];

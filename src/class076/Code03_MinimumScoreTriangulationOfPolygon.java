@@ -23,15 +23,19 @@ public class Code03_MinimumScoreTriangulationOfPolygon {
 	}
 
 	public static int f(int[] arr, int l, int r, int[][] dp) {
-		if (l > r || l == r || l == r - 1) {
-			return 0;
-		}
 		if (dp[l][r] != -1) {
 			return dp[l][r];
 		}
 		int ans = Integer.MAX_VALUE;
-		for (int m = l + 1; m < r; m++) {
-			ans = Math.min(ans, f(arr, l, m, dp) + f(arr, m, r, dp) + arr[l] * arr[m] * arr[r]);
+		if (l == r || l == r - 1) {
+			ans = 0;
+		} else {
+			// l....r >=3
+			// 0..1..2..3..4...5
+			for (int m = l + 1; m < r; m++) {
+				// l m r
+				ans = Math.min(ans, f(arr, l, m, dp) + f(arr, m, r, dp) + arr[l] * arr[m] * arr[r]);
+			}
 		}
 		dp[l][r] = ans;
 		return ans;

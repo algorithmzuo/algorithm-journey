@@ -20,6 +20,12 @@ public class Code06_BooleanEvaluation {
 		return ft[result];
 	}
 
+	// s[l...r]是表达式的一部分，且一定符合范式
+	// 0/1  逻  0/1   逻       0/1
+	//  l  l+1  l+2  l+3........r
+	// s[l...r]  0 : ?
+	//           1 : ?
+	// ans : int[2] ans[0] = false方法数 ans[0] = true方法数
 	public static int[] f(char[] s, int l, int r, int[][][] dp) {
 		if (dp[l][r] != null) {
 			return dp[l][r];
@@ -27,11 +33,14 @@ public class Code06_BooleanEvaluation {
 		int f = 0;
 		int t = 0;
 		if (l == r) {
+			// 只剩一个字符，0/1
 			f = s[l] == '0' ? 1 : 0;
 			t = s[l] == '1' ? 1 : 0;
 		} else {
 			int[] tmp;
 			for (int k = l + 1, a, b, c, d; k < r; k += 2) {
+				// l ... r
+				// 枚举每一个逻辑符号最后执行 k = l+1 ... r-1  k+=2
 				tmp = f(s, l, k - 1, dp);
 				a = tmp[0];
 				b = tmp[1];

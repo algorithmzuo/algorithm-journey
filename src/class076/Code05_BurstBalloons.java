@@ -13,6 +13,8 @@ public class Code05_BurstBalloons {
 	// 记忆化搜索
 	public static int maxCoins1(int[] nums) {
 		int n = nums.length;
+		// a b c d e
+		// 1 a b c d e 1
 		int[] arr = new int[n + 2];
 		arr[0] = 1;
 		arr[n + 1] = 1;
@@ -28,6 +30,10 @@ public class Code05_BurstBalloons {
 		return f(arr, 1, n, dp);
 	}
 
+	// arr[l...r]这些气球决定一个顺序，获得最大得分返回！
+	// 一定有 : arr[l-1]一定没爆！
+	// 一定有 : arr[r+1]一定没爆！
+	// 尝试每个气球最后打爆
 	public static int f(int[] arr, int l, int r, int[][] dp) {
 		if (dp[l][r] != -1) {
 			return dp[l][r];
@@ -36,9 +42,14 @@ public class Code05_BurstBalloons {
 		if (l == r) {
 			ans = arr[l - 1] * arr[l] * arr[r + 1];
 		} else {
-			ans = Math.max(arr[l - 1] * arr[l] * arr[r + 1] + f(arr, l + 1, r, dp),
-					arr[l - 1] * arr[r] * arr[r + 1] + f(arr, l, r - 1, dp));
+			// l   ....r
+			// l +1 +2 .. r
+			ans = Math.max(
+					arr[l - 1] * arr[l] * arr[r + 1] + f(arr, l + 1, r, dp), // l位置的气球最后打爆
+					arr[l - 1] * arr[r] * arr[r + 1] + f(arr, l, r - 1, dp));// r位置的气球最后打爆
 			for (int k = l + 1; k < r; k++) {
+				// k位置的气球最后打爆
+				// l...k-1  k  k+1...r
 				ans = Math.max(ans, arr[l - 1] * arr[k] * arr[r + 1] + f(arr, l, k - 1, dp) + f(arr, k + 1, r, dp));
 			}
 		}

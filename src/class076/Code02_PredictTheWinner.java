@@ -26,72 +26,25 @@ public class Code02_PredictTheWinner {
 		return first >= second;
 	}
 
+	// nums[l...r]范围上的数字进行游戏，轮到玩家1
+	// 返回玩家1最终能获得多少分数，玩家1和玩家2都绝顶聪明
 	public static int f1(int[] nums, int l, int r) {
 		if (l == r) {
 			return nums[l];
-		} else {
-			return Math.max(nums[l] + s1(nums, l + 1, r), nums[r] + s1(nums, l, r - 1));
 		}
-	}
-
-	public static int s1(int[] nums, int l, int r) {
-		if (l == r) {
-			return 0;
-		} else {
-			return Math.min(f1(nums, l + 1, r), f1(nums, l, r - 1));
+		if (l == r - 1) {
+			return Math.max(nums[l], nums[r]);
 		}
+		// l....r 不只两个数
+		// 可能性1 ：玩家1拿走nums[l] l+1...r
+		int p1 = nums[l] + Math.min(f1(nums, l + 2, r), f1(nums, l + 1, r - 1));
+		// 可能性2 ：玩家1拿走nums[r] l...r-1
+		int p2 = nums[r] + Math.min(f1(nums, l + 1, r - 1), f1(nums, l, r - 2));
+		return Math.max(p1, p2);
 	}
 
 	// 记忆化搜索
 	public static boolean predictTheWinner2(int[] nums) {
-		int sum = 0;
-		for (int num : nums) {
-			sum += num;
-		}
-		int n = nums.length;
-		int[][] fdp = new int[n][n];
-		int[][] sdp = new int[n][n];
-		for (int i = 0; i < n; i++) {
-			for (int j = i; j < n; j++) {
-				fdp[i][j] = -1;
-				sdp[i][j] = -1;
-			}
-		}
-		int first = f2(nums, 0, n - 1, fdp, sdp);
-		int second = sum - first;
-		return first >= second;
-	}
-
-	public static int f2(int[] nums, int l, int r, int[][] fdp, int[][] sdp) {
-		if (fdp[l][r] != -1) {
-			return fdp[l][r];
-		}
-		int ans;
-		if (l == r) {
-			ans = nums[l];
-		} else {
-			ans = Math.max(nums[l] + s2(nums, l + 1, r, fdp, sdp), nums[r] + s2(nums, l, r - 1, fdp, sdp));
-		}
-		fdp[l][r] = ans;
-		return ans;
-	}
-
-	public static int s2(int[] nums, int l, int r, int[][] fdp, int[][] sdp) {
-		if (sdp[l][r] != -1) {
-			return sdp[l][r];
-		}
-		int ans;
-		if (l == r) {
-			ans = 0;
-		} else {
-			ans = Math.min(f2(nums, l + 1, r, fdp, sdp), f2(nums, l, r - 1, fdp, sdp));
-		}
-		sdp[l][r] = ans;
-		return ans;
-	}
-
-	// 化简转移方程，使用一张表的记忆化搜索
-	public static boolean predictTheWinner3(int[] nums) {
 		int sum = 0;
 		for (int num : nums) {
 			sum += num;
@@ -103,12 +56,12 @@ public class Code02_PredictTheWinner {
 				dp[i][j] = -1;
 			}
 		}
-		int first = f3(nums, 0, n - 1, dp);
+		int first = f2(nums, 0, n - 1, dp);
 		int second = sum - first;
 		return first >= second;
 	}
 
-	public static int f3(int[] nums, int l, int r, int[][] dp) {
+	public static int f2(int[] nums, int l, int r, int[][] dp) {
 		if (dp[l][r] != -1) {
 			return dp[l][r];
 		}
@@ -118,16 +71,16 @@ public class Code02_PredictTheWinner {
 		} else if (l == r - 1) {
 			ans = Math.max(nums[l], nums[r]);
 		} else {
-			int p1 = nums[l] + Math.min(f3(nums, l + 2, r, dp), f3(nums, l + 1, r - 1, dp));
-			int p2 = nums[r] + Math.min(f3(nums, l + 1, r - 1, dp), f3(nums, l, r - 2, dp));
+			int p1 = nums[l] + Math.min(f2(nums, l + 2, r, dp), f2(nums, l + 1, r - 1, dp));
+			int p2 = nums[r] + Math.min(f2(nums, l + 1, r - 1, dp), f2(nums, l, r - 2, dp));
 			ans = Math.max(p1, p2);
 		}
 		dp[l][r] = ans;
 		return ans;
 	}
 
-	// 严格位置依赖的动态规划，使用一张表
-	public static boolean predictTheWinner4(int[] nums) {
+	// 严格位置依赖的动态规划
+	public static boolean predictTheWinner3(int[] nums) {
 		int sum = 0;
 		for (int num : nums) {
 			sum += num;
@@ -141,7 +94,8 @@ public class Code02_PredictTheWinner {
 		dp[n - 1][n - 1] = nums[n - 1];
 		for (int l = n - 3; l >= 0; l--) {
 			for (int r = l + 2; r < n; r++) {
-				dp[l][r] = Math.max(nums[l] + Math.min(dp[l + 2][r], dp[l + 1][r - 1]),
+				dp[l][r] = Math.max(
+						nums[l] + Math.min(dp[l + 2][r], dp[l + 1][r - 1]),
 						nums[r] + Math.min(dp[l + 1][r - 1], dp[l][r - 2]));
 			}
 		}
