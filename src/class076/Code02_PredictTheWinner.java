@@ -90,7 +90,7 @@ public class Code02_PredictTheWinner {
 		return ans;
 	}
 
-	// 化简尝试的想法，使用一张表的记忆化搜索
+	// 化简转移方程，使用一张表的记忆化搜索
 	public static boolean predictTheWinner3(int[] nums) {
 		int sum = 0;
 		for (int num : nums) {
