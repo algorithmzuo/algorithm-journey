@@ -30,12 +30,6 @@ public class Code01_MinimumInsertionToPalindrome {
 		} else if (l + 1 == r) {
 			ans = s[l] == s[l + 1] ? 0 : 1;
 		} else {
-			// 如下这段逻辑是对的，但是可以进行贪心优化
-//			ans = Math.min(f(s, l, r - 1, dp), f(s, l + 1, r, dp)) + 1;
-//			if (s[l] == s[r]) {
-//				ans = Math.min(ans, f(s, l + 1, r - 1, dp));
-//			}
-			// 如下这段逻辑进行了贪心优化
 			if (s[l] == s[r]) {
 				ans = f(s, l + 1, r - 1, dp);
 			} else {
