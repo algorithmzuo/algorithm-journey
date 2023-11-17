@@ -14,7 +14,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 
-public class Code06_HeightAndChoir {
+public class Code05_HeightAndChoir {
 
 	public static int MAXN = 1001;
 

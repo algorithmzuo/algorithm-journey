@@ -6,7 +6,7 @@ import java.util.Arrays;
 // 给你一个字符串s，返回s中不同的非空回文子序列个数
 // 由于答案可能很大，请你将答案对10^9+7取余后返回
 // 测试链接 : https://leetcode.cn/problems/count-different-palindromic-subsequences/
-public class Code05_CountDifferentPalindromicSubsequences {
+public class Code06_CountDifferentPalindromicSubsequences {
 
 	public static int countPalindromicSubsequences(String str) {
 		int mod = 1000000007;
