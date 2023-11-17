@@ -61,6 +61,8 @@ public class Code01_MinimumInsertionToPalindrome {
 	}
 
 	// 空间压缩
+	// 本题有关空间压缩的实现，可以参考讲解067，题目4，最长回文子序列问题的讲解
+	// 因为之前的课多次讲过空间压缩的内容，所以这里不再赘述
 	public static int minInsertions3(String str) {
 		char[] s = str.toCharArray();
 		int n = s.length;
