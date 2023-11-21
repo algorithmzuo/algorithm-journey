@@ -10,7 +10,8 @@ package class078;
 // 所以请你编程计算邀请哪些职员可以使快乐指数最大
 // 返回最大的快乐指数。
 // 测试链接 : https://www.luogu.com.cn/problem/P1352
-// 本题和讲解037类似，链式链接 : https://leetcode.cn/problems/house-robber-iii/
+// 本题和讲解037的题目7类似
+// 链式链接 : https://leetcode.cn/problems/house-robber-iii/
 // 请同学们务必参考如下代码中关于输入、输出的处理
 // 这是输入输出处理效率很高的写法
 // 提交以下的code，提交时请把类名改成"Main"，可以直接通过
