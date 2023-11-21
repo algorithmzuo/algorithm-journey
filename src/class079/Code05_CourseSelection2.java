@@ -87,14 +87,15 @@ public class Code05_CourseSelection2 {
 	// (i, j-1, k-s) + (v, v固定的所有节点数量, s)
 	public static void dp(int i) {
 		for (int ei = head[i], v; ei > 0; ei = next[ei]) {
-			// dp[i][j][k]，这个ei的变动等同于j++
-			// 根据依赖关系，j层的表出来，去堆j+1层的表
+			// 这个ei的变动等同于j++
+			// 根据依赖关系
+			// j层的表先出来，然后去推j+1层的表
 			v = to[ei];
 			dp(v);
 			for (int k = m + 1; k >= 2; k--) {
-				// 根据依赖(i, j, k)依赖(i, j-1, k-s)的值
+				// (i, j, k)依赖(i, j-1, k-s)的值
 				// 所以k要从大到小遍历，因为这样遍历的时候
-				// dp[i][k-s]是j-1层的dp[i][k-s]的值
+				// dp[i][k-s]是j-1层的dp[i][k-s]的值(还没更新)
 				for (int s = 1; s < k; s++) {
 					// dp[i][j][k]其中一个分支 :
 					// dp[i][j-1][k-s] + dp[v][v固定的所有节点数量][s]
