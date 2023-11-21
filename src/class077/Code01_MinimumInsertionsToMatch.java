@@ -54,17 +54,15 @@ public class Code01_MinimumInsertionsToMatch {
 		if (dp[l][r] != -1) {
 			return dp[l][r];
 		}
-		int p1 = 1 + f(s, l + 1, r, dp);
-		int p2 = 1 + f(s, l, r - 1, dp);
-		int p3 = Integer.MAX_VALUE;
+		int p1 = Integer.MAX_VALUE;
 		if ((s[l] == '(' && s[r] == ')') || (s[l] == '[' && s[r] == ']')) {
-			p3 = f(s, l + 1, r - 1, dp);
+			p1 = f(s, l + 1, r - 1, dp);
 		}
-		int p4 = Integer.MAX_VALUE;
+		int p2 = Integer.MAX_VALUE;
 		for (int m = l; m < r; m++) {
-			p4 = Math.min(p4, f(s, l, m, dp) + f(s, m + 1, r, dp));
+			p2 = Math.min(p2, f(s, l, m, dp) + f(s, m + 1, r, dp));
 		}
-		int ans = Math.min(Math.min(p1, p2), Math.min(p3, p4));
+		int ans = Math.min(p1, p2);
 		dp[l][r] = ans;
 		return ans;
 	}

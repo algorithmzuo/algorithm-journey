@@ -6,7 +6,7 @@ package class077;
 // 返回把所有石头合并成一堆的最低成本
 // 如果无法合并成一堆返回-1
 // 测试链接 : https://leetcode.cn/problems/minimum-cost-to-merge-stones/
-public class Code03_MinimumCostToMergeStones {
+public class Code04_MinimumCostToMergeStones {
 
 	public static int mergeStones(int[] stones, int k) {
 		int n = stones.length;
@@ -33,6 +33,7 @@ public class Code03_MinimumCostToMergeStones {
 				ans = f(stones, k, presum, l, r, k, dp) + presum[r + 1] - presum[l];
 			} else {
 				for (int m = l; m < r; m += k - 1) {
+					// m每次跳k-1个位置，这是观察出来的剪枝策略
 					ans = Math.min(ans, f(stones, k, presum, l, m, 1, dp) + f(stones, k, presum, m + 1, r, p - 1, dp));
 				}
 			}

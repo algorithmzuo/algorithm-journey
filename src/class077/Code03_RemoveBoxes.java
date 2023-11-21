@@ -7,7 +7,7 @@ package class077;
 // 这样一轮之后你将得到 k * k 个积分
 // 返回你能获得的最大积分总和
 // 测试链接 : https://leetcode.cn/problems/remove-boxes/
-public class Code02_RemoveBoxes {
+public class Code03_RemoveBoxes {
 
 	public static int removeBoxes(int[] boxes) {
 		int n = boxes.length;
@@ -26,6 +26,8 @@ public class Code02_RemoveBoxes {
 		while (s + 1 <= r && boxes[l] == boxes[s + 1]) {
 			s++;
 		}
+		// boxes[l...s]都是一种字符，boxes[s+1]就不是同一种字符了
+		// cnt是总前缀数量 : 之前的相同前缀(k个) + l...s这个字符相同的部分(s-l+1个)
 		int cnt = k + s - l + 1;
 		int ans = cnt * cnt + f(boxes, s + 1, r, 0, dp);
 		for (int m = s + 2; m <= r; m++) {
