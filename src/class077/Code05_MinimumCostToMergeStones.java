@@ -6,7 +6,7 @@ package class077;
 // 返回把所有石头合并成一堆的最低成本
 // 如果无法合并成一堆返回-1
 // 测试链接 : https://leetcode.cn/problems/minimum-cost-to-merge-stones/
-public class Code04_MinimumCostToMergeStones {
+public class Code05_MinimumCostToMergeStones {
 
 	// 时间复杂度O(n^4)
 	public static int mergeStones1(int[] stones, int k) {
@@ -49,25 +49,23 @@ public class Code04_MinimumCostToMergeStones {
 		if ((n - 1) % (k - 1) != 0) {
 			return -1;
 		}
+		// dp[l][r] : l...r范围上的石头，合并到不能再合并，最小代价是多少
 		int[][] dp = new int[n][n];
-		for (int i = 0; i < n; i++) {
-			for (int j = i + 1; j < n; j++) {
-				dp[i][j] = Integer.MAX_VALUE;
-			}
-		}
 		int[] presum = new int[n + 1];
 		for (int i = 0, j = 1, sum = 0; i < n; i++, j++) {
 			sum += stones[i];
 			presum[j] = sum;
 		}
-		for (int l = n - 2; l >= 0; l--) {
+		for (int l = n - 2, ans; l >= 0; l--) {
 			for (int r = l + 1; r < n; r++) {
+				ans = Integer.MAX_VALUE;
 				for (int p = l; p < r; p += k - 1) {
-					dp[l][r] = Math.min(dp[l][r], dp[l][p] + dp[p + 1][r]);
+					ans = Math.min(ans, dp[l][p] + dp[p + 1][r]);
 				}
 				if ((r - l) % (k - 1) == 0) {
-					dp[l][r] += presum[r + 1] - presum[l];
+					ans += presum[r + 1] - presum[l];
 				}
+				dp[l][r] = ans;
 			}
 		}
 		return dp[0][n - 1];
