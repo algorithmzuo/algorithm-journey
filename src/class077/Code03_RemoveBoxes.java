@@ -32,6 +32,8 @@ public class Code03_RemoveBoxes {
 		int ans = cnt * cnt + f(boxes, s + 1, r, 0, dp);
 		for (int m = s + 2; m <= r; m++) {
 			if (boxes[l] == boxes[m] && boxes[m - 1] != boxes[m]) {
+				// boxes[l] == boxes[m]是必须条件
+				// boxes[m - 1] != boxes[m]是剪枝条件，避免不必要的调用
 				ans = Math.max(ans, f(boxes, s + 1, m - 1, 0, dp) + f(boxes, m, r, cnt, dp));
 			}
 		}
