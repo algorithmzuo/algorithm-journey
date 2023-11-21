@@ -28,6 +28,7 @@ public class Code01_MinimumInsertionsToMatch {
 		br.close();
 	}
 
+	// 时间复杂度O(n^3)
 	public static int compute(String str) {
 		char[] s = str.toCharArray();
 		int n = s.length;

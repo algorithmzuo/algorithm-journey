@@ -33,6 +33,7 @@ public class Code02_Coloring {
 		br.close();
 	}
 
+	// 时间复杂度O(n^3)
 	// 测试链接 : https://leetcode.cn/problems/strange-printer/
 	public static int strangePrinter(String str) {
 		char[] s = str.toCharArray();

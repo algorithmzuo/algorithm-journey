@@ -9,6 +9,7 @@ package class077;
 // 测试链接 : https://leetcode.cn/problems/remove-boxes/
 public class Code03_RemoveBoxes {
 
+	// 时间复杂度O(n^4)
 	public static int removeBoxes(int[] boxes) {
 		int n = boxes.length;
 		int[][][] dp = new int[n][n][n];

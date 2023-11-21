@@ -47,6 +47,7 @@ public class Code05_HeightAndChoir {
 		br.close();
 	}
 
+	// 时间复杂度O(n^2)
 	// 严格位置依赖的动态规划
 	public static int compute1() {
 		int[][][] dp = new int[n + 1][n + 1][2];
@@ -75,6 +76,7 @@ public class Code05_HeightAndChoir {
 		return (dp[1][n][0] + dp[1][n][1]) % MOD;
 	}
 
+	// 时间复杂度O(n^2)
 	// 空间压缩
 	public static int compute2() {
 		if (nums[n - 1] < nums[n]) {

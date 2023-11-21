@@ -8,6 +8,7 @@ import java.util.Arrays;
 // 测试链接 : https://leetcode.cn/problems/count-different-palindromic-subsequences/
 public class Code06_CountDifferentPalindromicSubsequences {
 
+	// 时间复杂度O(n^2)
 	public static int countPalindromicSubsequences(String str) {
 		int mod = 1000000007;
 		char[] s = str.toCharArray();
