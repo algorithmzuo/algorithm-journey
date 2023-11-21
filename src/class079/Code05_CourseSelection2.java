@@ -21,6 +21,7 @@ import java.io.StreamTokenizer;
 import java.util.Arrays;
 
 // 链式前向星建图 + 空间压缩优化的动态规划
+// 觉得难可以跳过
 public class Code05_CourseSelection2 {
 
 	public static int MAXN = 301;
