@@ -20,7 +20,7 @@ import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 import java.util.Arrays;
 
-// 链式前向星建图 + 空间压缩优化的动态规划
+// 链式前向星建图 + 空间压缩的动态规划
 // 觉得难可以跳过
 public class Code05_CourseSelection2 {
 

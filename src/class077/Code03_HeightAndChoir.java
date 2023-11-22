@@ -50,6 +50,9 @@ public class Code03_HeightAndChoir {
 	// 时间复杂度O(n^2)
 	// 严格位置依赖的动态规划
 	public static int compute1() {
+		// 人的编号范围 : 1...n
+		// dp[l][r][0] : 形成l...r的状况的方法数，同时要求l位置的数字是最后出现的
+		// dp[l][r][1] : 形成l...r的状况的方法数，同时要求r位置的数字是最后出现的
 		int[][][] dp = new int[n + 1][n + 1][2];
 		for (int i = 1; i < n; i++) {
 			if (nums[i] < nums[i + 1]) {

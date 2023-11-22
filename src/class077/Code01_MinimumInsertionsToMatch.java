@@ -52,13 +52,16 @@ public class Code01_MinimumInsertionsToMatch {
 			}
 			return 2;
 		}
+		// l...r字符数量 >= 3
 		if (dp[l][r] != -1) {
 			return dp[l][r];
 		}
+		// 可能性1 : [l]、[r]本来就是配对的
 		int p1 = Integer.MAX_VALUE;
 		if ((s[l] == '(' && s[r] == ')') || (s[l] == '[' && s[r] == ']')) {
 			p1 = f(s, l + 1, r - 1, dp);
 		}
+		// 可能性2 : 基于每个可能的划分点，做左右划分
 		int p2 = Integer.MAX_VALUE;
 		for (int m = l; m < r; m++) {
 			p2 = Math.min(p2, f(s, l, m, dp) + f(s, m + 1, r, dp));
