@@ -98,16 +98,23 @@ public class Code05_CourseSelection {
 
 	public static int compute() {
 		n++;
-		m++;
 		f(0);
+		// 接下来的逻辑其实就是01背包！不过经历了很多转化
+		// 整体的顺序是根据dfn序来进行的
+		// dp[i][j] : i ~ n范围上，一定要形成有效结构的情况下，选择j个节点最大收益是多少
+		// 什么是有效结构？
+		// 就是依次出现更上方节点的时候，不会出现跳跃连接的结构，课上讲的内容
 		Arrays.fill(dp[n + 1], 0); // dp[n+1][....]所有值都是0，表示没有任何节点的情况
-		for (int i = n, cur; i >= 1; i--) {
+		for (int i = n, cur; i >= 2; i--) {
 			for (int j = 1; j <= m; j++) {
 				cur = node[i];
 				dp[i][j] = Math.max(dp[i + size[cur]][j], nums[cur] + dp[i + 1][j - 1]);
 			}
 		}
-		return dp[1][m];
+		// dp[2][m] : 2 ~ n范围上，形成有效结构的情况下，选择m个节点最大收益是多少
+		// 最后来到dfn序为1的节点，一定是原始的0号节点
+		// 所以选择0号节点，0号节点下方挂着有效结构，于是整个问题解决
+		return nums[0] + dp[2][m];
 	}
 
 	public static void f(int u) {
