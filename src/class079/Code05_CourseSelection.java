@@ -97,7 +97,9 @@ public class Code05_CourseSelection {
 	}
 
 	public static int compute() {
+		// 补充一个0号节点，所以节点数量+1
 		n++;
+		// 从0号节点开始递归，生成node、size数组
 		f(0);
 		// 接下来的逻辑其实就是01背包！不过经历了很多转化
 		// 整体的顺序是根据dfn序来进行的，从大的dfn序，遍历到小的dfn序
@@ -113,8 +115,10 @@ public class Code05_CourseSelection {
 		}
 		// dp[2][m] : 2 ~ n范围上，形成有效结构的情况下，选择m个节点最大收益是多少
 		// 最后来到dfn序为1的节点，一定是原始的0号节点
-		// 原始0号节点下方一定挂着有效结构，于是整个问题解决
-		return dp[2][m];
+		// 原始0号节点下方一定挂着有效结构
+		// 并且和补充的0号节点一定能整体连在一起，没有任何跳跃连接
+		// 于是整个问题解决
+		return nums[0] + dp[2][m];
 	}
 
 	public static void f(int u) {
