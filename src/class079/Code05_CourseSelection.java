@@ -22,8 +22,8 @@ import java.util.Arrays;
 
 // dfn序 + 背包 + 树型dp
 // 觉得难可以跳过
-// 不是最优解的解法不再介绍，只讲最优解
 // 目前几乎所有题解，都不是最优解的方法
+// 不是最优解的做法不再介绍，只讲最优解
 // 最优解时间复杂度O(n*m)
 public class Code05_CourseSelection {
 
@@ -91,7 +91,12 @@ public class Code05_CourseSelection {
 	}
 
 	public static int compute() {
+		// 生成dfn序
+		// dfn序号为i的节点为node[i]
+		// dfn序号为i的节点子树大小为size[node[i]]
+		// dfn序号为i的节点值为nums[node[i]]
 		f(0);
+		// 背包问题
 		for (int i = n, cur; i >= 1; i--) {
 			for (int j = 1; j <= m; j++) {
 				cur = node[i];
