@@ -27,7 +27,7 @@ import java.util.Arrays;
 // 最优解时间复杂度O(n*m)
 public class Code05_CourseSelection {
 
-	public static int MAXN = 302;
+	public static int MAXN = 301;
 
 	public static int[] nums = new int[MAXN];
 
@@ -41,6 +41,10 @@ public class Code05_CourseSelection {
 	public static int cnt;
 
 	// dfn序对应的真实节点的编号
+	// 原始节点编号最大范围1~300
+	// 因为补充了0号节点，所以节点编号最大范围0~300
+	// 因为dfn序从1开始，所以节点编号最大范围0~300，对应dfn序最大范围1~301
+	// 所以node数组长度为MAXN+1
 	public static int[] node = new int[MAXN + 1];
 
 	// dfn的计数
@@ -49,8 +53,12 @@ public class Code05_CourseSelection {
 	// 每个节点子树的大小
 	public static int[] size = new int[MAXN];
 
-	// 动态规划表
-	public static int[][] dp = new int[MAXN + 1][MAXN + 1];
+	// 上面已经说了，dfn序最大范围1~301
+	// dfn序301对应的节点，是树上最后的叶节点，后续就不再有节点了
+	// 但是dp[i][j]依赖dp[i + size[i]][j]、dp[i + 1][j - 1]
+	// 所以再补一个dp[302][...]，表示没有任何节点的情况
+	// 于是dp表最大是MAXN+2行
+	public static int[][] dp = new int[MAXN + 2][MAXN];
 
 	public static int n, m;
 
@@ -71,13 +79,11 @@ public class Code05_CourseSelection {
 		StreamTokenizer in = new StreamTokenizer(br);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
 		while (in.nextToken() != StreamTokenizer.TT_EOF) {
-			// 补充0号点，价值为0，所以一共n+1个节点
-			n = (int) in.nval + 1;
+			n = (int) in.nval;
 			in.nextToken();
-			// 补充了0号点且一定要选，所以可以挑选m+1个节点
-			m = (int) in.nval + 1;
+			m = (int) in.nval;
 			build(n);
-			for (int i = 1; i < n; i++) {
+			for (int i = 1; i <= n; i++) {
 				in.nextToken();
 				addEdge((int) in.nval, i);
 				in.nextToken();
@@ -91,12 +97,10 @@ public class Code05_CourseSelection {
 	}
 
 	public static int compute() {
-		// 生成dfn序
-		// dfn序号为i的节点为node[i]
-		// dfn序号为i的节点子树大小为size[node[i]]
-		// dfn序号为i的节点值为nums[node[i]]
+		n++;
+		m++;
 		f(0);
-		// 背包问题
+		Arrays.fill(dp[n + 1], 0); // dp[n+1][....]所有值都是0，表示没有任何节点的情况
 		for (int i = n, cur; i >= 1; i--) {
 			for (int j = 1; j <= m; j++) {
 				cur = node[i];
