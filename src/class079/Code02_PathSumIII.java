@@ -30,22 +30,11 @@ public class Code02_PathSumIII {
 			return 0;
 		}
 		sum += x.val;
-		int ans = 0;
-		if (presum.containsKey(sum - target)) {
-			ans = presum.get(sum - target);
-		}
-		if (!presum.containsKey(sum)) {
-			presum.put(sum, 1);
-		} else {
-			presum.put(sum, presum.get(sum) + 1);
-		}
+		int ans = presum.getOrDefault(sum - target, 0);
+		presum.put(sum, presum.getOrDefault(sum, 0) + 1);
 		ans += f(x.left, target, sum, presum);
 		ans += f(x.right, target, sum, presum);
-		if (presum.get(sum) == 1) {
-			presum.remove(sum);
-		} else {
-			presum.put(sum, presum.get(sum) - 1);
-		}
+		presum.put(sum, presum.get(sum) - 1);
 		return ans;
 	}
 

@@ -14,6 +14,8 @@ public class Code01_BinaryTreeCameras {
 		public TreeNode right;
 	}
 
+	// 不做任何优化，可能性完全呈现的版本
+	// 时间复杂度最优，但是常数时间一般
 	// 提交如下的方法
 	// 提交时改名
 	public static int minCameraCover1(TreeNode root) {
@@ -51,9 +53,10 @@ public class Code01_BinaryTreeCameras {
 		return new Info(uncovered, coveredNoCamera, coveredHasCamera);
 	}
 
+	// 贪心优化，时间复杂度最优，常数时间最优
 	// 提交如下的方法
 	// 提交时改名
-	public static int ans = 0;
+	public static int ans; // 遍历过程中一旦需要放置相机，ans就+1
 
 	public int minCameraCover2(TreeNode root) {
 		ans = 0;
@@ -64,9 +67,9 @@ public class Code01_BinaryTreeCameras {
 	}
 
 	// 返回值含义
-	// 0: 表示节点是无覆盖状态
-	// 1: 表示节点是覆盖状态
-	// 2: 表示节点是有摄像头状态
+	// 0: 表示头节点是无覆盖状态。头节点下方节点都被覆盖。
+	// 1: 表示头节点是覆盖状态，没摄像头。头节点下方节点都被覆盖。
+	// 2: 表示头节点是覆盖状态，有摄像头。头节点下方节点都被覆盖。
 	private int f2(TreeNode node) {
 		if (node == null) {
 			return 1;
