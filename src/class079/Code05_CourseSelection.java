@@ -47,14 +47,16 @@ public class Code05_CourseSelection {
 
 	public static int[] size = new int[MAXN + 1];
 
+	// 动态规划表
 	public static int[][] dp = new int[MAXN + 2][MAXN];
 
 	public static int n, m;
 
-	public static void build(int n) {
+	public static void build(int n, int m) {
 		cnt = 1;
 		dfnCnt = 0;
 		Arrays.fill(head, 0, n + 1, 0);
+		Arrays.fill(dp[n + 2], 0, m + 1, 0);
 	}
 
 	public static void addEdge(int u, int v) {
@@ -71,7 +73,7 @@ public class Code05_CourseSelection {
 			n = (int) in.nval;
 			in.nextToken();
 			m = (int) in.nval;
-			build(n);
+			build(n, m);
 			for (int i = 1; i <= n; i++) {
 				in.nextToken();
 				addEdge((int) in.nval, i);
@@ -93,7 +95,6 @@ public class Code05_CourseSelection {
 		// dp[i][j] : i ~ n+1范围上的节点，一定要形成有效结构的情况下，选择j个节点的最大累加和
 		// 怎么定义有效结构？
 		// 如果依次出现上方节点时，不会出现跳跃连接的情况，就说形成的结构是有效结构
-		Arrays.fill(dp[n + 2], 0);
 		for (int i = n + 1; i >= 2; i--) {
 			for (int j = 1; j <= m; j++) {
 				dp[i][j] = Math.max(dp[i + size[i]][j], val[i] + dp[i + 1][j - 1]);
