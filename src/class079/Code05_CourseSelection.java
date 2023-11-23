@@ -40,24 +40,13 @@ public class Code05_CourseSelection {
 
 	public static int cnt;
 
-	// dfn序对应的真实节点的编号
-	// 原始节点编号最大范围1~300
-	// 因为补充了0号节点，所以节点编号最大范围0~300
-	// 因为dfn序从1开始，所以节点编号最大范围0~300，对应dfn序最大范围1~301
-	// 所以node数组长度为MAXN+1
-	public static int[] node = new int[MAXN + 1];
-
 	// dfn的计数
 	public static int dfnCnt;
 
-	// 每个节点子树的大小
-	public static int[] size = new int[MAXN];
+	public static int[] val = new int[MAXN + 1];
 
-	// 上面已经说了，dfn序最大范围1~301
-	// dfn序301对应的节点，是树上最后的叶节点，后续就不再有节点了
-	// 但是dp[i][j]依赖dp[i + size[i]][j]、dp[i + 1][j - 1]
-	// 所以再补一个dp[302][...]，表示没有任何节点的情况
-	// 于是dp表最大是MAXN+2行
+	public static int[] size = new int[MAXN + 1];
+
 	public static int[][] dp = new int[MAXN + 2][MAXN];
 
 	public static int n, m;
@@ -97,20 +86,17 @@ public class Code05_CourseSelection {
 	}
 
 	public static int compute() {
-		// 补充一个0号节点，所以节点数量+1
-		n++;
-		// 从0号节点开始递归，生成node、size数组
 		f(0);
 		// 接下来的逻辑其实就是01背包！不过经历了很多转化
 		// 整体的顺序是根据dfn序来进行的，从大的dfn序，遍历到小的dfn序
 		// dp[i][j] : i ~ n范围上，一定要形成有效结构的情况下，选择j个节点的最大收益
 		// 什么是有效结构？
 		// 就是依次出现更上方节点的时候，不会出现跳跃连接的结构，课上讲的内容
-		Arrays.fill(dp[n + 1], 0); // dp[n+1][....]所有值都是0，表示没有任何节点的情况
-		for (int i = n, cur; i >= 2; i--) {
+		Arrays.fill(dp[n + 2], 0);
+		// 节点编号0~n，dfn序号范围1~n+1
+		for (int i = n + 1; i >= 2; i--) {
 			for (int j = 1; j <= m; j++) {
-				cur = node[i];
-				dp[i][j] = Math.max(dp[i + size[cur]][j], nums[cur] + dp[i + 1][j - 1]);
+				dp[i][j] = Math.max(dp[i + size[i]][j], val[i] + dp[i + 1][j - 1]);
 			}
 		}
 		// dp[2][m] : 2 ~ n范围上，形成有效结构的情况下，选择m个节点最大收益是多少
@@ -121,14 +107,16 @@ public class Code05_CourseSelection {
 		return nums[0] + dp[2][m];
 	}
 
-	public static void f(int u) {
-		node[++dfnCnt] = u;
-		size[u] = 1;
+	// u这棵子树的节点数返回
+	public static int f(int u) {
+		int i = ++dfnCnt;
+		val[i] = nums[u];
+		size[i] = 1;
 		for (int ei = head[u], v; ei > 0; ei = next[ei]) {
 			v = to[ei];
-			f(v);
-			size[u] += size[v];
+			size[i] += f(v);
 		}
+		return size[i];
 	}
 
 }
