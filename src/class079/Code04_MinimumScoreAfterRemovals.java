@@ -23,7 +23,7 @@ public class Code04_MinimumScoreAfterRemovals {
 
 	public static int[] size = new int[MAXN];
 
-	public static int cnt;
+	public static int dfnCnt;
 
 	public static int minimumScore(int[] nums, int[][] edges) {
 		int n = nums.length;
@@ -36,7 +36,7 @@ public class Code04_MinimumScoreAfterRemovals {
 			graph.get(edge[1]).add(edge[0]);
 		}
 		Arrays.fill(dfn, 0, n, 0);
-		cnt = 1;
+		dfnCnt = 0;
 		f(nums, graph, 0);
 		int ans = Integer.MAX_VALUE, m = edges.length, cut1, cut2, pre, pos, part1, part2, part3, max, min;
 		for (int i = 0, a, b, c, d; i < m; i++) {
@@ -66,7 +66,7 @@ public class Code04_MinimumScoreAfterRemovals {
 	}
 
 	public static void f(int[] nums, ArrayList<ArrayList<Integer>> graph, int cur) {
-		dfn[cur] = cnt++;
+		dfn[cur] = ++dfnCnt;
 		xor[cur] = nums[cur];
 		size[cur] = 1;
 		for (int next : graph.get(cur)) {

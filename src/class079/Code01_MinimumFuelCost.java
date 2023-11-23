@@ -1,4 +1,4 @@
-package class078;
+package class079;
 
 import java.util.ArrayList;
 
@@ -13,7 +13,7 @@ import java.util.ArrayList;
 // 相邻城市之间一辆车的油耗是一升汽油
 // 请你返回到达首都最少需要多少升汽油
 // 测试链接 : https://leetcode.cn/problems/minimum-fuel-cost-to-report-to-the-capital/
-public class Code05_MinimumFuelCost {
+public class Code01_MinimumFuelCost {
 
 	public static long minimumFuelCost(int[][] roads, int seats) {
 		int n = roads.length;

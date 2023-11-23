@@ -35,16 +35,16 @@ public class Code03_HeightRemovalQueries {
 
 	public static int[] maxr = new int[MAXN];
 
-	public static int n;
+	public static int dfnCnt;
 
 	public static int[] treeQueries(TreeNode root, int[] queries) {
-		n = 0;
-		dfs(root, 0);
-		for (int i = 1; i <= n; i++) {
+		dfnCnt = 0;
+		f(root, 0);
+		for (int i = 1; i <= dfnCnt; i++) {
 			maxl[i] = Math.max(maxl[i - 1], deep[i]);
 		}
-		maxr[n + 1] = 0;
-		for (int i = n; i >= 1; i--) {
+		maxr[dfnCnt + 1] = 0;
+		for (int i = dfnCnt; i >= 1; i--) {
 			maxr[i] = Math.max(maxr[i + 1], deep[i]);
 		}
 		int m = queries.length;
@@ -57,17 +57,17 @@ public class Code03_HeightRemovalQueries {
 		return ans;
 	}
 
-	public static void dfs(TreeNode head, int h) {
-		int i = ++n;
+	public static void f(TreeNode head, int h) {
+		int i = ++dfnCnt;
 		dfn[head.val] = i;
 		deep[i] = h;
 		size[i] = 1;
 		if (head.left != null) {
-			dfs(head.left, h + 1);
+			f(head.left, h + 1);
 			size[i] += size[dfn[head.left.val]];
 		}
 		if (head.right != null) {
-			dfs(head.right, h + 1);
+			f(head.right, h + 1);
 			size[i] += size[dfn[head.right.val]];
 		}
 	}

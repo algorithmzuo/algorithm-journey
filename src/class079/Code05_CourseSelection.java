@@ -18,32 +18,52 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StreamTokenizer;
-import java.util.ArrayList;
+import java.util.Arrays;
 
-// 邻接表建图 + 好懂的动态规划
-public class Code05_CourseSelection1 {
+// dfn序 + 背包 + 树型dp
+// 觉得难可以跳过
+// 不是最优解的解法不再介绍，只讲最优解
+// 目前几乎所有题解，都不是最优解的方法
+// 最优解时间复杂度O(n*m)
+public class Code05_CourseSelection {
 
-	public static int MAXN = 301;
+	public static int MAXN = 302;
 
 	public static int[] nums = new int[MAXN];
 
-	public static ArrayList<ArrayList<Integer>> graph;
+	// 链式前向星建图
+	public static int[] head = new int[MAXN];
 
-	static {
-		graph = new ArrayList<>();
-		for (int i = 0; i < MAXN; i++) {
-			graph.add(new ArrayList<>());
-		}
-	}
+	public static int[] next = new int[MAXN];
 
-	public static int[][][] dp = new int[MAXN][][];
+	public static int[] to = new int[MAXN];
+
+	public static int cnt;
+
+	// dfn序对应的真实节点的编号
+	public static int[] node = new int[MAXN + 1];
+
+	// dfn的计数
+	public static int dfnCnt;
+
+	// 每个节点子树的大小
+	public static int[] size = new int[MAXN];
+
+	// 动态规划表
+	public static int[][] dp = new int[MAXN + 1][MAXN + 1];
 
 	public static int n, m;
 
 	public static void build(int n) {
-		for (int i = 0; i <= n; i++) {
-			graph.get(i).clear();
-		}
+		cnt = 1;
+		dfnCnt = 0;
+		Arrays.fill(head, 0, n + 1, 0);
+	}
+
+	public static void addEdge(int u, int v) {
+		next[cnt] = head[u];
+		to[cnt] = v;
+		head[u] = cnt++;
 	}
 
 	public static void main(String[] args) throws IOException {
@@ -51,14 +71,15 @@ public class Code05_CourseSelection1 {
 		StreamTokenizer in = new StreamTokenizer(br);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
 		while (in.nextToken() != StreamTokenizer.TT_EOF) {
-			n = (int) in.nval;
+			// 补充0号点，价值为0，所以一共n+1个节点
+			n = (int) in.nval + 1;
 			in.nextToken();
+			// 补充了0号点且一定要选，所以可以挑选m+1个节点
 			m = (int) in.nval + 1;
 			build(n);
-			for (int i = 1, pre; i <= n; i++) {
+			for (int i = 1; i < n; i++) {
 				in.nextToken();
-				pre = (int) in.nval;
-				graph.get(pre).add(i);
+				addEdge((int) in.nval, i);
 				in.nextToken();
 				nums[i] = (int) in.nval;
 			}
@@ -70,36 +91,24 @@ public class Code05_CourseSelection1 {
 	}
 
 	public static int compute() {
-		for (int i = 0; i <= n; i++) {
-			dp[i] = new int[graph.get(i).size() + 1][m + 1];
-		}
-		for (int i = 0; i <= n; i++) {
-			for (int j = 0; j < dp[i].length; j++) {
-				for (int k = 0; k <= m; k++) {
-					dp[i][j][k] = -1;
-				}
+		f(0);
+		for (int i = n, cur; i >= 1; i--) {
+			for (int j = 1; j <= m; j++) {
+				cur = node[i];
+				dp[i][j] = Math.max(dp[i + size[cur]][j], nums[cur] + dp[i + 1][j - 1]);
 			}
 		}
-		return f(0, graph.get(0).size(), m);
+		return dp[1][m];
 	}
 
-	public static int f(int i, int j, int k) {
-		if (k == 0) {
-			return 0;
+	public static void f(int u) {
+		node[++dfnCnt] = u;
+		size[u] = 1;
+		for (int ei = head[u], v; ei > 0; ei = next[ei]) {
+			v = to[ei];
+			f(v);
+			size[u] += size[v];
 		}
-		if (j == 0) {
-			return nums[i];
-		}
-		if (dp[i][j][k] != -1) {
-			return dp[i][j][k];
-		}
-		int ans = f(i, j - 1, k);
-		int v = graph.get(i).get(j - 1);
-		for (int s = 1; s < k; s++) {
-			ans = Math.max(ans, f(i, j - 1, k - s) + f(v, graph.get(v).size(), s));
-		}
-		dp[i][j][k] = ans;
-		return ans;
 	}
 
 }

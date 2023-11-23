@@ -1,4 +1,4 @@
-package class078;
+package class079;
 
 import java.util.ArrayList;
 
@@ -12,7 +12,7 @@ import java.util.ArrayList;
 // 请你找出路径上任意一对相邻节点都没有分配到相同字符的 最长路径
 // 并返回该路径的长度
 // 测试链接 : https://leetcode.cn/problems/longest-path-with-different-adjacent-characters/
-public class Code06_LongestPathWithDifferentAdjacent {
+public class Code02_LongestPathWithDifferentAdjacent {
 
 	public static int longestPath(int[] parent, String str) {
 		int n = parent.length;
