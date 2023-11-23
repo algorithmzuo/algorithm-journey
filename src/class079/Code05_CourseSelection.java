@@ -32,13 +32,13 @@ public class Code05_CourseSelection {
 	public static int[] nums = new int[MAXN];
 
 	// 链式前向星建图
+	public static int edgeCnt;
+
 	public static int[] head = new int[MAXN];
 
 	public static int[] next = new int[MAXN];
 
 	public static int[] to = new int[MAXN];
-
-	public static int cnt;
 
 	// dfn的计数
 	public static int dfnCnt;
@@ -53,16 +53,16 @@ public class Code05_CourseSelection {
 	public static int n, m;
 
 	public static void build(int n, int m) {
-		cnt = 1;
+		edgeCnt = 1;
 		dfnCnt = 0;
 		Arrays.fill(head, 0, n + 1, 0);
 		Arrays.fill(dp[n + 2], 0, m + 1, 0);
 	}
 
 	public static void addEdge(int u, int v) {
-		next[cnt] = head[u];
-		to[cnt] = v;
-		head[u] = cnt++;
+		next[edgeCnt] = head[u];
+		to[edgeCnt] = v;
+		head[u] = edgeCnt++;
 	}
 
 	public static void main(String[] args) throws IOException {
