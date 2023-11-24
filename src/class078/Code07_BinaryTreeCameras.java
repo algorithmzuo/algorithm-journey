@@ -5,7 +5,7 @@ package class078;
 // 节点上的每个摄影头都可以监视其父对象、自身及其直接子对象
 // 计算监控树的所有节点所需的最小摄像头数量
 // 测试链接 : https://leetcode.cn/problems/binary-tree-cameras/
-public class Code05_BinaryTreeCameras {
+public class Code07_BinaryTreeCameras {
 
 	// 不要提交这个类
 	public static class TreeNode {

@@ -42,12 +42,17 @@ public class Code01_LargestBstSubtree {
 		}
 		Info infol = f(x.left);
 		Info infor = f(x.right);
+		// 左 4信息
+		// 右 4信息
+		// x 4信息，然后返回
 		long max = Math.max(x.val, Math.max(infol.max, infor.max));
 		long min = Math.min(x.val, Math.min(infol.min, infor.min));
 		boolean isBst = infol.isBst && infor.isBst && infol.max < x.val && x.val < infor.min;
-		int maxBSTSize = Math.max(infol.maxBstSize, infor.maxBstSize);
+		int maxBSTSize;
 		if (isBst) {
 			maxBSTSize = infol.maxBstSize + infor.maxBstSize + 1;
+		} else {
+			maxBSTSize = Math.max(infol.maxBstSize, infor.maxBstSize);
 		}
 		return new Info(max, min, isBst, maxBSTSize);
 	}
