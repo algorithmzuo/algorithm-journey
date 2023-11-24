@@ -38,17 +38,22 @@ public class Code04_MinimumScoreAfterRemovals {
 		Arrays.fill(dfn, 0, n, 0);
 		dfnCnt = 0;
 		f(nums, graph, 0);
-		int ans = Integer.MAX_VALUE, m = edges.length, cut1, cut2, pre, pos, part1, part2, part3, max, min;
+		int ans = Integer.MAX_VALUE, m = edges.length, h1, h2, pre, pos, part1, part2, part3, max, min;
 		for (int i = 0, a, b, c, d; i < m; i++) {
 			a = edges[i][0];
 			b = edges[i][1];
-			cut1 = dfn[a] < dfn[b] ? b : a;
+			h1 = dfn[a] > dfn[b] ? a : b;
 			for (int j = i + 1; j < m; j++) {
 				c = edges[j][0];
 				d = edges[j][1];
-				cut2 = dfn[c] < dfn[d] ? d : c;
-				pre = dfn[cut1] < dfn[cut2] ? cut1 : cut2;
-				pos = pre == cut1 ? cut2 : cut1;
+				h2 = dfn[c] > dfn[d] ? c : d;
+				if (dfn[h1] < dfn[h2]) {
+					pre = h1;
+					pos = h2;
+				} else {
+					pre = h2;
+					pos = h1;
+				}
 				part1 = xor[pos];
 				if (dfn[pos] < dfn[pre] + size[pre]) {
 					part2 = xor[pre] ^ xor[pos];

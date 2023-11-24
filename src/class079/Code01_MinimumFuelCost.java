@@ -38,6 +38,7 @@ public class Code01_MinimumFuelCost {
 				f(graph, seats, v, u, size, cost);
 				size[u] += size[v];
 				cost[u] += cost[v];
+				// a/b向上取整，可以写成(a+b-1)/b
 				cost[u] += (size[v] + seats - 1) / seats;
 			}
 		}
