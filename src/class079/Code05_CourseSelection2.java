@@ -20,12 +20,9 @@ import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 import java.util.Arrays;
 
-// dfn序 + 背包 + 树型dp
-// 觉得难可以跳过
-// 目前几乎所有题解，都不是最优解的方法
-// 不是最优解的做法不再介绍，只讲最优解
-// 最优解时间复杂度O(n*m)
-public class Code05_CourseSelection {
+// 最优解，链式前向星建图 + dfn序的利用 + 巧妙定义下的尝试
+// 时间复杂度O(n*m)，觉得难可以跳过，这个最优解是非常巧妙和精彩的！
+public class Code05_CourseSelection2 {
 
 	public static int MAXN = 301;
 
