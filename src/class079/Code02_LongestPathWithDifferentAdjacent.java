@@ -24,26 +24,42 @@ public class Code02_LongestPathWithDifferentAdjacent {
 		for (int i = 1; i < n; i++) {
 			graph.get(parent[i]).add(i);
 		}
-		int[] len = new int[n];
-		return f(s, graph, 0, len);
+		return f(s, graph, 0).maxPath;
 	}
 
-	public static int f(char[] s, ArrayList<ArrayList<Integer>> graph, int u, int[] len) {
-		if (graph.get(u).isEmpty()) {
-			len[u] = 1;
-			return 1;
+	public static class Info {
+		public int maxPathFromHead; // 一定要从头节点出发的情况下，相邻字符不等的最长路径长度
+		public int maxPath; // 整棵树上，相邻字符不等的最长路径长度
+
+		public Info(int a, int b) {
+			maxPathFromHead = a;
+			maxPath = b;
 		}
-		int fromHead = 1;
-		int forAll = 1;
+	}
+
+	public static Info f(char[] s, ArrayList<ArrayList<Integer>> graph, int u) {
+		if (graph.get(u).isEmpty()) {
+			// u节点是叶
+			return new Info(1, 1);
+		}
+		int max1 = 0; // 下方最长链
+		int max2 = 0; // 下方次长链
+		int maxPath = 1;
 		for (int v : graph.get(u)) {
-			forAll = Math.max(forAll, f(s, graph, v, len));
+			Info nextInfo = f(s, graph, v);
+			maxPath = Math.max(maxPath, nextInfo.maxPath);
 			if (s[u] != s[v]) {
-				forAll = Math.max(forAll, fromHead + len[v]);
-				fromHead = Math.max(fromHead, len[v] + 1);
+				if (nextInfo.maxPathFromHead > max1) {
+					max2 = max1;
+					max1 = nextInfo.maxPathFromHead;
+				} else if (nextInfo.maxPathFromHead > max2) {
+					max2 = nextInfo.maxPathFromHead;
+				}
 			}
 		}
-		len[u] = fromHead;
-		return forAll;
+		int maxPathFromHead = max1 + 1;
+		maxPath = Math.max(maxPath, max1 + max2 + 1);
+		return new Info(maxPathFromHead, maxPath);
 	}
 
 }

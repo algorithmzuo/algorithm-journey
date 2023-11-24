@@ -16,29 +16,33 @@ import java.util.ArrayList;
 public class Code01_MinimumFuelCost {
 
 	public static long minimumFuelCost(int[][] roads, int seats) {
-		int n = roads.length;
+		int n = roads.length + 1;
 		ArrayList<ArrayList<Integer>> graph = new ArrayList<>();
-		for (int i = 0; i <= n; i++) {
+		for (int i = 0; i < n; i++) {
 			graph.add(new ArrayList<>());
 		}
 		for (int[] r : roads) {
 			graph.get(r[0]).add(r[1]);
 			graph.get(r[1]).add(r[0]);
 		}
-		int[] size = new int[n + 1];
-		long[] cost = new long[n + 1];
+		int[] size = new int[n];
+		long[] cost = new long[n];
 		f(graph, seats, 0, -1, size, cost);
 		return cost[0];
 	}
 
+	// 根据图，当前来到u，u的父节点是p
+	// 遍历完成后，请填好size[u]、cost[u]
 	public static void f(ArrayList<ArrayList<Integer>> graph, int seats, int u, int p, int[] size, long[] cost) {
 		size[u] = 1;
 		for (int v : graph.get(u)) {
 			if (v != p) {
 				f(graph, seats, v, u, size, cost);
+
 				size[u] += size[v];
 				cost[u] += cost[v];
 				// a/b向上取整，可以写成(a+b-1)/b
+				// (size[v]+seats-1) / seats = size[v] / seats 向上取整
 				cost[u] += (size[v] + seats - 1) / seats;
 			}
 		}

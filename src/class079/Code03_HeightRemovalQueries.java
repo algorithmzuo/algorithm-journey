@@ -25,10 +25,13 @@ public class Code03_HeightRemovalQueries {
 	// 提交如下的方法
 	public static final int MAXN = 100010;
 
+	// 下标为节点的值
 	public static int[] dfn = new int[MAXN];
 
+	// 下标为dfn序号
 	public static int[] deep = new int[MAXN];
 
+	// 下标为dfn序号
 	public static int[] size = new int[MAXN];
 
 	public static int[] maxl = new int[MAXN];
@@ -57,18 +60,19 @@ public class Code03_HeightRemovalQueries {
 		return ans;
 	}
 
-	public static void f(TreeNode head, int h) {
+	// 来到x节点，从头节点到x节点经过了k条边
+	public static void f(TreeNode x, int k) {
 		int i = ++dfnCnt;
-		dfn[head.val] = i;
-		deep[i] = h;
+		dfn[x.val] = i;
+		deep[i] = k;
 		size[i] = 1;
-		if (head.left != null) {
-			f(head.left, h + 1);
-			size[i] += size[dfn[head.left.val]];
+		if (x.left != null) {
+			f(x.left, k + 1);
+			size[i] += size[dfn[x.left.val]];
 		}
-		if (head.right != null) {
-			f(head.right, h + 1);
-			size[i] += size[dfn[head.right.val]];
+		if (x.right != null) {
+			f(x.right, k + 1);
+			size[i] += size[dfn[x.right.val]];
 		}
 	}
 

@@ -40,8 +40,10 @@ public class Code05_CourseSelection2 {
 	// dfn的计数
 	public static int dfnCnt;
 
+	// 下标为dfn序号
 	public static int[] val = new int[MAXN + 1];
 
+	// 下标为dfn序号
 	public static int[] size = new int[MAXN + 1];
 
 	// 动态规划表
@@ -91,9 +93,9 @@ public class Code05_CourseSelection2 {
 		// 整体的顺序是根据dfn序来进行的，从大的dfn序，遍历到小的dfn序
 		// dp[i][j] : i ~ n+1 范围的节点，选择j个节点一定要形成有效结构的情况下，最大的累加和
 		// 怎么定义有效结构？重点！重点！重点！
-		// 假设i ~ n+1范围所有节点的上方，有一个总的头节点
+		// 假设i ~ n+1范围上，目前所有头节点的上方，有一个总的头节点
 		// i ~ n+1范围所有节点，选出来j个节点的结构，
-		// 挂在这个假想的头节点之下，是一个连续的结构，没有断开的情况
+		// 挂在这个假想的总头节点之下，是一个连续的结构，没有断开的情况
 		// 那么就说，i ~ n+1范围所有节点，选出来j个节点的结构是一个有效结构
 		for (int i = n + 1; i >= 2; i--) {
 			for (int j = 1; j <= m; j++) {

@@ -53,6 +53,7 @@ public class Code05_CourseSelection1 {
 		StreamTokenizer in = new StreamTokenizer(br);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
 		while (in.nextToken() != StreamTokenizer.TT_EOF) {
+			// 节点编号从0~n
 			n = (int) in.nval;
 			in.nextToken();
 			m = (int) in.nval + 1;
@@ -85,17 +86,22 @@ public class Code05_CourseSelection1 {
 		return f(0, graph.get(0).size(), m);
 	}
 
+	// 当前来到i号节点为头的子树
+	// 只在i号节点、及其i号节点下方的前j棵子树上挑选节点
+	// 一共挑选k个节点，并且保证挑选的节点连成一片
+	// 返回最大的累加和
 	public static int f(int i, int j, int k) {
 		if (k == 0) {
 			return 0;
 		}
-		if (j == 0) {
+		if (j == 0 || k == 1) {
 			return nums[i];
 		}
 		if (dp[i][j][k] != -1) {
 			return dp[i][j][k];
 		}
 		int ans = f(i, j - 1, k);
+		// 第j棵子树头节点v 
 		int v = graph.get(i).get(j - 1);
 		for (int s = 1; s < k; s++) {
 			ans = Math.max(ans, f(i, j - 1, k - s) + f(v, graph.get(v).size(), s));
