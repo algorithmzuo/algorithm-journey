@@ -21,21 +21,24 @@ public class Code07_PathSumIII {
 	public static int pathSum(TreeNode root, int sum) {
 		HashMap<Long, Integer> presum = new HashMap<>();
 		presum.put(0L, 1);
-		return f(root, sum, 0, presum);
+		ans = 0;
+		f(root, sum, 0, presum);
+		return ans;
 	}
 
-	// 返回方法数
-	public static int f(TreeNode x, int target, long sum, HashMap<Long, Integer> presum) {
-		if (x == null) {
-			return 0;
+	public static int ans;
+
+	// sum : 从头节点出发，来到x的时候，上方累加和是多少
+	// 路径必须以x作为结尾，路径累加和是target的路径数量，累加到全局变量ans上
+	public static void f(TreeNode x, int target, long sum, HashMap<Long, Integer> presum) {
+		if (x != null) {
+			sum += x.val; // 从头节点出发一路走到x的整体累加和
+			ans += presum.getOrDefault(sum - target, 0);
+			presum.put(sum, presum.getOrDefault(sum, 0) + 1);
+			f(x.left, target, sum, presum);
+			f(x.right, target, sum, presum);
+			presum.put(sum, presum.get(sum) - 1);
 		}
-		sum += x.val;
-		int ans = presum.getOrDefault(sum - target, 0);
-		presum.put(sum, presum.getOrDefault(sum, 0) + 1);
-		ans += f(x.left, target, sum, presum);
-		ans += f(x.right, target, sum, presum);
-		presum.put(sum, presum.get(sum) - 1);
-		return ans;
 	}
 
 }

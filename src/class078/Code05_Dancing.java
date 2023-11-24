@@ -42,8 +42,10 @@ public class Code05_Dancing {
 	public static int cnt;
 
 	// 动态规划表
+	// no[i] : i为头的整棵树，在i不来的情况下，整棵树能得到的最大快乐值
 	public static int[] no = new int[MAXN];
 
+	// no[i] : i为头的整棵树，在i来的情况下，整棵树能得到的最大快乐值
 	public static int[] yes = new int[MAXN];
 
 	public static int n, h;
@@ -93,6 +95,7 @@ public class Code05_Dancing {
 		br.close();
 	}
 
+	
 	public static void f(int u) {
 		no[u] = 0;
 		yes[u] = nums[u];
