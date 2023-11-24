@@ -44,7 +44,7 @@ public class Code01_LargestBstSubtree {
 		Info infor = f(x.right);
 		// 左 4信息
 		// 右 4信息
-		// x 4信息，然后返回
+		// x 整合出4信息返回
 		long max = Math.max(x.val, Math.max(infol.max, infor.max));
 		long min = Math.min(x.val, Math.min(infol.min, infor.min));
 		boolean isBst = infol.isBst && infor.isBst && infol.max < x.val && x.val < infor.min;

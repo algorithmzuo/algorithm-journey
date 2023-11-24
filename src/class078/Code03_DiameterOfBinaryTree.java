@@ -17,15 +17,15 @@ public class Code03_DiameterOfBinaryTree {
 
 	// 提交如下的方法
 	public static int diameterOfBinaryTree(TreeNode root) {
-		return f(root).maxDistance;
+		return f(root).diameter;
 	}
 
 	public static class Info {
-		public int maxDistance;
+		public int diameter;
 		public int height;
 
 		public Info(int a, int b) {
-			maxDistance = a;
+			diameter = a;
 			height = b;
 		}
 
@@ -38,9 +38,9 @@ public class Code03_DiameterOfBinaryTree {
 		Info leftInfo = f(x.left);
 		Info rightInfo = f(x.right);
 		int height = Math.max(leftInfo.height, rightInfo.height) + 1;
-		int maxDistance = Math.max(leftInfo.maxDistance, rightInfo.maxDistance);
-		maxDistance = Math.max(maxDistance, leftInfo.height + rightInfo.height);
-		return new Info(maxDistance, height);
+		int diameter = Math.max(leftInfo.diameter, rightInfo.diameter);
+		diameter = Math.max(diameter, leftInfo.height + rightInfo.height);
+		return new Info(diameter, height);
 	}
 
 }
