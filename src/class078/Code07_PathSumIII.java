@@ -8,7 +8,7 @@ import java.util.HashMap;
 // 路径 不需要从根节点开始，也不需要在叶子节点结束
 // 但是路径方向必须是向下的（只能从父节点到子节点）
 // 测试链接 : https://leetcode.cn/problems/path-sum-iii/
-public class Code06_PathSumIII {
+public class Code07_PathSumIII {
 
 	// 不要提交这个类
 	public static class TreeNode {

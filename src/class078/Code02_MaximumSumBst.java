@@ -23,6 +23,11 @@ public class Code02_MaximumSumBst {
 	}
 
 	public static class Info {
+		// 为什么这里的max和min是int类型？
+		// 因为题目的数据量规定，
+		// 节点值在[-4 * 10^4，4 * 10^4]范围
+		// 所以int类型的最小值和最大值就够用了
+		// 不需要用long类型
 		public int max;
 		public int min;
 		public int sum;
