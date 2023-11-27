@@ -9,7 +9,7 @@ import java.util.HashMap;
 // 表示 ID = fromi 的人给 ID = toi 的人共计 amounti
 // 请你计算并返回还清所有债务的最小交易笔数
 // 测试链接 : https://leetcode.cn/problems/optimal-account-balancing/
-public class Code04_OptimalAccountBalancing {
+public class Code05_OptimalAccountBalancing {
 
 	public static int minTransfers(int[][] transactions) {
 		int[] debt = debts(transactions);
