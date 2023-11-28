@@ -8,6 +8,8 @@ import java.util.Arrays;
 // 测试链接 : https://leetcode.cn/problems/partition-to-k-equal-sum-subsets/
 public class Code03_PartitionToKEqualSumSubsets {
 
+	// 状压dp的解法
+	// 其实这是最正统的解
 	public static boolean canPartitionKSubsets1(int[] nums, int k) {
 		int sum = 0;
 		for (int num : nums) {
@@ -44,6 +46,9 @@ public class Code03_PartitionToKEqualSumSubsets {
 		return ans;
 	}
 
+	// 带路径的递归，根本改不成动态规划，纯纯的暴力递归
+	// 但是利用疯狂的剪枝策略，可以做到非常好的效率
+	// 但这并不是正统的解，如果数据设计的很恶心，是通过不了的
 	public static boolean canPartitionKSubsets2(int[] nums, int k) {
 		int sum = 0;
 		for (int num : nums) {
@@ -61,7 +66,6 @@ public class Code03_PartitionToKEqualSumSubsets {
 			return true;
 		}
 		int num = nums[index];
-		// len是桶的数量! 就是k
 		int len = group.length;
 		for (int i = 0; i < len; i++) {
 			if (group[i] + num <= target) {
