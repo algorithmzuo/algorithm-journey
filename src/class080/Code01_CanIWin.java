@@ -28,21 +28,21 @@ public class Code01_CanIWin {
 		return f(n, (1 << (n + 1)) - 1, m, dp);
 	}
 
-	public static boolean f(int n, int s, int m, int[] dp) {
-		if (m <= 0) {
+	public static boolean f(int n, int status, int rest, int[] dp) {
+		if (rest <= 0) {
 			return false;
 		}
-		if (dp[s] != 0) {
-			return dp[s] == 1;
+		if (dp[status] != 0) {
+			return dp[status] == 1;
 		}
 		boolean ans = false;
 		for (int i = 1; i <= n; i++) {
-			if ((s & (1 << i)) != 0 && !f(n, (s ^ (1 << i)), m - i, dp)) {
+			if ((status & (1 << i)) != 0 && !f(n, (status ^ (1 << i)), rest - i, dp)) {
 				ans = true;
 				break;
 			}
 		}
-		dp[s] = ans ? 1 : -1;
+		dp[status] = ans ? 1 : -1;
 		return ans;
 	}
 
