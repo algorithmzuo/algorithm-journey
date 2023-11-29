@@ -50,10 +50,9 @@ public class Code03_TheNumberOfGoodSubsets {
 			cur = data[i];
 			times = cnt[i];
 			if (cur != 0 && times != 0) {
-				for (int from = 0, to; from < limit; from++) {
-					if ((from & cur) == 0) {
-						to = from | cur;
-						dp[to] = (int) (((long) dp[from] * times + dp[to]) % mod);
+				for (int status = 1; status < limit; status++) {
+					if ((status & cur) == cur) {
+						dp[status] = (int) (((long) dp[status ^ cur] * times + dp[status]) % mod);
 					}
 				}
 			}
