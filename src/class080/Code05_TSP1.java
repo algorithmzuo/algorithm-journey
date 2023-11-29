@@ -1,6 +1,6 @@
 package class080;
 
-// TSP问题
+// 售货员的难题(TSP问题)
 // 某乡有n个村庄(1<=n<=20)，有一个售货员，他要到各个村庄去售货
 // 各村庄之间的路程s(1<=s<=1000)是已知的
 // 且A村到B村的路程，与B到A的路大多不同(有向带权图)
@@ -25,7 +25,7 @@ import java.io.StreamTokenizer;
 // 但如果把MAXN改成19，会有一个测试用例通过不了
 // 那就差这么一点空间...看不起java是吗？
 // 好，你歧视java实现，那就别怪我了
-// 完全能通过的版本看TSP2的实现
+// 完全能通过的版本看Code05_TSP2的实现
 public class Code05_TSP1 {
 
 	public static int MAXN = 19;
