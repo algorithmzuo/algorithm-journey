@@ -13,7 +13,13 @@ import java.util.Arrays;
 // 如果两个子集删除的下标不同，那么它们被视为不同的子集
 // 测试链接 : https://leetcode.cn/problems/the-number-of-good-subsets/
 public class Code03_TheNumberOfGoodSubsets {
-
+	
+	// 如果某个数字拥有同一种质数因子不只1个
+	// 那么认为这个数字无效，状态全是0，0b0000000000
+	// 如果某个数字拥有同一种质数因子不超过1个
+	// 那么用位信息表示某个数字是否拥有这些质数因子
+	// 质: 29 23 19 17 13 11  7  5  3  2
+	// 位:  9  8  7  6  5  4  3  2  1  0
 	public static int[] data = {
 			0b0000000000, // 0
 			0b0000000000, // 1
