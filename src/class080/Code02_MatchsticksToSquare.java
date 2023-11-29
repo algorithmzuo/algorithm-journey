@@ -22,20 +22,19 @@ public class Code02_MatchsticksToSquare {
 	}
 
 	public static boolean f(int[] arr, int status, int cur, int len, int edges, int[] dp) {
+		if (edges == 0) {
+			return status == (1 << arr.length) - 1;
+		}
 		if (dp[status] != 0) {
 			return dp[status] == 1;
 		}
 		boolean ans = false;
-		if (edges == 0) {
-			ans = status == (1 << arr.length) - 1;
-		} else {
-			for (int i = 0; i < arr.length && !ans; i++) {
-				if (((1 << i) & status) == 0 && cur + arr[i] <= len) {
-					if (cur + arr[i] == len) {
-						ans |= f(arr, status | (1 << i), 0, len, edges - 1, dp);
-					} else {
-						ans |= f(arr, status | (1 << i), cur + arr[i], len, edges, dp);
-					}
+		for (int i = 0; i < arr.length && !ans; i++) {
+			if (((1 << i) & status) == 0 && cur + arr[i] <= len) {
+				if (cur + arr[i] == len) {
+					ans |= f(arr, status | (1 << i), 0, len, edges - 1, dp);
+				} else {
+					ans |= f(arr, status | (1 << i), cur + arr[i], len, edges, dp);
 				}
 			}
 		}
