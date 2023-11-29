@@ -13,7 +13,7 @@ import java.util.Arrays;
 // 如果两个子集删除的下标不同，那么它们被视为不同的子集
 // 测试链接 : https://leetcode.cn/problems/the-number-of-good-subsets/
 public class Code03_TheNumberOfGoodSubsets {
-	
+
 	// 打个表
 	// 如果一个数字拥有某种质数因子不只1个
 	// 那么认为这个数字无效，状态全是0，0b0000000000
@@ -60,11 +60,13 @@ public class Code03_TheNumberOfGoodSubsets {
 			0b0000000111 // 30
 	};
 
-	public static int[] cnt = new int[31];
-
-	public static int[] dp = new int[1 << 10];
+	public static int limit = (1 << 10);
 
 	public static int mod = 1000000007;
+
+	public static int[] cnt = new int[31];
+
+	public static int[] dp = new int[limit];
 
 	public static int numberOfGoodSubsets(int[] nums) {
 		Arrays.fill(cnt, 0);
@@ -76,7 +78,6 @@ public class Code03_TheNumberOfGoodSubsets {
 		for (int i = 0; i < cnt[1]; i++) {
 			dp[0] = (dp[0] << 1) % mod;
 		}
-		int limit = (1 << 10);
 		for (int i = 2, cur, times; i <= 30; i++) {
 			cur = data[i];
 			times = cnt[i];
