@@ -14,19 +14,24 @@ import java.util.Arrays;
 // 测试链接 : https://leetcode.cn/problems/the-number-of-good-subsets/
 public class Code03_TheNumberOfGoodSubsets {
 
+	public static int MAXV = 30;
+
+	public static int LIMIT = (1 << 10);
+
+	public static int MOD = 1000000007;
+
 	// 打个表
-	// 如果一个数字拥有某种质数因子不只1个
+	// 如果一个数字拥有某一种质数因子不只1个
 	// 那么认为这个数字无效，状态全是0，0b0000000000
 	// 如果一个数字拥有任何一种质数因子都不超过1个
 	// 那么认为这个数字有效，用位信息表示这个数字拥有质数因子的状态
-	// 比如12，拥有2这个质数因子不只1个，无效
-	// 所以用0b0000000000表示12拥有质数因子的状态
-	// 比如14，拥有一个2、一个7，有效
-	// 位从低位到高位依次表示2、3、5、7...
+	// 比如12，拥有2这种质数因子不只1个，所以无效，用0b0000000000表示
+	// 比如14，拥有2这种质数因子不超过1个，拥有7这种质数因子不超过1个，有效
+	// 从高位到低位依次表示：...13 11 7 5 3 2
 	// 所以用0b0000001001表示14拥有质数因子的状态
-	// 质: 29 23 19 17 13 11  7  5  3  2
-	// 位:  9  8  7  6  5  4  3  2  1  0
-	public static int[] data = {
+	// 质数: 29 23 19 17 13 11  7  5  3  2
+	// 位置:  9  8  7  6  5  4  3  2  1  0
+	public static int[] own = {
 			0b0000000000, // 0
 			0b0000000000, // 1
 			0b0000000001, // 2
@@ -60,15 +65,52 @@ public class Code03_TheNumberOfGoodSubsets {
 			0b0000000111 // 30
 	};
 
-	public static int limit = (1 << 10);
+	public static int[] cnt = new int[MAXV + 1];
 
-	public static int mod = 1000000007;
+	public static int numberOfGoodSubsets1(int[] nums) {
+		Arrays.fill(cnt, 0);
+		for (int num : nums) {
+			cnt[num]++;
+		}
+		int[][] dp = new int[MAXV + 1][LIMIT];
+		for (int i = 0; i <= MAXV; i++) {
+			Arrays.fill(dp[i], -1);
+		}
+		int ans = 0;
+		for (int s = 1; s < LIMIT; s++) {
+			ans = (ans + f1(MAXV, s, dp)) % MOD;
+		}
+		return ans;
+	}
 
-	public static int[] cnt = new int[31];
+	public static int f1(int i, int s, int[][] dp) {
+		if (dp[i][s] != -1) {
+			return dp[i][s];
+		}
+		int ans = 0;
+		if (i == 1) {
+			if (s == 0) {
+				ans = 1;
+				for (int j = 0; j < cnt[1]; j++) {
+					ans = (ans << 1) % MOD;
+				}
+			}
+		} else {
+			ans = f1(i - 1, s, dp);
+			int cur = own[i];
+			int times = cnt[i];
+			if (cur != 0 && times != 0 && (s & cur) == cur) {
+				ans = (int) (((long) f1(i - 1, s ^ cur, dp) * times + ans) % MOD);
+			}
+		}
+		dp[i][s] = ans;
+		return ans;
+	}
 
-	public static int[] dp = new int[limit];
-
-	public static int numberOfGoodSubsets(int[] nums) {
+	// 空间压缩
+	public static int[] dp = new int[LIMIT];
+	
+	public static int numberOfGoodSubsets2(int[] nums) {
 		Arrays.fill(cnt, 0);
 		Arrays.fill(dp, 0);
 		for (int num : nums) {
@@ -76,22 +118,22 @@ public class Code03_TheNumberOfGoodSubsets {
 		}
 		dp[0] = 1;
 		for (int i = 0; i < cnt[1]; i++) {
-			dp[0] = (dp[0] << 1) % mod;
+			dp[0] = (dp[0] << 1) % MOD;
 		}
-		for (int i = 2, cur, times; i <= 30; i++) {
-			cur = data[i];
+		for (int i = 2, cur, times; i <= MAXV; i++) {
+			cur = own[i];
 			times = cnt[i];
 			if (cur != 0 && times != 0) {
-				for (int status = 1; status < limit; status++) {
+				for (int status = 1; status < LIMIT; status++) {
 					if ((status & cur) == cur) {
-						dp[status] = (int) (((long) dp[status ^ cur] * times + dp[status]) % mod);
+						dp[status] = (int) (((long) dp[status ^ cur] * times + dp[status]) % MOD);
 					}
 				}
 			}
 		}
 		int ans = 0;
 		for (int s = 1; s < (1 << 10); s++) {
-			ans = (ans + dp[s]) % mod;
+			ans = (ans + dp[s]) % MOD;
 		}
 		return ans;
 	}
