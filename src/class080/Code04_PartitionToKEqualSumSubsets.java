@@ -9,8 +9,8 @@ import java.util.Arrays;
 public class Code04_PartitionToKEqualSumSubsets {
 
 	// 状压dp的解法
-	// 其实这是最正统的解
-	public static boolean canPartitionKSubsets1(int[] nums, int k) {
+	// 这是最正式的解
+	public static boolean canPartitionKSubsets(int[] nums, int k) {
 		int sum = 0;
 		for (int num : nums) {
 			sum += num;
@@ -18,37 +18,36 @@ public class Code04_PartitionToKEqualSumSubsets {
 		if (sum % k != 0) {
 			return false;
 		}
-		return f1(nums, 0, 0, 0, sum / k, k, new int[1 << nums.length]) == 1;
+		return f1(nums, 0, 0, 0, sum / k, k, new int[1 << nums.length]);
 	}
 
-	public static int f1(int[] nums, int status, int sum, int sets, int limit, int k, int[] dp) {
-		if (dp[status] != 0) {
-			return dp[status];
-		}
-		int ans = -1;
+	public static boolean f1(int[] nums, int status, int sum, int sets, int limit, int k, int[] dp) {
 		if (sets == k) {
-			ans = 1;
-		} else {
-			for (int i = 0; i < nums.length; i++) {
-				if ((status & (1 << i)) == 0 && sum + nums[i] <= limit) {
-					if (sum + nums[i] == limit) {
-						ans = f1(nums, status | (1 << i), 0, sets + 1, limit, k, dp);
-					} else {
-						ans = f1(nums, status | (1 << i), sum + nums[i], sets, limit, k, dp);
-					}
-					if (ans == 1) {
-						break;
-					}
+			return true;
+		}
+		if (dp[status] != 0) {
+			return dp[status] == 1;
+		}
+		boolean ans = false;
+		for (int i = 0; i < nums.length; i++) {
+			if ((status & (1 << i)) == 0 && sum + nums[i] <= limit) {
+				if (sum + nums[i] == limit) {
+					ans = f1(nums, status | (1 << i), 0, sets + 1, limit, k, dp);
+				} else {
+					ans = f1(nums, status | (1 << i), sum + nums[i], sets, limit, k, dp);
+				}
+				if (ans) {
+					break;
 				}
 			}
 		}
-		dp[status] = ans;
+		dp[status] = ans ? 1 : -1;
 		return ans;
 	}
 
 	// 带路径的递归，根本改不成动态规划，纯纯的暴力递归
 	// 但是利用疯狂的剪枝策略，可以做到非常好的效率
-	// 但这并不是正统的解，如果数据设计的很恶心，是通过不了的
+	// 但这并不是正式的解，如果数据设计的很苛刻，是通过不了的
 	public static boolean canPartitionKSubsets2(int[] nums, int k) {
 		int sum = 0;
 		for (int num : nums) {
