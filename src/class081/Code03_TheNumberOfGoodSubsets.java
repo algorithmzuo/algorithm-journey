@@ -31,7 +31,7 @@ public class Code03_TheNumberOfGoodSubsets {
 	// 所以用0b0000001001表示14拥有质数因子的状态
 	// 质数: 29 23 19 17 13 11  7  5  3  2
 	// 位置:  9  8  7  6  5  4  3  2  1  0
-	public static int[] own = {
+	public static int[] own = { 
 			0b0000000000, // 0
 			0b0000000000, // 1
 			0b0000000001, // 2
@@ -65,10 +65,9 @@ public class Code03_TheNumberOfGoodSubsets {
 			0b0000000111 // 30
 	};
 
-	public static int[] cnt = new int[MAXV + 1];
-
+	// 记忆化搜索
 	public static int numberOfGoodSubsets1(int[] nums) {
-		Arrays.fill(cnt, 0);
+		int[] cnt = new int[MAXV + 1];
 		for (int num : nums) {
 			cnt[num]++;
 		}
@@ -78,12 +77,12 @@ public class Code03_TheNumberOfGoodSubsets {
 		}
 		int ans = 0;
 		for (int s = 1; s < LIMIT; s++) {
-			ans = (ans + f1(MAXV, s, dp)) % MOD;
+			ans = (ans + f1(MAXV, s, cnt, dp)) % MOD;
 		}
 		return ans;
 	}
 
-	public static int f1(int i, int s, int[][] dp) {
+	public static int f1(int i, int s, int[] cnt, int[][] dp) {
 		if (dp[i][s] != -1) {
 			return dp[i][s];
 		}
@@ -96,20 +95,22 @@ public class Code03_TheNumberOfGoodSubsets {
 				}
 			}
 		} else {
-			ans = f1(i - 1, s, dp);
+			ans = f1(i - 1, s, cnt, dp);
 			int cur = own[i];
 			int times = cnt[i];
 			if (cur != 0 && times != 0 && (s & cur) == cur) {
-				ans = (int) (((long) f1(i - 1, s ^ cur, dp) * times + ans) % MOD);
+				ans = (int) (((long) f1(i - 1, s ^ cur, cnt, dp) * times + ans) % MOD);
 			}
 		}
 		dp[i][s] = ans;
 		return ans;
 	}
 
-	// 空间压缩
+	// 空间压缩优化
+	public static int[] cnt = new int[MAXV + 1];
+
 	public static int[] dp = new int[LIMIT];
-	
+
 	public static int numberOfGoodSubsets2(int[] nums) {
 		Arrays.fill(cnt, 0);
 		Arrays.fill(dp, 0);
