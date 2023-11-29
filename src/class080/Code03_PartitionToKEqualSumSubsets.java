@@ -10,7 +10,7 @@ public class Code03_PartitionToKEqualSumSubsets {
 
 	// 状压dp的解法
 	// 这是最正式的解
-	public static boolean canPartitionKSubsets(int[] nums, int k) {
+	public static boolean canPartitionKSubsets1(int[] nums, int k) {
 		int sum = 0;
 		for (int num : nums) {
 			sum += num;
@@ -18,27 +18,27 @@ public class Code03_PartitionToKEqualSumSubsets {
 		if (sum % k != 0) {
 			return false;
 		}
-		return f1(nums, 0, 0, 0, sum / k, k, new int[1 << nums.length]);
+		return f(nums, 0, 0, sum / k, k, new int[1 << nums.length]);
 	}
 
-	public static boolean f1(int[] nums, int status, int sum, int sets, int limit, int k, int[] dp) {
-		if (sets == k) {
-			return true;
+	public static boolean f(int[] nums, int status, int cur, int len, int edges, int[] dp) {
+		if (edges == 0) {
+			return status == (1 << nums.length) - 1;
 		}
 		if (dp[status] != 0) {
 			return dp[status] == 1;
 		}
 		boolean ans = false;
 		for (int i = 0; i < nums.length; i++) {
-			if ((status & (1 << i)) == 0 && sum + nums[i] <= limit) {
-				if (sum + nums[i] == limit) {
-					ans = f1(nums, status | (1 << i), 0, sets + 1, limit, k, dp);
+			if (((1 << i) & status) == 0 && cur + nums[i] <= len) {
+				if (cur + nums[i] == len) {
+					ans = f(nums, status | (1 << i), 0, len, edges - 1, dp);
 				} else {
-					ans = f1(nums, status | (1 << i), sum + nums[i], sets, limit, k, dp);
+					ans = f(nums, status | (1 << i), cur + nums[i], len, edges, dp);
 				}
-				if (ans) {
-					break;
-				}
+			}
+			if (ans) {
+				break;
 			}
 		}
 		dp[status] = ans ? 1 : -1;

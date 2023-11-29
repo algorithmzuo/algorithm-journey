@@ -1,4 +1,4 @@
-package class080;
+package class081;
 
 import java.util.Arrays;
 
@@ -13,7 +13,7 @@ import java.util.Arrays;
 // 不能用贪心的例子 :
 // nums = [1,1,2,2,1]
 // quantity = [2,2,1]
-public class Code06_DistributeRepeatingIntegers {
+public class Code04_DistributeRepeatingIntegers {
 
 	// 时间复杂度O(n * 3的m次方)，空间复杂度O(n * 2的m次方)
 	// ppt上有时间复杂度解析

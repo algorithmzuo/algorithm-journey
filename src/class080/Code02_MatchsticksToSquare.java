@@ -29,13 +29,16 @@ public class Code02_MatchsticksToSquare {
 			return dp[status] == 1;
 		}
 		boolean ans = false;
-		for (int i = 0; i < arr.length && !ans; i++) {
+		for (int i = 0; i < arr.length; i++) {
 			if (((1 << i) & status) == 0 && cur + arr[i] <= len) {
 				if (cur + arr[i] == len) {
-					ans |= f(arr, status | (1 << i), 0, len, edges - 1, dp);
+					ans = f(arr, status | (1 << i), 0, len, edges - 1, dp);
 				} else {
-					ans |= f(arr, status | (1 << i), cur + arr[i], len, edges, dp);
+					ans = f(arr, status | (1 << i), cur + arr[i], len, edges, dp);
 				}
+			}
+			if (ans) {
+				break;
 			}
 		}
 		dp[status] = ans ? 1 : -1;

@@ -1,4 +1,4 @@
-package class080;
+package class081;
 
 import java.util.Arrays;
 import java.util.List;
@@ -9,7 +9,7 @@ import java.util.List;
 // 请你给每个人安排一顶他喜欢的帽子，确保每个人戴的帽子跟别人都不一样，并返回方案数
 // 由于答案可能很大，请返回它对10^9+7取余后的结果
 // 测试链接 : https://leetcode.cn/problems/number-of-ways-to-wear-different-hats-to-each-other
-public class Code04_NumberOfWaysWearDifferentHats {
+public class Code01_NumberOfWaysWearDifferentHats {
 
 	public static int MOD = 1000000007;
 
