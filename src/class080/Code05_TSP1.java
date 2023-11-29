@@ -20,14 +20,15 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 
-// 卡空间是吧？绕！
-public class Code04_TSP2 {
+// 正常来说把MAXN改成20能通过，实现是正确的
+// 问题是卡空间，而且c++的实现不卡空间，就卡java的实现
+// 但如果把MAXN改成19，会有一个测试用例通过不了
+// 那就差这么一点空间...看不起java是吗？
+// 好，你歧视java实现，那就别怪我了
+// 完全能通过的版本看TSP2的实现
+public class Code05_TSP1 {
 
 	public static int MAXN = 19;
-
-	public static int[] start = new int[MAXN];
-
-	public static int[] back = new int[MAXN];
 
 	public static int[][] graph = new int[MAXN][MAXN];
 
@@ -48,16 +49,9 @@ public class Code04_TSP2 {
 		StreamTokenizer in = new StreamTokenizer(br);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
 		while (in.nextToken() != StreamTokenizer.TT_EOF) {
-			n = (int) in.nval - 1;
+			n = (int) in.nval;
 			build();
-			in.nextToken();
 			for (int i = 0; i < n; i++) {
-				in.nextToken();
-				start[i] = (int) in.nval;
-			}
-			for (int i = 0; i < n; i++) {
-				in.nextToken();
-				back[i] = (int) in.nval;
 				for (int j = 0; j < n; j++) {
 					in.nextToken();
 					graph[i][j] = (int) in.nval;
@@ -71,16 +65,12 @@ public class Code04_TSP2 {
 	}
 
 	public static int compute() {
-		int ans = Integer.MAX_VALUE;
-		for (int i = 0; i < n; i++) {
-			ans = Math.min(ans, start[i] + f(1 << i, i));
-		}
-		return ans;
+		return f(1, 0);
 	}
 
 	public static int f(int s, int i) {
 		if (s == (1 << n) - 1) {
-			return back[i];
+			return graph[i][0];
 		}
 		if (dp[s][i] != -1) {
 			return dp[s][i];

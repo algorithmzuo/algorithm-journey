@@ -21,25 +21,25 @@ public class Code02_MatchsticksToSquare {
 		return f(matchsticks, 0, 0, sum >> 2, 4, dp);
 	}
 
-	public static boolean f(int[] arr, int status, int cur, int len, int edges, int[] dp) {
-		if (dp[status] != 0) {
-			return dp[status] == 1;
+	public static boolean f(int[] arr, int s, int cur, int len, int edges, int[] dp) {
+		if (dp[s] != 0) {
+			return dp[s] == 1;
 		}
 		boolean ans = false;
 		if (edges == 0) {
-			ans = (status == (1 << arr.length) - 1) ? true : false;
+			ans = s == (1 << arr.length) - 1;
 		} else {
 			for (int i = 0; i < arr.length && !ans; i++) {
-				if (((1 << i) & status) == 0 && cur + arr[i] <= len) {
+				if (((1 << i) & s) == 0 && cur + arr[i] <= len) {
 					if (cur + arr[i] == len) {
-						ans |= f(arr, status | (1 << i), 0, len, edges - 1, dp);
+						ans |= f(arr, s | (1 << i), 0, len, edges - 1, dp);
 					} else {
-						ans |= f(arr, status | (1 << i), cur + arr[i], len, edges, dp);
+						ans |= f(arr, s | (1 << i), cur + arr[i], len, edges, dp);
 					}
 				}
 			}
 		}
-		dp[status] = ans ? 1 : -1;
+		dp[s] = ans ? 1 : -1;
 		return ans;
 	}
 

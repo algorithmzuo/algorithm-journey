@@ -14,36 +14,35 @@ package class080;
 // 测试链接 : https://leetcode.cn/problems/can-i-win/
 public class Code01_CanIWin {
 
-	public static boolean canIWin(int choose, int total) {
-		if (total == 0) {
+	public static boolean canIWin(int n, int m) {
+		if (m == 0) {
 			return true;
 		}
-		if ((choose * (choose + 1) >> 1) < total) {
+		if ((n * (n + 1) >> 1) < m) {
 			return false;
 		}
 		// dp[status] == 1 算过，答案是true
 		// dp[status] == -1 算过，答案是false
 		// dp[status] == 0 没算过
-		int[] dp = new int[1 << (choose + 1)];
-		return f(choose, 0, total, dp);
+		int[] dp = new int[1 << (n + 1)];
+		return f(n, (1 << (n + 1)) - 1, m, dp);
 	}
 
-	public static boolean f(int choose, int status, int rest, int[] dp) {
-		if (dp[status] != 0) {
-			return dp[status] == 1 ? true : false;
+	public static boolean f(int n, int s, int m, int[] dp) {
+		if (m <= 0) {
+			return false;
+		}
+		if (dp[s] != 0) {
+			return dp[s] == 1;
 		}
 		boolean ans = false;
-		if (rest > 0) {
-			for (int i = 1; i <= choose; i++) {
-				if (((1 << i) & status) == 0) {
-					if (!f(choose, (status | (1 << i)), rest - i, dp)) {
-						ans = true;
-						break;
-					}
-				}
+		for (int i = 1; i <= n; i++) {
+			if ((s & (1 << i)) != 0 && !f(n, (s ^ (1 << i)), m - i, dp)) {
+				ans = true;
+				break;
 			}
 		}
-		dp[status] = ans ? 1 : -1;
+		dp[s] = ans ? 1 : -1;
 		return ans;
 	}
 

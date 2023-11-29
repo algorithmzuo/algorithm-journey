@@ -6,7 +6,7 @@ import java.util.Arrays;
 // 给定一个整数数组  nums 和一个正整数 k，
 // 找出是否有可能把这个数组分成 k 个非空子集，其总和都相等。
 // 测试链接 : https://leetcode.cn/problems/partition-to-k-equal-sum-subsets/
-public class Code03_PartitionToKEqualSumSubsets {
+public class Code04_PartitionToKEqualSumSubsets {
 
 	// 状压dp的解法
 	// 其实这是最正统的解
@@ -18,10 +18,10 @@ public class Code03_PartitionToKEqualSumSubsets {
 		if (sum % k != 0) {
 			return false;
 		}
-		return process1(nums, 0, 0, 0, sum / k, k, new int[1 << nums.length]) == 1;
+		return f1(nums, 0, 0, 0, sum / k, k, new int[1 << nums.length]) == 1;
 	}
 
-	public static int process1(int[] nums, int status, int sum, int sets, int limit, int k, int[] dp) {
+	public static int f1(int[] nums, int status, int sum, int sets, int limit, int k, int[] dp) {
 		if (dp[status] != 0) {
 			return dp[status];
 		}
@@ -32,9 +32,9 @@ public class Code03_PartitionToKEqualSumSubsets {
 			for (int i = 0; i < nums.length; i++) {
 				if ((status & (1 << i)) == 0 && sum + nums[i] <= limit) {
 					if (sum + nums[i] == limit) {
-						ans = process1(nums, status | (1 << i), 0, sets + 1, limit, k, dp);
+						ans = f1(nums, status | (1 << i), 0, sets + 1, limit, k, dp);
 					} else {
-						ans = process1(nums, status | (1 << i), sum + nums[i], sets, limit, k, dp);
+						ans = f1(nums, status | (1 << i), sum + nums[i], sets, limit, k, dp);
 					}
 					if (ans == 1) {
 						break;
@@ -58,10 +58,10 @@ public class Code03_PartitionToKEqualSumSubsets {
 			return false;
 		}
 		Arrays.sort(nums);
-		return partitionK(new int[k], sum / k, nums, nums.length - 1);
+		return f2(new int[k], sum / k, nums, nums.length - 1);
 	}
 
-	public static boolean partitionK(int[] group, int target, int[] nums, int index) {
+	public static boolean f2(int[] group, int target, int[] nums, int index) {
 		if (index < 0) {
 			return true;
 		}
@@ -70,7 +70,7 @@ public class Code03_PartitionToKEqualSumSubsets {
 		for (int i = 0; i < len; i++) {
 			if (group[i] + num <= target) {
 				group[i] += num;
-				if (partitionK(group, target, nums, index - 1)) {
+				if (f2(group, target, nums, index - 1)) {
 					return true;
 				}
 				group[i] -= num;
