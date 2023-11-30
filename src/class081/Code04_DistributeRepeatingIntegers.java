@@ -16,10 +16,10 @@ public class Code04_DistributeRepeatingIntegers {
 	// quantity = [2,2,1]
 	// 时间复杂度O(n * 3的m次方)，空间复杂度O(n * 2的m次方)
 	// ppt上有时间复杂度解析
-	// 带路径的递归（暴力枚举、回溯）的解法速度更快，但是并不推荐，不再讲述
+	// 纯暴力的递归（不做任何动态规划）的解法速度更快，但是并不推荐，不再讲述
 	// 原因上节课说了（讲解080-状压dp-上，题目3）
 	// 同样的数据量，如果出题人刻意构造严苛的数据状况，
-	// 带路径的递归（暴力枚举、回溯）就无法通过了，但是状压dp一定可以通过
+	// 纯暴力的递归（不做任何动态规划）就无法通过了，但是状压dp一定可以通过
 	public static boolean canDistribute(int[] nums, int[] quantity) {
 		Arrays.sort(nums);
 		int n = 1;
