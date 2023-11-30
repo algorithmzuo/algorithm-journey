@@ -45,8 +45,7 @@ public class Code03_PartitionToKEqualSumSubsets {
 		return ans;
 	}
 
-	// 带路径的递归，根本改不成动态规划，纯纯的暴力递归
-	// 但是利用疯狂的剪枝策略，可以做到非常好的效率
+	// 纯暴力的递归（不做任何动态规划），利用良好的剪枝策略，可以做到非常好的效率
 	// 但这并不是正式的解，如果数据设计的很苛刻，是通过不了的
 	public static boolean canPartitionKSubsets2(int[] nums, int k) {
 		int sum = 0;
