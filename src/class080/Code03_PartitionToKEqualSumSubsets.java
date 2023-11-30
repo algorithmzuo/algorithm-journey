@@ -57,8 +57,9 @@ public class Code03_PartitionToKEqualSumSubsets {
 		if (sum % k != 0) {
 			return false;
 		}
+		int n = nums.length;
 		Arrays.sort(nums);
-		return f2(new int[k], sum / k, nums, nums.length - 1);
+		return f2(new int[k], sum / k, nums, n - 1);
 	}
 
 	public static boolean f2(int[] group, int target, int[] nums, int index) {
@@ -74,9 +75,6 @@ public class Code03_PartitionToKEqualSumSubsets {
 					return true;
 				}
 				group[i] -= num;
-				if (group[i] == 0) {
-					return false;
-				}
 				while (i + 1 < group.length && group[i] == group[i + 1]) {
 					i++;
 				}
