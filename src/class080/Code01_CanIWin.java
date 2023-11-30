@@ -14,7 +14,7 @@ public class Code01_CanIWin {
 		if (m == 0) {
 			return true;
 		}
-		if ((n * (n + 1) >> 1) < m) {
+		if (n * (n + 1) / 2 < m) {
 			return false;
 		}
 		// dp[status] == 0 代表没算过

@@ -38,9 +38,9 @@ public class Code03_PartitionToKEqualSumSubsets {
 				} else {
 					ans = f1(nums, len, status ^ (1 << i), cur + nums[i], rest, dp);
 				}
-			}
-			if (ans) {
-				break;
+				if (ans) {
+					break;
+				}
 			}
 		}
 		dp[status] = ans ? 1 : -1;
