@@ -18,12 +18,13 @@ public class Code03_PartitionToKEqualSumSubsets {
 		if (sum % k != 0) {
 			return false;
 		}
-		int limit = 1 << nums.length;
-		int[] dp = new int[limit];
-		return f1(nums, sum / k, limit - 1, 0, k, dp);
+		int n = nums.length;
+		int[] dp = new int[1 << n];
+		return f1(nums, sum / k, (1 << n) - 1, 0, k, dp);
 	}
 
-	public static boolean f1(int[] nums, int len, int status, int cur, int rest, int[] dp) {
+	// 就是题目2的递归函数
+	public static boolean f1(int[] nums, int limit, int status, int cur, int rest, int[] dp) {
 		if (rest == 0) {
 			return status == 0;
 		}
@@ -32,11 +33,11 @@ public class Code03_PartitionToKEqualSumSubsets {
 		}
 		boolean ans = false;
 		for (int i = 0; i < nums.length; i++) {
-			if ((status & (1 << i)) != 0 && cur + nums[i] <= len) {
-				if (cur + nums[i] == len) {
-					ans = f1(nums, len, status ^ (1 << i), 0, rest - 1, dp);
+			if ((status & (1 << i)) != 0 && cur + nums[i] <= limit) {
+				if (cur + nums[i] == limit) {
+					ans = f1(nums, limit, status ^ (1 << i), 0, rest - 1, dp);
 				} else {
-					ans = f1(nums, len, status ^ (1 << i), cur + nums[i], rest, dp);
+					ans = f1(nums, limit, status ^ (1 << i), cur + nums[i], rest, dp);
 				}
 				if (ans) {
 					break;
@@ -62,6 +63,12 @@ public class Code03_PartitionToKEqualSumSubsets {
 		return f2(new int[k], sum / k, nums, n - 1);
 	}
 
+	// group里面是各个集合已经有的累加和
+	// 随着递归的展开，group里的累加和会变化
+	// 所以这是一个带路径的递归，而且路径信息比较复杂(group数组)
+	// 无法改成动态规划，但是利用剪枝策略可以通过
+	// group[0....index]这些数字，填入每个集合，一定要都使用
+	// 每个集合的累加和一定都要是target，返回能不能做到
 	public static boolean f2(int[] group, int target, int[] nums, int index) {
 		if (index < 0) {
 			return true;
@@ -70,10 +77,12 @@ public class Code03_PartitionToKEqualSumSubsets {
 		int len = group.length;
 		for (int i = 0; i < len; i++) {
 			if (group[i] + num <= target) {
+				// 当前数字num放进i号集合
 				group[i] += num;
 				if (f2(group, target, nums, index - 1)) {
 					return true;
 				}
+				// 递归完成后将路径还原
 				group[i] -= num;
 				while (i + 1 < group.length && group[i] == group[i + 1]) {
 					i++;

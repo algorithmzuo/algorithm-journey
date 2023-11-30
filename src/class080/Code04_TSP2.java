@@ -29,8 +29,10 @@ public class Code04_TSP2 {
 
 	public static int[] back = new int[MAXN];
 
+	// 这个图中，其实是不算起始村的，其他村庄彼此到达的路径长度
 	public static int[][] graph = new int[MAXN][MAXN];
 
+	// 不算起始村庄的
 	public static int[][] dp = new int[1 << MAXN][MAXN];
 
 	public static int n;
@@ -72,12 +74,15 @@ public class Code04_TSP2 {
 
 	public static int compute() {
 		int ans = Integer.MAX_VALUE;
+		// 起始村无编号
 		for (int i = 0; i < n; i++) {
+			// 起始村 -> i号村  +  i号村出发所有村子都走最终回到起始村
 			ans = Math.min(ans, start[i] + f(1 << i, i));
 		}
 		return ans;
 	}
 
+	// s : 不包含起始村的
 	public static int f(int s, int i) {
 		if (s == (1 << n) - 1) {
 			return back[i];

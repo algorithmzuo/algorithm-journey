@@ -68,8 +68,11 @@ public class Code04_TSP1 {
 		return f(1, 0);
 	}
 
+	// s : 村里走没走过的状态，1走过了不要再走了，0可以走
+	// i : 目前在哪个村
 	public static int f(int s, int i) {
 		if (s == (1 << n) - 1) {
+			// n : 000011111
 			return graph[i][0];
 		}
 		if (dp[s][i] != -1) {
@@ -77,6 +80,7 @@ public class Code04_TSP1 {
 		}
 		int ans = Integer.MAX_VALUE;
 		for (int j = 0; j < n; j++) {
+			// 0...n-1这些村，都看看是不是下一个落脚点
 			if ((s & (1 << j)) == 0) {
 				ans = Math.min(ans, graph[i][j] + f(s | (1 << j), j));
 			}
