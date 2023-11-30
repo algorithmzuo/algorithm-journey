@@ -9,32 +9,33 @@ package class080;
 // 测试链接 : https://leetcode.cn/problems/matchsticks-to-square/
 public class Code02_MatchsticksToSquare {
 
-	public static boolean makesquare(int[] matchsticks) {
+	public static boolean makesquare(int[] nums) {
 		int sum = 0;
-		for (int num : matchsticks) {
+		for (int num : nums) {
 			sum += num;
 		}
-		if ((sum & 3) != 0) {
+		if (sum % 4 != 0) {
 			return false;
 		}
-		int[] dp = new int[1 << matchsticks.length];
-		return f(matchsticks, 0, 0, sum >> 2, 4, dp);
+		int limit = 1 << nums.length;
+		int[] dp = new int[limit];
+		return f(nums, sum / 4, limit - 1, 0, 4, dp);
 	}
 
-	public static boolean f(int[] arr, int status, int cur, int len, int edges, int[] dp) {
-		if (edges == 0) {
-			return status == (1 << arr.length) - 1;
+	public static boolean f(int[] nums, int len, int status, int cur, int rest, int[] dp) {
+		if (rest == 0) {
+			return status == 0;
 		}
 		if (dp[status] != 0) {
 			return dp[status] == 1;
 		}
 		boolean ans = false;
-		for (int i = 0; i < arr.length; i++) {
-			if (((1 << i) & status) == 0 && cur + arr[i] <= len) {
-				if (cur + arr[i] == len) {
-					ans = f(arr, status | (1 << i), 0, len, edges - 1, dp);
+		for (int i = 0; i < nums.length; i++) {
+			if ((status & (1 << i)) != 0 && cur + nums[i] <= len) {
+				if (cur + nums[i] == len) {
+					ans = f(nums, len, status ^ (1 << i), 0, rest - 1, dp);
 				} else {
-					ans = f(arr, status | (1 << i), cur + arr[i], len, edges, dp);
+					ans = f(nums, len, status ^ (1 << i), cur + nums[i], rest, dp);
 				}
 			}
 			if (ans) {

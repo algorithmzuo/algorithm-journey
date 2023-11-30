@@ -18,23 +18,25 @@ public class Code03_PartitionToKEqualSumSubsets {
 		if (sum % k != 0) {
 			return false;
 		}
-		return f(nums, 0, 0, sum / k, k, new int[1 << nums.length]);
+		int limit = 1 << nums.length;
+		int[] dp = new int[limit];
+		return f1(nums, sum / k, limit - 1, 0, k, dp);
 	}
 
-	public static boolean f(int[] nums, int status, int cur, int len, int edges, int[] dp) {
-		if (edges == 0) {
-			return status == (1 << nums.length) - 1;
+	public static boolean f1(int[] nums, int len, int status, int cur, int rest, int[] dp) {
+		if (rest == 0) {
+			return status == 0;
 		}
 		if (dp[status] != 0) {
 			return dp[status] == 1;
 		}
 		boolean ans = false;
 		for (int i = 0; i < nums.length; i++) {
-			if (((1 << i) & status) == 0 && cur + nums[i] <= len) {
+			if ((status & (1 << i)) != 0 && cur + nums[i] <= len) {
 				if (cur + nums[i] == len) {
-					ans = f(nums, status | (1 << i), 0, len, edges - 1, dp);
+					ans = f1(nums, len, status ^ (1 << i), 0, rest - 1, dp);
 				} else {
-					ans = f(nums, status | (1 << i), cur + nums[i], len, edges, dp);
+					ans = f1(nums, len, status ^ (1 << i), cur + nums[i], rest, dp);
 				}
 			}
 			if (ans) {
