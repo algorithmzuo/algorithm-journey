@@ -31,7 +31,7 @@ public class Code03_TheNumberOfGoodSubsets {
 	// 所以用0b0000001001表示14拥有质数因子的状态
 	// 质数: 29 23 19 17 13 11  7  5  3  2
 	// 位置:  9  8  7  6  5  4  3  2  1  0
-	public static int[] own = { 
+	public static int[] own = {
 			0b0000000000, // 0
 			0b0000000000, // 1
 			0b0000000001, // 2
