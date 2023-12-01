@@ -31,10 +31,10 @@ public class Code01_NumberOfWaysWearDifferentHats {
 		for (int i = 0; i <= m; i++) {
 			Arrays.fill(dp[i], -1);
 		}
-		return f(hats, m, n, 0, 0, dp);
+		return f2(hats, m, n, 0, 0, dp);
 	}
 
-	public static int f(int[] hats, int m, int n, int i, int s, int[][] dp) {
+	public static int f1(int[] hats, int m, int n, int i, int s, int[][] dp) {
 		if (s == (1 << n) - 1) {
 			return 1;
 		}
@@ -44,7 +44,28 @@ public class Code01_NumberOfWaysWearDifferentHats {
 		if (dp[i][s] != -1) {
 			return dp[i][s];
 		}
-		int ans = f(hats, m, n, i + 1, s, dp);
+		int ans = f1(hats, m, n, i + 1, s, dp);
+		int cur = hats[i];
+		for (int p = 0; p < n; p++) {
+			if ((cur & (1 << p)) != 0 && (s & (1 << p)) == 0) {
+				ans = (ans + f1(hats, m, n, i + 1, s | (1 << p), dp)) % MOD;
+			}
+		}
+		dp[i][s] = ans;
+		return ans;
+	}
+
+	public static int f2(int[] hats, int m, int n, int i, int s, int[][] dp) {
+		if (s == (1 << n) - 1) {
+			return 1;
+		}
+		if (i == m + 1) {
+			return 0;
+		}
+		if (dp[i][s] != -1) {
+			return dp[i][s];
+		}
+		int ans = f2(hats, m, n, i + 1, s, dp);
 		int cur = hats[i];
 		int rightOne;
 		while (cur != 0) {
@@ -53,7 +74,7 @@ public class Code01_NumberOfWaysWearDifferentHats {
 			// Brian Kernighan算法
 			rightOne = cur & -cur;
 			if ((s & rightOne) == 0) {
-				ans = (ans + f(hats, m, n, i + 1, s | rightOne, dp)) % MOD;
+				ans = (ans + f2(hats, m, n, i + 1, s | rightOne, dp)) % MOD;
 			}
 			cur ^= rightOne;
 		}

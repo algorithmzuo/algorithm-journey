@@ -23,25 +23,6 @@ public class Code02_OptimalAccountBalancing {
 		return n - f(debt, (1 << n) - 1, sum, n, dp);
 	}
 
-	public static int f(int[] debt, int set, int sum, int n, int[] dp) {
-		if (dp[set] != -1) {
-			return dp[set];
-		}
-		int ans = 0;
-		if ((set & (set - 1)) != 0) { // 不只一个元素
-			for (int i = 0; i < n; i++) {
-				if ((set & (1 << i)) != 0) {
-					ans = Math.max(ans, f(debt, set ^ (1 << i), sum - debt[i], n, dp));
-				}
-			}
-			if (sum == 0) {
-				ans++;
-			}
-		}
-		dp[set] = ans;
-		return ans;
-	}
-
 	public static int[] debts(int[][] transactions) {
 		HashMap<Integer, Integer> map = new HashMap<>();
 		for (int[] tran : transactions) {
@@ -62,6 +43,25 @@ public class Code02_OptimalAccountBalancing {
 			}
 		}
 		return debt;
+	}
+
+	public static int f(int[] debt, int set, int sum, int n, int[] dp) {
+		if (dp[set] != -1) {
+			return dp[set];
+		}
+		int ans = 0;
+		if ((set & (set - 1)) != 0) { // 不只一个元素
+			for (int i = 0; i < n; i++) {
+				if ((set & (1 << i)) != 0) {
+					ans = Math.max(ans, f(debt, set ^ (1 << i), sum - debt[i], n, dp));
+				}
+			}
+			if (sum == 0) {
+				ans++;
+			}
+		}
+		dp[set] = ans;
+		return ans;
 	}
 
 }
