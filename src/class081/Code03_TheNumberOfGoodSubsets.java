@@ -20,7 +20,7 @@ public class Code03_TheNumberOfGoodSubsets {
 
 	public static int MOD = 1000000007;
 
-	// 打个表
+	// 打个表来加速判断
 	// 如果一个数字拥有某一种质数因子不只1个
 	// 那么认为这个数字无效，状态全是0，0b0000000000
 	// 如果一个数字拥有任何一种质数因子都不超过1个
