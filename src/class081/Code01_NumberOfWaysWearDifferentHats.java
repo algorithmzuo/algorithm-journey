@@ -69,7 +69,7 @@ public class Code01_NumberOfWaysWearDifferentHats {
 		int ans = f2(hats, m, n, i + 1, s, dp);
 		int cur = hats[i];
 		// 不用for循环枚举
-		// 用帽子中依次提取出能满足的人来枚举
+		// 用当前帽子中依次提取出能满足的人
 		// 提取出二进制状态中最右侧的1
 		// 讲解030-异或运算，题目5
 		// Brian Kernighan算法
