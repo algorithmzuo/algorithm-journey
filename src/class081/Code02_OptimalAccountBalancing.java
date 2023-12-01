@@ -28,16 +28,15 @@ public class Code02_OptimalAccountBalancing {
 			return dp[set];
 		}
 		int ans = 0;
-		if ((set & (set - 1)) != 0) {
-			int value = 0;
-			int max = 0;
+		if ((set & (set - 1)) != 0) { // 不只一个元素
 			for (int i = 0; i < n; i++) {
-				value = debt[i];
 				if ((set & (1 << i)) != 0) {
-					max = Math.max(max, f(debt, set ^ (1 << i), sum - value, n, dp));
+					ans = Math.max(ans, f(debt, set ^ (1 << i), sum - debt[i], n, dp));
 				}
 			}
-			ans = sum == 0 ? max + 1 : max;
+			if (sum == 0) {
+				ans++;
+			}
 		}
 		dp[set] = ans;
 		return ans;
