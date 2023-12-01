@@ -59,10 +59,10 @@ public class Code04_DistributeRepeatingIntegers {
 		boolean ans = false;
 		int c = cnt[index];
 		// 这是整个实现最核心的枚举
-		// s枚举了status的所有子集状态
+		// j枚举了status的所有子集状态
 		// 建议记住
-		for (int s = status; s > 0; s = (s - 1) & status) {
-			if (sum[s] <= c && f(cnt, sum, status ^ s, index + 1, dp)) {
+		for (int j = status; j > 0; j = (j - 1) & status) {
+			if (sum[j] <= c && f(cnt, sum, status ^ j, index + 1, dp)) {
 				ans = true;
 				break;
 			}
