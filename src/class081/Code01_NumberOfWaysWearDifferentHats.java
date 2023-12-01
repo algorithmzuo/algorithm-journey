@@ -45,14 +45,17 @@ public class Code01_NumberOfWaysWearDifferentHats {
 			return dp[i][s];
 		}
 		int ans = f(hats, m, n, i + 1, s, dp);
-		int h = hats[i];
+		int cur = hats[i];
 		int rightOne;
-		while (h != 0) {
-			rightOne = h & -h;
+		while (cur != 0) {
+			// 提取出二进制状态中最右侧的1
+			// 讲解030-异或运算，题目5
+			// Brian Kernighan算法
+			rightOne = cur & -cur;
 			if ((s & rightOne) == 0) {
 				ans = (ans + f(hats, m, n, i + 1, s | rightOne, dp)) % MOD;
 			}
-			h -= rightOne;
+			cur ^= rightOne;
 		}
 		dp[i][s] = ans;
 		return ans;
