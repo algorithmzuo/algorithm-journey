@@ -17,20 +17,16 @@ public class Code02_OptimalAccountBalancing {
 		// 加工出来的debt数组中一定不含有0
 		int[] debt = debts(transactions);
 		int n = debt.length;
-		int sum = 0;
-		for (int num : debt) {
-			sum += num;
-		}
 		int[] dp = new int[1 << n];
 		Arrays.fill(dp, -1);
-		return n - f(debt, (1 << n) - 1, sum, n, dp);
+		return n - f(debt, (1 << n) - 1, 0, n, dp);
 	}
 
 	public static int[] debts(int[][] transactions) {
 		int[] help = new int[MAXN];
 		for (int[] tran : transactions) {
-			help[tran[0]] += tran[2];
-			help[tran[1]] -= tran[2];
+			help[tran[0]] -= tran[2];
+			help[tran[1]] += tran[2];
 		}
 		int n = 0;
 		for (int num : help) {
@@ -53,15 +49,24 @@ public class Code02_OptimalAccountBalancing {
 			return dp[set];
 		}
 		int ans = 0;
-		if ((set & (set - 1)) != 0) {
-			// 不只一个元素
-			for (int i = 0; i < n; i++) {
-				if ((set & (1 << i)) != 0) {
-					ans = Math.max(ans, f(debt, set ^ (1 << i), sum - debt[i], n, dp));
-				}
-			}
+		if ((set & (set - 1)) != 0) { // 集合中不只一个元素
 			if (sum == 0) {
-				ans++;
+				for (int i = 0; i < n; i++) {
+					if ((set & (1 << i)) != 0) {
+						// 找到任何一个元素，去除这个元素
+						// 剩下的集合进行尝试，返回值 + 1
+						ans = f(debt, set ^ (1 << i), sum - debt[i], n, dp) + 1;
+						// 然后不需要再尝试下一个元素了，因为答案一定是一样的
+						// 所以直接break
+						break;
+					}
+				}
+			} else {
+				for (int i = 0; i < n; i++) {
+					if ((set & (1 << i)) != 0) {
+						ans = Math.max(ans, f(debt, set ^ (1 << i), sum - debt[i], n, dp));
+					}
+				}
 			}
 		}
 		dp[set] = ans;

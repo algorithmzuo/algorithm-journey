@@ -46,10 +46,13 @@ public class Code04_DistributeRepeatingIntegers {
 		return f(cnt, sum, (1 << m) - 1, 0, dp);
 	}
 
+	// 当前来到的数字，编号index，个数cnt[index]
+	// status : 订单状态，1还需要去满足，0已经满足过了
 	public static boolean f(int[] cnt, int[] sum, int status, int index, int[][] dp) {
 		if (status == 0) {
 			return true;
 		}
+		// status != 0
 		if (index == cnt.length) {
 			return false;
 		}
@@ -57,12 +60,12 @@ public class Code04_DistributeRepeatingIntegers {
 			return dp[status][index] == 1;
 		}
 		boolean ans = false;
-		int c = cnt[index];
+		int k = cnt[index];
 		// 这是整个实现最核心的枚举
 		// j枚举了status的所有子集状态
 		// 建议记住
 		for (int j = status; j > 0; j = (j - 1) & status) {
-			if (sum[j] <= c && f(cnt, sum, status ^ j, index + 1, dp)) {
+			if (sum[j] <= k && f(cnt, sum, status ^ j, index + 1, dp)) {
 				ans = true;
 				break;
 			}

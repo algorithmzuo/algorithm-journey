@@ -29,10 +29,9 @@ public class Code03_TheNumberOfGoodSubsets {
 	// 比如14，拥有2这种质数因子不超过1个，拥有7这种质数因子不超过1个，有效
 	// 从高位到低位依次表示：...13 11 7 5 3 2
 	// 所以用0b0000001001表示14拥有质数因子的状态
-	// 质数: 29 23 19 17 13 11  7  5  3  2
-	// 位置:  9  8  7  6  5  4  3  2  1  0
-	public static int[] own = {
-			0b0000000000, // 0
+	// 质数: 29 23 19 17 13 11 7 5 3 2
+	// 位置: 9 8 7 6 5 4 3 2 1 0
+	public static int[] own = { 0b0000000000, // 0
 			0b0000000000, // 1
 			0b0000000001, // 2
 			0b0000000010, // 3
@@ -67,6 +66,7 @@ public class Code03_TheNumberOfGoodSubsets {
 
 	// 记忆化搜索
 	public static int numberOfGoodSubsets1(int[] nums) {
+		// 1 ~ 30
 		int[] cnt = new int[MAXV + 1];
 		for (int num : nums) {
 			cnt[num]++;
@@ -82,6 +82,12 @@ public class Code03_TheNumberOfGoodSubsets {
 		return ans;
 	}
 
+	// 1....i范围的数字，每种数字cnt[i]个
+	// 最终相乘的结果一定要让质因子的状态为s，且每种质因子只能有1个
+	// 请问子集的数量是多少
+	// s每一位代表的质因子如下
+	// 质数: 29 23 19 17 13 11 7 5 3 2
+	// 位置: 9 8 7 6 5 4 3 2 1 0
 	public static int f1(int i, int s, int[] cnt, int[][] dp) {
 		if (dp[i][s] != -1) {
 			return dp[i][s];
@@ -99,6 +105,7 @@ public class Code03_TheNumberOfGoodSubsets {
 			int cur = own[i];
 			int times = cnt[i];
 			if (cur != 0 && times != 0 && (s & cur) == cur) {
+				// 能要i这个数字
 				ans = (int) (((long) f1(i - 1, s ^ cur, cnt, dp) * times + ans) % MOD);
 			}
 		}
@@ -125,7 +132,7 @@ public class Code03_TheNumberOfGoodSubsets {
 			cur = own[i];
 			times = cnt[i];
 			if (cur != 0 && times != 0) {
-				for (int status = 1; status < LIMIT; status++) {
+				for (int status = LIMIT - 1; status >= 0; status--) {
 					if ((status & cur) == cur) {
 						dp[status] = (int) (((long) dp[status ^ cur] * times + dp[status]) % MOD);
 					}
