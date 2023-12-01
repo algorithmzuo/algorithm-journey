@@ -133,7 +133,7 @@ public class Code03_TheNumberOfGoodSubsets {
 			}
 		}
 		int ans = 0;
-		for (int s = 1; s < (1 << 10); s++) {
+		for (int s = 1; s < LIMIT; s++) {
 			ans = (ans + dp[s]) % MOD;
 		}
 		return ans;
