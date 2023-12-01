@@ -46,6 +46,7 @@ public class Code01_NumberOfWaysWearDifferentHats {
 		}
 		int ans = f1(hats, m, n, i + 1, s, dp);
 		int cur = hats[i];
+		// 用for循环从0 ~ n-1枚举每个人
 		for (int p = 0; p < n; p++) {
 			if ((cur & (1 << p)) != 0 && (s & (1 << p)) == 0) {
 				ans = (ans + f1(hats, m, n, i + 1, s | (1 << p), dp)) % MOD;
@@ -67,11 +68,13 @@ public class Code01_NumberOfWaysWearDifferentHats {
 		}
 		int ans = f2(hats, m, n, i + 1, s, dp);
 		int cur = hats[i];
+		// 不用for循环枚举
+		// 用帽子中依次提取出能满足的人来枚举
+		// 提取出二进制状态中最右侧的1
+		// 讲解030-异或运算，题目5
+		// Brian Kernighan算法
 		int rightOne;
 		while (cur != 0) {
-			// 提取出二进制状态中最右侧的1
-			// 讲解030-异或运算，题目5
-			// Brian Kernighan算法
 			rightOne = cur & -cur;
 			if ((s & rightOne) == 0) {
 				ans = (ans + f2(hats, m, n, i + 1, s | rightOne, dp)) % MOD;

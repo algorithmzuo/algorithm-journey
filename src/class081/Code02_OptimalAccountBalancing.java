@@ -1,7 +1,6 @@
 package class081;
 
 import java.util.Arrays;
-import java.util.HashMap;
 
 // 最优账单平衡
 // 给你一个表示交易的数组 transactions
@@ -11,7 +10,11 @@ import java.util.HashMap;
 // 测试链接 : https://leetcode.cn/problems/optimal-account-balancing/
 public class Code02_OptimalAccountBalancing {
 
+	// 题目说了人员编号的最大范围：0 ~ 12
+	public static int MAXN = 13;
+
 	public static int minTransfers(int[][] transactions) {
+		// 加工出来的debt数组中一定不含有0
 		int[] debt = debts(transactions);
 		int n = debt.length;
 		int sum = 0;
@@ -24,22 +27,22 @@ public class Code02_OptimalAccountBalancing {
 	}
 
 	public static int[] debts(int[][] transactions) {
-		HashMap<Integer, Integer> map = new HashMap<>();
+		int[] help = new int[MAXN];
 		for (int[] tran : transactions) {
-			map.put(tran[0], map.getOrDefault(tran[0], 0) + tran[2]);
-			map.put(tran[1], map.getOrDefault(tran[1], 0) - tran[2]);
+			help[tran[0]] += tran[2];
+			help[tran[1]] -= tran[2];
 		}
 		int n = 0;
-		for (int value : map.values()) {
-			if (value != 0) {
+		for (int num : help) {
+			if (num != 0) {
 				n++;
 			}
 		}
 		int[] debt = new int[n];
 		int index = 0;
-		for (int value : map.values()) {
-			if (value != 0) {
-				debt[index++] = value;
+		for (int num : help) {
+			if (num != 0) {
+				debt[index++] = num;
 			}
 		}
 		return debt;
@@ -50,7 +53,8 @@ public class Code02_OptimalAccountBalancing {
 			return dp[set];
 		}
 		int ans = 0;
-		if ((set & (set - 1)) != 0) { // 不只一个元素
+		if ((set & (set - 1)) != 0) {
+			// 不只一个元素
 			for (int i = 0; i < n; i++) {
 				if ((set & (1 << i)) != 0) {
 					ans = Math.max(ans, f(debt, set ^ (1 << i), sum - debt[i], n, dp));
