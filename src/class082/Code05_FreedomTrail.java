@@ -59,7 +59,6 @@ public class Code05_FreedomTrail {
 		}
 		int ans;
 		if (ring[i] == key[j]) {
-
 			ans = 1 + f(i, j + 1);
 		} else {
 			int jump1 = clock(i, key[j]);
