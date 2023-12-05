@@ -1,5 +1,11 @@
 package class082;
 
+// 买卖股票的最佳时机IV
+// 给你一个整数数组prices和一个整数k
+// 其中prices[i]是某支给定的股票在第i天的价格
+// 设计一个算法来计算你所能获取的最大利润
+// 你最多可以完成k笔交易，但是每次只能买1股
+// 注意：你不能同时参与多笔交易，你必须在再次购买前出售掉之前的那一股
 // 测试链接 : https://leetcode.cn/problems/best-time-to-buy-and-sell-stock-iv/
 public class Code02_StockIV {
 

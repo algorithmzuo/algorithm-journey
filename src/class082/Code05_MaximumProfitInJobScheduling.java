@@ -2,6 +2,12 @@ package class082;
 
 import java.util.Arrays;
 
+// 规划兼职工作
+// 你打算利用空闲时间来做兼职工作赚些零花钱，这里有n份兼职工作
+// 每份工作预计从startTime[i]开始、endTime[i]结束，报酬为profit[i]
+// 返回可以获得的最大报酬
+// 注意，时间上出现重叠的 2 份工作不能同时进行
+// 如果你选择的工作在时间X结束，那么你可以立刻进行在时间X开始的下一份工作
 // 测试链接 : https://leetcode.cn/problems/maximum-profit-in-job-scheduling/
 public class Code05_MaximumProfitInJobScheduling {
 

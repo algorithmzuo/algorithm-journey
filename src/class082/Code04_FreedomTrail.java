@@ -1,5 +1,7 @@
 package class082;
 
+// 自由之路
+// 题目描述比较多，打开链接查看
 // 测试链接 : https://leetcode.cn/problems/freedom-trail/
 public class Code04_FreedomTrail {
 
