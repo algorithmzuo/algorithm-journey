@@ -7,7 +7,7 @@ package class082;
 // 返回你可以从这笔交易中获取的最大利润
 // 如果你不能获取任何利润，返回 0
 // 测试链接 : https://leetcode.cn/problems/best-time-to-buy-and-sell-stock/
-public class Code01_StockI {
+public class Code01_Stock1 {
 
 	public static int maxProfit(int[] prices) {
 		int ans = 0;

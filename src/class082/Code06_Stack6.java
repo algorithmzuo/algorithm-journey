@@ -7,7 +7,7 @@ package class082;
 // 卖出股票后，你无法在第二天买入股票 (即冷冻期为 1 天)
 // 注意：你不能同时参与多笔交易（你必须在再次购买前出售掉之前的股票）
 // 测试链接 : https://leetcode.cn/problems/best-time-to-buy-and-sell-stock-with-cooldown/
-public class Code06_StackVI {
+public class Code06_Stack6 {
 
 	public static int maxProfit1(int[] prices) {
 		int n = prices.length;

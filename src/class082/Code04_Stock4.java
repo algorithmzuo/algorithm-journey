@@ -6,7 +6,7 @@ package class082;
 // 也就是说，你最多可以买 k 次，卖 k 次
 // 注意：你不能同时参与多笔交易，你必须在再次购买前出售掉之前的股票
 // 测试链接 : https://leetcode.cn/problems/best-time-to-buy-and-sell-stock-iv/
-public class Code04_StockIV {
+public class Code04_Stock4 {
 
 	// 就是股票问题2
 	public static int free(int[] prices) {

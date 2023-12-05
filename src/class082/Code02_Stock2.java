@@ -7,7 +7,7 @@ package class082;
 // 你也可以先购买，然后在 同一天 出售
 // 返回 你能获得的 最大 利润
 // 测试链接 : https://leetcode.cn/problems/best-time-to-buy-and-sell-stock-ii/
-public class Code02_StockII {
+public class Code02_Stock2 {
 
 	public static int maxProfit(int[] prices) {
 		int ans = 0;
