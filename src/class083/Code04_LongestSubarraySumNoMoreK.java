@@ -1,4 +1,4 @@
-package class082;
+package class083;
 
 // 累加和不大于k的最长子数组
 // 给定一个无序数组arr，长度为n，其中元素可能是正、负、0
@@ -18,7 +18,7 @@ import java.io.StreamTokenizer;
 
 // 最优解的方法，全网几乎都是我几年前讲的方法
 // 现在依然是最优解
-public class Code06_LongestSubarraySumNoMoreK {
+public class Code04_LongestSubarraySumNoMoreK {
 
 	public static int MAXN = 100001;
 
@@ -42,14 +42,47 @@ public class Code06_LongestSubarraySumNoMoreK {
 				in.nextToken();
 				nums[i] = (int) in.nval;
 			}
-			out.println(compute());
+			out.println(compute2());
 		}
 		out.flush();
 		out.close();
 		br.close();
 	}
 
-	public static int compute() {
+	public static int compute1() {
+		int[] sums = new int[n + 1];
+		for (int i = 0, sum = 0; i < n; i++) {
+			sum += nums[i];
+			sums[i + 1] = Math.max(sum, sums[i]);
+		}
+		int ans = 0;
+		for (int i = 0, sum = 0, pre, len; i < n; i++) {
+			sum += nums[i];
+			pre = find(sums, sum - k);
+			len = pre == -1 ? 0 : i - pre + 1;
+			ans = Math.max(ans, len);
+		}
+		return ans;
+	}
+
+	public static int find(int[] sums, int num) {
+		int l = 0;
+		int r = n;
+		int m = 0;
+		int ans = -1;
+		while (l <= r) {
+			m = (l + r) / 2;
+			if (sums[m] >= num) {
+				ans = m;
+				r = m - 1;
+			} else {
+				l = m + 1;
+			}
+		}
+		return ans;
+	}
+
+	public static int compute2() {
 		minSums[n - 1] = nums[n - 1];
 		minSumEnds[n - 1] = n - 1;
 		for (int i = n - 2; i >= 0; i--) {

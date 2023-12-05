@@ -1,4 +1,4 @@
-package class082;
+package class083;
 
 import java.util.Arrays;
 
@@ -9,7 +9,7 @@ import java.util.Arrays;
 // 注意，时间上出现重叠的 2 份工作不能同时进行
 // 如果你选择的工作在时间X结束，那么你可以立刻进行在时间X开始的下一份工作
 // 测试链接 : https://leetcode.cn/problems/maximum-profit-in-job-scheduling/
-public class Code04_MaximumProfitInJobScheduling {
+public class Code02_MaximumProfitInJobScheduling {
 
 	public static int MAXN = 50001;
 

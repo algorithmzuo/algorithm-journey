@@ -9,7 +9,7 @@ package class082;
 // 返回有效排列的perm的数量
 // 因为答案可能很大，所以请返回你的答案对10^9+7取余
 // 测试链接 : https://leetcode.cn/problems/valid-permutations-for-di-sequence/
-public class Code01_ValidPermutationsForDiSequence {
+public class Code07_DiSequence {
 
 	public static int numPermsDISequence1(String s) {
 		return f(s.toCharArray(), 0, s.length() + 1, s.length() + 1);

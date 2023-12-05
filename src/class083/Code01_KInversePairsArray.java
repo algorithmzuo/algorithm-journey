@@ -1,4 +1,4 @@
-package class082;
+package class083;
 
 // K个逆序对数组
 // 逆序对的定义如下：
@@ -8,7 +8,7 @@ package class082;
 // 且恰好拥有k个逆序对的不同的数组的个数
 // 由于答案可能很大，只需要返回对10^9+7取余的结果
 // 测试链接 : https://leetcode.cn/problems/k-inverse-pairs-array/
-public class Code03_KInversePairsArray {
+public class Code01_KInversePairsArray {
 
 	public static int kInversePairs1(int n, int k) {
 		int mod = 1000000007;
