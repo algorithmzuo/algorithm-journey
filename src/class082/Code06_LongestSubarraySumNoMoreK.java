@@ -18,7 +18,7 @@ import java.io.StreamTokenizer;
 
 // 最优解的方法，全网几乎都是我几年前讲的方法
 // 现在依然是最优解
-public class Code06_SumNomoreK {
+public class Code06_LongestSubarraySumNoMoreK {
 
 	public static int MAXN = 100001;
 
