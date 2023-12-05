@@ -30,16 +30,17 @@ public class Code06_Stack6 {
 		if (n < 2) {
 			return 0;
 		}
-		int buy1 = Math.max(-prices[0], -prices[1]);
-		int sell1 = Math.max(0, prices[1] - prices[0]);
-		int sell2 = 0;
-		for (int i = 2, tmp; i < n; i++) {
-			tmp = sell1;
-			sell1 = Math.max(sell1, buy1 + prices[i]);
-			buy1 = Math.max(buy1, sell2 - prices[i]);
-			sell2 = tmp;
+		int preBuy = Math.max(-prices[0], -prices[1]);
+		int prepreSell = 0;
+		int preSell = Math.max(0, prices[1] - prices[0]);
+		for (int i = 2, curBuy, curSell; i < n; i++) {
+			curBuy = Math.max(preBuy, prepreSell - prices[i]);
+			curSell = Math.max(preSell, preBuy + prices[i]);
+			preBuy = curBuy;
+			prepreSell = preSell;
+			preSell = curSell;
 		}
-		return sell1;
+		return preSell;
 	}
 
 }

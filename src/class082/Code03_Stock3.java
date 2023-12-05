@@ -8,15 +8,14 @@ package class082;
 public class Code03_Stock3 {
 
 	public static int maxProfit(int[] prices) {
-		int ans = 0;
-		int doneOnceMinusBuyMax = -prices[0];
-		int doneOnceMax = 0;
-		int min = prices[0];
+		int finishOnce = 0;
+		int finishOnceMinusBuy = -prices[0];
+		int ans = 0, min = prices[0];
 		for (int i = 1; i < prices.length; i++) {
 			min = Math.min(min, prices[i]);
-			ans = Math.max(ans, doneOnceMinusBuyMax + prices[i]);
-			doneOnceMax = Math.max(doneOnceMax, prices[i] - min);
-			doneOnceMinusBuyMax = Math.max(doneOnceMinusBuyMax, doneOnceMax - prices[i]);
+			ans = Math.max(ans, finishOnceMinusBuy + prices[i]);
+			finishOnce = Math.max(finishOnce, prices[i] - min);
+			finishOnceMinusBuy = Math.max(finishOnceMinusBuy, finishOnce - prices[i]);
 		}
 		return ans;
 	}

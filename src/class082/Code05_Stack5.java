@@ -10,16 +10,16 @@ package class082;
 // 测试链接 : https://leetcode.cn/problems/best-time-to-buy-and-sell-stock-with-transaction-fee/
 public class Code05_Stack5 {
 
-	public static int maxProfit(int[] arr, int fee) {
-		int bestBuy = -arr[0] - fee;
-		int bestSell = 0;
-		for (int i = 1, curBuy, curSell; i < arr.length; i++) {
-			curBuy = bestSell - arr[i] - fee;
-			curSell = bestBuy + arr[i];
-			bestBuy = Math.max(bestBuy, curBuy);
-			bestSell = Math.max(bestSell, curSell);
+	public static int maxProfit(int[] prices, int fee) {
+		int preBuy = -prices[0] - fee;
+		int preSell = 0;
+		for (int i = 1, curBuy, curSell; i < prices.length; i++) {
+			curBuy = preSell - prices[i] - fee;
+			curSell = preBuy + prices[i];
+			preBuy = Math.max(preBuy, curBuy);
+			preSell = Math.max(preSell, curSell);
 		}
-		return bestSell;
+		return preSell;
 	}
 
 }
