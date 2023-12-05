@@ -3,7 +3,7 @@ package class082;
 // 自由之路
 // 题目描述比较多，打开链接查看
 // 测试链接 : https://leetcode.cn/problems/freedom-trail/
-public class Code04_FreedomTrail {
+public class Code05_FreedomTrail {
 
 	// 为了让所有语言的同学都可以理解
 	// 不会使用任何java语言自带的数据结构
