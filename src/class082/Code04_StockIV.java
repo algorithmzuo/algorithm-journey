@@ -9,7 +9,7 @@ package class082;
 public class Code04_StockIV {
 
 	// 就是股票问题2
-	public static int maxProfit(int[] prices) {
+	public static int free(int[] prices) {
 		int ans = 0;
 		for (int i = 1; i < prices.length; i++) {
 			ans += Math.max(prices[i] - prices[i - 1], 0);
@@ -20,7 +20,7 @@ public class Code04_StockIV {
 	public static int maxProfit1(int k, int[] prices) {
 		int n = prices.length;
 		if (k >= n / 2) {
-			return maxProfit(prices);
+			return free(prices);
 		}
 		int[][] dp = new int[k + 1][n];
 		for (int i = 1; i <= k; i++) {
@@ -37,7 +37,7 @@ public class Code04_StockIV {
 	public static int maxProfit2(int k, int[] prices) {
 		int n = prices.length;
 		if (k >= n / 2) {
-			return maxProfit(prices);
+			return free(prices);
 		}
 		int[][] dp = new int[k + 1][n];
 		for (int i = 1, best; i <= k; i++) {
@@ -53,7 +53,7 @@ public class Code04_StockIV {
 	public static int maxProfit3(int k, int[] prices) {
 		int n = prices.length;
 		if (k >= n / 2) {
-			return maxProfit(prices);
+			return free(prices);
 		}
 		int[] dp = new int[n];
 		for (int i = 1, best, tmp; i <= k; i++) {
