@@ -20,6 +20,9 @@ public class Code04_Stock4 {
 	public static int maxProfit1(int k, int[] prices) {
 		int n = prices.length;
 		if (k >= n / 2) {
+			// 这是一个剪枝
+			// 如果k >= n / 2，那么代表所有上坡都可以抓到
+			// 所有上坡都可以抓到 == 交易次数无限，所以回到股票问题2
 			return free(prices);
 		}
 		int[][] dp = new int[k + 1][n];
@@ -37,12 +40,16 @@ public class Code04_Stock4 {
 	public static int maxProfit2(int k, int[] prices) {
 		int n = prices.length;
 		if (k >= n / 2) {
+			// 这是一个剪枝
+			// 如果k >= n / 2，那么代表所有上坡都可以抓到
+			// 所有上坡都可以抓到 == 交易次数无限，所以回到股票问题2
 			return free(prices);
 		}
 		int[][] dp = new int[k + 1][n];
 		for (int i = 1, best; i <= k; i++) {
 			best = dp[i - 1][0] - prices[0];
 			for (int j = 1; j < n; j++) {
+				// 用best变量替代了枚举行为
 				dp[i][j] = Math.max(dp[i][j - 1], best + prices[j]);
 				best = Math.max(best, dp[i - 1][j] - prices[j]);
 			}
@@ -50,9 +57,13 @@ public class Code04_Stock4 {
 		return dp[k][n - 1];
 	}
 
+	// 对方法2进行空间压缩的版本
 	public static int maxProfit3(int k, int[] prices) {
 		int n = prices.length;
 		if (k >= n / 2) {
+			// 这是一个剪枝
+			// 如果k >= n / 2，那么代表所有上坡都可以抓到
+			// 所有上坡都可以抓到 == 交易次数无限，所以回到股票问题2
 			return free(prices);
 		}
 		int[] dp = new int[n];

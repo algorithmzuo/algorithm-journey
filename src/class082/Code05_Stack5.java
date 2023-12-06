@@ -11,15 +11,15 @@ package class082;
 public class Code05_Stack5 {
 
 	public static int maxProfit(int[] prices, int fee) {
-		int preBuy = -prices[0] - fee;
-		int preSell = 0;
-		for (int i = 1, curBuy, curSell; i < prices.length; i++) {
-			curBuy = preSell - prices[i] - fee;
-			curSell = preBuy + prices[i];
-			preBuy = Math.max(preBuy, curBuy);
-			preSell = Math.max(preSell, curSell);
+		// prepare : 交易次数无限制情况下，获得收益的同时扣掉了一次购买和手续费之后，最好的情况
+		int prepare = -prices[0] - fee;
+		// done : 交易次数无限制情况下，能获得的最大收益
+		int done = 0;
+		for (int i = 1; i < prices.length; i++) {
+			done = Math.max(done, prepare + prices[i]);
+			prepare = Math.max(prepare, done - prices[i] - fee);
 		}
-		return preSell;
+		return done;
 	}
 
 }

@@ -11,15 +11,19 @@ public class Code03_Stock3 {
 	// 通过不了，会超时
 	public static int maxProfit1(int[] prices) {
 		int n = prices.length;
+		// dp1[i] : 0...i范围上发生一次交易，不要求在i的时刻卖出，最大利润是多少
 		int[] dp1 = new int[n];
 		for (int i = 1, min = prices[0]; i < n; i++) {
 			min = Math.min(min, prices[i]);
 			dp1[i] = Math.max(dp1[i - 1], prices[i] - min);
 		}
+		// dp2[i] : 0...i范围上发生两次交易，并且第二次交易在i时刻卖出，最大利润是多少
 		int[] dp2 = new int[n];
 		int ans = 0;
 		for (int i = 1; i < n; i++) {
+			// 第二次交易一定要在i时刻卖出
 			for (int j = 0; j <= i; j++) {
+				// 枚举第二次交易的买入时机j <= i
 				dp2[i] = Math.max(dp2[i], dp1[j] + prices[i] - prices[j]);
 			}
 			ans = Math.max(ans, dp2[i]);
@@ -31,19 +35,25 @@ public class Code03_Stock3 {
 	// 引入best数组，需要分析能力
 	public static int maxProfit2(int[] prices) {
 		int n = prices.length;
+		// dp1[i] : 0...i范围上发生一次交易，不要求在i的时刻卖出，最大利润是多少
 		int[] dp1 = new int[n];
 		for (int i = 1, min = prices[0]; i < n; i++) {
 			min = Math.min(min, prices[i]);
 			dp1[i] = Math.max(dp1[i - 1], prices[i] - min);
 		}
+		// best[i] : 0...i范围上，所有的dp1[i]-prices[i]，最大值是多少
+		// 这是数组的设置完全是为了替代最后for循环的枚举行为
 		int[] best = new int[n];
 		best[0] = dp1[0] - prices[0];
 		for (int i = 1; i < n; i++) {
 			best[i] = Math.max(best[i - 1], dp1[i] - prices[i]);
 		}
+		// dp2[i] : 0...i范围上发生两次交易，并且第二次交易在i时刻卖出，最大利润是多少
 		int[] dp2 = new int[n];
 		int ans = 0;
-		for (int i = 0; i < n; i++) {
+		for (int i = 1; i < n; i++) {
+			// 不需要枚举了
+			// 因为，best[i]已经揭示了，0...i范围上，所有的dp1[i]-prices[i]，最大值是多少
 			dp2[i] = best[i] + prices[i];
 			ans = Math.max(ans, dp2[i]);
 		}
@@ -52,7 +62,7 @@ public class Code03_Stock3 {
 
 	// 发现所有更新行为都可以放在一起
 	// 并不需要写多个并列的for循环
-	// 几乎就是等义改写，不需要分析能力
+	// 就是等义改写，不需要分析能力
 	public static int maxProfit3(int[] prices) {
 		int n = prices.length;
 		int[] dp1 = new int[n];
@@ -72,7 +82,7 @@ public class Code03_Stock3 {
 
 	// 发现只需要有限几个变量滚动更新下去就可以了
 	// 空间压缩的版本
-	// 几乎就是等义改写，不需要分析能力
+	// 就是等义改写，不需要分析能力
 	public static int maxProfit4(int[] prices) {
 		int dp1 = 0;
 		int best = -prices[0];
