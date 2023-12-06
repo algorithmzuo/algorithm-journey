@@ -65,8 +65,8 @@ public class Code02_DesignBitsetTest {
 				}
 			} else {
 				if ((set[index] & (1 << bit)) == 0) {
-					ones--;
-					zeros++;
+					ones++;
+					zeros--;
 					set[index] |= (1 << bit);
 				}
 			}
