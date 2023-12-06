@@ -10,10 +10,10 @@ public class Code03_Stock3 {
 	public static int maxProfit(int[] prices) {
 		int finishOnce = 0;
 		int finishOnceMinusBuy = -prices[0];
-		int ans = 0, min = prices[0];
-		for (int i = 1; i < prices.length; i++) {
-			min = Math.min(min, prices[i]);
+		int ans = 0;
+		for (int i = 1, min = prices[0]; i < prices.length; i++) {
 			ans = Math.max(ans, finishOnceMinusBuy + prices[i]);
+			min = Math.min(min, prices[i]);
 			finishOnce = Math.max(finishOnce, prices[i] - min);
 			finishOnceMinusBuy = Math.max(finishOnceMinusBuy, finishOnce - prices[i]);
 		}
