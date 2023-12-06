@@ -7,15 +7,81 @@ package class082;
 // 测试链接 : https://leetcode.cn/problems/best-time-to-buy-and-sell-stock-iii
 public class Code03_Stock3 {
 
-	public static int maxProfit(int[] prices) {
-		int finishOnce = 0;
-		int finishOnceMinusBuy = -prices[0];
+	// 完全不优化枚举的方法
+	// 通过不了，会超时
+	public static int maxProfit1(int[] prices) {
+		int n = prices.length;
+		int[] dp1 = new int[n];
+		for (int i = 1, min = prices[0]; i < n; i++) {
+			min = Math.min(min, prices[i]);
+			dp1[i] = Math.max(dp1[i - 1], prices[i] - min);
+		}
+		int[] dp2 = new int[n];
+		int ans = 0;
+		for (int i = 1; i < n; i++) {
+			for (int j = 0; j <= i; j++) {
+				dp2[i] = Math.max(dp2[i], dp1[j] + prices[i] - prices[j]);
+			}
+			ans = Math.max(ans, dp2[i]);
+		}
+		return ans;
+	}
+
+	// 观察出优化枚举的方法
+	// 引入best数组，需要分析能力
+	public static int maxProfit2(int[] prices) {
+		int n = prices.length;
+		int[] dp1 = new int[n];
+		for (int i = 1, min = prices[0]; i < n; i++) {
+			min = Math.min(min, prices[i]);
+			dp1[i] = Math.max(dp1[i - 1], prices[i] - min);
+		}
+		int[] best = new int[n];
+		best[0] = dp1[0] - prices[0];
+		for (int i = 1; i < n; i++) {
+			best[i] = Math.max(best[i - 1], dp1[i] - prices[i]);
+		}
+		int[] dp2 = new int[n];
+		int ans = 0;
+		for (int i = 0; i < n; i++) {
+			dp2[i] = best[i] + prices[i];
+			ans = Math.max(ans, dp2[i]);
+		}
+		return ans;
+	}
+
+	// 发现所有更新行为都可以放在一起
+	// 并不需要写多个并列的for循环
+	// 几乎就是等义改写，不需要分析能力
+	public static int maxProfit3(int[] prices) {
+		int n = prices.length;
+		int[] dp1 = new int[n];
+		int[] best = new int[n];
+		best[0] = -prices[0];
+		int[] dp2 = new int[n];
+		int ans = 0;
+		for (int i = 1, min = prices[0]; i < n; i++) {
+			min = Math.min(min, prices[i]);
+			dp1[i] = Math.max(dp1[i - 1], prices[i] - min);
+			best[i] = Math.max(best[i - 1], dp1[i] - prices[i]);
+			dp2[i] = best[i] + prices[i];
+			ans = Math.max(ans, dp2[i]);
+		}
+		return ans;
+	}
+
+	// 发现只需要有限几个变量滚动更新下去就可以了
+	// 空间压缩的版本
+	// 几乎就是等义改写，不需要分析能力
+	public static int maxProfit4(int[] prices) {
+		int dp1 = 0;
+		int best = -prices[0];
 		int ans = 0;
 		for (int i = 1, min = prices[0]; i < prices.length; i++) {
-			ans = Math.max(ans, finishOnceMinusBuy + prices[i]);
 			min = Math.min(min, prices[i]);
-			finishOnce = Math.max(finishOnce, prices[i] - min);
-			finishOnceMinusBuy = Math.max(finishOnceMinusBuy, finishOnce - prices[i]);
+			dp1 = Math.max(dp1, prices[i] - min);
+			best = Math.max(best, dp1 - prices[i]);
+			ans = Math.max(ans, best + prices[i]); // ans = Math.max(ans, dp2);
 		}
 		return ans;
 	}

@@ -12,6 +12,7 @@ public class Code01_Stock1 {
 	public static int maxProfit(int[] prices) {
 		int ans = 0;
 		for (int i = 1, min = prices[0]; i < prices.length; i++) {
+			// min : 0...i范围上的最小值
 			min = Math.min(min, prices[i]);
 			ans = Math.max(ans, prices[i] - min);
 		}
