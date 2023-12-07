@@ -51,7 +51,9 @@ public class Code04_LongestSubarraySumNoMoreK {
 	public static int compute1() {
 		int[] sums = new int[n + 1];
 		for (int i = 0, sum = 0; i < n; i++) {
+			// sum : 0...i范围上，这前i+1个数字的累加和
 			sum += nums[i];
+			// sums[i + 1] : 前i+1个，包括一个数字也没有的时候，所有前缀和中的最大值
 			sums[i + 1] = Math.max(sum, sums[i]);
 		}
 		int ans = 0;
@@ -99,10 +101,15 @@ public class Code04_LongestSubarraySumNoMoreK {
 				sum += minSums[end];
 				end = minSumEnds[end] + 1;
 			}
-			ans = Math.max(ans, end - i);
 			if (end > i) {
+				// 如果end > i，
+				// 窗口范围：i...end-1，那么窗口有效
+				ans = Math.max(ans, end - i);
 				sum -= nums[i];
 			} else {
+				// 如果end == i，那么说明窗口根本没扩出来，代表窗口无效
+				// end来到i+1位置，然后i++了
+				// 继续以新的i位置做开头去扩窗口
 				end = i + 1;
 			}
 		}

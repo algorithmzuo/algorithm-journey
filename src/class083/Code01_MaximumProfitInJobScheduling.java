@@ -24,11 +24,12 @@ public class Code01_MaximumProfitInJobScheduling {
 			jobs[i][1] = endTime[i];
 			jobs[i][2] = profit[i];
 		}
+		// 工作按照结束时间从小到大排序
 		Arrays.sort(jobs, 0, n, (a, b) -> a[1] - b[1]);
 		dp[0] = jobs[0][2];
 		for (int i = 1, start; i < n; i++) {
-			dp[i] = jobs[i][2];
 			start = jobs[i][0];
+			dp[i] = jobs[i][2];
 			if (jobs[0][1] <= start) {
 				dp[i] += dp[find(i - 1, start)];
 			}

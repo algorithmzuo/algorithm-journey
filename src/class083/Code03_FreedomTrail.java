@@ -50,8 +50,11 @@ public class Code03_FreedomTrail {
 		return f(0, 0);
 	}
 
+	// 指针当前指着轮盘i位置的字符，要搞定key[j....]所有字符，最小代价返回
 	public static int f(int i, int j) {
 		if (j == m) {
+			// key长度是m
+			// 都搞定
 			return 0;
 		}
 		if (dp[i][j] != -1) {
@@ -59,23 +62,36 @@ public class Code03_FreedomTrail {
 		}
 		int ans;
 		if (ring[i] == key[j]) {
+			// ring b
+			//      i
+			// key  b
+			//      j
 			ans = 1 + f(i, j + 1);
 		} else {
+			// 轮盘处在i位置，ring[i] != key[j]
+			// jump1 : 顺时针找到最近的key[j]字符在轮盘的什么位置
+			// distance1 : 从i顺时针走向jump1有多远
 			int jump1 = clock(i, key[j]);
+			int distance1 = (jump1 > i ? (jump1 - i) : (n - i + jump1));
+			// jump2 : 逆时针找到最近的key[j]字符在轮盘的什么位置
+			// distance2 : 从i逆时针走向jump2有多远
 			int jump2 = counterClock(i, key[j]);
-			int p1 = (jump1 > i ? (jump1 - i) : (n - i + jump1)) + f(jump1, j);
-			int p2 = (i > jump2 ? (i - jump2) : (i + n - jump2)) + f(jump2, j);
-			ans = Math.min(p1, p2);
+			int distance2 = (i > jump2 ? (i - jump2) : (i + n - jump2));
+			ans = Math.min(distance1 + f(jump1, j), distance2 + f(jump2, j));
 		}
 		dp[i][j] = ans;
 		return ans;
 	}
 
+	// 从i开始，顺时针找到最近的v在轮盘的什么位置
 	public static int clock(int i, int v) {
 		int l = 0;
+		// size[v] : 属于v这个字符的下标有几个
 		int r = size[v] - 1, m;
+		// sorted[0...size[v]-1]收集了所有的下标，并且有序
 		int[] sorted = where[v];
 		int find = -1;
+		// 有序数组中，找>i尽量靠左的下标
 		while (l <= r) {
 			m = (l + r) / 2;
 			if (sorted[m] > i) {
@@ -85,6 +101,8 @@ public class Code03_FreedomTrail {
 				l = m + 1;
 			}
 		}
+		// 找到了就返回
+		// 没找到，那i顺指针一定先走到最小的下标
 		return find != -1 ? sorted[find] : sorted[0];
 	}
 
@@ -93,6 +111,7 @@ public class Code03_FreedomTrail {
 		int r = size[v] - 1, m;
 		int[] sorted = where[v];
 		int find = -1;
+		// 有序数组中，找<i尽量靠右的下标
 		while (l <= r) {
 			m = (l + r) / 2;
 			if (sorted[m] < i) {
@@ -102,6 +121,8 @@ public class Code03_FreedomTrail {
 				r = m - 1;
 			}
 		}
+		// 找到了就返回
+		// 没找到，那i逆指针一定先走到最大的下标
 		return find != -1 ? sorted[find] : sorted[size[v] - 1];
 	}
 

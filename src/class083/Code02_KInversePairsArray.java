@@ -14,6 +14,7 @@ public class Code02_KInversePairsArray {
 	// 不优化枚举
 	public static int kInversePairs1(int n, int k) {
 		int mod = 1000000007;
+		// dp[i][j] : 1、2、3...i这些数字，形成的排列一定要有j个逆序对，请问这样的排列有几种
 		int[][] dp = new int[n + 1][k + 1];
 		dp[0][0] = 1;
 		for (int i = 1; i <= n; i++) {
@@ -24,6 +25,7 @@ public class Code02_KInversePairsArray {
 						dp[i][j] = (dp[i][j] + dp[i - 1][p]) % mod;
 					}
 				} else {
+					// i <= j
 					for (int p = j - i + 1; p <= j; p++) {
 						dp[i][j] = (dp[i][j] + dp[i - 1][p]) % mod;
 					}
@@ -49,6 +51,7 @@ public class Code02_KInversePairsArray {
 				if (i > j) {
 					window = (window + dp[i - 1][j]) % mod;
 				} else {
+					// i <= j
 					window = ((window + dp[i - 1][j]) % mod - dp[i - 1][j - i] + mod) % mod;
 				}
 				dp[i][j] = window;
