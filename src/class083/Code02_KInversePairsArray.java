@@ -8,10 +8,10 @@ package class083;
 // 且恰好拥有k个逆序对的不同的数组的个数
 // 由于答案可能很大，只需要返回对10^9+7取余的结果
 // 测试链接 : https://leetcode.cn/problems/k-inverse-pairs-array/
-public class Code01_KInversePairsArray {
+public class Code02_KInversePairsArray {
 
-	// 不做枚举优化
 	// 最普通的动态规划
+	// 不优化枚举
 	public static int kInversePairs1(int n, int k) {
 		int mod = 1000000007;
 		int[][] dp = new int[n + 1][k + 1];
@@ -35,39 +35,23 @@ public class Code01_KInversePairsArray {
 
 	// 根据观察方法1优化枚举
 	// 最优解
+	// 其实可以进一步空间压缩
+	// 有兴趣的同学自己试试吧
 	public static int kInversePairs2(int n, int k) {
 		int mod = 1000000007;
 		int[][] dp = new int[n + 1][k + 1];
 		dp[0][0] = 1;
-		for (int i = 1; i <= n; i++) {
+		// window : 窗口的累加和
+		for (int i = 1, window; i <= n; i++) {
 			dp[i][0] = 1;
+			window = 1;
 			for (int j = 1; j <= k; j++) {
 				if (i > j) {
-					dp[i][j] = (dp[i][j - 1] + dp[i - 1][j]) % mod;
+					window = (window + dp[i - 1][j]) % mod;
 				} else {
-					dp[i][j] = ((dp[i][j - 1] + dp[i - 1][j]) % mod - dp[i - 1][j - i] + mod) % mod;
+					window = ((window + dp[i - 1][j]) % mod - dp[i - 1][j - i] + mod) % mod;
 				}
-			}
-		}
-		return dp[n][k];
-	}
-
-	// 和方法2一样的思路
-	// 只不过用变量替代了一些数组寻址，别的没有新东西
-	// 真正考试时，不需要做这种常数优化，因为不关键
-	public static int kInversePairs3(int n, int k) {
-		int mod = 1000000007;
-		int[][] dp = new int[n + 1][k + 1];
-		dp[0][0] = 1;
-		for (int i = 1, ans; i <= n; i++) {
-			dp[i][0] = 1;
-			ans = 1;
-			for (int j = 1; j <= k; j++) {
-				ans = (ans + dp[i - 1][j]) % mod;
-				if (j >= i) {
-					ans = (ans - dp[i - 1][j - i] + mod) % mod;
-				}
-				dp[i][j] = ans;
+				dp[i][j] = window;
 			}
 		}
 		return dp[n][k];
