@@ -10,6 +10,8 @@ package class083;
 // 测试链接 : https://leetcode.cn/problems/k-inverse-pairs-array/
 public class Code01_KInversePairsArray {
 
+	// 不做枚举优化
+	// 最普通的动态规划
 	public static int kInversePairs1(int n, int k) {
 		int mod = 1000000007;
 		int[][] dp = new int[n + 1][k + 1];
@@ -31,6 +33,8 @@ public class Code01_KInversePairsArray {
 		return dp[n][k];
 	}
 
+	// 根据观察方法1优化枚举
+	// 最优解
 	public static int kInversePairs2(int n, int k) {
 		int mod = 1000000007;
 		int[][] dp = new int[n + 1][k + 1];
@@ -38,30 +42,32 @@ public class Code01_KInversePairsArray {
 		for (int i = 1; i <= n; i++) {
 			dp[i][0] = 1;
 			for (int j = 1; j <= k; j++) {
-				dp[i][j] = (dp[i][j - 1] + dp[i - 1][j]) % mod;
-				if (j >= i) {
-					dp[i][j] = (dp[i][j] - dp[i - 1][j - i] + mod) % mod;
+				if (i > j) {
+					dp[i][j] = (dp[i][j - 1] + dp[i - 1][j]) % mod;
+				} else {
+					dp[i][j] = ((dp[i][j - 1] + dp[i - 1][j]) % mod - dp[i - 1][j - i] + mod) % mod;
 				}
 			}
 		}
 		return dp[n][k];
 	}
 
-	// 和方法2一样的思路，只不过少做了一些数组寻址而已
-	// 真正考试时，不需要做这种常数优化，徒增烦恼
+	// 和方法2一样的思路
+	// 只不过用变量替代了一些数组寻址，别的没有新东西
+	// 真正考试时，不需要做这种常数优化，因为不关键
 	public static int kInversePairs3(int n, int k) {
 		int mod = 1000000007;
 		int[][] dp = new int[n + 1][k + 1];
 		dp[0][0] = 1;
-		for (int i = 1, pre; i <= n; i++) {
+		for (int i = 1, ans; i <= n; i++) {
 			dp[i][0] = 1;
-			pre = 1;
+			ans = 1;
 			for (int j = 1; j <= k; j++) {
-				pre = (pre + dp[i - 1][j]) % mod;
+				ans = (ans + dp[i - 1][j]) % mod;
 				if (j >= i) {
-					pre = (pre - dp[i - 1][j - i] + mod) % mod;
+					ans = (ans - dp[i - 1][j - i] + mod) % mod;
 				}
-				dp[i][j] = pre;
+				dp[i][j] = ans;
 			}
 		}
 		return dp[n][k];

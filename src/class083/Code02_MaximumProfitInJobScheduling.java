@@ -30,17 +30,18 @@ public class Code02_MaximumProfitInJobScheduling {
 			dp[i] = jobs[i][2];
 			start = jobs[i][0];
 			if (jobs[0][1] <= start) {
-				dp[i] += dp[find(i, start)];
+				dp[i] += dp[find(i - 1, start)];
 			}
 			dp[i] = Math.max(dp[i], dp[i - 1]);
 		}
 		return dp[n - 1];
 	}
 
+	// job[0...i]范围上，找到结束时间 <= start，最右的下标
 	public static int find(int i, int start) {
 		int ans = 0;
 		int l = 0;
-		int r = i - 1;
+		int r = i;
 		int m;
 		while (l <= r) {
 			m = (l + r) / 2;
