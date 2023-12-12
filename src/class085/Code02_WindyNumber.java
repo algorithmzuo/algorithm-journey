@@ -51,7 +51,7 @@ public class Code02_WindyNumber {
 
 	public static int cnt(int num) {
 		if (num == 0) {
-			return 1;
+			return 0;
 		}
 		int len = 1;
 		int offset = 1;
@@ -67,7 +67,7 @@ public class Code02_WindyNumber {
 
 	public static int f(int num, int offset, int len, int pre, int less) {
 		if (len == 0) {
-			return 1;
+			return pre == 10 ? 0 : 1;
 		}
 		if (dp[len][pre][less] != -1) {
 			return dp[len][pre][less];
