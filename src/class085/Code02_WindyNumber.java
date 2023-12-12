@@ -17,9 +17,9 @@ import java.io.StreamTokenizer;
 
 public class Code02_WindyNumber {
 
-	public static int MAXN = 11;
+	public static int MAXLEN = 11;
 
-	public static int[][][] dp = new int[MAXN][11][2];
+	public static int[][][] dp = new int[MAXLEN][11][2];
 
 	public static void build(int len) {
 		for (int i = 0; i <= len; i++) {
