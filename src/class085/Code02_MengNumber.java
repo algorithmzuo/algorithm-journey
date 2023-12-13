@@ -1,0 +1,123 @@
+package class085;
+
+// 萌数
+// 如果一个数字，存在长度至少为2的回文子串，那么这种数字被称为萌数
+// 比如101、110、111、1234321、45568
+// 求[l,r]范围上，有多少个萌数
+// 由于答案可能很大，所以输出答案对1000000007求余
+// 测试链接 : https://www.luogu.com.cn/problem/P3413
+// 请同学们务必参考如下代码中关于输入、输出的处理
+// 这是输入输出处理效率很高的写法
+// 提交以下的code，提交时请把类名改成"Main"，可以直接通过
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+
+public class Code02_MengNumber {
+
+	public static int MOD = 1000000007;
+
+	public static int MAXN = 1001;
+
+	public static int[][][][] dp = new int[MAXN][11][11][2];
+
+	public static void build(int n) {
+		for (int a = 0; a < n; a++) {
+			for (int b = 0; b <= 10; b++) {
+				for (int c = 0; c <= 10; c++) {
+					for (int d = 0; d <= 1; d++) {
+						dp[a][b][c][d] = -1;
+					}
+				}
+			}
+		}
+	}
+
+	public static void main(String[] args) throws IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
+		String[] strs = br.readLine().split(" ");
+		out.println(compute(strs[0].toCharArray(), strs[1].toCharArray()));
+		out.flush();
+		out.close();
+		br.close();
+	}
+
+	public static int compute(char[] l, char[] r) {
+		return ((cnt(r) - cnt(l) + MOD) % MOD + (check(l) ? 1 : 0)) % MOD;
+	}
+
+	public static int cnt(char[] num) {
+		if (num[0] == '0') {
+			return 0;
+		}
+		int n = num.length;
+		long all = 0;
+		long base = 1;
+		for (int i = n - 1; i >= 0; i--) {
+			all = (all + base * (num[i] - '0')) % MOD;
+			base = (base * 10) % MOD;
+		}
+		build(n);
+		return (int) ((all - f(num, 0, 10, 10, 0) + MOD) % MOD);
+	}
+
+	public static int f(char[] num, int i, int pp, int p, int less) {
+		if (i == num.length) {
+			return 1;
+		}
+		if (dp[i][pp][p][less] != -1) {
+			return dp[i][pp][p][less];
+		}
+		int ans = 0;
+		if (less == 0) {
+			if (p == 10) {
+				ans = (ans + f(num, i + 1, 10, 10, 1)) % MOD;
+				for (int cur = 1; cur < num[i] - '0'; cur++) {
+					ans = (ans + f(num, i + 1, p, cur, 1)) % MOD;
+				}
+				ans = (ans + f(num, i + 1, p, num[i] - '0', 0)) % MOD;
+			} else {
+				for (int cur = 0; cur < num[i] - '0'; cur++) {
+					if (pp != cur && p != cur) {
+						ans = (ans + f(num, i + 1, p, cur, 1)) % MOD;
+					}
+				}
+				if (pp != num[i] - '0' && p != num[i] - '0') {
+					ans = (ans + f(num, i + 1, p, num[i] - '0', 0)) % MOD;
+				}
+			}
+		} else {
+			if (p == 10) {
+				ans = (ans + f(num, i + 1, 10, 10, 1)) % MOD;
+				for (int cur = 1; cur <= 9; cur++) {
+					ans = (ans + f(num, i + 1, p, cur, 1)) % MOD;
+				}
+			} else {
+				for (int cur = 0; cur <= 9; cur++) {
+					if (pp != cur && p != cur) {
+						ans = (ans + f(num, i + 1, p, cur, 1)) % MOD;
+					}
+				}
+			}
+		}
+		dp[i][pp][p][less] = ans;
+		return ans;
+	}
+
+	public static boolean check(char[] num) {
+		for (int pp = -2, p = -1, i = 0; i < num.length; pp++, p++, i++) {
+			if (pp >= 0 && num[pp] == num[i]) {
+				return true;
+			}
+			if (p >= 0 && num[p] == num[i]) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+}

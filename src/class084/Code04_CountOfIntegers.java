@@ -1,4 +1,4 @@
-package class085;
+package class084;
 
 // 统计整数数目
 // 给你两个数字字符串 num1 和 num2 ，以及两个整数max_sum和min_sum
@@ -9,7 +9,7 @@ package class085;
 // 答案可能很大请返回答案对10^9 + 7 取余后的结果
 // 注意，digit_sum(x)表示x各位数字之和
 // 测试链接 : https://leetcode.cn/problems/count-of-integers/
-public class Code01_CountOfIntegers {
+public class Code04_CountOfIntegers {
 
 	public static int MOD = 1000000007;
 

@@ -15,7 +15,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 
-public class Code02_WindyNumber {
+public class Code01_WindyNumber {
 
 	public static int MAXLEN = 11;
 

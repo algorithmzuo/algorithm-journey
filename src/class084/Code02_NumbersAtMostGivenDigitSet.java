@@ -7,7 +7,7 @@ package class084;
 // 我们可以写数字，如 '13', '551', 和 '1351315'
 // 返回 可以生成的小于或等于给定整数 n 的正整数的个数
 // 测试链接 : https://leetcode.cn/problems/numbers-at-most-n-given-digit-set/
-public class Code03_NumbersAtMostGivenDigitSet {
+public class Code02_NumbersAtMostGivenDigitSet {
 
 	public static int atMostNGivenDigitSet(String[] strs, int number) {
 		int m = strs.length;

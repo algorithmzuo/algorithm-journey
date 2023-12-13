@@ -4,7 +4,7 @@ package class085;
 // 给定一个整数n
 // 计算所有小于等于n的非负整数中数字1出现的个数
 // 测试链接 : https://leetcode.cn/problems/number-of-digit-one/
-public class Code05_NumberOfDigitOne {
+public class Code04_DigitCount3 {
 
 	public static int countDigitOne(int n) {
 		return count(n, 1);
