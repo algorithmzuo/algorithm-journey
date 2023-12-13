@@ -1,6 +1,6 @@
 package class084;
 
-// 统计特殊整数
+// 完全没有重复的数字个数
 // 给定正整数n，返回在[1, n]范围内每一位都互不相同的正整数个数
 // 测试链接 : https://leetcode.cn/problems/count-special-integers/
 public class Code03_CountSpecialIntegers {
