@@ -9,7 +9,7 @@ package class084;
 // 答案可能很大请返回答案对10^9 + 7 取余后的结果
 // 注意，digit_sum(x)表示x各位数字之和
 // 测试链接 : https://leetcode.cn/problems/count-of-integers/
-public class Code04_CountOfIntegers {
+public class Code03_CountOfIntegers {
 
 	public static int MOD = 1000000007;
 

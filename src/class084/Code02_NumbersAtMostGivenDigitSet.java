@@ -10,7 +10,49 @@ package class084;
 // 测试链接 : https://leetcode.cn/problems/numbers-at-most-n-given-digit-set/
 public class Code02_NumbersAtMostGivenDigitSet {
 
-	public static int atMostNGivenDigitSet(String[] strs, int num) {
+	public static int atMostNGivenDigitSet1(String[] strs, int num) {
+		int tmp = num / 10;
+		int len = 1;
+		int offset = 1;
+		while (tmp > 0) {
+			tmp /= 10;
+			len++;
+			offset *= 10;
+		}
+		int m = strs.length;
+		int[] digits = new int[m];
+		for (int i = 0; i < m; i++) {
+			digits[i] = Integer.valueOf(strs[i]);
+		}
+		return f1(digits, num, offset, len, 0, 0);
+	}
+
+	public static int f1(int[] digits, int num, int offset, int len, int less, int fix) {
+		if (len == 0) {
+			return fix == 1 ? 1 : 0;
+		}
+		int ans = 0;
+		int cur = (num / offset) % 10;
+		if (fix == 0) {
+			ans += f1(digits, num, offset / 10, len - 1, 1, 0);
+		}
+		if (less == 0) {
+			for (int i : digits) {
+				if (i < cur) {
+					ans += f1(digits, num, offset / 10, len - 1, 1, 1);
+				} else if (i == cur) {
+					ans += f1(digits, num, offset / 10, len - 1, 0, 1);
+				} else {
+					break;
+				}
+			}
+		} else {
+			ans += digits.length * f1(digits, num, offset / 10, len - 1, 1, 1);
+		}
+		return ans;
+	}
+
+	public static int atMostNGivenDigitSet2(String[] strs, int num) {
 		int m = strs.length;
 		int[] digits = new int[m];
 		for (int i = 0; i < m; i++) {
@@ -37,10 +79,10 @@ public class Code02_NumbersAtMostGivenDigitSet {
 			cnt[k] = i;
 			ans += i;
 		}
-		return ans + f(digits, cnt, num, offset, len);
+		return ans + f2(digits, cnt, num, offset, len);
 	}
 
-	public static int f(int[] digits, int[] cnt, int num, int offset, int len) {
+	public static int f2(int[] digits, int[] cnt, int num, int offset, int len) {
 		if (len == 0) {
 			return 1;
 		}
@@ -50,7 +92,7 @@ public class Code02_NumbersAtMostGivenDigitSet {
 			if (i < cur) {
 				ans += cnt[len - 1];
 			} else if (i == cur) {
-				ans += f(digits, cnt, num, offset / 10, len - 1);
+				ans += f2(digits, cnt, num, offset / 10, len - 1);
 			} else {
 				break;
 			}

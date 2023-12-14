@@ -3,7 +3,7 @@ package class084;
 // 至少有1位重复的数字个数
 // 给定正整数n，返回在[1, n]范围内至少有1位重复数字的正整数个数
 // 测试链接 : https://leetcode.cn/problems/numbers-with-repeated-digits/
-public class Code03_NumbersWithRepeatedDigits2 {
+public class Code04_NumbersWithRepeatedDigits2 {
 
 	public static int numDupDigitsAtMostN(int n) {
 		return n - countSpecialNumbers(n);
