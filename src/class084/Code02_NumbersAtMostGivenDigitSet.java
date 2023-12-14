@@ -11,11 +11,6 @@ package class084;
 public class Code02_NumbersAtMostGivenDigitSet {
 
 	public static int atMostNGivenDigitSet(String[] strs, int number) {
-		int m = strs.length;
-		int[] digits = new int[m];
-		for (int i = 0; i < m; i++) {
-			digits[i] = Integer.valueOf(strs[i]);
-		}
 		int tmp = number / 10;
 		int len = 1;
 		int offset = 1;
@@ -23,6 +18,11 @@ public class Code02_NumbersAtMostGivenDigitSet {
 			tmp /= 10;
 			len++;
 			offset *= 10;
+		}
+		int m = strs.length;
+		int[] digits = new int[m];
+		for (int i = 0; i < m; i++) {
+			digits[i] = Integer.valueOf(strs[i]);
 		}
 		// cnt[i] : 已知前缀比digits小，剩下i位没有确定，请问前缀确定的情况下，一共有多少种数字排列
 		// cnt[0] = 1，表示后续已经没有了，前缀的状况都已确定，那么就是1种

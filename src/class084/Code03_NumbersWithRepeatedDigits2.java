@@ -18,6 +18,11 @@ public class Code03_NumbersWithRepeatedDigits2 {
 			offset *= 10;
 			tmp /= 10;
 		}
+		int[] cnt = new int[len];
+		cnt[0] = 1;
+		for (int i = 1, k = 10 - len + 1; i < len; i++, k++) {
+			cnt[i] = cnt[i - 1] * k;
+		}
 		int ans = 0;
 		if (len >= 2) {
 			ans = 9;
@@ -25,11 +30,6 @@ public class Code03_NumbersWithRepeatedDigits2 {
 				a *= b;
 				ans += a;
 			}
-		}
-		int[] cnt = new int[len];
-		cnt[0] = 1;
-		for (int i = 1, k = 10 - len + 1; i < len; i++, k++) {
-			cnt[i] = cnt[i - 1] * k;
 		}
 		int first = n / offset;
 		ans += (first - 1) * cnt[len - 1];

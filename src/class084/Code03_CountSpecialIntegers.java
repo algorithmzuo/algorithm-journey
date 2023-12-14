@@ -14,14 +14,6 @@ public class Code03_CountSpecialIntegers {
 			offset *= 10;
 			tmp /= 10;
 		}
-		int ans = 0;
-		if (len >= 2) {
-			ans = 9;
-			for (int i = 2, a = 9, b = 9; i < len; i++, b--) {
-				a *= b;
-				ans += a;
-			}
-		}
 		// cnt[i] :
 		// 一共长度为len，还剩i位没有确定，确定的前缀为len-i位
 		// 没有选择的数字剩下10 - len + i个
@@ -46,6 +38,23 @@ public class Code03_CountSpecialIntegers {
 		for (int i = 1, k = 10 - len + 1; i < len; i++, k++) {
 			cnt[i] = cnt[i - 1] * k;
 		}
+		int ans = 0;
+		if (len >= 2) {
+			// 如果n的位数是len位
+			// 计算位数少于len的数中，每一位都互不相同的正整数个数，并累加
+			// 所有1位数中，每一位都互不相同的正整数个数 = 9
+			// 所有2位数中，每一位都互不相同的正整数个数 = 9 * 9
+			// 所有3位数中，每一位都互不相同的正整数个数 = 9 * 9 * 8
+			// 所有4位数中，每一位都互不相同的正整数个数 = 9 * 9 * 8 * 7
+			// ...
+			ans = 9;
+			for (int i = 2, a = 9, b = 9; i < len; i++, b--) {
+				a *= b;
+				ans += a;
+			}
+		}
+		// 如果n的位数是len位，已经计算了位数少于len个的情况
+		// 下面计算一定有len位的数字中，小于n且每一位都互不相同的正整数个数
 		int first = n / offset;
 		ans += (first - 1) * cnt[len - 1];
 		ans += f(cnt, n, len - 1, offset / 10, 1 << first);
