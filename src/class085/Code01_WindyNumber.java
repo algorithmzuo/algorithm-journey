@@ -65,16 +65,16 @@ public class Code01_WindyNumber {
 		return f(num, offset, len, 10, 0);
 	}
 
-	public static int f(int num, int offset, int len, int pre, int less) {
+	public static int f(int num, int offset, int len, int pre, int free) {
 		if (len == 0) {
 			return pre == 10 ? 0 : 1;
 		}
-		if (dp[len][pre][less] != -1) {
-			return dp[len][pre][less];
+		if (dp[len][pre][free] != -1) {
+			return dp[len][pre][free];
 		}
 		int cur = num / offset % 10;
 		int ans = 0;
-		if (less == 0) {
+		if (free == 0) {
 			if (pre == 10) {
 				ans += f(num, offset / 10, len - 1, 10, 1);
 				for (int i = 1; i < cur; i++) {
@@ -106,7 +106,7 @@ public class Code01_WindyNumber {
 				}
 			}
 		}
-		dp[len][pre][less] = ans;
+		dp[len][pre][free] = ans;
 		return ans;
 	}
 

@@ -49,7 +49,7 @@ public class Code04_NumbersWithRepeatedDigits {
 			}
 		}
 		if ((status & (1 << first)) == 0) {
-			ans += f(cnt, num, len - 1, offset / 10, status ^ (1 << first));
+			ans += f(cnt, num, len - 1, offset / 10, status | (1 << first));
 		}
 		return ans;
 	}

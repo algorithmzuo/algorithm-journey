@@ -20,8 +20,8 @@ public class Code03_CountOfIntegers {
 	public static int[][][] dp = new int[MAXN][MAXM][2];
 
 	public static void build() {
-		for (int i = 0; i < n; i++) {
-			for (int j = 0; j <= m; j++) {
+		for (int i = 0; i < len; i++) {
+			for (int j = 0; j <= max; j++) {
 				dp[i][j][0] = -1;
 				dp[i][j][1] = -1;
 			}
@@ -30,54 +30,70 @@ public class Code03_CountOfIntegers {
 
 	public static char[] num;
 
-	public static int n, m;
+	public static int min, max, len;
 
 	public static int count(String num1, String num2, int min_sum, int max_sum) {
+		min = min_sum;
+		max = max_sum;
 		num = num2.toCharArray();
-		n = num2.length();
-		m = max_sum;
+		len = num2.length();
 		build();
-		int ans = f(0, 0, 0, min_sum, max_sum);
+		int ans = f(0, 0, 0);
 		num = num1.toCharArray();
-		n = num1.length();
+		len = num1.length();
 		build();
-		ans = (ans - f(0, 0, 0, min_sum, max_sum) + MOD) % MOD;
-		if (check(min_sum, max_sum)) {
+		ans = (ans - f(0, 0, 0) + MOD) % MOD;
+		if (check()) {
 			ans = (ans + 1) % MOD;
 		}
 		return ans;
 	}
 
-	public static int f(int i, int sum, int less, int min, int max) {
+	// 注意：
+	// 数字，char[] num
+	// 数字长度，int len
+	// 累加和最小要求，int min
+	// 累加和最大要求，int max
+	// 这四个变量都是全局静态变量，所以不用带参数，直接访问即可
+	// 递归含义：
+	// 从num的高位出发，当前来到i位上
+	// 之前决定的数字累加和是sum
+	// 之前的决定已经比num小，后续可以自由选择数字，那么free == 1
+	// 之前的决定和num一样，后续不可以自由选择数字，那么free == 0
+	// 返回有多少种可能性
+	public static int f(int i, int sum, int free) {
 		if (sum > max) {
 			return 0;
 		}
-		if (sum + (n - i) * 9 < min) {
+		if (sum + (len - i) * 9 < min) {
 			return 0;
 		}
-		if (i == n) {
+		if (i == len) {
 			return 1;
 		}
-		if (dp[i][sum][less] != -1) {
-			return dp[i][sum][less];
+		if (dp[i][sum][free] != -1) {
+			return dp[i][sum][free];
 		}
+		// cur : num当前位的数字
 		int cur = num[i] - '0';
 		int ans = 0;
-		if (less == 0) {
+		if (free == 0) {
+			// 还不能自由选择
 			for (int pick = 0; pick < cur; pick++) {
-				ans = (ans + f(i + 1, sum + pick, 1, min, max)) % MOD;
+				ans = (ans + f(i + 1, sum + pick, 1)) % MOD;
 			}
-			ans = (ans + f(i + 1, sum + cur, 0, min, max)) % MOD;
+			ans = (ans + f(i + 1, sum + cur, 0)) % MOD;
 		} else {
+			// 可以自由选择
 			for (int pick = 0; pick <= 9; pick++) {
-				ans = (ans + f(i + 1, sum + pick, 1, min, max)) % MOD;
+				ans = (ans + f(i + 1, sum + pick, 1)) % MOD;
 			}
 		}
-		dp[i][sum][less] = ans;
+		dp[i][sum][free] = ans;
 		return ans;
 	}
 
-	public static boolean check(int min, int max) {
+	public static boolean check() {
 		int sum = 0;
 		for (char cha : num) {
 			sum += cha - '0';

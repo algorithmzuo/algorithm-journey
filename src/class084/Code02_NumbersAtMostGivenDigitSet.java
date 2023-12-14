@@ -27,26 +27,39 @@ public class Code02_NumbersAtMostGivenDigitSet {
 		return f1(digits, num, offset, len, 0, 0);
 	}
 
-	public static int f1(int[] digits, int num, int offset, int len, int less, int fix) {
+	// offset是辅助变量，完全由len决定，只是为了方便提取num中某一位数字，不是关键变量
+	// 还剩下len位没有决定
+	// 如果之前的位已经确定比num小，那么free == 1，表示接下的数字可以自由选择
+	// 如果之前的位和num一样，那么free == 0，表示接下的数字不能大于num当前位的数字
+	// 如果之前的位没有使用过数字，fix == 0
+	// 如果之前的位已经使用过数字，fix == 1
+	// 返回最终<=num的可能性有多少种
+	public static int f1(int[] digits, int num, int offset, int len, int free, int fix) {
 		if (len == 0) {
 			return fix == 1 ? 1 : 0;
 		}
 		int ans = 0;
+		// num在当前位的数字
 		int cur = (num / offset) % 10;
 		if (fix == 0) {
+			// 之前从来没有选择过数字
+			// 当前依然可以不要任何数字，累加后续的可能性
 			ans += f1(digits, num, offset / 10, len - 1, 1, 0);
 		}
-		if (less == 0) {
+		if (free == 0) {
+			// 不能自由选择的情况
 			for (int i : digits) {
 				if (i < cur) {
 					ans += f1(digits, num, offset / 10, len - 1, 1, 1);
 				} else if (i == cur) {
 					ans += f1(digits, num, offset / 10, len - 1, 0, 1);
 				} else {
+					// i > cur
 					break;
 				}
 			}
 		} else {
+			// 可以自由选择的情况
 			ans += digits.length * f1(digits, num, offset / 10, len - 1, 1, 1);
 		}
 		return ans;
@@ -66,7 +79,7 @@ public class Code02_NumbersAtMostGivenDigitSet {
 			len++;
 			offset *= 10;
 		}
-		// cnt[i] : 已知前缀比digits小，剩下i位没有确定，请问前缀确定的情况下，一共有多少种数字排列
+		// cnt[i] : 已知前缀比num小，剩下i位没有确定，请问前缀确定的情况下，一共有多少种数字排列
 		// cnt[0] = 1，表示后续已经没有了，前缀的状况都已确定，那么就是1种
 		// cnt[1] = m
 		// cnt[2] = m * m
@@ -82,10 +95,15 @@ public class Code02_NumbersAtMostGivenDigitSet {
 		return ans + f2(digits, cnt, num, offset, len);
 	}
 
+	// offset是辅助变量，由len确定，方便提取num中某一位数字
+	// 还剩下len位没有决定，之前的位和num一样
+	// 返回最终<=num的可能性有多少种
 	public static int f2(int[] digits, int[] cnt, int num, int offset, int len) {
 		if (len == 0) {
+			// num自己
 			return 1;
 		}
+		// cur是num当前位的数字
 		int cur = (num / offset) % 10;
 		int ans = 0;
 		for (int i : digits) {

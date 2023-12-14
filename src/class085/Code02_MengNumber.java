@@ -65,15 +65,15 @@ public class Code02_MengNumber {
 		return (int) ((all - f(num, 0, 10, 10, 0) + MOD) % MOD);
 	}
 
-	public static int f(char[] num, int i, int pp, int p, int less) {
+	public static int f(char[] num, int i, int pp, int p, int free) {
 		if (i == num.length) {
 			return 1;
 		}
-		if (dp[i][pp][p][less] != -1) {
-			return dp[i][pp][p][less];
+		if (dp[i][pp][p][free] != -1) {
+			return dp[i][pp][p][free];
 		}
 		int ans = 0;
-		if (less == 0) {
+		if (free == 0) {
 			if (p == 10) {
 				ans = (ans + f(num, i + 1, 10, 10, 1)) % MOD;
 				for (int cur = 1; cur < num[i] - '0'; cur++) {
@@ -104,7 +104,7 @@ public class Code02_MengNumber {
 				}
 			}
 		}
-		dp[i][pp][p][less] = ans;
+		dp[i][pp][p][free] = ans;
 		return ans;
 	}
 
