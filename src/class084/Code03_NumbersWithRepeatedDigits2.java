@@ -28,9 +28,8 @@ public class Code03_NumbersWithRepeatedDigits2 {
 		}
 		int[] cnt = new int[len];
 		cnt[0] = 1;
-		for (int i = 1, cur = 1, base = 10 - len + 1; i < len; i++, base++) {
-			cur *= base;
-			cnt[i] = cur;
+		for (int i = 1, k = 10 - len + 1; i < len; i++, k++) {
+			cnt[i] = cnt[i - 1] * k;
 		}
 		int first = n / offset;
 		ans += (first - 1) * cnt[len - 1];

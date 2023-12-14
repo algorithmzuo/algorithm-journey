@@ -2,6 +2,7 @@ package class084;
 
 // 最大为N的数字组合
 // 给定一个按 非递减顺序 排列的数字数组 digits
+// 已知digits一定不包含'0'，可能包含'1' ~ '9'，且无重复字符
 // 你可以用任意次数 digits[i] 来写的数字
 // 例如，如果 digits = ['1','3','5']
 // 我们可以写数字，如 '13', '551', 和 '1351315'
@@ -23,12 +24,18 @@ public class Code02_NumbersAtMostGivenDigitSet {
 			len++;
 			offset *= 10;
 		}
+		// cnt[i] : 已知前缀比digits小，剩下i位没有确定，请问前缀确定的情况下，一共有多少种数字排列
+		// cnt[0] = 1，表示后续已经没有了，前缀的状况都已确定，那么就是1种
+		// cnt[1] = m
+		// cnt[2] = m * m
+		// cnt[3] = m * m * m
+		// ...
 		int[] cnt = new int[len];
 		cnt[0] = 1;
 		int ans = 0;
-		for (int prepare = m, i = 1; i < len; i++, prepare *= m) {
-			cnt[i] = prepare;
-			ans += prepare;
+		for (int k = m, i = 1; i < len; i++, k *= m) {
+			cnt[i] = k;
+			ans += k;
 		}
 		return ans + f(digits, cnt, number, offset, len);
 	}

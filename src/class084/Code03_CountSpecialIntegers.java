@@ -22,11 +22,29 @@ public class Code03_CountSpecialIntegers {
 				ans += a;
 			}
 		}
+		// cnt[i] :
+		// 一共长度为len，还剩i位没有确定，确定的前缀为len-i位
+		// 没有选择的数字剩下10 - len + i个
+		// 后续的i位上，还有多少种数字排列
+		// 比如：len = 4
+		// cnt[4]不计算
+		// cnt[3] = 9 * 8 * 7
+		// cnt[2] = 8 * 7
+		// cnt[1] = 7
+		// cnt[0] = 1，表示前缀已确定，后续也没有了，那么就是1种排列，就是前缀的状况
+		// 再比如：len = 6
+		// cnt[6]不计算
+		// cnt[5] = 9 * 8 * 7 * 6 * 5
+		// cnt[4] = 8 * 7 * 6 * 5
+		// cnt[3] = 7 * 6 * 5
+		// cnt[2] = 6 * 5
+		// cnt[1] = 5
+		// cnt[0] = 1，表示前缀已确定，后续也没有了，那么就是1种排列，就是前缀的状况
+		// 下面for循环就是求解cnt的代码
 		int[] cnt = new int[len];
 		cnt[0] = 1;
-		for (int i = 1, cur = 1, base = 10 - len + 1; i < len; i++, base++) {
-			cur *= base;
-			cnt[i] = cur;
+		for (int i = 1, k = 10 - len + 1; i < len; i++, k++) {
+			cnt[i] = cnt[i - 1] * k;
 		}
 		int first = n / offset;
 		ans += (first - 1) * cnt[len - 1];
