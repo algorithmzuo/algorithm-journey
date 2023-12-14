@@ -10,8 +10,8 @@ package class084;
 // 测试链接 : https://leetcode.cn/problems/numbers-at-most-n-given-digit-set/
 public class Code02_NumbersAtMostGivenDigitSet {
 
-	public static int atMostNGivenDigitSet(String[] strs, int number) {
-		int tmp = number / 10;
+	public static int atMostNGivenDigitSet(String[] strs, int num) {
+		int tmp = num / 10;
 		int len = 1;
 		int offset = 1;
 		while (tmp > 0) {
@@ -24,36 +24,30 @@ public class Code02_NumbersAtMostGivenDigitSet {
 		for (int i = 0; i < m; i++) {
 			digits[i] = Integer.valueOf(strs[i]);
 		}
-		// cnt[i] : 已知前缀比digits小，剩下i位没有确定，请问前缀确定的情况下，一共有多少种数字排列
-		// cnt[0] = 1，表示后续已经没有了，前缀的状况都已确定，那么就是1种
-		// cnt[1] = m
-		// cnt[2] = m * m
-		// cnt[3] = m * m * m
-		// ...
-		int[] cnt = new int[len];
-		cnt[0] = 1;
-		int ans = 0;
-		for (int k = m, i = 1; i < len; i++, k *= m) {
-			cnt[i] = k;
-			ans += k;
-		}
-		return ans + f(digits, cnt, number, offset, len);
+		return f(digits, num, offset, len, 0, 0);
 	}
 
-	public static int f(int[] digits, int[] cnt, int number, int offset, int len) {
+	public static int f(int[] digits, int num, int offset, int len, int less, int fix) {
 		if (len == 0) {
-			return 1;
+			return fix == 1 ? 1 : 0;
 		}
-		int cur = (number / offset) % 10;
 		int ans = 0;
-		for (int i = 0; i < digits.length; i++) {
-			if (digits[i] < cur) {
-				ans += cnt[len - 1];
-			} else if (digits[i] == cur) {
-				ans += f(digits, cnt, number, offset / 10, len - 1);
-			} else {
-				break;
+		int cur = (num / offset) % 10;
+		if (fix == 0) {
+			ans += f(digits, num, offset / 10, len - 1, 1, 0);
+		}
+		if (less == 0) {
+			for (int i : digits) {
+				if (i < cur) {
+					ans += f(digits, num, offset / 10, len - 1, 1, 1);
+				} else if (i == cur) {
+					ans += f(digits, num, offset / 10, len - 1, 0, 1);
+				} else {
+					break;
+				}
 			}
+		} else {
+			ans += digits.length * f(digits, num, offset / 10, len - 1, 1, 1);
 		}
 		return ans;
 	}
