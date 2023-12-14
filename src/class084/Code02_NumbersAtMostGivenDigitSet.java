@@ -11,43 +11,49 @@ package class084;
 public class Code02_NumbersAtMostGivenDigitSet {
 
 	public static int atMostNGivenDigitSet(String[] strs, int num) {
-		int tmp = num / 10;
-		int len = 1;
-		int offset = 1;
-		while (tmp > 0) {
-			tmp /= 10;
-			len++;
-			offset *= 10;
-		}
 		int m = strs.length;
 		int[] digits = new int[m];
 		for (int i = 0; i < m; i++) {
 			digits[i] = Integer.valueOf(strs[i]);
 		}
-		return f(digits, num, offset, len, 0, 0);
+		int len = 1;
+		int offset = 1;
+		int tmp = num / 10;
+		while (tmp > 0) {
+			tmp /= 10;
+			len++;
+			offset *= 10;
+		}
+		// cnt[i] : 已知前缀比digits小，剩下i位没有确定，请问前缀确定的情况下，一共有多少种数字排列
+		// cnt[0] = 1，表示后续已经没有了，前缀的状况都已确定，那么就是1种
+		// cnt[1] = m
+		// cnt[2] = m * m
+		// cnt[3] = m * m * m
+		// ...
+		int[] cnt = new int[len];
+		cnt[0] = 1;
+		int ans = 0;
+		for (int i = m, k = 1; k < len; k++, i *= m) {
+			cnt[k] = i;
+			ans += i;
+		}
+		return ans + f(digits, cnt, num, offset, len);
 	}
 
-	public static int f(int[] digits, int num, int offset, int len, int less, int fix) {
+	public static int f(int[] digits, int[] cnt, int num, int offset, int len) {
 		if (len == 0) {
-			return fix == 1 ? 1 : 0;
+			return 1;
 		}
-		int ans = 0;
 		int cur = (num / offset) % 10;
-		if (fix == 0) {
-			ans += f(digits, num, offset / 10, len - 1, 1, 0);
-		}
-		if (less == 0) {
-			for (int i : digits) {
-				if (i < cur) {
-					ans += f(digits, num, offset / 10, len - 1, 1, 1);
-				} else if (i == cur) {
-					ans += f(digits, num, offset / 10, len - 1, 0, 1);
-				} else {
-					break;
-				}
+		int ans = 0;
+		for (int i : digits) {
+			if (i < cur) {
+				ans += cnt[len - 1];
+			} else if (i == cur) {
+				ans += f(digits, cnt, num, offset / 10, len - 1);
+			} else {
+				break;
 			}
-		} else {
-			ans += digits.length * f(digits, num, offset / 10, len - 1, 1, 1);
 		}
 		return ans;
 	}
