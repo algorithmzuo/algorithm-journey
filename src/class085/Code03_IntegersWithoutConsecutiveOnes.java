@@ -7,17 +7,17 @@ package class085;
 public class Code03_IntegersWithoutConsecutiveOnes {
 
 	public static int findIntegers(int n) {
-		int[] f = new int[31];
-		f[0] = 1;
-		f[1] = 2;
+		int[] cnt = new int[31];
+		cnt[0] = 1;
+		cnt[1] = 2;
 		for (int len = 2; len <= 30; len++) {
-			f[len] = f[len - 1] + f[len - 2];
+			cnt[len] = cnt[len - 1] + cnt[len - 2];
 		}
 		int ans = 0;
 		int pre = 30;
 		for (int cur = pre - 1, len = 30; cur >= 0; pre--, cur--, len--) {
 			if ((n & (1 << cur)) != 0) {
-				ans += f[len - 1];
+				ans += cnt[len - 1];
 				if ((n & (1 << pre)) != 0) {
 					break;
 				}
