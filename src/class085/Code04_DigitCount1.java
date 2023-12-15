@@ -10,6 +10,7 @@ public class Code04_DigitCount1 {
 		return count(b, d) - count(a - 1, d);
 	}
 
+	// 统计1~num范围上所有的数中，数码d出现了多少次
 	public static int count(int num, int d) {
 		int ans = 0;
 		for (int i = 1, tmp = num, high, cur; tmp != 0; i *= 10, tmp /= 10) {

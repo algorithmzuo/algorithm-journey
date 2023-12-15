@@ -16,18 +16,21 @@ public class Code03_IntegersWithoutConsecutiveOnes {
 		return f(cnt, n, 30);
 	}
 
-	public static int f(int[] cnt, int n, int i) {
+	// cnt[len] : 二进制如果有len位，所有二进制状态中不存在连续的1的状态有多少个，辅助数组
+	// 从num二进制形式的高位开始，当前来到第i位，之前的位完全和num一样
+	// 返回<=num且不存在连续的1的状态有多少个
+	public static int f(int[] cnt, int num, int i) {
 		if (i == -1) {
 			return 1;
 		}
 		int ans = 0;
-		if ((n & (1 << i)) != 0) {
+		if ((num & (1 << i)) != 0) {
 			ans += cnt[i];
-			if ((n & (1 << (i + 1))) != 0) {
+			if ((num & (1 << (i + 1))) != 0) {
 				return ans;
 			}
 		}
-		ans += f(cnt, n, i - 1);
+		ans += f(cnt, num, i - 1);
 		return ans;
 	}
 

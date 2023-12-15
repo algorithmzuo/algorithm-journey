@@ -66,6 +66,11 @@ public class Code02_MengNumber {
 		return (int) ((all - f(num, 0, 10, 10, 0) + MOD) % MOD);
 	}
 
+	// 从num的高位开始，当前来到第i位
+	// 前两位的数字分别为pp、p，如果值是10，表示那一位没有选择过数字
+	// 如果之前的位已经确定比num小，那么free == 1，表示接下的数字可以自由选择
+	// 如果之前的位和num一样，那么free == 0，表示接下的数字不能大于num当前位的数字
+	// 返回<=num的萌数有多少个
 	public static int f(char[] num, int i, int pp, int p, int free) {
 		if (i == num.length) {
 			return 1;

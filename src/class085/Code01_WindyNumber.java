@@ -65,6 +65,12 @@ public class Code01_WindyNumber {
 		return f(num, offset, len, 10, 0);
 	}
 
+	// offset是辅助变量，完全由len决定，只是为了方便提取num中某一位数字，不是关键变量
+	// 从num的高位开始，还剩下len位没有决定
+	// 前一位的数字是pre，如果pre == 10，表示从来没有选择过数字
+	// 如果之前的位已经确定比num小，那么free == 1，表示接下的数字可以自由选择
+	// 如果之前的位和num一样，那么free == 0，表示接下的数字不能大于num当前位的数字
+	// 返回<=num的windy数有多少个
 	public static int f(int num, int offset, int len, int pre, int free) {
 		if (len == 0) {
 			return pre == 10 ? 0 : 1;
