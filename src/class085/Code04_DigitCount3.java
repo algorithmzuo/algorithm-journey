@@ -12,20 +12,17 @@ public class Code04_DigitCount3 {
 
 	public static int count(int num, int d) {
 		int ans = 0;
-		for (int i = 1, tmp = num, high, cur; tmp != 0; i *= 10, tmp /= 10) {
-			high = tmp / 10;
-			if (d == 0) {
-				if (high == 0) {
-					break;
-				}
-				high--;
-			}
-			ans += high * i;
+		for (int right = 1, tmp = num, left, cur; tmp != 0; right *= 10, tmp /= 10) {
+			left = tmp / 10;
 			cur = tmp % 10;
+			if (d == 0) {
+				left--;
+			}
+			ans += left * right;
 			if (cur > d) {
-				ans += i;
+				ans += right;
 			} else if (cur == d) {
-				ans += num % i + 1;
+				ans += num % right + 1;
 			}
 		}
 		return ans;

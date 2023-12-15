@@ -3,6 +3,7 @@ package class085;
 // 范围内的数字计数
 // 给定两个正整数a和b，求在[a,b]范围上的所有整数中
 // 每个数码(digit)各出现了多少次
+// 1 <= a, b
 // 测试链接 : https://www.luogu.com.cn/problem/P2602
 // 请同学们务必参考如下代码中关于输入、输出的处理
 // 这是输入输出处理效率很高的写法
@@ -41,20 +42,17 @@ public class Code04_DigitCount2 {
 
 	public static long count(long num, int d) {
 		long ans = 0;
-		for (long i = 1, tmp = num, high, cur; tmp != 0; i *= 10, tmp /= 10) {
-			high = tmp / 10;
+		for (long right = 1, tmp = num, left, cur; tmp != 0; right *= 10, tmp /= 10) {
+			left = tmp / 10;
 			if (d == 0) {
-				if (high == 0) {
-					break;
-				}
-				high--;
+				left--;
 			}
-			ans += high * i;
+			ans += left * right;
 			cur = tmp % 10;
 			if (cur > d) {
-				ans += i;
+				ans += right;
 			} else if (cur == d) {
-				ans += num % i + 1;
+				ans += num % right + 1;
 			}
 		}
 		return ans;

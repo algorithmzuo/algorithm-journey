@@ -21,15 +21,19 @@ public class Code03_IntegersWithoutConsecutiveOnes {
 	// 返回<=num且不存在连续的1的状态有多少个
 	public static int f(int[] cnt, int num, int i) {
 		if (i == -1) {
-			return 1;
+			return 1; // num自身合法
 		}
 		int ans = 0;
 		if ((num & (1 << i)) != 0) {
 			ans += cnt[i];
 			if ((num & (1 << (i + 1))) != 0) {
+				// 如果num二进制状态，前一位是1，当前位也是1
+				// 如果前缀保持和num一样，后续一定不合法了
+				// 所以提前返回
 				return ans;
 			}
 		}
+		// 之前的高位和num一样，且合法，继续去i-1位递归
 		ans += f(cnt, num, i - 1);
 		return ans;
 	}

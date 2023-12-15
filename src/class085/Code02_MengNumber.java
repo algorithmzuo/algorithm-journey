@@ -47,9 +47,14 @@ public class Code02_MengNumber {
 	}
 
 	public static int compute(char[] l, char[] r) {
-		return ((cnt(r) - cnt(l) + MOD) % MOD + (check(l) ? 1 : 0)) % MOD;
+		int ans = (cnt(r) - cnt(l) + MOD) % MOD;
+		if (check(l)) {
+			ans = (ans + 1) % MOD;
+		}
+		return ans;
 	}
 
+	// 返回0~num范围上萌数有多少个
 	public static int cnt(char[] num) {
 		if (num[0] == '0') {
 			return 0;
@@ -67,10 +72,10 @@ public class Code02_MengNumber {
 	}
 
 	// 从num的高位开始，当前来到第i位
-	// 前两位的数字分别为pp、p，如果值是10，表示那一位没有选择过数字
+	// 前一位数字是p、前前一位数字是pp，如果值是10，则表示那一位没有选择过数字
 	// 如果之前的位已经确定比num小，那么free == 1，表示接下的数字可以自由选择
 	// 如果之前的位和num一样，那么free == 0，表示接下的数字不能大于num当前位的数字
-	// 返回<=num的萌数有多少个
+	// 返回<=num且不是萌数的数字有多少个
 	public static int f(char[] num, int i, int pp, int p, int free) {
 		if (i == num.length) {
 			return 1;
@@ -81,12 +86,15 @@ public class Code02_MengNumber {
 		int ans = 0;
 		if (free == 0) {
 			if (p == 10) {
-				ans = (ans + f(num, i + 1, 10, 10, 1)) % MOD;
+				// 当前来到的就是num的最高位
+				ans = (ans + f(num, i + 1, 10, 10, 1)) % MOD; // 当前位不选数字
 				for (int cur = 1; cur < num[i] - '0'; cur++) {
 					ans = (ans + f(num, i + 1, p, cur, 1)) % MOD;
 				}
 				ans = (ans + f(num, i + 1, p, num[i] - '0', 0)) % MOD;
 			} else {
+				// free == 0，之前和num一样，此时不能自由选择数字
+				// 前一位p，选择过数字，p -> 0 ~ 9
 				for (int cur = 0; cur < num[i] - '0'; cur++) {
 					if (pp != cur && p != cur) {
 						ans = (ans + f(num, i + 1, p, cur, 1)) % MOD;
@@ -98,11 +106,15 @@ public class Code02_MengNumber {
 			}
 		} else {
 			if (p == 10) {
-				ans = (ans + f(num, i + 1, 10, 10, 1)) % MOD;
+				// free == 1，能自由选择数字
+				// 从来没选过数字
+				ans = (ans + f(num, i + 1, 10, 10, 1)) % MOD; // 依然不选数字
 				for (int cur = 1; cur <= 9; cur++) {
 					ans = (ans + f(num, i + 1, p, cur, 1)) % MOD;
 				}
 			} else {
+				// free == 1，能自由选择数字
+				// 之前选择过数字
 				for (int cur = 0; cur <= 9; cur++) {
 					if (pp != cur && p != cur) {
 						ans = (ans + f(num, i + 1, p, cur, 1)) % MOD;
