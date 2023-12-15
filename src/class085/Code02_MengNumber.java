@@ -58,6 +58,7 @@ public class Code02_MengNumber {
 		long all = 0;
 		long base = 1;
 		for (int i = n - 1; i >= 0; i--) {
+			// 不理解的话看一下，讲解041-同余原理
 			all = (all + base * (num[i] - '0')) % MOD;
 			base = (base * 10) % MOD;
 		}

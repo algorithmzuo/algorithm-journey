@@ -32,7 +32,7 @@ public class Code03_IntegersWithoutConsecutiveOnes {
 	}
 
 	// 只是把方法1从递归改成迭代而已
-	// 等义改写，没有新东西
+	// 完全是等义改写，没有新东西
 	public static int findIntegers2(int n) {
 		int[] cnt = new int[31];
 		cnt[0] = 1;

@@ -10,9 +10,9 @@ public class Code04_DigitCount3 {
 		return count(n, 1);
 	}
 
-	public static int count(int n, int d) {
+	public static int count(int num, int d) {
 		int ans = 0;
-		for (int i = 1, tmp = n, high, cur; tmp != 0; i *= 10, tmp /= 10) {
+		for (int i = 1, tmp = num, high, cur; tmp != 0; i *= 10, tmp /= 10) {
 			high = tmp / 10;
 			if (d == 0) {
 				if (high == 0) {
@@ -25,7 +25,7 @@ public class Code04_DigitCount3 {
 			if (cur > d) {
 				ans += i;
 			} else if (cur == d) {
-				ans += n % i + 1;
+				ans += num % i + 1;
 			}
 		}
 		return ans;
