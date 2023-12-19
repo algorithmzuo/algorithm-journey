@@ -8,7 +8,7 @@ package class087;
 // 如果不能做到，返回长度为0的数组
 // 2 <= n <= 10^6
 // 1 <= k <= n
-// 来自真实大厂笔试，没有测试链接，采用对数器验证
+// 来自真实大厂笔试，没有测试链接，用对数器验证
 public class Code02_PickNumbersClosedSum {
 
 	// 正式方法
