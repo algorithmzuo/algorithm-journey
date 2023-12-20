@@ -95,7 +95,7 @@ public class Code04_Diving2 {
 						dp[j][k] = dp[j - a[i]][k - b[i]] + c[i];
 						path[j][k] = p2;
 					} else if (dp[j][k] == dp[j - a[i]][k - b[i]] + c[i]) {
-						if (path[j][k] == null || p2.compareTo(path[j][k]) < 0) {
+						if (p2.compareTo(path[j][k]) < 0) {
 							path[j][k] = p2;
 						}
 					}

@@ -84,7 +84,7 @@ public class Code04_Diving1 {
 	}
 
 	// 不做空间压缩
-	// 最普通版本的多维费用背包
+	// 普通版本的多维费用背包
 	public static void compute() {
 		String p2;
 		for (int i = 1; i <= n; i++) {
@@ -102,7 +102,7 @@ public class Code04_Diving1 {
 							dp[i][j][k] = dp[i - 1][j - a[i]][k - b[i]] + c[i];
 							path[i][j][k] = p2;
 						} else if (dp[i][j][k] == dp[i - 1][j - a[i]][k - b[i]] + c[i]) {
-							if (path[i][j][k] == null || p2.compareTo(path[i][j][k]) < 0) {
+							if (p2.compareTo(path[i][j][k]) < 0) {
 								path[i][j][k] = p2;
 							}
 						}
