@@ -1,6 +1,7 @@
 package class086;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 // 最小的必要团队
@@ -14,28 +15,23 @@ import java.util.List;
 // 测试链接 : https://leetcode.cn/problems/smallest-sufficient-team/
 public class Code02_SmallestSufficientTeam {
 
-	// 讲解080、081 - 状压dp
 	public static int[] smallestSufficientTeam(String[] skills, List<List<String>> people) {
 		Arrays.sort(skills);
 		int n = skills.length;
 		int m = people.size();
+		HashMap<String, Integer> map = new HashMap<>();
+		int cnt = 0;
+		for (String s : skills) {
+			if (!map.containsKey(s)) {
+				map.put(s, cnt++);
+			}
+		}
 		int[] arr = new int[m];
-		for (int i = 0; i < m; i++) {
-			int status = 0;
-			List<String> skill = people.get(i);
-			skill.sort((a, b) -> a.compareTo(b));
-			int p1 = 0;
-			int p2 = 0;
-			while (p1 < n && p2 < skill.size()) {
-				int compare = skills[p1].compareTo(skill.get(p2));
-				if (compare < 0) {
-					p1++;
-				} else if (compare > 0) {
-					p2++;
-				} else {
-					status |= 1 << p1;
-					p1++;
-					p2++;
+		for (int i = 0, status; i < m; i++) {
+			status = 0;
+			for (String s : people.get(i)) {
+				if (map.containsKey(s)) {
+					status |= 1 << map.get(s);
 				}
 			}
 			arr[i] = status;
