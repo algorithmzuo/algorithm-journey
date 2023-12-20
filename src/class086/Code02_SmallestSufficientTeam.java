@@ -44,39 +44,35 @@ public class Code02_SmallestSufficientTeam {
 		for (int i = 0; i < m; i++) {
 			Arrays.fill(dp[i], -1);
 		}
-		int size = f(arr, n, 0, 0, dp);
+		int size = f(arr, m, n, 0, 0, dp);
 		int[] ans = new int[size];
-		int ansi = 0;
-		int i = 0;
-		int status = 0;
-		while (status != (1 << n) - 1) {
-			if (i + 1 == m || dp[i][status] != dp[i + 1][status]) {
-				ans[ansi++] = i;
-				status |= arr[i];
+		for (int j = 0, i = 0, s = 0; s != (1 << n) - 1; i++) {
+			if (i + 1 == m || dp[i][s] != dp[i + 1][s]) {
+				ans[j++] = i;
+				s |= arr[i];
 			}
-			i++;
 		}
 		return ans;
 	}
 
-	public static int f(int[] arr, int n, int i, int status, int[][] dp) {
-		if (status == (1 << n) - 1) {
+	public static int f(int[] arr, int m, int n, int i, int s, int[][] dp) {
+		if (s == (1 << n) - 1) {
 			return 0;
 		}
-		if (i == arr.length) {
+		if (i == m) {
 			return Integer.MAX_VALUE;
 		}
-		if (dp[i][status] != -1) {
-			return dp[i][status];
+		if (dp[i][s] != -1) {
+			return dp[i][s];
 		}
-		int p1 = f(arr, n, i + 1, status, dp);
+		int p1 = f(arr, m, n, i + 1, s, dp);
 		int p2 = Integer.MAX_VALUE;
-		int next2 = f(arr, n, i + 1, status | arr[i], dp);
+		int next2 = f(arr, m, n, i + 1, s | arr[i], dp);
 		if (next2 != Integer.MAX_VALUE) {
 			p2 = 1 + next2;
 		}
 		int ans = Math.min(p1, p2);
-		dp[i][status] = ans;
+		dp[i][s] = ans;
 		return ans;
 	}
 

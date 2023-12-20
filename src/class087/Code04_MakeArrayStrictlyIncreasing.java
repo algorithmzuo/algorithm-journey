@@ -9,6 +9,8 @@ import java.util.Arrays;
 // 分别为 i 和 j，0 <= i < arr1.length 和 0 <= j < arr2.length
 // 然后进行赋值运算 arr1[i] = arr2[j]
 // 如果无法让 arr1 严格递增，请返回-1
+// 1 <= arr1.length, arr2.length <= 2000
+// 0 <= arr1[i], arr2[i] <= 10^9
 // 测试链接 : https://leetcode.cn/problems/make-array-strictly-increasing/
 public class Code04_MakeArrayStrictlyIncreasing {
 
