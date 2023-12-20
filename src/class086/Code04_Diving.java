@@ -77,8 +77,9 @@ public class Code04_Diving {
 		br.close();
 	}
 
-	// 这个方法就是讲了很多遍的空间压缩技巧
-	// 请务必掌握动态规划前几节课对这一技巧的讲解
+	// 这个方法就是多维费用背包的空间压缩版本
+	// 请务必掌握空间压缩技巧
+	// 之前的课讲了很多遍了
 	public static void compute() {
 		String cur;
 		for (int i = 1; i <= n; i++) {
