@@ -21,7 +21,7 @@ import java.io.StreamTokenizer;
 import java.util.Arrays;
 
 // 讲解072 - 最长递增子序列及其扩展
-public class Code02_LIS {
+public class Code03_LIS {
 
 	public static int MAXN = 100001;
 

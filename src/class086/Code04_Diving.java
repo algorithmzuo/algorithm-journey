@@ -8,6 +8,7 @@ package class086;
 // 返回最久的停留时间和下标字典序最小的选择工具的方案
 // 字典序设定 : 
 // 下标方案整体构成的字符串保证字典序最小
+// 比如下标方案"1 120"比下标方案"1 2"字典序小
 // 测试链接 : https://www.luogu.com.cn/problem/P1759
 // 请同学们务必参考如下代码中关于输入、输出的处理
 // 这是输入输出处理效率很高的写法
@@ -21,7 +22,7 @@ import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 
 // 讲解069 - 多维费用背包 + 空间压缩
-public class Code03_Diving {
+public class Code04_Diving {
 
 	public static int MAXN = 101;
 

@@ -12,7 +12,7 @@ import java.util.List;
 // 请你返回规模最小的必要团队，团队成员用人员编号表示
 // 你可以按 任意顺序 返回答案，题目数据保证答案存在
 // 测试链接 : https://leetcode.cn/problems/smallest-sufficient-team/
-public class Code04_SmallestSufficientTeam {
+public class Code02_SmallestSufficientTeam {
 
 	// 讲解080、081 - 状压dp
 	public static int[] smallestSufficientTeam(String[] skills, List<List<String>> people) {
