@@ -21,7 +21,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 
-// 本文件就是做了空间压缩的版本
+// 本文件做了空间压缩优化
 // 可以通过全部测试用例
 public class Code04_Diving2 {
 
