@@ -27,9 +27,9 @@ public class Code03_LIS {
 
 	public static int[] nums = new int[MAXN];
 
-	public static int[] ends = new int[MAXN];
-
 	public static int[] dp = new int[MAXN];
+	
+	public static int[] ends = new int[MAXN];
 
 	public static int[] ans = new int[MAXN];
 
