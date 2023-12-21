@@ -8,6 +8,7 @@ package class086;
 // 每个数字看作是单独的字符，比如120认为比36的字典序大
 // 保证从左到右每个数字尽量小
 // 测试链接 : https://www.nowcoder.com/practice/30fb9b3cab9742ecae9acda1c75bf927
+// 测试链接 : https://www.luogu.com.cn/problem/T386911
 // 请同学们务必参考如下代码中关于输入、输出的处理
 // 这是输入输出处理效率很高的写法
 // 提交以下的code，提交时请把类名改成"Main"，可以直接通过
@@ -28,7 +29,7 @@ public class Code03_LIS {
 	public static int[] nums = new int[MAXN];
 
 	public static int[] dp = new int[MAXN];
-	
+
 	public static int[] ends = new int[MAXN];
 
 	public static int[] ans = new int[MAXN];
@@ -61,11 +62,15 @@ public class Code03_LIS {
 		Arrays.fill(ans, 0, k, Integer.MAX_VALUE);
 		for (int i = 0; i < n; i++) {
 			if (dp[i] == k) {
-				if (nums[i] < ans[0]) {
-					ans[0] = nums[i];
-				}
+				// 注意这里
+				// 为什么不用判断直接设置
+				// 有讲究，课上重点讲了
+				ans[0] = nums[i];
 			} else {
-				if (ans[k - dp[i] - 1] < nums[i] && nums[i] < ans[k - dp[i]]) {
+				if (ans[k - dp[i] - 1] < nums[i]) {
+					// 注意这里
+					// 为什么只需要判断比前一位(ans[k-dp[i]-1])大即可
+					// 有讲究，课上重点讲了
 					ans[k - dp[i]] = nums[i];
 				}
 			}

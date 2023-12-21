@@ -16,22 +16,23 @@ import java.util.List;
 public class Code02_SmallestSufficientTeam {
 
 	public static int[] smallestSufficientTeam(String[] skills, List<List<String>> people) {
-		Arrays.sort(skills);
 		int n = skills.length;
 		int m = people.size();
 		HashMap<String, Integer> map = new HashMap<>();
 		int cnt = 0;
 		for (String s : skills) {
-			if (!map.containsKey(s)) {
-				map.put(s, cnt++);
-			}
+			// 把所有必要技能依次编号
+			map.put(s, cnt++);
 		}
+		// arr[i] : 第i号人掌握必要技能的状况，用位信息表示
 		int[] arr = new int[m];
 		for (int i = 0, status; i < m; i++) {
 			status = 0;
-			for (String s : people.get(i)) {
-				if (map.containsKey(s)) {
-					status |= 1 << map.get(s);
+			for (String skill : people.get(i)) {
+				if (map.containsKey(skill)) {
+					// 如果当前技能是必要的
+					// 才设置status
+					status |= 1 << map.get(skill);
 				}
 			}
 			arr[i] = status;
@@ -43,7 +44,9 @@ public class Code02_SmallestSufficientTeam {
 		int size = f(arr, m, n, 0, 0, dp);
 		int[] ans = new int[size];
 		for (int j = 0, i = 0, s = 0; s != (1 << n) - 1; i++) {
-			if (i + 1 == m || dp[i][s] != dp[i + 1][s]) {
+			// s还没凑齐
+			if (i == m - 1 || dp[i][s] != dp[i + 1][s]) {
+				// 当初的决策是选择了i号人
 				ans[j++] = i;
 				s |= arr[i];
 			}
@@ -51,20 +54,33 @@ public class Code02_SmallestSufficientTeam {
 		return ans;
 	}
 
+	// arr : 每个人所掌握的必要技能的状态
+	// m : 人的总数
+	// n : 必要技能的数量
+	// i : 当前来到第几号人
+	// s : 必要技能覆盖的状态
+	// 返回 : i....这些人，把必要技能都凑齐，至少需要几个人
 	public static int f(int[] arr, int m, int n, int i, int s, int[][] dp) {
 		if (s == (1 << n) - 1) {
+			// 所有技能已经凑齐了
 			return 0;
 		}
+		// 没凑齐
 		if (i == m) {
+			// 人已经没了，技能也没凑齐
+			// 无效
 			return Integer.MAX_VALUE;
 		}
 		if (dp[i][s] != -1) {
 			return dp[i][s];
 		}
+		// 可能性1 : 不要i号人
 		int p1 = f(arr, m, n, i + 1, s, dp);
+		// 可能性2 : 要i号人
 		int p2 = Integer.MAX_VALUE;
 		int next2 = f(arr, m, n, i + 1, s | arr[i], dp);
 		if (next2 != Integer.MAX_VALUE) {
+			// 后续有效
 			p2 = 1 + next2;
 		}
 		int ans = Math.min(p1, p2);
