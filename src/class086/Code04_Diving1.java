@@ -83,16 +83,26 @@ public class Code04_Diving1 {
 		br.close();
 	}
 
-	// 不做空间压缩
 	// 普通版本的多维费用背包
+	// 为了好懂先实现不进行空间压缩的版本
 	public static void compute() {
 		String p2;
 		for (int i = 1; i <= n; i++) {
 			for (int j = 0; j <= m; j++) {
 				for (int k = 0; k <= v; k++) {
+					// 可能性1 : 不要i位置的货
+					// 先把可能性1的答案设置上
+					// 包括dp信息和path信息
 					dp[i][j][k] = dp[i - 1][j][k];
 					path[i][j][k] = path[i - 1][j][k];
-					if (j - a[i] >= 0 && k - b[i] >= 0) {
+					if (j >= a[i] && k >= b[i]) {
+						// 可能性2 : 要i位置的货
+						// 那么需要:
+						// 背包总重量限制j >= a[i]
+						// 背包总阻力限制k >= b[i]
+						// 然后选了i位置的货，就可以获得收益c[i]了
+						// 可能性2收益 : dp[i-1][j-a[i]][k-b[i]] + c[i]
+						// 可能性2路径(p2) : path[i-1][j-a[i]][k-b[i]] + " " + i
 						if (path[i - 1][j - a[i]][k - b[i]] == null) {
 							p2 = String.valueOf(i);
 						} else {
@@ -103,6 +113,8 @@ public class Code04_Diving1 {
 							path[i][j][k] = p2;
 						} else if (dp[i][j][k] == dp[i - 1][j - a[i]][k - b[i]] + c[i]) {
 							if (p2.compareTo(path[i][j][k]) < 0) {
+								// 如果可能性2的路径，字典序小于，可能性1的路径
+								// 那么把路径设置成可能性2的路径
 								path[i][j][k] = p2;
 							}
 						}

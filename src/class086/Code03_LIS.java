@@ -57,6 +57,7 @@ public class Code03_LIS {
 		br.close();
 	}
 
+	// nums[...]
 	public static void lis() {
 		k = dp();
 		Arrays.fill(ans, 0, k, Integer.MAX_VALUE);
@@ -94,6 +95,8 @@ public class Code03_LIS {
 		return len;
 	}
 
+	// ends[有效区]从大到小的
+	// 二分的方式找<=num的最左位置
 	public static int bs(int len, int num) {
 		int l = 0, r = len - 1, m, ans = -1;
 		while (l <= r) {

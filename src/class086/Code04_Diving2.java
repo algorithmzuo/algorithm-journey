@@ -78,7 +78,7 @@ public class Code04_Diving2 {
 		br.close();
 	}
 
-	// 这个方法就是多维费用背包的空间压缩版本
+	// 多维费用背包的空间压缩版本
 	// 请务必掌握空间压缩技巧
 	// 之前的课讲了很多遍了
 	public static void compute() {
