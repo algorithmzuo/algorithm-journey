@@ -14,7 +14,7 @@ import java.util.Arrays;
 // 测试链接 : https://leetcode.cn/problems/make-array-strictly-increasing/
 public class Code04_MakeArrayStrictlyIncreasing {
 
-	public static int makeArrayIncreasing(int[] arr1, int[] arr2) {
+	public static int makeArrayIncreasing1(int[] arr1, int[] arr2) {
 		Arrays.sort(arr2);
 		int m = 1;
 		for (int i = 1; i < arr2.length; i++) {
@@ -23,29 +23,53 @@ public class Code04_MakeArrayStrictlyIncreasing {
 			}
 		}
 		int n = arr1.length;
-		int[] dp = new int[n + 2];
-		for (int i = n - 1; i >= -1; i--) {
-			int cur = i == -1 ? Integer.MIN_VALUE : arr1[i];
-			int find = bs(arr2, m, cur);
-			dp[i + 1] = Integer.MAX_VALUE;
-			int times = 0;
-			for (int j = i + 1; j <= n; j++) {
-				if (j == n || cur < arr1[j]) {
-					if (dp[j + 1] != Integer.MAX_VALUE) {
-						dp[i + 1] = Math.min(dp[i + 1], times + dp[j + 1]);
+		int[] dp = new int[n];
+		Arrays.fill(dp, -1);
+		int ans = f1(arr1, arr2, n, m, 0, dp);
+		return ans == Integer.MAX_VALUE ? -1 : ans;
+	}
+
+	// arr1长度为n，arr2有效部分长度为m
+	// arr2有效部分可以替换arr1中的数字
+	// arr1[0..i-1]已经形成了递增且arr1[i-1]一定没有替换
+	// 返回arr1[i..]范围上变成严格递增且arr1整体都是严格递增
+	// 至少需要几次替换
+	public static int f1(int[] arr1, int[] arr2, int n, int m, int i, int[] dp) {
+		if (i == n) {
+			return 0;
+		}
+		if (dp[i] != -1) {
+			return dp[i];
+		}
+		int ans = Integer.MAX_VALUE;
+		// pre : i-1位置的值
+		int pre = i == 0 ? Integer.MIN_VALUE : arr1[i - 1];
+		// find : arr2有效长度m的范围上，找到刚比pre大的位置
+		int find = bs(arr2, m, pre);
+		// 枚举arr1[i...]范围上，第一个不需要替换的位置j
+		for (int j = i, k = 0, next; j <= n; j++, k++) {
+			if (j == n) {
+				ans = Math.min(ans, k);
+			} else {
+				if (pre < arr1[j]) {
+					next = f1(arr1, arr2, n, m, j + 1, dp);
+					if (next != Integer.MAX_VALUE) {
+						ans = Math.min(ans, k + next);
 					}
 				}
 				if (find != -1 && find < m) {
-					cur = arr2[find++];
-					times++;
+					pre = arr2[find++];
 				} else {
 					break;
 				}
 			}
 		}
-		return dp[0] == Integer.MAX_VALUE ? -1 : dp[0];
+		dp[i] = ans;
+		return ans;
 	}
 
+	// arr2[0..size-1]范围上是严格递增的
+	// 找到这个范围上>num的最左位置
 	public static int bs(int[] arr2, int size, int num) {
 		int l = 0;
 		int r = size - 1;
@@ -60,6 +84,43 @@ public class Code04_MakeArrayStrictlyIncreasing {
 			}
 		}
 		return ans;
+	}
+
+	// 方法1改成严格位置依赖的动态规划
+	public static int makeArrayIncreasing2(int[] arr1, int[] arr2) {
+		Arrays.sort(arr2);
+		int m = 1;
+		for (int i = 1; i < arr2.length; i++) {
+			if (arr2[i] != arr2[m - 1]) {
+				arr2[m++] = arr2[i];
+			}
+		}
+		int n = arr1.length;
+		int[] dp = new int[n + 1];
+		for (int i = n - 1, ans, pre, find; i >= 0; i--) {
+			ans = Integer.MAX_VALUE;
+			pre = i == 0 ? Integer.MIN_VALUE : arr1[i - 1];
+			find = bs(arr2, m, pre);
+			for (int j = i, k = 0, next; j <= n; j++, k++) {
+				if (j == n) {
+					ans = Math.min(ans, k);
+				} else {
+					if (pre < arr1[j]) {
+						next = dp[j + 1];
+						if (next != Integer.MAX_VALUE) {
+							ans = Math.min(ans, k + next);
+						}
+					}
+					if (find != -1 && find < m) {
+						pre = arr2[find++];
+					} else {
+						break;
+					}
+				}
+			}
+			dp[i] = ans;
+		}
+		return dp[0] == Integer.MAX_VALUE ? -1 : dp[0];
 	}
 
 }
