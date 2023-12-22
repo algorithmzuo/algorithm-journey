@@ -86,7 +86,9 @@ public class Code04_MakeArrayStrictlyIncreasing {
 		return ans;
 	}
 
-	// 方法1改成严格位置依赖的动态规划
+	// 严格位置依赖的动态规划
+	// 和方法1的思路没有区别
+	// 甚至填写dp表的逻辑都保持一致
 	public static int makeArrayIncreasing2(int[] arr1, int[] arr2) {
 		Arrays.sort(arr2);
 		int m = 1;
