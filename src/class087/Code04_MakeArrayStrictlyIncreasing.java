@@ -31,9 +31,9 @@ public class Code04_MakeArrayStrictlyIncreasing {
 
 	// arr1长度为n，arr2有效部分长度为m
 	// arr2有效部分可以替换arr1中的数字
-	// arr1[0..i-1]已经形成了递增且arr1[i-1]一定没有替换
-	// 返回arr1[i..]范围上变成严格递增且arr1整体都是严格递增
-	// 至少需要几次替换
+	// arr1[0..i-1]已经严格递增且arr1[i-1]一定没有替换
+	// 返回让arr1整体都严格递增，arr1[i...]范围上还需要几次替换
+	// 如果做不到，返回无穷大
 	public static int f1(int[] arr1, int[] arr2, int n, int m, int i, int[] dp) {
 		if (i == n) {
 			return 0;
