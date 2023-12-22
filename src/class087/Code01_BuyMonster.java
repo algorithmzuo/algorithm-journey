@@ -1,6 +1,6 @@
 package class087;
 
-// 打怪兽
+// 贿赂怪兽
 // 开始时你的能力是0，你的目标是从0号怪兽开始，通过所有的n只怪兽
 // 如果你当前的能力小于i号怪兽的能力，则必须付出b[i]的钱贿赂这个怪兽
 // 然后怪兽就会加入你，他的能力a[i]直接累加到你的能力上
@@ -47,6 +47,7 @@ public class Code01_BuyMonster {
 	}
 
 	// 假设a[i]数值的范围很大，但是b[i]数值的范围不大
+	// 时间复杂度O(n * 所有怪兽的钱数累加和)
 	public static int compute1(int n, int[] a, int[] b) {
 		int m = 0;
 		for (int money : b) {
@@ -107,6 +108,7 @@ public class Code01_BuyMonster {
 	}
 
 	// 假设a[i]数值的范围不大，但是b[i]数值的范围很大
+	// 时间复杂度O(n * 所有怪兽的能力累加和)
 	public static int compute3(int n, int[] a, int[] b) {
 		int m = 0;
 		for (int ability : a) {

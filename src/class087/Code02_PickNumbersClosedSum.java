@@ -16,27 +16,32 @@ public class Code02_PickNumbersClosedSum {
 	public static int[] pick(int n, int k) {
 		long sum = (n + 1) * n / 2;
 		int[] ans = generate(sum / 2, n, k);
-		if (ans == null && (sum & 1) == 1) {
-			ans = generate((sum + 1) / 2, n, k);
+		if (ans.length == 0 && (sum & 1) == 1) {
+			ans = generate(sum / 2 + 1, n, k);
 		}
-		return ans != null ? ans : new int[0];
+		return ans;
 	}
 
-	public static int[] generate(long wantSum, int n, int k) {
+	// 1 ~ n这些数字挑选k个
+	// 能不能凑够累加和sum
+	// 能的话，返回挑选了哪些数字
+	// 不能的话，返回长度为0的数组
+	public static int[] generate(long sum, int n, int k) {
 		long minKSum = (k + 1) * k / 2;
 		int range = n - k;
-		if (wantSum < minKSum || wantSum > minKSum + (long) range * k) {
-			return null;
+		if (sum < minKSum || sum > minKSum + (long) range * k) {
+			return new int[0];
 		}
-		long add = wantSum - minKSum;
-		int rightSize = (int) (add / range);
-		int midIndex = (k - rightSize) + (int) (add % range);
-		int leftSize = k - rightSize - (add % range == 0 ? 0 : 1);
+		// 100 15 -> 85
+		long need = sum - minKSum;
+		int rightSize = (int) (need / range);
+		int midIndex = (k - rightSize) + (int) (need % range);
+		int leftSize = k - rightSize - (need % range == 0 ? 0 : 1);
 		int[] ans = new int[k];
 		for (int i = 0; i < leftSize; i++) {
 			ans[i] = i + 1;
 		}
-		if (add % range != 0) {
+		if (need % range != 0) {
 			ans[leftSize] = midIndex;
 		}
 		for (int i = k - 1, j = 0; j < rightSize; i--, j++) {

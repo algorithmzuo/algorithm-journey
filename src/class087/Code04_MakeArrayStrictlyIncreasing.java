@@ -41,8 +41,9 @@ public class Code04_MakeArrayStrictlyIncreasing {
 		if (dp[i] != -1) {
 			return dp[i];
 		}
+		// ans : 遍历所有的分支，所得到的最少的操作次数
 		int ans = Integer.MAX_VALUE;
-		// pre : i-1位置的值
+		// pre : 前一位的数字
 		int pre = i == 0 ? Integer.MIN_VALUE : arr1[i - 1];
 		// find : arr2有效长度m的范围上，找到刚比pre大的位置
 		int find = bs(arr2, m, pre);
@@ -51,6 +52,7 @@ public class Code04_MakeArrayStrictlyIncreasing {
 			if (j == n) {
 				ans = Math.min(ans, k);
 			} else {
+				// pre : 被arr2替换的前一位数字
 				if (pre < arr1[j]) {
 					next = f1(arr1, arr2, n, m, j + 1, dp);
 					if (next != Integer.MAX_VALUE) {
