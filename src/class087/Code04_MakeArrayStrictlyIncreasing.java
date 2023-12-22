@@ -70,10 +70,10 @@ public class Code04_MakeArrayStrictlyIncreasing {
 
 	// arr2[0..size-1]范围上是严格递增的
 	// 找到这个范围上>num的最左位置
+	// 不存在返回-1
 	public static int bs(int[] arr2, int size, int num) {
-		int l = 0;
-		int r = size - 1;
-		int m, ans = -1;
+		int l = 0, r = size - 1, m;
+		int ans = -1;
 		while (l <= r) {
 			m = (l + r) / 2;
 			if (arr2[m] > num) {
