@@ -2,8 +2,8 @@ package class065;
 
 import java.util.Arrays;
 
-// bellman-ford算法模版（Leetcode）
-// K站中转内最便宜的航班
+// Bellman-Ford算法应用（不是模版）
+// k站中转内最便宜的航班
 // 有 n 个城市通过一些航班连接。给你一个数组 flights
 // 其中 flights[i] = [fromi, toi, pricei]
 // 表示该航班都从城市 fromi 开始，以价格 pricei 抵达 toi。
@@ -12,21 +12,23 @@ import java.util.Arrays;
 // 测试链接 : https://leetcode.cn/problems/cheapest-flights-within-k-stops/
 public class Code03_BellmanFord {
 
-	// bellman-ford算法
-	public static int findCheapestPrice(int n, int[][] flights, int src, int dst, int k) {
-		int[] cost = new int[n];
-		Arrays.fill(cost, Integer.MAX_VALUE);
-		cost[src] = 0;
+	// Bellman-Ford算法
+	// 针对此题改写了松弛逻辑，课上讲了细节
+	public static int findCheapestPrice(int n, int[][] flights, int start, int target, int k) {
+		int[] cur = new int[n];
+		Arrays.fill(cur, Integer.MAX_VALUE);
+		cur[start] = 0;
 		for (int i = 0; i <= k; i++) {
-			int[] next = Arrays.copyOf(cost, n);
-			for (int[] f : flights) {
-				if (cost[f[0]] != Integer.MAX_VALUE) {
-					next[f[1]] = Math.min(next[f[1]], cost[f[0]] + f[2]);
+			int[] next = Arrays.copyOf(cur, n);
+			for (int[] edge : flights) {
+				// a -> b , w
+				if (cur[edge[0]] != Integer.MAX_VALUE) {
+					next[edge[1]] = Math.min(next[edge[1]], cur[edge[0]] + edge[2]);
 				}
 			}
-			cost = next;
+			cur = next;
 		}
-		return cost[dst] == Integer.MAX_VALUE ? -1 : cost[dst];
+		return cur[target] == Integer.MAX_VALUE ? -1 : cur[target];
 	}
 
 }

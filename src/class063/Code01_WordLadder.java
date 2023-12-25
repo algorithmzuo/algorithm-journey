@@ -16,46 +16,54 @@ import java.util.List;
 public class Code01_WordLadder {
 
 	public static int ladderLength(String begin, String end, List<String> wordList) {
+		// 总词表
 		HashSet<String> dict = new HashSet<>(wordList);
 		if (!dict.contains(end)) {
 			return 0;
 		}
-		HashSet<String> froms = new HashSet<>();
-		HashSet<String> aims = new HashSet<>();
-		HashSet<String> visited = new HashSet<>();
-		froms.add(begin);
-		aims.add(end);
-		HashSet<String> nexts = new HashSet<>();
-		for (int len = 2; !froms.isEmpty(); len++) {
-			nexts.clear();
-			for (String word : froms) {
-				for (int j = 0; j < word.length(); j++) {
-					char[] ch = word.toCharArray();
-					for (char c = 'a'; c <= 'z'; c++) {
-						if (c != word.charAt(j)) {
-							ch[j] = c;
-							String next = String.valueOf(ch);
-							if (aims.contains(next)) {
+		// 数量小的一侧
+		HashSet<String> smallLevel = new HashSet<>();
+		// 数量大的一侧
+		HashSet<String> bigLevel = new HashSet<>();
+		// 由数量小的一侧，所扩展出的下一层列表
+		HashSet<String> nextLevel = new HashSet<>();
+		smallLevel.add(begin);
+		bigLevel.add(end);
+		for (int len = 2; !smallLevel.isEmpty(); len++) {
+			for (String w : smallLevel) {
+				// 从小侧扩展
+				char[] word = w.toCharArray();
+				for (int j = 0; j < word.length; j++) {
+					// 每一位字符都试
+					char old = word[j];
+					for (char change = 'a'; change <= 'z'; change++) {
+						// // 每一位字符都从a到z换一遍
+						if (change != old) {
+							word[j] = change;
+							String next = String.valueOf(word);
+							if (bigLevel.contains(next)) {
 								return len;
 							}
-							if (dict.contains(next) && !visited.contains(next)) {
-								nexts.add(next);
-								visited.add(next);
+							if (dict.contains(next)) {
+								dict.remove(next);
+								nextLevel.add(next);
 							}
 						}
 					}
+					word[j] = old;
 				}
 			}
-			if (nexts.size() <= aims.size()) {
-				HashSet<String> tmp = froms;
-				froms = nexts;
-				nexts = tmp;
+			if (nextLevel.size() <= bigLevel.size()) {
+				HashSet<String> tmp = smallLevel;
+				smallLevel = nextLevel;
+				nextLevel = tmp;
 			} else {
-				HashSet<String> tmp = froms;
-				froms = aims;
-				aims = nexts;
-				nexts = tmp;
+				HashSet<String> tmp = smallLevel;
+				smallLevel = bigLevel;
+				bigLevel = nextLevel;
+				nextLevel = tmp;
 			}
+			nextLevel.clear();
 		}
 		return 0;
 	}
