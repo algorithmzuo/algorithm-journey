@@ -13,30 +13,6 @@ import java.util.Arrays;
 // 测试链接 : https://www.nowcoder.com/practice/c552d3b4dfda49ccb883a6371d9a6932
 public class Code01_CountConsistentKeys {
 
-	public static int[] countConsistentKeys(int[][] b, int[][] a) {
-		build();
-		StringBuilder builder = new StringBuilder();
-		// [3,6,50,10] -> "3#44#-40#"
-		for (int[] nums : a) {
-			builder.setLength(0);
-			for (int i = 1; i < nums.length; i++) {
-				builder.append(String.valueOf(nums[i] - nums[i - 1]) + "#");
-			}
-			insert(builder.toString());
-		}
-		int[] ans = new int[b.length];
-		for (int i = 0; i < b.length; i++) {
-			builder.setLength(0);
-			int[] nums = b[i];
-			for (int j = 1; j < nums.length; j++) {
-				builder.append(String.valueOf(nums[j] - nums[j - 1]) + "#");
-			}
-			ans[i] = count(builder.toString());
-		}
-		clear();
-		return ans;
-	}
-
 	// 如果将来增加了数据量，就改大这个值
 	public static int MAXN = 2000001;
 
@@ -50,9 +26,6 @@ public class Code01_CountConsistentKeys {
 		cnt = 1;
 	}
 
-	// '0' ~ '9' 10个 0~9
-	// '#' 10
-	// '-' 11
 	public static int path(char cha) {
 		if (cha == '#') {
 			return 10;
@@ -93,6 +66,29 @@ public class Code01_CountConsistentKeys {
 			Arrays.fill(tree[i], 0);
 			pass[i] = 0;
 		}
+	}
+
+	public static int[] countConsistentKeys(int[][] b, int[][] a) {
+		build();
+		StringBuilder builder = new StringBuilder();
+		for (int[] nums : a) {
+			builder.setLength(0);
+			for (int i = 1; i < nums.length; i++) {
+				builder.append(String.valueOf(nums[i] - nums[i - 1]) + "#");
+			}
+			insert(builder.toString());
+		}
+		int[] ans = new int[b.length];
+		for (int i = 0; i < b.length; i++) {
+			builder.setLength(0);
+			int[] nums = b[i];
+			for (int j = 1; j < nums.length; j++) {
+				builder.append(String.valueOf(nums[j] - nums[j - 1]) + "#");
+			}
+			ans[i] = count(builder.toString());
+		}
+		clear();
+		return ans;
 	}
 
 }
