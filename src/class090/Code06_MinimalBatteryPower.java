@@ -8,8 +8,8 @@ import java.util.Arrays;
 // 来自真实大厂笔试，没有在线测试，对数器验证
 public class Code06_MinimalBatteryPower {
 
-	// 为了验证
 	// 暴力递归
+	// 为了验证
 	// 时间复杂度O(n!)
 	// 得到所有排列
 	// 其中一定有所需电量最小的排列
@@ -76,12 +76,6 @@ public class Code06_MinimalBatteryPower {
 			int ans2 = power2(jobs);
 			if (ans1 != ans2) {
 				System.out.println("出错了！");
-				for (int[] job : jobs) {
-					System.out.println(job[0] + " , " + job[1]);
-				}
-				System.out.println(ans1);
-				System.out.println(ans2);
-				break;
 			}
 			if (i % 100 == 0) {
 				System.out.println("测试到第" + i + "组");
