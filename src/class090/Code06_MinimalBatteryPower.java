@@ -9,48 +9,29 @@ import java.util.Arrays;
 public class Code06_MinimalBatteryPower {
 
 	// 为了验证
-	// 二分 + 暴力检查
-	// 时间复杂度O(n! * logs)
+	// 暴力递归
+	// 时间复杂度O(n!)
+	// 得到所有排列
+	// 其中一定有所需电量最小的排列
 	public static int power1(int[][] jobs) {
-		int max = 0;
-		int sum = 0;
-		for (int[] job : jobs) {
-			max = Math.max(max, job[1]);
-			sum += job[0];
-		}
-		int l = 0, r = max + sum, m;
-		int ans = -1;
-		while (l <= r) {
-			m = (l + r) / 2;
-			if (f1(jobs, 0, m)) {
-				ans = m;
-				r = m - 1;
-			} else {
-				l = m + 1;
-			}
-		}
-		return ans;
+		return f1(jobs, jobs.length, 0);
 	}
 
-	public static boolean f1(int[][] jobs, int i, int m) {
-		if (i == jobs.length) {
-			for (int j = 0; j < i; j++) {
-				if (m < jobs[j][1]) {
-					return false;
-				}
-				m -= jobs[j][0];
+	public static int f1(int[][] jobs, int n, int i) {
+		if (i == n) {
+			int ans = 0;
+			for (int[] job : jobs) {
+				ans = Math.max(job[1], ans + job[0]);
 			}
-			return m >= 0;
+			return ans;
 		} else {
-			for (int j = i; j < jobs.length; j++) {
+			int ans = Integer.MAX_VALUE;
+			for (int j = i; j < n; j++) {
 				swap(jobs, i, j);
-				boolean ans = f1(jobs, i + 1, m);
+				ans = Math.min(ans, f1(jobs, n, i + 1));
 				swap(jobs, i, j);
-				if (ans) {
-					return true;
-				}
 			}
-			return false;
+			return ans;
 		}
 	}
 
@@ -61,38 +42,15 @@ public class Code06_MinimalBatteryPower {
 	}
 
 	// 正式方法
-	// 二分 + 贪心检查
-	// 时间复杂度O(n * logs)
+	// 贪心
+	// 时间复杂度O(n * logn)
 	public static int power2(int[][] jobs) {
-		int max = 0;
-		int sum = 0;
+		Arrays.sort(jobs, (a, b) -> (a[1] - a[0]) - (b[1] - b[0]));
+		int ans = 0;
 		for (int[] job : jobs) {
-			max = Math.max(max, job[1]);
-			sum += job[0];
-		}
-		int l = 0, r = max + sum, m;
-		Arrays.sort(jobs, (a, b) -> (b[1] - b[0]) - (a[1] - a[0]));
-		int ans = -1;
-		while (l <= r) {
-			m = (l + r) / 2;
-			if (f2(jobs, m)) {
-				ans = m;
-				r = m - 1;
-			} else {
-				l = m + 1;
-			}
+			ans = Math.max(job[1], ans + job[0]);
 		}
 		return ans;
-	}
-
-	public static boolean f2(int[][] jobs, int m) {
-		for (int i = 0; i < jobs.length; i++) {
-			if (m < jobs[i][1]) {
-				return false;
-			}
-			m -= jobs[i][0];
-		}
-		return m >= 0;
 	}
 
 	// 为了验证
@@ -118,6 +76,12 @@ public class Code06_MinimalBatteryPower {
 			int ans2 = power2(jobs);
 			if (ans1 != ans2) {
 				System.out.println("出错了！");
+				for (int[] job : jobs) {
+					System.out.println(job[0] + " , " + job[1]);
+				}
+				System.out.println(ans1);
+				System.out.println(ans2);
+				break;
 			}
 			if (i % 100 == 0) {
 				System.out.println("测试到第" + i + "组");
