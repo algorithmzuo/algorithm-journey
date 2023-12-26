@@ -9,7 +9,7 @@ import java.util.PriorityQueue;
 // 返回所需会议室的最小数量
 // 测试链接 : https://leetcode.cn/problems/meeting-rooms-ii/
 // 这题就是讲解027，题目2，最大线段重合问题
-public class Code06_MeetingRoomsII {
+public class Code07_MeetingRoomsII {
 
 	public static int minMeetingRooms(int[][] meeting) {
 		int n = meeting.length;
