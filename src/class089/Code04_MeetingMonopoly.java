@@ -1,4 +1,4 @@
-package class091;
+package class089;
 
 import java.util.Arrays;
 
@@ -7,7 +7,7 @@ import java.util.Arrays;
 // 你参加某个会议的期间，不能参加其他会议
 // 返回你能参加的最大会议数量
 // 没有在线测试，对数器验证
-public class Code01_MeetingMonopoly {
+public class Code04_MeetingMonopoly {
 
 	// 暴力方法
 	// 为了验证

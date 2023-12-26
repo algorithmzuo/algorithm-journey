@@ -1,4 +1,4 @@
-package class089;
+package class091;
 
 // 过河问题
 // 有一个大晴天，Oliver与同学们一共N人出游
@@ -20,7 +20,7 @@ import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 import java.util.Arrays;
 
-public class Code05_CrossRiver {
+public class Code06_CrossRiver {
 
 	public static int MAXN = 100001;
 

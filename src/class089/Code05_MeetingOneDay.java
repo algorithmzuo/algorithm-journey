@@ -1,4 +1,4 @@
-package class091;
+package class089;
 
 import java.util.Arrays;
 import java.util.PriorityQueue;
@@ -9,7 +9,7 @@ import java.util.PriorityQueue;
 // 但是你安排的那一天，只能参加这个会议，不能同时参加其他会议
 // 返回你能参加的最大会议数量
 // 测试链接 : https://leetcode.cn/problems/maximum-number-of-events-that-can-be-attended/
-public class Code02_MeetingOneDay {
+public class Code05_MeetingOneDay {
 
 	public static int maxEvents(int[][] events) {
 		int n = events.length;

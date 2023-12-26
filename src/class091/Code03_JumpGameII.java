@@ -1,4 +1,4 @@
-package class089;
+package class091;
 
 // 跳跃游戏II
 // 给定一个长度为n的0索引整数数组nums，初始位置为nums[0]
@@ -9,7 +9,7 @@ package class089;
 // 返回到达nums[n - 1]的最小跳跃次数
 // 生成的测试用例可以到达nums[n-1]
 // 测试链接 : https://leetcode.cn/problems/jump-game-ii/
-public class Code06_JumpGameII {
+public class Code03_JumpGameII {
 
 	public static int jump(int[] arr) {
 		if (arr == null || arr.length == 0) {
