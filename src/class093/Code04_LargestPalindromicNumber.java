@@ -1,4 +1,4 @@
-package class092;
+package class093;
 
 // 最大回文数字
 // 给你一个仅由数字（0 - 9）组成的字符串num
@@ -8,7 +8,7 @@ package class092;
 // 你无需使用num中的所有数字，但你必须使用至少一个数字
 // 数字可以重新排序
 // 测试链接 : https://leetcode.cn/problems/largest-palindromic-number/
-public class Code07_LargestPalindromicNumber {
+public class Code04_LargestPalindromicNumber {
 
 	public static String largestPalindromic(String num) {
 		int n = num.length();

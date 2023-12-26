@@ -32,9 +32,6 @@ public class Code02_MaxProduct {
 	// 这是最优解
 	// 如果结果很大，那么求余数
 	public static int maxValue2(long n, long k) {
-		if (k == 0 || n < k) {
-			return -1;
-		}
 		int mod = 1000000007;
 		long a = n / k;
 		long b = n % k;
