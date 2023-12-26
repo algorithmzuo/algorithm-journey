@@ -1,6 +1,6 @@
 package class093;
 
-// 梦之城
+// 砍树
 // 给定n棵树，和两个长度为n的数组a和b
 // i号棵树的初始重量为a[i]，i号树每天的增长重量为b[i]
 // 你每天最多能砍1棵树，这天收益 = 砍的树初始重量 + 砍的树增长到这天的总增重
@@ -18,7 +18,7 @@ import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 import java.util.Arrays;
 
-public class Code05_DreamCity {
+public class Code05_CuttingTree {
 
 	public static int[][] tree = new int[250][2];
 
