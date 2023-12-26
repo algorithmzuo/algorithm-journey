@@ -9,11 +9,11 @@ import java.util.HashMap;
 // 现在请你找到两个最长的区间，满足以上要求
 // 返回区间最大长度
 // 来自真实大厂笔试，没有在线测试，对数器验证
-public class Code05_TowLongestSubarraySame01Number {
+public class Code05_LongestSameZerosOnes {
 
 	// 暴力方法
 	// 为了验证
-	public static int longest1(int[] arr) {
+	public static int len1(int[] arr) {
 		HashMap<Integer, HashMap<Integer, Integer>> map = new HashMap<>();
 		for (int i = 0; i < arr.length; i++) {
 			int zero = 0;
@@ -39,7 +39,7 @@ public class Code05_TowLongestSubarraySame01Number {
 
 	// 正式方法
 	// 时间复杂度O(n)
-	public static int longest2(int[] arr) {
+	public static int len2(int[] arr) {
 		int leftZero = -1;
 		int rightZero = -1;
 		int leftOne = -1;
@@ -90,8 +90,8 @@ public class Code05_TowLongestSubarraySame01Number {
 		for (int i = 0; i < testTime; i++) {
 			int n = (int) (Math.random() * N) + 2;
 			int[] arr = randomArray(n);
-			int ans1 = longest1(arr);
-			int ans2 = longest2(arr);
+			int ans1 = len1(arr);
+			int ans2 = len2(arr);
 			if (ans1 != ans2) {
 				System.out.println("出错了!");
 			}
