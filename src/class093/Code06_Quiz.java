@@ -51,17 +51,17 @@ public class Code06_Quiz {
 
 	public static int compute() {
 		Arrays.sort(nums, 0, n, (a, b) -> Math.abs(a[0] - a[1]) - Math.abs(b[0] - b[1]));
-		int a = nums[0][0];
-		int b = nums[0][1];
+		int maxA = nums[0][0];
+		int maxB = nums[0][1];
 		int ans = 0;
 		for (int i = 1; i < n; i++) {
 			if (nums[i][0] <= nums[i][1]) {
-				ans = Math.max(ans, a + nums[i][0]);
+				ans = Math.max(ans, maxA + nums[i][0]);
 			} else {
-				ans = Math.max(ans, b + nums[i][1]);
+				ans = Math.max(ans, maxB + nums[i][1]);
 			}
-			a = Math.max(a, nums[i][0]);
-			b = Math.max(b, nums[i][1]);
+			maxA = Math.max(maxA, nums[i][0]);
+			maxB = Math.max(maxB, nums[i][1]);
 		}
 		return ans;
 	}
