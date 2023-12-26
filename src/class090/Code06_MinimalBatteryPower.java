@@ -16,4 +16,8 @@ public class Code06_MinimalBatteryPower {
 		return 100;
 	}
 
+	public static void main(String[] args) {
+
+	}
+
 }
