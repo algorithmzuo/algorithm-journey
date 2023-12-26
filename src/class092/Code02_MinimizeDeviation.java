@@ -14,7 +14,7 @@ import java.util.TreeSet;
 // 数组的偏移量是数组中任意两个元素之间的最大差值
 // 返回数组在执行某些操作之后可以拥有的最小偏移量
 // 测试链接 : https://leetcode.cn/problems/minimize-deviation-in-array/
-public class Code01_MinimizeDeviation {
+public class Code02_MinimizeDeviation {
 
 	public static int minimumDeviation(int[] nums) {
 		TreeSet<Integer> set = new TreeSet<>();

@@ -1,4 +1,4 @@
-package class092;
+package class093;
 
 // 梦之城
 // 给定n棵树，和两个长度为n的数组a和b
@@ -18,7 +18,7 @@ import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 import java.util.Arrays;
 
-public class Code04_DreamCity {
+public class Code05_DreamCity {
 
 	public static int[][] tree = new int[250][2];
 
