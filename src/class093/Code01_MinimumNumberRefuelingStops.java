@@ -14,7 +14,7 @@ import java.util.PriorityQueue;
 // 注意：如果汽车到达加油站时剩余燃料为0，它仍然可以在那里加油
 // 如果汽车到达目的地时剩余燃料为 0，仍然认为它已经到达目的地
 // 测试链接 : https://leetcode.cn/problems/minimum-number-of-refueling-stops/
-public class Code04_MinimumNumberRefuelingStops {
+public class Code01_MinimumNumberRefuelingStops {
 
 	public static int minRefuelStops(int target, int startFuel, int[][] stations) {
 		if (startFuel >= target) {
