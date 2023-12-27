@@ -2,44 +2,53 @@ package class039;
 
 // 含有嵌套的字符串解码
 // 测试链接 : https://leetcode.cn/problems/decode-string/
+// 40:40 ~ 51:47
 public class Code02_DecodeString {
 
-	public static String decodeString(String str) {
-		where = 0;
-		return f(str.toCharArray(), 0);
-	}
+    public static int start;
 
-	public static int where;
+    public static String decodeString(String str) {
+        start = 0;
+        return fun(str.toCharArray(), 0);
+    }
 
-	// s[i....]开始计算，遇到字符串终止 或者 遇到 ] 停止
-	// 返回 : 自己负责的这一段字符串的结果
-	// 返回之间，更新全局变量where，为了上游函数知道从哪继续！
-	public static String f(char[] s, int i) {
-		StringBuilder path = new StringBuilder();
-		int cnt = 0;
-		while (i < s.length && s[i] != ']') {
-			if ((s[i] >= 'a' && s[i] <= 'z') || (s[i] >= 'A' && s[i] <= 'Z')) {
-				path.append(s[i++]);
-			} else if (s[i] >= '0' && s[i] <= '9') {
-				cnt = cnt * 10 + s[i++] - '0';
-			} else {
-				// 遇到 [ 
-				// cnt = 7 * ? 
-				path.append(get(cnt, f(s, i + 1)));
-				i = where + 1;
-				cnt = 0;
-			}
-		}
-		where = i;
-		return path.toString();
-	}
+    // str[i....]开始计算，遇到字符串终止 或者 遇到 ] 停止
+    // 返回 : 自己负责的这一段字符串的结果
+    // 返回之间，更新全局变量start，为了上游函数知道从哪继续！
+    public static String fun(char[] str, int i) {
+        StringBuilder path = new StringBuilder();
+        int times = 0;
+        while (i < str.length && str[i] != ']') {
+            if (Character.isAlphabetic(str[i])) {
+                path.append(str[i++]);
+            } else if (Character.isDigit(str[i])) {
+                times = times * 10 + str[i++] - '0';
+            }
+            else {
+                String next = get(times, fun(str, i + 1));
+                path.append(next);
+                i = start + 1;
+                times = 0;
+            }
+        }
+        start = i;
+        return path.toString();
+    }
 
-	public static String get(int cnt, String str) {
-		StringBuilder builder = new StringBuilder();
-		for (int i = 0; i < cnt; i++) {
-			builder.append(str);
-		}
-		return builder.toString();
-	}
+    public static String get(int times, String str) {
+        StringBuilder builder = new StringBuilder();
+        for (int i = 0; i < times; i++) {
+            builder.append(str);
+        }
+        return builder.toString();
+    }
+
+    public static void main(String[] args) {
+        String str = "abc4[b]2[a]";
+//        String str = "abc";
+//        String str = "3[abc]";
+        String result = decodeString(str);
+        System.out.println("result : " + result);
+    }
 
 }

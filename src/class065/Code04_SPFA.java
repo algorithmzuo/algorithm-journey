@@ -1,12 +1,9 @@
 package class065;
 
-// Bellman-Ford + SPFA优化模版（洛谷）
+// bellman-ford + SPFA优化（洛谷）
 // 给定一个 n个点的有向图，请求出图中是否存在从顶点 1 出发能到达的负环
 // 负环的定义是：一条边权之和为负数的回路。
 // 测试链接 : https://www.luogu.com.cn/problem/P3385
-// 请同学们务必参考如下代码中关于输入、输出的处理
-// 这是输入输出处理效率很高的写法
-// 提交以下所有代码，把主类名改成Main，可以直接通过
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -36,18 +33,14 @@ public class Code04_SPFA {
 	// SPFA需要
 	public static int MAXQ = 4000001;
 
-	// 源点出发到每个节点的距离表
 	public static int[] distance = new int[MAXN];
 
-	// 节点被松弛的次数
 	public static int[] updateCnt = new int[MAXN];
 
-	// 哪些节点被松弛了放入队列
 	public static int[] queue = new int[MAXQ];
 
 	public static int l, r;
 
-	// 节点是否已经在队列中
 	public static boolean[] enter = new boolean[MAXN];
 
 	public static void build(int n) {
@@ -94,7 +87,7 @@ public class Code04_SPFA {
 		br.close();
 	}
 
-	// Bellman-Ford + SPFA优化的模版
+	// bellman-ford + SPFA
 	public static boolean spfa(int n) {
 		distance[1] = 0;
 		updateCnt[1]++;
@@ -103,9 +96,9 @@ public class Code04_SPFA {
 		while (l < r) {
 			int u = queue[l++];
 			enter[u] = false;
-			for (int ei = head[u], v, w; ei > 0; ei = next[ei]) {
-				v = to[ei];
-				w = weight[ei];
+			for (int edge = head[u], v, w; edge > 0; edge = next[edge]) {
+				v = to[edge];
+				w = weight[edge];
 				if (distance[u] + w < distance[v]) {
 					distance[v] = distance[u] + w;
 					if (!enter[v]) {

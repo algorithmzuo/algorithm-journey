@@ -20,19 +20,17 @@ public class Code01_AsFarFromLandAsPossible {
 
 	public static boolean[][] visited = new boolean[MAXN][MAXM];
 
-	// 0:上，1:右，2:下，3:左
-	public static int[] move = new int[] { -1, 0, 1, 0, -1 };
-	//                                      0  1  2  3   4
-	//                                               i
-	// (x,y)  i来到0位置 : x + move[i], y + move[i+1] -> x - 1, y
-	// (x,y)  i来到1位置 : x + move[i], y + move[i+1] -> x, y + 1
-	// (x,y)  i来到2位置 : x + move[i], y + move[i+1] -> x + 1, y
-	// (x,y)  i来到3位置 : x + move[i], y + move[i+1] -> x, y - 1
+	public static int find;
 
 	public static int maxDistance(int[][] grid) {
-		l = r = 0;
+		l = r = find = 0;
 		int n = grid.length;
 		int m = grid[0].length;
+		for (int i = 0; i < n; i++) {
+			for (int j = 0; j < m; j++) {
+				visited[i][j] = false;
+			}
+		}
 		int seas = 0;
 		for (int i = 0; i < n; i++) {
 			for (int j = 0; j < m; j++) {
@@ -41,34 +39,33 @@ public class Code01_AsFarFromLandAsPossible {
 					queue[r][0] = i;
 					queue[r++][1] = j;
 				} else {
-					visited[i][j] = false;
 					seas++;
 				}
 			}
 		}
-		if (seas == 0 || seas == n * m) {
-			return -1;
-		}
-		int level = 0;
-		while (l < r) {
-			level++;
+		int distance = 0;
+		while (l < r && find < seas) {
 			int size = r - l;
-			for (int k = 0, x, y, nx, ny; k < size; k++) {
+			for (int i = 0, x, y; i < size && find < seas; i++) {
 				x = queue[l][0];
 				y = queue[l++][1];
-				for (int i = 0; i < 4; i++) {
-					// 上、右、下、左
-					nx = x + move[i];
-					ny = y + move[i + 1];
-					if (nx >= 0 && nx < n && ny >= 0 && ny < m && !visited[nx][ny]) {
-						visited[nx][ny] = true;
-						queue[r][0] = nx;
-						queue[r++][1] = ny;
-					}
-				}
+				add(x - 1, y, n, m, grid);
+				add(x + 1, y, n, m, grid);
+				add(x, y - 1, n, m, grid);
+				add(x, y + 1, n, m, grid);
 			}
+			distance++;
 		}
-		return level - 1;
+		return find == 0 ? -1 : distance;
+	}
+
+	public static void add(int i, int j, int n, int m, int[][] grid) {
+		if (i >= 0 && i < n && j >= 0 && j < m && grid[i][j] == 0 && !visited[i][j]) {
+			find++;
+			visited[i][j] = true;
+			queue[r][0] = i;
+			queue[r++][1] = j;
+		}
 	}
 
 }
