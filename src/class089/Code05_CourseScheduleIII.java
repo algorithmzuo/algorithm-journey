@@ -24,8 +24,8 @@ public class Code05_CourseScheduleIII {
 				time += c[0];
 			} else {
 				if (!heap.isEmpty() && heap.peek() > c[0]) {
-					heap.add(c[0]);
 					time += c[0] - heap.poll();
+					heap.add(c[0]);
 				}
 			}
 		}
