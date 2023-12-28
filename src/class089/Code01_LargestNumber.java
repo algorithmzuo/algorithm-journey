@@ -14,7 +14,7 @@ public class Code01_LargestNumber {
 	// 为了验证
 	// 生成所有可能的排列
 	// 其中选出字典序最小的结果
-	public static String lowest1(String[] strs) {
+	public static String way1(String[] strs) {
 		ArrayList<String> ans = new ArrayList<>();
 		f(strs, 0, ans);
 		ans.sort((a, b) -> a.compareTo(b));
@@ -47,7 +47,7 @@ public class Code01_LargestNumber {
 	// strs中全是非空字符串，要把所有字符串拼接起来，形成字典序最小的结果
 	// 正式方法
 	// 时间复杂度O(n*logn)
-	public static String lowest2(String[] strs) {
+	public static String way2(String[] strs) {
 		Arrays.sort(strs, (a, b) -> (a + b).compareTo(b + a));
 		StringBuilder path = new StringBuilder();
 		for (int i = 0; i < strs.length; i++) {
@@ -87,8 +87,8 @@ public class Code01_LargestNumber {
 		System.out.println("测试开始");
 		for (int i = 1; i <= testTimes; i++) {
 			String[] strs = randomStringArray(n, m, v);
-			String ans1 = lowest1(strs);
-			String ans2 = lowest2(strs);
+			String ans1 = way1(strs);
+			String ans2 = way2(strs);
 			if (!ans1.equals(ans2)) {
 				// 如果出错了
 				// 可以增加打印行为找到一组出错的例子
