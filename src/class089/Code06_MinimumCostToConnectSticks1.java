@@ -13,16 +13,17 @@ import java.util.PriorityQueue;
 public class Code06_MinimumCostToConnectSticks1 {
 
 	public static int connectSticks(int[] arr) {
-		PriorityQueue<Integer> pQ = new PriorityQueue<>();
+		// 小根堆
+		PriorityQueue<Integer> heap = new PriorityQueue<>();
 		for (int i = 0; i < arr.length; i++) {
-			pQ.add(arr[i]);
+			heap.add(arr[i]);
 		}
 		int sum = 0;
 		int cur = 0;
-		while (pQ.size() > 1) {
-			cur = pQ.poll() + pQ.poll();
+		while (heap.size() > 1) {
+			cur = heap.poll() + heap.poll();
 			sum += cur;
-			pQ.add(cur);
+			heap.add(cur);
 		}
 		return sum;
 	}

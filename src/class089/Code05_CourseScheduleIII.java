@@ -15,7 +15,10 @@ import java.util.PriorityQueue;
 public class Code05_CourseScheduleIII {
 
 	public static int scheduleCourse(int[][] courses) {
+		// 0 : 代价
+		// 1 : 截止
 		Arrays.sort(courses, (a, b) -> a[1] - b[1]);
+		// 大根堆
 		PriorityQueue<Integer> heap = new PriorityQueue<>((a, b) -> b - a);
 		int time = 0;
 		for (int[] c : courses) {
@@ -23,6 +26,7 @@ public class Code05_CourseScheduleIII {
 				heap.add(c[0]);
 				time += c[0];
 			} else {
+				// time + c[0] > c[1]
 				if (!heap.isEmpty() && heap.peek() > c[0]) {
 					time += c[0] - heap.poll();
 					heap.add(c[0]);

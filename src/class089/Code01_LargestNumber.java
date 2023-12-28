@@ -80,9 +80,9 @@ public class Code01_LargestNumber {
 	// 为了验证
 	// 对数器
 	public static void main(String[] args) {
-		int n = 8;
-		int m = 5;
-		int v = 4;
+		int n = 8; // 数组中最多几个字符串
+		int m = 5; // 字符串长度最大多长
+		int v = 4; // 字符的种类有几种
 		int testTimes = 2000;
 		System.out.println("测试开始");
 		for (int i = 1; i <= testTimes; i++) {
