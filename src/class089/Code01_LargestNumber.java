@@ -82,7 +82,7 @@ public class Code01_LargestNumber {
 	public static void main(String[] args) {
 		int n = 8;
 		int m = 5;
-		int v = 5;
+		int v = 4;
 		int testTimes = 2000;
 		System.out.println("测试开始");
 		for (int i = 1; i <= testTimes; i++) {
@@ -105,16 +105,16 @@ public class Code01_LargestNumber {
 	// 测试链接 : https://leetcode.cn/problems/largest-number/
 	public static String largestNumber(int[] nums) {
 		int n = nums.length;
-		String[] arr = new String[n];
+		String[] strs = new String[n];
 		for (int i = 0; i < n; i++) {
-			arr[i] = String.valueOf(nums[i]);
+			strs[i] = String.valueOf(nums[i]);
 		}
-		Arrays.sort(arr, (a, b) -> (b + a).compareTo(a + b));
-		if (arr[0].equals("0")) {
+		Arrays.sort(strs, (a, b) -> (b + a).compareTo(a + b));
+		if (strs[0].equals("0")) {
 			return "0";
 		}
 		StringBuilder path = new StringBuilder();
-		for (String s : arr) {
+		for (String s : strs) {
 			path.append(s);
 		}
 		return path.toString();
