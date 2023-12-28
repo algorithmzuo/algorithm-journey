@@ -10,7 +10,7 @@ import java.util.PriorityQueue;
 // 你必须连接所有的棍子，直到剩下一个棍子
 // 返回以这种方式将所有给定的棍子连接成一个棍子的最小成本
 // 测试链接 : https://leetcode.cn/problems/minimum-cost-to-connect-sticks/
-public class Code06_MinimumCostToConnectSticks {
+public class Code05_MinimumCostToConnectSticks {
 
 	public static int connectSticks(int[] arr) {
 		PriorityQueue<Integer> pQ = new PriorityQueue<>();
