@@ -1,4 +1,4 @@
-package class090;
+package class091;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -14,7 +14,7 @@ import java.util.Arrays;
 // 0 <= arr[i] <= 10^5
 // 1 <= k <= n
 // 来自真实大厂笔试，没有在线测试，对数器验证
-public class Code04_SplitMinimumAverageSum {
+public class Code02_SplitMinimumAverageSum {
 
 	// 暴力方法
 	// 为了验证

@@ -11,7 +11,7 @@ import java.util.HashSet;
 // 如果arr中没有，都要加入到arr里，但是只加一份
 // 一直到arr大小固定，返回arr最终的长度
 // 来自真实大厂笔试，没有在线测试，对数器验证
-public class Code03_AbsoluteValueAddToArray {
+public class Code04_AbsoluteValueAddToArray {
 
 	// 暴力方法
 	// 为了验证

@@ -1,4 +1,4 @@
-package class090;
+package class091;
 
 import java.util.HashMap;
 
@@ -9,7 +9,7 @@ import java.util.HashMap;
 // 现在请你找到两个最长的区间，满足以上要求
 // 返回区间最大长度
 // 来自真实大厂笔试，没有在线测试，对数器验证
-public class Code05_LongestSameZerosOnes {
+public class Code03_LongestSameZerosOnes {
 
 	// 暴力方法
 	// 为了验证

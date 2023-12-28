@@ -5,7 +5,7 @@ package class091;
 // 如果对这个子数组进行升序排序，那么整个数组都会变为升序排序
 // 请你找出符合题意的最短子数组，并输出它的长度
 // 测试链接 : https://leetcode.cn/problems/shortest-unsorted-continuous-subarray/
-public class Code02_ShortestUnsortedContinuousSubarray {
+public class Code01_ShortestUnsortedContinuousSubarray {
 
 	public static int findUnsortedSubarray(int[] nums) {
 		int n = nums.length;

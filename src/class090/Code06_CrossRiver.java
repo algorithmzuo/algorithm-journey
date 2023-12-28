@@ -1,4 +1,4 @@
-package class091;
+package class090;
 
 // 过河问题
 // 有一个大晴天，Oliver与同学们一共N人出游

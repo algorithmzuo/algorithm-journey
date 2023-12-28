@@ -1,4 +1,4 @@
-package class092;
+package class093;
 
 import java.util.Arrays;
 
@@ -8,7 +8,7 @@ import java.util.Arrays;
 // 将答案收集到一个整数数组answers中，其中answers[i]是第i只兔子的回答
 // 给你数组 answers ，返回森林中兔子的最少数量
 // 测试链接 : https://leetcode.cn/problems/rabbits-in-forest/
-public class Code03_RabbitsInForest {
+public class Code02_RabbitsInForest {
 
 	public static int numRabbits(int[] arr) {
 		if (arr == null || arr.length == 0) {

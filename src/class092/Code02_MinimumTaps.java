@@ -1,4 +1,4 @@
-package class091;
+package class092;
 
 // 灌溉花园的最少水龙头数目
 // 在x轴上有一个一维的花园，花园长度为n，从点0开始，到点n结束
@@ -9,7 +9,7 @@ package class091;
 // 请你返回可以灌溉整个花园的最少水龙头数目
 // 如果花园始终存在无法灌溉到的地方请你返回-1
 // 测试链接 : https://leetcode.cn/problems/minimum-number-of-taps-to-open-to-water-a-garden/
-public class Code04_MinimumTaps {
+public class Code02_MinimumTaps {
 
 	public static int minTaps(int n, int[] ranges) {
 		int[] right = new int[n + 1];

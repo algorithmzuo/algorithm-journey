@@ -1,4 +1,4 @@
-package class093;
+package class094;
 
 // 砍树
 // 给定n棵树，和两个长度为n的数组a和b

@@ -6,7 +6,7 @@ package class090;
 // 请返回每段竹子长度的最大乘积是多少
 // 答案需要对1000000007取模
 // 测试链接 : https://leetcode.cn/problems/jian-sheng-zi-ii-lcof/
-public class Code01_CuttingBamboo {
+public class Code02_CuttingBamboo {
 
 	public static int mod = 1000000007;
 

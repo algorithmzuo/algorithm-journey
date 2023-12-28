@@ -5,7 +5,7 @@ package class090;
 // 数字n和k，可能非常大，到达10^12规模
 // 结果可能更大，所以返回结果对1000000007取模
 // 来自真实大厂笔试，没有在线测试，对数器验证
-public class Code02_MaximumProduct {
+public class Code03_MaximumProduct {
 
 	// 暴力递归
 	// 为了验证
