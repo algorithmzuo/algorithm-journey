@@ -10,7 +10,7 @@ import java.util.HashMap;
 // 每天你只能从以上 3 种方案中选择一种方案
 // 请你返回吃掉所有 n 个橘子的最少天数
 // 测试链接 : https://leetcode.cn/problems/minimum-number-of-days-to-eat-n-oranges/
-public class Code05_MinimumNumberEatOranges {
+public class Code03_MinimumNumberEatOranges {
 
 	// 所有的答案都填在这个表里
 	// 这个表对所有的过程共用
