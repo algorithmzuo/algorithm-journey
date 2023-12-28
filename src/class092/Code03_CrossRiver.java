@@ -40,11 +40,11 @@ public class Code03_CrossRiver {
 				in.nextToken();
 				arr[i] = (int) in.nval;
 			}
-			int ans = minCost();
-			out.println(ans);
-			out.flush();
+			out.println(minCost());
 		}
-
+		out.flush();
+		out.close();
+		br.close();
 	}
 
 	public static int minCost() {
