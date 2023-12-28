@@ -13,7 +13,7 @@ public class Code06_MinimalBatteryPower {
 	// 时间复杂度O(n!)
 	// 得到所有排列
 	// 其中一定有所需电量最小的排列
-	public static int power1(int[][] jobs) {
+	public static int atLeast1(int[][] jobs) {
 		return f1(jobs, jobs.length, 0);
 	}
 
@@ -44,7 +44,7 @@ public class Code06_MinimalBatteryPower {
 	// 正式方法
 	// 贪心
 	// 时间复杂度O(n * logn)
-	public static int power2(int[][] jobs) {
+	public static int atLeast2(int[][] jobs) {
 		Arrays.sort(jobs, (a, b) -> (a[1] - a[0]) - (b[1] - b[0]));
 		int ans = 0;
 		for (int[] job : jobs) {
@@ -72,8 +72,8 @@ public class Code06_MinimalBatteryPower {
 		for (int i = 1; i <= testTimes; i++) {
 			int n = (int) (Math.random() * N) + 1;
 			int[][] jobs = randomJobs(n, V);
-			int ans1 = power1(jobs);
-			int ans2 = power2(jobs);
+			int ans1 = atLeast1(jobs);
+			int ans2 = atLeast2(jobs);
 			if (ans1 != ans2) {
 				System.out.println("出错了！");
 			}

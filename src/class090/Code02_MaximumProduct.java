@@ -41,15 +41,14 @@ public class Code02_MaximumProduct {
 	}
 
 	// 返回a的n次方%mod的结果
-	public static long power(long a, long n, int mod) {
+	public static long power(long x, long n, int mod) {
 		long ans = 1;
-		long tmp = a;
-		while (n != 0) {
-			if ((n & 1) != 0) {
-				ans = (ans * tmp) % mod;
+		while (n > 0) {
+			if ((n & 1) == 1) {
+				ans = (ans * x) % mod;
 			}
+			x = (x * x) % mod;
 			n >>= 1;
-			tmp = (tmp * tmp) % mod;
 		}
 		return ans;
 	}
