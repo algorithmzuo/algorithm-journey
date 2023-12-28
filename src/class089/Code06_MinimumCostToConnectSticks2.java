@@ -78,9 +78,9 @@ public class Code06_MinimumCostToConnectSticks2 {
 	public static int pop() {
 		int ans = heap[0];
 		swap(0, --size);
-		int i = 0, l = 1;
+		int i = 0, l = 1, best;
 		while (l < size) {
-			int best = l + 1 < size && heap[l + 1] < heap[l] ? l + 1 : l;
+			best = l + 1 < size && heap[l + 1] < heap[l] ? l + 1 : l;
 			best = heap[best] < heap[i] ? best : i;
 			if (best == i) {
 				break;
