@@ -45,7 +45,7 @@ public class Code03_AbsoluteValueAddToArray {
 	// 时间复杂度O(n)
 	public static int len2(int[] arr) {
 		int max = 0;
-		// 任意一个非0的值
+		// 找到任意一个非0的值
 		int gcd = 0;
 		for (int num : arr) {
 			max = Math.max(max, num);
@@ -65,17 +65,14 @@ public class Code03_AbsoluteValueAddToArray {
 			cnts.put(num, cnts.getOrDefault(num, 0) + 1);
 		}
 		int ans = max / gcd;
-		ans += cnts.getOrDefault(0, 0);
-		boolean add = false;
+		int maxCnt = 0;
 		for (int key : cnts.keySet()) {
 			if (key != 0) {
 				ans += cnts.get(key) - 1;
 			}
-			if (!add && cnts.get(key) > 1 && !cnts.containsKey(0)) {
-				ans++;
-				add = true;
-			}
+			maxCnt = Math.max(maxCnt, cnts.get(key));
 		}
+		ans += cnts.getOrDefault(0, maxCnt > 1 ? 1 : 0);
 		return ans;
 	}
 

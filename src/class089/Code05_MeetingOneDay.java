@@ -20,8 +20,8 @@ public class Code05_MeetingOneDay {
 			max = Math.max(max, events[i][1]);
 		}
 		PriorityQueue<Integer> heap = new PriorityQueue<>();
-		int ans = 0;
-		for (int i = 0, day = min; day <= max; day++) {
+		int i = 0, ans = 0;
+		for (int day = min; day <= max; day++) {
 			while (i < n && events[i][0] == day) {
 				heap.add(events[i++][1]);
 			}

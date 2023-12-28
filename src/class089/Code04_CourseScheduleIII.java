@@ -12,7 +12,7 @@ import java.util.PriorityQueue;
 // 且不能同时修读两门及两门以上的课程
 // 返回你最多可以修读的课程数目
 // 测试链接 : https://leetcode.cn/problems/course-schedule-iii/
-public class Code06_CourseScheduleIII {
+public class Code04_CourseScheduleIII {
 
 	public static int scheduleCourse(int[][] courses) {
 		Arrays.sort(courses, (a, b) -> a[1] - b[1]);
