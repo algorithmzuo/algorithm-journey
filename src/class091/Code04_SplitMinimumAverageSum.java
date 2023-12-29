@@ -1,10 +1,8 @@
 package class091;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 
-// 来自学员问题
-// 真实大厂笔试题
+// 平均值最小累加和
 // 给定一个数组arr，长度为n
 // 再给定一个数字k，表示一定要将arr划分成k个集合
 // 每个数字只能进一个集合
@@ -14,55 +12,38 @@ import java.util.Arrays;
 // 0 <= arr[i] <= 10^5
 // 1 <= k <= n
 // 来自真实大厂笔试，没有在线测试，对数器验证
-public class Code03_SplitMinimumAverageSum {
+public class Code04_SplitMinimumAverageSum {
 
 	// 暴力方法
 	// 为了验证
+	// 每个数字做出所有可能的选择
+	// 时间复杂度O(k的n次方)
 	public static int minAverageSum1(int[] arr, int k) {
-		if (arr.length < k) {
-			return -1;
-		}
-		ArrayList<Info> sets = new ArrayList<>();
-		for (int i = 0; i < k; i++) {
-			sets.add(new Info(0, 0));
-		}
-		return f(arr, 0, k, sets);
+		int[] sum = new int[k];
+		int[] cnt = new int[k];
+		return f(arr, 0, sum, cnt);
 	}
 
 	// 暴力方法
 	// 为了验证
-	public static class Info {
-		public int sum;
-		public int cnt;
-
-		public Info(int s, int c) {
-			sum = s;
-			cnt = c;
-		}
-	}
-
-	// 暴力方法
-	// 为了验证
-	public static int f(int[] arr, int i, int k, ArrayList<Info> sets) {
+	public static int f(int[] arr, int i, int[] sum, int[] cnt) {
 		if (i == arr.length) {
 			int ans = 0;
-			for (Info set : sets) {
-				if (set.cnt == 0) {
+			for (int j = 0; j < sum.length; j++) {
+				if (cnt[j] == 0) {
 					return Integer.MAX_VALUE;
-				} else {
-					ans += set.sum / set.cnt;
 				}
+				ans += sum[j] / cnt[j];
 			}
 			return ans;
 		} else {
 			int ans = Integer.MAX_VALUE;
-			int cur = arr[i];
-			for (int j = 0; j < k; j++) {
-				sets.get(j).sum += cur;
-				sets.get(j).cnt += 1;
-				ans = Math.min(ans, f(arr, i + 1, k, sets));
-				sets.get(j).sum -= cur;
-				sets.get(j).cnt -= 1;
+			for (int j = 0; j < sum.length; j++) {
+				sum[j] += arr[i];
+				cnt[j]++;
+				ans = Math.min(ans, f(arr, i + 1, sum, cnt));
+				sum[j] -= arr[i];
+				cnt[j]--;
 			}
 			return ans;
 		}
@@ -71,9 +52,6 @@ public class Code03_SplitMinimumAverageSum {
 	// 正式方法
 	// 时间复杂度O(n * logn)
 	public static int minAverageSum2(int[] arr, int k) {
-		if (arr.length < k) {
-			return -1;
-		}
 		Arrays.sort(arr);
 		int ans = 0;
 		for (int i = 0; i < k - 1; i++) {
