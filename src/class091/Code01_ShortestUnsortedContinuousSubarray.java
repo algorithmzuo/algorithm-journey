@@ -9,6 +9,8 @@ public class Code01_ShortestUnsortedContinuousSubarray {
 
 	public static int findUnsortedSubarray(int[] nums) {
 		int n = nums.length;
+		// max > 当前数，认为不达标
+		// 从左往右遍历，记录最右不达标的位置
 		int right = -1;
 		int max = Integer.MIN_VALUE;
 		for (int i = 0; i < n; i++) {
@@ -18,6 +20,8 @@ public class Code01_ShortestUnsortedContinuousSubarray {
 			max = Math.max(max, nums[i]);
 		}
 		int min = Integer.MAX_VALUE;
+		// min < 当前数，认为不达标
+		// 从右往左遍历，记录最左不达标的位置
 		int left = n;
 		for (int i = n - 1; i >= 0; i--) {
 			if (min < nums[i]) {

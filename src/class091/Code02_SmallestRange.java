@@ -10,9 +10,9 @@ import java.util.TreeSet;
 public class Code02_SmallestRange {
 
 	public static class Node {
-		public int v;
-		public int i;
-		public int j;
+		public int v; // 值
+		public int i; // 当前值来自哪个数组
+		public int j; // 当前值来自i号数组的什么位置
 
 		public Node(int a, int b, int c) {
 			v = a;
@@ -34,13 +34,13 @@ public class Code02_SmallestRange {
 		for (int i = 0; i < k; i++) {
 			set.add(new Node(nums.get(i).get(0), i, 0));
 		}
-		int r = Integer.MAX_VALUE;
-		int a = 0;
-		int b = 0;
+		int r = Integer.MAX_VALUE; // 记录最窄区间的宽度
+		int a = 0; // 记录最窄区间的开头
+		int b = 0; // 记录最窄区间的结尾
 		Node max, min;
 		while (set.size() == k) {
-			max = set.last();
-			min = set.pollFirst();
+			max = set.last(); // 在有序表中，值最大的记录
+			min = set.pollFirst(); // 在有序表中，值最小的记录，并弹出
 			if (max.v - min.v < r) {
 				r = max.v - min.v;
 				a = min.v;

@@ -55,6 +55,7 @@ public class Code04_SplitMinimumAverageSum {
 		Arrays.sort(arr);
 		int ans = 0;
 		for (int i = 0; i < k - 1; i++) {
+			// 最小的k-1个数，每个数独自成一个集合
 			ans += arr[i];
 		}
 		int sum = 0;

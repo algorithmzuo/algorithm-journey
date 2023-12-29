@@ -58,12 +58,15 @@ public class Code03_GroupBuyTickets {
 	// 正式方法
 	// 时间复杂度O(n * logm)
 	public static int enough2(int n, int[][] games) {
+		// 哪个项目，再来一人挣得最多
+		// 大根堆
 		PriorityQueue<Game> heap = new PriorityQueue<>((a, b) -> b.earn() - a.earn());
 		for (int[] g : games) {
 			heap.add(new Game(g[0], g[1]));
 		}
 		int ans = 0;
 		for (int i = 0; i < n; i++) {
+			// 一个个的人，依次送到当前最挣钱的项目里去
 			if (heap.peek().earn() <= 0) {
 				break;
 			}
@@ -76,9 +79,9 @@ public class Code03_GroupBuyTickets {
 	}
 
 	public static class Game {
-		public int ki;
-		public int bi;
-		public int people;
+		public int ki; // 折扣系数
+		public int bi; // 门票原价
+		public int people; // 之前的人数
 
 		public Game(int k, int b) {
 			ki = k;
@@ -86,8 +89,10 @@ public class Code03_GroupBuyTickets {
 			people = 0;
 		}
 
-		// 这个项目如果再来一人，项目能赚多少钱
+		// 如果再来一人，这个项目得到多少钱
 		public int earn() {
+			// bi - (people + 1) * ki : 当前的人，门票原价减少了，当前的门票价格
+			// people * ki : 当前人的到来，之前的所有人，门票价格都再减去ki
 			return bi - (people + 1) * ki - people * ki;
 		}
 
