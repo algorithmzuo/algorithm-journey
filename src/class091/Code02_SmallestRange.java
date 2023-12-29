@@ -25,6 +25,11 @@ public class Code02_SmallestRange {
 	// n是数字总数，k是数组数量
 	public static int[] smallestRange(List<List<Integer>> nums) {
 		int k = nums.size();
+		// 根据值排序
+		// 为什么排序的时候i要参与
+		// 因为有序表中比较相等的样本只会保留一个
+		// 为了值一样的元素都保留，于是i要参与排序
+		// 在有序表中的所有元素i必然都不同
 		TreeSet<Node> set = new TreeSet<>((a, b) -> a.v != b.v ? (a.v - b.v) : (a.i - b.i));
 		for (int i = 0; i < k; i++) {
 			set.add(new Node(nums.get(i).get(0), i, 0));
