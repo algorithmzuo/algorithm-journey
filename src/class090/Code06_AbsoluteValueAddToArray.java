@@ -91,11 +91,11 @@ public class Code06_AbsoluteValueAddToArray {
 
 	// 为了测试
 	public static void main(String[] args) {
-		int N = 16;
-		int V = 50;
-		int testTime = 10000;
+		int N = 50;
+		int V = 100;
+		int testTimes = 20000;
 		System.out.println("测试开始");
-		for (int i = 0; i < testTime; i++) {
+		for (int i = 0; i < testTimes; i++) {
 			int n = (int) (Math.random() * N) + 1;
 			int[] nums = randomArray(n, V);
 			int ans1 = len1(nums);
