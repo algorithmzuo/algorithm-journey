@@ -1,12 +1,5 @@
 package class090;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
-import java.io.StreamTokenizer;
-
 // 同学找到了在线测试，看似是题目3，其实不是
 // 区别在于数据量，如下测试链接中的题目
 // 会议的数量10^6，会议的开始、结束时间也是10^6
@@ -18,6 +11,14 @@ import java.io.StreamTokenizer;
 // 请同学们务必参考如下代码中关于输入、输出的处理
 // 这是输入输出处理效率很高的写法
 // 提交以下的code，提交时请把类名改成"Main"，可以直接通过
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.io.StreamTokenizer;
+
 public class Code03_MeetingMonopoly2 {
 
 	// 既是会议的规模，也是开始、结束时间的规模
