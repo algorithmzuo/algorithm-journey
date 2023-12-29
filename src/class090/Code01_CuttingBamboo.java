@@ -8,6 +8,7 @@ package class090;
 // 测试链接 : https://leetcode.cn/problems/jian-sheng-zi-ii-lcof/
 public class Code01_CuttingBamboo {
 
+	// 快速幂，求余数
 	public static long power(long x, int n, int mod) {
 		long ans = 1;
 		while (n > 0) {
