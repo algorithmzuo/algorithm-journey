@@ -3,26 +3,24 @@ package class091;
 import java.util.PriorityQueue;
 
 // 组团买票
-// 景区里有m个项目，也就是项目数组为int[][] game，这是一个m*2的二维数组
-// 景区的第i个项目有如下两个参数：
-// game[i] = { Ki, Bi }，Ki一定是负数，Bi一定是正数
-// 举个例子 : 
-// Ki = -2, Bi = 10
-// 如果只有1个人买票，单张门票的价格为 : Ki * 1 + Bi = 8
+// 景区里一共有m个项目，景区的第i个项目有如下两个参数：
+// game[i] = { Ki, Bi }，Ki、Bi一定是正数
+// Ki代表折扣系数，Bi代表票价
+// 举个例子 : Ki = 2, Bi = 10
+// 如果只有1个人买票，单张门票的价格为 : Bi - Ki * 1 = 8
 // 所以这1个人游玩该项目要花8元
-// 如果有2个人买票，单张门票的价格为 : Ki * 2 + Bi = 6
+// 如果有2个人买票，单张门票的价格为 : Bi - Ki * 2 = 6
 // 所以这2个人游玩该项目要花6 * 2 = 12元
-// 如果有5个人买票，单张门票的价格为 : Ki * 2 + Bi = 0
-// 所以这5个人游玩该项目要花0 * 5 = 0元
-// 如果有更多人买票，都认为花0元(因为你让项目倒贴钱实在是太操蛋了)
-// 于是可以认为，如果有x个人买票，单张门票的价格为 : Ki * x + Bi
-// x个人游玩这个项目的总花费是 : max { (Ki * x + Bi) * x , 0 }
+// 如果有5个人买票，单张门票的价格为 : Bi - Ki * 5 = 0
+// 所以这5个人游玩该项目要花5 * 0 = 0元
+// 如果有更多人买票，都认为花0元(因为让项目倒贴钱实在是太操蛋了)
+// 于是可以认为，如果有x个人买票，单张门票的价格为 : Bi - Ki * x
+// x个人游玩这个项目的总花费是 : max { x * (Bi - Ki * x), 0 }
 // 单位一共有n个人，每个人最多可以选1个项目来游玩，也可以不选任何项目
 // 所有员工将在明晚提交选择，然后由你去按照上面的规则，统一花钱购票
-// 你想知道自己需要准备多少钱，就可以应付可能的各种情况，返回这个最保险的钱数
+// 你想知道自己需要准备多少钱，就可以应付所有可能的情况，返回这个最保险的钱数
 // 数据量描述 : 
-// 1 <= N、M、Bi <= 10^5
-// -(10^5) <= Ki < 0
+// 1 <= M、N、Ki、Bi <= 10^5
 // 来自真实大厂笔试，没有在线测试，对数器验证
 public class Code05_GroupBuyTickets {
 
@@ -43,7 +41,7 @@ public class Code05_GroupBuyTickets {
 				k = games[j][0];
 				b = games[j][1];
 				x = cnts[j];
-				ans += Math.max((k * x + b) * x, 0);
+				ans += Math.max((b - k * x) * x, 0);
 			}
 			return ans;
 		} else {
@@ -60,7 +58,6 @@ public class Code05_GroupBuyTickets {
 	// 正式方法
 	// 时间复杂度O(n * logm)
 	public static int enough2(int n, int[][] games) {
-		// 再来人，哪个项目收入多，就在堆顶！
 		PriorityQueue<Game> heap = new PriorityQueue<>((a, b) -> b.earn() - a.earn());
 		for (int[] g : games) {
 			heap.add(new Game(g[0], g[1]));
@@ -79,9 +76,9 @@ public class Code05_GroupBuyTickets {
 	}
 
 	public static class Game {
-		public int ki; // 负数
-		public int bi; // 正
-		public int people; // 已经来的人
+		public int ki;
+		public int bi;
+		public int people;
 
 		public Game(int k, int b) {
 			ki = k;
@@ -89,10 +86,9 @@ public class Code05_GroupBuyTickets {
 			people = 0;
 		}
 
-		// 这个项目如果再来人，能收多少钱，扣掉之前返回的钱的！
+		// 这个项目如果再来一人，项目能赚多少钱
 		public int earn() {
-			// return (ki * (people + 1) + bi) + ki * people;
-			return (2 * people + 1) * ki + bi;
+			return bi - (people + 1) * ki - people * ki;
 		}
 
 	}
@@ -101,9 +97,7 @@ public class Code05_GroupBuyTickets {
 	public static int[][] randomGames(int m, int v) {
 		int[][] ans = new int[m][2];
 		for (int i = 0; i < m; i++) {
-			// 折扣一定要是负数
-			ans[i][0] = -((int) (Math.random() * v) + 1);
-			// 价格一定要是正数
+			ans[i][0] = (int) (Math.random() * v) + 1;
 			ans[i][1] = (int) (Math.random() * v) + 1;
 		}
 		return ans;
