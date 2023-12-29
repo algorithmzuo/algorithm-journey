@@ -21,17 +21,19 @@ public class Code02_SmallestRange {
 		}
 	}
 
+	// 时间复杂度O(n*logk)
+	// n是数字总数，k是数组数量
 	public static int[] smallestRange(List<List<Integer>> nums) {
-		int n = nums.size();
+		int k = nums.size();
 		TreeSet<Node> set = new TreeSet<>((a, b) -> a.v != b.v ? (a.v - b.v) : (a.i - b.i));
-		for (int i = 0; i < n; i++) {
+		for (int i = 0; i < k; i++) {
 			set.add(new Node(nums.get(i).get(0), i, 0));
 		}
 		int r = Integer.MAX_VALUE;
 		int a = 0;
 		int b = 0;
 		Node max, min;
-		while (set.size() == n) {
+		while (set.size() == k) {
 			max = set.last();
 			min = set.pollFirst();
 			if (max.v - min.v < r) {
