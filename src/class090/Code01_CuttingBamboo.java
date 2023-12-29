@@ -8,9 +8,7 @@ package class090;
 // 测试链接 : https://leetcode.cn/problems/jian-sheng-zi-ii-lcof/
 public class Code01_CuttingBamboo {
 
-	public static int mod = 1000000007;
-
-	public static long power(long x, int n) {
+	public static long power(long x, int n, int mod) {
 		long ans = 1;
 		while (n > 0) {
 			if ((n & 1) == 1) {
@@ -29,6 +27,7 @@ public class Code01_CuttingBamboo {
 		if (n == 3) {
 			return 2;
 		}
+		int mod = 1000000007;
 		// n = 4 ->  2 * 2
 		// n = 5 ->  3 * 2
 		// n = 6 ->  3 * 3
@@ -39,7 +38,7 @@ public class Code01_CuttingBamboo {
 		// n = 11 -> 3 * 3 * 3 * 2
 		int tail = n % 3 == 0 ? 1 : (n % 3 == 1 ? 4 : 2);
 		int part = (tail == 1 ? n : (n - tail)) / 3;
-		return (int) ((power(3, part) * tail) % mod);
+		return (int) ((power(3, part, mod) * tail) % mod);
 	}
 
 }

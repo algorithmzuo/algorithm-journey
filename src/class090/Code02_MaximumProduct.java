@@ -31,17 +31,16 @@ public class Code02_MaximumProduct {
 	// 贪心的解
 	// 这是最优解
 	// 如果结果很大，那么求余数
-	public static int maxValue2(long n, long k) {
+	public static int maxValue2(int n, int k) {
 		int mod = 1000000007;
 		long a = n / k;
-		long b = n % k;
+		int b = n % k;
 		long part1 = power(a + 1, b, mod);
 		long part2 = power(a, k - b, mod);
 		return (int) (part1 * part2) % mod;
 	}
 
-	// 返回a的n次方%mod的结果
-	public static long power(long x, long n, int mod) {
+	public static long power(long x, int n, int mod) {
 		long ans = 1;
 		while (n > 0) {
 			if ((n & 1) == 1) {
