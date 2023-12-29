@@ -22,7 +22,7 @@ import java.util.PriorityQueue;
 // 数据量描述 : 
 // 1 <= M、N、Ki、Bi <= 10^5
 // 来自真实大厂笔试，没有在线测试，对数器验证
-public class Code05_GroupBuyTickets {
+public class Code04_GroupBuyTickets {
 
 	// 暴力方法
 	// 为了验证

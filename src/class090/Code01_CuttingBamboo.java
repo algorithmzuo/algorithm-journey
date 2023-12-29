@@ -29,17 +29,18 @@ public class Code01_CuttingBamboo {
 			return 2;
 		}
 		int mod = 1000000007;
-		// n = 4 ->  2 * 2
-		// n = 5 ->  3 * 2
-		// n = 6 ->  3 * 3
-		// n = 7 ->  3 * 2 * 2
-		// n = 8 ->  3 * 3 * 2
-		// n = 9 ->  3 * 3 * 3
+		// n = 4  -> 2 * 2
+		// n = 5  -> 3 * 2
+		// n = 6  -> 3 * 3
+		// n = 7  -> 3 * 2 * 2
+		// n = 8  -> 3 * 3 * 2
+		// n = 9  -> 3 * 3 * 3
 		// n = 10 -> 3 * 3 * 2 * 2
 		// n = 11 -> 3 * 3 * 3 * 2
+		// n = 12 -> 3 * 3 * 3 * 3
 		int tail = n % 3 == 0 ? 1 : (n % 3 == 1 ? 4 : 2);
-		int part = (tail == 1 ? n : (n - tail)) / 3;
-		return (int) ((power(3, part, mod) * tail) % mod);
+		int power = (tail == 1 ? n : (n - tail)) / 3;
+		return (int) (power(3, power, mod) * tail % mod);
 	}
 
 }
