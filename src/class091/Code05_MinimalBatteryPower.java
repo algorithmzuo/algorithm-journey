@@ -12,7 +12,7 @@ public class Code05_MinimalBatteryPower {
 	// 为了验证
 	// 时间复杂度O(n!)
 	// 得到所有排列
-	// 其中一定有所需电量最小的排列
+	// 其中一定有返还电量最小的排列
 	public static int atLeast1(int[][] jobs) {
 		return f1(jobs, jobs.length, 0);
 	}
