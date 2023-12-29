@@ -25,8 +25,40 @@ import java.util.PriorityQueue;
 // -(10^5) <= Ki < 0
 public class Code05_GroupBuyTickets {
 
-	// games : M * 2
-	public static int enoughMoney(int n, int[][] games) {
+	// 暴力方法
+	// 为了验证
+	// 每个人做出所有可能的选择
+	// 时间复杂度O((m+1)的n次方)
+	public static int enough1(int n, int[][] games) {
+		int m = games.length;
+		int[] cnts = new int[m];
+		return f(0, n, m, games, cnts);
+	}
+
+	public static int f(int i, int n, int m, int[][] games, int[] cnts) {
+		if (i == n) {
+			int ans = 0;
+			for (int j = 0, k, b, x; j < m; j++) {
+				k = games[j][0];
+				b = games[j][1];
+				x = cnts[j];
+				ans += Math.max((k * x + b) * x, 0);
+			}
+			return ans;
+		} else {
+			int ans = f(i + 1, n, m, games, cnts);
+			for (int j = 0; j < m; j++) {
+				cnts[j]++;
+				ans = Math.max(ans, f(i + 1, n, m, games, cnts));
+				cnts[j]--;
+			}
+			return ans;
+		}
+	}
+
+	// 正式方法
+	// 时间复杂度O(n * logm)
+	public static int enough2(int n, int[][] games) {
 		// 再来人，哪个项目收入多，就在堆顶！
 		PriorityQueue<Game> heap = new PriorityQueue<>((a, b) -> b.earn() - a.earn());
 		for (int[] g : games) {
@@ -46,22 +78,57 @@ public class Code05_GroupBuyTickets {
 	}
 
 	public static class Game {
-		public int Ki; // 负数
-		public int Bi; // 正
+		public int ki; // 负数
+		public int bi; // 正
 		public int people; // 已经来的人
 
 		public Game(int k, int b) {
-			Ki = k;
-			Bi = b;
+			ki = k;
+			bi = b;
 			people = 0;
 		}
 
 		// 这个项目如果再来人，能收多少钱，扣掉之前返回的钱的！
 		public int earn() {
-//			return  (Ki * (people + 1) + Bi) + Ki * people;
-			return (2 * people + 1) * Ki + Bi;
+			// return (ki * (people + 1) + bi) + ki * people;
+			return (2 * people + 1) * ki + bi;
 		}
 
+	}
+
+	// 为了验证
+	public static int[][] randomGames(int m, int v) {
+		int[][] ans = new int[m][2];
+		for (int i = 0; i < m; i++) {
+			// 折扣一定要是负数
+			ans[i][0] = -((int) (Math.random() * v) + 1);
+			// 价格一定要是正数
+			ans[i][1] = (int) (Math.random() * v) + 1;
+		}
+		return ans;
+	}
+
+	// 为了验证
+	public static void main(String[] args) {
+		int N = 8;
+		int M = 8;
+		int V = 20;
+		int testTimes = 2000;
+		System.out.println("测试开始");
+		for (int i = 1; i <= testTimes; i++) {
+			int n = (int) (Math.random() * N) + 1;
+			int m = (int) (Math.random() * M) + 1;
+			int[][] games = randomGames(m, V);
+			int ans1 = enough1(n, games);
+			int ans2 = enough2(n, games);
+			if (ans1 != ans2) {
+				System.out.println("出错了！");
+			}
+			if (i % 100 == 0) {
+				System.out.println("测试到第" + i + "组");
+			}
+		}
+		System.out.println("测试结束");
 	}
 
 }
