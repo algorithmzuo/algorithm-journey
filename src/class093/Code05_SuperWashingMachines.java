@@ -9,7 +9,7 @@ package class093;
 // 请给出能让所有洗衣机中剩下的衣物的数量相等的最少的操作步数
 // 如果不能使每台洗衣机中衣物的数量相等则返回-1
 // 测试链接 : https://leetcode.cn/problems/super-washing-machines/
-public class Code04_SuperWashingMachines {
+public class Code05_SuperWashingMachines {
 
 	public static int findMinMoves(int[] arr) {
 		int n = arr.length;
