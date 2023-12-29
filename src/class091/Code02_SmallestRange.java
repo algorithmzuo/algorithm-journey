@@ -1,4 +1,4 @@
-package class092;
+package class091;
 
 import java.util.List;
 import java.util.TreeSet;
@@ -7,7 +7,7 @@ import java.util.TreeSet;
 // 你有k个非递减排列的整数列表
 // 找到一个最小区间，使得k个列表中的每个列表至少有一个数包含在其中
 // 测试链接 : https://leetcode.cn/problems/smallest-range-covering-elements-from-k-lists/
-public class Code03_SmallestRange {
+public class Code02_SmallestRange {
 
 	public static int[] smallestRange(List<List<Integer>> nums) {
 		int n = nums.size();

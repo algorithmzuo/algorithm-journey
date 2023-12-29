@@ -85,15 +85,18 @@ public class Code06_LongestSameZerosOnes {
 	// 为了验证
 	public static void main(String[] args) {
 		int N = 500;
-		int testTimes = 500;
+		int testTimes = 2000;
 		System.out.println("测试开始");
-		for (int i = 0; i < testTimes; i++) {
+		for (int i = 1; i <= testTimes; i++) {
 			int n = (int) (Math.random() * N) + 2;
 			int[] arr = randomArray(n);
 			int ans1 = len1(arr);
 			int ans2 = len2(arr);
 			if (ans1 != ans2) {
 				System.out.println("出错了!");
+			}
+			if (i % 100 == 0) {
+				System.out.println("测试到第" + i + "组");
 			}
 		}
 		System.out.println("测试结束");
