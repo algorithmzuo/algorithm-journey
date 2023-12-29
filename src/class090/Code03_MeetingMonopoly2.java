@@ -76,7 +76,7 @@ public class Code03_MeetingMonopoly2 {
 			// 如果cur <= latest[end]，那么说明可以安排当前以end结束的会议
 			if (cur <= latest[end]) {
 				ans++;
-				cur = end; // 安排之后，目前安排会议的人的时间来到end
+				cur = end; // 安排之后，目前安排会议的人来到end时刻
 			}
 		}
 		return ans;
