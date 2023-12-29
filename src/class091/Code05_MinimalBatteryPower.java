@@ -45,7 +45,8 @@ public class Code05_MinimalBatteryPower {
 	// 贪心
 	// 时间复杂度O(n * logn)
 	public static int atLeast2(int[][] jobs) {
-		Arrays.sort(jobs, (a, b) -> (a[1] - a[0]) - (b[1] - b[0]));
+		// 消耗电量 - 至少电量，越大的程序，越先返还电量
+		Arrays.sort(jobs, (a, b) -> (b[0] - b[1]) - (a[0] - a[1]));
 		int ans = 0;
 		for (int[] job : jobs) {
 			ans = Math.max(job[1], ans + job[0]);
