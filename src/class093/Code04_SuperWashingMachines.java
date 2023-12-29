@@ -1,4 +1,4 @@
-package class092;
+package class093;
 
 // 超级洗衣机
 // 假设有n台超级洗衣机放在同一排上

@@ -1,4 +1,4 @@
-package class092;
+package class093;
 
 // 跳跃游戏II
 // 给定一个长度为n的0索引整数数组nums，初始位置为nums[0]

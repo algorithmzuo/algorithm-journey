@@ -1,4 +1,4 @@
-package class093;
+package class092;
 
 // 将数组分成几个递增序列
 // 给你一个 非递减 的正整数数组 nums 和整数 K
