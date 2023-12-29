@@ -9,6 +9,7 @@ package class090;
 public class Code01_CuttingBamboo {
 
 	// 快速幂，求余数
+	// 求x的n次方，最终得到的结果 % mod
 	public static long power(long x, int n, int mod) {
 		long ans = 1;
 		while (n > 0) {

@@ -57,6 +57,8 @@ public class Code06_AbsoluteValueAddToArray {
 			return arr.length;
 		}
 		// 不都是0
+		// 0 7次
+		// 5 5次
 		HashMap<Integer, Integer> cnts = new HashMap<>();
 		for (int num : arr) {
 			if (num != 0) {

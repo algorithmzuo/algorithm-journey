@@ -21,10 +21,10 @@ public class Code03_MeetingMonopoly {
 	public static int f(int[][] meeting, int n, int i) {
 		int ans = 0;
 		if (i == n) {
-			for (int j = 0, time = -1; j < n; j++) {
-				if (time <= meeting[j][0]) {
+			for (int j = 0, cur = -1; j < n; j++) {
+				if (cur <= meeting[j][0]) {
 					ans++;
-					time = meeting[j][1];
+					cur = meeting[j][1];
 				}
 			}
 		} else {
@@ -46,6 +46,8 @@ public class Code03_MeetingMonopoly {
 	// 正式方法
 	// 时间复杂度O(n*logn)
 	public static int maxMeeting2(int[][] meeting) {
+		// meeting[i][0] : i号会议开始时间
+		// meeting[i][1] : i号会议结束时间
 		Arrays.sort(meeting, (a, b) -> a[1] - b[1]);
 		int n = meeting.length;
 		int ans = 0;
