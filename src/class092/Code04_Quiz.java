@@ -51,8 +51,8 @@ public class Code04_Quiz {
 
 	public static int compute() {
 		Arrays.sort(nums, 0, n, (a, b) -> Math.abs(a[0] - a[1]) - Math.abs(b[0] - b[1]));
-		int maxA = nums[0][0];
-		int maxB = nums[0][1];
+		int maxA = nums[0][0]; // 左边最大的推理能力
+		int maxB = nums[0][1]; // 左边最大的阅读能力
 		int ans = 0;
 		for (int i = 1; i < n; i++) {
 			if (nums[i][0] <= nums[i][1]) {

@@ -20,7 +20,9 @@ public class Code06_MinimumNumberRefuelingStops {
 		if (startFuel >= target) {
 			return 0;
 		}
+		// 大根堆
 		PriorityQueue<Integer> heap = new PriorityQueue<>((a, b) -> b - a);
+		// 包括初始油量 + 沿途加的油，能让你达到什么位置，to
 		int to = startFuel;
 		int cnt = 0;
 		for (int[] station : stations) {
@@ -40,6 +42,8 @@ public class Code06_MinimumNumberRefuelingStops {
 			}
 			heap.add(fuel);
 		}
+		// 代码能走到这里，说明还没到达target
+		// 如果还有油，看看能不能冲到target
 		while (!heap.isEmpty()) {
 			to += heap.poll();
 			cnt++;
