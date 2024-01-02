@@ -19,7 +19,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 
-public class Code06_FibonacciNim {
+public class Code06_FibonacciNimGame {
 
 	public static long n, a, b, c, ans;
 
