@@ -4,9 +4,7 @@ package class094;
 // 给你一个仅由数字（0 - 9）组成的字符串num
 // 请你找出能够使用num中数字形成的最大回文整数
 // 并以字符串形式返回，该整数不含前导零
-// 注意：
-// 你无需使用num中的所有数字，但你必须使用至少一个数字
-// 数字可以重新排序
+// 你无需使用num中的所有数字，但你必须使用至少一个数字，数字可以重新排列
 // 测试链接 : https://leetcode.cn/problems/largest-palindromic-number/
 public class Code04_LargestPalindromicNumber {
 
