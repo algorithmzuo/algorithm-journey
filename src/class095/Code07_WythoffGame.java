@@ -23,27 +23,32 @@ public class Code07_WythoffGame {
 
 	public static double split = (Math.sqrt(5.0) + 1.0) / 2.0;
 
-	public static int a, b, min, max, diff;
+	public static int a, b;
 
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StreamTokenizer in = new StreamTokenizer(br);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
-		in.nextToken();
-		a = (int) in.nval;
-		in.nextToken();
-		b = (int) in.nval;
-		min = Math.min(a, b);
-		max = Math.max(a, b);
-		diff = max - min;
-		if (min == (int) (split * diff)) {
-			out.println(0);
-		} else {
-			out.println(1);
+		while (in.nextToken() != StreamTokenizer.TT_EOF) {
+			a = (int) in.nval;
+			in.nextToken();
+			b = (int) in.nval;
+			out.println(compute());
 		}
 		out.flush();
 		out.close();
 		br.close();
+	}
+
+	public static int compute() {
+		int min = Math.min(a, b);
+		int max = Math.max(a, b);
+		int diff = max - min;
+		if (min == (int) (split * diff)) {
+			return 0;
+		} else {
+			return 1;
+		}
 	}
 
 }
