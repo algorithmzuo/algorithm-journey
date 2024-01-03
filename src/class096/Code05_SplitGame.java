@@ -91,9 +91,9 @@ public class Code05_SplitGame {
 						pos = eor ^ sg[i] ^ sg[j] ^ sg[k];
 						if (pos == 0) {
 							if (a == -1) {
-								a = n - 1 - i;
-								b = n - 1 - j;
-								c = n - 1 - k;
+								a = i;
+								b = j;
+								c = k;
 							}
 							cnt++;
 						}
@@ -101,7 +101,7 @@ public class Code05_SplitGame {
 				}
 			}
 		}
-		return String.valueOf(a + " " + b + " " + c + "\n" + cnt);
+		return String.valueOf((n - 1 - a) + " " + (n - 1 - b) + " " + (n - 1 - c) + "\n" + cnt);
 	}
 
 }
