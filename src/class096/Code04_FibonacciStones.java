@@ -53,7 +53,6 @@ public class Code04_FibonacciStones {
 	}
 
 	// sg定理
-
 	public static int[] sg = new int[MAXN];
 
 	public static boolean[] appear = new boolean[MAXN];
