@@ -1,6 +1,6 @@
-package class095;
+package class096;
 
-// 分裂游戏(icg组合、sg函数扩展题)
+// 分裂游戏
 // 一共有n个瓶子，编号为0~n-1，第i个瓶子里装有pi个糖豆
 // 有两个玩家，轮流取糖豆，每一轮的当前玩家必须选i、j、k三个瓶子
 // 并且满足i < j <= k，从i号瓶子中拿出1颗，并且往j、k瓶子中各自放入1颗
@@ -21,7 +21,7 @@ import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 import java.util.Arrays;
 
-public class Code09_SplitGame {
+public class Code05_SplitGame {
 
 	public static int MAXN = 21;
 

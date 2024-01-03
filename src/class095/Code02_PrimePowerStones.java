@@ -20,7 +20,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 
-public class Code02_PickStones {
+public class Code02_PrimePowerStones {
 
 	public static int t, n;
 

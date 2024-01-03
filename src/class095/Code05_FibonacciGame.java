@@ -19,7 +19,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 
-public class Code06_FibonacciGame {
+public class Code05_FibonacciGame {
 
 	public static long MAXN = 1000000000000000L;
 

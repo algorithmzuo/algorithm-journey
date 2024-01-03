@@ -19,7 +19,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 
-public class Code07_WythoffGame {
+public class Code06_WythoffGame {
 
 	public static double split = (Math.sqrt(5.0) + 1.0) / 2.0;
 

@@ -6,7 +6,7 @@ package class095;
 public class Code01_BashGame {
 
 	public static String bashGame(int n, int m) {
-		return n % (m + 1) == 0 ? "后手" : "先手";
+		return n % (m + 1) != 0 ? "先手" : "后手";
 	}
 
 }
