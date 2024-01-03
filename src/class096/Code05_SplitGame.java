@@ -59,12 +59,12 @@ public class Code05_SplitGame {
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
 		in.nextToken();
 		t = (int) in.nval;
-		while (t-- > 0) {
+		for (int i = 0; i < t; i++) {
 			in.nextToken();
 			n = (int) in.nval;
-			for (int i = n - 1; i >= 0; i--) {
+			for (int j = n - 1; j >= 0; j--) {
 				in.nextToken();
-				nums[i] = (int) in.nval;
+				nums[j] = (int) in.nval;
 			}
 			out.println(compute());
 		}
