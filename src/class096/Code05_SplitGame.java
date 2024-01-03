@@ -90,12 +90,12 @@ public class Code05_SplitGame {
 					for (int k = j; k >= 0; k--) {
 						pos = eor ^ sg[i] ^ sg[j] ^ sg[k];
 						if (pos == 0) {
+							cnt++;
 							if (a == -1) {
 								a = i;
 								b = j;
 								c = k;
 							}
-							cnt++;
 						}
 					}
 				}
