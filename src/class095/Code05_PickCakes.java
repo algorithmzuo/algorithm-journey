@@ -8,7 +8,7 @@ package class095;
 // 来自真实大厂笔试，没有在线测试，对数器验证
 public class Code05_PickCakes {
 
-	public static int MAXN = 151;
+	public static int MAXN = 201;
 
 	public static String[][][] dp = new String[MAXN][MAXN][MAXN];
 
