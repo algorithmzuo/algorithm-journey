@@ -19,7 +19,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 
-public class Code06_FibonacciNimGame {
+public class Code06_FibonacciGame {
 
 	public static long MAXN = 1000000000000000L;
 
@@ -40,10 +40,10 @@ public class Code06_FibonacciNimGame {
 	}
 
 	public static void main(String[] args) throws IOException {
+		build();
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StreamTokenizer in = new StreamTokenizer(br);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
-		build();
 		while (in.nextToken() != StreamTokenizer.TT_EOF) {
 			out.println(compute((long) in.nval));
 		}
