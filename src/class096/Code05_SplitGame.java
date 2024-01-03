@@ -35,8 +35,7 @@ public class Code05_SplitGame {
 
 	public static int t, n;
 
-	public static void getSG() {
-		sg[0] = 0;
+	public static void build() {
 		for (int i = 1; i < MAXN; i++) {
 			Arrays.fill(appear, false);
 			for (int j = i - 1; j >= 0; j--) {
@@ -54,7 +53,7 @@ public class Code05_SplitGame {
 	}
 
 	public static void main(String[] args) throws IOException {
-		getSG();
+		build();
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StreamTokenizer in = new StreamTokenizer(br);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
