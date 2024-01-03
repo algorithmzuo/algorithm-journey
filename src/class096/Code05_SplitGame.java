@@ -83,13 +83,13 @@ public class Code05_SplitGame {
 		if (eor == 0) {
 			return "-1 -1 -1\n" + "0";
 		}
-		int cnt = 0, a = -1, b = -1, c = -1, rest;
+		int cnt = 0, a = -1, b = -1, c = -1, pos;
 		for (int i = n - 1; i >= 1; i--) {
 			if (nums[i] > 0) {
 				for (int j = i - 1; j >= 0; j--) {
 					for (int k = j; k >= 0; k--) {
-						rest = eor ^ sg[i] ^ sg[j] ^ sg[k];
-						if (rest == 0) {
+						pos = eor ^ sg[i] ^ sg[j] ^ sg[k];
+						if (pos == 0) {
 							if (a == -1) {
 								a = n - 1 - i;
 								b = n - 1 - j;
