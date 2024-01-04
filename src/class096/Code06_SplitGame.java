@@ -21,7 +21,7 @@ import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 import java.util.Arrays;
 
-public class Code05_SplitGame {
+public class Code06_SplitGame {
 
 	public static int MAXN = 21;
 
