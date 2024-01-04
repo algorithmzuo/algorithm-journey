@@ -20,17 +20,21 @@ public class Code05_SuperWashingMachines {
 		if (sum % n != 0) {
 			return -1;
 		}
-		int avg = sum / n;
+		int avg = sum / n; // 每台洗衣机最终要求的衣服数量一定是平均值
+		int leftSum = 0; // 左侧累加和
+		int leftNeed = 0; // 左边还需要多少件衣服
+		int rightNeed = 0;// 右边还需要多少件衣服
+		int bottleNeck = 0;// 每一步的瓶颈
 		int ans = 0;
-		for (int i = 0, leftSum = 0, left, right; i < n; i++) {
-			left = leftSum - i * avg;
-			right = (sum - leftSum - arr[i]) - (n - i - 1) * avg;
-			if (left < 0 && right < 0) {
-				ans = Math.max(ans, Math.abs(left) + Math.abs(right));
+		for (int i = 0; i < n; leftSum += arr[i], i++) {
+			leftNeed = i * avg - leftSum;
+			rightNeed = (n - i - 1) * avg - (sum - leftSum - arr[i]);
+			if (leftNeed > 0 && rightNeed > 0) {
+				bottleNeck = leftNeed + rightNeed;
 			} else {
-				ans = Math.max(ans, Math.max(Math.abs(left), Math.abs(right)));
+				bottleNeck = Math.max(Math.abs(leftNeed), Math.abs(rightNeed));
 			}
-			leftSum += arr[i];
+			ans = Math.max(ans, bottleNeck);
 		}
 		return ans;
 	}

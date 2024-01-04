@@ -13,10 +13,16 @@ public class Code01_JumpGameII {
 
 	public static int jump(int[] arr) {
 		int n = arr.length;
+		// 当前步以内，最右到哪
 		int cur = 0;
+		// 如果再一步，(当前步+1)以内，最右到哪
 		int next = 0;
+		// 一共需要跳几步
 		int ans = 0;
 		for (int i = 0; i < n; i++) {
+			// 来到i下标
+			// cur包括了i所在的位置，不用付出额外步数
+			// cur没有包括i所在的位置，需要付出额外步数
 			if (cur < i) {
 				ans++;
 				cur = next;
