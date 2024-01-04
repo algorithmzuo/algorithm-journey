@@ -24,19 +24,17 @@ import java.io.StreamTokenizer;
 
 public class Code05_EDGame2 {
 
-	public static int t, n, a, b, sg;
-
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StreamTokenizer in = new StreamTokenizer(br);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
 		in.nextToken();
-		t = (int) in.nval;
+		int t = (int) in.nval;
 		for (int i = 0; i < t; i++) {
 			in.nextToken();
-			n = (int) in.nval;
-			sg = 0;
-			for (int j = 1; j <= n; j += 2) {
+			int n = (int) in.nval;
+			int sg = 0;
+			for (int j = 1, a, b; j <= n; j += 2) {
 				in.nextToken();
 				a = (int) in.nval;
 				in.nextToken();
@@ -55,15 +53,15 @@ public class Code05_EDGame2 {
 	}
 
 	public static int lowZero(int num) {
-		int cnt = 0;
+		int ans = 0;
 		while (num > 0) {
 			if ((num & 1) == 0) {
 				break;
 			}
 			num >>= 1;
-			cnt++;
+			ans++;
 		}
-		return cnt;
+		return ans;
 	}
 
 }
