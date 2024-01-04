@@ -12,13 +12,11 @@ package class093;
 public class Code01_JumpGameII {
 
 	public static int jump(int[] arr) {
-		if (arr == null || arr.length == 0) {
-			return 0;
-		}
-		int step = 0;
+		int n = arr.length;
 		int cur = 0;
 		int next = 0;
-		for (int i = 0; i < arr.length; i++) {
+		int step = 0;
+		for (int i = 0; i < n; i++) {
 			if (cur < i) {
 				step++;
 				cur = next;

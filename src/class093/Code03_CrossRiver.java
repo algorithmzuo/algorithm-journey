@@ -22,7 +22,7 @@ public class Code03_CrossRiver {
 
 	public static int MAXN = 100001;
 
-	public static int[] arr = new int[MAXN];
+	public static int[] nums = new int[MAXN];
 
 	public static int[] dp = new int[MAXN];
 
@@ -36,7 +36,7 @@ public class Code03_CrossRiver {
 			n = (int) in.nval;
 			for (int i = 0; i < n; i++) {
 				in.nextToken();
-				arr[i] = (int) in.nval;
+				nums[i] = (int) in.nval;
 			}
 			out.println(minCost());
 		}
@@ -46,18 +46,18 @@ public class Code03_CrossRiver {
 	}
 
 	public static int minCost() {
-		Arrays.sort(arr, 0, n);
+		Arrays.sort(nums, 0, n);
 		if (n >= 1) {
-			dp[0] = arr[0];
+			dp[0] = nums[0];
 		}
 		if (n >= 2) {
-			dp[1] = arr[1];
+			dp[1] = nums[1];
 		}
 		if (n >= 3) {
-			dp[2] = arr[0] + arr[1] + arr[2];
+			dp[2] = nums[0] + nums[1] + nums[2];
 		}
 		for (int i = 3; i < n; i++) {
-			dp[i] = Math.min(dp[i - 2] + arr[1] + arr[0] + arr[i] + arr[1], dp[i - 1] + arr[i] + arr[0]);
+			dp[i] = Math.min(dp[i - 2] + nums[1] + nums[0] + nums[i] + nums[1], dp[i - 1] + nums[i] + nums[0]);
 		}
 		return dp[n - 1];
 	}
