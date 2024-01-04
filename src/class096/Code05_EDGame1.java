@@ -55,7 +55,7 @@ public class Code05_EDGame1 {
 		return ans;
 	}
 
-	public static void check1() {
+	public static void f1() {
 		System.out.println("打印石头组合的sg值");
 		System.out.println();
 		System.out.print("    ");
@@ -74,7 +74,7 @@ public class Code05_EDGame1 {
 		}
 	}
 
-	public static void check2() {
+	public static void f2() {
 		System.out.println("打印石头组合的sg值，但是行列都-1");
 		System.out.println();
 		System.out.print("    ");
@@ -93,7 +93,7 @@ public class Code05_EDGame1 {
 		}
 	}
 
-	public static void check3() {
+	public static void f3() {
 		System.out.println("测试开始");
 		for (int a = 1; a < MAXN; a++) {
 			for (int b = 1; b < MAXN; b++) {
@@ -121,13 +121,13 @@ public class Code05_EDGame1 {
 
 	public static void main(String[] args) {
 		build();
-		check1();
+		f1();
 		System.out.println();
 		System.out.println();
-		check2();
+		f2();
 		System.out.println();
 		System.out.println();
-		check3();
+		f3();
 	}
 
 }
