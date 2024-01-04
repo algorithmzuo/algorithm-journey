@@ -56,7 +56,7 @@ public class Code05_EDGame1 {
 	}
 
 	public static void f1() {
-		System.out.println("打印石头组合的sg值");
+		System.out.println("石子数9以内所有组合的sg值");
 		System.out.println();
 		System.out.print("    ");
 		for (int i = 1; i <= 9; i++) {
@@ -75,7 +75,7 @@ public class Code05_EDGame1 {
 	}
 
 	public static void f2() {
-		System.out.println("打印石头组合的sg值，但是行列都-1");
+		System.out.println("石子数9以内所有组合的sg值，但是行列都-1");
 		System.out.println();
 		System.out.print("    ");
 		for (int i = 0; i <= 8; i++) {
