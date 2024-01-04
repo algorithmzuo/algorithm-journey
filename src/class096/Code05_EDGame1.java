@@ -11,7 +11,7 @@ package class096;
 // 两个人轮流进行分割操作，如果轮到某人进行操作时，所有堆的石子数均为1，判此人输掉比赛
 // 返回先手能不能获胜
 // 测试链接 : https://www.luogu.com.cn/problem/P2148
-// 本文件仅为打表找规律的实现
+// 本文件仅为打表找规律的代码
 public class Code05_EDGame1 {
 
 	public static int MAXN = 1001;
