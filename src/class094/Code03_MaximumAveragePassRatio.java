@@ -13,7 +13,7 @@ import java.util.PriorityQueue;
 // 平均通过率 是所有班级的通过率之和除以班级数目
 // 请你返回在安排这extraStudents个学生去对应班级后的最大平均通过率
 // 测试链接 : https://leetcode.cn/problems/maximum-average-pass-ratio/
-public class Code02_MaximumAveragePassRatio {
+public class Code03_MaximumAveragePassRatio {
 
 	public static double maxAverageRatio(int[][] classes, int extraStudents) {
 		int n = classes.length;

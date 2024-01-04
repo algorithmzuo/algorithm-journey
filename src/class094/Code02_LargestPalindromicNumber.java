@@ -6,7 +6,7 @@ package class094;
 // 并以字符串形式返回，该整数不含前导零
 // 你无需使用num中的所有数字，但你必须使用至少一个数字，数字可以重新排列
 // 测试链接 : https://leetcode.cn/problems/largest-palindromic-number/
-public class Code04_LargestPalindromicNumber {
+public class Code02_LargestPalindromicNumber {
 
 	public static String largestPalindromic(String num) {
 		int n = num.length();

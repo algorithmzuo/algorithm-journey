@@ -12,7 +12,7 @@ import java.util.PriorityQueue;
 // 工资组中的每名工人至少应当得到他们的最低期望工资
 // 给定整数k，返回组成满足上述条件的付费群体所需的最小金额
 // 测试链接 : https://leetcode.cn/problems/minimum-cost-to-hire-k-workers/
-public class Code03_MinimumCostToHireWorkers {
+public class Code04_MinimumCostToHireWorkers {
 
 	public static class Employee {
 		public double rubbish;
