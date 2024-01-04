@@ -1,13 +1,13 @@
 package class093;
 
 // 跳跃游戏II
-// 给定一个长度为n的0索引整数数组nums，初始位置为nums[0]
-// 每个元素nums[i]表示从索引i向前跳转的最大长度
-// 换句话说，如果你在nums[i]处，你可以跳转到任意nums[i+j]处
-// 0 <= j <= nums[i] 
-// i + j < n
-// 返回到达nums[n - 1]的最小跳跃次数
-// 生成的测试用例可以到达nums[n-1]
+// 给定一个长度为n的整数数组nums
+// 你初始在0下标，nums[i]表示你可以从i下标往右跳的最大距离
+// 比如，nums[0] = 3
+// 表示你可以从0下标去往：1下标、2下标、3下标
+// 你达到i下标后，可以根据nums[i]的值继续往右跳
+// 返回你到达n-1下标的最少跳跃次数
+// 测试用例可以保证一定能到达
 // 测试链接 : https://leetcode.cn/problems/jump-game-ii/
 public class Code01_JumpGameII {
 
