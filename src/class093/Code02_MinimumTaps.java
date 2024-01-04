@@ -19,19 +19,19 @@ public class Code02_MinimumTaps {
 		}
 		int cur = 0;
 		int next = 0;
-		int step = 0;
+		int ans = 0;
 		for (int i = 0; i < n; i++) {
 			next = Math.max(next, right[i]);
 			if (i == cur) {
 				if (next > i) {
 					cur = next;
-					step++;
+					ans++;
 				} else {
 					return -1;
 				}
 			}
 		}
-		return step;
+		return ans;
 	}
 
 }

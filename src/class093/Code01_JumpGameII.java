@@ -15,15 +15,15 @@ public class Code01_JumpGameII {
 		int n = arr.length;
 		int cur = 0;
 		int next = 0;
-		int step = 0;
+		int ans = 0;
 		for (int i = 0; i < n; i++) {
 			if (cur < i) {
-				step++;
+				ans++;
 				cur = next;
 			}
 			next = Math.max(next, i + arr[i]);
 		}
-		return step;
+		return ans;
 	}
 
 }
