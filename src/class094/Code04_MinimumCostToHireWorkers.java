@@ -31,20 +31,20 @@ public class Code04_MinimumCostToHireWorkers {
 			employees[i] = new Employee(wage[i], quality[i]);
 		}
 		Arrays.sort(employees, (a, b) -> a.rubbish <= b.rubbish ? -1 : 1);
-		PriorityQueue<Integer> minTops = new PriorityQueue<Integer>((a, b) -> b - a);
+		PriorityQueue<Integer> heap = new PriorityQueue<Integer>((a, b) -> b - a);
 		double ans = Double.MAX_VALUE;
 		for (int i = 0, qualitySum = 0; i < n; i++) {
 			int curQuality = employees[i].quality;
-			if (minTops.size() < k) { // 堆没满
+			if (heap.size() < k) { // 堆没满
 				qualitySum += curQuality;
-				minTops.add(curQuality);
-				if (minTops.size() == k) {
+				heap.add(curQuality);
+				if (heap.size() == k) {
 					ans = Math.min(ans, qualitySum * employees[i].rubbish);
 				}
 			} else {
-				if (minTops.peek() > curQuality) {
-					qualitySum += curQuality - minTops.poll();
-					minTops.add(curQuality);
+				if (heap.peek() > curQuality) {
+					qualitySum += curQuality - heap.poll();
+					heap.add(curQuality);
 					ans = Math.min(ans, qualitySum * employees[i].rubbish);
 				}
 			}

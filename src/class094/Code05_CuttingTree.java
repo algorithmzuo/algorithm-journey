@@ -52,9 +52,8 @@ public class Code05_CuttingTree {
 		br.close();
 	}
 
-	// tree[][]
-	// i棵树，初始重量 ， tree[i][0]
-	// i棵树，每天的增长重量 ，tree[i][1]
+	// 第i棵树初始重量，tree[i][0]
+	// 第i棵树每天的增长重量，tree[i][1]
 	public static int compute() {
 		Arrays.sort(tree, 0, n, (o1, o2) -> o1[1] - o2[1]);
 		dp[0][0] = tree[0][0];

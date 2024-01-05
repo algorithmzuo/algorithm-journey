@@ -14,30 +14,37 @@ public class Code02_LargestPalindromicNumber {
 		for (char a : num.toCharArray()) {
 			cnts[a]++;
 		}
-		char middle = ' ';
 		char[] ans = new char[n];
-		ans[0] = '0';
 		int len = 0;
-		int cnt;
+		char bestmid = 0;
 		for (char i = '9'; i >= '0'; i--) {
-			if ((cnts[i] & 1) == 1 && middle == ' ') {
-				middle = i;
+			if ((cnts[i] & 1) == 1 && bestmid == 0) {
+				bestmid = i;
 			}
-			cnt = cnts[i] /= 2;
-			for (int j = cnt; j > 0; j--) {
+			for (int j = cnts[i] / 2; j > 0; j--) {
 				ans[len++] = i;
 			}
 		}
-		if (ans[0] == '0') {
-			return middle == ' ' ? "0" : "" + middle;
-		}
-		if (middle != ' ') {
-			ans[len++] = middle;
-		}
-		for (char i = '0'; i <= '9'; i++) {
-			for (int j = cnts[i]; j > 0; j--) {
-				ans[len++] = i;
+		// len == 0 : 说明任何字符最多出现1次
+		// ans[0] == '0' : 说明只有'0'出现次数>=2次，其他字符最多出现1次
+		if (len == 0 || ans[0] == '0') {
+			if (bestmid == 0) {
+				// 到这里一定说明
+				// num中只有'0'且出现了偶数次(包括0次)，其他字符都没有出现
+				return "0";
+			} else {
+				// 到这里一定说明
+				// num中除了'0'之外，其他字符最多出现了1次
+				// 所有出现过的字符中，最大的字符一定是bestmid
+				return String.valueOf(bestmid);
 			}
+		}
+		if (bestmid != 0) {
+			ans[len++] = bestmid;
+		}
+		// 左部分逆序拷贝给右部分
+		for (int i = bestmid != 0 ? (len - 2) : (len - 1); i >= 0; i--) {
+			ans[len++] = ans[i];
 		}
 		return new String(ans, 0, len);
 	}
