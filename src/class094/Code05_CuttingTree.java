@@ -21,13 +21,15 @@ import java.util.Arrays;
 
 public class Code05_CuttingTree {
 
+	// 树的个数、天数最大值，不超过的量
 	public static int MAXN = 251;
 
+	// 树的编号为1 ~ n
 	// tree[i][0] : 第i棵树第一天的初始重量
 	// tree[i][1] : 第i棵树每天的增长重量
 	public static int[][] tree = new int[MAXN][2];
 
-	// dp[i][j] : 前i棵树中选若干棵树，一定要在j天内砍完，最大收益是多少
+	// dp[i][j] : 在j天内，从前i棵树中选若干棵树进行砍伐，最大收益是多少
 	public static int[][] dp = new int[MAXN][MAXN];
 
 	public static int t, n, m;
@@ -61,7 +63,7 @@ public class Code05_CuttingTree {
 	public static int compute() {
 		// 树的初始量不重要，因为只要砍了，就一定获得固定值
 		// 根据增长速度排序，增长量小的在前，增长量大的在后
-		// 认为越靠后的树，越要尽量晚的砍伐，课上重点讲的点
+		// 认为越靠后的树，越要尽量晚的砍伐，课上的重点内容
 		Arrays.sort(tree, 1, n + 1, (o1, o2) -> o1[1] - o2[1]);
 		// dp[0][...] = 0 : 表示如果没有树，不管过去多少天，收益都是0
 		// dp[...][0] = 0 : 表示不管有几棵树，没有时间砍树，收益都是0
