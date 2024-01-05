@@ -17,8 +17,6 @@ public class Code02_LargestPalindromicNumber {
 		}
 		char[] ans = new char[n];
 		int leftSize = 0;
-		// '0' -> 48
-		// '9' -> 57
 		char mid = 0;
 		for (char i = '9'; i >= '1'; i--) {
 			if ((cnts[i] & 1) == 1 && mid == 0) {
