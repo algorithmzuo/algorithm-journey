@@ -15,11 +15,11 @@ import java.util.PriorityQueue;
 public class Code04_MinimumCostToHireWorkers {
 
 	public static class Employee {
-		public double rubbish;
+		public double ratio; // 薪水 / 质量的比例
 		public int quality;
 
-		public Employee(int w, int q) {
-			rubbish = (double) w / (double) q;
+		public Employee(double r, int q) {
+			ratio = r;
 			quality = q;
 		}
 	}
@@ -28,24 +28,28 @@ public class Code04_MinimumCostToHireWorkers {
 		int n = quality.length;
 		Employee[] employees = new Employee[n];
 		for (int i = 0; i < n; i++) {
-			employees[i] = new Employee(wage[i], quality[i]);
+			employees[i] = new Employee((double) wage[i] / quality[i], quality[i]);
 		}
-		Arrays.sort(employees, (a, b) -> a.rubbish <= b.rubbish ? -1 : 1);
+		// 根据比例排序，比例小的在前，比例大的在后
+		Arrays.sort(employees, (a, b) -> a.ratio <= b.ratio ? -1 : 1);
+		// 大根堆，用来收集最小的前k个质量数值
 		PriorityQueue<Integer> heap = new PriorityQueue<Integer>((a, b) -> b - a);
+		// 堆里，最小的前k个质量数值，总和是多少
+		int qualitySum = 0;
 		double ans = Double.MAX_VALUE;
-		for (int i = 0, qualitySum = 0; i < n; i++) {
-			int curQuality = employees[i].quality;
+		for (int i = 0, curQuality; i < n; i++) {
+			curQuality = employees[i].quality;
 			if (heap.size() < k) { // 堆没满
 				qualitySum += curQuality;
 				heap.add(curQuality);
 				if (heap.size() == k) {
-					ans = Math.min(ans, qualitySum * employees[i].rubbish);
+					ans = Math.min(ans, qualitySum * employees[i].ratio);
 				}
-			} else {
+			} else { // 堆满了
 				if (heap.peek() > curQuality) {
 					qualitySum += curQuality - heap.poll();
 					heap.add(curQuality);
-					ans = Math.min(ans, qualitySum * employees[i].rubbish);
+					ans = Math.min(ans, qualitySum * employees[i].ratio);
 				}
 			}
 		}

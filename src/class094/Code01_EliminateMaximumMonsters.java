@@ -16,13 +16,15 @@ public class Code01_EliminateMaximumMonsters {
 
 	public static int eliminateMaximum(int[] dist, int[] speed) {
 		int n = dist.length;
-		int[] come = new int[n];
+		int[] time = new int[n];
 		for (int i = 0; i < n; i++) {
-			come[i] = (dist[i] + speed[i] - 1) / speed[i];
+			// a / b 向上取整 -> (a + b - 1) / b
+			time[i] = (dist[i] + speed[i] - 1) / speed[i];
 		}
-		Arrays.sort(come);
+		Arrays.sort(time);
 		for (int i = 0; i < n; i++) {
-			if (come[i] <= i) {
+			// 当前来到i的时刻
+			if (time[i] <= i) {
 				return i;
 			}
 		}

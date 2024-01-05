@@ -10,40 +10,45 @@ public class Code02_LargestPalindromicNumber {
 
 	public static String largestPalindromic(String num) {
 		int n = num.length();
-		int[] cnts = new int['9' + 1];
+		// '0' ~ '9'字符对应整数为48 ~ 57
+		int[] cnts = new int[58];
 		for (char a : num.toCharArray()) {
 			cnts[a]++;
 		}
 		char[] ans = new char[n];
-		int len = 0;
-		char bestmid = 0;
-		for (char i = '9'; i >= '0'; i--) {
-			if ((cnts[i] & 1) == 1 && bestmid == 0) {
-				bestmid = i;
+		int leftSize = 0;
+		// '0' -> 48
+		// '9' -> 57
+		char mid = 0;
+		for (char i = '9'; i >= '1'; i--) {
+			if ((cnts[i] & 1) == 1 && mid == 0) {
+				mid = i;
 			}
 			for (int j = cnts[i] / 2; j > 0; j--) {
-				ans[len++] = i;
+				ans[leftSize++] = i;
 			}
 		}
-		// len == 0 : 说明任何字符最多出现1次
-		// ans[0] == '0' : 说明只有'0'出现次数>=2次，其他字符最多出现1次
-		if (len == 0 || ans[0] == '0') {
-			if (bestmid == 0) {
-				// 到这里一定说明
-				// num中只有'0'且出现了偶数次(包括0次)，其他字符都没有出现
+		if (leftSize == 0) { // '1'~'9'每一种字符出现次数 <= 1
+			if (mid == 0) { // '1'~'9'每一种字符出现次数 == 0
 				return "0";
-			} else {
-				// 到这里一定说明
-				// num中除了'0'之外，其他字符最多出现了1次
-				// 所有出现过的字符中，最大的字符一定是bestmid
-				return String.valueOf(bestmid);
+			} else { // '1'~'9'有若干字符出现次数 == 1，其中最大的字符是mid
+				return String.valueOf(mid);
 			}
 		}
-		if (bestmid != 0) {
-			ans[len++] = bestmid;
+		// '1'~'9'有若干字符出现次数 >= 2，左部分已经建立，再考虑把'0'字符填进来
+		for (int j = cnts['0'] / 2; j > 0; j--) {
+			ans[leftSize++] = '0';
+		}
+		int len = leftSize;
+		// 把中点安插进去
+		if (mid == 0 && (cnts['0'] & 1) == 1) {
+			mid = '0';
+		}
+		if (mid != 0) {
+			ans[len++] = mid;
 		}
 		// 左部分逆序拷贝给右部分
-		for (int i = bestmid != 0 ? (len - 2) : (len - 1); i >= 0; i--) {
+		for (int i = leftSize - 1; i >= 0; i--) {
 			ans[len++] = ans[i];
 		}
 		return new String(ans, 0, len);
