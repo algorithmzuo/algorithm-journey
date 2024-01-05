@@ -82,10 +82,6 @@ public class Code03_BashStones {
 					String ans3 = win3(a, b, m);
 					if (!ans1.equals(ans2) || !ans1.equals(ans3)) {
 						System.out.println("出错了！");
-						System.out.println(a + ", " + b + "," + m);
-						System.out.println(ans1);
-						System.out.println(ans2);
-						System.out.println(ans3);
 					}
 				}
 			}
