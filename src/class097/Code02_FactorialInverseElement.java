@@ -36,7 +36,7 @@ public class Code02_FactorialInverseElement {
 		// 0的阶乘是1
 		inv[0] = 1;
 		// 费马小定理计算乘法逆元
-		// for (int i = limit; i >= 1; i--) {
+		// for (int i = 1; i <= limit; i++) {
 		// inv[i] = power(fac[i], mod - 2);
 		// }
 		// 费马小定理计算乘法逆元，优化如下
