@@ -2,8 +2,7 @@ package class097;
 
 import java.math.BigInteger;
 
-// 阶乘结果的逆元表
-// 线性递推
+// 阶乘结果逆元表的线性递推
 public class Code02_FactorialInverseElement {
 
 	public static int mod = 1000000007;
@@ -47,27 +46,29 @@ public class Code02_FactorialInverseElement {
 	}
 
 	public static void main(String[] args) {
-		// 方式1 : 计算C(100, 48) = 100! / (47! * 53!)
+		// 方式1 : 计算C(100, 49) = 100! / (49! * 51!)
+		// BigInteger保证中间计算结果完全正确
 		BigInteger a = new BigInteger("1");
 		BigInteger b = new BigInteger("1");
 		BigInteger c = new BigInteger("1");
 		for (int i = 1; i <= 100; i++) {
 			String cur = String.valueOf(i);
 			a = a.multiply(new BigInteger(cur));
-			if (i <= 47) {
+			if (i <= 49) {
 				b = b.multiply(new BigInteger(cur));
 			}
-			if (i <= 53) {
+			if (i <= 51) {
 				c = c.multiply(new BigInteger(cur));
 			}
 		}
 		BigInteger ans1 = a.divide(b.multiply(c)).mod(new BigInteger(String.valueOf(mod)));
 		System.out.println("方式1结果 : " + ans1.toString());
-		// 方式2 : 计算C(100, 48) = 100! / (47! * 53!)
+		// 方式2 : 计算C(100, 49) = 100! / (49! * 51!)
+		// 阶乘结果逆元表的线性递推
 		build();
 		long ans2 = fac[100];
-		ans2 = (ans2 * inv[47]) % mod;
-		ans2 = (ans2 * inv[53]) % mod;
+		ans2 = (ans2 * inv[49]) % mod;
+		ans2 = (ans2 * inv[51]) % mod;
 		System.out.println("方式2结果 : " + ans1.toString());
 	}
 
