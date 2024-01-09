@@ -21,8 +21,8 @@ import java.util.InputMismatchException;
 
 // 如下代码可以通过全部测试用例
 // 但是这个题卡常数比较严重
-// 一般情况下不会卡这么严重
-// 参考一下本文件实现的快读、快写
+// 一般情况下不会如此卡常数
+// 需要使用快读、快写增加IO效率
 public class Code01_InverseElement2 {
 
 	public static int MAXN = 3000001;
