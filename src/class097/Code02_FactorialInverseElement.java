@@ -69,7 +69,7 @@ public class Code02_FactorialInverseElement {
 		long ans2 = fac[100];
 		ans2 = (ans2 * inv[49]) % mod;
 		ans2 = (ans2 * inv[51]) % mod;
-		System.out.println("方式2结果 : " + ans1.toString());
+		System.out.println("方式2结果 : " + ans2);
 	}
 
 }
