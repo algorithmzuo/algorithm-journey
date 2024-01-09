@@ -43,8 +43,7 @@ public class Code06_WythoffGame {
 	public static int compute() {
 		int min = Math.min(a, b);
 		int max = Math.max(a, b);
-		int diff = max - min;
-		if (min == (int) (split * diff)) {
+		if (min == (int) (split * (max - min))) {
 			return 0;
 		} else {
 			return 1;
