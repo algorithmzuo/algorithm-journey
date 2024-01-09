@@ -55,7 +55,7 @@ public class Code04_AntiNimGame {
 		if (sum == n) {
 			return (n & 1) == 1 ? "Brother" : "John";
 		} else {
-			return eor == 0 ? "Brother" : "John";
+			return eor != 0 ? "John" : "Brother";
 		}
 	}
 

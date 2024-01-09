@@ -41,7 +41,7 @@ public class Code02_PrimePowerStones {
 	}
 
 	public static String compute(int n) {
-		return n % 6 == 0 ? "Roy wins!" : "October wins!";
+		return n % 6 != 0 ? "October wins!" : "Roy wins!";
 	}
 
 }
