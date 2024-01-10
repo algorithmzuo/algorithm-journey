@@ -63,7 +63,10 @@ public class Code05_EDGame1 {
 		System.out.println();
 		for (int a = 1; a <= 9; a++) {
 			System.out.print(a + "   ");
-			for (int b = 1; b <= 9; b++) {
+			for (int b = 1; b < a; b++) {
+				System.out.print("X ");
+			}
+			for (int b = a; b <= 9; b++) {
 				int sg = sg(a, b);
 				System.out.print(sg + " ");
 			}
@@ -82,7 +85,10 @@ public class Code05_EDGame1 {
 		System.out.println();
 		for (int a = 1; a <= 9; a++) {
 			System.out.print((a - 1) + "   ");
-			for (int b = 1; b <= 9; b++) {
+			for (int b = 1; b < a; b++) {
+				System.out.print("X ");
+			}
+			for (int b = a; b <= 9; b++) {
 				int sg = sg(a, b);
 				System.out.print(sg + " ");
 			}
