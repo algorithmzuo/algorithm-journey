@@ -28,14 +28,20 @@ public class Code03_BashStones {
 		String ans = "后手";
 		for (int pick = 1; pick <= Math.min(a, m); pick++) {
 			if (win1(a - pick, b, m).equals("后手")) {
+				// 后续过程的赢家是后续过程的后手
+				// 那就表示此时的先手，通过这个后续过程，能赢
 				ans = "先手";
 			}
 			if (ans.equals("先手")) {
+				// 后续过程的赢家是后续过程的后手
+				// 那就表示此时的先手，通过这个后续过程，能赢
 				break;
 			}
 		}
 		for (int pick = 1; pick <= Math.min(b, m); pick++) {
 			if (win1(a, b - pick, m).equals("后手")) {
+				// 后续过程的赢家是后续过程的后手
+				// 那就表示此时的先手，通过这个后续过程，能赢
 				ans = "先手";
 			}
 			if (ans.equals("先手")) {

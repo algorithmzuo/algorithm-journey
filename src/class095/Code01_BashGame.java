@@ -21,7 +21,8 @@ public class Code01_BashGame {
 		String ans = "后手";
 		for (int pick = 1; pick <= m; pick++) {
 			if (bashGame1(n - pick, m).equals("后手")) {
-				// 后续过程的后手，就是此时的先手
+				// 后续过程的赢家是后续过程的后手
+				// 那就表示此时的先手，通过这个后续过程，能赢
 				ans = "先手";
 				break;
 			}

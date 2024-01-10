@@ -31,18 +31,24 @@ public class Code04_FibonacciStones {
 		for (int i = 0; i < f.length; i++) {
 			if (f[i] <= a) {
 				if (win1(a - f[i], b, c).equals("后手")) {
+					// 后续过程的赢家是后续过程的后手
+					// 那就表示此时的先手，通过这个后续过程，能赢
 					ans = "先手";
 					break;
 				}
 			}
 			if (f[i] <= b) {
 				if (win1(a, b - f[i], c).equals("后手")) {
+					// 后续过程的赢家是后续过程的后手
+					// 那就表示此时的先手，通过这个后续过程，能赢
 					ans = "先手";
 					break;
 				}
 			}
 			if (f[i] <= c) {
 				if (win1(a, b, c - f[i]).equals("后手")) {
+					// 后续过程的赢家是后续过程的后手
+					// 那就表示此时的先手，通过这个后续过程，能赢
 					ans = "先手";
 					break;
 				}
