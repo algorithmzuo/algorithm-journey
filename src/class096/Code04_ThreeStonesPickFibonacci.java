@@ -98,13 +98,13 @@ public class Code04_ThreeStonesPickFibonacci {
 		}
 		System.out.println("测试结束");
 
-		// 试图找到规律
-		// 所以生成500以内的sg值
+		// 试图找到简洁规律，想得到sg(x)的过程变成O(1)
+		// 于是生成300以内的sg值，开始观察
 		// 刚开始有规律，但是在sg(138)之后开始发生异常波动
-		// 于是放弃不找了，反正这道题在考的时候，数据量并不大
-		// 就用build方法计算sg值即可，不必找寻简洁规律
+		// 这道题在考的时候，数据量并不大，那就用build方法计算sg值
+		// 不必再找寻简洁规律
 		// 考试时一切根据题目数据量来决定是否继续优化
-		MAXN = 500;
+		MAXN = 300;
 		sg = new int[MAXN];
 		appear = new boolean[MAXN];
 		build();
