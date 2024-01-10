@@ -98,7 +98,7 @@ public class Code04_ThreeStonesPickFibonacci {
 		}
 		System.out.println("测试结束");
 
-		// 试图找到简洁规律，想得到sg(x)的过程变成O(1)
+		// 试图找到简洁规律，想通过O(1)的过程就得到sg(x)
 		// 于是生成300以内的sg值，开始观察
 		// 刚开始有规律，但是在sg(138)之后开始发生异常波动
 		// 这道题在考的时候，数据量并没有大到需要O(1)的过程才能通过
