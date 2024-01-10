@@ -32,6 +32,12 @@ public class Code01_BashGameSG {
 				}
 			}
 		}
+
+//		System.out.println("打印 n = " + n + ", m = " + m + " 的sg表");
+//		for (int i = 0; i <= n; i++) {
+//			System.out.println("sg(" + i + ") : " + sg[i]);
+//		}
+
 		return sg[n] != 0 ? "先手" : "后手";
 	}
 
@@ -50,6 +56,10 @@ public class Code01_BashGameSG {
 			}
 		}
 		System.out.println("测试结束");
+
+		int n = 100;
+		int m = 6;
+		bash2(n, m);
 	}
 
 }
