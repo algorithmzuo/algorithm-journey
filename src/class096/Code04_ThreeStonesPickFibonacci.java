@@ -7,7 +7,7 @@ import java.util.Arrays;
 // 两个人轮流拿，每次可以选择其中一堆石头，拿取斐波那契数的石头
 // 拿到最后一颗石子的人获胜，根据a、b、c返回谁赢
 // 来自真实大厂笔试，没有在线测试，对数器验证
-public class Code04_FibonacciStones {
+public class Code04_ThreeStonesPickFibonacci {
 
 	// 如果MAXN变大
 	// 相应的要修改f数组
