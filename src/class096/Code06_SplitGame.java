@@ -27,6 +27,8 @@ import java.util.Arrays;
 
 public class Code06_SplitGame {
 
+	// 20 -> 0
+	// 左    右
 	public static int MAXN = 21;
 
 	public static int[] nums = new int[MAXN];
@@ -78,7 +80,7 @@ public class Code06_SplitGame {
 	}
 
 	public static String compute() {
-		int eor = 0;
+		int eor = 0; // 每个糖果都是独立游戏，所以把所有糖果的sg值异或
 		for (int i = n - 1; i >= 0; i--) {
 			if (nums[i] % 2 == 1) {
 				eor ^= sg[i];
@@ -92,6 +94,7 @@ public class Code06_SplitGame {
 			if (nums[i] > 0) {
 				for (int j = i - 1; j >= 0; j--) {
 					for (int k = j; k >= 0; k--) {
+						// i j k
 						pos = eor ^ sg[i] ^ sg[j] ^ sg[k];
 						if (pos == 0) {
 							cnt++;

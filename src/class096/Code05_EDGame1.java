@@ -110,13 +110,14 @@ public class Code05_EDGame1 {
 		System.out.println("测试结束");
 	}
 
-	public static int lowZero(int num) {
+	// 返回status最低位的0在哪
+	public static int lowZero(int status) {
 		int cnt = 0;
-		while (num > 0) {
-			if ((num & 1) == 0) {
+		while (status > 0) {
+			if ((status & 1) == 0) {
 				break;
 			}
-			num >>= 1;
+			status >>= 1;
 			cnt++;
 		}
 		return cnt;
