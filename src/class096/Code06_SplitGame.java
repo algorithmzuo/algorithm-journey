@@ -75,7 +75,7 @@ public class Code06_SplitGame {
 
 	public static String compute() {
 		int eor = 0;
-		for (int i = n - 1; i >= 1; i--) {
+		for (int i = n - 1; i >= 0; i--) {
 			if (nums[i] % 2 == 1) {
 				eor ^= sg[i];
 			}
