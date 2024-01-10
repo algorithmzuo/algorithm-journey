@@ -97,6 +97,20 @@ public class Code04_ThreeStonesPickFibonacci {
 			}
 		}
 		System.out.println("测试结束");
+
+		// 试图找到规律
+		// 所以生成500以内的sg值
+		// 刚开始有规律，但是在sg(138)之后开始发生异常波动
+		// 于是放弃不找了，反正这道题在考的时候，数据量并不大
+		// 就用build方法计算sg值即可，不必找寻简洁规律
+		// 考试时一切根据题目数据量来决定是否继续优化
+		MAXN = 500;
+		sg = new int[MAXN];
+		appear = new boolean[MAXN];
+		build();
+		for (int i = 0; i < MAXN; i++) {
+			System.out.println("sg(" + i + ") : " + sg[i]);
+		}
 	}
 
 }

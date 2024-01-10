@@ -73,7 +73,7 @@ public class Code03_TwoStonesBashGame {
 	}
 
 	// 时间复杂度O(1)的最优解
-	// 其实是打印了方法2中的sg表，进而观察出来的
+	// 其实是根据方法2中的sg表观察出来的
 	public static String win3(int a, int b, int m) {
 		return a % (m + 1) != b % (m + 1) ? "先手" : "后手";
 	}
