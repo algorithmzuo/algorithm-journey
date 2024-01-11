@@ -13,6 +13,8 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.math.BigInteger;
 
+// 可以通过所有测试用例
+// 本文件可以搞定任意范围数字的质数检查
 // 为什么不自己写，为什么要用BigInteger中的isProbablePrime方法
 // 课上已经做了说明
 public class Code02_LargeNumberIsPrime2 {
