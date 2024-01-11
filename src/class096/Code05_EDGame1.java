@@ -110,7 +110,7 @@ public class Code05_EDGame1 {
 		System.out.println("测试结束");
 	}
 
-	// 返回status最低位的0在哪
+	// 返回status最低位的0在第几位
 	public static int lowZero(int status) {
 		int cnt = 0;
 		while (status > 0) {

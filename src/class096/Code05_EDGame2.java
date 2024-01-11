@@ -52,13 +52,13 @@ public class Code05_EDGame2 {
 		br.close();
 	}
 
-	public static int lowZero(int num) {
+	public static int lowZero(int status) {
 		int ans = 0;
-		while (num > 0) {
-			if ((num & 1) == 0) {
+		while (status > 0) {
+			if ((status & 1) == 0) {
 				break;
 			}
-			num >>= 1;
+			status >>= 1;
 			ans++;
 		}
 		return ans;
