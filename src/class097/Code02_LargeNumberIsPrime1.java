@@ -13,12 +13,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
-import java.util.Random;
 
 public class Code02_LargeNumberIsPrime1 {
-
-	// 测试次数，次数越多失误率越低，但速度也越慢
-	public static int s = 10;
 
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -26,24 +22,26 @@ public class Code02_LargeNumberIsPrime1 {
 		int t = Integer.valueOf(br.readLine());
 		for (int i = 0; i < t; i++) {
 			long n = Long.valueOf(br.readLine());
-			out.println(millerRabin(n, s) ? "Yes" : "No");
+			out.println(millerRabin(n) ? "Yes" : "No");
 		}
 		out.flush();
 		out.close();
 		br.close();
 	}
 
-	public static boolean millerRabin(long n, int s) {
+	// 质数的个数代表测试次数
+	// 如果想增加测试次数就增加更多的质数
+	public static long[] p = { 2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37 };
+
+	public static boolean millerRabin(long n) {
 		if (n <= 2) {
 			return n == 2;
 		}
 		if ((n & 1) == 0) {
 			return false;
 		}
-		for (int i = 0; i < s && i < n; i++) {
-			Random rand = new Random();
-			long a = Math.abs(rand.nextLong()) % (n - 1) + 1;
-			if (witness(a, n)) {
+		for (int i = 0; i < p.length && p[i] < n; i++) {
+			if (witness(p[i], n)) {
 				return false;
 			}
 		}
