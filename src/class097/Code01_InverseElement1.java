@@ -12,6 +12,7 @@ package class097;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 
@@ -22,8 +23,9 @@ public class Code01_InverseElement1 {
 	public static int n, p;
 
 	public static void main(String[] args) throws IOException {
-		StreamTokenizer in = new StreamTokenizer(new BufferedReader(new InputStreamReader(System.in)));
-		PrintWriter out = new PrintWriter(System.out);
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StreamTokenizer in = new StreamTokenizer(br);
+		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
 		in.nextToken();
 		n = (int) in.nval;
 		in.nextToken();
@@ -32,7 +34,8 @@ public class Code01_InverseElement1 {
 			out.println(power(i, p - 2, p));
 		}
 		out.flush();
-
+		out.close();
+		br.close();
 	}
 
 	public static long power(long x, int n, int mod) {
