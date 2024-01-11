@@ -6,12 +6,12 @@ package class097;
 public class Code03_EhrlichAndEuler {
 
 	public static int countPrimes(int n) {
-		return ehrlich(n - 1);
+		return ehrlich2(n - 1);
 	}
 
 	// 埃氏筛统计0 ~ n范围内的质数个数
 	// 时间复杂度O(n * log(logn))
-	public static int ehrlich(int n) {
+	public static int ehrlich1(int n) {
 		boolean[] visit = new boolean[n + 1];
 		for (int i = 2; i * i <= n; i++) {
 			if (!visit[i]) {
@@ -20,13 +20,34 @@ public class Code03_EhrlichAndEuler {
 				}
 			}
 		}
-		int ans = 0;
+		int cnt = 0;
 		for (int i = 2; i <= n; i++) {
 			if (!visit[i]) {
-				ans++;
+				cnt++;
 			}
 		}
-		return ans;
+		return cnt;
+	}
+
+	// 只是计数的话
+	// 埃氏筛还能改进
+	public static int ehrlich2(int n) {
+		if (n <= 1) {
+			return 0;
+		}
+		boolean[] visit = new boolean[n + 1];
+		int cnt = (n + 1) / 2;
+		for (int i = 3; i * i <= n; i += 2) {
+			if (!visit[i]) {
+				for (int j = i * i; j <= n; j += 2 * i) {
+					if (!visit[j]) {
+						visit[j] = true;
+						cnt--;
+					}
+				}
+			}
+		}
+		return cnt;
 	}
 
 	// 欧拉筛统计0 ~ n范围内的质数个数
