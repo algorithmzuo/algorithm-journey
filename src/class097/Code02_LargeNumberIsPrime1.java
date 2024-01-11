@@ -17,8 +17,8 @@ import java.util.Random;
 
 public class Code02_LargeNumberIsPrime1 {
 
-	// 测试次数
-	public static int s = 30;
+	// 测试次数，次数越多失误率越低，但速度也越慢
+	public static int s = 10;
 
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
