@@ -7,7 +7,7 @@ import java.util.Arrays;
 // 如果 nums[i] 和 nums[j] 有一个大于1的公因子，那么这两个数之间有一条无向边
 // 返回 nums中最大连通组件的大小。
 // 测试链接 : https://leetcode.cn/problems/largest-component-size-by-common-factor/
-public class Code05_LargestComponentSize {
+public class Code06_LargestComponentSize {
 
 	public static int MAXV = 100001;
 
