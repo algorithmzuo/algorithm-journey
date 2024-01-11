@@ -1,4 +1,4 @@
-package class097;
+package class099;
 
 // 乘法逆元(逆元线性递推公式)
 // 给定n、p，求1∼n中所有整数在模p意义下的乘法逆元
