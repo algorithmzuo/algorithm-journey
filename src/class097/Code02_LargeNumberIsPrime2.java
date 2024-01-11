@@ -7,7 +7,7 @@ package class097;
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 // 本文件可以搞定任意范围数字的质数检查，时间复杂度O(s * (logn)的三次方)
 // 为什么不自己写，为什么要用BigInteger中的isProbablePrime方法
-// 课上已经做了说明
+// 原因在于long类型位数不够，乘法同余的时候会溢出，课上已经做了说明
 
 import java.io.BufferedReader;
 import java.io.IOException;
