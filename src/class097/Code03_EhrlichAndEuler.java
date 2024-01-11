@@ -52,6 +52,7 @@ public class Code03_EhrlichAndEuler {
 
 	// 欧拉筛统计0 ~ n范围内的质数个数
 	// 时间复杂度O(n)
+	// 欧拉筛需要使用更多额外空间
 	public static int euler(int n) {
 		boolean[] visit = new boolean[n + 1];
 		int[] prime = new int[n / 2 + 1];
