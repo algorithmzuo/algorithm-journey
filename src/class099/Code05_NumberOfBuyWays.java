@@ -23,7 +23,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 
-public class Code05_FourKindsQueryWays {
+public class Code05_NumberOfBuyWays {
 
 	public static int LIMIT = 100000;
 
