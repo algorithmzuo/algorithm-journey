@@ -3,7 +3,7 @@ package class099;
 import java.math.BigInteger;
 
 // 阶乘结果逆元表的线性递推
-public class Code02_FactorialInverseElement {
+public class Code02_FactorialInverse {
 
 	public static int mod = 1000000007;
 

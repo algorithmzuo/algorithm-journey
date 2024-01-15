@@ -18,7 +18,7 @@ import java.io.StreamTokenizer;
 
 // 如下代码不能通过全部测试用例
 // 仅是展示了单个逆元如何计算
-public class Code01_InverseElement1 {
+public class Code01_Inverse1 {
 
 	public static int n, p;
 
