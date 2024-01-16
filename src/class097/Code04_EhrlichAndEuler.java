@@ -3,7 +3,7 @@ package class097;
 // 计数质数
 // 给定整数n，返回小于非负整数n的质数的数量
 // 测试链接 : https://leetcode.cn/problems/count-primes/
-public class Code03_EhrlichAndEuler {
+public class Code04_EhrlichAndEuler {
 
 	public static int countPrimes(int n) {
 		return ehrlich2(n - 1);
