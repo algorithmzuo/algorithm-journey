@@ -22,7 +22,7 @@ public class Code03_EhrlichAndEuler {
 		}
 		int cnt = 0;
 		for (int i = 2; i <= n; i++) {
-			if (!visit[i]) {
+			if (!visit[i]) { // 此时i就是质数，可以收集
 				cnt++;
 			}
 		}
@@ -55,6 +55,7 @@ public class Code03_EhrlichAndEuler {
 	// 欧拉筛需要使用更多额外空间
 	public static int euler(int n) {
 		boolean[] visit = new boolean[n + 1];
+		// prime收集所有的质数，收集的个数是cnt
 		int[] prime = new int[n / 2 + 1];
 		int cnt = 0;
 		for (int i = 2; i <= n; i++) {
