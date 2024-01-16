@@ -48,6 +48,7 @@ public class Code02_LargeNumberIsPrime1 {
 		return true;
 	}
 
+	// 测试函数
 	public static boolean witness(long a, long n) {
 		long u = n - 1;
 		int t = 0;

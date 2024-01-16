@@ -70,15 +70,37 @@ public class Code04_LargestComponentSize {
 					}
 				}
 			}
-			if (factors[x] != -1) {
-				union(factors[x], i);
-			} else {
-				if (x > 1) {
+			if (x > 1) {
+				if (factors[x] == -1) {
 					factors[x] = i;
+				} else {
+					union(factors[x], i);
 				}
 			}
 		}
 		return maxSize();
+	}
+
+	// 展示分解过程
+	// 时间复杂度O(根号n)
+	public static void main(String[] args) {
+		int n = 4012100;
+		f(n);
+	}
+
+	// 打印所有x的质因子
+	public static void f(int n) {
+		for (int j = 2; j * j <= n; j++) {
+			if (n % j == 0) {
+				System.out.println(j);
+				while (n % j == 0) {
+					n /= j;
+				}
+			}
+		}
+		if (n > 1) {
+			System.out.println(n);
+		}
 	}
 
 }
