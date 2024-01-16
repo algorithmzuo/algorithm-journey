@@ -81,14 +81,13 @@ public class Code04_LargestComponentSize {
 		return maxSize();
 	}
 
-	// 展示分解过程
-	// 时间复杂度O(根号n)
+	// 展示分解过程，不用提交
 	public static void main(String[] args) {
 		int n = 4012100;
 		f(n);
 	}
 
-	// 打印所有x的质因子
+	// 打印所有n的质因子，时间复杂度O(根号n)
 	public static void f(int n) {
 		for (int j = 2; j * j <= n; j++) {
 			if (n % j == 0) {
