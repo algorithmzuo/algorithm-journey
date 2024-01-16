@@ -48,7 +48,7 @@ public class Code02_LargeNumberIsPrime1 {
 		return true;
 	}
 
-	// 测试函数
+	// 单次测试的函数，不用纠结原理
 	public static boolean witness(long a, long n) {
 		long u = n - 1;
 		int t = 0;
@@ -70,7 +70,8 @@ public class Code02_LargeNumberIsPrime1 {
 		return false;
 	}
 
-	// 快速幂
+	// 返回 : n的p次方 % mod
+	// 快速幂，讲解098会重点讲述，此时直接用即可
 	public static long power(long n, long p, long mod) {
 		long ans = 1;
 		while (p > 0) {
