@@ -8,6 +8,7 @@ import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 
 // 读入long类型数字的注意点
+// 讲解019的扩展，没有看过讲解019去看一下，很重要
 public class Code02_InputLong {
 
 	public static void main(String[] args) throws IOException {
@@ -40,7 +41,10 @@ public class Code02_InputLong {
 		// 尝试读入 : 131237128371723187
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
+		// 直接读出字符串
 		String str = br.readLine();
+		// 然后把字符串转成long
+		// 不可能有精度耗损
 		long num = Long.valueOf(str);
 		out.println(num);
 		out.flush();
