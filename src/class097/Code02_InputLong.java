@@ -23,14 +23,13 @@ public class Code02_InputLong {
 		StreamTokenizer in = new StreamTokenizer(br);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
 		in.nextToken();
-		// in.nval是double类型
+		// in.nval读出的是double类型
 		// double类型64位
 		// long类型也是64位
 		// 但是double类型的64位会分配若干位给小数
 		// 而long类型的64位全用来做整数
 		// 所以当读入数字在long的范围内
-		// in.nval会先变成double类型，再转成long类型
-		// 这里就可能有精度耗损
+		// in.nval会先变成double类型，如果再转成long类型，就可能有精度损耗
 		long num = (long) in.nval;
 		out.println(num);
 		out.flush();
@@ -44,7 +43,7 @@ public class Code02_InputLong {
 		// 直接读出字符串
 		String str = br.readLine();
 		// 然后把字符串转成long
-		// 不可能有精度耗损
+		// 不可能有精度损耗
 		long num = Long.valueOf(str);
 		out.println(num);
 		out.flush();
