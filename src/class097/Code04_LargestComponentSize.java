@@ -11,9 +11,10 @@ public class Code04_LargestComponentSize {
 
 	public static int MAXV = 100001;
 
-	public static int MAXN = 100001;
-
 	public static int[] factors = new int[MAXV];
+
+	// 讲解056、讲解057 - 并查集模版
+	public static int MAXN = 20001;
 
 	public static int[] father = new int[MAXN];
 
@@ -53,6 +54,8 @@ public class Code04_LargestComponentSize {
 		return ans;
 	}
 
+	// 正式方法
+	// 时间复杂度O(n * 根号v)
 	public static int largestComponentSize(int[] arr) {
 		n = arr.length;
 		build();
@@ -81,7 +84,7 @@ public class Code04_LargestComponentSize {
 		return maxSize();
 	}
 
-	// 展示分解过程，不用提交
+	// 展示分解质因子过程，与题目无关，不用提交
 	public static void main(String[] args) {
 		int n = 4012100;
 		f(n);
