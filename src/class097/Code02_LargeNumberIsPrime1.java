@@ -1,6 +1,6 @@
 package class097;
 
-// 判断较大的数字是否为质数(Miller-Rabin测试)
+// 判断较大的数字是否是质数(Miller-Rabin测试)
 // 测试链接 : https://www.luogu.com.cn/problem/U148828
 // 如下代码无法通过所有测试用例
 // 本文件可以解决10^9范围内数字的质数检查

@@ -2,6 +2,7 @@ package class097;
 
 import java.util.Arrays;
 
+// 数字n拆分质数因子
 public class Code03_PrimeFactors {
 
 	// 展示分解质因子过程

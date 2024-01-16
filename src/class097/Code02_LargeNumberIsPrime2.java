@@ -1,6 +1,6 @@
 package class097;
 
-// 判断较大的数字是否为质数(Miller-Rabin测试)
+// 判断较大的数字是否是质数(Miller-Rabin测试)
 // 测试链接 : https://www.luogu.com.cn/problem/U148828
 // 请同学们务必参考如下代码中关于输入、输出的处理
 // 这是输入输出处理效率很高的写法
