@@ -8,6 +8,7 @@ public class Code01_SmallNumberIsPrime {
 		if (n <= 1) {
 			return false;
 		}
+		// 2 ... 根号n
 		for (long i = 2; i * i <= n; i++) {
 			if (n % i == 0) {
 				return false;

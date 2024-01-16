@@ -13,11 +13,11 @@ public class Code03_PrimeFactors {
 
 	// 打印所有n的质因子，时间复杂度O(根号n)
 	public static void f(int n) {
-		for (int j = 2; j * j <= n; j++) {
-			if (n % j == 0) {
-				System.out.println(j);
-				while (n % j == 0) {
-					n /= j;
+		for (int i = 2; i * i <= n; i++) {
+			if (n % i == 0) {
+				System.out.println(i);
+				while (n % i == 0) {
+					n /= i;
 				}
 			}
 		}
@@ -35,6 +35,8 @@ public class Code03_PrimeFactors {
 
 	public static int MAXV = 100001;
 
+	// factors[a] = b
+	// a这个质数因子，最早被下标b的数字拥有
 	public static int[] factors = new int[MAXV];
 
 	// 讲解056、讲解057 - 并查集模版

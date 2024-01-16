@@ -52,6 +52,7 @@ public class Code02_LargeNumberIsPrime1 {
 	}
 
 	// 单次测试的函数，不用纠结原理
+	// 返回n是不是合数
 	public static boolean witness(long a, long n) {
 		long u = n - 1;
 		int t = 0;
