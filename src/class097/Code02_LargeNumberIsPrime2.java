@@ -28,7 +28,7 @@ public class Code02_LargeNumberIsPrime2 {
 		for (int i = 0; i < t; i++) {
 			BigInteger n = new BigInteger(br.readLine());
 			// isProbablePrime方法包含MillerRabin和LucasLehmer测试
-			// 给定测试次数即可
+			// 给定测试次数s即可
 			out.println(n.isProbablePrime(s) ? "Yes" : "No");
 		}
 		out.flush();
