@@ -30,7 +30,7 @@ public class Code02_LargeNumberIsPrime1 {
 	}
 
 	// 质数的个数代表测试次数
-	// 如果想增加测试次数就增加更多的质数
+	// 如果想增加测试次数就继续增加更大的质数
 	public static long[] p = { 2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37 };
 
 	public static boolean millerRabin(long n) {
