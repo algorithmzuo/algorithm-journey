@@ -2,12 +2,35 @@ package class097;
 
 import java.util.Arrays;
 
-// 按公因数计算最大组件大小
-// 给定一个由不同正整数的组成的非空数组 nums
-// 如果 nums[i] 和 nums[j] 有一个大于1的公因子，那么这两个数之间有一条无向边
-// 返回 nums中最大连通组件的大小。
-// 测试链接 : https://leetcode.cn/problems/largest-component-size-by-common-factor/
-public class Code03_LargestComponentSize {
+public class Code03_PrimeFactors {
+
+	// 展示分解质因子过程，与题目无关，不用提交
+	public static void main(String[] args) {
+		int n = 4012100;
+		f(n);
+	}
+
+	// 打印所有n的质因子，时间复杂度O(根号n)
+	public static void f(int n) {
+		for (int j = 2; j * j <= n; j++) {
+			if (n % j == 0) {
+				System.out.println(j);
+				while (n % j == 0) {
+					n /= j;
+				}
+			}
+		}
+		if (n > 1) {
+			System.out.println(n);
+		}
+	}
+
+	// 按公因数计算最大组件大小
+	// 给定一个由不同正整数的组成的非空数组 nums
+	// 如果 nums[i] 和 nums[j] 有一个大于1的公因子，那么这两个数之间有一条无向边
+	// 返回 nums中最大连通组件的大小。
+	// 测试链接 : https://leetcode.cn/problems/largest-component-size-by-common-factor/
+	// 提交以下代码，可以通过所有测试用例
 
 	public static int MAXV = 100001;
 
@@ -82,27 +105,6 @@ public class Code03_LargestComponentSize {
 			}
 		}
 		return maxSize();
-	}
-
-	// 展示分解质因子过程，与题目无关，不用提交
-	public static void main(String[] args) {
-		int n = 4012100;
-		f(n);
-	}
-
-	// 打印所有n的质因子，时间复杂度O(根号n)
-	public static void f(int n) {
-		for (int j = 2; j * j <= n; j++) {
-			if (n % j == 0) {
-				System.out.println(j);
-				while (n % j == 0) {
-					n /= j;
-				}
-			}
-		}
-		if (n > 1) {
-			System.out.println(n);
-		}
 	}
 
 }
