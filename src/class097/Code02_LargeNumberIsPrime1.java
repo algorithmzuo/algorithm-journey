@@ -21,6 +21,9 @@ public class Code02_LargeNumberIsPrime1 {
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
 		int t = Integer.valueOf(br.readLine());
 		for (int i = 0; i < t; i++) {
+			// 这里要注意
+			// 如果读入long类型的数字，数字本身很大的话
+			// 先读出字符串str，然后用Long.valueOf(str)
 			long n = Long.valueOf(br.readLine());
 			out.println(millerRabin(n) ? "Yes" : "No");
 		}
