@@ -4,7 +4,7 @@ import java.util.Arrays;
 
 public class Code03_PrimeFactors {
 
-	// 展示分解质因子过程，与题目无关，不用提交
+	// 展示分解质因子过程
 	public static void main(String[] args) {
 		int n = 4012100;
 		f(n);
