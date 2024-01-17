@@ -96,15 +96,31 @@ public class Code02_BigShow {
 				{ 1, 0 }
 				};
 		int[][] a = multiply(start, m);
+		//       1  1
+		//       1  0
+		//
+		// 1  0  ?  ?
 		print(a);
 		System.out.println("======");
 		int[][] b = multiply(a, m);
+		//       1  1
+		//       1  0
+		//
+		// 1  1  ?  ?
 		print(b);
 		System.out.println("======");
 		int[][] c = multiply(b, m);
+		//       1  1
+		//       1  0
+		//
+		// 2  1  ?  ?
 		print(c);
 		System.out.println("======");
 		int[][] d = multiply(c, m);
+		//       1  1
+		//       1  0
+		//
+		// 3  2  ?  ?
 		print(d);
 	}
 
