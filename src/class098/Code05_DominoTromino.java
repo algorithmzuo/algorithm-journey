@@ -54,16 +54,14 @@ public class Code05_DominoTromino {
 		if (n == 2) {
 			return 5;
 		}
+		int[][] start = { { 5, 2, 1 } };
 		int[][] base = {
 				{ 2, 1, 0 },
 				{ 0, 0, 1 },
 				{ 1, 0, 0 }
 				};
-		int[][] m = power(base, n - 2);
-		long ans = 5L * m[0][0] % MOD;
-		ans = (ans + 2L * m[1][0]) % MOD;
-		ans = (ans + m[2][0]) % MOD;
-		return (int) ans;
+		int[][] ans = multiply(start, power(base, n - 2));
+		return ans[0][0];
 	}
 
 	// 矩阵快速幂

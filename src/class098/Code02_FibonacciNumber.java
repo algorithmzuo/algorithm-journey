@@ -31,12 +31,13 @@ public class Code02_FibonacciNumber {
 		if (n == 1) {
 			return 1;
 		}
+		int[][] start = { { 1, 0 } };
 		int[][] base = {
 				{ 1, 1 },
 				{ 1, 0 }
 				};
-		int[][] m = power(base, n - 1);
-		return m[0][0];
+		int[][] ans = multiply(start, power(base, n - 1));
+		return ans[0][0];
 	}
 
 	// 矩阵快速幂

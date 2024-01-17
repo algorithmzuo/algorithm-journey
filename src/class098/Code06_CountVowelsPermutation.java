@@ -18,6 +18,7 @@ public class Code06_CountVowelsPermutation {
 	public static int MOD = 1000000007;
 
 	public static int countVowelPermutation(int n) {
+		int[][] start = { { 1, 1, 1, 1, 1 } };
 		int[][] base = {
 				{ 0, 1, 0, 0, 0 },
 				{ 1, 0, 1, 0, 0 },
@@ -25,14 +26,12 @@ public class Code06_CountVowelsPermutation {
 				{ 0, 0, 1, 0, 1 },
 				{ 1, 0, 0, 0, 0 }
 				};
-		int[][] m = power(base, n - 1);
-		long ans = 0;
-		for (int i = 0; i < 5; i++) {
-			for (int j = 0; j < 5; j++) {
-				ans = (ans + m[i][j]) % MOD;
-			}
+		int[][] ans = multiply(start, power(base, n - 1));
+		int ret = 0;
+		for (int a : ans[0]) {
+			ret = (ret + a) % MOD;
 		}
-		return (int) ans;
+		return ret;
 	}
 
 	// 矩阵快速幂

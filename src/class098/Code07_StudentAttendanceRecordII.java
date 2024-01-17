@@ -21,6 +21,7 @@ public class Code07_StudentAttendanceRecordII {
 	public static int MOD = 1000000007;
 
 	public static int checkRecord(int n) {
+		int[][] start = { { 1, 0, 0, 0, 0, 0 } };
 		int[][] base = {
 				{ 1, 1, 0, 1, 0, 0 },
 				{ 1, 0, 1, 1, 0, 0 },
@@ -29,12 +30,12 @@ public class Code07_StudentAttendanceRecordII {
 				{ 0, 0, 0, 1, 0, 1 },
 				{ 0, 0, 0, 1, 0, 0 }
 				};
-		int[][] m = power(base, n);
-		int sum = 0;
-		for (int j = 0; j < m[0].length; j++) {
-			sum = (sum + m[0][j]) % MOD;
+		int[][] ans = multiply(start, power(base, n));
+		int ret = 0;
+		for (int a : ans[0]) {
+			ret = (ret + a) % MOD;
 		}
-		return (int) (sum % MOD);
+		return ret;
 	}
 
 	// 矩阵快速幂
