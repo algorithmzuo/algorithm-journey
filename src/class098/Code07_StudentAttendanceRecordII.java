@@ -21,6 +21,7 @@ public class Code07_StudentAttendanceRecordII {
 	public static int MOD = 1000000007;
 
 	public static int checkRecord(int n) {
+		// start是第0项的数据
 		int[][] start = { { 1, 0, 0, 0, 0, 0 } };
 		int[][] base = {
 				{ 1, 1, 0, 1, 0, 0 },

@@ -18,6 +18,7 @@ public class Code06_CountVowelsPermutation {
 	public static int MOD = 1000000007;
 
 	public static int countVowelPermutation(int n) {
+		// start是第1项的数据
 		int[][] start = { { 1, 1, 1, 1, 1 } };
 		int[][] base = {
 				{ 0, 1, 0, 0, 0 },
