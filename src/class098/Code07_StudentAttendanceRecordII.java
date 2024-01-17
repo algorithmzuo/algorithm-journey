@@ -37,6 +37,7 @@ public class Code07_StudentAttendanceRecordII {
 		return (int) (sum % MOD);
 	}
 
+	// 矩阵快速幂
 	public static int[][] power(int[][] m, int p) {
 		int n = m.length;
 		int[][] ans = new int[n][n];
@@ -52,6 +53,8 @@ public class Code07_StudentAttendanceRecordII {
 		return ans;
 	}
 
+	// 矩阵相乘
+	// a的列数一定要等于b的行数
 	public static int[][] multiply(int[][] a, int[][] b) {
 		int n = a.length;
 		int m = b[0].length;
