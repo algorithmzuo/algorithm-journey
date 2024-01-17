@@ -19,7 +19,11 @@ public class Code04_TribonacciNumber {
 		if (n == 2) {
 			return 1;
 		}
-		int[][] base = { { 1, 1, 0 }, { 1, 0, 1 }, { 1, 0, 0 } };
+		int[][] base = {
+				{ 1, 1, 0 },
+				{ 1, 0, 1 },
+				{ 1, 0, 0 }
+				};
 		int[][] m = power(base, n - 2);
 		return m[0][0] + m[1][0];
 	}
