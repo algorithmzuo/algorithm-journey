@@ -167,17 +167,17 @@ public class Code02_BigShow {
 				{ 1, 1 },
 				{ 1, 0 }
 				};
-		int[][] ans = multiply(start, power(m, 1));
-		print(ans);
+		int[][] a = multiply(start, power(m, 1));
+		print(a);
 		System.out.println("======");
-		ans = multiply(start, power(m, 2));
-		print(ans);
+		int[][] b = multiply(start, power(m, 2));
+		print(b);
 		System.out.println("======");
-		ans = multiply(start, power(m, 3));
-		print(ans);
+		int[][] c = multiply(start, power(m, 3));
+		print(c);
 		System.out.println("======");
-		ans = multiply(start, power(m, 4));
-		print(ans);
+		int[][] d = multiply(start, power(m, 4));
+		print(d);
 	}
 
 }
