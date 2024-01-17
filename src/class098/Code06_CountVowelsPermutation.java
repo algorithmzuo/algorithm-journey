@@ -18,11 +18,13 @@ public class Code06_CountVowelsPermutation {
 	public static int MOD = 1000000007;
 
 	public static int countVowelPermutation(int n) {
-		int[][] base = { { 0, 1, 0, 0, 0 },
-				         { 1, 0, 1, 0, 0 },
-				         { 1, 1, 0, 1, 1 },
-				         { 0, 0, 1, 0, 1 },
-				         { 1, 0, 0, 0, 0 } };
+		int[][] base = {
+				{ 0, 1, 0, 0, 0 },
+				{ 1, 0, 1, 0, 0 },
+				{ 1, 1, 0, 1, 1 },
+				{ 0, 0, 1, 0, 1 },
+				{ 1, 0, 0, 0, 0 }
+				};
 		int[][] m = power(base, n - 1);
 		long ans = 0;
 		for (int i = 0; i < 5; i++) {
