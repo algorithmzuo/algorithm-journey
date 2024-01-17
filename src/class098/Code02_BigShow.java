@@ -1,6 +1,9 @@
 package class098;
 
-public class MatrixPowerMultiplyShow {
+// 矩阵乘法
+// 矩阵快速幂
+// 矩阵快速幂解决斐波那契第n项的问题
+public class Code02_BigShow {
 
 	public static void main(String[] args) {
 		System.out.println("矩阵乘法展示开始");
@@ -50,20 +53,21 @@ public class MatrixPowerMultiplyShow {
 		System.out.println();
 	}
 
-	// 打印二维矩阵
-	public static void print(int[][] m) {
-		for (int i = 0; i < m.length; i++) {
-			for (int j = 0; j < m[0].length; j++) {
-				if (m[i][j] < 10) {
-					System.out.print(m[i][j] + "   ");
-				} else if (m[i][j] < 100) {
-					System.out.print(m[i][j] + "  ");
-				} else {
-					System.out.print(m[i][j] + " ");
+	// 矩阵相乘
+	// a的列数一定要等于b的行数
+	public static int[][] multiply(int[][] a, int[][] b) {
+		int n = a.length;
+		int m = b[0].length;
+		int k = a[0].length;
+		int[][] ans = new int[n][m];
+		for (int i = 0; i < n; i++) {
+			for (int j = 0; j < m; j++) {
+				for (int c = 0; c < k; c++) {
+					ans[i][j] += a[i][c] * b[c][j];
 				}
 			}
-			System.out.println();
 		}
+		return ans;
 	}
 
 	// 矩阵快速幂
@@ -82,29 +86,15 @@ public class MatrixPowerMultiplyShow {
 		return ans;
 	}
 
-	// 矩阵相乘
-	// a的列数一定要等于b的行数
-	public static int[][] multiply(int[][] a, int[][] b) {
-		int n = a.length;
-		int m = b[0].length;
-		int k = a[0].length;
-		int[][] ans = new int[n][m];
-		for (int i = 0; i < n; i++) {
-			for (int j = 0; j < m; j++) {
-				for (int c = 0; c < k; c++) {
-					ans[i][j] += a[i][c] * b[c][j];
-				}
-			}
-		}
-		return ans;
-	}
-
-	// 用矩阵乘法解决
+	// 用矩阵乘法解决斐波那契第n项的问题
 	public static void f1() {
 		// 0  1  1  2  3  5  8 13 21 34...
 		// 0  1  2  3  4  5  6  7  8  9
-		int[][] m = { { 1, 1 }, { 1, 0 } };
 		int[][] start = { { 1, 0 } };
+		int[][] m = {
+				{ 1, 1 },
+				{ 1, 0 }
+				};
 		int[][] a = multiply(start, m);
 		print(a);
 		System.out.println("======");
@@ -118,12 +108,15 @@ public class MatrixPowerMultiplyShow {
 		print(d);
 	}
 
-	// 用矩阵快速幂解决
+	// 用矩阵快速幂解决斐波那契第n项的问题
 	public static void f2() {
 		// 0  1  1  2  3  5  8 13 21 34...
 		// 0  1  2  3  4  5  6  7  8  9
-		int[][] m = { { 1, 1 }, { 1, 0 } };
 		int[][] start = { { 1, 0 } };
+		int[][] m = {
+				{ 1, 1 },
+				{ 1, 0 }
+				};
 		int[][] ans = multiply(start, power(m, 1));
 		print(ans);
 		System.out.println("======");
@@ -135,6 +128,22 @@ public class MatrixPowerMultiplyShow {
 		System.out.println("======");
 		ans = multiply(start, power(m, 4));
 		print(ans);
+	}
+
+	// 打印二维矩阵
+	public static void print(int[][] m) {
+		for (int i = 0; i < m.length; i++) {
+			for (int j = 0; j < m[0].length; j++) {
+				if (m[i][j] < 10) {
+					System.out.print(m[i][j] + "   ");
+				} else if (m[i][j] < 100) {
+					System.out.print(m[i][j] + "  ");
+				} else {
+					System.out.print(m[i][j] + " ");
+				}
+			}
+			System.out.println();
+		}
 	}
 
 }
