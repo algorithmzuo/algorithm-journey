@@ -56,6 +56,8 @@ public class Code02_BigShow {
 	// 要求矩阵m是正方形矩阵
 	public static int[][] power(int[][] m, int p) {
 		int n = m.length;
+		// 对角线全是1、剩下数字都是0的正方形矩阵，称为单位矩阵
+		// 相当于正方形矩阵中的1，矩阵a * 单位矩阵 = 矩阵a
 		int[][] ans = new int[n][n];
 		for (int i = 0; i < n; i++) {
 			ans[i][i] = 1;
