@@ -21,6 +21,7 @@ public class Code07_StudentAttendanceRecordII {
 	public static int MOD = 1000000007;
 
 	public static int checkRecord(int n) {
+		// 1天的情况下，各种状态的合法数量
 		int[][] start = { { 1, 1, 0, 1, 0, 0 } };
 		int[][] base = {
 				{ 1, 1, 0, 1, 0, 0 },
