@@ -6,7 +6,7 @@ package class098;
 // 所以矩阵快速幂看不出优势
 public class Code02_FibonacciNumber {
 
-	// 时间复杂度O(n)，普通解法
+	// 时间复杂度O(n)，普通解法，讲解066，题目1
 	public static int fib1(int n) {
 		if (n == 0) {
 			return 0;
