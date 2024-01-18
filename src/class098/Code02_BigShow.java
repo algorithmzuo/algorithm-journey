@@ -11,11 +11,13 @@ public class Code02_BigShow {
 		f1();
 		System.out.println("矩阵乘法展示结束");
 		System.out.println();
+
 		System.out.println("f2() : ");
 		System.out.println("矩阵快速幂展示开始");
 		f2();
 		System.out.println("矩阵快速幂展示结束");
 		System.out.println();
+
 		System.out.println("f3() : ");
 		System.out.println("求斐波那契数列第n项");
 		System.out.println("用矩阵乘法解决");
@@ -23,6 +25,7 @@ public class Code02_BigShow {
 		f3();
 		System.out.println("展示结束");
 		System.out.println();
+
 		System.out.println("f4() : ");
 		System.out.println("求斐波那契数列第n项");
 		System.out.println("用矩阵快速幂解决");
@@ -133,7 +136,7 @@ public class Code02_BigShow {
 		int[][] b = multiply(a, multiply(a, multiply(a, multiply(a, a))));
 		print(b);
 		System.out.println("======");
-		// 矩阵快速幂得到a的5次方
+		// 矩阵快速幂得到矩阵a的5次方
 		print(power(a, 5));
 	}
 
