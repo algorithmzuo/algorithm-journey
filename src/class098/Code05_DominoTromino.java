@@ -21,6 +21,8 @@ public class Code05_DominoTromino {
 
 	// 暴力方法
 	// 为了找规律
+	// 如果h==0，返回2*n的区域铺满的方法数
+	// 如果h==1，返回1 + 2*n的区域铺满的方法数
 	public static int f(int n, int h) {
 		if (n == 0) {
 			return h == 0 ? 1 : 0;

@@ -94,8 +94,8 @@ public class Code02_BigShow {
 		//        2  3
 		//        3  2
 		//
-		// 1  3   ?  ?
-		// 4  2   ?  ?
+		// 1  3  11  9
+		// 4  2  16 14
 		int[][] ans1 = multiply(a, b);
 		print(ans1);
 		System.out.println("======");
@@ -104,8 +104,8 @@ public class Code02_BigShow {
 		//         2  3  2
 		//         3  2  3
 		//
-		// 2  4    ?  ?  ?
-		// 3  2    ?  ?  ?
+		// 2  4   16 14 16
+		// 3  2   12 13 12
 		int[][] ans2 = multiply(c, d);
 		print(ans2);
 		System.out.println("======");
@@ -114,9 +114,9 @@ public class Code02_BigShow {
 		//          2  3
 		//          4  1
 		//
-		// 2  4     ?  ?
-		// 1  2     ?  ?
-		// 3  1     ?  ?
+		// 2  4    20 10
+		// 1  2    10  5
+		// 3  1    10 10
 		int[][] ans3 = multiply(e, f);
 		print(ans3);
 		System.out.println("======");
@@ -126,7 +126,7 @@ public class Code02_BigShow {
 		//           3  2  1
 		//           4  2 -2
 		//
-		// 3  1  2   ?  ?  ?
+		// 3  1  2  14 12  0
 		int[][] ans4 = multiply(g, h);
 		print(ans4);
 	}
@@ -134,6 +134,8 @@ public class Code02_BigShow {
 	public static void f2() {
 		// 只有正方形矩阵可以求幂
 		int[][] a = { { 1, 2 }, { 3, 4 } };
+		// 1 2
+		// 3 4
 		// 连乘得到矩阵a的5次方
 		int[][] b = multiply(a, multiply(a, multiply(a, multiply(a, a))));
 		print(b);
@@ -155,28 +157,28 @@ public class Code02_BigShow {
 		//       1  1
 		//       1  0
 		//
-		// 1  0  ?  ?
+		// 1  0  1  1
 		print(a);
 		System.out.println("======");
 		int[][] b = multiply(a, m);
 		//       1  1
 		//       1  0
 		//
-		// 1  1  ?  ?
+		// 1  1  2  1
 		print(b);
 		System.out.println("======");
 		int[][] c = multiply(b, m);
 		//       1  1
 		//       1  0
 		//
-		// 2  1  ?  ?
+		// 2  1  3  2
 		print(c);
 		System.out.println("======");
 		int[][] d = multiply(c, m);
 		//       1  1
 		//       1  0
 		//
-		// 3  2  ?  ?
+		// 3  2  5  3
 		print(d);
 	}
 
