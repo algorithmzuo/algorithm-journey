@@ -21,14 +21,14 @@ public class Code05_DominoTromino {
 
 	// 暴力方法
 	// 为了找规律
-	public static int f(int n, int r) {
+	public static int f(int n, int h) {
 		if (n == 0) {
-			return r == 0 ? 1 : 0;
+			return h == 0 ? 1 : 0;
 		}
 		if (n == 1) {
 			return 1;
 		}
-		if (r == 1) {
+		if (h == 1) {
 			return f(n - 1, 0) + f(n - 1, 1);
 		} else {
 			return f(n - 1, 0) + f(n - 2, 0) + 2 * f(n - 2, 1);
