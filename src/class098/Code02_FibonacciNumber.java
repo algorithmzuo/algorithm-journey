@@ -40,22 +40,6 @@ public class Code02_FibonacciNumber {
 		return ans[0][0];
 	}
 
-	// 矩阵快速幂
-	public static int[][] power(int[][] m, int p) {
-		int n = m.length;
-		int[][] ans = new int[n][n];
-		for (int i = 0; i < n; i++) {
-			ans[i][i] = 1;
-		}
-		for (; p != 0; p >>= 1) {
-			if ((p & 1) != 0) {
-				ans = multiply(ans, m);
-			}
-			m = multiply(m, m);
-		}
-		return ans;
-	}
-
 	// 矩阵相乘
 	// a的列数一定要等于b的行数
 	public static int[][] multiply(int[][] a, int[][] b) {
@@ -69,6 +53,22 @@ public class Code02_FibonacciNumber {
 					ans[i][j] += a[i][c] * b[c][j];
 				}
 			}
+		}
+		return ans;
+	}
+
+	// 矩阵快速幂
+	public static int[][] power(int[][] m, int p) {
+		int n = m.length;
+		int[][] ans = new int[n][n];
+		for (int i = 0; i < n; i++) {
+			ans[i][i] = 1;
+		}
+		for (; p != 0; p >>= 1) {
+			if ((p & 1) != 0) {
+				ans = multiply(ans, m);
+			}
+			m = multiply(m, m);
 		}
 		return ans;
 	}

@@ -12,17 +12,22 @@ public class Code02_BigShow {
 		System.out.println("矩阵乘法展示结束");
 		System.out.println();
 		System.out.println("f2() : ");
-		System.out.println("求斐波那契数列第n项");
-		System.out.println("用矩阵乘法解决");
-		System.out.println("展示开始");
+		System.out.println("矩阵快速幂展示开始");
 		f2();
-		System.out.println("展示结束");
+		System.out.println("矩阵快速幂展示结束");
 		System.out.println();
 		System.out.println("f3() : ");
 		System.out.println("求斐波那契数列第n项");
+		System.out.println("用矩阵乘法解决");
+		System.out.println("展示开始");
+		f3();
+		System.out.println("展示结束");
+		System.out.println();
+		System.out.println("f4() : ");
+		System.out.println("求斐波那契数列第n项");
 		System.out.println("用矩阵快速幂解决");
 		System.out.println("展示开始");
-		f2();
+		f4();
 		System.out.println("展示结束");
 		System.out.println();
 	}
@@ -45,6 +50,7 @@ public class Code02_BigShow {
 	}
 
 	// 矩阵快速幂
+	// 要求矩阵m是正方形矩阵
 	public static int[][] power(int[][] m, int p) {
 		int n = m.length;
 		int[][] ans = new int[n][n];
@@ -119,9 +125,20 @@ public class Code02_BigShow {
 		int[][] ans4 = multiply(g, h);
 		print(ans4);
 	}
+	
+	public static void f2() {
+		// 只有正方形矩阵可以求幂
+		int[][] a = { { 1, 2 }, { 3, 4 } };
+		// 连乘得到矩阵a的5次方
+		int[][] b = multiply(a, multiply(a, multiply(a, multiply(a, a))));
+		print(b);
+		System.out.println("======");
+		// 矩阵快速幂得到a的5次方
+		print(power(a, 5));
+	}
 
 	// 用矩阵乘法解决斐波那契第n项的问题
-	public static void f2() {
+	public static void f3() {
 		// 0  1  1  2  3  5  8 13 21 34...
 		// 0  1  2  3  4  5  6  7  8  9
 		int[][] start = { { 1, 0 } };
@@ -159,7 +176,7 @@ public class Code02_BigShow {
 	}
 
 	// 用矩阵快速幂解决斐波那契第n项的问题
-	public static void f3() {
+	public static void f4() {
 		// 0  1  1  2  3  5  8 13 21 34...
 		// 0  1  2  3  4  5  6  7  8  9
 		int[][] start = { { 1, 0 } };
