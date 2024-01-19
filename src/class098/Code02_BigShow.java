@@ -131,11 +131,10 @@ public class Code02_BigShow {
 		print(ans4);
 	}
 	
+	// 矩阵快速幂用法的展示
 	public static void f2() {
 		// 只有正方形矩阵可以求幂
 		int[][] a = { { 1, 2 }, { 3, 4 } };
-		// 1 2
-		// 3 4
 		// 连乘得到矩阵a的5次方
 		int[][] b = multiply(a, multiply(a, multiply(a, multiply(a, a))));
 		print(b);
