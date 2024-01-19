@@ -95,7 +95,7 @@ public class Code02_BigShow {
 		//        3  2
 		//
 		// 1  3  11  9
-		// 4  2  16 14
+		// 4  2  14 16
 		int[][] ans1 = multiply(a, b);
 		print(ans1);
 		System.out.println("======");
