@@ -11,7 +11,7 @@ package class099;
 // 返回可以满足要求的播放列表的数量
 // 结果可能很大对1000000007取模
 // 测试链接 : https://leetcode.cn/problems/number-of-music-playlists/
-public class Code04_NumberOfMusicPlaylists {
+public class Code05_NumberOfMusicPlaylists {
 
 	public static int MOD = 1000000007;
 
