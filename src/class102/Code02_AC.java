@@ -119,7 +119,8 @@ public class Code02_AC {
 
 	// 逻辑是对的
 	// 但是递归开太多层了会爆栈
-	// C++不会，但是java会
+	// C++这道题不会爆栈
+	// java会
 	public static void mergeCnt1(int u) {
 		for (int i = head[u]; i > 0; i = next[i]) {
 			mergeCnt1(to[i]);
