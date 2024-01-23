@@ -5,6 +5,7 @@ package class100;
 public class Code01_KMP {
 
 	public static int strStr(String haystack, String needle) {
+		// haystack.indexOf(needle);
 		return kmp(haystack, needle);
 	}
 
