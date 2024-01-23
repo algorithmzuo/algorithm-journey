@@ -1,0 +1,155 @@
+package class102;
+
+// ac自动机模版(威力加强版)
+// 测试链接 : https://www.luogu.com.cn/problem/P5357
+// 请同学们务必参考如下代码中关于输入、输出的处理
+// 这是输入输出处理效率很高的写法
+// 提交以下的code，提交时请把类名改成"Main"，可以直接通过
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+
+public class Code02_AC {
+
+	public static int MAXN = 200005;
+
+	public static int MAXT = 200005;
+
+	public static int MAXS = 2000005;
+
+	public static int MAXC = 26;
+
+	public static int[][] tree = new int[MAXT][MAXC];
+
+	public static int[] fail = new int[MAXT];
+
+	public static int[] match = new int[MAXN];
+
+	public static int[] cnt = new int[MAXT];
+
+	public static int tot = 1;
+
+	public static int[] head = new int[MAXT];
+
+	public static int[] next = new int[MAXT];
+
+	public static int[] to = new int[MAXT];
+
+	public static int edge = 0;
+
+	public static int[] box = new int[MAXS];
+
+	public static int l, r;
+
+	public static boolean[] visited = new boolean[MAXT];
+
+	public static void main(String[] args) throws IOException {
+		BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
+		int n = Integer.valueOf(in.readLine());
+		// ac自动机建树
+		for (int i = 1; i <= n; i++) {
+			addString(i, in.readLine());
+		}
+		for (int i = 0; i < 26; i++) {
+			tree[0][i] = 1;
+		}
+		// ac自动机挂fail指针
+		buildFail();
+		// 开始读入大文章
+		String s = in.readLine();
+		for (int u = 1, i = 0; i < s.length(); i++) {
+			u = tree[u][s.charAt(i) - 'a'];
+			// 增加匹配次数
+			cnt[u]++;
+		}
+		for (int i = 2; i <= tot; i++) {
+			// 根据fail指针建图
+			addEdge(fail[i], i);
+		}
+		// 在fail指针建的图上
+		// 把词频汇总
+		mergeCnt2(1);
+		for (int i = 1; i <= n; i++) {
+			out.println(cnt[match[i]]);
+		}
+		out.flush();
+		out.close();
+		in.close();
+	}
+
+	public static void addString(int i, String str) {
+		int u = 1, c;
+		for (int j = 0; j < str.length(); j++) {
+			c = str.charAt(j) - 'a';
+			if (tree[u][c] == 0) {
+				tree[u][c] = ++tot;
+			}
+			u = tree[u][c];
+		}
+		match[i] = u; // 每个模式串在Trie树上的终止节点编号
+	}
+
+	public static void buildFail() {
+		// 这里的box当做队列使用
+		l = r = 0;
+		box[r++] = 1;
+		while (l < r) {
+			int u = box[l++];
+			for (int i = 0; i < 26; i++) {
+				if (tree[u][i] > 0) {
+					fail[tree[u][i]] = tree[fail[u]][i];
+					box[r++] = tree[u][i];
+				} else {
+					tree[u][i] = tree[fail[u]][i];
+				}
+			}
+		}
+	}
+
+	public static void addEdge(int u, int v) {
+		next[++edge] = head[u];
+		head[u] = edge;
+		to[edge] = v;
+	}
+
+	// 逻辑是对的
+	// 但是递归开太多层了会爆栈
+	// C++不会，但是java会
+	public static void mergeCnt1(int u) {
+		for (int i = head[u]; i > 0; i = next[i]) {
+			mergeCnt1(to[i]);
+			cnt[u] += cnt[to[i]];
+		}
+	}
+
+	// 改成非递归才能通过
+	// 因为是用栈来模拟递归
+	// 只消耗内存空间(box和visited)
+	// 不消耗系统栈的空间
+	// 所以很安全
+	public static void mergeCnt2(int u) {
+		// 这里的box当做栈来使用
+		int r = 0;
+		box[r++] = u;
+		int cur;
+		while (r > 0) {
+			cur = box[r - 1];
+			if (!visited[cur]) {
+				visited[cur] = true;
+				for (int i = head[cur]; i > 0; i = next[i]) {
+					box[r++] = to[i];
+				}
+			} else {
+				r--;
+				for (int i = head[cur]; i > 0; i = next[i]) {
+					cnt[cur] += cnt[to[i]];
+				}
+			}
+		}
+	}
+
+}
