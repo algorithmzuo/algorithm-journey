@@ -52,11 +52,11 @@ public class Code02_AC {
 		for (int i = 1; i <= n; i++) {
 			addString(i, in.readLine());
 		}
-		for (int i = 0; i < 26; i++) {
+		for (int i = 0; i < MAXC; i++) {
 			tree[0][i] = 1;
 		}
-		// ac自动机挂fail指针
-		buildFail();
+		// ac自动机设置fail指针
+		setFail();
 		// 读入大文章
 		char[] s = in.readLine().toCharArray();
 		for (int u = 1, i = 0; i < s.length; i++) {
@@ -92,14 +92,14 @@ public class Code02_AC {
 		end[i] = u; // 每个模式串在Trie树上的终止节点编号
 	}
 
-	public static void buildFail() {
+	public static void setFail() {
 		// box当做队列使用
 		int l = 0;
 		int r = 0;
 		box[r++] = 1;
 		while (l < r) {
 			int u = box[l++];
-			for (int i = 0; i < 26; i++) {
+			for (int i = 0; i < MAXC; i++) {
 				if (tree[u][i] > 0) {
 					fail[tree[u][i]] = tree[fail[u]][i];
 					box[r++] = tree[u][i];
