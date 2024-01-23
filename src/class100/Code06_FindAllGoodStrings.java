@@ -1,5 +1,10 @@
 package class100;
 
+// 找到所有好字符串
+// 给你两个长度为n的字符串s1和s2，以及一个字符串evil
+// 好字符串的定义为 : 长度为n，字典序大于等于s1，字典序小于等于s2，且不包含evil字符串
+// 返回好字符串的数量
+// 由于答案很大返回对1000000007取余的结果
 // 测试链接 : https://leetcode.cn/problems/find-all-good-strings/
 public class Code06_FindAllGoodStrings {
 

@@ -1,5 +1,10 @@
 package class100;
 
+// 二叉树中的链表
+// 给你一棵以root为根的二叉树、一个以head为头的链表
+// 在二叉树中，有很多一直向下的路径
+// 如果某个路径上的数值等于以head为头的整个链表
+// 返回True，否则返回False
 // 测试链接 : https://leetcode.cn/problems/linked-list-in-binary-tree/
 public class Code03_LinkedListInBinaryTree {
 

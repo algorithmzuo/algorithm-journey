@@ -2,6 +2,11 @@ package class100;
 
 import java.util.ArrayList;
 
+// 另一棵树的子树
+// 给你两棵二叉树root和subRoot
+// 检验root中是否包含和subRoot具有相同结构和节点值的子树
+// 如果存在，返回true
+// 否则，返回false
 // 测试链接 : https://leetcode.cn/problems/subtree-of-another-tree/
 public class Code02_SubtreeOfAnotherTree {
 
