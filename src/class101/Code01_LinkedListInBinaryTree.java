@@ -1,4 +1,4 @@
-package class100;
+package class101;
 
 // 二叉树中的链表
 // 给你一棵以root为根的二叉树、一个以head为头的链表
@@ -6,7 +6,7 @@ package class100;
 // 如果某个路径上的数值等于以head为头的整个链表
 // 返回True，否则返回False
 // 测试链接 : https://leetcode.cn/problems/linked-list-in-binary-tree/
-public class Code03_LinkedListInBinaryTree {
+public class Code01_LinkedListInBinaryTree {
 
 	// 不要提交这个类
 	public class ListNode {

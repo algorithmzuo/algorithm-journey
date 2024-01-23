@@ -1,4 +1,4 @@
-package class100;
+package class101;
 
 // 最短重复串的长度
 // 给你一个字符串s1，它是由某个字符串s2不断自我连接形成的
@@ -15,7 +15,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
-public class Code04_RepeatMinimumLength {
+public class Code02_RepeatMinimumLength {
 
 	public static int MAXN = 1000001;
 

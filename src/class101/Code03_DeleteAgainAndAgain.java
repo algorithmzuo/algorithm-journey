@@ -1,4 +1,4 @@
-package class100;
+package class101;
 
 // 不停删除之后剩下的字符串
 // 给定一个字符串s1，如果其中含有s2字符串，就删除最左出现的那个
@@ -15,7 +15,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
-public class Code05_DeleteAgainAndAgain {
+public class Code03_DeleteAgainAndAgain {
 
 	public static char[] s1, s2;
 

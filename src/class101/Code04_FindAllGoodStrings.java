@@ -1,4 +1,4 @@
-package class100;
+package class101;
 
 // 找到所有好字符串
 // 给你两个长度为n的字符串s1和s2，以及一个字符串evil
@@ -6,7 +6,7 @@ package class100;
 // 返回好字符串的数量
 // 由于答案很大返回对1000000007取余的结果
 // 测试链接 : https://leetcode.cn/problems/find-all-good-strings/
-public class Code06_FindAllGoodStrings {
+public class Code04_FindAllGoodStrings {
 
 	public static int MOD = 1000000007;
 
