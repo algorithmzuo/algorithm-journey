@@ -59,15 +59,15 @@ public class Code02_AC {
 		}
 		// ac自动机挂fail指针
 		buildFail();
-		// 开始读入大文章
-		String s = in.readLine();
-		for (int u = 1, i = 0; i < s.length(); i++) {
-			u = tree[u][s.charAt(i) - 'a'];
+		// 读入大文章
+		char[] s = in.readLine().toCharArray();
+		for (int u = 1, i = 0; i < s.length; i++) {
+			u = tree[u][s[i] - 'a'];
 			// 增加匹配次数
 			cnt[u]++;
 		}
 		for (int i = 2; i <= tot; i++) {
-			// 根据fail指针建图
+			// 根据fail指针建反图
 			addEdge(fail[i], i);
 		}
 		// 在fail指针建的图上
@@ -82,9 +82,10 @@ public class Code02_AC {
 	}
 
 	public static void addString(int i, String str) {
+		char[] s = str.toCharArray();
 		int u = 1, c;
-		for (int j = 0; j < str.length(); j++) {
-			c = str.charAt(j) - 'a';
+		for (int j = 0; j < s.length; j++) {
+			c = s[j] - 'a';
 			if (tree[u][c] == 0) {
 				tree[u][c] = ++tot;
 			}
