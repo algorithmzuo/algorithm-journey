@@ -42,8 +42,6 @@ public class Code02_AC {
 
 	public static int[] box = new int[MAXS];
 
-	public static int l, r;
-
 	public static boolean[] visited = new boolean[MAXT];
 
 	public static void main(String[] args) throws IOException {
@@ -95,8 +93,9 @@ public class Code02_AC {
 	}
 
 	public static void buildFail() {
-		// 这里的box当做队列使用
-		l = r = 0;
+		// box当做队列使用
+		int l = 0;
+		int r = 0;
 		box[r++] = 1;
 		while (l < r) {
 			int u = box[l++];
@@ -134,7 +133,7 @@ public class Code02_AC {
 	// 不消耗系统栈的空间
 	// 所以很安全
 	public static void mergeCnt2(int u) {
-		// 这里的box当做栈来使用
+		// box当做栈来使用
 		int r = 0;
 		box[r++] = u;
 		int cur;
