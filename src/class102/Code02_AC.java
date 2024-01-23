@@ -26,7 +26,7 @@ public class Code02_AC {
 
 	public static int[] fail = new int[MAXT];
 
-	public static int[] match = new int[MAXN];
+	public static int[] end = new int[MAXN];
 
 	public static int[] cnt = new int[MAXT];
 
@@ -72,7 +72,7 @@ public class Code02_AC {
 		// 把词频汇总
 		mergeCnt2(1);
 		for (int i = 1; i <= n; i++) {
-			out.println(cnt[match[i]]);
+			out.println(cnt[end[i]]);
 		}
 		out.flush();
 		out.close();
@@ -89,7 +89,7 @@ public class Code02_AC {
 			}
 			u = tree[u][c];
 		}
-		match[i] = u; // 每个模式串在Trie树上的终止节点编号
+		end[i] = u; // 每个模式串在Trie树上的终止节点编号
 	}
 
 	public static void buildFail() {
