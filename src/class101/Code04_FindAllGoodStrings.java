@@ -72,21 +72,6 @@ public class Code04_FindAllGoodStrings {
 		return ans;
 	}
 
-	public static int kmp(char[] s, char[] e, int n, int m) {
-		int x = 0, y = 0;
-		while (x < n && y < m) {
-			if (s[x] == e[y]) {
-				x++;
-				y++;
-			} else if (y == 0) {
-				x++;
-			} else {
-				y = next[y];
-			}
-		}
-		return y == m ? x - y : -1;
-	}
-
 	public static void nextArray(char[] e, int m) {
 		next[0] = -1;
 		next[1] = 0;
@@ -100,6 +85,21 @@ public class Code04_FindAllGoodStrings {
 				next[i++] = 0;
 			}
 		}
+	}
+
+	public static int kmp(char[] s, char[] e, int n, int m) {
+		int x = 0, y = 0;
+		while (x < n && y < m) {
+			if (s[x] == e[y]) {
+				x++;
+				y++;
+			} else if (y == 0) {
+				x++;
+			} else {
+				y = next[y];
+			}
+		}
+		return y == m ? x - y : -1;
 	}
 
 }
