@@ -5,23 +5,23 @@ import java.math.BigInteger;
 // 阶乘结果逆元表的线性递推
 public class Code02_FactorialInverse {
 
-	public static int mod = 1000000007;
+	public static int MOD = 1000000007;
 
-	public static int limit = 100;
+	public static int LIMIT = 100;
 
 	// 阶乘表
-	public static long[] fac = new long[limit + 1];
+	public static long[] fac = new long[LIMIT + 1];
 
 	// 阶乘结果的逆元表
-	public static long[] inv = new long[limit + 1];
+	public static long[] inv = new long[LIMIT + 1];
 
 	public static long power(long x, int n) {
 		long ans = 1;
 		while (n > 0) {
 			if ((n & 1) == 1) {
-				ans = (ans * x) % mod;
+				ans = (ans * x) % MOD;
 			}
-			x = (x * x) % mod;
+			x = (x * x) % MOD;
 			n >>= 1;
 		}
 		return ans;
@@ -29,8 +29,8 @@ public class Code02_FactorialInverse {
 
 	public static void build() {
 		fac[1] = 1;
-		for (int i = 2; i <= limit; i++) {
-			fac[i] = ((long) i * fac[i - 1]) % mod;
+		for (int i = 2; i <= LIMIT; i++) {
+			fac[i] = ((long) i * fac[i - 1]) % MOD;
 		}
 		// 0的阶乘是1
 		inv[0] = 1;
@@ -39,9 +39,9 @@ public class Code02_FactorialInverse {
 		// inv[i] = power(fac[i], mod - 2);
 		// }
 		// 费马小定理计算乘法逆元，优化如下
-		inv[limit] = power(fac[limit], mod - 2);
-		for (int i = limit; i > 1; i--) {
-			inv[i - 1] = ((long) i * inv[i]) % mod;
+		inv[LIMIT] = power(fac[LIMIT], MOD - 2);
+		for (int i = LIMIT; i > 1; i--) {
+			inv[i - 1] = ((long) i * inv[i]) % MOD;
 		}
 	}
 
@@ -61,14 +61,14 @@ public class Code02_FactorialInverse {
 				c = c.multiply(new BigInteger(cur));
 			}
 		}
-		BigInteger ans1 = a.divide(b.multiply(c)).mod(new BigInteger(String.valueOf(mod)));
+		BigInteger ans1 = a.divide(b.multiply(c)).mod(new BigInteger(String.valueOf(MOD)));
 		System.out.println("方式1结果 : " + ans1.toString());
 		// 方式2 : 计算C(100, 49) = 100! / (49! * 51!)
 		// 阶乘结果逆元表的线性递推
 		build();
 		long ans2 = fac[100];
-		ans2 = (ans2 * inv[49]) % mod;
-		ans2 = (ans2 * inv[51]) % mod;
+		ans2 = (ans2 * inv[49]) % MOD;
+		ans2 = (ans2 * inv[51]) % MOD;
 		System.out.println("方式2结果 : " + ans2);
 	}
 

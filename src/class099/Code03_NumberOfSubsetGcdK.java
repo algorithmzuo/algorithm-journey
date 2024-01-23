@@ -19,10 +19,10 @@ import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 
 public class Code03_NumberOfSubsetGcdK {
+	
+	public static int MOD = 1000000007;
 
 	public static int LIMIT = 100000;
-
-	public static int MOD = 1000000007;
 
 	public static long[] dp = new long[LIMIT + 1];
 
