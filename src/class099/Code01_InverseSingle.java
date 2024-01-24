@@ -10,9 +10,8 @@ public class Code01_InverseSingle {
 		// 2) 必须保证mod是质数
 		// 3) 必须保证b和mod的最大公约数为1
 		int mod = 41;
-		long t = 67312L;
 		long b = 3671613L;
-		long a = t * b;
+		long a = 67312L * b;
 		System.out.println(compute1(a, b, mod));
 		System.out.println(compute2(a, b, mod));
 	}
