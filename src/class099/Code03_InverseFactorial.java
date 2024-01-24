@@ -14,9 +14,11 @@ public class Code03_InverseFactorial {
 	public static int LIMIT = 1000;
 
 	// 阶乘表
+	// fac[i]代表 i! 在 %MOD 意义下的余数
 	public static long[] fac = new long[LIMIT + 1];
 
 	// 阶乘结果的逆元表
+	// inv[i]代表i! 在 %MOD 意义下的逆元(1 / i!)
 	public static long[] inv = new long[LIMIT + 1];
 
 	public static void build() {
@@ -24,12 +26,12 @@ public class Code03_InverseFactorial {
 		for (int i = 2; i <= LIMIT; i++) {
 			fac[i] = ((long) i * fac[i - 1]) % MOD;
 		}
-		// 单个计算逆元
+		// 单个阶乘的逆元
 //		inv[0] = 1;
 //		for (int i = 1; i <= LIMIT; i++) {
 //			inv[i] = power(fac[i], MOD - 2);
 //		}
-		// 利用线性递归优化
+		// 利用线性递推优化
 		inv[LIMIT] = power(fac[LIMIT], MOD - 2);
 		for (int i = LIMIT - 1; i >= 0; i--) {
 			inv[i] = ((long) (i + 1) * inv[i + 1]) % MOD;

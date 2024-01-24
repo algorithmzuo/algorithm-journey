@@ -28,6 +28,7 @@ public class Code05_NumberOfBuyWay {
 	public static int LIMIT = 100000;
 
 	// dp表就是查询系统
+	// dp[i]表示当所有硬币无限制的情况下，花掉i元，方法数是多少
 	public static long[] dp = new long[LIMIT + 1];
 
 	public static int[] value = new int[4];
@@ -41,18 +42,20 @@ public class Code05_NumberOfBuyWay {
 		StreamTokenizer in = new StreamTokenizer(br);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
 		while (in.nextToken() != StreamTokenizer.TT_EOF) {
+			// 总体时间复杂度O(LIMIT + 查询次数)
 			value[0] = (int) in.nval;
 			in.nextToken(); value[1] = (int) in.nval;
 			in.nextToken(); value[2] = (int) in.nval;
 			in.nextToken(); value[3] = (int) in.nval;
 			in.nextToken(); n = (int) in.nval;
 			build();
-			for (int i = 0; i < n; i++) {
+			for (int i = 1; i <= n; i++) {
 				in.nextToken(); cnt[0] = (int) in.nval;
 				in.nextToken(); cnt[1] = (int) in.nval;
 				in.nextToken(); cnt[2] = (int) in.nval;
 				in.nextToken(); cnt[3] = (int) in.nval;
 				in.nextToken(); s = (int) in.nval;
+				// query时间复杂度O(1)
 				out.println(query());
 			}
 		}
@@ -61,6 +64,9 @@ public class Code05_NumberOfBuyWay {
 		br.close();
 	}
 
+	// 时间复杂度O(LIMIT)
+	// 最基本的完全背包问题 + 空间压缩
+	// 完全背包在讲解074，不会的同学看一下
 	public static void build() {
 		dp[0] = 1;
 		for (int i = 0; i <= 3; i++) {
@@ -70,10 +76,14 @@ public class Code05_NumberOfBuyWay {
 		}
 	}
 
+	// 时间复杂度O(15 * 4) -> O(1)
 	public static long query() {
 		long illegal = 0;
+		// status -> 0001到1111
 		for (int status = 1; status <= 15; status++) {
 			long t = s;
+			// 遇到奇数个1，sigh变成1
+			// 遇到偶数个1，sigh变成-1
 			int sign = -1;
 			for (int j = 0; j <= 3; j++) {
 				if (((status >> j) & 1) == 1) {

@@ -6,7 +6,7 @@ package class099;
 // 测试链接 : https://www.luogu.com.cn/problem/CF803F
 // 1 <= n <= 10^5
 // 1 <= nums[i] <= 10^5
-// 扩展问题 
+// 扩展问题
 // 最大公约数为k的子序列数量
 // 给定一个长度为n的正数数组nums，还有正数k
 // 返回有多少子序列的最大公约数为k
@@ -58,6 +58,7 @@ public class Code04_NumberOfSubsetGcdK {
 		br.close();
 	}
 
+	// 时间复杂度O(n * logn)
 	public static long compute() {
 		for (int i = LIMIT; i >= 1; i--) {
 			long counts = 0;

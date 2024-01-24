@@ -47,10 +47,10 @@ public class Code06_NumberOfMusicPlaylists {
 	public static int numMusicPlaylists(int n, int l, int k) {
 		long cur, ans = 0, sign = 1;
 		for (int i = 0; i <= n - k; i++, sign = sign == 1 ? (MOD - 1) : 1) {
-			cur = (sign * power(n - k - i, l - k)) % MOD;
+			cur = (sign * power(n - i - k, l - k)) % MOD;
 			cur = (cur * fac[n]) % MOD;
 			cur = (cur * inv[i]) % MOD;
-			cur = (cur * inv[n - k - i]) % MOD;
+			cur = (cur * inv[n - i - k]) % MOD;
 			ans = (ans + cur) % MOD;
 		}
 		return (int) ans;
