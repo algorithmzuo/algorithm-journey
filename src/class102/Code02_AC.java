@@ -97,11 +97,11 @@ public class Code02_AC {
 		while (l < r) {
 			int u = box[l++];
 			for (int i = 0; i < MAXC; i++) {
-				if (tree[u][i] > 0) {
+				if (tree[u][i] == 0) {
+					tree[u][i] = tree[fail[u]][i];
+				} else {
 					fail[tree[u][i]] = tree[fail[u]][i];
 					box[r++] = tree[u][i];
-				} else {
-					tree[u][i] = tree[fail[u]][i];
 				}
 			}
 		}
