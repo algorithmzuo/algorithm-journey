@@ -3,6 +3,10 @@ package class099;
 import java.math.BigInteger;
 
 // 阶乘结果逆元表的线性递推
+// 实现组合公式C(n,m)的计算
+// 最终结果 % 1000000007后返回
+// 0 <= m <= n <= 1000
+// 对数器验证
 public class Code02_FactorialInverse {
 
 	public static int MOD = 1000000007;
