@@ -7,25 +7,13 @@ public class Code02_FactorialInverse {
 
 	public static int MOD = 1000000007;
 
-	public static int LIMIT = 100;
+	public static int LIMIT = 1000;
 
 	// 阶乘表
 	public static long[] fac = new long[LIMIT + 1];
 
 	// 阶乘结果的逆元表
 	public static long[] inv = new long[LIMIT + 1];
-
-	public static long power(long x, int n) {
-		long ans = 1;
-		while (n > 0) {
-			if ((n & 1) == 1) {
-				ans = (ans * x) % MOD;
-			}
-			x = (x * x) % MOD;
-			n >>= 1;
-		}
-		return ans;
-	}
 
 	public static void build() {
 		fac[1] = 1;
@@ -45,31 +33,65 @@ public class Code02_FactorialInverse {
 		}
 	}
 
-	public static void main(String[] args) {
-		// 方式1 : 计算C(100, 49) = 100! / (49! * 51!)
-		// BigInteger保证中间计算结果完全正确
+	public static long power(long x, int n) {
+		long ans = 1;
+		while (n > 0) {
+			if ((n & 1) == 1) {
+				ans = (ans * x) % MOD;
+			}
+			x = (x * x) % MOD;
+			n >>= 1;
+		}
+		return ans;
+	}
+
+	// 组合公式
+	// 得到的结果 % MOD
+	// BigInteger保证中间计算结果完全正确
+	public static int c1(int n, int m) {
 		BigInteger a = new BigInteger("1");
 		BigInteger b = new BigInteger("1");
 		BigInteger c = new BigInteger("1");
-		for (int i = 1; i <= 100; i++) {
+		for (int i = 1; i <= n; i++) {
 			String cur = String.valueOf(i);
 			a = a.multiply(new BigInteger(cur));
-			if (i <= 49) {
+			if (i <= m) {
 				b = b.multiply(new BigInteger(cur));
 			}
-			if (i <= 51) {
+			if (i <= n - m) {
 				c = c.multiply(new BigInteger(cur));
 			}
 		}
-		BigInteger ans1 = a.divide(b.multiply(c)).mod(new BigInteger(String.valueOf(MOD)));
-		System.out.println("方式1结果 : " + ans1.toString());
-		// 方式2 : 计算C(100, 49) = 100! / (49! * 51!)
-		// 阶乘结果逆元表的线性递推
+		BigInteger ans = a.divide(b.multiply(c)).mod(new BigInteger(String.valueOf(MOD)));
+		return ans.intValue();
+	}
+
+	// 组合公式
+	// 得到的结果 % MOD
+	// 阶乘结果逆元表的线性递推
+	public static int c2(int n, int m) {
+		long ans = fac[n];
+		ans = (ans * inv[m]) % MOD;
+		ans = (ans * inv[n - m]) % MOD;
+		return (int) ans;
+	}
+
+	public static void main(String[] args) {
+		System.out.println("测试开始");
 		build();
-		long ans2 = fac[100];
-		ans2 = (ans2 * inv[49]) % MOD;
-		ans2 = (ans2 * inv[51]) % MOD;
-		System.out.println("方式2结果 : " + ans2);
+		// n不要超过LIMIT
+		int n = 500;
+		for (int m = 0; m <= n; m++) {
+			int ans1 = c1(n, m);
+			int ans2 = c2(n, m);
+			if (ans1 != ans2) {
+				System.out.println("出错了!");
+			}
+		}
+		System.out.println("测试结束");
+
+		System.out.println(c1(100, 48));
+		System.out.println(c2(100, 48));
 	}
 
 }
