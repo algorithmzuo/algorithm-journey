@@ -96,7 +96,7 @@ public class Code03_InverseFactorial {
 		// 要保证 b <= a <= LIMIT
 		int a = 537;
 		int b = 367;
-		System.out.println("C( " + a + " , " + b + " ) % " + MOD);
+		System.out.println("计算 C ( " + a + " , " + b + " ) % " + MOD);
 		System.out.println("方法1答案 : " + c1(a, b));
 		System.out.println("方法2答案 : " + c2(a, b));
 	}
