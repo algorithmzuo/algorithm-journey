@@ -7,7 +7,7 @@ import java.math.BigInteger;
 // 最终结果 % 1000000007后返回
 // 0 <= m <= n <= 1000
 // 对数器验证
-public class Code03_FactorialInverse {
+public class Code03_InverseFactorial {
 
 	public static int MOD = 1000000007;
 
