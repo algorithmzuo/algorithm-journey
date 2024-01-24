@@ -27,6 +27,7 @@ public class Code05_NumberOfBuyWay {
 
 	public static int LIMIT = 100000;
 
+	// dp表就是查询系统
 	public static long[] dp = new long[LIMIT + 1];
 
 	public static int[] value = new int[4];
