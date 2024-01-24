@@ -29,9 +29,9 @@ public class Code05_NumberOfBuyWay {
 
 	public static long[] dp = new long[LIMIT + 1];
 
-	public static int[] v = new int[4];
+	public static int[] value = new int[4];
 
-	public static int[] arr = new int[4];
+	public static int[] cnt = new int[4];
 
 	public static int n, s;
 
@@ -40,17 +40,17 @@ public class Code05_NumberOfBuyWay {
 		StreamTokenizer in = new StreamTokenizer(br);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
 		while (in.nextToken() != StreamTokenizer.TT_EOF) {
-			v[0] = (int) in.nval;
-			in.nextToken(); v[1] = (int) in.nval;
-			in.nextToken(); v[2] = (int) in.nval;
-			in.nextToken(); v[3] = (int) in.nval;
+			value[0] = (int) in.nval;
+			in.nextToken(); value[1] = (int) in.nval;
+			in.nextToken(); value[2] = (int) in.nval;
+			in.nextToken(); value[3] = (int) in.nval;
 			in.nextToken(); n = (int) in.nval;
 			build();
 			for (int i = 0; i < n; i++) {
-				in.nextToken(); arr[0] = (int) in.nval;
-				in.nextToken(); arr[1] = (int) in.nval;
-				in.nextToken(); arr[2] = (int) in.nval;
-				in.nextToken(); arr[3] = (int) in.nval;
+				in.nextToken(); cnt[0] = (int) in.nval;
+				in.nextToken(); cnt[1] = (int) in.nval;
+				in.nextToken(); cnt[2] = (int) in.nval;
+				in.nextToken(); cnt[3] = (int) in.nval;
 				in.nextToken(); s = (int) in.nval;
 				out.println(query());
 			}
@@ -63,28 +63,28 @@ public class Code05_NumberOfBuyWay {
 	public static void build() {
 		dp[0] = 1;
 		for (int i = 0; i <= 3; i++) {
-			for (int j = v[i]; j <= LIMIT; j++) {
-				dp[j] += dp[j - v[i]];
+			for (int j = value[i]; j <= LIMIT; j++) {
+				dp[j] += dp[j - value[i]];
 			}
 		}
 	}
 
 	public static long query() {
-		long minus = 0;
+		long illegal = 0;
 		for (int status = 1; status <= 15; status++) {
 			long t = s;
 			int sign = -1;
 			for (int j = 0; j <= 3; j++) {
 				if (((status >> j) & 1) == 1) {
-					t -= v[j] * (arr[j] + 1);
+					t -= value[j] * (cnt[j] + 1);
 					sign = -sign;
 				}
 			}
 			if (t >= 0) {
-				minus += dp[(int) t] * sign;
+				illegal += dp[(int) t] * sign;
 			}
 		}
-		return dp[s] - minus;
+		return dp[s] - illegal;
 	}
 
 }
