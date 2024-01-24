@@ -22,13 +22,13 @@ public class Code05_NumberOfMusicPlaylists {
 	public static long[] inv = new long[LIMIT + 1];
 
 	static {
-		fac[0] = inv[0] = 1;
+		fac[0] = 1;
 		for (int i = 1; i <= LIMIT; i++) {
 			fac[i] = ((long) i * fac[i - 1]) % MOD;
 		}
 		inv[LIMIT] = power(fac[LIMIT], MOD - 2);
-		for (int i = LIMIT; i > 1; i--) {
-			inv[i - 1] = ((long) i * inv[i]) % MOD;
+		for (int i = LIMIT - 1; i >= 0; i--) {
+			inv[i] = ((long) (i + 1) * inv[i + 1]) % MOD;
 		}
 	}
 

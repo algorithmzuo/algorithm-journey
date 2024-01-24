@@ -24,16 +24,15 @@ public class Code02_FactorialInverse {
 		for (int i = 2; i <= LIMIT; i++) {
 			fac[i] = ((long) i * fac[i - 1]) % MOD;
 		}
-		// 0的阶乘是1
-		inv[0] = 1;
-		// 费马小定理计算乘法逆元
-		// for (int i = 1; i <= limit; i++) {
-		// inv[i] = power(fac[i], mod - 2);
-		// }
-		// 费马小定理计算乘法逆元，优化如下
+		// 单个计算逆元
+//		inv[0] = 1;
+//		for (int i = 1; i <= LIMIT; i++) {
+//			inv[i] = power(fac[i], MOD - 2);
+//		}
+		// 利用线性递归优化
 		inv[LIMIT] = power(fac[LIMIT], MOD - 2);
-		for (int i = LIMIT; i > 1; i--) {
-			inv[i - 1] = ((long) i * inv[i]) % MOD;
+		for (int i = LIMIT - 1; i >= 0; i--) {
+			inv[i] = ((long) (i + 1) * inv[i + 1]) % MOD;
 		}
 	}
 
