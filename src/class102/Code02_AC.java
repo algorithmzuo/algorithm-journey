@@ -16,42 +16,43 @@ public class Code02_AC {
 
 	public static int MAXN = 200005;
 
+	public static int MAXS = 200005;
+
 	public static int MAXC = 26;
-
-	public static int[][] tree = new int[MAXN][MAXC];
-
-	public static int[] fail = new int[MAXN];
 
 	public static int[] end = new int[MAXN];
 
-	public static int[] cnt = new int[MAXN];
+	public static int[][] tree = new int[MAXS][MAXC];
+
+	public static int[] fail = new int[MAXS];
+
+	public static int[] cnt = new int[MAXS];
 
 	public static int tot = 1;
 
-	public static int[] head = new int[MAXN];
+	public static int[] head = new int[MAXS];
 
-	public static int[] next = new int[MAXN];
+	public static int[] next = new int[MAXS];
 
-	public static int[] to = new int[MAXN];
+	public static int[] to = new int[MAXS];
 
 	public static int edge = 0;
 
-	public static int[] box = new int[MAXN];
+	public static int[] box = new int[MAXS];
 
-	public static boolean[] visited = new boolean[MAXN];
+	public static boolean[] visited = new boolean[MAXS];
 
 	public static void main(String[] args) throws IOException {
 		BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
 		int n = Integer.valueOf(in.readLine());
 		// ac自动机建树
-		for (int i = 1; i <= n; i++) {
-			addString(i, in.readLine());
-		}
 		for (int i = 0; i < MAXC; i++) {
 			tree[0][i] = 1;
 		}
-		// ac自动机设置fail指针
+		for (int i = 1; i <= n; i++) {
+			addString(i, in.readLine());
+		}
 		setFail();
 		// 读入大文章
 		char[] s = in.readLine().toCharArray();
