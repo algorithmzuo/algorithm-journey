@@ -6,14 +6,13 @@ package class099;
 public class Code01_InverseSingle {
 
 	public static void main(String[] args) {
-		// 必须确保
-		// 1) a/b能整除
-		// 2) mod是质数
-		// 3) b和mod互质(最大公约数是1)
+		// 1) 必须保证a/b可以整除
+		// 2) 必须保证mod是质数
+		// 3) 必须保证b和mod的最大公约数为1
+		int mod = 41;
 		long t = 67312L;
 		long b = 3671613L;
 		long a = t * b;
-		int mod = 41;
 		System.out.println(compute1(a, b, mod));
 		System.out.println(compute2(a, b, mod));
 	}
