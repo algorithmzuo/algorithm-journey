@@ -12,7 +12,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
-public class Code02_AC {
+public class Code01_AC {
 
 	public static int MAXN = 200005;
 
