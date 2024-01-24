@@ -24,7 +24,7 @@ import java.util.InputMismatchException;
 // 但是这个题卡常数比较严重
 // 一般情况下不会如此卡常数
 // 需要使用快读、快写增加IO效率
-public class Code01_Inverse2 {
+public class Code02_InverseSerial {
 
 	public static int MAXN = 3000001;
 

@@ -21,7 +21,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 
-public class Code03_NumberOfSubsetGcdK {
+public class Code04_NumberOfSubsetGcdK {
 
 	public static int MOD = 1000000007;
 
