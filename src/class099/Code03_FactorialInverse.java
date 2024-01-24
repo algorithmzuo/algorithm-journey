@@ -82,7 +82,7 @@ public class Code03_FactorialInverse {
 	public static void main(String[] args) {
 		System.out.println("测试开始");
 		build();
-		// n不要超过LIMIT
+		// 要保证 n <= LIMIT
 		int n = 500;
 		for (int m = 0; m <= n; m++) {
 			int ans1 = c1(n, m);
@@ -93,8 +93,12 @@ public class Code03_FactorialInverse {
 		}
 		System.out.println("测试结束");
 
-		System.out.println(c1(100, 48));
-		System.out.println(c2(100, 48));
+		// 要保证 b <= a <= LIMIT
+		int a = 137;
+		int b = 67;
+		System.out.println("C( " + a + " , " + b + " ) % " + MOD);
+		System.out.println("方法1答案 : " + c1(a, b));
+		System.out.println("方法2答案 : " + c2(a, b));
 	}
 
 }
