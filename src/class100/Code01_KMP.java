@@ -4,9 +4,9 @@ package class100;
 // 测试链接 : https://leetcode.cn/problems/find-the-index-of-the-first-occurrence-in-a-string/
 public class Code01_KMP {
 
-	public static int strStr(String haystack, String needle) {
-		// haystack.indexOf(needle);
-		return kmp(haystack, needle);
+	public static int strStr(String s1, String s2) {
+		// s1.indexOf(s2);
+		return kmp(s1, s2);
 	}
 
 	// kmp算法
