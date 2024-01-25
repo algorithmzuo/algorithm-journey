@@ -6,13 +6,11 @@ public class Code01_KMP {
 
 	public static int strStr(String s1, String s2) {
 		// s1.indexOf(s2);
-		return kmp(s1, s2);
+		return kmp(s1.toCharArray(), s2.toCharArray());
 	}
 
 	// kmp算法
-	public static int kmp(String str1, String str2) {
-		char[] s1 = str1.toCharArray();
-		char[] s2 = str2.toCharArray();
+	public static int kmp(char[] s1, char[] s2) {
 		int n = s1.length, m = s2.length, x = 0, y = 0;
 		int[] next = nextArray(s2, m);
 		while (x < n && y < m) {
