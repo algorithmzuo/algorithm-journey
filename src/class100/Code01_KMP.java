@@ -1,6 +1,6 @@
 package class100;
 
-// kmp算法模版
+// KMP算法模版
 // 测试链接 : https://leetcode.cn/problems/find-the-index-of-the-first-occurrence-in-a-string/
 public class Code01_KMP {
 
@@ -9,7 +9,7 @@ public class Code01_KMP {
 		return kmp(s1.toCharArray(), s2.toCharArray());
 	}
 
-	// kmp算法
+	// KMP算法
 	public static int kmp(char[] s1, char[] s2) {
 		int n = s1.length, m = s2.length, x = 0, y = 0;
 		int[] next = nextArray(s2, m);
