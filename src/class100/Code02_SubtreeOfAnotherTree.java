@@ -18,24 +18,29 @@ public class Code02_SubtreeOfAnotherTree {
 	}
 
 	// 方法1
+	// 暴力递归
+	// 时间复杂度O(n * m)
 	public static boolean isSubtree(TreeNode t1, TreeNode t2) {
 		if (t1 != null && t2 != null) {
-			return sameTree(t1, t2) || isSubtree(t1.left, t2) || isSubtree(t1.right, t2);
+			return same(t1, t2) || isSubtree(t1.left, t2) || isSubtree(t1.right, t2);
 		}
 		return t2 == null;
 	}
 
-	public static boolean sameTree(TreeNode t1, TreeNode t2) {
-		if (t1 == null && t2 == null) {
+	// 判断a和b这两棵树是否完全一样
+	public static boolean same(TreeNode a, TreeNode b) {
+		if (a == null && b == null) {
 			return true;
 		}
-		if (t1 != null && t2 != null) {
-			return t1.val == t2.val && sameTree(t1.left, t2.left) && sameTree(t1.right, t2.right);
+		if (a != null && b != null) {
+			return a.val == b.val && same(a.left, b.left) && same(a.right, b.right);
 		}
 		return false;
 	}
 
 	// 方法2
+	// 二叉树先序序列化 + KMP算法匹配
+	// 时间复杂度O(n + m)
 	public static boolean isSubtree2(TreeNode t1, TreeNode t2) {
 		if (t1 != null && t2 != null) {
 			ArrayList<String> s1 = new ArrayList<>();
@@ -93,6 +98,8 @@ public class Code02_SubtreeOfAnotherTree {
 		return next;
 	}
 
+	// 比对两个字符串是否相等
+	// a和b可能为null
 	public static boolean isEqual(String a, String b) {
 		if (a == null && b == null) {
 			return true;
