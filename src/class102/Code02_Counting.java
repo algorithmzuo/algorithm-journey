@@ -101,6 +101,7 @@ public class Code02_Counting {
 			insert(in.readLine());
 		}
 		setFail();
+		// 清空动态规划表
 		build();
 		// 执行记忆化搜索
 		out.println(f(0, 0, 0, 0));
@@ -123,7 +124,7 @@ public class Code02_Counting {
 		int ans = 0;
 		for (int pick = 0; pick <= limit; pick++) {
 			ans = (ans + f(i + 1,
-					has == 0 && pick == 0 ? 0 : tree[u][pick], // 这一句重要！
+					has == 0 && pick == 0 ? 0 : tree[u][pick], // 这一句重要
 					free == 1 || pick < limit ? 1 : 0,
 					has == 0 && pick == 0 ? 0 : 1)) % MOD;
 		}
