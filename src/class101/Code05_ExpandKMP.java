@@ -45,13 +45,13 @@ public class Code05_ExpandKMP {
 		for (int i = 0, j = 1; j < n && s[i] == s[j]; i++, j++) {
 			zxt[1]++;
 		}
-		for (int i = 2, k = 1, p, l, j; i < n; i++) {
-			p = k + zxt[k] - 1;
-			l = zxt[i - k];
-			if (i + l <= p) {
-				zxt[i] = l;
+		for (int i = 2, k = 1, r, len, j; i < n; i++) {
+			r = k + zxt[k];
+			len = zxt[i - k];
+			if (i + len < r) {
+				zxt[i] = len;
 			} else {
-				j = Math.max(0, p - i + 1);
+				j = Math.max(0, r - i);
 				while (i + j < n && s[i + j] == s[j]) {
 					j++;
 				}
@@ -65,13 +65,13 @@ public class Code05_ExpandKMP {
 		for (int i = 0; i < n && i < m && a[i] == b[i]; i++) {
 			ext[0]++;
 		}
-		for (int i = 1, k = 0, p, l, j; i < n; i++) {
-			p = k + ext[k] - 1;
-			l = zxt[i - k];
-			if (i + l <= p) {
-				ext[i] = l;
+		for (int i = 1, k = 0, r, len, j; i < n; i++) {
+			r = k + ext[k];
+			len = zxt[i - k];
+			if (i + len < r) {
+				ext[i] = len;
 			} else {
-				j = Math.max(0, p - i + 1);
+				j = Math.max(0, r - i);
 				while (i + j < n && j < m && a[i + j] == b[j]) {
 					j++;
 				}
