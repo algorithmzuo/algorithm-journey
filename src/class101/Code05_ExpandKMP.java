@@ -53,6 +53,10 @@ public class Code05_ExpandKMP {
 			} else {
 				j = Math.max(0, r - i);
 				while (i + j < n && s[i + j] == s[j]) {
+					// 一旦成功就让右边界更往右了，而右边界最走到n
+					// 所以不要在乎每次while的代价
+					// 要关注所有while行为的总代价为O(n)
+					// 这一点和Manacher算法时间复杂度的估计很像
 					j++;
 				}
 				zxt[i] = j;
@@ -73,6 +77,10 @@ public class Code05_ExpandKMP {
 			} else {
 				j = Math.max(0, r - i);
 				while (i + j < n && j < m && a[i + j] == b[j]) {
+					// 一旦成功就让右边界更往右了，而右边界最走到n
+					// 所以不要在乎每次while的代价
+					// 要关注所有while行为的总代价为O(n)
+					// 这一点和Manacher算法时间复杂度的估计很像
 					j++;
 				}
 				ext[i] = j;
