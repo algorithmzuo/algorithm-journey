@@ -36,7 +36,7 @@ public class Code02_Counting {
 
 	public static int[] fail = new int[MAXS];
 
-	public static boolean[] wordTail = new boolean[MAXS];
+	public static boolean[] wordEnd = new boolean[MAXS];
 
 	public static int tot = 0;
 
@@ -65,7 +65,7 @@ public class Code02_Counting {
 			}
 			u = tree[u][c];
 		}
-		wordTail[u] = true;
+		wordEnd[u] = true;
 	}
 
 	public static void setFail() {
@@ -78,7 +78,7 @@ public class Code02_Counting {
 		}
 		while (l < r) {
 			int u = queue[l++];
-			wordTail[u] |= wordTail[fail[u]];
+			wordEnd[u] |= wordEnd[fail[u]];
 			for (int i = 0; i < MAXC; i++) {
 				if (tree[u][i] == 0) {
 					tree[u][i] = tree[fail[u]][i];
@@ -111,7 +111,7 @@ public class Code02_Counting {
 	}
 
 	public static int f(int i, int u, int free, int has) {
-		if (wordTail[u]) {
+		if (wordEnd[u]) {
 			return 0;
 		}
 		if (i == n) {
