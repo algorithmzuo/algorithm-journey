@@ -125,7 +125,7 @@ public class Code02_Counting {
 		for (int pick = 0; pick <= limit; pick++) {
 			ans = (ans + f(i + 1,
 					has == 0 && pick == 0 ? 0 : tree[u][pick], // 这一句很重要
-					free == 1 || pick < limit ? 1 : 0,
+					free == 0 && pick == limit ? 0 : 1,
 					has == 0 && pick == 0 ? 0 : 1)) % MOD;
 		}
 		dp[i][u][free][has] = ans;
