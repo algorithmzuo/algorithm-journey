@@ -14,9 +14,9 @@ import java.io.PrintWriter;
 
 public class Code01_AC {
 
-	public static int MAXN = 200005;
+	public static int MAXN = 200001;
 
-	public static int MAXS = 200005;
+	public static int MAXS = 200001;
 
 	public static int MAXC = 26;
 
@@ -28,7 +28,7 @@ public class Code01_AC {
 
 	public static int[] cnt = new int[MAXS];
 
-	public static int tot = 1;
+	public static int tot = 0;
 
 	public static int[] head = new int[MAXS];
 
@@ -47,27 +47,24 @@ public class Code01_AC {
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
 		int n = Integer.valueOf(in.readLine());
 		// ac自动机建树
-		for (int i = 0; i < MAXC; i++) {
-			tree[0][i] = 1;
-		}
 		for (int i = 1; i <= n; i++) {
-			addString(i, in.readLine());
+			insert(i, in.readLine());
 		}
 		setFail();
 		// 读入大文章
 		char[] s = in.readLine().toCharArray();
-		for (int u = 1, i = 0; i < s.length; i++) {
+		for (int u = 0, i = 0; i < s.length; i++) {
 			u = tree[u][s[i] - 'a'];
 			// 增加匹配次数
 			cnt[u]++;
 		}
-		for (int i = 2; i <= tot; i++) {
+		for (int i = 1; i <= tot; i++) {
 			// 根据fail指针建反图
 			addEdge(fail[i], i);
 		}
 		// 在fail指针建的图上
 		// 把词频汇总
-		mergeCnt2(1);
+		mergeCnt2(0);
 		for (int i = 1; i <= n; i++) {
 			out.println(cnt[end[i]]);
 		}
@@ -76,10 +73,10 @@ public class Code01_AC {
 		in.close();
 	}
 
-	public static void addString(int i, String str) {
+	public static void insert(int i, String str) {
 		char[] s = str.toCharArray();
-		int u = 1, c;
-		for (int j = 0; j < s.length; j++) {
+		int u = 0;
+		for (int j = 0, c; j < s.length; j++) {
 			c = s[j] - 'a';
 			if (tree[u][c] == 0) {
 				tree[u][c] = ++tot;
@@ -90,10 +87,13 @@ public class Code01_AC {
 	}
 
 	public static void setFail() {
-		// box当做队列使用
 		int l = 0;
 		int r = 0;
-		box[r++] = 1;
+		for (int i = 0; i < MAXC; i++) {
+			if (tree[0][i] > 0) {
+				box[r++] = tree[0][i];
+			}
+		}
 		while (l < r) {
 			int u = box[l++];
 			for (int i = 0; i < MAXC; i++) {

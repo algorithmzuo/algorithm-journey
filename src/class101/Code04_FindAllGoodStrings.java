@@ -43,32 +43,32 @@ public class Code04_FindAllGoodStrings {
 		return ans;
 	}
 
-	public static int f(char[] s, char[] e, int n, int m, int si, int ei, int less) {
+	public static int f(char[] s, char[] e, int n, int m, int si, int ei, int free) {
 		if (ei == m) {
 			return 0;
 		}
 		if (si == n) {
 			return 1;
 		}
-		if (dp[si][ei][less] != -1) {
-			return dp[si][ei][less];
+		if (dp[si][ei][free] != -1) {
+			return dp[si][ei][free];
 		}
 		int ans = 0, ej;
-		for (char cur = 'a'; cur <= (less == 0 ? (s[si] - 1) : 'z'); cur++) {
+		for (char cur = 'a'; cur <= (free == 0 ? (s[si] - 1) : 'z'); cur++) {
 			ej = ei;
 			while (ej != -1 && cur != e[ej]) {
 				ej = next[ej];
 			}
 			ans = (ans + f(s, e, n, m, si + 1, ej + 1, 1)) % MOD;
 		}
-		if (less == 0) {
+		if (free == 0) {
 			ej = ei;
 			while (ej != -1 && s[si] != e[ej]) {
 				ej = next[ej];
 			}
 			ans = (ans + f(s, e, n, m, si + 1, ej + 1, 0)) % MOD;
 		}
-		dp[si][ei][less] = ans;
+		dp[si][ei][free] = ans;
 		return ans;
 	}
 

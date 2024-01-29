@@ -26,14 +26,14 @@ public class Code02_RepeatMinimumLength {
 	public static char[] s;
 
 	public static void main(String[] args) throws IOException {
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
-		n = Integer.valueOf(br.readLine());
-		s = br.readLine().toCharArray();
+		n = Integer.valueOf(in.readLine());
+		s = in.readLine().toCharArray();
 		out.println(compute());
 		out.flush();
 		out.close();
-		br.close();
+		in.close();
 	}
 
 	public static int compute() {

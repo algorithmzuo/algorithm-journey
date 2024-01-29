@@ -30,10 +30,10 @@ public class Code03_DeleteAgainAndAgain {
 	public static int size;
 
 	public static void main(String[] args) throws IOException {
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
-		s1 = br.readLine().toCharArray();
-		s2 = br.readLine().toCharArray();
+		s1 = in.readLine().toCharArray();
+		s2 = in.readLine().toCharArray();
 		compute();
 		for (int i = 0; i < size; i++) {
 			out.print(s1[where[i]]);
@@ -41,7 +41,7 @@ public class Code03_DeleteAgainAndAgain {
 		out.println();
 		out.flush();
 		out.close();
-		br.close();
+		in.close();
 	}
 
 	public static void compute() {

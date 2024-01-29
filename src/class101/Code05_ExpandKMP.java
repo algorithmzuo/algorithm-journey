@@ -27,17 +27,17 @@ public class Code05_ExpandKMP {
 	public static int[] ext = new int[MAXN];
 
 	public static void main(String[] args) throws IOException {
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
-		char[] a = br.readLine().toCharArray();
-		char[] b = br.readLine().toCharArray();
+		char[] a = in.readLine().toCharArray();
+		char[] b = in.readLine().toCharArray();
 		znext(b, b.length);
 		exkmp(a, b, a.length, b.length);
 		out.println(eor(zxt, b.length));
 		out.println(eor(ext, a.length));
 		out.flush();
 		out.close();
-		br.close();
+		in.close();
 	}
 
 	public static void znext(char[] s, int n) {
