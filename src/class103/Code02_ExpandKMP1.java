@@ -1,6 +1,6 @@
 package class103;
 
-// 扩展KMP，又称Z算法(Leetcode基本版)
+// 扩展KMP，又称Z算法(Leetcode)
 // 给定一个字符串str，求出一个数组
 // str与str每一个后缀串的最长公共前缀长度
 // 返回这个数组所有值的和
