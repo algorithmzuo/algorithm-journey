@@ -3,7 +3,7 @@ package class104;
 // 回文子串数量
 // 返回字符串s的回文子串数量
 // 测试链接 : https://leetcode.cn/problems/palindromic-substrings/
-public class Code02_PalindromicSubstrings {
+public class Code02_NumberOfPalindromeSubstrings {
 
 	public static int countSubstrings(String s) {
 		manacher(s);
