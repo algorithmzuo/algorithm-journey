@@ -46,14 +46,14 @@ public class Code02_ExpandKMP2 {
 		for (int i = 0, j = 1; j < n && s[i] == s[j]; i++, j++) {
 			z[1]++;
 		}
-		for (int i = 2, t = 1, r = 1 + z[1]; i < n; i++) {
-			z[i] = Math.max(0, Math.min(r - i, z[i - t]));
+		for (int i = 2, c = 1, r = 1 + z[1]; i < n; i++) {
+			z[i] = Math.max(0, Math.min(r - i, z[i - c]));
 			while (i + z[i] < n && s[i + z[i]] == s[z[i]]) {
 				z[i]++;
 			}
 			if (i + z[i] > r) {
 				r = i + z[i];
-				t = i;
+				c = i;
 			}
 		}
 	}
@@ -62,14 +62,14 @@ public class Code02_ExpandKMP2 {
 		for (int i = 0; i < n && i < m && a[i] == b[i]; i++) {
 			e[0]++;
 		}
-		for (int i = 1, t = 0, r = e[0]; i < n; i++) {
-			e[i] = Math.max(0, Math.min(r - i, z[i - t]));
+		for (int i = 1, c = 0, r = e[0]; i < n; i++) {
+			e[i] = Math.max(0, Math.min(r - i, z[i - c]));
 			while (i + e[i] < n && e[i] < m && a[i + e[i]] == b[e[i]]) {
 				e[i]++;
 			}
 			if (i + e[i] > r) {
 				r = i + e[i];
-				t = i;
+				c = i;
 			}
 		}
 	}

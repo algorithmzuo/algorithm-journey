@@ -7,38 +7,39 @@ package class104;
 // 并且每个回文子串都要求长度>=k、且彼此没有重合的部分
 // 返回最多能划分出几个这样的回文子串
 // 测试链接 : https://leetcode.cn/problems/maximum-number-of-non-overlapping-palindrome-substrings/
-public class Code02_MaximumNumberNonOverlappingPalindromes {
+public class Code03_MaximumNumberNonOverlappingPalindromes {
 
 	// 时间复杂度O(n)
-	public static int maxPalindromes(String s, int k) {
-		char[] str = manacherString(s);
-		int[] p = new int[str.length];
+	public static int maxPalindromes(String str, int k) {
+		manacherss(str.toCharArray());
 		int ans = 0;
 		int next = 0;
-		while ((next = find(str, p, next, k)) != -1) {
-			next = str[next] == '#' ? next : (next + 1);
+		while ((next = find(next, k)) != -1) {
+			next = s[next] == '#' ? next : (next + 1);
 			ans++;
 		}
 		return ans;
 	}
 
-	public static char[] manacherString(String s) {
-		char[] str = s.toCharArray();
-		char[] ans = new char[s.length() * 2 + 1];
-		int index = 0;
-		for (int i = 0; i != ans.length; i++) {
-			ans[i] = (i & 1) == 0 ? '#' : str[index++];
+	public static int MAXN = 2001;
+
+	public static char[] s = new char[MAXN << 1];
+
+	public static int[] p = new int[MAXN << 1];
+
+	public static int n;
+
+	public static void manacherss(char[] a) {
+		n = a.length * 2 + 1;
+		for (int i = 0, j = 0; i < n; i++) {
+			s[i] = (i & 1) == 0 ? '#' : a[j++];
 		}
-		return ans;
 	}
 
 	// s[l...]字符串只在这个范围上，且s[l]一定是'#'
 	// 从下标l开始，之前都不算，一旦有某个中心回文半径>k，马上返回右边界
-	public static int find(char[] s, int[] p, int l, int k) {
-		int c = l - 1;
-		int r = l - 1;
-		int n = s.length;
-		for (int i = l; i < s.length; i++) {
+	public static int find(int l, int k) {
+		for (int i = l, c = l - 1, r = l - 1; i < n; i++) {
 			p[i] = r > i ? Math.min(p[2 * c - i], r - i) : 1;
 			while (i + p[i] < n && i - p[i] > l - 1 && s[i + p[i]] == s[i - p[i]]) {
 				if (++p[i] > k) {
