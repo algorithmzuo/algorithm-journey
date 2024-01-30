@@ -5,7 +5,7 @@ package class103;
 // str与str每一个后缀串的最长公共前缀长度
 // 返回这个数组所有值的和
 // 测试链接 : https://leetcode.cn/problems/sum-of-scores-of-built-strings/
-
+// 扩展KMP和KMP算法过程差别挺大，反而和Manacher算法非常像
 public class Code02_ExpandKMP1 {
 
 	public static long sumScores(String str) {

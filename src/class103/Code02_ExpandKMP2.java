@@ -18,6 +18,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
+// 扩展KMP和KMP算法过程差别挺大，反而和Manacher算法非常像
 public class Code02_ExpandKMP2 {
 
 	public static int MAXN = 20000001;
@@ -45,16 +46,14 @@ public class Code02_ExpandKMP2 {
 		for (int i = 0, j = 1; j < n && s[i] == s[j]; i++, j++) {
 			zxt[1]++;
 		}
-		if (n >= 2) {
-			for (int i = 2, t = 1, r = 1 + zxt[1]; i < n; i++) {
-				zxt[i] = Math.max(0, Math.min(r - i, zxt[i - t]));
-				while (i + zxt[i] < n && s[i + zxt[i]] == s[zxt[i]]) {
-					zxt[i]++;
-				}
-				if (i + zxt[i] > r) {
-					r = i + zxt[i];
-					t = i;
-				}
+		for (int i = 2, t = 1, r = 1 + zxt[1]; i < n; i++) {
+			zxt[i] = Math.max(0, Math.min(r - i, zxt[i - t]));
+			while (i + zxt[i] < n && s[i + zxt[i]] == s[zxt[i]]) {
+				zxt[i]++;
+			}
+			if (i + zxt[i] > r) {
+				r = i + zxt[i];
+				t = i;
 			}
 		}
 	}
@@ -63,16 +62,14 @@ public class Code02_ExpandKMP2 {
 		for (int i = 0; i < n && i < m && a[i] == b[i]; i++) {
 			ext[0]++;
 		}
-		if (n >= 1) {
-			for (int i = 1, t = 0, r = ext[0]; i < n; i++) {
-				ext[i] = Math.max(0, Math.min(r - i, zxt[i - t]));
-				while (i + ext[i] < n && ext[i] < m && a[i + ext[i]] == b[ext[i]]) {
-					ext[i]++;
-				}
-				if (i + ext[i] > r) {
-					r = i + ext[i];
-					t = i;
-				}
+		for (int i = 1, t = 0, r = ext[0]; i < n; i++) {
+			ext[i] = Math.max(0, Math.min(r - i, zxt[i - t]));
+			while (i + ext[i] < n && ext[i] < m && a[i + ext[i]] == b[ext[i]]) {
+				ext[i]++;
+			}
+			if (i + ext[i] > r) {
+				r = i + ext[i];
+				t = i;
 			}
 		}
 	}
