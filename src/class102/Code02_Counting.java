@@ -95,7 +95,7 @@ public class Code02_Counting {
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
 		num = in.readLine().toCharArray();
 		n = num.length;
-		// ac自动机建树
+		// AC自动机建树
 		int m = Integer.valueOf(in.readLine());
 		for (int i = 1; i <= m; i++) {
 			insert(in.readLine());

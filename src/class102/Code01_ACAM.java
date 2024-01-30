@@ -1,6 +1,6 @@
 package class102;
 
-// ac自动机模版(威力加强版)
+// AC自动机模版(威力加强版)
 // 测试链接 : https://www.luogu.com.cn/problem/P5357
 // 请同学们务必参考如下代码中关于输入、输出的处理
 // 这是输入输出处理效率很高的写法
@@ -46,7 +46,7 @@ public class Code01_ACAM {
 		BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
 		int n = Integer.valueOf(in.readLine());
-		// ac自动机建树
+		// AC自动机建树
 		for (int i = 1; i <= n; i++) {
 			insert(i, in.readLine());
 		}
@@ -83,7 +83,7 @@ public class Code01_ACAM {
 			}
 			u = tree[u][c];
 		}
-		end[i] = u; // 每个模式串在Trie树上的终止节点编号
+		end[i] = u; // 每个模式串的结尾节点编号
 	}
 
 	public static void setFail() {
