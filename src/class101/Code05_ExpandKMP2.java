@@ -18,7 +18,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
-public class Code05_ExpandKMP {
+public class Code05_ExpandKMP2 {
 
 	public static int MAXN = 20000001;
 
