@@ -6,7 +6,7 @@ package class103;
 // 有尽可能多的回文子串，要求长度>=k并且没有重合
 // 返回所有划分方案中，最多能划分出几个这样的回文子串
 // 测试链接 : https://leetcode.cn/problems/maximum-number-of-non-overlapping-palindrome-substrings/
-public class Code03 {
+public class Code03_MaximumNumberNonOverlappingPalindromes {
 
 	// 时间复杂度O(n)
 	public static int maxPalindromes(String s, int k) {
@@ -14,7 +14,7 @@ public class Code03 {
 		int[] p = new int[str.length];
 		int ans = 0;
 		int next = 0;
-		while ((next = manacherFind(str, p, next, k)) != -1) {
+		while ((next = find(str, p, next, k)) != -1) {
 			next = str[next] == '#' ? next : (next + 1);
 			ans++;
 		}
@@ -33,7 +33,7 @@ public class Code03 {
 
 	// s[l...]字符串只在这个范围上，且s[l]一定是'#'
 	// 从下标l开始，之前都不算，一旦有某个中心回文半径>k，马上返回右边界
-	public static int manacherFind(char[] s, int[] p, int l, int k) {
+	public static int find(char[] s, int[] p, int l, int k) {
 		int c = l - 1;
 		int r = l - 1;
 		int n = s.length;
