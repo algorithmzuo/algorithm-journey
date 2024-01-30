@@ -1,6 +1,6 @@
 package class103;
 
-// 扩展KMP，又称Z算法(洛谷)
+// 扩展KMP，又称Z算法
 // 给定两个字符串a、b，求出两个数组
 // b与b每一个后缀串的最长公共前缀长度
 // b与a每一个后缀串的最长公共前缀长度
@@ -19,7 +19,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
 // 扩展KMP和KMP算法差别挺大，反而和Manacher算法非常像
-public class Code02_ExpandKMP2 {
+public class Code02_ExpandKMP {
 
 	public static int MAXN = 20000001;
 
