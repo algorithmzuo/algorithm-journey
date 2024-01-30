@@ -1,6 +1,6 @@
-package class103;
+package class104;
 
 // 测试链接 : https://leetcode.cn/problems/palindromic-substrings/
-public class Code02_PalindromicSubstrings {
+public class Code01_PalindromicSubstrings {
 
 }

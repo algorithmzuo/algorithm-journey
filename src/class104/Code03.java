@@ -1,6 +1,6 @@
-package class103;
+package class104;
 
 // https://www.luogu.com.cn/problem/P1659
-public class Code04 {
+public class Code03 {
 
 }

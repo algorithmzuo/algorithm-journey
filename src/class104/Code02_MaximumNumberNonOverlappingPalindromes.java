@@ -1,12 +1,13 @@
-package class103;
+package class104;
 
-// 不重叠回文子字符串的最大数目
+// 不重叠回文子串的最多数目
 // 给定一个字符串str和一个正数k
-// 你可以随意的划分str成多个子串，目的是找到在某一种划分方案中
-// 有尽可能多的回文子串，要求长度>=k并且没有重合
-// 返回所有划分方案中，最多能划分出几个这样的回文子串
+// 你可以随意把str切分成多个子串
+// 目的是找到某一种划分方案，有尽可能多的回文子串
+// 并且每个回文子串都要求长度>=k、且彼此没有重合的部分
+// 返回最多能划分出几个这样的回文子串
 // 测试链接 : https://leetcode.cn/problems/maximum-number-of-non-overlapping-palindrome-substrings/
-public class Code03_MaximumNumberNonOverlappingPalindromes {
+public class Code02_MaximumNumberNonOverlappingPalindromes {
 
 	// 时间复杂度O(n)
 	public static int maxPalindromes(String s, int k) {
