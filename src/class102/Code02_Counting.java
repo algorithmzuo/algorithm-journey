@@ -104,13 +104,66 @@ public class Code02_Counting {
 		// 清空动态规划表
 		build();
 		// 执行记忆化搜索
-		out.println(f(0, 0, 0, 0));
+		out.println(f1(0, 0, 0, 0));
+		// out.println(f2(0, 0, 0, 0));
 		out.flush();
 		out.close();
 		in.close();
 	}
 
-	public static int f(int i, int u, int free, int has) {
+	// 逻辑分支都详细列出来的版本
+	public static int f1(int i, int j, int free, int has) {
+		if (wordEnd[j]) {
+			return 0;
+		}
+		if (i == n) {
+			return has;
+		}
+		if (dp[i][j][free][has] != -1) {
+			return dp[i][j][free][has];
+		}
+		int ans = 0;
+		int cur = num[i] - '0';
+		if (has == 0) { // 之前没有选择过数字
+			if (free == 0) { // 之前的决策等于num的前缀
+				// 能来到这里说明i一定是0位置, 那么cur必然不是0
+				// 当前选择不要数字
+				ans = (ans + f1(i + 1, 0, 1, 0)) % MOD;
+				// 当前选择的数字比cur小
+				for (int pick = 1; pick < cur; pick++) {
+					ans = (ans + f1(i + 1, tree[j][pick], 1, 1)) % MOD;
+				}
+				// 当前选择的数字为cur
+				ans = (ans + f1(i + 1, tree[j][cur], 0, 1)) % MOD;
+			} else { // 之前的决策小于num的前缀
+				// 当前选择不要数字
+				ans = (ans + f1(i + 1, 0, 1, 0)) % MOD;
+				// 当前可以选择1~9
+				for (int pick = 1; pick <= 9; pick++) {
+					ans = (ans + f1(i + 1, tree[j][pick], 1, 1)) % MOD;
+				}
+			}
+		} else { // 之前已经选择过数字
+			if (free == 0) { // 之前的决策等于num的前缀
+				// 当前选择的数字比cur小
+				for (int pick = 0; pick < cur; pick++) {
+					ans = (ans + f1(i + 1, tree[j][pick], 1, 1)) % MOD;
+				}
+				// 当前选择的数字为cur
+				ans = (ans + f1(i + 1, tree[j][cur], 0, 1)) % MOD;
+			} else { // 之前的决策小于num的前缀
+				// 当前可以选择0~9
+				for (int pick = 0; pick <= 9; pick++) {
+					ans = (ans + f1(i + 1, tree[j][pick], 1, 1)) % MOD;
+				}
+			}
+		}
+		dp[i][j][free][has] = ans;
+		return ans;
+	}
+
+	// 逻辑合并版
+	public static int f2(int i, int u, int free, int has) {
 		if (wordEnd[u]) {
 			return 0;
 		}
@@ -123,9 +176,7 @@ public class Code02_Counting {
 		int limit = free == 0 ? (num[i] - '0') : 9;
 		int ans = 0;
 		for (int pick = 0; pick <= limit; pick++) {
-			ans = (ans + f(i + 1,
-					has == 0 && pick == 0 ? 0 : tree[u][pick], // 这一句很重要
-					free == 0 && pick == limit ? 0 : 1,
+			ans = (ans + f2(i + 1, has == 0 && pick == 0 ? 0 : tree[u][pick], free == 0 && pick == limit ? 0 : 1,
 					has == 0 && pick == 0 ? 0 : 1)) % MOD;
 		}
 		dp[i][u][free][has] = ans;
