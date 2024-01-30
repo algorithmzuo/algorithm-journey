@@ -18,7 +18,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
-// 扩展KMP和KMP算法过程差别挺大，反而和Manacher算法非常像
+// 扩展KMP和KMP算法差别挺大，反而和Manacher算法非常像
 public class Code02_ExpandKMP2 {
 
 	public static int MAXN = 20000001;
