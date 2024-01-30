@@ -15,7 +15,7 @@ public class Code03_MaximumNumberNonOverlappingPalindromes {
 		int ans = 0;
 		int next = 0;
 		while ((next = find(next, k)) != -1) {
-			next = s[next] == '#' ? next : (next + 1);
+			next = ss[next] == '#' ? next : (next + 1);
 			ans++;
 		}
 		return ans;
@@ -23,7 +23,7 @@ public class Code03_MaximumNumberNonOverlappingPalindromes {
 
 	public static int MAXN = 2001;
 
-	public static char[] s = new char[MAXN << 1];
+	public static char[] ss = new char[MAXN << 1];
 
 	public static int[] p = new int[MAXN << 1];
 
@@ -32,7 +32,7 @@ public class Code03_MaximumNumberNonOverlappingPalindromes {
 	public static void manacherss(char[] a) {
 		n = a.length * 2 + 1;
 		for (int i = 0, j = 0; i < n; i++) {
-			s[i] = (i & 1) == 0 ? '#' : a[j++];
+			ss[i] = (i & 1) == 0 ? '#' : a[j++];
 		}
 	}
 
@@ -41,7 +41,7 @@ public class Code03_MaximumNumberNonOverlappingPalindromes {
 	public static int find(int l, int k) {
 		for (int i = l, c = l - 1, r = l - 1; i < n; i++) {
 			p[i] = r > i ? Math.min(p[2 * c - i], r - i) : 1;
-			while (i + p[i] < n && i - p[i] > l - 1 && s[i + p[i]] == s[i - p[i]]) {
+			while (i + p[i] < n && i - p[i] > l - 1 && ss[i + p[i]] == ss[i - p[i]]) {
 				if (++p[i] > k) {
 					return i + k;
 				}
