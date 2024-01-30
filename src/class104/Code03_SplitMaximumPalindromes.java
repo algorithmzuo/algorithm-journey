@@ -7,7 +7,7 @@ package class104;
 // 并且每个回文子串都要求长度>=k、且彼此没有重合的部分
 // 返回最多能划分出几个这样的回文子串
 // 测试链接 : https://leetcode.cn/problems/maximum-number-of-non-overlapping-palindrome-substrings/
-public class Code03_SplitMaximumNumberOfPalindromes {
+public class Code03_SplitMaximumPalindromes {
 
 	// 时间复杂度O(n)
 	public static int maxPalindromes(String str, int k) {
