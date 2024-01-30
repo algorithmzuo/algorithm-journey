@@ -23,52 +23,52 @@ public class Code02_ExpandKMP2 {
 
 	public static int MAXN = 20000001;
 
-	public static int[] zxt = new int[MAXN];
+	public static int[] z = new int[MAXN];
 
-	public static int[] ext = new int[MAXN];
+	public static int[] e = new int[MAXN];
 
 	public static void main(String[] args) throws IOException {
 		BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
 		char[] a = in.readLine().toCharArray();
 		char[] b = in.readLine().toCharArray();
-		znext(b, b.length);
-		exkmp(a, b, a.length, b.length);
-		out.println(eor(zxt, b.length));
-		out.println(eor(ext, a.length));
+		zArray(b, b.length);
+		eArray(a, b, a.length, b.length);
+		out.println(eor(z, b.length));
+		out.println(eor(e, a.length));
 		out.flush();
 		out.close();
 		in.close();
 	}
 
-	public static void znext(char[] s, int n) {
-		zxt[0] = n;
+	public static void zArray(char[] s, int n) {
+		z[0] = n;
 		for (int i = 0, j = 1; j < n && s[i] == s[j]; i++, j++) {
-			zxt[1]++;
+			z[1]++;
 		}
-		for (int i = 2, t = 1, r = 1 + zxt[1]; i < n; i++) {
-			zxt[i] = Math.max(0, Math.min(r - i, zxt[i - t]));
-			while (i + zxt[i] < n && s[i + zxt[i]] == s[zxt[i]]) {
-				zxt[i]++;
+		for (int i = 2, t = 1, r = 1 + z[1]; i < n; i++) {
+			z[i] = Math.max(0, Math.min(r - i, z[i - t]));
+			while (i + z[i] < n && s[i + z[i]] == s[z[i]]) {
+				z[i]++;
 			}
-			if (i + zxt[i] > r) {
-				r = i + zxt[i];
+			if (i + z[i] > r) {
+				r = i + z[i];
 				t = i;
 			}
 		}
 	}
 
-	public static void exkmp(char[] a, char[] b, int n, int m) {
+	public static void eArray(char[] a, char[] b, int n, int m) {
 		for (int i = 0; i < n && i < m && a[i] == b[i]; i++) {
-			ext[0]++;
+			e[0]++;
 		}
-		for (int i = 1, t = 0, r = ext[0]; i < n; i++) {
-			ext[i] = Math.max(0, Math.min(r - i, zxt[i - t]));
-			while (i + ext[i] < n && ext[i] < m && a[i + ext[i]] == b[ext[i]]) {
-				ext[i]++;
+		for (int i = 1, t = 0, r = e[0]; i < n; i++) {
+			e[i] = Math.max(0, Math.min(r - i, z[i - t]));
+			while (i + e[i] < n && e[i] < m && a[i + e[i]] == b[e[i]]) {
+				e[i]++;
 			}
-			if (i + ext[i] > r) {
-				r = i + ext[i];
+			if (i + e[i] > r) {
+				r = i + e[i];
 				t = i;
 			}
 		}

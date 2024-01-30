@@ -11,33 +11,33 @@ public class Code02_ExpandKMP1 {
 	public static long sumScores(String str) {
 		char[] s = str.toCharArray();
 		int n = s.length;
-		int[] zxt = znext(s, n);
+		int[] z = zArray(s, n);
 		long ans = 0;
-		for (int num : zxt) {
+		for (int num : z) {
 			ans += num;
 		}
 		return ans;
 	}
 
-	public static int[] znext(char[] s, int n) {
-		int[] zxt = new int[n];
-		zxt[0] = n;
+	public static int[] zArray(char[] s, int n) {
+		int[] z = new int[n];
+		z[0] = n;
 		for (int i = 0, j = 1; j < n && s[i] == s[j]; i++, j++) {
-			zxt[1]++;
+			z[1]++;
 		}
 		if (n >= 2) {
-			for (int i = 2, t = 1, r = 1 + zxt[1]; i < n; i++) {
-				zxt[i] = Math.max(0, Math.min(r - i, zxt[i - t]));
-				while (i + zxt[i] < n && s[i + zxt[i]] == s[zxt[i]]) {
-					zxt[i]++;
+			for (int i = 2, t = 1, r = 1 + z[1]; i < n; i++) {
+				z[i] = Math.max(0, Math.min(r - i, z[i - t]));
+				while (i + z[i] < n && s[i + z[i]] == s[z[i]]) {
+					z[i]++;
 				}
-				if (i + zxt[i] > r) {
-					r = i + zxt[i];
+				if (i + z[i] > r) {
+					r = i + z[i];
 					t = i;
 				}
 			}
 		}
-		return zxt;
+		return z;
 	}
 
 }
