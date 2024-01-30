@@ -124,8 +124,9 @@ public class Code02_Counting {
 		}
 		int ans = 0;
 		int cur = num[i] - '0';
-		if (has == 0) { // 之前没有选择过数字
-			if (free == 0) { // 之前的决策等于num的前缀
+		if (has == 0) {
+			if (free == 0) {
+				// 分支1 : 之前没有选择过数字 且 之前的决策等于num的前缀
 				// 能来到这里说明i一定是0位置, 那么cur必然不是0
 				// 当前选择不要数字
 				ans = (ans + f1(i + 1, 0, 1, 0)) % MOD;
@@ -135,7 +136,8 @@ public class Code02_Counting {
 				}
 				// 当前选择的数字为cur
 				ans = (ans + f1(i + 1, tree[j][cur], 0, 1)) % MOD;
-			} else { // 之前的决策小于num的前缀
+			} else {
+				// 分支2 : 之前没有选择过数字 且 之前的决策小于num的前缀
 				// 当前选择不要数字
 				ans = (ans + f1(i + 1, 0, 1, 0)) % MOD;
 				// 当前可以选择1~9
@@ -143,15 +145,17 @@ public class Code02_Counting {
 					ans = (ans + f1(i + 1, tree[j][pick], 1, 1)) % MOD;
 				}
 			}
-		} else { // 之前已经选择过数字
-			if (free == 0) { // 之前的决策等于num的前缀
+		} else {
+			if (free == 0) {
+				// 分支3 : 之前已经选择过数字 且 之前的决策等于num的前缀
 				// 当前选择的数字比cur小
 				for (int pick = 0; pick < cur; pick++) {
 					ans = (ans + f1(i + 1, tree[j][pick], 1, 1)) % MOD;
 				}
 				// 当前选择的数字为cur
 				ans = (ans + f1(i + 1, tree[j][cur], 0, 1)) % MOD;
-			} else { // 之前的决策小于num的前缀
+			} else {
+				// 分支4 : 之前已经选择过数字 且 之前的决策小于num的前缀
 				// 当前可以选择0~9
 				for (int pick = 0; pick <= 9; pick++) {
 					ans = (ans + f1(i + 1, tree[j][pick], 1, 1)) % MOD;
@@ -163,6 +167,7 @@ public class Code02_Counting {
 	}
 
 	// 逻辑合并版
+	// 其实和f1方法完全一个意思
 	public static int f2(int i, int u, int free, int has) {
 		if (wordEnd[u]) {
 			return 0;
