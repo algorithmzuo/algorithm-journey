@@ -1,12 +1,12 @@
-package class101;
+package class103;
 
-// 扩展KMP，又称Z函数(Leetcode基本版)
+// 扩展KMP，又称Z算法(Leetcode基本版)
 // 给定一个字符串str，求出一个数组
 // str与str每一个后缀串的最长公共前缀长度
 // 返回这个数组所有值的和
 // 测试链接 : https://leetcode.cn/problems/sum-of-scores-of-built-strings/
 
-public class Code05_ExpandKMP1 {
+public class Code02_ExpandKMP1 {
 
 	public static long sumScores(String str) {
 		char[] s = str.toCharArray();
@@ -25,22 +25,16 @@ public class Code05_ExpandKMP1 {
 		for (int i = 0, j = 1; j < n && s[i] == s[j]; i++, j++) {
 			zxt[1]++;
 		}
-		for (int i = 2, k = 1, j, r; i < n; i++) {
-			r = k + zxt[k];
-			j = zxt[i - k];
-			if (i + j < r) {
-				zxt[i] = j;
-			} else {
-				j = Math.max(0, r - i);
-				while (i + j < n && s[i + j] == s[j]) {
-					// 一旦成功就让右边界更往右了，而右边界最多走到n
-					// 所以不要在乎每次while的代价
-					// 要关注所有while行为的总代价为O(n)
-					// 这一点和Manacher算法时间复杂度的估计很像
-					j++;
+		if (n >= 2) {
+			for (int i = 2, t = 1, r = 1 + zxt[1]; i < n; i++) {
+				zxt[i] = Math.max(0, Math.min(r - i, zxt[i - t]));
+				while (i + zxt[i] < n && s[i + zxt[i]] == s[zxt[i]]) {
+					zxt[i]++;
 				}
-				zxt[i] = j;
-				k = i;
+				if (i + zxt[i] > r) {
+					r = i + zxt[i];
+					t = i;
+				}
 			}
 		}
 		return zxt;

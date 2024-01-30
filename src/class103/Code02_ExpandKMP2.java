@@ -1,6 +1,6 @@
-package class101;
+package class103;
 
-// 扩展KMP，又称Z函数(洛谷威力加强版)
+// 扩展KMP，又称Z算法(洛谷威力加强版)
 // 给定两个字符串a、b，求出两个数组
 // b与b每一个后缀串的最长公共前缀长度
 // b与a每一个后缀串的最长公共前缀长度
@@ -18,7 +18,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
-public class Code05_ExpandKMP2 {
+public class Code02_ExpandKMP2 {
 
 	public static int MAXN = 20000001;
 
@@ -45,22 +45,16 @@ public class Code05_ExpandKMP2 {
 		for (int i = 0, j = 1; j < n && s[i] == s[j]; i++, j++) {
 			zxt[1]++;
 		}
-		for (int i = 2, k = 1, j, r; i < n; i++) {
-			r = k + zxt[k];
-			j = zxt[i - k];
-			if (i + j < r) {
-				zxt[i] = j;
-			} else {
-				j = Math.max(0, r - i);
-				while (i + j < n && s[i + j] == s[j]) {
-					// 一旦成功就让右边界更往右了，而右边界最多走到n
-					// 所以不要在乎每次while的代价
-					// 要关注所有while行为的总代价为O(n)
-					// 这一点和Manacher算法时间复杂度的估计很像
-					j++;
+		if (n >= 2) {
+			for (int i = 2, t = 1, r = 1 + zxt[1]; i < n; i++) {
+				zxt[i] = Math.max(0, Math.min(r - i, zxt[i - t]));
+				while (i + zxt[i] < n && s[i + zxt[i]] == s[zxt[i]]) {
+					zxt[i]++;
 				}
-				zxt[i] = j;
-				k = i;
+				if (i + zxt[i] > r) {
+					r = i + zxt[i];
+					t = i;
+				}
 			}
 		}
 	}
@@ -69,22 +63,16 @@ public class Code05_ExpandKMP2 {
 		for (int i = 0; i < n && i < m && a[i] == b[i]; i++) {
 			ext[0]++;
 		}
-		for (int i = 1, k = 0, j, r; i < n; i++) {
-			r = k + ext[k];
-			j = zxt[i - k];
-			if (i + j < r) {
-				ext[i] = j;
-			} else {
-				j = Math.max(0, r - i);
-				while (i + j < n && j < m && a[i + j] == b[j]) {
-					// 一旦成功就让右边界更往右了，而右边界最多走到n
-					// 所以不要在乎每次while的代价
-					// 要关注所有while行为的总代价为O(n)
-					// 这一点和Manacher算法时间复杂度的估计很像
-					j++;
+		if (n >= 1) {
+			for (int i = 1, t = 0, r = ext[0]; i < n; i++) {
+				ext[i] = Math.max(0, Math.min(r - i, zxt[i - t]));
+				while (i + ext[i] < n && ext[i] < m && a[i + ext[i]] == b[ext[i]]) {
+					ext[i]++;
 				}
-				ext[i] = j;
-				k = i;
+				if (i + ext[i] > r) {
+					r = i + ext[i];
+					t = i;
+				}
 			}
 		}
 	}
