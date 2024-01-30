@@ -39,20 +39,20 @@ public class Code01_LinkedListInBinaryTree {
 		return find(root, 0, match, next);
 	}
 
-	public static boolean find(TreeNode cur, int mi, int[] match, int[] next) {
-		if (mi == match.length) {
+	public static boolean find(TreeNode cur, int i, int[] match, int[] next) {
+		if (i == match.length) {
 			return true;
 		}
 		if (cur == null) {
 			return false;
 		}
-		while (mi >= 0 && cur.val != match[mi]) {
-			mi = next[mi];
+		while (i >= 0 && cur.val != match[i]) {
+			i = next[i];
 		}
-		return find(cur.left, mi + 1, match, next) || find(cur.right, mi + 1, match, next);
+		return find(cur.left, i + 1, match, next) || find(cur.right, i + 1, match, next);
 	}
 
-	public static int[] nextArray(int[] match, int m) {
+	public static int[] nextArray(int[] s, int m) {
 		if (m == 1) {
 			return new int[] { -1 };
 		}
@@ -61,7 +61,7 @@ public class Code01_LinkedListInBinaryTree {
 		next[1] = 0;
 		int i = 2, cn = 0;
 		while (i < m) {
-			if (match[i - 1] == match[cn]) {
+			if (s[i - 1] == s[cn]) {
 				next[i++] = ++cn;
 			} else if (cn > 0) {
 				cn = next[cn];
