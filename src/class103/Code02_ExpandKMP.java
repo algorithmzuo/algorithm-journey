@@ -18,7 +18,6 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
-// 扩展KMP和KMP算法差别挺大，反而和Manacher算法非常像
 public class Code02_ExpandKMP {
 
 	public static int MAXN = 20000001;
@@ -41,13 +40,11 @@ public class Code02_ExpandKMP {
 		in.close();
 	}
 
+	// 非常像Manacher算法
 	public static void zArray(char[] s, int n) {
 		z[0] = n;
-		for (int i = 0, j = 1; j < n && s[i] == s[j]; i++, j++) {
-			z[1]++;
-		}
-		for (int i = 2, c = 1, r = 1 + z[1]; i < n; i++) {
-			z[i] = Math.max(0, Math.min(r - i, z[i - c]));
+		for (int i = 1, c = 0, r = 0; i < n; i++) {
+			z[i] = r > i ? Math.min(r - i, z[i - c]) : 0;
 			while (i + z[i] < n && s[i + z[i]] == s[z[i]]) {
 				z[i]++;
 			}
@@ -58,12 +55,10 @@ public class Code02_ExpandKMP {
 		}
 	}
 
+	// 非常像Manacher算法
 	public static void eArray(char[] a, char[] b, int n, int m) {
-		for (int i = 0; i < n && i < m && a[i] == b[i]; i++) {
-			e[0]++;
-		}
-		for (int i = 1, c = 0, r = e[0]; i < n; i++) {
-			e[i] = Math.max(0, Math.min(r - i, z[i - c]));
+		for (int i = 0, c = -1, r = -1; i < n; i++) {
+			e[i] = r > i ? Math.min(r - i, z[i - c]) : 0;
 			while (i + e[i] < n && e[i] < m && a[i + e[i]] == b[e[i]]) {
 				e[i]++;
 			}
