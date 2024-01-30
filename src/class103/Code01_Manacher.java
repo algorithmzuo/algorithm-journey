@@ -1,6 +1,6 @@
 package class103;
 
-// Manacher算法(模版)
+// Manacher算法模版
 // 求字符串s中最长回文子串的长度
 // 测试链接 : https://www.luogu.com.cn/problem/P3805
 // 请同学们务必参考如下代码中关于输入、输出的处理
