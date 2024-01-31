@@ -29,27 +29,27 @@ public class Code03_LinkedListInBinaryTree {
 			m++;
 			tmp = tmp.next;
 		}
-		int[] match = new int[m];
+		int[] s2 = new int[m];
 		m = 0;
 		while (head != null) {
-			match[m++] = head.val;
+			s2[m++] = head.val;
 			head = head.next;
 		}
-		int[] next = nextArray(match, m);
-		return find(root, 0, match, next);
+		int[] next = nextArray(s2, m);
+		return find(s2, next, root, 0);
 	}
 
-	public static boolean find(TreeNode cur, int i, int[] match, int[] next) {
-		if (i == match.length) {
+	public static boolean find(int[] s2, int[] next, TreeNode cur, int i) {
+		if (i == s2.length) {
 			return true;
 		}
 		if (cur == null) {
 			return false;
 		}
-		while (i >= 0 && cur.val != match[i]) {
+		while (i >= 0 && cur.val != s2[i]) {
 			i = next[i];
 		}
-		return find(cur.left, i + 1, match, next) || find(cur.right, i + 1, match, next);
+		return find(s2, next, cur.left, i + 1) || find(s2, next, cur.right, i + 1);
 	}
 
 	public static int[] nextArray(int[] s, int m) {
