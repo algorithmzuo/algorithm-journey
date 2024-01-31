@@ -30,45 +30,45 @@ public class Code04_FindAllGoodStrings {
 	public static int findGoodStrings(int n, String str1, String str2, String evil) {
 		char[] s1 = str1.toCharArray();
 		char[] s2 = str2.toCharArray();
-		char[] ev = evil.toCharArray();
-		int m = ev.length;
-		nextArray(ev, m);
+		char[] e = evil.toCharArray();
+		int m = e.length;
+		nextArray(e, m);
 		clear(n, m);
-		int ans = f(s2, ev, n, m, 0, 0, 0);
+		int ans = f(s2, e, n, m, 0, 0, 0);
 		clear(n, m);
-		ans = (ans - f(s1, ev, n, m, 0, 0, 0) + MOD) % MOD;
-		if (kmp(s1, ev, n, m) == -1) {
+		ans = (ans - f(s1, e, n, m, 0, 0, 0) + MOD) % MOD;
+		if (kmp(s1, e, n, m) == -1) {
 			ans = (ans + 1) % MOD;
 		}
 		return ans;
 	}
 
-	public static int f(char[] s, char[] e, int n, int m, int si, int ei, int free) {
-		if (ei == m) {
+	public static int f(char[] s, char[] e, int n, int m, int i, int j, int free) {
+		if (j == m) {
 			return 0;
 		}
-		if (si == n) {
+		if (i == n) {
 			return 1;
 		}
-		if (dp[si][ei][free] != -1) {
-			return dp[si][ei][free];
+		if (dp[i][j][free] != -1) {
+			return dp[i][j][free];
 		}
-		int ans = 0, ej;
-		for (char cur = 'a'; cur <= (free == 0 ? (s[si] - 1) : 'z'); cur++) {
-			ej = ei;
-			while (ej != -1 && cur != e[ej]) {
-				ej = next[ej];
+		int ans = 0, k;
+		for (char cur = 'a'; cur <= (free == 0 ? (s[i] - 1) : 'z'); cur++) {
+			k = j;
+			while (k != -1 && cur != e[k]) {
+				k = next[k];
 			}
-			ans = (ans + f(s, e, n, m, si + 1, ej + 1, 1)) % MOD;
+			ans = (ans + f(s, e, n, m, i + 1, k + 1, 1)) % MOD;
 		}
 		if (free == 0) {
-			ej = ei;
-			while (ej != -1 && s[si] != e[ej]) {
-				ej = next[ej];
+			k = j;
+			while (k != -1 && s[i] != e[k]) {
+				k = next[k];
 			}
-			ans = (ans + f(s, e, n, m, si + 1, ej + 1, 0)) % MOD;
+			ans = (ans + f(s, e, n, m, i + 1, k + 1, 0)) % MOD;
 		}
-		dp[si][ei][free] = ans;
+		dp[i][j][free] = ans;
 		return ans;
 	}
 
