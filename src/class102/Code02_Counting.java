@@ -44,7 +44,7 @@ public class Code02_Counting {
 
 	public static int[][][][] dp = new int[MAXN][MAXS][2][2];
 
-	public static void build() {
+	public static void clear() {
 		for (int i = 0; i <= n; i++) {
 			for (int j = 0; j <= tot; j++) {
 				dp[i][j][0][0] = -1;
@@ -102,7 +102,7 @@ public class Code02_Counting {
 		}
 		setFail();
 		// 清空动态规划表
-		build();
+		clear();
 		// 执行记忆化搜索
 		out.println(f1(0, 0, 0, 0));
 		// out.println(f2(0, 0, 0, 0));
