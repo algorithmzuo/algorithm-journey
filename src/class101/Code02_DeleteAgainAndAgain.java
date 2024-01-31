@@ -64,6 +64,7 @@ public class Code02_DeleteAgainAndAgain {
 				y = next[y];
 			}
 			if (y == m) {
+				// 相当于栈直接弹出了m条记录
 				size -= m;
 				y = size > 0 ? (stack2[size - 1] + 1) : 0;
 			}

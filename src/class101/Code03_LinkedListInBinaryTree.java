@@ -22,6 +22,7 @@ public class Code03_LinkedListInBinaryTree {
 	}
 
 	// 提交以下正式方法
+	// 时间复杂度O(n + m)
 	public static boolean isSubPath(ListNode head, TreeNode root) {
 		int m = 0;
 		ListNode tmp = head;
@@ -39,6 +40,10 @@ public class Code03_LinkedListInBinaryTree {
 		return find(s2, next, root, 0);
 	}
 
+	// 二叉树来到cur节点了
+	// 链表比对的位置来到i位置
+	// 利用链表的next数组加速匹配
+	// 返回是否能把链表整体匹配出来
 	public static boolean find(int[] s2, int[] next, TreeNode cur, int i) {
 		if (i == s2.length) {
 			return true;
@@ -46,6 +51,8 @@ public class Code03_LinkedListInBinaryTree {
 		if (cur == null) {
 			return false;
 		}
+		// 当前来到cur节点, 一开始的i是父亲节点给的
+		// 但是要修正，找到配成的位置
 		while (i >= 0 && cur.val != s2[i]) {
 			i = next[i];
 		}
