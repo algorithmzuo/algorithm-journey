@@ -23,7 +23,7 @@ public class Code02_DeleteAgainAndAgain {
 
 	public static int[] next = new int[MAXN];
 
-	public static int[] where = new int[MAXN];
+	public static int[] index = new int[MAXN];
 
 	public static int[] match = new int[MAXN];
 
@@ -36,7 +36,7 @@ public class Code02_DeleteAgainAndAgain {
 		s2 = in.readLine().toCharArray();
 		compute();
 		for (int i = 0; i < size; i++) {
-			out.print(s1[where[i]]);
+			out.print(s1[index[i]]);
 		}
 		out.println();
 		out.flush();
@@ -50,13 +50,13 @@ public class Code02_DeleteAgainAndAgain {
 		nextArray(m);
 		while (x < n) {
 			if (s1[x] == s2[y]) {
-				where[size] = x;
+				index[size] = x;
 				match[size] = y;
 				size++;
 				x++;
 				y++;
 			} else if (y == 0) {
-				where[size] = x;
+				index[size] = x;
 				match[size] = y;
 				size++;
 				x++;
