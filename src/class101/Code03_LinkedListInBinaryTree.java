@@ -6,7 +6,7 @@ package class101;
 // 如果某个路径上的数值等于以head为头的整个链表
 // 返回True，否则返回False
 // 测试链接 : https://leetcode.cn/problems/linked-list-in-binary-tree/
-public class Code01_LinkedListInBinaryTree {
+public class Code03_LinkedListInBinaryTree {
 
 	// 不要提交这个类
 	public class ListNode {

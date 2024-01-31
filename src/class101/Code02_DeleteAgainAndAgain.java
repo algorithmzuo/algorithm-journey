@@ -15,7 +15,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
-public class Code03_DeleteAgainAndAgain {
+public class Code02_DeleteAgainAndAgain {
 
 	public static char[] s1, s2;
 

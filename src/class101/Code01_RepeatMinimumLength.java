@@ -1,6 +1,6 @@
 package class101;
 
-// 最短重复串的长度
+// 最短循环节的长度
 // 给你一个字符串s1，它是由某个字符串s2不断自我连接形成的
 // 题目保证至少重复2次，但是字符串s2是不确定的
 // 现在只想知道它的最短长度是多少
@@ -15,7 +15,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
-public class Code02_RepeatMinimumLength {
+public class Code01_RepeatMinimumLength {
 
 	public static int MAXN = 1000001;
 
