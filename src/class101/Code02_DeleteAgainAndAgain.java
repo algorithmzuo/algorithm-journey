@@ -65,11 +65,7 @@ public class Code02_DeleteAgainAndAgain {
 			}
 			if (y == m) {
 				size -= m;
-				if (size > 0) {
-					y = match[size - 1] + 1;
-				} else {
-					y = 0;
-				}
+				y = size > 0 ? (match[size - 1] + 1) : 0;
 			}
 		}
 	}
