@@ -62,10 +62,11 @@ public class Code01_ACAM {
 		}
 		for (int i = 1; i <= tot; i++) {
 			// 根据fail指针建反图
+			// 其实是一颗树
 			addEdge(fail[i], i);
 		}
-		// 在fail指针建的图上
-		// 把词频汇总
+		// 遍历fail指针建的树
+		// 汇总每个节点的词频
 		mergeCnt2(0);
 		for (int i = 1; i <= n; i++) {
 			out.println(cnt[end[i]]);
@@ -85,7 +86,7 @@ public class Code01_ACAM {
 			}
 			u = tree[u][c];
 		}
-		end[i] = u; // 每个模式串的结尾节点编号
+		end[i] = u; // 每个目标字符串的结尾节点编号
 	}
 
 	public static void setFail() {
