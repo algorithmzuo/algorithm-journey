@@ -23,6 +23,15 @@ public class Code01_Manacher {
 
 	public static int n;
 
+	public static void main(String[] args) throws IOException {
+		BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
+		out.println(manacher(in.readLine()));
+		out.flush();
+		out.close();
+		in.close();
+	}
+
 	public static int manacher(String str) {
 		manacherss(str.toCharArray());
 		int max = 0;
@@ -45,15 +54,6 @@ public class Code01_Manacher {
 		for (int i = 0, j = 0; i < n; i++) {
 			ss[i] = (i & 1) == 0 ? '#' : a[j++];
 		}
-	}
-
-	public static void main(String[] args) throws IOException {
-		BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
-		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
-		out.println(manacher(in.readLine()));
-		out.flush();
-		out.close();
-		in.close();
 	}
 
 }
