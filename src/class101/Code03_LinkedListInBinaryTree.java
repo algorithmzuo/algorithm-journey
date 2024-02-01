@@ -53,6 +53,7 @@ public class Code03_LinkedListInBinaryTree {
 		}
 		// 当前来到cur节点, 一开始的i是父亲节点给的
 		// 但是要修正，找到配成的位置
+		// 均摊下来，时间复杂度O(1)
 		while (i >= 0 && cur.val != s2[i]) {
 			i = next[i];
 		}

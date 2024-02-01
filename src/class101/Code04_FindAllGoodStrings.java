@@ -126,6 +126,7 @@ public class Code04_FindAllGoodStrings {
 	// 当前字符是pick，一开始匹配e[j]
 	// 根据next数组加速匹配，返回匹配出来的位置
 	// 如果匹配不出来返回-1
+	// 单次调用的时间复杂度O(1)
 	public static int jump(char pick, char[] e, int j) {
 		while (j >= 0 && pick != e[j]) {
 			j = next[j];
