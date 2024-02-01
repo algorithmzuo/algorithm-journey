@@ -43,29 +43,31 @@ public class Code02_ExpandKMP {
 	// 非常像Manacher算法
 	public static void zArray(char[] s, int n) {
 		z[0] = n;
-		for (int i = 1, c = 0, r = 0; i < n; i++) {
-			z[i] = r > i ? Math.min(r - i, z[i - c]) : 0;
-			while (i + z[i] < n && s[i + z[i]] == s[z[i]]) {
-				z[i]++;
+		for (int i = 1, c = 0, r = 0, len; i < n; i++) {
+			len = r > i ? Math.min(r - i, z[i - c]) : 0;
+			while (i + len < n && s[i + len] == s[len]) {
+				len++;
 			}
-			if (i + z[i] > r) {
-				r = i + z[i];
+			if (i + len > r) {
+				r = i + len;
 				c = i;
 			}
+			z[i] = len;
 		}
 	}
 
 	// 非常像Manacher算法
 	public static void eArray(char[] a, char[] b, int n, int m) {
-		for (int i = 0, c = -1, r = -1; i < n; i++) {
-			e[i] = r > i ? Math.min(r - i, z[i - c]) : 0;
-			while (i + e[i] < n && e[i] < m && a[i + e[i]] == b[e[i]]) {
-				e[i]++;
+		for (int i = 0, c = -1, r = -1, len; i < n; i++) {
+			len = r > i ? Math.min(r - i, z[i - c]) : 0;
+			while (i + len < n && len < m && a[i + len] == b[len]) {
+				len++;
 			}
-			if (i + e[i] > r) {
-				r = i + e[i];
+			if (i + len > r) {
+				r = i + len;
 				c = i;
 			}
+			e[i] = len;
 		}
 	}
 

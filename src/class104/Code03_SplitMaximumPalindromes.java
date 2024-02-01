@@ -39,17 +39,18 @@ public class Code03_SplitMaximumPalindromes {
 	// s[l...]字符串只在这个范围上，且s[l]一定是'#'
 	// 从下标l开始，之前都不算，一旦有某个中心回文半径>k，马上返回右边界
 	public static int find(int l, int k) {
-		for (int i = l, c = l - 1, r = l - 1; i < n; i++) {
-			p[i] = r > i ? Math.min(p[2 * c - i], r - i) : 1;
-			while (i + p[i] < n && i - p[i] > l - 1 && ss[i + p[i]] == ss[i - p[i]]) {
-				if (++p[i] > k) {
+		for (int i = l, c = l - 1, r = l - 1, len; i < n; i++) {
+			len = r > i ? Math.min(p[2 * c - i], r - i) : 1;
+			while (i + len < n && i - len > l - 1 && ss[i + len] == ss[i - len]) {
+				if (++len > k) {
 					return i + k;
 				}
 			}
-			if (i + p[i] > r) {
-				r = i + p[i];
+			if (i + len > r) {
+				r = i + len;
 				c = i;
 			}
+			p[i] = len;
 		}
 		return -1;
 	}

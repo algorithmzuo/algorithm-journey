@@ -35,16 +35,17 @@ public class Code01_Manacher {
 	public static int manacher(String str) {
 		manacherss(str.toCharArray());
 		int max = 0;
-		for (int i = 0, c = -1, r = -1; i < n; i++) {
-			p[i] = r > i ? Math.min(p[2 * c - i], r - i) : 1;
-			while (i + p[i] < n && i - p[i] >= 0 && ss[i + p[i]] == ss[i - p[i]]) {
-				p[i]++;
+		for (int i = 0, c = -1, r = -1, len; i < n; i++) {
+			len = r > i ? Math.min(p[2 * c - i], r - i) : 1;
+			while (i + len < n && i - len >= 0 && ss[i + len] == ss[i - len]) {
+				len++;
 			}
-			if (i + p[i] > r) {
-				r = i + p[i];
+			if (i + len > r) {
+				r = i + len;
 				c = i;
 			}
-			max = Math.max(max, p[i]);
+			max = Math.max(max, len);
+			p[i] = len;
 		}
 		return max - 1;
 	}
