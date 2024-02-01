@@ -26,13 +26,11 @@ public class Code02_Counting {
 
 	public static int MAXS = 2001;
 
-	public static int MAXC = 10;
-
 	public static char[] num;
 
 	public static int n;
 
-	public static int[][] tree = new int[MAXS][MAXC];
+	public static int[][] tree = new int[MAXS][10];
 
 	public static int[] fail = new int[MAXS];
 
@@ -71,7 +69,7 @@ public class Code02_Counting {
 	public static void setFail() {
 		int l = 0;
 		int r = 0;
-		for (int i = 0; i < MAXC; i++) {
+		for (int i = 0; i <= 9; i++) {
 			if (tree[0][i] > 0) {
 				queue[r++] = tree[0][i];
 			}
@@ -79,7 +77,7 @@ public class Code02_Counting {
 		while (l < r) {
 			int u = queue[l++];
 			wordEnd[u] |= wordEnd[fail[u]];
-			for (int i = 0; i < MAXC; i++) {
+			for (int i = 0; i <= 9; i++) {
 				if (tree[u][i] == 0) {
 					tree[u][i] = tree[fail[u]][i];
 				} else {

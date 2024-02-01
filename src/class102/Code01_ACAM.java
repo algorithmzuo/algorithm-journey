@@ -20,11 +20,9 @@ public class Code01_ACAM {
 
 	public static int MAXS = 200001;
 
-	public static int MAXC = 26;
-
 	public static int[] end = new int[MAXN];
 
-	public static int[][] tree = new int[MAXS][MAXC];
+	public static int[][] tree = new int[MAXS][26];
 
 	public static int[] fail = new int[MAXS];
 
@@ -92,14 +90,14 @@ public class Code01_ACAM {
 	public static void setFail() {
 		int l = 0;
 		int r = 0;
-		for (int i = 0; i < MAXC; i++) {
+		for (int i = 0; i <= 25; i++) {
 			if (tree[0][i] > 0) {
 				box[r++] = tree[0][i];
 			}
 		}
 		while (l < r) {
 			int u = box[l++];
-			for (int i = 0; i < MAXC; i++) {
+			for (int i = 0; i <= 25; i++) {
 				if (tree[u][i] == 0) {
 					tree[u][i] = tree[fail[u]][i];
 				} else {
