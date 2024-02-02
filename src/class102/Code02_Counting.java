@@ -22,14 +22,19 @@ public class Code02_Counting {
 
 	public static int MOD = 1000000007;
 
+	// 目标字符串的数量
 	public static int MAXN = 1301;
 
+	// 所有目标字符串的总字符数量
 	public static int MAXS = 2001;
 
+	// 读入的数字
 	public static char[] num;
 
+	// 读入数字的长度
 	public static int n;
 
+	// AC自动机
 	public static int[][] tree = new int[MAXS][10];
 
 	public static int[] fail = new int[MAXS];
@@ -38,8 +43,10 @@ public class Code02_Counting {
 
 	public static int tot = 0;
 
-	public static int[] queue = new int[MAXS];
+	// 用作队列
+	public static int[] box = new int[MAXS];
 
+	// 动态规划表
 	public static int[][][][] dp = new int[MAXN][MAXS][2][2];
 
 	public static void clear() {
@@ -53,6 +60,7 @@ public class Code02_Counting {
 		}
 	}
 
+	// AC自动机加入目标字符串
 	public static void insert(String word) {
 		char[] w = word.toCharArray();
 		int u = 0;
@@ -66,25 +74,31 @@ public class Code02_Counting {
 		wordEnd[u] = true;
 	}
 
+	// 加入所有目标字符串之后
+	// 设置fail指针 以及 设置直接跳转支路
+	// 做了AC自动机固定的优化
+	// 做了命中标记前移防止绕圈的优化
 	public static void setFail() {
+		// box当做队列来使用
 		int l = 0;
 		int r = 0;
 		for (int i = 0; i <= 9; i++) {
 			if (tree[0][i] > 0) {
-				queue[r++] = tree[0][i];
+				box[r++] = tree[0][i];
 			}
 		}
 		while (l < r) {
-			int u = queue[l++];
-			wordEnd[u] |= wordEnd[fail[u]];
+			int u = box[l++];
 			for (int i = 0; i <= 9; i++) {
 				if (tree[u][i] == 0) {
 					tree[u][i] = tree[fail[u]][i];
 				} else {
 					fail[tree[u][i]] = tree[fail[u]][i];
-					queue[r++] = tree[u][i];
+					box[r++] = tree[u][i];
 				}
 			}
+			// 命中标记前移
+			wordEnd[u] |= wordEnd[fail[u]];
 		}
 	}
 

@@ -16,12 +16,16 @@ import java.io.PrintWriter;
 
 public class Code01_ACAM {
 
+	// 目标字符串的数量
 	public static int MAXN = 200001;
 
+	// 所有目标字符串的总字符数量
 	public static int MAXS = 200001;
 
+	// 记录每个目标串的结尾节点编号
 	public static int[] end = new int[MAXN];
 
+	// AC自动机
 	public static int[][] tree = new int[MAXS][26];
 
 	public static int[] fail = new int[MAXS];
@@ -30,6 +34,10 @@ public class Code01_ACAM {
 
 	public static int tot = 0;
 
+	// 可以用作队列或者栈，一个容器而已
+	public static int[] box = new int[MAXS];
+
+	// 链式前向星，为了建立fail指针的反图
 	public static int[] head = new int[MAXS];
 
 	public static int[] next = new int[MAXS];
@@ -38,9 +46,47 @@ public class Code01_ACAM {
 
 	public static int edge = 0;
 
-	public static int[] box = new int[MAXS];
-
+	// 遍历fail反图，递归方法会爆栈，所以用非递归替代
 	public static boolean[] visited = new boolean[MAXS];
+
+	// AC自动机加入目标字符串
+	public static void insert(int i, String str) {
+		char[] s = str.toCharArray();
+		int u = 0;
+		for (int j = 0, c; j < s.length; j++) {
+			c = s[j] - 'a';
+			if (tree[u][c] == 0) {
+				tree[u][c] = ++tot;
+			}
+			u = tree[u][c];
+		}
+		end[i] = u; // 每个目标字符串的结尾节点编号
+	}
+
+	// 加入所有目标字符串之后
+	// 设置fail指针 以及 设置直接跳转支路
+	// 做了AC自动机固定的优化
+	public static void setFail() {
+		// box当做队列来使用
+		int l = 0;
+		int r = 0;
+		for (int i = 0; i <= 25; i++) {
+			if (tree[0][i] > 0) {
+				box[r++] = tree[0][i];
+			}
+		}
+		while (l < r) {
+			int u = box[l++];
+			for (int i = 0; i <= 25; i++) {
+				if (tree[u][i] == 0) {
+					tree[u][i] = tree[fail[u]][i];
+				} else {
+					fail[tree[u][i]] = tree[fail[u]][i];
+					box[r++] = tree[u][i];
+				}
+			}
+		}
+	}
 
 	public static void main(String[] args) throws IOException {
 		BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
@@ -72,40 +118,6 @@ public class Code01_ACAM {
 		out.flush();
 		out.close();
 		in.close();
-	}
-
-	public static void insert(int i, String str) {
-		char[] s = str.toCharArray();
-		int u = 0;
-		for (int j = 0, c; j < s.length; j++) {
-			c = s[j] - 'a';
-			if (tree[u][c] == 0) {
-				tree[u][c] = ++tot;
-			}
-			u = tree[u][c];
-		}
-		end[i] = u; // 每个目标字符串的结尾节点编号
-	}
-
-	public static void setFail() {
-		int l = 0;
-		int r = 0;
-		for (int i = 0; i <= 25; i++) {
-			if (tree[0][i] > 0) {
-				box[r++] = tree[0][i];
-			}
-		}
-		while (l < r) {
-			int u = box[l++];
-			for (int i = 0; i <= 25; i++) {
-				if (tree[u][i] == 0) {
-					tree[u][i] = tree[fail[u]][i];
-				} else {
-					fail[tree[u][i]] = tree[fail[u]][i];
-					box[r++] = tree[u][i];
-				}
-			}
-		}
 	}
 
 	public static void addEdge(int u, int v) {
