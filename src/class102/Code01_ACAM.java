@@ -67,7 +67,7 @@ public class Code01_ACAM {
 	}
 
 	// 加入所有目标字符串之后
-	// 设置fail指针 以及 设置直接跳转支路
+	// 设置fail指针 以及 设置直接直通表
 	// 做了AC自动机固定的优化
 	public static void setFail() {
 		// box当做队列来使用

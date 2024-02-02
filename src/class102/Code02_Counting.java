@@ -45,8 +45,7 @@ public class Code02_Counting {
 	// 所以每个节点记录是否触发警报
 	public static boolean[] alert = new boolean[MAXS];
 
-	// 用作队列
-	public static int[] box = new int[MAXS];
+	public static int[] queue = new int[MAXS];
 
 	// 动态规划表
 	public static int[][][][] dp = new int[MAXN][MAXS][2][2];
@@ -81,22 +80,21 @@ public class Code02_Counting {
 	// 做了AC自动机固定的优化
 	// 做了命中标记前移防止绕圈的优化
 	public static void setFail() {
-		// box当做队列来使用
 		int l = 0;
 		int r = 0;
 		for (int i = 0; i <= 9; i++) {
 			if (tree[0][i] > 0) {
-				box[r++] = tree[0][i];
+				queue[r++] = tree[0][i];
 			}
 		}
 		while (l < r) {
-			int u = box[l++];
+			int u = queue[l++];
 			for (int i = 0; i <= 9; i++) {
 				if (tree[u][i] == 0) {
 					tree[u][i] = tree[fail[u]][i];
 				} else {
 					fail[tree[u][i]] = tree[fail[u]][i];
-					box[r++] = tree[u][i];
+					queue[r++] = tree[u][i];
 				}
 			}
 			// 命中标记前移
@@ -126,6 +124,15 @@ public class Code02_Counting {
 	}
 
 	// 逻辑分支都详细列出来的版本
+	// i来到的位置
+	// j : AC自动机里来到的节点编号
+	// free : 是不是可以随意选择了
+	// free = 0，不能随意选择数字，要考虑当前数字的大小
+	// free = 1，能随意选择数字
+	// has : 之前有没有选择过数字
+	// has = 0，之前没选择过数字
+	// has = 1，之前选择过数字
+	// 返回i....幸运数字的个数
 	public static int f1(int i, int j, int free, int has) {
 		if (alert[j]) {
 			return 0;
