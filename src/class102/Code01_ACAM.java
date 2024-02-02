@@ -31,7 +31,7 @@ public class Code01_ACAM {
 	public static int[] fail = new int[MAXS];
 
 	public static int cnt = 0;
-	
+
 	// 具体题目相关，本题为收集词频
 	// 所以每个节点记录词频
 	public static int[] times = new int[MAXS];
@@ -62,7 +62,8 @@ public class Code01_ACAM {
 			}
 			u = tree[u][c];
 		}
-		end[i] = u; // 每个目标字符串的结尾节点编号
+		// 每个目标字符串的结尾节点编号
+		end[i] = u;
 	}
 
 	// 加入所有目标字符串之后
