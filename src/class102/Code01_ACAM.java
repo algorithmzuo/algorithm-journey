@@ -30,9 +30,11 @@ public class Code01_ACAM {
 
 	public static int[] fail = new int[MAXS];
 
-	public static int[] cnt = new int[MAXS];
-
-	public static int tot = 0;
+	public static int cnt = 0;
+	
+	// 具体题目相关，本题为收集词频
+	// 所以每个节点记录词频
+	public static int[] times = new int[MAXS];
 
 	// 可以用作队列或者栈，一个容器而已
 	public static int[] box = new int[MAXS];
@@ -56,7 +58,7 @@ public class Code01_ACAM {
 		for (int j = 0, c; j < s.length; j++) {
 			c = s[j] - 'a';
 			if (tree[u][c] == 0) {
-				tree[u][c] = ++tot;
+				tree[u][c] = ++cnt;
 			}
 			u = tree[u][c];
 		}
@@ -102,18 +104,18 @@ public class Code01_ACAM {
 		for (int u = 0, i = 0; i < s.length; i++) {
 			u = tree[u][s[i] - 'a'];
 			// 增加匹配次数
-			cnt[u]++;
+			times[u]++;
 		}
-		for (int i = 1; i <= tot; i++) {
+		for (int i = 1; i <= cnt; i++) {
 			// 根据fail指针建反图
 			// 其实是一颗树
 			addEdge(fail[i], i);
 		}
 		// 遍历fail指针建的树
 		// 汇总每个节点的词频
-		mergeCnt2(0);
+		f2(0);
 		for (int i = 1; i <= n; i++) {
-			out.println(cnt[end[i]]);
+			out.println(times[end[i]]);
 		}
 		out.flush();
 		out.close();
@@ -130,10 +132,10 @@ public class Code01_ACAM {
 	// 但是递归开太多层了会爆栈
 	// C++这道题不会爆栈
 	// java会
-	public static void mergeCnt1(int u) {
+	public static void f1(int u) {
 		for (int i = head[u]; i > 0; i = next[i]) {
-			mergeCnt1(to[i]);
-			cnt[u] += cnt[to[i]];
+			f1(to[i]);
+			times[u] += times[to[i]];
 		}
 	}
 
@@ -142,7 +144,7 @@ public class Code01_ACAM {
 	// 只消耗内存空间(box和visited)
 	// 不消耗系统栈的空间
 	// 所以很安全
-	public static void mergeCnt2(int u) {
+	public static void f2(int u) {
 		// box当做栈来使用
 		int r = 0;
 		box[r++] = u;
@@ -157,7 +159,7 @@ public class Code01_ACAM {
 			} else {
 				r--;
 				for (int i = head[cur]; i > 0; i = next[i]) {
-					cnt[cur] += cnt[to[i]];
+					times[cur] += times[to[i]];
 				}
 			}
 		}

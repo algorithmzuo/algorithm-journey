@@ -39,9 +39,11 @@ public class Code02_Counting {
 
 	public static int[] fail = new int[MAXS];
 
-	public static boolean[] wordEnd = new boolean[MAXS];
+	public static int cnt = 0;
 
-	public static int tot = 0;
+	// 具体题目相关，本题为命中任何目标串就直接报警
+	// 所以每个节点记录是否触发警报
+	public static boolean[] alert = new boolean[MAXS];
 
 	// 用作队列
 	public static int[] box = new int[MAXS];
@@ -51,7 +53,7 @@ public class Code02_Counting {
 
 	public static void clear() {
 		for (int i = 0; i <= n; i++) {
-			for (int j = 0; j <= tot; j++) {
+			for (int j = 0; j <= cnt; j++) {
 				dp[i][j][0][0] = -1;
 				dp[i][j][0][1] = -1;
 				dp[i][j][1][0] = -1;
@@ -67,11 +69,11 @@ public class Code02_Counting {
 		for (int j = 0, c; j < w.length; j++) {
 			c = w[j] - '0';
 			if (tree[u][c] == 0) {
-				tree[u][c] = ++tot;
+				tree[u][c] = ++cnt;
 			}
 			u = tree[u][c];
 		}
-		wordEnd[u] = true;
+		alert[u] = true;
 	}
 
 	// 加入所有目标字符串之后
@@ -98,7 +100,7 @@ public class Code02_Counting {
 				}
 			}
 			// 命中标记前移
-			wordEnd[u] |= wordEnd[fail[u]];
+			alert[u] |= alert[fail[u]];
 		}
 	}
 
@@ -125,7 +127,7 @@ public class Code02_Counting {
 
 	// 逻辑分支都详细列出来的版本
 	public static int f1(int i, int j, int free, int has) {
-		if (wordEnd[j]) {
+		if (alert[j]) {
 			return 0;
 		}
 		if (i == n) {
@@ -181,7 +183,7 @@ public class Code02_Counting {
 	// 逻辑合并版
 	// 其实和f1方法完全一个意思
 	public static int f2(int i, int u, int free, int has) {
-		if (wordEnd[u]) {
+		if (alert[u]) {
 			return 0;
 		}
 		if (i == n) {
