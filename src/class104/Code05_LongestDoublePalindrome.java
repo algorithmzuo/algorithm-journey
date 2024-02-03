@@ -29,6 +29,7 @@ public class Code05_LongestDoublePalindrome {
 		in.close();
 	}
 
+	// 待完成
 	public static int compute() {
 		return 1;
 	}
