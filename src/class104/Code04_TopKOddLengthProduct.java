@@ -15,7 +15,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
-public class Code04_TopkOddLengthProduct {
+public class Code04_TopKOddLengthProduct {
 
 	public static int MOD = 19930726;
 
