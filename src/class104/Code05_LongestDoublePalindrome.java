@@ -41,14 +41,14 @@ public class Code05_LongestDoublePalindrome {
 	public static int compute(String s) {
 		manacher(s);
 		for (int i = 0; i < n; i++) {
-			left[i - p[i] + 1] = Math.max(left[i - p[i] + 1], p[i] - 1);
-			right[i + p[i] - 1] = Math.max(right[i + p[i] - 1], p[i] - 1);
-		}
-		for (int i = 2; i < n; i += 2) {
-			left[i] = Math.max(left[i], left[i - 2] - 2);
+			left[i + p[i] - 1] = Math.max(left[i + p[i] - 1], p[i] - 1);
+			right[i - p[i] + 1] = Math.max(right[i - p[i] + 1], p[i] - 1);
 		}
 		for (int i = n - 1; i >= 2; i -= 2) {
-			right[i] = Math.max(right[i], right[i + 2] - 2);
+			left[i] = Math.max(left[i], left[i + 2] - 2);
+		}
+		for (int i = 2; i < n; i += 2) {
+			right[i] = Math.max(right[i], right[i - 2] - 2);
 		}
 		int ans = 0;
 		for (int i = 2; i < n; i += 2) {
