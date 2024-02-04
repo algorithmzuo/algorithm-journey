@@ -44,13 +44,13 @@ public class Code05_LongestDoublePalindrome {
 			left[i - p[i] + 1] = Math.max(left[i - p[i] + 1], p[i] - 1);
 			right[i + p[i] - 1] = Math.max(right[i + p[i] - 1], p[i] - 1);
 		}
-		int ans = 0;
 		for (int i = 2; i < n; i += 2) {
 			left[i] = Math.max(left[i], left[i - 2] - 2);
 		}
 		for (int i = n - 1; i >= 2; i -= 2) {
 			right[i] = Math.max(right[i], right[i + 2] - 2);
 		}
+		int ans = 0;
 		for (int i = 2; i < n; i += 2) {
 			if (left[i] > 0 && right[i] > 0) {
 				ans = Math.max(ans, left[i] + right[i]);
