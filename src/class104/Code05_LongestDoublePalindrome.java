@@ -59,9 +59,8 @@ public class Code05_LongestDoublePalindrome {
 		return ans;
 	}
 
-	public static int manacher(String str) {
+	public static void manacher(String str) {
 		manacherss(str.toCharArray());
-		int max = 0;
 		for (int i = 0, c = -1, r = -1, len; i < n; i++) {
 			len = r > i ? Math.min(p[2 * c - i], r - i) : 1;
 			while (i + len < n && i - len >= 0 && ss[i + len] == ss[i - len]) {
@@ -71,10 +70,8 @@ public class Code05_LongestDoublePalindrome {
 				r = i + len;
 				c = i;
 			}
-			max = Math.max(max, len);
 			p[i] = len;
 		}
-		return max - 1;
 	}
 
 	public static void manacherss(char[] a) {

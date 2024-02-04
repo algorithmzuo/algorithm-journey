@@ -39,39 +39,14 @@ public class Code04_TopKOddLengthProduct {
 		mk = in.readLine().split(" ");
 		m = Integer.valueOf(mk[0]);
 		k = Long.valueOf(mk[1]);
-		manacher(in.readLine());
-		out.println(compute());
+		out.println(compute(in.readLine()));
 		out.flush();
 		out.close();
 		in.close();
 	}
 
-	public static int manacher(String str) {
-		manacherss(str.toCharArray());
-		int max = 0;
-		for (int i = 0, c = -1, r = -1, len; i < n; i++) {
-			len = r > i ? Math.min(p[2 * c - i], r - i) : 1;
-			while (i + len < n && i - len >= 0 && ss[i + len] == ss[i - len]) {
-				len++;
-			}
-			if (i + len > r) {
-				r = i + len;
-				c = i;
-			}
-			max = Math.max(max, len);
-			p[i] = len;
-		}
-		return max - 1;
-	}
-
-	public static void manacherss(char[] a) {
-		n = a.length * 2 + 1;
-		for (int i = 0, j = 0; i < n; i++) {
-			ss[i] = (i & 1) == 0 ? '#' : a[j++];
-		}
-	}
-
-	public static int compute() {
+	public static int compute(String s) {
+		manacher(s);
 		for (int i = 1; i < n; i += 2) {
 			cnt[p[i] - 1]++;
 		}
@@ -83,6 +58,28 @@ public class Code04_TopKOddLengthProduct {
 			k -= sum;
 		}
 		return k < 0 ? (int) ans : -1;
+	}
+
+	public static void manacher(String str) {
+		manacherss(str.toCharArray());
+		for (int i = 0, c = -1, r = -1, len; i < n; i++) {
+			len = r > i ? Math.min(p[2 * c - i], r - i) : 1;
+			while (i + len < n && i - len >= 0 && ss[i + len] == ss[i - len]) {
+				len++;
+			}
+			if (i + len > r) {
+				r = i + len;
+				c = i;
+			}
+			p[i] = len;
+		}
+	}
+
+	public static void manacherss(char[] a) {
+		n = a.length * 2 + 1;
+		for (int i = 0, j = 0; i < n; i++) {
+			ss[i] = (i & 1) == 0 ? '#' : a[j++];
+		}
 	}
 
 	public static long power(long x, long n) {
