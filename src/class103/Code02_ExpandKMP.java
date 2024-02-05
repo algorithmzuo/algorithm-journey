@@ -43,7 +43,7 @@ public class Code02_ExpandKMP {
 	// 非常像Manacher算法
 	public static void zArray(char[] s, int n) {
 		z[0] = n;
-		for (int i = 1, c = 0, r = 0, len; i < n; i++) {
+		for (int i = 1, c = 1, r = 1, len; i < n; i++) {
 			len = r > i ? Math.min(r - i, z[i - c]) : 0;
 			while (i + len < n && s[i + len] == s[len]) {
 				len++;
@@ -58,7 +58,7 @@ public class Code02_ExpandKMP {
 
 	// 非常像Manacher算法
 	public static void eArray(char[] a, char[] b, int n, int m) {
-		for (int i = 0, c = -1, r = -1, len; i < n; i++) {
+		for (int i = 0, c = 0, r = 0, len; i < n; i++) {
 			len = r > i ? Math.min(r - i, z[i - c]) : 0;
 			while (i + len < n && len < m && a[i + len] == b[len]) {
 				len++;
