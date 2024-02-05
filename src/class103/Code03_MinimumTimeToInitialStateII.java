@@ -16,7 +16,7 @@ public class Code03_MinimumTimeToInitialStateII {
 		int n = s.length;
 		zArray(s, n);
 		for (int i = k; i < n; i += k) {
-			if (i + z[i] == n) {
+			if (z[i] == n - i) {
 				return i / k;
 			}
 		}
