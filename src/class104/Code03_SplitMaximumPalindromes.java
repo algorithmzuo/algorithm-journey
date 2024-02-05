@@ -15,7 +15,9 @@ public class Code03_SplitMaximumPalindromes {
 		int ans = 0;
 		int next = 0;
 		while ((next = find(next, k)) != -1) {
-			next = ss[next] == '#' ? next : (next + 1);
+			if (ss[next] != '#') {
+				next++;
+			}
 			ans++;
 		}
 		return ans;
@@ -36,8 +38,8 @@ public class Code03_SplitMaximumPalindromes {
 		}
 	}
 
-	// s[l...]字符串只在这个范围上，且s[l]一定是'#'
-	// 从下标l开始，之前都不算，一旦有某个中心回文半径>k，马上返回右边界
+	// s[l...]字符串只在这个范围上寻找回文且s[l]一定是'#'
+	// 从下标l开始，一旦有某个中心回文半径>k，马上返回右边界
 	public static int find(int l, int k) {
 		for (int i = l, c = l, r = l, len; i < n; i++) {
 			len = r > i ? Math.min(p[2 * c - i], r - i) : 1;
