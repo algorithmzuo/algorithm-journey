@@ -41,7 +41,7 @@ public class Code03_SplitMaximumPalindromes {
 	public static int find(int l, int k) {
 		for (int i = l, c = l, r = l, len; i < n; i++) {
 			len = r > i ? Math.min(p[2 * c - i], r - i) : 1;
-			while (i + len < n && i - len > l - 1 && ss[i + len] == ss[i - len]) {
+			while (i + len < n && i - len >= l && ss[i + len] == ss[i - len]) {
 				if (++len > k) {
 					return i + k;
 				}
