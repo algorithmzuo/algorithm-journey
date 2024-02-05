@@ -15,8 +15,8 @@ public class Code03_MinimumTimeToInitialStateII {
 		char[] s = word.toCharArray();
 		int n = s.length;
 		zArray(s, n);
-		for (int i = 1; i < n; i++) {
-			if (i % k == 0 && i + z[i] == n) {
+		for (int i = k; i < n; i += k) {
+			if (i + z[i] == n) {
 				return i / k;
 			}
 		}
