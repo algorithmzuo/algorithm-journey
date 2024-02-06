@@ -32,7 +32,7 @@ public class Code01_LongestPalindromeSubstring {
 			}
 			if (len > max) {
 				max = len - 1;
-				end = (i + len) / 2;
+				end = (i + len - 1) / 2;
 			}
 			p[i] = len;
 		}

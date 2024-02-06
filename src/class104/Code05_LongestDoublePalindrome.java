@@ -53,7 +53,7 @@ public class Code05_LongestDoublePalindrome {
 			}
 		}
 		int ans = 0;
-		for (int i = 2; i <= n - 2; i += 2) {
+		for (int i = 2; i <= n - 3; i += 2) {
 			ans = Math.max(ans, left[i] + right[i]);
 		}
 		return ans;
