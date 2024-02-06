@@ -23,7 +23,9 @@ public class Code03_MinimumTimeToInitialStateII {
 		return (n + k - 1) / k;
 	}
 
-	public static int MAXN = 100001;
+	// leetcode增加了数据量
+	// 所以把这个值改成10^6规模
+	public static int MAXN = 1000001;
 
 	public static int[] z = new int[MAXN];
 
