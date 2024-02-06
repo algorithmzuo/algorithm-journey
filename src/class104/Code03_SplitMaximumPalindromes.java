@@ -15,9 +15,6 @@ public class Code03_SplitMaximumPalindromes {
 		int ans = 0;
 		int next = 0;
 		while ((next = find(next, k)) != -1) {
-			if (ss[next] != '#') {
-				next++;
-			}
 			ans++;
 		}
 		return ans;
@@ -38,14 +35,18 @@ public class Code03_SplitMaximumPalindromes {
 		}
 	}
 
-	// s[l...]字符串只在这个范围上寻找回文且s[l]一定是'#'
-	// 从下标l开始，一旦有某个中心回文半径>k，马上返回右边界
+	// 扩展串ss从l位置开始往右寻找回文，且s[l]一定是'#'
+	// 一旦有某个中心的回文半径>k，马上返回最右下标
+	// 此时找到了距离l最近且长度为k的回文串
+	// 返回的这个最右下标一定要命中'#'
+	// 如果没有命中返回(最右下标+1)，让其一定命中'#'
+	// 如果不存在距离l最近且长度为k的回文串，返回-1
 	public static int find(int l, int k) {
 		for (int i = l, c = l, r = l, len; i < n; i++) {
 			len = r > i ? Math.min(p[2 * c - i], r - i) : 1;
 			while (i + len < n && i - len >= l && ss[i + len] == ss[i - len]) {
 				if (++len > k) {
-					return i + k;
+					return i + k + (ss[i + k] != '#' ? 1 : 0);
 				}
 			}
 			if (i + len > r) {
