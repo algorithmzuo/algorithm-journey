@@ -37,10 +37,10 @@ public class Code03_SplitMaximumPalindromes {
 
 	// 扩展串ss从l位置开始往右寻找回文，且ss[l]一定是'#'
 	// 一旦有某个中心的回文半径>k，马上返回最右下标
-	// 表示找到了距离l最近且长度为k的回文串
+	// 表示找到了距离l最近且长度>=k的回文串
 	// 返回的这个最右下标一定要命中'#'
 	// 如果没有命中返回(最右下标+1)，让其一定命中'#'
-	// 如果不存在距离l最近且长度为k的回文串，返回-1
+	// 如果不存在距离l最近且长度>=k的回文串，返回-1
 	public static int find(int l, int k) {
 		for (int i = l, c = l, r = l, len; i < n; i++) {
 			len = r > i ? Math.min(p[2 * c - i], r - i) : 1;
