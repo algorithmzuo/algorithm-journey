@@ -8,7 +8,7 @@ import java.util.HashSet;
 // 返回s中独特子字符串数量
 // 其中的每一个数字出现的频率都相同
 // 测试链接 : https://leetcode.cn/problems/unique-substrings-with-equal-digit-frequency/
-public class Code02_UniqueSubstringsWithEqualDigitFrequency {
+public class Code02_UniqueWithEqualDigitFrequency {
 
 	public static int equalDigitFrequency(String str) {
 		long base = 499;

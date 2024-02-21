@@ -6,7 +6,7 @@ package class105;
 // 要求查找源串中有多少子串与模式串匹配
 // 1 <= n, m <= 10^6，0 <= k <= 5
 // 来自真实大厂笔试，没有在线测试，对数器验证
-public class Code06_DiffLessKMatchNumber {
+public class Code06_DiffLessK {
 
 	// 暴力方法
 	// 为了测试
