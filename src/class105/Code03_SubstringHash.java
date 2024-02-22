@@ -34,11 +34,11 @@ public class Code03_SubstringHash {
 	// hash[3] = 3 * base的3次方 + 1 * base的2次方 + 2 * base的1次方 + 5 * base的0次方
 	// hash[4] = 3 * base的4次方 + 1 * base的3次方 + 2 * base的2次方 + 5 * base的1次方 + 6 * base的0次方
 	// hash[i] = hash[i-1] * base + s[i] - 'a' + 1，就是上面说的意思
-	// 此时如果想得到子串"be"的哈希值
-	// 子串"be"的哈希值 = hash[3] - hash[1] * base的2次方(就是子串"be"的长度次方)
-	// hash[3] = 3 * base的3次方 + 1 * base的2次方 + 2 * base的1次方 + 5 * base的0次方
+	// 想计算子串"be"的哈希值
+	// 子串"be"的哈希值 = hash[3] - hash[1] * base的2次方(子串"be"的长度次方)
 	// hash[1] = 3 * base的1次方 + 1 * base的0次方
 	// hash[1] * base的2次方 = 3 * base的3次方 + 1 * base的2次方
+	// hash[3] = 3 * base的3次方 + 1 * base的2次方 + 2 * base的1次方 + 5 * base的0次方
 	// hash[3] - hash[1] * base的2次方 = 2 * base的1次方 + 5 * base的0次方
 	// 这样就得到子串"be"的哈希值了
 	// 子串s[l...r]的哈希值 = hash[r] - hash[l-1] * base的(r-l+1)次方，就是上面说的意思
