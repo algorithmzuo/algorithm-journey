@@ -16,12 +16,12 @@ import java.util.List;
 // 测试链接 : https://leetcode.cn/problems/substring-with-concatenation-of-all-words/
 public class Code05_ConcatenationAllWords {
 
-	// 用字符串哈希做时间复杂度才能到最优
 	// 如果s的长度为n，words里所有单词的总长度为m
 	// 时间复杂度O(n + m)，最优解的时间复杂度与单词个数、单词长度是无关的
 	// 所有题解都没有做到这个复杂度的
-	// 虽然这个做法打败比例没有到100%，但那是因为数据量不够大
+	// 虽然这个做法打败比例没有到100%，但那是因为测试数据量不够大
 	// 所以最优解的时间复杂度优势没有体现出来
+	// 这个方法绝对是最优解，只有用字符串哈希，时间复杂度才能到最优
 	public static List<Integer> findSubstring(String s, String[] words) {
 		List<Integer> ans = new ArrayList<>();
 		if (s == null || s.length() == 0 || words == null || words.length == 0) {
