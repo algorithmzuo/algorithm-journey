@@ -3,12 +3,12 @@ package class105;
 import java.util.Arrays;
 import java.util.HashSet;
 
-// 每个数字的频率都相同的独特子字符串的数量
+// 独特子串的数量
 // 给你一个由数字组成的字符串s
 // 返回s中独特子字符串数量
 // 其中的每一个数字出现的频率都相同
 // 测试链接 : https://leetcode.cn/problems/unique-substrings-with-equal-digit-frequency/
-public class Code02_UniqueWithEqualDigitFrequency {
+public class Code02_NumberOfUniqueString {
 
 	public static int equalDigitFrequency(String str) {
 		long base = 499;
