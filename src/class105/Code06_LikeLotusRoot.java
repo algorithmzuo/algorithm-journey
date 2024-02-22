@@ -15,7 +15,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
-public class Code06_LikeToEatLotus {
+public class Code06_LikeLotusRoot {
 
 	public static int MAXN = 100001;
 
