@@ -42,7 +42,7 @@ public class Code06_LikeLotusRoot {
 	}
 
 	// s中有多少子串修改最多k个位置的字符就可以变成p
-	// 时间复杂度O(n * k * logm)
+	// s长度为n，p长度为m，时间复杂度O(n * logm * k)
 	public static int compute(char[] s, char[] p, int k) {
 		int n = s.length;
 		int m = p.length;
