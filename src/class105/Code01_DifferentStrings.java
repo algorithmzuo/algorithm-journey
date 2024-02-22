@@ -44,6 +44,18 @@ public class Code01_DifferentStrings {
 		return ans;
 	}
 
+	// 数字 + 大写 + 小写
+	// '0' -> 1
+	// '1' -> 2
+	// ...
+	// '9' -> 10
+	// 'A' -> 11
+	// 'B' -> 12
+	// ...
+	// 'Z' -> 36
+	// 'a' -> 37
+	// ...
+	// 'z' -> 62
 	public static int v(char c) {
 		if (c >= '0' && c <= '9') {
 			return c - '0' + 1;

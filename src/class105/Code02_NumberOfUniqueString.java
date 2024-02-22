@@ -16,12 +16,12 @@ public class Code02_NumberOfUniqueString {
 		int n = s.length;
 		HashSet<Long> set = new HashSet<>();
 		int[] cnt = new int[10];
-		for (int l = 0; l < n; l++) {
+		for (int i = 0; i < n; i++) {
 			Arrays.fill(cnt, 0);
 			long hashCode = 0;
-			int curVal = 0, maxCnt = 0, maxKinds = 0, allKinds = 0;
-			for (int r = l; r < n; r++) {
-				curVal = s[r] - '0';
+			int curVal = 0, maxCnt = 0, maxCntKinds = 0, allKinds = 0;
+			for (int j = i; j < n; j++) {
+				curVal = s[j] - '0';
 				hashCode = hashCode * base + curVal + 1;
 				cnt[curVal]++;
 				if (cnt[curVal] == 1) {
@@ -29,11 +29,11 @@ public class Code02_NumberOfUniqueString {
 				}
 				if (cnt[curVal] > maxCnt) {
 					maxCnt = cnt[curVal];
-					maxKinds = 1;
+					maxCntKinds = 1;
 				} else if (cnt[curVal] == maxCnt) {
-					maxKinds++;
+					maxCntKinds++;
 				}
-				if (maxKinds == allKinds) {
+				if (maxCntKinds == allKinds) {
 					set.add(hashCode);
 				}
 			}

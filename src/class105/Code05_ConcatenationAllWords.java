@@ -27,6 +27,7 @@ public class Code05_ConcatenationAllWords {
 		if (s == null || s.length() == 0 || words == null || words.length == 0) {
 			return ans;
 		}
+		// words的词频表
 		HashMap<Long, Integer> map = new HashMap<>();
 		for (String key : words) {
 			long v = hash(key);
@@ -37,9 +38,12 @@ public class Code05_ConcatenationAllWords {
 		int wordLen = words[0].length();
 		int wordNum = words.length;
 		int allLen = wordLen * wordNum;
+		// 窗口的词频表
 		HashMap<Long, Integer> window = new HashMap<>();
 		for (int init = 0; init < wordLen && init + allLen <= n; init++) {
+			// init是当前组的首个开头
 			int debt = wordNum;
+			// 建立起窗口
 			for (int l = init, r = init + wordLen, part = 0; part < wordNum; l += wordLen, r += wordLen, part++) {
 				long cur = hash(l, r);
 				window.put(cur, window.getOrDefault(cur, 0) + 1);
@@ -50,6 +54,7 @@ public class Code05_ConcatenationAllWords {
 			if (debt == 0) {
 				ans.add(init);
 			}
+			// 接下来窗口进一个、出一个
 			for (int l1 = init, r1 = init + wordLen, l2 = init + allLen,
 					r2 = init + allLen + wordLen; r2 <= n; l1 += wordLen, r1 += wordLen, l2 += wordLen, r2 += wordLen) {
 				long out = hash(l1, r1);
