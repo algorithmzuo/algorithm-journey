@@ -72,6 +72,7 @@ public class HashFunction {
 		String str4 = "zuochengyunzuochengyunZuochengyun1";
 		String str5 = "zuochengyunzuoChengyunzuochengyun2";
 		String str6 = "zuochengyunzuochengyunzuochengyUn3";
+		String str7 = "zuochengyunzuochengyunzuochengyun1";
 
 		System.out.println(hash.hashValue(str1));
 		System.out.println(hash.hashValue(str2));
@@ -79,9 +80,9 @@ public class HashFunction {
 		System.out.println(hash.hashValue(str4));
 		System.out.println(hash.hashValue(str5));
 		System.out.println(hash.hashValue(str6));
+		System.out.println(hash.hashValue(str7));
 
 		char[] arr = { 'a', 'b' };
-
 		int n = 20;
 
 		List<String> strs = generateStrings(arr, n);
