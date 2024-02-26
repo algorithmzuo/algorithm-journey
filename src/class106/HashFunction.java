@@ -63,6 +63,7 @@ public class HashFunction {
 	public static void main(String[] args) {
 		System.out.println("支持的哈希算法 : ");
 		Hash.showAlgorithms();
+		System.out.println("测试开始");
 		String algorithm = "MD5";
 		Hash hash = new Hash(algorithm);
 		String str1 = "zuochengyunzuochengyunzuochengyun1";
@@ -100,7 +101,7 @@ public class HashFunction {
 
 		int m = 10;
 		int[] cnts = new int[m];
-		System.out.println("现在看看这些哈希值，% " + m + " 之后的分布情况");
+		System.out.println("现在看看这些哈希值，% " + m + " 之后的余数分布情况");
 		BigInteger mod = new BigInteger(String.valueOf(m));
 		for (String hashCode : set) {
 			BigInteger bigInt = new BigInteger(hashCode, 16);
@@ -110,7 +111,7 @@ public class HashFunction {
 		for (int i = 0; i < m; i++) {
 			System.out.println("余数 " + i + " 出现了 " + cnts[i] + " 次");
 		}
-
+		System.out.println("测试结束");
 	}
 
 }
