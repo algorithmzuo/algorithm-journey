@@ -63,7 +63,8 @@ public class HashFunction {
 	public static void main(String[] args) {
 		System.out.println("支持的哈希算法 : ");
 		Hash.showAlgorithms();
-		System.out.println("测试开始");
+		System.out.println();
+
 		String algorithm = "MD5";
 		Hash hash = new Hash(algorithm);
 		String str1 = "zuochengyunzuochengyunzuochengyun1";
@@ -81,6 +82,7 @@ public class HashFunction {
 		System.out.println(hash.hashValue(str5));
 		System.out.println(hash.hashValue(str6));
 		System.out.println(hash.hashValue(str7));
+		System.out.println();
 
 		char[] arr = { 'a', 'b' };
 		int n = 20;
@@ -90,7 +92,6 @@ public class HashFunction {
 //			System.out.println(str);
 //		}
 		System.out.println("不同字符串的数量 : " + strs.size());
-
 		HashSet<String> set = new HashSet<>();
 		for (String str : strs) {
 			set.add(hash.hashValue(str));
@@ -99,6 +100,7 @@ public class HashFunction {
 //			System.out.println(str);
 //		}
 		System.out.println("不同哈希值的数量 : " + strs.size());
+		System.out.println();
 
 		int m = 10;
 		int[] cnts = new int[m];
@@ -112,7 +114,6 @@ public class HashFunction {
 		for (int i = 0; i < m; i++) {
 			System.out.println("余数 " + i + " 出现了 " + cnts[i] + " 次");
 		}
-		System.out.println("测试结束");
 	}
 
 }
