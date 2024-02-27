@@ -84,7 +84,7 @@ public class HashFunction {
 
 		char[] arr = { 'a', 'b' };
 		int n = 20;
-		System.out.println("生成长度为n，字符种类来自arr，所有可能的字符串");
+		System.out.println("生成长度为n，字符来自arr，所有可能的字符串");
 		List<String> strs = generateStrings(arr, n);
 //		for (String str : strs) {
 //			System.out.println(str);
