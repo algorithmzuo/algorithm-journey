@@ -73,7 +73,7 @@ public class HashFunction {
 		String str5 = "zuochengyunzuoChengyunzuochengyun2";
 		String str6 = "zuochengyunzuochengyunzuochengyUn3";
 		String str7 = "zuochengyunzuochengyunzuochengyun1";
-
+		System.out.println("7个字符串得到的哈希值 : ");
 		System.out.println(hash.hashValue(str1));
 		System.out.println(hash.hashValue(str2));
 		System.out.println(hash.hashValue(str3));
@@ -84,12 +84,12 @@ public class HashFunction {
 
 		char[] arr = { 'a', 'b' };
 		int n = 20;
-
+		System.out.println("生成长度为n，字符种类来自arr，所有可能的字符串");
 		List<String> strs = generateStrings(arr, n);
 //		for (String str : strs) {
 //			System.out.println(str);
 //		}
-		System.out.println("字符串数量 : " + strs.size());
+		System.out.println("不同字符串的数量 : " + strs.size());
 
 		HashSet<String> set = new HashSet<>();
 		for (String str : strs) {
@@ -98,7 +98,7 @@ public class HashFunction {
 //		for (String str : set) {
 //			System.out.println(str);
 //		}
-		System.out.println("哈希值数量 : " + strs.size());
+		System.out.println("不同哈希值的数量 : " + strs.size());
 
 		int m = 10;
 		int[] cnts = new int[m];
