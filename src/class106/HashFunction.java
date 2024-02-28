@@ -23,7 +23,7 @@ public class HashFunction {
 			}
 		}
 
-		// 用具体算法构造实例
+		// 用具体算法名字构造实例
 		public Hash(String algorithm) {
 			try {
 				md = MessageDigest.getInstance(algorithm);
@@ -102,7 +102,7 @@ public class HashFunction {
 		System.out.println("不同哈希值的数量 : " + strs.size());
 		System.out.println();
 
-		int m = 10;
+		int m = 13;
 		int[] cnts = new int[m];
 		System.out.println("现在看看这些哈希值，% " + m + " 之后的余数分布情况");
 		BigInteger mod = new BigInteger(String.valueOf(m));
