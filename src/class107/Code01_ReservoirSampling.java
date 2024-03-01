@@ -17,10 +17,15 @@ public class Code01_ReservoirSampling {
 			bag = new int[s];
 		}
 
+		// 是否要i号球
+		// size/i的几率决定要
+		// 剩下的几率决定不要
 		private boolean pick(int i) {
 			return (int) (Math.random() * i) < size;
 		}
 
+		// 袋子里0...size-1个位置
+		// 哪个空间的球扔掉，让i号球进来
 		private int where() {
 			return (int) (Math.random() * size);
 		}

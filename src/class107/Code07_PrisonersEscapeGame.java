@@ -1,8 +1,5 @@
 package class107;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-
 // 囚徒生存问题
 // 有100个犯人被关在监狱，犯人编号0~99，监狱长准备了100个盒子，盒子编号0~99
 // 这100个盒子排成一排，放在一个房间里面，盒子编号从左往右有序排列
@@ -66,45 +63,12 @@ public class Code07_PrisonersEscapeGame {
 		arr[j] = tmp;
 	}
 
-	// 公式计算得到的概率
+	// 公式版
 	// 一定要保证tryTimes大于等于people的一半，否则该函数失效
-	// 导致死亡的情况数 : C(r,100) * (r-1)! * (100-r)!，r从51~100
+	// 导致死亡的情况数 : C(r,100) * (r-1)! * (100-r)!，r从51~100，累加起来
+	// 死亡概率 : C(r,100) * (r-1)! * (100-r)! / 100!，r从51~100，累加起来
+	// 化简后的死亡概率 : 1/r，r从51~100，累加起来
 	public static double escape2(int people, int tryTimes) {
-		BigDecimal kill = new BigDecimal("0");
-		for (int maxCircle = tryTimes + 1; maxCircle <= people; maxCircle++) {
-			// 选出maxCircle个人组成最大环的选择方案数
-			BigDecimal a = c(maxCircle, people);
-			// 确保这maxCircle个人一定能组成一个大环
-			// 而不是多个环的方法数
-			BigDecimal b = factorial(maxCircle - 1);
-			// 剩下人随意站形成的方法数
-			BigDecimal c = factorial(people - maxCircle);
-			kill = kill.add(a.multiply(b).multiply(c));
-		}
-		return 1D - kill.divide(factorial(people), 10, RoundingMode.HALF_UP).doubleValue();
-	}
-
-	// 组合公式
-	// 从n个数里选a个数的方法数
-	public static BigDecimal c(int a, int n) {
-		BigDecimal all = factorial(n);
-		BigDecimal down1 = factorial(a);
-		BigDecimal down2 = factorial(n - a);
-		return all.divide(down1).divide(down2);
-	}
-
-	// 返回number的阶乘
-	public static BigDecimal factorial(int number) {
-		BigDecimal ans = new BigDecimal("1");
-		for (int i = 1; i <= number; i++) {
-			ans = ans.multiply(new BigDecimal(i));
-		}
-		return ans;
-	}
-
-	// 公式化简之后的最终简洁版
-	// 一定要保证tryTimes大于等于people的一半，否则该函数失效
-	public static double escape3(int people, int tryTimes) {
 		double a = 0;
 		for (int r = tryTimes + 1; r <= people; r++) {
 			a += (double) 1 / (double) r;
@@ -122,7 +86,6 @@ public class Code07_PrisonersEscapeGame {
 		System.out.println("模拟实验的次数 : " + testTimes);
 		System.out.println("通过模拟实验得到的概率为 : " + escape1(people, tryTimes, testTimes));
 		System.out.println("通过公式计算得到的概率为 : " + escape2(people, tryTimes));
-		System.out.println("通过化简公式得到的概率为 : " + escape3(people, tryTimes));
 	}
 
 }
