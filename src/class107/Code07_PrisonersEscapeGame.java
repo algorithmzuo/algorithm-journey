@@ -68,7 +68,7 @@ public class Code07_PrisonersEscapeGame {
 
 	// 公式计算得到的概率
 	// 一定要保证tryTimes大于等于people的一半，否则该函数失效
-	// 死亡的方法数 : C(r,100) * (r-1)! * (100-r)!，r从51~100
+	// 导致死亡的情况数 : C(r,100) * (r-1)! * (100-r)!，r从51~100
 	public static double escape2(int people, int tryTimes) {
 		BigDecimal kill = new BigDecimal("0");
 		for (int maxCircle = tryTimes + 1; maxCircle <= people; maxCircle++) {

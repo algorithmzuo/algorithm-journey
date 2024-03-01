@@ -43,7 +43,7 @@ public class Code01_ReservoirSampling {
 
 	public static void main(String[] args) {
 		System.out.println("测试开始");
-		int n = 37; // 一共吐出多少球
+		int n = 41; // 一共吐出多少球
 		int m = 10; // 袋子大小多少
 		int testTimes = 10000; // 进行多少次实验
 		int[] cnt = new int[n + 1];
@@ -58,6 +58,7 @@ public class Code01_ReservoirSampling {
 			}
 		}
 		System.out.println("机器吐出到" + n + "号球, " + "袋子大小为" + m);
+		System.out.println("每个球被选中的概率应该接近" + (double) m / n);
 		System.out.println("一共测试" + testTimes + "次");
 		for (int i = 1; i <= n; i++) {
 			System.out.println(i + "被选中次数 : " + cnt[i] + ", 被选中概率 : " + (double) cnt[i] / testTimes);
