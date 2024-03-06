@@ -18,7 +18,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 
-public class Code03_IntervalAddIntervalQuery {
+public class Code03_IndexTreeIntervalAddIntervalQuery {
 
 	public static int MAXN = 100001;
 

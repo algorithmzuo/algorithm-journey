@@ -14,7 +14,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 
-public class Code02_IntervalAddSingleQuery {
+public class Code02_IndexTreeIntervalAddSingleQuery {
 
 	public static int MAXN = 500002;
 
