@@ -8,7 +8,7 @@ import java.util.Arrays;
 // 本题在讲解072，最长递增子序列问题与扩展，就做出过预告
 // 具体可以看讲解072视频最后的部分
 // 用树状数组实现时间复杂度O(n * logn)
-public class Code02_NumberOfLIS {
+public class Code03_NumberOfLIS {
 
 	public static int MAXN = 2001;
 
