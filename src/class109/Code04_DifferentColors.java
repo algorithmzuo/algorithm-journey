@@ -20,7 +20,7 @@ import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 import java.util.Arrays;
 
-public class Code04_DiffColors {
+public class Code04_DifferentColors {
 
 	public static int MAXN = 1000010;
 
