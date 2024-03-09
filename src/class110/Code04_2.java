@@ -5,7 +5,6 @@ package class110;
 // 提交如下代码，可以通过所有测试用例
 
 //#include <cstdio>
-//
 //using namespace std;
 //
 //const int MAXN = 100001;
