@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 // 掉落的方块
-// 有一个二维平面，x轴是陆地
+// 有一个二维平面，x轴是最底的边界
 // 给定二维整数数组poss，poss[i] = [ lefti, leni ]
 // 表示第i个方块边长为leni，左侧边缘在x = lefti位置，所在高度非常高
 // 所有方块都是正方形，依次从高处垂直掉落，也就是左边界顺着x = lefti往下
