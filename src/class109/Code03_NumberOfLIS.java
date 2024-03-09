@@ -12,7 +12,7 @@ public class Code03_NumberOfLIS {
 
 	public static int MAXN = 2001;
 
-	public static int[] values = new int[MAXN];
+	public static int[] arr = new int[MAXN];
 
 	public static int[] lens = new int[MAXN];
 
@@ -56,7 +56,7 @@ public class Code03_NumberOfLIS {
 
 	public static int findNumberOfLIS(int[] nums) {
 		for (int i = 1; i <= nums.length; i++) {
-			values[i] = nums[i - 1];
+			arr[i] = nums[i - 1];
 		}
 		sort(nums.length);
 		build();
@@ -71,11 +71,11 @@ public class Code03_NumberOfLIS {
 	}
 
 	public static void sort(int size) {
-		Arrays.sort(values, 1, size + 1);
+		Arrays.sort(arr, 1, size + 1);
 		n = 1;
 		for (int i = 2; i <= size; i++) {
-			if (values[n] != values[i]) {
-				values[++n] = values[i];
+			if (arr[n] != arr[i]) {
+				arr[++n] = arr[i];
 			}
 		}
 	}
@@ -85,7 +85,7 @@ public class Code03_NumberOfLIS {
 		int l = 1, r = n, m;
 		while (l <= r) {
 			m = (l + r) / 2;
-			if (values[m] >= v) {
+			if (arr[m] >= v) {
 				ans = m;
 				r = m - 1;
 			} else {
