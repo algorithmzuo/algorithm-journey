@@ -29,8 +29,6 @@ public class Code02_SegmentTreeUpdateAddQueryMax {
 
 	public static boolean[] update = new boolean[MAXN << 2];
 
-	public static int n, m;
-
 	public static void build(int l, int r, int rt) {
 		if (l == r) {
 			max[rt] = arr[l];
@@ -127,9 +125,9 @@ public class Code02_SegmentTreeUpdateAddQueryMax {
 		StreamTokenizer in = new StreamTokenizer(br);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
 		while (in.nextToken() != StreamTokenizer.TT_EOF) {
-			n = (int) in.nval;
+			int n = (int) in.nval;
 			in.nextToken();
-			m = (int) in.nval;
+			int m = (int) in.nval;
 			for (int i = 1; i <= n; i++) {
 				in.nextToken();
 				arr[i] = (long) in.nval;
