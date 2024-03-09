@@ -146,8 +146,8 @@ public class Code04_Variance1 {
 	// 本题涉及的double类型输入，类似 : -2.7566713364794850E+0000
 	// 用StreamTokenizer读取会出错的
 	// 有兴趣的同学可以尝试在main函数里调用test方法，看看会发生什么
-	// 如果需要高精度就需要用到StringTokenizer
-	// 以下的写法已经是oi-wiki最推荐的写法了，但空间依然超出限制
+	// 如果需要高精度就需要用到StringTokenizer，但是这个结构会比较费空间
+	// 以下的写法已经是oi-wiki最推荐的StringTokenizer用法了，空间依然超出限制
 	// 参考链接 : https://oi-wiki.org/lang/java-pro/
 	public static class Kattio extends PrintWriter {
 		private BufferedReader r;
