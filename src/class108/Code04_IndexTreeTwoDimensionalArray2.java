@@ -2,7 +2,7 @@ package class108;
 
 // 二维数组上范围增加、范围查询，使用树状数组的模版(C++)
 // 测试链接 : https://www.luogu.com.cn/problem/P4514
-// 如下实现是C++的版本，C++版本和java版本逻辑完全一致
+// 如下实现是C++的版本，C++版本和java版本逻辑完全一样
 // 提交如下代码，可以通过所有测试用例
 
 //#include<bits/stdc++.h>

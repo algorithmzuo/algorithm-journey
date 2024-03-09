@@ -7,7 +7,7 @@ package class108;
 // 这是洛谷平台没有照顾各种语言的实现所导致的
 // 在真正笔试、比赛时，一定是兼顾各种语言的，该实现是一定正确的
 // C++版本就是Code04_IndexTreeTwoDimensionalArray2文件
-// C++版本和java版本逻辑完全一致，但只有C++版本可以通过所有测试用例
+// C++版本和java版本逻辑完全一样，但只有C++版本可以通过所有测试用例
 
 import java.io.BufferedReader;
 import java.io.IOException;
