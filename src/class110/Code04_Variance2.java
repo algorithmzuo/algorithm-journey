@@ -1,5 +1,10 @@
 package class110;
 
+// 方差
+// 给定一个长度为n的数组arr，进行m次操作，操作分为三种类型
+// 操作1 : arr数组中[l, r]范围上每个数字加上k，k为double类型
+// 操作2 : 查询arr数组中[l, r]范围上所有数字的平均数，返回double类型
+// 操作3 : 查询arr数组中[l, r]范围上所有数字的方差，返回double类型
 // 测试链接 : https://www.luogu.com.cn/problem/P1471
 // 如下实现是C++的版本，C++版本和java版本逻辑完全一样
 // 提交如下代码，可以通过所有测试用例
@@ -14,6 +19,11 @@ package class110;
 //double sum2[MAXN << 2];
 //double lazy2[MAXN << 2];
 //
+//void up(int rt) {
+//  sum1[rt] = sum1[rt << 1] + sum1[rt << 1 | 1];
+//  sum2[rt] = sum2[rt << 1] + sum2[rt << 1 | 1];
+//}
+//
 //void build(int l, int r, int rt) {
 //    if (l == r) {
 //        sum1[rt] = arr[l];
@@ -22,8 +32,7 @@ package class110;
 //        int mid = (l + r) / 2;
 //        build(l, mid, rt << 1);
 //        build(mid + 1, r, rt << 1 | 1);
-//        sum1[rt] = sum1[rt << 1] + sum1[rt << 1 | 1];
-//        sum2[rt] = sum2[rt << 1] + sum2[rt << 1 | 1];
+//        up(rt);
 //    }
 //    lazy1[rt] = 0;
 //    lazy2[rt] = 0;
@@ -56,8 +65,7 @@ package class110;
 //    down(rt, mid - l + 1, r - mid);
 //    if (jobl <= mid) add(jobl, jobr, jobv, l, mid, rt << 1);
 //    if (jobr > mid) add(jobl, jobr, jobv, mid + 1, r, rt << 1 | 1);
-//    sum1[rt] = sum1[rt << 1] + sum1[rt << 1 | 1];
-//    sum2[rt] = sum2[rt << 1] + sum2[rt << 1 | 1];
+//    up(rt);
 //}
 //
 //double query(double sum[], int jobl, int jobr, int l, int r, int rt) {
