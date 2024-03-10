@@ -108,7 +108,6 @@ public class Code04_Variance1 {
 	}
 
 	public static void main(String[] args) throws IOException {
-//		test();
 		Kattio io = new Kattio();
 		int n = io.nextInt();
 		int m = io.nextInt();
@@ -143,10 +142,10 @@ public class Code04_Variance1 {
 		io.close();
 	}
 
-	// 本题涉及的double类型输入，类似 : -2.7566713364794850E+0000
-	// 用StreamTokenizer读取会出错的
-	// 有兴趣的同学可以尝试在main函数里调用test方法，看看会发生什么
-	// 如果需要高精度就需要用到StringTokenizer，但是这个结构会比较费空间
+	// 本题double类型的变量精度较高
+	// 用StreamTokenizer读取会出错
+	// 有兴趣的同学可以调用test1方法，看看会发生什么
+	// 高精度需要用到StringTokenizer，但是这个结构会比较费空间
 	// 以下的写法已经是oi-wiki最推荐的StringTokenizer用法了，空间依然超出限制
 	// 参考链接 : https://oi-wiki.org/lang/java-pro/
 	public static class Kattio extends PrintWriter {
@@ -190,18 +189,61 @@ public class Code04_Variance1 {
 		}
 	}
 
-	// 输入 : -2.7566713364794850E+0000
+	// 读取8个double类型的数字的输入如下 :
+	/*
+8
+-2.7566713364794850E+0000
+2.1308819339610636E+0000
+1.5912831262685359E+0000
+-2.7779214559122920E+0000
+-6.5134523715823889E-0001
+-8.5440817382186651E-0001
+-1.8737916438840330E+0000
+2.5193137815222144E+0000
+	 */
 	// StreamTokenizer无法正确读取，精度太高导致的
-	public static void test() throws IOException {
-		System.out.println("测试");
+	public static void test1() throws IOException {
+		System.out.println("测试StreamTokenizer");
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StreamTokenizer in = new StreamTokenizer(br);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
-		while (in.nextToken() != StreamTokenizer.TT_EOF) {
-			double num = (double) in.nval;
+		in.nextToken();
+		int n = (int) in.nval;
+		double num;
+		for (int i = 1; i <= n; i++) {
+			in.nextToken();
+			num = (double) in.nval;
 			out.println(num);
-			out.flush();
 		}
+		out.flush();
+		out.close();
+		br.close();
+	}
+
+	// 读取8个double类型的数字的输入如下 :
+	/*
+8
+-2.7566713364794850E+0000
+2.1308819339610636E+0000
+1.5912831262685359E+0000
+-2.7779214559122920E+0000
+-6.5134523715823889E-0001
+-8.5440817382186651E-0001
+-1.8737916438840330E+0000
+2.5193137815222144E+0000
+	 */
+	// StringTokenizer可以正确读取
+	public static void test2() throws IOException {
+		System.out.println("测试StringTokenizer");
+		Kattio io = new Kattio();
+		int n = io.nextInt();
+		double num;
+		for (int i = 1; i <= n; i++) {
+			num = io.nextDouble();
+			io.println(num);
+		}
+		io.flush();
+		io.close();
 	}
 
 }
