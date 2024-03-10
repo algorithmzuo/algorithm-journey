@@ -189,8 +189,8 @@ public class Code04_Variance1 {
 		}
 	}
 
-	// 读取8个double类型的数字的输入如下 :
 	/*
+读取8个double类型的数字输入如下：
 8
 -2.7566713364794850E+0000
 2.1308819339610636E+0000
@@ -201,9 +201,11 @@ public class Code04_Variance1 {
 -1.8737916438840330E+0000
 2.5193137815222144E+0000
 	 */
+
 	// StreamTokenizer无法正确读取
 	public static void test1() throws IOException {
 		System.out.println("测试StreamTokenizer");
+		System.out.println("输入 : ");
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StreamTokenizer in = new StreamTokenizer(br);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
@@ -220,21 +222,10 @@ public class Code04_Variance1 {
 		br.close();
 	}
 
-	// 读取8个double类型的数字的输入如下 :
-	/*
-8
--2.7566713364794850E+0000
-2.1308819339610636E+0000
-1.5912831262685359E+0000
--2.7779214559122920E+0000
--6.5134523715823889E-0001
--8.5440817382186651E-0001
--1.8737916438840330E+0000
-2.5193137815222144E+0000
-	 */
 	// StringTokenizer可以正确读取
 	public static void test2() throws IOException {
 		System.out.println("测试StringTokenizer");
+		System.out.println("输入 : ");
 		Kattio io = new Kattio();
 		int n = io.nextInt();
 		double num;
