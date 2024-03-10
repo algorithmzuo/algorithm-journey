@@ -144,7 +144,7 @@ public class Code04_Variance1 {
 
 	// 本题double类型的变量精度较高
 	// 用StreamTokenizer读取会出错
-	// 有兴趣的同学可以调用test1方法，看看会发生什么
+	// 有兴趣的同学可以调用test1、test2方法，一试便知
 	// 高精度需要用到StringTokenizer，但是这个结构会比较费空间
 	// 以下的写法已经是oi-wiki最推荐的StringTokenizer用法了，空间依然超出限制
 	// 参考链接 : https://oi-wiki.org/lang/java-pro/
