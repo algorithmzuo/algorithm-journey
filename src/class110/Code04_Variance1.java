@@ -201,7 +201,7 @@ public class Code04_Variance1 {
 -1.8737916438840330E+0000
 2.5193137815222144E+0000
 	 */
-	// StreamTokenizer无法正确读取，精度太高导致的
+	// StreamTokenizer无法正确读取
 	public static void test1() throws IOException {
 		System.out.println("测试StreamTokenizer");
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
