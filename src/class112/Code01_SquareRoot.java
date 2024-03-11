@@ -46,6 +46,10 @@ public class Code01_SquareRoot {
 		max[rt] = Math.max(max[rt << 1], max[rt << 1 | 1]);
 	}
 
+	// 注意这里和常规线段树不一样
+	// 效率比线段树差，但因为开方次数有限，所以依然能通过
+	// 这也是为什么不需要down函数的原因
+	// 因为没有懒更新，任务都是直接下发的
 	public static void change(int jobl, int jobr, int l, int r, int rt) {
 		if (l == r) {
 			long sqrt = (long) Math.sqrt(sum[rt]);
