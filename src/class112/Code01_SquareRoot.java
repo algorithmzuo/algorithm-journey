@@ -54,7 +54,7 @@ public class Code01_SquareRoot {
 	// 这也是为什么不需要down函数的原因，因为没有懒更新，任务都是直接下发的
 	public static void change(int jobl, int jobr, int l, int r, int rt) {
 		if (l == r) {
-			long sqrt = (long) Math.sqrt(sum[rt]);
+			long sqrt = (long) Math.sqrt(max[rt]);
 			sum[rt] = sqrt;
 			max[rt] = sqrt;
 		} else {
