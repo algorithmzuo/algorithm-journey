@@ -43,7 +43,7 @@ public class Code01_WaterKing3 {
 		public int query(int l, int r, int t) {
 			query(l + 1, r + 1, 1, n, 1);
 			int candidate = c;
-			return times(l, r, candidate) >= t ? candidate : -1;
+			return cnt(l, r, candidate) >= t ? candidate : -1;
 		}
 
 		private void buildCnt(int[] arr, int n) {
@@ -54,27 +54,20 @@ public class Code01_WaterKing3 {
 			Arrays.sort(nums, 0, n, (a, b) -> a[0] != b[0] ? (a[0] - b[0]) : (a[1] - b[1]));
 		}
 
-		private int times(int l, int r, int v) {
-			return size(v, r) - size(v, l - 1);
+		private int cnt(int l, int r, int v) {
+			return bs(v, r) - bs(v, l - 1);
 		}
 
-		private int size(int v, int i) {
+		private int bs(int v, int i) {
 			int left = 0, right = n - 1, mid;
 			int find = -1;
 			while (left <= right) {
 				mid = (left + right) / 2;
-				if (nums[mid][0] < v) {
+				if (nums[mid][0] < v || (nums[mid][0] == v && nums[mid][1] <= i)) {
 					find = mid;
 					left = mid + 1;
-				} else if (nums[mid][0] > v) {
-					right = mid - 1;
 				} else {
-					if (nums[mid][1] <= i) {
-						find = mid;
-						left = mid + 1;
-					} else {
-						right = mid - 1;
-					}
+					right = mid - 1;
 				}
 			}
 			return find + 1;
@@ -132,7 +125,6 @@ public class Code01_WaterKing3 {
 				}
 			}
 		}
-
 	}
 
 }
