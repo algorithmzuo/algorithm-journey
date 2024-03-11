@@ -1,9 +1,9 @@
 package class111;
 
 // 水王数
-// 给定一个大小为n的数组nums，返回其中的多数元素
-// 多数元素是指在数组中出现次数大于n/2的元素。
-// 你可以假设数组是非空的，并且给定的数组总是存在多数元素
+// 给定一个大小为n的数组nums，返回其中的水王数
+// 水王数是指在数组中出现次数大于n/2的元素
+// 如果数组不存在水王数返回-1
 // 测试链接 : https://leetcode.cn/problems/majority-element/
 public class Code01_WaterKing1 {
 
