@@ -4,12 +4,13 @@ import java.util.Arrays;
 
 // 查询一段范围上的水王数
 // 设计一个数据结构，有效地找到给定子数组的多数元素
-// 子数组的多数元素是子数组中出现t次数或次数以上的元素
+// 子数组的多数元素首先必须是子数组上出现次数最多的数
+// 其次该元素的出现次数要大于等于t，t是输入的要求
 // 实现MajorityChecker类及其如下方法
 // 1) MajorityChecker(int[] arr)
 //   用数组arr对MajorityChecker初始化
-// 2) int query(int left, int right, int t) 
-//   返回子数组中的元素arr[left...right]至少出现threshold次数
+// 2) int query(int l, int r, int t) 
+//   返回子数组arr[l...r]上的多数元素，t是要求
 // 如果不存在这样的元素则返回-1
 // 测试链接 : https://leetcode.cn/problems/online-majority-element-in-subarray/
 public class Code01_WaterKing3 {
@@ -17,7 +18,8 @@ public class Code01_WaterKing3 {
 	// 用java语言自带的动态数组可以让常数时间更快
 	// 但是其他语言的同学改写难度就大了
 	// 所以本实现不用任何java专属的结构
-	// 就用所有语言都有的简单数组实现，这样所有语言的同学都能看懂
+	// 就用所有语言都有的简单数组实现
+	// 这样所有语言的同学都能看懂
 	// 时间复杂度也保证了是最优的
 	class MajorityChecker {
 
