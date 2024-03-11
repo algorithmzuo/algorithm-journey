@@ -88,10 +88,8 @@ public class Code01_WaterKing3 {
 				int mid = (l + r) / 2;
 				buildTree(arr, l, mid, rt << 1);
 				buildTree(arr, mid + 1, r, rt << 1 | 1);
-				int lc = cand[rt << 1];
-				int rc = cand[rt << 1 | 1];
-				int lh = hp[rt << 1];
-				int rh = hp[rt << 1 | 1];
+				int lc = cand[rt << 1], rc = cand[rt << 1 | 1];
+				int lh = hp[rt << 1], rh = hp[rt << 1 | 1];
 				if (lc == rc) {
 					cand[rt] = lc;
 					hp[rt] = lh + rh;
