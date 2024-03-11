@@ -51,6 +51,7 @@ public class Code01_SquareRoot {
 	// 哪怕任务范围包括了实际范围依然下发任务
 	// 效率当然比线段树差，但因为开方次数有限，所以依然能通过
 	// 核心点就在于每个数字不超过10^12次方，所以开方不了几回也就结束了
+	// 如果发现一段范围上的最大值>1，才需要执行开方任务，否则跳过
 	// 这也是为什么不需要down函数的原因，因为没有懒更新，任务都是直接下发的
 	public static void change(int jobl, int jobr, int l, int r, int rt) {
 		if (l == r) {
@@ -69,6 +70,9 @@ public class Code01_SquareRoot {
 		}
 	}
 
+	// 依然不需要down方法
+	// 因为之前的任务都是完全下发的
+	// 不会有任务积攒
 	public static long query(int jobl, int jobr, int l, int r, int rt) {
 		if (jobl <= l && r <= jobr) {
 			return sum[rt];
