@@ -72,7 +72,8 @@ public class Code01_SquareRoot {
 
 	// 依然不需要down方法
 	// 因为之前的任务都是完全下发的
-	// 不会有任务积攒
+	// 根本不会有任务积攒
+	// 所以不需要执行down方法
 	public static long query(int jobl, int jobr, int l, int r, int rt) {
 		if (jobl <= l && r <= jobr) {
 			return sum[rt];
