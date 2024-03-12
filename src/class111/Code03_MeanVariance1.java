@@ -78,17 +78,17 @@ public class Code03_MeanVariance1 {
 			sum2[rt] += sum1[rt] * jobv * 2 + jobv * jobv * (r - l + 1);
 			lazy1[rt] += jobv;
 			sum1[rt] += jobv * (r - l + 1);
-			return;
+		} else {
+			int mid = (l + r) >> 1;
+			down(rt, mid - l + 1, r - mid);
+			if (jobl <= mid) {
+				add(jobl, jobr, jobv, l, mid, rt << 1);
+			}
+			if (jobr > mid) {
+				add(jobl, jobr, jobv, mid + 1, r, rt << 1 | 1);
+			}
+			up(rt);
 		}
-		int mid = (l + r) >> 1;
-		down(rt, mid - l + 1, r - mid);
-		if (jobl <= mid) {
-			add(jobl, jobr, jobv, l, mid, rt << 1);
-		}
-		if (jobr > mid) {
-			add(jobl, jobr, jobv, mid + 1, r, rt << 1 | 1);
-		}
-		up(rt);
 	}
 
 	public static double query(double[] sum, int jobl, int jobr, int l, int r, int rt) {
@@ -189,8 +189,8 @@ public class Code03_MeanVariance1 {
 		}
 	}
 
-	/* 
-读取8个double类型的数字输入如下：
+	/*
+读取8个double类型的数字输入如下
 8
 -2.7566713364794850E+0000
 2.1308819339610636E+0000

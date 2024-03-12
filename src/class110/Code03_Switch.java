@@ -55,17 +55,17 @@ public class Code03_Switch {
 		if (jobl <= l && r <= jobr) {
 			sum[rt] = (r - l + 1) - sum[rt];
 			reverse[rt] = !reverse[rt];
-			return;
+		} else {
+			int mid = (l + r) / 2;
+			down(rt, mid - l + 1, r - mid);
+			if (jobl <= mid) {
+				change(jobl, jobr, l, mid, rt << 1);
+			}
+			if (jobr > mid) {
+				change(jobl, jobr, mid + 1, r, rt << 1 | 1);
+			}
+			up(rt);
 		}
-		int mid = (l + r) / 2;
-		down(rt, mid - l + 1, r - mid);
-		if (jobl <= mid) {
-			change(jobl, jobr, l, mid, rt << 1);
-		}
-		if (jobr > mid) {
-			change(jobl, jobr, mid + 1, r, rt << 1 | 1);
-		}
-		up(rt);
 	}
 
 	public static int query(int jobl, int jobr, int l, int r, int rt) {

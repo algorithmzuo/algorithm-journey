@@ -1,9 +1,10 @@
-package class110;
+package class112;
 
-// 线段树支持范围增加、范围查询
-// 本题的线段树维护的信息是累加和
-// 如果想维护最小值、最大值等其他信息同理
-// 测试链接 : https://www.luogu.com.cn/problem/P3372
+// 无聊的数列
+// 给定一个长度为n的数组arr，实现如下两种操作
+// 操作1 : l r k d，arr[l..r]范围上的数依次加上等差数列，首项k，公差d
+// 操作2 : p，查询arr[p]的值
+// 测试链接 : https://www.luogu.com.cn/problem/P1438
 // 请同学们务必参考如下代码中关于输入、输出的处理
 // 这是输入输出处理效率很高的写法
 // 提交以下的code，提交时请把类名改成"Main"，可以直接通过
@@ -15,7 +16,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 
-public class Code01_SegmentTreeAddQuerySum {
+public class Code02_BoringSequence {
 
 	public static int MAXN = 100001;
 
@@ -29,10 +30,9 @@ public class Code01_SegmentTreeAddQuerySum {
 		if (l == r) {
 			sum[rt] = arr[l];
 		} else {
-			int mid = (l + r) >> 1;
+			int mid = (l + r) / 2;
 			build(l, mid, rt << 1);
 			build(mid + 1, r, rt << 1 | 1);
-			sum[rt] = sum[rt << 1] + sum[rt << 1 | 1];
 			up(rt);
 		}
 		lazy[rt] = 0;
@@ -54,10 +54,10 @@ public class Code01_SegmentTreeAddQuerySum {
 
 	public static void add(int jobl, int jobr, long jobv, int l, int r, int rt) {
 		if (jobl <= l && r <= jobr) {
-			sum[rt] += jobv * (r - l + 1);
 			lazy[rt] += jobv;
+			sum[rt] += jobv * (r - l + 1);
 		} else {
-			int mid = (l + r) >> 1;
+			int mid = (l + r) / 2;
 			down(rt, mid - l + 1, r - mid);
 			if (jobl <= mid) {
 				add(jobl, jobr, jobv, l, mid, rt << 1);
@@ -73,7 +73,7 @@ public class Code01_SegmentTreeAddQuerySum {
 		if (jobl <= l && r <= jobr) {
 			return sum[rt];
 		}
-		int mid = (l + r) >> 1;
+		int mid = (l + r) / 2;
 		down(rt, mid - l + 1, r - mid);
 		long ans = 0;
 		if (jobl <= mid) {
@@ -97,25 +97,33 @@ public class Code01_SegmentTreeAddQuerySum {
 				in.nextToken();
 				arr[i] = (long) in.nval;
 			}
+			for (int i = n; i >= 2; i--) {
+				arr[i] -= arr[i - 1];
+			}
 			build(1, n, 1);
-			long jobv;
-			for (int i = 1, op, jobl, jobr; i <= m; i++) {
+			for (int i = 1, op; i <= m; i++) {
 				in.nextToken();
 				op = (int) in.nval;
 				if (op == 1) {
 					in.nextToken();
-					jobl = (int) in.nval;
+					int jobl = (int) in.nval;
 					in.nextToken();
-					jobr = (int) in.nval;
+					int jobr = (int) in.nval;
 					in.nextToken();
-					jobv = (long) in.nval;
-					add(jobl, jobr, jobv, 1, n, 1);
+					long k = (long) in.nval;
+					in.nextToken();
+					long d = (long) in.nval;
+					add(jobl, jobl, k, 1, n, 1);
+					if (jobl + 1 <= jobr) {
+						add(jobl + 1, jobr, d, 1, n, 1);
+					}
+					if (jobr < n) {
+						add(jobr + 1, jobr + 1, -(k + d * (jobr - jobl)), 1, n, 1);
+					}
 				} else {
 					in.nextToken();
-					jobl = (int) in.nval;
-					in.nextToken();
-					jobr = (int) in.nval;
-					out.println(query(jobl, jobr, 1, n, 1));
+					int p = (int) in.nval;
+					out.println(query(1, p, 1, n, 1));
 				}
 			}
 		}

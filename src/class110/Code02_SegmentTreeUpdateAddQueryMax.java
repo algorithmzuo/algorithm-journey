@@ -74,17 +74,17 @@ public class Code02_SegmentTreeUpdateAddQueryMax {
 			change[rt] = jobv;
 			max[rt] = jobv;
 			lazy[rt] = 0;
-			return;
+		} else {
+			int mid = (l + r) >> 1;
+			down(rt);
+			if (jobl <= mid) {
+				update(jobl, jobr, jobv, l, mid, rt << 1);
+			}
+			if (jobr > mid) {
+				update(jobl, jobr, jobv, mid + 1, r, rt << 1 | 1);
+			}
+			up(rt);
 		}
-		int mid = (l + r) >> 1;
-		down(rt);
-		if (jobl <= mid) {
-			update(jobl, jobr, jobv, l, mid, rt << 1);
-		}
-		if (jobr > mid) {
-			update(jobl, jobr, jobv, mid + 1, r, rt << 1 | 1);
-		}
-		up(rt);
 	}
 
 	public static void add(int jobl, int jobr, long jobv, int l, int r, int rt) {

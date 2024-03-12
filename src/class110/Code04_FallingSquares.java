@@ -106,17 +106,17 @@ public class Code04_FallingSquares {
 			update[rt] = true;
 			change[rt] = jobv;
 			max[rt] = jobv;
-			return;
+		} else {
+			int mid = (l + r) >> 1;
+			down(rt);
+			if (jobl <= mid) {
+				update(jobl, jobr, jobv, l, mid, rt << 1);
+			}
+			if (jobr > mid) {
+				update(jobl, jobr, jobv, mid + 1, r, rt << 1 | 1);
+			}
+			up(rt);
 		}
-		int mid = (l + r) >> 1;
-		down(rt);
-		if (jobl <= mid) {
-			update(jobl, jobr, jobv, l, mid, rt << 1);
-		}
-		if (jobr > mid) {
-			update(jobl, jobr, jobv, mid + 1, r, rt << 1 | 1);
-		}
-		up(rt);
 	}
 
 	public static int query(int jobl, int jobr, int l, int r, int rt) {
