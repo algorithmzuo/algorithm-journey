@@ -113,12 +113,13 @@ public class Code02_BoringSequence {
 					long k = (long) in.nval;
 					in.nextToken();
 					long d = (long) in.nval;
+					long e = k + d * (jobr - jobl);
 					add(jobl, jobl, k, 1, n, 1);
 					if (jobl + 1 <= jobr) {
 						add(jobl + 1, jobr, d, 1, n, 1);
 					}
 					if (jobr < n) {
-						add(jobr + 1, jobr + 1, -(k + d * (jobr - jobl)), 1, n, 1);
+						add(jobr + 1, jobr + 1, -e, 1, n, 1);
 					}
 				} else {
 					in.nextToken();
