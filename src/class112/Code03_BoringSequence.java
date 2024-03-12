@@ -16,7 +16,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 
-public class Code02_BoringSequence {
+public class Code03_BoringSequence {
 
 	public static int MAXN = 100001;
 
