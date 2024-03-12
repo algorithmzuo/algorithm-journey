@@ -22,13 +22,13 @@ public class Code04_IndexTreeTwoDimensionalArray1 {
 
 	public static int MAXM = 2050;
 
-	public static int[][] tree1 = new int[MAXN][MAXM];
+	public static int[][] info1 = new int[MAXN][MAXM];
 
-	public static int[][] tree2 = new int[MAXN][MAXM];
+	public static int[][] info2 = new int[MAXN][MAXM];
 
-	public static int[][] tree3 = new int[MAXN][MAXM];
+	public static int[][] info3 = new int[MAXN][MAXM];
 
-	public static int[][] tree4 = new int[MAXN][MAXM];
+	public static int[][] info4 = new int[MAXN][MAXM];
 
 	public static int n, m;
 
@@ -39,10 +39,10 @@ public class Code04_IndexTreeTwoDimensionalArray1 {
 	public static void add(int x, int y, int v) {
 		for (int i = x; i <= n; i += lowbit(i)) {
 			for (int j = y; j <= m; j += lowbit(j)) {
-				tree1[i][j] += v;
-				tree2[i][j] += x * v;
-				tree3[i][j] += y * v;
-				tree4[i][j] += x * y * v;
+				info1[i][j] += v;
+				info2[i][j] += x * v;
+				info3[i][j] += y * v;
+				info4[i][j] += x * y * v;
 			}
 		}
 	}
@@ -51,7 +51,7 @@ public class Code04_IndexTreeTwoDimensionalArray1 {
 		int ans = 0;
 		for (int i = x; i > 0; i -= lowbit(i)) {
 			for (int j = y; j > 0; j -= lowbit(j)) {
-				ans += (x + 1) * (y + 1) * tree1[i][j] - (y + 1) * tree2[i][j] - (x + 1) * tree3[i][j] + tree4[i][j];
+				ans += (x + 1) * (y + 1) * info1[i][j] - (y + 1) * info2[i][j] - (x + 1) * info3[i][j] + info4[i][j];
 			}
 		}
 		return ans;

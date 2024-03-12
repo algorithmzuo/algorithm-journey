@@ -22,9 +22,9 @@ public class Code03_IndexTreeIntervalAddIntervalQuery {
 
 	public static int MAXN = 100001;
 
-	public static long[] tree1 = new long[MAXN];
+	public static long[] info1 = new long[MAXN];
 
-	public static long[] tree2 = new long[MAXN];
+	public static long[] info2 = new long[MAXN];
 
 	public static int n, m;
 
@@ -49,14 +49,14 @@ public class Code03_IndexTreeIntervalAddIntervalQuery {
 	}
 
 	public static void add(int l, int r, long v) {
-		add(tree1, l, v);
-		add(tree1, r + 1, -v);
-		add(tree2, l, v * (l - 1));
-		add(tree2, r + 1, -v * r);
+		add(info1, l, v);
+		add(info1, r + 1, -v);
+		add(info2, l, v * (l - 1));
+		add(info2, r + 1, -v * r);
 	}
 
 	public static long range(int l, int r) {
-		return sum(tree1, r) * r - sum(tree2, r) - sum(tree1, l - 1) * (l - 1) + sum(tree2, l - 1);
+		return sum(info1, r) * r - sum(info2, r) - sum(info1, l - 1) * (l - 1) + sum(info2, l - 1);
 	}
 
 	public static void main(String[] args) throws IOException {
