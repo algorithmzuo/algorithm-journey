@@ -18,12 +18,16 @@ package class108;
 //}
 //
 //void add(int x, int y, int v) {
+//    int v1 = v;
+//    int v2 = x * v;
+//    int v3 = y * v;
+//    int v4 = x * y * v;
 //    for (int i = x; i <= n; i += lowbit(i)) {
 //        for (int j = y; j <= m; j += lowbit(j)) {
-//            info1[i][j] += v;
-//            info2[i][j] += x * v;
-//            info3[i][j] += y * v;
-//            info4[i][j] += x * y * v;
+//            info1[i][j] += v1;
+//            info2[i][j] += v2;
+//            info3[i][j] += v3;
+//            info4[i][j] += v4;
 //        }
 //    }
 //}
