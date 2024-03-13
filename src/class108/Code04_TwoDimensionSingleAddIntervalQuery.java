@@ -2,7 +2,7 @@ package class108;
 
 // 二维数组上单点增加、范围查询，使用树状数组的模版
 // 测试链接 : https://leetcode.com/problems/range-sum-query-2d-mutable/
-public class Code04_IndexTreeTwoDimensionSingleAddIntervalQuery {
+public class Code04_TwoDimensionSingleAddIntervalQuery {
 
 	class NumMatrix {
 
