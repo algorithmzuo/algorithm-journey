@@ -17,12 +17,14 @@ public class Code01_IndexTreeSingleAddIntervalQuery {
 
 	public static int MAXN = 500001;
 
-	// 树状数组的范围一定从1下标开始，不从0下标开始！
-	// tree维持数组前缀和信息
+	// 原始数组的信息，根据课上说的关系，维护在树状数组中
+	// 注意下标一定从1开始，不从0开始
 	public static int[] tree = new int[MAXN];
 
 	public static int n, m;
 
+	// 得到i最右侧的1的状态
+	// 其他位都是0
 	public static int lowbit(int i) {
 		return i & -i;
 	}
@@ -44,7 +46,6 @@ public class Code01_IndexTreeSingleAddIntervalQuery {
 		return ans;
 	}
 
-	// 返回l~r范围累加和
 	public static int range(int l, int r) {
 		return sum(r) - sum(l - 1);
 	}

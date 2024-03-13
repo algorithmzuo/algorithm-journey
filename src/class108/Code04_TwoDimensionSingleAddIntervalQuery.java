@@ -40,6 +40,7 @@ public class Code04_TwoDimensionSingleAddIntervalQuery {
 			}
 		}
 
+		// 从(1,1)到(x,y)这个部分的累加和
 		private int sum(int x, int y) {
 			int ans = 0;
 			for (int i = x; i > 0; i -= lowbit(i)) {

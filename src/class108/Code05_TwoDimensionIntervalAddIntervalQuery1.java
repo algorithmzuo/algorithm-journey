@@ -55,6 +55,7 @@ public class Code05_TwoDimensionIntervalAddIntervalQuery1 {
 		}
 	}
 
+	// 以(1,1)左上角，以(x,y)右下角
 	public static int sum(int x, int y) {
 		int ans = 0;
 		for (int i = x; i > 0; i -= lowbit(i)) {
