@@ -1,15 +1,12 @@
 package class108;
 
 // 二维数组上范围增加、范围查询，使用树状数组的模版(java)
-// 二维数组上单点增加、范围查询略过
-// 二维数组上范围增加、单点查询略过
-// 有了范围增加、范围查询，就完全兼顾了，不再单独讲述
 // 测试链接 : https://www.luogu.com.cn/problem/P4514
 // 如下实现是正确的，但是洛谷平台对空间卡的很严，只有使用C++能全部通过
 // java的版本就是无法完全通过的，空间会超过限制，主要是IO空间占用大
 // 这是洛谷平台没有照顾各种语言的实现所导致的
 // 在真正笔试、比赛时，一定是兼顾各种语言的，该实现是一定正确的
-// C++版本就是Code04_IndexTreeTwoDimensionalArray2文件
+// C++版本就是Code05_IndexTreeTwoDimensionIntervalAddIntervalQuery2文件
 // C++版本和java版本逻辑完全一样，但只有C++版本可以通过所有测试用例
 
 import java.io.BufferedReader;
@@ -19,7 +16,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 
-public class Code04_IndexTreeTwoDimensionalArray1 {
+public class Code05_IndexTreeTwoDimensionIntervalAddIntervalQuery1 {
 
 	public static int MAXN = 2050;
 
