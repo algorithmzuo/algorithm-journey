@@ -25,12 +25,16 @@ public class Code04_IndexTreeTwoDimensionalArray1 {
 
 	public static int MAXM = 2050;
 
+	// 维护信息 : d[i][j]
 	public static int[][] info1 = new int[MAXN][MAXM];
 
+	// 维护信息 : d[i][j] * i
 	public static int[][] info2 = new int[MAXN][MAXM];
 
+	// 维护信息 : d[i][j] * j
 	public static int[][] info3 = new int[MAXN][MAXM];
 
+	// 维护信息 : d[i][j] * i * j
 	public static int[][] info4 = new int[MAXN][MAXM];
 
 	public static int n, m;

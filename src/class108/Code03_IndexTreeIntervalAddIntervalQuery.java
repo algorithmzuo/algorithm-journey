@@ -22,8 +22,10 @@ public class Code03_IndexTreeIntervalAddIntervalQuery {
 
 	public static int MAXN = 100001;
 
+	// 维护信息 : di
 	public static long[] info1 = new long[MAXN];
 
+	// 维护信息 : (i-1) * di
 	public static long[] info2 = new long[MAXN];
 
 	public static int n, m;
