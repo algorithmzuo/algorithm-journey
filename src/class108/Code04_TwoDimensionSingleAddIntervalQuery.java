@@ -14,7 +14,7 @@ public class Code04_TwoDimensionSingleAddIntervalQuery {
 
 		public int m;
 
-		// 注意入参的二维数组下标从0开始
+		// 入参二维数组下标从0开始
 		// 树状数组一定下标从1开始
 		public NumMatrix(int[][] matrix) {
 			n = matrix.length;
@@ -32,34 +32,37 @@ public class Code04_TwoDimensionSingleAddIntervalQuery {
 			return i & -i;
 		}
 
+		private void add(int x, int y, int v) {
+			for (int i = x; i <= n; i += lowbit(i)) {
+				for (int j = y; j <= m; j += lowbit(j)) {
+					tree[i][j] += v;
+				}
+			}
+		}
+
+		private int sum(int x, int y) {
+			int ans = 0;
+			for (int i = x; i > 0; i -= lowbit(i)) {
+				for (int j = y; j > 0; j -= lowbit(j)) {
+					ans += tree[i][j];
+				}
+			}
+			return ans;
+		}
+
 		// 实际二维数组的位置是(x,y)
 		// 树状数组上的位置是(x+1, y+1)
 		// 题目说的是单点更新，转化成单点增加(老值-新值)即可
-		// 不要忘了在nums中把老值改成新值即可
-		public void update(int x, int y, int val) {
-			int add = val - nums[x + 1][y + 1];
-			nums[x + 1][y + 1] = val;
-			for (int i = x + 1; i <= n; i += lowbit(i)) {
-				for (int j = y + 1; j <= m; j += lowbit(j)) {
-					tree[i][j] += add;
-				}
-			}
+		// 不要忘了在nums中把老值改成新值
+		public void update(int x, int y, int v) {
+			add(x + 1, y + 1, v - nums[x + 1][y + 1]);
+			nums[x + 1][y + 1] = v;
 		}
 
 		// 实际二维数组的位置是(x,y)
 		// 树状数组上的位置是(x+1, y+1)
-		private int sum(int x, int y) {
-			int sum = 0;
-			for (int i = x + 1; i > 0; i -= lowbit(i)) {
-				for (int j = y + 1; j > 0; j -= lowbit(j)) {
-					sum += tree[i][j];
-				}
-			}
-			return sum;
-		}
-
-		public int sumRegion(int row1, int col1, int row2, int col2) {
-			return sum(row2, col2) - sum(row1 - 1, col2) - sum(row2, col1 - 1) + sum(row1 - 1, col1 - 1);
+		public int sumRegion(int a, int b, int c, int d) {
+			return sum(c + 1, d + 1) - sum(a, d + 1) - sum(c + 1, b) + sum(a, b);
 		}
 
 	}
