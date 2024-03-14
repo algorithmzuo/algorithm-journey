@@ -85,14 +85,14 @@ public class Code05_MinimumNumberOfMovesToMakePalindrome {
 		for (int i = 0, l = 1, r, k; i < n; i++, l++) {
 			if (arr[l] == 0) {
 				r = removeEdge(s[i] - 'a');
-				if (l == r) {
-					arr[l] = (1 + n) / 2;
-					add(l, -1);
-				} else {
+				if (l < r) {
 					k = sum(l);
 					arr[l] = k;
 					arr[r] = n - k + 1;
 					add(r, -1);
+				} else {
+					arr[l] = (1 + n) / 2;
+					add(l, -1);
 				}
 			}
 		}

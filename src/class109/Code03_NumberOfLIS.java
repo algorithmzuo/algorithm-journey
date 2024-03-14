@@ -18,7 +18,7 @@ public class Code03_NumberOfLIS {
 
 	public static int[] cnts = new int[MAXN];
 
-	public static int n, a, b;
+	public static int n;
 
 	public static void build() {
 		Arrays.fill(lens, 1, n + 1, 0);
@@ -28,6 +28,8 @@ public class Code03_NumberOfLIS {
 	public static int lowbit(int i) {
 		return i & -i;
 	}
+
+	public static int a, b;
 
 	public static void query(int i) {
 		a = b = 0;
@@ -42,13 +44,13 @@ public class Code03_NumberOfLIS {
 		}
 	}
 
-	public static void add(int i, int l, int c) {
+	public static void add(int i, int len, int cnt) {
 		while (i <= n) {
-			if (lens[i] == l) {
-				cnts[i] += c;
-			} else if (lens[i] < l) {
-				lens[i] = l;
-				cnts[i] = c;
+			if (lens[i] == len) {
+				cnts[i] += cnt;
+			} else if (lens[i] < len) {
+				lens[i] = len;
+				cnts[i] = cnt;
 			}
 			i += lowbit(i);
 		}
