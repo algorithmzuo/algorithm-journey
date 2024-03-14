@@ -78,10 +78,10 @@ public class Code01_NumberOfReversePair2 {
 			}
 		}
 		long ans = 0;
-		for (int i = n, num; i >= 1; i--) {
-			num = rank(arr[i]);
-			add(num);
-			ans += sum(num - 1);
+		for (int i = n, j; i >= 1; i--) {
+			j = rank(arr[i]);
+			add(j);
+			ans += sum(j - 1);
 		}
 		return ans;
 	}
