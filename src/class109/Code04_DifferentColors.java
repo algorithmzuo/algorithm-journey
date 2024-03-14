@@ -90,11 +90,8 @@ public class Code04_DifferentColors {
 
 	public static void compute() {
 		Arrays.sort(query, 1, m + 1, (a, b) -> a[1] - b[1]);
-		for (int s = 1, j = 1; j <= m; j++) {
-			int l = query[j][0];
-			int r = query[j][1];
-			int index = query[j][2];
-			for (; s <= r; s++) {
+		for (int s = 1, j = 1, l, r, i; j <= m; j++) {
+			for (l = query[j][0], r = query[j][1], i = query[j][2]; s <= r; s++) {
 				int color = arr[s];
 				if (map[color] != 0) {
 					add(map[color], -1);
@@ -102,7 +99,7 @@ public class Code04_DifferentColors {
 				add(s, 1);
 				map[color] = s;
 			}
-			ans[index] = range(l, r);
+			ans[i] = range(l, r);
 		}
 	}
 
