@@ -36,10 +36,6 @@ public class Code04_DifferentColors {
 
 	public static int n, m;
 
-	public static void build() {
-		Arrays.fill(tree, 1, n + 1, 0);
-	}
-
 	public static int lowbit(int i) {
 		return i & -i;
 	}
@@ -68,45 +64,46 @@ public class Code04_DifferentColors {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StreamTokenizer in = new StreamTokenizer(br);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
-		while (in.nextToken() != StreamTokenizer.TT_EOF) {
-			n = (int) in.nval;
-			for (int i = 1; i <= n; i++) {
-				in.nextToken();
-				arr[i] = (int) in.nval;
-			}
+		in.nextToken();
+		n = (int) in.nval;
+		for (int i = 1; i <= n; i++) {
 			in.nextToken();
-			m = (int) in.nval;
-			for (int i = 1; i <= m; i++) {
-				in.nextToken();
-				query[i][0] = (int) in.nval;
-				in.nextToken();
-				query[i][1] = (int) in.nval;
-				query[i][2] = i;
-			}
-			Arrays.fill(map, 0);
-			build();
-			Arrays.sort(query, 1, m + 1, (a, b) -> a[1] - b[1]);
-			for (int s = 1, j = 1; j <= m; j++) {
-				int l = query[j][0];
-				int r = query[j][1];
-				int index = query[j][2];
-				for (; s <= r; s++) {
-					int color = arr[s];
-					if (map[color] != 0) {
-						add(map[color], -1);
-					}
-					add(s, 1);
-					map[color] = s;
-				}
-				ans[index] = range(l, r);
-			}
-			for (int i = 1; i <= m; i++) {
-				out.println(ans[i]);
-			}
+			arr[i] = (int) in.nval;
+		}
+		in.nextToken();
+		m = (int) in.nval;
+		for (int i = 1; i <= m; i++) {
+			in.nextToken();
+			query[i][0] = (int) in.nval;
+			in.nextToken();
+			query[i][1] = (int) in.nval;
+			query[i][2] = i;
+		}
+		compute();
+		for (int i = 1; i <= m; i++) {
+			out.println(ans[i]);
 		}
 		out.flush();
 		out.close();
 		br.close();
+	}
+
+	public static void compute() {
+		Arrays.sort(query, 1, m + 1, (a, b) -> a[1] - b[1]);
+		for (int s = 1, j = 1; j <= m; j++) {
+			int l = query[j][0];
+			int r = query[j][1];
+			int index = query[j][2];
+			for (; s <= r; s++) {
+				int color = arr[s];
+				if (map[color] != 0) {
+					add(map[color], -1);
+				}
+				add(s, 1);
+				map[color] = s;
+			}
+			ans[index] = range(l, r);
+		}
 	}
 
 }

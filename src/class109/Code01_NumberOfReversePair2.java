@@ -63,13 +63,13 @@ public class Code01_NumberOfReversePair2 {
 			arr[i] = (int) in.nval;
 			sort[i] = arr[i];
 		}
-		out.println(number());
+		out.println(compute());
 		out.flush();
 		out.close();
 		br.close();
 	}
 
-	public static long number() {
+	public static long compute() {
 		Arrays.sort(sort, 1, n + 1);
 		m = 1;
 		for (int i = 2; i <= n; i++) {

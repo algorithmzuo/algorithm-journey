@@ -27,20 +27,26 @@ public class Code01_NumberOfReversePair1 {
 
 	public static int[] help = new int[MAXN];
 
+	public static int n;
+
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StreamTokenizer in = new StreamTokenizer(br);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
 		in.nextToken();
-		int n = (int) in.nval;
+		n = (int) in.nval;
 		for (int i = 1; i <= n; i++) {
 			in.nextToken();
 			arr[i] = (int) in.nval;
 		}
-		out.println(number(1, n));
+		out.println(compute());
 		out.flush();
 		out.close();
 		br.close();
+	}
+
+	public static long compute() {
+		return number(1, n);
 	}
 
 	public static long number(int l, int r) {
