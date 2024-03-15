@@ -12,86 +12,86 @@ public class Code03_NumberOfLIS {
 
 	public static int MAXN = 2001;
 
-	public static int[] arr = new int[MAXN];
+	public static int[] sort = new int[MAXN];
 
-	public static int[] lens = new int[MAXN];
+	// 维护信息 : 结尾值<=i的最长递增子序列，长度是多少
+	public static int[] treeMaxLen = new int[MAXN];
 
-	public static int[] cnts = new int[MAXN];
+	// 维护信息 : 结尾值<=i的最长递增子序列，个数是多少
+	public static int[] treeMaxLenCnt = new int[MAXN];
 
-	public static int n;
-
-	public static void build() {
-		Arrays.fill(lens, 1, n + 1, 0);
-		Arrays.fill(cnts, 1, n + 1, 0);
-	}
+	public static int m;
 
 	public static int lowbit(int i) {
 		return i & -i;
 	}
 
-	public static int a, b;
+	// 查询结尾数值<=i的所有递增子序列中
+	// 长度最大的递增子序列是多长，赋值给maxLen
+	// 长度最大的递增子序列是多少个，赋值给maxLenCnt
+	public static int maxLen, maxLenCnt;
 
 	public static void query(int i) {
-		a = b = 0;
+		maxLen = maxLenCnt = 0;
 		while (i > 0) {
-			if (a == lens[i]) {
-				b += cnts[i];
-			} else if (a < lens[i]) {
-				a = lens[i];
-				b = cnts[i];
+			if (maxLen == treeMaxLen[i]) {
+				maxLenCnt += treeMaxLenCnt[i];
+			} else if (maxLen < treeMaxLen[i]) {
+				maxLen = treeMaxLen[i];
+				maxLenCnt = treeMaxLenCnt[i];
 			}
 			i -= lowbit(i);
 		}
 	}
 
+	// 以i这个值结尾的最长递增子序列达到了len长度
+	// 并且这样的最长递增子序列的数量达到了cnt个
 	public static void add(int i, int len, int cnt) {
-		while (i <= n) {
-			if (lens[i] == len) {
-				cnts[i] += cnt;
-			} else if (lens[i] < len) {
-				lens[i] = len;
-				cnts[i] = cnt;
+		while (i <= m) {
+			if (treeMaxLen[i] == len) {
+				treeMaxLenCnt[i] += cnt;
+			} else if (treeMaxLen[i] < len) {
+				treeMaxLen[i] = len;
+				treeMaxLenCnt[i] = cnt;
 			}
 			i += lowbit(i);
 		}
 	}
 
 	public static int findNumberOfLIS(int[] nums) {
-		for (int i = 1; i <= nums.length; i++) {
-			arr[i] = nums[i - 1];
+		int n = nums.length;
+		for (int i = 1; i <= n; i++) {
+			sort[i] = nums[i - 1];
 		}
-		sort(nums.length);
-		build();
-		int rank;
-		for (int num : nums) {
-			rank = rank(num);
-			query(rank - 1);
-			add(rank, a + 1, Math.max(b, 1));
-		}
-		query(n);
-		return b;
-	}
-
-	public static void sort(int size) {
-		Arrays.sort(arr, 1, size + 1);
-		n = 1;
-		for (int i = 2; i <= size; i++) {
-			if (arr[n] != arr[i]) {
-				arr[++n] = arr[i];
+		Arrays.sort(sort, 1, n + 1);
+		m = 1;
+		for (int i = 2; i <= n; i++) {
+			if (sort[m] != sort[i]) {
+				sort[++m] = sort[i];
 			}
 		}
+		Arrays.fill(treeMaxLen, 1, m + 1, 0);
+		Arrays.fill(treeMaxLenCnt, 1, m + 1, 0);
+		int i;
+		for (int num : nums) {
+			i = rank(num);
+			query(i - 1);
+			add(i, maxLen + 1, Math.max(maxLenCnt, 1));
+		}
+		query(m);
+		return maxLenCnt;
 	}
 
 	public static int rank(int v) {
 		int ans = 0;
-		int l = 1, r = n, m;
+		int l = 1, r = m, mid;
 		while (l <= r) {
-			m = (l + r) / 2;
-			if (arr[m] >= v) {
-				ans = m;
-				r = m - 1;
+			mid = (l + r) / 2;
+			if (sort[mid] >= v) {
+				ans = mid;
+				r = mid - 1;
 			} else {
-				l = m + 1;
+				l = mid + 1;
 			}
 		}
 		return ans;

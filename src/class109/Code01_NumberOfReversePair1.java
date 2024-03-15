@@ -46,29 +46,43 @@ public class Code01_NumberOfReversePair1 {
 	}
 
 	public static long compute() {
-		return number(1, n);
+		return f(1, n);
 	}
 
-	public static long number(int l, int r) {
-		if (l >= r) {
+	// 归并分治
+	// 1) 统计i、j来自l~r范围的情况下，逆序对数量
+	// 2) 统计完成后，让arr[l...r]变成有序的
+	public static long f(int l, int r) {
+		if (l == r) {
 			return 0;
 		}
 		int m = (l + r) / 2;
-		return number(l, m) + number(m + 1, r) + merge(l, m, r);
+		return f(l, m) + f(m + 1, r) + merge(l, m, r);
 	}
 
 	public static long merge(int l, int m, int r) {
-		int i = r, p1 = m, p2 = r;
+		// i来自l.....m
+		// j来自m+1...r
+		// 统计有多少逆序对
 		long ans = 0;
-		while (p1 >= l && p2 > m) {
-			ans += arr[p1] > arr[p2] ? (p2 - m) : 0;
-			help[i--] = arr[p1] > arr[p2] ? arr[p1--] : arr[p2--];
+		for (int i = m, j = r; i >= l; i--) {
+			while (j >= m + 1 && arr[i] <= arr[j]) {
+				j--;
+			}
+			ans += j - m;
 		}
-		while (p1 >= l) {
-			help[i--] = arr[p1--];
+		// 左右部分合并，整体变有序，归并排序的过程
+		int i = l;
+		int a = l;
+		int b = m + 1;
+		while (a <= m && b <= r) {
+			help[i++] = arr[a] <= arr[b] ? arr[a++] : arr[b++];
 		}
-		while (p2 > m) {
-			help[i--] = arr[p2--];
+		while (a <= m) {
+			help[i++] = arr[a++];
+		}
+		while (b <= r) {
+			help[i++] = arr[b++];
 		}
 		for (i = l; i <= r; i++) {
 			arr[i] = help[i];

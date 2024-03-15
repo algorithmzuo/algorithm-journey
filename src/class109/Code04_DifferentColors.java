@@ -40,9 +40,9 @@ public class Code04_DifferentColors {
 		return i & -i;
 	}
 
-	public static void add(int i, int d) {
+	public static void add(int i, int v) {
 		while (i <= n) {
-			tree[i] += d;
+			tree[i] += v;
 			i += lowbit(i);
 		}
 	}
@@ -90,8 +90,9 @@ public class Code04_DifferentColors {
 
 	public static void compute() {
 		Arrays.sort(query, 1, m + 1, (a, b) -> a[1] - b[1]);
-		for (int s = 1, j = 1, l, r, i; j <= m; j++) {
-			for (l = query[j][0], r = query[j][1], i = query[j][2]; s <= r; s++) {
+		for (int s = 1, q = 1, l, r, i; q <= m; q++) {
+			r = query[q][1];
+			for (; s <= r; s++) {
 				int color = arr[s];
 				if (map[color] != 0) {
 					add(map[color], -1);
@@ -99,6 +100,8 @@ public class Code04_DifferentColors {
 				add(s, 1);
 				map[color] = s;
 			}
+			l = query[q][0];
+			i = query[q][2];
 			ans[i] = range(l, r);
 		}
 	}

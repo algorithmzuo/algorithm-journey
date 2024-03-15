@@ -36,13 +36,14 @@ public class Code01_NumberOfReversePair2 {
 		return i & -i;
 	}
 
-	public static void add(int i) {
+	public static void add(int i, int v) {
 		while (i <= m) {
-			tree[i]++;
+			tree[i] += v;
 			i += lowbit(i);
 		}
 	}
 
+	// 1~i范围的累加和
 	public static long sum(int i) {
 		long ans = 0;
 		while (i > 0) {
@@ -77,15 +78,21 @@ public class Code01_NumberOfReversePair2 {
 				sort[++m] = sort[i];
 			}
 		}
+		for (int i = 1; i <= n; i++) {
+			arr[i] = rank(arr[i]);
+		}
 		long ans = 0;
-		for (int i = n, j; i >= 1; i--) {
-			j = rank(arr[i]);
-			add(j);
-			ans += sum(j - 1);
+		for (int i = n; i >= 1; i--) {
+			// 右边有多少数字是 <= 当前数值 - 1
+			ans += sum(arr[i] - 1);
+			// 增加当前数字的词频
+			add(arr[i], 1);
 		}
 		return ans;
 	}
 
+	// 给定原始值v
+	// 返回排名值(排序部分1~m中的下标)
 	public static int rank(int v) {
 		int l = 1, r = m, mid;
 		int ans = 0;

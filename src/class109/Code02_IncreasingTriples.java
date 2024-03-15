@@ -25,9 +25,13 @@ public class Code02_IncreasingTriples {
 
 	public static int[] sort = new int[MAXN];
 
-	public static long[] up2 = new long[MAXN];
+	// 维护信息 : 课上讲的up1数组
+	// tree1不是up1数组，是up1数组的树状数组
+	public static long[] tree1 = new long[MAXN];
 
-	public static long[] up3 = new long[MAXN];
+	// 维护信息 : 课上讲的up2数组
+	// tree2不是up2数组，是up2数组的树状数组
+	public static long[] tree2 = new long[MAXN];
 
 	public static int n, m;
 
@@ -35,9 +39,9 @@ public class Code02_IncreasingTriples {
 		return i & -i;
 	}
 
-	public static void add(long[] tree, int i, long v) {
+	public static void add(long[] tree, int i, long c) {
 		while (i <= m) {
-			tree[i] += v;
+			tree[i] += c;
 			i += lowbit(i);
 		}
 	}
@@ -68,6 +72,7 @@ public class Code02_IncreasingTriples {
 		br.close();
 	}
 
+	// 时间复杂度O(n * logn)
 	public static long compute() {
 		Arrays.sort(sort, 1, n + 1);
 		m = 1;
@@ -76,12 +81,17 @@ public class Code02_IncreasingTriples {
 				sort[++m] = sort[i];
 			}
 		}
+		for (int i = 1; i <= n; i++) {
+			arr[i] = rank(arr[i]);
+		}
 		long ans = 0;
-		for (int i = 1, j; i <= n; i++) {
-			j = rank(arr[i]);
-			ans += sum(up3, j - 1);
-			add(up2, j, 1);
-			add(up3, j, sum(up2, j - 1));
+		for (int i = 1; i <= n; i++) {
+			// 查询以当前值做结尾的升序三元组数量
+			ans += sum(tree2, arr[i] - 1);
+			// 更新以当前值做结尾的升序一元组数量
+			add(tree1, arr[i], 1);
+			// 更新以当前值做结尾的升序二元组数量
+			add(tree2, arr[i], sum(tree1, arr[i] - 1));
 		}
 		return ans;
 	}
