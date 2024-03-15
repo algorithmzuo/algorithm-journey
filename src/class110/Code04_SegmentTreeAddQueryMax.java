@@ -1,11 +1,11 @@
 package class110;
 
-// 线段树支持范围更新、范围查询
+// 线段树支持范围增加、范围查询
 // 维护最大值
 // 对数器验证
 // 当你写线段树出错了，就需要用对数器的方式来排查
 // 所以本题选择对数器验证，来展示一下怎么写测试
-public class Code04_SegmentTreeUpdateQueryMax {
+public class Code04_SegmentTreeAddQueryMax {
 
 	public static int MAXN = 100001;
 
@@ -13,9 +13,7 @@ public class Code04_SegmentTreeUpdateQueryMax {
 
 	public static long[] max = new long[MAXN << 2];
 
-	public static long[] change = new long[MAXN << 2];
-
-	public static boolean[] update = new boolean[MAXN << 2];
+	public static long[] lazy = new long[MAXN << 2];
 
 	public static void build(int l, int r, int rt) {
 		if (l == r) {
@@ -26,8 +24,7 @@ public class Code04_SegmentTreeUpdateQueryMax {
 			build(mid + 1, r, rt << 1 | 1);
 			up(rt);
 		}
-		change[rt] = 0;
-		update[rt] = false;
+		lazy[rt] = 0;
 	}
 
 	public static void up(int rt) {
@@ -35,30 +32,27 @@ public class Code04_SegmentTreeUpdateQueryMax {
 	}
 
 	public static void down(int rt) {
-		if (update[rt]) {
-			max[rt << 1] = change[rt];
-			change[rt << 1] = change[rt];
-			update[rt << 1] = true;
-			max[rt << 1 | 1] = change[rt];
-			change[rt << 1 | 1] = change[rt];
-			update[rt << 1 | 1] = true;
-			update[rt] = false;
+		if (lazy[rt] != 0) {
+			max[rt << 1] += lazy[rt];
+			lazy[rt << 1] += lazy[rt];
+			max[rt << 1 | 1] += lazy[rt];
+			lazy[rt << 1 | 1] += lazy[rt];
+			lazy[rt] = 0;
 		}
 	}
 
-	public static void update(int jobl, int jobr, long jobv, int l, int r, int rt) {
+	public static void add(int jobl, int jobr, long jobv, int l, int r, int rt) {
 		if (jobl <= l && r <= jobr) {
-			max[rt] = jobv;
-			change[rt] = jobv;
-			update[rt] = true;
+			max[rt] += jobv;
+			lazy[rt] += jobv;
 		} else {
 			down(rt);
 			int mid = (l + r) >> 1;
 			if (jobl <= mid) {
-				update(jobl, jobr, jobv, l, mid, rt << 1);
+				add(jobl, jobr, jobv, l, mid, rt << 1);
 			}
 			if (jobr > mid) {
-				update(jobl, jobr, jobv, mid + 1, r, rt << 1 | 1);
+				add(jobl, jobr, jobv, mid + 1, r, rt << 1 | 1);
 			}
 			up(rt);
 		}
@@ -99,7 +93,7 @@ public class Code04_SegmentTreeUpdateQueryMax {
 		}
 		for (int i = 1; i <= t; i++) {
 			// 生成操作类型
-			// op = 0 更新操作
+			// op = 0 增加操作
 			// op = 1 查询操作
 			int op = (int) (Math.random() * 2);
 			// 下标从1开始，不从0开始，生成两个随机下标
@@ -109,11 +103,11 @@ public class Code04_SegmentTreeUpdateQueryMax {
 			int jobl = Math.min(a, b);
 			int jobr = Math.max(a, b);
 			if (op == 0) {
-				// 更新操作
-				// 线段树、验证结构同步更新
+				// 增加操作
+				// 线段树、验证结构同步增加
 				int jobv = (int) (Math.random() * v * 2) - v;
-				update(jobl, jobr, jobv, 1, n, 1);
-				checkUpdate(check, jobl, jobr, jobv);
+				add(jobl, jobr, jobv, 1, n, 1);
+				checkAdd(check, jobl, jobr, jobv);
 			} else {
 				// 查询操作
 				// 线段树、验证结构同步查询
@@ -136,12 +130,12 @@ public class Code04_SegmentTreeUpdateQueryMax {
 		}
 	}
 
-	// 验证结构的更新
-	// 暴力更新
+	// 验证结构的增加
+	// 暴力增加
 	// 为了验证
-	public static void checkUpdate(long[] check, int jobl, int jobr, long jobv) {
+	public static void checkAdd(long[] check, int jobl, int jobr, long jobv) {
 		for (int i = jobl; i <= jobr; i++) {
-			check[i] = jobv;
+			check[i] += jobv;
 		}
 	}
 
