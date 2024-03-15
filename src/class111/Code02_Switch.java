@@ -1,4 +1,4 @@
-package class110;
+package class111;
 
 // 开关
 // 现有n盏灯排成一排，从左到右依次编号为1~n，一开始所有的灯都是关着的
@@ -17,7 +17,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 
-public class Code03_Switch {
+public class Code02_Switch {
 
 	public static int MAXN = 100001;
 

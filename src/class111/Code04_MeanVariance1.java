@@ -10,7 +10,7 @@ package class111;
 // java的版本就是无法完全通过的，空间会超过限制，主要是IO空间占用大
 // 这是洛谷平台没有照顾各种语言的实现所导致的
 // 在真正笔试、比赛时，一定是兼顾各种语言的，该实现是一定正确的
-// C++版本就是本节代码中的Code03_MeanVariance2文件
+// C++版本就是本节代码中的Code04_MeanVariance2文件
 // C++版本和java版本逻辑完全一样，但只有C++版本可以通过所有测试用例
 
 import java.io.BufferedReader;
@@ -24,7 +24,7 @@ import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 import java.util.StringTokenizer;
 
-public class Code03_MeanVariance1 {
+public class Code04_MeanVariance1 {
 
 	public static int MAXN = 100001;
 

@@ -15,7 +15,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 
-public class Code02_SegmentTreeUpdateAddQueryMax {
+public class Code03_SegmentTreeUpdateAddQueryMax {
 
 	public static int MAXN = 1000001;
 
@@ -49,14 +49,14 @@ public class Code02_SegmentTreeUpdateAddQueryMax {
 
 	public static void down(int rt) {
 		if (update[rt]) {
-			update[rt << 1] = true;
-			update[rt << 1 | 1] = true;
 			change[rt << 1] = change[rt];
-			change[rt << 1 | 1] = change[rt];
-			lazy[rt << 1] = 0;
-			lazy[rt << 1 | 1] = 0;
+			update[rt << 1] = true;
 			max[rt << 1] = change[rt];
+			lazy[rt << 1] = 0;
+			change[rt << 1 | 1] = change[rt];
+			update[rt << 1 | 1] = true;
 			max[rt << 1 | 1] = change[rt];
+			lazy[rt << 1 | 1] = 0;
 			update[rt] = false;
 		}
 		if (lazy[rt] != 0) {
@@ -70,10 +70,10 @@ public class Code02_SegmentTreeUpdateAddQueryMax {
 
 	public static void update(int jobl, int jobr, long jobv, int l, int r, int rt) {
 		if (jobl <= l && r <= jobr) {
-			update[rt] = true;
-			change[rt] = jobv;
 			max[rt] = jobv;
 			lazy[rt] = 0;
+			change[rt] = jobv;
+			update[rt] = true;
 		} else {
 			int mid = (l + r) >> 1;
 			down(rt);
