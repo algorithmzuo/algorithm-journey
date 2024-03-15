@@ -1,8 +1,7 @@
 package class110;
 
 // 线段树同时支持范围更新、范围增加、范围查询
-// 本题的线段树维护的信息是最大值
-// 如果想维护最小值、累加和等其他信息同理
+// 维护最大值信息
 // 测试链接 : https://www.luogu.com.cn/problem/P1253
 // 请同学们务必参考如下代码中关于输入、输出的处理
 // 这是输入输出处理效率很高的写法
@@ -15,7 +14,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 
-public class Code03_SegmentTreeUpdateAddQueryMax {
+public class Code06_SegmentTreeUpdateAddQueryMax {
 
 	public static int MAXN = 1000001;
 
@@ -49,21 +48,21 @@ public class Code03_SegmentTreeUpdateAddQueryMax {
 
 	public static void down(int rt) {
 		if (update[rt]) {
-			change[rt << 1] = change[rt];
-			update[rt << 1] = true;
 			max[rt << 1] = change[rt];
 			lazy[rt << 1] = 0;
-			change[rt << 1 | 1] = change[rt];
-			update[rt << 1 | 1] = true;
+			change[rt << 1] = change[rt];
+			update[rt << 1] = true;
 			max[rt << 1 | 1] = change[rt];
 			lazy[rt << 1 | 1] = 0;
+			change[rt << 1 | 1] = change[rt];
+			update[rt << 1 | 1] = true;
 			update[rt] = false;
 		}
 		if (lazy[rt] != 0) {
-			lazy[rt << 1] += lazy[rt];
-			lazy[rt << 1 | 1] += lazy[rt];
 			max[rt << 1] += lazy[rt];
+			lazy[rt << 1] += lazy[rt];
 			max[rt << 1 | 1] += lazy[rt];
+			lazy[rt << 1 | 1] += lazy[rt];
 			lazy[rt] = 0;
 		}
 	}
@@ -91,17 +90,17 @@ public class Code03_SegmentTreeUpdateAddQueryMax {
 		if (jobl <= l && r <= jobr) {
 			max[rt] += jobv;
 			lazy[rt] += jobv;
-			return;
+		} else {
+			int mid = (l + r) >> 1;
+			down(rt);
+			if (jobl <= mid) {
+				add(jobl, jobr, jobv, l, mid, rt << 1);
+			}
+			if (jobr > mid) {
+				add(jobl, jobr, jobv, mid + 1, r, rt << 1 | 1);
+			}
+			up(rt);
 		}
-		int mid = (l + r) >> 1;
-		down(rt);
-		if (jobl <= mid) {
-			add(jobl, jobr, jobv, l, mid, rt << 1);
-		}
-		if (jobr > mid) {
-			add(jobl, jobr, jobv, mid + 1, r, rt << 1 | 1);
-		}
-		up(rt);
 	}
 
 	public static long query(int jobl, int jobr, int l, int r, int rt) {

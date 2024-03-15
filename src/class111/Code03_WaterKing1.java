@@ -5,7 +5,7 @@ package class111;
 // 水王数是指在数组中出现次数大于n/2的元素
 // 如果数组不存在水王数返回-1
 // 测试链接 : https://leetcode.cn/problems/majority-element/
-public class Code01_WaterKing1 {
+public class Code03_WaterKing1 {
 
 	public static int majorityElement(int[] nums) {
 		int cand = 0;

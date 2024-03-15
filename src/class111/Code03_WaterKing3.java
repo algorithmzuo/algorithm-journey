@@ -13,7 +13,7 @@ import java.util.Arrays;
 //   返回子数组arr[l...r]上的水王数，t是给定的要求
 //   如果没有满足条件的水王数，返回-1
 // 测试链接 : https://leetcode.cn/problems/online-majority-element-in-subarray/
-public class Code01_WaterKing3 {
+public class Code03_WaterKing3 {
 
 	// 用java语言自带的动态数组可以让常数时间更快
 	// 但是其他语言的同学改写难度就大了

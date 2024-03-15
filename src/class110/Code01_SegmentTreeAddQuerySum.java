@@ -1,8 +1,7 @@
 package class110;
 
 // 线段树支持范围增加、范围查询
-// 本题的线段树维护的信息是累加和
-// 如果想维护最小值、最大值等其他信息同理
+// 维护累加和信息
 // 测试链接 : https://www.luogu.com.cn/problem/P3372
 // 请同学们务必参考如下代码中关于输入、输出的处理
 // 这是输入输出处理效率很高的写法
@@ -32,7 +31,6 @@ public class Code01_SegmentTreeAddQuerySum {
 			int mid = (l + r) >> 1;
 			build(l, mid, rt << 1);
 			build(mid + 1, r, rt << 1 | 1);
-			sum[rt] = sum[rt << 1] + sum[rt << 1 | 1];
 			up(rt);
 		}
 		lazy[rt] = 0;

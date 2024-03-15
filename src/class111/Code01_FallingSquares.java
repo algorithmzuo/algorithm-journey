@@ -1,4 +1,4 @@
-package class110;
+package class111;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -15,7 +15,7 @@ import java.util.List;
 // 俄罗斯方块游戏和本题意思一样
 // 返回一个整数数组ans ，其中ans[i]表示在第i块方块掉落后整体的最大高度
 // 测试链接 : https://leetcode.cn/problems/falling-squares/
-public class Code04_FallingSquares {
+public class Code01_FallingSquares {
 
 	public static int MAXN = 2001;
 

@@ -7,7 +7,7 @@ import java.util.List;
 // 给定一个大小为n的数组nums，给定一个正数k
 // 返回次数超过n/k的所有元素，如果没有返回空列表
 // 测试链接 : https://leetcode.cn/problems/majority-element-ii/
-public class Code01_WaterKing2 {
+public class Code03_WaterKing2 {
 
 	public static List<Integer> majorityElement(int[] nums) {
 		return majority(nums, 3);

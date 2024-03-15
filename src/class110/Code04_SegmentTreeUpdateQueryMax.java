@@ -1,17 +1,17 @@
 package class110;
 
 // 线段树支持范围更新、范围查询
-// 维护累加和信息
+// 维护最大值信息
 // 对数器验证
 // 当你写线段树出错了，就需要用对数器的方式来排查
 // 所以本题选择对数器验证，来展示一下怎么写测试
-public class Code02_SegmentTreeUpdateQuerySum {
+public class Code04_SegmentTreeUpdateQueryMax {
 
 	public static int MAXN = 100001;
 
 	public static long[] arr = new long[MAXN];
 
-	public static long[] sum = new long[MAXN << 2];
+	public static long[] max = new long[MAXN << 2];
 
 	public static long[] change = new long[MAXN << 2];
 
@@ -19,7 +19,7 @@ public class Code02_SegmentTreeUpdateQuerySum {
 
 	public static void build(int l, int r, int rt) {
 		if (l == r) {
-			sum[rt] = arr[l];
+			max[rt] = arr[l];
 		} else {
 			int mid = (l + r) >> 1;
 			build(l, mid, rt << 1);
@@ -31,29 +31,29 @@ public class Code02_SegmentTreeUpdateQuerySum {
 	}
 
 	public static void up(int rt) {
-		sum[rt] = sum[rt << 1] + sum[rt << 1 | 1];
+		max[rt] = Math.max(max[rt << 1], max[rt << 1 | 1]);
 	}
 
-	public static void down(int rt, int ln, int rn) {
+	public static void down(int rt) {
 		if (update[rt]) {
+			max[rt << 1] = change[rt];
 			change[rt << 1] = change[rt];
 			update[rt << 1] = true;
-			sum[rt << 1] = change[rt] * ln;
+			max[rt << 1 | 1] = change[rt];
 			change[rt << 1 | 1] = change[rt];
 			update[rt << 1 | 1] = true;
-			sum[rt << 1 | 1] = change[rt] * rn;
 			update[rt] = false;
 		}
 	}
 
 	public static void update(int jobl, int jobr, long jobv, int l, int r, int rt) {
 		if (jobl <= l && r <= jobr) {
-			sum[rt] = jobv * (r - l + 1);
+			max[rt] = jobv;
 			change[rt] = jobv;
 			update[rt] = true;
 		} else {
+			down(rt);
 			int mid = (l + r) >> 1;
-			down(rt, mid - l + 1, r - mid);
 			if (jobl <= mid) {
 				update(jobl, jobr, jobv, l, mid, rt << 1);
 			}
@@ -66,16 +66,16 @@ public class Code02_SegmentTreeUpdateQuerySum {
 
 	public static long query(int jobl, int jobr, int l, int r, int rt) {
 		if (jobl <= l && r <= jobr) {
-			return sum[rt];
+			return max[rt];
 		}
+		down(rt);
 		int mid = (l + r) >> 1;
-		down(rt, mid - l + 1, r - mid);
-		long ans = 0;
+		long ans = Long.MIN_VALUE;
 		if (jobl <= mid) {
-			ans += query(jobl, jobr, l, mid, rt << 1);
+			ans = Math.max(ans, query(jobl, jobr, l, mid, rt << 1));
 		}
 		if (jobr > mid) {
-			ans += query(jobl, jobr, mid + 1, r, rt << 1 | 1);
+			ans = Math.max(ans, query(jobl, jobr, mid + 1, r, rt << 1 | 1));
 		}
 		return ans;
 	}
@@ -149,9 +149,9 @@ public class Code02_SegmentTreeUpdateQuerySum {
 	// 暴力查询
 	// 为了验证
 	public static long checkQuery(long[] check, int jobl, int jobr) {
-		long ans = 0;
+		long ans = Long.MIN_VALUE;
 		for (int i = jobl; i <= jobr; i++) {
-			ans += check[i];
+			ans = Math.max(ans, check[i]);
 		}
 		return ans;
 	}
