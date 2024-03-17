@@ -14,10 +14,12 @@ public class Code03_NumberOfLIS {
 
 	public static int[] sort = new int[MAXN];
 
-	// 维护信息 : 结尾值<=i的最长递增子序列，长度是多少
+	// 维护信息 : 结尾数值==i的最长递增子序列，长度是多少
+	// 维护的信息以树状数组组织
 	public static int[] treeMaxLen = new int[MAXN];
 
-	// 维护信息 : 结尾值<=i的最长递增子序列，个数是多少
+	// 维护信息 : 结尾数值==i的最长递增子序列，个数是多少
+	// 维护的信息以树状数组组织
 	public static int[] treeMaxLenCnt = new int[MAXN];
 
 	public static int m;
@@ -26,9 +28,8 @@ public class Code03_NumberOfLIS {
 		return i & -i;
 	}
 
-	// 查询结尾数值<=i的所有递增子序列中
-	// 长度最大的递增子序列是多长，赋值给maxLen
-	// 长度最大的递增子序列是多少个，赋值给maxLenCnt
+	// 查询结尾数值<=i的最长递增子序列的长度，赋值给maxLen
+	// 查询结尾数值<=i的最长递增子序列的个数，赋值给maxLenCnt
 	public static int maxLen, maxLenCnt;
 
 	public static void query(int i) {
@@ -46,6 +47,7 @@ public class Code03_NumberOfLIS {
 
 	// 以i这个值结尾的最长递增子序列达到了len长度
 	// 并且这样的最长递增子序列的数量达到了cnt个
+	// 更新树状数组
 	public static void add(int i, int len, int cnt) {
 		while (i <= m) {
 			if (treeMaxLen[i] == len) {
@@ -76,7 +78,15 @@ public class Code03_NumberOfLIS {
 		for (int num : nums) {
 			i = rank(num);
 			query(i - 1);
-			add(i, maxLen + 1, Math.max(maxLenCnt, 1));
+			if (maxLen == 0) {
+				// 如果查出值<=i-1结尾的最长递增子序列长度为0
+				// 那么说明，以值i结尾的最长递增子序列长度就是1，计数+1
+				add(i, 1, 1);
+			} else {
+				// 如果查出值<=i-1结尾的最长递增子序列长度为maxLen != 0
+				// 那么说明，以值i结尾的最长递增子序列长度就是maxLen + 1，计数+maxLenCnt
+				add(i, maxLen + 1, maxLenCnt);
+			}
 		}
 		query(m);
 		return maxLenCnt;
