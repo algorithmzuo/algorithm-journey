@@ -20,7 +20,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 
-public class Code04_LongestAlternateSubstring {
+public class Code02_LongestAlternateSubstring {
 
 	public static int MAXN = 200001;
 
@@ -30,13 +30,13 @@ public class Code04_LongestAlternateSubstring {
 
 	public static int[] pre = new int[MAXN << 2];
 
-	public static int[] pos = new int[MAXN << 2];
+	public static int[] suf = new int[MAXN << 2];
 
 	public static void build(int l, int r, int rt) {
 		if (l == r) {
 			len[rt] = 1;
 			pre[rt] = 1;
-			pos[rt] = 1;
+			suf[rt] = 1;
 		} else {
 			int mid = (l + r) / 2;
 			build(l, mid, rt << 1);
@@ -48,30 +48,30 @@ public class Code04_LongestAlternateSubstring {
 	public static void up(int l, int r, int rt) {
 		len[rt] = Math.max(len[rt << 1], len[rt << 1 | 1]);
 		pre[rt] = pre[rt << 1];
-		pos[rt] = pos[rt << 1 | 1];
+		suf[rt] = suf[rt << 1 | 1];
 		int mid = (l + r) / 2;
 		int ln = mid - l + 1;
 		int rn = r - mid;
 		if (arr[mid] != arr[mid + 1]) {
-			len[rt] = Math.max(len[rt], pos[rt << 1] + pre[rt << 1 | 1]);
+			len[rt] = Math.max(len[rt], suf[rt << 1] + pre[rt << 1 | 1]);
 			if (len[rt << 1] == ln) {
 				pre[rt] = ln + pre[rt << 1 | 1];
 			}
 			if (len[rt << 1 | 1] == rn) {
-				pos[rt] = rn + pos[rt << 1];
+				suf[rt] = rn + suf[rt << 1];
 			}
 		}
 	}
 
-	public static void change(int index, int l, int r, int rt) {
+	public static void reverse(int index, int l, int r, int rt) {
 		if (l == r && l == index) {
 			arr[index] ^= 1;
 		} else {
 			int mid = (l + r) / 2;
 			if (index <= mid) {
-				change(index, l, mid, rt << 1);
+				reverse(index, l, mid, rt << 1);
 			} else {
-				change(index, mid + 1, r, rt << 1 | 1);
+				reverse(index, mid + 1, r, rt << 1 | 1);
 			}
 			up(l, r, rt);
 		}
@@ -93,7 +93,7 @@ public class Code04_LongestAlternateSubstring {
 		for (int i = 1, index; i <= q; i++) {
 			in.nextToken();
 			index = (int) in.nval;
-			change(index, 1, n, 1);
+			reverse(index, 1, n, 1);
 			out.println(query());
 		}
 		out.flush();
