@@ -20,7 +20,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 
-public class Code02_LongestAlternateSubstring {
+public class Code04_LongestAlternateSubstring {
 
 	public static int MAXN = 200001;
 
