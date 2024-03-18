@@ -4,15 +4,17 @@ package class111;
 // 给定n个瓶子，编号从0~n-1，一开始所有瓶子都是空的
 // 每个瓶子最多插入一朵花，实现以下两种类型的操作
 // 操作1 : insert(from, flowers)
-//         从from位置开始，已经有花的瓶子自动跳过
 //         一共有flower朵花，从from位置开始依次插入，已经有花的瓶子跳过
 //         如果一直到最后的瓶子，花也没有用完，就丢弃剩下的花朵
+//         返回这次操作插入的首个空瓶的位置 和 最后空瓶的位置
 //         如果从from开始到最后位置，所有瓶子都有花，打印"Can not put any one."
-//         否则返回这次操作插入的首个空瓶的位置 和 这次操作插入的最后空瓶的位置
 // 操作2 : clear(left, right)
 //         清理从left位置开始到right位置的瓶子里所有的花朵，这些瓶子重新变回空瓶
 //         返回清理花朵的数量
 // 测试链接 : http://acm.hdu.edu.cn/showproblem.php?pid=4614
+// 请同学们务必参考如下代码中关于输入、输出的处理
+// 这是输入输出处理效率很高的写法
+// 提交以下的code，提交时请把类名改成"Main"，可以直接通过
 
 import java.io.BufferedReader;
 import java.io.IOException;
