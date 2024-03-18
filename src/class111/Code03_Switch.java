@@ -17,7 +17,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 
-public class Code02_Switch {
+public class Code03_Switch {
 
 	public static int MAXN = 100001;
 
@@ -88,23 +88,19 @@ public class Code02_Switch {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StreamTokenizer in = new StreamTokenizer(br);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
-		while (in.nextToken() != StreamTokenizer.TT_EOF) {
-			int n = (int) in.nval;
-			in.nextToken();
-			int m = (int) in.nval;
-			build(1, n, 1);
-			for (int i = 1, op, jobl, jobr; i <= m; i++) {
-				in.nextToken();
-				op = (int) in.nval;
-				in.nextToken();
-				jobl = (int) in.nval;
-				in.nextToken();
-				jobr = (int) in.nval;
-				if (op == 0) {
-					change(jobl, jobr, 1, n, 1);
-				} else {
-					out.println(query(jobl, jobr, 1, n, 1));
-				}
+		in.nextToken();
+		int n = (int) in.nval;
+		in.nextToken();
+		int m = (int) in.nval;
+		build(1, n, 1);
+		for (int i = 1, op, jobl, jobr; i <= m; i++) {
+			in.nextToken(); op = (int) in.nval;
+			in.nextToken(); jobl = (int) in.nval;
+			in.nextToken(); jobr = (int) in.nval;
+			if (op == 0) {
+				change(jobl, jobr, 1, n, 1);
+			} else {
+				out.println(query(jobl, jobr, 1, n, 1));
 			}
 		}
 		out.flush();

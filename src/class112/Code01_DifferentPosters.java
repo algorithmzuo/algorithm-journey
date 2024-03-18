@@ -23,7 +23,7 @@ import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 import java.util.Arrays;
 
-public class Code03_DifferentPosters {
+public class Code01_DifferentPosters {
 
 	public static int MAXN = 10001;
 

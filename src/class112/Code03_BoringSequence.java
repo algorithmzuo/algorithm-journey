@@ -16,7 +16,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 
-public class Code04_BoringSequence {
+public class Code03_BoringSequence {
 
 	public static int MAXN = 100001;
 
@@ -89,43 +89,38 @@ public class Code04_BoringSequence {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StreamTokenizer in = new StreamTokenizer(br);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
-		while (in.nextToken() != StreamTokenizer.TT_EOF) {
-			int n = (int) in.nval;
+		in.nextToken();
+		int n = (int) in.nval;
+		in.nextToken();
+		int m = (int) in.nval;
+		for (int i = 1; i <= n; i++) {
 			in.nextToken();
-			int m = (int) in.nval;
-			for (int i = 1; i <= n; i++) {
-				in.nextToken();
-				arr[i] = (long) in.nval;
-			}
-			for (int i = n; i >= 2; i--) {
-				arr[i] -= arr[i - 1];
-			}
-			build(1, n, 1);
-			for (int i = 1, op; i <= m; i++) {
-				in.nextToken();
-				op = (int) in.nval;
-				if (op == 1) {
-					in.nextToken();
-					int jobl = (int) in.nval;
-					in.nextToken();
-					int jobr = (int) in.nval;
-					in.nextToken();
-					long k = (long) in.nval;
-					in.nextToken();
-					long d = (long) in.nval;
-					long e = k + d * (jobr - jobl);
-					add(jobl, jobl, k, 1, n, 1);
-					if (jobl + 1 <= jobr) {
-						add(jobl + 1, jobr, d, 1, n, 1);
-					}
-					if (jobr < n) {
-						add(jobr + 1, jobr + 1, -e, 1, n, 1);
-					}
-				} else {
-					in.nextToken();
-					int p = (int) in.nval;
-					out.println(query(1, p, 1, n, 1));
+			arr[i] = (long) in.nval;
+		}
+		for (int i = n; i >= 2; i--) {
+			arr[i] -= arr[i - 1];
+		}
+		build(1, n, 1);
+		for (int i = 1, op; i <= m; i++) {
+			in.nextToken();
+			op = (int) in.nval;
+			if (op == 1) {
+				in.nextToken(); int jobl = (int) in.nval;
+				in.nextToken(); int jobr = (int) in.nval;
+				in.nextToken(); long k = (long) in.nval;
+				in.nextToken(); long d = (long) in.nval;
+				long e = k + d * (jobr - jobl);
+				add(jobl, jobl, k, 1, n, 1);
+				if (jobl + 1 <= jobr) {
+					add(jobl + 1, jobr, d, 1, n, 1);
 				}
+				if (jobr < n) {
+					add(jobr + 1, jobr + 1, -e, 1, n, 1);
+				}
+			} else {
+				in.nextToken();
+				int p = (int) in.nval;
+				out.println(query(1, p, 1, n, 1));
 			}
 		}
 		out.flush();

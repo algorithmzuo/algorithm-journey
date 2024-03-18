@@ -123,42 +123,33 @@ public class Code06_SegmentTreeUpdateAddQueryMax {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StreamTokenizer in = new StreamTokenizer(br);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
-		while (in.nextToken() != StreamTokenizer.TT_EOF) {
-			int n = (int) in.nval;
+		in.nextToken();
+		int n = (int) in.nval;
+		in.nextToken();
+		int m = (int) in.nval;
+		for (int i = 1; i <= n; i++) {
 			in.nextToken();
-			int m = (int) in.nval;
-			for (int i = 1; i <= n; i++) {
-				in.nextToken();
-				arr[i] = (long) in.nval;
-			}
-			build(1, n, 1);
-			long jobv;
-			for (int i = 1, op, jobl, jobr; i <= m; i++) {
-				in.nextToken();
-				op = (int) in.nval;
-				if (op == 1) {
-					in.nextToken();
-					jobl = (int) in.nval;
-					in.nextToken();
-					jobr = (int) in.nval;
-					in.nextToken();
-					jobv = (long) in.nval;
-					update(jobl, jobr, jobv, 1, n, 1);
-				} else if (op == 2) {
-					in.nextToken();
-					jobl = (int) in.nval;
-					in.nextToken();
-					jobr = (int) in.nval;
-					in.nextToken();
-					jobv = (long) in.nval;
-					add(jobl, jobr, jobv, 1, n, 1);
-				} else {
-					in.nextToken();
-					jobl = (int) in.nval;
-					in.nextToken();
-					jobr = (int) in.nval;
-					out.println(query(jobl, jobr, 1, n, 1));
-				}
+			arr[i] = (long) in.nval;
+		}
+		build(1, n, 1);
+		long jobv;
+		for (int i = 1, op, jobl, jobr; i <= m; i++) {
+			in.nextToken();
+			op = (int) in.nval;
+			if (op == 1) {
+				in.nextToken(); jobl = (int) in.nval;
+				in.nextToken(); jobr = (int) in.nval;
+				in.nextToken(); jobv = (long) in.nval;
+				update(jobl, jobr, jobv, 1, n, 1);
+			} else if (op == 2) {
+				in.nextToken(); jobl = (int) in.nval;
+				in.nextToken(); jobr = (int) in.nval;
+				in.nextToken(); jobv = (long) in.nval;
+				add(jobl, jobr, jobv, 1, n, 1);
+			} else {
+				in.nextToken(); jobl = (int) in.nval;
+				in.nextToken(); jobr = (int) in.nval;
+				out.println(query(jobl, jobr, 1, n, 1));
 			}
 		}
 		out.flush();

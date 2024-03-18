@@ -54,27 +54,23 @@ public class Code01_IndexTreeSingleAddIntervalQuery {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StreamTokenizer in = new StreamTokenizer(br);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
-		while (in.nextToken() != StreamTokenizer.TT_EOF) {
-			n = (int) in.nval;
+		in.nextToken();
+		n = (int) in.nval;
+		in.nextToken();
+		m = (int) in.nval;
+		for (int i = 1, v; i <= n; i++) {
 			in.nextToken();
-			m = (int) in.nval;
-			for (int i = 1, v; i <= n; i++) {
-				in.nextToken();
-				v = (int) in.nval;
-				add(i, v);
-			}
-			for (int i = 1, a, b, c; i <= m; i++) {
-				in.nextToken();
-				a = (int) in.nval;
-				in.nextToken();
-				b = (int) in.nval;
-				in.nextToken();
-				c = (int) in.nval;
-				if (a == 1) {
-					add(b, c);
-				} else {
-					out.println(range(b, c));
-				}
+			v = (int) in.nval;
+			add(i, v);
+		}
+		for (int i = 1, a, b, c; i <= m; i++) {
+			in.nextToken(); a = (int) in.nval;
+			in.nextToken(); b = (int) in.nval;
+			in.nextToken(); c = (int) in.nval;
+			if (a == 1) {
+				add(b, c);
+			} else {
+				out.println(range(b, c));
 			}
 		}
 		out.flush();

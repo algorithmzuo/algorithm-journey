@@ -48,33 +48,29 @@ public class Code02_IndexTreeIntervalAddSingleQuery {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StreamTokenizer in = new StreamTokenizer(br);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
-		while (in.nextToken() != StreamTokenizer.TT_EOF) {
-			n = (int) in.nval;
+		in.nextToken();
+		n = (int) in.nval;
+		in.nextToken();
+		m = (int) in.nval;
+		for (int i = 1, v; i <= n; i++) {
 			in.nextToken();
-			m = (int) in.nval;
-			for (int i = 1, v; i <= n; i++) {
+			v = (int) in.nval;
+			add(i, v);
+			add(i + 1, -v);
+		}
+		for (int i = 1; i <= m; i++) {
+			in.nextToken();
+			int op = (int) in.nval;
+			if (op == 1) {
+				in.nextToken(); int l = (int) in.nval;
+				in.nextToken(); int r = (int) in.nval;
+				in.nextToken(); int v = (int) in.nval;
+				add(l, v);
+				add(r + 1, -v);
+			} else {
 				in.nextToken();
-				v = (int) in.nval;
-				add(i, v);
-				add(i + 1, -v);
-			}
-			for (int i = 1; i <= m; i++) {
-				in.nextToken();
-				int op = (int) in.nval;
-				if (op == 1) {
-					in.nextToken();
-					int l = (int) in.nval;
-					in.nextToken();
-					int r = (int) in.nval;
-					in.nextToken();
-					int v = (int) in.nval;
-					add(l, v);
-					add(r + 1, -v);
-				} else {
-					in.nextToken();
-					int index = (int) in.nval;
-					out.println(sum(index));
-				}
+				int index = (int) in.nval;
+				out.println(sum(index));
 			}
 		}
 		out.flush();

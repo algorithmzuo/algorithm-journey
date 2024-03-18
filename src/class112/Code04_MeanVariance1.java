@@ -1,4 +1,4 @@
-package class111;
+package class112;
 
 // 平均数和方差
 // 给定一个长度为n的数组arr，进行m次操作，操作分为三种类型

@@ -62,35 +62,29 @@ public class Code03_IndexTreeIntervalAddIntervalQuery {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StreamTokenizer in = new StreamTokenizer(br);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
-		while (in.nextToken() != StreamTokenizer.TT_EOF) {
-			n = (int) in.nval;
+		in.nextToken();
+		n = (int) in.nval;
+		in.nextToken();
+		m = (int) in.nval;
+		long cur;
+		for (int i = 1; i <= n; i++) {
 			in.nextToken();
-			m = (int) in.nval;
-			long cur;
-			for (int i = 1; i <= n; i++) {
-				in.nextToken();
-				cur = (long) in.nval;
-				add(i, i, cur);
-			}
-			long v;
-			for (int i = 1, op, l, r; i <= m; i++) {
-				in.nextToken();
-				op = (int) in.nval;
-				if (op == 1) {
-					in.nextToken();
-					l = (int) in.nval;
-					in.nextToken();
-					r = (int) in.nval;
-					in.nextToken();
-					v = (long) in.nval;
-					add(l, r, v);
-				} else {
-					in.nextToken();
-					l = (int) in.nval;
-					in.nextToken();
-					r = (int) in.nval;
-					out.println(range(l, r));
-				}
+			cur = (long) in.nval;
+			add(i, i, cur);
+		}
+		long v;
+		for (int i = 1, op, l, r; i <= m; i++) {
+			in.nextToken();
+			op = (int) in.nval;
+			if (op == 1) {
+				in.nextToken(); l = (int) in.nval;
+				in.nextToken(); r = (int) in.nval;
+				in.nextToken(); v = (long) in.nval;
+				add(l, r, v);
+			} else {
+				in.nextToken(); l = (int) in.nval;
+				in.nextToken(); r = (int) in.nval;
+				out.println(range(l, r));
 			}
 		}
 		out.flush();

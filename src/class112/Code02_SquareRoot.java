@@ -93,32 +93,28 @@ public class Code02_SquareRoot {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StreamTokenizer in = new StreamTokenizer(br);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
-		while (in.nextToken() != StreamTokenizer.TT_EOF) {
-			int n = (int) in.nval;
-			for (int i = 1; i <= n; i++) {
-				in.nextToken();
-				arr[i] = (long) in.nval;
-			}
-			build(1, n, 1);
+		in.nextToken();
+		int n = (int) in.nval;
+		for (int i = 1; i <= n; i++) {
 			in.nextToken();
-			int m = (int) in.nval;
-			for (int i = 1, op, jobl, jobr, tmp; i <= m; i++) {
-				in.nextToken();
-				op = (int) in.nval;
-				in.nextToken();
-				jobl = (int) in.nval;
-				in.nextToken();
-				jobr = (int) in.nval;
-				if (jobl > jobr) {
-					tmp = jobl;
-					jobl = jobr;
-					jobr = tmp;
-				}
-				if (op == 0) {
-					change(jobl, jobr, 1, n, 1);
-				} else {
-					out.println(query(jobl, jobr, 1, n, 1));
-				}
+			arr[i] = (long) in.nval;
+		}
+		build(1, n, 1);
+		in.nextToken();
+		int m = (int) in.nval;
+		for (int i = 1, op, jobl, jobr, tmp; i <= m; i++) {
+			in.nextToken(); op = (int) in.nval;
+			in.nextToken(); jobl = (int) in.nval;
+			in.nextToken(); jobr = (int) in.nval;
+			if (jobl > jobr) {
+				tmp = jobl;
+				jobl = jobr;
+				jobr = tmp;
+			}
+			if (op == 0) {
+				change(jobl, jobr, 1, n, 1);
+			} else {
+				out.println(query(jobl, jobr, 1, n, 1));
 			}
 		}
 		out.flush();
