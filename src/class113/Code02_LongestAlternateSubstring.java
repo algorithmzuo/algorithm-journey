@@ -1,4 +1,4 @@
-package class111;
+package class113;
 
 // 最长LR交替子串
 // 给定一个长度为n的字符串，一开始字符串中全是'L'字符
@@ -20,7 +20,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 
-public class Code04_LongestAlternateSubstring {
+public class Code02_LongestAlternateSubstring {
 
 	public static int MAXN = 200001;
 
