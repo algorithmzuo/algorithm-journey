@@ -46,7 +46,7 @@ public class Code04_SequenceOperation {
 
 	public static boolean[] reverse = new boolean[MAXN << 2];
 
-	public static void reset(int rt, int v, int n) {
+	public static void updateLazy(int rt, int v, int n) {
 		sum[rt] = v * n;
 		len0[rt] = pre0[rt] = suf0[rt] = v == 0 ? n : 0;
 		len1[rt] = pre1[rt] = suf1[rt] = v == 1 ? n : 0;
@@ -55,7 +55,7 @@ public class Code04_SequenceOperation {
 		reverse[rt] = false;
 	}
 
-	public static void flip(int rt, int n) {
+	public static void reverseLazy(int rt, int n) {
 		sum[rt] = n - sum[rt];
 		int tmp;
 		tmp = len0[rt]; len0[rt] = len1[rt]; len1[rt] = tmp;
@@ -78,13 +78,13 @@ public class Code04_SequenceOperation {
 
 	public static void down(int rt, int ln, int rn) {
 		if (update[rt]) {
-			reset(rt << 1, change[rt], ln);
-			reset(rt << 1 | 1, change[rt], rn);
+			updateLazy(rt << 1, change[rt], ln);
+			updateLazy(rt << 1 | 1, change[rt], rn);
 			update[rt] = false;
 		}
 		if (reverse[rt]) {
-			flip(rt << 1, ln);
-			flip(rt << 1 | 1, rn);
+			reverseLazy(rt << 1, ln);
+			reverseLazy(rt << 1 | 1, rn);
 			reverse[rt] = false;
 		}
 	}
@@ -106,7 +106,7 @@ public class Code04_SequenceOperation {
 
 	public static void update(int jobl, int jobr, int jobv, int l, int r, int rt) {
 		if (jobl <= l && r <= jobr) {
-			reset(rt, jobv, r - l + 1);
+			updateLazy(rt, jobv, r - l + 1);
 		} else {
 			int mid = (l + r) / 2;
 			down(rt, mid - l + 1, r - mid);
@@ -122,7 +122,7 @@ public class Code04_SequenceOperation {
 
 	public static void reverse(int jobl, int jobr, int l, int r, int rt) {
 		if (jobl <= l && r <= jobr) {
-			flip(rt, r - l + 1);
+			reverseLazy(rt, r - l + 1);
 		} else {
 			int mid = (l + r) / 2;
 			down(rt, mid - l + 1, r - mid);
