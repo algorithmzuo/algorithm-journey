@@ -46,56 +46,6 @@ public class Code04_SequenceOperation {
 
 	public static boolean[] reverse = new boolean[MAXN << 2];
 
-	public static void build(int l, int r, int rt) {
-		if (l == r) {
-			sum[rt] = arr[l];
-			len0[rt] = pre0[rt] = suf0[rt] = arr[l] ^ 1;
-			len1[rt] = pre1[rt] = suf1[rt] = arr[l];
-		} else {
-			int mid = (l + r) / 2;
-			build(l, mid, rt << 1);
-			build(mid + 1, r, rt << 1 | 1);
-			up(rt, mid - l + 1, r - mid);
-		}
-		update[rt] = false;
-		reverse[rt] = false;
-	}
-
-	public static void up(int rt, int ln, int rn) {
-		sum[rt] = sum[rt << 1] + sum[rt << 1 | 1];
-		len0[rt] = Math.max(Math.max(len0[rt << 1], len0[rt << 1 | 1]), suf0[rt << 1] + pre0[rt << 1 | 1]);
-		pre0[rt] = pre0[rt << 1];
-		if (pre0[rt << 1] == ln) {
-			pre0[rt] += pre0[rt << 1 | 1];
-		}
-		suf0[rt] = suf0[rt << 1 | 1];
-		if (suf0[rt << 1 | 1] == rn) {
-			suf0[rt] += suf0[rt << 1];
-		}
-		len1[rt] = Math.max(Math.max(len1[rt << 1], len1[rt << 1 | 1]), suf1[rt << 1] + pre1[rt << 1 | 1]);
-		pre1[rt] = pre1[rt << 1];
-		if (pre1[rt << 1] == ln) {
-			pre1[rt] += pre1[rt << 1 | 1];
-		}
-		suf1[rt] = suf1[rt << 1 | 1];
-		if (suf1[rt << 1 | 1] == rn) {
-			suf1[rt] += suf1[rt << 1];
-		}
-	}
-
-	public static void down(int rt, int ln, int rn) {
-		if (update[rt]) {
-			reset(rt << 1, change[rt], ln);
-			reset(rt << 1 | 1, change[rt], rn);
-			update[rt] = false;
-		}
-		if (reverse[rt]) {
-			flip(rt << 1, ln);
-			flip(rt << 1 | 1, rn);
-			reverse[rt] = false;
-		}
-	}
-
 	public static void reset(int rt, int v, int n) {
 		sum[rt] = v * n;
 		len0[rt] = pre0[rt] = suf0[rt] = v == 0 ? n : 0;
@@ -112,6 +62,46 @@ public class Code04_SequenceOperation {
 		tmp = pre0[rt]; pre0[rt] = pre1[rt]; pre1[rt] = tmp;
 		tmp = suf0[rt]; suf0[rt] = suf1[rt]; suf1[rt] = tmp;
 		reverse[rt] = !reverse[rt];
+	}
+
+	public static void up(int rt, int ln, int rn) {
+		int l = rt << 1;
+		int r = rt << 1 | 1;
+		sum[rt] = sum[l] + sum[r];
+		len0[rt] = Math.max(Math.max(len0[l], len0[r]), suf0[l] + pre0[r]);
+		pre0[rt] = pre0[l] < ln ? pre0[l] : (pre0[l] + pre0[r]);
+		suf0[rt] = suf0[r] < rn ? suf0[r] : (suf0[l] + suf0[r]);
+		len1[rt] = Math.max(Math.max(len1[l], len1[r]), suf1[l] + pre1[r]);
+		pre1[rt] = pre1[l] < ln ? pre1[l] : (pre1[l] + pre1[r]);
+		suf1[rt] = suf1[r] < rn ? suf1[r] : (suf1[l] + suf1[r]);
+	}
+
+	public static void down(int rt, int ln, int rn) {
+		if (update[rt]) {
+			reset(rt << 1, change[rt], ln);
+			reset(rt << 1 | 1, change[rt], rn);
+			update[rt] = false;
+		}
+		if (reverse[rt]) {
+			flip(rt << 1, ln);
+			flip(rt << 1 | 1, rn);
+			reverse[rt] = false;
+		}
+	}
+
+	public static void build(int l, int r, int rt) {
+		if (l == r) {
+			sum[rt] = arr[l];
+			len0[rt] = pre0[rt] = suf0[rt] = arr[l] ^ 1;
+			len1[rt] = pre1[rt] = suf1[rt] = arr[l];
+		} else {
+			int mid = (l + r) / 2;
+			build(l, mid, rt << 1);
+			build(mid + 1, r, rt << 1 | 1);
+			up(rt, mid - l + 1, r - mid);
+		}
+		update[rt] = false;
+		reverse[rt] = false;
 	}
 
 	public static void update(int jobl, int jobr, int jobv, int l, int r, int rt) {
@@ -166,9 +156,7 @@ public class Code04_SequenceOperation {
 		if (jobl <= l && r <= jobr) {
 			return new int[] { len1[rt], pre1[rt], suf1[rt] };
 		} else {
-			int mid = (l + r) / 2;
-			int ln = mid - l + 1;
-			int rn = r - mid;
+			int mid = (l + r) / 2; int ln = mid - l + 1; int rn = r - mid;
 			down(rt, ln, rn);
 			if (jobr <= mid) {
 				return longest(jobl, jobr, l, mid, rt << 1);
