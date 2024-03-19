@@ -32,19 +32,6 @@ public class Code02_LongestAlternateSubstring {
 
 	public static int[] suf = new int[MAXN << 2];
 
-	public static void build(int l, int r, int i) {
-		if (l == r) {
-			len[i] = 1;
-			pre[i] = 1;
-			suf[i] = 1;
-		} else {
-			int mid = (l + r) / 2;
-			build(l, mid, i << 1);
-			build(mid + 1, r, i << 1 | 1);
-			up(l, r, i);
-		}
-	}
-
 	public static void up(int l, int r, int i) {
 		len[i] = Math.max(len[i << 1], len[i << 1 | 1]);
 		pre[i] = pre[i << 1];
@@ -60,6 +47,19 @@ public class Code02_LongestAlternateSubstring {
 			if (len[i << 1 | 1] == rn) {
 				suf[i] = rn + suf[i << 1];
 			}
+		}
+	}
+
+	public static void build(int l, int r, int i) {
+		if (l == r) {
+			len[i] = 1;
+			pre[i] = 1;
+			suf[i] = 1;
+		} else {
+			int mid = (l + r) / 2;
+			build(l, mid, i << 1);
+			build(mid + 1, r, i << 1 | 1);
+			up(l, r, i);
 		}
 	}
 

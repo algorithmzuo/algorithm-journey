@@ -1,4 +1,4 @@
-package class112;
+package class111;
 
 // 范围上开平方并求累加和
 // 给定一个长度为n的数组arr，实现以下两种类型的操作
@@ -19,7 +19,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 
-public class Code02_SquareRoot {
+public class Code03_SquareRoot {
 
 	public static int MAXN = 100001;
 
@@ -28,6 +28,11 @@ public class Code02_SquareRoot {
 	public static long[] sum = new long[MAXN << 2];
 
 	public static long[] max = new long[MAXN << 2];
+	
+	public static void up(int i) {
+		sum[i] = sum[i << 1] + sum[i << 1 | 1];
+		max[i] = Math.max(max[i << 1], max[i << 1 | 1]);
+	}
 
 	public static void build(int l, int r, int i) {
 		if (l == r) {
@@ -39,11 +44,6 @@ public class Code02_SquareRoot {
 			build(mid + 1, r, i << 1 | 1);
 			up(i);
 		}
-	}
-
-	public static void up(int i) {
-		sum[i] = sum[i << 1] + sum[i << 1 | 1];
-		max[i] = Math.max(max[i << 1], max[i << 1 | 1]);
 	}
 
 	// change方法是最核心的

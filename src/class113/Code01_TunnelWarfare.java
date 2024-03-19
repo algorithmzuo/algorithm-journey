@@ -30,6 +30,18 @@ public class Code01_TunnelWarfare {
 
 	public static int[] stack = new int[MAXN];
 
+	public static void up(int l, int r, int i) {
+		pre[i] = pre[i << 1];
+		suf[i] = suf[i << 1 | 1];
+		int mid = (l + r) / 2;
+		if (pre[i << 1] == mid - l + 1) {
+			pre[i] += pre[i << 1 | 1];
+		}
+		if (suf[i << 1 | 1] == r - mid) {
+			suf[i] += suf[i << 1];
+		}
+	}
+
 	public static void build(int l, int r, int i) {
 		if (l == r) {
 			arr[l] = 1;
@@ -40,18 +52,6 @@ public class Code01_TunnelWarfare {
 			build(l, mid, i << 1);
 			build(mid + 1, r, i << 1 | 1);
 			up(l, r, i);
-		}
-	}
-
-	public static void up(int l, int r, int i) {
-		pre[i] = pre[i << 1];
-		suf[i] = suf[i << 1 | 1];
-		int mid = (l + r) / 2;
-		if (pre[i << 1] == mid - l + 1) {
-			pre[i] += pre[i << 1 | 1];
-		}
-		if (suf[i << 1 | 1] == r - mid) {
-			suf[i] += suf[i << 1];
 		}
 	}
 

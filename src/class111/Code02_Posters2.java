@@ -70,6 +70,14 @@ public class Code02_Posters2 {
 		return ans;
 	}
 
+	public static void down(int i) {
+		if (poster[i] != 0) {
+			poster[i << 1] = poster[i];
+			poster[i << 1 | 1] = poster[i];
+			poster[i] = 0;
+		}
+	}
+
 	public static void build(int l, int r, int i) {
 		if (l < r) {
 			int mid = (l + r) / 2;
@@ -77,14 +85,6 @@ public class Code02_Posters2 {
 			build(mid + 1, r, i << 1 | 1);
 		}
 		poster[i] = 0;
-	}
-
-	public static void down(int i) {
-		if (poster[i] != 0) {
-			poster[i << 1] = poster[i];
-			poster[i << 1 | 1] = poster[i];
-			poster[i] = 0;
-		}
 	}
 
 	public static void update(int jobl, int jobr, int jobv, int l, int r, int i) {
