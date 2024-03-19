@@ -85,26 +85,27 @@ public class Code04_SequenceOperation {
 
 	public static void down(int rt, int ln, int rn) {
 		if (update[rt]) {
-			int v = change[rt];
-			sum[rt << 1] = v * ln;
-			sum[rt << 1 | 1] = v * rn;
-			change[rt << 1] = change[rt << 1 | 1] = v;
-			update[rt << 1] = update[rt << 1 | 1] = true;
-			reverse[rt << 1] = reverse[rt << 1 | 1] = false;
-			len0[rt << 1] = pre0[rt << 1] = suf0[rt << 1] = v == 0 ? ln : 0;
-			len1[rt << 1] = pre1[rt << 1] = suf1[rt << 1] = v == 1 ? ln : 0;
-			len0[rt << 1 | 1] = pre0[rt << 1 | 1] = suf0[rt << 1 | 1] = v == 0 ? rn : 0;
-			len1[rt << 1 | 1] = pre1[rt << 1 | 1] = suf1[rt << 1 | 1] = v == 1 ? rn : 0;
+			reset(rt << 1, change[rt], ln);
+			reset(rt << 1 | 1, change[rt], rn);
 			update[rt] = false;
 		}
 		if (reverse[rt]) {
-			reverse(rt << 1, ln);
-			reverse(rt << 1 | 1, rn);
+			flip(rt << 1, ln);
+			flip(rt << 1 | 1, rn);
 			reverse[rt] = false;
 		}
 	}
 
-	public static void reverse(int rt, int n) {
+	public static void reset(int rt, int v, int n) {
+		sum[rt] = v * n;
+		len0[rt] = pre0[rt] = suf0[rt] = v == 0 ? n : 0;
+		len1[rt] = pre1[rt] = suf1[rt] = v == 1 ? n : 0;
+		change[rt] = v;
+		update[rt] = true;
+		reverse[rt] = false;
+	}
+
+	public static void flip(int rt, int n) {
 		sum[rt] = n - sum[rt];
 		int tmp;
 		tmp = len0[rt]; len0[rt] = len1[rt]; len1[rt] = tmp;
@@ -115,12 +116,7 @@ public class Code04_SequenceOperation {
 
 	public static void update(int jobl, int jobr, int jobv, int l, int r, int rt) {
 		if (jobl <= l && r <= jobr) {
-			sum[rt] = jobv * (r - l + 1);
-			len0[rt] = pre0[rt] = suf0[rt] = jobv == 0 ? (r - l + 1) : 0;
-			len1[rt] = pre1[rt] = suf1[rt] = jobv == 1 ? (r - l + 1) : 0;
-			change[rt] = jobv;
-			update[rt] = true;
-			reverse[rt] = false;
+			reset(rt, jobv, r - l + 1);
 		} else {
 			int mid = (l + r) / 2;
 			down(rt, mid - l + 1, r - mid);
@@ -134,17 +130,17 @@ public class Code04_SequenceOperation {
 		}
 	}
 
-	public static void flip(int jobl, int jobr, int l, int r, int rt) {
+	public static void reverse(int jobl, int jobr, int l, int r, int rt) {
 		if (jobl <= l && r <= jobr) {
-			reverse(rt, r - l + 1);
+			flip(rt, r - l + 1);
 		} else {
 			int mid = (l + r) / 2;
 			down(rt, mid - l + 1, r - mid);
 			if (jobl <= mid) {
-				flip(jobl, jobr, l, mid, rt << 1);
+				reverse(jobl, jobr, l, mid, rt << 1);
 			}
 			if (jobr > mid) {
-				flip(jobl, jobr, mid + 1, r, rt << 1 | 1);
+				reverse(jobl, jobr, mid + 1, r, rt << 1 | 1);
 			}
 			up(rt, mid - l + 1, r - mid);
 		}
@@ -166,37 +162,28 @@ public class Code04_SequenceOperation {
 		return ans;
 	}
 
-	public static int pre, suf, len;
-
-	public static void longest(int jobl, int jobr, int l, int r, int rt) {
+	public static int[] longest(int jobl, int jobr, int l, int r, int rt) {
 		if (jobl <= l && r <= jobr) {
-			len = len1[rt];
-			pre = pre1[rt];
-			suf = suf1[rt];
+			return new int[] { len1[rt], pre1[rt], suf1[rt] };
 		} else {
 			int mid = (l + r) / 2;
 			int ln = mid - l + 1;
 			int rn = r - mid;
 			down(rt, ln, rn);
 			if (jobr <= mid) {
-				longest(jobl, jobr, l, mid, rt << 1);
-			} else if (jobl > mid) {
-				longest(jobl, jobr, mid + 1, r, rt << 1 | 1);
-			} else {
-				longest(jobl, jobr, l, mid, rt << 1);
-				int llen = len; int lp = pre; int ls = suf;
-				longest(jobl, jobr, mid + 1, r, rt << 1 | 1);
-				int rlen = len; int rp = pre; int rs = suf;
-				len = Math.max(Math.max(llen, rlen), ls + rp);
-				pre = lp;
-				if (lp == mid - Math.max(jobl, l) + 1) {
-					pre += rp;
-				}
-				suf = rs;
-				if (rs == Math.min(r, jobr) - mid) {
-					suf += ls;
-				}
+				return longest(jobl, jobr, l, mid, rt << 1);
 			}
+			if (jobl > mid) {
+				return longest(jobl, jobr, mid + 1, r, rt << 1 | 1);
+			}
+			int[] linfo = longest(jobl, jobr, l, mid, rt << 1);
+			int[] rinfo = longest(jobl, jobr, mid + 1, r, rt << 1 | 1);
+			int llen = linfo[0]; int lpre = linfo[1]; int lsuf = linfo[2];
+			int rlen = rinfo[0]; int rpre = rinfo[1]; int rsuf = rinfo[2];
+			int len = Math.max(Math.max(llen, rlen), lsuf + rpre);
+			int pre = lpre < mid - Math.max(jobl, l) + 1 ? lpre : (lpre + rpre);
+			int suf = rsuf < Math.min(r, jobr) - mid ? rsuf : (lsuf + rsuf);
+			return new int[] { len, pre, suf };
 		}
 	}
 
@@ -204,19 +191,15 @@ public class Code04_SequenceOperation {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StreamTokenizer in = new StreamTokenizer(br);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
-		in.nextToken();
-		int n = (int) in.nval;
-		in.nextToken();
-		int m = (int) in.nval;
+		in.nextToken(); int n = (int) in.nval;
+		in.nextToken(); int m = (int) in.nval;
 		for (int i = 1; i <= n; i++) {
 			in.nextToken();
 			arr[i] = (int) in.nval;
 		}
 		build(1, n, 1);
-
 		for (int i = 1, op, jobl, jobr; i <= m; i++) {
-			in.nextToken();
-			op = (int) in.nval;
+			in.nextToken(); op = (int) in.nval;
 			// 注意题目给的下标从0开始
 			// 线段树下标从1开始
 			in.nextToken(); jobl = (int) in.nval + 1;
@@ -226,12 +209,11 @@ public class Code04_SequenceOperation {
 			} else if (op == 1) {
 				update(jobl, jobr, 1, 1, n, 1);
 			} else if (op == 2) {
-				flip(jobl, jobr, 1, n, 1);
+				reverse(jobl, jobr, 1, n, 1);
 			} else if (op == 3) {
 				out.println(query(jobl, jobr, 1, n, 1));
 			} else {
-				longest(jobl, jobr, 1, n, 1);
-				out.println(len);
+				out.println(longest(jobl, jobr, 1, n, 1)[0]);
 			}
 		}
 		out.flush();
