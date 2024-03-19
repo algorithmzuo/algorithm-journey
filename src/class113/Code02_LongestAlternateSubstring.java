@@ -77,10 +77,6 @@ public class Code02_LongestAlternateSubstring {
 		}
 	}
 
-	public static int query() {
-		return len[1];
-	}
-
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StreamTokenizer in = new StreamTokenizer(br);
@@ -94,7 +90,7 @@ public class Code02_LongestAlternateSubstring {
 			in.nextToken();
 			index = (int) in.nval;
 			reverse(index, 1, n, 1);
-			out.println(query());
+			out.println(len[1]);
 		}
 		out.flush();
 		out.close();

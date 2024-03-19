@@ -1,6 +1,6 @@
 package class112;
 
-// 能看到的不同海报数量
+// 贴海报(数据加强版)
 // 有一面墙，有固定高度，无限的宽度
 // 有n张海报，所有海报的高度都和墙的高度相同
 // 从第1张海报开始，一张一张往墙上贴，直到n张海报贴完
@@ -23,7 +23,7 @@ import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 import java.util.Arrays;
 
-public class Code01_DifferentPosters {
+public class Code01_Posters2 {
 
 	public static int MAXN = 10001;
 
