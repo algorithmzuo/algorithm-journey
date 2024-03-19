@@ -41,8 +41,8 @@ public class Code04_WaterKing3 {
 		}
 
 		public int query(int l, int r, int t) {
-			query(l + 1, r + 1, 1, n, 1);
-			int candidate = c;
+			int[] ch = query(l + 1, r + 1, 1, n, 1);
+			int candidate = ch[0];
 			return cnt(l, r, candidate) >= t ? candidate : -1;
 		}
 
@@ -73,56 +73,44 @@ public class Code04_WaterKing3 {
 			return find + 1;
 		}
 
-		private void buildTree(int[] arr, int l, int r, int rt) {
+		private void buildTree(int[] arr, int l, int r, int i) {
 			if (l == r) {
-				cand[rt] = arr[l - 1];
-				hp[rt] = 1;
+				cand[i] = arr[l - 1];
+				hp[i] = 1;
 			} else {
 				int mid = (l + r) / 2;
-				buildTree(arr, l, mid, rt << 1);
-				buildTree(arr, mid + 1, r, rt << 1 | 1);
-				int lc = cand[rt << 1], rc = cand[rt << 1 | 1];
-				int lh = hp[rt << 1], rh = hp[rt << 1 | 1];
+				buildTree(arr, l, mid, i << 1);
+				buildTree(arr, mid + 1, r, i << 1 | 1);
+				int lc = cand[i << 1], rc = cand[i << 1 | 1];
+				int lh = hp[i << 1], rh = hp[i << 1 | 1];
 				if (lc == rc) {
-					cand[rt] = lc;
-					hp[rt] = lh + rh;
+					cand[i] = lc;
+					hp[i] = lh + rh;
 				} else {
-					cand[rt] = lh >= rh ? lc : rc;
-					hp[rt] = Math.abs(lh - rh);
+					cand[i] = lh >= rh ? lc : rc;
+					hp[i] = Math.abs(lh - rh);
 				}
 			}
 		}
 
-		private static int c, h;
-
-		private void query(int jobl, int jor, int l, int r, int rt) {
-			if (jobl <= l && r <= jor) {
-				c = cand[rt];
-				h = hp[rt];
+		private int[] query(int jobl, int jobr, int l, int r, int i) {
+			if (jobl <= l && r <= jobr) {
+				return new int[] { cand[i], hp[i] };
 			} else {
 				int mid = (l + r) / 2;
-				if (jor <= mid) {
-					query(jobl, jor, l, mid, rt << 1);
-				} else if (jobl > mid) {
-					query(jobl, jor, mid + 1, r, rt << 1 | 1);
-				} else {
-					query(jobl, jor, l, mid, rt << 1);
-					int lc = c, lh = h;
-					query(jobl, jor, mid + 1, r, rt << 1 | 1);
-					int rc = c, rh = h;
-					if (lc == rc) {
-						c = lc;
-						h = lh + rh;
-					} else {
-						if (lh >= rh) {
-							c = lc;
-							h = lh - rh;
-						} else {
-							c = rc;
-							h = rh - lh;
-						}
-					}
+				if (jobr <= mid) {
+					return query(jobl, jobr, l, mid, i << 1);
 				}
+				if (jobl > mid) {
+					return query(jobl, jobr, mid + 1, r, i << 1 | 1);
+				}
+				int[] lch = query(jobl, jobr, l, mid, i << 1);
+				int[] rch = query(jobl, jobr, mid + 1, r, i << 1 | 1);
+				int lc = lch[0]; int lh = lch[1];
+				int rc = rch[0]; int rh = rch[1];
+				int c = lc == rc || lh >= rh ? lc : rc;
+				int h = lc == rc ? (lh + rh) : Math.abs(lh - rh);
+				return new int[] { c, h };
 			}
 		}
 	}

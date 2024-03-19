@@ -25,61 +25,61 @@ public class Code03_Switch {
 
 	public static boolean[] reverse = new boolean[MAXN << 2];
 
-	public static void build(int l, int r, int rt) {
+	public static void build(int l, int r, int i) {
 		if (l == r) {
-			sum[rt] = 0;
+			sum[i] = 0;
 		} else {
 			int mid = (l + r) / 2;
-			build(l, mid, rt << 1);
-			build(mid + 1, r, rt << 1 | 1);
-			up(rt);
+			build(l, mid, i << 1);
+			build(mid + 1, r, i << 1 | 1);
+			up(i);
 		}
-		reverse[rt] = false;
+		reverse[i] = false;
 	}
 
-	public static void up(int rt) {
-		sum[rt] = sum[rt << 1] + sum[rt << 1 | 1];
+	public static void up(int i) {
+		sum[i] = sum[i << 1] + sum[i << 1 | 1];
 	}
 
-	public static void down(int rt, int ln, int rn) {
-		if (reverse[rt]) {
-			sum[rt << 1] = ln - sum[rt << 1];
-			sum[rt << 1 | 1] = rn - sum[rt << 1 | 1];
-			reverse[rt << 1] = !reverse[rt << 1];
-			reverse[rt << 1 | 1] = !reverse[rt << 1 | 1];
-			reverse[rt] = false;
+	public static void down(int i, int ln, int rn) {
+		if (reverse[i]) {
+			sum[i << 1] = ln - sum[i << 1];
+			sum[i << 1 | 1] = rn - sum[i << 1 | 1];
+			reverse[i << 1] = !reverse[i << 1];
+			reverse[i << 1 | 1] = !reverse[i << 1 | 1];
+			reverse[i] = false;
 		}
 	}
 
-	public static void change(int jobl, int jobr, int l, int r, int rt) {
+	public static void change(int jobl, int jobr, int l, int r, int i) {
 		if (jobl <= l && r <= jobr) {
-			sum[rt] = (r - l + 1) - sum[rt];
-			reverse[rt] = !reverse[rt];
+			sum[i] = (r - l + 1) - sum[i];
+			reverse[i] = !reverse[i];
 		} else {
 			int mid = (l + r) / 2;
-			down(rt, mid - l + 1, r - mid);
+			down(i, mid - l + 1, r - mid);
 			if (jobl <= mid) {
-				change(jobl, jobr, l, mid, rt << 1);
+				change(jobl, jobr, l, mid, i << 1);
 			}
 			if (jobr > mid) {
-				change(jobl, jobr, mid + 1, r, rt << 1 | 1);
+				change(jobl, jobr, mid + 1, r, i << 1 | 1);
 			}
-			up(rt);
+			up(i);
 		}
 	}
 
-	public static int query(int jobl, int jobr, int l, int r, int rt) {
+	public static int query(int jobl, int jobr, int l, int r, int i) {
 		if (jobl <= l && r <= jobr) {
-			return sum[rt];
+			return sum[i];
 		}
 		int mid = (l + r) / 2;
-		down(rt, mid - l + 1, r - mid);
+		down(i, mid - l + 1, r - mid);
 		int ans = 0;
 		if (jobl <= mid) {
-			ans += query(jobl, jobr, l, mid, rt << 1);
+			ans += query(jobl, jobr, l, mid, i << 1);
 		}
 		if (jobr > mid) {
-			ans += query(jobl, jobr, mid + 1, r, rt << 1 | 1);
+			ans += query(jobl, jobr, mid + 1, r, i << 1 | 1);
 		}
 		return ans;
 	}

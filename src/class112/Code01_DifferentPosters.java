@@ -70,55 +70,55 @@ public class Code01_DifferentPosters {
 		return ans;
 	}
 
-	public static void build(int l, int r, int rt) {
+	public static void build(int l, int r, int i) {
 		if (l < r) {
 			int mid = (l + r) / 2;
-			build(l, mid, rt << 1);
-			build(mid + 1, r, rt << 1 | 1);
+			build(l, mid, i << 1);
+			build(mid + 1, r, i << 1 | 1);
 		}
-		poster[rt] = 0;
+		poster[i] = 0;
 	}
 
-	public static void down(int rt) {
-		if (poster[rt] != 0) {
-			poster[rt << 1] = poster[rt];
-			poster[rt << 1 | 1] = poster[rt];
-			poster[rt] = 0;
+	public static void down(int i) {
+		if (poster[i] != 0) {
+			poster[i << 1] = poster[i];
+			poster[i << 1 | 1] = poster[i];
+			poster[i] = 0;
 		}
 	}
 
-	public static void update(int jobl, int jobr, int jobv, int l, int r, int rt) {
+	public static void update(int jobl, int jobr, int jobv, int l, int r, int i) {
 		if (jobl <= l && r <= jobr) {
-			poster[rt] = jobv;
+			poster[i] = jobv;
 		} else {
-			down(rt);
+			down(i);
 			int mid = (l + r) / 2;
 			if (jobl <= mid) {
-				update(jobl, jobr, jobv, l, mid, rt << 1);
+				update(jobl, jobr, jobv, l, mid, i << 1);
 			}
 			if (jobr > mid) {
-				update(jobl, jobr, jobv, mid + 1, r, rt << 1 | 1);
+				update(jobl, jobr, jobv, mid + 1, r, i << 1 | 1);
 			}
 		}
 	}
 
-	public static int query(int jobl, int jobr, int l, int r, int rt) {
+	public static int query(int jobl, int jobr, int l, int r, int i) {
 		if (l == r) {
-			if (poster[rt] != 0 && !visited[poster[rt]]) {
-				visited[poster[rt]] = true;
+			if (poster[i] != 0 && !visited[poster[i]]) {
+				visited[poster[i]] = true;
 				return 1;
 			} else {
 				return 0;
 			}
 		} else {
-			down(rt);
+			down(i);
 			int mid = (l + r) / 2;
 			int ans = 0;
 			if (jobl <= mid) {
-				ans += query(jobl, jobr, l, mid, rt << 1);
+				ans += query(jobl, jobr, l, mid, i << 1);
 			}
 			if (jobr > mid) {
-				ans += query(jobl, jobr, mid + 1, r, rt << 1 | 1);
+				ans += query(jobl, jobr, mid + 1, r, i << 1 | 1);
 			}
 			return ans;
 		}

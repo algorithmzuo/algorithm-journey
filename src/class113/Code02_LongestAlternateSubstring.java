@@ -32,48 +32,48 @@ public class Code02_LongestAlternateSubstring {
 
 	public static int[] suf = new int[MAXN << 2];
 
-	public static void build(int l, int r, int rt) {
+	public static void build(int l, int r, int i) {
 		if (l == r) {
-			len[rt] = 1;
-			pre[rt] = 1;
-			suf[rt] = 1;
+			len[i] = 1;
+			pre[i] = 1;
+			suf[i] = 1;
 		} else {
 			int mid = (l + r) / 2;
-			build(l, mid, rt << 1);
-			build(mid + 1, r, rt << 1 | 1);
-			up(l, r, rt);
+			build(l, mid, i << 1);
+			build(mid + 1, r, i << 1 | 1);
+			up(l, r, i);
 		}
 	}
 
-	public static void up(int l, int r, int rt) {
-		len[rt] = Math.max(len[rt << 1], len[rt << 1 | 1]);
-		pre[rt] = pre[rt << 1];
-		suf[rt] = suf[rt << 1 | 1];
+	public static void up(int l, int r, int i) {
+		len[i] = Math.max(len[i << 1], len[i << 1 | 1]);
+		pre[i] = pre[i << 1];
+		suf[i] = suf[i << 1 | 1];
 		int mid = (l + r) / 2;
 		int ln = mid - l + 1;
 		int rn = r - mid;
 		if (arr[mid] != arr[mid + 1]) {
-			len[rt] = Math.max(len[rt], suf[rt << 1] + pre[rt << 1 | 1]);
-			if (len[rt << 1] == ln) {
-				pre[rt] = ln + pre[rt << 1 | 1];
+			len[i] = Math.max(len[i], suf[i << 1] + pre[i << 1 | 1]);
+			if (len[i << 1] == ln) {
+				pre[i] = ln + pre[i << 1 | 1];
 			}
-			if (len[rt << 1 | 1] == rn) {
-				suf[rt] = rn + suf[rt << 1];
+			if (len[i << 1 | 1] == rn) {
+				suf[i] = rn + suf[i << 1];
 			}
 		}
 	}
 
-	public static void reverse(int index, int l, int r, int rt) {
+	public static void reverse(int index, int l, int r, int i) {
 		if (l == r && l == index) {
 			arr[index] ^= 1;
 		} else {
 			int mid = (l + r) / 2;
 			if (index <= mid) {
-				reverse(index, l, mid, rt << 1);
+				reverse(index, l, mid, i << 1);
 			} else {
-				reverse(index, mid + 1, r, rt << 1 | 1);
+				reverse(index, mid + 1, r, i << 1 | 1);
 			}
-			up(l, r, rt);
+			up(l, r, i);
 		}
 	}
 

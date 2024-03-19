@@ -38,61 +38,61 @@ public class Code01_DynamicSegmentTree {
 
 	public static long[] lazy = new long[LIMIT];
 
-	public static void up(int rt, int lrt, int rrt) {
-		sum[rt] = sum[lrt] + sum[rrt];
+	public static void up(int hi, int li, int ri) {
+		sum[hi] = sum[li] + sum[ri];
 	}
 
-	public static void down(int rt, int lrt, int rrt, int ln, int rn) {
-		if (lazy[rt] != 0) {
-			sum[lrt] += lazy[rt] * ln;
-			sum[rrt] += lazy[rt] * rn;
-			lazy[lrt] += lazy[rt];
-			lazy[rrt] += lazy[rt];
-			lazy[rt] = 0;
+	public static void down(int hi, int li, int ri, int ln, int rn) {
+		if (lazy[hi] != 0) {
+			sum[li] += lazy[hi] * ln;
+			sum[ri] += lazy[hi] * rn;
+			lazy[li] += lazy[hi];
+			lazy[ri] += lazy[hi];
+			lazy[hi] = 0;
 		}
 	}
 
-	public static void add(int jobl, int jobr, long jobv, int l, int r, int rt) {
+	public static void add(int jobl, int jobr, long jobv, int l, int r, int i) {
 		if (jobl <= l && r <= jobr) {
-			sum[rt] += jobv * (r - l + 1);
-			lazy[rt] += jobv;
+			sum[i] += jobv * (r - l + 1);
+			lazy[i] += jobv;
 		} else {
-			if (left[rt] == 0) {
-				left[rt] = ++cnt;
+			if (left[i] == 0) {
+				left[i] = ++cnt;
 			}
-			if (right[rt] == 0) {
-				right[rt] = ++cnt;
+			if (right[i] == 0) {
+				right[i] = ++cnt;
 			}
 			int mid = (l + r) >> 1;
-			down(rt, left[rt], right[rt], mid - l + 1, r - mid);
+			down(i, left[i], right[i], mid - l + 1, r - mid);
 			if (jobl <= mid) {
-				add(jobl, jobr, jobv, l, mid, left[rt]);
+				add(jobl, jobr, jobv, l, mid, left[i]);
 			}
 			if (jobr > mid) {
-				add(jobl, jobr, jobv, mid + 1, r, right[rt]);
+				add(jobl, jobr, jobv, mid + 1, r, right[i]);
 			}
-			up(rt, left[rt], right[rt]);
+			up(i, left[i], right[i]);
 		}
 	}
 
-	public static long query(int jobl, int jobr, int l, int r, int rt) {
+	public static long query(int jobl, int jobr, int l, int r, int i) {
 		if (jobl <= l && r <= jobr) {
-			return sum[rt];
+			return sum[i];
 		}
-		if (left[rt] == 0) {
-			left[rt] = ++cnt;
+		if (left[i] == 0) {
+			left[i] = ++cnt;
 		}
-		if (right[rt] == 0) {
-			right[rt] = ++cnt;
+		if (right[i] == 0) {
+			right[i] = ++cnt;
 		}
 		int mid = (l + r) >> 1;
-		down(rt, left[rt], right[rt], mid - l + 1, r - mid);
+		down(i, left[i], right[i], mid - l + 1, r - mid);
 		long ans = 0;
 		if (jobl <= mid) {
-			ans += query(jobl, jobr, l, mid, left[rt]);
+			ans += query(jobl, jobr, l, mid, left[i]);
 		}
 		if (jobr > mid) {
-			ans += query(jobl, jobr, mid + 1, r, right[rt]);
+			ans += query(jobl, jobr, mid + 1, r, right[i]);
 		}
 		return ans;
 	}

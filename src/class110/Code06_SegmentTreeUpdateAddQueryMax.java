@@ -28,93 +28,93 @@ public class Code06_SegmentTreeUpdateAddQueryMax {
 
 	public static boolean[] update = new boolean[MAXN << 2];
 
-	public static void build(int l, int r, int rt) {
+	public static void build(int l, int r, int i) {
 		if (l == r) {
-			max[rt] = arr[l];
+			max[i] = arr[l];
 		} else {
 			int mid = (l + r) >> 1;
-			build(l, mid, rt << 1);
-			build(mid + 1, r, rt << 1 | 1);
-			up(rt);
+			build(l, mid, i << 1);
+			build(mid + 1, r, i << 1 | 1);
+			up(i);
 		}
-		lazy[rt] = 0;
-		change[rt] = 0;
-		update[rt] = false;
+		lazy[i] = 0;
+		change[i] = 0;
+		update[i] = false;
 	}
 
-	public static void up(int rt) {
-		max[rt] = Math.max(max[rt << 1], max[rt << 1 | 1]);
+	public static void up(int i) {
+		max[i] = Math.max(max[i << 1], max[i << 1 | 1]);
 	}
 
-	public static void down(int rt) {
-		if (update[rt]) {
-			max[rt << 1] = change[rt];
-			lazy[rt << 1] = 0;
-			change[rt << 1] = change[rt];
-			update[rt << 1] = true;
-			max[rt << 1 | 1] = change[rt];
-			lazy[rt << 1 | 1] = 0;
-			change[rt << 1 | 1] = change[rt];
-			update[rt << 1 | 1] = true;
-			update[rt] = false;
+	public static void down(int i) {
+		if (update[i]) {
+			max[i << 1] = change[i];
+			lazy[i << 1] = 0;
+			change[i << 1] = change[i];
+			update[i << 1] = true;
+			max[i << 1 | 1] = change[i];
+			lazy[i << 1 | 1] = 0;
+			change[i << 1 | 1] = change[i];
+			update[i << 1 | 1] = true;
+			update[i] = false;
 		}
-		if (lazy[rt] != 0) {
-			max[rt << 1] += lazy[rt];
-			lazy[rt << 1] += lazy[rt];
-			max[rt << 1 | 1] += lazy[rt];
-			lazy[rt << 1 | 1] += lazy[rt];
-			lazy[rt] = 0;
+		if (lazy[i] != 0) {
+			max[i << 1] += lazy[i];
+			lazy[i << 1] += lazy[i];
+			max[i << 1 | 1] += lazy[i];
+			lazy[i << 1 | 1] += lazy[i];
+			lazy[i] = 0;
 		}
 	}
 
-	public static void update(int jobl, int jobr, long jobv, int l, int r, int rt) {
+	public static void update(int jobl, int jobr, long jobv, int l, int r, int i) {
 		if (jobl <= l && r <= jobr) {
-			max[rt] = jobv;
-			lazy[rt] = 0;
-			change[rt] = jobv;
-			update[rt] = true;
+			max[i] = jobv;
+			lazy[i] = 0;
+			change[i] = jobv;
+			update[i] = true;
 		} else {
 			int mid = (l + r) >> 1;
-			down(rt);
+			down(i);
 			if (jobl <= mid) {
-				update(jobl, jobr, jobv, l, mid, rt << 1);
+				update(jobl, jobr, jobv, l, mid, i << 1);
 			}
 			if (jobr > mid) {
-				update(jobl, jobr, jobv, mid + 1, r, rt << 1 | 1);
+				update(jobl, jobr, jobv, mid + 1, r, i << 1 | 1);
 			}
-			up(rt);
+			up(i);
 		}
 	}
 
-	public static void add(int jobl, int jobr, long jobv, int l, int r, int rt) {
+	public static void add(int jobl, int jobr, long jobv, int l, int r, int i) {
 		if (jobl <= l && r <= jobr) {
-			max[rt] += jobv;
-			lazy[rt] += jobv;
+			max[i] += jobv;
+			lazy[i] += jobv;
 		} else {
 			int mid = (l + r) >> 1;
-			down(rt);
+			down(i);
 			if (jobl <= mid) {
-				add(jobl, jobr, jobv, l, mid, rt << 1);
+				add(jobl, jobr, jobv, l, mid, i << 1);
 			}
 			if (jobr > mid) {
-				add(jobl, jobr, jobv, mid + 1, r, rt << 1 | 1);
+				add(jobl, jobr, jobv, mid + 1, r, i << 1 | 1);
 			}
-			up(rt);
+			up(i);
 		}
 	}
 
-	public static long query(int jobl, int jobr, int l, int r, int rt) {
+	public static long query(int jobl, int jobr, int l, int r, int i) {
 		if (jobl <= l && r <= jobr) {
-			return max[rt];
+			return max[i];
 		}
 		int mid = (l + r) >> 1;
-		down(rt);
+		down(i);
 		long ans = Long.MIN_VALUE;
 		if (jobl <= mid) {
-			ans = Math.max(ans, query(jobl, jobr, l, mid, rt << 1));
+			ans = Math.max(ans, query(jobl, jobr, l, mid, i << 1));
 		}
 		if (jobr > mid) {
-			ans = Math.max(ans, query(jobl, jobr, mid + 1, r, rt << 1 | 1));
+			ans = Math.max(ans, query(jobl, jobr, mid + 1, r, i << 1 | 1));
 		}
 		return ans;
 	}

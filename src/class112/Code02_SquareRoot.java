@@ -29,21 +29,21 @@ public class Code02_SquareRoot {
 
 	public static long[] max = new long[MAXN << 2];
 
-	public static void build(int l, int r, int rt) {
+	public static void build(int l, int r, int i) {
 		if (l == r) {
-			sum[rt] = arr[l];
-			max[rt] = arr[l];
+			sum[i] = arr[l];
+			max[i] = arr[l];
 		} else {
 			int mid = (l + r) / 2;
-			build(l, mid, rt << 1);
-			build(mid + 1, r, rt << 1 | 1);
-			up(rt);
+			build(l, mid, i << 1);
+			build(mid + 1, r, i << 1 | 1);
+			up(i);
 		}
 	}
 
-	public static void up(int rt) {
-		sum[rt] = sum[rt << 1] + sum[rt << 1 | 1];
-		max[rt] = Math.max(max[rt << 1], max[rt << 1 | 1]);
+	public static void up(int i) {
+		sum[i] = sum[i << 1] + sum[i << 1 | 1];
+		max[i] = Math.max(max[i << 1], max[i << 1 | 1]);
 	}
 
 	// change方法是最核心的
@@ -53,20 +53,20 @@ public class Code02_SquareRoot {
 	// 核心点就在于每个数字不超过10^12次方，所以开方不了几回也就结束了
 	// 如果发现一段范围上的最大值>1，才需要执行开方任务，否则跳过
 	// 这也是为什么不需要down函数的原因，因为没有懒更新，任务都是直接下发的
-	public static void change(int jobl, int jobr, int l, int r, int rt) {
+	public static void change(int jobl, int jobr, int l, int r, int i) {
 		if (l == r) {
-			long sqrt = (long) Math.sqrt(max[rt]);
-			sum[rt] = sqrt;
-			max[rt] = sqrt;
+			long sqrt = (long) Math.sqrt(max[i]);
+			sum[i] = sqrt;
+			max[i] = sqrt;
 		} else {
 			int mid = (l + r) / 2;
-			if (jobl <= mid && max[rt << 1] > 1) {
-				change(jobl, jobr, l, mid, rt << 1);
+			if (jobl <= mid && max[i << 1] > 1) {
+				change(jobl, jobr, l, mid, i << 1);
 			}
-			if (jobr > mid && max[rt << 1 | 1] > 1) {
-				change(jobl, jobr, mid + 1, r, rt << 1 | 1);
+			if (jobr > mid && max[i << 1 | 1] > 1) {
+				change(jobl, jobr, mid + 1, r, i << 1 | 1);
 			}
-			up(rt);
+			up(i);
 		}
 	}
 
@@ -74,17 +74,17 @@ public class Code02_SquareRoot {
 	// 因为之前的任务都是完全下发的
 	// 根本不会有任务积攒
 	// 所以不需要执行down方法
-	public static long query(int jobl, int jobr, int l, int r, int rt) {
+	public static long query(int jobl, int jobr, int l, int r, int i) {
 		if (jobl <= l && r <= jobr) {
-			return sum[rt];
+			return sum[i];
 		}
 		int mid = (l + r) / 2;
 		long ans = 0;
 		if (jobl <= mid) {
-			ans += query(jobl, jobr, l, mid, rt << 1);
+			ans += query(jobl, jobr, l, mid, i << 1);
 		}
 		if (jobr > mid) {
-			ans += query(jobl, jobr, mid + 1, r, rt << 1 | 1);
+			ans += query(jobl, jobr, mid + 1, r, i << 1 | 1);
 		}
 		return ans;
 	}

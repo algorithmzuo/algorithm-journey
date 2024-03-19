@@ -30,61 +30,61 @@ public class Code01_TunnelWarfare {
 
 	public static int[] stack = new int[MAXN];
 
-	public static void build(int l, int r, int rt) {
+	public static void build(int l, int r, int i) {
 		if (l == r) {
 			arr[l] = 1;
-			pre[rt] = 1;
-			suf[rt] = 1;
+			pre[i] = 1;
+			suf[i] = 1;
 		} else {
 			int mid = (l + r) / 2;
-			build(l, mid, rt << 1);
-			build(mid + 1, r, rt << 1 | 1);
-			up(l, r, rt);
+			build(l, mid, i << 1);
+			build(mid + 1, r, i << 1 | 1);
+			up(l, r, i);
 		}
 	}
 
-	public static void up(int l, int r, int rt) {
-		pre[rt] = pre[rt << 1];
-		suf[rt] = suf[rt << 1 | 1];
+	public static void up(int l, int r, int i) {
+		pre[i] = pre[i << 1];
+		suf[i] = suf[i << 1 | 1];
 		int mid = (l + r) / 2;
-		if (pre[rt << 1] == mid - l + 1) {
-			pre[rt] += pre[rt << 1 | 1];
+		if (pre[i << 1] == mid - l + 1) {
+			pre[i] += pre[i << 1 | 1];
 		}
-		if (suf[rt << 1 | 1] == r - mid) {
-			suf[rt] += suf[rt << 1];
+		if (suf[i << 1 | 1] == r - mid) {
+			suf[i] += suf[i << 1];
 		}
 	}
 
-	public static void update(int jobi, int jobv, int l, int r, int rt) {
+	public static void update(int jobi, int jobv, int l, int r, int i) {
 		if (l == r) {
-			arr[l] = pre[rt] = suf[rt] = jobv;
+			arr[l] = pre[i] = suf[i] = jobv;
 		} else {
 			int mid = (l + r) / 2;
 			if (jobi <= mid) {
-				update(jobi, jobv, l, mid, rt << 1);
+				update(jobi, jobv, l, mid, i << 1);
 			} else {
-				update(jobi, jobv, mid + 1, r, rt << 1 | 1);
+				update(jobi, jobv, mid + 1, r, i << 1 | 1);
 			}
-			up(l, r, rt);
+			up(l, r, i);
 		}
 	}
 
-	public static int query(int jobi, int l, int r, int rt) {
+	public static int query(int jobi, int l, int r, int i) {
 		if (l == r) {
 			return arr[l];
 		} else {
 			int mid = (l + r) / 2;
 			if (jobi <= mid) {
-				if (jobi + suf[rt << 1] > mid) {
-					return suf[rt << 1] + pre[rt << 1 | 1];
+				if (jobi + suf[i << 1] > mid) {
+					return suf[i << 1] + pre[i << 1 | 1];
 				} else {
-					return query(jobi, l, mid, rt << 1);
+					return query(jobi, l, mid, i << 1);
 				}
 			} else {
-				if (mid + pre[rt << 1 | 1] >= jobi) {
-					return suf[rt << 1] + pre[rt << 1 | 1];
+				if (mid + pre[i << 1 | 1] >= jobi) {
+					return suf[i << 1] + pre[i << 1 | 1];
 				} else {
-					return query(jobi, mid + 1, r, rt << 1 | 1);
+					return query(jobi, mid + 1, r, i << 1 | 1);
 				}
 			}
 		}

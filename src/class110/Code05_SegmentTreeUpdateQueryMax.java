@@ -17,65 +17,65 @@ public class Code05_SegmentTreeUpdateQueryMax {
 
 	public static boolean[] update = new boolean[MAXN << 2];
 
-	public static void build(int l, int r, int rt) {
+	public static void build(int l, int r, int i) {
 		if (l == r) {
-			max[rt] = arr[l];
+			max[i] = arr[l];
 		} else {
 			int mid = (l + r) >> 1;
-			build(l, mid, rt << 1);
-			build(mid + 1, r, rt << 1 | 1);
-			up(rt);
+			build(l, mid, i << 1);
+			build(mid + 1, r, i << 1 | 1);
+			up(i);
 		}
-		change[rt] = 0;
-		update[rt] = false;
+		change[i] = 0;
+		update[i] = false;
 	}
 
-	public static void up(int rt) {
-		max[rt] = Math.max(max[rt << 1], max[rt << 1 | 1]);
+	public static void up(int i) {
+		max[i] = Math.max(max[i << 1], max[i << 1 | 1]);
 	}
 
-	public static void down(int rt) {
-		if (update[rt]) {
-			max[rt << 1] = change[rt];
-			change[rt << 1] = change[rt];
-			update[rt << 1] = true;
-			max[rt << 1 | 1] = change[rt];
-			change[rt << 1 | 1] = change[rt];
-			update[rt << 1 | 1] = true;
-			update[rt] = false;
+	public static void down(int i) {
+		if (update[i]) {
+			max[i << 1] = change[i];
+			change[i << 1] = change[i];
+			update[i << 1] = true;
+			max[i << 1 | 1] = change[i];
+			change[i << 1 | 1] = change[i];
+			update[i << 1 | 1] = true;
+			update[i] = false;
 		}
 	}
 
-	public static void update(int jobl, int jobr, long jobv, int l, int r, int rt) {
+	public static void update(int jobl, int jobr, long jobv, int l, int r, int i) {
 		if (jobl <= l && r <= jobr) {
-			max[rt] = jobv;
-			change[rt] = jobv;
-			update[rt] = true;
+			max[i] = jobv;
+			change[i] = jobv;
+			update[i] = true;
 		} else {
-			down(rt);
+			down(i);
 			int mid = (l + r) >> 1;
 			if (jobl <= mid) {
-				update(jobl, jobr, jobv, l, mid, rt << 1);
+				update(jobl, jobr, jobv, l, mid, i << 1);
 			}
 			if (jobr > mid) {
-				update(jobl, jobr, jobv, mid + 1, r, rt << 1 | 1);
+				update(jobl, jobr, jobv, mid + 1, r, i << 1 | 1);
 			}
-			up(rt);
+			up(i);
 		}
 	}
 
-	public static long query(int jobl, int jobr, int l, int r, int rt) {
+	public static long query(int jobl, int jobr, int l, int r, int i) {
 		if (jobl <= l && r <= jobr) {
-			return max[rt];
+			return max[i];
 		}
-		down(rt);
+		down(i);
 		int mid = (l + r) >> 1;
 		long ans = Long.MIN_VALUE;
 		if (jobl <= mid) {
-			ans = Math.max(ans, query(jobl, jobr, l, mid, rt << 1));
+			ans = Math.max(ans, query(jobl, jobr, l, mid, i << 1));
 		}
 		if (jobr > mid) {
-			ans = Math.max(ans, query(jobl, jobr, mid + 1, r, rt << 1 | 1));
+			ans = Math.max(ans, query(jobl, jobr, mid + 1, r, i << 1 | 1));
 		}
 		return ans;
 	}

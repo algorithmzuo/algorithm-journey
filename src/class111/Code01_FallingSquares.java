@@ -27,6 +27,67 @@ public class Code01_FallingSquares {
 
 	public static boolean[] update = new boolean[MAXN << 2];
 
+	public static void build(int l, int r, int i) {
+		if (l < r) {
+			int mid = (l + r) >> 1;
+			build(l, mid, i << 1);
+			build(mid + 1, r, i << 1 | 1);
+		}
+		max[i] = 0;
+		change[i] = 0;
+		update[i] = false;
+	}
+
+	public static void up(int i) {
+		max[i] = Math.max(max[i << 1], max[i << 1 | 1]);
+	}
+
+	public static void down(int i) {
+		if (update[i]) {
+			update[i << 1] = true;
+			update[i << 1 | 1] = true;
+			change[i << 1] = change[i];
+			change[i << 1 | 1] = change[i];
+			max[i << 1] = change[i];
+			max[i << 1 | 1] = change[i];
+			update[i] = false;
+		}
+	}
+
+	public static void update(int jobl, int jobr, int jobv, int l, int r, int i) {
+		if (jobl <= l && r <= jobr) {
+			update[i] = true;
+			change[i] = jobv;
+			max[i] = jobv;
+		} else {
+			int mid = (l + r) >> 1;
+			down(i);
+			if (jobl <= mid) {
+				update(jobl, jobr, jobv, l, mid, i << 1);
+			}
+			if (jobr > mid) {
+				update(jobl, jobr, jobv, mid + 1, r, i << 1 | 1);
+			}
+			up(i);
+		}
+	}
+
+	public static int query(int jobl, int jobr, int l, int r, int i) {
+		if (jobl <= l && r <= jobr) {
+			return max[i];
+		}
+		int mid = (l + r) >> 1;
+		down(i);
+		int ans = Integer.MIN_VALUE;
+		if (jobl <= mid) {
+			ans = Math.max(ans, query(jobl, jobr, l, mid, i << 1));
+		}
+		if (jobr > mid) {
+			ans = Math.max(ans, query(jobl, jobr, mid + 1, r, i << 1 | 1));
+		}
+		return ans;
+	}
+
 	public static List<Integer> fallingSquares(int[][] poss) {
 		int n = sort(poss);
 		build(1, n, 1);
@@ -70,67 +131,6 @@ public class Code01_FallingSquares {
 			} else {
 				l = m + 1;
 			}
-		}
-		return ans;
-	}
-
-	public static void build(int l, int r, int rt) {
-		if (l < r) {
-			int mid = (l + r) >> 1;
-			build(l, mid, rt << 1);
-			build(mid + 1, r, rt << 1 | 1);
-		}
-		max[rt] = 0;
-		change[rt] = 0;
-		update[rt] = false;
-	}
-
-	public static void up(int rt) {
-		max[rt] = Math.max(max[rt << 1], max[rt << 1 | 1]);
-	}
-
-	public static void down(int rt) {
-		if (update[rt]) {
-			update[rt << 1] = true;
-			update[rt << 1 | 1] = true;
-			change[rt << 1] = change[rt];
-			change[rt << 1 | 1] = change[rt];
-			max[rt << 1] = change[rt];
-			max[rt << 1 | 1] = change[rt];
-			update[rt] = false;
-		}
-	}
-
-	public static void update(int jobl, int jobr, int jobv, int l, int r, int rt) {
-		if (jobl <= l && r <= jobr) {
-			update[rt] = true;
-			change[rt] = jobv;
-			max[rt] = jobv;
-		} else {
-			int mid = (l + r) >> 1;
-			down(rt);
-			if (jobl <= mid) {
-				update(jobl, jobr, jobv, l, mid, rt << 1);
-			}
-			if (jobr > mid) {
-				update(jobl, jobr, jobv, mid + 1, r, rt << 1 | 1);
-			}
-			up(rt);
-		}
-	}
-
-	public static int query(int jobl, int jobr, int l, int r, int rt) {
-		if (jobl <= l && r <= jobr) {
-			return max[rt];
-		}
-		int mid = (l + r) >> 1;
-		down(rt);
-		int ans = Integer.MIN_VALUE;
-		if (jobl <= mid) {
-			ans = Math.max(ans, query(jobl, jobr, l, mid, rt << 1));
-		}
-		if (jobr > mid) {
-			ans = Math.max(ans, query(jobl, jobr, mid + 1, r, rt << 1 | 1));
 		}
 		return ans;
 	}

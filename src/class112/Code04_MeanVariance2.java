@@ -19,64 +19,64 @@ package class112;
 //double sum2[MAXN << 2];
 //double lazy2[MAXN << 2];
 //
-//void up(int rt) {
-//  sum1[rt] = sum1[rt << 1] + sum1[rt << 1 | 1];
-//  sum2[rt] = sum2[rt << 1] + sum2[rt << 1 | 1];
+//void up(int i) {
+//  sum1[i] = sum1[i << 1] + sum1[i << 1 | 1];
+//  sum2[i] = sum2[i << 1] + sum2[i << 1 | 1];
 //}
 //
-//void build(int l, int r, int rt) {
+//void build(int l, int r, int i) {
 //    if (l == r) {
-//        sum1[rt] = arr[l];
-//        sum2[rt] = arr[l] * arr[l];
+//        sum1[i] = arr[l];
+//        sum2[i] = arr[l] * arr[l];
 //    } else {
 //        int mid = (l + r) / 2;
-//        build(l, mid, rt << 1);
-//        build(mid + 1, r, rt << 1 | 1);
-//        up(rt);
+//        build(l, mid, i << 1);
+//        build(mid + 1, r, i << 1 | 1);
+//        up(i);
 //    }
-//    lazy1[rt] = 0;
-//    lazy2[rt] = 0;
+//    lazy1[i] = 0;
+//    lazy2[i] = 0;
 //}
 //
-//void down(int rt, int ln, int rn) {
-//    if (lazy1[rt] != 0 || lazy2[rt] != 0) {
-//        lazy2[rt << 1] += lazy2[rt];
-//        sum2[rt << 1] += sum1[rt << 1] * lazy2[rt] * 2 + lazy2[rt] * lazy2[rt] * ln;
-//        lazy2[rt << 1 | 1] += lazy2[rt];
-//        sum2[rt << 1 | 1] += sum1[rt << 1 | 1] * lazy2[rt] * 2 + lazy2[rt] * lazy2[rt] * rn;
-//        lazy2[rt] = 0;
-//        lazy1[rt << 1] += lazy1[rt];
-//        sum1[rt << 1] += lazy1[rt] * ln;
-//        lazy1[rt << 1 | 1] += lazy1[rt];
-//        sum1[rt << 1 | 1] += lazy1[rt] * rn;
-//        lazy1[rt] = 0;
+//void down(int i, int ln, int rn) {
+//    if (lazy1[i] != 0 || lazy2[i] != 0) {
+//        lazy2[i << 1] += lazy2[i];
+//        sum2[i << 1] += sum1[i << 1] * lazy2[i] * 2 + lazy2[i] * lazy2[i] * ln;
+//        lazy2[i << 1 | 1] += lazy2[i];
+//        sum2[i << 1 | 1] += sum1[i << 1 | 1] * lazy2[i] * 2 + lazy2[i] * lazy2[i] * rn;
+//        lazy2[i] = 0;
+//        lazy1[i << 1] += lazy1[i];
+//        sum1[i << 1] += lazy1[i] * ln;
+//        lazy1[i << 1 | 1] += lazy1[i];
+//        sum1[i << 1 | 1] += lazy1[i] * rn;
+//        lazy1[i] = 0;
 //    }
 //}
 //
-//void add(int jobl, int jobr, double jobv, int l, int r, int rt) {
+//void add(int jobl, int jobr, double jobv, int l, int r, int i) {
 //    if (jobl <= l && r <= jobr) {
-//        lazy2[rt] += jobv;
-//        sum2[rt] += sum1[rt] * jobv * 2 + jobv * jobv * (r - l + 1);
-//        lazy1[rt] += jobv;
-//        sum1[rt] += jobv * (r - l + 1);
+//        lazy2[i] += jobv;
+//        sum2[i] += sum1[i] * jobv * 2 + jobv * jobv * (r - l + 1);
+//        lazy1[i] += jobv;
+//        sum1[i] += jobv * (r - l + 1);
 //    } else {
 //        int mid = (l + r) >> 1;
-//        down(rt, mid - l + 1, r - mid);
-//        if (jobl <= mid) add(jobl, jobr, jobv, l, mid, rt << 1);
-//        if (jobr > mid) add(jobl, jobr, jobv, mid + 1, r, rt << 1 | 1);
-//        up(rt);
+//        down(i, mid - l + 1, r - mid);
+//        if (jobl <= mid) add(jobl, jobr, jobv, l, mid, i << 1);
+//        if (jobr > mid) add(jobl, jobr, jobv, mid + 1, r, i << 1 | 1);
+//        up(i);
 //   }
 //}
 //
-//double query(double sum[], int jobl, int jobr, int l, int r, int rt) {
+//double query(double sum[], int jobl, int jobr, int l, int r, int i) {
 //    if (jobl <= l && r <= jobr) {
-//        return sum[rt];
+//        return sum[i];
 //    }
 //    int mid = (l + r) >> 1;
-//    down(rt, mid - l + 1, r - mid);
+//    down(i, mid - l + 1, r - mid);
 //    double ans = 0;
-//    if (jobl <= mid) ans += query(sum, jobl, jobr, l, mid, rt << 1);
-//    if (jobr > mid) ans += query(sum, jobl, jobr, mid + 1, r, rt << 1 | 1);
+//    if (jobl <= mid) ans += query(sum, jobl, jobr, l, mid, i << 1);
+//    if (jobr > mid) ans += query(sum, jobl, jobr, mid + 1, r, i << 1 | 1);
 //    return ans;
 //}
 //
