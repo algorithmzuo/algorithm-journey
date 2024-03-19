@@ -28,6 +28,35 @@ public class Code06_SegmentTreeUpdateAddQueryMax {
 
 	public static boolean[] update = new boolean[MAXN << 2];
 
+	public static void up(int i) {
+		max[i] = Math.max(max[i << 1], max[i << 1 | 1]);
+	}
+
+	public static void down(int i) {
+		if (update[i]) {
+			updateLazy(i << 1, change[i]);
+			updateLazy(i << 1 | 1, change[i]);
+			update[i] = false;
+		}
+		if (lazy[i] != 0) {
+			addLazy(i << 1, lazy[i]);
+			addLazy(i << 1 | 1, lazy[i]);
+			lazy[i] = 0;
+		}
+	}
+
+	public static void updateLazy(int i, long v) {
+		max[i] = v;
+		lazy[i] = 0;
+		change[i] = v;
+		update[i] = true;
+	}
+
+	public static void addLazy(int i, long v) {
+		max[i] += v;
+		lazy[i] += v;
+	}
+
 	public static void build(int l, int r, int i) {
 		if (l == r) {
 			max[i] = arr[l];
@@ -42,37 +71,9 @@ public class Code06_SegmentTreeUpdateAddQueryMax {
 		update[i] = false;
 	}
 
-	public static void up(int i) {
-		max[i] = Math.max(max[i << 1], max[i << 1 | 1]);
-	}
-
-	public static void down(int i) {
-		if (update[i]) {
-			max[i << 1] = change[i];
-			lazy[i << 1] = 0;
-			change[i << 1] = change[i];
-			update[i << 1] = true;
-			max[i << 1 | 1] = change[i];
-			lazy[i << 1 | 1] = 0;
-			change[i << 1 | 1] = change[i];
-			update[i << 1 | 1] = true;
-			update[i] = false;
-		}
-		if (lazy[i] != 0) {
-			max[i << 1] += lazy[i];
-			lazy[i << 1] += lazy[i];
-			max[i << 1 | 1] += lazy[i];
-			lazy[i << 1 | 1] += lazy[i];
-			lazy[i] = 0;
-		}
-	}
-
 	public static void update(int jobl, int jobr, long jobv, int l, int r, int i) {
 		if (jobl <= l && r <= jobr) {
-			max[i] = jobv;
-			lazy[i] = 0;
-			change[i] = jobv;
-			update[i] = true;
+			updateLazy(i, jobv);
 		} else {
 			int mid = (l + r) >> 1;
 			down(i);
@@ -88,8 +89,7 @@ public class Code06_SegmentTreeUpdateAddQueryMax {
 
 	public static void add(int jobl, int jobr, long jobv, int l, int r, int i) {
 		if (jobl <= l && r <= jobr) {
-			max[i] += jobv;
-			lazy[i] += jobv;
+			addLazy(i, jobv);
 		} else {
 			int mid = (l + r) >> 1;
 			down(i);
@@ -123,10 +123,8 @@ public class Code06_SegmentTreeUpdateAddQueryMax {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StreamTokenizer in = new StreamTokenizer(br);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
-		in.nextToken();
-		int n = (int) in.nval;
-		in.nextToken();
-		int m = (int) in.nval;
+		in.nextToken(); int n = (int) in.nval;
+		in.nextToken(); int m = (int) in.nval;
 		for (int i = 1; i <= n; i++) {
 			in.nextToken();
 			arr[i] = (long) in.nval;

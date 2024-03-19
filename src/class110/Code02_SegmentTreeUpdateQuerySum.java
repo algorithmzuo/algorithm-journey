@@ -17,6 +17,24 @@ public class Code02_SegmentTreeUpdateQuerySum {
 
 	public static boolean[] update = new boolean[MAXN << 2];
 
+	public static void up(int i) {
+		sum[i] = sum[i << 1] + sum[i << 1 | 1];
+	}
+
+	public static void down(int i, int ln, int rn) {
+		if (update[i]) {
+			lazy(i << 1, change[i], ln);
+			lazy(i << 1 | 1, change[i], rn);
+			update[i] = false;
+		}
+	}
+
+	public static void lazy(int i, long v, int n) {
+		sum[i] = v * n;
+		change[i] = v;
+		update[i] = true;
+	}
+
 	public static void build(int l, int r, int i) {
 		if (l == r) {
 			sum[i] = arr[l];
@@ -30,27 +48,9 @@ public class Code02_SegmentTreeUpdateQuerySum {
 		update[i] = false;
 	}
 
-	public static void up(int i) {
-		sum[i] = sum[i << 1] + sum[i << 1 | 1];
-	}
-
-	public static void down(int i, int ln, int rn) {
-		if (update[i]) {
-			change[i << 1] = change[i];
-			update[i << 1] = true;
-			sum[i << 1] = change[i] * ln;
-			change[i << 1 | 1] = change[i];
-			update[i << 1 | 1] = true;
-			sum[i << 1 | 1] = change[i] * rn;
-			update[i] = false;
-		}
-	}
-
 	public static void update(int jobl, int jobr, long jobv, int l, int r, int i) {
 		if (jobl <= l && r <= jobr) {
-			sum[i] = jobv * (r - l + 1);
-			change[i] = jobv;
-			update[i] = true;
+			lazy(i, jobv, r - l + 1);
 		} else {
 			int mid = (l + r) >> 1;
 			down(i, mid - l + 1, r - mid);

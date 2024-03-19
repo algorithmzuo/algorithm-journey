@@ -17,6 +17,24 @@ public class Code05_SegmentTreeUpdateQueryMax {
 
 	public static boolean[] update = new boolean[MAXN << 2];
 
+	public static void up(int i) {
+		max[i] = Math.max(max[i << 1], max[i << 1 | 1]);
+	}
+
+	public static void down(int i) {
+		if (update[i]) {
+			lazy(i << 1, change[i]);
+			lazy(i << 1 | 1, change[i]);
+			update[i] = false;
+		}
+	}
+
+	public static void lazy(int i, long v) {
+		max[i] = v;
+		change[i] = v;
+		update[i] = true;
+	}
+
 	public static void build(int l, int r, int i) {
 		if (l == r) {
 			max[i] = arr[l];
@@ -30,27 +48,9 @@ public class Code05_SegmentTreeUpdateQueryMax {
 		update[i] = false;
 	}
 
-	public static void up(int i) {
-		max[i] = Math.max(max[i << 1], max[i << 1 | 1]);
-	}
-
-	public static void down(int i) {
-		if (update[i]) {
-			max[i << 1] = change[i];
-			change[i << 1] = change[i];
-			update[i << 1] = true;
-			max[i << 1 | 1] = change[i];
-			change[i << 1 | 1] = change[i];
-			update[i << 1 | 1] = true;
-			update[i] = false;
-		}
-	}
-
 	public static void update(int jobl, int jobr, long jobv, int l, int r, int i) {
 		if (jobl <= l && r <= jobr) {
-			max[i] = jobv;
-			change[i] = jobv;
-			update[i] = true;
+			lazy(i, jobv);
 		} else {
 			down(i);
 			int mid = (l + r) >> 1;
