@@ -42,20 +42,22 @@ public class Code01_DynamicSegmentTree {
 		sum[hi] = sum[li] + sum[ri];
 	}
 
-	public static void down(int hi, int li, int ri, int ln, int rn) {
-		if (lazy[hi] != 0) {
-			sum[li] += lazy[hi] * ln;
-			sum[ri] += lazy[hi] * rn;
-			lazy[li] += lazy[hi];
-			lazy[ri] += lazy[hi];
-			lazy[hi] = 0;
+	public static void down(int i, int ln, int rn) {
+		if (lazy[i] != 0) {
+			lazy(left[i], lazy[i], ln);
+			lazy(right[i], lazy[i], rn);
+			lazy[i] = 0;
 		}
+	}
+
+	public static void lazy(int i, long v, int n) {
+		sum[i] += v * n;
+		lazy[i] += v;
 	}
 
 	public static void add(int jobl, int jobr, long jobv, int l, int r, int i) {
 		if (jobl <= l && r <= jobr) {
-			sum[i] += jobv * (r - l + 1);
-			lazy[i] += jobv;
+			lazy(i, jobv, r - l + 1);
 		} else {
 			if (left[i] == 0) {
 				left[i] = ++cnt;
@@ -64,7 +66,7 @@ public class Code01_DynamicSegmentTree {
 				right[i] = ++cnt;
 			}
 			int mid = (l + r) >> 1;
-			down(i, left[i], right[i], mid - l + 1, r - mid);
+			down(i, mid - l + 1, r - mid);
 			if (jobl <= mid) {
 				add(jobl, jobr, jobv, l, mid, left[i]);
 			}
@@ -86,7 +88,7 @@ public class Code01_DynamicSegmentTree {
 			right[i] = ++cnt;
 		}
 		int mid = (l + r) >> 1;
-		down(i, left[i], right[i], mid - l + 1, r - mid);
+		down(i, mid - l + 1, r - mid);
 		long ans = 0;
 		if (jobl <= mid) {
 			ans += query(jobl, jobr, l, mid, left[i]);
@@ -110,10 +112,8 @@ public class Code01_DynamicSegmentTree {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StreamTokenizer in = new StreamTokenizer(br);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
-		in.nextToken();
-		int n = (int) in.nval;
-		in.nextToken();
-		int m = (int) in.nval;
+		in.nextToken(); int n = (int) in.nval;
+		in.nextToken(); int m = (int) in.nval;
 		cnt = 1;
 		long jobv;
 		for (int i = 1, op, jobl, jobr; i <= m; i++) {

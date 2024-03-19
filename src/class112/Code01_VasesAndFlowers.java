@@ -1,4 +1,4 @@
-package class111;
+package class112;
 
 // 瓶子里的花朵
 // 给定n个瓶子，编号从0~n-1，一开始所有瓶子都是空的
@@ -23,7 +23,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 
-public class Code02_VasesAndFlowers {
+public class Code01_VasesAndFlowers {
 
 	public static int MAXN = 50001;
 

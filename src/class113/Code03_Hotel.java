@@ -36,18 +36,6 @@ public class Code03_Hotel {
 
 	public static boolean[] update = new boolean[MAXN << 2];
 
-	public static void build(int l, int r, int i) {
-		if (l == r) {
-			len[i] = pre[i] = suf[i] = 1;
-		} else {
-			int mid = (l + r) / 2;
-			build(l, mid, i << 1);
-			build(mid + 1, r, i << 1 | 1);
-			up(i, mid - l + 1, r - mid);
-		}
-		update[i] = false;
-	}
-
 	public static void up(int i, int ln, int rn) {
 		int li = i << 1;
 		int ri = i << 1 | 1;
@@ -68,6 +56,18 @@ public class Code03_Hotel {
 		len[i] = pre[i] = suf[i] = v == 0 ? n : 0;
 		change[i] = v;
 		update[i] = true;
+	}
+
+	public static void build(int l, int r, int i) {
+		if (l == r) {
+			len[i] = pre[i] = suf[i] = 1;
+		} else {
+			int mid = (l + r) / 2;
+			build(l, mid, i << 1);
+			build(mid + 1, r, i << 1 | 1);
+			up(i, mid - l + 1, r - mid);
+		}
+		update[i] = false;
 	}
 
 	public static void update(int jobl, int jobr, int jobv, int l, int r, int i) {

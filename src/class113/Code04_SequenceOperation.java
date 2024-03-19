@@ -46,24 +46,6 @@ public class Code04_SequenceOperation {
 
 	public static boolean[] reverse = new boolean[MAXN << 2];
 
-	public static void updateLazy(int i, int v, int n) {
-		sum[i] = v * n;
-		len0[i] = pre0[i] = suf0[i] = v == 0 ? n : 0;
-		len1[i] = pre1[i] = suf1[i] = v == 1 ? n : 0;
-		change[i] = v;
-		update[i] = true;
-		reverse[i] = false;
-	}
-
-	public static void reverseLazy(int i, int n) {
-		sum[i] = n - sum[i];
-		int tmp;
-		tmp = len0[i]; len0[i] = len1[i]; len1[i] = tmp;
-		tmp = pre0[i]; pre0[i] = pre1[i]; pre1[i] = tmp;
-		tmp = suf0[i]; suf0[i] = suf1[i]; suf1[i] = tmp;
-		reverse[i] = !reverse[i];
-	}
-
 	public static void up(int i, int ln, int rn) {
 		int l = i << 1;
 		int r = i << 1 | 1;
@@ -87,6 +69,24 @@ public class Code04_SequenceOperation {
 			reverseLazy(i << 1 | 1, rn);
 			reverse[i] = false;
 		}
+	}
+
+	public static void updateLazy(int i, int v, int n) {
+		sum[i] = v * n;
+		len0[i] = pre0[i] = suf0[i] = v == 0 ? n : 0;
+		len1[i] = pre1[i] = suf1[i] = v == 1 ? n : 0;
+		change[i] = v;
+		update[i] = true;
+		reverse[i] = false;
+	}
+
+	public static void reverseLazy(int i, int n) {
+		sum[i] = n - sum[i];
+		int tmp;
+		tmp = len0[i]; len0[i] = len1[i]; len1[i] = tmp;
+		tmp = pre0[i]; pre0[i] = pre1[i]; pre1[i] = tmp;
+		tmp = suf0[i]; suf0[i] = suf1[i]; suf1[i] = tmp;
+		reverse[i] = !reverse[i];
 	}
 
 	public static void build(int l, int r, int i) {
