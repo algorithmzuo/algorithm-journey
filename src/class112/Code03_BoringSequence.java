@@ -26,6 +26,23 @@ public class Code03_BoringSequence {
 
 	public static long[] lazy = new long[MAXN << 2];
 
+	public static void up(int i) {
+		sum[i] = sum[i << 1] + sum[i << 1 | 1];
+	}
+
+	public static void down(int i, int ln, int rn) {
+		if (lazy[i] != 0) {
+			lazy(i << 1, lazy[i], ln);
+			lazy(i << 1 | 1, lazy[i], rn);
+			lazy[i] = 0;
+		}
+	}
+
+	public static void lazy(int i, long v, int n) {
+		lazy[i] += v;
+		sum[i] += v * n;
+	}
+
 	public static void build(int l, int r, int i) {
 		if (l == r) {
 			sum[i] = arr[l];
@@ -38,24 +55,9 @@ public class Code03_BoringSequence {
 		lazy[i] = 0;
 	}
 
-	public static void up(int i) {
-		sum[i] = sum[i << 1] + sum[i << 1 | 1];
-	}
-
-	public static void down(int i, int ln, int rn) {
-		if (lazy[i] != 0) {
-			sum[i << 1] += lazy[i] * ln;
-			sum[i << 1 | 1] += lazy[i] * rn;
-			lazy[i << 1] += lazy[i];
-			lazy[i << 1 | 1] += lazy[i];
-			lazy[i] = 0;
-		}
-	}
-
 	public static void add(int jobl, int jobr, long jobv, int l, int r, int i) {
 		if (jobl <= l && r <= jobr) {
-			lazy[i] += jobv;
-			sum[i] += jobv * (r - l + 1);
+			lazy(i, jobv, r - l + 1);
 		} else {
 			int mid = (l + r) / 2;
 			down(i, mid - l + 1, r - mid);
@@ -89,10 +91,8 @@ public class Code03_BoringSequence {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StreamTokenizer in = new StreamTokenizer(br);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
-		in.nextToken();
-		int n = (int) in.nval;
-		in.nextToken();
-		int m = (int) in.nval;
+		in.nextToken(); int n = (int) in.nval;
+		in.nextToken(); int m = (int) in.nval;
 		for (int i = 1; i <= n; i++) {
 			in.nextToken();
 			arr[i] = (long) in.nval;

@@ -13,6 +13,7 @@ package class112;
 //using namespace std;
 //
 //const int MAXN = 100001;
+//
 //double arr[MAXN];
 //double sum1[MAXN << 2];
 //double lazy1[MAXN << 2];
@@ -20,8 +21,24 @@ package class112;
 //double lazy2[MAXN << 2];
 //
 //void up(int i) {
-//  sum1[i] = sum1[i << 1] + sum1[i << 1 | 1];
-//  sum2[i] = sum2[i << 1] + sum2[i << 1 | 1];
+//    sum1[i] = sum1[i << 1] + sum1[i << 1 | 1];
+//    sum2[i] = sum2[i << 1] + sum2[i << 1 | 1];
+//}
+//
+//void lazy(int i, double v1, double v2, int n) {
+//    lazy2[i] += v2;
+//    sum2[i] += sum1[i] * v2 * 2 + v2 * v2 * n;
+//    lazy1[i] += v1;
+//    sum1[i] += v1 * n;
+//}
+//
+//void down(int i, int ln, int rn) {
+//    if (lazy1[i] != 0 || lazy2[i] != 0) {
+//        lazy(i << 1, lazy1[i], lazy2[i], ln);
+//        lazy(i << 1 | 1, lazy1[i], lazy2[i], rn);
+//        lazy2[i] = 0;
+//        lazy1[i] = 0;
+//    }
 //}
 //
 //void build(int l, int r, int i) {
@@ -38,45 +55,35 @@ package class112;
 //    lazy2[i] = 0;
 //}
 //
-//void down(int i, int ln, int rn) {
-//    if (lazy1[i] != 0 || lazy2[i] != 0) {
-//        lazy2[i << 1] += lazy2[i];
-//        sum2[i << 1] += sum1[i << 1] * lazy2[i] * 2 + lazy2[i] * lazy2[i] * ln;
-//        lazy2[i << 1 | 1] += lazy2[i];
-//        sum2[i << 1 | 1] += sum1[i << 1 | 1] * lazy2[i] * 2 + lazy2[i] * lazy2[i] * rn;
-//        lazy2[i] = 0;
-//        lazy1[i << 1] += lazy1[i];
-//        sum1[i << 1] += lazy1[i] * ln;
-//        lazy1[i << 1 | 1] += lazy1[i];
-//        sum1[i << 1 | 1] += lazy1[i] * rn;
-//        lazy1[i] = 0;
-//    }
-//}
-//
 //void add(int jobl, int jobr, double jobv, int l, int r, int i) {
 //    if (jobl <= l && r <= jobr) {
-//        lazy2[i] += jobv;
-//        sum2[i] += sum1[i] * jobv * 2 + jobv * jobv * (r - l + 1);
-//        lazy1[i] += jobv;
-//        sum1[i] += jobv * (r - l + 1);
+//        lazy(i, jobv, jobv, r - l + 1);
 //    } else {
 //        int mid = (l + r) >> 1;
 //        down(i, mid - l + 1, r - mid);
-//        if (jobl <= mid) add(jobl, jobr, jobv, l, mid, i << 1);
-//        if (jobr > mid) add(jobl, jobr, jobv, mid + 1, r, i << 1 | 1);
+//        if (jobl <= mid) {
+//            add(jobl, jobr, jobv, l, mid, i << 1);
+//        }
+//        if (jobr > mid) {
+//            add(jobl, jobr, jobv, mid + 1, r, i << 1 | 1);
+//        }
 //        up(i);
-//   }
+//    }
 //}
 //
-//double query(double sum[], int jobl, int jobr, int l, int r, int i) {
+//double query(double *sum, int jobl, int jobr, int l, int r, int i) {
 //    if (jobl <= l && r <= jobr) {
 //        return sum[i];
 //    }
-//    int mid = (l + r) >> 1;
+//    int mid = (l + r) / 2;
 //    down(i, mid - l + 1, r - mid);
 //    double ans = 0;
-//    if (jobl <= mid) ans += query(sum, jobl, jobr, l, mid, i << 1);
-//    if (jobr > mid) ans += query(sum, jobl, jobr, mid + 1, r, i << 1 | 1);
+//    if (jobl <= mid) {
+//        ans += query(sum, jobl, jobr, l, mid, i << 1);
+//    }
+//    if (jobr > mid) {
+//        ans += query(sum, jobl, jobr, mid + 1, r, i << 1 | 1);
+//    }
 //    return ans;
 //}
 //

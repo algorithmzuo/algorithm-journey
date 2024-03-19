@@ -25,6 +25,23 @@ public class Code03_Switch {
 
 	public static boolean[] reverse = new boolean[MAXN << 2];
 
+	public static void up(int i) {
+		sum[i] = sum[i << 1] + sum[i << 1 | 1];
+	}
+
+	public static void down(int i, int ln, int rn) {
+		if (reverse[i]) {
+			lazy(i << 1, ln);
+			lazy(i << 1 | 1, rn);
+			reverse[i] = false;
+		}
+	}
+
+	public static void lazy(int i, int n) {
+		sum[i] = n - sum[i];
+		reverse[i] = !reverse[i];
+	}
+
 	public static void build(int l, int r, int i) {
 		if (l == r) {
 			sum[i] = 0;
@@ -37,32 +54,17 @@ public class Code03_Switch {
 		reverse[i] = false;
 	}
 
-	public static void up(int i) {
-		sum[i] = sum[i << 1] + sum[i << 1 | 1];
-	}
-
-	public static void down(int i, int ln, int rn) {
-		if (reverse[i]) {
-			sum[i << 1] = ln - sum[i << 1];
-			sum[i << 1 | 1] = rn - sum[i << 1 | 1];
-			reverse[i << 1] = !reverse[i << 1];
-			reverse[i << 1 | 1] = !reverse[i << 1 | 1];
-			reverse[i] = false;
-		}
-	}
-
-	public static void change(int jobl, int jobr, int l, int r, int i) {
+	public static void reverse(int jobl, int jobr, int l, int r, int i) {
 		if (jobl <= l && r <= jobr) {
-			sum[i] = (r - l + 1) - sum[i];
-			reverse[i] = !reverse[i];
+			lazy(i, r - l + 1);
 		} else {
 			int mid = (l + r) / 2;
 			down(i, mid - l + 1, r - mid);
 			if (jobl <= mid) {
-				change(jobl, jobr, l, mid, i << 1);
+				reverse(jobl, jobr, l, mid, i << 1);
 			}
 			if (jobr > mid) {
-				change(jobl, jobr, mid + 1, r, i << 1 | 1);
+				reverse(jobl, jobr, mid + 1, r, i << 1 | 1);
 			}
 			up(i);
 		}
@@ -88,17 +90,15 @@ public class Code03_Switch {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StreamTokenizer in = new StreamTokenizer(br);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
-		in.nextToken();
-		int n = (int) in.nval;
-		in.nextToken();
-		int m = (int) in.nval;
+		in.nextToken(); int n = (int) in.nval;
+		in.nextToken(); int m = (int) in.nval;
 		build(1, n, 1);
 		for (int i = 1, op, jobl, jobr; i <= m; i++) {
 			in.nextToken(); op = (int) in.nval;
 			in.nextToken(); jobl = (int) in.nval;
 			in.nextToken(); jobr = (int) in.nval;
 			if (op == 0) {
-				change(jobl, jobr, 1, n, 1);
+				reverse(jobl, jobr, 1, n, 1);
 			} else {
 				out.println(query(jobl, jobr, 1, n, 1));
 			}

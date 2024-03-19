@@ -38,6 +38,27 @@ public class Code04_MeanVariance1 {
 
 	public static double[] lazy2 = new double[MAXN << 2];
 
+	public static void up(int i) {
+		sum1[i] = sum1[i << 1] + sum1[i << 1 | 1];
+		sum2[i] = sum2[i << 1] + sum2[i << 1 | 1];
+	}
+
+	public static void down(int i, int ln, int rn) {
+		if (lazy1[i] != 0 || lazy2[i] != 0) {
+			lazy(i << 1, lazy1[i], lazy2[i], ln);
+			lazy(i << 1 | 1, lazy1[i], lazy2[i], rn);
+			lazy2[i] = 0;
+			lazy1[i] = 0;
+		}
+	}
+
+	public static void lazy(int i, double v1, double v2, int n) {
+		lazy2[i] += v2;
+		sum2[i] += sum1[i] * v2 * 2 + v2 * v2 * n;
+		lazy1[i] += v1;
+		sum1[i] += v1 * n;
+	}
+
 	public static void build(int l, int r, int i) {
 		if (l == r) {
 			sum1[i] = arr[l];
@@ -52,32 +73,9 @@ public class Code04_MeanVariance1 {
 		lazy2[i] = 0;
 	}
 
-	public static void up(int i) {
-		sum1[i] = sum1[i << 1] + sum1[i << 1 | 1];
-		sum2[i] = sum2[i << 1] + sum2[i << 1 | 1];
-	}
-
-	public static void down(int i, int ln, int rn) {
-		if (lazy1[i] != 0 || lazy2[i] != 0) {
-			lazy2[i << 1] += lazy2[i];
-			sum2[i << 1] += sum1[i << 1] * lazy2[i] * 2 + lazy2[i] * lazy2[i] * ln;
-			lazy2[i << 1 | 1] += lazy2[i];
-			sum2[i << 1 | 1] += sum1[i << 1 | 1] * lazy2[i] * 2 + lazy2[i] * lazy2[i] * rn;
-			lazy2[i] = 0;
-			lazy1[i << 1] += lazy1[i];
-			sum1[i << 1] += lazy1[i] * ln;
-			lazy1[i << 1 | 1] += lazy1[i];
-			sum1[i << 1 | 1] += lazy1[i] * rn;
-			lazy1[i] = 0;
-		}
-	}
-
 	public static void add(int jobl, int jobr, double jobv, int l, int r, int i) {
 		if (jobl <= l && r <= jobr) {
-			lazy2[i] += jobv;
-			sum2[i] += sum1[i] * jobv * 2 + jobv * jobv * (r - l + 1);
-			lazy1[i] += jobv;
-			sum1[i] += jobv * (r - l + 1);
+			lazy(i, jobv, jobv, r - l + 1);
 		} else {
 			int mid = (l + r) >> 1;
 			down(i, mid - l + 1, r - mid);

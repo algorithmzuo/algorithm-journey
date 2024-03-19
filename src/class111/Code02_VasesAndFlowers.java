@@ -35,6 +35,24 @@ public class Code02_VasesAndFlowers {
 
 	public static int n;
 
+	public static void up(int i) {
+		sum[i] = sum[i << 1] + sum[i << 1 | 1];
+	}
+
+	public static void down(int i, int ln, int rn) {
+		if (update[i]) {
+			lazy(i << 1, change[i], ln);
+			lazy(i << 1 | 1, change[i], rn);
+			update[i] = false;
+		}
+	}
+
+	public static void lazy(int i, int v, int n) {
+		sum[i] = v * n;
+		change[i] = v;
+		update[i] = true;
+	}
+
 	public static void build(int l, int r, int i) {
 		if (l < r) {
 			int mid = (l + r) / 2;
@@ -45,27 +63,9 @@ public class Code02_VasesAndFlowers {
 		update[i] = false;
 	}
 
-	public static void up(int i) {
-		sum[i] = sum[i << 1] + sum[i << 1 | 1];
-	}
-
-	public static void down(int i, int ln, int rn) {
-		if (update[i]) {
-			change[i << 1] = change[i];
-			update[i << 1] = true;
-			sum[i << 1] = change[i] * ln;
-			change[i << 1 | 1] = change[i];
-			update[i << 1 | 1] = true;
-			sum[i << 1 | 1] = change[i] * rn;
-			update[i] = false;
-		}
-	}
-
 	public static void update(int jobl, int jobr, int jobv, int l, int r, int i) {
 		if (jobl <= l && r <= jobr) {
-			sum[i] = jobv * (r - l + 1);
-			change[i] = jobv;
-			update[i] = true;
+			lazy(i, jobv, r - l + 1);
 		} else {
 			int mid = (l + r) >> 1;
 			down(i, mid - l + 1, r - mid);
@@ -95,14 +95,9 @@ public class Code02_VasesAndFlowers {
 		return ans;
 	}
 
-	// 插入花的首个空瓶位置，设置给全局变量start
-	// 插入花的最后空瓶位置，设置给全局变量end
-	// 注意题目给的下标从0开始
-	// 线段树下标从1开始
-	public static int start, end;
-
-	public static void insert(int from, int flowers) {
+	public static int[] insert(int from, int flowers) {
 		from++;
+		int start, end;
 		int zeros = n - from + 1 - query(from, n, 1, n, 1);
 		if (zeros == 0) {
 			start = 0;
@@ -115,6 +110,7 @@ public class Code02_VasesAndFlowers {
 		// 题目需要从0开始的下标
 		start--;
 		end--;
+		return new int[] { start, end };
 	}
 
 	// s~n范围上
@@ -160,17 +156,21 @@ public class Code02_VasesAndFlowers {
 				in.nextToken();
 				int op = (int) in.nval;
 				if (op == 1) {
-					in.nextToken(); int from = (int) in.nval;
-					in.nextToken(); int flowers = (int) in.nval;
-					insert(from, flowers);
-					if (start == -1) {
+					in.nextToken();
+					int from = (int) in.nval;
+					in.nextToken();
+					int flowers = (int) in.nval;
+					int[] ans = insert(from, flowers);
+					if (ans[0] == -1) {
 						out.println("Can not put any one.");
 					} else {
-						out.println(start + " " + end);
+						out.println(ans[0] + " " + ans[1]);
 					}
 				} else {
-					in.nextToken(); int left = (int) in.nval;
-					in.nextToken(); int right = (int) in.nval;
+					in.nextToken();
+					int left = (int) in.nval;
+					in.nextToken();
+					int right = (int) in.nval;
 					out.println(clear(left, right));
 				}
 			}
