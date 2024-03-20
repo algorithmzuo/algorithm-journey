@@ -20,7 +20,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 
-public class Code04_SequenceOperation {
+public class Code05_SequenceOperation {
 
 	public static int MAXN = 100001;
 
@@ -166,8 +166,8 @@ public class Code04_SequenceOperation {
 			}
 			int[] linfo = longest(jobl, jobr, l, mid, i << 1);
 			int[] rinfo = longest(jobl, jobr, mid + 1, r, i << 1 | 1);
-			int llen = linfo[0]; int lpre = linfo[1]; int lsuf = linfo[2];
-			int rlen = rinfo[0]; int rpre = rinfo[1]; int rsuf = rinfo[2];
+			int llen = linfo[0], lpre = linfo[1], lsuf = linfo[2];
+			int rlen = rinfo[0], rpre = rinfo[1], rsuf = rinfo[2];
 			int len = Math.max(Math.max(llen, rlen), lsuf + rpre);
 			int pre = lpre < mid - Math.max(jobl, l) + 1 ? lpre : (lpre + rpre);
 			int suf = rsuf < Math.min(r, jobr) - mid ? rsuf : (lsuf + rsuf);

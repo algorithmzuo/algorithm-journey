@@ -1,4 +1,4 @@
-package class111;
+package class112;
 
 // 贴海报(数据加强版)
 // 有一面墙，有固定高度，无限的宽度
@@ -23,7 +23,7 @@ import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 import java.util.Arrays;
 
-public class Code02_Posters2 {
+public class Code01_Posters2 {
 
 	public static int MAXN = 10001;
 

@@ -19,7 +19,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 
-public class Code03_SquareRoot {
+public class Code04_SquareRoot {
 
 	public static int MAXN = 100001;
 
@@ -46,14 +46,14 @@ public class Code03_SquareRoot {
 		}
 	}
 
-	// change方法是最核心的
+	// sqrt方法是最核心的
 	// 注意和常规线段树不一样，这里没有懒更新
 	// 哪怕任务范围包括了实际范围依然下发任务
 	// 效率当然比线段树差，但因为开方次数有限，所以依然能通过
 	// 核心点就在于每个数字不超过10^12次方，所以开方不了几回也就结束了
 	// 如果发现一段范围上的最大值>1，才需要执行开方任务，否则跳过
 	// 这也是为什么不需要down函数的原因，因为没有懒更新，任务都是直接下发的
-	public static void change(int jobl, int jobr, int l, int r, int i) {
+	public static void sqrt(int jobl, int jobr, int l, int r, int i) {
 		if (l == r) {
 			long sqrt = (long) Math.sqrt(max[i]);
 			sum[i] = sqrt;
@@ -61,10 +61,10 @@ public class Code03_SquareRoot {
 		} else {
 			int mid = (l + r) / 2;
 			if (jobl <= mid && max[i << 1] > 1) {
-				change(jobl, jobr, l, mid, i << 1);
+				sqrt(jobl, jobr, l, mid, i << 1);
 			}
 			if (jobr > mid && max[i << 1 | 1] > 1) {
-				change(jobl, jobr, mid + 1, r, i << 1 | 1);
+				sqrt(jobl, jobr, mid + 1, r, i << 1 | 1);
 			}
 			up(i);
 		}
@@ -112,7 +112,7 @@ public class Code03_SquareRoot {
 				jobr = tmp;
 			}
 			if (op == 0) {
-				change(jobl, jobr, 1, n, 1);
+				sqrt(jobl, jobr, 1, n, 1);
 			} else {
 				out.println(query(jobl, jobr, 1, n, 1));
 			}

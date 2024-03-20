@@ -1,4 +1,4 @@
-package class111;
+package class113;
 
 import java.util.Arrays;
 
@@ -13,7 +13,7 @@ import java.util.Arrays;
 //   返回子数组arr[l...r]上的水王数，t是给定的要求
 //   如果没有满足条件的水王数，返回-1
 // 测试链接 : https://leetcode.cn/problems/online-majority-element-in-subarray/
-public class Code04_WaterKing3 {
+public class Code03_WaterKing3 {
 
 	// 用java语言自带的动态数组可以让常数时间更快
 	// 但是其他语言的同学改写难度就大了
@@ -73,6 +73,13 @@ public class Code04_WaterKing3 {
 			return find + 1;
 		}
 
+		private void up(int i) {
+			int lc = cand[i << 1], lh = hp[i << 1];
+			int rc = cand[i << 1 | 1], rh = hp[i << 1 | 1];
+			cand[i] = lc == rc || lh >= rh ? lc : rc;
+			hp[i] = lc == rc ? (lh + rh) : Math.abs(lh - rh);
+		}
+
 		private void buildTree(int[] arr, int l, int r, int i) {
 			if (l == r) {
 				cand[i] = arr[l - 1];
@@ -81,15 +88,7 @@ public class Code04_WaterKing3 {
 				int mid = (l + r) / 2;
 				buildTree(arr, l, mid, i << 1);
 				buildTree(arr, mid + 1, r, i << 1 | 1);
-				int lc = cand[i << 1], rc = cand[i << 1 | 1];
-				int lh = hp[i << 1], rh = hp[i << 1 | 1];
-				if (lc == rc) {
-					cand[i] = lc;
-					hp[i] = lh + rh;
-				} else {
-					cand[i] = lh >= rh ? lc : rc;
-					hp[i] = Math.abs(lh - rh);
-				}
+				up(i);
 			}
 		}
 
@@ -106,8 +105,8 @@ public class Code04_WaterKing3 {
 				}
 				int[] lch = query(jobl, jobr, l, mid, i << 1);
 				int[] rch = query(jobl, jobr, mid + 1, r, i << 1 | 1);
-				int lc = lch[0]; int lh = lch[1];
-				int rc = rch[0]; int rh = rch[1];
+				int lc = lch[0], lh = lch[1];
+				int rc = rch[0], rh = rch[1];
 				int c = lc == rc || lh >= rh ? lc : rc;
 				int h = lc == rc ? (lh + rh) : Math.abs(lh - rh);
 				return new int[] { c, h };
