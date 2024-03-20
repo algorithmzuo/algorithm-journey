@@ -46,13 +46,13 @@ public class Code04_Hotel {
 
 	public static void down(int i, int ln, int rn) {
 		if (update[i]) {
-			updateLazy(i << 1, change[i], ln);
-			updateLazy(i << 1 | 1, change[i], rn);
+			lazy(i << 1, change[i], ln);
+			lazy(i << 1 | 1, change[i], rn);
 			update[i] = false;
 		}
 	}
 
-	public static void updateLazy(int i, int v, int n) {
+	public static void lazy(int i, int v, int n) {
 		len[i] = pre[i] = suf[i] = v == 0 ? n : 0;
 		change[i] = v;
 		update[i] = true;
@@ -72,7 +72,7 @@ public class Code04_Hotel {
 
 	public static void update(int jobl, int jobr, int jobv, int l, int r, int i) {
 		if (jobl <= l && r <= jobr) {
-			updateLazy(i, jobv, r - l + 1);
+			lazy(i, jobv, r - l + 1);
 		} else {
 			int mid = (l + r) / 2;
 			down(i, mid - l + 1, r - mid);
