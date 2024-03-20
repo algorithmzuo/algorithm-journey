@@ -19,7 +19,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 
-public class Code03_SquareRoot {
+public class Code04_SquareRoot {
 
 	public static int MAXN = 100001;
 
@@ -52,7 +52,8 @@ public class Code03_SquareRoot {
 	// 效率当然比线段树差，但因为开方次数有限，所以依然能通过
 	// 核心点就在于每个数字不超过10^12次方，所以开方不了几回也就结束了
 	// 如果发现一段范围上的最大值>1，才需要执行开方任务，否则跳过
-	// 这也是为什么不需要down函数的原因，因为没有懒更新，任务都是直接下发的
+	// 这也是为什么不需要down函数的原因
+	// 因为没有懒更新，任务都是直接下发的
 	public static void sqrt(int jobl, int jobr, int l, int r, int i) {
 		if (l == r) {
 			long sqrt = (long) Math.sqrt(max[i]);
@@ -70,10 +71,8 @@ public class Code03_SquareRoot {
 		}
 	}
 
-	// 依然不需要down方法
-	// 因为之前的任务都是完全下发的
-	// 根本不会有任务积攒
-	// 所以不需要执行down方法
+	// 没有懒更新
+	// 不需要调用down方法
 	public static long query(int jobl, int jobr, int l, int r, int i) {
 		if (jobl <= l && r <= jobr) {
 			return sum[i];

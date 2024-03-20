@@ -3,8 +3,18 @@ package class111;
 // 贪婪大陆
 // 一共有n个格子，编号1~n，一开始所有格子上都没有地雷
 // 实现以下两种操作，一共调用m次
-// 操作 1 l r : 在l~r范围的格子上放置同一种地雷，该种地雷和之前放置的地雷都不一样
-// 操作 2 l r : 查询l~r范围的格子上一共有几种不同地雷
+// 操作 1 l r : 在l~r范围的格子上放置一种新型地雷，每次放置的地雷和之前的地雷都不一样
+// 操作 2 l r : 查询l~r范围的格子上一共放置过多少种不同的地雷
+// 操作 1 并不是替换，而是新增，注意如下的例子
+// 执行 1 3 6，表示3~6范围上新加了一种地雷，假设地雷类型是A
+// 执行 1 3 4，表示3~4范围上又新加了一种地雷，和上次新加的地雷不同，假设地雷类型是B
+// 此时3~6范围上 : 
+// 格子3有两种地雷(A、B)
+// 格子4有两种地雷(A、B)
+// 格子5有一种地雷(A)
+// 格子6有一种地雷(A)
+// 执行 2 4 5，表示查询4~5范围上一共放置过多少种不同的地雷，答案返回2
+// 执行 2 5 6，表示查询5~6范围上一共放置过多少种不同的地雷，答案返回1
 // 1 <= n、m <= 10^5
 // 1 <= l <= r <= n
 // 测试链接 : https://www.luogu.com.cn/problem/P2184
@@ -19,7 +29,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 
-public class Code04_Bombs {
+public class Code03_Bombs {
 
 	public static int MAXN = 100001;
 
@@ -42,7 +52,7 @@ public class Code04_Bombs {
 		right[i] = 0;
 	}
 
-	public static void update(int jobt, int jobi, int l, int r, int i) {
+	public static void add(int jobt, int jobi, int l, int r, int i) {
 		if (l == r) {
 			if (jobt == 0) {
 				left[i]++;
@@ -52,9 +62,9 @@ public class Code04_Bombs {
 		} else {
 			int mid = (l + r) / 2;
 			if (jobi <= mid) {
-				update(jobt, jobi, l, mid, i << 1);
+				add(jobt, jobi, l, mid, i << 1);
 			} else {
-				update(jobt, jobi, mid + 1, r, i << 1 | 1);
+				add(jobt, jobi, mid + 1, r, i << 1 | 1);
 			}
 			up(i);
 		}
@@ -80,22 +90,20 @@ public class Code04_Bombs {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StreamTokenizer in = new StreamTokenizer(br);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
-		in.nextToken();
-		int n = (int) in.nval;
-		in.nextToken();
-		int m = (int) in.nval;
+		in.nextToken(); int n = (int) in.nval;
+		in.nextToken(); int m = (int) in.nval;
 		build(1, n, 1);
 		for (int i = 1, op, jobl, jobr; i <= m; i++) {
 			in.nextToken(); op = (int) in.nval;
 			in.nextToken(); jobl = (int) in.nval;
 			in.nextToken(); jobr = (int) in.nval;
 			if (op == 1) {
-				update(0, jobl, 1, n, 1);
-				update(1, jobr, 1, n, 1);
+				add(0, jobl, 1, n, 1);
+				add(1, jobr, 1, n, 1);
 			} else {
-				int a = query(0, 1, jobr, 1, n, 1);
-				int b = query(1, 1, jobl - 1, 1, n, 1);
-				out.println(a - b);
+				int starts = query(0, 1, jobr, 1, n, 1);
+				int ends = jobl == 1 ? 0 : query(1, 1, jobl - 1, 1, n, 1);
+				out.println(starts - ends);
 			}
 		}
 		out.flush();
