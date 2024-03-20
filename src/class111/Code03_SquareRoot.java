@@ -19,7 +19,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 
-public class Code04_SquareRoot {
+public class Code03_SquareRoot {
 
 	public static int MAXN = 100001;
 
