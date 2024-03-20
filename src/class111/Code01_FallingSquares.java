@@ -6,15 +6,15 @@ import java.util.List;
 
 // 掉落的方块
 // 有一个二维平面，x轴是最底的边界
-// 给定二维整数数组poss，poss[i] = [ lefti, leni ]
+// 给定二维整数数组pos，pos[i] = [ lefti, leni ]
 // 表示第i个方块边长为leni，左侧边缘在x = lefti位置，所在高度非常高
 // 所有方块都是正方形，依次从高处垂直掉落，也就是左边界顺着x = lefti往下
 // 如果掉落的方块碰到已经掉落正方形的顶边或者x轴就停止掉落
 // 如果方块掉落时仅仅是擦过已经掉落正方形的左侧边或右侧边，并不会停止掉落
-// 一旦停止，它就会固定在那里，无法再移动
-// 俄罗斯方块游戏和本题意思一样
+// 一旦停止，它就会固定在那里，无法再移动，俄罗斯方块游戏和本题意思一样
 // 返回一个整数数组ans ，其中ans[i]表示在第i块方块掉落后整体的最大高度
-// 测试链接 : https://leetcode.cn/problems/falling-squares/
+// 1 <= pos数组长度 <= 1000，1 <= lefti <= 10^8，1 <= leni <= 10^6
+// 测试链接 : https://leetcode.cn/problems/falling-squares
 public class Code01_FallingSquares {
 
 	public static int MAXN = 2001;
