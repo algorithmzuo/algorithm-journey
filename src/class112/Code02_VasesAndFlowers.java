@@ -12,7 +12,6 @@ package class112;
 //         清理从left位置开始到right位置的瓶子里所有的花朵，这些瓶子重新变回空瓶
 //         返回清理花朵的数量
 // 测试链接 : http://acm.hdu.edu.cn/showproblem.php?pid=4614
-// 提交结果 : https://acm.hdu.edu.cn/viewcode.php?rid=39272397
 // 请同学们务必参考如下代码中关于输入、输出的处理
 // 这是输入输出处理效率很高的写法
 // 提交以下的code，提交时请把类名改成"Main"，可以直接通过
