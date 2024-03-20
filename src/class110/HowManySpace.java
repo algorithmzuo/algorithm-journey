@@ -18,13 +18,13 @@ public class HowManySpace {
 		int r = 0;
 		for (int i = 1; i <= n; i++) {
 			double cur = (double) maxi(1, i, 1) / (double) i;
-			System.out.println("范围[1 ~ " + i + "]时，需要开辟空间 / 范围的倍数 : " + cur);
+			System.out.println("范围[1 ~ " + i + "]时，空间 / 范围 = " + cur);
 			if (cur > max) {
 				max = cur;
 				r = i;
 			}
 		}
-		System.out.println("其中最大的倍数，范围[1 ~ " + r + "]时，需要开辟空间 / 范围的倍数 : " + max);
+		System.out.println("其中的最大倍数，范围[1 ~ " + r + "]时，空间 / 范围 = " + max);
 	}
 
 }
