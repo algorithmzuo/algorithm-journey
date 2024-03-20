@@ -33,13 +33,13 @@ public class Code03_Bombs {
 
 	public static int MAXN = 100001;
 
-	public static int[] left = new int[MAXN << 2];
+	public static int[] start = new int[MAXN << 2];
 
-	public static int[] right = new int[MAXN << 2];
+	public static int[] end = new int[MAXN << 2];
 
 	public static void up(int i) {
-		left[i] = left[i << 1] + left[i << 1 | 1];
-		right[i] = right[i << 1] + right[i << 1 | 1];
+		start[i] = start[i << 1] + start[i << 1 | 1];
+		end[i] = end[i << 1] + end[i << 1 | 1];
 	}
 
 	public static void build(int l, int r, int i) {
@@ -48,16 +48,16 @@ public class Code03_Bombs {
 			build(l, mid, i << 1);
 			build(mid + 1, r, i << 1 | 1);
 		}
-		left[i] = 0;
-		right[i] = 0;
+		start[i] = 0;
+		end[i] = 0;
 	}
 
 	public static void add(int jobt, int jobi, int l, int r, int i) {
 		if (l == r) {
 			if (jobt == 0) {
-				left[i]++;
+				start[i]++;
 			} else {
-				right[i]++;
+				end[i]++;
 			}
 		} else {
 			int mid = (l + r) / 2;
@@ -72,7 +72,7 @@ public class Code03_Bombs {
 
 	public static int query(int jobt, int jobl, int jobr, int l, int r, int i) {
 		if (jobl <= l && r <= jobr) {
-			return jobt == 0 ? left[i] : right[i];
+			return jobt == 0 ? start[i] : end[i];
 		} else {
 			int mid = (l + r) / 2;
 			int ans = 0;
@@ -101,9 +101,9 @@ public class Code03_Bombs {
 				add(0, jobl, 1, n, 1);
 				add(1, jobr, 1, n, 1);
 			} else {
-				int starts = query(0, 1, jobr, 1, n, 1);
-				int ends = jobl == 1 ? 0 : query(1, 1, jobl - 1, 1, n, 1);
-				out.println(starts - ends);
+				int s = query(0, 1, jobr, 1, n, 1);
+				int e = jobl == 1 ? 0 : query(1, 1, jobl - 1, 1, n, 1);
+				out.println(s - e);
 			}
 		}
 		out.flush();
