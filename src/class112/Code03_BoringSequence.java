@@ -24,22 +24,22 @@ public class Code03_BoringSequence {
 
 	public static long[] sum = new long[MAXN << 2];
 
-	public static long[] lazy = new long[MAXN << 2];
+	public static long[] add = new long[MAXN << 2];
 
 	public static void up(int i) {
 		sum[i] = sum[i << 1] + sum[i << 1 | 1];
 	}
 
 	public static void down(int i, int ln, int rn) {
-		if (lazy[i] != 0) {
-			lazy(i << 1, lazy[i], ln);
-			lazy(i << 1 | 1, lazy[i], rn);
-			lazy[i] = 0;
+		if (add[i] != 0) {
+			lazy(i << 1, add[i], ln);
+			lazy(i << 1 | 1, add[i], rn);
+			add[i] = 0;
 		}
 	}
 
 	public static void lazy(int i, long v, int n) {
-		lazy[i] += v;
+		add[i] += v;
 		sum[i] += v * n;
 	}
 
@@ -52,7 +52,7 @@ public class Code03_BoringSequence {
 			build(mid + 1, r, i << 1 | 1);
 			up(i);
 		}
-		lazy[i] = 0;
+		add[i] = 0;
 	}
 
 	public static void add(int jobl, int jobr, long jobv, int l, int r, int i) {

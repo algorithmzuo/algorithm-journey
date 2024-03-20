@@ -22,7 +22,7 @@ public class Code06_SegmentTreeUpdateAddQueryMax {
 
 	public static long[] max = new long[MAXN << 2];
 
-	public static long[] lazy = new long[MAXN << 2];
+	public static long[] add = new long[MAXN << 2];
 
 	public static long[] change = new long[MAXN << 2];
 
@@ -38,23 +38,23 @@ public class Code06_SegmentTreeUpdateAddQueryMax {
 			updateLazy(i << 1 | 1, change[i]);
 			update[i] = false;
 		}
-		if (lazy[i] != 0) {
-			addLazy(i << 1, lazy[i]);
-			addLazy(i << 1 | 1, lazy[i]);
-			lazy[i] = 0;
+		if (add[i] != 0) {
+			addLazy(i << 1, add[i]);
+			addLazy(i << 1 | 1, add[i]);
+			add[i] = 0;
 		}
 	}
 
 	public static void updateLazy(int i, long v) {
 		max[i] = v;
-		lazy[i] = 0;
+		add[i] = 0;
 		change[i] = v;
 		update[i] = true;
 	}
 
 	public static void addLazy(int i, long v) {
 		max[i] += v;
-		lazy[i] += v;
+		add[i] += v;
 	}
 
 	public static void build(int l, int r, int i) {
@@ -66,7 +66,7 @@ public class Code06_SegmentTreeUpdateAddQueryMax {
 			build(mid + 1, r, i << 1 | 1);
 			up(i);
 		}
-		lazy[i] = 0;
+		add[i] = 0;
 		change[i] = 0;
 		update[i] = false;
 	}

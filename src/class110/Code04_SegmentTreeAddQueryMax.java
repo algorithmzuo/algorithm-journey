@@ -13,23 +13,23 @@ public class Code04_SegmentTreeAddQueryMax {
 
 	public static long[] max = new long[MAXN << 2];
 
-	public static long[] lazy = new long[MAXN << 2];
+	public static long[] add = new long[MAXN << 2];
 
 	public static void up(int i) {
 		max[i] = Math.max(max[i << 1], max[i << 1 | 1]);
 	}
 
 	public static void down(int i) {
-		if (lazy[i] != 0) {
-			lazy(i << 1, lazy[i]);
-			lazy(i << 1 | 1, lazy[i]);
-			lazy[i] = 0;
+		if (add[i] != 0) {
+			lazy(i << 1, add[i]);
+			lazy(i << 1 | 1, add[i]);
+			add[i] = 0;
 		}
 	}
 
 	public static void lazy(int i, long v) {
 		max[i] += v;
-		lazy[i] += v;
+		add[i] += v;
 	}
 
 	public static void build(int l, int r, int i) {
@@ -41,7 +41,7 @@ public class Code04_SegmentTreeAddQueryMax {
 			build(mid + 1, r, i << 1 | 1);
 			up(i);
 		}
-		lazy[i] = 0;
+		add[i] = 0;
 	}
 
 	public static void add(int jobl, int jobr, long jobv, int l, int r, int i) {

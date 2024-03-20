@@ -13,7 +13,7 @@ public class Code03_SegmentTreeUpdateAddQuerySum {
 
 	public static long[] sum = new long[MAXN << 2];
 
-	public static long[] lazy = new long[MAXN << 2];
+	public static long[] add = new long[MAXN << 2];
 
 	public static long[] change = new long[MAXN << 2];
 
@@ -29,23 +29,23 @@ public class Code03_SegmentTreeUpdateAddQuerySum {
 			updateLazy(i << 1 | 1, change[i], rn);
 			update[i] = false;
 		}
-		if (lazy[i] != 0) {
-			addLazy(i << 1, lazy[i], ln);
-			addLazy(i << 1 | 1, lazy[i], rn);
-			lazy[i] = 0;
+		if (add[i] != 0) {
+			addLazy(i << 1, add[i], ln);
+			addLazy(i << 1 | 1, add[i], rn);
+			add[i] = 0;
 		}
 	}
 
 	public static void updateLazy(int i, long v, int n) {
 		sum[i] = v * n;
-		lazy[i] = 0;
+		add[i] = 0;
 		change[i] = v;
 		update[i] = true;
 	}
 
 	public static void addLazy(int i, long v, int n) {
 		sum[i] += v * n;
-		lazy[i] += v;
+		add[i] += v;
 	}
 
 	public static void build(int l, int r, int i) {
@@ -57,7 +57,7 @@ public class Code03_SegmentTreeUpdateAddQuerySum {
 			build(mid + 1, r, i << 1 | 1);
 			up(i);
 		}
-		lazy[i] = 0;
+		add[i] = 0;
 		change[i] = 0;
 		update[i] = false;
 	}

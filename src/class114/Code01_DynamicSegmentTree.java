@@ -36,23 +36,23 @@ public class Code01_DynamicSegmentTree {
 
 	public static long[] sum = new long[LIMIT];
 
-	public static long[] lazy = new long[LIMIT];
+	public static long[] add = new long[LIMIT];
 
 	public static void up(int hi, int li, int ri) {
 		sum[hi] = sum[li] + sum[ri];
 	}
 
 	public static void down(int i, int ln, int rn) {
-		if (lazy[i] != 0) {
-			lazy(left[i], lazy[i], ln);
-			lazy(right[i], lazy[i], rn);
-			lazy[i] = 0;
+		if (add[i] != 0) {
+			lazy(left[i], add[i], ln);
+			lazy(right[i], add[i], rn);
+			add[i] = 0;
 		}
 	}
 
 	public static void lazy(int i, long v, int n) {
 		sum[i] += v * n;
-		lazy[i] += v;
+		add[i] += v;
 	}
 
 	public static void add(int jobl, int jobr, long jobv, int l, int r, int i) {
@@ -105,7 +105,7 @@ public class Code01_DynamicSegmentTree {
 		Arrays.fill(left, 1, cnt + 1, 0);
 		Arrays.fill(right, 1, cnt + 1, 0);
 		Arrays.fill(sum, 1, cnt + 1, 0);
-		Arrays.fill(lazy, 1, cnt + 1, 0);
+		Arrays.fill(add, 1, cnt + 1, 0);
 	}
 
 	public static void main(String[] args) throws IOException {
