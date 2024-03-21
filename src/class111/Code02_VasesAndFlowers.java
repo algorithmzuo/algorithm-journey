@@ -20,7 +20,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 
-public class Code03_VasesAndFlowers {
+public class Code02_VasesAndFlowers {
 
 	public static int MAXN = 50001;
 

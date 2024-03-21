@@ -1,13 +1,13 @@
 package class111;
 
-// 贴海报
-// 有一面墙，有固定高度，长度为n，有m张海报，所有海报的高度都和墙的高度相同
+// 贴海报(数据加强版)
+// 有一面墙，有固定高度，无限的宽度，有n张海报，所有海报的高度都和墙的高度相同
 // 从第1张海报开始，一张一张往墙上贴，直到n张海报贴完
 // 每张海报都给出张贴位置(xi, yi)，表示第i张海报从墙的左边界xi一直延伸到右边界yi
 // 有可能发生后面的海报把前面的海报完全覆盖，导致看不到的情况
 // 当所有海报贴完，返回能看到海报的数量，哪怕只漏出一点的海报都算
-// 1 <= n、xi、yi <= 10^7，1 <= m <= 10^3
-// 测试链接 : https://www.luogu.com.cn/problem/P3740
+// 1 <= n <= 10^5，1 <= xi、yi <= 10^7
+// 测试链接 : http://poj.org/problem?id=2528
 // 请同学们务必参考如下代码中关于输入、输出的处理
 // 这是输入输出处理效率很高的写法
 // 提交以下的code，提交时请把类名改成"Main"，可以直接通过
@@ -20,19 +20,19 @@ import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 import java.util.Arrays;
 
-public class Code02_Posters1 {
+public class Code04_Posters2 {
 
-	public static int MAXM = 1001;
+	public static int MAXN = 10001;
 
-	public static int[] pl = new int[MAXM];
+	public static int[] pl = new int[MAXN];
 
-	public static int[] pr = new int[MAXM];
+	public static int[] pr = new int[MAXN];
 
-	public static int[] num = new int[MAXM << 2];
+	public static int[] num = new int[MAXN << 2];
 
-	public static int[] poster = new int[MAXM << 4];
+	public static int[] poster = new int[MAXN << 4];
 
-	public static boolean[] visited = new boolean[MAXM];
+	public static boolean[] visited = new boolean[MAXN];
 
 	public static int prepare(int m) {
 		Arrays.sort(num, 1, m + 1);
@@ -126,27 +126,29 @@ public class Code02_Posters1 {
 		StreamTokenizer in = new StreamTokenizer(br);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
 		in.nextToken();
-		int n = (int) in.nval;
-		int size = 0;
-		num[++size] = n;
-		in.nextToken();
-		int m = (int) in.nval;
-		for (int i = 1; i <= m; i++) {
+		int cases = (int) in.nval;
+		for (int t = 1; t <= cases; t++) {
 			in.nextToken();
-			pl[i] = (int) in.nval;
-			in.nextToken();
-			pr[i] = (int) in.nval;
-			num[++size] = pl[i];
-			num[++size] = pr[i];
+			int n = (int) in.nval;
+			int m = 0;
+			for (int i = 1; i <= n; i++) {
+				in.nextToken();
+				pl[i] = (int) in.nval;
+				in.nextToken();
+				pr[i] = (int) in.nval;
+				num[++m] = pl[i];
+				num[++m] = pr[i];
+			}
+			m = prepare(m);
+			build(1, m, 1);
+			for (int i = 1, jobl, jobr; i <= n; i++) {
+				jobl = rank(1, m, pl[i]);
+				jobr = rank(1, m, pr[i]);
+				update(jobl, jobr, i, 1, m, 1);
+			}
+			out.println(query(1, m, 1, m, 1));
+			Arrays.fill(visited, 1, n + 1, false);
 		}
-		size = prepare(size);
-		build(1, size, 1);
-		for (int i = 1, jobl, jobr; i <= m; i++) {
-			jobl = rank(1, size, pl[i]);
-			jobr = rank(1, size, pr[i]);
-			update(jobl, jobr, i, 1, size, 1);
-		}
-		out.println(query(1, rank(1, size, n), 1, size, 1));
 		out.flush();
 		out.close();
 		br.close();
