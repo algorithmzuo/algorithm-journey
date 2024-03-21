@@ -13,18 +13,21 @@ public class HowManySpace {
 	}
 
 	public static void main(String[] args) {
-		int n = 999;
-		double max = 0;
-		int r = 0;
+		int n = 100;
+		int a = 0;
+		int b = 0;
+		double t = 0;
 		for (int i = 1; i <= n; i++) {
-			double cur = (double) maxi(1, i, 1) / (double) i;
-			System.out.println("范围[1 ~ " + i + "]时，空间 / 范围 = " + cur);
-			if (cur > max) {
-				max = cur;
-				r = i;
+			int space = maxi(1, i, 1);
+			double times = (double) space / (double) i;
+			System.out.println("范围[1~" + i + "]，" + "需要空间" + space + "，倍数=" + times);
+			if (times > t) {
+				a = i;
+				b = space;
+				t = times;
 			}
 		}
-		System.out.println("其中的最大倍数，范围[1 ~ " + r + "]时，空间 / 范围 = " + max);
+		System.out.println("其中的最大倍数，范围[1~" + a + "]，" + "需要空间" + b + "，倍数=" + t);
 	}
 
 }
