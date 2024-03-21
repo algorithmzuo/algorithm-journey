@@ -1,4 +1,4 @@
-package class111;
+package class112;
 
 // 开关
 // 现有n盏灯排成一排，从左到右依次编号为1~n，一开始所有的灯都是关着的
@@ -17,16 +17,16 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 
-public class Code02_Switch {
+public class Code01_Switch {
 
 	public static int MAXN = 100001;
 
-	public static int[] sum = new int[MAXN << 2];
+	public static int[] light = new int[MAXN << 2];
 
 	public static boolean[] reverse = new boolean[MAXN << 2];
 
 	public static void up(int i) {
-		sum[i] = sum[i << 1] + sum[i << 1 | 1];
+		light[i] = light[i << 1] + light[i << 1 | 1];
 	}
 
 	public static void down(int i, int ln, int rn) {
@@ -38,13 +38,13 @@ public class Code02_Switch {
 	}
 
 	public static void lazy(int i, int n) {
-		sum[i] = n - sum[i];
+		light[i] = n - light[i];
 		reverse[i] = !reverse[i];
 	}
 
 	public static void build(int l, int r, int i) {
 		if (l == r) {
-			sum[i] = 0;
+			light[i] = 0;
 		} else {
 			int mid = (l + r) / 2;
 			build(l, mid, i << 1);
@@ -72,7 +72,7 @@ public class Code02_Switch {
 
 	public static int query(int jobl, int jobr, int l, int r, int i) {
 		if (jobl <= l && r <= jobr) {
-			return sum[i];
+			return light[i];
 		}
 		int mid = (l + r) / 2;
 		down(i, mid - l + 1, r - mid);

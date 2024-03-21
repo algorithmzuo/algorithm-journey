@@ -1,4 +1,4 @@
-package class112;
+package class111;
 
 // 贴海报
 // 有一面墙，有固定高度，长度为n，有m张海报，所有海报的高度都和墙的高度相同
@@ -20,7 +20,7 @@ import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 import java.util.Arrays;
 
-public class Code01_Posters1 {
+public class Code02_Posters1 {
 
 	public static int MAXM = 1001;
 

@@ -1,4 +1,4 @@
-package class111;
+package class112;
 
 // 贪婪大陆
 // 一共有n个格子，编号1~n，一开始所有格子上都没有地雷，实现以下两种操作，一共调用m次
@@ -21,7 +21,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 
-public class Code03_Bombs {
+public class Code02_Bombs {
 
 	public static int MAXN = 100001;
 
