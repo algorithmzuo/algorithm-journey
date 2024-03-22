@@ -3,6 +3,8 @@ package class110;
 // 线段树范围为1 ~ n时，需要几倍空间才够用？
 public class HowManySpace {
 
+	// 范围l~r，信息存在独立数组的i位置
+	// 返回递归展开的过程中出现的最大编号
 	public static int maxi(int l, int r, int i) {
 		if (l == r) {
 			return i;
@@ -13,7 +15,7 @@ public class HowManySpace {
 	}
 
 	public static void main(String[] args) {
-		int n = 100;
+		int n = 10000;
 		int a = 0;
 		int b = 0;
 		double t = 0;
