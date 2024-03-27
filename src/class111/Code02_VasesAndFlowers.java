@@ -93,6 +93,8 @@ public class Code02_VasesAndFlowers {
 	}
 
 	public static int[] insert(int from, int flowers) {
+		// 题目给的位置从0开始
+		// 线段树下标从1开始
 		from++;
 		int start, end;
 		int zeros = n - from + 1 - query(from, n, 1, n, 1);
