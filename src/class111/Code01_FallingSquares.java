@@ -27,7 +27,7 @@ public class Code01_FallingSquares {
 
 	public static boolean[] update = new boolean[MAXN << 2];
 
-	public static int sort(int[][] poss) {
+	public static int collect(int[][] poss) {
 		int size = 1;
 		for (int[] pos : poss) {
 			arr[size++] = pos[0];
@@ -120,17 +120,17 @@ public class Code01_FallingSquares {
 	}
 
 	public static List<Integer> fallingSquares(int[][] pos) {
-		int n = sort(pos);
+		int n = collect(pos);
 		build(1, n, 1);
 		List<Integer> ans = new ArrayList<>();
-		int max = 0, jobl, jobr, jobv;
+		int max = 0, l, r, h;
 		for (int[] square : pos) {
-			jobl = rank(n, square[0]);
-			jobr = rank(n, square[0] + square[1] - 1);
-			jobv = query(jobl, jobr, 1, n, 1) + square[1];
-			max = Math.max(max, jobv);
+			l = rank(n, square[0]);
+			r = rank(n, square[0] + square[1] - 1);
+			h = query(l, r, 1, n, 1) + square[1];
+			max = Math.max(max, h);
 			ans.add(max);
-			update(jobl, jobr, jobv, 1, n, 1);
+			update(l, r, h, 1, n, 1);
 		}
 		return ans;
 	}
