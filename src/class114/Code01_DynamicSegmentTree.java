@@ -23,9 +23,11 @@ import java.util.Arrays;
 public class Code01_DynamicSegmentTree {
 
 	// 范围10^9，所以线段树高度为log 10^9，数量差不多30
-	// 查询次数1000，每次查询都可能新建区间，数量差不多1000 * 30
-	// 每个区间有左右两个孩子，所以总数量差不多1000 * 30 * 2 = 60000
-	// 所以将空间设置在10^5规模就够用了
+	// 查询次数1000，每次查询都有两个左右边界
+	// 每来到一个线段树的区间，都要分配左孩子、右孩子存储空间
+	// 所以空间占用差不多1000 * 30 * 2 * 2 = 120000
+	// 不过这只是最极端的估计，有可能很多线段树区间已经建立过了，无需再分配
+	// 本题将空间设置在10^5规模就够用了(实验的结果)
 	public static int LIMIT = 100001;
 
 	public static int cnt;
@@ -112,21 +114,28 @@ public class Code01_DynamicSegmentTree {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StreamTokenizer in = new StreamTokenizer(br);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
-		in.nextToken(); int n = (int) in.nval;
-		in.nextToken(); int m = (int) in.nval;
+		in.nextToken();
+		int n = (int) in.nval;
+		in.nextToken();
+		int m = (int) in.nval;
 		cnt = 1;
 		long jobv;
 		for (int i = 1, op, jobl, jobr; i <= m; i++) {
 			in.nextToken();
 			op = (int) in.nval;
 			if (op == 1) {
-				in.nextToken(); jobl = (int) in.nval;
-				in.nextToken(); jobr = (int) in.nval;
-				in.nextToken(); jobv = (long) in.nval;
+				in.nextToken();
+				jobl = (int) in.nval;
+				in.nextToken();
+				jobr = (int) in.nval;
+				in.nextToken();
+				jobv = (long) in.nval;
 				add(jobl, jobr, jobv, 1, n, 1);
 			} else {
-				in.nextToken(); jobl = (int) in.nval;
-				in.nextToken(); jobr = (int) in.nval;
+				in.nextToken();
+				jobl = (int) in.nval;
+				in.nextToken();
+				jobr = (int) in.nval;
 				out.println(query(jobl, jobr, 1, n, 1));
 			}
 		}
