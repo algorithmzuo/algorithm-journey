@@ -59,7 +59,7 @@ public class Code01_DifferentStrings {
 	public static int v(char c) {
 		if (c >= '0' && c <= '9') {
 			return c - '0' + 1;
-		} else if (c >= 'A' && c <= 'z') {
+		} else if (c >= 'A' && c <= 'Z') {
 			return c - 'A' + 11;
 		} else {
 			return c - 'a' + 37;
