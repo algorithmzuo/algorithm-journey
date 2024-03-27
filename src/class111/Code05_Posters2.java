@@ -30,11 +30,16 @@ public class Code05_Posters2 {
 
 	public static int[] num = new int[MAXN << 2];
 
+	// 线段树的某个范围上是否被设置成了统一的海报
+	// 如果poster[i] != 0，poster[i]表示统一那种海报的编号
+	// 如果poster[i] == 0，表示该范围上没有海报或者海报编号有多种
 	public static int[] poster = new int[MAXN << 4];
 
+	// 某种海报编号是否已经被统计过了
+	// 只在最后一次查询，最后统计海报数量的阶段时候使用
 	public static boolean[] visited = new boolean[MAXN];
 
-	public static int prepare(int m) {
+	public static int collect(int m) {
 		Arrays.sort(num, 1, m + 1);
 		int size = 1;
 		for (int i = 2; i <= m; i++) {
@@ -139,7 +144,7 @@ public class Code05_Posters2 {
 				num[++m] = pl[i];
 				num[++m] = pr[i];
 			}
-			m = prepare(m);
+			m = collect(m);
 			build(1, m, 1);
 			for (int i = 1, jobl, jobr; i <= n; i++) {
 				jobl = rank(1, m, pl[i]);

@@ -27,7 +27,7 @@ public class Code03_SquareRoot {
 	public static long[] sum = new long[MAXN << 2];
 
 	public static long[] max = new long[MAXN << 2];
-	
+
 	public static void up(int i) {
 		sum[i] = sum[i << 1] + sum[i << 1 | 1];
 		max[i] = Math.max(max[i << 1], max[i << 1 | 1]);
@@ -46,13 +46,11 @@ public class Code03_SquareRoot {
 	}
 
 	// sqrt方法是最核心的
-	// 注意和常规线段树不一样，这里没有懒更新
-	// 哪怕任务范围包括了实际范围依然下发任务
-	// 效率当然比线段树差，但因为开方次数有限，所以依然能通过
-	// 核心点就在于每个数字不超过10^12次方，所以开方不了几回也就结束了
-	// 如果发现一段范围上的最大值>1，才需要执行开方任务，否则跳过
-	// 这也是为什么不需要down函数的原因
-	// 因为没有懒更新，任务都是直接下发的
+	// 注意和常规线段树不一样，这里没有懒更新，也就不需要有down方法
+	// 只有根据范围最大值信息的剪枝
+	// 时间复杂度的分析就是课上讲的势能分析
+	// 不用纠结单次调用的复杂度
+	// 哪怕调用再多次sqrt方法，总的时间复杂度也就是O(n * 6 * logn)
 	public static void sqrt(int jobl, int jobr, int l, int r, int i) {
 		if (l == r) {
 			long sqrt = (long) Math.sqrt(max[i]);
@@ -101,9 +99,12 @@ public class Code03_SquareRoot {
 		in.nextToken();
 		int m = (int) in.nval;
 		for (int i = 1, op, jobl, jobr, tmp; i <= m; i++) {
-			in.nextToken(); op = (int) in.nval;
-			in.nextToken(); jobl = (int) in.nval;
-			in.nextToken(); jobr = (int) in.nval;
+			in.nextToken();
+			op = (int) in.nval;
+			in.nextToken();
+			jobl = (int) in.nval;
+			in.nextToken();
+			jobr = (int) in.nval;
 			if (jobl > jobr) {
 				tmp = jobl;
 				jobl = jobr;
