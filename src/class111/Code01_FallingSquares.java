@@ -27,6 +27,37 @@ public class Code01_FallingSquares {
 
 	public static boolean[] update = new boolean[MAXN << 2];
 
+	public static int sort(int[][] poss) {
+		int size = 1;
+		for (int[] pos : poss) {
+			arr[size++] = pos[0];
+			arr[size++] = pos[0] + pos[1] - 1;
+		}
+		Arrays.sort(arr, 1, size);
+		int n = 1;
+		for (int i = 2; i < size; i++) {
+			if (arr[n] != arr[i]) {
+				arr[++n] = arr[i];
+			}
+		}
+		return n;
+	}
+
+	public static int rank(int n, int v) {
+		int ans = 0;
+		int l = 1, r = n, m;
+		while (l <= r) {
+			m = (l + r) / 2;
+			if (arr[m] >= v) {
+				ans = m;
+				r = m - 1;
+			} else {
+				l = m + 1;
+			}
+		}
+		return ans;
+	}
+
 	public static void up(int i) {
 		max[i] = Math.max(max[i << 1], max[i << 1 | 1]);
 	}
@@ -88,49 +119,18 @@ public class Code01_FallingSquares {
 		return ans;
 	}
 
-	public static List<Integer> fallingSquares(int[][] poss) {
-		int n = sort(poss);
+	public static List<Integer> fallingSquares(int[][] pos) {
+		int n = sort(pos);
 		build(1, n, 1);
 		List<Integer> ans = new ArrayList<>();
 		int max = 0, l, r, h;
-		for (int[] pos : poss) {
-			l = rank(n, pos[0]);
-			r = rank(n, pos[0] + pos[1] - 1);
-			h = query(l, r, 1, n, 1) + pos[1];
+		for (int[] s : pos) {
+			l = rank(n, s[0]);
+			r = rank(n, s[0] + s[1] - 1);
+			h = query(l, r, 1, n, 1) + s[1];
 			max = Math.max(max, h);
 			ans.add(max);
 			update(l, r, h, 1, n, 1);
-		}
-		return ans;
-	}
-
-	public static int sort(int[][] poss) {
-		int size = 1;
-		for (int[] pos : poss) {
-			arr[size++] = pos[0];
-			arr[size++] = pos[0] + pos[1] - 1;
-		}
-		Arrays.sort(arr, 1, size);
-		int n = 1;
-		for (int i = 2; i < size; i++) {
-			if (arr[n] != arr[i]) {
-				arr[++n] = arr[i];
-			}
-		}
-		return n;
-	}
-
-	public static int rank(int n, int v) {
-		int ans = 0;
-		int l = 1, r = n, m;
-		while (l <= r) {
-			m = (l + r) / 2;
-			if (arr[m] >= v) {
-				ans = m;
-				r = m - 1;
-			} else {
-				l = m + 1;
-			}
 		}
 		return ans;
 	}
