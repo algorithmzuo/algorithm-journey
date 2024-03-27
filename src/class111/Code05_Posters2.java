@@ -31,8 +31,8 @@ public class Code05_Posters2 {
 	public static int[] num = new int[MAXN << 2];
 
 	// 线段树的某个范围上是否被设置成了统一的海报
-	// 如果poster[i] != 0，poster[i]表示统一那种海报的编号
-	// 如果poster[i] == 0，表示该范围上没有海报或者海报编号有多种
+	// 如果poster[i] != 0，poster[i]表示统一海报的编号
+	// 如果poster[i] == 0，表示该范围上没有海报或者海报编号没统一
 	public static int[] poster = new int[MAXN << 4];
 
 	// 某种海报编号是否已经被统计过了
