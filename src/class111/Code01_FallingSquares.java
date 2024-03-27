@@ -123,14 +123,14 @@ public class Code01_FallingSquares {
 		int n = sort(pos);
 		build(1, n, 1);
 		List<Integer> ans = new ArrayList<>();
-		int max = 0, l, r, h;
-		for (int[] s : pos) {
-			l = rank(n, s[0]);
-			r = rank(n, s[0] + s[1] - 1);
-			h = query(l, r, 1, n, 1) + s[1];
-			max = Math.max(max, h);
+		int max = 0, jobl, jobr, jobv;
+		for (int[] square : pos) {
+			jobl = rank(n, square[0]);
+			jobr = rank(n, square[0] + square[1] - 1);
+			jobv = query(jobl, jobr, 1, n, 1) + square[1];
+			max = Math.max(max, jobv);
 			ans.add(max);
-			update(l, r, h, 1, n, 1);
+			update(jobl, jobr, jobv, 1, n, 1);
 		}
 		return ans;
 	}
