@@ -1,5 +1,6 @@
 package class112;
 
+// 读取科学计数法表达的double数字
 // 如果输入的字符串代表double数字的科学计数法形式
 // 用StreamTokenizer读取会出错
 // 用StringTokenizer读取正确但比较费空间
