@@ -1,6 +1,7 @@
 package class112;
 
-// 如果输入字符串是double类型数字的科学计数法形式
+// 如果输入的字符串
+// 代表double数字的科学计数法形式
 // 用StreamTokenizer读取会出错
 // 用StringTokenizer读取正确但比较费空间
 
@@ -16,6 +17,20 @@ import java.io.StreamTokenizer;
 import java.util.StringTokenizer;
 
 public class Code04_InputDoubleString {
+
+	/*
+读取5个double类型的数字输入如下
+5
+10.203E+0000
+5.6920E+0001
+30.888E-0001
+400.20E+0002
+0.2373E-0002
+	 */
+	public static void main(String[] args) throws IOException {
+		// test1();
+		test2();
+	}
 
 	// 以下的写法是oi-wiki最推荐的用法
 	// 参考链接 : https://oi-wiki.org/lang/java-pro/
@@ -93,20 +108,6 @@ public class Code04_InputDoubleString {
 		}
 		io.flush();
 		io.close();
-	}
-
-	/*
-	 * 读取5个double类型的数字输入如下
-5
-10.203E+0000
-5.6920E+0001
-30.888E-0001
-400.20E+0002
-0.2373E-0002
-	 */
-	public static void main(String[] args) throws IOException {
-		// test1();
-		test2();
 	}
 
 }
