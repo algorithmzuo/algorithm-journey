@@ -16,7 +16,7 @@ import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 import java.util.StringTokenizer;
 
-public class Code04_InputDoubleString {
+public class Code04_DoubleString {
 
 	/*
 读取5个double类型的数字输入如下
