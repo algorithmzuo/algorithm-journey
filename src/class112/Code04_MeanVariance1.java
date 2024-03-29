@@ -142,7 +142,8 @@ public class Code04_MeanVariance1 {
 		io.close();
 	}
 
-	// 以下的写法是oi-wiki最推荐的用法
+	// 关于StringTokenizer
+	// 以下的写法是oi-wiki推荐的
 	// 参考链接 : https://oi-wiki.org/lang/java-pro/
 	public static class Kattio extends PrintWriter {
 		private BufferedReader r;

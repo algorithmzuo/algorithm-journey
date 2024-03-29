@@ -3,7 +3,7 @@ package class112;
 // 读取科学计数法表达的double数字
 // 如果输入的字符串代表double数字的科学计数法形式
 // 用StreamTokenizer读取会出错
-// 用StringTokenizer读取正确但比较费空间
+// 用StringTokenizer读取正确但比较费内存
 // 参考链接 : https://oi-wiki.org/lang/java-pro/
 
 import java.io.BufferedReader;
@@ -33,7 +33,8 @@ public class Code04_DoubleString {
 		test2();
 	}
 
-	// 以下的写法是oi-wiki最推荐的用法
+	// 关于StringTokenizer
+	// 以下的写法是oi-wiki推荐的
 	public static class Kattio extends PrintWriter {
 		private BufferedReader r;
 		private StringTokenizer st;
