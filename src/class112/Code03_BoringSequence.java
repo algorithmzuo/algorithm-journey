@@ -20,7 +20,7 @@ public class Code03_BoringSequence {
 
 	public static int MAXN = 100001;
 
-	public static long[] arr = new long[MAXN];
+	public static int[] diff = new int[MAXN];
 
 	public static long[] sum = new long[MAXN << 2];
 
@@ -45,7 +45,7 @@ public class Code03_BoringSequence {
 
 	public static void build(int l, int r, int i) {
 		if (l == r) {
-			sum[i] = arr[l];
+			sum[i] = diff[l];
 		} else {
 			int mid = (l + r) / 2;
 			build(l, mid, i << 1);
@@ -95,12 +95,11 @@ public class Code03_BoringSequence {
 		int n = (int) in.nval;
 		in.nextToken();
 		int m = (int) in.nval;
-		for (int i = 1; i <= n; i++) {
+		for (int i = 1, pre = 0, cur; i <= n; i++) {
 			in.nextToken();
-			arr[i] = (long) in.nval;
-		}
-		for (int i = n; i >= 2; i--) {
-			arr[i] -= arr[i - 1];
+			cur = (int) in.nval;
+			diff[i] = cur - pre;
+			pre = cur;
 		}
 		build(1, n, 1);
 		for (int i = 1, op; i <= m; i++) {
