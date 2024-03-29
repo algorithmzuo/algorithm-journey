@@ -83,9 +83,15 @@ public class Code05_SequenceOperation {
 	public static void reverseLazy(int i, int n) {
 		sum[i] = n - sum[i];
 		int tmp;
-		tmp = len0[i]; len0[i] = len1[i]; len1[i] = tmp;
-		tmp = pre0[i]; pre0[i] = pre1[i]; pre1[i] = tmp;
-		tmp = suf0[i]; suf0[i] = suf1[i]; suf1[i] = tmp;
+		tmp = len0[i];
+		len0[i] = len1[i];
+		len1[i] = tmp;
+		tmp = pre0[i];
+		pre0[i] = pre1[i];
+		pre1[i] = tmp;
+		tmp = suf0[i];
+		suf0[i] = suf1[i];
+		suf1[i] = tmp;
 		reverse[i] = !reverse[i];
 	}
 
@@ -156,7 +162,9 @@ public class Code05_SequenceOperation {
 		if (jobl <= l && r <= jobr) {
 			return new int[] { len1[i], pre1[i], suf1[i] };
 		} else {
-			int mid = (l + r) / 2; int ln = mid - l + 1; int rn = r - mid;
+			int mid = (l + r) / 2;
+			int ln = mid - l + 1;
+			int rn = r - mid;
 			down(i, ln, rn);
 			if (jobr <= mid) {
 				return longest(jobl, jobr, l, mid, i << 1);
@@ -179,19 +187,24 @@ public class Code05_SequenceOperation {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StreamTokenizer in = new StreamTokenizer(br);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
-		in.nextToken(); int n = (int) in.nval;
-		in.nextToken(); int m = (int) in.nval;
+		in.nextToken();
+		int n = (int) in.nval;
+		in.nextToken();
+		int m = (int) in.nval;
 		for (int i = 1; i <= n; i++) {
 			in.nextToken();
 			arr[i] = (int) in.nval;
 		}
 		build(1, n, 1);
 		for (int i = 1, op, jobl, jobr; i <= m; i++) {
-			in.nextToken(); op = (int) in.nval;
+			in.nextToken();
+			op = (int) in.nval;
 			// 注意题目给的下标从0开始
 			// 线段树下标从1开始
-			in.nextToken(); jobl = (int) in.nval + 1;
-			in.nextToken(); jobr = (int) in.nval + 1;
+			in.nextToken();
+			jobl = (int) in.nval + 1;
+			in.nextToken();
+			jobr = (int) in.nval + 1;
 			if (op == 0) {
 				update(jobl, jobr, 0, 1, n, 1);
 			} else if (op == 1) {

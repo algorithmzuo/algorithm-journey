@@ -82,13 +82,18 @@ public class Code02_Bombs {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StreamTokenizer in = new StreamTokenizer(br);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
-		in.nextToken(); int n = (int) in.nval;
-		in.nextToken(); int m = (int) in.nval;
+		in.nextToken();
+		int n = (int) in.nval;
+		in.nextToken();
+		int m = (int) in.nval;
 		build(1, n, 1);
 		for (int i = 1, op, jobl, jobr; i <= m; i++) {
-			in.nextToken(); op = (int) in.nval;
-			in.nextToken(); jobl = (int) in.nval;
-			in.nextToken(); jobr = (int) in.nval;
+			in.nextToken();
+			op = (int) in.nval;
+			in.nextToken();
+			jobl = (int) in.nval;
+			in.nextToken();
+			jobr = (int) in.nval;
 			if (op == 1) {
 				add(0, jobl, 1, n, 1);
 				add(1, jobr, 1, n, 1);
