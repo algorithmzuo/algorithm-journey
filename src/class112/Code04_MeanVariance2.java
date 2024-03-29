@@ -16,28 +16,25 @@ package class112;
 //
 //double arr[MAXN];
 //double sum1[MAXN << 2];
-//double add1[MAXN << 2];
 //double sum2[MAXN << 2];
-//double add2[MAXN << 2];
+//double addv[MAXN << 2];
 //
 //void up(int i) {
 //    sum1[i] = sum1[i << 1] + sum1[i << 1 | 1];
 //    sum2[i] = sum2[i << 1] + sum2[i << 1 | 1];
 //}
 //
-//void lazy(int i, double v1, double v2, int n) {
-//    add2[i] += v2;
-//    sum2[i] += sum1[i] * v2 * 2 + v2 * v2 * n;
-//    add1[i] += v1;
-//    sum1[i] += v1 * n;
+//void lazy(int i, double v, int n) {
+//    sum2[i] += sum1[i] * v * 2 + v * v * n;
+//    sum1[i] += v * n;
+//    addv[i] += v;
 //}
 //
 //void down(int i, int ln, int rn) {
-//    if (add1[i] != 0 || add2[i] != 0) {
-//        lazy(i << 1, add1[i], add2[i], ln);
-//        lazy(i << 1 | 1, add1[i], add2[i], rn);
-//        add2[i] = 0;
-//        add1[i] = 0;
+//    if (addv[i] != 0) {
+//        lazy(i << 1, addv[i], ln);
+//        lazy(i << 1 | 1, addv[i], rn);
+//        addv[i] = 0;
 //    }
 //}
 //
@@ -51,13 +48,12 @@ package class112;
 //        build(mid + 1, r, i << 1 | 1);
 //        up(i);
 //    }
-//    add1[i] = 0;
-//    add2[i] = 0;
+//    addv[i] = 0;
 //}
 //
 //void add(int jobl, int jobr, double jobv, int l, int r, int i) {
 //    if (jobl <= l && r <= jobr) {
-//        lazy(i, jobv, jobv, r - l + 1);
+//        lazy(i, jobv, r - l + 1);
 //    } else {
 //        int mid = (l + r) >> 1;
 //        down(i, mid - l + 1, r - mid);

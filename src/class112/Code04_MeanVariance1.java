@@ -28,17 +28,14 @@ public class Code04_MeanVariance1 {
 
 	public static double[] arr = new double[MAXN];
 
-	// 区间和
+	// 区间累加和
 	public static double[] sum1 = new double[MAXN << 2];
-
-	// 区间和增加多少的懒更新信息
-	public static double[] add1 = new double[MAXN << 2];
 
 	// 区间平方和
 	public static double[] sum2 = new double[MAXN << 2];
 
-	// 区间平方和增加多少的懒更新信息
-	public static double[] add2 = new double[MAXN << 2];
+	// 懒更新信息(范围内每个数字增加多少)
+	public static double[] addv = new double[MAXN << 2];
 
 	public static void up(int i) {
 		sum1[i] = sum1[i << 1] + sum1[i << 1 | 1];
@@ -46,19 +43,17 @@ public class Code04_MeanVariance1 {
 	}
 
 	public static void down(int i, int ln, int rn) {
-		if (add1[i] != 0 || add2[i] != 0) {
-			lazy(i << 1, add1[i], add2[i], ln);
-			lazy(i << 1 | 1, add1[i], add2[i], rn);
-			add2[i] = 0;
-			add1[i] = 0;
+		if (addv[i] != 0) {
+			lazy(i << 1, addv[i], ln);
+			lazy(i << 1 | 1, addv[i], rn);
+			addv[i] = 0;
 		}
 	}
 
-	public static void lazy(int i, double v1, double v2, int n) {
-		add2[i] += v2;
-		sum2[i] += sum1[i] * v2 * 2 + v2 * v2 * n;
-		add1[i] += v1;
-		sum1[i] += v1 * n;
+	public static void lazy(int i, double v, int n) {
+		sum2[i] += sum1[i] * v * 2 + v * v * n;
+		sum1[i] += v * n;
+		addv[i] += v;
 	}
 
 	public static void build(int l, int r, int i) {
@@ -71,13 +66,12 @@ public class Code04_MeanVariance1 {
 			build(mid + 1, r, i << 1 | 1);
 			up(i);
 		}
-		add1[i] = 0;
-		add2[i] = 0;
+		addv[i] = 0;
 	}
 
 	public static void add(int jobl, int jobr, double jobv, int l, int r, int i) {
 		if (jobl <= l && r <= jobr) {
-			lazy(i, jobv, jobv, r - l + 1);
+			lazy(i, jobv, r - l + 1);
 		} else {
 			int mid = (l + r) >> 1;
 			down(i, mid - l + 1, r - mid);
