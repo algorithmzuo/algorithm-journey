@@ -25,13 +25,13 @@ public class Code02_Bombs {
 
 	public static int MAXN = 100001;
 
-	public static int[] bombStart = new int[MAXN << 2];
+	public static int[] bombStarts = new int[MAXN << 2];
 
-	public static int[] bombEnd = new int[MAXN << 2];
+	public static int[] bombEnds = new int[MAXN << 2];
 
 	public static void up(int i) {
-		bombStart[i] = bombStart[i << 1] + bombStart[i << 1 | 1];
-		bombEnd[i] = bombEnd[i << 1] + bombEnd[i << 1 | 1];
+		bombStarts[i] = bombStarts[i << 1] + bombStarts[i << 1 | 1];
+		bombEnds[i] = bombEnds[i << 1] + bombEnds[i << 1 | 1];
 	}
 
 	public static void build(int l, int r, int i) {
@@ -40,16 +40,18 @@ public class Code02_Bombs {
 			build(l, mid, i << 1);
 			build(mid + 1, r, i << 1 | 1);
 		}
-		bombStart[i] = 0;
-		bombEnd[i] = 0;
+		bombStarts[i] = 0;
+		bombEnds[i] = 0;
 	}
 
+	// jobt==0表示在添加地雷范围的开头，jobi就是地雷范围的开头位置
+	// jobt==1表示在添加地雷范围的结尾，jobi就是地雷范围的结尾位置
 	public static void add(int jobt, int jobi, int l, int r, int i) {
 		if (l == r) {
 			if (jobt == 0) {
-				bombStart[i]++;
+				bombStarts[i]++;
 			} else {
-				bombEnd[i]++;
+				bombEnds[i]++;
 			}
 		} else {
 			int mid = (l + r) / 2;
@@ -62,9 +64,11 @@ public class Code02_Bombs {
 		}
 	}
 
+	// jobt==0表示在查询[jobl ~ jobr]范围上有多少地雷范围的开头
+	// jobt==1表示在查询[jobl ~ jobr]范围上有多少地雷范围的结尾
 	public static int query(int jobt, int jobl, int jobr, int l, int r, int i) {
 		if (jobl <= l && r <= jobr) {
-			return jobt == 0 ? bombStart[i] : bombEnd[i];
+			return jobt == 0 ? bombStarts[i] : bombEnds[i];
 		} else {
 			int mid = (l + r) / 2;
 			int ans = 0;
@@ -99,6 +103,8 @@ public class Code02_Bombs {
 				add(1, jobr, 1, n, 1);
 			} else {
 				int s = query(0, 1, jobr, 1, n, 1);
+				// 如果jobl==1，说明没有更左的区域
+				// 如果jobl>1，说明有更左的区域
 				int e = jobl == 1 ? 0 : query(1, 1, jobl - 1, 1, n, 1);
 				out.println(s - e);
 			}
