@@ -1,7 +1,6 @@
 package class112;
 
-// 如果输入的字符串
-// 代表double数字的科学计数法形式
+// 如果输入的字符串代表double数字的科学计数法形式
 // 用StreamTokenizer读取会出错
 // 用StringTokenizer读取正确但比较费空间
 
@@ -19,7 +18,7 @@ import java.util.StringTokenizer;
 public class Code04_DoubleString {
 
 	/*
-读取5个double类型的数字输入如下
+输入如下
 5
 10.203E+0000
 5.6920E+0001
