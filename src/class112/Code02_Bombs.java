@@ -25,13 +25,13 @@ public class Code02_Bombs {
 
 	public static int MAXN = 100001;
 
-	public static int[] start = new int[MAXN << 2];
+	public static int[] bombStart = new int[MAXN << 2];
 
-	public static int[] end = new int[MAXN << 2];
+	public static int[] bombEnd = new int[MAXN << 2];
 
 	public static void up(int i) {
-		start[i] = start[i << 1] + start[i << 1 | 1];
-		end[i] = end[i << 1] + end[i << 1 | 1];
+		bombStart[i] = bombStart[i << 1] + bombStart[i << 1 | 1];
+		bombEnd[i] = bombEnd[i << 1] + bombEnd[i << 1 | 1];
 	}
 
 	public static void build(int l, int r, int i) {
@@ -40,16 +40,16 @@ public class Code02_Bombs {
 			build(l, mid, i << 1);
 			build(mid + 1, r, i << 1 | 1);
 		}
-		start[i] = 0;
-		end[i] = 0;
+		bombStart[i] = 0;
+		bombEnd[i] = 0;
 	}
 
 	public static void add(int jobt, int jobi, int l, int r, int i) {
 		if (l == r) {
 			if (jobt == 0) {
-				start[i]++;
+				bombStart[i]++;
 			} else {
-				end[i]++;
+				bombEnd[i]++;
 			}
 		} else {
 			int mid = (l + r) / 2;
@@ -64,7 +64,7 @@ public class Code02_Bombs {
 
 	public static int query(int jobt, int jobl, int jobr, int l, int r, int i) {
 		if (jobl <= l && r <= jobr) {
-			return jobt == 0 ? start[i] : end[i];
+			return jobt == 0 ? bombStart[i] : bombEnd[i];
 		} else {
 			int mid = (l + r) / 2;
 			int ans = 0;
