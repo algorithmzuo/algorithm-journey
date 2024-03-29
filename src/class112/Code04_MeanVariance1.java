@@ -19,9 +19,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
-import java.io.StreamTokenizer;
 import java.util.StringTokenizer;
 
 public class Code04_MeanVariance1 {
@@ -30,12 +28,16 @@ public class Code04_MeanVariance1 {
 
 	public static double[] arr = new double[MAXN];
 
+	// 区间和
 	public static double[] sum1 = new double[MAXN << 2];
 
+	// 区间和增加多少的懒更新信息
 	public static double[] add1 = new double[MAXN << 2];
 
+	// 区间平方和
 	public static double[] sum2 = new double[MAXN << 2];
 
+	// 区间平方和增加多少的懒更新信息
 	public static double[] add2 = new double[MAXN << 2];
 
 	public static void up(int i) {
@@ -140,11 +142,7 @@ public class Code04_MeanVariance1 {
 		io.close();
 	}
 
-	// 本题double类型的变量精度较高
-	// 用StreamTokenizer读取会出错
-	// 有兴趣的同学可以调用test1、test2方法，一试便知
-	// 高精度需要用到StringTokenizer，但是这个结构会比较费空间
-	// 以下的写法已经是oi-wiki最推荐的StringTokenizer用法了，空间依然超出限制
+	// 以下的写法是oi-wiki最推荐的用法
 	// 参考链接 : https://oi-wiki.org/lang/java-pro/
 	public static class Kattio extends PrintWriter {
 		private BufferedReader r;
@@ -185,54 +183,6 @@ public class Code04_MeanVariance1 {
 		public long nextLong() {
 			return Long.parseLong(next());
 		}
-	}
-
-	/*
-读取8个double类型的数字输入如下
-8
--2.7566713364794850E+0000
-2.1308819339610636E+0000
-1.5912831262685359E+0000
--2.7779214559122920E+0000
--6.5134523715823889E-0001
--8.5440817382186651E-0001
--1.8737916438840330E+0000
-2.5193137815222144E+0000
-	 */
-
-	// StreamTokenizer无法正确读取
-	public static void test1() throws IOException {
-		System.out.println("测试StreamTokenizer");
-		System.out.println("输入 : ");
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StreamTokenizer in = new StreamTokenizer(br);
-		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
-		in.nextToken();
-		int n = (int) in.nval;
-		double num;
-		for (int i = 1; i <= n; i++) {
-			in.nextToken();
-			num = (double) in.nval;
-			out.println(num);
-		}
-		out.flush();
-		out.close();
-		br.close();
-	}
-
-	// StringTokenizer可以正确读取
-	public static void test2() throws IOException {
-		System.out.println("测试StringTokenizer");
-		System.out.println("输入 : ");
-		Kattio io = new Kattio();
-		int n = io.nextInt();
-		double num;
-		for (int i = 1; i <= n; i++) {
-			num = io.nextDouble();
-			io.println(num);
-		}
-		io.flush();
-		io.close();
 	}
 
 }
