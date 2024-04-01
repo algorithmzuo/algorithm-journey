@@ -13,6 +13,7 @@ package class053;
 // 第四轮 : 8吃7。数组剩下 8。
 // 过程结束，返回4
 // 测试链接 : https://www.nowcoder.com/practice/77199defc4b74b24b8ebf6244e1793de
+// 测试链接 : https://leetcode.cn/problems/steps-to-make-array-non-decreasing/
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -64,6 +65,30 @@ public class Code03_BigFishEatSmallFish {
 			}
 			stack[r][0] = arr[i];
 			stack[r++][1] = curTurns;
+			ans = Math.max(ans, curTurns);
+		}
+		return ans;
+	}
+
+	// 也找到了leetcode测试链接
+	// 测试链接 : https://leetcode.cn/problems/steps-to-make-array-non-decreasing/
+	// 提交如下代码，可以直接通过
+	public static int MAXM = 100001;
+
+	public static int[][] s = new int[MAXM][2];
+
+	public static int size;
+
+	public static int totalSteps(int[] arr) {
+		size = 0;
+		int ans = 0;
+		for (int i = arr.length - 1, curTurns; i >= 0; i--) {
+			curTurns = 0;
+			while (size > 0 && s[size - 1][0] < arr[i]) {
+				curTurns = Math.max(curTurns + 1, s[--size][1]);
+			}
+			s[size][0] = arr[i];
+			s[size++][1] = curTurns;
 			ans = Math.max(ans, curTurns);
 		}
 		return ans;

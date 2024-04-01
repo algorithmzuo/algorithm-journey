@@ -10,7 +10,6 @@ package class063;
 // 第二行n个正整数v[i](0 <= v[i] <= 10^9),表示每袋零食的体积
 // 输出描述：
 // 输出一个正整数, 表示牛牛一共有多少种零食放法。
-// 测试链接 : https://www.nowcoder.com/practice/d94bb2fa461d42bcb4c0f2b94f5d4281
 // 测试链接 : https://www.luogu.com.cn/problem/P4799
 // 请同学们务必参考如下代码中关于输入、输出的处理
 // 这是输入输出处理效率很高的写法
