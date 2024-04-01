@@ -1,7 +1,7 @@
 package class023;
 
 // 随机快速排序，acm练习风格
-// 测试链接 : https://www.nowcoder.com/practice/3385982ae71d4a1ca8bf3d03614c0325
+// 测试链接 : https://www.luogu.com.cn/problem/P1177
 // 请同学们务必参考如下代码中关于输入、输出的处理
 // 这是输入输出处理效率很高的写法
 // 提交以下的code，提交时请把类名改成"Main"，可以直接通过
@@ -15,7 +15,7 @@ import java.io.StreamTokenizer;
 
 public class Code01_QuickSort {
 
-	public static int MAXN = 1001;
+	public static int MAXN = 100001;
 
 	public static int[] arr = new int[MAXN];
 
@@ -25,24 +25,24 @@ public class Code01_QuickSort {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StreamTokenizer in = new StreamTokenizer(br);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
-		while (in.nextToken() != StreamTokenizer.TT_EOF) {
-			n = (int) in.nval;
-			for (int i = 0; i < n; i++) {
-				in.nextToken();
-				arr[i] = (int) in.nval;
-			}
-			quickSort2(0, n - 1);
-			out.print(arr[0]);
-			for (int i = 1; i < n; i++) {
-				out.print(" " + arr[i]);
-			}
-			out.println();
+		in.nextToken();
+		n = (int) in.nval;
+		for (int i = 0; i < n; i++) {
+			in.nextToken();
+			arr[i] = (int) in.nval;
 		}
+		quickSort2(0, n - 1);
+		for (int i = 0; i < n - 1; i++) {
+			out.print(arr[i] + " ");
+		}
+		out.println(arr[n - 1]);
 		out.flush();
 		out.close();
+		br.close();
 	}
 
 	// 随机快速排序经典版(不推荐)
+	// 甚至在洛谷上测试因为递归开太多层会爆栈导致出错
 	public static void quickSort1(int l, int r) {
 		// l == r，只有一个数
 		// l > r，范围不存在，不用管
@@ -59,7 +59,8 @@ public class Code01_QuickSort {
 	}
 
 	// 已知arr[l....r]范围上一定有x这个值
-	// 划分数组 <=x放左边，>x放右边，并且确保划分完成后<=x区域的最后一个数字是x
+	// 划分数组 <=x放左边，>x放右边
+	// 并且确保划分完成后<=x区域的最后一个数字是x
 	public static int partition1(int l, int r, int x) {
 		// a : arr[l....a-1]范围是<=x的区域
 		// xi : 记录在<=x的区域上任何一个x的位置，哪一个都可以
@@ -84,6 +85,7 @@ public class Code01_QuickSort {
 	}
 
 	// 随机快速排序改进版(推荐)
+	// 可以通过所有测试用例
 	public static void quickSort2(int l, int r) {
 		if (l >= r) {
 			return;
