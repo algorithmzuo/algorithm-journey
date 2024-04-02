@@ -2,16 +2,10 @@ package class113;
 
 import java.util.Arrays;
 
-// 查询一段范围上的水王数
-// 设计一个数据结构，找到给定子数组的水王数
-// 子数组的水王数首先必须是该子数组上出现次数最多的数
-// 其次出现次数要大于等于t，t是给定的要求
-// 实现MajorityChecker类及其如下方法
-// 1) MajorityChecker(int[] arr)
-//   用数组arr对MajorityChecker初始化
-// 2) int query(int l, int r, int t) 
-//   返回子数组arr[l...r]上的水王数，t是给定的要求
-//   如果没有满足条件的水王数，返回-1
+// 水王问题第3问，设计一个数据结构并实现如下两个方法，找到任意子数组的水王数
+// 子数组的水王数首先必须是子数组上出现次数最多的数，并且次数要大于等于t，t是输入参数
+// 1) MajorityChecker(int[] arr) : 用数组arr对MajorityChecker初始化
+// 2) int query(int l, int r, int t) : 返回arr[l...r]上的水王数，不存在返回-1
 // 测试链接 : https://leetcode.cn/problems/online-majority-element-in-subarray/
 public class Code05_WaterKing3 {
 
