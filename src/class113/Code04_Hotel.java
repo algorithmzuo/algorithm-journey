@@ -22,7 +22,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 
-public class Code03_Hotel {
+public class Code04_Hotel {
 
 	public static int MAXN = 50001;
 

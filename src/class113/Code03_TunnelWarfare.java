@@ -18,7 +18,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 
-public class Code01_TunnelWarfare {
+public class Code03_TunnelWarfare {
 
 	public static int MAXN = 50001;
 
