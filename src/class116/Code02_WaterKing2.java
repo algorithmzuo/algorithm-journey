@@ -1,64 +1,46 @@
 package class116;
 
-import java.util.ArrayList;
 import java.util.List;
 
 // 水王问题第2问
-// 给定一个大小为n的数组nums，给定一个正数k，一般情况下k<10
-// 水王数是指在数组中出现次数大于n/k的元素，返回所有的水王数，如果没有水王数返回空列表
-// 测试链接 : https://leetcode.cn/problems/majority-element-ii/
+// 给定一个大小为n的数组nums
+// 水王数是指在数组中出现次数大于n/2的元素
+// 返回其中的一个划分的中点下标
+// 使得左侧的水王数等于右侧的水王数
+// 如果数组不存在这样的划分返回-1
+// 测试链接 : https://leetcode.cn/problems/minimum-index-of-a-valid-split/
 public class Code02_WaterKing2 {
 
-	public static List<Integer> majorityElement(int[] nums) {
-		return majority(nums, 3);
-	}
-
-	public static List<Integer> majority(int[] nums, int k) {
-		int[][] cands = new int[--k][2];
+	public static int minimumIndex(List<Integer> nums) {
+		int cand = 0;
+		int hp = 0;
 		for (int num : nums) {
-			update(cands, k, num);
-		}
-		List<Integer> ans = new ArrayList<>();
-		collect(cands, k, nums, nums.length, ans);
-		return ans;
-	}
-
-	public static void update(int[][] cands, int k, int num) {
-		for (int i = 0; i < k; i++) {
-			if (cands[i][0] == num && cands[i][1] > 0) {
-				cands[i][1]++;
-				return;
+			if (hp == 0) {
+				cand = num;
+				hp = 1;
+			} else if (cand == num) {
+				hp++;
+			} else {
+				hp--;
 			}
 		}
-		for (int i = 0; i < k; i++) {
-			if (cands[i][1] == 0) {
-				cands[i][0] = num;
-				cands[i][1] = 1;
-				return;
+		hp = 0;
+		for (int num : nums) {
+			if (num == cand) {
+				hp++;
 			}
 		}
-		for (int i = 0; i < k; i++) {
-			if (cands[i][1] > 0) {
-				cands[i][1]--;
+		int n = nums.size();
+		for (int i = 0, lc = 0, rc = hp; i < n - 1; i++) {
+			if (nums.get(i) == cand) {
+				lc++;
+				rc--;
+			}
+			if (lc > (i + 1) / 2 && rc > (n - i - 1) / 2) {
+				return i;
 			}
 		}
-	}
-
-	public static void collect(int[][] cands, int k, int[] nums, int n, List<Integer> ans) {
-		for (int i = 0, cur, real; i < k; i++) {
-			if (cands[i][1] > 0) {
-				cur = cands[i][0];
-				real = 0;
-				for (int num : nums) {
-					if (cur == num) {
-						real++;
-					}
-				}
-				if (real > n / 3) {
-					ans.add(cur);
-				}
-			}
-		}
+		return -1;
 	}
 
 }
