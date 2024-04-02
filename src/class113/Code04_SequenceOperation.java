@@ -20,7 +20,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 
-public class Code05_SequenceOperation {
+public class Code04_SequenceOperation {
 
 	public static int MAXN = 100001;
 
