@@ -1,12 +1,13 @@
-package class113;
+package class116;
 
 import java.util.ArrayList;
 import java.util.List;
 
-// 水王问题第2问，给定一个大小为n的数组nums，给定一个正数k，一般情况下k<10
+// 水王问题第2问
+// 给定一个大小为n的数组nums，给定一个正数k，一般情况下k<10
 // 水王数是指在数组中出现次数大于n/k的元素，返回所有的水王数，如果没有水王数返回空列表
 // 测试链接 : https://leetcode.cn/problems/majority-element-ii/
-public class Code05_WaterKing2 {
+public class Code02_WaterKing2 {
 
 	public static List<Integer> majorityElement(int[] nums) {
 		return majority(nums, 3);

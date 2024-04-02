@@ -1,13 +1,14 @@
-package class113;
+package class116;
 
 import java.util.Arrays;
 
-// 水王问题第3问，设计一个数据结构并实现如下两个方法，找到任意子数组的水王数
+// 水王问题第4问
+// 设计一个数据结构并实现如下两个方法，找到任意子数组的水王数
 // 子数组的水王数首先必须是子数组上出现次数最多的数，并且次数要大于等于t，t是输入参数
 // 1) MajorityChecker(int[] arr) : 用数组arr对MajorityChecker初始化
 // 2) int query(int l, int r, int t) : 返回arr[l...r]上的水王数，不存在返回-1
 // 测试链接 : https://leetcode.cn/problems/online-majority-element-in-subarray/
-public class Code05_WaterKing3 {
+public class Code04_WaterKing4 {
 
 	// 用java语言自带的动态数组可以让常数时间更快
 	// 但是其他语言的同学改写难度就大了
