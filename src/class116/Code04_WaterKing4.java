@@ -10,11 +10,10 @@ import java.util.Arrays;
 // 测试链接 : https://leetcode.cn/problems/online-majority-element-in-subarray/
 public class Code04_WaterKing4 {
 
-	// 用java语言自带的动态数组可以让常数时间更快
+	// 使用java语言自带的动态数组可以让常数时间更快
 	// 但是其他语言的同学改写难度就大了
-	// 所以本实现不用任何动态结构
-	// 就用所有语言都有的简单数组实现
-	// 这样所有语言的同学都能看懂
+	// 本实现不用任何动态结构
+	// 只使用所有语言都有的简单数组实现
 	// 时间复杂度也保证了是最优的
 	class MajorityChecker {
 
