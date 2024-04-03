@@ -56,7 +56,7 @@ public class Code02_SegmentTreeSetMinQueryMaxSum2 {
 
 	public static void lazy(int i, int v) {
 		if (v < max[i]) {
-			sum[i] -= (long) cnt[i] * (max[i] - v);
+			sum[i] -= ((long) max[i] - v) * cnt[i];
 			max[i] = v;
 		}
 	}

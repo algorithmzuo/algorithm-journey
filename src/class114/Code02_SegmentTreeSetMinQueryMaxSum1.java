@@ -7,7 +7,6 @@ package class114;
 // 操作 2 l r   : 查询arr[l..r]范围上的累加和
 // 三种操作一共调用m次，做到时间复杂度O(n * log n + m * log n)
 // 对数器验证
-
 public class Code02_SegmentTreeSetMinQueryMaxSum1 {
 
 	public static int MAXN = 100001;
@@ -55,7 +54,7 @@ public class Code02_SegmentTreeSetMinQueryMaxSum1 {
 
 	public static void lazy(int i, int v) {
 		if (v < max[i]) {
-			sum[i] -= (long) cnt[i] * ((long) max[i] - v);
+			sum[i] -= ((long) max[i] - v) * cnt[i];
 			max[i] = v;
 		}
 	}
