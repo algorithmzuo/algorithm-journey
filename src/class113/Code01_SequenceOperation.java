@@ -48,13 +48,13 @@ public class Code01_SequenceOperation {
 	// 连续1的最长后缀长度
 	public static int[] suf1 = new int[MAXN << 2];
 
-	// 懒更新信息，记录范围上所有数字被重置成了什么
+	// 懒更新信息，范围上所有数字被重置成了什么
 	public static int[] change = new int[MAXN << 2];
 
-	// 懒更新信息，记录范围上有没有重置任务
+	// 懒更新信息，范围上有没有重置任务
 	public static boolean[] update = new boolean[MAXN << 2];
 
-	// 懒更新信息，记录范围上有没有翻转任务
+	// 懒更新信息，范围上有没有翻转任务
 	public static boolean[] reverse = new boolean[MAXN << 2];
 
 	public static void up(int i, int ln, int rn) {
