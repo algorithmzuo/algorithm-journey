@@ -67,15 +67,15 @@ public class Code02_LongestAlternateSubstring {
 		}
 	}
 
-	public static void reverse(int index, int l, int r, int i) {
-		if (l == r && l == index) {
-			arr[index] ^= 1;
+	public static void reverse(int jobi, int l, int r, int i) {
+		if (l == r) {
+			arr[jobi] ^= 1;
 		} else {
 			int mid = (l + r) / 2;
-			if (index <= mid) {
-				reverse(index, l, mid, i << 1);
+			if (jobi <= mid) {
+				reverse(jobi, l, mid, i << 1);
 			} else {
-				reverse(index, mid + 1, r, i << 1 | 1);
+				reverse(jobi, mid + 1, r, i << 1 | 1);
 			}
 			up(l, r, i);
 		}
