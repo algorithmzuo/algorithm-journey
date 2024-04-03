@@ -22,11 +22,11 @@ import java.util.Arrays;
 
 public class Code01_DynamicSegmentTree {
 
-	// 范围10^9，所以线段树高度为log 10^9，数量差不多30
-	// 查询次数1000，每次查询都有两个左右边界
+	// 范围1 ~ 10^9，线段树高度差不多30
+	// 查询次数1000，每次查询都有左右两条边线
 	// 每来到一个线段树的区间，都要分配左孩子、右孩子存储空间
 	// 所以空间占用差不多1000 * 30 * 2 * 2 = 120000
-	// 不过这只是最极端的估计，有可能很多线段树区间已经建立过了，无需再分配
+	// 不过这只是最极端的估计，过程中又很多线段树区间被复用
 	// 本题将空间设置在10^5规模就够用了(实验的结果)
 	public static int LIMIT = 100001;
 
@@ -101,8 +101,8 @@ public class Code01_DynamicSegmentTree {
 		return ans;
 	}
 
-	// 如果有多组测试数据都要执行
-	// 每组测试完成后要clear空间
+	// 如果一次会执行多组测试数组
+	// 那么每组测试完成后要clear空间
 	public static void clear() {
 		Arrays.fill(left, 1, cnt + 1, 0);
 		Arrays.fill(right, 1, cnt + 1, 0);
