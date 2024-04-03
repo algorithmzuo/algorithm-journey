@@ -22,12 +22,16 @@ public class Code03_TunnelWarfare {
 
 	public static int MAXN = 50001;
 
+	// 原始数组
 	public static int[] arr = new int[MAXN];
 
+	// 连续1的最长前缀长度
 	public static int[] pre = new int[MAXN << 2];
 
+	// 连续1的最长后缀长度
 	public static int[] suf = new int[MAXN << 2];
 
+	// 摧毁的房屋编号入栈，以便执行恢复操作
 	public static int[] stack = new int[MAXN];
 
 	public static void up(int l, int r, int i) {
@@ -69,13 +73,16 @@ public class Code03_TunnelWarfare {
 		}
 	}
 
+	// 已知jobi在l...r范围上
+	// 返回jobi往两侧扩展出的最大长度
+	// 递归需要遵循的潜台词 : 从jobi往两侧扩展，一定无法扩展到l...r范围之外！
 	public static int query(int jobi, int l, int r, int i) {
 		if (l == r) {
 			return arr[l];
 		} else {
 			int mid = (l + r) / 2;
 			if (jobi <= mid) {
-				if (jobi + suf[i << 1] > mid) {
+				if (jobi > mid - suf[i << 1]) {
 					return suf[i << 1] + pre[i << 1 | 1];
 				} else {
 					return query(jobi, l, mid, i << 1);
@@ -104,17 +111,17 @@ public class Code03_TunnelWarfare {
 			for (int i = 1, x; i <= m; i++) {
 				in.nextToken();
 				op = in.sval;
-				if (op.equals("Q")) {
+				if (op.equals("D")) {
+					in.nextToken();
+					x = (int) in.nval;
+					update(x, 0, 1, n, 1);
+					stack[stackSize++] = x;
+				} else if (op.equals("R")) {
+					update(stack[--stackSize], 1, 1, n, 1);
+				} else {
 					in.nextToken();
 					x = (int) in.nval;
 					out.println(query(x, 1, n, 1));
-				} else if (op.equals("D")) {
-					in.nextToken();
-					x = (int) in.nval;
-					stack[stackSize++] = x;
-					update(x, 0, 1, n, 1);
-				} else {
-					update(stack[--stackSize], 1, 1, n, 1);
 				}
 			}
 		}
