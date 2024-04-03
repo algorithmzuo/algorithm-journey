@@ -22,9 +22,6 @@ public class Code03_TunnelWarfare {
 
 	public static int MAXN = 50001;
 
-	// 不是原始数组，而是每个位置房屋的状态
-	public static int[] house = new int[MAXN];
-
 	// 连续1的最长前缀长度
 	public static int[] pre = new int[MAXN << 2];
 
@@ -48,9 +45,7 @@ public class Code03_TunnelWarfare {
 
 	public static void build(int l, int r, int i) {
 		if (l == r) {
-			house[l] = 1;
-			pre[i] = 1;
-			suf[i] = 1;
+			pre[i] = suf[i] = 1;
 		} else {
 			int mid = (l + r) / 2;
 			build(l, mid, i << 1);
@@ -61,7 +56,7 @@ public class Code03_TunnelWarfare {
 
 	public static void update(int jobi, int jobv, int l, int r, int i) {
 		if (l == r) {
-			house[l] = pre[i] = suf[i] = jobv;
+			pre[i] = suf[i] = jobv;
 		} else {
 			int mid = (l + r) / 2;
 			if (jobi <= mid) {
@@ -78,7 +73,7 @@ public class Code03_TunnelWarfare {
 	// 递归需要遵循的潜台词 : 从jobi往两侧扩展，一定无法扩展到l...r范围之外！
 	public static int query(int jobi, int l, int r, int i) {
 		if (l == r) {
-			return house[l];
+			return pre[i];
 		} else {
 			int mid = (l + r) / 2;
 			if (jobi <= mid) {
