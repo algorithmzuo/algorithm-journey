@@ -24,26 +24,37 @@ public class Code01_SequenceOperation {
 
 	public static int MAXN = 100001;
 
+	// 原始数组
 	public static int[] arr = new int[MAXN];
 
+	// 累加和用来统计1的数量
 	public static int[] sum = new int[MAXN << 2];
 
+	// 连续0的最长子串长度
 	public static int[] len0 = new int[MAXN << 2];
 
+	// 连续0的最长前缀长度
 	public static int[] pre0 = new int[MAXN << 2];
 
+	// 连续0的最长后缀长度
 	public static int[] suf0 = new int[MAXN << 2];
 
+	// 连续1的最长子串长度
 	public static int[] len1 = new int[MAXN << 2];
 
+	// 连续1的最长前缀长度
 	public static int[] pre1 = new int[MAXN << 2];
 
+	// 连续1的最长后缀长度
 	public static int[] suf1 = new int[MAXN << 2];
 
+	// 懒更新信息，记录范围上所有数字被重置成了什么
 	public static int[] change = new int[MAXN << 2];
 
+	// 懒更新信息，记录范围上有没有重置任务
 	public static boolean[] update = new boolean[MAXN << 2];
 
+	// 懒更新信息，记录范围上有没有翻转任务
 	public static boolean[] reverse = new boolean[MAXN << 2];
 
 	public static void up(int i, int ln, int rn) {
@@ -83,15 +94,9 @@ public class Code01_SequenceOperation {
 	public static void reverseLazy(int i, int n) {
 		sum[i] = n - sum[i];
 		int tmp;
-		tmp = len0[i];
-		len0[i] = len1[i];
-		len1[i] = tmp;
-		tmp = pre0[i];
-		pre0[i] = pre1[i];
-		pre1[i] = tmp;
-		tmp = suf0[i];
-		suf0[i] = suf1[i];
-		suf1[i] = tmp;
+		tmp = len0[i]; len0[i] = len1[i]; len1[i] = tmp;
+		tmp = pre0[i]; pre0[i] = pre1[i]; pre1[i] = tmp;
+		tmp = suf0[i]; suf0[i] = suf1[i]; suf1[i] = tmp;
 		reverse[i] = !reverse[i];
 	}
 
@@ -142,7 +147,8 @@ public class Code01_SequenceOperation {
 		}
 	}
 
-	public static int query(int jobl, int jobr, int l, int r, int i) {
+	// 线段树范围l~r上，被jobl~jobr影响的区域里，返回1的数量
+	public static int querySum(int jobl, int jobr, int l, int r, int i) {
 		if (jobl <= l && r <= jobr) {
 			return sum[i];
 		}
@@ -150,15 +156,19 @@ public class Code01_SequenceOperation {
 		down(i, mid - l + 1, r - mid);
 		int ans = 0;
 		if (jobl <= mid) {
-			ans += query(jobl, jobr, l, mid, i << 1);
+			ans += querySum(jobl, jobr, l, mid, i << 1);
 		}
 		if (jobr > mid) {
-			ans += query(jobl, jobr, mid + 1, r, i << 1 | 1);
+			ans += querySum(jobl, jobr, mid + 1, r, i << 1 | 1);
 		}
 		return ans;
 	}
 
-	public static int[] longest(int jobl, int jobr, int l, int r, int i) {
+	// 返回一个长度为3的数组ans，代表结果，具体含义如下：
+	// ans[0] : 线段树范围l~r上，被jobl~jobr影响的区域里，连续1的最长子串长度
+	// ans[1] : 线段树范围l~r上，被jobl~jobr影响的区域里，连续1的最长前缀长度
+	// ans[2] : 线段树范围l~r上，被jobl~jobr影响的区域里，连续1的最长后缀长度
+	public static int[] queryLongest(int jobl, int jobr, int l, int r, int i) {
 		if (jobl <= l && r <= jobr) {
 			return new int[] { len1[i], pre1[i], suf1[i] };
 		} else {
@@ -167,13 +177,13 @@ public class Code01_SequenceOperation {
 			int rn = r - mid;
 			down(i, ln, rn);
 			if (jobr <= mid) {
-				return longest(jobl, jobr, l, mid, i << 1);
+				return queryLongest(jobl, jobr, l, mid, i << 1);
 			}
 			if (jobl > mid) {
-				return longest(jobl, jobr, mid + 1, r, i << 1 | 1);
+				return queryLongest(jobl, jobr, mid + 1, r, i << 1 | 1);
 			}
-			int[] l3 = longest(jobl, jobr, l, mid, i << 1);
-			int[] r3 = longest(jobl, jobr, mid + 1, r, i << 1 | 1);
+			int[] l3 = queryLongest(jobl, jobr, l, mid, i << 1);
+			int[] r3 = queryLongest(jobl, jobr, mid + 1, r, i << 1 | 1);
 			int llen = l3[0], lpre = l3[1], lsuf = l3[2];
 			int rlen = r3[0], rpre = r3[1], rsuf = r3[2];
 			int len = Math.max(Math.max(llen, rlen), lsuf + rpre);
@@ -196,11 +206,10 @@ public class Code01_SequenceOperation {
 			arr[i] = (int) in.nval;
 		}
 		build(1, n, 1);
+		// 注意题目给的下标从0开始，线段树下标从1开始
 		for (int i = 1, op, jobl, jobr; i <= m; i++) {
 			in.nextToken();
 			op = (int) in.nval;
-			// 注意题目给的下标从0开始
-			// 线段树下标从1开始
 			in.nextToken();
 			jobl = (int) in.nval + 1;
 			in.nextToken();
@@ -212,9 +221,9 @@ public class Code01_SequenceOperation {
 			} else if (op == 2) {
 				reverse(jobl, jobr, 1, n, 1);
 			} else if (op == 3) {
-				out.println(query(jobl, jobr, 1, n, 1));
+				out.println(querySum(jobl, jobr, 1, n, 1));
 			} else {
-				out.println(longest(jobl, jobr, 1, n, 1)[0]);
+				out.println(queryLongest(jobl, jobr, 1, n, 1)[0]);
 			}
 		}
 		out.flush();
