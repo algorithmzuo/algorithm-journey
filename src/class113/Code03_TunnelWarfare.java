@@ -22,7 +22,7 @@ public class Code03_TunnelWarfare {
 
 	public static int MAXN = 50001;
 
-	// 不是原始数组，是当前每个位置房屋的状态
+	// 不是原始数组，而是每个位置房屋的状态
 	public static int[] house = new int[MAXN];
 
 	// 连续1的最长前缀长度
