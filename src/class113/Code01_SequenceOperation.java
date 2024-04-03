@@ -7,7 +7,7 @@ package class113;
 // 操作 1 l r : 把l~r范围上所有数字全改成1
 // 操作 2 l r : 把l~r范围上所有数字全取反
 // 操作 3 l r : 询问l~r范围上有多少个1
-// 操作 4 l r : 询问l~r范围上最长的连续1字符串的长度
+// 操作 4 l r : 询问l~r范围上连续1的最长子串长度
 // 测试链接 : https://www.luogu.com.cn/problem/P2572
 // 请同学们务必参考如下代码中关于输入、输出的处理
 // 这是输入输出处理效率很高的写法
@@ -62,11 +62,11 @@ public class Code01_SequenceOperation {
 		int r = i << 1 | 1;
 		sum[i] = sum[l] + sum[r];
 		len0[i] = Math.max(Math.max(len0[l], len0[r]), suf0[l] + pre0[r]);
-		pre0[i] = pre0[l] < ln ? pre0[l] : (pre0[l] + pre0[r]);
-		suf0[i] = suf0[r] < rn ? suf0[r] : (suf0[l] + suf0[r]);
+		pre0[i] = len0[l] < ln ? pre0[l] : (pre0[l] + pre0[r]);
+		suf0[i] = len0[r] < rn ? suf0[r] : (suf0[l] + suf0[r]);
 		len1[i] = Math.max(Math.max(len1[l], len1[r]), suf1[l] + pre1[r]);
-		pre1[i] = pre1[l] < ln ? pre1[l] : (pre1[l] + pre1[r]);
-		suf1[i] = suf1[r] < rn ? suf1[r] : (suf1[l] + suf1[r]);
+		pre1[i] = len1[l] < ln ? pre1[l] : (pre1[l] + pre1[r]);
+		suf1[i] = len1[r] < rn ? suf1[r] : (suf1[l] + suf1[r]);
 	}
 
 	public static void down(int i, int ln, int rn) {
@@ -187,8 +187,8 @@ public class Code01_SequenceOperation {
 			int llen = l3[0], lpre = l3[1], lsuf = l3[2];
 			int rlen = r3[0], rpre = r3[1], rsuf = r3[2];
 			int len = Math.max(Math.max(llen, rlen), lsuf + rpre);
-			int pre = lpre < mid - Math.max(jobl, l) + 1 ? lpre : (lpre + rpre);
-			int suf = rsuf < Math.min(r, jobr) - mid ? rsuf : (lsuf + rsuf);
+			int pre = llen < mid - Math.max(jobl, l) + 1 ? lpre : (lpre + rpre);
+			int suf = rlen < Math.min(r, jobr) - mid ? rsuf : (lsuf + rsuf);
 			return new int[] { len, pre, suf };
 		}
 	}

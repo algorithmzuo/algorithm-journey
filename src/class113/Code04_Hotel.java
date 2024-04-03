@@ -40,8 +40,8 @@ public class Code04_Hotel {
 		int li = i << 1;
 		int ri = i << 1 | 1;
 		len[i] = Math.max(Math.max(len[li], len[ri]), suf[li] + pre[ri]);
-		pre[i] = pre[li] < ln ? pre[li] : (pre[li] + pre[ri]);
-		suf[i] = suf[ri] < rn ? suf[ri] : (suf[li] + suf[ri]);
+		pre[i] = len[li] < ln ? pre[li] : (pre[li] + pre[ri]);
+		suf[i] = len[ri] < rn ? suf[ri] : (suf[li] + suf[ri]);
 	}
 
 	public static void down(int i, int ln, int rn) {
