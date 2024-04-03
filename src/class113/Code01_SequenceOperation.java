@@ -103,8 +103,8 @@ public class Code01_SequenceOperation {
 	public static void build(int l, int r, int i) {
 		if (l == r) {
 			sum[i] = arr[l];
-			len0[i] = pre0[i] = suf0[i] = arr[l] ^ 1;
-			len1[i] = pre1[i] = suf1[i] = arr[l];
+			len0[i] = pre0[i] = suf0[i] = arr[l] == 0 ? 1 : 0;
+			len1[i] = pre1[i] = suf1[i] = arr[l] == 1 ? 1 : 0;
 		} else {
 			int mid = (l + r) / 2;
 			build(l, mid, i << 1);
@@ -187,7 +187,9 @@ public class Code01_SequenceOperation {
 			int llen = l3[0], lpre = l3[1], lsuf = l3[2];
 			int rlen = r3[0], rpre = r3[1], rsuf = r3[2];
 			int len = Math.max(Math.max(llen, rlen), lsuf + rpre);
+			// 任务实际影响了左侧范围的几个点 -> mid - Math.max(jobl, l) + 1
 			int pre = llen < mid - Math.max(jobl, l) + 1 ? lpre : (lpre + rpre);
+			// 任务实际影响了右侧范围的几个点 -> Math.min(r, jobr) - mid
 			int suf = rlen < Math.min(r, jobr) - mid ? rsuf : (lsuf + rsuf);
 			return new int[] { len, pre, suf };
 		}
@@ -206,14 +208,13 @@ public class Code01_SequenceOperation {
 			arr[i] = (int) in.nval;
 		}
 		build(1, n, 1);
-		// 注意题目给的下标从0开始，线段树下标从1开始
 		for (int i = 1, op, jobl, jobr; i <= m; i++) {
 			in.nextToken();
 			op = (int) in.nval;
 			in.nextToken();
-			jobl = (int) in.nval + 1;
+			jobl = (int) in.nval + 1; // 注意题目给的下标从0开始，线段树下标从1开始
 			in.nextToken();
-			jobr = (int) in.nval + 1;
+			jobr = (int) in.nval + 1; // 注意题目给的下标从0开始，线段树下标从1开始
 			if (op == 0) {
 				update(jobl, jobr, 0, 1, n, 1);
 			} else if (op == 1) {

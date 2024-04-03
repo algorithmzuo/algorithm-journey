@@ -86,7 +86,7 @@ public class Code04_Hotel {
 		}
 	}
 
-	public static int findLeft(int x, int l, int r, int i) {
+	public static int queryLeft(int x, int l, int r, int i) {
 		if (l == r) {
 			return l;
 		} else {
@@ -94,7 +94,7 @@ public class Code04_Hotel {
 			down(i, mid - l + 1, r - mid);
 			// 最先查左边
 			if (len[i << 1] >= x) {
-				return findLeft(x, l, mid, i << 1);
+				return queryLeft(x, l, mid, i << 1);
 			}
 			// 题目要尽可能靠左的区域
 			// 所以查中间向两边扩展的可能区域
@@ -102,7 +102,7 @@ public class Code04_Hotel {
 				return mid - suf[i << 1] + 1;
 			}
 			// 前面都没有再最后查右边
-			return findLeft(x, mid + 1, r, i << 1 | 1);
+			return queryLeft(x, mid + 1, r, i << 1 | 1);
 		}
 	}
 
@@ -124,7 +124,7 @@ public class Code04_Hotel {
 				if (len[1] < x) {
 					left = 0;
 				} else {
-					left = findLeft(x, 1, n, 1);
+					left = queryLeft(x, 1, n, 1);
 					update(left, left + x - 1, 1, 1, n, 1);
 				}
 				out.println(left);
