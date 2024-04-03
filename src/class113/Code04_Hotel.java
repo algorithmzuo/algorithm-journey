@@ -5,8 +5,8 @@ package class113;
 // 实现如下两种操作，会一共调用m次
 // 操作 1 x   : 找到至少有连续x个空房间的区域，返回最左编号
 //              如果有多个满足条件的区域，返回其中最左区域的最左编号
-//              如果找不到，输出0，并且不办理入住
-//              如果找到了，返回最左编号，并且从最左编号开始办理x个人的入住
+//              如果找不到打印0，并且不办理入住
+//              如果找到了打印最左编号，并且从最左编号开始办理x个人的入住
 // 操作 2 x y : 从x号房间开始往下数y个房间，一律清空
 // 操作1有打印操作，操作2没有
 // 1 <= n 、m <= 50000
@@ -26,22 +26,27 @@ public class Code04_Hotel {
 
 	public static int MAXN = 50001;
 
+	// 连续空房最长子串长度
 	public static int[] len = new int[MAXN << 2];
 
+	// 连续空房最长前缀长度
 	public static int[] pre = new int[MAXN << 2];
 
+	// 连续空房最长后缀长度
 	public static int[] suf = new int[MAXN << 2];
 
+	// 懒更新信息，范围上所有数字被重置成了什么
 	public static int[] change = new int[MAXN << 2];
 
+	// 懒更新信息，范围上有没有重置任务
 	public static boolean[] update = new boolean[MAXN << 2];
 
 	public static void up(int i, int ln, int rn) {
-		int li = i << 1;
-		int ri = i << 1 | 1;
-		len[i] = Math.max(Math.max(len[li], len[ri]), suf[li] + pre[ri]);
-		pre[i] = len[li] < ln ? pre[li] : (pre[li] + pre[ri]);
-		suf[i] = len[ri] < rn ? suf[ri] : (suf[li] + suf[ri]);
+		int l = i << 1;
+		int r = i << 1 | 1;
+		len[i] = Math.max(Math.max(len[l], len[r]), suf[l] + pre[r]);
+		pre[i] = len[l] < ln ? pre[l] : (pre[l] + pre[r]);
+		suf[i] = len[r] < rn ? suf[r] : (suf[l] + suf[r]);
 	}
 
 	public static void down(int i, int ln, int rn) {
@@ -86,6 +91,8 @@ public class Code04_Hotel {
 		}
 	}
 
+	// 在l..r范围上，在满足空房长度>=x的情况下，返回尽量靠左的开头位置
+	// 递归需要遵循的潜台词 : l..r范围上一定存在连续空房长度>=x的区域
 	public static int queryLeft(int x, int l, int r, int i) {
 		if (l == r) {
 			return l;
@@ -96,8 +103,7 @@ public class Code04_Hotel {
 			if (len[i << 1] >= x) {
 				return queryLeft(x, l, mid, i << 1);
 			}
-			// 题目要尽可能靠左的区域
-			// 所以查中间向两边扩展的可能区域
+			// 然后查中间向两边扩展的可能区域
 			if (suf[i << 1] + pre[i << 1 | 1] >= x) {
 				return mid - suf[i << 1] + 1;
 			}
