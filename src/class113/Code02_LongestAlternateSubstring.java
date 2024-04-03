@@ -24,12 +24,16 @@ public class Code02_LongestAlternateSubstring {
 
 	public static int MAXN = 200001;
 
+	// 原始数组
 	public static int[] arr = new int[MAXN];
 
+	// 交替最长子串长度
 	public static int[] len = new int[MAXN << 2];
 
+	// 交替最长前缀长度
 	public static int[] pre = new int[MAXN << 2];
 
+	// 交替最长后缀长度
 	public static int[] suf = new int[MAXN << 2];
 
 	public static void up(int l, int r, int i) {
