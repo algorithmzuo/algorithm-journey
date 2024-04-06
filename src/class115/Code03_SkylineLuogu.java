@@ -1,0 +1,161 @@
+package class115;
+
+// 测试链接 : https://www.luogu.com.cn/problem/P1904
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.io.StreamTokenizer;
+import java.util.Arrays;
+
+public class Code03_SkylineLuogu {
+
+	public static int MAXN = 20001;
+
+	public static int[][] arr = new int[MAXN][3];
+
+	public static int[] sort = new int[MAXN];
+
+	public static int[] height = new int[MAXN];
+
+	public static int[][] heap = new int[MAXN][2];
+
+	public static int heapSize;
+
+	public static int build(int n) {
+		int size = 0;
+		for (int i = 0; i < n; i++) {
+			sort[size++] = arr[i][0];
+			sort[size++] = arr[i][1] - 1;
+			sort[size++] = arr[i][1];
+		}
+		Arrays.sort(sort, 0, size);
+		int m = 1;
+		for (int i = 1; i < size; i++) {
+			if (sort[m - 1] != sort[i]) {
+				sort[m++] = sort[i];
+			}
+		}
+		for (int i = 0; i < n; i++) {
+			arr[i][0] = rank(m, arr[i][0]);
+			arr[i][1] = rank(m, arr[i][1] - 1);
+		}
+		Arrays.sort(arr, 0, n, (a, b) -> a[0] - b[0]);
+		Arrays.fill(height, 0, m, 0);
+		return m;
+	}
+
+	public static int rank(int n, int v) {
+		int ans = 0;
+		int l = 0, r = n - 1, mid;
+		while (l <= r) {
+			mid = (l + r) / 2;
+			if (sort[mid] >= v) {
+				ans = mid;
+				r = mid - 1;
+			} else {
+				l = mid + 1;
+			}
+		}
+		return ans;
+	}
+
+	public static boolean isEmpty() {
+		return heapSize == 0;
+	}
+
+	public static int peekHeight() {
+		return heap[0][0];
+	}
+
+	public static int peekEnd() {
+		return heap[0][1];
+	}
+
+	public static void push(int h, int e) {
+		heap[heapSize][0] = h;
+		heap[heapSize][1] = e;
+		heapInsert(heapSize++);
+	}
+
+	public static void poll() {
+		swap(0, --heapSize);
+		heapify(0);
+	}
+
+	public static void heapInsert(int i) {
+		while (compare(i, (i - 1) / 2)) {
+			swap(i, (i - 1) / 2);
+			i = (i - 1) / 2;
+		}
+	}
+
+	public static void heapify(int i) {
+		int l = i * 2 + 1;
+		while (l < heapSize) {
+			int best = l + 1 < heapSize && compare(l + 1, l) ? l + 1 : l;
+			best = compare(best, i) ? best : i;
+			if (best == i) {
+				break;
+			}
+			swap(best, i);
+			i = best;
+			l = i * 2 + 1;
+		}
+	}
+
+	public static boolean compare(int i, int j) {
+		return heap[i][0] > heap[j][0] || (heap[i][0] == heap[j][0] && heap[i][1] < heap[j][1]);
+	}
+
+	public static void swap(int i, int j) {
+		int[] tmp = heap[i];
+		heap[i] = heap[j];
+		heap[j] = tmp;
+	}
+
+	public static void compute(int n, int m) {
+		for (int i = 0, j = 0; i < m; i++) {
+			for (; j < n && arr[j][0] <= i; j++) {
+				push(arr[j][2], arr[j][1]);
+			}
+			while (!isEmpty() && peekEnd() < i) {
+				poll();
+			}
+			if (!isEmpty()) {
+				height[i] = peekHeight();
+			}
+		}
+	}
+
+	public static void main(String[] args) throws IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StreamTokenizer in = new StreamTokenizer(br);
+		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
+		int n = 0;
+		while (in.nextToken() != StreamTokenizer.TT_EOF) {
+			arr[n][0] = (int) in.nval;
+			in.nextToken();
+			arr[n][2] = (int) in.nval;
+			in.nextToken();
+			arr[n][1] = (int) in.nval;
+			n++;
+		}
+		int m = build(n);
+		compute(n, m);
+		out.print(sort[0] + " " + height[0]);
+		for (int i = 1, pre = height[0]; i < m; i++) {
+			if (pre != height[i]) {
+				out.print(" " + sort[i] + " " + height[i]);
+			}
+			pre = height[i];
+		}
+		out.println();
+		out.flush();
+		out.close();
+		br.close();
+	}
+
+}
