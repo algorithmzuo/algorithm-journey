@@ -90,8 +90,7 @@ public class Code04_PerimeterSum {
 
 	public static long scanY(int n) {
 		for (int i = 1, j = 1 + n, x1, y1, x2, y2; i <= n; i++, j++) {
-			x1 = rec[i][0]; y1 = rec[i][1];
-			x2 = rec[i][2]; y2 = rec[i][3];
+			x1 = rec[i][0]; y1 = rec[i][1]; x2 = rec[i][2]; y2 = rec[i][3];
 			value[i] = y1; value[j] = y2;
 			line[i][0] = x1; line[i][1] = y1; line[i][2] = y2; line[i][3] = 1;
 			line[j][0] = x2; line[j][1] = y1; line[j][2] = y2; line[j][3] = -1;
@@ -101,8 +100,7 @@ public class Code04_PerimeterSum {
 
 	public static long scanX(int n) {
 		for (int i = 1, j = 1 + n, x1, y1, x2, y2; i <= n; i++, j++) {
-			x1 = rec[i][0]; y1 = rec[i][1];
-			x2 = rec[i][2]; y2 = rec[i][3];
+			x1 = rec[i][0]; y1 = rec[i][1]; x2 = rec[i][2]; y2 = rec[i][3];
 			value[i] = x1; value[j] = x2;
 			line[i][0] = y1; line[i][1] = x1; line[i][2] = x2; line[i][3] = 1;
 			line[j][0] = y2; line[j][1] = x1; line[j][2] = x2; line[j][3] = -1;
