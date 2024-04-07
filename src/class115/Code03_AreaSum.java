@@ -76,6 +76,12 @@ public class Code03_AreaSum {
 		}
 	}
 
+	// 这个题的特殊性在于
+	// 1) 查询操作永远查的是整个范围，不会有范围查询，每次都返回cover[1]
+	// 2) 增加操作之后，后续一定会有等规模的减少操作
+	// 根据以上两点分析出不需要懒更新机制
+	// 首先当一次修改完成从下往上返回时，up方法能保证最上方的cover[1]是修改正确的
+	// 同时任何一次增加操作所涉及的线段树范围，后续一定能被等规模的减少操作取消掉
 	private static void add(int jobl, int jobr, int jobv, int l, int r, int i) {
 		if (jobl <= l && r <= jobr) {
 			times[i] += jobv;
