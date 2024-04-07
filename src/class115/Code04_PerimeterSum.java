@@ -20,9 +20,9 @@ public class Code04_PerimeterSum {
 
 	public static int[][] rec = new int[MAXN][4];
 
-	public static int[] value = new int[MAXN];
-
 	public static int[][] line = new int[MAXN][4];
+
+	public static int[] value = new int[MAXN];
 
 	public static int[] left = new int[MAXN << 2];
 

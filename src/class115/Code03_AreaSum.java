@@ -20,9 +20,9 @@ public class Code03_AreaSum {
 
 	public static int[][] rec = new int[MAXN][4];
 
-	public static int[] value = new int[MAXN];
-
 	public static int[][] line = new int[MAXN][4];
+
+	public static int[] y = new int[MAXN];
 
 	public static int[] left = new int[MAXN << 2];
 
@@ -38,8 +38,8 @@ public class Code03_AreaSum {
 			build(l, mid, i << 1);
 			build(mid, r, i << 1 | 1);
 		}
-		left[i] = value[l];
-		right[i] = value[r];
+		left[i] = y[l];
+		right[i] = y[r];
 	}
 
 	public static void up(int i) {
@@ -88,12 +88,12 @@ public class Code03_AreaSum {
 		for (int i = 1, j = 1 + n, x1, y1, x2, y2; i <= n; i++, j++) {
 			x1 = rec[i][0]; y1 = rec[i][1];
 			x2 = rec[i][2]; y2 = rec[i][3];
-			value[i] = y1; value[j] = y2;
+			y[i] = y1; y[j] = y2;
 			line[i][0] = x1; line[i][1] = y1; line[i][2] = y2; line[i][3] = 1;
 			line[j][0] = x2; line[j][1] = y1; line[j][2] = y2; line[j][3] = -1;
 		}
 		n <<= 1;
-		Arrays.sort(value, 1, n + 1);
+		Arrays.sort(y, 1, n + 1);
 		Arrays.sort(line, 1, n + 1, (a, b) -> a[0] - b[0]);
 		build(1, n, 1);
 		long ans = 0;
