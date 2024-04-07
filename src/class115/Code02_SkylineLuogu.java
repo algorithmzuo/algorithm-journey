@@ -1,7 +1,7 @@
 package class115;
 
 // 天际线问题
-// 该问题用不到线段树
+// 该问题无需使用线段树
 // 用到的堆结构由自己实现
 // 洛谷测试
 // 测试链接 : https://www.luogu.com.cn/problem/P1904
