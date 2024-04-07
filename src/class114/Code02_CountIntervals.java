@@ -19,7 +19,7 @@ public class Code02_CountIntervals {
 	// 有兴趣的同学可以研究其他做法
 	class CountIntervals {
 		public static int n = 1000000000;// 需要支持的最大范围
-		public static int LIMIT = 700001; // 空间大小是实验的结果
+		public static int LIMIT = 700001; // 空间实际大小是实验出来的
 		public static int[] left = new int[LIMIT];
 		public static int[] right = new int[LIMIT];
 		public static int[] sum = new int[LIMIT];
@@ -39,7 +39,7 @@ public class Code02_CountIntervals {
 		// 这个题的特殊性在于，只有改1的操作，没有改0的操作
 		// 理解这个就可以分析出不需要懒更新任务的下发，原因有两个
 		// 1) 查询操作永远查的是整个范围1的数量，不会有范围查询，每次都返回sum[1]
-		//    这意味着只要能把sum[1]更新正确即可
+		// 这意味着只要能把sum[1]更新正确即可
 		// 2) 一个范围已经全是1，那以后都会是1，没有必要把全是1的懒更新信息再向下传递
 		// 这个函数的功能比线段树能做到的范围修改功能简单很多
 		// 功能有阉割就意味着存在优化的点
