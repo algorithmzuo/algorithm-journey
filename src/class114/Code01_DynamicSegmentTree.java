@@ -24,11 +24,9 @@ public class Code01_DynamicSegmentTree {
 
 	// 范围1 ~ 10^9，线段树高度差不多30
 	// 查询次数1000，每次查询都有左右两条边线
-	// 每来到一个线段树的区间，都要分配左孩子、右孩子存储空间
-	// 所以空间占用差不多1000 * 30 * 2 * 2 = 120000
-	// 不过这只是最极端的估计，过程中又很多线段树区间被复用
-	// 本题将空间设置在10^5规模就够用了(实验的结果)
-	public static int LIMIT = 100001;
+	// 所以空间占用差不多1000 * 30 * 2 = 60000
+	// 适当调大即可
+	public static int LIMIT = 80001;
 
 	public static int cnt;
 
@@ -46,7 +44,13 @@ public class Code01_DynamicSegmentTree {
 
 	public static void down(int i, int ln, int rn) {
 		if (add[i] != 0) {
+			if (left[i] == 0) {
+				left[i] = ++cnt;
+			}
 			lazy(left[i], add[i], ln);
+			if (right[i] == 0) {
+				right[i] = ++cnt;
+			}
 			lazy(right[i], add[i], rn);
 			add[i] = 0;
 		}
@@ -61,18 +65,18 @@ public class Code01_DynamicSegmentTree {
 		if (jobl <= l && r <= jobr) {
 			lazy(i, jobv, r - l + 1);
 		} else {
-			if (left[i] == 0) {
-				left[i] = ++cnt;
-			}
-			if (right[i] == 0) {
-				right[i] = ++cnt;
-			}
 			int mid = (l + r) >> 1;
 			down(i, mid - l + 1, r - mid);
 			if (jobl <= mid) {
+				if (left[i] == 0) {
+					left[i] = ++cnt;
+				}
 				add(jobl, jobr, jobv, l, mid, left[i]);
 			}
 			if (jobr > mid) {
+				if (right[i] == 0) {
+					right[i] = ++cnt;
+				}
 				add(jobl, jobr, jobv, mid + 1, r, right[i]);
 			}
 			up(i, left[i], right[i]);
@@ -83,19 +87,19 @@ public class Code01_DynamicSegmentTree {
 		if (jobl <= l && r <= jobr) {
 			return sum[i];
 		}
-		if (left[i] == 0) {
-			left[i] = ++cnt;
-		}
-		if (right[i] == 0) {
-			right[i] = ++cnt;
-		}
 		int mid = (l + r) >> 1;
 		down(i, mid - l + 1, r - mid);
 		long ans = 0;
 		if (jobl <= mid) {
+			if (left[i] == 0) {
+				left[i] = ++cnt;
+			}
 			ans += query(jobl, jobr, l, mid, left[i]);
 		}
 		if (jobr > mid) {
+			if (right[i] == 0) {
+				right[i] = ++cnt;
+			}
 			ans += query(jobl, jobr, mid + 1, r, right[i]);
 		}
 		return ans;
