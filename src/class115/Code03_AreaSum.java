@@ -26,7 +26,7 @@ public class Code03_AreaSum {
 
 	public static long[] right = new long[MAXN << 2];
 
-	public static long[] cover = new long[MAXN << 2];
+	public static long[] time = new long[MAXN << 2];
 
 	public static long[] len = new long[MAXN << 2];
 
@@ -41,7 +41,7 @@ public class Code03_AreaSum {
 	}
 
 	public static void up(int i) {
-		if (cover[i] > 0) {
+		if (time[i] > 0) {
 			len[i] = right[i] - left[i];
 		} else {
 			len[i] = len[i << 1] + len[i << 1 | 1];
@@ -52,7 +52,7 @@ public class Code03_AreaSum {
 		long l = left[i];
 		long r = right[i];
 		if (jobl <= l && jobr >= r) {
-			cover[i] += jobv;
+			time[i] += jobv;
 		} else {
 			if (jobl < right[i << 1]) {
 				add(jobl, jobr, jobv, i << 1);
