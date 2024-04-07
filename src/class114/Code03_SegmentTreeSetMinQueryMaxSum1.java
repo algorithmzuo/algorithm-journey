@@ -6,30 +6,28 @@ package class114;
 // 操作 1 l r   : 查询arr[l..r]范围上的最大值
 // 操作 2 l r   : 查询arr[l..r]范围上的累加和
 // 三种操作一共调用m次，做到时间复杂度O(n * log n + m * log n)
-// 测试链接 : https://acm.hdu.edu.cn/showproblem.php?pid=5306
-// 请同学们务必参考如下代码中关于输入、输出的处理
-// 这是输入输出处理效率很高的写法
-// 提交以下的code，提交时请把类名改成"Main"，可以直接通过
+// 对数器验证
+public class Code03_SegmentTreeSetMinQueryMaxSum1 {
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
-import java.io.StreamTokenizer;
+	public static int MAXN = 100001;
 
-public class Code02_SegmentTreeSetMinQueryMaxSum2 {
+	// 假设初始数组中的值不会出现比LOWEST还小的值
+	// 假设更新操作时jobv的数值也不会出现比LOWEST还小的值
+	public static int LOWEST = -100001;
 
-	public static int MAXN = 1000001;
+	// 原始数组
+	public static int[] arr = new int[MAXN];
 
-	public static int LOWEST = -1;
-
+	// 累加和
 	public static long[] sum = new long[MAXN << 2];
 
+	// 最大值
 	public static int[] max = new int[MAXN << 2];
 
+	// 最大值个数
 	public static int[] cnt = new int[MAXN << 2];
 
+	// 严格次大值(second max)
 	public static int[] sem = new int[MAXN << 2];
 
 	public static void up(int i) {
@@ -61,16 +59,9 @@ public class Code02_SegmentTreeSetMinQueryMaxSum2 {
 		}
 	}
 
-	public static void build(int l, int r, int i) throws IOException {
+	public static void build(int l, int r, int i) {
 		if (l == r) {
-			// 不能生成原始数组然后build
-			// 因为这道题空间非常极限
-			// 生成原始数组然后build
-			// 空间就是会超过限制
-			// 所以build的过程直接从输入流读入
-			// 一般情况下不会这么极限的
-			in.nextToken();
-			sum[i] = max[i] = (int) in.nval;
+			sum[i] = max[i] = arr[l];
 			cnt[i] = 1;
 			sem[i] = LOWEST;
 		} else {
@@ -132,53 +123,74 @@ public class Code02_SegmentTreeSetMinQueryMaxSum2 {
 		return ans;
 	}
 
-	// 为了不生成原始数组
-	// 让build函数可以直接从输入流拿数据
-	// 所以把输入输出流定义成全局静态变量
-	public static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-
-	public static StreamTokenizer in = new StreamTokenizer(br);
-
-	public static PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
-
-	public static void main(String[] args) throws IOException {
-		in.nextToken();
-		int testCases = (int) in.nval;
-		for (int t = 1; t <= testCases; t++) {
-			in.nextToken();
-			int n = (int) in.nval;
-			in.nextToken();
-			int m = (int) in.nval;
-			build(1, n, 1);
-			for (int i = 1, op, jobl, jobr, jobv; i <= m; i++) {
-				in.nextToken();
-				op = (int) in.nval;
-				if (op == 0) {
-					in.nextToken();
-					jobl = (int) in.nval;
-					in.nextToken();
-					jobr = (int) in.nval;
-					in.nextToken();
-					jobv = (int) in.nval;
-					setMin(jobl, jobr, jobv, 1, n, 1);
-				} else if (op == 1) {
-					in.nextToken();
-					jobl = (int) in.nval;
-					in.nextToken();
-					jobr = (int) in.nval;
-					out.println(queryMax(jobl, jobr, 1, n, 1));
-				} else {
-					in.nextToken();
-					jobl = (int) in.nval;
-					in.nextToken();
-					jobr = (int) in.nval;
-					out.println(querySum(jobl, jobr, 1, n, 1));
+	public static void main(String[] args) {
+		System.out.println("测试开始");
+		int n = 1000;
+		int v = 2000;
+		int t = 500000;
+		randomArray(n, v);
+		int[] check = new int[n + 1];
+		for (int i = 1; i <= n; i++) {
+			check[i] = arr[i];
+		}
+		build(1, n, 1);
+		for (int i = 1, op, a, b, jobl, jobr, jobv; i <= t; i++) {
+			op = (int) (Math.random() * 3);
+			a = (int) (Math.random() * n) + 1;
+			b = (int) (Math.random() * n) + 1;
+			jobl = Math.min(a, b);
+			jobr = Math.max(a, b);
+			if (op == 0) {
+				jobv = (int) (Math.random() * v * 2) - v;
+				setMin(jobl, jobr, jobv, 1, n, 1);
+				checkSetMin(check, jobl, jobr, jobv);
+			} else if (op == 1) {
+				int ans1 = queryMax(jobl, jobr, 1, n, 1);
+				int ans2 = checkQueryMax(check, jobl, jobr);
+				if (ans1 != ans2) {
+					System.out.println("出错了!");
+				}
+			} else {
+				long ans1 = querySum(jobl, jobr, 1, n, 1);
+				long ans2 = checkQuerySum(check, jobl, jobr);
+				if (ans1 != ans2) {
+					System.out.println("出错了!");
 				}
 			}
 		}
-		out.flush();
-		out.close();
-		br.close();
+		System.out.println("测试结束");
+	}
+
+	// 为了验证
+	public static void randomArray(int n, int v) {
+		for (int i = 1; i <= n; i++) {
+			arr[i] = (int) (Math.random() * v * 2) - v;
+		}
+	}
+
+	// 为了验证
+	public static void checkSetMin(int[] check, int jobl, int jobr, int jobv) {
+		for (int i = jobl; i <= jobr; i++) {
+			check[i] = Math.min(check[i], jobv);
+		}
+	}
+
+	// 为了验证
+	public static int checkQueryMax(int[] check, int jobl, int jobr) {
+		int ans = Integer.MIN_VALUE;
+		for (int i = jobl; i <= jobr; i++) {
+			ans = Math.max(ans, check[i]);
+		}
+		return ans;
+	}
+
+	// 为了验证
+	public static long checkQuerySum(int[] check, int jobl, int jobr) {
+		long ans = 0;
+		for (int i = jobl; i <= jobr; i++) {
+			ans += check[i];
+		}
+		return ans;
 	}
 
 }

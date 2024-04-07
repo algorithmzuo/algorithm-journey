@@ -1,20 +1,17 @@
 package class115;
 
-// 测试链接 : https://www.luogu.com.cn/problem/P1904
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
-import java.io.StreamTokenizer;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
-public class Code03_SkylineLuogu {
+// 天际线问题
+// 该问题用不到线段树
+// 用到的堆结构由自己实现
+// Leetcode测试
+// 测试链接 : https://leetcode.cn/problems/the-skyline-problem/
+public class Code02_SkylineLeetcode2 {
 
-	public static int MAXN = 20001;
-
-	public static int[][] arr = new int[MAXN][3];
+	public static int MAXN = 100001;
 
 	public static int[] sort = new int[MAXN];
 
@@ -24,7 +21,7 @@ public class Code03_SkylineLuogu {
 
 	public static int heapSize;
 
-	public static int build(int n) {
+	public static int build(int[][] arr, int n) {
 		int size = 0;
 		for (int i = 0; i < n; i++) {
 			sort[size++] = arr[i][0];
@@ -44,6 +41,7 @@ public class Code03_SkylineLuogu {
 		}
 		Arrays.sort(arr, 0, n, (a, b) -> a[0] - b[0]);
 		Arrays.fill(height, 0, m, 0);
+		heapSize = 0;
 		return m;
 	}
 
@@ -86,7 +84,7 @@ public class Code03_SkylineLuogu {
 	}
 
 	public static void heapInsert(int i) {
-		while (compare(i, (i - 1) / 2)) {
+		while (heap[i][0] > heap[(i - 1) / 2][0]) {
 			swap(i, (i - 1) / 2);
 			i = (i - 1) / 2;
 		}
@@ -95,8 +93,8 @@ public class Code03_SkylineLuogu {
 	public static void heapify(int i) {
 		int l = i * 2 + 1;
 		while (l < heapSize) {
-			int best = l + 1 < heapSize && compare(l + 1, l) ? l + 1 : l;
-			best = compare(best, i) ? best : i;
+			int best = l + 1 < heapSize && heap[l + 1][0] > heap[l][0] ? l + 1 : l;
+			best = heap[best][0] > heap[i][0] ? best : i;
 			if (best == i) {
 				break;
 			}
@@ -106,17 +104,15 @@ public class Code03_SkylineLuogu {
 		}
 	}
 
-	public static boolean compare(int i, int j) {
-		return heap[i][0] > heap[j][0] || (heap[i][0] == heap[j][0] && heap[i][1] < heap[j][1]);
-	}
-
 	public static void swap(int i, int j) {
 		int[] tmp = heap[i];
 		heap[i] = heap[j];
 		heap[j] = tmp;
 	}
 
-	public static void compute(int n, int m) {
+	public static List<List<Integer>> getSkyline(int[][] arr) {
+		int n = arr.length;
+		int m = build(arr, n);
 		for (int i = 0, j = 0; i < m; i++) {
 			for (; j < n && arr[j][0] <= i; j++) {
 				push(arr[j][2], arr[j][1]);
@@ -128,34 +124,14 @@ public class Code03_SkylineLuogu {
 				height[i] = peekHeight();
 			}
 		}
-	}
-
-	public static void main(String[] args) throws IOException {
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StreamTokenizer in = new StreamTokenizer(br);
-		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
-		int n = 0;
-		while (in.nextToken() != StreamTokenizer.TT_EOF) {
-			arr[n][0] = (int) in.nval;
-			in.nextToken();
-			arr[n][2] = (int) in.nval;
-			in.nextToken();
-			arr[n][1] = (int) in.nval;
-			n++;
-		}
-		int m = build(n);
-		compute(n, m);
-		out.print(sort[0] + " " + height[0]);
-		for (int i = 1, pre = height[0]; i < m; i++) {
+		List<List<Integer>> ans = new ArrayList<>();
+		for (int i = 0, pre = 0; i < m; i++) {
 			if (pre != height[i]) {
-				out.print(" " + sort[i] + " " + height[i]);
+				ans.add(Arrays.asList(sort[i], height[i]));
 			}
 			pre = height[i];
 		}
-		out.println();
-		out.flush();
-		out.close();
-		br.close();
+		return ans;
 	}
 
 }

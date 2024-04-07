@@ -22,7 +22,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 
-public class Code03_MaximumMinimumHistory {
+public class Code04_MaximumMinimumHistory {
 
 	public static int MAXN = 500001;
 

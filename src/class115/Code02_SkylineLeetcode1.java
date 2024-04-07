@@ -5,8 +5,12 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.PriorityQueue;
 
+// 天际线问题
+// 该问题用不到线段树
+// 用到的堆结构是现成结构
+// Leetcode测试
 // 测试链接 : https://leetcode.cn/problems/the-skyline-problem/
-public class Code01_SkylineLeetcode {
+public class Code02_SkylineLeetcode1 {
 
 	public static int MAXN = 100001;
 
@@ -55,7 +59,7 @@ public class Code01_SkylineLeetcode {
 	public static List<List<Integer>> getSkyline(int[][] arr) {
 		int n = arr.length;
 		int m = build(arr, n);
-		PriorityQueue<int[]> heap = new PriorityQueue<>((a, b) -> a[0] != b[0] ? (b[0] - a[0]) : (a[1] - b[1]));
+		PriorityQueue<int[]> heap = new PriorityQueue<>((a, b) -> b[0] - a[0]);
 		for (int i = 0, j = 0; i < m; i++) {
 			for (; j < n && arr[j][0] <= i; j++) {
 				heap.add(new int[] { arr[j][2], arr[j][1], });
