@@ -125,9 +125,9 @@ public class Code03_SegmentTreeSetMinQueryMaxSum1 {
 
 	public static void main(String[] args) {
 		System.out.println("测试开始");
-		int n = 1000;
-		int v = 2000;
-		int t = 500000;
+		int n = 2000;
+		int v = 5000;
+		int t = 1000000;
 		randomArray(n, v);
 		int[] check = new int[n + 1];
 		for (int i = 1; i <= n; i++) {
