@@ -11,6 +11,30 @@ import java.util.List;
 // 测试链接 : https://leetcode.cn/problems/the-skyline-problem/
 public class Code02_SkylineLeetcode2 {
 
+	public static List<List<Integer>> getSkyline(int[][] arr) {
+		int n = arr.length;
+		int m = build(arr, n);
+		for (int i = 0, j = 0; i < m; i++) {
+			for (; j < n && arr[j][0] <= i; j++) {
+				push(arr[j][2], arr[j][1]);
+			}
+			while (!isEmpty() && peekEnd() < i) {
+				poll();
+			}
+			if (!isEmpty()) {
+				height[i] = peekHeight();
+			}
+		}
+		List<List<Integer>> ans = new ArrayList<>();
+		for (int i = 0, pre = 0; i < m; i++) {
+			if (pre != height[i]) {
+				ans.add(Arrays.asList(sort[i], height[i]));
+			}
+			pre = height[i];
+		}
+		return ans;
+	}
+
 	public static int MAXN = 100001;
 
 	public static int[] sort = new int[MAXN];
@@ -108,30 +132,6 @@ public class Code02_SkylineLeetcode2 {
 		int[] tmp = heap[i];
 		heap[i] = heap[j];
 		heap[j] = tmp;
-	}
-
-	public static List<List<Integer>> getSkyline(int[][] arr) {
-		int n = arr.length;
-		int m = build(arr, n);
-		for (int i = 0, j = 0; i < m; i++) {
-			for (; j < n && arr[j][0] <= i; j++) {
-				push(arr[j][2], arr[j][1]);
-			}
-			while (!isEmpty() && peekEnd() < i) {
-				poll();
-			}
-			if (!isEmpty()) {
-				height[i] = peekHeight();
-			}
-		}
-		List<List<Integer>> ans = new ArrayList<>();
-		for (int i = 0, pre = 0; i < m; i++) {
-			if (pre != height[i]) {
-				ans.add(Arrays.asList(sort[i], height[i]));
-			}
-			pre = height[i];
-		}
-		return ans;
 	}
 
 }
