@@ -22,45 +22,70 @@ public class Code04_PerimeterSum {
 
 	public static int[][] line = new int[MAXN][4];
 
-	public static int[] value = new int[MAXN];
+	public static int[] v = new int[MAXN];
 
-	public static int[] left = new int[MAXN << 2];
+	public static int[] length = new int[MAXN << 2];
 
-	public static int[] right = new int[MAXN << 2];
+	public static int[] times = new int[MAXN << 2];
 
 	public static int[] cover = new int[MAXN << 2];
 
-	public static int[] len = new int[MAXN << 2];
+	public static int prepare(int n) {
+		Arrays.sort(v, 1, n + 1);
+		int m = 1;
+		for (int i = 2; i <= n; i++) {
+			if (v[m] != v[i]) {
+				v[++m] = v[i];
+			}
+		}
+		v[m + 1] = v[m];
+		return m;
+	}
+
+	public static int rank(int n, int num) {
+		int ans = 0;
+		int l = 1, r = n, mid;
+		while (l <= r) {
+			mid = (l + r) / 2;
+			if (v[mid] >= num) {
+				ans = mid;
+				r = mid - 1;
+			} else {
+				l = mid + 1;
+			}
+		}
+		return ans;
+	}
 
 	private static void build(int l, int r, int i) {
-		if (r - l > 1) {
+		if (l < r) {
 			int mid = (l + r) / 2;
 			build(l, mid, i << 1);
-			build(mid, r, i << 1 | 1);
+			build(mid + 1, r, i << 1 | 1);
 		}
-		left[i] = value[l];
-		right[i] = value[r];
+		length[i] = v[r + 1] - v[l];
+		times[i] = 0;
+		cover[i] = 0;
 	}
 
 	public static void up(int i) {
-		if (cover[i] > 0) {
-			len[i] = right[i] - left[i];
+		if (times[i] > 0) {
+			cover[i] = length[i];
 		} else {
-			len[i] = len[i << 1] + len[i << 1 | 1];
+			cover[i] = cover[i << 1] + cover[i << 1 | 1];
 		}
 	}
 
-	private static void add(int jobl, int jobr, int jobv, int i) {
-		int l = left[i];
-		int r = right[i];
-		if (jobl <= l && jobr >= r) {
-			cover[i] += jobv;
+	private static void add(int jobl, int jobr, int jobv, int l, int r, int i) {
+		if (jobl <= l && r <= jobr) {
+			times[i] += jobv;
 		} else {
-			if (jobl < right[i << 1]) {
-				add(jobl, jobr, jobv, i << 1);
+			int mid = (l + r) / 2;
+			if (jobl <= mid) {
+				add(jobl, jobr, jobv, l, mid, i << 1);
 			}
-			if (jobr > left[i << 1 | 1]) {
-				add(jobl, jobr, jobv, i << 1 | 1);
+			if (jobr > mid) {
+				add(jobl, jobr, jobv, mid + 1, r, i << 1 | 1);
 			}
 		}
 		up(i);
@@ -91,7 +116,7 @@ public class Code04_PerimeterSum {
 	public static long scanY(int n) {
 		for (int i = 1, j = 1 + n, x1, y1, x2, y2; i <= n; i++, j++) {
 			x1 = rec[i][0]; y1 = rec[i][1]; x2 = rec[i][2]; y2 = rec[i][3];
-			value[i] = y1; value[j] = y2;
+			v[i] = y1; v[j] = y2;
 			line[i][0] = x1; line[i][1] = y1; line[i][2] = y2; line[i][3] = 1;
 			line[j][0] = x2; line[j][1] = y1; line[j][2] = y2; line[j][3] = -1;
 		}
@@ -101,7 +126,7 @@ public class Code04_PerimeterSum {
 	public static long scanX(int n) {
 		for (int i = 1, j = 1 + n, x1, y1, x2, y2; i <= n; i++, j++) {
 			x1 = rec[i][0]; y1 = rec[i][1]; x2 = rec[i][2]; y2 = rec[i][3];
-			value[i] = x1; value[j] = x2;
+			v[i] = x1; v[j] = x2;
 			line[i][0] = y1; line[i][1] = x1; line[i][2] = x2; line[i][3] = 1;
 			line[j][0] = y2; line[j][1] = x1; line[j][2] = x2; line[j][3] = -1;
 		}
@@ -109,14 +134,14 @@ public class Code04_PerimeterSum {
 	}
 
 	public static long scan(int n) {
-		Arrays.sort(value, 1, n + 1);
+		int m = prepare(n);
+		build(1, m, 1);
 		Arrays.sort(line, 1, n + 1, (a, b) -> a[0] - b[0]);
-		build(1, n, 1);
 		long ans = 0;
 		for (int i = 1, pre; i <= n; i++) {
-			pre = len[1];
-			add(line[i][1], line[i][2], (int) line[i][3], 1);
-			ans += Math.abs(len[1] - pre);
+			pre = cover[1];
+			add(rank(m, line[i][1]), rank(m, line[i][2]) - 1, line[i][3], 1, m, 1);
+			ans += Math.abs(cover[1] - pre);
 		}
 		return ans;
 	}
