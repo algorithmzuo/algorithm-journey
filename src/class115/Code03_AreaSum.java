@@ -18,17 +18,19 @@ public class Code03_AreaSum {
 
 	public static int MAXN = 300001;
 
-	public static long[][] arr = new long[MAXN][4];
+	public static int[][] rec = new int[MAXN][4];
 
-	public static long[] y = new long[MAXN];
+	public static int[] value = new int[MAXN];
 
-	public static long[] left = new long[MAXN << 2];
+	public static int[][] line = new int[MAXN][4];
 
-	public static long[] right = new long[MAXN << 2];
+	public static int[] left = new int[MAXN << 2];
 
-	public static long[] cover = new long[MAXN << 2];
+	public static int[] right = new int[MAXN << 2];
 
-	public static long[] len = new long[MAXN << 2];
+	public static int[] cover = new int[MAXN << 2];
+
+	public static int[] len = new int[MAXN << 2];
 
 	private static void build(int l, int r, int i) {
 		if (r - l > 1) {
@@ -36,8 +38,8 @@ public class Code03_AreaSum {
 			build(l, mid, i << 1);
 			build(mid, r, i << 1 | 1);
 		}
-		left[i] = y[l];
-		right[i] = y[r];
+		left[i] = value[l];
+		right[i] = value[r];
 	}
 
 	public static void up(int i) {
@@ -48,9 +50,9 @@ public class Code03_AreaSum {
 		}
 	}
 
-	private static void add(long jobl, long jobr, long jobv, int i) {
-		long l = left[i];
-		long r = right[i];
+	private static void add(int jobl, int jobr, int jobv, int i) {
+		int l = left[i];
+		int r = right[i];
 		if (jobl <= l && jobr >= r) {
 			cover[i] += jobv;
 		} else {
@@ -71,40 +73,34 @@ public class Code03_AreaSum {
 		in.nextToken();
 		int n = (int) in.nval;
 		for (int i = 1; i <= n; i++) {
-			in.nextToken();
-			int x1 = (int) in.nval;
-			in.nextToken();
-			int y1 = (int) in.nval;
-			in.nextToken();
-			int x2 = (int) in.nval;
-			in.nextToken();
-			int y2 = (int) in.nval;
-			y[i] = y1;
-			y[i + n] = y2;
-			arr[i][0] = x1;
-			arr[i][1] = y1;
-			arr[i][2] = y2;
-			arr[i][3] = 1;
-			arr[i + n][0] = x2;
-			arr[i + n][1] = y1;
-			arr[i + n][2] = y2;
-			arr[i + n][3] = -1;
+			in.nextToken(); rec[i][0] = (int) in.nval;
+			in.nextToken(); rec[i][1] = (int) in.nval;
+			in.nextToken(); rec[i][2] = (int) in.nval;
+			in.nextToken(); rec[i][3] = (int) in.nval;
 		}
-		out.println(compute(n << 1));
+		out.println(compute(n));
 		out.flush();
 		out.close();
 		br.close();
 	}
 
 	public static long compute(int n) {
-		Arrays.sort(y, 1, n + 1);
-		Arrays.sort(arr, 1, n + 1, (a, b) -> a[0] <= b[0] ? -1 : 1);
+		for (int i = 1, j = 1 + n, x1, y1, x2, y2; i <= n; i++, j++) {
+			x1 = rec[i][0]; y1 = rec[i][1];
+			x2 = rec[i][2]; y2 = rec[i][3];
+			value[i] = y1; value[j] = y2;
+			line[i][0] = x1; line[i][1] = y1; line[i][2] = y2; line[i][3] = 1;
+			line[j][0] = x2; line[j][1] = y1; line[j][2] = y2; line[j][3] = -1;
+		}
+		n <<= 1;
+		Arrays.sort(value, 1, n + 1);
+		Arrays.sort(line, 1, n + 1, (a, b) -> a[0] - b[0]);
 		build(1, n, 1);
-		long pre = 0, ans = 0;
-		for (int i = 1; i <= n; i++) {
-			ans += len[1] * (arr[i][0] - pre);
-			pre = arr[i][0];
-			add(arr[i][1], arr[i][2], (int) arr[i][3], 1);
+		long ans = 0;
+		for (int i = 1, pre = 0; i <= n; i++) {
+			ans += (long) len[1] * (line[i][0] - pre);
+			pre = line[i][0];
+			add(line[i][1], line[i][2], line[i][3], 1);
 		}
 		return ans;
 	}
