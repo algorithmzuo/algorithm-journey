@@ -3,7 +3,7 @@ package class115;
 import java.util.Arrays;
 import java.util.PriorityQueue;
 
-// 包含每个查询的最小区间(用到的堆结构是现成结构)
+// 包含每个查询的最小区间(堆结构是现成结构)
 // 给你一个二维整数数组intervals，其中intervals[i] = [lefti, righti]
 // 表示第i个区间开始于lefti，结束于righti，区间的长度是righti-lefti+1
 // 给你一个整数数组queries，queries[i]表示要查询的位置
