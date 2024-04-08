@@ -148,7 +148,7 @@ public class Code04_PerimeterSum2 {
 	}
 
 	// poj上的java版本较老
-	// 不支持lamda表达式形式的比较器
+	// 不支持lamda表达式定义比较器
 	// 需要自己定义比较器
 	// 除此之外没有区别
 	public static class LineComparator implements Comparator<int[]> {
