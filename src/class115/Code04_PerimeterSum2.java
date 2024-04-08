@@ -137,7 +137,7 @@ public class Code04_PerimeterSum2 {
 	public static long scan(int n) {
 		int m = prepare(n);
 		build(1, m, 1);
-		Arrays.sort(line, 1, n + 1, new ArrayComparator());
+		Arrays.sort(line, 1, n + 1, new LineComparator());
 		long ans = 0;
 		for (int i = 1, pre; i <= n; i++) {
 			pre = cover[1];
@@ -151,7 +151,7 @@ public class Code04_PerimeterSum2 {
 	// 不支持lamda表达式形式的比较器
 	// 需要自己定义比较器
 	// 除此之外没有区别
-	public static class ArrayComparator implements Comparator<int[]> {
+	public static class LineComparator implements Comparator<int[]> {
 
 		@Override
 		public int compare(int[] a, int[] b) {
