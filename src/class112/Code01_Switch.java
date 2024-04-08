@@ -46,7 +46,7 @@ public class Code01_Switch {
 		if (l == r) {
 			light[i] = 0;
 		} else {
-			int mid = (l + r) / 2;
+			int mid = (l + r) >> 1;
 			build(l, mid, i << 1);
 			build(mid + 1, r, i << 1 | 1);
 			up(i);
@@ -58,7 +58,7 @@ public class Code01_Switch {
 		if (jobl <= l && r <= jobr) {
 			lazy(i, r - l + 1);
 		} else {
-			int mid = (l + r) / 2;
+			int mid = (l + r) >> 1;
 			down(i, mid - l + 1, r - mid);
 			if (jobl <= mid) {
 				reverse(jobl, jobr, l, mid, i << 1);
@@ -74,7 +74,7 @@ public class Code01_Switch {
 		if (jobl <= l && r <= jobr) {
 			return light[i];
 		}
-		int mid = (l + r) / 2;
+		int mid = (l + r) >> 1;
 		down(i, mid - l + 1, r - mid);
 		int ans = 0;
 		if (jobl <= mid) {

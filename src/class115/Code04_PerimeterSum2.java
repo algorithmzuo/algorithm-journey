@@ -1,7 +1,7 @@
 package class115;
 
-// 矩形周长并
-// 测试链接 : https://www.luogu.com.cn/problem/P1856
+// 矩形周长并(poj测试)
+// 测试链接 : http://poj.org/problem?id=1177
 // 请同学们务必参考如下代码中关于输入、输出的处理
 // 这是输入输出处理效率很高的写法
 // 提交以下的code，提交时请把类名改成"Main"，可以直接通过
@@ -13,8 +13,9 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 import java.util.Arrays;
+import java.util.Comparator;
 
-public class Code04_PerimeterSum {
+public class Code04_PerimeterSum2 {
 
 	public static int MAXN = 20001;
 
@@ -46,7 +47,7 @@ public class Code04_PerimeterSum {
 		int ans = 0;
 		int l = 1, r = n, mid;
 		while (l <= r) {
-			mid = (l + r) / 2;
+			mid = (l + r) >> 1;
 			if (v[mid] >= num) {
 				ans = mid;
 				r = mid - 1;
@@ -59,7 +60,7 @@ public class Code04_PerimeterSum {
 
 	private static void build(int l, int r, int i) {
 		if (l < r) {
-			int mid = (l + r) / 2;
+			int mid = (l + r) >> 1;
 			build(l, mid, i << 1);
 			build(mid + 1, r, i << 1 | 1);
 		}
@@ -87,7 +88,7 @@ public class Code04_PerimeterSum {
 		if (jobl <= l && r <= jobr) {
 			times[i] += jobv;
 		} else {
-			int mid = (l + r) / 2;
+			int mid = (l + r) >> 1;
 			if (jobl <= mid) {
 				add(jobl, jobr, jobv, l, mid, i << 1);
 			}
@@ -105,8 +106,10 @@ public class Code04_PerimeterSum {
 		in.nextToken();
 		int n = (int) in.nval;
 		for (int i = 1; i <= n; i++) {
+			// 左下角下标
 			in.nextToken(); rec[i][0] = (int) in.nval;
 			in.nextToken(); rec[i][1] = (int) in.nval;
+			// 右上角下标
 			in.nextToken(); rec[i][2] = (int) in.nval;
 			in.nextToken(); rec[i][3] = (int) in.nval;
 		}
@@ -143,7 +146,7 @@ public class Code04_PerimeterSum {
 	public static long scan(int n) {
 		int m = prepare(n);
 		build(1, m, 1);
-		Arrays.sort(line, 1, n + 1, (a, b) -> a[0] - b[0]);
+		Arrays.sort(line, 1, n + 1, new ArrayComparator());
 		long ans = 0;
 		for (int i = 1, pre; i <= n; i++) {
 			pre = cover[1];
@@ -151,6 +154,16 @@ public class Code04_PerimeterSum {
 			ans += Math.abs(cover[1] - pre);
 		}
 		return ans;
+	}
+
+	// poj上的java版本较老，不支持lamda表达式，需要自己定义比较器
+	public static class ArrayComparator implements Comparator<int[]> {
+
+		@Override
+		public int compare(int[] a, int[] b) {
+			return a[0] - b[0];
+		}
+
 	}
 
 }

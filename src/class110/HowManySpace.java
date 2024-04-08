@@ -9,7 +9,7 @@ public class HowManySpace {
 		if (l == r) {
 			return i;
 		} else {
-			int mid = (l + r) / 2;
+			int mid = (l + r) >> 1;
 			return Math.max(maxi(l, mid, i << 1), maxi(mid + 1, r, i << 1 | 1));
 		}
 	}

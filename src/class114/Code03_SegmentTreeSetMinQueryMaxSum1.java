@@ -65,7 +65,7 @@ public class Code03_SegmentTreeSetMinQueryMaxSum1 {
 			cnt[i] = 1;
 			sem[i] = LOWEST;
 		} else {
-			int mid = (l + r) / 2;
+			int mid = (l + r) >> 1;
 			build(l, mid, i << 1);
 			build(mid + 1, r, i << 1 | 1);
 			up(i);
@@ -80,7 +80,7 @@ public class Code03_SegmentTreeSetMinQueryMaxSum1 {
 			lazy(i, jobv);
 		} else {
 			down(i);
-			int mid = (l + r) / 2;
+			int mid = (l + r) >> 1;
 			if (jobl <= mid) {
 				setMin(jobl, jobr, jobv, l, mid, i << 1);
 			}
@@ -96,7 +96,7 @@ public class Code03_SegmentTreeSetMinQueryMaxSum1 {
 			return max[i];
 		}
 		down(i);
-		int mid = (l + r) / 2;
+		int mid = (l + r) >> 1;
 		int ans = Integer.MIN_VALUE;
 		if (jobl <= mid) {
 			ans = Math.max(ans, queryMax(jobl, jobr, l, mid, i << 1));
@@ -112,7 +112,7 @@ public class Code03_SegmentTreeSetMinQueryMaxSum1 {
 			return sum[i];
 		}
 		down(i);
-		int mid = (l + r) / 2;
+		int mid = (l + r) >> 1;
 		long ans = 0;
 		if (jobl <= mid) {
 			ans += querySum(jobl, jobr, l, mid, i << 1);

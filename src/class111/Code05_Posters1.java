@@ -61,7 +61,7 @@ public class Code05_Posters1 {
 		int m;
 		int ans = 0;
 		while (l <= r) {
-			m = (l + r) / 2;
+			m = (l + r) >> 1;
 			if (num[m] >= v) {
 				ans = m;
 				r = m - 1;
@@ -82,7 +82,7 @@ public class Code05_Posters1 {
 
 	public static void build(int l, int r, int i) {
 		if (l < r) {
-			int mid = (l + r) / 2;
+			int mid = (l + r) >> 1;
 			build(l, mid, i << 1);
 			build(mid + 1, r, i << 1 | 1);
 		}
@@ -94,7 +94,7 @@ public class Code05_Posters1 {
 			poster[i] = jobv;
 		} else {
 			down(i);
-			int mid = (l + r) / 2;
+			int mid = (l + r) >> 1;
 			if (jobl <= mid) {
 				update(jobl, jobr, jobv, l, mid, i << 1);
 			}
@@ -114,7 +114,7 @@ public class Code05_Posters1 {
 			}
 		} else {
 			down(i);
-			int mid = (l + r) / 2;
+			int mid = (l + r) >> 1;
 			int ans = 0;
 			if (jobl <= mid) {
 				ans += query(jobl, jobr, l, mid, i << 1);

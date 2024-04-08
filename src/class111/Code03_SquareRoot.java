@@ -38,7 +38,7 @@ public class Code03_SquareRoot {
 			sum[i] = arr[l];
 			max[i] = arr[l];
 		} else {
-			int mid = (l + r) / 2;
+			int mid = (l + r) >> 1;
 			build(l, mid, i << 1);
 			build(mid + 1, r, i << 1 | 1);
 			up(i);
@@ -57,7 +57,7 @@ public class Code03_SquareRoot {
 			sum[i] = sqrt;
 			max[i] = sqrt;
 		} else {
-			int mid = (l + r) / 2;
+			int mid = (l + r) >> 1;
 			if (jobl <= mid && max[i << 1] > 1) {
 				sqrt(jobl, jobr, l, mid, i << 1);
 			}
@@ -74,7 +74,7 @@ public class Code03_SquareRoot {
 		if (jobl <= l && r <= jobr) {
 			return sum[i];
 		}
-		int mid = (l + r) / 2;
+		int mid = (l + r) >> 1;
 		long ans = 0;
 		if (jobl <= mid) {
 			ans += query(jobl, jobr, l, mid, i << 1);

@@ -37,7 +37,7 @@ public class Code04_QueryModUpdate {
 		if (l == r) {
 			sum[i] = max[i] = arr[l];
 		} else {
-			int mid = (l + r) / 2;
+			int mid = (l + r) >> 1;
 			build(l, mid, i << 1);
 			build(mid + 1, r, i << 1 | 1);
 			up(i);
@@ -48,7 +48,7 @@ public class Code04_QueryModUpdate {
 		if (jobl <= l && r <= jobr) {
 			return sum[i];
 		}
-		int mid = (l + r) / 2;
+		int mid = (l + r) >> 1;
 		long ans = 0;
 		if (jobl <= mid) {
 			ans += query(jobl, jobr, l, mid, i << 1);
@@ -67,7 +67,7 @@ public class Code04_QueryModUpdate {
 			sum[i] %= jobv;
 			max[i] %= jobv;
 		} else {
-			int mid = (l + r) / 2;
+			int mid = (l + r) >> 2;
 			if (jobl <= mid) {
 				mod(jobl, jobr, jobv, l, mid, i << 1);
 			}
@@ -82,7 +82,7 @@ public class Code04_QueryModUpdate {
 		if (l == r) {
 			sum[i] = max[i] = jobv;
 		} else {
-			int mid = (l + r) / 2;
+			int mid = (l + r) >> 1;
 			if (jobi <= mid) {
 				update(jobi, jobv, l, mid, i << 1);
 			} else {

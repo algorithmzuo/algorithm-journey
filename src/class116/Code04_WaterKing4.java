@@ -56,7 +56,7 @@ public class Code04_WaterKing4 {
 			int left = 0, right = n - 1, mid;
 			int find = -1;
 			while (left <= right) {
-				mid = (left + right) / 2;
+				mid = (left + right) >> 1;
 				if (nums[mid][0] < v || (nums[mid][0] == v && nums[mid][1] <= i)) {
 					find = mid;
 					left = mid + 1;
@@ -79,7 +79,7 @@ public class Code04_WaterKing4 {
 				cand[i] = arr[l - 1];
 				hp[i] = 1;
 			} else {
-				int mid = (l + r) / 2;
+				int mid = (l + r) >> 1;
 				buildTree(arr, l, mid, i << 1);
 				buildTree(arr, mid + 1, r, i << 1 | 1);
 				up(i);
@@ -90,7 +90,7 @@ public class Code04_WaterKing4 {
 			if (jobl <= l && r <= jobr) {
 				return new int[] { cand[i], hp[i] };
 			} else {
-				int mid = (l + r) / 2;
+				int mid = (l + r) >> 1;
 				if (jobr <= mid) {
 					return query(jobl, jobr, l, mid, i << 1);
 				}

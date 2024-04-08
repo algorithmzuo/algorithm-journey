@@ -61,7 +61,7 @@ public class Code04_MeanVariance1 {
 			sum1[i] = arr[l];
 			sum2[i] = arr[l] * arr[l];
 		} else {
-			int mid = (l + r) / 2;
+			int mid = (l + r) >> 1;
 			build(l, mid, i << 1);
 			build(mid + 1, r, i << 1 | 1);
 			up(i);
@@ -89,7 +89,7 @@ public class Code04_MeanVariance1 {
 		if (jobl <= l && r <= jobr) {
 			return sum[i];
 		}
-		int mid = (l + r) / 2;
+		int mid = (l + r) >> 1;
 		down(i, mid - l + 1, r - mid);
 		double ans = 0;
 		if (jobl <= mid) {

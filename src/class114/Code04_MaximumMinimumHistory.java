@@ -105,7 +105,7 @@ public class Code04_MaximumMinimumHistory {
 			sem[i] = LOWEST;
 			cnt[i] = 1;
 		} else {
-			int mid = (l + r) / 2;
+			int mid = (l + r) >> 1;
 			build(l, mid, i << 1);
 			build(mid + 1, r, i << 1 | 1);
 			up(i);
@@ -117,7 +117,7 @@ public class Code04_MaximumMinimumHistory {
 		if (jobl <= l && r <= jobr) {
 			lazy(i, r - l + 1, jobv, jobv, jobv, jobv);
 		} else {
-			int mid = (l + r) / 2;
+			int mid = (l + r) >> 1;
 			down(i, mid - l + 1, r - mid);
 			if (jobl <= mid) {
 				add(jobl, jobr, jobv, l, mid, i << 1);
@@ -136,7 +136,7 @@ public class Code04_MaximumMinimumHistory {
 		if (jobl <= l && r <= jobr && sem[i] < jobv) {
 			lazy(i, r - l + 1, jobv - max[i], jobv - max[i], 0, 0);
 		} else {
-			int mid = (l + r) / 2;
+			int mid = (l + r) >> 1;
 			down(i, mid - l + 1, r - mid);
 			if (jobl <= mid) {
 				setMin(jobl, jobr, jobv, l, mid, i << 1);
@@ -152,7 +152,7 @@ public class Code04_MaximumMinimumHistory {
 		if (jobl <= l && r <= jobr) {
 			return sum[i];
 		} else {
-			int mid = (l + r) / 2;
+			int mid = (l + r) >> 1;
 			down(i, mid - l + 1, r - mid);
 			long ans = 0;
 			if (jobl <= mid) {
@@ -169,7 +169,7 @@ public class Code04_MaximumMinimumHistory {
 		if (jobl <= l && r <= jobr) {
 			return max[i];
 		} else {
-			int mid = (l + r) / 2;
+			int mid = (l + r) >> 1;
 			down(i, mid - l + 1, r - mid);
 			Long ans = Long.MIN_VALUE;
 			if (jobl <= mid) {
@@ -186,7 +186,7 @@ public class Code04_MaximumMinimumHistory {
 		if (jobl <= l && r <= jobr) {
 			return maxHistory[i];
 		} else {
-			int mid = (l + r) / 2;
+			int mid = (l + r) >> 1;
 			down(i, mid - l + 1, r - mid);
 			Long ans = Long.MIN_VALUE;
 			if (jobl <= mid) {

@@ -106,7 +106,7 @@ public class Code01_SequenceOperation {
 			len0[i] = pre0[i] = suf0[i] = arr[l] == 0 ? 1 : 0;
 			len1[i] = pre1[i] = suf1[i] = arr[l] == 1 ? 1 : 0;
 		} else {
-			int mid = (l + r) / 2;
+			int mid = (l + r) >> 1;
 			build(l, mid, i << 1);
 			build(mid + 1, r, i << 1 | 1);
 			up(i, mid - l + 1, r - mid);
@@ -119,7 +119,7 @@ public class Code01_SequenceOperation {
 		if (jobl <= l && r <= jobr) {
 			updateLazy(i, jobv, r - l + 1);
 		} else {
-			int mid = (l + r) / 2;
+			int mid = (l + r) >> 1;
 			down(i, mid - l + 1, r - mid);
 			if (jobl <= mid) {
 				update(jobl, jobr, jobv, l, mid, i << 1);
@@ -135,7 +135,7 @@ public class Code01_SequenceOperation {
 		if (jobl <= l && r <= jobr) {
 			reverseLazy(i, r - l + 1);
 		} else {
-			int mid = (l + r) / 2;
+			int mid = (l + r) >> 1;
 			down(i, mid - l + 1, r - mid);
 			if (jobl <= mid) {
 				reverse(jobl, jobr, l, mid, i << 1);
@@ -152,7 +152,7 @@ public class Code01_SequenceOperation {
 		if (jobl <= l && r <= jobr) {
 			return sum[i];
 		}
-		int mid = (l + r) / 2;
+		int mid = (l + r) >> 1;
 		down(i, mid - l + 1, r - mid);
 		int ans = 0;
 		if (jobl <= mid) {
@@ -172,7 +172,7 @@ public class Code01_SequenceOperation {
 		if (jobl <= l && r <= jobr) {
 			return new int[] { len1[i], pre1[i], suf1[i] };
 		} else {
-			int mid = (l + r) / 2;
+			int mid = (l + r) >> 1;
 			int ln = mid - l + 1;
 			int rn = r - mid;
 			down(i, ln, rn);

@@ -36,7 +36,7 @@ public class Code02_Bombs {
 
 	public static void build(int l, int r, int i) {
 		if (l < r) {
-			int mid = (l + r) / 2;
+			int mid = (l + r) >> 1;
 			build(l, mid, i << 1);
 			build(mid + 1, r, i << 1 | 1);
 		}
@@ -54,7 +54,7 @@ public class Code02_Bombs {
 				bombEnds[i]++;
 			}
 		} else {
-			int mid = (l + r) / 2;
+			int mid = (l + r) >> 1;
 			if (jobi <= mid) {
 				add(jobt, jobi, l, mid, i << 1);
 			} else {
@@ -70,7 +70,7 @@ public class Code02_Bombs {
 		if (jobl <= l && r <= jobr) {
 			return jobt == 0 ? bombStarts[i] : bombEnds[i];
 		} else {
-			int mid = (l + r) / 2;
+			int mid = (l + r) >> 1;
 			int ans = 0;
 			if (jobl <= mid) {
 				ans += query(jobt, jobl, jobr, l, mid, i << 1);

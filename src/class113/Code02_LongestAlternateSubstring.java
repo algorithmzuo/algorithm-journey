@@ -40,7 +40,7 @@ public class Code02_LongestAlternateSubstring {
 		len[i] = Math.max(len[i << 1], len[i << 1 | 1]);
 		pre[i] = pre[i << 1];
 		suf[i] = suf[i << 1 | 1];
-		int mid = (l + r) / 2;
+		int mid = (l + r) >> 1;
 		int ln = mid - l + 1;
 		int rn = r - mid;
 		if (arr[mid] != arr[mid + 1]) {
@@ -60,7 +60,7 @@ public class Code02_LongestAlternateSubstring {
 			pre[i] = 1;
 			suf[i] = 1;
 		} else {
-			int mid = (l + r) / 2;
+			int mid = (l + r) >> 1;
 			build(l, mid, i << 1);
 			build(mid + 1, r, i << 1 | 1);
 			up(l, r, i);
@@ -71,7 +71,7 @@ public class Code02_LongestAlternateSubstring {
 		if (l == r) {
 			arr[jobi] ^= 1;
 		} else {
-			int mid = (l + r) / 2;
+			int mid = (l + r) >> 1;
 			if (jobi <= mid) {
 				reverse(jobi, l, mid, i << 1);
 			} else {

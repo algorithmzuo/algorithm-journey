@@ -1,7 +1,7 @@
 package class115;
 
-// 矩形面积并
-// 测试链接 : https://www.luogu.com.cn/problem/P5490
+// 矩形周长并(洛谷测试)
+// 测试链接 : https://www.luogu.com.cn/problem/P1856
 // 请同学们务必参考如下代码中关于输入、输出的处理
 // 这是输入输出处理效率很高的写法
 // 提交以下的code，提交时请把类名改成"Main"，可以直接通过
@@ -14,15 +14,15 @@ import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 import java.util.Arrays;
 
-public class Code03_AreaSum {
+public class Code04_PerimeterSum1 {
 
-	public static int MAXN = 300001;
+	public static int MAXN = 20001;
 
 	public static int[][] rec = new int[MAXN][4];
 
 	public static int[][] line = new int[MAXN][4];
 
-	public static int[] y = new int[MAXN];
+	public static int[] v = new int[MAXN];
 
 	public static int[] length = new int[MAXN << 2];
 
@@ -31,14 +31,14 @@ public class Code03_AreaSum {
 	public static int[] cover = new int[MAXN << 2];
 
 	public static int prepare(int n) {
-		Arrays.sort(y, 1, n + 1);
+		Arrays.sort(v, 1, n + 1);
 		int m = 1;
 		for (int i = 2; i <= n; i++) {
-			if (y[m] != y[i]) {
-				y[++m] = y[i];
+			if (v[m] != v[i]) {
+				v[++m] = v[i];
 			}
 		}
-		y[m + 1] = y[m];
+		v[m + 1] = v[m];
 		return m;
 	}
 
@@ -47,7 +47,7 @@ public class Code03_AreaSum {
 		int l = 1, r = n, mid;
 		while (l <= r) {
 			mid = (l + r) >> 1;
-			if (y[mid] >= num) {
+			if (v[mid] >= num) {
 				ans = mid;
 				r = mid - 1;
 			} else {
@@ -63,7 +63,7 @@ public class Code03_AreaSum {
 			build(l, mid, i << 1);
 			build(mid + 1, r, i << 1 | 1);
 		}
-		length[i] = y[r + 1] - y[l];
+		length[i] = v[r + 1] - v[l];
 		times[i] = 0;
 		cover[i] = 0;
 	}
@@ -119,21 +119,38 @@ public class Code03_AreaSum {
 	}
 
 	public static long compute(int n) {
+		return scanY(n) + scanX(n);
+	}
+
+	public static long scanY(int n) {
 		for (int i = 1, j = 1 + n, x1, y1, x2, y2; i <= n; i++, j++) {
 			x1 = rec[i][0]; y1 = rec[i][1]; x2 = rec[i][2]; y2 = rec[i][3];
-			y[i] = y1; y[j] = y2;
+			v[i] = y1; v[j] = y2;
 			line[i][0] = x1; line[i][1] = y1; line[i][2] = y2; line[i][3] = 1;
 			line[j][0] = x2; line[j][1] = y1; line[j][2] = y2; line[j][3] = -1;
 		}
-		n <<= 1;
+		return scan(n << 1);
+	}
+
+	public static long scanX(int n) {
+		for (int i = 1, j = 1 + n, x1, y1, x2, y2; i <= n; i++, j++) {
+			x1 = rec[i][0]; y1 = rec[i][1]; x2 = rec[i][2]; y2 = rec[i][3];
+			v[i] = x1; v[j] = x2;
+			line[i][0] = y1; line[i][1] = x1; line[i][2] = x2; line[i][3] = 1;
+			line[j][0] = y2; line[j][1] = x1; line[j][2] = x2; line[j][3] = -1;
+		}
+		return scan(n << 1);
+	}
+
+	public static long scan(int n) {
 		int m = prepare(n);
 		build(1, m, 1);
 		Arrays.sort(line, 1, n + 1, (a, b) -> a[0] - b[0]);
 		long ans = 0;
-		for (int i = 1, pre = 0; i <= n; i++) {
-			ans += (long) cover[1] * (line[i][0] - pre);
-			pre = line[i][0];
+		for (int i = 1, pre; i <= n; i++) {
+			pre = cover[1];
 			add(rank(m, line[i][1]), rank(m, line[i][2]) - 1, line[i][3], 1, m, 1);
+			ans += Math.abs(cover[1] - pre);
 		}
 		return ans;
 	}

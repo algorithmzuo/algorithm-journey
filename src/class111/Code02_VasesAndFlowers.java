@@ -52,7 +52,7 @@ public class Code02_VasesAndFlowers {
 
 	public static void build(int l, int r, int i) {
 		if (l < r) {
-			int mid = (l + r) / 2;
+			int mid = (l + r) >> 1;
 			build(l, mid, i << 1);
 			build(mid + 1, r, i << 1 | 1);
 		}
@@ -118,7 +118,7 @@ public class Code02_VasesAndFlowers {
 		int l = s, r = n, mid;
 		int ans = 0;
 		while (l <= r) {
-			mid = (l + r) / 2;
+			mid = (l + r) >> 1;
 			if (mid - s + 1 - query(s, mid, 1, n, 1) >= k) {
 				ans = mid;
 				r = mid - 1;

@@ -47,7 +47,7 @@ public class Code01_FallingSquares {
 		int ans = 0;
 		int l = 1, r = n, m;
 		while (l <= r) {
-			m = (l + r) / 2;
+			m = (l + r) >> 1;
 			if (arr[m] >= v) {
 				ans = m;
 				r = m - 1;

@@ -34,7 +34,7 @@ public class Code03_TunnelWarfare {
 	public static void up(int l, int r, int i) {
 		pre[i] = pre[i << 1];
 		suf[i] = suf[i << 1 | 1];
-		int mid = (l + r) / 2;
+		int mid = (l + r) >> 1;
 		if (pre[i << 1] == mid - l + 1) {
 			pre[i] += pre[i << 1 | 1];
 		}
@@ -47,7 +47,7 @@ public class Code03_TunnelWarfare {
 		if (l == r) {
 			pre[i] = suf[i] = 1;
 		} else {
-			int mid = (l + r) / 2;
+			int mid = (l + r) >> 1;
 			build(l, mid, i << 1);
 			build(mid + 1, r, i << 1 | 1);
 			up(l, r, i);
@@ -58,7 +58,7 @@ public class Code03_TunnelWarfare {
 		if (l == r) {
 			pre[i] = suf[i] = jobv;
 		} else {
-			int mid = (l + r) / 2;
+			int mid = (l + r) >> 1;
 			if (jobi <= mid) {
 				update(jobi, jobv, l, mid, i << 1);
 			} else {
@@ -75,7 +75,7 @@ public class Code03_TunnelWarfare {
 		if (l == r) {
 			return pre[i];
 		} else {
-			int mid = (l + r) / 2;
+			int mid = (l + r) >> 1;
 			if (jobi <= mid) {
 				if (jobi > mid - suf[i << 1]) {
 					return suf[i << 1] + pre[i << 1 | 1];
