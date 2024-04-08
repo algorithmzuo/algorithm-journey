@@ -38,8 +38,8 @@ public class Code01_DynamicSegmentTree {
 
 	public static long[] add = new long[LIMIT];
 
-	public static void up(int hi, int li, int ri) {
-		sum[hi] = sum[li] + sum[ri];
+	public static void up(int h, int l, int r) {
+		sum[h] = sum[l] + sum[r];
 	}
 
 	public static void down(int i, int ln, int rn) {
@@ -91,16 +91,14 @@ public class Code01_DynamicSegmentTree {
 		down(i, mid - l + 1, r - mid);
 		long ans = 0;
 		if (jobl <= mid) {
-			if (left[i] == 0) {
-				left[i] = ++cnt;
+			if (left[i] != 0) {
+				ans += query(jobl, jobr, l, mid, left[i]);
 			}
-			ans += query(jobl, jobr, l, mid, left[i]);
 		}
 		if (jobr > mid) {
-			if (right[i] == 0) {
-				right[i] = ++cnt;
+			if (right[i] != 0) {
+				ans += query(jobl, jobr, mid + 1, r, right[i]);
 			}
-			ans += query(jobl, jobr, mid + 1, r, right[i]);
 		}
 		return ans;
 	}
