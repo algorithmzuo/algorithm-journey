@@ -4,9 +4,9 @@ import java.util.Arrays;
 
 // 统计区间中的整数数目
 // 实现CountIntervals类的如下三个方法
-// CountIntervals() : 初始化
-// void add(int l, int r) : 把[l, r]范围上的数字都设置成1
-// int count() : 返回整个区间有多少个1
+// 1) CountIntervals() : 初始化
+// 2) void add(int l, int r) : 把[l, r]范围上的数字都设置成1
+// 3) int count() : 返回整个区间有多少个1
 // CountIntervals类需要支持1 ~ 10^9范围
 // 调用add和count方法总共10^5次
 // 测试链接 : https://leetcode.cn/problems/count-integers-in-intervals/
@@ -14,10 +14,13 @@ public class Code02_CountIntervals {
 
 	// 开点线段树的实现
 	// 为了所有语言的同学都容易改出来
-	// 本实现选择用静态空间的方式实现
+	// 选择用静态空间的方式实现
 	// 该方法的打败比例不高但是非常好想
 	// 有兴趣的同学可以研究其他做法
 	class CountIntervals {
+
+		// 支持的最大范围
+		public static int n = 1000000000;
 
 		// 空间大小定成这个值是实验的结果
 		public static int LIMIT = 700001;
@@ -27,9 +30,6 @@ public class Code02_CountIntervals {
 		public static int[] right = new int[LIMIT];
 
 		public static int[] sum = new int[LIMIT];
-
-		// 支持的最大范围
-		public static int n = 1000000000;
 
 		public static int cnt = 1;
 
