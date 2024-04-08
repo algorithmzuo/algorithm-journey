@@ -77,13 +77,6 @@ public class Code04_PerimeterSum2 {
 		}
 	}
 
-	// 这个题的特殊性在于
-	// 1) 查询操作永远查的是整个范围，不会有范围查询，每次都返回cover[1]
-	// 2) 增加操作之后，后续一定会有等规模的减少操作
-	// 根据以上两点分析出不需要懒更新机制
-	// 首先当一次修改完成从下往上返回时，up方法能保证最上方的cover[1]是修改正确的
-	// 同时任何一次增加操作所涉及的线段树范围，后续一定能被等规模的减少操作取消掉
-	// 课上重点图解了这个题的特殊性
 	private static void add(int jobl, int jobr, int jobv, int l, int r, int i) {
 		if (jobl <= l && r <= jobr) {
 			times[i] += jobv;
@@ -106,10 +99,8 @@ public class Code04_PerimeterSum2 {
 		in.nextToken();
 		int n = (int) in.nval;
 		for (int i = 1; i <= n; i++) {
-			// 左下角下标
 			in.nextToken(); rec[i][0] = (int) in.nval;
 			in.nextToken(); rec[i][1] = (int) in.nval;
-			// 右上角下标
 			in.nextToken(); rec[i][2] = (int) in.nval;
 			in.nextToken(); rec[i][3] = (int) in.nval;
 		}
@@ -156,7 +147,10 @@ public class Code04_PerimeterSum2 {
 		return ans;
 	}
 
-	// poj上的java版本较老，不支持lamda表达式，需要自己定义比较器
+	// poj上的java版本较老
+	// 不支持lamda表达式形式的比较器
+	// 需要自己定义比较器
+	// 除此之外没有区别
 	public static class ArrayComparator implements Comparator<int[]> {
 
 		@Override
