@@ -66,15 +66,15 @@ public class Code04_MaximumMinimumHistory {
 		}
 	}
 
-	public static void lazy(int i, int n, long maxv, long maxhv, long semv, long semhv) {
-		sum[i] += maxv * cnt[i] + semv * (n - cnt[i]);
-		maxHistory[i] = Math.max(maxHistory[i], max[i] + maxhv);
-		maxHistoryAdd[i] = Math.max(maxHistoryAdd[i], maxAdd[i] + maxhv);
-		max[i] += maxv;
-		maxAdd[i] += maxv;
-		semHistoryAdd[i] = Math.max(semHistoryAdd[i], semAdd[i] + semhv);
-		sem[i] += sem[i] == LOWEST ? 0 : semv;
-		semAdd[i] += semv;
+	public static void lazy(int i, int n, long maxAddv, long maxHistoryAddv, long semAddv, long semHistoryAddv) {
+		sum[i] += maxAddv * cnt[i] + semAddv * (n - cnt[i]);
+		maxHistory[i] = Math.max(maxHistory[i], max[i] + maxHistoryAddv);
+		maxHistoryAdd[i] = Math.max(maxHistoryAdd[i], maxAdd[i] + maxHistoryAddv);
+		max[i] += maxAddv;
+		maxAdd[i] += maxAddv;
+		semHistoryAdd[i] = Math.max(semHistoryAdd[i], semAdd[i] + semHistoryAddv);
+		sem[i] += sem[i] == LOWEST ? 0 : semAddv;
+		semAdd[i] += semAddv;
 	}
 
 	public static void down(int i, int ln, int rn) {

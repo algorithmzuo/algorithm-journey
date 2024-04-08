@@ -52,6 +52,9 @@ public class Code03_SegmentTreeSetMinQueryMaxSum1 {
 		lazy(i << 1 | 1, max[i]);
 	}
 
+	// 一定是没有颠覆掉次大值的懒更新信息下发，也就是说：
+	// 最大值被压成v，并且v > 严格次大值的情况下
+	// sum和max怎么调整
 	public static void lazy(int i, int v) {
 		if (v < max[i]) {
 			sum[i] -= ((long) max[i] - v) * cnt[i];
@@ -79,6 +82,8 @@ public class Code03_SegmentTreeSetMinQueryMaxSum1 {
 		if (jobl <= l && r <= jobr && sem[i] < jobv) {
 			lazy(i, jobv);
 		} else {
+			// 1) 任务没有全包
+			// 2) jobv <= sem[i]
 			down(i);
 			int mid = (l + r) >> 1;
 			if (jobl <= mid) {
