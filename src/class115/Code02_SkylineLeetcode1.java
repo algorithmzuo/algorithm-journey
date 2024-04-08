@@ -70,7 +70,7 @@ public class Code02_SkylineLeetcode1 {
 		int ans = 0;
 		int l = 0, r = n - 1, mid;
 		while (l <= r) {
-			mid = (l + r) / 2;
+			mid = (l + r) >> 1;
 			if (sort[mid] >= v) {
 				ans = mid;
 				r = mid - 1;
