@@ -22,11 +22,13 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 
-public class Code04_MaximumMinimumHistory {
+public class Code05_MaximumMinimumHistory {
 
 	public static int MAXN = 500001;
 
 	public static long LOWEST = Long.MIN_VALUE;
+
+	public static int[] arr = new int[MAXN];
 
 	public static long[] sum = new long[MAXN << 2];
 
@@ -34,19 +36,17 @@ public class Code04_MaximumMinimumHistory {
 
 	public static int[] cnt = new int[MAXN << 2];
 
-	public static long[] maxHistory = new long[MAXN << 2];
-
 	public static long[] sem = new long[MAXN << 2];
 
-	public static long[] semHistory = new long[MAXN << 2];
+	public static long[] maxHistory = new long[MAXN << 2];
 
 	public static long[] maxAdd = new long[MAXN << 2];
 
+	public static long[] otherAdd = new long[MAXN << 2];
+
 	public static long[] maxHistoryAdd = new long[MAXN << 2];
 
-	public static long[] semAdd = new long[MAXN << 2];
-
-	public static long[] semHistoryAdd = new long[MAXN << 2];
+	public static long[] otherHistoryAdd = new long[MAXN << 2];
 
 	public static void up(int i) {
 		int l = i << 1;
@@ -66,15 +66,15 @@ public class Code04_MaximumMinimumHistory {
 		}
 	}
 
-	public static void lazy(int i, int n, long maxAddv, long maxHistoryAddv, long semAddv, long semHistoryAddv) {
-		sum[i] += maxAddv * cnt[i] + semAddv * (n - cnt[i]);
+	public static void lazy(int i, int n, long maxAddv, long otherAddv, long maxHistoryAddv, long otherHistoryAddv) {
+		sum[i] += maxAddv * cnt[i] + otherAddv * (n - cnt[i]);
 		maxHistory[i] = Math.max(maxHistory[i], max[i] + maxHistoryAddv);
 		maxHistoryAdd[i] = Math.max(maxHistoryAdd[i], maxAdd[i] + maxHistoryAddv);
 		max[i] += maxAddv;
 		maxAdd[i] += maxAddv;
-		semHistoryAdd[i] = Math.max(semHistoryAdd[i], semAdd[i] + semHistoryAddv);
-		sem[i] += sem[i] == LOWEST ? 0 : semAddv;
-		semAdd[i] += semAddv;
+		otherHistoryAdd[i] = Math.max(otherHistoryAdd[i], otherAdd[i] + otherHistoryAddv);
+		sem[i] += sem[i] == LOWEST ? 0 : otherAddv;
+		otherAdd[i] += otherAddv;
 	}
 
 	public static void down(int i, int ln, int rn) {
@@ -82,26 +82,21 @@ public class Code04_MaximumMinimumHistory {
 		int r = i << 1 | 1;
 		long tmp = Math.max(max[l], max[r]);
 		if (max[l] == tmp) {
-			lazy(l, ln, maxAdd[i], maxHistoryAdd[i], semAdd[i], semHistoryAdd[i]);
+			lazy(l, ln, maxAdd[i], otherAdd[i], maxHistoryAdd[i], otherHistoryAdd[i]);
 		} else {
-			lazy(l, ln, semAdd[i], semHistoryAdd[i], semAdd[i], semHistoryAdd[i]);
+			lazy(l, ln, otherAdd[i], otherAdd[i], otherHistoryAdd[i], otherHistoryAdd[i]);
 		}
 		if (max[r] == tmp) {
-			lazy(r, rn, maxAdd[i], maxHistoryAdd[i], semAdd[i], semHistoryAdd[i]);
+			lazy(r, rn, maxAdd[i], otherAdd[i], maxHistoryAdd[i], otherHistoryAdd[i]);
 		} else {
-			lazy(r, rn, semAdd[i], semHistoryAdd[i], semAdd[i], semHistoryAdd[i]);
+			lazy(r, rn, otherAdd[i], otherAdd[i], otherHistoryAdd[i], otherHistoryAdd[i]);
 		}
-		maxAdd[i] = maxHistoryAdd[i] = semAdd[i] = semHistoryAdd[i] = 0;
+		maxAdd[i] = maxHistoryAdd[i] = otherAdd[i] = otherHistoryAdd[i] = 0;
 	}
 
-	public static void build(int l, int r, int i) throws IOException {
+	public static void build(int l, int r, int i) {
 		if (l == r) {
-			// 依然不能生成原始数组然后build
-			// 空间就是会超过限制
-			// 直接从输入流读入
-			// 一般情况下不会这么极限的
-			in.nextToken();
-			sum[i] = max[i] = maxHistory[i] = (int) in.nval;
+			sum[i] = max[i] = maxHistory[i] = arr[l];
 			sem[i] = LOWEST;
 			cnt[i] = 1;
 		} else {
@@ -110,7 +105,7 @@ public class Code04_MaximumMinimumHistory {
 			build(mid + 1, r, i << 1 | 1);
 			up(i);
 		}
-		maxAdd[i] = maxHistoryAdd[i] = semAdd[i] = semHistoryAdd[i] = 0;
+		maxAdd[i] = maxHistoryAdd[i] = otherAdd[i] = otherHistoryAdd[i] = 0;
 	}
 
 	public static void add(int jobl, int jobr, long jobv, int l, int r, int i) {
@@ -134,7 +129,7 @@ public class Code04_MaximumMinimumHistory {
 			return;
 		}
 		if (jobl <= l && r <= jobr && sem[i] < jobv) {
-			lazy(i, r - l + 1, jobv - max[i], jobv - max[i], 0, 0);
+			lazy(i, r - l + 1, jobv - max[i], 0, jobv - max[i], 0);
 		} else {
 			int mid = (l + r) >> 1;
 			down(i, mid - l + 1, r - mid);
@@ -199,20 +194,18 @@ public class Code04_MaximumMinimumHistory {
 		}
 	}
 
-	// 为了不生成原始数组
-	// 让build函数可以直接从输入流拿数据
-	// 所以把输入输出流定义成全局静态变量
-	public static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-
-	public static StreamTokenizer in = new StreamTokenizer(br);
-
-	public static PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
-
 	public static void main(String[] args) throws IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StreamTokenizer in = new StreamTokenizer(br);
+		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
 		in.nextToken();
 		int n = (int) in.nval;
 		in.nextToken();
 		int m = (int) in.nval;
+		for (int i = 1; i <= n; i++) {
+			in.nextToken();
+			arr[i] = (int) in.nval;
+		}
 		build(1, n, 1);
 		long jobv;
 		for (int i = 1, op, jobl, jobr; i <= m; i++) {
