@@ -63,6 +63,10 @@ public class Code04_SegmentTreeAddSetminQueryMaxSum {
 	public static void down(int i, int ln, int rn) {
 		int l = i << 1;
 		int r = i << 1 | 1;
+		// 为什么拿全局最大值不写成 : tmp = max[i]
+		// 因为父亲范围的最大值可能已经被懒更新任务修改过了
+		// 现在希望拿的是懒更新之前的最大值
+		// 子范围的max值没有修改过，所以写成 : tmp = Math.max(max[l], max[r])
 		long tmp = Math.max(max[l], max[r]);
 		if (max[l] == tmp) {
 			lazy(l, ln, maxAdd[i], otherAdd[i]);
