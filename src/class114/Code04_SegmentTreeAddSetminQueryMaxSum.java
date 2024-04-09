@@ -14,14 +14,19 @@ public class Code04_SegmentTreeAddSetminQueryMaxSum {
 
 	public static long LOWEST = Long.MIN_VALUE;
 
+	// 原始数组
 	public static int[] arr = new int[MAXN];
 
+	// 累加和信息(查询信息)
 	public static long[] sum = new long[MAXN << 2];
 
+	// 最大值信息(只是查询信息，不再是懒更新信息，懒更新功能被maxAdd数组替代了)
 	public static long[] max = new long[MAXN << 2];
 
+	// 最大值个数(查询信息)
 	public static int[] cnt = new int[MAXN << 2];
 
+	// 严格次大值(查询信息)
 	public static long[] sem = new long[MAXN << 2];
 
 	// 最大值的增加幅度(懒更新信息)
