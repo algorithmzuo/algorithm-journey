@@ -14,13 +14,13 @@ public class Code04_SegmentTreeAddSetminQueryMaxSum {
 
 	public static long LOWEST = Long.MIN_VALUE;
 
-	public static long[] arr = new long[MAXN];
+	public static int[] arr = new int[MAXN];
 
 	public static long[] sum = new long[MAXN << 2];
 
 	public static long[] max = new long[MAXN << 2];
 
-	public static long[] cnt = new long[MAXN << 2];
+	public static int[] cnt = new int[MAXN << 2];
 
 	public static long[] sem = new long[MAXN << 2];
 
@@ -48,8 +48,8 @@ public class Code04_SegmentTreeAddSetminQueryMaxSum {
 	public static void lazy(int i, int n, long maxAddv, long otherAddv) {
 		sum[i] += maxAddv * cnt[i] + otherAddv * (n - cnt[i]);
 		max[i] += maxAddv;
-		maxAdd[i] += maxAddv;
 		sem[i] += sem[i] == LOWEST ? 0 : otherAddv;
+		maxAdd[i] += maxAddv;
 		otherAdd[i] += otherAddv;
 	}
 
