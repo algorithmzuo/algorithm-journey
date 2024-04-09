@@ -42,11 +42,14 @@ public class Code05_MaximumMinimumHistory {
 
 	public static long[] otherAdd = new long[MAXN << 2];
 
+	// 历史最大值
 	public static long[] maxHistory = new long[MAXN << 2];
 
-	public static long[] maxHistoryAdd = new long[MAXN << 2];
+	// 最大值达到过的最大提升幅度(懒更新信息)
+	public static long[] maxAddTop = new long[MAXN << 2];
 
-	public static long[] otherHistoryAdd = new long[MAXN << 2];
+	// 除最大值以外的其他数字，达到过的最大提升幅度(懒更新信息)
+	public static long[] otherAddTop = new long[MAXN << 2];
 
 	public static void up(int i) {
 		int l = i << 1;
@@ -66,10 +69,10 @@ public class Code05_MaximumMinimumHistory {
 		}
 	}
 
-	public static void lazy(int i, int n, long maxAddv, long otherAddv, long maxHistoryAddv, long otherHistoryAddv) {
-		maxHistory[i] = Math.max(maxHistory[i], max[i] + maxHistoryAddv);
-		maxHistoryAdd[i] = Math.max(maxHistoryAdd[i], maxAdd[i] + maxHistoryAddv);
-		otherHistoryAdd[i] = Math.max(otherHistoryAdd[i], otherAdd[i] + otherHistoryAddv);
+	public static void lazy(int i, int n, long maxAddv, long otherAddv, long maxUpv, long otherUpv) {
+		maxHistory[i] = Math.max(maxHistory[i], max[i] + maxUpv);
+		maxAddTop[i] = Math.max(maxAddTop[i], maxAdd[i] + maxUpv);
+		otherAddTop[i] = Math.max(otherAddTop[i], otherAdd[i] + otherUpv);
 		sum[i] += maxAddv * cnt[i] + otherAddv * (n - cnt[i]);
 		max[i] += maxAddv;
 		sem[i] += sem[i] == LOWEST ? 0 : otherAddv;
@@ -82,16 +85,16 @@ public class Code05_MaximumMinimumHistory {
 		int r = i << 1 | 1;
 		long tmp = Math.max(max[l], max[r]);
 		if (max[l] == tmp) {
-			lazy(l, ln, maxAdd[i], otherAdd[i], maxHistoryAdd[i], otherHistoryAdd[i]);
+			lazy(l, ln, maxAdd[i], otherAdd[i], maxAddTop[i], otherAddTop[i]);
 		} else {
-			lazy(l, ln, otherAdd[i], otherAdd[i], otherHistoryAdd[i], otherHistoryAdd[i]);
+			lazy(l, ln, otherAdd[i], otherAdd[i], otherAddTop[i], otherAddTop[i]);
 		}
 		if (max[r] == tmp) {
-			lazy(r, rn, maxAdd[i], otherAdd[i], maxHistoryAdd[i], otherHistoryAdd[i]);
+			lazy(r, rn, maxAdd[i], otherAdd[i], maxAddTop[i], otherAddTop[i]);
 		} else {
-			lazy(r, rn, otherAdd[i], otherAdd[i], otherHistoryAdd[i], otherHistoryAdd[i]);
+			lazy(r, rn, otherAdd[i], otherAdd[i], otherAddTop[i], otherAddTop[i]);
 		}
-		maxAdd[i] = otherAdd[i] = maxHistoryAdd[i] = otherHistoryAdd[i] = 0;
+		maxAdd[i] = otherAdd[i] = maxAddTop[i] = otherAddTop[i] = 0;
 	}
 
 	public static void build(int l, int r, int i) {
@@ -105,7 +108,7 @@ public class Code05_MaximumMinimumHistory {
 			build(mid + 1, r, i << 1 | 1);
 			up(i);
 		}
-		maxAdd[i] = otherAdd[i] = maxHistoryAdd[i] = otherHistoryAdd[i] = 0;
+		maxAdd[i] = otherAdd[i] = maxAddTop[i] = otherAddTop[i] = 0;
 	}
 
 	public static void add(int jobl, int jobr, long jobv, int l, int r, int i) {

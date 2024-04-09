@@ -24,8 +24,10 @@ public class Code04_SegmentTreeAddSetminQueryMaxSum {
 
 	public static long[] sem = new long[MAXN << 2];
 
+	// 最大值的增加幅度(懒更新信息)
 	public static long[] maxAdd = new long[MAXN << 2];
 
+	// 除最大值以外其他数字的增加幅度(懒更新信息)
 	public static long[] otherAdd = new long[MAXN << 2];
 
 	public static void up(int i) {

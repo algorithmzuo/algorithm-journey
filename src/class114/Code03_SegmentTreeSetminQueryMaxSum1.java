@@ -18,7 +18,7 @@ public class Code03_SegmentTreeSetminQueryMaxSum1 {
 	// 原始数组
 	public static int[] arr = new int[MAXN];
 
-	// 累加和
+	// 累加和(既是查询信息也是懒更新信息)
 	public static long[] sum = new long[MAXN << 2];
 
 	// 最大值
