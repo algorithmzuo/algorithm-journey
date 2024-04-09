@@ -71,8 +71,8 @@ public class Code05_MaximumMinimumHistory {
 
 	// maxAddv   : 最大值增加多少
 	// otherAddv : 其他数增加多少
-	// maxUpv    : 最大值提升的最大幅度
-	// otherUpv  : 其他数提升的最大幅度
+	// maxUpv    : 最大值达到过的最大提升幅度
+	// otherUpv  : 其他数达到过的最大提升幅度
 	public static void lazy(int i, int n, long maxAddv, long otherAddv, long maxUpv, long otherUpv) {
 		maxHistory[i] = Math.max(maxHistory[i], max[i] + maxUpv);
 		maxAddTop[i] = Math.max(maxAddTop[i], maxAdd[i] + maxUpv);
