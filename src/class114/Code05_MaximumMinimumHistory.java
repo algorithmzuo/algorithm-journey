@@ -38,11 +38,11 @@ public class Code05_MaximumMinimumHistory {
 
 	public static long[] sem = new long[MAXN << 2];
 
-	public static long[] maxHistory = new long[MAXN << 2];
-
 	public static long[] maxAdd = new long[MAXN << 2];
 
 	public static long[] otherAdd = new long[MAXN << 2];
+
+	public static long[] maxHistory = new long[MAXN << 2];
 
 	public static long[] maxHistoryAdd = new long[MAXN << 2];
 
