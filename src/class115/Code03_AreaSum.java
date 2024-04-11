@@ -22,7 +22,7 @@ public class Code03_AreaSum {
 
 	public static int[][] line = new int[MAXN][4];
 
-	public static int[] y = new int[MAXN];
+	public static int[] ysort = new int[MAXN];
 
 	public static int[] length = new int[MAXN << 2];
 
@@ -31,14 +31,14 @@ public class Code03_AreaSum {
 	public static int[] cover = new int[MAXN << 2];
 
 	public static int prepare(int n) {
-		Arrays.sort(y, 1, n + 1);
+		Arrays.sort(ysort, 1, n + 1);
 		int m = 1;
 		for (int i = 2; i <= n; i++) {
-			if (y[m] != y[i]) {
-				y[++m] = y[i];
+			if (ysort[m] != ysort[i]) {
+				ysort[++m] = ysort[i];
 			}
 		}
-		y[m + 1] = y[m];
+		ysort[m + 1] = ysort[m];
 		return m;
 	}
 
@@ -47,7 +47,7 @@ public class Code03_AreaSum {
 		int l = 1, r = n, mid;
 		while (l <= r) {
 			mid = (l + r) >> 1;
-			if (y[mid] >= num) {
+			if (ysort[mid] >= num) {
 				ans = mid;
 				r = mid - 1;
 			} else {
@@ -63,7 +63,7 @@ public class Code03_AreaSum {
 			build(l, mid, i << 1);
 			build(mid + 1, r, i << 1 | 1);
 		}
-		length[i] = y[r + 1] - y[l];
+		length[i] = ysort[r + 1] - ysort[l];
 		times[i] = 0;
 		cover[i] = 0;
 	}
@@ -121,7 +121,7 @@ public class Code03_AreaSum {
 	public static long compute(int n) {
 		for (int i = 1, j = 1 + n, x1, y1, x2, y2; i <= n; i++, j++) {
 			x1 = rec[i][0]; y1 = rec[i][1]; x2 = rec[i][2]; y2 = rec[i][3];
-			y[i] = y1; y[j] = y2;
+			ysort[i] = y1; ysort[j] = y2;
 			line[i][0] = x1; line[i][1] = y1; line[i][2] = y2; line[i][3] = 1;
 			line[j][0] = x2; line[j][1] = y1; line[j][2] = y2; line[j][3] = -1;
 		}

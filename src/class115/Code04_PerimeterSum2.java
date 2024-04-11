@@ -23,7 +23,7 @@ public class Code04_PerimeterSum2 {
 
 	public static int[][] line = new int[MAXN][4];
 
-	public static int[] v = new int[MAXN];
+	public static int[] vsort = new int[MAXN];
 
 	public static int[] length = new int[MAXN << 2];
 
@@ -32,14 +32,14 @@ public class Code04_PerimeterSum2 {
 	public static int[] cover = new int[MAXN << 2];
 
 	public static int prepare(int n) {
-		Arrays.sort(v, 1, n + 1);
+		Arrays.sort(vsort, 1, n + 1);
 		int m = 1;
 		for (int i = 2; i <= n; i++) {
-			if (v[m] != v[i]) {
-				v[++m] = v[i];
+			if (vsort[m] != vsort[i]) {
+				vsort[++m] = vsort[i];
 			}
 		}
-		v[m + 1] = v[m];
+		vsort[m + 1] = vsort[m];
 		return m;
 	}
 
@@ -48,7 +48,7 @@ public class Code04_PerimeterSum2 {
 		int l = 1, r = n, mid;
 		while (l <= r) {
 			mid = (l + r) >> 1;
-			if (v[mid] >= num) {
+			if (vsort[mid] >= num) {
 				ans = mid;
 				r = mid - 1;
 			} else {
@@ -64,7 +64,7 @@ public class Code04_PerimeterSum2 {
 			build(l, mid, i << 1);
 			build(mid + 1, r, i << 1 | 1);
 		}
-		length[i] = v[r + 1] - v[l];
+		length[i] = vsort[r + 1] - vsort[l];
 		times[i] = 0;
 		cover[i] = 0;
 	}
@@ -117,7 +117,7 @@ public class Code04_PerimeterSum2 {
 	public static long scanY(int n) {
 		for (int i = 1, j = 1 + n, x1, y1, x2, y2; i <= n; i++, j++) {
 			x1 = rec[i][0]; y1 = rec[i][1]; x2 = rec[i][2]; y2 = rec[i][3];
-			v[i] = y1; v[j] = y2;
+			vsort[i] = y1; vsort[j] = y2;
 			line[i][0] = x1; line[i][1] = y1; line[i][2] = y2; line[i][3] = 1;
 			line[j][0] = x2; line[j][1] = y1; line[j][2] = y2; line[j][3] = -1;
 		}
@@ -127,7 +127,7 @@ public class Code04_PerimeterSum2 {
 	public static long scanX(int n) {
 		for (int i = 1, j = 1 + n, x1, y1, x2, y2; i <= n; i++, j++) {
 			x1 = rec[i][0]; y1 = rec[i][1]; x2 = rec[i][2]; y2 = rec[i][3];
-			v[i] = x1; v[j] = x2;
+			vsort[i] = x1; vsort[j] = x2;
 			line[i][0] = y1; line[i][1] = x1; line[i][2] = x2; line[i][3] = 1;
 			line[j][0] = y2; line[j][1] = x1; line[j][2] = x2; line[j][3] = -1;
 		}
