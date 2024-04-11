@@ -4,8 +4,8 @@ import java.util.Arrays;
 import java.util.PriorityQueue;
 
 // 包含每个查询的最小区间
-// 给你一个二维整数数组intervals，其中intervals[i] = [lefti, righti]
-// 表示第i个区间开始于lefti，结束于righti，区间的长度是righti-lefti+1
+// 给你一个二维整数数组intervals，其中intervals[i] = [l, r]
+// 表示第i个区间开始于l，结束于r，区间的长度是r-l+1
 // 给你一个整数数组queries，queries[i]表示要查询的位置
 // 答案是所有包含queries[i]的区间中，最小长度的区间是多长
 // 返回数组对应查询的所有答案，如果不存在这样的区间那么答案是-1
