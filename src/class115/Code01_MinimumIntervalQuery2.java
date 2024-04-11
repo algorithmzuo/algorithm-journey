@@ -3,8 +3,6 @@ package class115;
 import java.util.Arrays;
 
 // 包含每个查询的最小区间
-// 该问题无需使用线段树
-// 用到的堆结构由自己实现
 // 给你一个二维整数数组intervals，其中intervals[i] = [lefti, righti]
 // 表示第i个区间开始于lefti，结束于righti，区间的长度是righti-lefti+1
 // 给你一个整数数组queries，queries[i]表示要查询的位置
@@ -14,6 +12,7 @@ import java.util.Arrays;
 // 测试链接 : https://leetcode.cn/problems/minimum-interval-to-include-each-query/
 public class Code01_MinimumIntervalQuery2 {
 
+	// 堆结构由自己实现
 	public static int[] minInterval(int[][] intervals, int[] queries) {
 		int n = intervals.length;
 		int m = queries.length;

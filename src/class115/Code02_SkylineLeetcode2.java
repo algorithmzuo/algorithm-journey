@@ -4,13 +4,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-// 天际线问题
-// 该问题无需使用线段树
-// 用到的堆结构由自己实现
-// Leetcode测试
+// 天际线问题(Leetcode测试)
 // 测试链接 : https://leetcode.cn/problems/the-skyline-problem/
 public class Code02_SkylineLeetcode2 {
 
+	// 堆结构由自己实现
 	public static List<List<Integer>> getSkyline(int[][] arr) {
 		int n = arr.length;
 		int m = build(arr, n);

@@ -5,16 +5,16 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.PriorityQueue;
 
-// 天际线问题
-// 该问题无需使用线段树
-// 用到的堆结构是现成结构
-// Leetcode测试
+// 天际线问题(Leetcode测试)
 // 测试链接 : https://leetcode.cn/problems/the-skyline-problem/
 public class Code02_SkylineLeetcode1 {
 
+	// 堆结构是现成结构
 	public static List<List<Integer>> getSkyline(int[][] arr) {
 		int n = arr.length;
 		int m = build(arr, n);
+		// 0 : 高度
+		// 1 : 影响到的位置
 		PriorityQueue<int[]> heap = new PriorityQueue<>((a, b) -> b[0] - a[0]);
 		for (int i = 0, j = 0; i < m; i++) {
 			for (; j < n && arr[j][0] <= i; j++) {

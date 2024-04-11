@@ -1,9 +1,6 @@
 package class115;
 
-// 天际线问题
-// 该问题无需使用线段树
-// 用到的堆结构由自己实现
-// 洛谷测试
+// 天际线问题(洛谷测试)
 // 测试链接 : https://www.luogu.com.cn/problem/P1904
 // 请同学们务必参考如下代码中关于输入、输出的处理
 // 这是输入输出处理效率很高的写法
@@ -17,6 +14,7 @@ import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 import java.util.Arrays;
 
+// 堆结构由自己实现
 public class Code02_SkylineLuogu {
 
 	public static int MAXN = 20001;
@@ -30,6 +28,48 @@ public class Code02_SkylineLuogu {
 	public static int[][] heap = new int[MAXN][2];
 
 	public static int heapSize;
+
+	public static void main(String[] args) throws IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StreamTokenizer in = new StreamTokenizer(br);
+		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
+		int n = 0;
+		while (in.nextToken() != StreamTokenizer.TT_EOF) {
+			arr[n][0] = (int) in.nval;
+			in.nextToken();
+			arr[n][2] = (int) in.nval;
+			in.nextToken();
+			arr[n][1] = (int) in.nval;
+			n++;
+		}
+		int m = build(n);
+		compute(n, m);
+		out.print(sort[0] + " " + height[0]);
+		for (int i = 1, pre = height[0]; i < m; i++) {
+			if (pre != height[i]) {
+				out.print(" " + sort[i] + " " + height[i]);
+			}
+			pre = height[i];
+		}
+		out.println();
+		out.flush();
+		out.close();
+		br.close();
+	}
+
+	public static void compute(int n, int m) {
+		for (int i = 0, j = 0; i < m; i++) {
+			for (; j < n && arr[j][0] <= i; j++) {
+				push(arr[j][2], arr[j][1]);
+			}
+			while (!isEmpty() && peekEnd() < i) {
+				poll();
+			}
+			if (!isEmpty()) {
+				height[i] = peekHeight();
+			}
+		}
+	}
 
 	public static int build(int n) {
 		int size = 0;
@@ -117,48 +157,6 @@ public class Code02_SkylineLuogu {
 		int[] tmp = heap[i];
 		heap[i] = heap[j];
 		heap[j] = tmp;
-	}
-
-	public static void compute(int n, int m) {
-		for (int i = 0, j = 0; i < m; i++) {
-			for (; j < n && arr[j][0] <= i; j++) {
-				push(arr[j][2], arr[j][1]);
-			}
-			while (!isEmpty() && peekEnd() < i) {
-				poll();
-			}
-			if (!isEmpty()) {
-				height[i] = peekHeight();
-			}
-		}
-	}
-
-	public static void main(String[] args) throws IOException {
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StreamTokenizer in = new StreamTokenizer(br);
-		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
-		int n = 0;
-		while (in.nextToken() != StreamTokenizer.TT_EOF) {
-			arr[n][0] = (int) in.nval;
-			in.nextToken();
-			arr[n][2] = (int) in.nval;
-			in.nextToken();
-			arr[n][1] = (int) in.nval;
-			n++;
-		}
-		int m = build(n);
-		compute(n, m);
-		out.print(sort[0] + " " + height[0]);
-		for (int i = 1, pre = height[0]; i < m; i++) {
-			if (pre != height[i]) {
-				out.print(" " + sort[i] + " " + height[i]);
-			}
-			pre = height[i];
-		}
-		out.println();
-		out.flush();
-		out.close();
-		br.close();
 	}
 
 }
