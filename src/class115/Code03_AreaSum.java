@@ -25,10 +25,10 @@ public class Code03_AreaSum {
 	public static int[] ysort = new int[MAXN];
 
 	public static int[] length = new int[MAXN << 2];
+	
+	public static int[] cover = new int[MAXN << 2];
 
 	public static int[] times = new int[MAXN << 2];
-
-	public static int[] cover = new int[MAXN << 2];
 
 	public static int prepare(int n) {
 		Arrays.sort(ysort, 1, n + 1);
