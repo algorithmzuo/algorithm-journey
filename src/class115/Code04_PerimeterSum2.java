@@ -28,7 +28,7 @@ public class Code04_PerimeterSum2 {
 	public static int[] vsort = new int[MAXN];
 
 	public static int[] length = new int[MAXN << 2];
-	
+
 	public static int[] cover = new int[MAXN << 2];
 
 	public static int[] times = new int[MAXN << 2];
