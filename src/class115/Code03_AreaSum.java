@@ -24,13 +24,13 @@ public class Code03_AreaSum {
 
 	public static int[] ysort = new int[MAXN];
 
-	// 线段树某范围对应的真实长度
+	// 线段树某范围总长度
 	public static int[] length = new int[MAXN << 2];
 
-	// 线段树某范围被覆盖的长度
+	// 线段树某范围覆盖长度
 	public static int[] cover = new int[MAXN << 2];
 
-	// 线段树某范围被覆盖了几次
+	// 线段树某范围覆盖次数
 	public static int[] times = new int[MAXN << 2];
 
 	public static int prepare(int n) {
