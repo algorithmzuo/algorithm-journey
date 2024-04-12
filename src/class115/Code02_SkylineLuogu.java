@@ -42,7 +42,7 @@ public class Code02_SkylineLuogu {
 			arr[n][1] = (int) in.nval;
 			n++;
 		}
-		int m = build(n);
+		int m = prepare(n);
 		compute(n, m);
 		out.print(sort[0] + " " + height[0]);
 		for (int i = 1, pre = height[0]; i < m; i++) {
@@ -71,7 +71,7 @@ public class Code02_SkylineLuogu {
 		}
 	}
 
-	public static int build(int n) {
+	public static int prepare(int n) {
 		int size = 0;
 		for (int i = 0; i < n; i++) {
 			sort[size++] = arr[i][0];

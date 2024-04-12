@@ -11,7 +11,7 @@ public class Code02_SkylineLeetcode2 {
 	// 堆结构由自己实现
 	public static List<List<Integer>> getSkyline(int[][] arr) {
 		int n = arr.length;
-		int m = build(arr, n);
+		int m = prepare(arr, n);
 		for (int i = 0, j = 0; i < m; i++) {
 			for (; j < n && arr[j][0] <= i; j++) {
 				push(arr[j][2], arr[j][1]);
@@ -43,7 +43,7 @@ public class Code02_SkylineLeetcode2 {
 
 	public static int heapSize;
 
-	public static int build(int[][] arr, int n) {
+	public static int prepare(int[][] arr, int n) {
 		int size = 0;
 		for (int i = 0; i < n; i++) {
 			sort[size++] = arr[i][0];
