@@ -30,7 +30,7 @@ public class Code02_SkylineLeetcode1 {
 		List<List<Integer>> ans = new ArrayList<>();
 		for (int i = 0, pre = 0; i < m; i++) {
 			if (pre != height[i]) {
-				ans.add(Arrays.asList(sort[i], height[i]));
+				ans.add(Arrays.asList(xsort[i], height[i]));
 			}
 			pre = height[i];
 		}
@@ -39,7 +39,7 @@ public class Code02_SkylineLeetcode1 {
 
 	public static int MAXN = 100001;
 
-	public static int[] sort = new int[MAXN];
+	public static int[] xsort = new int[MAXN];
 
 	public static int[] height = new int[MAXN];
 
@@ -54,16 +54,16 @@ public class Code02_SkylineLeetcode1 {
 		int size = 0;
 		// 大楼的左边界、右边界-1、右边界，三个值都去离散化
 		for (int i = 0; i < n; i++) {
-			sort[size++] = arr[i][0];
-			sort[size++] = arr[i][1] - 1;
-			sort[size++] = arr[i][1];
+			xsort[size++] = arr[i][0];
+			xsort[size++] = arr[i][1] - 1;
+			xsort[size++] = arr[i][1];
 		}
-		Arrays.sort(sort, 0, size);
+		Arrays.sort(xsort, 0, size);
 		// 排序之后去重，去重后的数值有m个
 		int m = 1;
 		for (int i = 1; i < size; i++) {
-			if (sort[m - 1] != sort[i]) {
-				sort[m++] = sort[i];
+			if (xsort[m - 1] != xsort[i]) {
+				xsort[m++] = xsort[i];
 			}
 		}
 		// 修改大楼影响到的左右边界，都变成排名值
@@ -87,7 +87,7 @@ public class Code02_SkylineLeetcode1 {
 		int l = 0, r = n - 1, mid;
 		while (l <= r) {
 			mid = (l + r) >> 1;
-			if (sort[mid] >= v) {
+			if (xsort[mid] >= v) {
 				ans = mid;
 				r = mid - 1;
 			} else {
