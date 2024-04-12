@@ -18,7 +18,7 @@ public class Code02_SkylineLeetcode1 {
 		PriorityQueue<int[]> heap = new PriorityQueue<>((a, b) -> b[0] - a[0]);
 		for (int i = 1, j = 0; i <= m; i++) {
 			for (; j < n && arr[j][0] <= i; j++) {
-				heap.add(new int[] { arr[j][2], arr[j][1], });
+				heap.add(new int[] { arr[j][2], arr[j][1] });
 			}
 			while (!heap.isEmpty() && heap.peek()[1] < i) {
 				heap.poll();
