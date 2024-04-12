@@ -81,6 +81,7 @@ public class Code02_SkylineLeetcode1 {
 		return m;
 	}
 
+	// 查询数值v的排名(离散值)
 	public static int rank(int n, int v) {
 		int ans = 0;
 		int l = 0, r = n - 1, mid;
