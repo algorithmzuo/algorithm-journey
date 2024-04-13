@@ -60,7 +60,7 @@ public class ExtraQuestion {
 			build(l, mid, i << 1);
 			build(mid + 1, r, i << 1 | 1);
 		}
-		// 一开始所有色板都只有1号颜色
+		// 一开始所有色板都是1号颜色
 		// 所以状态为0...0010 = 2
 		color[i] = 2;
 		change[i] = 0;
