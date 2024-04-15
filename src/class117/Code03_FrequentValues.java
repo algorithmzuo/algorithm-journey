@@ -35,7 +35,7 @@ public class Code03_FrequentValues {
 
 	public static int[] right = new int[MAXN];
 
-	public static int[][] st = new int[MAXN][STEP];
+	public static int[][] stmax = new int[MAXN][STEP];
 
 	public static void build(int n) {
 		// 题目给定的数值范围-100000 ~ +100000
@@ -53,11 +53,11 @@ public class Code03_FrequentValues {
 		log2[0] = -1;
 		for (int i = 1; i <= cnt; i++) {
 			log2[i] = log2[i >> 1] + 1;
-			st[i][0] = right[i] - left[i] + 1;
+			stmax[i][0] = right[i] - left[i] + 1;
 		}
 		for (int s = 1; s <= log2[cnt]; s++) {
 			for (int i = 1; i + (1 << s) - 1 <= cnt; i++) {
-				st[i][s] = Math.max(st[i][s - 1], st[i + (1 << (s - 1))][s - 1]);
+				stmax[i][s] = Math.max(stmax[i][s - 1], stmax[i + (1 << (s - 1))][s - 1]);
 			}
 		}
 	}
@@ -76,7 +76,7 @@ public class Code03_FrequentValues {
 		int a = right[lbucket] - l + 1, b = r - left[rbucket] + 1, c = 0;
 		if (lbucket + 1 < rbucket) {
 			int from = lbucket + 1, to = rbucket - 1, s = log2[to - from + 1];
-			c = Math.max(st[from][s], st[to - (1 << s) + 1][s]);
+			c = Math.max(stmax[from][s], stmax[to - (1 << s) + 1][s]);
 		}
 		return Math.max(Math.max(a, b), c);
 	}

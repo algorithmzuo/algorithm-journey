@@ -27,29 +27,29 @@ public class Code01_SparseTableMaximumMinimum {
 
 	public static int[] log2 = new int[MAXN];
 
-	public static int[][] max = new int[MAXN][STEP];
+	public static int[][] stmax = new int[MAXN][STEP];
 
-	public static int[][] min = new int[MAXN][STEP];
+	public static int[][] stmin = new int[MAXN][STEP];
 
 	public static void build(int n) {
 		log2[0] = -1;
 		for (int i = 1; i <= n; i++) {
 			log2[i] = log2[i >> 1] + 1;
-			max[i][0] = arr[i];
-			min[i][0] = arr[i];
+			stmax[i][0] = arr[i];
+			stmin[i][0] = arr[i];
 		}
 		for (int s = 1; s <= log2[n]; s++) {
 			for (int i = 1; i + (1 << s) - 1 <= n; i++) {
-				max[i][s] = Math.max(max[i][s - 1], max[i + (1 << (s - 1))][s - 1]);
-				min[i][s] = Math.min(min[i][s - 1], min[i + (1 << (s - 1))][s - 1]);
+				stmax[i][s] = Math.max(stmax[i][s - 1], stmax[i + (1 << (s - 1))][s - 1]);
+				stmin[i][s] = Math.min(stmin[i][s - 1], stmin[i + (1 << (s - 1))][s - 1]);
 			}
 		}
 	}
 
 	public static int query(int l, int r) {
 		int s = log2[r - l + 1];
-		int a = Math.max(max[l][s], max[r - (1 << s) + 1][s]);
-		int b = Math.min(min[l][s], min[r - (1 << s) + 1][s]);
+		int a = Math.max(stmax[l][s], stmax[r - (1 << s) + 1][s]);
+		int b = Math.min(stmin[l][s], stmin[r - (1 << s) + 1][s]);
 		return a - b;
 	}
 
