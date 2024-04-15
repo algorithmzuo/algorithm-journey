@@ -71,14 +71,16 @@ public class Code03_FrequentValues2 {
 		return Math.max(Math.max(a, b), c);
 	}
 
+	// 对数器
+	// 为了验证
 	public static void main(String[] args) {
 		System.out.println("测试开始");
 		int n = 10000;
 		int v = 100;
-		int testTime = 5000;
+		int m = 5000;
 		randomArray(n, v);
 		build(n);
-		for (int i = 1, l, r; i <= testTime; i++) {
+		for (int i = 1, l, r; i <= m; i++) {
 			l = (int) (Math.random() * n) + 1;
 			r = (int) (Math.random() * n) + 1;
 			if (query(l, r) != checkQuery(l, r)) {
@@ -88,6 +90,8 @@ public class Code03_FrequentValues2 {
 		System.out.println("测试结束");
 	}
 
+	// 得到随机数组
+	// 为了验证
 	public static void randomArray(int n, int v) {
 		for (int i = 1; i <= n; i++) {
 			arr[i] = (int) (Math.random() * 2 * v) - v;
@@ -95,6 +99,9 @@ public class Code03_FrequentValues2 {
 		Arrays.sort(arr, 1, n + 1);
 	}
 
+	// 暴力方法
+	// 直接遍历统计词频
+	// 为了验证
 	public static int checkQuery(int l, int r) {
 		if (l > r) {
 			int tmp = l;
