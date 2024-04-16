@@ -149,15 +149,18 @@ public class Code04_PerimeterSum2 {
 		return ans;
 	}
 
-	// poj上的java版本较老
-	// 不支持lamda表达式定义比较器
-	// 需要自己定义比较器
-	// 除此之外没有区别
+	// 这里有个坑
+	// 在排序时，如果同一个位置的扫描线有多条，也就是a[0] == b[0]时
+	// 应该先处理区间覆盖+1的扫描线，然后再处理区间覆盖-1的扫描线
+	// 不然投影长度会频繁变化，导致答案错误
+	// 不过测试数据并没有安排这方面的测试
+	// poj上的java版本较老，不支持lamda表达式定义比较器
+	// 需要自己定义比较器，除此之外没有区别
 	public static class LineComparator implements Comparator<int[]> {
 
 		@Override
 		public int compare(int[] a, int[] b) {
-			return a[0] - b[0];
+			return a[0] != b[0] ? (a[0] - b[0]) : (b[3] - a[3]);
 		}
 
 	}

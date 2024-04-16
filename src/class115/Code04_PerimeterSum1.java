@@ -141,7 +141,12 @@ public class Code04_PerimeterSum1 {
 	public static long scan(int n) {
 		int m = prepare(n);
 		build(1, m, 1);
-		Arrays.sort(line, 1, n + 1, (a, b) -> a[0] - b[0]);
+		// 这里有个坑
+		// 在排序时，如果同一个位置的扫描线有多条，也就是a[0] == b[0]时
+		// 应该先处理区间覆盖+1的扫描线，然后再处理区间覆盖-1的扫描线
+		// 不然投影长度会频繁变化，导致答案错误
+		// 不过测试数据并没有安排这方面的测试
+		Arrays.sort(line, 1, n + 1, (a, b) -> a[0] != b[0] ? (a[0] - b[0]) : (b[3] - a[3]));
 		long ans = 0;
 		for (int i = 1, pre; i <= n; i++) {
 			pre = cover[1];
