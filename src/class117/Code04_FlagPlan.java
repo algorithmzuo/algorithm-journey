@@ -26,7 +26,7 @@ public class Code04_FlagPlan {
 	// 200001不超过2的18次方
 	public static int STEP = 18;
 
-	// 线段编号、线段左边界、线段右边界
+	// 每条线段3个信息  : 线段编号、线段左边界、线段右边界
 	public static int[][] line = new int[MAXN << 1][3];
 
 	// starrive[i][s] : 从i号线段出发，跳的次数是2的s次方，能到达的最右线段的编号
