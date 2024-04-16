@@ -45,6 +45,11 @@ public class Code04_FlagPlan {
 	}
 
 	public static void build() {
+		for (int i = 1; i <= n; i++) {
+			if (line[i][1] > line[i][2]) {
+				line[i][2] += m;
+			}
+		}
 		Arrays.sort(line, 1, n + 1, (a, b) -> a[1] - b[1]);
 		for (int i = 1; i <= n; i++) {
 			line[i + n][0] = line[i][0];
@@ -65,19 +70,23 @@ public class Code04_FlagPlan {
 		}
 	}
 
-	public static void compute() {
-		for (int i = 1, aim, cur, next, jumps; i <= n; i++) {
-			aim = line[i][1] + m;
-			cur = i;
-			jumps = 1;
-			for (int s = limit; s >= 0; s--) {
-				next = starrive[cur][s];
-				if (next != 0 && line[next][2] < aim) {
-					jumps += 1 << s;
-					cur = next;
-				}
+	public static int jump(int i) {
+		int aim = line[i][1] + m, cur = i, next, ans = 1;
+		for (int s = limit; s >= 0; s--) {
+			next = starrive[cur][s];
+			if (next != 0 && line[next][2] < aim) {
+				ans += 1 << s;
+				cur = next;
 			}
-			ans[line[i][0]] = jumps + 1;
+		}
+		return ans + 1;
+	}
+
+	public static void compute() {
+		limit = log2(n);
+		build();
+		for (int i = 1; i <= n; i++) {
+			ans[line[i][0]] = jump(i);
 		}
 	}
 
@@ -89,18 +98,13 @@ public class Code04_FlagPlan {
 		n = (int) in.nval;
 		in.nextToken();
 		m = (int) in.nval;
-		limit = log2(n);
 		for (int i = 1; i <= n; i++) {
 			line[i][0] = i;
 			in.nextToken();
 			line[i][1] = (int) in.nval;
 			in.nextToken();
 			line[i][2] = (int) in.nval;
-			if (line[i][1] > line[i][2]) {
-				line[i][2] += m;
-			}
 		}
-		build();
 		compute();
 		out.print(ans[1]);
 		for (int i = 2; i <= n; i++) {
