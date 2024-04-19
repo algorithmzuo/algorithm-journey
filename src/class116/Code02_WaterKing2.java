@@ -2,7 +2,6 @@ package class116;
 
 import java.util.List;
 
-// 水王问题第2问
 // 划分的左和右水王数相同
 // 给定一个大小为n的数组nums
 // 水王数是指在数组中出现次数大于n/2的数

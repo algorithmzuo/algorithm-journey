@@ -2,13 +2,11 @@ package class116;
 
 import java.util.Arrays;
 
-// 水王问题第4问
-// 找到任意子数组的水王数
+// 找到子数组的海王数
+// 子数组的海王数首先必须是子数组上出现次数最多的数(水王数)，并且要求出现次数>=t，t是参数
 // 设计一个数据结构并实现如下两个方法
-// 子数组的水王数首先必须是子数组上出现次数最多的数
-// 并且次数要大于等于t，t是输入参数
 // 1) MajorityChecker(int[] arr) : 用数组arr对MajorityChecker初始化
-// 2) int query(int l, int r, int t) : 返回arr[l...r]上的水王数，不存在返回-1
+// 2) int query(int l, int r, int t) : 返回arr[l...r]上的海王数，不存在返回-1
 // 测试链接 : https://leetcode.cn/problems/online-majority-element-in-subarray/
 public class Code04_WaterKing4 {
 
