@@ -19,8 +19,10 @@ public class Code06_FindSeaKing {
 
 		public static int[][] nums = new int[MAXN][2];
 
+		// 维护线段树一段范围，候选是谁
 		public static int[] cand = new int[MAXN << 2];
 
+		// 维护线段树一段范围，候选血量
 		public static int[] hp = new int[MAXN << 2];
 
 		public static int n;
@@ -32,7 +34,7 @@ public class Code06_FindSeaKing {
 		}
 
 		public int query(int l, int r, int t) {
-			int[] ch = query(l + 1, r + 1, 1, n, 1);
+			int[] ch = findCandidate(l + 1, r + 1, 1, n, 1);
 			int candidate = ch[0];
 			return cnt(l, r, candidate) >= t ? candidate : -1;
 		}
@@ -49,6 +51,8 @@ public class Code06_FindSeaKing {
 			return bs(v, r) - bs(v, l - 1);
 		}
 
+		// arr[0 ~ i]范围上
+		// (<v的数) + (==v但下标<=i的数)，有几个
 		public int bs(int v, int i) {
 			int left = 0, right = n - 1, mid;
 			int find = -1;
@@ -83,19 +87,19 @@ public class Code06_FindSeaKing {
 			}
 		}
 
-		public int[] query(int jobl, int jobr, int l, int r, int i) {
+		public int[] findCandidate(int jobl, int jobr, int l, int r, int i) {
 			if (jobl <= l && r <= jobr) {
 				return new int[] { cand[i], hp[i] };
 			} else {
 				int mid = (l + r) >> 1;
 				if (jobr <= mid) {
-					return query(jobl, jobr, l, mid, i << 1);
+					return findCandidate(jobl, jobr, l, mid, i << 1);
 				}
 				if (jobl > mid) {
-					return query(jobl, jobr, mid + 1, r, i << 1 | 1);
+					return findCandidate(jobl, jobr, mid + 1, r, i << 1 | 1);
 				}
-				int[] lch = query(jobl, jobr, l, mid, i << 1);
-				int[] rch = query(jobl, jobr, mid + 1, r, i << 1 | 1);
+				int[] lch = findCandidate(jobl, jobr, l, mid, i << 1);
+				int[] rch = findCandidate(jobl, jobr, mid + 1, r, i << 1 | 1);
 				int lc = lch[0], lh = lch[1];
 				int rc = rch[0], rh = rch[1];
 				int c = lc == rc || lh >= rh ? lc : rc;

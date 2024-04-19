@@ -14,15 +14,16 @@ public class Code01_WaterKing {
 			if (hp == 0) {
 				cand = num;
 				hp = 1;
-			} else if (num == cand) {
-				hp++;
-			} else {
+			} else if (num != cand) {
 				hp--;
+			} else {
+				hp++;
 			}
 		}
 		if (hp == 0) {
 			return -1;
 		}
+		// 复用hp，统计真实出现的次数
 		hp = 0;
 		for (int num : nums) {
 			if (num == cand) {

@@ -30,15 +30,19 @@ public class Code04_SplitSameWaterKing {
 			}
 		}
 		int n = nums.size();
+		// lc : 水王数左侧出现的词频
+		// rc : 水王数右侧出现的词频
 		for (int i = 0, lc = 0, rc = hp; i < n - 1; i++) {
 			if (nums.get(i) == cand) {
 				lc++;
 				rc--;
 			}
 			if (lc > (i + 1) / 2 && rc > (n - i - 1) / 2) {
+				// 找到了划分点直接返回
 				return i;
 			}
 		}
+		// 不存在这样的划分点返回-1
 		return -1;
 	}
 

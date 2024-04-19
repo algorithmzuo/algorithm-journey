@@ -55,7 +55,7 @@ public class Code05_MoreThanNK {
 						real++;
 					}
 				}
-				if (real > n / 3) {
+				if (real > n / (k + 1)) {
 					ans.add(cur);
 				}
 			}
