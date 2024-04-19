@@ -2,7 +2,7 @@ package class116;
 
 import java.util.Arrays;
 
-// 找到子数组的海王数
+// 子数组里的海王数
 // 子数组的海王数首先必须是子数组上出现次数最多的数(水王数)，并且要求出现次数>=t，t是参数
 // 设计一个数据结构并实现如下两个方法
 // 1) MajorityChecker(int[] arr) : 用数组arr对MajorityChecker初始化
