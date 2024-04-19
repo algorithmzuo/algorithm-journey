@@ -3,10 +3,10 @@ package class116;
 import java.util.List;
 
 // 水王问题第2问
+// 划分的左和右水王数相同
 // 给定一个大小为n的数组nums
-// 水王数是指在数组中出现次数大于n/2的元素
-// 返回其中的一个划分的中点下标
-// 使得左侧的水王数等于右侧的水王数
+// 水王数是指在数组中出现次数大于n/2的数
+// 返回其中的一个划分点下标，使得左侧水王数等于右侧水王数
 // 如果数组不存在这样的划分返回-1
 // 测试链接 : https://leetcode.cn/problems/minimum-index-of-a-valid-split/
 public class Code02_WaterKing2 {

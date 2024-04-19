@@ -3,34 +3,33 @@ package class116;
 import java.util.Arrays;
 
 // 水王问题第4问
-// 设计一个数据结构并实现如下两个方法，找到任意子数组的水王数
-// 子数组的水王数首先必须是子数组上出现次数最多的数，并且次数要大于等于t，t是输入参数
+// 找到任意子数组的水王数
+// 设计一个数据结构并实现如下两个方法
+// 子数组的水王数首先必须是子数组上出现次数最多的数
+// 并且次数要大于等于t，t是输入参数
 // 1) MajorityChecker(int[] arr) : 用数组arr对MajorityChecker初始化
 // 2) int query(int l, int r, int t) : 返回arr[l...r]上的水王数，不存在返回-1
 // 测试链接 : https://leetcode.cn/problems/online-majority-element-in-subarray/
 public class Code04_WaterKing4 {
 
-	// 使用java语言自带的动态数组可以让常数时间更快
-	// 但是其他语言的同学改写难度就大了
-	// 本实现不用任何动态结构
-	// 只使用所有语言都有的简单数组实现
-	// 时间复杂度也保证了是最优的
+	// 本实现只使用固定数组结构
+	// 其他语言的同学很容易改写
+	// 时间复杂度也保证了是最优
 	class MajorityChecker {
 
-		public int n;
+		public static int MAXN = 20001;
 
-		public int[][] nums;
+		public static int[][] nums = new int[MAXN][2];
 
-		public int[] cand;
+		public static int[] cand = new int[MAXN << 2];
 
-		public int[] hp;
+		public static int[] hp = new int[MAXN << 2];
+
+		public static int n;
 
 		public MajorityChecker(int[] arr) {
 			n = arr.length;
-			nums = new int[n][2];
-			buildCnt(arr, n);
-			cand = new int[n << 2];
-			hp = new int[n << 2];
+			buildCnt(arr);
 			buildTree(arr, 1, n, 1);
 		}
 
@@ -40,7 +39,7 @@ public class Code04_WaterKing4 {
 			return cnt(l, r, candidate) >= t ? candidate : -1;
 		}
 
-		private void buildCnt(int[] arr, int n) {
+		public void buildCnt(int[] arr) {
 			for (int i = 0; i < n; i++) {
 				nums[i][0] = arr[i];
 				nums[i][1] = i;
@@ -48,11 +47,11 @@ public class Code04_WaterKing4 {
 			Arrays.sort(nums, 0, n, (a, b) -> a[0] != b[0] ? (a[0] - b[0]) : (a[1] - b[1]));
 		}
 
-		private int cnt(int l, int r, int v) {
+		public int cnt(int l, int r, int v) {
 			return bs(v, r) - bs(v, l - 1);
 		}
 
-		private int bs(int v, int i) {
+		public int bs(int v, int i) {
 			int left = 0, right = n - 1, mid;
 			int find = -1;
 			while (left <= right) {
@@ -67,14 +66,14 @@ public class Code04_WaterKing4 {
 			return find + 1;
 		}
 
-		private void up(int i) {
+		public void up(int i) {
 			int lc = cand[i << 1], lh = hp[i << 1];
 			int rc = cand[i << 1 | 1], rh = hp[i << 1 | 1];
 			cand[i] = lc == rc || lh >= rh ? lc : rc;
 			hp[i] = lc == rc ? (lh + rh) : Math.abs(lh - rh);
 		}
 
-		private void buildTree(int[] arr, int l, int r, int i) {
+		public void buildTree(int[] arr, int l, int r, int i) {
 			if (l == r) {
 				cand[i] = arr[l - 1];
 				hp[i] = 1;
@@ -86,7 +85,7 @@ public class Code04_WaterKing4 {
 			}
 		}
 
-		private int[] query(int jobl, int jobr, int l, int r, int i) {
+		public int[] query(int jobl, int jobr, int l, int r, int i) {
 			if (jobl <= l && r <= jobr) {
 				return new int[] { cand[i], hp[i] };
 			} else {
