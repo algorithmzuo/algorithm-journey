@@ -8,7 +8,7 @@ import java.util.Arrays;
 // 1) MajorityChecker(int[] arr) : 用数组arr对MajorityChecker初始化
 // 2) int query(int l, int r, int t) : 返回arr[l...r]上的海王数，不存在返回-1
 // 测试链接 : https://leetcode.cn/problems/online-majority-element-in-subarray/
-public class Code04_WaterKing4 {
+public class Code06_FindSeaKing {
 
 	// 本实现只使用固定数组结构
 	// 其他语言的同学很容易改写
