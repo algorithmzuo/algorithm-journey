@@ -85,22 +85,22 @@ public class Code02_LCATarjan2 {
 
 	// Tarjan算法递归版
 	// c++和java这么写都能通过，不能使用递归了
-	// us、fs、es是为了实现迭代版而准备的三个栈
-	public static int[] us = new int[MAXN];
+	// nodes、fathers、edges是为了实现迭代版而准备的三个栈
+	public static int[] nodes = new int[MAXN];
 
-	public static int[] fs = new int[MAXN];
+	public static int[] fathers = new int[MAXN];
 
-	public static int[] es = new int[MAXN];
+	public static int[] edges = new int[MAXN];
 
 	public static void tarjan(int root) {
-		us[0] = root;
-		fs[0] = 0;
-		es[0] = -1;
+		nodes[0] = root;
+		fathers[0] = 0;
+		edges[0] = -1;
 		int n = 1, u, f, e, v;
 		while (n > 0) {
-			u = us[--n];
-			f = fs[n];
-			e = es[n];
+			u = nodes[--n];
+			f = fathers[n];
+			e = edges[n];
 			if (e == -1) {
 				visited[u] = true;
 				e = treeHead[u];
@@ -108,14 +108,14 @@ public class Code02_LCATarjan2 {
 				e = treeNext[e];
 			}
 			if (e != 0) {
-				us[n] = u;
-				fs[n] = f;
-				es[n++] = e;
+				nodes[n] = u;
+				fathers[n] = f;
+				edges[n++] = e;
 				v = treeTo[e];
 				if (v != f) {
-					us[n] = v;
-					fs[n] = u;
-					es[n++] = -1;
+					nodes[n] = v;
+					fathers[n] = u;
+					edges[n++] = -1;
 				}
 			} else {
 				for (int q = queryHead[u]; q != 0; q = queryNext[q]) {

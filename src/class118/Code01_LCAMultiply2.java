@@ -46,22 +46,22 @@ public class Code01_LCAMultiply2 {
 
 	// 迭代版
 	// c++和java这么写都能通过，不能使用递归了
-	// us、fs、es是为了实现迭代版而准备的三个栈
-	public static int[] us = new int[MAXN];
+	// nodes、fathers、edges是为了实现迭代版而准备的三个栈
+	public static int[] nodes = new int[MAXN];
 
-	public static int[] fs = new int[MAXN];
+	public static int[] fathers = new int[MAXN];
 
-	public static int[] es = new int[MAXN];
+	public static int[] edges = new int[MAXN];
 
 	public static void dfs(int root) {
-		us[0] = root;
-		fs[0] = 0;
-		es[0] = -1;
+		nodes[0] = root;
+		fathers[0] = 0;
+		edges[0] = -1;
 		int n = 1, u, f, e;
 		while (n > 0) {
-			u = us[--n];
-			f = fs[n];
-			e = es[n];
+			u = nodes[--n];
+			f = fathers[n];
+			e = edges[n];
 			if (e == -1) {
 				deep[u] = deep[f] + 1;
 				father[u][0] = f;
@@ -73,13 +73,13 @@ public class Code01_LCAMultiply2 {
 				e = next[e];
 			}
 			if (e != 0) {
-				us[n] = u;
-				fs[n] = f;
-				es[n++] = e;
+				nodes[n] = u;
+				fathers[n] = f;
+				edges[n++] = e;
 				if (to[e] != f) {
-					us[n] = to[e];
-					fs[n] = u;
-					es[n++] = -1;
+					nodes[n] = to[e];
+					fathers[n] = u;
+					edges[n++] = -1;
 				}
 			}
 		}
