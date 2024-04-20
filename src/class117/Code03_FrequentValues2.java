@@ -12,7 +12,6 @@ public class Code03_FrequentValues2 {
 
 	public static int MAXN = 100001;
 
-	// 100001不超过2的17次方
 	public static int STEP = 17;
 
 	public static int[] arr = new int[MAXN];

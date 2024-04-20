@@ -26,7 +26,6 @@ public class Code04_FlagPlan {
 
 	public static int MAXN = 200001;
 
-	// 200001不超过2的18次方
 	public static int STEP = 18;
 
 	// 每条线段3个信息 : 线段编号、线段左边界、线段右边界

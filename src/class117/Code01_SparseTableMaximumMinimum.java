@@ -20,7 +20,6 @@ public class Code01_SparseTableMaximumMinimum {
 
 	public static int MAXN = 50001;
 
-	// 50001不超过2的16次方
 	public static int STEP = 16;
 
 	public static int[] arr = new int[MAXN];

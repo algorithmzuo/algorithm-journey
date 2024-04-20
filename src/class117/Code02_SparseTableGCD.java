@@ -19,7 +19,6 @@ public class Code02_SparseTableGCD {
 
 	public static int MAXN = 1001;
 
-	// 1001不超过2的10次方
 	public static int STEP = 10;
 
 	public static int[] arr = new int[MAXN];
