@@ -26,17 +26,17 @@ public class Code04_FlagPlan {
 
 	public static int MAXN = 200001;
 
-	public static int STEP = 18;
+	public static int LIMIT = 18;
 
 	// 每条线段3个信息 : 线段编号、线段左边界、线段右边界
 	public static int[][] line = new int[MAXN << 1][3];
 
 	// starrive[i][s] : 从i号线段出发，跳的次数是2的s次方，能到达的最右线段的编号
-	public static int[][] starrive = new int[MAXN << 1][STEP];
+	public static int[][] starrive = new int[MAXN << 1][LIMIT];
 
 	public static int[] ans = new int[MAXN];
 
-	public static int n, m, limit;
+	public static int n, m, step;
 
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -65,7 +65,7 @@ public class Code04_FlagPlan {
 	}
 
 	public static void compute() {
-		limit = log2(n);
+		step = log2(n);
 		build();
 		for (int i = 1; i <= n; i++) {
 			ans[line[i][0]] = jump(i);
@@ -99,7 +99,7 @@ public class Code04_FlagPlan {
 			}
 			starrive[i][0] = arrive;
 		}
-		for (int s = 1; s <= limit; s++) {
+		for (int s = 1; s <= step; s++) {
 			for (int i = 1; i <= e; i++) {
 				starrive[i][s] = starrive[starrive[i][s - 1]][s - 1];
 			}
@@ -108,7 +108,7 @@ public class Code04_FlagPlan {
 
 	public static int jump(int i) {
 		int aim = line[i][1] + m, cur = i, next, ans = 1;
-		for (int s = limit; s >= 0; s--) {
+		for (int s = step; s >= 0; s--) {
 			next = starrive[cur][s];
 			if (next != 0 && line[next][2] < aim) {
 				ans += 1 << s;

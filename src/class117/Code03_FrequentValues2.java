@@ -12,7 +12,7 @@ public class Code03_FrequentValues2 {
 
 	public static int MAXN = 100001;
 
-	public static int STEP = 17;
+	public static int LIMIT = 17;
 
 	public static int[] arr = new int[MAXN];
 
@@ -24,7 +24,7 @@ public class Code03_FrequentValues2 {
 
 	public static int[] right = new int[MAXN];
 
-	public static int[][] stmax = new int[MAXN][STEP];
+	public static int[][] stmax = new int[MAXN][LIMIT];
 
 	public static void build(int n) {
 		// 题目给定的数值范围-100000 ~ +100000

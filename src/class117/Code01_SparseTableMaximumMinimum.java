@@ -20,15 +20,15 @@ public class Code01_SparseTableMaximumMinimum {
 
 	public static int MAXN = 50001;
 
-	public static int STEP = 16;
+	public static int LIMIT = 16;
 
 	public static int[] arr = new int[MAXN];
 
 	public static int[] log2 = new int[MAXN];
 
-	public static int[][] stmax = new int[MAXN][STEP];
+	public static int[][] stmax = new int[MAXN][LIMIT];
 
-	public static int[][] stmin = new int[MAXN][STEP];
+	public static int[][] stmin = new int[MAXN][LIMIT];
 
 	public static void build(int n) {
 		log2[0] = -1;

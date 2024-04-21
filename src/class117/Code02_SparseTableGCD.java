@@ -19,13 +19,13 @@ public class Code02_SparseTableGCD {
 
 	public static int MAXN = 1001;
 
-	public static int STEP = 10;
+	public static int LIMIT = 10;
 
 	public static int[] arr = new int[MAXN];
 
 	public static int[] log2 = new int[MAXN];
 
-	public static int[][] stgcd = new int[MAXN][STEP];
+	public static int[][] stgcd = new int[MAXN][LIMIT];
 
 	public static void build(int n) {
 		log2[0] = -1;
