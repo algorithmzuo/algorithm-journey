@@ -3,9 +3,7 @@ package class118;
 // LCA问题树上倍增解法
 // 测试链接 : https://www.luogu.com.cn/problem/P3379
 // 本文件和Code01_LCAMultiply1文件区别只有dfs实现方式的不同
-// 请同学们务必参考如下代码中关于输入、输出的处理
-// 这是输入输出处理效率很高的写法
-// 提交以下的code，提交时请把类名改成"Main"，可以直接通过
+// C++和java这么写都能通过，不能使用递归
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -21,19 +19,30 @@ public class Code01_LCAMultiply2 {
 
 	public static int LIMIT = 20;
 
+	public static int step;
+
+	public static int cnt;
+
 	public static int[] head = new int[MAXN];
 
 	public static int[] next = new int[MAXN << 1];
 
 	public static int[] to = new int[MAXN << 1];
 
-	public static int cnt;
-
-	public static int[][] father = new int[MAXN][LIMIT];
+	public static int[][] stfa = new int[MAXN][LIMIT];
 
 	public static int[] deep = new int[MAXN];
 
+	public static int log2(int n) {
+		int ans = 0;
+		while ((1 << ans) <= (n >> 1)) {
+			ans++;
+		}
+		return ans;
+	}
+
 	public static void build(int n) {
+		step = log2(n);
 		cnt = 1;
 		Arrays.fill(head, 1, n + 1, 0);
 	}
@@ -45,7 +54,7 @@ public class Code01_LCAMultiply2 {
 	}
 
 	// 迭代版
-	// c++和java这么写都能通过，不能使用递归了
+	// C++和java这么写都能通过，不能使用递归了
 	// nodes、fathers、edges是为了实现迭代版而准备的三个栈
 	public static int[] nodes = new int[MAXN];
 
@@ -64,9 +73,9 @@ public class Code01_LCAMultiply2 {
 			e = edges[n];
 			if (e == -1) {
 				deep[u] = deep[f] + 1;
-				father[u][0] = f;
+				stfa[u][0] = f;
 				for (int s = 1; (1 << s) <= deep[u]; s++) {
-					father[u][s] = father[father[u][s - 1]][s - 1];
+					stfa[u][s] = stfa[stfa[u][s - 1]][s - 1];
 				}
 				e = head[u];
 			} else {
@@ -91,21 +100,21 @@ public class Code01_LCAMultiply2 {
 			a = b;
 			b = tmp;
 		}
-		for (int s = LIMIT - 1; s >= 0; s--) {
+		for (int s = step; s >= 0; s--) {
 			if (deep[a] - (1 << s) >= deep[b]) {
-				a = father[a][s];
+				a = stfa[a][s];
 			}
 		}
 		if (a == b) {
 			return a;
 		}
-		for (int s = LIMIT - 1; s >= 0; s--) {
-			if (father[a][s] != father[b][s]) {
-				a = father[a][s];
-				b = father[b][s];
+		for (int s = step; s >= 0; s--) {
+			if (stfa[a][s] != stfa[b][s]) {
+				a = stfa[a][s];
+				b = stfa[b][s];
 			}
 		}
-		return father[a][0];
+		return stfa[a][0];
 	}
 
 	public static void main(String[] args) throws IOException {

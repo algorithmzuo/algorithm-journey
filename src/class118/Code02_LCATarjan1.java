@@ -2,9 +2,8 @@ package class118;
 
 // LCA问题Tarjan算法解法
 // 测试链接 : https://www.luogu.com.cn/problem/P3379
-// 请同学们务必参考如下代码中关于输入、输出的处理
-// 这是输入输出处理效率很高的写法
-// 提交以下的code，提交时请把类名改成"Main"，可以直接通过
+// C++能通过，java会因为find函数、tarjan函数递归太深而爆栈
+// 都能通过的写法参考本节课Code02_LCATarjan2文件
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -67,7 +66,7 @@ public class Code02_LCATarjan1 {
 
 	// 并查集找代表节点递归版
 	// 一般来说都这么写，不过本题附加的测试数据设计的很毒
-	// c++能通过，java这么写就会因为递归太深而爆栈
+	// C++能通过，java这么写就会因为递归太深而爆栈
 	// 都能通过的写法参考本节课Code02_LCATarjan2文件
 	public static int find(int i) {
 		if (i != father[i]) {
@@ -78,7 +77,7 @@ public class Code02_LCATarjan1 {
 
 	// Tarjan算法递归版
 	// 一般来说都这么写，不过本题附加的测试数据设计的很毒
-	// c++能通过，java这么写就会因为递归太深而爆栈
+	// C++能通过，java这么写就会因为递归太深而爆栈
 	// 都能通过的写法参考本节课Code02_LCATarjan2文件
 	public static void tarjan(int u, int f) {
 		visited[u] = true;

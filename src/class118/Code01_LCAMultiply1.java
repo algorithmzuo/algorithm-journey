@@ -2,9 +2,8 @@ package class118;
 
 // LCA问题树上倍增解法
 // 测试链接 : https://www.luogu.com.cn/problem/P3379
-// 请同学们务必参考如下代码中关于输入、输出的处理
-// 这是输入输出处理效率很高的写法
-// 提交以下的code，提交时请把类名改成"Main"，可以直接通过
+// C++能通过，java会因为dfs函数递归太深而爆栈
+// 都能通过的写法参考本节课Code01_LCAMultiply2文件
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -20,19 +19,30 @@ public class Code01_LCAMultiply1 {
 
 	public static int LIMIT = 20;
 
+	public static int step;
+
+	public static int cnt;
+
 	public static int[] head = new int[MAXN];
 
 	public static int[] next = new int[MAXN << 1];
 
 	public static int[] to = new int[MAXN << 1];
 
-	public static int cnt;
-
-	public static int[][] father = new int[MAXN][LIMIT];
+	public static int[][] stfa = new int[MAXN][LIMIT];
 
 	public static int[] deep = new int[MAXN];
 
+	public static int log2(int n) {
+		int ans = 0;
+		while ((1 << ans) <= (n >> 1)) {
+			ans++;
+		}
+		return ans;
+	}
+
 	public static void build(int n) {
+		step = log2(n);
 		cnt = 1;
 		Arrays.fill(head, 1, n + 1, 0);
 	}
@@ -45,13 +55,13 @@ public class Code01_LCAMultiply1 {
 
 	// 递归版
 	// 一般来说都这么写，不过本题附加的测试数据设计的很毒
-	// c++能通过，java这么写就会因为递归太深而爆栈
+	// C++能通过，java这么写就会因为递归太深而爆栈
 	// 都能通过的写法参考本节课Code01_LCAMultiply2文件
 	public static void dfs(int u, int f) {
 		deep[u] = deep[f] + 1;
-		father[u][0] = f;
+		stfa[u][0] = f;
 		for (int s = 1; (1 << s) <= deep[u]; s++) {
-			father[u][s] = father[father[u][s - 1]][s - 1];
+			stfa[u][s] = stfa[stfa[u][s - 1]][s - 1];
 		}
 		for (int e = head[u]; e != 0; e = next[e]) {
 			if (to[e] != f) {
@@ -66,21 +76,21 @@ public class Code01_LCAMultiply1 {
 			a = b;
 			b = tmp;
 		}
-		for (int s = LIMIT - 1; s >= 0; s--) {
+		for (int s = step; s >= 0; s--) {
 			if (deep[a] - (1 << s) >= deep[b]) {
-				a = father[a][s];
+				a = stfa[a][s];
 			}
 		}
 		if (a == b) {
 			return a;
 		}
-		for (int s = LIMIT - 1; s >= 0; s--) {
-			if (father[a][s] != father[b][s]) {
-				a = father[a][s];
-				b = father[b][s];
+		for (int s = step; s >= 0; s--) {
+			if (stfa[a][s] != stfa[b][s]) {
+				a = stfa[a][s];
+				b = stfa[b][s];
 			}
 		}
-		return father[a][0];
+		return stfa[a][0];
 	}
 
 	public static void main(String[] args) throws IOException {

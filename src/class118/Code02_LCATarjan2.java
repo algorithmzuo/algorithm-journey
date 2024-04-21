@@ -2,10 +2,8 @@ package class118;
 
 // LCA问题Tarjan算法解法
 // 测试链接 : https://www.luogu.com.cn/problem/P3379
-// 本文件和Code02_LCATarjan1文件区别只有tarjan实现方式的不同
-// 请同学们务必参考如下代码中关于输入、输出的处理
-// 这是输入输出处理效率很高的写法
-// 提交以下的code，提交时请把类名改成"Main"，可以直接通过
+// 本文件和Code02_LCATarjan1文件区别只有find、tarjan实现方式的不同
+// C++和java这么写都能通过，不能使用递归
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -67,7 +65,7 @@ public class Code02_LCATarjan2 {
 	}
 
 	// 并查集找代表节点递归版
-	// c++和java这么写都能通过，不能使用递归了
+	// C++和java这么写都能通过，不能使用递归了
 	// stack是为了实现迭代版而准备的栈
 	public static int[] stack = new int[MAXN];
 
@@ -84,7 +82,7 @@ public class Code02_LCATarjan2 {
 	}
 
 	// Tarjan算法递归版
-	// c++和java这么写都能通过，不能使用递归了
+	// C++和java这么写都能通过，不能使用递归了
 	// nodes、fathers、edges是为了实现迭代版而准备的三个栈
 	public static int[] nodes = new int[MAXN];
 
