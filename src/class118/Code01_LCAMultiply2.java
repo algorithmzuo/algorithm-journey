@@ -3,7 +3,7 @@ package class118;
 // LCA问题树上倍增解法
 // 测试链接 : https://www.luogu.com.cn/problem/P3379
 // 本文件和Code01_LCAMultiply1文件区别只有dfs实现方式的不同
-// C++和java这么写都能通过，不能使用递归
+// java这么写能通过
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -53,8 +53,7 @@ public class Code01_LCAMultiply2 {
 		head[u] = cnt++;
 	}
 
-	// 迭代版
-	// C++和java这么写都能通过，不能使用递归了
+	// dfs迭代版
 	// nodes、fathers、edges是为了实现迭代版而准备的三个栈
 	public static int[] nodes = new int[MAXN];
 

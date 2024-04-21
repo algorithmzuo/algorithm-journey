@@ -2,8 +2,8 @@ package class118;
 
 // LCA问题树上倍增解法
 // 测试链接 : https://www.luogu.com.cn/problem/P3379
-// C++能通过，java会因为dfs函数递归太深而爆栈
-// 都能通过的写法参考本节课Code01_LCAMultiply2文件
+// c++这么写能通过，java会因为递归层数太多而爆栈
+// java能通过的写法参考本节课Code01_LCAMultiply2文件
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -53,10 +53,9 @@ public class Code01_LCAMultiply1 {
 		head[u] = cnt++;
 	}
 
-	// 递归版
-	// 一般来说都这么写，不过本题附加的测试数据设计的很毒
-	// C++能通过，java这么写就会因为递归太深而爆栈
-	// 都能通过的写法参考本节课Code01_LCAMultiply2文件
+	// dfs递归版
+	// 一般来说都这么写，但是本题附加的测试数据很毒
+	// java这么写就会因为递归太深而爆栈，c++这么写就能通过
 	public static void dfs(int u, int f) {
 		deep[u] = deep[f] + 1;
 		stfa[u][0] = f;
