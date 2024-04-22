@@ -17,17 +17,17 @@ public class Code03_QueryPathMinimumChangesToSame {
 
 	public static int MAXW = 26;
 
-	public static int[] treeHead = new int[MAXN];
+	public static int[] headEdge = new int[MAXN];
 
-	public static int[] treeNext = new int[MAXN << 1];
+	public static int[] edgeNext = new int[MAXN << 1];
 
-	public static int[] treeTo = new int[MAXN << 1];
+	public static int[] edgeTo = new int[MAXN << 1];
 
-	public static int[] treeValue = new int[MAXN << 1];
+	public static int[] edgeValue = new int[MAXN << 1];
 
 	public static int tcnt;
 
-	public static int[] queryHead = new int[MAXN];
+	public static int[] headQuery = new int[MAXN];
 
 	public static int[] queryNext = new int[MAXM << 1];
 
@@ -74,8 +74,8 @@ public class Code03_QueryPathMinimumChangesToSame {
 
 	public static void build(int n) {
 		tcnt = qcnt = 1;
-		Arrays.fill(treeHead, 0, n, 0);
-		Arrays.fill(queryHead, 0, n, 0);
+		Arrays.fill(headEdge, 0, n, 0);
+		Arrays.fill(headQuery, 0, n, 0);
 		Arrays.fill(visited, 0, n, false);
 		for (int i = 0; i < n; i++) {
 			father[i] = i;
@@ -83,17 +83,17 @@ public class Code03_QueryPathMinimumChangesToSame {
 	}
 
 	public static void addEdge(int u, int v, int w) {
-		treeNext[tcnt] = treeHead[u];
-		treeTo[tcnt] = v;
-		treeValue[tcnt] = w;
-		treeHead[u] = tcnt++;
+		edgeNext[tcnt] = headEdge[u];
+		edgeTo[tcnt] = v;
+		edgeValue[tcnt] = w;
+		headEdge[u] = tcnt++;
 	}
 
 	public static void addQuery(int u, int v, int i) {
-		queryNext[qcnt] = queryHead[u];
+		queryNext[qcnt] = headQuery[u];
 		queryTo[qcnt] = v;
 		queryIndex[qcnt] = i;
-		queryHead[u] = qcnt++;
+		headQuery[u] = qcnt++;
 	}
 
 	public static int find(int i) {
@@ -113,12 +113,12 @@ public class Code03_QueryPathMinimumChangesToSame {
 			}
 			cnts[u][w]++;
 		}
-		for (int e = treeHead[u]; e != 0; e = treeNext[e]) {
-			if (treeTo[e] != f) {
-				tarjan(treeTo[e], treeValue[e], u);
+		for (int e = headEdge[u]; e != 0; e = edgeNext[e]) {
+			if (edgeTo[e] != f) {
+				tarjan(edgeTo[e], edgeValue[e], u);
 			}
 		}
-		for (int e = queryHead[u], v; e != 0; e = queryNext[e]) {
+		for (int e = headQuery[u], v; e != 0; e = queryNext[e]) {
 			v = queryTo[e];
 			if (visited[v]) {
 				lca[queryIndex[e]] = find(v);

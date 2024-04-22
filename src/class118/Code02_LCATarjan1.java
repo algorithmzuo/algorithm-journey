@@ -17,15 +17,15 @@ public class Code02_LCATarjan1 {
 
 	public static int MAXN = 500001;
 
-	public static int[] treeHead = new int[MAXN];
+	public static int[] headEdge = new int[MAXN];
 
-	public static int[] treeNext = new int[MAXN << 1];
+	public static int[] edgeNext = new int[MAXN << 1];
 
-	public static int[] treeTo = new int[MAXN << 1];
+	public static int[] edgeTo = new int[MAXN << 1];
 
 	public static int tcnt;
 
-	public static int[] queryHead = new int[MAXN];
+	public static int[] headQuery = new int[MAXN];
 
 	public static int[] queryNext = new int[MAXN << 1];
 
@@ -43,8 +43,8 @@ public class Code02_LCATarjan1 {
 
 	public static void build(int n) {
 		tcnt = qcnt = 1;
-		Arrays.fill(treeHead, 1, n + 1, 0);
-		Arrays.fill(queryHead, 1, n + 1, 0);
+		Arrays.fill(headEdge, 1, n + 1, 0);
+		Arrays.fill(headQuery, 1, n + 1, 0);
 		Arrays.fill(visited, 1, n + 1, false);
 		for (int i = 1; i <= n; i++) {
 			father[i] = i;
@@ -52,16 +52,16 @@ public class Code02_LCATarjan1 {
 	}
 
 	public static void addEdge(int u, int v) {
-		treeNext[tcnt] = treeHead[u];
-		treeTo[tcnt] = v;
-		treeHead[u] = tcnt++;
+		edgeNext[tcnt] = headEdge[u];
+		edgeTo[tcnt] = v;
+		headEdge[u] = tcnt++;
 	}
 
 	public static void addQuery(int u, int v, int i) {
-		queryNext[qcnt] = queryHead[u];
+		queryNext[qcnt] = headQuery[u];
 		queryTo[qcnt] = v;
 		queryIndex[qcnt] = i;
-		queryHead[u] = qcnt++;
+		headQuery[u] = qcnt++;
 	}
 
 	// 并查集找代表节点递归版
@@ -79,13 +79,13 @@ public class Code02_LCATarjan1 {
 	// java这么写就会因为递归太深而爆栈，c++这么写就能通过
 	public static void tarjan(int u, int f) {
 		visited[u] = true;
-		for (int e = treeHead[u], v; e != 0; e = treeNext[e]) {
-			v = treeTo[e];
+		for (int e = headEdge[u], v; e != 0; e = edgeNext[e]) {
+			v = edgeTo[e];
 			if (v != f) {
 				tarjan(v, u);
 			}
 		}
-		for (int e = queryHead[u], v; e != 0; e = queryNext[e]) {
+		for (int e = headQuery[u], v; e != 0; e = queryNext[e]) {
 			v = queryTo[e];
 			if (visited[v]) {
 				ans[queryIndex[e]] = find(v);

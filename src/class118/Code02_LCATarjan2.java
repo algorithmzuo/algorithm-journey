@@ -17,15 +17,15 @@ public class Code02_LCATarjan2 {
 
 	public static int MAXN = 500001;
 
-	public static int[] treeHead = new int[MAXN];
+	public static int[] headEdge = new int[MAXN];
 
-	public static int[] treeNext = new int[MAXN << 1];
+	public static int[] edgeNext = new int[MAXN << 1];
 
-	public static int[] treeTo = new int[MAXN << 1];
+	public static int[] edgeTo = new int[MAXN << 1];
 
 	public static int tcnt;
 
-	public static int[] queryHead = new int[MAXN];
+	public static int[] headQuery = new int[MAXN];
 
 	public static int[] queryNext = new int[MAXN << 1];
 
@@ -43,8 +43,8 @@ public class Code02_LCATarjan2 {
 
 	public static void build(int n) {
 		tcnt = qcnt = 1;
-		Arrays.fill(treeHead, 1, n + 1, 0);
-		Arrays.fill(queryHead, 1, n + 1, 0);
+		Arrays.fill(headEdge, 1, n + 1, 0);
+		Arrays.fill(headQuery, 1, n + 1, 0);
 		Arrays.fill(visited, 1, n + 1, false);
 		for (int i = 1; i <= n; i++) {
 			father[i] = i;
@@ -52,16 +52,16 @@ public class Code02_LCATarjan2 {
 	}
 
 	public static void addEdge(int u, int v) {
-		treeNext[tcnt] = treeHead[u];
-		treeTo[tcnt] = v;
-		treeHead[u] = tcnt++;
+		edgeNext[tcnt] = headEdge[u];
+		edgeTo[tcnt] = v;
+		headEdge[u] = tcnt++;
 	}
 
 	public static void addQuery(int u, int v, int i) {
-		queryNext[qcnt] = queryHead[u];
+		queryNext[qcnt] = headQuery[u];
 		queryTo[qcnt] = v;
 		queryIndex[qcnt] = i;
-		queryHead[u] = qcnt++;
+		headQuery[u] = qcnt++;
 	}
 
 	// 并查集找代表节点迭代版
@@ -99,22 +99,22 @@ public class Code02_LCATarjan2 {
 			e = edges[n];
 			if (e == -1) {
 				visited[u] = true;
-				e = treeHead[u];
+				e = headEdge[u];
 			} else {
-				e = treeNext[e];
+				e = edgeNext[e];
 			}
 			if (e != 0) {
 				nodes[n] = u;
 				fathers[n] = f;
 				edges[n++] = e;
-				v = treeTo[e];
+				v = edgeTo[e];
 				if (v != f) {
 					nodes[n] = v;
 					fathers[n] = u;
 					edges[n++] = -1;
 				}
 			} else {
-				for (int q = queryHead[u]; q != 0; q = queryNext[q]) {
+				for (int q = headQuery[u]; q != 0; q = queryNext[q]) {
 					v = queryTo[q];
 					if (visited[v]) {
 						ans[queryIndex[q]] = find(v);
