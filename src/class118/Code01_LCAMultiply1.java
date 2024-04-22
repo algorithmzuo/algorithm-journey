@@ -30,7 +30,7 @@ public class Code01_LCAMultiply1 {
 
 	public static int[] to = new int[MAXN << 1];
 
-	public static int[][] stfa = new int[MAXN][LIMIT];
+	public static int[][] stjump = new int[MAXN][LIMIT];
 
 	public static int[] deep = new int[MAXN];
 
@@ -59,9 +59,9 @@ public class Code01_LCAMultiply1 {
 	// java这么写就会因为递归太深而爆栈，c++这么写就能通过
 	public static void dfs(int u, int f) {
 		deep[u] = deep[f] + 1;
-		stfa[u][0] = f;
+		stjump[u][0] = f;
 		for (int p = 1; (1 << p) <= deep[u]; p++) {
-			stfa[u][p] = stfa[stfa[u][p - 1]][p - 1];
+			stjump[u][p] = stjump[stjump[u][p - 1]][p - 1];
 		}
 		for (int e = head[u]; e != 0; e = next[e]) {
 			if (to[e] != f) {
@@ -78,19 +78,19 @@ public class Code01_LCAMultiply1 {
 		}
 		for (int p = power; p >= 0; p--) {
 			if (deep[a] - (1 << p) >= deep[b]) {
-				a = stfa[a][p];
+				a = stjump[a][p];
 			}
 		}
 		if (a == b) {
 			return a;
 		}
 		for (int p = power; p >= 0; p--) {
-			if (stfa[a][p] != stfa[b][p]) {
-				a = stfa[a][p];
-				b = stfa[b][p];
+			if (stjump[a][p] != stjump[b][p]) {
+				a = stjump[a][p];
+				b = stjump[b][p];
 			}
 		}
-		return stfa[a][0];
+		return stjump[a][0];
 	}
 
 	public static void main(String[] args) throws IOException {

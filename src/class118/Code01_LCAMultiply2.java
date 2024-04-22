@@ -30,7 +30,7 @@ public class Code01_LCAMultiply2 {
 
 	public static int[] to = new int[MAXN << 1];
 
-	public static int[][] stfa = new int[MAXN][LIMIT];
+	public static int[][] stjump = new int[MAXN][LIMIT];
 
 	public static int[] deep = new int[MAXN];
 
@@ -73,9 +73,9 @@ public class Code01_LCAMultiply2 {
 			e = edges[n];
 			if (e == -1) {
 				deep[u] = deep[f] + 1;
-				stfa[u][0] = f;
+				stjump[u][0] = f;
 				for (int s = 1; (1 << s) <= deep[u]; s++) {
-					stfa[u][s] = stfa[stfa[u][s - 1]][s - 1];
+					stjump[u][s] = stjump[stjump[u][s - 1]][s - 1];
 				}
 				e = head[u];
 			} else {
@@ -102,19 +102,19 @@ public class Code01_LCAMultiply2 {
 		}
 		for (int p = power; p >= 0; p--) {
 			if (deep[a] - (1 << p) >= deep[b]) {
-				a = stfa[a][p];
+				a = stjump[a][p];
 			}
 		}
 		if (a == b) {
 			return a;
 		}
 		for (int p = power; p >= 0; p--) {
-			if (stfa[a][p] != stfa[b][p]) {
-				a = stfa[a][p];
-				b = stfa[b][p];
+			if (stjump[a][p] != stjump[b][p]) {
+				a = stjump[a][p];
+				b = stjump[b][p];
 			}
 		}
-		return stfa[a][0];
+		return stjump[a][0];
 	}
 
 	public static void main(String[] args) throws IOException {

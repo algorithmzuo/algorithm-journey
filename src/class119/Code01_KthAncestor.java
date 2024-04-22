@@ -28,7 +28,7 @@ public class Code01_KthAncestor {
 
 		public static int[] to = new int[MAXN];
 
-		public static int[][] stfa = new int[MAXN][LIMIT];
+		public static int[][] stjump = new int[MAXN][LIMIT];
 
 		public static int[] deep = new int[MAXN];
 
@@ -62,9 +62,9 @@ public class Code01_KthAncestor {
 			} else {
 				deep[u] = deep[f] + 1;
 			}
-			stfa[u][0] = f;
+			stjump[u][0] = f;
 			for (int p = 1; (1 << p) <= deep[u]; p++) {
-				stfa[u][p] = stfa[stfa[u][p - 1]][p - 1];
+				stjump[u][p] = stjump[stjump[u][p - 1]][p - 1];
 			}
 			for (int e = head[u]; e != 0; e = next[e]) {
 				dfs(to[e], u);
@@ -77,8 +77,8 @@ public class Code01_KthAncestor {
 			}
 			int aimDeep = deep[i] - k;
 			for (int p = power; p >= 0; p--) {
-				if (deep[stfa[i][p]] >= aimDeep) {
-					i = stfa[i][p];
+				if (deep[stjump[i][p]] >= aimDeep) {
+					i = stjump[i][p];
 				}
 			}
 			return i;

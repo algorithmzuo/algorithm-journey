@@ -36,7 +36,7 @@ public class Code04 {
 
 	public static int[] deep = new int[MAXN];
 
-	public static int[][] stfather = new int[MAXN][LIMIT];
+	public static int[][] stjump = new int[MAXN][LIMIT];
 
 	public static int[][] stweight = new int[MAXN][LIMIT];
 
@@ -93,16 +93,16 @@ public class Code04 {
 		visited[u] = true;
 		if (f == 0) {
 			deep[u] = 1;
-			stfather[u][0] = u;
+			stjump[u][0] = u;
 			stweight[u][0] = Integer.MAX_VALUE;
 		} else {
 			deep[u] = deep[f] + 1;
-			stfather[u][0] = f;
+			stjump[u][0] = f;
 			stweight[u][0] = w;
 		}
 		for (int p = 1; (1 << p) <= deep[u]; p++) {
-			stfather[u][p] = stfather[stfather[u][p - 1]][p - 1];
-			stweight[u][p] = Math.min(stweight[u][p - 1], stweight[stfather[u][p - 1]][p - 1]);
+			stjump[u][p] = stjump[stjump[u][p - 1]][p - 1];
+			stweight[u][p] = Math.min(stweight[u][p - 1], stweight[stjump[u][p - 1]][p - 1]);
 		}
 		for (int e = head[u]; e != 0; e = next[e]) {
 			if (!visited[to[e]]) {
@@ -122,19 +122,19 @@ public class Code04 {
 		}
 		int ans = Integer.MAX_VALUE;
 		for (int p = power; p >= 0; p--) {
-			if (deep[stfather[a][p]] >= deep[b]) {
+			if (deep[stjump[a][p]] >= deep[b]) {
 				ans = Math.min(ans, stweight[a][p]);
-				a = stfather[a][p];
+				a = stjump[a][p];
 			}
 		}
 		if (a == b) {
 			return ans;
 		}
 		for (int p = power; p >= 0; p--) {
-			if (stfather[a][p] != stfather[b][p]) {
+			if (stjump[a][p] != stjump[b][p]) {
 				ans = Math.min(ans, Math.min(stweight[a][p], stweight[b][p]));
-				a = stfather[a][p];
-				b = stfather[b][p];
+				a = stjump[a][p];
+				b = stjump[b][p];
 			}
 		}
 		ans = Math.min(ans, Math.min(stweight[a][0], stweight[b][0]));
