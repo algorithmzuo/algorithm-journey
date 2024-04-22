@@ -77,7 +77,7 @@ public class Code01_LCAMultiply1 {
 			b = tmp;
 		}
 		for (int p = power; p >= 0; p--) {
-			if (deep[a] - (1 << p) >= deep[b]) {
+			if (deep[stjump[a][p]] >= deep[b]) {
 				a = stjump[a][p];
 			}
 		}

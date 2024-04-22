@@ -1,6 +1,18 @@
 package class119;
 
+// 货车运输
+// 一共有n座城市，编号1 ~ n
+// 一共有m条双向道路，每条道路(u, v, w)表示有一条限重为w，从u到v的双向道路
+// 从一点到另一点的路途中，汽车载重不能超过每一条道路的限重
+// 一共有q个查询，每条查询(a, b)表示从a到b的路线中，汽车允许的最大载重是多少
+// 如果从a到b无法到达，返回-1
+// 1 <= n <= 10^4
+// 1 <= m <= 5 * 10^4
+// 1 <= q <= 3 * 10^4
+// 0 <= w <= 10^5
+// 1 <= u, v, a, b <= n
 // 测试链接 : https://www.luogu.com.cn/problem/P1967
+// 提交以下的code，提交时请把类名改成"Main"，可以直接通过
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -10,7 +22,7 @@ import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 import java.util.Arrays;
 
-public class Code04 {
+public class Code04_Trucking {
 
 	public static int MAXN = 10001;
 
@@ -40,6 +52,7 @@ public class Code04 {
 
 	public static int[][] stweight = new int[MAXN][LIMIT];
 
+	// 给的树有可能是森林，所以需要判断节点是否访问过了
 	public static boolean[] visited = new boolean[MAXN];
 
 	public static int log2(int n) {
