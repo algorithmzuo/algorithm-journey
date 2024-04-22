@@ -19,7 +19,7 @@ public class Code01_LCAMultiply1 {
 
 	public static int LIMIT = 20;
 
-	public static int step;
+	public static int power;
 
 	public static int cnt;
 
@@ -42,7 +42,7 @@ public class Code01_LCAMultiply1 {
 	}
 
 	public static void build(int n) {
-		step = log2(n);
+		power = log2(n);
 		cnt = 1;
 		Arrays.fill(head, 1, n + 1, 0);
 	}
@@ -59,8 +59,8 @@ public class Code01_LCAMultiply1 {
 	public static void dfs(int u, int f) {
 		deep[u] = deep[f] + 1;
 		stfa[u][0] = f;
-		for (int s = 1; (1 << s) <= deep[u]; s++) {
-			stfa[u][s] = stfa[stfa[u][s - 1]][s - 1];
+		for (int p = 1; (1 << p) <= deep[u]; p++) {
+			stfa[u][p] = stfa[stfa[u][p - 1]][p - 1];
 		}
 		for (int e = head[u]; e != 0; e = next[e]) {
 			if (to[e] != f) {
@@ -75,18 +75,18 @@ public class Code01_LCAMultiply1 {
 			a = b;
 			b = tmp;
 		}
-		for (int s = step; s >= 0; s--) {
-			if (deep[a] - (1 << s) >= deep[b]) {
-				a = stfa[a][s];
+		for (int p = power; p >= 0; p--) {
+			if (deep[a] - (1 << p) >= deep[b]) {
+				a = stfa[a][p];
 			}
 		}
 		if (a == b) {
 			return a;
 		}
-		for (int s = step; s >= 0; s--) {
-			if (stfa[a][s] != stfa[b][s]) {
-				a = stfa[a][s];
-				b = stfa[b][s];
+		for (int p = power; p >= 0; p--) {
+			if (stfa[a][p] != stfa[b][p]) {
+				a = stfa[a][p];
+				b = stfa[b][p];
 			}
 		}
 		return stfa[a][0];

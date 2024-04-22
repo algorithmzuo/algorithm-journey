@@ -33,9 +33,9 @@ public class Code02_SparseTableGCD {
 			log2[i] = log2[i >> 1] + 1;
 			stgcd[i][0] = arr[i];
 		}
-		for (int s = 1; s <= log2[n]; s++) {
-			for (int i = 1; i + (1 << s) - 1 <= n; i++) {
-				stgcd[i][s] = gcd(stgcd[i][s - 1], stgcd[i + (1 << (s - 1))][s - 1]);
+		for (int p = 1; p <= log2[n]; p++) {
+			for (int i = 1; i + (1 << p) - 1 <= n; i++) {
+				stgcd[i][p] = gcd(stgcd[i][p - 1], stgcd[i + (1 << (p - 1))][p - 1]);
 			}
 		}
 	}
@@ -46,8 +46,8 @@ public class Code02_SparseTableGCD {
 	}
 
 	public static int query(int l, int r) {
-		int s = log2[r - l + 1];
-		return gcd(stgcd[l][s], stgcd[r - (1 << s) + 1][s]);
+		int p = log2[r - l + 1];
+		return gcd(stgcd[l][p], stgcd[r - (1 << p) + 1][p]);
 	}
 
 	public static void main(String[] args) throws IOException {

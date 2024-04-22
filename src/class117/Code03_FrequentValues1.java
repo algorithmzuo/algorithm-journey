@@ -54,9 +54,9 @@ public class Code03_FrequentValues1 {
 			log2[i] = log2[i >> 1] + 1;
 			stmax[i][0] = right[i] - left[i] + 1;
 		}
-		for (int s = 1; s <= log2[cnt]; s++) {
-			for (int i = 1; i + (1 << s) - 1 <= cnt; i++) {
-				stmax[i][s] = Math.max(stmax[i][s - 1], stmax[i + (1 << (s - 1))][s - 1]);
+		for (int p = 1; p <= log2[cnt]; p++) {
+			for (int i = 1; i + (1 << p) - 1 <= cnt; i++) {
+				stmax[i][p] = Math.max(stmax[i][p - 1], stmax[i + (1 << (p - 1))][p - 1]);
 			}
 		}
 	}
@@ -74,8 +74,8 @@ public class Code03_FrequentValues1 {
 		}
 		int a = right[lbucket] - l + 1, b = r - left[rbucket] + 1, c = 0;
 		if (lbucket + 1 < rbucket) {
-			int from = lbucket + 1, to = rbucket - 1, s = log2[to - from + 1];
-			c = Math.max(stmax[from][s], stmax[to - (1 << s) + 1][s]);
+			int from = lbucket + 1, to = rbucket - 1, p = log2[to - from + 1];
+			c = Math.max(stmax[from][p], stmax[to - (1 << p) + 1][p]);
 		}
 		return Math.max(Math.max(a, b), c);
 	}

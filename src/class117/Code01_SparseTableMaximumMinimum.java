@@ -37,18 +37,18 @@ public class Code01_SparseTableMaximumMinimum {
 			stmax[i][0] = arr[i];
 			stmin[i][0] = arr[i];
 		}
-		for (int s = 1; s <= log2[n]; s++) {
-			for (int i = 1; i + (1 << s) - 1 <= n; i++) {
-				stmax[i][s] = Math.max(stmax[i][s - 1], stmax[i + (1 << (s - 1))][s - 1]);
-				stmin[i][s] = Math.min(stmin[i][s - 1], stmin[i + (1 << (s - 1))][s - 1]);
+		for (int p = 1; p <= log2[n]; p++) {
+			for (int i = 1; i + (1 << p) - 1 <= n; i++) {
+				stmax[i][p] = Math.max(stmax[i][p - 1], stmax[i + (1 << (p - 1))][p - 1]);
+				stmin[i][p] = Math.min(stmin[i][p - 1], stmin[i + (1 << (p - 1))][p - 1]);
 			}
 		}
 	}
 
 	public static int query(int l, int r) {
-		int s = log2[r - l + 1];
-		int a = Math.max(stmax[l][s], stmax[r - (1 << s) + 1][s]);
-		int b = Math.min(stmin[l][s], stmin[r - (1 << s) + 1][s]);
+		int p = log2[r - l + 1];
+		int a = Math.max(stmax[l][p], stmax[r - (1 << p) + 1][p]);
+		int b = Math.min(stmin[l][p], stmin[r - (1 << p) + 1][p]);
 		return a - b;
 	}
 

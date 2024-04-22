@@ -11,7 +11,7 @@ public class Code01_KthAncestor {
 
 		public static int LIMIT = 16;
 
-		public static int step;
+		public static int power;
 
 		public static int cnt;
 
@@ -26,7 +26,7 @@ public class Code01_KthAncestor {
 		public static int[] deep = new int[MAXN];
 
 		public TreeAncestor(int n, int[] parent) {
-			step = log2(n);
+			power = log2(n);
 			cnt = 1;
 			Arrays.fill(head, 0, n, 0);
 			deep[0] = 0;
@@ -53,8 +53,8 @@ public class Code01_KthAncestor {
 		public static void dfs(int u, int f) {
 			deep[u] = deep[f] + 1;
 			stfa[u][0] = f;
-			for (int s = 1; (1 << s) <= deep[u]; s++) {
-				stfa[u][s] = stfa[stfa[u][s - 1]][s - 1];
+			for (int p = 1; (1 << p) <= deep[u]; p++) {
+				stfa[u][p] = stfa[stfa[u][p - 1]][p - 1];
 			}
 			for (int e = head[u]; e != 0; e = next[e]) {
 				dfs(to[e], u);
@@ -66,9 +66,9 @@ public class Code01_KthAncestor {
 				return -1;
 			}
 			int aimDeep = deep[node] - k;
-			for (int s = step; s >= 0; s--) {
-				if (deep[stfa[node][s]] >= aimDeep) {
-					node = stfa[node][s];
+			for (int p = power; p >= 0; p--) {
+				if (deep[stfa[node][p]] >= aimDeep) {
+					node = stfa[node][p];
 				}
 			}
 			return node;
