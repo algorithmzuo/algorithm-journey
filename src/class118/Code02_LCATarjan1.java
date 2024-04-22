@@ -2,8 +2,10 @@ package class118;
 
 // LCA问题Tarjan算法解法
 // 测试链接 : https://www.luogu.com.cn/problem/P3379
+// 提交以下的code，提交时请把类名改成"Main"
 // c++这么写能通过，java会因为递归层数太多而爆栈
 // java能通过的写法参考本节课Code02_LCATarjan2文件
+
 
 import java.io.BufferedReader;
 import java.io.IOException;

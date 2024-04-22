@@ -2,6 +2,7 @@ package class118;
 
 // LCA问题Tarjan算法解法
 // 测试链接 : https://www.luogu.com.cn/problem/P3379
+// 提交以下的code，提交时请把类名改成"Main"
 // 本文件和Code02_LCATarjan1文件区别只有find、tarjan实现方式的不同
 // java这么写能通过
 
