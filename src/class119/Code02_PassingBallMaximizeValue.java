@@ -22,7 +22,7 @@ public class Code02_PassingBallMaximizeValue {
 
 	public static int power, m;
 
-	public static int[] kpower = new int[LIMIT];
+	public static int[] kbits = new int[LIMIT];
 
 	public static int[][] stjump = new int[MAXN][LIMIT];
 
@@ -49,8 +49,8 @@ public class Code02_PassingBallMaximizeValue {
 			cur = i;
 			sum = i;
 			for (int j = 0; j < m; j++) {
-				sum += stsum[cur][kpower[j]];
-				cur = stjump[cur][kpower[j]];
+				sum += stsum[cur][kbits[j]];
+				cur = stjump[cur][kbits[j]];
 			}
 			ans = Math.max(ans, sum);
 		}
@@ -67,7 +67,7 @@ public class Code02_PassingBallMaximizeValue {
 		// 都收集起来
 		for (int p = power; p >= 0; p--) {
 			if ((1L << p) <= k) {
-				kpower[m++] = p;
+				kbits[m++] = p;
 				k -= 1L << p;
 			}
 		}
