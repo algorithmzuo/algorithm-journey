@@ -36,7 +36,6 @@ public class Code01_KthAncestor {
 			power = log2(n);
 			cnt = 1;
 			Arrays.fill(head, 0, n, 0);
-			deep[0] = 0;
 			for (int i = 1; i < parent.length; i++) {
 				addEdge(parent[i], i);
 			}
@@ -58,7 +57,11 @@ public class Code01_KthAncestor {
 		}
 
 		public static void dfs(int u, int f) {
-			deep[u] = deep[f] + 1;
+			if (u == 0) {
+				deep[u] = 1;
+			} else {
+				deep[u] = deep[f] + 1;
+			}
 			stfa[u][0] = f;
 			for (int p = 1; (1 << p) <= deep[u]; p++) {
 				stfa[u][p] = stfa[stfa[u][p - 1]][p - 1];
