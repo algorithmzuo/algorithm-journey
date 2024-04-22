@@ -6,8 +6,10 @@ import java.util.Arrays;
 // 一棵树有n个节点，编号0 ~ n-1，每条边(u,v,w)表示从u到v有一条权重为w的边
 // 一共有m条查询，每条查询(a,b)表示，a到b的最短路径中把所有边变成一种值需要修改几条边
 // 返回每条查询的查询结果
-// 1 <= n <= 10^4，1 <= m <= 2 * 10^4
-// 0 <= u,v,a,b < n，1 <= w <= 26
+// 1 <= n <= 10^4
+// 1 <= m <= 2 * 10^4
+// 0 <= u、v、a、b < n
+// 1 <= w <= 26
 // 测试链接 : https://leetcode.cn/problems/minimum-edge-weight-equilibrium-queries-in-a-tree/
 public class Code03_QueryPathMinimumChangesToSame {
 
