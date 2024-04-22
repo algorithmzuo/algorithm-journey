@@ -2,6 +2,13 @@ package class119;
 
 import java.util.Arrays;
 
+// 树节点的第K个祖先
+// 树上有n个节点，编号0 ~ n-1，树的结构用parent数组代表
+// 其中parent[i]是节点i的父节点，树的根节点是编号为0
+// 树节点i的第k个祖先节点，是从节点i开始往上跳k步所来到的节点
+// 实现TreeAncestor类
+// TreeAncestor(int n, int[] parent) : 初始化
+// getKthAncestor(int i, int k) : 返回节点i的第k个祖先节点，不存在返回-1
 // 测试链接 : https://leetcode.cn/problems/kth-ancestor-of-a-tree-node/
 public class Code01_KthAncestor {
 
@@ -61,17 +68,17 @@ public class Code01_KthAncestor {
 			}
 		}
 
-		public int getKthAncestor(int node, int k) {
-			if (deep[node] <= k) {
+		public int getKthAncestor(int i, int k) {
+			if (deep[i] <= k) {
 				return -1;
 			}
-			int aimDeep = deep[node] - k;
+			int aimDeep = deep[i] - k;
 			for (int p = power; p >= 0; p--) {
-				if (deep[stfa[node][p]] >= aimDeep) {
-					node = stfa[node][p];
+				if (deep[stfa[i][p]] >= aimDeep) {
+					i = stfa[i][p];
 				}
 			}
-			return node;
+			return i;
 		}
 
 	}
