@@ -161,7 +161,6 @@ public class Code04_Trucking {
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
 		in.nextToken();
 		int n = (int) in.nval;
-		build(n);
 		in.nextToken();
 		int m = (int) in.nval;
 		for (int i = 1; i <= m; i++) {
@@ -172,6 +171,7 @@ public class Code04_Trucking {
 			in.nextToken();
 			edges[i][2] = (int) in.nval;
 		}
+		build(n);
 		kruskal(n, m);
 		for (int i = 1; i <= n; i++) {
 			if (!visited[i]) {
