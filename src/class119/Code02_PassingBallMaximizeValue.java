@@ -28,22 +28,8 @@ public class Code02_PassingBallMaximizeValue {
 
 	public static long[][] stsum = new long[MAXN][LIMIT];
 
-	public static void build(long k) {
-		power = 0;
-		while ((1L << power) <= (k >> 1)) {
-			power++;
-		}
-		m = 0;
-		for (int p = power; p >= 0; p--) {
-			if ((1L << p) <= k) {
-				kpower[m++] = p;
-				k -= 1L << p;
-			}
-		}
-	}
-
 	// 该方法实现了树上倍增的解法，打败比例很一般，但是非常好想
-	// 这个题最优解来自基环树dp，后面的课会安排这部分内容
+	// 这个题最优解来自基环树分析，后面的课会安排这部分内容
 	public static long getMaxFunctionValue(List<Integer> receiver, long k) {
 		build(k);
 		int n = receiver.size();
@@ -69,6 +55,22 @@ public class Code02_PassingBallMaximizeValue {
 			ans = Math.max(ans, sum);
 		}
 		return ans;
+	}
+
+	public static void build(long k) {
+		power = 0;
+		while ((1L << power) <= (k >> 1)) {
+			power++;
+		}
+		m = 0;
+		// 数字k在哪些位有1
+		// 都收集起来
+		for (int p = power; p >= 0; p--) {
+			if ((1L << p) <= k) {
+				kpower[m++] = p;
+				k -= 1L << p;
+			}
+		}
 	}
 
 }
