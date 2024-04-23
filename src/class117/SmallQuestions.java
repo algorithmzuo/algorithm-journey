@@ -16,7 +16,9 @@ public class SmallQuestions {
 		}
 	}
 
-	// 给定一个正数n，打印<=n最大的2的幂，到底是2的几次方
+	// 给定一个正数n
+	// 打印<=n最大的2的幂
+	// 到底是2的几次方
 	public static void show2(int x) {
 		int power = 0;
 		// 以下注释掉的写法不对，没有考虑溢出
