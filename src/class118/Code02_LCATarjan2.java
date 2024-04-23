@@ -2,9 +2,8 @@ package class118;
 
 // LCA问题Tarjan算法解法
 // 测试链接 : https://www.luogu.com.cn/problem/P3379
-// 提交以下的code，提交时请把类名改成"Main"
-// 本文件和Code02_LCATarjan1文件区别只有find、tarjan实现方式的不同
-// java这么写能通过
+// 所有递归函数一律改成等义的迭代版
+// 提交以下的code，提交时请把类名改成"Main"，可以通过所有用例
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -82,22 +81,30 @@ public class Code02_LCATarjan2 {
 	}
 
 	// tarjan算法迭代版
-	// nodes、fathers、edges是为了实现迭代版而准备的三个栈
-	public static int[] nodes = new int[MAXN];
+	// nfe是为了实现迭代版而准备的栈
+	public static int[][] ufe = new int[MAXN][3];
 
-	public static int[] fathers = new int[MAXN];
+	public static int stackSize, u, f, e;
 
-	public static int[] edges = new int[MAXN];
+	public static void push(int u, int f, int e) {
+		ufe[stackSize][0] = u;
+		ufe[stackSize][1] = f;
+		ufe[stackSize][2] = e;
+		stackSize++;
+	}
+
+	public static void pop() {
+		--stackSize;
+		u = ufe[stackSize][0];
+		f = ufe[stackSize][1];
+		e = ufe[stackSize][2];
+	}
 
 	public static void tarjan(int root) {
-		nodes[0] = root;
-		fathers[0] = 0;
-		edges[0] = -1;
-		int n = 1, u, f, e, v;
-		while (n > 0) {
-			u = nodes[--n];
-			f = fathers[n];
-			e = edges[n];
+		stackSize = 0;
+		push(root, 0, -1);
+		while (stackSize > 0) {
+			pop();
 			if (e == -1) {
 				visited[u] = true;
 				e = headEdge[u];
@@ -105,17 +112,12 @@ public class Code02_LCATarjan2 {
 				e = edgeNext[e];
 			}
 			if (e != 0) {
-				nodes[n] = u;
-				fathers[n] = f;
-				edges[n++] = e;
-				v = edgeTo[e];
-				if (v != f) {
-					nodes[n] = v;
-					fathers[n] = u;
-					edges[n++] = -1;
+				push(u, f, e);
+				if (edgeTo[e] != f) {
+					push(edgeTo[e], u, -1);
 				}
 			} else {
-				for (int q = headQuery[u]; q != 0; q = queryNext[q]) {
+				for (int q = headQuery[u], v; q != 0; q = queryNext[q]) {
 					v = queryTo[q];
 					if (visited[v]) {
 						ans[queryIndex[q]] = find(v);
