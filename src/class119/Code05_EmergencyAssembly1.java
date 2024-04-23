@@ -44,9 +44,9 @@ public class Code05_EmergencyAssembly1 {
 
 	public static int[] deep = new int[MAXN];
 
-	public static int where;
+	public static int togather;
 
-	public static long distance;
+	public static long cost;
 
 	public static void build(int n) {
 		power = log2(n);
@@ -130,7 +130,7 @@ public class Code05_EmergencyAssembly1 {
 			in.nextToken();
 			c = (int) in.nval;
 			compute(a, b, c);
-			out.println(where + " " + distance);
+			out.println(togather + " " + cost);
 		}
 		out.flush();
 		out.close();
@@ -139,8 +139,8 @@ public class Code05_EmergencyAssembly1 {
 
 	public static void compute(int a, int b, int c) {
 		int h1 = lca(a, b), h2 = lca(a, c), h3 = lca(b, c);
-		where = h1 == h2 ? h3 : (h1 == h3 ? h2 : h1);
-		distance = (long) deep[a] + deep[b] + deep[c] - deep[h1] - deep[h2] - deep[h3];
+		togather = h1 == h2 ? h3 : (h1 == h3 ? h2 : h1);
+		cost = (long) deep[a] + deep[b] + deep[c] - deep[h1] - deep[h2] - deep[h3];
 	}
 
 }

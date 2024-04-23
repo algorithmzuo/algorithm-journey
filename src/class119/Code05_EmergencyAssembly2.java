@@ -29,8 +29,8 @@ package class119;
 //int cnt;
 //int stjump[MAXN][LIMIT];
 //int deep[MAXN];
-//int where;
-//long long dist;
+//int togather;
+//long long cost;
 //
 //int log2(int n) {
 //    int ans = 0;
@@ -84,8 +84,8 @@ package class119;
 //
 //void compute(int a, int b, int c) {
 //    int h1 = lca(a, b), h2 = lca(a, c), h3 = lca(b, c);
-//    where = h1 == h2 ? h3 : (h1 == h3 ? h2 : h1);
-//    dist = deep[a] + deep[b] + deep[c] - deep[h1] - deep[h2] - deep[h3];
+//    togather = h1 == h2 ? h3 : (h1 == h3 ? h2 : h1);
+//    cost = deep[a] + deep[b] + deep[c] - deep[h1] - deep[h2] - deep[h3];
 //}
 //
 //int main() {
@@ -101,7 +101,7 @@ package class119;
 //    for (int i = 1, a, b, c; i <= m; i++) {
 //        scanf("%d %d %d", &a, &b, &c);
 //        compute(a, b, c);
-//        printf("%d %lld\n", where, dist);
+//        printf("%d %lld\n", togather, cost);
 //    }
 //    return 0;
 //}
