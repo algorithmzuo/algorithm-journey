@@ -2,7 +2,7 @@ package class117;
 
 public class SmallQuestions {
 
-	// 给定一个数字x
+	// 给定一个正数x
 	// 已知x一定可以用m个二进制位表示
 	// 从高位到低位打印x每一位的状态
 	public static void show1(int x, int m) {
@@ -16,8 +16,8 @@ public class SmallQuestions {
 		}
 	}
 
-	// 给定一个正数n
-	// 打印<=n最大的2的幂
+	// 给定一个正数x
+	// 打印<=x最大的2的幂
 	// 到底是2的几次方
 	public static void show2(int x) {
 		int power = 0;
@@ -39,8 +39,8 @@ public class SmallQuestions {
 		int m = 7;
 		show1(x, m);
 
-		int y = 2000000000;
-		show2(y);
+		x = 2000000000;
+		show2(x);
 	}
 
 }
