@@ -108,7 +108,7 @@ public class Code03_GreatCowGathering2 {
 	}
 
 	// 迭代版
-	public static void collectWeights(int root) {
+	public static void setWeights(int root) {
 		stackSize = 0;
 		push(root, 0, -1);
 		while (stackSize > 0) {
@@ -162,7 +162,7 @@ public class Code03_GreatCowGathering2 {
 		}
 		findCenter(1);
 		pathcost[center] = 0;
-		collectWeights(center);
+		setWeights(center);
 		long ans = 0;
 		for (int i = 1; i <= n; i++) {
 			ans += (long) cow[i] * pathcost[i];

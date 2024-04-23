@@ -78,12 +78,12 @@ public class Code03_GreatCowGathering1 {
 		}
 	}
 
-	public static void collectWeights(int u, int f) {
+	public static void setWeights(int u, int f) {
 		for (int e = head[u], v; e != 0; e = next[e]) {
 			v = to[e];
 			if (v != f) {
 				pathcost[v] = pathcost[u] + weight[e];
-				collectWeights(v, u);
+				setWeights(v, u);
 			}
 		}
 	}
@@ -121,7 +121,7 @@ public class Code03_GreatCowGathering1 {
 		}
 		findCenter(1, 0);
 		pathcost[center] = 0;
-		collectWeights(center, 0);
+		setWeights(center, 0);
 		long ans = 0;
 		for (int i = 1; i <= n; i++) {
 			ans += (long) cow[i] * pathcost[i];
