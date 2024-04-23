@@ -27,14 +27,14 @@ public class Code04_FlagPlan {
 	public static int MAXN = 200001;
 
 	public static int LIMIT = 18;
-	
+
 	public static int power;
 
 	// 每条线段3个信息 : 线段编号、线段左边界、线段右边界
 	public static int[][] line = new int[MAXN << 1][3];
 
-	// starrive[i][s] : 从i号线段出发，跳的次数是2的s次方，能到达的最右线段的编号
-	public static int[][] starrive = new int[MAXN << 1][LIMIT];
+	// stjump[i][p] : 从i号线段出发，跳的次数是2的p次方，能到达的最右线段的编号
+	public static int[][] stjump = new int[MAXN << 1][LIMIT];
 
 	public static int[] ans = new int[MAXN];
 
@@ -99,11 +99,11 @@ public class Code04_FlagPlan {
 			while (arrive + 1 <= e && line[arrive + 1][1] <= line[i][2]) {
 				arrive++;
 			}
-			starrive[i][0] = arrive;
+			stjump[i][0] = arrive;
 		}
 		for (int p = 1; p <= power; p++) {
 			for (int i = 1; i <= e; i++) {
-				starrive[i][p] = starrive[starrive[i][p - 1]][p - 1];
+				stjump[i][p] = stjump[stjump[i][p - 1]][p - 1];
 			}
 		}
 	}
@@ -111,7 +111,7 @@ public class Code04_FlagPlan {
 	public static int jump(int i) {
 		int aim = line[i][1] + m, cur = i, next, ans = 1;
 		for (int p = power; p >= 0; p--) {
-			next = starrive[cur][p];
+			next = stjump[cur][p];
 			if (next != 0 && line[next][2] < aim) {
 				ans += 1 << p;
 				cur = next;
