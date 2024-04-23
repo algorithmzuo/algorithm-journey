@@ -3,20 +3,10 @@ package class117;
 // 出现次数最多的数有几个
 // 给定一个长度为n的数组arr，该数组一定是有序的
 // 一共有m次查询，每次查询arr[l~r]上出现次数最多的数有几个
-// 题目查看 : https://www.luogu.com.cn/problem/UVA11235
-// 题目提交 : https://vjudge.net/problem/UVA-11235
-// 洛谷上提交会发生远程连接错误，需要注册一个vjudge账号来提交
-// 请同学们务必参考如下代码中关于输入、输出的处理
-// 这是输入输出处理效率很高的写法
-// 提交以下的code，提交时请把类名改成"Main"，可以直接通过
-// 也可以对数器验证
+// 对数器验证
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
-import java.io.StreamTokenizer;
+import java.util.Arrays;
+import java.util.HashMap;
 
 public class Code03_FrequentValues1 {
 
@@ -80,33 +70,52 @@ public class Code03_FrequentValues1 {
 		return Math.max(Math.max(a, b), c);
 	}
 
-	public static void main(String[] args) throws IOException {
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StreamTokenizer in = new StreamTokenizer(br);
-		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
-		while (in.nextToken() != StreamTokenizer.TT_EOF) {
-			int n = (int) in.nval;
-			if (n == 0) {
-				break;
-			}
-			in.nextToken();
-			int m = (int) in.nval;
-			for (int i = 1; i <= n; i++) {
-				in.nextToken();
-				arr[i] = (int) in.nval;
-			}
-			build(n);
-			for (int i = 1, l, r; i <= m; i++) {
-				in.nextToken();
-				l = (int) in.nval;
-				in.nextToken();
-				r = (int) in.nval;
-				out.println(query(l, r));
+	// 对数器
+	// 为了验证
+	public static void main(String[] args) {
+		System.out.println("测试开始");
+		int n = 10000;
+		int v = 100;
+		int m = 5000;
+		randomArray(n, v);
+		build(n);
+		for (int i = 1, l, r; i <= m; i++) {
+			l = (int) (Math.random() * n) + 1;
+			r = (int) (Math.random() * n) + 1;
+			if (query(l, r) != checkQuery(l, r)) {
+				System.out.println("出错了!");
 			}
 		}
-		out.flush();
-		out.close();
-		br.close();
+		System.out.println("测试结束");
+	}
+
+	// 得到随机数组
+	// 为了验证
+	public static void randomArray(int n, int v) {
+		for (int i = 1; i <= n; i++) {
+			arr[i] = (int) (Math.random() * 2 * v) - v;
+		}
+		Arrays.sort(arr, 1, n + 1);
+	}
+
+	// 暴力方法
+	// 直接遍历统计词频
+	// 为了验证
+	public static int checkQuery(int l, int r) {
+		if (l > r) {
+			int tmp = l;
+			l = r;
+			r = tmp;
+		}
+		HashMap<Integer, Integer> map = new HashMap<>();
+		for (int i = l; i <= r; i++) {
+			map.put(arr[i], map.getOrDefault(arr[i], 0) + 1);
+		}
+		int ans = 0;
+		for (int v : map.values()) {
+			ans = Math.max(ans, v);
+		}
+		return ans;
 	}
 
 }
