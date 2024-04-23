@@ -5,10 +5,10 @@ package class117;
 // 一共有m次查询，每次查询arr[l~r]上出现次数最多的数有几个
 // 题目查看 : https://www.luogu.com.cn/problem/UVA11235
 // 题目提交 : https://vjudge.net/problem/UVA-11235
-// 洛谷上提交会发生远程连接错误，需要注册一个vjudge账号来提交
-// 请同学们务必参考如下代码中关于输入、输出的处理
-// 这是输入输出处理效率很高的写法
-// 提交以下的code，提交时请把类名改成"Main"，可以直接通过
+// 洛谷上提交会发生远程连接错误，需要绑定一个UVA账号再提交
+// 也可以注册一个vjudge账号来提交，不过如果UVA链接不上就需要等
+// 其实用对数器验证即可，我肯定是提交通过测试了的
+// 提交以下的code，提交时请把类名改成"Main"
 
 import java.io.BufferedReader;
 import java.io.IOException;
