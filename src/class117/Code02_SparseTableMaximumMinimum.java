@@ -1,9 +1,10 @@
 package class117;
 
-// ST表查询最大公约数
+// ST表查询最大值和最小值
 // 给定一个长度为n的数组arr，一共有m次查询
-// 每次查询arr[l~r]上所有数的最大公约数
-// 测试链接 : https://www.luogu.com.cn/problem/P1890
+// 每次查询arr[l~r]上的最大值和最小值
+// 每次查询只需要打印最大值-最小值的结果
+// 测试链接 : https://www.luogu.com.cn/problem/P2880
 // 请同学们务必参考如下代码中关于输入、输出的处理
 // 这是输入输出处理效率很高的写法
 // 提交以下的code，提交时请把类名改成"Main"，可以直接通过
@@ -15,39 +16,40 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 
-public class Code02_SparseTable2 {
+public class Code02_SparseTableMaximumMinimum {
 
-	public static int MAXN = 1001;
+	public static int MAXN = 50001;
 
-	public static int LIMIT = 10;
+	public static int LIMIT = 16;
 
 	public static int[] arr = new int[MAXN];
 
 	public static int[] log2 = new int[MAXN];
 
-	public static int[][] stgcd = new int[MAXN][LIMIT];
+	public static int[][] stmax = new int[MAXN][LIMIT];
+
+	public static int[][] stmin = new int[MAXN][LIMIT];
 
 	public static void build(int n) {
 		log2[0] = -1;
 		for (int i = 1; i <= n; i++) {
 			log2[i] = log2[i >> 1] + 1;
-			stgcd[i][0] = arr[i];
+			stmax[i][0] = arr[i];
+			stmin[i][0] = arr[i];
 		}
 		for (int p = 1; p <= log2[n]; p++) {
 			for (int i = 1; i + (1 << p) - 1 <= n; i++) {
-				stgcd[i][p] = gcd(stgcd[i][p - 1], stgcd[i + (1 << (p - 1))][p - 1]);
+				stmax[i][p] = Math.max(stmax[i][p - 1], stmax[i + (1 << (p - 1))][p - 1]);
+				stmin[i][p] = Math.min(stmin[i][p - 1], stmin[i + (1 << (p - 1))][p - 1]);
 			}
 		}
 	}
 
-	// 算法讲解041 - 辗转相除法求最大公约数
-	public static int gcd(int a, int b) {
-		return b == 0 ? a : gcd(b, a % b);
-	}
-
 	public static int query(int l, int r) {
 		int p = log2[r - l + 1];
-		return gcd(stgcd[l][p], stgcd[r - (1 << p) + 1][p]);
+		int a = Math.max(stmax[l][p], stmax[r - (1 << p) + 1][p]);
+		int b = Math.min(stmin[l][p], stmin[r - (1 << p) + 1][p]);
+		return a - b;
 	}
 
 	public static void main(String[] args) throws IOException {

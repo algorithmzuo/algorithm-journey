@@ -8,7 +8,7 @@ package class117;
 import java.util.Arrays;
 import java.util.HashMap;
 
-public class Code03_FrequentValues1 {
+public class Code04_FrequentValues1 {
 
 	public static int MAXN = 100001;
 
