@@ -3,7 +3,7 @@ package class117;
 public class TwoSmallQuestions {
 
 	// 给定一个正数x
-	// 已知x一定可以用m个二进制位表示
+	// 已知用m个二进制位一定能表示x
 	// 从高位到低位打印x每一位的状态
 	public static void show1(int x, int m) {
 		for (int p = m - 1, t = x; p >= 0; p--) {
@@ -34,9 +34,9 @@ public class TwoSmallQuestions {
 	}
 
 	public static void main(String[] args) {
-		// 需要保证x一定可以用m个二进制位表示
+		// 需要保证用m个二进制位一定能表示x
 		int x = 100;
-		int m = 7;
+		int m = 10;
 		show1(x, m);
 
 		x = 2000000000;
