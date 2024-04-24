@@ -22,7 +22,7 @@ import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 import java.util.Arrays;
 
-public class Code04_FlagPlan {
+public class Code01_FlagPlan {
 
 	public static int MAXN = 200001;
 

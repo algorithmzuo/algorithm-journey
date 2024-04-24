@@ -39,6 +39,10 @@ public class TwoSmallQuestions {
 		int m = 10;
 		show1(x, m);
 
+		x = 13;
+		show2(x);
+		x = 16;
+		show2(x);
 		x = 2000000000;
 		show2(x);
 	}
