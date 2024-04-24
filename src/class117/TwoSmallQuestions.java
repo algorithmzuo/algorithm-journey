@@ -35,7 +35,7 @@ public class TwoSmallQuestions {
 
 	public static void main(String[] args) {
 		// 需要保证用m个二进制位一定能表示x
-		int x = 100;
+		int x = 101;
 		int m = 10;
 		show1(x, m);
 
