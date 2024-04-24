@@ -1,6 +1,6 @@
 package class117;
 
-public class SmallQuestions {
+public class TwoSmallQuestions {
 
 	// 给定一个正数x
 	// 已知x一定可以用m个二进制位表示
