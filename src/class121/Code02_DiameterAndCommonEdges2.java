@@ -41,6 +41,13 @@ public class Code02_DiameterAndCommonEdges2 {
 		maxDist = 0;
 	}
 
+	public static void addEdge(int u, int v, int w) {
+		next[cnt] = head[u];
+		to[cnt] = v;
+		weight[cnt] = w;
+		head[u] = cnt++;
+	}
+
 	public static int start, end;
 
 	public static long diameter;
@@ -63,13 +70,6 @@ public class Code02_DiameterAndCommonEdges2 {
 			}
 		}
 		diameter = dist[end];
-	}
-
-	public static void addEdge(int u, int v, int w) {
-		next[cnt] = head[u];
-		to[cnt] = v;
-		weight[cnt] = w;
-		head[u] = cnt++;
 	}
 
 	// 为了改迭代版，准备这些栈
@@ -146,12 +146,12 @@ public class Code02_DiameterAndCommonEdges2 {
 
 	public static void compute() {
 		sedp();
-		boolean flag = false;
 		for (int i = end; i != 0; i = path[i]) {
 			visited[i] = true;
 		}
 		int l = start;
 		int r = end;
+		boolean flag = false;
 		for (int i = path[end]; i != start; i = path[i]) {
 			long ldist = dist[i], rdist = dist[end] - dist[i];
 			dist[i] = maxDist = 0;
