@@ -74,6 +74,7 @@ public class Code01_FlagPlan {
 		}
 	}
 
+	// <=n最接近的2的幂，是2的几次方
 	public static int log2(int n) {
 		int ans = 0;
 		while ((1 << ans) <= (n >> 1)) {
@@ -109,7 +110,7 @@ public class Code01_FlagPlan {
 	}
 
 	public static int jump(int i) {
-		int aim = line[i][1] + m, cur = i, next, ans = 1;
+		int aim = line[i][1] + m, cur = i, next, ans = 0;
 		for (int p = power; p >= 0; p--) {
 			next = stjump[cur][p];
 			if (next != 0 && line[next][2] < aim) {
@@ -117,7 +118,7 @@ public class Code01_FlagPlan {
 				cur = next;
 			}
 		}
-		return ans + 1;
+		return ans + 1 + 1;
 	}
 
 }

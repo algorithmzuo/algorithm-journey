@@ -20,10 +20,14 @@ public class Code02_SparseTableMaximumMinimum {
 
 	public static int MAXN = 50001;
 
+	// 2的15次方是<=50001且最接近的
+	// 所以次方可能是0~15
+	// 于是准备16长度够用了
 	public static int LIMIT = 16;
 
 	public static int[] arr = new int[MAXN];
 
+	// log2[i] : 查询<=i情况下，最大的2的幂，是2的几次方
 	public static int[] log2 = new int[MAXN];
 
 	public static int[][] stmax = new int[MAXN][LIMIT];
