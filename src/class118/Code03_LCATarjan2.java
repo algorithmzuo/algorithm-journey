@@ -13,7 +13,7 @@ import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 import java.util.Arrays;
 
-public class Code02_LCATarjan2 {
+public class Code03_LCATarjan2 {
 
 	public static int MAXN = 500001;
 

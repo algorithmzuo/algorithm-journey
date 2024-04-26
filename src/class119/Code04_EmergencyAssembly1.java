@@ -1,10 +1,20 @@
-package class118;
+package class119;
 
-// LCA问题树上倍增解法
-// 测试链接 : https://www.luogu.com.cn/problem/P3379
+// 紧急集合
+// 一共有n个节点，编号1 ~ n，一定有n-1条边连接形成一颗树
+// 从一个点到另一个点的路径上有几条边，就需要耗费几个金币
+// 每条查询(a, b, c)表示有三个人分别站在a、b、c点上
+// 他们想集合在树上的某个点，并且想花费的金币总数最少
+// 一共有m条查询，打印m个答案
+// 1 <= n <= 5 * 10^5
+// 1 <= m <= 5 * 10^5
+// 测试链接 : https://www.luogu.com.cn/problem/P4281
+// 如下实现是正确的，但是洛谷平台对空间卡的很严，只有使用C++能全部通过
+// C++版本就是本节代码中的Code04_EmergencyAssembly2文件
+// C++版本和java版本逻辑完全一样，但只有C++版本可以通过所有测试用例
+// 这是洛谷平台没有照顾各种语言的实现所导致的
+// 在真正笔试、比赛时，一定是兼顾各种语言的，该实现是一定正确的
 // 提交以下的code，提交时请把类名改成"Main"
-// C++这么写能通过，java会因为递归层数太多而爆栈
-// java能通过的写法参考本节课Code01_LCAMultiply2文件
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -14,15 +24,13 @@ import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 import java.util.Arrays;
 
-public class Code01_LCAMultiply1 {
+public class Code04_EmergencyAssembly1 {
 
 	public static int MAXN = 500001;
 
-	public static int LIMIT = 20;
+	public static int LIMIT = 19;
 
 	public static int power;
-
-	public static int cnt;
 
 	public static int[] head = new int[MAXN];
 
@@ -30,9 +38,21 @@ public class Code01_LCAMultiply1 {
 
 	public static int[] to = new int[MAXN << 1];
 
+	public static int cnt;
+
 	public static int[][] stjump = new int[MAXN][LIMIT];
 
 	public static int[] deep = new int[MAXN];
+
+	public static int togather;
+
+	public static long cost;
+
+	public static void build(int n) {
+		power = log2(n);
+		cnt = 1;
+		Arrays.fill(head, 1, n + 1, 0);
+	}
 
 	public static int log2(int n) {
 		int ans = 0;
@@ -42,21 +62,12 @@ public class Code01_LCAMultiply1 {
 		return ans;
 	}
 
-	public static void build(int n) {
-		power = log2(n);
-		cnt = 1;
-		Arrays.fill(head, 1, n + 1, 0);
-	}
-
 	public static void addEdge(int u, int v) {
 		next[cnt] = head[u];
 		to[cnt] = v;
 		head[u] = cnt++;
 	}
 
-	// dfs递归版
-	// 一般来说都这么写，但是本题附加的测试数据很毒
-	// java这么写就会因为递归太深而爆栈，c++这么写就能通过
 	public static void dfs(int u, int f) {
 		deep[u] = deep[f] + 1;
 		stjump[u][0] = f;
@@ -101,8 +112,6 @@ public class Code01_LCAMultiply1 {
 		int n = (int) in.nval;
 		in.nextToken();
 		int m = (int) in.nval;
-		in.nextToken();
-		int root = (int) in.nval;
 		build(n);
 		for (int i = 1, u, v; i < n; i++) {
 			in.nextToken();
@@ -112,17 +121,26 @@ public class Code01_LCAMultiply1 {
 			addEdge(u, v);
 			addEdge(v, u);
 		}
-		dfs(root, 0);
-		for (int i = 1, a, b; i <= m; i++) {
+		dfs(1, 0);
+		for (int i = 1, a, b, c; i <= m; i++) {
 			in.nextToken();
 			a = (int) in.nval;
 			in.nextToken();
 			b = (int) in.nval;
-			out.println(lca(a, b));
+			in.nextToken();
+			c = (int) in.nval;
+			compute(a, b, c);
+			out.println(togather + " " + cost);
 		}
 		out.flush();
 		out.close();
 		br.close();
+	}
+
+	public static void compute(int a, int b, int c) {
+		int h1 = lca(a, b), h2 = lca(a, c), h3 = lca(b, c);
+		togather = h1 == h2 ? h3 : (h1 == h3 ? h2 : h1);
+		cost = (long) deep[a] + deep[b] + deep[c] - deep[h1] - deep[h2] - deep[h3];
 	}
 
 }

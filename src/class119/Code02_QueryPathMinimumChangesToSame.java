@@ -11,7 +11,7 @@ import java.util.Arrays;
 // 0 <= u、v、a、b < n
 // 1 <= w <= 26
 // 测试链接 : https://leetcode.cn/problems/minimum-edge-weight-equilibrium-queries-in-a-tree/
-public class Code03_QueryPathMinimumChangesToSame {
+public class Code02_QueryPathMinimumChangesToSame {
 
 	public static int MAXN = 10001;
 
