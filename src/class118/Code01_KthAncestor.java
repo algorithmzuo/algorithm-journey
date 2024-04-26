@@ -67,7 +67,10 @@ public class Code01_KthAncestor {
 				stjump[u][p] = stjump[stjump[u][p - 1]][p - 1];
 			}
 			for (int e = head[u]; e != 0; e = next[e]) {
-				dfs(to[e], u);
+				// 其实这里不用加这个判断，如果是双向图就需要加了，所以一律加吧
+				if (to[e] != f) {
+					dfs(to[e], u);
+				}
 			}
 		}
 
@@ -75,13 +78,13 @@ public class Code01_KthAncestor {
 			if (deep[i] <= k) {
 				return -1;
 			}
-			int aimDeep = deep[i] - k;
+			int aimLevel = deep[i] - k;
 			for (int p = power; p >= 0; p--) {
-				if (deep[stjump[i][p]] >= aimDeep) {
+				if (deep[stjump[i][p]] > aimLevel) {
 					i = stjump[i][p];
 				}
 			}
-			return i;
+			return stjump[i][0];
 		}
 
 	}
