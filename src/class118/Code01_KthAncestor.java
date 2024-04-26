@@ -78,9 +78,9 @@ public class Code01_KthAncestor {
 			if (deep[i] <= k) {
 				return -1;
 			}
-			int aimLevel = deep[i] - k;
+			int j = deep[i] - k;
 			for (int p = power; p >= 0; p--) {
-				if (deep[stjump[i][p]] > aimLevel) {
+				if (deep[stjump[i][p]] > j) {
 					i = stjump[i][p];
 				}
 			}
