@@ -23,7 +23,7 @@ public class Code03_GreatCowGathering2 {
 
 	public static int cnt;
 
-	public static int maxSize, center;
+	public static int bestSize, center;
 
 	public static int[] cow = new int[MAXN];
 
@@ -43,7 +43,7 @@ public class Code03_GreatCowGathering2 {
 		cnt = 1;
 		Arrays.fill(head, 1, n + 1, 0);
 		cowSum = 0;
-		maxSize = Integer.MAX_VALUE;
+		bestSize = Integer.MAX_VALUE;
 	}
 
 	public static void addEdge(int u, int v, int w) {
@@ -99,8 +99,8 @@ public class Code03_GreatCowGathering2 {
 					}
 				}
 				max = Math.max(max, cowSum - size[u]);
-				if (max < maxSize) {
-					maxSize = max;
+				if (max < bestSize) {
+					bestSize = max;
 					center = u;
 				}
 			}

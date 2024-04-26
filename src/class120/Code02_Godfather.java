@@ -28,12 +28,12 @@ public class Code02_Godfather {
 
 	public static int[] ans = new int[MAXN];
 
-	public static int maxSize, m;
+	public static int bestSize, m;
 
 	public static void build() {
 		cnt = 1;
 		Arrays.fill(head, 1, n + 1, 0);
-		maxSize = Integer.MAX_VALUE;
+		bestSize = Integer.MAX_VALUE;
 	}
 
 	public static void addEdge(int u, int v) {
@@ -54,11 +54,11 @@ public class Code02_Godfather {
 			}
 		}
 		max = Math.max(max, n - size[u]);
-		if (max < maxSize) {
-			maxSize = max;
+		if (max < bestSize) {
+			bestSize = max;
 			m = 0;
 			ans[++m] = u;
-		} else if (max == maxSize) {
+		} else if (max == bestSize) {
 			ans[++m] = u;
 		}
 	}

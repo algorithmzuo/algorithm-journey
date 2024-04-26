@@ -26,18 +26,18 @@ public class Code04_LinkCutCentroids {
 
 	public static int[] size = new int[MAXN];
 
-	public static int[] maxSize = new int[MAXN];
+	public static int[] cutSize = new int[MAXN];
 
-	public static int[] nodes = new int[MAXN];
+	public static int[] bests = new int[MAXN];
 
-	public static int min;
+	public static int bestSize;
 
 	public static int tmp1, tmp2;
 
 	public static void build() {
 		cnt = 1;
 		Arrays.fill(head, 1, n + 1, 0);
-		min = n + 1;
+		bestSize = n + 1;
 	}
 
 	public static void addEdge(int u, int v) {
@@ -47,18 +47,18 @@ public class Code04_LinkCutCentroids {
 	}
 
 	public static void dfs(int u, int f) {
-		size[u] = maxSize[u] = 1;
+		size[u] = cutSize[u] = 1;
 		for (int e = head[u], v; e != 0; e = next[e]) {
 			v = to[e];
 			if (v != f) {
 				dfs(v, u);
 				size[u] += size[v];
-				maxSize[u] = Math.max(maxSize[u], size[v]);
+				cutSize[u] = Math.max(cutSize[u], size[v]);
 			}
 		}
-		maxSize[u] = Math.max(maxSize[u], n - size[u]);
-		if (maxSize[u] < min) {
-			min = maxSize[u];
+		cutSize[u] = Math.max(cutSize[u], n - size[u]);
+		if (cutSize[u] < bestSize) {
+			bestSize = cutSize[u];
 		}
 	}
 
@@ -77,12 +77,12 @@ public class Code04_LinkCutCentroids {
 		dfs(1, 0);
 		int m = 0;
 		for (int i = 1; i <= n; i++) {
-			if (maxSize[i] == min) {
-				nodes[++m] = i;
+			if (cutSize[i] == bestSize) {
+				bests[++m] = i;
 			}
 		}
 		if (m != 1) {
-			tmp1 = find(nodes[2], nodes[1]);
+			tmp1 = find(bests[2], bests[1]);
 		}
 		return m;
 	}
@@ -106,11 +106,11 @@ public class Code04_LinkCutCentroids {
 				addEdge(v, u);
 			}
 			if (compute() == 1) {
-				out.println(nodes[1] + " " + to[head[nodes[1]]]);
-				out.println(nodes[1] + " " + to[head[nodes[1]]]);
+				out.println(bests[1] + " " + to[head[bests[1]]]);
+				out.println(bests[1] + " " + to[head[bests[1]]]);
 			} else {
 				out.println(tmp2 + " " + tmp1);
-				out.println(nodes[1] + " " + tmp1);
+				out.println(bests[1] + " " + tmp1);
 			}
 		}
 		out.flush();

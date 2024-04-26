@@ -26,12 +26,12 @@ public class Code01_BalancingAct {
 
 	public static int n;
 
-	public static int maxSize, node;
+	public static int bestSize, node;
 
 	public static void build() {
 		cnt = 1;
 		Arrays.fill(head, 1, n + 1, 0);
-		maxSize = Integer.MAX_VALUE;
+		bestSize = Integer.MAX_VALUE;
 		node = 0;
 	}
 
@@ -53,8 +53,8 @@ public class Code01_BalancingAct {
 			}
 		}
 		max = Math.max(max, n - size[u]);
-		if (max < maxSize || (max == maxSize && u < node)) {
-			maxSize = max;
+		if (max < bestSize || (max == bestSize && u < node)) {
+			bestSize = max;
 			node = u;
 		}
 	}
@@ -78,7 +78,7 @@ public class Code01_BalancingAct {
 				addEdge(v, u);
 			}
 			dfs(1, 0);
-			out.println(node + " " + maxSize);
+			out.println(node + " " + bestSize);
 		}
 		out.flush();
 		out.close();
