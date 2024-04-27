@@ -28,64 +28,11 @@ public class Code04_LinkCutCentroids {
 
 	public static int[] cutSize = new int[MAXN];
 
-	public static int[] bests = new int[MAXN];
-
 	public static int bestSize;
 
-	public static int tmp1, tmp2;
+	public static int[] bests = new int[MAXN];
 
-	public static void build() {
-		cnt = 1;
-		Arrays.fill(head, 1, n + 1, 0);
-		bestSize = n + 1;
-	}
-
-	public static void addEdge(int u, int v) {
-		next[cnt] = head[u];
-		to[cnt] = v;
-		head[u] = cnt++;
-	}
-
-	public static void dfs(int u, int f) {
-		size[u] = cutSize[u] = 1;
-		for (int e = head[u], v; e != 0; e = next[e]) {
-			v = to[e];
-			if (v != f) {
-				dfs(v, u);
-				size[u] += size[v];
-				cutSize[u] = Math.max(cutSize[u], size[v]);
-			}
-		}
-		cutSize[u] = Math.max(cutSize[u], n - size[u]);
-		if (cutSize[u] < bestSize) {
-			bestSize = cutSize[u];
-		}
-	}
-
-	public static int find(int u, int f) {
-		for (int e = head[u], v; e != 0; e = next[e]) {
-			v = to[e];
-			if (v != f) {
-				tmp2 = u;
-				return find(v, u);
-			}
-		}
-		return u;
-	}
-
-	public static int compute() {
-		dfs(1, 0);
-		int m = 0;
-		for (int i = 1; i <= n; i++) {
-			if (cutSize[i] == bestSize) {
-				bests[++m] = i;
-			}
-		}
-		if (m != 1) {
-			tmp1 = find(bests[2], bests[1]);
-		}
-		return m;
-	}
+	public static int node1, node2;
 
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -109,13 +56,66 @@ public class Code04_LinkCutCentroids {
 				out.println(bests[1] + " " + to[head[bests[1]]]);
 				out.println(bests[1] + " " + to[head[bests[1]]]);
 			} else {
-				out.println(tmp2 + " " + tmp1);
-				out.println(bests[1] + " " + tmp1);
+				out.println(node2 + " " + node1);
+				out.println(bests[1] + " " + node1);
 			}
 		}
 		out.flush();
 		out.close();
 		br.close();
+	}
+
+	public static void build() {
+		cnt = 1;
+		Arrays.fill(head, 1, n + 1, 0);
+		bestSize = n + 1;
+	}
+
+	public static void addEdge(int u, int v) {
+		next[cnt] = head[u];
+		to[cnt] = v;
+		head[u] = cnt++;
+	}
+
+	public static int compute() {
+		dfs(1, 0);
+		int m = 0;
+		for (int i = 1; i <= n; i++) {
+			if (cutSize[i] == bestSize) {
+				bests[++m] = i;
+			}
+		}
+		if (m != 1) {
+			find(bests[2], bests[1]);
+		}
+		return m;
+	}
+
+	public static void dfs(int u, int f) {
+		size[u] = cutSize[u] = 1;
+		for (int e = head[u], v; e != 0; e = next[e]) {
+			v = to[e];
+			if (v != f) {
+				dfs(v, u);
+				size[u] += size[v];
+				cutSize[u] = Math.max(cutSize[u], size[v]);
+			}
+		}
+		cutSize[u] = Math.max(cutSize[u], n - size[u]);
+		if (cutSize[u] < bestSize) {
+			bestSize = cutSize[u];
+		}
+	}
+
+	public static void find(int u, int f) {
+		for (int e = head[u]; e != 0; e = next[e]) {
+			if (to[e] != f) {
+				find(to[e], u);
+				return;
+			}
+		}
+		node1 = u;
+		node2 = f;
 	}
 
 }
