@@ -81,9 +81,10 @@ public class Code01_KthAncestor {
 			if (deep[i] <= k) {
 				return -1;
 			}
-			int j = deep[i] - k;
+			// s是想要去往的层数
+			int s = deep[i] - k;
 			for (int p = power; p >= 0; p--) {
-				if (deep[stjump[i][p]] >= j) {
+				if (deep[stjump[i][p]] >= s) {
 					i = stjump[i][p];
 				}
 			}
