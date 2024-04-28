@@ -1,11 +1,11 @@
 package class118;
 
 // LCA问题Tarjan算法解法
+
 // 测试链接 : https://www.luogu.com.cn/problem/P3379
 // 提交以下的code，提交时请把类名改成"Main"
 // C++这么写能通过，java会因为递归层数太多而爆栈
 // java能通过的写法参考本节课Code03_LCATarjan2文件
-
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -85,6 +85,7 @@ public class Code03_LCATarjan1 {
 			v = edgeTo[e];
 			if (v != f) {
 				tarjan(v, u);
+				father[v] = u;
 			}
 		}
 		for (int e = headQuery[u], v; e != 0; e = queryNext[e]) {
@@ -93,7 +94,6 @@ public class Code03_LCATarjan1 {
 				ans[queryIndex[e]] = find(v);
 			}
 		}
-		father[u] = f;
 	}
 
 	public static void main(String[] args) throws IOException {

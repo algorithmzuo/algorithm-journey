@@ -64,10 +64,10 @@ public class Code03_LCATarjan2 {
 		headQuery[u] = qcnt++;
 	}
 
-	// 并查集找代表节点迭代版
-	// stack是为了实现迭代版而准备的栈
+	// 为了实现迭代版而准备的栈
 	public static int[] stack = new int[MAXN];
 
+	// 并查集找代表节点迭代版
 	public static int find(int i) {
 		int n = 0;
 		while (i != father[i]) {
@@ -80,8 +80,7 @@ public class Code03_LCATarjan2 {
 		return i;
 	}
 
-	// tarjan算法迭代版
-	// nfe是为了实现迭代版而准备的栈
+	// 为了实现迭代版而准备的栈
 	public static int[][] ufe = new int[MAXN][3];
 
 	public static int stackSize, u, f, e;
@@ -100,6 +99,28 @@ public class Code03_LCATarjan2 {
 		e = ufe[stackSize][2];
 	}
 
+	// 为了容易改成迭代版，修改一下递归版
+	public static void tarjan(int u, int f) {
+		visited[u] = true;
+		for (int e = headEdge[u], v; e != 0; e = edgeNext[e]) {
+			v = edgeTo[e];
+			if (v != f) {
+				tarjan(v, u);
+				// 注意这里，注释了一行
+//				father[v] = u;
+			}
+		}
+		for (int e = headQuery[u], v; e != 0; e = queryNext[e]) {
+			v = queryTo[e];
+			if (visited[v]) {
+				ans[queryIndex[e]] = find(v);
+			}
+		}
+		// 注意这里，增加了一行
+		father[u] = f;
+	}
+
+	// tarjan算法迭代版
 	public static void tarjan(int root) {
 		stackSize = 0;
 		push(root, 0, -1);

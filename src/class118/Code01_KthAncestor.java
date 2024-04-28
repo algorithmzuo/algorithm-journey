@@ -83,11 +83,11 @@ public class Code01_KthAncestor {
 			}
 			int j = deep[i] - k;
 			for (int p = power; p >= 0; p--) {
-				if (deep[stjump[i][p]] > j) {
+				if (deep[stjump[i][p]] >= j) {
 					i = stjump[i][p];
 				}
 			}
-			return stjump[i][0];
+			return i;
 		}
 
 	}
