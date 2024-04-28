@@ -34,6 +34,7 @@ public class Code03_Tarjan1 {
 
 	public static int[] queryTo = new int[MAXN << 1];
 
+	// 问题的编号，一旦有答案可以知道填写在哪
 	public static int[] queryIndex = new int[MAXN << 1];
 
 	public static int qcnt;
@@ -72,7 +73,7 @@ public class Code03_Tarjan1 {
 
 	// 并查集找头节点递归版
 	// 一般来说都这么写，但是本题附加的测试数据很毒
-	// java这么写就会因为递归太深而爆栈，c++这么写就能通过
+	// java这么写就会因为递归太深而爆栈，C++这么写就能通过
 	public static int find(int i) {
 		if (i != father[i]) {
 			father[i] = find(father[i]);
@@ -82,7 +83,7 @@ public class Code03_Tarjan1 {
 
 	// tarjan算法递归版
 	// 一般来说都这么写，但是本题附加的测试数据很毒
-	// java这么写就会因为递归太深而爆栈，c++这么写就能通过
+	// java这么写就会因为递归太深而爆栈，C++这么写就能通过
 	public static void tarjan(int u, int f) {
 		visited[u] = true;
 		for (int e = headEdge[u], v; e != 0; e = edgeNext[e]) {

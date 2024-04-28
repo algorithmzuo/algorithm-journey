@@ -60,6 +60,7 @@ public class Code01_KthAncestor {
 			head[u] = cnt++;
 		}
 
+		// 当前来到i节点，i节点父亲节点是f
 		public static void dfs(int i, int f) {
 			if (i == 0) {
 				deep[i] = 1;

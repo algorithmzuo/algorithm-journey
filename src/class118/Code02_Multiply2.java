@@ -75,6 +75,12 @@ public class Code02_Multiply2 {
 
 	public static void dfs(int root) {
 		stackSize = 0;
+		// 栈里存放三个信息
+		// u : 当前处理的点
+		// f : 当前点u的父节点
+		// e : 处理到几号边了
+		//     如果e==-1，表示之前没有处理过u的任何边
+		//     如果e==0，表示u的边都已经处理完了
 		push(root, 0, -1);
 		while (stackSize > 0) {
 			pop();
