@@ -70,7 +70,7 @@ public class Code03_Tarjan1 {
 		headQuery[u] = qcnt++;
 	}
 
-	// 并查集找代表节点递归版
+	// 并查集找头节点递归版
 	// 一般来说都这么写，但是本题附加的测试数据很毒
 	// java这么写就会因为递归太深而爆栈，c++这么写就能通过
 	public static int find(int i) {

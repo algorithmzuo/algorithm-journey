@@ -67,7 +67,7 @@ public class Code03_Tarjan2 {
 	// 为了实现迭代版而准备的栈
 	public static int[] stack = new int[MAXN];
 
-	// 并查集找代表节点迭代版
+	// 并查集找头节点迭代版
 	public static int find(int i) {
 		int size = 0;
 		while (i != father[i]) {
@@ -120,7 +120,7 @@ public class Code03_Tarjan2 {
 		father[u] = f;
 	}
 
-	// tarjan算法迭代版
+	// tarjan算法迭代版，根据上面的递归版改写
 	public static void tarjan(int root) {
 		stackSize = 0;
 		push(root, 0, -1);
