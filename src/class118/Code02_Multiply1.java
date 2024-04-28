@@ -20,19 +20,8 @@ public class Code02_Multiply1 {
 
 	public static int LIMIT = 20;
 
+	// 根据节点个数n，计算出2的几次方就够用了
 	public static int power;
-
-	public static int cnt;
-
-	public static int[] head = new int[MAXN];
-
-	public static int[] next = new int[MAXN << 1];
-
-	public static int[] to = new int[MAXN << 1];
-
-	public static int[][] stjump = new int[MAXN][LIMIT];
-
-	public static int[] deep = new int[MAXN];
 
 	public static int log2(int n) {
 		int ans = 0;
@@ -41,6 +30,21 @@ public class Code02_Multiply1 {
 		}
 		return ans;
 	}
+
+	// 链式前向星建图
+	public static int[] head = new int[MAXN];
+
+	public static int[] next = new int[MAXN << 1];
+
+	public static int[] to = new int[MAXN << 1];
+
+	public static int cnt;
+
+	// deep[i] : 节点i在第几层
+	public static int[] deep = new int[MAXN];
+
+	// stjump[i][p] : 节点i往上跳2的p次方步，到达的节点编号
+	public static int[][] stjump = new int[MAXN][LIMIT];
 
 	public static void build(int n) {
 		power = log2(n);

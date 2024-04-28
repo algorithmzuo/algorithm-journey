@@ -21,6 +21,14 @@ public class Code02_Multiply2 {
 
 	public static int power;
 
+	public static int log2(int n) {
+		int ans = 0;
+		while ((1 << ans) <= (n >> 1)) {
+			ans++;
+		}
+		return ans;
+	}
+
 	public static int cnt;
 
 	public static int[] head = new int[MAXN];
@@ -32,14 +40,6 @@ public class Code02_Multiply2 {
 	public static int[][] stjump = new int[MAXN][LIMIT];
 
 	public static int[] deep = new int[MAXN];
-
-	public static int log2(int n) {
-		int ans = 0;
-		while ((1 << ans) <= (n >> 1)) {
-			ans++;
-		}
-		return ans;
-	}
 
 	public static void build(int n) {
 		power = log2(n);

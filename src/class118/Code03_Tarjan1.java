@@ -18,6 +18,7 @@ public class Code03_Tarjan1 {
 
 	public static int MAXN = 500001;
 
+	// 链式前向星建图
 	public static int[] headEdge = new int[MAXN];
 
 	public static int[] edgeNext = new int[MAXN << 1];
@@ -26,6 +27,7 @@ public class Code03_Tarjan1 {
 
 	public static int tcnt;
 
+	// 每个节点有哪些查询，也用链式前向星方式存储
 	public static int[] headQuery = new int[MAXN];
 
 	public static int[] queryNext = new int[MAXN << 1];
@@ -36,10 +38,13 @@ public class Code03_Tarjan1 {
 
 	public static int qcnt;
 
+	// 某个节点是否访问过
 	public static boolean[] visited = new boolean[MAXN];
 
+	// 并查集
 	public static int[] father = new int[MAXN];
 
+	// 收集的答案
 	public static int[] ans = new int[MAXN];
 
 	public static void build(int n) {
