@@ -71,13 +71,7 @@ public class Code01_KthAncestor {
 				stjump[u][p] = stjump[stjump[u][p - 1]][p - 1];
 			}
 			for (int e = head[u]; e != 0; e = next[e]) {
-				// 其实这里不用加这个判断，因为可以直接建有向图
-				// 那么从u开始走是不可能遇到f的
-				// 但如果是双向图就需要加这个判断了，防止走回头路
-				// 所以一律加上作为提醒
-				if (to[e] != f) {
-					dfs(to[e], u);
-				}
+				dfs(to[e], u);
 			}
 		}
 
