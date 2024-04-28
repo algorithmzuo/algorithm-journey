@@ -1,6 +1,6 @@
 package class118;
 
-// LCA问题Tarjan算法解法
+// LCA问题Tarjan算法解法迭代版
 // 测试链接 : https://www.luogu.com.cn/problem/P3379
 // 所有递归函数一律改成等义的迭代版
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有用例
@@ -69,13 +69,13 @@ public class Code03_LCATarjan2 {
 
 	// 并查集找代表节点迭代版
 	public static int find(int i) {
-		int n = 0;
+		int size = 0;
 		while (i != father[i]) {
-			stack[n++] = i;
+			stack[size++] = i;
 			i = father[i];
 		}
-		while (n > 0) {
-			father[stack[--n]] = i;
+		while (size > 0) {
+			father[stack[--size]] = i;
 		}
 		return i;
 	}
