@@ -4,7 +4,7 @@ package class118;
 // 测试链接 : https://www.luogu.com.cn/problem/P3379
 // 提交以下的code，提交时请把类名改成"Main"
 // C++这么写能通过，java会因为递归层数太多而爆栈
-// java能通过的写法参考本节课Code02_LCAMultiply2文件
+// java能通过的写法参考本节课Code02_Multiply2文件
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -14,7 +14,7 @@ import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 import java.util.Arrays;
 
-public class Code02_LCAMultiply1 {
+public class Code02_Multiply1 {
 
 	public static int MAXN = 500001;
 
