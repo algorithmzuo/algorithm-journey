@@ -60,18 +60,18 @@ public class Code01_KthAncestor {
 			head[u] = cnt++;
 		}
 
-		public static void dfs(int u, int f) {
-			if (u == 0) {
-				deep[u] = 1;
+		public static void dfs(int i, int f) {
+			if (i == 0) {
+				deep[i] = 1;
 			} else {
-				deep[u] = deep[f] + 1;
+				deep[i] = deep[f] + 1;
 			}
-			stjump[u][0] = f;
-			for (int p = 1; (1 << p) <= deep[u]; p++) {
-				stjump[u][p] = stjump[stjump[u][p - 1]][p - 1];
+			stjump[i][0] = f;
+			for (int p = 1; (1 << p) <= deep[i]; p++) {
+				stjump[i][p] = stjump[stjump[i][p - 1]][p - 1];
 			}
-			for (int e = head[u]; e != 0; e = next[e]) {
-				dfs(to[e], u);
+			for (int e = head[i]; e != 0; e = next[e]) {
+				dfs(to[e], i);
 			}
 		}
 
