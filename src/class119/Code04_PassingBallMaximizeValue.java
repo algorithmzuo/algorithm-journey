@@ -44,8 +44,10 @@ public class Code04_PassingBallMaximizeValue {
 		}
 	}
 
-	// 该方法实现了树上倍增的解法，打败比例很一般，但是非常好想
-	// 这个题最优解来自基环树分析，后面的课会安排这部分内容
+	// 该方法是树上倍增的解法
+	// 打败比例很一般但是非常好想
+	// 这个题最优解来自对基环树的分析
+	// 后面的课会安排基环树的内容
 	public static long getMaxFunctionValue(List<Integer> receiver, long k) {
 		build(k);
 		int n = receiver.size();
