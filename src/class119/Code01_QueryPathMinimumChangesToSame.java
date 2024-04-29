@@ -39,7 +39,7 @@ public class Code01_QueryPathMinimumChangesToSame {
 
 	public static int qcnt;
 
-	public static int[][] cnts = new int[MAXN][MAXW + 1];
+	public static int[][] stcnt = new int[MAXN][MAXW + 1];
 
 	public static boolean[] visited = new boolean[MAXN];
 
@@ -65,7 +65,7 @@ public class Code01_QueryPathMinimumChangesToSame {
 			for (int j = 1; j <= MAXW; j++) {
 				// 特别重要的结论
 				// 很多题可以用到
-				pathCnt = cnts[queries[i][0]][j] + cnts[queries[i][1]][j] - 2 * cnts[lca[i]][j];
+				pathCnt = stcnt[queries[i][0]][j] + stcnt[queries[i][1]][j] - 2 * stcnt[lca[i]][j];
 				maxCnt = Math.max(maxCnt, pathCnt);
 				allCnt += pathCnt;
 			}
@@ -108,12 +108,12 @@ public class Code01_QueryPathMinimumChangesToSame {
 	public void tarjan(int u, int w, int f) {
 		visited[u] = true;
 		if (u == 0) {
-			Arrays.fill(cnts[u], 0);
+			Arrays.fill(stcnt[u], 0);
 		} else {
 			for (int i = 1; i <= MAXW; i++) {
-				cnts[u][i] = cnts[f][i];
+				stcnt[u][i] = stcnt[f][i];
 			}
-			cnts[u][w]++;
+			stcnt[u][w]++;
 		}
 		for (int e = headEdge[u]; e != 0; e = edgeNext[e]) {
 			if (edgeTo[e] != f) {

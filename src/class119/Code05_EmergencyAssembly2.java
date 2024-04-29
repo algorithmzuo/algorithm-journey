@@ -27,8 +27,8 @@ package class119;
 //int edgeNext[MAXN << 1];
 //int edgeTo[MAXN << 1];
 //int cnt;
-//int stjump[MAXN][LIMIT];
 //int deep[MAXN];
+//int stjump[MAXN][LIMIT];
 //int togather;
 //long long cost;
 //
@@ -83,9 +83,11 @@ package class119;
 //}
 //
 //void compute(int a, int b, int c) {
-//    int h1 = lca(a, b), h2 = lca(a, c), h3 = lca(b, c);
-//    togather = h1 == h2 ? h3 : (h1 == h3 ? h2 : h1);
-//    cost = deep[a] + deep[b] + deep[c] - deep[h1] - deep[h2] - deep[h3];
+//	int h1 = lca(a, b), h2 = lca(a, c), h3 = lca(b, c);
+//	int high = h1 != h2 ? (deep[h1] < deep[h2] ? h1 : h2) : h1;
+//	int low = h1 != h2 ? (deep[h1] > deep[h2] ? h1 : h2) : h3;
+//	togather = low;
+//	cost = (long) deep[a] + deep[b] + deep[c] - deep[high] * 2 - deep[low];
 //}
 //
 //int main() {

@@ -40,9 +40,9 @@ public class Code05_EmergencyAssembly1 {
 
 	public static int cnt;
 
-	public static int[][] stjump = new int[MAXN][LIMIT];
-
 	public static int[] deep = new int[MAXN];
+
+	public static int[][] stjump = new int[MAXN][LIMIT];
 
 	public static int togather;
 
@@ -138,9 +138,12 @@ public class Code05_EmergencyAssembly1 {
 	}
 
 	public static void compute(int a, int b, int c) {
+		// 来自对结构关系的深入分析，课上重点解释
 		int h1 = lca(a, b), h2 = lca(a, c), h3 = lca(b, c);
-		togather = h1 == h2 ? h3 : (h1 == h3 ? h2 : h1);
-		cost = (long) deep[a] + deep[b] + deep[c] - deep[h1] - deep[h2] - deep[h3];
+		int high = h1 != h2 ? (deep[h1] < deep[h2] ? h1 : h2) : h1;
+		int low = h1 != h2 ? (deep[h1] > deep[h2] ? h1 : h2) : h3;
+		togather = low;
+		cost = (long) deep[a] + deep[b] + deep[c] - deep[high] * 2 - deep[low];
 	}
 
 }
