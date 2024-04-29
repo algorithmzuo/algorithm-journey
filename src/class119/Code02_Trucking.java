@@ -23,7 +23,7 @@ import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 import java.util.Arrays;
 
-public class Code04_Trucking {
+public class Code02_Trucking {
 
 	public static int MAXN = 10001;
 
@@ -31,11 +31,12 @@ public class Code04_Trucking {
 
 	public static int LIMIT = 21;
 
+	public static int power;
+
 	public static int[][] edges = new int[MAXM][3];
 
+	// 并查集
 	public static int[] father = new int[MAXN];
-
-	public static int power;
 
 	public static int cnt;
 

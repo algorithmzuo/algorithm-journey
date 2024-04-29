@@ -24,7 +24,7 @@ import java.io.PrintWriter;
 import java.util.Arrays;
 import java.util.StringTokenizer;
 
-public class Code03_PathPalindrome {
+public class Code05_PathPalindrome {
 
 	public static int MAXN = 100001;
 
