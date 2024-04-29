@@ -10,7 +10,7 @@ package class119;
 // 1 <= m <= 5 * 10^5
 // 测试链接 : https://www.luogu.com.cn/problem/P4281
 // 如下实现是正确的，但是洛谷平台对空间卡的很严，只有使用C++能全部通过
-// C++版本就是本节代码中的Code04_EmergencyAssembly2文件
+// C++版本就是本节代码中的Code05_EmergencyAssembly2文件
 // C++版本和java版本逻辑完全一样，但只有C++版本可以通过所有测试用例
 // 这是洛谷平台没有照顾各种语言的实现所导致的
 // 在真正笔试、比赛时，一定是兼顾各种语言的，该实现是一定正确的
@@ -24,7 +24,7 @@ import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 import java.util.Arrays;
 
-public class Code04_EmergencyAssembly1 {
+public class Code05_EmergencyAssembly1 {
 
 	public static int MAXN = 500001;
 

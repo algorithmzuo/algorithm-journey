@@ -14,7 +14,7 @@ import java.util.List;
 // f(x) = x + receiver[x] + receiver[receiver[x]] + ... 
 // 你的任务时选择开始玩家x，目的是最大化f(x)，返回函数的最大值
 // 测试链接 : https://leetcode.cn/problems/maximize-value-of-function-in-a-ball-passing-game/
-public class Code01_PassingBallMaximizeValue {
+public class Code02_PassingBallMaximizeValue {
 
 	public static int MAXN = 100001;
 
