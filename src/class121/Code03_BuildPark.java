@@ -87,9 +87,11 @@ public class Code03_BuildPark {
 			u = (int) in.nval;
 			in.nextToken();
 			v = (int) in.nval;
-			father[find(u)] = find(v);
 			addEdge(u, v);
 			addEdge(v, u);
+			u = find(u);
+			v = find(v);
+			father[u] = v;
 		}
 		for (int i = 1; i <= n; i++) {
 			if (father[i] == i) {
@@ -102,7 +104,8 @@ public class Code03_BuildPark {
 			if (op == 1) {
 				in.nextToken();
 				u = (int) in.nval;
-				out.println(diam[find(u)]);
+				u = find(u);
+				out.println(diam[u]);
 			} else {
 				in.nextToken();
 				u = (int) in.nval;
