@@ -28,8 +28,6 @@ public class Code01_Diameter1 {
 
 	public static int cnt;
 
-	public static int[] dist = new int[MAXN];
-
 	public static void build() {
 		cnt = 1;
 		Arrays.fill(head, 1, n + 1, 0);
@@ -44,9 +42,11 @@ public class Code01_Diameter1 {
 
 	public static int start, end, diameter;
 
+	public static int[] dist = new int[MAXN];
+
 	public static int[] path = new int[MAXN];
 
-	public static void sedp() {
+	public static void road() {
 		dfs(1, 0, 0);
 		start = 1;
 		for (int i = 2; i <= n; i++) {
@@ -64,12 +64,12 @@ public class Code01_Diameter1 {
 		diameter = dist[end];
 	}
 
-	public static void dfs(int u, int f, int c) {
+	public static void dfs(int u, int f, int w) {
 		path[u] = f;
-		dist[u] = c;
+		dist[u] = dist[f] + w;
 		for (int e = head[u]; e != 0; e = next[e]) {
 			if (to[e] != f) {
-				dfs(to[e], u, c + weight[e]);
+				dfs(to[e], u, weight[e]);
 			}
 		}
 	}
@@ -91,7 +91,7 @@ public class Code01_Diameter1 {
 			addEdge(u, v, w);
 			addEdge(v, u, w);
 		}
-		sedp();
+		road();
 		out.println(diameter);
 		out.flush();
 		out.close();

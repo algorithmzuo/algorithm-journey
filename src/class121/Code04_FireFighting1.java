@@ -1,6 +1,6 @@
 package class121;
 
-// 测试链接 : https://www.luogu.com.cn/problem/P3304
+// 测试链接 : https://www.luogu.com.cn/problem/P2491
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -10,11 +10,13 @@ import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 import java.util.Arrays;
 
-public class Code02_DiameterAndCommonEdges1 {
+public class Code04_FireFighting1 {
 
-	public static int MAXN = 200001;
+	public static int MAXN = 300001;
 
 	public static int n;
+
+	public static int s;
 
 	public static int[] head = new int[MAXN];
 
@@ -26,19 +28,9 @@ public class Code02_DiameterAndCommonEdges1 {
 
 	public static int cnt;
 
-	public static boolean[] visited = new boolean[MAXN];
-
-	public static long[] dist = new long[MAXN];
-
-	public static long maxDist;
-
-	public static int commonEdges;
-
 	public static void build() {
 		cnt = 1;
 		Arrays.fill(head, 1, n + 1, 0);
-		Arrays.fill(visited, 1, n + 1, false);
-		maxDist = 0;
 	}
 
 	public static void addEdge(int u, int v, int w) {
@@ -48,11 +40,13 @@ public class Code02_DiameterAndCommonEdges1 {
 		head[u] = cnt++;
 	}
 
-	public static int start, end;
+	public static int start, end, diameter;
 
-	public static long diameter;
+	public static int[] dist = new int[MAXN];
 
 	public static int[] path = new int[MAXN];
+
+	public static int[] pred = new int[MAXN];
 
 	public static void road() {
 		dfs1(1, 0, 0);
@@ -72,51 +66,67 @@ public class Code02_DiameterAndCommonEdges1 {
 		diameter = dist[end];
 	}
 
-	public static void dfs1(int u, int f, long c) {
+	public static void dfs1(int u, int f, int w) {
 		path[u] = f;
-		dist[u] = c;
+		dist[u] = dist[f] + w;
+		pred[u] = w;
 		for (int e = head[u]; e != 0; e = next[e]) {
 			if (to[e] != f) {
-				dfs1(to[e], u, c + weight[e]);
+				dfs1(to[e], u, weight[e]);
 			}
 		}
 	}
 
-	public static void dfs2(int u, int f, long c) {
-		dist[u] = c;
+	public static boolean[] visited = new boolean[MAXN];
+
+	public static void pathDistance() {
+		Arrays.fill(visited, 1, n, false);
+		for (int node = end; node != 0; node = path[node]) {
+			visited[node] = true;
+		}
+		for (int node = end; node != 0; node = path[node]) {
+			dist[node] = dfs2(node, 0);
+		}
+	}
+
+	public static int dfs2(int u, int c) {
+		int max = c;
 		for (int e = head[u], v; e != 0; e = next[e]) {
 			v = to[e];
-			if (!visited[v] && v != f) {
-				dfs2(v, u, c + weight[e]);
+			if (!visited[v]) {
+				visited[v] = true;
+				max = Math.max(max, dfs2(v, c + weight[e]));
 			}
 		}
-		maxDist = Math.max(maxDist, dist[u]);
+		return max;
 	}
 
-	public static void compute() {
-		road();
-		for (int i = end; i != 0; i = path[i]) {
-			visited[i] = true;
+	public static int[] sum = new int[MAXN];
+
+	public static int[] queue = new int[MAXN];
+
+	public static int compute() {
+		sum[end] = 0;
+		for (int i = end; path[i] != 0; i = path[i]) {
+			sum[path[i]] = sum[i] + pred[i];
 		}
-		int l = start;
-		int r = end;
-		boolean flag = false;
-		for (int i = path[end]; i != start; i = path[i]) {
-			long ldist = dist[i], rdist = dist[end] - dist[i];
-			dist[i] = maxDist = 0;
-			dfs2(i, 0, 0);
-			if (maxDist == rdist) {
-				r = i;
+		int h = 0, t = 0;
+		int ans = Integer.MAX_VALUE;
+		for (int l = end, r = end, lastr = end; l != 0; l = path[l]) {
+			while (path[r] != 0 && sum[path[r]] - sum[l] <= s) {
+				while (h < t && dist[queue[t - 1]] <= dist[path[r]]) {
+					t--;
+				}
+				queue[t++] = path[r];
+				lastr = r;
+				r = path[r];
 			}
-			if (maxDist == ldist && !flag) {
-				flag = true;
-				l = i;
+			ans = Math.min(ans, Math.max(dist[queue[h]], Math.max(sum[l], sum[start] - sum[lastr])));
+			if (queue[h] == l) {
+				h++;
 			}
 		}
-		commonEdges = 1;
-		for (int i = path[r]; i != l; i = path[i]) {
-			commonEdges++;
-		}
+		return ans;
 	}
 
 	public static void main(String[] args) throws IOException {
@@ -125,6 +135,8 @@ public class Code02_DiameterAndCommonEdges1 {
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
 		in.nextToken();
 		n = (int) in.nval;
+		in.nextToken();
+		s = (int) in.nval;
 		build();
 		for (int i = 1, u, v, w; i < n; i++) {
 			in.nextToken();
@@ -136,9 +148,9 @@ public class Code02_DiameterAndCommonEdges1 {
 			addEdge(u, v, w);
 			addEdge(v, u, w);
 		}
-		compute();
-		out.println(diameter);
-		out.println(commonEdges);
+		road();
+		pathDistance();
+		out.println(compute());
 		out.flush();
 		out.close();
 		br.close();

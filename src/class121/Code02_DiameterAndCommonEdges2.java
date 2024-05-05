@@ -54,7 +54,7 @@ public class Code02_DiameterAndCommonEdges2 {
 
 	public static int[] path = new int[MAXN];
 
-	public static void sedp() {
+	public static void road() {
 		dfs1(1);
 		start = 1;
 		for (int i = 2; i <= n; i++) {
@@ -145,7 +145,7 @@ public class Code02_DiameterAndCommonEdges2 {
 	}
 
 	public static void compute() {
-		sedp();
+		road();
 		for (int i = end; i != 0; i = path[i]) {
 			visited[i] = true;
 		}
