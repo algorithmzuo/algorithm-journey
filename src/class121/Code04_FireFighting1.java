@@ -101,27 +101,23 @@ public class Code04_FireFighting1 {
 		return max;
 	}
 
-	public static int[] sum = new int[MAXN];
-
 	public static int[] queue = new int[MAXN];
 
 	public static int compute() {
-		sum[end] = 0;
-		for (int i = end; path[i] != 0; i = path[i]) {
-			sum[path[i]] = sum[i] + pred[i];
-		}
+		int suml = 0, sumr = 0;
 		int h = 0, t = 0;
 		int ans = Integer.MAX_VALUE;
-		for (int l = end, r = end, lastr = end; l != 0; l = path[l]) {
-			while (path[r] != 0 && sum[path[r]] - sum[l] <= s) {
-				while (h < t && dist[queue[t - 1]] <= dist[path[r]]) {
+		for (int l = end, r = end; l != 0; l = path[l]) {
+			suml += pred[l];
+			while (r != 0 && sumr + pred[r] - suml <= s) {
+				while (h < t && dist[queue[t - 1]] <= dist[r]) {
 					t--;
 				}
-				queue[t++] = path[r];
-				lastr = r;
+				sumr += pred[r];
+				queue[t++] = r;
 				r = path[r];
 			}
-			ans = Math.min(ans, Math.max(dist[queue[h]], Math.max(sum[l], sum[start] - sum[lastr])));
+			ans = Math.min(ans, Math.max(dist[queue[h]], Math.max(suml, diameter - sumr)));
 			if (queue[h] == l) {
 				h++;
 			}
