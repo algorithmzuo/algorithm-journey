@@ -32,6 +32,7 @@ public class Code04_FireFighting2 {
 	public static void build() {
 		cnt = 1;
 		Arrays.fill(head, 1, n + 1, 0);
+		Arrays.fill(visited, 1, n, false);
 	}
 
 	public static void addEdge(int u, int v, int w) {
@@ -114,7 +115,6 @@ public class Code04_FireFighting2 {
 	public static boolean[] visited = new boolean[MAXN];
 
 	public static void pathDistance() {
-		Arrays.fill(visited, 1, n, false);
 		for (int node = end; node != 0; node = path[node]) {
 			visited[node] = true;
 		}

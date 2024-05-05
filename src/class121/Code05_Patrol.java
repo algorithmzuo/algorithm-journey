@@ -31,6 +31,8 @@ public class Code05_Patrol {
 	public static void build() {
 		cnt = 1;
 		Arrays.fill(head, 1, n + 1, 0);
+		diameter1 = 0;
+		diameter2 = 0;
 	}
 
 	public static void addEdge(int u, int v, int w) {
