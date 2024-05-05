@@ -26,7 +26,7 @@ public class Code03_BuildPark {
 
 	public static int[] dist = new int[MAXN];
 
-	public static int[] diameter = new int[MAXN];
+	public static int[] diam = new int[MAXN];
 
 	public static void build(int n) {
 		cnt = 1;
@@ -35,7 +35,7 @@ public class Code03_BuildPark {
 			father[i] = i;
 		}
 		Arrays.fill(dist, 1, n, 0);
-		Arrays.fill(diameter, 1, n, 0);
+		Arrays.fill(diam, 1, n, 0);
 	}
 
 	public static void addEdge(int u, int v) {
@@ -61,10 +61,14 @@ public class Code03_BuildPark {
 		for (int e = head[u], v; e != 0; e = next[e]) {
 			v = to[e];
 			if (v != f) {
-				diameter[u] = Math.max(diameter[u], Math.max(diameter[v], dist[u] + dist[v] + 1));
+				diam[u] = Math.max(diam[u], Math.max(diam[v], dist[u] + dist[v] + 1));
 				dist[u] = Math.max(dist[u], dist[v] + 1);
 			}
 		}
+	}
+
+	public static int half(int v) {
+		return (v + 1) / 2;
 	}
 
 	public static void main(String[] args) throws IOException {
@@ -98,7 +102,7 @@ public class Code03_BuildPark {
 			if (op == 1) {
 				in.nextToken();
 				u = (int) in.nval;
-				out.println(diameter[find(u)]);
+				out.println(diam[find(u)]);
 			} else {
 				in.nextToken();
 				u = (int) in.nval;
@@ -108,8 +112,7 @@ public class Code03_BuildPark {
 				v = find(v);
 				if (u != v) {
 					father[u] = v;
-					diameter[v] = Math.max(((diameter[u] + 1) >> 1) + ((diameter[v] + 1) >> 1) + 1,
-							Math.max(diameter[u], diameter[v]));
+					diam[v] = Math.max(half(diam[u]) + half(diam[v]) + 1, Math.max(diam[u], diam[v]));
 				}
 			}
 		}
