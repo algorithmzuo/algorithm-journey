@@ -63,8 +63,6 @@ public class Code03_QueryPathMinimumChangesToSame {
 		for (int i = 0; i < m; i++) {
 			int allCnt = 0, maxCnt = 0, pathCnt;
 			for (int j = 1; j <= MAXW; j++) {
-				// 特别重要的结论
-				// 很多题可以用到
 				pathCnt = stcnt[queries[i][0]][j] + stcnt[queries[i][1]][j] - 2 * stcnt[lca[i]][j];
 				maxCnt = Math.max(maxCnt, pathCnt);
 				allCnt += pathCnt;
