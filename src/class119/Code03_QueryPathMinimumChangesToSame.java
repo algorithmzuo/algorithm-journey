@@ -61,12 +61,16 @@ public class Code03_QueryPathMinimumChangesToSame {
 		}
 		tarjan(0, -1);
 		int[] ans = new int[m];
-		for (int i = 0; i < m; i++) {
-			int allCnt = 0, maxCnt = 0, pathCnt;
-			for (int w = 1; w <= MAXW; w++) {
-				pathCnt = weightCnt[queries[i][0]][w] + weightCnt[queries[i][1]][w] - 2 * weightCnt[lca[i]][w];
-				maxCnt = Math.max(maxCnt, pathCnt);
-				allCnt += pathCnt;
+		for (int i = 0, a, b, c; i < m; i++) {
+			a = queries[i][0];
+			b = queries[i][1];
+			c = lca[i];
+			int allCnt = 0; // 从a到b的路，所有权值的边一共多少条
+			int maxCnt = 0; // 从a到b的路，权值重复最多的次数
+			for (int w = 1, wcnt; w <= MAXW; w++) { // 所有权值枚举一遍
+				wcnt = weightCnt[a][w] + weightCnt[b][w] - 2 * weightCnt[c][w];
+				maxCnt = Math.max(maxCnt, wcnt);
+				allCnt += wcnt;
 			}
 			ans[i] = allCnt - maxCnt;
 		}
