@@ -19,6 +19,8 @@ public class Code03_QueryPathMinimumChangesToSame {
 
 	public static int MAXW = 26;
 
+	public static int[][] weightCnt = new int[MAXN][MAXW + 1];
+
 	public static int[] headEdge = new int[MAXN];
 
 	public static int[] edgeNext = new int[MAXN << 1];
@@ -39,8 +41,6 @@ public class Code03_QueryPathMinimumChangesToSame {
 
 	public static int qcnt;
 
-	public static int[][] stcnt = new int[MAXN][MAXW + 1];
-
 	public static boolean[] visited = new boolean[MAXN];
 
 	public static int[] father = new int[MAXN];
@@ -53,17 +53,18 @@ public class Code03_QueryPathMinimumChangesToSame {
 			addEdge(edge[0], edge[1], edge[2]);
 			addEdge(edge[1], edge[0], edge[2]);
 		}
+		dfs(0, 0, -1);
 		int m = queries.length;
 		for (int i = 0; i < m; i++) {
 			addQuery(queries[i][0], queries[i][1], i);
 			addQuery(queries[i][1], queries[i][0], i);
 		}
-		tarjan(0, 0, -1);
+		tarjan(0, -1);
 		int[] ans = new int[m];
 		for (int i = 0; i < m; i++) {
 			int allCnt = 0, maxCnt = 0, pathCnt;
-			for (int j = 1; j <= MAXW; j++) {
-				pathCnt = stcnt[queries[i][0]][j] + stcnt[queries[i][1]][j] - 2 * stcnt[lca[i]][j];
+			for (int w = 1; w <= MAXW; w++) {
+				pathCnt = weightCnt[queries[i][0]][w] + weightCnt[queries[i][1]][w] - 2 * weightCnt[lca[i]][w];
 				maxCnt = Math.max(maxCnt, pathCnt);
 				allCnt += pathCnt;
 			}
@@ -89,6 +90,25 @@ public class Code03_QueryPathMinimumChangesToSame {
 		headEdge[u] = tcnt++;
 	}
 
+	// 当前来到u节点，父亲节点f，从f到u权重为w
+	// 统计从头节点到u节点，每种权值的边有多少条
+	// 信息存放在weightCnt[u][1..26]里
+	public static void dfs(int u, int w, int f) {
+		if (u == 0) {
+			Arrays.fill(weightCnt[u], 0);
+		} else {
+			for (int i = 1; i <= MAXW; i++) {
+				weightCnt[u][i] = weightCnt[f][i];
+			}
+			weightCnt[u][w]++;
+		}
+		for (int e = headEdge[u]; e != 0; e = edgeNext[e]) {
+			if (edgeTo[e] != f) {
+				dfs(edgeTo[e], edgeValue[e], u);
+			}
+		}
+	}
+
 	public static void addQuery(int u, int v, int i) {
 		queryNext[qcnt] = headQuery[u];
 		queryTo[qcnt] = v;
@@ -96,26 +116,12 @@ public class Code03_QueryPathMinimumChangesToSame {
 		headQuery[u] = qcnt++;
 	}
 
-	public static int find(int i) {
-		if (i != father[i]) {
-			father[i] = find(father[i]);
-		}
-		return father[i];
-	}
-
-	public void tarjan(int u, int w, int f) {
+	// tarjan算法批量查询两点的最低公共祖先
+	public static void tarjan(int u, int f) {
 		visited[u] = true;
-		if (u == 0) {
-			Arrays.fill(stcnt[u], 0);
-		} else {
-			for (int i = 1; i <= MAXW; i++) {
-				stcnt[u][i] = stcnt[f][i];
-			}
-			stcnt[u][w]++;
-		}
 		for (int e = headEdge[u]; e != 0; e = edgeNext[e]) {
 			if (edgeTo[e] != f) {
-				tarjan(edgeTo[e], edgeValue[e], u);
+				tarjan(edgeTo[e], u);
 			}
 		}
 		for (int e = headQuery[u], v; e != 0; e = queryNext[e]) {
@@ -125,6 +131,13 @@ public class Code03_QueryPathMinimumChangesToSame {
 			}
 		}
 		father[u] = f;
+	}
+
+	public static int find(int i) {
+		if (i != father[i]) {
+			father[i] = find(father[i]);
+		}
+		return father[i];
 	}
 
 }

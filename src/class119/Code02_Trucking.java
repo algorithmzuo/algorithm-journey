@@ -54,8 +54,10 @@ public class Code02_Trucking {
 
 	public static int[] deep = new int[MAXN];
 
+	// stjump[u][p] : u节点往上跳2的次方步，到达什么节点
 	public static int[][] stjump = new int[MAXN][LIMIT];
 
+	// stmin[u][p] : u节点往上跳2的次方步的路径中，最小的权值
 	public static int[][] stmin = new int[MAXN][LIMIT];
 
 	public static int log2(int n) {
