@@ -20,7 +20,10 @@ public class Code04_PassingBallMaximizeValue {
 
 	public static int LIMIT = 34;
 
-	public static int power, m;
+	public static int power;
+
+	// 给定k的二进制位上有几个1
+	public static int m;
 
 	public static int[] kbits = new int[LIMIT];
 
