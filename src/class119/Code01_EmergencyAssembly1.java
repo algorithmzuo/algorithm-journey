@@ -40,8 +40,10 @@ public class Code01_EmergencyAssembly1 {
 
 	public static int cnt;
 
+	// deep[i] : i节点在第几层，算距离用
 	public static int[] deep = new int[MAXN];
 
+	// 利用stjump求最低公共祖先
 	public static int[][] stjump = new int[MAXN][LIMIT];
 
 	public static int togather;
