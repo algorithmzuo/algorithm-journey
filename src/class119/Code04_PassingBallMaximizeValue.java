@@ -25,6 +25,7 @@ public class Code04_PassingBallMaximizeValue {
 	// 给定k的二进制位上有几个1
 	public static int m;
 
+	// 收集k的二进制上哪些位有1
 	public static int[] kbits = new int[LIMIT];
 
 	public static int[][] stjump = new int[MAXN][LIMIT];
@@ -37,8 +38,6 @@ public class Code04_PassingBallMaximizeValue {
 			power++;
 		}
 		m = 0;
-		// 数字k在哪些位有1
-		// 都收集起来
 		for (int p = power; p >= 0; p--) {
 			if ((1L << p) <= k) {
 				kbits[m++] = p;
@@ -58,11 +57,10 @@ public class Code04_PassingBallMaximizeValue {
 			stjump[i][0] = receiver.get(i);
 			stsum[i][0] = receiver.get(i);
 		}
-		for (int p = 1, pre; p <= power; p++) {
+		for (int p = 1; p <= power; p++) {
 			for (int i = 0; i < n; i++) {
-				pre = stjump[i][p - 1];
-				stjump[i][p] = stjump[pre][p - 1];
-				stsum[i][p] = stsum[i][p - 1] + stsum[pre][p - 1];
+				stjump[i][p] = stjump[stjump[i][p - 1]][p - 1];
+				stsum[i][p] = stsum[i][p - 1] + stsum[stjump[i][p - 1]][p - 1];
 			}
 		}
 		long sum, ans = 0;

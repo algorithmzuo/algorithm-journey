@@ -30,8 +30,6 @@ public class Code05_PathPalindrome {
 
 	public static int LIMIT = 17;
 
-	public static long BASE = 499;
-
 	public static int power;
 
 	public static int[] s = new int[MAXN];
@@ -48,19 +46,22 @@ public class Code05_PathPalindrome {
 
 	public static int[][] jump = new int[MAXN][LIMIT];
 
-	public static long[] pow = new long[MAXN];
+	public static long K = 499;
 
-	public static long[][] uphash = new long[MAXN][LIMIT];
+	// kpow[i] = k的i次方
+	public static long[] kpow = new long[MAXN];
 
-	public static long[][] downhash = new long[MAXN][LIMIT];
+	public static long[][] stup = new long[MAXN][LIMIT];
+
+	public static long[][] stdown = new long[MAXN][LIMIT];
 
 	public static void build(int n) {
 		power = log2(n);
 		cnt = 1;
 		Arrays.fill(head, 1, n + 1, 0);
-		pow[0] = 1;
+		kpow[0] = 1;
 		for (int i = 1; i <= n; i++) {
-			pow[i] = pow[i - 1] * BASE;
+			kpow[i] = kpow[i - 1] * K;
 		}
 	}
 
@@ -81,14 +82,15 @@ public class Code05_PathPalindrome {
 	public static void dfs(int u, int f) {
 		deep[u] = deep[f] + 1;
 		jump[u][0] = f;
-		uphash[u][0] = downhash[u][0] = s[f];
-		for (int p = 1; p <= power; p++) {
-			jump[u][p] = jump[jump[u][p - 1]][p - 1];
-			uphash[u][p] = uphash[u][p - 1] * pow[1 << (p - 1)] + uphash[jump[u][p - 1]][p - 1];
-			downhash[u][p] = downhash[jump[u][p - 1]][p - 1] * pow[1 << (p - 1)] + downhash[u][p - 1];
+		stup[u][0] = stdown[u][0] = s[f];
+		for (int p = 1, v; p <= power; p++) {
+			v = jump[u][p - 1];
+			jump[u][p] = jump[v][p - 1];
+			stup[u][p] = stup[u][p - 1] * kpow[1 << (p - 1)] + stup[v][p - 1];
+			stdown[u][p] = stdown[v][p - 1] * kpow[1 << (p - 1)] + stdown[u][p - 1];
 		}
-		for (int e = head[u]; e != 0; e = next[e]) {
-			int v = to[e];
+		for (int e = head[u], v; e != 0; e = next[e]) {
+			v = to[e];
 			if (v != f) {
 				dfs(v, u);
 			}
@@ -126,26 +128,29 @@ public class Code05_PathPalindrome {
 	}
 
 	public static long hash(int from, int lca, int to) {
+		// up是上坡hash值
 		long up = s[from];
 		for (int p = power; p >= 0; p--) {
 			if (deep[jump[from][p]] >= deep[lca]) {
-				up = up * pow[1 << p] + uphash[from][p];
+				up = up * kpow[1 << p] + stup[from][p];
 				from = jump[from][p];
 			}
 		}
 		if (to == lca) {
 			return up;
 		}
+		// down是下坡hash值
 		long down = s[to];
+		// height是目前下坡的总高度
 		int height = 1;
 		for (int p = power; p >= 0; p--) {
 			if (deep[jump[to][p]] > deep[lca]) {
-				down = downhash[to][p] * pow[height] + down;
+				down = stdown[to][p] * kpow[height] + down;
 				height += 1 << p;
 				to = jump[to][p];
 			}
 		}
-		return up * pow[height] + down;
+		return up * kpow[height] + down;
 	}
 
 	public static void main(String[] args) throws IOException {
