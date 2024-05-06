@@ -50,7 +50,7 @@ public class Code03_QueryPathMinimumChangesToSame {
 
 	public static int[] lca = new int[MAXM];
 
-	public int[] minOperationsQueries(int n, int[][] edges, int[][] queries) {
+	public static int[] minOperationsQueries(int n, int[][] edges, int[][] queries) {
 		build(n);
 		for (int[] edge : edges) {
 			addEdge(edge[0], edge[1], edge[2]);
