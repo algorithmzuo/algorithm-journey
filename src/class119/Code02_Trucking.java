@@ -56,7 +56,7 @@ public class Code02_Trucking {
 
 	public static int[][] stjump = new int[MAXN][LIMIT];
 
-	public static int[][] stweight = new int[MAXN][LIMIT];
+	public static int[][] stmin = new int[MAXN][LIMIT];
 
 	public static int log2(int n) {
 		int ans = 0;
@@ -110,15 +110,15 @@ public class Code02_Trucking {
 		if (f == 0) {
 			deep[u] = 1;
 			stjump[u][0] = u;
-			stweight[u][0] = Integer.MAX_VALUE;
+			stmin[u][0] = Integer.MAX_VALUE;
 		} else {
 			deep[u] = deep[f] + 1;
 			stjump[u][0] = f;
-			stweight[u][0] = w;
+			stmin[u][0] = w;
 		}
 		for (int p = 1; (1 << p) <= deep[u]; p++) {
 			stjump[u][p] = stjump[stjump[u][p - 1]][p - 1];
-			stweight[u][p] = Math.min(stweight[u][p - 1], stweight[stjump[u][p - 1]][p - 1]);
+			stmin[u][p] = Math.min(stmin[u][p - 1], stmin[stjump[u][p - 1]][p - 1]);
 		}
 		for (int e = head[u]; e != 0; e = next[e]) {
 			if (!visited[to[e]]) {
@@ -139,7 +139,7 @@ public class Code02_Trucking {
 		int ans = Integer.MAX_VALUE;
 		for (int p = power; p >= 0; p--) {
 			if (deep[stjump[a][p]] >= deep[b]) {
-				ans = Math.min(ans, stweight[a][p]);
+				ans = Math.min(ans, stmin[a][p]);
 				a = stjump[a][p];
 			}
 		}
@@ -148,12 +148,12 @@ public class Code02_Trucking {
 		}
 		for (int p = power; p >= 0; p--) {
 			if (stjump[a][p] != stjump[b][p]) {
-				ans = Math.min(ans, Math.min(stweight[a][p], stweight[b][p]));
+				ans = Math.min(ans, Math.min(stmin[a][p], stmin[b][p]));
 				a = stjump[a][p];
 				b = stjump[b][p];
 			}
 		}
-		ans = Math.min(ans, Math.min(stweight[a][0], stweight[b][0]));
+		ans = Math.min(ans, Math.min(stmin[a][0], stmin[b][0]));
 		return ans;
 	}
 
