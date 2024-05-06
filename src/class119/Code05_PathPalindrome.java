@@ -172,7 +172,6 @@ public class Code05_PathPalindrome {
 		io.close();
 	}
 
-	// 读写工具类
 	// 按行读字符串推荐用StringTokenizer
 	// 参考链接 : https://oi-wiki.org/lang/java-pro/
 	public static class Kattio extends PrintWriter {

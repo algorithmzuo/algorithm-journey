@@ -38,8 +38,10 @@ public class Code02_Trucking {
 	// 并查集
 	public static int[] father = new int[MAXN];
 
-	public static int cnt;
+	// 给的树有可能是森林，所以需要判断节点是否访问过了
+	public static boolean[] visited = new boolean[MAXN];
 
+	// 最大生成树建图
 	public static int[] head = new int[MAXN];
 
 	public static int[] next = new int[MAXM << 1];
@@ -48,14 +50,13 @@ public class Code02_Trucking {
 
 	public static int[] weight = new int[MAXM << 1];
 
+	public static int cnt;
+
 	public static int[] deep = new int[MAXN];
 
 	public static int[][] stjump = new int[MAXN][LIMIT];
 
 	public static int[][] stweight = new int[MAXN][LIMIT];
-
-	// 给的树有可能是森林，所以需要判断节点是否访问过了
-	public static boolean[] visited = new boolean[MAXN];
 
 	public static int log2(int n) {
 		int ans = 0;
@@ -71,8 +72,8 @@ public class Code02_Trucking {
 		for (int i = 1; i <= n; i++) {
 			father[i] = i;
 		}
-		Arrays.fill(head, 1, n + 1, 0);
 		Arrays.fill(visited, 1, n + 1, false);
+		Arrays.fill(head, 1, n + 1, 0);
 	}
 
 	public static void kruskal(int n, int m) {
