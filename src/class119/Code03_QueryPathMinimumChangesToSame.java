@@ -19,8 +19,7 @@ public class Code03_QueryPathMinimumChangesToSame {
 
 	public static int MAXW = 26;
 
-	public static int[][] weightCnt = new int[MAXN][MAXW + 1];
-
+	// 链式前向星建图
 	public static int[] headEdge = new int[MAXN];
 
 	public static int[] edgeNext = new int[MAXN << 1];
@@ -31,6 +30,10 @@ public class Code03_QueryPathMinimumChangesToSame {
 
 	public static int tcnt;
 
+	// weightCnt[i][w] : 从头节点到i的路径中，权值为w的边有几条
+	public static int[][] weightCnt = new int[MAXN][MAXW + 1];
+
+	// 以下所有的结构都是为了tarjan算法做准备
 	public static int[] headQuery = new int[MAXN];
 
 	public static int[] queryNext = new int[MAXM << 1];
@@ -53,12 +56,14 @@ public class Code03_QueryPathMinimumChangesToSame {
 			addEdge(edge[0], edge[1], edge[2]);
 			addEdge(edge[1], edge[0], edge[2]);
 		}
+		// 从头节点到每个节点的边权值词频统计
 		dfs(0, 0, -1);
 		int m = queries.length;
 		for (int i = 0; i < m; i++) {
 			addQuery(queries[i][0], queries[i][1], i);
 			addQuery(queries[i][1], queries[i][0], i);
 		}
+		// 得到每个查询的最低公共祖先
 		tarjan(0, -1);
 		int[] ans = new int[m];
 		for (int i = 0, a, b, c; i < m; i++) {
