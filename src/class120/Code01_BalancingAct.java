@@ -48,8 +48,10 @@ public class Code01_BalancingAct {
 		head[u] = cnt++;
 	}
 
+	// 当前来到u节点，父亲节点是f
 	public static void dfs(int u, int f) {
 		size[u] = 1;
+		// 以当前节点u做根节点，最大的子树有多少节点
 		int maxsub = 0;
 		for (int e = head[u], v; e != 0; e = next[e]) {
 			v = to[e];
@@ -60,6 +62,7 @@ public class Code01_BalancingAct {
 			}
 		}
 		maxsub = Math.max(maxsub, n - size[u]);
+		// 题目要求找到编号最小的重心
 		if (maxsub < best || (maxsub == best && u < center)) {
 			best = maxsub;
 			center = u;

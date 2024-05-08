@@ -24,13 +24,9 @@ public class Code03_GreatCowGathering2 {
 
 	public static int n;
 
-	public static int cowSum;
-
-	public static int cnt;
-
-	public static int best, center;
-
 	public static int[] cow = new int[MAXN];
+
+	public static int cowSum;
 
 	public static int[] head = new int[MAXN];
 
@@ -39,6 +35,10 @@ public class Code03_GreatCowGathering2 {
 	public static int[] to = new int[MAXN << 1];
 
 	public static int[] weight = new int[MAXN << 1];
+
+	public static int cnt;
+
+	public static int best, center;
 
 	public static int[] size = new int[MAXN];
 
@@ -115,7 +115,7 @@ public class Code03_GreatCowGathering2 {
 
 	// 迭代版
 	// 不会改看讲解118，讲了怎么从递归版改成迭代版
-	public static void setWeights(int root) {
+	public static void setPath(int root) {
 		stackSize = 0;
 		push(root, 0, -1);
 		while (stackSize > 0) {
@@ -169,7 +169,7 @@ public class Code03_GreatCowGathering2 {
 		}
 		findCenter(1);
 		path[center] = 0;
-		setWeights(center);
+		setPath(center);
 		long ans = 0;
 		for (int i = 1; i <= n; i++) {
 			ans += (long) cow[i] * path[i];

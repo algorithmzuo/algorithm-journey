@@ -3,8 +3,12 @@ package class120;
 // 删增边使其重心唯一
 // 一共有n个节点，编号1~n，有n-1条边形成一棵树
 // 现在希望重心是唯一的节点，调整的方式是先删除一条边、然后增加一条边
-// 返回删除哪两个节点之间的边、增加哪两个节点之间的边
-// 注意 : 删掉的边和加上的边可以是同一条
+// 如果树上只有一个重心，需要删掉连接重心的任意一条边，再把这条边加上(否则无法通过已经实测)
+// 如果树上有两个重心，调整的方式是先删除一条边、然后增加一条边，使重心是唯一的
+// 如果方案有多种，打印其中一种即可
+// 比如先删除节点3和节点4之间的边，再增加节点4和节点7之间的边，那么打印:
+// "3 4"
+// "4 7"
 // 测试链接 : https://www.luogu.com.cn/problem/CF1406C
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有用例
 
@@ -30,20 +34,24 @@ public class Code04_LinkCutCentroids {
 
 	public static int cnt;
 
+	// size[i] : 从1号节点开始dfs的过程中，以i为头的子树的节点数
 	public static int[] size = new int[MAXN];
 
+	// maxsub[i] : 如果节点i做整棵树的根，最大子树的大小
 	public static int[] maxsub = new int[MAXN];
 
-	public static int best;
-
+	// 收集所有的重心
 	public static int[] centers = new int[2];
 
-	public static int node1, node2;
+	// 任何一个叶节点
+	public static int anyLeaf;
+
+	// 该叶节点的父亲节点
+	public static int anyLeafFather;
 
 	public static void build() {
 		cnt = 1;
 		Arrays.fill(head, 1, n + 1, 0);
-		best = Integer.MAX_VALUE;
 	}
 
 	public static void addEdge(int u, int v) {
@@ -53,7 +61,8 @@ public class Code04_LinkCutCentroids {
 	}
 
 	public static void dfs(int u, int f) {
-		size[u] = maxsub[u] = 1;
+		size[u] = 1;
+		maxsub[u] = 0;
 		for (int e = head[u], v; e != 0; e = next[e]) {
 			v = to[e];
 			if (v != f) {
@@ -63,11 +72,10 @@ public class Code04_LinkCutCentroids {
 			}
 		}
 		maxsub[u] = Math.max(maxsub[u], n - size[u]);
-		if (maxsub[u] < best) {
-			best = maxsub[u];
-		}
 	}
 
+	// 随意找一个叶节点和该叶节点的父亲节点
+	// 哪一组都可以
 	public static void find(int u, int f) {
 		for (int e = head[u]; e != 0; e = next[e]) {
 			if (to[e] != f) {
@@ -75,8 +83,8 @@ public class Code04_LinkCutCentroids {
 				return;
 			}
 		}
-		node1 = u;
-		node2 = f;
+		anyLeaf = u;
+		anyLeafFather = f;
 	}
 
 	public static void main(String[] args) throws IOException {
@@ -101,8 +109,8 @@ public class Code04_LinkCutCentroids {
 				out.println(centers[0] + " " + to[head[centers[0]]]);
 				out.println(centers[0] + " " + to[head[centers[0]]]);
 			} else {
-				out.println(node2 + " " + node1);
-				out.println(centers[0] + " " + node1);
+				out.println(anyLeafFather + " " + anyLeaf);
+				out.println(centers[0] + " " + anyLeaf);
 			}
 		}
 		out.flush();
@@ -110,15 +118,16 @@ public class Code04_LinkCutCentroids {
 		br.close();
 	}
 
+	// 返回重心的数量
 	public static int compute() {
 		dfs(1, 0);
 		int m = 0;
 		for (int i = 1; i <= n; i++) {
-			if (maxsub[i] == best) {
+			if (maxsub[i] <= n / 2) {
 				centers[m++] = i;
 			}
 		}
-		if (m != 1) {
+		if (m == 2) {
 			find(centers[1], centers[0]);
 		}
 		return m;

@@ -26,13 +26,11 @@ public class Code03_GreatCowGathering1 {
 
 	public static int n;
 
-	public static int cowSum;
-
-	public static int cnt;
-
-	public static int best, center;
-
+	// cow[i] : i号农场牛的数量
 	public static int[] cow = new int[MAXN];
+
+	// 牛的总数
+	public static int cowSum;
 
 	public static int[] head = new int[MAXN];
 
@@ -42,8 +40,14 @@ public class Code03_GreatCowGathering1 {
 
 	public static int[] weight = new int[MAXN << 1];
 
+	public static int cnt;
+
+	public static int best, center;
+
+	// size[i] : 从1号节点开始dfs的过程中，以i为头的子树，牛的总量
 	public static int[] size = new int[MAXN];
 
+	// path[i] : 从重心节点开始dfs的过程中，从重心到达i节点，距离是多少
 	public static int[] path = new int[MAXN];
 
 	public static void build() {
@@ -86,12 +90,12 @@ public class Code03_GreatCowGathering1 {
 		}
 	}
 
-	public static void setWeights(int u, int f) {
+	public static void setPath(int u, int f) {
 		for (int e = head[u], v; e != 0; e = next[e]) {
 			v = to[e];
 			if (v != f) {
 				path[v] = path[u] + weight[e];
-				setWeights(v, u);
+				setPath(v, u);
 			}
 		}
 	}
@@ -129,7 +133,7 @@ public class Code03_GreatCowGathering1 {
 		}
 		findCenter(1, 0);
 		path[center] = 0;
-		setWeights(center, 0);
+		setPath(center, 0);
 		long ans = 0;
 		for (int i = 1; i <= n; i++) {
 			ans += (long) cow[i] * path[i];

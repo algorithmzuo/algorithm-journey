@@ -84,7 +84,7 @@ public class Code02_Godfather {
 		}
 		if (m == 1) {
 			out.println(centers[0]);
-		} else {
+		} else { // m == 2
 			out.println(centers[0] + " " + centers[1]);
 		}
 		out.flush();
