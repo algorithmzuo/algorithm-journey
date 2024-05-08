@@ -1,6 +1,9 @@
 package class120;
 
+// 树的重心第一种求解方式
+// 以某个节点为根时，剩余的最大子树的节点数最少，那么这个节点是重心
 // 测试链接 : http://poj.org/problem?id=1655
+// 提交以下的code，提交时请把类名改成"Main"，可以直接通过
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -14,6 +17,8 @@ public class Code01_BalancingAct {
 
 	public static int MAXN = 20001;
 
+	public static int n;
+
 	public static int[] head = new int[MAXN];
 
 	public static int[] next = new int[MAXN << 1];
@@ -24,15 +29,14 @@ public class Code01_BalancingAct {
 
 	public static int[] size = new int[MAXN];
 
-	public static int n;
+	public static int center;
 
-	public static int bestSize, node;
+	public static int best;
 
 	public static void build() {
 		cnt = 1;
 		Arrays.fill(head, 1, n + 1, 0);
-		bestSize = Integer.MAX_VALUE;
-		node = 0;
+		best = Integer.MAX_VALUE;
 	}
 
 	public static void addEdge(int u, int v) {
@@ -43,19 +47,19 @@ public class Code01_BalancingAct {
 
 	public static void dfs(int u, int f) {
 		size[u] = 1;
-		int max = 0;
+		int maxsub = 0;
 		for (int e = head[u], v; e != 0; e = next[e]) {
 			v = to[e];
 			if (v != f) {
 				dfs(v, u);
 				size[u] += size[v];
-				max = Math.max(max, size[v]);
+				maxsub = Math.max(maxsub, size[v]);
 			}
 		}
-		max = Math.max(max, n - size[u]);
-		if (max < bestSize || (max == bestSize && u < node)) {
-			bestSize = max;
-			node = u;
+		maxsub = Math.max(maxsub, n - size[u]);
+		if (maxsub < best || (maxsub == best && u < center)) {
+			best = maxsub;
+			center = u;
 		}
 	}
 
@@ -78,7 +82,7 @@ public class Code01_BalancingAct {
 				addEdge(v, u);
 			}
 			dfs(1, 0);
-			out.println(node + " " + bestSize);
+			out.println(center + " " + best);
 		}
 		out.flush();
 		out.close();

@@ -1,6 +1,12 @@
 package class120;
 
-// 递归版
+// 牛群聚集(递归版)
+// 一共有n个节点，编号1~n，每个点有牛的数量
+// 一共有n-1条边把所有点联通起来形成一棵树，每条边有权值
+// 想把所有的牛汇聚在一点，希望走过的总距离最小
+// 返回总距离最小是多少
+// 利用重心的性质：
+// 树上的边权如果都大于等于0，不管边权具体怎么分布，所有节点走到重心的总距离和最小
 // 测试链接 : https://www.luogu.com.cn/problem/P2986
 // 提交以下的code，提交时请把类名改成"Main"
 // C++这么写能通过，java会因为递归层数太多而爆栈
@@ -24,7 +30,7 @@ public class Code03_GreatCowGathering1 {
 
 	public static int cnt;
 
-	public static int bestSize, center;
+	public static int best, center;
 
 	public static int[] cow = new int[MAXN];
 
@@ -38,13 +44,13 @@ public class Code03_GreatCowGathering1 {
 
 	public static int[] size = new int[MAXN];
 
-	public static int[] pathcost = new int[MAXN];
+	public static int[] path = new int[MAXN];
 
 	public static void build() {
 		cnt = 1;
 		Arrays.fill(head, 1, n + 1, 0);
 		cowSum = 0;
-		bestSize = Integer.MAX_VALUE;
+		best = Integer.MAX_VALUE;
 	}
 
 	public static void addEdge(int u, int v, int w) {
@@ -63,17 +69,17 @@ public class Code03_GreatCowGathering1 {
 			}
 		}
 		// 为什么要拆开写？为了后续改迭代版方便分析
-		int max = 0;
+		int maxsub = 0;
 		for (int e = head[u], v; e != 0; e = next[e]) {
 			v = to[e];
 			if (v != f) {
 				size[u] += size[v];
-				max = Math.max(max, size[v]);
+				maxsub = Math.max(maxsub, size[v]);
 			}
 		}
-		max = Math.max(max, cowSum - size[u]);
-		if (max < bestSize) {
-			bestSize = max;
+		maxsub = Math.max(maxsub, cowSum - size[u]);
+		if (maxsub < best) {
+			best = maxsub;
 			center = u;
 		}
 	}
@@ -82,7 +88,7 @@ public class Code03_GreatCowGathering1 {
 		for (int e = head[u], v; e != 0; e = next[e]) {
 			v = to[e];
 			if (v != f) {
-				pathcost[v] = pathcost[u] + weight[e];
+				path[v] = path[u] + weight[e];
 				setWeights(v, u);
 			}
 		}
@@ -120,11 +126,11 @@ public class Code03_GreatCowGathering1 {
 			cowSum += cow[i];
 		}
 		findCenter(1, 0);
-		pathcost[center] = 0;
+		path[center] = 0;
 		setWeights(center, 0);
 		long ans = 0;
 		for (int i = 1; i <= n; i++) {
-			ans += (long) cow[i] * pathcost[i];
+			ans += (long) cow[i] * path[i];
 		}
 		return ans;
 	}
