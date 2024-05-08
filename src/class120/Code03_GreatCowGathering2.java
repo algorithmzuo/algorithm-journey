@@ -78,23 +78,24 @@ public class Code03_GreatCowGathering2 {
 	}
 
 	// 迭代版
+	// 不会改看讲解118，讲了怎么从递归版改成迭代版
 	public static void findCenter(int root) {
 		stackSize = 0;
 		push(root, 0, -1);
 		while (stackSize > 0) {
 			pop();
-			if (e == -1) {
+			if (e == -1) { // 如果第一次来到当前节点u
 				size[u] = cow[u];
 				e = head[u];
-			} else {
+			} else { // 如果不是第一次来到当前节点u
 				e = next[e];
 			}
-			if (e != 0) {
+			if (e != 0) { // 如果还有后续边、还有后续子节点
 				push(u, f, e);
 				if (to[e] != f) {
 					push(to[e], u, -1);
 				}
-			} else {
+			} else { // 如果没有后续边了，那么就做最后的统计工作
 				int maxsub = 0;
 				for (int i = head[u], v; i != 0; i = next[i]) {
 					v = to[i];
@@ -113,6 +114,7 @@ public class Code03_GreatCowGathering2 {
 	}
 
 	// 迭代版
+	// 不会改看讲解118，讲了怎么从递归版改成迭代版
 	public static void setWeights(int root) {
 		stackSize = 0;
 		push(root, 0, -1);

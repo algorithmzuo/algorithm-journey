@@ -68,7 +68,9 @@ public class Code03_GreatCowGathering1 {
 				findCenter(v, u);
 			}
 		}
-		// 为什么要拆开写？为了后续改迭代版方便分析
+		// 如下代码是遍历完成后再做统计工作
+		// 这个写法和之前的逻辑是一样的，为什么要拆开写？
+		// 为了后续改迭代版方便
 		int maxsub = 0;
 		for (int e = head[u], v; e != 0; e = next[e]) {
 			v = to[e];
