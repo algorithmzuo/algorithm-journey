@@ -1,5 +1,6 @@
 package class122;
 
+// 运输计划(迭代版)
 // 测试链接 : https://www.luogu.com.cn/problem/P2680
 
 import java.io.BufferedReader;
@@ -147,23 +148,6 @@ public class Code04_TransportPlan2 {
 		}
 	}
 
-	public static boolean check(int n, int m, int limit) {
-		Arrays.fill(cnt, 1, n + 1, 0);
-		beyond = 0;
-		for (int i = 1; i <= m; i++) {
-			if (cost[i] > limit) {
-				cnt[quesu[i]]++;
-				cnt[quesv[i]]++;
-				cnt[lca[i]] -= 2;
-				beyond++;
-			}
-		}
-		atLeast = maxcost - limit;
-		return beyond == 0 || dfs(1);
-	}
-
-	public static int beyond, atLeast;
-
 	// dfs方法的递归版改迭代版
 	public static boolean dfs(int root) {
 		stackSize = 0;
@@ -193,6 +177,23 @@ public class Code04_TransportPlan2 {
 			}
 		}
 		return false;
+	}
+
+	public static int beyond, atLeast;
+
+	public static boolean check(int n, int m, int limit) {
+		Arrays.fill(cnt, 1, n + 1, 0);
+		beyond = 0;
+		for (int i = 1; i <= m; i++) {
+			if (cost[i] > limit) {
+				cnt[quesu[i]]++;
+				cnt[quesv[i]]++;
+				cnt[lca[i]] -= 2;
+				beyond++;
+			}
+		}
+		atLeast = maxcost - limit;
+		return beyond == 0 || dfs(1);
 	}
 
 	public static void main(String[] args) throws IOException {
