@@ -1,6 +1,6 @@
 package class122;
 
-// 松鼠的新家(递归版)
+// 松鼠的新家(迭代版)
 // 测试链接 : https://www.luogu.com.cn/problem/P3258
 
 import java.io.BufferedReader;
@@ -11,20 +11,16 @@ import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 import java.util.Arrays;
 
-public class Code02_SquirrelHome1 {
+public class Code03_SquirrelHome2 {
 
 	public static int MAXN = 300001;
 
-	// 依次去往节点的顺序
 	public static int[] travel = new int[MAXN];
 
-	// father数组不用作并查集，就是记录每个节点的父亲节点
 	public static int[] father = new int[MAXN];
 
-	// 每个节点需要分配多少糖果
 	public static int[] cnt = new int[MAXN];
 
-	// 链式前向星建图
 	public static int[] headEdge = new int[MAXN];
 
 	public static int[] edgeNext = new int[MAXN << 1];
@@ -33,7 +29,6 @@ public class Code02_SquirrelHome1 {
 
 	public static int tcnt;
 
-	// 以下结构都是tarjan算法所需要的
 	public static int[] headQuery = new int[MAXN];
 
 	public static int[] queryNext = new int[MAXN << 1];
@@ -46,10 +41,8 @@ public class Code02_SquirrelHome1 {
 
 	public static boolean[] visited = new boolean[MAXN];
 
-	// unionfind数组是tarjan算法专用的并查集结构
 	public static int[] unionfind = new int[MAXN];
 
-	// ans数组是tarjan算法的输出结果，记录每次旅行两端点的最低公共祖先
 	public static int[] ans = new int[MAXN];
 
 	public static void build(int n) {
@@ -76,42 +69,92 @@ public class Code02_SquirrelHome1 {
 		headQuery[u] = qcnt++;
 	}
 
+	// find方法的递归版改迭代版
+	public static int[] stack = new int[MAXN];
+
 	public static int find(int i) {
-		if (i != unionfind[i]) {
-			unionfind[i] = find(unionfind[i]);
+		int size = 0;
+		while (i != unionfind[i]) {
+			stack[size++] = i;
+			i = unionfind[i];
 		}
-		return unionfind[i];
+		while (size > 0) {
+			unionfind[stack[--size]] = i;
+		}
+		return i;
 	}
 
-	public static void tarjan(int u, int f) {
-		visited[u] = true;
-		for (int e = headEdge[u], v; e != 0; e = edgeNext[e]) {
-			v = edgeTo[e];
-			if (v != f) {
-				tarjan(v, u);
-			}
-		}
-		for (int e = headQuery[u], v; e != 0; e = queryNext[e]) {
-			v = queryTo[e];
-			if (visited[v]) {
-				ans[queryIndex[e]] = find(v);
-			}
-		}
-		unionfind[u] = f;
-		father[u] = f;
+	// tarjan方法的递归版改迭代版
+	public static int[][] ufe = new int[MAXN][3];
+
+	public static int stackSize, u, f, e;
+
+	public static void push(int u, int f, int e) {
+		ufe[stackSize][0] = u;
+		ufe[stackSize][1] = f;
+		ufe[stackSize][2] = e;
+		stackSize++;
 	}
 
-	public static void dfs(int u, int f) {
-		for (int e = headEdge[u], v; e != 0; e = edgeNext[e]) {
-			v = edgeTo[e];
-			if (v != f) {
-				dfs(v, u);
+	public static void pop() {
+		--stackSize;
+		u = ufe[stackSize][0];
+		f = ufe[stackSize][1];
+		e = ufe[stackSize][2];
+	}
+
+	public static void tarjan(int root) {
+		stackSize = 0;
+		push(root, 0, -1);
+		while (stackSize > 0) {
+			pop();
+			if (e == -1) {
+				visited[u] = true;
+				e = headEdge[u];
+			} else {
+				e = edgeNext[e];
+			}
+			if (e != 0) {
+				push(u, f, e);
+				if (edgeTo[e] != f) {
+					push(edgeTo[e], u, -1);
+				}
+			} else {
+				for (int q = headQuery[u], v; q != 0; q = queryNext[q]) {
+					v = queryTo[q];
+					if (visited[v]) {
+						ans[queryIndex[q]] = find(v);
+					}
+				}
+				unionfind[u] = f;
+				father[u] = f;
 			}
 		}
-		for (int e = headEdge[u], v; e != 0; e = edgeNext[e]) {
-			v = edgeTo[e];
-			if (v != f) {
-				cnt[u] += cnt[v];
+	}
+
+	// dfs方法的递归版改迭代版
+	public static void dfs(int root) {
+		stackSize = 0;
+		push(root, 0, -1);
+		while (stackSize > 0) {
+			pop();
+			if (e == -1) {
+				e = headEdge[u];
+			} else {
+				e = edgeNext[e];
+			}
+			if (e != 0) {
+				push(u, f, e);
+				if (edgeTo[e] != f) {
+					push(edgeTo[e], u, -1);
+				}
+			} else {
+				for (int e = headEdge[u], v; e != 0; e = edgeNext[e]) {
+					v = edgeTo[e];
+					if (v != f) {
+						cnt[u] += cnt[v];
+					}
+				}
 			}
 		}
 	}
@@ -149,7 +192,7 @@ public class Code02_SquirrelHome1 {
 	}
 
 	public static void compute(int n) {
-		tarjan(1, 0);
+		tarjan(1);
 		for (int i = 1, u, v, lca, lcafather; i < n; i++) {
 			u = travel[i];
 			v = travel[i + 1];
@@ -160,7 +203,7 @@ public class Code02_SquirrelHome1 {
 			cnt[lca]--;
 			cnt[lcafather]--;
 		}
-		dfs(1, 0);
+		dfs(1);
 		for (int i = 2; i <= n; i++) {
 			cnt[travel[i]]--;
 		}

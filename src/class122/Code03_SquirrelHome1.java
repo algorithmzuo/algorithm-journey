@@ -1,50 +1,30 @@
 package class122;
 
+// 松鼠的新家(递归版)
+// 测试链接 : https://www.luogu.com.cn/problem/P3258
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.io.StreamTokenizer;
 import java.util.Arrays;
 
-// 测试链接 : https://leetcode.cn/problems/minimize-the-total-price-of-the-trips/
-public class Code03_MinimizePriceOfTrips {
+public class Code03_SquirrelHome1 {
 
-	public static int minimumTotalPrice(int n, int[][] es, int[] ps, int[][] ts) {
-		build(n);
-		for (int i = 0, j = 1; i < n; i++, j++) {
-			price[j] = ps[i];
-		}
-		for (int[] edge : es) {
-			addEdge(edge[0] + 1, edge[1] + 1);
-			addEdge(edge[1] + 1, edge[0] + 1);
-		}
-		int m = ts.length;
-		for (int i = 0, j = 1; i < m; i++, j++) {
-			addQuery(ts[i][0] + 1, ts[i][1] + 1, j);
-			addQuery(ts[i][1] + 1, ts[i][0] + 1, j);
-		}
-		tarjan(1, 0);
-		for (int i = 0, j = 1, u, v, lca, lcafather; i < m; i++, j++) {
-			u = ts[i][0] + 1;
-			v = ts[i][1] + 1;
-			lca = ans[j];
-			lcafather = father[lca];
-			cnt[u]++;
-			cnt[v]++;
-			cnt[lca]--;
-			cnt[lcafather]--;
-		}
-		dfs(1, 0);
-		dp(1, 0);
-		return Math.min(no, yes);
-	}
+	public static int MAXN = 300001;
 
-	public static int MAXN = 51;
+	// 依次去往节点的顺序
+	public static int[] travel = new int[MAXN];
 
-	public static int MAXM = 101;
-
-	public static int[] price = new int[MAXN];
-
+	// father数组不用作并查集，就是记录每个节点的父亲节点
 	public static int[] father = new int[MAXN];
 
+	// 每个节点需要分配多少糖果
 	public static int[] cnt = new int[MAXN];
 
+	// 链式前向星建图
 	public static int[] headEdge = new int[MAXN];
 
 	public static int[] edgeNext = new int[MAXN << 1];
@@ -53,13 +33,14 @@ public class Code03_MinimizePriceOfTrips {
 
 	public static int tcnt;
 
+	// 以下结构都是tarjan算法所需要的
 	public static int[] headQuery = new int[MAXN];
 
-	public static int[] queryNext = new int[MAXM << 1];
+	public static int[] queryNext = new int[MAXN << 1];
 
-	public static int[] queryTo = new int[MAXM << 1];
+	public static int[] queryTo = new int[MAXN << 1];
 
-	public static int[] queryIndex = new int[MAXM << 1];
+	public static int[] queryIndex = new int[MAXN << 1];
 
 	public static int qcnt;
 
@@ -69,7 +50,7 @@ public class Code03_MinimizePriceOfTrips {
 	public static int[] unionfind = new int[MAXN];
 
 	// ans数组是tarjan算法的输出结果，记录每次旅行两端点的最低公共祖先
-	public static int[] ans = new int[MAXM];
+	public static int[] ans = new int[MAXN];
 
 	public static void build(int n) {
 		Arrays.fill(cnt, 1, n + 1, 0);
@@ -135,21 +116,54 @@ public class Code03_MinimizePriceOfTrips {
 		}
 	}
 
-	public static int no, yes;
-
-	public static void dp(int u, int f) {
-		int n = price[u] * cnt[u];
-		int y = (price[u] / 2) * cnt[u];
-		for (int e = headEdge[u], v; e != 0; e = edgeNext[e]) {
-			v = edgeTo[e];
-			if (v != f) {
-				dp(v, u);
-				n += Math.min(no, yes);
-				y += no;
-			}
+	public static void main(String[] args) throws IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StreamTokenizer in = new StreamTokenizer(br);
+		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
+		in.nextToken();
+		int n = (int) in.nval;
+		build(n);
+		for (int i = 1; i <= n; i++) {
+			in.nextToken();
+			travel[i] = (int) in.nval;
 		}
-		no = n;
-		yes = y;
+		for (int i = 1, u, v; i < n; i++) {
+			in.nextToken();
+			u = (int) in.nval;
+			in.nextToken();
+			v = (int) in.nval;
+			addEdge(u, v);
+			addEdge(v, u);
+		}
+		for (int i = 1; i < n; i++) {
+			addQuery(travel[i], travel[i + 1], i);
+			addQuery(travel[i + 1], travel[i], i);
+		}
+		compute(n);
+		for (int i = 1; i <= n; i++) {
+			out.println(cnt[i]);
+		}
+		out.flush();
+		out.close();
+		br.close();
+	}
+
+	public static void compute(int n) {
+		tarjan(1, 0);
+		for (int i = 1, u, v, lca, lcafather; i < n; i++) {
+			u = travel[i];
+			v = travel[i + 1];
+			lca = ans[i];
+			lcafather = father[lca];
+			cnt[u]++;
+			cnt[v]++;
+			cnt[lca]--;
+			cnt[lcafather]--;
+		}
+		dfs(1, 0);
+		for (int i = 2; i <= n; i++) {
+			cnt[travel[i]]--;
+		}
 	}
 
 }
