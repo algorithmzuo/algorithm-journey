@@ -3,7 +3,7 @@ package class122;
 import java.util.Arrays;
 
 // 测试链接 : https://leetcode.cn/problems/minimize-the-total-price-of-the-trips/
-public class Code02_MinimizePriceOfTrips {
+public class Code03_MinimizePriceOfTrips {
 
 	public static int minimumTotalPrice(int n, int[][] es, int[] ps, int[][] ts) {
 		build(n);
@@ -25,10 +25,10 @@ public class Code02_MinimizePriceOfTrips {
 			v = ts[i][1] + 1;
 			lca = ans[j];
 			lcafather = father[lca];
-			cnts[u]++;
-			cnts[v]++;
-			cnts[lca]--;
-			cnts[lcafather]--;
+			cnt[u]++;
+			cnt[v]++;
+			cnt[lca]--;
+			cnt[lcafather]--;
 		}
 		dfs(1, 0);
 		dp(1, 0);
@@ -43,7 +43,7 @@ public class Code02_MinimizePriceOfTrips {
 
 	public static int[] father = new int[MAXN];
 
-	public static int[] cnts = new int[MAXN];
+	public static int[] cnt = new int[MAXN];
 
 	public static int[] headEdge = new int[MAXN];
 
@@ -72,7 +72,7 @@ public class Code02_MinimizePriceOfTrips {
 	public static int[] ans = new int[MAXM];
 
 	public static void build(int n) {
-		Arrays.fill(cnts, 1, n + 1, 0);
+		Arrays.fill(cnt, 1, n + 1, 0);
 		tcnt = qcnt = 1;
 		Arrays.fill(headEdge, 1, n + 1, 0);
 		Arrays.fill(headQuery, 1, n + 1, 0);
@@ -130,7 +130,7 @@ public class Code02_MinimizePriceOfTrips {
 		for (int e = headEdge[u], v; e != 0; e = edgeNext[e]) {
 			v = edgeTo[e];
 			if (v != f) {
-				cnts[u] += cnts[v];
+				cnt[u] += cnt[v];
 			}
 		}
 	}
@@ -138,8 +138,8 @@ public class Code02_MinimizePriceOfTrips {
 	public static int no, yes;
 
 	public static void dp(int u, int f) {
-		int n = price[u] * cnts[u];
-		int y = (price[u] / 2) * cnts[u];
+		int n = price[u] * cnt[u];
+		int y = (price[u] / 2) * cnt[u];
 		for (int e = headEdge[u], v; e != 0; e = edgeNext[e]) {
 			v = edgeTo[e];
 			if (v != f) {
