@@ -135,6 +135,10 @@ public class Code02_SquirrelHome1 {
 			addEdge(u, v);
 			addEdge(v, u);
 		}
+		for (int i = 1; i < n; i++) {
+			addQuery(travel[i], travel[i + 1], i);
+			addQuery(travel[i + 1], travel[i], i);
+		}
 		compute(n);
 		for (int i = 1; i <= n; i++) {
 			out.println(cnt[i]);
@@ -145,10 +149,6 @@ public class Code02_SquirrelHome1 {
 	}
 
 	public static void compute(int n) {
-		for (int i = 1; i < n; i++) {
-			addQuery(travel[i], travel[i + 1], i);
-			addQuery(travel[i + 1], travel[i], i);
-		}
 		tarjan(1, 0);
 		for (int i = 1, u, v, lca, lcafather; i < n; i++) {
 			u = travel[i];

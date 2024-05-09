@@ -1,6 +1,6 @@
 package class122;
 
-// 运输计划(迭代版)
+// 最大压力(递归版)
 // 测试链接 : https://www.luogu.com.cn/problem/P3128
 
 import java.io.BufferedReader;
@@ -11,7 +11,7 @@ import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 import java.util.Arrays;
 
-public class Code01_TransportPlan2 {
+public class Code01_MaxFlow1 {
 
 	public static int MAXN = 50001;
 
@@ -47,8 +47,10 @@ public class Code01_TransportPlan2 {
 	// unionfind数组是tarjan算法专用的并查集结构
 	public static int[] unionfind = new int[MAXN];
 
-	// 问题列表
-	public static int[][] ques = new int[MAXM][2];
+	// 问题双方
+	public static int[] quesu = new int[MAXM];
+
+	public static int[] quesv = new int[MAXM];
 
 	// ans数组是tarjan算法的输出结果，记录每次旅行两端点的最低公共祖先
 	public static int[] ans = new int[MAXM];
@@ -77,92 +79,42 @@ public class Code01_TransportPlan2 {
 		headQuery[u] = qcnt++;
 	}
 
-	// find方法的递归版改迭代版
-	public static int[] stack = new int[MAXN];
-
 	public static int find(int i) {
-		int size = 0;
-		while (i != unionfind[i]) {
-			stack[size++] = i;
-			i = unionfind[i];
+		if (i != unionfind[i]) {
+			unionfind[i] = find(unionfind[i]);
 		}
-		while (size > 0) {
-			unionfind[stack[--size]] = i;
-		}
-		return i;
+		return unionfind[i];
 	}
 
-	// tarjan方法的递归版改迭代版
-	public static int[][] ufe = new int[MAXN][3];
-
-	public static int stackSize, u, f, e;
-
-	public static void push(int u, int f, int e) {
-		ufe[stackSize][0] = u;
-		ufe[stackSize][1] = f;
-		ufe[stackSize][2] = e;
-		stackSize++;
-	}
-
-	public static void pop() {
-		--stackSize;
-		u = ufe[stackSize][0];
-		f = ufe[stackSize][1];
-		e = ufe[stackSize][2];
-	}
-
-	public static void tarjan(int root) {
-		stackSize = 0;
-		push(root, 0, -1);
-		while (stackSize > 0) {
-			pop();
-			if (e == -1) {
-				visited[u] = true;
-				e = headEdge[u];
-			} else {
-				e = edgeNext[e];
-			}
-			if (e != 0) {
-				push(u, f, e);
-				if (edgeTo[e] != f) {
-					push(edgeTo[e], u, -1);
-				}
-			} else {
-				for (int q = headQuery[u], v; q != 0; q = queryNext[q]) {
-					v = queryTo[q];
-					if (visited[v]) {
-						ans[queryIndex[q]] = find(v);
-					}
-				}
-				unionfind[u] = f;
-				father[u] = f;
+	public static void tarjan(int u, int f) {
+		visited[u] = true;
+		for (int e = headEdge[u], v; e != 0; e = edgeNext[e]) {
+			v = edgeTo[e];
+			if (v != f) {
+				tarjan(v, u);
 			}
 		}
+		for (int e = headQuery[u], v; e != 0; e = queryNext[e]) {
+			v = queryTo[e];
+			if (visited[v]) {
+				ans[queryIndex[e]] = find(v);
+			}
+		}
+		unionfind[u] = f;
+		father[u] = f;
 	}
 
-	// dfs方法的递归版改迭代版
-	public static void dfs(int root) {
-		stackSize = 0;
-		push(root, 0, -1);
-		while (stackSize > 0) {
-			pop();
-			if (e == -1) {
-				e = headEdge[u];
-			} else {
-				e = edgeNext[e];
+	public static void dfs(int u, int f) {
+		for (int e = headEdge[u], v; e != 0; e = edgeNext[e]) {
+			v = edgeTo[e];
+			if (v != f) {
+				dfs(v, u);
 			}
-			if (e != 0) {
-				push(u, f, e);
-				if (edgeTo[e] != f) {
-					push(edgeTo[e], u, -1);
-				}
-			} else {
-				for (int e = headEdge[u], v; e != 0; e = edgeNext[e]) {
-					v = edgeTo[e];
-					if (v != f) {
-						cnt[u] += cnt[v];
-					}
-				}
+		}
+		for (int e = headEdge[u], v; e != 0; e = edgeNext[e]) {
+			v = edgeTo[e];
+			if (v != f) {
+				cnt[u] += cnt[v];
 			}
 		}
 	}
@@ -189,8 +141,10 @@ public class Code01_TransportPlan2 {
 			u = (int) in.nval;
 			in.nextToken();
 			v = (int) in.nval;
-			ques[i][0] = u;
-			ques[i][1] = v;
+			quesu[i] = u;
+			quesv[i] = v;
+			addQuery(u, v, i);
+			addQuery(v, u, i);
 		}
 		out.println(compute(n, m));
 		out.flush();
@@ -199,14 +153,10 @@ public class Code01_TransportPlan2 {
 	}
 
 	public static int compute(int n, int m) {
-		for (int i = 1; i <= m; i++) {
-			addQuery(ques[i][0], ques[i][1], i);
-			addQuery(ques[i][1], ques[i][0], i);
-		}
-		tarjan(1);
+		tarjan(1, 0);
 		for (int i = 1, u, v, lca, lcafather; i <= m; i++) {
-			u = ques[i][0];
-			v = ques[i][1];
+			u = quesu[i];
+			v = quesv[i];
 			lca = ans[i];
 			lcafather = father[lca];
 			cnt[u]++;
@@ -214,7 +164,7 @@ public class Code01_TransportPlan2 {
 			cnt[lca]--;
 			cnt[lcafather]--;
 		}
-		dfs(1);
+		dfs(1, 0);
 		int ans = 0;
 		for (int i = 1; i <= n; i++) {
 			ans = Math.max(ans, cnt[i]);

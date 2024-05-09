@@ -1,7 +1,7 @@
 package class122;
 
 // 运输计划(递归版)
-// 测试链接 : https://www.luogu.com.cn/problem/P3128
+// 测试链接 : https://www.luogu.com.cn/problem/P2680
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -11,27 +11,24 @@ import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 import java.util.Arrays;
 
-public class Code01_TransportPlan1 {
+public class Code04_TransportPlan1 {
 
-	public static int MAXN = 50001;
+	public static int MAXN = 300001;
 
-	public static int MAXM = 100001;
-
-	// father数组不用作并查集，就是记录每个节点的父亲节点
-	public static int[] father = new int[MAXN];
+	public static int MAXM = 300001;
 
 	public static int[] cnt = new int[MAXN];
 
-	// 链式前向星建图
 	public static int[] headEdge = new int[MAXN];
 
 	public static int[] edgeNext = new int[MAXN << 1];
 
 	public static int[] edgeTo = new int[MAXN << 1];
 
+	public static int[] edgeWeight = new int[MAXN << 1];
+
 	public static int tcnt;
 
-	// 以下结构都是tarjan算法所需要的
 	public static int[] headQuery = new int[MAXN];
 
 	public static int[] queryNext = new int[MAXM << 1];
@@ -44,17 +41,21 @@ public class Code01_TransportPlan1 {
 
 	public static boolean[] visited = new boolean[MAXN];
 
-	// unionfind数组是tarjan算法专用的并查集结构
 	public static int[] unionfind = new int[MAXN];
 
-	// 问题列表
-	public static int[][] ques = new int[MAXM][2];
+	public static int[] quesu = new int[MAXM];
 
-	// ans数组是tarjan算法的输出结果，记录每次旅行两端点的最低公共祖先
-	public static int[] ans = new int[MAXM];
+	public static int[] quesv = new int[MAXM];
+
+	public static int[] lca = new int[MAXM];
+
+	public static int[] cost = new int[MAXM];
+
+	public static int[] distance = new int[MAXN];
+
+	public static int maxcost;
 
 	public static void build(int n) {
-		Arrays.fill(cnt, 1, n + 1, 0);
 		tcnt = qcnt = 1;
 		Arrays.fill(headEdge, 1, n + 1, 0);
 		Arrays.fill(headQuery, 1, n + 1, 0);
@@ -62,11 +63,13 @@ public class Code01_TransportPlan1 {
 		for (int i = 1; i <= n; i++) {
 			unionfind[i] = i;
 		}
+		maxcost = 0;
 	}
 
-	public static void addEdge(int u, int v) {
+	public static void addEdge(int u, int v, int w) {
 		edgeNext[tcnt] = headEdge[u];
 		edgeTo[tcnt] = v;
+		edgeWeight[tcnt] = w;
 		headEdge[u] = tcnt++;
 	}
 
@@ -84,29 +87,51 @@ public class Code01_TransportPlan1 {
 		return unionfind[i];
 	}
 
-	public static void tarjan(int u, int f) {
+	public static void tarjan(int u, int f, int w) {
 		visited[u] = true;
+		distance[u] = distance[f] + w;
 		for (int e = headEdge[u], v; e != 0; e = edgeNext[e]) {
 			v = edgeTo[e];
 			if (v != f) {
-				tarjan(v, u);
+				tarjan(v, u, edgeWeight[e]);
 			}
 		}
-		for (int e = headQuery[u], v; e != 0; e = queryNext[e]) {
+		for (int e = headQuery[u], v, i; e != 0; e = queryNext[e]) {
 			v = queryTo[e];
 			if (visited[v]) {
-				ans[queryIndex[e]] = find(v);
+				i = queryIndex[e];
+				lca[i] = find(v);
+				cost[i] = distance[u] + distance[v] - 2 * distance[lca[i]];
+				maxcost = Math.max(maxcost, cost[i]);
 			}
 		}
 		unionfind[u] = f;
-		father[u] = f;
 	}
 
-	public static void dfs(int u, int f) {
+	public static boolean check(int n, int m, int limit) {
+		Arrays.fill(cnt, 1, n + 1, 0);
+		beyond = 0;
+		for (int i = 1; i <= m; i++) {
+			if (cost[i] > limit) {
+				cnt[quesu[i]]++;
+				cnt[quesv[i]]++;
+				cnt[lca[i]] -= 2;
+				beyond++;
+			}
+		}
+		atLeast = maxcost - limit;
+		return beyond == 0 || dfs(1, 0, 0);
+	}
+
+	public static int beyond, atLeast;
+
+	public static boolean dfs(int u, int f, int w) {
 		for (int e = headEdge[u], v; e != 0; e = edgeNext[e]) {
 			v = edgeTo[e];
 			if (v != f) {
-				dfs(v, u);
+				if (dfs(v, u, edgeWeight[e])) {
+					return true;
+				}
 			}
 		}
 		for (int e = headEdge[u], v; e != 0; e = edgeNext[e]) {
@@ -115,6 +140,7 @@ public class Code01_TransportPlan1 {
 				cnt[u] += cnt[v];
 			}
 		}
+		return cnt[u] >= beyond && w >= atLeast;
 	}
 
 	public static void main(String[] args) throws IOException {
@@ -126,21 +152,25 @@ public class Code01_TransportPlan1 {
 		build(n);
 		in.nextToken();
 		int m = (int) in.nval;
-		for (int i = 1, u, v; i < n; i++) {
+		for (int i = 1, u, v, w; i < n; i++) {
 			in.nextToken();
 			u = (int) in.nval;
 			in.nextToken();
 			v = (int) in.nval;
-			addEdge(u, v);
-			addEdge(v, u);
+			in.nextToken();
+			w = (int) in.nval;
+			addEdge(u, v, w);
+			addEdge(v, u, w);
 		}
 		for (int i = 1, u, v; i <= m; i++) {
 			in.nextToken();
 			u = (int) in.nval;
 			in.nextToken();
 			v = (int) in.nval;
-			ques[i][0] = u;
-			ques[i][1] = v;
+			quesu[i] = u;
+			quesv[i] = v;
+			addQuery(u, v, i);
+			addQuery(v, u, i);
 		}
 		out.println(compute(n, m));
 		out.flush();
@@ -149,25 +179,16 @@ public class Code01_TransportPlan1 {
 	}
 
 	public static int compute(int n, int m) {
-		for (int i = 1; i <= m; i++) {
-			addQuery(ques[i][0], ques[i][1], i);
-			addQuery(ques[i][1], ques[i][0], i);
-		}
-		tarjan(1, 0);
-		for (int i = 1, u, v, lca, lcafather; i <= m; i++) {
-			u = ques[i][0];
-			v = ques[i][1];
-			lca = ans[i];
-			lcafather = father[lca];
-			cnt[u]++;
-			cnt[v]++;
-			cnt[lca]--;
-			cnt[lcafather]--;
-		}
-		dfs(1, 0);
+		tarjan(1, 0, 0);
+		int l = 0, r = maxcost, mid;
 		int ans = 0;
-		for (int i = 1; i <= n; i++) {
-			ans = Math.max(ans, cnt[i]);
+		while (l <= r) {
+			mid = (l + r) / 2;
+			if (check(n, m, mid)) {
+				ans = mid;
+				r = mid - 1;
+			} else
+				l = mid + 1;
 		}
 		return ans;
 	}

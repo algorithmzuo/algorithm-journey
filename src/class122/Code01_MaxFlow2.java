@@ -1,7 +1,7 @@
 package class122;
 
-// 松鼠的新家(迭代版)
-// 测试链接 : https://www.luogu.com.cn/problem/P3258
+// 最大压力(迭代版)
+// 测试链接 : https://www.luogu.com.cn/problem/P3128
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -11,16 +11,18 @@ import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 import java.util.Arrays;
 
-public class Code02_SquirrelHome2 {
+public class Code01_MaxFlow2 {
 
-	public static int MAXN = 300001;
+	public static int MAXN = 50001;
 
-	public static int[] travel = new int[MAXN];
+	public static int MAXM = 100001;
 
+	// father数组不用作并查集，就是记录每个节点的父亲节点
 	public static int[] father = new int[MAXN];
 
 	public static int[] cnt = new int[MAXN];
 
+	// 链式前向星建图
 	public static int[] headEdge = new int[MAXN];
 
 	public static int[] edgeNext = new int[MAXN << 1];
@@ -29,21 +31,29 @@ public class Code02_SquirrelHome2 {
 
 	public static int tcnt;
 
+	// 以下结构都是tarjan算法所需要的
 	public static int[] headQuery = new int[MAXN];
 
-	public static int[] queryNext = new int[MAXN << 1];
+	public static int[] queryNext = new int[MAXM << 1];
 
-	public static int[] queryTo = new int[MAXN << 1];
+	public static int[] queryTo = new int[MAXM << 1];
 
-	public static int[] queryIndex = new int[MAXN << 1];
+	public static int[] queryIndex = new int[MAXM << 1];
 
 	public static int qcnt;
 
 	public static boolean[] visited = new boolean[MAXN];
 
+	// unionfind数组是tarjan算法专用的并查集结构
 	public static int[] unionfind = new int[MAXN];
 
-	public static int[] ans = new int[MAXN];
+	// 问题双方
+	public static int[] quesu = new int[MAXM];
+
+	public static int[] quesv = new int[MAXM];
+
+	// ans数组是tarjan算法的输出结果，记录每次旅行两端点的最低公共祖先
+	public static int[] ans = new int[MAXM];
 
 	public static void build(int n) {
 		Arrays.fill(cnt, 1, n + 1, 0);
@@ -166,10 +176,8 @@ public class Code02_SquirrelHome2 {
 		in.nextToken();
 		int n = (int) in.nval;
 		build(n);
-		for (int i = 1; i <= n; i++) {
-			in.nextToken();
-			travel[i] = (int) in.nval;
-		}
+		in.nextToken();
+		int m = (int) in.nval;
 		for (int i = 1, u, v; i < n; i++) {
 			in.nextToken();
 			u = (int) in.nval;
@@ -178,24 +186,27 @@ public class Code02_SquirrelHome2 {
 			addEdge(u, v);
 			addEdge(v, u);
 		}
-		for (int i = 1; i < n; i++) {
-			addQuery(travel[i], travel[i + 1], i);
-			addQuery(travel[i + 1], travel[i], i);
+		for (int i = 1, u, v; i <= m; i++) {
+			in.nextToken();
+			u = (int) in.nval;
+			in.nextToken();
+			v = (int) in.nval;
+			quesu[i] = u;
+			quesv[i] = v;
+			addQuery(u, v, i);
+			addQuery(v, u, i);
 		}
-		compute(n);
-		for (int i = 1; i <= n; i++) {
-			out.println(cnt[i]);
-		}
+		out.println(compute(n, m));
 		out.flush();
 		out.close();
 		br.close();
 	}
 
-	public static void compute(int n) {
+	public static int compute(int n, int m) {
 		tarjan(1);
-		for (int i = 1, u, v, lca, lcafather; i < n; i++) {
-			u = travel[i];
-			v = travel[i + 1];
+		for (int i = 1, u, v, lca, lcafather; i <= m; i++) {
+			u = quesu[i];
+			v = quesv[i];
 			lca = ans[i];
 			lcafather = father[lca];
 			cnt[u]++;
@@ -204,9 +215,11 @@ public class Code02_SquirrelHome2 {
 			cnt[lcafather]--;
 		}
 		dfs(1);
-		for (int i = 2; i <= n; i++) {
-			cnt[travel[i]]--;
+		int ans = 0;
+		for (int i = 1; i <= n; i++) {
+			ans = Math.max(ans, cnt[i]);
 		}
+		return ans;
 	}
 
 }
