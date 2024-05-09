@@ -1,6 +1,6 @@
 package class122;
 
-// 运输计划(递归版)
+// 运输计划(迭代版)
 // 测试链接 : https://www.luogu.com.cn/problem/P2680
 
 import java.io.BufferedReader;
@@ -11,7 +11,7 @@ import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 import java.util.Arrays;
 
-public class Code04_TransportPlan1 {
+public class Code05_TransportPlan2 {
 
 	public static int MAXN = 300001;
 
@@ -80,33 +80,106 @@ public class Code04_TransportPlan1 {
 		headQuery[u] = qcnt++;
 	}
 
+	// find方法的递归版改迭代版
+	public static int[] stack = new int[MAXN];
+
 	public static int find(int i) {
-		if (i != unionfind[i]) {
-			unionfind[i] = find(unionfind[i]);
+		int size = 0;
+		while (i != unionfind[i]) {
+			stack[size++] = i;
+			i = unionfind[i];
 		}
-		return unionfind[i];
+		while (size > 0) {
+			unionfind[stack[--size]] = i;
+		}
+		return i;
 	}
 
-	public static void tarjan(int u, int f, int w) {
-		visited[u] = true;
-		distance[u] = distance[f] + w;
-		for (int e = headEdge[u], v; e != 0; e = edgeNext[e]) {
-			v = edgeTo[e];
-			if (v != f) {
-				tarjan(v, u, edgeWeight[e]);
-			}
-		}
-		for (int e = headQuery[u], v, i; e != 0; e = queryNext[e]) {
-			v = queryTo[e];
-			if (visited[v]) {
-				i = queryIndex[e];
-				lca[i] = find(v);
-				cost[i] = distance[u] + distance[v] - 2 * distance[lca[i]];
-				maxcost = Math.max(maxcost, cost[i]);
-			}
-		}
-		unionfind[u] = f;
+	// tarjan方法的递归版改迭代版
+	public static int[][] ufwe = new int[MAXN][4];
+
+	public static int stackSize, u, f, w, e;
+
+	public static void push(int u, int f, int w, int e) {
+		ufwe[stackSize][0] = u;
+		ufwe[stackSize][1] = f;
+		ufwe[stackSize][2] = w;
+		ufwe[stackSize][3] = e;
+		stackSize++;
 	}
+
+	public static void pop() {
+		--stackSize;
+		u = ufwe[stackSize][0];
+		f = ufwe[stackSize][1];
+		w = ufwe[stackSize][2];
+		e = ufwe[stackSize][3];
+	}
+
+	public static void tarjan(int root) {
+		stackSize = 0;
+		push(root, 0, 0, -1);
+		while (stackSize > 0) {
+			pop();
+			if (e == -1) {
+				visited[u] = true;
+				distance[u] = distance[f] + w;
+				e = headEdge[u];
+			} else {
+				e = edgeNext[e];
+			}
+			if (e != 0) {
+				push(u, f, w, e);
+				if (edgeTo[e] != f) {
+					push(edgeTo[e], u, edgeWeight[e], -1);
+				}
+			} else {
+				for (int q = headQuery[u], v, i; q != 0; q = queryNext[q]) {
+					v = queryTo[q];
+					if (visited[v]) {
+						i = queryIndex[q];
+						lca[i] = find(v);
+						cost[i] = distance[u] + distance[v] - 2 * distance[lca[i]];
+						maxcost = Math.max(maxcost, cost[i]);
+					}
+				}
+				unionfind[u] = f;
+			}
+		}
+	}
+
+	// dfs方法的递归版改迭代版
+	public static boolean dfs(int root) {
+		stackSize = 0;
+		push(root, 0, 0, -1);
+		while (stackSize > 0) {
+			pop();
+			if (e == -1) {
+				e = headEdge[u];
+			} else {
+				e = edgeNext[e];
+			}
+			if (e != 0) {
+				push(u, f, w, e);
+				if (edgeTo[e] != f) {
+					push(edgeTo[e], u, edgeWeight[e], -1);
+				}
+			} else {
+				for (int e = headEdge[u], v; e != 0; e = edgeNext[e]) {
+					v = edgeTo[e];
+					if (v != f) {
+						cnt[u] += cnt[v];
+					}
+				}
+				if (cnt[u] >= beyond && w >= atLeast) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
+	public static int beyond, atLeast;
 
 	public static boolean check(int n, int m, int limit) {
 		Arrays.fill(cnt, 1, n + 1, 0);
@@ -120,27 +193,7 @@ public class Code04_TransportPlan1 {
 			}
 		}
 		atLeast = maxcost - limit;
-		return beyond == 0 || dfs(1, 0, 0);
-	}
-
-	public static int beyond, atLeast;
-
-	public static boolean dfs(int u, int f, int w) {
-		for (int e = headEdge[u], v; e != 0; e = edgeNext[e]) {
-			v = edgeTo[e];
-			if (v != f) {
-				if (dfs(v, u, edgeWeight[e])) {
-					return true;
-				}
-			}
-		}
-		for (int e = headEdge[u], v; e != 0; e = edgeNext[e]) {
-			v = edgeTo[e];
-			if (v != f) {
-				cnt[u] += cnt[v];
-			}
-		}
-		return cnt[u] >= beyond && w >= atLeast;
+		return beyond == 0 || dfs(1);
 	}
 
 	public static void main(String[] args) throws IOException {
@@ -179,7 +232,7 @@ public class Code04_TransportPlan1 {
 	}
 
 	public static int compute(int n, int m) {
-		tarjan(1, 0, 0);
+		tarjan(1);
 		int l = 0, r = maxcost, mid;
 		int ans = 0;
 		while (l <= r) {
