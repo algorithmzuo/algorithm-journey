@@ -1,6 +1,15 @@
 package class121;
 
+// 消防(递归版)
+// 一共n个节点，编号1~n，有n-1条边连接成一棵树，每条边上有非负权值
+// 给定一个非负整数s，表示可以在树上选择一条长度不超过s的路径
+// 然后在这条路径的点上建立消防站，居民可以去往任何消防站
+// 目标是每个居民走到各自最近的消防站的总路程最短
+// 返回最短总路程是多少
 // 测试链接 : https://www.luogu.com.cn/problem/P2491
+// 提交以下的code，提交时请把类名改成"Main"
+// C++这么写能通过，java会因为递归层数太多而爆栈
+// java能通过的写法参考本节课Code04_FireFighting2文件
 
 import java.io.BufferedReader;
 import java.io.IOException;

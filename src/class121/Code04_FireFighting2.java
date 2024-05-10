@@ -1,7 +1,13 @@
 package class121;
 
-// dfs1改迭代
+// 消防(迭代版)
+// 一共n个节点，编号1~n，有n-1条边连接成一棵树，每条边上有非负权值
+// 给定一个非负整数s，表示可以在树上选择一条长度不超过s的路径
+// 然后在这条路径的点上建立消防站，居民可以去往任何消防站
+// 目标是每个居民走到各自最近的消防站的总路程最短
+// 返回最短总路程是多少
 // 测试链接 : https://www.luogu.com.cn/problem/P2491
+// 提交以下的code，提交时请把类名改成"Main"，可以通过所有用例
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -68,6 +74,8 @@ public class Code04_FireFighting2 {
 		diameter = dist[end];
 	}
 
+	// dfs1方法改迭代版
+	// 不会改看讲解118，讲了怎么从递归版改成迭代版
 	public static int[][] ufwe = new int[MAXN][4];
 
 	public static int stackSize;
@@ -123,6 +131,8 @@ public class Code04_FireFighting2 {
 		}
 	}
 
+	// dfs2方法不用改迭代居然能通过
+	// 那就不改了
 	public static int dfs2(int u, int c) {
 		int max = c;
 		for (int e = head[u], v; e != 0; e = next[e]) {

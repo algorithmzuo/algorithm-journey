@@ -1,6 +1,9 @@
 package class121;
 
+// 所有直径的公共部分(迭代版)
+// 给定一棵树，打印直径长度、所有直径的公共部分有几条边
 // 测试链接 : https://www.luogu.com.cn/problem/P3304
+// 提交以下的code，提交时请把类名改成"Main"，可以通过所有用例
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -72,7 +75,8 @@ public class Code02_DiameterAndCommonEdges2 {
 		diameter = dist[end];
 	}
 
-	// 为了改迭代版，准备这些栈
+	// dfs1方法改迭代版
+	// 不会改看讲解118，讲了怎么从递归版改成迭代版
 	public static int[][] ufeStack = new int[MAXN][3];
 
 	public static long[] distStack = new long[MAXN];
@@ -120,6 +124,8 @@ public class Code02_DiameterAndCommonEdges2 {
 		}
 	}
 
+	// dfs2方法改迭代版
+	// 不会改看讲解118，讲了怎么从递归版改成迭代版
 	public static void dfs2(int root) {
 		stackSize = 0;
 		push(root, 0, -1, 0);

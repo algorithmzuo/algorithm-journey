@@ -1,8 +1,9 @@
 package class121;
 
 // 树的直径模版
-// 树型dp的方法，可以通过所有的用例
 // 测试链接 : https://www.luogu.com.cn/problem/U81904
+// 提交以下的code，提交时请把类名改成"Main"
+// 树型dp的方法，可以通过所有的用例
 
 import java.io.BufferedReader;
 import java.io.IOException;

@@ -1,8 +1,9 @@
 package class121;
 
 // 树的直径模版
-// 两遍dfs的方法，会有无法通过的用例，因为树上有负边
 // 测试链接 : https://www.luogu.com.cn/problem/U81904
+// 提交以下的code，提交时请把类名改成"Main"
+// 两遍dfs的方法，会有无法通过的用例，因为树上有负边
 
 import java.io.BufferedReader;
 import java.io.IOException;

@@ -1,6 +1,11 @@
 package class121;
 
+// 所有直径的公共部分(递归版)
+// 给定一棵树，打印直径长度、所有直径的公共部分有几条边
 // 测试链接 : https://www.luogu.com.cn/problem/P3304
+// 提交以下的code，提交时请把类名改成"Main"
+// C++这么写能通过，java会因为递归层数太多而爆栈
+// java能通过的写法参考本节课Code02_DiameterAndCommonEdges2文件
 
 import java.io.BufferedReader;
 import java.io.IOException;
