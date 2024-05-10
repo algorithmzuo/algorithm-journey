@@ -54,7 +54,7 @@ public class Code04_FireFighting1 {
 
 	public static int[] dist = new int[MAXN];
 
-	public static int[] path = new int[MAXN];
+	public static int[] last = new int[MAXN];
 
 	public static int[] pred = new int[MAXN];
 
@@ -77,7 +77,7 @@ public class Code04_FireFighting1 {
 	}
 
 	public static void dfs1(int u, int f, int w) {
-		path[u] = f;
+		last[u] = f;
 		dist[u] = dist[f] + w;
 		pred[u] = w;
 		for (int e = head[u]; e != 0; e = next[e]) {
@@ -90,10 +90,10 @@ public class Code04_FireFighting1 {
 	public static boolean[] visited = new boolean[MAXN];
 
 	public static void pathDistance() {
-		for (int node = end; node != 0; node = path[node]) {
+		for (int node = end; node != 0; node = last[node]) {
 			visited[node] = true;
 		}
-		for (int node = end; node != 0; node = path[node]) {
+		for (int node = end; node != 0; node = last[node]) {
 			dist[node] = dfs2(node, 0);
 		}
 	}
@@ -116,7 +116,7 @@ public class Code04_FireFighting1 {
 		int suml = 0, sumr = 0;
 		int h = 0, t = 0;
 		int ans = Integer.MAX_VALUE;
-		for (int l = end, r = end; l != 0; l = path[l]) {
+		for (int l = end, r = end; l != 0; l = last[l]) {
 			suml += pred[l];
 			while (r != 0 && sumr + pred[r] - suml <= s) {
 				while (h < t && dist[queue[t - 1]] <= dist[r]) {
@@ -124,7 +124,7 @@ public class Code04_FireFighting1 {
 				}
 				sumr += pred[r];
 				queue[t++] = r;
-				r = path[r];
+				r = last[r];
 			}
 			ans = Math.min(ans, Math.max(dist[queue[h]], Math.max(suml, diameter - sumr)));
 			if (queue[h] == l) {

@@ -29,6 +29,21 @@ public class Code01_Diameter1 {
 
 	public static int cnt;
 
+	// 直径的开始点
+	public static int start;
+
+	// 直径的结束点
+	public static int end;
+
+	// 直径长度
+	public static int diameter;
+
+	// dist[i] : 从当前的头节点走到i的距离和
+	public static int[] dist = new int[MAXN];
+
+	// last[i] : i节点的上一个节点
+	public static int[] last = new int[MAXN];
+
 	public static void build() {
 		cnt = 1;
 		Arrays.fill(head, 1, n + 1, 0);
@@ -40,12 +55,6 @@ public class Code01_Diameter1 {
 		weight[cnt] = w;
 		head[u] = cnt++;
 	}
-
-	public static int start, end, diameter;
-
-	public static int[] dist = new int[MAXN];
-
-	public static int[] path = new int[MAXN];
 
 	public static void road() {
 		dfs(1, 0, 0);
@@ -66,7 +75,7 @@ public class Code01_Diameter1 {
 	}
 
 	public static void dfs(int u, int f, int w) {
-		path[u] = f;
+		last[u] = f;
 		dist[u] = dist[f] + w;
 		for (int e = head[u]; e != 0; e = next[e]) {
 			if (to[e] != f) {

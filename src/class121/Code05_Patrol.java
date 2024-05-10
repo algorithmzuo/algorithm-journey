@@ -55,7 +55,7 @@ public class Code05_Patrol {
 
 	public static int[] dist = new int[MAXN];
 
-	public static int[] path = new int[MAXN];
+	public static int[] last = new int[MAXN];
 
 	public static void road() {
 		dfs1(1, 0, 0);
@@ -76,7 +76,7 @@ public class Code05_Patrol {
 	}
 
 	public static void dfs1(int u, int f, int w) {
-		path[u] = f;
+		last[u] = f;
 		dist[u] = dist[f] + w;
 		for (int e = head[u]; e != 0; e = next[e]) {
 			if (to[e] != f) {
@@ -136,7 +136,7 @@ public class Code05_Patrol {
 		if (k == 1) {
 			return 2 * (n - 1) - diameter1 + 1;
 		} else {
-			for (int i = end; i != 0; i = path[i]) {
+			for (int i = end; i != 0; i = last[i]) {
 				visited[i] = true;
 			}
 			Arrays.fill(dist, 1, n + 1, 0);

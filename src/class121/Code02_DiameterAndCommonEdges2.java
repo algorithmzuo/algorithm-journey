@@ -55,7 +55,7 @@ public class Code02_DiameterAndCommonEdges2 {
 
 	public static long diameter;
 
-	public static int[] path = new int[MAXN];
+	public static int[] last = new int[MAXN];
 
 	public static void road() {
 		dfs1(1);
@@ -109,7 +109,7 @@ public class Code02_DiameterAndCommonEdges2 {
 		while (stackSize > 0) {
 			pop();
 			if (e == -1) {
-				path[u] = f;
+				last[u] = f;
 				dist[u] = c;
 				e = head[u];
 			} else {
@@ -152,13 +152,13 @@ public class Code02_DiameterAndCommonEdges2 {
 
 	public static void compute() {
 		road();
-		for (int i = end; i != 0; i = path[i]) {
+		for (int i = end; i != 0; i = last[i]) {
 			visited[i] = true;
 		}
 		int l = start;
 		int r = end;
 		boolean flag = false;
-		for (int i = path[end]; i != start; i = path[i]) {
+		for (int i = last[end]; i != start; i = last[i]) {
 			long ldist = dist[i], rdist = dist[end] - dist[i];
 			dist[i] = maxDist = 0;
 			dfs2(i);
@@ -171,7 +171,7 @@ public class Code02_DiameterAndCommonEdges2 {
 			}
 		}
 		commonEdges = 1;
-		for (int i = path[r]; i != l; i = path[i]) {
+		for (int i = last[r]; i != l; i = last[i]) {
 			commonEdges++;
 		}
 	}
