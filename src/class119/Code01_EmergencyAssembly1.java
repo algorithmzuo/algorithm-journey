@@ -73,7 +73,7 @@ public class Code01_EmergencyAssembly1 {
 	public static void dfs(int u, int f) {
 		deep[u] = deep[f] + 1;
 		stjump[u][0] = f;
-		for (int p = 1; (1 << p) <= deep[u]; p++) {
+		for (int p = 1; p <= power; p++) {
 			stjump[u][p] = stjump[stjump[u][p - 1]][p - 1];
 		}
 		for (int e = head[u]; e != 0; e = next[e]) {

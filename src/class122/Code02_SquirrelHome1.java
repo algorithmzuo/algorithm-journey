@@ -11,18 +11,15 @@ import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 import java.util.Arrays;
 
-public class Code03_SquirrelHome1 {
+public class Code02_SquirrelHome1 {
 
 	public static int MAXN = 300001;
 
 	// 依次去往节点的顺序
 	public static int[] travel = new int[MAXN];
 
-	// father数组不用作并查集，就是记录每个节点的父亲节点
-	public static int[] father = new int[MAXN];
-
 	// 每个节点需要分配多少糖果
-	public static int[] cnt = new int[MAXN];
+	public static int[] num = new int[MAXN];
 
 	// 链式前向星建图
 	public static int[] headEdge = new int[MAXN];
@@ -49,11 +46,14 @@ public class Code03_SquirrelHome1 {
 	// unionfind数组是tarjan算法专用的并查集结构
 	public static int[] unionfind = new int[MAXN];
 
+	// father数组不用作并查集，就是记录每个节点的父亲节点
+	public static int[] father = new int[MAXN];
+
 	// ans数组是tarjan算法的输出结果，记录每次旅行两端点的最低公共祖先
 	public static int[] ans = new int[MAXN];
 
 	public static void build(int n) {
-		Arrays.fill(cnt, 1, n + 1, 0);
+		Arrays.fill(num, 1, n + 1, 0);
 		tcnt = qcnt = 1;
 		Arrays.fill(headEdge, 1, n + 1, 0);
 		Arrays.fill(headQuery, 1, n + 1, 0);
@@ -111,7 +111,7 @@ public class Code03_SquirrelHome1 {
 		for (int e = headEdge[u], v; e != 0; e = edgeNext[e]) {
 			v = edgeTo[e];
 			if (v != f) {
-				cnt[u] += cnt[v];
+				num[u] += num[v];
 			}
 		}
 	}
@@ -141,7 +141,7 @@ public class Code03_SquirrelHome1 {
 		}
 		compute(n);
 		for (int i = 1; i <= n; i++) {
-			out.println(cnt[i]);
+			out.println(num[i]);
 		}
 		out.flush();
 		out.close();
@@ -155,14 +155,14 @@ public class Code03_SquirrelHome1 {
 			v = travel[i + 1];
 			lca = ans[i];
 			lcafather = father[lca];
-			cnt[u]++;
-			cnt[v]++;
-			cnt[lca]--;
-			cnt[lcafather]--;
+			num[u]++;
+			num[v]++;
+			num[lca]--;
+			num[lcafather]--;
 		}
 		dfs(1, 0);
 		for (int i = 2; i <= n; i++) {
-			cnt[travel[i]]--;
+			num[travel[i]]--;
 		}
 	}
 

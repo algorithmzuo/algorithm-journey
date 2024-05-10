@@ -15,86 +15,46 @@ public class Code01_MaxFlow2 {
 
 	public static int MAXN = 50001;
 
-	public static int MAXM = 100001;
+	public static int LIMIT = 16;
 
-	// father数组不用作并查集，就是记录每个节点的父亲节点
-	public static int[] father = new int[MAXN];
+	public static int power;
 
-	public static int[] cnt = new int[MAXN];
+	public static int log2(int n) {
+		int ans = 0;
+		while ((1 << ans) <= (n >> 1)) {
+			ans++;
+		}
+		return ans;
+	}
 
-	// 链式前向星建图
-	public static int[] headEdge = new int[MAXN];
+	public static int[] num = new int[MAXN];
 
-	public static int[] edgeNext = new int[MAXN << 1];
+	public static int[] head = new int[MAXN];
 
-	public static int[] edgeTo = new int[MAXN << 1];
+	public static int[] next = new int[MAXN << 1];
 
-	public static int tcnt;
+	public static int[] to = new int[MAXN << 1];
 
-	// 以下结构都是tarjan算法所需要的
-	public static int[] headQuery = new int[MAXN];
+	public static int cnt;
 
-	public static int[] queryNext = new int[MAXM << 1];
+	public static int[] deep = new int[MAXN];
 
-	public static int[] queryTo = new int[MAXM << 1];
-
-	public static int[] queryIndex = new int[MAXM << 1];
-
-	public static int qcnt;
-
-	public static boolean[] visited = new boolean[MAXN];
-
-	// unionfind数组是tarjan算法专用的并查集结构
-	public static int[] unionfind = new int[MAXN];
-
-	// 问题双方
-	public static int[] quesu = new int[MAXM];
-
-	public static int[] quesv = new int[MAXM];
-
-	// ans数组是tarjan算法的输出结果，记录每次旅行两端点的最低公共祖先
-	public static int[] ans = new int[MAXM];
+	public static int[][] stjump = new int[MAXN][LIMIT];
 
 	public static void build(int n) {
-		Arrays.fill(cnt, 1, n + 1, 0);
-		tcnt = qcnt = 1;
-		Arrays.fill(headEdge, 1, n + 1, 0);
-		Arrays.fill(headQuery, 1, n + 1, 0);
-		Arrays.fill(visited, 1, n + 1, false);
-		for (int i = 1; i <= n; i++) {
-			unionfind[i] = i;
-		}
+		power = log2(n);
+		Arrays.fill(num, 1, n + 1, 0);
+		cnt = 1;
+		Arrays.fill(head, 1, n + 1, 0);
 	}
 
 	public static void addEdge(int u, int v) {
-		edgeNext[tcnt] = headEdge[u];
-		edgeTo[tcnt] = v;
-		headEdge[u] = tcnt++;
+		next[cnt] = head[u];
+		to[cnt] = v;
+		head[u] = cnt++;
 	}
 
-	public static void addQuery(int u, int v, int i) {
-		queryNext[qcnt] = headQuery[u];
-		queryTo[qcnt] = v;
-		queryIndex[qcnt] = i;
-		headQuery[u] = qcnt++;
-	}
-
-	// find方法的递归版改迭代版
-	public static int[] stack = new int[MAXN];
-
-	public static int find(int i) {
-		int size = 0;
-		while (i != unionfind[i]) {
-			stack[size++] = i;
-			i = unionfind[i];
-		}
-		while (size > 0) {
-			unionfind[stack[--size]] = i;
-		}
-		return i;
-	}
-
-	// tarjan方法的递归版改迭代版
+	// dfs1迭代版
 	public static int[][] ufe = new int[MAXN][3];
 
 	public static int stackSize, u, f, e;
@@ -113,56 +73,74 @@ public class Code01_MaxFlow2 {
 		e = ufe[stackSize][2];
 	}
 
-	public static void tarjan(int root) {
+	public static void dfs1(int root) {
 		stackSize = 0;
 		push(root, 0, -1);
 		while (stackSize > 0) {
 			pop();
 			if (e == -1) {
-				visited[u] = true;
-				e = headEdge[u];
+				deep[u] = deep[f] + 1;
+				stjump[u][0] = f;
+				for (int p = 1; p <= power; p++) {
+					stjump[u][p] = stjump[stjump[u][p - 1]][p - 1];
+				}
+				e = head[u];
 			} else {
-				e = edgeNext[e];
+				e = next[e];
 			}
 			if (e != 0) {
 				push(u, f, e);
-				if (edgeTo[e] != f) {
-					push(edgeTo[e], u, -1);
+				if (to[e] != f) {
+					push(to[e], u, -1);
 				}
-			} else {
-				for (int q = headQuery[u], v; q != 0; q = queryNext[q]) {
-					v = queryTo[q];
-					if (visited[v]) {
-						ans[queryIndex[q]] = find(v);
-					}
-				}
-				unionfind[u] = f;
-				father[u] = f;
 			}
 		}
 	}
 
-	// dfs方法的递归版改迭代版
-	public static void dfs(int root) {
+	public static int lca(int a, int b) {
+		if (deep[a] < deep[b]) {
+			int tmp = a;
+			a = b;
+			b = tmp;
+		}
+		for (int p = power; p >= 0; p--) {
+			if (deep[stjump[a][p]] >= deep[b]) {
+				a = stjump[a][p];
+			}
+		}
+		if (a == b) {
+			return a;
+		}
+		for (int p = power; p >= 0; p--) {
+			if (stjump[a][p] != stjump[b][p]) {
+				a = stjump[a][p];
+				b = stjump[b][p];
+			}
+		}
+		return stjump[a][0];
+	}
+
+	// dfs2迭代版
+	public static void dfs2(int root) {
 		stackSize = 0;
 		push(root, 0, -1);
 		while (stackSize > 0) {
 			pop();
 			if (e == -1) {
-				e = headEdge[u];
+				e = head[u];
 			} else {
-				e = edgeNext[e];
+				e = next[e];
 			}
 			if (e != 0) {
 				push(u, f, e);
-				if (edgeTo[e] != f) {
-					push(edgeTo[e], u, -1);
+				if (to[e] != f) {
+					push(to[e], u, -1);
 				}
 			} else {
-				for (int e = headEdge[u], v; e != 0; e = edgeNext[e]) {
-					v = edgeTo[e];
+				for (int e = head[u], v; e != 0; e = next[e]) {
+					v = to[e];
 					if (v != f) {
-						cnt[u] += cnt[v];
+						num[u] += num[v];
 					}
 				}
 			}
@@ -186,40 +164,28 @@ public class Code01_MaxFlow2 {
 			addEdge(u, v);
 			addEdge(v, u);
 		}
-		for (int i = 1, u, v; i <= m; i++) {
+		dfs1(1);
+		for (int i = 1, u, v, lca, lcafather; i <= m; i++) {
 			in.nextToken();
 			u = (int) in.nval;
 			in.nextToken();
 			v = (int) in.nval;
-			quesu[i] = u;
-			quesv[i] = v;
-			addQuery(u, v, i);
-			addQuery(v, u, i);
+			lca = lca(u, v);
+			lcafather = stjump[lca][0];
+			num[u]++;
+			num[v]++;
+			num[lca]--;
+			num[lcafather]--;
 		}
-		out.println(compute(n, m));
+		dfs2(1);
+		int max = 0;
+		for (int i = 1; i <= n; i++) {
+			max = Math.max(max, num[i]);
+		}
+		out.println(max);
 		out.flush();
 		out.close();
 		br.close();
-	}
-
-	public static int compute(int n, int m) {
-		tarjan(1);
-		for (int i = 1, u, v, lca, lcafather; i <= m; i++) {
-			u = quesu[i];
-			v = quesv[i];
-			lca = ans[i];
-			lcafather = father[lca];
-			cnt[u]++;
-			cnt[v]++;
-			cnt[lca]--;
-			cnt[lcafather]--;
-		}
-		dfs(1);
-		int ans = 0;
-		for (int i = 1; i <= n; i++) {
-			ans = Math.max(ans, cnt[i]);
-		}
-		return ans;
 	}
 
 }

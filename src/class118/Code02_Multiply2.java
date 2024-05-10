@@ -79,16 +79,16 @@ public class Code02_Multiply2 {
 		// u : 当前处理的点
 		// f : 当前点u的父节点
 		// e : 处理到几号边了
-		//     如果e==-1，表示之前没有处理过u的任何边
-		//     如果e==0，表示u的边都已经处理完了
+		// 如果e==-1，表示之前没有处理过u的任何边
+		// 如果e==0，表示u的边都已经处理完了
 		push(root, 0, -1);
 		while (stackSize > 0) {
 			pop();
 			if (e == -1) {
 				deep[u] = deep[f] + 1;
 				stjump[u][0] = f;
-				for (int s = 1; (1 << s) <= deep[u]; s++) {
-					stjump[u][s] = stjump[stjump[u][s - 1]][s - 1];
+				for (int p = 1; p <= power; p++) {
+					stjump[u][p] = stjump[stjump[u][p - 1]][p - 1];
 				}
 				e = head[u];
 			} else {

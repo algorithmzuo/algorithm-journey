@@ -118,7 +118,7 @@ public class Code02_Trucking {
 			stjump[u][0] = f;
 			stmin[u][0] = w;
 		}
-		for (int p = 1; (1 << p) <= deep[u]; p++) {
+		for (int p = 1; p <= power; p++) {
 			stjump[u][p] = stjump[stjump[u][p - 1]][p - 1];
 			stmin[u][p] = Math.min(stmin[u][p - 1], stmin[stjump[u][p - 1]][p - 1]);
 		}

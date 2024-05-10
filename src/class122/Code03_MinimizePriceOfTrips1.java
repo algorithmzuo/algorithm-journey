@@ -1,21 +1,39 @@
 package class122;
 
-// 最大压力(递归版)
-// 测试链接 : https://www.luogu.com.cn/problem/P3128
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
-import java.io.StreamTokenizer;
 import java.util.Arrays;
 
-public class Code01_MaxFlow1 {
+// 测试链接 : https://leetcode.cn/problems/minimize-the-total-price-of-the-trips/
+public class Code03_MinimizePriceOfTrips1 {
 
-	public static int MAXN = 50001;
+	public static int minimumTotalPrice(int n, int[][] es, int[] ps, int[][] ts) {
+		build(n);
+		for (int i = 0, j = 1; i < n; i++, j++) {
+			price[j] = ps[i];
+		}
+		for (int[] edge : es) {
+			addEdge(edge[0] + 1, edge[1] + 1);
+			addEdge(edge[1] + 1, edge[0] + 1);
+		}
+		dfs1(1, 0);
+		int u, v, lca, lcafather;
+		for (int[] trip : ts) {
+			u = trip[0] + 1;
+			v = trip[1] + 1;
+			lca = lca(u, v);
+			lcafather = stjump[lca][0];
+			num[u]++;
+			num[v]++;
+			num[lca]--;
+			num[lcafather]--;
+		}
+		dfs2(1, 0);
+		dp(1, 0);
+		return Math.min(no, yes);
+	}
 
-	public static int LIMIT = 16;
+	public static int MAXN = 51;
+
+	public static int LIMIT = 6;
 
 	public static int power;
 
@@ -26,6 +44,8 @@ public class Code01_MaxFlow1 {
 		}
 		return ans;
 	}
+
+	public static int[] price = new int[MAXN];
 
 	public static int[] num = new int[MAXN];
 
@@ -105,45 +125,21 @@ public class Code01_MaxFlow1 {
 		}
 	}
 
-	public static void main(String[] args) throws IOException {
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StreamTokenizer in = new StreamTokenizer(br);
-		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
-		in.nextToken();
-		int n = (int) in.nval;
-		build(n);
-		in.nextToken();
-		int m = (int) in.nval;
-		for (int i = 1, u, v; i < n; i++) {
-			in.nextToken();
-			u = (int) in.nval;
-			in.nextToken();
-			v = (int) in.nval;
-			addEdge(u, v);
-			addEdge(v, u);
+	public static int no, yes;
+
+	public static void dp(int u, int f) {
+		int n = price[u] * num[u];
+		int y = (price[u] / 2) * num[u];
+		for (int e = head[u], v; e != 0; e = next[e]) {
+			v = to[e];
+			if (v != f) {
+				dp(v, u);
+				n += Math.min(no, yes);
+				y += no;
+			}
 		}
-		dfs1(1, 0);
-		for (int i = 1, u, v, lca, lcafather; i <= m; i++) {
-			in.nextToken();
-			u = (int) in.nval;
-			in.nextToken();
-			v = (int) in.nval;
-			lca = lca(u, v);
-			lcafather = stjump[lca][0];
-			num[u]++;
-			num[v]++;
-			num[lca]--;
-			num[lcafather]--;
-		}
-		dfs2(1, 0);
-		int max = 0;
-		for (int i = 1; i <= n; i++) {
-			max = Math.max(max, num[i]);
-		}
-		out.println(max);
-		out.flush();
-		out.close();
-		br.close();
+		no = n;
+		yes = y;
 	}
 
 }

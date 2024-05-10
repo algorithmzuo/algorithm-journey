@@ -1,10 +1,7 @@
-package class118;
+package class122;
 
-// 树上倍增解法
-// 测试链接 : https://www.luogu.com.cn/problem/P3379
-// 提交以下的code，提交时请把类名改成"Main"
-// C++这么写能通过，java会因为递归层数太多而爆栈
-// java能通过的写法参考本节课Code02_Multiply2文件
+// 网络
+// 测试链接 : http://poj.org/problem?id=3417
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -14,13 +11,12 @@ import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 import java.util.Arrays;
 
-public class Code02_Multiply1 {
+public class Code04_Network {
 
-	public static int MAXN = 500001;
+	public static int MAXN = 100001;
 
-	public static int LIMIT = 20;
+	public static int LIMIT = 17;
 
-	// 根据节点个数n，计算出2的几次方就够用了
 	public static int power;
 
 	public static int log2(int n) {
@@ -31,7 +27,10 @@ public class Code02_Multiply1 {
 		return ans;
 	}
 
-	// 链式前向星建图
+	public static int n, m;
+
+	public static int[] num = new int[MAXN];
+
 	public static int[] head = new int[MAXN];
 
 	public static int[] next = new int[MAXN << 1];
@@ -40,16 +39,18 @@ public class Code02_Multiply1 {
 
 	public static int cnt;
 
-	// deep[i] : 节点i在第几层
 	public static int[] deep = new int[MAXN];
 
-	// stjump[i][p] : 节点i往上跳2的p次方步，到达的节点编号
 	public static int[][] stjump = new int[MAXN][LIMIT];
 
-	public static void build(int n) {
+	public static int ans;
+
+	public static void build() {
 		power = log2(n);
+		Arrays.fill(num, 1, n + 1, 0);
 		cnt = 1;
 		Arrays.fill(head, 1, n + 1, 0);
+		ans = 0;
 	}
 
 	public static void addEdge(int u, int v) {
@@ -58,10 +59,7 @@ public class Code02_Multiply1 {
 		head[u] = cnt++;
 	}
 
-	// dfs递归版
-	// 一般来说都这么写，但是本题附加的测试数据很毒
-	// java这么写就会因为递归太深而爆栈，c++这么写就能通过
-	public static void dfs(int u, int f) {
+	public static void dfs1(int u, int f) {
 		deep[u] = deep[f] + 1;
 		stjump[u][0] = f;
 		for (int p = 1; p <= power; p++) {
@@ -69,7 +67,7 @@ public class Code02_Multiply1 {
 		}
 		for (int e = head[u]; e != 0; e = next[e]) {
 			if (to[e] != f) {
-				dfs(to[e], u);
+				dfs1(to[e], u);
 			}
 		}
 	}
@@ -97,17 +95,31 @@ public class Code02_Multiply1 {
 		return stjump[a][0];
 	}
 
+	public static void dfs2(int u, int f) {
+		for (int e = head[u], v; e != 0; e = next[e]) {
+			v = to[e];
+			if (v != f) {
+				dfs2(v, u);
+			}
+		}
+		for (int e = head[u], v; e != 0; e = next[e]) {
+			v = to[e];
+			if (v != f) {
+				ans += num[v] == 0 ? m : (num[v] == 1 ? 1 : 0);
+				num[u] += num[v];
+			}
+		}
+	}
+
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StreamTokenizer in = new StreamTokenizer(br);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
 		in.nextToken();
-		int n = (int) in.nval;
+		n = (int) in.nval;
+		build();
 		in.nextToken();
-		int m = (int) in.nval;
-		in.nextToken();
-		int root = (int) in.nval;
-		build(n);
+		m = (int) in.nval;
 		for (int i = 1, u, v; i < n; i++) {
 			in.nextToken();
 			u = (int) in.nval;
@@ -116,14 +128,19 @@ public class Code02_Multiply1 {
 			addEdge(u, v);
 			addEdge(v, u);
 		}
-		dfs(root, 0);
-		for (int i = 1, a, b; i <= m; i++) {
+		dfs1(1, 0);
+		for (int i = 1, u, v, lca; i <= m; i++) {
 			in.nextToken();
-			a = (int) in.nval;
+			u = (int) in.nval;
 			in.nextToken();
-			b = (int) in.nval;
-			out.println(lca(a, b));
+			v = (int) in.nval;
+			lca = lca(u, v);
+			num[u]++;
+			num[v]++;
+			num[lca] -= 2;
 		}
+		dfs2(1, 0);
+		out.println(ans);
 		out.flush();
 		out.close();
 		br.close();

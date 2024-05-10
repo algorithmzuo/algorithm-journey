@@ -68,7 +68,7 @@ public class Code01_KthAncestor {
 				deep[i] = deep[f] + 1;
 			}
 			stjump[i][0] = f;
-			for (int p = 1; (1 << p) <= deep[i]; p++) {
+			for (int p = 1; p <= power; p++) {
 				stjump[i][p] = stjump[stjump[i][p - 1]][p - 1];
 			}
 			for (int e = head[i]; e != 0; e = next[e]) {

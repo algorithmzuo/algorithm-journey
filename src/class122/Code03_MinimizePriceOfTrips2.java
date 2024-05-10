@@ -3,7 +3,7 @@ package class122;
 import java.util.Arrays;
 
 // 测试链接 : https://leetcode.cn/problems/minimize-the-total-price-of-the-trips/
-public class Code04_MinimizePriceOfTrips {
+public class Code03_MinimizePriceOfTrips2 {
 
 	public static int minimumTotalPrice(int n, int[][] es, int[] ps, int[][] ts) {
 		build(n);
@@ -25,10 +25,10 @@ public class Code04_MinimizePriceOfTrips {
 			v = ts[i][1] + 1;
 			lca = ans[j];
 			lcafather = father[lca];
-			cnt[u]++;
-			cnt[v]++;
-			cnt[lca]--;
-			cnt[lcafather]--;
+			num[u]++;
+			num[v]++;
+			num[lca]--;
+			num[lcafather]--;
 		}
 		dfs(1, 0);
 		dp(1, 0);
@@ -41,9 +41,7 @@ public class Code04_MinimizePriceOfTrips {
 
 	public static int[] price = new int[MAXN];
 
-	public static int[] father = new int[MAXN];
-
-	public static int[] cnt = new int[MAXN];
+	public static int[] num = new int[MAXN];
 
 	public static int[] headEdge = new int[MAXN];
 
@@ -65,14 +63,14 @@ public class Code04_MinimizePriceOfTrips {
 
 	public static boolean[] visited = new boolean[MAXN];
 
-	// unionfind数组是tarjan算法专用的并查集结构
 	public static int[] unionfind = new int[MAXN];
 
-	// ans数组是tarjan算法的输出结果，记录每次旅行两端点的最低公共祖先
+	public static int[] father = new int[MAXN];
+
 	public static int[] ans = new int[MAXM];
 
 	public static void build(int n) {
-		Arrays.fill(cnt, 1, n + 1, 0);
+		Arrays.fill(num, 1, n + 1, 0);
 		tcnt = qcnt = 1;
 		Arrays.fill(headEdge, 1, n + 1, 0);
 		Arrays.fill(headQuery, 1, n + 1, 0);
@@ -130,7 +128,7 @@ public class Code04_MinimizePriceOfTrips {
 		for (int e = headEdge[u], v; e != 0; e = edgeNext[e]) {
 			v = edgeTo[e];
 			if (v != f) {
-				cnt[u] += cnt[v];
+				num[u] += num[v];
 			}
 		}
 	}
@@ -138,8 +136,8 @@ public class Code04_MinimizePriceOfTrips {
 	public static int no, yes;
 
 	public static void dp(int u, int f) {
-		int n = price[u] * cnt[u];
-		int y = (price[u] / 2) * cnt[u];
+		int n = price[u] * num[u];
+		int y = (price[u] / 2) * num[u];
 		for (int e = headEdge[u], v; e != 0; e = edgeNext[e]) {
 			v = edgeTo[e];
 			if (v != f) {
