@@ -1,6 +1,7 @@
 package class121;
 
 // 树的直径模版(两遍dfs)
+// 给定一棵树，边权可能为负，求直径长度
 // 测试链接 : https://www.luogu.com.cn/problem/U81904
 // 提交以下的code，提交时请把类名改成"Main"
 // 会有无法通过的用例，因为树上有负边
