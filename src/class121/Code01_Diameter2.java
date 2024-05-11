@@ -28,7 +28,7 @@ public class Code01_Diameter2 {
 
 	public static int cnt;
 
-	// dist[u] : 从u往下走能走出的最大距离，可以不选任何边
+	// dist[u] : 从u开始必须往下走，能走出的最大距离，可以不选任何边
 	public static int[] dist = new int[MAXN];
 
 	// ans[u] : 路径必须包含点u的情况下，最大路径和

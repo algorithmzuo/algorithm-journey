@@ -1,6 +1,6 @@
 package class121;
 
-// 树的直径模版(树型dp版小优化)
+// 树的直径模版(树型dp版逻辑小化简)
 // 测试链接 : https://www.luogu.com.cn/problem/U81904
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有的用例
 
@@ -28,7 +28,6 @@ public class Code01_Diameter3 {
 
 	public static int cnt;
 
-	// dist[u] : 从u往下走能走出的最大距离，可以不选任何边
 	public static int[] dist = new int[MAXN];
 
 	// 直径的长度
@@ -58,6 +57,7 @@ public class Code01_Diameter3 {
 		for (int e = head[u], v; e != 0; e = next[e]) {
 			v = to[e];
 			if (v != f) {
+				// 干脆直接去更新diameter
 				diameter = Math.max(diameter, dist[u] + dist[v] + weight[e]);
 				dist[u] = Math.max(dist[u], dist[v] + weight[e]);
 			}
