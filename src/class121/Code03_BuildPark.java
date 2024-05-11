@@ -36,7 +36,7 @@ public class Code03_BuildPark {
 	public static int[] dist = new int[MAXN];
 
 	// diameter[i] : 如果i是集合的头节点，diameter[i]表示整个集合的直径长度
-	//               如果i不再是集合的头节点，diameter[i]的值以后不会用到了
+	// 如果i不再是集合的头节点，diameter[i]的值以后不会用到了
 	// 并查集 + 集合打标签技巧，不会的看讲解056、讲解057
 	public static int[] diameter = new int[MAXN];
 
@@ -127,7 +127,8 @@ public class Code03_BuildPark {
 				v = find(v);
 				if (u != v) {
 					father[u] = v;
-					diameter[v] = Math.max(half(diameter[u]) + half(diameter[v]) + 1, Math.max(diameter[u], diameter[v]));
+					diameter[v] = Math.max(half(diameter[u]) + half(diameter[v]) + 1,
+							Math.max(diameter[u], diameter[v]));
 				}
 			}
 		}
