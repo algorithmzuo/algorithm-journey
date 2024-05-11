@@ -1,6 +1,6 @@
 package class121;
 
-// 树的直径模版(树型dp)
+// 树的直径模版(树型dp节省空间版)
 // 测试链接 : https://www.luogu.com.cn/problem/U81904
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有的用例
 
@@ -12,7 +12,7 @@ import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 import java.util.Arrays;
 
-public class Code01_Diameter2 {
+public class Code01_Diameter3 {
 
 	public static int MAXN = 500001;
 
@@ -31,14 +31,14 @@ public class Code01_Diameter2 {
 	// dist[u] : 从u往下走能走出的最大距离，可以不选任何边
 	public static int[] dist = new int[MAXN];
 
-	// ans[u] : 路径必须包含点u的情况下，最大路径和
-	public static int[] ans = new int[MAXN];
+	// 直径的长度
+	public static int diameter;
 
 	public static void build() {
 		cnt = 1;
 		Arrays.fill(head, 1, n + 1, 0);
 		Arrays.fill(dist, 1, n + 1, 0);
-		Arrays.fill(ans, 1, n + 1, 0);
+		diameter = Integer.MIN_VALUE;
 	}
 
 	public static void addEdge(int u, int v, int w) {
@@ -58,7 +58,7 @@ public class Code01_Diameter2 {
 		for (int e = head[u], v; e != 0; e = next[e]) {
 			v = to[e];
 			if (v != f) {
-				ans[u] = Math.max(ans[u], dist[u] + dist[v] + weight[e]);
+				diameter = Math.max(diameter, dist[u] + dist[v] + weight[e]);
 				dist[u] = Math.max(dist[u], dist[v] + weight[e]);
 			}
 		}
@@ -82,10 +82,6 @@ public class Code01_Diameter2 {
 			addEdge(v, u, w);
 		}
 		dp(1, 0);
-		int diameter = Integer.MIN_VALUE;
-		for (int i = 1; i <= n; i++) {
-			diameter = Math.max(diameter, ans[i]);
-		}
 		out.println(diameter);
 		out.flush();
 		out.close();
