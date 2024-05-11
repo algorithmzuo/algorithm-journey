@@ -93,6 +93,7 @@ public class Code05_FireFighting1 {
 		for (int node = end; node != 0; node = last[node]) {
 			visited[node] = true;
 		}
+		// 复用dist数组
 		for (int node = end; node != 0; node = last[node]) {
 			dist[node] = dfs2(node, 0);
 		}
