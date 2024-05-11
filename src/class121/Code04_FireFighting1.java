@@ -110,12 +110,19 @@ public class Code04_FireFighting1 {
 		return max;
 	}
 
+	// 单调队列维护窗口内最大值
+	// 不会的看讲解054
 	public static int[] queue = new int[MAXN];
 
 	public static int compute() {
 		int suml = 0, sumr = 0;
+		// 用h和t表示单调队列的头和尾
 		int h = 0, t = 0;
 		int ans = Integer.MAX_VALUE;
+		// 直径上维护的窗口[l...r-1]
+		// l是窗口左端点，r是窗口右端点的再下一个点
+		// (右端点只到了r前一个节点)
+		// [l, r)左闭右开
 		for (int l = end, r = end; l != 0; l = last[l]) {
 			suml += pred[l];
 			while (r != 0 && sumr + pred[r] - suml <= s) {
@@ -126,7 +133,7 @@ public class Code04_FireFighting1 {
 				queue[t++] = r;
 				r = last[r];
 			}
-			ans = Math.min(ans, Math.max(dist[queue[h]], Math.max(suml, diameter - sumr)));
+			ans = Math.min(ans, Math.max(Math.max(suml, dist[queue[h]]), diameter - sumr));
 			if (queue[h] == l) {
 				h++;
 			}

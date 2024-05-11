@@ -161,7 +161,7 @@ public class Code04_FireFighting2 {
 				queue[t++] = r;
 				r = last[r];
 			}
-			ans = Math.min(ans, Math.max(dist[queue[h]], Math.max(suml, diameter - sumr)));
+			ans = Math.min(ans, Math.max(Math.max(suml, dist[queue[h]]), diameter - sumr));
 			if (queue[h] == l) {
 				h++;
 			}
