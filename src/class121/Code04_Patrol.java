@@ -33,8 +33,6 @@ public class Code04_Patrol {
 
 	public static int[] to = new int[MAXN << 1];
 
-	public static int[] weight = new int[MAXN << 1];
-
 	public static int cnt;
 
 	public static int start;
@@ -59,10 +57,9 @@ public class Code04_Patrol {
 		Arrays.fill(diameterPath, 1, n, false);
 	}
 
-	public static void addEdge(int u, int v, int w) {
+	public static void addEdge(int u, int v) {
 		next[cnt] = head[u];
 		to[cnt] = v;
-		weight[cnt] = w;
 		head[u] = cnt++;
 	}
 
@@ -89,7 +86,7 @@ public class Code04_Patrol {
 		dist[u] = dist[f] + w;
 		for (int e = head[u]; e != 0; e = next[e]) {
 			if (to[e] != f) {
-				dfs(to[e], u, weight[e]);
+				dfs(to[e], u, 1);
 			}
 		}
 	}
@@ -98,17 +95,15 @@ public class Code04_Patrol {
 		for (int e = head[u], v; e != 0; e = next[e]) {
 			v = to[e];
 			if (v != f) {
-				if (diameterPath[u] && diameterPath[v]) {
-					weight[e] = -1;
-				}
 				dp(v, u);
 			}
 		}
-		for (int e = head[u], v; e != 0; e = next[e]) {
+		for (int e = head[u], v, w; e != 0; e = next[e]) {
 			v = to[e];
 			if (v != f) {
-				diameter2 = Math.max(diameter2, dist[u] + dist[v] + weight[e]);
-				dist[u] = Math.max(dist[u], dist[v] + weight[e]);
+				w = diameterPath[u] && diameterPath[v] ? -1 : 1;
+				diameter2 = Math.max(diameter2, dist[u] + dist[v] + w);
+				dist[u] = Math.max(dist[u], dist[v] + w);
 			}
 		}
 	}
@@ -127,8 +122,8 @@ public class Code04_Patrol {
 			u = (int) in.nval;
 			in.nextToken();
 			v = (int) in.nval;
-			addEdge(u, v, 1);
-			addEdge(v, u, 1);
+			addEdge(u, v);
+			addEdge(v, u);
 		}
 		out.println(compute());
 		out.flush();
@@ -146,7 +141,7 @@ public class Code04_Patrol {
 			}
 			Arrays.fill(dist, 1, n + 1, 0);
 			dp(1, 0);
-			return n * 2 - diameter1 - diameter2;
+			return 2 * (n - 1) - diameter1 - diameter2 + 2;
 		}
 	}
 
