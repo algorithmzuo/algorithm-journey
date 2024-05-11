@@ -38,10 +38,10 @@ public class Code01_Diameter1 {
 	// 直径长度
 	public static int diameter;
 
-	// dist[i] : 从当前的头节点走到i的距离
+	// dist[i] : 从规定的头节点出发，走到i的距离
 	public static int[] dist = new int[MAXN];
 
-	// last[i] : i节点的上一个节点
+	// last[i] : 从规定的头节点出发，走到i节点的上一个节点
 	public static int[] last = new int[MAXN];
 
 	public static void build() {

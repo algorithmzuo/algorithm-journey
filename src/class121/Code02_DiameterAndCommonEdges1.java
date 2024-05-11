@@ -108,6 +108,7 @@ public class Code02_DiameterAndCommonEdges1 {
 		boolean flag = false;
 		for (int i = last[end]; i != start; i = last[i]) {
 			long ldist = dist[i], rdist = dist[end] - dist[i];
+			// 复用dist数组
 			dist[i] = maxDist = 0;
 			dfs2(i, 0, 0);
 			if (maxDist == rdist) {
