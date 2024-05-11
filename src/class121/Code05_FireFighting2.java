@@ -35,10 +35,24 @@ public class Code05_FireFighting2 {
 
 	public static int cnt;
 
+	public static int start;
+
+	public static int end;
+
+	public static int diameter;
+
+	public static int[] dist = new int[MAXN];
+
+	public static int[] last = new int[MAXN];
+
+	public static int[] pred = new int[MAXN];
+
+	public static boolean[] diameterPath = new boolean[MAXN];
+
 	public static void build() {
 		cnt = 1;
 		Arrays.fill(head, 1, n + 1, 0);
-		Arrays.fill(visited, 1, n, false);
+		Arrays.fill(diameterPath, 1, n, false);
 	}
 
 	public static void addEdge(int u, int v, int w) {
@@ -48,23 +62,15 @@ public class Code05_FireFighting2 {
 		head[u] = cnt++;
 	}
 
-	public static int start, end, diameter;
-
-	public static int[] dist = new int[MAXN];
-
-	public static int[] last = new int[MAXN];
-
-	public static int[] pred = new int[MAXN];
-
 	public static void road() {
-		dfs1(1);
+		dfs(1);
 		start = 1;
 		for (int i = 2; i <= n; i++) {
 			if (dist[i] > dist[start]) {
 				start = i;
 			}
 		}
-		dfs1(start);
+		dfs(start);
 		end = 1;
 		for (int i = 2; i <= n; i++) {
 			if (dist[i] > dist[end]) {
@@ -74,7 +80,7 @@ public class Code05_FireFighting2 {
 		diameter = dist[end];
 	}
 
-	// dfs1方法改迭代版
+	// dfs方法改迭代版
 	// 不会改看讲解118，讲了怎么从递归版改成迭代版
 	public static int[][] ufwe = new int[MAXN][4];
 
@@ -98,7 +104,7 @@ public class Code05_FireFighting2 {
 		e = ufwe[stackSize][3];
 	}
 
-	public static void dfs1(int root) {
+	public static void dfs(int root) {
 		stackSize = 0;
 		push(root, 0, 0, -1);
 		while (stackSize > 0) {
@@ -120,29 +126,26 @@ public class Code05_FireFighting2 {
 		}
 	}
 
-	public static boolean[] visited = new boolean[MAXN];
-
-	public static void pathDistance() {
-		for (int node = end; node != 0; node = last[node]) {
-			visited[node] = true;
+	public static void distance() {
+		for (int i = end; i != 0; i = last[i]) {
+			diameterPath[i] = true;
 		}
-		for (int node = end; node != 0; node = last[node]) {
-			dist[node] = dfs2(node, 0);
+		for (int i = end; i != 0; i = last[i]) {
+			dist[i] = maxDistanceExceptDiameter(i, 0, 0);
 		}
 	}
 
-	// dfs2方法不用改迭代居然能通过
+	// maxDistanceExceptDiameter方法不用改迭代居然能通过
 	// 那就不改了
-	public static int dfs2(int u, int c) {
-		int max = c;
+	public static int maxDistanceExceptDiameter(int u, int f, int c) {
+		int ans = c;
 		for (int e = head[u], v; e != 0; e = next[e]) {
 			v = to[e];
-			if (!visited[v]) {
-				visited[v] = true;
-				max = Math.max(max, dfs2(v, c + weight[e]));
+			if (!diameterPath[v] && v != f) {
+				ans = Math.max(ans, maxDistanceExceptDiameter(v, u, c + weight[e]));
 			}
 		}
-		return max;
+		return ans;
 	}
 
 	public static int[] queue = new int[MAXN];
@@ -189,7 +192,7 @@ public class Code05_FireFighting2 {
 			addEdge(v, u, w);
 		}
 		road();
-		pathDistance();
+		distance();
 		out.println(compute());
 		out.flush();
 		out.close();

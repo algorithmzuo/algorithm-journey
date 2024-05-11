@@ -37,10 +37,24 @@ public class Code05_FireFighting1 {
 
 	public static int cnt;
 
+	public static int start;
+
+	public static int end;
+
+	public static int diameter;
+
+	public static int[] dist = new int[MAXN];
+
+	public static int[] last = new int[MAXN];
+
+	public static int[] pred = new int[MAXN];
+
+	public static boolean[] diameterPath = new boolean[MAXN];
+
 	public static void build() {
 		cnt = 1;
 		Arrays.fill(head, 1, n + 1, 0);
-		Arrays.fill(visited, 1, n, false);
+		Arrays.fill(diameterPath, 1, n, false);
 	}
 
 	public static void addEdge(int u, int v, int w) {
@@ -50,23 +64,15 @@ public class Code05_FireFighting1 {
 		head[u] = cnt++;
 	}
 
-	public static int start, end, diameter;
-
-	public static int[] dist = new int[MAXN];
-
-	public static int[] last = new int[MAXN];
-
-	public static int[] pred = new int[MAXN];
-
 	public static void road() {
-		dfs1(1, 0, 0);
+		dfs(1, 0, 0);
 		start = 1;
 		for (int i = 2; i <= n; i++) {
 			if (dist[i] > dist[start]) {
 				start = i;
 			}
 		}
-		dfs1(start, 0, 0);
+		dfs(start, 0, 0);
 		end = 1;
 		for (int i = 2; i <= n; i++) {
 			if (dist[i] > dist[end]) {
@@ -76,39 +82,38 @@ public class Code05_FireFighting1 {
 		diameter = dist[end];
 	}
 
-	public static void dfs1(int u, int f, int w) {
+	public static void dfs(int u, int f, int w) {
 		last[u] = f;
 		dist[u] = dist[f] + w;
 		pred[u] = w;
 		for (int e = head[u]; e != 0; e = next[e]) {
 			if (to[e] != f) {
-				dfs1(to[e], u, weight[e]);
+				dfs(to[e], u, weight[e]);
 			}
 		}
 	}
 
-	public static boolean[] visited = new boolean[MAXN];
-
-	public static void pathDistance() {
-		for (int node = end; node != 0; node = last[node]) {
-			visited[node] = true;
+	public static void distance() {
+		for (int i = end; i != 0; i = last[i]) {
+			diameterPath[i] = true;
 		}
-		// 复用dist数组
-		for (int node = end; node != 0; node = last[node]) {
-			dist[node] = dfs2(node, 0);
+		// 重新设置dist数组
+		for (int i = end; i != 0; i = last[i]) {
+			dist[i] = maxDistanceExceptDiameter(i, 0, 0);
 		}
 	}
 
-	public static int dfs2(int u, int c) {
-		int max = c;
+	// 不能走向直径路径上的节点
+	// 能走出的最大距离
+	public static int maxDistanceExceptDiameter(int u, int f, int c) {
+		int ans = c;
 		for (int e = head[u], v; e != 0; e = next[e]) {
 			v = to[e];
-			if (!visited[v]) {
-				visited[v] = true;
-				max = Math.max(max, dfs2(v, c + weight[e]));
+			if (!diameterPath[v] && v != f) {
+				ans = Math.max(ans, maxDistanceExceptDiameter(v, u, c + weight[e]));
 			}
 		}
-		return max;
+		return ans;
 	}
 
 	// 单调队列维护窗口内最大值
@@ -162,7 +167,7 @@ public class Code05_FireFighting1 {
 			addEdge(v, u, w);
 		}
 		road();
-		pathDistance();
+		distance();
 		out.println(compute());
 		out.flush();
 		out.close();

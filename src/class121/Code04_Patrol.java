@@ -37,11 +37,26 @@ public class Code04_Patrol {
 
 	public static int cnt;
 
+	public static int start;
+
+	public static int end;
+
+	public static int[] dist = new int[MAXN];
+
+	public static int[] last = new int[MAXN];
+
+	public static int diameter1;
+
+	public static int diameter2;
+
+	public static boolean[] diameterPath = new boolean[MAXN];
+
 	public static void build() {
 		cnt = 1;
 		Arrays.fill(head, 1, n + 1, 0);
 		diameter1 = 0;
 		diameter2 = 0;
+		Arrays.fill(diameterPath, 1, n, false);
 	}
 
 	public static void addEdge(int u, int v, int w) {
@@ -51,21 +66,15 @@ public class Code04_Patrol {
 		head[u] = cnt++;
 	}
 
-	public static int start, end, diameter1;
-
-	public static int[] dist = new int[MAXN];
-
-	public static int[] last = new int[MAXN];
-
 	public static void road() {
-		dfs1(1, 0, 0);
+		dfs(1, 0, 0);
 		start = 1;
 		for (int i = 2; i <= n; i++) {
 			if (dist[i] > dist[start]) {
 				start = i;
 			}
 		}
-		dfs1(start, 0, 0);
+		dfs(start, 0, 0);
 		end = 1;
 		for (int i = 2; i <= n; i++) {
 			if (dist[i] > dist[end]) {
@@ -75,25 +84,21 @@ public class Code04_Patrol {
 		diameter1 = dist[end];
 	}
 
-	public static void dfs1(int u, int f, int w) {
+	public static void dfs(int u, int f, int w) {
 		last[u] = f;
 		dist[u] = dist[f] + w;
 		for (int e = head[u]; e != 0; e = next[e]) {
 			if (to[e] != f) {
-				dfs1(to[e], u, weight[e]);
+				dfs(to[e], u, weight[e]);
 			}
 		}
 	}
-
-	public static boolean[] visited = new boolean[MAXN];
-
-	public static int diameter2;
 
 	public static void dp(int u, int f) {
 		for (int e = head[u], v; e != 0; e = next[e]) {
 			v = to[e];
 			if (v != f) {
-				if (visited[u] && visited[v]) {
+				if (diameterPath[u] && diameterPath[v]) {
 					weight[e] = -1;
 				}
 				dp(v, u);
@@ -137,7 +142,7 @@ public class Code04_Patrol {
 			return 2 * (n - 1) - diameter1 + 1;
 		} else {
 			for (int i = end; i != 0; i = last[i]) {
-				visited[i] = true;
+				diameterPath[i] = true;
 			}
 			Arrays.fill(dist, 1, n + 1, 0);
 			dp(1, 0);
