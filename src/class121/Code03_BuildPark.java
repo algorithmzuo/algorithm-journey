@@ -31,12 +31,15 @@ public class Code03_BuildPark {
 
 	public static int cnt;
 
+	// 并查集需要
 	public static int[] father = new int[MAXN];
 
+	// 树型dp需要
+	// dist[u] : 从u开始必须往下走，能走出的最大距离，可以不选任何边
 	public static int[] dist = new int[MAXN];
 
 	// diameter[i] : 如果i是集合的头节点，diameter[i]表示整个集合的直径长度
-	// 如果i不再是集合的头节点，diameter[i]的值以后不会用到了
+	//               如果i不再是集合的头节点，diameter[i]的值没有用
 	// 并查集 + 集合打标签技巧，不会的看讲解056、讲解057
 	public static int[] diameter = new int[MAXN];
 
@@ -63,11 +66,12 @@ public class Code03_BuildPark {
 		return father[i];
 	}
 
-	public static void dfs(int u, int f) {
+	// 树型dp的方式求直径长度
+	public static void dp(int u, int f) {
 		for (int e = head[u], v; e != 0; e = next[e]) {
 			v = to[e];
 			if (v != f) {
-				dfs(v, u);
+				dp(v, u);
 			}
 		}
 		for (int e = head[u], v; e != 0; e = next[e]) {
@@ -77,10 +81,6 @@ public class Code03_BuildPark {
 				dist[u] = Math.max(dist[u], dist[v] + 1);
 			}
 		}
-	}
-
-	public static int half(int v) {
-		return (v + 1) / 2;
 	}
 
 	public static void main(String[] args) throws IOException {
@@ -106,29 +106,29 @@ public class Code03_BuildPark {
 			father[u] = v;
 		}
 		for (int i = 1; i <= n; i++) {
-			if (father[i] == i) {
-				dfs(i, 0);
+			if (i == father[i]) {
+				dp(i, 0);
 			}
 		}
-		for (int i = 1, op, u, v; i <= q; i++) {
+		for (int i = 1, op, x, y; i <= q; i++) {
 			in.nextToken();
 			op = (int) in.nval;
 			if (op == 1) {
 				in.nextToken();
-				u = (int) in.nval;
-				u = find(u);
-				out.println(diameter[u]);
+				x = (int) in.nval;
+				x = find(x);
+				out.println(diameter[x]);
 			} else {
 				in.nextToken();
-				u = (int) in.nval;
+				x = (int) in.nval;
 				in.nextToken();
-				v = (int) in.nval;
-				u = find(u);
-				v = find(v);
-				if (u != v) {
-					father[u] = v;
-					diameter[v] = Math.max(half(diameter[u]) + half(diameter[v]) + 1,
-							Math.max(diameter[u], diameter[v]));
+				y = (int) in.nval;
+				x = find(x);
+				y = find(y);
+				if (x != y) {
+					father[x] = y;
+					diameter[y] = Math.max((diameter[x] + 1) / 2 + (diameter[y] + 1) / 2 + 1,
+							Math.max(diameter[x], diameter[y]));
 				}
 			}
 		}
