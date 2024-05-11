@@ -40,14 +40,14 @@ public class Code02_DiameterAndCommonEdges2 {
 
 	public static long diameter;
 
-	public static boolean[] path = new boolean[MAXN];
+	public static boolean[] diameterPath = new boolean[MAXN];
 
 	public static int commonEdges;
 
 	public static void build() {
 		cnt = 1;
 		Arrays.fill(head, 1, n + 1, 0);
-		Arrays.fill(path, 1, n + 1, false);
+		Arrays.fill(diameterPath, 1, n + 1, false);
 	}
 
 	public static void addEdge(int u, int v, int w) {
@@ -58,14 +58,14 @@ public class Code02_DiameterAndCommonEdges2 {
 	}
 
 	public static void road() {
-		dfs1(1);
+		dfs(1);
 		start = 1;
 		for (int i = 2; i <= n; i++) {
 			if (dist[i] > dist[start]) {
 				start = i;
 			}
 		}
-		dfs1(start);
+		dfs(start);
 		end = 1;
 		for (int i = 2; i <= n; i++) {
 			if (dist[i] > dist[end]) {
@@ -75,7 +75,7 @@ public class Code02_DiameterAndCommonEdges2 {
 		diameter = dist[end];
 	}
 
-	// dfs1方法改迭代版
+	// dfs方法改迭代版
 	// 不会改看讲解118，讲了怎么从递归版改成迭代版
 	public static int[][] ufeStack = new int[MAXN][3];
 
@@ -103,7 +103,7 @@ public class Code02_DiameterAndCommonEdges2 {
 		c = distStack[stackSize];
 	}
 
-	public static void dfs1(int root) {
+	public static void dfs(int root) {
 		stackSize = 0;
 		push(root, 0, -1, 0);
 		while (stackSize > 0) {
@@ -124,13 +124,12 @@ public class Code02_DiameterAndCommonEdges2 {
 		}
 	}
 
-	// dfs2方法改迭代版
+	// maxDistanceExceptDiameter方法改迭代版
 	// 不会改看讲解118，讲了怎么从递归版改成迭代版
-	public static long maxDist;
-
-	public static void dfs2(int root) {
+	public static long maxDistanceExceptDiameter(int root) {
 		stackSize = 0;
 		push(root, 0, -1, 0);
+		long ans = 0;
 		while (stackSize > 0) {
 			pop();
 			if (e == -1) {
@@ -142,31 +141,30 @@ public class Code02_DiameterAndCommonEdges2 {
 			if (e != 0) {
 				push(u, f, e, c);
 				v = to[e];
-				if (!path[v] && v != f) {
+				if (!diameterPath[v] && v != f) {
 					push(v, u, -1, c + weight[e]);
 				}
 			} else {
-				maxDist = Math.max(maxDist, c);
+				ans = Math.max(ans, c);
 			}
 		}
+		return ans;
 	}
 
 	public static void compute() {
 		road();
 		for (int i = end; i != 0; i = last[i]) {
-			path[i] = true;
+			diameterPath[i] = true;
 		}
 		int l = start;
 		int r = end;
+		long maxDist;
 		for (int i = last[end]; i != start; i = last[i]) {
-			long distl = dist[i];
-			long distr = diameter - distl;
-			maxDist = 0;
-			dfs2(i);
-			if (maxDist == distr) {
+			maxDist = maxDistanceExceptDiameter(i);
+			if (maxDist == diameter - dist[i]) {
 				r = i;
 			}
-			if (maxDist == distl && l == start) {
+			if (maxDist == dist[i] && l == start) {
 				l = i;
 			}
 		}
