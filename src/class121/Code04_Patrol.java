@@ -91,6 +91,7 @@ public class Code04_Patrol {
 		}
 	}
 
+	// 树型dp第二次求直径长度
 	public static void dp(int u, int f) {
 		for (int e = head[u], v; e != 0; e = next[e]) {
 			v = to[e];
