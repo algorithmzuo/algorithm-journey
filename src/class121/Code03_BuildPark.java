@@ -36,7 +36,8 @@ public class Code03_BuildPark {
 	public static int[] dist = new int[MAXN];
 
 	// diam[i] : 如果i是集合的头节点，diam[i]表示整个集合的直径长度
-	// 并查集打标签的技巧
+	//           如果i不再是集合的头节点，diam[i]的值以后不会用到了
+	// 并查集打标签的技巧，不会的看讲解056、讲解057
 	public static int[] diam = new int[MAXN];
 
 	public static void build(int n) {
