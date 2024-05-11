@@ -168,9 +168,13 @@ public class Code02_DiameterAndCommonEdges2 {
 				l = i;
 			}
 		}
-		commonEdges = 1;
-		for (int i = last[r]; i != l; i = last[i]) {
-			commonEdges++;
+		if (l == r) {
+			commonEdges = 0;
+		} else {
+			commonEdges = 1;
+			for (int i = last[r]; i != l; i = last[i]) {
+				commonEdges++;
+			}
 		}
 	}
 
