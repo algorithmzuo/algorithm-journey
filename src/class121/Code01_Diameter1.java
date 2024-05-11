@@ -41,7 +41,7 @@ public class Code01_Diameter1 {
 	// dist[i] : 从规定的头节点出发，走到i的距离
 	public static int[] dist = new int[MAXN];
 
-	// last[i] : 从规定的头节点出发，走到i节点的上一个节点
+	// last[i] : 从规定的头节点出发，i节点的上一个节点
 	public static int[] last = new int[MAXN];
 
 	public static void build() {
