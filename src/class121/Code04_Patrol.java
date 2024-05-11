@@ -19,7 +19,7 @@ import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 import java.util.Arrays;
 
-public class Code05_Patrol {
+public class Code04_Patrol {
 
 	public static int MAXN = 100001;
 
