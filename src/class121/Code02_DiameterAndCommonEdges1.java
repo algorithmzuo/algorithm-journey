@@ -32,9 +32,17 @@ public class Code02_DiameterAndCommonEdges1 {
 
 	public static int cnt;
 
-	public static boolean[] visited = new boolean[MAXN];
+	public static int start;
+
+	public static int end;
 
 	public static long[] dist = new long[MAXN];
+
+	public static int[] last = new int[MAXN];
+
+	public static long diameter;
+
+	public static boolean[] path = new boolean[MAXN];
 
 	public static long maxDist;
 
@@ -43,7 +51,7 @@ public class Code02_DiameterAndCommonEdges1 {
 	public static void build() {
 		cnt = 1;
 		Arrays.fill(head, 1, n + 1, 0);
-		Arrays.fill(visited, 1, n + 1, false);
+		Arrays.fill(path, 1, n + 1, false);
 		maxDist = 0;
 	}
 
@@ -53,12 +61,6 @@ public class Code02_DiameterAndCommonEdges1 {
 		weight[cnt] = w;
 		head[u] = cnt++;
 	}
-
-	public static int start, end;
-
-	public static long diameter;
-
-	public static int[] last = new int[MAXN];
 
 	public static void road() {
 		dfs1(1, 0, 0);
@@ -92,7 +94,7 @@ public class Code02_DiameterAndCommonEdges1 {
 		dist[u] = c;
 		for (int e = head[u], v; e != 0; e = next[e]) {
 			v = to[e];
-			if (!visited[v] && v != f) {
+			if (!path[v] && v != f) {
 				dfs2(v, u, c + weight[e]);
 			}
 		}
@@ -102,22 +104,23 @@ public class Code02_DiameterAndCommonEdges1 {
 	public static void compute() {
 		road();
 		for (int i = end; i != 0; i = last[i]) {
-			visited[i] = true;
+			path[i] = true;
 		}
 		int l = start;
 		int r = end;
-		boolean flag = false;
+		boolean setl = false;
 		for (int i = last[end]; i != start; i = last[i]) {
-			long ldist = dist[i], rdist = dist[end] - dist[i];
+			long distl = dist[i];
+			long distr = diameter - distl;
 			// 复用dist数组
 			dist[i] = maxDist = 0;
 			dfs2(i, 0, 0);
-			if (maxDist == rdist) {
+			if (maxDist == distr) {
 				r = i;
 			}
-			if (maxDist == ldist && !flag) {
-				flag = true;
+			if (maxDist == distl && !setl) {
 				l = i;
+				setl = true;
 			}
 		}
 		commonEdges = 1;
