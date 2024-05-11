@@ -160,7 +160,6 @@ public class Code02_DiameterAndCommonEdges2 {
 		}
 		int l = start;
 		int r = end;
-		boolean setl = false;
 		for (int i = last[end]; i != start; i = last[i]) {
 			long distl = dist[i];
 			long distr = diameter - distl;
@@ -170,9 +169,8 @@ public class Code02_DiameterAndCommonEdges2 {
 			if (maxDist == distr) {
 				r = i;
 			}
-			if (maxDist == distl && !setl) {
+			if (maxDist == distl && l == start) {
 				l = i;
-				setl = true;
 			}
 		}
 		commonEdges = 1;
