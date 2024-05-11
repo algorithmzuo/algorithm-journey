@@ -42,15 +42,12 @@ public class Code02_DiameterAndCommonEdges2 {
 
 	public static boolean[] path = new boolean[MAXN];
 
-	public static long maxDist;
-
 	public static int commonEdges;
 
 	public static void build() {
 		cnt = 1;
 		Arrays.fill(head, 1, n + 1, 0);
 		Arrays.fill(path, 1, n + 1, false);
-		maxDist = 0;
 	}
 
 	public static void addEdge(int u, int v, int w) {
@@ -129,13 +126,14 @@ public class Code02_DiameterAndCommonEdges2 {
 
 	// dfs2方法改迭代版
 	// 不会改看讲解118，讲了怎么从递归版改成迭代版
+	public static long maxDist;
+
 	public static void dfs2(int root) {
 		stackSize = 0;
 		push(root, 0, -1, 0);
 		while (stackSize > 0) {
 			pop();
 			if (e == -1) {
-				dist[u] = c;
 				e = head[u];
 			} else {
 				e = next[e];
@@ -148,7 +146,7 @@ public class Code02_DiameterAndCommonEdges2 {
 					push(v, u, -1, c + weight[e]);
 				}
 			} else {
-				maxDist = Math.max(maxDist, dist[u]);
+				maxDist = Math.max(maxDist, c);
 			}
 		}
 	}
@@ -163,7 +161,7 @@ public class Code02_DiameterAndCommonEdges2 {
 		for (int i = last[end]; i != start; i = last[i]) {
 			long distl = dist[i];
 			long distr = diameter - distl;
-			dist[i] = maxDist = 0;
+			maxDist = 0;
 			dfs2(i);
 			if (maxDist == distr) {
 				r = i;

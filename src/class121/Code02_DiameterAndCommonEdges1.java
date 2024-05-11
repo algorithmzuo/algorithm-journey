@@ -44,15 +44,12 @@ public class Code02_DiameterAndCommonEdges1 {
 
 	public static boolean[] path = new boolean[MAXN];
 
-	public static long maxDist;
-
 	public static int commonEdges;
 
 	public static void build() {
 		cnt = 1;
 		Arrays.fill(head, 1, n + 1, 0);
 		Arrays.fill(path, 1, n + 1, false);
-		maxDist = 0;
 	}
 
 	public static void addEdge(int u, int v, int w) {
@@ -90,19 +87,23 @@ public class Code02_DiameterAndCommonEdges1 {
 		}
 	}
 
+	// 不能走向直径路径上的节点
+	// 能走出的最大距离
+	public static long maxDist;
+
 	public static void dfs2(int u, int f, long c) {
-		dist[u] = c;
 		for (int e = head[u], v; e != 0; e = next[e]) {
 			v = to[e];
 			if (!path[v] && v != f) {
 				dfs2(v, u, c + weight[e]);
 			}
 		}
-		maxDist = Math.max(maxDist, dist[u]);
+		maxDist = Math.max(maxDist, c);
 	}
 
 	public static void compute() {
 		road();
+		// 直径的路径上的节点不参与dfs2
 		for (int i = end; i != 0; i = last[i]) {
 			path[i] = true;
 		}
@@ -111,14 +112,15 @@ public class Code02_DiameterAndCommonEdges1 {
 		for (int i = last[end]; i != start; i = last[i]) {
 			long distl = dist[i];
 			long distr = diameter - distl;
-			// 复用dist数组
-			dist[i] = maxDist = 0;
+			// 从i出发不能碰直径上的节点
+			// 能得到的最大距离设置给maxDist
+			maxDist = 0;
 			dfs2(i, 0, 0);
 			if (maxDist == distr) {
 				r = i;
 			}
 			if (maxDist == distl && l == start) {
-				// 之前没设置过才设置
+				// 只记录第一次满足条件的节点
 				l = i;
 			}
 		}
