@@ -118,6 +118,7 @@ public class Code02_DiameterAndCommonEdges1 {
 				r = i;
 			}
 			if (maxDist == distl && l == start) {
+				// 之前没设置过才设置
 				l = i;
 			}
 		}
