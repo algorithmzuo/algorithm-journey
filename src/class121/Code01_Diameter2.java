@@ -28,7 +28,7 @@ public class Code01_Diameter2 {
 
 	public static int cnt;
 
-	// dist[i] : 一条路也不选，或者从i节点往下能走出的最大距离，的最大值
+	// dist[i] : 一条路也不选或者从i节点往下走的最大距离，的最大值
 	public static int[] dist = new int[MAXN];
 
 	// 直径长度
