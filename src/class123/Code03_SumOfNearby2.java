@@ -13,7 +13,7 @@ import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 import java.util.Arrays;
 
-public class Code03_NearbySum2 {
+public class Code03_SumOfNearby2 {
 
 	public static int MAXN = 100001;
 
