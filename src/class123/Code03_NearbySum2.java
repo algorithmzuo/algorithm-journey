@@ -1,6 +1,7 @@
 package class123;
 
 // 每个节点距离k以内的权值和(迭代版)
+// 注意k并不大
 // 测试链接 : https://www.luogu.com.cn/problem/P3047
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有用例
 

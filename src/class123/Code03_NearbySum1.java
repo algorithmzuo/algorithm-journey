@@ -1,6 +1,7 @@
 package class123;
 
 // 每个节点距离k以内的权值和(递归版)
+// 注意k并不大
 // 测试链接 : https://www.luogu.com.cn/problem/P3047
 // 提交以下的code，提交时请把类名改成"Main"
 // C++这么写能通过，java会因为递归层数太多而爆栈
