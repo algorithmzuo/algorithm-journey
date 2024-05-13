@@ -111,6 +111,7 @@ public class Code03_NearbySum2 {
 				int v = to[e];
 				if (v != f) {
 					// 这里的v是之前的子节点
+					// 调整回来
 					for (int i = 1; i <= k; i++) {
 						sum[v][i] -= sum[u][i - 1];
 					}

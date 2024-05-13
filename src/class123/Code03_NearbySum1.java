@@ -78,6 +78,7 @@ public class Code03_NearbySum1 {
 					sum[v][i] += sum[u][i - 1];
 				}
 				dfs2(v, u);
+				// 调整回来
 				for (int i = 1; i <= k; i++) {
 					sum[v][i] -= sum[u][i - 1];
 				}
