@@ -94,7 +94,7 @@ public class Code01_MaximizeSumOfDeeps2 {
 		}
 	}
 
-	// dfs1方法改迭代版
+	// dfs2方法改迭代版
 	// 不会改看讲解118，讲了怎么从递归版改成迭代版
 	public static void dfs2(int root) {
 		stackSize = 0;

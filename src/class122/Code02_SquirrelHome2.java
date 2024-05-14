@@ -90,6 +90,7 @@ public class Code02_SquirrelHome2 {
 	}
 
 	// tarjan方法的递归版改迭代版
+	// 不会改看讲解118，讲了怎么从递归版改成迭代版
 	public static int[][] ufe = new int[MAXN][3];
 
 	public static int stackSize, u, f, e;
@@ -138,6 +139,7 @@ public class Code02_SquirrelHome2 {
 	}
 
 	// dfs方法的递归版改迭代版
+	// 不会改看讲解118，讲了怎么从递归版改成迭代版
 	public static void dfs(int root) {
 		stackSize = 0;
 		push(root, 0, -1);
