@@ -1,7 +1,12 @@
 package class122;
 
 // 松鼠的新家(迭代版)
+// 有n个节点形成一棵树
+// 给定一个由点编号组成的数组，表示松鼠依次要去往的地点
+// 松鼠每走到一个节点都必须拿一个糖果，否则松鼠就停止前进
+// 打印每个节点上至少准备多少糖果才能让松鼠依次走完数组里的节点
 // 测试链接 : https://www.luogu.com.cn/problem/P3258
+// 提交以下的code，提交时请把类名改成"Main"，可以通过所有用例
 
 import java.io.BufferedReader;
 import java.io.IOException;

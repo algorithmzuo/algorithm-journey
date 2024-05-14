@@ -1,7 +1,13 @@
 package class122;
 
-// 最大压力(递归版)
+// 树上点差分(递归版)
+// 有n个节点形成一棵树，一开始所有点权都是0
+// 给定很多操作，每个操作(a,b)表示从a到b路径上所有点的点权增加1
+// 所有操作完成后，返回树上的最大点权
 // 测试链接 : https://www.luogu.com.cn/problem/P3128
+// 提交以下的code，提交时请把类名改成"Main"
+// C++这么写能通过，java会因为递归层数太多而爆栈
+// java能通过的写法参考本节课Code01_MaxFlow2文件
 
 import java.io.BufferedReader;
 import java.io.IOException;

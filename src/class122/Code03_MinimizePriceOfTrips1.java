@@ -2,6 +2,13 @@ package class122;
 
 import java.util.Arrays;
 
+// 最小化旅行的价格总和(倍增方法求lca)
+// 有n个节点形成一棵树，每个节点上有点权，再给定很多路径
+// 每条路径有开始点和结束点，路径代价就是从开始点到结束点的点权和
+// 所有路径的代价总和就是旅行的价格总和
+// 你可以选择把某些点的点权减少一半，来降低旅行的价格总和
+// 但是要求选择的点不能相邻
+// 返回旅行的价格总和最少能是多少
 // 测试链接 : https://leetcode.cn/problems/minimize-the-total-price-of-the-trips/
 public class Code03_MinimizePriceOfTrips1 {
 

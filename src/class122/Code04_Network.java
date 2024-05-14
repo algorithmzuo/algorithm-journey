@@ -1,7 +1,11 @@
 package class122;
 
-// 网络
+// 使图不联通的方法数(边差分实战)
+// 有n个节点，给定n-1条老边使其连接成一棵树，再给定m条新边额外加在树上
+// 你可以切断两条边让这个图不联通，切断的两条边必须是一条老边和一条新边
+// 返回方法数
 // 测试链接 : http://poj.org/problem?id=3417
+// 提交以下的code，提交时请把类名改成"Main"，可以通过所有用例
 
 import java.io.BufferedReader;
 import java.io.IOException;
