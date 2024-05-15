@@ -33,6 +33,7 @@ public class Code05_TransportPlan1 {
 	// num[i] : 从i去往其父节点的边，有多少运输计划会用到
 	public static int[] num = new int[MAXN];
 
+	// 链式前向星建图需要
 	public static int[] headEdge = new int[MAXN];
 
 	public static int[] edgeNext = new int[MAXN << 1];
@@ -43,6 +44,7 @@ public class Code05_TransportPlan1 {
 
 	public static int tcnt;
 
+	// tarjan算法需要
 	public static int[] headQuery = new int[MAXN];
 
 	public static int[] queryNext = new int[MAXM << 1];
@@ -61,15 +63,16 @@ public class Code05_TransportPlan1 {
 
 	public static int[] quesv = new int[MAXM];
 
+	// 每条运输计划两个端点的最低公共祖先，tarjan算法过程中更新
 	public static int[] lca = new int[MAXM];
 
-	// 每个点到头节点的距离
+	// 头节点到每个点的距离，tarjan算法过程中更新
 	public static int[] distance = new int[MAXN];
 
-	// 每一条运输计划的代价
+	// 每条运输计划的代价，tarjan算法过程中更新
 	public static int[] cost = new int[MAXM];
 
-	// 所有运输计划的最大代价
+	// 所有运输计划的最大代价，tarjan算法过程中更新
 	public static int maxCost;
 
 	public static void build() {
@@ -118,7 +121,6 @@ public class Code05_TransportPlan1 {
 			if (visited[v]) {
 				i = queryIndex[e];
 				lca[i] = find(v);
-				// tarjan算法额外需要更新的内容
 				cost[i] = distance[u] + distance[v] - 2 * distance[lca[i]];
 				maxCost = Math.max(maxCost, cost[i]);
 			}
