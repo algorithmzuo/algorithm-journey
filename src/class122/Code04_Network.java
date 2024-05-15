@@ -107,10 +107,17 @@ public class Code04_Network {
 				dfs2(v, u);
 			}
 		}
-		for (int e = head[u], v; e != 0; e = next[e]) {
+		for (int e = head[u], v, w; e != 0; e = next[e]) {
 			v = to[e];
 			if (v != f) {
-				ans += num[v] == 0 ? m : (num[v] == 1 ? 1 : 0);
+				w = 0 + num[v];
+				if (w == 0) {
+					ans += m;
+				} else if (w == 1) {
+					ans += 1;
+				} else {
+					ans += 0;
+				}
 				num[u] += num[v];
 			}
 		}
