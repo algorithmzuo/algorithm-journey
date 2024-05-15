@@ -161,7 +161,7 @@ public class Code05_TransportPlan2 {
 	}
 
 	public static boolean check(int limit) {
-		mustSave = maxCost - limit;
+		atLeast = maxCost - limit;
 		Arrays.fill(num, 1, n + 1, 0);
 		beyond = 0;
 		for (int i = 1; i <= m; i++) {
@@ -175,7 +175,11 @@ public class Code05_TransportPlan2 {
 		return beyond == 0 || dfs(1);
 	}
 
-	public static int mustSave, beyond;
+	// 至少要减少多少边权
+	public static int atLeast;
+
+	// 超过要求的运输计划有几个
+	public static int beyond;
 
 	// dfs方法的递归版改迭代版
 	// 不会改看讲解118，讲了怎么从递归版改成迭代版
@@ -201,7 +205,7 @@ public class Code05_TransportPlan2 {
 						num[u] += num[v];
 					}
 				}
-				if (num[u] >= beyond && w >= mustSave) {
+				if (num[u] == beyond && w >= atLeast) {
 					return true;
 				}
 			}
