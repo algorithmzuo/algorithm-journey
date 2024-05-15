@@ -12,6 +12,7 @@ import java.util.Arrays;
 // 测试链接 : https://leetcode.cn/problems/minimize-the-total-price-of-the-trips/
 public class Code03_MinimizePriceOfTrips2 {
 
+	// 题目给定点的编号从0号点开始，代码中调整成从1号点开始
 	public static int minimumTotalPrice(int n, int[][] es, int[] ps, int[][] ts) {
 		build(n);
 		for (int i = 0, j = 1; i < n; i++, j++) {
