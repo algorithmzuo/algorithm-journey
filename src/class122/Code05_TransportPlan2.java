@@ -28,7 +28,6 @@ public class Code05_TransportPlan2 {
 
 	public static int m;
 
-	// num[i] : 从i去往其父节点的边，有多少运输计划会用到
 	public static int[] num = new int[MAXN];
 
 	public static int[] headEdge = new int[MAXN];
@@ -61,11 +60,11 @@ public class Code05_TransportPlan2 {
 
 	public static int[] lca = new int[MAXM];
 
-	public static int[] cost = new int[MAXM];
-
 	public static int[] distance = new int[MAXN];
 
-	public static int maxcost;
+	public static int[] cost = new int[MAXM];
+
+	public static int maxCost;
 
 	public static void build() {
 		tcnt = qcnt = 1;
@@ -75,7 +74,7 @@ public class Code05_TransportPlan2 {
 		for (int i = 1; i <= n; i++) {
 			unionfind[i] = i;
 		}
-		maxcost = 0;
+		maxCost = 0;
 	}
 
 	public static void addEdge(int u, int v, int w) {
@@ -153,7 +152,7 @@ public class Code05_TransportPlan2 {
 						i = queryIndex[q];
 						lca[i] = find(v);
 						cost[i] = distance[u] + distance[v] - 2 * distance[lca[i]];
-						maxcost = Math.max(maxcost, cost[i]);
+						maxCost = Math.max(maxCost, cost[i]);
 					}
 				}
 				unionfind[u] = f;
@@ -161,10 +160,8 @@ public class Code05_TransportPlan2 {
 		}
 	}
 
-	// 如果只能把一条边的权值变成0
-	// 同时要求每个运输计划的代价都要<=limit
-	// 返回能不能做到
 	public static boolean check(int limit) {
+		mustSave = maxCost - limit;
 		Arrays.fill(num, 1, n + 1, 0);
 		beyond = 0;
 		for (int i = 1; i <= m; i++) {
@@ -175,11 +172,10 @@ public class Code05_TransportPlan2 {
 				beyond++;
 			}
 		}
-		atLeastSave = maxcost - limit;
 		return beyond == 0 || dfs(1);
 	}
 
-	public static int beyond, atLeastSave;
+	public static int mustSave, beyond;
 
 	// dfs方法的递归版改迭代版
 	// 不会改看讲解118，讲了怎么从递归版改成迭代版
@@ -205,7 +201,7 @@ public class Code05_TransportPlan2 {
 						num[u] += num[v];
 					}
 				}
-				if (num[u] >= beyond && w >= atLeastSave) {
+				if (num[u] >= beyond && w >= mustSave) {
 					return true;
 				}
 			}
@@ -250,7 +246,7 @@ public class Code05_TransportPlan2 {
 
 	public static int compute() {
 		tarjan(1);
-		int l = 0, r = maxcost, mid;
+		int l = 0, r = maxCost, mid;
 		int ans = 0;
 		while (l <= r) {
 			mid = (l + r) / 2;

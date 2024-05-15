@@ -63,11 +63,14 @@ public class Code05_TransportPlan1 {
 
 	public static int[] lca = new int[MAXM];
 
-	public static int[] cost = new int[MAXM];
-
+	// 每个点到头节点的距离
 	public static int[] distance = new int[MAXN];
 
-	public static int maxcost;
+	// 每一条运输计划的代价
+	public static int[] cost = new int[MAXM];
+
+	// 所有运输计划的最大代价
+	public static int maxCost;
 
 	public static void build() {
 		tcnt = qcnt = 1;
@@ -77,7 +80,7 @@ public class Code05_TransportPlan1 {
 		for (int i = 1; i <= n; i++) {
 			unionfind[i] = i;
 		}
-		maxcost = 0;
+		maxCost = 0;
 	}
 
 	public static void addEdge(int u, int v, int w) {
@@ -115,17 +118,19 @@ public class Code05_TransportPlan1 {
 			if (visited[v]) {
 				i = queryIndex[e];
 				lca[i] = find(v);
+				// tarjan算法额外需要更新的内容
 				cost[i] = distance[u] + distance[v] - 2 * distance[lca[i]];
-				maxcost = Math.max(maxcost, cost[i]);
+				maxCost = Math.max(maxCost, cost[i]);
 			}
 		}
 		unionfind[u] = f;
 	}
 
-	// 如果只能把一条边的权值变成0
-	// 同时要求每个运输计划的代价都要<=limit
+	// 只能把一条边的权值变成0
+	// 还要求每个运输计划的代价都要<=limit
 	// 返回能不能做到
 	public static boolean check(int limit) {
+		mustSave = maxCost - limit;
 		Arrays.fill(num, 1, n + 1, 0);
 		beyond = 0;
 		for (int i = 1; i <= m; i++) {
@@ -136,11 +141,10 @@ public class Code05_TransportPlan1 {
 				beyond++;
 			}
 		}
-		atLeastSave = maxcost - limit;
 		return beyond == 0 || dfs(1, 0, 0);
 	}
 
-	public static int beyond, atLeastSave;
+	public static int mustSave, beyond;
 
 	public static boolean dfs(int u, int f, int w) {
 		for (int e = headEdge[u], v; e != 0; e = edgeNext[e]) {
@@ -157,7 +161,7 @@ public class Code05_TransportPlan1 {
 				num[u] += num[v];
 			}
 		}
-		return num[u] >= beyond && w >= atLeastSave;
+		return num[u] >= beyond && w >= mustSave;
 	}
 
 	public static void main(String[] args) throws IOException {
@@ -197,7 +201,7 @@ public class Code05_TransportPlan1 {
 
 	public static int compute() {
 		tarjan(1, 0, 0);
-		int l = 0, r = maxcost, mid;
+		int l = 0, r = maxCost, mid;
 		int ans = 0;
 		while (l <= r) {
 			mid = (l + r) / 2;
