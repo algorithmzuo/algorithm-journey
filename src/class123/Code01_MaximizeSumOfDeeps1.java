@@ -64,7 +64,6 @@ public class Code01_MaximizeSumOfDeeps1 {
 	}
 
 	public static void dfs2(int u, int f) {
-		// 这一句是换根最核心的逻辑
 		sum[u] = sum[f] - size[u] + (n - size[u]);
 		for (int e = head[u], v; e != 0; e = next[e]) {
 			v = to[e];
