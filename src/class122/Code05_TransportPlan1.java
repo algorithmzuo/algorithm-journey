@@ -26,7 +26,12 @@ public class Code05_TransportPlan1 {
 
 	public static int MAXM = 300001;
 
-	public static int[] cnt = new int[MAXN];
+	public static int n;
+
+	public static int m;
+
+	// num[i] : 从i去往其父节点的边，有多少运输计划会用到
+	public static int[] num = new int[MAXN];
 
 	public static int[] headEdge = new int[MAXN];
 
@@ -64,7 +69,7 @@ public class Code05_TransportPlan1 {
 
 	public static int maxcost;
 
-	public static void build(int n) {
+	public static void build() {
 		tcnt = qcnt = 1;
 		Arrays.fill(headEdge, 1, n + 1, 0);
 		Arrays.fill(headQuery, 1, n + 1, 0);
@@ -117,22 +122,25 @@ public class Code05_TransportPlan1 {
 		unionfind[u] = f;
 	}
 
-	public static boolean check(int n, int m, int limit) {
-		Arrays.fill(cnt, 1, n + 1, 0);
+	// 如果只能把一条边的权值变成0
+	// 同时要求每个运输计划的代价都要<=limit
+	// 返回能不能做到
+	public static boolean check(int limit) {
+		Arrays.fill(num, 1, n + 1, 0);
 		beyond = 0;
 		for (int i = 1; i <= m; i++) {
 			if (cost[i] > limit) {
-				cnt[quesu[i]]++;
-				cnt[quesv[i]]++;
-				cnt[lca[i]] -= 2;
+				num[quesu[i]]++;
+				num[quesv[i]]++;
+				num[lca[i]] -= 2;
 				beyond++;
 			}
 		}
-		atLeast = maxcost - limit;
+		atLeastSave = maxcost - limit;
 		return beyond == 0 || dfs(1, 0, 0);
 	}
 
-	public static int beyond, atLeast;
+	public static int beyond, atLeastSave;
 
 	public static boolean dfs(int u, int f, int w) {
 		for (int e = headEdge[u], v; e != 0; e = edgeNext[e]) {
@@ -146,10 +154,10 @@ public class Code05_TransportPlan1 {
 		for (int e = headEdge[u], v; e != 0; e = edgeNext[e]) {
 			v = edgeTo[e];
 			if (v != f) {
-				cnt[u] += cnt[v];
+				num[u] += num[v];
 			}
 		}
-		return cnt[u] >= beyond && w >= atLeast;
+		return num[u] >= beyond && w >= atLeastSave;
 	}
 
 	public static void main(String[] args) throws IOException {
@@ -157,10 +165,10 @@ public class Code05_TransportPlan1 {
 		StreamTokenizer in = new StreamTokenizer(br);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
 		in.nextToken();
-		int n = (int) in.nval;
-		build(n);
+		n = (int) in.nval;
+		build();
 		in.nextToken();
-		int m = (int) in.nval;
+		m = (int) in.nval;
 		for (int i = 1, u, v, w; i < n; i++) {
 			in.nextToken();
 			u = (int) in.nval;
@@ -181,23 +189,24 @@ public class Code05_TransportPlan1 {
 			addQuery(u, v, i);
 			addQuery(v, u, i);
 		}
-		out.println(compute(n, m));
+		out.println(compute());
 		out.flush();
 		out.close();
 		br.close();
 	}
 
-	public static int compute(int n, int m) {
+	public static int compute() {
 		tarjan(1, 0, 0);
 		int l = 0, r = maxcost, mid;
 		int ans = 0;
 		while (l <= r) {
 			mid = (l + r) / 2;
-			if (check(n, m, mid)) {
+			if (check(mid)) {
 				ans = mid;
 				r = mid - 1;
-			} else
+			} else {
 				l = mid + 1;
+			}
 		}
 		return ans;
 	}
