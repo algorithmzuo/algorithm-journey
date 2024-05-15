@@ -32,27 +32,25 @@ public class Code06_Kamp {
 
 	public static int cnt;
 
-	public static int[] size = new int[MAXN];
+	public static long[] innerBack = new long[MAXN];
 
-	public static long[] incost = new long[MAXN];
+	public static long[] outerCost = new long[MAXN];
 
-	public static long[] outcost = new long[MAXN];
+	public static long[] innerFirst = new long[MAXN];
 
-	public static long[] infirst = new long[MAXN];
+	public static long[] innerSecond = new long[MAXN];
 
-	public static long[] insecond = new long[MAXN];
-
-	public static long[] outfirst = new long[MAXN];
+	public static long[] outerFirst = new long[MAXN];
 
 	public static void build() {
 		cnt = 1;
 		Arrays.fill(people, 1, n + 1, 0);
 		Arrays.fill(head, 1, n + 1, 0);
-		Arrays.fill(incost, 1, n + 1, 0);
-		Arrays.fill(outcost, 1, n + 1, 0);
-		Arrays.fill(infirst, 1, n + 1, 0);
-		Arrays.fill(insecond, 1, n + 1, 0);
-		Arrays.fill(outfirst, 1, n + 1, 0);
+		Arrays.fill(innerBack, 1, n + 1, 0);
+		Arrays.fill(outerCost, 1, n + 1, 0);
+		Arrays.fill(innerFirst, 1, n + 1, 0);
+		Arrays.fill(innerSecond, 1, n + 1, 0);
+		Arrays.fill(outerFirst, 1, n + 1, 0);
 	}
 
 	public static void addEdge(int u, int v, int w) {
@@ -63,20 +61,19 @@ public class Code06_Kamp {
 	}
 
 	public static void dfs(int u, int f) {
-		size[u] = people[u];
 		for (int e = head[u], v, w; e != 0; e = next[e]) {
 			v = to[e];
 			w = weight[e];
 			if (v != f) {
 				dfs(v, u);
-				size[u] += size[v];
-				if (size[v] > 0) {
-					incost[u] += incost[v] + (long) w * 2;
-					if (infirst[u] < infirst[v] + w) {
-						insecond[u] = infirst[u];
-						infirst[u] = infirst[v] + w;
-					} else if (insecond[u] < infirst[v] + w) {
-						insecond[u] = infirst[v] + w;
+				people[u] += people[v];
+				if (people[v] > 0) {
+					innerBack[u] += innerBack[v] + (long) w * 2;
+					if (innerFirst[u] < innerFirst[v] + w) {
+						innerSecond[u] = innerFirst[u];
+						innerFirst[u] = innerFirst[v] + w;
+					} else if (innerSecond[u] < innerFirst[v] + w) {
+						innerSecond[u] = innerFirst[v] + w;
 					}
 				}
 			}
@@ -88,15 +85,15 @@ public class Code06_Kamp {
 			v = to[e];
 			w = weight[e];
 			if (v != f) {
-				if (k - size[v] > 0) {
-					outcost[v] = outcost[u] + (incost[u] - incost[v]);
-					if (size[v] == 0) {
-						outcost[v] += (long) w * 2;
+				if (k - people[v] > 0) {
+					outerCost[v] = outerCost[u] + (innerBack[u] - innerBack[v]);
+					if (people[v] == 0) {
+						outerCost[v] += (long) w * 2;
 					}
-					if (infirst[v] + w == infirst[u]) {
-						outfirst[v] = Math.max(outfirst[u], insecond[u]) + w;
+					if (innerFirst[v] + w == innerFirst[u]) {
+						outerFirst[v] = Math.max(outerFirst[u], innerSecond[u]) + w;
 					} else {
-						outfirst[v] = Math.max(outfirst[u], infirst[u]) + w;
+						outerFirst[v] = Math.max(outerFirst[u], innerFirst[u]) + w;
 					}
 				}
 				dp(v, u);
@@ -131,7 +128,7 @@ public class Code06_Kamp {
 		dfs(1, 0);
 		dp(1, 0);
 		for (int i = 1; i <= n; i++) {
-			out.println(incost[i] + outcost[i] - Math.max(outfirst[i], infirst[i]));
+			out.println(innerBack[i] + outerCost[i] - Math.max(outerFirst[i], innerFirst[i]));
 		}
 		out.flush();
 		out.close();
