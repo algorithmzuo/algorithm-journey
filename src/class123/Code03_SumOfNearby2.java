@@ -38,6 +38,7 @@ public class Code03_SumOfNearby2 {
 	public static void build() {
 		cnt = 1;
 		Arrays.fill(head, 1, n + 1, 0);
+		Arrays.fill(ans, 1, n + 1, 0);
 	}
 
 	public static void addEdge(int u, int v) {
