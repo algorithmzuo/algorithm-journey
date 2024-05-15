@@ -58,9 +58,9 @@ public class Code05_TransportPlan2 {
 
 	public static int[] quesv = new int[MAXM];
 
-	public static int[] lca = new int[MAXM];
-
 	public static int[] distance = new int[MAXN];
+
+	public static int[] lca = new int[MAXM];
 
 	public static int[] cost = new int[MAXM];
 
@@ -160,7 +160,7 @@ public class Code05_TransportPlan2 {
 		}
 	}
 
-	public static boolean check(int limit) {
+	public static boolean f(int limit) {
 		atLeast = maxCost - limit;
 		Arrays.fill(num, 1, n + 1, 0);
 		beyond = 0;
@@ -254,7 +254,7 @@ public class Code05_TransportPlan2 {
 		int ans = 0;
 		while (l <= r) {
 			mid = (l + r) / 2;
-			if (check(mid)) {
+			if (f(mid)) {
 				ans = mid;
 				r = mid - 1;
 			} else {

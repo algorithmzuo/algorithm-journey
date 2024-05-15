@@ -30,7 +30,7 @@ public class Code05_TransportPlan1 {
 
 	public static int m;
 
-	// num[i] : 从i去往其父节点的边，有多少运输计划会用到
+	// num[i] : i节点和其父节点的边，有多少代价>=limit的运输计划用到
 	public static int[] num = new int[MAXN];
 
 	// 链式前向星建图需要
@@ -63,13 +63,13 @@ public class Code05_TransportPlan1 {
 
 	public static int[] quesv = new int[MAXM];
 
-	// 每条运输计划两个端点的最低公共祖先，tarjan算法过程中更新
-	public static int[] lca = new int[MAXM];
-
-	// 头节点到每个点的距离，tarjan算法过程中更新
+	// distance[i] : 头节点到i号点的距离，tarjan算法过程中更新
 	public static int[] distance = new int[MAXN];
 
-	// 每条运输计划的代价，tarjan算法过程中更新
+	// lca[i] : 第i号运输计划的两端点lca，tarjan算法过程中更新
+	public static int[] lca = new int[MAXM];
+
+	// cost[i] : 第i号运输计划代价是多少，tarjan算法过程中更新
 	public static int[] cost = new int[MAXM];
 
 	// 所有运输计划的最大代价，tarjan算法过程中更新
@@ -131,7 +131,7 @@ public class Code05_TransportPlan1 {
 	// 只能把一条边的权值变成0
 	// 还要求每个运输计划的代价都要<=limit
 	// 返回能不能做到
-	public static boolean check(int limit) {
+	public static boolean f(int limit) {
 		atLeast = maxCost - limit;
 		Arrays.fill(num, 1, n + 1, 0);
 		beyond = 0;
@@ -211,7 +211,7 @@ public class Code05_TransportPlan1 {
 		int ans = 0;
 		while (l <= r) {
 			mid = (l + r) / 2;
-			if (check(mid)) {
+			if (f(mid)) {
 				ans = mid;
 				r = mid - 1;
 			} else {
