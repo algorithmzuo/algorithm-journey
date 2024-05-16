@@ -26,23 +26,23 @@ public class Code06_Centroids {
 
 	public static int[] size = new int[MAXN];
 
-	public static int[] max1 = new int[MAXN];
+	public static int[] firstSub = new int[MAXN];
 
-	public static int[] max2 = new int[MAXN];
+	public static int[] secondSub = new int[MAXN];
 
-	public static int[] inner = new int[MAXN];
+	public static int[] innerNear = new int[MAXN];
 
-	public static int[] outer = new int[MAXN];
+	public static int[] outerNear = new int[MAXN];
 
 	public static boolean[] ans = new boolean[MAXN];
 
 	public static void build() {
 		cnt = 1;
 		Arrays.fill(head, 1, n + 1, 0);
-		Arrays.fill(max1, 1, n + 1, 0);
-		Arrays.fill(max2, 1, n + 1, 0);
-		Arrays.fill(inner, 1, n + 1, 0);
-		Arrays.fill(outer, 1, n + 1, 0);
+		Arrays.fill(firstSub, 1, n + 1, 0);
+		Arrays.fill(secondSub, 1, n + 1, 0);
+		Arrays.fill(innerNear, 1, n + 1, 0);
+		Arrays.fill(outerNear, 1, n + 1, 0);
 	}
 
 	public static void addEdge(int u, int v) {
@@ -58,17 +58,17 @@ public class Code06_Centroids {
 			if (v != f) {
 				dfs1(v, u);
 				size[u] += size[v];
-				if (size[max1[u]] < size[v]) {
-					max2[u] = max1[u];
-					max1[u] = v;
-				} else if (size[max2[u]] < size[v]) {
-					max2[u] = v;
+				if (size[firstSub[u]] < size[v]) {
+					secondSub[u] = firstSub[u];
+					firstSub[u] = v;
+				} else if (size[secondSub[u]] < size[v]) {
+					secondSub[u] = v;
 				}
-				inner[u] = Math.max(inner[u], inner[v]);
+				innerNear[u] = Math.max(innerNear[u], innerNear[v]);
 			}
 		}
 		if (size[u] <= n / 2) {
-			inner[u] = size[u];
+			innerNear[u] = size[u];
 		}
 	}
 
@@ -77,19 +77,19 @@ public class Code06_Centroids {
 			v = to[e];
 			if (v != f) {
 				if (n - size[v] <= n / 2) {
-					outer[v] = n - size[v];
-				} else if (v != max1[u]) {
-					outer[v] = Math.max(outer[u], inner[max1[u]]);
+					outerNear[v] = n - size[v];
+				} else if (v != firstSub[u]) {
+					outerNear[v] = Math.max(outerNear[u], innerNear[firstSub[u]]);
 				} else {
-					outer[v] = Math.max(outer[u], inner[max2[u]]);
+					outerNear[v] = Math.max(outerNear[u], innerNear[secondSub[u]]);
 				}
 				dfs2(v, u);
 			}
 		}
-		if (n - size[u] > size[max1[u]]) {
-			ans[u] = (n - size[u] - outer[u] <= n / 2);
+		if (n - size[u] > size[firstSub[u]]) {
+			ans[u] = (n - size[u] - outerNear[u] <= n / 2);
 		} else {
-			ans[u] = (size[max1[u]] - inner[max1[u]] <= n / 2);
+			ans[u] = (size[firstSub[u]] - innerNear[firstSub[u]] <= n / 2);
 		}
 	}
 
