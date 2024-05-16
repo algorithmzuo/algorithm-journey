@@ -30,9 +30,9 @@ public class Code06_Centroids {
 
 	public static int[] max2 = new int[MAXN];
 
-	public static int[] innerDelete = new int[MAXN];
+	public static int[] inner = new int[MAXN];
 
-	public static int[] outerDelete = new int[MAXN];
+	public static int[] outer = new int[MAXN];
 
 	public static boolean[] ans = new boolean[MAXN];
 
@@ -41,8 +41,8 @@ public class Code06_Centroids {
 		Arrays.fill(head, 1, n + 1, 0);
 		Arrays.fill(max1, 1, n + 1, 0);
 		Arrays.fill(max2, 1, n + 1, 0);
-		Arrays.fill(innerDelete, 1, n + 1, 0);
-		Arrays.fill(outerDelete, 1, n + 1, 0);
+		Arrays.fill(inner, 1, n + 1, 0);
+		Arrays.fill(outer, 1, n + 1, 0);
 	}
 
 	public static void addEdge(int u, int v) {
@@ -64,11 +64,11 @@ public class Code06_Centroids {
 				} else if (size[max2[u]] < size[v]) {
 					max2[u] = v;
 				}
-				innerDelete[u] = Math.max(innerDelete[u], innerDelete[v]);
+				inner[u] = Math.max(inner[u], inner[v]);
 			}
 		}
 		if (size[u] <= n / 2) {
-			innerDelete[u] = size[u];
+			inner[u] = size[u];
 		}
 	}
 
@@ -77,19 +77,19 @@ public class Code06_Centroids {
 			v = to[e];
 			if (v != f) {
 				if (n - size[v] <= n / 2) {
-					outerDelete[v] = n - size[v];
+					outer[v] = n - size[v];
 				} else if (v != max1[u]) {
-					outerDelete[v] = Math.max(outerDelete[u], innerDelete[max1[u]]);
+					outer[v] = Math.max(outer[u], inner[max1[u]]);
 				} else {
-					outerDelete[v] = Math.max(outerDelete[u], innerDelete[max2[u]]);
+					outer[v] = Math.max(outer[u], inner[max2[u]]);
 				}
 				dfs2(v, u);
 			}
 		}
 		if (n - size[u] > size[max1[u]]) {
-			ans[u] = (n - size[u] - outerDelete[u] <= n / 2);
+			ans[u] = (n - size[u] - outer[u] <= n / 2);
 		} else {
-			ans[u] = (size[max1[u]] - innerDelete[max1[u]] <= n / 2);
+			ans[u] = (size[max1[u]] - inner[max1[u]] <= n / 2);
 		}
 	}
 
