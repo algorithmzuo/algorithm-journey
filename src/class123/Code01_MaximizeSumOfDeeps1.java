@@ -1,7 +1,7 @@
 package class123;
 
 // 最大深度和(递归版)
-// 给定一棵n个点的树，找到一个节点，使得以这个结点为根时，到达所有节点的深度之和最大
+// 给定一棵n个点的树，找到一个节点，使得以这个节点为根时，到达所有节点的深度之和最大
 // 如果有多个节点满足要求，返回节点编号最小的
 // 测试链接 : https://www.luogu.com.cn/problem/P3478
 // 提交以下的code，提交时请把类名改成"Main"
@@ -69,7 +69,7 @@ public class Code01_MaximizeSumOfDeeps1 {
 		for (int e = head[u], v; e != 0; e = next[e]) {
 			v = to[e];
 			if (v != f) {
-				dp[v] = dp[u] - size[v] + (n - size[v]);
+				dp[v] = dp[u] - size[v] + n - size[v];
 				dfs2(v, u);
 			}
 		}
