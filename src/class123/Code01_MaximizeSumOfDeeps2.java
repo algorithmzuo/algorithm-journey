@@ -92,7 +92,7 @@ public class Code01_MaximizeSumOfDeeps2 {
 					v = to[e];
 					if (v != f) {
 						size[u] += size[v];
-						sum[u] += sum[v] + size[v] + 1;
+						sum[u] += sum[v] + size[v];
 					}
 				}
 			}
