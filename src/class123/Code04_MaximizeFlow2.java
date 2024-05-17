@@ -123,8 +123,8 @@ public class Code04_MaximizeFlow2 {
 					if (degree[u] == 1) {
 						dp[v] = flow[v] + weight[e];
 					} else {
-						int minus = dp[u] - Math.min(flow[v], weight[e]);
-						dp[v] = flow[v] + Math.min(minus, weight[e]);
+						int uOut = dp[u] - Math.min(flow[v], weight[e]);
+						dp[v] = flow[v] + Math.min(uOut, weight[e]);
 					}
 					push(v, u, -1);
 				}

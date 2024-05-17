@@ -77,14 +77,15 @@ public class Code04_MaximizeFlow1 {
 	}
 
 	public static void dfs2(int u, int f) {
-		for (int e = head[u], v, minus; e != 0; e = next[e]) {
+		for (int e = head[u], v; e != 0; e = next[e]) {
 			v = to[e];
 			if (v != f) {
 				if (degree[u] == 1) {
 					dp[v] = flow[v] + weight[e];
 				} else {
-					minus = dp[u] - Math.min(flow[v], weight[e]);
-					dp[v] = flow[v] + Math.min(minus, weight[e]);
+					// uOut : u流向外的流量
+					int uOut = dp[u] - Math.min(flow[v], weight[e]);
+					dp[v] = flow[v] + Math.min(uOut, weight[e]);
 				}
 				dfs2(v, u);
 			}
