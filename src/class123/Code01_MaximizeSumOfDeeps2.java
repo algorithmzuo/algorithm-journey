@@ -28,16 +28,17 @@ public class Code01_MaximizeSumOfDeeps2 {
 
 	public static int cnt;
 
-	public static int[] size = new int[MAXN];
-
 	public static int[] deep = new int[MAXN];
+
+	public static int[] size = new int[MAXN];
 
 	public static long[] sum = new long[MAXN];
 
 	public static void build() {
 		cnt = 1;
 		Arrays.fill(head, 1, n + 1, 0);
-		sum[0] = 0;
+		Arrays.fill(size, 1, n + 1, 0);
+		Arrays.fill(sum, 1, n + 1, 0);
 	}
 
 	public static void addEdge(int u, int v) {
@@ -84,12 +85,14 @@ public class Code01_MaximizeSumOfDeeps2 {
 					push(to[e], u, -1);
 				}
 			} else {
-				size[u] = 1;
 				deep[u] = deep[f] + 1;
+				size[u] = 1;
+				sum[u] = 0;
 				for (int e = head[u], v; e != 0; e = next[e]) {
 					v = to[e];
 					if (v != f) {
 						size[u] += size[v];
+						sum[u] += sum[v] + size[v] + 1;
 					}
 				}
 			}
@@ -104,15 +107,16 @@ public class Code01_MaximizeSumOfDeeps2 {
 		while (stackSize > 0) {
 			pop();
 			if (e == -1) {
-				sum[u] = sum[f] - size[u] + (n - size[u]);
 				e = head[u];
 			} else {
 				e = next[e];
 			}
 			if (e != 0) {
 				push(u, f, e);
-				if (to[e] != f) {
-					push(to[e], u, -1);
+				int v = to[e];
+				if (v != f) {
+					sum[v] = sum[u] - size[v] + (n - size[v]);
+					push(v, u, -1);
 				}
 			}
 		}
@@ -134,13 +138,10 @@ public class Code01_MaximizeSumOfDeeps2 {
 			addEdge(v, u);
 		}
 		dfs1(1);
-		for (int i = 1; i <= n; i++) {
-			sum[0] += deep[i] + 1;
-		}
 		dfs2(1);
-		long max = sum[1];
-		int ans = 1;
-		for (int i = 2; i <= n; i++) {
+		long max = Long.MIN_VALUE;
+		int ans = 0;
+		for (int i = 1; i <= n; i++) {
 			if (sum[i] > max) {
 				max = sum[i];
 				ans = i;
