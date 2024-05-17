@@ -37,8 +37,10 @@ public class Code05_SumOfNearby1 {
 
 	public static int cnt;
 
+	// sum[u][i] : 以u为头的子树内，距离为i的节点权值和
 	public static int[][] sum = new int[MAXN][MAXK];
 
+	// dp[u][i] : 以u做根，整棵树上，距离为i的节点权值和
 	public static int[][] dp = new int[MAXN][MAXK];
 
 	public static void build() {
