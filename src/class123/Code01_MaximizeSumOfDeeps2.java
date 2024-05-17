@@ -28,8 +28,6 @@ public class Code01_MaximizeSumOfDeeps2 {
 
 	public static int cnt;
 
-	public static int[] deep = new int[MAXN];
-
 	public static int[] size = new int[MAXN];
 
 	public static long[] sum = new long[MAXN];
@@ -85,7 +83,6 @@ public class Code01_MaximizeSumOfDeeps2 {
 					push(to[e], u, -1);
 				}
 			} else {
-				deep[u] = deep[f] + 1;
 				size[u] = 1;
 				sum[u] = 0;
 				for (int e = head[u], v; e != 0; e = next[e]) {
