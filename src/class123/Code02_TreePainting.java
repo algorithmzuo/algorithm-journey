@@ -17,7 +17,7 @@ import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 import java.util.Arrays;
 
-public class Code03_TreePainting {
+public class Code02_TreePainting {
 
 	public static int MAXN = 200001;
 
