@@ -5,6 +5,7 @@ package class123;
 // 通过这种方式可以让很多点变成重心
 // 打印所有能变成重心的点
 // 测试链接 : https://www.luogu.com.cn/problem/CF708C
+// 测试链接 : https://codeforces.com/problemset/problem/708/C
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有用例
 
 import java.io.BufferedReader;
