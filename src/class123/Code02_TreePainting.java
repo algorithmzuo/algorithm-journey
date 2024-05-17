@@ -68,7 +68,7 @@ public class Code02_TreePainting {
 		for (int e = head[u], v; e != 0; e = next[e]) {
 			v = to[e];
 			if (v != f) {
-				dp[v] = (dp[u] - size[v]) + (n - size[v]);
+				dp[v] = dp[u] + n - size[v] - size[v];
 				dfs2(v, u);
 			}
 		}
