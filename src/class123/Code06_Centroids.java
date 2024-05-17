@@ -31,15 +31,19 @@ public class Code06_Centroids {
 
 	public static int[] size = new int[MAXN];
 
+	// firstSub[i] : i的所有孩子中，谁的子树最大，把孩子编号赋值给firstSub[i]
 	public static int[] firstSub = new int[MAXN];
 
+	// secondSub[i] : i的所有孩子中，谁的子树第二大，把孩子编号赋值给secondSub[i]
 	public static int[] secondSub = new int[MAXN];
 
+	// innerNear[i] : i的内部，哪个子树节点个数 <= n/2且最大，把节点数赋值给innerNear[i]
+	// 如果i的整个内部节点个数 <= n/2，那么整个内部的节点数赋值给innerNear[i]
 	public static int[] innerNear = new int[MAXN];
 
+	// outerNear[i] : i的外部，哪个子树节点个数 <= n/2且最大，把节点数赋值给outerNear[i]
+	// 如果i的整个外部节点个数 <= n/2，那么整个外部的节点数赋值给outerNear[i]
 	public static int[] outerNear = new int[MAXN];
-
-	public static boolean[] ans = new boolean[MAXN];
 
 	public static void build() {
 		cnt = 1;
@@ -91,10 +95,13 @@ public class Code06_Centroids {
 				dfs2(v, u);
 			}
 		}
-		if (n - size[u] > size[firstSub[u]]) {
-			ans[u] = (n - size[u] - outerNear[u] <= n / 2);
+	}
+
+	public static boolean check(int i) {
+		if (n - size[i] > size[firstSub[i]]) {
+			return (n - size[i] - outerNear[i] <= n / 2);
 		} else {
-			ans[u] = (size[firstSub[u]] - innerNear[firstSub[u]] <= n / 2);
+			return (size[firstSub[i]] - innerNear[firstSub[i]] <= n / 2);
 		}
 	}
 
@@ -116,7 +123,7 @@ public class Code06_Centroids {
 		dfs1(1, 0);
 		dfs2(1, 0);
 		for (int i = 1; i <= n; i++) {
-			out.print(ans[i] ? "1 " : "0 ");
+			out.print(check(i) ? "1 " : "0 ");
 		}
 		out.println();
 		out.flush();
