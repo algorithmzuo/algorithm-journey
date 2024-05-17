@@ -31,27 +31,24 @@ public class Code06_Centroids {
 
 	public static int[] size = new int[MAXN];
 
-	// firstSub[i] : i的所有孩子中，谁的子树最大，把孩子编号赋值给firstSub[i]
-	public static int[] firstSub = new int[MAXN];
+	public static int[] maxsub = new int[MAXN];
 
-	// secondSub[i] : i的所有孩子中，谁的子树第二大，把孩子编号赋值给secondSub[i]
-	public static int[] secondSub = new int[MAXN];
+	public static int[] choose = new int[MAXN];
 
-	// innerNear[i] : i的内部，哪个子树节点个数 <= n/2且最大，把节点数赋值给innerNear[i]
-	// 如果i的整个内部节点个数 <= n/2，那么整个内部的节点数赋值给innerNear[i]
-	public static int[] innerNear = new int[MAXN];
+	public static int[] inner1 = new int[MAXN];
 
-	// outerNear[i] : i的外部，哪个子树节点个数 <= n/2且最大，把节点数赋值给outerNear[i]
-	// 如果i的整个外部节点个数 <= n/2，那么整个外部的节点数赋值给outerNear[i]
-	public static int[] outerNear = new int[MAXN];
+	public static int[] inner2 = new int[MAXN];
+
+	public static int[] outer = new int[MAXN];
 
 	public static void build() {
 		cnt = 1;
 		Arrays.fill(head, 1, n + 1, 0);
-		Arrays.fill(firstSub, 1, n + 1, 0);
-		Arrays.fill(secondSub, 1, n + 1, 0);
-		Arrays.fill(innerNear, 1, n + 1, 0);
-		Arrays.fill(outerNear, 1, n + 1, 0);
+		Arrays.fill(maxsub, 1, n + 1, 0);
+		Arrays.fill(choose, 1, n + 1, 0);
+		Arrays.fill(inner1, 1, n + 1, 0);
+		Arrays.fill(inner2, 1, n + 1, 0);
+		Arrays.fill(outer, 1, n + 1, 0);
 	}
 
 	public static void addEdge(int u, int v) {
@@ -67,17 +64,18 @@ public class Code06_Centroids {
 			if (v != f) {
 				dfs1(v, u);
 				size[u] += size[v];
-				if (size[firstSub[u]] < size[v]) {
-					secondSub[u] = firstSub[u];
-					firstSub[u] = v;
-				} else if (size[secondSub[u]] < size[v]) {
-					secondSub[u] = v;
+				if (size[maxsub[u]] < size[v]) {
+					maxsub[u] = v;
 				}
-				innerNear[u] = Math.max(innerNear[u], innerNear[v]);
+				int innerSize = size[v] <= n / 2 ? size[v] : inner1[v];
+				if (inner1[u] < innerSize) {
+					choose[u] = v;
+					inner2[u] = inner1[u];
+					inner1[u] = innerSize;
+				} else if (inner2[u] < innerSize) {
+					inner2[u] = innerSize;
+				}
 			}
-		}
-		if (size[u] <= n / 2) {
-			innerNear[u] = size[u];
 		}
 	}
 
@@ -86,23 +84,25 @@ public class Code06_Centroids {
 			v = to[e];
 			if (v != f) {
 				if (n - size[v] <= n / 2) {
-					outerNear[v] = n - size[v];
-				} else if (v != firstSub[u]) {
-					outerNear[v] = Math.max(outerNear[u], innerNear[firstSub[u]]);
+					outer[v] = n - size[v];
+				} else if (choose[u] != v) {
+					outer[v] = Math.max(outer[u], inner1[u]);
 				} else {
-					outerNear[v] = Math.max(outerNear[u], innerNear[secondSub[u]]);
+					outer[v] = Math.max(outer[u], inner2[u]);
 				}
 				dfs2(v, u);
 			}
 		}
 	}
 
-	public static boolean check(int i) {
-		if (n - size[i] > size[firstSub[i]]) {
-			return (n - size[i] - outerNear[i] <= n / 2);
-		} else {
-			return (size[firstSub[i]] - innerNear[firstSub[i]] <= n / 2);
+	public static boolean check(int u) {
+		if (size[maxsub[u]] > n / 2) {
+			return size[maxsub[u]] - inner1[maxsub[u]] <= n / 2;
 		}
+		if (n - size[u] > n / 2) {
+			return n - size[u] - outer[u] <= n / 2;
+		}
+		return true;
 	}
 
 	public static void main(String[] args) throws IOException {
