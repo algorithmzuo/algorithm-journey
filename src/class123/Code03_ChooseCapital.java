@@ -67,9 +67,13 @@ public class Code03_ChooseCapital {
 	public static void dfs2(int u, int f) {
 		for (int e = head[u], v, w; e != 0; e = next[e]) {
 			v = to[e];
-			w = weight[e] == 0 ? 1 : -1;
+			w = weight[e];
 			if (v != f) {
-				dp[v] = dp[u] + w;
+				if (w == 0) {
+					dp[v] = dp[u] + 1;
+				} else {
+					dp[v] = dp[u] - 1;
+				}
 				dfs2(v, u);
 			}
 		}
