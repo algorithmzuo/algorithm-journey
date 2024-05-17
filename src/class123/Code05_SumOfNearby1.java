@@ -1,11 +1,13 @@
 package class123;
 
 // 每个节点距离k以内的权值和(递归版)
+// 给定一棵n个点的树，每个点有点权
+// 每个节点求距离该节点不超过k的所有节点权值和
 // 注意k并不大
 // 测试链接 : https://www.luogu.com.cn/problem/P3047
 // 提交以下的code，提交时请把类名改成"Main"
 // C++这么写能通过，java会因为递归层数太多而爆栈
-// java能通过的写法参考本节课Code03_SumOfNearby2文件
+// java能通过的写法参考本节课Code05_SumOfNearby2文件
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -15,7 +17,7 @@ import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 import java.util.Arrays;
 
-public class Code03_SumOfNearby1 {
+public class Code05_SumOfNearby1 {
 
 	public static int MAXN = 100001;
 

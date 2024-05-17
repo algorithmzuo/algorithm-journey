@@ -1,6 +1,13 @@
 package class123;
 
+// 染色的最大收益
+// 给定一棵n个点的树，初始时所有节点全是白点
+// 要求你做n步操作，每一次选定任意黑点相隔一条边的白点，将它染成黑点
+// 然后获得该白点被染色前所在的白色联通块大小的权值
+// 第一次操作可以任意选点染黑
+// 返回可获得的最大权值
 // 测试链接 : https://www.luogu.com.cn/problem/CF1187E
+// 提交以下的code，提交时请把类名改成"Main"，可以通过所有用例
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -10,7 +17,7 @@ import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 import java.util.Arrays;
 
-public class Code05_TreePainting {
+public class Code03_TreePainting {
 
 	public static int MAXN = 200001;
 

@@ -1,6 +1,8 @@
 package class123;
 
 // 每个节点距离k以内的权值和(迭代版)
+// 给定一棵n个点的树，每个点有点权
+// 每个节点求距离该节点不超过k的所有节点权值和
 // 注意k并不大
 // 测试链接 : https://www.luogu.com.cn/problem/P3047
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有用例
@@ -13,7 +15,7 @@ import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 import java.util.Arrays;
 
-public class Code03_SumOfNearby2 {
+public class Code05_SumOfNearby2 {
 
 	public static int MAXN = 100001;
 
