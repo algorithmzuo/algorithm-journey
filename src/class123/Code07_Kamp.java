@@ -67,12 +67,12 @@ public class Code07_Kamp {
 		head[u] = cnt++;
 	}
 
-	public static void dfs(int u, int f) {
+	public static void dfs1(int u, int f) {
 		for (int e = head[u], v, w; e != 0; e = next[e]) {
 			v = to[e];
 			w = weight[e];
 			if (v != f) {
-				dfs(v, u);
+				dfs1(v, u);
 				people[u] += people[v];
 				if (people[v] > 0) {
 					innerBack[u] += innerBack[v] + (long) w * 2;
@@ -87,7 +87,7 @@ public class Code07_Kamp {
 		}
 	}
 
-	public static void dp(int u, int f) {
+	public static void dfs2(int u, int f) {
 		for (int e = head[u], v, w; e != 0; e = next[e]) {
 			v = to[e];
 			w = weight[e];
@@ -103,7 +103,7 @@ public class Code07_Kamp {
 						outerFirst[v] = Math.max(outerFirst[u], innerFirst[u]) + w;
 					}
 				}
-				dp(v, u);
+				dfs2(v, u);
 			}
 		}
 	}
@@ -132,8 +132,8 @@ public class Code07_Kamp {
 			u = (int) in.nval;
 			people[u]++;
 		}
-		dfs(1, 0);
-		dp(1, 0);
+		dfs1(1, 0);
+		dfs2(1, 0);
 		for (int i = 1; i <= n; i++) {
 			out.println(innerBack[i] + outerCost[i] - Math.max(outerFirst[i], innerFirst[i]));
 		}
