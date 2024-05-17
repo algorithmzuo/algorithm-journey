@@ -37,12 +37,11 @@ public class Code05_SumOfNearby1 {
 
 	public static int[][] sum = new int[MAXN][MAXK];
 
-	public static int[] ans = new int[MAXN];
+	public static int[][] dp = new int[MAXN][MAXK];
 
 	public static void build() {
 		cnt = 1;
 		Arrays.fill(head, 1, n + 1, 0);
-		Arrays.fill(ans, 1, n + 1, 0);
 	}
 
 	public static void addEdge(int u, int v) {
@@ -69,26 +68,15 @@ public class Code05_SumOfNearby1 {
 	}
 
 	public static void dfs2(int u, int f) {
-		for (int i = 0; i <= k; i++) {
-			ans[u] += sum[u][i];
-		}
 		for (int e = head[u], v; e != 0; e = next[e]) {
 			v = to[e];
 			if (v != f) {
-				for (int i = 1; i <= k; i++) {
-					sum[u][i] -= sum[v][i - 1];
-				}
-				for (int i = 1; i <= k; i++) {
-					sum[v][i] += sum[u][i - 1];
+				dp[v][0] = sum[v][0];
+				dp[v][1] = sum[v][1] + dp[u][0];
+				for (int i = 2; i <= k; i++) {
+					dp[v][i] = sum[v][i] + dp[u][i - 1] - sum[v][i - 2];
 				}
 				dfs2(v, u);
-				// 调整回来
-				for (int i = 1; i <= k; i++) {
-					sum[v][i] -= sum[u][i - 1];
-				}
-				for (int i = 1; i <= k; i++) {
-					sum[u][i] += sum[v][i - 1];
-				}
 			}
 		}
 	}
@@ -115,9 +103,16 @@ public class Code05_SumOfNearby1 {
 			sum[i][0] = (int) in.nval;
 		}
 		dfs1(1, 0);
+		for (int i = 0; i <= k; i++) {
+			dp[1][i] = sum[1][i];
+		}
 		dfs2(1, 0);
-		for (int i = 1; i <= n; i++) {
-			out.println(ans[i]);
+		for (int i = 1, ans; i <= n; i++) {
+			ans = 0;
+			for (int j = 0; j <= k; j++) {
+				ans += dp[i][j];
+			}
+			out.println(ans);
 		}
 		out.flush();
 		out.close();
