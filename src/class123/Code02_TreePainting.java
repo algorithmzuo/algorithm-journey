@@ -33,15 +33,12 @@ public class Code02_TreePainting {
 
 	public static int[] size = new int[MAXN];
 
-	public static long[] sum = new long[MAXN];
-
 	public static long[] dp = new long[MAXN];
 
 	public static void build() {
 		cnt = 1;
 		Arrays.fill(head, 1, n + 1, 0);
 		Arrays.fill(size, 1, n + 1, 0);
-		Arrays.fill(sum, 1, n + 1, 0);
 		Arrays.fill(dp, 1, n + 1, 0);
 	}
 
@@ -51,6 +48,8 @@ public class Code02_TreePainting {
 		head[u] = cnt++;
 	}
 
+	// dp[i]更新成
+	// 节点i作为自己这棵子树最先染的点，染完子树后，收益是多少
 	public static void dfs1(int u, int f) {
 		size[u] = 1;
 		for (int e = head[u], v; e != 0; e = next[e]) {
@@ -58,12 +57,14 @@ public class Code02_TreePainting {
 			if (v != f) {
 				dfs1(v, u);
 				size[u] += size[v];
-				sum[u] += sum[v];
+				dp[u] += dp[v];
 			}
 		}
-		sum[u] += size[u];
+		dp[u] += size[u];
 	}
 
+	// dp[i]更新成
+	// 节点i作为整棵树最先染的点，染完整棵树后，收益是多少
 	public static void dfs2(int u, int f) {
 		for (int e = head[u], v; e != 0; e = next[e]) {
 			v = to[e];
@@ -90,7 +91,6 @@ public class Code02_TreePainting {
 			addEdge(v, u);
 		}
 		dfs1(1, 0);
-		dp[1] = sum[1];
 		dfs2(1, 0);
 		long ans = 0;
 		for (int i = 1; i <= n; i++) {
