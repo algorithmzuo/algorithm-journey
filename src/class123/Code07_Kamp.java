@@ -41,23 +41,23 @@ public class Code07_Kamp {
 
 	public static long[] innerBack = new long[MAXN];
 
-	public static long[] outerCost = new long[MAXN];
+	public static long[] inmax1 = new long[MAXN];
 
-	public static long[] innerFirst = new long[MAXN];
+	public static long[] inmax2 = new long[MAXN];
 
-	public static long[] innerSecond = new long[MAXN];
+	public static long[] outerBack = new long[MAXN];
 
-	public static long[] outerFirst = new long[MAXN];
+	public static long[] outmax = new long[MAXN];
 
 	public static void build() {
 		cnt = 1;
 		Arrays.fill(people, 1, n + 1, 0);
 		Arrays.fill(head, 1, n + 1, 0);
 		Arrays.fill(innerBack, 1, n + 1, 0);
-		Arrays.fill(outerCost, 1, n + 1, 0);
-		Arrays.fill(innerFirst, 1, n + 1, 0);
-		Arrays.fill(innerSecond, 1, n + 1, 0);
-		Arrays.fill(outerFirst, 1, n + 1, 0);
+		Arrays.fill(outerBack, 1, n + 1, 0);
+		Arrays.fill(inmax1, 1, n + 1, 0);
+		Arrays.fill(inmax2, 1, n + 1, 0);
+		Arrays.fill(outmax, 1, n + 1, 0);
 	}
 
 	public static void addEdge(int u, int v, int w) {
@@ -76,11 +76,11 @@ public class Code07_Kamp {
 				people[u] += people[v];
 				if (people[v] > 0) {
 					innerBack[u] += innerBack[v] + (long) w * 2;
-					if (innerFirst[u] < innerFirst[v] + w) {
-						innerSecond[u] = innerFirst[u];
-						innerFirst[u] = innerFirst[v] + w;
-					} else if (innerSecond[u] < innerFirst[v] + w) {
-						innerSecond[u] = innerFirst[v] + w;
+					if (inmax1[u] < inmax1[v] + w) {
+						inmax2[u] = inmax1[u];
+						inmax1[u] = inmax1[v] + w;
+					} else if (inmax2[u] < inmax1[v] + w) {
+						inmax2[u] = inmax1[v] + w;
 					}
 				}
 			}
@@ -93,14 +93,14 @@ public class Code07_Kamp {
 			w = weight[e];
 			if (v != f) {
 				if (k - people[v] > 0) {
-					outerCost[v] = outerCost[u] + (innerBack[u] - innerBack[v]);
+					outerBack[v] = outerBack[u] + (innerBack[u] - innerBack[v]);
 					if (people[v] == 0) {
-						outerCost[v] += (long) w * 2;
+						outerBack[v] += (long) w * 2;
 					}
-					if (innerFirst[v] + w == innerFirst[u]) {
-						outerFirst[v] = Math.max(outerFirst[u], innerSecond[u]) + w;
+					if (inmax1[v] + w != inmax1[u]) {
+						outmax[v] = Math.max(outmax[u], inmax1[u]) + w;
 					} else {
-						outerFirst[v] = Math.max(outerFirst[u], innerFirst[u]) + w;
+						outmax[v] = Math.max(outmax[u], inmax2[u]) + w;
 					}
 				}
 				dfs2(v, u);
@@ -135,7 +135,7 @@ public class Code07_Kamp {
 		dfs1(1, 0);
 		dfs2(1, 0);
 		for (int i = 1; i <= n; i++) {
-			out.println(innerBack[i] + outerCost[i] - Math.max(outerFirst[i], innerFirst[i]));
+			out.println(innerBack[i] + outerBack[i] - Math.max(inmax1[i], outmax[i]));
 		}
 		out.flush();
 		out.close();
