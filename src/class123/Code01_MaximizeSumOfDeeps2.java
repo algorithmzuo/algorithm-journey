@@ -34,11 +34,11 @@ public class Code01_MaximizeSumOfDeeps2 {
 
 	public static long[] sum = new long[MAXN];
 
+	public static long[] dp = new long[MAXN];
+
 	public static void build() {
 		cnt = 1;
 		Arrays.fill(head, 1, n + 1, 0);
-		Arrays.fill(size, 1, n + 1, 0);
-		Arrays.fill(sum, 1, n + 1, 0);
 	}
 
 	public static void addEdge(int u, int v) {
@@ -115,7 +115,7 @@ public class Code01_MaximizeSumOfDeeps2 {
 				push(u, f, e);
 				int v = to[e];
 				if (v != f) {
-					sum[v] = sum[u] - size[v] + (n - size[v]);
+					dp[v] = dp[u] - size[v] + (n - size[v]);
 					push(v, u, -1);
 				}
 			}
@@ -138,12 +138,13 @@ public class Code01_MaximizeSumOfDeeps2 {
 			addEdge(v, u);
 		}
 		dfs1(1);
+		dp[1] = sum[1];
 		dfs2(1);
 		long max = Long.MIN_VALUE;
 		int ans = 0;
 		for (int i = 1; i <= n; i++) {
-			if (sum[i] > max) {
-				max = sum[i];
+			if (dp[i] > max) {
+				max = dp[i];
 				ans = i;
 			}
 		}
