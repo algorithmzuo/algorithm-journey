@@ -93,10 +93,10 @@ public class Code04_MaximizeFlow2 {
 				for (int e = head[u], v; e != 0; e = next[e]) {
 					v = to[e];
 					if (v != f) {
-						if (degree[v] > 1) {
-							flow[u] += Math.min(flow[v], weight[e]);
-						} else {
+						if (degree[v] == 1) {
 							flow[u] += weight[e];
+						} else {
+							flow[u] += Math.min(flow[v], weight[e]);
 						}
 					}
 				}
@@ -120,10 +120,11 @@ public class Code04_MaximizeFlow2 {
 				push(u, f, e);
 				int v = to[e];
 				if (v != f) {
-					if (u == 1) {
+					if (degree[u] == 1) {
 						dp[v] = flow[v] + weight[e];
 					} else {
-						dp[v] = flow[v] + Math.min(dp[u] - Math.min(flow[v], weight[e]), weight[e]);
+						int minus = dp[u] - Math.min(flow[v], weight[e]);
+						dp[v] = flow[v] + Math.min(minus, weight[e]);
 					}
 					push(v, u, -1);
 				}

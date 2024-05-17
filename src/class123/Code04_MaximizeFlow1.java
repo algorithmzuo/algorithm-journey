@@ -33,10 +33,13 @@ public class Code04_MaximizeFlow1 {
 
 	public static int cnt;
 
+	// degree[u] : 有几条边和u节点相连
 	public static int[] degree = new int[MAXN];
 
+	// flow[u] : 从u出发流向u节点为头的子树上，所有的叶节点，流量是多少
 	public static int[] flow = new int[MAXN];
 
+	// dp[u] : 从u出发流向u节点为根的整棵树上，所有的叶节点，流量是多少
 	public static int[] dp = new int[MAXN];
 
 	public static void build() {
@@ -64,23 +67,24 @@ public class Code04_MaximizeFlow1 {
 		for (int e = head[u], v; e != 0; e = next[e]) {
 			v = to[e];
 			if (v != f) {
-				if (degree[v] > 1) {
-					flow[u] += Math.min(flow[v], weight[e]);
-				} else {
+				if (degree[v] == 1) {
 					flow[u] += weight[e];
+				} else {
+					flow[u] += Math.min(flow[v], weight[e]);
 				}
 			}
 		}
 	}
 
 	public static void dfs2(int u, int f) {
-		for (int e = head[u], v; e != 0; e = next[e]) {
+		for (int e = head[u], v, minus; e != 0; e = next[e]) {
 			v = to[e];
 			if (v != f) {
-				if (u == 1) {
+				if (degree[u] == 1) {
 					dp[v] = flow[v] + weight[e];
 				} else {
-					dp[v] = flow[v] + Math.min(dp[u] - Math.min(flow[v], weight[e]), weight[e]);
+					minus = dp[u] - Math.min(flow[v], weight[e]);
+					dp[v] = flow[v] + Math.min(minus, weight[e]);
 				}
 				dfs2(v, u);
 			}
