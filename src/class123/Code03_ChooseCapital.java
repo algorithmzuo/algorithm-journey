@@ -70,8 +70,10 @@ public class Code03_ChooseCapital {
 			w = weight[e];
 			if (v != f) {
 				if (w == 0) {
+					// 边的方向 : u -> v
 					dp[v] = dp[u] + 1;
 				} else {
+					// 边的方向 : v -> u
 					dp[v] = dp[u] - 1;
 				}
 				dfs2(v, u);
