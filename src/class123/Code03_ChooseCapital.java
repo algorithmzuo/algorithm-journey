@@ -33,11 +33,16 @@ public class Code03_ChooseCapital {
 
 	public static int cnt;
 
+	// reverse[u] : u到所有子节点需要逆转的边数
+	public static int[] reverse = new int[MAXN];
+
+	// dp[u] : u做根到全树节点需要逆转的边数
 	public static int[] dp = new int[MAXN];
 
 	public static void build() {
 		cnt = 1;
 		Arrays.fill(head, 1, n + 1, 0);
+		Arrays.fill(reverse, 1, n + 1, 0);
 		Arrays.fill(dp, 1, n + 1, 0);
 	}
 
@@ -48,19 +53,17 @@ public class Code03_ChooseCapital {
 		head[u] = cnt++;
 	}
 
-	// dp[u]更新成u到子节点需要逆转的边数
 	public static void dfs1(int u, int f) {
 		for (int e = head[u], v, w; e != 0; e = next[e]) {
 			v = to[e];
 			w = weight[e];
 			if (v != f) {
 				dfs1(v, u);
-				dp[u] += dp[v] + w;
+				reverse[u] += reverse[v] + w;
 			}
 		}
 	}
 
-	// dp[u]更新成u到全树需要逆转的边数
 	public static void dfs2(int u, int f) {
 		for (int e = head[u], v, w; e != 0; e = next[e]) {
 			v = to[e];
@@ -88,6 +91,7 @@ public class Code03_ChooseCapital {
 				addEdge(v, u, 1);
 			}
 			dfs1(1, 0);
+			dp[1] = reverse[1];
 			dfs2(1, 0);
 			int min = Integer.MAX_VALUE;
 			for (int i = 1; i <= n; i++) {
