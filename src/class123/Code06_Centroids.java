@@ -30,16 +30,24 @@ public class Code06_Centroids {
 
 	public static int cnt;
 
+	// size[i] : i内部，整棵子树大小
 	public static int[] size = new int[MAXN];
 
+	// maxsub[i] : i内部，最大子树，是i节点的哪个儿子拥有，记录节点编号
 	public static int[] maxsub = new int[MAXN];
 
-	public static int[] choose = new int[MAXN];
-
+	// inner1[i] : i内部，<=n/2且第一大的子树是多大，记录大小
 	public static int[] inner1 = new int[MAXN];
 
+	// inner2[i] : i内部，<=n/2且第二大的子树是多大，记录大小
 	public static int[] inner2 = new int[MAXN];
 
+	// choose[i] : inner1[i]所代表的子树，是i节点的哪个儿子拥有，记录节点编号
+	public static int[] choose = new int[MAXN];
+
+	// 注意 : inner1[i]和inner2[i]，所代表的子树一定要来自i的不同儿子
+
+	// outer[i] : i外部，<=n/2且第一大的子树是多大，记录大小
 	public static int[] outer = new int[MAXN];
 
 	public static void build() {
