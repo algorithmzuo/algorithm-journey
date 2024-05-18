@@ -27,8 +27,6 @@ public class Code07_Kamp {
 
 	public static int k;
 
-	public static int[] people = new int[MAXN];
-
 	public static int[] head = new int[MAXN];
 
 	public static int[] next = new int[MAXN << 1];
@@ -39,25 +37,39 @@ public class Code07_Kamp {
 
 	public static int cnt;
 
-	public static long[] innerBack = new long[MAXN];
+	// people[i]: i内部，一共有多少乘客要送
+	public static int[] people = new int[MAXN];
 
-	public static long[] inmax1 = new long[MAXN];
+	// incost[i]: i内部，从i出发送完所有乘客，最终回到i，最少代价多少
+	public static long[] incost = new long[MAXN];
 
-	public static long[] inmax2 = new long[MAXN];
+	// inner1[i]: i内部，从i出发送哪个乘客第一远，耗时多少
+	public static long[] inner1 = new long[MAXN];
 
-	public static long[] outerBack = new long[MAXN];
+	// inner2[i]: i内部，从i出发送哪个乘客第二远，耗时多少
+	public static long[] inner2 = new long[MAXN];
 
-	public static long[] outmax = new long[MAXN];
+	// 注意 : inner1[i]和inner2[i]所代表的链，一定要来自i的不同儿子
+
+	// choose[i]: inner1[i]所代表的链，是i节点的哪个儿子拥有，记录节点编号
+	public static int[] choose = new int[MAXN];
+
+	// outcost[i]: i外部，从i出发送完所有乘客，最终回到i，最少代价多少
+	public static long[] outcost = new long[MAXN];
+
+	// outer[i]: i外部，从i出发送哪个乘客最远，耗时多少
+	public static long[] outer = new long[MAXN];
 
 	public static void build() {
 		cnt = 1;
 		Arrays.fill(people, 1, n + 1, 0);
 		Arrays.fill(head, 1, n + 1, 0);
-		Arrays.fill(innerBack, 1, n + 1, 0);
-		Arrays.fill(outerBack, 1, n + 1, 0);
-		Arrays.fill(inmax1, 1, n + 1, 0);
-		Arrays.fill(inmax2, 1, n + 1, 0);
-		Arrays.fill(outmax, 1, n + 1, 0);
+		Arrays.fill(incost, 1, n + 1, 0);
+		Arrays.fill(inner1, 1, n + 1, 0);
+		Arrays.fill(inner2, 1, n + 1, 0);
+		Arrays.fill(choose, 1, n + 1, 0);
+		Arrays.fill(outcost, 1, n + 1, 0);
+		Arrays.fill(outer, 1, n + 1, 0);
 	}
 
 	public static void addEdge(int u, int v, int w) {
@@ -75,12 +87,13 @@ public class Code07_Kamp {
 				dfs1(v, u);
 				people[u] += people[v];
 				if (people[v] > 0) {
-					innerBack[u] += innerBack[v] + (long) w * 2;
-					if (inmax1[u] < inmax1[v] + w) {
-						inmax2[u] = inmax1[u];
-						inmax1[u] = inmax1[v] + w;
-					} else if (inmax2[u] < inmax1[v] + w) {
-						inmax2[u] = inmax1[v] + w;
+					incost[u] += incost[v] + (long) w * 2;
+					if (inner1[u] < inner1[v] + w) {
+						choose[u] = v;
+						inner2[u] = inner1[u];
+						inner1[u] = inner1[v] + w;
+					} else if (inner2[u] < inner1[v] + w) {
+						inner2[u] = inner1[v] + w;
 					}
 				}
 			}
@@ -93,14 +106,14 @@ public class Code07_Kamp {
 			w = weight[e];
 			if (v != f) {
 				if (k - people[v] > 0) {
-					outerBack[v] = outerBack[u] + (innerBack[u] - innerBack[v]);
+					outcost[v] = outcost[u] + (incost[u] - incost[v]);
 					if (people[v] == 0) {
-						outerBack[v] += (long) w * 2;
+						outcost[v] += (long) w * 2;
 					}
-					if (inmax1[v] + w != inmax1[u]) {
-						outmax[v] = Math.max(outmax[u], inmax1[u]) + w;
+					if (v != choose[u]) {
+						outer[v] = Math.max(outer[u], inner1[u]) + w;
 					} else {
-						outmax[v] = Math.max(outmax[u], inmax2[u]) + w;
+						outer[v] = Math.max(outer[u], inner2[u]) + w;
 					}
 				}
 				dfs2(v, u);
@@ -135,7 +148,7 @@ public class Code07_Kamp {
 		dfs1(1, 0);
 		dfs2(1, 0);
 		for (int i = 1; i <= n; i++) {
-			out.println(innerBack[i] + outerBack[i] - Math.max(inmax1[i], outmax[i]));
+			out.println(incost[i] + outcost[i] - Math.max(inner1[i], outer[i]));
 		}
 		out.flush();
 		out.close();
