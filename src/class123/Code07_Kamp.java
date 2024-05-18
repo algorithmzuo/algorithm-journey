@@ -37,27 +37,27 @@ public class Code07_Kamp {
 
 	public static int cnt;
 
-	// people[i]: i内部，一共有多少乘客要送
+	// people[i]: i内部，有多少乘客要送
 	public static int[] people = new int[MAXN];
 
-	// incost[i]: i内部，从i出发送完所有乘客，最终回到i，最少代价多少
+	// incost[i]: i内部，从i出发送完所有乘客回到i的最少代价
 	public static long[] incost = new long[MAXN];
 
-	// inner1[i]: i内部，从i出发送哪个乘客第一远，耗时多少
+	// inner1[i]: i内部，从i出发送乘客的最长链
 	public static long[] inner1 = new long[MAXN];
 
-	// inner2[i]: i内部，从i出发送哪个乘客第二远，耗时多少
+	// inner2[i]: i内部，从i出发送乘客的次长链
 	public static long[] inner2 = new long[MAXN];
 
 	// 注意 : inner1[i]和inner2[i]所代表的链，一定要来自i的不同儿子
 
-	// choose[i]: inner1[i]所代表的链，是i节点的哪个儿子拥有，记录节点编号
+	// choose[i]: 送乘客的最长链来自i的哪个儿子
 	public static int[] choose = new int[MAXN];
 
-	// outcost[i]: i外部，从i出发送完所有乘客，最终回到i，最少代价多少
+	// outcost[i]: i外部，从i出发送完所有乘客回到i的最少代价
 	public static long[] outcost = new long[MAXN];
 
-	// outer[i]: i外部，从i出发送哪个乘客最远，耗时多少
+	// outer[i]: i外部，从i出发送乘客的最长链
 	public static long[] outer = new long[MAXN];
 
 	public static void build() {
@@ -106,9 +106,10 @@ public class Code07_Kamp {
 			w = weight[e];
 			if (v != f) {
 				if (k - people[v] > 0) {
-					outcost[v] = outcost[u] + (incost[u] - incost[v]);
 					if (people[v] == 0) {
-						outcost[v] += (long) w * 2;
+						outcost[v] = outcost[u] + incost[u] + (long) w * 2;
+					} else {
+						outcost[v] = outcost[u] + incost[u] - incost[v];
 					}
 					if (v != choose[u]) {
 						outer[v] = Math.max(outer[u], inner1[u]) + w;
