@@ -62,8 +62,8 @@ public class Code07_Kamp {
 
 	public static void build() {
 		cnt = 1;
-		Arrays.fill(people, 1, n + 1, 0);
 		Arrays.fill(head, 1, n + 1, 0);
+		Arrays.fill(people, 1, n + 1, 0);
 		Arrays.fill(incost, 1, n + 1, 0);
 		Arrays.fill(inner1, 1, n + 1, 0);
 		Arrays.fill(inner2, 1, n + 1, 0);
