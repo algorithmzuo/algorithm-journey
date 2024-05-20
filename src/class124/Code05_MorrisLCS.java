@@ -34,7 +34,7 @@ public class Code05_MorrisLCS {
 					continue;
 				} else {
 					mostRight.right = null;
-					if (findLeftAim(cur.left, leftAim)) {
+					if (findLeft(cur.left, leftAim)) {
 						if (ans == null && findFirst(leftAim.right, o1, o2) != null) {
 							ans = leftAim;
 						}
@@ -45,32 +45,6 @@ public class Code05_MorrisLCS {
 			cur = cur.right;
 		}
 		return ans != null ? ans : (findFirst(leftAim.right, o1, o2) != null ? leftAim : head);
-	}
-
-	public static boolean findLeftAim(TreeNode head, TreeNode leftAim) {
-		TreeNode tail = reverseEdge(head);
-		TreeNode cur = tail;
-		boolean ans = false;
-		while (cur != null) {
-			if (cur == leftAim) {
-				ans = true;
-			}
-			cur = cur.right;
-		}
-		reverseEdge(tail);
-		return ans;
-	}
-
-	public static TreeNode reverseEdge(TreeNode from) {
-		TreeNode pre = null;
-		TreeNode next = null;
-		while (from != null) {
-			next = from.right;
-			from.right = pre;
-			pre = from;
-			from = next;
-		}
-		return pre;
 	}
 
 	public static TreeNode findFirst(TreeNode head, TreeNode o1, TreeNode o2) {
@@ -104,6 +78,32 @@ public class Code05_MorrisLCS {
 			cur = cur.right;
 		}
 		return first;
+	}
+
+	public static boolean findLeft(TreeNode head, TreeNode target) {
+		TreeNode tail = reverse(head);
+		TreeNode cur = tail;
+		boolean ans = false;
+		while (cur != null) {
+			if (cur == target) {
+				ans = true;
+			}
+			cur = cur.right;
+		}
+		reverse(tail);
+		return ans;
+	}
+
+	public static TreeNode reverse(TreeNode from) {
+		TreeNode pre = null;
+		TreeNode next = null;
+		while (from != null) {
+			next = from.right;
+			from.right = pre;
+			pre = from;
+			from = next;
+		}
+		return pre;
 	}
 
 }
