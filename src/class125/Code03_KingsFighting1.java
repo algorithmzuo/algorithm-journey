@@ -3,7 +3,7 @@ package class125;
 // 测试链接 : https://www.luogu.com.cn/problem/P1896
 // 提交以下的code，提交时请把类名改成"Main"
 // 虽然在线测试无法通过，但是逻辑正确
-// 我已经运行了所有可能的情况，结果都正确
+// 我运行了所有可能的情况，结果都正确
 
 import java.io.BufferedReader;
 import java.io.IOException;

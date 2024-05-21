@@ -2,7 +2,7 @@ package class125;
 
 // 测试链接 : https://www.luogu.com.cn/problem/P1896
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有用例
-// 空间压缩的版本才能通过，否则报错
+// 空间压缩的版本才能通过
 
 import java.io.BufferedReader;
 import java.io.IOException;
