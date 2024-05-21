@@ -11,7 +11,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 
-public class Code03_Colors2 {
+public class Code02_Colors2 {
 
 	public static int n, m, k;
 

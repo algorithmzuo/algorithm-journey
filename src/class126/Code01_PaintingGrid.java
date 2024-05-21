@@ -1,7 +1,8 @@
-package class125;
+package class126;
 
+// 需要重写 : 改成三进制状态压缩 + 轮廓线dp
 // 测试链接 : https://leetcode.cn/problems/painting-a-grid-with-three-different-colors/
-public class Code02_PaintingGrid {
+public class Code01_PaintingGrid {
 
 	public static int MAXN = 1001;
 

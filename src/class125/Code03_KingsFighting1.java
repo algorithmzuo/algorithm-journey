@@ -12,7 +12,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 
-public class Code04_KingsFighting1 {
+public class Code03_KingsFighting1 {
 
 	public static int MAXN = 10;
 
