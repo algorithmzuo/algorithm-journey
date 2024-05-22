@@ -25,7 +25,7 @@ public class Code07_TspTwice {
 
 	public static int[][] dp = new int[MAXN][MAXS];
 
-	public static int[] visitAll = new int[1 << MAXN];
+	public static int[] complete = new int[1 << MAXN];
 
 	public static int size;
 
@@ -47,7 +47,7 @@ public class Code07_TspTwice {
 
 	public static void dfs(int i, int bit, int s) {
 		if (i == n) {
-			visitAll[size++] = s;
+			complete[size++] = s;
 		} else {
 			dfs(i + 1, bit * 3, s + bit);
 			dfs(i + 1, bit * 3, s + (bit << 1));
@@ -58,7 +58,7 @@ public class Code07_TspTwice {
 		int ans = Integer.MAX_VALUE;
 		for (int k = 0; k < size; k++) {
 			for (int i = 0, bit = 1; i < n; i++, bit *= 3) {
-				ans = Math.min(ans, dp(i, visitAll[k] - bit));
+				ans = Math.min(ans, dp(i, complete[k] - bit));
 			}
 		}
 		return ans;
