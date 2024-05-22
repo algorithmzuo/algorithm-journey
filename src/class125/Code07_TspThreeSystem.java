@@ -1,7 +1,6 @@
 package class125;
 
 // https://acm.hdu.edu.cn/showproblem.php?pid=3001
-// https://acm.hdu.edu.cn/viewcode.php?rid=39367016
 
 import java.io.BufferedReader;
 import java.io.IOException;
