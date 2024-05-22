@@ -1,6 +1,6 @@
-package class126;
+package class125;
 
 // 测试链接 : https://leetcode.cn/problems/maximize-grid-happiness/
-public class Code02 {
+public class Code07 {
 
 }

@@ -1,7 +1,7 @@
 package class124;
 
 // 测试链接 : https://leetcode.cn/problems/lowest-common-ancestor-of-a-binary-tree/
-public class Code05_MorrisLCS {
+public class Code06_MorrisLCS {
 
 	// 不提交这个类
 	public class TreeNode {
@@ -18,7 +18,7 @@ public class Code05_MorrisLCS {
 		if (findFirst(o2.left, o1, o2) != null || findFirst(o2.right, o1, o2) != null) {
 			return o2;
 		}
-		TreeNode leftAim = findFirst(head, o1, o2);
+		TreeNode leftTarget = findFirst(head, o1, o2);
 		TreeNode cur = head;
 		TreeNode mostRight = null;
 		TreeNode ans = null;
@@ -34,17 +34,17 @@ public class Code05_MorrisLCS {
 					continue;
 				} else {
 					mostRight.right = null;
-					if (findLeft(cur.left, leftAim)) {
-						if (ans == null && findFirst(leftAim.right, o1, o2) != null) {
-							ans = leftAim;
+					if (findLeft(cur.left, leftTarget)) {
+						if (ans == null && findFirst(leftTarget.right, o1, o2) != null) {
+							ans = leftTarget;
 						}
-						leftAim = cur;
+						leftTarget = cur;
 					}
 				}
 			}
 			cur = cur.right;
 		}
-		return ans != null ? ans : (findFirst(leftAim.right, o1, o2) != null ? leftAim : head);
+		return ans != null ? ans : (findFirst(leftTarget.right, o1, o2) != null ? leftTarget : head);
 	}
 
 	public static TreeNode findFirst(TreeNode head, TreeNode o1, TreeNode o2) {
