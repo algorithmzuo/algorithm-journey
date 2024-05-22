@@ -1,7 +1,7 @@
 package class125;
 
 // https://acm.hdu.edu.cn/showproblem.php?pid=3001
-// https://acm.hdu.edu.cn/viewcode.php?rid=39366218
+// https://acm.hdu.edu.cn/viewcode.php?rid=39367016
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -16,19 +16,19 @@ public class Code07_TspThreeSystem {
 
 	public static int MAXS = (int) Math.pow(3, MAXN);
 
-	public static int[][] graph = new int[MAXN][MAXN];
-
-	public static int[] bit = new int[MAXN];
-
-	public static int[][] tri = new int[MAXS][MAXN];
-
-	public static int[][] dp = new int[MAXN][MAXS];
-
 	public static int n;
 
 	public static int m;
 
 	public static int maxs;
+
+	public static int[][] graph = new int[MAXN][MAXN];
+
+	public static int[][] dp = new int[MAXN][MAXS];
+
+	public static int[] visitAll = new int[1 << MAXN];
+
+	public static int size;
 
 	public static void build() {
 		for (int i = 0; i < n; i++) {
@@ -36,46 +36,52 @@ public class Code07_TspThreeSystem {
 				graph[i][j] = Integer.MAX_VALUE;
 			}
 		}
-		for (int i = 0, cur = 1; i < n; i++, cur *= 3) {
-			bit[i] = cur;
-		}
 		maxs = (int) Math.pow(3, n);
-		for (int s = 0; s < maxs; s++) {
-			for (int i = 0, t = s; i < n; i++, t /= 3) {
-				tri[s][i] = t % 3;
-			}
-		}
 		for (int i = 0; i < n; i++) {
 			for (int s = 0; s < maxs; s++) {
-				dp[i][s] = Integer.MAX_VALUE;
+				dp[i][s] = -1;
 			}
+		}
+		size = 0;
+		dfs(0, 1, 0);
+	}
+
+	public static void dfs(int i, int bit, int s) {
+		if (i == n) {
+			visitAll[size++] = s;
+		} else {
+			dfs(i + 1, bit * 3, s + bit);
+			dfs(i + 1, bit * 3, s + (bit << 1));
 		}
 	}
 
-	public static int dp() {
+	public static int compute() {
 		int ans = Integer.MAX_VALUE;
-		for (int i = 0; i < n; i++) {
-			dp[i][bit[i]] = 0;
-		}
-		for (int s = 0; s < maxs; s++) {
-			boolean visitAll = true;
-			for (int i = 0; i < n; i++) {
-				if (tri[s][i] == 0) {
-					visitAll = false;
-					continue;
-				}
-				for (int k = 0; k < n; k++) {
-					if (dp[k][s - bit[i]] != Integer.MAX_VALUE && graph[k][i] != Integer.MAX_VALUE) {
-						dp[i][s] = Math.min(dp[i][s], dp[k][s - bit[i]] + graph[k][i]);
-					}
-				}
-			}
-			if (visitAll) {
-				for (int i = 0; i < n; i++) {
-					ans = Math.min(ans, dp[i][s]);
-				}
+		for (int k = 0; k < size; k++) {
+			for (int i = 0, bit = 1; i < n; i++, bit *= 3) {
+				ans = Math.min(ans, dp(i, visitAll[k] - bit));
 			}
 		}
+		return ans;
+	}
+
+	public static int dp(int i, int s) {
+		if (s == 0) {
+			return 0;
+		}
+		if (dp[i][s] != -1) {
+			return dp[i][s];
+		}
+		int ans = Integer.MAX_VALUE;
+		for (int j = 0, bit = 1, pre; j < n; j++, bit *= 3) {
+			if ((s / bit) % 3 > 0) {
+				pre = dp(j, s - bit);
+				if (pre != Integer.MAX_VALUE && graph[j][i] != Integer.MAX_VALUE) {
+					ans = Math.min(ans, pre + graph[j][i]);
+				}
+			}
+		}
+		dp[i][s] = ans;
 		return ans;
 	}
 
@@ -99,7 +105,7 @@ public class Code07_TspThreeSystem {
 					graph[u][v] = graph[v][u] = w;
 				}
 			}
-			int ans = dp();
+			int ans = compute();
 			out.println(ans == Integer.MAX_VALUE ? -1 : ans);
 		}
 		out.flush();
