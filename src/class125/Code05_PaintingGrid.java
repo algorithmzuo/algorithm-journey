@@ -2,7 +2,7 @@ package class125;
 
 // 需要改写成三进制状态压缩 + 轮廓线dp
 // 测试链接 : https://leetcode.cn/problems/painting-a-grid-with-three-different-colors/
-public class Code06_PaintingGrid {
+public class Code05_PaintingGrid {
 
 	public static int MAXN = 1001;
 

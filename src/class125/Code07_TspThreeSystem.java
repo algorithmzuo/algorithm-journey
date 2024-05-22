@@ -10,7 +10,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 
-public class Code05_TspThreeSystem {
+public class Code07_TspThreeSystem {
 
 	public static int MAXN = 10;
 
