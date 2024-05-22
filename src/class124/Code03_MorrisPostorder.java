@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 // 测试链接 : https://leetcode.cn/problems/binary-tree-postorder-traversal/
-public class Code03_MorrisPosorder {
+public class Code03_MorrisPostorder {
 
 	// 不提交这个类
 	public class TreeNode {
