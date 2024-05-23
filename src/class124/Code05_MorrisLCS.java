@@ -36,12 +36,17 @@ public class Code05_MorrisLCS {
 				} else {
 					mostRight.right = null;
 					if (ans == null) {
+						// left在cur左树的右边界上
 						if (rightCheck(cur.left, left)) {
+							// 检查left的右树里是否有o2
 							if (findFirst(left.right, o1, o2) != null) {
 								ans = left;
-							} else {
-								left = cur;
 							}
+							left = cur;
+							// 为什么检查left而不检查cur
+							// 因为cur的右指针可能没有恢复回来
+							// 等右指针恢复回来之后再检查
+							// 所以检查left而不检查cur
 						}
 					}
 				}
@@ -51,6 +56,7 @@ public class Code05_MorrisLCS {
 		return ans != null ? ans : left;
 	}
 
+	// 以head为头的树进行Morris遍历，o1和o2谁先被找到就返回谁
 	public static TreeNode findFirst(TreeNode head, TreeNode o1, TreeNode o2) {
 		if (head == null) {
 			return null;
@@ -84,30 +90,15 @@ public class Code05_MorrisLCS {
 		return ans;
 	}
 
+	// 以head为头的树遍历右边界，返回是否找到了target
 	public static boolean rightCheck(TreeNode head, TreeNode target) {
-		TreeNode tail = reverse(head);
-		TreeNode cur = tail;
-		boolean ans = false;
-		while (cur != null) {
-			if (cur == target) {
-				ans = true;
+		while (head != null) {
+			if (head == target) {
+				return true;
 			}
-			cur = cur.right;
+			head = head.right;
 		}
-		reverse(tail);
-		return ans;
-	}
-
-	public static TreeNode reverse(TreeNode from) {
-		TreeNode pre = null;
-		TreeNode next = null;
-		while (from != null) {
-			next = from.right;
-			from.right = pre;
-			pre = from;
-			from = next;
-		}
-		return pre;
+		return false;
 	}
 
 }
