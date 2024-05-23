@@ -18,7 +18,7 @@ public class Code04_MorrisMinimumDepth {
 		}
 		TreeNode cur = head;
 		TreeNode mostRight = null;
-		int height = 0;
+		int preLevel = 0;
 		int rightLen;
 		int ans = Integer.MAX_VALUE;
 		while (cur != null) {
@@ -30,28 +30,30 @@ public class Code04_MorrisMinimumDepth {
 					mostRight = mostRight.right;
 				}
 				if (mostRight.right == null) {
-					height++;
+					preLevel++;
 					mostRight.right = cur;
 					cur = cur.left;
 					continue;
 				} else {
 					if (mostRight.left == null) {
-						ans = Math.min(ans, height);
+						ans = Math.min(ans, preLevel);
 					}
-					height -= rightLen;
+					preLevel -= rightLen;
 					mostRight.right = null;
 				}
 			} else {
-				height++;
+				preLevel++;
 			}
 			cur = cur.right;
 		}
+		// 不要忘了整棵树的最右节点
 		rightLen = 1;
 		cur = head;
 		while (cur.right != null) {
 			rightLen++;
 			cur = cur.right;
 		}
+		// 整棵树的最右节点是叶节点才纳入统计
 		if (cur.left == null && cur.right == null) {
 			ans = Math.min(ans, rightLen);
 		}
