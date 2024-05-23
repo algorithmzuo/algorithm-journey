@@ -13,13 +13,13 @@ public class Code05_MorrisLCS {
 
 	// 提交以下的方法
 	public static TreeNode lowestCommonAncestor(TreeNode head, TreeNode o1, TreeNode o2) {
-		if (findFirst(o1.left, o1, o2) != null || findFirst(o1.right, o1, o2) != null) {
+		if (preOrder(o1.left, o1, o2) != null || preOrder(o1.right, o1, o2) != null) {
 			return o1;
 		}
-		if (findFirst(o2.left, o1, o2) != null || findFirst(o2.right, o1, o2) != null) {
+		if (preOrder(o2.left, o1, o2) != null || preOrder(o2.right, o1, o2) != null) {
 			return o2;
 		}
-		TreeNode left = findFirst(head, o1, o2);
+		TreeNode left = preOrder(head, o1, o2);
 		TreeNode cur = head;
 		TreeNode mostRight = null;
 		TreeNode ans = null;
@@ -39,7 +39,7 @@ public class Code05_MorrisLCS {
 						// left在cur左树的右边界上
 						if (rightCheck(cur.left, left)) {
 							// 检查left看看右树里是否有o2
-							if (findFirst(left.right, o1, o2) != null) {
+							if (preOrder(left.right, o1, o2) != null) {
 								ans = left;
 							}
 							left = cur;
@@ -56,11 +56,8 @@ public class Code05_MorrisLCS {
 		return ans != null ? ans : left;
 	}
 
-	// 以head为头的树进行Morris遍历，o1和o2谁先被找到就返回谁
-	public static TreeNode findFirst(TreeNode head, TreeNode o1, TreeNode o2) {
-		if (head == null) {
-			return null;
-		}
+	// 以head为头的树进行先序遍历，o1和o2谁先被找到就返回谁
+	public static TreeNode preOrder(TreeNode head, TreeNode o1, TreeNode o2) {
 		TreeNode cur = head;
 		TreeNode mostRight = null;
 		TreeNode ans = null;
