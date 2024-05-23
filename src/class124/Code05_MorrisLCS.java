@@ -22,7 +22,7 @@ public class Code05_MorrisLCS {
 		TreeNode left = preOrder(head, o1, o2);
 		TreeNode cur = head;
 		TreeNode mostRight = null;
-		TreeNode ans = null;
+		TreeNode lca = null;
 		while (cur != null) {
 			mostRight = cur.left;
 			if (mostRight != null) {
@@ -33,27 +33,30 @@ public class Code05_MorrisLCS {
 					mostRight.right = cur;
 					cur = cur.left;
 					continue;
-				} else {
+				} else { // 第二次来到cur
 					mostRight.right = null;
-					if (ans == null) {
-						// left在cur左树的右边界上
+					if (lca == null) {
+						// 检查left是否在cur左树的右边界上
 						if (rightCheck(cur.left, left)) {
 							// 检查left看看右树里是否有o2
 							if (preOrder(left.right, o1, o2) != null) {
-								ans = left;
+								lca = left;
 							}
 							left = cur;
 							// 为什么此时检查的是left而不是cur
-							// 因为cur的右指针可能没有恢复回来
+							// 因为cur右树上的某些右指针可能没有恢复回来
 							// 需要等右指针恢复回来之后检查才不出错
 							// 所以此时检查的是left而不是cur
+							// 课上已经重点图解了
 						}
 					}
 				}
 			}
 			cur = cur.right;
 		}
-		return ans != null ? ans : left;
+		// 如果morris遍历结束了还没有收集到答案
+		// 此时最后一个left还没有验证，它一定是答案
+		return lca != null ? lca : left;
 	}
 
 	// 以head为头的树进行先序遍历，o1和o2谁先被找到就返回谁
