@@ -23,8 +23,8 @@ public class Code01_MorrisPreorderInorder {
 			mostRight = cur.left;
 			if (mostRight != null) { // cur有左树
 				// 找到左树最右节点
+				// 注意左树最右节点的右指针可能指向空，也可能指向cur
 				while (mostRight.right != null && mostRight.right != cur) {
-					// 注意左树最右节点的右指针可能指向空，也可能指向cur
 					mostRight = mostRight.right;
 				}
 				// 判断左树最右节点的右指针状态
