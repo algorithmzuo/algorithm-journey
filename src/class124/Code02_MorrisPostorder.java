@@ -26,15 +26,18 @@ public class Code02_MorrisPostorder {
 		TreeNode mostRight = null;
 		while (cur != null) {
 			mostRight = cur.left;
-			if (mostRight != null) {
+			if (mostRight != null) { // cur有左树
+				// 找到左树最右节点
+				// 注意左树最右节点的右指针可能指向空，也可能指向cur
 				while (mostRight.right != null && mostRight.right != cur) {
 					mostRight = mostRight.right;
 				}
-				if (mostRight.right == null) {
+				// 判断左树最右节点的右指针状态
+				if (mostRight.right == null) { // 第一次到达
 					mostRight.right = cur;
 					cur = cur.left;
 					continue;
-				} else {
+				} else { // 第二次到达
 					mostRight.right = null;
 					collect(cur.left, ans);
 				}
@@ -55,7 +58,7 @@ public class Code02_MorrisPostorder {
 		reverse(tail);
 	}
 
-	// 从from出发，像翻转单链表一样，翻转right指针
+	// 从from出发，类似单链表翻转，去翻转right指针的方向
 	public static TreeNode reverse(TreeNode from) {
 		TreeNode pre = null;
 		TreeNode next = null;
