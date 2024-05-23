@@ -12,7 +12,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 
-public class Code03_AdjacentDiffernt1 {
+public class Code03_AdjacentDifferent1 {
 
 	public static int n, m, k;
 
