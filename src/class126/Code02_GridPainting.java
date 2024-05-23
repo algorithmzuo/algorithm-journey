@@ -2,7 +2,7 @@ package class126;
 
 // 测试链接 : https://leetcode.cn/problems/painting-a-grid-with-three-different-colors/
 // 有兴趣的同学可以自己改一下空间压缩的版本
-public class Code02_PaintingGrid {
+public class Code02_GridPainting {
 
 	public static int MAXN = 1001;
 

@@ -2,7 +2,7 @@ package class126;
 
 // 测试链接 : https://leetcode.cn/problems/maximize-grid-happiness/
 // 有兴趣的同学可以自己改一下空间压缩的版本
-public class Code01_MaximizeGridHappiness {
+public class Code01_GridHappiness {
 
 	public static int MAXN = 5;
 
