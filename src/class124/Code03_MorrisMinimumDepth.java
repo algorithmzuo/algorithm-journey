@@ -1,7 +1,7 @@
 package class124;
 
 // 测试链接 : https://leetcode.cn/problems/minimum-depth-of-binary-tree/description/
-public class Code05_MorrisMinimumDepth {
+public class Code03_MorrisMinimumDepth {
 
 	// 不提交这个类
 	public class TreeNode {

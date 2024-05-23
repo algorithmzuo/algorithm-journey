@@ -1,7 +1,7 @@
 package class124;
 
 // 测试链接 : https://leetcode.cn/problems/lowest-common-ancestor-of-a-binary-tree/
-public class Code06_MorrisLCS {
+public class Code04_MorrisLCS {
 
 	// 不提交这个类
 	public class TreeNode {

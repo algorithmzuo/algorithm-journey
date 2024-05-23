@@ -1,12 +1,9 @@
 package class124;
 
-import java.util.ArrayList;
-import java.util.List;
+// 测试链接 : https://leetcode.cn/problems/validate-binary-search-tree/
+public class Code02_MorrisCheckBST {
 
-// 测试链接 : https://leetcode.cn/problems/binary-tree-preorder-traversal/
-public class Code01_MorrisPreorder {
-
-	// 提交时不提交这个类
+	// 不提交这个类
 	public class TreeNode {
 		int val;
 		TreeNode left;
@@ -14,17 +11,11 @@ public class Code01_MorrisPreorder {
 	}
 
 	// 提交如下的方法
-	public static List<Integer> preorderTraversal(TreeNode head) {
-		List<Integer> ans = new ArrayList<>();
-		morrisPreorder(head, ans);
-		return ans;
-	}
-
-	// morris遍历
-	// 具体完成先序遍历
-	public static void morrisPreorder(TreeNode head, List<Integer> ans) {
+	public static boolean isValidBST(TreeNode head) {
 		TreeNode cur = head;
 		TreeNode mostRight = null;
+		TreeNode pre = null;
+		boolean ans = true;
 		while (cur != null) {
 			mostRight = cur.left;
 			if (mostRight != null) {
@@ -32,18 +23,20 @@ public class Code01_MorrisPreorder {
 					mostRight = mostRight.right;
 				}
 				if (mostRight.right == null) {
-					ans.add(cur.val);
 					mostRight.right = cur;
 					cur = cur.left;
 					continue;
 				} else {
 					mostRight.right = null;
 				}
-			} else {
-				ans.add(cur.val);
 			}
+			if (pre != null && pre.val >= cur.val) {
+				ans = false;
+			}
+			pre = cur;
 			cur = cur.right;
 		}
+		return ans;
 	}
 
 }
