@@ -18,7 +18,9 @@ public class Code04_MorrisMinimumDepth {
 		}
 		TreeNode cur = head;
 		TreeNode mostRight = null;
+		// morris遍历中，上一个节点所在的层数
 		int preLevel = 0;
+		// 树的右边界长度
 		int rightLen;
 		int ans = Integer.MAX_VALUE;
 		while (cur != null) {
@@ -54,7 +56,7 @@ public class Code04_MorrisMinimumDepth {
 			cur = cur.right;
 		}
 		// 整棵树的最右节点是叶节点才纳入统计
-		if (cur.left == null && cur.right == null) {
+		if (cur.left == null) {
 			ans = Math.min(ans, rightLen);
 		}
 		return ans;
