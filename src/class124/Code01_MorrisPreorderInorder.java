@@ -3,12 +3,12 @@ package class124;
 import java.util.ArrayList;
 import java.util.List;
 
-// Morris遍历及其三种序
+// Morris遍历实现先序和中序遍历
 // 测试链接 : https://leetcode.cn/problems/binary-tree-preorder-traversal/
 // 测试链接 : https://leetcode.cn/problems/binary-tree-inorder-traversal/
-// 测试链接 : https://leetcode.cn/problems/binary-tree-postorder-traversal/
-public class Code01_MorrisTraversal {
+public class Code01_MorrisPreorderInorder {
 
+	// 不提交这个类
 	public class TreeNode {
 		int val;
 		TreeNode left;
@@ -21,15 +21,22 @@ public class Code01_MorrisTraversal {
 		TreeNode mostRight = null;
 		while (cur != null) {
 			mostRight = cur.left;
-			if (mostRight != null) {
+			if (mostRight != null) { // cur有左树
+				// 找到左树最右节点
+				// 注意左树最右节点的右指针可能有两个状态
+				// 1, 指向空
+				// 2, 指向cur
+				// 有一个满足，mostRight就是左树最右节点
+				// 如果都不满足，mostRight继续向右
 				while (mostRight.right != null && mostRight.right != cur) {
 					mostRight = mostRight.right;
 				}
-				if (mostRight.right == null) {
+				// 判断左树最右节点的右指针状态
+				if (mostRight.right == null) { // 第一次到达
 					mostRight.right = cur;
 					cur = cur.left;
 					continue;
-				} else {
+				} else { // 第二次到达
 					mostRight.right = null;
 				}
 			}
@@ -99,60 +106,6 @@ public class Code01_MorrisTraversal {
 			ans.add(cur.val);
 			cur = cur.right;
 		}
-	}
-
-	// Morris遍历实现后序遍历
-	// 测试链接 : https://leetcode.cn/problems/binary-tree-postorder-traversal/
-	// 提交postorderTraversal方法，可以直接通过
-	public static List<Integer> postorderTraversal(TreeNode head) {
-		List<Integer> ans = new ArrayList<>();
-		morrisPostorder(head, ans);
-		return ans;
-	}
-
-	public static void morrisPostorder(TreeNode head, List<Integer> ans) {
-		TreeNode cur = head;
-		TreeNode mostRight = null;
-		while (cur != null) {
-			mostRight = cur.left;
-			if (mostRight != null) {
-				while (mostRight.right != null && mostRight.right != cur) {
-					mostRight = mostRight.right;
-				}
-				if (mostRight.right == null) {
-					mostRight.right = cur;
-					cur = cur.left;
-					continue;
-				} else {
-					mostRight.right = null;
-					collect(cur.left, ans);
-				}
-			}
-			cur = cur.right;
-		}
-		collect(head, ans);
-	}
-
-	public static void collect(TreeNode head, List<Integer> ans) {
-		TreeNode tail = reverse(head);
-		TreeNode cur = tail;
-		while (cur != null) {
-			ans.add(cur.val);
-			cur = cur.right;
-		}
-		reverse(tail);
-	}
-
-	public static TreeNode reverse(TreeNode from) {
-		TreeNode pre = null;
-		TreeNode next = null;
-		while (from != null) {
-			next = from.right;
-			from.right = pre;
-			pre = from;
-			from = next;
-		}
-		return pre;
 	}
 
 }

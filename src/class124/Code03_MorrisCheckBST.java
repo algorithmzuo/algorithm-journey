@@ -2,7 +2,7 @@ package class124;
 
 // Morris遍历判断搜索二叉树
 // 测试链接 : https://leetcode.cn/problems/validate-binary-search-tree/
-public class Code02_MorrisCheckBST {
+public class Code03_MorrisCheckBST {
 
 	// 不提交这个类
 	public class TreeNode {

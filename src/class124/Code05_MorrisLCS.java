@@ -2,7 +2,7 @@ package class124;
 
 // Morris遍历求两个节点的最低公共祖先
 // 测试链接 : https://leetcode.cn/problems/lowest-common-ancestor-of-a-binary-tree/
-public class Code04_MorrisLCS {
+public class Code05_MorrisLCS {
 
 	// 不提交这个类
 	public class TreeNode {
