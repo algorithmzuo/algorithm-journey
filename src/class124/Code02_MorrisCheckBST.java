@@ -1,5 +1,6 @@
 package class124;
 
+// Morris遍历判断搜索二叉树
 // 测试链接 : https://leetcode.cn/problems/validate-binary-search-tree/
 public class Code02_MorrisCheckBST {
 

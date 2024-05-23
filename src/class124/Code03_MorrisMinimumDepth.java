@@ -1,6 +1,7 @@
 package class124;
 
-// 测试链接 : https://leetcode.cn/problems/minimum-depth-of-binary-tree/description/
+// Morris遍历求二叉树最小高度
+// 测试链接 : https://leetcode.cn/problems/minimum-depth-of-binary-tree/
 public class Code03_MorrisMinimumDepth {
 
 	// 不提交这个类

@@ -3,7 +3,7 @@ package class124;
 import java.util.ArrayList;
 import java.util.List;
 
-// Morris遍历及其三种序的遍历
+// Morris遍历及其三种序
 // 测试链接 : https://leetcode.cn/problems/binary-tree-preorder-traversal/
 // 测试链接 : https://leetcode.cn/problems/binary-tree-inorder-traversal/
 // 测试链接 : https://leetcode.cn/problems/binary-tree-postorder-traversal/
