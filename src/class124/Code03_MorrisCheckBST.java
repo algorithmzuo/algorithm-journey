@@ -15,6 +15,7 @@ public class Code03_MorrisCheckBST {
 	public static boolean isValidBST(TreeNode head) {
 		TreeNode cur = head;
 		TreeNode mostRight = null;
+		// 前一个遍历的节点
 		TreeNode pre = null;
 		boolean ans = true;
 		while (cur != null) {

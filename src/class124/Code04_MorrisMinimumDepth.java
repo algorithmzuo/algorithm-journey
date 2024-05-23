@@ -18,42 +18,44 @@ public class Code04_MorrisMinimumDepth {
 		}
 		TreeNode cur = head;
 		TreeNode mostRight = null;
-		int curHeight = 0, rightHeight, minHeight = Integer.MAX_VALUE;
+		int height = 0;
+		int rightLen;
+		int ans = Integer.MAX_VALUE;
 		while (cur != null) {
 			mostRight = cur.left;
 			if (mostRight != null) {
-				rightHeight = 1;
+				rightLen = 1;
 				while (mostRight.right != null && mostRight.right != cur) {
-					rightHeight++;
+					rightLen++;
 					mostRight = mostRight.right;
 				}
 				if (mostRight.right == null) {
-					curHeight++;
+					height++;
 					mostRight.right = cur;
 					cur = cur.left;
 					continue;
 				} else {
 					if (mostRight.left == null) {
-						minHeight = Math.min(minHeight, curHeight);
+						ans = Math.min(ans, height);
 					}
-					curHeight -= rightHeight;
+					height -= rightLen;
 					mostRight.right = null;
 				}
 			} else {
-				curHeight++;
+				height++;
 			}
 			cur = cur.right;
 		}
-		rightHeight = 1;
+		rightLen = 1;
 		cur = head;
 		while (cur.right != null) {
-			rightHeight++;
+			rightLen++;
 			cur = cur.right;
 		}
 		if (cur.left == null && cur.right == null) {
-			minHeight = Math.min(minHeight, rightHeight);
+			ans = Math.min(ans, rightLen);
 		}
-		return minHeight;
+		return ans;
 	}
 
 }
