@@ -38,15 +38,15 @@ public class Code05_MorrisLCS {
 					if (ans == null) {
 						// left在cur左树的右边界上
 						if (rightCheck(cur.left, left)) {
-							// 检查left的右树里是否有o2
+							// 检查left看看右树里是否有o2
 							if (findFirst(left.right, o1, o2) != null) {
 								ans = left;
 							}
 							left = cur;
-							// 为什么检查left而不检查cur
+							// 为什么此时检查的是left而不是cur
 							// 因为cur的右指针可能没有恢复回来
-							// 等右指针恢复回来之后再检查
-							// 所以检查left而不检查cur
+							// 需要等右指针恢复回来之后检查才不出错
+							// 所以此时检查的是left而不是cur
 						}
 					}
 				}
