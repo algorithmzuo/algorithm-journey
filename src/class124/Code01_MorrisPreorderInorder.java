@@ -69,7 +69,7 @@ public class Code01_MorrisPreorderInorder {
 				} else { // 第二次到达
 					mostRight.right = null;
 				}
-			} else {
+			} else { // cur无左树
 				ans.add(cur.val);
 			}
 			cur = cur.right;
