@@ -92,14 +92,15 @@ public class Code03_AdjacentDifferent2 {
 			startStatus |= start[i] << j;
 			endStatus |= end[i] << j;
 		}
-
 		for (int s = 0; s < maxs; s++) {
 			prepare[s] = check(s, endStatus) ? 1 : 0;
 		}
 		for (int i = n - 2; i >= 1; i--) {
+			// j == m
 			for (int s = 0; s < maxs; s++) {
 				dp[m][s] = prepare[s];
 			}
+			// 普通位置
 			for (int j = m - 1; j >= 0; j--) {
 				for (int s = 0; s < maxs; s++) {
 					int ans = 0;
@@ -111,6 +112,7 @@ public class Code03_AdjacentDifferent2 {
 					dp[j][s] = ans;
 				}
 			}
+			// 设置prepare
 			for (int s = 0; s < maxs; s++) {
 				prepare[s] = dp[0][s];
 			}

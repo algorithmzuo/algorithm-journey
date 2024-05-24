@@ -48,9 +48,11 @@ public class Code02_PavingTile2 {
 		Arrays.fill(prepare, 0, maxs, 0);
 		prepare[0] = 1;
 		for (int i = n - 1; i >= 0; i--) {
+			// j == m
 			for (int s = 0; s < maxs; s++) {
 				dp[m][s] = prepare[s];
 			}
+			// 普通位置
 			for (int j = m - 1; j >= 0; j--) {
 				for (int s = 0; s < maxs; s++) {
 					long ans;
@@ -65,6 +67,7 @@ public class Code02_PavingTile2 {
 					dp[j][s] = ans;
 				}
 			}
+			// 设置prepare
 			for (int s = 0; s < maxs; s++) {
 				prepare[s] = dp[0][s];
 			}

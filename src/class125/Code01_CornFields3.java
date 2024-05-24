@@ -56,9 +56,11 @@ public class Code01_CornFields3 {
 	public static int compute() {
 		Arrays.fill(prepare, 0, maxs, 1);
 		for (int i = n - 1; i >= 0; i--) {
+			// j == m
 			for (int s = 0; s < maxs; s++) {
 				dp[m][s] = prepare[s];
 			}
+			// 普通位置
 			for (int j = m - 1; j >= 0; j--) {
 				for (int s = 0; s < maxs; s++) {
 					int ans = dp[j + 1][s & (~(1 << j))];
@@ -69,6 +71,7 @@ public class Code01_CornFields3 {
 
 				}
 			}
+			// 设置prepare
 			for (int s = 0; s < maxs; s++) {
 				prepare[s] = dp[0][s];
 			}
