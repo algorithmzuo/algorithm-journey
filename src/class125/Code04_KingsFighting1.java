@@ -70,8 +70,11 @@ public class Code04_KingsFighting1 {
 		long ans = 0;
 		int nexts = next(s, p, j);
 		ans = dp(i, j + 1, nexts, k, 0);
-		if (k > 0 && p == 0 && (j == 0 || ((s >> (j - 1)) & 1) == 0) && ((s >> j) & 1) == 0
-				&& ((s >> (j + 1)) & 1) == 0) {
+		if (k > 0
+			&& p == 0
+			&& (j == 0 || ((s >> (j - 1)) & 1) == 0)
+			&& ((s >> j) & 1) == 0
+			&& ((s >> (j + 1)) & 1) == 0) {
 			ans += dp(i, j + 1, nexts, k - 1, 1);
 		}
 		dp[i][j][s][k][p] = ans;
