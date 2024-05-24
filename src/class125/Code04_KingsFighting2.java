@@ -13,15 +13,17 @@ import java.io.StreamTokenizer;
 
 public class Code04_KingsFighting2 {
 
-	public static int MAXN = 10;
+	public static int MAXN = 9;
 
 	public static int MAXK = 82;
 
-	public static long[][][][] dp = new long[MAXN][1 << MAXN][MAXK][2];
+	public static long[][][][] dp = new long[MAXN + 1][1 << MAXN][MAXK][2];
 
-	public static long[][] backup = new long[1 << MAXN][MAXK];
+	public static long[][] prepare = new long[1 << MAXN][MAXK];
 
 	public static int n;
+
+	public static int maxs;
 
 	public static int kings;
 
@@ -33,6 +35,7 @@ public class Code04_KingsFighting2 {
 		n = (int) in.nval;
 		in.nextToken();
 		kings = (int) in.nval;
+		maxs = 1 << n;
 		out.println(compute());
 		out.flush();
 		out.close();
@@ -40,35 +43,31 @@ public class Code04_KingsFighting2 {
 	}
 
 	public static long compute() {
-		for (int s = 0; s < 1 << n; s++) {
-			backup[s][0] = 1;
+		for (int s = 0; s < maxs; s++) {
+			prepare[s][0] = 1;
 			for (int k = 1; k <= kings; k++) {
-				backup[s][k] = 0;
+				prepare[s][k] = 0;
 			}
 		}
 		for (int i = n - 1; i >= 0; i--) {
 			// j == n
-			for (int s = 0; s < 1 << n; s++) {
+			for (int s = 0; s < maxs; s++) {
 				for (int k = 0; k <= kings; k++) {
 					for (int p = 0; p <= 1; p++) {
-						dp[n][s][k][p] = backup[next(s, p, n)][k];
+						dp[n][s][k][p] = prepare[next(s, p, n)][k];
 					}
 				}
 			}
 			// 普通位置
-			long ans;
 			for (int j = n - 1; j >= 0; j--) {
-				for (int s = 0; s < 1 << n; s++) {
+				for (int s = 0; s < maxs; s++) {
 					for (int k = 0; k <= kings; k++) {
 						for (int p = 0; p <= 1; p++) {
-							ans = 0;
+							long ans = 0;
 							int nexts = next(s, p, j);
 							ans = dp[j + 1][nexts][k][0];
-							if (k > 0
-								&& p == 0
-								&& (j == 0 || ((s >> (j - 1)) & 1) == 0)
-								&& ((s >> j) & 1) == 0
-								&& ((s >> (j + 1)) & 1) == 0) {
+							if (k > 0 && p == 0 && (j == 0 || ((s >> (j - 1)) & 1) == 0) && ((s >> j) & 1) == 0
+									&& ((s >> (j + 1)) & 1) == 0) {
 								ans += dp[j + 1][nexts][k - 1][1];
 							}
 							dp[j][s][k][p] = ans;
@@ -76,11 +75,11 @@ public class Code04_KingsFighting2 {
 					}
 				}
 			}
-			// 设置backup
-			for (int s = 0; s < 1 << n; s++) {
+			// 设置prepare
+			for (int s = 0; s < maxs; s++) {
 				for (int k = 0; k <= kings; k++) {
 					for (int p = 0; p <= 1; p++) {
-						backup[s][k] = dp[0][s][k][0];
+						prepare[s][k] = dp[0][s][k][0];
 					}
 				}
 			}

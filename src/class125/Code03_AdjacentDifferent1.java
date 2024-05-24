@@ -14,7 +14,13 @@ import java.io.StreamTokenizer;
 
 public class Code03_AdjacentDifferent1 {
 
-	public static int n, m, k;
+	public static int n;
+
+	public static int m;
+
+	public static int k;
+
+	public static int maxs;
 
 	public static int LIMIT1 = 100001;
 
@@ -44,6 +50,7 @@ public class Code03_AdjacentDifferent1 {
 		m = (int) in.nval;
 		in.nextToken();
 		k = (int) in.nval;
+		maxs = 1 << (m << 1);
 		for (int i = 0; i < m; i++) {
 			in.nextToken();
 			start[i] = (int) in.nval;
@@ -87,7 +94,7 @@ public class Code03_AdjacentDifferent1 {
 		}
 		for (int i = 0; i < n; i++) {
 			for (int j = 0; j < m; j++) {
-				for (int s = 0; s < 1 << (m << 1); s++) {
+				for (int s = 0; s < maxs; s++) {
 					dp[i][j][s] = -1;
 				}
 			}

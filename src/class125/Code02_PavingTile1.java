@@ -1,6 +1,6 @@
 package class125;
 
-// 测试链接 : https://www.luogu.com.cn/problem/P1879
+// 测试链接 : http://poj.org/problem?id=2411
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有用例
 
 import java.io.BufferedReader;
@@ -10,44 +10,40 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 
-public class Code01_CornFields {
+public class Code02_PavingTile1 {
 
-	public static int MAXN = 12;
+	public static int MAXN = 11;
 
-	public static int MAXM = 12;
+	public static int n;
 
-	public static int MOD = 100000000;
+	public static int m;
 
-	public static int[][] grid = new int[MAXN][MAXM];
+	public static int maxs;
 
-	public static int n, m;
-
-	public static int[][][] dp = new int[MAXN][MAXM][1 << MAXM];
+	public static long[][][] dp = new long[MAXN][MAXN][1 << MAXN];
 
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StreamTokenizer in = new StreamTokenizer(br);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
-		in.nextToken();
-		n = (int) in.nval;
-		in.nextToken();
-		m = (int) in.nval;
-		for (int i = 0; i < n; i++) {
-			for (int j = 0; j < m; j++) {
-				in.nextToken();
-				grid[i][j] = (int) in.nval;
+		while (in.nextToken() != StreamTokenizer.TT_EOF) {
+			n = (int) in.nval;
+			in.nextToken();
+			m = (int) in.nval;
+			maxs = 1 << m;
+			if (n != 0 || m != 0) {
+				out.println(compute());
 			}
 		}
-		out.println(compute());
 		out.flush();
 		out.close();
 		br.close();
 	}
 
-	public static int compute() {
+	public static long compute() {
 		for (int i = 0; i < n; i++) {
 			for (int j = 0; j < m; j++) {
-				for (int s = 0; s < 1 << m; s++) {
+				for (int s = 0; s < maxs; s++) {
 					dp[i][j][s] = -1;
 				}
 			}
@@ -55,9 +51,9 @@ public class Code01_CornFields {
 		return dp(0, 0, 0);
 	}
 
-	public static int dp(int i, int j, int s) {
+	public static long dp(int i, int j, int s) {
 		if (i == n) {
-			return 1;
+			return s == 0 ? 1 : 0;
 		}
 		if (j == m) {
 			return dp(i + 1, 0, s);
@@ -65,9 +61,14 @@ public class Code01_CornFields {
 		if (dp[i][j][s] != -1) {
 			return dp[i][j][s];
 		}
-		int ans = dp(i, j + 1, s & (~(1 << j)));
-		if (grid[i][j] == 1 && (j == 0 || ((s >> (j - 1)) & 1) == 0) && ((s >> j) & 1) == 0) {
-			ans = (ans + dp(i, j + 1, s | (1 << j))) % MOD;
+		long ans;
+		if (((s >> j) & 1) == 1) {
+			ans = dp(i, j + 1, s ^ (1 << j));
+		} else {
+			ans = dp(i, j + 1, s | (1 << j));
+			if (j + 1 < m && ((s >> (j + 1)) & 1) == 0) {
+				ans += dp(i, j + 2, s);
+			}
 		}
 		dp[i][j][s] = ans;
 		return ans;

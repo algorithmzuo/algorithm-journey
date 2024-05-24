@@ -14,13 +14,15 @@ import java.io.StreamTokenizer;
 
 public class Code04_KingsFighting1 {
 
-	public static int MAXN = 10;
+	public static int MAXN = 9;
 
 	public static int MAXK = 82;
 
 	public static long[][][][][] dp = new long[MAXN][MAXN][1 << MAXN][MAXK][2];
 
 	public static int n;
+
+	public static int maxs;
 
 	public static int kings;
 
@@ -32,6 +34,7 @@ public class Code04_KingsFighting1 {
 		n = (int) in.nval;
 		in.nextToken();
 		kings = (int) in.nval;
+		maxs = 1 << n;
 		out.println(compute());
 		out.flush();
 		out.close();
@@ -39,9 +42,9 @@ public class Code04_KingsFighting1 {
 	}
 
 	public static long compute() {
-		for (int s = 0; s < (1 << n); s++) {
-			for (int i = 0; i < n; i++) {
-				for (int j = 0; j < n; j++) {
+		for (int i = 0; i < n; i++) {
+			for (int j = 0; j < n; j++) {
+				for (int s = 0; s < maxs; s++) {
 					for (int k = 0; k <= kings; k++) {
 						dp[i][j][s][k][0] = -1;
 						dp[i][j][s][k][1] = -1;
@@ -65,11 +68,8 @@ public class Code04_KingsFighting1 {
 		long ans = 0;
 		int nexts = next(s, p, j);
 		ans = dp(i, j + 1, nexts, k, 0);
-		if (k > 0
-			&& p == 0
-			&& (j == 0 || ((s >> (j - 1)) & 1) == 0)
-			&& ((s >> j) & 1) == 0
-			&& ((s >> (j + 1)) & 1) == 0) {
+		if (k > 0 && p == 0 && (j == 0 || ((s >> (j - 1)) & 1) == 0) && ((s >> j) & 1) == 0
+				&& ((s >> (j + 1)) & 1) == 0) {
 			ans += dp(i, j + 1, nexts, k - 1, 1);
 		}
 		dp[i][j][s][k][p] = ans;

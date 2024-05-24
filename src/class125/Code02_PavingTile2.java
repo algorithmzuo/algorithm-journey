@@ -1,5 +1,6 @@
 package class125;
 
+// 空间压缩的版本
 // 测试链接 : http://poj.org/problem?id=2411
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有用例
 
@@ -9,14 +10,21 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StreamTokenizer;
+import java.util.Arrays;
 
-public class Code02_PavingTile {
+public class Code02_PavingTile2 {
 
 	public static int MAXN = 11;
 
-	public static int n, m;
+	public static int n;
 
-	public static long[][][] dp = new long[MAXN][MAXN][1 << MAXN];
+	public static int m;
+
+	public static int maxs;
+
+	public static long[][] dp = new long[MAXN + 1][1 << MAXN];
+
+	public static long[] prepare = new long[1 << MAXN];
 
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -26,6 +34,7 @@ public class Code02_PavingTile {
 			n = (int) in.nval;
 			in.nextToken();
 			m = (int) in.nval;
+			maxs = 1 << m;
 			if (n != 0 || m != 0) {
 				out.println(compute());
 			}
@@ -36,37 +45,31 @@ public class Code02_PavingTile {
 	}
 
 	public static long compute() {
-		for (int i = 0; i < n; i++) {
-			for (int j = 0; j < m; j++) {
-				for (int s = 0; s < (1 << m); s++) {
-					dp[i][j][s] = -1;
+		Arrays.fill(prepare, 0, maxs, 0);
+		prepare[0] = 1;
+		for (int i = n - 1; i >= 0; i--) {
+			for (int s = 0; s < maxs; s++) {
+				dp[m][s] = prepare[s];
+			}
+			for (int j = m - 1; j >= 0; j--) {
+				for (int s = 0; s < maxs; s++) {
+					long ans;
+					if (((s >> j) & 1) == 1) {
+						ans = dp[j + 1][s ^ (1 << j)];
+					} else {
+						ans = dp[j + 1][s | (1 << j)];
+						if (j + 1 < m && ((s >> (j + 1)) & 1) == 0) {
+							ans += dp[j + 2][s];
+						}
+					}
+					dp[j][s] = ans;
 				}
 			}
-		}
-		return dp(0, 0, 0);
-	}
-
-	public static long dp(int i, int j, int s) {
-		if (i == n) {
-			return s == 0 ? 1 : 0;
-		}
-		if (j == m) {
-			return dp(i + 1, 0, s);
-		}
-		if (dp[i][j][s] != -1) {
-			return dp[i][j][s];
-		}
-		long ans;
-		if (((s >> j) & 1) == 1) {
-			ans = dp(i, j + 1, s ^ (1 << j));
-		} else {
-			ans = dp(i, j + 1, s | (1 << j));
-			if (j + 1 < m && ((s >> (j + 1)) & 1) == 0) {
-				ans += dp(i, j + 2, s);
+			for (int s = 0; s < maxs; s++) {
+				prepare[s] = dp[0][s];
 			}
 		}
-		dp[i][j][s] = ans;
-		return ans;
+		return dp[0][0];
 	}
 
 }

@@ -13,7 +13,13 @@ import java.io.StreamTokenizer;
 
 public class Code03_AdjacentDifferent2 {
 
-	public static int n, m, k;
+	public static int n;
+
+	public static int m;
+
+	public static int k;
+
+	public static int maxs;
 
 	public static int LIMIT1 = 100001;
 
@@ -25,7 +31,7 @@ public class Code03_AdjacentDifferent2 {
 
 	public static int[][] dp = new int[LIMIT2 + 1][1 << (LIMIT2 << 1)];
 
-	public static int[] backup = new int[1 << (LIMIT2 << 1)];
+	public static int[] prepare = new int[1 << (LIMIT2 << 1)];
 
 	public static int startStatus;
 
@@ -43,6 +49,7 @@ public class Code03_AdjacentDifferent2 {
 		m = (int) in.nval;
 		in.nextToken();
 		k = (int) in.nval;
+		maxs = 1 << (m << 1);
 		for (int i = 0; i < m; i++) {
 			in.nextToken();
 			start[i] = (int) in.nval;
@@ -85,17 +92,16 @@ public class Code03_AdjacentDifferent2 {
 			endStatus |= end[i] << j;
 		}
 
-		for (int s = 0; s < 1 << (m << 1); s++) {
-			backup[s] = check(s, endStatus) ? 1 : 0;
+		for (int s = 0; s < maxs; s++) {
+			prepare[s] = check(s, endStatus) ? 1 : 0;
 		}
-		int ans;
 		for (int i = n - 2; i >= 1; i--) {
-			for (int s = 0; s < 1 << (m << 1); s++) {
-				dp[m][s] = backup[s];
+			for (int s = 0; s < maxs; s++) {
+				dp[m][s] = prepare[s];
 			}
 			for (int j = m - 1; j >= 0; j--) {
-				for (int s = 0; s < 1 << (m << 1); s++) {
-					ans = 0;
+				for (int s = 0; s < maxs; s++) {
+					int ans = 0;
 					for (int color = 0; color < k; color++) {
 						if ((j == 0 || ((s >> ((j - 1) << 1)) & 3) != color) && ((s >> (j << 1)) & 3) != color) {
 							ans = (ans + dp[j + 1][setColor(s, color, j)]) % MOD;
@@ -104,8 +110,8 @@ public class Code03_AdjacentDifferent2 {
 					dp[j][s] = ans;
 				}
 			}
-			for (int s = 0; s < 1 << (m << 1); s++) {
-				backup[s] = dp[0][s];
+			for (int s = 0; s < maxs; s++) {
+				prepare[s] = dp[0][s];
 			}
 		}
 		return dp[0][startStatus];
