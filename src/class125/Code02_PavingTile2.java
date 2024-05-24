@@ -56,11 +56,11 @@ public class Code02_PavingTile2 {
 			for (int j = m - 1; j >= 0; j--) {
 				for (int s = 0; s < maxs; s++) {
 					long ans;
-					if (((s >> j) & 1) == 1) {
-						ans = dp[j + 1][s ^ (1 << j)];
+					if (get(s, j) == 1) {
+						ans = dp[j + 1][set(s, j, 0)];
 					} else {
-						ans = dp[j + 1][s | (1 << j)];
-						if (j + 1 < m && ((s >> (j + 1)) & 1) == 0) {
+						ans = dp[j + 1][set(s, j, 1)];
+						if (j + 1 < m && get(s, j + 1) == 0) {
 							ans += dp[j + 2][s];
 						}
 					}
@@ -73,6 +73,14 @@ public class Code02_PavingTile2 {
 			}
 		}
 		return dp[0][0];
+	}
+
+	public static int get(int s, int j) {
+		return (s >> j) & 1;
+	}
+
+	public static int set(int s, int j, int v) {
+		return v == 0 ? (s & (~(1 << j))) : (s | (1 << j));
 	}
 
 }

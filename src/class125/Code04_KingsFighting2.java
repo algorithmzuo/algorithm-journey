@@ -56,7 +56,7 @@ public class Code04_KingsFighting2 {
 			for (int s = 0; s < maxs; s++) {
 				for (int k = 0; k <= kings; k++) {
 					for (int p = 0; p <= 1; p++) {
-						dp[n][s][k][p] = prepare[next(s, p, n)][k];
+						dp[n][s][k][p] = prepare[set(s, n - 1, p)][k];
 					}
 				}
 			}
@@ -66,13 +66,13 @@ public class Code04_KingsFighting2 {
 					for (int k = 0; k <= kings; k++) {
 						for (int p = 0; p <= 1; p++) {
 							long ans = 0;
-							int nexts = next(s, p, j);
+							int nexts = j == 0 ? s : set(s, j - 1, p);
 							ans = dp[j + 1][nexts][k][0];
 							if (k > 0
 								&& p == 0
-								&& (j == 0 || ((s >> (j - 1)) & 1) == 0)
-								&& ((s >> j) & 1) == 0
-								&& ((s >> (j + 1)) & 1) == 0) {
+								&& (j == 0 || get(s, j - 1) == 0)
+								&& get(s, j) == 0
+								&& get(s, j + 1) == 0) {
 								ans += dp[j + 1][nexts][k - 1][1];
 							}
 							dp[j][s][k][p] = ans;
@@ -92,11 +92,12 @@ public class Code04_KingsFighting2 {
 		return dp[0][0][kings][0];
 	}
 
-	public static int next(int s, int p, int j) {
-		if (j == 0) {
-			return s;
-		}
-		return p == 0 ? (s & (~(1 << (j - 1)))) : (s | (1 << (j - 1)));
+	public static int get(int s, int j) {
+		return (s >> j) & 1;
+	}
+
+	public static int set(int s, int j, int v) {
+		return v == 0 ? (s & (~(1 << j))) : (s | (1 << j));
 	}
 
 }

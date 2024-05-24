@@ -75,10 +75,18 @@ public class Code01_CornFields1 {
 			return dp(i + 1, ss);
 		}
 		int ans = dfs(i, j + 1, s, ss);
-		if (grid[i][j] == 1 && (j == 0 || ((ss >> (j - 1)) & 1) == 0) && ((s >> j) & 1) == 0) {
-			ans = (ans + dfs(i, j + 1, s, ss | (1 << j))) % MOD;
+		if (grid[i][j] == 1 && (j == 0 || get(ss, j - 1) == 0) && get(s, j) == 0) {
+			ans = (ans + dfs(i, j + 1, s, set(ss, j, 1))) % MOD;
 		}
 		return ans;
+	}
+
+	public static int get(int s, int j) {
+		return (s >> j) & 1;
+	}
+
+	public static int set(int s, int j, int v) {
+		return v == 0 ? (s & (~(1 << j))) : (s | (1 << j));
 	}
 
 }

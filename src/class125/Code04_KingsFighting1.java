@@ -62,30 +62,31 @@ public class Code04_KingsFighting1 {
 			return k == 0 ? 1 : 0;
 		}
 		if (j == n) {
-			return dp(i + 1, 0, next(s, p, n), k, 0);
+			return dp(i + 1, 0, set(s, n - 1, p), k, 0);
 		}
 		if (dp[i][j][s][k][p] != -1) {
 			return dp[i][j][s][k][p];
 		}
 		long ans = 0;
-		int nexts = next(s, p, j);
+		int nexts = j == 0 ? s : set(s, j - 1, p);
 		ans = dp(i, j + 1, nexts, k, 0);
 		if (k > 0
 			&& p == 0
-			&& (j == 0 || ((s >> (j - 1)) & 1) == 0)
-			&& ((s >> j) & 1) == 0
-			&& ((s >> (j + 1)) & 1) == 0) {
+			&& (j == 0 || get(s, j - 1) == 0)
+			&& get(s, j) == 0
+			&& get(s, j + 1) == 0) {
 			ans += dp(i, j + 1, nexts, k - 1, 1);
 		}
 		dp[i][j][s][k][p] = ans;
 		return ans;
 	}
 
-	public static int next(int s, int p, int j) {
-		if (j == 0) {
-			return s;
-		}
-		return p == 0 ? (s & (~(1 << (j - 1)))) : (s | (1 << (j - 1)));
+	public static int get(int s, int j) {
+		return (s >> j) & 1;
+	}
+
+	public static int set(int s, int j, int v) {
+		return v == 0 ? (s & (~(1 << j))) : (s | (1 << j));
 	}
 
 }

@@ -63,16 +63,24 @@ public class Code02_PavingTile1 {
 			return dp[i][j][s];
 		}
 		long ans;
-		if (((s >> j) & 1) == 1) {
-			ans = dp(i, j + 1, s ^ (1 << j));
+		if (get(s, j) == 1) {
+			ans = dp(i, j + 1, set(s, j, 0));
 		} else {
-			ans = dp(i, j + 1, s | (1 << j));
-			if (j + 1 < m && ((s >> (j + 1)) & 1) == 0) {
+			ans = dp(i, j + 1, set(s, j, 1));
+			if (j + 1 < m && get(s, j + 1) == 0) {
 				ans += dp(i, j + 2, s);
 			}
 		}
 		dp[i][j][s] = ans;
 		return ans;
+	}
+
+	public static int get(int s, int j) {
+		return (s >> j) & 1;
+	}
+
+	public static int set(int s, int j, int v) {
+		return v == 0 ? (s & (~(1 << j))) : (s | (1 << j));
 	}
 
 }

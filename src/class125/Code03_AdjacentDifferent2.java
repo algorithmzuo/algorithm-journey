@@ -89,12 +89,12 @@ public class Code03_AdjacentDifferent2 {
 
 	public static int compute() {
 		startStatus = endStatus = 0;
-		for (int i = 0, j = 0; i < m; i++, j += 2) {
-			startStatus |= start[i] << j;
-			endStatus |= end[i] << j;
+		for (int j = 0; j < m; j++) {
+			startStatus = set(startStatus, j, start[j]);
+			endStatus = set(endStatus, j, end[j]);
 		}
 		for (int s = 0; s < maxs; s++) {
-			prepare[s] = check(s, endStatus) ? 1 : 0;
+			prepare[s] = different(s, endStatus) ? 1 : 0;
 		}
 		for (int i = n - 2; i >= 1; i--) {
 			// j == m
@@ -106,8 +106,8 @@ public class Code03_AdjacentDifferent2 {
 				for (int s = 0; s < maxs; s++) {
 					int ans = 0;
 					for (int color = 0; color < k; color++) {
-						if ((j == 0 || ((s >> ((j - 1) << 1)) & 3) != color) && ((s >> (j << 1)) & 3) != color) {
-							ans = (ans + dp[j + 1][setColor(s, color, j)]) % MOD;
+						if ((j == 0 || get(s, j - 1) != color) && get(s, j) != color) {
+							ans = (ans + dp[j + 1][set(s, j, color)]) % MOD;
 						}
 					}
 					dp[j][s] = ans;
@@ -121,18 +121,21 @@ public class Code03_AdjacentDifferent2 {
 		return dp[0][startStatus];
 	}
 
-	public static boolean check(int a, int b) {
-		for (int i = 0, j = 0; i < m; i++, j += 2) {
-			if (((a >> j) & 3) == ((b >> j) & 3)) {
+	public static boolean different(int a, int b) {
+		for (int j = 0; j < m; j++) {
+			if (get(a, j) == get(b, j)) {
 				return false;
 			}
 		}
 		return true;
 	}
 
-	public static int setColor(int s, int c, int j) {
-		int i = j << 1;
-		return s & (~(3 << i)) | (c << i);
+	public static int get(int s, int j) {
+		return (s >> (j << 1)) & 3;
+	}
+
+	public static int set(int s, int j, int v) {
+		return s & (~(3 << (j << 1))) | (v << (j << 1));
 	}
 
 }
