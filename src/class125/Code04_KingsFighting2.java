@@ -22,11 +22,7 @@ public class Code04_KingsFighting2 {
 
 	public static long[][] prepare = new long[1 << MAXN][MAXK];
 
-	public static int n;
-
-	public static int maxs;
-
-	public static int kings;
+	public static int n, kings, maxs;
 
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));

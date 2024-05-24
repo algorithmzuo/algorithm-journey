@@ -21,13 +21,9 @@ public class Code01_CornFields2 {
 
 	public static int[][] grid = new int[MAXN][MAXM];
 
-	public static int n;
-
-	public static int m;
-
-	public static int maxs;
-
 	public static int[][][] dp = new int[MAXN][MAXM][1 << MAXM];
+
+	public static int n, m, maxs;
 
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));

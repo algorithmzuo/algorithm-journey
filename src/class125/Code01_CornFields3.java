@@ -22,15 +22,11 @@ public class Code01_CornFields3 {
 
 	public static int[][] grid = new int[MAXN][MAXM];
 
-	public static int n;
-
-	public static int m;
-
-	public static int maxs;
-
 	public static int[][] dp = new int[MAXM + 1][1 << MAXM];
 
 	public static int[] prepare = new int[1 << MAXM];
+
+	public static int n, m, maxs;
 
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));

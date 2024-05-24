@@ -14,31 +14,23 @@ import java.io.StreamTokenizer;
 
 public class Code03_AdjacentDifferent1 {
 
-	public static int n;
-
-	public static int m;
-
-	public static int k;
-
-	public static int maxs;
-
 	public static int LIMIT1 = 100001;
-
-	public static int[] start = new int[LIMIT1];
-
-	public static int[] end = new int[LIMIT1];
 
 	public static int LIMIT2 = 101;
 
 	public static int LIMIT3 = 8;
 
+	public static int MOD = 376544743;
+
+	public static int[] start = new int[LIMIT1];
+
+	public static int[] end = new int[LIMIT1];
+
 	public static int[][][] dp = new int[LIMIT2][LIMIT3][1 << (LIMIT3 << 1)];
 
-	public static int startStatus;
+	public static int startStatus, endStatus;
 
-	public static int endStatus;
-
-	public static int MOD = 376544743;
+	public static int n, m, k, maxs;
 
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));

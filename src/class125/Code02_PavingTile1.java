@@ -14,13 +14,9 @@ public class Code02_PavingTile1 {
 
 	public static int MAXN = 11;
 
-	public static int n;
-
-	public static int m;
-
-	public static int maxs;
-
 	public static long[][][] dp = new long[MAXN][MAXN][1 << MAXN];
+
+	public static int n, m, maxs;
 
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
