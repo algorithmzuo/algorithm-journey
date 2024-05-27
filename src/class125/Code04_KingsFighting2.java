@@ -63,11 +63,10 @@ public class Code04_KingsFighting2 {
 				for (int s = 0; s < maxs; s++) {
 					for (int leftup = 0; leftup <= 1; leftup++) {
 						for (int k = 0; k <= kings; k++) {
-							long ans = 0;
 							int left = j == 0 ? 0 : get(s, j - 1);
 							int up = get(s, j);
 							int rightup = get(s, j + 1);
-							ans = dp[j + 1][set(s, j, 0)][up][k];
+							long ans = dp[j + 1][set(s, j, 0)][up][k];
 							if (k > 0 && left == 0 && leftup == 0 && up == 0 && rightup == 0) {
 								ans += dp[j + 1][set(s, j, 1)][up][k - 1];
 							}
