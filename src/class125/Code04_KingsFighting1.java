@@ -49,7 +49,6 @@ public class Code04_KingsFighting1 {
 					for (int leftup = 0; leftup <= 1; leftup++) {
 						for (int k = 0; k <= kings; k++) {
 							dp[i][j][s][leftup][k] = -1;
-							dp[i][j][s][leftup][k] = -1;
 						}
 					}
 				}
