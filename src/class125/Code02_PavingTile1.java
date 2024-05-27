@@ -49,26 +49,33 @@ public class Code02_PavingTile1 {
 				}
 			}
 		}
-		return dp(0, 0, 0);
+		return f(0, 0, 0);
 	}
 
-	public static long dp(int i, int j, int s) {
+	// 当前来到i行j列
+	// i-1行中，[j..m-1]列有没有作为竖砖的上点，状况用s[j..m-1]表示
+	// i行中，[0..j-1]列有没有作为竖砖的上点，状况用s[0..j-1]表示
+	// s表示轮廓线的状况
+	// 返回后续有几种摆放的方法
+	public static long f(int i, int j, int s) {
 		if (i == n) {
-			return s == 0 ? 1 : 0;
+			return 1;
 		}
 		if (j == m) {
-			return dp(i + 1, 0, s);
+			return f(i + 1, 0, s);
 		}
 		if (dp[i][j][s] != -1) {
 			return dp[i][j][s];
 		}
-		long ans;
+		long ans = 0;
 		if (get(s, j) == 1) {
-			ans = dp(i, j + 1, set(s, j, 0));
-		} else {
-			ans = dp(i, j + 1, set(s, j, 1));
-			if (j + 1 < m && get(s, j + 1) == 0) {
-				ans += dp(i, j + 2, s);
+			ans = f(i, j + 1, set(s, j, 0));
+		} else { // 上方没有竖着摆砖
+			if (i + 1 < n) { // 当前竖着摆砖
+				ans = f(i, j + 1, set(s, j, 1));
+			}
+			if (j + 1 < m && get(s, j + 1) == 0) { // 当前横着摆砖
+				ans += f(i, j + 2, s);
 			}
 		}
 		dp[i][j][s] = ans;

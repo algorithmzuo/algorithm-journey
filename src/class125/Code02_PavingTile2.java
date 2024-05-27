@@ -45,8 +45,7 @@ public class Code02_PavingTile2 {
 	}
 
 	public static long compute() {
-		Arrays.fill(prepare, 0, maxs, 0);
-		prepare[0] = 1;
+		Arrays.fill(prepare, 0, maxs, 1);
 		for (int i = n - 1; i >= 0; i--) {
 			// j == m
 			for (int s = 0; s < maxs; s++) {
@@ -55,11 +54,13 @@ public class Code02_PavingTile2 {
 			// 普通位置
 			for (int j = m - 1; j >= 0; j--) {
 				for (int s = 0; s < maxs; s++) {
-					long ans;
+					long ans = 0;
 					if (get(s, j) == 1) {
 						ans = dp[j + 1][set(s, j, 0)];
 					} else {
-						ans = dp[j + 1][set(s, j, 1)];
+						if (i + 1 < n) {
+							ans = dp[j + 1][set(s, j, 1)];
+						}
 						if (j + 1 < m && get(s, j + 1) == 0) {
 							ans += dp[j + 2][s];
 						}

@@ -7,9 +7,8 @@ package class125;
 // 1 <= n <= 9
 // 1 <= k <= n*n
 // 测试链接 : https://www.luogu.com.cn/problem/P1896
-// 提交以下的code，提交时请把类名改成"Main"
-// 空间会不达标，在线测试无法全部通过，但逻辑正确
-// 我运行了所有可能的情况，结果是正确的
+// 提交以下的code，提交时请把类名改成"Main"，有可能全部通过
+// 不过更推荐写出空间压缩的版本
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -24,7 +23,7 @@ public class Code04_KingsFighting1 {
 
 	public static int MAXK = 82;
 
-	public static long[][][][][] dp = new long[MAXN][MAXN][1 << MAXN][MAXK][2];
+	public static long[][][][][] dp = new long[MAXN][MAXN][1 << MAXN][2][MAXK];
 
 	public static int n, kings, maxs;
 
@@ -47,37 +46,44 @@ public class Code04_KingsFighting1 {
 		for (int i = 0; i < n; i++) {
 			for (int j = 0; j < n; j++) {
 				for (int s = 0; s < maxs; s++) {
-					for (int k = 0; k <= kings; k++) {
-						dp[i][j][s][k][0] = -1;
-						dp[i][j][s][k][1] = -1;
+					for (int leftup = 0; leftup <= 1; leftup++) {
+						for (int k = 0; k <= kings; k++) {
+							dp[i][j][s][leftup][k] = -1;
+							dp[i][j][s][leftup][k] = -1;
+						}
 					}
 				}
 			}
 		}
-		return dp(0, 0, 0, kings, 0);
+		return f(0, 0, 0, 0, kings);
 	}
 
-	public static long dp(int i, int j, int s, int k, int p) {
+	// 当前来到i行j列
+	// i-1行中，[j..m-1]列有没有摆放国王，用s[j..m-1]号格子表示
+	// i行中，[0..j-1]列有没有摆放国王，用s[0..j-1]号格子表示
+	// s表示轮廓线的状况
+	// (i-1, j-1)位置，也就是左上角，有没有摆放国王，用leftup表示
+	// 国王还剩下k个需要去摆放
+	// 返回有多少种摆放方法
+	public static long f(int i, int j, int s, int leftup, int k) {
 		if (i == n) {
 			return k == 0 ? 1 : 0;
 		}
 		if (j == n) {
-			return dp(i + 1, 0, set(s, n - 1, p), k, 0);
+			return f(i + 1, 0, s, 0, k);
 		}
-		if (dp[i][j][s][k][p] != -1) {
-			return dp[i][j][s][k][p];
+		if (dp[i][j][s][leftup][k] != -1) {
+			return dp[i][j][s][leftup][k];
 		}
 		long ans = 0;
-		int nexts = j == 0 ? s : set(s, j - 1, p);
-		ans = dp(i, j + 1, nexts, k, 0);
-		if (k > 0
-			&& p == 0
-			&& (j == 0 || get(s, j - 1) == 0)
-			&& get(s, j) == 0
-			&& get(s, j + 1) == 0) {
-			ans += dp(i, j + 1, nexts, k - 1, 1);
+		int left = j == 0 ? 0 : get(s, j - 1);
+		int up = get(s, j);
+		int rightup = get(s, j + 1);
+		ans = f(i, j + 1, set(s, j, 0), up, k);
+		if (k > 0 && left == 0 && leftup == 0 && up == 0 && rightup == 0) {
+			ans += f(i, j + 1, set(s, j, 1), up, k - 1);
 		}
-		dp[i][j][s][k][p] = ans;
+		dp[i][j][s][leftup][k] = ans;
 		return ans;
 	}
 

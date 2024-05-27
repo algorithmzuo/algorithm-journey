@@ -70,7 +70,6 @@ public class Code01_CornFields3 {
 						ans = (ans + dp[j + 1][set(s, j, 1)]) % MOD;
 					}
 					dp[j][s] = ans;
-
 				}
 			}
 			// 设置prepare

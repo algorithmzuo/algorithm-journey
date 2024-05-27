@@ -101,15 +101,20 @@ public class Code03_AdjacentDifferent1 {
 				}
 			}
 		}
-		return dp(1, 0, startStatus);
+		return f(1, 0, startStatus);
 	}
 
-	public static int dp(int i, int j, int s) {
+	// 当前来到i行j列
+	// i-1行中，[j..m-1]列的颜色状况，用s[j..m-1]号格子表示
+	// i行中，[0..j-1]列的颜色状况，用s[0..j-1]号格子表示
+	// s表示轮廓线的状况
+	// 返回有几种染色方法
+	public static int f(int i, int j, int s) {
 		if (i == n - 1) {
 			return different(s, endStatus) ? 1 : 0;
 		}
 		if (j == m) {
-			return dp(i + 1, 0, s);
+			return f(i + 1, 0, s);
 		}
 		if (dp[i][j][s] != -1) {
 			return dp[i][j][s];
@@ -117,13 +122,14 @@ public class Code03_AdjacentDifferent1 {
 		int ans = 0;
 		for (int color = 0; color < k; color++) {
 			if ((j == 0 || get(s, j - 1) != color) && get(s, j) != color) {
-				ans = (ans + dp(i, j + 1, set(s, j, color))) % MOD;
+				ans = (ans + f(i, j + 1, set(s, j, color))) % MOD;
 			}
 		}
 		dp[i][j][s] = ans;
 		return ans;
 	}
 
+	// 颜色状况a和颜色状况b，是否每一格都不同
 	public static boolean different(int a, int b) {
 		for (int j = 0; j < m; j++) {
 			if (get(a, j) == get(b, j)) {
@@ -133,10 +139,12 @@ public class Code03_AdjacentDifferent1 {
 		return true;
 	}
 
+	// 在颜色状况s里，取出j号格的颜色
 	public static int get(int s, int j) {
 		return (s >> (j << 1)) & 3;
 	}
 
+	// 颜色状况s中，把j号格的颜色设置成v，然后把新的s返回
 	public static int set(int s, int j, int v) {
 		return s & (~(3 << (j << 1))) | (v << (j << 1));
 	}
