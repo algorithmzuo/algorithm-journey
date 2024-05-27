@@ -63,6 +63,11 @@ public class Code01_CornFields2 {
 		return dp(0, 0, 0);
 	}
 
+	// 当前来到i行j列
+	// i-1行中，[j..m-1]列的种草状况用s[j..m-1]表示
+	// i行中，[0..j-1]列的种草状况用s[0..j-1]表示
+	// s表示轮廓线的状况
+	// 返回后续有几种种草方法
 	public static int dp(int i, int j, int s) {
 		if (i == n) {
 			return 1;

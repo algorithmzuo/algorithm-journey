@@ -70,6 +70,10 @@ public class Code01_CornFields1 {
 		return dfs(i, 0, s, 0);
 	}
 
+	// 当前来到i行j列
+	// i-1行每列种草的状况s
+	// i行每列种草的状况ss
+	// 返回后续有几种方法
 	public static int dfs(int i, int j, int s, int ss) {
 		if (j == m) {
 			return dp(i + 1, ss);
@@ -81,10 +85,12 @@ public class Code01_CornFields1 {
 		return ans;
 	}
 
+	// 得到状态s中j位的状态
 	public static int get(int s, int j) {
 		return (s >> j) & 1;
 	}
 
+	// 状态s中j位的状态设置成v，然后把新的值返回
 	public static int set(int s, int j, int v) {
 		return v == 0 ? (s & (~(1 << j))) : (s | (1 << j));
 	}
