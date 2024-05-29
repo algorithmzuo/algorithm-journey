@@ -1,5 +1,12 @@
 package class126;
 
+// 用三种不同颜色为网格涂色
+// 给你两个整数m和n，表示m*n的网格，其中每个单元格最开始是白色
+// 请你用红、绿、蓝三种颜色为每个单元格涂色，所有单元格都需要被涂色
+// 要求相邻单元格的颜色一定要不同
+// 返回网格涂色的方法数，答案对1000000007取余
+// 1 <= m <= 5
+// 1 <= n <= 1000
 // 测试链接 : https://leetcode.cn/problems/painting-a-grid-with-three-different-colors/
 // 有兴趣的同学可以自己改一下空间压缩的版本
 public class Code02_GridPainting {
@@ -9,6 +16,8 @@ public class Code02_GridPainting {
 	public static int MAXM = 5;
 
 	public static int MAXS = (int) Math.pow(3, MAXM);
+
+	public static int MOD = 1000000007;
 
 	public static int n;
 
@@ -22,10 +31,8 @@ public class Code02_GridPainting {
 
 	public static int size;
 
-	public static int MOD = 1000000007;
-
-	public static int colorTheGrid(int cols, int rows) {
-		build(cols, rows);
+	public static int colorTheGrid(int rows, int cols) {
+		build(rows, cols);
 		int ans = 0;
 		for (int i = 0; i < size; i++) {
 			ans = (ans + dp(1, 0, first[i], 1)) % MOD;
@@ -33,9 +40,9 @@ public class Code02_GridPainting {
 		return ans;
 	}
 
-	public static void build(int c, int r) {
-		n = r;
-		m = c;
+	public static void build(int rows, int cols) {
+		n = Math.max(rows, cols);
+		m = Math.min(rows, cols);
 		maxs = (int) Math.pow(3, m);
 		for (int i = 0; i < n; i++) {
 			for (int j = 0; j < m; j++) {
@@ -52,15 +59,15 @@ public class Code02_GridPainting {
 		if (j == m) {
 			first[size++] = s;
 		} else {
-			int left = j == 0 ? -1 : ((s / (bit / 3)) % 3);
+			int left = j == 0 ? -1 : get(s, bit / 3);
 			if (left != 0) {
-				dfs(j + 1, s, bit * 3);
+				dfs(j + 1, set(s, bit, 0), bit * 3);
 			}
 			if (left != 1) {
-				dfs(j + 1, s + bit, bit * 3);
+				dfs(j + 1, set(s, bit, 1), bit * 3);
 			}
 			if (left != 2) {
-				dfs(j + 1, s + (bit << 1), bit * 3);
+				dfs(j + 1, set(s, bit, 2), bit * 3);
 			}
 		}
 	}
@@ -75,22 +82,28 @@ public class Code02_GridPainting {
 		if (dp[i][j][s] != -1) {
 			return dp[i][j][s];
 		}
-		int up = (s / bit) % 3;
-		int left = j == 0 ? -1 : ((s / (bit / 3)) % 3);
-		s -= up * bit;
+		int up = get(s, bit);
+		int left = j == 0 ? -1 : get(s, bit / 3);
 		int ans = 0;
 		if (up != 0 && left != 0) {
-			ans = (ans + dp(i, j + 1, s, bit * 3)) % MOD;
+			ans = (ans + dp(i, j + 1, set(s, bit, 0), bit * 3)) % MOD;
 		}
 		if (up != 1 && left != 1) {
-			ans = (ans + dp(i, j + 1, s + bit, bit * 3)) % MOD;
+			ans = (ans + dp(i, j + 1, set(s, bit, 1), bit * 3)) % MOD;
 		}
 		if (up != 2 && left != 2) {
-			ans = (ans + dp(i, j + 1, s + (bit << 1), bit * 3)) % MOD;
+			ans = (ans + dp(i, j + 1, set(s, bit, 2), bit * 3)) % MOD;
 		}
-		s += up * bit;
 		dp[i][j][s] = ans;
 		return ans;
+	}
+
+	public static int get(int s, int bit) {
+		return s / bit % 3;
+	}
+
+	public static int set(int s, int bit, int v) {
+		return s - get(s, bit) * bit + v * bit;
 	}
 
 }

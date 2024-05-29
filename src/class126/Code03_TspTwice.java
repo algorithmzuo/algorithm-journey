@@ -1,6 +1,14 @@
 package class126;
 
-// https://acm.hdu.edu.cn/showproblem.php?pid=3001
+// 节点最多经过两次的tsp问题
+// 给定有n个地点，用m条边无向边连接，每条边有权值
+// 你可以任选一点出发，目标是经过所有的点，最终不必回到出发点
+// 并且每个点最多可以到达两次
+// 返回总路程最小是多少
+// 1 <= n <= 10
+// 1 <= m <= 100
+// 测试链接 : https://acm.hdu.edu.cn/showproblem.php?pid=3001
+// 提交以下的code，提交时请把类名改成"Main"，可以通过所有用例
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -50,7 +58,7 @@ public class Code03_TspTwice {
 			complete[size++] = s;
 		} else {
 			dfs(i + 1, bit * 3, s + bit);
-			dfs(i + 1, bit * 3, s + (bit << 1));
+			dfs(i + 1, bit * 3, s + 2 * bit);
 		}
 	}
 
