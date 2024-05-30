@@ -66,13 +66,13 @@ public class Code03_TspTwice {
 		int ans = Integer.MAX_VALUE;
 		for (int k = 0; k < size; k++) {
 			for (int i = 0, bit = 1; i < n; i++, bit *= 3) {
-				ans = Math.min(ans, dp(i, complete[k] - bit));
+				ans = Math.min(ans, f(i, complete[k] - bit));
 			}
 		}
 		return ans;
 	}
 
-	public static int dp(int i, int s) {
+	public static int f(int i, int s) {
 		if (s == 0) {
 			return 0;
 		}
@@ -82,7 +82,7 @@ public class Code03_TspTwice {
 		int ans = Integer.MAX_VALUE;
 		for (int j = 0, bit = 1, pre; j < n; j++, bit *= 3) {
 			if ((s / bit) % 3 > 0) {
-				pre = dp(j, s - bit);
+				pre = f(j, s - bit);
 				if (pre != Integer.MAX_VALUE && graph[j][i] != Integer.MAX_VALUE) {
 					ans = Math.min(ans, pre + graph[j][i]);
 				}

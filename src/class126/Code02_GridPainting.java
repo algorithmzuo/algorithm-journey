@@ -35,7 +35,7 @@ public class Code02_GridPainting {
 		build(rows, cols);
 		int ans = 0;
 		for (int i = 0; i < size; i++) {
-			ans = (ans + dp(1, 0, first[i], 1)) % MOD;
+			ans = (ans + f(1, 0, first[i], 1)) % MOD;
 		}
 		return ans;
 	}
@@ -55,6 +55,7 @@ public class Code02_GridPainting {
 		dfs(0, 0, 1);
 	}
 
+	// 取得所有第一行的有效状态
 	public static void dfs(int j, int s, int bit) {
 		if (j == m) {
 			first[size++] = s;
@@ -72,27 +73,29 @@ public class Code02_GridPainting {
 		}
 	}
 
-	public static int dp(int i, int j, int s, int bit) {
+	public static int f(int i, int j, int s, int bit) {
 		if (i == n) {
 			return 1;
 		}
 		if (j == m) {
-			return dp(i + 1, 0, s, 1);
+			return f(i + 1, 0, s, 1);
 		}
 		if (dp[i][j][s] != -1) {
 			return dp[i][j][s];
 		}
+		// 上方的颜色
 		int up = get(s, bit);
+		// 左侧的颜色，-1代表左侧没有格子
 		int left = j == 0 ? -1 : get(s, bit / 3);
 		int ans = 0;
 		if (up != 0 && left != 0) {
-			ans = (ans + dp(i, j + 1, set(s, bit, 0), bit * 3)) % MOD;
+			ans = (ans + f(i, j + 1, set(s, bit, 0), bit * 3)) % MOD;
 		}
 		if (up != 1 && left != 1) {
-			ans = (ans + dp(i, j + 1, set(s, bit, 1), bit * 3)) % MOD;
+			ans = (ans + f(i, j + 1, set(s, bit, 1), bit * 3)) % MOD;
 		}
 		if (up != 2 && left != 2) {
-			ans = (ans + dp(i, j + 1, set(s, bit, 2), bit * 3)) % MOD;
+			ans = (ans + f(i, j + 1, set(s, bit, 2), bit * 3)) % MOD;
 		}
 		dp[i][j][s] = ans;
 		return ans;
