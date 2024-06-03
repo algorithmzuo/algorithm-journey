@@ -48,8 +48,9 @@ public class Code07 {
 		return (int) ((((long) dp[n - 1] + dp[n - 2]) * k) % MOD);
 	}
 
-	// 动态规划+矩阵乘法优化
+	// 动态规划+矩阵快速幂优化
 	// 时间复杂度O(log n)
+	// 不会的同学看讲解098
 	public static int dp3(int n, int k) {
 		if (n == 1) {
 			return k;
