@@ -6,7 +6,7 @@ package class127;
 // 返回摆盘的方法数，答案可能很大，对1000000007取余
 // 1 <= n <= 1000
 // 1 <= k <= 1000
-// 对数器验证
+// 来自真实大厂笔试，对数器验证
 public class Code07 {
 
 	public static int MOD = 1000000007;
@@ -32,6 +32,7 @@ public class Code07 {
 	}
 
 	// 正式方法的尝试思路，普通动态规划
+	// 时间复杂度O(n)
 	public static int dp2(int n, int k) {
 		if (n == 1) {
 			return k;
@@ -48,6 +49,7 @@ public class Code07 {
 	}
 
 	// 动态规划+矩阵乘法优化
+	// 时间复杂度O(log n)
 	public static int dp3(int n, int k) {
 		if (n == 1) {
 			return k;
