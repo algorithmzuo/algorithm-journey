@@ -11,7 +11,7 @@ public class Code07 {
 
 	public static int MOD = 1000000007;
 
-	// 正式方法的尝试思路，不做动态规划
+	// 正式方法的尝试思路
 	public static int dp1(int n, int k) {
 		if (n == 1) {
 			return k;
@@ -31,7 +31,7 @@ public class Code07 {
 		return (int) (((p1 + p2) * (k - 1)) % MOD);
 	}
 
-	// 正式方法的尝试思路，普通动态规划
+	// 正式方法的普通动态规划版本
 	// 时间复杂度O(n)
 	public static int dp2(int n, int k) {
 		if (n == 1) {
@@ -48,8 +48,7 @@ public class Code07 {
 		return (int) ((((long) dp[n - 1] + dp[n - 2]) * k) % MOD);
 	}
 
-	// 最优解
-	// 动态规划+矩阵快速幂优化
+	// 最优解的版本，动态规划 + 矩阵快速幂优化
 	// 时间复杂度O(log n)
 	// 不会的同学看讲解098
 	public static int dp3(int n, int k) {
