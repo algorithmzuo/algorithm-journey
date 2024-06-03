@@ -144,8 +144,8 @@ public class Code07 {
 		System.out.println();
 
 		System.out.println("性能测试开始");
-		int n = 502003060;
-		int k = 304030060;
+		int n = 505060123;
+		int k = 303060123;
 		System.out.println("数据量 : n = " + n + ", k = " + k);
 
 		long start, end;
