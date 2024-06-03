@@ -1,12 +1,17 @@
 package class127;
 
 // 摘樱桃
+// 给定一个n*n的二维矩阵grid，每个格子值只有三种-1、0、1
+// -1表示格子不能走、0表示格子可以走但是没有樱桃、1表示格子可以走且有一颗樱桃
+// 你的目标是从左上角走到右下角，然后从右下角走回左上角，想得到最多的樱桃
+// 但是有樱桃的格子，只能捡一次
+// 返回最多能获得多少樱桃，如果不存在通路返回0
 // 测试链接 : https://leetcode.cn/problems/cherry-pickup/
 // 这里只讲述核心思路
 // 有兴趣同学自己改出严格位置依赖的动态规划
 // 有兴趣同学自己改出空间压缩版本的动态规划
 // 之前的课大量涉及，这里不再赘述
-public class Code01 {
+public class Code01_CherryPickup {
 
 	public static int cherryPickup(int[][] grid) {
 		int n = grid.length;

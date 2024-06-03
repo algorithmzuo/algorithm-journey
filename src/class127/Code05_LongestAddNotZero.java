@@ -1,6 +1,9 @@
 package class127;
 
-// 相邻与结果不为0的最大长度
+// 相邻与结果不为0的最长子序列
+// 给定一个长度为n的数组arr，你可以随意选择数字组成子序列
+// 但是要求得到的子序列中，任意相邻的两个数&的结果不能是0
+// 返回能得到的最大子序列长度
 // 1 <= n <= 10^5
 // arr[i] <= 10^9
 // 测试链接 : https://www.luogu.com.cn/problem/P4310
@@ -14,7 +17,7 @@ import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 import java.util.Arrays;
 
-public class Code05 {
+public class Code05_LongestAddNotZero {
 
 	public static int MAXN = 100001;
 

@@ -3,8 +3,13 @@ package class127;
 import java.util.Arrays;
 
 // 参加会议II
+// 给定n个会议，每个会议有开始时间、结束时间、获得收益三个值
+// 如果你参加会议就能得到收益，但是同一时间只能参加一个会议
+// 你一共能参加k个会议，如果你选择参加某个会议，那么你必须完整地参加完这个会议
+// 会议结束日期是包含在会议内的，不能同时参加一个开始日期与另一个结束日期相同的两个会议
+// 请你返回能得到的会议价值最大和
 // 测试链接 : https://leetcode.cn/problems/maximum-number-of-events-that-can-be-attended-ii/
-public class Code04 {
+public class Code04_MaximumNumberOfEvents {
 
 	public static int maxValue(int[][] events, int k) {
 		int n = events.length;

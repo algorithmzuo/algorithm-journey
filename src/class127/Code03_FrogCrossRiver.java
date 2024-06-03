@@ -23,7 +23,7 @@ import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 import java.util.Arrays;
 
-public class Code03 {
+public class Code03_FrogCrossRiver {
 
 	public static int MAXN = 101;
 

@@ -23,7 +23,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 
-public class Code02 {
+public class Code02_FrogToSchool {
 
 	public static int MAXN = 100001;
 
