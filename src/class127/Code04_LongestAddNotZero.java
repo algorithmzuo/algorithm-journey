@@ -45,7 +45,6 @@ public class Code04_LongestAddNotZero {
 
 	public static int compute() {
 		Arrays.fill(pre, 0);
-		int ans = 0;
 		for (int i = 0, num, cur; i < n; i++) {
 			num = arr[i];
 			cur = 1;
@@ -59,7 +58,10 @@ public class Code04_LongestAddNotZero {
 					pre[j] = Math.max(pre[j], cur);
 				}
 			}
-			ans = Math.max(ans, cur);
+		}
+		int ans = 0;
+		for (int j = 0; j < 31; j++) {
+			ans = Math.max(ans, pre[j]);
 		}
 		return ans;
 	}
