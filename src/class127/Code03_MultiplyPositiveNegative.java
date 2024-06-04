@@ -11,6 +11,9 @@ public class Code03_MultiplyPositiveNegative {
 
 	// 正式方法
 	public static int[] num(int[] arr) {
+		// 0 : 正状态
+		// 1 : 负状态
+		// ^ : 乘法运算
 		int[] cnt = new int[2];
 		cnt[0] = 1;
 		cnt[1] = 0;
@@ -25,6 +28,7 @@ public class Code03_MultiplyPositiveNegative {
 		return new int[] { ans1, ans2 };
 	}
 
+	// 暴力方法
 	// 为了验证
 	public static int[] right(int[] arr) {
 		int n = arr.length;
