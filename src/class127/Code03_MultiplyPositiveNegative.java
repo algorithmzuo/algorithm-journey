@@ -8,7 +8,7 @@ package class127;
 // -10^9 <= arr[i] <= +10^9
 // arr[i]一定不是0
 // 来自真实大厂笔试，对数器验证
-public class Code06_MultiplyPositiveNegative {
+public class Code03_MultiplyPositiveNegative {
 
 	// 正式方法
 	public static int[] num(int[] arr) {

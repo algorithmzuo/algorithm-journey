@@ -7,7 +7,7 @@ package class127;
 // 1 <= n <= 1000
 // 1 <= k <= 1000
 // 来自真实大厂笔试，对数器验证
-public class Code07_WaysOfArrangePlates {
+public class Code05_WaysOfArrangePlates {
 
 	public static int MOD = 1000000007;
 

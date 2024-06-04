@@ -17,7 +17,7 @@ import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 import java.util.Arrays;
 
-public class Code05_LongestAddNotZero {
+public class Code04_LongestAddNotZero {
 
 	public static int MAXN = 100001;
 
