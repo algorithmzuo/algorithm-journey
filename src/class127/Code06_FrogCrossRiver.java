@@ -76,7 +76,7 @@ public class Code06_FrogCrossRiver {
 			return ans;
 		} else { // s < t
 			Arrays.sort(arr, 1, m + 1);
-			// 可以直接给一个保守的距离，不需要算
+			// 可以直接给一个足够的距离，不需要算
 			// 因为s和t，不大，<= 10
 			cut = reduce(s, t);
 			for (int i = 1; i <= m; i++) {
