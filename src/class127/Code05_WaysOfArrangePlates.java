@@ -55,9 +55,9 @@ public class Code05_WaysOfArrangePlates {
 		if (n == 1) {
 			return k;
 		}
-		int c = k - 1;
-		int[][] start = { { 1, c } };
-		int[][] base = { { 0, c }, { 1, c } };
+		int s = k - 1;
+		int[][] start = { { 1, s } };
+		int[][] base = { { 0, s }, { 1, s } };
 		int[][] ans = multiply(start, power(base, n - 2));
 		return (int) ((((long) ans[0][0] + ans[0][1]) * k) % MOD);
 	}
