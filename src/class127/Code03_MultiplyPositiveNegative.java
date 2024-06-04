@@ -5,8 +5,7 @@ package class127;
 // 返回有多少个子数组相乘的结果是正
 // 返回有多少个子数组相乘的结果是负
 // 1 <= n <= 10^6
-// -10^9 <= arr[i] <= +10^9
-// arr[i]一定不是0
+// -10^9 <= arr[i] <= +10^9，arr[i]一定不是0
 // 来自真实大厂笔试，对数器验证
 public class Code03_MultiplyPositiveNegative {
 

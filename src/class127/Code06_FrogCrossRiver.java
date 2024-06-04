@@ -9,10 +9,10 @@ package class127;
 // 当青蛙跳到或跳过坐标为l的点时，就算青蛙已经跳出了独木桥
 // 题目给出独木桥的长度l，青蛙跳跃的距离范围s、t，题目还给定m个桥上石子的位置
 // 你的任务是确定青蛙要想过河，最少需要踩到的石子数
-// 测试链接 : https://www.luogu.com.cn/problem/P1052
 // 1 <= n <= 10^7
 // 1 <= s <= t <= 10
 // 1 <= m <= 100
+// 测试链接 : https://www.luogu.com.cn/problem/P1052
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有用例
 
 import java.io.BufferedReader;
