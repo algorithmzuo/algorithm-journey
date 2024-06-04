@@ -80,7 +80,9 @@ public class Code06_FrogCrossRiver {
 				where[i] = where[i - 1] + Math.min(arr[i] - arr[i - 1], safe);
 				stone[where[i]] = true;
 			}
-			n = Math.min(n, where[m] + safe);
+			// where[m] + safe : 最后一颗石子 + 安全距离
+			// 过了这个安全距离之后，dp值不会再有变化，也不会再遇到石子
+			n = where[m] + safe;
 			Arrays.fill(dp, 1, n + 1, MAXN);
 			for (int i = 1; i <= n; i++) {
 				for (int j = Math.max(i - t, 0); j <= i - s; j++) {
