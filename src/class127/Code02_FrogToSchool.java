@@ -41,7 +41,7 @@ public class Code02_FrogToSchool {
 			in.nextToken();
 			arr[i] = (int) in.nval;
 		}
-		// 认为学校所在的位置n，有足够的容量
+		// 认为学校所在的位置n，有足够的高度
 		arr[n] = 2 * x;
 		out.println(compute());
 		out.flush();
@@ -53,9 +53,9 @@ public class Code02_FrogToSchool {
 		int ans = 0;
 		// 窗口[l,r)，左闭右开！左闭右开！左闭右开！
 		// 窗口内的累加和是sum
-		// 当r来到n+1位置，那么窗口一定无法继续右扩了，因为n位置有足够的容量
+		// 当r来到n+1位置，那么窗口一定无法继续右扩了，因为n位置有足够的高度
 		long sum = arr[1];
-		for (int l = 1, r = 2; l < n; l++) {
+		for (int l = 1, r = 2; l <= n; l++) {
 			while (sum < x * 2) {
 				sum += arr[r++];
 			}
