@@ -25,7 +25,7 @@ public class Code02_FrogToSchool {
 
 	public static int MAXN = 100001;
 
-	public static long[] sum = new long[MAXN];
+	public static int[] arr = new int[MAXN];
 
 	public static int n, x;
 
@@ -39,8 +39,10 @@ public class Code02_FrogToSchool {
 		x = (int) in.nval;
 		for (int i = 1; i < n; i++) {
 			in.nextToken();
-			sum[i] = sum[i - 1] + (int) in.nval;
+			arr[i] = (int) in.nval;
 		}
+		// 认为学校所在的位置n，有足够的容量
+		arr[n] = 2 * x;
 		out.println(compute());
 		out.flush();
 		out.close();
@@ -49,11 +51,16 @@ public class Code02_FrogToSchool {
 
 	public static int compute() {
 		int ans = 0;
-		for (int l = 1, r = 1; l < n; l++) {
-			while (r < n && sum[r] - sum[l - 1] < 2L * x) {
-				r++;
+		// 窗口[l,r)，左闭右开！左闭右开！左闭右开！
+		// 窗口内的累加和是sum
+		// 当r来到n+1位置，那么窗口一定无法继续右扩了，因为n位置有足够的容量
+		long sum = arr[1];
+		for (int l = 1, r = 2; l < n; l++) {
+			while (sum < x * 2) {
+				sum += arr[r++];
 			}
-			ans = Math.max(ans, r - l + 1);
+			ans = Math.max(ans, r - l);
+			sum -= arr[l];
 		}
 		return ans;
 	}
