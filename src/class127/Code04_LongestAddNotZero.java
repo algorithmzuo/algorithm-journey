@@ -23,7 +23,7 @@ public class Code04_LongestAddNotZero {
 
 	public static int[] arr = new int[MAXN];
 
-	public static int[] dp = new int[32];
+	public static int[] pre = new int[32];
 
 	public static int n;
 
@@ -44,19 +44,19 @@ public class Code04_LongestAddNotZero {
 	}
 
 	public static int compute() {
-		Arrays.fill(dp, 0);
+		Arrays.fill(pre, 0);
 		int ans = 0;
 		for (int i = 0, num, cur; i < n; i++) {
 			num = arr[i];
 			cur = 1;
 			for (int j = 0; j < 31; j++) {
 				if (((num >> j) & 1) == 1) {
-					cur = Math.max(cur, dp[j] + 1);
+					cur = Math.max(cur, pre[j] + 1);
 				}
 			}
 			for (int j = 0; j < 31; j++) {
 				if (((num >> j) & 1) == 1) {
-					dp[j] = Math.max(dp[j], cur);
+					pre[j] = Math.max(pre[j], cur);
 				}
 			}
 			ans = Math.max(ans, cur);
