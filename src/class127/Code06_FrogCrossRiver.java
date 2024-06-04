@@ -3,11 +3,11 @@ package class127;
 // 过河踩过的最少石子数
 // 在河上有一座独木桥，一只青蛙想沿着独木桥从河的一侧跳到另一侧
 // 在桥上有一些石子，青蛙很讨厌踩在这些石子上
-// 我们可以把独木桥上青蛙可能到达的点看成数轴上的一串整点0...l
-// 其中L是桥的长度，坐标为0的点表示桥的起点，坐标为l的点表示桥的终点
+// 我们可以把独木桥上青蛙可能到达的点看成数轴上的一串整点0...n
+// 其中n是桥的长度，坐标为0的点表示桥的起点，坐标为n的点表示桥的终点
 // 青蛙从桥的起点开始，不停的向终点方向跳跃，一次跳跃的距离是[s,t]之间的任意正整数
-// 当青蛙跳到或跳过坐标为l的点时，就算青蛙已经跳出了独木桥
-// 题目给出独木桥的长度l，青蛙跳跃的距离范围s、t，题目还给定m个桥上石子的位置
+// 当青蛙跳到或跳过坐标为n的点时，就算青蛙已经跳出了独木桥
+// 题目给出独木桥的长度n，青蛙跳跃的距离范围s、t，题目还给定m个桥上石子的位置
 // 你的任务是确定青蛙要想过河，最少需要踩到的石子数
 // 1 <= n <= 10^7
 // 1 <= s <= t <= 10
@@ -29,8 +29,6 @@ public class Code06_FrogCrossRiver {
 
 	public static int MAXL = 100001;
 
-	public static int MAXK = 201;
-
 	public static int[] arr = new int[MAXN];
 
 	public static int[] distance = new int[MAXN];
@@ -39,16 +37,14 @@ public class Code06_FrogCrossRiver {
 
 	public static boolean[] stone = new boolean[MAXL];
 
-	public static boolean[] reach = new boolean[201];
-
-	public static int l, s, t, m, cut;
+	public static int n, s, t, m, cut;
 
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StreamTokenizer in = new StreamTokenizer(br);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
 		in.nextToken();
-		l = (int) in.nval;
+		n = (int) in.nval;
 		in.nextToken();
 		s = (int) in.nval;
 		in.nextToken();
@@ -68,7 +64,7 @@ public class Code06_FrogCrossRiver {
 	public static int compute() {
 		if (s == t) {
 			int ans = 0;
-			for (int i = 1; i <= Math.min(l, m); ++i) {
+			for (int i = 1; i <= Math.min(n, m); ++i) {
 				if (arr[i] % s == 0) {
 					ans++;
 				}
@@ -83,22 +79,27 @@ public class Code06_FrogCrossRiver {
 				distance[i] = distance[i - 1] + Math.min(arr[i] - arr[i - 1], cut);
 				stone[distance[i]] = true;
 			}
-			l = Math.min(l, distance[m] + cut);
-			Arrays.fill(dp, 1, l + 1, MAXN);
-			for (int i = 1; i <= l; i++) {
+			n = Math.min(n, distance[m] + cut);
+			Arrays.fill(dp, 1, n + 1, MAXN);
+			for (int i = 1; i <= n; i++) {
 				for (int j = Math.max(i - t, 0); j <= i - s; j++) {
 					dp[i] = Math.min(dp[i], dp[j] + (stone[i] ? 1 : 0));
 				}
 			}
 			int ans = MAXN;
-			for (int i = distance[m] + 1; i <= l; i++) {
+			for (int i = distance[m] + 1; i <= n; i++) {
 				ans = Math.min(ans, dp[i]);
 			}
 			return ans;
 		}
 	}
 
-	// 一旦s和t定了，那么距离多远就可以缩减
+	public static int MAXK = 201;
+
+	public static boolean[] reach = new boolean[MAXK];
+
+	// 一旦s和t定了，那么距离多远就可以缩减呢？
+	// 做实验！
 	public static int reduce(int s, int t) {
 		Arrays.fill(reach, false);
 		int cnt = 0;
