@@ -31,13 +31,13 @@ public class Code06_FrogCrossRiver {
 
 	public static int[] arr = new int[MAXN];
 
-	public static int[] distance = new int[MAXN];
+	public static int[] where = new int[MAXN];
 
 	public static int[] dp = new int[MAXL];
 
 	public static boolean[] stone = new boolean[MAXL];
 
-	public static int n, s, t, m, cut;
+	public static int n, s, t, m, safe;
 
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -62,24 +62,25 @@ public class Code06_FrogCrossRiver {
 	}
 
 	public static int compute() {
+		Arrays.sort(arr, 1, m + 1);
 		if (s == t) {
 			int ans = 0;
-			for (int i = 1; i <= Math.min(n, m); ++i) {
+			for (int i = 1; i <= m; i++) {
 				if (arr[i] % s == 0) {
 					ans++;
 				}
 			}
 			return ans;
 		} else { // s < t
-			Arrays.sort(arr, 1, m + 1);
-			// 可以直接给一个足够的距离，不需要算
-			// 因为s和t，不大，<= 10
-			cut = reduce(s, t);
+			// 可以直接给一个足够安全的距离，不需要算
+			// 因为s和t不大，都<= 10
+			// safe = 201;
+			safe = reduce(s, t);
 			for (int i = 1; i <= m; i++) {
-				distance[i] = distance[i - 1] + Math.min(arr[i] - arr[i - 1], cut);
-				stone[distance[i]] = true;
+				where[i] = where[i - 1] + Math.min(arr[i] - arr[i - 1], safe);
+				stone[where[i]] = true;
 			}
-			n = Math.min(n, distance[m] + cut);
+			n = Math.min(n, where[m] + safe);
 			Arrays.fill(dp, 1, n + 1, MAXN);
 			for (int i = 1; i <= n; i++) {
 				for (int j = Math.max(i - t, 0); j <= i - s; j++) {
@@ -87,7 +88,7 @@ public class Code06_FrogCrossRiver {
 				}
 			}
 			int ans = MAXN;
-			for (int i = distance[m] + 1; i <= n; i++) {
+			for (int i = where[m] + 1; i <= n; i++) {
 				ans = Math.min(ans, dp[i]);
 			}
 			return ans;
