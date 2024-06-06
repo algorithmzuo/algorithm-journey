@@ -14,34 +14,6 @@ package class128;
 // 来自真实大厂笔试，对数器验证
 public class Code02_BestDeploy {
 
-	// 为了测试
-	public static void main(String[] args) {
-		int maxn = 100;
-		int maxv = 100;
-		int testTime = 10000;
-		System.out.println("测试开始");
-		for (int i = 0; i < testTime; i++) {
-			int size = (int) (Math.random() * maxn) + 1;
-			random(size, maxv);
-			int ans1 = best1();
-			int ans2 = best2();
-			if (ans1 != ans2) {
-				System.out.println("出错了!");
-			}
-		}
-		System.out.println("测试结束");
-	}
-
-	// 为了测试
-	public static void random(int size, int v) {
-		n = size;
-		for (int i = 1; i <= n; i++) {
-			no[i] = (int) (Math.random() * v);
-			one[i] = (int) (Math.random() * v);
-			both[i] = (int) (Math.random() * v);
-		}
-	}
-
 	public static int MAXN = 1001;
 
 	public static int[] no = new int[MAXN];
@@ -93,6 +65,34 @@ public class Code02_BestDeploy {
 			dp[i][1] = Math.max(one[i] + dp[i + 1][1], both[i] + dp[i + 1][0]);
 		}
 		return dp[1][0];
+	}
+
+	// 为了测试
+	public static void random(int size, int v) {
+		n = size;
+		for (int i = 1; i <= n; i++) {
+			no[i] = (int) (Math.random() * v);
+			one[i] = (int) (Math.random() * v);
+			both[i] = (int) (Math.random() * v);
+		}
+	}
+
+	// 为了测试
+	public static void main(String[] args) {
+		int maxn = 100;
+		int maxv = 100;
+		int testTime = 10000;
+		System.out.println("测试开始");
+		for (int i = 0; i < testTime; i++) {
+			int size = (int) (Math.random() * maxn) + 1;
+			random(size, maxv);
+			int ans1 = best1();
+			int ans2 = best2();
+			if (ans1 != ans2) {
+				System.out.println("出错了!");
+			}
+		}
+		System.out.println("测试结束");
 	}
 
 }
