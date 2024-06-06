@@ -61,7 +61,7 @@ public class Code03_AddLimitLcs {
 
 	// 经典动态规划的版本
 	// 来自讲解067，题目3，最经典的方法4
-	// 时间复杂度O(n*m)
+	// 不利用任何限制，时间复杂度O(n*m)
 	public static int lcs1(String str1, String str2) {
 		char[] s1 = str1.toCharArray();
 		char[] s2 = str2.toCharArray();
@@ -83,7 +83,7 @@ public class Code03_AddLimitLcs {
 	public static int NA = Integer.MAX_VALUE;
 
 	// 利用限制条件做优化的版本
-	// O(26*n + m^2)
+	// 时间复杂度O(26*n + m^2)
 	public static int lcs2(String str1, String str2) {
 		char[] s1 = str1.toCharArray();
 		char[] s2 = str2.toCharArray();
