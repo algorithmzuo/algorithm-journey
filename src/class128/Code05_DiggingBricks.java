@@ -10,11 +10,12 @@ package class128;
 // 你需要从第1层开始挖，每挖开一块砖都可以获得数值作为收益
 // 第一层的砖块可以随意挑选，但是想挖到下面的砖块是有条件的
 // 如果你想挖i层的第j号砖，你需要确保i-1层的第j块、i-1层的第j+1块砖已经被挖开
-// 比如2层第3号砖，也就是7数值的位置，如果你想挖
-// 你必须把第一层数值9、5的这两块砖挖开才行
-// 你最多挖m块砖，返回最大的收益
+// 比如，2层第3号砖，也就是7数值的位置，如果你想挖到
+// 那你必须把第一层数值9、5的这两块砖挖开才行
+// 你最多可以挖m块砖，返回最大的收益
 // 1 <= n <= 50
 // 1 <= m <= 1300
+// 砖块数值 <= 100
 // 测试链接 : https://www.luogu.com.cn/problem/P1437
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有用例
 
@@ -25,7 +26,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 
-public class Code05_BreakOut {
+public class Code05_DiggingBricks {
 
 	public static int MAXN = 51;
 
