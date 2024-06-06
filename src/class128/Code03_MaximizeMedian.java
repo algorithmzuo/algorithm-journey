@@ -12,7 +12,7 @@ import java.util.Arrays;
 // 2 <=  n <= 10^5
 // 1 <= arr[i] <= 10^9
 // 来自真实大厂笔试，对数器验证
-public class Code02_MaximizeMedian {
+public class Code03_MaximizeMedian {
 
 	// 正式方法
 	// 时间复杂度O(n * log n)
