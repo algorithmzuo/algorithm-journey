@@ -4,7 +4,6 @@ package class128;
 // 有m个苹果，认为苹果之间无差别，有n个盘子，认为盘子之间无差别
 // 比如5个苹果如果放进3个盘子，那么(1, 3, 1) (1, 1, 3) (3, 1, 1)认为是同一种方法
 // 允许有些盘子是空的，返回有多少种放置方法
-// 1 <= m, n <= 10^3
 // 测试链接 : https://www.nowcoder.com/practice/bfd8234bb5e84be0b493656e390bdebf
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有用例
 
@@ -66,15 +65,17 @@ public class Code01_ApplesPlates {
 	// 然后继续讨论，剩下的这些苹果，怎么摆进plates个盘子里，
 	// 所以后续是f(apples - plates, plates)
 	public static int f(int apples, int plates) {
+		if (apples == 0) {
+			return 1;
+		}
+		if (plates == 0) {
+			return 0;
+		}
 		if (dp[apples][plates] != -1) {
 			return dp[apples][plates];
 		}
-		int ans = 0;
-		if (apples == 0) {
-			ans = 1;
-		} else if (plates == 0) {
-			ans = 0;
-		} else if (plates > apples) {
+		int ans;
+		if (plates > apples) {
 			ans = f(apples, apples);
 		} else {
 			ans = f(apples, plates - 1) + f(apples - plates, plates);

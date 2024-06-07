@@ -4,7 +4,6 @@ package class128;
 // 将整数m分成n份，且每份不能为空，任意两个方案不相同(不考虑顺序)
 // 比如，m=7、n=3，那么(1, 1, 5) (1, 5, 1) (5, 1, 1)认为是同一种方法
 // 返回有多少种不同的划分方法
-// 1 <= m, n <= 10^3
 // 测试链接 : https://www.luogu.com.cn/problem/P1025
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有用例
 
@@ -56,15 +55,17 @@ public class Code01_SplitNumber {
 	}
 
 	public static int f(int apples, int plates) {
+		if (apples == 0) {
+			return 1;
+		}
+		if (plates == 0) {
+			return 0;
+		}
 		if (dp[apples][plates] != -1) {
 			return dp[apples][plates];
 		}
-		int ans = 0;
-		if (apples == 0) {
-			ans = 1;
-		} else if (plates == 0) {
-			ans = 0;
-		} else if (plates > apples) {
+		int ans;
+		if (plates > apples) {
 			ans = f(apples, apples);
 		} else {
 			ans = f(apples, plates - 1) + f(apples - plates, plates);
