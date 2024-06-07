@@ -41,18 +41,25 @@ public class Code05_MaximizeMedian {
 		return ans;
 	}
 
-	// 如果中位数定成median
 	// 任意相邻的两数至少选一个来生成子序列
-	// 到底有没有一个序列，其中>=median的数字能达到一半以上
-	public static boolean check(int[] arr, int[] help, int[][] dp, int median, int n) {
+	// 到底有没有一个合法子序列，能让其中>=x的数达到一半以上
+	public static boolean check(int[] arr, int[] help, int[][] dp, int x, int n) {
 		for (int i = 0; i < n; i++) {
-			help[i] = arr[i] >= median ? 1 : -1;
+			help[i] = arr[i] >= x ? 1 : -1;
 		}
+		return dp(help, dp, n) > 0;
+	}
+
+	// 任意相邻的两数至少选一个来生成子序列
+	// 返回合法子序列的最大累加和
+	public static int dp(int[] arr, int[][] dp, int n) {
 		for (int i = n - 1; i >= 0; i--) {
-			dp[i][0] = help[i] + dp[i + 1][1];
-			dp[i][1] = Math.max(help[i] + dp[i + 1][1], dp[i + 1][0]);
+			// dp[i][0] : i位置的数字，选和不选皆可，i...范围上形成合法子序列的最大累加和
+			// dp[i][1] : i位置的数字，一定要选，i...范围上形成合法子序列的最大累加和
+			dp[i][0] = Math.max(arr[i] + dp[i + 1][0], dp[i + 1][1]);
+			dp[i][1] = arr[i] + dp[i + 1][0];
 		}
-		return dp[0][1] > 0;
+		return dp[0][0];
 	}
 
 	// 暴力方法
