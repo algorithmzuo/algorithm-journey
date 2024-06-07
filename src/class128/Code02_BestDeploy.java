@@ -37,6 +37,9 @@ public class Code02_BestDeploy {
 		return f(1, n, dp);
 	}
 
+	// 部署l...r范围上的机器
+	// 并且l-1和r+1的机器一定都没有部署
+	// 返回部署的最大收益
 	public static int f(int l, int r, int[][] dp) {
 		if (l == r) {
 			return no[l];
@@ -57,6 +60,8 @@ public class Code02_BestDeploy {
 	// 时间复杂度O(n)
 	// 推荐
 	public static int best2() {
+		// dp[i][0] : i号机器的前一台机器没有部署的情况下，部署i...的机器获得的最大收益
+		// dp[i][1] : i号机器的前一台机器已经部署的情况下，部署i...的机器获得的最大收益
 		int[][] dp = new int[n + 1][2];
 		dp[n][0] = no[n];
 		dp[n][1] = one[n];

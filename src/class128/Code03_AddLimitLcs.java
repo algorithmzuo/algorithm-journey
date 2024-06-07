@@ -135,6 +135,8 @@ public class Code03_AddLimitLcs {
 		}
 	}
 
+	// 为i长度的s2前缀串，想和s1之间的公共子序列长度达到j
+	// 返回至少多长的s1前缀串才能做到这一点
 	public static int f(int i, int j) {
 		if (i < j) {
 			return NA;
