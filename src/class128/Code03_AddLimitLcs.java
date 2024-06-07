@@ -125,6 +125,7 @@ public class Code03_AddLimitLcs {
 				next[i][j] = right[j];
 			}
 			if (i > 0) {
+				// s1的i长度，对应的字符是s1[i-1]
 				right[s1[i - 1] - 'a'] = i;
 			}
 		}
@@ -135,8 +136,9 @@ public class Code03_AddLimitLcs {
 		}
 	}
 
-	// 为i长度的s2前缀串，想和s1之间的公共子序列长度达到j
-	// 返回至少多长的s1前缀串才能做到这一点
+	// 长度为i的s2前缀串，想和s1字符串形成长度为j的公共子序列
+	// 返回至少需要多长的s1前缀串才能做到
+	// 如果怎么都做不到，返回NA
 	public static int f(int i, int j) {
 		if (i < j) {
 			return NA;
@@ -147,6 +149,7 @@ public class Code03_AddLimitLcs {
 		if (dp[i][j] != -1) {
 			return dp[i][j];
 		}
+		// s2前缀串长度为i，最后字符s2[i-1]
 		int cha = s2[i - 1] - 'a';
 		int ans = f(i - 1, j);
 		int pre = f(i - 1, j - 1);
