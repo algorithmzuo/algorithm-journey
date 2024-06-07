@@ -19,12 +19,12 @@ public class Code04_EggDrop {
 			return log;
 		}
 		int[] dp = new int[k];
-		int ans = 0;
+		int pre, tmp, ans = 0;
 		while (dp[k - 1] < n) {
 			ans++;
-			int pre = 0;
+			pre = 0;
 			for (int i = 0; i < k; i++) {
-				int tmp = dp[i];
+				tmp = dp[i];
 				dp[i] = dp[i] + pre + 1;
 				pre = tmp;
 			}
