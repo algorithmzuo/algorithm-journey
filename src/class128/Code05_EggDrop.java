@@ -8,34 +8,32 @@ package class128;
 // 1 <= k <= 100
 // 1 <= n <= 10^4
 // 测试链接 : https://leetcode.cn/problems/super-egg-drop/
-public class Code06_EggDrop {
+public class Code05_EggDrop {
 
 	public static int superEggDrop(int k, int n) {
-		if (k < 1 || n < 1) {
-			return 0;
+		if (k == 1) {
+			return n;
 		}
-		int time = bs(n) + 1;
-		if (k >= time) {
-			return time;
+		int log = log(n);
+		if (k >= log) {
+			return log;
 		}
 		int[] dp = new int[k];
-		int ans = 0, pre, tmp;
-		while (true) {
+		int ans = 0;
+		while (dp[k - 1] < n) {
 			ans++;
-			pre = 0;
+			int pre = 0;
 			for (int i = 0; i < k; i++) {
-				tmp = dp[i];
+				int tmp = dp[i];
 				dp[i] = dp[i] + pre + 1;
 				pre = tmp;
-				if (dp[i] >= n) {
-					return ans;
-				}
 			}
 		}
+		return ans;
 	}
 
-	public static int bs(int n) {
-		int ans = -1;
+	public static int log(int n) {
+		int ans = 0;
 		while (n != 0) {
 			ans++;
 			n >>= 1;

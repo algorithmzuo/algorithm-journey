@@ -24,7 +24,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 
-public class Code05_DiggingBricks {
+public class Code06_DiggingBricks {
 
 	public static int MAXN = 51;
 
