@@ -8,7 +8,7 @@ package class128;
 // 1 <= k <= 100
 // 1 <= n <= 10^4
 // 测试链接 : https://leetcode.cn/problems/super-egg-drop/
-public class Code05_EggDrop {
+public class Code04_EggDrop {
 
 	public static int superEggDrop(int k, int n) {
 		if (k == 1) {
