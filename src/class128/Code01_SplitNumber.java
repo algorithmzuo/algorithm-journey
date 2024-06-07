@@ -22,23 +22,21 @@ public class Code01_SplitNumber {
 
 	public static int[][] dp = new int[MAXN][MAXK];
 
-	public static int m, n;
-
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StreamTokenizer in = new StreamTokenizer(br);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
 		in.nextToken();
-		m = (int) in.nval;
+		int m = (int) in.nval;
 		in.nextToken();
-		n = (int) in.nval;
-		out.println(compute());
+		int n = (int) in.nval;
+		out.println(compute(m, n));
 		out.flush();
 		out.close();
 		br.close();
 	}
 
-	public static int compute() {
+	public static int compute(int m, int n) {
 		if (m < n) {
 			return 0;
 		}
@@ -54,23 +52,23 @@ public class Code01_SplitNumber {
 		return f(m, n);
 	}
 
-	public static int f(int apples, int plates) {
-		if (apples == 0) {
+	public static int f(int m, int n) {
+		if (m == 0) {
 			return 1;
 		}
-		if (plates == 0) {
+		if (n == 0) {
 			return 0;
 		}
-		if (dp[apples][plates] != -1) {
-			return dp[apples][plates];
+		if (dp[m][n] != -1) {
+			return dp[m][n];
 		}
 		int ans;
-		if (plates > apples) {
-			ans = f(apples, apples);
+		if (n > m) {
+			ans = f(m, m);
 		} else {
-			ans = f(apples, plates - 1) + f(apples - plates, plates);
+			ans = f(m, n - 1) + f(m - n, n);
 		}
-		dp[apples][plates] = ans;
+		dp[m][n] = ans;
 		return ans;
 	}
 

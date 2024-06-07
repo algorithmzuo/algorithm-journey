@@ -22,23 +22,21 @@ public class Code01_ApplesPlates {
 
 	public static int[][] dp = new int[MAXM][MAXN];
 
-	public static int m, n;
-
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StreamTokenizer in = new StreamTokenizer(br);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
 		in.nextToken();
-		m = (int) in.nval;
+		int m = (int) in.nval;
 		in.nextToken();
-		n = (int) in.nval;
-		out.println(compute());
+		int n = (int) in.nval;
+		out.println(compute(m, n));
 		out.flush();
 		out.close();
 		br.close();
 	}
 
-	public static int compute() {
+	public static int compute(int m, int n) {
 		for (int i = 0; i <= m; i++) {
 			for (int j = 0; j <= n; j++) {
 				dp[i][j] = -1;
@@ -47,40 +45,23 @@ public class Code01_ApplesPlates {
 		return f(m, n);
 	}
 
-	// 如果苹果数为0，有1种摆法：什么也不摆
-	// 如果苹果数不为0，但是盘子数为0，有0种摆法（做不到）
-	// 如果苹果数不为0，盘子数也不为0，进行如下的情况讨论：
-	// 假设苹果数为apples，盘子数为plates
-	// 可能性 1) apples < plates
-	// 这种情况下，一定有多余的盘子，这些盘子完全没用，所以砍掉
-	// 后续是f(apples, apples)
-	// 可能性 2) apples >= plates
-	// 在可能性2)下，讨论摆法，有如下两种选择
-	// 选择a) 不是所有的盘子都使用
-	// 选择b) 就是所有的盘子都使用
-	// 对于选择a)，既然不是所有盘子都使用，那么后续就是f(apples, plates - 1)
-	// 意思是：既然不是所有盘子都使用，那盘子减少一个，然后继续讨论吧！
-	// 对于选择b)，既然就是所有的盘子都使用，那么先把所有盘子都摆上1个苹果。
-	// 剩余苹果数 = apples - plates
-	// 然后继续讨论，剩下的这些苹果，怎么摆进plates个盘子里，
-	// 所以后续是f(apples - plates, plates)
-	public static int f(int apples, int plates) {
-		if (apples == 0) {
+	public static int f(int m, int n) {
+		if (m == 0) {
 			return 1;
 		}
-		if (plates == 0) {
+		if (n == 0) {
 			return 0;
 		}
-		if (dp[apples][plates] != -1) {
-			return dp[apples][plates];
+		if (dp[m][n] != -1) {
+			return dp[m][n];
 		}
 		int ans;
-		if (plates > apples) {
-			ans = f(apples, apples);
+		if (n > m) {
+			ans = f(m, m);
 		} else {
-			ans = f(apples, plates - 1) + f(apples - plates, plates);
+			ans = f(m, n - 1) + f(m - n, n);
 		}
-		dp[apples][plates] = ans;
+		dp[m][n] = ans;
 		return ans;
 	}
 
