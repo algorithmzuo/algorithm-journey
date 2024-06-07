@@ -10,35 +10,41 @@ package class128;
 // 测试链接 : https://leetcode.cn/problems/super-egg-drop/
 public class Code04_EggDrop {
 
-	public static int superEggDrop(int k, int n) {
+	// 最优解
+	public static int superEggDrop1(int k, int n) {
 		if (k == 1) {
 			return n;
 		}
-		int log = log(n);
-		if (k >= log) {
-			return log;
-		}
-		int[] dp = new int[k];
-		int pre, tmp, ans = 0;
-		while (dp[k - 1] < n) {
-			ans++;
-			pre = 0;
-			for (int i = 0; i < k; i++) {
-				tmp = dp[i];
-				dp[i] = dp[i] + pre + 1;
-				pre = tmp;
+		int[][] dp = new int[k + 1][n + 1];
+		for (int j = 1; j <= n; j++) {
+			for (int i = 1; i <= k; i++) {
+				dp[i][j] = dp[i - 1][j - 1] + dp[i][j - 1] + 1;
+				if (dp[i][j] >= n) {
+					return j;
+				}
 			}
 		}
-		return ans;
+		return -1;
 	}
 
-	public static int log(int n) {
-		int ans = 0;
-		while (n != 0) {
-			ans++;
-			n >>= 1;
+	// 最优解空间压缩的版本
+	public static int superEggDrop2(int k, int n) {
+		if (k == 1) {
+			return n;
 		}
-		return ans;
+		int[] dp = new int[k + 1];
+		for (int j = 1; j <= n; j++) {
+			int pre = 0;
+			for (int i = 1; i <= k; i++) {
+				int tmp = dp[i];
+				dp[i] = dp[i] + pre + 1;
+				pre = tmp;
+				if (dp[i] >= n) {
+					return j;
+				}
+			}
+		}
+		return -1;
 	}
 
 }
