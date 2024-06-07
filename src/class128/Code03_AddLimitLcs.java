@@ -80,20 +80,46 @@ public class Code03_AddLimitLcs {
 		return dp[n][m];
 	}
 
-	public static int NA = Integer.MAX_VALUE;
-
 	// 利用限制条件做优化的版本
 	// 时间复杂度O(26*n + m^2)
+	public static int MAXN = 1000005;
+
+	public static int MAXM = 1005;
+
+	public static char[] s1;
+
+	public static char[] s2;
+
+	public static int n, m;
+
+	public static int[] right = new int[26];
+
+	public static int[][] next = new int[MAXN][26];
+
+	public static int[][] dp = new int[MAXM][MAXM];
+
+	public static int NA = Integer.MAX_VALUE;
+
 	public static int lcs2(String str1, String str2) {
-		char[] s1 = str1.toCharArray();
-		char[] s2 = str2.toCharArray();
-		int n = s1.length;
-		int m = s2.length;
-		int[] right = new int[26];
+		s1 = str1.toCharArray();
+		s2 = str2.toCharArray();
+		n = s1.length;
+		m = s2.length;
+		build();
+		int ans = 0;
+		for (int j = m; j >= 1; j--) {
+			if (f(m, j) != NA) {
+				ans = j;
+				break;
+			}
+		}
+		return ans;
+	}
+
+	public static void build() {
 		for (int j = 0; j < 26; j++) {
 			right[j] = NA;
 		}
-		int[][] next = new int[n + 1][26];
 		for (int i = n; i >= 0; i--) {
 			for (int j = 0; j < 26; j++) {
 				next[i][j] = right[j];
@@ -102,26 +128,30 @@ public class Code03_AddLimitLcs {
 				right[s1[i - 1] - 'a'] = i;
 			}
 		}
-		int[][] dp = new int[m + 1][m + 1];
-		for (int i = 1, cha; i <= m; i++) {
-			cha = s2[i - 1] - 'a';
-			for (int j = 1; j <= i; j++) {
-				dp[i][j] = NA;
-				if (i - 1 >= j) {
-					dp[i][j] = dp[i - 1][j];
-				}
-				if (dp[i - 1][j - 1] != NA) {
-					dp[i][j] = Math.min(dp[i][j], next[dp[i - 1][j - 1]][cha]);
-				}
+		for (int i = 0; i <= m; i++) {
+			for (int j = 0; j <= m; j++) {
+				dp[i][j] = -1;
 			}
 		}
-		int ans = 0;
-		for (int j = m; j >= 1; j--) {
-			if (dp[m][j] != NA) {
-				ans = j;
-				break;
-			}
+	}
+
+	public static int f(int i, int j) {
+		if (i < j) {
+			return NA;
 		}
+		if (j == 0) {
+			return 0;
+		}
+		if (dp[i][j] != -1) {
+			return dp[i][j];
+		}
+		int cha = s2[i - 1] - 'a';
+		int ans = f(i - 1, j);
+		int pre = f(i - 1, j - 1);
+		if (pre != NA) {
+			ans = Math.min(ans, next[pre][cha]);
+		}
+		dp[i][j] = ans;
 		return ans;
 	}
 
