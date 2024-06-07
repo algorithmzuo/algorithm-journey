@@ -121,7 +121,7 @@ public class Code05_MaximizeMedian {
 		long start = System.currentTimeMillis();
 		maximizeMedian(arr);
 		long end = System.currentTimeMillis();
-		System.out.println("运行时间 : " + (end - start) + " 毫秒");
+		System.out.println("正式方法的运行时间 : " + (end - start) + " 毫秒");
 		System.out.println("性能测试结束");
 	}
 
