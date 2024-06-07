@@ -5,6 +5,8 @@ package class128;
 // 已知一定存在楼层f(0<=f<=n)，从>f的楼层扔鸡蛋一定会碎，从<=f的楼层扔鸡蛋，扔几次都不会碎
 // 鸡蛋一旦碎了就不能再使用，只能选择另外的鸡蛋
 // 现在想确定f的值，返回最少扔几次鸡蛋，可以确保测出该值
+// 1 <= k <= 100
+// 1 <= n <= 10^4
 // 测试链接 : https://leetcode.cn/problems/super-egg-drop/
 public class Code06_EggDrop {
 
