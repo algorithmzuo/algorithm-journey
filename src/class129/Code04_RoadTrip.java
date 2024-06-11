@@ -155,22 +155,8 @@ public class Code04_RoadTrip {
 	public static int compute1() {
 		int ans = 0;
 		double min = Double.MAX_VALUE, cur;
-		for (int i = 1, jump, a, b, tmp; i <= n; i++) {
-			jump = i;
-			a = 0;
-			b = 0;
-			tmp = x0;
-			for (int p = MAXP; p >= 0; p--) {
-				if (stab[jump][p] != 0 && tmp >= stab[jump][p]) {
-					tmp -= stab[jump][p];
-					a += sta[jump][p];
-					b += stb[jump][p];
-					jump = stto[jump][p];
-				}
-			}
-			if (dist2[jump] <= tmp) {
-				a += dist2[jump];
-			}
+		for (int i = 1; i <= n; i++) {
+			compute2(i, x0);
 			if (a > 0) {
 				cur = (double) a / (double) b;
 				if (ans == 0 || cur < min || (cur == min && height[i] > height[ans])) {
