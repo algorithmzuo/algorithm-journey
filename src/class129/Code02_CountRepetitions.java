@@ -1,0 +1,83 @@
+package class129;
+
+import java.util.Arrays;
+
+// 统计重复个数
+// 如果字符串x删除一些字符，可以得到字符串y，那么就说y可以从x中获得
+// 给定s1和a，代表s1拼接a次，记为字符串x
+// 给定s2和b，代表s2拼接b次，记为字符串y
+// 现在把y拼接m次之后，得到的字符串依然可能从x中获得，返回尽可能大的m
+// s1、s2只由小写字母组成
+// 1 <= s1长度、s2长度 <= 100
+// 1 <= a、b <= 10^6
+// 测试链接 : https://leetcode.cn/problems/count-the-repetitions/
+public class Code02_CountRepetitions {
+
+	// 该题的题解中有很多打败比例优异，但是时间复杂度不是最优解的方法
+	// 如果数据苛刻一些，就很可能通过不了
+	// 如下方法的时间复杂度一定是最优的，时间复杂度O(s1长度 * s2长度)
+	// 更关键的是比其他方法更容易理解
+	public static int getMaxRepetitions(String str1, int a, String str2, int b) {
+		char[] s1 = str1.toCharArray();
+		char[] s2 = str2.toCharArray();
+		int n = s1.length;
+		int[][] next = new int[n][26];
+		// 时间复杂度O(s1长度 + s2长度)
+		if (!find(s1, n, next, s2)) {
+			return 0;
+		}
+		long[][] dp = new long[n][30];
+		// 时间复杂度O(s1长度 * s2长度)
+		for (int i = 0; i < n; i++) {
+			int cur = i;
+			long len = 0;
+			for (char c : s2) {
+				len += next[cur][c - 'a'];
+				cur = (cur + next[cur][c - 'a']) % n;
+			}
+			dp[i][0] = len;
+		}
+		// 时间复杂度O(s1长度)
+		for (int p = 1; p <= 29; p++) {
+			for (int i = 0; i < n; i++) {
+				dp[i][p] = dp[i][p - 1] + dp[(int) ((dp[i][p - 1] + i) % n)][p - 1];
+			}
+		}
+		long ans = 0;
+		int start = 0;
+		// 时间复杂度O(1)
+		for (int p = 29; p >= 0; p--) {
+			if (dp[start % n][p] + start <= n * a) {
+				ans += 1 << p;
+				start += dp[start % n][p];
+			}
+		}
+		return (int) (ans / b);
+	}
+
+	// 时间复杂度O(s1长度 + s2长度)
+	public static boolean find(char[] s1, int n, int[][] next, char[] s2) {
+		int[] right = new int[26];
+		Arrays.fill(right, -1);
+		for (int i = n - 1; i >= 0; i--) {
+			right[s1[i] - 'a'] = i + n;
+		}
+		for (int i = n - 1; i >= 0; i--) {
+			right[s1[i] - 'a'] = i;
+			for (int j = 0; j < 26; j++) {
+				if (right[j] != -1) {
+					next[i][j] = right[j] - i + 1;
+				} else {
+					next[i][j] = -1;
+				}
+			}
+		}
+		for (char c : s2) {
+			if (next[0][c - 'a'] == -1) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+}
