@@ -26,6 +26,7 @@ public class Code03_RoadTrip {
 
 	public static int[] next = new int[MAXN];
 
+	// 如下四个结构是只跳一步的表
 	public static int[] to1 = new int[MAXN];
 
 	public static int[] dist1 = new int[MAXN];
@@ -34,6 +35,7 @@ public class Code03_RoadTrip {
 
 	public static int[] dist2 = new int[MAXN];
 
+	// 如下四个结构是倍增表
 	public static int[][] abto = new int[MAXN][MAXP + 1];
 
 	public static int[][] abdist = new int[MAXN][MAXP + 1];
