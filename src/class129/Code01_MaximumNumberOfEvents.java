@@ -9,7 +9,7 @@ import java.util.Arrays;
 // 会议结束日期是包含在会议内的，不能同时参加一个开始日期与另一个结束日期相同的两个会议
 // 请你返回能得到的会议价值最大和
 // 测试链接 : https://leetcode.cn/problems/maximum-number-of-events-that-can-be-attended-ii/
-public class Code04_MaximumNumberOfEvents {
+public class Code01_MaximumNumberOfEvents {
 
 	public static int maxValue(int[][] events, int k) {
 		int n = events.length;

@@ -11,7 +11,7 @@ import java.util.Arrays;
 // 1 <= s1长度、s2长度 <= 100
 // 1 <= a、b <= 10^6
 // 测试链接 : https://leetcode.cn/problems/count-the-repetitions/
-public class Code02_CountRepetitions {
+public class Code03_CountRepetitions {
 
 	// 该题的题解中有很多打败比例优异，但是时间复杂度不是最优的方法
 	// 如果数据苛刻一些，就通过不了，所以一定要做到时间复杂度与a、b的值无关
