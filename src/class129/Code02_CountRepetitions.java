@@ -13,7 +13,7 @@ import java.util.Arrays;
 // 测试链接 : https://leetcode.cn/problems/count-the-repetitions/
 public class Code02_CountRepetitions {
 
-	// 该题的题解中有很多打败比例优异，但是时间复杂度不是最优解的方法
+	// 该题的题解中有很多打败比例优异，但是时间复杂度不是最优的方法
 	// 如果数据苛刻一些，就通过不了，所以一定要做到时间复杂度与a、b的值无关
 	// 本方法时间复杂度O(s1长度 * s2长度)，一定是最优解，而且比其他方法更好理解
 	public static int getMaxRepetitions(String str1, int a, String str2, int b) {
@@ -27,9 +27,9 @@ public class Code02_CountRepetitions {
 		}
 		long[][] dp = new long[n][30];
 		// 时间复杂度O(s1长度 * s2长度)
-		for (int i = 0; i < n; i++) {
-			int cur = i;
-			long len = 0;
+		for (int i = 0, cur, len; i < n; i++) {
+			cur = i;
+			len = 0;
 			for (char c : s2) {
 				len += next[cur][c - 'a'];
 				cur = (cur + next[cur][c - 'a']) % n;
@@ -43,9 +43,8 @@ public class Code02_CountRepetitions {
 			}
 		}
 		long ans = 0;
-		int start = 0;
 		// 时间复杂度O(1)
-		for (int p = 29; p >= 0; p--) {
+		for (int p = 29, start = 0; p >= 0; p--) {
 			if (dp[start % n][p] + start <= n * a) {
 				ans += 1 << p;
 				start += dp[start % n][p];
