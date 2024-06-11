@@ -36,13 +36,13 @@ public class Code03_RoadTrip {
 	public static int[] dist2 = new int[MAXN];
 
 	// 如下四个结构是倍增表
-	public static int[][] abto = new int[MAXN][MAXP + 1];
+	public static int[][] stto = new int[MAXN][MAXP + 1];
 
-	public static int[][] abdist = new int[MAXN][MAXP + 1];
+	public static int[][] stab = new int[MAXN][MAXP + 1];
 
-	public static int[][] adist = new int[MAXN][MAXP + 1];
+	public static int[][] sta = new int[MAXN][MAXP + 1];
 
-	public static int[][] bdist = new int[MAXN][MAXP + 1];
+	public static int[][] stb = new int[MAXN][MAXP + 1];
 
 	public static int n, m, x0;
 
@@ -69,19 +69,19 @@ public class Code03_RoadTrip {
 		}
 		// 倍增初始值
 		for (int i = 1; i <= n; i++) {
-			abto[i][0] = to1[to2[i]];
-			abdist[i][0] = dist2[i] + dist1[to2[i]];
-			adist[i][0] = dist2[i];
-			bdist[i][0] = dist1[to2[i]];
+			stto[i][0] = to1[to2[i]];
+			stab[i][0] = dist2[i] + dist1[to2[i]];
+			sta[i][0] = dist2[i];
+			stb[i][0] = dist1[to2[i]];
 		}
 		// 生成倍增表
 		for (int p = 1; p <= MAXP; p++) {
 			for (int i = 1; i <= n; i++) {
-				abto[i][p] = abto[abto[i][p - 1]][p - 1];
-				if (abto[i][p] != 0) {
-					abdist[i][p] = abdist[i][p - 1] + abdist[abto[i][p - 1]][p - 1];
-					adist[i][p] = adist[i][p - 1] + adist[abto[i][p - 1]][p - 1];
-					bdist[i][p] = bdist[i][p - 1] + bdist[abto[i][p - 1]][p - 1];
+				stto[i][p] = stto[stto[i][p - 1]][p - 1];
+				if (stto[i][p] != 0) {
+					stab[i][p] = stab[i][p - 1] + stab[stto[i][p - 1]][p - 1];
+					sta[i][p] = sta[i][p - 1] + sta[stto[i][p - 1]][p - 1];
+					stb[i][p] = stb[i][p - 1] + stb[stto[i][p - 1]][p - 1];
 				}
 			}
 		}
@@ -161,11 +161,11 @@ public class Code03_RoadTrip {
 			b = 0;
 			tmp = x0;
 			for (int p = MAXP; p >= 0; p--) {
-				if (abdist[jump][p] != 0 && tmp >= abdist[jump][p]) {
-					tmp -= abdist[jump][p];
-					a += adist[jump][p];
-					b += bdist[jump][p];
-					jump = abto[jump][p];
+				if (stab[jump][p] != 0 && tmp >= stab[jump][p]) {
+					tmp -= stab[jump][p];
+					a += sta[jump][p];
+					b += stb[jump][p];
+					jump = stto[jump][p];
 				}
 			}
 			if (dist2[jump] <= tmp) {
@@ -188,11 +188,11 @@ public class Code03_RoadTrip {
 		a = 0;
 		b = 0;
 		for (int p = MAXP; p >= 0; p--) {
-			if (abdist[s][p] != 0 && x >= abdist[s][p]) {
-				x -= abdist[s][p];
-				a += adist[s][p];
-				b += bdist[s][p];
-				s = abto[s][p];
+			if (stab[s][p] != 0 && x >= stab[s][p]) {
+				x -= stab[s][p];
+				a += sta[s][p];
+				b += stb[s][p];
+				s = stto[s][p];
 			}
 		}
 		if (dist2[s] <= x) {
