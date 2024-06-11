@@ -14,9 +14,8 @@ import java.util.Arrays;
 public class Code02_CountRepetitions {
 
 	// 该题的题解中有很多打败比例优异，但是时间复杂度不是最优解的方法
-	// 如果数据苛刻一些，就很可能通过不了
-	// 如下方法的时间复杂度一定是最优的，时间复杂度O(s1长度 * s2长度)
-	// 更关键的是比其他方法更容易理解
+	// 如果数据苛刻一些，就通过不了，所以一定要做到时间复杂度与a、b的值无关
+	// 本方法时间复杂度O(s1长度 * s2长度)，一定是最优解，而且比其他方法更好理解
 	public static int getMaxRepetitions(String str1, int a, String str2, int b) {
 		char[] s1 = str1.toCharArray();
 		char[] s2 = str2.toCharArray();
