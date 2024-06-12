@@ -18,9 +18,8 @@ import java.util.TreeSet;
 // dist1 = { 2, 2, 6, 0 }
 // to2   = { 2, 4, 0, 0 }
 // dist2 = { 2, 4, 0, 0 }
-// 提供有序表的版本，对数器验证
-// 本题完全是为了题目5做准备，很有意思的题，但是和倍增优化无关
-// 单纯展示一下，数组实现的双向链表，如何完成该功能
+// 有序表的实现 + 用数组手搓双向链表的实现
+// 对数器验证
 public class Code04_FindNear {
 
 	public static int MAXN = 10001;
@@ -56,7 +55,7 @@ public class Code04_FindNear {
 
 	public static int[] d = new int[MAXN];
 
-	// 有序表实现
+	// 有序表的实现
 	public static void near1() {
 		TreeSet<int[]> set = new TreeSet<>((a, b) -> a[1] - b[1]);
 		for (int i = n; i >= 1; i--) {
@@ -104,7 +103,7 @@ public class Code04_FindNear {
 		return d2 < d1 || (d2 == d1 && arr[r2] < arr[r1]);
 	}
 
-	// 双向链表(自己用数组手搓)实现
+	// 用数组手搓双向链表的实现
 	public static void near2() {
 		for (int i = 1; i <= n; i++) {
 			rank[i][0] = i;
