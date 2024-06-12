@@ -25,8 +25,10 @@ public class Code02_RanAway {
 
 	public static int NA = Integer.MAX_VALUE;
 
+	// reach[i][j][p] : i到j的距离是不是2^p
 	public static boolean[][][] reach = new boolean[MAXN][MAXN][MAXP + 1];
 
+	// time[i][j] : i到j的最短时间
 	public static int[][] time = new int[MAXN][MAXN];
 
 	public static int n, m;
