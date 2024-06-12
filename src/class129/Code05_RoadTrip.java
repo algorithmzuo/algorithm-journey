@@ -59,7 +59,7 @@ public class Code05_RoadTrip {
 		st();
 		in.nextToken();
 		x0 = (int) in.nval;
-		out.println(compute1());
+		out.println(best());
 		in.nextToken();
 		m = (int) in.nval;
 		for (int i = 1, s, x; i <= m; i++) {
@@ -67,7 +67,7 @@ public class Code05_RoadTrip {
 			s = (int) in.nval;
 			in.nextToken();
 			x = (int) in.nval;
-			compute2(s, x);
+			distab(s, x);
 			out.println(a + " " + b);
 		}
 		out.flush();
@@ -153,11 +153,11 @@ public class Code05_RoadTrip {
 		}
 	}
 
-	public static int compute1() {
+	public static int best() {
 		int ans = 0;
 		double min = Double.MAX_VALUE, cur;
 		for (int i = 1; i <= n; i++) {
-			compute2(i, x0);
+			distab(i, x0);
 			if (a > 0) {
 				cur = (double) a / (double) b;
 				if (ans == 0 || cur < min || (cur == min && arr[i] > arr[ans])) {
@@ -171,7 +171,7 @@ public class Code05_RoadTrip {
 
 	public static int a, b;
 
-	public static void compute2(int s, int x) {
+	public static void distab(int s, int x) {
 		a = 0;
 		b = 0;
 		for (int p = MAXP; p >= 0; p--) {
