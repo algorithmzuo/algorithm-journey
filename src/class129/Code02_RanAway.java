@@ -80,13 +80,15 @@ public class Code02_RanAway {
 				}
 			}
 		}
-		// 先枚举跳板
-		// 最后枚举每一组(i,j)
-		for (int jump = 1; jump <= n; jump++) {
-			for (int i = 1; i <= n; i++) {
-				for (int j = 1; j <= n; j++) {
-					if (time[i][jump] != NA && time[jump][j] != NA) {
-						time[i][j] = Math.min(time[i][j], time[i][jump] + time[jump][j]);
+		if (time[1][n] != 1) {
+			// 先枚举跳板
+			// 最后枚举每一组(i,j)
+			for (int jump = 1; jump <= n; jump++) {
+				for (int i = 1; i <= n; i++) {
+					for (int j = 1; j <= n; j++) {
+						if (time[i][jump] != NA && time[jump][j] != NA) {
+							time[i][j] = Math.min(time[i][j], time[i][jump] + time[jump][j]);
+						}
 					}
 				}
 			}
