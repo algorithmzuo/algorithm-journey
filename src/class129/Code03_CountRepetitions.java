@@ -25,7 +25,7 @@ public class Code03_CountRepetitions {
 		if (!find(s1, n, next, s2)) {
 			return 0;
 		}
-		long[][] dp = new long[n][30];
+		long[][] st = new long[n][30];
 		// 时间复杂度O(s1长度 * s2长度)
 		for (int i = 0, cur, len; i < n; i++) {
 			cur = i;
@@ -34,20 +34,20 @@ public class Code03_CountRepetitions {
 				len += next[cur][c - 'a'];
 				cur = (cur + next[cur][c - 'a']) % n;
 			}
-			dp[i][0] = len;
+			st[i][0] = len;
 		}
 		// 时间复杂度O(s1长度)
 		for (int p = 1; p <= 29; p++) {
 			for (int i = 0; i < n; i++) {
-				dp[i][p] = dp[i][p - 1] + dp[(int) ((dp[i][p - 1] + i) % n)][p - 1];
+				st[i][p] = st[i][p - 1] + st[(int) ((st[i][p - 1] + i) % n)][p - 1];
 			}
 		}
 		long ans = 0;
 		// 时间复杂度O(1)
 		for (int p = 29, start = 0; p >= 0; p--) {
-			if (dp[start % n][p] + start <= n * a) {
+			if (st[start % n][p] + start <= n * a) {
 				ans += 1 << p;
-				start += dp[start % n][p];
+				start += st[start % n][p];
 			}
 		}
 		return (int) (ans / b);
