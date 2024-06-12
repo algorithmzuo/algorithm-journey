@@ -154,14 +154,19 @@ public class Code04_FindNear {
 	// 验证的过程
 	// 为了测试
 	public static boolean check() {
+		// near1方法会设置to1、dist1、to2、dist2
 		near1();
+		// 把near1方法的结果备份
 		for (int i = 1; i <= n; i++) {
 			a[i] = to1[i];
 			b[i] = dist1[i];
 			c[i] = to2[i];
 			d[i] = dist2[i];
 		}
+		// near2方法会再次设置to1、dist1、to2、dist2
 		near2();
+		// a、b、c、d，是near1生成的结果
+		// to1、dist1、to2、dist2，是near2生成的结果
 		for (int i = 1; i <= n; i++) {
 			if (a[i] != to1[i] || b[i] != dist1[i]) {
 				return false;
