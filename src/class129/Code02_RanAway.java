@@ -63,7 +63,7 @@ public class Code02_RanAway {
 		br.close();
 	}
 
-	// 需要掌握floyd算法，讲解065，题目2
+	// 需要先掌握，讲解065 - Floyd算法
 	public static int compute() {
 		// 先枚举次方
 		// 再枚举跳板
