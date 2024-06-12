@@ -1,6 +1,18 @@
 package class129;
 
 // 开车旅行
+// 给定一个长度为n的数组arr，下标1 ~ n范围，数组无重复值，近的定义、距离的定义，和题目4一致
+// a和b同坐一辆车开始往右旅行，a先开车，b后开车，此后两人交替驾驶
+// a如果在某点开始驾驶，那么车去往右侧第二近的点，b如果在某点开始驾驶，那么车去往右侧第一近的点
+// a和b从s位置出发，如果开车总距离超过x，或轮到某人时右侧无点可选，那么旅行停止
+// 问题1 : 给定距离x0，返回1 ~ n-1中从哪个点出发，a行驶距离 / b行驶距离，比值最小
+//         如果从多个点出发时，比值都为最小，那么返回arr中的值最小的点
+// 问题2 : 给定s、x，返回旅行停止时，a开了多少距离、b开了多少距离
+// 问题1只调用1次
+// 问题2调用m次，每组有不同的s、x
+// 1 <= n、m、s <= 10^5
+// -10^9 <= arr[i] <= 10^9
+// 1 <= x0、x <= 10^9
 // 测试链接 : https://www.luogu.com.cn/problem/P1081
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有用例
 
@@ -67,7 +79,7 @@ public class Code05_RoadTrip {
 			s = (int) in.nval;
 			in.nextToken();
 			x = (int) in.nval;
-			distab(s, x);
+			travel(s, x);
 			out.println(a + " " + b);
 		}
 		out.flush();
@@ -156,14 +168,12 @@ public class Code05_RoadTrip {
 	public static int best() {
 		int ans = 0;
 		double min = Double.MAX_VALUE, cur;
-		for (int i = 1; i <= n; i++) {
-			distab(i, x0);
-			if (a > 0) {
-				cur = (double) a / (double) b;
-				if (ans == 0 || cur < min || (cur == min && arr[i] > arr[ans])) {
-					min = cur;
-					ans = i;
-				}
+		for (int i = 1; i < n; i++) {
+			travel(i, x0);
+			cur = (double) a / (double) b;
+			if (ans == 0 || cur < min || (cur == min && arr[i] > arr[ans])) {
+				min = cur;
+				ans = i;
 			}
 		}
 		return ans;
@@ -171,7 +181,7 @@ public class Code05_RoadTrip {
 
 	public static int a, b;
 
-	public static void distab(int s, int x) {
+	public static void travel(int s, int x) {
 		a = 0;
 		b = 0;
 		for (int p = MAXP; p >= 0; p--) {

@@ -5,7 +5,7 @@ import java.util.HashSet;
 import java.util.TreeSet;
 
 // 寻找最近和次近
-// 给定一个长度为n的数组，下标1~n范围，数组无重复值
+// 给定一个长度为n的数组arr，下标1 ~ n范围，数组无重复值
 // 对i位置的数字x来说，只关注x右侧的数字，和x的差值绝对值越小就越近
 // 距离为差值绝对值，如果距离一样，数值越小的越近
 // 数值 : 3 5 7 1
@@ -18,8 +18,8 @@ import java.util.TreeSet;
 // dist1 = { 2, 2, 6, 0 }
 // to2   = { 2, 4, 0, 0 }
 // dist2 = { 2, 4, 0, 0 }
-// 本题完全是为了题目5做准备，和倍增没有关系
-// 展示一下数组实现的双向链表，如何完成该功能
+// 本题完全是为了题目5做准备，很有意思的题，但是和倍增没有关系
+// 单纯展示一下，数组实现的双向链表，如何完成该功能
 // 同时提供有序表的版本，做对数器验证
 public class Code04_FindNear {
 
@@ -180,8 +180,8 @@ public class Code04_FindNear {
 	// 为了测试
 	public static void main(String[] args) {
 		// 一定要确保arr中的数字无重复，所以让v大于n
-		n = 100;
-		int v = 1000;
+		n = 1000;
+		int v = 5000;
 		int testTime = 10000;
 		System.out.println("测试开始");
 		for (int i = 1; i <= testTime; i++) {
