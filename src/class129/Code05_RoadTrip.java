@@ -90,15 +90,15 @@ public class Code05_RoadTrip {
 			dist1[i] = 0;
 			to2[i] = 0;
 			dist2[i] = 0;
-			filter(i, last[i]);
-			filter(i, last[last[i]]);
-			filter(i, next[i]);
-			filter(i, next[next[i]]);
+			update(i, last[i]);
+			update(i, last[last[i]]);
+			update(i, next[i]);
+			update(i, next[next[i]]);
 			delete(i);
 		}
 	}
 
-	public static void filter(int i, int r) {
+	public static void update(int i, int r) {
 		if (r == 0) {
 			return;
 		}

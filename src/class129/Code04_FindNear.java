@@ -69,10 +69,10 @@ public class Code04_FindNear {
 			int[] p2 = p1 != null ? set.floor(new int[] { p1[0], p1[1] - 1 }) : null;
 			int[] p3 = set.ceiling(cur);
 			int[] p4 = p3 != null ? set.ceiling(new int[] { p3[0], p3[1] + 1 }) : null;
-			filter(i, p1 != null ? p1[0] : 0);
-			filter(i, p2 != null ? p2[0] : 0);
-			filter(i, p3 != null ? p3[0] : 0);
-			filter(i, p4 != null ? p4[0] : 0);
+			update(i, p1 != null ? p1[0] : 0);
+			update(i, p2 != null ? p2[0] : 0);
+			update(i, p3 != null ? p3[0] : 0);
+			update(i, p4 != null ? p4[0] : 0);
 			set.add(cur);
 		}
 	}
@@ -80,7 +80,7 @@ public class Code04_FindNear {
 	// i位置的右边是r位置
 	// r的出现看看能不能更新最近或者次近
 	// 如果r==0则不更新
-	public static void filter(int i, int r) {
+	public static void update(int i, int r) {
 		if (r == 0) {
 			return;
 		}
@@ -120,10 +120,10 @@ public class Code04_FindNear {
 			dist1[i] = 0;
 			to2[i] = 0;
 			dist2[i] = 0;
-			filter(i, last[i]);
-			filter(i, last[last[i]]);
-			filter(i, next[i]);
-			filter(i, next[next[i]]);
+			update(i, last[i]);
+			update(i, last[last[i]]);
+			update(i, next[i]);
+			update(i, next[next[i]]);
 			delete(i);
 		}
 	}
