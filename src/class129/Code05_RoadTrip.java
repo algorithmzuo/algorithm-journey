@@ -114,11 +114,11 @@ public class Code05_RoadTrip {
 		}
 	}
 
-	public static boolean better(int p1, int d1, int p2, int d2) {
-		if (p1 == 0) {
+	public static boolean better(int r1, int d1, int r2, int d2) {
+		if (r1 == 0) {
 			return true;
 		}
-		return d2 < d1 || (d2 == d1 && arr[p2] < arr[p1]);
+		return d2 < d1 || (d2 == d1 && arr[r2] < arr[r1]);
 	}
 
 	public static void delete(int i) {

@@ -66,33 +66,20 @@ public class Code04_FindNear {
 			dist2[i] = 0;
 			int[] cur = new int[] { i, arr[i] };
 			int[] p1 = set.floor(cur);
-			int[] p2 = null;
-			if (p1 != null) {
-				p2 = set.floor(new int[] { p1[0], p1[1] - 1 });
-			}
+			int[] p2 = p1 != null ? set.floor(new int[] { p1[0], p1[1] - 1 }) : null;
 			int[] p3 = set.ceiling(cur);
-			int[] p4 = null;
-			if (p3 != null) {
-				p4 = set.ceiling(new int[] { p3[0], p3[1] + 1 });
-			}
-			if (p1 != null) {
-				filter(i, p1[0]);
-			}
-			if (p2 != null) {
-				filter(i, p2[0]);
-			}
-			if (p3 != null) {
-				filter(i, p3[0]);
-			}
-			if (p4 != null) {
-				filter(i, p4[0]);
-			}
+			int[] p4 = p3 != null ? set.ceiling(new int[] { p3[0], p3[1] + 1 }) : null;
+			filter(i, p1 != null ? p1[0] : 0);
+			filter(i, p2 != null ? p2[0] : 0);
+			filter(i, p3 != null ? p3[0] : 0);
+			filter(i, p4 != null ? p4[0] : 0);
 			set.add(cur);
 		}
 	}
 
 	// i位置的右边是r位置
-	// r的出现看看能不能更新最好或者次好
+	// r的出现看看能不能更新最近或者次近
+	// 如果r==0则不更新
 	public static void filter(int i, int r) {
 		if (r == 0) {
 			return;
@@ -109,12 +96,12 @@ public class Code04_FindNear {
 		}
 	}
 
-	// 返回后者(p2,d2)是否比前者(p1,d1)好
-	public static boolean better(int p1, int d1, int p2, int d2) {
-		if (p1 == 0) {
+	// 返回后者(p2,d2)是否比前者(p1,d1)更近
+	public static boolean better(int r1, int d1, int r2, int d2) {
+		if (r1 == 0) {
 			return true;
 		}
-		return d2 < d1 || (d2 == d1 && arr[p2] < arr[p1]);
+		return d2 < d1 || (d2 == d1 && arr[r2] < arr[r1]);
 	}
 
 	// 双向链表(自己用数组手搓)实现
