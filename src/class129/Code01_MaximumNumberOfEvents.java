@@ -14,6 +14,7 @@ public class Code01_MaximumNumberOfEvents {
 	public static int maxValue(int[][] events, int k) {
 		int n = events.length;
 		Arrays.sort(events, (a, b) -> a[1] - b[1]);
+		// dp[i][j] : 0..i范围上最多选j个会议召开，最大收益是多少
 		int[][] dp = new int[n][k + 1];
 		for (int j = 1; j <= k; j++) {
 			dp[0][j] = events[0][2];
