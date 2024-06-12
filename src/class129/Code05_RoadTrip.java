@@ -12,7 +12,7 @@ import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 import java.util.Arrays;
 
-public class Code04_RoadTrip {
+public class Code05_RoadTrip {
 
 	public static int MAXN = 100001;
 
@@ -20,13 +20,6 @@ public class Code04_RoadTrip {
 
 	public static int[] height = new int[MAXN];
 
-	public static int[][] rank = new int[MAXN][2];
-
-	public static int[] last = new int[MAXN];
-
-	public static int[] next = new int[MAXN];
-
-	// 如下四个结构是只跳一步的表
 	public static int[] to1 = new int[MAXN];
 
 	public static int[] dist1 = new int[MAXN];
@@ -34,6 +27,12 @@ public class Code04_RoadTrip {
 	public static int[] to2 = new int[MAXN];
 
 	public static int[] dist2 = new int[MAXN];
+
+	public static int[][] rank = new int[MAXN][2];
+
+	public static int[] last = new int[MAXN];
+
+	public static int[] next = new int[MAXN];
 
 	// 如下四个结构是倍增表
 	public static int[][] stto = new int[MAXN][MAXP + 1];
@@ -46,27 +45,94 @@ public class Code04_RoadTrip {
 
 	public static int n, m, x0;
 
-	public static void prepare() {
+	public static void main(String[] args) throws IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StreamTokenizer in = new StreamTokenizer(br);
+		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
+		in.nextToken();
+		n = (int) in.nval;
+		for (int i = 1; i <= n; i++) {
+			in.nextToken();
+			height[i] = (int) in.nval;
+		}
+		near();
+		st();
+		in.nextToken();
+		x0 = (int) in.nval;
+		out.println(compute1());
+		in.nextToken();
+		m = (int) in.nval;
+		for (int i = 1, s, x; i <= m; i++) {
+			in.nextToken();
+			s = (int) in.nval;
+			in.nextToken();
+			x = (int) in.nval;
+			compute2(s, x);
+			out.println(a + " " + b);
+		}
+		out.flush();
+		out.close();
+		br.close();
+	}
+
+	public static void near() {
+		for (int i = 1; i <= n; i++) {
+			rank[i][0] = i;
+			rank[i][1] = height[i];
+		}
 		Arrays.sort(rank, 1, n + 1, (a, b) -> a[1] - b[1]);
 		for (int i = 1; i <= n; i++) {
 			last[rank[i][0]] = i == 1 ? 0 : rank[i - 1][0];
 			next[rank[i][0]] = i == n ? 0 : rank[i + 1][0];
 		}
-		for (int i = 1, p1, p2, p3, p4; i <= n; i++) {
+		for (int i = 1; i <= n; i++) {
 			to1[i] = 0;
 			dist1[i] = 0;
 			to2[i] = 0;
 			dist2[i] = 0;
-			p1 = last[i];
-			p2 = p1 == 0 ? 0 : last[p1];
-			p3 = next[i];
-			p4 = p3 == 0 ? 0 : next[p3];
-			filter(p1, i);
-			filter(p2, i);
-			filter(p3, i);
-			filter(p4, i);
+			filter(i, last[i]);
+			filter(i, last[last[i]]);
+			filter(i, next[i]);
+			filter(i, next[next[i]]);
 			delete(i);
 		}
+	}
+
+	public static void filter(int i, int r) {
+		if (r == 0) {
+			return;
+		}
+		int d = Math.abs(height[i] - height[r]);
+		if (better(to1[i], dist1[i], r, d)) {
+			to2[i] = to1[i];
+			dist2[i] = dist1[i];
+			to1[i] = r;
+			dist1[i] = d;
+		} else if (better(to2[i], dist2[i], r, d)) {
+			to2[i] = r;
+			dist2[i] = d;
+		}
+	}
+
+	public static boolean better(int p1, int d1, int p2, int d2) {
+		if (p1 == 0) {
+			return true;
+		}
+		return d2 < d1 || (d2 == d1 && height[p2] < height[p1]);
+	}
+
+	public static void delete(int i) {
+		int l = last[i];
+		int r = next[i];
+		if (l != 0) {
+			next[l] = r;
+		}
+		if (r != 0) {
+			last[r] = l;
+		}
+	}
+
+	public static void st() {
 		// 倍增初始值
 		for (int i = 1; i <= n; i++) {
 			stto[i][0] = to1[to2[i]];
@@ -85,71 +151,6 @@ public class Code04_RoadTrip {
 				}
 			}
 		}
-	}
-
-	public static void filter(int p, int i) {
-		if (p == 0) {
-			return;
-		}
-		int d = Math.abs(height[i] - height[p]);
-		if (better(p, d, to1[i], dist1[i])) {
-			to2[i] = to1[i];
-			dist2[i] = dist1[i];
-			to1[i] = p;
-			dist1[i] = d;
-		} else if (better(p, d, to2[i], dist2[i])) {
-			to2[i] = p;
-			dist2[i] = d;
-		}
-	}
-
-	public static boolean better(int p1, int d1, int p2, int d2) {
-		if (p2 == 0) {
-			return true;
-		}
-		return d1 < d2 || (d1 == d2 && height[p1] < height[p2]);
-	}
-
-	public static void delete(int i) {
-		int l = last[i];
-		int r = next[i];
-		if (l != 0) {
-			next[l] = r;
-		}
-		if (r != 0) {
-			last[r] = l;
-		}
-	}
-
-	public static void main(String[] args) throws IOException {
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StreamTokenizer in = new StreamTokenizer(br);
-		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
-		in.nextToken();
-		n = (int) in.nval;
-		for (int i = 1; i <= n; i++) {
-			in.nextToken();
-			height[i] = (int) in.nval;
-			rank[i][0] = i;
-			rank[i][1] = height[i];
-		}
-		prepare();
-		in.nextToken();
-		x0 = (int) in.nval;
-		out.println(compute1());
-		in.nextToken();
-		m = (int) in.nval;
-		for (int i = 1, s, x; i <= m; i++) {
-			in.nextToken();
-			s = (int) in.nval;
-			in.nextToken();
-			x = (int) in.nval;
-			compute2(s, x);
-			out.println(a + " " + b);
-		}
-		out.flush();
-		out.close();
-		br.close();
 	}
 
 	public static int compute1() {
