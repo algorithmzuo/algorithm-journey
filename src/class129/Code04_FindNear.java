@@ -56,6 +56,7 @@ public class Code04_FindNear {
 
 	public static int[] d = new int[MAXN];
 
+	// 有序表实现
 	public static void near1() {
 		TreeSet<int[]> set = new TreeSet<>((a, b) -> a[1] - b[1]);
 		for (int i = n; i >= 1; i--) {
@@ -116,6 +117,7 @@ public class Code04_FindNear {
 		return d2 < d1 || (d2 == d1 && arr[p2] < arr[p1]);
 	}
 
+	// 双向链表(自己用数组手搓)实现
 	public static void near2() {
 		for (int i = 1; i <= n; i++) {
 			rank[i][0] = i;
@@ -190,7 +192,7 @@ public class Code04_FindNear {
 	// 对数器
 	// 为了测试
 	public static void main(String[] args) {
-		// 一定要确保arr中的数字无重复，所以最好让v大于n
+		// 一定要确保arr中的数字无重复，所以让v大于n
 		n = 100;
 		int v = 1000;
 		int testTime = 10000;
