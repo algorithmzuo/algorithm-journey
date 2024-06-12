@@ -18,7 +18,7 @@ public class Code05_RoadTrip {
 
 	public static int MAXP = 20;
 
-	public static int[] height = new int[MAXN];
+	public static int[] arr = new int[MAXN];
 
 	public static int[] to1 = new int[MAXN];
 
@@ -53,7 +53,7 @@ public class Code05_RoadTrip {
 		n = (int) in.nval;
 		for (int i = 1; i <= n; i++) {
 			in.nextToken();
-			height[i] = (int) in.nval;
+			arr[i] = (int) in.nval;
 		}
 		near();
 		st();
@@ -78,7 +78,7 @@ public class Code05_RoadTrip {
 	public static void near() {
 		for (int i = 1; i <= n; i++) {
 			rank[i][0] = i;
-			rank[i][1] = height[i];
+			rank[i][1] = arr[i];
 		}
 		Arrays.sort(rank, 1, n + 1, (a, b) -> a[1] - b[1]);
 		for (int i = 1; i <= n; i++) {
@@ -102,7 +102,7 @@ public class Code05_RoadTrip {
 		if (r == 0) {
 			return;
 		}
-		int d = Math.abs(height[i] - height[r]);
+		int d = Math.abs(arr[i] - arr[r]);
 		if (better(to1[i], dist1[i], r, d)) {
 			to2[i] = to1[i];
 			dist2[i] = dist1[i];
@@ -118,7 +118,7 @@ public class Code05_RoadTrip {
 		if (p1 == 0) {
 			return true;
 		}
-		return d2 < d1 || (d2 == d1 && height[p2] < height[p1]);
+		return d2 < d1 || (d2 == d1 && arr[p2] < arr[p1]);
 	}
 
 	public static void delete(int i) {
@@ -160,7 +160,7 @@ public class Code05_RoadTrip {
 			compute2(i, x0);
 			if (a > 0) {
 				cur = (double) a / (double) b;
-				if (ans == 0 || cur < min || (cur == min && height[i] > height[ans])) {
+				if (ans == 0 || cur < min || (cur == min && arr[i] > arr[ans])) {
 					min = cur;
 					ans = i;
 				}
