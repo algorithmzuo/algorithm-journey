@@ -25,8 +25,8 @@ public class Code02_RanAway {
 
 	public static int NA = Integer.MAX_VALUE;
 
-	// reach[i][j][p] : i到j的距离是不是2^p
-	public static boolean[][][] reach = new boolean[MAXN][MAXN][MAXP + 1];
+	// st[i][j][p] : i到j的距离是不是2^p
+	public static boolean[][][] st = new boolean[MAXN][MAXN][MAXP + 1];
 
 	// time[i][j] : i到j的最短时间
 	public static int[][] time = new int[MAXN][MAXN];
@@ -36,7 +36,7 @@ public class Code02_RanAway {
 	public static void build() {
 		for (int i = 1; i <= n; i++) {
 			for (int j = 1; j <= n; j++) {
-				reach[i][j][0] = false;
+				st[i][j][0] = false;
 				time[i][j] = NA;
 			}
 		}
@@ -56,7 +56,7 @@ public class Code02_RanAway {
 			u = (int) in.nval;
 			in.nextToken();
 			v = (int) in.nval;
-			reach[u][v][0] = true;
+			st[u][v][0] = true;
 			time[u][v] = 1;
 		}
 		out.println(compute());
@@ -70,12 +70,12 @@ public class Code02_RanAway {
 		// 先枚举次方
 		// 再枚举跳板
 		// 最后枚举每一组(i,j)
-		for (int power = 1; power <= MAXP; power++) {
+		for (int p = 1; p <= MAXP; p++) {
 			for (int jump = 1; jump <= n; jump++) {
 				for (int i = 1; i <= n; i++) {
 					for (int j = 1; j <= n; j++) {
-						if (reach[i][jump][power - 1] && reach[jump][j][power - 1]) {
-							reach[i][j][power] = true;
+						if (st[i][jump][p - 1] && st[jump][j][p - 1]) {
+							st[i][j][p] = true;
 							time[i][j] = 1;
 						}
 					}

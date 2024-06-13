@@ -47,13 +47,16 @@ public class Code05_RoadTrip {
 
 	public static int[] next = new int[MAXN];
 
-	// 如下四个结构是倍增表
+	// stto[i][p] : 从i位置出发，a和b轮流开2^p轮之后，车到达了几号点
 	public static int[][] stto = new int[MAXN][MAXP + 1];
 
-	public static int[][] stab = new int[MAXN][MAXP + 1];
+	// stdist[i][p] : 从i位置出发，a和b轮流开2^p轮之后，总距离是多少
+	public static int[][] stdist = new int[MAXN][MAXP + 1];
 
+	// sta[i][p] : 从i位置出发，a和b轮流开2^p轮之后，a行驶了多少距离
 	public static int[][] sta = new int[MAXN][MAXP + 1];
 
+	// stb[i][p] : 从i位置出发，a和b轮流开2^p轮之后，b行驶了多少距离
 	public static int[][] stb = new int[MAXN][MAXP + 1];
 
 	public static int n, m;
@@ -144,7 +147,7 @@ public class Code05_RoadTrip {
 		// 倍增初始化
 		for (int i = 1; i <= n; i++) {
 			stto[i][0] = to1[to2[i]];
-			stab[i][0] = dist2[i] + dist1[to2[i]];
+			stdist[i][0] = dist2[i] + dist1[to2[i]];
 			sta[i][0] = dist2[i];
 			stb[i][0] = dist1[to2[i]];
 		}
@@ -153,7 +156,7 @@ public class Code05_RoadTrip {
 			for (int i = 1; i <= n; i++) {
 				stto[i][p] = stto[stto[i][p - 1]][p - 1];
 				if (stto[i][p] != 0) {
-					stab[i][p] = stab[i][p - 1] + stab[stto[i][p - 1]][p - 1];
+					stdist[i][p] = stdist[i][p - 1] + stdist[stto[i][p - 1]][p - 1];
 					sta[i][p] = sta[i][p - 1] + sta[stto[i][p - 1]][p - 1];
 					stb[i][p] = stb[i][p - 1] + stb[stto[i][p - 1]][p - 1];
 				}
@@ -181,8 +184,8 @@ public class Code05_RoadTrip {
 		a = 0;
 		b = 0;
 		for (int p = MAXP; p >= 0; p--) {
-			if (stab[s][p] != 0 && x >= stab[s][p]) {
-				x -= stab[s][p];
+			if (stto[s][p] != 0 && x >= stdist[s][p]) {
+				x -= stdist[s][p];
 				a += sta[s][p];
 				b += stb[s][p];
 				s = stto[s][p];

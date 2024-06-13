@@ -14,6 +14,9 @@ import java.util.Arrays;
 // 测试链接 : https://leetcode.cn/problems/maximum-number-of-events-that-can-be-attended-ii/
 public class Code01_MaximumNumberOfEvents {
 
+	// events[i][0] : 开始时间
+	// events[i][1] : 结束时间
+	// events[i][2] : 收益
 	public static int maxValue(int[][] events, int k) {
 		int n = events.length;
 		Arrays.sort(events, (a, b) -> a[1] - b[1]);

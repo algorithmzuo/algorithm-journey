@@ -20,6 +20,7 @@ public class Code03_CountRepetitions {
 		char[] s1 = str1.toCharArray();
 		char[] s2 = str2.toCharArray();
 		int n = s1.length;
+		// next[i][j] : 从i位置出发，至少需要多少长度，能找到j字符
 		int[][] next = new int[n][26];
 		// 时间复杂度O(s1长度 + s2长度)
 		if (!find(s1, n, next, s2)) {
