@@ -25,7 +25,7 @@ public class Code03_CountRepetitions {
 		if (!find(s1, n, next, s2)) {
 			return 0;
 		}
-		// st[i][p] : 从s1中的i位置出发，后续需要多少长度，可以获得2^p个s2字符串
+		// st[i][p] : 从s1中的i位置出发，至少需要多少长度，可以获得2^p个s2
 		long[][] st = new long[n][30];
 		// 时间复杂度O(s1长度 * s2长度)
 		for (int i = 0, cur, len; i < n; i++) {
