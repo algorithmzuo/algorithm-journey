@@ -84,31 +84,15 @@ public class Code04_FindNear {
 			return;
 		}
 		int d = Math.abs(arr[i] - arr[r]);
-		if (better1(i, r, d)) {
+		if (to1[i] == 0 || d < dist1[i] || (d == dist1[i] && arr[r] < arr[to1[i]])) {
 			to2[i] = to1[i];
 			dist2[i] = dist1[i];
 			to1[i] = r;
 			dist1[i] = d;
-		} else if (better2(i, r, d)) {
+		} else if (to2[i] == 0 || d < dist2[i] || (d == dist2[i] && arr[r] < arr[to2[i]])) {
 			to2[i] = r;
 			dist2[i] = d;
 		}
-	}
-
-	// 当前的位置r，是否比i位置当前找到的第一近，还要近
-	public static boolean better1(int i, int r, int d) {
-		if (to1[i] == 0) {
-			return true;
-		}
-		return d < dist1[i] || (d == dist1[i] && arr[r] < arr[to1[i]]);
-	}
-
-	// 当前的位置r，是否比i位置当前找到的第二近，还要近
-	public static boolean better2(int i, int r, int d) {
-		if (to2[i] == 0) {
-			return true;
-		}
-		return d < dist2[i] || (d == dist2[i] && arr[r] < arr[to2[i]]);
 	}
 
 	// 用数组手搓双向链表的实现

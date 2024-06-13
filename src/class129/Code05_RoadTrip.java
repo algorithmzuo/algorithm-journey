@@ -111,34 +111,23 @@ public class Code05_RoadTrip {
 		}
 	}
 
+	// i位置的右侧是r位置
+	// 看看r位置能不能更新i右侧的最近或者次近
+	// 如果r==0则不更新
 	public static void update(int i, int r) {
 		if (r == 0) {
 			return;
 		}
 		int d = Math.abs(arr[i] - arr[r]);
-		if (better1(i, r, d)) {
+		if (to1[i] == 0 || d < dist1[i] || (d == dist1[i] && arr[r] < arr[to1[i]])) {
 			to2[i] = to1[i];
 			dist2[i] = dist1[i];
 			to1[i] = r;
 			dist1[i] = d;
-		} else if (better2(i, r, d)) {
+		} else if (to2[i] == 0 || d < dist2[i] || (d == dist2[i] && arr[r] < arr[to2[i]])) {
 			to2[i] = r;
 			dist2[i] = d;
 		}
-	}
-
-	public static boolean better1(int i, int r, int d) {
-		if (to1[i] == 0) {
-			return true;
-		}
-		return d < dist1[i] || (d == dist1[i] && arr[r] < arr[to1[i]]);
-	}
-
-	public static boolean better2(int i, int r, int d) {
-		if (to2[i] == 0) {
-			return true;
-		}
-		return d < dist2[i] || (d == dist2[i] && arr[r] < arr[to2[i]]);
 	}
 
 	public static void delete(int i) {
