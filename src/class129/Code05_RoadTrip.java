@@ -56,7 +56,7 @@ public class Code05_RoadTrip {
 
 	public static int[][] stb = new int[MAXN][MAXP + 1];
 
-	public static int n, m, x0;
+	public static int n, m;
 
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -71,15 +71,15 @@ public class Code05_RoadTrip {
 		near();
 		st();
 		in.nextToken();
-		x0 = (int) in.nval;
-		out.println(best());
+		int x0 = (int) in.nval;
+		out.println(best(x0));
 		in.nextToken();
 		m = (int) in.nval;
-		for (int i = 1, s, x; i <= m; i++) {
+		for (int i = 1; i <= m; i++) {
 			in.nextToken();
-			s = (int) in.nval;
+			int s = (int) in.nval;
 			in.nextToken();
-			x = (int) in.nval;
+			int x = (int) in.nval;
 			travel(s, x);
 			out.println(a + " " + b);
 		}
@@ -159,7 +159,7 @@ public class Code05_RoadTrip {
 		}
 	}
 
-	public static int best() {
+	public static int best(int x0) {
 		int ans = 0;
 		double min = Double.MAX_VALUE, cur;
 		for (int i = 1; i < n; i++) {
