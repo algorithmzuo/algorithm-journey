@@ -8,6 +8,9 @@ import java.util.Arrays;
 // 一共能参加k个会议，如果选择参加某个会议，那么必须完整的参加完这个会议
 // 会议结束日期是包含在会议内的，一个会议的结束时间等于另一个会议的开始时间，不能两个会议都参加
 // 返回能得到的会议价值最大和
+// 1 <= n * k <= 10^6
+// 1 <= 开始时间、结束时间 <= 10^9
+// 1 <= 收益 <= 10^6
 // 测试链接 : https://leetcode.cn/problems/maximum-number-of-events-that-can-be-attended-ii/
 public class Code01_MaximumNumberOfEvents {
 
@@ -28,6 +31,9 @@ public class Code01_MaximumNumberOfEvents {
 		return dp[n - 1][k];
 	}
 
+	// 0...i范围上的会议，根据结束日期排序了
+	// 找到结束时间<s，最右的会议编号
+	// 如果不存在这样的会议返回-1
 	public static int find(int[][] events, int i, int s) {
 		int l = 0, r = i, mid;
 		int ans = -1;
