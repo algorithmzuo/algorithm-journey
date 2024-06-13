@@ -67,9 +67,11 @@ public class Code04_FindNear {
 			rank[i][1] = arr[i];
 		}
 		Arrays.sort(rank, 1, n + 1, (a, b) -> a[1] - b[1]);
+		rank[0][0] = 0;
+		rank[n + 1][0] = 0;
 		for (int i = 1; i <= n; i++) {
-			last[rank[i][0]] = i == 1 ? 0 : rank[i - 1][0];
-			next[rank[i][0]] = i == n ? 0 : rank[i + 1][0];
+			last[rank[i][0]] = rank[i - 1][0];
+			next[rank[i][0]] = rank[i + 1][0];
 		}
 		for (int i = 1; i <= n; i++) {
 			to1[i] = 0;
