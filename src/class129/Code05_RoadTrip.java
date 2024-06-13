@@ -141,7 +141,7 @@ public class Code05_RoadTrip {
 	}
 
 	public static void st() {
-		// 倍增初始值
+		// 倍增初始化
 		for (int i = 1; i <= n; i++) {
 			stto[i][0] = to1[to2[i]];
 			stab[i][0] = dist2[i] + dist1[to2[i]];
