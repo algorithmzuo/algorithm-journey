@@ -14,19 +14,16 @@ import java.util.TreeSet;
 // 对1位置的数字3来说，第一近是4位置的1，距离为2；第二近是2位置的5，距离为2
 // 每个位置的数字都求第一近的位置及其距离、第二近的位置及其距离
 // 分别用to1、dist1、to2、dist2数组表示，0表示不存在
-// 有序表的实现 + 用数组手搓双向链表的实现
+// 有序表的实现 + 数组手搓双向链表的实现
 // 对数器验证
 public class Code04_FindNear {
 
 	public static int MAXN = 10001;
 
-	// 数组
 	public static int[] arr = new int[MAXN];
 
-	// 数组长度
 	public static int n;
 
-	// 如下四个数组用来做结果数组，near1、near2方法都需要
 	public static int[] to1 = new int[MAXN];
 
 	public static int[] dist1 = new int[MAXN];
@@ -35,21 +32,12 @@ public class Code04_FindNear {
 
 	public static int[] dist2 = new int[MAXN];
 
-	// 如下四个数组只有near2方法都需要
+	// 如下三个数组只有near2方法需要
 	public static int[][] rank = new int[MAXN][2];
 
 	public static int[] last = new int[MAXN];
 
 	public static int[] next = new int[MAXN];
-
-	// 如下四个数组用来做备份，测试时需要
-	public static int[] a = new int[MAXN];
-
-	public static int[] b = new int[MAXN];
-
-	public static int[] c = new int[MAXN];
-
-	public static int[] d = new int[MAXN];
 
 	// 有序表的实现
 	public static void near1() {
@@ -69,25 +57,6 @@ public class Code04_FindNear {
 			update(i, p3 != null ? p3[0] : 0);
 			update(i, p4 != null ? p4[0] : 0);
 			set.add(cur);
-		}
-	}
-
-	// i位置的右侧是r位置
-	// 看看r位置能不能更新i右侧的最近或者次近
-	// 如果r==0则不更新
-	public static void update(int i, int r) {
-		if (r == 0) {
-			return;
-		}
-		int d = Math.abs(arr[i] - arr[r]);
-		if (to1[i] == 0 || d < dist1[i] || (d == dist1[i] && arr[r] < arr[to1[i]])) {
-			to2[i] = to1[i];
-			dist2[i] = dist1[i];
-			to1[i] = r;
-			dist1[i] = d;
-		} else if (to2[i] == 0 || d < dist2[i] || (d == dist2[i] && arr[r] < arr[to2[i]])) {
-			to2[i] = r;
-			dist2[i] = d;
 		}
 	}
 
@@ -115,6 +84,26 @@ public class Code04_FindNear {
 		}
 	}
 
+	// i位置右侧的j位置
+	// 看看能不能更新i右侧的最近或者次近
+	// 如果j==0则不更新
+	public static void update(int i, int j) {
+		if (j == 0) {
+			return;
+		}
+		int dist = Math.abs(arr[i] - arr[j]);
+		if (to1[i] == 0 || dist < dist1[i] || (dist == dist1[i] && arr[j] < arr[to1[i]])) {
+			to2[i] = to1[i];
+			dist2[i] = dist1[i];
+			to1[i] = j;
+			dist1[i] = dist;
+		} else if (to2[i] == 0 || dist < dist2[i] || (dist == dist2[i] && arr[j] < arr[to2[i]])) {
+			to2[i] = j;
+			dist2[i] = dist;
+		}
+	}
+
+	// 双向链表中删掉i位置
 	public static void delete(int i) {
 		int l = last[i];
 		int r = next[i];
@@ -138,6 +127,15 @@ public class Code04_FindNear {
 			arr[i] = cur;
 		}
 	}
+
+	// 如下四个数组用来做备份
+	public static int[] a = new int[MAXN];
+
+	public static int[] b = new int[MAXN];
+
+	public static int[] c = new int[MAXN];
+
+	public static int[] d = new int[MAXN];
 
 	// 验证的过程
 	// 为了测试
@@ -172,8 +170,8 @@ public class Code04_FindNear {
 	// 为了测试
 	public static void main(String[] args) {
 		// 一定要确保arr中的数字无重复，所以让v大于n
-		n = 1000;
-		int v = 5000;
+		n = 100;
+		int v = 500;
 		int testTime = 10000;
 		System.out.println("测试开始");
 		for (int i = 1; i <= testTime; i++) {
