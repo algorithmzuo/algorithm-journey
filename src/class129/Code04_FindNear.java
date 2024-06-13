@@ -60,7 +60,7 @@ public class Code04_FindNear {
 		}
 	}
 
-	// 用数组手搓双向链表的实现
+	// 数组手搓双向链表的实现
 	public static void near2() {
 		for (int i = 1; i <= n; i++) {
 			rank[i][0] = i;
