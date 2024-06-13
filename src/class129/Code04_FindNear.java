@@ -76,31 +76,39 @@ public class Code04_FindNear {
 		}
 	}
 
-	// i位置的右边是r位置
-	// r的出现看看能不能更新最近或者次近
+	// i位置的右侧是r位置
+	// 看看r位置能不能更新i右侧的最近或者次近
 	// 如果r==0则不更新
 	public static void update(int i, int r) {
 		if (r == 0) {
 			return;
 		}
 		int d = Math.abs(arr[i] - arr[r]);
-		if (better(to1[i], dist1[i], r, d)) {
+		if (better1(i, r, d)) {
 			to2[i] = to1[i];
 			dist2[i] = dist1[i];
 			to1[i] = r;
 			dist1[i] = d;
-		} else if (better(to2[i], dist2[i], r, d)) {
+		} else if (better2(i, r, d)) {
 			to2[i] = r;
 			dist2[i] = d;
 		}
 	}
 
-	// 返回后者(p2,d2)是否比前者(p1,d1)更近
-	public static boolean better(int r1, int d1, int r2, int d2) {
-		if (r1 == 0) {
+	// 当前的位置r，是否比i位置当前找到的第一近，还要近
+	public static boolean better1(int i, int r, int d) {
+		if (to1[i] == 0) {
 			return true;
 		}
-		return d2 < d1 || (d2 == d1 && arr[r2] < arr[r1]);
+		return d < dist1[i] || (d == dist1[i] && arr[r] < arr[to1[i]]);
+	}
+
+	// 当前的位置r，是否比i位置当前找到的第二近，还要近
+	public static boolean better2(int i, int r, int d) {
+		if (to2[i] == 0) {
+			return true;
+		}
+		return d < dist2[i] || (d == dist2[i] && arr[r] < arr[to2[i]]);
 	}
 
 	// 用数组手搓双向链表的实现

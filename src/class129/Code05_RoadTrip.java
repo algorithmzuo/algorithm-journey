@@ -116,22 +116,29 @@ public class Code05_RoadTrip {
 			return;
 		}
 		int d = Math.abs(arr[i] - arr[r]);
-		if (better(to1[i], dist1[i], r, d)) {
+		if (better1(i, r, d)) {
 			to2[i] = to1[i];
 			dist2[i] = dist1[i];
 			to1[i] = r;
 			dist1[i] = d;
-		} else if (better(to2[i], dist2[i], r, d)) {
+		} else if (better2(i, r, d)) {
 			to2[i] = r;
 			dist2[i] = d;
 		}
 	}
 
-	public static boolean better(int r1, int d1, int r2, int d2) {
-		if (r1 == 0) {
+	public static boolean better1(int i, int r, int d) {
+		if (to1[i] == 0) {
 			return true;
 		}
-		return d2 < d1 || (d2 == d1 && arr[r2] < arr[r1]);
+		return d < dist1[i] || (d == dist1[i] && arr[r] < arr[to1[i]]);
+	}
+
+	public static boolean better2(int i, int r, int d) {
+		if (to2[i] == 0) {
+			return true;
+		}
+		return d < dist2[i] || (d == dist2[i] && arr[r] < arr[to2[i]]);
 	}
 
 	public static void delete(int i) {
