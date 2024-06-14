@@ -7,7 +7,7 @@ package class129;
 // 如果a在某点驾驶，那么车去往该点右侧第二近的点，如果b在某点驾驶，那么车去往该点右侧第一近的点
 // a和b从s位置出发，如果开车总距离超过x，或轮到某人时右侧无点可选，那么旅行停止
 // 问题1 : 给定距离x0，返回1 ~ n-1中从哪个点出发，a行驶距离 / b行驶距离，比值最小
-//         如果从多个点出发时，比值都为最小，那么返回arr中的值最小的点
+//         如果从多个点出发时，比值都为最小，那么返回arr中的值最大的点
 // 问题2 : 给定s、x，返回旅行停止时，a开了多少距离、b开了多少距离
 // 问题1只调用1次
 // 问题2调用m次，每组有不同的s、x
@@ -169,7 +169,8 @@ public class Code05_RoadTrip {
 		double min = Double.MAX_VALUE, cur;
 		for (int i = 1; i < n; i++) {
 			travel(i, x0);
-			cur = (double) a / (double) b;
+			// 这么写更安全一些
+			cur = b == 0 ? Double.MAX_VALUE : (double) a / (double) b;
 			if (ans == 0 || cur < min || (cur == min && arr[i] > arr[ans])) {
 				min = cur;
 				ans = i;
