@@ -173,8 +173,8 @@ public class Code05_RoadTrip {
 			// cur这么设置更安全一些
 			cur = b == 0 ? Double.MAX_VALUE : ((double) a / (double) b);
 			if (ans == 0 || cur < min || (cur == min && arr[i] > arr[ans])) {
-				min = cur;
 				ans = i;
+				min = cur;
 			}
 		}
 		return ans;
