@@ -166,11 +166,12 @@ public class Code05_RoadTrip {
 
 	public static int best(int x0) {
 		int ans = 0;
-		double min = Double.MAX_VALUE, cur;
+		double min = Double.MAX_VALUE;
+		double cur;
 		for (int i = 1; i < n; i++) {
 			travel(i, x0);
-			// 这么写更安全一些
-			cur = b == 0 ? Double.MAX_VALUE : (double) a / (double) b;
+			// cur这么设置更安全一些
+			cur = b == 0 ? Double.MAX_VALUE : ((double) a / (double) b);
 			if (ans == 0 || cur < min || (cur == min && arr[i] > arr[ans])) {
 				min = cur;
 				ans = i;
