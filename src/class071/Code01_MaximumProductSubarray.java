@@ -7,17 +7,20 @@ package class071;
 // 测试链接 : https://leetcode.cn/problems/maximum-product-subarray/
 public class Code01_MaximumProductSubarray {
 
-	// 本方法对于double类型的数组求最大累乘积也同样适用
+	// 这节课讲完之后，测试数据又增加了
+	// 用int类型的变量会让中间结果溢出
+	// 所以改成用double类型的变量
+	// 思路是不变的
 	public static int maxProduct(int[] nums) {
-		int ans = nums[0];
-		for (int i = 1, min = nums[0], max = nums[0], curmin, curmax; i < nums.length; i++) {
+		double ans = nums[0], min = nums[0], max = nums[0], curmin, curmax;
+		for (int i = 1; i < nums.length; i++) {
 			curmin = Math.min(nums[i], Math.min(min * nums[i], max * nums[i]));
 			curmax = Math.max(nums[i], Math.max(min * nums[i], max * nums[i]));
 			min = curmin;
 			max = curmax;
 			ans = Math.max(ans, max);
 		}
-		return ans;
+		return (int) ans;
 	}
 
 }
