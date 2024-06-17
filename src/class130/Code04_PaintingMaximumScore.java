@@ -1,0 +1,97 @@
+package class130;
+
+// 粉刷墙壁的最大收益
+// 测试链接 : http://poj.org/problem?id=1821
+// 提交以下的code，提交时请把类名改成"Main"，可以通过所有用例
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.io.StreamTokenizer;
+import java.util.Arrays;
+import java.util.Comparator;
+
+public class Code04_PaintingMaximumScore {
+
+	public static int MAXN = 16001;
+
+	public static int MAXM = 101;
+
+	public static int[][] workers = new int[MAXM][3];
+
+	public static int[][] dp = new int[MAXM][MAXN];
+
+	public static int[] queue = new int[MAXN];
+
+	public static int l, r;
+
+	public static int n, m;
+
+	public static void main(String[] args) throws IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StreamTokenizer in = new StreamTokenizer(br);
+		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
+		while (in.nextToken() != StreamTokenizer.TT_EOF) {
+			n = (int) in.nval;
+			in.nextToken();
+			m = (int) in.nval;
+			for (int i = 1; i <= m; i++) {
+				in.nextToken();
+				workers[i][0] = (int) in.nval;
+				in.nextToken();
+				workers[i][1] = (int) in.nval;
+				in.nextToken();
+				workers[i][2] = (int) in.nval;
+			}
+			out.println(compute());
+		}
+		out.flush();
+		out.close();
+		br.close();
+	}
+
+	public static int get(int i, int pi, int j) {
+		return dp[i - 1][j] - pi * j;
+	}
+
+	public static int compute() {
+		Arrays.sort(workers, 1, m + 1, new WorkerComparator());
+		for (int i = 1, li, pi, si; i <= m; i++) {
+			l = r = 0;
+			li = workers[i][0];
+			pi = workers[i][1];
+			si = workers[i][2];
+			for (int j = Math.max(0, si - li); j < si; j++) {
+				while (l < r && get(i, pi, queue[r - 1]) <= get(i, pi, j)) {
+					r--;
+				}
+				queue[r++] = j;
+			}
+			for (int j = 1; j <= n; j++) {
+				dp[i][j] = Math.max(dp[i - 1][j], dp[i][j - 1]);
+				if (j >= si) {
+					if (l < r && queue[l] == j - li - 1) {
+						l++;
+					}
+					if (l < r) {
+						dp[i][j] = Math.max(dp[i][j], dp[i - 1][queue[l]] + pi * (j - queue[l]));
+					}
+				}
+			}
+		}
+		return dp[m][n];
+	}
+
+	// poj平台java版本较老，不支持Lambda表达式方式的比较器，需要自己定义
+	public static class WorkerComparator implements Comparator<int[]> {
+
+		@Override
+		public int compare(int[] o1, int[] o2) {
+			return o1[2] - o2[2];
+		}
+
+	}
+
+}
