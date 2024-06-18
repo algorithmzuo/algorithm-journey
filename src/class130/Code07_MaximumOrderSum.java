@@ -8,10 +8,9 @@ package class130;
 // 比如[5,4,9]，变序和16，方案为变成[3,4,9]
 // 比如[1,4,2]，变序和3，方案为变成[0,1,2]
 // 返回arr所有子数组的变序和中，最大的那个
-// 1 <= n <= 10^6
-// 0 <= arr[i] <= 10^6
+// 1 <= n、arr[i] <= 10^6
 // 来自真实大厂笔试，对数器验证
-public class Code08_MaximumOrderSum {
+public class Code07_MaximumOrderSum {
 
 	// 暴力方法
 	// 为了验证

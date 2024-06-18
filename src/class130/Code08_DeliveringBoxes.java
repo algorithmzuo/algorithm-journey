@@ -11,7 +11,7 @@ package class130;
 // 返回至少需要几个行程能把所有的货都送完
 // 所有数据的范围 <= 10^5
 // 测试链接 : https://leetcode.cn/problems/delivering-boxes-from-storage-to-ports/
-public class Code05_DeliveringBoxes {
+public class Code08_DeliveringBoxes {
 
 	// 贪心分析 + 窗口优化，只用有限几个变量维护窗口信息，无需单调队列
 	public static int boxDelivering(int[][] boxes, int m, int a, int b) {
@@ -22,7 +22,9 @@ public class Code05_DeliveringBoxes {
 		dp[1] = 2;
 		// 窗口[l...r]指的是马车最后一趟的货物范围
 		// 窗口内重量weight，窗口内需要的行程trip
-		for (int l = 0, r = 1, weight = boxes[0][1], trip = 2; r < n; r++) {
+		int weight = boxes[0][1];
+		int trip = 2;
+		for (int l = 0, r = 1; r < n; r++) {
 			weight += boxes[r][1];
 			if (boxes[r][0] != boxes[r - 1][0]) {
 				trip++;

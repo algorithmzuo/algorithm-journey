@@ -14,7 +14,7 @@ import java.util.List;
 // -10^9 <= robot[i]、factory[j][0] <= +10^9
 // 0 <= factory[j][1] <= n
 // 测试链接 : https://leetcode.cn/problems/minimum-total-distance-traveled/
-public class Code07_MinimumTotalDistanceTraveled {
+public class Code05_MinimumTotalDistanceTraveled {
 
 	public static long minimumTotalDistance1(List<Integer> robot, int[][] factory) {
 		int n = robot.size();
@@ -79,45 +79,40 @@ public class Code07_MinimumTotalDistanceTraveled {
 
 	// 最优解O(n * m)
 	// 目前所有题解都没有达到这个最优的复杂度
-	public static long minimumTotalDistance3(List<Integer> robot, int[][] factory) {
+	public static long minimumTotalDistance(List<Integer> robot, int[][] factory) {
 		int n = robot.size();
 		int m = factory.length;
 		robot.sort((a, b) -> a - b);
 		Arrays.sort(factory, (a, b) -> a[0] - b[0]);
 		long[][] dp = new long[n][m];
-		long[][] deque = new long[n + 1][2];
-		int l = 0;
-		int r = 0;
-		// 最外的for循环一定是枚举工厂
+		long[][] queue = new long[n + 1][2];
+		int l, r;
 		for (int j = 0; j < m; j++) {
 			long add = 0;
 			long limit = factory[j][1];
-			l = 0;
-			r = 1;
-			// deque[l][0] : 加入时的下标，用来判断过期
-			deque[l][0] = -1;
-			// deque[l][1] : 加入时的指标，窗口选出最小指标 去加上当前add！
-			deque[l][1] = 0;
+			l = r = 0;
+			queue[r][0] = -1;
+			queue[r++][1] = 0;
 			for (int i = 0; i < n; i++) {
 				long p1 = j - 1 >= 0 ? dp[i][j - 1] : Long.MAX_VALUE;
 				add += Math.abs((long) robot.get(i) - (long) factory[j][0]);
-				if (deque[l][0] == i - limit - 1) {
+				if (queue[l][0] == i - limit - 1) {
 					l++;
 				}
 				long p2 = Long.MAX_VALUE;
 				if (l < r) {
-					long best = deque[l][1];
+					long best = queue[l][1];
 					if (best != Long.MAX_VALUE) {
 						p2 = add + best;
 					}
 				}
 				dp[i][j] = Math.min(p1, p2);
 				long fill = p1 == Long.MAX_VALUE ? p1 : (p1 - add);
-				while (l < r && deque[r - 1][1] >= fill) {
+				while (l < r && queue[r - 1][1] >= fill) {
 					r--;
 				}
-				deque[r][0] = i;
-				deque[r++][1] = fill;
+				queue[r][0] = i;
+				queue[r++][1] = fill;
 			}
 		}
 		return dp[n - 1][m - 1];
