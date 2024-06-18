@@ -77,13 +77,11 @@ public class Code04_PaintingMaximumScore {
 			}
 			for (int j = 1; j <= n; j++) {
 				dp[i][j] = Math.max(dp[i - 1][j], dp[i][j - 1]);
-				if (j >= si) {
-					if (l < r && queue[l] == j - li - 1) {
-						l++;
-					}
-					if (l < r) {
-						dp[i][j] = Math.max(dp[i][j], dp[i - 1][queue[l]] + pi * (j - queue[l]));
-					}
+				if (l < r && queue[l] == j - li - 1) {
+					l++;
+				}
+				if (j >= si && l < r) {
+					dp[i][j] = Math.max(dp[i][j], dp[i - 1][queue[l]] + pi * (j - queue[l]));
 				}
 			}
 		}
