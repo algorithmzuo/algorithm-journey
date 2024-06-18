@@ -17,7 +17,6 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StreamTokenizer;
-import java.util.Arrays;
 
 public class Code01_JumpRight {
 
@@ -57,10 +56,9 @@ public class Code01_JumpRight {
 
 	public static int compute() {
 		dp[0] = arr[0];
-		Arrays.fill(dp, 1, n + 1, NA);
 		l = r = 0;
-		for (int i = a; i <= n; i++) {
-			if (dp[i - a] != NA) {
+		for (int i = 1; i <= n; i++) {
+			if (i - a >= 0 && dp[i - a] != NA) {
 				while (l < r && dp[queue[r - 1]] <= dp[i - a]) {
 					r--;
 				}
@@ -71,6 +69,8 @@ public class Code01_JumpRight {
 			}
 			if (l < r) {
 				dp[i] = dp[queue[l]] + arr[i];
+			} else {
+				dp[i] = NA;
 			}
 		}
 		int ans = NA;
