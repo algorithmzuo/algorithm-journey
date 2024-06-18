@@ -58,26 +58,30 @@ public class Code01_JumpRight {
 		dp[0] = arr[0];
 		l = r = 0;
 		for (int i = 1; i <= n; i++) {
-			if (i - a >= 0 && dp[i - a] != NA) {
-				while (l < r && dp[queue[r - 1]] <= dp[i - a]) {
-					r--;
-				}
-				queue[r++] = i - a;
-			}
-			if (l < r && queue[l] == i - b - 1) {
-				l++;
-			}
-			if (l < r) {
-				dp[i] = dp[queue[l]] + arr[i];
-			} else {
-				dp[i] = NA;
-			}
+			add(i - a);
+			overdue(i - b - 1);
+			dp[i] = l < r ? dp[queue[l]] + arr[i] : NA;
 		}
 		int ans = NA;
 		for (int i = n + 1 - b; i <= n; i++) {
 			ans = Math.max(ans, dp[i]);
 		}
 		return ans;
+	}
+
+	public static void add(int j) {
+		if (j >= 0 && dp[j] != NA) {
+			while (l < r && dp[queue[r - 1]] <= dp[j]) {
+				r--;
+			}
+			queue[r++] = j;
+		}
+	}
+
+	public static void overdue(int t) {
+		if (l < r && queue[l] == t) {
+			l++;
+		}
 	}
 
 }
