@@ -62,10 +62,6 @@ public class Code04_PaintingMaximumScore {
 		br.close();
 	}
 
-	public static int get(int i, int pi, int j) {
-		return dp[i - 1][j] - pi * j;
-	}
-
 	public static int compute() {
 		Arrays.sort(workers, 1, m + 1, new WorkerComparator());
 		for (int i = 1, li, pi, si; i <= m; i++) {
@@ -74,7 +70,7 @@ public class Code04_PaintingMaximumScore {
 			pi = workers[i][1];
 			si = workers[i][2];
 			for (int j = Math.max(0, si - li); j < si; j++) {
-				while (l < r && get(i, pi, queue[r - 1]) <= get(i, pi, j)) {
+				while (l < r && dp[i - 1][queue[r - 1]] - pi * queue[r - 1] <= dp[i - 1][j] - pi * j) {
 					r--;
 				}
 				queue[r++] = j;
