@@ -14,7 +14,6 @@ package class130;
 public class Code05_DeliveringBoxes {
 
 	// 贪心分析 + 窗口优化，只用有限几个变量维护窗口信息，无需单调队列
-	// 时间复杂度O(n)
 	public static int boxDelivering(int[][] boxes, int m, int a, int b) {
 		int n = boxes.length;
 		// dp[i] : 马车拉完前i个货物并回仓库，需要的最少行程
