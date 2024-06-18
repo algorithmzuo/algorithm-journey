@@ -69,22 +69,30 @@ public class Code04_PaintingMaximumScore {
 			pi = workers[i][1];
 			si = workers[i][2];
 			for (int j = Math.max(0, si - li); j < si; j++) {
-				while (l < r && dp[i - 1][queue[r - 1]] - pi * queue[r - 1] <= dp[i - 1][j] - pi * j) {
-					r--;
-				}
-				queue[r++] = j;
+				add(i - 1, pi, j);
 			}
 			for (int j = 1; j <= n; j++) {
+				overdue(j - li - 1);
 				dp[i][j] = Math.max(dp[i - 1][j], dp[i][j - 1]);
-				if (l < r && queue[l] == j - li - 1) {
-					l++;
-				}
 				if (j >= si && l < r) {
 					dp[i][j] = Math.max(dp[i][j], dp[i - 1][queue[l]] + pi * (j - queue[l]));
 				}
 			}
 		}
 		return dp[m][n];
+	}
+
+	public static void add(int i, int pi, int j) {
+		while (l < r && dp[i][queue[r - 1]] - pi * queue[r - 1] <= dp[i][j] - pi * j) {
+			r--;
+		}
+		queue[r++] = j;
+	}
+
+	public static void overdue(int t) {
+		if (l < r && queue[l] == t) {
+			l++;
+		}
 	}
 
 	// poj平台java版本较老，不支持Lambda表达式方式的比较器，需要自己定义

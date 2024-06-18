@@ -73,8 +73,8 @@ public class Code02_CollectDown {
 	public static int compute() {
 		for (int i = 2; i <= n; i++) {
 			l = r = 0;
-			for (int p = 1; p <= t; p++) {
-				add(i - 1, p);
+			for (int j = 1; j <= t; j++) {
+				add(i - 1, j);
 			}
 			for (int j = 1; j <= m; j++) {
 				add(i - 1, j + t);
@@ -89,17 +89,17 @@ public class Code02_CollectDown {
 		return ans;
 	}
 
-	public static void add(int i, int p) {
-		if (p <= m) {
-			while (l < r && dp[i][queue[r - 1]] <= dp[i][p]) {
+	public static void add(int i, int j) {
+		if (j <= m) {
+			while (l < r && dp[i][queue[r - 1]] <= dp[i][j]) {
 				r--;
 			}
-			queue[r++] = p;
+			queue[r++] = j;
 		}
 	}
 
-	public static void overdue(int p) {
-		if (l < r && queue[l] == p) {
+	public static void overdue(int t) {
+		if (l < r && queue[l] == t) {
 			l++;
 		}
 	}
