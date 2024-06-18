@@ -13,20 +13,24 @@ package class130;
 // 测试链接 : https://leetcode.cn/problems/delivering-boxes-from-storage-to-ports/
 public class Code05_DeliveringBoxes {
 
+	// 贪心分析 + 窗口优化，只用有限几个变量维护窗口信息，无需单调队列
+	// 时间复杂度O(n)
 	public static int boxDelivering(int[][] boxes, int m, int a, int b) {
 		int n = boxes.length;
 		// dp[i] : 马车拉完前i个货物并回仓库，需要的最少行程
+		// 注意这里的i是指个数，对应的货物是boxes[i-1]
 		int[] dp = new int[n + 1];
 		dp[1] = 2;
-		// 马车最后一趟的窗口[l...r]
+		// 窗口[l...r]指的是马车最后一趟的货物范围
 		// 窗口内重量weight，窗口内需要的行程trip
 		for (int l = 0, r = 1, weight = boxes[0][1], trip = 2; r < n; r++) {
 			weight += boxes[r][1];
 			if (boxes[r][0] != boxes[r - 1][0]) {
 				trip++;
 			}
-			// 1) 最后一趟货物的个数超了、总重量超了，最后一趟需要减少货物
-			// 2) 增加之前的货物范围，发现dp值没变化，那就把更多的货，分给之前去拉，最后一趟减少货物
+			// 1) 最后一趟货物的个数超了、总重量超了，最后一趟不得不减少货物
+			// 2) 增加之前的货物范围，如果发现dp值没变化，就把更多的货分给之前去拉，最后一趟减少货物
+			// 对于2)，课上进行了重点图解
 			while (r - l + 1 > a || weight > b || dp[l] == dp[l + 1]) {
 				weight -= boxes[l++][1];
 				if (boxes[l][0] != boxes[l - 1][0]) {
