@@ -30,14 +30,14 @@ public class Code08_MaximumOrderSum {
 			}
 		}
 		for (int i = 0; i < n; i++) {
-			ans = Math.max(ans, process1(arr, i, arr[i], dp));
+			ans = Math.max(ans, f1(arr, i, arr[i], dp));
 		}
 		return ans;
 	}
 
 	// 暴力方法
 	// 为了验证
-	public static long process1(int[] arr, int i, int p, long[][] dp) {
+	public static long f1(int[] arr, int i, int p, long[][] dp) {
 		if (p <= 0 || i == -1) {
 			return 0;
 		}
@@ -45,7 +45,7 @@ public class Code08_MaximumOrderSum {
 			return dp[i][p];
 		}
 		int cur = Math.min(arr[i], p);
-		long next = process1(arr, i - 1, cur - 1, dp);
+		long next = f1(arr, i - 1, cur - 1, dp);
 		long ans = (long) cur + next;
 		dp[i][p] = ans;
 		return cur + next;
@@ -60,8 +60,8 @@ public class Code08_MaximumOrderSum {
 		long[] dp = new long[n];
 		long ans = 0;
 		for (int i = 0; i < n; i++) {
-			int curVal = arr[i];
 			int curIdx = i;
+			int curVal = arr[curIdx];
 			while (curVal > 0 && size > 0) {
 				int leftIdx = stack[size - 1];
 				int leftVal = arr[leftIdx];
