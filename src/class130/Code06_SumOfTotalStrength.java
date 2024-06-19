@@ -29,19 +29,19 @@ public class Code06_SumOfTotalStrength {
 			while (size > 0 && arr[stack[size - 1]] >= arr[i]) {
 				int m = stack[--size];
 				int l = size > 0 ? stack[size - 1] : -1;
-				ans = (ans + magic(arr, sumsum, l, m, i)) % MOD;
+				ans = (ans + value(arr, sumsum, l, m, i)) % MOD;
 			}
 			stack[size++] = i;
 		}
 		while (size > 0) {
 			int m = stack[--size];
 			int l = size > 0 ? stack[size - 1] : -1;
-			ans = (ans + magic(arr, sumsum, l, m, n)) % MOD;
+			ans = (ans + value(arr, sumsum, l, m, n)) % MOD;
 		}
 		return ans;
 	}
 
-	public static int magic(int[] arr, int[] sumsum, int l, int m, int r) {
+	public static int value(int[] arr, int[] sumsum, int l, int m, int r) {
 		long left = sumsum[r - 1];
 		if (m - 1 >= 0) {
 			left = (left - sumsum[m - 1] + MOD) % MOD;

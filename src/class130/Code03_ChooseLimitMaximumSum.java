@@ -24,8 +24,6 @@ public class Code03_ChooseLimitMaximumSum {
 
 	public static long[] sum = new long[MAXN];
 
-	public static long[] help = new long[MAXN];
-
 	public static long[] dp = new long[MAXN];
 
 	public static int[] queue = new int[MAXN];
@@ -59,17 +57,20 @@ public class Code03_ChooseLimitMaximumSum {
 		l = r = 0;
 		queue[r++] = 0;
 		for (int i = 1; i <= n; i++) {
-			help[i] = dp[i - 1] - sum[i];
-			while (l < r && help[queue[r - 1]] <= help[i]) {
+			while (l < r && value(queue[r - 1]) <= value(i)) {
 				r--;
 			}
 			queue[r++] = i;
 			if (l < r && queue[l] == i - k - 1) {
 				l++;
 			}
-			dp[i] = help[queue[l]] + sum[i];
+			dp[i] = value(queue[l]) + sum[i];
 		}
 		return dp[n];
+	}
+
+	public static long value(int i) {
+		return i == 0 ? 0 : (dp[i - 1] - sum[i]);
 	}
 
 }
