@@ -13,15 +13,15 @@ package class130;
 // 测试链接 : https://leetcode.cn/problems/delivering-boxes-from-storage-to-ports/
 public class Code08_DeliveringBoxes {
 
-	// 贪心分析 + 窗口优化，只用有限几个变量维护窗口信息，无需单调队列
+	// 贪心分析 + 窗口优化，只用有限几个变量维护窗口信息，无需单调队列/单调栈
 	public static int boxDelivering(int[][] boxes, int m, int a, int b) {
 		int n = boxes.length;
 		// dp[i] : 马车拉完前i个货物并回仓库，需要的最少行程
-		// 注意这里的i是指个数，对应的货物是boxes[i-1]
+		// 注意这里的i是指个数，对应的货物是boxes[0...i-1]
 		int[] dp = new int[n + 1];
 		dp[1] = 2;
-		// 窗口[l...r]指的是马车最后一趟的货物范围
-		// 窗口内重量weight，窗口内需要的行程trip
+		// 马车最后一趟的货物范围[l...r]
+		// 最后一趟货物的总重量weight，最后一趟需要的行程trip
 		int weight = boxes[0][1];
 		int trip = 2;
 		for (int l = 0, r = 1; r < n; r++) {

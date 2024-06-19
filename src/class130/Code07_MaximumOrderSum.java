@@ -36,6 +36,8 @@ public class Code07_MaximumOrderSum {
 
 	// 暴力方法
 	// 为了验证
+	// 子数组一定要以i位置结尾，并且i位置变成的数字不能大于p的情况下
+	// 返回子数组的最大变序和
 	public static long f1(int[] arr, int i, int p, long[][] dp) {
 		if (p <= 0 || i == -1) {
 			return 0;
@@ -62,22 +64,22 @@ public class Code07_MaximumOrderSum {
 			int curIdx = i;
 			int curVal = arr[curIdx];
 			while (curVal > 0 && size > 0) {
-				int leftIdx = stack[size - 1];
-				int leftVal = arr[leftIdx];
-				if (leftVal >= curVal) {
+				int topIdx = stack[size - 1];
+				int topVal = arr[topIdx];
+				if (topVal >= curVal) {
 					size--;
 				} else {
-					int idxDiff = curIdx - leftIdx;
-					int valDiff = curVal - leftVal;
+					int idxDiff = curIdx - topIdx;
+					int valDiff = curVal - topVal;
 					if (valDiff >= idxDiff) {
-						dp[i] += sum(curVal, idxDiff) + dp[leftIdx];
+						dp[i] += sum(curVal, idxDiff) + dp[topIdx];
 						curVal = 0;
 						curIdx = 0;
 						break;
 					} else {
 						dp[i] += sum(curVal, idxDiff);
 						curVal -= idxDiff;
-						curIdx = leftIdx;
+						curIdx = topIdx;
 						size--;
 					}
 				}
@@ -91,6 +93,7 @@ public class Code07_MaximumOrderSum {
 		return ans;
 	}
 
+	// 最大值从max开始，往下一共有n项，只要正数的部分，返回累加和
 	public static long sum(int max, int n) {
 		n = Math.min(max, n);
 		return (((long) max * 2 - n + 1) * n) / 2;
