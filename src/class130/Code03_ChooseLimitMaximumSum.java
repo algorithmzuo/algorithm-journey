@@ -69,6 +69,7 @@ public class Code03_ChooseLimitMaximumSum {
 		return dp[n];
 	}
 
+	// 不要i位置的数字产生的指标
 	public static long value(int i) {
 		return i == 0 ? 0 : (dp[i - 1] - sum[i]);
 	}
