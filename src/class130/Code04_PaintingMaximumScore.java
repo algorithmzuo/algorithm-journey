@@ -69,7 +69,7 @@ public class Code04_PaintingMaximumScore {
 			si = workers[i][2];
 			l = r = 0;
 			for (int j = Math.max(0, si - li); j < si; j++) {
-				while (l < r && value(i - 1, pi, queue[r - 1]) <= value(i - 1, pi, j)) {
+				while (l < r && value(i, pi, queue[r - 1]) <= value(i, pi, j)) {
 					r--;
 				}
 				queue[r++] = j;
@@ -81,7 +81,7 @@ public class Code04_PaintingMaximumScore {
 						l++;
 					}
 					if (l < r) {
-						dp[i][j] = Math.max(dp[i][j], value(i - 1, pi, queue[l]) + pi * j);
+						dp[i][j] = Math.max(dp[i][j], value(i, pi, queue[l]) + pi * j);
 					}
 				}
 			}
@@ -89,9 +89,9 @@ public class Code04_PaintingMaximumScore {
 		return dp[m][n];
 	}
 
-	// 返回之前工人负责的区域以j结尾时的指标
+	// 之前工人负责的区域以j号木板结尾时，返回指标的值
 	public static int value(int i, int pi, int j) {
-		return dp[i][j] - pi * j;
+		return dp[i - 1][j] - pi * j;
 	}
 
 	// poj平台java版本较老，不支持Lambda表达式方式的比较器，需要自己定义
