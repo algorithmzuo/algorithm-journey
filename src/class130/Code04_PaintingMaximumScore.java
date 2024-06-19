@@ -64,10 +64,10 @@ public class Code04_PaintingMaximumScore {
 	public static int compute() {
 		Arrays.sort(workers, 1, m + 1, new WorkerComparator());
 		for (int i = 1, li, pi, si; i <= m; i++) {
-			l = r = 0;
 			li = workers[i][0];
 			pi = workers[i][1];
 			si = workers[i][2];
+			l = r = 0;
 			for (int j = Math.max(0, si - li); j < si; j++) {
 				while (l < r && value(i - 1, pi, queue[r - 1]) <= value(i - 1, pi, j)) {
 					r--;
@@ -76,17 +76,20 @@ public class Code04_PaintingMaximumScore {
 			}
 			for (int j = 1; j <= n; j++) {
 				dp[i][j] = Math.max(dp[i - 1][j], dp[i][j - 1]);
-				if (l < r && queue[l] == j - li - 1) {
-					l++;
-				}
-				if (j >= si && l < r) {
-					dp[i][j] = Math.max(dp[i][j], value(i - 1, pi, queue[l]) + pi * j);
+				if (j >= si) {
+					if (l < r && queue[l] == j - li - 1) {
+						l++;
+					}
+					if (l < r) {
+						dp[i][j] = Math.max(dp[i][j], value(i - 1, pi, queue[l]) + pi * j);
+					}
 				}
 			}
 		}
 		return dp[m][n];
 	}
 
+	// 返回之前工人负责的区域以j结尾时的指标
 	public static int value(int i, int pi, int j) {
 		return dp[i][j] - pi * j;
 	}
