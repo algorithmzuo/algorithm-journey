@@ -75,10 +75,10 @@ public class Code04_PaintingMaximumScore {
 				queue[r++] = j;
 			}
 			for (int j = 1; j <= n; j++) {
+				dp[i][j] = Math.max(dp[i - 1][j], dp[i][j - 1]);
 				if (l < r && queue[l] == j - li - 1) {
 					l++;
 				}
-				dp[i][j] = Math.max(dp[i - 1][j], dp[i][j - 1]);
 				if (j >= si && l < r) {
 					dp[i][j] = Math.max(dp[i][j], value(i - 1, pi, queue[l]) + pi * j);
 				}
