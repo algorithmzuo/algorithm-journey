@@ -81,7 +81,7 @@ public class Code04_BoundedKnapsackWithMonotonicQueue {
 		return dp[n][t];
 	}
 
-	// 调整后的指标函数
+	// 返回j位置的指标
 	public static int value1(int[][] dp, int i, int j) {
 		return dp[i - 1][j] - j / w[i] * v[i];
 	}
@@ -94,20 +94,24 @@ public class Code04_BoundedKnapsackWithMonotonicQueue {
 		for (int i = 1; i <= n; i++) {
 			for (int mod = 0; mod <= Math.min(t, w[i] - 1); mod++) {
 				l = r = 0;
-				for (int j = t - mod, k = 0; j >= 0 && k < c[i]; j -= w[i], k++) {
+				// 先初步建立个数为c[i]-1的窗口
+				for (int j = t - mod, cnt = 0; j >= 0 && cnt < c[i]; j -= w[i], cnt++) {
 					while (l < r && value2(i, queue[r - 1]) <= value2(i, j)) {
 						r--;
 					}
 					queue[r++] = j;
 				}
 				for (int j = t - mod, enter = j - w[i] * c[i]; j >= 0; j -= w[i], enter -= w[i]) {
+					// 窗口进入enter位置的指标
 					if (enter >= 0) {
 						while (l < r && value2(i, queue[r - 1]) <= value2(i, enter)) {
 							r--;
 						}
 						queue[r++] = enter;
 					}
+					// 计算dp[i][j]
 					dp[j] = value2(i, queue[l]) + j / w[i] * v[i];
+					// 窗口弹出j位置的指标
 					if (queue[l] == j) {
 						l++;
 					}
@@ -117,7 +121,7 @@ public class Code04_BoundedKnapsackWithMonotonicQueue {
 		return dp[t];
 	}
 
-	// 调整后的指标函数
+	// 返回j位置的指标
 	public static int value2(int i, int j) {
 		return dp[j] - j / w[i] * v[i];
 	}
