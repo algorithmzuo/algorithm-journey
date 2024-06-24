@@ -1,0 +1,60 @@
+package class131;
+
+import java.util.Arrays;
+
+// 测试链接 : https://leetcode.cn/problems/longest-ideal-subsequence/
+public class Code04_LongestIdealString {
+
+	// 数据量太小，线段树的优势不明显
+	// 时间复杂度O(n * log e)，n为字符串长度，e为字符集大小
+	public static int longestIdealString(String s, int k) {
+		Arrays.fill(max, 0);
+		int v, p;
+		int ans = 0;
+		for (char cha : s.toCharArray()) {
+			v = cha - 'a' + 1;
+			p = max(Math.max(v - k, 1), Math.min(v + k, 26), 1, n, 1);
+			ans = Math.max(ans, 1 + p);
+			update(v, 1 + p, 1, n, 1);
+		}
+		return ans;
+	}
+
+	public static int n = 26;
+
+	public static int[] max = new int[(n + 1) << 2];
+
+	public static void up(int i) {
+		max[i] = Math.max(max[i << 1], max[i << 1 | 1]);
+	}
+
+	public static void update(int jobi, int jobv, int l, int r, int i) {
+		if (l == r && jobi == l) {
+			max[i] = jobv;
+		} else {
+			int m = (l + r) >> 1;
+			if (jobi <= m) {
+				update(jobi, jobv, l, m, i << 1);
+			} else {
+				update(jobi, jobv, m + 1, r, i << 1 | 1);
+			}
+			up(i);
+		}
+	}
+
+	public static int max(int jobl, int jobr, int l, int r, int i) {
+		if (jobl <= l && r <= jobr) {
+			return max[i];
+		}
+		int m = (l + r) >> 1;
+		int ans = 0;
+		if (jobl <= m) {
+			ans = Math.max(ans, max(jobl, jobr, l, m, i << 1));
+		}
+		if (jobr > m) {
+			ans = Math.max(ans, max(jobl, jobr, m + 1, r, i << 1 | 1));
+		}
+		return ans;
+	}
+
+}
