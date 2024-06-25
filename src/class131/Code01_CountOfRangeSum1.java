@@ -1,6 +1,12 @@
 package class131;
 
 // 区间和的个数
+// 给定一个长度为n的数组nums，给定两个整数lower和upper
+// 子数组达标的条件是累加和在[lower, upper]范围上
+// 返回nums中有多少个达标的子数组
+// 1 <= n <= 10^5
+// nums[i]可能是任意整数
+// -10^5 <= lower <= upper <= +10^5
 // 测试链接 : https://leetcode.cn/problems/count-of-range-sum/
 public class Code01_CountOfRangeSum1 {
 

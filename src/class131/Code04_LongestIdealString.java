@@ -2,6 +2,14 @@ package class131;
 
 import java.util.Arrays;
 
+// 最长理想子序列
+// 给定一个长度为n，只由小写字母组成的字符串s，给定一个非负整数k
+// 字符串s可以生成很多子序列，下面给出理想子序列的定义
+// 子序列中任意相邻的两个字符，在字母表中位次的差值绝对值<=k
+// 返回最长理想子序列
+// 1 <= n <= 10^5
+// 0 <= k <= 25
+// s只由小写字母组成
 // 测试链接 : https://leetcode.cn/problems/longest-ideal-subsequence/
 public class Code04_LongestIdealString {
 

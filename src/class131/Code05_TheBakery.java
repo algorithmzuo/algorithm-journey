@@ -1,5 +1,13 @@
 package class131;
 
+// 划分k段的最大得分
+// 给定一个长度为n的数组，最多分成k段子数组
+// 每个子数组获得的分值为内部不同数字的个数
+// 返回能获得的最大分值
+// 1 <= n <= 35000
+// 1 <= k <= 50
+// 1 <= arr[i] <= n
+// k <= n
 // 测试链接 : https://www.luogu.com.cn/problem/CF833B
 // 测试链接 : https://codeforces.com/problemset/problem/833/B
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有用例
@@ -120,7 +128,7 @@ public class Code05_TheBakery {
 		in.nextToken();
 		n = (int) in.nval;
 		in.nextToken();
-		k = (int) in.nval;
+		k = Math.min(n, (int) in.nval);
 		for (int i = 1; i <= n; i++) {
 			in.nextToken();
 			arr[i] = (int) in.nval;
