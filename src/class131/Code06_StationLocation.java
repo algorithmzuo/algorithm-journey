@@ -26,13 +26,13 @@ public class Code06_StationLocation {
 
 	public static int MAXN = 20002;
 
-	// 和1号村庄之间的距离，输入一定保证有序
+	// 和1号村庄之间的距离
 	public static int[] dist = new int[MAXN];
 
-	// 修建基站花费
+	// 安装费用
 	public static int[] cost = new int[MAXN];
 
-	// 覆盖范围
+	// 接收范围
 	public static int[] range = new int[MAXN];
 
 	// 赔偿费用
