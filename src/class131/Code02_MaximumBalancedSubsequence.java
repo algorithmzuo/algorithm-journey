@@ -3,11 +3,11 @@ package class131;
 import java.util.Arrays;
 
 // 平衡子序列的最大和
-// 给定一个长度为n的数组nums，下面定义达标子序列
+// 给定一个长度为n的数组nums，下面定义平衡子序列
 // 如果下标i和下标j被选进了子序列，i在j的左边
 // 那么必须有nums[j] - nums[i] >= j - i
-// 如果一个子序列中任意的两个下标都满足上面的要求，那子序列就是达标的
-// 返回nums的达标子序列里，最大的累加和是多少
+// 如果一个子序列中任意的两个下标都满足上面的要求，那子序列就是平衡的
+// 返回nums所有平衡子序列里，最大的累加和是多少
 // 1 <= n <= 10^5
 // -10^9 <= nums[i] <= +10^9
 // 测试链接 : https://leetcode.cn/problems/maximum-balanced-subsequence-sum/
