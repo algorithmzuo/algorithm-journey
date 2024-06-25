@@ -54,6 +54,7 @@ public class Code05_TheBakery {
 	public static void build(int l, int r, int i) {
 		if (l == r) {
 			// 注意错位 : 线段树1...k范围的值，对应，dp[0...k-1]的值
+			// 除了这一句，线段树剩下的代码都是标准模版，没有任何修改
 			max[i] = dp[l - 1];
 		} else {
 			int mid = (l + r) >> 1;
