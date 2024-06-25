@@ -98,6 +98,22 @@ public class Code05_TheBakery {
 		return ans;
 	}
 
+	public static int compute() {
+		Arrays.fill(dp, 1, n + 1, 0);
+		for (int i = 1; i <= k; i++) {
+			build(1, n, 1);
+			Arrays.fill(pre, 1, n + 1, 0);
+			for (int j = 1; j <= n; j++) {
+				// dp[当前值上次出现的位置...j-1]这些枚举值，所增加的部分，都有提升
+				add(pre[arr[j]] + 1, j, 1, 1, n, 1);
+				// dp[0...j-1]的枚举值中最大的作为dp[j]的答案
+				dp[j] = query(1, j, 1, n, 1);
+				pre[arr[j]] = j;
+			}
+		}
+		return dp[n];
+	}
+
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StreamTokenizer in = new StreamTokenizer(br);
@@ -114,20 +130,6 @@ public class Code05_TheBakery {
 		out.flush();
 		out.close();
 		br.close();
-	}
-
-	public static int compute() {
-		Arrays.fill(dp, 1, n + 1, 0);
-		for (int i = 1; i <= k; i++) {
-			build(1, n, 1);
-			Arrays.fill(pre, 1, n + 1, 0);
-			for (int j = 1; j <= n; j++) {
-				add(pre[arr[j]] + 1, j, 1, 1, n, 1);
-				dp[j] = query(1, j, 1, n, 1);
-				pre[arr[j]] = j;
-			}
-		}
-		return dp[n];
 	}
 
 }
