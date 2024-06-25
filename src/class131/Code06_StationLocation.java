@@ -192,6 +192,7 @@ public class Code06_StationLocation {
 	}
 
 	public static int compute() {
+		// 只建立一个基站的情况
 		for (int i = 1, tmp = 0; i <= n; i++) {
 			dp[i] = tmp + cost[i];
 			for (int ei = head[i]; ei != 0; ei = next[ei]) {
