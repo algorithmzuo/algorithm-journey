@@ -207,12 +207,12 @@ public class Code06_StationLocation {
 			build(1, n, 1);
 			for (int i = 1; i <= n; i++) {
 				if (j <= i) {
-					dp[i] = query(j - 1, i - 1, 1, n, 1) + cost[i];
+					dp[i] = query(1, i - 1, 1, n, 1) + cost[i];
 				}
 				for (int ei = head[i], pre; ei != 0; ei = next[ei]) {
 					pre = to[ei];
 					if (left[pre] > 1) {
-						add(j - 1, left[pre] - 1, warranty[pre], 1, n, 1);
+						add(1, left[pre] - 1, warranty[pre], 1, n, 1);
 					}
 				}
 			}
