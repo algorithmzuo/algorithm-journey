@@ -46,6 +46,7 @@ public class Code01_CountOfRangeSum1 {
 		for (int i = m + 1; i <= r; i++) {
 			max = sum[i] - low;
 			min = sum[i] - up;
+			// 有效窗口是[wl,wr)，左闭右开
 			while (wr <= m && sum[wr] <= max) {
 				wr++;
 			}
