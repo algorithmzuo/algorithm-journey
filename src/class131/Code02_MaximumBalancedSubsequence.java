@@ -17,14 +17,22 @@ public class Code02_MaximumBalancedSubsequence {
 		build(nums);
 		long pre;
 		for (int i = 0, k; i < n; i++) {
+			// k的含义为当前的指标是第几号指标
 			k = rank(nums[i] - i);
+			// dp[1号..k号指标]中的最大值是多少
 			pre = max(k);
 			if (pre < 0) {
+				// 如果之前的最好情况是负数，那么不要之前的数了
+				// 当前数字自己单独形成平衡子序列
+				// 去更新dp[k号指标]，看能不能变得更大
 				update(k, nums[i]);
 			} else {
+				// 如果之前的最好情况不是负数，那么和当前数字一起形成更大的累加和
+				// 去更新dp[k号指标]，看能不能变得更大
 				update(k, pre + nums[i]);
 			}
 		}
+		// 返回dp[1号..m号指标]中的最大值
 		return max(m);
 	}
 
@@ -51,6 +59,7 @@ public class Code02_MaximumBalancedSubsequence {
 		Arrays.fill(tree, 1, m + 1, Long.MIN_VALUE);
 	}
 
+	// 当前的指标值是v，返回这是第几号指标
 	public static int rank(int v) {
 		int left = 1, right = m, mid;
 		int ans = 0;
@@ -66,6 +75,7 @@ public class Code02_MaximumBalancedSubsequence {
 		return ans;
 	}
 
+	// dp[i号指标]，当前算出的值是v
 	public static void update(int i, long v) {
 		while (i <= m) {
 			tree[i] = Math.max(tree[i], v);
@@ -73,6 +83,7 @@ public class Code02_MaximumBalancedSubsequence {
 		}
 	}
 
+	// dp[1..i]，最大值多少返回
 	public static long max(int i) {
 		long ans = Long.MIN_VALUE;
 		while (i > 0) {
