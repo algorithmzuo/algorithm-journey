@@ -12,8 +12,7 @@ import java.util.Arrays;
 // 测试链接 : https://leetcode.cn/problems/count-of-range-sum/
 public class Code01_CountOfRangeSum2 {
 
-	// 树状数组 + 离散化
-	// 理解难度较低
+	// 树状数组 + 离散化的解法，理解难度较低
 	public static int countRangeSum(int[] nums, int lower, int upper) {
 		build(nums);
 		add(0, 1);

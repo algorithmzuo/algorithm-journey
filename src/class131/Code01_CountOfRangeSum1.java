@@ -10,9 +10,7 @@ package class131;
 // 测试链接 : https://leetcode.cn/problems/count-of-range-sum/
 public class Code01_CountOfRangeSum1 {
 
-	// 归并分治
-	// 理解难度稍高
-	// 先掌握讲解022 - 归并分治
+	// 归并分治的解法，理解难度稍高，需要先掌握讲解022 - 归并分治
 	public static int countRangeSum(int[] nums, int lower, int upper) {
 		int n = nums.length;
 		sum[0] = nums[0];
