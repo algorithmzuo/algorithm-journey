@@ -36,6 +36,9 @@ public class Code04_LongestIdealString {
 		max[i] = Math.max(max[i << 1], max[i << 1 | 1]);
 	}
 
+	// 只有单点更新不需要定义down方法
+	// 因为单点更新的任务从线段树头节点开始一直来到某个叶节点
+	// 根本没有懒更新这回事
 	public static void update(int jobi, int jobv, int l, int r, int i) {
 		if (l == r && jobi == l) {
 			max[i] = jobv;
