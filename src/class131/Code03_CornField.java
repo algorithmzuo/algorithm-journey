@@ -33,13 +33,9 @@ public class Code03_CornField {
 
 	public static int n, k;
 
-	public static int lowbit(int i) {
-		return i & -i;
-	}
-
 	public static void update(int x, int y, int v) {
-		for (int i = x; i <= MAXH; i += lowbit(i)) {
-			for (int j = y; j <= k + 1; j += lowbit(j)) {
+		for (int i = x; i <= MAXH; i += i & -i) {
+			for (int j = y; j <= k + 1; j += j & -j) {
 				tree[i][j] = Math.max(tree[i][j], v);
 			}
 		}
@@ -47,8 +43,8 @@ public class Code03_CornField {
 
 	public static int max(int x, int y) {
 		int ans = 0;
-		for (int i = x; i > 0; i -= lowbit(i)) {
-			for (int j = y; j > 0; j -= lowbit(j)) {
+		for (int i = x; i > 0; i -= i & -i) {
+			for (int j = y; j > 0; j -= j & -j) {
 				ans = Math.max(ans, tree[i][j]);
 			}
 		}

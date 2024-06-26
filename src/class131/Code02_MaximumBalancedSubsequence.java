@@ -19,10 +19,10 @@ public class Code02_MaximumBalancedSubsequence {
 		for (int i = 0, k; i < n; i++) {
 			k = rank(nums[i] - i);
 			pre = max(k);
-			if (pre > 0) {
-				update(k, pre + nums[i]);
-			} else {
+			if (pre < 0) {
 				update(k, nums[i]);
+			} else {
+				update(k, pre + nums[i]);
 			}
 		}
 		return max(m);
@@ -66,14 +66,10 @@ public class Code02_MaximumBalancedSubsequence {
 		return ans;
 	}
 
-	public static int lowbit(int i) {
-		return i & -i;
-	}
-
 	public static void update(int i, long v) {
 		while (i <= m) {
 			tree[i] = Math.max(tree[i], v);
-			i += lowbit(i);
+			i += i & -i;
 		}
 	}
 
@@ -81,7 +77,7 @@ public class Code02_MaximumBalancedSubsequence {
 		long ans = Long.MIN_VALUE;
 		while (i > 0) {
 			ans = Math.max(ans, tree[i]);
-			i -= lowbit(i);
+			i -= i & -i;
 		}
 		return ans;
 	}
