@@ -31,18 +31,24 @@ public class Code03_CornField {
 
 	public static int n, k;
 
+	// 树状数组下标必须从1开始
+	// 但是操作次数是0~k，那么树状数组下标对应是1~k
+	// 所以操作次数是y，树状数组下标是y+1
 	public static void update(int x, int y, int v) {
 		for (int i = x; i <= MAXH; i += i & -i) {
-			for (int j = y; j <= k + 1; j += j & -j) {
+			for (int j = y + 1; j <= k + 1; j += j & -j) {
 				tree[i][j] = Math.max(tree[i][j], v);
 			}
 		}
 	}
 
+	// 树状数组下标必须从1开始
+	// 但是操作次数是0~k，那么树状数组下标对应是1~k
+	// 所以操作次数是y，树状数组下标是y+1
 	public static int max(int x, int y) {
 		int ans = 0;
 		for (int i = x; i > 0; i -= i & -i) {
-			for (int j = y; j > 0; j -= j & -j) {
+			for (int j = y + 1; j > 0; j -= j & -j) {
 				ans = Math.max(ans, tree[i][j]);
 			}
 		}
@@ -70,17 +76,15 @@ public class Code03_CornField {
 	public static int compute() {
 		// 注意这里第二层for循环，j一定是从k~0的枚举
 		// 课上进行了重点图解，防止同一个i产生的记录之间相互影响
-		// 同时注意
-		// 树状数组下标必须从1开始
-		// 高度的话没问题，因为题目给的arr[i]至少是1
-		// 但是操作次数是0~k，所以操作次数是j，树状数组下标是j+1
-		for (int i = 1, dp; i <= n; i++) {
+		int v, dp;
+		for (int i = 1; i <= n; i++) {
 			for (int j = k; j >= 0; j--) {
-				dp = max(arr[i] + j, j + 1) + 1;
-				update(arr[i] + j, j + 1, dp);
+				v = arr[i] + j;
+				dp = max(v, j) + 1;
+				update(v, j, dp);
 			}
 		}
-		return max(MAXH, k + 1);
+		return max(MAXH, k);
 	}
 
 }
