@@ -6,8 +6,8 @@ package class131;
 // 返回能获得的最大分值
 // 1 <= n <= 35000
 // 1 <= k <= 50
-// 1 <= arr[i] <= n
 // k <= n
+// 1 <= arr[i] <= n
 // 测试链接 : https://www.luogu.com.cn/problem/CF833B
 // 测试链接 : https://codeforces.com/problemset/problem/833/B
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有用例
