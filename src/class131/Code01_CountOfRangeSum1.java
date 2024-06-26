@@ -39,7 +39,7 @@ public class Code01_CountOfRangeSum1 {
 	}
 
 	public static int merge(int l, int m, int r) {
-		// 统计过程
+		// 归并分治的统计过程
 		int ans = 0;
 		int wl = l, wr = l;
 		long max, min;
@@ -54,7 +54,7 @@ public class Code01_CountOfRangeSum1 {
 			}
 			ans += wr - wl;
 		}
-		// 合并过程
+		// 正常排序的合并过程
 		int p1 = l;
 		int p2 = m + 1;
 		int i = l;
