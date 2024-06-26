@@ -182,7 +182,7 @@ public class Code06_StationLocation {
 			in.nextToken();
 			warranty[i] = (int) in.nval;
 		}
-		// 补充一个在无穷远的村庄
+		// 补充了一个村庄，认为在无穷远的位置
 		dist[++n] = Integer.MAX_VALUE;
 		prepare();
 		out.println(compute());
@@ -202,9 +202,9 @@ public class Code06_StationLocation {
 		int ans = dp[n];
 		// 可以建多个基站的情况
 		// 认为最多有k+1个基站，并且在补充村庄(无穷远)一定要建一个基站
-		// 也就是用一个单独的基站，去负责补充村庄，那么这个花费是0
+		// 也就是用一个单独的基站，去负责补充村庄，这个部分的花费是0
 		// 剩下的基站，去负责补充村庄左边真实出现的村庄，返回最少总费用
-		// 为什么这么做，课上进行了图解
+		// 这么做的原因是减少边界讨论，课上进行了图解
 		for (int j = 2; j <= k + 1; j++) {
 			build(1, n, 1);
 			for (int i = 1; i <= n; i++) {
