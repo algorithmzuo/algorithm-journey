@@ -31,24 +31,18 @@ public class Code03_CornField {
 
 	public static int n, k;
 
-	// 树状数组下标必须从1开始
-	// 但是操作次数是0~k，那么树状数组下标对应是1~k
-	// 所以操作次数是y，树状数组下标是y+1
 	public static void update(int x, int y, int v) {
 		for (int i = x; i <= MAXH; i += i & -i) {
-			for (int j = y + 1; j <= k + 1; j += j & -j) {
+			for (int j = y; j <= k + 1; j += j & -j) {
 				tree[i][j] = Math.max(tree[i][j], v);
 			}
 		}
 	}
 
-	// 树状数组下标必须从1开始
-	// 但是操作次数是0~k，那么树状数组下标对应是1~k
-	// 所以操作次数是y，树状数组下标是y+1
 	public static int max(int x, int y) {
 		int ans = 0;
 		for (int i = x; i > 0; i -= i & -i) {
-			for (int j = y + 1; j > 0; j -= j & -j) {
+			for (int j = y; j > 0; j -= j & -j) {
 				ans = Math.max(ans, tree[i][j]);
 			}
 		}
@@ -80,11 +74,13 @@ public class Code03_CornField {
 		for (int i = 1; i <= n; i++) {
 			for (int j = k; j >= 0; j--) {
 				v = arr[i] + j;
-				dp = max(v, j) + 1;
-				update(v, j, dp);
+				// 修改次数j，树状数组中对应的下标是j+1
+				dp = max(v, j + 1) + 1;
+				update(v, j + 1, dp);
 			}
 		}
-		return max(MAXH, k);
+		// 修改次数k，树状数组中对应的下标是k+1
+		return max(MAXH, k + 1);
 	}
 
 }
