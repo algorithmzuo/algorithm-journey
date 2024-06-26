@@ -3,7 +3,7 @@ package class131;
 // 方伯伯的玉米田
 // 给定一个长度为n的数组arr
 // 每次可以选择一个区间[l,r]，区间内的数字都+1，最多执行k次
-// 返回执行完成后，最长的单调不下降子序列长度
+// 返回执行完成后，最长的不下降子序列长度
 // 1 <= n <= 10^4
 // 1 <= arr[i] <= 5000
 // 2 <= k <= 500
@@ -26,8 +26,6 @@ public class Code03_CornField {
 	public static int MAXH = 5500;
 
 	public static int[] arr = new int[MAXN];
-
-	public static int[][] dp = new int[MAXN][MAXK];
 
 	public static int[][] tree = new int[MAXH + 1][MAXK + 1];
 
@@ -76,10 +74,10 @@ public class Code03_CornField {
 		// 树状数组下标必须从1开始
 		// 高度的话没问题，因为题目给的arr[i]至少是1
 		// 但是操作次数是0~k，所以操作次数是j，树状数组下标是j+1
-		for (int i = 1; i <= n; i++) {
+		for (int i = 1, dp; i <= n; i++) {
 			for (int j = k; j >= 0; j--) {
-				dp[i][j] = max(arr[i] + j, j + 1) + 1;
-				update(arr[i] + j, j + 1, dp[i][j]);
+				dp = max(arr[i] + j, j + 1) + 1;
+				update(arr[i] + j, j + 1, dp);
 			}
 		}
 		return max(MAXH, k + 1);
