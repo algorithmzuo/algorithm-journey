@@ -32,7 +32,7 @@ public class Code01_CountOfRangeSum1 {
 
 	public static int f(int l, int r) {
 		if (l == r) {
-			return sum[l] >= low && sum[l] <= up ? 1 : 0;
+			return low <= sum[l] && sum[l] <= up ? 1 : 0;
 		}
 		int m = (l + r) / 2;
 		return f(l, m) + f(m + 1, r) + merge(l, m, r);
