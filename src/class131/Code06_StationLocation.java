@@ -42,19 +42,16 @@ public class Code06_StationLocation {
 	// 赔偿费用
 	public static int[] warranty = new int[MAXN];
 
-	// 最左在哪建基站可以覆盖到
+	// left[i]表示最左到第几号村庄建了基站，i号村庄依然能获得服务
 	public static int[] left = new int[MAXN];
 
-	// 最右在哪建基站可以覆盖到
+	// right[i]表示最右到第几号村庄建了基站，i号村庄依然能获得服务
 	public static int[] right = new int[MAXN];
 
-	// 线段树维护最小值信息
-	public static int[] min = new int[MAXN << 2];
-
-	// 线段树维护加的懒更新
-	public static int[] add = new int[MAXN << 2];
-
-	// 链式前向星
+	// 链式前向星，保存每个村庄的预警信息
+	// i号村庄的预警信息是指，如果只有一个基站
+	// 并且这个基站建在i号村庄再往右的下一个村庄上
+	// 那么会突然接收不到服务的村庄有哪些
 	public static int[] head = new int[MAXN];
 
 	public static int[] next = new int[MAXN];
@@ -62,6 +59,12 @@ public class Code06_StationLocation {
 	public static int[] to = new int[MAXN];
 
 	public static int cnt;
+
+	// 线段树维护最小值信息
+	public static int[] min = new int[MAXN << 2];
+
+	// 线段树维护加的懒更新
+	public static int[] add = new int[MAXN << 2];
 
 	// 动态规划表
 	public static int[] dp = new int[MAXN];
