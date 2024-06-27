@@ -26,9 +26,10 @@ import java.io.StreamTokenizer;
 
 public class Code06_StationLocation {
 
-	public static int MAXN = 20002;
-
 	public static int n, k;
+
+	// 因为要补充一个村庄(无穷远处)，所以村庄编号1~20001，那么空间为20002
+	public static int MAXN = 20002;
 
 	// 和1号村庄之间的距离
 	public static int[] dist = new int[MAXN];
@@ -42,10 +43,10 @@ public class Code06_StationLocation {
 	// 赔偿费用
 	public static int[] warranty = new int[MAXN];
 
-	// left[i]表示最左到第几号村庄建了基站，i号村庄依然能获得服务
+	// left[i]表示最左到第几号村庄建基站，i号村庄依然能获得服务
 	public static int[] left = new int[MAXN];
 
-	// right[i]表示最右到第几号村庄建了基站，i号村庄依然能获得服务
+	// right[i]表示最右到第几号村庄建基站，i号村庄依然能获得服务
 	public static int[] right = new int[MAXN];
 
 	// 链式前向星
@@ -116,10 +117,10 @@ public class Code06_StationLocation {
 		// 也就是用一个单独的基站，去负责补充村庄，这一部分的花费是0
 		// 让剩余的基站，去负责补充村庄左边真实出现的村庄，返回最少费用
 		// 这么做的原因是减少边界讨论，课上进行了图解
-		for (int j = 2; j <= k + 1; j++) {
+		for (int t = 2; t <= k + 1; t++) {
 			build(1, n, 1);
 			for (int i = 1; i <= n; i++) {
-				if (j <= i) {
+				if (t <= i) {
 					dp[i] = query(1, i - 1, 1, n, 1) + fix[i];
 				}
 				for (int ei = head[i], pre; ei != 0; ei = next[ei]) {
