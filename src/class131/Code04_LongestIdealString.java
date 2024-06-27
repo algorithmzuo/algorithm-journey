@@ -22,8 +22,8 @@ public class Code04_LongestIdealString {
 		for (char cha : s.toCharArray()) {
 			v = cha - 'a' + 1;
 			p = max(Math.max(v - k, 1), Math.min(v + k, n), 1, n, 1);
-			ans = Math.max(ans, 1 + p);
-			update(v, 1 + p, 1, n, 1);
+			ans = Math.max(ans, p + 1);
+			update(v, p + 1, 1, n, 1);
 		}
 		return ans;
 	}
