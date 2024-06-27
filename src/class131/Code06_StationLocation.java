@@ -43,10 +43,10 @@ public class Code06_StationLocation {
 	// 赔偿费用
 	public static int[] warranty = new int[MAXN];
 
-	// left[i]表示最左到第几号村庄建基站，i号村庄依然能获得服务
+	// left[i]表示最左在第几号村庄建基站，i号村庄依然能获得服务
 	public static int[] left = new int[MAXN];
 
-	// right[i]表示最右到第几号村庄建基站，i号村庄依然能获得服务
+	// right[i]表示最右在第几号村庄建基站，i号村庄依然能获得服务
 	public static int[] right = new int[MAXN];
 
 	// 链式前向星
@@ -68,6 +68,8 @@ public class Code06_StationLocation {
 	public static int[] add = new int[MAXN << 2];
 
 	// 动态规划表
+	// dp[t][i]表示最多建t个基站，并且最右的基站一定要建在i号村庄，1..i号村庄的最少花费
+	// 因为dp[t][i]，只依赖dp[t-1][..]，所以能空间压缩变成一维数组
 	public static int[] dp = new int[MAXN];
 
 	public static void main(String[] args) throws IOException {
@@ -136,14 +138,23 @@ public class Code06_StationLocation {
 		return dp[n];
 	}
 
+	// 生成left[0..n]
+	// 生成right[0..n]
+	// 生成预警[0..n]
 	public static void prepare() {
 		cnt = 1;
 		for (int i = 1; i <= n; i++) {
 			left[i] = search(dist[i] - range[i]);
 			right[i] = search(dist[i] + range[i]);
 			if (dist[right[i]] > dist[i] + range[i]) {
+				// 如果if逻辑命中
+				// 说明此时right[i]上建基站，其实i号村庄是收不到信号的
+				// 此时right[i]要减1
 				right[i]--;
 			}
+			// 生成预警列表
+			// 比如right[3] = 17
+			// 那么17号村庄的预警列表里有3
 			addEdge(right[i], i);
 		}
 	}
@@ -165,6 +176,7 @@ public class Code06_StationLocation {
 	}
 
 	// 链式前向星加边
+	// 其实就是u的预警列表里增加v
 	public static void addEdge(int u, int v) {
 		next[cnt] = head[u];
 		to[cnt] = v;
