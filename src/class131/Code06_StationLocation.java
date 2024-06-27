@@ -3,7 +3,7 @@ package class131;
 // 基站选址
 // 一共有n个村庄排成一排，从左往右依次出现1号、2号、3号..n号村庄
 // dist[i]表示i号村庄到1号村庄的距离，该数组一定有序且无重复值
-// cost[i]表示i号村庄建立基站的安装费用
+// fix[i]表示i号村庄建立基站的安装费用
 // range[i]表示i号村庄的接收范围，任何基站和i号村庄的距离不超过这个数字，i号村庄就能得到服务
 // warranty[i]表示如果i号村庄最终没有得到任何基站的服务，需要给多少赔偿费用
 // 最多可以选择k个村庄安装基站，返回总花费最少是多少，总花费包括安装费用和赔偿费用
@@ -11,7 +11,7 @@ package class131;
 // 1 <= k <= 100
 // k <= n
 // 1 <= dist[i] <= 10^9
-// 1 <= cost[i] <= 10^4
+// 1 <= fix[i] <= 10^4
 // 1 <= range[i] <= 10^9
 // 1 <= warranty[i] <= 10^4
 // 测试链接 : https://www.luogu.com.cn/problem/P2605
@@ -34,7 +34,7 @@ public class Code06_StationLocation {
 	public static int[] dist = new int[MAXN];
 
 	// 安装费用
-	public static int[] cost = new int[MAXN];
+	public static int[] fix = new int[MAXN];
 
 	// 接收范围
 	public static int[] range = new int[MAXN];
@@ -80,7 +80,7 @@ public class Code06_StationLocation {
 		}
 		for (int i = 1; i <= n; i++) {
 			in.nextToken();
-			cost[i] = (int) in.nval;
+			fix[i] = (int) in.nval;
 		}
 		for (int i = 1; i <= n; i++) {
 			in.nextToken();
@@ -102,7 +102,7 @@ public class Code06_StationLocation {
 	public static int compute() {
 		// 只建立一个基站的情况
 		for (int i = 1, w = 0; i <= n; i++) {
-			dp[i] = w + cost[i];
+			dp[i] = w + fix[i];
 			for (int ei = head[i]; ei != 0; ei = next[ei]) {
 				w += warranty[to[ei]];
 			}
@@ -117,7 +117,7 @@ public class Code06_StationLocation {
 			build(1, n, 1);
 			for (int i = 1; i <= n; i++) {
 				if (j <= i) {
-					dp[i] = query(1, i - 1, 1, n, 1) + cost[i];
+					dp[i] = query(1, i - 1, 1, n, 1) + fix[i];
 				}
 				for (int ei = head[i], pre; ei != 0; ei = next[ei]) {
 					pre = to[ei];
