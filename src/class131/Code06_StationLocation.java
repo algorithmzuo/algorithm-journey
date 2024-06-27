@@ -166,7 +166,7 @@ public class Code06_StationLocation {
 		head[u] = cnt++;
 	}
 
-	// 下面所有方法都是线段树模版代码，没有任何修改
+	// 下面所有方法都是线段树维护最小值的模版，没有任何修改
 	public static void up(int i) {
 		min[i] = Math.min(min[i << 1], min[i << 1 | 1]);
 	}

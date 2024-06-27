@@ -69,7 +69,7 @@ public class Code05_TheBakery {
 		return dp[n];
 	}
 
-	// 下面所有方法都是线段树模版代码，没有任何修改
+	// 下面所有方法都是线段树维护最大值的模版，没有任何修改
 	public static void up(int i) {
 		max[i] = Math.max(max[i << 1], max[i << 1 | 1]);
 	}
