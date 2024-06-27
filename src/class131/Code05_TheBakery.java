@@ -89,7 +89,7 @@ public class Code05_TheBakery {
 
 	public static void build(int l, int r, int i) {
 		if (l == r) {
-			// 用dp值来build线段树，包含dp[0]
+			// 用dp值(包含dp[0])来build线段树
 			max[i] = dp[l];
 		} else {
 			int mid = (l + r) >> 1;
