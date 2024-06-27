@@ -77,7 +77,7 @@ public class Code06_StationLocation {
 		in.nextToken();
 		n = (int) in.nval;
 		in.nextToken();
-		k = Math.min(n, (int) in.nval);
+		k = (int) in.nval;
 		for (int i = 2; i <= n; i++) {
 			in.nextToken();
 			dist[i] = (int) in.nval;
