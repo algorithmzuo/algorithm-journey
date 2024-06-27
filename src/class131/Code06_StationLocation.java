@@ -48,10 +48,10 @@ public class Code06_StationLocation {
 	// right[i]表示最右到第几号村庄建了基站，i号村庄依然能获得服务
 	public static int[] right = new int[MAXN];
 
-	// 链式前向星，保存每个村庄的预警信息
-	// i号村庄的预警信息是指，如果只有一个基站
-	// 并且这个基站建在i号村庄再往右的下一个村庄上
-	// 那么会突然接收不到服务的村庄有哪些
+	// 链式前向星
+	// 保存每个村庄的预警列表，i号村庄的预警列表是指
+	// 如果只有一个基站建在i号村庄，现在这个基站要移动到i+1号村庄
+	// 哪些村庄会从有服务变成无服务的状态
 	public static int[] head = new int[MAXN];
 
 	public static int[] next = new int[MAXN];
