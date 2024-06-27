@@ -94,8 +94,9 @@ public class Code06_StationLocation {
 			in.nextToken();
 			warranty[i] = (int) in.nval;
 		}
-		// 补充了一个村庄，认为在无穷远的位置
+		// 补充了一个村庄，认为在无穷远的位置，其他数据都是0
 		dist[++n] = Integer.MAX_VALUE;
+		fix[n] = range[n] = warranty[n] = 0;
 		prepare();
 		out.println(compute());
 		out.flush();
@@ -104,15 +105,19 @@ public class Code06_StationLocation {
 	}
 
 	public static int compute() {
-		// 只建立一个基站的情况
+		// 一个基站也不建
+		int no = 0;
+		for (int i = 1; i <= n; i++) {
+			no += warranty[i];
+		}
+		// 建一个基站的情况
 		for (int i = 1, w = 0; i <= n; i++) {
 			dp[i] = w + fix[i];
 			for (int ei = head[i]; ei != 0; ei = next[ei]) {
 				w += warranty[to[ei]];
 			}
 		}
-		int ans = dp[n];
-		// 可以建多个基站的情况
+		// 建多个基站的情况
 		// 认为最多有k+1个基站，并且在补充村庄(无穷远)一定要建一个基站
 		// 也就是用一个单独的基站，去负责补充村庄，这一部分的花费是0
 		// 让剩余的基站，去负责补充村庄左边真实出现的村庄，返回最少费用
@@ -121,7 +126,7 @@ public class Code06_StationLocation {
 			build(1, n, 1);
 			for (int i = 1; i <= n; i++) {
 				if (i >= t) {
-					dp[i] = query(1, i - 1, 1, n, 1) + fix[i];
+					dp[i] = Math.min(dp[i], query(1, i - 1, 1, n, 1) + fix[i]);
 				}
 				for (int ei = head[i], pre; ei != 0; ei = next[ei]) {
 					pre = to[ei];
@@ -130,9 +135,8 @@ public class Code06_StationLocation {
 					}
 				}
 			}
-			ans = Math.min(ans, dp[n]);
 		}
-		return ans;
+		return Math.min(no, dp[n]);
 	}
 
 	public static void prepare() {
