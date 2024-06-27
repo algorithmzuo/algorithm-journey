@@ -120,7 +120,7 @@ public class Code06_StationLocation {
 		for (int t = 2; t <= k + 1; t++) {
 			build(1, n, 1);
 			for (int i = 1; i <= n; i++) {
-				if (t <= i) {
+				if (i >= t) {
 					dp[i] = query(1, i - 1, 1, n, 1) + fix[i];
 				}
 				for (int ei = head[i], pre; ei != 0; ei = next[ei]) {

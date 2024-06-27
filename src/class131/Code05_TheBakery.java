@@ -63,7 +63,9 @@ public class Code05_TheBakery {
 			Arrays.fill(pre, 1, n + 1, 0);
 			for (int i = 1; i <= n; i++) {
 				add(pre[arr[i]], i - 1, 1, 0, n, 1);
-				dp[i] = query(0, i - 1, 0, n, 1);
+				if (i >= t) {
+					dp[i] = query(0, i - 1, 0, n, 1);
+				}
 				pre[arr[i]] = i;
 			}
 		}
