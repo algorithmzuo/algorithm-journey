@@ -54,7 +54,7 @@ public class Code05_TheBakery {
 		br.close();
 	}
 
-	// 注意本题用的线段树，范围不是1~n，而是0~n
+	// 注意本题的线段树范围不是1~n，而是0~n
 	// 因为线段树需要维护dp[0..n]的值
 	public static int compute() {
 		Arrays.fill(dp, 1, n + 1, 0);
