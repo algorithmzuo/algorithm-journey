@@ -55,7 +55,6 @@ public class Code05_TheBakery {
 	}
 
 	// 注意线段树的范围是0~n，不是1~n，因为需要维护dp[0..n]的值
-	// 线段树模版代码没有任何修改
 	public static int compute() {
 		Arrays.fill(dp, 1, n + 1, 0);
 		for (int t = 1; t <= k; t++) {
