@@ -106,27 +106,30 @@ public class Code06_StationLocation {
 
 	public static int compute() {
 		// 一个基站也不建
-		int no = 0;
+		int ans = 0;
 		for (int i = 1; i <= n; i++) {
-			no += warranty[i];
+			ans += warranty[i];
 		}
-		// 建一个基站的情况
+		// 只建一个基站的情况
 		for (int i = 1, w = 0; i <= n; i++) {
 			dp[i] = w + fix[i];
 			for (int ei = head[i]; ei != 0; ei = next[ei]) {
 				w += warranty[to[ei]];
 			}
 		}
-		// 建多个基站的情况
-		// 认为最多有k+1个基站，并且在补充村庄(无穷远)一定要建一个基站
-		// 也就是用一个单独的基站，去负责补充村庄，这一部分的花费是0
-		// 让剩余的基站，去负责补充村庄左边真实出现的村庄，返回最少费用
-		// 这么做的原因是减少边界讨论，课上进行了图解
+		ans = Math.min(ans, dp[n]);
+		// 要建多个基站的情况
+		// n是算上补充村庄(无穷远处)之后的村子数量
+		// 所以dp[t][n]的值代表
+		// 最右有一个单独的基站，去负责补充村庄，这一部分的花费是0
+		// 剩余的t-1个基站，去负责真实出现的村庄，最少的总费用
+		// 所以t一定要枚举到k+1
+		// 这么做可以减少边界讨论，课上进行了图解
 		for (int t = 2; t <= k + 1; t++) {
 			build(1, n, 1);
 			for (int i = 1; i <= n; i++) {
 				if (i >= t) {
-					dp[i] = Math.min(dp[i], query(1, i - 1, 1, n, 1) + fix[i]);
+					dp[i] = query(1, i - 1, 1, n, 1) + fix[i];
 				}
 				for (int ei = head[i], pre; ei != 0; ei = next[ei]) {
 					pre = to[ei];
@@ -135,8 +138,9 @@ public class Code06_StationLocation {
 					}
 				}
 			}
+			ans = Math.min(ans, dp[n]);
 		}
-		return Math.min(no, dp[n]);
+		return ans;
 	}
 
 	public static void prepare() {
