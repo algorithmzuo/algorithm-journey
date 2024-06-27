@@ -24,24 +24,53 @@ public class Code05_TheBakery {
 
 	public static int MAXN = 35001;
 
+	public static int n, k;
+
 	public static int[] arr = new int[MAXN];
 
 	public static int[] dp = new int[MAXN];
 
 	public static int[] pre = new int[MAXN];
 
-	// 线段树
-	// max数组维护最大值信息
-	// add数组维护加的懒更新
-	// 注意这里是有错位的
-	// 线段树1...k范围的值
-	// 对应dp[0...k-1]范围的值
 	public static int[] max = new int[MAXN << 2];
 
 	public static int[] add = new int[MAXN << 2];
 
-	public static int n, k;
+	public static void main(String[] args) throws IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StreamTokenizer in = new StreamTokenizer(br);
+		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
+		in.nextToken();
+		n = (int) in.nval;
+		in.nextToken();
+		k = Math.min(n, (int) in.nval);
+		for (int i = 1; i <= n; i++) {
+			in.nextToken();
+			arr[i] = (int) in.nval;
+		}
+		out.println(compute());
+		out.flush();
+		out.close();
+		br.close();
+	}
 
+	// 注意线段树的范围是0~n，不是1~n，因为需要维护dp[0..n]的值
+	// 线段树模版代码没有任何修改
+	public static int compute() {
+		Arrays.fill(dp, 1, n + 1, 0);
+		for (int t = 1; t <= k; t++) {
+			build(0, n, 1);
+			Arrays.fill(pre, 1, n + 1, 0);
+			for (int i = 1; i <= n; i++) {
+				add(pre[arr[i]], i - 1, 1, 0, n, 1);
+				dp[i] = query(0, i - 1, 0, n, 1);
+				pre[arr[i]] = i;
+			}
+		}
+		return dp[n];
+	}
+
+	// 下面所有方法都是线段树模版代码，没有任何修改
 	public static void up(int i) {
 		max[i] = Math.max(max[i << 1], max[i << 1 | 1]);
 	}
@@ -61,9 +90,8 @@ public class Code05_TheBakery {
 
 	public static void build(int l, int r, int i) {
 		if (l == r) {
-			// 注意错位 : 线段树1...k范围的值，对应，dp[0...k-1]的值
-			// 除了这一句，线段树剩下的代码都是标准模版，没有任何修改
-			max[i] = dp[l - 1];
+			// 用dp值来build线段树，包含dp[0]
+			max[i] = dp[l];
 		} else {
 			int mid = (l + r) >> 1;
 			build(l, mid, i << 1);
@@ -103,40 +131,6 @@ public class Code05_TheBakery {
 			ans = Math.max(ans, query(jobl, jobr, mid + 1, r, i << 1 | 1));
 		}
 		return ans;
-	}
-
-	public static int compute() {
-		Arrays.fill(dp, 1, n + 1, 0);
-		for (int i = 1; i <= k; i++) {
-			build(1, n, 1);
-			Arrays.fill(pre, 1, n + 1, 0);
-			for (int j = 1; j <= n; j++) {
-				// dp[当前值上次出现的位置...j-1]这些枚举值，所增加的部分，都有提升
-				add(pre[arr[j]] + 1, j, 1, 1, n, 1);
-				// dp[0...j-1]的枚举值中最大的作为dp[j]的答案
-				dp[j] = query(1, j, 1, n, 1);
-				pre[arr[j]] = j;
-			}
-		}
-		return dp[n];
-	}
-
-	public static void main(String[] args) throws IOException {
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StreamTokenizer in = new StreamTokenizer(br);
-		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
-		in.nextToken();
-		n = (int) in.nval;
-		in.nextToken();
-		k = Math.min(n, (int) in.nval);
-		for (int i = 1; i <= n; i++) {
-			in.nextToken();
-			arr[i] = (int) in.nval;
-		}
-		out.println(compute());
-		out.flush();
-		out.close();
-		br.close();
 	}
 
 }

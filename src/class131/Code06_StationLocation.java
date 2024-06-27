@@ -28,6 +28,8 @@ public class Code06_StationLocation {
 
 	public static int MAXN = 20002;
 
+	public static int n, k;
+
 	// 和1号村庄之间的距离
 	public static int[] dist = new int[MAXN];
 
@@ -63,104 +65,6 @@ public class Code06_StationLocation {
 
 	// 动态规划表
 	public static int[] dp = new int[MAXN];
-
-	public static int n, k;
-
-	public static void prepare() {
-		cnt = 1;
-		for (int i = 1; i <= n; i++) {
-			left[i] = search(dist[i] - range[i]);
-			right[i] = search(dist[i] + range[i]);
-			if (dist[right[i]] > dist[i] + range[i]) {
-				right[i]--;
-			}
-			addEdge(right[i], i);
-		}
-	}
-
-	// 在dist数组中二分查找>=d的最左位置
-	public static int search(int d) {
-		int l = 1, r = n, m;
-		int ans = 0;
-		while (l <= r) {
-			m = (l + r) / 2;
-			if (dist[m] >= d) {
-				ans = m;
-				r = m - 1;
-			} else {
-				l = m + 1;
-			}
-		}
-		return ans;
-	}
-
-	// 链式前向星加边
-	public static void addEdge(int u, int v) {
-		next[cnt] = head[u];
-		to[cnt] = v;
-		head[u] = cnt++;
-	}
-
-	public static void up(int i) {
-		min[i] = Math.min(min[i << 1], min[i << 1 | 1]);
-	}
-
-	public static void down(int i) {
-		if (add[i] != 0) {
-			lazy(i << 1, add[i]);
-			lazy(i << 1 | 1, add[i]);
-			add[i] = 0;
-		}
-	}
-
-	public static void lazy(int i, int v) {
-		min[i] += v;
-		add[i] += v;
-	}
-
-	public static void build(int l, int r, int i) {
-		if (l == r) {
-			min[i] = dp[l];
-		} else {
-			int mid = (l + r) >> 1;
-			build(l, mid, i << 1);
-			build(mid + 1, r, i << 1 | 1);
-			up(i);
-		}
-		add[i] = 0;
-	}
-
-	public static void add(int jobl, int jobr, int jobv, int l, int r, int i) {
-		if (jobl <= l && r <= jobr) {
-			lazy(i, jobv);
-		} else {
-			down(i);
-			int mid = (l + r) >> 1;
-			if (jobl <= mid) {
-				add(jobl, jobr, jobv, l, mid, i << 1);
-			}
-			if (jobr > mid) {
-				add(jobl, jobr, jobv, mid + 1, r, i << 1 | 1);
-			}
-			up(i);
-		}
-	}
-
-	public static int query(int jobl, int jobr, int l, int r, int i) {
-		if (jobl <= l && r <= jobr) {
-			return min[i];
-		}
-		down(i);
-		int mid = (l + r) >> 1;
-		int ans = Integer.MAX_VALUE;
-		if (jobl <= mid) {
-			ans = Math.min(ans, query(jobl, jobr, l, mid, i << 1));
-		}
-		if (jobr > mid) {
-			ans = Math.min(ans, query(jobl, jobr, mid + 1, r, i << 1 | 1));
-		}
-		return ans;
-	}
 
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -223,6 +127,103 @@ public class Code06_StationLocation {
 				}
 			}
 			ans = Math.min(ans, dp[n]);
+		}
+		return ans;
+	}
+
+	public static void prepare() {
+		cnt = 1;
+		for (int i = 1; i <= n; i++) {
+			left[i] = search(dist[i] - range[i]);
+			right[i] = search(dist[i] + range[i]);
+			if (dist[right[i]] > dist[i] + range[i]) {
+				right[i]--;
+			}
+			addEdge(right[i], i);
+		}
+	}
+
+	// 在dist数组中二分查找>=d的最左位置
+	public static int search(int d) {
+		int l = 1, r = n, m;
+		int ans = 0;
+		while (l <= r) {
+			m = (l + r) / 2;
+			if (dist[m] >= d) {
+				ans = m;
+				r = m - 1;
+			} else {
+				l = m + 1;
+			}
+		}
+		return ans;
+	}
+
+	// 链式前向星加边
+	public static void addEdge(int u, int v) {
+		next[cnt] = head[u];
+		to[cnt] = v;
+		head[u] = cnt++;
+	}
+
+	// 下面所有方法都是线段树模版代码，没有任何修改
+	public static void up(int i) {
+		min[i] = Math.min(min[i << 1], min[i << 1 | 1]);
+	}
+
+	public static void down(int i) {
+		if (add[i] != 0) {
+			lazy(i << 1, add[i]);
+			lazy(i << 1 | 1, add[i]);
+			add[i] = 0;
+		}
+	}
+
+	public static void lazy(int i, int v) {
+		min[i] += v;
+		add[i] += v;
+	}
+
+	public static void build(int l, int r, int i) {
+		if (l == r) {
+			min[i] = dp[l];
+		} else {
+			int mid = (l + r) >> 1;
+			build(l, mid, i << 1);
+			build(mid + 1, r, i << 1 | 1);
+			up(i);
+		}
+		add[i] = 0;
+	}
+
+	public static void add(int jobl, int jobr, int jobv, int l, int r, int i) {
+		if (jobl <= l && r <= jobr) {
+			lazy(i, jobv);
+		} else {
+			down(i);
+			int mid = (l + r) >> 1;
+			if (jobl <= mid) {
+				add(jobl, jobr, jobv, l, mid, i << 1);
+			}
+			if (jobr > mid) {
+				add(jobl, jobr, jobv, mid + 1, r, i << 1 | 1);
+			}
+			up(i);
+		}
+	}
+
+	public static int query(int jobl, int jobr, int l, int r, int i) {
+		if (jobl <= l && r <= jobr) {
+			return min[i];
+		}
+		down(i);
+		int mid = (l + r) >> 1;
+		int ans = Integer.MAX_VALUE;
+		if (jobl <= mid) {
+			ans = Math.min(ans, query(jobl, jobr, l, mid, i << 1));
+		}
+		if (jobr > mid) {
+			ans = Math.min(ans, query(jobl, jobr, mid + 1, r, i << 1 | 1));
 		}
 		return ans;
 	}
