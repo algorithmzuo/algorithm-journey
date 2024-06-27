@@ -21,7 +21,7 @@ public class Code04_LongestIdealString {
 		int ans = 0;
 		for (char cha : s.toCharArray()) {
 			v = cha - 'a' + 1;
-			p = max(Math.max(v - k, 1), Math.min(v + k, 26), 1, n, 1);
+			p = max(Math.max(v - k, 1), Math.min(v + k, n), 1, n, 1);
 			ans = Math.max(ans, 1 + p);
 			update(v, 1 + p, 1, n, 1);
 		}
@@ -37,7 +37,7 @@ public class Code04_LongestIdealString {
 	}
 
 	// 只有单点更新不需要定义down方法
-	// 因为单点更新的任务从线段树头节点开始一直来到某个叶节点
+	// 因为单点更新的任务一定会从线段树头节点直插到某个叶节点
 	// 根本没有懒更新这回事
 	public static void update(int jobi, int jobv, int l, int r, int i) {
 		if (l == r && jobi == l) {
