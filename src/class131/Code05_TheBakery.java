@@ -54,7 +54,8 @@ public class Code05_TheBakery {
 		br.close();
 	}
 
-	// 注意线段树的范围是0~n，不是1~n，因为需要维护dp[0..n]的值
+	// 注意本题用的线段树，范围不是1~n，而是0~n
+	// 因为线段树需要维护dp[0..n]的值
 	public static int compute() {
 		Arrays.fill(dp, 1, n + 1, 0);
 		for (int t = 1; t <= k; t++) {
@@ -89,7 +90,7 @@ public class Code05_TheBakery {
 
 	public static void build(int l, int r, int i) {
 		if (l == r) {
-			// 用dp值(包含dp[0])来build线段树
+			// 用dp[0..n]来build线段树
 			max[i] = dp[l];
 		} else {
 			int mid = (l + r) >> 1;
