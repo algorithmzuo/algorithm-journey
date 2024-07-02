@@ -36,7 +36,7 @@ public class Code03_PaintHouseIII {
 
 	public static void build(int[] houses, int[][] costs, int hsize, int csize, int tsize) {
 		n = hsize;
-		t = tsize + 1;
+		t = tsize;
 		c = csize;
 		for (int i = 1; i <= n; i++) {
 			house[i] = houses[i - 1];
@@ -52,6 +52,7 @@ public class Code03_PaintHouseIII {
 	// 时间复杂度O(n * t * c平方)
 	public static int minCost1(int[] houses, int[][] costs, int hsize, int csize, int tsize) {
 		build(houses, costs, hsize, csize, tsize);
+		t++;
 		int[][][] dp = new int[n + 1][t + 1][c + 1];
 		for (int i = 0; i <= n; i++) {
 			for (int j = 0; j <= t; j++) {
@@ -103,6 +104,7 @@ public class Code03_PaintHouseIII {
 	// 时间复杂度O(n * t * c平方)
 	public static int minCost2(int[] houses, int[][] costs, int hsize, int csize, int tsize) {
 		build(houses, costs, hsize, csize, tsize);
+		t++;
 		int[][] memo = new int[t + 1][c + 1];
 		int[][] dp = new int[t + 1][c + 1];
 		for (int v = 0; v <= c; v++) {
@@ -158,6 +160,7 @@ public class Code03_PaintHouseIII {
 	// 时间复杂度O(n * t * c)
 	public static int minCost3(int[] houses, int[][] costs, int hsize, int csize, int tsize) {
 		build(houses, costs, hsize, csize, tsize);
+		t++;
 		int[][] memo = new int[t + 1][c + 1];
 		int[][] dp = new int[t + 1][c + 1];
 		for (int v = 0; v <= c; v++) {
