@@ -31,10 +31,10 @@ public class Code02_WaysOfRevert {
 
 	public static int[][][] dp = new int[MAXN + 1][MAXV + 1][2];
 
-	// compute3方法需要用到
+	// compute3方法需要
 	public static int[] suf0 = new int[MAXV + 1];
 
-	// compute3方法需要用到
+	// compute3方法需要
 	public static int[] pre1 = new int[MAXV + 1];
 
 	public static void main(String[] args) throws IOException {
