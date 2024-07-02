@@ -5,8 +5,7 @@ package class132;
 // 并且任意i位置的数字都满足 : arr[i] <= max(arr[i-1], arr[i+1])
 // 特别的，arr[1] <= arr[2]，arr[n] <= arr[n-1]
 // 但是输入的arr中有些数字丢失了，丢失的数字用0表示
-// 返回还原成不违规的arr有多少种方法
-// 答案可能很大，对998244353取模
+// 返回还原成不违规的arr有多少种方法，答案很大需要对998244353取余
 // 3 <= n <= 10^4
 // 测试链接 : https://www.nowcoder.com/practice/49c5284278974cbda474ec13d8bd86a9
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
@@ -56,8 +55,7 @@ public class Code02_WaysOfRevert {
 		br.close();
 	}
 
-	// 递归 + 记忆化搜索
-	// 不优化枚举
+	// 递归 + 记忆化搜索，不优化枚举
 	// 时间复杂度O(n * v平方)，会超时
 	public static int compute1() {
 		for (int i = 0; i <= n; i++) {
@@ -102,8 +100,7 @@ public class Code02_WaysOfRevert {
 		return ans;
 	}
 
-	// 严格位置依赖的动态规划
-	// 不优化枚举
+	// 严格位置依赖的动态规划，不优化枚举
 	// 时间复杂度O(n * v平方)，会超时
 	public static int compute2() {
 		for (int v = 0; v <= MAXV; v++) {
