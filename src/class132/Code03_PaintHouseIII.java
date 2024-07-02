@@ -64,8 +64,8 @@ public class Code03_PaintHouseIII {
 		return ans == NA ? -1 : ans;
 	}
 
-	// 1...i范围的房子必须凑齐j个街区，i+1号房子的颜色已经涂成了v
-	// 返回最少的话费，如果做不到返回Integer.Max
+	// 1...i+1范围的房子必须凑齐j个街区，i+1号房子的颜色已经涂成了v
+	// 返回最少的花费，如果做不到返回NA
 	public static int f1(int i, int j, int v, int[][][] dp) {
 		if (j == 0) {
 			return NA;
