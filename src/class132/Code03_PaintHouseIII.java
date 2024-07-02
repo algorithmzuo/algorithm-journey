@@ -19,7 +19,7 @@ public class Code03_PaintHouseIII {
 	// 房子编号从1开始，颜色编号从1开始，颜色0代表没有涂色
 	// build方法就是转化逻辑
 	// 其实这个题可以用一维数组，就完成三维表的滚动更新
-	// 有兴趣的同学可以尝试这种极致的空间压缩，课上不再赘述
+	// 有兴趣的同学可以尝试这种极致的空间压缩，课上不再讲述
 	public static int NA = Integer.MAX_VALUE;
 
 	public static int MAXN = 101;
