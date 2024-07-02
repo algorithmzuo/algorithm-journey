@@ -68,8 +68,8 @@ public class Code02_WaysOfRevert {
 	}
 
 	// 1...i范围上去决定数字，i+1位置的数字已经变成了v
-	// 如果s == 0, 表示arr[i+1] > arr[i+2]
-	// 如果s == 1, 表示arr[i+1] <= arr[i+2]
+	// 如果s == 0, 表示i+1位置变成的数字v > i+2位置变成的数字
+	// 如果s == 1, 表示i+1位置变成的数字v <= i+2位置变成的数字
 	// 返回还原的方法数
 	public static int f1(int i, int v, int s) {
 		if (i == 0) {
