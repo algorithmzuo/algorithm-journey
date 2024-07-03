@@ -13,7 +13,7 @@ package class132;
 // 0 <= house[i] <= c
 // 1 <= cost[i][v] <= 10^4
 // 测试链接 : https://leetcode.cn/problems/paint-house-iii/
-public class Code03_PaintHouseIII {
+public class Code04_PaintHouseIII {
 
 	// 原始测试页面的数据描述非常绕，一律转化成课上描述的形式
 	// 房子编号从1开始，颜色编号从1开始，颜色0代表没有涂色

@@ -9,7 +9,7 @@ package class132;
 // 3 <= n <= 10^4
 // 测试链接 : https://www.nowcoder.com/practice/49c5284278974cbda474ec13d8bd86a9
 // 提交以下的code，提交时请把类名改成"Main"，无法所有测试用例
-// 需要优化枚举才能通过所有测试用例，具体看本节课Code02_WaysOfRevert2文件的实现
+// 需要优化枚举才能通过所有测试用例，具体看本节课Code03_WaysOfRevert2文件的实现
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -18,7 +18,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 
-public class Code02_WaysOfRevert1 {
+public class Code03_WaysOfRevert1 {
 
 	public static int MOD = 998244353;
 

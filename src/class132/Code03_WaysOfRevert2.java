@@ -17,7 +17,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 
-public class Code02_WaysOfRevert2 {
+public class Code03_WaysOfRevert2 {
 
 	public static int MOD = 998244353;
 

@@ -1,6 +1,6 @@
 package class132;
 
-// 从上到下挖砖块(优化枚举+空间压缩)
+// 从上到下挖砖块(只展示核心思路)
 // 一堆组成倒三角形状的砖埋在地里，一共有n层，第1层有n块砖，每层递减，类似如下数据
 // 4 2 9 5
 //  3 1 7
@@ -24,7 +24,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 
-public class Code04_DiggingBricks2 {
+public class Code05_DiggingBricks1 {
 
 	public static int MAXN = 51;
 
@@ -32,9 +32,7 @@ public class Code04_DiggingBricks2 {
 
 	public static int[][] grid = new int[MAXN][MAXN];
 
-	public static int[][] dp = new int[MAXN][MAXM];
-
-	public static int[][] max = new int[MAXN][MAXM];
+	public static int[][][] dp = new int[MAXN][MAXN][MAXM];
 
 	public static int n, m;
 
@@ -58,8 +56,8 @@ public class Code04_DiggingBricks2 {
 		br.close();
 	}
 
-	// 优化枚举 + 空间压缩
-	// 时间复杂度O(n^2 * m)
+	// 只展示核心思路，不优化枚举，不做空间压缩
+	// 时间复杂度O(n^3 * m)
 	public static int compute() {
 		int sum;
 		int ans = 0;
@@ -68,23 +66,14 @@ public class Code04_DiggingBricks2 {
 			for (int j = 0; j <= i; j++) {
 				sum += grid[i][j];
 				for (int k = (j + 1) * j / 2; k <= m; k++) {
-					dp[j][k] = max[Math.max(0, j - 1)][k - j] + sum;
-					ans = Math.max(ans, dp[j][k]);
+					for (int cur = Math.max(0, j - 1); cur <= Math.min(k - j, i - 1); cur++) {
+						dp[i][j][k] = Math.max(dp[i][j][k], dp[i - 1][cur][k - j] + sum);
+					}
+					ans = Math.max(ans, dp[i][j][k]);
 				}
 			}
-			prepare(i);
 		}
 		return ans;
-	}
-
-	// 预处理结构优化枚举
-	public static void prepare(int i) {
-		for (int col = 0; col <= m; col++) {
-			for (int row = Math.min(col, i), tmp = 0; row >= 0; row--) {
-				max[row][col] = Math.max(tmp, dp[row][col]);
-				tmp = max[row][col];
-			}
-		}
 	}
 
 }
