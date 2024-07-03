@@ -64,21 +64,18 @@ public class Code02_SoldierPosition {
 	}
 
 	public static int compute() {
-		int cnt, best;
 		int ans = 0;
-		for (int a = 0; a < k; a++) {
+		for (int a = 0, cnt; a < k; a++) {
 			cnt = cnt(0, sta[a]);
+			dp[0][a][0] = cnt;
 			ans = Math.max(ans, cnt);
-			for (int b = 0; b < k; b++) {
-				dp[0][a][b] = cnt;
-			}
 		}
 		for (int i = 1; i < n; i++) {
-			for (int a = 0; a < k; a++) {
+			for (int a = 0, cnt; a < k; a++) {
 				cnt = cnt(i, sta[a]);
 				for (int b = 0; b < k; b++) {
 					if ((sta[a] & sta[b]) == 0) {
-						best = 0;
+						int best = 0;
 						for (int c = 0; c < k; c++) {
 							if ((sta[b] & sta[c]) == 0 && (sta[a] & sta[c]) == 0) {
 								best = Math.max(best, dp[i - 1][b][c]);
@@ -103,7 +100,7 @@ public class Code02_SoldierPosition {
 		return ans;
 	}
 
-	// 按行读字符串推荐用StringTokenizer
+	// 读取字符串推荐用StringTokenizer
 	// 参考链接 : https://oi-wiki.org/lang/java-pro/
 	public static class Kattio extends PrintWriter {
 		private BufferedReader r;
