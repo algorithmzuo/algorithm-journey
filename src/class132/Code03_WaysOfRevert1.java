@@ -8,7 +8,7 @@ package class132;
 // 返回还原成不违规的arr有多少种方法，答案很大需要对998244353取余
 // 3 <= n <= 10^4
 // 测试链接 : https://www.nowcoder.com/practice/49c5284278974cbda474ec13d8bd86a9
-// 提交以下的code，提交时请把类名改成"Main"，无法所有测试用例
+// 提交以下的code，提交时请把类名改成"Main"，无法通过所有测试用例
 // 需要优化枚举才能通过所有测试用例，具体看本节课Code03_WaysOfRevert2文件的实现
 
 import java.io.BufferedReader;
