@@ -181,18 +181,21 @@ public class Code03_PaintHouseIII {
 		pre[0] = pre[c + 1] = suf[0] = suf[c + 1] = NA;
 		for (int i = 1; i <= n; i++) {
 			for (int j = 1; j <= t; j++) {
+				// 预处理结构优化前缀枚举
 				for (int v = 1; v <= c; v++) {
 					pre[v] = pre[v - 1];
 					if (memo[j - 1][v] != NA) {
 						pre[v] = Math.min(pre[v], memo[j - 1][v] + cost[i][v]);
 					}
 				}
+				// 预处理结构优化后缀枚举
 				for (int v = c; v >= 1; v--) {
 					suf[v] = suf[v + 1];
 					if (memo[j - 1][v] != NA) {
 						suf[v] = Math.min(suf[v], memo[j - 1][v] + cost[i][v]);
 					}
 				}
+				// 实际去填dp表
 				for (int v = 0; v <= c; v++) {
 					int ans = NA;
 					if (house[i] != 0) {
