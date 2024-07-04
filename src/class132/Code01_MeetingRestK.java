@@ -13,9 +13,8 @@ package class132;
 // 来自真实大厂笔试，对数器验证
 public class Code01_MeetingRestK {
 
-	// 不优化枚举的方法
+	// 不减少枚举
 	// 时间复杂度O(n^2)
-	// 为了验证
 	public static long best1(int[] arr, int k) {
 		int n = arr.length;
 		long[] dp = new long[n + 1];
@@ -28,7 +27,7 @@ public class Code01_MeetingRestK {
 		return dp[0];
 	}
 
-	// 正式方法
+	// 减少枚举
 	// 时间复杂度O(n)
 	public static long best2(int[] arr, int k) {
 		int n = arr.length;
