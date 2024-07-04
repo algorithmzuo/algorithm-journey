@@ -93,9 +93,45 @@ public class Code03_WaysOfRevert1 {
 		return ans;
 	}
 
-	// 严格位置依赖的动态规划 + 空间压缩，不优化枚举
+	// 严格位置依赖的动态规划，不优化枚举
 	// 时间复杂度O(n * v平方)
 	public static int compute2() {
+		int[][][] dp = new int[n + 1][m + 1][2];
+		for (int v = 0; v <= m; v++) {
+			dp[0][v][0] = 0;
+			dp[0][v][1] = 1;
+		}
+		for (int i = 1; i <= n; i++) {
+			for (int v = 0; v <= m; v++) {
+				for (int s = 0; s <= 1; s++) {
+					int ans = 0;
+					if (arr[i] != 0) {
+						if (arr[i] >= v || s == 1) {
+							ans = dp[i - 1][arr[i]][arr[i] > v ? 0 : 1];
+						}
+					} else {
+						for (int cur = v + 1; cur <= m; cur++) {
+							ans = (ans + dp[i - 1][cur][0]) % MOD;
+						}
+						if (v != 0) {
+							ans = (ans + dp[i - 1][v][1]) % MOD;
+						}
+						if (s == 1) {
+							for (int cur = 1; cur < v; cur++) {
+								ans = (ans + dp[i - 1][cur][1]) % MOD;
+							}
+						}
+					}
+					dp[i][v][s] = ans;
+				}
+			}
+		}
+		return dp[n][0][1];
+	}
+
+	// 空间压缩版本，不优化枚举
+	// 时间复杂度O(n * v平方)
+	public static int compute3() {
 		int[][] memo = new int[m + 1][2];
 		int[][] dp = new int[m + 1][2];
 		for (int v = 0; v <= m; v++) {
