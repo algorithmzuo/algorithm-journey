@@ -75,15 +75,13 @@ public class Code02_SoldierPosition {
 				cnt = cnt(i, sta[a]);
 				for (int b = 0; b < k; b++) {
 					if ((sta[a] & sta[b]) == 0) {
-						int best = 0;
 						for (int c = 0; c < k; c++) {
 							if ((sta[b] & sta[c]) == 0 && (sta[a] & sta[c]) == 0) {
-								best = Math.max(best, dp[i - 1][b][c]);
+								dp[i][a][b] = Math.max(dp[i][a][b], dp[i - 1][b][c] + cnt);
 							}
 						}
-						dp[i][a][b] = best + cnt;
-						ans = Math.max(ans, dp[i][a][b]);
 					}
+					ans = Math.max(ans, dp[i][a][b]);
 				}
 			}
 		}
