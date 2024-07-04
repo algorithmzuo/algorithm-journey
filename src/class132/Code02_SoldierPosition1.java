@@ -45,7 +45,7 @@ public class Code02_SoldierPosition1 {
 //	}
 
 	public static void main(String[] args) throws IOException {
-//		m = 6;
+//		m = 10;
 //		k = 0;
 //		prepare(0, 0);
 //		for (int i = 0; i < k; i++) {
@@ -80,11 +80,9 @@ public class Code02_SoldierPosition1 {
 	}
 
 	public static int compute() {
-		int ans = 0;
 		for (int a = 0, cnt; a < k; a++) {
 			cnt = cnt(0, sta[a]);
 			dp[0][a][0] = cnt;
-			ans = Math.max(ans, cnt);
 		}
 		for (int i = 1; i < n; i++) {
 			for (int a = 0, cnt; a < k; a++) {
@@ -97,13 +95,20 @@ public class Code02_SoldierPosition1 {
 							}
 						}
 					}
-					ans = Math.max(ans, dp[i][a][b]);
 				}
+			}
+		}
+		int ans = 0;
+		for (int a = 0; a < k; a++) {
+			for (int b = 0; b < k; b++) {
+				ans = Math.max(ans, dp[n - 1][a][b]);
 			}
 		}
 		return ans;
 	}
 
+	// 第i行士兵状态为s，结合grid第i号的状况
+	// 返回摆放士兵的数量
 	public static int cnt(int i, int s) {
 		int ans = 0;
 		for (int j = 0; j < m; j++) {

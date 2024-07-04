@@ -66,11 +66,9 @@ public class Code02_SoldierPosition2 {
 	}
 
 	public static int compute() {
-		int ans = 0;
 		for (int a = 0, cnt; a < k; a++) {
 			cnt = cnt(0, sta[a]);
 			memo[a][0] = cnt;
-			ans = Math.max(ans, cnt);
 		}
 		for (int i = 1; i < n; i++) {
 			for (int a = 0, cnt; a < k; a++) {
@@ -84,12 +82,17 @@ public class Code02_SoldierPosition2 {
 							}
 						}
 					}
-					ans = Math.max(ans, dp[a][b]);
 				}
 			}
 			int[][] tmp = memo;
 			memo = dp;
 			dp = tmp;
+		}
+		int ans = 0;
+		for (int a = 0; a < k; a++) {
+			for (int b = 0; b < k; b++) {
+				ans = Math.max(ans, memo[a][b]);
+			}
 		}
 		return ans;
 	}
