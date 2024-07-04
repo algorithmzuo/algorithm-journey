@@ -15,11 +15,6 @@ package class132;
 // 测试链接 : https://leetcode.cn/problems/paint-house-iii/
 public class Code04_PaintHouseIII {
 
-	// 原始测试页面的数据描述非常绕，一律转化成课上描述的形式
-	// 房子编号从1开始，颜色编号从1开始，颜色0代表没有涂色
-	// build方法就是转化逻辑
-	// 其实这个题可以用一维数组，就完成三维表的滚动更新
-	// 有兴趣的同学可以尝试这种极致的空间压缩，课上不再讲述
 	public static int NA = Integer.MAX_VALUE;
 
 	public static int MAXN = 101;
@@ -34,6 +29,9 @@ public class Code04_PaintHouseIII {
 
 	public static int n, t, c;
 
+	// 原始测试页面的数据描述非常绕，一律转化成课上描述的形式
+	// 房子编号从1开始，颜色编号从1开始，颜色0代表没有涂色
+	// build方法就是转化逻辑
 	public static void build(int[] houses, int[][] costs, int hsize, int csize, int tsize) {
 		n = hsize;
 		t = tsize;
@@ -100,9 +98,55 @@ public class Code04_PaintHouseIII {
 		return ans;
 	}
 
-	// 严格位置依赖的动态规划 + 空间压缩，不优化枚举
+	// 严格位置依赖的动态规划，不优化枚举
 	// 时间复杂度O(n * t * c平方)
 	public static int minCost2(int[] houses, int[][] costs, int hsize, int csize, int tsize) {
+		build(houses, costs, hsize, csize, tsize);
+		t++;
+		int[][][] dp = new int[n + 1][t + 1][c + 1];
+		for (int i = 0; i <= n; i++) {
+			for (int v = 0; v <= c; v++) {
+				dp[i][0][v] = NA;
+			}
+		}
+		for (int j = 1; j <= t; j++) {
+			for (int v = 0; v <= c; v++) {
+				dp[0][j][v] = j == 1 ? 0 : NA;
+			}
+		}
+		for (int i = 1; i <= n; i++) {
+			for (int j = 1; j <= t; j++) {
+				for (int v = 0; v <= c; v++) {
+					int ans = NA;
+					if (house[i] != 0) {
+						if (house[i] == v) {
+							ans = dp[i - 1][j][house[i]];
+						} else {
+							ans = dp[i - 1][j - 1][house[i]];
+						}
+					} else {
+						for (int cur = 1, next; cur <= c; cur++) {
+							if (cur == v) {
+								next = dp[i - 1][j][cur];
+							} else {
+								next = dp[i - 1][j - 1][cur];
+							}
+							if (next != NA) {
+								ans = Math.min(ans, next + cost[i][cur]);
+							}
+						}
+					}
+					dp[i][j][v] = ans;
+				}
+			}
+		}
+		int ans = dp[n][t][0];
+		return ans == NA ? -1 : ans;
+	}
+
+	// 空间压缩版本，不优化枚举
+	// 时间复杂度O(n * t * c平方)
+	public static int minCost3(int[] houses, int[][] costs, int hsize, int csize, int tsize) {
 		build(houses, costs, hsize, csize, tsize);
 		t++;
 		int[][] memo = new int[t + 1][c + 1];
@@ -113,11 +157,7 @@ public class Code04_PaintHouseIII {
 		}
 		for (int j = 1; j <= t; j++) {
 			for (int v = 0; v <= c; v++) {
-				if (j == 1) {
-					memo[j][v] = 0;
-				} else {
-					memo[j][v] = NA;
-				}
+				memo[j][v] = j == 1 ? 0 : NA;
 			}
 		}
 		for (int i = 1; i <= n; i++) {
@@ -156,7 +196,7 @@ public class Code04_PaintHouseIII {
 	// 最优解
 	// 优化枚举 + 空间压缩
 	// 时间复杂度O(n * t * c)
-	public static int minCost3(int[] houses, int[][] costs, int hsize, int csize, int tsize) {
+	public static int minCost4(int[] houses, int[][] costs, int hsize, int csize, int tsize) {
 		build(houses, costs, hsize, csize, tsize);
 		t++;
 		int[][] memo = new int[t + 1][c + 1];
@@ -167,16 +207,12 @@ public class Code04_PaintHouseIII {
 		}
 		for (int j = 1; j <= t; j++) {
 			for (int v = 0; v <= c; v++) {
-				if (j == 1) {
-					memo[j][v] = 0;
-				} else {
-					memo[j][v] = NA;
-				}
+				memo[j][v] = j == 1 ? 0 : NA;
 			}
 		}
 		int[] pre = new int[c + 2];
 		int[] suf = new int[c + 2];
-		pre[0] = pre[c + 1] = suf[0] = suf[c + 1] = NA;
+		pre[0] = suf[c + 1] = NA;
 		for (int i = 1; i <= n; i++) {
 			for (int j = 1; j <= t; j++) {
 				// 预处理结构优化前缀枚举
