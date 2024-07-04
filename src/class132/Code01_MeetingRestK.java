@@ -27,7 +27,7 @@ public class Code01_MeetingRestK {
 		return dp[0];
 	}
 
-	// 减少枚举的可能性
+	// 利用预处理结构减少枚举的可能性
 	// 时间复杂度O(n)
 	public static long best2(int[] arr, int k) {
 		int n = arr.length;
