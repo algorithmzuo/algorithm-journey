@@ -32,7 +32,7 @@ public class Code01_MeetingRestK {
 	public static long best2(int[] arr, int k) {
 		int n = arr.length;
 		int[] jump = new int[n];
-		jump[n - 1] = n;
+		// 窗口[l...r)，左闭右开，sum是窗口累加和
 		for (int i = 0, l = 1, r = 1, sum = 0; i < n - 1; i++, l++) {
 			while (r < n && sum < k) {
 				sum += arr[r++];
@@ -40,6 +40,7 @@ public class Code01_MeetingRestK {
 			jump[i] = r;
 			sum -= arr[l];
 		}
+		jump[n - 1] = n;
 		long[] dp = new long[n + 1];
 		for (int i = n - 1; i >= 0; i--) {
 			dp[i] = Math.max(dp[i + 1], dp[jump[i]] + arr[i]);
