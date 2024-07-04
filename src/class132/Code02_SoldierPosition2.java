@@ -38,15 +38,6 @@ public class Code02_SoldierPosition2 {
 
 	public static int n, m, k;
 
-	public static void prepare(int j, int s) {
-		if (j >= m) {
-			sta[k++] = s;
-		} else {
-			prepare(j + 1, s);
-			prepare(j + 3, s | (1 << j));
-		}
-	}
-
 	public static void main(String[] args) throws IOException {
 		Kattio io = new Kattio();
 		n = io.nextInt();
@@ -63,6 +54,15 @@ public class Code02_SoldierPosition2 {
 		io.println(compute());
 		io.flush();
 		io.close();
+	}
+
+	public static void prepare(int j, int s) {
+		if (j >= m) {
+			sta[k++] = s;
+		} else {
+			prepare(j + 1, s);
+			prepare(j + 3, s | (1 << j));
+		}
 	}
 
 	public static int compute() {
