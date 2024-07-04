@@ -62,8 +62,8 @@ public class Code03_WaysOfRevert2 {
 			memo[v][0] = 0;
 			memo[v][1] = 1;
 		}
-		prepare();
 		for (int i = 1; i <= n; i++) {
+			prepare();
 			for (int v = 0; v <= m; v++) {
 				for (int s = 0; s <= 1; s++) {
 					int ans = 0;
@@ -90,7 +90,6 @@ public class Code03_WaysOfRevert2 {
 			int[][] tmp = memo;
 			memo = dp;
 			dp = tmp;
-			prepare();
 		}
 		return memo[0][1];
 	}
