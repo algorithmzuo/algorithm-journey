@@ -48,7 +48,7 @@ public class Code03_WaysOfRevert1 {
 	}
 
 	// 递归 + 记忆化搜索，不优化枚举
-	// 时间复杂度O(n * v平方)
+	// 时间复杂度O(n * m平方)
 	public static int compute1() {
 		int[][][] dp = new int[n + 1][m + 1][2];
 		for (int i = 0; i <= n; i++) {
@@ -94,7 +94,7 @@ public class Code03_WaysOfRevert1 {
 	}
 
 	// 严格位置依赖的动态规划，不优化枚举
-	// 时间复杂度O(n * v平方)
+	// 时间复杂度O(n * m平方)
 	public static int compute2() {
 		int[][][] dp = new int[n + 1][m + 1][2];
 		for (int v = 0; v <= m; v++) {
@@ -130,7 +130,7 @@ public class Code03_WaysOfRevert1 {
 	}
 
 	// 空间压缩版本，不优化枚举
-	// 时间复杂度O(n * v平方)
+	// 时间复杂度O(n * m平方)
 	public static int compute3() {
 		int[][] memo = new int[m + 1][2];
 		int[][] dp = new int[m + 1][2];

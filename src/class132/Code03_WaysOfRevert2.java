@@ -56,7 +56,7 @@ public class Code03_WaysOfRevert2 {
 
 	// 正式方法
 	// 优化枚举 + 空间压缩
-	// 时间复杂度O(n * v)，可以通过所有测试用例
+	// 时间复杂度O(n * m)，可以通过所有测试用例
 	public static int compute() {
 		for (int v = 0; v <= m; v++) {
 			memo[v][0] = 0;
