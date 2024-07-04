@@ -36,16 +36,23 @@ public class Code02_SoldierPosition1 {
 
 	public static int n, m, k;
 
-	public static void prepare(int j, int s) {
-		if (j >= m) {
-			sta[k++] = s;
-		} else {
-			prepare(j + 1, s);
-			prepare(j + 3, s | (1 << j));
-		}
-	}
+//	// 打印num第m-1位到第0位的二进制状态
+//	public static void printBinary(int num) {
+//		for (int i = m - 1; i >= 0; i--) {
+//			System.out.print((num & (1 << i)) == 0 ? "0" : "1");
+//		}
+//		System.out.println();
+//	}
 
 	public static void main(String[] args) throws IOException {
+//		m = 6;
+//		k = 0;
+//		prepare(0, 0);
+//		for (int i = 0; i < k; i++) {
+//			printBinary(sta[i]);
+//		}
+//		System.out.println("有效状态数量 : " + k);
+
 		Kattio io = new Kattio();
 		n = io.nextInt();
 		m = io.nextInt();
@@ -61,6 +68,15 @@ public class Code02_SoldierPosition1 {
 		io.println(compute());
 		io.flush();
 		io.close();
+	}
+
+	public static void prepare(int j, int s) {
+		if (j >= m) {
+			sta[k++] = s;
+		} else {
+			prepare(j + 1, s);
+			prepare(j + 3, s | (1 << j));
+		}
 	}
 
 	public static int compute() {
