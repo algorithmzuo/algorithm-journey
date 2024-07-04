@@ -20,7 +20,7 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.util.StringTokenizer;
 
-public class Code02_SoldierPosition {
+public class Code02_SoldierPosition1 {
 
 	public static int MAXN = 100;
 

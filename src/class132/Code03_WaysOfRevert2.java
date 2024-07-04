@@ -87,14 +87,12 @@ public class Code03_WaysOfRevert2 {
 					dp[v][s] = ans;
 				}
 			}
-			for (int v = 0; v <= m; v++) {
-				for (int s = 0; s <= 1; s++) {
-					memo[v][s] = dp[v][s];
-				}
-			}
+			int[][] tmp = memo;
+			memo = dp;
+			dp = tmp;
 			prepare();
 		}
-		return dp[0][1];
+		return memo[0][1];
 	}
 
 	// 预处理结构优化枚举

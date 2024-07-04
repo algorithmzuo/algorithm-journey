@@ -100,7 +100,7 @@ public class Code04_PaintHouseIII {
 		return ans;
 	}
 
-	// 严格位置依赖动态规划 + 空间压缩，不优化枚举
+	// 严格位置依赖的动态规划 + 空间压缩，不优化枚举
 	// 时间复杂度O(n * t * c平方)
 	public static int minCost2(int[] houses, int[][] costs, int hsize, int csize, int tsize) {
 		build(houses, costs, hsize, csize, tsize);
@@ -145,18 +145,16 @@ public class Code04_PaintHouseIII {
 					dp[j][v] = ans;
 				}
 			}
-			for (int j = 1; j <= t; j++) {
-				for (int v = 0; v <= c; v++) {
-					memo[j][v] = dp[j][v];
-				}
-			}
+			int[][] tmp = memo;
+			memo = dp;
+			dp = tmp;
 		}
-		int ans = dp[t][0];
+		int ans = memo[t][0];
 		return ans == NA ? -1 : ans;
 	}
 
 	// 最优解
-	// 优化枚举的动态规划 + 空间压缩
+	// 优化枚举 + 空间压缩
 	// 时间复杂度O(n * t * c)
 	public static int minCost3(int[] houses, int[][] costs, int hsize, int csize, int tsize) {
 		build(houses, costs, hsize, csize, tsize);
@@ -217,13 +215,11 @@ public class Code04_PaintHouseIII {
 					dp[j][v] = ans;
 				}
 			}
-			for (int j = 1; j <= t; j++) {
-				for (int v = 0; v <= c; v++) {
-					memo[j][v] = dp[j][v];
-				}
-			}
+			int[][] tmp = memo;
+			memo = dp;
+			dp = tmp;
 		}
-		int ans = dp[t][0];
+		int ans = memo[t][0];
 		return ans == NA ? -1 : ans;
 	}
 

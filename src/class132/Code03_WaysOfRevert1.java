@@ -126,13 +126,11 @@ public class Code03_WaysOfRevert1 {
 					dp[v][s] = ans;
 				}
 			}
-			for (int v = 0; v <= m; v++) {
-				for (int s = 0; s <= 1; s++) {
-					memo[v][s] = dp[v][s];
-				}
-			}
+			int[][] tmp = memo;
+			memo = dp;
+			dp = tmp;
 		}
-		return dp[0][1];
+		return memo[0][1];
 	}
 
 }
