@@ -62,6 +62,7 @@ public class Code05_DiggingBricks2 {
 		int sum;
 		int ans = 0;
 		for (int i = 1; i <= n; i++) {
+			prepare(i - 1);
 			sum = 0;
 			for (int j = 0; j <= i; j++) {
 				sum += grid[i][j];
@@ -70,15 +71,14 @@ public class Code05_DiggingBricks2 {
 					ans = Math.max(ans, dp[j][k]);
 				}
 			}
-			prepare(i);
 		}
 		return ans;
 	}
 
 	// 预处理结构优化枚举
-	public static void prepare(int i) {
+	public static void prepare(int end) {
 		for (int col = 0; col <= m; col++) {
-			for (int row = Math.min(col, i), tmp = 0; row >= 0; row--) {
+			for (int row = Math.min(col, end), tmp = 0; row >= 0; row--) {
 				max[row][col] = Math.max(tmp, dp[row][col]);
 				tmp = max[row][col];
 			}
