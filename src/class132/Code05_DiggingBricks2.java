@@ -59,9 +59,8 @@ public class Code05_DiggingBricks2 {
 	// 优化枚举 + 空间压缩
 	// 时间复杂度O(n^2 * m)
 	public static int compute() {
-		int sum;
 		int ans = 0;
-		for (int i = 1; i <= n; i++) {
+		for (int i = 1, sum; i <= n; i++) {
 			prepare(i - 1);
 			sum = 0;
 			for (int j = 0; j <= i; j++) {
