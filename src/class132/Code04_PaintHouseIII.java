@@ -63,8 +63,9 @@ public class Code04_PaintHouseIII {
 		return ans == NA ? -1 : ans;
 	}
 
-	// 1...i+1范围的房子必须凑齐j个街区，i+1号房子的颜色已经涂成了v
-	// 返回最少的花费，如果做不到返回NA
+	// 1...i范围的房子去确定颜色，i+1号房子的颜色已经涂成了v
+	// 1...i+1范围的房子必须凑齐j个街区，返回最少的花费
+	// 如果做不到返回NA
 	public static int f1(int i, int j, int v, int[][][] dp) {
 		if (j == 0) {
 			return NA;
@@ -213,6 +214,8 @@ public class Code04_PaintHouseIII {
 				memo[j][v] = j == 1 ? 0 : NA;
 			}
 		}
+		// pre[s] : dp[i-1][j][1...s] + cost[i][1...s]中的最小值
+		// suf[s] : dp[i-1][j][s...c] + cost[i][s...c]中的最小值
 		int[] pre = new int[c + 2];
 		int[] suf = new int[c + 2];
 		pre[0] = suf[c + 1] = NA;

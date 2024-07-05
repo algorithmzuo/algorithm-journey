@@ -75,9 +75,9 @@ public class Code05_DiggingBricks2 {
 	}
 
 	// 预处理结构优化枚举
-	public static void prepare(int limit) {
+	public static void prepare(int rowLimit) {
 		for (int col = 0; col <= m; col++) {
-			for (int row = Math.min(col, limit), suf = 0; row >= 0; row--) {
+			for (int row = rowLimit, suf = 0; row >= 0; row--) {
 				suf = Math.max(suf, dp[row][col]);
 				max[row][col] = suf;
 			}

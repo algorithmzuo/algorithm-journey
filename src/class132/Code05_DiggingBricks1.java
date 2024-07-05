@@ -59,12 +59,16 @@ public class Code05_DiggingBricks1 {
 	public static int compute() {
 		int ans = 0;
 		for (int i = 1, cur, max; i <= n; i++) {
+			// cur是当前行的收益
 			cur = 0;
 			for (int j = 0; j <= i; j++) {
 				cur += grid[i][j];
+				// 想挖到j号砖，总共挖的数量一定不少于
+				// (j + 1) * j / 2，也就是等差数列
+				// 如果k小于这个值无意义，认为收益是0
 				for (int k = (j + 1) * j / 2; k <= m; k++) {
 					max = 0;
-					for (int p = Math.max(0, j - 1); p <= Math.min(k - j, i - 1); p++) {
+					for (int p = Math.max(0, j - 1); p <= i - 1; p++) {
 						max = Math.max(max, dp[i - 1][p][k - j]);
 					}
 					dp[i][j][k] = max + cur;
