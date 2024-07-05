@@ -58,16 +58,16 @@ public class Code05_DiggingBricks1 {
 	// 时间复杂度O(n^3 * m)
 	public static int compute() {
 		int ans = 0;
-		for (int i = 1, sum, max; i <= n; i++) {
-			sum = 0;
+		for (int i = 1, cur, max; i <= n; i++) {
+			cur = 0;
 			for (int j = 0; j <= i; j++) {
-				sum += grid[i][j];
+				cur += grid[i][j];
 				for (int k = (j + 1) * j / 2; k <= m; k++) {
 					max = 0;
 					for (int p = Math.max(0, j - 1); p <= Math.min(k - j, i - 1); p++) {
 						max = Math.max(max, dp[i - 1][p][k - j]);
 					}
-					dp[i][j][k] = max + sum;
+					dp[i][j][k] = max + cur;
 					ans = Math.max(ans, dp[i][j][k]);
 				}
 			}

@@ -83,14 +83,14 @@ public class Code04_PaintHouseIII {
 				ans = f1(i - 1, j - 1, house[i], dp);
 			}
 		} else {
-			for (int cur = 1, next; cur <= c; cur++) {
-				if (cur == v) {
-					next = f1(i - 1, j, cur, dp);
+			for (int color = 1, next; color <= c; color++) {
+				if (color == v) {
+					next = f1(i - 1, j, color, dp);
 				} else {
-					next = f1(i - 1, j - 1, cur, dp);
+					next = f1(i - 1, j - 1, color, dp);
 				}
 				if (next != NA) {
-					ans = Math.min(ans, next + cost[i][cur]);
+					ans = Math.min(ans, next + cost[i][color]);
 				}
 			}
 		}
@@ -125,14 +125,14 @@ public class Code04_PaintHouseIII {
 							ans = dp[i - 1][j - 1][house[i]];
 						}
 					} else {
-						for (int cur = 1, next; cur <= c; cur++) {
-							if (cur == v) {
-								next = dp[i - 1][j][cur];
+						for (int color = 1, next; color <= c; color++) {
+							if (color == v) {
+								next = dp[i - 1][j][color];
 							} else {
-								next = dp[i - 1][j - 1][cur];
+								next = dp[i - 1][j - 1][color];
 							}
 							if (next != NA) {
-								ans = Math.min(ans, next + cost[i][cur]);
+								ans = Math.min(ans, next + cost[i][color]);
 							}
 						}
 					}
@@ -151,15 +151,19 @@ public class Code04_PaintHouseIII {
 		t++;
 		int[][] memo = new int[t + 1][c + 1];
 		int[][] dp = new int[t + 1][c + 1];
+		// 因为此时只有memo、dp两份空间
+		// 所以让memo[0][v] = dp[0][v] = NA
+		// 这样一来，在滚动更新时，不管i是多少，只要j==0，那么结果都是NA
 		for (int v = 0; v <= c; v++) {
-			memo[0][v] = NA;
-			dp[0][v] = NA;
+			memo[0][v] = dp[0][v] = NA;
 		}
+		// i == 0时，结果填入memo表
 		for (int j = 1; j <= t; j++) {
 			for (int v = 0; v <= c; v++) {
 				memo[j][v] = j == 1 ? 0 : NA;
 			}
 		}
+		// 滚动更新
 		for (int i = 1; i <= n; i++) {
 			for (int j = 1; j <= t; j++) {
 				for (int v = 0; v <= c; v++) {
@@ -171,14 +175,14 @@ public class Code04_PaintHouseIII {
 							ans = memo[j - 1][house[i]];
 						}
 					} else {
-						for (int cur = 1, next; cur <= c; cur++) {
-							if (cur == v) {
-								next = memo[j][cur];
+						for (int color = 1, next; color <= c; color++) {
+							if (color == v) {
+								next = memo[j][color];
 							} else {
-								next = memo[j - 1][cur];
+								next = memo[j - 1][color];
 							}
 							if (next != NA) {
-								ans = Math.min(ans, next + cost[i][cur]);
+								ans = Math.min(ans, next + cost[i][color]);
 							}
 						}
 					}
@@ -202,8 +206,7 @@ public class Code04_PaintHouseIII {
 		int[][] memo = new int[t + 1][c + 1];
 		int[][] dp = new int[t + 1][c + 1];
 		for (int v = 0; v <= c; v++) {
-			memo[0][v] = NA;
-			dp[0][v] = NA;
+			memo[0][v] = dp[0][v] = NA;
 		}
 		for (int j = 1; j <= t; j++) {
 			for (int v = 0; v <= c; v++) {
@@ -229,7 +232,7 @@ public class Code04_PaintHouseIII {
 						suf[v] = Math.min(suf[v], memo[j - 1][v] + cost[i][v]);
 					}
 				}
-				// 实际去填dp表
+				// 填写dp表
 				for (int v = 0; v <= c; v++) {
 					int ans = NA;
 					if (house[i] != 0) {

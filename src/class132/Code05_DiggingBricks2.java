@@ -60,13 +60,13 @@ public class Code05_DiggingBricks2 {
 	// 时间复杂度O(n^2 * m)
 	public static int compute() {
 		int ans = 0;
-		for (int i = 1, sum; i <= n; i++) {
+		for (int i = 1, cur; i <= n; i++) {
 			prepare(i - 1);
-			sum = 0;
+			cur = 0;
 			for (int j = 0; j <= i; j++) {
-				sum += grid[i][j];
+				cur += grid[i][j];
 				for (int k = (j + 1) * j / 2; k <= m; k++) {
-					dp[j][k] = max[Math.max(0, j - 1)][k - j] + sum;
+					dp[j][k] = max[Math.max(0, j - 1)][k - j] + cur;
 					ans = Math.max(ans, dp[j][k]);
 				}
 			}
