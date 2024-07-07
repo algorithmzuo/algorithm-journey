@@ -1,7 +1,8 @@
 package class068;
 
 // 不同的子序列
-// 给你两个字符串 s 和 t ，统计并返回在 s 的 子序列 中 t 出现的个数
+// 给你两个字符串s和t ，统计并返回在s的子序列中t出现的个数
+// 答案对1000000007取余
 // 测试链接 : https://leetcode.cn/problems/distinct-subsequences/
 public class Code01_DistinctSubsequences {
 
@@ -41,6 +42,25 @@ public class Code01_DistinctSubsequences {
 			for (int j = m; j >= 1; j--) {
 				if (s[i - 1] == t[j - 1]) {
 					dp[j] += dp[j - 1];
+				}
+			}
+		}
+		return dp[m];
+	}
+
+	// 本题说了要取模，所以增加取模的逻辑
+	public static int numDistinct3(String str, String target) {
+		int mod = 1000000007;
+		char[] s = str.toCharArray();
+		char[] t = target.toCharArray();
+		int n = s.length;
+		int m = t.length;
+		int[] dp = new int[m + 1];
+		dp[0] = 1;
+		for (int i = 1; i <= n; i++) {
+			for (int j = m; j >= 1; j--) {
+				if (s[i - 1] == t[j - 1]) {
+					dp[j] = (dp[j] + dp[j - 1]) % mod;
 				}
 			}
 		}
