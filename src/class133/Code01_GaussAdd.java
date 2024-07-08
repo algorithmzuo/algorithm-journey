@@ -1,6 +1,6 @@
 package class133;
 
-// 高斯消元
+// 高斯消元处理加法方程组
 // 测试链接 : https://www.luogu.com.cn/problem/P3389
 
 import java.io.BufferedReader;
@@ -16,7 +16,7 @@ public class Code01_GaussAdd {
 
 	public static double sml = 1e-7;
 
-	public static double[][] m = new double[MAXN][MAXN];
+	public static double[][] mat = new double[MAXN][MAXN];
 
 	public static int n;
 
@@ -29,15 +29,14 @@ public class Code01_GaussAdd {
 		for (int i = 1; i <= n; i++) {
 			for (int j = 1; j <= n + 1; j++) {
 				in.nextToken();
-				m[i][j] = (double) in.nval;
+				mat[i][j] = (double) in.nval;
 			}
 		}
-		int ans = gauss();
-		if (ans == 0) {
+		if (gauss() == 0) {
 			out.println("No Solution");
 		} else {
 			for (int i = 1; i <= n; i++) {
-				out.printf("%.2f\n", m[i][n + 1]);
+				out.printf("%.2f\n", mat[i][n + 1]);
 			}
 		}
 		out.flush();
@@ -49,22 +48,22 @@ public class Code01_GaussAdd {
 		for (int i = 1, max; i <= n; i++) {
 			max = i;
 			for (int j = i + 1; j <= n; j++) {
-				if (Math.abs(m[j][i]) > Math.abs(m[max][i])) {
+				if (Math.abs(mat[j][i]) > Math.abs(mat[max][i])) {
 					max = j;
 				}
 			}
 			swap(i, max);
-			if (Math.abs(m[i][i]) < sml) {
+			if (Math.abs(mat[i][i]) < sml) {
 				return 0;
 			}
 			for (int j = n + 1; j >= 1; j--) {
-				m[i][j] = m[i][j] / m[i][i];
+				mat[i][j] = mat[i][j] / mat[i][i];
 			}
 			for (int j = 1; j <= n; j++) {
 				if (j != i) {
-					double tmp = m[j][i] / m[i][i];
+					double tmp = mat[j][i] / mat[i][i];
 					for (int k = 1; k <= n + 1; k++) {
-						m[j][k] = m[j][k] - m[i][k] * tmp;
+						mat[j][k] = mat[j][k] - mat[i][k] * tmp;
 					}
 				}
 			}
@@ -73,9 +72,9 @@ public class Code01_GaussAdd {
 	}
 
 	public static void swap(int a, int b) {
-		double[] tmp = m[a];
-		m[a] = m[b];
-		m[b] = tmp;
+		double[] tmp = mat[a];
+		mat[a] = mat[b];
+		mat[b] = tmp;
 	}
 
 }
