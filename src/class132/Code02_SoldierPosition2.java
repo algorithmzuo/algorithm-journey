@@ -9,6 +9,7 @@ package class132;
 // 1 <= m <= 10
 // 0 <= grid[i][j] <= 1
 // 测试链接 : https://www.luogu.com.cn/problem/P2704
+// 测试链接 : http://poj.org/problem?id=1185
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
 import java.io.BufferedReader;
