@@ -101,11 +101,10 @@ public class Code02_GaussEor {
 		// 除了对角线和最后一列，其他格子都消成0
 		for (int i = m - 1; i >= 0; i--) {
 			for (int j = i + 1; j < m; j++) {
-				mat[i][m] ^= mat[i][j] * mat[j][m];
+				if (mat[i][j] == 1 && mat[j][m] == 1) {
+					mat[i][m] ^= 1;
+				}
 			}
-		}
-		// 判断是否有解
-		for (int i = 0; i < m; i++) {
 			if (mat[i][i] == 0 && mat[i][m] == 1) {
 				return 0;
 			}
