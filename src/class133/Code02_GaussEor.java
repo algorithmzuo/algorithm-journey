@@ -79,6 +79,7 @@ public class Code02_GaussEor {
 	}
 
 	public static int gauss() {
+		// 矩阵的右下半区全消成0
 		for (int row = 0, col = 0; col < m; col++) {
 			for (int i = row; i < m; i++) {
 				if (mat[i][col] == 1) {
@@ -97,11 +98,13 @@ public class Code02_GaussEor {
 				row++;
 			}
 		}
+		// 除了对角线和最后一列，其他格子都消成0
 		for (int i = m - 1; i >= 0; i--) {
 			for (int j = i + 1; j < m; j++) {
 				mat[i][m] ^= mat[i][j] & mat[j][m];
 			}
 		}
+		// 判断是否有解
 		for (int i = 0; i < m; i++) {
 			if (mat[i][i] == 0 && mat[i][m] == 1) {
 				return 0;
