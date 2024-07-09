@@ -78,6 +78,7 @@ public class Code02_GaussEor {
 	}
 
 	public static int gauss() {
+		// size为有效元的大小
 		int size = 0;
 		for (int j = 0; j < m; j++) {
 			for (int i = size; i < m; i++) {
