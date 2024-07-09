@@ -57,13 +57,13 @@ public class Code01_GaussAdd {
 				return 0;
 			}
 			for (int j = n + 1; j >= 1; j--) {
-				mat[i][j] = mat[i][j] / mat[i][i];
+				mat[i][j] /= mat[i][i];
 			}
 			for (int j = 1; j <= n; j++) {
 				if (j != i) {
 					double tmp = mat[j][i] / mat[i][i];
-					for (int k = 1; k <= n + 1; k++) {
-						mat[j][k] = mat[j][k] - mat[i][k] * tmp;
+					for (int k = i; k <= n + 1; k++) {
+						mat[j][k] -= mat[i][k] * tmp;
 					}
 				}
 			}

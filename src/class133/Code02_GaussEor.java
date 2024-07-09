@@ -86,7 +86,7 @@ public class Code02_GaussEor {
 					break;
 				}
 			}
-			if (mat[size][j] != 0) {
+			if (mat[size][j] == 1) {
 				for (int i = size + 1; i < m; i++) {
 					if (mat[i][j] == 1) {
 						for (int k = j; k <= m; k++) {
