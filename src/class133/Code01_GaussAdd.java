@@ -45,27 +45,32 @@ public class Code01_GaussAdd {
 	}
 
 	public static int gauss() {
-		for (int i = 1, max; i <= n; i++) {
-			max = i;
-			for (int j = i + 1; j <= n; j++) {
-				if (Math.abs(mat[j][i]) > Math.abs(mat[max][i])) {
-					max = j;
+		// 矩阵的右下半区全消成0
+		for (int row = 1; row <= n; row++) {
+			int max = row;
+			for (int i = row + 1; i <= n; i++) {
+				if (Math.abs(mat[i][row]) > Math.abs(mat[max][row])) {
+					max = i;
 				}
 			}
-			swap(i, max);
-			if (Math.abs(mat[i][i]) < sml) {
+			swap(row, max);
+			if (Math.abs(mat[row][row]) < sml) {
 				return 0;
 			}
-			for (int j = n + 1; j >= 1; j--) {
-				mat[i][j] /= mat[i][i];
+			for (int j = n + 1; j >= row; j--) {
+				mat[row][j] /= mat[row][row];
 			}
-			for (int j = 1; j <= n; j++) {
-				if (j != i) {
-					double tmp = mat[j][i] / mat[i][i];
-					for (int k = i; k <= n + 1; k++) {
-						mat[j][k] -= mat[i][k] * tmp;
-					}
+			for (int i = row + 1; i <= n; i++) {
+				double tmp = mat[i][row] / mat[row][row];
+				for (int j = row; j <= n + 1; j++) {
+					mat[i][j] -= mat[row][j] * tmp;
 				}
+			}
+		}
+		// 除了对角线和最后一列，其他格子都消成0
+		for (int i = n; i >= 1; i--) {
+			for (int j = i + 1; j <= n; j++) {
+				mat[i][n + 1] -= mat[i][j] * mat[j][n + 1];
 			}
 		}
 		return 1;
