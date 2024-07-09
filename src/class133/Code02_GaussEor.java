@@ -61,12 +61,13 @@ public class Code02_GaussEor {
 					}
 				}
 			}
-			if (gauss() == 0) {
+			int sign = gauss();
+			if (sign == 0) {
 				io.println("inf");
 			} else {
 				int ans = 0;
 				for (int i = 0; i < m; i++) {
-					if (mat[i][m] == 1) {
+					if (mat[i][i] == 1 && mat[i][m] == 1) {
 						ans++;
 					}
 				}
@@ -78,34 +79,32 @@ public class Code02_GaussEor {
 	}
 
 	public static int gauss() {
-		// size为有效元的大小
-		int size = 0;
-		for (int j = 0; j < m; j++) {
-			for (int i = size; i < m; i++) {
-				if (mat[i][j] == 1) {
-					swap(size, i);
+		for (int row = 0, col = 0; col < m; col++) {
+			for (int i = row; i < m; i++) {
+				if (mat[i][col] == 1) {
+					swap(row, i);
 					break;
 				}
 			}
-			if (mat[size][j] == 1) {
-				for (int i = size + 1; i < m; i++) {
-					if (mat[i][j] == 1) {
-						for (int k = j; k <= m; k++) {
-							mat[i][k] ^= mat[size][k];
+			if (mat[row][col] == 1) {
+				for (int i = row + 1; i < m; i++) {
+					if (mat[i][col] == 1) {
+						for (int j = m; j >= col; j--) {
+							mat[i][j] ^= mat[row][j];
 						}
 					}
 				}
-				size++;
+				row++;
 			}
 		}
-		for (int i = size; i < m; i++) {
-			if (mat[i][m] == 1) {
-				return 0;
-			}
-		}
-		for (int i = size - 1; i >= 0; i--) {
+		for (int i = m - 1; i >= 0; i--) {
 			for (int j = i + 1; j < m; j++) {
 				mat[i][m] ^= mat[i][j] & mat[j][m];
+			}
+		}
+		for (int i = 0; i < m; i++) {
+			if (mat[i][i] == 0 && mat[i][m] == 1) {
+				return 0;
 			}
 		}
 		return 1;
