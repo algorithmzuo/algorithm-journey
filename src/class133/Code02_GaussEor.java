@@ -101,7 +101,7 @@ public class Code02_GaussEor {
 		// 除了对角线和最后一列，其他格子都消成0
 		for (int i = m - 1; i >= 0; i--) {
 			for (int j = i + 1; j < m; j++) {
-				mat[i][m] ^= mat[i][j] & mat[j][m];
+				mat[i][m] ^= mat[i][j] * mat[j][m];
 			}
 		}
 		// 判断是否有解
