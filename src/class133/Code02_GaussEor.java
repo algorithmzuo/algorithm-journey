@@ -22,7 +22,7 @@ public class Code02_GaussEor {
 
 	public static int n, m;
 
-	public static void build() {
+	public static void prepare() {
 		for (int i = 0; i < m; i++) {
 			for (int j = 0; j < m; j++) {
 				mat[i][j] = 0;
@@ -50,7 +50,7 @@ public class Code02_GaussEor {
 		for (int t = 1; t <= test; t++) {
 			n = io.nextInt();
 			m = n * n;
-			build();
+			prepare();
 			for (int i = 0, s = 0; i < n; i++) {
 				line = io.next().toCharArray();
 				for (int j = 0; j < n; j++, s++) {
