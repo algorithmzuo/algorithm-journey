@@ -1,7 +1,7 @@
 package class133;
 
-// 高斯消元处理加法方程组
-// 测试链接 : https://www.luogu.com.cn/problem/P3389
+// 球形空间产生器
+// 测试链接 : https://www.luogu.com.cn/problem/P4035
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -10,42 +10,17 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 
-public class Code01_GaussAdd {
+public class Code04_SphereCenter {
 
-	public static int MAXN = 101;
+	public static int MAXN = 12;
 
-	public static double sml = 1e-7;
+	public static double[][] data = new double[MAXN][MAXN];
 
 	public static double[][] mat = new double[MAXN][MAXN];
 
 	public static int n;
 
-	public static void main(String[] args) throws IOException {
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StreamTokenizer in = new StreamTokenizer(br);
-		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
-		in.nextToken();
-		n = (int) in.nval;
-		for (int i = 1; i <= n; i++) {
-			for (int j = 1; j <= n + 1; j++) {
-				in.nextToken();
-				mat[i][j] = (double) in.nval;
-			}
-		}
-		if (gauss() == 0) {
-			out.println("No Solution");
-		} else {
-			for (int i = 1; i <= n; i++) {
-				out.printf("%.2f\n", mat[i][n + 1]);
-			}
-		}
-		out.flush();
-		out.close();
-		br.close();
-	}
-
 	public static int gauss() {
-		// 矩阵的右下半区全消成0
 		for (int row = 1; row <= n; row++) {
 			int max = row;
 			for (int i = row + 1; i <= n; i++) {
@@ -54,9 +29,6 @@ public class Code01_GaussAdd {
 				}
 			}
 			swap(row, max);
-			if (Math.abs(mat[row][row]) < sml) {
-				return 0;
-			}
 			for (int j = n + 1; j >= row; j--) {
 				mat[row][j] /= mat[row][row];
 			}
@@ -67,7 +39,6 @@ public class Code01_GaussAdd {
 				}
 			}
 		}
-		// 除了对角线和最后一列，其他格子都消成0
 		for (int i = n; i >= 1; i--) {
 			for (int j = i + 1; j <= n; j++) {
 				mat[i][n + 1] -= mat[i][j] * mat[j][n + 1];
@@ -80,6 +51,34 @@ public class Code01_GaussAdd {
 		double[] tmp = mat[a];
 		mat[a] = mat[b];
 		mat[b] = tmp;
+	}
+
+	public static void main(String[] args) throws IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StreamTokenizer in = new StreamTokenizer(br);
+		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
+		in.nextToken();
+		n = (int) in.nval;
+		for (int i = 1; i <= n + 1; i++) {
+			for (int j = 1; j <= n; j++) {
+				in.nextToken();
+				data[i][j] = (double) in.nval;
+			}
+		}
+		for (int i = 1; i <= n; i++) {
+			for (int j = 1; j <= n; j++) {
+				mat[i][j] = 2 * (data[i][j] - data[i + 1][j]);
+				mat[i][n + 1] += data[i][j] * data[i][j] - data[i + 1][j] * data[i + 1][j];
+			}
+		}
+		gauss();
+		for (int i = 1; i <= n; i++) {
+			out.printf("%.3f ", mat[i][n + 1]);
+		}
+		out.println();
+		out.flush();
+		out.close();
+		br.close();
 	}
 
 }
