@@ -1,6 +1,6 @@
 package class133;
 
-// 高斯消元处理取模方程组(扩展欧几里得算法求逆元)
+// 高斯消元处理同余方程组(扩展欧几里得算法求逆元)
 // 测试链接 : https://acm.hdu.edu.cn/showproblem.php?pid=5755
 
 import java.io.BufferedReader;

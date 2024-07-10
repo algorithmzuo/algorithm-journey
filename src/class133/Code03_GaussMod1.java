@@ -1,6 +1,6 @@
 package class133;
 
-// 高斯消元处理取模方程组(逆元线性递推公式)
+// 高斯消元处理同余方程组(线性递推求逆元)
 // 测试链接 : https://acm.hdu.edu.cn/showproblem.php?pid=5755
 
 import java.io.BufferedReader;
