@@ -1,6 +1,6 @@
 package class133;
 
-// 高斯消元处理取模方程组
+// 高斯消元处理取模方程组(扩展欧几里得算法求逆元)
 // 测试链接 : https://acm.hdu.edu.cn/showproblem.php?pid=5755
 
 import java.io.BufferedReader;
@@ -10,7 +10,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 
-public class Code03_GaussMod {
+public class Code03_GaussMod2 {
 
 	public static int MOD = 3;
 
@@ -20,8 +20,6 @@ public class Code03_GaussMod {
 
 	public static int[][] mat = new int[MAXN][MAXN];
 
-	public static int[] inv = new int[MOD];
-
 	public static int n, m, k;
 
 	public static int gcd(int a, int b) {
@@ -30,6 +28,27 @@ public class Code03_GaussMod {
 
 	public static int lcm(int a, int b) {
 		return a * b / gcd(a, b);
+	}
+
+	// 扩展欧几里得算法求逆元，后续课会讲到
+	public static int x, y;
+
+	public static void exgcd(int a, int b) {
+		int n = 0, m = 1, pn = 1, pm = 0, tmp, q, r;
+		while (b != 0) {
+			q = a / b;
+			r = a % b;
+			a = b;
+			b = r;
+			tmp = n;
+			n = pn - q * n;
+			pn = tmp;
+			tmp = m;
+			m = pm - q * m;
+			pm = tmp;
+		}
+		x = pn;
+		y = pm;
 	}
 
 	public static void prepare() {
@@ -52,48 +71,6 @@ public class Code03_GaussMod {
 				}
 			}
 		}
-		// 逆元线性递推
-		// 如果不会，去看讲解099 - 除法同余
-		inv[1] = 1;
-		for (int i = 2; i < MOD; i++) {
-			inv[i] = (int) (MOD - (long) inv[MOD % i] * (MOD / i) % MOD);
-		}
-	}
-
-	public static void main(String[] args) throws IOException {
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StreamTokenizer in = new StreamTokenizer(br);
-		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
-		in.nextToken();
-		int test = (int) in.nval;
-		for (int t = 1; t <= test; t++) {
-			in.nextToken();
-			n = (int) in.nval;
-			in.nextToken();
-			m = (int) in.nval;
-			k = n * m;
-			prepare();
-			for (int i = 0; i < k; i++) {
-				in.nextToken();
-				mat[i][k] = (3 - (int) in.nval) % MOD;
-			}
-			gauss();
-			int ans = 0;
-			for (int i = 0; i < k; i++) {
-				ans += mat[i][k];
-			}
-			out.println(ans);
-			for (int i = 1, cur = 0; i <= n; i++) {
-				for (int j = 1; j <= m; j++, cur++) {
-					while (mat[cur][k]-- > 0) {
-						out.println(i + " " + j);
-					}
-				}
-			}
-		}
-		out.flush();
-		out.close();
-		br.close();
 	}
 
 	public static void gauss() {
@@ -131,8 +108,10 @@ public class Code03_GaussMod {
 			// 本来应该是，mat[i][k] = mat[i][k] / mat[i][i]
 			// 但是在模意义下应该求逆元
 			// (a / b) % MOD = (a * b的逆元) % MOD
-			// 如果不会，去看讲解099 - 除法同余
-			mat[i][k] = (mat[i][k] * inv[mat[i][i]]) % MOD;
+			// 此处为扩展欧几里得算法求逆元，后续课程会讲到
+			exgcd(mat[i][i], MOD);
+			int inv = (x % MOD + MOD) % MOD;
+			mat[i][k] = (mat[i][k] * inv) % MOD;
 		}
 	}
 
@@ -140,6 +119,42 @@ public class Code03_GaussMod {
 		int[] tmp = mat[a];
 		mat[a] = mat[b];
 		mat[b] = tmp;
+	}
+
+	public static void main(String[] args) throws IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StreamTokenizer in = new StreamTokenizer(br);
+		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
+		in.nextToken();
+		int test = (int) in.nval;
+		for (int t = 1; t <= test; t++) {
+			in.nextToken();
+			n = (int) in.nval;
+			in.nextToken();
+			m = (int) in.nval;
+			k = n * m;
+			prepare();
+			for (int i = 0; i < k; i++) {
+				in.nextToken();
+				mat[i][k] = (3 - (int) in.nval) % MOD;
+			}
+			gauss();
+			int ans = 0;
+			for (int i = 0; i < k; i++) {
+				ans += mat[i][k];
+			}
+			out.println(ans);
+			for (int i = 1, cur = 0; i <= n; i++) {
+				for (int j = 1; j <= m; j++, cur++) {
+					while (mat[cur][k]-- > 0) {
+						out.println(i + " " + j);
+					}
+				}
+			}
+		}
+		out.flush();
+		out.close();
+		br.close();
 	}
 
 }
