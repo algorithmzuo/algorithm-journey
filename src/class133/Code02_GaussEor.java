@@ -43,41 +43,6 @@ public class Code02_GaussEor {
 		}
 	}
 
-	public static void main(String[] args) throws IOException {
-		Kattio io = new Kattio();
-		int test = io.nextInt();
-		char[] line;
-		for (int t = 1; t <= test; t++) {
-			n = io.nextInt();
-			m = n * n;
-			prepare();
-			for (int i = 0, s = 0; i < n; i++) {
-				line = io.next().toCharArray();
-				for (int j = 0; j < n; j++, s++) {
-					if (line[j] == 'y') {
-						mat[s][m] = 0;
-					} else {
-						mat[s][m] = 1;
-					}
-				}
-			}
-			int sign = gauss();
-			if (sign == 0) {
-				io.println("inf");
-			} else {
-				int ans = 0;
-				for (int i = 0; i < m; i++) {
-					if (mat[i][i] == 1 && mat[i][m] == 1) {
-						ans++;
-					}
-				}
-				io.println(ans);
-			}
-		}
-		io.flush();
-		io.close();
-	}
-
 	public static int gauss() {
 		// 矩阵的右下半区全消成0
 		for (int row = 0, col = 0; col < m; col++) {
@@ -114,6 +79,41 @@ public class Code02_GaussEor {
 		int[] tmp = mat[a];
 		mat[a] = mat[b];
 		mat[b] = tmp;
+	}
+
+	public static void main(String[] args) throws IOException {
+		Kattio io = new Kattio();
+		int test = io.nextInt();
+		char[] line;
+		for (int t = 1; t <= test; t++) {
+			n = io.nextInt();
+			m = n * n;
+			prepare();
+			for (int i = 0, s = 0; i < n; i++) {
+				line = io.next().toCharArray();
+				for (int j = 0; j < n; j++, s++) {
+					if (line[j] == 'y') {
+						mat[s][m] = 0;
+					} else {
+						mat[s][m] = 1;
+					}
+				}
+			}
+			int sign = gauss();
+			if (sign == 0) {
+				io.println("inf");
+			} else {
+				int ans = 0;
+				for (int i = 0; i < m; i++) {
+					if (mat[i][i] == 1 && mat[i][m] == 1) {
+						ans++;
+					}
+				}
+				io.println(ans);
+			}
+		}
+		io.flush();
+		io.close();
 	}
 
 	// 读取字符串推荐用StringTokenizer
