@@ -71,13 +71,16 @@ public class Code03_GaussMod1 {
 			}
 			swap(i, max);
 			if (mat[i][i] != 0) {
-				for (int j = i + 1; j <= k; j++) {
-					if (mat[j][i] != 0) {
+				for (int j = 1; j <= k; j++) {
+					if (i != j && mat[j][i] != 0) {
 						int lcm = lcm(mat[j][i], mat[i][i]);
 						int a = lcm / mat[j][i];
 						int b = lcm / mat[i][i];
 						if (mat[j][i] * mat[i][i] < 0) {
 							b = -b;
+						}
+						if (j < i) {
+							mat[j][j] = (mat[j][j] * a) % MOD;
 						}
 						for (int s = i; s <= k + 1; s++) {
 							mat[j][s] = ((mat[j][s] * a - mat[i][s] * b) % MOD + MOD) % MOD;
@@ -86,16 +89,11 @@ public class Code03_GaussMod1 {
 				}
 			}
 		}
-		for (int i = k; i >= 1; i--) {
-			for (int j = i + 1; j <= k; j++) {
-				if (mat[i][j] != 0) {
-					mat[i][k + 1] = ((mat[i][k + 1] - mat[i][j] * mat[j][k + 1]) % MOD + MOD) % MOD;
-				}
-			}
-			// 本来应该是，mat[i][k + 1] = mat[i][k + 1] / mat[i][i]
-			// 但是在模意义下应该求逆元
-			// (a / b) % MOD = (a * b的逆元) % MOD
-			// 如果不会，去看讲解099 - 除法同余
+		// 本来应该是，mat[i][k + 1] = mat[i][k + 1] / mat[i][i]
+		// 但是在模意义下应该求逆元
+		// (a / b) % MOD = (a * b的逆元) % MOD
+		// 如果不会，去看讲解099 - 除法同余
+		for (int i = 1; i <= k; i++) {
 			mat[i][k + 1] = (mat[i][k + 1] * inv[mat[i][i]]) % MOD;
 		}
 	}
