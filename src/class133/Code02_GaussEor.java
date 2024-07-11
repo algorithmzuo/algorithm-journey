@@ -14,9 +14,9 @@ import java.util.StringTokenizer;
 
 public class Code02_GaussEor {
 
-	public static int MAXN = 230;
+	public static int MAXK = 230;
 
-	public static int[][] mat = new int[MAXN][MAXN];
+	public static int[][] mat = new int[MAXK][MAXK];
 
 	public static int[] dir = { 0, 0, -1, 0, 1, 0 };
 

@@ -14,11 +14,11 @@ public class Code03_GaussMod1 {
 
 	public static int MOD = 3;
 
-	public static int MAXN = 905;
+	public static int MAXK = 905;
 
 	public static int[] dir = { 0, -1, 0, 1, 0 };
 
-	public static int[][] mat = new int[MAXN][MAXN];
+	public static int[][] mat = new int[MAXK][MAXK];
 
 	// 逆元表
 	public static int[] inv = new int[MOD];
