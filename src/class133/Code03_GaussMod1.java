@@ -65,7 +65,7 @@ public class Code03_GaussMod1 {
 		for (int i = 1; i <= k; i++) {
 			int max = i;
 			for (int j = i + 1; j <= k; j++) {
-				if (Math.abs(mat[j][i]) > Math.abs(mat[max][i])) {
+				if (mat[j][i] > mat[max][i]) {
 					max = j;
 				}
 			}
@@ -73,9 +73,9 @@ public class Code03_GaussMod1 {
 			if (mat[i][i] != 0) {
 				for (int j = i + 1; j <= k; j++) {
 					if (mat[j][i] != 0) {
-						int lcm = lcm(Math.abs(mat[j][i]), Math.abs(mat[i][i]));
-						int a = lcm / Math.abs(mat[j][i]);
-						int b = lcm / Math.abs(mat[i][i]);
+						int lcm = lcm(mat[j][i], mat[i][i]);
+						int a = lcm / mat[j][i];
+						int b = lcm / mat[i][i];
 						if (mat[j][i] * mat[i][i] < 0) {
 							b = -b;
 						}

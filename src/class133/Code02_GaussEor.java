@@ -57,7 +57,6 @@ public class Code02_GaussEor {
 						for (int s = i; s <= k + 1; s++) {
 							mat[j][s] ^= mat[i][s];
 						}
-						mat[j][i] = 0;
 					}
 				}
 			}

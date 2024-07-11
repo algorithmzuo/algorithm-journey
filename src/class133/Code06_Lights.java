@@ -46,7 +46,6 @@ public class Code06_Lights {
 						for (int s = i; s <= n + 1; s++) {
 							mat[j][s] ^= mat[i][s];
 						}
-						mat[j][i] = 0;
 					}
 				}
 			}
