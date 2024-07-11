@@ -9,13 +9,13 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 
-public class Code06 {
+public class Code07 {
 
 	public static int MAXN = 37;
 
 	public static int[][] mat = new int[MAXN][MAXN];
 
-	public static int[] path = new int[MAXN];
+	public static int[] status = new int[MAXN];
 
 	public static int n, ans;
 
@@ -26,7 +26,7 @@ public class Code06 {
 			}
 			mat[i][i] = 1;
 			mat[i][n + 1] = 1;
-			path[i] = 0;
+			status[i] = 0;
 		}
 	}
 
@@ -56,29 +56,30 @@ public class Code06 {
 //		}
 //	}
 
-	public static void gauss() {// 高斯消元
-		for (int i = 1; i <= n; ++i) {
-			int k = i;
-			while (k <= n && mat[k][i] == 0)
-				k++;
-			if (k > n) {
-				continue;
-			}
-			swap(i, k);
-			for (int j = 1; j <= n; ++j) {
-				if (i == j || mat[j][i] == 0)
-					continue;
-				for (k = i + 1; k <= n + 1; ++k)
-					mat[j][k] ^= mat[i][k];
-				mat[j][i] = 0;
-			}
-		}
-	}
-
 	public static void swap(int a, int b) {
 		int[] tmp = mat[a];
 		mat[a] = mat[b];
 		mat[b] = tmp;
+	}
+
+	public static void gauss() {
+		for (int i = 1; i <= n; i++) {
+			int k = i;
+			while (k <= n && mat[k][i] == 0) {
+				k++;
+			}
+			if (mat[k][i] == 1) {
+				swap(i, k);
+				for (int j = 1; j <= n; j++) {
+					if (i != j && mat[j][i] == 1) {
+						for (k = i + 1; k <= n + 1; k++) {
+							mat[j][k] ^= mat[i][k];
+						}
+						mat[j][i] = 0;
+					}
+				}
+			}
+		}
 	}
 
 	public static void dfs(int i, int num) {
@@ -90,16 +91,16 @@ public class Code06 {
 			return;
 		}
 		if (mat[i][i] == 1) {
-			path[i] = mat[i][n + 1];
+			int cur = mat[i][n + 1];
 			for (int j = i + 1; j <= n; j++) {
-				path[i] ^= mat[i][j] * path[j];
+				cur ^= mat[i][j] * status[j];
 			}
-			dfs(i - 1, num + path[i]);
+			dfs(i - 1, num + cur);
 		} else {
 			dfs(i - 1, num);
-			path[i] = 1;
+			status[i] = 1;
 			dfs(i - 1, num + 1);
-			path[i] = 0;
+			status[i] = 0;
 		}
 	}
 
@@ -128,19 +129,23 @@ public class Code06 {
 				break;
 			}
 		}
-		if (sign == 0) {
-			ans = n;
-			dfs(n, 0);
-			out.println(ans);
-		} else {
+		if (sign == 1) {
 			ans = 0;
 			for (int i = 1; i <= n; i++) {
-				if (mat[i][n + 1] == 1) {
-					ans++;
-				}
+				ans += mat[i][n + 1];
 			}
-			out.println(ans);
+		} else {
+			ans = n;
+//			for (int i = 1; i <= n; i++) {
+//				for (int j = i + 1; j <= n; j++) {
+//					if (mat[i][j] == 1 && mat[j][j] == 1) {
+//						mat[i][j] = 0;
+//					}
+//				}
+//			}
+			dfs(n, 0);
 		}
+		out.println(ans);
 		out.flush();
 		out.close();
 		br.close();

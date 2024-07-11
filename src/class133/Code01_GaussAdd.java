@@ -20,6 +20,42 @@ public class Code01_GaussAdd {
 
 	public static double sml = 1e-7;
 
+	public static void gauss() {
+		// 矩阵的右下半区全消成0
+		for (int i = 1; i <= n; i++) {
+			int max = i;
+			for (int j = i + 1; j <= n; j++) {
+				if (Math.abs(mat[j][i]) > Math.abs(mat[max][i])) {
+					max = j;
+				}
+			}
+			swap(i, max);
+			if (Math.abs(mat[i][i]) >= sml) {
+				for (int j = n + 1; j >= i; j--) {
+					mat[i][j] /= mat[i][i];
+				}
+				for (int j = i + 1; j <= n; j++) {
+					double rate = mat[j][i] / mat[i][i];
+					for (int s = i; s <= n + 1; s++) {
+						mat[j][s] -= mat[i][s] * rate;
+					}
+				}
+			}
+		}
+		// 除了对角线和最后一列，其他格子都消成0
+		for (int i = n; i >= 1; i--) {
+			for (int j = i + 1; j <= n; j++) {
+				mat[i][n + 1] -= mat[i][j] * mat[j][n + 1];
+			}
+		}
+	}
+
+	public static void swap(int a, int b) {
+		double[] tmp = mat[a];
+		mat[a] = mat[b];
+		mat[b] = tmp;
+	}
+
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StreamTokenizer in = new StreamTokenizer(br);
@@ -32,7 +68,15 @@ public class Code01_GaussAdd {
 				mat[i][j] = (double) in.nval;
 			}
 		}
-		if (gauss() == 0) {
+		gauss();
+		int sign = 1;
+		for (int i = 1; i <= n; i++) {
+			if (Math.abs(mat[i][i]) < sml) {
+				sign = 0;
+				break;
+			}
+		}
+		if (sign == 0) {
 			out.println("No Solution");
 		} else {
 			for (int i = 1; i <= n; i++) {
@@ -42,44 +86,6 @@ public class Code01_GaussAdd {
 		out.flush();
 		out.close();
 		br.close();
-	}
-
-	public static int gauss() {
-		// 矩阵的右下半区全消成0
-		for (int row = 1; row <= n; row++) {
-			int max = row;
-			for (int i = row + 1; i <= n; i++) {
-				if (Math.abs(mat[i][row]) > Math.abs(mat[max][row])) {
-					max = i;
-				}
-			}
-			swap(row, max);
-			if (Math.abs(mat[row][row]) < sml) {
-				return 0;
-			}
-			for (int j = n + 1; j >= row; j--) {
-				mat[row][j] /= mat[row][row];
-			}
-			for (int i = row + 1; i <= n; i++) {
-				double rate = mat[i][row] / mat[row][row];
-				for (int j = row; j <= n + 1; j++) {
-					mat[i][j] -= mat[row][j] * rate;
-				}
-			}
-		}
-		// 除了对角线和最后一列，其他格子都消成0
-		for (int i = n; i >= 1; i--) {
-			for (int j = i + 1; j <= n; j++) {
-				mat[i][n + 1] -= mat[i][j] * mat[j][n + 1];
-			}
-		}
-		return 1;
-	}
-
-	public static void swap(int a, int b) {
-		double[] tmp = mat[a];
-		mat[a] = mat[b];
-		mat[b] = tmp;
 	}
 
 }

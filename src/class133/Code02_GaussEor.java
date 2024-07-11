@@ -43,24 +43,23 @@ public class Code02_GaussEor {
 		}
 	}
 
-	public static int gauss() {
+	public static void gauss() {
 		// 矩阵的右下半区全消成0
-		for (int row = 1, col = 1; col <= k; col++) {
-			for (int i = row; i <= k; i++) {
-				if (mat[i][col] == 1) {
-					swap(row, i);
+		for (int i = 1; i <= k; i++) {
+			for (int j = i; j <= k; j++) {
+				if (mat[j][i] == 1) {
+					swap(i, j);
 					break;
 				}
 			}
-			if (mat[row][col] == 1) {
-				for (int i = row + 1; i <= k; i++) {
-					if (mat[i][col] == 1) {
-						for (int j = k + 1; j >= col; j--) {
-							mat[i][j] ^= mat[row][j];
+			if (mat[i][i] == 1) {
+				for (int j = i + 1; j <= k; j++) {
+					if (mat[j][i] == 1) {
+						for (int s = k + 1; s >= i; s--) {
+							mat[j][s] ^= mat[i][s];
 						}
 					}
 				}
-				row++;
 			}
 		}
 		// 除了对角线和最后一列，其他格子都消成0
@@ -68,11 +67,7 @@ public class Code02_GaussEor {
 			for (int j = i + 1; j <= k; j++) {
 				mat[i][k + 1] ^= mat[i][j] * mat[j][k + 1];
 			}
-			if (mat[i][i] == 0 && mat[i][k + 1] == 1) {
-				return 0;
-			}
 		}
-		return 1;
 	}
 
 	public static void swap(int a, int b) {
@@ -100,7 +95,14 @@ public class Code02_GaussEor {
 					}
 				}
 			}
-			int sign = gauss();
+			gauss();
+			int sign = 1;
+			for (int i = 1; i <= k; i++) {
+				if (mat[i][i] == 0 && mat[i][k + 1] == 1) {
+					sign = 0;
+					break;
+				}
+			}
 			if (sign == 0) {
 				io.println("inf");
 			} else {

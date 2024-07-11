@@ -35,46 +35,47 @@ public class Code05_FindMaxWeighing {
 	}
 
 	// 高斯消元处理加法方程组模版
-	public static int gauss() {
-		for (int row = 1; row <= n; row++) {
-			int max = row;
-			for (int i = row + 1; i <= n; i++) {
-				if (Math.abs(mat[i][row]) > Math.abs(mat[max][row])) {
-					max = i;
+	public static void gauss() {
+		// 矩阵的右下半区全消成0
+		for (int i = 1; i <= n; i++) {
+			int max = i;
+			for (int j = i + 1; j <= n; j++) {
+				if (Math.abs(mat[j][i]) > Math.abs(mat[max][i])) {
+					max = j;
 				}
 			}
-			swap(mat, row, max);
-			if (Math.abs(mat[row][row]) < sml) {
-				return 0;
-			}
-			for (int j = n + 1; j >= row; j--) {
-				mat[row][j] /= mat[row][row];
-			}
-			for (int i = row + 1; i <= n; i++) {
-				double rate = mat[i][row] / mat[row][row];
-				for (int j = row; j <= n + 1; j++) {
-					mat[i][j] -= mat[row][j] * rate;
+			swap(mat, i, max);
+			if (Math.abs(mat[i][i]) >= sml) {
+				for (int j = n + 1; j >= i; j--) {
+					mat[i][j] /= mat[i][i];
+				}
+				for (int j = i + 1; j <= n; j++) {
+					double rate = mat[j][i] / mat[i][i];
+					for (int s = i; s <= n + 1; s++) {
+						mat[j][s] -= mat[i][s] * rate;
+					}
 				}
 			}
 		}
+		// 除了对角线和最后一列，其他格子都消成0
 		for (int i = n; i >= 1; i--) {
 			for (int j = i + 1; j <= n; j++) {
 				mat[i][n + 1] -= mat[i][j] * mat[j][n + 1];
 			}
 		}
-		return 1;
 	}
 
 	// 如果计算结果无效返回0
 	// 如果计算结果有效返回最重三角形的编号
 	public static int check() {
-		if (gauss() == 0) {
-			return 0;
-		}
+		gauss();
 		double maxv = Double.MIN_VALUE;
 		int maxt = 0;
 		int ans = 0;
 		for (int i = n; i >= 1; i--) {
+			if (mat[i][i] == 0) {
+				return 0;
+			}
 			if (mat[i][n + 1] <= 0 || mat[i][n + 1] != (int) mat[i][n + 1]) {
 				return 0;
 			}
