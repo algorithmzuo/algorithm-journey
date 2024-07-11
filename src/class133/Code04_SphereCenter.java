@@ -20,6 +20,7 @@ public class Code04_SphereCenter {
 
 	public static int n;
 
+	// 高斯消元处理加法方程组模版
 	public static int gauss() {
 		for (int row = 1; row <= n; row++) {
 			int max = row;
