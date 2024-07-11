@@ -20,23 +20,23 @@ public class Code02_GaussEor {
 
 	public static int[] dir = { 0, 0, -1, 0, 1, 0 };
 
-	public static int n, m;
+	public static int n, m, k;
 
 	public static void prepare() {
-		for (int i = 0; i < m; i++) {
-			for (int j = 0; j < m; j++) {
+		for (int i = 1; i <= k; i++) {
+			for (int j = 1; j <= k; j++) {
 				mat[i][j] = 0;
 			}
 		}
 		int cur, row, col;
 		for (int i = 0; i < n; i++) {
-			for (int j = 0; j < n; j++) {
-				cur = i * n + j;
+			for (int j = 0; j < m; j++) {
+				cur = i * m + j + 1;
 				for (int d = 0; d <= 4; d++) {
 					row = i + dir[d];
 					col = j + dir[d + 1];
-					if (row >= 0 && row < n && col >= 0 && col < n) {
-						mat[cur][row * n + col] = 1;
+					if (row >= 0 && row < n && col >= 0 && col < m) {
+						mat[cur][row * m + col + 1] = 1;
 					}
 				}
 			}
@@ -45,17 +45,17 @@ public class Code02_GaussEor {
 
 	public static int gauss() {
 		// 矩阵的右下半区全消成0
-		for (int row = 0, col = 0; col < m; col++) {
-			for (int i = row; i < m; i++) {
+		for (int row = 1, col = 1; col <= k; col++) {
+			for (int i = row; i <= k; i++) {
 				if (mat[i][col] == 1) {
 					swap(row, i);
 					break;
 				}
 			}
 			if (mat[row][col] == 1) {
-				for (int i = row + 1; i < m; i++) {
+				for (int i = row + 1; i <= k; i++) {
 					if (mat[i][col] == 1) {
-						for (int j = m; j >= col; j--) {
+						for (int j = k + 1; j >= col; j--) {
 							mat[i][j] ^= mat[row][j];
 						}
 					}
@@ -64,11 +64,11 @@ public class Code02_GaussEor {
 			}
 		}
 		// 除了对角线和最后一列，其他格子都消成0
-		for (int i = m - 1; i >= 0; i--) {
-			for (int j = i + 1; j < m; j++) {
-				mat[i][m] ^= mat[i][j] * mat[j][m];
+		for (int i = k; i >= 1; i--) {
+			for (int j = i + 1; j <= k; j++) {
+				mat[i][k + 1] ^= mat[i][j] * mat[j][k + 1];
 			}
-			if (mat[i][i] == 0 && mat[i][m] == 1) {
+			if (mat[i][i] == 0 && mat[i][k + 1] == 1) {
 				return 0;
 			}
 		}
@@ -87,15 +87,16 @@ public class Code02_GaussEor {
 		char[] line;
 		for (int t = 1; t <= test; t++) {
 			n = io.nextInt();
-			m = n * n;
+			m = n;
+			k = n * m;
 			prepare();
-			for (int i = 0, s = 0; i < n; i++) {
+			for (int i = 0, s = 1; i < n; i++) {
 				line = io.next().toCharArray();
-				for (int j = 0; j < n; j++, s++) {
+				for (int j = 0; j < m; j++, s++) {
 					if (line[j] == 'y') {
-						mat[s][m] = 0;
+						mat[s][k + 1] = 0;
 					} else {
-						mat[s][m] = 1;
+						mat[s][k + 1] = 1;
 					}
 				}
 			}
@@ -104,8 +105,8 @@ public class Code02_GaussEor {
 				io.println("inf");
 			} else {
 				int ans = 0;
-				for (int i = 0; i < m; i++) {
-					if (mat[i][i] == 1 && mat[i][m] == 1) {
+				for (int i = 1; i <= k; i++) {
+					if (mat[i][i] == 1 && mat[i][k + 1] == 1) {
 						ans++;
 					}
 				}
