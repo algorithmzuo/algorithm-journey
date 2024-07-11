@@ -52,18 +52,14 @@ public class Code02_GaussEor {
 				}
 			}
 			if (mat[i][i] == 1) {
-				for (int j = i + 1; j <= k; j++) {
-					if (mat[j][i] == 1) {
+				for (int j = 1; j <= k; j++) {
+					if (i != j && mat[j][i] == 1) {
 						for (int s = i; s <= k + 1; s++) {
 							mat[j][s] ^= mat[i][s];
 						}
+						mat[j][i] = 0;
 					}
 				}
-			}
-		}
-		for (int i = k; i >= 1; i--) {
-			for (int j = i + 1; j <= k; j++) {
-				mat[i][k + 1] ^= mat[i][j] * mat[j][k + 1];
 			}
 		}
 	}

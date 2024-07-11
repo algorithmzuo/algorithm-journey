@@ -33,20 +33,18 @@ public class Code04_SphereCenter {
 			}
 			swap(i, max);
 			if (Math.abs(mat[i][i]) >= sml) {
-				for (int j = n + 1; j >= i; j--) {
-					mat[i][j] /= mat[i][i];
+				double tmp = mat[i][i];
+				for (int j = i; j <= n + 1; j++) {
+					mat[i][j] /= tmp;
 				}
-				for (int j = i + 1; j <= n; j++) {
-					double rate = mat[j][i] / mat[i][i];
-					for (int s = i; s <= n + 1; s++) {
-						mat[j][s] -= mat[i][s] * rate;
+				for (int j = 1; j <= n; j++) {
+					if (i != j) {
+						double rate = mat[j][i] / mat[i][i];
+						for (int s = i; s <= n + 1; s++) {
+							mat[j][s] -= mat[i][s] * rate;
+						}
 					}
 				}
-			}
-		}
-		for (int i = n; i >= 1; i--) {
-			for (int j = i + 1; j <= n; j++) {
-				mat[i][n + 1] -= mat[i][j] * mat[j][n + 1];
 			}
 		}
 	}

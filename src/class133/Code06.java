@@ -30,12 +30,7 @@ public class Code06 {
 		}
 	}
 
-	public static void swap(int a, int b) {
-		int[] tmp = mat[a];
-		mat[a] = mat[b];
-		mat[b] = tmp;
-	}
-
+	// 高斯消元处理异或方程组模版
 	public static void gauss() {
 		for (int i = 1; i <= n; i++) {
 			for (int j = i; j <= n; j++) {
@@ -47,7 +42,7 @@ public class Code06 {
 			if (mat[i][i] == 1) {
 				for (int j = 1; j <= n; j++) {
 					if (i != j && mat[j][i] == 1) {
-						for (int s = i + 1; s <= n + 1; s++) {
+						for (int s = i; s <= n + 1; s++) {
 							mat[j][s] ^= mat[i][s];
 						}
 						mat[j][i] = 0;
@@ -57,29 +52,10 @@ public class Code06 {
 		}
 	}
 
-	public static void gauss2() {
-		for (int i = 1; i <= n; i++) {
-			for (int j = i; j <= n; j++) {
-				if (mat[j][i] == 1) {
-					swap(i, j);
-					break;
-				}
-			}
-			if (mat[i][i] == 1) {
-				for (int j = i + 1; j <= n; j++) {
-					if (mat[j][i] == 1) {
-						for (int s = i; s <= n + 1; s++) {
-							mat[j][s] ^= mat[i][s];
-						}
-					}
-				}
-			}
-		}
-		for (int i = n; i >= 1; i--) {
-			for (int j = i + 1; j <= n; j++) {
-				mat[i][n + 1] ^= mat[i][j] * mat[j][n + 1];
-			}
-		}
+	public static void swap(int a, int b) {
+		int[] tmp = mat[a];
+		mat[a] = mat[b];
+		mat[b] = tmp;
 	}
 
 	public static void dfs(int i, int num) {
@@ -121,7 +97,7 @@ public class Code06 {
 			mat[u][v] = 1;
 			mat[v][u] = 1;
 		}
-		gauss2();
+		gauss();
 		int sign = 1;
 		for (int i = 1; i <= n; i++) {
 			if (mat[i][i] == 0) {
