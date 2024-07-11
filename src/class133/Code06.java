@@ -15,7 +15,7 @@ public class Code06 {
 
 	public static int[][] mat = new int[MAXN][MAXN];
 
-	public static int[] path = new int[MAXN];
+	public static int[] status = new int[MAXN];
 
 	public static int n, ans;
 
@@ -26,52 +26,7 @@ public class Code06 {
 			}
 			mat[i][i] = 1;
 			mat[i][n + 1] = 1;
-			path[i] = 0;
-		}
-	}
-
-//	public static void gauss() {
-//		for (int row = 1, col = 1; col <= n; col++) {
-//			for (int i = row; i <= n; i++) {
-//				if (mat[i][col] == 1) {
-//					swap(row, i);
-//					break;
-//				}
-//			}
-//			if (mat[row][col] == 1) {
-//				for (int i = row + 1; i <= n; i++) {
-//					if (mat[i][col] == 1) {
-//						for (int j = n + 1; j >= col; j--) {
-//							mat[i][j] ^= mat[row][j];
-//						}
-//					}
-//				}
-//				row++;
-//			}
-//		}
-//		for (int i = n; i >= 1; i--) {
-//			for (int j = i + 1; j <= n; j++) {
-//				mat[i][n + 1] ^= mat[i][j] * mat[j][n + 1];
-//			}
-//		}
-//	}
-
-	public static void gauss() {// 高斯消元
-		for (int i = 1; i <= n; ++i) {
-			int k = i;
-			while (k <= n && mat[k][i] == 0)
-				k++;
-			if (k > n) {
-				continue;
-			}
-			swap(i, k);
-			for (int j = 1; j <= n; ++j) {
-				if (i == j || mat[j][i] == 0)
-					continue;
-				for (k = i + 1; k <= n + 1; ++k)
-					mat[j][k] ^= mat[i][k];
-				mat[j][i] = 0;
-			}
+			status[i] = 0;
 		}
 	}
 
@@ -81,25 +36,46 @@ public class Code06 {
 		mat[b] = tmp;
 	}
 
+	public static void gauss() {
+		for (int i = 1; i <= n; i++) {
+			for (int j = i; j <= n; j++) {
+				if (mat[j][i] == 1) {
+					swap(i, j);
+					break;
+				}
+			}
+			if (mat[i][i] == 1) {
+				for (int j = 1; j <= n; j++) {
+					if (i != j && mat[j][i] == 1) {
+						for (int s = i + 1; s <= n + 1; s++) {
+							mat[j][s] ^= mat[i][s];
+						}
+						mat[j][i] = 0;
+					}
+				}
+			}
+		}
+	}
+
 	public static void dfs(int i, int num) {
 		if (num >= ans) {
 			return;
 		}
 		if (i == 0) {
 			ans = num;
-			return;
-		}
-		if (mat[i][i] == 1) {
-			path[i] = mat[i][n + 1];
-			for (int j = i + 1; j <= n; j++) {
-				path[i] ^= mat[i][j] * path[j];
-			}
-			dfs(i - 1, num + path[i]);
 		} else {
-			dfs(i - 1, num);
-			path[i] = 1;
-			dfs(i - 1, num + 1);
-			path[i] = 0;
+			if (mat[i][i] == 1) {
+				int cur = mat[i][n + 1];
+				for (int j = i + 1; j <= n; j++) {
+					cur ^= mat[i][j] * status[j];
+				}
+				dfs(i - 1, num + cur);
+			} else {
+				status[i] = 0;
+				dfs(i - 1, num);
+				status[i] = 1;
+				dfs(i - 1, num + 1);
+			}
 		}
 	}
 
@@ -128,19 +104,16 @@ public class Code06 {
 				break;
 			}
 		}
-		if (sign == 0) {
-			ans = n;
-			dfs(n, 0);
-			out.println(ans);
-		} else {
+		if (sign == 1) {
 			ans = 0;
 			for (int i = 1; i <= n; i++) {
-				if (mat[i][n + 1] == 1) {
-					ans++;
-				}
+				ans += mat[i][n + 1];
 			}
-			out.println(ans);
+		} else {
+			ans = n;
+			dfs(n, 0);
 		}
+		out.println(ans);
 		out.flush();
 		out.close();
 		br.close();
