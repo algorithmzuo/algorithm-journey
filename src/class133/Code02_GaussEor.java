@@ -44,7 +44,6 @@ public class Code02_GaussEor {
 	}
 
 	public static void gauss() {
-		// 矩阵的右下半区全消成0
 		for (int i = 1; i <= k; i++) {
 			for (int j = i; j <= k; j++) {
 				if (mat[j][i] == 1) {
@@ -55,14 +54,13 @@ public class Code02_GaussEor {
 			if (mat[i][i] == 1) {
 				for (int j = i + 1; j <= k; j++) {
 					if (mat[j][i] == 1) {
-						for (int s = k + 1; s >= i; s--) {
+						for (int s = i; s <= k + 1; s++) {
 							mat[j][s] ^= mat[i][s];
 						}
 					}
 				}
 			}
 		}
-		// 除了对角线和最后一列，其他格子都消成0
 		for (int i = k; i >= 1; i--) {
 			for (int j = i + 1; j <= k; j++) {
 				mat[i][k + 1] ^= mat[i][j] * mat[j][k + 1];

@@ -57,6 +57,31 @@ public class Code06 {
 		}
 	}
 
+	public static void gauss2() {
+		for (int i = 1; i <= n; i++) {
+			for (int j = i; j <= n; j++) {
+				if (mat[j][i] == 1) {
+					swap(i, j);
+					break;
+				}
+			}
+			if (mat[i][i] == 1) {
+				for (int j = i + 1; j <= n; j++) {
+					if (mat[j][i] == 1) {
+						for (int s = i; s <= n + 1; s++) {
+							mat[j][s] ^= mat[i][s];
+						}
+					}
+				}
+			}
+		}
+		for (int i = n; i >= 1; i--) {
+			for (int j = i + 1; j <= n; j++) {
+				mat[i][n + 1] ^= mat[i][j] * mat[j][n + 1];
+			}
+		}
+	}
+
 	public static void dfs(int i, int num) {
 		if (num >= ans) {
 			return;
@@ -96,7 +121,7 @@ public class Code06 {
 			mat[u][v] = 1;
 			mat[v][u] = 1;
 		}
-		gauss();
+		gauss2();
 		int sign = 1;
 		for (int i = 1; i <= n; i++) {
 			if (mat[i][i] == 0) {
