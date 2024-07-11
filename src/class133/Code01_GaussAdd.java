@@ -14,11 +14,11 @@ public class Code01_GaussAdd {
 
 	public static int MAXN = 101;
 
-	public static double sml = 1e-7;
-
 	public static double[][] mat = new double[MAXN][MAXN];
 
 	public static int n;
+
+	public static double sml = 1e-7;
 
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));

@@ -20,6 +20,8 @@ public class Code04_SphereCenter {
 
 	public static int n;
 
+	public static double sml = 1e-7;
+
 	// 高斯消元处理加法方程组模版
 	public static int gauss() {
 		for (int row = 1; row <= n; row++) {
@@ -30,6 +32,9 @@ public class Code04_SphereCenter {
 				}
 			}
 			swap(row, max);
+			if (Math.abs(mat[row][row]) < sml) {
+				return 0;
+			}
 			for (int j = n + 1; j >= row; j--) {
 				mat[row][j] /= mat[row][row];
 			}

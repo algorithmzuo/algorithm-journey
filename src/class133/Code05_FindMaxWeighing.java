@@ -14,13 +14,13 @@ public class Code05_FindMaxWeighing {
 
 	public static int MAXN = 102;
 
-	public static double sml = 1e-7;
-
 	public static int[][] data = new int[MAXN][MAXN];
 
 	public static double[][] mat = new double[MAXN][MAXN];
 
 	public static int n;
+
+	public static double sml = 1e-7;
 
 	public static void swap(int[][] arr, int i, int j) {
 		int[] tmp = arr[i];
@@ -75,10 +75,7 @@ public class Code05_FindMaxWeighing {
 		int maxt = 0;
 		int ans = 0;
 		for (int i = n; i >= 1; i--) {
-			if (mat[i][n + 1] <= 0) {
-				return 0;
-			}
-			if (mat[i][n + 1] != (int) mat[i][n + 1]) {
+			if (mat[i][n + 1] <= 0 || mat[i][n + 1] != (int) mat[i][n + 1]) {
 				return 0;
 			}
 			if (maxv < mat[i][n + 1]) {
