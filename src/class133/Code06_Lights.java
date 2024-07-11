@@ -1,5 +1,6 @@
 package class133;
 
+// 最少打开几盏灯来照亮
 // 测试链接 : https://www.luogu.com.cn/problem/P2962
 
 import java.io.BufferedReader;
@@ -9,7 +10,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 
-public class Code06 {
+public class Code06_Lights {
 
 	public static int MAXN = 37;
 
