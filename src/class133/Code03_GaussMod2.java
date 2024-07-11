@@ -74,29 +74,28 @@ public class Code03_GaussMod2 {
 	}
 
 	public static void gauss() {
-		for (int row = 1, col = 1; col <= k; col++) {
-			int max = row;
-			for (int i = row + 1; i <= k; i++) {
-				if (Math.abs(mat[i][col]) > Math.abs(mat[max][col])) {
-					max = i;
+		for (int i = 1; i <= k; i++) {
+			int max = i;
+			for (int j = i + 1; j <= k; j++) {
+				if (Math.abs(mat[j][i]) > Math.abs(mat[max][i])) {
+					max = j;
 				}
 			}
-			swap(row, max);
-			if (mat[row][col] != 0) {
-				for (int i = row + 1; i <= k; i++) {
-					if (mat[i][col] != 0) {
-						int lcm = lcm(Math.abs(mat[i][col]), Math.abs(mat[row][col]));
-						int a = lcm / Math.abs(mat[i][col]);
-						int b = lcm / Math.abs(mat[row][col]);
-						if (mat[i][col] * mat[row][col] < 0) {
+			swap(i, max);
+			if (mat[i][i] != 0) {
+				for (int j = i + 1; j <= k; j++) {
+					if (mat[j][i] != 0) {
+						int lcm = lcm(Math.abs(mat[j][i]), Math.abs(mat[i][i]));
+						int a = lcm / Math.abs(mat[j][i]);
+						int b = lcm / Math.abs(mat[i][i]);
+						if (mat[j][i] * mat[i][i] < 0) {
 							b = -b;
 						}
-						for (int j = col; j <= k + 1; j++) {
-							mat[i][j] = ((mat[i][j] * a - mat[row][j] * b) % MOD + MOD) % MOD;
+						for (int s = i; s <= k + 1; s++) {
+							mat[j][s] = ((mat[j][s] * a - mat[i][s] * b) % MOD + MOD) % MOD;
 						}
 					}
 				}
-				row++;
 			}
 		}
 		for (int i = k; i >= 1; i--) {

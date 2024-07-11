@@ -24,7 +24,6 @@ public class Code04_SphereCenter {
 
 	// 高斯消元处理加法方程组模版
 	public static void gauss() {
-		// 矩阵的右下半区全消成0
 		for (int i = 1; i <= n; i++) {
 			int max = i;
 			for (int j = i + 1; j <= n; j++) {
@@ -45,7 +44,6 @@ public class Code04_SphereCenter {
 				}
 			}
 		}
-		// 除了对角线和最后一列，其他格子都消成0
 		for (int i = n; i >= 1; i--) {
 			for (int j = i + 1; j <= n; j++) {
 				mat[i][n + 1] -= mat[i][j] * mat[j][n + 1];
