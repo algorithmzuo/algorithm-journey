@@ -125,7 +125,7 @@ public class Code05_FindMaxWeighing {
 				ans = cur;
 			}
 		}
-		if (times == 0 || times > 1) {
+		if (times != 1) {
 			out.println("illegal");
 		} else {
 			out.println(ans);
