@@ -20,9 +20,16 @@ public class Code04_WidgetFactory {
 
 	public static int[][] mat = new int[MAXN][MAXN];
 
-	public static int[] ans = new int[MAXN];
+	public static int[] inv = new int[MOD];
 
 	public static int n, m, s;
+
+	public static void inv() {
+		inv[1] = 1;
+		for (int i = 2; i < MOD; i++) {
+			inv[i] = (int) (MOD - (long) inv[MOD % i] * (MOD / i) % MOD);
+		}
+	}
 
 	public static int gcd(int a, int b) {
 		return b == 0 ? a : gcd(b, a % b);
@@ -30,15 +37,6 @@ public class Code04_WidgetFactory {
 
 	public static int lcm(int a, int b) {
 		return a * b / gcd(a, b);
-	}
-
-	public static int[] inv = new int[MOD];
-
-	public static void inv() {
-		inv[1] = 1;
-		for (int i = 2; i < MOD; i++) {
-			inv[i] = (int) (MOD - (long) inv[MOD % i] * (MOD / i) % MOD);
-		}
 	}
 
 	public static int day(String str) {
@@ -154,8 +152,11 @@ public class Code04_WidgetFactory {
 					if (mat[i][s + 1] < 3) {
 						mat[i][s + 1] += 7;
 					}
-					io.print(mat[i][s + 1] + (i == n ? "\n" : " "));
 				}
+				for (int i = 1; i < n; i++) {
+					io.print(mat[i][s + 1] + " ");
+				}
+				io.println(mat[n][s + 1]);
 			}
 		}
 		io.flush();

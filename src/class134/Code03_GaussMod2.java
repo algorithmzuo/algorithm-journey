@@ -22,14 +22,6 @@ public class Code03_GaussMod2 {
 
 	public static int n, m, s;
 
-	public static int gcd(int a, int b) {
-		return b == 0 ? a : gcd(b, a % b);
-	}
-
-	public static int lcm(int a, int b) {
-		return a * b / gcd(a, b);
-	}
-
 	// 扩展欧几里得算法求逆元，后续课会讲到
 	public static int x, y;
 
@@ -49,6 +41,14 @@ public class Code03_GaussMod2 {
 		}
 		x = pn;
 		y = pm;
+	}
+
+	public static int gcd(int a, int b) {
+		return b == 0 ? a : gcd(b, a % b);
+	}
+
+	public static int lcm(int a, int b) {
+		return a * b / gcd(a, b);
 	}
 
 	public static void prepare() {
