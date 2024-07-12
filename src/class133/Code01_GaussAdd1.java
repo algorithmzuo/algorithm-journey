@@ -20,7 +20,7 @@ public class Code01_GaussAdd1 {
 
 	public static double sml = 1e-7;
 
-	public static void gauss() {
+	public static int gauss() {
 		for (int i = 1; i <= n; i++) {
 			int max = i;
 			for (int j = i + 1; j <= n; j++) {
@@ -29,21 +29,23 @@ public class Code01_GaussAdd1 {
 				}
 			}
 			swap(i, max);
-			if (Math.abs(mat[i][i]) >= sml) {
-				double tmp = mat[i][i];
-				for (int j = i; j <= n + 1; j++) {
-					mat[i][j] /= tmp;
-				}
-				for (int j = 1; j <= n; j++) {
-					if (i != j) {
-						double rate = mat[j][i] / mat[i][i];
-						for (int k = i; k <= n + 1; k++) {
-							mat[j][k] -= mat[i][k] * rate;
-						}
+			if (Math.abs(mat[i][i]) < sml) {
+				return 0;
+			}
+			double tmp = mat[i][i];
+			for (int j = i; j <= n + 1; j++) {
+				mat[i][j] /= tmp;
+			}
+			for (int j = 1; j <= n; j++) {
+				if (i != j) {
+					double rate = mat[j][i] / mat[i][i];
+					for (int k = i; k <= n + 1; k++) {
+						mat[j][k] -= mat[i][k] * rate;
 					}
 				}
 			}
 		}
+		return 1;
 	}
 
 	public static void swap(int a, int b) {
@@ -64,14 +66,7 @@ public class Code01_GaussAdd1 {
 				mat[i][j] = (double) in.nval;
 			}
 		}
-		gauss();
-		int sign = 1;
-		for (int i = 1; i <= n; i++) {
-			if (Math.abs(mat[i][i]) < sml) {
-				sign = 0;
-				break;
-			}
-		}
+		int sign = gauss();
 		if (sign == 0) {
 			out.println("No Solution");
 		} else {
