@@ -17,7 +17,7 @@ public class Code06_GaussMod2 {
 	public static int MAXS = 905;
 
 	public static int[][] mat = new int[MAXS][MAXS];
-	
+
 	public static int[] dir = { 0, -1, 0, 1, 0 };
 
 	public static int n, m, s;
@@ -53,7 +53,7 @@ public class Code06_GaussMod2 {
 
 	public static void prepare() {
 		for (int i = 1; i <= s; i++) {
-			for (int j = 1; j <= s; j++) {
+			for (int j = 1; j <= s + 1; j++) {
 				mat[i][j] = 0;
 			}
 		}
@@ -109,9 +109,11 @@ public class Code06_GaussMod2 {
 		// (a / b) % MOD = (a * b的逆元) % MOD
 		// 此处为扩展欧几里得算法求逆元，后续课程会讲到
 		for (int i = 1; i <= s; i++) {
-			exgcd(mat[i][i], MOD);
-			int inv = (x % MOD + MOD) % MOD;
-			mat[i][s + 1] = (mat[i][s + 1] * inv) % MOD;
+			if (mat[i][i] != 0) {
+				exgcd(mat[i][i], MOD);
+				int inv = (x % MOD + MOD) % MOD;
+				mat[i][s + 1] = (mat[i][s + 1] * inv) % MOD;
+			}
 		}
 	}
 

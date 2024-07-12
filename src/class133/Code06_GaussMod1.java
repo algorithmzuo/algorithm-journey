@@ -25,6 +25,15 @@ public class Code06_GaussMod1 {
 
 	public static int n, m, s;
 
+	// 逆元线性递推公式
+	// 如果不会，去看讲解099 - 除法同余
+	public static void inv() {
+		inv[1] = 1;
+		for (int i = 2; i < MOD; i++) {
+			inv[i] = (int) (MOD - (long) inv[MOD % i] * (MOD / i) % MOD);
+		}
+	}
+
 	public static int gcd(int a, int b) {
 		return b == 0 ? a : gcd(b, a % b);
 	}
@@ -35,7 +44,7 @@ public class Code06_GaussMod1 {
 
 	public static void prepare() {
 		for (int i = 1; i <= s; i++) {
-			for (int j = 1; j <= s; j++) {
+			for (int j = 1; j <= s + 1; j++) {
 				mat[i][j] = 0;
 			}
 		}
@@ -52,12 +61,6 @@ public class Code06_GaussMod1 {
 					}
 				}
 			}
-		}
-		// 逆元线性递推公式
-		// 如果不会，去看讲解099 - 除法同余
-		inv[1] = 1;
-		for (int i = 2; i < MOD; i++) {
-			inv[i] = (int) (MOD - (long) inv[MOD % i] * (MOD / i) % MOD);
 		}
 	}
 
@@ -97,7 +100,9 @@ public class Code06_GaussMod1 {
 		// (a / b) % MOD = (a * b的逆元) % MOD
 		// 如果不会，去看讲解099 - 除法同余
 		for (int i = 1; i <= s; i++) {
-			mat[i][s + 1] = (mat[i][s + 1] * inv[mat[i][i]]) % MOD;
+			if (mat[i][i] != 0) {
+				mat[i][s + 1] = (mat[i][s + 1] * inv[mat[i][i]]) % MOD;
+			}
 		}
 	}
 
@@ -108,6 +113,7 @@ public class Code06_GaussMod1 {
 	}
 
 	public static void main(String[] args) throws IOException {
+		inv();
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StreamTokenizer in = new StreamTokenizer(br);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
