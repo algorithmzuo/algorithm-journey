@@ -205,4 +205,5 @@ public class Code04_WidgetFactory {
 			return Long.parseLong(next());
 		}
 	}
+
 }
