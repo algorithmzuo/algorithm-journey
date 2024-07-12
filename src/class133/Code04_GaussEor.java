@@ -1,6 +1,6 @@
 package class133;
 
-// 高斯消元处理异或方程组模版(区分有矛盾、有多解、有唯一解)
+// 高斯消元处理异或方程组模版
 // 测试链接 : http://poj.org/problem?id=1681
 
 import java.io.BufferedReader;
