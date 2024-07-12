@@ -10,7 +10,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 
-public class Code04_SphereCenter {
+public class Code02_SphereCenter {
 
 	public static int MAXN = 12;
 

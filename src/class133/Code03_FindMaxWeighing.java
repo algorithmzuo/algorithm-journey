@@ -10,7 +10,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 
-public class Code05_FindMaxWeighing {
+public class Code03_FindMaxWeighing {
 
 	public static int MAXN = 102;
 

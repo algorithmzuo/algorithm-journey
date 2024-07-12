@@ -12,7 +12,7 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.util.StringTokenizer;
 
-public class Code02_GaussEor {
+public class Code04_GaussEor {
 
 	public static int MAXK = 230;
 
@@ -69,6 +69,18 @@ public class Code02_GaussEor {
 		mat[b] = tmp;
 	}
 
+	public static boolean check(int i) {
+		if (mat[i][i] != 1 || mat[i][k + 1] != 1) {
+			return false;
+		}
+		for (int j = i + 1; j <= k; j++) {
+			if (mat[i][j] != 0) {
+				return false;
+			}
+		}
+		return true;
+	}
+
 	public static void main(String[] args) throws IOException {
 		Kattio io = new Kattio();
 		int test = io.nextInt();
@@ -101,7 +113,7 @@ public class Code02_GaussEor {
 			} else {
 				int ans = 0;
 				for (int i = 1; i <= k; i++) {
-					if (mat[i][i] == 1 && mat[i][k + 1] == 1) {
+					if (check(i)) {
 						ans++;
 					}
 				}

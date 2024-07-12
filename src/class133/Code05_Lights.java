@@ -10,7 +10,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 
-public class Code06_Lights {
+public class Code05_Lights {
 
 	public static int MAXN = 37;
 
