@@ -1,4 +1,4 @@
-package class133;
+package class134;
 
 // 高斯消元处理异或方程组模版
 // 测试链接 : http://poj.org/problem?id=1681
@@ -12,7 +12,7 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.util.StringTokenizer;
 
-public class Code04_GaussEor {
+public class Code01_GaussEor {
 
 	public static int MAXS = 230;
 

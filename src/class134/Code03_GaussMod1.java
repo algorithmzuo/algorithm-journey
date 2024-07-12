@@ -1,6 +1,6 @@
-package class133;
+package class134;
 
-// 高斯消元处理同余方程组模版(扩展欧几里得算法求逆元)
+// 高斯消元处理同余方程组模版(线性递推求逆元)
 // 测试链接 : https://acm.hdu.edu.cn/showproblem.php?pid=5755
 
 import java.io.BufferedReader;
@@ -10,7 +10,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 
-public class Code06_GaussMod2 {
+public class Code03_GaussMod1 {
 
 	public static int MOD = 3;
 
@@ -20,7 +20,19 @@ public class Code06_GaussMod2 {
 
 	public static int[] dir = { 0, -1, 0, 1, 0 };
 
+	// 逆元表
+	public static int[] inv = new int[MOD];
+
 	public static int n, m, s;
+
+	// 逆元线性递推公式
+	// 如果不会，去看讲解099 - 除法同余
+	public static void inv() {
+		inv[1] = 1;
+		for (int i = 2; i < MOD; i++) {
+			inv[i] = (int) (MOD - (long) inv[MOD % i] * (MOD / i) % MOD);
+		}
+	}
 
 	public static int gcd(int a, int b) {
 		return b == 0 ? a : gcd(b, a % b);
@@ -28,27 +40,6 @@ public class Code06_GaussMod2 {
 
 	public static int lcm(int a, int b) {
 		return a * b / gcd(a, b);
-	}
-
-	// 扩展欧几里得算法求逆元，后续课会讲到
-	public static int x, y;
-
-	public static void exgcd(int a, int b) {
-		int n = 0, m = 1, pn = 1, pm = 0, tmp, q, r;
-		while (b != 0) {
-			q = a / b;
-			r = a % b;
-			a = b;
-			b = r;
-			tmp = n;
-			n = pn - q * n;
-			pn = tmp;
-			tmp = m;
-			m = pm - q * m;
-			pm = tmp;
-		}
-		x = pn;
-		y = pm;
 	}
 
 	public static void prepare() {
@@ -107,12 +98,10 @@ public class Code06_GaussMod2 {
 		// 本来应该是，mat[i][k + 1] = mat[i][k + 1] / mat[i][i]
 		// 但是在模意义下应该求逆元
 		// (a / b) % MOD = (a * b的逆元) % MOD
-		// 此处为扩展欧几里得算法求逆元，后续课程会讲到
+		// 如果不会，去看讲解099 - 除法同余
 		for (int i = 1; i <= s; i++) {
 			if (mat[i][i] != 0) {
-				exgcd(mat[i][i], MOD);
-				int inv = (x % MOD + MOD) % MOD;
-				mat[i][s + 1] = (mat[i][s + 1] * inv) % MOD;
+				mat[i][s + 1] = (mat[i][s + 1] * inv[mat[i][i]]) % MOD;
 			}
 		}
 	}
@@ -124,6 +113,7 @@ public class Code06_GaussMod2 {
 	}
 
 	public static void main(String[] args) throws IOException {
+		inv();
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StreamTokenizer in = new StreamTokenizer(br);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));

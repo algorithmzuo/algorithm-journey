@@ -1,8 +1,7 @@
 package class133;
 
-// 高斯消元处理加法方程组模版
+// 高斯消元处理加法方程组模版(区分矛盾、多解、唯一解)
 // 测试链接 : https://www.luogu.com.cn/problem/P2455
-// 测试链接 : https://www.luogu.com.cn/problem/P3389
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -11,7 +10,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 
-public class Code01_GaussAdd {
+public class Code01_GaussAdd2 {
 
 	public static int MAXN = 101;
 
@@ -63,6 +62,7 @@ public class Code01_GaussAdd {
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StreamTokenizer in = new StreamTokenizer(br);
+		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
 		in.nextToken();
 		n = (int) in.nval;
 		for (int i = 1; i <= n; i++) {
@@ -72,15 +72,6 @@ public class Code01_GaussAdd {
 			}
 		}
 		gauss();
-		// 洛谷P2455调用test1
-		test1();
-		// 洛谷P3389调用test2
-		// test2();
-		br.close();
-	}
-
-	public static void test1() {
-		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
 		int sign = 1;
 		for (int i = 1; i <= n; i++) {
 			if (Math.abs(mat[i][i]) < sml && Math.abs(mat[i][n + 1]) >= sml) {
@@ -100,26 +91,7 @@ public class Code01_GaussAdd {
 		}
 		out.flush();
 		out.close();
-	}
-
-	public static void test2() {
-		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
-		int sign = 1;
-		for (int i = 1; i <= n; i++) {
-			if (Math.abs(mat[i][i]) < sml) {
-				sign = 0;
-				break;
-			}
-		}
-		if (sign == 0) {
-			out.println("No Solution");
-		} else {
-			for (int i = 1; i <= n; i++) {
-				out.printf("%.2f\n", mat[i][n + 1]);
-			}
-		}
-		out.flush();
-		out.close();
+		br.close();
 	}
 
 }

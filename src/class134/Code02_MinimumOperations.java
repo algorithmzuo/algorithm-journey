@@ -1,4 +1,4 @@
-package class133;
+package class134;
 
 // 全变成1的最少操作次数
 // 测试链接 : https://www.luogu.com.cn/problem/P2962
@@ -10,7 +10,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 
-public class Code05_MinimumOperations {
+public class Code02_MinimumOperations {
 
 	public static int MAXN = 37;
 
