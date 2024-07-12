@@ -1,6 +1,6 @@
 package class133;
 
-// 高斯消元处理异或方程组模版
+// 高斯消元处理异或方程组模版(区分有矛盾、有多解、有唯一解)
 // 测试链接 : http://poj.org/problem?id=1681
 
 import java.io.BufferedReader;
@@ -45,7 +45,10 @@ public class Code04_GaussEor {
 
 	public static void gauss() {
 		for (int i = 1; i <= k; i++) {
-			for (int j = i; j <= k; j++) {
+			for (int j = 1; j <= k; j++) {
+				if (j < i && mat[j][j] == 1) {
+					continue;
+				}
 				if (mat[j][i] == 1) {
 					swap(i, j);
 					break;

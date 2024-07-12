@@ -34,7 +34,10 @@ public class Code05_Lights {
 	// 高斯消元处理异或方程组模版
 	public static void gauss() {
 		for (int i = 1; i <= n; i++) {
-			for (int j = i; j <= n; j++) {
+			for (int j = 1; j <= n; j++) {
+				if (j < i && mat[j][j] == 1) {
+					continue;
+				}
 				if (mat[j][i] == 1) {
 					swap(i, j);
 					break;

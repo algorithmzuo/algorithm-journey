@@ -64,7 +64,10 @@ public class Code06_GaussMod1 {
 	public static void gauss() {
 		for (int i = 1; i <= k; i++) {
 			int max = i;
-			for (int j = i + 1; j <= k; j++) {
+			for (int j = 1; j <= k; j++) {
+				if (j < i && mat[j][j] != 0) {
+					continue;
+				}
 				if (mat[j][i] > mat[max][i]) {
 					max = j;
 				}

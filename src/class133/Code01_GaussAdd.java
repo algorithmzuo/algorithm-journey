@@ -1,6 +1,7 @@
 package class133;
 
 // 高斯消元处理加法方程组模版
+// 测试链接 : https://www.luogu.com.cn/problem/P2455
 // 测试链接 : https://www.luogu.com.cn/problem/P3389
 
 import java.io.BufferedReader;
@@ -20,10 +21,17 @@ public class Code01_GaussAdd {
 
 	public static double sml = 1e-7;
 
+	// 重要例子
+	// 2
+	// 0 2 3
+	// 0 0 0
 	public static void gauss() {
 		for (int i = 1; i <= n; i++) {
 			int max = i;
-			for (int j = i + 1; j <= n; j++) {
+			for (int j = 1; j <= n; j++) {
+				if (j < i && Math.abs(mat[j][j]) >= sml) {
+					continue;
+				}
 				if (Math.abs(mat[j][i]) > Math.abs(mat[max][i])) {
 					max = j;
 				}
@@ -55,7 +63,6 @@ public class Code01_GaussAdd {
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StreamTokenizer in = new StreamTokenizer(br);
-		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
 		in.nextToken();
 		n = (int) in.nval;
 		for (int i = 1; i <= n; i++) {
@@ -65,6 +72,38 @@ public class Code01_GaussAdd {
 			}
 		}
 		gauss();
+		// 洛谷P2455调用test1
+		test1();
+		// 洛谷P3389调用test2
+		// test2();
+		br.close();
+	}
+
+	public static void test1() {
+		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
+		int sign = 1;
+		for (int i = 1; i <= n; i++) {
+			if (Math.abs(mat[i][i]) < sml && Math.abs(mat[i][n + 1]) >= sml) {
+				sign = -1;
+				break;
+			}
+			if (Math.abs(mat[i][i]) < sml) {
+				sign = 0;
+			}
+		}
+		if (sign == 1) {
+			for (int i = 1; i <= n; i++) {
+				out.printf("x" + i + "=" + "%.2f\n", mat[i][n + 1]);
+			}
+		} else {
+			out.println(sign);
+		}
+		out.flush();
+		out.close();
+	}
+
+	public static void test2() {
+		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
 		int sign = 1;
 		for (int i = 1; i <= n; i++) {
 			if (Math.abs(mat[i][i]) < sml) {
@@ -81,7 +120,6 @@ public class Code01_GaussAdd {
 		}
 		out.flush();
 		out.close();
-		br.close();
 	}
 
 }

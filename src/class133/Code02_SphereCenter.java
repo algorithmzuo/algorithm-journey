@@ -26,7 +26,10 @@ public class Code02_SphereCenter {
 	public static void gauss() {
 		for (int i = 1; i <= n; i++) {
 			int max = i;
-			for (int j = i + 1; j <= n; j++) {
+			for (int j = 1; j <= n; j++) {
+				if (j < i && Math.abs(mat[j][j]) >= sml) {
+					continue;
+				}
 				if (Math.abs(mat[j][i]) > Math.abs(mat[max][i])) {
 					max = j;
 				}
