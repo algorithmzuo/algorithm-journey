@@ -12,7 +12,7 @@ import java.io.StreamTokenizer;
 
 public class Code01_GaussAdd2 {
 
-	public static int MAXN = 101;
+	public static int MAXN = 52;
 
 	public static double[][] mat = new double[MAXN][MAXN];
 
