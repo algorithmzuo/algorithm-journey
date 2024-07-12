@@ -1,6 +1,6 @@
 package class133;
 
-// 最少打开几盏灯来照亮
+// 全变成1的最少操作次数
 // 测试链接 : https://www.luogu.com.cn/problem/P2962
 
 import java.io.BufferedReader;
@@ -16,7 +16,7 @@ public class Code05_Lights {
 
 	public static int[][] mat = new int[MAXN][MAXN];
 
-	public static int[] status = new int[MAXN];
+	public static int[] op = new int[MAXN];
 
 	public static int n, ans;
 
@@ -27,7 +27,7 @@ public class Code05_Lights {
 			}
 			mat[i][i] = 1;
 			mat[i][n + 1] = 1;
-			status[i] = 0;
+			op[i] = 0;
 		}
 	}
 
@@ -62,7 +62,7 @@ public class Code05_Lights {
 	}
 
 	public static void dfs(int i, int num) {
-		if (num >= ans) {
+		if (num >= ans) { // 剪枝
 			return;
 		}
 		if (i == 0) {
@@ -71,13 +71,13 @@ public class Code05_Lights {
 			if (mat[i][i] == 1) {
 				int cur = mat[i][n + 1];
 				for (int j = i + 1; j <= n; j++) {
-					cur ^= mat[i][j] * status[j];
+					cur ^= mat[i][j] * op[j];
 				}
 				dfs(i - 1, num + cur);
 			} else {
-				status[i] = 0;
+				op[i] = 0;
 				dfs(i - 1, num);
-				status[i] = 1;
+				op[i] = 1;
 				dfs(i - 1, num + 1);
 			}
 		}
