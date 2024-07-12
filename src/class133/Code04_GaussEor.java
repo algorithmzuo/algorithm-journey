@@ -14,17 +14,17 @@ import java.util.StringTokenizer;
 
 public class Code04_GaussEor {
 
-	public static int MAXK = 230;
+	public static int MAXS = 230;
 
-	public static int[][] mat = new int[MAXK][MAXK];
+	public static int[][] mat = new int[MAXS][MAXS];
 
 	public static int[] dir = { 0, 0, -1, 0, 1, 0 };
 
-	public static int n, m, k;
+	public static int n, m, s;
 
 	public static void prepare() {
-		for (int i = 1; i <= k; i++) {
-			for (int j = 1; j <= k; j++) {
+		for (int i = 1; i <= s; i++) {
+			for (int j = 1; j <= s; j++) {
 				mat[i][j] = 0;
 			}
 		}
@@ -44,8 +44,8 @@ public class Code04_GaussEor {
 	}
 
 	public static void gauss() {
-		for (int i = 1; i <= k; i++) {
-			for (int j = 1; j <= k; j++) {
+		for (int i = 1; i <= s; i++) {
+			for (int j = 1; j <= s; j++) {
 				if (j < i && mat[j][j] == 1) {
 					continue;
 				}
@@ -55,10 +55,10 @@ public class Code04_GaussEor {
 				}
 			}
 			if (mat[i][i] == 1) {
-				for (int j = 1; j <= k; j++) {
+				for (int j = 1; j <= s; j++) {
 					if (i != j && mat[j][i] == 1) {
-						for (int s = i; s <= k + 1; s++) {
-							mat[j][s] ^= mat[i][s];
+						for (int k = i; k <= s + 1; k++) {
+							mat[j][k] ^= mat[i][k];
 						}
 					}
 				}
@@ -73,10 +73,10 @@ public class Code04_GaussEor {
 	}
 
 	public static boolean check(int i) {
-		if (mat[i][i] != 1 || mat[i][k + 1] != 1) {
+		if (mat[i][i] != 1 || mat[i][s + 1] != 1) {
 			return false;
 		}
-		for (int j = i + 1; j <= k; j++) {
+		for (int j = i + 1; j <= s; j++) {
 			if (mat[i][j] != 0) {
 				return false;
 			}
@@ -91,22 +91,22 @@ public class Code04_GaussEor {
 		for (int t = 1; t <= test; t++) {
 			n = io.nextInt();
 			m = n;
-			k = n * m;
+			s = n * m;
 			prepare();
-			for (int i = 0, s = 1; i < n; i++) {
+			for (int i = 0, id = 1; i < n; i++) {
 				line = io.next().toCharArray();
-				for (int j = 0; j < m; j++, s++) {
+				for (int j = 0; j < m; j++, id++) {
 					if (line[j] == 'y') {
-						mat[s][k + 1] = 0;
+						mat[id][s + 1] = 0;
 					} else {
-						mat[s][k + 1] = 1;
+						mat[id][s + 1] = 1;
 					}
 				}
 			}
 			gauss();
 			int sign = 1;
-			for (int i = 1; i <= k; i++) {
-				if (mat[i][i] == 0 && mat[i][k + 1] == 1) {
+			for (int i = 1; i <= s; i++) {
+				if (mat[i][i] == 0 && mat[i][s + 1] == 1) {
 					sign = 0;
 					break;
 				}
@@ -115,7 +115,7 @@ public class Code04_GaussEor {
 				io.println("inf");
 			} else {
 				int ans = 0;
-				for (int i = 1; i <= k; i++) {
+				for (int i = 1; i <= s; i++) {
 					if (check(i)) {
 						ans++;
 					}

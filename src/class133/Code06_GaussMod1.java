@@ -14,16 +14,16 @@ public class Code06_GaussMod1 {
 
 	public static int MOD = 3;
 
-	public static int MAXK = 905;
+	public static int MAXS = 905;
+
+	public static int[][] mat = new int[MAXS][MAXS];
 
 	public static int[] dir = { 0, -1, 0, 1, 0 };
-
-	public static int[][] mat = new int[MAXK][MAXK];
 
 	// 逆元表
 	public static int[] inv = new int[MOD];
 
-	public static int n, m, k;
+	public static int n, m, s;
 
 	public static int gcd(int a, int b) {
 		return b == 0 ? a : gcd(b, a % b);
@@ -34,8 +34,8 @@ public class Code06_GaussMod1 {
 	}
 
 	public static void prepare() {
-		for (int i = 1; i <= k; i++) {
-			for (int j = 1; j <= k; j++) {
+		for (int i = 1; i <= s; i++) {
+			for (int j = 1; j <= s; j++) {
 				mat[i][j] = 0;
 			}
 		}
@@ -62,9 +62,9 @@ public class Code06_GaussMod1 {
 	}
 
 	public static void gauss() {
-		for (int i = 1; i <= k; i++) {
+		for (int i = 1; i <= s; i++) {
 			int max = i;
-			for (int j = 1; j <= k; j++) {
+			for (int j = 1; j <= s; j++) {
 				if (j < i && mat[j][j] != 0) {
 					continue;
 				}
@@ -74,7 +74,7 @@ public class Code06_GaussMod1 {
 			}
 			swap(i, max);
 			if (mat[i][i] != 0) {
-				for (int j = 1; j <= k; j++) {
+				for (int j = 1; j <= s; j++) {
 					if (i != j && mat[j][i] != 0) {
 						int lcm = lcm(mat[j][i], mat[i][i]);
 						int a = lcm / mat[j][i];
@@ -85,8 +85,8 @@ public class Code06_GaussMod1 {
 						if (j < i) {
 							mat[j][j] = (mat[j][j] * a) % MOD;
 						}
-						for (int s = i; s <= k + 1; s++) {
-							mat[j][s] = ((mat[j][s] * a - mat[i][s] * b) % MOD + MOD) % MOD;
+						for (int k = i; k <= s + 1; k++) {
+							mat[j][k] = ((mat[j][k] * a - mat[i][k] * b) % MOD + MOD) % MOD;
 						}
 					}
 				}
@@ -96,8 +96,8 @@ public class Code06_GaussMod1 {
 		// 但是在模意义下应该求逆元
 		// (a / b) % MOD = (a * b的逆元) % MOD
 		// 如果不会，去看讲解099 - 除法同余
-		for (int i = 1; i <= k; i++) {
-			mat[i][k + 1] = (mat[i][k + 1] * inv[mat[i][i]]) % MOD;
+		for (int i = 1; i <= s; i++) {
+			mat[i][s + 1] = (mat[i][s + 1] * inv[mat[i][i]]) % MOD;
 		}
 	}
 
@@ -118,21 +118,21 @@ public class Code06_GaussMod1 {
 			n = (int) in.nval;
 			in.nextToken();
 			m = (int) in.nval;
-			k = n * m;
+			s = n * m;
 			prepare();
-			for (int i = 1; i <= k; i++) {
+			for (int i = 1; i <= s; i++) {
 				in.nextToken();
-				mat[i][k + 1] = (3 - (int) in.nval) % MOD;
+				mat[i][s + 1] = (3 - (int) in.nval) % MOD;
 			}
 			gauss();
 			int ans = 0;
-			for (int i = 1; i <= k; i++) {
-				ans += mat[i][k + 1];
+			for (int i = 1; i <= s; i++) {
+				ans += mat[i][s + 1];
 			}
 			out.println(ans);
-			for (int i = 1, s = 1; i <= n; i++) {
-				for (int j = 1; j <= m; j++, s++) {
-					while (mat[s][k + 1]-- > 0) {
+			for (int i = 1, id = 1; i <= n; i++) {
+				for (int j = 1; j <= m; j++, id++) {
+					while (mat[id][s + 1]-- > 0) {
 						out.println(i + " " + j);
 					}
 				}

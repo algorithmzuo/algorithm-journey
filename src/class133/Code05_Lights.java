@@ -46,8 +46,8 @@ public class Code05_Lights {
 			if (mat[i][i] == 1) {
 				for (int j = 1; j <= n; j++) {
 					if (i != j && mat[j][i] == 1) {
-						for (int s = i; s <= n + 1; s++) {
-							mat[j][s] ^= mat[i][s];
+						for (int k = i; k <= n + 1; k++) {
+							mat[j][k] ^= mat[i][k];
 						}
 					}
 				}

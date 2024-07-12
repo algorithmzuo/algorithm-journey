@@ -43,8 +43,8 @@ public class Code02_SphereCenter {
 				for (int j = 1; j <= n; j++) {
 					if (i != j) {
 						double rate = mat[j][i] / mat[i][i];
-						for (int s = i; s <= n + 1; s++) {
-							mat[j][s] -= mat[i][s] * rate;
+						for (int k = i; k <= n + 1; k++) {
+							mat[j][k] -= mat[i][k] * rate;
 						}
 					}
 				}
