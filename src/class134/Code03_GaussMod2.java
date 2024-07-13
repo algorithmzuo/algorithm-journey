@@ -73,6 +73,8 @@ public class Code03_GaussMod2 {
 		}
 	}
 
+	// 保证初始系数都是非负数
+	// 如果是系数a是负数，那么转化为非负数，a = (a % mod + mod) % mod
 	public static void gauss() {
 		for (int i = 1; i <= s; i++) {
 			int max = i;
@@ -91,9 +93,6 @@ public class Code03_GaussMod2 {
 						int lcm = lcm(mat[j][i], mat[i][i]);
 						int a = lcm / mat[j][i];
 						int b = lcm / mat[i][i];
-						if (mat[j][i] * mat[i][i] < 0) {
-							b = -b;
-						}
 						if (j < i) {
 							mat[j][j] = (mat[j][j] * a) % MOD;
 						}

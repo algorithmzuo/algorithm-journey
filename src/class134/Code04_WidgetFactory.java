@@ -22,6 +22,8 @@ public class Code04_WidgetFactory {
 
 	public static int[] inv = new int[MOD];
 
+	public static String[] days = { "MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN" };
+
 	public static int n, m, s;
 
 	public static void inv() {
@@ -39,30 +41,21 @@ public class Code04_WidgetFactory {
 		return a * b / gcd(a, b);
 	}
 
-	public static int day(String str) {
-		if (str.equals("MON"))
-			return 1;
-		if (str.equals("TUE"))
-			return 2;
-		if (str.equals("WED"))
-			return 3;
-		if (str.equals("THU"))
-			return 4;
-		if (str.equals("FRI"))
-			return 5;
-		if (str.equals("SAT"))
-			return 6;
-		if (str.equals("SUN"))
-			return 7;
-		return 0;
-	}
-
 	public static void prepare() {
 		for (int i = 1; i <= s; i++) {
 			for (int j = 1; j <= s + 1; j++) {
 				mat[i][j] = 0;
 			}
 		}
+	}
+
+	public static int day(String str) {
+		for (int i = 0, j = 1; i < days.length; i++, j++) {
+			if (str.equals(days[i])) {
+				return j;
+			}
+		}
+		return 0;
 	}
 
 	// 高斯消元处理同余方程组模版
@@ -84,9 +77,6 @@ public class Code04_WidgetFactory {
 						int lcm = lcm(mat[j][i], mat[i][i]);
 						int a = lcm / mat[j][i];
 						int b = lcm / mat[i][i];
-						if (mat[j][i] * mat[i][i] < 0) {
-							b = -b;
-						}
 						if (j < i) {
 							mat[j][j] = (mat[j][j] * a) % MOD;
 						}
@@ -113,19 +103,16 @@ public class Code04_WidgetFactory {
 	public static void main(String[] args) throws IOException {
 		inv();
 		Kattio io = new Kattio();
-		while (true) {
-			n = io.nextInt();
-			m = io.nextInt();
-			if (n == 0 && m == 0) {
-				break;
-			}
+		n = io.nextInt();
+		m = io.nextInt();
+		while (n != 0 && m != 0) {
 			s = Math.max(n, m);
 			prepare();
 			for (int i = 1; i <= m; i++) {
 				int k = io.nextInt();
 				String st = io.next();
 				String et = io.next();
-				while (k-- > 0) {
+				for (int j = 1; j <= k; j++) {
 					int type = io.nextInt();
 					mat[i][type] = (mat[i][type] + 1) % MOD;
 				}
@@ -158,6 +145,9 @@ public class Code04_WidgetFactory {
 				}
 				io.println(mat[n][s + 1]);
 			}
+			// 下一组n和m
+			n = io.nextInt();
+			m = io.nextInt();
 		}
 		io.flush();
 		io.close();
