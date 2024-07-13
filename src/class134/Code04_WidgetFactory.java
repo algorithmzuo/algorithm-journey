@@ -120,14 +120,13 @@ public class Code04_WidgetFactory {
 			}
 			gauss();
 			int sign = 1;
-			for (int i = 1; i <= n; i++) {
-				if (mat[i][i] == 0) {
-					sign = 0;
-				}
-			}
 			for (int i = 1; i <= s; i++) {
 				if (mat[i][i] == 0 && mat[i][s + 1] != 0) {
 					sign = -1;
+					break;
+				}
+				if (i <= n && mat[i][i] == 0) {
+					sign = 0;
 				}
 			}
 			if (sign == -1) {
