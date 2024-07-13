@@ -15,7 +15,7 @@ public class Code02_FindLeft {
 			int n = (int) (Math.random() * N);
 			int[] arr = randomArray(n, V);
 			Arrays.sort(arr);
-			int num = (int) (Math.random() * N);
+			int num = (int) (Math.random() * V);
 			if (right(arr, num) != findLeft(arr, num)) {
 				System.out.println("出错了!");
 			}
