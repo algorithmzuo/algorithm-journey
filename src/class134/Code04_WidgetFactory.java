@@ -50,12 +50,12 @@ public class Code04_WidgetFactory {
 	}
 
 	public static int day(String str) {
-		for (int i = 0, j = 1; i < days.length; i++, j++) {
+		for (int i = 0; i < days.length; i++) {
 			if (str.equals(days[i])) {
-				return j;
+				return i;
 			}
 		}
-		return 0;
+		return -1;
 	}
 
 	// 高斯消元处理同余方程组模版
