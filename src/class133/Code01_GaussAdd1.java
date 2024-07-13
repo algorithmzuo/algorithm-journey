@@ -20,7 +20,7 @@ public class Code01_GaussAdd1 {
 
 	public static double sml = 1e-7;
 
-	public static int gauss() {
+	public static int gauss(int n) {
 		for (int i = 1; i <= n; i++) {
 			int max = i;
 			for (int j = i + 1; j <= n; j++) {
@@ -66,7 +66,7 @@ public class Code01_GaussAdd1 {
 				mat[i][j] = (double) in.nval;
 			}
 		}
-		int sign = gauss();
+		int sign = gauss(n);
 		if (sign == 0) {
 			out.println("No Solution");
 		} else {

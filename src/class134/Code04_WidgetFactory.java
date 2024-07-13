@@ -59,10 +59,10 @@ public class Code04_WidgetFactory {
 	}
 
 	// 高斯消元处理同余方程组模版
-	public static void gauss() {
-		for (int i = 1; i <= s; i++) {
+	public static void gauss(int n) {
+		for (int i = 1; i <= n; i++) {
 			int max = i;
-			for (int j = 1; j <= s; j++) {
+			for (int j = 1; j <= n; j++) {
 				if (j < i && mat[j][j] != 0) {
 					continue;
 				}
@@ -72,7 +72,7 @@ public class Code04_WidgetFactory {
 			}
 			swap(i, max);
 			if (mat[i][i] != 0) {
-				for (int j = 1; j <= s; j++) {
+				for (int j = 1; j <= n; j++) {
 					if (i != j && mat[j][i] != 0) {
 						int lcm = lcm(mat[j][i], mat[i][i]);
 						int a = lcm / mat[j][i];
@@ -80,16 +80,16 @@ public class Code04_WidgetFactory {
 						if (j < i) {
 							mat[j][j] = (mat[j][j] * a) % MOD;
 						}
-						for (int k = i; k <= s + 1; k++) {
+						for (int k = i; k <= n + 1; k++) {
 							mat[j][k] = ((mat[j][k] * a - mat[i][k] * b) % MOD + MOD) % MOD;
 						}
 					}
 				}
 			}
 		}
-		for (int i = 1; i <= s; i++) {
+		for (int i = 1; i <= n; i++) {
 			if (mat[i][i] != 0) {
-				mat[i][s + 1] = (mat[i][s + 1] * inv[mat[i][i]]) % MOD;
+				mat[i][n + 1] = (mat[i][n + 1] * inv[mat[i][i]]) % MOD;
 			}
 		}
 	}
@@ -118,7 +118,7 @@ public class Code04_WidgetFactory {
 				}
 				mat[i][s + 1] = ((day(et) - day(st) + 1) % MOD + MOD) % MOD;
 			}
-			gauss();
+			gauss(s);
 			int sign = 1;
 			for (int i = 1; i <= s; i++) {
 				if (mat[i][i] == 0 && mat[i][s + 1] != 0) {

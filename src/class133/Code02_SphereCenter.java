@@ -23,7 +23,7 @@ public class Code02_SphereCenter {
 	public static double sml = 1e-7;
 
 	// 高斯消元处理加法方程组模版
-	public static void gauss() {
+	public static void gauss(int n) {
 		for (int i = 1; i <= n; i++) {
 			int max = i;
 			for (int j = 1; j <= n; j++) {
@@ -76,7 +76,7 @@ public class Code02_SphereCenter {
 				mat[i][n + 1] += data[i][j] * data[i][j] - data[i + 1][j] * data[i + 1][j];
 			}
 		}
-		gauss();
+		gauss(n);
 		for (int i = 1; i <= n; i++) {
 			out.printf("%.3f ", mat[i][n + 1]);
 		}

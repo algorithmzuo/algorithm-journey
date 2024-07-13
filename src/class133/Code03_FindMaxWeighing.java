@@ -22,20 +22,8 @@ public class Code03_FindMaxWeighing {
 
 	public static double sml = 1e-7;
 
-	public static void swap(int[][] arr, int i, int j) {
-		int[] tmp = arr[i];
-		arr[i] = arr[j];
-		arr[j] = tmp;
-	}
-
-	public static void swap(double[][] arr, int i, int j) {
-		double[] tmp = arr[i];
-		arr[i] = arr[j];
-		arr[j] = tmp;
-	}
-
 	// 高斯消元处理加法方程组模版
-	public static void gauss() {
+	public static void gauss(int n) {
 		for (int i = 1; i <= n; i++) {
 			int max = i;
 			for (int j = 1; j <= n; j++) {
@@ -46,7 +34,7 @@ public class Code03_FindMaxWeighing {
 					max = j;
 				}
 			}
-			swap(mat, i, max);
+			swap(i, max);
 			if (Math.abs(mat[i][i]) >= sml) {
 				double tmp = mat[i][i];
 				for (int j = i; j <= n + 1; j++) {
@@ -64,10 +52,16 @@ public class Code03_FindMaxWeighing {
 		}
 	}
 
+	public static void swap(int a, int b) {
+		double[] tmp = mat[a];
+		mat[a] = mat[b];
+		mat[b] = tmp;
+	}
+
 	// 如果计算结果无效返回0
 	// 如果计算结果有效返回最重三角形的编号
 	public static int check() {
-		gauss();
+		gauss(n);
 		double maxv = Double.MIN_VALUE;
 		int maxt = 0;
 		int ans = 0;
@@ -112,13 +106,13 @@ public class Code03_FindMaxWeighing {
 		int ans = 0;
 		int times = 0;
 		for (int k = 1; k <= n + 1; k++) {
-			swap(data, k, n + 1);
+			swapData(k, n + 1);
 			for (int i = 1; i <= n; i++) {
 				for (int j = 1; j <= n + 1; j++) {
 					mat[i][j] = data[i][j];
 				}
 			}
-			swap(data, k, n + 1);
+			swapData(k, n + 1);
 			int cur = check();
 			if (cur != 0) {
 				times++;
@@ -133,6 +127,12 @@ public class Code03_FindMaxWeighing {
 		out.flush();
 		out.close();
 		br.close();
+	}
+
+	public static void swapData(int i, int j) {
+		int[] tmp = data[i];
+		data[i] = data[j];
+		data[j] = tmp;
 	}
 
 }

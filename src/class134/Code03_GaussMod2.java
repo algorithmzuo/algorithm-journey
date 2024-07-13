@@ -75,10 +75,10 @@ public class Code03_GaussMod2 {
 
 	// 保证初始系数都是非负数
 	// 如果是系数a是负数，那么转化为非负数，a = (a % mod + mod) % mod
-	public static void gauss() {
-		for (int i = 1; i <= s; i++) {
+	public static void gauss(int n) {
+		for (int i = 1; i <= n; i++) {
 			int max = i;
-			for (int j = 1; j <= s; j++) {
+			for (int j = 1; j <= n; j++) {
 				if (j < i && mat[j][j] != 0) {
 					continue;
 				}
@@ -88,7 +88,7 @@ public class Code03_GaussMod2 {
 			}
 			swap(i, max);
 			if (mat[i][i] != 0) {
-				for (int j = 1; j <= s; j++) {
+				for (int j = 1; j <= n; j++) {
 					if (i != j && mat[j][i] != 0) {
 						int lcm = lcm(mat[j][i], mat[i][i]);
 						int a = lcm / mat[j][i];
@@ -96,22 +96,22 @@ public class Code03_GaussMod2 {
 						if (j < i) {
 							mat[j][j] = (mat[j][j] * a) % MOD;
 						}
-						for (int k = i; k <= s + 1; k++) {
+						for (int k = i; k <= n + 1; k++) {
 							mat[j][k] = ((mat[j][k] * a - mat[i][k] * b) % MOD + MOD) % MOD;
 						}
 					}
 				}
 			}
 		}
-		// 本来应该是，mat[i][k + 1] = mat[i][k + 1] / mat[i][i]
+		// 本来应该是，mat[i][n + 1] = mat[i][n + 1] / mat[i][i]
 		// 但是在模意义下应该求逆元
 		// (a / b) % MOD = (a * b的逆元) % MOD
 		// 此处为扩展欧几里得算法求逆元，后续课程会讲到
-		for (int i = 1; i <= s; i++) {
+		for (int i = 1; i <= n; i++) {
 			if (mat[i][i] != 0) {
 				exgcd(mat[i][i], MOD);
 				int inv = (x % MOD + MOD) % MOD;
-				mat[i][s + 1] = (mat[i][s + 1] * inv) % MOD;
+				mat[i][n + 1] = (mat[i][n + 1] * inv) % MOD;
 			}
 		}
 	}
@@ -139,7 +139,7 @@ public class Code03_GaussMod2 {
 				in.nextToken();
 				mat[i][s + 1] = (3 - (int) in.nval) % MOD;
 			}
-			gauss();
+			gauss(s);
 			int ans = 0;
 			for (int i = 1; i <= s; i++) {
 				ans += mat[i][s + 1];

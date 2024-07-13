@@ -18,7 +18,7 @@ public class Code02_MinimumOperations {
 
 	public static int[] op = new int[MAXN];
 
-	public static int n, s, ans;
+	public static int n, ans;
 
 	public static void prepare() {
 		for (int i = 1; i <= n; i++) {
@@ -32,9 +32,9 @@ public class Code02_MinimumOperations {
 	}
 
 	// 高斯消元处理异或方程组模版
-	public static void gauss() {
-		for (int i = 1; i <= s; i++) {
-			for (int j = 1; j <= s; j++) {
+	public static void gauss(int n) {
+		for (int i = 1; i <= n; i++) {
+			for (int j = 1; j <= n; j++) {
 				if (j < i && mat[j][j] == 1) {
 					continue;
 				}
@@ -44,9 +44,9 @@ public class Code02_MinimumOperations {
 				}
 			}
 			if (mat[i][i] == 1) {
-				for (int j = 1; j <= s; j++) {
+				for (int j = 1; j <= n; j++) {
 					if (i != j && mat[j][i] == 1) {
-						for (int k = i; k <= s + 1; k++) {
+						for (int k = i; k <= n + 1; k++) {
 							mat[j][k] ^= mat[i][k];
 						}
 					}
@@ -89,7 +89,6 @@ public class Code02_MinimumOperations {
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
 		in.nextToken();
 		n = (int) in.nval;
-		s = n;
 		prepare();
 		in.nextToken();
 		int m = (int) in.nval;
@@ -101,7 +100,7 @@ public class Code02_MinimumOperations {
 			mat[u][v] = 1;
 			mat[v][u] = 1;
 		}
-		gauss();
+		gauss(n);
 		int sign = 1;
 		for (int i = 1; i <= n; i++) {
 			if (mat[i][i] == 0) {

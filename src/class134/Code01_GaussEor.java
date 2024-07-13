@@ -43,9 +43,9 @@ public class Code01_GaussEor {
 		}
 	}
 
-	public static void gauss() {
-		for (int i = 1; i <= s; i++) {
-			for (int j = 1; j <= s; j++) {
+	public static void gauss(int n) {
+		for (int i = 1; i <= n; i++) {
+			for (int j = 1; j <= n; j++) {
 				if (j < i && mat[j][j] == 1) {
 					continue;
 				}
@@ -55,9 +55,9 @@ public class Code01_GaussEor {
 				}
 			}
 			if (mat[i][i] == 1) {
-				for (int j = 1; j <= s; j++) {
+				for (int j = 1; j <= n; j++) {
 					if (i != j && mat[j][i] == 1) {
-						for (int k = i; k <= s + 1; k++) {
+						for (int k = i; k <= n + 1; k++) {
 							mat[j][k] ^= mat[i][k];
 						}
 					}
@@ -103,7 +103,7 @@ public class Code01_GaussEor {
 					}
 				}
 			}
-			gauss();
+			gauss(s);
 			int sign = 1;
 			for (int i = 1; i <= s; i++) {
 				if (mat[i][i] == 0 && mat[i][s + 1] == 1) {
