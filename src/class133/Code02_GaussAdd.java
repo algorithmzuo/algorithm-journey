@@ -1,7 +1,7 @@
 package class133;
 
-// 球形空间产生器
-// 测试链接 : https://www.luogu.com.cn/problem/P4035
+// 高斯消元处理加法方程组模版(区分矛盾、多解、唯一解)
+// 测试链接 : https://www.luogu.com.cn/problem/P2455
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -10,11 +10,9 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 
-public class Code02_SphereCenter {
+public class Code02_GaussAdd  {
 
-	public static int MAXN = 12;
-
-	public static double[][] data = new double[MAXN][MAXN];
+	public static int MAXN = 52;
 
 	public static double[][] mat = new double[MAXN][MAXN];
 
@@ -22,7 +20,11 @@ public class Code02_SphereCenter {
 
 	public static double sml = 1e-7;
 
-	// 高斯消元处理加法方程组模版
+	// 重要反例
+	// 2
+	// 0 2 3
+	// 0 0 0
+	// 这么写才对
 	public static void gauss(int n) {
 		for (int i = 1; i <= n; i++) {
 			int max = i;
@@ -64,23 +66,30 @@ public class Code02_SphereCenter {
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
 		in.nextToken();
 		n = (int) in.nval;
-		for (int i = 1; i <= n + 1; i++) {
-			for (int j = 1; j <= n; j++) {
-				in.nextToken();
-				data[i][j] = (double) in.nval;
-			}
-		}
 		for (int i = 1; i <= n; i++) {
-			for (int j = 1; j <= n; j++) {
-				mat[i][j] = 2 * (data[i][j] - data[i + 1][j]);
-				mat[i][n + 1] += data[i][j] * data[i][j] - data[i + 1][j] * data[i + 1][j];
+			for (int j = 1; j <= n + 1; j++) {
+				in.nextToken();
+				mat[i][j] = (double) in.nval;
 			}
 		}
 		gauss(n);
+		int sign = 1;
 		for (int i = 1; i <= n; i++) {
-			out.printf("%.3f ", mat[i][n + 1]);
+			if (Math.abs(mat[i][i]) < sml && Math.abs(mat[i][n + 1]) >= sml) {
+				sign = -1;
+				break;
+			}
+			if (Math.abs(mat[i][i]) < sml) {
+				sign = 0;
+			}
 		}
-		out.println();
+		if (sign == 1) {
+			for (int i = 1; i <= n; i++) {
+				out.printf("x" + i + "=" + "%.2f\n", mat[i][n + 1]);
+			}
+		} else {
+			out.println(sign);
+		}
 		out.flush();
 		out.close();
 		br.close();
