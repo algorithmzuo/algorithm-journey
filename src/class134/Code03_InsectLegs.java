@@ -22,14 +22,17 @@ public class Code03_InsectLegs {
 
 	public static long[][] mat = new long[MAXN][MAXM];
 
-	public static int n, m, s, max;
+	public static int n, m, s;
+
+	public static int need;
 
 	public static void gauss(int n) {
+		need = 0;
 		for (int i = 1; i <= n; i++) {
 			for (int j = i; j <= n; j++) {
 				if (get(j, i) == 1) {
 					swap(i, j);
-					max = Math.max(max, j);
+					need = Math.max(need, j);
 					break;
 				}
 			}
@@ -80,7 +83,6 @@ public class Code03_InsectLegs {
 			}
 			set(i, s + 1, io.nextInt());
 		}
-		max = 0;
 		gauss(s);
 		int sign = 1;
 		for (int i = 1; i <= n; i++) {
@@ -92,7 +94,7 @@ public class Code03_InsectLegs {
 		if (sign == 0) {
 			io.println("Cannot Determine");
 		} else {
-			io.println(max);
+			io.println(need);
 			for (int i = 1; i <= n; i++) {
 				if (get(i, s + 1) == 1) {
 					io.println("?y7M#");
