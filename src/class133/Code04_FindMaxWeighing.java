@@ -22,7 +22,7 @@ public class Code04_FindMaxWeighing {
 
 	public static double sml = 1e-7;
 
-	// 高斯消元处理加法方程组模版
+	// 高斯消元解决加法方程组模版
 	public static void gauss(int n) {
 		for (int i = 1; i <= n; i++) {
 			int max = i;

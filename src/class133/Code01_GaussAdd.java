@@ -1,6 +1,6 @@
 package class133;
 
-// 高斯消元处理加法方程组模版(区分是否有唯一解)
+// 高斯消元解决加法方程组模版(区分是否有唯一解)
 // 测试链接 : https://www.luogu.com.cn/problem/P3389
 
 import java.io.BufferedReader;

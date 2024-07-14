@@ -26,6 +26,7 @@ public class Code03_InsectLegs {
 
 	public static int need;
 
+	// 改写高斯消元解决异或方程组
 	public static void gauss(int n) {
 		need = 0;
 		for (int i = 1; i <= n; i++) {

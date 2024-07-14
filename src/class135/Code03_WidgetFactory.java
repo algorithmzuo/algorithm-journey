@@ -58,7 +58,7 @@ public class Code03_WidgetFactory {
 		return -1;
 	}
 
-	// 高斯消元处理同余方程组模版
+	// 高斯消元解决同余方程组模版
 	public static void gauss(int n) {
 		for (int i = 1; i <= n; i++) {
 			int max = i;

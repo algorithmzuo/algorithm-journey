@@ -1,6 +1,6 @@
 package class134;
 
-// 高斯消元处理异或方程组模版
+// 高斯消元解决异或方程组模版
 // 测试链接 : http://poj.org/problem?id=1681
 
 import java.io.BufferedReader;

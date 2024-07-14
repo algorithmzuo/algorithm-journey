@@ -31,7 +31,7 @@ public class Code02_MinimumOperations {
 		}
 	}
 
-	// 高斯消元处理异或方程组模版
+	// 高斯消元解决异或方程组模版
 	public static void gauss(int n) {
 		for (int i = 1; i <= n; i++) {
 			for (int j = 1; j <= n; j++) {
