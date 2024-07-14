@@ -1,4 +1,4 @@
-package class134;
+package class135;
 
 // 工具工厂
 // 测试链接 : http://poj.org/problem?id=2947
@@ -12,7 +12,7 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.util.StringTokenizer;
 
-public class Code04_WidgetFactory {
+public class Code02_WidgetFactory {
 
 	public static int MOD = 7;
 

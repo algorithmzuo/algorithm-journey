@@ -1,4 +1,4 @@
-package class134;
+package class135;
 
 // 高斯消元处理同余方程组模版(线性递推求逆元)
 // 测试链接 : https://acm.hdu.edu.cn/showproblem.php?pid=5755
@@ -10,7 +10,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 
-public class Code03_GaussMod1 {
+public class Code01_GaussMod1 {
 
 	public static int MOD = 3;
 
