@@ -4,6 +4,7 @@ package class099;
 // 给你一个数组，返回有多少个子序列的最大公约数是1
 // 结果可能很大对1000000007取模
 // 测试链接 : https://www.luogu.com.cn/problem/CF803F
+// 测试链接 : https://codeforces.com/problemset/problem/803/F
 // 1 <= n <= 10^5
 // 1 <= nums[i] <= 10^5
 // 扩展问题
@@ -63,7 +64,8 @@ public class Code04_NumberOfSubsetGcdK {
 		for (int i = LIMIT; i >= 1; i--) {
 			long counts = 0;
 			for (int j = i; j <= LIMIT; j += i) {
-				counts = (counts + cnt[j]) % MOD;
+				// 次方不需要取模
+				counts += cnt[j];
 			}
 			dp[i] = (pow2[(int) counts] - 1 + MOD) % MOD;
 			for (int j = 2 * i; j <= LIMIT; j += i) {
