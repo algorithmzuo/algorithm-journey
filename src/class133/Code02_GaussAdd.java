@@ -1,7 +1,13 @@
 package class133;
 
 // 高斯消元解决加法方程组模版(区分矛盾、多解、唯一解)
+// 一共有n个变量，给定n个加法方程，构成一个加法方程组
+// 如果方程组存在矛盾，打印-1
+// 如果方程组无法确定唯一解，打印0
+// 如果方程组存在唯一解，打印每个变量的值，保留小数点后两位
+// 1 <= n <= 50
 // 测试链接 : https://www.luogu.com.cn/problem/P2455
+// 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -10,7 +16,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 
-public class Code02_GaussAdd  {
+public class Code02_GaussAdd {
 
 	public static int MAXN = 52;
 
