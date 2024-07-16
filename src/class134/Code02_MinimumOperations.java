@@ -42,15 +42,27 @@ public class Code02_MinimumOperations {
 	// 高斯消元解决异或方程组模版
 	public static void gauss(int n) {
 		for (int i = 1; i <= n; i++) {
-			for (int j = 1; j <= n; j++) {
-				if (j < i && mat[j][j] == 1) {
-					continue;
-				}
+
+			// 题目保证一定有解，可以这么写
+			for (int j = i; j <= n; j++) {
 				if (mat[j][i] == 1) {
 					swap(i, j);
 					break;
 				}
 			}
+
+//			// 如果判断矛盾、多解、唯一解，需要这么写
+//			for (int j = 1; j <= n; j++) {
+//				if (j < i && mat[j][j] == 1) {
+//					continue;
+//				}
+//				if (mat[j][i] == 1) {
+//					swap(i, j);
+//					break;
+//				}
+//			}
+
+			// 下面就是经典消元过程
 			if (mat[i][i] == 1) {
 				for (int j = 1; j <= n; j++) {
 					if (i != j && mat[j][i] == 1) {
