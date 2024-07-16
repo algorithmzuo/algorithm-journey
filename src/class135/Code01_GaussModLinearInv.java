@@ -47,10 +47,6 @@ public class Code01_GaussModLinearInv {
 		return b == 0 ? a : gcd(b, a % b);
 	}
 
-	public static int lcm(int a, int b) {
-		return a * b / gcd(a, b);
-	}
-
 	public static void prepare() {
 		for (int i = 1; i <= s; i++) {
 			for (int j = 1; j <= s + 1; j++) {
@@ -101,9 +97,9 @@ public class Code01_GaussModLinearInv {
 			if (mat[i][i] != 0) {
 				for (int j = 1; j <= n; j++) {
 					if (i != j && mat[j][i] != 0) {
-						int lcm = lcm(mat[j][i], mat[i][i]);
-						int a = lcm / mat[j][i];
-						int b = lcm / mat[i][i];
+						int gcd = gcd(mat[j][i], mat[i][i]);
+						int a = mat[i][i] / gcd;
+						int b = mat[j][i] / gcd;
 						if (j < i) {
 							mat[j][j] = (mat[j][j] * a) % MOD;
 						}
