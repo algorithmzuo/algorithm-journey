@@ -12,6 +12,7 @@ public class Test {
 
 	public static double sml = 1e-7;
 
+	// 高斯消元解决加法方程组模版
 	public static void gauss(int n) {
 		for (int i = 1; i <= n; i++) {
 			// 如果想严格区分矛盾、多解、唯一解，一定要这么写
