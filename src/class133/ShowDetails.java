@@ -2,7 +2,7 @@ package class133;
 
 // 课上讲述高斯消元细节的测试
 
-public class Test {
+public class ShowDetails {
 
 	public static int MAXN = 101;
 
