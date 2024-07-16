@@ -25,6 +25,7 @@ public class Code01_GaussAdd {
 
 	public static double sml = 1e-7;
 
+	// 需要保证变量有n个，表达式也有n个
 	public static int gauss(int n) {
 		for (int i = 1; i <= n; i++) {
 			int max = i;

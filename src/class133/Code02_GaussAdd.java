@@ -26,6 +26,8 @@ public class Code02_GaussAdd {
 
 	public static double sml = 1e-7;
 
+	// 高斯消元解决加法方程组模版
+	// 需要保证变量有n个，表达式也有n个
 	public static void gauss(int n) {
 		for (int i = 1; i <= n; i++) {
 			// 本题需要严格区分矛盾、多解、唯一解，所以必须这么写
