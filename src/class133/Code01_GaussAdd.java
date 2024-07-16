@@ -29,6 +29,7 @@ public class Code01_GaussAdd {
 		for (int i = 1; i <= n; i++) {
 			int max = i;
 			for (int j = i + 1; j <= n; j++) {
+				// 本题一旦没有唯一解，直接打印"No Solution"，于是可以这么写
 				if (Math.abs(mat[j][i]) > Math.abs(mat[max][i])) {
 					max = j;
 				}

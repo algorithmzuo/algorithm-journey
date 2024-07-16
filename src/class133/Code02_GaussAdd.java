@@ -26,13 +26,9 @@ public class Code02_GaussAdd {
 
 	public static double sml = 1e-7;
 
-	// 重要反例
-	// 2
-	// 0 2 3
-	// 0 0 0
-	// 这么写才对
 	public static void gauss(int n) {
 		for (int i = 1; i <= n; i++) {
+			// 本题需要严格区分矛盾、多解、唯一解，所以必须这么写
 			int max = i;
 			for (int j = 1; j <= n; j++) {
 				if (j < i && Math.abs(mat[j][j]) >= sml) {
