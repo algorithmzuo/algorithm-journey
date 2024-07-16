@@ -105,6 +105,7 @@ public class Code02_GaussModExgcdInv {
 				}
 			}
 
+			// 下面就是经典消元过程
 			swap(i, max);
 			if (mat[i][i] != 0) {
 				for (int j = 1; j <= n; j++) {
