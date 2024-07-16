@@ -8,7 +8,7 @@ package class133;
 // 每次称重格式类似：3 2 5 6 10，代表本次称重涉3个物品，编号为2、5、6，总重量10
 // 一共有n+1条称重数据，称重数据整体有效的条件为：
 // 错误的称重数据有且仅有1条，只有排除这条错误称重，才能求出一种合法方案
-// 如果称重数据有效，打印每种物品的重量
+// 如果称重数据有效，打印最重三角形的编号
 // 如果称重数据无效，打印"illegal"
 // 1 <= m <= n <= 100
 // 测试链接 : https://www.luogu.com.cn/problem/P5027
@@ -69,14 +69,14 @@ public class Code04_FindMaxWeighing {
 		mat[b] = tmp;
 	}
 
-	// 如果计算结果无效返回0
-	// 如果计算结果有效返回最重三角形的编号
+	// 如果计算结果不是合法方案返回0
+	// 如果计算结果是合法方案返回最重三角形的编号
 	public static int check() {
 		gauss(n);
 		double maxv = Double.MIN_VALUE;
 		int maxt = 0;
 		int ans = 0;
-		for (int i = n; i >= 1; i--) {
+		for (int i = 1; i <= n; i++) {
 			if (mat[i][i] == 0) {
 				return 0;
 			}
