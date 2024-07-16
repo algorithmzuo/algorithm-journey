@@ -8,8 +8,7 @@ public class ShowDetails {
 
 	public static double[][] mat = new double[MAXN][MAXN];
 
-	public static int n;
-
+	// 0.0000001 == 1e-7
 	public static double sml = 1e-7;
 
 	// 高斯消元解决加法方程组模版
@@ -70,7 +69,7 @@ public class ShowDetails {
 		mat[3][1] = 1; mat[3][2] = -2; mat[3][3] = 2; mat[3][4] = 0;
 		gauss(3);
 		print(3);
-		
+
 		// 多解
 		// 1*x1 + 1*x2 = 3
 		// 2*x1 + 2*x2 = 6
@@ -79,7 +78,7 @@ public class ShowDetails {
 		mat[2][1] = 2; mat[2][2] = 2; mat[2][3] = 6;
 		gauss(2);
 		print(2);
-		
+
 		// 矛盾
 		// 1*x1 + 1*x2 = 3
 		// 2*x1 + 2*x2 = 7
@@ -88,7 +87,7 @@ public class ShowDetails {
 		mat[2][1] = 2; mat[2][2] = 2; mat[2][3] = 7;
 		gauss(2);
 		print(2);
-		
+
 		// 表达式冗余，唯一解
 		// 1*x1 + 2*x2 - 1*x3 = 9
 		// 2*x1 + 4*x2 - 2*x3 = 18
@@ -101,7 +100,7 @@ public class ShowDetails {
 		mat[4][1] = 1; mat[4][2] = -2; mat[4][3] = 2; mat[4][4] = 0; mat[4][5] = 0;
 		gauss(4);
 		print(4);
-		
+
 		// 表达式冗余，多解
 		// 1*x1 + 2*x2 - 1*x3 = 9
 		// 2*x1 + 4*x2 - 2*x3 = 18
@@ -114,7 +113,7 @@ public class ShowDetails {
 		mat[4][1] = 4; mat[4][2] = -2; mat[4][3] = 4; mat[4][4] = 0; mat[4][5] = 14;
 		gauss(4);
 		print(4);
-		
+
 		// 表达式冗余，矛盾
 		// 1*x1 + 2*x2 - 1*x3 = 9
 		// 2*x1 + 4*x2 - 2*x3 = 18
@@ -127,7 +126,7 @@ public class ShowDetails {
 		mat[4][1] = 4; mat[4][2] = -2; mat[4][3] = 4; mat[4][4] = 0; mat[4][5] = 10;
 		gauss(4);
 		print(4);
-		
+
 		// 表达式不足，多解
 		// 1*x1 + 2*x2 - 1*x3 = 5
 		// 2*x1 + 2*x2 - 1*x3 = 8
@@ -137,7 +136,7 @@ public class ShowDetails {
 		mat[3][1] = 0; mat[3][2] = 0; mat[3][3] = 0;  mat[3][4] = 0;
 		gauss(3);
 		print(3);
-		
+
 		// 表达式不足，矛盾
 		// 1*x1 + 2*x2 - 1*x3 = 5
 		// 2*x1 + 4*x2 - 2*x3 = 7
@@ -147,7 +146,7 @@ public class ShowDetails {
 		mat[3][1] = 0; mat[3][2] = 0; mat[3][3] = 0;  mat[3][4] = 0;
 		gauss(3);
 		print(3);
-		
+
 		// 正确区分矛盾、多解、唯一解
 		// 0*x1 + 2*x2 = 3
 		// 0*x1 + 0*x2 = 0
