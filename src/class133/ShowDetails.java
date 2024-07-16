@@ -9,6 +9,9 @@ public class ShowDetails {
 	public static double[][] mat = new double[MAXN][MAXN];
 
 	// 0.0000001 == 1e-7
+	// 因为double类型有精度问题，所以认为
+	// 如果一个数字 <  sml，则认为该数字是0
+	// 如果一个数字 >= sml，则认为该数字不是0
 	public static double sml = 1e-7;
 
 	// 高斯消元解决加法方程组模版
