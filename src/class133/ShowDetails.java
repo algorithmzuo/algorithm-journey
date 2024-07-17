@@ -10,8 +10,8 @@ public class ShowDetails {
 
 	// 0.0000001 == 1e-7
 	// 因为double类型有精度问题，所以认为
-	// 如果一个数字绝对值 <  sml，则认为该数字是0
-	// 如果一个数字绝对值 >= sml，则认为该数字不是0
+	// 如果一个数字绝对值  <  sml，则认为该数字是0
+	// 如果一个数字绝对值  >= sml，则认为该数字不是0
 	public static double sml = 1e-7;
 
 	// 高斯消元解决加法方程组模版
@@ -169,7 +169,7 @@ public class ShowDetails {
 		mat[3][1] = 0; mat[3][2] = 0; mat[3][3] = 0; mat[3][4] = 0;
 		gauss(3);
 		print(3);
-		
+
 		// 有些主元还受到自由元的影响
 		// a + b = 5
 		System.out.println("有些主元还受到自由元的影响");
