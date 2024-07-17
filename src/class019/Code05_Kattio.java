@@ -13,6 +13,7 @@ package class019;
 // 那么可不可以放弃StreamTokenizer，以后都用Kattio呢？
 // 不行！因为StreamTokenizer的效率还是比Kattio好的
 // 只有在StreamTokenizer无法正确读取的情况下，才考虑使用Kattio类
+// 其他语言中一定有对等的概念，不是java的同学，请自行搞定
 
 import java.io.BufferedReader;
 import java.io.FileReader;
