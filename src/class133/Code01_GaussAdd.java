@@ -32,9 +32,9 @@ public class Code01_GaussAdd {
 	// 需要保证变量有n个，表达式也有n个
 	public static int gauss(int n) {
 		for (int i = 1; i <= n; i++) {
+			// 本题一旦没有唯一解，直接打印"No Solution"，于是可以这么写
 			int max = i;
 			for (int j = i + 1; j <= n; j++) {
-				// 本题一旦没有唯一解，直接打印"No Solution"，于是可以这么写
 				if (Math.abs(mat[j][i]) > Math.abs(mat[max][i])) {
 					max = j;
 				}
