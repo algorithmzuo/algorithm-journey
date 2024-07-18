@@ -47,6 +47,7 @@ public class Code03_AlienInsectLegs {
 					break;
 				}
 			}
+			// 一旦没有唯一解，可以结束了
 			if (get(i, i) == 0) {
 				return;
 			}
