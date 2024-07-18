@@ -50,17 +50,19 @@ public class ShowDetails {
 	}
 
 	public static void main(String[] args) {
-		System.out.println("唯一解");
+		System.out.println("课上图解的例子，有唯一解");
 		// x1 ^ x2 ^ x3 = 0
-		// x1 ^ x2 = 1
-		// x2 ^ x3 = 0
-		mat[1][1] = 1; mat[1][2] = 1; mat[1][3] = 1; mat[1][4] = 0;
-		mat[2][1] = 1; mat[2][2] = 1; mat[2][3] = 0; mat[2][4] = 1;
-		mat[3][1] = 0; mat[3][2] = 1; mat[3][3] = 1; mat[3][4] = 0;
-		gauss(3);
-		print(3);
+		// x1 ^ x3 ^ x4 = 1
+		// x2 ^ x3 ^ x4 = 1
+		// x3 ^ x4 = 0
+		mat[1][1] = 1; mat[1][2] = 1; mat[1][3] = 1; mat[1][4] = 0; mat[1][5] = 0;
+		mat[2][1] = 1; mat[2][2] = 0; mat[2][3] = 1; mat[2][4] = 1; mat[2][5] = 1;
+		mat[3][1] = 0; mat[3][2] = 1; mat[3][3] = 1; mat[3][4] = 1; mat[3][5] = 1;
+		mat[4][1] = 0; mat[4][2] = 0; mat[4][3] = 1; mat[4][4] = 1; mat[4][5] = 0;
+		gauss(4);
+		print(4);
 
-		System.out.println("矛盾");
+		System.out.println("表达式存在矛盾的例子");
 		// x1 ^ x2 = 1
 		// x1 ^ x3 = 1
 		// x2 ^ x3 = 1
@@ -70,7 +72,7 @@ public class ShowDetails {
 		gauss(3);
 		print(3);
 
-		System.out.println("多解");
+		System.out.println("表达式存在多解的例子");
 		// x1 ^ x3 = 1
 		// x2 ^ x3 = 1
 		// x1 ^ x2 = 0
