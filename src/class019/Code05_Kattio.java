@@ -4,10 +4,9 @@ package class019;
 // 某些题目的输入，使用StreamTokenizer就是无法正确读入
 // 那么可以使用本文件提供的Kattio类
 // 比如，就是需要依次读取一个一个的字符串进行处理
-// 再比如，StreamTokenizer读取不溢出、但是很大的long类型数字时，可能会读入错误
-// 再比如，StreamTokenizer读取科学计数法表达的double类型数字时，可能会读入错误
-// 会发现读取的结果不对
-// 使用Kattio进行读取，就没有这些问题
+// 再比如，StreamTokenizer读取：不溢出、但是很大的long类型数字时，可能会读入错误
+// 再比如，StreamTokenizer读取：科学计数法表达的double类型数字时，可能会读入错误
+// 如果使用Kattio进行读取，就没有这些问题
 // 可以直接运行本文件的main函数，根据提示输入给定的数字，能清晰的看到这一点
 // 那么可不可以放弃StreamTokenizer，以后都用Kattio呢？
 // 不行！因为StreamTokenizer的效率还是比Kattio好！
