@@ -91,7 +91,9 @@ public class Code02_MinimumOperations {
 			if (mat[i][i] == 1) {
 				int cur = mat[i][n + 1];
 				for (int j = i + 1; j <= n; j++) {
-					cur ^= mat[i][j] * op[j];
+					if(mat[i][j] == 1) {
+						cur ^= op[j];
+					}
 				}
 				dfs(i - 1, num + cur);
 			} else {
