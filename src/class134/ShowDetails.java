@@ -51,45 +51,51 @@ public class ShowDetails {
 
 	public static void main(String[] args) {
 		// 唯一解
-		// x1 ^ x3 ^ x4 = 0
-		// x2 ^ x3 = 1
-		// x1 ^ x4 = 0
-		// x2 ^ x4 = 1
+		// x1 ^ x2 ^ x3 = 0
+		// x1 ^ x2 = 1
+		// x2 ^ x3 = 0
 		System.out.println("唯一解");
-		mat[1][1] = 1; mat[1][2] = 0; mat[1][3] = 1; mat[1][4] = 1; mat[1][5] = 0;
-		mat[2][1] = 0; mat[2][2] = 1; mat[2][3] = 1; mat[2][4] = 0; mat[2][5] = 1;
-		mat[3][1] = 1; mat[3][2] = 0; mat[3][3] = 0; mat[3][4] = 1; mat[3][5] = 0;
-		mat[4][1] = 0; mat[4][2] = 1; mat[4][3] = 0; mat[4][4] = 1; mat[4][5] = 1;
-		gauss(4);
-		print(4);
+		mat[1][1] = 1; mat[1][2] = 1; mat[1][3] = 1; mat[1][4] = 0;
+		mat[2][1] = 1; mat[2][2] = 1; mat[2][3] = 0; mat[2][4] = 1;
+		mat[3][1] = 0; mat[3][2] = 1; mat[3][3] = 1; mat[3][4] = 0;
+		gauss(3);
+		print(3);
 
 		// 矛盾
-		// x1 ^ x3 ^ x4 = 0
-		// x2 ^ x3 ^ x4 = 0
 		// x1 ^ x2 = 1
-		// x3 ^ x4 = 1
+		// x1 ^ x3 = 1
+		// x2 ^ x3 = 1
 		System.out.println("矛盾");
-		mat[1][1] = 1; mat[1][2] = 0; mat[1][3] = 1; mat[1][4] = 1; mat[1][5] = 0;
-		mat[2][1] = 0; mat[2][2] = 1; mat[2][3] = 1; mat[2][4] = 1; mat[2][5] = 0;
-		mat[3][1] = 1; mat[3][2] = 1; mat[3][3] = 0; mat[3][4] = 0; mat[3][5] = 1;
-		mat[4][1] = 0; mat[4][2] = 0; mat[4][3] = 1; mat[4][4] = 1; mat[4][5] = 1;
-		gauss(4);
-		print(4);
+		mat[1][1] = 1; mat[1][2] = 1; mat[1][3] = 0; mat[1][4] = 1;
+		mat[2][1] = 1; mat[2][2] = 0; mat[2][3] = 1; mat[2][4] = 1;
+		mat[3][1] = 0; mat[3][2] = 1; mat[3][3] = 1; mat[3][4] = 1;
+		gauss(3);
+		print(3);
 
 		// 多解
+		// x1 ^ x3 = 1
+		// x2 ^ x3 = 1
+		// x1 ^ x2 = 0
+		System.out.println("多解");
+		mat[1][1] = 1; mat[1][2] = 0; mat[1][3] = 1; mat[1][4] = 1;
+		mat[2][1] = 0; mat[2][2] = 1; mat[2][3] = 1; mat[2][4] = 1;
+		mat[3][1] = 1; mat[3][2] = 1; mat[3][3] = 0; mat[3][4] = 0;
+		mat[4][1] = 1; mat[4][2] = 1; mat[4][3] = 0; mat[4][4] = 0;
+		gauss(3);
+		print(3);
+
+		System.out.println("注意下面这个多解的例子");
 		// x1 ^ x3 ^ x4 = 0
 		// x2 ^ x3 ^ x4 = 0
 		// x1 ^ x2 = 0
 		// x3 ^ x4 = 1
-		System.out.println("多解");
 		mat[1][1] = 1; mat[1][2] = 0; mat[1][3] = 1; mat[1][4] = 1; mat[1][5] = 0;
 		mat[2][1] = 0; mat[2][2] = 1; mat[2][3] = 1; mat[2][4] = 1; mat[2][5] = 0;
 		mat[3][1] = 1; mat[3][2] = 1; mat[3][3] = 0; mat[3][4] = 0; mat[3][5] = 0;
 		mat[4][1] = 0; mat[4][2] = 0; mat[4][3] = 1; mat[4][4] = 1; mat[4][5] = 1;
 		gauss(4);
 		print(4);
-
-		System.out.println("注意上面多解的例子");
+		System.out.println("最后一个例子里");
 		System.out.println("主元x1和x2，不受其他自由元影响，值可以直接确定");
 		System.out.println("但是主元x3，受到自由元x4的影响，x3 ^ x4 = 1");
 		System.out.println("只有自由元x4确定了值，主元x3的值才能确定");
