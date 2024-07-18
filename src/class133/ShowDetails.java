@@ -1,6 +1,6 @@
 package class133;
 
-// 课上讲述高斯消元的细节
+// 课上讲述高斯消元解决加法方程组的例子
 
 public class ShowDetails {
 
