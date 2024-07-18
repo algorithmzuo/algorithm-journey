@@ -79,7 +79,7 @@ public class Code01_GaussMod2 {
 	}
 
 	// 保证初始系数都是非负数
-	// 如果是系数a是负数，那么转化为非负数，a = (a % mod + mod) % mod
+	// 如果是系数a是负数，那么转化为非负数 : a = (a % mod + mod) % mod
 	public static void gauss(int n) {
 		for (int i = 1; i <= n; i++) {
 			int max = i;
