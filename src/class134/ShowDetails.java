@@ -96,7 +96,7 @@ public class ShowDetails {
 		System.out.println("主元x1和x2，不受其他自由元影响，值可以直接确定");
 		System.out.println("但是主元x3，受到自由元x4的影响，x3 ^ x4 = 1");
 		System.out.println("只有自由元x4确定了值，主元x3的值才能确定");
-		System.out.println("这里是想说，消元完成后");
+		System.out.println("这里是想说，消元完成后，如果结论是多解，那么");
 		System.out.println("有些主元的值可以直接确定");
 		System.out.println("有些主元的值需要若干自由元确定之后才能确定");
 		System.out.println("这就是上节课，也就是讲解133讲的：");
