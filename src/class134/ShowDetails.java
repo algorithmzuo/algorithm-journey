@@ -50,33 +50,30 @@ public class ShowDetails {
 	}
 
 	public static void main(String[] args) {
-		// 唯一解
+		System.out.println("唯一解");
 		// x1 ^ x2 ^ x3 = 0
 		// x1 ^ x2 = 1
 		// x2 ^ x3 = 0
-		System.out.println("唯一解");
 		mat[1][1] = 1; mat[1][2] = 1; mat[1][3] = 1; mat[1][4] = 0;
 		mat[2][1] = 1; mat[2][2] = 1; mat[2][3] = 0; mat[2][4] = 1;
 		mat[3][1] = 0; mat[3][2] = 1; mat[3][3] = 1; mat[3][4] = 0;
 		gauss(3);
 		print(3);
 
-		// 矛盾
+		System.out.println("矛盾");
 		// x1 ^ x2 = 1
 		// x1 ^ x3 = 1
 		// x2 ^ x3 = 1
-		System.out.println("矛盾");
 		mat[1][1] = 1; mat[1][2] = 1; mat[1][3] = 0; mat[1][4] = 1;
 		mat[2][1] = 1; mat[2][2] = 0; mat[2][3] = 1; mat[2][4] = 1;
 		mat[3][1] = 0; mat[3][2] = 1; mat[3][3] = 1; mat[3][4] = 1;
 		gauss(3);
 		print(3);
 
-		// 多解
+		System.out.println("多解");
 		// x1 ^ x3 = 1
 		// x2 ^ x3 = 1
 		// x1 ^ x2 = 0
-		System.out.println("多解");
 		mat[1][1] = 1; mat[1][2] = 0; mat[1][3] = 1; mat[1][4] = 1;
 		mat[2][1] = 0; mat[2][2] = 1; mat[2][3] = 1; mat[2][4] = 1;
 		mat[3][1] = 1; mat[3][2] = 1; mat[3][3] = 0; mat[3][4] = 0;
