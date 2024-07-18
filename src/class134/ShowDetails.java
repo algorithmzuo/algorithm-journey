@@ -99,7 +99,7 @@ public class ShowDetails {
 		System.out.println("主元x1和x2，不受其他自由元影响，值可以直接确定");
 		System.out.println("但是主元x3，受到自由元x4的影响，x3 ^ x4 = 1");
 		System.out.println("只有自由元x4确定了值，主元x3的值才能确定");
-		System.out.println("上节课也就是讲解133，讲了主元和自由元之间的依赖关系");
+		System.out.println("上节课也就是讲解133，重点讲了主元和自由元之间的依赖关系");
 		System.out.println("请保证已经掌握");
 	}
 
