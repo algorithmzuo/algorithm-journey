@@ -162,7 +162,8 @@ public class Code02_WidgetFactory {
 		io.close();
 	}
 
-	// 读取字符串推荐用StringTokenizer
+	// Kattio类IO效率很好，但还是不如StreamTokenizer
+	// 只有StreamTokenizer无法正确处理时，才考虑使用这个类
 	// 参考链接 : https://oi-wiki.org/lang/java-pro/
 	public static class Kattio extends PrintWriter {
 		private BufferedReader r;
