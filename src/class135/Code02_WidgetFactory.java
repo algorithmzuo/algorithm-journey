@@ -85,8 +85,10 @@ public class Code02_WidgetFactory {
 						int gcd = gcd(mat[j][i], mat[i][i]);
 						int a = mat[i][i] / gcd;
 						int b = mat[j][i] / gcd;
-						if (j < i) {
-							mat[j][j] = (mat[j][j] * a) % MOD;
+						if (j < i && mat[j][j] != 0) {
+							for (int k = j; k < i; k++) {
+								mat[j][k] = (mat[j][k] * a) % MOD;
+							}
 						}
 						for (int k = i; k <= n + 1; k++) {
 							mat[j][k] = ((mat[j][k] * a - mat[i][k] * b) % MOD + MOD) % MOD;
