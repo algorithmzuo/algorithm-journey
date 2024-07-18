@@ -116,11 +116,11 @@ public class Code01_GaussEor {
 			int sign = 1;
 			for (int i = 1; i <= s; i++) {
 				if (mat[i][i] == 0 && mat[i][s + 1] == 1) {
-					sign = 0;
+					sign = -1;
 					break;
 				}
 			}
-			if (sign == 0) {
+			if (sign == -1) {
 				io.println("inf");
 			} else {
 				int ans = 0;
