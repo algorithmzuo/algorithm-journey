@@ -24,7 +24,7 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.util.StringTokenizer;
 
-public class Code03_WidgetFactory {
+public class Code02_WidgetFactory {
 
 	public static int MOD = 7;
 
