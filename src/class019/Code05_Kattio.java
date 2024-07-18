@@ -3,7 +3,7 @@ package class019;
 // 本文件课上没有讲，介绍一下Kattio类的使用
 // 如果题目输入就是无法一个一个的读出数字，使用StreamTokenizer就是怎么都无法正确读入
 // 那么可以使用本文件提供的Kattio类
-// 比如，就是需要读入整行字符串进行处理的时候
+// 比如，就是需要依次读取一个一个的字符串进行处理
 // 再比如，StreamTokenizer读取不溢出、但是很大的long类型数字时，可能会读入错误
 // 再比如，StreamTokenizer读取科学计数法表达的double类型数字时，可能会读入错误
 // 会发现读取的结果不对
@@ -65,17 +65,17 @@ public class Code05_Kattio {
 	// 这里就是罗列了一下
 	public static void show() {
 		Kattio io = new Kattio(); // 自动接入输入输出流
-		io.next(); // 读取字符串
-		io.nextInt(); // 读取int
-		io.nextDouble(); // 读取double
-		io.nextLong(); // 读取long
+		io.next(); // 读取下一个字符串，注意不是整行，是以空格或回车分割的字符串，一个一个读取
+		io.nextInt(); // 读取下一个int
+		io.nextDouble(); // 读取下一个double
+		io.nextLong(); // 读取下一个long
 		io.println("ans"); // 打印答案
 		io.flush(); // 答案刷给后台
 		io.close(); // 关闭io
 	}
 
-	// 这个类IO效率很好，但是不如StreamTokenizer
-	// 只有StreamTokenizer无法正确处理时，才考虑这个类
+	// Kattio类IO效率很好，但还是不如StreamTokenizer
+	// 只有StreamTokenizer无法正确处理时，才考虑使用这个类
 	// 参考链接 : https://oi-wiki.org/lang/java-pro/
 	public static class Kattio extends PrintWriter {
 		private BufferedReader r;
