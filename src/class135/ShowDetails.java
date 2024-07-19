@@ -11,8 +11,7 @@ public class ShowDetails {
 
 	public static int[][] mat = new int[MAXN][MAXN];
 
-	// 逆元线性递推公式
-	// 如果不会，去看讲解099 - 除法同余
+	// 逆元线性递推公式求逆元表，讲解099 - 除法同余
 	public static int[] inv = new int[MOD];
 
 	public static void inv() {
