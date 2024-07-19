@@ -23,7 +23,7 @@ public class Code01_GamblerBo {
 
 	public static int MOD = 3;
 
-	public static int MAXS = 905;
+	public static int MAXS = 1001;
 
 	public static int[][] mat = new int[MAXS][MAXS];
 
