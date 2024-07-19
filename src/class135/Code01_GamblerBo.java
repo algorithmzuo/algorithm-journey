@@ -1,13 +1,13 @@
 package class135;
 
-// 高斯消元解决同余方程组模版(扩展欧几里得算法求逆元)
+// 格子全变成0的操作方案
 // 有一个n*m的二维网格，给定每个网格的初始值，一定是0、1、2中的一个
 // 如果某个网格获得了一些数值加成，也会用%3的方式变成0、1、2中的一个
 // 比如有个网格一开始值是1，获得4的加成之后，值为(1+4)%3 = 2
 // 有一个神奇的刷子，一旦在某个网格处刷一下，该网格会获得2的加成
 // 并且该网格上、下、左、右的格子，都会获得1的加成
-// 最终目标是所有网格都变成0，题目保证一定有解
-// 打印一共需要刷几下，并且把操作方案打印出来
+// 最终目标是所有网格都变成0，题目保证一定有解，但不保证唯一解
+// 得到哪一种方案都可以，打印一共需要刷几下，并且把操作方案打印出来
 // 1 <= n、m <= 30
 // 测试链接 : https://acm.hdu.edu.cn/showproblem.php?pid=5755
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
@@ -19,7 +19,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 
-public class Code01_GaussMod2 {
+public class Code01_GamblerBo {
 
 	public static int MOD = 3;
 
@@ -31,25 +31,13 @@ public class Code01_GaussMod2 {
 
 	public static int n, m, s;
 
-	// 扩展欧几里得算法求逆元
-	public static int x, y;
+	public static int[] inv = new int[MOD];
 
-	public static void exgcd(int a, int b) {
-		int n = 0, m = 1, pn = 1, pm = 0, tmp, q, r;
-		while (b != 0) {
-			q = a / b;
-			r = a % b;
-			a = b;
-			b = r;
-			tmp = n;
-			n = pn - q * n;
-			pn = tmp;
-			tmp = m;
-			m = pm - q * m;
-			pm = tmp;
+	public static void inv() {
+		inv[1] = 1;
+		for (int i = 2; i < MOD; i++) {
+			inv[i] = (int) (MOD - (long) inv[MOD % i] * (MOD / i) % MOD);
 		}
-		x = pn;
-		y = pm;
 	}
 
 	public static int gcd(int a, int b) {
@@ -78,8 +66,11 @@ public class Code01_GaussMod2 {
 		}
 	}
 
-	// 高斯消元解决同余方程组模版
-	// 保证初始系数都是非负数，如果系数a是负数，转化为非负数，a = (a % mod + mod) % mod
+	// 保证初始系数没有负数
+	// 这道题目比较特殊，可以打印任何一种方案
+	// 于是可以认为所有自由元的操作次数为0
+	// 也就是可以认为消元之后，主元都不被自由元影响
+	// 所以代码可以简化
 	public static void gauss(int n) {
 		for (int i = 1; i <= n; i++) {
 			for (int j = 1; j <= n; j++) {
@@ -98,10 +89,12 @@ public class Code01_GaussMod2 {
 						int a = mat[i][i] / gcd;
 						int b = mat[j][i] / gcd;
 						if (j < i && mat[j][j] != 0) {
-							for (int k = j; k < i; k++) {
-								mat[j][k] = (mat[j][k] * a) % MOD;
-							}
+							// 只需要调整j行主元的系数
+							// 因为最终的方案默认所有自由元都不操作
+							// 那么任何自由元都不会影响主元
+							mat[j][j] = (mat[j][j] * a) % MOD;
 						}
+						// 正常消元
 						for (int k = i; k <= n + 1; k++) {
 							mat[j][k] = ((mat[j][k] * a - mat[i][k] * b) % MOD + MOD) % MOD;
 						}
@@ -109,15 +102,11 @@ public class Code01_GaussMod2 {
 				}
 			}
 		}
-		// 本来应该是，mat[i][n + 1] = mat[i][n + 1] / mat[i][i]
-		// 但是在模意义下应该求逆元
-		// (a / b) % MOD = (a * b的逆元) % MOD
-		// 此处为扩展欧几里得算法求逆元
+		// 由于本题的特殊性，不需要去管任何自由元的影响
+		// 就当自由元不操作，直接求主元的操作次数即可
 		for (int i = 1; i <= n; i++) {
 			if (mat[i][i] != 0) {
-				exgcd(mat[i][i], MOD);
-				int inv = (x % MOD + MOD) % MOD;
-				mat[i][n + 1] = (mat[i][n + 1] * inv) % MOD;
+				mat[i][n + 1] = (mat[i][n + 1] * inv[mat[i][i]]) % MOD;
 			}
 		}
 	}
@@ -129,6 +118,7 @@ public class Code01_GaussMod2 {
 	}
 
 	public static void main(String[] args) throws IOException {
+		inv();
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StreamTokenizer in = new StreamTokenizer(br);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));

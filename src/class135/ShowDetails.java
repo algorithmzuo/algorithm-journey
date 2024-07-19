@@ -12,7 +12,6 @@ public class ShowDetails {
 
 	public static int[][] mat = new int[MAXN][MAXN];
 
-	// 逆元表
 	// 逆元线性递推公式
 	// 如果不会，去看讲解099 - 除法同余
 	public static int[] inv = new int[MOD];
@@ -29,8 +28,8 @@ public class ShowDetails {
 		return b == 0 ? a : gcd(b, a % b);
 	}
 
-	// 高斯消元解决同余方程组模版
-	// 保证初始系数都是非负数，如果系数a是负数，转化为非负数，a = (a % mod + mod) % mod
+	// 高斯消元解决同余方程组模版，保证初始系数没有负数
+	// 如果系数a是负数，转化为非负数，a = (a % mod + mod) % mod
 	public static void gauss(int n) {
 		for (int i = 1; i <= n; i++) {
 			for (int j = 1; j <= n; j++) {
@@ -49,10 +48,13 @@ public class ShowDetails {
 						int a = mat[i][i] / gcd;
 						int b = mat[j][i] / gcd;
 						if (j < i && mat[j][j] != 0) {
+							// 如果j行有主元，那么从j列到i-1列的所有系数 * a
+							// 正确更新主元和自由元之间的关系
 							for (int k = j; k < i; k++) {
 								mat[j][k] = (mat[j][k] * a) % MOD;
 							}
 						}
+						// 正常消元
 						for (int k = i; k <= n + 1; k++) {
 							mat[j][k] = ((mat[j][k] * a - mat[i][k] * b) % MOD + MOD) % MOD;
 						}
@@ -62,7 +64,9 @@ public class ShowDetails {
 		}
 		for (int i = 1; i <= n; i++) {
 			if (mat[i][i] != 0) {
-				// 检查是否有自由元影响当前的主元
+				// 检查当前主元是否被若干自由元影响
+				// 如果当前主元不受自由元影响，那么可以确定当前主元的值
+				// 否则保留这种影响，正确显示主元和自由元的关系
 				boolean flag = false;
 				for (int j = i + 1; j <= n; j++) {
 					if (mat[i][j] != 0) {
@@ -70,14 +74,12 @@ public class ShowDetails {
 						break;
 					}
 				}
-				// 如果当前主元不受自由元影响，那么可以确定当前主元的值
-				// 否则不如保留影响，正确显示主元和自由元的关系
 				if (!flag) {
 					// 本来应该是，mat[i][n + 1] = mat[i][n + 1] / mat[i][i]
-					// 但是在模意义下应该求逆元
-					// (a / b) % MOD = (a * b的逆元) % MOD
+					// 但是在模意义下应该求逆元，(a / b) % MOD = (a * b的逆元) % MOD
 					// 如果不会，去看讲解099 - 除法同余
 					mat[i][n + 1] = (mat[i][n + 1] * inv[mat[i][i]]) % MOD;
+					mat[i][i] = 1;
 				}
 			}
 		}
@@ -102,7 +104,7 @@ public class ShowDetails {
 	public static void main(String[] args) {
 		// 逆元表建立好
 		inv();
-		System.out.println("课上图解的例子，有唯一解");
+		System.out.println("课上图解的例子，唯一解");
 		// 6*x1 + 2*x2 + 3*x3 同余 6
 		// 1*x1 + 5*x2 + 2*x3 同余 5
 		// 0*x1 + 3*x2 + 4*x3 同余 2
@@ -122,7 +124,10 @@ public class ShowDetails {
 		gauss(3);
 		print(3);
 
-		System.out.println("表达式存在多解的例子");
+		System.out.println("课上图解的例子，多解");
+		System.out.println("只有确定了自由元，才能确定主元的值");
+		System.out.println("而且消元结束后，如果是多解的情况");
+		System.out.println("二维矩阵中所描述的，主元和自由元的关系是正确的");
 		// 1*x1 + 2*x2 + 3*x3 同余 2
 		// 2*x1 + 4*x2 + 6*x3 同余 4
 		// 0*x1 + 3*x2 + 4*x3 同余 2
@@ -134,13 +139,23 @@ public class ShowDetails {
 
 		System.out.println("注意下面这个多解的例子");
 		// 1*x1 + 1*x2 + 1*x3 同余 3
-		// 0*x1 + 2*x2 + 3*x3 同余 5
-		// 2*x1 + 2*x2 + 2*x3 同余 6
+		// 2*x1 + 1*x2 + 1*x3 同余 5
+		// 0*x1 + 3*x2 + 3*x3 同余 3
 		mat[1][1] = 1; mat[1][2] = 1; mat[1][3] = 1; mat[1][4] = 3;
-		mat[2][1] = 0; mat[2][2] = 2; mat[2][3] = 3; mat[2][4] = 5;
-		mat[3][1] = 2; mat[3][2] = 2; mat[3][3] = 2; mat[3][4] = 6;
+		mat[2][1] = 2; mat[2][2] = 1; mat[2][3] = 1; mat[2][4] = 5;
+		mat[3][1] = 0; mat[3][2] = 3; mat[3][3] = 3; mat[3][4] = 3;
 		gauss(3);
 		print(3);
+		System.out.println("最后一个例子里");
+		System.out.println("主元x1，不受其他自由元影响，值可以直接确定");
+		System.out.println("但是主元x2，受到自由元x3的影响，6*x2 + 6*x3 同余 6");
+		System.out.println("只有自由元x3确定了值，主元x2的值才能确定");
+		System.out.println("本节课提供的模版，对于能求出的主元可以得到正确结果");
+		System.out.println("对于不能求出的主元，该模版也能给出，主元和自由元的正确关系");
+		System.out.println("有些题目需要这种多解情况下，主元和自由元之间的正确关系");
+		System.out.println("如果题目不需要这种正确关系，那么逻辑可以化简，让常数时间更快");
+		System.out.println("绝大多数教程都不关心多解情况下，主元和自由元的正确关系");
+		System.out.println("但这值得引起重视");
 	}
 
 }

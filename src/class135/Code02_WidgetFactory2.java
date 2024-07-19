@@ -24,7 +24,7 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.util.StringTokenizer;
 
-public class Code02_WidgetFactory {
+public class Code02_WidgetFactory2 {
 
 	public static int MOD = 7;
 
@@ -66,8 +66,7 @@ public class Code02_WidgetFactory {
 		return -1;
 	}
 
-	// 高斯消元解决同余方程组模版
-	// 保证初始系数都是非负数，如果系数a是负数，转化为非负数，a = (a % mod + mod) % mod
+	// 高斯消元解决同余方程组模版，保证初始系数没有负数
 	public static void gauss(int n) {
 		for (int i = 1; i <= n; i++) {
 			for (int j = 1; j <= n; j++) {
@@ -99,7 +98,17 @@ public class Code02_WidgetFactory {
 		}
 		for (int i = 1; i <= n; i++) {
 			if (mat[i][i] != 0) {
-				mat[i][n + 1] = (mat[i][n + 1] * inv[mat[i][i]]) % MOD;
+				boolean flag = false;
+				for (int j = i + 1; j <= n; j++) {
+					if (mat[i][j] != 0) {
+						flag = true;
+						break;
+					}
+				}
+				if (!flag) {
+					mat[i][n + 1] = (mat[i][n + 1] * inv[mat[i][i]]) % MOD;
+					mat[i][i] = 1;
+				}
 			}
 		}
 	}
