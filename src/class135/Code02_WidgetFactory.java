@@ -132,8 +132,8 @@ public class Code02_WidgetFactory {
 				String st = io.next();
 				String et = io.next();
 				for (int j = 1; j <= k; j++) {
-					int type = io.nextInt();
-					mat[i][type] = (mat[i][type] + 1) % MOD;
+					int tool = io.nextInt();
+					mat[i][tool] = (mat[i][tool] + 1) % MOD;
 				}
 				mat[i][s + 1] = ((day(et) - day(st) + 1) % MOD + MOD) % MOD;
 			}
