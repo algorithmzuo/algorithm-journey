@@ -78,20 +78,19 @@ public class Code01_GaussMod2 {
 		}
 	}
 
-	// 保证初始系数都是非负数
-	// 如果是系数a是负数，那么转化为非负数 : a = (a % mod + mod) % mod
+	// 高斯消元解决同余方程组模版
+	// 保证初始系数都是非负数，如果系数a是负数，转化为非负数，a = (a % mod + mod) % mod
 	public static void gauss(int n) {
 		for (int i = 1; i <= n; i++) {
-			int max = i;
 			for (int j = 1; j <= n; j++) {
 				if (j < i && mat[j][j] != 0) {
 					continue;
 				}
-				if (mat[j][i] > mat[max][i]) {
-					max = j;
+				if (mat[j][i] != 0) {
+					swap(i, j);
+					break;
 				}
 			}
-			swap(i, max);
 			if (mat[i][i] != 0) {
 				for (int j = 1; j <= n; j++) {
 					if (i != j && mat[j][i] != 0) {
