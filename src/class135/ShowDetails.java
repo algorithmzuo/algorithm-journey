@@ -4,8 +4,7 @@ package class135;
 
 public class ShowDetails {
 
-	// 保证模的数字一定为质数
-	// 题目一定会保证这一点
+	// 题目会保证取模的数字为质数
 	public static int MOD = 7;
 
 	public static int MAXN = 101;
@@ -33,9 +32,11 @@ public class ShowDetails {
 	public static void gauss(int n) {
 		for (int i = 1; i <= n; i++) {
 			for (int j = 1; j <= n; j++) {
+				// 已经成为主元的行不参与
 				if (j < i && mat[j][j] != 0) {
 					continue;
 				}
+				// 找到系数不等于0的行做主元即可
 				if (mat[j][i] != 0) {
 					swap(i, j);
 					break;
@@ -105,12 +106,12 @@ public class ShowDetails {
 		// 逆元表建立好
 		inv();
 		System.out.println("课上图解的例子，唯一解");
-		// 6*x1 + 2*x2 + 3*x3 同余 6
-		// 1*x1 + 5*x2 + 2*x3 同余 5
-		// 0*x1 + 3*x2 + 4*x3 同余 2
-		mat[1][1] = 6; mat[1][2] = 2; mat[1][3] = 3; mat[1][4] = 6;
-		mat[2][1] = 1; mat[2][2] = 5; mat[2][3] = 2; mat[2][4] = 5;
-		mat[3][1] = 0; mat[3][2] = 3; mat[3][3] = 4; mat[3][4] = 2;
+		// 4*x1 + 2*x2 + 4*x3 同余 3
+		// 2*x1 + 5*x2 + 2*x3 同余 2
+		// 6*x1 + 3*x2 + 4*x3 同余 5
+		mat[1][1] = 4; mat[1][2] = 2; mat[1][3] = 4; mat[1][4] = 3;
+		mat[2][1] = 2; mat[2][2] = 5; mat[2][3] = 2; mat[2][4] = 2;
+		mat[3][1] = 6; mat[3][2] = 3; mat[3][3] = 4; mat[3][4] = 5;
 		gauss(3);
 		print(3);
 
@@ -126,8 +127,9 @@ public class ShowDetails {
 
 		System.out.println("课上图解的例子，多解");
 		System.out.println("只有确定了自由元，才能确定主元的值");
-		System.out.println("而且消元结束后，如果是多解的情况");
-		System.out.println("二维矩阵中所描述的，主元和自由元的关系是正确的");
+		System.out.println("如果是多解的情况，那么在消元结束后");
+		System.out.println("二维矩阵中主元和自由元的关系是正确的");
+		System.out.println("课上也进行了验证");
 		// 1*x1 + 2*x2 + 3*x3 同余 2
 		// 2*x1 + 4*x2 + 6*x3 同余 4
 		// 0*x1 + 3*x2 + 4*x3 同余 2
