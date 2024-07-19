@@ -156,7 +156,7 @@ public class ShowDetails {
 		System.out.println("有些题目需要这种多解情况下，主元和自由元之间的正确关系");
 		System.out.println("绝大多数模版和讲解都没有考虑这个，但值得引起重视");
 		System.out.println("如果有些题目不需要这种正确关系");
-		System.out.println("那么逻辑可以化简，让常数时间更快，比如马上要讲的题目1");
+		System.out.println("那么逻辑可以化简，让常数时间更快，比如本节课的题目1");
 	}
 
 }
