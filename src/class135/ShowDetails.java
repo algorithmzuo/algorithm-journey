@@ -28,7 +28,7 @@ public class ShowDetails {
 	}
 
 	// 高斯消元解决同余方程组模版，保证初始系数没有负数
-	// 如果系数a是负数，转化为非负数，a = (a % mod + mod) % mod
+	// ((系数 % MOD) + MOD) % MOD
 	public static void gauss(int n) {
 		for (int i = 1; i <= n; i++) {
 			for (int j = 1; j <= n; j++) {
