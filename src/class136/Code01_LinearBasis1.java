@@ -63,6 +63,7 @@ public class Code01_LinearBasis1 {
 		arr[b] = tmp;
 	}
 
+	// 返回第k小的异或和
 	public static long query(long k) {
 		if (zero) {
 			k--;
