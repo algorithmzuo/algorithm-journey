@@ -1,7 +1,8 @@
 package class136;
 
 // 异或空间线性基模版
-// 测试链接 : https://www.luogu.com.cn/problem/P3812
+// 返回第k小的异或和
+// 测试链接 : https://loj.ac/p/114
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
 import java.io.BufferedReader;
@@ -11,9 +12,9 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 
-public class Code01_LinearBasis {
+public class Code01_LinearBasis1 {
 
-	public static int MAXN = 101;
+	public static int MAXN = 100001;
 
 	public static long[] arr = new long[MAXN];
 
@@ -62,6 +63,26 @@ public class Code01_LinearBasis {
 		arr[b] = tmp;
 	}
 
+	public static long query(long k) {
+		if (zero) {
+			k--;
+		}
+		if (k == 0) {
+			return 0;
+		}
+		if (k >= 1L << len) {
+			return -1;
+		}
+		long ans = 0;
+		for (int i = len; i >= 1; i--) {
+			if ((k & 1) != 0) {
+				ans ^= arr[i];
+			}
+			k >>= 1;
+		}
+		return ans;
+	}
+
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StreamTokenizer in = new StreamTokenizer(br);
@@ -73,11 +94,13 @@ public class Code01_LinearBasis {
 			arr[i] = (long) in.nval;
 		}
 		basis();
-		long ans = 0;
-		for (int i = 1; i <= len; i++) {
-			ans = Math.max(ans, ans ^ arr[i]);
+		in.nextToken();
+		int q = (int) in.nval;
+		for (int i = 1; i <= q; i++) {
+			in.nextToken();
+			long k = (long) in.nval;
+			out.println(query(k));
 		}
-		out.println(ans);
 		out.flush();
 		out.close();
 		br.close();

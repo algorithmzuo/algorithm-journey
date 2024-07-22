@@ -1,7 +1,8 @@
 package class136;
 
-// 第k小的异或和
-// 测试链接 : https://loj.ac/p/114
+// 异或空间线性基模版
+// 返回最大异或和
+// 测试链接 : https://www.luogu.com.cn/problem/P3812
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
 import java.io.BufferedReader;
@@ -11,9 +12,9 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 
-public class Code02_KthXor {
+public class Code01_LinearBasis2 {
 
-	public static int MAXN = 100001;
+	public static int MAXN = 101;
 
 	public static long[] arr = new long[MAXN];
 
@@ -23,7 +24,9 @@ public class Code02_KthXor {
 
 	public static boolean zero;
 
-	// 利用高斯消元生成异或空间线性基模版
+	// 利用高斯消元生成异或空间线性基
+	// 因为不需要维护主元和自由元的依赖关系
+	// 所以高斯消元的写法可以得到简化
 	public static void basis() {
 		long max = arr[1];
 		for (int i = 2; i <= n; i++) {
@@ -60,22 +63,22 @@ public class Code02_KthXor {
 		arr[b] = tmp;
 	}
 
-	public static long query(long kth) {
-		long ans = 0;
+	public static long query(long k) {
 		if (zero) {
-			kth--;
+			k--;
 		}
-		if (kth == 0) {
+		if (k == 0) {
 			return 0;
 		}
+		if (k >= 1L << len) {
+			return -1;
+		}
+		long ans = 0;
 		for (int i = len; i >= 1; i--) {
-			if ((kth & 1) != 0) {
+			if ((k & 1) != 0) {
 				ans ^= arr[i];
 			}
-			kth >>= 1;
-		}
-		if (kth > 0) {
-			return -1;
+			k >>= 1;
 		}
 		return ans;
 	}
@@ -91,13 +94,8 @@ public class Code02_KthXor {
 			arr[i] = (long) in.nval;
 		}
 		basis();
-		in.nextToken();
-		int q = (int) in.nval;
-		for (int i = 1; i <= q; i++) {
-			in.nextToken();
-			long kth = (long) in.nval;
-			out.println(query(kth));
-		}
+		long k = (1L << len) - (zero ? 0 : 1);
+		out.println(query(k));
 		out.flush();
 		out.close();
 		br.close();
