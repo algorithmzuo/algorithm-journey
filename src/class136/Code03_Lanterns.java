@@ -13,7 +13,7 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.util.StringTokenizer;
 
-public class Code04_Lanterns {
+public class Code03_Lanterns {
 
 	public static int MAXN = 51;
 
