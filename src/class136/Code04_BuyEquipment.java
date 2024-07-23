@@ -12,7 +12,7 @@ import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 import java.util.Arrays;
 
-public class Code03_BuyEquipment1 {
+public class Code04_BuyEquipment {
 
 	public static int MAXN = 502;
 
@@ -22,9 +22,8 @@ public class Code03_BuyEquipment1 {
 
 	public static double[][] mat = new double[MAXN][MAXM];
 
+	// 记录的是编号不是状态
 	public static int[] basis = new int[MAXN];
-
-	public static int len;
 
 	public static int n, m;
 

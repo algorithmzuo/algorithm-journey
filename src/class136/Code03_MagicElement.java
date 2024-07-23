@@ -1,7 +1,7 @@
 package class136;
 
-// 返回第k小的异或和
-// 测试链接 : https://loj.ac/p/114
+// 魔法元素
+// 测试链接 : https://www.luogu.com.cn/problem/P4570
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
 import java.io.BufferedReader;
@@ -11,24 +11,27 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.util.Arrays;
 import java.util.StringTokenizer;
 
-public class Code02_KthXor {
+public class Code03_MagicElement {
 
-	public static int MAXN = 100001;
+	public static int MAXN = 1001;
 
-	public static long[] arr = new long[MAXN];
+	public static int MAXM = 64;
+
+	public static long[][] arr = new long[MAXN][2];
+
+	public static long[] basis = new long[MAXM];
 
 	public static int n, m;
 
-	public static int len;
-
-	public static boolean zero;
+	public static long ans;
 
 	public static void maxbit() {
-		long max = arr[1];
+		long max = arr[1][0];
 		for (int i = 2; i <= n; i++) {
-			max = Math.max(max, arr[i]);
+			max = Math.max(max, arr[i][0]);
 		}
 		m = 0;
 		while ((max >> (m + 1)) != 0) {
@@ -36,64 +39,23 @@ public class Code02_KthXor {
 		}
 	}
 
-	// 高斯消元
-	// 因为不需要维护主元和自由元的依赖关系
-	// 所以高斯消元的写法可以得到简化
-	// 正确得到异或和第k名，必须用高斯消元，不能用普通消元
-	// 如下是反例
-	// arr = { 7, 10, 4 }
-	// 普通消元得到的异或空间线性基是 : 10 7 3
-	// 第三小异或和是4，第四小异或和是10，这是错误的
-	// 高斯消元可以得到正确结果
-	// 高斯消元得到的异或空间线性基是 : 9 4 3
-	// 第三小异或和是7，第四小异或和是9，这是正确的
+	// 普通消元
 	public static void compute() {
-		len = 1;
-		for (long bit = 1L << m; bit != 0; bit >>= 1) {
-			for (int i = len; i <= n; i++) {
-				if ((arr[i] & bit) != 0) {
-					swap(i, len);
-					break;
-				}
-			}
-			if ((arr[len] & bit) != 0) {
-				for (int i = 1; i <= n; i++) {
-					if (i != len && (arr[i] & bit) != 0) {
-						arr[i] ^= arr[len];
+		ans = 0;
+		Arrays.sort(arr, 1, n + 1, (a, b) -> a[1] >= b[1] ? -1 : 1);
+		for (int i = 1; i <= n; i++) {
+			long num = arr[i][0];
+			for (int j = m; j >= 0; j--) {
+				if (num >> j == 1) {
+					if (basis[j] == 0) {
+						basis[j] = num;
+						ans += arr[i][1];
+						break;
 					}
+					num ^= basis[j];
 				}
-				len++;
 			}
 		}
-		len--;
-		zero = len != n;
-	}
-
-	public static void swap(int a, int b) {
-		long tmp = arr[a];
-		arr[a] = arr[b];
-		arr[b] = tmp;
-	}
-
-	// 返回第k小的异或和
-	public static long query(long k) {
-		if (zero) {
-			k--;
-		}
-		if (k == 0) {
-			return 0;
-		}
-		if (k >= 1L << len) {
-			return -1;
-		}
-		long ans = 0;
-		for (int i = len; i >= 1; i--) {
-			if ((k & 1) != 0) {
-				ans ^= arr[i];
-			}
-			k >>= 1;
-		}
-		return ans;
 	}
 
 	public static void main(String[] args) throws IOException {
@@ -104,15 +66,12 @@ public class Code02_KthXor {
 		Kattio io = new Kattio();
 		n = io.nextInt();
 		for (int i = 1; i <= n; i++) {
-			arr[i] = io.nextLong();
+			arr[i][0] = io.nextLong();
+			arr[i][1] = io.nextInt();
 		}
 		maxbit();
 		compute();
-		int q = io.nextInt();
-		for (int i = 1; i <= q; i++) {
-			long k = io.nextLong();
-			io.println(query(k));
-		}
+		io.println(ans);
 		io.flush();
 		io.close();
 	}
