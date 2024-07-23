@@ -1,8 +1,7 @@
 package class136;
 
-// 异或空间线性基模版
-// 返回最大异或和
-// 测试链接 : https://www.luogu.com.cn/problem/P3812
+// 返回第k小的异或和
+// 测试链接 : https://loj.ac/p/114
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
 import java.io.BufferedReader;
@@ -12,30 +11,41 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 
-public class Code01_LinearBasis2 {
+public class Code02_KthXor {
 
-	public static int MAXN = 101;
+	public static int MAXN = 100001;
 
 	public static long[] arr = new long[MAXN];
 
-	public static int n;
+	public static int n, m;
 
 	public static int len;
 
 	public static boolean zero;
 
-	// 利用高斯消元生成异或空间线性基
-	// 因为不需要维护主元和自由元的依赖关系
-	// 所以高斯消元的写法可以得到简化
-	public static void basis() {
+	public static void maxbit() {
 		long max = arr[1];
 		for (int i = 2; i <= n; i++) {
 			max = Math.max(max, arr[i]);
 		}
-		int m = 0;
+		m = 0;
 		while ((max >> (m + 1)) != 0) {
 			m++;
 		}
+	}
+
+	// 高斯消元
+	// 因为不需要维护主元和自由元的依赖关系
+	// 所以高斯消元的写法可以得到简化
+	// 正确得到异或和第k名，必须用高斯消元，不能用普通消元
+	// 如下是反例
+	// arr = { 7, 10, 4 }
+	// 普通消元得到的异或空间线性基是 : 10 7 3
+	// 第三小异或和是4，第四小异或和是10，这是错误的
+	// 高斯消元可以得到正确结果
+	// 高斯消元得到的异或空间线性基是 : 9 4 3
+	// 第三小异或和是7，第四小异或和是9，这是正确的
+	public static void compute() {
 		len = 1;
 		for (long bit = 1L << m; bit != 0; bit >>= 1) {
 			for (int i = len; i <= n; i++) {
@@ -94,9 +104,15 @@ public class Code01_LinearBasis2 {
 			in.nextToken();
 			arr[i] = (long) in.nval;
 		}
-		basis();
-		long k = (1L << len) - (zero ? 0 : 1);
-		out.println(query(k));
+		maxbit();
+		compute();
+		in.nextToken();
+		int q = (int) in.nval;
+		for (int i = 1; i <= q; i++) {
+			in.nextToken();
+			long k = (long) in.nval;
+			out.println(query(k));
+		}
 		out.flush();
 		out.close();
 		br.close();
