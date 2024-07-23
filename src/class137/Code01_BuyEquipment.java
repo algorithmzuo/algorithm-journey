@@ -1,4 +1,4 @@
-package class136;
+package class137;
 
 // 装备购买
 // 测试链接 : https://www.luogu.com.cn/problem/P3265
@@ -12,7 +12,7 @@ import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 import java.util.Arrays;
 
-public class Code04_BuyEquipment {
+public class Code01_BuyEquipment {
 
 	public static int MAXN = 502;
 

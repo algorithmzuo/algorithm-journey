@@ -1,8 +1,10 @@
-package class136;
+package class137;
 
-// 幸运数字(迭代版)
+// 幸运数字(递归版)
 // 测试链接 : https://www.luogu.com.cn/problem/P3292
-// 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
+// 提交以下的code，提交时请把类名改成"Main"
+// C++这么写能通过，java会因为递归层数太多而爆栈
+// java能通过的写法参考本节课Code02_LuckyNumber2文件
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -14,7 +16,7 @@ import java.io.PrintWriter;
 import java.util.Arrays;
 import java.util.StringTokenizer;
 
-public class Code05_LuckyNumber2 {
+public class Code02_LuckyNumber1 {
 
 	public static int MAXN = 20002;
 
@@ -89,51 +91,20 @@ public class Code05_LuckyNumber2 {
 		}
 	}
 
-	// dfs迭代版
-	// nfe是为了实现迭代版而准备的栈
-	public static int[][] ufe = new int[MAXN][3];
-
-	public static int stackSize, u, f, e;
-
-	public static void push(int u, int f, int e) {
-		ufe[stackSize][0] = u;
-		ufe[stackSize][1] = f;
-		ufe[stackSize][2] = e;
-		stackSize++;
-	}
-
-	public static void pop() {
-		--stackSize;
-		u = ufe[stackSize][0];
-		f = ufe[stackSize][1];
-		e = ufe[stackSize][2];
-	}
-
-	public static void dfs(int root) {
-		stackSize = 0;
-		push(root, 0, -1);
-		while (stackSize > 0) {
-			pop();
-			if (e == -1) {
-				deep[u] = deep[f] + 1;
-				stjump[u][0] = f;
-				for (int p = 1; p <= power; p++) {
-					stjump[u][p] = stjump[stjump[u][p - 1]][p - 1];
-				}
-				for (int i = 0; i <= BIT; i++) {
-					poss[u][i] = poss[f][i];
-					basiss[u][i] = basiss[f][i];
-				}
-				insert(u, basiss[u], poss[u]);
-				e = head[u];
-			} else {
-				e = next[e];
-			}
-			if (e != 0) {
-				push(u, f, e);
-				if (to[e] != f) {
-					push(to[e], u, -1);
-				}
+	public static void dfs(int u, int f) {
+		deep[u] = deep[f] + 1;
+		stjump[u][0] = f;
+		for (int p = 1; p <= power; p++) {
+			stjump[u][p] = stjump[stjump[u][p - 1]][p - 1];
+		}
+		for (int i = 0; i <= BIT; i++) {
+			poss[u][i] = poss[f][i];
+			basiss[u][i] = basiss[f][i];
+		}
+		insert(u, basiss[u], poss[u]);
+		for (int e = head[u]; e != 0; e = next[e]) {
+			if (to[e] != f) {
+				dfs(to[e], u);
 			}
 		}
 	}
@@ -209,7 +180,7 @@ public class Code05_LuckyNumber2 {
 			addEdge(u, v);
 			addEdge(v, u);
 		}
-		dfs(1);
+		dfs(1, 0);
 		for (int i = 1, x, y; i <= q; i++) {
 			x = io.nextInt();
 			y = io.nextInt();
