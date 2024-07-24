@@ -27,24 +27,31 @@ public class Code04_Lanterns {
 
 	public static int n, m;
 
-	public static int cnt;
-
-	// 普通消元
-	public static void compute() {
-		cnt = 0;
+	// 计算线性基的大小
+	public static int compute() {
+		int size = 0;
 		for (int i = 1; i <= n; i++) {
-			long num = arr[i];
-			for (int j = m; j >= 0; j--) {
-				if (num >> j == 1) {
-					if (basis[j] == 0) {
-						cnt++;
-						basis[j] = num;
-						break;
-					}
-					num ^= basis[j];
-				}
+			if (insert(arr[i])) {
+				size++;
 			}
 		}
+		return size;
+	}
+
+	// 往线性基里插入num
+	// 如果num成为了线性基的一部分返回true
+	// 否则返回false
+	public static boolean insert(long num) {
+		for (int i = m; i >= 0; i--) {
+			if (num >> i == 1) {
+				if (basis[i] == 0) {
+					basis[i] = num;
+					return true;
+				}
+				num ^= basis[i];
+			}
+		}
+		return false;
 	}
 
 	public static void main(String[] args) throws IOException {
@@ -62,8 +69,8 @@ public class Code04_Lanterns {
 			}
 			arr[i] = num;
 		}
-		compute();
-		io.println((1L << cnt) % MOD);
+		int size = compute();
+		io.println((1L << size) % MOD);
 		io.flush();
 		io.close();
 	}

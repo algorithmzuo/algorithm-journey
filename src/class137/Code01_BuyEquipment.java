@@ -29,26 +29,31 @@ public class Code01_BuyEquipment {
 
 	public static int cnt, ans;
 
-	// 普通消元
 	public static void compute() {
 		cnt = ans = 0;
 		Arrays.sort(mat, 1, n + 1, (a, b) -> a[m + 1] <= b[m + 1] ? -1 : 1);
 		for (int i = 1; i <= n; i++) {
-			for (int j = 1; j <= m; j++) {
-				if (Math.abs(mat[i][j]) >= sml) {
-					if (basis[j] == 0) {
-						basis[j] = i;
-						cnt++;
-						ans += (int) mat[i][m + 1];
-						break;
-					}
-					double rate = mat[i][j] / mat[basis[j]][j];
-					for (int k = j; k <= m; k++) {
-						mat[i][k] -= rate * mat[basis[j]][k];
-					}
+			if (insert(i)) {
+				cnt++;
+				ans += (int) mat[i][m + 1];
+			}
+		}
+	}
+
+	public static boolean insert(int i) {
+		for (int j = 1; j <= m; j++) {
+			if (Math.abs(mat[i][j]) >= sml) {
+				if (basis[j] == 0) {
+					basis[j] = i;
+					return true;
+				}
+				double rate = mat[i][j] / mat[basis[j]][j];
+				for (int k = j; k <= m; k++) {
+					mat[i][k] -= rate * mat[basis[j]][k];
 				}
 			}
 		}
+		return false;
 	}
 
 	public static void main(String[] args) throws IOException {

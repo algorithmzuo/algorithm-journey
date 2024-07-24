@@ -26,8 +26,6 @@ public class Code03_Elements {
 
 	public static int n, m;
 
-	public static long ans;
-
 	public static void maxbit() {
 		long max = arr[1][0];
 		for (int i = 2; i <= n; i++) {
@@ -39,23 +37,32 @@ public class Code03_Elements {
 		}
 	}
 
-	// 普通消元
-	public static void compute() {
-		ans = 0;
+	// 计算得到最大线性基的最少花费
+	public static long compute() {
+		long ans = 0;
 		Arrays.sort(arr, 1, n + 1, (a, b) -> a[1] >= b[1] ? -1 : 1);
 		for (int i = 1; i <= n; i++) {
-			long num = arr[i][0];
-			for (int j = m; j >= 0; j--) {
-				if (num >> j == 1) {
-					if (basis[j] == 0) {
-						basis[j] = num;
-						ans += arr[i][1];
-						break;
-					}
-					num ^= basis[j];
-				}
+			if (insert(arr[i][0])) {
+				ans += arr[i][1];
 			}
 		}
+		return ans;
+	}
+
+	// 往线性基里插入num
+	// 如果num成为了线性基的一部分返回true
+	// 否则返回false
+	public static boolean insert(long num) {
+		for (int i = m; i >= 0; i--) {
+			if (num >> i == 1) {
+				if (basis[i] == 0) {
+					basis[i] = num;
+					return true;
+				}
+				num ^= basis[i];
+			}
+		}
+		return false;
 	}
 
 	public static void main(String[] args) throws IOException {
@@ -70,8 +77,7 @@ public class Code03_Elements {
 			arr[i][1] = io.nextInt();
 		}
 		maxbit();
-		compute();
-		io.println(ans);
+		io.println(compute());
 		io.flush();
 		io.close();
 	}

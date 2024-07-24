@@ -69,6 +69,24 @@ public class Code03_LuckyNumber1 {
 		head[u] = cnt++;
 	}
 
+	public static void dfs(int u, int f) {
+		deep[u] = deep[f] + 1;
+		stjump[u][0] = f;
+		for (int p = 1; p <= power; p++) {
+			stjump[u][p] = stjump[stjump[u][p - 1]][p - 1];
+		}
+		for (int i = 0; i <= BIT; i++) {
+			poss[u][i] = poss[f][i];
+			basiss[u][i] = basiss[f][i];
+		}
+		insert(u, basiss[u], poss[u]);
+		for (int e = head[u]; e != 0; e = next[e]) {
+			if (to[e] != f) {
+				dfs(to[e], u);
+			}
+		}
+	}
+
 	public static void insert(int p, long[] basis, int[] pos) {
 		long num = arr[p];
 		for (int i = BIT; i >= 0; i--) {
@@ -87,24 +105,6 @@ public class Code03_LuckyNumber1 {
 					basis[i] = tmp2;
 				}
 				num ^= basis[i];
-			}
-		}
-	}
-
-	public static void dfs(int u, int f) {
-		deep[u] = deep[f] + 1;
-		stjump[u][0] = f;
-		for (int p = 1; p <= power; p++) {
-			stjump[u][p] = stjump[stjump[u][p - 1]][p - 1];
-		}
-		for (int i = 0; i <= BIT; i++) {
-			poss[u][i] = poss[f][i];
-			basiss[u][i] = basiss[f][i];
-		}
-		insert(u, basiss[u], poss[u]);
-		for (int e = head[u]; e != 0; e = next[e]) {
-			if (to[e] != f) {
-				dfs(to[e], u);
 			}
 		}
 	}

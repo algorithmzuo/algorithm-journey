@@ -1,7 +1,7 @@
 package class137;
 
-// 最大异或和路径
+// 路径最大异或和
 // 测试链接 : https://www.luogu.com.cn/problem/P4151
-public class Code02_MaximumXorPath {
+public class Code02_MaximumXorOfPath {
 
 }

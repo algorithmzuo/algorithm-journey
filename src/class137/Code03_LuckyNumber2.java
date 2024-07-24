@@ -67,28 +67,6 @@ public class Code03_LuckyNumber2 {
 		head[u] = cnt++;
 	}
 
-	public static void insert(int p, long[] basis, int[] pos) {
-		long num = arr[p];
-		for (int i = BIT; i >= 0; i--) {
-			if (num >> i == 1) {
-				if (basis[i] == 0) {
-					basis[i] = num;
-					pos[i] = p;
-					break;
-				}
-				if (deep[p] > deep[pos[i]]) {
-					int tmp1 = pos[i];
-					pos[i] = p;
-					p = tmp1;
-					long tmp2 = num;
-					num = basis[i];
-					basis[i] = tmp2;
-				}
-				num ^= basis[i];
-			}
-		}
-	}
-
 	// dfs迭代版
 	// ufe是为了实现迭代版而准备的栈
 	public static int[][] ufe = new int[MAXN][3];
@@ -134,6 +112,28 @@ public class Code03_LuckyNumber2 {
 				if (to[e] != f) {
 					push(to[e], u, -1);
 				}
+			}
+		}
+	}
+
+	public static void insert(int p, long[] basis, int[] pos) {
+		long num = arr[p];
+		for (int i = BIT; i >= 0; i--) {
+			if (num >> i == 1) {
+				if (basis[i] == 0) {
+					basis[i] = num;
+					pos[i] = p;
+					break;
+				}
+				if (deep[p] > deep[pos[i]]) {
+					int tmp1 = pos[i];
+					pos[i] = p;
+					p = tmp1;
+					long tmp2 = num;
+					num = basis[i];
+					basis[i] = tmp2;
+				}
+				num ^= basis[i];
 			}
 		}
 	}

@@ -23,8 +23,6 @@ public class Code01_MaximumXor {
 
 	public static long[] basis = new long[MAXM];
 
-	public static boolean zero;
-
 	public static void maxbit() {
 		long max = arr[1];
 		for (int i = 2; i <= n; i++) {
@@ -36,24 +34,32 @@ public class Code01_MaximumXor {
 		}
 	}
 
-	// 普通消元
-	public static void compute() {
+	// 计算最大异或和
+	public static long compute() {
 		for (int i = 1; i <= n; i++) {
-			boolean pick = false;
-			for (int j = m; j >= 0; j--) {
-				if (arr[i] >> j == 1) {
-					if (basis[j] == 0) {
-						basis[j] = arr[i];
-						pick = true;
-						break;
-					}
-					arr[i] ^= basis[j];
+			insert(arr[i]);
+		}
+		long ans = 0;
+		for (int i = m; i >= 0; i--) {
+			ans = Math.max(ans, ans ^ basis[i]);
+		}
+		return ans;
+	}
+
+	// 往线性基里插入num
+	// 如果num成为了线性基的一部分返回true
+	// 否则返回false
+	public static boolean insert(long num) {
+		for (int i = m; i >= 0; i--) {
+			if (num >> i == 1) {
+				if (basis[i] == 0) {
+					basis[i] = num;
+					return true;
 				}
-			}
-			if (!pick) {
-				zero = true;
+				num ^= basis[i];
 			}
 		}
+		return false;
 	}
 
 	public static void main(String[] args) throws IOException {
@@ -68,11 +74,7 @@ public class Code01_MaximumXor {
 		}
 		maxbit();
 		compute();
-		long ans = 0;
-		for (int i = m; i >= 0; i--) {
-			ans = Math.max(ans, ans ^ basis[i]);
-		}
-		out.println(ans);
+		out.println(compute());
 		out.flush();
 		out.close();
 		br.close();

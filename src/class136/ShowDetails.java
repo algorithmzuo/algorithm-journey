@@ -28,21 +28,26 @@ public class ShowDetails {
 	// 普通消元
 	public static void compute1() {
 		for (int i = 1; i <= n; i++) {
-			boolean pick = false;
-			for (int j = m; j >= 0; j--) {
-				if (arr[i] >> j == 1) {
-					if (basis1[j] == 0) {
-						basis1[j] = arr[i];
-						pick = true;
-						break;
-					}
-					arr[i] ^= basis1[j];
-				}
-			}
-			if (!pick) {
+			if (!insert(arr[i])) {
 				zero1 = true;
 			}
 		}
+	}
+
+	// 往线性基里插入num
+	// 如果num成为了线性基的一部分返回true
+	// 否则返回false
+	public static boolean insert(long num) {
+		for (int i = m; i >= 0; i--) {
+			if (num >> i == 1) {
+				if (basis1[i] == 0) {
+					basis1[i] = num;
+					return true;
+				}
+				num ^= basis1[i];
+			}
+		}
+		return false;
 	}
 
 	public static long[] basis2 = new long[MAXN];
