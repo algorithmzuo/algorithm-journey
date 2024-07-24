@@ -36,6 +36,7 @@ public class Code02_MaximumXorOfPath2 {
 	// 空间线性基
 	public static long[] basis = new long[BIT + 1];
 
+	// dfs需要
 	public static boolean[] visited = new boolean[MAXN];
 
 	public static long[] path = new long[MAXN];
