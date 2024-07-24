@@ -54,7 +54,7 @@ public class Code02_Multiply2 {
 	}
 
 	// dfs迭代版
-	// nfe是为了实现迭代版而准备的栈
+	// ufe是为了实现迭代版而准备的栈
 	public static int[][] ufe = new int[MAXN][3];
 
 	public static int stackSize, u, f, e;
