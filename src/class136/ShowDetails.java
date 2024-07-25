@@ -13,35 +13,11 @@ public class ShowDetails {
 
 	public static int n;
 
-	// nums中1~n的范围
-	// 所有可能的异或和打印出来
-	// 要求去重并且至少选择一个数字
-	public static void print(long[] nums, int n) {
-		HashSet<Long> set = new HashSet<>();
-		dfs(nums, n, 1, false, 0, set);
-		System.out.println("至少选择一个数字所有可能的异或和:");
-		for (Long s : set) {
-			System.out.print(s + ", ");
-		}
-		System.out.println();
-	}
-
-	public static void dfs(long[] nums, int n, int i, boolean pick, long path, HashSet<Long> set) {
-		if (i > n) {
-			if (pick) {
-				set.add(path);
-			}
-		} else {
-			dfs(nums, n, i + 1, pick, path, set);
-			dfs(nums, n, i + 1, true, path ^ nums[i], set);
-		}
-	}
-
+	// 普通消元
 	public static long[] basis1 = new long[BIT + 1];
 
 	public static boolean zero1;
 
-	// 普通消元
 	public static void compute1() {
 		zero1 = false;
 		for (int i = 1; i <= n; i++) {
@@ -66,15 +42,15 @@ public class ShowDetails {
 		return false;
 	}
 
+	// 高斯消元
+	// 因为不需要维护主元和自由元的依赖关系
+	// 所以高斯消元的写法可以得到简化
 	public static long[] basis2 = new long[BIT + 1];
 
 	public static int len;
 
 	public static boolean zero2;
 
-	// 高斯消元
-	// 因为不需要维护主元和自由元的依赖关系
-	// 所以高斯消元的写法可以得到简化
 	public static void compute2() {
 		len = 1;
 		for (long i = BIT; i >= 0; i--) {
@@ -112,7 +88,7 @@ public class ShowDetails {
 		arr[4] = basis2[4] = 11;
 		n = 4;
 		System.out.println("原始数组得到的异或结果如下");
-		print(arr, 4);
+		printXor(arr, 4);
 		System.out.println("===========================");
 
 		System.out.println("普通消元得到的线性基 : ");
@@ -128,7 +104,7 @@ public class ShowDetails {
 		System.out.println();
 		System.out.println("是否能异或出0 : " + zero1);
 		System.out.println("普通消元得到的异或结果如下");
-		print(b1, s1);
+		printXor(b1, s1);
 
 		System.out.println("===========================");
 
@@ -140,7 +116,7 @@ public class ShowDetails {
 		System.out.println();
 		System.out.println("是否能异或出0 : " + zero2);
 		System.out.println("高斯消元得到的异或结果如下");
-		print(basis2, len);
+		printXor(basis2, len);
 
 		System.out.println();
 		System.out.println();
@@ -180,6 +156,35 @@ public class ShowDetails {
 		}
 		System.out.println();
 		System.out.println("是否能异或出0 : " + zero2);
+	}
+
+	// nums中1~n的范围
+	// 所有可能的异或和打印出来
+	// 要求去重并且至少选择一个数字
+	public static void printXor(long[] nums, int n) {
+		HashSet<Long> set = new HashSet<>();
+		dfs(nums, n, 1, false, 0, set);
+		System.out.println("至少选择一个数字所有可能的异或和:");
+		for (Long s : set) {
+			System.out.print(s + ", ");
+		}
+		System.out.println();
+	}
+
+	// 当前来到i位置
+	// 之前是否选择过数字用pick表示
+	// 之前做的决定形成的异或和是path
+	// 当前i位置的数字要或者不要全决策
+	// 收集所有可能的异或和
+	public static void dfs(long[] nums, int n, int i, boolean pick, long path, HashSet<Long> set) {
+		if (i > n) {
+			if (pick) {
+				set.add(path);
+			}
+		} else {
+			dfs(nums, n, i + 1, pick, path, set);
+			dfs(nums, n, i + 1, true, path ^ nums[i], set);
+		}
 	}
 
 }
