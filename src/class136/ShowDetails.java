@@ -9,6 +9,7 @@ public class ShowDetails {
 
 	public static int MAXN = 101;
 
+	// 最高位从哪开始
 	public static int BIT = 60;
 
 	public static long[] arr = new long[MAXN];
@@ -46,7 +47,7 @@ public class ShowDetails {
 	// 高斯消元
 	// 因为不需要维护主元和自由元的依赖关系
 	// 所以高斯消元的写法可以得到简化
-	public static long[] basis2 = new long[BIT + 1];
+	public static long[] basis2 = new long[MAXN];
 
 	public static int len;
 
@@ -81,17 +82,19 @@ public class ShowDetails {
 	}
 
 	public static void main(String[] args) {
+		// 课上讲的普通消元，例子1
+		// 12, 9, 14, 11
+		System.out.println("例子1");
 		Arrays.fill(basis1, 0);
-		Arrays.fill(basis2, 0);
-		arr[1] = basis2[1] = 12;
-		arr[2] = basis2[2] = 9;
-		arr[3] = basis2[3] = 14;
-		arr[4] = basis2[4] = 11;
+		arr[1] = 12;
+		arr[2] = 9;
+		arr[3] = 14;
+		arr[4] = 11;
 		n = 4;
 		System.out.println("原始数组得到的异或结果如下");
-		printXor(arr, 4);
-		System.out.println("===========================");
+		printXor(arr, n);
 
+		System.out.println("===========================");
 		System.out.println("普通消元得到的线性基 : ");
 		compute1();
 		long[] b1 = new long[MAXN];
@@ -106,10 +109,55 @@ public class ShowDetails {
 		System.out.println("是否能异或出0 : " + zero1);
 		System.out.println("普通消元得到的异或结果如下");
 		printXor(b1, s1);
-
 		System.out.println("===========================");
 
-		System.out.println("高斯消元");
+		System.out.println();
+		System.out.println();
+
+		// 课上讲的普通消元，例子2
+		// 2, 5, 11, 6
+		System.out.println("例子2");
+		Arrays.fill(basis1, 0);
+		arr[1] = 2;
+		arr[2] = 5;
+		arr[3] = 11;
+		arr[4] = 6;
+		n = 4;
+		System.out.println("原始数组得到的异或结果如下");
+		printXor(arr, n);
+		System.out.println("===========================");
+		System.out.println("普通消元得到的线性基 : ");
+		compute1();
+		long[] b2 = new long[MAXN];
+		int s2 = 0;
+		for (int i = BIT; i >= 0; i--) {
+			if (basis1[i] != 0) {
+				System.out.print(basis1[i] + " ");
+				b2[++s2] = basis1[i];
+			}
+		}
+		System.out.println();
+		System.out.println("是否能异或出0 : " + zero1);
+		System.out.println("普通消元得到的异或结果如下");
+		printXor(b2, s2);
+		System.out.println("===========================");
+
+		System.out.println();
+		System.out.println();
+
+		// 课上讲的高斯消元的例子，例子3
+		// 6, 37, 35, 33
+		System.out.println("例子3");
+		Arrays.fill(basis2, 0);
+		arr[1] = basis2[1] = 6;
+		arr[2] = basis2[2] = 37;
+		arr[3] = basis2[3] = 35;
+		arr[4] = basis2[4] = 33;
+		n = 4;
+		System.out.println("原始数组得到的异或结果如下");
+		printXor(arr, n);
+		System.out.println("===========================");
+		System.out.println("高斯消元得到的线性基 : ");
 		compute2();
 		for (int i = 1; i <= len; i++) {
 			System.out.print(basis2[i] + " ");
@@ -118,12 +166,13 @@ public class ShowDetails {
 		System.out.println("是否能异或出0 : " + zero2);
 		System.out.println("高斯消元得到的异或结果如下");
 		printXor(basis2, len);
+		System.out.println("===========================");
 
 		System.out.println();
 		System.out.println();
-		System.out.println();
 
-		// 如果想得到第k小的异或和
+		// 课上讲的高斯消元的例子，例子4
+		// 如果想得到第k小的非0异或和
 		// 必须用高斯消元，不能用普通消元，比如
 		// arr = { 7, 10, 4 }
 		// 普通消元得到的异或空间线性基是 : 10 7 3
@@ -131,13 +180,16 @@ public class ShowDetails {
 		// 高斯消元可以得到正确结果
 		// 高斯消元得到的异或空间线性基是 : 9 4 3
 		// 第三小异或和是7，第四小异或和是9，这是正确的
+		System.out.println("例子4");
 		Arrays.fill(basis1, 0);
 		Arrays.fill(basis2, 0);
 		arr[1] = basis2[1] = 7;
 		arr[2] = basis2[2] = 10;
 		arr[3] = basis2[3] = 4;
 		n = 3;
-
+		System.out.println("原始数组得到的异或结果如下");
+		printXor(arr, n);
+		System.out.println("===========================");
 		System.out.println("普通消元");
 		compute1();
 		for (int i = BIT; i >= 0; i--) {
