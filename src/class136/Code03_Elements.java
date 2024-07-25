@@ -18,24 +18,13 @@ public class Code03_Elements {
 
 	public static int MAXN = 1001;
 
-	public static int MAXM = 64;
+	public static int BIT = 60;
 
 	public static long[][] arr = new long[MAXN][2];
 
-	public static long[] basis = new long[MAXM];
+	public static long[] basis = new long[BIT + 1];
 
-	public static int n, m;
-
-	public static void maxbit() {
-		long max = arr[1][0];
-		for (int i = 2; i <= n; i++) {
-			max = Math.max(max, arr[i][0]);
-		}
-		m = 0;
-		while ((max >> (m + 1)) != 0) {
-			m++;
-		}
-	}
+	public static int n;
 
 	// 普通消元
 	// 计算得到最大线性基的最少花费
@@ -53,7 +42,7 @@ public class Code03_Elements {
 	// 线性基里插入num
 	// 如果线性基增加了，返回true，否则返回false
 	public static boolean insert(long num) {
-		for (int i = m; i >= 0; i--) {
+		for (int i = BIT; i >= 0; i--) {
 			if (num >> i == 1) {
 				if (basis[i] == 0) {
 					basis[i] = num;
@@ -76,7 +65,6 @@ public class Code03_Elements {
 			arr[i][0] = io.nextLong();
 			arr[i][1] = io.nextInt();
 		}
-		maxbit();
 		io.println(compute());
 		io.flush();
 		io.close();

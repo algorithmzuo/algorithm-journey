@@ -15,24 +15,13 @@ public class Code01_MaximumXor {
 
 	public static int MAXN = 51;
 
-	public static int MAXM = 64;
+	public static int BIT = 60;
 
 	public static long[] arr = new long[MAXN];
 
-	public static int n, m;
+	public static long[] basis = new long[BIT + 1];
 
-	public static long[] basis = new long[MAXM];
-
-	public static void maxbit() {
-		long max = arr[1];
-		for (int i = 2; i <= n; i++) {
-			max = Math.max(max, arr[i]);
-		}
-		m = 0;
-		while ((max >> (m + 1)) != 0) {
-			m++;
-		}
-	}
+	public static int n;
 
 	// 普通消元
 	// 计算最大异或和
@@ -41,7 +30,7 @@ public class Code01_MaximumXor {
 			insert(arr[i]);
 		}
 		long ans = 0;
-		for (int i = m; i >= 0; i--) {
+		for (int i = BIT; i >= 0; i--) {
 			ans = Math.max(ans, ans ^ basis[i]);
 		}
 		return ans;
@@ -50,7 +39,7 @@ public class Code01_MaximumXor {
 	// 线性基里插入num
 	// 如果线性基增加了，返回true，否则返回false
 	public static boolean insert(long num) {
-		for (int i = m; i >= 0; i--) {
+		for (int i = BIT; i >= 0; i--) {
 			if (num >> i == 1) {
 				if (basis[i] == 0) {
 					basis[i] = num;
@@ -72,7 +61,6 @@ public class Code01_MaximumXor {
 			in.nextToken();
 			arr[i] = (long) in.nval;
 		}
-		maxbit();
 		compute();
 		out.println(compute());
 		out.flush();

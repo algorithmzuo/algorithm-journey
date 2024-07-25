@@ -17,39 +17,30 @@ public class Code02_KthXor {
 
 	public static int MAXN = 100001;
 
-	public static long[] arr = new long[MAXN];
+	public static int BIT = 60;
 
-	public static int n, m;
+	public static long[] arr = new long[MAXN];
 
 	public static int len;
 
 	public static boolean zero;
 
-	public static void maxbit() {
-		long max = arr[1];
-		for (int i = 2; i <= n; i++) {
-			max = Math.max(max, arr[i]);
-		}
-		m = 0;
-		while ((max >> (m + 1)) != 0) {
-			m++;
-		}
-	}
+	public static int n;
 
 	// 高斯消元
 	public static void compute() {
 		len = 1;
-		for (long bit = 1L << m; bit != 0; bit >>= 1) {
-			for (int i = len; i <= n; i++) {
-				if ((arr[i] & bit) != 0) {
-					swap(i, len);
+		for (long i = BIT; i >= 0; i--) {
+			for (int j = len; j <= n; j++) {
+				if ((arr[j] & (1L << i)) != 0) {
+					swap(j, len);
 					break;
 				}
 			}
-			if ((arr[len] & bit) != 0) {
-				for (int i = 1; i <= n; i++) {
-					if (i != len && (arr[i] & bit) != 0) {
-						arr[i] ^= arr[len];
+			if ((arr[len] & (1L << i)) != 0) {
+				for (int j = 1; j <= n; j++) {
+					if (j != len && (arr[j] & (1L << i)) != 0) {
+						arr[j] ^= arr[len];
 					}
 				}
 				len++;
@@ -96,7 +87,6 @@ public class Code02_KthXor {
 		for (int i = 1; i <= n; i++) {
 			arr[i] = io.nextLong();
 		}
-		maxbit();
 		compute();
 		int q = io.nextInt();
 		for (int i = 1; i <= q; i++) {

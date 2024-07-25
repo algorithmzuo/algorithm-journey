@@ -17,13 +17,11 @@ public class Code04_Lanterns {
 
 	public static int MAXN = 51;
 
-	public static int MAXM = 51;
-
 	public static int MOD = 2008;
 
 	public static long[] arr = new long[MAXN];
 
-	public static long[] basis = new long[MAXM];
+	public static long[] basis = new long[MAXN];
 
 	public static int n, m;
 
