@@ -68,7 +68,7 @@ public class Code05_Kattio {
 		io.nextInt(); // 读取下一个int
 		io.nextDouble(); // 读取下一个double
 		io.nextLong(); // 读取下一个long
-		io.println("ans"); // 打印答案
+		io.println("ans"); // 答案进入输出流
 		io.flush(); // 答案刷给后台
 		io.close(); // 关闭io
 	}
