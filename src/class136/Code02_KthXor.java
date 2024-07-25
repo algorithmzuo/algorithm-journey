@@ -1,6 +1,11 @@
 package class136;
 
 // 第k小的异或和
+// 给定一个长度为n的数组arr，arr中都是long类型的非负数，可能有重复值
+// 在这些数中选取任意个，可以得到很多异或和，假设异或和的结果去重
+// 返回第k小的异或和
+// 1 <= n <= 10^5
+// 0 <= arr[i] <= 2^50
 // 测试链接 : https://loj.ac/p/114
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
@@ -17,7 +22,7 @@ public class Code02_KthXor {
 
 	public static int MAXN = 100001;
 
-	public static int BIT = 60;
+	public static int BIT = 50;
 
 	public static long[] arr = new long[MAXN];
 
