@@ -37,6 +37,7 @@ public class Code03_Elements {
 		}
 	}
 
+	// 普通消元
 	// 计算得到最大线性基的最少花费
 	public static long compute() {
 		long ans = 0;
@@ -49,7 +50,6 @@ public class Code03_Elements {
 		return ans;
 	}
 
-	// 普通消元
 	// 线性基里插入num
 	// 如果线性基增加了，返回true，否则返回false
 	public static boolean insert(long num) {

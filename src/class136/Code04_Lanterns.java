@@ -27,6 +27,7 @@ public class Code04_Lanterns {
 
 	public static int n, m;
 
+	// 普通消元
 	// 计算线性基的大小
 	public static int compute() {
 		int size = 0;
@@ -38,7 +39,6 @@ public class Code04_Lanterns {
 		return size;
 	}
 
-	// 普通消元
 	// 线性基里插入num
 	// 如果线性基增加了，返回true，否则返回false
 	public static boolean insert(long num) {

@@ -34,6 +34,7 @@ public class Code01_MaximumXor {
 		}
 	}
 
+	// 普通消元
 	// 计算最大异或和
 	public static long compute() {
 		for (int i = 1; i <= n; i++) {
@@ -46,7 +47,6 @@ public class Code01_MaximumXor {
 		return ans;
 	}
 
-	// 普通消元
 	// 线性基里插入num
 	// 如果线性基增加了，返回true，否则返回false
 	public static boolean insert(long num) {
