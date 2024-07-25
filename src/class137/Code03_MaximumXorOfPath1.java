@@ -22,9 +22,9 @@ public class Code03_MaximumXorOfPath1 {
 
 	public static int MAXM = 200002;
 
-	public static int BIT = 62;
+	public static int BIT = 60;
 
-	// 链式前向星建图
+	// 链式前向星
 	public static int[] head = new int[MAXN];
 
 	public static int[] next = new int[MAXM];
@@ -35,7 +35,7 @@ public class Code03_MaximumXorOfPath1 {
 
 	public static int cnt;
 
-	// 空间线性基
+	// 异或空间线性基
 	public static long[] basis = new long[BIT + 1];
 
 	// dfs需要

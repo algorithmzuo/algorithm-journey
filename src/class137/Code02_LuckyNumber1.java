@@ -20,7 +20,7 @@ public class Code02_LuckyNumber1 {
 
 	public static int MAXN = 20002;
 
-	public static int LIMIT = 20;
+	public static int LIMIT = 16;
 
 	public static int BIT = 60;
 
@@ -28,7 +28,7 @@ public class Code02_LuckyNumber1 {
 
 	public static long[] arr = new long[MAXN];
 
-	// 链式前向星建图
+	// 链式前向星
 	public static int[] head = new int[MAXN];
 
 	public static int[] next = new int[MAXN << 1];
@@ -44,10 +44,13 @@ public class Code02_LuckyNumber1 {
 
 	public static int power;
 
-	// 异或空间线性基
-	public static int[][] poss = new int[MAXN][BIT + 1];
+	// bs[i][j]表示：
+	// 头节点到i节点路径上的数字，建立异或空间线性基，其中j位的线性基是哪个数字
+	public static long[][] bs = new long[MAXN][BIT + 1];
 
-	public static long[][] basiss = new long[MAXN][BIT + 1];
+	// ps[i][j]表示：
+	// 头节点到i节点路径上的数字，建立异或空间线性基，其中j位的线性基来自哪一层
+	public static int[][] ps = new int[MAXN][BIT + 1];
 
 	public static void build() {
 		cnt = 1;
@@ -76,10 +79,10 @@ public class Code02_LuckyNumber1 {
 			stjump[u][p] = stjump[stjump[u][p - 1]][p - 1];
 		}
 		for (int i = 0; i <= BIT; i++) {
-			poss[u][i] = poss[f][i];
-			basiss[u][i] = basiss[f][i];
+			bs[u][i] = bs[f][i];
+			ps[u][i] = ps[f][i];
 		}
-		insert(u, basiss[u], poss[u]);
+		insert(u, bs[u], ps[u]);
 		for (int e = head[u]; e != 0; e = next[e]) {
 			if (to[e] != f) {
 				dfs(to[e], u);
@@ -97,12 +100,12 @@ public class Code02_LuckyNumber1 {
 					break;
 				}
 				if (deep[p] > deep[pos[i]]) {
-					int tmp1 = pos[i];
-					pos[i] = p;
-					p = tmp1;
-					long tmp2 = num;
+					long tmp1 = num;
 					num = basis[i];
-					basis[i] = tmp2;
+					basis[i] = tmp1;
+					int tmp2 = pos[i];
+					pos[i] = p;
+					p = tmp2;
 				}
 				num ^= basis[i];
 			}
@@ -136,25 +139,26 @@ public class Code02_LuckyNumber1 {
 
 	public static long query(int x, int y) {
 		int lca = lca(x, y);
+		long[] basisx = bs[x];
+		int[] posx = ps[x];
+		long[] basisy = bs[y];
+		int[] posy = ps[y];
+		Arrays.fill(base, 0);
 		for (int i = BIT; i >= 0; i--) {
-			if (deep[poss[x][i]] >= deep[lca]) {
-				base[i] = basiss[x][i];
-			} else {
-				base[i] = 0;
+			if (deep[posx[i]] >= deep[lca]) {
+				base[i] = basisx[i];
 			}
 		}
 		for (int i = BIT; i >= 0; i--) {
-			if (deep[poss[y][i]] >= deep[lca]) {
-				long num = basiss[y][i];
-				if (num != 0) {
-					for (int j = i; j >= 0; j--) {
-						if (((num >> j) & 1) == 1) {
-							if (base[j] == 0) {
-								base[j] = num;
-								break;
-							}
-							num ^= base[j];
+			long num = basisy[i];
+			if (deep[posy[i]] >= deep[lca] && num != 0) {
+				for (int j = i; j >= 0; j--) {
+					if (num >> j == 1) {
+						if (base[j] == 0) {
+							base[j] = num;
+							break;
 						}
+						num ^= base[j];
 					}
 				}
 			}
