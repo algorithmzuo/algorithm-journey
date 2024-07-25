@@ -1,5 +1,7 @@
 package class136;
 
+// 课上讲述普通消元、高斯消元构建异或空间线性基的例子
+
 import java.util.Arrays;
 import java.util.HashSet;
 
