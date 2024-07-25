@@ -29,8 +29,7 @@ public class ShowDetails {
 		}
 	}
 
-	// 线性基里插入num
-	// 如果线性基增加了，返回true，否则返回false
+	// 线性基里插入num，如果线性基增加了返回true，否则返回false
 	public static boolean insert(long num) {
 		for (int i = BIT; i >= 0; i--) {
 			if (num >> i == 1) {
