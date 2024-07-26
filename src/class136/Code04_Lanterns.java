@@ -2,9 +2,9 @@ package class136;
 
 // 彩灯
 // 一共有n个灯泡，开始都是不亮的状态，有m个开关
-// 每个开关能改变若干灯泡的状态，使其亮变不亮、不亮变亮
+// 每个开关能改变若干灯泡的状态，改变是指，亮变不亮、不亮变亮
 // 比如n=5，某个开关为XXOOO，表示这个开关只能改变后3个灯泡的状态
-// 可以随意使用开关，返回有多少种亮灯的情况
+// 可以随意使用开关，返回有多少种亮灯的组合，全不亮也算一种组合
 // 结果可能很大对2008取余
 // 1 <= n <= 50
 // 1 <= m <= 50
@@ -36,7 +36,7 @@ public class Code04_Lanterns {
 	// 计算线性基的大小
 	public static int compute() {
 		int size = 0;
-		for (int i = 1; i <= n; i++) {
+		for (int i = 1; i <= m; i++) {
 			if (insert(arr[i])) {
 				size++;
 			}
@@ -46,7 +46,7 @@ public class Code04_Lanterns {
 
 	// 线性基里插入num，如果线性基增加了返回true，否则返回false
 	public static boolean insert(long num) {
-		for (int i = m; i >= 0; i--) {
+		for (int i = n; i >= 0; i--) {
 			if (num >> i == 1) {
 				if (basis[i] == 0) {
 					basis[i] = num;
@@ -60,13 +60,13 @@ public class Code04_Lanterns {
 
 	public static void main(String[] args) throws IOException {
 		Kattio io = new Kattio();
-		m = io.nextInt() - 1;
-		n = io.nextInt();
+		n = io.nextInt() - 1;
+		m = io.nextInt();
 		char[] s;
-		for (int i = 1; i <= n; i++) {
+		for (int i = 1; i <= m; i++) {
 			s = io.next().toCharArray();
 			long num = 0;
-			for (int j = 0; j <= m; j++) {
+			for (int j = 0; j <= n; j++) {
 				if (s[j] == 'O') {
 					num |= 1L << j;
 				}
