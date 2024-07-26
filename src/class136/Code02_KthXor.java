@@ -63,21 +63,20 @@ public class Code02_KthXor {
 
 	// 返回第k小的异或和
 	public static long query(long k) {
+		if (zero && k == 1) {
+			return 0;
+		}
 		if (zero) {
 			k--;
-		}
-		if (k == 0) {
-			return 0;
 		}
 		if (k >= 1L << len) {
 			return -1;
 		}
 		long ans = 0;
-		for (int i = len; i >= 1; i--) {
-			if ((k & 1) != 0) {
+		for (int i = len, j = 0; i >= 1; i--, j++) {
+			if ((k & (1L << j)) != 0) {
 				ans ^= arr[i];
 			}
-			k >>= 1;
 		}
 		return ans;
 	}
