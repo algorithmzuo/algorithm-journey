@@ -4,7 +4,7 @@ package class137;
 // 测试链接 : https://www.luogu.com.cn/problem/P4151
 // 提交以下的code，提交时请把类名改成"Main"
 // C++这么写能通过，java会因为递归层数太多而爆栈
-// java能通过的写法参考本节课Code03_MaximumXorOfPath2文件
+// java能通过的写法参考本节课Code04_MaximumXorOfPath2文件
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -16,7 +16,7 @@ import java.io.PrintWriter;
 import java.util.Arrays;
 import java.util.StringTokenizer;
 
-public class Code03_MaximumXorOfPath1 {
+public class Code04_MaximumXorOfPath1 {
 
 	public static int MAXN = 50001;
 

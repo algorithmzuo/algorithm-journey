@@ -14,7 +14,7 @@ import java.io.PrintWriter;
 import java.util.Arrays;
 import java.util.StringTokenizer;
 
-public class Code02_LuckyNumber2 {
+public class Code03_LuckyNumber2 {
 
 	public static int MAXN = 20002;
 

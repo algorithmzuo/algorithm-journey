@@ -14,7 +14,7 @@ import java.io.PrintWriter;
 import java.util.Arrays;
 import java.util.StringTokenizer;
 
-public class Code03_MaximumXorOfPath2 {
+public class Code04_MaximumXorOfPath2 {
 
 	public static int MAXN = 50001;
 
