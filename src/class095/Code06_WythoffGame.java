@@ -23,11 +23,10 @@ import java.math.BigDecimal;
 public class Code06_WythoffGame {
 
 	// 黄金分割比例
-	// 洛谷在2024年7月增加了测试数据
-	// 需要非常高精度的黄金比例才能通过全部测试用例
-	// 所以就用高精度的呗，不够了我再加
-	// 增加的测试用例有为了刻意为难的嫌疑，其实没啥意思
-	// C++同学可以用long double类型
+	// 洛谷在2024年5月增加了测试数据
+	// 需要更高精度的黄金比例 + 更高精度的乘法，才能全部通过
+	// 增加的测试用例有刻意为难的嫌疑，其实没啥意思
+	// Java就用BigDecimal类型支持高精度，C++同学可以用long double类型
 	public static BigDecimal split = new BigDecimal("1.61803398874989484");
 
 	public static int a, b;
