@@ -47,7 +47,7 @@ public class Code01_GaussEor {
 	public static int n;
 
 	public static void prepare() {
-		// 得到2000以内的质数，
+		// 得到2000以内的质数
 		// 如果不会就去看，讲解097，埃氏筛
 		// 当然也可以用欧拉筛，也在讲解097
 		for (int i = 2; i * i <= MAXV; i++) {
