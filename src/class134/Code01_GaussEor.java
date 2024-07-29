@@ -1,15 +1,14 @@
 package class134;
 
-// 高斯消元解决异或方程组模版
-// 有一个n*n的二维网格，每个网格给定初始颜色，不是黄色就是白色
-// 有一个神奇的刷子，一旦在某个网格处刷一下
-// 那么该网格连同上下左右的网格，都会翻转颜色，黄变白、白变黄
-// 现在想知道，如果想让最终所有网格都变成黄色，一定需要被刷的网格有几个
-// 注意，答案是说，可能有很多方案都能做到所有网格变成黄色
-// 但不管是哪一种方案，可能都有一些网格一定需要被刷，打印这个数量
-// 如果所有方案都做不到，打印"inf"
-// 1 <= n <= 15
-// 测试链接 : http://poj.org/problem?id=1681
+// 高斯消元解决异或方程组模版题
+// 有一个长度为n的数组arr，可能有重复值，数字都是long类型的正数
+// 每个数拥有的质数因子一定不超过2000，每个数最多挑选一次
+// 在至少要选一个数的情况下，你可以随意挑选数字乘起来
+// 乘得的结果需要是完全平方数，请问有几种挑选数字的方法
+// 方法数可能很大，对1000000007取余
+// 1 <= n <= 300
+// 1 <= arr[i] <= 10^18
+// 测试链接 : https://acm.hdu.edu.cn/showproblem.php?pid=5833
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
 import java.io.BufferedReader;
@@ -23,33 +22,77 @@ import java.util.StringTokenizer;
 
 public class Code01_GaussEor {
 
-	public static int MAXS = 230;
+	public static int MOD = 1000000007;
 
-	public static int[][] mat = new int[MAXS][MAXS];
+	public static int MAXV = 2000;
 
-	public static int[] dir = { 0, 0, -1, 0, 1, 0 };
+	public static int MAXN = 305;
 
-	public static int n, m, s;
+	public static long[] arr = new long[MAXN];
+
+	public static int[][] mat = new int[MAXN][MAXN];
+
+	// 收集2000以内的质数
+	public static int[] prime = new int[MAXV + 1];
+
+	// 2000以内质数的个数
+	public static int cnt;
+
+	// 埃氏筛需要
+	public static boolean[] visit = new boolean[MAXV + 1];
+
+	// pow2[i] : 2的i次方 % MOD
+	public static int[] pow2 = new int[MAXN];
+
+	public static int n;
 
 	public static void prepare() {
-		for (int i = 1; i <= s; i++) {
-			for (int j = 1; j <= s + 1; j++) {
-				mat[i][j] = 0;
-			}
-		}
-		int cur, row, col;
-		for (int i = 0; i < n; i++) {
-			for (int j = 0; j < m; j++) {
-				cur = i * m + j + 1;
-				for (int d = 0; d <= 4; d++) {
-					row = i + dir[d];
-					col = j + dir[d + 1];
-					if (row >= 0 && row < n && col >= 0 && col < m) {
-						mat[cur][row * m + col + 1] = 1;
-					}
+		// 得到2000以内的质数，
+		// 如果不会就去看，讲解097，埃氏筛
+		// 当然也可以用欧拉筛，也在讲解097
+		for (int i = 2; i * i <= MAXV; i++) {
+			if (!visit[i]) {
+				for (int j = i * i; j <= MAXV; j += i) {
+					visit[j] = true;
 				}
 			}
 		}
+		cnt = 0;
+		for (int i = 2; i <= MAXV; i++) {
+			if (!visit[i]) {
+				prime[++cnt] = i;
+			}
+		}
+		pow2[0] = 1;
+		for (int i = 1; i < MAXN; i++) {
+			pow2[i] = (pow2[i - 1] * 2) % MOD;
+		}
+	}
+
+	public static int compute() {
+		for (int i = 1; i <= cnt; i++) {
+			for (int j = 1; j <= cnt + 1; j++) {
+				mat[i][j] = 0;
+			}
+		}
+		long cur;
+		for (int i = 1; i <= n; i++) {
+			cur = arr[i];
+			for (int j = 1; j <= cnt && cur != 0; j++) {
+				while (cur % prime[j] == 0) {
+					mat[i][j] ^= 1;
+					cur /= prime[j];
+				}
+			}
+		}
+		gauss(cnt);
+		int main = 0;
+		for (int i = 1; i <= cnt; i++) {
+			if (mat[i][i] == 1) {
+				main++;
+			}
+		}
+		return pow2[n - main] - 1;
 	}
 
 	// 高斯消元解决异或方程组模版
@@ -82,56 +125,21 @@ public class Code01_GaussEor {
 		mat[b] = tmp;
 	}
 
-	public static boolean check(int i) {
-		if (mat[i][i] != 1 || mat[i][s + 1] != 1) {
-			return false;
-		}
-		for (int j = i + 1; j <= s; j++) {
-			if (mat[i][j] != 0) {
-				return false;
-			}
-		}
-		return true;
-	}
-
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) {
+		prepare();
+		// 题目会读取10^18范围内的long类型数字
+		// 用StreamTokenizer可能无法正确读取，因为先变成double再转成long
+		// 这里用Kattio类，具体看讲解019的代码中，Code05_Kattio文件
+		// 有详细的说明
 		Kattio io = new Kattio();
 		int test = io.nextInt();
-		char[] line;
 		for (int t = 1; t <= test; t++) {
 			n = io.nextInt();
-			m = n;
-			s = n * m;
-			prepare();
-			for (int i = 0, id = 1; i < n; i++) {
-				line = io.next().toCharArray();
-				for (int j = 0; j < m; j++, id++) {
-					if (line[j] == 'y') {
-						mat[id][s + 1] = 0;
-					} else {
-						mat[id][s + 1] = 1;
-					}
-				}
+			for (int i = 1; i <= n; i++) {
+				arr[i] = io.nextLong();
 			}
-			gauss(s);
-			int sign = 1;
-			for (int i = 1; i <= s; i++) {
-				if (mat[i][i] == 0 && mat[i][s + 1] == 1) {
-					sign = -1;
-					break;
-				}
-			}
-			if (sign == -1) {
-				io.println("inf");
-			} else {
-				int ans = 0;
-				for (int i = 1; i <= s; i++) {
-					if (check(i)) {
-						ans++;
-					}
-				}
-				io.println(ans);
-			}
+			io.println("Case #" + t + ":");
+			io.println(compute());
 		}
 		io.flush();
 		io.close();
