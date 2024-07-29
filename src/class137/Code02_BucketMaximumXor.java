@@ -1,7 +1,14 @@
 package class137;
 
-// 线性基的合并
+// P哥的桶
+// 一共有n个桶，排成一排，编号1~n，每个桶可以装下任意个数字
+// 高效的实现如下两个操作
+// 操作 1 k v : 把数字v放入k号桶中
+// 操作 2 l r : 可以从l..r号桶中随意拿数字，返回异或和最大的结果
+// 1 <= n、m <= 5 * 10^4
+// 0 <= v <= 2^31 - 1
 // 测试链接 : https://www.luogu.com.cn/problem/P4839
+// 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -11,7 +18,7 @@ import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 import java.util.Arrays;
 
-public class Code02_BasisMerge {
+public class Code02_BucketMaximumXor {
 
 	public static int MAXN = 50001;
 
