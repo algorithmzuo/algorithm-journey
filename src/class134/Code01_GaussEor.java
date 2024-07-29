@@ -69,6 +69,26 @@ public class Code01_GaussEor {
 		}
 	}
 
+	public static void main(String[] args) {
+		prepare();
+		// 题目会读取10^18范围内的long类型数字
+		// 用StreamTokenizer可能无法正确读取，因为先变成double再转成long
+		// 这里用Kattio类，具体看讲解019的代码中，Code05_Kattio文件
+		// 有详细的说明
+		Kattio io = new Kattio();
+		int test = io.nextInt();
+		for (int t = 1; t <= test; t++) {
+			n = io.nextInt();
+			for (int i = 1; i <= n; i++) {
+				arr[i] = io.nextLong();
+			}
+			io.println("Case #" + t + ":");
+			io.println(compute());
+		}
+		io.flush();
+		io.close();
+	}
+
 	public static int compute() {
 		for (int i = 1; i <= cnt; i++) {
 			for (int j = 1; j <= cnt + 1; j++) {
@@ -86,12 +106,22 @@ public class Code01_GaussEor {
 			}
 		}
 		gauss(cnt);
-		int main = 0;
+		int main = 0; // 主元的数量
 		for (int i = 1; i <= cnt; i++) {
 			if (mat[i][i] == 1) {
 				main++;
 			}
 		}
+		// 影响每个主元的自由元们一旦确定
+		// 那么该主元选和不选也就唯一确定了
+		// 所以重点是自由元如何决策，n - main就是自由元的数量
+		// 自由元之间一定相互独立，每个自由元都可以做出选和不选的决定
+		// 所以一共是2的(n - main)次方种决策
+		// 但是想象一下，如果所有自由元都不选，
+		// mat值的部分(cnt+1列)全是0啊！那么意味着，所有主元也都不选
+		// 但是题目要求至少要选一个数，所以不能出现自由元都不选的情况
+		// 所以返回方法数-1
+		// 能做出这个讨论的前提是对主元和自由元之间的关系有清晰的认识
 		return pow2[n - main] - 1;
 	}
 
@@ -123,26 +153,6 @@ public class Code01_GaussEor {
 		int[] tmp = mat[a];
 		mat[a] = mat[b];
 		mat[b] = tmp;
-	}
-
-	public static void main(String[] args) {
-		prepare();
-		// 题目会读取10^18范围内的long类型数字
-		// 用StreamTokenizer可能无法正确读取，因为先变成double再转成long
-		// 这里用Kattio类，具体看讲解019的代码中，Code05_Kattio文件
-		// 有详细的说明
-		Kattio io = new Kattio();
-		int test = io.nextInt();
-		for (int t = 1; t <= test; t++) {
-			n = io.nextInt();
-			for (int i = 1; i <= n; i++) {
-				arr[i] = io.nextLong();
-			}
-			io.println("Case #" + t + ":");
-			io.println(compute());
-		}
-		io.flush();
-		io.close();
 	}
 
 	// Kattio类IO效率很好，但还是不如StreamTokenizer
