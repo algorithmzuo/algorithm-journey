@@ -32,10 +32,10 @@ public class Code01_GaussEor {
 
 	public static int[][] mat = new int[MAXN][MAXN];
 
-	// 收集2000以内的质数
+	// 收集2000以内的质数，一共就303个，这是大于arr的个数的
 	public static int[] prime = new int[MAXV + 1];
 
-	// 2000以内质数的个数
+	// 2000以内质数的个数，一共就303个，这是大于arr的个数的
 	public static int cnt;
 
 	// 埃氏筛需要
@@ -63,6 +63,7 @@ public class Code01_GaussEor {
 				prime[++cnt] = i;
 			}
 		}
+		// 2的i次方%MOD的结果
 		pow2[0] = 1;
 		for (int i = 1; i < MAXN; i++) {
 			pow2[i] = (pow2[i - 1] * 2) % MOD;
@@ -100,7 +101,7 @@ public class Code01_GaussEor {
 			cur = arr[i];
 			for (int j = 1; j <= cnt && cur != 0; j++) {
 				while (cur % prime[j] == 0) {
-					mat[i][j] ^= 1;
+					mat[j][i] ^= 1;
 					cur /= prime[j];
 				}
 			}
