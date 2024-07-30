@@ -59,7 +59,7 @@ public class Code04_NumberOfSubsetGcdK {
 		br.close();
 	}
 
-	// 时间复杂度O(n * logn)
+	// 时间复杂度O(v * log v)
 	public static long compute() {
 		for (int i = LIMIT; i >= 1; i--) {
 			long counts = 0;
