@@ -7,7 +7,8 @@ package class137;
 // 那么就说当前物品是不必要的，比如下面的例子
 // a = { 4, 6, 2 }, b = { 2, 8, 4 }, c = { 6, 19, 9 }
 // a * 0.5 + b * 2 = c，那么c物品是不必要的
-// 每个物品都有价格，现在希望尽量多的购买物品，但不能出现不必要的物品，返回最少花费
+// 每个物品都有价格，现在希望尽量多的购买物品，但不能出现不必要的物品
+// 返回最多能买几件物品和最少的花费
 // 1 <= n、m <= 500
 // 0 <= 属性值 <= 1000
 // 测试链接 : https://www.luogu.com.cn/problem/P3265
@@ -31,20 +32,20 @@ public class Code01_BuyEquipment {
 
 	public static double[][] mat = new double[MAXN][MAXM];
 
-	// 记录的是编号不是状态
+	// 记录的是物品编号
 	public static int[] basis = new int[MAXN];
 
 	public static int n, m;
 
-	public static int cnt, ans;
+	public static int cnt, cost;
 
 	public static void compute() {
-		cnt = ans = 0;
+		cnt = cost = 0;
 		Arrays.sort(mat, 1, n + 1, (a, b) -> a[m + 1] <= b[m + 1] ? -1 : 1);
 		for (int i = 1; i <= n; i++) {
 			if (insert(i)) {
 				cnt++;
-				ans += (int) mat[i][m + 1];
+				cost += (int) mat[i][m + 1];
 			}
 		}
 	}
@@ -84,7 +85,7 @@ public class Code01_BuyEquipment {
 			mat[i][m + 1] = (double) in.nval;
 		}
 		compute();
-		out.println(cnt + " " + ans);
+		out.println(cnt + " " + cost);
 		out.flush();
 		out.close();
 		br.close();
