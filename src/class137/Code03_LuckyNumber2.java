@@ -47,13 +47,13 @@ public class Code03_LuckyNumber2 {
 
 	public static int power;
 
-	// bs[i][j]表示：
+	// bases[i][j]表示：
 	// 头节点到i节点路径上的数字，建立异或空间线性基，其中j位的线性基是哪个数字
-	public static long[][] bs = new long[MAXN][BIT + 1];
+	public static long[][] bases = new long[MAXN][BIT + 1];
 
-	// ps[i][j]表示：
+	// levels[i][j]表示：
 	// 头节点到i节点路径上的数字，建立异或空间线性基，其中j位的线性基来自哪一层
-	public static int[][] ps = new int[MAXN][BIT + 1];
+	public static int[][] levels = new int[MAXN][BIT + 1];
 
 	public static void build() {
 		cnt = 1;
@@ -107,10 +107,10 @@ public class Code03_LuckyNumber2 {
 					stjump[u][p] = stjump[stjump[u][p - 1]][p - 1];
 				}
 				for (int i = 0; i <= BIT; i++) {
-					bs[u][i] = bs[f][i];
-					ps[u][i] = ps[f][i];
+					bases[u][i] = bases[f][i];
+					levels[u][i] = levels[f][i];
 				}
-				insert(u, bs[u], ps[u]);
+				insert(arr[u], deep[u], bases[u], levels[u]);
 				e = head[u];
 			} else {
 				e = next[e];
@@ -124,24 +124,23 @@ public class Code03_LuckyNumber2 {
 		}
 	}
 
-	public static void insert(int p, long[] basis, int[] pos) {
-		long num = arr[p];
+	public static void insert(long curv, int curl, long[] base, int[] level) {
 		for (int i = BIT; i >= 0; i--) {
-			if (num >> i == 1) {
-				if (basis[i] == 0) {
-					basis[i] = num;
-					pos[i] = p;
+			if (curv >> i == 1) {
+				if (base[i] == 0) {
+					base[i] = curv;
+					level[i] = curl;
 					break;
 				}
-				if (deep[p] > deep[pos[i]]) {
-					long tmp1 = num;
-					num = basis[i];
-					basis[i] = tmp1;
-					int tmp2 = pos[i];
-					pos[i] = p;
-					p = tmp2;
+				if (curl > level[i]) {
+					long tmp1 = curv;
+					curv = base[i];
+					base[i] = tmp1;
+					int tmp2 = level[i];
+					level[i] = curl;
+					curl = tmp2;
 				}
-				num ^= basis[i];
+				curv ^= base[i];
 			}
 		}
 	}
@@ -173,19 +172,19 @@ public class Code03_LuckyNumber2 {
 
 	public static long query(int x, int y) {
 		int lca = lca(x, y);
-		long[] basisx = bs[x];
-		int[] posx = ps[x];
-		long[] basisy = bs[y];
-		int[] posy = ps[y];
+		long[] basex = bases[x];
+		int[] levelx = levels[x];
+		long[] basey = bases[y];
+		int[] levely = levels[y];
 		Arrays.fill(base, 0);
 		for (int i = BIT; i >= 0; i--) {
-			if (deep[posx[i]] >= deep[lca]) {
-				base[i] = basisx[i];
+			if (levelx[i] >= deep[lca]) {
+				base[i] = basex[i];
 			}
 		}
 		for (int i = BIT; i >= 0; i--) {
-			long num = basisy[i];
-			if (deep[posy[i]] >= deep[lca] && num != 0) {
+			long num = basey[i];
+			if (levely[i] >= deep[lca] && num != 0) {
 				for (int j = i; j >= 0; j--) {
 					if (num >> j == 1) {
 						if (base[j] == 0) {
