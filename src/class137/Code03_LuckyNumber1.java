@@ -95,13 +95,13 @@ public class Code03_LuckyNumber1 {
 		}
 	}
 
-	public static void insert(long curv, int curl, long[] base, int[] level) {
+	public static boolean insert(long curv, int curl, long[] base, int[] level) {
 		for (int i = BIT; i >= 0; i--) {
 			if (curv >> i == 1) {
 				if (base[i] == 0) {
 					base[i] = curv;
 					level[i] = curl;
-					break;
+					return true;
 				}
 				if (curl > level[i]) {
 					long tmp1 = curv;
@@ -114,6 +114,7 @@ public class Code03_LuckyNumber1 {
 				curv ^= base[i];
 			}
 		}
+		return false;
 	}
 
 	public static int lca(int a, int b) {
