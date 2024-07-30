@@ -64,7 +64,6 @@ public class Code04_NumberOfSubsetGcdK {
 		for (int i = LIMIT; i >= 1; i--) {
 			long counts = 0;
 			for (int j = i; j <= LIMIT; j += i) {
-				// 次方不取模
 				counts += cnt[j];
 			}
 			dp[i] = (pow2[(int) counts] - 1 + MOD) % MOD;
