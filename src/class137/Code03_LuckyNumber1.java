@@ -115,27 +115,27 @@ public class Code03_LuckyNumber1 {
 		return false;
 	}
 
-	public static int lca(int a, int b) {
-		if (deep[a] < deep[b]) {
-			int tmp = a;
-			a = b;
-			b = tmp;
+	public static int lca(int x, int y) {
+		if (deep[x] < deep[y]) {
+			int tmp = x;
+			x = y;
+			y = tmp;
 		}
 		for (int p = power; p >= 0; p--) {
-			if (deep[stjump[a][p]] >= deep[b]) {
-				a = stjump[a][p];
+			if (deep[stjump[x][p]] >= deep[y]) {
+				x = stjump[x][p];
 			}
 		}
-		if (a == b) {
-			return a;
+		if (x == y) {
+			return x;
 		}
 		for (int p = power; p >= 0; p--) {
-			if (stjump[a][p] != stjump[b][p]) {
-				a = stjump[a][p];
-				b = stjump[b][p];
+			if (stjump[x][p] != stjump[y][p]) {
+				x = stjump[x][p];
+				y = stjump[y][p];
 			}
 		}
-		return stjump[a][0];
+		return stjump[x][0];
 	}
 
 	public static long[] base = new long[BIT + 1];
