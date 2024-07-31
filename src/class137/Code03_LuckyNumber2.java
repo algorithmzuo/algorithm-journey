@@ -21,12 +21,16 @@ import java.util.StringTokenizer;
 
 public class Code03_LuckyNumber2 {
 
+	// 节点个数上限
 	public static int MAXN = 20002;
 
+	// 树上倍增的次方上限
 	public static int LIMIT = 16;
 
+	// 节点值最大的位数
 	public static int BIT = 60;
 
+	// 每个节点值的数组
 	public static long[] arr = new long[MAXN];
 
 	// 链式前向星
@@ -38,11 +42,13 @@ public class Code03_LuckyNumber2 {
 
 	public static int cnt;
 
-	// 树上倍增
+	// 树上倍增需要的深度表
 	public static int[] deep = new int[MAXN];
 
+	// 树上倍增需要的倍增表
 	public static int[][] stjump = new int[MAXN][LIMIT];
 
+	// 树上倍增根据实际节点个数确定的次方
 	public static int power;
 
 	// bases[i][j]表示：
@@ -122,6 +128,7 @@ public class Code03_LuckyNumber2 {
 		}
 	}
 
+	// 插入和替换线性基，本题最重要的函数
 	public static boolean insertReplace(long curv, int curl, long[] base, int[] level) {
 		for (int i = BIT; i >= 0; i--) {
 			if (curv >> i == 1) {
