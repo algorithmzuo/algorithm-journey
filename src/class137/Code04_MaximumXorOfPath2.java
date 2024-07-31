@@ -29,7 +29,6 @@ public class Code04_MaximumXorOfPath2 {
 
 	public static int BIT = 60;
 
-	// 链式前向星
 	public static int[] head = new int[MAXN];
 
 	public static int[] next = new int[MAXM];
@@ -40,10 +39,8 @@ public class Code04_MaximumXorOfPath2 {
 
 	public static int cnt;
 
-	// 异或空间线性基
 	public static long[] basis = new long[BIT + 1];
 
-	// dfs需要
 	public static boolean[] visited = new boolean[MAXN];
 
 	public static long[] path = new long[MAXN];
@@ -74,6 +71,7 @@ public class Code04_MaximumXorOfPath2 {
 	}
 
 	// dfs迭代版
+	// 不懂去看讲解118，递归改迭代的部分
 	public static int[] ustack = new int[MAXN];
 
 	public static long[] pstack = new long[MAXN];

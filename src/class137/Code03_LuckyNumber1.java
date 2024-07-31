@@ -100,23 +100,23 @@ public class Code03_LuckyNumber1 {
 	}
 
 	// 插入和替换线性基，本题最重要的函数
-	public static boolean insertReplace(long curv, int curl, long[] base, int[] level) {
+	public static boolean insertReplace(long curv, int curl, long[] basis, int[] level) {
 		for (int i = BIT; i >= 0; i--) {
 			if (curv >> i == 1) {
-				if (base[i] == 0) {
-					base[i] = curv;
+				if (basis[i] == 0) {
+					basis[i] = curv;
 					level[i] = curl;
 					return true;
 				}
 				if (curl > level[i]) {
 					long tmp1 = curv;
-					curv = base[i];
-					base[i] = tmp1;
+					curv = basis[i];
+					basis[i] = tmp1;
 					int tmp2 = level[i];
 					level[i] = curl;
 					curl = tmp2;
 				}
-				curv ^= base[i];
+				curv ^= basis[i];
 			}
 		}
 		return false;
@@ -145,38 +145,38 @@ public class Code03_LuckyNumber1 {
 		return stjump[x][0];
 	}
 
-	public static long[] base = new long[BIT + 1];
+	public static long[] basis = new long[BIT + 1];
 
 	public static long query(int x, int y) {
 		int lca = lca(x, y);
-		long[] basex = bases[x];
+		long[] basisx = bases[x];
 		int[] levelx = levels[x];
-		long[] basey = bases[y];
+		long[] basisy = bases[y];
 		int[] levely = levels[y];
-		Arrays.fill(base, 0);
+		Arrays.fill(basis, 0);
 		for (int i = BIT; i >= 0; i--) {
-			long num = basex[i];
+			long num = basisx[i];
 			if (levelx[i] >= deep[lca] && num != 0) {
-				base[i] = num;
+				basis[i] = num;
 			}
 		}
 		for (int i = BIT; i >= 0; i--) {
-			long num = basey[i];
+			long num = basisy[i];
 			if (levely[i] >= deep[lca] && num != 0) {
 				for (int j = i; j >= 0; j--) {
 					if (num >> j == 1) {
-						if (base[j] == 0) {
-							base[j] = num;
+						if (basis[j] == 0) {
+							basis[j] = num;
 							break;
 						}
-						num ^= base[j];
+						num ^= basis[j];
 					}
 				}
 			}
 		}
 		long ans = 0;
 		for (int i = BIT; i >= 0; i--) {
-			ans = Math.max(ans, ans ^ base[i]);
+			ans = Math.max(ans, ans ^ basis[i]);
 		}
 		return ans;
 	}

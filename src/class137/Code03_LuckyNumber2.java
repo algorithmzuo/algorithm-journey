@@ -21,19 +21,14 @@ import java.util.StringTokenizer;
 
 public class Code03_LuckyNumber2 {
 
-	// 节点个数上限
 	public static int MAXN = 20002;
 
-	// 树上倍增的次方上限
 	public static int LIMIT = 16;
 
-	// 节点值最大的位数
 	public static int BIT = 60;
 
-	// 每个节点值的数组
 	public static long[] arr = new long[MAXN];
 
-	// 链式前向星
 	public static int[] head = new int[MAXN];
 
 	public static int[] next = new int[MAXN << 1];
@@ -42,21 +37,14 @@ public class Code03_LuckyNumber2 {
 
 	public static int cnt;
 
-	// 树上倍增需要的深度表
 	public static int[] deep = new int[MAXN];
 
-	// 树上倍增需要的倍增表
 	public static int[][] stjump = new int[MAXN][LIMIT];
 
-	// 树上倍增根据实际节点个数确定的次方
 	public static int power;
 
-	// bases[i][j]表示：
-	// 头节点到i节点路径上的数字，建立异或空间线性基，其中j位的线性基是哪个数字
 	public static long[][] bases = new long[MAXN][BIT + 1];
 
-	// levels[i][j]表示：
-	// 头节点到i节点路径上的数字，建立异或空间线性基，其中j位的线性基来自哪一层
 	public static int[][] levels = new int[MAXN][BIT + 1];
 
 	public static void prepare(int n) {
@@ -80,7 +68,7 @@ public class Code03_LuckyNumber2 {
 	}
 
 	// dfs迭代版
-	// ufe是为了实现迭代版而准备的栈
+	// 不懂去看讲解118，递归改迭代的部分
 	public static int[][] ufe = new int[MAXN][3];
 
 	public static int stackSize, u, f, e;
@@ -128,24 +116,23 @@ public class Code03_LuckyNumber2 {
 		}
 	}
 
-	// 插入和替换线性基，本题最重要的函数
-	public static boolean insertReplace(long curv, int curl, long[] base, int[] level) {
+	public static boolean insertReplace(long curv, int curl, long[] basis, int[] level) {
 		for (int i = BIT; i >= 0; i--) {
 			if (curv >> i == 1) {
-				if (base[i] == 0) {
-					base[i] = curv;
+				if (basis[i] == 0) {
+					basis[i] = curv;
 					level[i] = curl;
 					return true;
 				}
 				if (curl > level[i]) {
 					long tmp1 = curv;
-					curv = base[i];
-					base[i] = tmp1;
+					curv = basis[i];
+					basis[i] = tmp1;
 					int tmp2 = level[i];
 					level[i] = curl;
 					curl = tmp2;
 				}
-				curv ^= base[i];
+				curv ^= basis[i];
 			}
 		}
 		return false;
@@ -174,38 +161,38 @@ public class Code03_LuckyNumber2 {
 		return stjump[x][0];
 	}
 
-	public static long[] base = new long[BIT + 1];
+	public static long[] basis = new long[BIT + 1];
 
 	public static long query(int x, int y) {
 		int lca = lca(x, y);
-		long[] basex = bases[x];
+		long[] basisx = bases[x];
 		int[] levelx = levels[x];
-		long[] basey = bases[y];
+		long[] basisy = bases[y];
 		int[] levely = levels[y];
-		Arrays.fill(base, 0);
+		Arrays.fill(basis, 0);
 		for (int i = BIT; i >= 0; i--) {
-			long num = basex[i];
+			long num = basisx[i];
 			if (levelx[i] >= deep[lca] && num != 0) {
-				base[i] = num;
+				basis[i] = num;
 			}
 		}
 		for (int i = BIT; i >= 0; i--) {
-			long num = basey[i];
+			long num = basisy[i];
 			if (levely[i] >= deep[lca] && num != 0) {
 				for (int j = i; j >= 0; j--) {
 					if (num >> j == 1) {
-						if (base[j] == 0) {
-							base[j] = num;
+						if (basis[j] == 0) {
+							basis[j] = num;
 							break;
 						}
-						num ^= base[j];
+						num ^= basis[j];
 					}
 				}
 			}
 		}
 		long ans = 0;
 		for (int i = BIT; i >= 0; i--) {
-			ans = Math.max(ans, ans ^ base[i]);
+			ans = Math.max(ans, ans ^ basis[i]);
 		}
 		return ans;
 	}
