@@ -91,11 +91,11 @@ public class Code04_MaximumXorOfPath1 {
 		}
 	}
 
-	public static long query(long ans) {
+	public static long query(long init) {
 		for (int i = BIT; i >= 0; i--) {
-			ans = Math.max(ans, ans ^ basis[i]);
+			init = Math.max(init, init ^ basis[i]);
 		}
-		return ans;
+		return init;
 	}
 
 	public static void main(String[] args) {
