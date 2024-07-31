@@ -80,11 +80,11 @@ public class Code04_MaximumXorOfPath1 {
 		visited[u] = true;
 		for (int e = head[u]; e != 0; e = next[e]) {
 			int v = to[e];
-			long w = weight[e];
+			long xor = p ^ weight[e];
 			if (visited[v]) {
-				insert(p ^ w ^ path[v]);
+				insert(xor ^ path[v]);
 			} else {
-				dfs(v, p ^ w);
+				dfs(v, xor);
 			}
 		}
 	}

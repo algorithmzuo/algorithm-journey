@@ -115,11 +115,11 @@ public class Code04_MaximumXorOfPath2 {
 			if (e != 0) {
 				push(u, p, e);
 				int v = to[e];
-				long w = weight[e];
+				long xor = p ^ weight[e];
 				if (visited[v]) {
-					insert(p ^ w ^ path[v]);
+					insert(xor ^ path[v]);
 				} else {
-					push(v, p ^ w, -1);
+					push(v, xor, -1);
 				}
 			}
 		}
