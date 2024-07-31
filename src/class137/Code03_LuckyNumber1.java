@@ -29,8 +29,6 @@ public class Code03_LuckyNumber1 {
 
 	public static int BIT = 60;
 
-	public static int n, q;
-
 	public static long[] arr = new long[MAXN];
 
 	// 链式前向星
@@ -57,7 +55,7 @@ public class Code03_LuckyNumber1 {
 	// 头节点到i节点路径上的数字，建立异或空间线性基，其中j位的线性基来自哪一层
 	public static int[][] levels = new int[MAXN][BIT + 1];
 
-	public static void build() {
+	public static void prepare(int n) {
 		cnt = 1;
 		Arrays.fill(head, 1, n + 1, 0);
 		power = log2(n);
@@ -87,7 +85,7 @@ public class Code03_LuckyNumber1 {
 			bases[u][i] = bases[f][i];
 			levels[u][i] = levels[f][i];
 		}
-		insert(arr[u], deep[u], bases[u], levels[u]);
+		insertReplace(arr[u], deep[u], bases[u], levels[u]);
 		for (int e = head[u]; e != 0; e = next[e]) {
 			if (to[e] != f) {
 				dfs(to[e], u);
@@ -95,7 +93,7 @@ public class Code03_LuckyNumber1 {
 		}
 	}
 
-	public static boolean insert(long curv, int curl, long[] base, int[] level) {
+	public static boolean insertReplace(long curv, int curl, long[] base, int[] level) {
 		for (int i = BIT; i >= 0; i--) {
 			if (curv >> i == 1) {
 				if (base[i] == 0) {
@@ -150,8 +148,9 @@ public class Code03_LuckyNumber1 {
 		int[] levely = levels[y];
 		Arrays.fill(base, 0);
 		for (int i = BIT; i >= 0; i--) {
-			if (levelx[i] >= deep[lca]) {
-				base[i] = basex[i];
+			long num = basex[i];
+			if (levelx[i] >= deep[lca] && num != 0) {
+				base[i] = num;
 			}
 		}
 		for (int i = BIT; i >= 0; i--) {
@@ -177,12 +176,12 @@ public class Code03_LuckyNumber1 {
 
 	public static void main(String[] args) throws IOException {
 		Kattio io = new Kattio();
-		n = io.nextInt();
-		q = io.nextInt();
+		int n = io.nextInt();
+		int q = io.nextInt();
+		prepare(n);
 		for (int i = 1; i <= n; i++) {
 			arr[i] = io.nextLong();
 		}
-		build();
 		for (int i = 1, u, v; i < n; i++) {
 			u = io.nextInt();
 			v = io.nextInt();

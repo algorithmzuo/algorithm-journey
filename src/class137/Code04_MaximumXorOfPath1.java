@@ -50,7 +50,7 @@ public class Code04_MaximumXorOfPath1 {
 
 	public static long[] path = new long[MAXN];
 
-	public static void build(int n) {
+	public static void prepare(int n) {
 		cnt = 1;
 		Arrays.fill(head, 1, n + 1, 0);
 		Arrays.fill(basis, 0);
@@ -101,7 +101,7 @@ public class Code04_MaximumXorOfPath1 {
 		Kattio io = new Kattio();
 		int n = io.nextInt();
 		int m = io.nextInt();
-		build(n);
+		prepare(n);
 		for (int i = 1; i <= m; i++) {
 			int u = io.nextInt();
 			int v = io.nextInt();
