@@ -77,16 +77,18 @@ public class Code04_MaximumXorOfPath1 {
 		return false;
 	}
 
-	public static void dfs(int u, long p) {
+	public static void dfs(int u, int f, long p) {
 		path[u] = p;
 		visited[u] = true;
 		for (int e = head[u]; e != 0; e = next[e]) {
 			int v = to[e];
-			long xor = p ^ weight[e];
-			if (visited[v]) {
-				insert(xor ^ path[v]);
-			} else {
-				dfs(v, xor);
+			if (v != f) {
+				long xor = p ^ weight[e];
+				if (visited[v]) {
+					insert(xor ^ path[v]);
+				} else {
+					dfs(v, u, xor);
+				}
 			}
 		}
 	}
@@ -110,7 +112,7 @@ public class Code04_MaximumXorOfPath1 {
 			addEdge(u, v, w);
 			addEdge(v, u, w);
 		}
-		dfs(1, 0);
+		dfs(1, 0, 0);
 		io.println(query(path[n]));
 		io.flush();
 		io.close();

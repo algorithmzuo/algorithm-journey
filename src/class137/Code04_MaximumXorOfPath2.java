@@ -73,37 +73,35 @@ public class Code04_MaximumXorOfPath2 {
 
 	// dfs迭代版
 	// 不懂去看讲解118，递归改迭代的部分
-	public static int[] ustack = new int[MAXN];
+	public static int[][] ufe = new int[MAXN][3];
 
 	public static long[] pstack = new long[MAXN];
 
-	public static int[] estack = new int[MAXN];
-
-	public static int u;
+	public static int u, f, e;
 
 	public static long p;
 
-	public static int e;
-
 	public static int stackSize;
 
-	public static void push(int u, long p, int e) {
-		ustack[stackSize] = u;
+	public static void push(int u, int f, int e, long p) {
+		ufe[stackSize][0] = u;
+		ufe[stackSize][1] = f;
+		ufe[stackSize][2] = e;
 		pstack[stackSize] = p;
-		estack[stackSize] = e;
 		stackSize++;
 	}
 
 	public static void pop() {
 		--stackSize;
-		u = ustack[stackSize];
+		u = ufe[stackSize][0];
+		f = ufe[stackSize][1];
+		e = ufe[stackSize][2];
 		p = pstack[stackSize];
-		e = estack[stackSize];
 	}
 
 	public static void dfs(int root) {
 		stackSize = 0;
-		push(root, 0, -1);
+		push(root, 0, -1, 0);
 		while (stackSize > 0) {
 			pop();
 			if (e == -1) {
@@ -114,13 +112,13 @@ public class Code04_MaximumXorOfPath2 {
 				e = next[e];
 			}
 			if (e != 0) {
-				push(u, p, e);
+				push(u, f, e, p);
 				int v = to[e];
 				long xor = p ^ weight[e];
 				if (visited[v]) {
 					insert(xor ^ path[v]);
 				} else {
-					push(v, xor, -1);
+					push(v, u, -1, xor);
 				}
 			}
 		}
