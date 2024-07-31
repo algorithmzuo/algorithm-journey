@@ -125,8 +125,7 @@ public class Code04_MaximumXorOfPath2 {
 		}
 	}
 
-	public static long query(long num) {
-		long ans = num;
+	public static long query(long ans) {
 		for (int i = BIT; i >= 0; i--) {
 			ans = Math.max(ans, ans ^ basis[i]);
 		}
