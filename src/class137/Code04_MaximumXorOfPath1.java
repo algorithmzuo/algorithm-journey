@@ -42,12 +42,13 @@ public class Code04_MaximumXorOfPath1 {
 
 	public static int cnt;
 
-	// 异或空间线性基
+	// 所有环的异或和构建的线性基
 	public static long[] basis = new long[BIT + 1];
 
-	// dfs需要
+	// 某个节点在dfs过程中是否被访问过
 	public static boolean[] visited = new boolean[MAXN];
 
+	// 从头结点到当前节点的异或和
 	public static long[] path = new long[MAXN];
 
 	public static void prepare(int n) {
