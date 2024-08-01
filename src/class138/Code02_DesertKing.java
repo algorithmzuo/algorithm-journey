@@ -1,6 +1,6 @@
 package class138;
 
-// 沙漠之王
+// 最优比率生成树
 // 测试链接 : http://poj.org/problem?id=2728
 
 import java.io.BufferedReader;
