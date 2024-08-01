@@ -47,7 +47,7 @@ public class Code01_DroppingTests {
 			}
 			double ans = 0;
 			while (l < r && r - l >= sml) {
-				m = l + (r - l) / 2;
+				m = (l + r) / 2;
 				if (check(m)) {
 					ans = m;
 					l = m + sml;
