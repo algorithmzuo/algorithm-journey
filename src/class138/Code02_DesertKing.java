@@ -22,9 +22,9 @@ public class Code02_DesertKing {
 
 	public static int[] z = new int[MAXN];
 
-	public static double[][] cost = new double[MAXN][MAXN];
-
 	public static double[][] dist = new double[MAXN][MAXN];
+
+	public static double[][] cost = new double[MAXN][MAXN];
 
 	public static boolean[] visit = new boolean[MAXN];
 
