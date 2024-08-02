@@ -17,7 +17,7 @@ public class Code01_DroppingTests {
 
 	public static int MAXN = 1001;
 
-	public static double sml = 1e-5;
+	public static double sml = 1e-6;
 
 	public static double[][] arr = new double[MAXN][3];
 

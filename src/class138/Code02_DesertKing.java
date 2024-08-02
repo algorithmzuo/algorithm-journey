@@ -75,10 +75,10 @@ public class Code02_DesertKing {
 	}
 
 	// 邻接矩阵结构下的prim算法，从节点1出发得到最小生成树
-	public static boolean check(double rate) {
+	public static boolean check(double x) {
 		for (int i = 1; i <= n; i++) {
 			visit[i] = false;
-			weight[i] = cost[1][i] - rate * dist[1][i];
+			weight[i] = cost[1][i] - x * dist[1][i];
 		}
 		visit[1] = true;
 		double sum = 0;
@@ -95,8 +95,8 @@ public class Code02_DesertKing {
 				sum += minDist;
 				visit[next] = true;
 				for (int j = 1; j <= n; j++) {
-					if (!visit[j] && weight[j] > cost[next][j] - rate * dist[next][j]) {
-						weight[j] = cost[next][j] - rate * dist[next][j];
+					if (!visit[j] && weight[j] > cost[next][j] - x * dist[next][j]) {
+						weight[j] = cost[next][j] - x * dist[next][j];
 					}
 				}
 			}
