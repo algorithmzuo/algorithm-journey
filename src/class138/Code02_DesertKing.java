@@ -32,6 +32,36 @@ public class Code02_DesertKing {
 
 	public static int n;
 
+	// 邻接矩阵结构下的prim算法，从节点1出发得到最小生成树
+	public static boolean check(double x) {
+		for (int i = 1; i <= n; i++) {
+			visit[i] = false;
+			weight[i] = cost[1][i] - x * dist[1][i];
+		}
+		visit[1] = true;
+		double sum = 0;
+		for (int i = 1; i <= n; i++) {
+			double minDist = Double.MAX_VALUE;
+			int next = 0;
+			for (int j = 1; j <= n; j++) {
+				if (!visit[j] && weight[j] < minDist) {
+					minDist = weight[j];
+					next = j;
+				}
+			}
+			if (next != 0) {
+				sum += minDist;
+				visit[next] = true;
+				for (int j = 1; j <= n; j++) {
+					if (!visit[j] && weight[j] > cost[next][j] - x * dist[next][j]) {
+						weight[j] = cost[next][j] - x * dist[next][j];
+					}
+				}
+			}
+		}
+		return sum >= 0;
+	}
+
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StreamTokenizer in = new StreamTokenizer(br);
@@ -72,36 +102,6 @@ public class Code02_DesertKing {
 		out.flush();
 		out.close();
 		br.close();
-	}
-
-	// 邻接矩阵结构下的prim算法，从节点1出发得到最小生成树
-	public static boolean check(double x) {
-		for (int i = 1; i <= n; i++) {
-			visit[i] = false;
-			weight[i] = cost[1][i] - x * dist[1][i];
-		}
-		visit[1] = true;
-		double sum = 0;
-		for (int i = 1; i <= n; i++) {
-			double minDist = Double.MAX_VALUE;
-			int next = 0;
-			for (int j = 1; j <= n; j++) {
-				if (!visit[j] && weight[j] < minDist) {
-					minDist = weight[j];
-					next = j;
-				}
-			}
-			if (next != 0) {
-				sum += minDist;
-				visit[next] = true;
-				for (int j = 1; j <= n; j++) {
-					if (!visit[j] && weight[j] > cost[next][j] - x * dist[next][j]) {
-						weight[j] = cost[next][j] - x * dist[next][j];
-					}
-				}
-			}
-		}
-		return sum >= 0;
 	}
 
 }

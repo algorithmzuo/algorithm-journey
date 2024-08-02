@@ -23,6 +23,28 @@ public class Code01_DroppingTests {
 
 	public static int n, k;
 
+	public static boolean check(double x) {
+		for (int i = 1; i <= n; i++) {
+			arr[i][2] = arr[i][0] - x * arr[i][1];
+		}
+		Arrays.sort(arr, 1, n + 1, new MyComparator());
+		double f = 0;
+		for (int i = 1; i <= k; i++) {
+			f += arr[i][2];
+		}
+		return f >= 0;
+	}
+
+	// poj平台java版本较老，不支持Lambda表达式方式的比较器，需要自己定义
+	public static class MyComparator implements Comparator<double[]> {
+
+		@Override
+		public int compare(double[] o1, double[] o2) {
+			return o1[2] >= o2[2] ? -1 : 1;
+		}
+
+	}
+
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StreamTokenizer in = new StreamTokenizer(br);
@@ -64,28 +86,6 @@ public class Code01_DroppingTests {
 		out.flush();
 		out.close();
 		br.close();
-	}
-
-	public static boolean check(double x) {
-		for (int i = 1; i <= n; i++) {
-			arr[i][2] = arr[i][0] - x * arr[i][1];
-		}
-		Arrays.sort(arr, 1, n + 1, new MyComparator());
-		double f = 0;
-		for (int i = 1; i <= k; i++) {
-			f += arr[i][2];
-		}
-		return f >= 0;
-	}
-
-	// poj平台java版本较老，不支持Lambda表达式方式的比较器，需要自己定义
-	public static class MyComparator implements Comparator<double[]> {
-
-		@Override
-		public int compare(double[] o1, double[] o2) {
-			return o1[2] >= o2[2] ? -1 : 1;
-		}
-
 	}
 
 }

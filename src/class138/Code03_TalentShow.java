@@ -27,6 +27,28 @@ public class Code03_TalentShow {
 
 	public static int n, m;
 
+	public static boolean check(double x) {
+		for (int i = 1; i <= n; i++) {
+			arr[i][2] = arr[i][1] - x * arr[i][0];
+		}
+		dp[0] = 0;
+		Arrays.fill(dp, 1, m + 1, NA);
+		// 进行了空间压缩，注意重量是至少！不是常规的01背包
+		for (int i = 1; i <= n; i++) {
+			for (int j = m, w; j >= 0; j--) {
+				if (dp[j] != NA) {
+					w = (int) (j + arr[i][0]);
+					if (w >= m) {
+						dp[m] = Math.max(dp[m], dp[j] + arr[i][2]);
+					} else {
+						dp[w] = Math.max(dp[w], dp[j] + arr[i][2]);
+					}
+				}
+			}
+		}
+		return dp[m] >= 0;
+	}
+
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StreamTokenizer in = new StreamTokenizer(br);
@@ -59,28 +81,6 @@ public class Code03_TalentShow {
 		out.flush();
 		out.close();
 		br.close();
-	}
-
-	public static boolean check(double x) {
-		for (int i = 1; i <= n; i++) {
-			arr[i][2] = arr[i][1] - x * arr[i][0];
-		}
-		dp[0] = 0;
-		Arrays.fill(dp, 1, m + 1, NA);
-		// 进行了空间压缩，注意重量是至少！不是常规的01背包
-		for (int i = 1; i <= n; i++) {
-			for (int j = m, w; j >= 0; j--) {
-				if (dp[j] != NA) {
-					w = (int) (j + arr[i][0]);
-					if (w >= m) {
-						dp[m] = Math.max(dp[m], dp[j] + arr[i][2]);
-					} else {
-						dp[w] = Math.max(dp[w], dp[j] + arr[i][2]);
-					}
-				}
-			}
-		}
-		return dp[m] >= 0;
 	}
 
 }
