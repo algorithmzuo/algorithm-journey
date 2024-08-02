@@ -67,7 +67,7 @@ public class Code03_TalentShow {
 		}
 		dp[0] = 0;
 		Arrays.fill(dp, 1, m + 1, NA);
-		// 进行了空间压缩，注意重量是至少，这不是常规01背包问题
+		// 进行了空间压缩，注意重量是至少！不是常规的01背包
 		for (int i = 1; i <= n; i++) {
 			for (int j = m, w; j >= 0; j--) {
 				if (dp[j] != NA) {
