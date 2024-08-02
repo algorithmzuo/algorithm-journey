@@ -32,7 +32,7 @@ public class Code04_MinimumAverageCircle {
 
 	public static int cnt;
 
-	// dfs判断负环
+	// spfa判断负环
 	public static double[] dist = new double[MAXN];
 
 	public static boolean[] visit = new boolean[MAXN];
@@ -55,14 +55,14 @@ public class Code04_MinimumAverageCircle {
 		Arrays.fill(dist, 1, n + 1, 0);
 		Arrays.fill(visit, 1, n + 1, false);
 		for (int i = 1; i <= n; i++) {
-			if (dfs(i, x)) {
+			if (spfa(i, x)) {
 				return false;
 			}
 		}
 		return true;
 	}
 
-	public static boolean dfs(int u, double x) {
+	public static boolean spfa(int u, double x) {
 		visit[u] = true;
 		for (int e = head[u]; e != 0; e = next[e]) {
 			int v = to[e];
@@ -72,7 +72,7 @@ public class Code04_MinimumAverageCircle {
 				if (visit[v]) {
 					return true;
 				}
-				if (dfs(v, x)) {
+				if (spfa(v, x)) {
 					return true;
 				}
 			}
