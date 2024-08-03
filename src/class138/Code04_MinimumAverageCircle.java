@@ -32,7 +32,6 @@ public class Code04_MinimumAverageCircle {
 
 	public static int cnt;
 
-	// spfa判断负环
 	public static double[] dist = new double[MAXN];
 
 	public static boolean[] visit = new boolean[MAXN];
@@ -51,6 +50,7 @@ public class Code04_MinimumAverageCircle {
 		head[u] = cnt++;
 	}
 
+	// 判断图中是否存在负环，课上重点图解，需要改写spfa
 	public static boolean check(double x) {
 		Arrays.fill(dist, 1, n + 1, 0);
 		Arrays.fill(visit, 1, n + 1, false);
