@@ -60,8 +60,8 @@ public class Code04_MinimumAverageCircle {
 
 	public static boolean dfs(int u, double x) {
 		if (u == 0) {
-			// 认为0号点是超级源点，链接所有点
-			// 从0号点出发找寻负环
+			// 认为0号点是超级源点，可以走到所有点
+			// 所以从0号点出发找寻负环
 			for (int i = 1; i <= n; i++) {
 				if (dfs(i, x)) {
 					return true;
