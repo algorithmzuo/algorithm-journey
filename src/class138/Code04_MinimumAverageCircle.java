@@ -53,20 +53,22 @@ public class Code04_MinimumAverageCircle {
 
 	// 判断图中是否存在负环，课上重点图解
 	public static boolean check(double x) {
-		Arrays.fill(dist, 0, n + 1, 0);
-		Arrays.fill(visit, 0, n + 1, false);
+		Arrays.fill(dist, 1, n + 1, 0);
+		Arrays.fill(visit, 1, n + 1, false);
 		return dfs(0, x);
 	}
 
 	public static boolean dfs(int u, double x) {
-		visit[u] = true;
 		if (u == 0) {
+			// 认为0号点是超级源点，链接所有点
+			// 从0号点出发找寻负环
 			for (int i = 1; i <= n; i++) {
 				if (dfs(i, x)) {
 					return true;
 				}
 			}
 		} else {
+			visit[u] = true;
 			for (int e = head[u]; e != 0; e = next[e]) {
 				int v = to[e];
 				double w = weight[e] - x;
@@ -77,8 +79,8 @@ public class Code04_MinimumAverageCircle {
 					}
 				}
 			}
+			visit[u] = false;
 		}
-		visit[u] = false;
 		return false;
 	}
 
