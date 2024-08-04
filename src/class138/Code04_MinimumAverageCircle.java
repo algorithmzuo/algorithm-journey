@@ -53,29 +53,28 @@ public class Code04_MinimumAverageCircle {
 
 	// 判断图中是否存在负环，课上重点图解
 	public static boolean check(double x) {
-		Arrays.fill(dist, 1, n + 1, 0);
-		Arrays.fill(visit, 1, n + 1, false);
-		for (int i = 1; i <= n; i++) {
-			if (spfa(i, x)) {
-				return false;
-			}
-		}
-		return true;
+		Arrays.fill(dist, 0, n + 1, 0);
+		Arrays.fill(visit, 0, n + 1, false);
+		return dfs(0, x);
 	}
 
-	// spfa递归写法，本题不卡spfa
-	public static boolean spfa(int u, double x) {
+	public static boolean dfs(int u, double x) {
 		visit[u] = true;
-		for (int e = head[u]; e != 0; e = next[e]) {
-			int v = to[e];
-			double w = weight[e] - x;
-			if (dist[v] > dist[u] + w) {
-				dist[v] = dist[u] + w;
-				if (visit[v]) {
+		if (u == 0) {
+			for (int i = 1; i <= n; i++) {
+				if (dfs(i, x)) {
 					return true;
 				}
-				if (spfa(v, x)) {
-					return true;
+			}
+		} else {
+			for (int e = head[u]; e != 0; e = next[e]) {
+				int v = to[e];
+				double w = weight[e] - x;
+				if (dist[v] > dist[u] + w) {
+					dist[v] = dist[u] + w;
+					if (visit[v] || dfs(v, x)) {
+						return true;
+					}
 				}
 			}
 		}
@@ -105,10 +104,10 @@ public class Code04_MinimumAverageCircle {
 		while (l < r && r - l >= sml) {
 			m = (l + r) / 2;
 			if (check(m)) {
+				r = m - sml;
+			} else {
 				ans = m;
 				l = m + sml;
-			} else {
-				r = m - sml;
 			}
 		}
 		out.printf("%.8f\n", ans);
