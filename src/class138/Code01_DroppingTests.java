@@ -63,18 +63,18 @@ public class Code01_DroppingTests {
 				in.nextToken();
 				arr[i][1] = in.nval;
 			}
-			double l = 0, r = 0, m;
+			double l = 0, r = 0, x;
 			for (int i = 1; i <= n; i++) {
 				r += arr[i][0];
 			}
 			double ans = 0;
 			while (l < r && r - l >= sml) {
-				m = (l + r) / 2;
-				if (check(m)) {
-					ans = m;
-					l = m + sml;
+				x = (l + r) / 2;
+				if (check(x)) {
+					ans = x;
+					l = x + sml;
 				} else {
-					r = m - sml;
+					r = x - sml;
 				}
 			}
 			out.println((int) (100 * (ans + 0.005)));

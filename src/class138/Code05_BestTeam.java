@@ -97,14 +97,14 @@ public class Code05_BestTeam {
 			in.nextToken();
 			addEdge((int) in.nval, i);
 		}
-		double l = 0, r = LIMIT, m, ans = 0;
+		double l = 0, r = LIMIT, x, ans = 0;
 		while (l < r && r - l >= sml) {
-			m = (l + r) / 2;
-			if (check(m)) {
-				ans = m;
-				l = m + sml;
+			x = (l + r) / 2;
+			if (check(x)) {
+				ans = x;
+				l = x + sml;
 			} else {
-				r = m - sml;
+				r = x - sml;
 			}
 		}
 		out.printf("%.3f\n", ans);
