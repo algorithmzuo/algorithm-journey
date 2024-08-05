@@ -102,14 +102,14 @@ public class Code04_MinimumAverageCircle {
 			double w = in.nval;
 			addEdge(u, v, w);
 		}
-		double l = -LIMIT, r = LIMIT, m, ans = 0;
+		double l = -LIMIT, r = LIMIT, x, ans = 0;
 		while (l < r && r - l >= sml) {
-			m = (l + r) / 2;
-			if (check(m)) {
-				r = m - sml;
+			x = (l + r) / 2;
+			if (check(x)) {
+				r = x - sml;
 			} else {
-				ans = m;
-				l = m + sml;
+				ans = x;
+				l = x + sml;
 			}
 		}
 		out.printf("%.8f\n", ans);
