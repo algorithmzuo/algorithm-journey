@@ -22,7 +22,11 @@ public class Code03_BestTeam {
 
 	public static double sml = 1e-6;
 
-	public static double[][] arr = new double[MAXN][3];
+	// 招募花费
+	public static int[] cost = new int[MAXN];
+
+	// 战斗值
+	public static int[] strength = new int[MAXN];
 
 	// 链式前向星
 	public static int[] head = new int[MAXN];
@@ -52,11 +56,12 @@ public class Code03_BestTeam {
 	}
 
 	public static boolean check(double x) {
+		dp[0][1] = 0;
 		for (int i = 1; i <= n; i++) {
-			arr[i][2] = arr[i][1] - x * arr[i][0];
+			dp[i][1] = (double) strength[i] - x * cost[i];
 		}
 		for (int i = 0; i <= n; i++) {
-			for (int j = 1; j <= k + 1; j++) {
+			for (int j = 2; j <= k + 1; j++) {
 				dp[i][j] = NA;
 			}
 		}
@@ -65,7 +70,6 @@ public class Code03_BestTeam {
 	}
 
 	public static void dfs(int u, int f) {
-		dp[u][1] = arr[u][2];
 		size[u] = 1;
 		for (int e = head[u]; e != 0; e = next[e]) {
 			int v = to[e];
@@ -92,9 +96,9 @@ public class Code03_BestTeam {
 		prepare();
 		for (int i = 1; i <= n; i++) {
 			in.nextToken();
-			arr[i][0] = in.nval;
+			cost[i] = (int) in.nval;
 			in.nextToken();
-			arr[i][1] = in.nval;
+			strength[i] = (int) in.nval;
 			in.nextToken();
 			addEdge((int) in.nval, i);
 		}

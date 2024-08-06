@@ -22,7 +22,14 @@ public class Code02_TalentShow {
 
 	public static double sml = 1e-6;
 
-	public static double[][] arr = new double[MAXN][3];
+	// 重量
+	public static int[] weight = new int[MAXN];
+
+	// 才艺
+	public static int[] talent = new int[MAXN];
+
+	// (才艺 - x*重量)的值
+	public static double[] value = new double[MAXN];
 
 	public static double[] dp = new double[MAXM];
 
@@ -30,7 +37,7 @@ public class Code02_TalentShow {
 
 	public static boolean check(double x) {
 		for (int i = 1; i <= n; i++) {
-			arr[i][2] = arr[i][1] - x * arr[i][0];
+			value[i] = (double) talent[i] - x * weight[i];
 		}
 		dp[0] = 0;
 		Arrays.fill(dp, 1, m + 1, NA);
@@ -40,11 +47,11 @@ public class Code02_TalentShow {
 		for (int i = 1; i <= n; i++) {
 			for (int j = m, w; j >= 0; j--) {
 				if (dp[j] != NA) {
-					w = (int) (j + arr[i][0]);
+					w = (int) (j + weight[i]);
 					if (w >= m) {
-						dp[m] = Math.max(dp[m], dp[j] + arr[i][2]);
+						dp[m] = Math.max(dp[m], dp[j] + value[i]);
 					} else {
-						dp[w] = Math.max(dp[w], dp[j] + arr[i][2]);
+						dp[w] = Math.max(dp[w], dp[j] + value[i]);
 					}
 				}
 			}
@@ -62,13 +69,13 @@ public class Code02_TalentShow {
 		m = (int) in.nval;
 		for (int i = 1; i <= n; i++) {
 			in.nextToken();
-			arr[i][0] = in.nval;
+			weight[i] = (int) in.nval;
 			in.nextToken();
-			arr[i][1] = in.nval;
+			talent[i] = (int) in.nval;
 		}
 		double l = 0, r = 0, x;
 		for (int i = 1; i <= n; i++) {
-			r += arr[i][1];
+			r += talent[i];
 		}
 		double ans = 0;
 		while (l < r && r - l >= sml) {
