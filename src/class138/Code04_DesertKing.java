@@ -2,6 +2,7 @@ package class138;
 
 // 最优比率生成树
 // 测试链接 : http://poj.org/problem?id=2728
+// 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -10,7 +11,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 
-public class Code02_DesertKing {
+public class Code04_DesertKing {
 
 	public static int MAXN = 1001;
 

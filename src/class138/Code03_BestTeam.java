@@ -2,6 +2,7 @@ package class138;
 
 // 最佳团体
 // 测试链接 : https://www.luogu.com.cn/problem/P4322
+// 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -11,7 +12,7 @@ import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 import java.util.Arrays;
 
-public class Code05_BestTeam {
+public class Code03_BestTeam {
 
 	public static int MAXN = 2501;
 
