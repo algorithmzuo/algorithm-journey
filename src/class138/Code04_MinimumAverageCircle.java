@@ -1,6 +1,13 @@
 package class138;
 
 // 最小圈
+// 一共有n个节点，m条有向边，每条边有权值
+// 这个有向带权图中，可能有若干环，规定环的平均值为
+// 环中边的权值和 / 环中边的数量
+// 返回所有环的平均值中最少的平均值，结果保留小数点后8位，其余部分舍弃
+// 1 <= n <= 3000
+// 1 <= m <= 10000
+// -10^7 <= 边权 <= 10^7
 // 测试链接 : https://www.luogu.com.cn/problem/P3199
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
@@ -12,7 +19,7 @@ import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 import java.util.Arrays;
 
-public class Code05_MinimumAverageCircle {
+public class Code04_MinimumAverageCircle {
 
 	public static int MAXN = 3001;
 

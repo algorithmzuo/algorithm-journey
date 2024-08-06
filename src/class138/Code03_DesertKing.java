@@ -1,6 +1,16 @@
 package class138;
 
 // 最优比率生成树
+// 一共有n个村庄，每个村庄由(x, y, z)表示
+// 其中(x,y)代表村庄在二维地图中的位置，z代表其海拔高度
+// 任意两个村庄之间的距离就是二维地图中的欧式距离
+// 任意两个村庄之间的修路花费就是海拔差值的绝对值
+// 现在想把所有村庄联通起来，同时希望让
+// 总花费 / 总距离，这个比值尽量小
+// 返回最小的比值是多少，结果保留小数点后3位，其余部分舍弃
+// 2 <= n <= 10^3
+// 0 <= x、y <= 10^4
+// 0 <= z <= 10^7
 // 测试链接 : http://poj.org/problem?id=2728
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
@@ -11,7 +21,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 
-public class Code04_DesertKing {
+public class Code03_DesertKing {
 
 	public static int MAXN = 1001;
 
@@ -34,6 +44,8 @@ public class Code04_DesertKing {
 	public static int n;
 
 	// 邻接矩阵结构下的prim算法，从节点1出发得到最小生成树
+	// 如果最小生成树的权值 <= 0，说明当前比例可以达成，找寻更小的比例
+	// 如果最小生成树的权值 > 0，说明比例定的太低了，需要更大的比例
 	public static boolean check(double x) {
 		for (int i = 1; i <= n; i++) {
 			visit[i] = false;
@@ -60,7 +72,7 @@ public class Code04_DesertKing {
 				}
 			}
 		}
-		return sum >= 0;
+		return sum <= 0;
 	}
 
 	public static void main(String[] args) throws IOException {
@@ -91,9 +103,9 @@ public class Code04_DesertKing {
 				x = (l + r) / 2;
 				if (check(x)) {
 					ans = x;
-					l = x + sml;
-				} else {
 					r = x - sml;
+				} else {
+					l = x + sml;
 				}
 			}
 			out.printf("%.3f\n", ans);

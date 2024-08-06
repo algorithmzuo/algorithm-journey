@@ -1,6 +1,15 @@
 package class138;
 
 // 最佳团体
+// 给定一棵树，节点编号0~n，0编号一定是整棵树的头
+// 给定每条边(a,b)，表示a的父节点是b
+// 每个节点代表一个人，每个人有招募花费和战斗值
+// 当你招募了某人，那么该人及其上方所有祖先节点都需要招募
+// 一共可以招募包括0号点在内的k+1个人，希望让
+// 战斗值之和 / 招募花费之和，这个比值尽量大
+// 答案只需保留三位小数，更大的精度舍弃
+// 1 <= k <= n <= 2500
+// 0 <= 招募花费、战斗值 <= 10^4
 // 测试链接 : https://www.luogu.com.cn/problem/P4322
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
@@ -12,13 +21,13 @@ import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 import java.util.Arrays;
 
-public class Code03_BestTeam {
+public class Code05_BestTeam {
 
-	public static int MAXN = 2501;
+	public static int MAXN = 3001;
 
 	public static int LIMIT = 10000;
 
-	public static double NA = Double.NEGATIVE_INFINITY;
+	public static double NA = -1e9;
 
 	public static double sml = 1e-6;
 
@@ -28,6 +37,9 @@ public class Code03_BestTeam {
 	// 战斗值
 	public static int[] strength = new int[MAXN];
 
+	// (战斗值 - x*招募花费)的值
+	public static double[] value = new double[MAXN];
+
 	// 链式前向星
 	public static int[] head = new int[MAXN];
 
@@ -35,54 +47,57 @@ public class Code03_BestTeam {
 
 	public static int[] to = new int[MAXN];
 
-	public static int cnt;
+	public static int edgeCnt;
 
 	// 树型dp
-	public static double[][] dp = new double[MAXN][MAXN];
-
 	public static int[] size = new int[MAXN];
+
+	public static int[] dfn = new int[MAXN];
+
+	public static int dfnCnt;
+
+	public static double[][] dp = new double[MAXN][MAXN];
 
 	public static int k, n;
 
 	public static void prepare() {
-		cnt = 1;
+		edgeCnt = 1;
+		dfnCnt = 0;
 		Arrays.fill(head, 1, n + 1, 0);
 	}
 
 	public static void addEdge(int u, int v) {
-		next[cnt] = head[u];
-		to[cnt] = v;
-		head[u] = cnt++;
+		next[edgeCnt] = head[u];
+		to[edgeCnt] = v;
+		head[u] = edgeCnt++;
 	}
 
-	public static boolean check(double x) {
-		dp[0][1] = 0;
-		for (int i = 1; i <= n; i++) {
-			dp[i][1] = (double) strength[i] - x * cost[i];
+	public static void dfs(int u) {
+		dfn[++dfnCnt] = u;
+		size[u] = 1;
+		for (int e = head[u], v; e != 0; e = next[e]) {
+			v = to[e];
+			dfs(v);
+			size[u] += size[v];
 		}
-		for (int i = 0; i <= n; i++) {
-			for (int j = 2; j <= k + 1; j++) {
+	}
+
+	// 核心逻辑来自，讲解079，题目5，选课问题，重点介绍的最优解
+	public static boolean check(double x) {
+		for (int i = 1; i <= dfnCnt + 1; i++) {
+			for (int j = 1; j <= k; j++) {
 				dp[i][j] = NA;
 			}
 		}
-		dfs(0, -1);
-		return dp[0][k + 1] >= 0;
-	}
-
-	public static void dfs(int u, int f) {
-		size[u] = 1;
-		for (int e = head[u]; e != 0; e = next[e]) {
-			int v = to[e];
-			if (v != f) {
-				dfs(v, u);
-				size[u] += size[v];
-				for (int j = Math.min(size[u], k + 1); j >= 2; j--) {
-					for (int p = 1; p <= Math.min(size[v], j - 1); p++) {
-						dp[u][j] = Math.max(dp[u][j], dp[u][j - p] + dp[v][p]);
-					}
-				}
+		for (int i = 1; i <= n; i++) {
+			value[i] = (double) strength[i] - x * cost[i];
+		}
+		for (int i = dfnCnt; i >= 1; i--) {
+			for (int j = 1; j <= k; j++) {
+				dp[i][j] = Math.max(dp[i + 1][j - 1] + value[dfn[i]], dp[i + size[dfn[i]]][j]);
 			}
 		}
+		return dp[1][k] >= 0;
 	}
 
 	public static void main(String[] args) throws IOException {
@@ -90,7 +105,7 @@ public class Code03_BestTeam {
 		StreamTokenizer in = new StreamTokenizer(br);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
 		in.nextToken();
-		k = (int) in.nval;
+		k = (int) in.nval + 1;
 		in.nextToken();
 		n = (int) in.nval;
 		prepare();
@@ -102,6 +117,7 @@ public class Code03_BestTeam {
 			in.nextToken();
 			addEdge((int) in.nval, i);
 		}
+		dfs(0);
 		double l = 0, r = LIMIT, x, ans = 0;
 		while (l < r && r - l >= sml) {
 			x = (l + r) / 2;
