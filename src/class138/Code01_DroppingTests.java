@@ -1,7 +1,6 @@
 package class138;
 
 // 01分数规划模版题
-// 测试链接 : https://www.luogu.com.cn/problem/P10505
 // 测试链接 : http://poj.org/problem?id=2976
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
