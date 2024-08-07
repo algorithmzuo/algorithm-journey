@@ -45,17 +45,17 @@ public class Code05_BestTeam {
 	// 战斗值，下标为节点原始编号
 	public static int[] strength = new int[MAXN];
 
+	// dfn[a] = b，表示原始a号节点的dfn编号为b
+	public static int[] dfn = new int[MAXN];
+
+	// dfn序计数
+	public static int dfnCnt;
+
 	// (战斗值 - x * 招募花费)的结余，下标为节点dfn编号
 	public static double[] value = new double[MAXN];
 
 	// 子树大小，下标为节点dfn编号
 	public static int[] size = new int[MAXN];
-
-	// dfn[a] = b，表示原始a号节点的dfn序号为b
-	public static int[] dfn = new int[MAXN];
-
-	// dfn序计数
-	public static int dfnCnt;
 
 	// 树型dp
 	public static double[][] dp = new double[MAXN][MAXN];
@@ -74,7 +74,7 @@ public class Code05_BestTeam {
 		head[u] = edgeCnt++;
 	}
 
-	// 记录节点u的dfn序号 + 返回u这棵子树的节点数
+	// 记录节点u的dfn编号 + 返回u这棵子树的节点数
 	// 如下实现和讲解079，题目5，选课问题的最优解，几乎完全一样
 	public static int dfs(int u) {
 		int i = ++dfnCnt;
