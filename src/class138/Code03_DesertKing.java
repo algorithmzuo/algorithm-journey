@@ -42,10 +42,8 @@ public class Code03_DesertKing {
 
 	public static int n;
 
-	// 邻接矩阵结构下的prim算法，从节点1出发得到最小生成树
-	// 如果最小生成树的权值 <= 0，说明当前比例可以达成，找寻更小的比例
-	// 如果最小生成树的权值 > 0，说明比例定的太低了，需要更大的比例
-	public static boolean check(double x) {
+	// 邻接矩阵结构下的prim算法，从节点1出发得到最小生成树的权值和
+	public static double prim(double x) {
 		for (int i = 1; i <= n; i++) {
 			visit[i] = false;
 			weight[i] = cost[1][i] - x * dist[1][i];
@@ -71,7 +69,7 @@ public class Code03_DesertKing {
 				}
 			}
 		}
-		return sum <= 0;
+		return sum;
 	}
 
 	public static void main(String[] args) throws IOException {
@@ -100,7 +98,9 @@ public class Code03_DesertKing {
 			double l = 0, r = 100, x, ans = 0;
 			while (l < r && r - l >= sml) {
 				x = (l + r) / 2;
-				if (check(x)) {
+				// 如果最小生成树的权值 <= 0，达标，左侧二分找寻更小比值
+				// 如果最小生成树的权值 > 0，不达标，右侧二分找寻更大比值
+				if (prim(x) <= 0) {
 					ans = x;
 					r = x - sml;
 				} else {
