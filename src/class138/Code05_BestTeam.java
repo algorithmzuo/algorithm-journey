@@ -45,7 +45,7 @@ public class Code05_BestTeam {
 	// 战斗值，下标为节点原始编号
 	public static int[] strength = new int[MAXN];
 
-	// (战斗值 - x * 招募花费)的值，下标为节点dfn编号
+	// (战斗值 - x * 招募花费)的结余，下标为节点dfn编号
 	public static double[] value = new double[MAXN];
 
 	// 子树大小，下标为节点dfn编号
@@ -87,7 +87,7 @@ public class Code05_BestTeam {
 		return size[i];
 	}
 
-	// 核心逻辑来自，讲解079，题目5，选课问题，重点介绍的最优解
+	// 核心逻辑完全来自讲解079，题目5，选课问题，重点介绍的最优解
 	public static boolean check(double x) {
 		// value[节点i的dfn编号] = 节点i的战斗值 - x * 节点i的招募花费
 		for (int i = 0; i <= n; i++) {
@@ -97,14 +97,14 @@ public class Code05_BestTeam {
 		for (int j = 1; j <= k; j++) {
 			dp[dfnCnt + 1][j] = NA;
 		}
-		// 以下逻辑完全是讲解079题目5的最优解
+		// 以下逻辑就是讲解079题目5的最优解
 		for (int i = dfnCnt; i >= 2; i--) {
 			for (int j = 1; j <= k; j++) {
 				dp[i][j] = Math.max(dp[i + size[i]][j], value[i] + dp[i + 1][j - 1]);
 			}
 		}
 		// 原始的0号节点，dfn编号是1，其他节点的dfn编号从2开始
-		// 0号节点的战斗值和招募花费都是0，所以不用考虑，其他节点一共招募k个
+		// 0号节点的战斗值和招募花费都是0，其他节点一共招募k个
 		return dp[2][k] >= 0;
 	}
 

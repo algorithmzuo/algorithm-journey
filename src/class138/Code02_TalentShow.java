@@ -36,7 +36,7 @@ public class Code02_TalentShow {
 	// 才艺
 	public static int[] talent = new int[MAXN];
 
-	// (才艺 - x * 重量)的值
+	// (才艺 - x * 重量)的结余
 	public static double[] value = new double[MAXN];
 
 	public static double[] dp = new double[MAXM];
