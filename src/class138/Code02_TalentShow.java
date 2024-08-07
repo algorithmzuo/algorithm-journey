@@ -70,8 +70,10 @@ public class Code02_TalentShow {
 		StreamTokenizer in = new StreamTokenizer(br);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
 		in.nextToken();
+		// 牛的个数
 		n = (int) in.nval;
 		in.nextToken();
+		// 要求的重量
 		m = (int) in.nval;
 		for (int i = 1; i <= n; i++) {
 			in.nextToken();
