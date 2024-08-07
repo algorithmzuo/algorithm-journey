@@ -1,13 +1,12 @@
 package class138;
 
 // 最佳团体
-// 给定一棵树，节点编号0~n，0编号一定是整棵树的头
-// 给定每条边(a,b)，表示a的父节点是b
-// 每个节点代表一个人，每个人有招募花费和战斗值
-// 当你招募了某人，那么该人及其上方所有祖先节点都需要招募
-// 一共可以招募包括0号点在内的k+1个人，希望让
-// 战斗值之和 / 招募花费之和，这个比值尽量大
-// 答案只需保留三位小数，更大的精度舍弃
+// 给定一棵树，节点编号0~n，0号节点是整棵树的头
+// 编号1~n的节点，每个节点都有招募花费和战斗值，0号节点这两个值都是0
+// 给定每条边(a,b)，表示节点a的父节点是b，有些节点的父节点是0节点
+// 当招募了某个节点，那么该节点及其上方的所有祖先节点都需要招募
+// 除了0号节点之外，一共可以招募k个人，希望让
+// 战斗值之和 / 招募花费之和，这个比值尽量大，答案只需保留三位小数，更大的精度舍弃
 // 1 <= k <= n <= 2500
 // 0 <= 招募花费、战斗值 <= 10^4
 // 测试链接 : https://www.luogu.com.cn/problem/P4322
@@ -98,14 +97,15 @@ public class Code05_BestTeam {
 		for (int j = 1; j <= k; j++) {
 			dp[dfnCnt + 1][j] = NA;
 		}
-		// 以下完全是讲解079题目5的最优解逻辑
-		for (int i = dfnCnt; i >= 1; i--) {
+		// 以下逻辑完全是讲解079题目5的最优解
+		for (int i = dfnCnt; i >= 2; i--) {
 			for (int j = 1; j <= k; j++) {
 				dp[i][j] = Math.max(dp[i + size[i]][j], value[i] + dp[i + 1][j - 1]);
 			}
 		}
-		// 0号节点的dfn序号一定是1，所以返回整棵树上选k个点，当前是否达标
-		return dp[1][k] >= 0;
+		// 原始的0号节点，dfn编号是1，其他节点的dfn编号从2开始
+		// 0号节点的战斗值和招募花费都是0，所以不用考虑，其他节点一共招募k个
+		return dp[2][k] >= 0;
 	}
 
 	public static void main(String[] args) throws IOException {
@@ -113,7 +113,7 @@ public class Code05_BestTeam {
 		StreamTokenizer in = new StreamTokenizer(br);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
 		in.nextToken();
-		k = (int) in.nval + 1;
+		k = (int) in.nval;
 		in.nextToken();
 		n = (int) in.nval;
 		prepare();
