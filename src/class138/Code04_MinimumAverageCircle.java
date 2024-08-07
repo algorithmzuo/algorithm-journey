@@ -43,7 +43,7 @@ public class Code04_MinimumAverageCircle {
 	// dfs判断负环
 	public static double[] dist = new double[MAXN];
 
-	public static boolean[] visit = new boolean[MAXN];
+	public static boolean[] path = new boolean[MAXN];
 
 	public static int n, m;
 
@@ -62,10 +62,11 @@ public class Code04_MinimumAverageCircle {
 	// 利用dfs判断图中是否存在负环，课上重点图解
 	public static boolean check(double x) {
 		Arrays.fill(dist, 1, n + 1, 0);
-		Arrays.fill(visit, 1, n + 1, false);
+		Arrays.fill(path, 1, n + 1, false);
 		return dfs(0, x);
 	}
 
+	// 其实就是spfa的另一种写法
 	public static boolean dfs(int u, double x) {
 		if (u == 0) {
 			// 认为0号点是超级源点，可以走到所有点
@@ -76,18 +77,23 @@ public class Code04_MinimumAverageCircle {
 				}
 			}
 		} else {
-			visit[u] = true;
+			path[u] = true;
 			for (int e = head[u]; e != 0; e = next[e]) {
 				int v = to[e];
 				double w = weight[e] - x;
+				// 让v的权值累加变小才会继续递归
 				if (dist[v] > dist[u] + w) {
 					dist[v] = dist[u] + w;
-					if (visit[v] || dfs(v, x)) {
+					// 如果v在递归的路径上，但是再次遇到，说明遇到的负环
+					// 或者
+					// 后续递归的过程中发现了负环
+					// 直接返回true
+					if (path[v] || dfs(v, x)) {
 						return true;
 					}
 				}
 			}
-			visit[u] = false;
+			path[u] = false;
 		}
 		return false;
 	}
