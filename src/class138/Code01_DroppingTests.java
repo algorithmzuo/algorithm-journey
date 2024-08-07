@@ -25,6 +25,9 @@ public class Code01_DroppingTests {
 
 	public static double sml = 1e-6;
 
+	// arr[i][0] = i号数据的a
+	// arr[i][1] = i号数据的b
+	// arr[i][2] = i号数据的结余，a - x * b
 	public static double[][] arr = new double[MAXN][3];
 
 	public static int n, k;
