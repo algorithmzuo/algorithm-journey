@@ -31,15 +31,6 @@ public class Code05_BestTeam {
 
 	public static double sml = 1e-6;
 
-	// 招募花费
-	public static int[] cost = new int[MAXN];
-
-	// 战斗值
-	public static int[] strength = new int[MAXN];
-
-	// (战斗值 - x*招募花费)的值
-	public static double[] value = new double[MAXN];
-
 	// 链式前向星
 	public static int[] head = new int[MAXN];
 
@@ -49,13 +40,25 @@ public class Code05_BestTeam {
 
 	public static int edgeCnt;
 
-	// 树型dp
+	// 招募花费，下标为节点原始编号
+	public static int[] cost = new int[MAXN];
+
+	// 战斗值，下标为节点原始编号
+	public static int[] strength = new int[MAXN];
+
+	// (战斗值 - x * 招募花费)的值，下标为节点dfn编号
+	public static double[] value = new double[MAXN];
+
+	// 子树大小，下标为节点dfn编号
 	public static int[] size = new int[MAXN];
 
+	// dfn[a] = b，表示原始a号节点的dfn序号为b
 	public static int[] dfn = new int[MAXN];
 
+	// dfn序计数
 	public static int dfnCnt;
 
+	// 树型dp
 	public static double[][] dp = new double[MAXN][MAXN];
 
 	public static int k, n;
@@ -72,31 +75,36 @@ public class Code05_BestTeam {
 		head[u] = edgeCnt++;
 	}
 
-	public static void dfs(int u) {
-		dfn[++dfnCnt] = u;
-		size[u] = 1;
+	// 记录节点u的dfn序号 + 返回u这棵子树的节点数
+	// 如下实现和讲解079，题目5，选课问题的最优解，几乎完全一样
+	public static int dfs(int u) {
+		int i = ++dfnCnt;
+		dfn[u] = i;
+		size[i] = 1;
 		for (int e = head[u], v; e != 0; e = next[e]) {
 			v = to[e];
-			dfs(v);
-			size[u] += size[v];
+			size[i] += dfs(v);
 		}
+		return size[i];
 	}
 
 	// 核心逻辑来自，讲解079，题目5，选课问题，重点介绍的最优解
 	public static boolean check(double x) {
-		for (int i = 1; i <= dfnCnt + 1; i++) {
-			for (int j = 1; j <= k; j++) {
-				dp[i][j] = NA;
-			}
+		// value[节点i的dfn编号] = 节点i的战斗值 - x * 节点i的招募花费
+		for (int i = 0; i <= n; i++) {
+			value[dfn[i]] = (double) strength[i] - x * cost[i];
 		}
-		for (int i = 1; i <= n; i++) {
-			value[i] = (double) strength[i] - x * cost[i];
+		// 越界位置认为都是无效解
+		for (int j = 1; j <= k; j++) {
+			dp[dfnCnt + 1][j] = NA;
 		}
+		// 以下完全是讲解079题目5的最优解逻辑
 		for (int i = dfnCnt; i >= 1; i--) {
 			for (int j = 1; j <= k; j++) {
-				dp[i][j] = Math.max(dp[i + 1][j - 1] + value[dfn[i]], dp[i + size[dfn[i]]][j]);
+				dp[i][j] = Math.max(dp[i + size[i]][j], value[i] + dp[i + 1][j - 1]);
 			}
 		}
+		// 0号节点的dfn序号一定是1，所以返回整棵树上选k个点，当前是否达标
 		return dp[1][k] >= 0;
 	}
 
