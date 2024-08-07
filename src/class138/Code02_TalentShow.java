@@ -26,8 +26,10 @@ public class Code02_TalentShow {
 
 	public static int MAXM = 1001;
 
-	public static double NA = Double.NEGATIVE_INFINITY;
+	// 足够小代表无效解
+	public static double NA = -1e9;
 
+	// 最小精度
 	public static double sml = 1e-6;
 
 	// 重量
@@ -49,16 +51,14 @@ public class Code02_TalentShow {
 		}
 		dp[0] = 0;
 		Arrays.fill(dp, 1, m + 1, NA);
-		// 动态规划进行了空间压缩，并且注意本题重量的要求是至少！
+		// 动态规划进行了空间压缩，并且注意本题重量的要求是至少！课上进行了图解
 		for (int i = 1; i <= n; i++) {
-			for (int j = m, w; j >= 0; j--) {
-				if (dp[j] != NA) {
-					w = (int) (j + weight[i]);
-					if (w >= m) {
-						dp[m] = Math.max(dp[m], dp[j] + value[i]);
-					} else {
-						dp[w] = Math.max(dp[w], dp[j] + value[i]);
-					}
+			for (int j = m, t; j >= 0; j--) {
+				t = (int) (j + weight[i]);
+				if (t >= m) {
+					dp[m] = Math.max(dp[m], dp[j] + value[i]);
+				} else {
+					dp[t] = Math.max(dp[t], dp[j] + value[i]);
 				}
 			}
 		}
