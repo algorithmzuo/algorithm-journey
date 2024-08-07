@@ -38,37 +38,43 @@ public class Code03_DesertKing {
 
 	public static boolean[] visit = new boolean[MAXN];
 
-	public static double[] weight = new double[MAXN];
+	public static double[] value = new double[MAXN];
 
 	public static int n;
 
 	// 邻接矩阵结构下的prim算法，从节点1出发得到最小生成树的权值和
 	public static double prim(double x) {
+		// 结余值做边权，进而统计距离
+		// 距离只和边权有关，原始的dist、cost不重要
+		// 从1号点出发，更新到所有点的距离，也就是value数组
 		for (int i = 1; i <= n; i++) {
 			visit[i] = false;
-			weight[i] = cost[1][i] - x * dist[1][i];
+			value[i] = cost[1][i] - x * dist[1][i];
 		}
 		visit[1] = true;
 		double sum = 0;
-		for (int i = 1; i <= n; i++) {
+		// 最小生成树一定有n-1条边，所以一共有n-1轮解锁，每次解锁新的点进入最小生成树的点集
+		for (int i = 1; i <= n - 1; i++) {
+			// 在没有解锁的点中，找到离最小生成树的点集最近的点，进行解锁
 			double minDist = Double.MAX_VALUE;
 			int next = 0;
 			for (int j = 1; j <= n; j++) {
-				if (!visit[j] && weight[j] < minDist) {
-					minDist = weight[j];
+				if (!visit[j] && value[j] < minDist) {
+					minDist = value[j];
 					next = j;
 				}
 			}
-			if (next != 0) {
-				sum += minDist;
-				visit[next] = true;
-				for (int j = 1; j <= n; j++) {
-					if (!visit[j] && weight[j] > cost[next][j] - x * dist[next][j]) {
-						weight[j] = cost[next][j] - x * dist[next][j];
-					}
+			// 最小的边进入最小生成树的边集，解锁的点进入最小生成树的点集
+			sum += minDist;
+			visit[next] = true;
+			// 查看新的解锁点能不能拉进其他点的距离
+			for (int j = 1; j <= n; j++) {
+				if (!visit[j] && value[j] > cost[next][j] - x * dist[next][j]) {
+					value[j] = cost[next][j] - x * dist[next][j];
 				}
 			}
 		}
+		// 返回最小生成树的权值和
 		return sum;
 	}
 
