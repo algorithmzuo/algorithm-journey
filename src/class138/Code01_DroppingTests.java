@@ -1,9 +1,9 @@
 package class138;
 
 // 01分数规划模版题
-// 给定n个数据，每个数据有(a, b)两个值，并且没有负数
-// 其中选出k个数据，希望让，k个a的和 / k个b的和，这个比值尽量大
-// 选择的数据如果k个b的和为0，认为无意义
+// 给定n个数据，每个数据有(a, b)两个值，都为整数，并且都是非负的
+// 请舍弃掉k个数据，希望让剩下数据中，所有a的和 / 所有b的和，这个比值尽量大
+// 如果剩下数据所有b的和为0，认为无意义
 // 返回该比值 * 100的整数结果，小数部分四舍五入
 // 1 <= n <= 100
 // 0 <= a、b <= 10^9
@@ -34,15 +34,18 @@ public class Code01_DroppingTests {
 	public static int n, k;
 
 	public static boolean check(double x) {
+		// x固定的情况下，得到所有数据的结余
 		for (int i = 1; i <= n; i++) {
 			arr[i][2] = arr[i][0] - x * arr[i][1];
 		}
+		// 结余从大到小排序
 		Arrays.sort(arr, 1, n + 1, new MyComparator());
-		double f = 0;
+		// 最大k个结余的累加和
+		double sum = 0;
 		for (int i = 1; i <= k; i++) {
-			f += arr[i][2];
+			sum += arr[i][2];
 		}
-		return f >= 0;
+		return sum >= 0;
 	}
 
 	// poj平台java版本较老，不支持Lambda表达式方式的比较器，需要自己定义
@@ -64,6 +67,7 @@ public class Code01_DroppingTests {
 		in.nextToken();
 		k = (int) in.nval;
 		while (n != 0 || k != 0) {
+			// 题目要求舍弃掉k个，其实就是挑选n-k个
 			k = n - k;
 			for (int i = 1; i <= n; i++) {
 				in.nextToken();
