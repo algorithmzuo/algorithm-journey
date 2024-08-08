@@ -59,7 +59,7 @@ public class Code04_MinimumAverageCircle {
 		head[u] = cnt++;
 	}
 
-	// 利用dfs判断图中是否存在负环，课上重点图解
+	// 所有边都减去x，返回图中是否存在负环
 	public static boolean check(double x) {
 		Arrays.fill(value, 1, n + 1, 0);
 		Arrays.fill(path, 1, n + 1, false);
@@ -79,14 +79,12 @@ public class Code04_MinimumAverageCircle {
 			for (int e = head[u]; e != 0; e = next[e]) {
 				int v = to[e];
 				double w = weight[e] - x;
-				// 只有让v的权值变小才会继续递归
-				// 非常强的剪枝，类似spfa
+				// 只有让v的权值变小才会继续递归，非常强的剪枝，类似spfa
+				// 如果，递归的路径上再次遇到v，并且v的权值还能变小，说明遇到了负环
+				// 或者，后续的递归过程中发现了负环
+				// 可以直接返回true
 				if (value[v] > value[u] + w) {
 					value[v] = value[u] + w;
-					// 如果v在递归的路径上，但是再次遇到，说明遇到的负环
-					// 或者
-					// 后续递归的过程中发现了负环
-					// 直接返回true
 					if (path[v] || dfs(v, x)) {
 						return true;
 					}
