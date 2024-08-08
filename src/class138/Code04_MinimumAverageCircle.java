@@ -66,7 +66,6 @@ public class Code04_MinimumAverageCircle {
 		return dfs(0, x);
 	}
 
-	// 其实就是spfa的另一种写法
 	public static boolean dfs(int u, double x) {
 		if (u == 0) {
 			// 认为0号点是超级源点，可以走到所有点
@@ -82,6 +81,7 @@ public class Code04_MinimumAverageCircle {
 				int v = to[e];
 				double w = weight[e] - x;
 				// 让v的权值累加变小才会继续递归
+				// 非常强的剪枝，类似spfa
 				if (dist[v] > dist[u] + w) {
 					dist[v] = dist[u] + w;
 					// 如果v在递归的路径上，但是再次遇到，说明遇到的负环
