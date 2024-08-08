@@ -67,6 +67,7 @@ public class Code04_MinimumAverageCircle {
 		return dfs(0, x);
 	}
 
+	// 其实就是spfa的递归版，时间复杂度O(n * m)
 	public static boolean dfs(int u, double x) {
 		if (u == 0) {
 			// 认为0号点是超级源点，具有通往所有点的有向边
