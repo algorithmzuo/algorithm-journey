@@ -40,9 +40,10 @@ public class Code04_MinimumAverageCircle {
 
 	public static int cnt;
 
-	// dfs判断负环
+	// dfs判断负环，每个点的累积边权
 	public static double[] value = new double[MAXN];
 
+	// dfs判断负环，每个点是否是递归路径上的点
 	public static boolean[] path = new boolean[MAXN];
 
 	public static int n, m;
@@ -79,8 +80,8 @@ public class Code04_MinimumAverageCircle {
 			for (int e = head[u]; e != 0; e = next[e]) {
 				int v = to[e];
 				double w = weight[e] - x;
-				// 只有v的权值变更小，才会递归，非常强的剪枝，类似spfa过程
-				// 如果递归路径回到v，并且此时是v的权值更小的情况，说明遇到了负环
+				// 只有v的累积边权变小，才会递归，非常强的剪枝
+				// 如果递归路径回到v，并且此时是v的累积边权更小的情况，说明遇到了负环
 				// 或者后续递归找到了负环
 				// 直接返回true
 				if (value[v] > value[u] + w) {
