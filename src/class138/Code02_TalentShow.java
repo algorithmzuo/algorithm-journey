@@ -51,6 +51,7 @@ public class Code02_TalentShow {
 		}
 		dp[0] = 0;
 		Arrays.fill(dp, 1, m + 1, NA);
+		// dp[i][j] = 1...i号牛自由选择，重量至少是j的情况下，最大的结余和
 		// 动态规划进行了空间压缩，并且注意本题重量的要求是至少！课上进行了图解
 		for (int i = 1; i <= n; i++) {
 			for (int j = m, t; j >= 0; j--) {
@@ -60,6 +61,11 @@ public class Code02_TalentShow {
 				} else {
 					dp[t] = Math.max(dp[t], dp[j] + value[i]);
 				}
+			}
+			// 当前行的dp值，从右往左遍历，刷新最大值
+			// 因为重量至少是j，包含重量至少是j+1、j+2...
+			for (int j = m - 1; j >= 0; j--) {
+				dp[j] = Math.max(dp[j], dp[j + 1]);
 			}
 		}
 		return dp[m] >= 0;
