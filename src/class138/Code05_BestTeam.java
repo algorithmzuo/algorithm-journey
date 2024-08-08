@@ -87,6 +87,8 @@ public class Code05_BestTeam {
 		return size[i];
 	}
 
+	// 根据x的值，计算节点的结余值，在树上选k+1个点
+	// 一定要形成有效结构，返回最大的结余和
 	// 核心逻辑完全来自讲解079，题目5，选课问题，重点介绍的最优解
 	public static boolean check(double x) {
 		// value[节点i的dfn编号] = 节点i的战斗值 - x * 节点i的招募花费
@@ -97,7 +99,7 @@ public class Code05_BestTeam {
 		for (int j = 1; j <= k; j++) {
 			dp[dfnCnt + 1][j] = NA;
 		}
-		// 以下逻辑就是讲解079题目5的最优解
+		// 讲解079题目5的最优解逻辑
 		for (int i = dfnCnt; i >= 2; i--) {
 			for (int j = 1; j <= k; j++) {
 				dp[i][j] = Math.max(dp[i + size[i]][j], value[i] + dp[i + 1][j - 1]);
