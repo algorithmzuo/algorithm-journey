@@ -25,7 +25,7 @@ public class Code04_MinimumAverageCircle {
 
 	public static int MAXM = 10001;
 
-	public static double LIMIT = 1e7;
+	public static double MAXE = 1e7;
 
 	public static double sml = 1e-9;
 
@@ -79,10 +79,10 @@ public class Code04_MinimumAverageCircle {
 			for (int e = head[u]; e != 0; e = next[e]) {
 				int v = to[e];
 				double w = weight[e] - x;
-				// 只有让v的权值变小才会继续递归，非常强的剪枝，类似spfa
-				// 如果，递归的路径上再次遇到v，并且v的权值还能变小，说明遇到了负环
-				// 或者，后续的递归过程中发现了负环
-				// 可以直接返回true
+				// 只有v的权值变更小，才会递归，非常强的剪枝，类似spfa过程
+				// 如果递归路径回到v，并且此时是v的权值更小的情况，说明遇到了负环
+				// 或者后续递归找到了负环
+				// 直接返回true
 				if (value[v] > value[u] + w) {
 					value[v] = value[u] + w;
 					if (path[v] || dfs(v, x)) {
@@ -113,7 +113,7 @@ public class Code04_MinimumAverageCircle {
 			double w = in.nval;
 			addEdge(u, v, w);
 		}
-		double l = -LIMIT, r = LIMIT, x, ans = 0;
+		double l = -MAXE, r = MAXE, x, ans = 0;
 		while (l < r && r - l >= sml) {
 			x = (l + r) / 2;
 			if (check(x)) {
