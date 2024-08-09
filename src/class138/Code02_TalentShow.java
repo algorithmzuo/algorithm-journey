@@ -43,7 +43,7 @@ public class Code02_TalentShow {
 
 	// dp[i][j] : 1...i号牛自由选择，重量必须是j的情况下，最大的结余和
 	// 特别的，dp[i][w]表示1...i号牛自由选择，重量必须是w、w+1...的所有情况中，最大的结余和
-	// 为了节省空间选择这么定义，同时做空间压缩
+	// 为了节省时间和空间选择这么定义，同时做空间压缩
 	public static double[] dp = new double[MAXW];
 
 	public static int n, w;
