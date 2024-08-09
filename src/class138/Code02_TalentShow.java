@@ -24,7 +24,7 @@ public class Code02_TalentShow {
 
 	public static int MAXN = 251;
 
-	public static int MAXM = 1001;
+	public static int MAXW = 1001;
 
 	// 足够小代表无效解
 	public static double NA = -1e9;
@@ -41,34 +41,30 @@ public class Code02_TalentShow {
 	// (才艺 - x * 重量)的结余
 	public static double[] value = new double[MAXN];
 
-	public static double[] dp = new double[MAXM];
+	// dp[i][j] : 1...i号牛自由选择，重量必须是j的情况下，最大的结余和
+	// 特别的，dp[i][w]表示1...i号牛自由选择，重量必须是w、w+1...的所有情况中，最大的结余和
+	// 为了节省空间选择这么定义，同时做空间压缩
+	public static double[] dp = new double[MAXW];
 
-	public static int n, m;
+	public static int n, w;
 
 	public static boolean check(double x) {
 		for (int i = 1; i <= n; i++) {
 			value[i] = (double) talent[i] - x * weight[i];
 		}
 		dp[0] = 0;
-		Arrays.fill(dp, 1, m + 1, NA);
-		// dp[i][j] = 1...i号牛自由选择，重量至少是j的情况下，最大的结余和
-		// 动态规划进行了空间压缩，并且注意本题重量的要求是至少！课上进行了图解
+		Arrays.fill(dp, 1, w + 1, NA);
 		for (int i = 1; i <= n; i++) {
-			for (int j = m, t; j >= 0; j--) {
-				t = (int) (j + weight[i]);
-				if (t >= m) {
-					dp[m] = Math.max(dp[m], dp[j] + value[i]);
+			for (int p = w, j; p >= 0; p--) {
+				j = (int) (p + weight[i]);
+				if (j >= w) {
+					dp[w] = Math.max(dp[w], dp[p] + value[i]);
 				} else {
-					dp[t] = Math.max(dp[t], dp[j] + value[i]);
+					dp[j] = Math.max(dp[j], dp[p] + value[i]);
 				}
 			}
-			// 当前行的dp值，从右往左遍历，刷新最大值
-			// 因为重量至少是j，包含重量至少是j+1、j+2...
-			for (int j = m - 1; j >= 0; j--) {
-				dp[j] = Math.max(dp[j], dp[j + 1]);
-			}
 		}
-		return dp[m] >= 0;
+		return dp[w] >= 0;
 	}
 
 	public static void main(String[] args) throws IOException {
@@ -76,11 +72,9 @@ public class Code02_TalentShow {
 		StreamTokenizer in = new StreamTokenizer(br);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
 		in.nextToken();
-		// 牛的个数
 		n = (int) in.nval;
 		in.nextToken();
-		// 要求的重量
-		m = (int) in.nval;
+		w = (int) in.nval;
 		for (int i = 1; i <= n; i++) {
 			in.nextToken();
 			weight[i] = (int) in.nval;
