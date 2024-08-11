@@ -157,7 +157,6 @@ public class Code05_FireFighting2 {
 		int h = 0, t = 0;
 		int ans = Integer.MAX_VALUE;
 		for (int l = end, r = end; l != 0; l = last[l]) {
-			suml += pred[l];
 			while (r != 0 && sumr + pred[r] - suml <= s) {
 				while (h < t && maxDist[queue[t - 1]] <= maxDist[r]) {
 					t--;
@@ -170,6 +169,7 @@ public class Code05_FireFighting2 {
 			if (queue[h] == l) {
 				h++;
 			}
+			suml += pred[l];
 		}
 		return ans;
 	}

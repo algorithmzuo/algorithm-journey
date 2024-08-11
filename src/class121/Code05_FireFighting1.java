@@ -127,15 +127,10 @@ public class Code05_FireFighting1 {
 		// 用h和t表示单调队列的头和尾
 		int h = 0, t = 0;
 		int ans = Integer.MAX_VALUE;
-		// 直径上维护的窗口[l...r-1]
+		// 窗口范围[l,r)，左闭右开，直径上的窗口[l...r-1]
 		// l是窗口左端点，r是窗口右端点的再下一个点
-		// (右端点只到了r前一个节点)
-		// [l, r)左闭右开
+		// 课上图解是从start到end，实际是从end到start，思路没有区别
 		for (int l = end, r = end; l != 0; l = last[l]) {
-			// 课上图解是从start到end
-			// 实际是从end到start
-			// 思路没有区别
-			suml += pred[l];
 			while (r != 0 && sumr - suml + pred[r] <= s) {
 				while (h < t && maxDist[queue[t - 1]] <= maxDist[r]) {
 					t--;
@@ -148,6 +143,7 @@ public class Code05_FireFighting1 {
 			if (queue[h] == l) {
 				h++;
 			}
+			suml += pred[l];
 		}
 		return ans;
 	}
