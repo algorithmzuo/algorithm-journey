@@ -4,8 +4,9 @@ public class Exgcd {
 
 	// 扩展欧几里得算法
 	// 对于方程ax + by = gcd(a,b)
-	// 当a和b确定，那么gcd(a,b)也确定，需要保证a和b没有负数
+	// 当a和b确定，那么gcd(a,b)也确定
 	// 扩展欧几里得算法可以给出a和b的最大公约数d、以及其中一个特解x、y
+	// 特别注意要保证入参a和b没有负数
 	public static long d, x, y;
 
 	public static void exgcd(long a, long b) {
