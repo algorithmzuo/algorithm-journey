@@ -47,7 +47,7 @@ public class Code01_1 {
 			in.nextToken();
 			long c = (long) in.nval;
 			exgcd(a, b);
-			if (c % d == 0) {
+			if (c % d == 0) { // 有整数解
 				x *= c / d;
 				y *= c / d;
 				long xd = b / d;
@@ -55,9 +55,7 @@ public class Code01_1 {
 				if (x < 0) {
 					// x要想增长到>=1且最小的值，差几个xd，算出来就是k的值
 					// 那应该是(1-x)/xd，结果向上取整
-					// (a/b)向上取整可以写成(a+b-1)/b
-					// 所以(1-x)/xd，向上取整为(1-x+xd-1)/xd，化简为(xd-x)/xd
-					long k = (xd - x) / xd;
+					long k = (1 - x + xd - 1) / xd;
 					x += xd * k;
 					y -= yd * k;
 				} else {
@@ -66,21 +64,22 @@ public class Code01_1 {
 					x -= xd * k;
 					y += yd * k;
 				}
-				if (y > 0) {
-					// 有正整数解
+				if (y > 0) { // 有正整数解
+					// y减少到>=1的最小值，能减几次，就是正整数解的个数
 					out.print(((y - 1) / yd + 1) + " ");
+					// x的最小正整数
 					out.print(x + " ");
+					// y的最小正整数
 					out.print(((y - 1) % yd + 1) + " ");
+					// x的最大正整数
 					out.print((x + (y - 1) / yd * xd) + " ");
+					// y的最大正整数
 					out.println(y);
-				} else {
-					// 无正整数解
+				} else { // 无正整数解
 					out.print(x + " ");
-					// (1-y)/yd，向上取整为(1-y+yd-1)/yd，化简为(yd-y)/yd
-					out.println(y + yd * ((yd - y) / yd));
+					out.println(y + yd * ((1 - y + yd - 1) / yd));
 				}
-			} else {
-				// 无整数解
+			} else { // 无整数解
 				out.println(-1);
 			}
 		}
