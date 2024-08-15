@@ -47,7 +47,7 @@ public class Exgcd {
 		System.out.println("x = " + x + ", " + " y = " + y);
 
 		// 扩展欧几里得算法可以去求逆元
-		System.out.println("逆元测试开始");
+		System.out.println("求逆元测试开始");
 		long mod = 1000000007;
 		long test = 10000000;
 		for (long num = 1; num <= test; num++) {
@@ -57,7 +57,7 @@ public class Exgcd {
 				System.out.println("出错了!");
 			}
 		}
-		System.out.println("逆元测试结束");
+		System.out.println("求逆元测试结束");
 	}
 
 }
