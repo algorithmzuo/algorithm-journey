@@ -14,24 +14,19 @@ import java.util.StringTokenizer;
 public class Code04 {
 
 	// 扩展欧几里得算法
-	public static long x, y;
+	public static long d, x, y;
 
 	public static void exgcd(long a, long b) {
-		long n = 0, m = 1, pn = 1, pm = 0, tmp, q, r;
-		while (b != 0) {
-			q = a / b;
-			r = a % b;
-			a = b;
-			b = r;
-			tmp = n;
-			n = pn - q * n;
-			pn = tmp;
-			tmp = m;
-			m = pm - q * m;
-			pm = tmp;
+		if (b == 0) {
+			d = a;
+			x = 1;
+			y = 0;
+		} else {
+			exgcd(b, a % b);
+			long tmp = x;
+			x = y;
+			y = tmp - a / b * y;
 		}
-		x = pn;
-		y = pm;
 	}
 
 	public static void main(String[] args) throws IOException {
