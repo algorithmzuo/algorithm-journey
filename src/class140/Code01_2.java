@@ -1,6 +1,8 @@
 package class140;
 
 // 测试链接 : https://www.luogu.com.cn/problem/P5656
+// 如下实现是C++的版本，C++版本和java版本逻辑完全一样
+// 提交如下代码，可以通过所有测试用例
 
 //#include <iostream>
 //#include <cstdio>
