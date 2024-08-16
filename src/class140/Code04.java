@@ -32,12 +32,17 @@ public class Code04 {
 				in.nextToken();
 				ym = (int) in.nval;
 				edges += gcd(Math.abs(xm), Math.abs(ym));
+				// 叉积的结果是两个向量做边的平行四边形面积，最终得到的结果需要除以2
 				area += x * (y + ym) - (x + xm) * y;
 				x += xm;
 				y += ym;
 			}
 			// pick定理
-			int inners = (int) (area / 2) + 1 - edges / 2;
+			// 如果一个多边形的顶点都是格点(坐标都为整数)
+			// 多边形面积 = 边界上格点数/2 + 内部格点数 - 1
+			// 所以
+			// 内部格点数 = 多边形面积 - 边界上格点数/2 + 1
+			int inners = (int) (area / 2) - edges / 2 + 1;
 			out.println("Scenario #" + t + ":");
 			out.print(inners + " ");
 			out.print(edges + " ");
