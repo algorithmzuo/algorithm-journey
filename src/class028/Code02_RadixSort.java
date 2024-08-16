@@ -43,12 +43,12 @@ public class Code02_RadixSort {
 
 	// 返回number在BASE进制下有几位
 	public static int bits(int number) {
-		int ans = 0;
-		while (number > 0) {
-			ans++;
-			number /= BASE;
+		int bits = 0;
+		while(number > 0){
+			number/=BASE;
+			bits++;
 		}
-		return ans;
+		return bits;
 	}
 
 	// 基数排序核心代码
@@ -56,26 +56,37 @@ public class Code02_RadixSort {
 	// n是arr的长度
 	// bits是arr中最大值在BASE进制下有几位
 	public static void radixSort(int[] arr, int n, int bits) {
-		// 理解的时候可以假设BASE = 10
-		for (int offset = 1; bits > 0; offset *= BASE, bits--) {
-			Arrays.fill(cnts, 0);
+		for (int bit = 0, offset = 1 ; bit < bits; bit++, offset*=BASE) {
+			// 1- 初始化位数的数组
+			Arrays.fill(cnts,0);
+			// 2- 遍历数组中 每个数 统计位数频率
 			for (int i = 0; i < n; i++) {
-				// 数字提取某一位的技巧
-				cnts[(arr[i] / offset) % BASE]++;
+				int curBit = (arr[i] / offset) % BASE;
+				cnts[curBit]++;
 			}
-			// 处理成前缀次数累加的形式
-			for (int i = 1; i < BASE; i++) {
-				cnts[i] = cnts[i] + cnts[i - 1];
+			// 3- 位数累加和
+			for(int i = 1; i < BASE;i++){
+				cnts[i]+=cnts[i-1];
 			}
-			for (int i = n - 1; i >= 0; i--) {
-				// 前缀数量分区的技巧
-				// 数字提取某一位的技巧
-				help[--cnts[(arr[i] / offset) % BASE]] = arr[i];
+
+			// 4- 根据位数累加和 填进去help数组
+			for (int i = n -1 ; i >=0 ; i--) {
+				int supposePos = (arr[i] / offset) % BASE;
+				help[--cnts[supposePos]] = arr[i];
 			}
+			// 5- 从Help数组复制回去arr数组
 			for (int i = 0; i < n; i++) {
 				arr[i] = help[i];
 			}
+			System.out.println(Arrays.toString(arr));
 		}
+	}
+
+	public static void main(String[] args) {
+		int[] arr = new int[]{614,412,211,129,218,123};
+		radixSort(arr, arr.length ,bits(614));
+		System.out.println(Arrays.toString(arr));
+//		System.out.println(bits(12456));
 	}
 
 }

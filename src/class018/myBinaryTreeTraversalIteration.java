@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Stack;
 
 // 不用递归，用迭代的方式实现二叉树的三序遍历
-public class BinaryTreeTraversalIteration {
+public class myBinaryTreeTraversalIteration {
 
 	public static class TreeNode {
 		public int val;
@@ -123,38 +123,38 @@ public class BinaryTreeTraversalIteration {
 		System.out.println("后序遍历非递归版 - 1个栈实现");
 	}
 
-	// 用一个栈完成先序遍历
+	// 用一个栈完成先序遍历 （首先先压根节点入栈，然后循环弹出栈头，并依序将右左节点压栈）
 	// 测试链接 : https://leetcode.cn/problems/binary-tree-preorder-traversal/
 	public static List<Integer> preorderTraversal(TreeNode head) {
 		List<Integer> ans = new ArrayList<>();
-		if (head != null) {
+		if(head!=null){
 			Stack<TreeNode> stack = new Stack<>();
 			stack.push(head);
-			while (!stack.isEmpty()) {
+			while(!stack.isEmpty()){
 				head = stack.pop();
 				ans.add(head.val);
-				if (head.right != null) {
-					stack.push(head.right);
+				if(head.right != null){
+					stack.add(head.right);
 				}
-				if (head.left != null) {
-					stack.push(head.left);
+				if(head.left !=null){
+					stack.add(head.left);
 				}
 			}
 		}
 		return ans;
 	}
 
-	// 用一个栈完成中序遍历
+	// 用一个栈完成中序遍历 先将左子树节点全部压入栈中，然后依次弹出并访问节点，并将右子树节点压入栈中。
 	// 测试链接 : https://leetcode.cn/problems/binary-tree-inorder-traversal/
 	public static List<Integer> inorderTraversal(TreeNode head) {
 		List<Integer> ans = new ArrayList<>();
-		if (head != null) {
+		if(head!=null){
 			Stack<TreeNode> stack = new Stack<>();
-			while (!stack.isEmpty() || head != null) {
-				if (head != null) {
+			while(!stack.isEmpty() || head !=null){
+				if(head!=null){
 					stack.push(head);
 					head = head.left;
-				} else {
+				}else{
 					head = stack.pop();
 					ans.add(head.val);
 					head = head.right;
@@ -162,6 +162,7 @@ public class BinaryTreeTraversalIteration {
 			}
 		}
 		return ans;
+
 	}
 
 	// 用两个栈完成后序遍历
@@ -193,22 +194,23 @@ public class BinaryTreeTraversalIteration {
 	// 用一个栈完成后序遍历
 	// 提交时函数名改为postorderTraversal
 	// 测试链接 : https://leetcode.cn/problems/binary-tree-postorder-traversal/
-	public static List<Integer> postorderTraversalOneStack(TreeNode h) {
+	public static List<Integer> postorderTraversalOneStack(TreeNode head) {
 		List<Integer> ans = new ArrayList<>();
-		if (h != null) {
+		if(head != null){
 			Stack<TreeNode> stack = new Stack<>();
-			stack.push(h);
-			while (!stack.isEmpty()) {
-				TreeNode cur = stack.peek();
+			TreeNode iteratedNode = head;
+			stack.push(head);
+			while(!stack.isEmpty()){
+				TreeNode curNode = stack.peek();
 				// 左子树有 且 左子树没有遍历过
-				if (cur.left != null && h != cur.left && h != cur.right) {
-					stack.push(cur.left);
+				if(curNode.left != null && curNode.left != iteratedNode && curNode.right  !=iteratedNode){
+					stack.push(curNode.left);
 				} // 右子树有 且 右子树没有遍历过
-				else if (cur.right != null && h != cur.right) {
-					stack.push(cur.right);
-				} else {
-					ans.add(cur.val);
-					h = stack.pop();
+				else if(curNode.right !=null && curNode.right!= iteratedNode){
+					stack.push(curNode.right);
+				}else{
+					ans.add(curNode.val);
+					iteratedNode = stack.pop();
 				}
 			}
 		}

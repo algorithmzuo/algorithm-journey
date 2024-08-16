@@ -10,8 +10,8 @@ public class Code02_MergeSort {
 			// mergeSort1为递归方法
 			// mergeSort2为非递归方法
 			// 用哪个都可以
-			// mergeSort1(nums);
-			mergeSort2(nums);
+			 mergeSort1(nums);
+//			mergeSort2(nums);
 		}
 		return nums;
 	}

@@ -1,10 +1,10 @@
 package class013;
 
-import java.util.Queue;
 import java.util.LinkedList;
+import java.util.Queue;
 import java.util.Stack;
 
-public class QueueStackAndCircularQueue {
+public class myQueueStackAndCircularQueue {
 
 	// 直接用java内部的实现
 	// 其实内部就是双向链表，常数操作慢
@@ -155,7 +155,8 @@ public class QueueStackAndCircularQueue {
 
 	// 设计循环队列
 	// 测试链接 : https://leetcode.cn/problems/design-circular-queue/
-	class MyCircularQueue {
+	static class MyCircularQueue {
+
 		public int[] queue;
 
 		public int l, r, size, limit;
@@ -163,19 +164,20 @@ public class QueueStackAndCircularQueue {
 		// 同时在队列里的数字个数，不要超过k
 		public MyCircularQueue(int k) {
 			queue = new int[k];
-			l = r = size = 0;
+			l = r = 0;
+			size = 0;
 			limit = k;
+
 		}
 
 		// 如果队列满了，什么也不做，返回false
 		// 如果队列没满，加入value，返回true
 		public boolean enQueue(int value) {
-			if (isFull()) {
+			if(isFull()){
 				return false;
-			} else {
+			}else{
 				queue[r] = value;
-				// r++, 结束了，跳回0
-				r = r == limit - 1 ? 0 : (r + 1);
+				r = (r==limit-1) ? 0 : r+1;
 				size++;
 				return true;
 			}
@@ -184,32 +186,24 @@ public class QueueStackAndCircularQueue {
 		// 如果队列空了，什么也不做，返回false
 		// 如果队列没空，弹出头部的数字，返回true
 		public boolean deQueue() {
-			if (isEmpty()) {
+			if(isEmpty()){
 				return false;
-			} else {
-				// l++, 结束了，跳回0
-				l = l == limit - 1 ? 0 : (l + 1);
+			}else{
+				l = (l==limit-1) ? 0 : l+1;
 				size--;
 				return true;
 			}
+
 		}
 
 		// 返回队列头部的数字（不弹出），如果没有数返回-1
 		public int Front() {
-			if (isEmpty()) {
-				return -1;
-			} else {
-				return queue[l];
-			}
+			return isEmpty() ? -1: queue[l];
 		}
-
+		//返回尾部的数字（不弹出）
 		public int Rear() {
-			if (isEmpty()) {
-				return -1;
-			} else {
-				int last = r == 0 ? (limit - 1) : (r - 1);
-				return queue[last];
-			}
+			int last = r == 0 ? limit -1 : r-1;
+			return isEmpty() ? -1: queue[last];
 		}
 
 		public boolean isEmpty() {
@@ -219,6 +213,15 @@ public class QueueStackAndCircularQueue {
 		public boolean isFull() {
 			return size == limit;
 		}
+
+	}
+
+	public static void main(String[] args) {
+		MyCircularQueue queue = new MyCircularQueue(2);
+		queue.enQueue(1);
+		queue.enQueue(4);
+		System.out.println(queue.Front());
+		System.out.println(queue.Rear());
 	}
 
 }

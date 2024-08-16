@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 // 二叉树的锯齿形层序遍历
-// 测试链接 : https://leetcode.cn/problems/binary-tree-zigzag-level-order-traversal/
+// 测试链接 : Code02_ZigzagLevelOrderTraversal
 public class Code02_ZigzagLevelOrderTraversal {
 
 	// 不提交这个类

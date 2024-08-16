@@ -6,7 +6,7 @@ import java.util.HashSet;
 // 字符串的全部子序列
 // 子序列本身是可以有重复的，只是这个题目要求去重
 // 测试链接 : https://www.nowcoder.com/practice/92e6247998294f2c933906fdedbc6e6a
-public class Code01_Subsequences {
+public class Code01_mySubsequences {
 
 	public static String[] generatePermutation1(String str) {
 		char[] s = str.toCharArray();
@@ -35,25 +35,27 @@ public class Code01_Subsequences {
 
 	public static String[] generatePermutation2(String str) {
 		char[] s = str.toCharArray();
+		char[] path = new char[s.length];
 		HashSet<String> set = new HashSet<>();
-		f2(s, 0, new char[s.length], 0, set);
-		int m = set.size();
-		String[] ans = new String[m];
+		f2(s,0,path,0,set);
+
+		// convert sets to String[]
+		String[] ans = new String[set.size()];
 		int i = 0;
-		for (String cur : set) {
-			ans[i++] = cur;
+		for(String a : set){
+			ans[i++] = a;
 		}
 		return ans;
 	}
 
 	public static void f2(char[] s, int i, char[] path, int size, HashSet<String> set) {
-		if (i == s.length) {
-			set.add(String.valueOf(path, 0, size));
-		} else {
-			path[size] = s[i];
-			f2(s, i + 1, path, size + 1, set);
-			f2(s, i + 1, path, size, set);
+		if( i == s.length ){
+			set.add(String.valueOf(path, 0 , size));
+			return;
 		}
+		path[size] = s[i];
+		f2(s, i+1, path, size +1, set );
+		f2(s, i+1, path, size, set);
 	}
 
 	public static void main(String[] args) {
