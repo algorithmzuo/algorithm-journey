@@ -1,6 +1,6 @@
 package class140;
 
-// 测试链接 : https://lightoj.com/problem/how-many-points
+// 测试链接 : https://www.luogu.com.cn/problem/P1516
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -11,8 +11,20 @@ import java.io.StreamTokenizer;
 
 public class Code02 {
 
-	public static long gcd(long a, long b) {
-		return b == 0 ? a : gcd(b, a % b);
+	// 扩展欧几里得算法
+	public static long d, x, y;
+
+	public static void exgcd(long a, long b) {
+		if (b == 0) {
+			d = a;
+			x = 1;
+			y = 0;
+		} else {
+			exgcd(b, a % b);
+			long tmp = x;
+			x = y;
+			y = tmp - a / b * y;
+		}
 	}
 
 	public static void main(String[] args) throws IOException {
@@ -20,14 +32,26 @@ public class Code02 {
 		StreamTokenizer in = new StreamTokenizer(br);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
 		in.nextToken();
-		int cases = (int) in.nval;
-		for (int i = 1; i <= cases; i++) {
-			in.nextToken(); long x1 = (long) in.nval;
-			in.nextToken(); long y1 = (long) in.nval;
-			in.nextToken(); long x2 = (long) in.nval;
-			in.nextToken(); long y2 = (long) in.nval;
-			long ans = gcd(Math.abs(x1 - x2), Math.abs(y1 - y2)) + 1;
-			out.println("Case " + i + ": " + ans);
+		long x1 = (long) in.nval;
+		in.nextToken();
+		long x2 = (long) in.nval;
+		in.nextToken();
+		long m = (long) in.nval;
+		in.nextToken();
+		long n = (long) in.nval;
+		in.nextToken();
+		long l = (long) in.nval;
+		long a = n - m;
+		long c = x1 - x2;
+		if (a < 0) {
+			a = -a;
+			c = l - c;
+		}
+		exgcd(a, l);
+		if (c % d == 0) {
+			out.println(((x * c / d) % (l / d) + (l / d)) % (l / d));
+		} else {
+			out.println("Impossible");
 		}
 		out.flush();
 		out.close();

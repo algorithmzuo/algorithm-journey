@@ -27,7 +27,7 @@ package class140;
 //int main() {
 //    int cases;
 //    scanf("%d", &cases);
-//    for (int i = 1; i <= cases; i++) {
+//    for (int t = 1; t <= cases; t++) {
 //        long long a, b, c;
 //        scanf("%lld %lld %lld", &a, &b, &c);
 //        exgcd(a, b);

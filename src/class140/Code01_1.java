@@ -39,7 +39,7 @@ public class Code01_1 {
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
 		in.nextToken();
 		int cases = (int) in.nval;
-		for (int i = 1; i <= cases; i++) {
+		for (int t = 1; t <= cases; t++) {
 			in.nextToken();
 			long a = (long) in.nval;
 			in.nextToken();
