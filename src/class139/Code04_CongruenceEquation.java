@@ -17,7 +17,7 @@ import java.io.StreamTokenizer;
 public class Code04_CongruenceEquation {
 
 	// 扩展欧几里得算法
-	public static long d, x, y;
+	public static long d, x, y, px, py;
 
 	public static void exgcd(long a, long b) {
 		if (b == 0) {
@@ -26,9 +26,10 @@ public class Code04_CongruenceEquation {
 			y = 0;
 		} else {
 			exgcd(b, a % b);
-			long tmp = x;
-			x = y;
-			y = tmp - a / b * y;
+			px = x;
+			py = y;
+			x = py;
+			y = px - a / b * py;
 		}
 	}
 

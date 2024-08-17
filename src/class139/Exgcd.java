@@ -7,7 +7,7 @@ public class Exgcd {
 	// 当a和b确定，那么gcd(a,b)也确定
 	// 扩展欧几里得算法可以给出a和b的最大公约数d、以及其中一个特解x、y
 	// 特别注意要保证入参a和b没有负数
-	public static long d, x, y;
+	public static long d, x, y, px, py;
 
 	public static void exgcd(long a, long b) {
 		if (b == 0) {
@@ -16,9 +16,10 @@ public class Exgcd {
 			y = 0;
 		} else {
 			exgcd(b, a % b);
-			long tmp = x;
-			x = y;
-			y = tmp - a / b * y;
+			px = x;
+			py = y;
+			x = py;
+			y = px - a / b * py;
 		}
 	}
 
@@ -41,8 +42,8 @@ public class Exgcd {
 
 	public static void main(String[] args) {
 		// 扩展欧几里得算法例子
-		int a = 6;
-		int b = 10;
+		int a = 220;
+		int b = 170;
 		exgcd(a, b);
 		System.out.println("gcd(" + a + ", " + b + ")" + " = " + d);
 		System.out.println("x = " + x + ", " + " y = " + y);

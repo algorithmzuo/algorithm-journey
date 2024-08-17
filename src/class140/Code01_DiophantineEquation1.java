@@ -25,7 +25,7 @@ import java.io.StreamTokenizer;
 public class Code01_DiophantineEquation1 {
 
 	// 扩展欧几里得算法
-	public static long d, x, y;
+	public static long d, x, y, px, py;
 
 	public static void exgcd(long a, long b) {
 		if (b == 0) {
@@ -34,11 +34,14 @@ public class Code01_DiophantineEquation1 {
 			y = 0;
 		} else {
 			exgcd(b, a % b);
-			long tmp = x;
-			x = y;
-			y = tmp - a / b * y;
+			px = x;
+			py = y;
+			x = py;
+			y = px - a / b * py;
 		}
 	}
+
+	public static long a, b, c, xd, yd, k;
 
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -48,26 +51,26 @@ public class Code01_DiophantineEquation1 {
 		int cases = (int) in.nval;
 		for (int t = 1; t <= cases; t++) {
 			in.nextToken();
-			long a = (long) in.nval;
+			a = (long) in.nval;
 			in.nextToken();
-			long b = (long) in.nval;
+			b = (long) in.nval;
 			in.nextToken();
-			long c = (long) in.nval;
+			c = (long) in.nval;
 			exgcd(a, b);
 			if (c % d == 0) { // 有整数解
 				x *= c / d;
 				y *= c / d;
-				long xd = b / d;
-				long yd = a / d;
+				xd = b / d;
+				yd = a / d;
 				if (x < 0) {
 					// x要想增长到>=1且最小的值，差几个xd，算出来就是k的值
 					// 那应该是(1-x)/xd，结果向上取整
-					long k = (1 - x + xd - 1) / xd;
+					k = (1 - x + xd - 1) / xd;
 					x += xd * k;
 					y -= yd * k;
 				} else {
 					// x要想减少到>=1且最小的值，差几个xd，算出来就是k的值，向下取整
-					long k = (x - 1) / xd;
+					k = (x - 1) / xd;
 					x -= xd * k;
 					y += yd * k;
 				}
