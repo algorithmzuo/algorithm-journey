@@ -1,6 +1,16 @@
 package class139;
 
+// 洗牌
+// 一共有n张牌，n一定是偶数，牌的编号从1到n，洗牌规则如下
+// 比如，n = 6，牌的编号为1 2 3 4 5 6
+// 先分成左堆1 2 3，右堆4 5 6
+// 然后按照右堆第i张在前，左堆第i张在后的方式，洗在一起
+// 得到4 1 5 2 6 3，如果再洗一次，就得到2 4 6 1 3 5
+// 想知道一共n张牌，洗m次的情况下，第l张牌在什么位置
+// 1 <= n <= 10^10，n为偶数
+// 0 <= m <= 10^10
 // 测试链接 : https://www.luogu.com.cn/problem/P2054
+// 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -9,7 +19,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 
-public class Code05 {
+public class Code05_ShuffleCards {
 
 	// 扩展欧几里得算法
 	public static long d, x, y;

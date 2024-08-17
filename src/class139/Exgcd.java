@@ -27,14 +27,14 @@ public class Exgcd {
 		return power(num, mod - 2, mod);
 	}
 
-	public static long power(long num, long p, long mod) {
+	public static long power(long num, long pow, long mod) {
 		long ans = 1;
-		while (p > 0) {
-			if ((p & 1) == 1) {
+		while (pow > 0) {
+			if ((pow & 1) == 1) {
 				ans = (ans * num) % mod;
 			}
 			num = (num * num) % mod;
-			p >>= 1;
+			pow >>= 1;
 		}
 		return ans;
 	}
