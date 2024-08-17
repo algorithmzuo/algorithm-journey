@@ -57,7 +57,9 @@ public class Code01_DiophantineEquation1 {
 			in.nextToken();
 			c = (long) in.nval;
 			exgcd(a, b);
-			if (c % d == 0) { // 有整数解
+			if (c % d != 0) { // 无整数解
+				out.println(-1);
+			} else { // 有整数解
 				x *= c / d;
 				y *= c / d;
 				xd = b / d;
@@ -74,7 +76,10 @@ public class Code01_DiophantineEquation1 {
 					x -= xd * k;
 					y += yd * k;
 				}
-				if (y > 0) { // 有正整数解
+				if (y <= 0) { // 无正整数解
+					out.print(x + " ");
+					out.println(y + yd * ((1 - y + yd - 1) / yd));
+				} else { // 有正整数解
 					// y减少到>=1的最小值，能减几次，就是正整数解的个数
 					out.print(((y - 1) / yd + 1) + " ");
 					// x的最小正整数
@@ -85,12 +90,7 @@ public class Code01_DiophantineEquation1 {
 					out.print((x + (y - 1) / yd * xd) + " ");
 					// y的最大正整数
 					out.println(y);
-				} else { // 无正整数解
-					out.print(x + " ");
-					out.println(y + yd * ((1 - y + yd - 1) / yd));
 				}
-			} else { // 无整数解
-				out.println(-1);
 			}
 		}
 		out.flush();

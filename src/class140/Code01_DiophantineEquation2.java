@@ -12,6 +12,7 @@ package class140;
 // 提交如下代码，可以通过所有测试用例
 
 //#include <iostream>
+//
 //#include <cstdio>
 //
 //using namespace std;
@@ -40,7 +41,9 @@ package class140;
 //    for (int t = 1; t <= cases; t++) {
 //        scanf("%lld %lld %lld", &a, &b, &c);
 //        exgcd(a, b);
-//        if (c % d == 0) {
+//        if (c % d != 0) {
+//            printf("-1\n");
+//        } else {
 //            x *= c / d;
 //            y *= c / d;
 //            xd = b / d;
@@ -54,18 +57,16 @@ package class140;
 //                x -= xd * k;
 //                y += yd * k;
 //            }
-//            if (y > 0) {
+//            if (y <= 0) {
+//                printf("%lld ", x);
+//                printf("%lld\n", y + yd * ((yd - y) / yd));
+//            } else {
 //                printf("%lld ", ((y - 1) / yd + 1));
 //                printf("%lld ", x);
 //                printf("%lld ", ((y - 1) % yd + 1));
 //                printf("%lld ", (x + (y - 1) / yd * xd));
 //                printf("%lld\n", y);
-//            } else {
-//                printf("%lld ", x);
-//                printf("%lld\n", y + yd * ((yd - y) / yd));
 //            }
-//        } else {
-//            printf("-1\n");
 //        }
 //    }
 //    return 0;
