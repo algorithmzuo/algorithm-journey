@@ -1,6 +1,14 @@
 package class140;
 
+// 青蛙的约会
+// 有一个周长为l的环，从环的0位置开始，规定只能沿着顺时针方向不停转圈
+// 青蛙A在环的x1位置，每秒跳m个位置，青蛙B在x2位置，每秒跳n个位置
+// 只有在某时刻，青蛙A和青蛙B来到环的同一个位置，才算相遇
+// 返回两只青蛙多久才能首次相遇
+// 1 <= l <= 3 * 10^9
+// 1 <= x1、x2、m、n <= 2 * 10^9
 // 测试链接 : https://www.luogu.com.cn/problem/P1516
+// 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -9,7 +17,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 
-public class Code02 {
+public class Code02_FrogsMeeting {
 
 	// 扩展欧几里得算法
 	public static long d, x, y;
@@ -43,6 +51,9 @@ public class Code02 {
 		long l = (long) in.nval;
 		long a = n - m;
 		long c = x1 - x2;
+		if (c < 0) {
+			c += l;
+		}
 		if (a < 0) {
 			a = -a;
 			c = l - c;

@@ -1,11 +1,18 @@
 package class140;
 
+// 二元一次不定方程模版
+// 给定a、b、c，求解方程ax + by = c
+// 如果方程无解打印-1
+// 如果方程无正整数解，但是有整数解，打印这些整数解中，x的最小值，y的最小值
+// 如果方程有正整数解，打印正整数解的数量，以及所有正整数解中，
+// x的最小值，y的最小值，x的最大值，y的最大值
+// 1 <= a、b、c <= 10^9
 // 测试链接 : https://www.luogu.com.cn/problem/P5656
 // 如下实现是正确的，但是洛谷平台对空间卡的很严，只有使用C++能全部通过
 // java的版本就是无法完全通过的，空间会超过限制，主要是IO空间占用大
 // 这是洛谷平台没有照顾各种语言的实现所导致的
 // 在真正笔试、比赛时，一定是兼顾各种语言的，该实现是一定正确的
-// C++版本就是Code01_2文件
+// C++版本就是Code01_DiophantineEquation2文件
 // C++版本和java版本逻辑完全一样，但只有C++版本可以通过所有测试用例
 
 import java.io.BufferedReader;
@@ -15,7 +22,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 
-public class Code01_1 {
+public class Code01_DiophantineEquation1 {
 
 	// 扩展欧几里得算法
 	public static long d, x, y;
