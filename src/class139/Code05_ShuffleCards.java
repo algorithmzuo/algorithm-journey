@@ -1,12 +1,13 @@
 package class139;
 
 // 洗牌
-// 一共有n张牌，n一定是偶数，牌的编号从1到n，洗牌规则如下
-// 比如，n = 6，牌的编号为1 2 3 4 5 6
-// 先分成左堆1 2 3，右堆4 5 6
-// 然后按照右堆第i张在前，左堆第i张在后的方式，洗在一起
-// 得到4 1 5 2 6 3，如果再洗一次，就得到2 4 6 1 3 5
-// 想知道一共n张牌，洗m次的情况下，第l张牌在什么位置
+// 一共有n张牌，n一定是偶数，每张牌的牌面从1到n，洗牌规则如下
+// 比如n = 6，牌面最初排列为1 2 3 4 5 6
+// 先分成左堆1 2 3，右堆4 5 6，然后按照右堆第i张在前，左堆第i张在后的方式依次放置
+// 所以洗一次后，得到 4 1 5 2 6 3
+// 如果再洗一次，得到 2 4 6 1 3 5
+// 如果再洗一次，得到 1 2 3 4 5 6
+// 想知道n张牌洗m次的之后，第l张牌，是什么牌面
 // 1 <= n <= 10^10，n为偶数
 // 0 <= m <= 10^10
 // 测试链接 : https://www.luogu.com.cn/problem/P2054
@@ -70,8 +71,8 @@ public class Code05_ShuffleCards {
 	public static long compute(long n, long m, long l) {
 		long mod = n + 1;
 		exgcd(power(2, m, mod), mod);
-		x = (x % mod + mod) % mod;
-		return multiply(x, l, mod);
+		long x0 = (x % mod + mod) % mod;
+		return multiply(x0, l, mod);
 	}
 
 	public static void main(String[] args) throws IOException {
