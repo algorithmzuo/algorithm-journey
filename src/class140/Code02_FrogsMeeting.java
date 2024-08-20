@@ -32,7 +32,7 @@ public class Code02_FrogsMeeting {
 			px = x;
 			py = y;
 			x = py;
-			y = px - a / b * py;
+			y = px - py * (a / b);
 		}
 	}
 
