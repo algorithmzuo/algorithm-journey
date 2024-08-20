@@ -71,8 +71,8 @@ public class Code05_ShuffleCards {
 	public static long compute(long n, long m, long l) {
 		long mod = n + 1;
 		exgcd(power(2, m, mod), mod);
-		long x0 = (x % mod + mod) % mod;
-		return multiply(x0, l, mod);
+		long gcdx = (x % mod + mod) % mod;
+		return multiply(gcdx, l, mod);
 	}
 
 	public static void main(String[] args) throws IOException {
