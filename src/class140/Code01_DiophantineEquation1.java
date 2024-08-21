@@ -82,13 +82,13 @@ public class Code01_DiophantineEquation1 {
 				} else { // 有正整数解
 					// y减少到>=1的最小值，能减几次，就是正整数解的个数
 					out.print(((y - 1) / yd + 1) + " ");
-					// x的最小正整数
+					// x能取得的最小正数值
 					out.print(x + " ");
-					// y的最小正整数
+					// y能取得的最小正数值
 					out.print(((y - 1) % yd + 1) + " ");
-					// x的最大正整数
+					// x能取得的最大正数值
 					out.print((x + (y - 1) / yd * xd) + " ");
-					// y的最大正整数
+					// y能取得的最大正数值
 					out.println(y);
 				}
 			}
