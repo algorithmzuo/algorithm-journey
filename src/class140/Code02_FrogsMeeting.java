@@ -53,12 +53,12 @@ public class Code02_FrogsMeeting {
 		in.nextToken();
 		long l = (long) in.nval;
 		long a, c;
-		if (x1 > x2) {
-			a = n - m;
-			c = x1 - x2;
-		} else {
+		if (x1 < x2) {
 			a = m - n;
 			c = x2 - x1;
+		} else {
+			a = n - m;
+			c = x1 - x2;
 		}
 		if (a < 0) {
 			a = -a;
