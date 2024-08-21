@@ -7,6 +7,7 @@ package class140;
 // 返回两只青蛙多久才能首次相遇
 // 1 <= l <= 3 * 10^9
 // 1 <= x1、x2、m、n <= 2 * 10^9
+// x1 != x2
 // 测试链接 : https://www.luogu.com.cn/problem/P1516
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
@@ -63,10 +64,20 @@ public class Code02_FrogsMeeting {
 			c = l - c;
 		}
 		exgcd(a, l);
-		if (c % d == 0) {
-			out.println(((x * c / d) % (l / d) + (l / d)) % (l / d));
-		} else {
+		if (c % d != 0) {
 			out.println("Impossible");
+		} else {
+			// 解出的特解
+			long x0 = x * c / d;
+			// 单次幅度
+			long xd = l / d;
+			// x0调整成>=1的最小正整数，处理办法和上一题一样
+			if (x0 < 0) {
+				x0 += (1 - x0 + xd - 1) / xd * xd;
+			} else {
+				x0 -= (x0 - 1) / xd * xd;
+			}
+			out.println(x0);
 		}
 		out.flush();
 		out.close();
