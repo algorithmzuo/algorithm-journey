@@ -77,6 +77,8 @@ public class Code01_DiophantineEquation1 {
 					x -= xd * times;
 					y += yd * times;
 				}
+				// 此时得到的(x, y)，是x为最小正整数时的一组解
+				// 然后继续讨论
 				if (y <= 0) { // 无正整数解
 					// x能取得的最小正数
 					out.print(x + " ");
@@ -88,7 +90,7 @@ public class Code01_DiophantineEquation1 {
 					// x能取得的最小正数
 					out.print(x + " ");
 					// y能取得的最小正数
-					out.print(((y - 1) % yd + 1) + " ");
+					out.print((y - (y - 1) / yd * yd) + " ");
 					// x能取得的最大正数
 					out.print((x + (y - 1) / yd * xd) + " ");
 					// y能取得的最大正数

@@ -64,7 +64,7 @@ package class140;
 //            } else {
 //                printf("%lld ", ((y - 1) / yd + 1));
 //                printf("%lld ", x);
-//                printf("%lld ", ((y - 1) % yd + 1));
+//                printf("%lld ", (y - (y - 1) / yd * yd));
 //                printf("%lld ", (x + (y - 1) / yd * xd));
 //                printf("%lld\n", y);
 //            }
