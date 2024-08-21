@@ -42,7 +42,7 @@ public class Code01_DiophantineEquation1 {
 		}
 	}
 
-	public static long a, b, c, xd, yd, k;
+	public static long a, b, c, xd, yd, times;
 
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -68,14 +68,14 @@ public class Code01_DiophantineEquation1 {
 				if (x < 0) {
 					// x要想增长到>=1且最小的值，差几个xd，算出来就是k的值
 					// 那应该是(1-x)/xd，结果向上取整
-					k = (1 - x + xd - 1) / xd;
-					x += xd * k;
-					y -= yd * k;
+					times = (1 - x + xd - 1) / xd;
+					x += xd * times;
+					y -= yd * times;
 				} else {
 					// x要想减少到>=1且最小的值，差几个xd，算出来就是k的值，向下取整
-					k = (x - 1) / xd;
-					x -= xd * k;
-					y += yd * k;
+					times = (x - 1) / xd;
+					x -= xd * times;
+					y += yd * times;
 				}
 				if (y <= 0) { // 无正整数解
 					// x能取得的最小正数

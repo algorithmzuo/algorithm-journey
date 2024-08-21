@@ -34,7 +34,7 @@ package class140;
 //    }
 //}
 //
-//long long a, b, c, xd, yd, k;
+//long long a, b, c, xd, yd, times;
 //
 //int main() {
 //    int cases;
@@ -50,13 +50,13 @@ package class140;
 //            xd = b / d;
 //            yd = a / d;
 //            if (x < 0) {
-//                k = (xd - x) / xd;
-//                x += xd * k;
-//                y -= yd * k;
+//                times = (xd - x) / xd;
+//                x += xd * times;
+//                y -= yd * times;
 //            } else {
-//                k = (x - 1) / xd;
-//                x -= xd * k;
-//                y += yd * k;
+//                times = (x - 1) / xd;
+//                x -= xd * times;
+//                y += yd * times;
 //            }
 //            if (y <= 0) {
 //                printf("%lld ", x);
