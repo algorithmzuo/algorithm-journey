@@ -41,11 +41,11 @@ public class Code04_Area {
 				in.nextToken();
 				dy = (int) in.nval;
 				edges += gcd(Math.abs(dx), Math.abs(dy));
+				// 鞋带公式，最后要除以2
 				area += x * (y + dy) - (x + dx) * y;
 				x += dx;
 				y += dy;
 			}
-			// 叉积的结果是两个向量做边的平行四边形面积，最终得到的结果需要除以2
 			area /= 2;
 			// pick定理
 			// 如果一个多边形的顶点都是格点(坐标都为整数)，多边形面积 = 边界上格点数/2 + 内部格点数 - 1
