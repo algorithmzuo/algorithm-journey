@@ -43,7 +43,7 @@ public class Code04_Area {
 				dy = (int) in.nval;
 				// 题目3的重要结论
 				edges += gcd(Math.abs(dx), Math.abs(dy));
-				// 鞋带公式，逆时针方向转动的公式
+				// 逆时针方向转动的鞋带公式
 				area += x * (y + dy) - (x + dx) * y;
 				x += dx;
 				y += dy;
@@ -51,7 +51,6 @@ public class Code04_Area {
 			// 鞋带公式最后要/2
 			area /= 2;
 			// pick定理
-			// 如果一个多边形的顶点都是格点(坐标都为整数)
 			// 多边形面积 = 边界上格点数/2 + 内部格点数 - 1
 			// 内部格点数 = 多边形面积 - 边界上格点数/2 + 1
 			int inners = (int) (area) - edges / 2 + 1;
