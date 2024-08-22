@@ -115,7 +115,7 @@ public class Code04_SPFA {
 					distance[v] = distance[u] + w;
 					if (!enter[v]) {
 						// 松弛次数超过n-1就有负环
-						if (++updateCnt[v] >= n) {
+						if (++updateCnt[v] > n - 1) {
 							return true;
 						}
 						queue[r++] = v;
