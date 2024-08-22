@@ -73,13 +73,18 @@ public class Code04_SPFA {
 		in.nextToken();
 		int cases = (int) in.nval;
 		for (int i = 0, n, m; i < cases; i++) {
-			in.nextToken(); n = (int) in.nval;
-			in.nextToken(); m = (int) in.nval;
+			in.nextToken();
+			n = (int) in.nval;
+			in.nextToken();
+			m = (int) in.nval;
 			build(n);
 			for (int j = 0, u, v, w; j < m; j++) {
-				in.nextToken(); u = (int) in.nval;
-				in.nextToken(); v = (int) in.nval;
-				in.nextToken(); w = (int) in.nval;
+				in.nextToken();
+				u = (int) in.nval;
+				in.nextToken();
+				v = (int) in.nval;
+				in.nextToken();
+				w = (int) in.nval;
 				if (w >= 0) {
 					addEdge(u, v, w);
 					addEdge(v, u, w);
@@ -109,7 +114,8 @@ public class Code04_SPFA {
 				if (distance[u] + w < distance[v]) {
 					distance[v] = distance[u] + w;
 					if (!enter[v]) {
-						if (updateCnt[v]++ == n) {
+						// 松弛次数超过n-1就有负环
+						if (++updateCnt[v] >= n) {
 							return true;
 						}
 						queue[r++] = v;
