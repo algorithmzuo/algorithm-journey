@@ -36,17 +36,17 @@ public class Code04_Area {
 			int n = (int) in.nval;
 			int edges = 0;
 			double area = 0;
-			for (int i = 1, x1 = 0, y1 = 0, x2, y2; i <= n; i++) {
+			for (int i = 1, x = 0, y = 0, dx, dy; i <= n; i++) {
 				in.nextToken();
-				x2 = x1 + (int) in.nval;
+				dx = (int) in.nval;
 				in.nextToken();
-				y2 = y1 + (int) in.nval;
-				edges += gcd(Math.abs(x1 - x2), Math.abs(y1 - y2));
-				// 鞋带公式
-				// 课上讲的是顺时针方向移动，本题是逆时针方向，所以每一步取相反数即可
-				area += x1 * y2 - x2 * y1;
-				x1 = x2;
-				y1 = y2;
+				dy = (int) in.nval;
+				// 题目3的重要结论
+				edges += gcd(Math.abs(dx), Math.abs(dy));
+				// 鞋带公式，逆时针方向转动的公式
+				area += x * (y + dy) - (x + dx) * y;
+				x += dx;
+				y += dy;
 			}
 			// 鞋带公式最后要/2
 			area /= 2;
