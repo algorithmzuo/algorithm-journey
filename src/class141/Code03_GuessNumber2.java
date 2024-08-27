@@ -18,7 +18,6 @@ public class Code03_GuessNumber2 {
 
 	public static long b[] = new long[MAXN];
 
-	// 讲解139 - 扩展欧几里得算法
 	public static long d, x, y, px, py;
 
 	public static void exgcd(long a, long b) {
@@ -35,7 +34,6 @@ public class Code03_GuessNumber2 {
 		}
 	}
 
-	// 讲解033 - 位运算实现乘法，a*b过程每一步都%mod，这么写是防止溢出
 	public static long multiply(long a, long b, long mod) {
 		long ans = 0;
 		while (b != 0) {
