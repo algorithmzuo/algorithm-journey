@@ -35,7 +35,6 @@ public class Code01_CRT {
 			x = (x % all + all) % all;
 			// ci = (ri * ai * ai逆元) % all
 			ci = multiply(remainder[i], multiply(ai, x, all), all);
-			// ans = (ans + ci ) % all
 			ans = (ans + ci) % all;
 		}
 		return ans;
