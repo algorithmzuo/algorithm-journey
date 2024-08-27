@@ -18,6 +18,7 @@ public class Code03_GuessNumber1 {
 
 	public static long b[] = new long[MAXN];
 
+	// 讲解139 - 扩展欧几里得算法
 	public static long d, x, y, px, py;
 
 	public static void exgcd(long a, long b) {
