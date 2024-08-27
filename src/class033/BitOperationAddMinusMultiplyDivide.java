@@ -65,6 +65,7 @@ public class BitOperationAddMinusMultiplyDivide {
 		return add(~n, 1);
 	}
 
+	// 这种乘法后面有大用处，尤其是求(a的b次方 % m)的结果，也叫龟速乘
 	public static int multiply(int a, int b) {
 		int ans = 0;
 		while (b != 0) {

@@ -36,7 +36,8 @@ public class Code02_EXCRT {
 		}
 	}
 
-	// 讲解033 - 位运算实现乘法，a*b过程每一步都%mod，这么写是防止溢出
+	// 讲解033 - 位运算实现乘法
+	// a*b过程每一步都%mod，这么写是防止溢出，也叫龟速乘
 	public static long multiply(long a, long b, long mod) {
 		long ans = 0;
 		while (b != 0) {

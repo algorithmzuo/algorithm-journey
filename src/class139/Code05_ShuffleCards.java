@@ -41,7 +41,7 @@ public class Code05_ShuffleCards {
 
 	// 原理来自，讲解033，位运算实现乘法
 	// a * b的过程自己实现，每一个中间过程都%mod
-	// 这么写目的是防止溢出
+	// 这么写目的是防止溢出，也叫龟速乘
 	public static long multiply(long a, long b, long mod) {
 		long ans = 0;
 		while (b != 0) {
