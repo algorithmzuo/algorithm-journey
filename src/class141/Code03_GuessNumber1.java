@@ -51,17 +51,17 @@ public class Code03_GuessNumber1 {
 
 	// 中国剩余定理模版
 	public static long crt(int n) {
-		long all = 1;
+		long m = 1;
 		for (int i = 1; i <= n; i++) {
-			all = all * a[i];
+			m = m * a[i];
 		}
-		long ai, ci, ans = 0;
+		long mi, ci, ans = 0;
 		for (int i = 1; i <= n; i++) {
-			ai = all / a[i];
-			exgcd(ai, a[i]);
-			x = (x % all + all) % all;
-			ci = multiply(ai, x, all);
-			ans = (ans + multiply(ci, b[i], all)) % all;
+			mi = m / a[i];
+			exgcd(mi, a[i]);
+			x = (x % m + m) % m;
+			ci = multiply(b[i], multiply(mi, x, m), m);
+			ans = (ans + ci) % m;
 		}
 		return ans;
 	}

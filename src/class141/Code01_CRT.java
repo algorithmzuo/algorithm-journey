@@ -51,20 +51,21 @@ public class Code01_CRT {
 
 	// 中国剩余定理模版
 	public static long crt(int n) {
-		long all = 1;
+		long m = 1;
 		for (int i = 1; i <= n; i++) {
-			all = all * a[i];
+			m = m * a[i];
 		}
-		long ai, ci, ans = 0;
+		long mi, ci, ans = 0;
 		for (int i = 1; i <= n; i++) {
-			ai = all / a[i];
-			exgcd(ai, a[i]);
-			// 扩展欧几里得得到的解可能是负数
-			x = (x % all + all) % all;
-			// ci = (ai * ai逆元) % all
-			ci = multiply(ai, x, all);
-			// ans = (ans + (ci * bi) % all ) % all
-			ans = (ans + multiply(ci, b[i], all)) % all;
+			mi = m / a[i];
+			// 扩展欧几里得算法得到的x是%a[i]意义下的逆元
+			exgcd(mi, a[i]);
+			// 扩展欧几里得算法得到的解可能是负数，变成正的
+			x = (x % m + m) % m;
+			// ci = (bi * mi * mi逆元) % m
+			ci = multiply(b[i], multiply(mi, x, m), m);
+			// ans = (ans + ci ) % all
+			ans = (ans + ci) % m;
 		}
 		return ans;
 	}

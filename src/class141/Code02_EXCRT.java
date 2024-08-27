@@ -57,7 +57,7 @@ public class Code02_EXCRT {
 			a2 = a[i];
 			b2 = b[i];
 			exgcd(a1, a2);
-			c = (b2 - b1 % a2 + a2) % a2;
+			c = ((b2 - b1) % a2 + a2) % a2;
 			if (c % d != 0) {
 				return -1;
 			}
