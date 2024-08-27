@@ -18,6 +18,23 @@ public class Code03_GuessNumber1 {
 
 	public static long remainder[] = new long[MAXN];
 
+	// 中国剩余定理模版
+	public static long crt(int n) {
+		long all = 1;
+		for (int i = 1; i <= n; i++) {
+			all = all * modular[i];
+		}
+		long ai, ci, ans = 0;
+		for (int i = 1; i <= n; i++) {
+			ai = all / modular[i];
+			exgcd(ai, modular[i]);
+			x = (x % all + all) % all;
+			ci = multiply(remainder[i], multiply(ai, x, all), all);
+			ans = (ans + ci) % all;
+		}
+		return ans;
+	}
+
 	// 讲解139 - 扩展欧几里得算法
 	public static long d, x, y, px, py;
 
@@ -45,23 +62,6 @@ public class Code03_GuessNumber1 {
 			}
 			a = (a + a) % mod;
 			b >>= 1;
-		}
-		return ans;
-	}
-
-	// 中国剩余定理模版
-	public static long crt(int n) {
-		long all = 1;
-		for (int i = 1; i <= n; i++) {
-			all = all * modular[i];
-		}
-		long ai, ci, ans = 0;
-		for (int i = 1; i <= n; i++) {
-			ai = all / modular[i];
-			exgcd(ai, modular[i]);
-			x = (x % all + all) % all;
-			ci = multiply(remainder[i], multiply(ai, x, all), all);
-			ans = (ans + ci) % all;
 		}
 		return ans;
 	}

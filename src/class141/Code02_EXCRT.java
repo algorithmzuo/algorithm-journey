@@ -19,6 +19,25 @@ public class Code02_EXCRT {
 
 	public static long remainder[] = new long[MAXN];
 
+	// 扩展中国剩余定理模版
+	public static long excrt(int n) {
+		long m1 = modular[1], r1 = remainder[1], m2, r2, c, tmp;
+		for (int i = 2; i <= n; i++) {
+			m2 = modular[i];
+			r2 = remainder[i];
+			exgcd(m1, m2);
+			c = ((r2 - r1) % m2 + m2) % m2;
+			if (c % d != 0) {
+				return -1;
+			}
+			x = multiply(x, c / d, m2 / d);
+			tmp = r1 + x * m1;
+			m1 = m2 / d * m1;
+			r1 = (tmp % m1 + m1) % m1;
+		}
+		return r1;
+	}
+
 	// 讲解139 - 扩展欧几里得算法
 	public static long d, x, y, px, py;
 
@@ -48,25 +67,6 @@ public class Code02_EXCRT {
 			b >>= 1;
 		}
 		return ans;
-	}
-
-	// 扩展中国剩余定理模版
-	public static long excrt(int n) {
-		long m1 = modular[1], r1 = remainder[1], m2, r2, c, tmp;
-		for (int i = 2; i <= n; i++) {
-			m2 = modular[i];
-			r2 = remainder[i];
-			exgcd(m1, m2);
-			c = ((r2 - r1) % m2 + m2) % m2;
-			if (c % d != 0) {
-				return -1;
-			}
-			x = multiply(x, c / d, m2 / d);
-			tmp = r1 + x * m1;
-			m1 = m2 / d * m1;
-			r1 = (tmp % m1 + m1) % m1;
-		}
-		return r1;
 	}
 
 	public static void main(String[] args) throws IOException {
