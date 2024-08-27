@@ -14,9 +14,9 @@ public class Code01_CRT {
 
 	public static int MAXN = 11;
 
-	public static long a[] = new long[MAXN];
+	public static long m[] = new long[MAXN];
 
-	public static long b[] = new long[MAXN];
+	public static long r[] = new long[MAXN];
 
 	// 讲解139 - 扩展欧几里得算法
 	public static long d, x, y, px, py;
@@ -51,21 +51,22 @@ public class Code01_CRT {
 
 	// 中国剩余定理模版
 	public static long crt(int n) {
-		long m = 1;
+		long all = 1;
 		for (int i = 1; i <= n; i++) {
-			m = m * a[i];
+			all = all * m[i];
 		}
-		long mi, ci, ans = 0;
+		long ai, ci, ans = 0;
 		for (int i = 1; i <= n; i++) {
-			mi = m / a[i];
-			// 扩展欧几里得算法得到的x是%a[i]意义下的逆元
-			exgcd(mi, a[i]);
-			// 扩展欧几里得算法得到的解可能是负数，变成正的
-			x = (x % m + m) % m;
-			// ci = (bi * mi * mi逆元) % m
-			ci = multiply(b[i], multiply(mi, x, m), m);
+			// 所有模数的乘积 / 当前的模数，得到ai
+			ai = all / m[i];
+			// 扩展欧几里得算法得到的x是%m[i]意义下的逆元，可能是负数
+			exgcd(ai, m[i]);
+			// 既然得到的解可能是负数，那么变成正的，就是ai的逆元
+			x = (x % all + all) % all;
+			// ci = (ri * ai * ai逆元) % all
+			ci = multiply(r[i], multiply(ai, x, all), all);
 			// ans = (ans + ci ) % all
-			ans = (ans + ci) % m;
+			ans = (ans + ci) % all;
 		}
 		return ans;
 	}
@@ -78,9 +79,9 @@ public class Code01_CRT {
 		int n = (int) in.nval;
 		for (int i = 1; i <= n; i++) {
 			in.nextToken();
-			a[i] = (long) in.nval;
+			m[i] = (long) in.nval;
 			in.nextToken();
-			b[i] = (long) in.nval;
+			r[i] = (long) in.nval;
 		}
 		out.println(crt(n));
 		out.flush();

@@ -14,9 +14,9 @@ public class Code03_GuessNumber1 {
 
 	public static int MAXN = 11;
 
-	public static long a[] = new long[MAXN];
+	public static long m[] = new long[MAXN];
 
-	public static long b[] = new long[MAXN];
+	public static long r[] = new long[MAXN];
 
 	// 讲解139 - 扩展欧几里得算法
 	public static long d, x, y, px, py;
@@ -51,17 +51,17 @@ public class Code03_GuessNumber1 {
 
 	// 中国剩余定理模版
 	public static long crt(int n) {
-		long m = 1;
+		long all = 1;
 		for (int i = 1; i <= n; i++) {
-			m = m * a[i];
+			all = all * m[i];
 		}
-		long mi, ci, ans = 0;
+		long ai, ci, ans = 0;
 		for (int i = 1; i <= n; i++) {
-			mi = m / a[i];
-			exgcd(mi, a[i]);
-			x = (x % m + m) % m;
-			ci = multiply(b[i], multiply(mi, x, m), m);
-			ans = (ans + ci) % m;
+			ai = all / m[i];
+			exgcd(ai, m[i]);
+			x = (x % all + all) % all;
+			ci = multiply(r[i], multiply(ai, x, all), all);
+			ans = (ans + ci) % all;
 		}
 		return ans;
 	}
@@ -74,15 +74,15 @@ public class Code03_GuessNumber1 {
 		int n = (int) in.nval;
 		for (int i = 1; i <= n; i++) {
 			in.nextToken();
-			b[i] = (long) in.nval;
+			r[i] = (long) in.nval;
 		}
 		for (int i = 1; i <= n; i++) {
 			in.nextToken();
-			a[i] = (long) in.nval;
+			m[i] = (long) in.nval;
 		}
-		// 题目输入负数要转化成正数
+		// 题目输入的余数可能为负所以转化成正数
 		for (int i = 1; i <= n; i++) {
-			b[i] = (b[i] % a[i] + a[i]) % a[i];
+			r[i] = (r[i] % m[i] + m[i]) % m[i];
 		}
 		out.println(crt(n));
 		out.flush();

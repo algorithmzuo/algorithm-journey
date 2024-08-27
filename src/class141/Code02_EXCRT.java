@@ -15,9 +15,9 @@ public class Code02_EXCRT {
 
 	public static int MAXN = 100001;
 
-	public static long a[] = new long[MAXN];
+	public static long m[] = new long[MAXN];
 
-	public static long b[] = new long[MAXN];
+	public static long r[] = new long[MAXN];
 
 	// 讲解139 - 扩展欧几里得算法
 	public static long d, x, y, px, py;
@@ -52,21 +52,21 @@ public class Code02_EXCRT {
 
 	// 扩展中国剩余定理模版
 	public static long excrt(int n) {
-		long a1 = a[1], b1 = b[1], a2, b2, c, tmp;
+		long m1 = m[1], r1 = r[1], m2, r2, c, tmp;
 		for (int i = 2; i <= n; i++) {
-			a2 = a[i];
-			b2 = b[i];
-			exgcd(a1, a2);
-			c = ((b2 - b1) % a2 + a2) % a2;
+			m2 = m[i];
+			r2 = r[i];
+			exgcd(m1, m2);
+			c = ((r2 - r1) % m2 + m2) % m2;
 			if (c % d != 0) {
 				return -1;
 			}
-			x = multiply(x, c / d, a2 / d);
-			tmp = b1 + x * a1;
-			a1 = a2 / d * a1;
-			b1 = (tmp % a1 + a1) % a1;
+			x = multiply(x, c / d, m2 / d);
+			tmp = r1 + x * m1;
+			m1 = m2 / d * m1;
+			r1 = (tmp % m1 + m1) % m1;
 		}
-		return b1;
+		return r1;
 	}
 
 	public static void main(String[] args) throws IOException {
@@ -77,9 +77,9 @@ public class Code02_EXCRT {
 		int n = (int) in.nval;
 		for (int i = 1; i <= n; i++) {
 			in.nextToken();
-			a[i] = (long) in.nval;
+			m[i] = (long) in.nval;
 			in.nextToken();
-			b[i] = (long) in.nval;
+			r[i] = (long) in.nval;
 		}
 		out.println(excrt(n));
 		out.flush();
