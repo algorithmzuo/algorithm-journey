@@ -51,20 +51,20 @@ public class Code01_CRT {
 
 	// 中国剩余定理模版
 	public static long crt(int n) {
-		long m = 1;
+		long all = 1;
 		for (int i = 1; i <= n; i++) {
-			m = m * a[i];
+			all = all * a[i];
 		}
-		long mi, tmp, ans = 0;
+		long ai, ci, ans = 0;
 		for (int i = 1; i <= n; i++) {
-			mi = m / a[i];
-			exgcd(mi, a[i]);
+			ai = all / a[i];
+			exgcd(ai, a[i]);
 			// 扩展欧几里得得到的解可能是负数
-			x = (x % m + m) % m;
-			// 自己实现的乘法确保相乘结果正确取余
-			tmp = multiply(multiply(mi, x, m), b[i], m);
-			// ans = ans + mi * x * b[i]
-			ans = (ans + tmp) % m;
+			x = (x % all + all) % all;
+			// ci = (ai * ai逆元) % all
+			ci = multiply(ai, x, all);
+			// ans = (ans + (ci * bi) % all ) % all
+			ans = (ans + multiply(ci, b[i], all)) % all;
 		}
 		return ans;
 	}
