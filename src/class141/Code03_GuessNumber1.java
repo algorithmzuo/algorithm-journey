@@ -2,6 +2,7 @@ package class141;
 
 // 猜数字(中国剩余定理解决)
 // 测试链接 : https://www.luogu.com.cn/problem/P3868
+// 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
 import java.io.BufferedReader;
 import java.io.IOException;
