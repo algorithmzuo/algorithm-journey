@@ -15,9 +15,9 @@ public class Code02_EXCRT {
 
 	public static int MAXN = 100001;
 
-	public static long m[] = new long[MAXN];
+	public static long modular[] = new long[MAXN];
 
-	public static long r[] = new long[MAXN];
+	public static long remainder[] = new long[MAXN];
 
 	// 讲解139 - 扩展欧几里得算法
 	public static long d, x, y, px, py;
@@ -52,10 +52,10 @@ public class Code02_EXCRT {
 
 	// 扩展中国剩余定理模版
 	public static long excrt(int n) {
-		long m1 = m[1], r1 = r[1], m2, r2, c, tmp;
+		long m1 = modular[1], r1 = remainder[1], m2, r2, c, tmp;
 		for (int i = 2; i <= n; i++) {
-			m2 = m[i];
-			r2 = r[i];
+			m2 = modular[i];
+			r2 = remainder[i];
 			exgcd(m1, m2);
 			c = ((r2 - r1) % m2 + m2) % m2;
 			if (c % d != 0) {
@@ -77,9 +77,9 @@ public class Code02_EXCRT {
 		int n = (int) in.nval;
 		for (int i = 1; i <= n; i++) {
 			in.nextToken();
-			m[i] = (long) in.nval;
+			modular[i] = (long) in.nval;
 			in.nextToken();
-			r[i] = (long) in.nval;
+			remainder[i] = (long) in.nval;
 		}
 		out.println(excrt(n));
 		out.flush();

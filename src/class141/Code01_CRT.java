@@ -14,9 +14,9 @@ public class Code01_CRT {
 
 	public static int MAXN = 11;
 
-	public static long m[] = new long[MAXN];
+	public static long modular[] = new long[MAXN];
 
-	public static long r[] = new long[MAXN];
+	public static long remainder[] = new long[MAXN];
 
 	// 讲解139 - 扩展欧几里得算法
 	public static long d, x, y, px, py;
@@ -53,18 +53,18 @@ public class Code01_CRT {
 	public static long crt(int n) {
 		long all = 1;
 		for (int i = 1; i <= n; i++) {
-			all = all * m[i];
+			all = all * modular[i];
 		}
 		long ai, ci, ans = 0;
 		for (int i = 1; i <= n; i++) {
 			// 所有模数的乘积 / 当前的模数，得到ai
-			ai = all / m[i];
+			ai = all / modular[i];
 			// 扩展欧几里得算法得到的x是%m[i]意义下的逆元，可能是负数
-			exgcd(ai, m[i]);
+			exgcd(ai, modular[i]);
 			// 既然得到的解可能是负数，那么变成正的，就是ai的逆元
 			x = (x % all + all) % all;
 			// ci = (ri * ai * ai逆元) % all
-			ci = multiply(r[i], multiply(ai, x, all), all);
+			ci = multiply(remainder[i], multiply(ai, x, all), all);
 			// ans = (ans + ci ) % all
 			ans = (ans + ci) % all;
 		}
@@ -79,9 +79,9 @@ public class Code01_CRT {
 		int n = (int) in.nval;
 		for (int i = 1; i <= n; i++) {
 			in.nextToken();
-			m[i] = (long) in.nval;
+			modular[i] = (long) in.nval;
 			in.nextToken();
-			r[i] = (long) in.nval;
+			remainder[i] = (long) in.nval;
 		}
 		out.println(crt(n));
 		out.flush();
