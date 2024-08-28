@@ -44,7 +44,8 @@ public class Code05_ShuffleCards {
 	// 这么写目的是防止溢出，也叫龟速乘
 	public static long multiply(long a, long b, long mod) {
 		// 既然是在%mod的意义下，那么a和b可以都转化成非负的
-		// 本题转化或者不转化都无所谓，但是其他题目可能需要转化
+		// 本题不转化无所谓，但是其他题目可能需要转化
+		// 尤其是b需要转化，否则while循环会跑不完
 		a = (a % mod + mod) % mod;
 		b = (b % mod + mod) % mod;
 		long ans = 0;
