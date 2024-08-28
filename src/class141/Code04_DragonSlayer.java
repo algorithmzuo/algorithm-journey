@@ -28,6 +28,7 @@ public class Code04_DragonSlayer {
 
 	public static TreeMap<Long, Integer> sorted = new TreeMap<>();
 
+	// 讲解139 - 扩展欧几里得算法
 	public static long d, x, y, px, py;
 
 	public static void exgcd(long a, long b) {
@@ -44,6 +45,8 @@ public class Code04_DragonSlayer {
 		}
 	}
 
+	// 讲解033 - 位运算实现乘法
+	// a*b过程每一步都%mod，这么写是防止溢出，也叫龟速乘
 	public static long multiply(long a, long b, long mod) {
 		a = (a % mod + mod) % mod;
 		b = (b % mod + mod) % mod;
