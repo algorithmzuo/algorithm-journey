@@ -22,22 +22,20 @@ public class Code02_EXCRT {
 
 	// 扩展中国剩余定理模版
 	public static long excrt(int n) {
-		long a = modular[1], r1 = remainder[1], b, r2, c, tmp;
-		for (int i = 2; i <= n; i++) {
+		long ans = 0, lcm = 1, tmp, b, c;
+		for (int i = 1; i <= n; i++) {
 			b = modular[i];
-			r2 = remainder[i];
-			exgcd(a, b);
-			c = ((r2 - r1) % b + b) % b;
+			c = ((remainder[i] - ans) % b + b) % b;
+			exgcd(lcm, b);
 			if (c % d != 0) {
 				return -1;
 			}
-			// 特解转化为>=1的最小正数
-			x = multiply(x, c / d, b / d);
-			tmp = r1 + x * a;
-			a = b / d * a;
-			r1 = (tmp % a + a) % a;
+			x = multiply(x, c / d, b);
+			tmp = lcm * (b / d);
+			ans = (ans + multiply(x, lcm, tmp)) % tmp;
+			lcm = tmp;
 		}
-		return r1;
+		return ans;
 	}
 
 	// 讲解139 - 扩展欧几里得算法

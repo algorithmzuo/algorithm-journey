@@ -62,11 +62,12 @@ public class Code04_DragonSlayer {
 	}
 
 	// 给每个怪物分配剑
-	public static void allocate(int n, int m) {
+	public static long allocate(int n, int m) {
 		sorted.clear();
 		for (int i = 1; i <= m; i++) {
 			sorted.put(attack[i], sorted.getOrDefault(attack[i], 0) + 1);
 		}
+		long max = 0;
 		for (int i = 1; i <= n; i++) {
 			Long sword = sorted.floorKey(hp[i]);
 			if (sword == null) {
@@ -78,30 +79,31 @@ public class Code04_DragonSlayer {
 				sorted.remove(sword);
 			}
 			sorted.put(reward[i], sorted.getOrDefault(reward[i], 0) + 1);
+			max = Math.max(max, (hp[i] - 1) / choose[i] + 1);
 		}
+		return max;
 	}
 
 	public static long compute(int n, int m) {
-		allocate(n, m);
-		long ans = 0, all = 1, a, b, c;
+		long max = allocate(n, m);
+		long ans = 0, lcm = 1, tmp, a, b, c;
 		for (int i = 1; i <= n; i++) {
-			if (recovery[i] == 1) {
-				ans = Math.max(ans, hp[i] / choose[i] + (hp[i] % choose[i] == 0 ? 0 : 1));
-			} else {
-				a = multiply(choose[i], all, recovery[i]);
-				b = recovery[i];
-				c = (hp[i] - multiply(choose[i], ans, recovery[i]) + recovery[i]) % recovery[i];
-				exgcd(a, b);
-				if (c % d != 0) {
-					return -1;
-				}
-				b /= d;
-				x = multiply(x, c / d, b);
-				ans = (ans + multiply(x, all, all * b)) % (all * b);
-				all *= b;
+			a = multiply(choose[i], lcm, recovery[i]);
+			b = recovery[i];
+			c = ((hp[i] - choose[i] * ans) % b + b) % b;
+			exgcd(a, b);
+			if (c % d != 0) {
+				return -1;
 			}
+			x = multiply(x, c / d, b);
+			tmp = lcm * (b / d);
+			ans = (ans + multiply(x, lcm, tmp)) % tmp;
+			lcm = tmp;
 		}
-		return (ans != 0 ? ans : all);
+		if (ans < max) {
+			ans += ((max - ans - 1) / lcm + 1) * lcm;
+		}
+		return ans;
 	}
 
 	public static void main(String[] args) throws IOException {
