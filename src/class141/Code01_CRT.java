@@ -29,10 +29,8 @@ public class Code01_CRT {
 		for (int i = 1; i <= n; i++) {
 			// 所有模数的乘积 / 当前的模数，得到ai
 			ai = all / modular[i];
-			// 扩展欧几里得算法得到的x是%m[i]意义下的逆元，可能是负数
+			// 扩展欧几里得算法得到的x是%m[i]意义下的逆元
 			exgcd(ai, modular[i]);
-			// 既然得到的解可能是负数，那么变成正的，就是ai的逆元
-			x = (x % all + all) % all;
 			// ci = (ri * ai * ai逆元) % all
 			ci = multiply(remainder[i], multiply(ai, x, all), all);
 			ans = (ans + ci) % all;
@@ -60,6 +58,8 @@ public class Code01_CRT {
 	// 讲解033 - 位运算实现乘法
 	// a*b过程每一步都%mod，这么写是防止溢出，也叫龟速乘
 	public static long multiply(long a, long b, long mod) {
+		a = (a % mod + mod) % mod;
+		b = (b % mod + mod) % mod;
 		long ans = 0;
 		while (b != 0) {
 			if ((b & 1) != 0) {

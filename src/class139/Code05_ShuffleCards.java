@@ -43,6 +43,10 @@ public class Code05_ShuffleCards {
 	// a * b的过程自己实现，每一个中间过程都%mod
 	// 这么写目的是防止溢出，也叫龟速乘
 	public static long multiply(long a, long b, long mod) {
+		// 既然是在%mod的意义下，那么a和b可以都转化成非负的
+		// 本题转化或者不转化都无所谓，但是其他题目可能需要转化
+		a = (a % mod + mod) % mod;
+		b = (b % mod + mod) % mod;
 		long ans = 0;
 		while (b != 0) {
 			if ((b & 1) != 0) {
