@@ -86,11 +86,7 @@ public class Code04_DragonSlayer {
 		long ans = 0, all = 1, a, b, c;
 		for (int i = 1; i <= n; i++) {
 			if (recovery[i] == 1) {
-				if (hp[i] % choose[i] == 0) {
-					ans = Math.max(ans, hp[i] / choose[i]);
-				} else {
-					ans = Math.max(ans, hp[i] / choose[i] + 1);
-				}
+				ans = Math.max(ans, hp[i] / choose[i] + (hp[i] % choose[i] == 0 ? 0 : 1));
 			} else {
 				a = multiply(choose[i], all, recovery[i]);
 				b = recovery[i];
