@@ -61,7 +61,7 @@ public class Code04_DragonSlayer {
 		return ans;
 	}
 
-	// 给每个怪物分配剑
+	// 每个怪物根据血量找到攻击的剑
 	public static long allocate(int n, int m) {
 		sorted.clear();
 		for (int i = 1; i <= m; i++) {
