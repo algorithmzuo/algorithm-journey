@@ -84,7 +84,8 @@ public class Code04_DragonSlayer {
 		return max;
 	}
 
-	public static long compute(int n, int m) {
+	// 扩展中国剩余定理再扩展
+	public static long excrt(int n, int m) {
 		long max = allocate(n, m);
 		long ans = 0, lcm = 1, tmp, a, b, c;
 		for (int i = 1; i <= n; i++) {
@@ -95,7 +96,7 @@ public class Code04_DragonSlayer {
 			if (c % d != 0) {
 				return -1;
 			}
-			x = multiply(x, c / d, b);
+			x = multiply(x, c / d, b / d);
 			tmp = lcm * (b / d);
 			ans = (ans + multiply(x, lcm, tmp)) % tmp;
 			lcm = tmp;
@@ -133,7 +134,7 @@ public class Code04_DragonSlayer {
 				in.nextToken();
 				attack[i] = (long) in.nval;
 			}
-			out.println(compute(n, m));
+			out.println(excrt(n, m));
 		}
 		out.flush();
 		out.close();

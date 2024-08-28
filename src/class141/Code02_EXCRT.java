@@ -30,7 +30,10 @@ public class Code02_EXCRT {
 			if (c % d != 0) {
 				return -1;
 			}
-			x = multiply(x, c / d, b);
+			// 通解 x = x0 * (c/d) + (b/d) * n
+			// 想得到>=1的最小正数的特解
+			// 最小正数的特解x = (x0 * (c/d)) % (b/d) 取余数
+			x = multiply(x, c / d, b / d);
 			tmp = lcm * (b / d);
 			ans = (ans + multiply(x, lcm, tmp)) % tmp;
 			lcm = tmp;

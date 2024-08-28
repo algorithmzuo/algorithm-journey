@@ -29,7 +29,7 @@ public class Code03_GuessNumber2 {
 			if (c % d != 0) {
 				return -1;
 			}
-			x = multiply(x, c / d, b);
+			x = multiply(x, c / d, b / d);
 			tmp = lcm * (b / d);
 			ans = (ans + multiply(x, lcm, tmp)) % tmp;
 			lcm = tmp;
