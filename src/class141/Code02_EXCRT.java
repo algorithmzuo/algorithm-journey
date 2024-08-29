@@ -1,8 +1,14 @@
 package class141;
 
 // 扩展中国剩余定理模版
-// 测试链接 : https://www.luogu.com.cn/problem/P1495
+// 给出n个同余方程，求满足同余方程的最小正数解x
+// 一共n个同余方程，x ≡ ri(% mi)
+// 1 <= n <= 10^5
+// 0 <= ri、mi <= 10^12
+// 所有mi不一定互质
+// 所有mi的最小公倍数 <= 10^18
 // 测试链接 : https://www.luogu.com.cn/problem/P4777
+// 测试链接 : https://www.luogu.com.cn/problem/P1495
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
 import java.io.BufferedReader;

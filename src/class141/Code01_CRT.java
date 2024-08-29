@@ -1,6 +1,12 @@
 package class141;
 
 // 中国剩余定理模版
+// 给出n个同余方程，求满足同余方程的最小正数解x
+// 一共n个同余方程，x ≡ ri(% mi)
+// 1 <= n <= 10
+// 0 <= ri、mi <= 10^5
+// 所有mi一定互质
+// 所有mi整体乘积 <= 10^18
 // 测试链接 : https://www.luogu.com.cn/problem/P1495
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
@@ -21,19 +27,19 @@ public class Code01_CRT {
 
 	// 中国剩余定理模版
 	public static long crt(int n) {
-		long all = 1;
+		long lcm = 1;
 		for (int i = 1; i <= n; i++) {
-			all = all * modular[i];
+			lcm = lcm * modular[i];
 		}
 		long ai, ci, ans = 0;
 		for (int i = 1; i <= n; i++) {
 			// 所有模数的乘积 / 当前的模数，得到ai
-			ai = all / modular[i];
+			ai = lcm / modular[i];
 			// 扩展欧几里得算法得到的x是%m[i]意义下的逆元
 			exgcd(ai, modular[i]);
 			// ci = (ri * ai * ai逆元) % all
-			ci = multiply(remainder[i], multiply(ai, x, all), all);
-			ans = (ans + ci) % all;
+			ci = multiply(remainder[i], multiply(ai, x, lcm), lcm);
+			ans = (ans + ci) % lcm;
 		}
 		return ans;
 	}
