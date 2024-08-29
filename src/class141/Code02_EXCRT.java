@@ -31,8 +31,8 @@ public class Code02_EXCRT {
 				return -1;
 			}
 			// 通解 x = x0 * (c/d) + (b/d) * n
-			// 想得到>=1的最小正数的特解
-			// 最小正数的特解x = (x0 * (c/d)) % (b/d) 取余数
+			// 想得到最小非负数的特解
+			// 最小非负数的特解x = (x0 * (c/d)) % (b/d) 取余数
 			x = multiply(x, c / d, b / d);
 			tmp = lcm * (b / d);
 			ans = (ans + multiply(x, lcm, tmp)) % tmp;
