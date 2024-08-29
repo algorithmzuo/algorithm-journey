@@ -99,24 +99,24 @@ public class Code04_DragonSlayer {
 	// 扩展中国剩余定理再扩展
 	public static long excrt(int n, int m) {
 		long max = allocate(n, m);
-		long ans = 0, lcm = 1, tmp, a, b, c;
+		long tail = 0, lcm = 1, tmp, a, b, c;
 		for (int i = 1; i <= n; i++) {
 			a = multiply(choose[i], lcm, recovery[i]);
 			b = recovery[i];
-			c = ((hp[i] - choose[i] * ans) % b + b) % b;
+			c = ((hp[i] - choose[i] * tail) % b + b) % b;
 			exgcd(a, b);
 			if (c % d != 0) {
 				return -1;
 			}
 			x = multiply(x, c / d, b / d);
 			tmp = lcm * (b / d);
-			ans = (ans + multiply(x, lcm, tmp)) % tmp;
+			tail = (tail + multiply(x, lcm, tmp)) % tmp;
 			lcm = tmp;
 		}
-		if (ans < max) {
-			ans += ((max - ans - 1) / lcm + 1) * lcm;
+		if (tail < max) {
+			tail += ((max - tail - 1) / lcm + 1) * lcm;
 		}
-		return ans;
+		return tail;
 	}
 
 	public static void main(String[] args) throws IOException {

@@ -22,21 +22,21 @@ public class Code03_GuessNumber1 {
 
 	public static int MAXN = 11;
 
-	public static long modular[] = new long[MAXN];
+	public static long m[] = new long[MAXN];
 
-	public static long remainder[] = new long[MAXN];
+	public static long r[] = new long[MAXN];
 
 	// 中国剩余定理模版
 	public static long crt(int n) {
 		long lcm = 1;
 		for (int i = 1; i <= n; i++) {
-			lcm = lcm * modular[i];
+			lcm = lcm * m[i];
 		}
 		long ai, ci, ans = 0;
 		for (int i = 1; i <= n; i++) {
-			ai = lcm / modular[i];
-			exgcd(ai, modular[i]);
-			ci = multiply(remainder[i], multiply(ai, x, lcm), lcm);
+			ai = lcm / m[i];
+			exgcd(ai, m[i]);
+			ci = multiply(r[i], multiply(ai, x, lcm), lcm);
 			ans = (ans + ci) % lcm;
 		}
 		return ans;
@@ -83,15 +83,15 @@ public class Code03_GuessNumber1 {
 		int n = (int) in.nval;
 		for (int i = 1; i <= n; i++) {
 			in.nextToken();
-			remainder[i] = (long) in.nval;
+			r[i] = (long) in.nval;
 		}
 		for (int i = 1; i <= n; i++) {
 			in.nextToken();
-			modular[i] = (long) in.nval;
+			m[i] = (long) in.nval;
 		}
 		// 题目输入的余数可能为负所以转化成正数
 		for (int i = 1; i <= n; i++) {
-			remainder[i] = (remainder[i] % modular[i] + modular[i]) % modular[i];
+			r[i] = (r[i] % m[i] + m[i]) % m[i];
 		}
 		out.println(crt(n));
 		out.flush();

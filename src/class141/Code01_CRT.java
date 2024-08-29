@@ -21,24 +21,24 @@ public class Code01_CRT {
 
 	public static int MAXN = 11;
 
-	public static long modular[] = new long[MAXN];
+	public static long m[] = new long[MAXN];
 
-	public static long remainder[] = new long[MAXN];
+	public static long r[] = new long[MAXN];
 
 	// 中国剩余定理模版
 	public static long crt(int n) {
 		long lcm = 1;
 		for (int i = 1; i <= n; i++) {
-			lcm = lcm * modular[i];
+			lcm = lcm * m[i];
 		}
 		long ai, ci, ans = 0;
 		for (int i = 1; i <= n; i++) {
-			// 所有模数的乘积 / 当前的模数，得到ai
-			ai = lcm / modular[i];
-			// 扩展欧几里得算法得到的x是%m[i]意义下的逆元
-			exgcd(ai, modular[i]);
-			// ci = (ri * ai * ai逆元) % all
-			ci = multiply(remainder[i], multiply(ai, x, lcm), lcm);
+			// ai = lcm / m[i]
+			ai = lcm / m[i];
+			// ai逆元 = ai在%m[i]意义下的逆元
+			exgcd(ai, m[i]);
+			// ci = (ri * ai * ai逆元) % lcm
+			ci = multiply(r[i], multiply(ai, x, lcm), lcm);
 			ans = (ans + ci) % lcm;
 		}
 		return ans;
@@ -85,9 +85,9 @@ public class Code01_CRT {
 		int n = (int) in.nval;
 		for (int i = 1; i <= n; i++) {
 			in.nextToken();
-			modular[i] = (long) in.nval;
+			m[i] = (long) in.nval;
 			in.nextToken();
-			remainder[i] = (long) in.nval;
+			r[i] = (long) in.nval;
 		}
 		out.println(crt(n));
 		out.flush();

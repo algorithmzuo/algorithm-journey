@@ -22,26 +22,26 @@ public class Code03_GuessNumber2 {
 
 	public static int MAXN = 11;
 
-	public static long modular[] = new long[MAXN];
+	public static long m[] = new long[MAXN];
 
-	public static long remainder[] = new long[MAXN];
+	public static long r[] = new long[MAXN];
 
 	// 扩展中国剩余定理模版
 	public static long excrt(int n) {
-		long ans = 0, lcm = 1, tmp, b, c;
+		long tail = 0, lcm = 1, tmp, b, c;
 		for (int i = 1; i <= n; i++) {
-			b = modular[i];
-			c = ((remainder[i] - ans) % b + b) % b;
+			b = m[i];
+			c = ((r[i] - tail) % b + b) % b;
 			exgcd(lcm, b);
 			if (c % d != 0) {
 				return -1;
 			}
 			x = multiply(x, c / d, b / d);
 			tmp = lcm * (b / d);
-			ans = (ans + multiply(x, lcm, tmp)) % tmp;
+			tail = (tail + multiply(x, lcm, tmp)) % tmp;
 			lcm = tmp;
 		}
-		return ans;
+		return tail;
 	}
 
 	// 讲解139 - 扩展欧几里得算法
@@ -85,15 +85,15 @@ public class Code03_GuessNumber2 {
 		int n = (int) in.nval;
 		for (int i = 1; i <= n; i++) {
 			in.nextToken();
-			remainder[i] = (long) in.nval;
+			r[i] = (long) in.nval;
 		}
 		for (int i = 1; i <= n; i++) {
 			in.nextToken();
-			modular[i] = (long) in.nval;
+			m[i] = (long) in.nval;
 		}
 		// 题目输入的余数可能为负所以转化成正数
 		for (int i = 1; i <= n; i++) {
-			remainder[i] = (remainder[i] % modular[i] + modular[i]) % modular[i];
+			r[i] = (r[i] % m[i] + m[i]) % m[i];
 		}
 		out.println(excrt(n));
 		out.flush();
