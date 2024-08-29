@@ -1,6 +1,6 @@
 package class141;
 
-// 猜数字(中国剩余定理解决)
+// 猜数字
 // 给定两个长度为n数组，一组为r1，r2，r3...，另一组为m1，m2，m3...
 // 其中第二组数字两两互质，求最小正数解x
 // 要求x满足，mi | (x - ri)，即(x - ri)是mi的整数倍
@@ -18,7 +18,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 
-public class Code03_GuessNumber1 {
+public class Code03_GuessNumber {
 
 	public static int MAXN = 11;
 
@@ -40,6 +40,24 @@ public class Code03_GuessNumber1 {
 			ans = (ans + ci) % lcm;
 		}
 		return ans;
+	}
+
+	// 扩展中国剩余定理模版
+	public static long excrt(int n) {
+		long tail = 0, lcm = 1, tmp, b, c;
+		for (int i = 1; i <= n; i++) {
+			b = m[i];
+			c = ((r[i] - tail) % b + b) % b;
+			exgcd(lcm, b);
+			if (c % d != 0) {
+				return -1;
+			}
+			x = multiply(x, c / d, b / d);
+			tmp = lcm * (b / d);
+			tail = (tail + multiply(x, lcm, tmp)) % tmp;
+			lcm = tmp;
+		}
+		return tail;
 	}
 
 	// 讲解139 - 扩展欧几里得算法
@@ -93,7 +111,8 @@ public class Code03_GuessNumber1 {
 		for (int i = 1; i <= n; i++) {
 			r[i] = (r[i] % m[i] + m[i]) % m[i];
 		}
-		out.println(crt(n));
+//		out.println(crt(n));   // 中国剩余定理解决
+		out.println(excrt(n)); // 扩展中国剩余定理解决
 		out.flush();
 		out.close();
 		br.close();
