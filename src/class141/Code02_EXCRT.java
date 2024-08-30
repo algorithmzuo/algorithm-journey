@@ -29,18 +29,28 @@ public class Code02_EXCRT {
 	// 扩展中国剩余定理模版
 	public static long excrt(int n) {
 		long tail = 0, lcm = 1, tmp, b, c, x0;
+		// ans = lcm * x + tail
 		for (int i = 1; i <= n; i++) {
+			// ans = m[i] * y + ri
+			// lcm * x + m[i] * y = ri - tail
+			// a = lcm
+			// b = m[i]
+			// c = ri - tail
 			b = m[i];
 			c = ((r[i] - tail) % b + b) % b;
 			exgcd(lcm, b);
 			if (c % d != 0) {
 				return -1;
 			}
-			// x是ax + by = gcd(a,b)的特解
-			// (x * (c/d))是ax + by = c的特解
-			// 最小非负特解x0 = (x * (c/d)) % (b/d) 取非负余数
-			// 通解x = x0 + (b/d) * n
+			// ax + by = gcd(a,b)，特解是，x变量
+			// ax + by = c，特解是，x变量 * (c/d)
+			// ax + by = c，最小非负特解x0 = (x * (c/d)) % (b/d) 取非负余数
+			// 通解 = x0 + (b/d) * n
 			x0 = multiply(x, c / d, b / d);
+			// ans = lcm * x + tail，带入通解
+			// ans = lcm * (x0 + (b/d) * n) + tail
+			// ans = lcm * (b/d) * n + lcm * x0 + tail
+			// tail' = tail' % lcm'
 			tmp = lcm * (b / d);
 			tail = (tail + multiply(x0, lcm, tmp)) % tmp;
 			lcm = tmp;
