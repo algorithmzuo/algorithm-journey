@@ -36,8 +36,8 @@ public class Code02_EXCRT {
 			if (c % d != 0) {
 				return -1;
 			}
-			// 最小非负特解x = (x0 * (c/d)) % (b/d) 取非负余数
-			// 通解x = x0 * (c/d) + (b/d) * n
+			// 最小非负特解 = (x0 * (c/d)) % (b/d) 取非负余数
+			// 所以通解x = 最小非负特解 + (b/d) * n
 			x = multiply(x, c / d, b / d);
 			tmp = lcm * (b / d);
 			tail = (tail + multiply(x, lcm, tmp)) % tmp;
