@@ -28,7 +28,7 @@ public class Code02_EXCRT {
 
 	// 扩展中国剩余定理模版
 	public static long excrt(int n) {
-		long tail = 0, lcm = 1, tmp, b, c;
+		long tail = 0, lcm = 1, tmp, b, c, x0;
 		for (int i = 1; i <= n; i++) {
 			b = m[i];
 			c = ((r[i] - tail) % b + b) % b;
@@ -36,11 +36,13 @@ public class Code02_EXCRT {
 			if (c % d != 0) {
 				return -1;
 			}
-			// 最小非负特解 = (x0 * (c/d)) % (b/d) 取非负余数
-			// 所以通解x = 最小非负特解 + (b/d) * n
-			x = multiply(x, c / d, b / d);
+			// x是ax + by = gcd(a,b)的特解
+			// (x * (c/d))是ax + by = c的特解
+			// 最小非负特解x0 = (x * (c/d)) % (b/d) 取非负余数
+			// 通解x = x0 + (b/d) * n
+			x0 = multiply(x, c / d, b / d);
 			tmp = lcm * (b / d);
-			tail = (tail + multiply(x, lcm, tmp)) % tmp;
+			tail = (tail + multiply(x0, lcm, tmp)) % tmp;
 			lcm = tmp;
 		}
 		return tail;

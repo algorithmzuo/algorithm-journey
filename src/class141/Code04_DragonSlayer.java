@@ -100,7 +100,7 @@ public class Code04_DragonSlayer {
 		// max变量很关键，最后的逻辑需要用到
 		// 哪只怪兽需要砍最多次，才能让其血量<=0，这个最多的次数就是max
 		long max = allocate(n, m);
-		long tail = 0, lcm = 1, tmp, a, b, c;
+		long tail = 0, lcm = 1, tmp, a, b, c, x0;
 		for (int i = 1; i <= n; i++) {
 			a = multiply(attack[i], lcm, recovery[i]);
 			b = recovery[i];
@@ -109,9 +109,9 @@ public class Code04_DragonSlayer {
 			if (c % d != 0) {
 				return -1;
 			}
-			x = multiply(x, c / d, b / d);
+			x0 = multiply(x, c / d, b / d);
 			tmp = lcm * (b / d);
-			tail = (tail + multiply(x, lcm, tmp)) % tmp;
+			tail = (tail + multiply(x0, lcm, tmp)) % tmp;
 			lcm = tmp;
 		}
 		// 下面属于本题的特殊处理，注意max变量的含义

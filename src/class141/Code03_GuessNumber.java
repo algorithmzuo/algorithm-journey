@@ -44,7 +44,7 @@ public class Code03_GuessNumber {
 
 	// 扩展中国剩余定理模版
 	public static long excrt(int n) {
-		long tail = 0, lcm = 1, tmp, b, c;
+		long tail = 0, lcm = 1, tmp, b, c, x0;
 		for (int i = 1; i <= n; i++) {
 			b = m[i];
 			c = ((r[i] - tail) % b + b) % b;
@@ -52,9 +52,9 @@ public class Code03_GuessNumber {
 			if (c % d != 0) {
 				return -1;
 			}
-			x = multiply(x, c / d, b / d);
+			x0 = multiply(x, c / d, b / d);
 			tmp = lcm * (b / d);
-			tail = (tail + multiply(x, lcm, tmp)) % tmp;
+			tail = (tail + multiply(x0, lcm, tmp)) % tmp;
 			lcm = tmp;
 		}
 		return tail;
