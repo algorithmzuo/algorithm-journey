@@ -111,7 +111,7 @@ public class Code03_GuessNumber {
 		for (int i = 1; i <= n; i++) {
 			r[i] = (r[i] % m[i] + m[i]) % m[i];
 		}
-//		out.println(crt(n));   // 中国剩余定理解决
+		// out.println(crt(n)); // 中国剩余定理解决
 		out.println(excrt(n)); // 扩展中国剩余定理解决
 		out.flush();
 		out.close();
