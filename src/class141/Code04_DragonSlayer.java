@@ -1,16 +1,16 @@
 package class141;
 
 // 屠龙勇士
-// 一共有n只巨龙，每只巨龙都有初始血量hp[i]，每只巨龙都有恢复能力recovery[i]
-// 每只巨龙都会在攻击结束后开始恢复，初始时一共有m把剑，每把剑都有攻击力attack[i]
+// 一共n只巨龙，每只巨龙都有初始血量hp[i]，每只巨龙都有恢复能力recovery[i]
+// 每只巨龙都会在攻击结束后开始恢复，初始一共m把剑，每把剑攻击力init[i]
 // 需要按顺序杀死每只巨龙，i号巨龙被杀后，攻击的剑会消失，但奖励攻击力为reward[i]的剑
 // 巨龙只有当血量恰好为0时，才能被杀死
 // 选择哪把剑去攻击当前的巨龙有如下的规定，一旦确定不能更换，直到杀死当前巨龙
 // 当前所有的剑里去选择，攻击力不高于当前巨龙的血量，并且攻击力最大的一把剑
 // 如果没有这样的剑，就选择攻击力最低的一把剑
-// 勇士制定的策略如下，不管面对什么巨龙，攻击过程只打击x下，让巨龙的血量不再大于0
+// 勇士制定的策略如下，不管面对什么巨龙，攻击过程只打击ans下，让巨龙的血量<=0
 // 然后在巨龙恢复的过程中，如果血量恰好为0，那么当前巨龙被杀死，勇士继续讨伐下一只巨龙
-// 你的任务是算出最小的x，让勇士可以在该策略下杀死所有巨龙
+// 你的任务是算出最小的ans，让勇士可以在该策略下杀死所有巨龙
 // 如果在固定打击次数的策略下，就是无法杀死所有巨龙，返回-1
 // 查看数据范围可以打开测试链接
 // 测试链接 : https://www.luogu.com.cn/problem/P4774
@@ -34,9 +34,9 @@ public class Code04_DragonSlayer {
 
 	public static long[] reward = new long[MAXN];
 
-	public static long[] attack = new long[MAXN];
+	public static long[] init = new long[MAXN];
 
-	public static long[] choose = new long[MAXN];
+	public static long[] attack = new long[MAXN];
 
 	public static TreeMap<Long, Integer> sorted = new TreeMap<>();
 
@@ -73,11 +73,12 @@ public class Code04_DragonSlayer {
 		return ans;
 	}
 
-	// 每个怪物根据血量找到攻击的剑
+	// 每只怪物根据血量找到攻击的剑
+	// 哪只怪兽需要砍最多次，才能让其血量<=0，返回最多的次数
 	public static long allocate(int n, int m) {
 		sorted.clear();
 		for (int i = 1; i <= m; i++) {
-			sorted.put(attack[i], sorted.getOrDefault(attack[i], 0) + 1);
+			sorted.put(init[i], sorted.getOrDefault(init[i], 0) + 1);
 		}
 		long max = 0;
 		for (int i = 1; i <= n; i++) {
@@ -85,25 +86,28 @@ public class Code04_DragonSlayer {
 			if (sword == null) {
 				sword = sorted.firstKey();
 			}
-			choose[i] = sword;
+			attack[i] = sword;
 			sorted.put(sword, sorted.get(sword) - 1);
 			if (sorted.get(sword) == 0) {
 				sorted.remove(sword);
 			}
 			sorted.put(reward[i], sorted.getOrDefault(reward[i], 0) + 1);
-			max = Math.max(max, (hp[i] - 1) / choose[i] + 1);
+			max = Math.max(max, (hp[i] - 1) / attack[i] + 1);
+			hp[i] %= recovery[i];
 		}
 		return max;
 	}
 
-	// 扩展中国剩余定理再扩展
-	public static long excrt(int n, int m) {
+	// bi * ans ≡ ri(% mi)方程组求解 + 本题对解的特殊处理
+	public static long compute(int n, int m) {
+		// max变量很关键，最后的逻辑需要用到
+		// 哪只怪兽需要砍最多次，才能让其血量<=0，这个最多的次数就是max
 		long max = allocate(n, m);
 		long tail = 0, lcm = 1, tmp, a, b, c;
 		for (int i = 1; i <= n; i++) {
-			a = multiply(choose[i], lcm, recovery[i]);
+			a = multiply(attack[i], lcm, recovery[i]);
 			b = recovery[i];
-			c = ((hp[i] - choose[i] * tail) % b + b) % b;
+			c = ((hp[i] - attack[i] * tail) % b + b) % b;
 			exgcd(a, b);
 			if (c % d != 0) {
 				return -1;
@@ -113,10 +117,26 @@ public class Code04_DragonSlayer {
 			tail = (tail + multiply(x, lcm, tmp)) % tmp;
 			lcm = tmp;
 		}
-		if (tail < max) {
-			tail += ((max - tail - 1) / lcm + 1) * lcm;
+		// 下面属于本题的特殊处理，注意max变量的含义
+		// 上面的大思路是，对每只怪兽，根据如下的公式，整理出同余式
+		// ans * attack[i] = hp[i] + 每只怪兽若干恢复次数 * recovery[i]
+		// 同余式为，ans * attack[i] ≡ hp[i] (% recovery[i])
+		// 注意！能建立起的同余式，需要默认"每只怪兽若干恢复次数"的范围是整数
+		// 最终解出，ans = k * lcm + tail，tail是最小正数解
+		// 但实际情况是，"每只怪兽若干恢复次数"毫无疑问是非负的，并不是整个整数域
+		// 也就是说，需要确保把每只怪兽的血量砍到<=0，然后才能保证，每只怪兽若干恢复次数>=0
+		// 也就是说，ans = k * lcm + tail，需要确保，ans >= max，注意max变量的含义！
+		// 如果tail >= max，那么答案就是tail，此时k==0
+		// 如果tail < max，想保证ans >= max，其实就是tail + k * lcm >= max
+		// k = (max - tail) / lcm，向上取整，也就是k = (max - tail + lcm - 1) / lcm
+		// 所以，ans = (max - tail + lcm - 1) / lcm * lcm + tail
+		long ans;
+		if (tail >= max) {
+			ans = tail;
+		} else {
+			ans = (max - tail + lcm - 1) / lcm * lcm + tail;
 		}
-		return tail;
+		return ans;
 	}
 
 	public static void main(String[] args) throws IOException {
@@ -144,9 +164,9 @@ public class Code04_DragonSlayer {
 			}
 			for (int i = 1; i <= m; i++) {
 				in.nextToken();
-				attack[i] = (long) in.nval;
+				init[i] = (long) in.nval;
 			}
-			out.println(excrt(n, m));
+			out.println(compute(n, m));
 		}
 		out.flush();
 		out.close();
