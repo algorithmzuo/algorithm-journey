@@ -71,7 +71,7 @@ public class Code04_DragonSlayer {
 	}
 
 	// 每只怪物根据血量找到攻击的剑
-	// 哪只怪兽需要砍最多次，才能让其血量<=0，返回最多的次数
+	// 哪只龙需要砍最多次，才能让其血量<=0，返回最多的次数
 	public static long allocate(int n, int m) {
 		sorted.clear();
 		for (int i = 1; i <= m; i++) {
@@ -89,7 +89,8 @@ public class Code04_DragonSlayer {
 				sorted.remove(sword);
 			}
 			sorted.put(reward[i], sorted.getOrDefault(reward[i], 0) + 1);
-			max = Math.max(max, (hp[i] - 1) / attack[i] + 1);
+			max = Math.max(max, (hp[i] + attack[i] - 1) / attack[i]);
+			// 血量 = 血量 % 恢复力，变成余数形式
 			hp[i] %= recovery[i];
 		}
 		return max;
@@ -98,10 +99,14 @@ public class Code04_DragonSlayer {
 	// bi * ans ≡ ri(% mi)方程组求解 + 本题对解的特殊处理
 	public static long compute(int n, int m) {
 		// max变量很关键，最后的逻辑需要用到
-		// 哪只怪兽需要砍最多次，才能让其血量<=0，这个最多的次数就是max
+		// 哪只龙需要砍最多次，才能让其血量<=0，这个最多的次数就是max
 		long max = allocate(n, m);
 		long tail = 0, lcm = 1, tmp, a, b, c, x0;
+		// ans = lcm * x + tail
 		for (int i = 1; i <= n; i++) {
+			// ai * ans = ai * lcm * x + tail * ai  1号方程
+			// ai * ans = ri * y + hi               2号方程
+			// ai * lcm * x + ri * y = hi - tail * ai
 			a = multiply(attack[i], lcm, recovery[i]);
 			b = recovery[i];
 			c = ((hp[i] - attack[i] * tail) % b + b) % b;
@@ -114,10 +119,11 @@ public class Code04_DragonSlayer {
 			tail = (tail + multiply(x0, lcm, tmp)) % tmp;
 			lcm = tmp;
 		}
+		// 通解 ans = ? * lcm + tail
 		// 下面属于本题的特殊处理，注意max变量的含义
 		// 上面的大思路是，对每只怪兽，根据如下的公式，整理出同余式
-		// ans * attack[i] = hp[i] + 每只怪兽若干恢复次数 * recovery[i]
-		// 同余式为，ans * attack[i] ≡ hp[i] (% recovery[i])
+		// ans * a[i] = h[i] + 每只怪兽若干恢复次数 * r[i]
+		// 同余式为，ans * a[i] ≡ h[i] (% r[i])
 		// 注意！能建立起的同余式，需要默认"每只怪兽若干恢复次数"的范围是整数
 		// 最终解出，ans = k * lcm + tail，tail是最小正数解
 		// 但实际情况是，"每只怪兽若干恢复次数"毫无疑问是非负的，并不是整个整数域
