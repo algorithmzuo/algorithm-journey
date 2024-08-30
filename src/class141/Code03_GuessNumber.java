@@ -107,7 +107,7 @@ public class Code03_GuessNumber {
 			in.nextToken();
 			m[i] = (long) in.nval;
 		}
-		// 题目输入的余数可能为负所以转化成正数
+		// 题目输入的余数可能为负所以转化成非负数
 		for (int i = 1; i <= n; i++) {
 			r[i] = (r[i] % m[i] + m[i]) % m[i];
 		}
