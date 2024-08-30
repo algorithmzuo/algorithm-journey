@@ -35,7 +35,7 @@ public class Code01_CRT {
 		for (int i = 1; i <= n; i++) {
 			// ai = lcm / m[i]
 			ai = lcm / m[i];
-			// ai逆元 = ai在%m[i]意义下的逆元
+			// ai逆元，在%m[i]意义下的逆元
 			exgcd(ai, m[i]);
 			// ci = (ri * ai * ai逆元) % lcm
 			ci = multiply(r[i], multiply(ai, x, lcm), lcm);
