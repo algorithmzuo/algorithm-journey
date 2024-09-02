@@ -51,8 +51,8 @@ public class Code01_DifferenceConstraints {
 
 	public static void prepare() {
 		cnt = 1;
-		Arrays.fill(head, 0, n + 1, 0);
 		h = t = 0;
+		Arrays.fill(head, 0, n + 1, 0);
 		Arrays.fill(dist, 0, n + 1, Integer.MAX_VALUE);
 		Arrays.fill(update, 0, n + 1, 0);
 		Arrays.fill(enter, 0, n + 1, false);
