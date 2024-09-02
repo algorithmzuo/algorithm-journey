@@ -87,7 +87,7 @@ public class Code04_Balance {
 			}
 		}
 		compute();
-		out.printf("%d %d %d\n", c1, c2, c3);
+		out.println(c1 + " " + c2 + " " + c3);
 		out.flush();
 		out.close();
 		br.close();
