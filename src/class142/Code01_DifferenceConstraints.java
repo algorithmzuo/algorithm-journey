@@ -28,7 +28,7 @@ public class Code01_DifferenceConstraints {
 
 	public static int cnt;
 
-	// SPFA需要
+	// spfa需要
 	// 源点出发到每个节点的距离表
 	public static int[] dist = new int[MAXN];
 
