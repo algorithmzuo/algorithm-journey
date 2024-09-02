@@ -80,7 +80,7 @@ public class Code01_DifferenceConstraints {
 				if (dist[v] > dist[u] + w) {
 					dist[v] = dist[u] + w;
 					if (!enter[v]) {
-						// 注意判断负环的逻辑和讲解065的代码不一样
+						// 注意判断逻辑和讲解065的代码不一样
 						// 因为节点0是额外增加的超级源点
 						// 所以节点数量增加了1个，所以这么判断
 						if (++update[v] > n) {
