@@ -56,13 +56,6 @@ public class Code05_DoubleKillMeasurer {
 		Arrays.fill(head, 0, n + 1, 0);
 	}
 
-	public static void clear() {
-		h = t = 0;
-		Arrays.fill(dist, 0, n + 1, -1e9);
-		Arrays.fill(update, 0, n + 1, 0);
-		Arrays.fill(enter, 0, n + 1, false);
-	}
-
 	public static void addEdge(int u, int v, int o, double w, double k) {
 		next[cnt] = head[u];
 		to[cnt] = v;
@@ -73,7 +66,10 @@ public class Code05_DoubleKillMeasurer {
 	}
 
 	public static boolean spfa(int s, double limit) {
-		clear();
+		h = t = 0;
+		Arrays.fill(dist, 0, n + 1, -1e9);
+		Arrays.fill(update, 0, n + 1, 0);
+		Arrays.fill(enter, 0, n + 1, false);
 		dist[s] = 0;
 		update[s] = 1;
 		queue[t++] = s;
@@ -95,6 +91,7 @@ public class Code05_DoubleKillMeasurer {
 					w = weight[ei];
 				}
 				// 注意这里，变大才更新
+				// 看看是否能发现无限增长的环，其实本质和发现负环一样
 				if (dist[v] < dist[u] + w) {
 					dist[v] = dist[u] + w;
 					if (!enter[v]) {
@@ -128,29 +125,20 @@ public class Code05_DoubleKillMeasurer {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StreamTokenizer in = new StreamTokenizer(br);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
-		in.nextToken();
-		n = (int) in.nval;
-		in.nextToken();
-		m1 = (int) in.nval;
-		in.nextToken();
-		m2 = (int) in.nval;
+		in.nextToken(); n = (int) in.nval;
+		in.nextToken(); m1 = (int) in.nval;
+		in.nextToken(); m2 = (int) in.nval;
 		prepare();
 		for (int i = 1, op, u, v, k; i <= m1; i++) {
-			in.nextToken();
-			op = (int) in.nval;
-			in.nextToken();
-			u = (int) in.nval;
-			in.nextToken();
-			v = (int) in.nval;
-			in.nextToken();
-			k = (int) in.nval;
+			in.nextToken(); op = (int) in.nval;
+			in.nextToken(); u = (int) in.nval;
+			in.nextToken(); v = (int) in.nval;
+			in.nextToken(); k = (int) in.nval;
 			addEdge(v, u, op, 0, k);
 		}
 		for (int i = 1, u, w; i <= m2; i++) {
-			in.nextToken();
-			u = (int) in.nval;
-			in.nextToken();
-			w = (int) in.nval;
+			in.nextToken(); u = (int) in.nval;
+			in.nextToken(); w = (int) in.nval;
 			addEdge(0, u, 0, Math.log(w), 0);
 			addEdge(u, 0, 0, -Math.log(w), 0);
 		}
