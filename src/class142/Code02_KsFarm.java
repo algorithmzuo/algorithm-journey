@@ -28,23 +28,17 @@ public class Code02_KsFarm {
 
 	public static int cnt;
 
-	// spfa需要
-	// 源点出发到每个节点的距离表
+	// spfa
 	public static int[] dist = new int[MAXN];
 
-	// 节点被松弛的次数
 	public static int[] update = new int[MAXN];
 
-	// 队列的大小
 	public static int MAXQ = 20000001;
 
-	// 哪些节点被松弛了放入队列
 	public static int[] queue = new int[MAXQ];
 
-	// 队列的头和尾
 	public static int h, t;
 
-	// 节点是否在队列中
 	public static boolean[] enter = new boolean[MAXN];
 
 	public static int n, m;
@@ -65,7 +59,6 @@ public class Code02_KsFarm {
 		head[u] = cnt++;
 	}
 
-	// 来自讲解065，spfa判断负环，s是超级源点
 	public static boolean spfa(int s) {
 		dist[s] = 0;
 		update[s] = 1;
@@ -80,9 +73,6 @@ public class Code02_KsFarm {
 				if (dist[v] > dist[u] + w) {
 					dist[v] = dist[u] + w;
 					if (!enter[v]) {
-						// 注意判断逻辑和讲解065的代码不一样
-						// 因为节点0是额外增加的超级源点
-						// 所以节点数量增加了1个，所以这么判断
 						if (++update[v] > n) {
 							return true;
 						}

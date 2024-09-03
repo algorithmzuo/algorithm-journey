@@ -21,7 +21,7 @@ public class Code04_Balance {
 
 	public static int n, a, b;
 
-	public static int c1, c2, c3;
+	public static int ans1, ans2, ans3;
 
 	public static void compute() {
 		for (int i = 1; i <= n; i++) {
@@ -36,20 +36,20 @@ public class Code04_Balance {
 				}
 			}
 		}
-		c1 = c2 = c3 = 0;
+		ans1 = ans2 = ans3 = 0;
 		for (int i = 1; i <= n; i++) {
 			for (int j = i + 1; j <= n; j++) {
 				if (i != a && i != b && j != a && j != b) {
 					if (dmin[a][i] + dmin[b][j] > 0 || dmin[a][j] + dmin[b][i] > 0) {
-						c1++;
+						ans1++;
 					}
 					if (dmax[a][i] + dmax[b][j] < 0 || dmax[a][j] + dmax[b][i] < 0) {
-						c3++;
+						ans3++;
 					}
 					if (dmin[a][i] == dmax[a][i] && dmin[j][b] == dmax[j][b] && dmin[a][i] + dmin[b][j] == 0) {
-						c2++;
+						ans2++;
 					} else if (dmin[a][j] == dmax[a][j] && dmin[i][b] == dmax[i][b] && dmin[a][j] + dmin[b][i] == 0) {
-						c2++;
+						ans2++;
 					}
 				}
 			}
@@ -87,7 +87,7 @@ public class Code04_Balance {
 			}
 		}
 		compute();
-		out.println(c1 + " " + c2 + " " + c3);
+		out.println(ans1 + " " + ans2 + " " + ans3);
 		out.flush();
 		out.close();
 		br.close();
