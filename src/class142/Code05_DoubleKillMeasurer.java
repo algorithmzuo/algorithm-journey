@@ -91,7 +91,7 @@ public class Code05_DoubleKillMeasurer {
 					w = weight[ei];
 				}
 				// 注意这里，变大才更新
-				// 看看是否能发现无限增长的环，其实本质和发现负环一样
+				// 是否能发现无限增长的环，与是否发现负环，本质是一样的
 				if (dist[v] < dist[u] + w) {
 					dist[v] = dist[u] + w;
 					if (!enter[v]) {
