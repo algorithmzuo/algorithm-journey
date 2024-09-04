@@ -28,11 +28,11 @@ public class Code05_Balance {
 			dmax[i][i] = dmin[i][i] = 0;
 		}
 		// 来自讲解065，Floyd算法
-		for (int jump = 1; jump <= n; jump++) {
+		for (int bridge = 1; bridge <= n; bridge++) {
 			for (int i = 1; i <= n; i++) {
 				for (int j = 1; j <= n; j++) {
-					dmax[i][j] = Math.min(dmax[i][jump] + dmax[jump][j], dmax[i][j]);
-					dmin[i][j] = Math.max(dmin[i][jump] + dmin[jump][j], dmin[i][j]);
+					dmax[i][j] = Math.min(dmax[i][bridge] + dmax[bridge][j], dmax[i][j]);
+					dmin[i][j] = Math.max(dmin[i][bridge] + dmin[bridge][j], dmin[i][j]);
 				}
 			}
 		}
