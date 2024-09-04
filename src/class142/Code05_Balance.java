@@ -27,7 +27,7 @@ public class Code05_Balance {
 		for (int i = 1; i <= n; i++) {
 			dmax[i][i] = dmin[i][i] = 0;
 		}
-		// 讲解065，Floyd算法
+		// 来自讲解065，Floyd算法
 		for (int jump = 1; jump <= n; jump++) {
 			for (int i = 1; i <= n; i++) {
 				for (int j = 1; j <= n; j++) {
