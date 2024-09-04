@@ -17,7 +17,7 @@ public class Code04_CowLayout {
 
 	public static int MAXM = 20001;
 
-	// 链式前向星
+	// 链式前向星需要
 	public static int[] head = new int[MAXN];
 
 	public static int[] next = new int[MAXM];
@@ -28,7 +28,7 @@ public class Code04_CowLayout {
 
 	public static int cnt;
 
-	// spfa
+	// spfa需要
 	public static int[] dist = new int[MAXN];
 
 	public static int[] update = new int[MAXN];

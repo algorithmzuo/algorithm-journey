@@ -1,7 +1,7 @@
 package class142;
 
-// 虫洞
-// 测试链接 : https://www.luogu.com.cn/problem/P2850
+// 负环和差分约束模版题(转化成形式2，进而转化成判断无限增加的环)
+// 测试链接 : https://www.luogu.com.cn/problem/P5960
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -11,9 +11,9 @@ import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 import java.util.Arrays;
 
-public class Code03_Wormholes {
+public class Code01_DifferenceConstraints2 {
 
-	public static int MAXN = 501;
+	public static int MAXN = 5001;
 
 	public static int MAXM = 10001;
 
@@ -33,7 +33,7 @@ public class Code03_Wormholes {
 
 	public static int[] update = new int[MAXN];
 
-	public static int MAXQ = 300001;
+	public static int MAXQ = 5000001;
 
 	public static int[] queue = new int[MAXQ];
 
@@ -41,13 +41,14 @@ public class Code03_Wormholes {
 
 	public static boolean[] enter = new boolean[MAXN];
 
-	public static int n, m1, m2;
+	public static int n, m;
 
 	public static void prepare() {
 		cnt = 1;
 		h = t = 0;
 		Arrays.fill(head, 0, n + 1, 0);
-		Arrays.fill(dist, 0, n + 1, Integer.MAX_VALUE);
+		// 所有距离先设置成最小值
+		Arrays.fill(dist, 0, n + 1, Integer.MIN_VALUE);
 		Arrays.fill(update, 0, n + 1, 0);
 		Arrays.fill(enter, 0, n + 1, false);
 	}
@@ -59,6 +60,7 @@ public class Code03_Wormholes {
 		head[u] = cnt++;
 	}
 
+	// 来自讲解065，spfa判断无限增加环，s是超级源点
 	public static boolean spfa(int s) {
 		dist[s] = 0;
 		update[s] = 1;
@@ -70,9 +72,12 @@ public class Code03_Wormholes {
 			for (int ei = head[u], v, w; ei > 0; ei = next[ei]) {
 				v = to[ei];
 				w = weight[ei];
-				if (dist[v] > dist[u] + w) {
+				if (dist[v] < dist[u] + w) { // 变大才更新
 					dist[v] = dist[u] + w;
 					if (!enter[v]) {
+						// 注意判断逻辑和讲解065的代码不一样
+						// 因为节点0是额外增加的超级源点
+						// 所以节点数量增加了1个，所以这么判断
 						if (++update[v] > n) {
 							return true;
 						}
@@ -90,42 +95,30 @@ public class Code03_Wormholes {
 		StreamTokenizer in = new StreamTokenizer(br);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
 		in.nextToken();
-		int cases = (int) in.nval;
-		for (int t = 1; t <= cases; t++) {
+		n = (int) in.nval;
+		in.nextToken();
+		m = (int) in.nval;
+		prepare();
+		for (int i = 1, u, v, w; i <= m; i++) {
 			in.nextToken();
-			n = (int) in.nval;
+			u = (int) in.nval;
 			in.nextToken();
-			m1 = (int) in.nval;
+			v = (int) in.nval;
 			in.nextToken();
-			m2 = (int) in.nval;
-			prepare();
-			for (int i = 1, u, v, w; i <= m1; i++) {
-				in.nextToken();
-				u = (int) in.nval;
-				in.nextToken();
-				v = (int) in.nval;
-				in.nextToken();
-				w = (int) in.nval;
-				addEdge(u, v, w);
-				addEdge(v, u, w);
-			}
-			for (int i = 1, u, v, w; i <= m2; i++) {
-				in.nextToken();
-				u = (int) in.nval;
-				in.nextToken();
-				v = (int) in.nval;
-				in.nextToken();
-				w = (int) in.nval;
-				addEdge(u, v, -w);
-			}
+			w = (int) in.nval;
+			// 形式2的连边方式
+			addEdge(u, v, -w);
+		}
+		for (int i = 1; i <= n; i++) {
+			addEdge(0, i, 0);
+		}
+		if (spfa(0)) {
+			out.println("NO");
+		} else {
 			for (int i = 1; i <= n; i++) {
-				addEdge(0, i, 0);
+				out.print(dist[i] + " ");
 			}
-			if (spfa(0)) {
-				out.println("YES");
-			} else {
-				out.println("NO");
-			}
+			out.println();
 		}
 		out.flush();
 		out.close();

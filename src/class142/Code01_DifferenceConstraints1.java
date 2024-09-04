@@ -1,6 +1,6 @@
 package class142;
 
-// 负环和差分约束模版题
+// 负环和差分约束模版题(转化成形式1，进而转化成判断负环)
 // 测试链接 : https://www.luogu.com.cn/problem/P5960
 
 import java.io.BufferedReader;
@@ -11,13 +11,13 @@ import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 import java.util.Arrays;
 
-public class Code01_DifferenceConstraints {
+public class Code01_DifferenceConstraints1 {
 
 	public static int MAXN = 5001;
 
 	public static int MAXM = 10001;
 
-	// 链式前向星
+	// 链式前向星需要
 	public static int[] head = new int[MAXN];
 
 	public static int[] next = new int[MAXM];
@@ -29,22 +29,16 @@ public class Code01_DifferenceConstraints {
 	public static int cnt;
 
 	// spfa需要
-	// 源点出发到每个节点的距离表
 	public static int[] dist = new int[MAXN];
 
-	// 节点被松弛的次数
 	public static int[] update = new int[MAXN];
 
-	// 队列的大小
 	public static int MAXQ = 5000001;
 
-	// 哪些节点被松弛了放入队列
 	public static int[] queue = new int[MAXQ];
 
-	// 队列的头和尾
 	public static int h, t;
 
-	// 节点是否在队列中
 	public static boolean[] enter = new boolean[MAXN];
 
 	public static int n, m;
@@ -53,6 +47,7 @@ public class Code01_DifferenceConstraints {
 		cnt = 1;
 		h = t = 0;
 		Arrays.fill(head, 0, n + 1, 0);
+		// 所有距离先设置成最大值
 		Arrays.fill(dist, 0, n + 1, Integer.MAX_VALUE);
 		Arrays.fill(update, 0, n + 1, 0);
 		Arrays.fill(enter, 0, n + 1, false);
@@ -77,7 +72,7 @@ public class Code01_DifferenceConstraints {
 			for (int ei = head[u], v, w; ei > 0; ei = next[ei]) {
 				v = to[ei];
 				w = weight[ei];
-				if (dist[v] > dist[u] + w) {
+				if (dist[v] > dist[u] + w) { // 变小才更新
 					dist[v] = dist[u] + w;
 					if (!enter[v]) {
 						// 注意判断逻辑和讲解065的代码不一样
@@ -111,6 +106,7 @@ public class Code01_DifferenceConstraints {
 			v = (int) in.nval;
 			in.nextToken();
 			w = (int) in.nval;
+			// 形式1的连边方式
 			addEdge(v, u, w);
 		}
 		for (int i = 1; i <= n; i++) {

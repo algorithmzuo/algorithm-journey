@@ -21,7 +21,7 @@ public class Code06_DoubleKillMeasurer {
 
 	public static double sml = 1e-6;
 
-	// 链式前向星
+	// 链式前向星需要
 	public static int[] head = new int[MAXN];
 
 	public static int[] next = new int[MAXM];
@@ -36,7 +36,7 @@ public class Code06_DoubleKillMeasurer {
 
 	public static int cnt;
 
-	// spfa
+	// spfa需要
 	public static double[] dist = new double[MAXN];
 
 	public static int[] update = new int[MAXN];
@@ -90,8 +90,7 @@ public class Code06_DoubleKillMeasurer {
 				} else {
 					w = weight[ei];
 				}
-				// 注意这里，变大才更新
-				// 是否能发现无限增长的环，与是否发现负环，本质是一样的
+				// 注意这里是变大才更新，是否能发现无限增加的环，与是否发现负环，本质是一样的
 				if (dist[v] < dist[u] + w) {
 					dist[v] = dist[u] + w;
 					if (!enter[v]) {
@@ -125,20 +124,29 @@ public class Code06_DoubleKillMeasurer {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StreamTokenizer in = new StreamTokenizer(br);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
-		in.nextToken(); n = (int) in.nval;
-		in.nextToken(); m1 = (int) in.nval;
-		in.nextToken(); m2 = (int) in.nval;
+		in.nextToken();
+		n = (int) in.nval;
+		in.nextToken();
+		m1 = (int) in.nval;
+		in.nextToken();
+		m2 = (int) in.nval;
 		prepare();
 		for (int i = 1, op, u, v, k; i <= m1; i++) {
-			in.nextToken(); op = (int) in.nval;
-			in.nextToken(); u = (int) in.nval;
-			in.nextToken(); v = (int) in.nval;
-			in.nextToken(); k = (int) in.nval;
+			in.nextToken();
+			op = (int) in.nval;
+			in.nextToken();
+			u = (int) in.nval;
+			in.nextToken();
+			v = (int) in.nval;
+			in.nextToken();
+			k = (int) in.nval;
 			addEdge(v, u, op, 0, k);
 		}
 		for (int i = 1, u, w; i <= m2; i++) {
-			in.nextToken(); u = (int) in.nval;
-			in.nextToken(); w = (int) in.nval;
+			in.nextToken();
+			u = (int) in.nval;
+			in.nextToken();
+			w = (int) in.nval;
 			addEdge(0, u, 0, Math.log(w), 0);
 			addEdge(u, 0, 0, -Math.log(w), 0);
 		}
