@@ -1,6 +1,14 @@
 package class142;
 
-// 奶牛布局
+// 布局奶牛
+// 一共有n只奶牛，编号1~n，有m1条好友信息，有m2条情敌信息
+// 所有奶牛需要排队，但是好友之间希望距离更近，情敌之间希望距离更远
+// 每条好友信息为 : u v w，表示u和v是好友，希望相隔的距离 <= w
+// 每条好友信息为 : u v w，表示u和v是情敌，希望相隔的距离 >= w
+// 你需要安排奶牛的布局，满足所有的好友信息和情敌信息
+// 如果不存在合法方案，返回-1
+// 如果存在合法方案，但是1号奶牛和n号奶牛相隔无穷远，返回-2
+// 否则，返回1号奶牛和n号奶牛之间的最大距离
 // 测试链接 : https://www.luogu.com.cn/problem/P4878
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
@@ -12,7 +20,7 @@ import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 import java.util.Arrays;
 
-public class Code04_CowLayout {
+public class Code04_LayoutCow {
 
 	public static int MAXN = 1001;
 
