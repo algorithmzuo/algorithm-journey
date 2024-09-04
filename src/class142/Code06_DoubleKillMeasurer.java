@@ -2,6 +2,7 @@ package class142;
 
 // 倍杀测量者
 // 测试链接 : https://www.luogu.com.cn/problem/P4926
+// 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
 import java.io.BufferedReader;
 import java.io.IOException;

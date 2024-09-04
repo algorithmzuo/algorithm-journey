@@ -1,7 +1,8 @@
 package class142;
 
-// 负环和差分约束模版题(转化成形式2，进而转化成判断无限增加的环)
+// 负环和差分约束模版题，转化成形式2，进而转化成判断无限增加的环
 // 测试链接 : https://www.luogu.com.cn/problem/P5960
+// 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
 import java.io.BufferedReader;
 import java.io.IOException;
