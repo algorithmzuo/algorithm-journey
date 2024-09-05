@@ -1,20 +1,15 @@
 package class142;
 
 // 倍杀测量者
-// 如果选手A的分数 不小于 选手B的分数的k倍，k是非负实数
-// 我们就称选手A k倍杀 选手B，也可以称选手B被选手A k倍杀
-// 一共有n个选手，编号1~n，有m1条誓言记录，有m2条得分记录
-// 誓言记录 1 u v k : 选手u如果没有 k倍杀 选手v，选手u就穿女装
-// 誓言记录 2 u v k : 选手u如果被选手v k倍杀，选手u就穿女装
-// 得分记录     u w : 选手u得了w分，如果某选手没有得分记录，按照尽量不穿女装的情况确定其得分
-// 这种誓言太过残酷，你不想看到很多人比赛后穿女装，于是想规定非负实数ans，效果如下
-// 誓言记录 1 u v k : 选手u如果没有 (k-ans)倍杀 选手v，选手u才用穿女装
-// 誓言记录 1 u v k : 选手u如果被选手v (k+ans)倍杀，选手u才用穿女装
-// 相当于ans提高了穿女装的条件，但是你也不想看到完全没女装出现的情况
-// 请问ans最大到多少，能保证比赛后一定有人穿女装，精度到小数点后4位即可
-// 如果在你不干预的情况下，本来也没有人穿女装，那么返回-1
+// 如果 A的分数 >= B的分数 * k，k是正实数，就称 A k倍杀 B，或称 B被A k倍杀了
+// 一场比赛中，一共有n个选手，有m1条誓言记录，有m2条得分记录
+// 誓言记录 1 u v k : 选手u 没有k倍杀 选手v，那么选手u就穿女装
+// 誓言记录 2 u v k : 选手u 被选手v k倍杀了，那么选手u就穿女装
+// 得分记录     u w : 选手u得了w分，如果某选手没有得分记录，按照尽量不穿女装的情况推测得分
+// 你希望看到比赛后有人穿女装，但不想看到很多人穿女装，于是想制定正实数ans，效果如下
+// 对于所有誓言1，倍杀比例调整成(k-ans)，对于所有誓言2，倍杀比例调整成(k+ans)
+// 相当于提高了穿女装的条件。计算ans最大多少，保留小数点后4位，如果不用干预也没人穿女装，返回-1
 // 1 <= n, m1, m2 <= 1000
-// 1 <= k <= 10
 // 1 <= w <= 10^9
 // 测试链接 : https://www.luogu.com.cn/problem/P4926
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
@@ -29,13 +24,21 @@ import java.util.Arrays;
 
 public class Code05_DoubleKillMeasurer {
 
-	public static int MAXN = 1001;
+	public static int MAXN = 1002;
 
-	public static int MAXM = 5001;
+	public static int MAXM = 3001;
 
-	public static int MAXK = 10;
+	public static double INF = 1e10;
 
 	public static double sml = 1e-6;
+
+	public static int n, m1, m2;
+
+	// 誓言记录(op, u, v, k)
+	public static int[][] vow = new int[MAXN][4];
+
+	// 得分记录(u, w)
+	public static int[][] score = new int[MAXN][2];
 
 	// 链式前向星需要
 	public static int[] head = new int[MAXN];
@@ -44,11 +47,7 @@ public class Code05_DoubleKillMeasurer {
 
 	public static int[] to = new int[MAXM];
 
-	public static int[] op = new int[MAXM];
-
 	public static double[] weight = new double[MAXM];
-
-	public static double[] ktimes = new double[MAXM];
 
 	public static int cnt;
 
@@ -65,27 +64,62 @@ public class Code05_DoubleKillMeasurer {
 
 	public static boolean[] enter = new boolean[MAXN];
 
-	public static int n, m1, m2;
-
 	public static void prepare() {
 		cnt = 1;
-		Arrays.fill(head, 0, n + 1, 0);
+		h = t = 0;
+		Arrays.fill(head, 0, n + 2, 0);
+		Arrays.fill(dist, 0, n + 2, INF);
+		Arrays.fill(update, 0, n + 2, 0);
+		Arrays.fill(enter, 0, n + 2, false);
 	}
 
-	public static void addEdge(int u, int v, int o, double w, double k) {
+	public static void addEdge(int u, int v, double w) {
 		next[cnt] = head[u];
 		to[cnt] = v;
-		op[cnt] = o;
 		weight[cnt] = w;
-		ktimes[cnt] = k;
 		head[u] = cnt++;
 	}
 
-	public static boolean spfa(int s, double limit) {
-		h = t = 0;
-		Arrays.fill(dist, 0, n + 1, -1e9);
-		Arrays.fill(update, 0, n + 1, 0);
-		Arrays.fill(enter, 0, n + 1, false);
+	public static double compute() {
+		double l = 0, r = INF, m, ans = 0;
+		while (r - l >= sml) {
+			m = (l + r) / 2;
+			if (check(m)) {
+				ans = m;
+				l = m + sml;
+			} else {
+				r = m - sml;
+			}
+		}
+		return ans;
+	}
+
+	public static boolean check(double limit) {
+		prepare();
+		// 0号点做其中一个超级源点，保证图的联通性
+		for (int i = 1; i <= n; i++) {
+			addEdge(0, i, 0);
+		}
+		// 倍杀关系的边
+		for (int i = 1; i <= m1; i++) {
+			if (vow[i][0] == 1) {
+				addEdge(vow[i][1], vow[i][2], -Math.log(-limit + vow[i][3]));
+			} else {
+				addEdge(vow[i][1], vow[i][2], Math.log(limit + vow[i][3]));
+			}
+		}
+		// n+1号点做另一个超级源点，保证确定得分的选手之间的关系
+		// 0号点和n+1号点，一定要是两个分开的点，不然会误判
+		// 虽然本题不会出错，但是一定要分开
+		// 课上进行了重点说明
+		for (int i = 1; i <= m2; i++) {
+			addEdge(n + 1, score[i][0], Math.log(score[i][1]));
+			addEdge(score[i][0], n + 1, -Math.log(score[i][1]));
+		}
+		return spfa(0);
+	}
+
+	public static boolean spfa(int s) {
 		dist[s] = 0;
 		update[s] = 1;
 		queue[t++] = s;
@@ -93,24 +127,14 @@ public class Code05_DoubleKillMeasurer {
 		while (h < t) {
 			int u = queue[h++];
 			enter[u] = false;
-			int v, o;
-			double w, k;
 			for (int ei = head[u]; ei > 0; ei = next[ei]) {
-				v = to[ei];
-				o = op[ei];
-				k = ktimes[ei];
-				if (o == 1) {
-					w = Math.log(k - limit);
-				} else if (o == 2) {
-					w = -Math.log(k + limit);
-				} else {
-					w = weight[ei];
-				}
-				// 注意这里是变大才更新，是否能发现无限增加的环，与是否发现负环，本质是一样的
-				if (dist[v] < dist[u] + w) {
+				int v = to[ei];
+				double w = weight[ei];
+				if (dist[v] > dist[u] + w) {
 					dist[v] = dist[u] + w;
 					if (!enter[v]) {
-						if (++update[v] > n) {
+						// 0...n+1号点，一共n+2个点，所以这里判断 > n + 1
+						if (++update[v] > n + 1) {
 							return true;
 						}
 						queue[t++] = v;
@@ -120,20 +144,6 @@ public class Code05_DoubleKillMeasurer {
 			}
 		}
 		return false;
-	}
-
-	public static double compute() {
-		double ans = 0, l = 0, r = MAXK, mid;
-		while (r - l >= sml) {
-			mid = (l + r) / 2;
-			if (spfa(0, mid)) {
-				ans = mid;
-				l = mid + sml;
-			} else {
-				r = mid - sml;
-			}
-		}
-		return ans;
 	}
 
 	public static void main(String[] args) throws IOException {
@@ -146,28 +156,21 @@ public class Code05_DoubleKillMeasurer {
 		m1 = (int) in.nval;
 		in.nextToken();
 		m2 = (int) in.nval;
-		prepare();
-		for (int i = 1, op, u, v, k; i <= m1; i++) {
+		for (int i = 1; i <= m1; i++) {
 			in.nextToken();
-			op = (int) in.nval;
+			vow[i][0] = (int) in.nval;
 			in.nextToken();
-			u = (int) in.nval;
+			vow[i][1] = (int) in.nval;
 			in.nextToken();
-			v = (int) in.nval;
+			vow[i][2] = (int) in.nval;
 			in.nextToken();
-			k = (int) in.nval;
-			addEdge(v, u, op, 0, k);
+			vow[i][3] = (int) in.nval;
 		}
-		for (int i = 1, u, w; i <= m2; i++) {
+		for (int i = 1; i <= m2; i++) {
 			in.nextToken();
-			u = (int) in.nval;
+			score[i][0] = (int) in.nval;
 			in.nextToken();
-			w = (int) in.nval;
-			addEdge(0, u, 0, Math.log(w), 0);
-			addEdge(u, 0, 0, -Math.log(w), 0);
-		}
-		for (int i = 1; i <= n; i++) {
-			addEdge(0, i, 0, 0, 0);
+			score[i][1] = (int) in.nval;
 		}
 		double ans = compute();
 		if (ans == 0) {
