@@ -3,8 +3,8 @@ package class142;
 // 天平
 // 一共有n个砝码，编号1~n，每个砝码的重量均为1克，或者2克，或者3克 
 // 砝码与砝码之间的关系是一个n * n的二维数组s
-// s[i][j] == '+'，表示砝码i比砝码j重        s[i][j] == '-'，表示砝码i比砝码j轻
-// s[i][j] == '='，表示砝码i和砝码j重量一样   s[i][j] == '?'，表示砝码i和砝码j关系未知
+// s[i][j] == '+'，砝码i比砝码j重        s[i][j] == '-'，砝码i比砝码j轻
+// s[i][j] == '='，砝码i和砝码j重量一样   s[i][j] == '?'，砝码i和砝码j关系未知
 // 数据保证至少存在一种情况符合该矩阵
 // 给定编号为a和b的砝码，这两个砝码一定会放在天平的左边，你要另选两个砝码放在天平右边
 // 返回有多少种方法可以让天平左边重(ans1)，可以让天平一样重(ans2)，可以让天平右边重(ans3)
@@ -33,6 +33,22 @@ public class Code04_Balance {
 	public static int ans1, ans2, ans3;
 
 	public static void compute() {
+		for (int i = 1; i <= n; i++) {
+			for (int j = 1; j <= n; j++) {
+				if (s[i][j] == '=') {
+					dmax[i][j] = dmin[i][j] = 0;
+				} else if (s[i][j] == '+') {
+					dmax[i][j] = 2;
+					dmin[i][j] = 1;
+				} else if (s[i][j] == '-') {
+					dmax[i][j] = -1;
+					dmin[i][j] = -2;
+				} else {
+					dmax[i][j] = 2;
+					dmin[i][j] = -2;
+				}
+			}
+		}
 		for (int i = 1; i <= n; i++) {
 			dmax[i][i] = dmin[i][i] = 0;
 		}
@@ -77,22 +93,6 @@ public class Code04_Balance {
 			line = br.readLine().toCharArray();
 			for (int j = 1; j <= n; j++) {
 				s[i][j] = line[j - 1];
-			}
-		}
-		for (int i = 1; i <= n; i++) {
-			for (int j = 1; j <= n; j++) {
-				if (s[i][j] == '=') {
-					dmax[i][j] = dmin[i][j] = 0;
-				} else if (s[i][j] == '+') {
-					dmax[i][j] = 2;
-					dmin[i][j] = 1;
-				} else if (s[i][j] == '-') {
-					dmax[i][j] = -1;
-					dmin[i][j] = -2;
-				} else {
-					dmax[i][j] = 2;
-					dmin[i][j] = -2;
-				}
 			}
 		}
 		compute();
