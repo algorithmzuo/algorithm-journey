@@ -18,7 +18,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
-public class Code05_Balance {
+public class Code04_Balance {
 
 	public static int MAXN = 51;
 

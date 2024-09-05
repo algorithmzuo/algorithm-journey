@@ -20,7 +20,7 @@ import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 import java.util.Arrays;
 
-public class Code04_LayoutCow {
+public class Code03_LayoutCow {
 
 	public static int MAXN = 1001;
 

@@ -27,7 +27,7 @@ import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 import java.util.Arrays;
 
-public class Code06_DoubleKillMeasurer {
+public class Code05_DoubleKillMeasurer {
 
 	public static int MAXN = 1001;
 
