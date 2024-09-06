@@ -2,9 +2,9 @@ package class142;
 
 // 小k的农场
 // 一共有n个农场，编号1~n，给定m条关系，每条关系是如下三种形式中的一种
-// 关系 1 a b c : 表示农场a比农场b至少多种植了c个作物
-// 关系 2 a b c : 表示农场a比农场b至多多种植了c个作物
-// 关系 3 a b   : 表示农场a和农场b种植了一样多的作物
+// 关系1 a b c : 表示农场a比农场b至少多种植了c个作物
+// 关系2 a b c : 表示农场a比农场b至多多种植了c个作物
+// 关系3 a b   : 表示农场a和农场b种植了一样多的作物
 // 如果关系之间能推出矛盾，打印"No"，不存在矛盾，打印"Yes"
 // 1 <= n、m <= 5 * 10^3
 // 1 <= c <= 5 * 10^3
@@ -102,13 +102,13 @@ public class Code02_KsFarm {
 		in.nextToken();
 		m = (int) in.nval;
 		prepare();
+		for (int i = 1; i <= n; i++) {
+			addEdge(0, i, 0);
+		}
 		for (int i = 1, type, u, v, w; i <= m; i++) {
-			in.nextToken();
-			type = (int) in.nval;
-			in.nextToken();
-			u = (int) in.nval;
-			in.nextToken();
-			v = (int) in.nval;
+			in.nextToken(); type = (int) in.nval;
+			in.nextToken(); u = (int) in.nval;
+			in.nextToken(); v = (int) in.nval;
 			if (type == 1) {
 				in.nextToken();
 				w = (int) in.nval;
@@ -121,9 +121,6 @@ public class Code02_KsFarm {
 				addEdge(u, v, 0);
 				addEdge(v, u, 0);
 			}
-		}
-		for (int i = 1; i <= n; i++) {
-			addEdge(0, i, 0);
 		}
 		if (spfa(0)) {
 			out.println("No");

@@ -101,23 +101,19 @@ public class Code01_DifferenceConstraints2 {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StreamTokenizer in = new StreamTokenizer(br);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
-		in.nextToken();
-		n = (int) in.nval;
-		in.nextToken();
-		m = (int) in.nval;
+		in.nextToken(); n = (int) in.nval;
+		in.nextToken(); m = (int) in.nval;
 		prepare();
-		for (int i = 1, u, v, w; i <= m; i++) {
-			in.nextToken();
-			u = (int) in.nval;
-			in.nextToken();
-			v = (int) in.nval;
-			in.nextToken();
-			w = (int) in.nval;
-			// 形式2的连边方式
-			addEdge(u, v, -w);
-		}
+		// 0号点是连通超级源点，保证图的连通性
 		for (int i = 1; i <= n; i++) {
 			addEdge(0, i, 0);
+		}
+		for (int i = 1, u, v, w; i <= m; i++) {
+			in.nextToken(); u = (int) in.nval;
+			in.nextToken(); v = (int) in.nval;
+			in.nextToken(); w = (int) in.nval;
+			// 形式2的连边方式
+			addEdge(u, v, -w);
 		}
 		if (spfa(0)) {
 			out.println("NO");
