@@ -95,6 +95,7 @@ public class Code04_Measurer {
 		return ans;
 	}
 
+	// 是否有人穿女装
 	public static boolean check(double limit) {
 		prepare();
 		// 0号点是连通超级源点，保证图的连通
