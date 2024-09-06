@@ -63,17 +63,17 @@ public class Code04_Balance {
 		}
 		ans1 = ans2 = ans3 = 0;
 		for (int i = 1; i <= n; i++) {
-			for (int j = i + 1; j <= n; j++) {
+			for (int j = 1; j < i; j++) {
 				if (i != a && i != b && j != a && j != b) {
-					if (dmin[a][i] + dmin[b][j] > 0 || dmin[a][j] + dmin[b][i] > 0) {
+					if (dmin[a][i] > dmax[j][b] || dmin[a][j] > dmax[i][b]) {
 						ans1++;
 					}
-					if (dmax[a][i] + dmax[b][j] < 0 || dmax[a][j] + dmax[b][i] < 0) {
+					if (dmax[a][i] < dmin[j][b] || dmax[a][j] < dmin[i][b]) {
 						ans3++;
 					}
-					if (dmin[a][i] == dmax[a][i] && dmin[j][b] == dmax[j][b] && dmin[a][i] + dmin[b][j] == 0) {
+					if (dmin[a][i] == dmax[a][i] && dmin[j][b] == dmax[j][b] && dmin[a][i] == dmin[j][b]) {
 						ans2++;
-					} else if (dmin[a][j] == dmax[a][j] && dmin[i][b] == dmax[i][b] && dmin[a][j] + dmin[b][i] == 0) {
+					} else if (dmin[b][i] == dmax[b][i] && dmin[j][a] == dmax[j][a] && dmin[b][i] == dmin[j][a]) {
 						ans2++;
 					}
 				}
