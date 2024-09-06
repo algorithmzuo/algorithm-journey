@@ -23,7 +23,7 @@ import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 import java.util.Arrays;
 
-public class Code04_DoubleKillMeasurer {
+public class Code04_Measurer {
 
 	public static int MAXN = 1002;
 
@@ -110,8 +110,8 @@ public class Code04_DoubleKillMeasurer {
 			}
 		}
 		// n+1号点是限制超级源点，保证确定得分的选手之间的关系
-		// 虽然本题测试数据有限，两个超级源点合并居然也能正确
-		// 原理上说一定要分开，课上进行了重点说明
+		// 本题测试数据有限，两个超级源点合并居然也能通过
+		// 原理上两个超级源点一定要分开，课上进行了重点讲解
 		for (int i = 1; i <= m2; i++) {
 			addEdge(n + 1, score[i][0], Math.log(score[i][1]));
 			addEdge(score[i][0], n + 1, -Math.log(score[i][1]));
