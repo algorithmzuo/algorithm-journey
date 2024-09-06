@@ -106,7 +106,8 @@ public class Code04_Measurer {
 			if (vow[i][0] == 1) {
 				addEdge(vow[i][1], vow[i][2], -Math.log(-limit + vow[i][3]));
 			} else {
-				addEdge(vow[i][1], vow[i][2], Math.log(limit + vow[i][3]));
+				// 因为类型2的誓言是<关系，所以减去最小精度后，就可以认为是<=关系
+				addEdge(vow[i][1], vow[i][2], Math.log(limit + vow[i][3] - sml));
 			}
 		}
 		// n+1号点是限制超级源点，保证确定得分的选手之间的关系
@@ -150,18 +151,27 @@ public class Code04_Measurer {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StreamTokenizer in = new StreamTokenizer(br);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
-		in.nextToken(); n = (int) in.nval;
-		in.nextToken(); m1 = (int) in.nval;
-		in.nextToken(); m2 = (int) in.nval;
+		in.nextToken();
+		n = (int) in.nval;
+		in.nextToken();
+		m1 = (int) in.nval;
+		in.nextToken();
+		m2 = (int) in.nval;
 		for (int i = 1; i <= m1; i++) {
-			in.nextToken(); vow[i][0] = (int) in.nval;
-			in.nextToken(); vow[i][1] = (int) in.nval;
-			in.nextToken(); vow[i][2] = (int) in.nval;
-			in.nextToken(); vow[i][3] = (int) in.nval;
+			in.nextToken();
+			vow[i][0] = (int) in.nval;
+			in.nextToken();
+			vow[i][1] = (int) in.nval;
+			in.nextToken();
+			vow[i][2] = (int) in.nval;
+			in.nextToken();
+			vow[i][3] = (int) in.nval;
 		}
 		for (int i = 1; i <= m2; i++) {
-			in.nextToken(); score[i][0] = (int) in.nval;
-			in.nextToken(); score[i][1] = (int) in.nval;
+			in.nextToken();
+			score[i][0] = (int) in.nval;
+			in.nextToken();
+			score[i][1] = (int) in.nval;
 		}
 		double ans = compute();
 		if (ans == 0) {
