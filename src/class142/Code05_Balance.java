@@ -22,9 +22,9 @@ public class Code05_Balance {
 
 	public static int MAXN = 51;
 
-	public static int[][] dmax = new int[MAXN][MAXN];
-
 	public static int[][] dmin = new int[MAXN][MAXN];
+
+	public static int[][] dmax = new int[MAXN][MAXN];
 
 	public static char[][] s = new char[MAXN][MAXN];
 
@@ -37,28 +37,30 @@ public class Code05_Balance {
 		for (int i = 1; i <= n; i++) {
 			for (int j = 1; j <= n; j++) {
 				if (s[i][j] == '=') {
-					dmax[i][j] = dmin[i][j] = 0;
+					dmin[i][j] = 0;
+					dmax[i][j] = 0;
 				} else if (s[i][j] == '+') {
-					dmax[i][j] = 2;
 					dmin[i][j] = 1;
-				} else if (s[i][j] == '-') {
-					dmax[i][j] = -1;
-					dmin[i][j] = -2;
-				} else {
 					dmax[i][j] = 2;
+				} else if (s[i][j] == '-') {
 					dmin[i][j] = -2;
+					dmax[i][j] = -1;
+				} else {
+					dmin[i][j] = -2;
+					dmax[i][j] = 2;
 				}
 			}
 		}
 		for (int i = 1; i <= n; i++) {
-			dmax[i][i] = dmin[i][i] = 0;
+			dmin[i][i] = 0;
+			dmax[i][i] = 0;
 		}
 		// 来自讲解065，Floyd算法
 		for (int bridge = 1; bridge <= n; bridge++) {
 			for (int i = 1; i <= n; i++) {
 				for (int j = 1; j <= n; j++) {
-					dmax[i][j] = Math.min(dmax[i][bridge] + dmax[bridge][j], dmax[i][j]);
-					dmin[i][j] = Math.max(dmin[i][bridge] + dmin[bridge][j], dmin[i][j]);
+					dmin[i][j] = Math.max(dmin[i][j], dmin[i][bridge] + dmin[bridge][j]);
+					dmax[i][j] = Math.min(dmax[i][j], dmax[i][bridge] + dmax[bridge][j]);
 				}
 			}
 		}
