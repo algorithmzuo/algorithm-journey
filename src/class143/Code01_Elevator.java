@@ -36,7 +36,7 @@ public class Code01_Elevator {
 	public static int cnt;
 
 	// dijkstra算法需要
-	public static PriorityQueue<long[]> heap = new PriorityQueue<>((a, b) -> Long.compare(a[1], b[1]));
+	public static PriorityQueue<long[]> heap = new PriorityQueue<>((a, b) -> a[1] <= b[1] ? -1 : 1);
 
 	public static long[] distance = new long[MAXN];
 
@@ -44,8 +44,8 @@ public class Code01_Elevator {
 
 	public static void prepare() {
 		cnt = 1;
-		Arrays.fill(head, 0, x, 0);
 		heap.clear();
+		Arrays.fill(head, 0, x, 0);
 		Arrays.fill(distance, 0, x, Long.MAX_VALUE);
 		Arrays.fill(visited, 0, x, false);
 	}
