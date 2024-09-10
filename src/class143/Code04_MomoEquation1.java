@@ -1,6 +1,6 @@
 package class143;
 
-// 墨墨的等式
+// 墨墨的等式(dijkstra算法)
 // 测试链接 : https://www.luogu.com.cn/problem/P2371
 
 import java.io.BufferedReader;
@@ -12,7 +12,7 @@ import java.io.StreamTokenizer;
 import java.util.Arrays;
 import java.util.PriorityQueue;
 
-public class Code02_MomoEquation {
+public class Code04_MomoEquation1 {
 
 	public static int MAXN = 500001;
 

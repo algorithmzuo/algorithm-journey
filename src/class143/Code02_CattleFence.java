@@ -12,7 +12,7 @@ import java.io.StreamTokenizer;
 import java.util.Arrays;
 import java.util.PriorityQueue;
 
-public class Code03_CattleFence {
+public class Code02_CattleFence {
 
 	public static int MAXN = 101;
 
