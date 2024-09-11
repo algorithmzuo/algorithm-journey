@@ -16,11 +16,12 @@ public class Code03_SmallMultiple {
 
 	public static int MAXK = 100001;
 
-	public static boolean[] visit = new boolean[MAXK];
+	public static int k;
 
+	// 01bfs需要
 	public static ArrayDeque<int[]> deque = new ArrayDeque<>();
 
-	public static int k;
+	public static boolean[] visit = new boolean[MAXK];
 
 	// 来自讲解062，01bfs
 	public static int bfs() {
