@@ -14,26 +14,15 @@ import java.util.ArrayDeque;
 
 public class Code03_SmallMultiple {
 
-	public static int MAXN = 100001;
+	public static int MAXK = 100001;
 
-	public static boolean[] visit = new boolean[MAXN];
+	public static boolean[] visit = new boolean[MAXK];
 
 	public static ArrayDeque<int[]> deque = new ArrayDeque<>();
 
 	public static int k;
 
-	public static void main(String[] args) throws IOException {
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StreamTokenizer in = new StreamTokenizer(br);
-		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
-		in.nextToken();
-		k = (int) in.nval;
-		out.println(bfs());
-		out.flush();
-		out.close();
-		br.close();
-	}
-
+	// 来自讲解062，01bfs
 	public static int bfs() {
 		deque.clear();
 		deque.add(new int[] { 1, 1 });
@@ -53,6 +42,18 @@ public class Code03_SmallMultiple {
 			}
 		}
 		return -1;
+	}
+
+	public static void main(String[] args) throws IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StreamTokenizer in = new StreamTokenizer(br);
+		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
+		in.nextToken();
+		k = (int) in.nval;
+		out.println(bfs());
+		out.flush();
+		out.close();
+		br.close();
 	}
 
 }
