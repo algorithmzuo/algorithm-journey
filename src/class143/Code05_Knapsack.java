@@ -17,9 +17,9 @@ public class Code05_Knapsack {
 
 	public static long inf = Long.MIN_VALUE;
 
-	public static int[] value = new int[MAXN];
+	public static int[] v = new int[MAXN];
 
-	public static int[] cost = new int[MAXN];
+	public static int[] c = new int[MAXN];
 
 	public static long[] dp = new long[MAXN];
 
@@ -33,11 +33,11 @@ public class Code05_Knapsack {
 		Arrays.fill(dp, 0, x, inf);
 		dp[0] = 0;
 		for (int i = 1; i <= n; i++) {
-			for (int j = 0, d = gcd(cost[i], x); j < d; j++) {
+			for (int j = 0, d = gcd(v[i], x); j < d; j++) {
 				for (int cur = j, next, times = 0; times < 2; times += cur == j ? 1 : 0) {
-					next = (cur + cost[i]) % x;
+					next = (cur + v[i]) % x;
 					if (dp[cur] != inf) {
-						dp[next] = Math.max(dp[next], dp[cur] - (long) ((cur + cost[i]) / x) * y + value[i]);
+						dp[next] = Math.max(dp[next], dp[cur] - (long) ((cur + v[i]) / x) * y + c[i]);
 					}
 					cur = next;
 				}
@@ -53,28 +53,29 @@ public class Code05_Knapsack {
 		n = (int) in.nval;
 		in.nextToken();
 		int query = (int) in.nval;
-		x = 1;
-		y = 0;
+		double best = 0, ratio;
 		for (int i = 1; i <= n; i++) {
 			in.nextToken();
-			cost[i] = (int) in.nval;
+			v[i] = (int) in.nval;
 			in.nextToken();
-			value[i] = (int) in.nval;
-			if ((long) y * cost[i] < (long) x * value[i]) {
-				x = cost[i];
-				y = value[i];
+			c[i] = (int) in.nval;
+			ratio = (double) c[i] / v[i];
+			if (ratio > best) {
+				best = ratio;
+				x = v[i];
+				y = c[i];
 			}
 		}
 		compute();
 		long jobv;
-		for (int i = 1, cur; i <= query; i++) {
+		for (int i = 1, v; i <= query; i++) {
 			in.nextToken();
 			jobv = (long) in.nval;
-			cur = (int) (jobv % x);
-			if (dp[cur] == inf) {
+			v = (int) (jobv % x);
+			if (dp[v] == inf) {
 				out.println("-1");
 			} else {
-				out.println(dp[cur] + jobv / x * y);
+				out.println(dp[v] + jobv / x * y);
 			}
 		}
 		out.flush();
