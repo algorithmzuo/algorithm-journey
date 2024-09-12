@@ -25,22 +25,14 @@ public class Code06_SubarraysWithKDifferentIntegers {
 		Arrays.fill(cnts, 1, arr.length + 1, 0);
 		int ans = 0;
 		for (int l = 0, r = 0, collect = 0; r < arr.length; r++) {
-			// r(刚进)
 			if (++cnts[arr[r]] == 1) {
 				collect++;
 			}
-			// l.....r    要求不超过3种，已经4种，l往右（吐数字）
 			while (collect > k) {
 				if (--cnts[arr[l++]] == 0) {
 					collect--;
 				}
 			}
-			// l.....r不超过了
-			// 0...3
-			// 0~3
-			// 1~3
-			// 2~3
-			// 3~3
 			ans += r - l + 1;
 		}
 		return ans;
