@@ -1,6 +1,12 @@
 package class143;
 
 // 墨墨的等式(dijkstra算法)
+// 一共有n种物品，第i种物品价值是v[i]，每种物品可以选择任意个，个数不能是负数
+// 那么各种物品组合在一起可以形成很多价值累加和
+// 请问在[l...r]范围上，其中有多少个数是能被组成的价值累加和
+// 0 <= n <= 12
+// 0 <= v[i] <= 5 * 10^5
+// 1 <= l <= r <= 10^12
 // 测试链接 : https://www.luogu.com.cn/problem/P2371
 
 import java.io.BufferedReader;
@@ -106,11 +112,11 @@ public class Code04_MomoEquation1 {
 		in.nextToken();
 		x = (int) in.nval;
 		prepare();
-		for (int i = 1, y; i < n; i++) {
+		for (int i = 1, vi; i < n; i++) {
 			in.nextToken();
-			y = (int) in.nval;
+			vi = (int) in.nval;
 			for (int j = 0; j < x; j++) {
-				addEdge(j, (j + y) % x, y);
+				addEdge(j, (j + vi) % x, vi);
 			}
 		}
 		out.println(compute());

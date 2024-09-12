@@ -1,6 +1,14 @@
 package class143;
 
 // 跳楼机
+// 一座大楼一共有h层，楼层编号1~h，有如下四种移动方式
+// 1, 向上移动x层
+// 2, 向上移动y层
+// 3, 向上移动z层
+// 4, 回到1层
+// 假设你正在第1层，请问大楼里有多少楼层你可以到达
+// 1 <= h <= 2^63 - 1
+// 1 <= x、y、z <= 10^5
 // 测试链接 : https://www.luogu.com.cn/problem/P3403
 
 import java.io.BufferedReader;

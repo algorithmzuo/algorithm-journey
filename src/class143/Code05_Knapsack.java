@@ -1,6 +1,15 @@
 package class143;
 
 // 背包(两次转圈法)
+// 一共有n种物品，第i种物品的体积为v[i]，价值为c[i]，每种物品可以选择任意个，个数不能是负数
+// 一共有m条查询，每次查询都会给定jobv，代表体积的要求
+// 要求挑选物品的体积和一定要严格是jobv，返回能得到的最大价值和
+// 如果没有方案能正好凑满jobv，返回-1
+// 1 <= n <= 50
+// 1 <= m <= 10^5
+// 1 <= v[i] <= 10^5
+// 1 <= c[i] <= 10^6
+// 10^11 <= jobv <= 10^12
 // 测试链接 : https://www.luogu.com.cn/problem/P9140
 
 import java.io.BufferedReader;
@@ -23,7 +32,7 @@ public class Code05_Knapsack {
 
 	public static long[] dp = new long[MAXN];
 
-	public static int n, x, y;
+	public static int n, m, x, y;
 
 	public static int gcd(int a, int b) {
 		return b == 0 ? a : gcd(b, a % b);
@@ -52,7 +61,7 @@ public class Code05_Knapsack {
 		in.nextToken();
 		n = (int) in.nval;
 		in.nextToken();
-		int query = (int) in.nval;
+		m = (int) in.nval;
 		double best = 0, ratio;
 		for (int i = 1; i <= n; i++) {
 			in.nextToken();
@@ -68,7 +77,7 @@ public class Code05_Knapsack {
 		}
 		compute();
 		long jobv;
-		for (int i = 1, v; i <= query; i++) {
+		for (int i = 1, v; i <= m; i++) {
 			in.nextToken();
 			jobv = (long) in.nval;
 			v = (int) (jobv % x);

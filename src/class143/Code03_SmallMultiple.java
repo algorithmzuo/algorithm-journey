@@ -1,6 +1,8 @@
 package class143;
 
-// 整数倍的最小数位和
+// 正整数倍的最小数位和
+// 给定一个整数k，求一个k的正整数倍s，使得在十进制下，s的数位累加和最小
+// 2 <= k <= 10^5
 // 测试链接 : https://www.luogu.com.cn/problem/AT_arc084_b
 // 测试链接 : https://atcoder.jp/contests/abc077/tasks/arc084_b
 
