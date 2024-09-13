@@ -92,12 +92,11 @@ public class Code06_FlightPath2 {
 		use = heap[0][1];
 		cost = heap[0][2];
 		swap(0, --heapSize);
-		heapify();
+		heapify(0);
 	}
 
-	public static void heapify() {
-		int i = 0;
-		int l = 1;
+	public static void heapify(int i) {
+		int l = i * 2 + 1;
 		while (l < heapSize) {
 			int best = l + 1 < heapSize && heap[l + 1][2] < heap[l][2] ? l + 1 : l;
 			best = heap[best][2] < heap[i][2] ? best : i;

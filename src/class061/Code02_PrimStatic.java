@@ -109,7 +109,7 @@ public class Code02_PrimStatic {
 	}
 
 	public static void heapify(int i) {
-		int l = 1;
+		int l = i * 2 + 1;
 		while (l < heapSize) {
 			int best = l + 1 < heapSize && heap[l + 1][1] < heap[l][1] ? l + 1 : l;
 			best = heap[best][1] < heap[i][1] ? best : i;

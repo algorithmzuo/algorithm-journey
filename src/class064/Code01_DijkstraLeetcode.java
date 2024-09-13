@@ -151,7 +151,7 @@ public class Code01_DijkstraLeetcode {
 	}
 
 	public static void heapify(int i) {
-		int l = 1;
+		int l = i * 2 + 1;
 		while (l < heapSize) {
 			int best = l + 1 < heapSize && distance[heap[l + 1]] < distance[heap[l]] ? l + 1 : l;
 			best = distance[heap[best]] < distance[heap[i]] ? best : i;
