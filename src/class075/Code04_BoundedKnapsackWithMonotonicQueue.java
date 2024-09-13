@@ -64,6 +64,7 @@ public class Code04_BoundedKnapsackWithMonotonicQueue {
 	public static int compute1() {
 		int[][] dp = new int[n + 1][t + 1];
 		for (int i = 1; i <= n; i++) {
+			// 同余分组
 			for (int mod = 0; mod <= Math.min(t, w[i] - 1); mod++) {
 				l = r = 0;
 				for (int j = mod; j <= t; j += w[i]) {
