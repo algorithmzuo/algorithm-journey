@@ -25,7 +25,7 @@ public class Code04_MomoEquation2 {
 
 	public static int[] v = new int[MAXN];
 
-	public static long[] dp = new long[MAXN];
+	public static long[] dist = new long[MAXN];
 
 	public static int n, x;
 
@@ -47,15 +47,15 @@ public class Code04_MomoEquation2 {
 			return 0;
 		}
 		x = v[1];
-		Arrays.fill(dp, 0, x, inf);
-		dp[0] = 0;
+		Arrays.fill(dist, 0, x, inf);
+		dist[0] = 0;
 		for (int i = 2, d; i <= size; i++) {
 			d = gcd(v[i], x);
 			for (int j = 0; j < d; j++) {
 				for (int cur = j, next, circle = 0; circle < 2; circle += cur == j ? 1 : 0) {
 					next = (cur + v[i]) % x;
-					if (dp[cur] != inf) {
-						dp[next] = Math.min(dp[next], dp[cur] + v[i]);
+					if (dist[cur] != inf) {
+						dist[next] = Math.min(dist[next], dist[cur] + v[i]);
 					}
 					cur = next;
 				}
@@ -63,11 +63,11 @@ public class Code04_MomoEquation2 {
 		}
 		long ans = 0;
 		for (int i = 0; i < x; i++) {
-			if (r >= dp[i]) {
-				ans += Math.max(0, (r - dp[i]) / x + 1);
+			if (r >= dist[i]) {
+				ans += Math.max(0, (r - dist[i]) / x + 1);
 			}
-			if (l >= dp[i]) {
-				ans -= Math.max(0, (l - dp[i]) / x + 1);
+			if (l >= dist[i]) {
+				ans -= Math.max(0, (l - dist[i]) / x + 1);
 			}
 		}
 		return ans;
