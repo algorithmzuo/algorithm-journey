@@ -70,6 +70,7 @@ public class Code02_CattleFence {
 		head[u] = cnt++;
 	}
 
+	// 来自讲解064，dijkstra算法
 	public static void dijkstra() {
 		heap.add(new int[] { 0, 0 });
 		distance[0] = 0;

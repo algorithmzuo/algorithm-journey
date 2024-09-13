@@ -65,6 +65,7 @@ public class Code01_Elevator {
 		head[u] = cnt++;
 	}
 
+	// 来自讲解064，dijkstra算法
 	public static void dijkstra() {
 		heap.add(new long[] { 0, 0 });
 		distance[0] = 0;
