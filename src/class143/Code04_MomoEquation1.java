@@ -114,7 +114,7 @@ public class Code04_MomoEquation1 {
 		in.nextToken();
 		x = (int) in.nval;
 		prepare();
-		for (int i = 1, vi; i < n; i++) {
+		for (int i = 2, vi; i <= n; i++) {
 			in.nextToken();
 			vi = (int) in.nval;
 			for (int j = 0; j < x; j++) {
