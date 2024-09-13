@@ -40,6 +40,8 @@ public class Code04_MomoEquation1 {
 	public static int cnt;
 
 	// dijkstra算法需要
+	// 0 : 当前节点
+	// 1 : 源点到当前点距离
 	public static PriorityQueue<long[]> heap = new PriorityQueue<>((a, b) -> a[1] <= b[1] ? -1 : 1);
 
 	public static long[] distance = new long[MAXN];
