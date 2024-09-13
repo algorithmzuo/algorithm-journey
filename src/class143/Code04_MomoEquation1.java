@@ -61,20 +61,6 @@ public class Code04_MomoEquation1 {
 		head[u] = cnt++;
 	}
 
-	public static long compute() {
-		dijkstra();
-		long ans = 0;
-		for (int i = 0; i < x; i++) {
-			if (r >= distance[i]) {
-				ans += (r - distance[i]) / x + 1;
-			}
-			if (l >= distance[i]) {
-				ans -= (l - distance[i]) / x + 1;
-			}
-		}
-		return ans;
-	}
-
 	public static void dijkstra() {
 		heap.add(new long[] { 0, 0 });
 		distance[0] = 0;
@@ -97,6 +83,20 @@ public class Code04_MomoEquation1 {
 				}
 			}
 		}
+	}
+
+	public static long compute() {
+		dijkstra();
+		long ans = 0;
+		for (int i = 0; i < x; i++) {
+			if (r >= distance[i]) {
+				ans += (r - distance[i]) / x + 1;
+			}
+			if (l >= distance[i]) {
+				ans -= (l - distance[i]) / x + 1;
+			}
+		}
+		return ans;
 	}
 
 	public static void main(String[] args) throws IOException {

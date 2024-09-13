@@ -65,17 +65,6 @@ public class Code01_Elevator {
 		head[u] = cnt++;
 	}
 
-	public static long compute() {
-		dijkstra();
-		long ans = 0;
-		for (int i = 0; i < x; i++) {
-			if (distance[i] <= h) {
-				ans += (h - distance[i]) / x + 1;
-			}
-		}
-		return ans;
-	}
-
 	public static void dijkstra() {
 		heap.add(new long[] { 0, 0 });
 		distance[0] = 0;
@@ -98,6 +87,17 @@ public class Code01_Elevator {
 				}
 			}
 		}
+	}
+
+	public static long compute() {
+		dijkstra();
+		long ans = 0;
+		for (int i = 0; i < x; i++) {
+			if (distance[i] <= h) {
+				ans += (h - distance[i]) / x + 1;
+			}
+		}
+		return ans;
 	}
 
 	public static void main(String[] args) throws IOException {
