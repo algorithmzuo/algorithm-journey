@@ -43,7 +43,7 @@ public class Code05_Knapsack {
 		dp[0] = 0;
 		for (int i = 1; i <= n; i++) {
 			for (int j = 0, d = gcd(v[i], x); j < d; j++) {
-				for (int cur = j, next, times = 0; times < 2; times += cur == j ? 1 : 0) {
+				for (int cur = j, next, circle = 0; circle < 2; circle += cur == j ? 1 : 0) {
 					next = (cur + v[i]) % x;
 					if (dp[cur] != inf) {
 						dp[next] = Math.max(dp[next], dp[cur] - (long) ((cur + v[i]) / x) * y + c[i]);

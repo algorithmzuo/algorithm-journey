@@ -79,13 +79,13 @@ public class Code01_Elevator {
 	public static void dijkstra() {
 		heap.add(new long[] { 0, 0 });
 		distance[0] = 0;
-		long[] curData;
+		long[] cur;
 		int u;
 		long w;
 		while (!heap.isEmpty()) {
-			curData = heap.poll();
-			u = (int) curData[0];
-			w = curData[1];
+			cur = heap.poll();
+			u = (int) cur[0];
+			w = cur[1];
 			if (visited[u]) {
 				continue;
 			}

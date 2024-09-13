@@ -52,7 +52,7 @@ public class Code04_MomoEquation2 {
 		for (int i = 2, d; i <= size; i++) {
 			d = gcd(v[i], x);
 			for (int j = 0; j < d; j++) {
-				for (int cur = j, next, times = 0; times < 2; times += cur == j ? 1 : 0) {
+				for (int cur = j, next, circle = 0; circle < 2; circle += cur == j ? 1 : 0) {
 					next = (cur + v[i]) % x;
 					if (dp[cur] != inf) {
 						dp[next] = Math.min(dp[next], dp[cur] + v[i]);

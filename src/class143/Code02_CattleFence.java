@@ -73,12 +73,12 @@ public class Code02_CattleFence {
 	public static void dijkstra() {
 		heap.add(new int[] { 0, 0 });
 		distance[0] = 0;
-		int[] curData;
+		int[] cur;
 		int u, w;
 		while (!heap.isEmpty()) {
-			curData = heap.poll();
-			u = (int) curData[0];
-			w = curData[1];
+			cur = heap.poll();
+			u = (int) cur[0];
+			w = cur[1];
 			if (visited[u]) {
 				continue;
 			}
