@@ -40,7 +40,7 @@ public class Code05_ConcatenationAllWords {
 		int allLen = wordLen * wordNum;
 		// 窗口的词频表
 		HashMap<Long, Integer> window = new HashMap<>();
-		for (int init = 0; init < wordLen && init + allLen <= n; init++) {
+		for (int init = 0; init < wordLen && init + allLen <= n; init++) { // 同余分组
 			// init是当前组的首个开头
 			int debt = wordNum;
 			// 建立起窗口
