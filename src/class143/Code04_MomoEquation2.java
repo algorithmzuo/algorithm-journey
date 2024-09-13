@@ -49,9 +49,9 @@ public class Code04_MomoEquation2 {
 		x = v[1];
 		Arrays.fill(dist, 0, x, inf);
 		dist[0] = 0;
-		for (int i = 2, d; i <= size; i++) {
-			d = gcd(v[i], x);
-			for (int j = 0; j < d; j++) {
+		for (int i = 2, d; i <= size; i++) { // 出现基准数之外的其他数，更新最短路
+			d = gcd(v[i], x); // 求最大公约数
+			for (int j = 0; j < d; j++) { // j是每个子环的起点
 				for (int cur = j, next, circle = 0; circle < 2; circle += cur == j ? 1 : 0) {
 					next = (cur + v[i]) % x;
 					if (dist[cur] != inf) {
