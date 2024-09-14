@@ -31,8 +31,8 @@ public class Code05_Knapsack {
 	public static int[] c = new int[MAXN];
 
 	// dp[i] : 总体积为某数，先尽可能用基准物品填入，剩余的体积为i
-	//         可以去掉若干基准物品，加入若干其他物品，最终凑齐总体积
-	//         能获得的最大补偿是多少
+	// 可以去掉若干基准物品，加入若干其他物品，最终凑齐总体积
+	// 能获得的最大补偿是多少
 	public static long[] dp = new long[MAXN];
 
 	public static int n, m, x, y;
@@ -89,7 +89,7 @@ public class Code05_Knapsack {
 			if (dp[v] == inf) {
 				out.println("-1");
 			} else {
-				out.println(dp[v] + jobv / x * y);
+				out.println(jobv / x * y + dp[v]);
 			}
 		}
 		out.flush();
