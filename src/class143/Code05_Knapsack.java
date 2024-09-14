@@ -30,6 +30,9 @@ public class Code05_Knapsack {
 
 	public static int[] c = new int[MAXN];
 
+	// dp[i] : 总体积为某数，先尽可能用基准物品填入，剩余的体积为i
+	//         可以去掉若干基准物品，加入若干其他物品，最终凑齐总体积
+	//         能获得的最大补偿是多少
 	public static long[] dp = new long[MAXN];
 
 	public static int n, m, x, y;
@@ -42,13 +45,15 @@ public class Code05_Knapsack {
 		Arrays.fill(dp, 0, x, inf);
 		dp[0] = 0;
 		for (int i = 1; i <= n; i++) {
-			for (int j = 0, d = gcd(v[i], x); j < d; j++) {
-				for (int cur = j, next, circle = 0; circle < 2; circle += cur == j ? 1 : 0) {
-					next = (cur + v[i]) % x;
-					if (dp[cur] != inf) {
-						dp[next] = Math.max(dp[next], dp[cur] - (long) ((cur + v[i]) / x) * y + c[i]);
+			if (v[i] != x) {
+				for (int j = 0, d = gcd(v[i], x); j < d; j++) {
+					for (int cur = j, next, circle = 0; circle < 2; circle += cur == j ? 1 : 0) {
+						next = (cur + v[i]) % x;
+						if (dp[cur] != inf) {
+							dp[next] = Math.max(dp[next], dp[cur] - (long) ((cur + v[i]) / x) * y + c[i]);
+						}
+						cur = next;
 					}
-					cur = next;
 				}
 			}
 		}
