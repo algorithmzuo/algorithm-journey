@@ -4,8 +4,8 @@ package class144;
 // 多项式为，(ax + by)的k次方，其中a、b、k为常数
 // 计算这个多项式展开后，x的n次方 * y的m次方，这一项的系数
 // 0 <= k <= 1000
-// n + m == k
 // 0 <= a、b <= 10^6
+// n + m == k
 // 测试链接 : https://www.luogu.com.cn/problem/P1313
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
