@@ -56,12 +56,13 @@ public class Code04_SetCounting {
 
 	public static long compute() {
 		build();
-		long tmp = 2, cur;
+		long tmp = 2;
 		for (int i = n; i >= k; i--) {
-			cur = (tmp + MOD - 1) % MOD;
-			f[i] = (c(n, i) * cur) % MOD;
+			f[i] = (tmp + MOD - 1) % MOD;
 			tmp = (tmp * tmp) % MOD;
-
+		}
+		for (int i = n; i >= k; i--) {
+			f[i] = (c(n, i) * f[i]) % MOD;
 		}
 		long g = 0;
 		for (int i = k; i <= n; i++) {
