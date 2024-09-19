@@ -80,15 +80,15 @@ public class Code05_NothingFear {
 				f[i][j] = (f[i - 1][j] + f[i - 1][j - 1] * Math.max(0, near[i] - j + 1) % MOD) % MOD;
 			}
 		}
-		long ans = 0;
+		long g = 0;
 		for (int i = k; i <= n; i++) {
 			if ((i - k) % 2 == 0) {
-				ans = (ans + (c(i, k) * ((f[n][i] * fac[n - i]) % MOD))) % MOD;
+				g = (g + (c(i, k) * ((fac[n - i] * f[n][i]) % MOD))) % MOD;
 			} else {
-				ans = (ans + ((((MOD - 1) * c(i, k)) % MOD) * ((f[n][i] * fac[n - i]) % MOD))) % MOD;
+				g = (g + ((((MOD - 1) * c(i, k)) % MOD) * ((fac[n - i] * f[n][i]) % MOD))) % MOD;
 			}
 		}
-		return ans;
+		return g;
 	}
 
 	public static void main(String[] args) throws IOException {
