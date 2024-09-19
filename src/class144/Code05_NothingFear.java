@@ -29,7 +29,7 @@ public class Code05_NothingFear {
 
 	public static long[] near = new long[MAXN];
 
-	public static long[][] f = new long[MAXN][MAXN];
+	public static long[][] g = new long[MAXN][MAXN];
 
 	public static void build() {
 		fac[0] = inv[0] = 1;
@@ -73,22 +73,22 @@ public class Code05_NothingFear {
 			}
 			near[i] = find;
 		}
-		f[0][0] = 1;
+		g[0][0] = 1;
 		for (int i = 1; i <= n; i++) {
-			f[i][0] = f[i - 1][0];
+			g[i][0] = g[i - 1][0];
 			for (int j = 1; j <= i; j++) {
-				f[i][j] = (f[i - 1][j] + f[i - 1][j - 1] * Math.max(0, near[i] - j + 1) % MOD) % MOD;
+				g[i][j] = (g[i - 1][j] + g[i - 1][j - 1] * Math.max(0, near[i] - j + 1) % MOD) % MOD;
 			}
 		}
-		long g = 0;
+		long ans = 0;
 		for (int i = k; i <= n; i++) {
 			if ((i - k) % 2 == 0) {
-				g = (g + (c(i, k) * ((fac[n - i] * f[n][i]) % MOD))) % MOD;
+				ans = (ans + (c(i, k) * ((fac[n - i] * g[n][i]) % MOD))) % MOD;
 			} else {
-				g = (g + ((((MOD - 1) * c(i, k)) % MOD) * ((fac[n - i] * f[n][i]) % MOD))) % MOD;
+				ans = (ans + ((((MOD - 1) * c(i, k)) % MOD) * ((fac[n - i] * g[n][i]) % MOD))) % MOD;
 			}
 		}
-		return g;
+		return ans;
 	}
 
 	public static void main(String[] args) throws IOException {
