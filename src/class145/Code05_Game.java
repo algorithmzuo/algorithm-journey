@@ -1,8 +1,7 @@
 package class145;
 
-// 游戏(迭代版)
+// 游戏
 // 测试链接 : https://www.luogu.com.cn/problem/P6478
-// 提交以下的code，提交时请把类名改成"Main"，可以通过所有用例
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -14,7 +13,7 @@ import java.io.PrintWriter;
 import java.util.Arrays;
 import java.util.StringTokenizer;
 
-public class Code05_Game2 {
+public class Code05_Game {
 
 	public static final int MAXN = 5001;
 
@@ -74,7 +73,37 @@ public class Code05_Game2 {
 		head[u] = cnt++;
 	}
 
+	// 递归版
+	public static void dfs1(int u, int fa) {
+		size[u] = 1;
+		belong[u][arr[u]] = 1;
+		dp[u][0] = 1;
+		for (int e = head[u], v; e > 0; e = next[e]) {
+			v = to[e];
+			if (v != fa) {
+				dfs1(v, u);
+				Arrays.fill(tmp, 0, Math.min(size[u] + size[v], m) + 1, 0);
+				for (int i = 0; i <= Math.min(size[u], m); i++) {
+					for (int j = 0; j <= Math.min(size[v], m - i); j++) {
+						tmp[i + j] = (tmp[i + j] + dp[u][i] * dp[v][j] % MOD) % MOD;
+					}
+				}
+				size[u] += size[v];
+				belong[u][0] += belong[v][0];
+				belong[u][1] += belong[v][1];
+				for (int i = 0; i <= Math.min(size[u], m); i++) {
+					dp[u][i] = tmp[i];
+				}
+			}
+		}
+		for (int i = belong[u][arr[u] ^ 1]; i >= 0; i--) {
+			dp[u][i + 1] = (dp[u][i + 1] + dp[u][i] * (belong[u][arr[u] ^ 1] - i) % MOD) % MOD;
+		}
+	}
+
+	// 迭代版
 	// ufe是为了实现迭代版而准备的栈
+	// 不会改，看讲解118，讲了怎么从递归版改成迭代版
 	public static int[][] ufe = new int[MAXN][3];
 
 	public static int stackSize, u, fa, e;
@@ -94,8 +123,7 @@ public class Code05_Game2 {
 	}
 
 	// 迭代版
-	// 不会改，看讲解118，讲了怎么从递归版改成迭代版
-	public static void dfs(int root) {
+	public static void dfs2(int root) {
 		stackSize = 0;
 		push(root, 0, -1);
 		int v;
@@ -140,7 +168,8 @@ public class Code05_Game2 {
 	}
 
 	public static void compute() {
-		dfs(1);
+		// dfs1(1, 0); // 递归版
+		dfs2(1); // 迭代版
 		for (int i = 0; i <= m; i++) {
 			g[i] = dp[1][i] * fac[m - i] % MOD;
 		}
