@@ -17,19 +17,19 @@ public class Code04_SplitWays {
 	public static int ways1(int[] arr) {
 		int ans = 0;
 		for (int a = 1, b = arr[0] - 1; a < arr[0]; a++, b--) {
-			ans += process1(arr, 1, a, b);
+			ans += f(arr, 1, a, b);
 		}
 		return ans;
 	}
 
-	public static int process1(int[] arr, int i, int ip, int dp) {
+	public static int f(int[] arr, int i, int ip, int dp) {
 		if (i == arr.length) {
 			return 1;
 		}
 		int ans = 0;
 		for (int a = 1, b = arr[i] - 1; a < arr[i]; a++, b--) {
 			if (ip <= a && dp >= b) {
-				ans += process1(arr, i + 1, a, b);
+				ans += f(arr, i + 1, a, b);
 			}
 		}
 		return ans;
