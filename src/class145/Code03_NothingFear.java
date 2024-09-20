@@ -25,38 +25,23 @@ public class Code03_NothingFear {
 
 	public static long[] fac = new long[MAXN];
 
-	public static long[] inv = new long[MAXN];
+	public static long[][] c = new long[MAXN][MAXN];
 
 	public static long[] near = new long[MAXN];
 
 	public static long[][] g = new long[MAXN][MAXN];
 
 	public static void build() {
-		fac[0] = inv[0] = 1;
-		fac[1] = 1;
-		for (int i = 2; i <= n; i++) {
-			fac[i] = ((long) i * fac[i - 1]) % MOD;
+		fac[0] = 1;
+		for (int i = 1; i <= n; i++) {
+			fac[i] = fac[i - 1] * i % MOD;
 		}
-		inv[n] = power(fac[n], MOD - 2);
-		for (int i = n - 1; i >= 1; i--) {
-			inv[i] = ((long) (i + 1) * inv[i + 1]) % MOD;
-		}
-	}
-
-	public static long power(long x, long p) {
-		long ans = 1;
-		while (p > 0) {
-			if ((p & 1) == 1) {
-				ans = (ans * x) % MOD;
+		for (int i = 0; i <= n; i++) {
+			c[i][0] = 1;
+			for (int j = 1; j <= i; j++) {
+				c[i][j] = (c[i - 1][j] + c[i - 1][j - 1]) % MOD;
 			}
-			x = (x * x) % MOD;
-			p >>= 1;
 		}
-		return ans;
-	}
-
-	public static long c(int all, int pick) {
-		return (((fac[all] * inv[pick]) % MOD) * inv[all - pick]) % MOD;
 	}
 
 	public static long compute() {
@@ -83,9 +68,9 @@ public class Code03_NothingFear {
 		long ans = 0;
 		for (int i = k; i <= n; i++) {
 			if ((i - k) % 2 == 0) {
-				ans = (ans + (c(i, k) * ((fac[n - i] * g[n][i]) % MOD))) % MOD;
+				ans = (ans + (c[i][k] * ((fac[n - i] * g[n][i]) % MOD))) % MOD;
 			} else {
-				ans = (ans + ((((MOD - 1) * c(i, k)) % MOD) * ((fac[n - i] * g[n][i]) % MOD))) % MOD;
+				ans = (ans + ((((MOD - 1) * c[i][k]) % MOD) * ((fac[n - i] * g[n][i]) % MOD))) % MOD;
 			}
 		}
 		return ans;

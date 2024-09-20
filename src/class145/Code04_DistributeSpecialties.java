@@ -22,46 +22,31 @@ public class Code04_DistributeSpecialties {
 
 	public static long[] fac = new long[MAXK];
 
-	public static long[] inv = new long[MAXK];
+	public static long[][] c = new long[MAXK][MAXK];
 
 	public static long[] g = new long[MAXN];
 
 	public static int n, k, m;
 
 	public static void build() {
-		fac[0] = inv[0] = 1;
-		fac[1] = 1;
-		for (int i = 2; i <= k; i++) {
-			fac[i] = ((long) i * fac[i - 1]) % MOD;
+		fac[0] = 1;
+		for (int i = 1; i <= k; i++) {
+			fac[i] = fac[i - 1] * i % MOD;
 		}
-		inv[k] = power(fac[k], MOD - 2);
-		for (int i = k - 1; i >= 1; i--) {
-			inv[i] = ((long) (i + 1) * inv[i + 1]) % MOD;
-		}
-	}
-
-	public static long power(long x, long p) {
-		long ans = 1;
-		while (p > 0) {
-			if ((p & 1) == 1) {
-				ans = (ans * x) % MOD;
+		for (int i = 0; i <= k; i++) {
+			c[i][0] = 1;
+			for (int j = 1; j <= i; j++) {
+				c[i][j] = (c[i - 1][j] + c[i - 1][j - 1]) % MOD;
 			}
-			x = (x * x) % MOD;
-			p >>= 1;
 		}
-		return ans;
-	}
-
-	public static long c(int all, int pick) {
-		return (((fac[all] * inv[pick]) % MOD) * inv[all - pick]) % MOD;
 	}
 
 	public static long compute() {
 		build();
 		for (int i = 0; i < n; i++) {
-			g[i] = c(n, i);
+			g[i] = c[n][i];
 			for (int j = 0; j < m; j++) {
-				g[i] = (int) ((g[i] * c(arr[j] + n - i - 1, n - i - 1)) % MOD);
+				g[i] = (int) ((g[i] * c[arr[j] + n - i - 1][n - i - 1]) % MOD);
 			}
 		}
 		long ans = 0;
