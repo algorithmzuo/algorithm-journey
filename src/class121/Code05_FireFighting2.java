@@ -83,7 +83,7 @@ public class Code05_FireFighting2 {
 	}
 
 	// dfs方法改迭代版
-	// 不会改看讲解118，讲了怎么从递归版改成迭代版
+	// 不会改，看讲解118，讲了怎么从递归版改成迭代版
 	public static int[][] ufwe = new int[MAXN][4];
 
 	public static int stackSize;

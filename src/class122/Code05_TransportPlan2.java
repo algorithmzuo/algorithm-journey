@@ -107,7 +107,7 @@ public class Code05_TransportPlan2 {
 	}
 
 	// tarjan方法的递归版改迭代版
-	// 不会改看讲解118，讲了怎么从递归版改成迭代版
+	// 不会改，看讲解118，讲了怎么从递归版改成迭代版
 	public static int[][] ufwe = new int[MAXN][4];
 
 	public static int stackSize, u, f, w, e;
@@ -182,7 +182,7 @@ public class Code05_TransportPlan2 {
 	public static int beyond;
 
 	// dfs方法的递归版改迭代版
-	// 不会改看讲解118，讲了怎么从递归版改成迭代版
+	// 不会改，看讲解118，讲了怎么从递归版改成迭代版
 	public static boolean dfs(int root) {
 		stackSize = 0;
 		push(root, 0, 0, -1);

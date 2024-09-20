@@ -78,7 +78,7 @@ public class Code03_GreatCowGathering2 {
 	}
 
 	// 迭代版
-	// 不会改看讲解118，讲了怎么从递归版改成迭代版
+	// 不会改，看讲解118，讲了怎么从递归版改成迭代版
 	public static void findCenter(int root) {
 		stackSize = 0;
 		push(root, 0, -1);
@@ -114,7 +114,7 @@ public class Code03_GreatCowGathering2 {
 	}
 
 	// 迭代版
-	// 不会改看讲解118，讲了怎么从递归版改成迭代版
+	// 不会改，看讲解118，讲了怎么从递归版改成迭代版
 	public static void setPath(int root) {
 		stackSize = 0;
 		push(root, 0, -1);

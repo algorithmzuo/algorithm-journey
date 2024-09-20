@@ -76,7 +76,7 @@ public class Code02_DiameterAndCommonEdges2 {
 	}
 
 	// dfs方法改迭代版
-	// 不会改看讲解118，讲了怎么从递归版改成迭代版
+	// 不会改，看讲解118，讲了怎么从递归版改成迭代版
 	public static int[][] ufeStack = new int[MAXN][3];
 
 	public static long[] distStack = new long[MAXN];
@@ -125,7 +125,7 @@ public class Code02_DiameterAndCommonEdges2 {
 	}
 
 	// maxDistanceExceptDiameter方法改迭代版
-	// 不会改看讲解118，讲了怎么从递归版改成迭代版
+	// 不会改，看讲解118，讲了怎么从递归版改成迭代版
 	public static long maxDistanceExceptDiameter(int root) {
 		stackSize = 0;
 		push(root, 0, -1, 0);
