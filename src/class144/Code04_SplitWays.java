@@ -37,6 +37,8 @@ public class Code04_SplitWays {
 
 	// 正式方法
 	// 转化成杨辉三角形
+	public static final int MOD = 1000000007;
+
 	public static int ways2(int[] arr) {
 		int n = arr.length;
 		int k = arr[0] - 1;
@@ -52,30 +54,30 @@ public class Code04_SplitWays {
 	}
 
 	// 组合公式
-	public static int c(int n, int r) {
-		int mod = 1000000007;
-		long up = 1;
+	public static int c(int n, int k) {
+		long fac = 1;
 		long inv1 = 1;
 		long inv2 = 1;
 		for (int i = 1; i <= n; i++) {
-			up = (up * i) % mod;
-			if (i == r) {
-				inv1 = power(up, mod - 2, mod);
+			fac = (fac * i) % MOD;
+			if (i == k) {
+				inv1 = power(fac, MOD - 2); // 费马小定理求逆元
 			}
-			if (i == n - r) {
-				inv2 = power(up, mod - 2, mod);
+			if (i == n - k) {
+				inv2 = power(fac, MOD - 2); // 费马小定理求逆元
 			}
 		}
-		return (int) ((((up * inv1) % mod) * inv2) % mod);
+		return (int) ((((fac * inv1) % MOD) * inv2) % MOD);
 	}
 
-	public static long power(long x, long p, long mod) {
+	// 乘法快速幂
+	public static long power(long x, long p) {
 		long ans = 1;
 		while (p > 0) {
 			if ((p & 1) == 1) {
-				ans = (ans * x) % mod;
+				ans = (ans * x) % MOD;
 			}
-			x = (x * x) % mod;
+			x = (x * x) % MOD;
 			p >>= 1;
 		}
 		return ans;
@@ -92,19 +94,11 @@ public class Code04_SplitWays {
 
 	// 为了测试
 	public static void main(String[] args) {
-		// 展示一下pascalTriangleModulus的用法
-		System.out.println("打印部分杨辉三角形");
-		for (int n = 0; n <= 10; n++) {
-			for (int r = 0; r <= n; r++) {
-				System.out.print(c(n, r) + " ");
-			}
-			System.out.println();
-		}
+		System.out.println("功能测试开始");
 		int N = 10;
 		int V = 20;
-		int testTimes = 20000;
-		System.out.println("功能测试开始");
-		for (int i = 0; i < testTimes; i++) {
+		int test = 20000;
+		for (int i = 0; i < test; i++) {
 			int n = (int) (Math.random() * N) + 1;
 			int[] arr = randomArray(n, V);
 			int ans1 = ways1(arr);
@@ -115,24 +109,27 @@ public class Code04_SplitWays {
 		}
 		System.out.println("功能测试结束");
 
+		System.out.println("==========");
+
 		System.out.println("性能测试开始");
 		int n = 10000000;
 		int v = 10000000;
 		long start, end;
 		int[] arr = new int[n];
-		System.out.println("随机生成的数据测试 : ");
+		System.out.println("随机生成的数据测试");
 		System.out.println("数组长度 : " + n);
 		System.out.println("数值范围 : [" + 1 + "," + v + "]");
 		for (int i = 0; i < n; i++) {
 			arr[i] = (int) (Math.random() * v) + 1;
 		}
-
 		start = System.currentTimeMillis();
 		ways2(arr);
 		end = System.currentTimeMillis();
 		System.out.println("运行时间 : " + (end - start) + " 毫秒");
 
-		System.out.println("运行最慢的数据测试 : ");
+		System.out.println();
+
+		System.out.println("运行最慢的数据测试");
 		System.out.println("数组长度 : " + n);
 		System.out.println("数值都是 : " + v);
 		System.out.println("这种情况其实是复杂度最高的情况");
