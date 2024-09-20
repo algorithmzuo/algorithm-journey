@@ -20,7 +20,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 
-public class Code02_CombinationNumber {
+public class Code03_CombinationNumber {
 
 	public static int MAXV = 2000;
 

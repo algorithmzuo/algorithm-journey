@@ -1,4 +1,4 @@
-package class144;
+package class145;
 
 // 游戏
 // 测试链接 : https://www.luogu.com.cn/problem/P6478
@@ -12,7 +12,7 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.util.StringTokenizer;
 
-public class Code07_Game {
+public class Code05_Game {
 
 	public static void main(String[] args) throws IOException {
 

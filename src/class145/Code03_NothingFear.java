@@ -1,7 +1,7 @@
-package class144;
+package class145;
 
-// 集合计数
-// 测试链接 : https://www.luogu.com.cn/problem/P10596
+// 已经没有什么好害怕的了
+// 测试链接 : https://www.luogu.com.cn/problem/P4859
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -9,24 +9,29 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StreamTokenizer;
+import java.util.Arrays;
 
-public class Code04_SetCounting {
+public class Code03_NothingFear {
 
-	public static int MAXN = 1000001;
+	public static int MAXN = 2001;
 
-	public static int MOD = 1000000007;
+	public static int MOD = 1000000009;
+
+	public static int n, k;
+
+	public static int[] a = new int[MAXN];
+
+	public static int[] b = new int[MAXN];
 
 	public static long[] fac = new long[MAXN];
 
 	public static long[] inv = new long[MAXN];
 
-	public static long[] g = new long[MAXN];
+	public static long[] near = new long[MAXN];
 
-	public static int n, k;
+	public static long[][] g = new long[MAXN][MAXN];
 
 	public static void build() {
-		// 一般情况下，不用计算0!的余数表和逆元表
-		// 但是这道题需要，所以单独设置一下
 		fac[0] = inv[0] = 1;
 		fac[1] = 1;
 		for (int i = 2; i <= n; i++) {
@@ -55,21 +60,32 @@ public class Code04_SetCounting {
 	}
 
 	public static long compute() {
-		build();
-		long tmp = 2;
-		for (int i = n; i >= k; i--) {
-			g[i] = (tmp + MOD - 1) % MOD;
-			tmp = (tmp * tmp) % MOD;
+		if ((n + k) % 2 != 0) {
+			return 0;
 		}
-		for (int i = n; i >= k; i--) {
-			g[i] = (c(n, i) * g[i]) % MOD;
+		k = (n + k) / 2;
+		build();
+		Arrays.sort(a, 1, n + 1);
+		Arrays.sort(b, 1, n + 1);
+		for (int i = 1, find = 0; i <= n; i++) {
+			while (find + 1 <= n && b[find + 1] < a[i]) {
+				find++;
+			}
+			near[i] = find;
+		}
+		g[0][0] = 1;
+		for (int i = 1; i <= n; i++) {
+			g[i][0] = g[i - 1][0];
+			for (int j = 1; j <= i; j++) {
+				g[i][j] = (g[i - 1][j] + g[i - 1][j - 1] * Math.max(0, near[i] - j + 1) % MOD) % MOD;
+			}
 		}
 		long ans = 0;
 		for (int i = k; i <= n; i++) {
-			if (((i - k) & 1) == 0) {
-				ans = (ans + ((c(i, k) * g[i]) % MOD)) % MOD;
+			if ((i - k) % 2 == 0) {
+				ans = (ans + (c(i, k) * ((fac[n - i] * g[n][i]) % MOD))) % MOD;
 			} else {
-				ans = (ans + (((((long) (MOD - 1) * c(i, k)) % MOD) * g[i]) % MOD)) % MOD;
+				ans = (ans + ((((MOD - 1) * c(i, k)) % MOD) * ((fac[n - i] * g[n][i]) % MOD))) % MOD;
 			}
 		}
 		return ans;
@@ -83,6 +99,14 @@ public class Code04_SetCounting {
 		n = (int) in.nval;
 		in.nextToken();
 		k = (int) in.nval;
+		for (int i = 1; i <= n; i++) {
+			in.nextToken();
+			a[i] = (int) in.nval;
+		}
+		for (int i = 1; i <= n; i++) {
+			in.nextToken();
+			b[i] = (int) in.nval;
+		}
 		out.println(compute());
 		out.flush();
 		out.close();

@@ -16,7 +16,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 
-public class Code01_CalculateCoefficients {
+public class Code02_CalculateCoefficients {
 
 	public static int MAXK = 1001;
 
