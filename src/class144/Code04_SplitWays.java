@@ -16,20 +16,20 @@ public class Code04_SplitWays {
 	// 为了验证
 	public static int ways1(int[] arr) {
 		int ans = 0;
-		for (int a = 1, b = arr[0] - 1; a < arr[0]; a++, b--) {
-			ans += f(arr, 1, a, b);
+		for (int b = 1, c = arr[0] - 1; b < arr[0]; b++, c--) {
+			ans += f(arr, 1, b, c);
 		}
 		return ans;
 	}
 
-	public static int f(int[] arr, int i, int ip, int dp) {
+	public static int f(int[] arr, int i, int preb, int prec) {
 		if (i == arr.length) {
 			return 1;
 		}
 		int ans = 0;
-		for (int a = 1, b = arr[i] - 1; a < arr[i]; a++, b--) {
-			if (ip <= a && dp >= b) {
-				ans += f(arr, i + 1, a, b);
+		for (int b = 1, c = arr[i] - 1; b < arr[i]; b++, c--) {
+			if (preb <= b && prec >= c) {
+				ans += f(arr, i + 1, b, c);
 			}
 		}
 		return ans;
