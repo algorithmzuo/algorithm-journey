@@ -64,23 +64,18 @@ public class Code02_CalculateCoefficients {
 
 	public static long compute() {
 		build();
-		return (((power(a, n) * power(b, m)) % MOD) * c(k, n)) % MOD;
+		return (((power(a, n) * power(b, m)) % MOD) * c(k, k - n)) % MOD;
 	}
 
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StreamTokenizer in = new StreamTokenizer(br);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
-		in.nextToken();
-		a = (int) in.nval;
-		in.nextToken();
-		b = (int) in.nval;
-		in.nextToken();
-		k = (int) in.nval;
-		in.nextToken();
-		n = (int) in.nval;
-		in.nextToken();
-		m = (int) in.nval;
+		in.nextToken(); a = (int) in.nval;
+		in.nextToken(); b = (int) in.nval;
+		in.nextToken(); k = (int) in.nval;
+		in.nextToken(); n = (int) in.nval;
+		in.nextToken(); m = (int) in.nval;
 		out.println(compute());
 		out.flush();
 		out.close();
