@@ -57,9 +57,9 @@ public class Code02_CalculateCoefficients {
 		}
 	}
 
-	// 组合公式，一共all个物品，从中挑选pick个，返回方法数
-	public static long c(int all, int pick) {
-		return (((fac[all] * inv[pick]) % MOD) * inv[all - pick]) % MOD;
+	// 组合公式
+	public static long c(int n, int k) {
+		return (((fac[n] * inv[k]) % MOD) * inv[n - k]) % MOD;
 	}
 
 	public static long compute() {
@@ -71,11 +71,16 @@ public class Code02_CalculateCoefficients {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StreamTokenizer in = new StreamTokenizer(br);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
-		in.nextToken(); a = (int) in.nval;
-		in.nextToken(); b = (int) in.nval;
-		in.nextToken(); k = (int) in.nval;
-		in.nextToken(); n = (int) in.nval;
-		in.nextToken(); m = (int) in.nval;
+		in.nextToken();
+		a = (int) in.nval;
+		in.nextToken();
+		b = (int) in.nval;
+		in.nextToken();
+		k = (int) in.nval;
+		in.nextToken();
+		n = (int) in.nval;
+		in.nextToken();
+		m = (int) in.nval;
 		out.println(compute());
 		out.flush();
 		out.close();

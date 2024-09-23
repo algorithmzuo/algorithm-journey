@@ -50,8 +50,8 @@ public class Code02_SetCounting {
 		return ans;
 	}
 
-	public static long c(int all, int pick) {
-		return (((fac[all] * inv[pick]) % MOD) * inv[all - pick]) % MOD;
+	public static long c(int n, int k) {
+		return (((fac[n] * inv[k]) % MOD) * inv[n - k]) % MOD;
 	}
 
 	public static long compute() {
