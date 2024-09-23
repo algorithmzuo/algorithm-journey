@@ -1,7 +1,10 @@
 package class144;
 
 // 杨辉三角
+// 给定数字n，打印杨辉三角的前n行
+// 1 <= n <= 20
 // 测试链接 : https://www.luogu.com.cn/problem/P5732
+// 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
 import java.io.BufferedReader;
 import java.io.IOException;
