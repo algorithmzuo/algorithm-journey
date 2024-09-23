@@ -35,8 +35,7 @@ public class Code03_CombinationNumber {
 	public static int t, k, n, m;
 
 	public static void build() {
-		c[1][0] = c[1][1] = 1;
-		for (int i = 2; i <= MAXV; i++) {
+		for (int i = 0; i <= MAXV; i++) {
 			c[i][0] = 1;
 			for (int j = 1; j <= i; j++) {
 				c[i][j] = (c[i - 1][j] + c[i - 1][j - 1]) % k;
