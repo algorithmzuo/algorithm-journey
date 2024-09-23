@@ -50,7 +50,7 @@ public class Code04_SplitWays {
 		if (k <= 0) {
 			return 0;
 		}
-		return c(k - 1 + n, n);
+		return c(k + n - 1, n);
 	}
 
 	// 组合公式
