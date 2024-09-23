@@ -28,6 +28,8 @@ public class Code03_CombinationNumber {
 
 	public static int[][] c = new int[MAXN][MAXN];
 
+	public static int[][] f = new int[MAXN][MAXN];
+
 	public static int[][] sum = new int[MAXN][MAXN];
 
 	public static int t, k, n, m;
@@ -40,9 +42,14 @@ public class Code03_CombinationNumber {
 				c[i][j] = (c[i - 1][j] + c[i - 1][j - 1]) % k;
 			}
 		}
+		for (int i = 1; i <= MAXV; i++) {
+			for (int j = 1; j <= i; j++) {
+				f[i][j] = c[i][j] % k == 0 ? 1 : 0;
+			}
+		}
 		for (int i = 2; i <= MAXV; i++) {
 			for (int j = 1; j <= i; j++) {
-				sum[i][j] = sum[i][j - 1] + sum[i - 1][j] - sum[i - 1][j - 1] + (c[i][j] == 0 ? 1 : 0);
+				sum[i][j] = sum[i][j - 1] + sum[i - 1][j] - sum[i - 1][j - 1] + f[i][j];
 			}
 			sum[i][i + 1] = sum[i][i];
 		}
