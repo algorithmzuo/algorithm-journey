@@ -36,7 +36,7 @@ public class Code04_SplitWays {
 	}
 
 	// 正式方法
-	// 转化成杨辉三角形
+	// 转化成杨辉三角
 	public static final int MOD = 1000000007;
 
 	public static int ways2(int[] arr) {
