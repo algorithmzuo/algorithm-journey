@@ -1,7 +1,12 @@
 package class145;
 
 // 集合计数
+// 一共有n个不同的数，能构成2^n个不同集合
+// 在2^n个集合中挑出若干个集合，至少挑一个
+// 希望这若干个集合的交集，正好有k个数
+// 返回挑选集合的方案数，答案对1000000007取余
 // 测试链接 : https://www.luogu.com.cn/problem/P10596
+// 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -69,6 +74,7 @@ public class Code02_SetCounting {
 			if (((i - k) & 1) == 0) {
 				ans = (ans + ((c(i, k) * g[i]) % MOD)) % MOD;
 			} else {
+				// -1 和 (MOD-1) 同余
 				ans = (ans + (((((long) (MOD - 1) * c(i, k)) % MOD) * g[i]) % MOD)) % MOD;
 			}
 		}

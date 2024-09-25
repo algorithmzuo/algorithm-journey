@@ -1,7 +1,13 @@
 package class145;
 
 // 分特产
+// 一共有m种特产，arr[i]表示i种特产有几个
+// 一共有n个同学，每个同学至少要得到一个特产
+// 返回分配特产的方法数
+// 0 <= n、m <= 1000
+// 0 <= arr[i] <= 1000
 // 测试链接 : https://www.luogu.com.cn/problem/P5505
+// 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -20,29 +26,19 @@ public class Code04_DistributeSpecialties {
 
 	public static int[] arr = new int[MAXN];
 
-	public static long[] fac = new long[MAXK];
-
 	public static long[][] c = new long[MAXK][MAXK];
 
 	public static long[] g = new long[MAXN];
 
 	public static int n, k, m;
 
-	public static void build() {
-		fac[0] = 1;
-		for (int i = 1; i <= k; i++) {
-			fac[i] = fac[i - 1] * i % MOD;
-		}
+	public static long compute() {
 		for (int i = 0; i <= k; i++) {
 			c[i][0] = 1;
 			for (int j = 1; j <= i; j++) {
 				c[i][j] = (c[i - 1][j] + c[i - 1][j - 1]) % MOD;
 			}
 		}
-	}
-
-	public static long compute() {
-		build();
 		for (int i = 0; i < n; i++) {
 			g[i] = c[n][i];
 			for (int j = 0; j < m; j++) {
