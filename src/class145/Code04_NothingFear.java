@@ -22,7 +22,7 @@ import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 import java.util.Arrays;
 
-public class Code03_NothingFear {
+public class Code04_NothingFear {
 
 	public static int MAXN = 2001;
 
