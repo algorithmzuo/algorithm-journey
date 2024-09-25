@@ -51,13 +51,13 @@ public class Code01_Derangement {
 			fac *= i;
 		}
 		long ans = fac;
-		long tmp = 1;
+		long f = 1;
 		for (int i = 1; i <= n; i++) {
-			tmp = tmp * i;
+			f = f * i;
 			if ((i & 1) == 0) {
-				ans += fac / tmp;
+				ans += fac / f;
 			} else {
-				ans -= fac / tmp;
+				ans -= fac / f;
 			}
 		}
 		return ans;
