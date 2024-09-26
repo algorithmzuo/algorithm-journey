@@ -61,6 +61,7 @@ public class Code02_SetCounting {
 		build();
 		long tmp = 2;
 		for (int i = n; i >= k; i--) {
+			// -1 和 (MOD-1) 同余
 			g[i] = (tmp + MOD - 1) % MOD;
 			tmp = (tmp * tmp) % MOD;
 		}
