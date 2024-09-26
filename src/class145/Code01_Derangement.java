@@ -47,18 +47,20 @@ public class Code01_Derangement {
 
 	// 二项式反演的方法
 	public static long ways2(int n) {
-		long fac = 1;
+		long facn = 1; // n!
 		for (int i = 1; i <= n; i++) {
-			fac *= i;
+			facn *= i;
 		}
-		long ans = fac;
-		long f = 1;
+		long ans = facn; // i = 0时的项
+		long faci = 1; // i!
 		for (int i = 1; i <= n; i++) {
-			f = f * i;
+			// i = 1...n
+			// (-1)的i次方 * (n! / i!)
+			faci = faci * i;
 			if ((i & 1) == 0) {
-				ans += 1 * (fac / f);
+				ans += facn / faci;
 			} else {
-				ans += -1 * (fac / f);
+				ans -= facn / faci;
 			}
 		}
 		return ans;
