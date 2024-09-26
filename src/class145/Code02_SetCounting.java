@@ -30,8 +30,6 @@ public class Code02_SetCounting {
 	public static int n, k;
 
 	public static void build() {
-		// 一般情况下，不用计算0!的余数表和逆元表
-		// 但是这道题需要，所以单独设置一下
 		fac[0] = inv[0] = 1;
 		fac[1] = 1;
 		for (int i = 2; i <= n; i++) {
