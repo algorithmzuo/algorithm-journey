@@ -72,10 +72,10 @@ public class Code02_SetCounting {
 		long ans = 0;
 		for (int i = k; i <= n; i++) {
 			if (((i - k) & 1) == 0) {
-				ans = (ans + ((c(i, k) * g[i]) % MOD)) % MOD;
+				ans = (ans + c(i, k) * g[i] % MOD) % MOD;
 			} else {
 				// -1 和 (MOD-1) 同余
-				ans = (ans + (((((long) (MOD - 1) * c(i, k)) % MOD) * g[i]) % MOD)) % MOD;
+				ans = (ans + c(i, k) * g[i] % MOD * (MOD - 1) % MOD) % MOD;
 			}
 		}
 		return ans;

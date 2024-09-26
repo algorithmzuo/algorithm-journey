@@ -184,10 +184,11 @@ public class Code05_Game {
 		}
 		for (int i = 0; i <= m; i++) {
 			for (int j = i; j <= m; j++) {
-				if ((j - i) % 2 == 1) {
-					f[i] = (f[i] - c[j][i] * g[j] % MOD + MOD) % MOD;
-				} else {
+				if (((j - i) & 1) == 0) {
 					f[i] = (f[i] + c[j][i] * g[j] % MOD) % MOD;
+				} else {
+					// -1 和 (MOD-1) 同余
+					f[i] = (f[i] + c[j][i] * g[j] % MOD * (MOD - 1) % MOD) % MOD;
 				}
 			}
 		}

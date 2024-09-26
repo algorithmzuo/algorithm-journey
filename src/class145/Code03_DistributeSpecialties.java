@@ -50,7 +50,8 @@ public class Code03_DistributeSpecialties {
 			if ((i & 1) == 0) {
 				ans = (ans + g[i]) % MOD;
 			} else {
-				ans = (ans - g[i] + MOD) % MOD;
+				// -1 和 (MOD-1) 同余
+				ans = (ans + g[i] * (MOD - 1) % MOD) % MOD;
 			}
 		}
 		return ans;

@@ -78,11 +78,11 @@ public class Code04_NothingFear {
 		}
 		long ans = 0;
 		for (int i = k; i <= n; i++) {
-			if ((i - k) % 2 == 0) {
-				ans = (ans + (c[i][k] * ((fac[n - i] * g[n][i]) % MOD))) % MOD;
+			if (((i - k) & 1) == 0) {
+				ans = (ans + c[i][k] * fac[n - i] % MOD * g[n][i] % MOD) % MOD;
 			} else {
 				// -1 和 (MOD-1) 同余
-				ans = (ans + ((((MOD - 1) * c[i][k]) % MOD) * ((fac[n - i] * g[n][i]) % MOD))) % MOD;
+				ans = (ans + c[i][k] * fac[n - i] % MOD * g[n][i] % MOD * (MOD - 1) % MOD) % MOD;
 			}
 		}
 		return ans;
