@@ -30,7 +30,7 @@ public class Code01_Derangement {
 		br.close();
 	}
 
-	// 普通分析的方法
+	// 普通动态规划的方法
 	public static long ways1(int n) {
 		long[] dp = new long[n + 1];
 		for (int i = 1; i <= n; i++) {
@@ -56,9 +56,9 @@ public class Code01_Derangement {
 		for (int i = 1; i <= n; i++) {
 			f = f * i;
 			if ((i & 1) == 0) {
-				ans += fac / f;
+				ans += 1 * (fac / f);
 			} else {
-				ans -= fac / f;
+				ans += -1 * (fac / f);
 			}
 		}
 		return ans;
