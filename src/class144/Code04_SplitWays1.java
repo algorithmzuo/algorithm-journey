@@ -9,8 +9,9 @@ package class144;
 // 1 <= n <= 10^7
 // 1 <= A[i] <= 10^7
 // 最终结果可能很大，对1000000007取余
-// 来自真实大厂笔试题，对数器验证
-public class Code04_SplitWays {
+// 来自真实大厂笔试题，该实现为对数器版本
+// 有同学找到了测试链接，就是Code04_SplitWays2文件
+public class Code04_SplitWays1 {
 
 	// 暴力方法
 	// 为了验证
