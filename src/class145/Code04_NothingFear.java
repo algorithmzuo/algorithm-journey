@@ -38,7 +38,7 @@ public class Code04_NothingFear {
 
 	public static long[][] c = new long[MAXN][MAXN];
 
-	public static long[] near = new long[MAXN];
+	public static long[] small = new long[MAXN];
 
 	public static long[][] dp = new long[MAXN][MAXN];
 
@@ -61,17 +61,17 @@ public class Code04_NothingFear {
 		build();
 		Arrays.sort(a, 1, n + 1);
 		Arrays.sort(b, 1, n + 1);
-		for (int i = 1, find = 0; i <= n; i++) {
-			while (find + 1 <= n && b[find + 1] < a[i]) {
-				find++;
+		for (int i = 1, cnt = 0; i <= n; i++) {
+			while (cnt + 1 <= n && b[cnt + 1] < a[i]) {
+				cnt++;
 			}
-			near[i] = find;
+			small[i] = cnt;
 		}
 		dp[0][0] = 1;
 		for (int i = 1; i <= n; i++) {
 			dp[i][0] = dp[i - 1][0];
 			for (int j = 1; j <= i; j++) {
-				dp[i][j] = (dp[i - 1][j] + dp[i - 1][j - 1] * (near[i] - j + 1) % MOD) % MOD;
+				dp[i][j] = (dp[i - 1][j] + dp[i - 1][j - 1] * (small[i] - j + 1) % MOD) % MOD;
 			}
 		}
 		for (int i = 0; i <= n; i++) {
