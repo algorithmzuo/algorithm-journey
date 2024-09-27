@@ -60,11 +60,11 @@ public class Code02_SetCounting {
 	public static long compute() {
 		build();
 		long tmp = 2;
-		for (int i = n; i >= k; i--) {
+		for (int i = n; i >= 0; i--) {
 			g[i] = tmp;
 			tmp = tmp * tmp % MOD;
 		}
-		for (int i = k; i <= n; i++) {
+		for (int i = 0; i <= n; i++) {
 			// -1 和 (MOD-1) 同余
 			g[i] = (g[i] + MOD - 1) * c(n, i) % MOD;
 		}
