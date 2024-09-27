@@ -39,6 +39,7 @@ public class Code03_DistributeSpecialties {
 				c[i][j] = (c[i - 1][j] + c[i - 1][j - 1]) % MOD;
 			}
 		}
+		// 不需要计算g[n]，因为从含义上来说，不可能
 		for (int i = 0; i < n; i++) {
 			g[i] = c[n][i];
 			for (int j = 0; j < m; j++) {
@@ -46,6 +47,7 @@ public class Code03_DistributeSpecialties {
 			}
 		}
 		long ans = 0;
+		// 不需要包含g[n]，因为无意义
 		for (int i = 0; i < n; i++) {
 			if ((i & 1) == 0) {
 				ans = (ans + g[i]) % MOD;
