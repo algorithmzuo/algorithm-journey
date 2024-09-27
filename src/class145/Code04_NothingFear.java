@@ -28,7 +28,7 @@ public class Code04_NothingFear {
 
 	public static int MOD = 1000000009;
 
-	public static int n, k;
+	public static int n, k, t;
 
 	public static int[] a = new int[MAXN];
 
@@ -59,7 +59,7 @@ public class Code04_NothingFear {
 		if ((n + k) % 2 != 0) {
 			return 0;
 		}
-		k = (n + k) / 2;
+		t = (n + k) / 2;
 		build();
 		Arrays.sort(a, 1, n + 1);
 		Arrays.sort(b, 1, n + 1);
@@ -77,12 +77,12 @@ public class Code04_NothingFear {
 			}
 		}
 		long ans = 0;
-		for (int i = k; i <= n; i++) {
-			if (((i - k) & 1) == 0) {
-				ans = (ans + c[i][k] * fac[n - i] % MOD * g[n][i] % MOD) % MOD;
+		for (int i = t; i <= n; i++) {
+			if (((i - t) & 1) == 0) {
+				ans = (ans + c[i][t] * fac[n - i] % MOD * g[n][i] % MOD) % MOD;
 			} else {
 				// -1 和 (MOD-1) 同余
-				ans = (ans + c[i][k] * fac[n - i] % MOD * g[n][i] % MOD * (MOD - 1) % MOD) % MOD;
+				ans = (ans + c[i][t] * fac[n - i] % MOD * g[n][i] % MOD * (MOD - 1) % MOD) % MOD;
 			}
 		}
 		return ans;
