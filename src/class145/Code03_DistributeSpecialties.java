@@ -41,7 +41,7 @@ public class Code03_DistributeSpecialties {
 		}
 		for (int i = 0; i < n; i++) {
 			g[i] = c[n][i];
-			for (int j = 0; j < m; j++) {
+			for (int j = 1; j <= m; j++) {
 				g[i] = (int) ((g[i] * c[arr[j] + n - i - 1][n - i - 1]) % MOD);
 			}
 		}
@@ -67,7 +67,7 @@ public class Code03_DistributeSpecialties {
 		k = n * 2;
 		in.nextToken();
 		m = (int) in.nval;
-		for (int i = 0; i < m; i++) {
+		for (int i = 1; i <= m; i++) {
 			in.nextToken();
 			arr[i] = (int) in.nval;
 		}
