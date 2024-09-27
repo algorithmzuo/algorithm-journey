@@ -73,7 +73,7 @@ public class Code04_NothingFear {
 		for (int i = 1; i <= n; i++) {
 			g[i][0] = g[i - 1][0];
 			for (int j = 1; j <= i; j++) {
-				g[i][j] = (g[i - 1][j] + g[i - 1][j - 1] * Math.max(0, near[i] - j + 1) % MOD) % MOD;
+				g[i][j] = (g[i - 1][j] + g[i - 1][j - 1] * (near[i] - j + 1) % MOD) % MOD;
 			}
 		}
 		long ans = 0;
