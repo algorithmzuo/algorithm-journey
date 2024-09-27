@@ -28,7 +28,7 @@ public class Code04_NothingFear {
 
 	public static int MOD = 1000000009;
 
-	public static int n, k, t;
+	public static int n, k;
 
 	public static int[] a = new int[MAXN];
 
@@ -40,7 +40,9 @@ public class Code04_NothingFear {
 
 	public static long[] near = new long[MAXN];
 
-	public static long[][] g = new long[MAXN][MAXN];
+	public static long[][] dp = new long[MAXN][MAXN];
+
+	public static long[] g = new long[MAXN];
 
 	public static void build() {
 		fac[0] = 1;
@@ -56,10 +58,6 @@ public class Code04_NothingFear {
 	}
 
 	public static long compute() {
-		if ((n + k) % 2 != 0) {
-			return 0;
-		}
-		t = (n + k) / 2;
 		build();
 		Arrays.sort(a, 1, n + 1);
 		Arrays.sort(b, 1, n + 1);
@@ -69,20 +67,23 @@ public class Code04_NothingFear {
 			}
 			near[i] = find;
 		}
-		g[0][0] = 1;
+		dp[0][0] = 1;
 		for (int i = 1; i <= n; i++) {
-			g[i][0] = g[i - 1][0];
+			dp[i][0] = dp[i - 1][0];
 			for (int j = 1; j <= i; j++) {
-				g[i][j] = (g[i - 1][j] + g[i - 1][j - 1] * (near[i] - j + 1) % MOD) % MOD;
+				dp[i][j] = (dp[i - 1][j] + dp[i - 1][j - 1] * (near[i] - j + 1) % MOD) % MOD;
 			}
 		}
+		for (int i = 0; i <= n; i++) {
+			g[i] = fac[n - i] * dp[n][i] % MOD;
+		}
 		long ans = 0;
-		for (int i = t; i <= n; i++) {
-			if (((i - t) & 1) == 0) {
-				ans = (ans + c[i][t] * fac[n - i] % MOD * g[n][i] % MOD) % MOD;
+		for (int i = k; i <= n; i++) {
+			if (((i - k) & 1) == 0) {
+				ans = (ans + c[i][k] * g[i] % MOD) % MOD;
 			} else {
 				// -1 和 (MOD-1) 同余
-				ans = (ans + c[i][t] * fac[n - i] % MOD * g[n][i] % MOD * (MOD - 1) % MOD) % MOD;
+				ans = (ans + c[i][k] * g[i] % MOD * (MOD - 1) % MOD) % MOD;
 			}
 		}
 		return ans;
@@ -104,7 +105,12 @@ public class Code04_NothingFear {
 			in.nextToken();
 			b[i] = (int) in.nval;
 		}
-		out.println(compute());
+		if ((n + k) % 2 != 0) {
+			out.println(0);
+		} else {
+			k = (n + k) / 2;
+			out.println(compute());
+		}
 		out.flush();
 		out.close();
 		br.close();
