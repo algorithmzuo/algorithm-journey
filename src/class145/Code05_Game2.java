@@ -1,6 +1,6 @@
 package class145;
 
-// 游戏
+// 游戏(迭代版)
 // 一共有n个节点，n <= 5000，n为偶数，其中有m个点属于小A，有m个点属于小B，m为n的一半
 // 给定n-1条边，节点之间组成一颗树，1号节点是根节点
 // 给定长度为n的数组arr，arr[i]的值表示i号节点由谁拥有，0为小A拥有，1为小B拥有
@@ -21,7 +21,7 @@ import java.io.PrintWriter;
 import java.util.Arrays;
 import java.util.StringTokenizer;
 
-public class Code05_Game {
+public class Code05_Game2 {
 
 	public static final int MAXN = 5001;
 
@@ -80,34 +80,6 @@ public class Code05_Game {
 		head[u] = cnt++;
 	}
 
-	// 递归版
-	public static void dfs1(int u, int fa) {
-		size[u] = 1;
-		belong[u][arr[u]] = 1;
-		dp[u][0] = 1;
-		for (int e = head[u], v; e > 0; e = next[e]) {
-			v = to[e];
-			if (v != fa) {
-				dfs1(v, u);
-				Arrays.fill(tmp, 0, Math.min(size[u] + size[v], m) + 1, 0);
-				for (int i = 0; i <= Math.min(size[u], m); i++) {
-					for (int j = 0; j <= Math.min(size[v], m - i); j++) {
-						tmp[i + j] = (tmp[i + j] + dp[u][i] * dp[v][j] % MOD) % MOD;
-					}
-				}
-				size[u] += size[v];
-				belong[u][0] += belong[v][0];
-				belong[u][1] += belong[v][1];
-				for (int i = 0; i <= Math.min(size[u], m); i++) {
-					dp[u][i] = tmp[i];
-				}
-			}
-		}
-		for (int i = belong[u][arr[u] ^ 1]; i >= 0; i--) {
-			dp[u][i + 1] = (dp[u][i + 1] + dp[u][i] * (belong[u][arr[u] ^ 1] - i) % MOD) % MOD;
-		}
-	}
-
 	// 迭代版
 	// ufe是为了实现迭代版而准备的栈
 	// 不会改，看讲解118，讲了怎么从递归版改成迭代版
@@ -130,7 +102,7 @@ public class Code05_Game {
 	}
 
 	// 迭代版
-	public static void dfs2(int root) {
+	public static void dfs(int root) {
 		stackSize = 0;
 		push(root, 0, -1);
 		int v;
@@ -175,8 +147,7 @@ public class Code05_Game {
 	}
 
 	public static void compute() {
-		// dfs1(1, 0); // 递归版
-		dfs2(1); // 迭代版
+		dfs(1); // dfs是非递归函数
 		for (int i = 0; i <= m; i++) {
 			g[i] = dp[1][i] * fac[m - i] % MOD;
 		}
