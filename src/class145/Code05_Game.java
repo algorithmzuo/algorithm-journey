@@ -30,10 +30,8 @@ public class Code05_Game {
 
 	public static int[] arr = new int[MAXN];
 
-	// 阶乘表
 	public static long[] fac = new long[MAXN];
 
-	// 组合结果表
 	public static long[][] c = new long[MAXN][MAXN];
 
 	// 链式前向星需要
@@ -57,6 +55,7 @@ public class Code05_Game {
 	// 反演需要
 	public static long[] g = new long[MAXN];
 
+	// 最后答案
 	public static long[] f = new long[MAXN];
 
 	public static int n, m;
