@@ -106,11 +106,11 @@ public class Code04_NothingFear {
 			in.nextToken();
 			b[i] = (int) in.nval;
 		}
-		if ((n + k) % 2 != 0) {
-			out.println(0);
-		} else {
+		if (((n + k) & 1) == 0) {
 			k = (n + k) / 2;
 			out.println(compute());
+		} else {
+			out.println(0);
 		}
 		out.flush();
 		out.close();
