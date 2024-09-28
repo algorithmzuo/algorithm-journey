@@ -208,8 +208,8 @@ public class Code05_Game {
 			addEdge(v, u);
 		}
 		compute();
-		for (int i = 0; i <= m; i++) {
-			io.println(f[i]);
+		for (int k = 0; k <= m; k++) {
+			io.println(f[k]);
 		}
 		io.flush();
 		io.close();
