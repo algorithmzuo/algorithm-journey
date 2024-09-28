@@ -147,7 +147,7 @@ public class Code05_Game2 {
 	}
 
 	public static void compute() {
-		dfs(1); // dfs是非递归函数
+		dfs(1); // dfs是迭代版
 		for (int i = 0; i <= m; i++) {
 			g[i] = dp[1][i] * fac[m - i] % MOD;
 		}
