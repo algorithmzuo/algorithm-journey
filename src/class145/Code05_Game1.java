@@ -10,7 +10,7 @@ package class145;
 // 两场游戏视为不同的定义：当且仅当存在小A拥有的点x，小B在小A选择x的那个回合所选择的点不同
 // 测试链接 : https://www.luogu.com.cn/problem/P6478
 // 提交以下的code，提交时请把类名改成"Main"，注意dfs是递归函数
-// 使用C++的同学这么写可以通过所有测试用例，使用java的同学有时可以全部通过，有时会爆栈
+// 使用C++的同学可以可以全部通过，java的同学有时可以全部通过，有时因为递归展开太深而爆栈
 // dfs从递归版改迭代版的实现，请看Code05_Game2文件
 
 import java.io.BufferedReader;
