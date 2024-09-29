@@ -26,6 +26,8 @@ public class Code05_Game2 {
 
 	public static final int MOD = 998244353;
 
+	public static int n, m;
+
 	public static int[] arr = new int[MAXN];
 
 	public static long[] fac = new long[MAXN];
@@ -55,8 +57,6 @@ public class Code05_Game2 {
 
 	// 最后答案
 	public static long[] f = new long[MAXN];
-
-	public static int n, m;
 
 	public static void build() {
 		cnt = 1;
