@@ -105,7 +105,7 @@ public class Code05_Game2 {
 	public static void dfs(int root) {
 		stackSize = 0;
 		push(root, 0, -1);
-		int v;
+		int v, oppCnt;
 		while (stackSize > 0) {
 			pop();
 			if (e == -1) { // 第一次来到当前节点，设置初始值
@@ -118,6 +118,7 @@ public class Code05_Game2 {
 				if (v != fa) {
 					// 之前的孩子，dfs过程计算完了，所以用之前孩子的信息，更新当前节点的信息
 					Arrays.fill(tmp, 0, Math.min(size[u] + size[v], m) + 1, 0);
+					// 树型dp的枚举行为利用子树的节点数做上限进行复杂度优化
 					for (int i = 0; i <= Math.min(size[u], m); i++) {
 						for (int j = 0; j <= Math.min(size[v], m - i); j++) {
 							tmp[i + j] = (tmp[i + j] + dp[u][i] * dp[v][j] % MOD) % MOD;
@@ -139,8 +140,15 @@ public class Code05_Game2 {
 					push(to[e], u, -1);
 				}
 			} else { // 没有后续子节点，做最后的收尾工作
-				for (int i = belong[u][arr[u] ^ 1]; i >= 0; i--) {
-					dp[u][i + 1] = (dp[u][i + 1] + dp[u][i] * (belong[u][arr[u] ^ 1] - i) % MOD) % MOD;
+				// u为头的子树中，对手有几个节点
+				oppCnt = belong[u][arr[u] ^ 1];
+				// 先把不包含头节点的方法数，拷贝到tmp
+				for (int i = 1; i <= Math.min(m, oppCnt); i++) {
+					tmp[i] = dp[u][i];
+				}
+				// 然后计算包含头节点的方法数，累加上
+				for (int i = 1; i <= Math.min(m, oppCnt); i++) {
+					dp[u][i] = (dp[u][i] + tmp[i - 1] * (oppCnt - i + 1) % MOD) % MOD;
 				}
 			}
 		}

@@ -90,6 +90,7 @@ public class Code05_Game1 {
 			if (v != fa) {
 				dfs(v, u);
 				Arrays.fill(tmp, 0, Math.min(size[u] + size[v], m) + 1, 0);
+				// 树型dp的枚举行为利用子树的节点数做上限进行复杂度优化
 				for (int i = 0; i <= Math.min(size[u], m); i++) {
 					for (int j = 0; j <= Math.min(size[v], m - i); j++) {
 						tmp[i + j] = (tmp[i + j] + dp[u][i] * dp[v][j] % MOD) % MOD;
@@ -103,8 +104,15 @@ public class Code05_Game1 {
 				}
 			}
 		}
-		for (int i = belong[u][arr[u] ^ 1]; i >= 0; i--) {
-			dp[u][i + 1] = (dp[u][i + 1] + dp[u][i] * (belong[u][arr[u] ^ 1] - i) % MOD) % MOD;
+		// u为头的子树中，对手有几个节点
+		int oppCnt = belong[u][arr[u] ^ 1];
+		// 先把不包含头节点的方法数，拷贝到tmp
+		for (int i = 1; i <= Math.min(m, oppCnt); i++) {
+			tmp[i] = dp[u][i];
+		}
+		// 然后计算包含头节点的方法数，累加上
+		for (int i = 1; i <= Math.min(m, oppCnt); i++) {
+			dp[u][i] = (dp[u][i] + tmp[i - 1] * (oppCnt - i + 1) % MOD) % MOD;
 		}
 	}
 
