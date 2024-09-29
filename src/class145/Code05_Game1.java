@@ -50,7 +50,7 @@ public class Code05_Game1 {
 
 	public static long[][] dp = new long[MAXN][MAXN];
 
-	public static long[] tmp = new long[MAXN];
+	public static long[] backup = new long[MAXN];
 
 	// 反演需要
 	public static long[] g = new long[MAXN];
@@ -91,15 +91,15 @@ public class Code05_Game1 {
 			v = to[e];
 			if (v != fa) {
 				dfs(v, u);
-				// 之前所有子树结合的计算结果，拷贝进tmp
+				// 之前所有子树结合的计算结果，拷贝进backup
 				for (int i = 0; i <= Math.min(size[u], m); i++) {
-					tmp[i] = dp[u][i];
+					backup[i] = dp[u][i];
 					dp[u][i] = 0;
 				}
 				// 树型dp的枚举行为利用子树的节点数做上限进行复杂度优化
 				for (int l = 0; l <= Math.min(size[u], m); l++) {
 					for (int r = 0; r <= Math.min(size[v], m - l); r++) {
-						dp[u][l + r] = (dp[u][l + r] + tmp[l] * dp[v][r] % MOD) % MOD;
+						dp[u][l + r] = (dp[u][l + r] + backup[l] * dp[v][r] % MOD) % MOD;
 					}
 				}
 				size[u] += size[v];
@@ -110,13 +110,13 @@ public class Code05_Game1 {
 		// 最后计算包含头节点的方法数
 		// u为头的子树中，对手有几个节点
 		int oppCnt = belong[u][arr[u] ^ 1];
-		// 先把不包含头节点的方法数，拷贝到tmp
+		// 先把不包含头节点的方法数，拷贝到backup
 		for (int i = 1; i <= Math.min(oppCnt, m); i++) {
-			tmp[i] = dp[u][i];
+			backup[i] = dp[u][i];
 		}
 		// 然后计算包含头节点的方法数，累加上
 		for (int i = 1; i <= Math.min(oppCnt, m); i++) {
-			dp[u][i] = (dp[u][i] + tmp[i - 1] * (oppCnt - i + 1) % MOD) % MOD;
+			dp[u][i] = (dp[u][i] + backup[i - 1] * (oppCnt - i + 1) % MOD) % MOD;
 		}
 	}
 

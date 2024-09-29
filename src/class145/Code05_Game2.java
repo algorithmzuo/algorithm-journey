@@ -48,7 +48,7 @@ public class Code05_Game2 {
 
 	public static long[][] dp = new long[MAXN][MAXN];
 
-	public static long[] tmp = new long[MAXN];
+	public static long[] backup = new long[MAXN];
 
 	// 反演需要
 	public static long[] g = new long[MAXN];
@@ -116,12 +116,12 @@ public class Code05_Game2 {
 				v = to[e];
 				if (v != fa) { // 之前的孩子，dfs过程计算完了，所以用之前孩子的信息，更新当前节点的信息
 					for (int i = 0; i <= Math.min(size[u], m); i++) {
-						tmp[i] = dp[u][i];
+						backup[i] = dp[u][i];
 						dp[u][i] = 0;
 					}
 					for (int l = 0; l <= Math.min(size[u], m); l++) {
 						for (int r = 0; r <= Math.min(size[v], m - l); r++) {
-							dp[u][l + r] = (dp[u][l + r] + tmp[l] * dp[v][r] % MOD) % MOD;
+							dp[u][l + r] = (dp[u][l + r] + backup[l] * dp[v][r] % MOD) % MOD;
 						}
 					}
 					size[u] += size[v];
@@ -139,10 +139,10 @@ public class Code05_Game2 {
 			} else { // 没有后续子树，最后计算包含头节点的方法数
 				oppCnt = belong[u][arr[u] ^ 1];
 				for (int i = 1; i <= Math.min(oppCnt, m); i++) {
-					tmp[i] = dp[u][i];
+					backup[i] = dp[u][i];
 				}
 				for (int i = 1; i <= Math.min(oppCnt, m); i++) {
-					dp[u][i] = (dp[u][i] + tmp[i - 1] * (oppCnt - i + 1) % MOD) % MOD;
+					dp[u][i] = (dp[u][i] + backup[i - 1] * (oppCnt - i + 1) % MOD) % MOD;
 				}
 			}
 		}
