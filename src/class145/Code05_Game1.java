@@ -110,11 +110,11 @@ public class Code05_Game1 {
 		// 最后计算包含头节点的方法数
 		// u为头的子树中，对手有几个节点
 		int oppCnt = belong[u][arr[u] ^ 1];
-		// 先把不包含头节点的方法数，拷贝到backup
+		// 不包含头节点的方法数，拷贝到backup
 		for (int i = 1; i <= Math.min(oppCnt, m); i++) {
 			backup[i] = dp[u][i];
 		}
-		// 然后计算包含头节点的方法数，累加上
+		// 计算包含头节点的方法数，累加上
 		for (int i = 1; i <= Math.min(oppCnt, m); i++) {
 			dp[u][i] = (dp[u][i] + backup[i - 1] * (oppCnt - i + 1) % MOD) % MOD;
 		}
