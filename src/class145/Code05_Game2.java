@@ -104,7 +104,7 @@ public class Code05_Game2 {
 	public static void dfs(int root) {
 		stackSize = 0;
 		push(root, 0, -1);
-		int v, oppCnt;
+		int v, num;
 		while (stackSize > 0) {
 			pop();
 			if (e == -1) { // 第一次来到当前节点，设置初始值
@@ -137,12 +137,12 @@ public class Code05_Game2 {
 					push(to[e], u, -1);
 				}
 			} else { // 没有后续子树，最后计算包含头节点的方法数
-				oppCnt = belong[u][arr[u] ^ 1];
-				for (int i = 1; i <= Math.min(oppCnt, m); i++) {
+				num = belong[u][arr[u] ^ 1];
+				for (int i = 1; i <= Math.min(num, m); i++) {
 					backup[i] = dp[u][i];
 				}
-				for (int i = 1; i <= Math.min(oppCnt, m); i++) {
-					dp[u][i] = (dp[u][i] + backup[i - 1] * (oppCnt - i + 1) % MOD) % MOD;
+				for (int i = 1; i <= Math.min(num, m); i++) {
+					dp[u][i] = (dp[u][i] + backup[i - 1] * (num - i + 1) % MOD) % MOD;
 				}
 			}
 		}
