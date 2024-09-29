@@ -92,13 +92,13 @@ public class Code05_Game1 {
 			if (v != fa) {
 				dfs(v, u);
 				// 之前所有子树结合的计算结果，拷贝进backup
-				for (int i = 0; i <= Math.min(size[u], m); i++) {
+				for (int i = 0; i <= Math.min(size[u] / 2, m); i++) {
 					backup[i] = dp[u][i];
 					dp[u][i] = 0;
 				}
 				// 树型dp的枚举行为利用子树的节点数做上限进行复杂度优化
-				for (int l = 0; l <= Math.min(size[u], m); l++) {
-					for (int r = 0; r <= Math.min(size[v], m - l); r++) {
+				for (int l = 0; l <= Math.min(size[u] / 2, m); l++) {
+					for (int r = 0; r <= Math.min(size[v] / 2, m - l); r++) {
 						dp[u][l + r] = (dp[u][l + r] + backup[l] * dp[v][r] % MOD) % MOD;
 					}
 				}

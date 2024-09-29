@@ -115,12 +115,12 @@ public class Code05_Game2 {
 			} else { // 不是第一次来到当前节点
 				v = to[e];
 				if (v != fa) { // 之前的孩子，dfs过程计算完了，所以用之前孩子的信息，更新当前节点的信息
-					for (int i = 0; i <= Math.min(size[u], m); i++) {
+					for (int i = 0; i <= Math.min(size[u] / 2, m); i++) {
 						backup[i] = dp[u][i];
 						dp[u][i] = 0;
 					}
-					for (int l = 0; l <= Math.min(size[u], m); l++) {
-						for (int r = 0; r <= Math.min(size[v], m - l); r++) {
+					for (int l = 0; l <= Math.min(size[u] / 2, m); l++) {
+						for (int r = 0; r <= Math.min(size[v] / 2, m - l); r++) {
 							dp[u][l + r] = (dp[u][l + r] + backup[l] * dp[v][r] % MOD) % MOD;
 						}
 					}
