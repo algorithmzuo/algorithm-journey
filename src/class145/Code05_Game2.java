@@ -116,6 +116,8 @@ public class Code05_Game2 {
 			} else { // 不是第一次来到当前节点
 				v = to[e];
 				if (v != fa) { // 之前的孩子，dfs过程计算完了，所以用之前孩子的信息，更新当前节点的信息
+					// 不包含头节点的方法数，dp[u][..]可以倒推更新，但为了好理解，采用正推更新
+					// tmp数组清空
 					Arrays.fill(tmp, 0, Math.min(size[u] + size[v], m) + 1, 0);
 					// 树型dp的枚举行为利用子树的节点数做上限进行复杂度优化
 					for (int i = 0; i <= Math.min(size[u], m); i++) {
@@ -123,6 +125,7 @@ public class Code05_Game2 {
 							tmp[i + j] = (tmp[i + j] + dp[u][i] * dp[v][j] % MOD) % MOD;
 						}
 					}
+					// 更新当前节点的信息
 					size[u] += size[v];
 					belong[u][0] += belong[v][0];
 					belong[u][1] += belong[v][1];
@@ -139,6 +142,7 @@ public class Code05_Game2 {
 					push(to[e], u, -1);
 				}
 			} else { // 没有后续子节点，做最后的收尾工作
+				// 包含头节点的方法数，dp[u][..]可以倒推更新，但为了好理解，采用正推更新
 				// u为头的子树中，对手有几个节点
 				oppCnt = belong[u][arr[u] ^ 1];
 				// 先把不包含头节点的方法数，拷贝到tmp
