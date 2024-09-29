@@ -115,8 +115,7 @@ public class Code05_Game2 {
 				e = head[u];
 			} else { // 不是第一次来到当前节点
 				v = to[e];
-				if (v != fa) {
-					// 之前的孩子，dfs过程计算完了，所以用之前孩子的信息，更新当前节点的信息
+				if (v != fa) { // 之前的孩子，dfs过程计算完了，所以用之前孩子的信息，更新当前节点的信息
 					Arrays.fill(tmp, 0, Math.min(size[u] + size[v], m) + 1, 0);
 					// 树型dp的枚举行为利用子树的节点数做上限进行复杂度优化
 					for (int i = 0; i <= Math.min(size[u], m); i++) {
@@ -131,7 +130,7 @@ public class Code05_Game2 {
 						dp[u][i] = tmp[i];
 					}
 				}
-				// 去往下一个孩子
+				// 来到去往下一个孩子的边
 				e = next[e];
 			}
 			if (e != 0) { // 还有后续子节点
