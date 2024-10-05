@@ -118,4 +118,27 @@ public class Code02_MaxCover {
 		return ans;
 	}
 
+	// 上面的leetcode题目是会员题，需要付费
+	// 如果不想开通leetcode会员，还有一个类似的题，但是注意题意，和课上讲的有细微差别
+	// 课上讲的题目，认为[1,4]、[4、5]可以严丝合缝接在一起，不算有重合
+	// 但是如下链接的题目，认为[1,4]、[4、5]有重合部分，也就是4
+	// 除此之外再无差别
+	// 测试链接 : https://leetcode.cn/problems/divide-intervals-into-minimum-number-of-groups/
+	// 提交如下代码可以直接通过
+	public static int minGroups(int[][] meeting) {
+		int n = meeting.length;
+		Arrays.sort(meeting, (a, b) -> a[0] - b[0]);
+		PriorityQueue<Integer> heap = new PriorityQueue<>();
+		int ans = 0;
+		for (int i = 0; i < n; i++) {
+			// 注意这里的判断
+			while (!heap.isEmpty() && heap.peek() < meeting[i][0]) {
+				heap.poll();
+			}
+			heap.add(meeting[i][1]);
+			ans = Math.max(ans, heap.size());
+		}
+		return ans;
+	}
+
 }
