@@ -4,8 +4,8 @@ package class146;
 // 来自真实大厂笔试，对数器验证
 public class Code03_JosephFollowUp {
 
-	// 为了测试
 	// 暴力模拟
+	// 为了测试
 	public static int joseph1(int n, int[] arr) {
 		if (n == 1) {
 			return 1;
@@ -27,7 +27,8 @@ public class Code03_JosephFollowUp {
 		return cur;
 	}
 
-	// 正式方法，时间复杂度O(n)
+	// 正式方法
+	// 时间复杂度O(n)
 	public static int joseph2(int n, int[] arr) {
 		if (n == 1) {
 			return 1;
@@ -41,7 +42,6 @@ public class Code03_JosephFollowUp {
 
 	// 随机生成每轮报数
 	// 为了测试
-	// 如果一共有n个数，那么一共有n-1轮，用arr[1..n-1]表示
 	public static int[] randomArray(int n, int v) {
 		int[] arr = new int[n];
 		for (int i = 1; i < n; i++) {
