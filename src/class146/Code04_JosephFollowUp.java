@@ -2,7 +2,7 @@ package class146;
 
 // 约瑟夫环问题加强
 // 来自真实大厂笔试，对数器验证
-public class Code03_JosephFollowUp {
+public class Code04_JosephFollowUp {
 
 	// 暴力模拟
 	// 为了测试
