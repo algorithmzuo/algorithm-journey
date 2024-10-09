@@ -1,7 +1,7 @@
 package class146;
 
 // 逆康托展开
-// 测试链接 : https://www.luogu.com.cn/problem/UVA11525
+// 测试链接 : https://www.luogu.com.cn/problem/U72177
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
 import java.io.BufferedReader;
@@ -13,13 +13,15 @@ import java.io.StreamTokenizer;
 
 public class Code02_InverseCantorExpansion {
 
-	public static int MAXN = 50001;
+	public static int MAXN = 100001;
 
-	public static int[] arr = new int[MAXN];
+	public static long[] arr = new long[MAXN];
 
 	public static int[] sum = new int[MAXN << 2];
 
 	public static int n;
+
+	public static long m;
 
 	public static void build(int l, int r, int i) {
 		if (l == r) {
@@ -46,6 +48,21 @@ public class Code02_InverseCantorExpansion {
 		}
 	}
 
+	public static int sum(int jobl, int jobr, int l, int r, int i) {
+		if (jobl <= l && r <= jobr) {
+			return sum[i];
+		}
+		int mid = (l + r) >> 1;
+		int ans = 0;
+		if (jobl <= mid) {
+			ans += sum(jobl, jobr, l, mid, i << 1);
+		}
+		if (jobr > mid) {
+			ans += sum(jobl, jobr, mid + 1, r, i << 1 | 1);
+		}
+		return ans;
+	}
+
 	public static int get(int k, int l, int r, int i) {
 		int ans;
 		if (l == r) {
@@ -63,9 +80,24 @@ public class Code02_InverseCantorExpansion {
 
 	public static void compute() {
 		build(1, n, 1);
+		for (int i = 1, x; i <= n; i++) {
+			x = (int) arr[i];
+			if (x == 1) {
+				arr[i] = 0;
+			} else {
+				arr[i] = sum(1, x - 1, 1, n, 1);
+			}
+			add(x, -1, 1, n, 1);
+		}
+		arr[n] += m;
+		for (int i = n; i >= 1; i--) {
+			arr[i - 1] += arr[i] / (n - i + 1);
+			arr[i] %= n - i + 1;
+		}
+		build(1, n, 1);
 		for (int i = 1; i <= n; i++) {
-			arr[i] = get(arr[i] + 1, 1, n, 1);
-			add(arr[i], -1, 1, n, 1);
+			arr[i] = get((int) arr[i] + 1, 1, n, 1);
+			add((int) arr[i], -1, 1, n, 1);
 		}
 	}
 
@@ -74,20 +106,16 @@ public class Code02_InverseCantorExpansion {
 		StreamTokenizer in = new StreamTokenizer(br);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
 		in.nextToken();
-		int cases = (int) in.nval;
-		for (int t = 1; t <= cases; t++) {
+		n = (int) in.nval;
+		in.nextToken();
+		m = (long) in.nval;
+		for (int i = 1; i <= n; i++) {
 			in.nextToken();
-			n = (int) in.nval;
-			for (int i = 1; i <= n; i++) {
-				in.nextToken();
-				arr[i] = (int) in.nval;
-			}
-			compute();
-			out.print(arr[1]);
-			for (int i = 2; i <= n; i++) {
-				out.print(" " + arr[i]);
-			}
-			out.println();
+			arr[i] = (int) in.nval;
+		}
+		compute();
+		for (int i = 1; i <= n; i++) {
+			out.print(arr[i] + " ");
 		}
 		out.flush();
 		out.close();
