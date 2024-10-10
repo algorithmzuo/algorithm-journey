@@ -20,8 +20,8 @@ public class Code06_WiggleSortII {
 	}
 
 	// 随机选择算法，不会去看讲解024
-	// 无序数组中找到第i小的数x，顺便把数组调整为
-	// 小于x的部分 等于x的部分 大于x的部分
+	// 无序数组中找到，如果排序之后，在i位置的数x，顺便把数组调整为
+	// 左边是小于x的部分    中间是等于x的部分    右边是大于x的部分
 	// 时间复杂度O(n), 额外空间复杂度O(1)
 	public static int randomizedSelect(int[] arr, int n, int i) {
 		int ans = 0;
