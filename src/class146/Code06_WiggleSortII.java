@@ -1,6 +1,6 @@
 package class146;
 
-// 摇摆排序ii(进阶要求)
+// 摇摆排序ii(满足进阶要求)
 // 给定一个数组arr，重新排列数组，确保满足：arr[0] < arr[1] > arr[2] < arr[3] > ...
 // 题目保证输入的数组一定有解，要求时间复杂度O(n)，额外空间复杂度O(1)
 // 测试链接 : https://leetcode.cn/problems/wiggle-sort-ii/
