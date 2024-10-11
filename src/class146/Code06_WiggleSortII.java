@@ -11,11 +11,11 @@ public class Code06_WiggleSortII {
 	public static void wiggleSort(int[] arr) {
 		int n = arr.length;
 		randomizedSelect(arr, n, n / 2);
-		if ((n & 1) == 0) {
+		if ((n & 1) == 1) {
+			shuffle(arr, 1, n - 1);
+		} else {
 			shuffle(arr, 0, n - 1);
 			reverse(arr, 0, n - 1);
-		} else {
-			shuffle(arr, 1, n - 1);
 		}
 	}
 
