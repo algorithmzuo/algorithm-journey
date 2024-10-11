@@ -5,8 +5,7 @@ package class146;
 // 求出这个排列的排名假设为x，返回第x+m名的排列是什么
 // 1 <= n <= 10^5
 // 1 <= m <= 10^15
-// 题目保证s是一个由1~n数字组成的正确排列
-// 题目保证x+m不会超过排列的总数
+// 题目保证s是一个由1~n数字组成的正确排列，题目保证x+m不会超过排列的总数
 // 测试链接 : https://www.luogu.com.cn/problem/U72177
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
@@ -23,6 +22,7 @@ public class Code02_InverseCantorExpansion {
 
 	public static long[] arr = new long[MAXN];
 
+	// 线段树
 	public static int[] sum = new int[MAXN << 2];
 
 	public static int n;
