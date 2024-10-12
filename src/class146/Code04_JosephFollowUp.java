@@ -8,7 +8,6 @@ package class146;
 // 然后下一个节点从数字1开始重新报数，游戏进入第i+1轮
 // 最终环上会剩下一个节点, 返回该节点的编号
 // 1 <= n, arr[i] <= 10^6
-// 测试链接 : https://www.luogu.com.cn/problem/P8671
 // 来自真实大厂笔试，对数器验证
 public class Code04_JosephFollowUp {
 
