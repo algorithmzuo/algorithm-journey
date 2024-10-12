@@ -51,7 +51,7 @@ public class Code01_CantorExpansion {
 
 	public static long compute() {
 		fac[0] = 1;
-		for (int i = 1; i <= n; i++) {
+		for (int i = 1; i < n; i++) {
 			fac[i] = (int) ((long) fac[i - 1] * i % MOD);
 		}
 		for (int i = 1; i <= n; i++) {
@@ -62,6 +62,7 @@ public class Code01_CantorExpansion {
 			ans = (ans + (long) sum(arr[i] - 1) * fac[n - i] % MOD) % MOD;
 			add(arr[i], -1);
 		}
+		// 求的排名从0开始，但是题目要求从1开始，所以最后+1再返回
 		ans = (ans + 1) % MOD;
 		return ans;
 	}
