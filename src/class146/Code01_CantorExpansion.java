@@ -49,7 +49,7 @@ public class Code01_CantorExpansion {
 		}
 	}
 
-	public static int compute() {
+	public static long compute() {
 		fac[0] = 1;
 		for (int i = 1; i <= n; i++) {
 			fac[i] = (int) ((long) fac[i - 1] * i % MOD);
@@ -63,7 +63,7 @@ public class Code01_CantorExpansion {
 			add(arr[i], -1);
 		}
 		ans = (ans + 1) % MOD;
-		return (int) ans;
+		return ans;
 	}
 
 	public static void main(String[] args) throws IOException {
