@@ -76,24 +76,23 @@ public class Code05_PerfectShuffle {
 	}
 
 	public static void circle(int[] arr, int l, int r, int i) {
-		int m = (l + r) / 2;
 		for (int j = 1, init, cur, next, curv, nextv; j <= i; j++) {
 			init = cur = l + start[j] - 1;
-			next = to(cur, l, m, r);
+			next = to(cur, l, r);
 			curv = arr[cur];
 			while (next != init) {
 				nextv = arr[next];
 				arr[next] = curv;
 				curv = nextv;
 				cur = next;
-				next = to(cur, l, m, r);
+				next = to(cur, l, r);
 			}
 			arr[init] = curv;
 		}
 	}
 
-	public static int to(int i, int l, int m, int r) {
-		if (i <= m) {
+	public static int to(int i, int l, int r) {
+		if (i <= (l + r) >> 1) {
 			return i + (i - l + 1);
 		} else {
 			return i - (r - i + 1);
