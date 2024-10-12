@@ -29,6 +29,7 @@ public class Code02_InverseCantorExpansion {
 
 	public static long m;
 
+	// 初始化线段树，单点范围的初始累加和为1，认为所有数字都可用
 	public static void build(int l, int r, int i) {
 		if (l == r) {
 			sum[i] = 1;
@@ -40,6 +41,7 @@ public class Code02_InverseCantorExpansion {
 		}
 	}
 
+	// 单点jobi上，增加jobv，因为是单点更新，所以不需要建立懒更新机制
 	public static void add(int jobi, int jobv, int l, int r, int i) {
 		if (l == r) {
 			sum[i] += jobv;
@@ -54,6 +56,7 @@ public class Code02_InverseCantorExpansion {
 		}
 	}
 
+	// 查询jobl~jobr范围的累加和
 	public static int sum(int jobl, int jobr, int l, int r, int i) {
 		if (jobl <= l && r <= jobr) {
 			return sum[i];
@@ -69,17 +72,20 @@ public class Code02_InverseCantorExpansion {
 		return ans;
 	}
 
-	public static int get(int k, int l, int r, int i) {
+	// 线段树上找到第k名的是什么，找到后删掉词频，返回的过程修改累加和
+	public static int getAndDelete(int k, int l, int r, int i) {
 		int ans;
 		if (l == r) {
+			sum[i]--;
 			ans = l;
 		} else {
 			int mid = (l + r) >> 1;
 			if (sum[i << 1] >= k) {
-				ans = get(k, l, mid, i << 1);
+				ans = getAndDelete(k, l, mid, i << 1);
 			} else {
-				ans = get(k - sum[i << 1], mid + 1, r, i << 1 | 1);
+				ans = getAndDelete(k - sum[i << 1], mid + 1, r, i << 1 | 1);
 			}
+			sum[i] = sum[i << 1] + sum[i << 1 | 1];
 		}
 		return ans;
 	}
@@ -107,8 +113,7 @@ public class Code02_InverseCantorExpansion {
 		// 根据阶乘进制转化为具体的排列
 		build(1, n, 1);
 		for (int i = 1; i <= n; i++) {
-			arr[i] = get((int) arr[i] + 1, 1, n, 1);
-			add((int) arr[i], -1, 1, n, 1);
+			arr[i] = getAndDelete((int) arr[i] + 1, 1, n, 1);
 		}
 	}
 
