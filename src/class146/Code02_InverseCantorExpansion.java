@@ -95,9 +95,12 @@ public class Code02_InverseCantorExpansion {
 			}
 			add(x, -1, 1, n, 1);
 		}
+		// 最低位获得增加的幅度
 		arr[n] += m;
 		for (int i = n; i >= 1; i--) {
+			// 往上进位多少
 			arr[i - 1] += arr[i] / (n - i + 1);
+			// 当前位是多少
 			arr[i] %= n - i + 1;
 		}
 		build(1, n, 1);
