@@ -85,6 +85,7 @@ public class Code02_InverseCantorExpansion {
 	}
 
 	public static void compute() {
+		// 当前排列转化为阶乘进制的排名
 		build(1, n, 1);
 		for (int i = 1, x; i <= n; i++) {
 			x = (int) arr[i];
@@ -95,14 +96,15 @@ public class Code02_InverseCantorExpansion {
 			}
 			add(x, -1, 1, n, 1);
 		}
-		// 最低位获得增加的幅度
-		arr[n] += m;
+		// 当前排名加上m之后，得到新的排名，用阶乘进制表示
+		arr[n] += m; // 最低位获得增加的幅度
 		for (int i = n; i >= 1; i--) {
 			// 往上进位多少
 			arr[i - 1] += arr[i] / (n - i + 1);
 			// 当前位是多少
 			arr[i] %= n - i + 1;
 		}
+		// 根据阶乘进制转化为具体的排列
 		build(1, n, 1);
 		for (int i = 1; i <= n; i++) {
 			arr[i] = get((int) arr[i] + 1, 1, n, 1);
