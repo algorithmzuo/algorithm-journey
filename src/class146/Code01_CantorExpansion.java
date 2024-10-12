@@ -59,7 +59,7 @@ public class Code01_CantorExpansion {
 		}
 		long ans = 0;
 		for (int i = 1; i <= n; i++) {
-			ans = (ans + (long) fac[n - i] * sum(arr[i] - 1) % MOD) % MOD;
+			ans = (ans + (long) sum(arr[i] - 1) * fac[n - i] % MOD) % MOD;
 			add(arr[i], -1);
 		}
 		ans = (ans + 1) % MOD;
