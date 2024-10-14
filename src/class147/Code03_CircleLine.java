@@ -1,6 +1,6 @@
 package class147;
 
-// 鸡蛋饼
+// 圆上连线
 // 注意！答案不对 10^9 + 7 取余！而是对 10^8 + 7 取余！
 // 测试链接 : https://www.luogu.com.cn/problem/P1976
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
@@ -12,7 +12,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 
-public class Code02_Pancake {
+public class Code03_CircleLine {
 
 	public static int MOD = 100000007;
 
