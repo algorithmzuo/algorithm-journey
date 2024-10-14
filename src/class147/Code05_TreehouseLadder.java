@@ -14,14 +14,12 @@ import java.math.BigInteger;
 
 public class Code05_TreehouseLadder {
 
-	// 这里用公式1
+	// 这里用公式2
 	// java同学使用BigInteger即可
 	// C++同学需要自己实现高精度乘法
 	public static BigInteger compute(int n) {
 		BigInteger a = new BigInteger("1");
 		BigInteger b = new BigInteger("1");
-		BigInteger c = new BigInteger("1");
-		BigInteger d = new BigInteger("1");
 		BigInteger cur;
 		for (int i = 1; i <= 2 * n; i++) {
 			cur = new BigInteger(String.valueOf(i));
@@ -29,14 +27,8 @@ public class Code05_TreehouseLadder {
 			if (i <= n) {
 				b = b.multiply(cur);
 			}
-			if (i <= n - 1) {
-				c = c.multiply(cur);
-			}
-			if (i <= n + 1) {
-				d = d.multiply(cur);
-			}
 		}
-		return a.divide(b.multiply(b)).subtract(a.divide(c.multiply(d)));
+		return a.divide(b.multiply(b)).divide(new BigInteger(String.valueOf(n + 1)));
 	}
 
 	public static void main(String[] args) throws IOException {
