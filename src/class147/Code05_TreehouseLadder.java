@@ -16,7 +16,7 @@ public class Code05_TreehouseLadder {
 
 	// 这里用公式1
 	// java同学使用BigInteger即可
-	// C++同学需要自己实现高精度乘法了
+	// C++同学需要自己实现高精度乘法
 	public static BigInteger compute(int n) {
 		BigInteger a = new BigInteger("1");
 		BigInteger b = new BigInteger("1");
