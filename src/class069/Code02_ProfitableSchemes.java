@@ -6,7 +6,7 @@ package class069;
 // 如果成员参与了其中一项工作，就不能参与另一项工作
 // 工作的任何至少产生 minProfit 利润的子集称为 盈利计划
 // 并且工作的成员总数最多为 n
-// 有多少种计划可以选择？因为答案很大，所以 返回结果模 10^9 + 7 的值。
+// 有多少种计划可以选择？因为答案很大，答案对 1000000007 取模
 // 测试链接 : https://leetcode.cn/problems/profitable-schemes/
 public class Code02_ProfitableSchemes {
 
