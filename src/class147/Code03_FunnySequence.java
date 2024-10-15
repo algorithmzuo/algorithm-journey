@@ -34,15 +34,15 @@ public class Code03_FunnySequence {
 		cnt = 0;
 		for (int i = 2; i <= n; i++) {
 			if (!visit[i]) {
-				prime[++cnt] = i;
+				prime[cnt++] = i;
 			}
-			for (int j = 1; j <= cnt; j++) {
+			for (int j = 0; j < cnt; j++) {
 				if (i * prime[j] > n) {
 					break;
 				}
 				visit[i * prime[j]] = true;
-				// 讲解097重点解释了欧拉筛的过程，看完必懂
-				// 此时可以收集(i * prime[j])这个数的最小质因子为prime[j]
+				// 此时收集(i * prime[j])这个数的最小质因子为prime[j]
+				// 讲解097欧拉筛的部分重点解释了这个过程，看完必懂
 				minpf[i * prime[j]] = prime[j];
 				if (i % prime[j] == 0) {
 					break;
