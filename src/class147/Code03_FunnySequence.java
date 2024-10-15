@@ -22,6 +22,8 @@ public class Code03_FunnySequence {
 
 	public static int cnt;
 
+	// 如果minpf[i] == 0，代表i是质数
+	// 如果minpf[i] != 0，代表i的最小质因子是minpf[i]
 	public static int[] minpf = new int[MAXN];
 
 	public static int[] counts = new int[MAXN];
@@ -39,6 +41,8 @@ public class Code03_FunnySequence {
 					break;
 				}
 				visit[i * prime[j]] = true;
+				// 讲解097重点解释了欧拉筛的过程，看完必懂
+				// 此时可以收集(i * prime[j])这个数的最小质因子为prime[j]
 				minpf[i * prime[j]] = prime[j];
 				if (i % prime[j] == 0) {
 					break;
