@@ -11,7 +11,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 
-public class Code08_GenerateString {
+public class Code06_GenerateString {
 
 	public static int MOD = 20100403;
 
