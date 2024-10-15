@@ -97,7 +97,7 @@ public class Code04_FillCellsUseAllColorsWays {
 		long start = System.currentTimeMillis();
 		int ans = ways2(n, m);
 		long end = System.currentTimeMillis();
-		System.out.println("取余之后的结果 : " + ans);
+		System.out.println("取模之后的结果 : " + ans);
 		System.out.println("运行时间 : " + (end - start) + " 毫秒");
 		System.out.println("性能测试结束");
 	}

@@ -1,7 +1,7 @@
 package class147;
 
 // 任意前缀上红大于黑
-// 答案对 100 取余
+// 答案对 100 取模
 // 测试链接 : https://www.luogu.com.cn/problem/P1722
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
@@ -16,7 +16,7 @@ public class Code02_RedMore {
 
 	public static int MOD = 100;
 
-	// 因为取余的数字含有很多因子
+	// 因为取模的数字含有很多因子
 	// 无法用费马小定理或者扩展欧几里得求逆元
 	// 所以使用公式4
 	public static long compute(int n) {

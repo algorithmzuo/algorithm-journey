@@ -6,7 +6,7 @@ package class084;
 // num1 <= x <= num2
 // min_sum <= digit_sum(x) <= max_sum
 // 请你返回好整数的数目
-// 答案可能很大请返回答案对10^9 + 7 取余后的结果
+// 答案可能很大，答案对 1000000007 取模
 // 注意，digit_sum(x)表示x各位数字之和
 // 测试链接 : https://leetcode.cn/problems/count-of-integers/
 public class Code03_CountOfIntegers {

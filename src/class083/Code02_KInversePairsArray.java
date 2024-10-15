@@ -6,7 +6,7 @@ package class083;
 // 如果满足0<=i<j<nums.length 且 nums[i]>nums[j]，则为一个逆序对
 // 给你两个整数n和k，找出所有包含从1到n的数字
 // 且恰好拥有k个逆序对的不同的数组的个数
-// 由于答案可能很大，只需要返回对10^9+7取余的结果
+// 由于答案可能很大，答案对 1000000007 取模
 // 测试链接 : https://leetcode.cn/problems/k-inverse-pairs-array/
 public class Code02_KInversePairsArray {
 

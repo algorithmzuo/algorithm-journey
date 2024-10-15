@@ -5,7 +5,7 @@ package class147;
 public class Code07_UniqueTrees {
 
 	// 数据量小用哪个公式都可以
-	// 不用考虑溢出、取余等问题
+	// 不用考虑溢出、取模等问题
 	// 这里用公式4
 	public static int numTrees(int n) {
 		int[] catalan = new int[n + 1];

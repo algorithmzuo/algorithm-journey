@@ -2,7 +2,7 @@ package class068;
 
 // 不同的子序列
 // 给你两个字符串s和t ，统计并返回在s的子序列中t出现的个数
-// 答案对1000000007取余
+// 答案对 1000000007 取模
 // 测试链接 : https://leetcode.cn/problems/distinct-subsequences/
 public class Code01_DistinctSubsequences {
 

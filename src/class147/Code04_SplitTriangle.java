@@ -1,7 +1,7 @@
 package class147;
 
 // 划分三角形
-// 答案对 1000000 取余
+// 答案对 1000000 取模
 // 1 <= n <= 1000
 // 测试链接 : https://www.luogu.com.cn/problem/SP7897
 // 测试链接 : https://www.spoj.com/problems/SKYLINE
@@ -22,7 +22,7 @@ public class Code04_SplitTriangle {
 
 	public static long[] catalan = new long[MAXN];
 
-	// 因为取余的数字含有很多因子
+	// 因为取模的数字含有很多因子
 	// 无法用费马小定理或者扩展欧几里得求逆元
 	// 所以使用公式4
 	public static void build() {

@@ -4,7 +4,7 @@ package class090;
 // 现需要将一根长为正整数bamboo_len的竹子砍为若干段
 // 每段长度均为正整数
 // 请返回每段竹子长度的最大乘积是多少
-// 答案需要对1000000007取模
+// 答案需要对 1000000007 取模
 // 测试链接 : https://leetcode.cn/problems/jian-sheng-zi-ii-lcof/
 public class Code01_CuttingBamboo {
 

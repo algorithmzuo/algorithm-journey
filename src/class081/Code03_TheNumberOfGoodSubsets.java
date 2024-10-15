@@ -9,7 +9,7 @@ import java.util.Arrays;
 // [2, 3]，[1, 2, 3]，[1, 3] 是好子集
 // 乘积分别为6=2*3，6=2*3，3=3
 // [1, 4]和[4]不是好子集，因为乘积分别为4=2*2和4=2*2
-// 请你返回nums中不同的好子集的数目对10^9+7取余的结果
+// 返回nums中不同的好子集的数目，答案对 1000000007 取模
 // 如果两个子集删除的下标不同，那么它们被视为不同的子集
 // 测试链接 : https://leetcode.cn/problems/the-number-of-good-subsets/
 public class Code03_TheNumberOfGoodSubsets {

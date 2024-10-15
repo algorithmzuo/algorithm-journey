@@ -3,7 +3,7 @@ package class127;
 // 摆盘子的方法
 // 一共有n个盘子k种菜，所有盘子排成一排，每个盘子只能放一种菜
 // 要求最多连续两个盘子菜品一样，更长的重复出现是不允许的
-// 返回摆盘的方法数，答案可能很大，对1000000007取余
+// 返回摆盘的方法数，答案对 1000000007 取模
 // 1 <= n <= 1000
 // 1 <= k <= 1000
 // 来自真实大厂笔试，对数器验证
@@ -150,12 +150,12 @@ public class Code05_WaysOfArrangePlates {
 
 		long start, end;
 		start = System.currentTimeMillis();
-		System.out.println("dp2方法结果(已经取余) : " + dp2(n, k));
+		System.out.println("dp2方法结果(已经取模) : " + dp2(n, k));
 		end = System.currentTimeMillis();
 		System.out.println("dp2方法用时(毫秒) : " + (end - start));
 
 		start = System.currentTimeMillis();
-		System.out.println("dp3方法结果(已经取余) : " + dp3(n, k));
+		System.out.println("dp3方法结果(已经取模) : " + dp3(n, k));
 		end = System.currentTimeMillis();
 		System.out.println("dp3方法用时(毫秒) : " + (end - start));
 		System.out.println("性能测试结束");

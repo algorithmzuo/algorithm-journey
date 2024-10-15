@@ -7,7 +7,7 @@ package class082;
 // 如果 s[i] == 'D'，那么 perm[i] > perm[i+1]
 // 如果 s[i] == 'I'，那么 perm[i] < perm[i+1]
 // 返回有效排列的perm的数量
-// 因为答案可能很大，所以请返回你的答案对10^9+7取余
+// 因为答案可能很大，答案对 1000000007 取模
 // 测试链接 : https://leetcode.cn/problems/valid-permutations-for-di-sequence/
 public class Code07_DiSequence {
 
