@@ -68,11 +68,12 @@ public class Code03_FunnySequence {
 			if (minpf[i] != 0) {
 				counts[minpf[i]] += counts[i];
 				counts[i / minpf[i]] += counts[i];
+				counts[i] = 0;
 			}
 		}
 		long ans = 1;
 		for (int i = 2; i <= 2 * n; i++) {
-			if (minpf[i] == 0) {
+			if (counts[i] != 0) {
 				ans = ans * power(i, counts[i], mod) % mod;
 			}
 		}
