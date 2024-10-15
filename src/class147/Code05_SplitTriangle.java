@@ -14,7 +14,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 
-public class Code04_SplitTriangle {
+public class Code05_SplitTriangle {
 
 	public static int MOD = 1000000;
 
@@ -24,7 +24,7 @@ public class Code04_SplitTriangle {
 
 	// 因为取模的数字含有很多因子
 	// 无法用费马小定理或者扩展欧几里得求逆元
-	// 所以使用公式4
+	// 同时注意到n的范围并不大，直接使用公式4
 	public static void build() {
 		catalan[0] = catalan[1] = 1;
 		for (int i = 2; i < MAXN; i++) {

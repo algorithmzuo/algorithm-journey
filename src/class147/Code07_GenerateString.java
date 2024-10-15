@@ -1,8 +1,7 @@
 package class147;
 
-// 圆上连线
-// 注意！答案不对 10^9 + 7 取模！而是对 10^8 + 7 取模！
-// 测试链接 : https://www.luogu.com.cn/problem/P1976
+// 生成字符串
+// 测试链接 : https://www.luogu.com.cn/problem/P1641
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
 import java.io.BufferedReader;
@@ -12,11 +11,11 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 
-public class Code03_CircleLine {
+public class Code07_GenerateString {
 
-	public static int MOD = 100000007;
+	public static int MOD = 20100403;
 
-	public static int MAXN = 1000001;
+	public static int MAXN = 2000001;
 
 	public static long[] fac = new long[MAXN];
 
@@ -50,10 +49,9 @@ public class Code03_CircleLine {
 		return (((fac[n] * inv[k]) % MOD) * inv[n - k]) % MOD;
 	}
 
-	// 这里用公式1
-	public static long compute(int n) {
-		build(2 * n);
-		return (c(2 * n, n) - c(2 * n, n - 1) + MOD) % MOD;
+	public static long compute(int n, int m) {
+		build(n + m);
+		return (c(n + m, m) - c(n + m, m - 1) + MOD) % MOD;
 	}
 
 	public static void main(String[] args) throws IOException {
@@ -62,7 +60,9 @@ public class Code03_CircleLine {
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
 		in.nextToken();
 		int n = (int) in.nval;
-		out.println(compute(n));
+		in.nextToken();
+		int m = (int) in.nval;
+		out.println(compute(n, m));
 		out.flush();
 		out.close();
 		br.close();

@@ -18,7 +18,7 @@ public class Code02_RedMore {
 
 	// 因为取模的数字含有很多因子
 	// 无法用费马小定理或者扩展欧几里得求逆元
-	// 所以使用公式4
+	// 同时注意到n的范围并不大，直接使用公式4
 	public static long compute(int n) {
 		long[] catalan = new long[n + 1];
 		catalan[0] = catalan[1] = 1;

@@ -2,11 +2,11 @@ package class147;
 
 // 不同的二叉搜索树
 // 测试链接 : https://leetcode.cn/problems/unique-binary-search-trees/
-public class Code07_UniqueTrees {
+public class Code08_UniqueTrees {
 
 	// 数据量小用哪个公式都可以
 	// 不用考虑溢出、取模等问题
-	// 这里用公式4
+	// 同时注意到n的范围并不大，直接使用公式4
 	public static int numTrees(int n) {
 		int[] catalan = new int[n + 1];
 		catalan[0] = catalan[1] = 1;
