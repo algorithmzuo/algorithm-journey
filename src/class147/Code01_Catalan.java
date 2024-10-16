@@ -79,24 +79,24 @@ public class Code01_Catalan {
 	// 公式3
 	public static long compute3(int n) {
 		build2(n);
-		long[] catalan = new long[n + 1];
-		catalan[0] = catalan[1] = 1;
+		long[] f = new long[n + 1];
+		f[0] = f[1] = 1;
 		for (int i = 2; i <= n; i++) {
-			catalan[i] = catalan[i - 1] * (4 * i - 2) % MOD * inv2[i + 1] % MOD;
+			f[i] = f[i - 1] * (4 * i - 2) % MOD * inv2[i + 1] % MOD;
 		}
-		return catalan[n];
+		return f[n];
 	}
 
 	// 公式4
 	public static long compute4(int n) {
-		long[] catalan = new long[n + 1];
-		catalan[0] = catalan[1] = 1;
+		long[] f = new long[n + 1];
+		f[0] = f[1] = 1;
 		for (int i = 2; i <= n; i++) {
 			for (int l = 0, r = i - 1; l < i; l++, r--) {
-				catalan[i] = (catalan[i] + catalan[l] * catalan[r] % MOD) % MOD;
+				f[i] = (f[i] + f[l] * f[r] % MOD) % MOD;
 			}
 		}
-		return catalan[n];
+		return f[n];
 	}
 
 	public static void main(String[] args) throws IOException {

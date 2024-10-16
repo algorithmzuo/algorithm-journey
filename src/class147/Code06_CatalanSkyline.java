@@ -1,6 +1,6 @@
 package class147;
 
-// 划分三角形
+// 卡特兰数天际线
 // 答案对 1000000 取模
 // 1 <= n <= 1000
 // 测试链接 : https://www.luogu.com.cn/problem/SP7897
@@ -14,22 +14,22 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 
-public class Code06_SplitTriangle {
+public class Code06_CatalanSkyline {
 
 	public static int MOD = 1000000;
 
 	public static int MAXN = 1001;
 
-	public static long[] catalan = new long[MAXN];
+	public static long[] f = new long[MAXN];
 
 	// 因为取模的数字含有很多因子
 	// 无法用费马小定理或者扩展欧几里得求逆元
 	// 同时注意到n的范围并不大，直接使用公式4
 	public static void build() {
-		catalan[0] = catalan[1] = 1;
+		f[0] = f[1] = 1;
 		for (int i = 2; i < MAXN; i++) {
 			for (int l = 0, r = i - 1; l < i; l++, r--) {
-				catalan[i] = (catalan[i] + catalan[l] * catalan[r] % MOD) % MOD;
+				f[i] = (f[i] + f[l] * f[r] % MOD) % MOD;
 			}
 		}
 	}
@@ -44,7 +44,7 @@ public class Code06_SplitTriangle {
 			if (n == 0) {
 				break;
 			}
-			out.println(catalan[n]);
+			out.println(f[n]);
 		}
 		out.flush();
 		out.close();
