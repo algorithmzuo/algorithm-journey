@@ -2,7 +2,7 @@ package class147;
 
 // 不同的二叉搜索树
 // 测试链接 : https://leetcode.cn/problems/unique-binary-search-trees/
-public class Code08_UniqueTrees {
+public class Code07_UniqueTrees {
 
 	// 数据量小用哪个公式都可以
 	// 不用考虑溢出、取模等问题

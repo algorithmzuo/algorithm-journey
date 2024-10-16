@@ -12,7 +12,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 
-public class Code06_CircleLine {
+public class Code02_CircleLine {
 
 	public static int MOD = 100000007;
 
