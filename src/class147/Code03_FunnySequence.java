@@ -23,6 +23,7 @@ public class Code03_FunnySequence {
 	// 质数表
 	public static int[] prime = new int[MAXN];
 
+	// 质数表大小
 	public static int cnt;
 
 	// 因子计数
@@ -43,7 +44,7 @@ public class Code03_FunnySequence {
 					break;
 				}
 				// 此时收集(i * prime[j])这个数的最小质因子为prime[j]
-				// minpf[i * prime[j]] != 0，也标记了(i * prime[j])不是质数
+				// minpf[i * prime[j]] != 0，也标记了(i * prime[j])是合数
 				// 讲解097欧拉筛的部分，重点解释了这个过程，看完必懂
 				minpf[i * prime[j]] = prime[j];
 				if (i % prime[j] == 0) {
