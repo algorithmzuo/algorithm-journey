@@ -68,9 +68,17 @@ public class Code03_FunnySequence {
 
 	// 使用的是公式2 + 质因子计数法
 	public static int compute(int n, int mod) {
+		// 利用欧拉筛生成[2 ~ 2*n]范围上所有数的最小质因子
+		// 如果x为质数，minpf[x] == 0
+		// 如果x为合数，x的最小质因子为minpf[x]
 		euler(2 * n);
+		// 分母每个因子设置计数
 		Arrays.fill(counts, 2, n + 1, -1);
+		// 分子每个因子设置计数
 		Arrays.fill(counts, n + 2, 2 * n + 1, 1);
+		// 从大到小的每个数统计计数
+		// 合数根据最小质因子来分解，变成更小数字的计数
+		// 质数无法分解，计数确定，最后快速幂计算乘积
 		for (int i = 2 * n; i >= 2; i--) {
 			if (minpf[i] != 0) {
 				counts[minpf[i]] += counts[i];
@@ -78,6 +86,7 @@ public class Code03_FunnySequence {
 				counts[i] = 0;
 			}
 		}
+		// 每个质数的幂，都乘起来，就是最后答案
 		long ans = 1;
 		for (int i = 2; i <= 2 * n; i++) {
 			if (counts[i] != 0) {
