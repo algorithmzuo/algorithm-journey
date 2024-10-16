@@ -16,33 +16,35 @@ public class Code03_FunnySequence {
 
 	public static int MAXN = 2000001;
 
-	public static boolean[] visit = new boolean[MAXN];
+	// 如果minpf[i] == 0，代表i是质数
+	// 如果minpf[i] != 0，代表i是合数，并且最小质因子是minpf[i]
+	public static int[] minpf = new int[MAXN];
 
+	// 质数表
 	public static int[] prime = new int[MAXN];
 
 	public static int cnt;
 
-	// 如果minpf[i] == 0，代表i是质数
-	// 如果minpf[i] != 0，代表i的最小质因子是minpf[i]
-	public static int[] minpf = new int[MAXN];
-
+	// 因子计数
 	public static int[] counts = new int[MAXN];
 
 	// 来自讲解097，欧拉筛，时间复杂度O(n)
 	public static void euler(int n) {
-		Arrays.fill(visit, 1, n, false);
+		Arrays.fill(minpf, 2, n, 0);
 		cnt = 0;
 		for (int i = 2; i <= n; i++) {
-			if (!visit[i]) {
+			// minpf[i] == 0代表i为质数，收集进质数表
+			// minpf数组替代了讲解097中visit数组的作用
+			if (minpf[i] == 0) {
 				prime[cnt++] = i;
 			}
 			for (int j = 0; j < cnt; j++) {
 				if (i * prime[j] > n) {
 					break;
 				}
-				visit[i * prime[j]] = true;
 				// 此时收集(i * prime[j])这个数的最小质因子为prime[j]
-				// 讲解097欧拉筛的部分重点解释了这个过程，看完必懂
+				// minpf[i * prime[j]] != 0，也标记了(i * prime[j])不是质数
+				// 讲解097欧拉筛的部分，重点解释了这个过程，看完必懂
 				minpf[i * prime[j]] = prime[j];
 				if (i % prime[j] == 0) {
 					break;
