@@ -12,7 +12,7 @@ import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 import java.math.BigInteger;
 
-public class Code06_TreehouseLadder {
+public class Code04_TreehouseLadder {
 
 	// 这里用公式2
 	// java同学使用BigInteger即可

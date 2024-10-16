@@ -14,7 +14,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 
-public class Code05_SplitTriangle {
+public class Code07_SplitTriangle {
 
 	public static int MOD = 1000000;
 
