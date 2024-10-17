@@ -1,6 +1,10 @@
 package class147;
 
 // 有趣的数列(重要！因子计数法)
+// 求第n项卡特兰数，要求答案对p取模
+// 1 <= n <= 10^6
+// 1 <= p <= 10^9
+// p可能不为质数
 // 测试链接 : https://www.luogu.com.cn/problem/P3200
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
@@ -12,7 +16,7 @@ import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 import java.util.Arrays;
 
-public class Code04_FunnySequence {
+public class Code05_FunnySequence {
 
 	public static int MAXN = 2000001;
 

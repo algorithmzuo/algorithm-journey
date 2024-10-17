@@ -1,6 +1,9 @@
 package class147;
 
 // 生成字符串
+// 有n个1和m个0，要组成n+m长度的数列，保证任意前缀上，1的数量 >= 0的数量
+// 返回有多少种排列方法，答案对 20100403 取模
+// 1 <= m <= n <= 10^6
 // 测试链接 : https://www.luogu.com.cn/problem/P1641
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
@@ -11,7 +14,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 
-public class Code05_GenerateString {
+public class Code06_GenerateString {
 
 	public static int MOD = 20100403;
 

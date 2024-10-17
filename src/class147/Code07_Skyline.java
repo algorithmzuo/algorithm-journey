@@ -1,7 +1,8 @@
 package class147;
 
-// 卡特兰数天际线
-// 答案对 1000000 取模
+// 不含递增三元组的排列方法数
+// 数字从1到n，可以形成很多排列，要求任意从左往右的三个位置，不能出现依次递增的样子
+// 返回排列的方法数，答案对 1000000 取模
 // 1 <= n <= 1000
 // 测试链接 : https://www.luogu.com.cn/problem/SP7897
 // 测试链接 : https://www.spoj.com/problems/SKYLINE
@@ -14,7 +15,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 
-public class Code06_CatalanSkyline {
+public class Code07_Skyline {
 
 	public static int MOD = 1000000;
 
