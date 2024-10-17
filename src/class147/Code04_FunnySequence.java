@@ -1,6 +1,6 @@
 package class147;
 
-// 有趣的数列(重要！质因子计数法)
+// 有趣的数列(重要！因子计数法)
 // 测试链接 : https://www.luogu.com.cn/problem/P3200
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 

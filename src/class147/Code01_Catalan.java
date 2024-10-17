@@ -24,7 +24,7 @@ public class Code01_Catalan {
 	// 阶乘逆元表
 	public static long[] inv1 = new long[MAXN];
 
-	// 数字逆元表
+	// 连续数逆元表
 	public static long[] inv2 = new long[MAXN];
 
 	// 来自讲解099，题目3，生成阶乘余数表、阶乘逆元表
@@ -40,7 +40,7 @@ public class Code01_Catalan {
 		}
 	}
 
-	// 来自讲解099，题目2，生成连续数字的逆元表
+	// 来自讲解099，题目2，生成连续数逆元表
 	public static void build2(int n) {
 		inv2[1] = 1;
 		for (int i = 2; i <= n + 1; i++) {
