@@ -23,7 +23,7 @@ public class Code09_LeafExpectation {
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
 		in.nextToken();
 		double n = in.nval;
-		out.printf("%.12f", n * (n + 1) / (2 * (2 * n - 1)));
+		out.printf("%.9f", n * (n + 1) / (2 * (2 * n - 1)));
 		out.flush();
 		out.close();
 		br.close();
