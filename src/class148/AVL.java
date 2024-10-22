@@ -126,14 +126,14 @@ public class AVL {
 				} else if (left[i] == 0 && right[i] != 0) {
 					i = right[i];
 				} else {
-					int replace = right[i];
-					while (left[replace] != 0) {
-						replace = left[replace];
+					int mostLeft = right[i];
+					while (left[mostLeft] != 0) {
+						mostLeft = left[mostLeft];
 					}
-					right[i] = removeMostLeft(right[i], replace);
-					left[replace] = left[i];
-					right[replace] = right[i];
-					i = replace;
+					right[i] = removeMostLeft(right[i], mostLeft);
+					left[mostLeft] = left[i];
+					right[mostLeft] = right[i];
+					i = mostLeft;
 				}
 			}
 		}
