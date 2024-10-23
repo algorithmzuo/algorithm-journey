@@ -10,14 +10,15 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StreamTokenizer;
+import java.util.Arrays;
 
-public class AVL {
+public class Code01_AVL {
 
 	public static int MAXN = 100001;
 
-	public static int cnt;
+	public static int cnt = 0;
 
-	public static int head;
+	public static int head = 0;
 
 	public static int[] key = new int[MAXN];
 
@@ -30,10 +31,6 @@ public class AVL {
 	public static int[] left = new int[MAXN];
 
 	public static int[] right = new int[MAXN];
-
-	public static void build() {
-		cnt = head = 0;
-	}
 
 	public static void up(int i) {
 		size[i] = size[left[i]] + size[right[i]] + count[i];
@@ -209,8 +206,18 @@ public class AVL {
 		}
 	}
 
+	public static void clear() {
+		Arrays.fill(key, 1, cnt + 1, 0);
+		Arrays.fill(count, 1, cnt + 1, 0);
+		Arrays.fill(size, 1, cnt + 1, 0);
+		Arrays.fill(height, 1, cnt + 1, 0);
+		Arrays.fill(left, 1, cnt + 1, 0);
+		Arrays.fill(right, 1, cnt + 1, 0);
+		cnt = 0;
+		head = 0;
+	}
+
 	public static void main(String[] args) throws IOException {
-		build();
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StreamTokenizer in = new StreamTokenizer(br);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
@@ -235,6 +242,7 @@ public class AVL {
 				out.println(post(x));
 			}
 		}
+		clear();
 		out.flush();
 		out.close();
 		br.close();
