@@ -14,7 +14,7 @@ import java.util.Arrays;
 
 public class SkipList {
 
-	public static int MAXL = 17;
+	public static int MAXL = 20;
 
 	public static int MAXN = 100001;
 
