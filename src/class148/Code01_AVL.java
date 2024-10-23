@@ -80,38 +80,38 @@ public class Code01_AVL {
 		return i;
 	}
 
-	public static void add(int k) {
-		head = add(head, k);
+	public static void add(int num) {
+		head = add(head, num);
 	}
 
-	public static int add(int i, int k) {
+	public static int add(int i, int num) {
 		if (i == 0) {
-			key[++cnt] = k;
+			key[++cnt] = num;
 			count[cnt] = size[cnt] = height[cnt] = 1;
 			return cnt;
 		}
-		if (key[i] == k) {
+		if (key[i] == num) {
 			count[i]++;
-		} else if (key[i] > k) {
-			left[i] = add(left[i], k);
+		} else if (key[i] > num) {
+			left[i] = add(left[i], num);
 		} else {
-			right[i] = add(right[i], k);
+			right[i] = add(right[i], num);
 		}
 		up(i);
 		return maintain(i);
 	}
 
-	public static void remove(int k) {
-		if (rank(k) != rank(k + 1)) {
-			head = remove(head, k);
+	public static void remove(int num) {
+		if (rank(num) != rank(num + 1)) {
+			head = remove(head, num);
 		}
 	}
 
-	public static int remove(int i, int k) {
-		if (key[i] < k) {
-			right[i] = remove(right[i], k);
-		} else if (key[i] > k) {
-			left[i] = remove(left[i], k);
+	public static int remove(int i, int num) {
+		if (key[i] < num) {
+			right[i] = remove(right[i], num);
+		} else if (key[i] > num) {
+			left[i] = remove(left[i], num);
 		} else {
 			if (count[i] > 1) {
 				count[i]--;
@@ -148,18 +148,18 @@ public class Code01_AVL {
 		}
 	}
 
-	public static int rank(int k) {
-		return small(head, k) + 1;
+	public static int rank(int num) {
+		return small(head, num) + 1;
 	}
 
-	public static int small(int i, int k) {
+	public static int small(int i, int num) {
 		if (i == 0) {
 			return 0;
 		}
-		if (key[i] >= k) {
-			return small(left[i], k);
+		if (key[i] >= num) {
+			return small(left[i], num);
 		} else {
-			return size[left[i]] + count[i] + small(right[i], k);
+			return size[left[i]] + count[i] + small(right[i], num);
 		}
 	}
 
@@ -176,33 +176,33 @@ public class Code01_AVL {
 		return key[i];
 	}
 
-	public static int pre(int k) {
-		return pre(head, k);
+	public static int pre(int num) {
+		return pre(head, num);
 	}
 
-	public static int pre(int i, int k) {
+	public static int pre(int i, int num) {
 		if (i == 0) {
 			return Integer.MIN_VALUE;
 		}
-		if (key[i] >= k) {
-			return pre(left[i], k);
+		if (key[i] >= num) {
+			return pre(left[i], num);
 		} else {
-			return Math.max(key[i], pre(right[i], k));
+			return Math.max(key[i], pre(right[i], num));
 		}
 	}
 
-	public static int post(int k) {
-		return post(head, k);
+	public static int post(int num) {
+		return post(head, num);
 	}
 
-	public static int post(int i, int k) {
+	public static int post(int i, int num) {
 		if (i == 0) {
 			return Integer.MAX_VALUE;
 		}
-		if (key[i] <= k) {
-			return post(right[i], k);
+		if (key[i] <= num) {
+			return post(right[i], num);
 		} else {
-			return Math.min(key[i], post(left[i], k));
+			return Math.min(key[i], post(left[i], num));
 		}
 	}
 
