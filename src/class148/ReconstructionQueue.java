@@ -9,7 +9,7 @@ import java.util.Arrays;
 // 返回其中一种排列即可，本题的数据保证一定存在这样的排列
 // 题解中的绝大多数方法，时间复杂度O(n平方)，但是时间复杂度能做到O(n * log n)
 // 测试链接 : https://leetcode.cn/problems/queue-reconstruction-by-height/
-public class Code02_ReconstructionQueue {
+public class ReconstructionQueue {
 
 	public static int[][] reconstructQueue(int[][] people) {
 		Arrays.sort(people, (a, b) -> a[0] != b[0] ? (b[0] - a[0]) : (a[1] - b[1]));

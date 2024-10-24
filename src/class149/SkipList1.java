@@ -21,7 +21,7 @@ import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 import java.util.Arrays;
 
-public class SkipList {
+public class SkipList1 {
 
 	public static int MAXL = 20;
 
