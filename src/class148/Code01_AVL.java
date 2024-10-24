@@ -21,7 +21,6 @@ import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 import java.util.Arrays;
 
-
 public class Code01_AVL {
 
 	public static int MAXN = 100001;
