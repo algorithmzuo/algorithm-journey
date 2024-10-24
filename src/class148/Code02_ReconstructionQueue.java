@@ -2,8 +2,13 @@ package class148;
 
 import java.util.Arrays;
 
-// 根据身高重建队列(最优复杂度)
-// 时间复杂度做到O(n * log n)
+// 重建队列(做到最优时间复杂度)
+// 一共n个人，每个人有(a, b)两个数据，数据a表示该人的身高
+// 数据b表示该人的要求，站在自己左边的人中，正好有b个人的身高大于等于自己的身高
+// 请你把n个人从左到右进行排列，要求每个人的要求都可以满足
+// 返回其中一种排列即可
+// 本题输入的数据一定存在这样的排列
+// 题解中的绝大多数方法，时间复杂度O(n平方)，但是时间复杂度能做到O(n * log n)
 // 测试链接 : https://leetcode.cn/problems/queue-reconstruction-by-height/
 public class Code02_ReconstructionQueue {
 

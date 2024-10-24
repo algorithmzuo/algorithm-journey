@@ -1,6 +1,15 @@
 package class148;
 
-// AVL树的实现(静态数组实现)
+// AVL树的实现
+// 实现一种结构，支持如下操作，要求单次调用的时间复杂度O(log n)
+// 1，增加一个x，支持重复加入
+// 2，删除一个x，只删掉一个
+// 3，查询x的排名，x的排名为，比x小的数的个数+1
+// 4，查询数据中排名为x的数
+// 5，查询x的前驱，x的前驱为，小于x的数中最大的数，不存在返回整数最小值
+// 6，查询x的后继，x的后继为，大于x的数中最小的数，不存在返回整数最大值
+// 所有操作的次数 <= 10^5
+// -10^7 <= x <= +10^7
 // 测试链接 : https://www.luogu.com.cn/problem/P3369
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
@@ -11,6 +20,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 import java.util.Arrays;
+
 
 public class Code01_AVL {
 
