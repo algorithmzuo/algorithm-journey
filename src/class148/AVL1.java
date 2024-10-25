@@ -49,11 +49,13 @@ public class AVL1 {
 	// 子树的数字总数
 	public static int[] size = new int[MAXN];
 
+	// 修正信息
 	public static void up(int i) {
 		size[i] = size[left[i]] + size[right[i]] + count[i];
 		height[i] = Math.max(height[left[i]], height[right[i]]) + 1;
 	}
 
+	// i节点为头的树左旋，返回左旋后头节点的空间编号
 	public static int leftRotate(int i) {
 		int r = right[i];
 		right[i] = left[r];
@@ -63,6 +65,7 @@ public class AVL1 {
 		return r;
 	}
 
+	// i节点为头的树右旋，返回右旋后头节点的空间编号
 	public static int rightRotate(int i) {
 		int l = left[i];
 		left[i] = right[l];
@@ -72,6 +75,9 @@ public class AVL1 {
 		return l;
 	}
 
+	// 检查i节点为头的树是否违规
+	// 如果命中了某种违规情况，就进行相应调整
+	// 返回树的头节点的空间编号
 	public static int maintain(int i) {
 		int lh = height[left[i]];
 		int rh = height[right[i]];
@@ -93,10 +99,13 @@ public class AVL1 {
 		return i;
 	}
 
+	// 增加数字num，重复加入算多个词频
 	public static void add(int num) {
 		head = add(head, num);
 	}
 
+	// 当前来到i号节点，num这个数字一定会加入以i为头的树
+	// 树结构有可能变化，返回头节点编号
 	public static int add(int i, int num) {
 		if (i == 0) {
 			key[++cnt] = num;
@@ -114,12 +123,15 @@ public class AVL1 {
 		return maintain(i);
 	}
 
+	// 删除数字num，如果有多个，只删掉一个
 	public static void remove(int num) {
 		if (rank(num) != rank(num + 1)) {
 			head = remove(head, num);
 		}
 	}
 
+	// 当前来到i号节点，以i为头的树一定会减少1个num
+	// 树结构有可能变化，返回头节点编号
 	public static int remove(int i, int num) {
 		if (key[i] < num) {
 			right[i] = remove(right[i], num);
@@ -151,6 +163,8 @@ public class AVL1 {
 		return maintain(i);
 	}
 
+	// 以i号节点为头的树上，最左节点的编号一定是mostLeft
+	// 删掉这个节点，并保证树的平衡性，返回头节点的编号
 	public static int removeMostLeft(int i, int mostLeft) {
 		if (i == mostLeft) {
 			return right[i];
@@ -161,10 +175,12 @@ public class AVL1 {
 		}
 	}
 
+	// 查询num的排名，比num小的数字个数+1，就是num的排名
 	public static int rank(int num) {
 		return small(head, num) + 1;
 	}
 
+	// 以i为头的树上，比num小的数字有几个
 	public static int small(int i, int num) {
 		if (i == 0) {
 			return 0;
