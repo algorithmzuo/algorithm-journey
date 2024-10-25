@@ -25,20 +25,28 @@ public class AVL1 {
 
 	public static int MAXN = 100001;
 
+	// 空间使用计数
 	public static int cnt = 0;
 
+	// 整棵树的头节点编号
 	public static int head = 0;
 
+	// 节点的key
 	public static int[] key = new int[MAXN];
 
+	// 节点key的计数
 	public static int[] count = new int[MAXN];
 
+	// 子树的数字总数
 	public static int[] size = new int[MAXN];
 
+	// 子树高度
 	public static int[] height = new int[MAXN];
 
+	// 左孩子
 	public static int[] left = new int[MAXN];
 
+	// 右孩子
 	public static int[] right = new int[MAXN];
 
 	public static void up(int i) {
