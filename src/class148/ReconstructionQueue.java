@@ -66,18 +66,14 @@ public class ReconstructionQueue {
 		int lh = height[left[i]];
 		int rh = height[right[i]];
 		if (lh - rh > 1) {
-			int llh = height[left[left[i]]];
-			int lrh = height[right[left[i]]];
-			if (llh >= lrh) {
+			if (height[left[left[i]]] >= height[right[left[i]]]) {
 				i = rightRotate(i);
 			} else {
 				left[i] = leftRotate(left[i]);
 				i = rightRotate(i);
 			}
 		} else if (rh - lh > 1) {
-			int rrh = height[right[right[i]]];
-			int rlh = height[left[right[i]]];
-			if (rrh >= rlh) {
+			if (height[right[right[i]]] >= height[left[right[i]]]) {
 				i = leftRotate(i);
 			} else {
 				right[i] = rightRotate(right[i]);

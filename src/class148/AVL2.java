@@ -59,18 +59,14 @@ package class148;
 //    int lh = height[leftChild[i]];
 //    int rh = height[rightChild[i]];
 //    if (lh - rh > 1) {
-//        int llh = height[leftChild[leftChild[i]]];
-//        int lrh = height[rightChild[leftChild[i]]];
-//        if (llh >= lrh) {
+//        if (height[leftChild[leftChild[i]]] >= height[rightChild[leftChild[i]]]) {
 //            i = rightRotate(i);
 //        } else {
 //            leftChild[i] = leftRotate(leftChild[i]);
 //            i = rightRotate(i);
 //        }
 //    } else if (rh - lh > 1) {
-//        int rrh = height[rightChild[rightChild[i]]];
-//        int rlh = height[leftChild[rightChild[i]]];
-//        if (rrh >= rlh) {
+//        if (height[rightChild[rightChild[i]]] >= height[leftChild[rightChild[i]]]) {
 //            i = leftRotate(i);
 //        } else {
 //            rightChild[i] = rightRotate(rightChild[i]);
