@@ -26,11 +26,11 @@ package class148;
 //int cnt = 0;
 //int head = 0;
 //int key[MAXN];
-//int key_count[MAXN];
-//int size[MAXN];
 //int height[MAXN];
 //int leftChild[MAXN];
 //int rightChild[MAXN];
+//int key_count[MAXN];
+//int size[MAXN];
 //
 //void up(int i) {
 //    size[i] = size[leftChild[i]] + size[rightChild[i]] + key_count[i];
@@ -208,11 +208,11 @@ package class148;
 //
 //void clear() {
 //    memset(key + 1, 0, cnt * sizeof(int));
-//    memset(key_count + 1, 0, cnt * sizeof(int));
-//    memset(size + 1, 0, cnt * sizeof(int));
 //    memset(height + 1, 0, cnt * sizeof(int));
 //    memset(leftChild + 1, 0, cnt * sizeof(int));
 //    memset(rightChild + 1, 0, cnt * sizeof(int));
+//    memset(key_count + 1, 0, cnt * sizeof(int));
+//    memset(size + 1, 0, cnt * sizeof(int));
 //    cnt = 0;
 //    head = 0;
 //}

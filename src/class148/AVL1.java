@@ -34,12 +34,6 @@ public class AVL1 {
 	// 节点的key
 	public static int[] key = new int[MAXN];
 
-	// 节点key的计数
-	public static int[] count = new int[MAXN];
-
-	// 子树的数字总数
-	public static int[] size = new int[MAXN];
-
 	// 子树高度
 	public static int[] height = new int[MAXN];
 
@@ -48,6 +42,12 @@ public class AVL1 {
 
 	// 右孩子
 	public static int[] right = new int[MAXN];
+
+	// 节点key的计数
+	public static int[] count = new int[MAXN];
+
+	// 子树的数字总数
+	public static int[] size = new int[MAXN];
 
 	public static void up(int i) {
 		size[i] = size[left[i]] + size[right[i]] + count[i];
@@ -225,11 +225,11 @@ public class AVL1 {
 
 	public static void clear() {
 		Arrays.fill(key, 1, cnt + 1, 0);
-		Arrays.fill(count, 1, cnt + 1, 0);
-		Arrays.fill(size, 1, cnt + 1, 0);
 		Arrays.fill(height, 1, cnt + 1, 0);
 		Arrays.fill(left, 1, cnt + 1, 0);
 		Arrays.fill(right, 1, cnt + 1, 0);
+		Arrays.fill(count, 1, cnt + 1, 0);
+		Arrays.fill(size, 1, cnt + 1, 0);
 		cnt = 0;
 		head = 0;
 	}

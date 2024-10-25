@@ -29,15 +29,15 @@ public class ReconstructionQueue {
 
 	public static int[] key = new int[MAXN];
 
-	public static int[] value = new int[MAXN];
-
-	public static int[] size = new int[MAXN];
-
 	public static int[] height = new int[MAXN];
 
 	public static int[] left = new int[MAXN];
 
 	public static int[] right = new int[MAXN];
+	
+	public static int[] value = new int[MAXN];
+
+	public static int[] size = new int[MAXN];
 
 	public static void up(int i) {
 		size[i] = size[left[i]] + size[right[i]] + 1;
@@ -126,11 +126,11 @@ public class ReconstructionQueue {
 
 	public static void clear() {
 		Arrays.fill(key, 1, cnt + 1, 0);
-		Arrays.fill(value, 1, cnt + 1, 0);
-		Arrays.fill(size, 1, cnt + 1, 0);
 		Arrays.fill(height, 1, cnt + 1, 0);
 		Arrays.fill(left, 1, cnt + 1, 0);
 		Arrays.fill(right, 1, cnt + 1, 0);
+		Arrays.fill(value, 1, cnt + 1, 0);
+		Arrays.fill(size, 1, cnt + 1, 0);
 		cnt = 0;
 		head = 0;
 	}
