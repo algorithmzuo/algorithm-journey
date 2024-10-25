@@ -84,7 +84,7 @@ public class ReconstructionQueue {
 	}
 
 	public static void add(int num, int index) {
-		head = add(head, index + 1, num, index);
+		head = add(head, index, num, index);
 	}
 
 	public static int add(int i, int rank, int num, int index) {
@@ -94,7 +94,7 @@ public class ReconstructionQueue {
 			size[cnt] = height[cnt] = 1;
 			return cnt;
 		}
-		if (size[left[i]] + 1 >= rank) {
+		if (size[left[i]] >= rank) {
 			left[i] = add(left[i], rank, num, index);
 		} else {
 			right[i] = add(right[i], rank - size[left[i]] - 1, num, index);
