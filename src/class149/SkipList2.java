@@ -160,7 +160,7 @@ package class149;
 //    }
 //}
 //
-//int getRank(int i, int h, int num) {
+//int small(int i, int h, int num) {
 //    int rightCnt = 0;
 //    while (next_node[i][h] != 0 && key[next_node[i][h]] < num) {
 //        rightCnt += len[i][h];
@@ -169,12 +169,12 @@ package class149;
 //    if (h == 1) {
 //        return rightCnt;
 //    } else {
-//        return rightCnt + getRank(i, h - 1, num);
+//        return rightCnt + small(i, h - 1, num);
 //    }
 //}
 //
 //int getRank(int num) {
-//    return getRank(1, MAXL, num) + 1;
+//    return small(1, MAXL, num) + 1;
 //}
 //
 //int index(int i, int h, int x) {

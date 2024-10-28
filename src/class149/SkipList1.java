@@ -115,7 +115,7 @@ public class SkipList1 {
 	}
 
 	// 当前在i号节点的h层，插入空间编号为j的节点
-	// 返回值：从i号节点出发，直到把空间编号为j的节点插入，底层总共跨过多少数字
+	// 返回值：从i号节点出发，直到把空间编号为j的节点插入，底层总共有多少数字比key[j]小
 	// 返回值很重要，因为上游需要这个信息来改动指针的长度信息
 	public static int addNode(int i, int h, int j) {
 		int rightCnt = 0;
@@ -187,11 +187,11 @@ public class SkipList1 {
 
 	// 查询num的排名
 	public static int rank(int num) {
-		return rank(1, MAXL, num) + 1;
+		return small(1, MAXL, num) + 1;
 	}
 
 	// 当前在i号节点的h层，查询有多少个数字比num小
-	public static int rank(int i, int h, int num) {
+	public static int small(int i, int h, int num) {
 		int rightCnt = 0;
 		while (next[i][h] != 0 && key[next[i][h]] < num) {
 			rightCnt += len[i][h];
@@ -200,7 +200,7 @@ public class SkipList1 {
 		if (h == 1) {
 			return rightCnt;
 		} else {
-			return rightCnt + rank(i, h - 1, num);
+			return rightCnt + small(i, h - 1, num);
 		}
 	}
 
