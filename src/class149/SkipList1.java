@@ -115,8 +115,8 @@ public class SkipList1 {
 	}
 
 	// 当前在i号节点的h层，插入空间编号为j的节点
-	// 返回值：从i号节点出发，直到把空间编号为j的节点插入，总共跨过多少数字
-	// 返回值很重要，因为上游需要这个信息来改动指针长度
+	// 返回值：从i号节点出发，直到把空间编号为j的节点插入，底层总共跨过多少数字
+	// 返回值很重要，因为上游需要这个信息来改动指针的长度信息
 	public static int addNode(int i, int h, int j) {
 		int rightCnt = 0;
 		while (next[i][h] != 0 && key[next[i][h]] < key[j]) {
