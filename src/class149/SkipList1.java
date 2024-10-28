@@ -33,7 +33,7 @@ public class SkipList1 {
 
 	public static int[] count = new int[MAXN];
 
-	public static int[] size = new int[MAXN];
+	public static int[] level = new int[MAXN];
 
 	public static int[][] next = new int[MAXN][MAXL + 1];
 
@@ -42,13 +42,13 @@ public class SkipList1 {
 	public static void build() {
 		cnt = 1;
 		key[cnt] = Integer.MIN_VALUE;
-		size[cnt] = MAXL;
+		level[cnt] = MAXL;
 	}
 
 	public static void clear() {
 		Arrays.fill(key, 1, cnt + 1, 0);
 		Arrays.fill(count, 1, cnt + 1, 0);
-		Arrays.fill(size, 1, cnt + 1, 0);
+		Arrays.fill(level, 1, cnt + 1, 0);
 		for (int i = 1; i <= cnt; i++) {
 			Arrays.fill(next[i], 0);
 			Arrays.fill(len[i], 0);
@@ -84,7 +84,7 @@ public class SkipList1 {
 		} else {
 			key[++cnt] = num;
 			count[cnt] = 1;
-			size[cnt] = random();
+			level[cnt] = random();
 			addNode(1, MAXL, cnt);
 		}
 	}
@@ -115,7 +115,7 @@ public class SkipList1 {
 			return rightCnt;
 		} else {
 			int downCnt = addNode(i, h - 1, j);
-			if (h > size[j]) {
+			if (h > level[j]) {
 				len[i][h]++;
 			} else {
 				next[j][h] = next[i][h];
@@ -157,7 +157,7 @@ public class SkipList1 {
 		while (next[i][h] != 0 && key[next[i][h]] < key[j]) {
 			i = next[i][h];
 		}
-		if (h > size[j]) {
+		if (h > level[j]) {
 			len[i][h]--;
 		} else {
 			next[i][h] = next[j][h];

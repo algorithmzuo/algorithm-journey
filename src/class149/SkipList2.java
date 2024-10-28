@@ -29,20 +29,20 @@ package class149;
 //int cnt;
 //int key[MAXN];
 //int key_count[MAXN];
-//int size[MAXN];
+//int level[MAXN];
 //int next_node[MAXN][MAXL + 1];
 //int len[MAXN][MAXL + 1];
 //
 //void build() {
 //    cnt = 1;
 //    key[cnt] = INT_MIN;
-//    size[cnt] = MAXL;
+//    level[cnt] = MAXL;
 //}
 //
 //void clear() {
 //    memset(key + 1, 0, cnt * sizeof(int));
 //    memset(key_count + 1, 0, cnt * sizeof(int));
-//    memset(size + 1, 0, cnt * sizeof(int));
+//    memset(level + 1, 0, cnt * sizeof(int));
 //    for (int i = 1; i <= cnt; i++) {
 //        memset(next_node[i], 0, (MAXL + 1) * sizeof(int));
 //        memset(len[i], 0, (MAXL + 1) * sizeof(int));
@@ -98,7 +98,7 @@ package class149;
 //        return rightCnt;
 //    } else {
 //        int downCnt = addNode(i, h - 1, j);
-//        if (h > size[j]) {
+//        if (h > level[j]) {
 //            len[i][h]++;
 //        } else {
 //            next_node[j][h] = next_node[i][h];
@@ -116,7 +116,7 @@ package class149;
 //    } else {
 //        key[++cnt] = num;
 //        key_count[cnt] = 1;
-//        size[cnt] = randomLevel();
+//        level[cnt] = randomLevel();
 //        addNode(1, MAXL, cnt);
 //    }
 //}
@@ -140,7 +140,7 @@ package class149;
 //    while (next_node[i][h] != 0 && key[next_node[i][h]] < key[j]) {
 //        i = next_node[i][h];
 //    }
-//    if (h > size[j]) {
+//    if (h > level[j]) {
 //        len[i][h]--;
 //    } else {
 //        next_node[i][h] = next_node[j][h];
