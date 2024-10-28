@@ -54,25 +54,27 @@ public class Code01_SmallSum {
 	// 返回跨左右产生的小和累加和，左侧有序、右侧有序，让左右两侧整体有序
 	// arr[l...m] arr[m+1...r]
 	public static long merge(int l, int m, int r) {
-		// 统计部分
+		// 统计用变量
 		long ans = 0;
-		for (int j = m + 1, i = l, sum = 0; j <= r; j++) {
-			while (i <= m && arr[i] <= arr[j]) {
-				sum += arr[i++];
-			}
-			ans += sum;
-		}
+            	long acc = 0;
 		// 正常merge
 		int i = l;
 		int a = l;
 		int b = m + 1;
 		while (a <= m && b <= r) {
-			help[i++] = arr[a] <= arr[b] ? arr[a++] : arr[b++];
+			if (arr[a] <= arr[b]) {
+	                    acc += arr[a];
+	                    help[i++] = arr[a++];
+	                } else {
+	                    ans += acc;
+	                    help[i++] = arr[b++];
+	                }
 		}
 		while (a <= m) {
 			help[i++] = arr[a++];
 		}
 		while (b <= r) {
+			ans += acc;
 			help[i++] = arr[b++];
 		}
 		for (i = l; i <= r; i++) {
