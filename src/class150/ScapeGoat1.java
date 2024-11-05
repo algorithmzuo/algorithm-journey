@@ -19,6 +19,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StreamTokenizer;
+import java.util.Arrays;
 
 public class ScapeGoat1 {
 
@@ -28,6 +29,9 @@ public class ScapeGoat1 {
 
 	// 整棵树的头节点编号
 	public static int head = 0;
+
+	// 空间使用编号
+	public static int cnt = 0;
 
 	// 节点的key值
 	public static int[] key = new int[MAXN];
@@ -47,26 +51,16 @@ public class ScapeGoat1 {
 	// 节点总数
 	public static int[] diff = new int[MAXN];
 
-	public static int[] order = new int[MAXN];
+	// 中序遍历收集节点
+	public static int[] collect = new int[MAXN];
 
-	public static int[] stack = new int[MAXN];
-
-	public static int orderSize, stackSize;
-
-	public static void prepare(int n) {
-		stackSize = 0;
-		for (int i = n; i >= 1; i--) {
-			stack[++stackSize] = i;
-		}
-	}
+	public static int ci;
 
 	public static void inorder(int i) {
 		if (i != 0) {
 			inorder(left[i]);
 			if (count[i] > 0) {
-				order[++orderSize] = i;
-			} else {
-				stack[++stackSize] = i;
+				collect[++ci] = i;
 			}
 			inorder(right[i]);
 		}
@@ -82,7 +76,7 @@ public class ScapeGoat1 {
 			return 0;
 		}
 		int m = (l + r) / 2;
-		int h = order[m];
+		int h = collect[m];
 		left[h] = build(l, m - 1);
 		right[h] = build(m + 1, r);
 		up(h);
@@ -90,10 +84,10 @@ public class ScapeGoat1 {
 	}
 
 	public static int rebuild(int i) {
-		orderSize = 0;
+		ci = 0;
 		inorder(i);
-		if (orderSize > 0) {
-			return build(1, orderSize);
+		if (ci > 0) {
+			return build(1, ci);
 		} else {
 			return 0;
 		}
@@ -109,11 +103,10 @@ public class ScapeGoat1 {
 
 	public static int add(int i, int num) {
 		if (i == 0) {
-			i = stack[stackSize--];
+			i = ++cnt;
 			key[i] = num;
 			left[i] = right[i] = 0;
 			count[i] = size[i] = diff[i] = 1;
-			return i;
 		} else {
 			if (key[i] == num) {
 				count[i]++;
@@ -122,9 +115,9 @@ public class ScapeGoat1 {
 			} else {
 				right[i] = add(right[i], num);
 			}
-			up(i);
-			return balance(i) ? i : rebuild(i);
 		}
+		up(i);
+		return balance(i) ? i : rebuild(i);
 	}
 
 	public static int rank(int num) {
@@ -191,13 +184,23 @@ public class ScapeGoat1 {
 		return balance(i) ? i : rebuild(i);
 	}
 
+	public static void clear() {
+		Arrays.fill(key, 1, cnt + 1, 0);
+		Arrays.fill(count, 1, cnt + 1, 0);
+		Arrays.fill(left, 1, cnt + 1, 0);
+		Arrays.fill(right, 1, cnt + 1, 0);
+		Arrays.fill(size, 1, cnt + 1, 0);
+		Arrays.fill(diff, 1, cnt + 1, 0);
+		cnt = 0;
+		head = 0;
+	}
+
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StreamTokenizer in = new StreamTokenizer(br);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
 		in.nextToken();
 		int n = (int) in.nval;
-		prepare(n);
 		for (int i = 1, op, x; i <= n; i++) {
 			in.nextToken();
 			op = (int) in.nval;
@@ -217,6 +220,7 @@ public class ScapeGoat1 {
 				out.println(post(x));
 			}
 		}
+		clear();
 		out.flush();
 		out.close();
 		br.close();

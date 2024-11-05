@@ -19,6 +19,7 @@ package class150;
 //#include <algorithm>
 //#include <cmath>
 //#include <climits>
+//#include <cstring>
 //
 //using namespace std;
 //
@@ -27,30 +28,21 @@ package class150;
 //const double ALPHA = 0.7;
 //
 //int head = 0;
+//int cnt = 0;
 //int key[MAXN];
 //int key_count[MAXN];
 //int ls[MAXN];
 //int rs[MAXN];
 //int size[MAXN];
 //int diff[MAXN];
-//int order[MAXN];
-//int stack[MAXN];
-//int orderSize, stackSize;
-//
-//void prepare(int n) {
-//    stackSize = 0;
-//    for (int i = n; i >= 1; --i) {
-//        stack[++stackSize] = i;
-//    }
-//}
+//int collect[MAXN];
+//int ci;
 //
 //void inorder(int i) {
 //    if (i != 0) {
 //        inorder(ls[i]);
 //        if (key_count[i] > 0) {
-//            order[++orderSize] = i;
-//        } else {
-//            stack[++stackSize] = i;
+//            collect[++ci] = i;
 //        }
 //        inorder(rs[i]);
 //    }
@@ -66,7 +58,7 @@ package class150;
 //        return 0;
 //    }
 //    int m = (l + r) / 2;
-//    int h = order[m];
+//    int h = collect[m];
 //    ls[h] = build(l, m - 1);
 //    rs[h] = build(m + 1, r);
 //    up(h);
@@ -74,10 +66,10 @@ package class150;
 //}
 //
 //int rebuild(int i) {
-//    orderSize = 0;
+//    ci = 0;
 //    inorder(i);
-//    if (orderSize > 0) {
-//        return build(1, orderSize);
+//    if (ci > 0) {
+//        return build(1, ci);
 //    } else {
 //        return 0;
 //    }
@@ -89,11 +81,10 @@ package class150;
 //
 //int add(int i, int num) {
 //    if (i == 0) {
-//        i = stack[stackSize--];
+//        i = ++cnt;
 //        key[i] = num;
 //        ls[i] = rs[i] = 0;
 //        key_count[i] = size[i] = diff[i] = 1;
-//        return i;
 //    } else {
 //        if (key[i] == num) {
 //            key_count[i]++;
@@ -102,14 +93,13 @@ package class150;
 //        } else {
 //            rs[i] = add(rs[i], num);
 //        }
-//        up(i);
-//        return balance(i) ? i : rebuild(i);
 //    }
+//    up(i);
+//    return balance(i) ? i : rebuild(i);
 //}
 //
-//int add(int num) {
+//void add(int num) {
 //    head = add(head, num);
-//    return head;
 //}
 //
 //int small(int i, int num) {
@@ -119,7 +109,7 @@ package class150;
 //    if (key[i] >= num) {
 //        return small(ls[i], num);
 //    } else {
-//        return size[ls[i]] + key_count[i] + small(rs[i], num); // 使用 key_count
+//        return size[ls[i]] + key_count[i] + small(rs[i], num);
 //    }
 //}
 //
@@ -170,11 +160,21 @@ package class150;
 //    return balance(i) ? i : rebuild(i);
 //}
 //
-//int remove(int num) {
+//void remove(int num) {
 //    if (getRank(num) != getRank(num + 1)) {
 //        head = remove(head, num);
 //    }
-//    return head;
+//}
+//
+//void clear() {
+//    memset(key, 0, sizeof(key));
+//    memset(key_count, 0, sizeof(key_count));
+//    memset(ls, 0, sizeof(ls));
+//    memset(rs, 0, sizeof(rs));
+//    memset(size, 0, sizeof(size));
+//    memset(diff, 0, sizeof(diff));
+//    cnt = 0;
+//    head = 0;
 //}
 //
 //int main() {
@@ -182,7 +182,6 @@ package class150;
 //    cin.tie(nullptr);
 //    int n;
 //    cin >> n;
-//    prepare(n);
 //    for (int i = 0; i < n; ++i) {
 //        int op, x;
 //        cin >> op >> x;
@@ -200,5 +199,6 @@ package class150;
 //            cout << post(x) << "\n";
 //        }
 //    }
+//    clear();
 //    return 0;
 //}
