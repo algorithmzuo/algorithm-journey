@@ -192,14 +192,17 @@ public class ShowDetails {
 	public static int max, cost;
 
 	public static void main(String[] args) {
+		// 设置平衡因子
+		ALPHA = 0.7;
+		// 设置插入范围
+		max = 10000;
+		// 清空重构节点计数
+		cost = 0;
 		System.out.println("测试开始");
-		ALPHA = 0.7; // 设置不同的平衡因子
-		max = 10000; // 设置插入范围
-		cost = 0; // 清空重构节点计数
 		for (int num = 1; num <= max; num++) {
 			add(num);
 		}
-		System.out.println("依次插入从 1 到 " + max + " 的所有数字");
+		System.out.println("依次插入 1 到 " + max);
 		System.out.println("平衡因子 : " + ALPHA);
 		System.out.println("重构节点总数 : " + cost);
 		System.out.println("树高 : " + deep(head));
