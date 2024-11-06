@@ -14,10 +14,8 @@ import java.util.Arrays;
 public class ShowDetails {
 
 	public static void main(String[] args) {
-		// 设置平衡因子
-		ALPHA = 0.7;
-		// 设置插入范围
-		max = 10000;
+		ALPHA = 0.7; // 设置平衡因子
+		max = 10000; // 设置插入范围
 		System.out.println("测试开始");
 		cost = 0; // 清空重构节点计数
 		for (int num = 1; num <= max; num++) {
@@ -25,16 +23,24 @@ public class ShowDetails {
 		}
 		System.out.println("依次插入 1 到 " + max);
 		System.out.println("平衡因子 : " + ALPHA);
-		System.out.println("重构节点总数 : " + cost);
-		System.out.println("树高 : " + deep(head));
+		System.out.println("树的高度 : " + deep(head));
+		System.out.println("重构节点 : " + cost);
 		System.out.println("测试结束");
 	}
 
-	public static double ALPHA = 0.7;
+	// 统计树高
+	public static int deep(int i) {
+		if (i == 0) {
+			return 0;
+		}
+		return Math.max(deep(left[i]), deep(right[i])) + 1;
+	}
 
 	public static int max;
 
 	public static int cost;
+
+	public static double ALPHA = 0.7;
 
 	public static int MAXN = 100001;
 
@@ -103,8 +109,7 @@ public class ShowDetails {
 			ci = 0;
 			inorder(child);
 			if (ci > 0) {
-				// 统计重构节点的计数
-				cost += ci;
+				cost += ci; // 统计重构节点的计数
 				if (father == 0) {
 					head = build(1, ci);
 				} else if (side == 0) {
@@ -231,14 +236,6 @@ public class ShowDetails {
 		Arrays.fill(diff, 1, cnt + 1, 0);
 		cnt = 0;
 		head = 0;
-	}
-
-	// 统计树高
-	public static int deep(int i) {
-		if (i == 0) {
-			return 0;
-		}
-		return Math.max(deep(left[i]), deep(right[i])) + 1;
 	}
 
 }
