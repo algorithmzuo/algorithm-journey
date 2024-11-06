@@ -23,9 +23,11 @@ import java.util.Arrays;
 
 public class ScapeGoat1 {
 
-	public static int MAXN = 100001;
-
+	// 平衡因子
 	public static double ALPHA = 0.7;
+
+	// 空间的最大使用量
+	public static int MAXN = 100001;
 
 	// 整棵树的头节点编号
 	public static int head = 0;

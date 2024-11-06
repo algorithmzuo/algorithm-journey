@@ -13,9 +13,30 @@ import java.util.Arrays;
 
 public class ShowDetails {
 
-	public static int MAXN = 100001;
+	public static void main(String[] args) {
+		// 设置平衡因子
+		ALPHA = 0.7;
+		// 设置插入范围
+		max = 10000;
+		System.out.println("测试开始");
+		cost = 0; // 清空重构节点计数
+		for (int num = 1; num <= max; num++) {
+			add(num);
+		}
+		System.out.println("依次插入 1 到 " + max);
+		System.out.println("平衡因子 : " + ALPHA);
+		System.out.println("重构节点总数 : " + cost);
+		System.out.println("树高 : " + deep(head));
+		System.out.println("测试结束");
+	}
 
 	public static double ALPHA = 0.7;
+
+	public static int max;
+
+	public static int cost;
+
+	public static int MAXN = 100001;
 
 	public static int head = 0;
 
@@ -218,27 +239,6 @@ public class ShowDetails {
 			return 0;
 		}
 		return Math.max(deep(left[i]), deep(right[i])) + 1;
-	}
-
-	public static int max;
-
-	public static int cost;
-
-	public static void main(String[] args) {
-		// 设置平衡因子
-		ALPHA = 0.7;
-		// 设置插入范围
-		max = 10000;
-		System.out.println("测试开始");
-		cost = 0; // 清空重构节点计数
-		for (int num = 1; num <= max; num++) {
-			add(num);
-		}
-		System.out.println("依次插入 1 到 " + max);
-		System.out.println("平衡因子 : " + ALPHA);
-		System.out.println("重构节点总数 : " + cost);
-		System.out.println("树高 : " + deep(head));
-		System.out.println("测试结束");
 	}
 
 }

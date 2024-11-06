@@ -23,10 +23,8 @@ package class150;
 //
 //using namespace std;
 //
-//const int MAXN = 100001;
-//
 //const double ALPHA = 0.7;
-//
+//const int MAXN = 100001;
 //int head = 0;
 //int cnt = 0;
 //int key[MAXN];
