@@ -212,6 +212,7 @@ public class ShowDetails {
 		head = 0;
 	}
 
+	// 统计树高
 	public static int deep(int i) {
 		if (i == 0) {
 			return 0;
@@ -219,16 +220,17 @@ public class ShowDetails {
 		return Math.max(deep(left[i]), deep(right[i])) + 1;
 	}
 
-	public static int max, cost;
+	public static int max;
+
+	public static int cost;
 
 	public static void main(String[] args) {
 		// 设置平衡因子
 		ALPHA = 0.7;
 		// 设置插入范围
 		max = 10000;
-		// 清空重构节点计数
-		cost = 0;
 		System.out.println("测试开始");
+		cost = 0; // 清空重构节点计数
 		for (int num = 1; num <= max; num++) {
 			add(num);
 		}
