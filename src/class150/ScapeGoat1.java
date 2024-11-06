@@ -51,10 +51,33 @@ public class ScapeGoat1 {
 	// 节点总数
 	public static int[] diff = new int[MAXN];
 
-	// 中序遍历收集节点
+	// 中序收集节点的数组
 	public static int[] collect = new int[MAXN];
 
+	// 中序收集节点的计数
 	public static int ci;
+
+	// 最上方不平衡的节点
+	public static int child;
+
+	// 最上方不平衡节点的父节点
+	public static int father;
+
+	// 最上方不平衡的节点是其父节点的什么孩子
+	// 0代表左孩子，1代表右孩子
+	public static int side;
+
+	public static int init(int num) {
+		key[++cnt] = num;
+		left[cnt] = right[cnt] = 0;
+		count[cnt] = size[cnt] = diff[cnt] = 1;
+		return cnt;
+	}
+
+	public static void up(int i) {
+		size[i] = size[left[i]] + size[right[i]] + count[i];
+		diff[i] = diff[left[i]] + diff[right[i]] + (count[i] > 0 ? 1 : 0);
+	}
 
 	public static void inorder(int i) {
 		if (i != 0) {
@@ -64,11 +87,6 @@ public class ScapeGoat1 {
 			}
 			inorder(right[i]);
 		}
-	}
-
-	public static void up(int i) {
-		size[i] = size[left[i]] + size[right[i]] + count[i];
-		diff[i] = diff[left[i]] + diff[right[i]] + (count[i] > 0 ? 1 : 0);
 	}
 
 	public static int build(int l, int r) {
@@ -83,13 +101,19 @@ public class ScapeGoat1 {
 		return h;
 	}
 
-	public static int rebuild(int i) {
-		ci = 0;
-		inorder(i);
-		if (ci > 0) {
-			return build(1, ci);
-		} else {
-			return 0;
+	public static void rebuild() {
+		if (child != -1) {
+			ci = 0;
+			inorder(child);
+			if (ci > 0) {
+				if (father == 0) {
+					head = build(1, ci);
+				} else if (side == 0) {
+					left[father] = build(1, ci);
+				} else {
+					right[father] = build(1, ci);
+				}
+			}
 		}
 	}
 
@@ -97,31 +121,36 @@ public class ScapeGoat1 {
 		return ALPHA * diff[i] > Math.max(diff[left[i]], diff[right[i]]);
 	}
 
-	public static void add(int num) {
-		head = add(head, num);
-	}
-
-	public static int add(int i, int num) {
+	public static void add(int i, int f, int s, int num) {
 		if (i == 0) {
-			i = ++cnt;
-			key[i] = num;
-			left[i] = right[i] = 0;
-			count[i] = size[i] = diff[i] = 1;
+			if (f == 0) {
+				head = init(num);
+			} else if (s == 0) {
+				left[f] = init(num);
+			} else {
+				right[f] = init(num);
+			}
 		} else {
 			if (key[i] == num) {
 				count[i]++;
 			} else if (key[i] > num) {
-				left[i] = add(left[i], num);
+				add(left[i], i, 0, num);
 			} else {
-				right[i] = add(right[i], num);
+				add(right[i], i, 1, num);
+			}
+			up(i);
+			if (!balance(i)) {
+				father = f;
+				child = i;
+				side = s;
 			}
 		}
-		up(i);
-		return balance(i) ? i : rebuild(i);
 	}
 
-	public static int rank(int num) {
-		return small(head, num) + 1;
+	public static void add(int num) {
+		child = father = side = -1;
+		add(head, 0, 0, num);
+		rebuild();
 	}
 
 	public static int small(int i, int num) {
@@ -135,8 +164,8 @@ public class ScapeGoat1 {
 		}
 	}
 
-	public static int index(int x) {
-		return index(head, x);
+	public static int rank(int num) {
+		return small(head, num) + 1;
 	}
 
 	public static int index(int i, int x) {
@@ -146,6 +175,10 @@ public class ScapeGoat1 {
 			return index(right[i], x - size[left[i]] - count[i]);
 		}
 		return key[i];
+	}
+
+	public static int index(int x) {
+		return index(head, x);
 	}
 
 	public static int pre(int num) {
@@ -166,22 +199,28 @@ public class ScapeGoat1 {
 		}
 	}
 
-	public static void remove(int num) {
-		if (rank(num) != rank(num + 1)) {
-			head = remove(head, num);
-		}
-	}
-
-	public static int remove(int i, int num) {
+	public static void remove(int i, int f, int s, int num) {
 		if (key[i] == num) {
 			count[i]--;
 		} else if (key[i] > num) {
-			left[i] = remove(left[i], num);
+			remove(left[i], i, 0, num);
 		} else {
-			right[i] = remove(right[i], num);
+			remove(right[i], i, 1, num);
 		}
 		up(i);
-		return balance(i) ? i : rebuild(i);
+		if (!balance(i)) {
+			child = i;
+			father = f;
+			side = s;
+		}
+	}
+
+	public static void remove(int num) {
+		if (rank(num) != rank(num + 1)) {
+			child = father = side = -1;
+			remove(head, 0, 0, num);
+			rebuild();
+		}
 	}
 
 	public static void clear() {

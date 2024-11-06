@@ -37,6 +37,21 @@ package class150;
 //int diff[MAXN];
 //int collect[MAXN];
 //int ci;
+//int child;
+//int father;
+//int side;
+//
+//int init(int num) {
+//    key[++cnt] = num;
+//    ls[cnt] = rs[cnt] = 0;
+//    key_count[cnt] = size[cnt] = diff[cnt] = 1;
+//    return cnt;
+//}
+//
+//void up(int i) {
+//    size[i] = size[ls[i]] + size[rs[i]] + key_count[i];
+//    diff[i] = diff[ls[i]] + diff[rs[i]] + (key_count[i] > 0 ? 1 : 0);
+//}
 //
 //void inorder(int i) {
 //    if (i != 0) {
@@ -46,11 +61,6 @@ package class150;
 //        }
 //        inorder(rs[i]);
 //    }
-//}
-//
-//void up(int i) {
-//    size[i] = size[ls[i]] + size[rs[i]] + key_count[i];
-//    diff[i] = diff[ls[i]] + diff[rs[i]] + (key_count[i] > 0 ? 1 : 0);
 //}
 //
 //int build(int l, int r) {
@@ -65,13 +75,19 @@ package class150;
 //    return h;
 //}
 //
-//int rebuild(int i) {
-//    ci = 0;
-//    inorder(i);
-//    if (ci > 0) {
-//        return build(1, ci);
-//    } else {
-//        return 0;
+//void rebuild() {
+//    if (child != -1) {
+//        ci = 0;
+//        inorder(child);
+//        if (ci > 0) {
+//            if (father == 0) {
+//                head = build(1, ci);
+//            } else if (side == 0) {
+//                ls[father] = build(1, ci);
+//            } else {
+//                rs[father] = build(1, ci);
+//            }
+//        }
 //    }
 //}
 //
@@ -79,27 +95,36 @@ package class150;
 //    return ALPHA * diff[i] > max(diff[ls[i]], diff[rs[i]]);
 //}
 //
-//int add(int i, int num) {
+//void add(int i, int f, int s, int num) {
 //    if (i == 0) {
-//        i = ++cnt;
-//        key[i] = num;
-//        ls[i] = rs[i] = 0;
-//        key_count[i] = size[i] = diff[i] = 1;
+//        if (f == 0) {
+//            head = init(num);
+//        } else if (s == 0) {
+//            ls[f] = init(num);
+//        } else {
+//            rs[f] = init(num);
+//        }
 //    } else {
 //        if (key[i] == num) {
 //            key_count[i]++;
 //        } else if (key[i] > num) {
-//            ls[i] = add(ls[i], num);
+//            add(ls[i], i, 0, num);
 //        } else {
-//            rs[i] = add(rs[i], num);
+//            add(rs[i], i, 1, num);
+//        }
+//        up(i);
+//        if (!balance(i)) {
+//            father = f;
+//            child = i;
+//            side = s;
 //        }
 //    }
-//    up(i);
-//    return balance(i) ? i : rebuild(i);
 //}
 //
 //void add(int num) {
-//    head = add(head, num);
+//    child = father = side = -1;
+//    add(head, 0, 0, num);
+//    rebuild();
 //}
 //
 //int small(int i, int num) {
@@ -148,21 +173,27 @@ package class150;
 //    }
 //}
 //
-//int remove(int i, int num) {
+//void remove(int i, int f, int s, int num) {
 //    if (key[i] == num) {
 //        key_count[i]--;
 //    } else if (key[i] > num) {
-//        ls[i] = remove(ls[i], num);
+//        remove(ls[i], i, 0, num);
 //    } else {
-//        rs[i] = remove(rs[i], num);
+//        remove(rs[i], i, 1, num);
 //    }
 //    up(i);
-//    return balance(i) ? i : rebuild(i);
+//    if (!balance(i)) {
+//        child = i;
+//        father = f;
+//        side = s;
+//    }
 //}
 //
 //void remove(int num) {
 //    if (getRank(num) != getRank(num + 1)) {
-//        head = remove(head, num);
+//        child = father = side = -1;
+//        remove(head, 0, 0, num);
+//        rebuild();
 //    }
 //}
 //
@@ -182,7 +213,7 @@ package class150;
 //    cin.tie(nullptr);
 //    int n;
 //    cin >> n;
-//    for (int i = 0; i < n; ++i) {
+//    for (int i = 1; i <= n; i++) {
 //        int op, x;
 //        cin >> op >> x;
 //        if (op == 1) {
