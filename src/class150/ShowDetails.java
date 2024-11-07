@@ -26,6 +26,7 @@ public class ShowDetails {
 		System.out.println("树的高度 : " + deep(head));
 		System.out.println("重构节点 : " + cost);
 		System.out.println("测试结束");
+		clear();
 	}
 
 	// 统计树高
@@ -64,7 +65,7 @@ public class ShowDetails {
 
 	public static int ci;
 
-	public static int child;
+	public static int top;
 
 	public static int father;
 
@@ -105,14 +106,14 @@ public class ShowDetails {
 	}
 
 	public static void rebuild() {
-		if (child != -1) {
+		if (top != 0) {
 			ci = 0;
-			inorder(child);
+			inorder(top);
 			if (ci > 0) {
-				cost += ci; // 统计重构节点的计数
+				cost += ci; // 统计重构节点数
 				if (father == 0) {
 					head = build(1, ci);
-				} else if (side == 0) {
+				} else if (side == 1) {
 					left[father] = build(1, ci);
 				} else {
 					right[father] = build(1, ci);
@@ -129,7 +130,7 @@ public class ShowDetails {
 		if (i == 0) {
 			if (f == 0) {
 				head = init(num);
-			} else if (s == 0) {
+			} else if (s == 1) {
 				left[f] = init(num);
 			} else {
 				right[f] = init(num);
@@ -138,21 +139,21 @@ public class ShowDetails {
 			if (key[i] == num) {
 				count[i]++;
 			} else if (key[i] > num) {
-				add(left[i], i, 0, num);
+				add(left[i], i, 1, num);
 			} else {
-				add(right[i], i, 1, num);
+				add(right[i], i, 2, num);
 			}
 			up(i);
 			if (!balance(i)) {
+				top = i;
 				father = f;
-				child = i;
 				side = s;
 			}
 		}
 	}
 
 	public static void add(int num) {
-		child = father = side = -1;
+		top = father = side = 0;
 		add(head, 0, 0, num);
 		rebuild();
 	}
@@ -207,13 +208,13 @@ public class ShowDetails {
 		if (key[i] == num) {
 			count[i]--;
 		} else if (key[i] > num) {
-			remove(left[i], i, 0, num);
+			remove(left[i], i, 1, num);
 		} else {
-			remove(right[i], i, 1, num);
+			remove(right[i], i, 2, num);
 		}
 		up(i);
 		if (!balance(i)) {
-			child = i;
+			top = i;
 			father = f;
 			side = s;
 		}
@@ -221,7 +222,7 @@ public class ShowDetails {
 
 	public static void remove(int num) {
 		if (rank(num) != rank(num + 1)) {
-			child = father = side = -1;
+			top = father = side = 0;
 			remove(head, 0, 0, num);
 			rebuild();
 		}

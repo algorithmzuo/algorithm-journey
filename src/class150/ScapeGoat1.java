@@ -59,14 +59,13 @@ public class ScapeGoat1 {
 	// 中序收集节点的计数
 	public static int ci;
 
-	// 最上方不平衡的节点
-	public static int child;
+	// 最上方的不平衡节点
+	public static int top;
 
-	// 最上方不平衡节点的父节点
+	// top的父节点
 	public static int father;
 
-	// 最上方不平衡的节点是其父节点的什么孩子
-	// 0代表左孩子，1代表右孩子
+	// top是父节点的什么孩子，1代表左孩子，2代表右孩子
 	public static int side;
 
 	public static int init(int num) {
@@ -104,13 +103,13 @@ public class ScapeGoat1 {
 	}
 
 	public static void rebuild() {
-		if (child != -1) {
+		if (top != 0) {
 			ci = 0;
-			inorder(child);
+			inorder(top);
 			if (ci > 0) {
 				if (father == 0) {
 					head = build(1, ci);
-				} else if (side == 0) {
+				} else if (side == 1) {
 					left[father] = build(1, ci);
 				} else {
 					right[father] = build(1, ci);
@@ -127,7 +126,7 @@ public class ScapeGoat1 {
 		if (i == 0) {
 			if (f == 0) {
 				head = init(num);
-			} else if (s == 0) {
+			} else if (s == 1) {
 				left[f] = init(num);
 			} else {
 				right[f] = init(num);
@@ -136,21 +135,21 @@ public class ScapeGoat1 {
 			if (key[i] == num) {
 				count[i]++;
 			} else if (key[i] > num) {
-				add(left[i], i, 0, num);
+				add(left[i], i, 1, num);
 			} else {
-				add(right[i], i, 1, num);
+				add(right[i], i, 2, num);
 			}
 			up(i);
 			if (!balance(i)) {
+				top = i;
 				father = f;
-				child = i;
 				side = s;
 			}
 		}
 	}
 
 	public static void add(int num) {
-		child = father = side = -1;
+		top = father = side = 0;
 		add(head, 0, 0, num);
 		rebuild();
 	}
@@ -205,13 +204,13 @@ public class ScapeGoat1 {
 		if (key[i] == num) {
 			count[i]--;
 		} else if (key[i] > num) {
-			remove(left[i], i, 0, num);
+			remove(left[i], i, 1, num);
 		} else {
-			remove(right[i], i, 1, num);
+			remove(right[i], i, 2, num);
 		}
 		up(i);
 		if (!balance(i)) {
-			child = i;
+			top = i;
 			father = f;
 			side = s;
 		}
@@ -219,7 +218,7 @@ public class ScapeGoat1 {
 
 	public static void remove(int num) {
 		if (rank(num) != rank(num + 1)) {
-			child = father = side = -1;
+			top = father = side = 0;
 			remove(head, 0, 0, num);
 			rebuild();
 		}

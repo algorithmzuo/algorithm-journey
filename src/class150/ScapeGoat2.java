@@ -35,7 +35,7 @@ package class150;
 //int diff[MAXN];
 //int collect[MAXN];
 //int ci;
-//int child;
+//int top;
 //int father;
 //int side;
 //
@@ -74,13 +74,13 @@ package class150;
 //}
 //
 //void rebuild() {
-//    if (child != -1) {
+//    if (top != 0) {
 //        ci = 0;
-//        inorder(child);
+//        inorder(top);
 //        if (ci > 0) {
 //            if (father == 0) {
 //                head = build(1, ci);
-//            } else if (side == 0) {
+//            } else if (side == 1) {
 //                ls[father] = build(1, ci);
 //            } else {
 //                rs[father] = build(1, ci);
@@ -97,7 +97,7 @@ package class150;
 //    if (i == 0) {
 //        if (f == 0) {
 //            head = init(num);
-//        } else if (s == 0) {
+//        } else if (s == 1) {
 //            ls[f] = init(num);
 //        } else {
 //            rs[f] = init(num);
@@ -106,21 +106,21 @@ package class150;
 //        if (key[i] == num) {
 //            key_count[i]++;
 //        } else if (key[i] > num) {
-//            add(ls[i], i, 0, num);
+//            add(ls[i], i, 1, num);
 //        } else {
-//            add(rs[i], i, 1, num);
+//            add(rs[i], i, 2, num);
 //        }
 //        up(i);
 //        if (!balance(i)) {
+//            top = i;
 //            father = f;
-//            child = i;
 //            side = s;
 //        }
 //    }
 //}
 //
 //void add(int num) {
-//    child = father = side = -1;
+//    top = father = side = 0;
 //    add(head, 0, 0, num);
 //    rebuild();
 //}
@@ -175,13 +175,13 @@ package class150;
 //    if (key[i] == num) {
 //        key_count[i]--;
 //    } else if (key[i] > num) {
-//        remove(ls[i], i, 0, num);
+//        remove(ls[i], i, 1, num);
 //    } else {
-//        remove(rs[i], i, 1, num);
+//        remove(rs[i], i, 2, num);
 //    }
 //    up(i);
 //    if (!balance(i)) {
-//        child = i;
+//        top = i;
 //        father = f;
 //        side = s;
 //    }
@@ -189,7 +189,7 @@ package class150;
 //
 //void remove(int num) {
 //    if (getRank(num) != getRank(num + 1)) {
-//        child = father = side = -1;
+//        top = father = side = 0;
 //        remove(head, 0, 0, num);
 //        rebuild();
 //    }
