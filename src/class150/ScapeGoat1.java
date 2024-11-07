@@ -32,7 +32,7 @@ public class ScapeGoat1 {
 	// 整棵树的头节点编号
 	public static int head = 0;
 
-	// 空间使用编号
+	// 空间使用计数
 	public static int cnt = 0;
 
 	// 节点的key值
