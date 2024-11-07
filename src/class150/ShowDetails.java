@@ -21,7 +21,7 @@ public class ShowDetails {
 		for (int num = 1; num <= max; num++) {
 			add(num);
 		}
-		System.out.println("插入数字 : " + "1 ~ " + max);
+		System.out.println("插入数字 : " + "1~" + max);
 		System.out.println("平衡因子 : " + ALPHA);
 		System.out.println("树的高度 : " + deep(head));
 		System.out.println("重构节点 : " + cost);
