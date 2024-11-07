@@ -119,7 +119,7 @@ public class ScapeGoat1 {
 	}
 
 	public static boolean balance(int i) {
-		return ALPHA * diff[i] > Math.max(diff[left[i]], diff[right[i]]);
+		return ALPHA * diff[i] >= Math.max(diff[left[i]], diff[right[i]]);
 	}
 
 	public static void add(int i, int f, int s, int num) {

@@ -1,7 +1,7 @@
 package class150;
 
 // 平衡因子影响替罪羊树的实验
-// 一旦， max(左树节点数，右树节点数) / 整树节点数 >= 平衡因子，就会发生重构
+// 一旦，max(左树节点数，右树节点数) > 平衡因子 * 整树节点数，就会发生重构
 // 平衡因子不能小于0.5，不能大于1.0，因为无意义
 // 平衡因子等于0.5时，树最平衡，树高最小，此时查询效率高，但是重构的节点最多
 // 平衡因子等于1.0时，树为线状，树高最大，此时查询效率低，但是重构不发生
@@ -123,7 +123,7 @@ public class ShowDetails {
 	}
 
 	public static boolean balance(int i) {
-		return ALPHA * diff[i] > Math.max(diff[left[i]], diff[right[i]]);
+		return ALPHA * diff[i] >= Math.max(diff[left[i]], diff[right[i]]);
 	}
 
 	public static void add(int i, int f, int s, int num) {

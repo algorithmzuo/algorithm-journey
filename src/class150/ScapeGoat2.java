@@ -90,7 +90,7 @@ package class150;
 //}
 //
 //bool balance(int i) {
-//    return ALPHA * diff[i] > max(diff[ls[i]], diff[rs[i]]);
+//    return ALPHA * diff[i] >= max(diff[ls[i]], diff[rs[i]]);
 //}
 //
 //void add(int i, int f, int s, int num) {
