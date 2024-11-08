@@ -122,7 +122,7 @@ public class Code03_TargetSum {
 	// 那么就一定对应一种target的方式
 	// 比如非负数组nums，target = 1, nums所有数累加和是11
 	// 求有多少方法组成1，其实就是求，有多少种子集累加和达到6的方法，(1+11)/2=6
-	// 因为，子集累加和6 - 另一半的子集累加和5 = 1（target)
+	// 因为，子集累加和6 - 另一半的子集累加和5 = 1(target)
 	// 所以有多少个累加和为6的不同集合，就代表有多少个target==1的表达式数量
 	// 至此已经转化为01背包问题了
 	public static int findTargetSumWays4(int[] nums, int target) {
