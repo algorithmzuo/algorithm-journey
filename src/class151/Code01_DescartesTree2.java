@@ -1,6 +1,6 @@
 package class151;
 
-// 笛卡尔树模版(java版)
+// 笛卡尔树模版(C++版)
 // 测试链接 : https://www.luogu.com.cn/problem/P5854
 // 如下实现是C++的版本，C++版本和java版本逻辑完全一样
 // 提交如下代码，可以通过所有测试用例
