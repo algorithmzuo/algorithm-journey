@@ -14,10 +14,10 @@ import java.io.StreamTokenizer;
 import java.util.Arrays;
 
 public class Code03_CountingProblem {
+	
+	public static int MOD = 1000000007;
 
 	public static int MAXN = 1000001;
-
-	public static int MOD = 1000000007;
 
 	public static int[] arr = new int[MAXN];
 

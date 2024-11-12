@@ -18,12 +18,12 @@ import java.io.StreamTokenizer;
 public class Code01_DescartesTree1 {
 
 	public static int MAXN = 10000001;
+	
+	public static int[] arr = new int[MAXN];
 
 	public static int[] left = new int[MAXN];
 
 	public static int[] right = new int[MAXN];
-
-	public static int[] arr = new int[MAXN];
 
 	public static int[] stack = new int[MAXN];
 

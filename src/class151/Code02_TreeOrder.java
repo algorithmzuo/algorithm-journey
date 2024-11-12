@@ -14,12 +14,12 @@ import java.io.StreamTokenizer;
 public class Code02_TreeOrder {
 
 	public static int MAXN = 100001;
+	
+	public static int[] arr = new int[MAXN];
 
 	public static int[] left = new int[MAXN];
 
 	public static int[] right = new int[MAXN];
-
-	public static int[] arr = new int[MAXN];
 
 	public static int[] stack = new int[MAXN];
 

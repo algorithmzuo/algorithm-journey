@@ -14,9 +14,9 @@ import java.io.StreamTokenizer;
 
 public class Code04_RemovingBlocks {
 
-	public static int MAXN = 100001;
-
 	public static int MOD = 1000000007;
+
+	public static int MAXN = 100001;
 
 	// 所有数字
 	public static int[] arr = new int[MAXN];
