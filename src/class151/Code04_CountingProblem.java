@@ -13,7 +13,7 @@ import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 import java.util.Arrays;
 
-public class Code03_CountingProblem {
+public class Code04_CountingProblem {
 	
 	public static int MOD = 1000000007;
 

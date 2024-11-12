@@ -11,7 +11,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 
-public class Code05_Periodni {
+public class Code06_Periodni {
 
 	public static int MOD = 1000000007;
 
