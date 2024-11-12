@@ -21,23 +21,17 @@ package class043;
 //        long long l = stoll(left);
 //        long long r = stoll(right);
 //        int i = 0;
-//        
-//        // 找到第一个 >= l 的位置
 //        while (i < record.size() && record[i] < l) {
 //            i++;
 //        }
-//        
 //        int j = record.size() - 1;
-//        // 找到最后一个 <= r 的位置
 //        while (j >= 0 && record[j] > r) {
 //            j--;
 //        }
-//        
 //        return (j >= i) ? (j - i + 1) : 0;
 //    }
 //
 //private:
-//    // 打表记录的超级回文数
 //    const vector<long long> record = {
 //        1L, 4L, 9L, 121L, 484L, 10201L, 12321L, 14641L, 40804L, 44944L,
 //        1002001L, 1234321L, 4008004L, 100020001L, 102030201L, 104060401L,
