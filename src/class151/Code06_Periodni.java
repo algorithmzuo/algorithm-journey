@@ -2,6 +2,7 @@ package class151;
 
 // 表格填数
 // 测试链接 : https://www.luogu.com.cn/problem/P6453
+// 因为本题给定的可用空间很少，所以数组为int类型，不用long类型
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
 import java.io.BufferedReader;
