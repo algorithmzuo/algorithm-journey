@@ -35,6 +35,8 @@ public class Code05_Periodni {
 
 	public static int[][] dp = new int[MAXN][MAXN];
 
+	public static int[][] tmp = new int[MAXN][MAXN];
+
 	public static int n, k;
 
 	public static int power(long x, long p) {
@@ -50,7 +52,7 @@ public class Code05_Periodni {
 	}
 
 	public static int c(int n, int k) {
-		return (int) ((long) fac[n] * inv[k] % MOD * inv[n - k] % MOD);
+		return k > n ? 0 : (int) ((long) fac[n] * inv[k] % MOD * inv[n - k] % MOD);
 	}
 
 	public static void build() {
@@ -78,33 +80,31 @@ public class Code05_Periodni {
 		}
 	}
 
-	public static void dfs(int u, int f) {
-		dp[u][0] = size[u] = 1;
-		if (left[u] != 0) {
+	public static void dfs(int u, int fa) {
+		if (u == 0) {
+			dp[u][0] = 1;
+		} else {
 			dfs(left[u], u);
-			size[u] += size[left[u]];
-			for (int i = Math.min(size[u], k); i >= 0; i--) {
-				for (int j = 1; j <= Math.min(size[left[u]], i); j++) {
-					dp[u][i] = (int) ((dp[u][i] + (long) dp[left[u]][j] * dp[u][i - j] % MOD) % MOD);
-				}
-			}
-		}
-		if (right[u] != 0) {
 			dfs(right[u], u);
-			size[u] += size[right[u]];
-			for (int i = Math.min(size[u], k); i >= 0; i--) {
-				for (int j = 1; j <= Math.min(size[right[u]], i); j++) {
-					dp[u][i] = (int) ((dp[u][i] + (long) dp[right[u]][j] * dp[u][i - j] % MOD) % MOD);
+			size[u] = size[left[u]] + size[right[u]] + 1;
+			for (int i = 0; i <= size[left[u]]; i++) {
+				for (int j = 0; j <= size[right[u]]; j++) {
+					tmp[u][i + j] = (int) (tmp[u][i + j] + (long) dp[left[u]][i] * dp[right[u]][j] % MOD) % MOD;
+				}
+			}
+			for (int i = 0; i <= size[u]; i++) {
+				for (int j = 0; j <= i; j++) {
+					dp[u][i] = (int) (dp[u][i] + (long) tmp[u][j] * fac[i - j] % MOD * c(size[u] - j, i - j) % MOD
+							* c(arr[u] - arr[fa], i - j) % MOD) % MOD;
 				}
 			}
 		}
-		int val = arr[u] - arr[f];
-		for (int i = Math.min(size[u], k); i >= 0; i--) {
-			for (int j = 1; j <= Math.min(val, i); j++) {
-				dp[u][i] = (int) ((dp[u][i]
-						+ (long) fac[j] * dp[u][i - j] % MOD * c(val, j) % MOD * c(size[u] - i + j, j)) % MOD);
-			}
-		}
+	}
+
+	public static int compute() {
+		build();
+		dfs(stack[1], 0);
+		return dp[stack[1]][k];
 	}
 
 	public static void main(String[] args) throws IOException {
@@ -119,9 +119,7 @@ public class Code05_Periodni {
 			in.nextToken();
 			arr[i] = (int) in.nval;
 		}
-		build();
-		dfs(stack[1], 0);
-		out.println(dp[stack[1]][k]);
+		out.println(compute());
 		out.flush();
 		out.close();
 		br.close();
