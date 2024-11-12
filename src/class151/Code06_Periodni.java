@@ -19,18 +19,23 @@ public class Code06_Periodni {
 
 	public static int MAXH = 1000000;
 
-	public static int[] fac = new int[MAXH + 1];
-
-	public static int[] inv = new int[MAXH + 1];
-
+	// 所有数字
 	public static int[] arr = new int[MAXN];
 
+	// 阶乘余数表
+	public static int[] fac = new int[MAXH + 1];
+
+	// 阶乘逆元表
+	public static int[] inv = new int[MAXH + 1];
+
+	// 笛卡尔树需要
 	public static int[] left = new int[MAXN];
 
 	public static int[] right = new int[MAXN];
 
 	public static int[] stack = new int[MAXN];
 
+	// dfs需要
 	public static int[] size = new int[MAXN];
 
 	public static int[][] dp = new int[MAXN][MAXN];

@@ -14,7 +14,7 @@ import java.io.StreamTokenizer;
 import java.util.Arrays;
 
 public class Code04_CountingProblem {
-	
+
 	public static int MOD = 1000000007;
 
 	public static int MAXN = 1000001;
@@ -46,12 +46,6 @@ public class Code04_CountingProblem {
 		}
 	}
 
-	public static long compute() {
-		long[][] dp = new long[n + 1][m + 1];
-		dfs(stack[1], dp);
-		return dp[stack[1]][m];
-	}
-
 	public static void dfs(int i, long[][] dp) {
 		for (int j = 1; j <= m; j++) {
 			dp[i][j] = 1;
@@ -78,6 +72,14 @@ public class Code04_CountingProblem {
 		Arrays.fill(right, 1, n + 1, 0);
 	}
 
+	public static long compute() {
+		build();
+		long[][] dp = new long[n + 1][m + 1];
+		dfs(stack[1], dp);
+		clear();
+		return dp[stack[1]][m];
+	}
+
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StreamTokenizer in = new StreamTokenizer(br);
@@ -93,9 +95,7 @@ public class Code04_CountingProblem {
 				in.nextToken();
 				arr[i] = (int) in.nval;
 			}
-			build();
 			out.println(compute());
-			clear();
 		}
 		out.flush();
 		out.close();
