@@ -12,7 +12,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 
-public class Code05_RemovingBlocks {
+public class Code06_RemovingBlocks {
 
 	public static int MOD = 1000000007;
 
