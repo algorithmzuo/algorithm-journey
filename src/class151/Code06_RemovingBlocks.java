@@ -8,7 +8,7 @@ package class151;
 // 如果再消除2，那么获得2的收益，arr = {3,X,X,X}
 // 如果再消除3，那么获得3的收益，arr = {X,X,X,X}
 // 一共有n!种消除方案，返回所有消除方案的收益之和，答案对 1000000007 取模
-// 1 <= n <= 10^5 1 <= arr[i] <= 10^9
+// 1 <= n <= 10^5    1 <= arr[i] <= 10^9
 // 测试链接 : https://www.luogu.com.cn/problem/AT_agc028_b
 // 测试链接 : https://atcoder.jp/contests/agc028/tasks/agc028_b
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
