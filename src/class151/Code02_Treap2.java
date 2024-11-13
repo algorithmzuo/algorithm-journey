@@ -1,6 +1,6 @@
-package class148;
+package class151;
 
-// AVL树的实现(C++版)
+// Treap树的实现(C++版)
 // 实现一种结构，支持如下操作，要求单次调用的时间复杂度O(log n)
 // 1，增加x，重复加入算多个词频
 // 2，删除x，如果有多个，只删掉一个
@@ -16,8 +16,9 @@ package class148;
 
 //#include <iostream>
 //#include <algorithm>
-//#include <climits>
 //#include <cstring>
+//#include <random>
+//#include <climits>
 //
 //using namespace std;
 //
@@ -26,15 +27,14 @@ package class148;
 //int cnt = 0;
 //int head = 0;
 //int key[MAXN];
-//int height[MAXN];
+//int key_count[MAXN];
 //int ls[MAXN];
 //int rs[MAXN];
-//int key_count[MAXN];
 //int size[MAXN];
+//double priority[MAXN];
 //
 //void up(int i) {
 //    size[i] = size[ls[i]] + size[rs[i]] + key_count[i];
-//    height[i] = max(height[ls[i]], height[rs[i]]) + 1;
 //}
 //
 //int leftRotate(int i) {
@@ -55,31 +55,11 @@ package class148;
 //    return l;
 //}
 //
-//int maintain(int i) {
-//    int lh = height[ls[i]];
-//    int rh = height[rs[i]];
-//    if (lh - rh > 1) {
-//        if (height[ls[ls[i]]] >= height[rs[ls[i]]]) {
-//            i = rightRotate(i);
-//        } else {
-//            ls[i] = leftRotate(ls[i]);
-//            i = rightRotate(i);
-//        }
-//    } else if (rh - lh > 1) {
-//        if (height[rs[rs[i]]] >= height[ls[rs[i]]]) {
-//            i = leftRotate(i);
-//        } else {
-//            rs[i] = rightRotate(rs[i]);
-//            i = leftRotate(i);
-//        }
-//    }
-//    return i;
-//}
-//
 //int add(int i, int num) {
 //    if (i == 0) {
 //        key[++cnt] = num;
-//        key_count[cnt] = size[cnt] = height[cnt] = 1;
+//        key_count[cnt] = size[cnt] = 1;
+//        priority[cnt] = static_cast<double>(rand()) / RAND_MAX;
 //        return cnt;
 //    }
 //    if (key[i] == num) {
@@ -90,73 +70,32 @@ package class148;
 //        rs[i] = add(rs[i], num);
 //    }
 //    up(i);
-//    return maintain(i);
+//    if (ls[i] != 0 && priority[ls[i]] > priority[i]) {
+//        return rightRotate(i);
+//    }
+//    if (rs[i] != 0 && priority[rs[i]] > priority[i]) {
+//        return leftRotate(i);
+//    }
+//    return i;
 //}
 //
 //void add(int num) {
 //    head = add(head, num);
 //}
 //
-//int getRank(int i, int num) {
+//int small(int i, int num) {
 //    if (i == 0) {
 //        return 0;
 //    }
 //    if (key[i] >= num) {
-//        return getRank(ls[i], num);
+//        return small(ls[i], num);
 //    } else {
-//        return size[ls[i]] + key_count[i] + getRank(rs[i], num);
+//        return size[ls[i]] + key_count[i] + small(rs[i], num);
 //    }
 //}
 //
 //int getRank(int num) {
-//    return getRank(head, num) + 1;
-//}
-//
-//int removeMostLeft(int i, int mostLeft) {
-//    if (i == mostLeft) {
-//        return rs[i];
-//    } else {
-//        ls[i] = removeMostLeft(ls[i], mostLeft);
-//        up(i);
-//        return maintain(i);
-//    }
-//}
-//
-//int remove(int i, int num) {
-//    if (key[i] < num) {
-//        rs[i] = remove(rs[i], num);
-//    } else if (key[i] > num) {
-//        ls[i] = remove(ls[i], num);
-//    } else {
-//        if (key_count[i] > 1) {
-//            key_count[i]--;
-//        } else {
-//            if (ls[i] == 0 && rs[i] == 0) {
-//                return 0;
-//            } else if (ls[i] != 0 && rs[i] == 0) {
-//                i = ls[i];
-//            } else if (ls[i] == 0 && rs[i] != 0) {
-//                i = rs[i];
-//            } else {
-//                int mostLeft = rs[i];
-//                while (ls[mostLeft] != 0) {
-//                    mostLeft = ls[mostLeft];
-//                }
-//                rs[i] = removeMostLeft(rs[i], mostLeft);
-//                ls[mostLeft] = ls[i];
-//                rs[mostLeft] = rs[i];
-//                i = mostLeft;
-//            }
-//        }
-//    }
-//    up(i);
-//    return maintain(i);
-//}
-//
-//void remove(int num) {
-//    if (getRank(num) != getRank(num + 1)) {
-//        head = remove(head, num);
-//    }
+//    return small(head, num) + 1;
 //}
 //
 //int getIndex(int i, int x) {
@@ -202,13 +141,49 @@ package class148;
 //    return post(head, num);
 //}
 //
+//int remove(int i, int num) {
+//    if (key[i] < num) {
+//        rs[i] = remove(rs[i], num);
+//    } else if (key[i] > num) {
+//        ls[i] = remove(ls[i], num);
+//    } else {
+//        if (key_count[i] > 1) {
+//            key_count[i]--;
+//        } else {
+//            if (ls[i] == 0 && rs[i] == 0) {
+//                return 0;
+//            } else if (ls[i] != 0 && rs[i] == 0) {
+//                i = ls[i];
+//            } else if (ls[i] == 0 && rs[i] != 0) {
+//                i = rs[i];
+//            } else {
+//                if (priority[ls[i]] >= priority[rs[i]]) {
+//                    i = rightRotate(i);
+//                    rs[i] = remove(rs[i], num);
+//                } else {
+//                    i = leftRotate(i);
+//                    ls[i] = remove(ls[i], num);
+//                }
+//            }
+//        }
+//    }
+//    up(i);
+//    return i;
+//}
+//
+//void remove(int num) {
+//    if (getRank(num) != getRank(num + 1)) {
+//        head = remove(head, num);
+//    }
+//}
+//
 //void clear() {
-//    memset(key + 1, 0, cnt * sizeof(int));
-//    memset(height + 1, 0, cnt * sizeof(int));
-//    memset(ls + 1, 0, cnt * sizeof(int));
-//    memset(rs + 1, 0, cnt * sizeof(int));
-//    memset(key_count + 1, 0, cnt * sizeof(int));
-//    memset(size + 1, 0, cnt * sizeof(int));
+//    fill(key + 1, key + cnt + 1, 0);
+//    fill(key_count + 1, key_count + cnt + 1, 0);
+//    fill(ls + 1, ls + cnt + 1, 0);
+//    fill(rs + 1, rs + cnt + 1, 0);
+//    fill(size + 1, size + cnt + 1, 0);
+//    fill(priority + 1, priority + cnt + 1, 0);
 //    cnt = 0;
 //    head = 0;
 //}
