@@ -99,12 +99,12 @@ public class Code05_Periodni {
 			dfs(left[u], u);
 			dfs(right[u], u);
 			size[u] = size[left[u]] + size[right[u]] + 1;
-			for (int i = 0; i <= size[left[u]]; i++) {
-				for (int j = 0; j <= size[right[u]]; j++) {
+			for (int i = 0; i <= Math.min(size[left[u]], k); i++) {
+				for (int j = 0; j <= Math.min(size[right[u]], k - i); j++) {
 					tmp[u][i + j] = (int) (tmp[u][i + j] + (long) dp[left[u]][i] * dp[right[u]][j] % MOD) % MOD;
 				}
 			}
-			for (int i = 0; i <= size[u]; i++) {
+			for (int i = 0; i <= Math.min(size[u], k); i++) {
 				for (int j = 0; j <= i; j++) {
 					dp[u][i] = (int) (dp[u][i] + (long) tmp[u][j] * fac[i - j] % MOD * c(size[u] - j, i - j) % MOD
 							* c(arr[u] - arr[fa], i - j) % MOD) % MOD;
