@@ -1,6 +1,12 @@
 package class151;
 
 // 笛卡尔树模版(java版)
+// 给定一个长度为n的数组arr，下标从1开始
+// 构建一棵二叉树，下标按照搜索二叉树组织，值按照小根堆组织
+// 建好树的过程要求时间复杂度O(n)
+// 建好树之后，为了验证
+// 打印，i * (left[i] + 1)，所有信息异或起来的值
+// 打印，i * (right[i] + 1)，所有信息异或起来的值
 // 测试链接 : https://www.luogu.com.cn/problem/P5854
 // 如下实现是正确的，但java的版本无法通过所有测试用例
 // 这是洛谷平台没有照顾各种语言的实现所导致的
@@ -18,7 +24,7 @@ import java.io.StreamTokenizer;
 public class Code01_DescartesTree1 {
 
 	public static int MAXN = 10000001;
-	
+
 	public static int[] arr = new int[MAXN];
 
 	public static int[] left = new int[MAXN];
