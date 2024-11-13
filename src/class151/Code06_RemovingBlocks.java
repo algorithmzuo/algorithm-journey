@@ -1,6 +1,6 @@
 package class151;
 
-// 消除砖头
+// 砖头消除
 // 测试链接 : https://www.luogu.com.cn/problem/AT_agc028_b
 // 测试链接 : https://atcoder.jp/contests/agc028/tasks/agc028_b
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
