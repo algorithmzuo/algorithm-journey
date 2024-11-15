@@ -17,6 +17,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StreamTokenizer;
+import java.util.Arrays;
 
 public class Code05_Periodni {
 
@@ -49,7 +50,7 @@ public class Code05_Periodni {
 	public static int[][] dp = new int[MAXN][MAXN];
 
 	// tmp是动态规划的临时结果
-	public static int[][] tmp = new int[MAXN][MAXN];
+	public static int[] tmp = new int[MAXN];
 
 	public static int n, k;
 
@@ -101,17 +102,18 @@ public class Code05_Periodni {
 		dfs(left[u], u);
 		dfs(right[u], u);
 		size[u] = size[left[u]] + size[right[u]] + 1;
+		Arrays.fill(tmp, 0, k + 1, 0);
 		// 所有dfs过程都算上，这一部分的总复杂度O(n^2)
 		for (int l = 0; l <= Math.min(size[left[u]], k); l++) {
 			for (int r = 0; r <= Math.min(size[right[u]], k - l); r++) {
-				tmp[u][l + r] = (int) (tmp[u][l + r] + (long) dp[left[u]][l] * dp[right[u]][r] % MOD) % MOD;
+				tmp[l + r] = (int) (tmp[l + r] + (long) dp[left[u]][l] * dp[right[u]][r] % MOD) % MOD;
 			}
 		}
 		// 所有dfs过程都算上，这一部分的总复杂度O(min(n的3次方, n * k平方))
 		for (int i = 0; i <= Math.min(size[u], k); i++) {
 			for (int p = 0; p <= i; p++) {
 				dp[u][i] = (int) (dp[u][i] + (long) c(size[u] - p, i - p) * c(arr[u] - arr[fa], i - p) % MOD
-						* fac[i - p] % MOD * tmp[u][p] % MOD) % MOD;
+						* fac[i - p] % MOD * tmp[p] % MOD) % MOD;
 			}
 		}
 	}
