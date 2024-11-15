@@ -102,16 +102,16 @@ public class Code05_Periodni {
 		dfs(right[u], u);
 		size[u] = size[left[u]] + size[right[u]] + 1;
 		// 所有dfs过程都算上，这一部分的总复杂度O(n^2)
-		for (int i = 0; i <= Math.min(size[left[u]], k); i++) {
-			for (int j = 0; j <= Math.min(size[right[u]], k - i); j++) {
-				tmp[u][i + j] = (int) (tmp[u][i + j] + (long) dp[left[u]][i] * dp[right[u]][j] % MOD) % MOD;
+		for (int l = 0; l <= Math.min(size[left[u]], k); l++) {
+			for (int r = 0; r <= Math.min(size[right[u]], k - l); r++) {
+				tmp[u][l + r] = (int) (tmp[u][l + r] + (long) dp[left[u]][l] * dp[right[u]][r] % MOD) % MOD;
 			}
 		}
 		// 所有dfs过程都算上，这一部分的总复杂度O(min(n的3次方, n * k平方))
 		for (int i = 0; i <= Math.min(size[u], k); i++) {
-			for (int j = 0; j <= i; j++) {
-				dp[u][i] = (int) (dp[u][i] + (long) c(size[u] - j, i - j) * c(arr[u] - arr[fa], i - j) % MOD
-						* fac[i - j] % MOD * tmp[u][j] % MOD) % MOD;
+			for (int p = 0; p <= i; p++) {
+				dp[u][i] = (int) (dp[u][i] + (long) c(size[u] - p, i - p) * c(arr[u] - arr[fa], i - p) % MOD
+						* fac[i - p] % MOD * tmp[u][p] % MOD) % MOD;
 			}
 		}
 	}
