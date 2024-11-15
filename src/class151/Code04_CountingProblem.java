@@ -26,13 +26,18 @@ public class Code04_CountingProblem {
 
 	public static int MAXN = 1000001;
 
+	// 所有数字
 	public static int[] arr = new int[MAXN];
 
+	// 笛卡尔树需要
 	public static int[] left = new int[MAXN];
 
 	public static int[] right = new int[MAXN];
 
 	public static int[] stack = new int[MAXN];
+
+	// tmp是动态规划的临时结果
+	public static long[] tmp = new long[MAXN];
 
 	public static int n, m;
 
@@ -53,24 +58,21 @@ public class Code04_CountingProblem {
 		}
 	}
 
-	public static void dfs(int i, long[][] dp) {
+	public static void dfs(int i, int[][] dp) {
+		if (i == 0) {
+			return;
+		}
+		dfs(left[i], dp);
+		dfs(right[i], dp);
+		Arrays.fill(tmp, 1, m + 1, 1);
 		for (int j = 1; j <= m; j++) {
-			dp[i][j] = 1;
+			tmp[j] = tmp[j] * dp[left[i]][j - 1] % MOD;
 		}
-		if (left[i] != 0) {
-			dfs(left[i], dp);
-			for (int j = 1; j <= m; j++) {
-				dp[i][j] = dp[i][j] * dp[left[i]][j - 1] % MOD;
-			}
+		for (int j = 1; j <= m; j++) {
+			tmp[j] = tmp[j] * dp[right[i]][j] % MOD;
 		}
-		if (right[i] != 0) {
-			dfs(right[i], dp);
-			for (int j = 1; j <= m; j++) {
-				dp[i][j] = dp[i][j] * dp[right[i]][j] % MOD;
-			}
-		}
-		for (int j = 2; j <= m; j++) {
-			dp[i][j] = (dp[i][j] + dp[i][j - 1]) % MOD;
+		for (int j = 1; j <= m; j++) {
+			dp[i][j] = (int) ((dp[i][j - 1] + tmp[j]) % MOD);
 		}
 	}
 
@@ -81,7 +83,16 @@ public class Code04_CountingProblem {
 
 	public static long compute() {
 		build();
-		long[][] dp = new long[n + 1][m + 1];
+		// 虽然n * m <= 10^6，但是n和m，单独都有可能到达10^6规模
+		// 如果提前准备固定大小的动态规划表，那就只能准备10^6 * 10^6规模的表了
+		// 这是不可能的，空间根本接受不了
+		// 所以根据此时具体的n和m的大小，临时申请动态规划表
+		int[][] dp = new int[n + 1][m + 1];
+		// 没有节点时，不管要求节点值是什么，都默认有1种形态
+		// 因为没有节点时，根本不影响任何决策
+		for (int j = 0; j <= m; j++) {
+			dp[0][j] = 1;
+		}
 		dfs(stack[1], dp);
 		clear();
 		return dp[stack[1]][m];
