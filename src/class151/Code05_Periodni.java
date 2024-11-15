@@ -108,8 +108,8 @@ public class Code05_Periodni {
 			// 所有dfs过程都算上，这一部分的总复杂度O(min(n的3次方, n * k平方))
 			for (int i = 0; i <= Math.min(size[u], k); i++) {
 				for (int j = 0; j <= i; j++) {
-					dp[u][i] = (int) (dp[u][i] + (long) tmp[u][j] * fac[i - j] % MOD * c(size[u] - j, i - j) % MOD
-							* c(arr[u] - arr[fa], i - j) % MOD) % MOD;
+					dp[u][i] = (int) (dp[u][i] + (long) c(size[u] - j, i - j) * c(arr[u] - arr[fa], i - j) % MOD
+							* fac[i - j] % MOD * tmp[u][j] % MOD) % MOD;
 				}
 			}
 		}
