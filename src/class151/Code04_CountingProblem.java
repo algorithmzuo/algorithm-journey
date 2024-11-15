@@ -58,17 +58,17 @@ public class Code04_CountingProblem {
 		}
 	}
 
-	public static void dfs(int i, int[][] dp) {
-		if (i == 0) {
+	public static void dfs(int u, int[][] dp) {
+		if (u == 0) {
 			return;
 		}
-		dfs(left[i], dp);
-		dfs(right[i], dp);
+		dfs(left[u], dp);
+		dfs(right[u], dp);
 		for (int j = 1; j <= m; j++) {
-			tmp[j] = (long) dp[left[i]][j - 1] * dp[right[i]][j] % MOD;
+			tmp[j] = (long) dp[left[u]][j - 1] * dp[right[u]][j] % MOD;
 		}
 		for (int j = 1; j <= m; j++) {
-			dp[i][j] = (int) ((dp[i][j - 1] + tmp[j]) % MOD);
+			dp[u][j] = (int) ((dp[u][j - 1] + tmp[j]) % MOD);
 		}
 	}
 
