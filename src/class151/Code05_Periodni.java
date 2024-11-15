@@ -45,8 +45,10 @@ public class Code05_Periodni {
 	// dfs需要
 	public static int[] size = new int[MAXN];
 
+	// dp是动态规划表
 	public static int[][] dp = new int[MAXN][MAXN];
 
+	// tmp是动态规划的临时结果
 	public static int[][] tmp = new int[MAXN][MAXN];
 
 	public static int n, k;
