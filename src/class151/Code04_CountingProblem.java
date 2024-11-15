@@ -64,12 +64,8 @@ public class Code04_CountingProblem {
 		}
 		dfs(left[i], dp);
 		dfs(right[i], dp);
-		Arrays.fill(tmp, 1, m + 1, 1);
 		for (int j = 1; j <= m; j++) {
-			tmp[j] = tmp[j] * dp[left[i]][j - 1] % MOD;
-		}
-		for (int j = 1; j <= m; j++) {
-			tmp[j] = tmp[j] * dp[right[i]][j] % MOD;
+			tmp[j] = (long) dp[left[i]][j - 1] * dp[right[i]][j] % MOD;
 		}
 		for (int j = 1; j <= m; j++) {
 			dp[i][j] = (int) ((dp[i][j - 1] + tmp[j]) % MOD);
