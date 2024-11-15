@@ -66,7 +66,7 @@ public class Code05_Periodni {
 	}
 
 	public static int c(int n, int k) {
-		return k > n ? 0 : (int) ((long) fac[n] * inv[k] % MOD * inv[n - k] % MOD);
+		return n < k ? 0 : (int) ((long) fac[n] * inv[k] % MOD * inv[n - k] % MOD);
 	}
 
 	public static void build() {
