@@ -1,6 +1,6 @@
 package class152;
 
-// FHQ-Treap，树上无重复key，java版
+// FHQ-Treap，使用词频统计，java版
 // 实现一种结构，支持如下操作，要求单次调用的时间复杂度O(log n)
 // 1，增加x，重复加入算多个词频
 // 2，删除x，如果有多个，只删掉一个
