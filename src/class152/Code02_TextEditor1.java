@@ -88,6 +88,9 @@ public class Code02_TextEditor1 {
 		head = 0;
 	}
 
+	// 我写了很多个版本的IO实现，空间都无法达标
+	// 以下风格只是其中一种，无所谓了，逻辑是对的
+	// 想通过这个题看C++版本吧，完全一样的逻辑
 	public static void main(String[] args) throws IOException {
 		BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
