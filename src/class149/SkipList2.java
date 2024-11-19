@@ -236,6 +236,7 @@ package class149;
 //}
 //
 //int main() {
+//    srand(time(0));
 //    build();
 //    int n;
 //    cin >> n;

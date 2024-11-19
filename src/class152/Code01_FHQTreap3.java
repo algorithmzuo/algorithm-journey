@@ -191,6 +191,7 @@ package class152;
 //}
 //
 //int main() {
+//    srand(time(0));
 //    int n;
 //    cin >> n;
 //    for (int i = 1, op, x; i <= n; i++) {
