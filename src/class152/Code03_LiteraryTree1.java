@@ -10,7 +10,6 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StreamTokenizer;
-import java.util.Arrays;
 
 public class Code03_LiteraryTree1 {
 
@@ -93,17 +92,6 @@ public class Code03_LiteraryTree1 {
 		}
 	}
 
-	public static void clear() {
-		Arrays.fill(key, 1, cnt + 1, 0);
-		Arrays.fill(left, 1, cnt + 1, 0);
-		Arrays.fill(right, 1, cnt + 1, 0);
-		Arrays.fill(size, 1, cnt + 1, 0);
-		Arrays.fill(priority, 1, cnt + 1, 0);
-		Arrays.fill(reverse, 1, cnt + 1, false);
-		cnt = 0;
-		head = 0;
-	}
-
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StreamTokenizer in = new StreamTokenizer(br);
@@ -140,7 +128,6 @@ public class Code03_LiteraryTree1 {
 			out.print(ans[i] + " ");
 		}
 		out.println();
-		clear();
 		out.flush();
 		out.close();
 		br.close();

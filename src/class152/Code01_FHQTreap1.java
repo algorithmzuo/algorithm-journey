@@ -19,7 +19,6 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StreamTokenizer;
-import java.util.Arrays;
 
 public class Code01_FHQTreap1 {
 
@@ -111,10 +110,10 @@ public class Code01_FHQTreap1 {
 		if (find(head, num) != 0) {
 			changeCount(head, num, 1);
 		} else {
+			split(0, 0, head, num);
 			key[++cnt] = num;
 			count[cnt] = size[cnt] = 1;
 			priority[cnt] = Math.random();
-			split(0, 0, head, num);
 			head = merge(merge(right[0], cnt), left[0]);
 			left[0] = right[0] = 0;
 		}
@@ -196,17 +195,6 @@ public class Code01_FHQTreap1 {
 		return post(head, num);
 	}
 
-	public static void clear() {
-		Arrays.fill(key, 1, cnt + 1, 0);
-		Arrays.fill(count, 1, cnt + 1, 0);
-		Arrays.fill(left, 1, cnt + 1, 0);
-		Arrays.fill(right, 1, cnt + 1, 0);
-		Arrays.fill(size, 1, cnt + 1, 0);
-		Arrays.fill(priority, 1, cnt + 1, 0);
-		cnt = 0;
-		head = 0;
-	}
-
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StreamTokenizer in = new StreamTokenizer(br);
@@ -232,7 +220,6 @@ public class Code01_FHQTreap1 {
 				out.println(post(x));
 			}
 		}
-		clear();
 		out.flush();
 		out.close();
 		br.close();

@@ -66,15 +66,6 @@ package class152;
 //    }
 //}
 //
-//void clear() {
-//    memset(ls, 0, sizeof(int) * (cnt + 1));
-//    memset(rs, 0, sizeof(int) * (cnt + 1));
-//    memset(size, 0, sizeof(int) * (cnt + 1));
-//    memset(priority, 0, sizeof(double) * (cnt + 1));
-//    cnt = 0;
-//    head = 0;
-//}
-//
 //int main() {
 //	  srand(time(0));
 //    int pos = 0, len, l, m, lm, r;
@@ -135,6 +126,5 @@ package class152;
 //            cout << '\n';
 //        }
 //    }
-//    clear();
 //    return 0;
 //}

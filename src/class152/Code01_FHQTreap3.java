@@ -94,10 +94,10 @@ package class152;
 //    if (find(head, num) != 0) {
 //        changeCount(head, num, 1);
 //    } else {
+//        split(0, 0, head, num);
 //        key[++cnt] = num;
 //        key_count[cnt] = size[cnt] = 1;
 //        priority[cnt] = (double)rand() / RAND_MAX;
-//        split(0, 0, head, num);
 //        head = merge(merge(rs[0], cnt), ls[0]);
 //        ls[0] = rs[0] = 0;
 //    }
@@ -179,17 +179,6 @@ package class152;
 //    return post(head, num);
 //}
 //
-//void clear() {
-//    memset(key, 0, sizeof(key));
-//    memset(key_count, 0, sizeof(key_count));
-//    memset(ls, 0, sizeof(ls));
-//    memset(rs, 0, sizeof(rs));
-//    memset(size, 0, sizeof(size));
-//    memset(priority, 0, sizeof(priority));
-//    cnt = 0;
-//    head = 0;
-//}
-//
 //int main() {
 //    srand(time(0));
 //    int n;
@@ -210,6 +199,5 @@ package class152;
 //            cout << post(x) << endl;
 //        }
 //    }
-//    clear();
 //    return 0;
 //}

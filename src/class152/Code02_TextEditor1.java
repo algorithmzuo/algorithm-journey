@@ -13,7 +13,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
-import java.util.Arrays;
 
 public class Code02_TextEditor1 {
 
@@ -77,15 +76,6 @@ public class Code02_TextEditor1 {
 			ans[++ansi] = key[i];
 			inorder(right[i]);
 		}
-	}
-
-	public static void clear() {
-		Arrays.fill(left, 1, cnt + 1, 0);
-		Arrays.fill(right, 1, cnt + 1, 0);
-		Arrays.fill(size, 1, cnt + 1, 0);
-		Arrays.fill(priority, 1, cnt + 1, 0);
-		cnt = 0;
-		head = 0;
 	}
 
 	// 我写了很多个版本的IO实现，空间都无法达标
@@ -158,7 +148,6 @@ public class Code02_TextEditor1 {
 				}
 			}
 		}
-		clear();
 		out.flush();
 		out.close();
 		in.close();

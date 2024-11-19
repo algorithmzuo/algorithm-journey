@@ -1,16 +1,7 @@
 package class152;
 
-// FHQ-Treap，不用词频统计，java版
-// 实现一种结构，支持如下操作，要求单次调用的时间复杂度O(log n)
-// 1，增加x，重复加入算多个词频
-// 2，删除x，如果有多个，只删掉一个
-// 3，查询x的排名，x的排名为，比x小的数的个数+1
-// 4，查询数据中排名为x的数
-// 5，查询x的前驱，x的前驱为，小于x的数中最大的数，不存在返回整数最小值
-// 6，查询x的后继，x的后继为，大于x的数中最小的数，不存在返回整数最大值
-// 所有操作的次数 <= 10^5
-// -10^7 <= x <= +10^7
-// 测试链接 : https://www.luogu.com.cn/problem/P3369
+// 可持久化有序表，FHQ-Treap实现，不用词频统计，java版
+// 测试链接 : https://www.luogu.com.cn/problem/P3835
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
 import java.io.BufferedReader;
@@ -20,39 +11,42 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 
-public class Code01_FHQTreap2 {
+public class Code04_FHQTreapPersistent1 {
 
-	public static int MAXN = 100001;
+	public static int MAXN = 500001;
 
-	// 整棵树的头节点编号
-	public static int head = 0;
-
-	// 空间使用计数
 	public static int cnt = 0;
 
-	// 节点的key值
-	public static int[] key = new int[MAXN];
+	public static int[] head = new int[MAXN];
 
-	// 左孩子
-	public static int[] left = new int[MAXN];
+	public static int[] key = new int[MAXN * 50];
 
-	// 右孩子
-	public static int[] right = new int[MAXN];
+	public static int[] left = new int[MAXN * 50];
 
-	// 数字总数
-	public static int[] size = new int[MAXN];
+	public static int[] right = new int[MAXN * 50];
 
-	// 节点优先级
-	public static double[] priority = new double[MAXN];
+	public static int[] size = new int[MAXN * 50];
+
+	public static double[] priority = new double[MAXN * 50];
 
 	public static void up(int i) {
 		size[i] = size[left[i]] + size[right[i]] + 1;
+	}
+
+	public static int copy(int i) {
+		key[++cnt] = key[i];
+		left[cnt] = left[i];
+		right[cnt] = right[i];
+		size[cnt] = size[i];
+		priority[cnt] = priority[i];
+		return cnt;
 	}
 
 	public static void split(int l, int r, int i, int num) {
 		if (i == 0) {
 			right[l] = left[r] = 0;
 		} else {
+			i = copy(i);
 			if (key[i] <= num) {
 				right[l] = i;
 				split(i, r, right[i], num);
@@ -69,27 +63,29 @@ public class Code01_FHQTreap2 {
 			return l + r;
 		}
 		if (priority[l] >= priority[r]) {
+			l = copy(l);
 			right[l] = merge(right[l], r);
 			up(l);
 			return l;
 		} else {
+			r = copy(r);
 			left[r] = merge(l, left[r]);
 			up(r);
 			return r;
 		}
 	}
 
-	public static void add(int num) {
-		split(0, 0, head, num);
+	public static void add(int v, int i, int num) {
+		split(0, 0, i, num);
 		key[++cnt] = num;
 		size[cnt] = 1;
 		priority[cnt] = Math.random();
-		head = merge(merge(right[0], cnt), left[0]);
+		head[v] = merge(merge(right[0], cnt), left[0]);
 		left[0] = right[0] = 0;
 	}
 
-	public static void remove(int num) {
-		split(0, 0, head, num);
+	public static void remove(int v, int i, int num) {
+		split(0, 0, i, num);
 		int lm = right[0];
 		int r = left[0];
 		left[0] = right[0] = 0;
@@ -97,15 +93,18 @@ public class Code01_FHQTreap2 {
 		int m = left[0];
 		int l = right[0];
 		left[0] = right[0] = 0;
-		head = merge(merge(l, merge(left[m], right[m])), r);
+		head[v] = merge(merge(l, merge(left[m], right[m])), r);
 	}
 
-	public static int rank(int num) {
-		split(0, 0, head, num - 1);
-		int ans = size[right[0]] + 1;
-		head = merge(right[0], left[0]);
-		left[0] = right[0] = 0;
-		return ans;
+	public static int small(int i, int num) {
+		if (i == 0) {
+			return 0;
+		}
+		if (key[i] >= num) {
+			return small(left[i], num);
+		} else {
+			return size[left[i]] + 1 + small(right[i], num);
+		}
 	}
 
 	public static int index(int i, int x) {
@@ -118,23 +117,15 @@ public class Code01_FHQTreap2 {
 		}
 	}
 
-	public static int index(int x) {
-		return index(head, x);
-	}
-
 	public static int pre(int i, int num) {
 		if (i == 0) {
-			return Integer.MIN_VALUE;
+			return Integer.MIN_VALUE + 1;
 		}
 		if (key[i] >= num) {
 			return pre(left[i], num);
 		} else {
 			return Math.max(key[i], pre(right[i], num));
 		}
-	}
-
-	public static int pre(int num) {
-		return pre(head, num);
 	}
 
 	public static int post(int i, int num) {
@@ -148,33 +139,32 @@ public class Code01_FHQTreap2 {
 		}
 	}
 
-	public static int post(int num) {
-		return post(head, num);
-	}
-
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StreamTokenizer in = new StreamTokenizer(br);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
 		in.nextToken();
 		int n = (int) in.nval;
-		for (int i = 1, op, x; i <= n; i++) {
+		for (int i = 1, version, op, x; i <= n; i++) {
+			in.nextToken();
+			version = (int) in.nval;
 			in.nextToken();
 			op = (int) in.nval;
 			in.nextToken();
 			x = (int) in.nval;
+			head[i] = head[version];
 			if (op == 1) {
-				add(x);
+				add(i, head[i], x);
 			} else if (op == 2) {
-				remove(x);
+				remove(i, head[i], x);
 			} else if (op == 3) {
-				out.println(rank(x));
+				out.println(small(head[i], x) + 1);
 			} else if (op == 4) {
-				out.println(index(x));
+				out.println(index(head[i], x));
 			} else if (op == 5) {
-				out.println(pre(x));
+				out.println(pre(head[i], x));
 			} else {
-				out.println(post(x));
+				out.println(post(head[i], x));
 			}
 		}
 		out.flush();
