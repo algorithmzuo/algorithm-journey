@@ -2,6 +2,11 @@ package class152;
 
 // 文本编辑器(java版本)
 // 测试链接 : https://www.luogu.com.cn/problem/P4008
+// 如下实现是正确的，但java的版本无法通过所有测试用例
+// 这是洛谷平台没有照顾各种语言的实现所导致的
+// java的实现，空间就是无法达标，C++的实现，完全一样的逻辑，就是可以达标
+// C++版本是Code02_TextEditor2文件，可以通过所有测试用例
+// 在真正笔试、比赛时，一定是兼顾各种语言的，该实现是一定正确的
 
 import java.io.BufferedReader;
 import java.io.IOException;
