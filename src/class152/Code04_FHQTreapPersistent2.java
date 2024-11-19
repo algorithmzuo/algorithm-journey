@@ -1,6 +1,6 @@
 package class152;
 
-// 可持久化有序表，FHQ-Treap实现，不用词频统计，C++版
+// 可持久化平衡树，FHQ-Treap实现，不用词频统计，C++版
 // 测试链接 : https://www.luogu.com.cn/problem/P3835
 // 如下实现是C++的版本，C++版本和java版本逻辑完全一样
 // 提交如下代码，可以通过所有测试用例
