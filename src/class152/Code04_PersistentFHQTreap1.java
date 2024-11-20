@@ -14,7 +14,7 @@ import java.io.OutputStream;
 import java.io.Writer;
 import java.util.InputMismatchException;
 
-public class Code04_FHQTreapPersistent1 {
+public class Code04_PersistentFHQTreap1 {
 
 	public static int MAXN = 500001;
 
