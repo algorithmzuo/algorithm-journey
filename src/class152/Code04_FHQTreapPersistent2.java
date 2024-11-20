@@ -77,15 +77,16 @@ package class152;
 //    key[cnt] = num;
 //    size[cnt] = 1;
 //    priority[cnt] = (double)rand() / RAND_MAX;
-//    head[v] = merge(merge(rs[0], cnt), ls[0]);
+//    int l = rs[0];
+//    int r = ls[0];
 //    ls[0] = rs[0] = 0;
+//    head[v] = merge(merge(l, cnt), r);
 //}
 //
 //void remove(int v, int i, int num) {
 //    split(0, 0, i, num);
 //    int lm = rs[0];
 //    int r = ls[0];
-//    ls[0] = rs[0] = 0;
 //    split(0, 0, lm, num - 1);
 //    int m = ls[0];
 //    int l = rs[0];

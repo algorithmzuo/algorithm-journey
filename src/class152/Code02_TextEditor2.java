@@ -85,7 +85,6 @@ package class152;
 //            split(0, 0, head, pos);
 //            l = rs[0];
 //            r = ls[0];
-//            ls[0] = rs[0] = 0;
 //            for (int j = 1; j <= len; j++) {
 //                char ch = getchar();
 //                while (ch < 32 || ch > 126) {
@@ -102,21 +101,17 @@ package class152;
 //            split(0, 0, head, pos + len);
 //            r = ls[0];
 //            lm = rs[0];
-//            ls[0] = rs[0] = 0;
 //            split(0, 0, lm, pos);
 //            l = rs[0];
-//            ls[0] = rs[0] = 0;
 //            head = merge(l, r);
 //        } else {
 //            cin >> len;
 //            split(0, 0, head, pos + len);
 //            r = ls[0];
 //            lm = rs[0];
-//            ls[0] = rs[0] = 0;
 //            split(0, 0, lm, pos);
 //            l = rs[0];
 //            m = ls[0];
-//            ls[0] = rs[0] = 0;
 //            ansi = 0;
 //            inorder(m);
 //            head = merge(merge(l, m), r);

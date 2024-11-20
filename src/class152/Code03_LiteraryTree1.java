@@ -114,11 +114,9 @@ public class Code03_LiteraryTree1 {
 			split(0, 0, head, y);
 			r = left[0];
 			lm = right[0];
-			left[0] = right[0] = 0;
 			split(0, 0, lm, x - 1);
 			l = right[0];
 			m = left[0];
-			left[0] = right[0] = 0;
 			reverse[m] = !reverse[m];
 			head = merge(merge(l, m), r);
 		}

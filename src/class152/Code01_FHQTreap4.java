@@ -71,18 +71,15 @@ package class152;
 //    size[cnt] = 1;
 //    priority[cnt] = (double)rand() / RAND_MAX;
 //    head = merge(merge(rs[0], cnt), ls[0]);
-//    ls[0] = rs[0] = 0;
 //}
 //
 //void remove(int num) {
 //    split(0, 0, head, num);
 //    int lm = rs[0];
 //    int r = ls[0];
-//    ls[0] = rs[0] = 0;
 //    split(0, 0, lm, num - 1);
 //    int m = ls[0];
 //    int l = rs[0];
-//    ls[0] = rs[0] = 0;
 //    head = merge(merge(l, merge(ls[m], rs[m])), r);
 //}
 //
@@ -90,7 +87,6 @@ package class152;
 //    split(0, 0, head, num - 1);
 //    int ans = size[rs[0]] + 1;
 //    head = merge(rs[0], ls[0]);
-//    ls[0] = rs[0] = 0;
 //    return ans;
 //}
 //

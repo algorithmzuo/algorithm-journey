@@ -107,7 +107,6 @@ public class Code02_TextEditor1 {
 					split(0, 0, head, pos);
 					l = right[0];
 					r = left[0];
-					left[0] = right[0] = 0;
 					for (int j = 1; j <= len;) {
 						for (char c : input[inputIndex++].toCharArray()) {
 							if (c >= 32 && c <= 126) {
@@ -124,20 +123,16 @@ public class Code02_TextEditor1 {
 					split(0, 0, head, pos + len);
 					r = left[0];
 					lm = right[0];
-					left[0] = right[0] = 0;
 					split(0, 0, lm, pos);
 					l = right[0];
-					left[0] = right[0] = 0;
 					head = merge(l, r);
 				} else {
 					split(0, 0, head, pos + len);
 					r = left[0];
 					lm = right[0];
-					left[0] = right[0] = 0;
 					split(0, 0, lm, pos);
 					l = right[0];
 					m = left[0];
-					left[0] = right[0] = 0;
 					ansi = 0;
 					inorder(m);
 					head = merge(merge(l, m), r);

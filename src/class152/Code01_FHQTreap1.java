@@ -115,7 +115,6 @@ public class Code01_FHQTreap1 {
 			count[cnt] = size[cnt] = 1;
 			priority[cnt] = Math.random();
 			head = merge(merge(right[0], cnt), left[0]);
-			left[0] = right[0] = 0;
 		}
 	}
 
@@ -128,10 +127,8 @@ public class Code01_FHQTreap1 {
 				split(0, 0, head, num);
 				int lm = right[0];
 				int r = left[0];
-				left[0] = right[0] = 0;
 				split(0, 0, lm, num - 1);
 				int l = right[0];
-				left[0] = right[0] = 0;
 				head = merge(l, r);
 			}
 		}

@@ -1,8 +1,8 @@
-package class152;
+package class019;
 
-// 可持久化平衡树，FHQ-Treap实现，不用词频统计，java版
-// 测试链接 : https://www.luogu.com.cn/problem/P3835
-// 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
+// 本文件课上没有讲
+// java同学可以使用FastReader进行快读，可以使用FastWriter进行快写，速度是很快的
+// 如何使用可以参考main函数
 
 import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;
@@ -14,164 +14,22 @@ import java.io.OutputStream;
 import java.io.Writer;
 import java.util.InputMismatchException;
 
-public class Code04_FHQTreapPersistent1 {
-
-	public static int MAXN = 500001;
-
-	public static int cnt = 0;
-
-	public static int[] head = new int[MAXN];
-
-	public static int[] key = new int[MAXN * 50];
-
-	public static int[] left = new int[MAXN * 50];
-
-	public static int[] right = new int[MAXN * 50];
-
-	public static int[] size = new int[MAXN * 50];
-
-	public static double[] priority = new double[MAXN * 50];
-
-	public static void up(int i) {
-		size[i] = size[left[i]] + size[right[i]] + 1;
-	}
-
-	public static int copy(int i) {
-		key[++cnt] = key[i];
-		left[cnt] = left[i];
-		right[cnt] = right[i];
-		size[cnt] = size[i];
-		priority[cnt] = priority[i];
-		return cnt;
-	}
-
-	public static void split(int l, int r, int i, int num) {
-		if (i == 0) {
-			right[l] = left[r] = 0;
-		} else {
-			i = copy(i);
-			if (key[i] <= num) {
-				right[l] = i;
-				split(i, r, right[i], num);
-			} else {
-				left[r] = i;
-				split(l, i, left[i], num);
-			}
-			up(i);
-		}
-	}
-
-	public static int merge(int l, int r) {
-		if (l == 0 || r == 0) {
-			return l + r;
-		}
-		if (priority[l] >= priority[r]) {
-			l = copy(l);
-			right[l] = merge(right[l], r);
-			up(l);
-			return l;
-		} else {
-			r = copy(r);
-			left[r] = merge(l, left[r]);
-			up(r);
-			return r;
-		}
-	}
-
-	public static void add(int v, int i, int num) {
-		split(0, 0, i, num);
-		key[++cnt] = num;
-		size[cnt] = 1;
-		priority[cnt] = Math.random();
-		int l = right[0];
-		int r = left[0];
-		// 后续可能基于0版本，去生成新版本的树
-		// 所以这里一定要清空，保证0版本的树正确
-		left[0] = right[0] = 0;
-		head[v] = merge(merge(l, cnt), r);
-	}
-
-	public static void remove(int v, int i, int num) {
-		split(0, 0, i, num);
-		int lm = right[0];
-		int r = left[0];
-		split(0, 0, lm, num - 1);
-		int m = left[0];
-		int l = right[0];
-		// 后续可能基于0版本，去生成新版本的树
-		// 所以这里一定要清空，保证0版本的树正确
-		left[0] = right[0] = 0;
-		head[v] = merge(merge(l, merge(left[m], right[m])), r);
-	}
-
-	public static int small(int i, int num) {
-		if (i == 0) {
-			return 0;
-		}
-		if (key[i] >= num) {
-			return small(left[i], num);
-		} else {
-			return size[left[i]] + 1 + small(right[i], num);
-		}
-	}
-
-	public static int index(int i, int x) {
-		if (size[left[i]] >= x) {
-			return index(left[i], x);
-		} else if (size[left[i]] + 1 < x) {
-			return index(right[i], x - size[left[i]] - 1);
-		} else {
-			return key[i];
-		}
-	}
-
-	public static int pre(int i, int num) {
-		if (i == 0) {
-			return Integer.MIN_VALUE + 1;
-		}
-		if (key[i] >= num) {
-			return pre(left[i], num);
-		} else {
-			return Math.max(key[i], pre(right[i], num));
-		}
-	}
-
-	public static int post(int i, int num) {
-		if (i == 0) {
-			return Integer.MAX_VALUE;
-		}
-		if (key[i] <= num) {
-			return post(right[i], num);
-		} else {
-			return Math.min(key[i], post(left[i], num));
-		}
-	}
+public class Code06_FastReaderWriter {
 
 	public static void main(String[] args) {
-		FastReader in = new FastReader(System.in);
-		FastWriter out = new FastWriter(System.out);
-		int n = in.readInt();
-		for (int i = 1, version, op, x; i <= n; i++) {
-			version = in.readInt();
-			op = in.readInt();
-			x = in.readInt();
-			head[i] = head[version];
-			if (op == 1) {
-				add(i, head[i], x);
-			} else if (op == 2) {
-				remove(i, head[i], x);
-			} else if (op == 3) {
-				out.println(small(head[i], x) + 1);
-			} else if (op == 4) {
-				out.println(index(head[i], x));
-			} else if (op == 5) {
-				out.println(pre(head[i], x));
-			} else {
-				out.println(post(head[i], x));
-			}
-		}
-		out.flush();
-		out.close();
+		FastReader reader = new FastReader(System.in);
+		FastWriter writer = new FastWriter(System.out);
+		System.out.println("输入一个字符：");
+		int cha = reader.readByte(); // reader会读到字符的ASCII码
+		System.out.println("输入一个int类型的数字：");
+		int num1 = reader.readInt(); // reader会读到该数字
+		System.out.println("输入一个long类型的数字：");
+		long num2 = reader.readLong(); // reader会读到该数字
+		System.out.println("打印结果:");
+		writer.println(cha);
+		writer.println(num1);
+		writer.println(num2);
+		writer.close();// close方法包含flush，会把结果刷出去
 	}
 
 	// 快读
@@ -217,7 +75,6 @@ public class Code04_FHQTreapPersistent1 {
 				minus = true;
 				b = readByte();
 			}
-
 			while (true) {
 				if (b >= '0' && b <= '9') {
 					num = num * 10 + (b - '0');

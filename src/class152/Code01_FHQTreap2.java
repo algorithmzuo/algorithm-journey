@@ -85,18 +85,15 @@ public class Code01_FHQTreap2 {
 		size[cnt] = 1;
 		priority[cnt] = Math.random();
 		head = merge(merge(right[0], cnt), left[0]);
-		left[0] = right[0] = 0;
 	}
 
 	public static void remove(int num) {
 		split(0, 0, head, num);
 		int lm = right[0];
 		int r = left[0];
-		left[0] = right[0] = 0;
 		split(0, 0, lm, num - 1);
 		int m = left[0];
 		int l = right[0];
-		left[0] = right[0] = 0;
 		head = merge(merge(l, merge(left[m], right[m])), r);
 	}
 
@@ -104,7 +101,6 @@ public class Code01_FHQTreap2 {
 		split(0, 0, head, num - 1);
 		int ans = size[right[0]] + 1;
 		head = merge(right[0], left[0]);
-		left[0] = right[0] = 0;
 		return ans;
 	}
 

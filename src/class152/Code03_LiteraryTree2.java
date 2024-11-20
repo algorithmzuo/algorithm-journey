@@ -97,11 +97,9 @@ package class152;
 //        split(0, 0, head, y);
 //        r = ls[0];
 //        lm = rs[0];
-//        ls[0] = rs[0] = 0;
 //        split(0, 0, lm, x - 1);
 //        l = rs[0];
 //        m = ls[0];
-//        ls[0] = rs[0] = 0;
 //        rev[m] ^= 1;
 //        head = merge(merge(l, m), r);
 //    }
