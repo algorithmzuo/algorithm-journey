@@ -67,7 +67,7 @@ package class152;
 //}
 //
 //int main() {
-//	  srand(time(0));
+//    srand(time(0));
 //    int pos = 0, len, l, m, lm, r;
 //    int n;
 //    cin >> n;
