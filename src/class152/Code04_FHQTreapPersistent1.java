@@ -85,8 +85,7 @@ public class Code04_FHQTreapPersistent1 {
 		priority[cnt] = Math.random();
 		int l = right[0];
 		int r = left[0];
-		// 后续可能基于0版本，去生成新版本的树
-		// 所以这里一定要清空，保证0版本的树正确
+		// 后续可能基于0版本，去生成新版本的树，所以一定要清空，保证0版本始终是空树
 		left[0] = right[0] = 0;
 		head[v] = merge(merge(l, cnt), r);
 	}
@@ -98,8 +97,7 @@ public class Code04_FHQTreapPersistent1 {
 		split(0, 0, lm, num - 1);
 		int m = left[0];
 		int l = right[0];
-		// 后续可能基于0版本，去生成新版本的树
-		// 所以这里一定要清空，保证0版本的树正确
+		// 后续可能基于0版本，去生成新版本的树，所以一定要清空，保证0版本始终是空树
 		left[0] = right[0] = 0;
 		head[v] = merge(merge(l, merge(left[m], right[m])), r);
 	}
