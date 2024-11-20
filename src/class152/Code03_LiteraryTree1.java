@@ -112,8 +112,8 @@ public class Code03_LiteraryTree1 {
 			in.nextToken();
 			y = (int) in.nval;
 			split(0, 0, head, y);
-			r = left[0];
 			lm = right[0];
+			r = left[0];
 			split(0, 0, lm, x - 1);
 			l = right[0];
 			m = left[0];

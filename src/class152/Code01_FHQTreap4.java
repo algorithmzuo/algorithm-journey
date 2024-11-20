@@ -78,8 +78,8 @@ package class152;
 //    int lm = rs[0];
 //    int r = ls[0];
 //    split(0, 0, lm, num - 1);
-//    int m = ls[0];
 //    int l = rs[0];
+//    int m = ls[0];
 //    head = merge(merge(l, merge(ls[m], rs[m])), r);
 //}
 //

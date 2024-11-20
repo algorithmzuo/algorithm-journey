@@ -99,16 +99,16 @@ package class152;
 //        } else if (op[0] == 'D') {
 //            cin >> len;
 //            split(0, 0, head, pos + len);
-//            r = ls[0];
 //            lm = rs[0];
+//            r = ls[0];
 //            split(0, 0, lm, pos);
 //            l = rs[0];
 //            head = merge(l, r);
 //        } else {
 //            cin >> len;
 //            split(0, 0, head, pos + len);
-//            r = ls[0];
 //            lm = rs[0];
+//            r = ls[0];
 //            split(0, 0, lm, pos);
 //            l = rs[0];
 //            m = ls[0];

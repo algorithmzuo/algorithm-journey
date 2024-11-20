@@ -95,8 +95,8 @@ package class152;
 //    for (int i = 1, x, y, l, m, lm, r; i <= k; i++) {
 //        cin >> x >> y;
 //        split(0, 0, head, y);
-//        r = ls[0];
 //        lm = rs[0];
+//        r = ls[0];
 //        split(0, 0, lm, x - 1);
 //        l = rs[0];
 //        m = ls[0];

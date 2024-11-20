@@ -18,23 +18,21 @@ public class Code04_FHQTreapPersistent1 {
 
 	public static int MAXN = 500001;
 
+	public static int MAXM = MAXN * 50;
+
 	public static int cnt = 0;
 
 	public static int[] head = new int[MAXN];
 
-	public static int[] key = new int[MAXN * 50];
+	public static int[] key = new int[MAXM];
 
-	public static int[] left = new int[MAXN * 50];
+	public static int[] left = new int[MAXM];
 
-	public static int[] right = new int[MAXN * 50];
+	public static int[] right = new int[MAXM];
 
-	public static int[] size = new int[MAXN * 50];
+	public static int[] size = new int[MAXM];
 
-	public static double[] priority = new double[MAXN * 50];
-
-	public static void up(int i) {
-		size[i] = size[left[i]] + size[right[i]] + 1;
-	}
+	public static double[] priority = new double[MAXM];
 
 	public static int copy(int i) {
 		key[++cnt] = key[i];
@@ -43,6 +41,10 @@ public class Code04_FHQTreapPersistent1 {
 		size[cnt] = size[i];
 		priority[cnt] = priority[i];
 		return cnt;
+	}
+
+	public static void up(int i) {
+		size[i] = size[left[i]] + size[right[i]] + 1;
 	}
 
 	public static void split(int l, int r, int i, int num) {
@@ -80,13 +82,15 @@ public class Code04_FHQTreapPersistent1 {
 
 	public static void add(int v, int i, int num) {
 		split(0, 0, i, num);
-		key[++cnt] = num;
-		size[cnt] = 1;
-		priority[cnt] = Math.random();
 		int l = right[0];
 		int r = left[0];
 		// 后续可能基于0版本，去生成新版本的树，所以一定要清空，保证0版本始终是空树
 		left[0] = right[0] = 0;
+		// 建立新节点
+		key[++cnt] = num;
+		size[cnt] = 1;
+		priority[cnt] = Math.random();
+		// 新节点，与其他范围合并
 		head[v] = merge(merge(l, cnt), r);
 	}
 
@@ -95,10 +99,11 @@ public class Code04_FHQTreapPersistent1 {
 		int lm = right[0];
 		int r = left[0];
 		split(0, 0, lm, num - 1);
-		int m = left[0];
 		int l = right[0];
+		int m = left[0];
 		// 后续可能基于0版本，去生成新版本的树，所以一定要清空，保证0版本始终是空树
 		left[0] = right[0] = 0;
+		// 去掉m号节点，其他范围合并
 		head[v] = merge(merge(l, merge(left[m], right[m])), r);
 	}
 

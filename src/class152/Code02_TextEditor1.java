@@ -121,15 +121,15 @@ public class Code02_TextEditor1 {
 					head = merge(l, r);
 				} else if (op.equals("Delete")) {
 					split(0, 0, head, pos + len);
-					r = left[0];
 					lm = right[0];
+					r = left[0];
 					split(0, 0, lm, pos);
 					l = right[0];
 					head = merge(l, r);
 				} else {
 					split(0, 0, head, pos + len);
-					r = left[0];
 					lm = right[0];
+					r = left[0];
 					split(0, 0, lm, pos);
 					l = right[0];
 					m = left[0];

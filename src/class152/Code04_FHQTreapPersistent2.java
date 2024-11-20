@@ -15,18 +15,15 @@ package class152;
 //using namespace std;
 //
 //const int MAXN = 500001;
+//const int MAXM = MAXN * 50;
 //
 //int cnt = 0;
 //int head[MAXN];
-//int key[MAXN * 50];
-//int ls[MAXN * 50];
-//int rs[MAXN * 50];
-//int size[MAXN * 50];
-//double priority[MAXN * 50];
-//
-//void up(int i) {
-//    size[i] = size[ls[i]] + size[rs[i]] + 1;
-//}
+//int key[MAXM];
+//int ls[MAXM];
+//int rs[MAXM];
+//int size[MAXM];
+//double priority[MAXM];
 //
 //int copy(int i) {
 //    ++cnt;
@@ -36,6 +33,10 @@ package class152;
 //    size[cnt] = size[i];
 //    priority[cnt] = priority[i];
 //    return cnt;
+//}
+//
+//void up(int i) {
+//    size[i] = size[ls[i]] + size[rs[i]] + 1;
 //}
 //
 //void split(int l, int r, int i, int num) {
@@ -73,13 +74,13 @@ package class152;
 //
 //void add(int v, int i, int num) {
 //    split(0, 0, i, num);
+//    int l = rs[0];
+//    int r = ls[0];
+//    ls[0] = rs[0] = 0;
 //    ++cnt;
 //    key[cnt] = num;
 //    size[cnt] = 1;
 //    priority[cnt] = (double)rand() / RAND_MAX;
-//    int l = rs[0];
-//    int r = ls[0];
-//    ls[0] = rs[0] = 0;
 //    head[v] = merge(merge(l, cnt), r);
 //}
 //
@@ -88,8 +89,8 @@ package class152;
 //    int lm = rs[0];
 //    int r = ls[0];
 //    split(0, 0, lm, num - 1);
-//    int m = ls[0];
 //    int l = rs[0];
+//    int m = ls[0];
 //    ls[0] = rs[0] = 0;
 //    head[v] = merge(merge(l, merge(ls[m], rs[m])), r);
 //}

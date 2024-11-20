@@ -92,8 +92,8 @@ public class Code01_FHQTreap2 {
 		int lm = right[0];
 		int r = left[0];
 		split(0, 0, lm, num - 1);
-		int m = left[0];
 		int l = right[0];
+		int m = left[0];
 		head = merge(merge(l, merge(left[m], right[m])), r);
 	}
 
