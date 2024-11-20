@@ -86,11 +86,9 @@ public class Code04_FHQTreapPersistent1 {
 		int r = left[0];
 		// 后续可能基于0版本，去生成新版本的树，所以一定要清空，保证0版本始终是空树
 		left[0] = right[0] = 0;
-		// 建立新节点
 		key[++cnt] = num;
 		size[cnt] = 1;
 		priority[cnt] = Math.random();
-		// 新节点，与其他范围合并
 		head[v] = merge(merge(l, cnt), r);
 	}
 
@@ -103,7 +101,6 @@ public class Code04_FHQTreapPersistent1 {
 		int m = left[0];
 		// 后续可能基于0版本，去生成新版本的树，所以一定要清空，保证0版本始终是空树
 		left[0] = right[0] = 0;
-		// 去掉m号节点，其他范围合并
 		head[v] = merge(merge(l, merge(left[m], right[m])), r);
 	}
 

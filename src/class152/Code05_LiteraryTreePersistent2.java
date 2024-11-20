@@ -142,8 +142,8 @@ package class152;
 //            split(0, 0, lm, x - 1);
 //            l = rs[0];
 //            m = ls[0];
-//            lastAns = sum[m];
 //            ls[0] = rs[0] = 0;
+//            lastAns = sum[m];
 //            cout << lastAns << endl;
 //            head[i] = merge(merge(l, m), r);
 //        }
