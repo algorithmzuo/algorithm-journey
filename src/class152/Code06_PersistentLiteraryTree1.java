@@ -1,6 +1,15 @@
 package class152;
 
 // 可持久化文艺平衡树(java版)
+// 一开始序列为空，实现如下操作，操作一共发生n次
+// v 1 x y : 基于v版本的序列，在第x个数后插入y，生成新版本的序列
+// v 2 x   : 基于v版本的序列，删除第x个数，生成新版本的序列
+// v 3 x y : 基于v版本的序列，范围[x,y]所有数字翻转，生成新版本的序列
+// v 4 x y : 基于v版本的序列，查询范围[x,y]所有数字的和，生成新版本的序列=v版本
+// 不管什么操作，都基于某个v版本，操作完成后得到新版本的序列，但v版本不会变化
+// 每种操作给定的参数都是有效的，插入数字的范围[-10^6, +10^6]
+// 1 <= n <= 2 * 10^5
+// 本题目要求强制在线，具体规则可以打开测试链接查看
 // 测试链接 : https://www.luogu.com.cn/problem/P5055
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
@@ -117,10 +126,10 @@ public class Code06_PersistentLiteraryTree1 {
 			in.nextToken();
 			op = (int) in.nval;
 			in.nextToken();
-			x = (int) ((long) in.nval ^ lastAns);
+			x = (int) ((long) in.nval ^ lastAns); // 强制在线的规则
 			if (op != 2) {
 				in.nextToken();
-				y = (int) ((long) in.nval ^ lastAns);
+				y = (int) ((long) in.nval ^ lastAns); // 强制在线的规则
 			}
 			if (op == 1) {
 				split(0, 0, head[version], x);
