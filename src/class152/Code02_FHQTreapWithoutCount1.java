@@ -1,6 +1,6 @@
 package class152;
 
-// FHQ-Treap，使用词频统计，java版
+// FHQ-Treap，不用词频统计，java版
 // 实现一种结构，支持如下操作，要求单次调用的时间复杂度O(log n)
 // 1，增加x，重复加入算多个词频
 // 2，删除x，如果有多个，只删掉一个
@@ -20,7 +20,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 
-public class Code01_FHQTreap1 {
+public class Code02_FHQTreapWithoutCount1 {
 
 	public static int MAXN = 100001;
 
@@ -32,9 +32,6 @@ public class Code01_FHQTreap1 {
 
 	// 节点的key值
 	public static int[] key = new int[MAXN];
-
-	// 节点key的计数
-	public static int[] count = new int[MAXN];
 
 	// 左孩子
 	public static int[] left = new int[MAXN];
@@ -49,7 +46,7 @@ public class Code01_FHQTreap1 {
 	public static double[] priority = new double[MAXN];
 
 	public static void up(int i) {
-		size[i] = size[left[i]] + size[right[i]] + count[i];
+		size[i] = size[left[i]] + size[right[i]] + 1;
 	}
 
 	public static void split(int l, int r, int i, int num) {
@@ -82,80 +79,39 @@ public class Code01_FHQTreap1 {
 		}
 	}
 
-	public static int find(int i, int num) {
-		if (i == 0) {
-			return 0;
-		}
-		if (key[i] == num) {
-			return i;
-		} else if (key[i] > num) {
-			return find(left[i], num);
-		} else {
-			return find(right[i], num);
-		}
-	}
-
-	public static void changeCount(int i, int num, int change) {
-		if (key[i] == num) {
-			count[i] += change;
-		} else if (key[i] > num) {
-			changeCount(left[i], num, change);
-		} else {
-			changeCount(right[i], num, change);
-		}
-		up(i);
-	}
-
 	public static void add(int num) {
-		if (find(head, num) != 0) {
-			changeCount(head, num, 1);
-		} else {
-			split(0, 0, head, num);
-			key[++cnt] = num;
-			count[cnt] = size[cnt] = 1;
-			priority[cnt] = Math.random();
-			head = merge(merge(right[0], cnt), left[0]);
-		}
+		split(0, 0, head, num);
+		key[++cnt] = num;
+		size[cnt] = 1;
+		priority[cnt] = Math.random();
+		head = merge(merge(right[0], cnt), left[0]);
 	}
 
 	public static void remove(int num) {
-		int i = find(head, num);
-		if (i != 0) {
-			if (count[i] > 1) {
-				changeCount(head, num, -1);
-			} else {
-				split(0, 0, head, num);
-				int lm = right[0];
-				int r = left[0];
-				split(0, 0, lm, num - 1);
-				int l = right[0];
-				head = merge(l, r);
-			}
-		}
-	}
-
-	public static int small(int i, int num) {
-		if (i == 0) {
-			return 0;
-		}
-		if (key[i] >= num) {
-			return small(left[i], num);
-		} else {
-			return size[left[i]] + count[i] + small(right[i], num);
-		}
+		split(0, 0, head, num);
+		int lm = right[0];
+		int r = left[0];
+		split(0, 0, lm, num - 1);
+		int l = right[0];
+		int m = left[0];
+		head = merge(merge(l, merge(left[m], right[m])), r);
 	}
 
 	public static int rank(int num) {
-		return small(head, num) + 1;
+		split(0, 0, head, num - 1);
+		int ans = size[right[0]] + 1;
+		head = merge(right[0], left[0]);
+		return ans;
 	}
 
 	public static int index(int i, int x) {
 		if (size[left[i]] >= x) {
 			return index(left[i], x);
-		} else if (size[left[i]] + count[i] < x) {
-			return index(right[i], x - size[left[i]] - count[i]);
+		} else if (size[left[i]] + 1 < x) {
+			return index(right[i], x - size[left[i]] - 1);
+		} else {
+			return key[i];
 		}
-		return key[i];
 	}
 
 	public static int index(int x) {
