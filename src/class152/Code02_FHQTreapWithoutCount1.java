@@ -39,7 +39,7 @@ public class Code02_FHQTreapWithoutCount1 {
 	// 右孩子
 	public static int[] right = new int[MAXN];
 
-	// 数字总数
+	// 节点总数
 	public static int[] size = new int[MAXN];
 
 	// 节点优先级
