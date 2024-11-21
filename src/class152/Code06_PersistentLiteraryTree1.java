@@ -135,8 +135,7 @@ public class Code06_PersistentLiteraryTree1 {
 				split(0, 0, head[version], x);
 				l = right[0];
 				r = left[0];
-				// 后续可能基于0版本，去生成新版本的树，所以一定要清空，保证0版本始终是空树
-				left[0] = right[0] = 0;
+				left[0] = right[0] = 0; // 保证0版本始终是空树
 				key[++cnt] = (int) y;
 				size[cnt] = 1;
 				sum[cnt] = y;
@@ -149,8 +148,7 @@ public class Code06_PersistentLiteraryTree1 {
 				split(0, 0, lm, x - 1);
 				l = right[0];
 				m = left[0];
-				// 后续可能基于0版本，去生成新版本的树，所以一定要清空，保证0版本始终是空树
-				left[0] = right[0] = 0;
+				left[0] = right[0] = 0; // 保证0版本始终是空树
 				head[i] = merge(l, r);
 			} else if (op == 3) {
 				split(0, 0, head[version], y);
@@ -159,8 +157,7 @@ public class Code06_PersistentLiteraryTree1 {
 				split(0, 0, lm, x - 1);
 				l = right[0];
 				m = left[0];
-				// 后续可能基于0版本，去生成新版本的树，所以一定要清空，保证0版本始终是空树
-				left[0] = right[0] = 0;
+				left[0] = right[0] = 0; // 保证0版本始终是空树
 				reverse[m] = !reverse[m];
 				head[i] = merge(merge(l, m), r);
 			} else {
@@ -170,8 +167,7 @@ public class Code06_PersistentLiteraryTree1 {
 				split(0, 0, lm, x - 1);
 				l = right[0];
 				m = left[0];
-				// 后续可能基于0版本，去生成新版本的树，所以一定要清空，保证0版本始终是空树
-				left[0] = right[0] = 0;
+				left[0] = right[0] = 0; // 保证0版本始终是空树
 				lastAns = sum[m];
 				out.println(lastAns);
 				head[i] = merge(merge(l, m), r);
