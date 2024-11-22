@@ -24,7 +24,7 @@ public class Code06_PersistentLiteraryTree1 {
 
 	public static int MAXN = 200001;
 
-	public static int MAXM = MAXN * 80;
+	public static int MAXM = MAXN * 100;
 
 	public static int cnt = 0;
 
@@ -81,8 +81,8 @@ public class Code06_PersistentLiteraryTree1 {
 		if (i == 0) {
 			right[l] = left[r] = 0;
 		} else {
-			down(i);
 			i = copy(i);
+			down(i);
 			if (size[left[i]] + 1 <= rank) {
 				right[l] = i;
 				split(i, r, right[i], rank - size[left[i]] - 1);
@@ -99,14 +99,14 @@ public class Code06_PersistentLiteraryTree1 {
 			return l + r;
 		}
 		if (priority[l] >= priority[r]) {
-			down(l);
 			l = copy(l);
+			down(l);
 			right[l] = merge(right[l], r);
 			up(l);
 			return l;
 		} else {
-			down(r);
 			r = copy(r);
+			down(r);
 			left[r] = merge(l, left[r]);
 			up(r);
 			return r;

@@ -21,7 +21,7 @@ package class152;
 //using namespace std;
 //
 //const int MAXN = 200001;
-//const int MAXM = MAXN * 80;
+//const int MAXM = MAXN * 100;
 //
 //int cnt = 0;
 //int head[MAXN];
@@ -68,8 +68,8 @@ package class152;
 //    if (i == 0) {
 //        rs[l] = ls[r] = 0;
 //    } else {
-//        down(i);
 //        i = copy(i);
+//        down(i);
 //        if (size[ls[i]] + 1 <= rank) {
 //            rs[l] = i;
 //            split(i, r, rs[i], rank - size[ls[i]] - 1);
@@ -86,14 +86,14 @@ package class152;
 //        return l + r;
 //    }
 //    if (priority[l] >= priority[r]) {
-//        down(l);
 //        l = copy(l);
+//        down(l);
 //        rs[l] = merge(rs[l], r);
 //        up(l);
 //        return l;
 //    } else {
-//        down(r);
 //        r = copy(r);
+//        down(r);
 //        ls[r] = merge(l, ls[r]);
 //        up(r);
 //        return r;
