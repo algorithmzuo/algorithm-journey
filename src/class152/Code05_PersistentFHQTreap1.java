@@ -166,19 +166,21 @@ public class Code05_PersistentFHQTreap1 {
 			version = in.readInt();
 			op = in.readInt();
 			x = in.readInt();
-			head[i] = head[version];
 			if (op == 1) {
-				add(i, head[i], x);
+				add(i, head[version], x);
 			} else if (op == 2) {
-				remove(i, head[i], x);
-			} else if (op == 3) {
-				out.println(small(head[i], x) + 1);
-			} else if (op == 4) {
-				out.println(index(head[i], x));
-			} else if (op == 5) {
-				out.println(pre(head[i], x));
+				remove(i, head[version], x);
 			} else {
-				out.println(post(head[i], x));
+				head[i] = head[version];
+				if (op == 3) {
+					out.println(small(head[i], x) + 1);
+				} else if (op == 4) {
+					out.println(index(head[i], x));
+				} else if (op == 5) {
+					out.println(pre(head[i], x));
+				} else {
+					out.println(post(head[i], x));
+				}
 			}
 		}
 		out.flush();

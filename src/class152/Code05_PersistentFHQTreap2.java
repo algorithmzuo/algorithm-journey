@@ -156,19 +156,21 @@ package class152;
 //    for (int i = 1; i <= n; ++i) {
 //        int version, op, x;
 //        cin >> version >> op >> x;
-//        head[i] = head[version];
 //        if (op == 1) {
-//            add(i, head[i], x);
+//            add(i, head[version], x);
 //        } else if (op == 2) {
-//            remove(i, head[i], x);
-//        } else if (op == 3) {
-//            cout << small(head[i], x) + 1 << "\n";
-//        } else if (op == 4) {
-//            cout << index(head[i], x) << "\n";
-//        } else if (op == 5) {
-//            cout << pre(head[i], x) << "\n";
-//        } else if (op == 6) {
-//            cout << post(head[i], x) << "\n";
+//            remove(i, head[version], x);
+//        } else {
+//            head[i] = head[version];
+//            if (op == 3) {
+//                cout << small(head[i], x) + 1 << "\n";
+//            } else if (op == 4) {
+//                cout << index(head[i], x) << "\n";
+//            } else if (op == 5) {
+//                cout << pre(head[i], x) << "\n";
+//            } else {
+//                cout << post(head[i], x) << "\n";
+//            }
 //        }
 //    }
 //    return 0;
