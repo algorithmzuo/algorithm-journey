@@ -91,6 +91,9 @@ public class Code05_PersistentFHQTreap1 {
 		}
 	}
 
+	// v : 新生成的版本编号
+	// i : 基于的历史版本，树的头节点编号
+	// num : 加入的数字
 	public static void add(int v, int i, int num) {
 		split(0, 0, i, num);
 		int l = right[0];
@@ -103,6 +106,9 @@ public class Code05_PersistentFHQTreap1 {
 		head[v] = merge(merge(l, cnt), r);
 	}
 
+	// v : 新生成的版本编号
+	// i : 基于的历史版本，树的头节点编号
+	// num : 加入的数字
 	public static void remove(int v, int i, int num) {
 		split(0, 0, i, num);
 		int lm = right[0];
