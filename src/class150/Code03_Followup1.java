@@ -1,49 +1,24 @@
 package class150;
 
-// 平衡因子影响替罪羊树的实验
-// 一旦，max(左树节点数，右树节点数) > 平衡因子 * 整树节点数，就会发生重构
-// 平衡因子范围是(0.5, 1.0)，否则无意义
-// 平衡因子等于0.5时，树高很小，查询效率高，但是重构发生很频繁
-// 平衡因子等于1.0时，重构完全不发生，但是树高很大，查询效率低
-// 保证查询效率、同时保证重构的节点总数不多，0.7为最常用的平衡因子
-// 这保证了查询效率，因为树高几乎是O(log n)
-// 同时重构触发的时机合适，单次调整的均摊代价为O(log n)
+// 替罪羊树实现普通有序表，数据加强的测试，java版
+// 这个文件课上没有讲，测试数据加强了，而且有强制在线的要求
+// 基本功能要求都是不变的，可以打开测试链接查看
+// 测试链接 : https://www.luogu.com.cn/problem/P6136
+// 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.io.StreamTokenizer;
 import java.util.Arrays;
 
-public class ShowDetails {
-
-	public static void main(String[] args) {
-		ALPHA = 0.7; // 设置平衡因子
-		max = 10000; // 设置插入范围
-		System.out.println("测试开始");
-		cost = 0; // 清空重构节点计数
-		for (int num = 1; num <= max; num++) {
-			add(num);
-		}
-		System.out.println("插入数字 : " + "1~" + max);
-		System.out.println("平衡因子 : " + ALPHA);
-		System.out.println("树的高度 : " + deep(head));
-		System.out.println("重构节点 : " + cost);
-		System.out.println("测试结束");
-		clear();
-	}
-
-	// 统计树高
-	public static int deep(int i) {
-		if (i == 0) {
-			return 0;
-		}
-		return Math.max(deep(left[i]), deep(right[i])) + 1;
-	}
-
-	public static int max;
-
-	public static int cost;
+public class Code03_Followup1 {
 
 	public static double ALPHA = 0.7;
 
-	public static int MAXN = 100001;
+	public static int MAXN = 2000001;
 
 	public static int head = 0;
 
@@ -110,7 +85,6 @@ public class ShowDetails {
 			ci = 0;
 			inorder(top);
 			if (ci > 0) {
-				cost += ci; // 统计重构节点数
 				if (father == 0) {
 					head = build(1, ci);
 				} else if (side == 1) {
@@ -237,6 +211,51 @@ public class ShowDetails {
 		Arrays.fill(diff, 1, cnt + 1, 0);
 		cnt = 0;
 		head = 0;
+	}
+
+	public static void main(String[] args) throws IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StreamTokenizer in = new StreamTokenizer(br);
+		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
+		in.nextToken();
+		int n = (int) in.nval;
+		in.nextToken();
+		int m = (int) in.nval;
+		for (int i = 1, num; i <= n; i++) {
+			in.nextToken();
+			num = (int) in.nval;
+			add(num);
+		}
+		int lastAns = 0;
+		int ans = 0;
+		for (int i = 1, op, x; i <= m; i++) {
+			in.nextToken();
+			op = (int) in.nval;
+			in.nextToken();
+			x = (int) in.nval ^ lastAns;
+			if (op == 1) {
+				add(x);
+			} else if (op == 2) {
+				remove(x);
+			} else if (op == 3) {
+				lastAns = rank(x);
+				ans ^= lastAns;
+			} else if (op == 4) {
+				lastAns = index(x);
+				ans ^= lastAns;
+			} else if (op == 5) {
+				lastAns = pre(x);
+				ans ^= lastAns;
+			} else {
+				lastAns = post(x);
+				ans ^= lastAns;
+			}
+		}
+		out.println(ans);
+		clear();
+		out.flush();
+		out.close();
+		br.close();
 	}
 
 }

@@ -159,17 +159,17 @@ package class148;
 //    }
 //}
 //
-//int getIndex(int i, int x) {
+//int index(int i, int x) {
 //    if (size[ls[i]] >= x) {
-//        return getIndex(ls[i], x);
+//        return index(ls[i], x);
 //    } else if (size[ls[i]] + key_count[i] < x) {
-//        return getIndex(rs[i], x - size[ls[i]] - key_count[i]);
+//        return index(rs[i], x - size[ls[i]] - key_count[i]);
 //    }
 //    return key[i];
 //}
 //
-//int getIndex(int x) {
-//    return getIndex(head, x);
+//int index(int x) {
+//    return index(head, x);
 //}
 //
 //int pre(int i, int num) {
@@ -225,7 +225,7 @@ package class148;
 //        } else if (op == 3) {
 //            cout << getRank(x) << endl;
 //        } else if (op == 4) {
-//            cout << getIndex(x) << endl;
+//            cout << index(x) << endl;
 //        } else if (op == 5) {
 //            cout << pre(x) << endl;
 //        } else {

@@ -21,7 +21,7 @@ import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 import java.util.Arrays;
 
-public class ScapeGoat1 {
+public class Code02_ScapeGoat1 {
 
 	// 平衡因子
 	public static double ALPHA = 0.7;

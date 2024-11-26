@@ -1,16 +1,9 @@
 package class148;
 
-// AVL树的实现(java版)
-// 实现一种结构，支持如下操作，要求单次调用的时间复杂度O(log n)
-// 1，增加x，重复加入算多个词频
-// 2，删除x，如果有多个，只删掉一个
-// 3，查询x的排名，x的排名为，比x小的数的个数+1
-// 4，查询数据中排名为x的数
-// 5，查询x的前驱，x的前驱为，小于x的数中最大的数，不存在返回整数最小值
-// 6，查询x的后继，x的后继为，大于x的数中最小的数，不存在返回整数最大值
-// 所有操作的次数 <= 10^5
-// -10^7 <= x <= +10^7
-// 测试链接 : https://www.luogu.com.cn/problem/P3369
+// AVL实现普通有序表，数据加强的测试，java版
+// 这个文件课上没有讲，测试数据加强了，而且有强制在线的要求
+// 基本功能要求都是不变的，可以打开测试链接查看
+// 测试链接 : https://www.luogu.com.cn/problem/P6136
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
 import java.io.BufferedReader;
@@ -21,41 +14,31 @@ import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 import java.util.Arrays;
 
-public class AVL1 {
+public class Code03_Followup1 {
 
-	public static int MAXN = 100001;
+	public static int MAXN = 2000001;
 
-	// 空间使用计数
 	public static int cnt = 0;
 
-	// 整棵树的头节点编号
 	public static int head = 0;
 
-	// 节点的key
 	public static int[] key = new int[MAXN];
 
-	// 子树高度
 	public static int[] height = new int[MAXN];
 
-	// 左孩子
 	public static int[] left = new int[MAXN];
 
-	// 右孩子
 	public static int[] right = new int[MAXN];
 
-	// 节点key的计数
 	public static int[] count = new int[MAXN];
 
-	// 子树的数字总数
 	public static int[] size = new int[MAXN];
 
-	// 修正信息
 	public static void up(int i) {
 		size[i] = size[left[i]] + size[right[i]] + count[i];
 		height[i] = Math.max(height[left[i]], height[right[i]]) + 1;
 	}
 
-	// i节点为头的树左旋，返回左旋后头节点的空间编号
 	public static int leftRotate(int i) {
 		int r = right[i];
 		right[i] = left[r];
@@ -65,7 +48,6 @@ public class AVL1 {
 		return r;
 	}
 
-	// i节点为头的树右旋，返回右旋后头节点的空间编号
 	public static int rightRotate(int i) {
 		int l = left[i];
 		left[i] = right[l];
@@ -75,9 +57,6 @@ public class AVL1 {
 		return l;
 	}
 
-	// 检查i节点为头的树是否违规
-	// 如果命中了某种违规情况，就进行相应调整
-	// 返回树的头节点的空间编号
 	public static int maintain(int i) {
 		int lh = height[left[i]];
 		int rh = height[right[i]];
@@ -99,13 +78,10 @@ public class AVL1 {
 		return i;
 	}
 
-	// 增加数字num，重复加入算多个词频
 	public static void add(int num) {
 		head = add(head, num);
 	}
 
-	// 当前来到i号节点，num这个数字一定会加入以i为头的树
-	// 树结构有可能变化，返回头节点编号
 	public static int add(int i, int num) {
 		if (i == 0) {
 			key[++cnt] = num;
@@ -123,15 +99,12 @@ public class AVL1 {
 		return maintain(i);
 	}
 
-	// 删除数字num，如果有多个，只删掉一个
 	public static void remove(int num) {
 		if (rank(num) != rank(num + 1)) {
 			head = remove(head, num);
 		}
 	}
 
-	// 当前来到i号节点，以i为头的树一定会减少1个num
-	// 树结构有可能变化，返回头节点编号
 	public static int remove(int i, int num) {
 		if (key[i] < num) {
 			right[i] = remove(right[i], num);
@@ -163,8 +136,6 @@ public class AVL1 {
 		return maintain(i);
 	}
 
-	// 以i号节点为头的树上，最左节点的编号一定是mostLeft
-	// 删掉这个节点，并保证树的平衡性，返回头节点的编号
 	public static int removeMostLeft(int i, int mostLeft) {
 		if (i == mostLeft) {
 			return right[i];
@@ -175,12 +146,10 @@ public class AVL1 {
 		}
 	}
 
-	// 查询num的排名，比num小的数字个数+1，就是num的排名
 	public static int rank(int num) {
 		return small(head, num) + 1;
 	}
 
-	// 以i为头的树上，比num小的数字有几个
 	public static int small(int i, int num) {
 		if (i == 0) {
 			return 0;
@@ -252,25 +221,39 @@ public class AVL1 {
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
 		in.nextToken();
 		int n = (int) in.nval;
-		for (int i = 1, op, x; i <= n; i++) {
+		in.nextToken();
+		int m = (int) in.nval;
+		for (int i = 1, num; i <= n; i++) {
+			in.nextToken();
+			num = (int) in.nval;
+			add(num);
+		}
+		int lastAns = 0;
+		int ans = 0;
+		for (int i = 1, op, x; i <= m; i++) {
 			in.nextToken();
 			op = (int) in.nval;
 			in.nextToken();
-			x = (int) in.nval;
+			x = (int) in.nval ^ lastAns;
 			if (op == 1) {
 				add(x);
 			} else if (op == 2) {
 				remove(x);
 			} else if (op == 3) {
-				out.println(rank(x));
+				lastAns = rank(x);
+				ans ^= lastAns;
 			} else if (op == 4) {
-				out.println(index(x));
+				lastAns = index(x);
+				ans ^= lastAns;
 			} else if (op == 5) {
-				out.println(pre(x));
+				lastAns = pre(x);
+				ans ^= lastAns;
 			} else {
-				out.println(post(x));
+				lastAns = post(x);
+				ans ^= lastAns;
 			}
 		}
+		out.println(ans);
 		clear();
 		out.flush();
 		out.close();
