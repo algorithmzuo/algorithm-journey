@@ -1,16 +1,9 @@
 package class151;
 
-// Treap树的实现(C++版)
-// 实现一种结构，支持如下操作，要求单次调用的时间复杂度O(log n)
-// 1，增加x，重复加入算多个词频
-// 2，删除x，如果有多个，只删掉一个
-// 3，查询x的排名，x的排名为，比x小的数的个数+1
-// 4，查询数据中排名为x的数
-// 5，查询x的前驱，x的前驱为，小于x的数中最大的数，不存在返回整数最小值
-// 6，查询x的后继，x的后继为，大于x的数中最小的数，不存在返回整数最大值
-// 所有操作的次数 <= 10^5
-// -10^7 <= x <= +10^7
-// 测试链接 : https://www.luogu.com.cn/problem/P3369
+// Treap树实现普通有序表，数据加强的测试，C++版
+// 这个文件课上没有讲，测试数据加强了，而且有强制在线的要求
+// 基本功能要求都是不变的，可以打开测试链接查看
+// 测试链接 : https://www.luogu.com.cn/problem/P6136
 // 如下实现是C++的版本，C++版本和java版本逻辑完全一样
 // 提交如下代码，可以通过所有测试用例
 
@@ -22,7 +15,7 @@ package class151;
 //
 //using namespace std;
 //
-//const int MAXN = 100001;
+//const int MAXN = 2000001;
 //
 //int cnt = 0;
 //int head = 0;
@@ -190,24 +183,35 @@ package class151;
 //
 //int main() {
 //    srand(time(0));
-//    int n;
+//    int n, m, lastAns = 0, ans = 0;
 //    cin >> n;
-//    for (int i = 1, op, x; i <= n; i++) {
+//    cin >> m;
+//    for (int i = 1, num; i <= n; i++) {
+//        cin >> num;
+//        add(num);
+//    }
+//    for (int i = 1, op, x; i <= m; i++) {
 //        cin >> op >> x;
+//        x ^= lastAns;
 //        if (op == 1) {
 //            add(x);
 //        } else if (op == 2) {
 //            remove(x);
 //        } else if (op == 3) {
-//            cout << getRank(x) << endl;
+//            lastAns = getRank(x);
+//            ans ^= lastAns;
 //        } else if (op == 4) {
-//            cout << index(x) << endl;
+//            lastAns = index(x);
+//            ans ^= lastAns;
 //        } else if (op == 5) {
-//            cout << pre(x) << endl;
+//            lastAns = pre(x);
+//            ans ^= lastAns;
 //        } else {
-//            cout << post(x) << endl;
+//            lastAns = post(x);
+//            ans ^= lastAns;
 //        }
 //    }
+//    cout << ans << endl;
 //    clear();
 //    return 0;
 //}

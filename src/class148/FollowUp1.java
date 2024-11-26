@@ -14,7 +14,7 @@ import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 import java.util.Arrays;
 
-public class Code03_Followup1 {
+public class FollowUp1 {
 
 	public static int MAXN = 2000001;
 
