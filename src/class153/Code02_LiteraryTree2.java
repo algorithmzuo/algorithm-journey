@@ -112,31 +112,15 @@ package class153;
 //}
 //
 //void add(int num) {
+//    int i = head;
+//    while (rs[i] != 0) {
+//        i = rs[i];
+//    }
 //    key[++cnt] = num;
 //    size[cnt] = 1;
-//    if (head == 0) {
-//        head = cnt;
-//    } else {
-//        int f = 0, i = head, son = 0;
-//        while (i != 0) {
-//            size[i]++;
-//            f = i;
-//            if (key[i] <= num) {
-//                son = 1;
-//                i = rs[i];
-//            } else {
-//                son = 0;
-//                i = ls[i];
-//            }
-//        }
-//        if (son == 1) {
-//            rs[f] = cnt;
-//        } else {
-//            ls[f] = cnt;
-//        }
-//        fa[cnt] = f;
-//        splay(cnt, 0);
-//    }
+//    fa[cnt] = i;
+//    rs[i] = cnt;
+//    splay(cnt, 0);
 //}
 //
 //void reverse(int l, int r) {
@@ -178,10 +162,10 @@ package class153;
 //    int n, m;
 //    cin >> n >> m;
 //    add(INT_MIN);
-//    add(INT_MAX);
 //    for (int i = 1; i <= n; i++) {
 //        add(i);
 //    }
+//    add(INT_MAX);
 //    for (int i = 1, x, y; i <= m; i++) {
 //        cin >> x >> y;
 //        reverse(x + 1, y + 1);

@@ -125,31 +125,15 @@ public class Code02_LiteraryTree1 {
 	}
 
 	public static void add(int num) {
+		int i = head;
+		while (right[i] != 0) {
+			i = right[i];
+		}
 		key[++cnt] = num;
 		size[cnt] = 1;
-		if (head == 0) {
-			head = cnt;
-		} else {
-			int f = 0, i = head, son = 0;
-			while (i != 0) {
-				size[i]++;
-				f = i;
-				if (key[i] <= num) {
-					son = 1;
-					i = right[i];
-				} else {
-					son = 0;
-					i = left[i];
-				}
-			}
-			if (son == 1) {
-				right[f] = cnt;
-			} else {
-				left[f] = cnt;
-			}
-			father[cnt] = f;
-			splay(cnt, 0);
-		}
+		father[cnt] = i;
+		right[i] = cnt;
+		splay(cnt, 0);
 	}
 
 	public static void reverse(int l, int r) {
@@ -199,10 +183,10 @@ public class Code02_LiteraryTree1 {
 		in.nextToken();
 		int m = (int) in.nval;
 		add(Integer.MIN_VALUE);
-		add(Integer.MAX_VALUE);
 		for (int i = 1; i <= n; i++) {
 			add(i);
 		}
+		add(Integer.MAX_VALUE);
 		for (int i = 1, x, y; i <= m; i++) {
 			in.nextToken();
 			x = (int) in.nval;

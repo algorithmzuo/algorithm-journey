@@ -109,7 +109,6 @@ public class FollowUp1 {
 		} else {
 			int f = 0, i = head, son = 0;
 			while (i != 0) {
-				size[i]++;
 				f = i;
 				if (key[i] <= num) {
 					son = 1;
