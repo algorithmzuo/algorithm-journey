@@ -178,7 +178,7 @@ public class Code04_Bookcase1 {
 	}
 
 	// 节点编号为i的节点，现在排名from，移动到排名to的位置
-	// 本题不需要做到这个功能，但这种扩展性可能是其他题目需要的
+	// 本题不需要做到这个程度，但这种扩展性可能是其他题目需要的
 	public static void move(int i, int from, int to) {
 		disconnect(i, from);
 		connect(i, to);
