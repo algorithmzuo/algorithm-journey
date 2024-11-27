@@ -200,6 +200,8 @@ package class150;
 //}
 //
 //int main() {
+//    ios::sync_with_stdio(false);
+//    cin.tie(nullptr);
 //    int n, m, lastAns = 0, ans = 0;
 //    cin >> n;
 //    cin >> m;

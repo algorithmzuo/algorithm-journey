@@ -128,6 +128,8 @@ package class152;
 //}
 //
 //int main() {
+//    ios::sync_with_stdio(false);
+//    cin.tie(nullptr);
 //    srand(time(0));
 //    int n, m, lastAns = 0, ans = 0;
 //    cin >> n;

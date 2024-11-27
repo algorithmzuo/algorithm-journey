@@ -236,6 +236,8 @@ package class149;
 //}
 //
 //int main() {
+//    ios::sync_with_stdio(false);
+//    cin.tie(nullptr);
 //    srand(time(0));
 //    build();
 //    int n;

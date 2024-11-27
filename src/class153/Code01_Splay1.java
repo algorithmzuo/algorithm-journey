@@ -42,13 +42,13 @@ public class Code01_Splay1 {
 		size[i] = size[left[i]] + size[right[i]] + 1;
 	}
 
-	public static int leftOrRight(int i) {
+	public static int lr(int i) {
 		return right[father[i]] == i ? 1 : 0;
 	}
 
 	public static void upRotate(int i) {
-		int f = father[i], g = father[f], son = leftOrRight(i);
-		if (son == 1) {
+		int f = father[i], g = father[f], soni = lr(i), sonf = lr(f);
+		if (soni == 1) {
 			right[f] = left[i];
 			if (right[f] != 0) {
 				father[right[f]] = f;
@@ -61,15 +61,15 @@ public class Code01_Splay1 {
 			}
 			right[i] = f;
 		}
-		father[f] = i;
-		father[i] = g;
 		if (g != 0) {
-			if (right[g] == f) {
+			if (sonf == 1) {
 				right[g] = i;
 			} else {
 				left[g] = i;
 			}
 		}
+		father[f] = i;
+		father[i] = g;
 		up(f);
 		up(i);
 	}
@@ -78,7 +78,7 @@ public class Code01_Splay1 {
 		int f = father[i], g = father[f];
 		while (f != goal) {
 			if (g != goal) {
-				if (leftOrRight(i) == leftOrRight(f)) {
+				if (lr(i) == lr(f)) {
 					upRotate(f);
 				} else {
 					upRotate(i);

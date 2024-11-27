@@ -28,13 +28,13 @@ package class153;
 //    size[i] = size[ls[i]] + size[rs[i]] + 1;
 //}
 //
-//int leftOrRight(int i) {
+//int lr(int i) {
 //    return rs[fa[i]] == i ? 1 : 0;
 //}
 //
 //void upRotate(int i) {
-//    int f = fa[i], g = fa[f], son = leftOrRight(i);
-//    if (son == 1) {
+//    int f = fa[i], g = fa[f], soni = lr(i), sonf = lr(f);
+//    if (soni == 1) {
 //        rs[f] = ls[i];
 //        if (rs[f] != 0) {
 //            fa[rs[f]] = f;
@@ -47,15 +47,15 @@ package class153;
 //        }
 //        rs[i] = f;
 //    }
-//    fa[f] = i;
-//    fa[i] = g;
 //    if (g != 0) {
-//        if (rs[g] == f) {
+//        if (sonf == 1) {
 //            rs[g] = i;
 //        } else {
 //            ls[g] = i;
 //        }
 //    }
+//    fa[f] = i;
+//    fa[i] = g;
 //    up(f);
 //    up(i);
 //}
@@ -64,7 +64,7 @@ package class153;
 //    int f = fa[i], g = fa[f];
 //    while (f != goal) {
 //        if (g != goal) {
-//            if (leftOrRight(i) == leftOrRight(f)) {
+//            if (lr(i) == lr(f)) {
 //                upRotate(f);
 //            } else {
 //                upRotate(i);
@@ -210,6 +210,8 @@ package class153;
 //}
 //
 //int main() {
+//    ios::sync_with_stdio(false);
+//    cin.tie(nullptr);
 //    int n, m, lastAns = 0, ans = 0;
 //    cin >> n;
 //    cin >> m;
