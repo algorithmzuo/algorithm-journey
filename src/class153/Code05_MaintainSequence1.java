@@ -1,6 +1,6 @@
 package class153;
 
-// 维护数列
+// 维护数列(java版)
 // 测试链接 : https://www.luogu.com.cn/problem/P2042
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
@@ -13,7 +13,7 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.util.StringTokenizer;
 
-public class Code05_MaintainSequence {
+public class Code05_MaintainSequence1 {
 
 	public static void main(String[] args) {
 		Kattio io = new Kattio();
