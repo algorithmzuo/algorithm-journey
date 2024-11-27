@@ -151,7 +151,7 @@ public class Code04_Bookcase1 {
 		father[i] = left[i] = right[i] = 0;
 	}
 
-	// 节点编号为i的节点已经分离出来了，插入回结构中，让其排名为rank
+	// 节点编号为i的节点已经分离出来了，加入回结构中，让其排名为rank
 	public static void connect(int i, int rank) {
 		if (rank == 1) {
 			right[i] = head;
@@ -178,6 +178,7 @@ public class Code04_Bookcase1 {
 	}
 
 	// 节点编号为i的节点，现在排名from，移动到排名to的位置
+	// 本题不需要做到这个功能，但这种扩展性可能是其他题目需要的
 	public static void move(int i, int from, int to) {
 		disconnect(i, from);
 		connect(i, to);
