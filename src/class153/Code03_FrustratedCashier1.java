@@ -1,6 +1,6 @@
 package class153;
 
-// 郁闷的出纳员
+// 郁闷的出纳员(java版)
 // 测试链接 : https://www.luogu.com.cn/problem/P1486
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
@@ -13,7 +13,7 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.util.StringTokenizer;
 
-public class Code03_FrustratedCashier {
+public class Code03_FrustratedCashier1 {
 
 	public static int MAXN = 300001;
 
