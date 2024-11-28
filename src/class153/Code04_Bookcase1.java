@@ -90,7 +90,7 @@ public class Code04_Bookcase1 {
 		}
 	}
 
-	// 返回排名为rank的节点编号
+	// 返回中序排名为rank的节点编号
 	public static int find(int rank) {
 		int i = head, ans = 0;
 		while (i != 0) {
@@ -131,7 +131,7 @@ public class Code04_Bookcase1 {
 		return num[find(s)];
 	}
 
-	// 节点编号为i的节点，已知排名是rank，结构上把该节点分离出来
+	// 节点编号为i的节点，已知中序排名是rank，结构上把该节点分离出来
 	public static void disconnect(int i, int rank) {
 		splay(i, 0);
 		if (rank == 1) {
@@ -151,7 +151,7 @@ public class Code04_Bookcase1 {
 		father[i] = left[i] = right[i] = 0;
 	}
 
-	// 节点编号为i的节点已经分离出来了，加入回结构中，让其排名为rank
+	// 节点编号为i的节点已经分离出来了，加入回结构中，让其中序排名为rank
 	public static void connect(int i, int rank) {
 		if (rank == 1) {
 			right[i] = head;
@@ -177,11 +177,12 @@ public class Code04_Bookcase1 {
 		}
 	}
 
-	// 节点编号为i的节点，现在排名from，移动到排名to的位置
+	// 中序排名为a的节点，移动到中序排名为b的位置
 	// 本题不需要做到这个程度，但这种扩展性可能是其他题目需要的
-	public static void move(int i, int from, int to) {
-		disconnect(i, from);
-		connect(i, to);
+	public static void move(int a, int b) {
+		int i = find(a);
+		disconnect(i, a);
+		connect(i, b);
 	}
 
 	public static void main(String[] args) {
@@ -197,12 +198,12 @@ public class Code04_Bookcase1 {
 			s = io.nextInt();
 			small = ask(s);
 			if (op.equals("Top")) {
-				move(pos[s], small + 1, 1);
+				move(small + 1, 1);
 			} else if (op.equals("Bottom")) {
-				move(pos[s], small + 1, n);
+				move(small + 1, n);
 			} else if (op.equals("Insert")) {
 				t = io.nextInt();
-				move(pos[s], small + 1, ask(s) + t + 1);
+				move(small + 1, small + t + 1);
 			} else if (op.equals("Ask")) {
 				io.println(small);
 			} else {

@@ -161,9 +161,10 @@ package class153;
 //    }
 //}
 //
-//void move(int i, int from, int to) {
-//    disconnect(i, from);
-//    connect(i, to);
+//void move(int a, int b) {
+//    int i = find(a);
+//    disconnect(i, a);
+//    connect(i, b);
 //}
 //
 //int main() {
@@ -181,12 +182,12 @@ package class153;
 //        cin >> op >> s;
 //        small = ask(s);
 //        if (op == "Top") {
-//            move(pos[s], small + 1, 1);
+//            move(small + 1, 1);
 //        } else if (op == "Bottom") {
-//            move(pos[s], small + 1, n);
+//            move(small + 1, n);
 //        } else if (op == "Insert") {
 //            cin >> t;
-//            move(pos[s], small + 1, ask(s) + t + 1);
+//            move(small + 1, small + t + 1);
 //        } else if (op == "Ask") {
 //            cout << small << endl;
 //        } else {
