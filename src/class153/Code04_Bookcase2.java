@@ -6,11 +6,11 @@ package class153;
 // 提交如下代码，可以通过所有测试用例
 
 //#include <iostream>
-//#include <cstdio>
 //#include <string>
+//
 //using namespace std;
 //
-//const int MAXN = 80001;
+//const int MAXN = 80005;
 //
 //int head = 0;
 //int cnt = 0;
@@ -20,7 +20,6 @@ package class153;
 //int ls[MAXN];
 //int rs[MAXN];
 //int size[MAXN];
-//int n, m;
 //
 //void up(int i) {
 //    size[i] = size[ls[i]] + size[rs[i]] + 1;
@@ -117,81 +116,54 @@ package class153;
 //    return num[find(s)];
 //}
 //
-//void disconnect(int i, int rank) {
-//    splay(i, 0);
-//    if (rank == 1) {
-//        head = rs[head];
-//        fa[head] = 0;
-//    } else if (rank == n) {
-//        head = ls[head];
-//        fa[head] = 0;
-//    } else {
-//        int l = find(rank - 1);
-//        splay(l, 0);
-//        splay(i, l);
-//        rs[l] = rs[i];
-//        fa[rs[l]] = l;
-//        up(l);
-//    }
-//    fa[i] = ls[i] = rs[i] = 0;
-//}
-//
-//void connect(int i, int rank) {
-//    if (rank == 1) {
-//        rs[i] = head;
-//        fa[rs[i]] = i;
-//        head = i;
-//        up(i);
-//    } else if (rank == n) {
-//        ls[i] = head;
-//        fa[ls[i]] = i;
-//        head = i;
-//        up(i);
-//    } else {
-//        int r = find(rank - 1);
-//        int next = find(rank);
-//        splay(r, 0);
-//        splay(next, r);
-//        rs[r] = i;
-//        fa[i] = r;
-//        rs[i] = next;
-//        fa[next] = i;
-//        up(i);
-//        up(r);
-//    }
-//}
-//
 //void move(int a, int b) {
 //    int i = find(a);
-//    disconnect(i, a);
-//    connect(i, b);
+//    int l = find(a - 1);
+//    splay(l, 0);
+//    splay(i, l);
+//    rs[l] = rs[i];
+//    fa[rs[l]] = l;
+//    up(l);
+//    ls[i] = rs[i] = 0;
+//    int r = find(b - 1);
+//    int next = find(b);
+//    splay(r, 0);
+//    splay(next, r);
+//    rs[r] = i;
+//    fa[i] = r;
+//    rs[i] = next;
+//    fa[next] = i;
+//    up(i);
+//    up(r);
 //}
 //
 //int main() {
 //    ios::sync_with_stdio(false);
 //    cin.tie(nullptr);
+//    int n, m;
 //    cin >> n >> m;
-//    for (int i = 1; i <= n; i++) {
-//        int x;
+//    add(0);
+//    for (int i = 1, x; i <= n; i++) {
 //        cin >> x;
 //        add(x);
 //    }
-//    for (int i = 1; i <= m; i++) {
+//    add(n + 1);
+//    n = n + 2;
+//    for (int i = 1, s, t, rank; i <= m; i++) {
 //        string op;
-//        int s, t, small;
 //        cin >> op >> s;
-//        small = ask(s);
+//        rank = ask(s) + 1;
 //        if (op == "Top") {
-//            move(small + 1, 1);
+//            move(rank, 2);
 //        } else if (op == "Bottom") {
-//            move(small + 1, n);
+//            move(rank, n - 1);
 //        } else if (op == "Insert") {
 //            cin >> t;
-//            move(small + 1, small + t + 1);
+//            move(rank, rank + t);
 //        } else if (op == "Ask") {
-//            cout << small << endl;
+//            cout << rank - 2 << endl;
 //        } else {
-//            cout << query(s) << endl;
+//            cout << query(s + 1) << endl;
 //        }
 //    }
 //    return 0;

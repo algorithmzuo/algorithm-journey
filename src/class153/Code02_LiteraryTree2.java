@@ -10,16 +10,14 @@ package class153;
 // 提交如下代码，可以通过所有测试用例
 
 //#include <iostream>
-//#include <vector>
-//#include <stack>
-//#include <climits>
+//
 //using namespace std;
 //
 //const int MAXN = 100005;
 //
 //int head = 0;
 //int cnt = 0;
-//int key[MAXN];
+//int num[MAXN];
 //int fa[MAXN];
 //int ls[MAXN];
 //int rs[MAXN];
@@ -111,12 +109,12 @@ package class153;
 //    return 0;
 //}
 //
-//void add(int num) {
+//void add(int x) {
 //    int i = head;
 //    while (rs[i] != 0) {
 //        i = rs[i];
 //    }
-//    key[++cnt] = num;
+//    num[++cnt] = x;
 //    size[cnt] = 1;
 //    fa[cnt] = i;
 //    rs[i] = cnt;
@@ -135,7 +133,7 @@ package class153;
 //    if (i != 0) {
 //        down(i);
 //        inorder(ls[i]);
-//        ans[++ai] = key[i];
+//        ans[++ai] = num[i];
 //        inorder(rs[i]);
 //    }
 //}
@@ -150,7 +148,7 @@ package class153;
 //            i = ls[i];
 //        } else {
 //            i = sta[si--];
-//            ans[++ai] = key[i];
+//            ans[++ai] = num[i];
 //            i = rs[i];
 //        }
 //    }
@@ -161,11 +159,11 @@ package class153;
 //    cin.tie(nullptr);
 //    int n, m;
 //    cin >> n >> m;
-//    add(INT_MIN);
+//    add(0);
 //    for (int i = 1; i <= n; i++) {
 //        add(i);
 //    }
-//    add(INT_MAX);
+//    add(0);
 //    for (int i = 1, x, y; i <= m; i++) {
 //        cin >> x >> y;
 //        reverse(x + 1, y + 1);

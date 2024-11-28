@@ -15,7 +15,7 @@ import java.util.StringTokenizer;
 
 public class Code04_Bookcase1 {
 
-	public static int MAXN = 80001;
+	public static int MAXN = 80005;
 
 	public static int head = 0;
 
@@ -131,83 +131,56 @@ public class Code04_Bookcase1 {
 		return num[find(s)];
 	}
 
-	// 节点编号为i的节点，已知中序排名是rank，结构上把该节点分离出来
-	public static void disconnect(int i, int rank) {
-		splay(i, 0);
-		if (rank == 1) {
-			head = right[head];
-			father[head] = 0;
-		} else if (rank == n) {
-			head = left[head];
-			father[head] = 0;
-		} else {
-			int l = find(rank - 1);
-			splay(l, 0);
-			splay(i, l);
-			right[l] = right[i];
-			father[right[l]] = l;
-			up(l);
-		}
-		father[i] = left[i] = right[i] = 0;
-	}
-
-	// 节点编号为i的节点已经分离出来了，加入回结构中，让其中序排名为rank
-	public static void connect(int i, int rank) {
-		if (rank == 1) {
-			right[i] = head;
-			father[right[i]] = i;
-			head = i;
-			up(i);
-		} else if (rank == n) {
-			left[i] = head;
-			father[left[i]] = i;
-			head = i;
-			up(i);
-		} else {
-			int r = find(rank - 1);
-			int next = find(rank);
-			splay(r, 0);
-			splay(next, r);
-			right[r] = i;
-			father[i] = r;
-			right[i] = next;
-			father[next] = i;
-			up(i);
-			up(r);
-		}
-	}
-
 	// 中序排名为a的节点，移动到中序排名为b的位置
-	// 本题不需要做到这个程度，但这种扩展性可能是其他题目需要的
+	// 注意a不会是1和n位置，b也如此
+	// 因为1位置和n位置提前加入了预备值
 	public static void move(int a, int b) {
 		int i = find(a);
-		disconnect(i, a);
-		connect(i, b);
+		int l = find(a - 1);
+		splay(l, 0);
+		splay(i, l);
+		right[l] = right[i];
+		father[right[l]] = l;
+		up(l);
+		left[i] = right[i] = 0;
+		int r = find(b - 1);
+		int next = find(b);
+		splay(r, 0);
+		splay(next, r);
+		right[r] = i;
+		father[i] = r;
+		right[i] = next;
+		father[next] = i;
+		up(i);
+		up(r);
 	}
 
 	public static void main(String[] args) {
 		Kattio io = new Kattio();
 		n = io.nextInt();
 		m = io.nextInt();
+		add(0);
 		for (int i = 1; i <= n; i++) {
 			add(io.nextInt());
 		}
+		add(n + 1);
+		n = n + 2;
 		String op;
-		for (int i = 1, s, t, small; i <= m; i++) {
+		for (int i = 1, s, t, rank; i <= m; i++) {
 			op = io.next();
 			s = io.nextInt();
-			small = ask(s);
+			rank = ask(s) + 1;
 			if (op.equals("Top")) {
-				move(small + 1, 1);
+				move(rank, 2);
 			} else if (op.equals("Bottom")) {
-				move(small + 1, n);
+				move(rank, n - 1);
 			} else if (op.equals("Insert")) {
 				t = io.nextInt();
-				move(small + 1, small + t + 1);
+				move(rank, rank + t);
 			} else if (op.equals("Ask")) {
-				io.println(small);
+				io.println(rank - 2);
 			} else {
-				io.println(query(s));
+				io.println(query(s + 1));
 			}
 		}
 		io.flush();

@@ -23,7 +23,7 @@ public class Code02_LiteraryTree1 {
 
 	public static int cnt = 0;
 
-	public static int[] key = new int[MAXN];
+	public static int[] num = new int[MAXN];
 
 	public static int[] father = new int[MAXN];
 
@@ -124,12 +124,12 @@ public class Code02_LiteraryTree1 {
 		return 0;
 	}
 
-	public static void add(int num) {
+	public static void add(int x) {
 		int i = head;
 		while (right[i] != 0) {
 			i = right[i];
 		}
-		key[++cnt] = num;
+		num[++cnt] = x;
 		size[cnt] = 1;
 		father[cnt] = i;
 		right[i] = cnt;
@@ -150,7 +150,7 @@ public class Code02_LiteraryTree1 {
 		if (i != 0) {
 			down(i);
 			inorder(left[i]);
-			ans[++ai] = key[i];
+			ans[++ai] = num[i];
 			inorder(right[i]);
 		}
 	}
@@ -168,7 +168,7 @@ public class Code02_LiteraryTree1 {
 				i = left[i];
 			} else {
 				i = stack[si--];
-				ans[++ai] = key[i];
+				ans[++ai] = num[i];
 				i = right[i];
 			}
 		}
@@ -182,11 +182,11 @@ public class Code02_LiteraryTree1 {
 		int n = (int) in.nval;
 		in.nextToken();
 		int m = (int) in.nval;
-		add(Integer.MIN_VALUE);
+		add(0);
 		for (int i = 1; i <= n; i++) {
 			add(i);
 		}
-		add(Integer.MAX_VALUE);
+		add(0);
 		for (int i = 1, x, y; i <= m; i++) {
 			in.nextToken();
 			x = (int) in.nval;
