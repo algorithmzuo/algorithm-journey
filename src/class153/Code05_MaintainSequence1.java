@@ -67,7 +67,7 @@ public class Code05_MaintainSequence1 {
 		return right[father[i]] == i ? 1 : 0;
 	}
 
-	public static void upRotate(int i) {
+	public static void rotate(int i) {
 		int f = father[i], g = father[f], soni = lr(i), sonf = lr(f);
 		if (soni == 1) {
 			right[f] = left[i];
@@ -100,12 +100,12 @@ public class Code05_MaintainSequence1 {
 		while (f != goal) {
 			if (g != goal) {
 				if (lr(i) == lr(f)) {
-					upRotate(f);
+					rotate(f);
 				} else {
-					upRotate(i);
+					rotate(i);
 				}
 			}
-			upRotate(i);
+			rotate(i);
 			f = father[i];
 			g = father[f];
 		}
@@ -226,7 +226,7 @@ public class Code05_MaintainSequence1 {
 		up(l);
 	}
 
-	public static void update(int rank, int n, int val) {
+	public static void reset(int rank, int n, int val) {
 		int l = find(rank - 1);
 		int r = find(rank + n);
 		splay(l, 0);
@@ -283,7 +283,7 @@ public class Code05_MaintainSequence1 {
 			if (op.equals("MAX-SUM")) {
 				out.println(queryMax());
 			} else {
-				// 因为有最左的准备值，所以位置要右移一位
+				// 因为有最左的准备值，所以位置要后移一位
 				posi = in.readInt() + 1;
 				tot = in.readInt();
 				if (op.equals("INSERT")) {
@@ -295,7 +295,7 @@ public class Code05_MaintainSequence1 {
 					delete(posi, tot);
 				} else if (op.equals("MAKE-SAME")) {
 					c = in.readInt();
-					update(posi, tot, c);
+					reset(posi, tot, c);
 				} else if (op.equals("REVERSE")) {
 					reverse(posi, tot);
 				} else {

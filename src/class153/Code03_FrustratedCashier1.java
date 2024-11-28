@@ -45,7 +45,7 @@ public class Code03_FrustratedCashier1 {
 		return right[father[i]] == i ? 1 : 0;
 	}
 
-	public static void upRotate(int i) {
+	public static void rotate(int i) {
 		int f = father[i], g = father[f], soni = lr(i), sonf = lr(f);
 		if (soni == 1) {
 			right[f] = left[i];
@@ -78,12 +78,12 @@ public class Code03_FrustratedCashier1 {
 		while (f != goal) {
 			if (g != goal) {
 				if (lr(i) == lr(f)) {
-					upRotate(f);
+					rotate(f);
 				} else {
-					upRotate(i);
+					rotate(i);
 				}
 			}
-			upRotate(i);
+			rotate(i);
 			f = father[i];
 			g = father[f];
 		}

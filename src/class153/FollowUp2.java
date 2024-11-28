@@ -32,7 +32,7 @@ package class153;
 //    return rs[fa[i]] == i ? 1 : 0;
 //}
 //
-//void upRotate(int i) {
+//void rotate(int i) {
 //    int f = fa[i], g = fa[f], soni = lr(i), sonf = lr(f);
 //    if (soni == 1) {
 //        rs[f] = ls[i];
@@ -65,12 +65,12 @@ package class153;
 //    while (f != goal) {
 //        if (g != goal) {
 //            if (lr(i) == lr(f)) {
-//                upRotate(f);
+//                rotate(f);
 //            } else {
-//                upRotate(i);
+//                rotate(i);
 //            }
 //        }
-//        upRotate(i);
+//        rotate(i);
 //        f = fa[i];
 //        g = fa[f];
 //    }

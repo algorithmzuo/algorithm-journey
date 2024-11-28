@@ -39,7 +39,7 @@ package class153;
 //    return rs[fa[i]] == i ? 1 : 0;
 //}
 //
-//void upRotate(int i) {
+//void rotate(int i) {
 //    int f = fa[i], g = fa[f], soni = lr(i), sonf = lr(f);
 //    if (soni == 1) {
 //        rs[f] = ls[i];
@@ -72,12 +72,12 @@ package class153;
 //        int f = fa[i], g = fa[f];
 //        if (g != goal) {
 //            if (lr(i) == lr(f)) {
-//                upRotate(f);
+//                rotate(f);
 //            } else {
-//                upRotate(i);
+//                rotate(i);
 //            }
 //        }
-//        upRotate(i);
+//        rotate(i);
 //    }
 //    if (goal == 0) {
 //        head = i;
@@ -192,7 +192,7 @@ package class153;
 //    up(l);
 //}
 //
-//void updateValue(int rank, int n, int val) {
+//void reset(int rank, int n, int val) {
 //    int l = find(rank - 1);
 //    int r = find(rank + n);
 //    splay(l, 0);
@@ -202,7 +202,7 @@ package class153;
 //    up(l);
 //}
 //
-//void reverseRange(int rank, int n) {
+//void reverse(int rank, int n) {
 //    int l = find(rank - 1);
 //    int r = find(rank + n);
 //    splay(l, 0);
@@ -256,9 +256,9 @@ package class153;
 //                remove(pos, len);
 //            } else if (op == "MAKE-SAME") {
 //                cin >> c;
-//                updateValue(pos, len, c);
+//                reset(pos, len, c);
 //            } else if (op == "REVERSE") {
-//                reverseRange(pos, len);
+//                reverse(pos, len);
 //            } else if (op == "GET-SUM") {
 //                cout << querySum(pos, len) << endl;
 //            }
