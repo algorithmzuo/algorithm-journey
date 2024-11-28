@@ -77,11 +77,10 @@ package class153;
 //}
 //
 //int find(int rank) {
-//    int i = head, ans = 0;
+//    int i = head;
 //    while (i != 0) {
 //        if (size[ls[i]] + 1 == rank) {
-//            ans = i;
-//            break;
+//            return i;
 //        } else if (size[ls[i]] >= rank) {
 //            i = ls[i];
 //        } else {
@@ -89,8 +88,7 @@ package class153;
 //            i = rs[i];
 //        }
 //    }
-//    splay(ans, 0);
-//    return ans;
+//    return 0;
 //}
 //
 //void add(int s) {
@@ -113,7 +111,9 @@ package class153;
 //}
 //
 //int query(int s) {
-//    return num[find(s)];
+//    int i = find(s);
+//    splay(i, 0);
+//    return num[i];
 //}
 //
 //void move(int a, int b) {

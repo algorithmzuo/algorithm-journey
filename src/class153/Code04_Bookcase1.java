@@ -92,11 +92,10 @@ public class Code04_Bookcase1 {
 
 	// 返回中序排名为rank的节点编号
 	public static int find(int rank) {
-		int i = head, ans = 0;
+		int i = head;
 		while (i != 0) {
 			if (size[left[i]] + 1 == rank) {
-				ans = i;
-				break;
+				return i;
 			} else if (size[left[i]] >= rank) {
 				i = left[i];
 			} else {
@@ -104,8 +103,7 @@ public class Code04_Bookcase1 {
 				i = right[i];
 			}
 		}
-		splay(ans, 0);
-		return ans;
+		return 0;
 	}
 
 	public static void add(int s) {
@@ -128,7 +126,9 @@ public class Code04_Bookcase1 {
 	}
 
 	public static int query(int s) {
-		return num[find(s)];
+		int i = find(s);
+		splay(i, 0);
+		return num[i];
 	}
 
 	// 中序排名为a的节点，移动到中序排名为b的位置
@@ -164,6 +164,8 @@ public class Code04_Bookcase1 {
 			add(io.nextInt());
 		}
 		add(n + 1);
+		// 注意在最左插入了0，最右插入了n+1，作为准备值，所以一共n+2个数
+		// 下面操作时，不要忘了最左是0，最右是n+1，并且永远不修改
 		n = n + 2;
 		String op;
 		for (int i = 1, s, t, rank; i <= m; i++) {
@@ -171,15 +173,20 @@ public class Code04_Bookcase1 {
 			s = io.nextInt();
 			rank = ask(s) + 1;
 			if (op.equals("Top")) {
+				// 因为有最左侧的准备值，所以开头是中序排名2的位置
 				move(rank, 2);
 			} else if (op.equals("Bottom")) {
+				// 因为有最右侧的准备值，所以结尾是中序排名n-1的位置
 				move(rank, n - 1);
 			} else if (op.equals("Insert")) {
 				t = io.nextInt();
 				move(rank, rank + t);
 			} else if (op.equals("Ask")) {
+				// rank代表当前数字的排名，因为有最左侧的准备值
+				// 所以排名其实是rank-1，题目要返回小于的数量，所以是rank - 2
 				io.println(rank - 2);
 			} else {
+				// 因为有最左侧的准备值，所以查s+1名的数字
 				io.println(query(s + 1));
 			}
 		}
