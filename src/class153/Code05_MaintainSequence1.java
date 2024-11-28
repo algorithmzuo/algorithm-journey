@@ -279,7 +279,7 @@ public class Code05_MaintainSequence1 {
 		insert(0, n + 2);
 		String op;
 		for (int i = 1, posi, tot, c; i <= m; i++) {
-			op = in.readWord();
+			op = in.readString();
 			if (op.equals("MAX-SUM")) {
 				out.println(queryMax());
 			} else {
@@ -318,7 +318,7 @@ public class Code05_MaintainSequence1 {
 			this.is = is;
 		}
 
-		public String readWord() {
+		public String readString() {
 			char cur;
 			do {
 				cur = (char) readByte();
