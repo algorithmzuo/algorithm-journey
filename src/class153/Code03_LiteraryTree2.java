@@ -94,7 +94,8 @@ package class153;
 //    }
 //}
 //
-//int find(int i, int rank) {
+//int find(int rank) {
+//    int i = head;
 //    while (i != 0) {
 //        down(i);
 //        if (size[ls[i]] + 1 == rank) {
@@ -122,8 +123,8 @@ package class153;
 //}
 //
 //void reverse(int l, int r) {
-//    int i = find(head, l - 1);
-//    int j = find(head, r + 1);
+//    int i = find(l - 1);
+//    int j = find(r + 1);
 //    splay(i, 0);
 //    splay(j, i);
 //    rev[ls[rs[head]]] = !rev[ls[rs[head]]];

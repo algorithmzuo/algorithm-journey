@@ -109,7 +109,8 @@ public class Code03_LiteraryTree1 {
 		}
 	}
 
-	public static int find(int i, int rank) {
+	public static int find(int rank) {
+		int i = head;
 		while (i != 0) {
 			down(i);
 			if (size[left[i]] + 1 == rank) {
@@ -139,8 +140,8 @@ public class Code03_LiteraryTree1 {
 	// 注意l永远不会是最左位置，r永远不会是最右位置
 	// 因为最左和最右位置提前加入了预备值，永远不会修改
 	public static void reverse(int l, int r) {
-		int i = find(head, l - 1);
-		int j = find(head, r + 1);
+		int i = find(l - 1);
+		int j = find(r + 1);
 		splay(i, 0);
 		splay(j, i);
 		reverse[left[right[head]]] = !reverse[left[right[head]]];

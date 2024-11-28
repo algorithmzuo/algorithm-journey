@@ -94,7 +94,8 @@ public class Code01_Splay1 {
 	}
 
 	// 返回以i为头的树上第rank名的节点编号
-	public static int find(int i, int rank) {
+	public static int find(int rank) {
+		int i = head;
 		while (i != 0) {
 			if (size[left[i]] + 1 == rank) {
 				return i;
@@ -152,20 +153,9 @@ public class Code01_Splay1 {
 	}
 
 	public static int index(int x) {
-		int i = head, last = head;
-		while (i != 0) {
-			last = i;
-			if (size[left[i]] >= x) {
-				i = left[i];
-			} else if (size[left[i]] + 1 < x) {
-				x -= size[left[i]] + 1;
-				i = right[i];
-			} else {
-				i = 0;
-			}
-		}
-		splay(last, 0);
-		return key[last];
+		int i = find(x);
+		splay(i, 0);
+		return key[i];
 	}
 
 	public static int pre(int num) {
@@ -203,14 +193,14 @@ public class Code01_Splay1 {
 	public static void remove(int num) {
 		int kth = rank(num);
 		if (kth != rank(num + 1)) {
-			int i = find(head, kth);
+			int i = find(kth);
 			splay(i, 0);
 			if (left[i] == 0) {
 				head = right[i];
 			} else if (right[i] == 0) {
 				head = left[i];
 			} else {
-				int j = find(right[i], 1);
+				int j = find(kth + 1);
 				splay(j, i);
 				left[j] = left[i];
 				father[left[j]] = j;

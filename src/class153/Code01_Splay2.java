@@ -86,7 +86,8 @@ package class153;
 //    }
 //}
 //
-//int find(int i, int rank) {
+//int find(int rank) {
+//    int i = head;
 //    while (i != 0) {
 //        if (size[ls[i]] + 1 == rank) {
 //            return i;
@@ -144,20 +145,9 @@ package class153;
 //}
 //
 //int index(int x) {
-//    int i = head, last = head;
-//    while (i != 0) {
-//        last = i;
-//        if (size[ls[i]] >= x) {
-//            i = ls[i];
-//        } else if (size[ls[i]] + 1 < x) {
-//            x -= size[ls[i]] + 1;
-//            i = rs[i];
-//        } else {
-//            i = 0;
-//        }
-//    }
-//    splay(last, 0);
-//    return key[last];
+//    int i = find(x);
+//    splay(i, 0);
+//    return key[i];
 //}
 //
 //int pre(int num) {
@@ -195,14 +185,14 @@ package class153;
 //void remove(int num) {
 //    int kth = getRank(num);
 //    if (kth != getRank(num + 1)) {
-//        int i = find(head, kth);
+//        int i = find(kth);
 //        splay(i, 0);
 //        if (ls[i] == 0) {
 //            head = rs[i];
 //        } else if (rs[i] == 0) {
 //            head = ls[i];
 //        } else {
-//            int j = find(rs[i], 1);
+//            int j = find(kth + 1);
 //            splay(j, i);
 //            ls[j] = ls[i];
 //            fa[ls[j]] = j;
