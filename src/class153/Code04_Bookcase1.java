@@ -133,7 +133,7 @@ public class Code04_Bookcase1 {
 
 	// 中序排名为a的节点，移动到中序排名为b的位置
 	// 注意a不会是1和n位置，b也如此
-	// 因为1位置和n位置提前加入了预备值
+	// 因为1位置和n位置提前加入了预备值，永远不会修改
 	public static void move(int a, int b) {
 		int i = find(a);
 		int l = find(a - 1);

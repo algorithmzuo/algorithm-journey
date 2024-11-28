@@ -136,6 +136,8 @@ public class Code02_LiteraryTree1 {
 		splay(cnt, 0);
 	}
 
+	// 注意l永远不会是最左位置，r永远不会是最右位置
+	// 因为最左和最右位置提前加入了预备值，永远不会修改
 	public static void reverse(int l, int r) {
 		int i = find(head, l - 1);
 		int j = find(head, r + 1);
