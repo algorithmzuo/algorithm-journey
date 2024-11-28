@@ -1,6 +1,12 @@
 package class153;
 
 // 郁闷的出纳员(java版)
+// 最低薪水为limit，一旦员工薪水低于limit，员工会离职，实现如下四种操作
+// I x : 新来员工初始薪水是x，如果x低于limit，该员工不会入职当然也不算离职
+// A x : 所有员工的薪水都加上x
+// S x : 所有员工的薪水都减去x，一旦有员工低于limit那么就会离职
+// F x : 查询第k多的工资，如果x大于当前员工数量，打印-1
+// 所有操作完成后，打印有多少员工在操作期间离开了公司
 // 测试链接 : https://www.luogu.com.cn/problem/P1486
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
@@ -13,7 +19,7 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.util.StringTokenizer;
 
-public class Code03_FrustratedCashier1 {
+public class Code02_FrustratedCashier1 {
 
 	public static int MAXN = 300001;
 

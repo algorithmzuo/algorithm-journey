@@ -1,6 +1,13 @@
 package class153;
 
 // 书架(C++版)
+// 给定一个长度为n的排列，由数字1、2、3...n组成，实现如下五种操作
+// Top s      : 数字s移动到最左边
+// Bottom s   : 数字s移动到最右边
+// Insert s t : 数字s位置假设为rank，现在移动到rank+t位置
+// Ask s      : 查询数字s左边有多少数字
+// Query s    : 查询从左往右第s位的数字
+// 所有操作保证都是合法的
 // 测试链接 : https://www.luogu.com.cn/problem/P2596
 // 如下实现是C++的版本，C++版本和java版本逻辑完全一样
 // 提交如下代码，可以通过所有测试用例
@@ -117,24 +124,22 @@ package class153;
 //}
 //
 //void move(int a, int b) {
-//    int i = find(a);
 //    int l = find(a - 1);
+//    int r = find(a + 1);
 //    splay(l, 0);
-//    splay(i, l);
-//    rs[l] = rs[i];
-//    fa[rs[l]] = l;
-//    up(l);
-//    ls[i] = rs[i] = 0;
-//    int r = find(b - 1);
-//    int next = find(b);
-//    splay(r, 0);
-//    splay(next, r);
-//    rs[r] = i;
-//    fa[i] = r;
-//    rs[i] = next;
-//    fa[next] = i;
-//    up(i);
+//    splay(r, l);
+//    int i = ls[r];
+//    ls[r] = 0;
 //    up(r);
+//    up(l);
+//    l = find(b - 1);
+//    r = find(b);
+//    splay(l, 0);
+//    splay(r, l);
+//    ls[r] = i;
+//    fa[i] = r;
+//    up(r);
+//    up(l);
 //}
 //
 //int main() {

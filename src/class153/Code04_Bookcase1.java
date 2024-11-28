@@ -1,6 +1,13 @@
 package class153;
 
 // 书架(java版)
+// 给定一个长度为n的排列，由数字1、2、3...n组成，实现如下五种操作
+// Top s      : 数字s移动到最左边
+// Bottom s   : 数字s移动到最右边
+// Insert s t : 数字s位置假设为rank，现在移动到rank+t位置
+// Ask s      : 查询数字s左边有多少数字
+// Query s    : 查询从左往右第s位的数字
+// 所有操作保证都是合法的
 // 测试链接 : https://www.luogu.com.cn/problem/P2596
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
@@ -135,24 +142,22 @@ public class Code04_Bookcase1 {
 	// 注意a不会是1和n位置，b也如此
 	// 因为1位置和n位置提前加入了预备值，永远不会修改
 	public static void move(int a, int b) {
-		int i = find(a);
 		int l = find(a - 1);
+		int r = find(a + 1);
 		splay(l, 0);
-		splay(i, l);
-		right[l] = right[i];
-		father[right[l]] = l;
-		up(l);
-		left[i] = right[i] = 0;
-		int r = find(b - 1);
-		int next = find(b);
-		splay(r, 0);
-		splay(next, r);
-		right[r] = i;
-		father[i] = r;
-		right[i] = next;
-		father[next] = i;
-		up(i);
+		splay(r, l);
+		int i = left[r];
+		left[r] = 0;
 		up(r);
+		up(l);
+		l = find(b - 1);
+		r = find(b);
+		splay(l, 0);
+		splay(r, l);
+		left[r] = i;
+		father[i] = r;
+		up(r);
+		up(l);
 	}
 
 	public static void main(String[] args) {

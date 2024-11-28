@@ -15,7 +15,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 
-public class Code02_LiteraryTree1 {
+public class Code03_LiteraryTree1 {
 
 	public static int MAXN = 100005;
 

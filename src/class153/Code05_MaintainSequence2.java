@@ -1,6 +1,15 @@
 package class153;
 
 // 维护数列(C++版)
+// 初始时给定一个数列，实现如下六种操作
+// INSERT posi tot ...  : 在第posi个数字之后，插入长度为tot的数组，由...代表
+// DELETE posi tot      : 从第posi个数字开始，删除长度为tot的部分
+// MAKE-SAME posi tot c : 从第posi个数字开始，长度为tot的部分，值都设置成c
+// REVERSE posi tot     : 从第posi个数字开始，翻转长度为tot的部分
+// GET-SUM posi tot     : 从第posi个数字开始，查询长度为tot的部分的累加和
+// MAX-SUM              : 查询整个数列中，子数组的最大累加和，子数组不能为空
+// 任何时刻输入保证至少有一个数字在数列中，并且所有操作都合法
+// 插入数字总数可能很多，但是任何时刻数列中最多有5 * 10^5个数，总空间请和这个数量有关
 // 测试链接 : https://www.luogu.com.cn/problem/P2042
 // 如下实现是C++的版本，C++版本和java版本逻辑完全一样
 // 提交如下代码，可以通过所有测试用例
