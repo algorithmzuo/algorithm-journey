@@ -7,7 +7,7 @@ package class153;
 // MAKE-SAME posi tot c : 从第posi个数字开始，长度为tot的部分，值都设置成c
 // REVERSE posi tot     : 从第posi个数字开始，翻转长度为tot的部分
 // GET-SUM posi tot     : 从第posi个数字开始，查询长度为tot的部分的累加和
-// MAX-SUM              : 查询整个数列中，子数组的最大累加和，子数组不能为空
+// MAX-SUM              : 查询整个数列中，非空子数组的最大累加和
 // 任何时刻输入保证至少有一个数字在数列中，并且所有操作都合法
 // 插入数字总数很多，但是任何时刻数列中最多有5 * 10^5个数，使用总空间要和该数量有关
 // 测试链接 : https://www.luogu.com.cn/problem/P2042
