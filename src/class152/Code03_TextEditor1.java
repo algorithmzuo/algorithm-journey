@@ -86,66 +86,71 @@ public class Code03_TextEditor1 {
 		}
 	}
 
-	// 我写了很多个版本的IO实现，空间都无法达标
+	// 我做了很多个版本的IO尝试，空间都无法达标
 	// 以下风格只是其中一种，无所谓了，逻辑是对的
 	// 想通过这个题看C++版本吧，完全一样的逻辑
 	public static void main(String[] args) throws IOException {
 		BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
-		int n = Integer.parseInt(in.readLine());
-		int pos = 0, len;
-		String[] input = getInput(in);
+		int n = Integer.valueOf(in.readLine());
+		int pos = 0;
 		String str;
-		String[] part;
 		String op;
-		int l, m, lm, r;
-		for (int i = 1, inputIndex = 0; i <= n; i++) {
-			str = input[inputIndex++].trim();
+		int x;
+		for (int i = 1; i <= n; i++) {
+			str = in.readLine();
 			if (str.equals("Prev")) {
 				pos--;
 			} else if (str.equals("Next")) {
 				pos++;
 			} else {
-				part = str.split(" ");
-				op = part[0];
-				len = Integer.parseInt(part[1]);
+				String[] input = str.split(" ");
+				op = input[0];
+				x = Integer.valueOf(input[1]);
 				if (op.equals("Move")) {
-					pos = len;
+					pos = x;
 				} else if (op.equals("Insert")) {
 					split(0, 0, head, pos);
-					l = right[0];
-					r = left[0];
-					for (int j = 1; j <= len;) {
-						for (char c : input[inputIndex++].toCharArray()) {
-							if (c >= 32 && c <= 126) {
-								key[++cnt] = c;
+					int l = right[0];
+					int r = left[0];
+					left[0] = right[0] = 0;
+					int add = 0;
+					while (add < x) {
+						char[] insert = in.readLine().toCharArray();
+						for (int j = 0; j < insert.length; j++) {
+							if (insert[j] >= 32 && insert[j] <= 126) {
+								key[++cnt] = insert[j];
 								size[cnt] = 1;
 								priority[cnt] = Math.random();
 								l = merge(l, cnt);
-								j++;
+								add++;
 							}
 						}
 					}
 					head = merge(l, r);
 				} else if (op.equals("Delete")) {
-					split(0, 0, head, pos + len);
-					lm = right[0];
-					r = left[0];
+					split(0, 0, head, pos + x);
+					int r = left[0];
+					int lm = right[0];
+					left[0] = right[0] = 0;
 					split(0, 0, lm, pos);
-					l = right[0];
+					int l = right[0];
+					left[0] = right[0] = 0;
 					head = merge(l, r);
 				} else {
-					split(0, 0, head, pos + len);
-					lm = right[0];
-					r = left[0];
+					split(0, 0, head, pos + x);
+					int r = left[0];
+					int lm = right[0];
+					left[0] = right[0] = 0;
 					split(0, 0, lm, pos);
-					l = right[0];
-					m = left[0];
+					int l = right[0];
+					int m = left[0];
+					left[0] = right[0] = 0;
 					ansi = 0;
 					inorder(m);
 					head = merge(merge(l, m), r);
 					for (int j = 1; j <= ansi; j++) {
-						out.print(ans[j]);
+						out.print((char) ans[j]);
 					}
 					out.println();
 				}
@@ -154,17 +159,6 @@ public class Code03_TextEditor1 {
 		out.flush();
 		out.close();
 		in.close();
-	}
-
-	public static String[] getInput(BufferedReader in) throws IOException {
-		StringBuilder inputBuffer = new StringBuilder();
-		char[] tempBuffer = new char[8192];
-		int bytesRead;
-		while ((bytesRead = in.read(tempBuffer)) != -1) {
-			inputBuffer.append(tempBuffer, 0, bytesRead);
-		}
-		String[] input = inputBuffer.toString().split("\n");
-		return input;
 	}
 
 }
