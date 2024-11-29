@@ -13,7 +13,6 @@ package class140;
 // 提交如下代码，可以通过所有测试用例
 
 //#include <iostream>
-//
 //#include <cstdio>
 //
 //using namespace std;
