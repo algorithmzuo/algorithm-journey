@@ -4,7 +4,7 @@ package class153;
 // 分别去生成一字型长链和之字型长链
 // 每一种长链都让最下方节点提根上去
 // 然后看看长链的高度变化
-public class ShowDetail1 {
+public class ShowDetail {
 
 	public static int MAXN = 100001;
 
