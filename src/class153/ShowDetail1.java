@@ -1,10 +1,10 @@
 package class153;
 
-// splay处理长链的效果实验
+// 底层节点提根操作后长链高度变化的实验
 // 分别去生成一字型长链和之字型长链
-// 每一种长链都让最下方节点splay上去
+// 每一种长链都让最下方节点提根上去
 // 然后看看长链的高度变化
-public class ShowDetail {
+public class ShowDetail1 {
 
 	public static int MAXN = 100001;
 
