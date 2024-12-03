@@ -87,7 +87,8 @@ public class FollowUp1 {
 	}
 
 	// 返回以i为头的树上第rank名的节点编号
-	// 这个方法查询后没有splay操作
+	// 这个方法不是题目要求的查询操作，作为内部方法使用
+	// 为什么该方法不进行提根操作？
 	// 因为remove方法使用该方法时，要求find不能提根！
 	public static int find(int rank) {
 		int i = head;
