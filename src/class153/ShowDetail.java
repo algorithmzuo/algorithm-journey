@@ -27,6 +27,7 @@ public class ShowDetail {
 	public static int[] right = new int[MAXN];
 
 	// size[i] : 以编号为i的节点做头的子树上，一共有多少个节点
+	//           这个数组和具体要实现的功能有关，属于常用信息
 	public static int[] size = new int[MAXN];
 
 	public static void up(int i) {
