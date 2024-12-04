@@ -14,20 +14,20 @@ public class ShowDetail {
 	// 分配了多少节点编号
 	public static int cnt = 0;
 
-	// key[i] : 编号为i的节点的key
+	// key[i]    : 编号为i的节点的key
 	public static int[] key = new int[MAXN];
 
 	// father[i] : 编号为i的节点的父节点编号
 	public static int[] father = new int[MAXN];
 
-	// left[i] : 编号为i的节点的左孩子编号
+	// left[i]   : 编号为i的节点的左孩子编号
 	public static int[] left = new int[MAXN];
 
-	// right[i] : 编号为i的节点的右孩子编号
+	// right[i]  : 编号为i的节点的右孩子编号
 	public static int[] right = new int[MAXN];
 
-	// size[i] : 以编号为i的节点做头的子树上，一共有多少个节点
-	//           这个数组和具体要实现的功能有关，属于常用信息
+	// size[i]   : 以编号为i的节点做头的子树，一共有多少个节点
+	//             这个数组和具体要实现的功能有关，属于常用信息
 	public static int[] size = new int[MAXN];
 
 	public static void up(int i) {
