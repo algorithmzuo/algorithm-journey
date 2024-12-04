@@ -8,28 +8,38 @@ public class ShowDetail {
 
 	public static int MAXN = 100001;
 
+	// 整棵树的头节点编号
 	public static int head = 0;
 
+	// 分配了多少节点编号
 	public static int cnt = 0;
 
+	// key[i] : 编号为i的节点的key
 	public static int[] key = new int[MAXN];
 
+	// father[i] : 编号为i的节点的父节点编号
 	public static int[] father = new int[MAXN];
 
+	// left[i] : 编号为i的节点的左孩子编号
 	public static int[] left = new int[MAXN];
 
+	// right[i] : 编号为i的节点的右孩子编号
 	public static int[] right = new int[MAXN];
 
+	// size[i] : 以编号为i的节点做头的子树上，一共有多少个节点
 	public static int[] size = new int[MAXN];
 
 	public static void up(int i) {
 		size[i] = size[left[i]] + size[right[i]] + 1;
 	}
 
+	// 判断编号为i的节点，是其父亲的什么儿子
+	// 0代表左儿子，1代表右儿子
 	public static int lr(int i) {
 		return right[father[i]] == i ? 1 : 0;
 	}
 
+	// 编号为i的节点上升一步，在结构上做调整
 	public static void rotate(int i) {
 		int f = father[i], g = father[f], soni = lr(i), sonf = lr(f);
 		if (soni == 1) {
@@ -58,6 +68,8 @@ public class ShowDetail {
 		up(i);
 	}
 
+	// 编号为i的节点提根，变成编号为goal的节点的儿子
+	// 如果goal == 0，表示把编号为i的节点变成整棵树的头
 	public static void splay(int i, int goal) {
 		int f = father[i], g = father[f];
 		while (f != goal) {
@@ -77,6 +89,7 @@ public class ShowDetail {
 		}
 	}
 
+	// 构建一字型长链
 	public static int build1(int l, int r) {
 		int h = cnt + 1;
 		for (int i = l, last = 0; i <= r; i++, last = cnt) {
@@ -91,6 +104,7 @@ public class ShowDetail {
 		return h;
 	}
 
+	// 构建之字形长链
 	public static int build2(int l, int r, int fa) {
 		if (l > r) {
 			return 0;
@@ -112,6 +126,7 @@ public class ShowDetail {
 		return h;
 	}
 
+	// 返回以i为头的树的高度
 	public static int height(int i) {
 		if (i == 0) {
 			return 0;
