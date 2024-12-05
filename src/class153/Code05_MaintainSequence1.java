@@ -70,11 +70,12 @@ public class Code05_MaintainSequence1 {
 	public static boolean[] reverse = new boolean[MAXN];
 
 	public static void up(int i) {
-		size[i] = size[left[i]] + size[right[i]] + 1;
-		sum[i] = sum[left[i]] + sum[right[i]] + num[i];
-		all[i] = Math.max(Math.max(all[left[i]], all[right[i]]), suf[left[i]] + num[i] + pre[right[i]]);
-		pre[i] = Math.max(pre[left[i]], sum[left[i]] + num[i] + pre[right[i]]);
-		suf[i] = Math.max(suf[right[i]], suf[left[i]] + num[i] + sum[right[i]]);
+		int l = left[i], r = right[i];
+		size[i] = size[l] + size[r] + 1;
+		sum[i] = sum[l] + sum[r] + num[i];
+		all[i] = Math.max(Math.max(all[l], all[r]), suf[l] + num[i] + pre[r]);
+		pre[i] = Math.max(pre[l], sum[l] + num[i] + pre[r]);
+		suf[i] = Math.max(suf[r], suf[l] + num[i] + sum[r]);
 	}
 
 	public static int lr(int i) {

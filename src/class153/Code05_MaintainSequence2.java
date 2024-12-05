@@ -15,6 +15,7 @@ package class153;
 // 提交如下代码，可以通过所有测试用例
 
 //#include <bits/stdc++.h>
+//
 //using namespace std;
 //
 //const int MAXN = 500005;
@@ -37,11 +38,12 @@ package class153;
 //bool rev[MAXN];
 //
 //void up(int i) {
-//    size[i] = size[ls[i]] + size[rs[i]] + 1;
-//    sum[i] = sum[ls[i]] + sum[rs[i]] + num[i];
-//    all[i] = max({all[ls[i]], all[rs[i]], suf[ls[i]] + num[i] + pre[rs[i]]});
-//    pre[i] = max(pre[ls[i]], sum[ls[i]] + num[i] + pre[rs[i]]);
-//    suf[i] = max(suf[rs[i]], suf[ls[i]] + num[i] + sum[rs[i]]);
+//    int l = ls[i], r = rs[i];
+//    size[i] = size[l] + size[r] + 1;
+//    sum[i] = sum[l] + sum[r] + num[i];
+//    all[i] = max(max(all[l], all[r]), suf[l] + num[i] + pre[r]);
+//    pre[i] = max(pre[l], sum[l] + num[i] + pre[r]);
+//    suf[i] = max(suf[r], suf[l] + num[i] + sum[r]);
 //}
 //
 //int lr(int i) {
