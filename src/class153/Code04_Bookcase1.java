@@ -38,7 +38,7 @@ public class Code04_Bookcase1 {
 
 	public static int[] size = new int[MAXN];
 
-	// pos[i] : 数字i是中序遍历的第几位，相当于rank
+	// pos[num] : 数字num所在节点的编号
 	public static int[] pos = new int[MAXN];
 
 	public static int n, m;
