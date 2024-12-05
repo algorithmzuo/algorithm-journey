@@ -109,7 +109,6 @@ package class153;
 //
 //void setReverse(int i) {
 //    if (i != 0) {
-//        swap(ls[i], rs[i]);
 //        swap(pre[i], suf[i]);
 //        rev[i] ^= 1;
 //    }
@@ -122,6 +121,7 @@ package class153;
 //        update[i] = false;
 //    }
 //    if (rev[i]) {
+//        swap(ls[i], rs[i]);
 //        setReverse(ls[i]);
 //        setReverse(rs[i]);
 //        rev[i] = false;

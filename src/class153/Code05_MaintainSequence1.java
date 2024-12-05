@@ -143,10 +143,7 @@ public class Code05_MaintainSequence1 {
 
 	public static void setReverse(int i) {
 		if (i != 0) {
-			int tmp = left[i];
-			left[i] = right[i];
-			right[i] = tmp;
-			tmp = pre[i];
+			int tmp = pre[i];
 			pre[i] = suf[i];
 			suf[i] = tmp;
 			reverse[i] = !reverse[i];
@@ -160,6 +157,9 @@ public class Code05_MaintainSequence1 {
 			update[i] = false;
 		}
 		if (reverse[i]) {
+			int tmp = left[i];
+			left[i] = right[i];
+			right[i] = tmp;
 			setReverse(left[i]);
 			setReverse(right[i]);
 			reverse[i] = false;
