@@ -30,8 +30,6 @@ public class Code04_Bookcase1 {
 
 	public static int[] num = new int[MAXN];
 
-	public static int[] pos = new int[MAXN];
-
 	public static int[] father = new int[MAXN];
 
 	public static int[] left = new int[MAXN];
@@ -39,6 +37,9 @@ public class Code04_Bookcase1 {
 	public static int[] right = new int[MAXN];
 
 	public static int[] size = new int[MAXN];
+
+	// pos[i] : 数字i是中序遍历的第几位，相当于rank
+	public static int[] pos = new int[MAXN];
 
 	public static int n, m;
 

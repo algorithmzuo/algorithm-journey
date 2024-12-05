@@ -22,11 +22,11 @@ package class153;
 //int head = 0;
 //int cnt = 0;
 //int num[MAXN];
-//int pos[MAXN];
 //int fa[MAXN];
 //int ls[MAXN];
 //int rs[MAXN];
 //int size[MAXN];
+//int pos[MAXN];
 //
 //void up(int i) {
 //    size[i] = size[ls[i]] + size[rs[i]] + 1;
