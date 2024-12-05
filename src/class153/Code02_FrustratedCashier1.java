@@ -146,19 +146,20 @@ public class Code02_FrustratedCashier1 {
 		int num = limit - change - 1;
 		int i = head, ans = 0;
 		while (i != 0) {
-			if (key[i] <= num) {
+			if (key[i] > num) {
 				ans = i;
-				i = right[i];
-			} else {
 				i = left[i];
+			} else {
+				i = right[i];
 			}
 		}
 		if (ans == 0) {
-			return;
+			head = 0;
+		} else {
+			splay(ans, 0);
+			left[head] = 0;
+			up(head);
 		}
-		splay(ans, 0);
-		head = right[head];
-		father[head] = 0;
 	}
 
 	public static void main(String[] args) {

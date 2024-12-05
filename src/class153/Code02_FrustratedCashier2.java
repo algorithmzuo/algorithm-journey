@@ -132,19 +132,20 @@ package class153;
 //    int num = limit - change - 1;
 //    int i = head, ans = 0;
 //    while (i != 0) {
-//        if (key[i] <= num) {
+//        if (key[i] > num) {
 //            ans = i;
-//            i = rs[i];
-//        } else {
 //            i = ls[i];
+//        } else {
+//            i = rs[i];
 //        }
 //    }
 //    if (ans == 0) {
-//        return;
+//        head = 0;
+//    } else {
+//        splay(ans, 0);
+//        ls[head] = 0;
+//        up(head);
 //    }
-//    splay(ans, 0);
-//    head = rs[head];
-//    fa[head] = 0;
 //}
 //
 //int main() {
