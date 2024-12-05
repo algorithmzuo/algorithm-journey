@@ -21,13 +21,13 @@ package class153;
 //const int INF = 1000000001;
 //
 //int head = 0;
-//int space[MAXN], si;
 //int arr[MAXN];
 //int num[MAXN];
 //int fa[MAXN];
 //int ls[MAXN];
 //int rs[MAXN];
 //int size[MAXN];
+//int space[MAXN], si;
 //int sum[MAXN];
 //int all[MAXN];
 //int pre[MAXN];

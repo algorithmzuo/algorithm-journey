@@ -31,10 +31,6 @@ public class Code05_MaintainSequence1 {
 
 	public static int head = 0;
 
-	public static int[] space = new int[MAXN];
-
-	public static int si;
-
 	public static int[] arr = new int[MAXN];
 
 	public static int[] num = new int[MAXN];
@@ -47,21 +43,30 @@ public class Code05_MaintainSequence1 {
 
 	public static int[] size = new int[MAXN];
 
+	// 这个数组里拿空间编号
+	public static int[] space = new int[MAXN];
+
+	public static int si;
+
+	// 维护区间累加和信息
 	public static int[] sum = new int[MAXN];
 
-	// 整体子数组最大累加和，不能空
+	// 维护区间子数组最大累加和信息，要求不能为空
 	public static int[] all = new int[MAXN];
 
-	// 前缀子数组最大累加和，可以空
+	// 维护区间前缀最大累加和信息，可以空
 	public static int[] pre = new int[MAXN];
 
-	// 后缀子数组最大累加和，可以空
+	// 维护区间后缀最大累加和信息，可以空
 	public static int[] suf = new int[MAXN];
 
+	// 懒更新信息，区间是否重新设了值
 	public static boolean[] update = new boolean[MAXN];
 
+	// 懒更新信息，如果区间重新设了值，设置成了什么
 	public static int[] change = new int[MAXN];
 
+	// 懒更新信息，区间是否发生了翻转
 	public static boolean[] reverse = new boolean[MAXN];
 
 	public static void up(int i) {
