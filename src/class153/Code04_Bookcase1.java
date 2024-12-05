@@ -115,15 +115,11 @@ public class Code04_Bookcase1 {
 	}
 
 	public static void add(int s) {
-		int i = head;
-		while (right[i] != 0) {
-			i = right[i];
-		}
 		num[++cnt] = s;
 		pos[s] = cnt;
 		size[cnt] = 1;
-		father[cnt] = i;
-		right[i] = cnt;
+		father[cnt] = head;
+		right[head] = cnt;
 		splay(cnt, 0);
 	}
 

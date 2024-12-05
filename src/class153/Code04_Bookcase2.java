@@ -99,15 +99,11 @@ package class153;
 //}
 //
 //void add(int s) {
-//    int i = head;
-//    while (rs[i] != 0) {
-//        i = rs[i];
-//    }
 //    num[++cnt] = s;
 //    pos[s] = cnt;
 //    size[cnt] = 1;
-//    fa[cnt] = i;
-//    rs[i] = cnt;
+//    fa[cnt] = head;
+//    rs[head] = cnt;
 //    splay(cnt, 0);
 //}
 //
