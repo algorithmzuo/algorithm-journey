@@ -20,13 +20,13 @@ public class Code02_RomanGame1 {
 
 	public static int[] num = new int[MAXN];
 
-	public static int[] father = new int[MAXN];
-
 	public static int[] left = new int[MAXN];
 
 	public static int[] right = new int[MAXN];
 
 	public static int[] dist = new int[MAXN];
+
+	public static int[] father = new int[MAXN];
 
 	public static int find(int i) {
 		if (father[i] != i) {

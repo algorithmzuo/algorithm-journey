@@ -11,10 +11,10 @@ package class154;
 //
 //const int MAXN = 1000001;
 //int num[MAXN];
-//int fa[MAXN];
 //int ls[MAXN];
 //int rs[MAXN];
 //int dist[MAXN];
+//int fa[MAXN];
 //
 //int find(int i) {
 //    if (fa[i] != i) {

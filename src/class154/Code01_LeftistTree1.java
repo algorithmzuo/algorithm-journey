@@ -15,15 +15,17 @@ public class Code01_LeftistTree1 {
 
 	public static int MAXN = 100001;
 
+	// 左偏树需要
 	public static int[] num = new int[MAXN];
-
-	public static int[] father = new int[MAXN];
 
 	public static int[] left = new int[MAXN];
 
 	public static int[] right = new int[MAXN];
 
 	public static int[] dist = new int[MAXN];
+
+	// 并查集需要
+	public static int[] father = new int[MAXN];
 
 	public static int find(int i) {
 		if (father[i] != i) {
