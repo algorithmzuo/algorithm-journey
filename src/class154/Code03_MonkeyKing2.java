@@ -1,7 +1,7 @@
 package class154;
 
-// 左偏树模版题1，C++版
-// 测试链接 : https://www.luogu.com.cn/problem/P3377
+// 猴王，左偏树模版题3，C++版
+// 测试链接 : https://www.luogu.com.cn/problem/P1456
 // 如下实现是C++的版本，C++版本和java版本逻辑完全一样
 // 提交如下代码，可以通过所有测试用例
 
@@ -27,14 +27,15 @@ package class154;
 //    if (i == 0 || j == 0) {
 //        return i + j;
 //    }
-//    if (num[i] > num[j]) {
-//        int tmp = i;
+//    int tmp;
+//    if (num[i] < num[j]) {
+//        tmp = i;
 //        i = j;
 //        j = tmp;
 //    }
 //    rs[i] = merge(rs[i], j);
 //    if (dist[ls[i]] < dist[rs[i]]) {
-//        int tmp = ls[i];
+//        tmp = ls[i];
 //        ls[i] = rs[i];
 //        rs[i] = tmp;
 //    }
@@ -47,43 +48,32 @@ package class154;
 //    fa[ls[i]] = ls[i];
 //    fa[rs[i]] = rs[i];
 //    fa[i] = merge(ls[i], rs[i]);
-//    num[i] = -1;
+//    num[i] /= 2;
 //    ls[i] = rs[i] = 0;
 //    return fa[i];
+//}
+//
+//int fight(int x, int y) {
+//    int l = find(x);
+//    int r = find(y);
+//    return l == r ? -1 : num[merge(merge(pop(l), l), merge(pop(r), r))];
 //}
 //
 //int main() {
 //    ios::sync_with_stdio(false);
 //    cin.tie(nullptr);
 //    int n, m;
-//    cin >> n >> m;
-//    for (int i = 1; i <= n; i++) {
-//        fa[i] = i;
-//        cin >> num[i];
-//    }
-//    for (int i = 1; i <= m; i++) {
-//        int op;
-//        cin >> op;
-//        if (op == 1) {
+//    while (cin >> n) {
+//        for (int i = 1; i <= n; i++) {
+//            fa[i] = i;
+//            ls[i] = rs[i] = dist[i] = 0;
+//            cin >> num[i];
+//        }
+//        cin >> m;
+//        for (int i = 1; i <= m; i++) {
 //            int x, y;
 //            cin >> x >> y;
-//            if (num[x] != -1 && num[y] != -1) {
-//                int l = find(x);
-//                int r = find(y);
-//                if (l != r) {
-//                    merge(l, r);
-//                }
-//            }
-//        } else {
-//            int x;
-//            cin >> x;
-//            if (num[x] == -1) {
-//                cout << -1 << "\n";
-//            } else {
-//                int ans = find(x);
-//                cout << num[ans] << "\n";
-//                pop(ans);
-//            }
+//            cout << fight(x, y) << "\n";
 //        }
 //    }
 //    return 0;

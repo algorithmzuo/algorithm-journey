@@ -1,6 +1,6 @@
 package class154;
 
-// 罗马游戏，依然是左偏树模版，C++版
+// 罗马游戏，左偏树模版题2，C++版
 // 测试链接 : https://www.luogu.com.cn/problem/P2713
 // 如下实现是C++的版本，C++版本和java版本逻辑完全一样
 // 提交如下代码，可以通过所有测试用例
@@ -10,7 +10,6 @@ package class154;
 //using namespace std;
 //
 //const int MAXN = 1000001;
-//const int INF = 1000000001;
 //int num[MAXN];
 //int fa[MAXN];
 //int ls[MAXN];
@@ -44,11 +43,13 @@ package class154;
 //    return i;
 //}
 //
-//void pop(int i) {
-//    num[i] = -INF;
+//int pop(int i) {
 //    fa[ls[i]] = ls[i];
 //    fa[rs[i]] = rs[i];
 //    fa[i] = merge(ls[i], rs[i]);
+//    num[i] = -1;
+//    ls[i] = rs[i] = 0;
+//    return fa[i];
 //}
 //
 //int main() {
@@ -64,17 +65,16 @@ package class154;
 //        string op; cin >> op;
 //        if (op == "M") {
 //            int x, y; cin >> x >> y;
-//            if (num[x] != -INF && num[y] != -INF) {
+//            if (num[x] != -1 && num[y] != -1) {
 //                int l = find(x);
 //                int r = find(y);
 //                if (l != r) {
-//                    int rt = merge(l, r);
-//                    fa[l] = fa[r] = rt;
+//                    merge(l, r);
 //                }
 //            }
 //        } else {
 //            int x; cin >> x;
-//            if (num[x] == -INF) {
+//            if (num[x] == -1) {
 //                cout << 0 << endl;
 //            } else {
 //                int ans = find(x);

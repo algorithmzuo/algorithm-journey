@@ -1,7 +1,7 @@
 package class154;
 
-// 左偏树模版题1，java版
-// 测试链接 : https://www.luogu.com.cn/problem/P3377
+// 猴王，左偏树模版题3，java版
+// 测试链接 : https://www.luogu.com.cn/problem/P1456
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
 import java.io.BufferedReader;
@@ -11,7 +11,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 
-public class Code01_LeftistTree1 {
+public class Code03_MonkeyKing1 {
 
 	public static int MAXN = 100001;
 
@@ -37,7 +37,8 @@ public class Code01_LeftistTree1 {
 			return i + j;
 		}
 		int tmp;
-		if (num[i] > num[j]) {
+		// 本题是维护大根堆
+		if (num[i] < num[j]) {
 			tmp = i;
 			i = j;
 			j = tmp;
@@ -56,54 +57,38 @@ public class Code01_LeftistTree1 {
 	public static int pop(int i) {
 		father[left[i]] = left[i];
 		father[right[i]] = right[i];
-		// 下面这一句的功能
-		// 因为有路径压缩，所以i下方的某个节点x，可能有father[x] = i
-		// 但是现在堆要去掉i了，所以x一直往上找到i是无效的
-		// 为了i能再往上找到正确的头，所以有下面这句
 		father[i] = merge(left[i], right[i]);
-		num[i] = -1;
+		num[i] /= 2; // 根据题目要求，这里是除以2
 		left[i] = right[i] = 0;
 		return father[i];
+	}
+
+	public static int fight(int x, int y) {
+		int l = find(x);
+		int r = find(y);
+		return l == r ? -1 : num[merge(merge(pop(l), l), merge(pop(r), r))];
 	}
 
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StreamTokenizer in = new StreamTokenizer(br);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
-		in.nextToken();
-		int n = (int) in.nval;
-		in.nextToken();
-		int m = (int) in.nval;
-		for (int i = 1; i <= n; i++) {
-			father[i] = i;
+		while (in.nextToken() != StreamTokenizer.TT_EOF) {
+			int n = (int) in.nval;
+			for (int i = 1; i <= n; i++) {
+				father[i] = i;
+				left[i] = right[i] = dist[i] = 0;
+				in.nextToken();
+				num[i] = (int) in.nval;
+			}
 			in.nextToken();
-			num[i] = (int) in.nval;
-		}
-		for (int i = 1, op, x, y; i <= m; i++) {
-			in.nextToken();
-			op = (int) in.nval;
-			if (op == 1) {
+			int m = (int) in.nval;
+			for (int i = 1, x, y; i <= m; i++) {
 				in.nextToken();
 				x = (int) in.nval;
 				in.nextToken();
 				y = (int) in.nval;
-				if (num[x] != -1 && num[y] != -1) {
-					int l = find(x);
-					int r = find(y);
-					if (l != r) {
-						merge(l, r);
-					}
-				}
-			} else {
-				in.nextToken();
-				x = (int) in.nval;
-				if (num[x] == -1) {
-					out.println(-1);
-				} else {
-					int ans = find(x);
-					out.println(num[ans]);
-					pop(ans);
-				}
+				System.out.println(fight(x, y));
 			}
 		}
 		out.flush();

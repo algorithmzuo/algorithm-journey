@@ -1,6 +1,6 @@
 package class154;
 
-// 罗马游戏，依然是左偏树模版，java版
+// 罗马游戏，左偏树模版题2，java版
 // 测试链接 : https://www.luogu.com.cn/problem/P2713
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
@@ -17,8 +17,6 @@ import java.util.InputMismatchException;
 public class Code02_RomanGame1 {
 
 	public static int MAXN = 1000001;
-
-	public static int INF = 1000000001;
 
 	public static int[] num = new int[MAXN];
 
@@ -58,15 +56,13 @@ public class Code02_RomanGame1 {
 		return i;
 	}
 
-	public static void pop(int i) {
-		num[i] = -INF;
+	public static int pop(int i) {
 		father[left[i]] = left[i];
 		father[right[i]] = right[i];
-		// 下面这一句的功能
-		// 因为有路径压缩，所以i下方的某个节点x，可能有father[x] = i
-		// 但是现在堆要去掉i了，所以x一直往上找到i是无效的
-		// 为了i能再往上找到正确的头，所以有下面这句
 		father[i] = merge(left[i], right[i]);
+		num[i] = -1;
+		left[i] = right[i] = 0;
+		return father[i];
 	}
 
 	public static void main(String[] args) {
@@ -84,16 +80,16 @@ public class Code02_RomanGame1 {
 			if (op.equals("M")) {
 				x = in.readInt();
 				y = in.readInt();
-				if (num[x] != -INF && num[y] != -INF) {
+				if (num[x] != -1 && num[y] != -1) {
 					int l = find(x);
 					int r = find(y);
 					if (l != r) {
-						father[l] = father[r] = merge(l, r);
+						merge(l, r);
 					}
 				}
 			} else {
 				x = in.readInt();
-				if (num[x] == -INF) {
+				if (num[x] == -1) {
 					out.println(0);
 				} else {
 					int ans = find(x);
