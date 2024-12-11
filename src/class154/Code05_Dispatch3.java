@@ -2,7 +2,7 @@ package class154;
 
 // 派遣，dfs用递归实现，C++版
 // 测试链接 : https://www.luogu.com.cn/problem/P1552
-// 逻辑和java的递归版完全一样，java的递归版就过不了，C++的递归版就能过
+// 逻辑和java的递归版完全一样，java必须改迭代版才能通过，C++的递归版就能通过
 // 这是洛谷没有考虑其他语言导致的，提交如下代码，可以通过所有测试用例
 
 //#include <bits/stdc++.h>
