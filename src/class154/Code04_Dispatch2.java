@@ -95,8 +95,8 @@ public class Code04_Dispatch2 {
 		return father[i];
 	}
 
-	// dfs从递归版改成迭代版，不会看讲解118
-	// 重点讲了树上问题从递归改成迭代版的方法
+	// dfs从递归版改成迭代版，不会的话，看讲解118
+	// 重点讲了树上问题从递归版改成迭代版的方法
 	public static int[][] ue = new int[MAXN][2];
 
 	public static int u, ei;
