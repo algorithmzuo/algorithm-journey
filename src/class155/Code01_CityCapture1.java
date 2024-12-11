@@ -1,7 +1,6 @@
 package class155;
 
 // 城池攻占，java版
-// 不和并查集结合，和懒更新结合，
 // 输入保证，如果城市a管辖城市b，必有a < b
 // 测试链接 : https://www.luogu.com.cn/problem/P3261
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
