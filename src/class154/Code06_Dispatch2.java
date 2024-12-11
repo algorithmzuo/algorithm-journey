@@ -1,11 +1,8 @@
 package class154;
 
-// 派遣，dfs用递归实现，java版
+// 派遣，dfs用迭代实现，java版
 // 测试链接 : https://www.luogu.com.cn/problem/P1552
-// 提交以下的code，提交时请把类名改成"Main"，会有一些测试用例通过不了
-// 这是因为java语言用递归方式实现dfs，递归会爆栈
-// 需要把dfs实现成迭代版，才能全部通过，就是Code04_Dispatch2文件
-// 但是C++语言用递归方式实现，可以直接通过，就是Code04_Dispatch3文件
+// 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -14,7 +11,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 
-public class Code04_Dispatch1 {
+public class Code06_Dispatch2 {
 
 	public static int MAXN = 100001;
 
@@ -22,7 +19,6 @@ public class Code04_Dispatch1 {
 
 	public static long ans;
 
-	// 链式前向星需要
 	public static int[] head = new int[MAXN];
 
 	public static int[] next = new int[MAXN];
@@ -31,28 +27,20 @@ public class Code04_Dispatch1 {
 
 	public static int cnt;
 
-	// 薪水
 	public static long[] cost = new long[MAXN];
 
-	// 领导力
 	public static long[] lead = new long[MAXN];
 
-	// 左孩子
 	public static int[] left = new int[MAXN];
 
-	// 右孩子
 	public static int[] right = new int[MAXN];
 
-	// 距离
 	public static int[] dist = new int[MAXN];
 
-	// 寻找堆顶需要
 	public static int[] father = new int[MAXN];
 
-	// 堆的大小
 	public static int[] size = new int[MAXN];
 
-	// 堆的费用和
 	public static long[] sum = new long[MAXN];
 
 	public static void prepare() {
@@ -83,7 +71,6 @@ public class Code04_Dispatch1 {
 			return i + j;
 		}
 		int tmp;
-		// 本题是维护大根堆
 		if (cost[i] < cost[j]) {
 			tmp = i;
 			i = j;
@@ -108,32 +95,64 @@ public class Code04_Dispatch1 {
 		return father[i];
 	}
 
-	// dfs用递归实现
-	public static void dfs(int u) {
-		for (int ei = head[u]; ei > 0; ei = next[ei]) {
-			dfs(to[ei]);
+	// dfs从递归版改成迭代版，不会的话，看讲解118
+	// 重点讲了树上问题从递归版改成迭代版的方法
+	public static int[][] ue = new int[MAXN][2];
+
+	public static int u, ei;
+
+	public static int ssize;
+
+	public static void push(int u, int ei) {
+		ue[ssize][0] = u;
+		ue[ssize][1] = ei;
+		ssize++;
+	}
+
+	public static void pop() {
+		--ssize;
+		u = ue[ssize][0];
+		ei = ue[ssize][1];
+	}
+
+	// dfs用迭代实现
+	public static void dfs(int root) {
+		ssize = 0;
+		push(root, -1);
+		while (ssize > 0) {
+			pop();
+			if (ei == -1) {
+				ei = head[u];
+			} else {
+				ei = next[ei];
+			}
+			if (ei > 0) {
+				push(u, ei);
+				push(to[ei], -1);
+			} else {
+				int usize = 1;
+				long usum = cost[u];
+				for (int ei = head[u], v, l, r; ei > 0; ei = next[ei]) {
+					v = to[ei];
+					l = find(u);
+					r = find(v);
+					usize += size[r];
+					usum += sum[r];
+					merge(l, r);
+				}
+				int i;
+				while (usum > m) {
+					i = find(u);
+					usize--;
+					usum -= cost[i];
+					pop(i);
+				}
+				i = find(u);
+				size[i] = usize;
+				sum[i] = usum;
+				ans = Math.max(ans, (long) usize * lead[u]);
+			}
 		}
-		int usize = 1;
-		long usum = cost[u];
-		for (int ei = head[u], v, l, r; ei > 0; ei = next[ei]) {
-			v = to[ei];
-			l = find(u);
-			r = find(v);
-			usize += size[r];
-			usum += sum[r];
-			merge(l, r);
-		}
-		int i;
-		while (usum > m) {
-			i = find(u);
-			usize--;
-			usum -= cost[i];
-			pop(i);
-		}
-		i = find(u);
-		size[i] = usize;
-		sum[i] = usum;
-		ans = Math.max(ans, (long) usize * lead[u]);
 	}
 
 	public static void main(String[] args) throws IOException {

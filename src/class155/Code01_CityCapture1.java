@@ -1,4 +1,4 @@
-package class154;
+package class155;
 
 // 城池攻占，java版
 // 不和并查集结合，和懒更新结合，
@@ -16,7 +16,7 @@ import java.io.OutputStream;
 import java.io.Writer;
 import java.util.InputMismatchException;
 
-public class Code05_CityCapture1 {
+public class Code01_CityCapture1 {
 
 	public static int MAXN = 300001;
 
