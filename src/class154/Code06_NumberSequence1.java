@@ -99,7 +99,7 @@ public class Code06_NumberSequence1 {
 				}
 				s = size[pre] + size[cur];
 				cur = merge(pre, cur);
-				while (s > (i - from[pre] + 1 + 2) / 2) {
+				while (s > (i - from[pre] + 1 + 1) / 2) {
 					cur = pop(cur);
 					s--;
 				}

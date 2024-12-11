@@ -73,7 +73,7 @@ package class154;
 //            }
 //            s = siz[pre] + siz[cur];
 //            cur = merge(pre, cur);
-//            while (s > ((i - from[pre] + 1 + 2) / 2)) {
+//            while (s > ((i - from[pre] + 1 + 1) / 2)) {
 //                cur = pop(cur);
 //                s--;
 //            }
