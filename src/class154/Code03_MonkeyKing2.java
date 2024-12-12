@@ -76,8 +76,6 @@ package class154;
 //    while (cin >> n) {
 //        prepare();
 //        for (int i = 1; i <= n; i++) {
-//            fa[i] = i;
-//            ls[i] = rs[i] = dist[i] = 0;
 //            cin >> num[i];
 //        }
 //        cin >> m;
