@@ -43,6 +43,7 @@ public class Code06_NumberSequence1 {
 	public static long[] ans = new long[MAXN];
 
 	public static void prepare() {
+		dist[0] = -1;
 		for (int i = 1; i <= n; i++) {
 			left[i] = right[i] = dist[i] = 0;
 		}

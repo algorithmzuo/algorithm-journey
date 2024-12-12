@@ -15,6 +15,8 @@ public class Code03_MonkeyKing1 {
 
 	public static int MAXN = 100001;
 
+	public static int n, m;
+
 	public static int[] num = new int[MAXN];
 
 	public static int[] left = new int[MAXN];
@@ -24,6 +26,14 @@ public class Code03_MonkeyKing1 {
 	public static int[] dist = new int[MAXN];
 
 	public static int[] father = new int[MAXN];
+
+	public static void prepare() {
+		dist[0] = -1;
+		for (int i = 1; i <= n; i++) {
+			left[i] = right[i] = dist[i] = 0;
+			father[i] = i;
+		}
+	}
 
 	public static int find(int i) {
 		father[i] = father[i] == i ? i : find(father[i]);
@@ -76,15 +86,14 @@ public class Code03_MonkeyKing1 {
 		StreamTokenizer in = new StreamTokenizer(br);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
 		while (in.nextToken() != StreamTokenizer.TT_EOF) {
-			int n = (int) in.nval;
+			n = (int) in.nval;
+			prepare();
 			for (int i = 1; i <= n; i++) {
-				father[i] = i;
-				left[i] = right[i] = dist[i] = 0;
 				in.nextToken();
 				num[i] = (int) in.nval;
 			}
 			in.nextToken();
-			int m = (int) in.nval;
+			m = (int) in.nval;
 			for (int i = 1, x, y; i <= m; i++) {
 				in.nextToken();
 				x = (int) in.nval;

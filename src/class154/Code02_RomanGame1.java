@@ -18,6 +18,8 @@ public class Code02_RomanGame1 {
 
 	public static int MAXN = 1000001;
 
+	public static int n, m;
+
 	public static int[] num = new int[MAXN];
 
 	public static int[] left = new int[MAXN];
@@ -27,6 +29,14 @@ public class Code02_RomanGame1 {
 	public static int[] dist = new int[MAXN];
 
 	public static int[] father = new int[MAXN];
+
+	public static void prepare() {
+		dist[0] = -1;
+		for (int i = 1; i <= n; i++) {
+			left[i] = right[i] = dist[i] = 0;
+			father[i] = i;
+		}
+	}
 
 	public static int find(int i) {
 		father[i] = father[i] == i ? i : find(father[i]);
@@ -38,7 +48,7 @@ public class Code02_RomanGame1 {
 			return i + j;
 		}
 		int tmp;
-		if (num[i] > num[j]) {
+		if (num[i] > num[j] || (num[i] == num[j] && i > j)) {
 			tmp = i;
 			i = j;
 			j = tmp;
@@ -66,12 +76,12 @@ public class Code02_RomanGame1 {
 	public static void main(String[] args) {
 		FastReader in = new FastReader(System.in);
 		FastWriter out = new FastWriter(System.out);
-		int n = in.readInt();
+		n = in.readInt();
+		prepare();
 		for (int i = 1; i <= n; i++) {
-			father[i] = i;
 			num[i] = in.readInt();
 		}
-		int m = in.readInt();
+		m = in.readInt();
 		String op;
 		for (int i = 1, x, y; i <= m; i++) {
 			op = in.readString();

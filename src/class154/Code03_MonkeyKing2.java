@@ -10,11 +10,20 @@ package class154;
 //using namespace std;
 //
 //const int MAXN = 100001;
+//int n, m;
 //int num[MAXN];
 //int ls[MAXN];
 //int rs[MAXN];
 //int dist[MAXN];
 //int fa[MAXN];
+//
+//void prepare() {
+//    dist[0] = -1;
+//    for(int i = 1; i <= n; i++) {
+//        ls[i] = rs[i] = dist[i] = 0;
+//        fa[i] = i;
+//    }
+//}
 //
 //int find(int i) {
 //    fa[i] = fa[i] == i ? i : find(fa[i]);
@@ -64,8 +73,8 @@ package class154;
 //int main() {
 //    ios::sync_with_stdio(false);
 //    cin.tie(nullptr);
-//    int n, m;
 //    while (cin >> n) {
+//        prepare();
 //        for (int i = 1; i <= n; i++) {
 //            fa[i] = i;
 //            ls[i] = rs[i] = dist[i] = 0;

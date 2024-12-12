@@ -58,6 +58,7 @@ public class Code05_Dispatch1 {
 	public static void prepare() {
 		ans = 0;
 		cnt = 1;
+		dist[0] = -1;
 		for (int i = 1; i <= n; i++) {
 			head[i] = left[i] = right[i] = dist[i] = size[i] = 0;
 			sum[i] = 0;

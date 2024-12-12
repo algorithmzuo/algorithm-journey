@@ -23,6 +23,7 @@ package class154;
 //long long ans[MAXN];
 //
 //void prepare() {
+//    dist[0] = -1;
 //    for (int i = 1; i <= n; i++) {
 //        ls[i] = rs[i] = dist[i] = 0;
 //    }

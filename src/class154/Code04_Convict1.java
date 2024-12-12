@@ -33,6 +33,7 @@ public class Code04_Convict1 {
 	public static long k;
 
 	public static void prepare() {
+		dist[0] = -1;
 		for (int i = 1; i <= n; i++) {
 			left[i] = right[i] = dist[i] = 0;
 			father[i] = i;

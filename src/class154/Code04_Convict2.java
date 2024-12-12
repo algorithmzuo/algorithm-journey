@@ -50,6 +50,7 @@ package class154;
 //}
 //
 //void prepare() {
+//    dist[0] = -1;
 //    for (int i = 1; i <= n; i++) {
 //        ls[i] = rs[i] = dist[i] = 0;
 //        fa[i] = i;

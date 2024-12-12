@@ -29,16 +29,14 @@ package class155;
 //long long add[MAXN];
 //
 //void prepare() {
-//    for (int i = 1; i <= n; i++) {
-//        sacrifice[i] = 0;
-//        top[i] = 0;
-//    }
+//    dist[0] = -1;
 //    for (int i = 1; i <= m; i++) {
-//        ls[i] = 0;
-//        rs[i] = 0;
-//        dist[i] = 0;
+//        ls[i] = rs[i] = dist[i] = 0;
 //        mul[i] = 1;
 //        add[i] = 0;
+//    }
+//    for (int i = 1; i <= n; i++) {
+//        sacrifice[i] = top[i] = 0;
 //    }
 //}
 //

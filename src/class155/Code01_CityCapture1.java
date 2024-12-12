@@ -52,13 +52,14 @@ public class Code01_CityCapture1 {
 	public static long[] add = new long[MAXN];
 
 	public static void prepare() {
-		for (int i = 1; i <= n; i++) {
-			sacrifice[i] = top[i] = 0;
-		}
+		dist[0] = -1;
 		for (int i = 1; i <= m; i++) {
 			left[i] = right[i] = dist[i] = 0;
 			mul[i] = 1;
 			add[i] = 0;
+		}
+		for (int i = 1; i <= n; i++) {
+			sacrifice[i] = top[i] = 0;
 		}
 	}
 

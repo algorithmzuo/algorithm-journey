@@ -15,6 +15,8 @@ public class Code01_LeftistTree1 {
 
 	public static int MAXN = 100001;
 
+	public static int n, m;
+
 	// 左偏树需要
 	public static int[] num = new int[MAXN];
 
@@ -27,6 +29,14 @@ public class Code01_LeftistTree1 {
 	// 并查集需要
 	public static int[] father = new int[MAXN];
 
+	public static void prepare() {
+		dist[0] = -1;
+		for (int i = 1; i <= n; i++) {
+			left[i] = right[i] = dist[i] = 0;
+			father[i] = i;
+		}
+	}
+
 	public static int find(int i) {
 		father[i] = father[i] == i ? i : find(father[i]);
 		return father[i];
@@ -37,7 +47,7 @@ public class Code01_LeftistTree1 {
 			return i + j;
 		}
 		int tmp;
-		if (num[i] > num[j]) {
+		if (num[i] > num[j] || (num[i] == num[j] && i > j)) {
 			tmp = i;
 			i = j;
 			j = tmp;
@@ -71,11 +81,11 @@ public class Code01_LeftistTree1 {
 		StreamTokenizer in = new StreamTokenizer(br);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
 		in.nextToken();
-		int n = (int) in.nval;
+		n = (int) in.nval;
 		in.nextToken();
-		int m = (int) in.nval;
+		m = (int) in.nval;
+		prepare();
 		for (int i = 1; i <= n; i++) {
-			father[i] = i;
 			in.nextToken();
 			num[i] = (int) in.nval;
 		}
