@@ -29,9 +29,7 @@ package class154;
 //}
 //
 //int find(int i) {
-//    if (fa[i] != i) {
-//        fa[i] = find(fa[i]);
-//    }
+//    fa[i] = fa[i] == i ? i : find(fa[i]);
 //    return fa[i];
 //}
 //
@@ -46,7 +44,7 @@ package class154;
 //        tmp = ls[i]; ls[i] = rs[i]; rs[i] = tmp;
 //    }
 //    dist[i] = dist[rs[i]] + 1;
-//    fa[i] = fa[ls[i]] = fa[rs[i]] = i;
+//    fa[ls[i]] = fa[rs[i]] = i;
 //    return i;
 //}
 //
@@ -54,7 +52,7 @@ package class154;
 //    fa[ls[i]] = ls[i];
 //    fa[rs[i]] = rs[i];
 //    fa[i] = merge(ls[i], rs[i]);
-//    ls[i] = rs[i] = 0;
+//    ls[i] = rs[i] = dist[i] = 0;
 //    return fa[i];
 //}
 //

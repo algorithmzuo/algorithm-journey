@@ -21,7 +21,7 @@ package class154;
 //int ls[MAXN];  
 //int rs[MAXN];  
 //int dist[MAXN];
-//int father[MAXN];
+//int fa[MAXN];
 //int siz[MAXN];  
 //long long sum[MAXN]; 
 //
@@ -31,7 +31,7 @@ package class154;
 //    for (int i = 1; i <= n; i++) {
 //        head[i] = ls[i] = rs[i] = dist[i] = siz[i] = 0;
 //        sum[i] = 0;
-//        father[i] = i;
+//        fa[i] = i;
 //    }
 //}
 //
@@ -42,10 +42,8 @@ package class154;
 //}
 //
 //int find(int i) {
-//    if (father[i] != i) {
-//        father[i] = find(father[i]);
-//    }
-//    return father[i];
+//    fa[i] = fa[i] == i ? i : find(fa[i]);
+//    return fa[i];
 //}
 //
 //int merge(int i, int j) {
@@ -64,16 +62,16 @@ package class154;
 //        rs[i] = tmp;
 //    }
 //    dist[i] = dist[rs[i]] + 1;
-//    father[i] = father[ls[i]] = father[rs[i]] = i;
+//    fa[ls[i]] = fa[rs[i]] = i;
 //    return i;
 //}
 //
 //int pop(int i) {
-//    father[ls[i]] = ls[i];
-//    father[rs[i]] = rs[i];
-//    father[i] = merge(ls[i], rs[i]);
-//    ls[i] = rs[i] = 0;
-//    return father[i];
+//    fa[ls[i]] = ls[i];
+//    fa[rs[i]] = rs[i];
+//    fa[i] = merge(ls[i], rs[i]);
+//    ls[i] = rs[i] = dist[i] = 0;
+//    return fa[i];
 //}
 //
 //void dfs(int u) {

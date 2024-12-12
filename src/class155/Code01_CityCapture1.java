@@ -106,7 +106,7 @@ public class Code01_CityCapture1 {
 	public static int pop(int i) {
 		down(i);
 		int ans = merge(left[i], right[i]);
-		left[i] = right[i] = 0;
+		left[i] = right[i] = dist[i] = 0;
 		return ans;
 	}
 

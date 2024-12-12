@@ -17,9 +17,7 @@ package class154;
 //int fa[MAXN];
 //
 //int find(int i) {
-//    if (fa[i] != i) {
-//        fa[i] = find(fa[i]);
-//    }
+//    fa[i] = fa[i] == i ? i : find(fa[i]);
 //    return fa[i];
 //}
 //
@@ -40,7 +38,7 @@ package class154;
 //        rs[i] = tmp;
 //    }
 //    dist[i] = dist[rs[i]] + 1;
-//    fa[i] = fa[ls[i]] = fa[rs[i]] = i;
+//    fa[ls[i]] = fa[rs[i]] = i;
 //    return i;
 //}
 //
@@ -49,14 +47,18 @@ package class154;
 //    fa[rs[i]] = rs[i];
 //    fa[i] = merge(ls[i], rs[i]);
 //    num[i] /= 2;
-//    ls[i] = rs[i] = 0;
+//    ls[i] = rs[i] = dist[i] = 0;
 //    return fa[i];
 //}
 //
 //int fight(int x, int y) {
 //    int l = find(x);
 //    int r = find(y);
-//    return l == r ? -1 : num[merge(merge(pop(l), l), merge(pop(r), r))];
+//    if (l == r) {
+//        return -1;
+//    }
+//    fa[l] = fa[r] = merge(merge(pop(l), l), merge(pop(r), r));
+//    return num[fa[l]];
 //}
 //
 //int main() {

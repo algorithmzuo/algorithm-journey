@@ -86,8 +86,7 @@ package class155;
 //int pop(int i) {
 //    down(i);
 //    int ans = merge(ls[i], rs[i]);
-//    ls[i] = 0;
-//    rs[i] = 0;
+//    ls[i] = rs[i] = dist[i] = 0;
 //    return ans;
 //}
 //

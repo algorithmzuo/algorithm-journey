@@ -72,9 +72,7 @@ public class Code05_Dispatch1 {
 	}
 
 	public static int find(int i) {
-		if (father[i] != i) {
-			father[i] = find(father[i]);
-		}
+		father[i] = father[i] == i ? i : find(father[i]);
 		return father[i];
 	}
 
@@ -96,7 +94,7 @@ public class Code05_Dispatch1 {
 			right[i] = tmp;
 		}
 		dist[i] = dist[right[i]] + 1;
-		father[i] = father[left[i]] = father[right[i]] = i;
+		father[left[i]] = father[right[i]] = i;
 		return i;
 	}
 
@@ -104,7 +102,7 @@ public class Code05_Dispatch1 {
 		father[left[i]] = left[i];
 		father[right[i]] = right[i];
 		father[i] = merge(left[i], right[i]);
-		left[i] = right[i] = 0;
+		left[i] = right[i] = dist[i] = 0;
 		return father[i];
 	}
 
