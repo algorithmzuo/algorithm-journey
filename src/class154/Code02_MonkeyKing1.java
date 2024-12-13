@@ -1,6 +1,15 @@
 package class154;
 
 // 猴王，java版
+// 给定n只猴子的战斗力，一开始每个猴子都是独立的阵营
+// 一共有m次冲突，每次冲突给定两只猴子的编号x、y
+// 如果x和y在同一阵营，这次冲突停止，打印-1
+// 如果x和y在不同阵营，x所在阵营的最强猴子会和y所在阵营的最强猴子进行打斗
+// 打斗的结果是，两个各自阵营的最强猴子，战斗力都减半，向下取整，其他猴子战力不变
+// 然后两个阵营合并，打印合并后的阵营最大战斗力
+// 题目可能有多组数据，需要监控输入流直到结束
+// 1 <= n, m <= 10^5
+// 0 <= 猴子战斗力 <= 32768
 // 测试链接 : https://www.luogu.com.cn/problem/P1456
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
@@ -99,7 +108,7 @@ public class Code02_MonkeyKing1 {
 				x = (int) in.nval;
 				in.nextToken();
 				y = (int) in.nval;
-				System.out.println(fight(x, y));
+				out.println(fight(x, y));
 			}
 		}
 		out.flush();
