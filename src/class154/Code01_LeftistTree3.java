@@ -1,6 +1,6 @@
 package class154;
 
-// 罗马游戏，左偏树模版题2，java版
+// 左偏树模版题2，java版
 // 测试链接 : https://www.luogu.com.cn/problem/P2713
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
@@ -14,7 +14,7 @@ import java.io.OutputStream;
 import java.io.Writer;
 import java.util.InputMismatchException;
 
-public class Code02_RomanGame1 {
+public class Code01_LeftistTree3 {
 
 	public static int MAXN = 1000001;
 

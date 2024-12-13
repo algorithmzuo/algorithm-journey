@@ -4,7 +4,7 @@ package class154;
 // 测试链接 : https://www.luogu.com.cn/problem/P4331
 // 提交以下的code，提交时请把类名改成"Main"，一些测试用例通过不了，空间超了
 // 这是洛谷平台没有考虑其他语言导致的，同样的逻辑，C++实现就能完全通过
-// C++实现的版本，就是Code06_NumberSequence2文件
+// C++实现的版本，就是Code05_NumberSequence2文件
 
 import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;
@@ -16,7 +16,7 @@ import java.io.OutputStream;
 import java.io.Writer;
 import java.util.InputMismatchException;
 
-public class Code06_NumberSequence1 {
+public class Code05_NumberSequence1 {
 
 	public static int MAXN = 1000001;
 

@@ -14,7 +14,7 @@ import java.io.OutputStream;
 import java.io.Writer;
 import java.util.InputMismatchException;
 
-public class Code04_Convict1 {
+public class Code03_Convict1 {
 
 	public static int MAXN = 2000001;
 

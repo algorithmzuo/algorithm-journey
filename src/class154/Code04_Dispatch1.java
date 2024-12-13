@@ -4,8 +4,8 @@ package class154;
 // 测试链接 : https://www.luogu.com.cn/problem/P1552
 // 提交以下的code，提交时请把类名改成"Main"，一些测试用例通过不了
 // 这是因为java语言用递归方式实现dfs，递归会爆栈
-// 需要把dfs实现成迭代版，才能全部通过，就是Code05_Dispatch2文件
-// C++语言用递归方式实现，可以直接通过，就是Code05_Dispatch3文件
+// 需要把dfs实现成迭代版，才能全部通过，就是Code04_Dispatch2文件
+// C++语言用递归方式实现，可以直接通过，就是Code04_Dispatch3文件
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -14,7 +14,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 
-public class Code05_Dispatch1 {
+public class Code04_Dispatch1 {
 
 	public static int MAXN = 100001;
 

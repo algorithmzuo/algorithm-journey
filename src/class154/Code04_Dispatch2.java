@@ -11,7 +11,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 
-public class Code05_Dispatch2 {
+public class Code04_Dispatch2 {
 
 	public static int MAXN = 100001;
 
