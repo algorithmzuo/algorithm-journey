@@ -40,11 +40,11 @@ package class154;
 //}
 //
 //void reduce(int i, long long v) {
-//    num[i] = max(num[i] - v, 0LL);
 //    int l = find(i);
 //    fa[ls[i]] = ls[i];
 //    fa[rs[i]] = rs[i];
 //    int r = merge(ls[i], rs[i]);
+//    num[i] = max(num[i] - v, 0LL);
 //    ls[i] = rs[i] = dist[i] = 0;
 //    fa[i] = merge(l, r);
 //}

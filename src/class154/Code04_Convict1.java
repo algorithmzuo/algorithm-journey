@@ -69,11 +69,11 @@ public class Code04_Convict1 {
 	// reduce过程中不用关心每个节点的dist是否更新正确
 	// 错误也只是略微影响平衡性，而且随着新节点的加入，平衡性会逐渐恢复
 	public static void reduce(int i, long v) {
-		num[i] = Math.max(num[i] - v, 0);
 		int l = find(i);
 		father[left[i]] = left[i];
 		father[right[i]] = right[i];
 		int r = merge(left[i], right[i]);
+		num[i] = Math.max(num[i] - v, 0);
 		left[i] = right[i] = dist[i] = 0;
 		father[i] = merge(l, r);
 	}
