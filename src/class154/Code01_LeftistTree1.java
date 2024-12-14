@@ -37,7 +37,7 @@ public class Code01_LeftistTree1 {
 	// 并查集需要father数组，方便快速找到树的头
 	// father[i]不代表i在树上的父亲节点
 	// father是并查集找代表节点的路径信息
-	// 需要保证，并查集最终的代表节点 = 树的头节点
+	// 需要保证，并查集最上方的代表节点 = 树的头节点
 	public static int[] father = new int[MAXN];
 
 	public static void prepare() {
@@ -53,6 +53,7 @@ public class Code01_LeftistTree1 {
 		return father[i];
 	}
 
+	// 编号为i的左偏树 与 编号为j的左偏树合并，返回新树的头节点编号
 	public static int merge(int i, int j) {
 		if (i == 0 || j == 0) {
 			return i + j;
@@ -75,6 +76,7 @@ public class Code01_LeftistTree1 {
 		return i;
 	}
 
+	// 节点i一定是左偏树的头，在左偏树上删掉节点i，返回新树的头节点编号
 	public static int pop(int i) {
 		father[left[i]] = left[i];
 		father[right[i]] = right[i];
