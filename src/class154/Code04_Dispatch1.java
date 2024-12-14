@@ -90,7 +90,7 @@ public class Code04_Dispatch1 {
 			return i + j;
 		}
 		int tmp;
-		// 本题是维护大根堆
+		// 维护大根堆
 		if (cost[i] < cost[j]) {
 			tmp = i;
 			i = j;

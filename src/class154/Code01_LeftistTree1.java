@@ -55,6 +55,7 @@ public class Code01_LeftistTree1 {
 			return i + j;
 		}
 		int tmp;
+		// 维护小根堆，如果值一样，编号小的节点做头
 		if (num[i] > num[j] || (num[i] == num[j] && i > j)) {
 			tmp = i;
 			i = j;

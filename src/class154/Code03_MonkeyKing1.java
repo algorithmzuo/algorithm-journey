@@ -54,7 +54,7 @@ public class Code03_MonkeyKing1 {
 			return i + j;
 		}
 		int tmp;
-		// 本题是维护大根堆
+		// 维护大根堆
 		if (num[i] < num[j]) {
 			tmp = i;
 			i = j;

@@ -64,6 +64,7 @@ public class Code05_NumberSequence1 {
 			return i + j;
 		}
 		int tmp;
+		// 维护大根堆
 		if (arr[i] < arr[j]) {
 			tmp = i;
 			i = j;
