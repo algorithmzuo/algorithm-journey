@@ -74,10 +74,9 @@ public class Code01_LeftistTree1 {
 	public static int pop(int i) {
 		father[left[i]] = left[i];
 		father[right[i]] = right[i];
-		// 下面这一句的功能
-		// 因为有路径压缩，所以i下方的某个节点x，可能有father[x] = i
-		// 但是现在堆要去掉i了，所以x一直往上找到i是无效的
-		// 为了i能再往上找到正确的头，所以有下面这句
+		// 并查集有路径压缩，所以i下方的某个节点x，可能有father[x] = i
+		// 现在要删掉i了，所以x往上会找不到正确的头节点
+		// 为了任何节点往上都能找到正确的头，所以要有下面这句
 		father[i] = merge(left[i], right[i]);
 		num[i] = -1;
 		left[i] = right[i] = dist[i] = 0;
