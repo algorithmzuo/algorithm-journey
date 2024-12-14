@@ -1,6 +1,6 @@
 package class154;
 
-// 断罪者，指定编号删除节点，java版
+// 断罪者，删除任意编号节点，java版
 // 给定t，w，k，表示一共有t个人，死亡方式都为w，地狱阈值都为k，w和k含义稍后解释
 // 每个人都给定n和m，表示这人一生有n件错事，有m次领悟
 // 这个人的n件错事，给定对应的n个罪恶值，然后给定m次领悟，领悟类型如下
@@ -35,7 +35,7 @@ import java.io.OutputStream;
 import java.io.Writer;
 import java.util.InputMismatchException;
 
-public class Code03_Convict1 {
+public class Code02_Convict1 {
 
 	public static int MAXN = 2000001;
 
