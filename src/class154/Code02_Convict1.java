@@ -91,7 +91,7 @@ public class Code02_Convict1 {
 		return i;
 	}
 
-	// 左偏树上删除编号为i的节点，返回删除操作后整棵树的头节点编号
+	// 左偏树上删除编号为i的节点，返回删除后整棵树的头节点编号
 	public static int remove(int i) {
 		int l = find(i);
 		father[left[i]] = left[i];
