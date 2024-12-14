@@ -40,6 +40,14 @@ package class154;
 //int dist[MAXN];
 //int fa[MAXN];
 //
+//void prepare() {
+//    dist[0] = -1;
+//    for (int i = 1; i <= n; i++) {
+//        up[i] = ls[i] = rs[i] = dist[i] = 0;
+//        fa[i] = i;
+//    }
+//}
+//
 //int find(int i) {
 //    return fa[i] == i ? i : (fa[i] = find(fa[i]));
 //}
@@ -91,14 +99,6 @@ package class154;
 //    int l = remove(i);
 //    num[i] = max(num[i] - v, 0LL);
 //    fa[l] = fa[i] = merge(l, i);
-//}
-//
-//void prepare() {
-//    dist[0] = -1;
-//    for (int i = 1; i <= n; i++) {
-//        ls[i] = rs[i] = dist[i] = 0;
-//        fa[i] = i;
-//    }
 //}
 //
 //long long compute() {

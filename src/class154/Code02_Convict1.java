@@ -39,8 +39,13 @@ public class Code02_Convict1 {
 
 	public static int MAXN = 2000001;
 
+	public static int t, w, n, m;
+
+	public static long k;
+
 	public static long[] num = new long[MAXN];
 
+	// up[i]表示节点i在左偏树结构上的父亲节点
 	public static int[] up = new int[MAXN];
 
 	public static int[] left = new int[MAXN];
@@ -49,16 +54,13 @@ public class Code02_Convict1 {
 
 	public static int[] dist = new int[MAXN];
 
+	// father[i]表示并查集里节点i的路径信息
 	public static int[] father = new int[MAXN];
-
-	public static int t, w, n, m;
-
-	public static long k;
 
 	public static void prepare() {
 		dist[0] = -1;
 		for (int i = 1; i <= n; i++) {
-			left[i] = right[i] = dist[i] = 0;
+			up[i] = left[i] = right[i] = dist[i] = 0;
 			father[i] = i;
 		}
 	}
@@ -91,9 +93,7 @@ public class Code02_Convict1 {
 		return i;
 	}
 
-	// 不保证节点i是左偏树的头节点
-	// 左偏树上删除编号为i的节点
-	// 返回删除后整棵树的头节点编号
+	// 节点i是所在左偏树的任意节点，删除节点i，返回整棵树的头节点编号
 	public static int remove(int i) {
 		int h = find(i);
 		father[left[i]] = left[i];
