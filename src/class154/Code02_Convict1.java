@@ -111,8 +111,13 @@ public class Code02_Convict1 {
 				right[f] = 0;
 			}
 			up[i] = 0;
-			for (int d = -1; dist[f] > d + 1; f = up[f], d++) {
+			for (int d = -1, tmp; dist[f] > d + 1; f = up[f], d++) {
 				dist[f] = d + 1;
+				if (dist[left[f]] < dist[right[f]]) {
+					tmp = left[f];
+					left[f] = right[f];
+					right[f] = tmp;
+				}
 			}
 			father[i] = merge(h, s);
 		}

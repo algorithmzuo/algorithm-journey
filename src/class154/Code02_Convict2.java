@@ -87,8 +87,13 @@ package class154;
 //            rs[f] = 0;
 //        }
 //        up[i] = 0;
-//        for (int d = -1; dist[f] > d + 1; f = up[f], d++) {
+//        for (int d = -1, tmp; dist[f] > d + 1; f = up[f], d++) {
 //            dist[f] = d + 1;
+//            if (dist[ls[f]] < dist[rs[f]]) {
+//                tmp = ls[f];
+//                ls[f] = rs[f];
+//                rs[f] = tmp;
+//            }
 //        }
 //        fa[i] = merge(h, s);
 //    }
