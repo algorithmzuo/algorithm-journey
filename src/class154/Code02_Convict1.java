@@ -73,6 +73,7 @@ public class Code02_Convict1 {
 			return i + j;
 		}
 		int tmp;
+		// 这里是维护大根堆，如果值一样，编号小的节点设为头
 		if (num[i] < num[j] || (num[i] == num[j] && i > j)) {
 			tmp = i;
 			i = j;
