@@ -63,7 +63,6 @@ package class154;
 //    fa[ls[i]] = ls[i];
 //    fa[rs[i]] = rs[i];
 //    fa[i] = merge(ls[i], rs[i]);
-//    num[i] = -1;
 //    ls[i] = rs[i] = dist[i] = 0;
 //    return fa[i];
 //}
@@ -96,6 +95,7 @@ package class154;
 //                int ans = find(x);
 //                cout << num[ans] << endl;
 //                pop(ans);
+//                num[ans] = -1;
 //            }
 //        }
 //    }

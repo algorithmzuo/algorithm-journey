@@ -98,7 +98,7 @@ public class Code02_Convict1 {
 		father[right[i]] = right[i];
 		int r = merge(left[i], right[i]);
 		up[r] = 0;
-		num[i] = left[i] = right[i] = dist[i] = 0;
+		left[i] = right[i] = dist[i] = 0;
 		if (l == i) {
 			father[i] = r;
 		} else {
@@ -118,9 +118,8 @@ public class Code02_Convict1 {
 	}
 
 	public static void reduce(int i, long v) {
-		long tmp = num[i];
 		int l = remove(i);
-		num[i] = Math.max(tmp - v, 0);
+		num[i] = Math.max(num[i] - v, 0);
 		father[l] = father[i] = merge(l, i);
 	}
 

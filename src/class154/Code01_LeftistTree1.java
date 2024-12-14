@@ -79,7 +79,6 @@ public class Code01_LeftistTree1 {
 		// 现在要删掉i了，所以x往上会找不到正确的头节点
 		// 为了任何节点往上都能找到正确的头，所以要有下面这句
 		father[i] = merge(left[i], right[i]);
-		num[i] = -1;
 		left[i] = right[i] = dist[i] = 0;
 		return father[i];
 	}
@@ -121,6 +120,7 @@ public class Code01_LeftistTree1 {
 					int ans = find(x);
 					out.println(num[ans]);
 					pop(ans);
+					num[ans] = -1;
 				}
 			}
 		}

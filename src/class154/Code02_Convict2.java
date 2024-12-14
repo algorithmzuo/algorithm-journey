@@ -68,7 +68,7 @@ package class154;
 //    fa[rs[i]] = rs[i];
 //    int r = merge(ls[i], rs[i]);
 //    up[r] = 0;
-//    num[i] = ls[i] = rs[i] = dist[i] = 0;
+//    ls[i] = rs[i] = dist[i] = 0;
 //    if (l == i) {
 //        fa[i] = r;
 //    } else {
@@ -88,9 +88,8 @@ package class154;
 //}
 //
 //void reduce(int i, long long v) {
-//    long tmp = num[i];
 //    int l = remove(i);
-//    num[i] = max(tmp - v, 0LL);
+//    num[i] = max(num[i] - v, 0LL);
 //    fa[l] = fa[i] = merge(l, i);
 //}
 //

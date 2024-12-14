@@ -77,7 +77,6 @@ public class Code01_LeftistTree3 {
 		father[left[i]] = left[i];
 		father[right[i]] = right[i];
 		father[i] = merge(left[i], right[i]);
-		num[i] = -1;
 		left[i] = right[i] = dist[i] = 0;
 		return father[i];
 	}
@@ -112,6 +111,7 @@ public class Code01_LeftistTree3 {
 					int ans = find(x);
 					out.println(num[ans]);
 					pop(ans);
+					num[ans] = -1;
 				}
 			}
 		}
