@@ -82,6 +82,7 @@ public class Code02_Convict1 {
 			j = tmp;
 		}
 		right[i] = merge(right[i], j);
+		// 设置up信息
 		up[right[i]] = i;
 		if (dist[left[i]] < dist[right[i]]) {
 			tmp = left[i];
