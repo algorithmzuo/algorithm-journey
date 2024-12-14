@@ -1,6 +1,6 @@
 package class154;
 
-// 断罪者，C++版
+// 断罪者，删除任意编号节点，C++版
 // 给定t，w，k，表示一共有t个人，死亡方式都为w，地狱阈值都为k，w和k含义稍后解释
 // 每个人都给定n和m，表示这人一生有n件错事，有m次领悟
 // 这个人的n件错事，给定对应的n个罪恶值，然后给定m次领悟，领悟类型如下
@@ -34,6 +34,7 @@ package class154;
 //int t, w, n, m;
 //long long k;
 //long long num[MAXN];
+//int up[MAXN];
 //int ls[MAXN];
 //int rs[MAXN];
 //int dist[MAXN];
@@ -52,6 +53,7 @@ package class154;
 //        tmp = i; i = j; j = tmp;
 //    }
 //    rs[i] = merge(rs[i], j);
+//    up[rs[i]] = i;
 //    if (dist[ls[i]] < dist[rs[i]]) {
 //        tmp = ls[i]; ls[i] = rs[i]; rs[i] = tmp;
 //    }
@@ -60,14 +62,36 @@ package class154;
 //    return i;
 //}
 //
-//void reduce(int i, long long v) {
+//int remove(int i) {
 //    int l = find(i);
 //    fa[ls[i]] = ls[i];
 //    fa[rs[i]] = rs[i];
 //    int r = merge(ls[i], rs[i]);
-//    num[i] = max(num[i] - v, 0LL);
-//    ls[i] = rs[i] = dist[i] = 0;
-//    fa[i] = merge(l, r);
+//    up[r] = 0;
+//    num[i] = ls[i] = rs[i] = dist[i] = 0;
+//    if (l == i) {
+//        fa[i] = r;
+//    } else {
+//        int h = up[i];
+//        if (ls[h] == i) {
+//            ls[h] = 0;
+//        } else {
+//            rs[h] = 0;
+//        }
+//        up[i] = 0;
+//        for (int d = -1; dist[h] > d + 1; h = up[h], d++) {
+//            dist[h] = d + 1;
+//        }
+//        fa[i] = merge(l, r);
+//    }
+//    return fa[i];
+//}
+//
+//void reduce(int i, long long v) {
+//    long tmp = num[i];
+//    int l = remove(i);
+//    num[i] = max(tmp - v, 0LL);
+//    fa[l] = fa[i] = merge(l, i);
 //}
 //
 //void prepare() {
