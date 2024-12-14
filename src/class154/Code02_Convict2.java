@@ -75,19 +75,17 @@ package class154;
 //    fa[ls[i]] = ls[i];
 //    fa[rs[i]] = rs[i];
 //    int s = merge(ls[i], rs[i]);
-//    up[s] = 0;
-//    ls[i] = rs[i] = dist[i] = 0;
-//    if (h == i) {
-//        fa[i] = s;
-//    } else {
-//        int f = up[i];
+//    int f = up[i];
+//    fa[i] = s;
+//    up[s] = f;
+//    if (h != i) {
+//        fa[s] = h;
 //        if (ls[f] == i) {
-//            ls[f] = 0;
+//            ls[f] = s;
 //        } else {
-//            rs[f] = 0;
+//            rs[f] = s;
 //        }
-//        up[i] = 0;
-//        for (int d = -1, tmp; dist[f] > d + 1; f = up[f], d++) {
+//        for (int d = dist[s], tmp; dist[f] > d + 1; f = up[f], d++) {
 //            dist[f] = d + 1;
 //            if (dist[ls[f]] < dist[rs[f]]) {
 //                tmp = ls[f];
@@ -95,9 +93,9 @@ package class154;
 //                rs[f] = tmp;
 //            }
 //        }
-//        fa[i] = merge(h, s);
 //    }
-//    return fa[i];
+//    up[i] = ls[i] = rs[i] = dist[i] = 0;
+//    return fa[s];
 //}
 //
 //void reduce(int i, long long v) {

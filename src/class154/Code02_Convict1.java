@@ -99,19 +99,17 @@ public class Code02_Convict1 {
 		father[left[i]] = left[i];
 		father[right[i]] = right[i];
 		int s = merge(left[i], right[i]);
-		up[s] = 0;
-		left[i] = right[i] = dist[i] = 0;
-		if (h == i) {
-			father[i] = s;
-		} else {
-			int f = up[i];
+		int f = up[i];
+		father[i] = s;
+		up[s] = f;
+		if (h != i) {
+			father[s] = h;
 			if (left[f] == i) {
-				left[f] = 0;
+				left[f] = s;
 			} else {
-				right[f] = 0;
+				right[f] = s;
 			}
-			up[i] = 0;
-			for (int d = -1, tmp; dist[f] > d + 1; f = up[f], d++) {
+			for (int d = dist[s], tmp; dist[f] > d + 1; f = up[f], d++) {
 				dist[f] = d + 1;
 				if (dist[left[f]] < dist[right[f]]) {
 					tmp = left[f];
@@ -119,9 +117,9 @@ public class Code02_Convict1 {
 					right[f] = tmp;
 				}
 			}
-			father[i] = merge(h, s);
 		}
-		return father[i];
+		up[i] = left[i] = right[i] = dist[i] = 0;
+		return father[s];
 	}
 
 	public static void reduce(int i, long v) {
