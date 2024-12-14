@@ -63,26 +63,26 @@ package class154;
 //}
 //
 //int remove(int i) {
-//    int l = find(i);
+//    int h = find(i);
 //    fa[ls[i]] = ls[i];
 //    fa[rs[i]] = rs[i];
-//    int r = merge(ls[i], rs[i]);
-//    up[r] = 0;
+//    int s = merge(ls[i], rs[i]);
+//    up[s] = 0;
 //    ls[i] = rs[i] = dist[i] = 0;
-//    if (l == i) {
-//        fa[i] = r;
+//    if (h == i) {
+//        fa[i] = s;
 //    } else {
-//        int h = up[i];
-//        if (ls[h] == i) {
-//            ls[h] = 0;
+//        int f = up[i];
+//        if (ls[f] == i) {
+//            ls[f] = 0;
 //        } else {
-//            rs[h] = 0;
+//            rs[f] = 0;
 //        }
 //        up[i] = 0;
-//        for (int d = -1; dist[h] > d + 1; h = up[h], d++) {
-//            dist[h] = d + 1;
+//        for (int d = -1; dist[f] > d + 1; f = up[f], d++) {
+//            dist[f] = d + 1;
 //        }
-//        fa[i] = merge(l, r);
+//        fa[i] = merge(h, s);
 //    }
 //    return fa[i];
 //}

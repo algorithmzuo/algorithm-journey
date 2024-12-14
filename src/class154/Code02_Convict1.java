@@ -91,28 +91,30 @@ public class Code02_Convict1 {
 		return i;
 	}
 
-	// 左偏树上删除编号为i的节点，返回删除后整棵树的头节点编号
+	// 不保证节点i是左偏树的头节点
+	// 左偏树上删除编号为i的节点
+	// 返回删除后整棵树的头节点编号
 	public static int remove(int i) {
-		int l = find(i);
+		int h = find(i);
 		father[left[i]] = left[i];
 		father[right[i]] = right[i];
-		int r = merge(left[i], right[i]);
-		up[r] = 0;
+		int s = merge(left[i], right[i]);
+		up[s] = 0;
 		left[i] = right[i] = dist[i] = 0;
-		if (l == i) {
-			father[i] = r;
+		if (h == i) {
+			father[i] = s;
 		} else {
-			int h = up[i];
-			if (left[h] == i) {
-				left[h] = 0;
+			int f = up[i];
+			if (left[f] == i) {
+				left[f] = 0;
 			} else {
-				right[h] = 0;
+				right[f] = 0;
 			}
 			up[i] = 0;
-			for (int d = -1; dist[h] > d + 1; h = up[h], d++) {
-				dist[h] = d + 1;
+			for (int d = -1; dist[f] > d + 1; f = up[f], d++) {
+				dist[f] = d + 1;
 			}
-			father[i] = merge(l, r);
+			father[i] = merge(h, s);
 		}
 		return father[i];
 	}
