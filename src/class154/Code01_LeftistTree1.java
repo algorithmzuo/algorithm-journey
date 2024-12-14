@@ -34,7 +34,10 @@ public class Code01_LeftistTree1 {
 
 	public static int[] dist = new int[MAXN];
 
-	// 并查集需要
+	// 并查集需要father数组，方便快速找到树的头
+	// father[i]不代表i在树上的父亲节点
+	// father是并查集找代表节点的路径信息
+	// 需要保证，并查集最终的代表节点 = 树的头节点
 	public static int[] father = new int[MAXN];
 
 	public static void prepare() {
