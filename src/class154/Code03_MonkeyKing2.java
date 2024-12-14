@@ -64,19 +64,22 @@ package class154;
 //    fa[ls[i]] = ls[i];
 //    fa[rs[i]] = rs[i];
 //    fa[i] = merge(ls[i], rs[i]);
-//    num[i] /= 2;
 //    ls[i] = rs[i] = dist[i] = 0;
 //    return fa[i];
 //}
 //
 //int fight(int x, int y) {
-//    int l = find(x);
-//    int r = find(y);
-//    if (l == r) {
+//    int a = find(x);
+//    int b = find(y);
+//    if (a == b) {
 //        return -1;
 //    }
-//    fa[l] = fa[r] = merge(merge(pop(l), l), merge(pop(r), r));
-//    return num[fa[l]];
+//    int l = pop(a);
+//    int r = pop(b);
+//    num[a] /= 2;
+//    num[b] /= 2;
+//    fa[a] = fa[b] = fa[l] = fa[r] = merge(merge(l, a), merge(r, b));
+//    return num[fa[a]];
 //}
 //
 //int main() {

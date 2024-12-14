@@ -75,19 +75,22 @@ public class Code03_MonkeyKing1 {
 		father[left[i]] = left[i];
 		father[right[i]] = right[i];
 		father[i] = merge(left[i], right[i]);
-		num[i] /= 2; // 根据题目要求，这里是除以2
 		left[i] = right[i] = dist[i] = 0;
 		return father[i];
 	}
 
 	public static int fight(int x, int y) {
-		int l = find(x);
-		int r = find(y);
-		if (l == r) {
+		int a = find(x);
+		int b = find(y);
+		if (a == b) {
 			return -1;
 		}
-		father[l] = father[r] = merge(merge(pop(l), l), merge(pop(r), r));
-		return num[father[l]];
+		int l = pop(a);
+		int r = pop(b);
+		num[a] /= 2;
+		num[b] /= 2;
+		father[a] = father[b] = father[l] = father[r] = merge(merge(l, a), merge(r, b));
+		return num[father[a]];
 	}
 
 	public static void main(String[] args) throws IOException {
