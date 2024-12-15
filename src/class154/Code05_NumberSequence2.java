@@ -31,6 +31,8 @@ package class154;
 //    dist[0] = -1;
 //    for (int i = 1; i <= n; i++) {
 //        ls[i] = rs[i] = dist[i] = 0;
+//        fa[i] = from[i] = to[i] = i;
+//        siz[i] = 1;
 //    }
 //}
 //
@@ -40,7 +42,9 @@ package class154;
 //}
 //
 //int merge(int i, int j) {
-//    if (i == 0 || j == 0) return i + j;
+//    if (i == 0 || j == 0) {
+//        return i + j;
+//    }
 //    int tmp;
 //    if (arr[i] < arr[j]) {
 //        tmp = i; i = j; j = tmp;
@@ -63,10 +67,6 @@ package class154;
 //}
 //
 //long long compute() {
-//    for (int i = 1; i <= n; i++) {
-//        fa[i] = from[i] = to[i] = i;
-//        siz[i] = 1;
-//    }
 //    int stackSize = 0;
 //    for (int i = 1, pre, cur, s; i <= n; i++) {
 //        while (stackSize > 0) {

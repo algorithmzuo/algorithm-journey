@@ -51,6 +51,8 @@ public class Code05_NumberSequence1 {
 		dist[0] = -1;
 		for (int i = 1; i <= n; i++) {
 			left[i] = right[i] = dist[i] = 0;
+			father[i] = from[i] = to[i] = i;
+			size[i] = 1;
 		}
 	}
 
@@ -90,10 +92,6 @@ public class Code05_NumberSequence1 {
 	}
 
 	public static long compute() {
-		for (int i = 1; i <= n; i++) {
-			father[i] = from[i] = to[i] = i;
-			size[i] = 1;
-		}
 		int stackSize = 0;
 		for (int i = 1, pre, cur, s; i <= n; i++) {
 			while (stackSize > 0) {
@@ -104,6 +102,7 @@ public class Code05_NumberSequence1 {
 				}
 				s = size[pre] + size[cur];
 				cur = merge(pre, cur);
+				// 大根堆只保留到上中位数
 				while (s > (i - from[pre] + 1 + 1) / 2) {
 					cur = pop(cur);
 					s--;
