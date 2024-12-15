@@ -124,9 +124,9 @@ public class Code02_Convict1 {
 	}
 
 	public static void reduce(int i, long v) {
-		int l = remove(i);
+		int h = remove(i);
 		num[i] = Math.max(num[i] - v, 0);
-		father[l] = father[i] = merge(l, i);
+		father[h] = father[i] = merge(h, i);
 	}
 
 	public static long compute() {

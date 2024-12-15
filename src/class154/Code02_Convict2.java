@@ -99,9 +99,9 @@ package class154;
 //}
 //
 //void reduce(int i, long long v) {
-//    int l = remove(i);
+//    int h = remove(i);
 //    num[i] = max(num[i] - v, 0LL);
-//    fa[l] = fa[i] = merge(l, i);
+//    fa[h] = fa[i] = merge(h, i);
 //}
 //
 //long long compute() {
