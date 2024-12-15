@@ -1,19 +1,15 @@
 package class154;
 
-// 派遣，dfs用递归实现，java版
-// 一共有n个忍者，每个忍者有工资、领导力、上级编号，三个属性
-// 如果某个忍者的上级编号为0，那么他是整棵忍者树的头
+// 派遣，java版
+// 一共有n个忍者，每个忍者有上级编号、工资、能力，三个属性
+// 输入保证，任何忍者的上级编号 < 这名忍者的编号，1号忍者是整棵忍者树的头
 // 你一共有m的预算，可以在忍者树上随意选一棵子树，然后在这棵子树上挑选忍者
-// 你选择某棵子树之后，不一定要选子树头的忍者，只要不超过m的预算，你就可以随意选择子树上的忍者
-// 最终收益 = 雇佣人数 * 子树头忍者的领导力，返回能取得的最大收益是多少
-// 输入保证，任何忍者的编号 > 该忍者上级的编号
+// 你选择某棵子树之后，不一定要选子树头的忍者，只要不超过m的预算，可以随意选择子树上的忍者
+// 最终收益 = 雇佣人数 * 子树头忍者的能力，返回能取得的最大收益是多少
 // 1 <= n <= 10^5           1 <= m <= 10^9
 // 1 <= 每个忍者工资 <= m     1 <= 每个忍者领导力 <= 10^9
 // 测试链接 : https://www.luogu.com.cn/problem/P1552
-// 提交以下的code，提交时请把类名改成"Main"，一些测试用例通过不了
-// 这是因为java语言用递归方式实现dfs，递归会爆栈
-// 需要把dfs实现成迭代版，才能全部通过，就是Code04_Dispatch2文件
-// C++语言用递归方式实现，可以直接通过，就是Code04_Dispatch3文件
+// 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -28,22 +24,14 @@ public class Code04_Dispatch1 {
 
 	public static int n, m;
 
-	public static long ans;
-
-	// 链式前向星需要
-	public static int[] head = new int[MAXN];
-
-	public static int[] next = new int[MAXN];
-
-	public static int[] to = new int[MAXN];
-
-	public static int cnt;
+	// 上级
+	public static int[] leader = new int[MAXN];
 
 	// 薪水
 	public static long[] cost = new long[MAXN];
 
-	// 领导力
-	public static long[] lead = new long[MAXN];
+	// 能力
+	public static long[] ability = new long[MAXN];
 
 	// 左孩子
 	public static int[] left = new int[MAXN];
@@ -64,20 +52,13 @@ public class Code04_Dispatch1 {
 	public static long[] sum = new long[MAXN];
 
 	public static void prepare() {
-		ans = 0;
-		cnt = 1;
 		dist[0] = -1;
 		for (int i = 1; i <= n; i++) {
-			head[i] = left[i] = right[i] = dist[i] = size[i] = 0;
-			sum[i] = 0;
+			left[i] = right[i] = dist[i] = 0;
+			size[i] = 1;
+			sum[i] = cost[i];
 			father[i] = i;
 		}
-	}
-
-	public static void addEdge(int u, int v) {
-		next[cnt] = head[u];
-		to[cnt] = v;
-		head[u] = cnt++;
 	}
 
 	public static int find(int i) {
@@ -115,32 +96,31 @@ public class Code04_Dispatch1 {
 		return father[i];
 	}
 
-	// dfs用递归实现
-	public static void dfs(int u) {
-		for (int ei = head[u]; ei > 0; ei = next[ei]) {
-			dfs(to[ei]);
+	public static long compute() {
+		long ans = 0;
+		int p, psize, h, hsize;
+		long hsum, psum;
+		for (int i = n; i >= 1; i--) {
+			h = find(i);
+			hsize = size[h];
+			hsum = sum[h];
+			while (hsum > m) {
+				pop(h);
+				hsize--;
+				hsum -= cost[h];
+				h = find(i);
+			}
+			ans = Math.max(ans, (long) hsize * ability[i]);
+			if (i > 1) {
+				p = find(leader[i]);
+				psize = size[p];
+				psum = sum[p];
+				father[p] = father[h] = merge(p, h);
+				size[father[p]] = psize + hsize;
+				sum[father[p]] = psum + hsum;
+			}
 		}
-		int usize = 1;
-		long usum = cost[u];
-		for (int ei = head[u], v, l, r; ei > 0; ei = next[ei]) {
-			v = to[ei];
-			l = find(u);
-			r = find(v);
-			usize += size[r];
-			usum += sum[r];
-			merge(l, r);
-		}
-		int i;
-		while (usum > m) {
-			i = find(u);
-			usize--;
-			usum -= cost[i];
-			pop(i);
-		}
-		i = find(u);
-		size[i] = usize;
-		sum[i] = usum;
-		ans = Math.max(ans, (long) usize * lead[u]);
+		return ans;
 	}
 
 	public static void main(String[] args) throws IOException {
@@ -151,23 +131,16 @@ public class Code04_Dispatch1 {
 		n = (int) in.nval;
 		in.nextToken();
 		m = (int) in.nval;
-		prepare();
-		int root = 0;
-		for (int i = 1, f; i <= n; i++) {
+		for (int i = 1; i <= n; i++) {
 			in.nextToken();
-			f = (int) in.nval;
+			leader[i] = (int) in.nval;
 			in.nextToken();
 			cost[i] = (int) in.nval;
 			in.nextToken();
-			lead[i] = (int) in.nval;
-			if (f == 0) {
-				root = i;
-			} else {
-				addEdge(f, i);
-			}
+			ability[i] = (int) in.nval;
 		}
-		dfs(root);
-		out.println(ans);
+		prepare();
+		out.println(compute());
 		out.flush();
 		out.close();
 		br.close();
