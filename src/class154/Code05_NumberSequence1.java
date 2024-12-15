@@ -29,22 +29,29 @@ public class Code05_NumberSequence1 {
 
 	public static long[] arr = new long[MAXN];
 
+	// 左偏树需要
 	public static int[] left = new int[MAXN];
 
 	public static int[] right = new int[MAXN];
 
 	public static int[] dist = new int[MAXN];
 
+	// 并查集向上的路径
 	public static int[] father = new int[MAXN];
 
+	// 集合表达区域的左下标
 	public static int[] from = new int[MAXN];
 
+	// 集合表达区域的右下标
 	public static int[] to = new int[MAXN];
 
+	// 集合里有几个数字
 	public static int[] size = new int[MAXN];
 
+	// 单调栈
 	public static int[] stack = new int[MAXN];
 
+	// 构造的数组
 	public static long[] ans = new long[MAXN];
 
 	public static void prepare() {
