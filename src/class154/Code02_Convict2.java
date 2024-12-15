@@ -88,9 +88,7 @@ package class154;
 //        for (int d = dist[s], tmp; dist[f] > d + 1; f = up[f], d++) {
 //            dist[f] = d + 1;
 //            if (dist[ls[f]] < dist[rs[f]]) {
-//                tmp = ls[f];
-//                ls[f] = rs[f];
-//                rs[f] = tmp;
+//                tmp = ls[f]; ls[f] = rs[f]; rs[f] = tmp;
 //            }
 //        }
 //    }
