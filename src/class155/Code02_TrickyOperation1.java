@@ -241,7 +241,7 @@ public class Code02_TrickyOperation1 {
 		io.close();
 	}
 
-	// ReaderWriter处理读写
+	// 读写工具类
 	public static class ReaderWriter extends PrintWriter {
 		byte[] buf = new byte[1 << 15];
 		int bId = 0, bSize = 0;
