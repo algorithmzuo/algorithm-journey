@@ -92,8 +92,9 @@ package class154;
 //            }
 //        }
 //    }
-//    up[i] = ls[i] = rs[i] = dist[i] = 0;
-//    return fa[s];
+//    int ans = fa[s];
+//    up[i] = ls[i] = rs[i] = dist[i] = up[0] = fa[0] = 0;
+//    return ans;
 //}
 //
 //void reduce(int i, long long v) {
