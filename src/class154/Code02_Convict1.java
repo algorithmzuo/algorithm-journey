@@ -117,10 +117,8 @@ public class Code02_Convict1 {
 				}
 			}
 		}
-		int ans = father[s];
-		// s可能是0号节点，所以为了安全，节点i信息清空，0号节点的up、father也清空
-		up[i] = left[i] = right[i] = dist[i] = up[0] = father[0] = 0;
-		return ans;
+		up[i] = left[i] = right[i] = dist[i] = 0;
+		return father[s];
 	}
 
 	public static void reduce(int i, long v) {
