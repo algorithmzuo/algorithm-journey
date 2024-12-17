@@ -243,7 +243,7 @@ public class Code02_TrickyOperation1 {
 
 	// 读写工具类
 	public static class ReaderWriter extends PrintWriter {
-		byte[] buf = new byte[1 << 15];
+		byte[] buf = new byte[1 << 10];
 		int bId = 0, bSize = 0;
 		boolean eof = false;
 
