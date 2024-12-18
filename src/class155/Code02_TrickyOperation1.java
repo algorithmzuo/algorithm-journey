@@ -2,6 +2,7 @@ package class155;
 
 // 棘手的操作，java版
 // 测试链接 : https://www.luogu.com.cn/problem/P3273
+// 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
 import java.io.IOException;
 import java.io.PrintWriter;
