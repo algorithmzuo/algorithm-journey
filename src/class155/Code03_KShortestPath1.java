@@ -36,13 +36,13 @@ public class Code03_KShortestPath1 {
 	public static int[] right = new int[MAXT];
 	public static int[] dist = new int[MAXT];
 	public static int[] father = new int[MAXT];
-	public static int cnth = 0;
+	public static int cntt = 0;
 
 	public static int[] idx = new int[MAXH];
 	public static double[] cost = new double[MAXH];
 	public static int cntd;
 	public static int[] heap = new int[MAXH];
-	public static int cntp;
+	public static int cnth;
 
 	public static boolean[] vis = new boolean[MAXN];
 	public static int[] path = new int[MAXN];
@@ -63,19 +63,19 @@ public class Code03_KShortestPath1 {
 	}
 
 	public static int init(int f, double v) {
-		num[++cnth] = v;
-		left[cnth] = right[cnth] = dist[cnth] = 0;
-		father[cnth] = f;
-		return cnth;
+		num[++cntt] = v;
+		left[cntt] = right[cntt] = dist[cntt] = 0;
+		father[cntt] = f;
+		return cntt;
 	}
 
 	public static int clone(int i) {
-		num[++cnth] = num[i];
-		left[cnth] = left[i];
-		right[cnth] = right[i];
-		dist[cnth] = dist[i];
-		father[cnth] = father[i];
-		return cnth;
+		num[++cntt] = num[i];
+		left[cntt] = left[i];
+		right[cntt] = right[i];
+		dist[cntt] = dist[i];
+		father[cntt] = father[i];
+		return cntt;
 	}
 
 	public static int merge(int i, int j) {
@@ -102,8 +102,8 @@ public class Code03_KShortestPath1 {
 	public static void heapAdd(int i, double v) {
 		idx[++cntd] = i;
 		cost[cntd] = v;
-		heap[++cntp] = cntd;
-		int cur = cntp, up = cur / 2, tmp;
+		heap[++cnth] = cntd;
+		int cur = cnth, up = cur / 2, tmp;
 		while (cur > 1 && cost[heap[up]] > cost[heap[cur]]) {
 			tmp = heap[up];
 			heap[up] = heap[cur];
@@ -115,10 +115,10 @@ public class Code03_KShortestPath1 {
 
 	public static int heapPop() {
 		int ans = heap[1];
-		heap[1] = heap[cntp--];
+		heap[1] = heap[cnth--];
 		int cur = 1, l = cur * 2, r = l + 1, best, tmp;
-		while (l <= cntp) {
-			best = (r <= cntp && cost[heap[r]] < cost[heap[l]]) ? r : l;
+		while (l <= cnth) {
+			best = (r <= cnth && cost[heap[r]] < cost[heap[l]]) ? r : l;
 			best = (cost[heap[best]] < cost[heap[cur]]) ? best : cur;
 			if (best == cur) {
 				break;
@@ -134,7 +134,7 @@ public class Code03_KShortestPath1 {
 	}
 
 	public static boolean isEmpty() {
-		return cntp == 0;
+		return cnth == 0;
 	}
 
 	public static void dijkstra() {
@@ -142,7 +142,7 @@ public class Code03_KShortestPath1 {
 		for (int i = 1; i < n; i++) {
 			dis[i] = Double.POSITIVE_INFINITY;
 		}
-		cntd = cntp = 0;
+		cntd = cnth = 0;
 		heapAdd(n, 0);
 		while (!isEmpty()) {
 			int h = heapPop();
@@ -163,7 +163,7 @@ public class Code03_KShortestPath1 {
 	}
 
 	public static void mergeRoad() {
-		cntd = cntp = 0;
+		cntd = cnth = 0;
 		for (int i = 1; i <= n; i++) {
 			heapAdd(i, dis[i]);
 		}
@@ -187,7 +187,7 @@ public class Code03_KShortestPath1 {
 		money -= dis[1];
 		if (money >= 0) {
 			ans++;
-			cntd = cntp = 0;
+			cntd = cnth = 0;
 			if (rt[1] != 0) {
 				heapAdd(rt[1], num[rt[1]]);
 			}

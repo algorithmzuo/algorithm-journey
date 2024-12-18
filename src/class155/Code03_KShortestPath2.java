@@ -33,13 +33,13 @@ package class155;
 //int rs[MAXT];
 //int dist[MAXT];
 //int fa[MAXT];
-//int cnth = 0;
+//int cntt = 0;
 //
 //int idx[MAXH];
 //double cost[MAXH];
 //int cntd = 0;
 //int heap[MAXH];
-//int cntp = 0;
+//int cnth = 0;
 //
 //bool vis[MAXN];
 //int path[MAXN];
@@ -62,21 +62,21 @@ package class155;
 //}
 //
 //int init(int f, double v){
-//    cnth++;
-//    num[cnth] = v;
-//    ls[cnth] = rs[cnth] = dist[cnth] = 0;
-//    fa[cnth] = f;
-//    return cnth;
+//    cntt++;
+//    num[cntt] = v;
+//    ls[cntt] = rs[cntt] = dist[cntt] = 0;
+//    fa[cntt] = f;
+//    return cntt;
 //}
 //
 //int clone(int i){
-//    cnth++;
-//    num[cnth] = num[i];
-//    ls[cnth] = ls[i];
-//    rs[cnth] = rs[i];
-//    dist[cnth] = dist[i];
-//    fa[cnth] = fa[i];
-//    return cnth;
+//    cntt++;
+//    num[cntt] = num[i];
+//    ls[cntt] = ls[i];
+//    rs[cntt] = rs[i];
+//    dist[cntt] = dist[i];
+//    fa[cntt] = fa[i];
+//    return cntt;
 //}
 //
 //int merge(int i, int j){
@@ -96,12 +96,10 @@ package class155;
 //}
 //
 //void heapAdd(int i, double v){
-//    cntd++;
-//    idx[cntd] = i;
+//    idx[++cntd] = i;
 //    cost[cntd] = v;
-//    cntp++;
-//    heap[cntp] = cntd;
-//    int cur = cntp;
+//    heap[++cnth] = cntd;
+//    int cur = cnth;
 //    while(cur > 1){
 //        int up = cur / 2;
 //        if(cost[heap[up]] > cost[heap[cur]]){
@@ -116,14 +114,13 @@ package class155;
 //
 //int heapPop(){
 //    int ans = heap[1];
-//    heap[1] = heap[cntp];
-//    cntp--;
+//    heap[1] = heap[cnth--];
 //    int cur = 1;
-//    while(cur * 2 <= cntp){
+//    while(cur * 2 <= cnth){
 //        int l = cur * 2;
 //        int r = l + 1;
 //        int best = l;
-//        if(r <= cntp && cost[heap[r]] < cost[heap[l]]){
+//        if(r <= cnth && cost[heap[r]] < cost[heap[l]]){
 //            best = r;
 //        }
 //        if(cost[heap[best]] < cost[heap[cur]]){
@@ -138,13 +135,13 @@ package class155;
 //}
 //
 //bool isEmpty(){
-//    return cntp == 0;
+//    return cnth == 0;
 //}
 //
 //void dijkstra(){
 //    fill(dis, dis + MAXN, 1e18);
 //    dis[n] = 0;
-//    cntd = cntp = 0;
+//    cntd = cnth = 0;
 //    heapAdd(n, 0.0);
 //    while(!isEmpty()){
 //        int h = heapPop();
@@ -165,7 +162,7 @@ package class155;
 //}
 //
 //void mergeRoad(){
-//    cntd = cntp = 0;
+//    cntd = cnth = 0;
 //    for(int i = 1; i <= n; i++){
 //        heapAdd(i, dis[i]);
 //    }
@@ -189,7 +186,7 @@ package class155;
 //    money -= dis[1];
 //    if(money >= 0){
 //        ans++;
-//        cntd = cntp = 0;
+//        cntd = cnth = 0;
 //        if(rt[1] != 0){
 //            heapAdd(rt[1], num[rt[1]]);
 //        }
