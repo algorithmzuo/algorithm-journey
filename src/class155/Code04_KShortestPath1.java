@@ -33,10 +33,10 @@ public class Code04_KShortestPath1 {
 
 	public static int[] rt = new int[MAXN];
 	public static double[] num = new double[MAXT];
+	public static int[] up = new int[MAXT];
 	public static int[] left = new int[MAXT];
 	public static int[] right = new int[MAXT];
 	public static int[] dist = new int[MAXT];
-	public static int[] father = new int[MAXT];
 	public static int cntt = 0;
 
 	public static int[] idx = new int[MAXH];
@@ -65,17 +65,17 @@ public class Code04_KShortestPath1 {
 
 	public static int init(int f, double v) {
 		num[++cntt] = v;
+		up[cntt] = f;
 		left[cntt] = right[cntt] = dist[cntt] = 0;
-		father[cntt] = f;
 		return cntt;
 	}
 
 	public static int clone(int i) {
 		num[++cntt] = num[i];
+		up[cntt] = up[i];
 		left[cntt] = left[i];
 		right[cntt] = right[i];
 		dist[cntt] = dist[i];
-		father[cntt] = father[i];
 		return cntt;
 	}
 
@@ -134,7 +134,7 @@ public class Code04_KShortestPath1 {
 		return ans;
 	}
 
-	public static boolean isEmpty() {
+	public static boolean heapEmpty() {
 		return cnth == 0;
 	}
 
@@ -145,7 +145,7 @@ public class Code04_KShortestPath1 {
 		}
 		cntd = cnth = 0;
 		heapAdd(n, 0);
-		while (!isEmpty()) {
+		while (!heapEmpty()) {
 			int h = heapPop();
 			int u = idx[h];
 			double w = cost[h];
@@ -169,7 +169,7 @@ public class Code04_KShortestPath1 {
 			heapAdd(i, dis[i]);
 		}
 		dist[0] = -1;
-		while (!isEmpty()) {
+		while (!heapEmpty()) {
 			int h = heapPop();
 			int u = idx[h];
 			for (int e = headg[u]; e > 0; e = nextg[e]) {
@@ -192,7 +192,7 @@ public class Code04_KShortestPath1 {
 			if (rt[1] != 0) {
 				heapAdd(rt[1], num[rt[1]]);
 			}
-			while (!isEmpty()) {
+			while (!heapEmpty()) {
 				int h = heapPop();
 				int u = idx[h];
 				double w = cost[h];
@@ -207,8 +207,8 @@ public class Code04_KShortestPath1 {
 				if (right[u] != 0) {
 					heapAdd(right[u], w - num[u] + num[right[u]]);
 				}
-				if (father[u] != 0 && rt[father[u]] != 0) {
-					heapAdd(rt[father[u]], w + num[rt[father[u]]]);
+				if (up[u] != 0 && rt[up[u]] != 0) {
+					heapAdd(rt[up[u]], w + num[rt[up[u]]]);
 				}
 			}
 		}
@@ -234,7 +234,8 @@ public class Code04_KShortestPath1 {
 		}
 		dijkstra();
 		mergeRoad();
-		out.write(expand() + "\n");
+		int ans = expand();
+		out.write(ans + "\n");
 		out.flush();
 		out.close();
 	}

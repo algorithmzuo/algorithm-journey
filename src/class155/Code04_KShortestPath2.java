@@ -31,10 +31,10 @@ package class155;
 //
 //int rt[MAXN];
 //double num[MAXT];
+//int up[MAXT];
 //int ls[MAXT];
 //int rs[MAXT];
 //int dist[MAXT];
-//int fa[MAXT];
 //int cntt = 0;
 //
 //int idx[MAXH];
@@ -66,18 +66,18 @@ package class155;
 //int init(int f, double v){
 //    cntt++;
 //    num[cntt] = v;
+//    up[cntt] = f;
 //    ls[cntt] = rs[cntt] = dist[cntt] = 0;
-//    fa[cntt] = f;
 //    return cntt;
 //}
 //
 //int clone(int i){
 //    cntt++;
 //    num[cntt] = num[i];
+//    up[cntt] = up[i];
 //    ls[cntt] = ls[i];
 //    rs[cntt] = rs[i];
 //    dist[cntt] = dist[i];
-//    fa[cntt] = fa[i];
 //    return cntt;
 //}
 //
@@ -136,7 +136,7 @@ package class155;
 //    return ans;
 //}
 //
-//bool isEmpty(){
+//bool heapEmpty(){
 //    return cnth == 0;
 //}
 //
@@ -145,7 +145,7 @@ package class155;
 //    dis[n] = 0;
 //    cntd = cnth = 0;
 //    heapAdd(n, 0.0);
-//    while(!isEmpty()){
+//    while(!heapEmpty()){
 //        int h = heapPop();
 //        int u = idx[h];
 //        double w = cost[h];
@@ -169,7 +169,7 @@ package class155;
 //        heapAdd(i, dis[i]);
 //    }
 //    dist[0] = -1;
-//    while(!isEmpty()){
+//    while(!heapEmpty()){
 //        int h = heapPop();
 //        int u = idx[h];
 //        for(int e = headg[u]; e != 0; e = nextg[e]){
@@ -192,7 +192,7 @@ package class155;
 //        if(rt[1] != 0){
 //            heapAdd(rt[1], num[rt[1]]);
 //        }
-//        while(!isEmpty()){
+//        while(!heapEmpty()){
 //            int h = heapPop();
 //            int u = idx[h];
 //            double w = cost[h];
@@ -207,8 +207,8 @@ package class155;
 //            if(rs[u] != 0){
 //                heapAdd(rs[u], w - num[u] + num[rs[u]]);
 //            }
-//            if(fa[u] != 0 && rt[fa[u]] != 0){
-//                heapAdd(rt[fa[u]], w + num[rt[fa[u]]]);
+//            if(up[u] != 0 && rt[up[u]] != 0){
+//                heapAdd(rt[up[u]], w + num[rt[up[u]]]);
 //            }
 //        }
 //    }
