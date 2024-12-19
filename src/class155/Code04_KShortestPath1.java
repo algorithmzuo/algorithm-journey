@@ -1,6 +1,6 @@
 package class155;
 
-// 可持久化左偏树 + k短路，java版
+// k短路问题最优解，java版
 // 测试链接 : https://www.luogu.com.cn/problem/P2483
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStreamWriter;
 
-public class Code03_KShortestPath1 {
+public class Code04_KShortestPath1 {
 
 	public static int MAXN = 50001;
 	public static int MAXM = 200001;
