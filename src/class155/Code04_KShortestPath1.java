@@ -89,15 +89,15 @@ public class Code04_KShortestPath1 {
 			i = j;
 			j = tmp;
 		}
-		int k = clone(i);
-		right[k] = merge(right[k], j);
-		if (dist[left[k]] < dist[right[k]]) {
-			tmp = left[k];
-			left[k] = right[k];
-			right[k] = tmp;
+		int h = clone(i);
+		right[h] = merge(right[h], j);
+		if (dist[left[h]] < dist[right[h]]) {
+			tmp = left[h];
+			left[h] = right[h];
+			right[h] = tmp;
 		}
-		dist[k] = dist[right[k]] + 1;
-		return k;
+		dist[h] = dist[right[h]] + 1;
+		return h;
 	}
 
 	public static void heapAdd(int i, double v) {

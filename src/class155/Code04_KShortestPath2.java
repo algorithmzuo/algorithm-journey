@@ -88,13 +88,13 @@ package class155;
 //    if(num[i] > num[j]){
 //        swap(i, j);
 //    }
-//    int k = clone(i);
-//    rs[k] = merge(rs[k], j);
-//    if(dist[ls[k]] < dist[rs[k]]){
-//        swap(ls[k], rs[k]);
+//    int h = clone(i);
+//    rs[h] = merge(rs[h], j);
+//    if(dist[ls[h]] < dist[rs[h]]){
+//        swap(ls[h], rs[h]);
 //    }
-//    dist[k] = dist[rs[k]] + 1;
-//    return k;
+//    dist[h] = dist[rs[h]] + 1;
+//    return h;
 //}
 //
 //void heapAdd(int i, double v){
