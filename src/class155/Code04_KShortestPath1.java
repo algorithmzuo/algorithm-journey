@@ -8,6 +8,7 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStreamWriter;
+import java.util.Arrays;
 
 public class Code04_KShortestPath1 {
 
@@ -15,6 +16,7 @@ public class Code04_KShortestPath1 {
 	public static int MAXM = 200001;
 	public static int MAXT = MAXN * 20;
 	public static int MAXH = 4200001;
+	public static double INF = 1e18;
 
 	public static int n, m;
 	public static double money;
@@ -140,9 +142,7 @@ public class Code04_KShortestPath1 {
 
 	public static void dijkstra() {
 		dis[n] = 0;
-		for (int i = 1; i < n; i++) {
-			dis[i] = Double.POSITIVE_INFINITY;
-		}
+		Arrays.fill(dis, 1, n, INF);
 		cntd = cnth = 0;
 		heapAdd(n, 0);
 		while (!heapEmpty()) {

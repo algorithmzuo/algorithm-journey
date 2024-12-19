@@ -22,7 +22,7 @@ public class Code03_PersistentLeftistTree1 {
 	public static int n, k;
 
 	public static int[] start = new int[MAXN];
-	public static int[] end = new int[MAXN];
+	public static int[] boundary = new int[MAXN];
 	public static int[] arr = new int[MAXM];
 
 	public static int[] idx = new int[MAXT];
@@ -43,7 +43,7 @@ public class Code03_PersistentLeftistTree1 {
 	public static int init(int i, int j) {
 		idx[++cnt] = i;
 		jdx[cnt] = j;
-		num[cnt] = j + 1 < end[i] ? (arr[j + 1] - arr[j]) : INF;
+		num[cnt] = j + 1 < boundary[i] ? (arr[j + 1] - arr[j]) : INF;
 		left[cnt] = right[cnt] = dist[cnt] = 0;
 		return cnt;
 	}
@@ -128,7 +128,7 @@ public class Code03_PersistentLeftistTree1 {
 	public static void compute() {
 		int first = 0;
 		for (int i = 1; i <= n; i++) {
-			Arrays.sort(arr, start[i], end[i]);
+			Arrays.sort(arr, start[i], boundary[i]);
 			first += arr[start[i]];
 		}
 		dist[0] = -1;
@@ -147,7 +147,7 @@ public class Code03_PersistentLeftistTree1 {
 				base[h1] = base[head];
 				heapAdd(h1);
 			}
-			if (jdx[head] + 1 < end[idx[head]]) {
+			if (jdx[head] + 1 < boundary[idx[head]]) {
 				h2 = merge(h1, init(idx[head], jdx[head] + 1));
 				base[h2] = ans[ansi];
 				heapAdd(h2);
@@ -171,7 +171,7 @@ public class Code03_PersistentLeftistTree1 {
 				in.nextToken();
 				arr[++ai] = (int) in.nval;
 			}
-			end[i] = start[i] + m;
+			boundary[i] = start[i] + m;
 		}
 		compute();
 		for (int i = 1; i <= k; i++) {

@@ -13,6 +13,7 @@ package class155;
 //const int MAXM = 200001;
 //const int MAXT = MAXN * 20;
 //const int MAXH = 4200001;
+//const double INF = 1e18;
 //
 //int n, m;
 //double money;
@@ -141,7 +142,7 @@ package class155;
 //}
 //
 //void dijkstra(){
-//    fill(dis, dis + MAXN, 1e18);
+//    fill(dis, dis + MAXN, INF);
 //    dis[n] = 0;
 //    cntd = cnth = 0;
 //    heapAdd(n, 0.0);
