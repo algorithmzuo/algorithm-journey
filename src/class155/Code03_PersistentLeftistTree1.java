@@ -1,17 +1,17 @@
 package class155;
 
-// 可持久化左偏树的实现 + 对数器验证实现的正确性
+// 可持久化左偏树的实现，利用对数器验证正确性，java版
 
 import java.util.ArrayList;
 import java.util.PriorityQueue;
 
-public class ShowDetail {
+public class Code03_PersistentLeftistTree1 {
 
 	public static int MAXN = 10000;
 
 	public static int MAXV = 100000;
 
-	public static int MAXT = 1000001;
+	public static int MAXT = 2000001;
 
 	public static int[] num = new int[MAXT];
 
@@ -212,18 +212,22 @@ public class ShowDetail {
 				verifyAdd(x, y);
 			} else if (op == 2) {
 				y = x;
-				// 保证x != y
 				do {
 					y = (int) (Math.random() * i);
 				} while (y == x);
+				// 保证x != y
 				treeMerge(x, y, i);
 				verifyMerge(x, y);
 			} else {
 				treePop(x, i);
 				verifyPop(x);
 			}
+			// 检查最新版本的堆是否一样
+			if (!check(i)) {
+				System.out.println("出错了！");
+			}
 		}
-		// 验证在两个结构中是否每个版本的堆都一样
+		// 最后验证是否所有版本的堆都一样
 		for (int i = 1; i < MAXN; i++) {
 			if (!check(i)) {
 				System.out.println("出错了！");

@@ -10,7 +10,7 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.util.Arrays;
 
-public class Code04_KShortestPath1 {
+public class Code05_KShortestPath1 {
 
 	public static int MAXN = 50001;
 	public static int MAXM = 200001;
