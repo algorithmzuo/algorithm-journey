@@ -1,6 +1,6 @@
 package class155;
 
-// 可持久化左偏树练习题，java版
+// Y的积木，可持久化左偏树实现最优解，java版
 // 测试链接 : https://www.luogu.com.cn/problem/P2409
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
@@ -12,7 +12,7 @@ import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 import java.util.Arrays;
 
-public class Code03_PersistentLeftistTree1 {
+public class Code03_Blocks1 {
 
 	public static int MAXN = 101;
 	public static int MAXM = 10001;
