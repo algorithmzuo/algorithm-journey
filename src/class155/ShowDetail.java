@@ -11,7 +11,7 @@ public class ShowDetail {
 
 	public static int MAXV = 100000;
 
-	public static int MAXT = 10000001;
+	public static int MAXT = 1000001;
 
 	public static int[] num = new int[MAXT];
 
