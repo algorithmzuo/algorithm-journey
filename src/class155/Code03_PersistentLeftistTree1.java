@@ -8,24 +8,17 @@ import java.util.PriorityQueue;
 public class Code03_PersistentLeftistTree1 {
 
 	public static int MAXN = 10000;
-
 	public static int MAXV = 100000;
-
 	public static int MAXT = 2000001;
 
 	public static int[] num = new int[MAXT];
-
 	public static int[] left = new int[MAXT];
-
 	public static int[] right = new int[MAXT];
-
 	public static int[] dist = new int[MAXT];
-
+	public static int[] size = new int[MAXT];
 	public static int cnt = 0;
 
 	public static int[] rt = new int[MAXN];
-
-	public static int[] size = new int[MAXN];
 
 	public static int init(int v) {
 		num[++cnt] = v;
@@ -74,13 +67,12 @@ public class Code03_PersistentLeftistTree1 {
 
 	// 可持久化左偏树，x版本加入数字y，生成最新的i版本
 	public static void treeAdd(int x, int y, int i) {
-		size[i] = size[x] + 1;
 		rt[i] = merge(rt[x], init(y));
+		size[rt[i]] = size[rt[x]] + 1;
 	}
 
 	// 可持久化左偏树，x版本与y版本合并，生成最新的i版本
 	public static void treeMerge(int x, int y, int i) {
-		size[i] = size[x] + size[y];
 		if (rt[x] == 0 && rt[y] == 0) {
 			rt[i] = 0;
 		} else if (rt[x] == 0 || rt[y] == 0) {
@@ -88,16 +80,16 @@ public class Code03_PersistentLeftistTree1 {
 		} else {
 			rt[i] = merge(rt[x], rt[y]);
 		}
+		size[rt[i]] = size[rt[x]] + size[rt[y]];
 	}
 
 	// 可持久化左偏树，x版本弹出顶部，生成最新的i版本
 	public static void treePop(int x, int i) {
-		if (size[x] == 0) {
-			size[i] = 0;
+		if (size[rt[x]] == 0) {
 			rt[i] = 0;
 		} else {
-			size[i] = size[x] - 1;
 			rt[i] = pop(rt[x]);
+			size[rt[i]] = size[rt[x]] - 1;
 		}
 	}
 
@@ -172,9 +164,8 @@ public class Code03_PersistentLeftistTree1 {
 	// 验证结构i版本的堆
 	public static boolean check(int i) {
 		int h1 = rt[i];
-		int s1 = size[i];
 		PriorityQueue<Integer> h2 = verify.get(i);
-		if (s1 != h2.size()) {
+		if (size[h1] != h2.size()) {
 			return false;
 		}
 		boolean ans = true;

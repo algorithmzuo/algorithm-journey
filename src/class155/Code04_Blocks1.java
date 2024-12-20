@@ -32,9 +32,8 @@ public class Code04_Blocks1 {
 	public static int[] left = new int[MAXT];
 	public static int[] right = new int[MAXT];
 	public static int[] dist = new int[MAXT];
-	public static int cnt = 0;
-
 	public static int[] base = new int[MAXT];
+	public static int cnt = 0;
 
 	public static int[] heap = new int[MAXK];
 	public static int heapSize = 0;

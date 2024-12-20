@@ -28,9 +28,8 @@ package class155;
 //int ls[MAXT];
 //int rs[MAXT];
 //int dist[MAXT];
-//int cnt = 0;
-//
 //int base[MAXT];
+//int cnt = 0;
 //
 //int heap[MAXK];
 //int heapSize = 0;

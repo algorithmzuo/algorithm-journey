@@ -19,9 +19,10 @@ package class155;
 //int ls[MAXT];
 //int rs[MAXT];
 //int dist[MAXT];
+//int siz[MAXT];
 //int cnt = 0;
+//
 //int rt[MAXN];
-//int siz[MAXN];
 //
 //int init(int v) {
 //    num[++cnt] = v;
@@ -64,12 +65,11 @@ package class155;
 //}
 //
 //void treeAdd(int x, int y, int i) {
-//    siz[i] = siz[x] + 1;
 //    rt[i] = merge(rt[x], init(y));
+//    siz[rt[i]] = siz[rt[x]] + 1;
 //}
 //
 //void treeMerge(int x, int y, int i) {
-//    siz[i] = siz[x] + siz[y];
 //    if (rt[x] == 0 && rt[y] == 0) {
 //        rt[i] = 0;
 //    } else if (rt[x] == 0 || rt[y] == 0) {
@@ -77,15 +77,15 @@ package class155;
 //    } else {
 //        rt[i] = merge(rt[x], rt[y]);
 //    }
+//    siz[rt[i]] = siz[rt[x]] + siz[rt[y]];
 //}
 //
 //void treePop(int x, int i) {
-//    if (siz[x] == 0) {
-//        siz[i] = 0;
+//    if (siz[rt[x]] == 0) {
 //        rt[i] = 0;
 //    } else {
-//        siz[i] = siz[x] - 1;
 //        rt[i] = pop(rt[x]);
+//        siz[rt[i]] = siz[rt[x]] - 1;
 //    }
 //}
 //
@@ -157,9 +157,8 @@ package class155;
 //
 //bool check(int i) {
 //    int h1 = rt[i];
-//    int s1 = siz[i];
 //    priority_queue<int, vector<int>, greater<int>> h2 = verify[i];
-//    if (s1 != h2.size()) {
+//    if (siz[h1] != h2.size()) {
 //        return false;
 //    }
 //    bool ans = true;
