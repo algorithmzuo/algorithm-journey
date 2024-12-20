@@ -30,16 +30,17 @@ package class155;
 //double weightr[MAXM];
 //int cntr = 0;
 //
-//int rt[MAXN];
-//double num[MAXT];
-//int up[MAXT];
+//int start[MAXT];
+//double cost[MAXT];
 //int ls[MAXT];
 //int rs[MAXT];
 //int dist[MAXT];
 //int cntt = 0;
 //
+//int rt[MAXN];
+//
 //int idx[MAXH];
-//double cost[MAXH];
+//double val[MAXH];
 //int cntd = 0;
 //int heap[MAXH];
 //int cnth = 0;
@@ -49,33 +50,29 @@ package class155;
 //double dis[MAXN];
 //
 //void addEdgeG(int u, int v, double w){
-//    cntg++;
-//    nextg[cntg] = headg[u];
+//    nextg[++cntg] = headg[u];
 //    tog[cntg] = v;
 //    weightg[cntg] = w;
 //    headg[u] = cntg;
 //}
 //
 //void addEdgeR(int u, int v, double w){
-//    cntr++;
-//    nextr[cntr] = headr[u];
+//    nextr[++cntr] = headr[u];
 //    tor[cntr] = v;
 //    weightr[cntr] = w;
 //    headr[u] = cntr;
 //}
 //
-//int init(int f, double v){
-//    cntt++;
-//    num[cntt] = v;
-//    up[cntt] = f;
+//int init(int s, double v){
+//    start[++cntt] = s;
+//    cost[cntt] = v;
 //    ls[cntt] = rs[cntt] = dist[cntt] = 0;
 //    return cntt;
 //}
 //
 //int clone(int i){
-//    cntt++;
-//    num[cntt] = num[i];
-//    up[cntt] = up[i];
+//    start[++cntt] = start[i];
+//    cost[cntt] = cost[i];
 //    ls[cntt] = ls[i];
 //    rs[cntt] = rs[i];
 //    dist[cntt] = dist[i];
@@ -86,7 +83,7 @@ package class155;
 //    if(i == 0 || j == 0){
 //        return i + j;
 //    }
-//    if(num[i] > num[j]){
+//    if(cost[i] > cost[j]){
 //        swap(i, j);
 //    }
 //    int h = clone(i);
@@ -100,39 +97,30 @@ package class155;
 //
 //void heapAdd(int i, double v){
 //    idx[++cntd] = i;
-//    cost[cntd] = v;
+//    val[cntd] = v;
 //    heap[++cnth] = cntd;
-//    int cur = cnth;
-//    while(cur > 1){
-//        int up = cur / 2;
-//        if(cost[heap[up]] > cost[heap[cur]]){
-//            swap(heap[up], heap[cur]);
-//            cur = up;
-//        }
-//        else{
-//            break;
-//        }
+//    int cur = cnth, father = cur / 2;
+//    while(cur > 1 && val[heap[father]] > val[heap[cur]]){
+//        swap(heap[father], heap[cur]);
+//        cur = father;
+//        father = cur / 2;
 //    }
 //}
 //
 //int heapPop(){
 //    int ans = heap[1];
 //    heap[1] = heap[cnth--];
-//    int cur = 1;
-//    while(cur * 2 <= cnth){
-//        int l = cur * 2;
-//        int r = l + 1;
-//        int best = l;
-//        if(r <= cnth && cost[heap[r]] < cost[heap[l]]){
-//            best = r;
-//        }
-//        if(cost[heap[best]] < cost[heap[cur]]){
-//            swap(heap[best], heap[cur]);
-//            cur = best;
-//        }
-//        else{
+//    int cur = 1, l = cur * 2, r = l + 1, best;
+//    while(l <= cnth){
+//        best = r <= cnth && val[heap[r]] < val[heap[l]] ? r : l;
+//        best = val[heap[best]] < val[heap[cur]] ? best : cur;
+//        if(best == cur) {
 //            break;
 //        }
+//        swap(heap[best], heap[cur]);
+//        cur = best;
+//        l = cur * 2;
+//        r = l + 1;
 //    }
 //    return ans;
 //}
@@ -149,7 +137,7 @@ package class155;
 //    while(!heapEmpty()){
 //        int h = heapPop();
 //        int u = idx[h];
-//        double w = cost[h];
+//        double w = val[h];
 //        if(!vis[u]){
 //            vis[u] = true;
 //            for(int e = headr[u]; e != 0; e = nextr[e]){
@@ -191,25 +179,25 @@ package class155;
 //        ans++;
 //        cntd = cnth = 0;
 //        if(rt[1] != 0){
-//            heapAdd(rt[1], num[rt[1]]);
+//            heapAdd(rt[1], cost[rt[1]]);
 //        }
 //        while(!heapEmpty()){
 //            int h = heapPop();
 //            int u = idx[h];
-//            double w = cost[h];
+//            double w = val[h];
 //            money -= w + dis[1];
 //            if(money < 0){
 //                break;
 //            }
 //            ans++;
 //            if(ls[u] != 0){
-//                heapAdd(ls[u], w - num[u] + num[ls[u]]);
+//                heapAdd(ls[u], w - cost[u] + cost[ls[u]]);
 //            }
 //            if(rs[u] != 0){
-//                heapAdd(rs[u], w - num[u] + num[rs[u]]);
+//                heapAdd(rs[u], w - cost[u] + cost[rs[u]]);
 //            }
-//            if(up[u] != 0 && rt[up[u]] != 0){
-//                heapAdd(rt[up[u]], w + num[rt[up[u]]]);
+//            if(start[u] != 0 && rt[start[u]] != 0){
+//                heapAdd(rt[start[u]], w + cost[rt[start[u]]]);
 //            }
 //        }
 //    }
