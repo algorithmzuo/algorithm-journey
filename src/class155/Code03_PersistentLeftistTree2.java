@@ -12,6 +12,7 @@ package class155;
 //
 //const int MAXN = 101;
 //const int MAXM = 10001;
+//const int MAXK = 10001;
 //const int MAXT = 1000001;
 //const int INF = 10000001;
 //
@@ -31,10 +32,10 @@ package class155;
 //
 //int base[MAXT];
 //
-//int heap[MAXM];
+//int heap[MAXK];
 //int heapSize = 0;
 //
-//int ans[MAXM];
+//int ans[MAXK];
 //
 //int init(int i, int j) {
 //    idx[++cnt] = i;

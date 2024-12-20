@@ -16,6 +16,7 @@ public class Code03_PersistentLeftistTree1 {
 
 	public static int MAXN = 101;
 	public static int MAXM = 10001;
+	public static int MAXK = 10001;
 	public static int MAXT = 1000001;
 	public static int INF = 10000001;
 
@@ -35,10 +36,10 @@ public class Code03_PersistentLeftistTree1 {
 
 	public static int[] base = new int[MAXT];
 
-	public static int[] heap = new int[MAXM];
+	public static int[] heap = new int[MAXK];
 	public static int heapSize = 0;
 
-	public static int[] ans = new int[MAXM];
+	public static int[] ans = new int[MAXK];
 
 	public static int init(int i, int j) {
 		idx[++cnt] = i;
