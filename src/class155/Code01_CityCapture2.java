@@ -70,7 +70,6 @@ package class155;
 //        j = tmp;
 //    }
 //    down(i);
-//    down(j);
 //    rs[i] = merge(rs[i], j);
 //    if (dist[ls[i]] < dist[rs[i]]) {
 //        tmp = ls[i];

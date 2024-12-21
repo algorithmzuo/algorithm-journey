@@ -93,7 +93,6 @@ public class Code01_CityCapture1 {
 			j = tmp;
 		}
 		down(i);
-		down(j);
 		right[i] = merge(right[i], j);
 		if (dist[left[i]] < dist[right[i]]) {
 			tmp = left[i];
