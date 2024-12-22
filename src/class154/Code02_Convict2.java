@@ -56,14 +56,13 @@ package class154;
 //    if (i == 0 || j == 0) {
 //        return i + j;
 //    }
-//    int tmp;
 //    if (num[i] < num[j] || (num[i] == num[j] && i > j)) {
-//        tmp = i; i = j; j = tmp;
+//        swap(i, j);
 //    }
 //    rs[i] = merge(rs[i], j);
 //    up[rs[i]] = i;
 //    if (dist[ls[i]] < dist[rs[i]]) {
-//        tmp = ls[i]; ls[i] = rs[i]; rs[i] = tmp;
+//        swap(ls[i], rs[i]);
 //    }
 //    dist[i] = dist[rs[i]] + 1;
 //    fa[ls[i]] = fa[rs[i]] = i;
@@ -85,10 +84,10 @@ package class154;
 //        } else {
 //            rs[f] = s;
 //        }
-//        for (int d = dist[s], tmp; dist[f] > d + 1; f = up[f], d++) {
+//        for (int d = dist[s]; dist[f] > d + 1; f = up[f], d++) {
 //            dist[f] = d + 1;
 //            if (dist[ls[f]] < dist[rs[f]]) {
-//                tmp = ls[f]; ls[f] = rs[f]; rs[f] = tmp;
+//                swap(ls[f], rs[f]);
 //            }
 //        }
 //    }

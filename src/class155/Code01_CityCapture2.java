@@ -63,18 +63,13 @@ package class155;
 //    if (i == 0 || j == 0) {
 //        return i + j;
 //    }
-//    int tmp;
 //    if (attack[i] > attack[j]) {
-//        tmp = i;
-//        i = j;
-//        j = tmp;
+//        swap(i, j);
 //    }
 //    down(i);
 //    rs[i] = merge(rs[i], j);
 //    if (dist[ls[i]] < dist[rs[i]]) {
-//        tmp = ls[i];
-//        ls[i] = rs[i];
-//        rs[i] = tmp;
+//        swap(ls[i], rs[i]);
 //    }
 //    dist[i] = dist[rs[i]] + 1;
 //    return i;

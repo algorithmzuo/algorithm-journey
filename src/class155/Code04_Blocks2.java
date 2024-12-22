@@ -56,10 +56,14 @@ package class155;
 //
 //int merge(int i, int j) {
 //    if (i == 0 || j == 0) return i + j;
-//    if (num[i] > num[j]) swap(i, j);
+//    if (num[i] > num[j]) {
+//        swap(i, j);
+//    }
 //    int h = clone(i);
 //    rs[h] = merge(rs[h], j);
-//    if (dist[ls[h]] < dist[rs[h]]) swap(ls[h], rs[h]);
+//    if (dist[ls[h]] < dist[rs[h]]) {
+//        swap(ls[h], rs[h]);
+//    }
 //    dist[h] = dist[rs[h]] + 1;
 //    return h;
 //}

@@ -35,17 +35,12 @@ package class154;
 //    if (i == 0 || j == 0) {
 //        return i + j;
 //    }
-//    int tmp;
 //    if (cost[i] < cost[j]) {
-//        tmp = i;
-//        i = j;
-//        j = tmp;
+//        swap(i, j);
 //    }
 //    rs[i] = merge(rs[i], j);
 //    if (dist[ls[i]] < dist[rs[i]]) {
-//        tmp = ls[i];
-//        ls[i] = rs[i];
-//        rs[i] = tmp;
+//        swap(ls[i], rs[i]);
 //    }
 //    dist[i] = dist[rs[i]] + 1;
 //    fa[ls[i]] = fa[rs[i]] = i;
