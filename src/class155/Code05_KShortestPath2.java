@@ -11,7 +11,7 @@ package class155;
 //
 //const int MAXN = 50001;
 //const int MAXM = 200001;
-//const int MAXT = MAXN * 20;
+//const int MAXT = 1000001;
 //const int MAXH = 4200001;
 //const double INF = 1e18;
 //

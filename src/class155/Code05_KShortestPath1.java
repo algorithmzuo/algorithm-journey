@@ -14,7 +14,7 @@ public class Code05_KShortestPath1 {
 
 	public static int MAXN = 50001;
 	public static int MAXM = 200001;
-	public static int MAXT = MAXN * 20;
+	public static int MAXT = 1000001;
 	public static int MAXH = 4200001;
 	public static double INF = 1e18;
 
@@ -88,12 +88,16 @@ public class Code05_KShortestPath1 {
 		}
 		int tmp;
 		if (cost[i] > cost[j]) {
-			tmp = i; i = j; j = tmp;
+			tmp = i;
+			i = j;
+			j = tmp;
 		}
 		int h = clone(i);
 		right[h] = merge(right[h], j);
 		if (dist[left[h]] < dist[right[h]]) {
-			tmp = left[h]; left[h] = right[h]; right[h] = tmp;
+			tmp = left[h];
+			left[h] = right[h];
+			right[h] = tmp;
 		}
 		dist[h] = dist[right[h]] + 1;
 		return h;
@@ -105,7 +109,9 @@ public class Code05_KShortestPath1 {
 		heap[++cnth] = cntd;
 		int cur = cnth, father = cur / 2, tmp;
 		while (cur > 1 && val[heap[father]] > val[heap[cur]]) {
-			tmp = heap[father]; heap[father] = heap[cur]; heap[cur] = tmp;
+			tmp = heap[father];
+			heap[father] = heap[cur];
+			heap[cur] = tmp;
 			cur = father;
 			father = cur / 2;
 		}
@@ -121,7 +127,9 @@ public class Code05_KShortestPath1 {
 			if (best == cur) {
 				break;
 			}
-			tmp = heap[best]; heap[best] = heap[cur]; heap[cur] = tmp;
+			tmp = heap[best];
+			heap[best] = heap[cur];
+			heap[cur] = tmp;
 			cur = best;
 			l = cur * 2;
 			r = l + 1;
