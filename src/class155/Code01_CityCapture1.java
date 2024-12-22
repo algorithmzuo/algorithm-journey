@@ -5,15 +5,8 @@ package class155;
 // 测试链接 : https://www.luogu.com.cn/problem/P3261
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
-import java.io.BufferedWriter;
-import java.io.ByteArrayOutputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.Writer;
-import java.util.InputMismatchException;
+import java.io.PrintWriter;
 
 public class Code01_CityCapture1 {
 
@@ -151,254 +144,152 @@ public class Code01_CityCapture1 {
 	}
 
 	public static void main(String[] args) {
-		FastReader in = new FastReader(System.in);
-		FastWriter out = new FastWriter(System.out);
-		n = in.readInt();
-		m = in.readInt();
+		ReaderWriter io = new ReaderWriter();
+		n = io.nextInt();
+		m = io.nextInt();
 		prepare();
 		for (int i = 1; i <= n; i++) {
-			defend[i] = in.readLong();
+			defend[i] = io.nextLong();
 		}
 		for (int i = 2; i <= n; i++) {
-			belong[i] = in.readInt();
-			op[i] = in.readInt();
-			gain[i] = in.readLong();
+			belong[i] = io.nextInt();
+			op[i] = io.nextInt();
+			gain[i] = io.nextLong();
 		}
 		for (int i = 1; i <= m; i++) {
-			attack[i] = in.readLong();
-			born[i] = in.readInt();
+			attack[i] = io.nextLong();
+			born[i] = io.nextInt();
 		}
 		compute();
 		for (int i = 1; i <= n; i++) {
-			out.println(sacrifice[i]);
+			io.println(sacrifice[i]);
 		}
 		for (int i = 1; i <= m; i++) {
-			out.println(deep[born[i]] - deep[die[i]]);
+			io.println(deep[born[i]] - deep[die[i]]);
 		}
-		out.flush();
-		out.close();
+		io.flush();
+		io.close();
 	}
 
-	// 快读
-	public static class FastReader {
-		InputStream is;
-		private byte[] inbuf = new byte[1024];
-		public int lenbuf = 0;
-		public int ptrbuf = 0;
+	// 读写工具类
+	public static class ReaderWriter extends PrintWriter {
+		byte[] buf = new byte[1 << 16];
+		int bId = 0, bSize = 0;
+		boolean eof = false;
 
-		public FastReader(final InputStream is) {
-			this.is = is;
+		public ReaderWriter() {
+			super(System.out);
 		}
 
-		public int readByte() {
-			if (lenbuf == -1) {
-				throw new InputMismatchException();
-			}
-			if (ptrbuf >= lenbuf) {
-				ptrbuf = 0;
+		private byte getByte() {
+			if (bId >= bSize) {
 				try {
-					lenbuf = is.read(inbuf);
+					bSize = System.in.read(buf);
 				} catch (IOException e) {
-					throw new InputMismatchException();
+					e.printStackTrace();
 				}
-				if (lenbuf <= 0) {
-					return -1;
-				}
+				if (bSize == -1)
+					eof = true;
+				bId = 0;
 			}
-			return inbuf[ptrbuf++];
+			return buf[bId++];
 		}
 
-		public int readInt() {
-			return (int) readLong();
-		}
+		byte c;
 
-		public long readLong() {
-			long num = 0;
-			int b;
-			boolean minus = false;
-			while ((b = readByte()) != -1 && !((b >= '0' && b <= '9') || b == '-'))
+		public boolean hasNext() {
+			if (eof)
+				return false;
+			while ((c = getByte()) <= 32 && !eof)
 				;
-			if (b == '-') {
-				minus = true;
-				b = readByte();
-			}
+			if (eof)
+				return false;
+			bId--;
+			return true;
+		}
 
-			while (true) {
-				if (b >= '0' && b <= '9') {
-					num = num * 10 + (b - '0');
-				} else {
-					return minus ? -num : num;
+		public String next() {
+			if (!hasNext())
+				return null;
+			byte c = getByte();
+			while (c <= 32)
+				c = getByte();
+			StringBuilder sb = new StringBuilder();
+			while (c > 32) {
+				sb.append((char) c);
+				c = getByte();
+			}
+			return sb.toString();
+		}
+
+		public int nextInt() {
+			if (!hasNext())
+				return Integer.MIN_VALUE;
+			int sign = 1;
+			byte c = getByte();
+			while (c <= 32)
+				c = getByte();
+			if (c == '-') {
+				sign = -1;
+				c = getByte();
+			}
+			int val = 0;
+			while (c >= '0' && c <= '9') {
+				val = val * 10 + (c - '0');
+				c = getByte();
+			}
+			bId--;
+			return val * sign;
+		}
+
+		public long nextLong() {
+			if (!hasNext())
+				return Long.MIN_VALUE;
+			int sign = 1;
+			byte c = getByte();
+			while (c <= 32)
+				c = getByte();
+			if (c == '-') {
+				sign = -1;
+				c = getByte();
+			}
+			long val = 0;
+			while (c >= '0' && c <= '9') {
+				val = val * 10 + (c - '0');
+				c = getByte();
+			}
+			bId--;
+			return val * sign;
+		}
+
+		public double nextDouble() {
+			if (!hasNext())
+				return Double.NaN;
+			int sign = 1;
+			byte c = getByte();
+			while (c <= 32)
+				c = getByte();
+			if (c == '-') {
+				sign = -1;
+				c = getByte();
+			}
+			double val = 0;
+			while (c >= '0' && c <= '9') {
+				val = val * 10 + (c - '0');
+				c = getByte();
+			}
+			if (c == '.') {
+				double mul = 1;
+				c = getByte();
+				while (c >= '0' && c <= '9') {
+					mul *= 0.1;
+					val += (c - '0') * mul;
+					c = getByte();
 				}
-				b = readByte();
 			}
+			bId--;
+			return val * sign;
 		}
-	}
-
-	// 快写
-	public static class FastWriter {
-		private static final int BUF_SIZE = 1 << 13;
-		private final byte[] buf = new byte[BUF_SIZE];
-		private OutputStream out;
-		private Writer writer;
-		private int ptr = 0;
-
-		public FastWriter(Writer writer) {
-			this.writer = new BufferedWriter(writer);
-			out = new ByteArrayOutputStream();
-		}
-
-		public FastWriter(OutputStream os) {
-			this.out = os;
-		}
-
-		public FastWriter(String path) {
-			try {
-				this.out = new FileOutputStream(path);
-			} catch (FileNotFoundException e) {
-				throw new RuntimeException("FastWriter");
-			}
-		}
-
-		public FastWriter write(byte b) {
-			buf[ptr++] = b;
-			if (ptr == BUF_SIZE) {
-				innerflush();
-			}
-			return this;
-		}
-
-		public FastWriter write(String s) {
-			s.chars().forEach(c -> {
-				buf[ptr++] = (byte) c;
-				if (ptr == BUF_SIZE) {
-					innerflush();
-				}
-			});
-			return this;
-		}
-
-		private static int countDigits(long l) {
-			if (l >= 1000000000000000000L) {
-				return 19;
-			}
-			if (l >= 100000000000000000L) {
-				return 18;
-			}
-			if (l >= 10000000000000000L) {
-				return 17;
-			}
-			if (l >= 1000000000000000L) {
-				return 16;
-			}
-			if (l >= 100000000000000L) {
-				return 15;
-			}
-			if (l >= 10000000000000L) {
-				return 14;
-			}
-			if (l >= 1000000000000L) {
-				return 13;
-			}
-			if (l >= 100000000000L) {
-				return 12;
-			}
-			if (l >= 10000000000L) {
-				return 11;
-			}
-			if (l >= 1000000000L) {
-				return 10;
-			}
-			if (l >= 100000000L) {
-				return 9;
-			}
-			if (l >= 10000000L) {
-				return 8;
-			}
-			if (l >= 1000000L) {
-				return 7;
-			}
-			if (l >= 100000L) {
-				return 6;
-			}
-			if (l >= 10000L) {
-				return 5;
-			}
-			if (l >= 1000L) {
-				return 4;
-			}
-			if (l >= 100L) {
-				return 3;
-			}
-			if (l >= 10L) {
-				return 2;
-			}
-			return 1;
-		}
-
-		public FastWriter write(long x) {
-			if (x == Long.MIN_VALUE) {
-				return write("" + x);
-			}
-			if (ptr + 21 >= BUF_SIZE) {
-				innerflush();
-			}
-			if (x < 0) {
-				write((byte) '-');
-				x = -x;
-			}
-			int d = countDigits(x);
-			for (int i = ptr + d - 1; i >= ptr; i--) {
-				buf[i] = (byte) ('0' + x % 10);
-				x /= 10;
-			}
-			ptr += d;
-			return this;
-		}
-
-		public FastWriter writeln(long x) {
-			return write(x).writeln();
-		}
-
-		public FastWriter writeln() {
-			return write((byte) '\n');
-		}
-
-		private void innerflush() {
-			try {
-				out.write(buf, 0, ptr);
-				ptr = 0;
-			} catch (IOException e) {
-				throw new RuntimeException("innerflush");
-			}
-		}
-
-		public void flush() {
-			innerflush();
-			try {
-				if (writer != null) {
-					writer.write(((ByteArrayOutputStream) out).toString());
-					out = new ByteArrayOutputStream();
-					writer.flush();
-				} else {
-					out.flush();
-				}
-			} catch (IOException e) {
-				throw new RuntimeException("flush");
-			}
-		}
-
-		public FastWriter println(long x) {
-			return writeln(x);
-		}
-
-		public void close() {
-			flush();
-			try {
-				out.close();
-			} catch (Exception e) {
-			}
-		}
-
 	}
 
 }
