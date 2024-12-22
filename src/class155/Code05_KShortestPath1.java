@@ -33,13 +33,13 @@ public class Code05_KShortestPath1 {
 	public static double[] weightr = new double[MAXM];
 	public static int cntr = 0;
 
-	public static int[] start = new int[MAXT];
+	public static int[] to = new int[MAXT];
 	public static double[] cost = new double[MAXT];
 	public static int[] left = new int[MAXT];
 	public static int[] right = new int[MAXT];
 	public static int[] dist = new int[MAXT];
 	public static int cntt = 0;
-	
+
 	public static int[] rt = new int[MAXN];
 
 	public static int[] idx = new int[MAXH];
@@ -66,15 +66,15 @@ public class Code05_KShortestPath1 {
 		headr[u] = cntr;
 	}
 
-	public static int init(int s, double c) {
-		start[++cntt] = s;
+	public static int init(int t, double c) {
+		to[++cntt] = t;
 		cost[cntt] = c;
 		left[cntt] = right[cntt] = dist[cntt] = 0;
 		return cntt;
 	}
 
 	public static int clone(int i) {
-		start[++cntt] = start[i];
+		to[++cntt] = to[i];
 		cost[cntt] = cost[i];
 		left[cntt] = left[i];
 		right[cntt] = right[i];
@@ -139,9 +139,9 @@ public class Code05_KShortestPath1 {
 		cntd = cnth = 0;
 		heapAdd(n, 0);
 		while (!heapEmpty()) {
-			int h = heapPop();
-			int u = idx[h];
-			double w = val[h];
+			int top = heapPop();
+			int u = idx[top];
+			double w = val[top];
 			if (!vis[u]) {
 				vis[u] = true;
 				for (int e = headr[u], v; e > 0; e = nextr[e]) {
@@ -163,8 +163,8 @@ public class Code05_KShortestPath1 {
 		}
 		dist[0] = -1;
 		while (!heapEmpty()) {
-			int h = heapPop();
-			int u = idx[h];
+			int top = heapPop();
+			int u = idx[top];
 			for (int e = headg[u]; e > 0; e = nextg[e]) {
 				if (e != path[u]) {
 					rt[u] = merge(rt[u], init(tog[e], weightg[e] + dis[tog[e]] - dis[u]));
@@ -186,22 +186,22 @@ public class Code05_KShortestPath1 {
 				heapAdd(rt[1], cost[rt[1]]);
 			}
 			while (!heapEmpty()) {
-				int h = heapPop();
-				int u = idx[h];
-				double w = val[h];
+				int top = heapPop();
+				int i = idx[top];
+				double w = val[top];
 				money -= w + dis[1];
 				if (money < 0) {
 					break;
 				}
 				ans++;
-				if (left[u] != 0) {
-					heapAdd(left[u], w - cost[u] + cost[left[u]]);
+				if (left[i] != 0) {
+					heapAdd(left[i], w - cost[i] + cost[left[i]]);
 				}
-				if (right[u] != 0) {
-					heapAdd(right[u], w - cost[u] + cost[right[u]]);
+				if (right[i] != 0) {
+					heapAdd(right[i], w - cost[i] + cost[right[i]]);
 				}
-				if (start[u] != 0 && rt[start[u]] != 0) {
-					heapAdd(rt[start[u]], w + cost[rt[start[u]]]);
+				if (to[i] != 0 && rt[to[i]] != 0) {
+					heapAdd(rt[to[i]], w + cost[rt[to[i]]]);
 				}
 			}
 		}

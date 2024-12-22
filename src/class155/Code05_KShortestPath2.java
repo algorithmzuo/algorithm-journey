@@ -30,7 +30,7 @@ package class155;
 //double weightr[MAXM];
 //int cntr = 0;
 //
-//int start[MAXT];
+//int to[MAXT];
 //double cost[MAXT];
 //int ls[MAXT];
 //int rs[MAXT];
@@ -63,15 +63,15 @@ package class155;
 //    headr[u] = cntr;
 //}
 //
-//int init(int s, double v){
-//    start[++cntt] = s;
+//int init(int t, double v){
+//    to[++cntt] = t;
 //    cost[cntt] = v;
 //    ls[cntt] = rs[cntt] = dist[cntt] = 0;
 //    return cntt;
 //}
 //
 //int clone(int i){
-//    start[++cntt] = start[i];
+//    to[++cntt] = to[i];
 //    cost[cntt] = cost[i];
 //    ls[cntt] = ls[i];
 //    rs[cntt] = rs[i];
@@ -135,9 +135,9 @@ package class155;
 //    cntd = cnth = 0;
 //    heapAdd(n, 0.0);
 //    while(!heapEmpty()){
-//        int h = heapPop();
-//        int u = idx[h];
-//        double w = val[h];
+//        int top = heapPop();
+//        int u = idx[top];
+//        double w = val[top];
 //        if(!vis[u]){
 //            vis[u] = true;
 //            for(int e = headr[u]; e != 0; e = nextr[e]){
@@ -159,8 +159,8 @@ package class155;
 //    }
 //    dist[0] = -1;
 //    while(!heapEmpty()){
-//        int h = heapPop();
-//        int u = idx[h];
+//        int top = heapPop();
+//        int u = idx[top];
 //        for(int e = headg[u]; e != 0; e = nextg[e]){
 //            if(e != path[u]){
 //                rt[u] = merge(rt[u], init(tog[e], weightg[e] + dis[tog[e]] - dis[u]));
@@ -182,22 +182,22 @@ package class155;
 //            heapAdd(rt[1], cost[rt[1]]);
 //        }
 //        while(!heapEmpty()){
-//            int h = heapPop();
-//            int u = idx[h];
-//            double w = val[h];
+//            int top = heapPop();
+//            int i = idx[top];
+//            double w = val[top];
 //            money -= w + dis[1];
 //            if(money < 0){
 //                break;
 //            }
 //            ans++;
-//            if(ls[u] != 0){
-//                heapAdd(ls[u], w - cost[u] + cost[ls[u]]);
+//            if(ls[i] != 0){
+//                heapAdd(ls[i], w - cost[i] + cost[ls[i]]);
 //            }
-//            if(rs[u] != 0){
-//                heapAdd(rs[u], w - cost[u] + cost[rs[u]]);
+//            if(rs[i] != 0){
+//                heapAdd(rs[i], w - cost[i] + cost[rs[i]]);
 //            }
-//            if(start[u] != 0 && rt[start[u]] != 0){
-//                heapAdd(rt[start[u]], w + cost[rt[start[u]]]);
+//            if(to[i] != 0 && rt[to[i]] != 0){
+//                heapAdd(rt[to[i]], w + cost[rt[to[i]]]);
 //            }
 //        }
 //    }
