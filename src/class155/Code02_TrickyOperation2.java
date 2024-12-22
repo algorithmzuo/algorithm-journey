@@ -19,25 +19,25 @@ package class155;
 //int siz[MAXN]; 
 //int add[MAXN];
 //int sta[MAXN];
-//multiset<int> heads;
+//multiset<int> heap;
 //int addAll = 0;
 //int n, m;
 //
 //void minusHead(int h) {
 //    if (h != 0) {
-//        heads.erase(heads.find(num[h] + add[h]));
+//        heap.erase(heap.find(num[h] + add[h]));
 //    }
 //}
 //
 //void addHead(int h) {
 //    if (h != 0) {
-//        heads.insert(num[h] + add[h]);
+//        heap.insert(num[h] + add[h]);
 //    }
 //}
 //
 //void prepare() {
 //    dist[0] = -1;
-//    heads.clear();
+//    heap.clear();
 //    for (int i = 1; i <= n; i++) {
 //        up[i] = ls[i] = rs[i] = dist[i] = 0;
 //        fa[i] = i;
@@ -169,7 +169,7 @@ package class155;
 //}
 //
 //int f3() {
-//    return (*heads.rbegin()) + addAll;
+//    return (*heap.rbegin()) + addAll;
 //}
 //
 //int main(){

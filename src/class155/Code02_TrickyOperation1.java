@@ -28,7 +28,7 @@ public class Code02_TrickyOperation1 {
 
 	public static int[] add = new int[MAXN];
 
-	public static TreeMap<Integer, Integer> heads = new TreeMap<>();
+	public static TreeMap<Integer, Integer> heap = new TreeMap<>();
 
 	public static int addAll = 0;
 
@@ -39,10 +39,10 @@ public class Code02_TrickyOperation1 {
 	public static void minusHead(int h) {
 		if (h != 0) {
 			int hnum = num[h] + add[h];
-			if (heads.get(hnum) == 1) {
-				heads.remove(hnum);
+			if (heap.get(hnum) == 1) {
+				heap.remove(hnum);
 			} else {
-				heads.put(hnum, heads.get(hnum) - 1);
+				heap.put(hnum, heap.get(hnum) - 1);
 			}
 		}
 	}
@@ -50,13 +50,13 @@ public class Code02_TrickyOperation1 {
 	public static void addHead(int h) {
 		if (h != 0) {
 			int hnum = num[h] + add[h];
-			heads.put(hnum, heads.getOrDefault(hnum, 0) + 1);
+			heap.put(hnum, heap.getOrDefault(hnum, 0) + 1);
 		}
 	}
 
 	public static void prepare() {
 		dist[0] = -1;
-		heads.clear();
+		heap.clear();
 		for (int i = 1; i <= n; i++) {
 			up[i] = left[i] = right[i] = dist[i] = 0;
 			father[i] = i;
@@ -202,7 +202,7 @@ public class Code02_TrickyOperation1 {
 	}
 
 	public static int f3() {
-		return heads.lastKey() + addAll;
+		return heap.lastKey() + addAll;
 	}
 
 	public static void main(String[] args) {
