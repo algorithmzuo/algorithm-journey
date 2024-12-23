@@ -43,7 +43,7 @@ public class Code02_TrickyOperation1 {
 	// 集合内所有数字应该加多少值
 	public static int[] add = new int[MAXN];
 
-	// 所有集合头节点的值，进入这个堆
+	// 所有集合头节点的值，进入这个堆，头堆
 	public static TreeMap<Integer, Integer> heap = new TreeMap<>();
 
 	// 所有数字应该加多少
