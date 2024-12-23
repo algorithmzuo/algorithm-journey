@@ -78,6 +78,17 @@ public class Code01_CityCapture1 {
 		}
 	}
 
+	public static void upgrade(int i, int t, long v) {
+		if (t == 0) {
+			add[i] += v;
+			attack[i] += v;
+		} else {
+			mul[i] *= v;
+			add[i] *= v;
+			attack[i] *= v;
+		}
+	}
+
 	public static void down(int i) {
 		if (mul[i] != 1 || add[i] != 0) {
 			int l = left[i];
@@ -123,17 +134,6 @@ public class Code01_CityCapture1 {
 		int ans = merge(left[i], right[i]);
 		left[i] = right[i] = dist[i] = 0;
 		return ans;
-	}
-
-	public static void upgrade(int i, int t, long v) {
-		if (t == 0) {
-			add[i] += v;
-			attack[i] += v;
-		} else {
-			mul[i] *= v;
-			add[i] *= v;
-			attack[i] *= v;
-		}
 	}
 
 	public static void compute() {

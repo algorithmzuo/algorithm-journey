@@ -49,6 +49,17 @@ package class155;
 //    }
 //}
 //
+//void upgrade(int i, int t, long long v) {
+//    if (t == 0) {
+//        add[i] += v;
+//        attack[i] += v;
+//    } else {
+//        mul[i] *= v;
+//        add[i] = add[i] * v;
+//        attack[i] = attack[i] * v;
+//    }
+//}
+//
 //void down(int i) {
 //    if (mul[i] != 1 || add[i] != 0) {
 //        int l = ls[i];
@@ -89,17 +100,6 @@ package class155;
 //    int ans = merge(ls[i], rs[i]);
 //    ls[i] = rs[i] = dist[i] = 0;
 //    return ans;
-//}
-//
-//void upgrade(int i, int t, long long v) {
-//    if (t == 0) {
-//        add[i] += v;
-//        attack[i] += v;
-//    } else {
-//        mul[i] *= v;
-//        add[i] = add[i] * v;
-//        attack[i] = attack[i] * v;
-//    }
 //}
 //
 //void compute() {
