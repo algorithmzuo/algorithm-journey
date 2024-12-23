@@ -23,34 +23,47 @@ public class Code01_CityCapture1 {
 
 	public static int n, m;
 
+	// 城市防御值
 	public static long[] defend = new long[MAXN];
 
+	// 上级城市编号
 	public static int[] belong = new int[MAXN];
 
+	// 奖励类型
 	public static int[] op = new int[MAXN];
 
+	// 奖励值
 	public static long[] gain = new long[MAXN];
 
+	// 骑士攻击力
 	public static long[] attack = new long[MAXN];
 
+	// 骑士第一次攻击的城市
 	public static int[] first = new int[MAXN];
 
+	// 城市在城市树中的深度
 	public static int[] deep = new int[MAXN];
 
+	// 城市拥有的骑士列表，用小根堆左偏树组织，最弱的骑士是头
 	public static int[] top = new int[MAXN];
 
+	// 每个城市牺牲人数统计
 	public static int[] sacrifice = new int[MAXN];
 
+	// 每个骑士死在了什么城市
 	public static int[] die = new int[MAXN];
 
+	// 左偏树需要
 	public static int[] left = new int[MAXN];
 
 	public static int[] right = new int[MAXN];
 
 	public static int[] dist = new int[MAXN];
 
+	// 懒更新信息，攻击力应该乘多少
 	public static long[] mul = new long[MAXN];
 
+	// 懒更新信息，攻击力应该加多少
 	public static long[] add = new long[MAXN];
 
 	public static void prepare() {

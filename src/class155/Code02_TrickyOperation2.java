@@ -19,6 +19,7 @@ package class155;
 //using namespace std;
 //
 //const int MAXN = 300001;
+//int n, m;
 //int num[MAXN];
 //int up[MAXN];
 //int ls[MAXN];
@@ -30,7 +31,6 @@ package class155;
 //int sta[MAXN];
 //multiset<int> heap;
 //int addAll = 0;
-//int n, m;
 //
 //void minusHead(int h) {
 //    if (h != 0) {

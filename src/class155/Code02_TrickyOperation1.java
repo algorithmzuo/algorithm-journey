@@ -21,6 +21,9 @@ public class Code02_TrickyOperation1 {
 
 	public static int MAXN = 300001;
 
+	public static int n, m;
+
+	// 左偏树需要
 	public static int[] num = new int[MAXN];
 
 	public static int[] up = new int[MAXN];
@@ -31,19 +34,23 @@ public class Code02_TrickyOperation1 {
 
 	public static int[] dist = new int[MAXN];
 
+	// 并查集的路径信息
 	public static int[] father = new int[MAXN];
 
+	// 集合的大小信息
 	public static int[] size = new int[MAXN];
 
+	// 集合内所有数字应该加多少值
 	public static int[] add = new int[MAXN];
 
+	// 所有集合头节点的值，进入这个堆
 	public static TreeMap<Integer, Integer> heap = new TreeMap<>();
 
+	// 所有数字应该加多少
 	public static int addAll = 0;
 
+	// 准备好一个栈，用迭代方式实现先序遍历，不用递归方式
 	public static int[] stack = new int[MAXN];
-
-	public static int n, m;
 
 	public static void minusHead(int h) {
 		if (h != 0) {
