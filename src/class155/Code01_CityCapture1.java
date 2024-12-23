@@ -1,7 +1,17 @@
 package class155;
 
 // 城池攻占，java版
-// 输入保证，如果城市a管辖城市b，必有a < b
+// 一共有n个城市，1号城市是城市树的头，每个城市有di、bi、oi、gi
+// 分别表示，城市防御值、上级城市编号、奖励类型、奖励值
+// 如果奖励类型为0，那么任何骑士攻克这个城市后，攻击力会增加gi
+// 如果奖励类型为1，那么任何骑士攻克这个城市后，攻击力会乘以gi
+// 输入保证，任何城市的上级编号 < 这座城市的编号
+// 一共有m个骑士，每个骑士都有攻击力ai、第一次攻击的城市fi
+// 如果骑士攻击力 >= 城市防御值，当前城市会被攻占，骑士获得奖励，继续攻击上级城市
+// 如果骑士攻击力  < 城市防御值，那么骑士会在该城市牺牲，没有后续动作了
+// 所有骑士都是独立的，不会影响其他骑士攻击这座城池的结果
+// 打印每个城市牺牲的骑士数量，打印每个骑士攻占的城市数量
+// 1 <= n、m <= 3 * 10^5，攻击值的增加也不会超过long类型范围
 // 测试链接 : https://www.luogu.com.cn/problem/P3261
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
@@ -22,15 +32,15 @@ public class Code01_CityCapture1 {
 
 	public static long[] gain = new long[MAXN];
 
+	public static long[] attack = new long[MAXN];
+
+	public static int[] first = new int[MAXN];
+
 	public static int[] deep = new int[MAXN];
 
 	public static int[] top = new int[MAXN];
 
 	public static int[] sacrifice = new int[MAXN];
-
-	public static long[] attack = new long[MAXN];
-
-	public static int[] born = new int[MAXN];
 
 	public static int[] die = new int[MAXN];
 
@@ -120,10 +130,10 @@ public class Code01_CityCapture1 {
 			deep[i] = deep[belong[i]] + 1;
 		}
 		for (int i = 1; i <= m; i++) {
-			if (top[born[i]] == 0) {
-				top[born[i]] = i;
+			if (top[first[i]] == 0) {
+				top[first[i]] = i;
 			} else {
-				top[born[i]] = merge(top[born[i]], i);
+				top[first[i]] = merge(top[first[i]], i);
 			}
 		}
 		for (int i = n; i >= 1; i--) {
@@ -158,14 +168,14 @@ public class Code01_CityCapture1 {
 		}
 		for (int i = 1; i <= m; i++) {
 			attack[i] = io.nextLong();
-			born[i] = io.nextInt();
+			first[i] = io.nextInt();
 		}
 		compute();
 		for (int i = 1; i <= n; i++) {
 			io.println(sacrifice[i]);
 		}
 		for (int i = 1; i <= m; i++) {
-			io.println(deep[born[i]] - deep[die[i]]);
+			io.println(deep[first[i]] - deep[die[i]]);
 		}
 		io.flush();
 		io.close();
