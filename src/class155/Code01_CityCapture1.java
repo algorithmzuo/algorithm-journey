@@ -30,7 +30,7 @@ public class Code01_CityCapture1 {
 	public static int[] belong = new int[MAXN];
 
 	// 奖励类型
-	public static int[] op = new int[MAXN];
+	public static int[] type = new int[MAXN];
 
 	// 奖励值
 	public static long[] gain = new long[MAXN];
@@ -155,7 +155,7 @@ public class Code01_CityCapture1 {
 				top[i] = pop(top[i]);
 			}
 			if (top[i] != 0) {
-				upgrade(top[i], op[i], gain[i]);
+				upgrade(top[i], type[i], gain[i]);
 				if (top[belong[i]] == 0) {
 					top[belong[i]] = top[i];
 				} else {
@@ -175,7 +175,7 @@ public class Code01_CityCapture1 {
 		}
 		for (int i = 2; i <= n; i++) {
 			belong[i] = io.nextInt();
-			op[i] = io.nextInt();
+			type[i] = io.nextInt();
 			gain[i] = io.nextLong();
 		}
 		for (int i = 1; i <= m; i++) {

@@ -23,7 +23,7 @@ package class155;
 //int n, m;
 //long long defend[MAXN];
 //int belong[MAXN];
-//int op[MAXN];       
+//int type[MAXN];       
 //long long gain[MAXN];
 //long long attack[MAXN];
 //int first[MAXN];
@@ -121,7 +121,7 @@ package class155;
 //            top[i] = pop(top[i]);
 //        }
 //        if (top[i] != 0) {
-//            upgrade(top[i], op[i], gain[i]);
+//            upgrade(top[i], type[i], gain[i]);
 //            if (top[belong[i]] == 0) {
 //                top[belong[i]] = top[i];
 //            } else {
@@ -140,7 +140,7 @@ package class155;
 //        cin >> defend[i];
 //    }
 //    for (int i = 2; i <= n; i++) {
-//        cin >> belong[i] >> op[i] >> gain[i];
+//        cin >> belong[i] >> type[i] >> gain[i];
 //    }
 //    for (int i = 1; i <= m; i++) {
 //        cin >> attack[i] >> first[i];
