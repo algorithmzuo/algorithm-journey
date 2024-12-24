@@ -43,7 +43,7 @@ public class Code02_TrickyOperation1 {
 	// 集合内所有数字应该加多少值
 	public static int[] add = new int[MAXN];
 
-	// 所有集合头节点的值，进入这个堆，头堆
+	// 所有集合头节点的值，进入这个堆，也就是头堆
 	public static TreeMap<Integer, Integer> heap = new TreeMap<>();
 
 	// 所有数字应该加多少
@@ -52,6 +52,7 @@ public class Code02_TrickyOperation1 {
 	// 准备好一个栈，用迭代方式实现先序遍历，不用递归方式
 	public static int[] stack = new int[MAXN];
 
+	// 编号为h的节点不再是左偏树的头，在头堆里删掉一份当前节点的值
 	public static void minusHead(int h) {
 		if (h != 0) {
 			int hnum = num[h] + add[h];
@@ -63,6 +64,7 @@ public class Code02_TrickyOperation1 {
 		}
 	}
 
+	// 编号为h的节点当前是左偏树的头，在头堆里增加一份当前节点的值
 	public static void addHead(int h) {
 		if (h != 0) {
 			int hnum = num[h] + add[h];
@@ -83,11 +85,13 @@ public class Code02_TrickyOperation1 {
 		addAll = 0;
 	}
 
+	// 返回i节点所在左偏树的树头
 	public static int find(int i) {
 		father[i] = father[i] == i ? i : find(father[i]);
 		return father[i];
 	}
 
+	// 合并两棵左偏树
 	public static int merge(int i, int j) {
 		if (i == 0 || j == 0) {
 			return i + j;
@@ -110,6 +114,7 @@ public class Code02_TrickyOperation1 {
 		return i;
 	}
 
+	// 节点i是所在左偏树的任意节点，删除节点i，返回整棵树的头节点编号
 	public static int remove(int i) {
 		int h = find(i);
 		father[left[i]] = left[i];
@@ -138,6 +143,9 @@ public class Code02_TrickyOperation1 {
 		return father[s];
 	}
 
+	// 以i为头的左偏树，遭遇了更大的左偏树
+	// i的懒更新信息取消，以i为头的整棵树所有节点的值增加v
+	// 不用递归实现先序遍历，容易爆栈，所以用迭代实现先序遍历
 	public static void down(int i, int v) {
 		if (i != 0) {
 			add[i] = 0;
