@@ -55,8 +55,8 @@ package class155;
 //        attack[i] += v;
 //    } else {
 //        mul[i] *= v;
-//        add[i] = add[i] * v;
-//        attack[i] = attack[i] * v;
+//        add[i] *= v;
+//        attack[i] *= v;
 //    }
 //}
 //
@@ -66,12 +66,12 @@ package class155;
 //        int r = rs[i];
 //        if (l != 0) {
 //            attack[l] = attack[l] * mul[i] + add[i];
-//            mul[l] *= mul[i];
+//            mul[l] = mul[l] * mul[i];
 //            add[l] = add[l] * mul[i] + add[i];
 //        }
 //        if (r != 0) {
 //            attack[r] = attack[r] * mul[i] + add[i];
-//            mul[r] *= mul[i];
+//            mul[r] = mul[r] * mul[i];
 //            add[r] = add[r] * mul[i] + add[i];
 //        }
 //        mul[i] = 1;

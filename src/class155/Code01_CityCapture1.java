@@ -95,12 +95,12 @@ public class Code01_CityCapture1 {
 			int r = right[i];
 			if (l != 0) {
 				attack[l] = attack[l] * mul[i] + add[i];
-				mul[l] *= mul[i];
+				mul[l] = mul[l] * mul[i];
 				add[l] = add[l] * mul[i] + add[i];
 			}
 			if (r != 0) {
 				attack[r] = attack[r] * mul[i] + add[i];
-				mul[r] *= mul[i];
+				mul[r] = mul[r] * mul[i];
 				add[r] = add[r] * mul[i] + add[i];
 			}
 			mul[i] = 1;
