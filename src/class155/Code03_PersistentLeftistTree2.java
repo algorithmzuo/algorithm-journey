@@ -15,14 +15,13 @@ package class155;
 //const int MAXV = 100000;
 //const int MAXT = 2000001;
 //
+//int rt[MAXN];
 //int num[MAXT];
 //int ls[MAXT];
 //int rs[MAXT];
 //int dist[MAXT];
 //int siz[MAXT];
 //int cnt = 0;
-//
-//int rt[MAXN];
 //
 //int init(int v) {
 //    num[++cnt] = v;
@@ -212,6 +211,6 @@ package class155;
 //            cout << "err!" << endl;
 //        }
 //    }
-//    cout << "test end" << endl;
+//    cout << "test finish" << endl;
 //    return 0;
 //}

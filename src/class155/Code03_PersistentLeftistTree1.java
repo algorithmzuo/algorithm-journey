@@ -11,14 +11,13 @@ public class Code03_PersistentLeftistTree1 {
 	public static int MAXV = 100000;
 	public static int MAXT = 2000001;
 
+	public static int[] rt = new int[MAXN];
 	public static int[] num = new int[MAXT];
 	public static int[] left = new int[MAXT];
 	public static int[] right = new int[MAXT];
 	public static int[] dist = new int[MAXT];
 	public static int[] size = new int[MAXT];
 	public static int cnt = 0;
-
-	public static int[] rt = new int[MAXN];
 
 	public static int init(int v) {
 		num[++cnt] = v;

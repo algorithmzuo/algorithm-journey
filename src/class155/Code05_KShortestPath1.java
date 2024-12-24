@@ -40,14 +40,13 @@ public class Code05_KShortestPath1 {
 	public static double[] weightr = new double[MAXM];
 	public static int cntr = 0;
 
+	public static int[] rt = new int[MAXN];
 	public static int[] to = new int[MAXT];
 	public static double[] cost = new double[MAXT];
 	public static int[] left = new int[MAXT];
 	public static int[] right = new int[MAXT];
 	public static int[] dist = new int[MAXT];
 	public static int cntt = 0;
-
-	public static int[] rt = new int[MAXN];
 
 	public static int[] idx = new int[MAXH];
 	public static double[] val = new double[MAXH];

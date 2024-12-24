@@ -37,14 +37,13 @@ package class155;
 //double weightr[MAXM];
 //int cntr = 0;
 //
+//int rt[MAXN];
 //int to[MAXT];
 //double cost[MAXT];
 //int ls[MAXT];
 //int rs[MAXT];
 //int dist[MAXT];
 //int cntt = 0;
-//
-//int rt[MAXN];
 //
 //int idx[MAXH];
 //double val[MAXH];
