@@ -144,7 +144,7 @@ public class Code02_TrickyOperation1 {
 	}
 
 	// 以i为头的左偏树，遭遇了更大的左偏树
-	// i的懒更新信息取消，以i为头的整棵树所有节点的值增加v
+	// i的标签信息取消，以i为头的整棵树所有节点的值增加v
 	// 不用递归实现先序遍历，容易爆栈，所以用迭代实现先序遍历
 	public static void down(int i, int v) {
 		if (i != 0) {
