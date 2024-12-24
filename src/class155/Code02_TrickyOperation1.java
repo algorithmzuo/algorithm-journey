@@ -52,7 +52,7 @@ public class Code02_TrickyOperation1 {
 	// 准备好一个栈，用迭代方式实现先序遍历，不用递归方式
 	public static int[] stack = new int[MAXN];
 
-	// 编号为h的节点不再是左偏树的头，在头节点有序表里删掉一份当前节点的值
+	// 编号为h的节点不再是左偏树的头，在头节点有序表里删掉一份h节点的值
 	public static void minusHead(int h) {
 		if (h != 0) {
 			int hnum = num[h] + add[h];
@@ -64,7 +64,7 @@ public class Code02_TrickyOperation1 {
 		}
 	}
 
-	// 编号为h的节点当前是左偏树的头，在头节点有序表里增加一份当前节点的值
+	// 编号为h的节点当前是左偏树的头，在头节点有序表里增加一份h节点的值
 	public static void addHead(int h) {
 		if (h != 0) {
 			int hnum = num[h] + add[h];
