@@ -36,19 +36,19 @@ public class Code04_Blocks1 {
 	// boundary[i] : 第i个数组的越界位置在arr中的什么位置
 	public static int[] boundary = new int[MAXN];
 
-	// 左偏树需要
+	// 左偏树代表选择数字的一种状况，左偏树的头代表这种状况下最优的行动
 	// 假设编号为h的节点是某棵左偏树的头
-	// idx[h] : 当前节点来自哪个数组
+	// idx[h] : 最优行动来自哪个数组
 	public static int[] idx = new int[MAXT];
-	// jdx[h] : 当前节点来自idx[h]数组的什么位置
+	// jdx[h] : 最优行动来自idx[h]数组的什么位置
 	public static int[] jdx = new int[MAXT];
-	// cost[h] : 当前节点让代价基础值增加多少代价
+	// cost[h] : 在前一个方案的基础上，最优行动会让累加和增加多少
 	public static int[] cost = new int[MAXT];
 	public static int[] left = new int[MAXT];
 	public static int[] right = new int[MAXT];
 	public static int[] dist = new int[MAXT];
-	// base[h] : 整个左偏树代价基础值是什么
-	public static int[] base = new int[MAXT];
+	// pre[h] : 导致当前状况的前一个方案，累加和是多少
+	public static int[] pre = new int[MAXT];
 	public static int cnt = 0;
 
 	// heap是经典的小根堆，放着所有版本左偏树的头
@@ -109,7 +109,7 @@ public class Code04_Blocks1 {
 	}
 
 	public static boolean compare(int i, int j) {
-		return base[heap[i]] + cost[heap[i]] < base[heap[j]] + cost[heap[j]];
+		return pre[heap[i]] + cost[heap[i]] < pre[heap[j]] + cost[heap[j]];
 	}
 
 	public static void heapAdd(int i) {
@@ -155,20 +155,20 @@ public class Code04_Blocks1 {
 		for (int i = 1; i <= n; i++) {
 			head = merge(head, init(i, start[i]));
 		}
-		base[head] = first;
+		pre[head] = first;
 		ans[1] = first;
 		heapAdd(head);
 		for (int ansi = 2, h1, h2; ansi <= k; ansi++) {
 			head = heapPop();
-			ans[ansi] = base[head] + cost[head];
+			ans[ansi] = pre[head] + cost[head];
 			h1 = pop(head);
 			if (h1 != 0) {
-				base[h1] = base[head];
+				pre[h1] = pre[head];
 				heapAdd(h1);
 			}
 			if (jdx[head] + 1 < boundary[idx[head]]) {
 				h2 = merge(h1, init(idx[head], jdx[head] + 1));
-				base[h2] = ans[ansi];
+				pre[h2] = ans[ansi];
 				heapAdd(h2);
 			}
 		}
