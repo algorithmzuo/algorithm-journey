@@ -29,28 +29,38 @@ public class Code04_Blocks1 {
 
 	public static int n, k;
 
-	public static int[] start = new int[MAXN];
-	public static int[] boundary = new int[MAXN];
+	// 所有数组所有的数字都放在arr中
 	public static int[] arr = new int[MAXM];
+	// start[i] : 第i个数组的第一个数字在arr中的什么位置
+	public static int[] start = new int[MAXN];
+	// boundary[i] : 第i个数组的越界位置在arr中的什么位置
+	public static int[] boundary = new int[MAXN];
 
+	// 左偏树需要，假设某棵左偏树的头节点为h
+	// idx[h] : 当前堆顶来自哪个数组
 	public static int[] idx = new int[MAXT];
+	// jdx[h] : 当前堆顶来自idx[h]数组的什么位置
 	public static int[] jdx = new int[MAXT];
-	public static int[] num = new int[MAXT];
+	// cost[h] : 当前堆顶让代价基础值增加多少代价
+	public static int[] cost = new int[MAXT];
 	public static int[] left = new int[MAXT];
 	public static int[] right = new int[MAXT];
 	public static int[] dist = new int[MAXT];
+	// base[h] : 整个左偏树代价基础值是什么
 	public static int[] base = new int[MAXT];
 	public static int cnt = 0;
 
+	// heap里放着所有版本的最优方案
 	public static int[] heap = new int[MAXK];
 	public static int heapSize = 0;
 
+	// 收集答案
 	public static int[] ans = new int[MAXK];
 
 	public static int init(int i, int j) {
 		idx[++cnt] = i;
 		jdx[cnt] = j;
-		num[cnt] = j + 1 < boundary[i] ? (arr[j + 1] - arr[j]) : INF;
+		cost[cnt] = j + 1 < boundary[i] ? (arr[j + 1] - arr[j]) : INF;
 		left[cnt] = right[cnt] = dist[cnt] = 0;
 		return cnt;
 	}
@@ -58,7 +68,7 @@ public class Code04_Blocks1 {
 	public static int clone(int i) {
 		idx[++cnt] = idx[i];
 		jdx[cnt] = jdx[i];
-		num[cnt] = num[i];
+		cost[cnt] = cost[i];
 		left[cnt] = left[i];
 		right[cnt] = right[i];
 		dist[cnt] = dist[i];
@@ -70,7 +80,7 @@ public class Code04_Blocks1 {
 			return i + j;
 		}
 		int tmp;
-		if (num[i] > num[j]) {
+		if (cost[i] > cost[j]) {
 			tmp = i;
 			i = j;
 			j = tmp;
@@ -97,7 +107,7 @@ public class Code04_Blocks1 {
 	}
 
 	public static boolean compare(int i, int j) {
-		return base[heap[i]] + num[heap[i]] < base[heap[j]] + num[heap[j]];
+		return base[heap[i]] + cost[heap[i]] < base[heap[j]] + cost[heap[j]];
 	}
 
 	public static void heapAdd(int i) {
@@ -148,7 +158,7 @@ public class Code04_Blocks1 {
 		heapAdd(head);
 		for (int ansi = 2, h1, h2; ansi <= k; ansi++) {
 			head = heapPop();
-			ans[ansi] = base[head] + num[head];
+			ans[ansi] = base[head] + cost[head];
 			h1 = pop(head);
 			if (h1 != 0) {
 				base[h1] = base[head];

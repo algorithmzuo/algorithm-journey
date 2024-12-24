@@ -25,13 +25,13 @@ package class155;
 //
 //int n, k;
 //
+//int arr[MAXM];
 //int start[MAXN];
 //int boundary[MAXN];
-//int arr[MAXM];
 //
 //int idx[MAXT];
 //int jdx[MAXT];
-//int num[MAXT];
+//int cost[MAXT];
 //int ls[MAXT];
 //int rs[MAXT];
 //int dist[MAXT];
@@ -46,7 +46,7 @@ package class155;
 //int init(int i, int j) {
 //    idx[++cnt] = i;
 //    jdx[cnt] = j;
-//    num[cnt] = (j + 1 < boundary[i]) ? (arr[j + 1] - arr[j]) : INF;
+//    cost[cnt] = (j + 1 < boundary[i]) ? (arr[j + 1] - arr[j]) : INF;
 //    ls[cnt] = rs[cnt] = dist[cnt] = 0;
 //    return cnt;
 //}
@@ -54,7 +54,7 @@ package class155;
 //int clone(int i) {
 //    idx[++cnt] = idx[i];
 //    jdx[cnt] = jdx[i];
-//    num[cnt] = num[i];
+//    cost[cnt] = cost[i];
 //    ls[cnt] = ls[i];
 //    rs[cnt] = rs[i];
 //    dist[cnt] = dist[i];
@@ -63,7 +63,7 @@ package class155;
 //
 //int merge(int i, int j) {
 //    if (i == 0 || j == 0) return i + j;
-//    if (num[i] > num[j]) {
+//    if (cost[i] > cost[j]) {
 //        swap(i, j);
 //    }
 //    int h = clone(i);
@@ -82,7 +82,7 @@ package class155;
 //}
 //
 //bool compare(int i, int j) {
-//    return base[heap[i]] + num[heap[i]] < base[heap[j]] + num[heap[j]];
+//    return base[heap[i]] + cost[heap[i]] < base[heap[j]] + cost[heap[j]];
 //}
 //
 //void heapAdd(int i) {
@@ -127,7 +127,7 @@ package class155;
 //    heapAdd(head);
 //    for (int ansi = 2, h1, h2; ansi <= k; ++ansi) {
 //        head = heapPop();
-//        ans[ansi] = base[head] + num[head];
+//        ans[ansi] = base[head] + cost[head];
 //        h1 = pop(head);
 //        if (h1 != 0) {
 //            base[h1] = base[head];
