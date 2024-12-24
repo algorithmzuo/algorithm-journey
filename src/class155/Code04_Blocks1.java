@@ -29,7 +29,7 @@ public class Code04_Blocks1 {
 
 	public static int n, k;
 
-	// 所有数组所有的数字都放在arr中
+	// 所有数组的所有数字放在arr中
 	public static int[] arr = new int[MAXM];
 	// start[i] : 第i个数组的第一个数字在arr中的什么位置
 	public static int[] start = new int[MAXN];
