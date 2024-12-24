@@ -48,9 +48,8 @@ package class155;
 //
 //int idx[MAXH];
 //double val[MAXH];
-//int cntd = 0;
 //int heap[MAXH];
-//int cnth = 0;
+//int cntd, cnth;
 //
 //bool vis[MAXN];
 //int path[MAXN];

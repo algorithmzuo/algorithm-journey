@@ -51,9 +51,8 @@ public class Code05_KShortestPath1 {
 
 	public static int[] idx = new int[MAXH];
 	public static double[] val = new double[MAXH];
-	public static int cntd;
 	public static int[] heap = new int[MAXH];
-	public static int cnth;
+	public static int cntd, cnth;
 
 	public static boolean[] vis = new boolean[MAXN];
 	public static int[] path = new int[MAXN];
