@@ -36,12 +36,13 @@ public class Code04_Blocks1 {
 	// boundary[i] : 第i个数组的越界位置在arr中的什么位置
 	public static int[] boundary = new int[MAXN];
 
-	// 左偏树需要，假设某棵左偏树的头节点为h
-	// idx[h] : 当前堆顶来自哪个数组
+	// 左偏树需要
+	// 假设编号为h的节点是某棵左偏树的头
+	// idx[h] : 当前节点来自哪个数组
 	public static int[] idx = new int[MAXT];
-	// jdx[h] : 当前堆顶来自idx[h]数组的什么位置
+	// jdx[h] : 当前节点来自idx[h]数组的什么位置
 	public static int[] jdx = new int[MAXT];
-	// cost[h] : 当前堆顶让代价基础值增加多少代价
+	// cost[h] : 当前节点让代价基础值增加多少代价
 	public static int[] cost = new int[MAXT];
 	public static int[] left = new int[MAXT];
 	public static int[] right = new int[MAXT];
@@ -50,7 +51,8 @@ public class Code04_Blocks1 {
 	public static int[] base = new int[MAXT];
 	public static int cnt = 0;
 
-	// heap里放着所有版本的最优方案
+	// heap是经典的小根堆，放着所有版本左偏树的头
+	// 哪个左偏树的头节点，所代表方案的累加和最小，谁就放在heap的顶部
 	public static int[] heap = new int[MAXK];
 	public static int heapSize = 0;
 
