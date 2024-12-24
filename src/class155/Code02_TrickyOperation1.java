@@ -43,8 +43,8 @@ public class Code02_TrickyOperation1 {
 	// 集合内所有数字应该加多少值
 	public static int[] add = new int[MAXN];
 
-	// 所有集合头节点的值，进入这个堆，也就是头堆
-	public static TreeMap<Integer, Integer> heap = new TreeMap<>();
+	// 所有集合头节点的值，进入这个有序表，头节点有序表
+	public static TreeMap<Integer, Integer> heads = new TreeMap<>();
 
 	// 所有数字应该加多少
 	public static int addAll = 0;
@@ -52,29 +52,29 @@ public class Code02_TrickyOperation1 {
 	// 准备好一个栈，用迭代方式实现先序遍历，不用递归方式
 	public static int[] stack = new int[MAXN];
 
-	// 编号为h的节点不再是左偏树的头，在头堆里删掉一份当前节点的值
+	// 编号为h的节点不再是左偏树的头，在头节点有序表里删掉一份当前节点的值
 	public static void minusHead(int h) {
 		if (h != 0) {
 			int hnum = num[h] + add[h];
-			if (heap.get(hnum) == 1) {
-				heap.remove(hnum);
+			if (heads.get(hnum) == 1) {
+				heads.remove(hnum);
 			} else {
-				heap.put(hnum, heap.get(hnum) - 1);
+				heads.put(hnum, heads.get(hnum) - 1);
 			}
 		}
 	}
 
-	// 编号为h的节点当前是左偏树的头，在头堆里增加一份当前节点的值
+	// 编号为h的节点当前是左偏树的头，在头节点有序表里增加一份当前节点的值
 	public static void addHead(int h) {
 		if (h != 0) {
 			int hnum = num[h] + add[h];
-			heap.put(hnum, heap.getOrDefault(hnum, 0) + 1);
+			heads.put(hnum, heads.getOrDefault(hnum, 0) + 1);
 		}
 	}
 
 	public static void prepare() {
 		dist[0] = -1;
-		heap.clear();
+		heads.clear();
 		for (int i = 1; i <= n; i++) {
 			up[i] = left[i] = right[i] = dist[i] = 0;
 			father[i] = i;
@@ -226,7 +226,7 @@ public class Code02_TrickyOperation1 {
 	}
 
 	public static int f3() {
-		return heap.lastKey() + addAll;
+		return heads.lastKey() + addAll;
 	}
 
 	public static void main(String[] args) {
