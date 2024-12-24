@@ -36,18 +36,18 @@ public class Code04_Blocks1 {
 	// boundary[i] : 第i个数组的越界位置在arr中的什么位置
 	public static int[] boundary = new int[MAXN];
 
-	// 左偏树代表选择数字的一种状况，左偏树的头代表这种状况下最优的行动
-	// 假设编号为h的节点是某棵左偏树的头
+	// 左偏树代表基于之前的某个方案，做出行动的可能性
+	// 左偏树的头就代表这个最优行动，假设编号为h的节点是头
 	// idx[h] : 最优行动来自哪个数组
 	public static int[] idx = new int[MAXT];
-	// jdx[h] : 最优行动来自idx[h]数组的什么位置
+	// jdx[h] : 最优行动要替换掉idx[h]数组中什么位置的数
 	public static int[] jdx = new int[MAXT];
-	// cost[h] : 在前一个方案的基础上，最优行动会让累加和增加多少
+	// cost[h] : 基于之前的某个方案，最优行动会让累加和增加多少
 	public static int[] cost = new int[MAXT];
 	public static int[] left = new int[MAXT];
 	public static int[] right = new int[MAXT];
 	public static int[] dist = new int[MAXT];
-	// pre[h] : 导致当前状况的前一个方案，累加和是多少
+	// pre[h] : 基于之前的某个方案，这个方案的累加和，标签信息
 	public static int[] pre = new int[MAXT];
 	public static int cnt = 0;
 
@@ -109,13 +109,13 @@ public class Code04_Blocks1 {
 	}
 
 	public static boolean compare(int i, int j) {
-		return pre[heap[i]] + cost[heap[i]] < pre[heap[j]] + cost[heap[j]];
+		return pre[i] + cost[i] < pre[j] + cost[j];
 	}
 
 	public static void heapAdd(int i) {
 		heap[++heapSize] = i;
 		int cur = heapSize, up = cur / 2, tmp;
-		while (cur > 1 && compare(cur, up)) {
+		while (cur > 1 && compare(heap[cur], heap[up])) {
 			tmp = heap[up];
 			heap[up] = heap[cur];
 			heap[cur] = tmp;
@@ -129,8 +129,8 @@ public class Code04_Blocks1 {
 		heap[1] = heap[heapSize--];
 		int cur = 1, l = cur * 2, r = l + 1, best, tmp;
 		while (l <= heapSize) {
-			best = (r <= heapSize && compare(r, l)) ? r : l;
-			best = compare(best, cur) ? best : cur;
+			best = (r <= heapSize && compare(heap[r], heap[l])) ? r : l;
+			best = compare(heap[best], heap[cur]) ? best : cur;
 			if (best == cur) {
 				break;
 			}

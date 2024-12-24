@@ -82,13 +82,13 @@ package class155;
 //}
 //
 //bool compare(int i, int j) {
-//    return pre[heap[i]] + cost[heap[i]] < pre[heap[j]] + cost[heap[j]];
+//    return pre[i] + cost[i] < pre[j] + cost[j];
 //}
 //
 //void heapAdd(int i) {
 //    heap[++heapSize] = i;
 //    int cur = heapSize, up = cur / 2;
-//    while (cur > 1 && compare(cur, up)) {
+//    while (cur > 1 && compare(heap[cur], heap[up])) {
 //        swap(heap[cur], heap[up]);
 //        cur = up;
 //        up = cur / 2;
@@ -100,8 +100,8 @@ package class155;
 //    heap[1] = heap[heapSize--];
 //    int cur = 1, l = 2, r = 3, best;
 //    while (l <= heapSize) {
-//        best = (r <= heapSize && compare(r, l)) ? r : l;
-//        best = compare(best, cur) ? best : cur;
+//        best = (r <= heapSize && compare(heap[r], heap[l])) ? r : l;
+//        best = compare(heap[best], heap[cur]) ? best : cur;
 //        if (best == cur) break;
 //        swap(heap[cur], heap[best]);
 //        cur = best;
