@@ -191,20 +191,20 @@ package class155;
 //        while(!heapEmpty()){
 //            int top = heapPop();
 //            int i = idx[top];
-//            double w = val[top];
-//            money -= w + dis[1];
+//            double v = val[top];
+//            money -= v + dis[1];
 //            if(money < 0){
 //                break;
 //            }
 //            ans++;
 //            if(ls[i] != 0){
-//                heapAdd(ls[i], w - cost[i] + cost[ls[i]]);
+//                heapAdd(ls[i], v - cost[i] + cost[ls[i]]);
 //            }
 //            if(rs[i] != 0){
-//                heapAdd(rs[i], w - cost[i] + cost[rs[i]]);
+//                heapAdd(rs[i], v - cost[i] + cost[rs[i]]);
 //            }
 //            if(to[i] != 0 && rt[to[i]] != 0){
-//                heapAdd(rt[to[i]], w + cost[rt[to[i]]]);
+//                heapAdd(rt[to[i]], v + cost[rt[to[i]]]);
 //            }
 //        }
 //    }

@@ -203,20 +203,20 @@ public class Code05_KShortestPath1 {
 			while (!heapEmpty()) {
 				int top = heapPop();
 				int i = idx[top];
-				double w = val[top];
-				money -= w + dis[1];
+				double v = val[top];
+				money -= v + dis[1];
 				if (money < 0) {
 					break;
 				}
 				ans++;
 				if (left[i] != 0) {
-					heapAdd(left[i], w - cost[i] + cost[left[i]]);
+					heapAdd(left[i], v - cost[i] + cost[left[i]]);
 				}
 				if (right[i] != 0) {
-					heapAdd(right[i], w - cost[i] + cost[right[i]]);
+					heapAdd(right[i], v - cost[i] + cost[right[i]]);
 				}
 				if (to[i] != 0 && rt[to[i]] != 0) {
-					heapAdd(rt[to[i]], w + cost[rt[to[i]]]);
+					heapAdd(rt[to[i]], v + cost[rt[to[i]]]);
 				}
 			}
 		}
