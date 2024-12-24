@@ -48,7 +48,7 @@ public class Code05_KShortestPath1 {
 	public static int[] dist = new int[MAXT];
 	public static int cntt = 0;
 
-	public static int[] idx = new int[MAXH];
+	public static int[] key = new int[MAXH];
 	public static double[] val = new double[MAXH];
 	public static int[] heap = new int[MAXH];
 	public static int cntd, cnth;
@@ -108,8 +108,8 @@ public class Code05_KShortestPath1 {
 		return h;
 	}
 
-	public static void heapAdd(int i, double v) {
-		idx[++cntd] = i;
+	public static void heapAdd(int k, double v) {
+		key[++cntd] = k;
 		val[cntd] = v;
 		heap[++cnth] = cntd;
 		int cur = cnth, father = cur / 2, tmp;
@@ -153,7 +153,7 @@ public class Code05_KShortestPath1 {
 		heapAdd(n, 0);
 		while (!heapEmpty()) {
 			int top = heapPop();
-			int u = idx[top];
+			int u = key[top];
 			double w = val[top];
 			if (!vis[u]) {
 				vis[u] = true;
@@ -177,7 +177,7 @@ public class Code05_KShortestPath1 {
 		dist[0] = -1;
 		while (!heapEmpty()) {
 			int top = heapPop();
-			int u = idx[top];
+			int u = key[top];
 			for (int e = headg[u], v; e > 0; e = nextg[e]) {
 				v = tog[e];
 				if (e != path[u]) {
@@ -201,21 +201,21 @@ public class Code05_KShortestPath1 {
 			}
 			while (!heapEmpty()) {
 				int top = heapPop();
-				int i = idx[top];
+				int h = key[top];
 				double w = val[top];
 				money -= w + dis[1];
 				if (money < 0) {
 					break;
 				}
 				ans++;
-				if (left[i] != 0) {
-					heapAdd(left[i], w - cost[i] + cost[left[i]]);
+				if (left[h] != 0) {
+					heapAdd(left[h], w - cost[h] + cost[left[h]]);
 				}
-				if (right[i] != 0) {
-					heapAdd(right[i], w - cost[i] + cost[right[i]]);
+				if (right[h] != 0) {
+					heapAdd(right[h], w - cost[h] + cost[right[h]]);
 				}
-				if (to[i] != 0 && rt[to[i]] != 0) {
-					heapAdd(rt[to[i]], w + cost[rt[to[i]]]);
+				if (to[h] != 0 && rt[to[h]] != 0) {
+					heapAdd(rt[to[h]], w + cost[rt[to[h]]]);
 				}
 			}
 		}

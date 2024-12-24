@@ -45,7 +45,7 @@ package class155;
 //int dist[MAXT];
 //int cntt = 0;
 //
-//int idx[MAXH];
+//int key[MAXH];
 //double val[MAXH];
 //int heap[MAXH];
 //int cntd, cnth;
@@ -100,8 +100,8 @@ package class155;
 //    return h;
 //}
 //
-//void heapAdd(int i, double v){
-//    idx[++cntd] = i;
+//void heapAdd(int k, double v){
+//    key[++cntd] = k;
 //    val[cntd] = v;
 //    heap[++cnth] = cntd;
 //    int cur = cnth, father = cur / 2;
@@ -141,7 +141,7 @@ package class155;
 //    heapAdd(n, 0.0);
 //    while(!heapEmpty()){
 //        int top = heapPop();
-//        int u = idx[top];
+//        int u = key[top];
 //        double w = val[top];
 //        if(!vis[u]){
 //            vis[u] = true;
@@ -165,7 +165,7 @@ package class155;
 //    dist[0] = -1;
 //    while(!heapEmpty()){
 //        int top = heapPop();
-//        int u = idx[top];
+//        int u = key[top];
 //        for(int e = headg[u], v; e != 0; e = nextg[e]){
 //            v = tog[e];
 //            if(e != path[u]){
@@ -189,21 +189,21 @@ package class155;
 //        }
 //        while(!heapEmpty()){
 //            int top = heapPop();
-//            int i = idx[top];
+//            int h = key[top];
 //            double w = val[top];
 //            money -= w + dis[1];
 //            if(money < 0){
 //                break;
 //            }
 //            ans++;
-//            if(ls[i] != 0){
-//                heapAdd(ls[i], w - cost[i] + cost[ls[i]]);
+//            if(ls[h] != 0){
+//                heapAdd(ls[h], w - cost[h] + cost[ls[h]]);
 //            }
-//            if(rs[i] != 0){
-//                heapAdd(rs[i], w - cost[i] + cost[rs[i]]);
+//            if(rs[h] != 0){
+//                heapAdd(rs[h], w - cost[h] + cost[rs[h]]);
 //            }
-//            if(to[i] != 0 && rt[to[i]] != 0){
-//                heapAdd(rt[to[i]], w + cost[rt[to[i]]]);
+//            if(to[h] != 0 && rt[to[h]] != 0){
+//                heapAdd(rt[to[h]], w + cost[rt[to[h]]]);
 //            }
 //        }
 //    }
