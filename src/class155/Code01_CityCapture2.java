@@ -51,12 +51,12 @@ package class155;
 //
 //void upgrade(int i, int t, long long v) {
 //    if (t == 0) {
-//        add[i] += v;
 //        attack[i] += v;
+//        add[i] += v;
 //    } else {
+//        attack[i] *= v;
 //        mul[i] *= v;
 //        add[i] *= v;
-//        attack[i] *= v;
 //    }
 //}
 //

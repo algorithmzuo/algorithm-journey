@@ -80,12 +80,12 @@ public class Code01_CityCapture1 {
 
 	public static void upgrade(int i, int t, long v) {
 		if (t == 0) {
-			add[i] += v;
 			attack[i] += v;
+			add[i] += v;
 		} else {
+			attack[i] *= v;
 			mul[i] *= v;
 			add[i] *= v;
-			attack[i] *= v;
 		}
 	}
 
