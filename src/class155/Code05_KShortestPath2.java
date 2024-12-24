@@ -1,7 +1,7 @@
 package class155;
 
 // k短路问题，可持久化左偏树实现最优解，C++版
-// 一共有n个点，编号1~n，m条边，每条边都有边权，组成一个有向带权图
+// 一共有n个点，编号1~n，一共有m条边，每条边有边权，组成一个有向带权图
 // 从1号点走到n号点，就认为是一次旅行
 // 一次旅行中，边不能重复选，但是点可以重复经过，如果到达了n号点，那么这次旅行直接停止
 // 从1号点走到n号点，会有很多通路方案，通路方案的路费为所有选择边集的边权和
@@ -145,8 +145,8 @@ package class155;
 //        double w = val[top];
 //        if(!vis[u]){
 //            vis[u] = true;
-//            for(int e = headr[u]; e != 0; e = nextr[e]){
-//                int v = tor[e];
+//            for(int e = headr[u], v; e != 0; e = nextr[e]){
+//                v = tor[e];
 //                if(dis[v] > w + weightr[e]){
 //                    dis[v] = w + weightr[e];
 //                    path[v] = e;
@@ -166,9 +166,10 @@ package class155;
 //    while(!heapEmpty()){
 //        int top = heapPop();
 //        int u = idx[top];
-//        for(int e = headg[u]; e != 0; e = nextg[e]){
+//        for(int e = headg[u], v; e != 0; e = nextg[e]){
+//            v = tog[e];
 //            if(e != path[u]){
-//                rt[u] = merge(rt[u], init(tog[e], weightg[e] + dis[tog[e]] - dis[u]));
+//                rt[u] = merge(rt[u], init(v, weightg[e] + dis[v] - dis[u]));
 //            }
 //        }
 //        if(path[u] != 0){
@@ -189,20 +190,20 @@ package class155;
 //        while(!heapEmpty()){
 //            int top = heapPop();
 //            int i = idx[top];
-//            double v = val[top];
-//            money -= v + dis[1];
+//            double w = val[top];
+//            money -= w + dis[1];
 //            if(money < 0){
 //                break;
 //            }
 //            ans++;
 //            if(ls[i] != 0){
-//                heapAdd(ls[i], v - cost[i] + cost[ls[i]]);
+//                heapAdd(ls[i], w - cost[i] + cost[ls[i]]);
 //            }
 //            if(rs[i] != 0){
-//                heapAdd(rs[i], v - cost[i] + cost[rs[i]]);
+//                heapAdd(rs[i], w - cost[i] + cost[rs[i]]);
 //            }
 //            if(to[i] != 0 && rt[to[i]] != 0){
-//                heapAdd(rt[to[i]], v + cost[rt[to[i]]]);
+//                heapAdd(rt[to[i]], w + cost[rt[to[i]]]);
 //            }
 //        }
 //    }

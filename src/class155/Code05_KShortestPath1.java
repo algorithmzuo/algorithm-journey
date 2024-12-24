@@ -178,9 +178,10 @@ public class Code05_KShortestPath1 {
 		while (!heapEmpty()) {
 			int top = heapPop();
 			int u = idx[top];
-			for (int e = headg[u]; e > 0; e = nextg[e]) {
+			for (int e = headg[u], v; e > 0; e = nextg[e]) {
+				v = tog[e];
 				if (e != path[u]) {
-					rt[u] = merge(rt[u], init(tog[e], weightg[e] + dis[tog[e]] - dis[u]));
+					rt[u] = merge(rt[u], init(v, weightg[e] + dis[v] - dis[u]));
 				}
 			}
 			if (path[u] != 0) {
@@ -201,20 +202,20 @@ public class Code05_KShortestPath1 {
 			while (!heapEmpty()) {
 				int top = heapPop();
 				int i = idx[top];
-				double v = val[top];
-				money -= v + dis[1];
+				double w = val[top];
+				money -= w + dis[1];
 				if (money < 0) {
 					break;
 				}
 				ans++;
 				if (left[i] != 0) {
-					heapAdd(left[i], v - cost[i] + cost[left[i]]);
+					heapAdd(left[i], w - cost[i] + cost[left[i]]);
 				}
 				if (right[i] != 0) {
-					heapAdd(right[i], v - cost[i] + cost[right[i]]);
+					heapAdd(right[i], w - cost[i] + cost[right[i]]);
 				}
 				if (to[i] != 0 && rt[to[i]] != 0) {
-					heapAdd(rt[to[i]], v + cost[rt[to[i]]]);
+					heapAdd(rt[to[i]], w + cost[rt[to[i]]]);
 				}
 			}
 		}
