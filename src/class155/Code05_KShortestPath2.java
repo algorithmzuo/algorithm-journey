@@ -3,7 +3,7 @@ package class155;
 // k短路问题，可持久化左偏树实现最优解，C++版
 // 有n个点编号1~n，有m条边，每条边都是正数边权，组成有向带权图
 // 从1号点走到n号点，就认为是一次旅行
-// 一次旅行中，边不能重复选，点可以重复经过，如果到达了n号点，那么旅行直接停止
+// 一次旅行中，边不能重复选，点可以重复经过，如果到达了n号点，那么旅行立刻停止
 // 从1号点走到n号点，会有很多通路方案，通路方案的路费为选择边的边权累加和
 // 虽然每次旅行都是从1号点到n号点，但是你希望每次旅行的通路方案都是不同的
 // 任何两次旅行，只要选择的边稍有不同，就认为是不同的通路方案
@@ -37,13 +37,14 @@ package class155;
 //double weightr[MAXM];
 //int cntr = 0;
 //
-//int rt[MAXN];
 //int to[MAXT];
 //double cost[MAXT];
 //int ls[MAXT];
 //int rs[MAXT];
 //int dist[MAXT];
 //int cntt = 0;
+//
+//int rt[MAXN];
 //
 //int key[MAXH];
 //double val[MAXH];

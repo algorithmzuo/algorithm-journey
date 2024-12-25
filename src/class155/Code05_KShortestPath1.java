@@ -3,7 +3,7 @@ package class155;
 // k短路问题，可持久化左偏树实现最优解，java版
 // 有n个点编号1~n，有m条边，每条边都是正数边权，组成有向带权图
 // 从1号点走到n号点，就认为是一次旅行
-// 一次旅行中，边不能重复选，点可以重复经过，如果到达了n号点，那么旅行直接停止
+// 一次旅行中，边不能重复选，点可以重复经过，如果到达了n号点，那么旅行立刻停止
 // 从1号点走到n号点，会有很多通路方案，通路方案的路费为选择边的边权累加和
 // 虽然每次旅行都是从1号点到n号点，但是你希望每次旅行的通路方案都是不同的
 // 任何两次旅行，只要选择的边稍有不同，就认为是不同的通路方案
@@ -28,33 +28,51 @@ public class Code05_KShortestPath1 {
 	public static int n, m;
 	public static double money;
 
+	// 关于正反图有一个非常值得注意的地方
+	// 如果正图中，a到b的边，编号为x
+	// 那么反图中，b到a的边，编号也是x
+	// 因为每一条边，正图建立的同时，反图也同步建立
+	// 所以正反图中这条边分配的编号也是一样的
+	// 正图
 	public static int[] headg = new int[MAXN];
 	public static int[] tog = new int[MAXM];
 	public static int[] nextg = new int[MAXM];
 	public static double[] weightg = new double[MAXM];
 	public static int cntg = 0;
 
+	// 反图
 	public static int[] headr = new int[MAXN];
 	public static int[] tor = new int[MAXM];
 	public static int[] nextr = new int[MAXM];
 	public static double[] weightr = new double[MAXM];
 	public static int cntr = 0;
 
-	public static int[] rt = new int[MAXN];
+	// 左偏树代表基于之前的通路方案，选择非树边的可能性
+	// 左偏树的头就代表最优的选择，假设编号为h的节点是头
+	// to[h] : 选择最优非树边，这个非树边在正图里指向哪个节点
 	public static int[] to = new int[MAXT];
+	// cost[h] : 基于之前的通路方案，最优选择会让路费增加多少
 	public static double[] cost = new double[MAXT];
 	public static int[] left = new int[MAXT];
 	public static int[] right = new int[MAXT];
 	public static int[] dist = new int[MAXT];
 	public static int cntt = 0;
 
+	// rt[u] : 在最短路树上，节点u及其所有祖先节点，所拥有的全部非树边，组成的左偏树
+	public static int[] rt = new int[MAXN];
+
+	// heap是经典的小根堆，放着很多(key, val)数据，根据val来组织小根堆
 	public static int[] key = new int[MAXH];
 	public static double[] val = new double[MAXH];
 	public static int[] heap = new int[MAXH];
 	public static int cntd, cnth;
 
+	// dijkstra算法需要，根据反图跑dijkstra，生成从节点n开始的最短路树
+	// vis[u] : 节点u到节点n的最短距离，是否已经计算过了
 	public static boolean[] vis = new boolean[MAXN];
+	// path[u] : 最短路树上，到达节点u的树边，编号是什么，也代表正图上，所对应的边
 	public static int[] path = new int[MAXN];
+	// dis[u] : 最短路树上，节点n到节点u的最短距离
 	public static double[] dis = new double[MAXN];
 
 	public static void addEdgeG(int u, int v, double w) {
@@ -108,6 +126,7 @@ public class Code05_KShortestPath1 {
 		return h;
 	}
 
+	// (k, v)组成一个数据，放到堆上，根据v来组织小根堆
 	public static void heapAdd(int k, double v) {
 		key[++cntd] = k;
 		val[cntd] = v;
@@ -122,6 +141,8 @@ public class Code05_KShortestPath1 {
 		}
 	}
 
+	// 小根堆上，堆顶的数据(k, v)弹出，并返回数据所在的下标ans
+	// 根据返回值ans，key[ans]得到k，val[ans]得到v
 	public static int heapPop() {
 		int ans = heap[1];
 		heap[1] = heap[cnth--];
@@ -180,6 +201,8 @@ public class Code05_KShortestPath1 {
 			int u = key[top];
 			for (int e = headg[u], v; e > 0; e = nextg[e]) {
 				v = tog[e];
+				// path[u]既是边在反图中的编号，也是边在正图中的编号
+				// 因为正反图同步建立，边的正图编号 == 边的反图编号
 				if (e != path[u]) {
 					rt[u] = merge(rt[u], init(v, weightg[e] + dis[v] - dis[u]));
 				}
@@ -234,9 +257,11 @@ public class Code05_KShortestPath1 {
 			u = in.nextInt();
 			v = in.nextInt();
 			w = in.nextDouble();
+			// 题目说了，一旦到达节点n，旅行立刻停止
+			// 所以从节点n出发的边，一律忽略
 			if (u != n) {
-				addEdgeG(u, v, w);
-				addEdgeR(v, u, w);
+				addEdgeG(u, v, w); // 建立正图
+				addEdgeR(v, u, w); // 建立反图
 			}
 		}
 		dijkstra();
