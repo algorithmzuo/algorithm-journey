@@ -167,6 +167,9 @@ public class Code05_KShortestPath1 {
 		return cnth == 0;
 	}
 
+	// 根据反图跑dijkstra算法
+	// 得到从节点n出发的最短路树、每个节点到节点n的最短距离信息
+	// 最短路树如果有多个，找到任何一个即可
 	public static void dijkstra() {
 		dis[n] = 0;
 		Arrays.fill(dis, 1, n, INF);
@@ -190,6 +193,9 @@ public class Code05_KShortestPath1 {
 		}
 	}
 
+	// 在最短路树上的每个节点，生成自己的左偏树
+	// 节点u的左偏树 = 节点u自己的非树边左偏树 + 节点u在最短路树上的父亲的左偏树
+	// 课上重点解释了这么做的意义
 	public static void mergeRoad() {
 		cntd = cnth = 0;
 		for (int i = 1; i <= n; i++) {
@@ -213,6 +219,8 @@ public class Code05_KShortestPath1 {
 		}
 	}
 
+	// 从路费第1小的方案开始，逐渐找到第2小、第3小...
+	// 看看money能够覆盖几次旅行，返回旅行的次数
 	public static int expand() {
 		int ans = 0;
 		money -= dis[1];
@@ -231,12 +239,15 @@ public class Code05_KShortestPath1 {
 					break;
 				}
 				ans++;
+				// 当前选择的非树边，被左偏树上的左儿子替换
 				if (left[h] != 0) {
 					heapAdd(left[h], w - cost[h] + cost[left[h]]);
 				}
+				// 当前选择的非树边，被左偏树上的右儿子替换
 				if (right[h] != 0) {
 					heapAdd(right[h], w - cost[h] + cost[right[h]]);
 				}
+				// 当前选择的非树边，指向节点to[h]，那么从to[h]的左偏树里，新增一个最优的非树边
 				if (to[h] != 0 && rt[to[h]] != 0) {
 					heapAdd(rt[to[h]], w + cost[rt[to[h]]]);
 				}
