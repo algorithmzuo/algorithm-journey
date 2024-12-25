@@ -228,13 +228,16 @@ public class Code05_KShortestPath1 {
 			ans++;
 			cntd = cnth = 0;
 			if (rt[1] != 0) {
-				heapAdd(rt[1], cost[rt[1]]);
+				// 开始阶段
+				// 1号节点左偏树的堆顶，代表增加代价最小的非树边，放入决策堆
+				// 目前路通方案的路费，同步放入
+				heapAdd(rt[1], dis[1] + cost[rt[1]]);
 			}
 			while (!heapEmpty()) {
 				int top = heapPop();
 				int h = key[top];
 				double w = val[top];
-				money -= w + dis[1];
+				money -= w;
 				if (money < 0) {
 					break;
 				}

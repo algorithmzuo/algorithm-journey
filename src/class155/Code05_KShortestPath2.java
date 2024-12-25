@@ -186,13 +186,13 @@ package class155;
 //        ans++;
 //        cntd = cnth = 0;
 //        if(rt[1] != 0){
-//            heapAdd(rt[1], cost[rt[1]]);
+//            heapAdd(rt[1], dis[1] + cost[rt[1]]);
 //        }
 //        while(!heapEmpty()){
 //            int top = heapPop();
 //            int h = key[top];
 //            double w = val[top];
-//            money -= w + dis[1];
+//            money -= w;
 //            if(money < 0){
 //                break;
 //            }
