@@ -67,8 +67,8 @@ public class Code01_WrongAnswers {
 				union(l, r, v);
 			}
 			out.println(ans);
-			out.flush();
 		}
+		out.flush();
 		out.close();
 		br.close();
 	}
