@@ -14,7 +14,7 @@ import java.io.StreamTokenizer;
 
 public class Code01_WrongAnswers {
 
-	public static int MAXN = 200005;
+	public static int MAXN = 200001;
 
 	public static int n, m, ans;
 
