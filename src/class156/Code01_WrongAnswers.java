@@ -20,13 +20,13 @@ public class Code01_WrongAnswers {
 
 	public static int[] father = new int[MAXN];
 
-	public static int[] weight = new int[MAXN];
+	public static int[] dist = new int[MAXN];
 
 	public static void prepare() {
 		ans = 0;
 		for (int i = 0; i <= n; i++) {
 			father[i] = i;
-			weight[i] = 0;
+			dist[i] = 0;
 		}
 	}
 
@@ -34,7 +34,7 @@ public class Code01_WrongAnswers {
 		if (i != father[i]) {
 			int tmp = father[i];
 			father[i] = find(father[i]);
-			weight[i] += weight[tmp];
+			dist[i] += dist[tmp];
 		}
 		return father[i];
 	}
@@ -42,12 +42,12 @@ public class Code01_WrongAnswers {
 	public static void union(int l, int r, int v) {
 		int lf = find(l), rf = find(r);
 		if (lf == rf) {
-			if ((weight[l] - weight[r]) != v) {
+			if ((dist[l] - dist[r]) != v) {
 				ans++;
 			}
 		} else {
 			father[lf] = rf;
-			weight[lf] = v + weight[r] - weight[l];
+			dist[lf] = v + dist[r] - dist[l];
 		}
 	}
 
@@ -61,9 +61,12 @@ public class Code01_WrongAnswers {
 			m = (int) in.nval;
 			prepare();
 			for (int i = 1, l, r, v; i <= m; i++) {
-				in.nextToken(); l = (int) in.nval - 1;
-				in.nextToken(); r = (int) in.nval;
-				in.nextToken(); v = (int) in.nval;
+				in.nextToken();
+				l = (int) in.nval - 1;
+				in.nextToken();
+				r = (int) in.nval;
+				in.nextToken();
+				v = (int) in.nval;
 				union(l, r, v);
 			}
 			out.println(ans);
