@@ -8,7 +8,7 @@ import java.util.List;
 public class Code04_EvaluateDivision {
 
 	public static double[] calcEquation(List<List<String>> equations, double[] values, List<List<String>> queries) {
-		build(equations);
+		prepare(equations);
 		for (int i = 0; i < values.length; i++) {
 			union(equations.get(i).get(0), equations.get(i).get(1), values[i]);
 		}
@@ -23,7 +23,7 @@ public class Code04_EvaluateDivision {
 
 	public static HashMap<String, Double> dist = new HashMap<>();
 
-	public static void build(List<List<String>> equations) {
+	public static void prepare(List<List<String>> equations) {
 		father.clear();
 		dist.clear();
 		for (List<String> list : equations) {
