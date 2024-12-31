@@ -13,7 +13,7 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.util.StringTokenizer;
 
-public class Code02_LegendOfHeroes {
+public class Code03_LegendOfHeroes {
 
 	public static int MAXN = 30001;
 
@@ -53,12 +53,11 @@ public class Code02_LegendOfHeroes {
 
 	public static void union(int l, int r) {
 		int lf = find(l), rf = find(r);
-		if (lf == rf) {
-			return;
+		if (lf != rf) {
+			father[lf] = rf;
+			dist[lf] += size[rf];
+			size[rf] += size[lf];
 		}
-		father[lf] = rf;
-		dist[lf] += size[rf];
-		size[rf] += size[lf];
 	}
 
 	public static int watch(int l, int r) {

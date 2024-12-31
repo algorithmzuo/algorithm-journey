@@ -12,7 +12,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 
-public class Code01_WrongAnswers {
+public class Code02_WrongAnswers {
 
 	public static int MAXN = 200001;
 
