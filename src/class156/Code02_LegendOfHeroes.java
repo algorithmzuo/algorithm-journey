@@ -36,7 +36,7 @@ public class Code02_LegendOfHeroes {
 		}
 	}
 
-	// 迭代的方式实现find
+	// 迭代的方式实现find，递归方式实现会爆栈
 	public static int find(int i) {
 		int si = 0;
 		while (i != father[i]) {
