@@ -33,7 +33,7 @@ public class Code02_WrongAnswers {
 	public static int find(int i) {
 		if (i != father[i]) {
 			int tmp = father[i];
-			father[i] = find(father[i]);
+			father[i] = find(tmp);
 			dist[i] += dist[tmp];
 		}
 		return father[i];
