@@ -41,14 +41,19 @@ public class Code02_WrongAnswers {
 
 	public static void union(int l, int r, int v) {
 		int lf = find(l), rf = find(r);
-		if (lf == rf) {
-			if ((dist[l] - dist[r]) != v) {
-				ans++;
-			}
-		} else {
+		if (lf != rf) {
 			father[lf] = rf;
 			dist[lf] = v + dist[r] - dist[l];
 		}
+	}
+
+	public static boolean check(int l, int r, int v) {
+		if (find(l) == find(r)) {
+			if ((dist[l] - dist[r]) != v) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 	public static void main(String[] args) throws IOException {
@@ -67,7 +72,11 @@ public class Code02_WrongAnswers {
 				r = (int) in.nval;
 				in.nextToken();
 				v = (int) in.nval;
-				union(l, r, v);
+				if (!check(l, r, v)) {
+					ans++;
+				} else {
+					union(l, r, v);
+				}
 			}
 			out.println(ans);
 		}
