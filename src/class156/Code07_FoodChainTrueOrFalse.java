@@ -11,7 +11,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 
-public class Code05_FoodChainTrueOrFalse {
+public class Code07_FoodChainTrueOrFalse {
 
 	public static int MAXN = 50001;
 
@@ -73,17 +73,17 @@ public class Code05_FoodChainTrueOrFalse {
 		in.nextToken();
 		k = (int) in.nval;
 		prepare();
-		for (int i = 1, op, x, y; i <= k; i++) {
+		for (int i = 1, op, l, r; i <= k; i++) {
 			in.nextToken();
 			op = (int) in.nval;
 			in.nextToken();
-			x = (int) in.nval;
+			l = (int) in.nval;
 			in.nextToken();
-			y = (int) in.nval;
-			if (!check(op, x, y)) {
+			r = (int) in.nval;
+			if (!check(op, l, r)) {
 				ans++;
 			} else {
-				union(op, x, y);
+				union(op, l, r);
 			}
 		}
 		out.println(ans);

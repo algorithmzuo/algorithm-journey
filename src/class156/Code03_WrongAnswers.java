@@ -1,7 +1,8 @@
 package class156;
 
-// 推导部分和
-// 测试链接 : https://www.luogu.com.cn/problem/P8779
+// 错误答案数量
+// 测试链接 : https://acm.hdu.edu.cn/showproblem.php?pid=3038
+// 测试链接 : https://vjudge.net/problem/HDU-3038
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
 import java.io.BufferedReader;
@@ -11,19 +12,18 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 
-public class Code01_DerivePartialSums {
+public class Code03_WrongAnswers {
 
-	public static int MAXN = 100002;
+	public static int MAXN = 200002;
 
-	public static long INF = Long.MAX_VALUE;
-
-	public static int n, m, q;
+	public static int n, m, ans;
 
 	public static int[] father = new int[MAXN];
 
-	public static long[] dist = new long[MAXN];
+	public static int[] dist = new int[MAXN];
 
 	public static void prepare() {
+		ans = 0;
 		for (int i = 0; i <= n; i++) {
 			father[i] = i;
 			dist[i] = 0;
@@ -39,7 +39,7 @@ public class Code01_DerivePartialSums {
 		return father[i];
 	}
 
-	public static void union(int l, int r, long v) {
+	public static void union(int l, int r, int v) {
 		int lf = find(l), rf = find(r);
 		if (lf != rf) {
 			father[lf] = rf;
@@ -47,46 +47,38 @@ public class Code01_DerivePartialSums {
 		}
 	}
 
-	public static long query(int l, int r) {
-		if (find(l) != find(r)) {
-			return INF;
+	public static boolean check(int l, int r, int v) {
+		if (find(l) == find(r)) {
+			if ((dist[l] - dist[r]) != v) {
+				return false;
+			}
 		}
-		return dist[l] - dist[r];
+		return true;
 	}
 
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StreamTokenizer in = new StreamTokenizer(br);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
-		in.nextToken();
-		n = (int) in.nval + 1;
-		in.nextToken();
-		m = (int) in.nval;
-		in.nextToken();
-		q = (int) in.nval;
-		prepare();
-		int l, r;
-		long v;
-		for (int i = 1; i <= m; i++) {
+		while (in.nextToken() != StreamTokenizer.TT_EOF) {
+			n = (int) in.nval + 1;
 			in.nextToken();
-			l = (int) in.nval;
-			in.nextToken();
-			r = (int) in.nval + 1;
-			in.nextToken();
-			v = (long) in.nval;
-			union(l, r, v);
-		}
-		for (int i = 1; i <= q; i++) {
-			in.nextToken();
-			l = (int) in.nval;
-			in.nextToken();
-			r = (int) in.nval + 1;
-			v = query(l, r);
-			if (v == INF) {
-				out.println("UNKNOWN");
-			} else {
-				out.println(v);
+			m = (int) in.nval;
+			prepare();
+			for (int i = 1, l, r, v; i <= m; i++) {
+				in.nextToken();
+				l = (int) in.nval;
+				in.nextToken();
+				r = (int) in.nval + 1;
+				in.nextToken();
+				v = (int) in.nval;
+				if (!check(l, r, v)) {
+					ans++;
+				} else {
+					union(l, r, v);
+				}
 			}
+			out.println(ans);
 		}
 		out.flush();
 		out.close();

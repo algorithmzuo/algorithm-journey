@@ -13,7 +13,7 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.util.StringTokenizer;
 
-public class Code03_LegendOfHeroes {
+public class Code04_LegendOfHeroes {
 
 	public static int MAXN = 30001;
 

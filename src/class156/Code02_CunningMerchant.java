@@ -1,8 +1,7 @@
 package class156;
 
-// 错误答案数量
-// 测试链接 : https://acm.hdu.edu.cn/showproblem.php?pid=3038
-// 测试链接 : https://vjudge.net/problem/HDU-3038
+// 狡猾的商人
+// 测试链接 : https://www.luogu.com.cn/problem/P2294
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
 import java.io.BufferedReader;
@@ -12,19 +11,21 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 
-public class Code02_WrongAnswers {
+public class Code02_CunningMerchant {
 
-	public static int MAXN = 200002;
+	public static int MAXN = 102;
 
-	public static int n, m, ans;
+	public static int t, n, m;
+
+	public static boolean ans;
 
 	public static int[] father = new int[MAXN];
 
 	public static int[] dist = new int[MAXN];
 
 	public static void prepare() {
-		ans = 0;
-		for (int i = 0; i <= n; i++) {
+		ans = true;
+		for (int i = 1; i <= n; i++) {
 			father[i] = i;
 			dist[i] = 0;
 		}
@@ -60,8 +61,11 @@ public class Code02_WrongAnswers {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StreamTokenizer in = new StreamTokenizer(br);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
-		while (in.nextToken() != StreamTokenizer.TT_EOF) {
-			n = (int) in.nval;
+		in.nextToken();
+		t = (int) in.nval;
+		for (int c = 1; c <= t; c++) {
+			in.nextToken();
+			n = (int) in.nval + 1;
 			in.nextToken();
 			m = (int) in.nval;
 			prepare();
@@ -73,7 +77,7 @@ public class Code02_WrongAnswers {
 				in.nextToken();
 				v = (int) in.nval;
 				if (!check(l, r, v)) {
-					ans++;
+					ans = false;
 				} else {
 					union(l, r, v);
 				}

@@ -5,7 +5,7 @@ import java.util.List;
 
 // 除法求值
 // 测试链接 : https://leetcode.cn/problems/evaluate-division/
-public class Code04_EvaluateDivision {
+public class Code05_EvaluateDivision {
 
 	public static double[] calcEquation(List<List<String>> equations, double[] values, List<List<String>> queries) {
 		prepare(equations);
