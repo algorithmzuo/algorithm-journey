@@ -60,7 +60,7 @@ public class Code03_LegendOfHeroes {
 		}
 	}
 
-	public static int watch(int l, int r) {
+	public static int query(int l, int r) {
 		if (find(l) != find(r)) {
 			return -1;
 		}
@@ -79,7 +79,7 @@ public class Code03_LegendOfHeroes {
 			if (op.equals("M")) {
 				union(l, r);
 			} else {
-				io.println(watch(l, r));
+				io.println(query(l, r));
 			}
 		}
 		io.flush();

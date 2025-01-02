@@ -14,7 +14,7 @@ public class Code04_EvaluateDivision {
 		}
 		double[] ans = new double[queries.size()];
 		for (int i = 0; i < queries.size(); i++) {
-			ans[i] = compute(queries.get(i).get(0), queries.get(i).get(1));
+			ans[i] = query(queries.get(i).get(0), queries.get(i).get(1));
 		}
 		return ans;
 	}
@@ -56,7 +56,7 @@ public class Code04_EvaluateDivision {
 		}
 	}
 
-	public static double compute(String l, String r) {
+	public static double query(String l, String r) {
 		String lf = find(l), rf = find(r);
 		if (lf == null || rf == null || !lf.equals(rf)) {
 			return -1.0;
