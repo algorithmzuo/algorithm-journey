@@ -50,34 +50,22 @@ public class Code08_ExclusiveOR {
 		return father[i];
 	}
 
-	public static void union(int l, int r, int v) {
+	public static boolean opi(int l, int r, int v) {
+		cnti++;
 		int lf = find(l), rf = find(r);
-		if (lf == n) {
-			lf = rf;
-			rf = n;
-		}
-		if (lf != rf) {
+		if (lf == rf) {
+			if ((exclu[l] ^ exclu[r]) != v) {
+				conflict = true;
+				return false;
+			}
+		} else {
+			if (lf == n) {
+				lf = rf;
+				rf = n;
+			}
 			father[lf] = rf;
 			exclu[lf] = exclu[r] ^ exclu[l] ^ v;
 		}
-	}
-
-	public static boolean check(int l, int r, int v) {
-		if (find(l) == find(r)) {
-			if ((exclu[l] ^ exclu[r]) != v) {
-				return false;
-			}
-		}
-		return true;
-	}
-
-	public static boolean opi(int l, int r, int v) {
-		cnti++;
-		if (!check(l, r, v)) {
-			conflict = true;
-			return false;
-		}
-		union(l, r, v);
 		return true;
 	}
 
