@@ -1,6 +1,6 @@
 package class156;
 
-// 食物链真假判断
+// 甄别食物链
 // 测试链接 : https://www.luogu.com.cn/problem/P2024
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
@@ -11,7 +11,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 
-public class Code06_FoodChainTrueOrFalse {
+public class Code06_JudgeFoodChain {
 
 	public static int MAXN = 50001;
 
