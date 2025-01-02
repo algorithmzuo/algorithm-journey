@@ -11,7 +11,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 
-public class Code07_FoodChainTrueOrFalse {
+public class Code06_FoodChainTrueOrFalse {
 
 	public static int MAXN = 50001;
 

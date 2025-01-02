@@ -11,7 +11,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.util.Arrays;
 
-public class Code06_ExclusiveOR {
+public class Code08_ExclusiveOR {
 
 	public static int MAXN = 20002;
 

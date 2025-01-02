@@ -12,7 +12,7 @@ import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 import java.util.Arrays;
 
-public class Code08_DetainCriminals {
+public class Code07_DetainCriminals {
 
 	public static int MAXN = 20002;
 
