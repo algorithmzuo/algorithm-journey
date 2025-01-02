@@ -3,6 +3,7 @@ package class156;
 // 异或关系
 // 测试链接 : https://acm.hdu.edu.cn/showproblem.php?pid=3234
 // 测试链接 : https://www.luogu.com.cn/problem/UVA12232
+// 测试链接 : https://vjudge.net/problem/UVA-12232
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
 import java.io.IOException;
@@ -117,16 +118,12 @@ public class Code08_ExclusiveOR {
 				if (op.equals("I")) {
 					int l, r, v;
 					in.numbers();
-					if (in.size == 2) {
-						l = in.a;
-						r = n;
-						v = in.b;
-					} else {
-						l = in.a;
-						r = in.b;
-						v = in.c;
-					}
 					if (!conflict) {
+						if (in.size == 2) {
+							l = in.a; r = n; v = in.b;
+						} else {
+							l = in.a; r = in.b; v = in.c;
+						}
 						if (!opi(l, r, v)) {
 							out.println("The first " + cnti + " facts are conflicting.");
 						}
