@@ -14,7 +14,7 @@ import java.io.StreamTokenizer;
 
 public class Code02_WrongAnswers {
 
-	public static int MAXN = 200001;
+	public static int MAXN = 200002;
 
 	public static int n, m, ans;
 
@@ -67,9 +67,9 @@ public class Code02_WrongAnswers {
 			prepare();
 			for (int i = 1, l, r, v; i <= m; i++) {
 				in.nextToken();
-				l = (int) in.nval - 1;
+				l = (int) in.nval;
 				in.nextToken();
-				r = (int) in.nval;
+				r = (int) in.nval + 1;
 				in.nextToken();
 				v = (int) in.nval;
 				if (!check(l, r, v)) {

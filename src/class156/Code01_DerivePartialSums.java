@@ -13,7 +13,7 @@ import java.io.StreamTokenizer;
 
 public class Code01_DerivePartialSums {
 
-	public static int MAXN = 200001;
+	public static int MAXN = 100002;
 
 	public static long INF = Long.MAX_VALUE;
 
@@ -69,18 +69,18 @@ public class Code01_DerivePartialSums {
 		long v;
 		for (int i = 1; i <= m; i++) {
 			in.nextToken();
-			l = (int) in.nval - 1;
+			l = (int) in.nval;
 			in.nextToken();
-			r = (int) in.nval;
+			r = (int) in.nval + 1;
 			in.nextToken();
 			v = (long) in.nval;
 			union(l, r, v);
 		}
 		for (int i = 1; i <= q; i++) {
 			in.nextToken();
-			l = (int) in.nval - 1;
+			l = (int) in.nval;
 			in.nextToken();
-			r = (int) in.nval;
+			r = (int) in.nval + 1;
 			v = query(l, r);
 			if (v == INF) {
 				out.println("UNKNOWN");
