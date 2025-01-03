@@ -5,8 +5,7 @@ package class156;
 // 操作 l r v，代表l~r范围上累加和为v
 // 一共m个操作，如果某个操作和之前的操作信息自相矛盾，认为当前操作是错误的，不进行这个操作
 // 最后打印错误操作的数量
-// 1 <= n <= 200000
-// 1 <= m <= 40000
+// 1 <= n <= 200000    1 <= m <= 40000
 // 累加和不会超过int类型范围
 // 测试链接 : https://acm.hdu.edu.cn/showproblem.php?pid=3038
 // 测试链接 : https://vjudge.net/problem/HDU-3038

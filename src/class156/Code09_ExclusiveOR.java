@@ -1,6 +1,15 @@
 package class156;
 
 // 异或关系
+// 一共n个数，编号0 ~ n-1，实现如下三种类型的操作，一共调用m次
+// I x v        : 声明 第x个数 = v
+// I x y v      : 声明 第x个数 ^ 第y个数 = v
+// Q k a1 .. ak : 查询 一共k个数，编号为a1 .. ak，这些数字异或起来的值是多少
+// 对每个Q的操作打印答案，如果根据之前的声明无法推出答案，打印"I don't know."
+// 如果处理到第s条声明，发现了矛盾，打印"The first s facts are conflicting."
+// 注意只有声明操作出现，s才会增加，查询操作不占用声明操作的计数
+// 发现矛盾之后，所有的操作都不再处理，更多的细节可以打开测试链接查看题目
+// 1 <= n <= 20000    1 <= m <= 40000    1 <= k <= 15
 // 测试链接 : https://acm.hdu.edu.cn/showproblem.php?pid=3234
 // 测试链接 : https://www.luogu.com.cn/problem/UVA12232
 // 测试链接 : https://vjudge.net/problem/UVA-12232
@@ -12,7 +21,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.util.Arrays;
 
-public class Code08_ExclusiveOR {
+public class Code09_ExclusiveOR {
 
 	public static int MAXN = 20002;
 
@@ -30,7 +39,7 @@ public class Code08_ExclusiveOR {
 
 	public static int[] nums = new int[MAXK];
 
-	public static int[] collect = new int[MAXK];
+	public static int[] fas = new int[MAXK];
 
 	public static void prepare() {
 		conflict = false;
@@ -70,23 +79,19 @@ public class Code08_ExclusiveOR {
 	}
 
 	public static int opq(int k) {
-		int ans = 0, ci = 0, fa;
-		for (int i = 1; i <= k; i++) {
+		int ans = 0;
+		for (int i = 1, fa; i <= k; i++) {
 			fa = find(nums[i]);
 			ans ^= exclu[nums[i]];
-			collect[++ci] = fa;
+			fas[i] = fa;
 		}
-		Arrays.sort(collect, 1, ci + 1);
-		for (int l = 1, r = 1; l <= ci; l = ++r) {
-			while (r + 1 <= ci && collect[r + 1] == collect[l]) {
+		Arrays.sort(fas, 1, k + 1);
+		for (int l = 1, r = 1; l <= k; l = ++r) {
+			while (r + 1 <= k && fas[r + 1] == fas[l]) {
 				r++;
 			}
-			if ((r - l + 1) % 2 != 0) {
-				if (collect[l] == n) {
-					ans ^= exclu[n];
-				} else {
-					return -1;
-				}
+			if ((r - l + 1) % 2 != 0 && fas[l] != n) {
+				return -1;
 			}
 		}
 		return ans;
@@ -108,9 +113,13 @@ public class Code08_ExclusiveOR {
 					in.numbers();
 					if (!conflict) {
 						if (in.size == 2) {
-							l = in.a; r = n; v = in.b;
+							l = in.a;
+							r = n;
+							v = in.b;
 						} else {
-							l = in.a; r = in.b; v = in.c;
+							l = in.a;
+							r = in.b;
+							v = in.c;
 						}
 						if (!opi(l, r, v)) {
 							out.println("The first " + cnti + " facts are conflicting.");
