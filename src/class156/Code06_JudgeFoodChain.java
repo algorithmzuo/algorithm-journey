@@ -28,13 +28,16 @@ public class Code06_JudgeFoodChain {
 
 	public static int[] father = new int[MAXN];
 
-	public static int[] relation = new int[MAXN];
+	// dist[i] = 0，代表i和头是同类
+	// dist[i] = 1，代表i吃头
+	// dist[i] = 2，代表i被头吃
+	public static int[] dist = new int[MAXN];
 
 	public static void prepare() {
 		ans = 0;
 		for (int i = 1; i <= n; i++) {
 			father[i] = i;
-			relation[i] = 0;
+			dist[i] = 0;
 		}
 	}
 
@@ -42,16 +45,18 @@ public class Code06_JudgeFoodChain {
 		if (i != father[i]) {
 			int tmp = father[i];
 			father[i] = find(tmp);
-			relation[i] = (relation[i] + relation[tmp]) % 3;
+			dist[i] = (dist[i] + dist[tmp]) % 3;
 		}
 		return father[i];
 	}
 
+	// op == 1, 1 l r，l和r是同类
+	// op == 2, 2 l r，l吃r
 	public static void union(int op, int l, int r) {
 		int lf = find(l), rf = find(r), v = op == 1 ? 0 : 1;
 		if (lf != rf) {
 			father[lf] = rf;
-			relation[lf] = (relation[r] - relation[l] + v + 3) % 3;
+			dist[lf] = (dist[r] - dist[l] + v + 3) % 3;
 		}
 	}
 
@@ -61,11 +66,11 @@ public class Code06_JudgeFoodChain {
 		}
 		if (find(l) == find(r)) {
 			if (op == 1) {
-				if (relation[l] != relation[r]) {
+				if (dist[l] != dist[r]) {
 					return false;
 				}
 			} else {
-				if ((relation[l] - relation[r] + 3) % 3 != 1) {
+				if ((dist[l] - dist[r] + 3) % 3 != 1) {
 					return false;
 				}
 			}
