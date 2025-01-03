@@ -4,6 +4,15 @@ import java.util.HashMap;
 import java.util.List;
 
 // 除法求值
+// 所有变量都用字符串表示，并且给定若干组等式
+// 比如等式
+// ["ab", "ef"] = 8，代表ab / ef = 8
+// ["ct", "ef"] = 2，代表ct / ef = 2
+// 所有等式都是正确的并且可以进行推断，给定所有等式之后，会给你若干条查询
+// 比如查询，["ab", "ct"]，根据上面的等式推断，ab / ct = 4
+// 如果某条查询中的变量，从来没在等式中出现过，认为答案是-1.0
+// 如果某条查询的答案根本推断不出来，认为答案是-1.0
+// 返回所有查询的答案
 // 测试链接 : https://leetcode.cn/problems/evaluate-division/
 public class Code05_EvaluateDivision {
 

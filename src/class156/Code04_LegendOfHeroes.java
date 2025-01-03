@@ -1,6 +1,15 @@
 package class156;
 
 // 银河英雄传说
+// 一共有30000搜战舰，编号1~30000，一开始每艘战舰各自成一队
+// 如果若干战舰变成一队，那么队伍里的所有战舰竖直地排成一列
+// 实现如下两种操作，操作一共调用t次
+// M l r : 合并l号战舰所在队伍和r号战舰所在队伍
+//         l号战舰的队伍，整体移动到，r号战舰所在队伍的最末尾战舰的后面
+//         如果l号战舰和r号战舰已经是一队，不进行任何操作
+// C l r : 如果l号战舰和r号战舰不在一个队伍，打印-1
+//         如果l号战舰和r号战舰在一个队伍，打印它俩中间隔着几艘战舰
+// 1 <= t <= 5 * 10^5
 // 测试链接 : https://www.luogu.com.cn/problem/P1196
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
@@ -70,9 +79,9 @@ public class Code04_LegendOfHeroes {
 	public static void main(String[] args) {
 		prepare();
 		Kattio io = new Kattio();
-		int m = io.nextInt();
+		int t = io.nextInt();
 		String op;
-		for (int i = 1, l, r; i <= m; i++) {
+		for (int i = 1, l, r; i <= t; i++) {
 			op = io.next();
 			l = io.nextInt();
 			r = io.nextInt();
