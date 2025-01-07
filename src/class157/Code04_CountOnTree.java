@@ -241,12 +241,12 @@ public class Code04_CountOnTree {
 		dfs2(); // 用迭代版dfs，防止爆栈
 		for (int i = 1, u, v, k, lastAns = 0; i <= q; i++) {
 			in.nextToken();
-			u = (int) in.nval;
+			u = (int) in.nval ^ lastAns; // 题目要求
 			in.nextToken();
 			v = (int) in.nval;
 			in.nextToken();
 			k = (int) in.nval;
-			lastAns = kth(u ^ lastAns, v, k);
+			lastAns = kth(u, v, k);
 			out.println(lastAns);
 		}
 		out.flush();
