@@ -53,6 +53,7 @@ public class BinarySystem {
 		System.out.println(a);
 		printBinary(a);
 		printBinary(~a);
+        System.out.println("===a===");
 		int e = ~a + 1;
 		System.out.println(e);
 		printBinary(e);

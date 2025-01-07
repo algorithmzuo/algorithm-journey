@@ -30,10 +30,13 @@ public class Experiment {
 	// 完全按照说的来实验
 	public static void experiment(int n, int t) {
 		double[] wealth = new double[n];
+        //每人100元
 		Arrays.fill(wealth, 100);
+        //标识是否有钱
 		boolean[] hasMoney = new boolean[n];
 		for (int i = 0; i < t; i++) {
 			Arrays.fill(hasMoney, false);
+            //计算是否有钱
 			for (int j = 0; j < n; j++) {
 				if (wealth[j] > 0) {
 					hasMoney[j] = true;
@@ -41,6 +44,7 @@ public class Experiment {
 			}
 			for (int j = 0; j < n; j++) {
 				if (hasMoney[j]) {
+                    //如果不是自己就发钱
 					int other = j;
 					do {
 						// (int) (Math.random() * n);
@@ -71,12 +75,14 @@ public class Experiment {
 		double sumOfWealth = 0;
 		int n = wealth.length;
 		for (int i = 0; i < n; i++) {
+            //总价
 			sumOfWealth += wealth[i];
 			for (int j = 0; j < n; j++) {
+                //总差值
 				sumOfAbsoluteDifferences += Math.abs(wealth[i] - wealth[j]);
 			}
 		}
+        //总差值/2*人数*总价
 		return sumOfAbsoluteDifferences / (2 * n * sumOfWealth);
 	}
-
 }
