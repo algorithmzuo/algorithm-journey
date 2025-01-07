@@ -20,6 +20,8 @@ public class Code02_SmallestMissingNaturalNumber {
 
 	public static int MAXM = MAXN * 22;
 
+	public static int n, q;
+
 	public static int[] root = new int[MAXN];
 
 	public static int[] left = new int[MAXM];
@@ -30,7 +32,7 @@ public class Code02_SmallestMissingNaturalNumber {
 	// 表示该范围每个数字最后出现的位置中，最左在哪
 	public static int[] lateLeft = new int[MAXM];
 
-	public static int n, q, cnt;
+	public static int cnt;
 
 	public static int update(int pre, int l, int r, int v, int pos) {
 		int rt = ++cnt;
