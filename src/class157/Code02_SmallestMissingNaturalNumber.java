@@ -30,7 +30,7 @@ public class Code02_SmallestMissingNaturalNumber {
 	// 表示该范围每个数字最后出现的位置中，最左在哪
 	public static int[] lateLeft = new int[MAXM];
 
-	public static int n, m, cnt;
+	public static int n, q, cnt;
 
 	public static int update(int pre, int l, int r, int v, int pos) {
 		int rt = ++cnt;
@@ -75,7 +75,7 @@ public class Code02_SmallestMissingNaturalNumber {
 		in.nextToken();
 		n = (int) in.nval;
 		in.nextToken();
-		m = (int) in.nval;
+		q = (int) in.nval;
 		cnt = 0;
 		for (int i = 1, v; i <= n; i++) {
 			in.nextToken();
@@ -86,7 +86,7 @@ public class Code02_SmallestMissingNaturalNumber {
 				root[i] = update(root[i - 1], 0, n, v, i);
 			}
 		}
-		for (int i = 1, l, r; i <= m; i++) {
+		for (int i = 1, l, r; i <= q; i++) {
 			in.nextToken();
 			l = (int) in.nval;
 			in.nextToken();

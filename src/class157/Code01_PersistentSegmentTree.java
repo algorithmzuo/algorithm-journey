@@ -18,7 +18,7 @@ public class Code01_PersistentSegmentTree {
 
 	public static int MAXM = MAXN * 22;
 
-	public static int n, m;
+	public static int n, q;
 
 	public static int[] arr = new int[MAXN];
 
@@ -55,10 +55,7 @@ public class Code01_PersistentSegmentTree {
 	}
 
 	public static int rank(int v) {
-		int l = 1;
-		int r = n;
-		int m = 0;
-		int ans = 0;
+		int l = 1, r = n, m, ans = 0;
 		while (l <= r) {
 			m = (l + r) / 2;
 			if (sort[m] <= v) {
@@ -107,7 +104,7 @@ public class Code01_PersistentSegmentTree {
 		in.nextToken();
 		n = (int) in.nval;
 		in.nextToken();
-		m = (int) in.nval;
+		q = (int) in.nval;
 		for (int i = 1; i <= n; i++) {
 			in.nextToken();
 			arr[i] = (int) in.nval;
@@ -117,7 +114,7 @@ public class Code01_PersistentSegmentTree {
 			x = rank(arr[i]);
 			root[i] = insert(root[i - 1], 1, n, x);
 		}
-		for (int i = 1, l, r, k; i <= m; i++) {
+		for (int i = 1, l, r, k; i <= q; i++) {
 			in.nextToken();
 			l = (int) in.nval;
 			in.nextToken();

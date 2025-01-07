@@ -20,7 +20,7 @@ public class Code03_LargestMedian {
 
 	public static int INF = 10000001;
 
-	public static int n, m;
+	public static int n, q;
 
 	// 原始位置、数值
 	public static int[][] arr = new int[MAXN][2];
@@ -59,16 +59,6 @@ public class Code03_LargestMedian {
 		return rt;
 	}
 
-	public static int clone(int i) {
-		int rt = ++cnt;
-		left[rt] = left[i];
-		right[rt] = right[i];
-		pre[rt] = pre[i];
-		suf[rt] = suf[i];
-		sum[rt] = sum[i];
-		return rt;
-	}
-
 	public static void up(int i) {
 		pre[i] = Math.max(pre[left[i]], sum[left[i]] + pre[right[i]]);
 		suf[i] = Math.max(suf[right[i]], suf[left[i]] + sum[right[i]]);
@@ -76,7 +66,12 @@ public class Code03_LargestMedian {
 	}
 
 	public static int update(int p, int l, int r, int x) {
-		int rt = clone(p);
+		int rt = ++cnt;
+		left[rt] = left[p];
+		right[rt] = right[p];
+		pre[rt] = pre[p];
+		suf[rt] = suf[p];
+		sum[rt] = sum[p];
 		if (l == r) {
 			pre[rt] = suf[rt] = sum[rt] = -1;
 		} else {
@@ -142,15 +137,14 @@ public class Code03_LargestMedian {
 	}
 
 	public static int compute() {
-		int left = 1, right = n, mid;
-		int ans = 0;
-		while (left <= right) {
-			mid = (left + right) / 2;
-			if (check(mid)) {
-				ans = arr[mid][1];
-				left = mid + 1;
+		int l = 1, r = n, m, ans = 0;
+		while (l <= r) {
+			m = (l + r) / 2;
+			if (check(m)) {
+				ans = arr[m][1];
+				l = m + 1;
 			} else {
-				right = mid - 1;
+				r = m - 1;
 			}
 		}
 		return ans;
@@ -169,8 +163,8 @@ public class Code03_LargestMedian {
 		}
 		prepare();
 		in.nextToken();
-		m = (int) in.nval;
-		for (int i = 1, lastAns = 0; i <= m; i++) {
+		q = (int) in.nval;
+		for (int i = 1, lastAns = 0; i <= q; i++) {
 			in.nextToken();
 			ques[0] = ((int) in.nval + lastAns) % n;
 			in.nextToken();
