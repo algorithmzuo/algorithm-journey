@@ -1,6 +1,6 @@
 package class157;
 
-// 两节点间第k小值
+// 节点路径第k小值
 // 测试链接 : https://www.luogu.com.cn/problem/P2633
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
@@ -143,7 +143,8 @@ public class Code04_CountOnTree {
 		}
 	}
 
-	// dfs迭代版，都可以通过，讲解118，详解了从递归版改迭代版
+	// dfs迭代版，都可以通过
+	// 讲解118，详解了从递归版改迭代版
 	public static int[][] ufe = new int[MAXN][3];
 
 	public static int stackSize, u, f, e;
