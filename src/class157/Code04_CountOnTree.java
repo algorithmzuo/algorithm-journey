@@ -20,7 +20,7 @@ public class Code04_CountOnTree {
 
 	public static int MAXM = MAXN * MAXH;
 
-	public static int n, s, m;
+	public static int n, s, q;
 
 	// 各个节点权值
 	public static int[] arr = new int[MAXN];
@@ -54,15 +54,15 @@ public class Code04_CountOnTree {
 	public static int[][] stjump = new int[MAXN][MAXH];
 
 	public static int rank(int num) {
-		int left = 1, right = s, mid;
-		while (left <= right) {
-			mid = (left + right) / 2;
-			if (sort[mid] == num) {
-				return mid;
-			} else if (sort[mid] < num) {
-				left = mid + 1;
+		int l = 1, r = s, m;
+		while (l <= r) {
+			m = (l + r) / 2;
+			if (sort[m] == num) {
+				return m;
+			} else if (sort[m] < num) {
+				l = m + 1;
 			} else {
-				right = mid - 1;
+				r = m - 1;
 			}
 		}
 		return -1;
@@ -223,7 +223,7 @@ public class Code04_CountOnTree {
 		in.nextToken();
 		n = (int) in.nval;
 		in.nextToken();
-		m = (int) in.nval;
+		q = (int) in.nval;
 		for (int i = 1; i <= n; i++) {
 			in.nextToken();
 			arr[i] = (int) in.nval;
@@ -238,7 +238,7 @@ public class Code04_CountOnTree {
 			addEdge(v, u);
 		}
 		dfs2(); // 用迭代版dfs，防止爆栈
-		for (int i = 1, u, v, k, lastAns = 0; i <= m; i++) {
+		for (int i = 1, u, v, k, lastAns = 0; i <= q; i++) {
 			in.nextToken();
 			u = (int) in.nval;
 			in.nextToken();
