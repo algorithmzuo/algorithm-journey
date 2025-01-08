@@ -64,7 +64,7 @@ package class157;
 //
 //long long query(int jobl, int jobr, int l, int r, int u, int v) {
 //    if (jobl <= l && r <= jobr) {
-//        return sum[u] - sum[v];
+//        return sum[v] - sum[u];
 //    }
 //    long long ans = 0;
 //    int mid = (l + r) >> 1;
@@ -103,7 +103,7 @@ package class157;
 //}
 //
 //long long compute(int p, int k) {
-//    long long ans = query(dep[p] + 1, dep[p] + k, 1, n, root[dfn[p] + siz[p] - 1], root[dfn[p] - 1]);
+//    long long ans = query(dep[p] + 1, dep[p] + k, 1, n, root[dfn[p] - 1], root[dfn[p] + siz[p] - 1]);
 //    ans += (long long)(siz[p] - 1) * min(k, dep[p] - 1);
 //    return ans;
 //}

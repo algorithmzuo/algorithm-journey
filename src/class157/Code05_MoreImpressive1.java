@@ -83,7 +83,7 @@ public class Code05_MoreImpressive1 {
 
 	public static long query(int jobl, int jobr, int l, int r, int u, int v) {
 		if (jobl <= l && r <= jobr) {
-			return sum[u] - sum[v];
+			return sum[v] - sum[u];
 		}
 		long ans = 0;
 		int mid = (l + r) / 2;
@@ -194,7 +194,7 @@ public class Code05_MoreImpressive1 {
 	}
 
 	public static long compute(int p, int k) {
-		long ans = query(deep[p] + 1, deep[p] + k, 1, n, root[dfn[p] + size[p] - 1], root[dfn[p] - 1]);
+		long ans = query(deep[p] + 1, deep[p] + k, 1, n, root[dfn[p] - 1], root[dfn[p] + size[p] - 1]);
 		ans += (long) (size[p] - 1) * Math.min(k, deep[p] - 1);
 		return ans;
 	}
