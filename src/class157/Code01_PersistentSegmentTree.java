@@ -68,32 +68,32 @@ public class Code01_PersistentSegmentTree {
 		return ans;
 	}
 
-	public static int insert(int p, int l, int r, int x) {
+	public static int insert(int jobi, int l, int r, int i) {
 		int rt = ++cnt;
-		left[rt] = left[p];
-		right[rt] = right[p];
-		count[rt] = count[p] + 1;
+		left[rt] = left[i];
+		right[rt] = right[i];
+		count[rt] = count[i] + 1;
 		if (l < r) {
 			int mid = (l + r) / 2;
-			if (x <= mid) {
-				left[rt] = insert(left[p], l, mid, x);
+			if (jobi <= mid) {
+				left[rt] = insert(jobi, l, mid, left[rt]);
 			} else {
-				right[rt] = insert(right[p], mid + 1, r, x);
+				right[rt] = insert(jobi, mid + 1, r, right[rt]);
 			}
 		}
 		return rt;
 	}
 
-	public static int query(int u, int v, int k, int l, int r) {
+	public static int query(int jobk, int l, int r, int u, int v) {
 		if (l == r) {
 			return l;
 		}
 		int lcount = count[left[v]] - count[left[u]];
 		int mid = (l + r) / 2;
-		if (lcount >= k) {
-			return query(left[u], left[v], k, l, mid);
+		if (lcount >= jobk) {
+			return query(jobk, l, mid, left[u], left[v]);
 		} else {
-			return query(right[u], right[v], k - lcount, mid + 1, r);
+			return query(jobk - lcount, mid + 1, r, right[u], right[v]);
 		}
 	}
 
@@ -112,7 +112,7 @@ public class Code01_PersistentSegmentTree {
 		prepare();
 		for (int i = 1, x; i <= n; i++) {
 			x = rank(arr[i]);
-			root[i] = insert(root[i - 1], 1, n, x);
+			root[i] = insert(x, 1, n, root[i - 1]);
 		}
 		for (int i = 1, l, r, k; i <= q; i++) {
 			in.nextToken();
@@ -121,7 +121,7 @@ public class Code01_PersistentSegmentTree {
 			r = (int) in.nval;
 			in.nextToken();
 			k = (int) in.nval;
-			int ans = query(root[l - 1], root[r], k, 1, n);
+			int ans = query(k, 1, n, root[l - 1], root[r]);
 			out.println(sort[ans]);
 		}
 		out.flush();

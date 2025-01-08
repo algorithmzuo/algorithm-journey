@@ -34,39 +34,39 @@ public class Code02_SmallestMissingNaturalNumber {
 
 	public static int cnt;
 
-	public static int update(int pre, int l, int r, int v, int pos) {
+	public static int update(int jobi, int jobv, int l, int r, int i) {
 		int rt = ++cnt;
-		left[rt] = left[pre];
-		right[rt] = right[pre];
-		lateLeft[rt] = lateLeft[pre];
+		left[rt] = left[i];
+		right[rt] = right[i];
+		lateLeft[rt] = lateLeft[i];
 		if (l == r) {
-			lateLeft[rt] = pos;
+			lateLeft[rt] = jobv;
 		} else {
 			int mid = (l + r) / 2;
-			if (v <= mid) {
-				left[rt] = update(left[pre], l, mid, v, pos);
+			if (jobi <= mid) {
+				left[rt] = update(jobi, jobv, l, mid, left[rt]);
 			} else {
-				right[rt] = update(right[pre], mid + 1, r, v, pos);
+				right[rt] = update(jobi, jobv, mid + 1, r, right[rt]);
 			}
 			lateLeft[rt] = Math.min(lateLeft[left[rt]], lateLeft[right[rt]]);
 		}
 		return rt;
 	}
 
-	public static int query(int rt, int l, int r, int pos) {
+	public static int query(int pos, int l, int r, int i) {
 		if (l == r) {
 			return l;
 		}
 		int mid = (l + r) / 2;
-		if (lateLeft[left[rt]] < pos) {
+		if (lateLeft[left[i]] < pos) {
 			// l...mid范围上，每个数字最晚出现的位置中
 			// 最左的位置如果在pos以左，说明l...mid范围上，一定有缺失的数字
-			return query(left[rt], l, mid, pos);
+			return query(pos, l, mid, left[i]);
 		} else {
 			// 缺失的数字一定在mid+1....r范围
 			// 因为l...r一定有缺失的数字才会来到这个范围的
 			// 如果左侧不缺失，那缺失的数字一定在右侧范围上
-			return query(right[rt], mid + 1, r, pos);
+			return query(pos, mid + 1, r, right[i]);
 		}
 	}
 
@@ -85,7 +85,7 @@ public class Code02_SmallestMissingNaturalNumber {
 			if (v >= n) {
 				root[i] = root[i - 1];
 			} else {
-				root[i] = update(root[i - 1], 0, n, v, i);
+				root[i] = update(v, i, 0, n, root[i - 1]);
 			}
 		}
 		for (int i = 1, l, r; i <= q; i++) {
@@ -93,7 +93,7 @@ public class Code02_SmallestMissingNaturalNumber {
 			l = (int) in.nval;
 			in.nextToken();
 			r = (int) in.nval;
-			out.println(query(root[r], 0, n, l));
+			out.println(query(l, 0, n, root[r]));
 		}
 		out.flush();
 		out.close();

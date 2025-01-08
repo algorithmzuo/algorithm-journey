@@ -37,7 +37,7 @@ public class Code04_CountOnTree {
 
 	public static int cntg = 0;
 
-	// 可持久化线段树
+	// 可持久化线段树需要
 	public static int[] root = new int[MAXN];
 
 	public static int[] left = new int[MAXM];
@@ -99,51 +99,51 @@ public class Code04_CountOnTree {
 		head[u] = cntg;
 	}
 
-	public static int insert(int p, int l, int r, int x) {
+	public static int insert(int jobi, int l, int r, int i) {
 		int rt = ++cntt;
-		left[rt] = left[p];
-		right[rt] = right[p];
-		count[rt] = count[p] + 1;
+		left[rt] = left[i];
+		right[rt] = right[i];
+		count[rt] = count[i] + 1;
 		if (l < r) {
 			int mid = (l + r) / 2;
-			if (x <= mid) {
-				left[rt] = insert(left[rt], l, mid, x);
+			if (jobi <= mid) {
+				left[rt] = insert(jobi, l, mid, left[rt]);
 			} else {
-				right[rt] = insert(right[rt], mid + 1, r, x);
+				right[rt] = insert(jobi, mid + 1, r, right[rt]);
 			}
 		}
 		return rt;
 	}
 
-	public static int query(int u, int v, int fa, int fafa, int l, int r, int k) {
+	public static int query(int jobk, int l, int r, int u, int v, int lca, int lcafa) {
 		if (l == r) {
 			return l;
 		}
-		int leftCnt = count[left[u]] + count[left[v]] - count[left[fa]] - count[left[fafa]];
+		int leftCnt = count[left[u]] + count[left[v]] - count[left[lca]] - count[left[lcafa]];
 		int mid = (l + r) / 2;
-		if (leftCnt >= k) {
-			return query(left[u], left[v], left[fa], left[fafa], l, mid, k);
+		if (leftCnt >= jobk) {
+			return query(jobk, l, mid, left[u], left[v], left[lca], left[lcafa]);
 		} else {
-			return query(right[u], right[v], right[fa], right[fafa], mid + 1, r, k - leftCnt);
+			return query(jobk - leftCnt, mid + 1, r, right[u], right[v], right[lca], right[lcafa]);
 		}
 	}
 
-	// dfs递归版，C++可以通过，java无法通过，递归会爆栈
+	// 递归版，C++可以通过，java无法通过，递归会爆栈
 	public static void dfs1(int u, int f) {
-		root[u] = insert(root[f], 1, s, rank(arr[u]));
+		root[u] = insert(rank(arr[u]), 1, s, root[f]);
 		deep[u] = deep[f] + 1;
 		stjump[u][0] = f;
 		for (int p = 1; p < MAXH; p++) {
 			stjump[u][p] = stjump[stjump[u][p - 1]][p - 1];
 		}
-		for (int e = head[u]; e > 0; e = next[e]) {
-			if (to[e] != f) {
-				dfs1(to[e], u);
+		for (int ei = head[u]; ei > 0; ei = next[ei]) {
+			if (to[ei] != f) {
+				dfs1(to[ei], u);
 			}
 		}
 	}
 
-	// dfs迭代版，都可以通过
+	// 迭代版，都可以通过
 	// 讲解118，详解了从递归版改迭代版
 	public static int[][] ufe = new int[MAXN][3];
 
@@ -163,13 +163,14 @@ public class Code04_CountOnTree {
 		e = ufe[stackSize][2];
 	}
 
+	// dfs1的迭代版
 	public static void dfs2() {
 		stackSize = 0;
 		push(1, 0, -1);
 		while (stackSize > 0) {
 			pop();
 			if (e == -1) {
-				root[u] = insert(root[f], 1, s, rank(arr[u]));
+				root[u] = insert(rank(arr[u]), 1, s, root[f]);
 				deep[u] = deep[f] + 1;
 				stjump[u][0] = f;
 				for (int p = 1; p < MAXH; p++) {
@@ -213,7 +214,7 @@ public class Code04_CountOnTree {
 
 	public static int kth(int u, int v, int k) {
 		int lca = lca(u, v);
-		int i = query(root[u], root[v], root[lca], root[stjump[lca][0]], 1, s, k);
+		int i = query(k, 1, s, root[u], root[v], root[lca], root[stjump[lca][0]]);
 		return sort[i];
 	}
 
@@ -238,7 +239,7 @@ public class Code04_CountOnTree {
 			addEdge(u, v);
 			addEdge(v, u);
 		}
-		dfs2(); // 用迭代版dfs，防止爆栈
+		dfs2(); // 使用迭代版防止爆栈
 		for (int i = 1, u, v, k, lastAns = 0; i <= q; i++) {
 			in.nextToken();
 			u = (int) in.nval ^ lastAns; // 题目要求

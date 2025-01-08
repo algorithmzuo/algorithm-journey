@@ -65,21 +65,21 @@ public class Code03_LargestMedian {
 		sum[i] = sum[left[i]] + sum[right[i]];
 	}
 
-	public static int update(int p, int l, int r, int x) {
+	public static int update(int jobi, int l, int r, int i) {
 		int rt = ++cnt;
-		left[rt] = left[p];
-		right[rt] = right[p];
-		pre[rt] = pre[p];
-		suf[rt] = suf[p];
-		sum[rt] = sum[p];
+		left[rt] = left[i];
+		right[rt] = right[i];
+		pre[rt] = pre[i];
+		suf[rt] = suf[i];
+		sum[rt] = sum[i];
 		if (l == r) {
 			pre[rt] = suf[rt] = sum[rt] = -1;
 		} else {
 			int mid = (l + r) / 2;
-			if (x <= mid) {
-				left[rt] = update(left[rt], l, mid, x);
+			if (jobi <= mid) {
+				left[rt] = update(jobi, l, mid, left[rt]);
 			} else {
-				right[rt] = update(right[rt], mid + 1, r, x);
+				right[rt] = update(jobi, mid + 1, r, right[rt]);
 			}
 			up(rt);
 		}
@@ -91,7 +91,7 @@ public class Code03_LargestMedian {
 		cnt = 0;
 		root[1] = build(1, n);
 		for (int i = 2; i <= n; i++) {
-			root[i] = update(root[i - 1], 1, n, arr[i - 1][0]);
+			root[i] = update(arr[i - 1][0], 1, n, root[i - 1]);
 		}
 	}
 
