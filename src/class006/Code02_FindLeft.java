@@ -49,6 +49,7 @@ public class Code02_FindLeft {
 		int l = 0, r = arr.length - 1, m = 0;
 		int ans = -1;
 		while (l <= r) {
+            //防止越界
 			// m = (l + r) / 2;
 			// m = l + (r - l) / 2;
 			m = l + ((r - l) >> 1);

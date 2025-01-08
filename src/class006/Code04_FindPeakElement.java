@@ -24,7 +24,9 @@ public class Code04_FindPeakElement {
 			}
 			int l = 1, r = n - 2, m = 0, ans = -1;
 			while (l <= r) {
-				m = (l + r) / 2;
+//				m = (l + r) / 2
+                //问题点：优先级有问题，>>低优
+                m = l+((r - l) >>1);
 				if (arr[m - 1] > arr[m]) {
 					r = m - 1;
 				} else if (arr[m] < arr[m + 1]) {
@@ -38,5 +40,8 @@ public class Code04_FindPeakElement {
 		}
 
 	}
-
+    public static void main(String[] args) {
+        int[] nums={1,2,3,1};
+        System.out.println(Solution.findPeakElement(nums));
+    }
 }

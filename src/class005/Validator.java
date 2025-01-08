@@ -1,5 +1,5 @@
 package class005;
-
+//todo 对数器
 public class Validator {
 
 	// 为了验证

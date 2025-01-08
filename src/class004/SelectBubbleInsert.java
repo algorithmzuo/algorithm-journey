@@ -1,5 +1,5 @@
 package class004;
-
+//todo 选择、冒泡、插入排序
 public class SelectBubbleInsert {
 
 	// 数组中交换i和j位置的数

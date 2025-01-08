@@ -26,9 +26,13 @@ public class MergeTwoLists {
 			if (head1 == null || head2 == null) {
 				return head1 == null ? head2 : head1;
 			}
+            //合并的链表头
 			ListNode head = head1.val <= head2.val ? head1 : head2;
+            //一个链表头
 			ListNode cur1 = head.next;
+            //另一个链表头
 			ListNode cur2 = head == head1 ? head2 : head1;
+            //前一个节点
 			ListNode pre = head;
 			while (cur1 != null && cur2 != null) {
 				if (cur1.val <= cur2.val) {
@@ -43,7 +47,6 @@ public class MergeTwoLists {
 			pre.next = cur1 != null ? cur1 : cur2;
 			return head;
 		}
-
 	}
 
 }
