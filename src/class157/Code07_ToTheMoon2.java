@@ -11,7 +11,7 @@ package class157;
 //using namespace std;
 //
 //static const int MAXN = 100001;
-//static const int MAXM = MAXN * 30;
+//static const int MAXM = MAXN * 25;
 //int n, q, t = 0;
 //long long arr[MAXN];
 //int root[MAXN];
