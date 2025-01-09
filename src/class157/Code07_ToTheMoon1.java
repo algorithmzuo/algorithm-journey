@@ -2,7 +2,7 @@ package class157;
 
 // 去月球，java版
 // 测试链接 : https://acm.hdu.edu.cn/showproblem.php?pid=4348
-// 测试链接 : https://www.spoj.com/problems/TTM/s
+// 测试链接 : https://www.spoj.com/problems/TTM/
 // java版的实现就是通过不了，怎么优化也通过不了，这是语言歧视
 // C++版的实现就能通过，两个版本的逻辑是完全一样的
 // 想通过就用C++写吧，本节课Code07_ToTheMoon2文件就是C++的实现
