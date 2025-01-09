@@ -12,7 +12,7 @@ import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 import java.util.Arrays;
 
-public class Code04_RangeLargestMedian {
+public class Code04_LargestMedian {
 
 	public static int MAXN = 20001;
 
