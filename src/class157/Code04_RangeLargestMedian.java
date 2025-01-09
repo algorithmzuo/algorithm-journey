@@ -1,6 +1,6 @@
 package class157;
 
-// 最大的中位数
+// 区间内最大中位数
 // 测试链接 : https://www.luogu.com.cn/problem/P2839
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
@@ -12,7 +12,7 @@ import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 import java.util.Arrays;
 
-public class Code04_LargestMedian {
+public class Code04_RangeLargestMedian {
 
 	public static int MAXN = 20001;
 
