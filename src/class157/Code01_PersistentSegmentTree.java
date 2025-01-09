@@ -34,15 +34,6 @@ public class Code01_PersistentSegmentTree {
 
 	public static int cnt;
 
-	public static void prepare() {
-		cnt = 0;
-		for (int i = 1; i <= n; i++) {
-			sort[i] = arr[i];
-		}
-		Arrays.sort(sort, 1, n + 1);
-		root[0] = build(1, n);
-	}
-
 	public static int build(int l, int r) {
 		int rt = ++cnt;
 		count[rt] = 0;
@@ -52,6 +43,15 @@ public class Code01_PersistentSegmentTree {
 			right[rt] = build(mid + 1, r);
 		}
 		return rt;
+	}
+
+	public static void prepare() {
+		cnt = 0;
+		for (int i = 1; i <= n; i++) {
+			sort[i] = arr[i];
+		}
+		Arrays.sort(sort, 1, n + 1);
+		root[0] = build(1, n);
 	}
 
 	public static int rank(int v) {

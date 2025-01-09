@@ -12,7 +12,7 @@ import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 import java.util.Arrays;
 
-public class Code03_LargestMedian {
+public class Code04_LargestMedian {
 
 	public static int MAXN = 20001;
 
@@ -86,15 +86,6 @@ public class Code03_LargestMedian {
 		return rt;
 	}
 
-	public static void prepare() {
-		Arrays.sort(arr, 1, n + 1, (a, b) -> a[1] - b[1]);
-		cnt = 0;
-		root[1] = build(1, n);
-		for (int i = 2; i <= n; i++) {
-			root[i] = update(arr[i - 1][0], 1, n, root[i - 1]);
-		}
-	}
-
 	public static void initInfo() {
 		info[0] = info[1] = -INF;
 		info[2] = 0;
@@ -117,6 +108,15 @@ public class Code03_LargestMedian {
 			if (jobr > mid) {
 				query(jobl, jobr, mid + 1, r, right[i]);
 			}
+		}
+	}
+
+	public static void prepare() {
+		Arrays.sort(arr, 1, n + 1, (a, b) -> a[1] - b[1]);
+		cnt = 0;
+		root[1] = build(1, n);
+		for (int i = 2; i <= n; i++) {
+			root[i] = update(arr[i - 1][0], 1, n, root[i - 1]);
 		}
 	}
 

@@ -14,7 +14,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 
-public class Code02_SmallestMissingNaturalNumber {
+public class Code02_MissingSmallestNaturalNumber {
 
 	public static int MAXN = 200001;
 
