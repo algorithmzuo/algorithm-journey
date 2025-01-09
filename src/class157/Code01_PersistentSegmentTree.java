@@ -30,13 +30,13 @@ public class Code01_PersistentSegmentTree {
 
 	public static int[] right = new int[MAXM];
 
-	public static int[] count = new int[MAXM];
+	public static int[] size = new int[MAXM];
 
 	public static int cnt;
 
 	public static int build(int l, int r) {
 		int rt = ++cnt;
-		count[rt] = 0;
+		size[rt] = 0;
 		if (l < r) {
 			int mid = (l + r) / 2;
 			left[rt] = build(l, mid);
@@ -72,7 +72,7 @@ public class Code01_PersistentSegmentTree {
 		int rt = ++cnt;
 		left[rt] = left[i];
 		right[rt] = right[i];
-		count[rt] = count[i] + 1;
+		size[rt] = size[i] + 1;
 		if (l < r) {
 			int mid = (l + r) / 2;
 			if (jobi <= mid) {
@@ -88,12 +88,12 @@ public class Code01_PersistentSegmentTree {
 		if (l == r) {
 			return l;
 		}
-		int lcount = count[left[v]] - count[left[u]];
+		int lsize = size[left[v]] - size[left[u]];
 		int mid = (l + r) / 2;
-		if (lcount >= jobk) {
+		if (lsize >= jobk) {
 			return query(jobk, l, mid, left[u], left[v]);
 		} else {
-			return query(jobk - lcount, mid + 1, r, right[u], right[v]);
+			return query(jobk - lsize, mid + 1, r, right[u], right[v]);
 		}
 	}
 

@@ -44,7 +44,7 @@ public class Code05_CountOnTree {
 
 	public static int[] right = new int[MAXM];
 
-	public static int[] count = new int[MAXM];
+	public static int[] size = new int[MAXM];
 
 	public static int cntt = 0;
 
@@ -70,7 +70,7 @@ public class Code05_CountOnTree {
 
 	public static int build(int l, int r) {
 		int rt = ++cntt;
-		count[rt] = 0;
+		size[rt] = 0;
 		if (l < r) {
 			int mid = (l + r) / 2;
 			left[rt] = build(l, mid);
@@ -103,7 +103,7 @@ public class Code05_CountOnTree {
 		int rt = ++cntt;
 		left[rt] = left[i];
 		right[rt] = right[i];
-		count[rt] = count[i] + 1;
+		size[rt] = size[i] + 1;
 		if (l < r) {
 			int mid = (l + r) / 2;
 			if (jobi <= mid) {
@@ -119,12 +119,12 @@ public class Code05_CountOnTree {
 		if (l == r) {
 			return l;
 		}
-		int leftCnt = count[left[u]] + count[left[v]] - count[left[lca]] - count[left[lcafa]];
+		int lsize = size[left[u]] + size[left[v]] - size[left[lca]] - size[left[lcafa]];
 		int mid = (l + r) / 2;
-		if (leftCnt >= jobk) {
+		if (lsize >= jobk) {
 			return query(jobk, l, mid, left[u], left[v], left[lca], left[lcafa]);
 		} else {
-			return query(jobk - leftCnt, mid + 1, r, right[u], right[v], right[lca], right[lcafa]);
+			return query(jobk - lsize, mid + 1, r, right[u], right[v], right[lca], right[lcafa]);
 		}
 	}
 
