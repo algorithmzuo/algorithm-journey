@@ -1,14 +1,13 @@
 package class157;
 
 // 更为厉害，C++版
-// 原始题意有坑，多注意！
 // 有n个节点，编号1~n，给定n-1条边，连成一棵树，1号点是树头
-// 如果节点a是节点b的祖先节点，认为"a比b更厉害"
-// 如果节点a到节点b的路径上边的数量 <= 常数k，认为"a和b是盟友"
-// 一共有q条查询，每条查询 p k : 查询有多少三元组(a, b, c)满足如下规定
-// 1，a就是节点p，但是a、b、c为三个不同的点
+// 如果x是y的祖先节点，认为"x比y更厉害"
+// 如果x到y的路径上，边的数量 <= 某个常数，认为"x和y是邻居"
+// 一共有q条查询，每条查询 a k : 打印有多少三元组(a, b, c)满足如下规定
+// 1，a、b、c为三个不同的点
 // 2，a和b都比c厉害
-// 3，a和b是盟友，路径上边的数量 <= 给定的k
+// 3，a和b是邻居，路径边的数量 <= 给定的k
 // 1 <= n、q、k <= 3 * 10^5
 // 测试链接 : https://www.luogu.com.cn/problem/P3899
 // 如下实现是C++的版本，C++版本和java版本逻辑完全一样
@@ -111,9 +110,9 @@ package class157;
 //    }
 //}
 //
-//long long compute(int p, int k) {
-//    long long ans = query(dep[p] + 1, dep[p] + k, 1, n, root[dfn[p] - 1], root[dfn[p] + siz[p] - 1]);
-//    ans += (long long)(siz[p] - 1) * min(k, dep[p] - 1);
+//long long compute(int a, int k) {
+//    long long ans = query(dep[a] + 1, dep[a] + k, 1, n, root[dfn[a] - 1], root[dfn[a] + siz[a] - 1]);
+//    ans += (long long)(siz[a] - 1) * min(k, dep[a] - 1);
 //    return ans;
 //}
 //
@@ -121,8 +120,7 @@ package class157;
 //    ios::sync_with_stdio(false);
 //    cin.tie(nullptr);
 //    cin >> n >> q;
-//    for (int i = 1; i < n; i++) {
-//        int u, v;
+//    for (int i = 1, u, v; i < n; i++) {
 //        cin >> u >> v;
 //        addEdge(u, v);
 //        addEdge(v, u);
@@ -130,10 +128,9 @@ package class157;
 //    root[0] = build(1, n);
 //    dfs1(1, 0);
 //    dfs2(1, 0);
-//    for(int i = 1; i <= q; i++) {
-//        int p, k;
-//        cin >> p >> k;
-//        cout << compute(p, k) << "\n";
+//    for(int i = 1, a, k; i <= q; i++) {
+//        cin >> a >> k;
+//        cout << compute(a, k) << "\n";
 //    }
 //    return 0;
 //}

@@ -1,14 +1,13 @@
 package class157;
 
 // 更为厉害，java版
-// 原始题意有坑，多注意！
 // 有n个节点，编号1~n，给定n-1条边，连成一棵树，1号点是树头
-// 如果节点a是节点b的祖先节点，认为"a比b更厉害"
-// 如果节点a到节点b的路径上边的数量 <= 常数k，认为"a和b是盟友"
-// 一共有q条查询，每条查询 p k : 查询有多少三元组(a, b, c)满足如下规定
-// 1，a就是节点p，但是a、b、c为三个不同的点
+// 如果x是y的祖先节点，认为"x比y更厉害"
+// 如果x到y的路径上，边的数量 <= 某个常数，认为"x和y是邻居"
+// 一共有q条查询，每条查询 a k : 打印有多少三元组(a, b, c)满足如下规定
+// 1，a、b、c为三个不同的点
 // 2，a和b都比c厉害
-// 3，a和b是盟友，路径上边的数量 <= 给定的k
+// 3，a和b是邻居，路径边的数量 <= 给定的k
 // 1 <= n、q、k <= 3 * 10^5
 // 测试链接 : https://www.luogu.com.cn/problem/P3899
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
@@ -202,9 +201,9 @@ public class Code07_MoreImpressive1 {
 		}
 	}
 
-	public static long compute(int p, int k) {
-		long ans = query(deep[p] + 1, deep[p] + k, 1, n, root[dfn[p] - 1], root[dfn[p] + size[p] - 1]);
-		ans += (long) (size[p] - 1) * Math.min(k, deep[p] - 1);
+	public static long compute(int a, int k) {
+		long ans = query(deep[a] + 1, deep[a] + k, 1, n, root[dfn[a] - 1], root[dfn[a] + size[a] - 1]);
+		ans += (long) (size[a] - 1) * Math.min(k, deep[a] - 1);
 		return ans;
 	}
 
@@ -227,12 +226,12 @@ public class Code07_MoreImpressive1 {
 		root[0] = build(1, n);
 		dfs3(); // 使用迭代版防止爆栈
 		dfs4(); // 使用迭代版防止爆栈
-		for (int i = 1, p, k; i <= q; i++) {
+		for (int i = 1, a, k; i <= q; i++) {
 			in.nextToken();
-			p = (int) in.nval;
+			a = (int) in.nval;
 			in.nextToken();
 			k = (int) in.nval;
-			out.println(compute(p, k));
+			out.println(compute(a, k));
 		}
 		out.flush();
 		out.close();
