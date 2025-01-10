@@ -12,7 +12,7 @@ package class157;
 // 测试链接 : https://acm.hdu.edu.cn/showproblem.php?pid=4348
 // 测试链接 : https://www.spoj.com/problems/TTM/
 // 这道题的两个测试，都严重卡常，java版很难通过，这是语言歧视
-// 想通过用C++写吧，本节课Code05_LazyTagPermanentization2文件就是C++的实现
+// 想通过用C++写吧，本节课Code05_TagPermanentization2文件就是C++的实现
 // 两个版本的逻辑完全一样，C++版本可以通过所有测试
 
 import java.io.BufferedWriter;
@@ -20,7 +20,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStreamWriter;
 
-public class Code05_LazyTagPermanentization1 {
+public class Code05_TagPermanentization1 {
 
 	public static int MAXN = 100001;
 
