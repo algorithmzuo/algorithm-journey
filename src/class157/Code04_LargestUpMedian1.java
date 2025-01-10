@@ -21,7 +21,7 @@ import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 import java.util.Arrays;
 
-public class Code05_LargestUpMedian1 {
+public class Code04_LargestUpMedian1 {
 
 	public static int MAXN = 20001;
 
