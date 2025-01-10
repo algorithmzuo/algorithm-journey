@@ -6,7 +6,8 @@ package class157;
 // 题目有强制在线的要求，上一次打印的答案为lastAns，初始时lastAns = 0
 // 每次给定的u、v、k，按照如下方式得到真实的u、v、k，查询完成后更新lastAns
 // 真实u = 给定u ^ lastAns    真实v = 给定v    真实k = 给定k
-// 1 <= n、q <= 10^5    1 <= arr[i] <= 2^32 - 1
+// 1 <= n、q <= 10^5
+// 1 <= arr[i] <= 2^32 - 1
 // 测试链接 : https://www.luogu.com.cn/problem/P2633
 // 如下实现是C++的版本，C++版本和java版本逻辑完全一样
 // 提交如下代码，可以通过所有测试用例
