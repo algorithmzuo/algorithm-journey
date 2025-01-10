@@ -57,31 +57,31 @@ public class Code03_DifferentNumbers1 {
 		return rt;
 	}
 
-	public static int query(int jobl, int jobr, int l, int r, int i) {
+	public static int queryDiff(int jobl, int jobr, int l, int r, int i) {
 		if (jobl <= l && r <= jobr) {
 			return diff[i];
 		}
 		int mid = (l + r) / 2;
 		int ans = 0;
 		if (jobl <= mid) {
-			ans += query(jobl, jobr, l, mid, left[i]);
+			ans += queryDiff(jobl, jobr, l, mid, left[i]);
 		}
 		if (jobr > mid) {
-			ans += query(jobl, jobr, mid + 1, r, right[i]);
+			ans += queryDiff(jobl, jobr, mid + 1, r, right[i]);
 		}
 		return ans;
 	}
 
-	public static int find(int jobk, int l, int r, int i) {
+	public static int queryKth(int jobk, int l, int r, int i) {
 		if (l == r) {
 			return l;
 		}
 		int mid = (l + r) / 2;
 		int leftDiff = diff[left[i]];
 		if (leftDiff >= jobk) {
-			return find(jobk, l, mid, left[i]);
+			return queryKth(jobk, l, mid, left[i]);
 		} else {
-			return find(jobk - leftDiff, mid + 1, r, right[i]);
+			return queryKth(jobk - leftDiff, mid + 1, r, right[i]);
 		}
 	}
 
@@ -113,16 +113,16 @@ public class Code03_DifferentNumbers1 {
 			io.write("Case #");
 			io.writeInt(t);
 			io.write(":");
-			for (int i = 1, l, r, tmp, k, lastAns = 0; i <= q; i++) {
+			for (int i = 1, l, r, k, lastAns = 0; i <= q; i++) {
 				l = (io.nextInt() + lastAns) % n + 1;
 				r = (io.nextInt() + lastAns) % n + 1;
 				if (l > r) {
-					tmp = l;
+					int tmp = l;
 					l = r;
 					r = tmp;
 				}
-				k = (query(l, r, 1, n, root[l]) + 1) >> 1;
-				lastAns = find(k, 1, n, root[l]);
+				k = (queryDiff(l, r, 1, n, root[l]) + 1) >> 1;
+				lastAns = queryKth(k, 1, n, root[l]);
 				io.write(" ");
 				io.writeInt(lastAns);
 			}

@@ -48,31 +48,31 @@ package class157;
 //    return rt;
 //}
 //
-//int query(int jobl, int jobr, int l, int r, int i) {
+//int queryDiff(int jobl, int jobr, int l, int r, int i) {
 //    if (jobl <= l && r <= jobr) {
 //        return diff[i];
 //    }
 //    int mid = (l + r) / 2;
 //    int ans = 0;
 //    if (jobl <= mid) {
-//        ans += query(jobl, jobr, l, mid, ls[i]);
+//        ans += queryDiff(jobl, jobr, l, mid, ls[i]);
 //    }
 //    if (jobr > mid) {
-//        ans += query(jobl, jobr, mid + 1, r, rs[i]);
+//        ans += queryDiff(jobl, jobr, mid + 1, r, rs[i]);
 //    }
 //    return ans;
 //}
 //
-//int find(int jobk, int l, int r, int i) {
+//int queryKth(int jobk, int l, int r, int i) {
 //    if (l == r) {
 //        return l;
 //    }
 //    int mid = (l + r) / 2;
 //    int leftDiff = diff[ls[i]];
 //    if (leftDiff >= jobk) {
-//        return find(jobk, l, mid, ls[i]);
+//        return queryKth(jobk, l, mid, ls[i]);
 //    } else {
-//        return find(jobk - leftDiff, mid + 1, r, rs[i]);
+//        return queryKth(jobk - leftDiff, mid + 1, r, rs[i]);
 //    }
 //}
 //
@@ -102,19 +102,15 @@ package class157;
 //        }
 //        prepare();
 //        cout << "Case #" << t << ":";
-//        int lastAns = 0;
-//        for (int i = 1; i <= q; i++) {
-//            int l, r;
+//        for (int i = 1, l, r, k, lastAns = 0; i <= q; i++) {
 //            cin >> l >> r;
 //            l = (l + lastAns) % n + 1;
 //            r = (r + lastAns) % n + 1;
 //            if (l > r) {
-//                int tmp = l; 
-//                l = r; 
-//                r = tmp;
+//                swap(l, r);
 //            }
-//            int k = (query(l, r, 1, n, root[l]) + 1) >> 1;
-//            lastAns = find(k, 1, n, root[l]);
+//            k = (queryDiff(l, r, 1, n, root[l]) + 1) >> 1;
+//            lastAns = queryKth(k, 1, n, root[l]);
 //            cout << " " << lastAns;
 //        }
 //        cout << "\n";
