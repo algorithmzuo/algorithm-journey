@@ -29,7 +29,7 @@ package class157;
 //
 //int head[MAXN];
 //int to[MAXN << 1];
-//int nextEdge[MAXN << 1];
+//int nxt[MAXN << 1];
 //int cntg = 0;
 //
 //int root[MAXN];
@@ -82,7 +82,7 @@ package class157;
 //}
 //
 //void addEdge(int u, int v) {
-//	nextEdge[++cntg] = head[u];
+//    nxt[++cntg] = head[u];
 //    to[cntg] = v;
 //    head[u] = cntg;
 //}
@@ -123,7 +123,7 @@ package class157;
 //    for (int p = 1; p < MAXH; p++) {
 //        stjump[u][p] = stjump[stjump[u][p - 1]][p - 1];
 //    }
-//    for (int ei = head[u]; ei > 0; ei = nextEdge[ei]) {
+//    for (int ei = head[u]; ei > 0; ei = nxt[ei]) {
 //        if (to[ei] != f) {
 //            dfs(to[ei], u);
 //        }
