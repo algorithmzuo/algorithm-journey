@@ -1,10 +1,18 @@
 package class157;
 
-// 去月球，java版
+// 可持久化线段树的标签永久化，java版
+// 给定一个长度为n的数组arr，下标1~n，时间戳t=0，arr认为是0版本的数组
+// 一共有q条查询，每条查询为如下四种类型中的一种
+// C x y z : 当前时间戳t版本的数组，[x..y]范围每个数字增加z，得到t+1版本数组，并且t++
+// Q x y   : 当前时间戳t版本的数组，打印[x..y]范围累加和
+// H x y z : z版本的数组，打印[x..y]范围的累加和
+// B x     : 当前时间戳t设置成x
+// 1 <= n、q <= 10^5
+// -10^9 <= arr[i] <= +10^9
 // 测试链接 : https://acm.hdu.edu.cn/showproblem.php?pid=4348
 // 测试链接 : https://www.spoj.com/problems/TTM/
 // 这道题的两个测试，都严重卡常，java版很难通过，这是语言歧视
-// 想通过用C++写吧，本节课Code07_ToTheMoon2文件就是C++的实现
+// 想通过用C++写吧，本节课Code04_LazyTagPermanentization2文件就是C++的实现
 // 两个版本的逻辑完全一样，C++版本可以通过所有测试
 
 import java.io.BufferedWriter;
@@ -12,7 +20,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStreamWriter;
 
-public class Code07_ToTheMoon1 {
+public class Code04_LazyTagPermanentization1 {
 
 	public static int MAXN = 100001;
 
@@ -117,7 +125,8 @@ public class Code07_ToTheMoon1 {
 				z = in.nextInt();
 				out.write(query(x, y, 0, 1, n, root[z]) + "\n");
 			} else {
-				t = in.nextInt();
+				x = in.nextInt();
+				t = x;
 			}
 		}
 		out.flush();

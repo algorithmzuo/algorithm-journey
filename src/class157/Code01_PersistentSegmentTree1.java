@@ -1,6 +1,9 @@
 package class157;
 
-// 可持久化线段树模版题
+// 可持久化线段树模版题，java版
+// 给定一个长度为n的数组arr，下标1~n，一共有q条查询
+// 每条查询 l r k : 打印arr[l..r]中第k小的数字
+// 1 <= n、q <= 2 * 10^5
 // 测试链接 : https://www.luogu.com.cn/problem/P3834
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
@@ -12,7 +15,7 @@ import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 import java.util.Arrays;
 
-public class Code01_PersistentSegmentTree {
+public class Code01_PersistentSegmentTree1 {
 
 	public static int MAXN = 200001;
 
@@ -22,7 +25,7 @@ public class Code01_PersistentSegmentTree {
 
 	public static int[] arr = new int[MAXN];
 
-	public static int[] sort = new int[MAXN];
+	public static int[] sorted = new int[MAXN];
 
 	public static int[] root = new int[MAXN];
 
@@ -34,6 +37,20 @@ public class Code01_PersistentSegmentTree {
 
 	public static int cnt;
 
+	public static int kth(int num) {
+		int l = 1, r = n, m, ans = 0;
+		while (l <= r) {
+			m = (l + r) / 2;
+			if (sorted[m] <= num) {
+				ans = m;
+				l = m + 1;
+			} else {
+				r = m - 1;
+			}
+		}
+		return ans;
+	}
+
 	public static int build(int l, int r) {
 		int rt = ++cnt;
 		size[rt] = 0;
@@ -43,29 +60,6 @@ public class Code01_PersistentSegmentTree {
 			right[rt] = build(mid + 1, r);
 		}
 		return rt;
-	}
-
-	public static void prepare() {
-		cnt = 0;
-		for (int i = 1; i <= n; i++) {
-			sort[i] = arr[i];
-		}
-		Arrays.sort(sort, 1, n + 1);
-		root[0] = build(1, n);
-	}
-
-	public static int rank(int v) {
-		int l = 1, r = n, m, ans = 0;
-		while (l <= r) {
-			m = (l + r) / 2;
-			if (sort[m] <= v) {
-				ans = m;
-				l = m + 1;
-			} else {
-				r = m - 1;
-			}
-		}
-		return ans;
 	}
 
 	public static int insert(int jobi, int l, int r, int i) {
@@ -97,6 +91,19 @@ public class Code01_PersistentSegmentTree {
 		}
 	}
 
+	public static void prepare() {
+		cnt = 0;
+		for (int i = 1; i <= n; i++) {
+			sorted[i] = arr[i];
+		}
+		Arrays.sort(sorted, 1, n + 1);
+		root[0] = build(1, n);
+		for (int i = 1, x; i <= n; i++) {
+			x = kth(arr[i]);
+			root[i] = insert(x, 1, n, root[i - 1]);
+		}
+	}
+
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StreamTokenizer in = new StreamTokenizer(br);
@@ -110,10 +117,6 @@ public class Code01_PersistentSegmentTree {
 			arr[i] = (int) in.nval;
 		}
 		prepare();
-		for (int i = 1, x; i <= n; i++) {
-			x = rank(arr[i]);
-			root[i] = insert(x, 1, n, root[i - 1]);
-		}
 		for (int i = 1, l, r, k; i <= q; i++) {
 			in.nextToken();
 			l = (int) in.nval;
@@ -122,7 +125,7 @@ public class Code01_PersistentSegmentTree {
 			in.nextToken();
 			k = (int) in.nval;
 			int ans = query(k, 1, n, root[l - 1], root[r]);
-			out.println(sort[ans]);
+			out.println(sorted[ans]);
 		}
 		out.flush();
 		out.close();

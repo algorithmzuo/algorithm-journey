@@ -1,6 +1,14 @@
 package class157;
 
-// 去月球，C++版
+// 可持久化线段树的标签永久化，C++版
+// 给定一个长度为n的数组arr，下标1~n，时间戳t=0，arr认为是0版本的数组
+// 一共有q条查询，每条查询为如下四种类型中的一种
+// C x y z : 当前时间戳t版本的数组，[x..y]范围每个数字增加z，得到t+1版本数组，并且t++
+// Q x y   : 当前时间戳t版本的数组，打印[x..y]范围累加和
+// H x y z : z版本的数组，打印[x..y]范围的累加和
+// B x     : 当前时间戳t设置成x
+// 1 <= n、q <= 10^5
+// -10^9 <= arr[i] <= +10^9
 // 测试链接 : https://acm.hdu.edu.cn/showproblem.php?pid=4348
 // 测试链接 : https://www.spoj.com/problems/TTM/
 // 如下实现是C++的版本，C++版本和java版本逻辑完全一样
@@ -10,8 +18,8 @@ package class157;
 //
 //using namespace std;
 //
-//static const int MAXN = 100001;
-//static const int MAXM = MAXN * 25;
+//const int MAXN = 100001;
+//const int MAXM = MAXN * 25;
 //int n, q, t = 0;
 //long long arr[MAXN];
 //int root[MAXN];
@@ -78,25 +86,24 @@ package class157;
 //        cin >> arr[i];
 //    }
 //    root[0] = build(1, n);
+//    char op;
+//    int x, y;
+//    long long z;
 //    for (int i = 1; i <= q; i++) {
-//        char op;
 //        cin >> op;
 //        if (op == 'C') {
-//            int x, y;
-//            long long z;
 //            cin >> x >> y >> z;
 //            root[t + 1] = add(x, y, z, 1, n, root[t]);
 //            t++;
 //        } else if (op == 'Q') {
-//            int x, y;
 //            cin >> x >> y;
 //            cout << query(x, y, 0, 1, n, root[t]) << "\n";
 //        } else if (op == 'H') {
-//            int x, y, z;
 //            cin >> x >> y >> z;
 //            cout << query(x, y, 0, 1, n, root[z]) << "\n";
 //        } else {
-//            cin >> t;
+//            cin >> x;
+//            t = x;
 //        }
 //    }
 //    return 0;

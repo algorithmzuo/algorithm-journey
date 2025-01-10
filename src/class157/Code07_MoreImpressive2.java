@@ -1,6 +1,14 @@
 package class157;
 
 // 更为厉害，C++版
+// 有n个节点，编号1~n，给定n-1条边，连成一棵树，1号点是树头
+// 如果节点a是节点b的祖先节点，认为"a比b更厉害"
+// 如果节点a到节点b的路径上边的数量 <= 常数k，认为"a和b是盟友"
+// 一共有q条查询，每条查询 p k : 查询有多少三元组(a, b, c)满足如下规定
+// 1，a就是节点p，但是a、b、c为三个不同的点
+// 2，a和b都比c厉害
+// 3，a和b是盟友，路径上边的数量 <= 给定的k
+// 1 <= n、q、k <= 3 * 10^5
 // 测试链接 : https://www.luogu.com.cn/problem/P3899
 // 如下实现是C++的版本，C++版本和java版本逻辑完全一样
 // 提交如下代码，可以通过所有测试用例
@@ -9,8 +17,8 @@ package class157;
 //
 //using namespace std;
 //
-//static const int MAXN = 300001;
-//static const int MAXM = MAXN * 22;
+//const int MAXN = 300001;
+//const int MAXM = MAXN * 22;
 //int n, q;
 //
 //int head[MAXN];

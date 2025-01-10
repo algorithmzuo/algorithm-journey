@@ -1,6 +1,12 @@
 package class157;
 
-// 节点路径第k小值
+// 节点路径第k小值，java版
+// 有n个节点，编号1~n，每个节点有权值，有n-1条边，所有节点组成一棵树
+// 一共有q条查询，每条查询 u v k : 打印u号点到v号点的路径上，第k小的点权
+// 题目有强制在线的要求，上一次打印的答案为lastAns，初始时lastAns = 0
+// 每次给定的u、v、k，按照如下方式得到真实的u、v、k，查询完成后更新lastAns
+// 真实u = 给定u ^ lastAns    真实v = 给定v    真实k = 给定k
+// 1 <= n、q <= 10^5    1 <= arr[i] <= 2^32 - 1
 // 测试链接 : https://www.luogu.com.cn/problem/P2633
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
@@ -12,7 +18,7 @@ import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 import java.util.Arrays;
 
-public class Code05_CountOnTree {
+public class Code06_CountOnTree1 {
 
 	public static int MAXN = 100001;
 
@@ -26,7 +32,7 @@ public class Code05_CountOnTree {
 	public static int[] arr = new int[MAXN];
 
 	// 收集权值排序做离散化
-	public static int[] sort = new int[MAXN];
+	public static int[] sorted = new int[MAXN];
 
 	// 链式前向星需要
 	public static int[] head = new int[MAXN];
@@ -53,13 +59,13 @@ public class Code05_CountOnTree {
 
 	public static int[][] stjump = new int[MAXN][MAXH];
 
-	public static int rank(int num) {
+	public static int kth(int num) {
 		int l = 1, r = s, m;
 		while (l <= r) {
 			m = (l + r) / 2;
-			if (sort[m] == num) {
+			if (sorted[m] == num) {
 				return m;
-			} else if (sort[m] < num) {
+			} else if (sorted[m] < num) {
 				l = m + 1;
 			} else {
 				r = m - 1;
@@ -81,13 +87,13 @@ public class Code05_CountOnTree {
 
 	public static void prepare() {
 		for (int i = 1; i <= n; i++) {
-			sort[i] = arr[i];
+			sorted[i] = arr[i];
 		}
-		Arrays.sort(sort, 1, n + 1);
+		Arrays.sort(sorted, 1, n + 1);
 		s = 1;
 		for (int i = 2; i <= n; i++) {
-			if (sort[s] != sort[i]) {
-				sort[++s] = sort[i];
+			if (sorted[s] != sorted[i]) {
+				sorted[++s] = sorted[i];
 			}
 		}
 		root[0] = build(1, s);
@@ -130,7 +136,7 @@ public class Code05_CountOnTree {
 
 	// 递归版，C++可以通过，java无法通过，递归会爆栈
 	public static void dfs1(int u, int f) {
-		root[u] = insert(rank(arr[u]), 1, s, root[f]);
+		root[u] = insert(kth(arr[u]), 1, s, root[f]);
 		deep[u] = deep[f] + 1;
 		stjump[u][0] = f;
 		for (int p = 1; p < MAXH; p++) {
@@ -170,7 +176,7 @@ public class Code05_CountOnTree {
 		while (stackSize > 0) {
 			pop();
 			if (e == -1) {
-				root[u] = insert(rank(arr[u]), 1, s, root[f]);
+				root[u] = insert(kth(arr[u]), 1, s, root[f]);
 				deep[u] = deep[f] + 1;
 				stjump[u][0] = f;
 				for (int p = 1; p < MAXH; p++) {
@@ -215,7 +221,7 @@ public class Code05_CountOnTree {
 	public static int kth(int u, int v, int k) {
 		int lca = lca(u, v);
 		int i = query(k, 1, s, root[u], root[v], root[lca], root[stjump[lca][0]]);
-		return sort[i];
+		return sorted[i];
 	}
 
 	public static void main(String[] args) throws IOException {
@@ -242,7 +248,7 @@ public class Code05_CountOnTree {
 		dfs2(); // 使用迭代版防止爆栈
 		for (int i = 1, u, v, k, lastAns = 0; i <= q; i++) {
 			in.nextToken();
-			u = (int) in.nval ^ lastAns; // 题目要求
+			u = (int) in.nval ^ lastAns;
 			in.nextToken();
 			v = (int) in.nval;
 			in.nextToken();

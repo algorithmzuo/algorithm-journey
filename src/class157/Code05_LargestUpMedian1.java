@@ -1,6 +1,15 @@
 package class157;
 
-// 区间内最大中位数
+// 区间最大上中位数，java版
+// 给定一个长度为n的数组arr，下标1~n，一共有q条查询
+// 每条查询 a b c d : 左端点在[a,b]之间、右端点在[c,d]之间，保证a<b<c<d
+//                   哪个区间有最大的上中位数，打印最大的上中位数
+// 题目有强制在线的要求，上一次打印的答案为lastAns，初始时lastAns = 0
+// 每次给定四个参数，按照如下方式得到a、b、c、d，查询完成后更新lastAns
+// (给定的每个参数 + lastAns) % n + 1，得到四个值，从小到大对应a、b、c、d
+// 1 <= n <= 20000
+// 1 <= q <= 25000
+// 1 <= arr[i] <= 10^9
 // 测试链接 : https://www.luogu.com.cn/problem/P2839
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
@@ -12,7 +21,7 @@ import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 import java.util.Arrays;
 
-public class Code04_LargestMedian {
+public class Code05_LargestUpMedian1 {
 
 	public static int MAXN = 20001;
 
@@ -120,27 +129,26 @@ public class Code04_LargestMedian {
 		}
 	}
 
-	public static boolean check(int i) {
-		int a = ques[0] + 1, b = ques[1] + 1, c = ques[2] + 1, d = ques[3] + 1, best;
+	public static boolean check(int a, int b, int c, int d, int v) {
 		initInfo();
-		query(a, b, 1, n, root[i]);
-		best = info[1];
+		query(a, b, 1, n, root[v]);
+		int best = info[1];
 		initInfo();
-		query(c, d, 1, n, root[i]);
+		query(c, d, 1, n, root[v]);
 		best += info[0];
 		if (b + 1 <= c - 1) {
 			initInfo();
-			query(b + 1, c - 1, 1, n, root[i]);
+			query(b + 1, c - 1, 1, n, root[v]);
 			best += info[2];
 		}
 		return best >= 0;
 	}
 
-	public static int compute() {
+	public static int compute(int a, int b, int c, int d) {
 		int l = 1, r = n, m, ans = 0;
 		while (l <= r) {
 			m = (l + r) / 2;
-			if (check(m)) {
+			if (check(a, b, c, d, m)) {
 				ans = arr[m][1];
 				l = m + 1;
 			} else {
@@ -166,15 +174,15 @@ public class Code04_LargestMedian {
 		q = (int) in.nval;
 		for (int i = 1, lastAns = 0; i <= q; i++) {
 			in.nextToken();
-			ques[0] = ((int) in.nval + lastAns) % n;
+			ques[0] = ((int) in.nval + lastAns) % n + 1;
 			in.nextToken();
-			ques[1] = ((int) in.nval + lastAns) % n;
+			ques[1] = ((int) in.nval + lastAns) % n + 1;
 			in.nextToken();
-			ques[2] = ((int) in.nval + lastAns) % n;
+			ques[2] = ((int) in.nval + lastAns) % n + 1;
 			in.nextToken();
-			ques[3] = ((int) in.nval + lastAns) % n;
+			ques[3] = ((int) in.nval + lastAns) % n + 1;
 			Arrays.sort(ques);
-			lastAns = compute();
+			lastAns = compute(ques[0], ques[1], ques[2], ques[3]);
 			out.println(lastAns);
 		}
 		out.flush();

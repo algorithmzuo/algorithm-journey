@@ -1,6 +1,15 @@
 package class157;
 
 // 区间内的不同数字，java版
+// 给定一个长度为n的数组arr，下标1~n，一共有q条查询
+// 每条查询 l r : 如果arr[l..r]范围有s种不同的数，打印第s/2种数，向上取整
+// 题目有强制在线的要求，上一次打印的答案为lastAns，初始时lastAns = 0
+// 每次给定的l和r，按照如下方式得到真实的l和r，查询完成后更新lastAns
+// a = (给定l + lastAns) % n + 1
+// b = (给定r + lastAns) % n + 1
+// 真实l = min(a, b)
+// 真实r = max(a, b)
+// 1 <= n、q、arr[i] <= 2 * 10^5
 // 测试链接 : https://acm.hdu.edu.cn/showproblem.php?pid=5919
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
@@ -113,15 +122,12 @@ public class Code03_DifferentNumbers1 {
 			io.write("Case #");
 			io.writeInt(t);
 			io.write(":");
-			for (int i = 1, l, r, k, lastAns = 0; i <= q; i++) {
-				l = (io.nextInt() + lastAns) % n + 1;
-				r = (io.nextInt() + lastAns) % n + 1;
-				if (l > r) {
-					int tmp = l;
-					l = r;
-					r = tmp;
-				}
-				k = (queryDiff(l, r, 1, n, root[l]) + 1) >> 1;
+			for (int i = 1, a, b, l, r, k, lastAns = 0; i <= q; i++) {
+				a = (io.nextInt() + lastAns) % n + 1;
+				b = (io.nextInt() + lastAns) % n + 1;
+				l = Math.min(a, b);
+				r = Math.max(a, b);
+				k = (queryDiff(l, r, 1, n, root[l]) + 1) / 2;
 				lastAns = queryKth(k, 1, n, root[l]);
 				io.write(" ");
 				io.writeInt(lastAns);

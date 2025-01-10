@@ -1,9 +1,9 @@
 package class157;
 
-// 区间内没有出现的最小自然数
-// 给定一个长度为n的数组arr，一共有m次询问
-// 每次查询一个区间[l, r]内没有出现过的最小自然数
-// 注意0是自然数
+// 区间内没有出现的最小自然数，java版
+// 给定一个长度为n的数组arr，下标1~n，一共有q条查询
+// 每条查询 l r : 打印arr[l..r]内没有出现过的最小自然数，注意0是自然数
+// 1 <= n、q、arr[i] <= 2 * 10^5
 // 测试链接 : https://www.luogu.com.cn/problem/P4137
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
@@ -14,13 +14,15 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 
-public class Code02_MissingSmallest {
+public class Code02_MissingSmallest1 {
 
 	public static int MAXN = 200001;
 
 	public static int MAXM = MAXN * 22;
 
 	public static int n, q;
+
+	public static int[] arr = new int[MAXN];
 
 	public static int[] root = new int[MAXN];
 
@@ -33,6 +35,17 @@ public class Code02_MissingSmallest {
 	public static int[] lateLeft = new int[MAXM];
 
 	public static int cnt;
+
+	public static int build(int l, int r) {
+		int rt = ++cnt;
+		lateLeft[rt] = 0;
+		if (l < r) {
+			int mid = (l + r) / 2;
+			left[rt] = build(l, mid);
+			right[rt] = build(mid + 1, r);
+		}
+		return rt;
+	}
 
 	public static int update(int jobi, int jobv, int l, int r, int i) {
 		int rt = ++cnt;
@@ -70,6 +83,18 @@ public class Code02_MissingSmallest {
 		}
 	}
 
+	public static void prepare() {
+		cnt = 0;
+		root[0] = build(1, n);
+		for (int i = 1; i <= n; i++) {
+			if (arr[i] >= n) {
+				root[i] = root[i - 1];
+			} else {
+				root[i] = update(arr[i], i, 0, n, root[i - 1]);
+			}
+		}
+	}
+
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StreamTokenizer in = new StreamTokenizer(br);
@@ -78,16 +103,11 @@ public class Code02_MissingSmallest {
 		n = (int) in.nval;
 		in.nextToken();
 		q = (int) in.nval;
-		cnt = 0;
-		for (int i = 1, v; i <= n; i++) {
+		for (int i = 1; i <= n; i++) {
 			in.nextToken();
-			v = (int) in.nval;
-			if (v >= n) {
-				root[i] = root[i - 1];
-			} else {
-				root[i] = update(v, i, 0, n, root[i - 1]);
-			}
+			arr[i] = (int) in.nval;
 		}
+		prepare();
 		for (int i = 1, l, r; i <= q; i++) {
 			in.nextToken();
 			l = (int) in.nval;
