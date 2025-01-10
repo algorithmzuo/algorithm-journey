@@ -63,6 +63,7 @@ public class Code01_MergeSort {
 	// 归并排序非递归版
 	// 时间复杂度O(n * logn)
 	// 空间复杂度O(n)
+    //todo 这里主要如何分组，大致就是分成三部分，然后对这三部分进行merge，然后再次扩大三部分
 	public static void mergeSort2() {
 		// 一共发生O(logn)次
 		for (int l, m, r, step = 1; step < n; step <<= 1) {
@@ -83,9 +84,13 @@ public class Code01_MergeSort {
 	// l....r 一共有n个数
 	// O(n)
 	public static void merge(int l, int m, int r) {
+        //辅助数组指针
 		int i = l;
+        //左指针
 		int a = l;
+        //右指针
 		int b = m + 1;
+        //判断是否有一侧完成
 		while (a <= m && b <= r) {
 			help[i++] = arr[a] <= arr[b] ? arr[a++] : arr[b++];
 		}

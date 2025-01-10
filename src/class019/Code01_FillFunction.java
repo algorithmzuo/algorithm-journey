@@ -10,6 +10,7 @@ public class Code01_FillFunction {
 	}
 
 	// 求子矩阵的最大累加和，后面的课会讲
+    //todo 计算阵列任意行范围最大值，将阵列压缩成一个数组，然后计算最长连续数据。
 	public static int maxSumSubmatrix(int[][] mat, int n, int m) {
 		int max = Integer.MIN_VALUE;
 		for (int i = 0; i < n; i++) {

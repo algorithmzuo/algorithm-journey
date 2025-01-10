@@ -199,11 +199,15 @@ public class BinaryTreeTraversalIteration {
 			Stack<TreeNode> stack = new Stack<>();
 			stack.push(h);
 			while (!stack.isEmpty()) {
+                //获取栈顶元素
 				TreeNode cur = stack.peek();
+                //如果第一次访问，就加入左子树
 				if (cur.left != null && h != cur.left && h != cur.right) {
 					stack.push(cur.left);
+                    //如果第二次访问，加入右子树
 				} else if (cur.right != null && h != cur.right) {
 					stack.push(cur.right);
+                    //如果都访问过，就返回
 				} else {
 					ans.add(cur.val);
 					h = stack.pop();

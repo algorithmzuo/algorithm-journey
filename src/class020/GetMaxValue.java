@@ -22,6 +22,4 @@ public class GetMaxValue {
 		int[] arr = { 3, 8, 7, 6, 4, 5, 1, 2 };
 		System.out.println("数组最大值 : " + maxValue(arr));
 	}
-	
-
 }
