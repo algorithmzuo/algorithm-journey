@@ -85,17 +85,17 @@ public class Code02_TagPermanentization1 {
 		return rt;
 	}
 
-	public static long query(int jobl, int jobr, long historyAdd, int l, int r, int i) {
+	public static long query(int jobl, int jobr, long addHistory, int l, int r, int i) {
 		if (jobl <= l && r <= jobr) {
-			return sum[i] + historyAdd * (r - l + 1);
+			return sum[i] + addHistory * (r - l + 1);
 		}
 		int mid = (l + r) / 2;
 		long ans = 0;
 		if (jobl <= mid) {
-			ans += query(jobl, jobr, historyAdd + addTag[i], l, mid, left[i]);
+			ans += query(jobl, jobr, addHistory + addTag[i], l, mid, left[i]);
 		}
 		if (jobr > mid) {
-			ans += query(jobl, jobr, historyAdd + addTag[i], mid + 1, r, right[i]);
+			ans += query(jobl, jobr, addHistory + addTag[i], mid + 1, r, right[i]);
 		}
 		return ans;
 	}

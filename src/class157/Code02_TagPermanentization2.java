@@ -63,17 +63,17 @@ package class157;
 //    return rt;
 //}
 //
-//long long query(int jobl, int jobr, long long historyAdd, int l, int r, int i) {
+//long long query(int jobl, int jobr, long long addHistory, int l, int r, int i) {
 //    if (jobl <= l && r <= jobr) {
-//        return sum[i] + historyAdd * (r - l + 1);
+//        return sum[i] + addHistory * (r - l + 1);
 //    }
 //    int mid = (l + r) / 2;
 //    long long ans = 0;
 //    if (jobl <= mid) {
-//        ans += query(jobl, jobr, historyAdd + addTag[i], l, mid, ls[i]);
+//        ans += query(jobl, jobr, addHistory + addTag[i], l, mid, ls[i]);
 //    }
 //    if (jobr > mid) {
-//        ans += query(jobl, jobr, historyAdd + addTag[i], mid + 1, r, rs[i]);
+//        ans += query(jobl, jobr, addHistory + addTag[i], mid + 1, r, rs[i]);
 //    }
 //    return ans;
 //}
