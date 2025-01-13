@@ -1,6 +1,6 @@
 package class157;
 
-// 区间内的不同数字，java版
+// 区间内不同数字的第k小，java版
 // 给定一个长度为n的数组arr，下标1~n，一共有m条查询
 // 每条查询 l r : 如果arr[l..r]范围有s种不同的数，打印第s/2种数，向上取整
 // 题目有强制在线的要求，上一次打印的答案为lastAns，初始时lastAns = 0
@@ -16,7 +16,7 @@ package class157;
 import java.io.IOException;
 import java.util.Arrays;
 
-public class Code04_DifferentNumbers1 {
+public class Code04_DifferentNumbersKth1 {
 
 	public static int MAXN = 200002;
 
