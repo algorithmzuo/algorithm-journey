@@ -4,6 +4,7 @@ package class157;
 // 给定一个长度为n的数组arr，下标1~n，一共有m条查询
 // 每条查询 l r k : 打印arr[l..r]中第k小的数字
 // 1 <= n、m <= 2 * 10^5
+// 0 <= arr[i] <= 10^9
 // 测试链接 : https://www.luogu.com.cn/problem/P3834
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
