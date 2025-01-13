@@ -11,8 +11,10 @@ package class157;
 // -10^9 <= arr[i] <= +10^9
 // 测试链接 : https://acm.hdu.edu.cn/showproblem.php?pid=4348
 // 测试链接 : https://www.spoj.com/problems/TTM/
-// 这道题的两个测试，都严重卡常，java版很难通过，这是语言歧视
-// 想通过用C++写吧，本节课Code02_TagPermanentization2文件就是C++的实现
+// 这道题的目的是让你去实现标记永久化的版本，减少可持久化线段树的空间消耗
+// 所以题目一定要卡住，没有进行标记永久化的实现，而且是根据C++的使用空间来卡！
+// 但是这样一来，空间资源非常少，java的实现哪怕做了标记永久化也很难通过了！
+// 所以想通过就用C++实现吧，本节课Code02_TagPermanentization2文件就是C++的实现
 // 两个版本的逻辑完全一样，C++版本可以通过所有测试
 
 import java.io.BufferedWriter;
