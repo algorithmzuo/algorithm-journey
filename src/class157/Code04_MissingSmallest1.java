@@ -14,7 +14,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 
-public class Code03_MissingSmallest1 {
+public class Code04_MissingSmallest1 {
 
 	public static int MAXN = 200001;
 

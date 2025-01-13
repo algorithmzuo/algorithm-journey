@@ -16,7 +16,7 @@ package class157;
 import java.io.IOException;
 import java.util.Arrays;
 
-public class Code04_DifferentNumbersKth1 {
+public class Code03_DifferentNumbersKth1 {
 
 	public static int MAXN = 200002;
 
