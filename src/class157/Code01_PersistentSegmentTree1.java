@@ -24,20 +24,28 @@ public class Code01_PersistentSegmentTree1 {
 
 	public static int n, m, s;
 
+	// 原始数组
 	public static int[] arr = new int[MAXN];
 
+	// 收集权值排序并且去重做离散化
 	public static int[] sorted = new int[MAXN];
 
+	// 可持久化线段树需要
+	// root[i] : 插入arr[i]之后形成的线段树，记录头节点编号
 	public static int[] root = new int[MAXN];
 
+	// 左孩子
 	public static int[] left = new int[MAXM];
 
+	// 右孩子
 	public static int[] right = new int[MAXM];
 
+	// 收集了多少个数字
 	public static int[] size = new int[MAXM];
 
 	public static int cnt;
 
+	// 返回num在所有值中排名多少
 	public static int kth(int num) {
 		int left = 1, right = s, mid, ans = 0;
 		while (left <= right) {
@@ -52,6 +60,7 @@ public class Code01_PersistentSegmentTree1 {
 		return ans;
 	}
 
+	// l~r范围建立线段树，返回头节点编号
 	public static int build(int l, int r) {
 		int rt = ++cnt;
 		size[rt] = 0;
@@ -63,6 +72,8 @@ public class Code01_PersistentSegmentTree1 {
 		return rt;
 	}
 
+	// l~r范围，信息在i位置，增加一个jobi位置上的数字
+	// 返回新的头节点编号
 	public static int insert(int jobi, int l, int r, int i) {
 		int rt = ++cnt;
 		left[rt] = left[i];
@@ -79,6 +90,8 @@ public class Code01_PersistentSegmentTree1 {
 		return rt;
 	}
 
+	// l~r范围，老版本信息在u位置，新版本信息在v位置
+	// 返回第jobk小的数是多少
 	public static int query(int jobk, int l, int r, int u, int v) {
 		if (l == r) {
 			return l;
@@ -92,6 +105,7 @@ public class Code01_PersistentSegmentTree1 {
 		}
 	}
 
+	// 权值做离散化并且去重 + 生成各版本的线段树
 	public static void prepare() {
 		cnt = 0;
 		for (int i = 1; i <= n; i++) {

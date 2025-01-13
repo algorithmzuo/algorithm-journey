@@ -34,7 +34,7 @@ public class Code06_CountOnTree1 {
 	// 各个节点权值
 	public static int[] arr = new int[MAXN];
 
-	// 收集权值排序做离散化
+	// 收集权值排序并且去重做离散化
 	public static int[] sorted = new int[MAXN];
 
 	// 链式前向星需要
