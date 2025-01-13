@@ -1,9 +1,9 @@
 package class157;
 
 // 可持久化线段树模版题，java版
-// 给定一个长度为n的数组arr，下标1~n，一共有q条查询
+// 给定一个长度为n的数组arr，下标1~n，一共有m条查询
 // 每条查询 l r k : 打印arr[l..r]中第k小的数字
-// 1 <= n、q <= 2 * 10^5
+// 1 <= n、m <= 2 * 10^5
 // 测试链接 : https://www.luogu.com.cn/problem/P3834
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
@@ -21,7 +21,7 @@ public class Code01_PersistentSegmentTree1 {
 
 	public static int MAXM = MAXN * 22;
 
-	public static int n, q;
+	public static int n, m;
 
 	public static int[] arr = new int[MAXN];
 
@@ -38,14 +38,14 @@ public class Code01_PersistentSegmentTree1 {
 	public static int cnt;
 
 	public static int kth(int num) {
-		int l = 1, r = n, m, ans = 0;
-		while (l <= r) {
-			m = (l + r) / 2;
-			if (sorted[m] <= num) {
-				ans = m;
-				l = m + 1;
+		int left = 1, right = n, mid, ans = 0;
+		while (left <= right) {
+			mid = (left + right) / 2;
+			if (sorted[mid] <= num) {
+				ans = mid;
+				left = mid + 1;
 			} else {
-				r = m - 1;
+				right = mid - 1;
 			}
 		}
 		return ans;
@@ -111,13 +111,13 @@ public class Code01_PersistentSegmentTree1 {
 		in.nextToken();
 		n = (int) in.nval;
 		in.nextToken();
-		q = (int) in.nval;
+		m = (int) in.nval;
 		for (int i = 1; i <= n; i++) {
 			in.nextToken();
 			arr[i] = (int) in.nval;
 		}
 		prepare();
-		for (int i = 1, l, r, k; i <= q; i++) {
+		for (int i = 1, l, r, k; i <= m; i++) {
 			in.nextToken();
 			l = (int) in.nval;
 			in.nextToken();

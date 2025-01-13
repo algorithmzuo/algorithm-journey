@@ -2,11 +2,13 @@ package class157;
 
 // 节点路径第k小值，C++版
 // 有n个节点，编号1~n，每个节点有权值，有n-1条边，所有节点组成一棵树
-// 一共有q条查询，每条查询 u v k : 打印u号点到v号点的路径上，第k小的点权
+// 一共有m条查询，每条查询 u v k : 打印u号点到v号点的路径上，第k小的点权
 // 题目有强制在线的要求，上一次打印的答案为lastAns，初始时lastAns = 0
 // 每次给定的u、v、k，按照如下方式得到真实的u、v、k，查询完成后更新lastAns
-// 真实u = 给定u ^ lastAns    真实v = 给定v    真实k = 给定k
-// 1 <= n、q <= 10^5
+// 真实u = 给定u ^ lastAns
+// 真实v = 给定v
+// 真实k = 给定k
+// 1 <= n、m <= 10^5
 // 1 <= arr[i] <= 2^32 - 1
 // 测试链接 : https://www.luogu.com.cn/problem/P2633
 // 如下实现是C++的版本，C++版本和java版本逻辑完全一样
@@ -19,7 +21,7 @@ package class157;
 //const int MAXN = 100001;
 //const int MAXH = 20;
 //const int MAXM = MAXN * MAXH;
-//int n, s, q;
+//int n, s, m;
 //int arr[MAXN];
 //int sorted[MAXN];
 //
@@ -38,15 +40,15 @@ package class157;
 //int stjump[MAXN][MAXH];
 //
 //int kth(int num) {
-//    int l = 1, r = s, m;
-//    while (l <= r) {
-//        m = (l + r) / 2;
-//        if (sorted[m] == num) {
-//            return m;
-//        } else if (sorted[m] < num) {
-//            l = m + 1;
+//    int left = 1, right = s, mid;
+//    while (left <= right) {
+//        mid = (left + right) / 2;
+//        if (sorted[mid] == num) {
+//            return mid;
+//        } else if (sorted[mid] < num) {
+//            left = mid + 1;
 //        } else {
-//            r = m - 1;
+//            right = mid - 1;
 //        }
 //    }
 //    return -1;
@@ -156,7 +158,7 @@ package class157;
 //int main() {
 //    ios::sync_with_stdio(false);
 //    cin.tie(nullptr);
-//    cin >> n >> q;
+//    cin >> n >> m;
 //    for (int i = 1; i <= n; i++) {
 //        cin >> arr[i];
 //    }
@@ -167,7 +169,7 @@ package class157;
 //        addEdge(v, u);
 //    }
 //    dfs(1, 0);
-//    for (int i = 1, u, v, k, lastAns = 0; i <= q; i++) {
+//    for (int i = 1, u, v, k, lastAns = 0; i <= m; i++) {
 //        cin >> u >> v >> k;
 //        u ^= lastAns;
 //        lastAns = kth(u, v, k);

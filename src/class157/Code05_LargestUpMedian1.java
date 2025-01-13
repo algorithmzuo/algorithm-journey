@@ -1,14 +1,14 @@
 package class157;
 
 // 区间最大上中位数，java版
-// 给定一个长度为n的数组arr，下标1~n，一共有q条查询
+// 给定一个长度为n的数组arr，下标1~n，一共有m条查询
 // 每条查询 a b c d : 左端点在[a,b]之间、右端点在[c,d]之间，保证a<b<c<d
 //                   哪个区间有最大的上中位数，打印最大的上中位数
 // 题目有强制在线的要求，上一次打印的答案为lastAns，初始时lastAns = 0
 // 每次给定四个参数，按照如下方式得到a、b、c、d，查询完成后更新lastAns
 // (给定的每个参数 + lastAns) % n + 1，得到四个值，从小到大对应a、b、c、d
 // 1 <= n <= 20000
-// 1 <= q <= 25000
+// 1 <= m <= 25000
 // 1 <= arr[i] <= 10^9
 // 测试链接 : https://www.luogu.com.cn/problem/P2839
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
@@ -21,7 +21,7 @@ import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 import java.util.Arrays;
 
-public class Code04_LargestUpMedian1 {
+public class Code05_LargestUpMedian1 {
 
 	public static int MAXN = 20001;
 
@@ -29,7 +29,7 @@ public class Code04_LargestUpMedian1 {
 
 	public static int INF = 10000001;
 
-	public static int n, q;
+	public static int n, m;
 
 	// 原始位置、数值
 	public static int[][] arr = new int[MAXN][2];
@@ -145,14 +145,14 @@ public class Code04_LargestUpMedian1 {
 	}
 
 	public static int compute(int a, int b, int c, int d) {
-		int l = 1, r = n, m, ans = 0;
-		while (l <= r) {
-			m = (l + r) / 2;
-			if (check(a, b, c, d, m)) {
-				ans = arr[m][1];
-				l = m + 1;
+		int left = 1, right = n, mid, ans = 0;
+		while (left <= right) {
+			mid = (left + right) / 2;
+			if (check(a, b, c, d, mid)) {
+				ans = arr[mid][1];
+				left = mid + 1;
 			} else {
-				r = m - 1;
+				right = mid - 1;
 			}
 		}
 		return ans;
@@ -171,8 +171,8 @@ public class Code04_LargestUpMedian1 {
 		}
 		prepare();
 		in.nextToken();
-		q = (int) in.nval;
-		for (int i = 1, lastAns = 0; i <= q; i++) {
+		m = (int) in.nval;
+		for (int i = 1, lastAns = 0; i <= m; i++) {
 			in.nextToken();
 			ques[0] = ((int) in.nval + lastAns) % n + 1;
 			in.nextToken();

@@ -1,9 +1,9 @@
 package class157;
 
 // 区间内没有出现的最小自然数，java版
-// 给定一个长度为n的数组arr，下标1~n，一共有q条查询
+// 给定一个长度为n的数组arr，下标1~n，一共有m条查询
 // 每条查询 l r : 打印arr[l..r]内没有出现过的最小自然数，注意0是自然数
-// 1 <= n、q、arr[i] <= 2 * 10^5
+// 1 <= n、m、arr[i] <= 2 * 10^5
 // 测试链接 : https://www.luogu.com.cn/problem/P4137
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
@@ -14,13 +14,13 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 
-public class Code02_MissingSmallest1 {
+public class Code03_MissingSmallest1 {
 
 	public static int MAXN = 200001;
 
 	public static int MAXM = MAXN * 22;
 
-	public static int n, q;
+	public static int n, m;
 
 	public static int[] arr = new int[MAXN];
 
@@ -102,13 +102,13 @@ public class Code02_MissingSmallest1 {
 		in.nextToken();
 		n = (int) in.nval;
 		in.nextToken();
-		q = (int) in.nval;
+		m = (int) in.nval;
 		for (int i = 1; i <= n; i++) {
 			in.nextToken();
 			arr[i] = (int) in.nval;
 		}
 		prepare();
-		for (int i = 1, l, r; i <= q; i++) {
+		for (int i = 1, l, r; i <= m; i++) {
 			in.nextToken();
 			l = (int) in.nval;
 			in.nextToken();

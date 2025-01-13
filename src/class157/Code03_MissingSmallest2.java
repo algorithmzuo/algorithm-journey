@@ -1,9 +1,9 @@
 package class157;
 
 // 区间内没有出现的最小自然数，C++版
-// 给定一个长度为n的数组arr，下标1~n，一共有q条查询
+// 给定一个长度为n的数组arr，下标1~n，一共有m条查询
 // 每条查询 l r : 打印arr[l..r]内没有出现过的最小自然数，注意0是自然数
-// 1 <= n、q、arr[i] <= 2 * 10^5
+// 1 <= n、m、arr[i] <= 2 * 10^5
 // 测试链接 : https://www.luogu.com.cn/problem/P4137
 // 如下实现是C++的版本，C++版本和java版本逻辑完全一样
 // 提交如下代码，可以通过所有测试用例
@@ -14,7 +14,7 @@ package class157;
 //
 //const int MAXN = 200001;
 //const int MAXM = MAXN * 22;
-//int n, q;
+//int n, m;
 //int arr[MAXN];
 //int root[MAXN];
 //int ls[MAXM];
@@ -79,12 +79,12 @@ package class157;
 //int main() {
 //    ios::sync_with_stdio(false);
 //    cin.tie(nullptr);
-//    cin >> n >> q;
+//    cin >> n >> m;
 //    for (int i = 1; i <= n; i++) {
 //        cin >> arr[i];
 //    }
 //    prepare();
-//    for (int i = 0, l, r; i < q; i++) {
+//    for (int i = 1, l, r; i <= m; i++) {
 //        cin >> l >> r;
 //        cout << query(l, 0, n, root[r]) << "\n";
 //    }

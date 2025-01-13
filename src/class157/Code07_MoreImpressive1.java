@@ -4,11 +4,11 @@ package class157;
 // 有n个节点，编号1~n，给定n-1条边，连成一棵树，1号点是树头
 // 如果x是y的祖先节点，认为"x比y更厉害"
 // 如果x到y的路径上，边的数量 <= 某个常数，认为"x和y是邻居"
-// 一共有q条查询，每条查询 a k : 打印有多少三元组(a, b, c)满足如下规定
+// 一共有m条查询，每条查询 a k : 打印有多少三元组(a, b, c)满足如下规定
 // 1，a、b、c为三个不同的点
 // 2，a和b都比c厉害
 // 3，a和b是邻居，路径边的数量 <= 给定的k
-// 1 <= n、q、k <= 3 * 10^5
+// 1 <= n、m、k <= 3 * 10^5
 // 测试链接 : https://www.luogu.com.cn/problem/P3899
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
@@ -25,7 +25,7 @@ public class Code07_MoreImpressive1 {
 
 	public static int MAXM = MAXN * 22;
 
-	public static int n, q;
+	public static int n, m;
 
 	// 链式前向星需要
 	public static int[] head = new int[MAXN];
@@ -214,7 +214,7 @@ public class Code07_MoreImpressive1 {
 		in.nextToken();
 		n = (int) in.nval;
 		in.nextToken();
-		q = (int) in.nval;
+		m = (int) in.nval;
 		for (int i = 1, u, v; i < n; i++) {
 			in.nextToken();
 			u = (int) in.nval;
@@ -226,7 +226,7 @@ public class Code07_MoreImpressive1 {
 		root[0] = build(1, n);
 		dfs3(); // 使用迭代版防止爆栈
 		dfs4(); // 使用迭代版防止爆栈
-		for (int i = 1, a, k; i <= q; i++) {
+		for (int i = 1, a, k; i <= m; i++) {
 			in.nextToken();
 			a = (int) in.nval;
 			in.nextToken();

@@ -1,7 +1,7 @@
 package class157;
 
 // 区间内的不同数字，C++版
-// 给定一个长度为n的数组arr，下标1~n，一共有q条查询
+// 给定一个长度为n的数组arr，下标1~n，一共有m条查询
 // 每条查询 l r : 如果arr[l..r]范围有s种不同的数，打印第s/2种数，向上取整
 // 题目有强制在线的要求，上一次打印的答案为lastAns，初始时lastAns = 0
 // 每次给定的l和r，按照如下方式得到真实的l和r，查询完成后更新lastAns
@@ -9,7 +9,7 @@ package class157;
 // b = (给定r + lastAns) % n + 1
 // 真实l = min(a, b)
 // 真实r = max(a, b)
-// 1 <= n、q、arr[i] <= 2 * 10^5
+// 1 <= n、m、arr[i] <= 2 * 10^5
 // 测试链接 : https://acm.hdu.edu.cn/showproblem.php?pid=5919
 // 如下实现是C++的版本，C++版本和java版本逻辑完全一样
 // 提交如下代码，可以通过所有测试用例
@@ -20,7 +20,7 @@ package class157;
 //
 //const int MAXN = 200002;
 //const int MAXM = MAXN * 37;
-//int cases, n, q;
+//int cases, n, m;
 //int arr[MAXN];
 //int pos[MAXN];
 //int root[MAXN];
@@ -105,13 +105,13 @@ package class157;
 //    cin.tie(nullptr);
 //    cin >> cases;
 //    for (int t = 1; t <= cases; t++) {
-//        cin >> n >> q;
+//        cin >> n >> m;
 //        for (int i = 1; i <= n; i++) {
 //            cin >> arr[i];
 //        }
 //        prepare();
 //        cout << "Case #" << t << ":";
-//        for (int i = 1, a, b, l, r, k, lastAns = 0; i <= q; i++) {
+//        for (int i = 1, a, b, l, r, k, lastAns = 0; i <= m; i++) {
 //            cin >> l >> r;
 //            a = (l + lastAns) % n + 1;
 //            b = (r + lastAns) % n + 1;

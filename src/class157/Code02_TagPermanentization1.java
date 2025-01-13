@@ -1,18 +1,18 @@
 package class157;
 
-// 线段树标记永久化结合可持久化，java版
+// 范围修改的可持久化线段树 + 标记永久化，java版
 // 给定一个长度为n的数组arr，下标1~n，时间戳t=0，arr认为是0版本的数组
-// 一共有q条查询，每条查询为如下四种类型中的一种
+// 一共有m条查询，每条查询为如下四种类型中的一种
 // C x y z : 当前时间戳t版本的数组，[x..y]范围每个数字增加z，得到t+1版本数组，并且t++
 // Q x y   : 当前时间戳t版本的数组，打印[x..y]范围累加和
 // H x y z : z版本的数组，打印[x..y]范围的累加和
 // B x     : 当前时间戳t设置成x
-// 1 <= n、q <= 10^5
+// 1 <= n、m <= 10^5
 // -10^9 <= arr[i] <= +10^9
 // 测试链接 : https://acm.hdu.edu.cn/showproblem.php?pid=4348
 // 测试链接 : https://www.spoj.com/problems/TTM/
 // 这道题的两个测试，都严重卡常，java版很难通过，这是语言歧视
-// 想通过用C++写吧，本节课Code05_TagPermanentization2文件就是C++的实现
+// 想通过用C++写吧，本节课Code02_TagPermanentization2文件就是C++的实现
 // 两个版本的逻辑完全一样，C++版本可以通过所有测试
 
 import java.io.BufferedWriter;
@@ -20,13 +20,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStreamWriter;
 
-public class Code05_TagPermanentization1 {
+public class Code02_TagPermanentization1 {
 
 	public static int MAXN = 100001;
 
 	public static int MAXM = MAXN * 25;
 
-	public static int n, q, t = 0;
+	public static int n, m, t = 0;
 
 	public static int[] arr = new int[MAXN];
 
@@ -101,13 +101,13 @@ public class Code05_TagPermanentization1 {
 		FastReader in = new FastReader();
 		BufferedWriter out = new BufferedWriter(new OutputStreamWriter(System.out));
 		n = in.nextInt();
-		q = in.nextInt();
+		m = in.nextInt();
 		for (int i = 1; i <= n; i++) {
 			arr[i] = in.nextInt();
 		}
 		root[0] = build(1, n);
 		String op;
-		for (int i = 1, x, y, z; i <= q; i++) {
+		for (int i = 1, x, y, z; i <= m; i++) {
 			op = in.next();
 			if (op.equals("C")) {
 				x = in.nextInt();

@@ -1,9 +1,9 @@
 package class157;
 
 // 可持久化线段树模版题，C++版
-// 给定一个长度为n的数组arr，下标1~n，一共有q条查询
+// 给定一个长度为n的数组arr，下标1~n，一共有m条查询
 // 每条查询 l r k : 打印arr[l..r]中第k小的数字
-// 1 <= n、q <= 2 * 10^5
+// 1 <= n、m <= 2 * 10^5
 // 测试链接 : https://www.luogu.com.cn/problem/P3834
 // 如下实现是C++的版本，C++版本和java版本逻辑完全一样
 // 提交如下代码，可以通过所有测试用例
@@ -14,7 +14,7 @@ package class157;
 //
 //const int MAXN = 200001;
 //const int MAXM = MAXN * 22;
-//int n, q;
+//int n, m;
 //int arr[MAXN];
 //int sorted[MAXN];
 //int root[MAXN];
@@ -24,14 +24,14 @@ package class157;
 //int cnt;
 //
 //int kth(int num) {
-//    int l = 1, r = n, m, ans = 0;
-//    while (l <= r) {
-//        m = (l + r) / 2;
-//        if (sorted[m] <= num) {
-//            ans = m;
-//            l = m + 1;
+//    int left = 1, right = n, mid, ans = 0;
+//    while (left <= right) {
+//        mid = (left + right) / 2;
+//        if (sorted[mid] <= num) {
+//            ans = mid;
+//            left = mid + 1;
 //        } else {
-//            r = m - 1;
+//            right = mid - 1;
 //        }
 //    }
 //    return ans;
@@ -93,12 +93,12 @@ package class157;
 //int main() {
 //    ios::sync_with_stdio(false);
 //    cin.tie(nullptr);
-//    cin >> n >> q;
+//    cin >> n >> m;
 //    for (int i = 1; i <= n; i++) {
 //        cin >> arr[i];
 //    }
 //    prepare();
-//    for (int i = 1, l, r, k; i <= q; i++) {
+//    for (int i = 1, l, r, k; i <= m; i++) {
 //        cin >> l >> r >> k;
 //        int ans = query(k, 1, n, root[l - 1], root[r]);
 //        cout << sorted[ans] << '\n';

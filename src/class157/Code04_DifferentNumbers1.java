@@ -1,7 +1,7 @@
 package class157;
 
 // 区间内的不同数字，java版
-// 给定一个长度为n的数组arr，下标1~n，一共有q条查询
+// 给定一个长度为n的数组arr，下标1~n，一共有m条查询
 // 每条查询 l r : 如果arr[l..r]范围有s种不同的数，打印第s/2种数，向上取整
 // 题目有强制在线的要求，上一次打印的答案为lastAns，初始时lastAns = 0
 // 每次给定的l和r，按照如下方式得到真实的l和r，查询完成后更新lastAns
@@ -9,20 +9,20 @@ package class157;
 // b = (给定r + lastAns) % n + 1
 // 真实l = min(a, b)
 // 真实r = max(a, b)
-// 1 <= n、q、arr[i] <= 2 * 10^5
+// 1 <= n、m、arr[i] <= 2 * 10^5
 // 测试链接 : https://acm.hdu.edu.cn/showproblem.php?pid=5919
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
 import java.io.IOException;
 import java.util.Arrays;
 
-public class Code03_DifferentNumbers1 {
+public class Code04_DifferentNumbers1 {
 
 	public static int MAXN = 200002;
 
 	public static int MAXM = MAXN * 37;
 
-	public static int cases, n, q;
+	public static int cases, n, m;
 
 	public static int[] arr = new int[MAXN];
 
@@ -114,7 +114,7 @@ public class Code03_DifferentNumbers1 {
 		cases = io.nextInt();
 		for (int t = 1; t <= cases; t++) {
 			n = io.nextInt();
-			q = io.nextInt();
+			m = io.nextInt();
 			for (int i = 1; i <= n; i++) {
 				arr[i] = io.nextInt();
 			}
@@ -122,7 +122,7 @@ public class Code03_DifferentNumbers1 {
 			io.write("Case #");
 			io.writeInt(t);
 			io.write(":");
-			for (int i = 1, a, b, l, r, k, lastAns = 0; i <= q; i++) {
+			for (int i = 1, a, b, l, r, k, lastAns = 0; i <= m; i++) {
 				a = (io.nextInt() + lastAns) % n + 1;
 				b = (io.nextInt() + lastAns) % n + 1;
 				l = Math.min(a, b);
