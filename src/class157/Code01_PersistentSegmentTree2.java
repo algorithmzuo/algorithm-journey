@@ -15,7 +15,7 @@ package class157;
 //
 //const int MAXN = 200001;
 //const int MAXM = MAXN * 22;
-//int n, m;
+//int n, s, m;
 //int arr[MAXN];
 //int sorted[MAXN];
 //int root[MAXN];
@@ -25,7 +25,7 @@ package class157;
 //int cnt;
 //
 //int kth(int num) {
-//    int left = 1, right = n, mid, ans = 0;
+//    int left = 1, right = s, mid, ans = 0;
 //    while (left <= right) {
 //        mid = (left + right) / 2;
 //        if (sorted[mid] <= num) {
@@ -84,10 +84,16 @@ package class157;
 //        sorted[i] = arr[i];
 //    }
 //    sort(sorted + 1, sorted + n + 1);
-//    root[0] = build(1, n);
+//    s = 1;
+//    for (int i = 2; i <= n; i++) {
+//        if (sorted[s] != sorted[i]) {
+//            sorted[++s] = sorted[i];
+//        }
+//    }
+//    root[0] = build(1, s);
 //    for (int i = 1, x; i <= n; i++) {
 //        x = kth(arr[i]);
-//        root[i] = insert(x, 1, n, root[i - 1]);
+//        root[i] = insert(x, 1, s, root[i - 1]);
 //    }
 //}
 //
@@ -99,10 +105,10 @@ package class157;
 //        cin >> arr[i];
 //    }
 //    prepare();
-//    for (int i = 1, l, r, k; i <= m; i++) {
+//    for (int i = 1, l, r, k, rank; i <= m; i++) {
 //        cin >> l >> r >> k;
-//        int ans = query(k, 1, n, root[l - 1], root[r]);
-//        cout << sorted[ans] << '\n';
+//        rank = query(k, 1, s, root[l - 1], root[r]);
+//        cout << sorted[rank] << '\n';
 //    }
 //    return 0;
 //}

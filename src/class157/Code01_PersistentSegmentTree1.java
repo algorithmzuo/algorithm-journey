@@ -22,7 +22,7 @@ public class Code01_PersistentSegmentTree1 {
 
 	public static int MAXM = MAXN * 22;
 
-	public static int n, m;
+	public static int n, s, m;
 
 	public static int[] arr = new int[MAXN];
 
@@ -39,7 +39,7 @@ public class Code01_PersistentSegmentTree1 {
 	public static int cnt;
 
 	public static int kth(int num) {
-		int left = 1, right = n, mid, ans = 0;
+		int left = 1, right = s, mid, ans = 0;
 		while (left <= right) {
 			mid = (left + right) / 2;
 			if (sorted[mid] <= num) {
@@ -98,10 +98,16 @@ public class Code01_PersistentSegmentTree1 {
 			sorted[i] = arr[i];
 		}
 		Arrays.sort(sorted, 1, n + 1);
-		root[0] = build(1, n);
+		s = 1;
+		for (int i = 2; i <= n; i++) {
+			if (sorted[s] != sorted[i]) {
+				sorted[++s] = sorted[i];
+			}
+		}
+		root[0] = build(1, s);
 		for (int i = 1, x; i <= n; i++) {
 			x = kth(arr[i]);
-			root[i] = insert(x, 1, n, root[i - 1]);
+			root[i] = insert(x, 1, s, root[i - 1]);
 		}
 	}
 
@@ -118,15 +124,15 @@ public class Code01_PersistentSegmentTree1 {
 			arr[i] = (int) in.nval;
 		}
 		prepare();
-		for (int i = 1, l, r, k; i <= m; i++) {
+		for (int i = 1, l, r, k, rank; i <= m; i++) {
 			in.nextToken();
 			l = (int) in.nval;
 			in.nextToken();
 			r = (int) in.nval;
 			in.nextToken();
 			k = (int) in.nval;
-			int ans = query(k, 1, n, root[l - 1], root[r]);
-			out.println(sorted[ans]);
+			rank = query(k, 1, s, root[l - 1], root[r]);
+			out.println(sorted[rank]);
 		}
 		out.flush();
 		out.close();
