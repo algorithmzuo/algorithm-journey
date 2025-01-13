@@ -1,22 +1,24 @@
 package class157;
 
-// 区间内不同数字的第k小，java版
-// 给定一个长度为n的数组arr，下标1~n，一共有m条查询
-// 每条查询 l r : 如果arr[l..r]范围有s种不同的数，打印第s/2种数，向上取整
+// 下标序列，java版
+// 给定一个长度为n的数组arr，下标1~n，一共有m条查询，每条查询格式如下
+// l r : arr[l..r]范围上，每个数第一次出现的位置，把这些位置组成一个序列
+//       假设该范围有s种不同的数，那么序列长度为s
+//       打印该序列第s/2个位置(向上取整)，对应arr的什么位置
 // 题目有强制在线的要求，上一次打印的答案为lastAns，初始时lastAns = 0
 // 每次给定的l和r，按照如下方式得到真实的l和r，查询完成后更新lastAns
 // a = (给定l + lastAns) % n + 1
 // b = (给定r + lastAns) % n + 1
 // 真实l = min(a, b)
 // 真实r = max(a, b)
-// 1 <= n、m、arr[i] <= 2 * 10^5
+// 1 <= n、m <= 2 * 10^5    0 <= arr[i] <= 2 * 10^5
 // 测试链接 : https://acm.hdu.edu.cn/showproblem.php?pid=5919
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
 import java.io.IOException;
 import java.util.Arrays;
 
-public class Code03_DifferentNumbersKth1 {
+public class Code03_Sequence1 {
 
 	public static int MAXN = 200002;
 
