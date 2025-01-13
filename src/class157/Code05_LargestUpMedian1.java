@@ -34,6 +34,7 @@ public class Code05_LargestUpMedian1 {
 	// 原始位置、数值
 	public static int[][] arr = new int[MAXN][2];
 
+	// 可持久化线段树需要
 	public static int[] root = new int[MAXN];
 
 	public static int[] left = new int[MAXM];

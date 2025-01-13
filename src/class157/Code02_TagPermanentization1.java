@@ -31,16 +31,21 @@ public class Code02_TagPermanentization1 {
 
 	public static int n, m, t = 0;
 
+	// 原始数组
 	public static int[] arr = new int[MAXN];
 
+	// 可持久化线段树需要
+	// root[i] : 时间戳i为版本号，线段树的头节点编号
 	public static int[] root = new int[MAXN];
 
 	public static int[] left = new int[MAXM];
 
 	public static int[] right = new int[MAXM];
 
+	// 区间累加和
 	public static long[] sum = new long[MAXM];
 
+	// 区间关于加的懒更新信息，变成了标记永久化信息
 	public static long[] addTag = new long[MAXM];
 
 	public static int cnt = 0;
@@ -65,6 +70,8 @@ public class Code02_TagPermanentization1 {
 		root[0] = build(1, n);
 	}
 
+	// l~r范围，信息在i位置，任务是jobl~jobr范围，所有数字增加jobv
+	// 返回新的头节点编号
 	public static int add(int jobl, int jobr, long jobv, int l, int r, int i) {
 		int rt = ++cnt, a = Math.max(jobl, l), b = Math.min(jobr, r);
 		left[rt] = left[i];
@@ -85,6 +92,9 @@ public class Code02_TagPermanentization1 {
 		return rt;
 	}
 
+	// l~r范围，信息在i位置，任务是jobl~jobr范围，查询累加和
+	// addHistory是从上方的大范围一路带下来的标记历史
+	// 返回累加和
 	public static long query(int jobl, int jobr, long addHistory, int l, int r, int i) {
 		if (jobl <= l && r <= jobr) {
 			return sum[i] + addHistory * (r - l + 1);

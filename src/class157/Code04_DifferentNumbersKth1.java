@@ -26,14 +26,17 @@ public class Code04_DifferentNumbersKth1 {
 
 	public static int[] arr = new int[MAXN];
 
+	// pos[v] : v这个数字最左出现的位置
 	public static int[] pos = new int[MAXN];
 
+	// 可持久化线段树需要
 	public static int[] root = new int[MAXN];
 
 	public static int[] left = new int[MAXM];
 
 	public static int[] right = new int[MAXM];
 
+	// 区间不同数字的个数
 	public static int[] diff = new int[MAXM];
 
 	public static int cnt;

@@ -46,10 +46,13 @@ public class Code07_MoreImpressive1 {
 	public static int cntt = 0;
 
 	// dfs需要
+	// deep[i] : i号节点的深度
 	public static int[] deep = new int[MAXN];
 
+	// size[i] : 以i号节点为头的树，有多少个节点
 	public static int[] size = new int[MAXN];
 
+	// dfn[i] : i号节点的dfn序号
 	public static int[] dfn = new int[MAXN];
 
 	public static int cntd = 0;

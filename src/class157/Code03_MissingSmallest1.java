@@ -47,6 +47,8 @@ public class Code03_MissingSmallest1 {
 		return rt;
 	}
 
+	// l~r范围，信息在i位置，jobi这个数字，最新出现在jobv位置
+	// 返回新的头节点编号
 	public static int update(int jobi, int jobv, int l, int r, int i) {
 		int rt = ++cnt;
 		left[rt] = left[i];
@@ -66,6 +68,7 @@ public class Code03_MissingSmallest1 {
 		return rt;
 	}
 
+	// 数字在l~r范围上，没有出现的最小自然数，课上重点图解
 	public static int query(int pos, int l, int r, int i) {
 		if (l == r) {
 			return l;
