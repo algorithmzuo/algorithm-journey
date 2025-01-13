@@ -88,7 +88,7 @@ public class Code04_MissingSmallest1 {
 
 	public static void prepare() {
 		cnt = 0;
-		root[0] = build(1, n);
+		root[0] = build(0, n);
 		for (int i = 1; i <= n; i++) {
 			if (arr[i] >= n) {
 				root[i] = root[i - 1];
