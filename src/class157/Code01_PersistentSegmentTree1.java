@@ -22,7 +22,7 @@ public class Code01_PersistentSegmentTree1 {
 
 	public static int MAXM = MAXN * 22;
 
-	public static int n, s, m;
+	public static int n, m, s;
 
 	public static int[] arr = new int[MAXN];
 

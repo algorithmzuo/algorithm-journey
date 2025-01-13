@@ -29,7 +29,7 @@ public class Code06_CountOnTree1 {
 
 	public static int MAXM = MAXN * MAXH;
 
-	public static int n, s, m;
+	public static int n, m, s;
 
 	// 各个节点权值
 	public static int[] arr = new int[MAXN];

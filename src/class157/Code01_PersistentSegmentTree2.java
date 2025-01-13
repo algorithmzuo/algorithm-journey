@@ -15,7 +15,7 @@ package class157;
 //
 //const int MAXN = 200001;
 //const int MAXM = MAXN * 22;
-//int n, s, m;
+//int n, m, s;
 //int arr[MAXN];
 //int sorted[MAXN];
 //int root[MAXN];
