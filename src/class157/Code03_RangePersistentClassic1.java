@@ -13,7 +13,7 @@ package class157;
 // 测试链接 : https://www.spoj.com/problems/TTM/
 // 这是实现范围修改的可持久化线段树，经典的方式
 // 但是java的实现过不了，因为这道题各种平台测试的时候，就没考虑java的用户
-// 所以想通过就用C++实现吧，本节课Code03_RangePersistent2文件就是C++的实现
+// 所以想通过就用C++实现吧，本节课Code03_RangePersistentClassic2文件就是C++的实现
 // 两个版本的逻辑完全一样，C++版本可以通过所有测试
 
 import java.io.BufferedWriter;
@@ -21,7 +21,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStreamWriter;
 
-public class Code03_RangePersistent1 {
+public class Code03_RangePersistentClassic1 {
 
 	public static int MAXN = 100001;
 
