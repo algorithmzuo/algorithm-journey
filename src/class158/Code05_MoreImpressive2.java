@@ -1,4 +1,4 @@
-package class157;
+package class158;
 
 // 更为厉害，C++版
 // 有n个节点，编号1~n，给定n-1条边，连成一棵树，1号点是树头
@@ -16,7 +16,7 @@ package class157;
 //using namespace std;
 //
 //const int MAXN = 300001;
-//const int MAXM = MAXN * 22;
+//const int MAXT = MAXN * 22;
 //int n, m;
 //
 //int head[MAXN];
@@ -25,9 +25,9 @@ package class157;
 //int cntg = 0;
 //
 //int root[MAXN];
-//int ls[MAXM];
-//int rs[MAXM];
-//long long sum[MAXM];
+//int ls[MAXT];
+//int rs[MAXT];
+//long long sum[MAXT];
 //int cntt = 0;
 //
 //int dep[MAXN];

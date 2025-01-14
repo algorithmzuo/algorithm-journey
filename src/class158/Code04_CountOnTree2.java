@@ -1,4 +1,4 @@
-package class157;
+package class158;
 
 // 路径上的第k小，C++版
 // 有n个节点，编号1~n，每个节点有权值，有n-1条边，所有节点组成一棵树
@@ -20,7 +20,7 @@ package class157;
 //
 //const int MAXN = 100001;
 //const int MAXH = 20;
-//const int MAXM = MAXN * MAXH;
+//const int MAXT = MAXN * MAXH;
 //int n, m, s;
 //int arr[MAXN];
 //int sorted[MAXN];
@@ -31,9 +31,9 @@ package class157;
 //int cntg = 0;
 //
 //int root[MAXN];
-//int ls[MAXM];
-//int rs[MAXM];
-//int size[MAXM];
+//int ls[MAXT];
+//int rs[MAXT];
+//int size[MAXT];
 //int cntt = 0;
 //
 //int deep[MAXN];

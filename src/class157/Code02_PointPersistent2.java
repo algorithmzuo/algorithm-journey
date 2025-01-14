@@ -1,6 +1,6 @@
 package class157;
 
-// 单点修改的可持久化线段树模版题，C++版
+// 单点修改的可持久化线段树模版题2，C++版
 // 给定一个长度为n的数组arr，下标1~n，一共有m条查询
 // 每条查询 l r k : 打印arr[l..r]中第k小的数字
 // 1 <= n、m <= 2 * 10^5
@@ -14,14 +14,14 @@ package class157;
 //using namespace std;
 //
 //const int MAXN = 200001;
-//const int MAXM = MAXN * 22;
+//const int MAXT = MAXN * 22;
 //int n, m, s;
 //int arr[MAXN];
 //int sorted[MAXN];
 //int root[MAXN];
-//int ls[MAXM];
-//int rs[MAXM];
-//int size[MAXM];
+//int ls[MAXT];
+//int rs[MAXT];
+//int size[MAXT];
 //int cnt;
 //
 //int kth(int num) {

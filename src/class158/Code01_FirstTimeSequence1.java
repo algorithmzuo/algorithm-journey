@@ -1,6 +1,6 @@
-package class157;
+package class158;
 
-// 下标序列，java版
+// 第一次出现位置的序列，java版
 // 给定一个长度为n的数组arr，下标1~n，一共有m条查询，每条查询格式如下
 // l r : arr[l..r]范围上，每个数第一次出现的位置，把这些位置组成一个序列
 //       假设该范围有s种不同的数，那么序列长度为s
@@ -18,11 +18,11 @@ package class157;
 import java.io.IOException;
 import java.util.Arrays;
 
-public class Code03_Sequence1 {
+public class Code01_FirstTimeSequence1 {
 
 	public static int MAXN = 200002;
 
-	public static int MAXM = MAXN * 37;
+	public static int MAXT = MAXN * 37;
 
 	public static int cases, n, m;
 
@@ -34,12 +34,12 @@ public class Code03_Sequence1 {
 	// 可持久化线段树需要
 	public static int[] root = new int[MAXN];
 
-	public static int[] left = new int[MAXM];
+	public static int[] left = new int[MAXT];
 
-	public static int[] right = new int[MAXM];
+	public static int[] right = new int[MAXT];
 
 	// 区间不同数字的个数
-	public static int[] diff = new int[MAXM];
+	public static int[] diff = new int[MAXT];
 
 	public static int cnt;
 

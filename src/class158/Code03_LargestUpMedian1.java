@@ -1,4 +1,4 @@
-package class157;
+package class158;
 
 // 浮动区间的最大上中位数，java版
 // 给定一个长度为n的数组arr，下标1~n，一共有m条查询
@@ -21,11 +21,11 @@ import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 import java.util.Arrays;
 
-public class Code05_LargestUpMedian1 {
+public class Code03_LargestUpMedian1 {
 
 	public static int MAXN = 20001;
 
-	public static int MAXM = MAXN * 20;
+	public static int MAXT = MAXN * 20;
 
 	public static int INF = 10000001;
 
@@ -37,18 +37,18 @@ public class Code05_LargestUpMedian1 {
 	// 可持久化线段树需要
 	public static int[] root = new int[MAXN];
 
-	public static int[] left = new int[MAXM];
+	public static int[] left = new int[MAXT];
 
-	public static int[] right = new int[MAXM];
+	public static int[] right = new int[MAXT];
 
 	// 区间内最大前缀和，前缀不能为空
-	public static int[] pre = new int[MAXM];
+	public static int[] pre = new int[MAXT];
 
 	// 区间内最大后缀和，后缀不能为空
-	public static int[] suf = new int[MAXM];
+	public static int[] suf = new int[MAXT];
 
 	// 区间内累加和，区间为空认为累加和是0
-	public static int[] sum = new int[MAXM];
+	public static int[] sum = new int[MAXT];
 
 	public static int cnt;
 

@@ -1,4 +1,4 @@
-package class157;
+package class158;
 
 // 路径上的第k小，java版
 // 有n个节点，编号1~n，每个节点有权值，有n-1条边，所有节点组成一棵树
@@ -21,13 +21,13 @@ import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 import java.util.Arrays;
 
-public class Code06_CountOnTree1 {
+public class Code04_CountOnTree1 {
 
 	public static int MAXN = 100001;
 
 	public static int MAXH = 20;
 
-	public static int MAXM = MAXN * MAXH;
+	public static int MAXT = MAXN * MAXH;
 
 	public static int n, m, s;
 
@@ -49,11 +49,11 @@ public class Code06_CountOnTree1 {
 	// 可持久化线段树需要
 	public static int[] root = new int[MAXN];
 
-	public static int[] left = new int[MAXM];
+	public static int[] left = new int[MAXT];
 
-	public static int[] right = new int[MAXM];
+	public static int[] right = new int[MAXT];
 
-	public static int[] size = new int[MAXM];
+	public static int[] size = new int[MAXT];
 
 	public static int cntt = 0;
 

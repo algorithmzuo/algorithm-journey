@@ -1,4 +1,4 @@
-package class157;
+package class158;
 
 // 更为厉害，java版
 // 有n个节点，编号1~n，给定n-1条边，连成一棵树，1号点是树头
@@ -17,11 +17,11 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 
-public class Code07_MoreImpressive1 {
+public class Code05_MoreImpressive1 {
 
 	public static int MAXN = 300001;
 
-	public static int MAXM = MAXN * 22;
+	public static int MAXT = MAXN * 22;
 
 	public static int n, m;
 
@@ -37,11 +37,11 @@ public class Code07_MoreImpressive1 {
 	// 可持久化线段树需要
 	public static int[] root = new int[MAXN];
 
-	public static int[] left = new int[MAXM];
+	public static int[] left = new int[MAXT];
 
-	public static int[] right = new int[MAXM];
+	public static int[] right = new int[MAXT];
 
-	public static long[] sum = new long[MAXM];
+	public static long[] sum = new long[MAXT];
 
 	public static int cntt = 0;
 

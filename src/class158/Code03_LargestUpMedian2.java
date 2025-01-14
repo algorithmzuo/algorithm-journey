@@ -1,4 +1,4 @@
-package class157;
+package class158;
 
 // 浮动区间的最大上中位数，C++版
 // 给定一个长度为n的数组arr，下标1~n，一共有m条查询
@@ -19,16 +19,16 @@ package class157;
 //using namespace std;
 //
 //const int MAXN = 20001;
-//const int MAXM = MAXN * 20;
+//const int MAXT = MAXN * 20;
 //const int INF = 10000001;
 //int n, m;
 //vector<pair<int, int>> arr;
 //int root[MAXN];
-//int ls[MAXM];
-//int rs[MAXM];
-//int pre[MAXM];
-//int suf[MAXM];
-//int sum[MAXM];
+//int ls[MAXT];
+//int rs[MAXT];
+//int pre[MAXT];
+//int suf[MAXT];
+//int sum[MAXT];
 //int cnt;
 //int ques[4], info[3];
 //

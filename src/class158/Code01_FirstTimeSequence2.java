@@ -1,6 +1,6 @@
-package class157;
+package class158;
 
-// 下标序列，C++版
+// 第一次出现位置的序列，C++版
 // 给定一个长度为n的数组arr，下标1~n，一共有m条查询，每条查询格式如下
 // l r : arr[l..r]范围上，每个数第一次出现的位置，把这些位置组成一个序列
 //       假设该范围有s种不同的数，那么序列长度为s
@@ -21,14 +21,14 @@ package class157;
 //using namespace std;
 //
 //const int MAXN = 200002;
-//const int MAXM = MAXN * 37;
+//const int MAXT = MAXN * 37;
 //int cases, n, m;
 //int arr[MAXN];
 //int pos[MAXN];
 //int root[MAXN];
-//int ls[MAXM];
-//int rs[MAXM];
-//int diff[MAXM];
+//int ls[MAXT];
+//int rs[MAXT];
+//int diff[MAXT];
 //int cnt;
 //
 //int build(int l, int r) {

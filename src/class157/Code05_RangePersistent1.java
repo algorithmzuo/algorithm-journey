@@ -1,6 +1,6 @@
 package class157;
 
-// 范围修改的可持久化线段树 + 标记永久化，java版
+// 范围修改的可持久化线段树 + 标记永久化减少空间占用，java版
 // 给定一个长度为n的数组arr，下标1~n，时间戳t=0，arr认为是0版本的数组
 // 一共有m条查询，每条查询为如下四种类型中的一种
 // C x y z : 当前时间戳t版本的数组，[x..y]范围每个数字增加z，得到t+1版本数组，并且t++
@@ -9,13 +9,11 @@ package class157;
 // B x     : 当前时间戳t设置成x
 // 1 <= n、m <= 10^5
 // -10^9 <= arr[i] <= +10^9
-// 测试链接 : https://acm.hdu.edu.cn/showproblem.php?pid=4348
+// 测试链接 : https://www.luogu.com.cn/problem/SP11470
 // 测试链接 : https://www.spoj.com/problems/TTM/
-// 这道题的目的是让你去实现标记永久化的版本，减少可持久化线段树的空间消耗
-// 所以题目一定要卡住，没有进行标记永久化的实现，而且是根据C++使用空间的状况来卡的！
-// 但是这样一来，空间资源非常少，java的实现哪怕做了标记永久化的优化，也很难通过了！
-// java版本的实现一定是最优解，逻辑一定是正确的
-// 所以想通过就用C++实现吧，本节课Code02_TagPermanentization2文件就是C++的实现
+// 这是实现范围修改的可持久化线段树，使用标记永久化减少空间占用的方式
+// 但是java的实现依然通过不了，因为这道题各种平台测试的时候，就没考虑java的用户
+// 所以想通过就用C++实现吧，本节课Code05_RangePersistent2文件就是C++的实现
 // 两个版本的逻辑完全一样，C++版本可以通过所有测试
 
 import java.io.BufferedWriter;
@@ -23,11 +21,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStreamWriter;
 
-public class Code02_TagPermanentization1 {
+public class Code05_RangePersistent1 {
 
 	public static int MAXN = 100001;
 
-	public static int MAXM = MAXN * 25;
+	public static int MAXT = MAXN * 25;
 
 	public static int n, m, t = 0;
 
@@ -38,15 +36,15 @@ public class Code02_TagPermanentization1 {
 	// root[i] : 时间戳i为版本号，线段树的头节点编号
 	public static int[] root = new int[MAXN];
 
-	public static int[] left = new int[MAXM];
+	public static int[] left = new int[MAXT];
 
-	public static int[] right = new int[MAXM];
+	public static int[] right = new int[MAXT];
 
 	// 区间累加和
-	public static long[] sum = new long[MAXM];
+	public static long[] sum = new long[MAXT];
 
 	// 区间关于加的懒更新信息，变成了标记永久化信息
-	public static long[] addTag = new long[MAXM];
+	public static long[] addTag = new long[MAXT];
 
 	public static int cnt = 0;
 

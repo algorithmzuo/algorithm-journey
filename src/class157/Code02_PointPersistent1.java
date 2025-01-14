@@ -1,6 +1,6 @@
 package class157;
 
-// 单点修改的可持久化线段树模版题，java版
+// 单点修改的可持久化线段树模版题2，java版
 // 给定一个长度为n的数组arr，下标1~n，一共有m条查询
 // 每条查询 l r k : 打印arr[l..r]中第k小的数字
 // 1 <= n、m <= 2 * 10^5
@@ -16,11 +16,11 @@ import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 import java.util.Arrays;
 
-public class Code01_PersistentSegmentTree1 {
+public class Code02_PointPersistent1 {
 
 	public static int MAXN = 200001;
 
-	public static int MAXM = MAXN * 22;
+	public static int MAXT = MAXN * 22;
 
 	public static int n, m, s;
 
@@ -35,13 +35,13 @@ public class Code01_PersistentSegmentTree1 {
 	public static int[] root = new int[MAXN];
 
 	// 左孩子
-	public static int[] left = new int[MAXM];
+	public static int[] left = new int[MAXT];
 
 	// 右孩子
-	public static int[] right = new int[MAXM];
+	public static int[] right = new int[MAXT];
 
 	// 收集了多少个数字
-	public static int[] size = new int[MAXM];
+	public static int[] size = new int[MAXT];
 
 	public static int cnt;
 

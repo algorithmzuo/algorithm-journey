@@ -1,4 +1,4 @@
-package class157;
+package class158;
 
 // 区间内没有出现的最小自然数，java版
 // 给定一个长度为n的数组arr，下标1~n，一共有m条查询
@@ -15,11 +15,11 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 
-public class Code04_MissingSmallest1 {
+public class Code02_MissingSmallest1 {
 
 	public static int MAXN = 200001;
 
-	public static int MAXM = MAXN * 22;
+	public static int MAXT = MAXN * 22;
 
 	public static int n, m;
 
@@ -27,13 +27,13 @@ public class Code04_MissingSmallest1 {
 
 	public static int[] root = new int[MAXN];
 
-	public static int[] left = new int[MAXM];
+	public static int[] left = new int[MAXT];
 
-	public static int[] right = new int[MAXM];
+	public static int[] right = new int[MAXT];
 
 	// last[i] : l~r的信息存在last[i]
 	// 表示该范围每个数字最后出现的位置中，最左在哪
-	public static int[] lateLeft = new int[MAXM];
+	public static int[] lateLeft = new int[MAXT];
 
 	public static int cnt;
 

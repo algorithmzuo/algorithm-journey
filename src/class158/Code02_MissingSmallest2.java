@@ -1,4 +1,4 @@
-package class157;
+package class158;
 
 // 区间内没有出现的最小自然数，C++版
 // 给定一个长度为n的数组arr，下标1~n，一共有m条查询
@@ -14,13 +14,13 @@ package class157;
 //using namespace std;
 //
 //const int MAXN = 200001;
-//const int MAXM = MAXN * 22;
+//const int MAXT = MAXN * 22;
 //int n, m;
 //int arr[MAXN];
 //int root[MAXN];
-//int ls[MAXM];
-//int rs[MAXM];
-//int lateLeft[MAXM];
+//int ls[MAXT];
+//int rs[MAXT];
+//int lateLeft[MAXT];
 //int cnt;
 //
 //int build(int l, int r) {
