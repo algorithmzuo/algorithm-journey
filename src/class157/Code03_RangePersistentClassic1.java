@@ -12,7 +12,7 @@ package class157;
 // 测试链接 : https://www.luogu.com.cn/problem/SP11470
 // 测试链接 : https://www.spoj.com/problems/TTM/
 // 这是实现范围修改的可持久化线段树，经典的方式
-// 但是java的实现过不了，因为这道题各种平台测试的时候，就没考虑java的用户
+// 但是java的实现过不了，因为这道题完全根据C++的性能设置的通过标准，根本没考虑java的用户
 // 所以想通过就用C++实现吧，本节课Code03_RangePersistentClassic2文件就是C++的实现
 // 两个版本的逻辑完全一样，C++版本可以通过所有测试
 
