@@ -20,14 +20,14 @@ package class157;
 // 
 //const int MAXN = 100001;
 //const int MAXT = MAXN * 70;
-//int n, m, t;
+//int n, m, t = 0;
 //int arr[MAXN];
 //int root[MAXN];
 //int ls[MAXT];
 //int rs[MAXT];
 //long long sum[MAXT];
 //long long add[MAXT];
-//int cnt;
+//int cnt = 0;
 // 
 //int clone(int i) {
 //    int rt = ++cnt;
@@ -103,12 +103,6 @@ package class157;
 //        ans += query(jobl, jobr, mid + 1, r, rs[i]);
 //    }
 //    return ans;
-//}
-// 
-//void prepare() {
-//    t = 0;
-//    cnt = 0;
-//    root[0] = build(1, n);
 //}
 // 
 //int main() {

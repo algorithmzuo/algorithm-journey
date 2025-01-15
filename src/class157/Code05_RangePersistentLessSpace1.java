@@ -36,8 +36,12 @@ public class Code05_RangePersistentLessSpace1 {
 
 	public static int[] right = new int[MAXT];
 
+	// 不是真实累加和，而是之前的任务中
+	// 不考虑被上方范围截住的任务，只考虑来到当前范围 或者 往下走的任务
+	// 累加和变成了什么
 	public static long[] sum = new long[MAXT];
 
+	// 不再是懒更新信息，变成标记信息
 	public static long[] addTag = new long[MAXT];
 
 	public static int cnt = 0;
@@ -54,12 +58,6 @@ public class Code05_RangePersistentLessSpace1 {
 			sum[rt] = sum[left[rt]] + sum[right[rt]];
 		}
 		return rt;
-	}
-
-	public static void prepare() {
-		t = 0;
-		cnt = 0;
-		root[0] = build(1, n);
 	}
 
 	public static int add(int jobl, int jobr, long jobv, int l, int r, int i) {

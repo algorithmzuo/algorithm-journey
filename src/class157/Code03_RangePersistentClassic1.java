@@ -121,12 +121,6 @@ public class Code03_RangePersistentClassic1 {
 		return ans;
 	}
 
-	public static void prepare() {
-		t = 0;
-		cnt = 0;
-		root[0] = build(1, n);
-	}
-
 	public static void main(String[] args) throws IOException {
 		FastReader in = new FastReader();
 		BufferedWriter out = new BufferedWriter(new OutputStreamWriter(System.out));
