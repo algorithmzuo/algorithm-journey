@@ -10,9 +10,9 @@ package class157;
 // 1 <= n、m <= 10^5
 // -10^9 <= arr[i] <= +10^9
 // 测试链接 : https://acm.hdu.edu.cn/showproblem.php?pid=4348
-// 这是实现范围修改的可持久化线段树，使用标记永久化减少空间占用的方式
-// 但是java的实现过不了，因为这道题完全根据C++的性能设置的通过标准，根本没考虑java的用户
-// 所以想通过就用C++实现吧，本节课Code05_RangePersistentLessSpace2文件就是C++的实现
+// java实现的逻辑一定是正确的，但是通过不了
+// 因为这道题根据C++的运行空间，制定通过标准，根本没考虑java的用户
+// 想通过用C++实现，本节课Code05_RangePersistentLessSpace2文件就是C++的实现
 // 两个版本的逻辑完全一样，C++版本可以通过所有测试
 
 import java.io.BufferedWriter;

@@ -20,7 +20,7 @@ package class157;
 //using namespace std;
 // 
 //const int MAXN = 100001;
-//const int MAXT = MAXN * 100;
+//const int MAXT = MAXN * 70;
 //int n, m, t;
 //int arr[MAXN];
 //int root[MAXN];

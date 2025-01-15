@@ -11,9 +11,9 @@ package class157;
 // -10^9 <= arr[i] <= +10^9
 // 测试链接 : https://www.luogu.com.cn/problem/SP11470
 // 测试链接 : https://www.spoj.com/problems/TTM/
-// 这是实现范围修改的可持久化线段树，经典的方式
-// 但是java的实现过不了，因为这道题完全根据C++的性能设置的通过标准，根本没考虑java的用户
-// 所以想通过就用C++实现吧，本节课Code03_RangePersistentClassic2文件就是C++的实现
+// java实现的逻辑一定是正确的，但是通过不了
+// 因为这道题根据C++的运行时间，制定通过标准，根本没考虑java的用户
+// 想通过用C++实现，本节课Code03_RangePersistentClassic2文件就是C++的实现
 // 两个版本的逻辑完全一样，C++版本可以通过所有测试
 
 import java.io.BufferedWriter;
@@ -25,7 +25,7 @@ public class Code03_RangePersistentClassic1 {
 
 	public static int MAXN = 100001;
 
-	public static int MAXT = MAXN * 100;
+	public static int MAXT = MAXN * 70;
 
 	public static int n, m, t = 0;
 
