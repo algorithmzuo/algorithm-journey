@@ -22,18 +22,24 @@ public class Code01_PointPersistent1 {
 
 	public static int n, m;
 
+	// 原始数组
 	public static int[] arr = new int[MAXN];
 
+	// 可持久化线段树需要
+	// root[i] : i号版本线段树的头节点编号
 	public static int[] root = new int[MAXN];
 
 	public static int[] left = new int[MAXT];
 
 	public static int[] right = new int[MAXT];
 
+	// value[i] : 节点i的值信息，只有叶节点有这个信息
 	public static int[] value = new int[MAXT];
 
+	// 可持久化线段树的节点空间计数
 	public static int cnt = 0;
 
+	// 建树，返回头节点编号
 	public static int build(int l, int r) {
 		int rt = ++cnt;
 		if (l == r) {
@@ -46,6 +52,9 @@ public class Code01_PointPersistent1 {
 		return rt;
 	}
 
+	// 线段树范围l~r，信息在i号节点里
+	// 在l~r范围上，jobi位置的值，设置成jobv
+	// 生成的新节点编号返回
 	public static int update(int jobi, int jobv, int l, int r, int i) {
 		int rt = ++cnt;
 		left[rt] = left[i];
@@ -64,6 +73,8 @@ public class Code01_PointPersistent1 {
 		return rt;
 	}
 
+	// 线段树范围l~r，信息在i号节点里
+	// 返回l~r范围上jobi位置的值
 	public static int query(int jobi, int l, int r, int i) {
 		if (l == r) {
 			return value[i];

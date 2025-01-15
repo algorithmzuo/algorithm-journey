@@ -31,16 +31,14 @@ public class Code02_PointPersistent1 {
 	public static int[] sorted = new int[MAXN];
 
 	// 可持久化线段树需要
-	// root[i] : 插入arr[i]之后形成的线段树，记录头节点编号
+	// root[i] : 插入arr[i]之后形成新版本的线段树，记录头节点编号
 	public static int[] root = new int[MAXN];
 
-	// 左孩子
 	public static int[] left = new int[MAXT];
 
-	// 右孩子
 	public static int[] right = new int[MAXT];
 
-	// 收集了多少个数字
+	// 范围内收集了多少个数字
 	public static int[] size = new int[MAXT];
 
 	public static int cnt;
