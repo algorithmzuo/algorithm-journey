@@ -38,7 +38,7 @@ public class Code02_PointPersistent1 {
 
 	public static int[] right = new int[MAXT];
 
-	// 数字范围内收集了多少个数字
+	// 排名范围内收集了多少个数字
 	public static int[] size = new int[MAXT];
 
 	public static int cnt;
@@ -58,7 +58,7 @@ public class Code02_PointPersistent1 {
 		return ans;
 	}
 
-	// 数字范围l~r，建立线段树，返回头节点编号
+	// 排名范围l~r，建立线段树，返回头节点编号
 	public static int build(int l, int r) {
 		int rt = ++cnt;
 		size[rt] = 0;
@@ -70,7 +70,7 @@ public class Code02_PointPersistent1 {
 		return rt;
 	}
 
-	// 数字范围l~r，信息在i号节点，增加一个数字jobi
+	// 排名范围l~r，信息在i号节点，增加一个排名为jobi的数字
 	// 返回新的头节点编号
 	public static int insert(int jobi, int l, int r, int i) {
 		int rt = ++cnt;
@@ -88,8 +88,8 @@ public class Code02_PointPersistent1 {
 		return rt;
 	}
 
-	// 数字范围l~r，老版本信息在u号节点，新版本信息在v号节点
-	// 返回第jobk小的数
+	// 排名范围l~r，老版本信息在u号节点，新版本信息在v号节点
+	// 返回第jobk小的排名
 	public static int query(int jobk, int l, int r, int u, int v) {
 		if (l == r) {
 			return l;
