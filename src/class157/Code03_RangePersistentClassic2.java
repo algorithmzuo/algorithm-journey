@@ -11,7 +11,6 @@ package class157;
 // -10^9 <= arr[i] <= +10^9
 // 测试链接 : https://www.luogu.com.cn/problem/SP11470
 // 测试链接 : https://www.spoj.com/problems/TTM/
-// 这是实现范围修改的可持久化线段树，经典的方式
 // 如下实现是C++的版本，C++版本和java版本逻辑完全一样
 // 提交如下代码，可以通过所有测试用例
 
