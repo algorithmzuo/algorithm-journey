@@ -51,6 +51,8 @@ public class Code02_MaxCover {
 		// 所有线段，根据开始位置排序，结束位置无所谓
 		// 比较器的用法
 		// line [0...n) 排序 : 所有小数组，开始位置谁小谁在前
+        //todo line根据首排序，小根堆根据尾排序，然后将line插入堆中，如果堆中的根元素小于要加入的元素首，就不会发生重叠，
+        // 所以弹出。同时，堆中的元素个数就是重叠的个数。
 		Arrays.sort(line, 0, n, (a, b) -> a[0] - b[0]);
 		int ans = 0;
 		for (int i = 0; i < n; i++) {
@@ -69,7 +71,7 @@ public class Code02_MaxCover {
 
 	// 堆的大小
 	public static int size;
-
+    //小根堆
 	public static void add(int x) {
 		heap[size] = x;
 		int i = size++;

@@ -55,5 +55,4 @@ public class Code02_GetMaxWithoutJudge {
 		// getMax2方法永远正确
 		System.out.println(getMax2(a, b));
 	}
-
 }

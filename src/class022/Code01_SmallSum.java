@@ -6,12 +6,7 @@ package class022;
 // 这是输入输出处理效率很高的写法
 // 提交以下的code，提交时请把类名改成"Main"，可以直接通过
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
-import java.io.StreamTokenizer;
+import java.io.*;
 
 public class Code01_SmallSum {
 
@@ -34,6 +29,9 @@ public class Code01_SmallSum {
 				arr[i] = (int) in.nval;
 			}
 			out.println(smallSum(0, n - 1));
+//            for (int i = 0; i < n; i++) {
+//                out.print(arr[i]+ " ");
+//            }
 		}
 		out.flush();
 		out.close();
@@ -56,9 +54,13 @@ public class Code01_SmallSum {
 	public static long merge(int l, int m, int r) {
 		// 统计部分
 		long ans = 0;
+        //遍历右半边
 		for (int j = m + 1, i = l, sum = 0; j <= r; j++) {
+            //比较左边小于右边，则累加
 			while (i <= m && arr[i] <= arr[j]) {
 				sum += arr[i++];
+                //错误写法sum需要持续累积
+//                ans+=arr[i++];
 			}
 			ans += sum;
 		}
@@ -80,5 +82,4 @@ public class Code01_SmallSum {
 		}
 		return ans;
 	}
-
 }

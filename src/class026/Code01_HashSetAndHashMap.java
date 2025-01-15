@@ -18,26 +18,26 @@ public class Code01_HashSetAndHashMap {
 
 		HashSet<String> set = new HashSet<>();
 		set.add(str1);
-		System.out.println(set.contains("Hello"));
-		System.out.println(set.contains(str2));
+		System.out.println(set.contains("Hello"));//true
+		System.out.println(set.contains(str2)); //true
 		set.add(str2);
-		System.out.println(set.size());
+		System.out.println(set.size());//1
 		set.remove(str1);
 		set.clear();
-		System.out.println(set.isEmpty());
+		System.out.println(set.isEmpty());//true;
 
 		System.out.println("===========");
 
 		HashMap<String, String> map1 = new HashMap<>();
 		map1.put(str1, "World");
-		System.out.println(map1.containsKey("Hello"));
-		System.out.println(map1.containsKey(str2));
-		System.out.println(map1.get(str2));
-		System.out.println(map1.get("你好") == null);
+		System.out.println(map1.containsKey("Hello"));//true
+		System.out.println(map1.containsKey(str2));//true
+		System.out.println(map1.get(str2));//World
+		System.out.println(map1.get("你好") == null);//true
 		map1.remove("Hello");
-		System.out.println(map1.size());
+		System.out.println(map1.size());//0
 		map1.clear();
-		System.out.println(map1.isEmpty());
+		System.out.println(map1.isEmpty());//true
 
 		System.out.println("===========");
 
@@ -61,12 +61,12 @@ public class Code01_HashSetAndHashMap {
 		Student s2 = new Student(17, "张三");
 		HashMap<Student, String> map3 = new HashMap<>();
 		map3.put(s1, "这是张三");
-		System.out.println(map3.containsKey(s1));
-		System.out.println(map3.containsKey(s2));
+		System.out.println(map3.containsKey(s1));//true
+		System.out.println(map3.containsKey(s2));//false
 		map3.put(s2, "这是另一个张三");
-		System.out.println(map3.size());
-		System.out.println(map3.get(s1));
-		System.out.println(map3.get(s2));
+		System.out.println(map3.size());//2
+		System.out.println(map3.get(s1));//张三
+		System.out.println(map3.get(s2));//另一个张三
 	}
 
 	public static class Student {

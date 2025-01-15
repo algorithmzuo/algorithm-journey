@@ -76,11 +76,11 @@ public class Code03_Comparator {
 		for (Employee e : arr) {
 			treeSet2.add(e);
 		}
-		System.out.println(treeSet2.size());
+		System.out.println(treeSet2.size());//6
 
 		// 不会去重
 		treeSet2.add(new Employee(2, 27));
-		System.out.println(treeSet2.size());
+		System.out.println(treeSet2.size());//7
 
 		System.out.println("===");
 
@@ -89,8 +89,8 @@ public class Code03_Comparator {
 		// 字典序
 		String str1 = "abcde";
 		String str2 = "ks";
-		System.out.println(str1.compareTo(str2));
-		System.out.println(str2.compareTo(str1));
+		System.out.println(str1.compareTo(str2));//-10
+		System.out.println(str2.compareTo(str1));//10
 	}
 
 }

@@ -92,9 +92,11 @@ public class Code01_RadixSort {
 				// 数字提取某一位的技巧
 				cnts[(arr[i] / offset) % BASE]++;
 			}
+            //累计前缀和
 			for (int i = 1; i < BASE; i++) {
 				cnts[i] = cnts[i] + cnts[i - 1];
 			}
+
 			for (int i = n - 1; i >= 0; i--) {
 				// 前缀数量分区的技巧
 				// 数字提取某一位的技巧

@@ -26,6 +26,7 @@ public class Code02_ReversePairs {
 		// 统计部分
 		int ans = 0;
 		for (int i = l, j = m + 1; i <= m; i++) {
+            //这里需要防止溢出，另外临时开辟数组需要调整大小，防止超过时间限制，静态数组也可以
 			while (j <= r && (long) arr[i] > (long) arr[j] * 2) {
 				j++;
 			}
