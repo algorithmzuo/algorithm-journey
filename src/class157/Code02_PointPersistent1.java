@@ -32,6 +32,8 @@ public class Code02_PointPersistent1 {
 
 	// 可持久化线段树需要
 	// root[i] : 插入arr[i]之后形成新版本的线段树，记录头节点编号
+	// 0号版本的线段树代表一个数字也没有时，每种名次的数字出现的次数
+	// i号版本的线段树代表arr[1..i]范围内，每种名次的数字出现的次数
 	public static int[] root = new int[MAXN];
 
 	public static int[] left = new int[MAXT];
@@ -89,7 +91,7 @@ public class Code02_PointPersistent1 {
 	}
 
 	// 排名范围l~r，老版本信息在u号节点，新版本信息在v号节点
-	// 返回第jobk小的排名
+	// 返回，第jobk小的数字，排名多少
 	public static int query(int jobk, int l, int r, int u, int v) {
 		if (l == r) {
 			return l;
