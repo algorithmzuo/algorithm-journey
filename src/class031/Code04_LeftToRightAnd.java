@@ -8,9 +8,15 @@ public class Code04_LeftToRightAnd {
 
 	public static int rangeBitwiseAnd(int left, int right) {
 		while (left < right) {
+            //todo n&-n会算出n的最右侧的1的值，然后n不断去掉最右侧的1.原理是n与n-1&的结果是去掉n最右侧的1；
 			right -= right & -right;
 		}
 		return right;
 	}
 
+    public static void main(String[] args) {
+        System.out.println(Integer.toBinaryString(-2));
+        System.out.println(Integer.toBinaryString(-1));
+        System.out.println(rangeBitwiseAnd(-2, -1));
+    }
 }

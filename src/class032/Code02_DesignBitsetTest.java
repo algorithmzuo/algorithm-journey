@@ -10,10 +10,11 @@ package class032;
 // boolean one() : 是否至少有一位是1
 // int count() : 返回所有位中1的数量
 // String toString() : 返回所有位的状态
+//todo 这个反转没想出来，反转不会遍历改变值，前边的已经变化的调换ones和zeros实现，后边的添加删除和遍历是通过判断是否反转继续增删遍历。减少了遍历反转
 public class Code02_DesignBitsetTest {
 
 	// 测试链接 : https://leetcode-cn.com/problems/design-bitset/
-	class Bitset {
+	static class Bitset {
 		private int[] set;
 		private final int size;
 		private int zeros;
@@ -105,5 +106,11 @@ public class Code02_DesignBitsetTest {
 		}
 
 	}
-
+    public static void main(String[] args) {
+        Bitset bitset = new Bitset(1);
+        System.out.println(bitset.all());
+        bitset.flip();
+        System.out.println(bitset.size+" "+bitset.ones+" "+bitset.zeros);
+        System.out.println(bitset.all());
+    }
 }

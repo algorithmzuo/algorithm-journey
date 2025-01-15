@@ -21,19 +21,19 @@ public class Code01_Bitset {
 			// 前提是a和b都是非负数
 			set = new int[(n + 31) / 32];
 		}
-
+        //nums%32偏移量，num/32选择第几个桶，｜有就不变，没有就变成1
 		public void add(int num) {
 			set[num / 32] |= 1 << (num % 32);
 		}
-
+        //去反确保要删除的那一位为0，&将置0
 		public void remove(int num) {
 			set[num / 32] &= ~(1 << (num % 32));
 		}
-
+        //^都是1则为0，本身为0则变成1
 		public void reverse(int num) {
 			set[num / 32] ^= 1 << (num % 32);
 		}
-
+        //将对应值放到最右侧，然后&1判断是否存在
 		public boolean contains(int num) {
 			return ((set[num / 32] >> (num % 32)) & 1) == 1;
 		}
