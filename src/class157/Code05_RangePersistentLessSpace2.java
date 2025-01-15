@@ -1,6 +1,6 @@
 package class157;
 
-// 范围修改的可持久化线段树 + 标记永久化减少空间占用，C++版
+// 范围修改的可持久化线段树，标记永久化减少空间占用，C++版
 // 给定一个长度为n的数组arr，下标1~n，时间戳t=0，arr认为是0版本的数组
 // 一共有m条查询，每条查询为如下四种类型中的一种
 // C x y z : 当前时间戳t版本的数组，[x..y]范围每个数字增加z，得到t+1版本数组，并且t++
@@ -9,8 +9,7 @@ package class157;
 // B x     : 当前时间戳t设置成x
 // 1 <= n、m <= 10^5
 // -10^9 <= arr[i] <= +10^9
-// 测试链接 : https://www.luogu.com.cn/problem/SP11470
-// 测试链接 : https://www.spoj.com/problems/TTM/
+// 测试链接 : https://acm.hdu.edu.cn/showproblem.php?pid=4348
 // 如下实现是C++的版本，C++版本和java版本逻辑完全一样
 // 提交如下代码，可以通过所有测试用例
 
