@@ -21,8 +21,12 @@ public class Code04_TagPermanentization1 {
 
 	public static long[] arr = new long[MAXN];
 
+	// 不是真实累加和，而是之前的任务中
+	// 不考虑被上方范围截住的任务，只考虑来到当前范围 或者 往下走的任务
+	// 累加和变成了什么
 	public static long[] sum = new long[MAXN << 2];
 
+	// 不再是懒更新信息，变成标记信息
 	public static long[] addTag = new long[MAXN << 2];
 
 	public static void build(int l, int r, int i) {
