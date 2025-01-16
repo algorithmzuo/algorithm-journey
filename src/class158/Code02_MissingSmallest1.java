@@ -49,7 +49,7 @@ public class Code02_MissingSmallest1 {
 	}
 
 	// 数字范围l~r，信息在i号节点
-	// jobi这个数字，当前最晚出现在jobv位置
+	// 数字范围上，jobi这个数字，最晚出现的位置更新为jobv
 	// 返回新的头节点编号
 	public static int update(int jobi, int jobv, int l, int r, int i) {
 		int rt = ++cnt;
@@ -92,7 +92,7 @@ public class Code02_MissingSmallest1 {
 		cnt = 0;
 		root[0] = build(0, n);
 		for (int i = 1; i <= n; i++) {
-			if (arr[i] >= n) {
+			if (arr[i] > n) {
 				root[i] = root[i - 1];
 			} else {
 				root[i] = update(arr[i], i, 0, n, root[i - 1]);
