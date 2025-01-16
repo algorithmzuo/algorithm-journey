@@ -92,7 +92,7 @@ public class Code02_MissingSmallest1 {
 		cnt = 0;
 		root[0] = build(0, n);
 		for (int i = 1; i <= n; i++) {
-			if (arr[i] > n) {
+			if (arr[i] > n || arr[i] < 0) {
 				root[i] = root[i - 1];
 			} else {
 				root[i] = update(arr[i], i, 0, n, root[i - 1]);
