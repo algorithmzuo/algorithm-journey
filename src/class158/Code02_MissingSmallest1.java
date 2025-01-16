@@ -32,8 +32,7 @@ public class Code02_MissingSmallest1 {
 
 	public static int[] right = new int[MAXT];
 
-	// last[i] : l~r的信息存在last[i]
-	// 表示该范围每个数字最后出现的位置中，最左在哪
+	// 数字范围中，每个数字出现的最晚位置中，最左的位置在哪
 	public static int[] lateLeft = new int[MAXT];
 
 	public static int cnt;
@@ -49,7 +48,8 @@ public class Code02_MissingSmallest1 {
 		return rt;
 	}
 
-	// l~r范围，信息在i位置，jobi这个数字，最新出现在jobv位置
+	// 数字范围l~r，信息在i号节点
+	// jobi这个数字，当前最晚出现在jobv位置
 	// 返回新的头节点编号
 	public static int update(int jobi, int jobv, int l, int r, int i) {
 		int rt = ++cnt;
