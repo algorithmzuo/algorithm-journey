@@ -48,7 +48,7 @@ public class Code03_LargestUpMedian1 {
 	// 区间内最大后缀和，后缀不能为空
 	public static int[] suf = new int[MAXT];
 
-	// 区间内累加和，区间为空认为累加和是0
+	// 区间内累加和
 	public static int[] sum = new int[MAXT];
 
 	public static int cnt;
@@ -76,6 +76,7 @@ public class Code03_LargestUpMedian1 {
 		sum[i] = sum[left[i]] + sum[right[i]];
 	}
 
+	// jobi位置，原来是1，现在改为-1
 	public static int update(int jobi, int l, int r, int i) {
 		int rt = ++cnt;
 		left[rt] = left[i];
