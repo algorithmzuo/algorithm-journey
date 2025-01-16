@@ -38,8 +38,8 @@ public class Code01_FirstTimeSequence1 {
 
 	public static int[] right = new int[MAXT];
 
-	// 数组范围上出现不同数字的个数
-	public static int[] diff = new int[MAXT];
+	// 数组范围上只记录每种数第一次出现的位置，这样的位置有多少个
+	public static int[] firstSize = new int[MAXT];
 
 	public static int cnt;
 
@@ -58,7 +58,7 @@ public class Code01_FirstTimeSequence1 {
 		int rt = ++cnt;
 		left[rt] = left[i];
 		right[rt] = right[i];
-		diff[rt] = diff[i] + jobv;
+		firstSize[rt] = firstSize[i] + jobv;
 		if (l == r) {
 			return rt;
 		}
@@ -71,17 +71,17 @@ public class Code01_FirstTimeSequence1 {
 		return rt;
 	}
 
-	public static int queryDiff(int jobl, int jobr, int l, int r, int i) {
+	public static int querySize(int jobl, int jobr, int l, int r, int i) {
 		if (jobl <= l && r <= jobr) {
-			return diff[i];
+			return firstSize[i];
 		}
 		int mid = (l + r) / 2;
 		int ans = 0;
 		if (jobl <= mid) {
-			ans += queryDiff(jobl, jobr, l, mid, left[i]);
+			ans += querySize(jobl, jobr, l, mid, left[i]);
 		}
 		if (jobr > mid) {
-			ans += queryDiff(jobl, jobr, mid + 1, r, right[i]);
+			ans += querySize(jobl, jobr, mid + 1, r, right[i]);
 		}
 		return ans;
 	}
@@ -91,7 +91,7 @@ public class Code01_FirstTimeSequence1 {
 			return l;
 		}
 		int mid = (l + r) / 2;
-		int leftDiff = diff[left[i]];
+		int leftDiff = firstSize[left[i]];
 		if (leftDiff >= jobk) {
 			return queryKth(jobk, l, mid, left[i]);
 		} else {
@@ -132,7 +132,7 @@ public class Code01_FirstTimeSequence1 {
 				b = (io.nextInt() + lastAns) % n + 1;
 				l = Math.min(a, b);
 				r = Math.max(a, b);
-				k = (queryDiff(l, r, 1, n, root[l]) + 1) / 2;
+				k = (querySize(l, r, 1, n, root[l]) + 1) / 2;
 				lastAns = queryKth(k, 1, n, root[l]);
 				io.write(" ");
 				io.writeInt(lastAns);

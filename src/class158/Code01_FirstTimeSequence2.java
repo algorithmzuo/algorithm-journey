@@ -28,7 +28,7 @@ package class158;
 //int root[MAXN];
 //int ls[MAXT];
 //int rs[MAXT];
-//int diff[MAXT];
+//int firstSize[MAXT];
 //int cnt;
 //
 //int build(int l, int r) {
@@ -46,7 +46,7 @@ package class158;
 //    int rt = ++cnt;
 //    ls[rt] = ls[i];
 //    rs[rt] = rs[i];
-//    diff[rt] = diff[i] + jobv;
+//    firstSize[rt] = firstSize[i] + jobv;
 //    if (l == r) {
 //        return rt;
 //    }
@@ -59,17 +59,17 @@ package class158;
 //    return rt;
 //}
 //
-//int queryDiff(int jobl, int jobr, int l, int r, int i) {
+//int querySize(int jobl, int jobr, int l, int r, int i) {
 //    if (jobl <= l && r <= jobr) {
-//        return diff[i];
+//        return firstSize[i];
 //    }
 //    int mid = (l + r) / 2;
 //    int ans = 0;
 //    if (jobl <= mid) {
-//        ans += queryDiff(jobl, jobr, l, mid, ls[i]);
+//        ans += querySize(jobl, jobr, l, mid, ls[i]);
 //    }
 //    if (jobr > mid) {
-//        ans += queryDiff(jobl, jobr, mid + 1, r, rs[i]);
+//        ans += querySize(jobl, jobr, mid + 1, r, rs[i]);
 //    }
 //    return ans;
 //}
@@ -79,7 +79,7 @@ package class158;
 //        return l;
 //    }
 //    int mid = (l + r) / 2;
-//    int leftDiff = diff[ls[i]];
+//    int leftDiff = firstSize[ls[i]];
 //    if (leftDiff >= jobk) {
 //        return queryKth(jobk, l, mid, ls[i]);
 //    } else {
@@ -119,7 +119,7 @@ package class158;
 //            b = (r + lastAns) % n + 1;
 //            l = min(a, b);
 //            r = max(a, b);
-//            k = (queryDiff(l, r, 1, n, root[l]) + 1) / 2;
+//            k = (querySize(l, r, 1, n, root[l]) + 1) / 2;
 //            lastAns = queryKth(k, 1, n, root[l]);
 //            cout << " " << lastAns;
 //        }
