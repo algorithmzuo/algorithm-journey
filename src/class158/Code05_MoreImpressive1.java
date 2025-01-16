@@ -213,8 +213,8 @@ public class Code05_MoreImpressive1 {
 	}
 
 	public static long compute(int a, int k) {
-		long ans = query(deep[a] + 1, deep[a] + k, 1, depth, root[dfn[a] - 1], root[dfn[a] + size[a] - 1]);
-		ans += (long) (size[a] - 1) * Math.min(k, deep[a] - 1);
+		long ans = (long) (size[a] - 1) * Math.min(k, deep[a] - 1);
+		ans += query(deep[a] + 1, deep[a] + k, 1, depth, root[dfn[a] - 1], root[dfn[a] + size[a] - 1]);
 		return ans;
 	}
 

@@ -118,8 +118,8 @@ package class158;
 //}
 //
 //long long compute(int a, int k) {
-//    long long ans = query(dep[a] + 1, dep[a] + k, 1, depth, root[dfn[a] - 1], root[dfn[a] + siz[a] - 1]);
-//    ans += (long long)(siz[a] - 1) * min(k, dep[a] - 1);
+//    long long ans = (long long)(siz[a] - 1) * min(k, dep[a] - 1);
+//    ans += query(dep[a] + 1, dep[a] + k, 1, depth, root[dfn[a] - 1], root[dfn[a] + siz[a] - 1]);
 //    return ans;
 //}
 //
