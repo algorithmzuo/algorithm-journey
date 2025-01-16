@@ -71,6 +71,9 @@ public class Code02_TrieTree {
 	public static void delete(String word) {
 		if (search(word) > 0) {
 			int cur = 1;
+			// 下面这一行代码，讲课的时候没加
+			// 本题不会用到pass[1]的信息，所以加不加都可以，不过正确的写法是加上
+			pass[cur]--;
 			for (int i = 0, path; i < word.length(); i++) {
 				path = word.charAt(i) - 'a';
 				if (--pass[tree[cur][path]] == 0) {
