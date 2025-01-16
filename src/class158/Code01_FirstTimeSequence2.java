@@ -79,11 +79,11 @@ package class158;
 //        return l;
 //    }
 //    int mid = (l + r) / 2;
-//    int leftDiff = firstSize[ls[i]];
-//    if (leftDiff >= jobk) {
+//    int lsize = firstSize[ls[i]];
+//    if (lsize >= jobk) {
 //        return queryKth(jobk, l, mid, ls[i]);
 //    } else {
-//        return queryKth(jobk - leftDiff, mid + 1, r, rs[i]);
+//        return queryKth(jobk - lsize, mid + 1, r, rs[i]);
 //    }
 //}
 //

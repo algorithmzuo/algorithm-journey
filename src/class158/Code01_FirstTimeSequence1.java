@@ -28,7 +28,7 @@ public class Code01_FirstTimeSequence1 {
 
 	public static int[] arr = new int[MAXN];
 
-	// pos[v] : v这个数字最左出现的位置
+	// pos[v] : v这个数字上次出现的位置
 	public static int[] pos = new int[MAXN];
 
 	// 可持久化线段树需要
@@ -56,7 +56,7 @@ public class Code01_FirstTimeSequence1 {
 
 	// 数组范围l~r，信息在i号节点
 	// 如果jobv = -1，意味着jobi位置减少一个计数
-	// 如果jobv = 1，意味着jobi位置增加一个计数
+	// 如果jobv = +1，意味着jobi位置增加一个计数
 	// 返回新的头节点编号
 	public static int update(int jobi, int jobv, int l, int r, int i) {
 		int rt = ++cnt;
@@ -99,11 +99,11 @@ public class Code01_FirstTimeSequence1 {
 			return l;
 		}
 		int mid = (l + r) / 2;
-		int leftDiff = firstSize[left[i]];
-		if (leftDiff >= jobk) {
+		int lsize = firstSize[left[i]];
+		if (lsize >= jobk) {
 			return queryKth(jobk, l, mid, left[i]);
 		} else {
-			return queryKth(jobk - leftDiff, mid + 1, r, right[i]);
+			return queryKth(jobk - lsize, mid + 1, r, right[i]);
 		}
 	}
 
