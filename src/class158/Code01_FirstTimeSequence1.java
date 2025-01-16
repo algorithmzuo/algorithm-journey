@@ -38,7 +38,7 @@ public class Code01_FirstTimeSequence1 {
 
 	public static int[] right = new int[MAXT];
 
-	// 区间不同数字的个数
+	// 数组范围上出现不同数字的个数
 	public static int[] diff = new int[MAXT];
 
 	public static int cnt;
