@@ -33,12 +33,12 @@ package class158;
 //
 //int build(int l, int r) {
 //    int rt = ++cnt;
-//    if (l == r) {
-//        return rt;
+//    if (l < r) {
+//        int mid = (l + r) / 2;
+//        ls[rt] = build(l, mid);
+//        rs[rt] = build(mid + 1, r);
 //    }
-//    int mid = (l + r) / 2;
-//    ls[rt] = build(l, mid);
-//    rs[rt] = build(mid + 1, r);
+//    firstSize[rt] = 0;
 //    return rt;
 //}
 //
