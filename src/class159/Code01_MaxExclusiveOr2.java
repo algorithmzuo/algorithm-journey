@@ -18,7 +18,6 @@ package class159;
 //int nxt[MAXT][2];
 //int size[MAXT];
 //int cnt = 0;
-//int eor[MAXN];
 //
 //int insert(int num, int bit, int i) {
 //    int rt = ++cnt;
@@ -50,10 +49,11 @@ package class159;
 //    cin.tie(0);
 //    cin >> n >> m;
 //    root[0] = insert(0, BIT, 0);
+//    int eor = 0;
 //    for (int i = 1, num; i <= n; i++) {
 //        cin >> num;
-//        eor[i] = eor[i - 1] ^ num;
-//        root[i] = insert(eor[i], BIT, root[i - 1]);
+//        eor ^= num;
+//        root[i] = insert(eor, BIT, root[i - 1]);
 //    }
 //    string op;
 //    int x, y, z;
@@ -61,15 +61,15 @@ package class159;
 //        cin >> op;
 //        if (op == "A") {
 //            cin >> x;
+//            eor ^= x;
 //            n++;
-//            eor[n] = eor[n - 1] ^ x;
-//            root[n] = insert(eor[n], BIT, root[n - 1]);
+//            root[n] = insert(eor, BIT, root[n - 1]);
 //        } else {
 //            cin >> x >> y >> z;
 //            if (x == 1) {
-//                cout << query(eor[n] ^ z, BIT, 0, root[y - 1]) << "\n";
+//                cout << query(eor ^ z, BIT, 0, root[y - 1]) << "\n";
 //            } else {
-//                cout << query(eor[n] ^ z, BIT, root[x - 2], root[y - 1]) << "\n";
+//                cout << query(eor ^ z, BIT, root[x - 2], root[y - 1]) << "\n";
 //            }
 //        }
 //    }

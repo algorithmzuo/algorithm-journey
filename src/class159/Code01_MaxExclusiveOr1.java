@@ -9,9 +9,9 @@ package class159;
 // 想通过用C++实现，本节课Code01_MaxExclusiveOr2文件就是C++的实现
 // 两个版本的逻辑完全一样，C++版本可以通过所有测试
 
-import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 import java.io.InputStream;
 
 public class Code01_MaxExclusiveOr1 {
@@ -31,8 +31,6 @@ public class Code01_MaxExclusiveOr1 {
 	public static int[] size = new int[MAXT];
 
 	public static int cnt = 0;
-
-	public static int[] eor = new int[MAXN];
 
 	public static int insert(int num, int bit, int i) {
 		int rt = ++cnt;
@@ -61,37 +59,36 @@ public class Code01_MaxExclusiveOr1 {
 
 	public static void main(String[] args) throws IOException {
 		FastReader in = new FastReader();
-		BufferedWriter out = new BufferedWriter(new OutputStreamWriter(System.out));
+		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
 		n = in.nextInt();
 		m = in.nextInt();
 		root[0] = insert(0, BIT, 0);
+		int eor = 0;
 		for (int i = 1, num; i <= n; i++) {
 			num = in.nextInt();
-			eor[i] = eor[i - 1] ^ num;
-			root[i] = insert(eor[i], BIT, root[i - 1]);
+			eor ^= num;
+			root[i] = insert(eor, BIT, root[i - 1]);
 		}
 		String op;
 		int x, y, z;
-		StringBuilder ans = new StringBuilder();
 		for (int i = 1; i <= m; i++) {
 			op = in.next();
 			if (op.equals("A")) {
 				x = in.nextInt();
+				eor ^= x;
 				n++;
-				eor[n] = eor[n - 1] ^ x;
-				root[n] = insert(eor[n], 25, root[n - 1]);
+				root[n] = insert(eor, 25, root[n - 1]);
 			} else {
 				x = in.nextInt();
 				y = in.nextInt();
 				z = in.nextInt();
 				if (x == 1) {
-					ans.append(query(eor[n] ^ z, BIT, 0, root[y - 1])).append("\n");
+					out.println(query(eor ^ z, BIT, 0, root[y - 1]));
 				} else {
-					ans.append(query(eor[n] ^ z, BIT, root[x - 2], root[y - 1])).append("\n");
+					out.println(query(eor ^ z, BIT, root[x - 2], root[y - 1]));
 				}
 			}
 		}
-		out.write(ans.toString());
 		out.flush();
 		out.close();
 	}
