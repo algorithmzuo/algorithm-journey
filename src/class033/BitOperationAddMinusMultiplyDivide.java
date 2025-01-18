@@ -25,17 +25,20 @@ public class BitOperationAddMinusMultiplyDivide {
 			return Integer.MAX_VALUE;
 		}
 		// a是整数最小，b不是整数最小，b也不是-1
+        //todo a如果是最小数，先加一个数，然后计算后再减去
 		a = add(a, b > 0 ? b : neg(b));
 		int ans = div(a, b);
 		int offset = b > 0 ? neg(1) : 1;
 		return add(ans, offset);
 	}
 
-	// 必须保证a和b都不是整数最小值，返回a除以b的结果
+	// 必须保证a和b都不是整数最小值，返回a除以b的结果, 整数最小值取反+1后形式为自己
 	public static int div(int a, int b) {
+        //将值转成非负的
 		int x = a < 0 ? neg(a) : a;
 		int y = b < 0 ? neg(b) : b;
 		int ans = 0;
+        //31位是符号位
 		for (int i = 30; i >= 0; i = minus(i, 1)) {
 			if ((x >> i) >= y) {
 				ans |= (1 << i);
@@ -79,4 +82,8 @@ public class BitOperationAddMinusMultiplyDivide {
 		return ans;
 	}
 
+    public static void main(String[] args) {
+        System.out.println(Integer.toBinaryString(-5));
+        System.out.println(Integer.toBinaryString(5));
+    }
 }

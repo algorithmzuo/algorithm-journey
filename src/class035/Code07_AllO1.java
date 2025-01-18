@@ -8,7 +8,7 @@ public class Code07_AllO1 {
 
 	// 测试链接 : https://leetcode.cn/problems/all-oone-data-structure/
 	class AllOne {
-
+        //todo 使用一个双向链表和一个hashmap，双向链表用来存放次数和value值，hashmap用来存放value对应bucket。
 		class Bucket {
 			public HashSet<String> set;
 			public int cnt;

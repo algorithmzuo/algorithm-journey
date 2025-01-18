@@ -8,7 +8,8 @@ public class Code06_MaximumFrequencyStack {
 
 	// 测试链接 : https://leetcode.cn/problems/maximum-frequency-stack/
 	class FreqStack {
-
+        //todo 两个hashmap，一个用来存放每个值出现的次数，另一个用来存放每个次数有多少个值。每个次数的值都会保存，所以会包含比较多的内存占用
+        // cntvalues主要实现了类似根据次数的栈。
 		// 出现的最大次数
 		private int topTimes;
 		// 每层节点

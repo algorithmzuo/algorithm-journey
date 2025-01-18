@@ -12,7 +12,9 @@ public class Code02_ReverseNodesInkGroup {
 
 	// 提交如下的方法
 	public static ListNode reverseKGroup(ListNode head, int k) {
+        //todo 标记头节点
 		ListNode start = head;
+        //todo 标记第k个节点
 		ListNode end = teamEnd(start, k);
 		if (end == null) {
 			return head;
@@ -46,9 +48,11 @@ public class Code02_ReverseNodesInkGroup {
 	// s -> a -> b -> c -> e -> 下一组的开始节点
 	// 上面的链表通过如下的reverse方法调整成 : e -> c -> b -> a -> s -> 下一组的开始节点
 	public static void reverse(ListNode s, ListNode e) {
+        //todo 标记下一个节点
 		e = e.next;
 		ListNode pre = null, cur = s, next = null;
 		while (cur != e) {
+            //todo 标记下一个节点
 			next = cur.next;
 			cur.next = pre;
 			pre = cur;

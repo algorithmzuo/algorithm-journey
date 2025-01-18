@@ -19,6 +19,7 @@ public class Code06_SortList {
 	public static ListNode sortList(ListNode head) {
 		int n = 0;
 		ListNode cur = head;
+        //todo 获取节点长度
 		while (cur != null) {
 			n++;
 			cur = cur.next;

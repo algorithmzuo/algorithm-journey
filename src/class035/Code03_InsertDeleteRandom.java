@@ -5,7 +5,7 @@ import java.util.HashMap;
 
 // 插入、删除和获取随机元素O(1)时间的结构
 public class Code03_InsertDeleteRandom {
-
+    //todo map用来存储（值，数组索引），数组存储值。
 	// 测试链接 : https://leetcode.cn/problems/insert-delete-getrandom-o1/
 	class RandomizedSet {
 
