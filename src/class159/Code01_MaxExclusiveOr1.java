@@ -22,7 +22,7 @@ public class Code01_MaxExclusiveOr1 {
 
 	public static int BIT = 25;
 
-	public static int n, m;
+	public static int n, m, eor;
 
 	public static int[] root = new int[MAXN];
 
@@ -62,8 +62,8 @@ public class Code01_MaxExclusiveOr1 {
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
 		n = in.nextInt();
 		m = in.nextInt();
-		root[0] = insert(0, BIT, 0);
-		int eor = 0;
+		eor = 0;
+		root[0] = insert(eor, BIT, 0);
 		for (int i = 1, num; i <= n; i++) {
 			num = in.nextInt();
 			eor ^= num;
