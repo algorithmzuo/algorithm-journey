@@ -28,7 +28,7 @@ public class Code01_MaxExclusiveOr1 {
 
 	public static int[][] next = new int[MAXT][2];
 
-	public static int[] size = new int[MAXT];
+	public static int[] pass = new int[MAXT];
 
 	public static int cnt = 0;
 
@@ -36,7 +36,7 @@ public class Code01_MaxExclusiveOr1 {
 		int rt = ++cnt;
 		next[rt][0] = next[i][0];
 		next[rt][1] = next[i][1];
-		size[rt] = size[i] + 1;
+		pass[rt] = pass[i] + 1;
 		if (bit >= 0) {
 			int cur = (num >> bit) & 1;
 			next[rt][cur] = insert(num, bit - 1, next[rt][cur]);
@@ -50,7 +50,7 @@ public class Code01_MaxExclusiveOr1 {
 		}
 		int cur = (num >> bit) & 1;
 		int opp = cur ^ 1;
-		if (size[next[v][opp]] > size[next[u][opp]]) {
+		if (pass[next[v][opp]] > pass[next[u][opp]]) {
 			return (1 << bit) + query(num, bit - 1, next[u][opp], next[v][opp]);
 		} else {
 			return query(num, bit - 1, next[u][cur], next[v][cur]);

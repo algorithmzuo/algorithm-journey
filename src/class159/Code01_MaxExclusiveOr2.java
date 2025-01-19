@@ -16,14 +16,14 @@ package class159;
 //int n, m;
 //int root[MAXN];
 //int nxt[MAXT][2];
-//int size[MAXT];
+//int pass[MAXT];
 //int cnt = 0;
 //
 //int insert(int num, int bit, int i) {
 //    int rt = ++cnt;
 //    nxt[rt][0] = nxt[i][0];
 //    nxt[rt][1] = nxt[i][1];
-//    size[rt] = size[i] + 1;
+//    pass[rt] = pass[i] + 1;
 //    if (bit >= 0) {
 //        int cur = (num >> bit) & 1;
 //        nxt[rt][cur] = insert(num, bit - 1, nxt[rt][cur]);
@@ -37,7 +37,7 @@ package class159;
 //    }
 //    int cur = (num >> bit) & 1;
 //    int opp = cur ^ 1;
-//    if (size[nxt[v][opp]] > size[nxt[u][opp]]) {
+//    if (pass[nxt[v][opp]] > pass[nxt[u][opp]]) {
 //        return (1 << bit) + query(num, bit - 1, nxt[u][opp], nxt[v][opp]);
 //    } else {
 //        return query(num, bit - 1, nxt[u][cur], nxt[v][cur]);
