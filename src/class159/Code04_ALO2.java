@@ -21,7 +21,7 @@ package class159;
 //int last[MAXN];
 //int nxt[MAXN];
 //
-//int insert_(int num, int i) {
+//int insert(int num, int i) {
 //    int rt = ++cnt;
 //    tree[rt][0] = tree[i][0];
 //    tree[rt][1] = tree[i][1];
@@ -61,7 +61,7 @@ package class159;
 //    last[n + 1] = n;
 //    nxt[n + 1] = n + 1;
 //    for (int i = 1; i <= n; i++) {
-//        root[i] = insert_(arr[i].second, root[i - 1]);
+//        root[i] = insert(arr[i].second, root[i - 1]);
 //        last[i] = i - 1;
 //        nxt[i] = i + 1;
 //    }
