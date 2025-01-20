@@ -13,15 +13,18 @@ package class159;
 //static const int MAXT = 1000001;
 //static const int MAXH = 20;
 //int n, m;
+//
 //int head[MAXN];
 //int nxt[MAXN << 1];
 //int to[MAXN << 1];
 //string weight[MAXN << 1];
-//int cntg;
+//int cntg = 0;
+//
 //int root[MAXN];
 //int tree[MAXT][27];
 //int pass[MAXT];
-//int cntt;
+//int cntt = 0;
+//
 //int deep[MAXN];
 //int stjump[MAXN][MAXH];
 //

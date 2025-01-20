@@ -31,7 +31,7 @@ public class Code03_StringTree1 {
 
 	public static String[] weight = new String[MAXN << 1];
 
-	public static int cntg;
+	public static int cntg = 0;
 
 	public static int[] root = new int[MAXN];
 
