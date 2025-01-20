@@ -13,7 +13,7 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.util.StringTokenizer;
 
-public class Code03_StringTree1 {
+public class Code02_StringTree1 {
 
 	public static int MAXN = 100001;
 
