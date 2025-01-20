@@ -93,7 +93,7 @@ package class159;
 //
 //int main() {
 //    ios::sync_with_stdio(false);
-//    cin.tie(0);
+//    cin.tie(nullptr);
 //    cin >> n >> m;
 //    for (int i = 1; i <= n; i++) {
 //        cin >> arr[i];

@@ -128,6 +128,7 @@ public class Code03_Yummy1 {
 		}
 		out.flush();
 		out.close();
+		br.close();
 	}
 
 }
