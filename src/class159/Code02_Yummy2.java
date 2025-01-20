@@ -29,7 +29,7 @@ package class159;
 //    return rt;
 //}
 //
-//int update(int jobi, int l, int r, int i) {
+//int insert(int jobi, int l, int r, int i) {
 //    int rt = ++cnt;
 //    ls[rt] = ls[i];
 //    rs[rt] = rs[i];
@@ -37,9 +37,9 @@ package class159;
 //    if (l < r) {
 //        int mid = (l + r) / 2;
 //        if (jobi <= mid) {
-//            ls[rt] = update(jobi, l, mid, ls[rt]);
+//            ls[rt] = insert(jobi, l, mid, ls[rt]);
 //        } else {
-//            rs[rt] = update(jobi, mid + 1, r, rs[rt]);
+//            rs[rt] = insert(jobi, mid + 1, r, rs[rt]);
 //        }
 //    }
 //    return rt;
@@ -71,7 +71,7 @@ package class159;
 //    }
 //    root[0] = build(0, s);
 //    for (int i = 1; i <= n; i++) {
-//        root[i] = update(arr[i], 0, s, root[i - 1]);
+//        root[i] = insert(arr[i], 0, s, root[i - 1]);
 //    }
 //}
 //

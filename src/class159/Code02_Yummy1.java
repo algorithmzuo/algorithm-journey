@@ -44,7 +44,7 @@ public class Code02_Yummy1 {
 		return rt;
 	}
 
-	public static int update(int jobi, int l, int r, int i) {
+	public static int insert(int jobi, int l, int r, int i) {
 		int rt = ++cnt;
 		left[rt] = left[i];
 		right[rt] = right[i];
@@ -52,9 +52,9 @@ public class Code02_Yummy1 {
 		if (l < r) {
 			int mid = (l + r) / 2;
 			if (jobi <= mid) {
-				left[rt] = update(jobi, l, mid, left[rt]);
+				left[rt] = insert(jobi, l, mid, left[rt]);
 			} else {
-				right[rt] = update(jobi, mid + 1, r, right[rt]);
+				right[rt] = insert(jobi, mid + 1, r, right[rt]);
 			}
 		}
 		return rt;
@@ -86,7 +86,7 @@ public class Code02_Yummy1 {
 		}
 		root[0] = build(0, s);
 		for (int i = 1; i <= n; i++) {
-			root[i] = update(arr[i], 0, s, root[i - 1]);
+			root[i] = insert(arr[i], 0, s, root[i - 1]);
 		}
 	}
 

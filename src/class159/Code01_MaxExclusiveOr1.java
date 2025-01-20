@@ -26,35 +26,44 @@ public class Code01_MaxExclusiveOr1 {
 
 	public static int[] root = new int[MAXN];
 
-	public static int[][] next = new int[MAXT][2];
+	public static int[][] tree = new int[MAXT][2];
 
 	public static int[] pass = new int[MAXT];
 
 	public static int cnt = 0;
 
-	public static int insert(int num, int bit, int i) {
+	public static int insert(int num, int i) {
 		int rt = ++cnt;
-		next[rt][0] = next[i][0];
-		next[rt][1] = next[i][1];
+		tree[rt][0] = tree[i][0];
+		tree[rt][1] = tree[i][1];
 		pass[rt] = pass[i] + 1;
-		if (bit >= 0) {
-			int cur = (num >> bit) & 1;
-			next[rt][cur] = insert(num, bit - 1, next[rt][cur]);
+		for (int b = BIT, path, pre = rt, cur; b >= 0; b--, pre = cur) {
+			path = (num >> b) & 1;
+			i = tree[i][path];
+			cur = ++cnt;
+			tree[cur][0] = tree[i][0];
+			tree[cur][1] = tree[i][1];
+			pass[cur] = pass[i] + 1;
+			tree[pre][path] = cur;
 		}
 		return rt;
 	}
 
-	public static int query(int num, int bit, int u, int v) {
-		if (bit < 0) {
-			return 0;
+	public static int query(int num, int u, int v) {
+		int ans = 0;
+		for (int b = BIT, path, best; b >= 0; b--) {
+			path = (num >> b) & 1;
+			best = path ^ 1;
+			if (pass[tree[v][best]] > pass[tree[u][best]]) {
+				ans += 1 << b;
+				u = tree[u][best];
+				v = tree[v][best];
+			} else {
+				u = tree[u][path];
+				v = tree[v][path];
+			}
 		}
-		int cur = (num >> bit) & 1;
-		int opp = cur ^ 1;
-		if (pass[next[v][opp]] > pass[next[u][opp]]) {
-			return (1 << bit) + query(num, bit - 1, next[u][opp], next[v][opp]);
-		} else {
-			return query(num, bit - 1, next[u][cur], next[v][cur]);
-		}
+		return ans;
 	}
 
 	public static void main(String[] args) throws IOException {
@@ -63,11 +72,11 @@ public class Code01_MaxExclusiveOr1 {
 		n = in.nextInt();
 		m = in.nextInt();
 		eor = 0;
-		root[0] = insert(eor, BIT, 0);
+		root[0] = insert(eor, 0);
 		for (int i = 1, num; i <= n; i++) {
 			num = in.nextInt();
 			eor ^= num;
-			root[i] = insert(eor, BIT, root[i - 1]);
+			root[i] = insert(eor, root[i - 1]);
 		}
 		String op;
 		int x, y, z;
@@ -77,15 +86,15 @@ public class Code01_MaxExclusiveOr1 {
 				x = in.nextInt();
 				eor ^= x;
 				n++;
-				root[n] = insert(eor, 25, root[n - 1]);
+				root[n] = insert(eor, root[n - 1]);
 			} else {
 				x = in.nextInt();
 				y = in.nextInt();
 				z = in.nextInt();
 				if (x == 1) {
-					out.println(query(eor ^ z, BIT, 0, root[y - 1]));
+					out.println(query(eor ^ z, 0, root[y - 1]));
 				} else {
-					out.println(query(eor ^ z, BIT, root[x - 2], root[y - 1]));
+					out.println(query(eor ^ z, root[x - 2], root[y - 1]));
 				}
 			}
 		}
