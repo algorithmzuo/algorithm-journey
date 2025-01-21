@@ -107,14 +107,11 @@ public class Code03_PathDfnXor1 {
 		for (int p = 1; p < MAXH; p++) {
 			stjump[u][p] = stjump[stjump[u][p - 1]][p - 1];
 		}
-		for (int ei = head[u]; ei > 0; ei = next[ei]) {
-			if (to[ei] != fa) {
-				dfs1(to[ei], u);
-			}
-		}
-		for (int ei = head[u]; ei > 0; ei = next[ei]) {
-			if (to[ei] != fa) {
-				size[u] += size[to[ei]];
+		for (int ei = head[u], v; ei > 0; ei = next[ei]) {
+			v = to[ei];
+			if (v != fa) {
+				dfs1(v, u);
+				size[u] += size[v];
 			}
 		}
 	}
