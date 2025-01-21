@@ -2,7 +2,10 @@ package class159;
 
 // 路径和子树的异或，java版
 // 测试链接 : https://www.luogu.com.cn/problem/P4592
-// 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
+// java实现的逻辑一定是正确的，但是通过不了
+// 因为这道题根据C++的运行空间，制定通过标准，根本没考虑java的用户
+// 想通过用C++实现，本节课Code03_PathDfnXor2文件就是C++的实现
+// 两个版本的逻辑完全一样，C++版本可以通过所有测试
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -13,11 +16,184 @@ import java.io.StreamTokenizer;
 
 public class Code03_PathDfnXor1 {
 
+	public static int MAXN = 100001;
+
+	public static int MAXT = MAXN * 62;
+
+	public static int MAXH = 16;
+
+	public static int BIT = 29;
+
+	public static int n, m;
+
+	public static int[] arr = new int[MAXN];
+
+	public static int[] head = new int[MAXN];
+
+	public static int[] next = new int[MAXN << 1];
+
+	public static int[] to = new int[MAXN << 1];
+
+	public static int cntg;
+
+	public static int[] deep = new int[MAXN];
+
+	public static int[] size = new int[MAXN];
+
+	public static int[][] stjump = new int[MAXN][MAXH];
+
+	public static int[] dfn = new int[MAXN];
+
+	public static int cntd;
+
+	public static int[] root1 = new int[MAXN];
+
+	public static int[] root2 = new int[MAXN];
+
+	public static int[][] tree = new int[MAXT][2];
+
+	public static int[] pass = new int[MAXT];
+
+	public static int cntt;
+
+	public static void addEdge(int u, int v) {
+		next[++cntg] = head[u];
+		to[cntg] = v;
+		head[u] = cntg;
+	}
+
+	public static int insert(int num, int i) {
+		int rt = ++cntt;
+		tree[rt][0] = tree[i][0];
+		tree[rt][1] = tree[i][1];
+		pass[rt] = pass[i] + 1;
+		for (int b = BIT, path, pre = rt, cur; b >= 0; b--, pre = cur) {
+			path = (num >> b) & 1;
+			i = tree[i][path];
+			cur = ++cntt;
+			tree[cur][0] = tree[i][0];
+			tree[cur][1] = tree[i][1];
+			pass[cur] = pass[i] + 1;
+			tree[pre][path] = cur;
+		}
+		return rt;
+	}
+
+	public static int query(int num, int u, int v) {
+		int ans = 0;
+		for (int b = BIT, path, best; b >= 0; b--) {
+			path = (num >> b) & 1;
+			best = path ^ 1;
+			if (pass[tree[v][best]] > pass[tree[u][best]]) {
+				ans += 1 << b;
+				u = tree[u][best];
+				v = tree[v][best];
+			} else {
+				u = tree[u][path];
+				v = tree[v][path];
+			}
+		}
+		return ans;
+	}
+
+	// 按道理说dfs1应该改成迭代版，防止递归爆栈
+	// 不过本题给定的空间很小，java版怎么也无法通过，索性不改了
+	// 有兴趣的同学可以看一下，讲解118，详解了树上dfs从递归版改迭代版
+	public static void dfs1(int u, int fa) {
+		deep[u] = deep[fa] + 1;
+		size[u] = 1;
+		stjump[u][0] = fa;
+		dfn[u] = ++cntd;
+		for (int p = 1; p < MAXH; p++) {
+			stjump[u][p] = stjump[stjump[u][p - 1]][p - 1];
+		}
+		for (int ei = head[u]; ei > 0; ei = next[ei]) {
+			if (to[ei] != fa) {
+				dfs1(to[ei], u);
+			}
+		}
+		for (int ei = head[u]; ei > 0; ei = next[ei]) {
+			if (to[ei] != fa) {
+				size[u] += size[to[ei]];
+			}
+		}
+	}
+
+	// 按道理说dfs2应该改成迭代版，防止递归爆栈
+	// 不过本题给定的空间很小，java版怎么也无法通过，索性不改了
+	// 有兴趣的同学可以看一下，讲解118，详解了树上dfs从递归版改迭代版
+	public static void dfs2(int u, int fa) {
+		root1[dfn[u]] = insert(arr[u], root1[dfn[u] - 1]);
+		root2[u] = insert(arr[u], root2[fa]);
+		for (int ei = head[u]; ei > 0; ei = next[ei]) {
+			if (to[ei] != fa) {
+				dfs2(to[ei], u);
+			}
+		}
+	}
+
+	public static int lca(int a, int b) {
+		if (deep[a] < deep[b]) {
+			int tmp = a;
+			a = b;
+			b = tmp;
+		}
+		for (int p = MAXH - 1; p >= 0; p--) {
+			if (deep[stjump[a][p]] >= deep[b]) {
+				a = stjump[a][p];
+			}
+		}
+		if (a == b) {
+			return a;
+		}
+		for (int p = MAXH - 1; p >= 0; p--) {
+			if (stjump[a][p] != stjump[b][p]) {
+				a = stjump[a][p];
+				b = stjump[b][p];
+			}
+		}
+		return stjump[a][0];
+	}
+
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StreamTokenizer in = new StreamTokenizer(br);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
-
+		in.nextToken();
+		n = (int) in.nval;
+		in.nextToken();
+		m = (int) in.nval;
+		for (int i = 1; i <= n; i++) {
+			in.nextToken();
+			arr[i] = (int) in.nval;
+		}
+		for (int i = 1, u, v; i < n; i++) {
+			in.nextToken();
+			u = (int) in.nval;
+			in.nextToken();
+			v = (int) in.nval;
+			addEdge(u, v);
+			addEdge(v, u);
+		}
+		dfs1(1, 0);
+		dfs2(1, 0);
+		for (int i = 1, op, x, y, z; i <= m; i++) {
+			in.nextToken();
+			op = (int) in.nval;
+			in.nextToken();
+			x = (int) in.nval;
+			in.nextToken();
+			y = (int) in.nval;
+			if (op == 1) {
+				out.println(query(y, root1[dfn[x] - 1], root1[dfn[x] + size[x] - 1]));
+			} else {
+				in.nextToken();
+				z = (int) in.nval;
+				int lcafa = stjump[lca(x, y)][0];
+				int ans = Math.max(query(z, root2[lcafa], root2[x]), query(z, root2[lcafa], root2[y]));
+				out.println(ans);
+			}
+		}
 		out.flush();
 		out.close();
 		br.close();
