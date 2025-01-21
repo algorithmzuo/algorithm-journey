@@ -52,7 +52,7 @@ public class Code06_XorOperation1 {
 		return rt;
 	}
 
-	public static int xorMaxKth(int xl, int xr, int yl, int yr, int k) {
+	public static int maxKth(int xl, int xr, int yl, int yr, int k) {
 		for (int i = xl; i <= xr; i++) {
 			rtpath[i][0] = root[yl - 1];
 			rtpath[i][1] = root[yr];
@@ -121,7 +121,7 @@ public class Code06_XorOperation1 {
 			yr = (int) in.nval;
 			in.nextToken();
 			k = (int) in.nval;
-			out.println(xorMaxKth(xl, xr, yl, yr, k));
+			out.println(maxKth(xl, xr, yl, yr, k));
 		}
 		out.flush();
 		out.close();

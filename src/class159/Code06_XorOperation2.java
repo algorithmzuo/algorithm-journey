@@ -38,7 +38,7 @@ package class159;
 //    return rt;
 //}
 //
-//int xorMaxKth(int xl, int xr, int yl, int yr, int k) {
+//int maxKth(int xl, int xr, int yl, int yr, int k) {
 //    for (int i = xl; i <= xr; i++) {
 //        rtpath[i][0] = root[yl - 1];
 //        rtpath[i][1] = root[yr];
@@ -91,7 +91,7 @@ package class159;
 //    cin >> p;
 //    for (int i = 1, xl, xr, yl, yr, k; i <= p; i++) {
 //        cin >> xl >> xr >> yl >> yr >> k;
-//        cout << xorMaxKth(xl, xr, yl, yr, k) << "\n";
+//        cout << maxKth(xl, xr, yl, yr, k) << "\n";
 //    }
 //    return 0;
 //}
