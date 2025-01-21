@@ -6,7 +6,7 @@ package class159;
 // 提交以下的code，提交时请把类名改成"Main"
 // java实现的逻辑一定是正确的，但是通过不了所有测试用例
 // 因为这道题根据C++的运行时间，制定通过标准，根本没考虑java的用户
-// 想通过用C++实现，本节课Code01_MaxExclusiveOr2文件就是C++的实现
+// 想通过用C++实现，本节课Code01_MaxXor2文件就是C++的实现
 // 两个版本的逻辑完全一样，C++版本可以通过所有测试
 
 import java.io.IOException;
@@ -14,7 +14,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.InputStream;
 
-public class Code01_MaxExclusiveOr1 {
+public class Code01_MaxXor1 {
 
 	public static int MAXN = 600001;
 
