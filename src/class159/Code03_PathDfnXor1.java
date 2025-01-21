@@ -34,7 +34,7 @@ public class Code03_PathDfnXor1 {
 
 	public static int[] to = new int[MAXN << 1];
 
-	public static int cntg;
+	public static int cntg = 0;
 
 	public static int[] deep = new int[MAXN];
 
@@ -44,7 +44,7 @@ public class Code03_PathDfnXor1 {
 
 	public static int[] dfn = new int[MAXN];
 
-	public static int cntd;
+	public static int cntd = 0;
 
 	public static int[] root1 = new int[MAXN];
 
@@ -54,7 +54,7 @@ public class Code03_PathDfnXor1 {
 
 	public static int[] pass = new int[MAXT];
 
-	public static int cntt;
+	public static int cntt = 0;
 
 	public static void addEdge(int u, int v) {
 		next[++cntg] = head[u];

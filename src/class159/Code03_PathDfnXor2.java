@@ -19,19 +19,19 @@ package class159;
 //int head[MAXN];
 //int nxt[MAXN << 1];
 //int to[MAXN << 1];
-//int cntg;
+//int cntg = 0;
 //
 //int deep[MAXN];
 //int size[MAXN];
 //int stjump[MAXN][MAXH];
 //int dfn[MAXN];
-//int cntd;
+//int cntd = 0;
 //
 //int root1[MAXN];
 //int root2[MAXN];
 //int tree[MAXT][2];
 //int pass[MAXT];
-//int cntt;
+//int cntt = 0;
 //
 //void addEdge(int u, int v) {
 //    nxt[++cntg] = head[u];
