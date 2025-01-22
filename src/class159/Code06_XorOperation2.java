@@ -19,7 +19,7 @@ package class159;
 //int tree[MAXT][2];
 //int pass[MAXT];
 //int cnt = 0;
-//int rtpath[MAXN][2];
+//int xroad[MAXN][2];
 //
 //int insert(int num, int i) {
 //    int rt = ++cnt;
@@ -40,8 +40,8 @@ package class159;
 //
 //int maxKth(int xl, int xr, int yl, int yr, int k) {
 //    for (int i = xl; i <= xr; i++) {
-//        rtpath[i][0] = root[yl - 1];
-//        rtpath[i][1] = root[yr];
+//        xroad[i][0] = root[yl - 1];
+//        xroad[i][1] = root[yr];
 //    }
 //    int ans = 0;
 //    for (int b = BIT, path, best, sum; b >= 0; b--) {
@@ -49,17 +49,17 @@ package class159;
 //        for (int i = xl; i <= xr; i++) {
 //            path = (x[i] >> b) & 1;
 //            best = path ^ 1;
-//            sum += pass[tree[rtpath[i][1]][best]] - pass[tree[rtpath[i][0]][best]];
+//            sum += pass[tree[xroad[i][1]][best]] - pass[tree[xroad[i][0]][best]];
 //        }
 //        for (int i = xl; i <= xr; i++) {
 //            path = (x[i] >> b) & 1;
 //            best = path ^ 1;
 //            if (sum >= k) {
-//                rtpath[i][0] = tree[rtpath[i][0]][best];
-//                rtpath[i][1] = tree[rtpath[i][1]][best];
+//                xroad[i][0] = tree[xroad[i][0]][best];
+//                xroad[i][1] = tree[xroad[i][1]][best];
 //            } else {
-//                rtpath[i][0] = tree[rtpath[i][0]][path];
-//                rtpath[i][1] = tree[rtpath[i][1]][path];
+//                xroad[i][0] = tree[xroad[i][0]][path];
+//                xroad[i][1] = tree[xroad[i][1]][path];
 //            }
 //        }
 //        if (sum >= k) {
