@@ -16,7 +16,7 @@ import java.io.StreamTokenizer;
 
 public class Code02_UnionFindLuogu {
 
-	public static int MAXN = 10001;
+	public static int MAXN = 200001;
 
 	public static int[] father = new int[MAXN];
 
