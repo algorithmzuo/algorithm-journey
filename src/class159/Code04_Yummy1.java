@@ -1,6 +1,11 @@
 package class159;
 
 // 美味，java版
+// 给定一个长度为n的数组arr，一共有m条查询，查询格式如下
+// b x l r : 从arr[l..r]中选一个数字，希望b ^ (该数字 + x)的值最大，打印这个值
+// 1 <= n <= 2 * 10^5
+// 1 <= m <= 10^5
+// 0 <= arr[i]、b、x < 10^5
 // 测试链接 : https://www.luogu.com.cn/problem/P3293
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
@@ -120,10 +125,14 @@ public class Code04_Yummy1 {
 		}
 		prepare();
 		for (int i = 1, b, x, l, r; i <= m; i++) {
-			in.nextToken(); b = (int) in.nval;
-			in.nextToken(); x = (int) in.nval;
-			in.nextToken(); l = (int) in.nval;
-			in.nextToken(); r = (int) in.nval;
+			in.nextToken();
+			b = (int) in.nval;
+			in.nextToken();
+			x = (int) in.nval;
+			in.nextToken();
+			l = (int) in.nval;
+			in.nextToken();
+			r = (int) in.nval;
 			out.println(compute(b, x, l, r));
 		}
 		out.flush();
