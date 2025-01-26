@@ -3,7 +3,7 @@ package class036;
 // 验证完全二叉树
 // 测试链接 : https://leetcode.cn/problems/check-completeness-of-a-binary-tree/
 public class Code08_CompletenessOfBinaryTree {
-
+    //todo 这里判断有两个规则，一个节点有右节点没左节点或者子节点不全，后续节点有不是叶子节点的不是完全二叉树
 	// 不提交这个类
 	public static class TreeNode {
 		public int val;

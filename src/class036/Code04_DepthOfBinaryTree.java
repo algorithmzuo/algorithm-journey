@@ -16,6 +16,7 @@ public class Code04_DepthOfBinaryTree {
 	}
 
 	// 测试链接 : https://leetcode.cn/problems/minimum-depth-of-binary-tree/
+    //todo 这个最小深度有点坑，要避免null情况，一边子树为空，可以认为不是树的深度，这时候得找到左右两边合起来深度+1；
 	public int minDepth(TreeNode root) {
 		if (root == null) {
 			// 当前的树是空树

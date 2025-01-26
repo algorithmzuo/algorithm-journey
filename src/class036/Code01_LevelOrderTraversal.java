@@ -22,6 +22,7 @@ public class Code01_LevelOrderTraversal {
 		List<List<Integer>> ans = new ArrayList<>();
 		if (root != null) {
 			Queue<TreeNode> queue = new LinkedList<>();
+            //todo 深度
 			HashMap<TreeNode, Integer> levels = new HashMap<>();
 			queue.add(root);
 			levels.put(root, 0);

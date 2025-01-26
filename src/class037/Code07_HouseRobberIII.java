@@ -24,7 +24,7 @@ public class Code07_HouseRobberIII {
 	// 全局变量，完成了X子树的遍历，返回之后
 	// no变成，X子树在不偷头节点的情况下，最大的收益
 	public static int no;
-
+    //todo 这里yes，no是偷当前节点和不偷当前节点的最大收益。
 	public static void f(TreeNode root) {
 		if (root == null) {
 			yes = 0;

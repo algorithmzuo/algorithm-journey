@@ -22,6 +22,7 @@ public class Code04_PermutationWithoutRepetition {
 			}
 			ans.add(cur);
 		} else {
+            //todo 如果交换位置的值是相同的，交换了也没区别。
 			HashSet<Integer> set = new HashSet<>();
 			for (int j = i; j < nums.length; j++) {
 				// nums[j]没有来到过i位置，才会去尝试

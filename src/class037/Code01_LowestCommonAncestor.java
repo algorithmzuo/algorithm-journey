@@ -12,6 +12,7 @@ public class Code01_LowestCommonAncestor {
 	}
 
 	// 提交如下的方法
+    //todo 找公共祖先，方法就是判断左子树 右子树能否找到对应的节点，左右子树都有，就返回根节点，如果左子树有，就是左子树，右子树有就是右子树
 	public static TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
 		if (root == null || root == p || root == q) {
 			// 遇到空，或者p，或者q，直接返回

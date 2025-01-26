@@ -3,7 +3,8 @@ package class036;
 // 求完全二叉树的节点个数
 // 测试链接 : https://leetcode.cn/problems/count-complete-tree-nodes/
 public class Code09_CountCompleteTreeNodes {
-
+    //todo 判断右子树的高度是否等于整个树的高度，如果等于，证明左子树是完整的，为2的n次-1+1，如果不等于，则右子树是完整的，为2的n-1次-1+1；
+    // +1是要包含当前节点。
 	// 不提交这个类
 	public static class TreeNode {
 		public int val;
@@ -38,6 +39,7 @@ public class Code09_CountCompleteTreeNodes {
 
 	// 当前节点是cur，并且它在level层
 	// 返回从cur开始不停往左，能扎到几层
+    //todo 求整颗树高度
 	public static int mostLeft(TreeNode cur, int level) {
 		while (cur != null) {
 			level++;

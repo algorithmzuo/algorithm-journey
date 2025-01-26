@@ -5,7 +5,7 @@ import java.util.TreeMap;
 // 含有嵌套的分子式求原子数量
 // 测试链接 : https://leetcode.cn/problems/number-of-atoms/
 public class Code03_NumberOfAtoms {
-
+    //todo name用来收集完整的分子，pre用来收集括号内分子。每次到了下一个大写字母或者）时将前面的字符添加到ans中
 	public static String countOfAtoms(String str) {
 		where = 0;
 		TreeMap<String, Integer> map = f(str.toCharArray(), 0);
@@ -59,7 +59,9 @@ public class Code03_NumberOfAtoms {
 	}
 
 	public static void fill(TreeMap<String, Integer> ans, StringBuilder name, TreeMap<String, Integer> pre, int cnt) {
+        //todo 判断是否有值
 		if (name.length() > 0 || pre != null) {
+            //todo 这里有坑，如果没有数字就会默认0，这时候如果写0就没办法计算真实值，在最后汇总时再过滤
 			cnt = cnt == 0 ? 1 : cnt;
 			if (name.length() > 0) {
 				String key = name.toString();

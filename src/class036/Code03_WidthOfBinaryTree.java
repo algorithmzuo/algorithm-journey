@@ -19,7 +19,7 @@ public class Code03_WidthOfBinaryTree {
 	public static TreeNode[] nq = new TreeNode[MAXN];
 
 	public static int[] iq = new int[MAXN];
-
+    //todo 这里用了两个队列，一个用来存节点，一个用来存编号，然后通过判断左右最大编号，确定最大宽度
 	public static int l, r;
 
 	public static int widthOfBinaryTree(TreeNode root) {

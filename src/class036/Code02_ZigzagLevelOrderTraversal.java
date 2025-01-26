@@ -58,4 +58,7 @@ public class Code02_ZigzagLevelOrderTraversal {
 		return ans;
 	}
 
+    public static void main(String[] args) {
+        ArrayList<Integer> integers = new ArrayList<>();
+    }
 }

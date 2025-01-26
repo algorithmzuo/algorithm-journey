@@ -3,7 +3,7 @@ package class036;
 // 二叉树按层序列化和反序列化
 // 测试链接 : https://leetcode.cn/problems/serialize-and-deserialize-binary-tree/
 public class Code06_LevelorderSerializeAndDeserialize {
-
+//todo 这里用的什么方法进行的序列化，就得怎么还原，我说的是方式，前序遍历序列化的，就需要前序遍历反序列化。
 	// 不提交这个类
 	public static class TreeNode {
 		public int val;

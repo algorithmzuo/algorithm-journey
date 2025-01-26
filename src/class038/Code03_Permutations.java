@@ -21,6 +21,7 @@ public class Code03_Permutations {
 			}
 			ans.add(cur);
 		} else {
+            //todo 这个题的原理就是将数组中的数做头时有多少中排列
 			for (int j = i; j < nums.length; j++) {
 				swap(nums, i, j);
 				f(nums, i + 1, ans);

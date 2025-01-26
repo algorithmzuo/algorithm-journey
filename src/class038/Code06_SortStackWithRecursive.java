@@ -13,11 +13,16 @@ import java.util.Stack;
 public class Code06_SortStackWithRecursive {
 
 	public static void sort(Stack<Integer> stack) {
+        //todo 获取栈深度
 		int deep = deep(stack);
 		while (deep > 0) {
+            //获取这个栈深度范围内最大值
 			int max = max(stack, deep);
+            //获取最大值出现的次数
 			int k = times(stack, deep, max);
+            //将最大值放到栈底
 			down(stack, deep, max, k);
+            //减少栈高度
 			deep -= k;
 		}
 	}

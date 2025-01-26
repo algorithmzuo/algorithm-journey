@@ -5,7 +5,7 @@ import java.util.ArrayList;
 // 含有嵌套的表达式求值
 // 测试链接 : https://leetcode.cn/problems/basic-calculator-iii/
 public class Code01_BasicCalculatorIII {
-
+    //todo 遇到括号就递归调用，遇到*或/就先弹出计算后写会。
 	public static int calculate(String str) {
 		where = 0;
 		return f(str.toCharArray(), 0);
@@ -20,8 +20,10 @@ public class Code01_BasicCalculatorIII {
 		int cur = 0;
 		ArrayList<Integer> numbers = new ArrayList<>();
 		ArrayList<Character> ops = new ArrayList<>();
+        //todo 将所有字符押入栈中
 		while (i < s.length && s[i] != ')') {
 			if (s[i] >= '0' && s[i] <= '9') {
+                //todo 拼接数字
 				cur = cur * 10 + s[i++] - '0';
 			} else if (s[i] != '(') {
 				// 遇到了运算符 + - * /

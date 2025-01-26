@@ -11,7 +11,7 @@ import java.util.List;
 // 输出：[[],[1],[1,2],[1,2,2],[2],[2,2]]
 // 测试链接 : https://leetcode.cn/problems/subsets-ii/
 public class Code02_Combinations {
-
+    //todo 这个方法使用了剪枝，数组排序后相同数值必定在一起，然后统计前一组数包含和不包含情况下当前的数的路径
 	public static List<List<Integer>> subsetsWithDup(int[] nums) {
 		List<List<Integer>> ans = new ArrayList<>();
 		Arrays.sort(nums);

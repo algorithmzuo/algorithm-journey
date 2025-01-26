@@ -5,13 +5,12 @@ import java.util.HashMap;
 // 利用先序与中序遍历序列构造二叉树
 // 测试链接 : https://leetcode.cn/problems/construct-binary-tree-from-preorder-and-inorder-traversal/
 public class Code07_PreorderInorderBuildBinaryTree {
-
+    //todo 先序遍历 根左右，中序遍历 左根右。将对应的部分放一块做对应，然后递归。看成整体，方便理解
 	// 不提交这个类
 	public static class TreeNode {
 		public int val;
 		public TreeNode left;
 		public TreeNode right;
-
 		public TreeNode(int v) {
 			val = v;
 		}
@@ -45,5 +44,4 @@ public class Code07_PreorderInorderBuildBinaryTree {
 		head.right = f(pre, l1 + k - l2 + 1, r1, in, k + 1, r2, map);
 		return head;
 	}
-
 }
