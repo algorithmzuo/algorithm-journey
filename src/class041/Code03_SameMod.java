@@ -3,6 +3,9 @@ package class041;
 import java.math.BigInteger;
 
 // 加法、减法、乘法的同余原理
+//todo 加法同余原理： (a+b)%m=a%m+b%m
+//  减法同余原理：((a-b)%m=a%m-b%m+m)%m 这个特殊是因为比如a=12 b=7 m=6 (a-b)%6=5 a%b=2 b%6=6 (2-6)%6=-4 (-4+6)%6=2 这样避免负数，当然假设a>b;
+// 乘法同余原理：(a*b)%m=a%m*b%m;
 // 不包括除法，因为除法必须求逆元，后续课讲述
 public class Code03_SameMod {
 

@@ -13,18 +13,21 @@ public class NQueens {
 	}
 
 	// i : 当前来到的行
-	// path : 0...i-1行的皇后，都摆在了哪些列
+	// path : 0...i-1行的皇后，都摆在了哪些列，todo 下标是行，值是列，存储皇后的位置
 	// n : 是几皇后问题
 	// 返回 : 0...i-1行已经摆完了，i....n-1行可以去尝试的情况下还能找到几种有效的方法
 	public static int f1(int i, int[] path, int n) {
+        //todo 找到一种方法
 		if (i == n) {
 			return 1;
 		}
 		int ans = 0;
 		// 0 1 2 3 .. n-1
 		// i j
+        //todo 校验i行j列是否满足
 		for (int j = 0; j < n; j++) {
 			if (check(path, i, j)) {
+                //找到第i行的皇后后，继续向下找
 				path[i] = j;
 				ans += f1(i + 1, path, n);
 			}
@@ -39,10 +42,12 @@ public class NQueens {
 	public static boolean check(int[] path, int i, int j) {
 		// 当前 i
 		// 当列 j
+        //这里保证了不同行
 		for (int k = 0; k < i; k++) {
 			// 0...i-1
 			// 之前行 : k
 			// 之前列 : path[k]
+            //这里保证不同列，对角线也不同，感觉是斜率
 			if (j == path[k] || Math.abs(i - k) == Math.abs(j - path[k])) {
 				return false;
 			}
@@ -61,6 +66,7 @@ public class NQueens {
 		// n = 7
 		// limit  = 0...01111111; 
 		int limit = (1 << n) - 1;
+        //todo 起始没有限制
 		return f2(limit, 0, 0, 0);
 	}
 
@@ -100,7 +106,9 @@ public class NQueens {
 			// candidate : 
 			// 0 0 0 0 0 0
 			// 5 4 3 2 1 0
+            //todo 获取最右侧的1
 			place = candidate & (-candidate);
+            //todo 去掉已经尝试过的，继续尝试
 			candidate ^= place;
 			ans += f2(limit, col | place, (left | place) >> 1, (right | place) << 1);
 		}

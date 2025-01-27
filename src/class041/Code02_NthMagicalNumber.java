@@ -12,13 +12,17 @@ public class Code02_NthMagicalNumber {
 		// l = 0
 		// r = (long) n * Math.min(a, b)
 		// l......r
+        //todo r估计最小满足的范围
 		for (long l = 0, r = (long) n * Math.min(a, b), m = 0; l <= r;) {
+            //todo 取中间值判断多还是少
 			m = (l + r) / 2;
 			// 1....m
+            //多就往左走 todo 这里m/a是中间值能被整除的个数， m/lcm是重复的值
 			if (m / a + m / b - m / lcm >= n) {
 				ans = m;
 				r = m - 1;
 			} else {
+                //少就往右走
 				l = m + 1;
 			}
 		}
