@@ -28,6 +28,7 @@ public class Code02_StringTree1 {
 
 	public static int n, m;
 
+	// 链式前向星需要
 	public static int[] head = new int[MAXN];
 
 	public static int[] next = new int[MAXN << 1];
@@ -38,6 +39,7 @@ public class Code02_StringTree1 {
 
 	public static int cntg = 0;
 
+	// 可持久化前缀树需要
 	public static int[] root = new int[MAXN];
 
 	public static int[][] tree = new int[MAXT][27];
@@ -46,6 +48,7 @@ public class Code02_StringTree1 {
 
 	public static int cntt = 0;
 
+	// 树上倍增和LCA需要
 	public static int[] deep = new int[MAXN];
 
 	public static int[][] stjump = new int[MAXN][MAXH];
