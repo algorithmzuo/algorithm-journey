@@ -79,6 +79,7 @@ public class Code01_MaxXor1 {
 		n = in.nextInt();
 		m = in.nextInt();
 		eor = 0;
+		// 其实有空版本，空版本的头节点编号是0
 		root[0] = insert(eor, 0);
 		for (int i = 1, num; i <= n; i++) {
 			num = in.nextInt();
@@ -95,9 +96,9 @@ public class Code01_MaxXor1 {
 				n++;
 				root[n] = insert(eor, root[n - 1]);
 			} else {
-				x = in.nextInt();
-				y = in.nextInt();
-				z = in.nextInt();
+				x = in.nextInt(); // l
+				y = in.nextInt(); // r
+				z = in.nextInt(); // x
 				if (x == 1) {
 					out.println(query(eor ^ z, 0, root[y - 1]));
 				} else {
