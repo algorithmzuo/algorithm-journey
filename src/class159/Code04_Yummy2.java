@@ -86,11 +86,11 @@ package class159;
 //    int best = 0;
 //    for (int i = BIT; i >= 0; i--) {
 //        if (((b >> i) & 1) == 1) {
-//            if (query(best - x, best - x + (1 << i) - 1, 0, s, root[l - 1], root[r]) == 0) {
+//            if (query(best - x, best + (1 << i) - 1 - x, 0, s, root[l - 1], root[r]) == 0) {
 //                best += 1 << i;
 //            }
 //        } else {
-//            if (query(best - x + (1 << i), best - x + (1 << (i + 1)) - 1, 0, s, root[l - 1], root[r]) != 0) {
+//            if (query(best + (1 << i) - x, best + (1 << (i + 1)) - 1 - x, 0, s, root[l - 1], root[r]) != 0) {
 //                best += 1 << i;
 //            }
 //        }
