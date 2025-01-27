@@ -28,6 +28,7 @@ public class Code04_Yummy1 {
 
 	public static int[] arr = new int[MAXN];
 
+	// 可持久化线段树需要
 	public static int[] root = new int[MAXN];
 
 	public static int[] left = new int[MAXT];
@@ -96,19 +97,19 @@ public class Code04_Yummy1 {
 	}
 
 	public static int compute(int b, int x, int l, int r) {
-		int ans = 0;
+		int best = 0;
 		for (int i = BIT; i >= 0; i--) {
 			if (((b >> i) & 1) == 1) {
-				if (query(ans - x, ans - x + (1 << i) - 1, 0, s, root[l - 1], root[r]) == 0) {
-					ans += 1 << i;
+				if (query(best - x, best - x + (1 << i) - 1, 0, s, root[l - 1], root[r]) == 0) {
+					best += 1 << i;
 				}
 			} else {
-				if (query(ans - x + (1 << i), ans - x + (1 << (i + 1)) - 1, 0, s, root[l - 1], root[r]) != 0) {
-					ans += 1 << i;
+				if (query(best - x + (1 << i), best - x + (1 << (i + 1)) - 1, 0, s, root[l - 1], root[r]) != 0) {
+					best += 1 << i;
 				}
 			}
 		}
-		return ans ^ b;
+		return best ^ b;
 	}
 
 	public static void main(String[] args) throws IOException {
