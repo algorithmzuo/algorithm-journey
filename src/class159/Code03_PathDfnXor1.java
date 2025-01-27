@@ -32,34 +32,47 @@ public class Code03_PathDfnXor1 {
 
 	public static int n, m;
 
+	// 每个节点的点权
 	public static int[] arr = new int[MAXN];
 
+	// 链式前向星需要
 	public static int[] head = new int[MAXN];
 
 	public static int[] next = new int[MAXN << 1];
 
 	public static int[] to = new int[MAXN << 1];
 
+	// 链式前向星的边的计数
 	public static int cntg = 0;
 
+	// 树上dfs求节点深度
 	public static int[] deep = new int[MAXN];
 
+	// 树上dfs求子树大小
 	public static int[] size = new int[MAXN];
 
+	// 树上dfs求st表
 	public static int[][] stjump = new int[MAXN][MAXH];
 
+	// 树上dfs求每个节点的dfn序号
 	public static int[] dfn = new int[MAXN];
 
+	// dfn序号计数
 	public static int cntd = 0;
 
+	// 1类型的可持久化01Trie，根据dfn序号的次序建树
 	public static int[] root1 = new int[MAXN];
 
+	// 2类型的可持久化01Trie，根据父节点的版本建新树
 	public static int[] root2 = new int[MAXN];
 
+	// 1类型和2类型都可以用这个tree结构
 	public static int[][] tree = new int[MAXT][2];
 
+	// 1类型和2类型都可以用这个pass数组
 	public static int[] pass = new int[MAXT];
 
+	// 1类型和2类型一起的节点计数
 	public static int cntt = 0;
 
 	public static void addEdge(int u, int v) {
