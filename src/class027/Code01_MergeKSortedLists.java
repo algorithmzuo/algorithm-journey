@@ -5,6 +5,7 @@ import java.util.PriorityQueue;
 
 // 合并K个有序链表
 // 测试链接：https://www.nowcoder.com/practice/65cfde9e5b9b4cf2b6bafa5f3ef33fa6
+// 测试链接：https://leetcode.cn/problems/merge-k-sorted-lists/
 public class Code01_MergeKSortedLists {
 
 	// 不要提交这个类
