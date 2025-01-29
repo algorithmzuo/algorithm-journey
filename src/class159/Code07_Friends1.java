@@ -3,11 +3,11 @@ package class159;
 // 前m大两两异或值的和，java版
 // 本题只用到了经典前缀树，没有用到可持久化前缀树
 // 给定一个长度为n的数组arr，下标1~n
-// 你可以随意选不同位置的两个数字进行异或，这叫做两两异或值
+// 你可以随意选两个不同位置的数字进行异或，得到两两异或值，顺序不同的话，算做一个两两异或值
 // 那么，两两异或值，就有第1大、第2大...
-// 返回前m大两两异或值的累加和，答案对1000000007取模
+// 返回前k大两两异或值的累加和，答案对1000000007取模
 // 1 <= n <= 5 * 10^4
-// 0 <= m <= n * (n-1) / 2
+// 0 <= k <= n * (n-1) / 2
 // 0 <= arr[i] <= 10^9
 // 测试链接 : https://www.luogu.com.cn/problem/CF241B
 // 测试链接 : https://codeforces.com/problemset/problem/241/B
@@ -46,7 +46,7 @@ public class Code07_Friends1 {
 
 	public static void insert(int num) {
 		int cur = 1;
-		pass[cur]++;
+		pass[1]++;
 		for (int b = BIT, path; b >= 0; b--) {
 			path = (num >> b) & 1;
 			if (tree[cur][path] == 0) {
@@ -57,27 +57,27 @@ public class Code07_Friends1 {
 		}
 	}
 
-	public static void dfs(int u, int h, int s) {
-		if (u == 0) {
+	public static void dfs(int i, int h, int s) {
+		if (i == 0) {
 			return;
 		}
 		if (h == 0) {
-			for (int i = 0; i <= BIT; i++) {
-				if (((s >> i) & 1) == 1) {
-					sum[u][i] = pass[u];
+			for (int j = 0; j <= BIT; j++) {
+				if (((s >> j) & 1) == 1) {
+					sum[i][j] = pass[i];
 				}
 			}
 		} else {
-			dfs(tree[u][0], h - 1, s);
-			dfs(tree[u][1], h - 1, s | (1 << (h - 1)));
-			for (int i = 0; i <= BIT; i++) {
-				sum[u][i] = sum[tree[u][0]][i] + sum[tree[u][1]][i];
+			dfs(tree[i][0], h - 1, s);
+			dfs(tree[i][1], h - 1, s | (1 << (h - 1)));
+			for (int j = 0; j <= BIT; j++) {
+				sum[i][j] = sum[tree[i][0]][j] + sum[tree[i][1]][j];
 			}
 		}
 	}
 
-	public static long moreThan(int x) {
-		long sum = 0;
+	public static long moreEqual(int x) {
+		long ans = 0;
 		for (int i = 1, num, cur; i <= n; i++) {
 			num = arr[i];
 			cur = 1;
@@ -86,7 +86,7 @@ public class Code07_Friends1 {
 				best = path ^ 1;
 				xpath = (x >> b) & 1;
 				if (xpath == 0) {
-					sum += pass[tree[cur][best]];
+					ans += pass[tree[cur][best]];
 					cur = tree[cur][path];
 				} else {
 					cur = tree[cur][best];
@@ -95,12 +95,12 @@ public class Code07_Friends1 {
 					break;
 				}
 			}
-			sum += pass[cur];
+			ans += pass[cur];
 		}
 		if (x == 0) {
-			sum -= n;
+			ans -= n;
 		}
-		return sum / 2;
+		return ans / 2;
 	}
 
 	public static int maxKth() {
@@ -108,7 +108,7 @@ public class Code07_Friends1 {
 		int ans = 0;
 		while (l <= r) {
 			m = (l + r) / 2;
-			if (moreThan(m) >= k) {
+			if (moreEqual(m) >= k) {
 				ans = m;
 				l = m + 1;
 			} else {
@@ -118,27 +118,18 @@ public class Code07_Friends1 {
 		return ans;
 	}
 
-	public static void prepare() {
-		for (int i = 1; i <= n; i++) {
-			insert(arr[i]);
-		}
-		dfs(tree[1][0], BIT, 0);
-		dfs(tree[1][1], BIT, 1 << BIT);
-	}
-
 	public static long compute() {
 		int kth = maxKth();
 		long ans = 0;
-		for (int i = 1, num, cur; i <= n; i++) {
-			num = arr[i];
+		for (int i = 1, cur; i <= n; i++) {
 			cur = 1;
 			for (int b = BIT, path, best, kpath; b >= 0; b--) {
-				path = (num >> b) & 1;
+				path = (arr[i] >> b) & 1;
 				best = path ^ 1;
 				kpath = (kth >> b) & 1;
 				if (kpath == 0) {
 					for (int j = 0; j <= BIT; j++) {
-						if (((num >> j) & 1) == 1) {
+						if (((arr[i] >> j) & 1) == 1) {
 							ans = (ans + ((long) pass[tree[cur][best]] - sum[tree[cur][best]][j]) * (1L << j)) % MOD;
 						} else {
 							ans = (ans + (long) sum[tree[cur][best]][j] * (1L << j)) % MOD;
@@ -155,8 +146,16 @@ public class Code07_Friends1 {
 			ans = (ans + (long) pass[cur] * kth) % MOD;
 		}
 		ans = ans * INV2 % MOD;
-		ans = ((ans - (moreThan(kth) - k) * kth % MOD) % MOD + MOD) % MOD;
+		ans = ((ans - (moreEqual(kth) - k) * kth % MOD) % MOD + MOD) % MOD;
 		return ans;
+	}
+
+	public static void prepare() {
+		for (int i = 1; i <= n; i++) {
+			insert(arr[i]);
+		}
+		dfs(tree[1][0], BIT, 0);
+		dfs(tree[1][1], BIT, 1 << BIT);
 	}
 
 	public static void main(String[] args) throws IOException {
