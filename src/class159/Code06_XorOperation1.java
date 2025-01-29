@@ -31,8 +31,6 @@ public class Code06_XorOperation1 {
 
 	public static int[] x = new int[MAXN];
 
-	public static int[] y = new int[MAXN];
-
 	public static int[] root = new int[MAXN];
 
 	public static int[][] tree = new int[MAXT][2];
@@ -61,6 +59,7 @@ public class Code06_XorOperation1 {
 	}
 
 	public static int maxKth(int xl, int xr, int yl, int yr, int k) {
+		// 基于哪两个节点的pass值查询，一开始x[xl...xr]每个数字，都是一样的
 		for (int i = xl; i <= xr; i++) {
 			xroad[i][0] = root[yl - 1];
 			xroad[i][1] = root[yr];
@@ -68,11 +67,19 @@ public class Code06_XorOperation1 {
 		int ans = 0;
 		for (int b = BIT, path, best, sum; b >= 0; b--) {
 			sum = 0;
+			// 统计x[xl...xr]范围上
+			// 每个数字 ^ y[yl...yr]任意一个数字，在第b位上能取得1的结果，有多少个
+			// 结果数量累加起来
 			for (int i = xl; i <= xr; i++) {
 				path = (x[i] >> b) & 1;
 				best = path ^ 1;
 				sum += pass[tree[xroad[i][1]][best]] - pass[tree[xroad[i][0]][best]];
 			}
+			// 如果sum >= k
+			// 说明x[xl...xr]对应y[yl...yr]，第k大的异或结果，在第b位上能是1
+			// 如果sum < k
+			// 说明x[xl...xr]对应y[yl...yr]，第k大的异或结果，在第b位上只能是0
+			// x[xl...xr]每个数字，都有自己专属的跳转，要记录好！
 			for (int i = xl; i <= xr; i++) {
 				path = (x[i] >> b) & 1;
 				best = path ^ 1;
@@ -93,12 +100,6 @@ public class Code06_XorOperation1 {
 		return ans;
 	}
 
-	public static void prepare() {
-		for (int i = 1; i <= m; i++) {
-			root[i] = insert(y[i], root[i - 1]);
-		}
-	}
-
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StreamTokenizer in = new StreamTokenizer(br);
@@ -111,11 +112,11 @@ public class Code06_XorOperation1 {
 			in.nextToken();
 			x[i] = (int) in.nval;
 		}
-		for (int i = 1; i <= m; i++) {
+		for (int i = 1, yi; i <= m; i++) {
 			in.nextToken();
-			y[i] = (int) in.nval;
+			yi = (int) in.nval;
+			root[i] = insert(yi, root[i - 1]);
 		}
-		prepare();
 		in.nextToken();
 		p = (int) in.nval;
 		for (int i = 1, xl, xr, yl, yr, k; i <= p; i++) {

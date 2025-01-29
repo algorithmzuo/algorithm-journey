@@ -22,7 +22,6 @@ package class159;
 //const int BIT = 30;
 //int n, m, p;
 //int x[MAXN];
-//int y[MAXN];
 //int root[MAXN];
 //int tree[MAXT][2];
 //int pass[MAXT];
@@ -80,9 +79,7 @@ package class159;
 //}
 //
 //void prepare() {
-//    for (int i = 1; i <= m; i++) {
-//        root[i] = insert(y[i], root[i - 1]);
-//    }
+
 //}
 //
 //int main() {
@@ -92,10 +89,10 @@ package class159;
 //    for (int i = 1; i <= n; i++) {
 //        cin >> x[i];
 //    }
-//    for (int i = 1; i <= m; i++) {
-//        cin >> y[i];
+//    for (int i = 1, yi; i <= m; i++) {
+//        cin >> yi;
+//        root[i] = insert(yi, root[i - 1]);
 //    }
-//    prepare();
 //    cin >> p;
 //    for (int i = 1, xl, xr, yl, yr, k; i <= p; i++) {
 //        cin >> xl >> xr >> yl >> yr >> k;
