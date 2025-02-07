@@ -7,6 +7,7 @@ import java.util.HashSet;
 // 1 <= nums.length <= 2 * 10^5
 // 0 <= nums[i] <= 2^31 - 1
 // 测试链接 : https://leetcode.cn/problems/maximum-xor-of-two-numbers-in-an-array/
+//todo 按位处理，将所有值按位的路径插入到前缀树中，然后遍历所有值，最高位为1的值期望遇到0，最高位为0的期望遇到1.如果没有满足的就还原为原值处理，依次下推。
 public class Code02_TwoNumbersMaximumXor {
 
 	// 前缀树的做法
@@ -88,6 +89,7 @@ public class Code02_TwoNumbersMaximumXor {
 
 	// 用哈希表的做法
 	// 难想
+    //todo 遍历所有位，拼接出最优结果，然后将所有数值的最高位到i位的值放入到set中，判断是否包含，如果包含就把最优解赋值给结果，继续遍历。
 	public int findMaximumXOR2(int[] nums) {
 		int max = Integer.MIN_VALUE;
 		for (int num : nums) {
@@ -104,6 +106,7 @@ public class Code02_TwoNumbersMaximumXor {
 				num = (num >> i) << i;
 				set.add(num);
 				// num ^ 某状态 是否能 达成better目标，就在set中找 某状态 : better ^ num
+                //todo a^b==c b==a^c
 				if (set.contains(better ^ num)) {
 					ans = better;
 					break;

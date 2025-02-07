@@ -5,7 +5,7 @@ package class044;
 // 请同学们务必参考如下代码中关于输入、输出的处理
 // 这是输入输出处理效率很高的写法
 // 提交以下的code，提交时请把类名改成"Main"，可以直接通过
-
+//todo  前缀树一般把值放在路上，不会放在节点上，这样这个代码就比较好理解，原因不太清楚。
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -31,14 +31,18 @@ public class Code02_TrieTree {
 	}
 
 	public static void insert(String word) {
+        //todo 第一个节点
 		int cur = 1;
 		pass[cur]++;
 		for (int i = 0, path; i < word.length(); i++) {
 			path = word.charAt(i) - 'a';
+            //todo 当前节点的对应path如果为0就赋值下一个节点的指向
 			if (tree[cur][path] == 0) {
 				tree[cur][path] = ++cnt;
 			}
+            //todo 获取到下一个节点
 			cur = tree[cur][path];
+            //todo 下一个节点通过++；
 			pass[cur]++;
 		}
 		end[cur]++;

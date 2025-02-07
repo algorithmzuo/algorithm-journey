@@ -19,8 +19,10 @@ public class Code01_AppleMinBags {
 			return 0;
 		}
 		// 使用8规格的袋子，剩余的苹果还需要几个袋子，有可能返回无效解
+        //todo 这里感觉是用8规格的袋子开始装，需要多少个袋子
 		int p1 = f(rest - 8);
 		// 使用6规格的袋子，剩余的苹果还需要几个袋子，有可能返回无效解
+        //todo 使用6规格的袋子开始装，需要多少个袋子
 		int p2 = f(rest - 6);
 		p1 += p1 != Integer.MAX_VALUE ? 1 : 0;
 		p2 += p2 != Integer.MAX_VALUE ? 1 : 0;

@@ -26,7 +26,9 @@ public class Code02_EatGrass {
 		// 3) 16 -> 84,enemy ....
 		// 4) 64 -> 36,enemy ...
 		// 没有cur赢的分支，enemy赢
+        //todo 吃掉多少份草
 		int pick = 1;
+        //从1开始尝试，如果都没办法吃完就返回敌人
 		while (pick <= rest) {
 			if (f(rest - pick, enemy).equals(cur)) {
 				return cur;

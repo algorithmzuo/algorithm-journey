@@ -12,7 +12,9 @@ public class Code04_RedPalindromeGoodStrings {
 
 	// 暴力方法
 	// 为了观察规律
+    //长度为n的好串数量
 	public static int num1(int n) {
+        //串记录
 		char[] path = new char[n];
 		return f(path, 0);
 	}

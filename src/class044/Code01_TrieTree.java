@@ -4,6 +4,8 @@ import java.util.HashMap;
 
 // 用类描述实现前缀树。不推荐！
 // 测试链接 : https://leetcode.cn/problems/implement-trie-ii-prefix-tree/
+//todo https://leetcode.cn/problems/implement-trie-prefix-tree/ 用这个测试吧
+// 前缀树一般把值放在路上，不会放在节点上，这样这个代码就比较好理解，原因不太清楚。
 public class Code01_TrieTree {
 
 	// 路是数组实现的

@@ -58,8 +58,9 @@ public class Code01_KillMonsterEverySkillUseOnce {
 
 	// kill[i]、blood[i]
 	// n : 一共几个技能
-	// i : 当前来到了第几号技能
+	// i : 当前来到了第几个技能
 	// r : 怪兽目前的剩余血量
+    //todo 这里是个全排列问题
 	public static int f(int n, int i, int r) {
 		if (r <= 0) {
 			// 之前的决策已经让怪兽挂了！返回使用了多少个节能

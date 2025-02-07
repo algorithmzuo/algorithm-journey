@@ -18,7 +18,7 @@ public class Code03_IsSumOfConsecutiveNumbers {
 		}
 		return false;
 	}
-
+    //todo 2的幂次，不是2的幂次就为真
 	public static boolean is2(int num) {
 		return (num & (num - 1)) != 0;
 	}

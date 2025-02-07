@@ -11,6 +11,7 @@ import java.util.List;
 // 1 <= len(R) <= 18
 // L 和 R 是表示 [1, 10^18) 范围的整数的字符串
 //测试链接 : https://leetcode.cn/problems/super-palindromes/
+//todo 这里使用了右边界最大值取根号获取一半的数据量，然后根据一半数据量的一半进行拼接，拼接分为奇数长度拼接和偶数长度拼接，拼接好进行验证是否满足，满足就++；
 public class Code02_SuperPalindromes {
 
 	// [left, right]有多少超级回文数
@@ -42,7 +43,8 @@ public class Code02_SuperPalindromes {
 			}
 			// 123 -> 124 -> 125
 			seed++;
-		} while (num < limit);
+            //todo 这里感觉《=更合理，实际测试不影响
+		} while (num <= limit);
 		return ans;
 	}
 
@@ -99,12 +101,14 @@ public class Code02_SuperPalindromes {
 		long l = Long.parseLong(left);
 		long r = Long.parseLong(right);
 		int i = 0;
+        //todo 左边界
 		for (; i < record.length; i++) {
 			if (record[i] >= l) {
 				break;
 			}
 		}
 		int j = record.length - 1;
+        //todo 右边界
 		for (; j >= 0; j--) {
 			if (record[j] <= r) {
 				break;
