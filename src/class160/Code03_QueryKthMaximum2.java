@@ -14,7 +14,7 @@ package class160;
 //int n, m, s;
 //int ques[MAXN][4];
 //int sorted[MAXN];
-//int root[MAXN << 2];
+//int outer[MAXN << 2];
 //int ls[MAXT];
 //int rs[MAXT];
 //long long sum[MAXT];
@@ -81,7 +81,7 @@ package class160;
 //}
 //
 //void add(int jobl, int jobr, int jobk, int l, int r, int i) {
-//    root[i] = update(jobl, jobr, 1, n, root[i]);
+//    outer[i] = update(jobl, jobr, 1, n, outer[i]);
 //    if (l < r) {
 //        int mid = (l + r) >> 1;
 //        if (jobk <= mid) {
@@ -97,7 +97,7 @@ package class160;
 //        return l;
 //    }
 //    int mid = (l + r) >> 1;
-//    long long rightsum = querySum(jobl, jobr, 1, n, root[i << 1 | 1]);
+//    long long rightsum = querySum(jobl, jobr, 1, n, outer[i << 1 | 1]);
 //    if (jobk > rightsum) {
 //        return query(jobl, jobr, jobk - rightsum, l, mid, i << 1);
 //    } else {
