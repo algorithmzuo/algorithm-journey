@@ -60,10 +60,6 @@ package class160;
 //    return i & -i;
 //}
 //
-//void up(int i) {
-//    sum[i] = sum[ls[i]] + sum[rs[i]];
-//}
-//
 //int add(int jobi, int jobv, int l, int r, int i) {
 //    if (i == 0) i = ++cntt;
 //    if (l == r) sum[i] += jobv;
@@ -71,7 +67,7 @@ package class160;
 //        int mid = (l + r) / 2;
 //        if (jobi <= mid) ls[i] = add(jobi, jobv, l, mid, ls[i]);
 //        else rs[i] = add(jobi, jobv, mid + 1, r, rs[i]);
-//        up(i);
+//        sum[i] = sum[ls[i]] + sum[rs[i]];
 //    }
 //    return i;
 //}
@@ -163,7 +159,7 @@ package class160;
 //
 //int main() {
 //    ios::sync_with_stdio(false);
-//    cin.tie(0);
+//    cin.tie(nullptr);
 //    cin >> n >> m;
 //    for (int i = 1; i <= n; i++) cin >> arr[i];
 //    for (int i = 1, u, v; i < n; i++) {

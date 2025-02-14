@@ -66,10 +66,6 @@ public class Code02_IndexTreeWithSegmentTree1 {
 		return i & -i;
 	}
 
-	public static void up(int i) {
-		sum[i] = sum[left[i]] + sum[right[i]];
-	}
-
 	public static int add(int jobi, int jobv, int l, int r, int i) {
 		if (i == 0) {
 			i = ++cntt;
@@ -83,7 +79,7 @@ public class Code02_IndexTreeWithSegmentTree1 {
 			} else {
 				right[i] = add(jobi, jobv, mid + 1, r, right[i]);
 			}
-			up(i);
+			sum[i] = sum[left[i]] + sum[right[i]];
 		}
 		return i;
 	}
