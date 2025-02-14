@@ -59,6 +59,7 @@ public class Code04_NetworkManagement1 {
 
 	public static int cntd = 0;
 
+	// 查询信息需要，所有pos版本的信息和 - 所有pre版本的信息和
 	public static int[] pos = new int[MAXN];
 
 	public static int[] pre = new int[MAXN];
