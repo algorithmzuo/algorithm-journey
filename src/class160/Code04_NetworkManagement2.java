@@ -9,9 +9,9 @@ package class160;
 //
 //using namespace std;
 //
-//const int MAXN = 100001;
-//const int MAXT = MAXN * 200;
-//const int MAXH = 20;
+//const int MAXN = 80001;
+//const int MAXT = MAXN * 110;
+//const int MAXH = 18;
 //int n, m, s;
 //
 //int arr[MAXN];

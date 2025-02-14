@@ -14,11 +14,11 @@ import java.util.Arrays;
 
 public class Code04_NetworkManagement1 {
 
-	public static int MAXN = 100001;
+	public static int MAXN = 80001;
 
-	public static int MAXT = MAXN * 200;
+	public static int MAXT = MAXN * 110;
 
-	public static int MAXH = 20;
+	public static int MAXH = 18;
 
 	public static int n, m, s;
 
