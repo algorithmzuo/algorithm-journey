@@ -67,7 +67,6 @@ package class160;
 //    int leftsum = 0;
 //    for (int i = 1; i <= cntpos; i++) leftsum += sum[ls[pos[i]]];
 //    for (int i = 1; i <= cntpre; i++) leftsum -= sum[ls[pre[i]]];
-//    
 //    if (jobk <= leftsum) {
 //        for (int i = 1; i <= cntpos; i++) pos[i] = ls[pos[i]];
 //        for (int i = 1; i <= cntpre; i++) pre[i] = ls[pre[i]];
@@ -83,7 +82,7 @@ package class160;
 //    cntpos = cntpre = 0;
 //    for (int i = r; i > 0; i -= lowbit(i)) pos[++cntpos] = root[i];
 //    for (int i = l - 1; i > 0; i -= lowbit(i)) pre[++cntpre] = root[i];
-//    return queryNumber(k, 1, s);
+//    return sorted[queryNumber(k, 1, s)];
 //}
 //
 //int queryRank(int jobi, int l, int r) {
@@ -116,13 +115,13 @@ package class160;
 //
 //int findLast(int l, int r, int k) {
 //    int rk = findRank(l, r, k);
-//    return (rk == 1) ? 0 : findNumber(l, r, rk - 1);
+//    return (rk == 1) ? -INF : findNumber(l, r, rk - 1);
 //}
 //
 //int findNext(int l, int r, int k) {
-//    if (k == s) return s + 1;
+//    if (k == s) return INF;
 //    int rk = findRank(l, r, k + 1);
-//    return (rk == r - l + 2) ? s + 1 : findNumber(l, r, rk);
+//    return (rk == r - l + 2) ? INF : findNumber(l, r, rk);
 //}
 //
 //void prepare() {
@@ -141,8 +140,6 @@ package class160;
 //        arr[i] = kth(arr[i]);
 //        add(i, 1);
 //    }
-//    sorted[0] = -INF;
-//    sorted[s + 1] = INF;
 //}
 //
 //int main() {
@@ -159,15 +156,15 @@ package class160;
 //        if (ques[i][0] == 1) {
 //            cout << findRank(ques[i][1], ques[i][2], kth(ques[i][3])) << "\n";
 //        } else if (ques[i][0] == 2) {
-//            cout << sorted[findNumber(ques[i][1], ques[i][2], ques[i][3])] << "\n";
+//            cout << findNumber(ques[i][1], ques[i][2], ques[i][3]) << "\n";
 //        } else if (ques[i][0] == 3) {
 //            add(ques[i][1], -1);
 //            arr[ques[i][1]] = kth(ques[i][2]);
 //            add(ques[i][1], 1);
 //        } else if (ques[i][0] == 4) {
-//            cout << sorted[findLast(ques[i][1], ques[i][2], kth(ques[i][3]))] << "\n";
+//            cout << findLast(ques[i][1], ques[i][2], kth(ques[i][3])) << "\n";
 //        } else {
-//            cout << sorted[findNext(ques[i][1], ques[i][2], kth(ques[i][3]))] << "\n";
+//            cout << findNext(ques[i][1], ques[i][2], kth(ques[i][3])) << "\n";
 //        }
 //    }
 //    return 0;

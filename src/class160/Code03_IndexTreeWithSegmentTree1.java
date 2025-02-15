@@ -129,7 +129,7 @@ public class Code03_IndexTreeWithSegmentTree1 {
 		for (int i = l - 1; i > 0; i -= lowbit(i)) {
 			pre[++cntpre] = root[i];
 		}
-		return queryNumber(k, 1, s);
+		return sorted[queryNumber(k, 1, s)];
 	}
 
 	public static int queryRank(int jobk, int l, int r) {
@@ -173,18 +173,18 @@ public class Code03_IndexTreeWithSegmentTree1 {
 	public static int findLast(int l, int r, int k) {
 		int rank = findRank(l, r, k);
 		if (rank == 1) {
-			return 0;
+			return -INF;
 		}
 		return findNumber(l, r, rank - 1);
 	}
 
 	public static int findNext(int l, int r, int k) {
 		if (k == s) {
-			return s + 1;
+			return INF;
 		}
 		int rank = findRank(l, r, k + 1);
 		if (rank == r - l + 2) {
-			return s + 1;
+			return INF;
 		}
 		return findNumber(l, r, rank);
 	}
@@ -213,8 +213,6 @@ public class Code03_IndexTreeWithSegmentTree1 {
 			arr[i] = kth(arr[i]);
 			add(i, 1);
 		}
-		sorted[0] = -INF;
-		sorted[s + 1] = INF;
 	}
 
 	public static void main(String[] args) throws IOException {
@@ -246,15 +244,15 @@ public class Code03_IndexTreeWithSegmentTree1 {
 			if (ques[i][0] == 1) {
 				out.println(findRank(ques[i][1], ques[i][2], kth(ques[i][3])));
 			} else if (ques[i][0] == 2) {
-				out.println(sorted[findNumber(ques[i][1], ques[i][2], ques[i][3])]);
+				out.println(findNumber(ques[i][1], ques[i][2], ques[i][3]));
 			} else if (ques[i][0] == 3) {
 				add(ques[i][1], -1);
 				arr[ques[i][1]] = kth(ques[i][2]);
 				add(ques[i][1], 1);
 			} else if (ques[i][0] == 4) {
-				out.println(sorted[findLast(ques[i][1], ques[i][2], kth(ques[i][3]))]);
+				out.println(findLast(ques[i][1], ques[i][2], kth(ques[i][3])));
 			} else {
-				out.println(sorted[findNext(ques[i][1], ques[i][2], kth(ques[i][3]))]);
+				out.println(findNext(ques[i][1], ques[i][2], kth(ques[i][3])));
 			}
 		}
 		out.flush();
