@@ -12,7 +12,7 @@ import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 import java.util.Arrays;
 
-public class Code02_IndexTreeWithSegmentTree1 {
+public class Code03_IndexTreeWithSegmentTree1 {
 
 	public static int MAXN = 50001;
 

@@ -12,7 +12,7 @@ import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 import java.util.Arrays;
 
-public class Code04_NetworkManagement1 {
+public class Code05_NetworkManagement1 {
 
 	public static int MAXN = 80001;
 
