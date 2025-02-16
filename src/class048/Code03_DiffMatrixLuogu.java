@@ -20,6 +20,16 @@ public class Code03_DiffMatrixLuogu {
 	public static int[][] diff = new int[MAXN][MAXN];
 
 	public static int n, q;
+    //todo 差分数组 结果数组
+    //  0 0 0 0
+    //  0 1 1 0
+    //  0 1 1 0
+    //  0 0 0 0
+    //todo 原始处理，做一次前缀和即可
+    //  0 0  0 0
+    //  0 1  0 -1
+    //  0 0  0 0
+    //  0 -1 0 +1
 
 	public static void add(int a, int b, int c, int d, int k) {
 		diff[a][b] += k;
@@ -52,6 +62,7 @@ public class Code03_DiffMatrixLuogu {
 			n = (int) in.nval;
 			in.nextToken();
 			q = (int) in.nval;
+            //todo 周围包裹一圈防止超过
 			for (int i = 1, a, b, c, d; i <= q; i++) {
 				in.nextToken();
 				a = (int) in.nval;

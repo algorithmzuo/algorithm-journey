@@ -24,7 +24,7 @@ public class Code04_PositivesEqualsNegtivesLongestSubarray {
 	public static int n;
 
 	public static HashMap<Integer, Integer> map = new HashMap<>();
-
+//todo 这个题类似于code02，需要调整的是，将数组中的数值离散为-1，0，1，然后判断目标值为0时的最大长度。
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StreamTokenizer in = new StreamTokenizer(br);

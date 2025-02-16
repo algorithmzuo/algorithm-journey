@@ -12,18 +12,20 @@ import java.util.Arrays;
 // 请求出在这片地带中 力场强度 最强处的 力场强度
 // 注意：力场范围的边缘同样被力场覆盖。
 // 测试链接 : https://leetcode.cn/problems/xepqZ5/
+//todo 这个题首先对原始问题进行抽取，对原始方块收集排序去重，收集成点，然后再使用差分数组进行处理
 public class Code05_StrongestForceField {
 
 	// 时间复杂度O(n^2)，额外空间复杂度O(n^2)，n是力场的个数
 	public static int fieldOfGreatestBlessing(int[][] fields) {
 		int n = fields.length;
-		// n : 矩形的个数，x 2*n个坐标
+		// n : 矩形的个数，x 2*n个坐标 todo n个磁场，每个磁场两条边
 		long[] xs = new long[n << 1];
 		long[] ys = new long[n << 1];
 		for (int i = 0, k = 0, p = 0; i < n; i++) {
 			long x = fields[i][0];
 			long y = fields[i][1];
 			long r = fields[i][2];
+            //todo 将坐标放大避免小数
 			xs[k++] = (x << 1) - r;
 			xs[k++] = (x << 1) + r;
 			ys[p++] = (y << 1) - r;
@@ -34,6 +36,7 @@ public class Code05_StrongestForceField {
 		// ys数组中，排序了且相同值只留一份，返回有效长度
 		int sizey = sort(ys);
 		// n个力场，sizex : 2 * n, sizey : 2 * n
+        //todo 找到对应的矩形
 		int[][] diff = new int[sizex + 2][sizey + 2];
 		for (int i = 0, a, b, c, d; i < n; i++) {
 			long x = fields[i][0];
@@ -97,5 +100,4 @@ public class Code05_StrongestForceField {
 		diff[c + 1][b] -= 1;
 		diff[a][d + 1] -= 1;
 	}
-
 }

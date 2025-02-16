@@ -10,6 +10,8 @@ package class048;
 // 邮票不允许旋转，邮票必须完全在矩阵内
 // 如果在满足上述要求的前提下，可以放入邮票，请返回 true ，否则返回 false
 // 测试链接 : https://leetcode.cn/problems/stamping-the-grid/
+//todo 使用一个前缀和数组sum计算某个范围可以贴邮票，然后使用一个差分数组贴上，最后计算原始位置为0，差分数组的前缀和对应位置是否也为空
+// 如果没有都为空的情况则表示成功
 public class Code04_StampingTheGrid {
 
 	// 时间复杂度O(n*m)，额外空间复杂度O(n*m)
@@ -24,6 +26,7 @@ public class Code04_StampingTheGrid {
 				sum[i + 1][j + 1] = grid[i][j];
 			}
 		}
+        //todo 构建前缀和
 		build(sum);
 		// 差分矩阵
 		// 当贴邮票的时候，不再原始矩阵里贴，在差分矩阵里贴
@@ -56,7 +59,7 @@ public class Code04_StampingTheGrid {
 		}
 		return true;
 	}
-
+    //求前缀和
 	public static void build(int[][] m) {
 		for (int i = 1; i < m.length; i++) {
 			for (int j = 1; j < m[0].length; j++) {
@@ -64,7 +67,7 @@ public class Code04_StampingTheGrid {
 			}
 		}
 	}
-
+    //todo 使用前缀和求区间范围是否可以贴邮票
 	public static int sumRegion(int[][] sum, int a, int b, int c, int d) {
 		return sum[c][d] - sum[c][b - 1] - sum[a - 1][d] + sum[a - 1][b - 1];
 	}

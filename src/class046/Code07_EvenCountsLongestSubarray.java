@@ -23,6 +23,7 @@ public class Code07_EvenCountsLongestSubarray {
 			// s[i] = 当前字符
 			// 情况1 : 当前字符不是元音，status不变
 			// 情况2 : 当前字符是元音，a~u(0~4)，修改相应的状态
+            //todo 一位是一个元音状态，如果出现过就相同状态就表示从出现的地方到i是对应串长度
 			m = move(s.charAt(i));
 			if (m != -1) {
 				status ^= 1 << m;

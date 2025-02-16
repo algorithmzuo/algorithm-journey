@@ -8,6 +8,7 @@ package class047;
 //（包含 firsti 和 lasti ）的 每个航班 上预订了 seatsi 个座位。
 // 请你返回一个长度为 n 的数组 answer，里面的元素是每个航班预定的座位总数。
 // 测试链接 : https://leetcode.cn/problems/corporate-flight-bookings/
+//todo  将所有修改的头和尾做处理，然后求前缀和，就是结果。
 public class Code01_CorporateFlightBookings {
 
 	// bookings
@@ -31,5 +32,4 @@ public class Code01_CorporateFlightBookings {
 		}
 		return ans;
 	}
-
 }

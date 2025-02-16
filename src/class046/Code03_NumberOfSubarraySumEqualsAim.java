@@ -14,7 +14,9 @@ public class Code03_NumberOfSubarraySumEqualsAim {
 		for (int i = 0, sum = 0; i < nums.length; i++) {
 			// sum : 0...i前缀和
 			sum += nums[i];
+            //todo 需要的前缀和有多少个
 			ans += map.getOrDefault(sum - aim, 0);
+            //todo 添加累加和的次数
 			map.put(sum, map.getOrDefault(sum, 0) + 1);
 		}
 		return ans;

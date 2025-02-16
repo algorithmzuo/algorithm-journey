@@ -18,6 +18,7 @@ public class Code05_LongestWellPerformingInterval {
 		int ans = 0;
 		for (int i = 0, sum = 0; i < hours.length; i++) {
 			sum += hours[i] > 8 ? 1 : -1;
+            //todo 这里需要调整，sum>0，从头到尾都可以用。如果小于=0才需要寻找合适的前缀和。如果sum>0也寻找符合1的，会把从头到尾都满足的忽略
 			if (sum > 0) {
 				ans = i + 1;
 			} else {

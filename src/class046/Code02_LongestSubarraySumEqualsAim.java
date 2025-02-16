@@ -54,7 +54,9 @@ public class Code02_LongestSubarraySumEqualsAim {
 		map.put(0, -1);
 		int ans = 0;
 		for (int i = 0, sum = 0; i < n; i++) {
+            //todo 计算累加和
 			sum += arr[i];
+            //todo sum-aim=需要满足的值。找到总和-aim对应的下标。这个时候总和的i就是满足条件的下标。相减就是对应的长度。
 			if (map.containsKey(sum - aim)) {
 				ans = Math.max(ans, i - map.get(sum - aim));
 			}
@@ -64,5 +66,4 @@ public class Code02_LongestSubarraySumEqualsAim {
 		}
 		return ans;
 	}
-
 }

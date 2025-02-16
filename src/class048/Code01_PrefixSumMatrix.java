@@ -2,6 +2,8 @@ package class048;
 
 // 利用二维前缀和信息迅速得到二维区域和
 // 测试链接 : https://leetcode.cn/problems/range-sum-query-2d-immutable/
+//todo 二维前缀和信息计算公式： 左+上-左上+当前。二维数组前置0可以避免边界
+// 求范围的话是：右下角的值-左下左边界外值-右上右边界外值+左上左边界外值
 public class Code01_PrefixSumMatrix {
 
 	class NumMatrix {

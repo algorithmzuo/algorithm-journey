@@ -6,7 +6,8 @@ package class047;
 // 请同学们务必参考如下代码中关于输入、输出的处理
 // 这是输入输出处理效率很高的写法
 // 提交以下的code，提交时请把类名改成"Main"，可以直接通过
-
+//todo 这题没啥意思，搞的很复杂，但本身就用了同样的解法，拆分成对应的等差数组即可。通过添加offset来防止越界。
+// 又臭又长的典范了
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;

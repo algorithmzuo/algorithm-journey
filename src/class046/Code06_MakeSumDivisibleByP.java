@@ -14,8 +14,10 @@ public class Code06_MakeSumDivisibleByP {
 		// 整体余数
 		int mod = 0;
 		for (int num : nums) {
+            //todo 有点同余原理，获取到总和的余数
 			mod = (mod + num) % p;
 		}
+        //todo 总和的余数为0，则都满足
 		if (mod == 0) {
 			return 0;
 		}
@@ -27,6 +29,7 @@ public class Code06_MakeSumDivisibleByP {
 		for (int i = 0, cur = 0, find; i < nums.length; i++) {
 			// 0...i这部分的余数
 			cur = (cur + nums[i]) % p;
+            //todo 知道总余数，知道当前余数，求多余的余数的位置。这代表从多余余数位置+1到i这个删除就满足条件
 			find = cur >= mod ? (cur - mod) : (cur + p - mod);
 			// find = (cur + p - mod) % p;
 			if (map.containsKey(find)) {

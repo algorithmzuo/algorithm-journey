@@ -10,6 +10,7 @@ public class Code02_LargestOneBorderedSquare {
 	// 打败比例不高，但完全是常数时间的问题
 	// 时间复杂度O(n * m * min(n,m))，额外空间复杂度O(1)
 	// 复杂度指标上绝对是最优解
+    //todo 这个是遍历找每个方块，ans表示目前找到最大值，只找更大的。计算周长是用大方块-小方块获得周长等于k-1<<2;
 	public static int largest1BorderedSquare(int[][] g) {
 		int n = g.length;
 		int m = g[0].length;
@@ -22,8 +23,9 @@ public class Code02_LargestOneBorderedSquare {
 		for (int a = 0; a < n; a++) {
 			for (int b = 0; b < m; b++) {
 				// (a,b)所有左上角点
-				//     (c,d)更大边长的右下角点，k是当前尝试的边长
+				//     (c,d)更大边长的右下角点，k是当前尝试的边长 ans表示找到的最大方块边长，只找比这大的。
 				for (int c = a + ans, d = b + ans, k = ans + 1; c < n && d < m; c++, d++, k++) {
+                    //todo 大方块的和-小一圈方块的和为周长则命中
 					if (sum(g, a, b, c, d) - sum(g, a + 1, b + 1, c - 1, d - 1) == (k - 1) << 2) {
 						ans = k;
 					}
@@ -43,7 +45,7 @@ public class Code02_LargestOneBorderedSquare {
 			}
 		}
 	}
-
+    //todo 求方块总和
 	public static int sum(int[][] g, int a, int b, int c, int d) {
 		return a > c ? 0 : (g[c][d] - get(g, c, b - 1) - get(g, a - 1, d) + get(g, a - 1, b - 1));
 	}

@@ -18,6 +18,7 @@ public class Code02_LongestSubstringWithoutRepeatingCharacters {
 		// 不含有重复字符的 最长子串 的长度
 		int ans = 0;
 		for (int l = 0, r = 0; r < n; r++) {
+            //todo 如果没出现过则为0，l不变，如果出现过，l更新
 			l = Math.max(l, last[s[r]] + 1);
 			ans = Math.max(ans, r - l + 1);
 			// 更新当前字符上一次出现的位置
@@ -25,5 +26,4 @@ public class Code02_LongestSubstringWithoutRepeatingCharacters {
 		}
 		return ans;
 	}
-
 }

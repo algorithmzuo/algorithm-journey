@@ -13,6 +13,8 @@ import java.util.List;
 // 1 <= words.length <= 3 * 10^4
 // 1 <= words[i].length <= 10
 // 测试链接 : https://leetcode.cn/problems/word-search-ii/
+//todo 根据words数组创建前缀树，end路径保存完整的字符串，然后遍历board中的所有节点，对这个节点进行上下左右遍历，判断是否越界，是否path路径为0，是否
+//todo 有end路径有值，将board中开始的值设置为0，避免重复收集，有就进行收集，收集结束进行还原。
 public class Code03_WordSearchII {
 
 	public static List<String> findWords(char[][] board, String[] words) {

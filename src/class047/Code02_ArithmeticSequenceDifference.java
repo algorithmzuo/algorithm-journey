@@ -50,7 +50,10 @@ public class Code02_ArithmeticSequenceDifference {
 		out.close();
 		br.close();
 	}
-
+//todo 等差差分过程
+//     最终结果： 0 s  s+d  s+2d  s+3d(e)  0   0
+//  第二次前缀和： 0 +s +d   0     0        -e  0
+//  第一次前缀和： 0 +s +d-s 0     0       -e-d 0
 	public static void set(int l, int r, int s, int e, int d) {
 		arr[l] += s;
 		arr[l + 1] += d - s;
