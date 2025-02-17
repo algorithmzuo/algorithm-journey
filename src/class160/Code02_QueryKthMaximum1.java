@@ -24,7 +24,7 @@ public class Code02_QueryKthMaximum1 {
 
 	public static int[] sorted = new int[MAXN];
 
-	public static int[] outer = new int[MAXN << 2];
+	public static int[] root = new int[MAXN << 2];
 
 	public static int[] left = new int[MAXT];
 
@@ -112,7 +112,7 @@ public class Code02_QueryKthMaximum1 {
 	}
 
 	public static void add(int jobl, int jobr, int jobk, int l, int r, int i) {
-		outer[i] = update(jobl, jobr, 1, n, outer[i]);
+		root[i] = update(jobl, jobr, 1, n, root[i]);
 		if (l < r) {
 			int mid = (l + r) / 2;
 			if (jobk <= mid) {
@@ -128,7 +128,7 @@ public class Code02_QueryKthMaximum1 {
 			return l;
 		}
 		int mid = (l + r) / 2;
-		long rightsum = querySum(jobl, jobr, 1, n, outer[i << 1 | 1]);
+		long rightsum = querySum(jobl, jobr, 1, n, root[i << 1 | 1]);
 		if (jobk > rightsum) {
 			return query(jobl, jobr, jobk - rightsum, l, mid, i << 1);
 		} else {
