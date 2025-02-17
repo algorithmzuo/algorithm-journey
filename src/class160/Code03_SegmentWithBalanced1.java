@@ -27,7 +27,7 @@ public class Code03_SegmentWithBalanced1 {
 
 	// 替罪羊树需要
 	public static int[] key = new int[MAXT];
-	public static int[] count = new int[MAXT];
+	public static int[] cnts = new int[MAXT];
 	public static int[] left = new int[MAXT];
 	public static int[] right = new int[MAXT];
 	public static int[] size = new int[MAXT];
@@ -44,19 +44,19 @@ public class Code03_SegmentWithBalanced1 {
 	public static int init(int num) {
 		key[++cnt] = num;
 		left[cnt] = right[cnt] = 0;
-		count[cnt] = size[cnt] = diff[cnt] = 1;
+		cnts[cnt] = size[cnt] = diff[cnt] = 1;
 		return cnt;
 	}
 
 	public static void up(int i) {
-		size[i] = size[left[i]] + size[right[i]] + count[i];
-		diff[i] = diff[left[i]] + diff[right[i]] + (count[i] > 0 ? 1 : 0);
+		size[i] = size[left[i]] + size[right[i]] + cnts[i];
+		diff[i] = diff[left[i]] + diff[right[i]] + (cnts[i] > 0 ? 1 : 0);
 	}
 
 	public static void inorder(int i) {
 		if (i != 0) {
 			inorder(left[i]);
-			if (count[i] > 0) {
+			if (cnts[i] > 0) {
 				collect[++ci] = i;
 			}
 			inorder(right[i]);
@@ -93,22 +93,19 @@ public class Code03_SegmentWithBalanced1 {
 	}
 
 	public static boolean balance(int i) {
-		if (i == 0) {
-			return true;
-		}
-		return ALPHA * diff[i] >= Math.max(diff[left[i]], diff[right[i]]);
+		return i == 0 || ALPHA * diff[i] >= Math.max(diff[left[i]], diff[right[i]]);
 	}
 
-	public static int insert(int num, int i, int f, int s) {
+	public static int insertNumber(int num, int i, int f, int s) {
 		if (i == 0) {
 			i = init(num);
 		} else {
 			if (key[i] == num) {
-				count[i]++;
+				cnts[i]++;
 			} else if (key[i] > num) {
-				left[i] = insert(num, left[i], i, 1);
+				left[i] = insertNumber(num, left[i], i, 1);
 			} else {
-				right[i] = insert(num, right[i], i, 2);
+				right[i] = insertNumber(num, right[i], i, 2);
 			}
 			up(i);
 			if (!balance(i)) {
@@ -120,9 +117,9 @@ public class Code03_SegmentWithBalanced1 {
 		return i;
 	}
 
-	public static int insert(int num, int i) {
+	public static int insertNumber(int num, int i) {
 		top = father = side = 0;
-		i = insert(num, i, 0, 0);
+		i = insertNumber(num, i, 0, 0);
 		i = rebuild(i);
 		return i;
 	}
@@ -134,7 +131,7 @@ public class Code03_SegmentWithBalanced1 {
 		if (key[i] >= num) {
 			return querySmall(num, left[i]);
 		} else {
-			return size[left[i]] + count[i] + querySmall(num, right[i]);
+			return size[left[i]] + cnts[i] + querySmall(num, right[i]);
 		}
 	}
 
@@ -142,8 +139,8 @@ public class Code03_SegmentWithBalanced1 {
 		int leftsize = size[left[i]];
 		if (leftsize >= index) {
 			return queryIndex(index, left[i]);
-		} else if (leftsize + count[i] < index) {
-			return queryIndex(index - leftsize - count[i], right[i]);
+		} else if (leftsize + cnts[i] < index) {
+			return queryIndex(index - leftsize - cnts[i], right[i]);
 		} else {
 			return key[i];
 		}
@@ -167,13 +164,13 @@ public class Code03_SegmentWithBalanced1 {
 		}
 	}
 
-	public static void remove(int num, int i, int f, int s) {
+	public static void removeNumber(int num, int i, int f, int s) {
 		if (key[i] == num) {
-			count[i]--;
+			cnts[i]--;
 		} else if (key[i] > num) {
-			remove(num, left[i], i, 1);
+			removeNumber(num, left[i], i, 1);
 		} else {
-			remove(num, right[i], i, 2);
+			removeNumber(num, right[i], i, 2);
 		}
 		up(i);
 		if (!balance(i)) {
@@ -183,10 +180,10 @@ public class Code03_SegmentWithBalanced1 {
 		}
 	}
 
-	public static int remove(int num, int i) {
+	public static int removeNumber(int num, int i) {
 		if (querySmall(num, i) != querySmall(num + 1, i)) {
 			top = father = side = 0;
-			remove(num, i, 0, 0);
+			removeNumber(num, i, 0, 0);
 			i = rebuild(i);
 		}
 		return i;
@@ -194,7 +191,7 @@ public class Code03_SegmentWithBalanced1 {
 
 	public static void build(int l, int r, int i) {
 		for (int j = l; j <= r; j++) {
-			root[i] = insert(arr[j], root[i]);
+			root[i] = insertNumber(arr[j], root[i]);
 		}
 		if (l < r) {
 			int mid = (l + r) >> 1;
@@ -204,8 +201,8 @@ public class Code03_SegmentWithBalanced1 {
 	}
 
 	public static void update(int jobi, int jobv, int l, int r, int i) {
-		root[i] = remove(arr[jobi], root[i]);
-		root[i] = insert(jobv, root[i]);
+		root[i] = removeNumber(arr[jobi], root[i]);
+		root[i] = insertNumber(jobv, root[i]);
 		if (l < r) {
 			int mid = (l + r) >> 1;
 			if (jobi <= mid) {
