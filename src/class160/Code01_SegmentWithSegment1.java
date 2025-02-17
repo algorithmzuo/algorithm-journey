@@ -13,7 +13,7 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.util.StringTokenizer;
 
-public class Code01_SegmentTreeWithSegmentTree1 {
+public class Code01_SegmentWithSegment1 {
 
 	public static int MAXH = 101;
 
