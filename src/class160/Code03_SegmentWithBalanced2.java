@@ -1,8 +1,9 @@
 package class160;
 
-// 线段树套平衡树，java版
+// 线段树套平衡树，C++版
 // 测试链接 : https://www.luogu.com.cn/problem/P3380
-// 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
+// 如下实现是C++的版本，C++版本和java版本逻辑完全一样
+// 提交如下代码，可以通过所有测试用例
 
 //#include <bits/stdc++.h>
 //
