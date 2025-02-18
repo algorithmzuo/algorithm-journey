@@ -57,7 +57,7 @@ public class Code05_LineUp1 {
 		return i & -i;
 	}
 
-	public static int add(int jobi, int jobv, int l, int r, int i) {
+	public static int innerAdd(int jobi, int jobv, int l, int r, int i) {
 		if (i == 0) {
 			i = ++cnt;
 		}
@@ -66,16 +66,16 @@ public class Code05_LineUp1 {
 		} else {
 			int mid = (l + r) / 2;
 			if (jobi <= mid) {
-				left[i] = add(jobi, jobv, l, mid, left[i]);
+				left[i] = innerAdd(jobi, jobv, l, mid, left[i]);
 			} else {
-				right[i] = add(jobi, jobv, mid + 1, r, right[i]);
+				right[i] = innerAdd(jobi, jobv, mid + 1, r, right[i]);
 			}
 			sum[i] = sum[left[i]] + sum[right[i]];
 		}
 		return i;
 	}
 
-	public static int query(int jobl, int jobr, int l, int r, int i) {
+	public static int innerQuery(int jobl, int jobr, int l, int r, int i) {
 		if (i == 0) {
 			return 0;
 		}
@@ -85,27 +85,27 @@ public class Code05_LineUp1 {
 		int mid = (l + r) / 2;
 		int ans = 0;
 		if (jobl <= mid) {
-			ans += query(jobl, jobr, l, mid, left[i]);
+			ans += innerQuery(jobl, jobr, l, mid, left[i]);
 		}
 		if (jobr > mid) {
-			ans += query(jobl, jobr, mid + 1, r, right[i]);
+			ans += innerQuery(jobl, jobr, mid + 1, r, right[i]);
 		}
 		return ans;
 	}
 
 	public static void insert(int i, int v) {
 		for (int j = i; j <= n; j += lowbit(j)) {
-			root[j] = add(arr[i], v, 1, s, root[j]);
+			root[j] = innerAdd(arr[i], v, 1, s, root[j]);
 		}
 	}
 
-	public static int queryCnt(int al, int ar, int numl, int numr) {
+	public static int query(int al, int ar, int numl, int numr) {
 		int ans = 0;
 		for (int i = ar; i > 0; i -= lowbit(i)) {
-			ans += query(numl, numr, 1, s, root[i]);
+			ans += innerQuery(numl, numr, 1, s, root[i]);
 		}
 		for (int i = al - 1; i > 0; i -= lowbit(i)) {
-			ans -= query(numl, numr, 1, s, root[i]);
+			ans -= innerQuery(numl, numr, 1, s, root[i]);
 		}
 		return ans;
 	}
@@ -132,10 +132,10 @@ public class Code05_LineUp1 {
 	}
 
 	public static void compute(int a, int b) {
-		ans -= queryCnt(a + 1, b - 1, 1, arr[a] - 1);
-		ans += queryCnt(a + 1, b - 1, arr[a] + 1, s);
-		ans -= queryCnt(a + 1, b - 1, arr[b] + 1, s);
-		ans += queryCnt(a + 1, b - 1, 1, arr[b] - 1);
+		ans -= query(a + 1, b - 1, 1, arr[a] - 1);
+		ans += query(a + 1, b - 1, arr[a] + 1, s);
+		ans -= query(a + 1, b - 1, arr[b] + 1, s);
+		ans += query(a + 1, b - 1, 1, arr[b] - 1);
 		if (arr[a] < arr[b]) {
 			ans++;
 		} else if (arr[a] > arr[b]) {
@@ -162,7 +162,7 @@ public class Code05_LineUp1 {
 		}
 		prepare();
 		for (int i = 2; i <= n; i++) {
-			ans += queryCnt(1, i - 1, arr[i] + 1, s);
+			ans += query(1, i - 1, arr[i] + 1, s);
 		}
 		out.println(ans);
 		in.nextToken();

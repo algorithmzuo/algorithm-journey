@@ -60,39 +60,6 @@ package class160;
 //    return i & -i;
 //}
 //
-//int add(int jobi, int jobv, int l, int r, int i) {
-//    if (i == 0) i = ++cntt;
-//    if (l == r) sum[i] += jobv;
-//    else {
-//        int mid = (l + r) / 2;
-//        if (jobi <= mid) ls[i] = add(jobi, jobv, l, mid, ls[i]);
-//        else rs[i] = add(jobi, jobv, mid + 1, r, rs[i]);
-//        sum[i] = sum[ls[i]] + sum[rs[i]];
-//    }
-//    return i;
-//}
-//
-//void add(int i, int kth, int val) {
-//    for (; i <= n; i += lowbit(i)) root[i] = add(kth, val, 1, s, root[i]);
-//}
-//
-//int queryNumber(int jobk, int l, int r) {
-//    if (l == r) return l;
-//    int mid = (l + r) / 2;
-//    int leftsum = 0;
-//    for (int i = 1; i <= cntpos; i++) leftsum += sum[ls[pos[i]]];
-//    for (int i = 1; i <= cntpre; i++) leftsum -= sum[ls[pre[i]]];
-//    if (jobk <= leftsum) {
-//        for (int i = 1; i <= cntpos; i++) pos[i] = ls[pos[i]];
-//        for (int i = 1; i <= cntpre; i++) pre[i] = ls[pre[i]];
-//        return queryNumber(jobk, l, mid);
-//    } else {
-//        for (int i = 1; i <= cntpos; i++) pos[i] = rs[pos[i]];
-//        for (int i = 1; i <= cntpre; i++) pre[i] = rs[pre[i]];
-//        return queryNumber(jobk - leftsum, mid + 1, r);
-//    }
-//}
-//
 //void dfs(int u, int fa) {
 //    deep[u] = deep[fa] + 1;
 //    size[u] = 1;
@@ -122,21 +89,44 @@ package class160;
 //    return stjump[a][0];
 //}
 //
-//void prepare() {
-//    s = 0;
-//    for (int i = 1; i <= n; i++) sorted[++s] = arr[i];
-//    for (int i = 1; i <= m; i++) if (ques[i][0] == 0) sorted[++s] = ques[i][2];
-//    sort(sorted + 1, sorted + s + 1);
-//    s = unique(sorted + 1, sorted + s + 1) - sorted - 1;
-//    for (int i = 1; i <= n; i++) arr[i] = kth(arr[i]);
-//    dfs(1, 0);
-//    for (int i = 1; i <= n; i++) {
-//        add(dfn[i], arr[i], 1);
-//        add(dfn[i] + size[i], arr[i], -1);
+//int innerAdd(int jobi, int jobv, int l, int r, int i) {
+//    if (i == 0) i = ++cntt;
+//    if (l == r) {
+//        sum[i] += jobv;
+//    } else {
+//        int mid = (l + r) / 2;
+//        if (jobi <= mid) {
+//            ls[i] = innerAdd(jobi, jobv, l, mid, ls[i]);
+//        } else {
+//            rs[i] = innerAdd(jobi, jobv, mid + 1, r, rs[i]);
+//        }
+//        sum[i] = sum[ls[i]] + sum[rs[i]];
+//    }
+//    return i;
+//}
+//
+//int innerQuery(int jobk, int l, int r) {
+//    if (l == r) return l;
+//    int mid = (l + r) / 2;
+//    int leftsum = 0;
+//    for (int i = 1; i <= cntpos; i++) leftsum += sum[ls[pos[i]]];
+//    for (int i = 1; i <= cntpre; i++) leftsum -= sum[ls[pre[i]]];
+//    if (jobk <= leftsum) {
+//        for (int i = 1; i <= cntpos; i++) pos[i] = ls[pos[i]];
+//        for (int i = 1; i <= cntpre; i++) pre[i] = ls[pre[i]];
+//        return innerQuery(jobk, l, mid);
+//    } else {
+//        for (int i = 1; i <= cntpos; i++) pos[i] = rs[pos[i]];
+//        for (int i = 1; i <= cntpre; i++) pre[i] = rs[pre[i]];
+//        return innerQuery(jobk - leftsum, mid + 1, r);
 //    }
 //}
 //
-//void change(int i, int v) {
+//void add(int i, int kth, int val) {
+//    for (; i <= n; i += lowbit(i)) root[i] = innerAdd(kth, val, 1, s, root[i]);
+//}
+//
+//void update(int i, int v) {
 //    add(dfn[i], arr[i], -1);
 //    add(dfn[i] + size[i], arr[i], 1);
 //    arr[i] = kth(v);
@@ -154,7 +144,23 @@ package class160;
 //    for (int i = dfn[y]; i; i -= lowbit(i)) pos[++cntpos] = root[i];
 //    for (int i = dfn[xylca]; i; i -= lowbit(i)) pre[++cntpre] = root[i];
 //    for (int i = dfn[lcafa]; i; i -= lowbit(i)) pre[++cntpre] = root[i];
-//    return queryNumber(num - k + 1, 1, s);
+//    return innerQuery(num - k + 1, 1, s);
+//}
+//
+//void prepare() {
+//    s = 0;
+//    for (int i = 1; i <= n; i++) sorted[++s] = arr[i];
+//    for (int i = 1; i <= m; i++) {
+//        if (ques[i][0] == 0) sorted[++s] = ques[i][2];
+//    }
+//    sort(sorted + 1, sorted + s + 1);
+//    s = unique(sorted + 1, sorted + s + 1) - sorted - 1;
+//    for (int i = 1; i <= n; i++) arr[i] = kth(arr[i]);
+//    dfs(1, 0);
+//    for (int i = 1; i <= n; i++) {
+//        add(dfn[i], arr[i], 1);
+//        add(dfn[i] + size[i], arr[i], -1);
+//    }
 //}
 //
 //int main() {
@@ -171,7 +177,7 @@ package class160;
 //    prepare();
 //    for (int i = 1; i <= m; i++) {
 //        if (ques[i][0] == 0) {
-//            change(ques[i][1], ques[i][2]);
+//        	update(ques[i][1], ques[i][2]);
 //        } else {
 //            int ans = query(ques[i][1], ques[i][2], ques[i][0]);
 //            if(ans == -1) {

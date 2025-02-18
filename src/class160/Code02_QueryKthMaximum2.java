@@ -53,7 +53,7 @@ package class160;
 //    }
 //}
 //
-//int update(int jobl, int jobr, int l, int r, int i) {
+//int innerAdd(int jobl, int jobr, int l, int r, int i) {
 //    if (!i) i = ++cntt;
 //    if (jobl <= l && r <= jobr) {
 //        sum[i] += (long long)(r - l + 1);
@@ -61,14 +61,14 @@ package class160;
 //    } else {
 //        int mid = (l + r) >> 1;
 //        down(i, mid - l + 1, r - mid);
-//        if (jobl <= mid) ls[i] = update(jobl, jobr, l, mid, ls[i]);
-//        if (jobr > mid) rs[i] = update(jobl, jobr, mid + 1, r, rs[i]);
+//        if (jobl <= mid) ls[i] = innerAdd(jobl, jobr, l, mid, ls[i]);
+//        if (jobr > mid) rs[i] = innerAdd(jobl, jobr, mid + 1, r, rs[i]);
 //        up(i);
 //    }
 //    return i;
 //}
 //
-//long long querySum(int jobl, int jobr, int l, int r, int i) {
+//long long innerQuery(int jobl, int jobr, int l, int r, int i) {
 //    if (!i) return 0;
 //    if (jobl <= l && r <= jobr) {
 //        return sum[i];
@@ -76,33 +76,33 @@ package class160;
 //    int mid = (l + r) >> 1;
 //    down(i, mid - l + 1, r - mid);
 //    long long ans = 0;
-//    if (jobl <= mid) ans += querySum(jobl, jobr, l, mid, ls[i]);
-//    if (jobr > mid) ans += querySum(jobl, jobr, mid + 1, r, rs[i]);
+//    if (jobl <= mid) ans += innerQuery(jobl, jobr, l, mid, ls[i]);
+//    if (jobr > mid) ans += innerQuery(jobl, jobr, mid + 1, r, rs[i]);
 //    return ans;
 //}
 //
-//void add(int jobl, int jobr, int jobk, int l, int r, int i) {
-//    root[i] = update(jobl, jobr, 1, n, root[i]);
+//void outerAdd(int jobl, int jobr, int jobk, int l, int r, int i) {
+//    root[i] = innerAdd(jobl, jobr, 1, n, root[i]);
 //    if (l < r) {
 //        int mid = (l + r) >> 1;
 //        if (jobk <= mid) {
-//            add(jobl, jobr, jobk, l, mid, i << 1);
+//            outerAdd(jobl, jobr, jobk, l, mid, i << 1);
 //        } else {
-//            add(jobl, jobr, jobk, mid + 1, r, i << 1 | 1);
+//            outerAdd(jobl, jobr, jobk, mid + 1, r, i << 1 | 1);
 //        }
 //    }
 //}
 //
-//int query(int jobl, int jobr, long long jobk, int l, int r, int i) {
+//int outerQuery(int jobl, int jobr, long long jobk, int l, int r, int i) {
 //    if (l == r) {
 //        return l;
 //    }
 //    int mid = (l + r) >> 1;
-//    long long rightsum = querySum(jobl, jobr, 1, n, root[i << 1 | 1]);
+//    long long rightsum = innerQuery(jobl, jobr, 1, n, root[i << 1 | 1]);
 //    if (jobk > rightsum) {
-//        return query(jobl, jobr, jobk - rightsum, l, mid, i << 1);
+//        return outerQuery(jobl, jobr, jobk - rightsum, l, mid, i << 1);
 //    } else {
-//        return query(jobl, jobr, jobk, mid + 1, r, i << 1 | 1);
+//        return outerQuery(jobl, jobr, jobk, mid + 1, r, i << 1 | 1);
 //    }
 //}
 //
@@ -138,9 +138,9 @@ package class160;
 //    prepare();
 //    for (int i = 1; i <= m; i++) {
 //        if (ques[i][0] == 1) {
-//            add(ques[i][1], ques[i][2], ques[i][3], 1, s, 1);
+//            outerAdd(ques[i][1], ques[i][2], ques[i][3], 1, s, 1);
 //        } else {
-//            int idx = query(ques[i][1], ques[i][2], ques[i][3], 1, s, 1);
+//            int idx = outerQuery(ques[i][1], ques[i][2], ques[i][3], 1, s, 1);
 //            cout << sorted[idx] << "\n";
 //        }
 //    }

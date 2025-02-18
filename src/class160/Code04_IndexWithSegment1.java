@@ -66,7 +66,7 @@ public class Code04_IndexWithSegment1 {
 		return i & -i;
 	}
 
-	public static int add(int jobi, int jobv, int l, int r, int i) {
+	public static int innerAdd(int jobi, int jobv, int l, int r, int i) {
 		if (i == 0) {
 			i = ++cntt;
 		}
@@ -75,22 +75,16 @@ public class Code04_IndexWithSegment1 {
 		} else {
 			int mid = (l + r) / 2;
 			if (jobi <= mid) {
-				left[i] = add(jobi, jobv, l, mid, left[i]);
+				left[i] = innerAdd(jobi, jobv, l, mid, left[i]);
 			} else {
-				right[i] = add(jobi, jobv, mid + 1, r, right[i]);
+				right[i] = innerAdd(jobi, jobv, mid + 1, r, right[i]);
 			}
 			sum[i] = sum[left[i]] + sum[right[i]];
 		}
 		return i;
 	}
 
-	public static void add(int i, int v) {
-		for (int j = i; j <= n; j += lowbit(j)) {
-			root[j] = add(arr[i], v, 1, s, root[j]);
-		}
-	}
-
-	public static int queryNumber(int jobk, int l, int r) {
+	public static int innerQuery(int jobk, int l, int r) {
 		if (l == r) {
 			return l;
 		}
@@ -109,7 +103,7 @@ public class Code04_IndexWithSegment1 {
 			for (int i = 1; i <= cntpre; i++) {
 				pre[i] = left[pre[i]];
 			}
-			return queryNumber(jobk, l, mid);
+			return innerQuery(jobk, l, mid);
 		} else {
 			for (int i = 1; i <= cntpos; i++) {
 				pos[i] = right[pos[i]];
@@ -117,22 +111,11 @@ public class Code04_IndexWithSegment1 {
 			for (int i = 1; i <= cntpre; i++) {
 				pre[i] = right[pre[i]];
 			}
-			return queryNumber(jobk - leftsum, mid + 1, r);
+			return innerQuery(jobk - leftsum, mid + 1, r);
 		}
 	}
 
-	public static int findNumber(int l, int r, int k) {
-		cntpos = cntpre = 0;
-		for (int i = r; i > 0; i -= lowbit(i)) {
-			pos[++cntpos] = root[i];
-		}
-		for (int i = l - 1; i > 0; i -= lowbit(i)) {
-			pre[++cntpre] = root[i];
-		}
-		return sorted[queryNumber(k, 1, s)];
-	}
-
-	public static int queryRank(int jobk, int l, int r) {
+	public static int innerRank(int jobk, int l, int r) {
 		if (l == r) {
 			return 0;
 		}
@@ -144,7 +127,7 @@ public class Code04_IndexWithSegment1 {
 			for (int i = 1; i <= cntpre; i++) {
 				pre[i] = left[pre[i]];
 			}
-			return queryRank(jobk, l, mid);
+			return innerRank(jobk, l, mid);
 		} else {
 			int leftsum = 0;
 			for (int i = 1; i <= cntpos; i++) {
@@ -155,11 +138,17 @@ public class Code04_IndexWithSegment1 {
 				leftsum -= sum[left[pre[i]]];
 				pre[i] = right[pre[i]];
 			}
-			return leftsum + queryRank(jobk, mid + 1, r);
+			return leftsum + innerRank(jobk, mid + 1, r);
 		}
 	}
 
-	public static int findRank(int l, int r, int k) {
+	public static void outerAdd(int i, int v) {
+		for (int j = i; j <= n; j += lowbit(j)) {
+			root[j] = innerAdd(arr[i], v, 1, s, root[j]);
+		}
+	}
+
+	public static int outerQuery(int l, int r, int k) {
 		cntpos = cntpre = 0;
 		for (int i = r; i > 0; i -= lowbit(i)) {
 			pos[++cntpos] = root[i];
@@ -167,26 +156,37 @@ public class Code04_IndexWithSegment1 {
 		for (int i = l - 1; i > 0; i -= lowbit(i)) {
 			pre[++cntpre] = root[i];
 		}
-		return queryRank(k, 1, s) + 1;
+		return sorted[innerQuery(k, 1, s)];
 	}
 
-	public static int findLast(int l, int r, int k) {
-		int rank = findRank(l, r, k);
+	public static int outerRank(int l, int r, int k) {
+		cntpos = cntpre = 0;
+		for (int i = r; i > 0; i -= lowbit(i)) {
+			pos[++cntpos] = root[i];
+		}
+		for (int i = l - 1; i > 0; i -= lowbit(i)) {
+			pre[++cntpre] = root[i];
+		}
+		return innerRank(k, 1, s) + 1;
+	}
+
+	public static int outerPre(int l, int r, int k) {
+		int rank = outerRank(l, r, k);
 		if (rank == 1) {
 			return -INF;
 		}
-		return findNumber(l, r, rank - 1);
+		return outerQuery(l, r, rank - 1);
 	}
 
-	public static int findNext(int l, int r, int k) {
+	public static int outerPost(int l, int r, int k) {
 		if (k == s) {
 			return INF;
 		}
-		int rank = findRank(l, r, k + 1);
+		int rank = outerRank(l, r, k + 1);
 		if (rank == r - l + 2) {
 			return INF;
 		}
-		return findNumber(l, r, rank);
+		return outerQuery(l, r, rank);
 	}
 
 	public static void prepare() {
@@ -211,7 +211,7 @@ public class Code04_IndexWithSegment1 {
 		s = len;
 		for (int i = 1; i <= n; i++) {
 			arr[i] = kth(arr[i]);
-			add(i, 1);
+			outerAdd(i, 1);
 		}
 	}
 
@@ -242,17 +242,17 @@ public class Code04_IndexWithSegment1 {
 		prepare();
 		for (int i = 1; i <= m; i++) {
 			if (ques[i][0] == 1) {
-				out.println(findRank(ques[i][1], ques[i][2], kth(ques[i][3])));
+				out.println(outerRank(ques[i][1], ques[i][2], kth(ques[i][3])));
 			} else if (ques[i][0] == 2) {
-				out.println(findNumber(ques[i][1], ques[i][2], ques[i][3]));
+				out.println(outerQuery(ques[i][1], ques[i][2], ques[i][3]));
 			} else if (ques[i][0] == 3) {
-				add(ques[i][1], -1);
+				outerAdd(ques[i][1], -1);
 				arr[ques[i][1]] = kth(ques[i][2]);
-				add(ques[i][1], 1);
+				outerAdd(ques[i][1], 1);
 			} else if (ques[i][0] == 4) {
-				out.println(findLast(ques[i][1], ques[i][2], kth(ques[i][3])));
+				out.println(outerPre(ques[i][1], ques[i][2], kth(ques[i][3])));
 			} else {
-				out.println(findNext(ques[i][1], ques[i][2], kth(ques[i][3])));
+				out.println(outerPost(ques[i][1], ques[i][2], kth(ques[i][3])));
 			}
 		}
 		out.flush();

@@ -37,38 +37,51 @@ package class160;
 //    return i & -i;
 //}
 //
-//int add(int jobi, int jobv, int l, int r, int i) {
+//int innerAdd(int jobi, int jobv, int l, int r, int i) {
 //    if (i == 0) i = ++cnt;
-//    if (l == r) sum[i] += jobv;
-//    else {
+//    if (l == r) {
+//        sum[i] += jobv;
+//    } else {
 //        int mid = (l + r) / 2;
-//        if (jobi <= mid) ls[i] = add(jobi, jobv, l, mid, ls[i]);
-//        else rs[i] = add(jobi, jobv, mid + 1, r, rs[i]);
+//        if (jobi <= mid) {
+//            ls[i] = innerAdd(jobi, jobv, l, mid, ls[i]);
+//        } else {
+//            rs[i] = innerAdd(jobi, jobv, mid + 1, r, rs[i]);
+//        }
 //        sum[i] = sum[ls[i]] + sum[rs[i]];
 //    }
 //    return i;
 //}
 //
-//int query(int jobl, int jobr, int l, int r, int i) {
+//int innerQuery(int jobl, int jobr, int l, int r, int i) {
 //    if (i == 0) return 0;
 //    if (jobl <= l && r <= jobr) return sum[i];
-//    int mid = (l + r) / 2, res = 0;
-//    if (jobl <= mid) res += query(jobl, jobr, l, mid, ls[i]);
-//    if (jobr > mid) res += query(jobl, jobr, mid + 1, r, rs[i]);
-//    return res;
+//    int mid = (l + r) / 2;
+//    int ans = 0;
+//    if (jobl <= mid) {
+//    	ans += innerQuery(jobl, jobr, l, mid, ls[i]);
+//    }
+//    if (jobr > mid) {
+//    	ans += innerQuery(jobl, jobr, mid + 1, r, rs[i]);
+//    }
+//    return ans;
 //}
 //
 //void insert(int i, int v) {
 //    for (int j = i; j <= n; j += lowbit(j)) {
-//        root[j] = add(arr[i], v, 1, s, root[j]);
+//        root[j] = innerAdd(arr[i], v, 1, s, root[j]);
 //    }
 //}
 //
-//int queryCnt(int al, int ar, int numl, int numr) {
-//    int res = 0;
-//    for (int i = ar; i > 0; i -= lowbit(i)) res += query(numl, numr, 1, s, root[i]);
-//    for (int i = al - 1; i > 0; i -= lowbit(i)) res -= query(numl, numr, 1, s, root[i]);
-//    return res;
+//int query(int al, int ar, int numl, int numr) {
+//    int ans = 0;
+//    for (int i = ar; i > 0; i -= lowbit(i)) {
+//        ans += innerQuery(numl, numr, 1, s, root[i]);
+//    }
+//    for (int i = al - 1; i > 0; i -= lowbit(i)) {
+//        ans -= innerQuery(numl, numr, 1, s, root[i]);
+//    }
+//    return ans;
 //}
 //
 //void prepare() {
@@ -89,10 +102,10 @@ package class160;
 //}
 //
 //void compute(int a, int b) {
-//    ans -= queryCnt(a + 1, b - 1, 1, arr[a] - 1);
-//    ans += queryCnt(a + 1, b - 1, arr[a] + 1, s);
-//    ans -= queryCnt(a + 1, b - 1, arr[b] + 1, s);
-//    ans += queryCnt(a + 1, b - 1, 1, arr[b] - 1);
+//    ans -= query(a + 1, b - 1, 1, arr[a] - 1);
+//    ans += query(a + 1, b - 1, arr[a] + 1, s);
+//    ans -= query(a + 1, b - 1, arr[b] + 1, s);
+//    ans += query(a + 1, b - 1, 1, arr[b] - 1);
 //    if (arr[a] < arr[b]) ans++;
 //    else if (arr[a] > arr[b]) ans--;
 //    insert(a, -1);
@@ -108,7 +121,7 @@ package class160;
 //    cin >> n;
 //    for (int i = 1; i <= n; i++) cin >> arr[i];
 //    prepare();
-//    for (int i = 2; i <= n; i++) ans += queryCnt(1, i - 1, arr[i] + 1, s);
+//    for (int i = 2; i <= n; i++) ans += query(1, i - 1, arr[i] + 1, s);
 //    cout << ans << '\n';
 //    cin >> m;
 //    for (int i = 1, a, b; i <= m; i++) {

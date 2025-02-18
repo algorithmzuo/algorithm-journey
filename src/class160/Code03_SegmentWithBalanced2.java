@@ -39,6 +39,10 @@ package class160;
 //	diff[i] = diff[ls[i]] + diff[rs[i]] + (cnts[i] > 0 ? 1 : 0);
 //}
 //
+//bool balance(int i) {
+//    return i == 0 || ALPHA * diff[i] >= max(diff[ls[i]], diff[rs[i]]);
+//}
+//
 //void inorder(int i) {
 //    if (i) {
 //        inorder(ls[i]);
@@ -47,47 +51,43 @@ package class160;
 //    }
 //}
 //
-//int build(int l, int r) {
+//int innerBuild(int l, int r) {
 //    if (l > r) return 0;
 //    int mid = (l + r) >> 1;
 //    int h = collect[mid];
-//    ls[h] = build(l, mid - 1);
-//    rs[h] = build(mid + 1, r);
+//    ls[h] = innerBuild(l, mid - 1);
+//    rs[h] = innerBuild(mid + 1, r);
 //    up(h);
 //    return h;
 //}
 //
-//int rebuild(int i) {
+//int innerRebuild(int i) {
 //    if (top) {
 //        ci = 0;
 //        inorder(top);
 //        if (ci > 0) {
 //            if (father == 0) {
-//                i = build(1, ci);
+//                i = innerBuild(1, ci);
 //            } else if (side == 1) {
-//            	ls[father] = build(1, ci);
+//            	ls[father] = innerBuild(1, ci);
 //            } else {
-//            	rs[father] = build(1, ci);
+//            	rs[father] = innerBuild(1, ci);
 //            }
 //        }
 //    }
 //    return i;
 //}
 //
-//bool balance(int i) {
-//    return i == 0 || ALPHA * diff[i] >= max(diff[ls[i]], diff[rs[i]]);
-//}
-//
-//int insertNumber(int num, int i, int f, int s) {
+//int innerInsert(int num, int i, int f, int s) {
 //    if (!i) {
 //        i = init(num);
 //    } else {
 //        if (key[i] == num) {
 //        	cnts[i]++;
 //        } else if (key[i] > num) {
-//        	ls[i] = insertNumber(num, ls[i], i, 1);
+//        	ls[i] = innerInsert(num, ls[i], i, 1);
 //        } else {
-//        	rs[i] = insertNumber(num, rs[i], i, 2);
+//        	rs[i] = innerInsert(num, rs[i], i, 2);
 //        }
 //        up(i);
 //        if (!balance(i)) {
@@ -99,48 +99,48 @@ package class160;
 //    return i;
 //}
 //
-//int insertNumber(int num, int i) {
+//int innerInsert(int num, int i) {
 //    top = father = side = 0;
-//    i = insertNumber(num, i, 0, 0);
-//    i = rebuild(i);
+//    i = innerInsert(num, i, 0, 0);
+//    i = innerRebuild(i);
 //    return i;
 //}
 //
-//int querySmall(int num, int i) {
+//int innerSmall(int num, int i) {
 //    if (!i) return 0;
-//    if (key[i] >= num) return querySmall(num, ls[i]);
-//    return siz[ls[i]] + cnts[i] + querySmall(num, rs[i]);
+//    if (key[i] >= num) return innerSmall(num, ls[i]);
+//    return siz[ls[i]] + cnts[i] + innerSmall(num, rs[i]);
 //}
 //
-//int queryIndex(int index, int i) {
+//int innerIndex(int index, int i) {
 //    int leftsize = siz[ls[i]];
 //    if (leftsize >= index) {
-//        return queryIndex(index, ls[i]);
+//        return innerIndex(index, ls[i]);
 //    } else if (leftsize + cnts[i] < index) {
-//        return queryIndex(index - leftsize - cnts[i], rs[i]);
+//        return innerIndex(index - leftsize - cnts[i], rs[i]);
 //    }
 //    return key[i];
 //}
 //
-//int queryPre(int num, int i) {
-//    int kth = querySmall(num, i) + 1;
+//int innerPre(int num, int i) {
+//    int kth = innerSmall(num, i) + 1;
 //    if (kth == 1) return -INF;
-//    return queryIndex(kth - 1, i);
+//    return innerIndex(kth - 1, i);
 //}
 //
-//int queryPost(int num, int i) {
-//    int kth = querySmall(num + 1, i);
+//int innerPost(int num, int i) {
+//    int kth = innerSmall(num + 1, i);
 //    if (kth == siz[i]) return INF;
-//    return queryIndex(kth + 1, i);
+//    return innerIndex(kth + 1, i);
 //}
 //
-//void removeNumber(int num, int i, int f, int s) {
+//void innerRemove(int num, int i, int f, int s) {
 //    if (key[i] == num) {
 //    	cnts[i]--;
 //    } else if (key[i] > num) {
-//    	removeNumber(num, ls[i], i, 1);
+//    	innerRemove(num, ls[i], i, 1);
 //    } else {
-//    	removeNumber(num, rs[i], i, 2);
+//    	innerRemove(num, rs[i], i, 2);
 //    }
 //    up(i);
 //    if (!balance(i)) {
@@ -150,17 +150,17 @@ package class160;
 //    }
 //}
 //
-//int removeNumber(int num, int i) {
-//    if (querySmall(num, i) != querySmall(num + 1, i)) {
+//int innerRemove(int num, int i) {
+//    if (innerSmall(num, i) != innerSmall(num + 1, i)) {
 //        top = father = side = 0;
-//        removeNumber(num, i, 0, 0);
-//        i = rebuild(i);
+//        innerRemove(num, i, 0, 0);
+//        i = innerRebuild(i);
 //    }
 //    return i;
 //}
 //
 //void build(int l, int r, int i) {
-//    for (int j = l; j <= r; j++) root[i] = insertNumber(arr[j], root[i]);
+//    for (int j = l; j <= r; j++) root[i] = innerInsert(arr[j], root[i]);
 //    if (l < r) {
 //        int mid = (l + r) >> 1;
 //        build(l, mid, i << 1);
@@ -169,8 +169,8 @@ package class160;
 //}
 //
 //void update(int jobi, int jobv, int l, int r, int i) {
-//    root[i] = removeNumber(arr[jobi], root[i]);
-//    root[i] = insertNumber(jobv, root[i]);
+//    root[i] = innerRemove(arr[jobi], root[i]);
+//    root[i] = innerInsert(jobv, root[i]);
 //    if (l < r) {
 //        int mid = (l + r) >> 1;
 //        if (jobi <= mid) update(jobi, jobv, l, mid, i << 1);
@@ -179,7 +179,7 @@ package class160;
 //}
 //
 //int small(int jobl, int jobr, int jobv, int l, int r, int i) {
-//    if (jobl <= l && r <= jobr) return querySmall(jobv, root[i]);
+//    if (jobl <= l && r <= jobr) return innerSmall(jobv, root[i]);
 //    int mid = (l + r) >> 1, ans = 0;
 //    if (jobl <= mid) ans += small(jobl, jobr, jobv, l, mid, i << 1);
 //    if (jobr > mid) ans += small(jobl, jobr, jobv, mid + 1, r, i << 1 | 1);
@@ -201,7 +201,7 @@ package class160;
 //}
 //
 //int pre(int jobl, int jobr, int jobv, int l, int r, int i) {
-//    if (jobl <= l && r <= jobr) return queryPre(jobv, root[i]);
+//    if (jobl <= l && r <= jobr) return innerPre(jobv, root[i]);
 //    int mid = (l + r) >> 1, ans = -INF;
 //    if (jobl <= mid) ans = max(ans, pre(jobl, jobr, jobv, l, mid, i << 1));
 //    if (jobr > mid) ans = max(ans, pre(jobl, jobr, jobv, mid + 1, r, i << 1 | 1));
@@ -209,7 +209,7 @@ package class160;
 //}
 //
 //int post(int jobl, int jobr, int jobv, int l, int r, int i) {
-//    if (jobl <= l && r <= jobr) return queryPost(jobv, root[i]);
+//    if (jobl <= l && r <= jobr) return innerPost(jobv, root[i]);
 //    int mid = (l + r) >> 1, ans = INF;
 //    if (jobl <= mid) ans = min(ans, post(jobl, jobr, jobv, l, mid, i << 1));
 //    if (jobr > mid) ans = min(ans, post(jobl, jobr, jobv, mid + 1, r, i << 1 | 1));

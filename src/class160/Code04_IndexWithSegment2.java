@@ -42,26 +42,20 @@ package class160;
 //    return i & -i;
 //}
 //
-//int add(int jobi, int jobv, int l, int r, int i) {
+//int innerAdd(int jobi, int jobv, int l, int r, int i) {
 //    if (!i) i = ++cntt;
 //    if (l == r) {
 //        sum[i] += jobv;
 //    } else {
 //        int mid = (l + r) >> 1;
-//        if (jobi <= mid) ls[i] = add(jobi, jobv, l, mid, ls[i]);
-//        else rs[i] = add(jobi, jobv, mid + 1, r, rs[i]);
+//        if (jobi <= mid) ls[i] = innerAdd(jobi, jobv, l, mid, ls[i]);
+//        else rs[i] = innerAdd(jobi, jobv, mid + 1, r, rs[i]);
 //        sum[i] = sum[ls[i]] + sum[rs[i]];
 //    }
 //    return i;
 //}
 //
-//void add(int i, int v) {
-//    for (int j = i; j <= n; j += lowbit(j)) {
-//        root[j] = add(arr[i], v, 1, s, root[j]);
-//    }
-//}
-//
-//int queryNumber(int jobk, int l, int r) {
+//int innerQuery(int jobk, int l, int r) {
 //    if (l == r) return l;
 //    int mid = (l + r) >> 1;
 //    int leftsum = 0;
@@ -70,28 +64,21 @@ package class160;
 //    if (jobk <= leftsum) {
 //        for (int i = 1; i <= cntpos; i++) pos[i] = ls[pos[i]];
 //        for (int i = 1; i <= cntpre; i++) pre[i] = ls[pre[i]];
-//        return queryNumber(jobk, l, mid);
+//        return innerQuery(jobk, l, mid);
 //    } else {
 //        for (int i = 1; i <= cntpos; i++) pos[i] = rs[pos[i]];
 //        for (int i = 1; i <= cntpre; i++) pre[i] = rs[pre[i]];
-//        return queryNumber(jobk - leftsum, mid + 1, r);
+//        return innerQuery(jobk - leftsum, mid + 1, r);
 //    }
 //}
 //
-//int findNumber(int l, int r, int k) {
-//    cntpos = cntpre = 0;
-//    for (int i = r; i > 0; i -= lowbit(i)) pos[++cntpos] = root[i];
-//    for (int i = l - 1; i > 0; i -= lowbit(i)) pre[++cntpre] = root[i];
-//    return sorted[queryNumber(k, 1, s)];
-//}
-//
-//int queryRank(int jobi, int l, int r) {
+//int innerRank(int jobi, int l, int r) {
 //    if (l == r) return 0;
 //    int mid = (l + r) >> 1;
 //    if (jobi <= mid) {
 //        for (int i = 1; i <= cntpos; i++) pos[i] = ls[pos[i]];
 //        for (int i = 1; i <= cntpre; i++) pre[i] = ls[pre[i]];
-//        return queryRank(jobi, l, mid);
+//        return innerRank(jobi, l, mid);
 //    } else {
 //        int leftsum = 0;
 //        for (int i = 1; i <= cntpos; i++) {
@@ -102,26 +89,39 @@ package class160;
 //            leftsum -= sum[ls[pre[i]]];
 //            pre[i] = rs[pre[i]];
 //        }
-//        return leftsum + queryRank(jobi, mid + 1, r);
+//        return leftsum + innerRank(jobi, mid + 1, r);
 //    }
 //}
 //
-//int findRank(int l, int r, int k) {
+//void outerAdd(int i, int v) {
+//    for (int j = i; j <= n; j += lowbit(j)) {
+//        root[j] = innerAdd(arr[i], v, 1, s, root[j]);
+//    }
+//}
+//
+//int outerQuery(int l, int r, int k) {
 //    cntpos = cntpre = 0;
 //    for (int i = r; i > 0; i -= lowbit(i)) pos[++cntpos] = root[i];
 //    for (int i = l - 1; i > 0; i -= lowbit(i)) pre[++cntpre] = root[i];
-//    return queryRank(k, 1, s) + 1;
+//    return sorted[innerQuery(k, 1, s)];
 //}
 //
-//int findLast(int l, int r, int k) {
-//    int rk = findRank(l, r, k);
-//    return (rk == 1) ? -INF : findNumber(l, r, rk - 1);
+//int outerRank(int l, int r, int k) {
+//    cntpos = cntpre = 0;
+//    for (int i = r; i > 0; i -= lowbit(i)) pos[++cntpos] = root[i];
+//    for (int i = l - 1; i > 0; i -= lowbit(i)) pre[++cntpre] = root[i];
+//    return innerRank(k, 1, s) + 1;
 //}
 //
-//int findNext(int l, int r, int k) {
+//int outerPre(int l, int r, int k) {
+//    int rk = outerRank(l, r, k);
+//    return (rk == 1) ? -INF : outerQuery(l, r, rk - 1);
+//}
+//
+//int outerPost(int l, int r, int k) {
 //    if (k == s) return INF;
-//    int rk = findRank(l, r, k + 1);
-//    return (rk == r - l + 2) ? INF : findNumber(l, r, rk);
+//    int rk = outerRank(l, r, k + 1);
+//    return (rk == r - l + 2) ? INF : outerQuery(l, r, rk);
 //}
 //
 //void prepare() {
@@ -138,7 +138,7 @@ package class160;
 //    s = len;
 //    for (int i = 1; i <= n; i++) {
 //        arr[i] = kth(arr[i]);
-//        add(i, 1);
+//        outerAdd(i, 1);
 //    }
 //}
 //
@@ -154,17 +154,17 @@ package class160;
 //    prepare();
 //    for (int i = 1; i <= m; i++) {
 //        if (ques[i][0] == 1) {
-//            cout << findRank(ques[i][1], ques[i][2], kth(ques[i][3])) << "\n";
+//            cout << outerRank(ques[i][1], ques[i][2], kth(ques[i][3])) << "\n";
 //        } else if (ques[i][0] == 2) {
-//            cout << findNumber(ques[i][1], ques[i][2], ques[i][3]) << "\n";
+//            cout << outerQuery(ques[i][1], ques[i][2], ques[i][3]) << "\n";
 //        } else if (ques[i][0] == 3) {
-//            add(ques[i][1], -1);
+//            outerAdd(ques[i][1], -1);
 //            arr[ques[i][1]] = kth(ques[i][2]);
-//            add(ques[i][1], 1);
+//            outerAdd(ques[i][1], 1);
 //        } else if (ques[i][0] == 4) {
-//            cout << findLast(ques[i][1], ques[i][2], kth(ques[i][3])) << "\n";
+//            cout << outerPre(ques[i][1], ques[i][2], kth(ques[i][3])) << "\n";
 //        } else {
-//            cout << findNext(ques[i][1], ques[i][2], kth(ques[i][3])) << "\n";
+//            cout << outerPost(ques[i][1], ques[i][2], kth(ques[i][3])) << "\n";
 //        }
 //    }
 //    return 0;

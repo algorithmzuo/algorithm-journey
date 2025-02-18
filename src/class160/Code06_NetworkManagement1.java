@@ -93,61 +93,6 @@ public class Code06_NetworkManagement1 {
 		return i & -i;
 	}
 
-	public static int add(int jobi, int jobv, int l, int r, int i) {
-		if (i == 0) {
-			i = ++cntt;
-		}
-		if (l == r) {
-			sum[i] += jobv;
-		} else {
-			int mid = (l + r) / 2;
-			if (jobi <= mid) {
-				left[i] = add(jobi, jobv, l, mid, left[i]);
-			} else {
-				right[i] = add(jobi, jobv, mid + 1, r, right[i]);
-			}
-			sum[i] = sum[left[i]] + sum[right[i]];
-		}
-		return i;
-	}
-
-	public static void add(int i, int kth, int val) {
-		for (; i <= n; i += lowbit(i)) {
-			root[i] = add(kth, val, 1, s, root[i]);
-		}
-	}
-
-	public static int queryNumber(int jobk, int l, int r) {
-		if (l == r) {
-			return l;
-		}
-		int mid = (l + r) / 2;
-		int leftsum = 0;
-		for (int i = 1; i <= cntpos; i++) {
-			leftsum += sum[left[pos[i]]];
-		}
-		for (int i = 1; i <= cntpre; i++) {
-			leftsum -= sum[left[pre[i]]];
-		}
-		if (jobk <= leftsum) {
-			for (int i = 1; i <= cntpos; i++) {
-				pos[i] = left[pos[i]];
-			}
-			for (int i = 1; i <= cntpre; i++) {
-				pre[i] = left[pre[i]];
-			}
-			return queryNumber(jobk, l, mid);
-		} else {
-			for (int i = 1; i <= cntpos; i++) {
-				pos[i] = right[pos[i]];
-			}
-			for (int i = 1; i <= cntpre; i++) {
-				pre[i] = right[pre[i]];
-			}
-			return queryNumber(jobk - leftsum, mid + 1, r);
-		}
-	}
-
 	// dfs1是递归版，java版本提交会爆栈，C++版本不会爆栈
 	public static void dfs1(int u, int fa) {
 		deep[u] = deep[fa] + 1;
@@ -245,35 +190,62 @@ public class Code06_NetworkManagement1 {
 		return stjump[a][0];
 	}
 
-	public static void prepare() {
-		s = 0;
-		for (int i = 1; i <= n; i++) {
-			sorted[++s] = arr[i];
+	public static int innerAdd(int jobi, int jobv, int l, int r, int i) {
+		if (i == 0) {
+			i = ++cntt;
 		}
-		for (int i = 1; i <= m; i++) {
-			if (ques[i][0] == 0) {
-				sorted[++s] = ques[i][2];
+		if (l == r) {
+			sum[i] += jobv;
+		} else {
+			int mid = (l + r) / 2;
+			if (jobi <= mid) {
+				left[i] = innerAdd(jobi, jobv, l, mid, left[i]);
+			} else {
+				right[i] = innerAdd(jobi, jobv, mid + 1, r, right[i]);
 			}
+			sum[i] = sum[left[i]] + sum[right[i]];
 		}
-		Arrays.sort(sorted, 1, s + 1);
-		int len = 1;
-		for (int i = 2; i <= s; i++) {
-			if (sorted[len] != sorted[i]) {
-				sorted[++len] = sorted[i];
+		return i;
+	}
+
+	public static int innerQuery(int jobk, int l, int r) {
+		if (l == r) {
+			return l;
+		}
+		int mid = (l + r) / 2;
+		int leftsum = 0;
+		for (int i = 1; i <= cntpos; i++) {
+			leftsum += sum[left[pos[i]]];
+		}
+		for (int i = 1; i <= cntpre; i++) {
+			leftsum -= sum[left[pre[i]]];
+		}
+		if (jobk <= leftsum) {
+			for (int i = 1; i <= cntpos; i++) {
+				pos[i] = left[pos[i]];
 			}
-		}
-		s = len;
-		for (int i = 1; i <= n; i++) {
-			arr[i] = kth(arr[i]);
-		}
-		dfs2();
-		for (int i = 1; i <= n; i++) {
-			add(dfn[i], arr[i], 1);
-			add(dfn[i] + size[i], arr[i], -1);
+			for (int i = 1; i <= cntpre; i++) {
+				pre[i] = left[pre[i]];
+			}
+			return innerQuery(jobk, l, mid);
+		} else {
+			for (int i = 1; i <= cntpos; i++) {
+				pos[i] = right[pos[i]];
+			}
+			for (int i = 1; i <= cntpre; i++) {
+				pre[i] = right[pre[i]];
+			}
+			return innerQuery(jobk - leftsum, mid + 1, r);
 		}
 	}
 
-	public static void change(int i, int v) {
+	public static void add(int i, int kth, int val) {
+		for (; i <= n; i += lowbit(i)) {
+			root[i] = innerAdd(kth, val, 1, s, root[i]);
+		}
+	}
+
+	public static void update(int i, int v) {
 		add(dfn[i], arr[i], -1);
 		add(dfn[i] + size[i], arr[i], 1);
 		arr[i] = kth(v);
@@ -301,7 +273,35 @@ public class Code06_NetworkManagement1 {
 		for (int i = dfn[lcafa]; i > 0; i -= lowbit(i)) {
 			pre[++cntpre] = root[i];
 		}
-		return queryNumber(num - k + 1, 1, s);
+		return innerQuery(num - k + 1, 1, s);
+	}
+
+	public static void prepare() {
+		s = 0;
+		for (int i = 1; i <= n; i++) {
+			sorted[++s] = arr[i];
+		}
+		for (int i = 1; i <= m; i++) {
+			if (ques[i][0] == 0) {
+				sorted[++s] = ques[i][2];
+			}
+		}
+		Arrays.sort(sorted, 1, s + 1);
+		int len = 1;
+		for (int i = 2; i <= s; i++) {
+			if (sorted[len] != sorted[i]) {
+				sorted[++len] = sorted[i];
+			}
+		}
+		s = len;
+		for (int i = 1; i <= n; i++) {
+			arr[i] = kth(arr[i]);
+		}
+		dfs2();
+		for (int i = 1; i <= n; i++) {
+			add(dfn[i], arr[i], 1);
+			add(dfn[i] + size[i], arr[i], -1);
+		}
 	}
 
 	public static void main(String[] args) throws IOException {
@@ -335,7 +335,7 @@ public class Code06_NetworkManagement1 {
 		prepare();
 		for (int i = 1; i <= m; i++) {
 			if (ques[i][0] == 0) {
-				change(ques[i][1], ques[i][2]);
+				update(ques[i][1], ques[i][2]);
 			} else {
 				int ans = query(ques[i][1], ques[i][2], ques[i][0]);
 				if (ans == -1) {

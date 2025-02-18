@@ -71,7 +71,7 @@ public class Code02_QueryKthMaximum1 {
 		}
 	}
 
-	public static int update(int jobl, int jobr, int l, int r, int i) {
+	public static int innerAdd(int jobl, int jobr, int l, int r, int i) {
 		if (i == 0) {
 			i = ++cntt;
 		}
@@ -82,17 +82,17 @@ public class Code02_QueryKthMaximum1 {
 			int mid = (l + r) / 2;
 			down(i, mid - l + 1, r - mid);
 			if (jobl <= mid) {
-				left[i] = update(jobl, jobr, l, mid, left[i]);
+				left[i] = innerAdd(jobl, jobr, l, mid, left[i]);
 			}
 			if (jobr > mid) {
-				right[i] = update(jobl, jobr, mid + 1, r, right[i]);
+				right[i] = innerAdd(jobl, jobr, mid + 1, r, right[i]);
 			}
 			up(i);
 		}
 		return i;
 	}
 
-	public static long querySum(int jobl, int jobr, int l, int r, int i) {
+	public static long innerQuery(int jobl, int jobr, int l, int r, int i) {
 		if (i == 0) {
 			return 0;
 		}
@@ -103,36 +103,36 @@ public class Code02_QueryKthMaximum1 {
 		down(i, mid - l + 1, r - mid);
 		long ans = 0;
 		if (jobl <= mid) {
-			ans += querySum(jobl, jobr, l, mid, left[i]);
+			ans += innerQuery(jobl, jobr, l, mid, left[i]);
 		}
 		if (jobr > mid) {
-			ans += querySum(jobl, jobr, mid + 1, r, right[i]);
+			ans += innerQuery(jobl, jobr, mid + 1, r, right[i]);
 		}
 		return ans;
 	}
 
-	public static void add(int jobl, int jobr, int jobk, int l, int r, int i) {
-		root[i] = update(jobl, jobr, 1, n, root[i]);
+	public static void outerAdd(int jobl, int jobr, int jobk, int l, int r, int i) {
+		root[i] = innerAdd(jobl, jobr, 1, n, root[i]);
 		if (l < r) {
 			int mid = (l + r) / 2;
 			if (jobk <= mid) {
-				add(jobl, jobr, jobk, l, mid, i << 1);
+				outerAdd(jobl, jobr, jobk, l, mid, i << 1);
 			} else {
-				add(jobl, jobr, jobk, mid + 1, r, i << 1 | 1);
+				outerAdd(jobl, jobr, jobk, mid + 1, r, i << 1 | 1);
 			}
 		}
 	}
 
-	public static int query(int jobl, int jobr, long jobk, int l, int r, int i) {
+	public static int outerQuery(int jobl, int jobr, long jobk, int l, int r, int i) {
 		if (l == r) {
 			return l;
 		}
 		int mid = (l + r) / 2;
-		long rightsum = querySum(jobl, jobr, 1, n, root[i << 1 | 1]);
+		long rightsum = innerQuery(jobl, jobr, 1, n, root[i << 1 | 1]);
 		if (jobk > rightsum) {
-			return query(jobl, jobr, jobk - rightsum, l, mid, i << 1);
+			return outerQuery(jobl, jobr, jobk - rightsum, l, mid, i << 1);
 		} else {
-			return query(jobl, jobr, jobk, mid + 1, r, i << 1 | 1);
+			return outerQuery(jobl, jobr, jobk, mid + 1, r, i << 1 | 1);
 		}
 	}
 
@@ -179,9 +179,9 @@ public class Code02_QueryKthMaximum1 {
 		prepare();
 		for (int i = 1; i <= m; i++) {
 			if (ques[i][0] == 1) {
-				add(ques[i][1], ques[i][2], ques[i][3], 1, s, 1);
+				outerAdd(ques[i][1], ques[i][2], ques[i][3], 1, s, 1);
 			} else {
-				int idx = query(ques[i][1], ques[i][2], ques[i][3], 1, s, 1);
+				int idx = outerQuery(ques[i][1], ques[i][2], ques[i][3], 1, s, 1);
 				out.println(sorted[idx]);
 			}
 		}

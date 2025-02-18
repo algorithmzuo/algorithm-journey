@@ -14,9 +14,13 @@ import java.io.StreamTokenizer;
 public class Code03_SegmentWithBalanced1 {
 
 	public static int MAXN = 50001;
+
 	public static int MAXT = MAXN * 40;
+
 	public static int INF = Integer.MAX_VALUE;
+
 	public static double ALPHA = 0.7;
+
 	public static int n, m;
 
 	// 原始数组
@@ -27,15 +31,22 @@ public class Code03_SegmentWithBalanced1 {
 
 	// 替罪羊树需要
 	public static int[] key = new int[MAXT];
+
 	public static int[] cnts = new int[MAXT];
+
 	public static int[] left = new int[MAXT];
+
 	public static int[] right = new int[MAXT];
+
 	public static int[] size = new int[MAXT];
+
 	public static int[] diff = new int[MAXT];
+
 	public static int cnt = 0;
 
 	// rebuild用到的中序收集数组
 	public static int[] collect = new int[MAXT];
+
 	public static int ci;
 
 	// 最上方的失衡点、失衡点的父节点、失衡点的方向
@@ -53,6 +64,10 @@ public class Code03_SegmentWithBalanced1 {
 		diff[i] = diff[left[i]] + diff[right[i]] + (cnts[i] > 0 ? 1 : 0);
 	}
 
+	public static boolean balance(int i) {
+		return i == 0 || ALPHA * diff[i] >= Math.max(diff[left[i]], diff[right[i]]);
+	}
+
 	public static void inorder(int i) {
 		if (i != 0) {
 			inorder(left[i]);
@@ -63,49 +78,45 @@ public class Code03_SegmentWithBalanced1 {
 		}
 	}
 
-	public static int build(int l, int r) {
+	public static int innerBuild(int l, int r) {
 		if (l > r) {
 			return 0;
 		}
 		int m = (l + r) >> 1;
 		int h = collect[m];
-		left[h] = build(l, m - 1);
-		right[h] = build(m + 1, r);
+		left[h] = innerBuild(l, m - 1);
+		right[h] = innerBuild(m + 1, r);
 		up(h);
 		return h;
 	}
 
-	public static int rebuild(int i) {
+	public static int innerRebuild(int i) {
 		if (top != 0) {
 			ci = 0;
 			inorder(top);
 			if (ci > 0) {
 				if (father == 0) {
-					i = build(1, ci);
+					i = innerBuild(1, ci);
 				} else if (side == 1) {
-					left[father] = build(1, ci);
+					left[father] = innerBuild(1, ci);
 				} else {
-					right[father] = build(1, ci);
+					right[father] = innerBuild(1, ci);
 				}
 			}
 		}
 		return i;
 	}
 
-	public static boolean balance(int i) {
-		return i == 0 || ALPHA * diff[i] >= Math.max(diff[left[i]], diff[right[i]]);
-	}
-
-	public static int insertNumber(int num, int i, int f, int s) {
+	public static int innerInsert(int num, int i, int f, int s) {
 		if (i == 0) {
 			i = init(num);
 		} else {
 			if (key[i] == num) {
 				cnts[i]++;
 			} else if (key[i] > num) {
-				left[i] = insertNumber(num, left[i], i, 1);
+				left[i] = innerInsert(num, left[i], i, 1);
 			} else {
-				right[i] = insertNumber(num, right[i], i, 2);
+				right[i] = innerInsert(num, right[i], i, 2);
 			}
 			up(i);
 			if (!balance(i)) {
@@ -117,60 +128,60 @@ public class Code03_SegmentWithBalanced1 {
 		return i;
 	}
 
-	public static int insertNumber(int num, int i) {
+	public static int innerInsert(int num, int i) {
 		top = father = side = 0;
-		i = insertNumber(num, i, 0, 0);
-		i = rebuild(i);
+		i = innerInsert(num, i, 0, 0);
+		i = innerRebuild(i);
 		return i;
 	}
 
-	public static int querySmall(int num, int i) {
+	public static int innerSmall(int num, int i) {
 		if (i == 0) {
 			return 0;
 		}
 		if (key[i] >= num) {
-			return querySmall(num, left[i]);
+			return innerSmall(num, left[i]);
 		} else {
-			return size[left[i]] + cnts[i] + querySmall(num, right[i]);
+			return size[left[i]] + cnts[i] + innerSmall(num, right[i]);
 		}
 	}
 
-	public static int queryIndex(int index, int i) {
+	public static int innerIndex(int index, int i) {
 		int leftsize = size[left[i]];
 		if (leftsize >= index) {
-			return queryIndex(index, left[i]);
+			return innerIndex(index, left[i]);
 		} else if (leftsize + cnts[i] < index) {
-			return queryIndex(index - leftsize - cnts[i], right[i]);
+			return innerIndex(index - leftsize - cnts[i], right[i]);
 		} else {
 			return key[i];
 		}
 	}
 
-	public static int queryPre(int num, int i) {
-		int kth = querySmall(num, i) + 1;
+	public static int innerPre(int num, int i) {
+		int kth = innerSmall(num, i) + 1;
 		if (kth == 1) {
 			return -INF;
 		} else {
-			return queryIndex(kth - 1, i);
+			return innerIndex(kth - 1, i);
 		}
 	}
 
-	public static int queryPost(int num, int i) {
-		int kth = querySmall(num + 1, i);
+	public static int innerPost(int num, int i) {
+		int kth = innerSmall(num + 1, i);
 		if (kth == size[i]) {
 			return INF;
 		} else {
-			return queryIndex(kth + 1, i);
+			return innerIndex(kth + 1, i);
 		}
 	}
 
-	public static void removeNumber(int num, int i, int f, int s) {
+	public static void innerRemove(int num, int i, int f, int s) {
 		if (key[i] == num) {
 			cnts[i]--;
 		} else if (key[i] > num) {
-			removeNumber(num, left[i], i, 1);
+			innerRemove(num, left[i], i, 1);
 		} else {
-			removeNumber(num, right[i], i, 2);
+			innerRemove(num, right[i], i, 2);
 		}
 		up(i);
 		if (!balance(i)) {
@@ -180,18 +191,18 @@ public class Code03_SegmentWithBalanced1 {
 		}
 	}
 
-	public static int removeNumber(int num, int i) {
-		if (querySmall(num, i) != querySmall(num + 1, i)) {
+	public static int innerRemove(int num, int i) {
+		if (innerSmall(num, i) != innerSmall(num + 1, i)) {
 			top = father = side = 0;
-			removeNumber(num, i, 0, 0);
-			i = rebuild(i);
+			innerRemove(num, i, 0, 0);
+			i = innerRebuild(i);
 		}
 		return i;
 	}
 
 	public static void build(int l, int r, int i) {
 		for (int j = l; j <= r; j++) {
-			root[i] = insertNumber(arr[j], root[i]);
+			root[i] = innerInsert(arr[j], root[i]);
 		}
 		if (l < r) {
 			int mid = (l + r) >> 1;
@@ -201,8 +212,8 @@ public class Code03_SegmentWithBalanced1 {
 	}
 
 	public static void update(int jobi, int jobv, int l, int r, int i) {
-		root[i] = removeNumber(arr[jobi], root[i]);
-		root[i] = insertNumber(jobv, root[i]);
+		root[i] = innerRemove(arr[jobi], root[i]);
+		root[i] = innerInsert(jobv, root[i]);
 		if (l < r) {
 			int mid = (l + r) >> 1;
 			if (jobi <= mid) {
@@ -215,7 +226,7 @@ public class Code03_SegmentWithBalanced1 {
 
 	public static int small(int jobl, int jobr, int jobv, int l, int r, int i) {
 		if (jobl <= l && r <= jobr) {
-			return querySmall(jobv, root[i]);
+			return innerSmall(jobv, root[i]);
 		}
 		int mid = (l + r) >> 1;
 		int ans = 0;
@@ -244,7 +255,7 @@ public class Code03_SegmentWithBalanced1 {
 
 	public static int pre(int jobl, int jobr, int jobv, int l, int r, int i) {
 		if (jobl <= l && r <= jobr) {
-			return queryPre(jobv, root[i]);
+			return innerPre(jobv, root[i]);
 		}
 		int mid = (l + r) >> 1;
 		int ans = -INF;
@@ -259,7 +270,7 @@ public class Code03_SegmentWithBalanced1 {
 
 	public static int post(int jobl, int jobr, int jobv, int l, int r, int i) {
 		if (jobl <= l && r <= jobr) {
-			return queryPost(jobv, root[i]);
+			return innerPost(jobv, root[i]);
 		}
 		int mid = (l + r) >> 1;
 		int ans = INF;
