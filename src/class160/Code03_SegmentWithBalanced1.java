@@ -1,6 +1,15 @@
 package class160;
 
 // 线段树套平衡树，java版
+// 给定一个长度为n的数组arr，下标1~n
+// 每条操作都是如下5种类型中的一种，一共进行m次操作
+// 操作 1 x y z : 查询数字z在arr[x..y]中的排名
+// 操作 2 x y z : 查询arr[x..y]中排第z名的数字
+// 操作 3 x y   : arr中x位置的数字改成y
+// 操作 4 x y z : 查询数字z在arr[x..y]中的前驱，不存在返回-2147483647
+// 操作 5 x y z : 查询数字z在arr[x..y]中的后继，不存在返回+2147483647
+// 1 <= n、m <= 5 * 10^4
+// 数组中的值永远在[0, 10^8]范围内
 // 测试链接 : https://www.luogu.com.cn/problem/P3380
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
@@ -240,14 +249,14 @@ public class Code03_SegmentWithBalanced1 {
 	}
 
 	public static int number(int jobl, int jobr, int jobk) {
-		int L = 0, R = 100000000, mid, ans = 0;
-		while (L <= R) {
-			mid = (L + R) >> 1;
+		int l = 0, r = 100000000, mid, ans = 0;
+		while (l <= r) {
+			mid = (l + r) >> 1;
 			if (small(jobl, jobr, mid + 1, 1, n, 1) >= jobk) {
 				ans = mid;
-				R = mid - 1;
+				r = mid - 1;
 			} else {
-				L = mid + 1;
+				l = mid + 1;
 			}
 		}
 		return ans;
