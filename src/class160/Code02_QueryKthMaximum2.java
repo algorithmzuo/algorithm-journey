@@ -26,7 +26,7 @@ package class160;
 //int rs[MAXT];
 //long long sum[MAXT];
 //int lazy[MAXT];
-//int cntt;
+//int cnt;
 //
 //int kth(int num) {
 //    int l = 1, r = s;
@@ -49,8 +49,8 @@ package class160;
 //
 //void down(int i, int ln, int rn) {
 //    if (lazy[i]) {
-//        if (!ls[i]) ls[i] = ++cntt;
-//        if (!rs[i]) rs[i] = ++cntt;
+//        if (!ls[i]) ls[i] = ++cnt;
+//        if (!rs[i]) rs[i] = ++cnt;
 //        sum[ls[i]] += 1LL * lazy[i] * ln;
 //        lazy[ls[i]] += lazy[i];
 //        sum[rs[i]] += 1LL * lazy[i] * rn;
@@ -60,7 +60,7 @@ package class160;
 //}
 //
 //int innerAdd(int jobl, int jobr, int l, int r, int i) {
-//    if (!i) i = ++cntt;
+//    if (!i) i = ++cnt;
 //    if (jobl <= l && r <= jobr) {
 //        sum[i] += (long long)(r - l + 1);
 //        lazy[i]++;

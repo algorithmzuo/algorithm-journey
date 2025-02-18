@@ -40,7 +40,7 @@ public class Code02_QueryKthMaximum1 {
 
 	public static int[] lazy = new int[MAXT];
 
-	public static int cntt;
+	public static int cnt;
 
 	public static int kth(int num) {
 		int left = 1, right = s, mid;
@@ -64,10 +64,10 @@ public class Code02_QueryKthMaximum1 {
 	public static void down(int i, int ln, int rn) {
 		if (lazy[i] != 0) {
 			if (left[i] == 0) {
-				left[i] = ++cntt;
+				left[i] = ++cnt;
 			}
 			if (right[i] == 0) {
-				right[i] = ++cntt;
+				right[i] = ++cnt;
 			}
 			sum[left[i]] += lazy[i] * ln;
 			lazy[left[i]] += lazy[i];
@@ -79,7 +79,7 @@ public class Code02_QueryKthMaximum1 {
 
 	public static int innerAdd(int jobl, int jobr, int l, int r, int i) {
 		if (i == 0) {
-			i = ++cntt;
+			i = ++cnt;
 		}
 		if (jobl <= l && r <= jobr) {
 			sum[i] += r - l + 1;
