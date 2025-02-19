@@ -229,19 +229,19 @@ package class160;
 //    ios::sync_with_stdio(false);
 //    cin.tie(nullptr);
 //    cin >> n >> m;
-//    for(int i=1;i<=n;i++) cin >> arr[i];
-//    build(1,n,1);
-//    for(int i=1,op,x,y,z;i<=m;i++){
+//    for(int i = 1; i <= n; i++) cin >> arr[i];
+//    build(1, n, 1);
+//    for(int i = 1, op, x, y, z; i <= m; i++) {
 //        cin >> op >> x >> y;
-//        if(op==3){
-//            update(x,y,1,n,1);
-//            arr[x]=y;
+//        if(op == 3) {
+//            update(x, y, 1, n, 1);
+//            arr[x] = y;
 //        } else {
 //            cin >> z;
-//            if(op==1) cout << small(x,y,z,1,n,1)+1 << "\n";
-//            else if(op==2) cout << number(x,y,z) << "\n";
-//            else if(op==4) cout << pre(x,y,z,1,n,1) << "\n";
-//            else cout << post(x,y,z,1,n,1) << "\n";
+//            if(op == 1) cout << small(x, y, z, 1, n, 1) + 1 << "\n";
+//            else if(op == 2) cout << number(x, y, z) << "\n";
+//            else if(op == 4) cout << pre(x, y, z, 1, n, 1) << "\n";
+//            else cout << post(x, y, z, 1, n, 1) << "\n";
 //        }
 //    }
 //    return 0;

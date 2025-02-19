@@ -25,25 +25,27 @@ package class160;
 //int arr[MAXN];
 //int ques[MAXN][4];
 //int sorted[MAXN * 2];
-//
 //int root[MAXN];
 //int sum[MAXT];
 //int ls[MAXT];
 //int rs[MAXT];
-//int cntt;
-//
+//int cntt = 0;
 //int addTree[MAXN];
 //int minusTree[MAXN];
 //int cntadd;
 //int cntminus;
 //
 //int kth(int num) {
-//    int l = 1, r = s;
-//    while (l <= r) {
-//        int mid = (l + r) >> 1;
-//        if (sorted[mid] == num) return mid;
-//        if (sorted[mid] < num) l = mid + 1;
-//        else r = mid - 1;
+//    int left = 1, right = s, mid;
+//    while (left <= right) {
+//        mid = (left + right) / 2;
+//        if (sorted[mid] == num) {
+//            return mid;
+//        } else if (sorted[mid] < num) {
+//            left = mid + 1;
+//        } else {
+//            right = mid - 1;
+//        }
 //    }
 //    return -1;
 //}
@@ -53,15 +55,17 @@ package class160;
 //}
 //
 //int innerAdd(int jobi, int jobv, int l, int r, int i) {
-//    if (!i) i = ++cntt;
+//    if (i == 0) {
+//        i = ++cntt;
+//    }
 //    if (l == r) {
 //        sum[i] += jobv;
 //    } else {
-//        int mid = (l + r) >> 1;
+//        int mid = (l + r) / 2;
 //        if (jobi <= mid) {
-//            ls[i] = innerAdd(jobi, jobv, l, mid, ls[i]);
+//        	ls[i] = innerAdd(jobi, jobv, l, mid, ls[i]);
 //        } else {
-//            rs[i] = innerAdd(jobi, jobv, mid + 1, r, rs[i]);
+//        	rs[i] = innerAdd(jobi, jobv, mid + 1, r, rs[i]);
 //        }
 //        sum[i] = sum[ls[i]] + sum[rs[i]];
 //    }
@@ -69,8 +73,10 @@ package class160;
 //}
 //
 //int innerQuery(int jobk, int l, int r) {
-//    if (l == r) return l;
-//    int mid = (l + r) >> 1;
+//    if (l == r) {
+//        return l;
+//    }
+//    int mid = (l + r) / 2;
 //    int leftsum = 0;
 //    for (int i = 1; i <= cntadd; i++) {
 //        leftsum += sum[ls[addTree[i]]];
@@ -98,8 +104,10 @@ package class160;
 //}
 //
 //int innerSmall(int jobi, int l, int r) {
-//    if (l == r) return 0;
-//    int mid = (l + r) >> 1;
+//    if (l == r) {
+//        return 0;
+//    }
+//    int mid = (l + r) / 2;
 //    if (jobi <= mid) {
 //        for (int i = 1; i <= cntadd; i++) {
 //            addTree[i] = ls[addTree[i]];
@@ -122,13 +130,30 @@ package class160;
 //    }
 //}
 //
-//void outerAdd(int i, int v) {
+//void add(int i, int cnt) {
 //    for (int j = i; j <= n; j += lowbit(j)) {
-//        root[j] = innerAdd(arr[i], v, 1, s, root[j]);
+//        root[j] = innerAdd(arr[i], cnt, 1, s, root[j]);
 //    }
 //}
 //
-//int outerQuery(int l, int r, int k) {
+//void update(int i, int v) {
+//    add(i, -1);
+//    arr[i] = kth(v);
+//    add(i, 1);
+//}
+//
+//int small(int l, int r, int v) {
+//    cntadd = cntminus = 0;
+//    for (int i = r; i > 0; i -= lowbit(i)) {
+//        addTree[++cntadd] = root[i];
+//    }
+//    for (int i = l - 1; i > 0; i -= lowbit(i)) {
+//        minusTree[++cntminus] = root[i];
+//    }
+//    return innerSmall(v, 1, s);
+//}
+//
+//int number(int l, int r, int k) {
 //    cntadd = cntminus = 0;
 //    for (int i = r; i > 0; i -= lowbit(i)) {
 //        addTree[++cntadd] = root[i];
@@ -139,69 +164,85 @@ package class160;
 //    return sorted[innerQuery(k, 1, s)];
 //}
 //
-//int outerRank(int l, int r, int v) {
-//    cntadd = cntminus = 0;
-//    for (int i = r; i > 0; i -= lowbit(i)) {
-//        addTree[++cntadd] = root[i];
+//int pre(int l, int r, int v) {
+//    int rank = small(l, r, v) + 1;
+//    if (rank == 1) {
+//        return -INF;
 //    }
-//    for (int i = l - 1; i > 0; i -= lowbit(i)) {
-//        minusTree[++cntminus] = root[i];
-//    }
-//    return innerSmall(v, 1, s) + 1;
+//    return number(l, r, rank - 1);
 //}
 //
-//int outerPre(int l, int r, int v) {
-//    int rk = outerRank(l, r, v);
-//    return (rk == 1) ? -INF : outerQuery(l, r, rk - 1);
-//}
-//
-//int outerPost(int l, int r, int v) {
-//    if (v == s) return INF;
-//    int rk = outerRank(l, r, v + 1);
-//    return (rk == r - l + 2) ? INF : outerQuery(l, r, rk);
+//int post(int l, int r, int v) {
+//    if (v == s) {
+//        return INF;
+//    }
+//    int rank = small(l, r, v + 1) + 1;
+//    if (rank == r - l + 2) {
+//        return INF;
+//    }
+//    return number(l, r, rank);
 //}
 //
 //void prepare() {
 //    s = 0;
-//    for (int i = 1; i <= n; i++) sorted[++s] = arr[i];
+//    for (int i = 1; i <= n; i++) {
+//        sorted[++s] = arr[i];
+//    }
 //    for (int i = 1; i <= m; i++) {
-//        if (ques[i][0] == 3) sorted[++s] = ques[i][2];
-//        else if (ques[i][0] != 2) sorted[++s] = ques[i][3];
+//        if (ques[i][0] == 3) {
+//            sorted[++s] = ques[i][2];
+//        } else if (ques[i][0] != 2) {
+//            sorted[++s] = ques[i][3];
+//        }
 //    }
 //    sort(sorted + 1, sorted + s + 1);
 //    int len = 1;
-//    for (int i = 2; i <= s; i++)
-//        if (sorted[len] != sorted[i]) sorted[++len] = sorted[i];
+//    for (int i = 2; i <= s; i++) {
+//        if (sorted[len] != sorted[i]) {
+//            sorted[++len] = sorted[i];
+//        }
+//    }
 //    s = len;
 //    for (int i = 1; i <= n; i++) {
 //        arr[i] = kth(arr[i]);
-//        outerAdd(i, 1);
+//        add(i, 1);
 //    }
 //}
 //
 //int main() {
 //    ios::sync_with_stdio(false);
 //    cin.tie(nullptr);
-//    cin >> n >> m;
-//    for (int i = 1; i <= n; i++) cin >> arr[i];
+//    cin >> n;
+//    cin >> m;
+//    for (int i = 1; i <= n; i++) {
+//        cin >> arr[i];
+//    }
 //    for (int i = 1; i <= m; i++) {
-//        cin >> ques[i][0] >> ques[i][1] >> ques[i][2];
-//        if (ques[i][0] != 3) cin >> ques[i][3];
+//        cin >> ques[i][0];
+//        cin >> ques[i][1];
+//        cin >> ques[i][2];
+//        if (ques[i][0] != 3) {
+//            cin >> ques[i][3];
+//        }
 //    }
 //    prepare();
-//    for (int i = 1; i <= m; i++) {
-//        if (ques[i][0] == 1) {
-//            cout << outerRank(ques[i][1], ques[i][2], kth(ques[i][3])) << "\n";
-//        } else if (ques[i][0] == 2) {
-//            cout << outerQuery(ques[i][1], ques[i][2], ques[i][3]) << "\n";
-//        } else if (ques[i][0] == 3) {
-//            outerAdd(ques[i][1], -1);
-//            arr[ques[i][1]] = kth(ques[i][2]);
-//            outerAdd(ques[i][1], 1);
-//        } else if (ques[i][0] == 4) {
-//            cout << outerPre(ques[i][1], ques[i][2], kth(ques[i][3])) << "\n";
+//    for (int i = 1, op, x, y, z; i <= m; i++) {
+//        op = ques[i][0];
+//        x = ques[i][1];
+//        y = ques[i][2];
+//        if (op == 3) {
+//            update(x, y);
 //        } else {
-//            cout << outerPost(ques[i][1], ques[i][2], kth(ques[i][3])) << "\n";
+//            z = ques[i][3];
+//            if (op == 1) {
+//                cout << small(x, y, kth(z)) + 1 << "\n";
+//            } else if (op == 2) {
+//                cout << number(x, y, z) << "\n";
+//            } else if (op == 4) {
+//                cout << pre(x, y, kth(z)) << "\n";
+//            } else {
+//                cout << post(x, y, kth(z)) << "\n";
+//            }
 //        }
 //    }
 //    return 0;

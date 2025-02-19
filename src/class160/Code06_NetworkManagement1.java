@@ -339,15 +339,18 @@ public class Code06_NetworkManagement1 {
 			ques[i][2] = (int) in.nval;
 		}
 		prepare();
-		for (int i = 1; i <= m; i++) {
-			if (ques[i][0] == 0) {
-				update(ques[i][1], ques[i][2]);
+		for (int i = 1, k, x, y; i <= m; i++) {
+			k = ques[i][0];
+			x = ques[i][1];
+			y = ques[i][2];
+			if (k == 0) {
+				update(x, y);
 			} else {
-				int ans = query(ques[i][1], ques[i][2], ques[i][0]);
-				if (ans == -1) {
+				int idx = query(x, y, k);
+				if (idx == -1) {
 					out.println("invalid request!");
 				} else {
-					out.println(sorted[ans]);
+					out.println(sorted[idx]);
 				}
 			}
 		}

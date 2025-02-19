@@ -150,13 +150,30 @@ public class Code04_IndexWithSegment1 {
 		}
 	}
 
-	public static void outerAdd(int i, int v) {
+	public static void add(int i, int cnt) {
 		for (int j = i; j <= n; j += lowbit(j)) {
-			root[j] = innerAdd(arr[i], v, 1, s, root[j]);
+			root[j] = innerAdd(arr[i], cnt, 1, s, root[j]);
 		}
 	}
 
-	public static int outerQuery(int l, int r, int k) {
+	public static void update(int i, int v) {
+		add(i, -1);
+		arr[i] = kth(v);
+		add(i, 1);
+	}
+
+	public static int small(int l, int r, int v) {
+		cntadd = cntminus = 0;
+		for (int i = r; i > 0; i -= lowbit(i)) {
+			addTree[++cntadd] = root[i];
+		}
+		for (int i = l - 1; i > 0; i -= lowbit(i)) {
+			minusTree[++cntminus] = root[i];
+		}
+		return innerSmall(v, 1, s);
+	}
+
+	public static int number(int l, int r, int k) {
 		cntadd = cntminus = 0;
 		for (int i = r; i > 0; i -= lowbit(i)) {
 			addTree[++cntadd] = root[i];
@@ -167,34 +184,23 @@ public class Code04_IndexWithSegment1 {
 		return sorted[innerQuery(k, 1, s)];
 	}
 
-	public static int outerRank(int l, int r, int v) {
-		cntadd = cntminus = 0;
-		for (int i = r; i > 0; i -= lowbit(i)) {
-			addTree[++cntadd] = root[i];
-		}
-		for (int i = l - 1; i > 0; i -= lowbit(i)) {
-			minusTree[++cntminus] = root[i];
-		}
-		return innerSmall(v, 1, s) + 1;
-	}
-
-	public static int outerPre(int l, int r, int v) {
-		int rank = outerRank(l, r, v);
+	public static int pre(int l, int r, int v) {
+		int rank = small(l, r, v) + 1;
 		if (rank == 1) {
 			return -INF;
 		}
-		return outerQuery(l, r, rank - 1);
+		return number(l, r, rank - 1);
 	}
 
-	public static int outerPost(int l, int r, int v) {
+	public static int post(int l, int r, int v) {
 		if (v == s) {
 			return INF;
 		}
-		int rank = outerRank(l, r, v + 1);
+		int rank = small(l, r, v + 1) + 1;
 		if (rank == r - l + 2) {
 			return INF;
 		}
-		return outerQuery(l, r, rank);
+		return number(l, r, rank);
 	}
 
 	public static void prepare() {
@@ -219,7 +225,7 @@ public class Code04_IndexWithSegment1 {
 		s = len;
 		for (int i = 1; i <= n; i++) {
 			arr[i] = kth(arr[i]);
-			outerAdd(i, 1);
+			add(i, 1);
 		}
 	}
 
@@ -248,19 +254,23 @@ public class Code04_IndexWithSegment1 {
 			}
 		}
 		prepare();
-		for (int i = 1; i <= m; i++) {
-			if (ques[i][0] == 1) {
-				out.println(outerRank(ques[i][1], ques[i][2], kth(ques[i][3])));
-			} else if (ques[i][0] == 2) {
-				out.println(outerQuery(ques[i][1], ques[i][2], ques[i][3]));
-			} else if (ques[i][0] == 3) {
-				outerAdd(ques[i][1], -1);
-				arr[ques[i][1]] = kth(ques[i][2]);
-				outerAdd(ques[i][1], 1);
-			} else if (ques[i][0] == 4) {
-				out.println(outerPre(ques[i][1], ques[i][2], kth(ques[i][3])));
+		for (int i = 1, op, x, y, z; i <= m; i++) {
+			op = ques[i][0];
+			x = ques[i][1];
+			y = ques[i][2];
+			if (op == 3) {
+				update(x, y);
 			} else {
-				out.println(outerPost(ques[i][1], ques[i][2], kth(ques[i][3])));
+				z = ques[i][3];
+				if (op == 1) {
+					out.println(small(x, y, kth(z)) + 1);
+				} else if (op == 2) {
+					out.println(number(x, y, z));
+				} else if (op == 4) {
+					out.println(pre(x, y, kth(z)));
+				} else {
+					out.println(post(x, y, kth(z)));
+				}
 			}
 		}
 		out.flush();
