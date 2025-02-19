@@ -1,32 +1,29 @@
 package class160;
 
-// 树状数组套线段树，java版
-// 给定一个长度为n的数组arr，下标1~n，每条操作都是如下5种类型中的一种，一共进行m次操作
-// 操作 1 x y z : 查询数字z在arr[x..y]中的排名
-// 操作 2 x y z : 查询arr[x..y]中排第z名的数字
-// 操作 3 x y   : arr中x位置的数字改成y
-// 操作 4 x y z : 查询数字z在arr[x..y]中的前驱，不存在返回-2147483647
-// 操作 5 x y z : 查询数字z在arr[x..y]中的后继，不存在返回+2147483647
-// 1 <= n、m <= 5 * 10^4
-// 数组中的值永远在[0, 10^8]范围内
-// 测试链接 : https://www.luogu.com.cn/problem/P3380
+// 动态排名，java版
+// 给定一个长度为n的数组arr，下标1~n，每条操作都是如下2种类型中的一种，一共进行m次操作
+// 操作 Q x y z : 查询arr[x..y]中排第z名的数字
+// 操作 C x y   : arr中x位置的数字改成y
+// 1 <= n、m <= 10^5
+// 数组中的值永远在[0, 10^9]范围内
+// 测试链接 : https://www.luogu.com.cn/problem/P2617
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
 import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
+import java.io.OutputStream;
 import java.io.PrintWriter;
-import java.io.StreamTokenizer;
 import java.util.Arrays;
+import java.util.StringTokenizer;
 
-public class Code04_IndexWithSegment1 {
+public class Code05_DynamicRankings1 {
 
-	public static int MAXN = 50001;
+	public static int MAXN = 100001;
 
-	public static int MAXT = MAXN * 160;
-
-	public static int INF = Integer.MAX_VALUE;
+	public static int MAXT = MAXN * 130;
 
 	public static int n, m, s;
 
@@ -122,33 +119,6 @@ public class Code04_IndexWithSegment1 {
 		}
 	}
 
-	public static int innerSmall(int jobi, int l, int r) {
-		if (l == r) {
-			return 0;
-		}
-		int mid = (l + r) / 2;
-		if (jobi <= mid) {
-			for (int i = 1; i <= cntadd; i++) {
-				addTree[i] = left[addTree[i]];
-			}
-			for (int i = 1; i <= cntminus; i++) {
-				minusTree[i] = left[minusTree[i]];
-			}
-			return innerSmall(jobi, l, mid);
-		} else {
-			int leftsum = 0;
-			for (int i = 1; i <= cntadd; i++) {
-				leftsum += sum[left[addTree[i]]];
-				addTree[i] = right[addTree[i]];
-			}
-			for (int i = 1; i <= cntminus; i++) {
-				leftsum -= sum[left[minusTree[i]]];
-				minusTree[i] = right[minusTree[i]];
-			}
-			return leftsum + innerSmall(jobi, mid + 1, r);
-		}
-	}
-
 	public static void add(int i, int cnt) {
 		for (int j = i; j <= n; j += lowbit(j)) {
 			root[j] = innerAdd(arr[i], cnt, 1, s, root[j]);
@@ -159,17 +129,6 @@ public class Code04_IndexWithSegment1 {
 		add(i, -1);
 		arr[i] = kth(v);
 		add(i, 1);
-	}
-
-	public static int small(int l, int r, int v) {
-		cntadd = cntminus = 0;
-		for (int i = r; i > 0; i -= lowbit(i)) {
-			addTree[++cntadd] = root[i];
-		}
-		for (int i = l - 1; i > 0; i -= lowbit(i)) {
-			minusTree[++cntminus] = root[i];
-		}
-		return innerSmall(v, 1, s);
 	}
 
 	public static int number(int l, int r, int k) {
@@ -183,35 +142,14 @@ public class Code04_IndexWithSegment1 {
 		return sorted[innerQuery(k, 1, s)];
 	}
 
-	public static int pre(int l, int r, int v) {
-		int rank = small(l, r, v) + 1;
-		if (rank == 1) {
-			return -INF;
-		}
-		return number(l, r, rank - 1);
-	}
-
-	public static int post(int l, int r, int v) {
-		if (v == s) {
-			return INF;
-		}
-		int rank = small(l, r, v + 1) + 1;
-		if (rank == r - l + 2) {
-			return INF;
-		}
-		return number(l, r, rank);
-	}
-
 	public static void prepare() {
 		s = 0;
 		for (int i = 1; i <= n; i++) {
 			sorted[++s] = arr[i];
 		}
 		for (int i = 1; i <= m; i++) {
-			if (ques[i][0] == 3) {
+			if (ques[i][0] == 2) {
 				sorted[++s] = ques[i][2];
-			} else if (ques[i][0] != 2) {
-				sorted[++s] = ques[i][3];
 			}
 		}
 		Arrays.sort(sorted, 1, s + 1);
@@ -228,28 +166,19 @@ public class Code04_IndexWithSegment1 {
 		}
 	}
 
-	public static void main(String[] args) throws IOException {
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StreamTokenizer in = new StreamTokenizer(br);
-		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
-		in.nextToken();
-		n = (int) in.nval;
-		in.nextToken();
-		m = (int) in.nval;
+	public static void main(String[] args) {
+		Kattio io = new Kattio();
+		n = io.nextInt();
+		m = io.nextInt();
 		for (int i = 1; i <= n; i++) {
-			in.nextToken();
-			arr[i] = (int) in.nval;
+			arr[i] = io.nextInt();
 		}
 		for (int i = 1; i <= m; i++) {
-			in.nextToken();
-			ques[i][0] = (int) in.nval;
-			in.nextToken();
-			ques[i][1] = (int) in.nval;
-			in.nextToken();
-			ques[i][2] = (int) in.nval;
-			if (ques[i][0] != 3) {
-				in.nextToken();
-				ques[i][3] = (int) in.nval;
+			ques[i][0] = io.next().equals("Q") ? 1 : 2;
+			ques[i][1] = io.nextInt();
+			ques[i][2] = io.nextInt();
+			if (ques[i][0] == 1) {
+				ques[i][3] = io.nextInt();
 			}
 		}
 		prepare();
@@ -257,24 +186,57 @@ public class Code04_IndexWithSegment1 {
 			op = ques[i][0];
 			x = ques[i][1];
 			y = ques[i][2];
-			if (op == 3) {
-				update(x, y);
-			} else {
+			if (op == 1) {
 				z = ques[i][3];
-				if (op == 1) {
-					out.println(small(x, y, kth(z)) + 1);
-				} else if (op == 2) {
-					out.println(number(x, y, z));
-				} else if (op == 4) {
-					out.println(pre(x, y, kth(z)));
-				} else {
-					out.println(post(x, y, kth(z)));
-				}
+				io.println(number(x, y, z));
+			} else {
+				update(x, y);
 			}
 		}
-		out.flush();
-		out.close();
-		br.close();
+		io.flush();
+		io.close();
+	}
+
+	// 读写工具类
+	public static class Kattio extends PrintWriter {
+		private BufferedReader r;
+		private StringTokenizer st;
+
+		public Kattio() {
+			this(System.in, System.out);
+		}
+
+		public Kattio(InputStream i, OutputStream o) {
+			super(o);
+			r = new BufferedReader(new InputStreamReader(i));
+		}
+
+		public Kattio(String intput, String output) throws IOException {
+			super(output);
+			r = new BufferedReader(new FileReader(intput));
+		}
+
+		public String next() {
+			try {
+				while (st == null || !st.hasMoreTokens())
+					st = new StringTokenizer(r.readLine());
+				return st.nextToken();
+			} catch (Exception e) {
+			}
+			return null;
+		}
+
+		public int nextInt() {
+			return Integer.parseInt(next());
+		}
+
+		public double nextDouble() {
+			return Double.parseDouble(next());
+		}
+
+		public long nextLong() {
+			return Long.parseLong(next());
+		}
 	}
 
 }
