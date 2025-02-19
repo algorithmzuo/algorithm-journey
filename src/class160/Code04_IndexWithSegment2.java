@@ -32,9 +32,10 @@ package class160;
 //int rs[MAXT];
 //int cntt;
 //
-//int pos[MAXN];
-//int pre[MAXN];
-//int cntpos, cntpre;
+//int addTree[MAXN];
+//int minusTree[MAXN];
+//int cntadd;
+//int cntminus;
 //
 //int kth(int num) {
 //    int l = 1, r = s;
@@ -57,8 +58,11 @@ package class160;
 //        sum[i] += jobv;
 //    } else {
 //        int mid = (l + r) >> 1;
-//        if (jobi <= mid) ls[i] = innerAdd(jobi, jobv, l, mid, ls[i]);
-//        else rs[i] = innerAdd(jobi, jobv, mid + 1, r, rs[i]);
+//        if (jobi <= mid) {
+//            ls[i] = innerAdd(jobi, jobv, l, mid, ls[i]);
+//        } else {
+//            rs[i] = innerAdd(jobi, jobv, mid + 1, r, rs[i]);
+//        }
 //        sum[i] = sum[ls[i]] + sum[rs[i]];
 //    }
 //    return i;
@@ -68,37 +72,53 @@ package class160;
 //    if (l == r) return l;
 //    int mid = (l + r) >> 1;
 //    int leftsum = 0;
-//    for (int i = 1; i <= cntpos; i++) leftsum += sum[ls[pos[i]]];
-//    for (int i = 1; i <= cntpre; i++) leftsum -= sum[ls[pre[i]]];
+//    for (int i = 1; i <= cntadd; i++) {
+//        leftsum += sum[ls[addTree[i]]];
+//    }
+//    for (int i = 1; i <= cntminus; i++) {
+//        leftsum -= sum[ls[minusTree[i]]];
+//    }
 //    if (jobk <= leftsum) {
-//        for (int i = 1; i <= cntpos; i++) pos[i] = ls[pos[i]];
-//        for (int i = 1; i <= cntpre; i++) pre[i] = ls[pre[i]];
+//        for (int i = 1; i <= cntadd; i++) {
+//            addTree[i] = ls[addTree[i]];
+//        }
+//        for (int i = 1; i <= cntminus; i++) {
+//            minusTree[i] = ls[minusTree[i]];
+//        }
 //        return innerQuery(jobk, l, mid);
 //    } else {
-//        for (int i = 1; i <= cntpos; i++) pos[i] = rs[pos[i]];
-//        for (int i = 1; i <= cntpre; i++) pre[i] = rs[pre[i]];
+//        for (int i = 1; i <= cntadd; i++) {
+//            addTree[i] = rs[addTree[i]];
+//        }
+//        for (int i = 1; i <= cntminus; i++) {
+//            minusTree[i] = rs[minusTree[i]];
+//        }
 //        return innerQuery(jobk - leftsum, mid + 1, r);
 //    }
 //}
 //
-//int innerRank(int jobi, int l, int r) {
+//int innerSmall(int jobi, int l, int r) {
 //    if (l == r) return 0;
 //    int mid = (l + r) >> 1;
 //    if (jobi <= mid) {
-//        for (int i = 1; i <= cntpos; i++) pos[i] = ls[pos[i]];
-//        for (int i = 1; i <= cntpre; i++) pre[i] = ls[pre[i]];
-//        return innerRank(jobi, l, mid);
+//        for (int i = 1; i <= cntadd; i++) {
+//            addTree[i] = ls[addTree[i]];
+//        }
+//        for (int i = 1; i <= cntminus; i++) {
+//            minusTree[i] = ls[minusTree[i]];
+//        }
+//        return innerSmall(jobi, l, mid);
 //    } else {
 //        int leftsum = 0;
-//        for (int i = 1; i <= cntpos; i++) {
-//            leftsum += sum[ls[pos[i]]];
-//            pos[i] = rs[pos[i]];
+//        for (int i = 1; i <= cntadd; i++) {
+//            leftsum += sum[ls[addTree[i]]];
+//            addTree[i] = rs[addTree[i]];
 //        }
-//        for (int i = 1; i <= cntpre; i++) {
-//            leftsum -= sum[ls[pre[i]]];
-//            pre[i] = rs[pre[i]];
+//        for (int i = 1; i <= cntminus; i++) {
+//            leftsum -= sum[ls[minusTree[i]]];
+//            minusTree[i] = rs[minusTree[i]];
 //        }
-//        return leftsum + innerRank(jobi, mid + 1, r);
+//        return leftsum + innerSmall(jobi, mid + 1, r);
 //    }
 //}
 //
@@ -109,27 +129,35 @@ package class160;
 //}
 //
 //int outerQuery(int l, int r, int k) {
-//    cntpos = cntpre = 0;
-//    for (int i = r; i > 0; i -= lowbit(i)) pos[++cntpos] = root[i];
-//    for (int i = l - 1; i > 0; i -= lowbit(i)) pre[++cntpre] = root[i];
+//    cntadd = cntminus = 0;
+//    for (int i = r; i > 0; i -= lowbit(i)) {
+//        addTree[++cntadd] = root[i];
+//    }
+//    for (int i = l - 1; i > 0; i -= lowbit(i)) {
+//        minusTree[++cntminus] = root[i];
+//    }
 //    return sorted[innerQuery(k, 1, s)];
 //}
 //
-//int outerRank(int l, int r, int k) {
-//    cntpos = cntpre = 0;
-//    for (int i = r; i > 0; i -= lowbit(i)) pos[++cntpos] = root[i];
-//    for (int i = l - 1; i > 0; i -= lowbit(i)) pre[++cntpre] = root[i];
-//    return innerRank(k, 1, s) + 1;
+//int outerRank(int l, int r, int v) {
+//    cntadd = cntminus = 0;
+//    for (int i = r; i > 0; i -= lowbit(i)) {
+//        addTree[++cntadd] = root[i];
+//    }
+//    for (int i = l - 1; i > 0; i -= lowbit(i)) {
+//        minusTree[++cntminus] = root[i];
+//    }
+//    return innerSmall(v, 1, s) + 1;
 //}
 //
-//int outerPre(int l, int r, int k) {
-//    int rk = outerRank(l, r, k);
+//int outerPre(int l, int r, int v) {
+//    int rk = outerRank(l, r, v);
 //    return (rk == 1) ? -INF : outerQuery(l, r, rk - 1);
 //}
 //
-//int outerPost(int l, int r, int k) {
-//    if (k == s) return INF;
-//    int rk = outerRank(l, r, k + 1);
+//int outerPost(int l, int r, int v) {
+//    if (v == s) return INF;
+//    int rk = outerRank(l, r, v + 1);
 //    return (rk == r - l + 2) ? INF : outerQuery(l, r, rk);
 //}
 //

@@ -37,7 +37,6 @@ public class Code04_IndexWithSegment1 {
 
 	public static int[] sorted = new int[MAXN * 2];
 
-	// 注意这不是主席树！而是若干棵动态开点权值线段树！
 	public static int[] root = new int[MAXN];
 
 	public static int[] sum = new int[MAXT];
@@ -48,13 +47,13 @@ public class Code04_IndexWithSegment1 {
 
 	public static int cntt = 0;
 
-	public static int[] pos = new int[MAXN];
+	public static int[] addTree = new int[MAXN];
 
-	public static int[] pre = new int[MAXN];
+	public static int[] minusTree = new int[MAXN];
 
-	public static int cntpos;
+	public static int cntadd;
 
-	public static int cntpre;
+	public static int cntminus;
 
 	public static int kth(int num) {
 		int left = 1, right = s, mid;
@@ -99,55 +98,55 @@ public class Code04_IndexWithSegment1 {
 		}
 		int mid = (l + r) / 2;
 		int leftsum = 0;
-		for (int i = 1; i <= cntpos; i++) {
-			leftsum += sum[left[pos[i]]];
+		for (int i = 1; i <= cntadd; i++) {
+			leftsum += sum[left[addTree[i]]];
 		}
-		for (int i = 1; i <= cntpre; i++) {
-			leftsum -= sum[left[pre[i]]];
+		for (int i = 1; i <= cntminus; i++) {
+			leftsum -= sum[left[minusTree[i]]];
 		}
 		if (jobk <= leftsum) {
-			for (int i = 1; i <= cntpos; i++) {
-				pos[i] = left[pos[i]];
+			for (int i = 1; i <= cntadd; i++) {
+				addTree[i] = left[addTree[i]];
 			}
-			for (int i = 1; i <= cntpre; i++) {
-				pre[i] = left[pre[i]];
+			for (int i = 1; i <= cntminus; i++) {
+				minusTree[i] = left[minusTree[i]];
 			}
 			return innerQuery(jobk, l, mid);
 		} else {
-			for (int i = 1; i <= cntpos; i++) {
-				pos[i] = right[pos[i]];
+			for (int i = 1; i <= cntadd; i++) {
+				addTree[i] = right[addTree[i]];
 			}
-			for (int i = 1; i <= cntpre; i++) {
-				pre[i] = right[pre[i]];
+			for (int i = 1; i <= cntminus; i++) {
+				minusTree[i] = right[minusTree[i]];
 			}
 			return innerQuery(jobk - leftsum, mid + 1, r);
 		}
 	}
 
-	public static int innerRank(int jobk, int l, int r) {
+	public static int innerSmall(int jobi, int l, int r) {
 		if (l == r) {
 			return 0;
 		}
 		int mid = (l + r) / 2;
-		if (jobk <= mid) {
-			for (int i = 1; i <= cntpos; i++) {
-				pos[i] = left[pos[i]];
+		if (jobi <= mid) {
+			for (int i = 1; i <= cntadd; i++) {
+				addTree[i] = left[addTree[i]];
 			}
-			for (int i = 1; i <= cntpre; i++) {
-				pre[i] = left[pre[i]];
+			for (int i = 1; i <= cntminus; i++) {
+				minusTree[i] = left[minusTree[i]];
 			}
-			return innerRank(jobk, l, mid);
+			return innerSmall(jobi, l, mid);
 		} else {
 			int leftsum = 0;
-			for (int i = 1; i <= cntpos; i++) {
-				leftsum += sum[left[pos[i]]];
-				pos[i] = right[pos[i]];
+			for (int i = 1; i <= cntadd; i++) {
+				leftsum += sum[left[addTree[i]]];
+				addTree[i] = right[addTree[i]];
 			}
-			for (int i = 1; i <= cntpre; i++) {
-				leftsum -= sum[left[pre[i]]];
-				pre[i] = right[pre[i]];
+			for (int i = 1; i <= cntminus; i++) {
+				leftsum -= sum[left[minusTree[i]]];
+				minusTree[i] = right[minusTree[i]];
 			}
-			return leftsum + innerRank(jobk, mid + 1, r);
+			return leftsum + innerSmall(jobi, mid + 1, r);
 		}
 	}
 
@@ -158,40 +157,40 @@ public class Code04_IndexWithSegment1 {
 	}
 
 	public static int outerQuery(int l, int r, int k) {
-		cntpos = cntpre = 0;
+		cntadd = cntminus = 0;
 		for (int i = r; i > 0; i -= lowbit(i)) {
-			pos[++cntpos] = root[i];
+			addTree[++cntadd] = root[i];
 		}
 		for (int i = l - 1; i > 0; i -= lowbit(i)) {
-			pre[++cntpre] = root[i];
+			minusTree[++cntminus] = root[i];
 		}
 		return sorted[innerQuery(k, 1, s)];
 	}
 
-	public static int outerRank(int l, int r, int k) {
-		cntpos = cntpre = 0;
+	public static int outerRank(int l, int r, int v) {
+		cntadd = cntminus = 0;
 		for (int i = r; i > 0; i -= lowbit(i)) {
-			pos[++cntpos] = root[i];
+			addTree[++cntadd] = root[i];
 		}
 		for (int i = l - 1; i > 0; i -= lowbit(i)) {
-			pre[++cntpre] = root[i];
+			minusTree[++cntminus] = root[i];
 		}
-		return innerRank(k, 1, s) + 1;
+		return innerSmall(v, 1, s) + 1;
 	}
 
-	public static int outerPre(int l, int r, int k) {
-		int rank = outerRank(l, r, k);
+	public static int outerPre(int l, int r, int v) {
+		int rank = outerRank(l, r, v);
 		if (rank == 1) {
 			return -INF;
 		}
 		return outerQuery(l, r, rank - 1);
 	}
 
-	public static int outerPost(int l, int r, int k) {
-		if (k == s) {
+	public static int outerPost(int l, int r, int v) {
+		if (v == s) {
 			return INF;
 		}
-		int rank = outerRank(l, r, k + 1);
+		int rank = outerRank(l, r, v + 1);
 		if (rank == r - l + 2) {
 			return INF;
 		}

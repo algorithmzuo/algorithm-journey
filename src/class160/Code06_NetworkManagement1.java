@@ -66,14 +66,13 @@ public class Code06_NetworkManagement1 {
 
 	public static int cntd = 0;
 
-	// 查询信息需要，所有pos版本的信息和 - 所有pre版本的信息和
-	public static int[] pos = new int[MAXN];
+	public static int[] addTree = new int[MAXN];
 
-	public static int[] pre = new int[MAXN];
+	public static int[] minusTree = new int[MAXN];
 
-	public static int cntpos;
+	public static int cntadd;
 
-	public static int cntpre;
+	public static int cntminus;
 
 	public static void addEdge(int u, int v) {
 		next[++cntg] = head[u];
@@ -221,26 +220,26 @@ public class Code06_NetworkManagement1 {
 		}
 		int mid = (l + r) / 2;
 		int leftsum = 0;
-		for (int i = 1; i <= cntpos; i++) {
-			leftsum += sum[left[pos[i]]];
+		for (int i = 1; i <= cntadd; i++) {
+			leftsum += sum[left[addTree[i]]];
 		}
-		for (int i = 1; i <= cntpre; i++) {
-			leftsum -= sum[left[pre[i]]];
+		for (int i = 1; i <= cntminus; i++) {
+			leftsum -= sum[left[minusTree[i]]];
 		}
 		if (jobk <= leftsum) {
-			for (int i = 1; i <= cntpos; i++) {
-				pos[i] = left[pos[i]];
+			for (int i = 1; i <= cntadd; i++) {
+				addTree[i] = left[addTree[i]];
 			}
-			for (int i = 1; i <= cntpre; i++) {
-				pre[i] = left[pre[i]];
+			for (int i = 1; i <= cntminus; i++) {
+				minusTree[i] = left[minusTree[i]];
 			}
 			return innerQuery(jobk, l, mid);
 		} else {
-			for (int i = 1; i <= cntpos; i++) {
-				pos[i] = right[pos[i]];
+			for (int i = 1; i <= cntadd; i++) {
+				addTree[i] = right[addTree[i]];
 			}
-			for (int i = 1; i <= cntpre; i++) {
-				pre[i] = right[pre[i]];
+			for (int i = 1; i <= cntminus; i++) {
+				minusTree[i] = right[minusTree[i]];
 			}
 			return innerQuery(jobk - leftsum, mid + 1, r);
 		}
@@ -267,18 +266,18 @@ public class Code06_NetworkManagement1 {
 		if (num < k) {
 			return -1;
 		}
-		cntpos = cntpre = 0;
+		cntadd = cntminus = 0;
 		for (int i = dfn[x]; i > 0; i -= lowbit(i)) {
-			pos[++cntpos] = root[i];
+			addTree[++cntadd] = root[i];
 		}
 		for (int i = dfn[y]; i > 0; i -= lowbit(i)) {
-			pos[++cntpos] = root[i];
+			addTree[++cntadd] = root[i];
 		}
 		for (int i = dfn[lca]; i > 0; i -= lowbit(i)) {
-			pre[++cntpre] = root[i];
+			minusTree[++cntminus] = root[i];
 		}
 		for (int i = dfn[lcafa]; i > 0; i -= lowbit(i)) {
-			pre[++cntpre] = root[i];
+			minusTree[++cntminus] = root[i];
 		}
 		return innerQuery(num - k + 1, 1, s);
 	}

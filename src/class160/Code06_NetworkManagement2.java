@@ -42,9 +42,9 @@ package class160;
 //int stjump[MAXN][MAXH];
 //int cntd;
 //
-//int pos[MAXN];
-//int pre[MAXN];
-//int cntpos, cntpre;
+//int addTree[MAXN];
+//int minusTree[MAXN];
+//int cntadd, cntminus;
 //
 //void addEdge(int u, int v) {
 //    nxt[++cntg] = head[u];
@@ -72,7 +72,9 @@ package class160;
 //    size[u] = 1;
 //    dfn[u] = ++cntd;
 //    stjump[u][0] = fa;
-//    for (int p = 1; p < MAXH; p++) stjump[u][p] = stjump[stjump[u][p - 1]][p - 1];
+//    for (int p = 1; p < MAXH; p++) {
+//        stjump[u][p] = stjump[stjump[u][p - 1]][p - 1];
+//    }
 //    for (int e = head[u]; e; e = nxt[e]) {
 //        if (to[e] != fa) dfs(to[e], u);
 //    }
@@ -84,7 +86,9 @@ package class160;
 //int lca(int a, int b) {
 //    if (deep[a] < deep[b]) swap(a, b);
 //    for (int p = MAXH - 1; p >= 0; p--) {
-//        if (deep[stjump[a][p]] >= deep[b]) a = stjump[a][p];
+//        if (deep[stjump[a][p]] >= deep[b]) {
+//            a = stjump[a][p];
+//        }
 //    }
 //    if (a == b) return a;
 //    for (int p = MAXH - 1; p >= 0; p--) {
@@ -116,21 +120,35 @@ package class160;
 //    if (l == r) return l;
 //    int mid = (l + r) / 2;
 //    int leftsum = 0;
-//    for (int i = 1; i <= cntpos; i++) leftsum += sum[ls[pos[i]]];
-//    for (int i = 1; i <= cntpre; i++) leftsum -= sum[ls[pre[i]]];
+//    for (int i = 1; i <= cntadd; i++) {
+//        leftsum += sum[ls[addTree[i]]];
+//    }
+//    for (int i = 1; i <= cntminus; i++) {
+//        leftsum -= sum[ls[minusTree[i]]];
+//    }
 //    if (jobk <= leftsum) {
-//        for (int i = 1; i <= cntpos; i++) pos[i] = ls[pos[i]];
-//        for (int i = 1; i <= cntpre; i++) pre[i] = ls[pre[i]];
+//        for (int i = 1; i <= cntadd; i++) {
+//            addTree[i] = ls[addTree[i]];
+//        }
+//        for (int i = 1; i <= cntminus; i++) {
+//            minusTree[i] = ls[minusTree[i]];
+//        }
 //        return innerQuery(jobk, l, mid);
 //    } else {
-//        for (int i = 1; i <= cntpos; i++) pos[i] = rs[pos[i]];
-//        for (int i = 1; i <= cntpre; i++) pre[i] = rs[pre[i]];
+//        for (int i = 1; i <= cntadd; i++) {
+//            addTree[i] = rs[addTree[i]];
+//        }
+//        for (int i = 1; i <= cntminus; i++) {
+//            minusTree[i] = rs[minusTree[i]];
+//        }
 //        return innerQuery(jobk - leftsum, mid + 1, r);
 //    }
 //}
 //
 //void add(int i, int kth, int val) {
-//    for (; i <= n; i += lowbit(i)) root[i] = innerAdd(kth, val, 1, s, root[i]);
+//    for (; i <= n; i += lowbit(i)) {
+//        root[i] = innerAdd(kth, val, 1, s, root[i]);
+//    }
 //}
 //
 //void update(int i, int v) {
@@ -146,11 +164,19 @@ package class160;
 //    int lcafa = stjump[xylca][0];
 //    int num = deep[x] + deep[y] - deep[xylca] - deep[lcafa];
 //    if (num < k) return -1;
-//    cntpos = cntpre = 0;
-//    for (int i = dfn[x]; i; i -= lowbit(i)) pos[++cntpos] = root[i];
-//    for (int i = dfn[y]; i; i -= lowbit(i)) pos[++cntpos] = root[i];
-//    for (int i = dfn[xylca]; i; i -= lowbit(i)) pre[++cntpre] = root[i];
-//    for (int i = dfn[lcafa]; i; i -= lowbit(i)) pre[++cntpre] = root[i];
+//    cntadd = cntminus = 0;
+//    for (int i = dfn[x]; i; i -= lowbit(i)) {
+//        addTree[++cntadd] = root[i];
+//    }
+//    for (int i = dfn[y]; i; i -= lowbit(i)) {
+//        addTree[++cntadd] = root[i];
+//    }
+//    for (int i = dfn[xylca]; i; i -= lowbit(i)) {
+//        minusTree[++cntminus] = root[i];
+//    }
+//    for (int i = dfn[lcafa]; i; i -= lowbit(i)) {
+//        minusTree[++cntminus] = root[i];
+//    }
 //    return innerQuery(num - k + 1, 1, s);
 //}
 //
