@@ -279,7 +279,7 @@ public class Code06_NetworkManagement1 {
 		for (int i = dfn[lcafa]; i > 0; i -= lowbit(i)) {
 			minusTree[++cntminus] = root[i];
 		}
-		return innerQuery(num - k + 1, 1, s);
+		return sorted[innerQuery(num - k + 1, 1, s)];
 	}
 
 	public static void prepare() {
@@ -346,11 +346,11 @@ public class Code06_NetworkManagement1 {
 			if (k == 0) {
 				update(x, y);
 			} else {
-				int idx = query(x, y, k);
-				if (idx == -1) {
+				int ans = query(x, y, k);
+				if (ans == -1) {
 					out.println("invalid request!");
 				} else {
-					out.println(sorted[idx]);
+					out.println(ans);
 				}
 			}
 		}
