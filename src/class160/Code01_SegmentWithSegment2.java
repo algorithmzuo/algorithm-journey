@@ -17,10 +17,10 @@ package class160;
 //
 //using namespace std;
 //
-//const int MAXH = 101;
-//const int MAXA = 1001;
-//int n = 1000, m;
-//int tree[MAXH << 2][MAXA << 2];
+//const int n = 101;
+//const int m = 1001;
+//int MINX = 100, MAXX = 200, MINY = 0, MAXY = 1000;
+//int tree[n << 2][m << 2];
 //
 //void innerBuild(int yl, int yr, int xi, int yi) {
 //    tree[xi][yi] = -1;
@@ -61,7 +61,7 @@ package class160;
 //}
 //
 //void outerBuild(int xl, int xr, int xi) {
-//	innerBuild(0, n, xi, 1);
+//	innerBuild(MINY, MAXY, xi, 1);
 //    if (xl < xr) {
 //        int mid = (xl + xr) >> 1;
 //        outerBuild(xl, mid, xi << 1);
@@ -70,7 +70,7 @@ package class160;
 //}
 //
 //void outerUpdate(int jobx, int joby, int jobv, int xl, int xr, int xi) {
-//	innerUpdate(joby, jobv, 0, n, xi, 1);
+//	innerUpdate(joby, jobv, MINY, MAXY, xi, 1);
 //    if (xl < xr) {
 //        int mid = (xl + xr) >> 1;
 //        if (jobx <= mid) {
@@ -83,7 +83,7 @@ package class160;
 //
 //int outerQuery(int jobxl, int jobxr, int jobyl, int jobyr, int xl, int xr, int xi) {
 //    if (jobxl <= xl && xr <= jobxr) {
-//        return innerQuery(jobyl, jobyr, 0, n, xi, 1);
+//        return innerQuery(jobyl, jobyr, MINY, MAXY, xi, 1);
 //    }
 //    int mid = (xl + xr) >> 1;
 //    int ans = -1;
@@ -97,30 +97,27 @@ package class160;
 //}
 //
 //int main() {
-//	scanf("%d", &m);
-//	while(m != 0) {
-//		outerBuild(100, 200, 1);
-//        for (int i = 0; i < m; i++) {
+//	int q;
+//	scanf("%d", &q);
+//	while(q != 0) {
+//		outerBuild(MINX, MAXX, 1);
+//        for (int i = 0; i < q; i++) {
 //        	char op[2];
 //            scanf("%s", op);
 //            if (op[0] == 'I') {
 //                int a;
-//                double bd, cd;
-//                scanf("%d %lf %lf", &a, &bd, &cd);
-//                int b = (int)(bd * 10);
-//                int c = (int)(cd * 10);
-//                outerUpdate(a, b, c, 100, 200, 1);
+//                double b, c;
+//                scanf("%d %lf %lf", &a, &b, &c);
+//                outerUpdate(a, (int)(b * 10), (int)(c * 10), MINX, MAXX, 1);
 //            } else {
 //                int a, b;
-//                double cd, dd;
-//                scanf("%d %d %lf %lf", &a, &b, &cd, &dd);
-//                int c = (int)(cd * 10);
-//                int d = (int)(dd * 10);
+//                double c, d;
+//                scanf("%d %d %lf %lf", &a, &b, &c, &d);
 //                int xl = min(a, b);
 //                int xr = max(a, b);
-//                int yl = min(c, d);
-//                int yr = max(c, d);
-//                int ans = outerQuery(xl, xr, yl, yr, 100, 200, 1);
+//                int yl = min((int)(c * 10), (int)(d * 10));
+//                int yr = max((int)(c * 10), (int)(d * 10));
+//                int ans = outerQuery(xl, xr, yl, yr, MINX, MAXX, 1);
 //                if (ans == -1) {
 //                    printf("-1\n");
 //                } else {
@@ -128,7 +125,7 @@ package class160;
 //                }
 //            }
 //        }
-//        scanf("%d", &m);
+//        scanf("%d", &q);
 //	}
 //    return 0;
 //}
