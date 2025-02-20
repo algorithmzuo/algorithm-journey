@@ -10,12 +10,10 @@ package class122;
 // 测试链接 : https://www.luogu.com.cn/problem/P2680
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有用例
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
-import java.io.StreamTokenizer;
 import java.util.Arrays;
 
 public class Code05_TransportPlan2 {
@@ -213,41 +211,6 @@ public class Code05_TransportPlan2 {
 		return false;
 	}
 
-	public static void main(String[] args) throws IOException {
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StreamTokenizer in = new StreamTokenizer(br);
-		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
-		in.nextToken();
-		n = (int) in.nval;
-		build();
-		in.nextToken();
-		m = (int) in.nval;
-		for (int i = 1, u, v, w; i < n; i++) {
-			in.nextToken();
-			u = (int) in.nval;
-			in.nextToken();
-			v = (int) in.nval;
-			in.nextToken();
-			w = (int) in.nval;
-			addEdge(u, v, w);
-			addEdge(v, u, w);
-		}
-		for (int i = 1, u, v; i <= m; i++) {
-			in.nextToken();
-			u = (int) in.nval;
-			in.nextToken();
-			v = (int) in.nval;
-			quesu[i] = u;
-			quesv[i] = v;
-			addQuery(u, v, i);
-			addQuery(v, u, i);
-		}
-		out.println(compute());
-		out.flush();
-		out.close();
-		br.close();
-	}
-
 	public static int compute() {
 		tarjan(1);
 		int l = 0, r = maxCost, mid;
@@ -262,6 +225,81 @@ public class Code05_TransportPlan2 {
 			}
 		}
 		return ans;
+	}
+
+	public static void main(String[] args) throws IOException {
+		FastIO in = new FastIO();
+		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out), false);
+		n = in.nextInt();
+		build();
+		m = in.nextInt();
+		for (int i = 1, u, v, w; i < n; i++) {
+			u = in.nextInt();
+			v = in.nextInt();
+			w = in.nextInt();
+			addEdge(u, v, w);
+			addEdge(v, u, w);
+		}
+		for (int i = 1, u, v; i <= m; i++) {
+			u = in.nextInt();
+			v = in.nextInt();
+			quesu[i] = u;
+			quesv[i] = v;
+			addQuery(u, v, i);
+			addQuery(v, u, i);
+		}
+		out.println(compute());
+		out.flush();
+		out.close();
+	}
+
+	// IO工具类
+	static class FastIO {
+		private final int SIZE = 1 << 20;
+		private byte[] buf;
+		private int pos;
+		private int count;
+		private InputStream is;
+
+		public FastIO() {
+			buf = new byte[SIZE];
+			pos = 0;
+			count = 0;
+			is = System.in;
+		}
+
+		private int readByte() throws IOException {
+			if (count == -1) {
+				return -1; // EOF
+			}
+			if (pos >= count) {
+				pos = 0;
+				count = is.read(buf);
+				if (count == -1) {
+					return -1;
+				}
+			}
+			return buf[pos++] & 0xff;
+		}
+
+		public int nextInt() throws IOException {
+			int c, value = 0;
+			boolean neg = false;
+			do {
+				c = readByte();
+				if (c == -1) {
+					return -1;
+				}
+			} while (c <= ' ');
+			if (c == '-') {
+				neg = true;
+				c = readByte();
+			}
+			for (; c >= '0' && c <= '9'; c = readByte()) {
+				value = value * 10 + (c - '0');
+			}
+			return neg ? -value : value;
+		}
 	}
 
 }
