@@ -26,13 +26,13 @@ public class Code02_QueryKthMaximum1 {
 
 	public static int n, m, s;
 
-	// 所有操作收集起来，因为牵扯到离散化
+	// 所有操作收集起来，因为牵扯到数字离散化
 	public static int[][] ques = new int[MAXN][4];
 
-	// 所有可能数字的数字，收集起来去重，方便得到数字排名
+	// 所有可能的数字，收集起来去重，方便得到数字排名
 	public static int[] sorted = new int[MAXN];
 
-	// 外部(a~b) + 内部(c~d)表示：数字排名范围a~b，集合范围c~d，上面数字的个数
+	// 外部(a~b) + 内部(c~d)表示：数字排名范围a~b，集合范围c~d，数字的个数
 	// 外部线段树的下标表示数字的排名
 	// 外部(a~b)，假设对应的节点编号为i，那么root[i]就是内部线段树的头节点编号
 	public static int[] root = new int[MAXN << 2];
@@ -41,7 +41,7 @@ public class Code02_QueryKthMaximum1 {
 	// 内部线段树的下标表示集合的编号
 	// 内部(c~d)，假设对应的节点编号为i
 	// sum[i]表示集合范围c~d，一共收集了多少数字
-	// lazy[i]懒更新信息，集合范围c~d，增加了多少个数字，等待懒更新的下发
+	// lazy[i]懒更新信息，集合范围c~d，增加了几个数字，等待懒更新的下发
 	public static int[] left = new int[MAXT];
 
 	public static int[] right = new int[MAXT];
