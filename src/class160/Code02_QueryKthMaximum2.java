@@ -20,7 +20,6 @@ package class160;
 //int n, m, s;
 //int ques[MAXN][4];
 //int sorted[MAXN];
-//
 //int root[MAXN << 2];
 //int ls[MAXT];
 //int rs[MAXT];
