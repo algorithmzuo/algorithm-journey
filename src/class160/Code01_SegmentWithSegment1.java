@@ -23,8 +23,10 @@ import java.util.StringTokenizer;
 
 public class Code01_SegmentWithSegment1 {
 
+	// 身高范围内有多少数字
 	public static int n = 101;
 
+	// 活泼度范围内有多少数字
 	public static int m = 1001;
 
 	// 身高范围对应[MINX, MAXX]，活泼度范围对应[MINY, MAXY]
