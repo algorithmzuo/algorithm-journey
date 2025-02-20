@@ -27,8 +27,12 @@ public class Code01_SegmentWithSegment1 {
 
 	public static int m = 1001;
 
+	// 身高范围对应[MINX, MAXX]，活泼度范围对应[MINY, MAXY]
 	public static int MINX = 100, MAXX = 200, MINY = 0, MAXY = 1000;
 
+	// 外层是身高线段树，内层是活泼度线段树
+	// 每一个外层线段树的节点，对应着一棵内层线段树
+	// 内层线段树收集缘分值
 	public static int[][] tree = new int[n << 2][m << 2];
 
 	public static void innerBuild(int yl, int yr, int xi, int yi) {
@@ -40,32 +44,32 @@ public class Code01_SegmentWithSegment1 {
 		}
 	}
 
-	public static void innerUpdate(int joby, int jobv, int yl, int yr, int xi, int yi) {
+	public static void innerUpdate(int jobi, int jobv, int yl, int yr, int xi, int yi) {
 		if (yl == yr) {
 			tree[xi][yi] = Math.max(tree[xi][yi], jobv);
 		} else {
 			int mid = (yl + yr) / 2;
-			if (joby <= mid) {
-				innerUpdate(joby, jobv, yl, mid, xi, yi << 1);
+			if (jobi <= mid) {
+				innerUpdate(jobi, jobv, yl, mid, xi, yi << 1);
 			} else {
-				innerUpdate(joby, jobv, mid + 1, yr, xi, yi << 1 | 1);
+				innerUpdate(jobi, jobv, mid + 1, yr, xi, yi << 1 | 1);
 			}
 			tree[xi][yi] = Math.max(tree[xi][yi << 1], tree[xi][yi << 1 | 1]);
 		}
 	}
 
-	public static int innerQuery(int jobyl, int jobyr, int yl, int yr, int xi, int yi) {
-		if (jobyl <= yl && yr <= jobyr) {
+	public static int innerQuery(int jobl, int jobr, int yl, int yr, int xi, int yi) {
+		if (jobl <= yl && yr <= jobr) {
 			return tree[xi][yi];
 		}
 		int mid = (yl + yr) / 2;
 		int ans = -1;
-		if (jobyl <= mid) {
-			ans = innerQuery(jobyl, jobyr, yl, mid, xi, yi << 1);
+		if (jobl <= mid) {
+			ans = innerQuery(jobl, jobr, yl, mid, xi, yi << 1);
 
 		}
-		if (jobyr > mid) {
-			ans = Math.max(ans, innerQuery(jobyl, jobyr, mid + 1, yr, xi, yi << 1 | 1));
+		if (jobr > mid) {
+			ans = Math.max(ans, innerQuery(jobl, jobr, mid + 1, yr, xi, yi << 1 | 1));
 		}
 		return ans;
 	}

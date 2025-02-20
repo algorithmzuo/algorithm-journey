@@ -31,31 +31,31 @@ package class160;
 //    }
 //}
 //
-//void innerUpdate(int joby, int jobv, int yl, int yr, int xi, int yi) {
+//void innerUpdate(int jobi, int jobv, int yl, int yr, int xi, int yi) {
 //    if (yl == yr) {
 //        tree[xi][yi] = max(tree[xi][yi], jobv);
 //    } else {
 //        int mid = (yl + yr) >> 1;
-//        if (joby <= mid) {
-//        	innerUpdate(joby, jobv, yl, mid, xi, yi << 1);
+//        if (jobi <= mid) {
+//        	innerUpdate(jobi, jobv, yl, mid, xi, yi << 1);
 //        } else {
-//        	innerUpdate(joby, jobv, mid + 1, yr, xi, yi << 1 | 1);
+//        	innerUpdate(jobi, jobv, mid + 1, yr, xi, yi << 1 | 1);
 //        }
 //        tree[xi][yi] = max(tree[xi][yi << 1], tree[xi][(yi << 1) | 1]);
 //    }
 //}
 //
-//int innerQuery(int jobyl, int jobyr, int yl, int yr, int xi, int yi) {
-//    if (jobyl <= yl && yr <= jobyr) {
+//int innerQuery(int jobl, int jobr, int yl, int yr, int xi, int yi) {
+//    if (jobl <= yl && yr <= jobr) {
 //        return tree[xi][yi];
 //    }
 //    int mid = (yl + yr) >> 1;
 //    int ans = -1;
-//    if (jobyl <= mid) {
-//        ans = max(ans, innerQuery(jobyl, jobyr, yl, mid, xi, yi << 1));
+//    if (jobl <= mid) {
+//        ans = max(ans, innerQuery(jobl, jobr, yl, mid, xi, yi << 1));
 //    }
-//    if (jobyr > mid) {
-//        ans = max(ans, innerQuery(jobyl, jobyr, mid + 1, yr, xi, (yi << 1) | 1));
+//    if (jobr > mid) {
+//        ans = max(ans, innerQuery(jobl, jobr, mid + 1, yr, xi, (yi << 1) | 1));
 //    }
 //    return ans;
 //}
