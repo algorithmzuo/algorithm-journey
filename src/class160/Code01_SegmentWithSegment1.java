@@ -68,7 +68,6 @@ public class Code01_SegmentWithSegment1 {
 		int ans = -1;
 		if (jobl <= mid) {
 			ans = innerQuery(jobl, jobr, yl, mid, xi, yi << 1);
-
 		}
 		if (jobr > mid) {
 			ans = Math.max(ans, innerQuery(jobl, jobr, mid + 1, yr, xi, yi << 1 | 1));
