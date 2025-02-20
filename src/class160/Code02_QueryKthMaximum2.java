@@ -5,8 +5,8 @@ package class160;
 // 操作 1 l r v : 数字v放入编号范围[l,r]的每一个集合中
 // 操作 2 l r k : 编号范围[l,r]的所有集合，如果生成不去重的并集，返回第k大的数字
 // 1 <= n、m <= 5 * 10^4
-// 1 <= v <= n
 // 1 <= k < 2^63，题目保证第k大的数字一定存在
+// 注意，测试用例里增加了Hack数据，v可能是很大的数字
 // 测试链接 : https://www.luogu.com.cn/problem/P3332
 // 如下实现是C++的版本，C++版本和java版本逻辑完全一样
 // 提交如下代码，可以通过所有测试用例
@@ -90,7 +90,7 @@ package class160;
 //    root[i] = innerAdd(jobl, jobr, 1, n, root[i]);
 //    if (l < r) {
 //        int mid = (l + r) >> 1;
-//        if (jobk <= mid) {
+//        if (jobv <= mid) {
 //            outerAdd(jobl, jobr, jobv, l, mid, i << 1);
 //        } else {
 //            outerAdd(jobl, jobr, jobv, mid + 1, r, i << 1 | 1);
