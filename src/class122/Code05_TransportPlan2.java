@@ -1,6 +1,6 @@
 package class122;
 
-// 运输计划(迭代版)
+// 运输计划，java版，迭代dfs
 // 有n个节点，给定n-1条边使其连接成一棵树，每条边有正数边权
 // 给定很多运输计划，每个运输计划(a,b)表示从a去往b
 // 每个运输计划的代价就是沿途边权和，运输计划之间完全互不干扰
@@ -8,7 +8,11 @@ package class122;
 // 你的目的是让所有运输计划代价的最大值尽量小
 // 返回所有运输计划代价的最大值最小能是多少
 // 测试链接 : https://www.luogu.com.cn/problem/P2680
-// 提交以下的code，提交时请把类名改成"Main"，可以通过所有用例
+// 提交以下的code，提交时请把类名改成"Main"
+// 有时候可以完全通过，有时候会有一个测试用例超时
+// 因为这道题根据C++的运行时间，制定通过标准，根本没考虑java的用户
+// 本节课Code05_TransportPlan3文件就是C++的实现
+// 两个版本的逻辑完全一样，C++版本可以通过所有测试
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -270,7 +274,7 @@ public class Code05_TransportPlan2 {
 
 		private int readByte() throws IOException {
 			if (count == -1) {
-				return -1; // EOF
+				return -1;
 			}
 			if (pos >= count) {
 				pos = 0;
