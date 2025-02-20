@@ -10,7 +10,6 @@ package class122;
 // 测试链接 : https://www.luogu.com.cn/problem/P2680
 // 提交以下的code，提交时请把类名改成"Main"
 // C++这么写能通过，java会因为递归层数太多而爆栈
-// java能通过的写法参考本节课Code05_TransportPlan2文件
 
 import java.io.BufferedReader;
 import java.io.IOException;
