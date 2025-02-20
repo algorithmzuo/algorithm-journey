@@ -15,12 +15,12 @@ package class160;
 //
 //using namespace std;
 //
-//const int MAXN = 50001;
-//const int MAXT = MAXN * 230;
+//const int MAXM = 50001;
+//const int MAXT = MAXM * 230;
 //int n, m, s;
-//int ques[MAXN][4];
-//int sorted[MAXN];
-//int root[MAXN << 2];
+//int ques[MAXM][4];
+//int sorted[MAXM];
+//int root[MAXM << 2];
 //int ls[MAXT];
 //int rs[MAXT];
 //long long sum[MAXT];

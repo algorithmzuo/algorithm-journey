@@ -20,22 +20,24 @@ import java.util.Arrays;
 
 public class Code02_QueryKthMaximum1 {
 
-	public static int MAXN = 50001;
+	// 外部线段树的范围，一共只有m个操作，所以最多有m种数字
+	public static int MAXM = 50001;
 
-	public static int MAXT = MAXN * 230;
+	// 内部线段树的节点数上限
+	public static int MAXT = MAXM * 230;
 
 	public static int n, m, s;
 
 	// 所有操作收集起来，因为牵扯到数字离散化
-	public static int[][] ques = new int[MAXN][4];
+	public static int[][] ques = new int[MAXM][4];
 
 	// 所有可能的数字，收集起来去重，方便得到数字排名
-	public static int[] sorted = new int[MAXN];
+	public static int[] sorted = new int[MAXM];
 
 	// 外部(a~b) + 内部(c~d)表示：数字排名范围a~b，集合范围c~d，数字的个数
 	// 外部线段树的下标表示数字的排名
 	// 外部(a~b)，假设对应的节点编号为i，那么root[i]就是内部线段树的头节点编号
-	public static int[] root = new int[MAXN << 2];
+	public static int[] root = new int[MAXM << 2];
 
 	// 内部线段树是开点线段树，所以需要cnt来获得节点计数
 	// 内部线段树的下标表示集合的编号
