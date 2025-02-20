@@ -87,14 +87,14 @@ package class160;
 //    return ans;
 //}
 //
-//void outerAdd(int jobl, int jobr, int jobk, int l, int r, int i) {
+//void outerAdd(int jobl, int jobr, int jobv, int l, int r, int i) {
 //    root[i] = innerAdd(jobl, jobr, 1, n, root[i]);
 //    if (l < r) {
 //        int mid = (l + r) >> 1;
 //        if (jobk <= mid) {
-//            outerAdd(jobl, jobr, jobk, l, mid, i << 1);
+//            outerAdd(jobl, jobr, jobv, l, mid, i << 1);
 //        } else {
-//            outerAdd(jobl, jobr, jobk, mid + 1, r, i << 1 | 1);
+//            outerAdd(jobl, jobr, jobv, mid + 1, r, i << 1 | 1);
 //        }
 //    }
 //}
