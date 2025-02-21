@@ -252,7 +252,7 @@ public class Code03_SegmentWithBalanced1 {
 		int l = 0, r = 100000000, mid, ans = 0;
 		while (l <= r) {
 			mid = (l + r) >> 1;
-			if (small(jobl, jobr, mid + 1, 1, n, 1) >= jobk) {
+			if (small(jobl, jobr, mid + 1, 1, n, 1) + 1 > jobk) {
 				ans = mid;
 				r = mid - 1;
 			} else {
