@@ -9,7 +9,7 @@ import java.util.Arrays;
 // 返回 所有数对距离中 第 k 小的数对距离。
 // 测试链接 : https://leetcode.cn/problems/find-k-th-smallest-pair-distance/
 public class Code04_FindKthSmallestPairDistance {
-
+//todo 这个题神奇之处在于把离散值变成连续值，知道答案范围，但答案都是离散的，二分居然能算出真值来
 	// 时间复杂度O(n * log(n) + log(max-min) * n)，额外空间复杂度O(1)
 	public static int smallestDistancePair(int[] nums, int k) {
 		int n = nums.length;

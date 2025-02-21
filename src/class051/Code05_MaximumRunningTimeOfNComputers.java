@@ -12,7 +12,7 @@ package class051;
 // 请你返回你可以让 n 台电脑同时运行的 最长 分钟数。
 // 测试链接 : https://leetcode.cn/problems/maximum-running-time-of-n-computers/
 public class Code05_MaximumRunningTimeOfNComputers {
-
+//todo long 范围
 	// 单纯的二分答案法
 	// 提交时把函数名改为maxRunTime
 	// 时间复杂度O(n * log(sum))，额外空间复杂度O(1)

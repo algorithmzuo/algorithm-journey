@@ -10,7 +10,7 @@ import java.util.Arrays;
 // 说明：所有供暖器都遵循你的半径标准，加热的半径也一样。
 // 测试链接 : https://leetcode.cn/problems/heaters/
 public class Code06_Heaters {
-
+    //todo 这个题就是找房子和加热器之间最小的最大距离，就是找距离最近的加热器，然后比出最大的距离即可
 	// 时间复杂度O(n * logn)，因为有排序，额外空间复杂度O(1)
 	public static int findRadius(int[] houses, int[] heaters) {
 		Arrays.sort(houses);

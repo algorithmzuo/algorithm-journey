@@ -22,7 +22,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StreamTokenizer;
-
+//todo 机器人能量不需要超过最大高度
 public class Code03_RobotPassThroughBuilding {
 
 	public static int MAXN = 100001;

@@ -6,7 +6,7 @@ package class051;
 // 设计一个算法使得这 m 个子数组各自和的最大值最小。
 // 测试链接 : https://leetcode.cn/problems/split-array-largest-sum/
 public class Code02_SplitArrayLargestSum {
-
+//todo 先选出最小和和最大和范围，然后二分判断这个和能否满足要求
 	// 时间复杂度O(n * log(sum))，额外空间复杂度O(1)
 	public static int splitArray(int[] nums, int k) {
 		long sum = 0;
@@ -34,6 +34,7 @@ public class Code02_SplitArrayLargestSum {
 	// 必须让数组arr每一部分的累加和 <= limit，请问划分成几个部分才够!
 	// 返回需要的部分数量
 	public static int f(int[] arr, long limit) {
+        //todo 这个需要默认有一个，否则最后一个没有包含
 		int parts = 1;
 		int sum = 0;
 		for (int num : arr) {

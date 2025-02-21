@@ -10,7 +10,7 @@ package class051;
 // 返回她可以在 h 小时内吃掉所有香蕉的最小速度 k（k 为整数）
 // 测试链接 : https://leetcode.cn/problems/koko-eating-bananas/
 public class Code01_KokoEatingBananas {
-
+//todo 就是先找到答案的范围，然后对答案进行二分
 	// 时间复杂度O(n * log(max))，额外空间复杂度O(1)
 	public static int minEatingSpeed(int[] piles, int h) {
 		// 最小且达标的速度，范围[l,r]
@@ -44,6 +44,7 @@ public class Code01_KokoEatingBananas {
 	// 速度就定成speed
 	// 返回吃完所有的香蕉，耗费的小时数量
 	public static long f(int[] piles, int speed) {
+        //todo 坑，很坑
 		long ans = 0;
 		for (int pile : piles) {
 			// (a/b)结果向上取整，如果a和b都是非负数，可以写成(a+b-1)/b

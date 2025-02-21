@@ -9,7 +9,7 @@ import java.util.Arrays;
 // 返回 承载所有人所需的最小船数
 // 测试链接 : https://leetcode.cn/problems/boats-to-save-people/
 public class Code04_BoatsToSavePeople {
-
+    //todo 将体重进行排序，最小体重和最大体重一起，如果超了，大体重单独一船，如果没超，就一起
 	// 时间复杂度O(n * logn)，因为有排序，额外空间复杂度O(1)
 	public static int numRescueBoats(int[] people, int limit) {
 		Arrays.sort(people);

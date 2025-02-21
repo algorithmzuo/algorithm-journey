@@ -17,16 +17,20 @@ public class Code06_WaitingTime {
 	public static int waitingTime1(int[] arr, int m) {
 		// 一个一个对象int[]
 		// [醒来时间，服务一个客人要多久]
+        //todo 堆根据服务时间排序。时间最小的表示空闲
 		PriorityQueue<int[]> heap = new PriorityQueue<>((a, b) -> (a[0] - b[0]));
 		int n = arr.length;
+        //todo 添加所有服务员
 		for (int i = 0; i < n; i++) {
 			heap.add(new int[] { 0, arr[i] });
 		}
+        //todo 每个人接受服务
 		for (int i = 0; i < m; i++) {
 			int[] cur = heap.poll();
 			cur[0] += cur[1];
 			heap.add(cur);
 		}
+        //todo 轮到自己谁空闲
 		return heap.peek()[0];
 	}
 
@@ -39,6 +43,7 @@ public class Code06_WaitingTime {
 			min = Math.min(min, x);
 		}
 		int ans = 0;
+        //todo min*w 服务时间最短的服务员服务所有人需要多久
 		for (int l = 0, r = min * w, m; l <= r;) {
 			// m中点，表示一定要让服务员工作的时间！
 			m = l + ((r - l) >> 1);
@@ -57,6 +62,7 @@ public class Code06_WaitingTime {
 	public static int f(int[] arr, int time) {
 		int ans = 0;
 		for (int num : arr) {
+            //todo 可以接待的客人数，+1表示正在服务或者即将服务。整除的+1就是已经服务完上一个了，下一个客人即将服务
 			ans += (time / num) + 1;
 		}
 		return ans;

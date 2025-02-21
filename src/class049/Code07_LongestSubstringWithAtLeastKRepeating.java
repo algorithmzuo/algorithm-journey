@@ -19,7 +19,8 @@ public class Code07_LongestSubstringWithAtLeastKRepeating {
 			Arrays.fill(cnts, 0);
 			// collect : 窗口中一共收集到的种类数
 			// satisfy : 窗口中达标的种类数(次数>=k)
-			for (int l = 0, r = 0, collect = 0, satisfy = 0; r < n; r++) {
+            //todo 单调性是达到需要字符的数量,然后题意会变成判断所有字符种数，找到最大长度，字符种数是单调的。
+            for (int l = 0, r = 0, collect = 0, satisfy = 0; r < n; r++) {
 				cnts[s[r]]++;
 				if (cnts[s[r]] == 1) {
 					collect++;

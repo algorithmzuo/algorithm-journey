@@ -8,6 +8,7 @@ public class Code03_TrappingRainWater {
 	// 辅助数组的解法（不是最优解）
 	// 时间复杂度O(n)，额外空间复杂度O(n)
 	// 提交时改名为trap
+    //todo 找到左右两边的最大高度，就能确定当前位置能接到多少雨水
 	public static int trap1(int[] nums) {
 		int n = nums.length;
 		int[] lmax = new int[n];

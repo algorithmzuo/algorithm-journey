@@ -7,7 +7,7 @@ package class050;
 // 你设计的解决方案必须 不修改 数组 nums 且只用常量级 O(1) 的额外空间。
 // 测试链接 : https://leetcode.cn/problems/find-the-duplicate-number/
 public class Code02_FindTheDuplicateNumber {
-
+    //todo 下标0-n，值1-n。会形成一个环，根据快慢指针找到环
 	// 时间复杂度O(n)，额外空间复杂度O(1)
 	public static int findDuplicate(int[] nums) {
 		if (nums == null || nums.length < 2) {

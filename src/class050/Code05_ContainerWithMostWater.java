@@ -7,7 +7,7 @@ package class050;
 // 说明：你不能倾斜容器
 // 测试链接 : https://leetcode.cn/problems/container-with-most-water/
 public class Code05_ContainerWithMostWater {
-
+//todo 这是长度和高度的较量，指针放在最大范围，然后谁小谁先被替换，依次减少获取到最大值
 	// 时间复杂度O(n)，额外空间复杂度O(1)
 	public static int maxArea(int[] height) {
 		int ans = 0;

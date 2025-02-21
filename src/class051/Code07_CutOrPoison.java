@@ -24,6 +24,7 @@ public class Code07_CutOrPoison {
 	// 这个方法不做要求，此时并不需要理解，可以在学习完动态规划章节之后来看看这个函数
 	public static int fast1(int[] cuts, int[] poisons, int hp) {
 		int sum = 0;
+        //todo 毒叠加到最后的伤害
 		for (int num : poisons) {
 			sum += num;
 		}
@@ -59,7 +60,8 @@ public class Code07_CutOrPoison {
 	// 时间复杂度O(n * log(hp))，额外空间复杂度O(1)
 	public static int fast2(int[] cuts, int[] poisons, int hp) {
 		int ans = Integer.MAX_VALUE;
-		for (int l = 1, r = hp + 1, m; l <= r;) {
+        //todo
+		for (int l = 1, r = hp+1, m; l <= r;) {
 			// m中点，一定要让怪兽在m回合内死掉，更多回合无意义
 			m = l + ((r - l) >> 1);
 			if (f(cuts, poisons, hp, m)) {
@@ -74,10 +76,11 @@ public class Code07_CutOrPoison {
 
 	// cuts、posions，每一回合刀砍、毒杀的效果
 	// hp：怪兽血量
-	// limit：回合的限制
+	// limit：回合的限制。
 	public static boolean f(int[] cuts, int[] posions, long hp, int limit) {
 		int n = Math.min(cuts.length, limit);
 		for (int i = 0, j = 1; i < n; i++, j++) {
+            //todo 计算每一步造成的最大伤害，当前的刀伤，或者当前使用毒伤，再结束时造成的最大伤害。
 			hp -= Math.max((long) cuts[i], (long) (limit - j) * (long) posions[i]);
 			if (hp <= 0) {
 				return true;

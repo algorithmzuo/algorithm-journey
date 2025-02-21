@@ -55,17 +55,23 @@ public class Code01_LeftRightLess {
 
 	// arr[0...n-1]
 	public static void compute() {
+        //todo r是栈顶
 		r = 0;
 		int cur;
 		// 遍历阶段
 		for (int i = 0; i < n; i++) {
 			// i -> arr[i]
+            //todo 栈中存在元素，并且栈顶元素的值>=当前值
 			while (r > 0 && arr[stack[r - 1]] >= arr[i]) {
+                //todo 弹出下标
 				cur = stack[--r];
 				// cur当前弹出的位置，左边最近且小
+                //todo 弹出来的下标如果栈中还有值就是栈顶元素，否则为-1
 				ans[cur][0] = r > 0 ? stack[r - 1] : -1;
+                //todo 右侧比他小的数位与他比较的值
 				ans[cur][1] = i;
 			}
+            //todo 栈中存放的是下标
 			stack[r++] = i;
 		}
 		// 清算阶段
@@ -78,10 +84,11 @@ public class Code01_LeftRightLess {
 		// 左侧的答案不需要修正一定是正确的，只有右侧答案需要修正
 		// 从右往左修正，n-1位置的右侧答案一定是-1，不需要修正
 		for (int i = n - 2; i >= 0; i--) {
+            //todo 不为-1并且这个元素的右侧小的下标值等于当前值
 			if (ans[i][1] != -1 && arr[ans[i][1]] == arr[i]) {
+                //todo 修正 右侧小的下标为右侧的右侧小下标值
 				ans[i][1] = ans[ans[i][1]][1];
 			}
 		}
 	}
-
 }

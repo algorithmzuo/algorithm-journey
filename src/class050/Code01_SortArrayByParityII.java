@@ -6,6 +6,7 @@ package class050;
 // 当 nums[i] 为偶数时， i 也是 偶数
 // 你可以返回 任何满足上述条件的数组作为答案
 // 测试链接 : https://leetcode.cn/problems/sort-array-by-parity-ii/
+//todo 隐隐包含三个指针，哈哈，可以只两个指针完成，遍历odd，如果遇到偶数，就循环找奇数，然后交换
 public class Code01_SortArrayByParityII {
 
 	// 时间复杂度O(n)，额外空间复杂度O(1)

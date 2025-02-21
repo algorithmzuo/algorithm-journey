@@ -9,9 +9,12 @@ import java.util.Arrays;
 // 例如，[1,2,3,1,2] 中有 3 个不同的整数：1，2，以及 3。
 // 子数组 是数组的 连续 部分。
 // 测试链接 : https://leetcode.cn/problems/subarrays-with-k-different-integers/
+//todo 突然意识到一种单调性的东西，在窗口中只增不减，单调性是缩小窗口的标准
+// 这个题意转化原因也是这个，但我表达不出来，暂时这样吧
 public class Code06_SubarraysWithKDifferentIntegers {
 
 	public static int subarraysWithKDistinct(int[] arr, int k) {
+        //todo 题意转化，将恰好为k的数组个数变为，小于等于k的数组个数-小于等于k-1的数组个数
 		return numsOfMostKinds(arr, k) - numsOfMostKinds(arr, k - 1);
 	}
 
@@ -33,6 +36,9 @@ public class Code06_SubarraysWithKDifferentIntegers {
 					collect--;
 				}
 			}
+            //0 1 2 3 4 k=3
+            //（0-1） （0-2 1-2） （1-3 2-3）
+            //todo 所以累加长度
 			ans += r - l + 1;
 		}
 		return ans;
