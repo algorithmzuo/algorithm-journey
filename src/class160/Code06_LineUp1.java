@@ -100,7 +100,7 @@ public class Code06_LineUp1 {
 		return ans;
 	}
 
-	public static void insert(int i, int v) {
+	public static void add(int i, int v) {
 		for (int j = i; j <= n; j += lowbit(j)) {
 			root[j] = innerAdd(arr[i], v, 1, s, root[j]);
 		}
@@ -134,7 +134,7 @@ public class Code06_LineUp1 {
 		s = len;
 		for (int i = 1; i <= n; i++) {
 			arr[i] = kth(arr[i]);
-			insert(i, 1);
+			add(i, 1);
 		}
 	}
 
@@ -148,13 +148,13 @@ public class Code06_LineUp1 {
 		} else if (arr[a] > arr[b]) {
 			ans--;
 		}
-		insert(a, -1);
-		insert(b, -1);
+		add(a, -1);
+		add(b, -1);
 		int tmp = arr[a];
 		arr[a] = arr[b];
 		arr[b] = tmp;
-		insert(a, 1);
-		insert(b, 1);
+		add(a, 1);
+		add(b, 1);
 	}
 
 	public static void main(String[] args) throws IOException {

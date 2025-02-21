@@ -74,7 +74,7 @@ package class160;
 //    return ans;
 //}
 //
-//void insert(int i, int v) {
+//void add(int i, int v) {
 //    for (int j = i; j <= n; j += lowbit(j)) {
 //        root[j] = innerAdd(arr[i], v, 1, s, root[j]);
 //    }
@@ -104,7 +104,7 @@ package class160;
 //    s = len;
 //    for (int i = 1; i <= n; i++) {
 //        arr[i] = kth(arr[i]);
-//        insert(i, 1);
+//        add(i, 1);
 //    }
 //}
 //
@@ -115,11 +115,11 @@ package class160;
 //    ans += query(a + 1, b - 1, 1, arr[b] - 1);
 //    if (arr[a] < arr[b]) ans++;
 //    else if (arr[a] > arr[b]) ans--;
-//    insert(a, -1);
-//    insert(b, -1);
+//    add(a, -1);
+//    add(b, -1);
 //    swap(arr[a], arr[b]);
-//    insert(a, 1);
-//    insert(b, 1);
+//    add(a, 1);
+//    add(b, 1);
 //}
 //
 //int main() {
