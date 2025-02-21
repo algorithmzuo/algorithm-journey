@@ -91,6 +91,20 @@ package class160;
 //    return ans;
 //}
 //
+//void compute(int a, int b) {
+//    ans -= query(a + 1, b - 1, 1, arr[a] - 1);
+//    ans += query(a + 1, b - 1, arr[a] + 1, s);
+//    ans -= query(a + 1, b - 1, arr[b] + 1, s);
+//    ans += query(a + 1, b - 1, 1, arr[b] - 1);
+//    if (arr[a] < arr[b]) ans++;
+//    else if (arr[a] > arr[b]) ans--;
+//    add(a, -1);
+//    add(b, -1);
+//    swap(arr[a], arr[b]);
+//    add(a, 1);
+//    add(b, 1);
+//}
+//
 //void prepare() {
 //    s = 0;
 //    for (int i = 1; i <= n; i++) sorted[++s] = arr[i];
@@ -106,20 +120,6 @@ package class160;
 //        arr[i] = kth(arr[i]);
 //        add(i, 1);
 //    }
-//}
-//
-//void compute(int a, int b) {
-//    ans -= query(a + 1, b - 1, 1, arr[a] - 1);
-//    ans += query(a + 1, b - 1, arr[a] + 1, s);
-//    ans -= query(a + 1, b - 1, arr[b] + 1, s);
-//    ans += query(a + 1, b - 1, 1, arr[b] - 1);
-//    if (arr[a] < arr[b]) ans++;
-//    else if (arr[a] > arr[b]) ans--;
-//    add(a, -1);
-//    add(b, -1);
-//    swap(arr[a], arr[b]);
-//    add(a, 1);
-//    add(b, 1);
 //}
 //
 //int main() {

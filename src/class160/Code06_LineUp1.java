@@ -64,6 +64,7 @@ public class Code06_LineUp1 {
 		return i & -i;
 	}
 
+	// 线段树单点修改，jobi这个数字词频增加jobv
 	public static int innerAdd(int jobi, int jobv, int l, int r, int i) {
 		if (i == 0) {
 			i = ++cnt;
@@ -82,6 +83,8 @@ public class Code06_LineUp1 {
 		return i;
 	}
 
+	// 查询的数字范围[jobl...jobr]，线段树的数字范围[l..r]，节点编号i
+	// 返回有多少词频
 	public static int innerQuery(int jobl, int jobr, int l, int r, int i) {
 		if (i == 0) {
 			return 0;
@@ -100,12 +103,14 @@ public class Code06_LineUp1 {
 		return ans;
 	}
 
+	// arr的i位置的数字，词频增加v
 	public static void add(int i, int v) {
 		for (int j = i; j <= n; j += lowbit(j)) {
 			root[j] = innerAdd(arr[i], v, 1, s, root[j]);
 		}
 	}
 
+	// arr[al..ar]范围上，有多少数字在[numl..numr]范围上
 	public static int query(int al, int ar, int numl, int numr) {
 		int ans = 0;
 		for (int i = ar; i > 0; i -= lowbit(i)) {
@@ -115,6 +120,27 @@ public class Code06_LineUp1 {
 			ans -= innerQuery(numl, numr, 1, s, root[i]);
 		}
 		return ans;
+	}
+
+	// 交换a和b位置的数字，保证a在前，b在后
+	// 修正好逆序对的数量ans
+	public static void compute(int a, int b) {
+		ans -= query(a + 1, b - 1, 1, arr[a] - 1);
+		ans += query(a + 1, b - 1, arr[a] + 1, s);
+		ans -= query(a + 1, b - 1, arr[b] + 1, s);
+		ans += query(a + 1, b - 1, 1, arr[b] - 1);
+		if (arr[a] < arr[b]) {
+			ans++;
+		} else if (arr[a] > arr[b]) {
+			ans--;
+		}
+		add(a, -1);
+		add(b, -1);
+		int tmp = arr[a];
+		arr[a] = arr[b];
+		arr[b] = tmp;
+		add(a, 1);
+		add(b, 1);
 	}
 
 	public static void prepare() {
@@ -136,25 +162,6 @@ public class Code06_LineUp1 {
 			arr[i] = kth(arr[i]);
 			add(i, 1);
 		}
-	}
-
-	public static void compute(int a, int b) {
-		ans -= query(a + 1, b - 1, 1, arr[a] - 1);
-		ans += query(a + 1, b - 1, arr[a] + 1, s);
-		ans -= query(a + 1, b - 1, arr[b] + 1, s);
-		ans += query(a + 1, b - 1, 1, arr[b] - 1);
-		if (arr[a] < arr[b]) {
-			ans++;
-		} else if (arr[a] > arr[b]) {
-			ans--;
-		}
-		add(a, -1);
-		add(b, -1);
-		int tmp = arr[a];
-		arr[a] = arr[b];
-		arr[b] = tmp;
-		add(a, 1);
-		add(b, 1);
 	}
 
 	public static void main(String[] args) throws IOException {
