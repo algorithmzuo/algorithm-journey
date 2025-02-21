@@ -136,6 +136,8 @@ public class Code03_SegmentWithBalanced1 {
 		return i;
 	}
 
+	// 平衡树当前来到i号节点，把num这个数字插入
+	// 返回头节点编号
 	public static int innerInsert(int num, int i) {
 		top = father = side = 0;
 		i = innerInsert(num, i, 0, 0);
@@ -143,6 +145,7 @@ public class Code03_SegmentWithBalanced1 {
 		return i;
 	}
 
+	// 平衡树当前来到i号节点，返回<num的数字个数
 	public static int innerSmall(int num, int i) {
 		if (i == 0) {
 			return 0;
@@ -154,6 +157,7 @@ public class Code03_SegmentWithBalanced1 {
 		}
 	}
 
+	// 平衡树当前来到i号节点，返回第index小的数字
 	public static int innerIndex(int index, int i) {
 		int leftsize = size[left[i]];
 		if (leftsize >= index) {
@@ -165,6 +169,7 @@ public class Code03_SegmentWithBalanced1 {
 		}
 	}
 
+	// 平衡树当前来到i号节点，返回num的前驱
 	public static int innerPre(int num, int i) {
 		int kth = innerSmall(num, i) + 1;
 		if (kth == 1) {
@@ -174,12 +179,13 @@ public class Code03_SegmentWithBalanced1 {
 		}
 	}
 
+	// 平衡树当前来到i号节点，返回num的后继
 	public static int innerPost(int num, int i) {
-		int kth = innerSmall(num + 1, i);
-		if (kth == size[i]) {
+		int k = innerSmall(num + 1, i);
+		if (k == size[i]) {
 			return INF;
 		} else {
-			return innerIndex(kth + 1, i);
+			return innerIndex(k + 1, i);
 		}
 	}
 
@@ -251,7 +257,8 @@ public class Code03_SegmentWithBalanced1 {
 	public static int number(int jobl, int jobr, int jobk) {
 		int l = 0, r = 100000000, mid, ans = 0;
 		while (l <= r) {
-			mid = (l + r) >> 1;
+			mid = (l + r) >> 1; 
+		    // mid + 1 名次 > jobk
 			if (small(jobl, jobr, mid + 1, 1, n, 1) + 1 > jobk) {
 				ans = mid;
 				r = mid - 1;

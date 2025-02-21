@@ -137,9 +137,9 @@ package class160;
 //}
 //
 //int innerPost(int num, int i) {
-//    int kth = innerSmall(num + 1, i);
-//    if (kth == siz[i]) return INF;
-//    return innerIndex(kth + 1, i);
+//    int k = innerSmall(num + 1, i);
+//    if (k == siz[i]) return INF;
+//    return innerIndex(k + 1, i);
 //}
 //
 //void innerRemove(int num, int i, int f, int s) {
