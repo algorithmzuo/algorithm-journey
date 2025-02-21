@@ -145,9 +145,9 @@ package class160;
 //    }
 //}
 //
-//void add(int i, int kth, int val) {
+//void add(int i, int val, int cnt) {
 //    for (; i <= n; i += lowbit(i)) {
-//        root[i] = innerAdd(kth, val, 1, s, root[i]);
+//        root[i] = innerAdd(val, cnt, 1, s, root[i]);
 //    }
 //}
 //

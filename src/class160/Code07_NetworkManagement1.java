@@ -44,7 +44,7 @@ public class Code07_NetworkManagement1 {
 
 	public static int cntg = 0;
 
-	// 注意这不是主席树！而是若干棵动态开点权值线段树！
+	// 外层的树状数组
 	public static int[] root = new int[MAXN];
 
 	public static int[] left = new int[MAXT];
@@ -245,9 +245,10 @@ public class Code07_NetworkManagement1 {
 		}
 	}
 
-	public static void add(int i, int kth, int val) {
+	// i是dfn序号，val这是值，增加cnt的计数
+	public static void add(int i, int val, int cnt) {
 		for (; i <= n; i += lowbit(i)) {
-			root[i] = innerAdd(kth, val, 1, s, root[i]);
+			root[i] = innerAdd(val, cnt, 1, s, root[i]);
 		}
 	}
 
