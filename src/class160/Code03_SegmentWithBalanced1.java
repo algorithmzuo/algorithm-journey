@@ -208,14 +208,15 @@ public class Code03_SegmentWithBalanced1 {
 		return i;
 	}
 
-	public static void build(int l, int r, int i) {
-		for (int j = l; j <= r; j++) {
-			root[i] = innerInsert(arr[j], root[i]);
-		}
+	public static void add(int jobi, int jobv, int l, int r, int i) {
+		root[i] = innerInsert(jobv, root[i]);
 		if (l < r) {
 			int mid = (l + r) >> 1;
-			build(l, mid, i << 1);
-			build(mid + 1, r, i << 1 | 1);
+			if (jobi <= mid) {
+				add(jobi, jobv, l, mid, i << 1);
+			} else {
+				add(jobi, jobv, mid + 1, r, i << 1 | 1);
+			}
 		}
 	}
 
@@ -303,7 +304,9 @@ public class Code03_SegmentWithBalanced1 {
 			in.nextToken();
 			arr[i] = (int) in.nval;
 		}
-		build(1, n, 1);
+		for (int i = 1; i <= n; i++) {
+			add(i, arr[i], 1, n, 1);
+		}
 		for (int i = 1, op, x, y, z; i <= m; i++) {
 			in.nextToken();
 			op = (int) in.nval;
