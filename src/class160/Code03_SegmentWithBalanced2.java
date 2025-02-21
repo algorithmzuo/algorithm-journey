@@ -69,13 +69,13 @@ package class160;
 //    return h;
 //}
 //
-//int innerRebuild(int i) {
+//int innerRebuild(int h) {
 //    if (top) {
 //        ci = 0;
 //        inorder(top);
 //        if (ci > 0) {
 //            if (father == 0) {
-//                i = innerBuild(1, ci);
+//                h = innerBuild(1, ci);
 //            } else if (side == 1) {
 //            	ls[father] = innerBuild(1, ci);
 //            } else {
@@ -83,7 +83,7 @@ package class160;
 //            }
 //        }
 //    }
-//    return i;
+//    return h;
 //}
 //
 //int innerInsert(int num, int i, int f, int s) {

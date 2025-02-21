@@ -98,13 +98,13 @@ public class Code03_SegmentWithBalanced1 {
 		return h;
 	}
 
-	public static int innerRebuild(int i) {
+	public static int innerRebuild(int h) {
 		if (top != 0) {
 			ci = 0;
 			inorder(top);
 			if (ci > 0) {
 				if (father == 0) {
-					i = innerBuild(1, ci);
+					h = innerBuild(1, ci);
 				} else if (side == 1) {
 					left[father] = innerBuild(1, ci);
 				} else {
@@ -112,7 +112,7 @@ public class Code03_SegmentWithBalanced1 {
 				}
 			}
 		}
-		return i;
+		return h;
 	}
 
 	public static int innerInsert(int num, int i, int f, int s) {
