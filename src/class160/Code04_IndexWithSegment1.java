@@ -73,6 +73,7 @@ public class Code04_IndexWithSegment1 {
 		return i & -i;
 	}
 
+	// 第jobi小的数字，增加jobv的计数，数字范围l~r，节点编号i，返回头节点编号
 	public static int innerAdd(int jobi, int jobv, int l, int r, int i) {
 		if (i == 0) {
 			i = ++cntt;
@@ -91,6 +92,37 @@ public class Code04_IndexWithSegment1 {
 		return i;
 	}
 
+	// 查询比jobi小的数字个数，数字范围l~r
+	// 不需要头节点编号，因为有多棵树，所有的头节点记录在addTree、minusTree
+	public static int innerSmall(int jobi, int l, int r) {
+		if (l == r) {
+			return 0;
+		}
+		int mid = (l + r) / 2;
+		if (jobi <= mid) {
+			for (int i = 1; i <= cntadd; i++) {
+				addTree[i] = left[addTree[i]];
+			}
+			for (int i = 1; i <= cntminus; i++) {
+				minusTree[i] = left[minusTree[i]];
+			}
+			return innerSmall(jobi, l, mid);
+		} else {
+			int leftsum = 0;
+			for (int i = 1; i <= cntadd; i++) {
+				leftsum += sum[left[addTree[i]]];
+				addTree[i] = right[addTree[i]];
+			}
+			for (int i = 1; i <= cntminus; i++) {
+				leftsum -= sum[left[minusTree[i]]];
+				minusTree[i] = right[minusTree[i]];
+			}
+			return leftsum + innerSmall(jobi, mid + 1, r);
+		}
+	}
+
+	// 查询第jobk小的数字，数字范围l~r
+	// 不需要头节点编号，因为有多棵树，所有的头节点记录在addTree、minusTree
 	public static int innerQuery(int jobk, int l, int r) {
 		if (l == r) {
 			return l;
@@ -122,45 +154,21 @@ public class Code04_IndexWithSegment1 {
 		}
 	}
 
-	public static int innerSmall(int jobi, int l, int r) {
-		if (l == r) {
-			return 0;
-		}
-		int mid = (l + r) / 2;
-		if (jobi <= mid) {
-			for (int i = 1; i <= cntadd; i++) {
-				addTree[i] = left[addTree[i]];
-			}
-			for (int i = 1; i <= cntminus; i++) {
-				minusTree[i] = left[minusTree[i]];
-			}
-			return innerSmall(jobi, l, mid);
-		} else {
-			int leftsum = 0;
-			for (int i = 1; i <= cntadd; i++) {
-				leftsum += sum[left[addTree[i]]];
-				addTree[i] = right[addTree[i]];
-			}
-			for (int i = 1; i <= cntminus; i++) {
-				leftsum -= sum[left[minusTree[i]]];
-				minusTree[i] = right[minusTree[i]];
-			}
-			return leftsum + innerSmall(jobi, mid + 1, r);
-		}
-	}
-
+	// arr中i下标的数字，增加cnt的计数
 	public static void add(int i, int cnt) {
 		for (int j = i; j <= n; j += lowbit(j)) {
 			root[j] = innerAdd(arr[i], cnt, 1, s, root[j]);
 		}
 	}
 
+	// arr中i下标的数字，改成v
 	public static void update(int i, int v) {
 		add(i, -1);
 		arr[i] = kth(v);
 		add(i, 1);
 	}
 
+	// arr[l..r]范围上，比v小的数字个数
 	public static int small(int l, int r, int v) {
 		cntadd = cntminus = 0;
 		for (int i = r; i > 0; i -= lowbit(i)) {
@@ -172,6 +180,7 @@ public class Code04_IndexWithSegment1 {
 		return innerSmall(v, 1, s);
 	}
 
+	// arr[l..r]范围上，查询第k小的数字是什么
 	public static int number(int l, int r, int k) {
 		cntadd = cntminus = 0;
 		for (int i = r; i > 0; i -= lowbit(i)) {
@@ -183,6 +192,7 @@ public class Code04_IndexWithSegment1 {
 		return sorted[innerQuery(k, 1, s)];
 	}
 
+	// arr[l..r]范围上，查询v的前驱
 	public static int pre(int l, int r, int v) {
 		int rank = small(l, r, v) + 1;
 		if (rank == 1) {
@@ -191,15 +201,16 @@ public class Code04_IndexWithSegment1 {
 		return number(l, r, rank - 1);
 	}
 
+	// arr[l..r]范围上，查询v的后继
 	public static int post(int l, int r, int v) {
 		if (v == s) {
 			return INF;
 		}
-		int rank = small(l, r, v + 1) + 1;
-		if (rank == r - l + 2) {
+		int sml = small(l, r, v + 1);
+		if (sml == r - l + 1) {
 			return INF;
 		}
-		return number(l, r, rank);
+		return number(l, r, sml + 1);
 	}
 
 	public static void prepare() {
@@ -224,7 +235,7 @@ public class Code04_IndexWithSegment1 {
 		s = len;
 		for (int i = 1; i <= n; i++) {
 			arr[i] = kth(arr[i]);
-			add(i, 1);
+			add(i, 1); // arr中i位置的数字，增加1个词频
 		}
 	}
 

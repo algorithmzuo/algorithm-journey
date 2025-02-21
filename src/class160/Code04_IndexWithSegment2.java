@@ -175,11 +175,11 @@ package class160;
 //    if (v == s) {
 //        return INF;
 //    }
-//    int rank = small(l, r, v + 1) + 1;
-//    if (rank == r - l + 2) {
+//    int sml = small(l, r, v + 1);
+//    if (sml == r - l + 1) {
 //        return INF;
 //    }
-//    return number(l, r, rank);
+//    return number(l, r, sml + 1);
 //}
 //
 //void prepare() {
