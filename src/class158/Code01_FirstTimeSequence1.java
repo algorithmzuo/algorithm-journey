@@ -28,7 +28,7 @@ public class Code01_FirstTimeSequence1 {
 
 	public static int[] arr = new int[MAXN];
 
-	// pos[v] : v这个数字最左出现的位置
+	// pos[v] : v这个数字上次出现的位置
 	public static int[] pos = new int[MAXN];
 
 	// 可持久化线段树需要
@@ -38,27 +38,31 @@ public class Code01_FirstTimeSequence1 {
 
 	public static int[] right = new int[MAXT];
 
-	// 区间不同数字的个数
-	public static int[] diff = new int[MAXT];
+	// 数组范围上只记录每种数第一次出现的位置，这样的位置有多少个
+	public static int[] firstSize = new int[MAXT];
 
 	public static int cnt;
 
 	public static int build(int l, int r) {
 		int rt = ++cnt;
-		if (l == r) {
-			return rt;
+		if (l < r) {
+			int mid = (l + r) / 2;
+			left[rt] = build(l, mid);
+			right[rt] = build(mid + 1, r);
 		}
-		int mid = (l + r) / 2;
-		left[rt] = build(l, mid);
-		right[rt] = build(mid + 1, r);
+		firstSize[rt] = 0;
 		return rt;
 	}
 
+	// 数组范围l~r，信息在i号节点
+	// 如果jobv = -1，意味着jobi位置减少一个计数
+	// 如果jobv = +1，意味着jobi位置增加一个计数
+	// 返回新的头节点编号
 	public static int update(int jobi, int jobv, int l, int r, int i) {
 		int rt = ++cnt;
 		left[rt] = left[i];
 		right[rt] = right[i];
-		diff[rt] = diff[i] + jobv;
+		firstSize[rt] = firstSize[i] + jobv;
 		if (l == r) {
 			return rt;
 		}
@@ -71,34 +75,39 @@ public class Code01_FirstTimeSequence1 {
 		return rt;
 	}
 
-	public static int queryDiff(int jobl, int jobr, int l, int r, int i) {
+	// 数组范围l~r，信息在i号节点
+	// jobl ~ jobr范围上，一共有几种不同的数字，也就是这个范围上，有多少个位置有1
+	public static int querySize(int jobl, int jobr, int l, int r, int i) {
 		if (jobl <= l && r <= jobr) {
-			return diff[i];
+			return firstSize[i];
 		}
 		int mid = (l + r) / 2;
 		int ans = 0;
 		if (jobl <= mid) {
-			ans += queryDiff(jobl, jobr, l, mid, left[i]);
+			ans += querySize(jobl, jobr, l, mid, left[i]);
 		}
 		if (jobr > mid) {
-			ans += queryDiff(jobl, jobr, mid + 1, r, right[i]);
+			ans += querySize(jobl, jobr, mid + 1, r, right[i]);
 		}
 		return ans;
 	}
 
+	// 数组范围l~r，信息在i号节点
+	// 查询这个范围上，第jobk个1在哪
 	public static int queryKth(int jobk, int l, int r, int i) {
 		if (l == r) {
 			return l;
 		}
 		int mid = (l + r) / 2;
-		int leftDiff = diff[left[i]];
-		if (leftDiff >= jobk) {
+		int lsize = firstSize[left[i]];
+		if (lsize >= jobk) {
 			return queryKth(jobk, l, mid, left[i]);
 		} else {
-			return queryKth(jobk - leftDiff, mid + 1, r, right[i]);
+			return queryKth(jobk - lsize, mid + 1, r, right[i]);
 		}
 	}
 
+	// 从右往左建立各个版本的线段树
 	public static void prepare() {
 		cnt = 0;
 		Arrays.fill(pos, 0);
@@ -132,7 +141,7 @@ public class Code01_FirstTimeSequence1 {
 				b = (io.nextInt() + lastAns) % n + 1;
 				l = Math.min(a, b);
 				r = Math.max(a, b);
-				k = (queryDiff(l, r, 1, n, root[l]) + 1) / 2;
+				k = (querySize(l, r, 1, n, root[l]) + 1) / 2;
 				lastAns = queryKth(k, 1, n, root[l]);
 				io.write(" ");
 				io.writeInt(lastAns);

@@ -1,6 +1,7 @@
 package class158;
 
 // 浮动区间的最大上中位数，java版
+// 为了方便理解，我改写了题意，但是改写的题意和原始题意等效
 // 给定一个长度为n的数组arr，下标1~n，一共有m条查询
 // 每条查询 a b c d : 左端点在[a,b]之间、右端点在[c,d]之间，保证a<b<c<d
 //                   哪个区间有最大的上中位数，打印最大的上中位数
@@ -47,7 +48,7 @@ public class Code03_LargestUpMedian1 {
 	// 区间内最大后缀和，后缀不能为空
 	public static int[] suf = new int[MAXT];
 
-	// 区间内累加和，区间为空认为累加和是0
+	// 区间内累加和
 	public static int[] sum = new int[MAXT];
 
 	public static int cnt;
@@ -75,6 +76,7 @@ public class Code03_LargestUpMedian1 {
 		sum[i] = sum[left[i]] + sum[right[i]];
 	}
 
+	// jobi位置，原来是1，现在改为-1
 	public static int update(int jobi, int l, int r, int i) {
 		int rt = ++cnt;
 		left[rt] = left[i];

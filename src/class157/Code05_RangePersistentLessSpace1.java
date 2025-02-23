@@ -10,6 +10,7 @@ package class157;
 // 1 <= n、m <= 10^5
 // -10^9 <= arr[i] <= +10^9
 // 测试链接 : https://acm.hdu.edu.cn/showproblem.php?pid=4348
+// 提交以下的code，提交时请把类名改成"Main"
 // java实现的逻辑一定是正确的，但是通过不了
 // 因为这道题根据C++的运行空间，制定通过标准，根本没考虑java的用户
 // 想通过用C++实现，本节课Code05_RangePersistentLessSpace2文件就是C++的实现

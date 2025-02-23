@@ -8,21 +8,18 @@ package class109;
 // 1 <= n、m、arr[i] <= 10^6
 // 1 <= li <= ri <= n
 // 测试链接 : https://www.luogu.com.cn/problem/P1972
-// 请同学们务必参考如下代码中关于输入、输出的处理
-// 这是输入输出处理效率很高的写法
-// 提交以下的code，提交时请把类名改成"Main"，可以直接通过
+// 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
+// 代码逻辑和课上讲的完全一致，但是重写了读写工具类，增加了io效率
 
-import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.InputStream;
 import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
-import java.io.StreamTokenizer;
 import java.util.Arrays;
 
 public class Code04_DifferentColors {
 
-	public static int MAXN = 1000010;
+	public static int MAXN = 1000001;
 
 	public static int[] arr = new int[MAXN];
 
@@ -60,34 +57,6 @@ public class Code04_DifferentColors {
 		return sum(r) - sum(l - 1);
 	}
 
-	public static void main(String[] args) throws IOException {
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StreamTokenizer in = new StreamTokenizer(br);
-		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
-		in.nextToken();
-		n = (int) in.nval;
-		for (int i = 1; i <= n; i++) {
-			in.nextToken();
-			arr[i] = (int) in.nval;
-		}
-		in.nextToken();
-		m = (int) in.nval;
-		for (int i = 1; i <= m; i++) {
-			in.nextToken();
-			query[i][0] = (int) in.nval;
-			in.nextToken();
-			query[i][1] = (int) in.nval;
-			query[i][2] = i;
-		}
-		compute();
-		for (int i = 1; i <= m; i++) {
-			out.println(ans[i]);
-		}
-		out.flush();
-		out.close();
-		br.close();
-	}
-
 	public static void compute() {
 		Arrays.sort(query, 1, m + 1, (a, b) -> a[1] - b[1]);
 		for (int s = 1, q = 1, l, r, i; q <= m; q++) {
@@ -103,6 +72,125 @@ public class Code04_DifferentColors {
 			l = query[q][0];
 			i = query[q][2];
 			ans[i] = range(l, r);
+		}
+	}
+
+	public static void main(String[] args) throws IOException {
+		FastReader in = new FastReader();
+		BufferedWriter out = new BufferedWriter(new OutputStreamWriter(System.out));
+		n = in.nextInt();
+		for (int i = 1; i <= n; i++) {
+			arr[i] = in.nextInt();
+		}
+		m = in.nextInt();
+		for (int i = 1; i <= m; i++) {
+			query[i][0] = in.nextInt();
+			query[i][1] = in.nextInt();
+			query[i][2] = i;
+		}
+		compute();
+		for (int i = 1; i <= m; i++) {
+			out.write(ans[i] + "\n");
+		}
+		out.flush();
+		out.close();
+	}
+
+	// 读写工具类
+	static class FastReader {
+		final private int BUFFER_SIZE = 1 << 16;
+		private final InputStream in;
+		private final byte[] buffer;
+		private int ptr, len;
+
+		public FastReader() {
+			in = System.in;
+			buffer = new byte[BUFFER_SIZE];
+			ptr = len = 0;
+		}
+
+		private boolean hasNextByte() throws IOException {
+			if (ptr < len)
+				return true;
+			ptr = 0;
+			len = in.read(buffer);
+			return len > 0;
+		}
+
+		private byte readByte() throws IOException {
+			if (!hasNextByte())
+				return -1;
+			return buffer[ptr++];
+		}
+
+		public boolean hasNext() throws IOException {
+			while (hasNextByte()) {
+				byte b = buffer[ptr];
+				if (!isWhitespace(b))
+					return true;
+				ptr++;
+			}
+			return false;
+		}
+
+		public String next() throws IOException {
+			byte c;
+			do {
+				c = readByte();
+				if (c == -1)
+					return null;
+			} while (c <= ' ');
+			StringBuilder sb = new StringBuilder();
+			while (c > ' ') {
+				sb.append((char) c);
+				c = readByte();
+			}
+			return sb.toString();
+		}
+
+		public int nextInt() throws IOException {
+			int num = 0;
+			byte b = readByte();
+			while (isWhitespace(b))
+				b = readByte();
+			boolean minus = false;
+			if (b == '-') {
+				minus = true;
+				b = readByte();
+			}
+			while (!isWhitespace(b) && b != -1) {
+				num = num * 10 + (b - '0');
+				b = readByte();
+			}
+			return minus ? -num : num;
+		}
+
+		public double nextDouble() throws IOException {
+			double num = 0, div = 1;
+			byte b = readByte();
+			while (isWhitespace(b))
+				b = readByte();
+			boolean minus = false;
+			if (b == '-') {
+				minus = true;
+				b = readByte();
+			}
+			while (!isWhitespace(b) && b != '.' && b != -1) {
+				num = num * 10 + (b - '0');
+				b = readByte();
+			}
+			if (b == '.') {
+				b = readByte();
+				while (!isWhitespace(b) && b != -1) {
+					num += (b - '0') / (div *= 10);
+					b = readByte();
+				}
+			}
+			return minus ? -num : num;
+		}
+
+		private boolean isWhitespace(byte b) {
+			return b == ' ' || b == '\n' || b == '\r' || b == '\t';
 		}
 	}
 

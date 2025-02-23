@@ -1,6 +1,6 @@
 package class122;
 
-// 运输计划(迭代版)
+// 运输计划，java迭代版
 // 有n个节点，给定n-1条边使其连接成一棵树，每条边有正数边权
 // 给定很多运输计划，每个运输计划(a,b)表示从a去往b
 // 每个运输计划的代价就是沿途边权和，运输计划之间完全互不干扰
@@ -8,14 +8,16 @@ package class122;
 // 你的目的是让所有运输计划代价的最大值尽量小
 // 返回所有运输计划代价的最大值最小能是多少
 // 测试链接 : https://www.luogu.com.cn/problem/P2680
-// 提交以下的code，提交时请把类名改成"Main"，可以通过所有用例
+// 提交以下的code，提交时请把类名改成"Main"
+// 有时候可以完全通过，有时候会有一个测试用例超时
+// 因为这道题根据C++的运行时间，制定通过标准，根本没考虑java的用户
+// 本节课Code05_TransportPlan3文件就是C++的实现
+// 两个版本的逻辑完全一样，C++版本可以通过所有测试
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
-import java.io.StreamTokenizer;
 import java.util.Arrays;
 
 public class Code05_TransportPlan2 {
@@ -213,41 +215,6 @@ public class Code05_TransportPlan2 {
 		return false;
 	}
 
-	public static void main(String[] args) throws IOException {
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StreamTokenizer in = new StreamTokenizer(br);
-		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
-		in.nextToken();
-		n = (int) in.nval;
-		build();
-		in.nextToken();
-		m = (int) in.nval;
-		for (int i = 1, u, v, w; i < n; i++) {
-			in.nextToken();
-			u = (int) in.nval;
-			in.nextToken();
-			v = (int) in.nval;
-			in.nextToken();
-			w = (int) in.nval;
-			addEdge(u, v, w);
-			addEdge(v, u, w);
-		}
-		for (int i = 1, u, v; i <= m; i++) {
-			in.nextToken();
-			u = (int) in.nval;
-			in.nextToken();
-			v = (int) in.nval;
-			quesu[i] = u;
-			quesv[i] = v;
-			addQuery(u, v, i);
-			addQuery(v, u, i);
-		}
-		out.println(compute());
-		out.flush();
-		out.close();
-		br.close();
-	}
-
 	public static int compute() {
 		tarjan(1);
 		int l = 0, r = maxCost, mid;
@@ -262,6 +229,81 @@ public class Code05_TransportPlan2 {
 			}
 		}
 		return ans;
+	}
+
+	public static void main(String[] args) throws IOException {
+		FastIO in = new FastIO();
+		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out), false);
+		n = in.nextInt();
+		build();
+		m = in.nextInt();
+		for (int i = 1, u, v, w; i < n; i++) {
+			u = in.nextInt();
+			v = in.nextInt();
+			w = in.nextInt();
+			addEdge(u, v, w);
+			addEdge(v, u, w);
+		}
+		for (int i = 1, u, v; i <= m; i++) {
+			u = in.nextInt();
+			v = in.nextInt();
+			quesu[i] = u;
+			quesv[i] = v;
+			addQuery(u, v, i);
+			addQuery(v, u, i);
+		}
+		out.println(compute());
+		out.flush();
+		out.close();
+	}
+
+	// IO工具类
+	static class FastIO {
+		private final int SIZE = 1 << 20;
+		private byte[] buf;
+		private int pos;
+		private int count;
+		private InputStream is;
+
+		public FastIO() {
+			buf = new byte[SIZE];
+			pos = 0;
+			count = 0;
+			is = System.in;
+		}
+
+		private int readByte() throws IOException {
+			if (count == -1) {
+				return -1;
+			}
+			if (pos >= count) {
+				pos = 0;
+				count = is.read(buf);
+				if (count == -1) {
+					return -1;
+				}
+			}
+			return buf[pos++] & 0xff;
+		}
+
+		public int nextInt() throws IOException {
+			int c, value = 0;
+			boolean neg = false;
+			do {
+				c = readByte();
+				if (c == -1) {
+					return -1;
+				}
+			} while (c <= ' ');
+			if (c == '-') {
+				neg = true;
+				c = readByte();
+			}
+			for (; c >= '0' && c <= '9'; c = readByte()) {
+				value = value * 10 + (c - '0');
+			}
+			return neg ? -value : value;
+		}
 	}
 
 }

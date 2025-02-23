@@ -28,17 +28,17 @@ package class158;
 //int root[MAXN];
 //int ls[MAXT];
 //int rs[MAXT];
-//int diff[MAXT];
+//int firstSize[MAXT];
 //int cnt;
 //
 //int build(int l, int r) {
 //    int rt = ++cnt;
-//    if (l == r) {
-//        return rt;
+//    if (l < r) {
+//        int mid = (l + r) / 2;
+//        ls[rt] = build(l, mid);
+//        rs[rt] = build(mid + 1, r);
 //    }
-//    int mid = (l + r) / 2;
-//    ls[rt] = build(l, mid);
-//    rs[rt] = build(mid + 1, r);
+//    firstSize[rt] = 0;
 //    return rt;
 //}
 //
@@ -46,7 +46,7 @@ package class158;
 //    int rt = ++cnt;
 //    ls[rt] = ls[i];
 //    rs[rt] = rs[i];
-//    diff[rt] = diff[i] + jobv;
+//    firstSize[rt] = firstSize[i] + jobv;
 //    if (l == r) {
 //        return rt;
 //    }
@@ -59,17 +59,17 @@ package class158;
 //    return rt;
 //}
 //
-//int queryDiff(int jobl, int jobr, int l, int r, int i) {
+//int querySize(int jobl, int jobr, int l, int r, int i) {
 //    if (jobl <= l && r <= jobr) {
-//        return diff[i];
+//        return firstSize[i];
 //    }
 //    int mid = (l + r) / 2;
 //    int ans = 0;
 //    if (jobl <= mid) {
-//        ans += queryDiff(jobl, jobr, l, mid, ls[i]);
+//        ans += querySize(jobl, jobr, l, mid, ls[i]);
 //    }
 //    if (jobr > mid) {
-//        ans += queryDiff(jobl, jobr, mid + 1, r, rs[i]);
+//        ans += querySize(jobl, jobr, mid + 1, r, rs[i]);
 //    }
 //    return ans;
 //}
@@ -79,11 +79,11 @@ package class158;
 //        return l;
 //    }
 //    int mid = (l + r) / 2;
-//    int leftDiff = diff[ls[i]];
-//    if (leftDiff >= jobk) {
+//    int lsize = firstSize[ls[i]];
+//    if (lsize >= jobk) {
 //        return queryKth(jobk, l, mid, ls[i]);
 //    } else {
-//        return queryKth(jobk - leftDiff, mid + 1, r, rs[i]);
+//        return queryKth(jobk - lsize, mid + 1, r, rs[i]);
 //    }
 //}
 //
@@ -119,7 +119,7 @@ package class158;
 //            b = (r + lastAns) % n + 1;
 //            l = min(a, b);
 //            r = max(a, b);
-//            k = (queryDiff(l, r, 1, n, root[l]) + 1) / 2;
+//            k = (querySize(l, r, 1, n, root[l]) + 1) / 2;
 //            lastAns = queryKth(k, 1, n, root[l]);
 //            cout << " " << lastAns;
 //        }

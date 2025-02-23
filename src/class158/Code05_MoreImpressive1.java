@@ -1,6 +1,7 @@
 package class158;
 
 // 更为厉害，java版
+// 为了方便理解，我改写了题意，但是改写的题意和原始题意等效
 // 有n个节点，编号1~n，给定n-1条边，连成一棵树，1号点是树头
 // 如果x是y的祖先节点，认为"x比y更厉害"
 // 如果x到y的路径上，边的数量 <= 某个常数，认为"x和y是邻居"
@@ -23,7 +24,7 @@ public class Code05_MoreImpressive1 {
 
 	public static int MAXT = MAXN * 22;
 
-	public static int n, m;
+	public static int n, m, depth;
 
 	// 链式前向星需要
 	public static int[] head = new int[MAXN];
@@ -108,6 +109,7 @@ public class Code05_MoreImpressive1 {
 	// 递归版，C++可以通过，java无法通过，递归会爆栈
 	public static void dfs1(int u, int f) {
 		deep[u] = deep[f] + 1;
+		depth = Math.max(depth, deep[u]);
 		size[u] = 1;
 		dfn[u] = ++cntd;
 		for (int ei = head[u]; ei > 0; ei = next[ei]) {
@@ -124,7 +126,7 @@ public class Code05_MoreImpressive1 {
 
 	// 递归版，C++可以通过，java无法通过，递归会爆栈
 	public static void dfs2(int u, int f) {
-		root[dfn[u]] = add(deep[u], size[u] - 1, 1, n, root[dfn[u] - 1]);
+		root[dfn[u]] = add(deep[u], size[u] - 1, 1, depth, root[dfn[u] - 1]);
 		for (int ei = head[u]; ei > 0; ei = next[ei]) {
 			if (to[ei] != f) {
 				dfs2(to[ei], u);
@@ -160,6 +162,7 @@ public class Code05_MoreImpressive1 {
 			pop();
 			if (e == -1) {
 				deep[u] = deep[f] + 1;
+				depth = Math.max(depth, deep[u]);
 				size[u] = 1;
 				dfn[u] = ++cntd;
 				e = head[u];
@@ -188,7 +191,7 @@ public class Code05_MoreImpressive1 {
 		while (stackSize > 0) {
 			pop();
 			if (e == -1) {
-				root[dfn[u]] = add(deep[u], size[u] - 1, 1, n, root[dfn[u] - 1]);
+				root[dfn[u]] = add(deep[u], size[u] - 1, 1, depth, root[dfn[u] - 1]);
 				e = head[u];
 			} else {
 				e = next[e];
@@ -202,9 +205,16 @@ public class Code05_MoreImpressive1 {
 		}
 	}
 
+	public static void prepare() {
+		depth = 0;
+		dfs3(); // 使用迭代版防止爆栈
+		root[0] = build(1, depth);
+		dfs4(); // 使用迭代版防止爆栈
+	}
+
 	public static long compute(int a, int k) {
-		long ans = query(deep[a] + 1, deep[a] + k, 1, n, root[dfn[a] - 1], root[dfn[a] + size[a] - 1]);
-		ans += (long) (size[a] - 1) * Math.min(k, deep[a] - 1);
+		long ans = (long) (size[a] - 1) * Math.min(k, deep[a] - 1);
+		ans += query(deep[a] + 1, deep[a] + k, 1, depth, root[dfn[a] - 1], root[dfn[a] + size[a] - 1]);
 		return ans;
 	}
 
@@ -224,9 +234,7 @@ public class Code05_MoreImpressive1 {
 			addEdge(u, v);
 			addEdge(v, u);
 		}
-		root[0] = build(1, n);
-		dfs3(); // 使用迭代版防止爆栈
-		dfs4(); // 使用迭代版防止爆栈
+		prepare();
 		for (int i = 1, a, k; i <= m; i++) {
 			in.nextToken();
 			a = (int) in.nval;

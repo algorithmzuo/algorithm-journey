@@ -1,6 +1,6 @@
 package class122;
 
-// 运输计划(递归版)
+// 运输计划，java递归版
 // 有n个节点，给定n-1条边使其连接成一棵树，每条边有正数边权
 // 给定很多运输计划，每个运输计划(a,b)表示从a去往b
 // 每个运输计划的代价就是沿途边权和，运输计划之间完全互不干扰
@@ -10,7 +10,7 @@ package class122;
 // 测试链接 : https://www.luogu.com.cn/problem/P2680
 // 提交以下的code，提交时请把类名改成"Main"
 // C++这么写能通过，java会因为递归层数太多而爆栈
-// java能通过的写法参考本节课Code05_TransportPlan2文件
+// 本节课Code05_TransportPlan3文件就是C++的实现
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -170,6 +170,22 @@ public class Code05_TransportPlan1 {
 		return num[u] == beyond && w >= atLeast;
 	}
 
+	public static int compute() {
+		tarjan(1, 0, 0);
+		int l = 0, r = maxCost, mid;
+		int ans = 0;
+		while (l <= r) {
+			mid = (l + r) / 2;
+			if (f(mid)) {
+				ans = mid;
+				r = mid - 1;
+			} else {
+				l = mid + 1;
+			}
+		}
+		return ans;
+	}
+
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StreamTokenizer in = new StreamTokenizer(br);
@@ -203,22 +219,6 @@ public class Code05_TransportPlan1 {
 		out.flush();
 		out.close();
 		br.close();
-	}
-
-	public static int compute() {
-		tarjan(1, 0, 0);
-		int l = 0, r = maxCost, mid;
-		int ans = 0;
-		while (l <= r) {
-			mid = (l + r) / 2;
-			if (f(mid)) {
-				ans = mid;
-				r = mid - 1;
-			} else {
-				l = mid + 1;
-			}
-		}
-		return ans;
 	}
 
 }
