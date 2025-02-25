@@ -6,8 +6,26 @@ import java.util.Arrays;
 // 给定若干会议的开始、结束时间
 // 你参加某个会议的期间，不能参加其他会议
 // 返回你能参加的最大会议数量
-// 来自真实大厂笔试，没有在线测试，对数器验证
+// 同学找到了Leetcode的在线测试，题意类似
+// 测试链接 :https://leetcode.cn/problems/non-overlapping-intervals/
 public class Code03_MeetingMonopoly1 {
+
+	// 测试链接 :https://leetcode.cn/problems/non-overlapping-intervals/
+	// 测试链接中，问至少删除多少会议，可以让剩下的会议都不重合
+	// 那么求出，最多能不重合的参加多少会议，然后 n - 这个数量，就是答案
+	// 同时注意，测试链接中，会议的时间点范围[- 5 * 10 ^ 4 ~ + 5 * 10 ^ 4]
+	public static int eraseOverlapIntervals(int[][] meeting) {
+		Arrays.sort(meeting, (a, b) -> a[1] - b[1]);
+		int n = meeting.length;
+		int ans = 0;
+		for (int i = 0, cur = -50001; i < n; i++) {
+			if (cur <= meeting[i][0]) {
+				ans++;
+				cur = meeting[i][1];
+			}
+		}
+		return n - ans;
+	}
 
 	// 暴力方法
 	// 为了验证
