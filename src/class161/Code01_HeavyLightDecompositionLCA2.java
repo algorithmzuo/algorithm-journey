@@ -1,0 +1,92 @@
+package class161;
+
+// 树链剖分解决LCA查询，C++版
+// 测试链接 : https://www.luogu.com.cn/problem/P3379
+// 如下实现是C++的版本，C++版本和java版本逻辑完全一样
+// 提交如下代码，可以通过所有测试用例
+
+//#include <bits/stdc++.h>
+//
+//using namespace std;
+//
+//const int MAXN = 500001;
+//int n, m, root;
+//int head[MAXN];
+//int nxt[MAXN << 1];
+//int to[MAXN << 1];
+//int cnt;
+//int fa[MAXN];
+//int dep[MAXN];
+//int siz[MAXN];
+//int son[MAXN];
+//int top[MAXN];
+//
+//void addEdge(int u, int v) {
+//    nxt[++cnt] = head[u];
+//    to[cnt] = v;
+//    head[u] = cnt;
+//}
+//
+//void dfs1(int u, int f) {
+//    fa[u] = f;
+//    dep[u] = dep[f] + 1;
+//    siz[u] = 1;
+//    for (int e = head[u], v; e > 0; e = nxt[e]) {
+//        v = to[e];
+//        if (v != f) {
+//            dfs1(v, u);
+//        }
+//    }
+//    for (int e = head[u], v; e > 0; e = nxt[e]) {
+//        v = to[e];
+//        if (v != f) {
+//            siz[u] += siz[v];
+//            if (son[u] == 0 || siz[son[u]] < siz[v]) {
+//                son[u] = v;
+//            }
+//        }
+//    }
+//}
+//
+//void dfs2(int u, int t) {
+//    top[u] = t;
+//    for (int e = head[u], v; e > 0; e = nxt[e]) {
+//        v = to[e];
+//        if (v != fa[u]) {
+//            if (v == son[u]) {
+//                dfs2(v, t);
+//            } else {
+//                dfs2(v, v);
+//            }
+//        }
+//    }
+//}
+//
+//int lca(int a, int b) {
+//    while (top[a] != top[b]) {
+//        if (dep[top[a]] >= dep[top[b]]) {
+//            a = fa[top[a]];
+//        } else {
+//            b = fa[top[b]];
+//        }
+//    }
+//    return dep[a] <= dep[b] ? a : b;
+//}
+//
+//int main() {
+//    ios::sync_with_stdio(false);
+//    cin.tie(nullptr);
+//    cin >> n >> m >> root;
+//    for (int i = 1, u, v; i < n; i++) {
+//        cin >> u >> v;
+//        addEdge(u, v);
+//        addEdge(v, u);
+//    }
+//    dfs1(root, 0);
+//    dfs2(root, root);
+//    for (int i = 1, a, b; i <= m; i++) {
+//        cin >> a >> b;
+//        cout << lca(a, b) << "\n";
+//    }
+//    return 0;
+//}
