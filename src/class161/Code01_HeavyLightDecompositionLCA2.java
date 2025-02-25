@@ -14,7 +14,7 @@ package class161;
 //int head[MAXN];
 //int nxt[MAXN << 1];
 //int to[MAXN << 1];
-//int cnt;
+//int cnt = 0;
 //int fa[MAXN];
 //int dep[MAXN];
 //int siz[MAXN];
@@ -50,24 +50,24 @@ package class161;
 //
 //void dfs2(int u, int t) {
 //    top[u] = t;
+//    if(son[u] == 0) {
+//        return;
+//    }
+//    dfs2(son[u], t);
 //    for (int e = head[u], v; e > 0; e = nxt[e]) {
 //        v = to[e];
-//        if (v != fa[u]) {
-//            if (v == son[u]) {
-//                dfs2(v, t);
-//            } else {
-//                dfs2(v, v);
-//            }
+//        if (v != fa[u] && v != son[u]) {
+//            dfs2(v, v);
 //        }
 //    }
 //}
 //
 //int lca(int a, int b) {
 //    while (top[a] != top[b]) {
-//        if (dep[top[a]] >= dep[top[b]]) {
-//            a = fa[top[a]];
-//        } else {
+//        if (dep[top[a]] <= dep[top[b]]) {
 //            b = fa[top[b]];
+//        } else {
+//            a = fa[top[a]];
 //        }
 //    }
 //    return dep[a] <= dep[b] ? a : b;

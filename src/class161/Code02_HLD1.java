@@ -1,7 +1,7 @@
 package class161;
 
-// 树链剖分解决LCA查询，java版
-// 测试链接 : https://www.luogu.com.cn/problem/P3379
+// 树链剖分模版题，java版
+// 测试链接 : https://www.luogu.com.cn/problem/P3384
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
 import java.io.BufferedReader;
@@ -11,11 +11,13 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 
-public class Code01_HeavyLightDecompositionLCA1 {
+public class Code02_HLD1 {
 
-	public static int MAXN = 500001;
+	public static int MAXN = 100001;
 
-	public static int n, m, root;
+	public static int n, m, root, MOD;
+
+	public static int[] arr = new int[MAXN];
 
 	public static int[] head = new int[MAXN];
 
@@ -23,7 +25,11 @@ public class Code01_HeavyLightDecompositionLCA1 {
 
 	public static int[] to = new int[MAXN << 1];
 
-	public static int cnt = 0;
+	public static int cntg = 0;
+
+	public static long[] sum = new long[MAXN << 2];
+
+	public static long[] addTag = new long[MAXN << 2];
 
 	public static int[] fa = new int[MAXN];
 
@@ -35,10 +41,76 @@ public class Code01_HeavyLightDecompositionLCA1 {
 
 	public static int[] top = new int[MAXN];
 
+	public static int[] dfn = new int[MAXN];
+
+	public static int[] val = new int[MAXN];
+
+	public static int cntd = 0;
+
 	public static void addEdge(int u, int v) {
-		next[++cnt] = head[u];
-		to[cnt] = v;
-		head[u] = cnt;
+		next[++cntg] = head[u];
+		to[cntg] = v;
+		head[u] = cntg;
+	}
+
+	public static void up(int i) {
+		sum[i] = (sum[i << 1] + sum[i << 1 | 1]) % MOD;
+	}
+
+	public static void lazy(int i, long v, int n) {
+		sum[i] = (sum[i] + v * n) % MOD;
+		addTag[i] = (addTag[i] + v) % MOD;
+	}
+
+	public static void down(int i, int ln, int rn) {
+		if (addTag[i] != 0) {
+			lazy(i << 1, addTag[i], ln);
+			lazy(i << 1 | 1, addTag[i], rn);
+			addTag[i] = 0;
+		}
+	}
+
+	public static void build(int l, int r, int i) {
+		if (l == r) {
+			sum[i] = val[l] % MOD;
+		} else {
+			int mid = (l + r) / 2;
+			build(l, mid, i << 1);
+			build(mid + 1, r, i << 1 | 1);
+			up(i);
+		}
+	}
+
+	public static void add(int jobl, int jobr, int jobv, int l, int r, int i) {
+		if (jobl <= l && r <= jobr) {
+			lazy(i, jobv, r - l + 1);
+		} else {
+			int mid = (l + r) / 2;
+			down(i, mid - l + 1, r - mid);
+			if (jobl <= mid) {
+				add(jobl, jobr, jobv, l, mid, i << 1);
+			}
+			if (jobr > mid) {
+				add(jobl, jobr, jobv, mid + 1, r, i << 1 | 1);
+			}
+			up(i);
+		}
+	}
+
+	public static long query(int jobl, int jobr, int l, int r, int i) {
+		if (jobl <= l && r <= jobr) {
+			return sum[i];
+		}
+		int mid = (l + r) / 2;
+		down(i, mid - l + 1, r - mid);
+		long ans = 0;
+		if (jobl <= mid) {
+			ans = (ans + query(jobl, jobr, l, mid, i << 1)) % MOD;
+		}
+		if (jobr > mid) {
+			ans = (ans + query(jobl, jobr, mid + 1, r, i << 1 | 1)) % MOD;
+		}
+		return ans;
 	}
 
 	// 递归版，C++可以通过，java会爆栈
@@ -66,6 +138,8 @@ public class Code01_HeavyLightDecompositionLCA1 {
 	// 递归版，C++可以通过，java会爆栈
 	public static void dfs2(int u, int t) {
 		top[u] = t;
+		dfn[u] = ++cntd;
+		val[cntd] = arr[u];
 		if (son[u] == 0) {
 			return;
 		}
@@ -138,6 +212,8 @@ public class Code01_HeavyLightDecompositionLCA1 {
 			pop();
 			if (edge == -1) { // edge == -1，表示第一次来到当前节点，并且先处理重儿子
 				top[first] = second;
+				dfn[first] = ++cntd;
+				val[cntd] = arr[first];
 				if (son[first] == 0) {
 					continue;
 				}
@@ -158,15 +234,48 @@ public class Code01_HeavyLightDecompositionLCA1 {
 		}
 	}
 
-	public static int lca(int a, int b) {
-		while (top[a] != top[b]) {
-			if (dep[top[a]] <= dep[top[b]]) {
-				b = fa[top[b]];
+	public static void pathAdd(int x, int y, int v) {
+		while (top[x] != top[y]) {
+			if (dep[top[x]] <= dep[top[y]]) {
+				add(dfn[top[y]], dfn[y], v, 1, n, 1);
+				y = fa[top[y]];
 			} else {
-				a = fa[top[a]];
+				add(dfn[top[x]], dfn[x], v, 1, n, 1);
+				x = fa[top[x]];
 			}
 		}
-		return dep[a] <= dep[b] ? a : b;
+		if (dep[x] <= dep[y]) {
+			add(dfn[x], dfn[y], v, 1, n, 1);
+		} else {
+			add(dfn[y], dfn[x], v, 1, n, 1);
+		}
+	}
+
+	public static void subtreeAdd(int x, int v) {
+		add(dfn[x], dfn[x] + siz[x] - 1, v, 1, n, 1);
+	}
+
+	public static long pathSum(int x, int y) {
+		long ans = 0;
+		while (top[x] != top[y]) {
+			if (dep[top[x]] <= dep[top[y]]) {
+				ans = (ans + query(dfn[top[y]], dfn[y], 1, n, 1)) % MOD;
+				y = fa[top[y]];
+			} else {
+				ans = (ans + query(dfn[top[x]], dfn[x], 1, n, 1)) % MOD;
+				x = fa[top[x]];
+			}
+		}
+		if (dep[x] <= dep[y]) {
+			ans = (ans + query(dfn[x], dfn[y], 1, n, 1)) % MOD;
+		} else {
+			ans = (ans + query(dfn[y], dfn[x], 1, n, 1)) % MOD;
+		}
+		return ans;
+	}
+
+	public static long subtreeSum(int x) {
+		return query(dfn[x], dfn[x] + siz[x] - 1, 1, n, 1);
 	}
 
 	public static void main(String[] args) throws IOException {
@@ -179,6 +288,12 @@ public class Code01_HeavyLightDecompositionLCA1 {
 		m = (int) in.nval;
 		in.nextToken();
 		root = (int) in.nval;
+		in.nextToken();
+		MOD = (int) in.nval;
+		for (int i = 1; i <= n; i++) {
+			in.nextToken();
+			arr[i] = (int) in.nval;
+		}
 		for (int i = 1, u, v; i < n; i++) {
 			in.nextToken();
 			u = (int) in.nval;
@@ -189,16 +304,38 @@ public class Code01_HeavyLightDecompositionLCA1 {
 		}
 		dfs3(); // dfs3() 等同于 dfs1(root, 0)，调用迭代版防止爆栈
 		dfs4(); // dfs4() 等同于 dfs2(root, root)，调用迭代版防止爆栈
-		for (int i = 1, a, b; i <= m; i++) {
+		build(1, n, 1);
+		for (int i = 1, op, x, y, z; i <= m; i++) {
 			in.nextToken();
-			a = (int) in.nval;
-			in.nextToken();
-			b = (int) in.nval;
-			out.println(lca(a, b));
+			op = (int) in.nval;
+			if (op == 1) {
+				in.nextToken();
+				x = (int) in.nval;
+				in.nextToken();
+				y = (int) in.nval;
+				in.nextToken();
+				z = (int) in.nval;
+				pathAdd(x, y, z);
+			} else if (op == 2) {
+				in.nextToken();
+				x = (int) in.nval;
+				in.nextToken();
+				y = (int) in.nval;
+				out.println(pathSum(x, y));
+			} else if (op == 3) {
+				in.nextToken();
+				x = (int) in.nval;
+				in.nextToken();
+				y = (int) in.nval;
+				subtreeAdd(x, y);
+			} else {
+				in.nextToken();
+				x = (int) in.nval;
+				out.println(subtreeSum(x));
+			}
 		}
 		out.flush();
 		out.close();
 		br.close();
 	}
-
 }
