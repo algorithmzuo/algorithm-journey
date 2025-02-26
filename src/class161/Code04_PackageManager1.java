@@ -258,8 +258,8 @@ public class Code04_PackageManager1 {
 			v = io.nextInt() + 1;
 			addEdge(v, u);
 		}
-		dfs3();
-		dfs4();
+		dfs3(); // dfs3() 等同于 dfs1(1, 0)，调用迭代版防止爆栈
+		dfs4(); // dfs4() 等同于 dfs2(1, 1)，调用迭代版防止爆栈
 		m = io.nextInt();
 		String op;
 		int x;
