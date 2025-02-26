@@ -17,8 +17,8 @@ package class161;
 //int to[MAXN << 1];
 //int cntg = 0;
 //int sum[MAXN << 2];
-//int lc[MAXN << 2];
-//int rc[MAXN << 2];
+//int lcolor[MAXN << 2];
+//int rcolor[MAXN << 2];
 //int change[MAXN << 2];
 //int fa[MAXN];
 //int dep[MAXN];
@@ -73,18 +73,18 @@ package class161;
 //}
 //
 //void up(int i) {
-//	sum[i] = sum[i << 1] + sum[i << 1 | 1];
-//    if (rc[i << 1] == lc[(i << 1) | 1]) {
+//    sum[i] = sum[i << 1] + sum[i << 1 | 1];
+//    if (rcolor[i << 1] == lcolor[(i << 1) | 1]) {
 //    	sum[i]--;
 //    }
-//    lc[i] = lc[i << 1];
-//    rc[i] = rc[(i << 1) | 1];
+//    lcolor[i] = lcolor[i << 1];
+//    rcolor[i] = rcolor[(i << 1) | 1];
 //}
 //
 //void lazy(int i, int v) {
-//	sum[i] = 1;
-//    lc[i] = v;
-//    rc[i] = v;
+//    sum[i] = 1;
+//    lcolor[i] = v;
+//    rcolor[i] = v;
 //    change[i] = v;
 //}
 //
@@ -99,8 +99,8 @@ package class161;
 //void build(int l, int r, int i) {
 //    if (l == r) {
 //    	sum[i] = 1;
-//        lc[i] = arr[seg[l]];
-//        rc[i] = arr[seg[l]];
+//        lcolor[i] = arr[seg[l]];
+//        rcolor[i] = arr[seg[l]];
 //    } else {
 //        int mid = (l + r) / 2;
 //        build(l, mid, i << 1);
@@ -138,7 +138,7 @@ package class161;
 //    } else {
 //        int ans = query(jobl, jobr, l, mid, i << 1)
 //                + query(jobl, jobr, mid + 1, r, (i << 1) | 1);
-//        if (rc[i << 1] == lc[(i << 1) | 1]) {
+//        if (rcolor[i << 1] == lcolor[(i << 1) | 1]) {
 //            ans--;
 //        }
 //        return ans;
@@ -147,7 +147,7 @@ package class161;
 //
 //int pointColor(int jobi, int l, int r, int i) {
 //    if (l == r) {
-//        return lc[i];
+//        return lcolor[i];
 //    }
 //    down(i);
 //    int mid = (l + r) / 2;

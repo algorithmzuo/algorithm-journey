@@ -31,9 +31,9 @@ public class Code05_Coloring1 {
 
 	public static int[] sum = new int[MAXN << 2];
 
-	public static int[] lc = new int[MAXN << 2];
+	public static int[] lcolor = new int[MAXN << 2];
 
-	public static int[] rc = new int[MAXN << 2];
+	public static int[] rcolor = new int[MAXN << 2];
 
 	public static int[] change = new int[MAXN << 2];
 
@@ -182,17 +182,17 @@ public class Code05_Coloring1 {
 
 	public static void up(int i) {
 		sum[i] = sum[i << 1] + sum[i << 1 | 1];
-		if (rc[i << 1] == lc[i << 1 | 1]) {
+		if (rcolor[i << 1] == lcolor[i << 1 | 1]) {
 			sum[i]--;
 		}
-		lc[i] = lc[i << 1];
-		rc[i] = rc[i << 1 | 1];
+		lcolor[i] = lcolor[i << 1];
+		rcolor[i] = rcolor[i << 1 | 1];
 	}
 
 	public static void lazy(int i, int v) {
 		sum[i] = 1;
-		lc[i] = v;
-		rc[i] = v;
+		lcolor[i] = v;
+		rcolor[i] = v;
 		change[i] = v;
 	}
 
@@ -207,8 +207,8 @@ public class Code05_Coloring1 {
 	public static void build(int l, int r, int i) {
 		if (l == r) {
 			sum[i] = 1;
-			lc[i] = arr[seg[l]];
-			rc[i] = arr[seg[l]];
+			lcolor[i] = arr[seg[l]];
+			rcolor[i] = arr[seg[l]];
 		} else {
 			int mid = (l + r) / 2;
 			build(l, mid, i << 1);
@@ -245,7 +245,7 @@ public class Code05_Coloring1 {
 			return query(jobl, jobr, mid + 1, r, i << 1 | 1);
 		} else {
 			int ans = query(jobl, jobr, l, mid, i << 1) + query(jobl, jobr, mid + 1, r, i << 1 | 1);
-			if (rc[i << 1] == lc[i << 1 | 1]) {
+			if (rcolor[i << 1] == lcolor[i << 1 | 1]) {
 				ans--;
 			}
 			return ans;
@@ -254,7 +254,7 @@ public class Code05_Coloring1 {
 
 	public static int pointColor(int jobi, int l, int r, int i) {
 		if (l == r) {
-			return lc[i];
+			return lcolor[i];
 		}
 		down(i);
 		int mid = (l + r) / 2;
