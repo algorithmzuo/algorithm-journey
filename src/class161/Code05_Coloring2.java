@@ -74,11 +74,11 @@ package class161;
 //
 //void up(int i) {
 //    sum[i] = sum[i << 1] + sum[i << 1 | 1];
-//    if (rcolor[i << 1] == lcolor[(i << 1) | 1]) {
+//    if (rcolor[i << 1] == lcolor[i << 1 | 1]) {
 //    	sum[i]--;
 //    }
 //    lcolor[i] = lcolor[i << 1];
-//    rcolor[i] = rcolor[(i << 1) | 1];
+//    rcolor[i] = rcolor[i << 1 | 1];
 //}
 //
 //void lazy(int i, int v) {
@@ -91,7 +91,7 @@ package class161;
 //void down(int i) {
 //    if (change[i] != 0) {
 //        lazy(i << 1, change[i]);
-//        lazy((i << 1) | 1, change[i]);
+//        lazy(i << 1 | 1, change[i]);
 //        change[i] = 0;
 //    }
 //}
@@ -104,7 +104,7 @@ package class161;
 //    } else {
 //        int mid = (l + r) / 2;
 //        build(l, mid, i << 1);
-//        build(mid + 1, r, (i << 1) | 1);
+//        build(mid + 1, r, i << 1 | 1);
 //        up(i);
 //    }
 //}
@@ -119,7 +119,7 @@ package class161;
 //            update(jobl, jobr, jobv, l, mid, i << 1);
 //        }
 //        if (jobr > mid) {
-//            update(jobl, jobr, jobv, mid + 1, r, (i << 1) | 1);
+//            update(jobl, jobr, jobv, mid + 1, r, i << 1 | 1);
 //        }
 //        up(i);
 //    }
@@ -134,11 +134,11 @@ package class161;
 //    if (jobr <= mid) {
 //        return query(jobl, jobr, l, mid, i << 1);
 //    } else if (jobl > mid) {
-//        return query(jobl, jobr, mid + 1, r, (i << 1) | 1);
+//        return query(jobl, jobr, mid + 1, r, i << 1 | 1);
 //    } else {
 //        int ans = query(jobl, jobr, l, mid, i << 1)
-//                + query(jobl, jobr, mid + 1, r, (i << 1) | 1);
-//        if (rcolor[i << 1] == lcolor[(i << 1) | 1]) {
+//                + query(jobl, jobr, mid + 1, r, i << 1 | 1);
+//        if (rcolor[i << 1] == lcolor[i << 1 | 1]) {
 //            ans--;
 //        }
 //        return ans;
@@ -154,7 +154,7 @@ package class161;
 //    if (jobi <= mid) {
 //        return pointColor(jobi, l, mid, i << 1);
 //    } else {
-//        return pointColor(jobi, mid + 1, r, (i << 1) | 1);
+//        return pointColor(jobi, mid + 1, r, i << 1 | 1);
 //    }
 //}
 //
