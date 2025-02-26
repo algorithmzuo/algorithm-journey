@@ -33,66 +33,6 @@ package class161;
 //    head[u] = cntg;
 //}
 //
-//void up(int i) {
-//    sum[i] = (sum[i << 1] + sum[i << 1 | 1]) % MOD;
-//}
-//
-//void lazy(int i, long long v, int n) {
-//    sum[i] = (sum[i] + v * n) % MOD;
-//    addTag[i] = (addTag[i] + v) % MOD;
-//}
-//
-//void down(int i, int ln, int rn) {
-//    if (addTag[i] != 0) {
-//    	lazy(i << 1, addTag[i], ln);
-//    	lazy(i << 1 | 1, addTag[i], rn);
-//    	addTag[i] = 0;
-//    }
-//}
-//
-//void build(int l, int r, int i) {
-//    if (l == r) {
-//        sum[i] = arr[seg[l]] % MOD;
-//    } else {
-//        int mid = (l + r) / 2;
-//        build(l, mid, i << 1);
-//        build(mid + 1, r, i << 1 | 1);
-//        up(i);
-//    }
-//}
-//
-//void add(int jobl, int jobr, int jobv, int l, int r, int i) {
-//    if (jobl <= l && r <= jobr) {
-//    	lazy(i, jobv, r - l + 1);
-//    } else {
-//        int mid = (l + r) / 2;
-//        down(i, mid - l + 1, r - mid);
-//        if (jobl <= mid) {
-//            add(jobl, jobr, jobv, l, mid, i << 1);
-//        }
-//        if (jobr > mid) {
-//            add(jobl, jobr, jobv, mid + 1, r, i << 1 | 1);
-//        }
-//        up(i);
-//    }
-//}
-//
-//long long query(int jobl, int jobr, int l, int r, int i) {
-//    if (jobl <= l && r <= jobr) {
-//        return sum[i];
-//    }
-//    int mid = (l + r) / 2;
-//    down(i, mid - l + 1, r - mid);
-//    long long ans = 0;
-//    if (jobl <= mid) {
-//        ans = (ans + query(jobl, jobr, l, mid, i << 1)) % MOD;
-//    }
-//    if (jobr > mid) {
-//        ans = (ans + query(jobl, jobr, mid + 1, r, i << 1 | 1)) % MOD;
-//    }
-//    return ans;
-//}
-//
 //void dfs1(int u, int f) {
 //    fa[u] = f;
 //    dep[u] = dep[f] + 1;
@@ -128,6 +68,66 @@ package class161;
 //            dfs2(v, v);
 //        }
 //    }
+//}
+//
+//void up(int i) {
+//    sum[i] = (sum[i << 1] + sum[i << 1 | 1]) % MOD;
+//}
+//
+//void lazy(int i, long long v, int n) {
+//    sum[i] = (sum[i] + v * n) % MOD;
+//    addTag[i] = (addTag[i] + v) % MOD;
+//}
+//
+//void down(int i, int ln, int rn) {
+//    if (addTag[i] != 0) {
+//        lazy(i << 1, addTag[i], ln);
+//        lazy(i << 1 | 1, addTag[i], rn);
+//        addTag[i] = 0;
+//    }
+//}
+//
+//void build(int l, int r, int i) {
+//    if (l == r) {
+//        sum[i] = arr[seg[l]] % MOD;
+//    } else {
+//        int mid = (l + r) / 2;
+//        build(l, mid, i << 1);
+//        build(mid + 1, r, i << 1 | 1);
+//        up(i);
+//    }
+//}
+//
+//void add(int jobl, int jobr, int jobv, int l, int r, int i) {
+//    if (jobl <= l && r <= jobr) {
+//        lazy(i, jobv, r - l + 1);
+//    } else {
+//        int mid = (l + r) / 2;
+//        down(i, mid - l + 1, r - mid);
+//        if (jobl <= mid) {
+//            add(jobl, jobr, jobv, l, mid, i << 1);
+//        }
+//        if (jobr > mid) {
+//            add(jobl, jobr, jobv, mid + 1, r, i << 1 | 1);
+//        }
+//        up(i);
+//    }
+//}
+//
+//long long query(int jobl, int jobr, int l, int r, int i) {
+//    if (jobl <= l && r <= jobr) {
+//        return sum[i];
+//    }
+//    int mid = (l + r) / 2;
+//    down(i, mid - l + 1, r - mid);
+//    long long ans = 0;
+//    if (jobl <= mid) {
+//        ans = (ans + query(jobl, jobr, l, mid, i << 1)) % MOD;
+//    }
+//    if (jobr > mid) {
+//        ans = (ans + query(jobl, jobr, mid + 1, r, i << 1 | 1)) % MOD;
+//    }
+//    return ans;
 //}
 //
 //void pathAdd(int x, int y, int v) {

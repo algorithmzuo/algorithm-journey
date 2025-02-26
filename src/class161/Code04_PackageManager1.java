@@ -1,21 +1,23 @@
 package class161;
 
-// 路径累加和与子树累加和，java版
-// 测试链接 : https://www.luogu.com.cn/problem/P3384
+// 软件包管理器，java版
+// 测试链接 : https://www.luogu.com.cn/problem/P2146
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
 import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
+import java.io.OutputStream;
 import java.io.PrintWriter;
-import java.io.StreamTokenizer;
+import java.util.StringTokenizer;
 
-public class Code02_PathSumAndSubtreeSum1 {
+public class Code04_PackageManager1 {
 
 	public static int MAXN = 100001;
 
-	public static int n, m, root, MOD;
+	public static int n, m;
 
 	public static int[] arr = new int[MAXN];
 
@@ -27,9 +29,11 @@ public class Code02_PathSumAndSubtreeSum1 {
 
 	public static int cntg = 0;
 
-	public static long[] sum = new long[MAXN << 2];
+	public static int[] sum = new int[MAXN << 2];
 
-	public static long[] addTag = new long[MAXN << 2];
+	public static boolean[] update = new boolean[MAXN << 2];
+
+	public static int[] change = new int[MAXN << 2];
 
 	public static int[] fa = new int[MAXN];
 
@@ -42,8 +46,6 @@ public class Code02_PathSumAndSubtreeSum1 {
 	public static int[] top = new int[MAXN];
 
 	public static int[] dfn = new int[MAXN];
-
-	public static int[] seg = new int[MAXN];
 
 	public static int cntd = 0;
 
@@ -79,7 +81,6 @@ public class Code02_PathSumAndSubtreeSum1 {
 	public static void dfs2(int u, int t) {
 		top[u] = t;
 		dfn[u] = ++cntd;
-		seg[cntd] = u;
 		if (son[u] == 0) {
 			return;
 		}
@@ -114,7 +115,7 @@ public class Code02_PathSumAndSubtreeSum1 {
 	// dfs1的迭代版
 	public static void dfs3() {
 		stacksize = 0;
-		push(root, 0, -1);
+		push(1, 0, -1);
 		while (stacksize > 0) {
 			pop();
 			if (edge == -1) {
@@ -147,13 +148,12 @@ public class Code02_PathSumAndSubtreeSum1 {
 	// dfs2的迭代版
 	public static void dfs4() {
 		stacksize = 0;
-		push(root, root, -1);
+		push(1, 1, -1);
 		while (stacksize > 0) {
 			pop();
 			if (edge == -1) { // edge == -1，表示第一次来到当前节点，并且先处理重儿子
 				top[first] = second;
 				dfn[first] = ++cntd;
-				seg[cntd] = first;
 				if (son[first] == 0) {
 					continue;
 				}
@@ -175,44 +175,34 @@ public class Code02_PathSumAndSubtreeSum1 {
 	}
 
 	public static void up(int i) {
-		sum[i] = (sum[i << 1] + sum[i << 1 | 1]) % MOD;
+		sum[i] = sum[i << 1] + sum[i << 1 | 1];
 	}
 
-	public static void lazy(int i, long v, int n) {
-		sum[i] = (sum[i] + v * n) % MOD;
-		addTag[i] = (addTag[i] + v) % MOD;
+	public static void lazy(int i, int v, int n) {
+		sum[i] = v * n;
+		update[i] = true;
+		change[i] = v;
 	}
 
 	public static void down(int i, int ln, int rn) {
-		if (addTag[i] != 0) {
-			lazy(i << 1, addTag[i], ln);
-			lazy(i << 1 | 1, addTag[i], rn);
-			addTag[i] = 0;
+		if (update[i]) {
+			lazy(i << 1, change[i], ln);
+			lazy(i << 1 | 1, change[i], rn);
+			update[i] = false;
 		}
 	}
 
-	public static void build(int l, int r, int i) {
-		if (l == r) {
-			sum[i] = arr[seg[l]] % MOD;
-		} else {
-			int mid = (l + r) / 2;
-			build(l, mid, i << 1);
-			build(mid + 1, r, i << 1 | 1);
-			up(i);
-		}
-	}
-
-	public static void add(int jobl, int jobr, int jobv, int l, int r, int i) {
+	public static void update(int jobl, int jobr, int jobv, int l, int r, int i) {
 		if (jobl <= l && r <= jobr) {
 			lazy(i, jobv, r - l + 1);
 		} else {
 			int mid = (l + r) / 2;
 			down(i, mid - l + 1, r - mid);
 			if (jobl <= mid) {
-				add(jobl, jobr, jobv, l, mid, i << 1);
+				update(jobl, jobr, jobv, l, mid, i << 1);
 			}
 			if (jobr > mid) {
-				add(jobl, jobr, jobv, mid + 1, r, i << 1 | 1);
+				update(jobl, jobr, jobv, mid + 1, r, i << 1 | 1);
 			}
 			up(i);
 		}
@@ -226,108 +216,106 @@ public class Code02_PathSumAndSubtreeSum1 {
 		down(i, mid - l + 1, r - mid);
 		long ans = 0;
 		if (jobl <= mid) {
-			ans = (ans + query(jobl, jobr, l, mid, i << 1)) % MOD;
+			ans += query(jobl, jobr, l, mid, i << 1);
 		}
 		if (jobr > mid) {
-			ans = (ans + query(jobl, jobr, mid + 1, r, i << 1 | 1)) % MOD;
+			ans += query(jobl, jobr, mid + 1, r, i << 1 | 1);
 		}
 		return ans;
 	}
 
-	public static void pathAdd(int x, int y, int v) {
+	public static void pathUpdate(int x, int y, int v) {
 		while (top[x] != top[y]) {
 			if (dep[top[x]] <= dep[top[y]]) {
-				add(dfn[top[y]], dfn[y], v, 1, n, 1);
+				update(dfn[top[y]], dfn[y], v, 1, n, 1);
 				y = fa[top[y]];
 			} else {
-				add(dfn[top[x]], dfn[x], v, 1, n, 1);
+				update(dfn[top[x]], dfn[x], v, 1, n, 1);
 				x = fa[top[x]];
 			}
 		}
-		add(Math.min(dfn[x], dfn[y]), Math.max(dfn[x], dfn[y]), v, 1, n, 1);
+		update(Math.min(dfn[x], dfn[y]), Math.max(dfn[x], dfn[y]), v, 1, n, 1);
 	}
 
-	public static void subtreeAdd(int x, int v) {
-		add(dfn[x], dfn[x] + siz[x] - 1, v, 1, n, 1);
+	public static int install(int x) {
+		int pre = sum[1];
+		pathUpdate(1, x, 1);
+		int post = sum[1];
+		return Math.abs(post - pre);
 	}
 
-	public static long pathSum(int x, int y) {
-		long ans = 0;
-		while (top[x] != top[y]) {
-			if (dep[top[x]] <= dep[top[y]]) {
-				ans = (ans + query(dfn[top[y]], dfn[y], 1, n, 1)) % MOD;
-				y = fa[top[y]];
-			} else {
-				ans = (ans + query(dfn[top[x]], dfn[x], 1, n, 1)) % MOD;
-				x = fa[top[x]];
-			}
-		}
-		ans = (ans + query(Math.min(dfn[x], dfn[y]), Math.max(dfn[x], dfn[y]), 1, n, 1)) % MOD;
-		return ans;
+	public static int uninstall(int x) {
+		int pre = sum[1];
+		update(dfn[x], dfn[x] + siz[x] - 1, 0, 1, n, 1);
+		int post = sum[1];
+		return Math.abs(post - pre);
 	}
 
-	public static long subtreeSum(int x) {
-		return query(dfn[x], dfn[x] + siz[x] - 1, 1, n, 1);
-	}
-
-	public static void main(String[] args) throws IOException {
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StreamTokenizer in = new StreamTokenizer(br);
-		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
-		in.nextToken();
-		n = (int) in.nval;
-		in.nextToken();
-		m = (int) in.nval;
-		in.nextToken();
-		root = (int) in.nval;
-		in.nextToken();
-		MOD = (int) in.nval;
-		for (int i = 1; i <= n; i++) {
-			in.nextToken();
-			arr[i] = (int) in.nval;
-		}
-		for (int i = 1, u, v; i < n; i++) {
-			in.nextToken();
-			u = (int) in.nval;
-			in.nextToken();
-			v = (int) in.nval;
-			addEdge(u, v);
+	public static void main(String[] args) {
+		Kattio io = new Kattio();
+		n = io.nextInt();
+		for (int u = 2, v; u <= n; u++) {
+			v = io.nextInt() + 1;
 			addEdge(v, u);
 		}
-		dfs3(); // dfs3() 等同于 dfs1(root, 0)，调用迭代版防止爆栈
-		dfs4(); // dfs4() 等同于 dfs2(root, root)，调用迭代版防止爆栈
-		build(1, n, 1);
-		for (int i = 1, op, x, y, z; i <= m; i++) {
-			in.nextToken();
-			op = (int) in.nval;
-			if (op == 1) {
-				in.nextToken();
-				x = (int) in.nval;
-				in.nextToken();
-				y = (int) in.nval;
-				in.nextToken();
-				z = (int) in.nval;
-				pathAdd(x, y, z);
-			} else if (op == 2) {
-				in.nextToken();
-				x = (int) in.nval;
-				in.nextToken();
-				y = (int) in.nval;
-				out.println(pathSum(x, y));
-			} else if (op == 3) {
-				in.nextToken();
-				x = (int) in.nval;
-				in.nextToken();
-				y = (int) in.nval;
-				subtreeAdd(x, y);
+		dfs3();
+		dfs4();
+		m = io.nextInt();
+		String op;
+		int x;
+		for (int i = 1; i <= m; i++) {
+			op = io.next();
+			x = io.nextInt() + 1;
+			if (op.equals("install")) {
+				io.println(install(x));
 			} else {
-				in.nextToken();
-				x = (int) in.nval;
-				out.println(subtreeSum(x));
+				io.println(uninstall(x));
 			}
 		}
-		out.flush();
-		out.close();
-		br.close();
+		io.flush();
+		io.close();
 	}
+
+	// 读写工具类
+	public static class Kattio extends PrintWriter {
+		private BufferedReader r;
+		private StringTokenizer st;
+
+		public Kattio() {
+			this(System.in, System.out);
+		}
+
+		public Kattio(InputStream i, OutputStream o) {
+			super(o);
+			r = new BufferedReader(new InputStreamReader(i));
+		}
+
+		public Kattio(String intput, String output) throws IOException {
+			super(output);
+			r = new BufferedReader(new FileReader(intput));
+		}
+
+		public String next() {
+			try {
+				while (st == null || !st.hasMoreTokens())
+					st = new StringTokenizer(r.readLine());
+				return st.nextToken();
+			} catch (Exception e) {
+			}
+			return null;
+		}
+
+		public int nextInt() {
+			return Integer.parseInt(next());
+		}
+
+		public double nextDouble() {
+			return Double.parseDouble(next());
+		}
+
+		public long nextLong() {
+			return Long.parseLong(next());
+		}
+	}
+
 }

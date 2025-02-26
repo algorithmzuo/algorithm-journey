@@ -29,19 +29,54 @@ package class161;
 //int cntd = 0;
 //
 //void addEdge(int u, int v) {
-//	nxt[++cntg] = head[u];
+//    nxt[++cntg] = head[u];
 //    to[cntg] = v;
 //    head[u] = cntg;
 //}
 //
+//void dfs1(int u, int f) {
+//    fa[u] = f;
+//    dep[u] = dep[f] + 1;
+//    siz[u] = 1;
+//    for (int e = head[u], v; e; e = nxt[e]) {
+//        v = to[e];
+//        if (v != f) {
+//            dfs1(v, u);
+//        }
+//    }
+//    for (int e = head[u], v; e; e = nxt[e]) {
+//        v = to[e];
+//        if (v != f) {
+//            siz[u] += siz[v];
+//            if (!son[u] || siz[son[u]] < siz[v]) {
+//                son[u] = v;
+//            }
+//        }
+//    }
+//}
+//
+//void dfs2(int u, int t) {
+//    top[u] = t;
+//    dfn[u] = ++cntd;
+//    seg[cntd] = u;
+//    if (!son[u]) return;
+//    dfs2(son[u], t);
+//    for (int e = head[u], v; e; e = nxt[e]) {
+//        v = to[e];
+//        if (v != fa[u] && v != son[u]) {
+//            dfs2(v, v);
+//        }
+//    }
+//}
+//
 //void up(int i) {
-//	sumv[i] = sumv[i << 1] + sumv[i << 1 | 1];
+//    sumv[i] = sumv[i << 1] + sumv[i << 1 | 1];
 //    maxv[i] = max(maxv[i << 1], maxv[i << 1 | 1]);
 //}
 //
 //void build(int l, int r, int i) {
 //    if (l == r) {
-//    	sumv[i] = maxv[i] = arr[seg[l]];
+//        sumv[i] = maxv[i] = arr[seg[l]];
 //    } else {
 //        int mid = (l + r) / 2;
 //        build(l, mid, i << 1);
@@ -52,7 +87,7 @@ package class161;
 //
 //void update(int jobi, int jobv, int l, int r, int i) {
 //    if (l == r) {
-//    	sumv[i] = maxv[i] = jobv;
+//        sumv[i] = maxv[i] = jobv;
 //    } else {
 //        int mid = (l + r) / 2;
 //        if (jobi <= mid) {
@@ -90,41 +125,6 @@ package class161;
 //        ans += querySum(jobl, jobr, mid + 1, r, i << 1 | 1);
 //    }
 //    return ans;
-//}
-//
-//void dfs1(int u, int f) {
-//    fa[u] = f;
-//    dep[u] = dep[f] + 1;
-//    siz[u] = 1;
-//    for (int e = head[u], v; e; e = nxt[e]) {
-//        v = to[e];
-//        if (v != f) {
-//            dfs1(v, u);
-//        }
-//    }
-//    for (int e = head[u], v; e; e = nxt[e]) {
-//        v = to[e];
-//        if (v != f) {
-//            siz[u] += siz[v];
-//            if (!son[u] || siz[son[u]] < siz[v]) {
-//                son[u] = v;
-//            }
-//        }
-//    }
-//}
-//
-//void dfs2(int u, int t) {
-//    top[u] = t;
-//    dfn[u] = ++cntd;
-//    seg[cntd] = u;
-//    if (!son[u]) return;
-//    dfs2(son[u], t);
-//    for (int e = head[u], v; e; e = nxt[e]) {
-//        v = to[e];
-//        if (v != fa[u] && v != son[u]) {
-//            dfs2(v, v);
-//        }
-//    }
 //}
 //
 //void pointUpdate(int u, int v) {

@@ -57,66 +57,6 @@ public class Code03_PathMaxAndPathSum1 {
 		head[u] = cntg;
 	}
 
-	public static void up(int i) {
-		sum[i] = sum[i << 1] + sum[i << 1 | 1];
-		max[i] = Math.max(max[i << 1], max[i << 1 | 1]);
-	}
-
-	public static void build(int l, int r, int i) {
-		if (l == r) {
-			sum[i] = max[i] = arr[seg[l]];
-		} else {
-			int mid = (l + r) / 2;
-			build(l, mid, i << 1);
-			build(mid + 1, r, i << 1 | 1);
-			up(i);
-		}
-	}
-
-	public static void update(int jobi, int jobv, int l, int r, int i) {
-		if (l == r) {
-			sum[i] = max[i] = jobv;
-		} else {
-			int mid = (l + r) / 2;
-			if (jobi <= mid) {
-				update(jobi, jobv, l, mid, i << 1);
-			} else {
-				update(jobi, jobv, mid + 1, r, i << 1 | 1);
-			}
-			up(i);
-		}
-	}
-
-	public static int queryMax(int jobl, int jobr, int l, int r, int i) {
-		if (jobl <= l && r <= jobr) {
-			return max[i];
-		}
-		int mid = (l + r) / 2;
-		int ans = -INF;
-		if (jobl <= mid) {
-			ans = Math.max(ans, queryMax(jobl, jobr, l, mid, i << 1));
-		}
-		if (jobr > mid) {
-			ans = Math.max(ans, queryMax(jobl, jobr, mid + 1, r, i << 1 | 1));
-		}
-		return ans;
-	}
-
-	public static int querySum(int jobl, int jobr, int l, int r, int i) {
-		if (jobl <= l && r <= jobr) {
-			return sum[i];
-		}
-		int mid = (l + r) / 2;
-		int ans = 0;
-		if (jobl <= mid) {
-			ans += querySum(jobl, jobr, l, mid, i << 1);
-		}
-		if (jobr > mid) {
-			ans += querySum(jobl, jobr, mid + 1, r, i << 1 | 1);
-		}
-		return ans;
-	}
-
 	// 递归版，C++可以通过，java会爆栈
 	public static void dfs1(int u, int f) {
 		fa[u] = f;
@@ -236,6 +176,66 @@ public class Code03_PathMaxAndPathSum1 {
 				}
 			}
 		}
+	}
+
+	public static void up(int i) {
+		sum[i] = sum[i << 1] + sum[i << 1 | 1];
+		max[i] = Math.max(max[i << 1], max[i << 1 | 1]);
+	}
+
+	public static void build(int l, int r, int i) {
+		if (l == r) {
+			sum[i] = max[i] = arr[seg[l]];
+		} else {
+			int mid = (l + r) / 2;
+			build(l, mid, i << 1);
+			build(mid + 1, r, i << 1 | 1);
+			up(i);
+		}
+	}
+
+	public static void update(int jobi, int jobv, int l, int r, int i) {
+		if (l == r) {
+			sum[i] = max[i] = jobv;
+		} else {
+			int mid = (l + r) / 2;
+			if (jobi <= mid) {
+				update(jobi, jobv, l, mid, i << 1);
+			} else {
+				update(jobi, jobv, mid + 1, r, i << 1 | 1);
+			}
+			up(i);
+		}
+	}
+
+	public static int queryMax(int jobl, int jobr, int l, int r, int i) {
+		if (jobl <= l && r <= jobr) {
+			return max[i];
+		}
+		int mid = (l + r) / 2;
+		int ans = -INF;
+		if (jobl <= mid) {
+			ans = Math.max(ans, queryMax(jobl, jobr, l, mid, i << 1));
+		}
+		if (jobr > mid) {
+			ans = Math.max(ans, queryMax(jobl, jobr, mid + 1, r, i << 1 | 1));
+		}
+		return ans;
+	}
+
+	public static int querySum(int jobl, int jobr, int l, int r, int i) {
+		if (jobl <= l && r <= jobr) {
+			return sum[i];
+		}
+		int mid = (l + r) / 2;
+		int ans = 0;
+		if (jobl <= mid) {
+			ans += querySum(jobl, jobr, l, mid, i << 1);
+		}
+		if (jobr > mid) {
+			ans += querySum(jobl, jobr, mid + 1, r, i << 1 | 1);
+		}
+		return ans;
 	}
 
 	public static void pointUpdate(int u, int v) {
