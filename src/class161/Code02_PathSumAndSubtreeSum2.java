@@ -1,6 +1,6 @@
 package class161;
 
-// 树链剖分模版题，C++版
+// 路径累加和与子树累加和，C++版
 // 测试链接 : https://www.luogu.com.cn/problem/P3384
 // 如下实现是C++的版本，C++版本和java版本逻辑完全一样
 // 提交如下代码，可以通过所有测试用例
@@ -24,7 +24,7 @@ package class161;
 //int son[MAXN];
 //int top[MAXN];
 //int dfn[MAXN];
-//int val[MAXN];
+//int seg[MAXN];
 //int cntd = 0;
 //
 //void addEdge(int u, int v) {
@@ -52,7 +52,7 @@ package class161;
 //
 //void build(int l, int r, int i) {
 //    if (l == r) {
-//        sum[i] = val[l] % MOD;
+//        sum[i] = arr[seg[l]] % MOD;
 //    } else {
 //        int mid = (l + r) / 2;
 //        build(l, mid, i << 1);
@@ -117,7 +117,7 @@ package class161;
 //void dfs2(int u, int t) {
 //    top[u] = t;
 //    dfn[u] = ++cntd;
-//    val[cntd] = arr[u];
+//    seg[cntd] = u;
 //    if (son[u] == 0) {
 //        return;
 //    }
@@ -140,11 +140,7 @@ package class161;
 //            x = fa[top[x]];
 //        }
 //    }
-//    if (dep[x] <= dep[y]) {
-//        add(dfn[x], dfn[y], v, 1, n, 1);
-//    } else {
-//        add(dfn[y], dfn[x], v, 1, n, 1);
-//    }
+//    add(min(dfn[x], dfn[y]), max(dfn[x], dfn[y]), v, 1, n, 1);
 //}
 //
 //void subtreeAdd(int x, int v) {
@@ -162,11 +158,7 @@ package class161;
 //            x = fa[top[x]];
 //        }
 //    }
-//    if (dep[x] <= dep[y]) {
-//        ans = (ans + query(dfn[x], dfn[y], 1, n, 1)) % MOD;
-//    } else {
-//        ans = (ans + query(dfn[y], dfn[x], 1, n, 1)) % MOD;
-//    }
+//    ans = (ans + query(min(dfn[x], dfn[y]), max(dfn[x], dfn[y]), 1, n, 1)) % MOD;
 //    return ans;
 //}
 //
