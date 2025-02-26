@@ -98,7 +98,7 @@ package class161;
 //
 //void build(int l, int r, int i) {
 //    if (l == r) {
-//    	sum[i] = 1;
+//        sum[i] = 1;
 //        lcolor[i] = arr[seg[l]];
 //        rcolor[i] = arr[seg[l]];
 //    } else {
