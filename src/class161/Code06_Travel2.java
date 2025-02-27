@@ -163,37 +163,34 @@ package class161;
 //    int tmpy = y;
 //    int xpath[4] = {-INF, INF, 0, 0};
 //    int ypath[4] = {-INF, INF, 0, 0};
+//    int cur[4];
 //    while (top[x] != top[y]) {
 //        if (dep[top[x]] <= dep[top[y]]) {
-//            int cur[4];
 //            query(cur, dfn[top[y]], dfn[y]);
 //            merge(cur, ypath[0], ypath[1], ypath[2], ypath[3]);
-//            for (int i = 0; i < 4; i++) {
+//            for (int i = 0; i <= 3; i++) {
 //                ypath[i] = cur[i];
 //            }
 //            y = fa[top[y]];
 //        } else {
-//            int cur[4];
 //            query(cur, dfn[top[x]], dfn[x]);
 //            merge(cur, xpath[0], xpath[1], xpath[2], xpath[3]);
-//            for (int i = 0; i < 4; i++) {
+//            for (int i = 0; i <= 3; i++) {
 //                xpath[i] = cur[i];
 //            }
 //            x = fa[top[x]];
 //        }
 //    }
 //    if (dep[x] <= dep[y]) {
-//        int cur[4];
 //        query(cur, dfn[x], dfn[y]);
 //        merge(cur, ypath[0], ypath[1], ypath[2], ypath[3]);
-//        for (int i = 0; i < 4; i++) {
+//        for (int i = 0; i <= 3; i++) {
 //            ypath[i] = cur[i];
 //        }
 //    } else {
-//        int cur[4];
 //        query(cur, dfn[y], dfn[x]);
 //        merge(cur, xpath[0], xpath[1], xpath[2], xpath[3]);
-//        for (int i = 0; i < 4; i++) {
+//        for (int i = 0; i <= 3; i++) {
 //            xpath[i] = cur[i];
 //        }
 //    }

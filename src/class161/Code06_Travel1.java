@@ -257,37 +257,48 @@ public class Code06_Travel1 {
 		}
 	}
 
-	public static int[] query(int jobl, int jobr) {
-		int[] ans = new int[] { -INF, INF, 0, 0 };
+	public static void query(int[] ans, int jobl, int jobr) {
+		ans[0] = -INF;
+		ans[1] = INF;
+		ans[2] = 0;
+		ans[3] = 0;
 		query(ans, jobl, jobr, 1, n, 1);
-		return ans;
 	}
 
 	public static int compute(int x, int y, int v) {
 		int tmpx = x, tmpy = y;
 		int[] xpath = new int[] { -INF, INF, 0, 0 };
 		int[] ypath = new int[] { -INF, INF, 0, 0 };
+		int[] cur = new int[4];
 		while (top[x] != top[y]) {
 			if (dep[top[x]] <= dep[top[y]]) {
-				int[] cur = query(dfn[top[y]], dfn[y]);
+				query(cur, dfn[top[y]], dfn[y]);
 				merge(cur, ypath[0], ypath[1], ypath[2], ypath[3]);
-				ypath = cur;
+				for (int i = 0; i <= 3; i++) {
+					ypath[i] = cur[i];
+				}
 				y = fa[top[y]];
 			} else {
-				int[] cur = query(dfn[top[x]], dfn[x]);
+				query(cur, dfn[top[x]], dfn[x]);
 				merge(cur, xpath[0], xpath[1], xpath[2], xpath[3]);
-				xpath = cur;
+				for (int i = 0; i <= 3; i++) {
+					xpath[i] = cur[i];
+				}
 				x = fa[top[x]];
 			}
 		}
 		if (dep[x] <= dep[y]) {
-			int[] cur = query(dfn[x], dfn[y]);
+			query(cur, dfn[x], dfn[y]);
 			merge(cur, ypath[0], ypath[1], ypath[2], ypath[3]);
-			ypath = cur;
+			for (int i = 0; i <= 3; i++) {
+				ypath[i] = cur[i];
+			}
 		} else {
-			int[] cur = query(dfn[y], dfn[x]);
+			query(cur, dfn[y], dfn[x]);
 			merge(cur, xpath[0], xpath[1], xpath[2], xpath[3]);
-			xpath = cur;
+			for (int i = 0; i <= 3; i++) {
+				xpath[i] = cur[i];
+			}
 		}
 		int ans = Math.max(Math.max(xpath[3], ypath[2]), ypath[0] - xpath[1]);
 		x = tmpx;
