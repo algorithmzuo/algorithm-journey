@@ -11,7 +11,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 
-public class Code06_Travel1 {
+public class Code06_Tourism1 {
 
 	public static int MAXN = 50001;
 
