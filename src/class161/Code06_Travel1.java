@@ -1,21 +1,21 @@
 package class161;
 
-// 染色，java版
-// 测试链接 : https://www.luogu.com.cn/problem/P2486
+// 旅游，java版
+// 测试链接 : https://www.luogu.com.cn/problem/P3976
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
 import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
-import java.util.StringTokenizer;
+import java.io.StreamTokenizer;
 
-public class Code05_Coloring1 {
+public class Code06_Travel1 {
 
-	public static int MAXN = 100001;
+	public static int MAXN = 50001;
+
+	public static int INF = 1000000001;
 
 	public static int n, m;
 
@@ -45,13 +45,15 @@ public class Code05_Coloring1 {
 
 	public static int cntd = 0;
 
-	public static int[] sum = new int[MAXN << 2];
+	public static int[] max = new int[MAXN << 2];
 
-	public static int[] lcolor = new int[MAXN << 2];
+	public static int[] min = new int[MAXN << 2];
 
-	public static int[] rcolor = new int[MAXN << 2];
+	public static int[] lprofit = new int[MAXN << 2];
 
-	public static int[] change = new int[MAXN << 2];
+	public static int[] rprofit = new int[MAXN << 2];
+
+	public static int[] addTag = new int[MAXN << 2];
 
 	public static void addEdge(int u, int v) {
 		next[++cntg] = head[u];
@@ -181,34 +183,30 @@ public class Code05_Coloring1 {
 	}
 
 	public static void up(int i) {
-		sum[i] = sum[i << 1] + sum[i << 1 | 1];
-		if (rcolor[i << 1] == lcolor[i << 1 | 1]) {
-			sum[i]--;
-		}
-		lcolor[i] = lcolor[i << 1];
-		rcolor[i] = rcolor[i << 1 | 1];
+		int l = i << 1, r = i << 1 | 1;
+		max[i] = Math.max(max[l], max[r]);
+		min[i] = Math.min(min[l], min[r]);
+		lprofit[i] = Math.max(Math.max(lprofit[l], lprofit[r]), max[r] - min[l]);
+		rprofit[i] = Math.max(Math.max(rprofit[l], rprofit[r]), max[l] - min[r]);
 	}
 
 	public static void lazy(int i, int v) {
-		sum[i] = 1;
-		lcolor[i] = v;
-		rcolor[i] = v;
-		change[i] = v;
+		max[i] += v;
+		min[i] += v;
+		addTag[i] += v;
 	}
 
 	public static void down(int i) {
-		if (change[i] != 0) {
-			lazy(i << 1, change[i]);
-			lazy(i << 1 | 1, change[i]);
-			change[i] = 0;
+		if (addTag[i] != 0) {
+			lazy(i << 1, addTag[i]);
+			lazy(i << 1 | 1, addTag[i]);
+			addTag[i] = 0;
 		}
 	}
 
 	public static void build(int l, int r, int i) {
 		if (l == r) {
-			sum[i] = 1;
-			lcolor[i] = arr[seg[l]];
-			rcolor[i] = arr[seg[l]];
+			max[i] = min[i] = arr[seg[l]];
 		} else {
 			int mid = (l + r) / 2;
 			build(l, mid, i << 1);
@@ -217,162 +215,131 @@ public class Code05_Coloring1 {
 		}
 	}
 
-	public static void update(int jobl, int jobr, int jobv, int l, int r, int i) {
+	public static void add(int jobl, int jobr, int jobv, int l, int r, int i) {
 		if (jobl <= l && r <= jobr) {
 			lazy(i, jobv);
 		} else {
 			down(i);
 			int mid = (l + r) / 2;
 			if (jobl <= mid) {
-				update(jobl, jobr, jobv, l, mid, i << 1);
+				add(jobl, jobr, jobv, l, mid, i << 1);
 			}
 			if (jobr > mid) {
-				update(jobl, jobr, jobv, mid + 1, r, i << 1 | 1);
+				add(jobl, jobr, jobv, mid + 1, r, i << 1 | 1);
 			}
 			up(i);
 		}
 	}
 
-	public static int query(int jobl, int jobr, int l, int r, int i) {
+	public static void merge(int[] ans, int rmax, int rmin, int rlpro, int rrpro) {
+		int lmax = ans[0];
+		int lmin = ans[1];
+		int llpro = ans[2];
+		int lrpro = ans[3];
+		ans[0] = Math.max(lmax, rmax);
+		ans[1] = Math.min(lmin, rmin);
+		ans[2] = Math.max(Math.max(llpro, rlpro), rmax - lmin);
+		ans[3] = Math.max(Math.max(lrpro, rrpro), lmax - rmin);
+	}
+
+	public static void query(int[] ans, int jobl, int jobr, int l, int r, int i) {
 		if (jobl <= l && r <= jobr) {
-			return sum[i];
-		}
-		down(i);
-		int mid = (l + r) / 2;
-		if (jobr <= mid) {
-			return query(jobl, jobr, l, mid, i << 1);
-		} else if (jobl > mid) {
-			return query(jobl, jobr, mid + 1, r, i << 1 | 1);
+			merge(ans, max[i], min[i], lprofit[i], rprofit[i]);
 		} else {
-			int ans = query(jobl, jobr, l, mid, i << 1) + query(jobl, jobr, mid + 1, r, i << 1 | 1);
-			if (rcolor[i << 1] == lcolor[i << 1 | 1]) {
-				ans--;
+			down(i);
+			int mid = (l + r) / 2;
+			if (jobl <= mid) {
+				query(ans, jobl, jobr, l, mid, i << 1);
 			}
-			return ans;
+			if (jobr > mid) {
+				query(ans, jobl, jobr, mid + 1, r, i << 1 | 1);
+			}
 		}
 	}
 
-	public static int pointColor(int jobi, int l, int r, int i) {
-		if (l == r) {
-			return lcolor[i];
-		}
-		down(i);
-		int mid = (l + r) / 2;
-		if (jobi <= mid) {
-			return pointColor(jobi, l, mid, i << 1);
-		} else {
-			return pointColor(jobi, mid + 1, r, i << 1 | 1);
-		}
-	}
-
-	public static void pathUpdate(int x, int y, int v) {
-		while (top[x] != top[y]) {
-			if (dep[top[x]] <= dep[top[y]]) {
-				update(dfn[top[y]], dfn[y], v, 1, n, 1);
-				y = fa[top[y]];
-			} else {
-				update(dfn[top[x]], dfn[x], v, 1, n, 1);
-				x = fa[top[x]];
-			}
-		}
-		update(Math.min(dfn[x], dfn[y]), Math.max(dfn[x], dfn[y]), v, 1, n, 1);
-	}
-
-	public static int pathColors(int x, int y) {
-		int ans = 0, sonc, fac;
-		while (top[x] != top[y]) {
-			if (dep[top[x]] <= dep[top[y]]) {
-				ans += query(dfn[top[y]], dfn[y], 1, n, 1);
-				sonc = pointColor(dfn[top[y]], 1, n, 1);
-				fac = pointColor(dfn[fa[top[y]]], 1, n, 1);
-				y = fa[top[y]];
-			} else {
-				ans += query(dfn[top[x]], dfn[x], 1, n, 1);
-				sonc = pointColor(dfn[top[x]], 1, n, 1);
-				fac = pointColor(dfn[fa[top[x]]], 1, n, 1);
-				x = fa[top[x]];
-			}
-			if (sonc == fac) {
-				ans--;
-			}
-		}
-		ans += query(Math.min(dfn[x], dfn[y]), Math.max(dfn[x], dfn[y]), 1, n, 1);
+	public static int[] query(int jobl, int jobr) {
+		int[] ans = new int[] { -INF, INF, 0, 0 };
+		query(ans, jobl, jobr, 1, n, 1);
 		return ans;
 	}
 
-	public static void main(String[] args) {
-		Kattio io = new Kattio();
-		n = io.nextInt();
-		m = io.nextInt();
+	public static int compute(int x, int y, int v) {
+		int tmpx = x, tmpy = y;
+		int[] xpath = new int[] { -INF, INF, 0, 0 };
+		int[] ypath = new int[] { -INF, INF, 0, 0 };
+		while (top[x] != top[y]) {
+			if (dep[top[x]] <= dep[top[y]]) {
+				int[] cur = query(dfn[top[y]], dfn[y]);
+				merge(cur, ypath[0], ypath[1], ypath[2], ypath[3]);
+				ypath = cur;
+				y = fa[top[y]];
+			} else {
+				int[] cur = query(dfn[top[x]], dfn[x]);
+				merge(cur, xpath[0], xpath[1], xpath[2], xpath[3]);
+				xpath = cur;
+				x = fa[top[x]];
+			}
+		}
+		if (dep[x] <= dep[y]) {
+			int[] cur = query(dfn[x], dfn[y]);
+			merge(cur, ypath[0], ypath[1], ypath[2], ypath[3]);
+			ypath = cur;
+		} else {
+			int[] cur = query(dfn[y], dfn[x]);
+			merge(cur, xpath[0], xpath[1], xpath[2], xpath[3]);
+			xpath = cur;
+		}
+		int ans = Math.max(Math.max(xpath[3], ypath[2]), ypath[0] - xpath[1]);
+		x = tmpx;
+		y = tmpy;
+		while (top[x] != top[y]) {
+			if (dep[top[x]] <= dep[top[y]]) {
+				add(dfn[top[y]], dfn[y], v, 1, n, 1);
+				y = fa[top[y]];
+			} else {
+				add(dfn[top[x]], dfn[x], v, 1, n, 1);
+				x = fa[top[x]];
+			}
+		}
+		add(Math.min(dfn[x], dfn[y]), Math.max(dfn[x], dfn[y]), v, 1, n, 1);
+		return ans;
+	}
+
+	public static void main(String[] args) throws IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StreamTokenizer in = new StreamTokenizer(br);
+		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
+		in.nextToken();
+		n = (int) in.nval;
 		for (int i = 1; i <= n; i++) {
-			arr[i] = io.nextInt();
+			in.nextToken();
+			arr[i] = (int) in.nval;
 		}
 		for (int i = 1, u, v; i < n; i++) {
-			u = io.nextInt();
-			v = io.nextInt();
+			in.nextToken();
+			u = (int) in.nval;
+			in.nextToken();
+			v = (int) in.nval;
 			addEdge(u, v);
 			addEdge(v, u);
 		}
-		dfs3();
-		dfs4();
+		dfs3(); // dfs3() 等同于 dfs1(1, 0)，调用迭代版防止爆栈
+		dfs4(); // dfs4() 等同于 dfs2(1, 1)，调用迭代版防止爆栈
 		build(1, n, 1);
-		String op;
-		int x, y, z;
-		for (int i = 1; i <= m; i++) {
-			op = io.next();
-			x = io.nextInt();
-			y = io.nextInt();
-			if (op.equals("C")) {
-				z = io.nextInt();
-				pathUpdate(x, y, z);
-			} else {
-				io.println(pathColors(x, y));
-			}
+		in.nextToken();
+		m = (int) in.nval;
+		for (int i = 1, x, y, v; i <= m; i++) {
+			in.nextToken();
+			x = (int) in.nval;
+			in.nextToken();
+			y = (int) in.nval;
+			in.nextToken();
+			v = (int) in.nval;
+			out.println(compute(x, y, v));
 		}
-		io.flush();
-		io.close();
-	}
-
-	// 读写工具类
-	public static class Kattio extends PrintWriter {
-		private BufferedReader r;
-		private StringTokenizer st;
-
-		public Kattio() {
-			this(System.in, System.out);
-		}
-
-		public Kattio(InputStream i, OutputStream o) {
-			super(o);
-			r = new BufferedReader(new InputStreamReader(i));
-		}
-
-		public Kattio(String intput, String output) throws IOException {
-			super(output);
-			r = new BufferedReader(new FileReader(intput));
-		}
-
-		public String next() {
-			try {
-				while (st == null || !st.hasMoreTokens())
-					st = new StringTokenizer(r.readLine());
-				return st.nextToken();
-			} catch (Exception e) {
-			}
-			return null;
-		}
-
-		public int nextInt() {
-			return Integer.parseInt(next());
-		}
-
-		public double nextDouble() {
-			return Double.parseDouble(next());
-		}
-
-		public long nextLong() {
-			return Long.parseLong(next());
-		}
+		out.flush();
+		out.close();
+		br.close();
 	}
 
 }

@@ -27,10 +27,6 @@ public class Code02_PathSumAndSubtreeSum1 {
 
 	public static int cntg = 0;
 
-	public static long[] sum = new long[MAXN << 2];
-
-	public static long[] addTag = new long[MAXN << 2];
-
 	public static int[] fa = new int[MAXN];
 
 	public static int[] dep = new int[MAXN];
@@ -46,6 +42,10 @@ public class Code02_PathSumAndSubtreeSum1 {
 	public static int[] seg = new int[MAXN];
 
 	public static int cntd = 0;
+
+	public static long[] sum = new long[MAXN << 2];
+
+	public static long[] addTag = new long[MAXN << 2];
 
 	public static void addEdge(int u, int v) {
 		next[++cntg] = head[u];

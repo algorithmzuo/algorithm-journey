@@ -17,8 +17,6 @@ package class161;
 //int nxt[MAXN << 1];
 //int to[MAXN << 1];
 //int cntg = 0;
-//int maxv[MAXN << 2];
-//int sumv[MAXN << 2];
 //int fa[MAXN];
 //int dep[MAXN];
 //int siz[MAXN];
@@ -27,6 +25,8 @@ package class161;
 //int dfn[MAXN];
 //int seg[MAXN];
 //int cntd = 0;
+//int maxv[MAXN << 2];
+//int sumv[MAXN << 2];
 //
 //void addEdge(int u, int v) {
 //    nxt[++cntg] = head[u];
