@@ -237,7 +237,7 @@ public class Code07_Network1 {
 		add(Math.min(dfn[x], dfn[y]), Math.max(dfn[x], dfn[y]), v);
 	}
 
-	public static void copyEvent(int[] event1, int[] event2) {
+	public static void clone(int[] event1, int[] event2) {
 		event1[0] = event2[0];
 		event1[1] = event2[1];
 		event1[2] = event2[2];
@@ -265,7 +265,7 @@ public class Code07_Network1 {
 			if (events[i][0] == 0) {
 				events[i][3] = kth(events[i][3]);
 			} else if (events[i][0] == 1) {
-				copyEvent(events[i], events[events[i][1]]);
+				clone(events[i], events[events[i][1]]);
 				events[i][0] = -1;
 			} else {
 				events[i][0] = ++cntans;
@@ -287,25 +287,25 @@ public class Code07_Network1 {
 				if (events[i][0] == 0) {
 					if (events[i][3] > impm) {
 						pathAdd(events[i][1], events[i][2], 1);
-						copyEvent(revent[++right], events[i]);
+						clone(revent[++right], events[i]);
 						activeCnt++;
 					} else {
-						copyEvent(levent[++left], events[i]);
+						clone(levent[++left], events[i]);
 					}
 				} else if (events[i][0] == -1) {
 					if (events[i][3] > impm) {
 						pathAdd(events[i][1], events[i][2], -1);
-						copyEvent(revent[++right], events[i]);
+						clone(revent[++right], events[i]);
 						activeCnt--;
 					} else {
-						copyEvent(levent[++left], events[i]);
+						clone(levent[++left], events[i]);
 					}
 				} else {
 					int sum = query(dfn[events[i][1]]);
 					if (sum != activeCnt) {
-						copyEvent(revent[++right], events[i]);
+						clone(revent[++right], events[i]);
 					} else {
-						copyEvent(levent[++left], events[i]);
+						clone(levent[++left], events[i]);
 					}
 				}
 			}
@@ -319,10 +319,10 @@ public class Code07_Network1 {
 				}
 			}
 			for (int i = 1; i <= left; i++) {
-				copyEvent(events[evtl + i - 1], levent[i]);
+				clone(events[evtl + i - 1], levent[i]);
 			}
 			for (int i = 1; i <= right; i++) {
-				copyEvent(events[evtl + left + i - 1], revent[i]);
+				clone(events[evtl + left + i - 1], revent[i]);
 			}
 			compute(evtl, evtl + left - 1, impl, impm);
 			compute(evtl + left, evtr, impm + 1, impr);
