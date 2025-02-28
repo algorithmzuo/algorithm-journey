@@ -323,11 +323,11 @@ public class Code07_Network1 {
 					pathAdd(rset[i][1], rset[i][2], 1);
 				}
 			}
-			for (int i = 1; i <= lsize; i++) {
-				clone(events[evtl + i - 1], lset[i]);
+			for (int i = evtl, j = 1; j <= lsize; i++, j++) {
+				clone(events[i], lset[j]);
 			}
-			for (int i = 1; i <= rsize; i++) {
-				clone(events[evtl + lsize + i - 1], rset[i]);
+			for (int i = evtl + lsize, j = 1; j <= rsize; i++, j++) {
+				clone(events[i], rset[j]);
 			}
 			compute(evtl, evtl + lsize - 1, impl, impm);
 			compute(evtl + lsize, evtr, impm + 1, impr);
