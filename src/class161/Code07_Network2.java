@@ -194,11 +194,10 @@ package class161;
 //            }
 //        }
 //        for (int i = 1; i <= right; i++) {
-//            if (revent[i][0] == 0) {
-//                if (revent[i][3] > impm) {
-//                    pathAdd(revent[i][1], revent[i][2], -1);
-//                }
-//            } else if (revent[i][0] == -1 && revent[i][3] > impm) {
+//            if (revent[i][0] == 0 && revent[i][3] > impm) {
+//                pathAdd(revent[i][1], revent[i][2], -1);
+//            }
+//            if (revent[i][0] == -1 && revent[i][3] > impm) {
 //                pathAdd(revent[i][1], revent[i][2], 1);
 //            }
 //        }
