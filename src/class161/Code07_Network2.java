@@ -1,6 +1,16 @@
 package class161;
 
 // 网络，C++版
+// 一共有n个服务器，n-1条边，所有服务器连成一棵树
+// 某两个服务器之间的路径上，可能接受一条请求，路径上的所有服务器都需要保存该请求的重要度
+// 一共有m条操作，每条操作是如下3种类型中的一种，操作依次发生，第i条操作发生的时间为i
+// 操作 0 a b v : a号服务器到b号服务器的路径上，增加了一个重要度为v的请求
+// 操作 1 t     : 当初时间为t的操作，一定是增加请求的操作，现在这个请求结束了
+// 操作 2 x     : 当前时间下，和x号服务器无关的所有请求中，打印最大的重要度
+//                如果当前时间下，没有任何请求、或者所有请求都和x号服务器有关，打印-1
+// 2 <= n <= 10^5
+// 1 <= m <= 2 * 10^5
+// 重要度 <= 10^9
 // 测试链接 : https://www.luogu.com.cn/problem/P3250
 // 如下实现是C++的版本，C++版本和java版本逻辑完全一样
 // 提交如下代码，可以通过所有测试用例
@@ -166,13 +176,13 @@ package class161;
 //        }
 //    } else {
 //        int impm = (impl + impr) / 2;
-//        int lsize = 0, rsize = 0, activeCnt = 0;
+//        int lsize = 0, rsize = 0, influence = 0;
 //        for (int i = evtl; i <= evtr; i++) {
 //            if (events[i][0] == 0) {
 //                if (events[i][3] > impm) {
 //                    pathAdd(events[i][1], events[i][2], 1);
 //                    clone(rset[++rsize], events[i]);
-//                    activeCnt++;
+//                    influence++;
 //                } else {
 //                    clone(lset[++lsize], events[i]);
 //                }
@@ -180,13 +190,13 @@ package class161;
 //                if (events[i][3] > impm) {
 //                    pathAdd(events[i][1], events[i][2], -1);
 //                    clone(rset[++rsize], events[i]);
-//                    activeCnt--;
+//                    influence--;
 //                } else {
 //                    clone(lset[++lsize], events[i]);
 //                }
 //            } else {
 //                int sum = query(dfn[events[i][1]]);
-//                if (sum != activeCnt) {
+//                if (sum != influence) {
 //                    clone(rset[++rsize], events[i]);
 //                } else {
 //                    clone(lset[++lsize], events[i]);
