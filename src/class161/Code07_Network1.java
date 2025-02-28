@@ -207,11 +207,6 @@ public class Code07_Network1 {
 		}
 	}
 
-	public static void add(int l, int r, int v) {
-		add(l, v);
-		add(r + 1, -v);
-	}
-
 	public static int query(int i) {
 		int sum = 0;
 		for (; i > 0; i -= i & -i) {
@@ -220,17 +215,22 @@ public class Code07_Network1 {
 		return sum;
 	}
 
+	public static void linkAdd(int x, int y, int v) {
+		add(x, v);
+		add(y + 1, -v);
+	}
+
 	public static void pathAdd(int x, int y, int v) {
 		while (top[x] != top[y]) {
 			if (dep[top[x]] <= dep[top[y]]) {
-				add(dfn[top[y]], dfn[y], v);
+				linkAdd(dfn[top[y]], dfn[y], v);
 				y = fa[top[y]];
 			} else {
-				add(dfn[top[x]], dfn[x], v);
+				linkAdd(dfn[top[x]], dfn[x], v);
 				x = fa[top[x]];
 			}
 		}
-		add(Math.min(dfn[x], dfn[y]), Math.max(dfn[x], dfn[y]), v);
+		linkAdd(Math.min(dfn[x], dfn[y]), Math.max(dfn[x], dfn[y]), v);
 	}
 
 	public static void clone(int[] event1, int[] event2) {

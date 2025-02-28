@@ -95,11 +95,6 @@ package class161;
 //    }
 //}
 //
-//void add(int l, int r, int v) {
-//    add(l, v);
-//    add(r + 1, -v);
-//}
-//
 //int query(int i) {
 //    int sum = 0;
 //    for (; i > 0; i -= i & -i) {
@@ -108,17 +103,22 @@ package class161;
 //    return sum;
 //}
 //
+//void linkAdd(int x, int y, int v) {
+//    add(x, v);
+//    add(y + 1, -v);
+//}
+//
 //void pathAdd(int x, int y, int v) {
 //    while (top[x] != top[y]) {
 //        if (dep[top[x]] <= dep[top[y]]) {
-//            add(dfn[top[y]], dfn[y], v);
+//            linkAdd(dfn[top[y]], dfn[y], v);
 //            y = fa[top[y]];
 //        } else {
-//            add(dfn[top[x]], dfn[x], v);
+//            linkAdd(dfn[top[x]], dfn[x], v);
 //            x = fa[top[x]];
 //        }
 //    }
-//    add(min(dfn[x], dfn[y]), max(dfn[x], dfn[y]), v);
+//    linkAdd(min(dfn[x], dfn[y]), max(dfn[x], dfn[y]), v);
 //}
 //
 //void clone(int *event1, int *event2) {
