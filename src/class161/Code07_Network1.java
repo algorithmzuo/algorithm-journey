@@ -14,7 +14,7 @@ package class161;
 // 测试链接 : https://www.luogu.com.cn/problem/P3250
 // 提交以下的code，提交时请把类名改成"Main"，会有一个测试用例超时
 // 因为这道题根据C++的运行时间，制定通过标准，根本没考虑java的用户
-// 本节课Code07_Network2文件就是C++的实现
+// 想通过用C++实现，本节课Code07_Network2文件就是C++的实现
 // 两个版本的逻辑完全一样，C++版本可以通过所有测试
 
 import java.io.BufferedReader;
@@ -288,13 +288,13 @@ public class Code07_Network1 {
 			}
 		} else {
 			int impm = (impl + impr) / 2;
-			int lsize = 0, rsize = 0, influence = 0;
+			int lsize = 0, rsize = 0, request = 0;
 			for (int i = evtl; i <= evtr; i++) {
 				if (events[i][0] == 0) {
 					if (events[i][3] > impm) {
 						pathAdd(events[i][1], events[i][2], 1);
 						clone(rset[++rsize], events[i]);
-						influence++;
+						request++;
 					} else {
 						clone(lset[++lsize], events[i]);
 					}
@@ -302,13 +302,13 @@ public class Code07_Network1 {
 					if (events[i][3] > impm) {
 						pathAdd(events[i][1], events[i][2], -1);
 						clone(rset[++rsize], events[i]);
-						influence--;
+						request--;
 					} else {
 						clone(lset[++lsize], events[i]);
 					}
 				} else {
 					int sum = query(dfn[events[i][1]]);
-					if (sum != influence) {
+					if (sum != request) {
 						clone(rset[++rsize], events[i]);
 					} else {
 						clone(lset[++lsize], events[i]);

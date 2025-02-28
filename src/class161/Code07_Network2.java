@@ -176,13 +176,13 @@ package class161;
 //        }
 //    } else {
 //        int impm = (impl + impr) / 2;
-//        int lsize = 0, rsize = 0, influence = 0;
+//        int lsize = 0, rsize = 0, request = 0;
 //        for (int i = evtl; i <= evtr; i++) {
 //            if (events[i][0] == 0) {
 //                if (events[i][3] > impm) {
 //                    pathAdd(events[i][1], events[i][2], 1);
 //                    clone(rset[++rsize], events[i]);
-//                    influence++;
+//                    request++;
 //                } else {
 //                    clone(lset[++lsize], events[i]);
 //                }
@@ -190,13 +190,13 @@ package class161;
 //                if (events[i][3] > impm) {
 //                    pathAdd(events[i][1], events[i][2], -1);
 //                    clone(rset[++rsize], events[i]);
-//                    influence--;
+//                    request--;
 //                } else {
 //                    clone(lset[++lsize], events[i]);
 //                }
 //            } else {
 //                int sum = query(dfn[events[i][1]]);
-//                if (sum != influence) {
+//                if (sum != request) {
 //                    clone(rset[++rsize], events[i]);
 //                } else {
 //                    clone(lset[++lsize], events[i]);
