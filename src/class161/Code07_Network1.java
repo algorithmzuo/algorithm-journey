@@ -49,9 +49,9 @@ public class Code07_Network1 {
 
 	public static int[][] events = new int[MAXM][4];
 
-	public static int[][] levent = new int[MAXM][4];
+	public static int[][] lset = new int[MAXM][4];
 
-	public static int[][] revent = new int[MAXM][4];
+	public static int[][] rset = new int[MAXM][4];
 
 	public static int[] sorted = new int[MAXM];
 
@@ -278,49 +278,49 @@ public class Code07_Network1 {
 			}
 		} else {
 			int impm = (impl + impr) / 2;
-			int left = 0, right = 0, activeCnt = 0;
+			int lsize = 0, rsize = 0, activeCnt = 0;
 			for (int i = evtl; i <= evtr; i++) {
 				if (events[i][0] == 0) {
 					if (events[i][3] > impm) {
 						pathAdd(events[i][1], events[i][2], 1);
-						clone(revent[++right], events[i]);
+						clone(rset[++rsize], events[i]);
 						activeCnt++;
 					} else {
-						clone(levent[++left], events[i]);
+						clone(lset[++lsize], events[i]);
 					}
 				} else if (events[i][0] == -1) {
 					if (events[i][3] > impm) {
 						pathAdd(events[i][1], events[i][2], -1);
-						clone(revent[++right], events[i]);
+						clone(rset[++rsize], events[i]);
 						activeCnt--;
 					} else {
-						clone(levent[++left], events[i]);
+						clone(lset[++lsize], events[i]);
 					}
 				} else {
 					int sum = query(dfn[events[i][1]]);
 					if (sum != activeCnt) {
-						clone(revent[++right], events[i]);
+						clone(rset[++rsize], events[i]);
 					} else {
-						clone(levent[++left], events[i]);
+						clone(lset[++lsize], events[i]);
 					}
 				}
 			}
-			for (int i = 1; i <= right; i++) {
-				if (revent[i][0] == 0 && revent[i][3] > impm) {
-					pathAdd(revent[i][1], revent[i][2], -1);
+			for (int i = 1; i <= rsize; i++) {
+				if (rset[i][0] == 0 && rset[i][3] > impm) {
+					pathAdd(rset[i][1], rset[i][2], -1);
 				}
-				if (revent[i][0] == -1 && revent[i][3] > impm) {
-					pathAdd(revent[i][1], revent[i][2], 1);
+				if (rset[i][0] == -1 && rset[i][3] > impm) {
+					pathAdd(rset[i][1], rset[i][2], 1);
 				}
 			}
-			for (int i = 1; i <= left; i++) {
-				clone(events[evtl + i - 1], levent[i]);
+			for (int i = 1; i <= lsize; i++) {
+				clone(events[evtl + i - 1], lset[i]);
 			}
-			for (int i = 1; i <= right; i++) {
-				clone(events[evtl + left + i - 1], revent[i]);
+			for (int i = 1; i <= rsize; i++) {
+				clone(events[evtl + lsize + i - 1], rset[i]);
 			}
-			compute(evtl, evtl + left - 1, impl, impm);
-			compute(evtl + left, evtr, impm + 1, impr);
+			compute(evtl, evtl + lsize - 1, impl, impm);
+			compute(evtl + lsize, evtr, impm + 1, impr);
 		}
 	}
 
