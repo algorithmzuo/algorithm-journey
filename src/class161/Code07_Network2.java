@@ -144,25 +144,25 @@ package class161;
 //    sorted[0] = -1;
 //    for (int i = 1; i <= m; i++) {
 //        if (events[i][0] == 0) {
-//        	sorted[++s] = events[i][3];
+//            sorted[++s] = events[i][3];
 //        }
 //    }
 //    sort(sorted + 1, sorted + s + 1);
 //    int len = 1;
 //    for (int i = 2; i <= s; i++) {
 //        if (sorted[len] != sorted[i]) {
-//        	sorted[++len] = sorted[i];
+//            sorted[++len] = sorted[i];
 //        }
 //    }
 //    s = len;
 //    for (int i = 1; i <= m; i++) {
 //        if (events[i][0] == 0) {
-//        	events[i][3] = kth(events[i][3]);
+//            events[i][3] = kth(events[i][3]);
 //        } else if (events[i][0] == 1) {
 //            clone(events[i], events[events[i][1]]);
 //            events[i][0] = -1;
 //        } else {
-//        	events[i][0] = ++cntans;
+//            events[i][0] = ++cntans;
 //        }
 //    }
 //}
