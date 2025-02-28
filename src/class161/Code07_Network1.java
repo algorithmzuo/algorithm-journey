@@ -43,8 +43,6 @@ public class Code07_Network1 {
 
 	public static int[] dfn = new int[MAXN];
 
-	public static int[] seg = new int[MAXN];
-
 	public static int cntd = 0;
 
 	public static int[] tree = new int[MAXN];
@@ -110,7 +108,6 @@ public class Code07_Network1 {
 	public static void dfs2(int u, int t) {
 		top[u] = t;
 		dfn[u] = ++cntd;
-		seg[cntd] = u;
 		if (son[u] == 0) {
 			return;
 		}
@@ -184,7 +181,6 @@ public class Code07_Network1 {
 			if (edge == -1) { // edge == -1，表示第一次来到当前节点，并且先处理重儿子
 				top[first] = second;
 				dfn[first] = ++cntd;
-				seg[cntd] = first;
 				if (son[first] == 0) {
 					continue;
 				}

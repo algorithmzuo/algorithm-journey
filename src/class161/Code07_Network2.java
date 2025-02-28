@@ -22,7 +22,6 @@ package class161;
 //int son[MAXN];
 //int top[MAXN];
 //int dfn[MAXN];
-//int seg[MAXN];
 //int cntd = 0;
 //int tree[MAXN];
 //int events[MAXM][4];
@@ -78,7 +77,6 @@ package class161;
 //void dfs2(int u, int t) {
 //    top[u] = t;
 //    dfn[u] = ++cntd;
-//    seg[cntd] = u;
 //    if (son[u] == 0) {
 //        return;
 //    }
