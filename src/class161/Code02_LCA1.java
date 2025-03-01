@@ -1,6 +1,6 @@
 package class161;
 
-// 树链剖分解决LCA查询，java版
+// 树链剖分模版题2，java版
 // 一共有n个节点，n-1条边，节点连成一棵树，给定头节点编号root
 // 一共有m条查询，每条查询给定a和b，打印a和b的最低公共祖先
 // 请用树链剖分的方式实现
@@ -15,7 +15,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 
-public class Code01_HeavyLightDecompositionLCA1 {
+public class Code02_LCA1 {
 
 	public static int MAXN = 500001;
 
