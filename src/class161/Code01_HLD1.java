@@ -21,7 +21,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 
-public class Code01_HeavyLightDecomposition1 {
+public class Code01_HLD1 {
 
 	public static int MAXN = 100001;
 
