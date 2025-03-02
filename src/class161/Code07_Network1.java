@@ -12,10 +12,7 @@ package class161;
 // 1 <= m <= 2 * 10^5
 // 重要度 <= 10^9
 // 测试链接 : https://www.luogu.com.cn/problem/P3250
-// 提交以下的code，提交时请把类名改成"Main"，会有一个测试用例超时
-// 因为这道题根据C++的运行时间，制定通过标准，根本没考虑java的用户
-// 想通过用C++实现，本节课Code07_Network2文件就是C++的实现
-// 两个版本的逻辑完全一样，C++版本可以通过所有测试
+// 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -199,6 +196,17 @@ public class Code07_Network1 {
 		}
 	}
 
+	public static int lca(int a, int b) {
+		while (top[a] != top[b]) {
+			if (dep[top[a]] <= dep[top[b]]) {
+				b = fa[top[b]];
+			} else {
+				a = fa[top[a]];
+			}
+		}
+		return dep[a] <= dep[b] ? a : b;
+	}
+
 	public static void add(int i, int v) {
 		for (; i <= n; i += i & -i) {
 			tree[i] += v;
@@ -213,22 +221,19 @@ public class Code07_Network1 {
 		return sum;
 	}
 
-	public static void linkAdd(int x, int y, int v) {
-		add(x, v);
-		add(y + 1, -v);
+	public static void pathAdd(int x, int y, int v) {
+		int xylca = lca(x, y);
+		int lcafa = fa[xylca];
+		add(dfn[x], v);
+		add(dfn[y], v);
+		add(dfn[xylca], -v);
+		if (lcafa != 0) {
+			add(dfn[lcafa], -v);
+		}
 	}
 
-	public static void pathAdd(int x, int y, int v) {
-		while (top[x] != top[y]) {
-			if (dep[top[x]] <= dep[top[y]]) {
-				linkAdd(dfn[top[y]], dfn[y], v);
-				y = fa[top[y]];
-			} else {
-				linkAdd(dfn[top[x]], dfn[x], v);
-				x = fa[top[x]];
-			}
-		}
-		linkAdd(Math.min(dfn[x], dfn[y]), Math.max(dfn[x], dfn[y]), v);
+	public static int pointQuery(int x) {
+		return query(dfn[x] + siz[x] - 1) - query(dfn[x] - 1);
 	}
 
 	public static void clone(int[] event1, int[] event2) {
@@ -268,6 +273,9 @@ public class Code07_Network1 {
 	}
 
 	public static void compute(int evtl, int evtr, int impl, int impr) {
+		if (evtl > evtr) {
+			return;
+		}
 		if (impl == impr) {
 			for (int i = evtl; i <= evtr; i++) {
 				if (events[i][0] > 0) {
@@ -295,8 +303,7 @@ public class Code07_Network1 {
 						clone(lset[++lsize], events[i]);
 					}
 				} else {
-					int sum = query(dfn[events[i][1]]);
-					if (sum != request) {
+					if (pointQuery(events[i][1]) != request) {
 						clone(rset[++rsize], events[i]);
 					} else {
 						clone(lset[++lsize], events[i]);
