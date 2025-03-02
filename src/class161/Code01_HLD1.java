@@ -30,31 +30,20 @@ public class Code01_HLD1 {
 	public static int[] arr = new int[MAXN];
 
 	public static int[] head = new int[MAXN];
-
 	public static int[] next = new int[MAXN << 1];
-
 	public static int[] to = new int[MAXN << 1];
-
 	public static int cntg = 0;
 
 	public static int[] fa = new int[MAXN];
-
 	public static int[] dep = new int[MAXN];
-
 	public static int[] siz = new int[MAXN];
-
 	public static int[] son = new int[MAXN];
-
 	public static int[] top = new int[MAXN];
-
 	public static int[] dfn = new int[MAXN];
-
 	public static int[] seg = new int[MAXN];
-
 	public static int cntd = 0;
 
 	public static long[] sum = new long[MAXN << 2];
-
 	public static long[] addTag = new long[MAXN << 2];
 
 	public static void addEdge(int u, int v) {

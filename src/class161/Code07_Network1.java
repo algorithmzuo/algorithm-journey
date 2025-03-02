@@ -34,41 +34,29 @@ public class Code07_Network1 {
 	public static int n, m;
 
 	public static int[] head = new int[MAXN];
-
 	public static int[] next = new int[MAXN << 1];
-
 	public static int[] to = new int[MAXN << 1];
-
 	public static int cntg = 0;
 
 	public static int[] fa = new int[MAXN];
-
 	public static int[] dep = new int[MAXN];
-
 	public static int[] siz = new int[MAXN];
-
 	public static int[] son = new int[MAXN];
-
 	public static int[] top = new int[MAXN];
-
 	public static int[] dfn = new int[MAXN];
-
 	public static int cntd = 0;
 
+	// 树状数组
 	public static int[] tree = new int[MAXN];
 
+	// 从早到晚发生的事件
 	public static int[][] events = new int[MAXM][4];
-
-	public static int[][] lset = new int[MAXM][4];
-
-	public static int[][] rset = new int[MAXM][4];
-
 	public static int[] sorted = new int[MAXM];
-
 	public static int s = 0;
 
+	public static int[][] lset = new int[MAXM][4];
+	public static int[][] rset = new int[MAXM][4];
 	public static int[] ans = new int[MAXM];
-
 	public static int cntans = 0;
 
 	public static int kth(int num) {

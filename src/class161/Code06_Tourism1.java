@@ -30,37 +30,23 @@ public class Code06_Tourism1 {
 	public static int[] arr = new int[MAXN];
 
 	public static int[] head = new int[MAXN];
-
 	public static int[] next = new int[MAXN << 1];
-
 	public static int[] to = new int[MAXN << 1];
-
 	public static int cntg = 0;
 
 	public static int[] fa = new int[MAXN];
-
 	public static int[] dep = new int[MAXN];
-
 	public static int[] siz = new int[MAXN];
-
 	public static int[] son = new int[MAXN];
-
 	public static int[] top = new int[MAXN];
-
 	public static int[] dfn = new int[MAXN];
-
 	public static int[] seg = new int[MAXN];
-
 	public static int cntd = 0;
 
 	public static int[] max = new int[MAXN << 2];
-
 	public static int[] min = new int[MAXN << 2];
-
 	public static int[] lprofit = new int[MAXN << 2];
-
 	public static int[] rprofit = new int[MAXN << 2];
-
 	public static int[] addTag = new int[MAXN << 2];
 
 	public static void addEdge(int u, int v) {

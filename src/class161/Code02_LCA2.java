@@ -15,10 +15,12 @@ package class161;
 //
 //const int MAXN = 500001;
 //int n, m, root;
+//
 //int head[MAXN];
 //int nxt[MAXN << 1];
 //int to[MAXN << 1];
 //int cnt = 0;
+//
 //int fa[MAXN];
 //int dep[MAXN];
 //int siz[MAXN];

@@ -22,21 +22,14 @@ public class Code02_LCA1 {
 	public static int n, m, root;
 
 	public static int[] head = new int[MAXN];
-
 	public static int[] next = new int[MAXN << 1];
-
 	public static int[] to = new int[MAXN << 1];
-
 	public static int cnt = 0;
 
 	public static int[] fa = new int[MAXN];
-
 	public static int[] dep = new int[MAXN];
-
 	public static int[] siz = new int[MAXN];
-
 	public static int[] son = new int[MAXN];
-
 	public static int[] top = new int[MAXN];
 
 	public static void addEdge(int u, int v) {

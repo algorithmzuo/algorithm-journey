@@ -26,6 +26,7 @@ package class161;
 //int nxt[MAXN << 1];
 //int to[MAXN << 1];
 //int cntg = 0;
+//
 //int fa[MAXN];
 //int dep[MAXN];
 //int siz[MAXN];
@@ -33,12 +34,15 @@ package class161;
 //int top[MAXN];
 //int dfn[MAXN];
 //int cntd = 0;
+//
 //int tree[MAXN];
+//
 //int events[MAXM][4];
-//int lset[MAXM][4];
-//int rset[MAXM][4];
 //int sorted[MAXM];
 //int s = 0;
+//
+//int lset[MAXM][4];
+//int rset[MAXM][4];
 //int ans[MAXM];
 //int cntans = 0;
 //

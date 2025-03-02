@@ -29,31 +29,20 @@ public class Code04_PackageManager1 {
 	public static int[] arr = new int[MAXN];
 
 	public static int[] head = new int[MAXN];
-
 	public static int[] next = new int[MAXN << 1];
-
 	public static int[] to = new int[MAXN << 1];
-
 	public static int cntg = 0;
 
 	public static int[] fa = new int[MAXN];
-
 	public static int[] dep = new int[MAXN];
-
 	public static int[] siz = new int[MAXN];
-
 	public static int[] son = new int[MAXN];
-
 	public static int[] top = new int[MAXN];
-
 	public static int[] dfn = new int[MAXN];
-
 	public static int cntd = 0;
 
 	public static int[] sum = new int[MAXN << 2];
-
 	public static boolean[] update = new boolean[MAXN << 2];
-
 	public static int[] change = new int[MAXN << 2];
 
 	public static void addEdge(int u, int v) {
