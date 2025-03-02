@@ -54,6 +54,8 @@ public class Code01_HLD1 {
 	}
 
 	// 递归版，C++可以通过，java会爆栈
+	// 来到节点u，节点u树上的父节点是f
+	// dfs1的过程去设置 fa dep siz son
 	public static void dfs1(int u, int f) {
 		fa[u] = f;
 		dep[u] = dep[f] + 1;
@@ -76,6 +78,8 @@ public class Code01_HLD1 {
 	}
 
 	// 递归版，C++可以通过，java会爆栈
+	// 来到节点u，节点u所在重链的头节点是t
+	// dfs2的过程去设置 top dfn seg
 	public static void dfs2(int u, int t) {
 		top[u] = t;
 		dfn[u] = ++cntd;
@@ -234,6 +238,7 @@ public class Code01_HLD1 {
 		return ans;
 	}
 
+	// 从x到y的路径上，所有节点的值增加v
 	public static void pathAdd(int x, int y, int v) {
 		while (top[x] != top[y]) {
 			if (dep[top[x]] <= dep[top[y]]) {
@@ -247,10 +252,12 @@ public class Code01_HLD1 {
 		add(Math.min(dfn[x], dfn[y]), Math.max(dfn[x], dfn[y]), v, 1, n, 1);
 	}
 
+	// x的子树上，所有节点的值增加v
 	public static void subtreeAdd(int x, int v) {
 		add(dfn[x], dfn[x] + siz[x] - 1, v, 1, n, 1);
 	}
 
+	// 从x到y的路径上，查询所有节点的累加和
 	public static long pathSum(int x, int y) {
 		long ans = 0;
 		while (top[x] != top[y]) {
@@ -266,6 +273,7 @@ public class Code01_HLD1 {
 		return ans;
 	}
 
+	// x的子树上，查询所有节点的累加和
 	public static long subtreeSum(int x) {
 		return query(dfn[x], dfn[x] + siz[x] - 1, 1, n, 1);
 	}
