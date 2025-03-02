@@ -3,9 +3,9 @@ package class161;
 // 树链剖分模版题1，C++版
 // 一共有n个节点，给定n-1条边，节点连成一棵树，给定树的头节点编号root
 // 一共有m条操作，每种操作是如下4种类型中的一种
-// 操作 1 x y z : x到y的路径上，每个节点值增加v
+// 操作 1 x y v : x到y的路径上，每个节点值增加v
 // 操作 2 x y   : x到y的路径上，打印所有节点值的累加和
-// 操作 3 x y   : x为头的子树上，每个节点值增加y
+// 操作 3 x v   : x为头的子树上，每个节点值增加v
 // 操作 4 x     : x为头的子树上，打印所有节点值的累加和
 // 1 <= n、m <= 10^5
 // 1 <= MOD <= 2^30
@@ -191,17 +191,17 @@ package class161;
 //    dfs1(root, 0);
 //    dfs2(root, root);
 //    build(1, n, 1);
-//    for (int i = 1, op, x, y, z; i <= m; i++) {
+//    for (int i = 1, op, x, y, v; i <= m; i++) {
 //        cin >> op;
 //        if (op == 1) {
-//            cin >> x >> y >> z;
-//            pathAdd(x, y, z);
+//            cin >> x >> y >> v;
+//            pathAdd(x, y, v);
 //        } else if (op == 2) {
 //            cin >> x >> y;
 //            cout << pathSum(x, y) << "\n";
 //        } else if (op == 3) {
-//            cin >> x >> y;
-//            subtreeAdd(x, y);
+//            cin >> x >> v;
+//            subtreeAdd(x, v);
 //        } else {
 //            cin >> x;
 //            cout << subtreeSum(x) << "\n";

@@ -3,9 +3,9 @@ package class161;
 // 树链剖分模版题1，java版
 // 一共有n个节点，给定n-1条边，节点连成一棵树，给定树的头节点编号root
 // 一共有m条操作，每种操作是如下4种类型中的一种
-// 操作 1 x y z : x到y的路径上，每个节点值增加v
+// 操作 1 x y v : x到y的路径上，每个节点值增加v
 // 操作 2 x y   : x到y的路径上，打印所有节点值的累加和
-// 操作 3 x y   : x为头的子树上，每个节点值增加y
+// 操作 3 x v   : x为头的子树上，每个节点值增加v
 // 操作 4 x     : x为头的子树上，打印所有节点值的累加和
 // 1 <= n、m <= 10^5
 // 1 <= MOD <= 2^30
@@ -307,7 +307,7 @@ public class Code01_HLD1 {
 		dfs3(); // dfs3() 等同于 dfs1(root, 0)，调用迭代版防止爆栈
 		dfs4(); // dfs4() 等同于 dfs2(root, root)，调用迭代版防止爆栈
 		build(1, n, 1);
-		for (int i = 1, op, x, y, z; i <= m; i++) {
+		for (int i = 1, op, x, y, v; i <= m; i++) {
 			in.nextToken();
 			op = (int) in.nval;
 			if (op == 1) {
@@ -316,8 +316,8 @@ public class Code01_HLD1 {
 				in.nextToken();
 				y = (int) in.nval;
 				in.nextToken();
-				z = (int) in.nval;
-				pathAdd(x, y, z);
+				v = (int) in.nval;
+				pathAdd(x, y, v);
 			} else if (op == 2) {
 				in.nextToken();
 				x = (int) in.nval;
@@ -328,8 +328,8 @@ public class Code01_HLD1 {
 				in.nextToken();
 				x = (int) in.nval;
 				in.nextToken();
-				y = (int) in.nval;
-				subtreeAdd(x, y);
+				v = (int) in.nval;
+				subtreeAdd(x, v);
 			} else {
 				in.nextToken();
 				x = (int) in.nval;
