@@ -169,6 +169,13 @@ package class161;
 //    query(ans, jobl, jobr, 1, n, 1);
 //}
 //
+//void clone(int *a, int *b) {
+//    a[0] = b[0];
+//    a[1] = b[1];
+//    a[2] = b[2];
+//    a[3] = b[3];
+//}
+//
 //int compute(int x, int y, int v) {
 //    int tmpx = x;
 //    int tmpy = y;
@@ -179,31 +186,23 @@ package class161;
 //        if (dep[top[x]] <= dep[top[y]]) {
 //            query(cur, dfn[top[y]], dfn[y]);
 //            merge(cur, ypath[0], ypath[1], ypath[2], ypath[3]);
-//            for (int i = 0; i <= 3; i++) {
-//                ypath[i] = cur[i];
-//            }
+//            clone(ypath, cur);
 //            y = fa[top[y]];
 //        } else {
 //            query(cur, dfn[top[x]], dfn[x]);
 //            merge(cur, xpath[0], xpath[1], xpath[2], xpath[3]);
-//            for (int i = 0; i <= 3; i++) {
-//                xpath[i] = cur[i];
-//            }
+//            clone(xpath, cur);
 //            x = fa[top[x]];
 //        }
 //    }
 //    if (dep[x] <= dep[y]) {
 //        query(cur, dfn[x], dfn[y]);
 //        merge(cur, ypath[0], ypath[1], ypath[2], ypath[3]);
-//        for (int i = 0; i <= 3; i++) {
-//            ypath[i] = cur[i];
-//        }
+//        clone(ypath, cur);
 //    } else {
 //        query(cur, dfn[y], dfn[x]);
 //        merge(cur, xpath[0], xpath[1], xpath[2], xpath[3]);
-//        for (int i = 0; i <= 3; i++) {
-//            xpath[i] = cur[i];
-//        }
+//        clone(xpath, cur);
 //    }
 //    int ans = max({xpath[3], ypath[2], ypath[0] - xpath[1]});
 //    x = tmpx;

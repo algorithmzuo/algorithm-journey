@@ -225,6 +225,15 @@ public class Code06_Tourism1 {
 		}
 	}
 
+	// ans[0] : 线段树更左侧部分的max
+	// ans[1] : 线段树更左侧部分的min
+	// ans[2] : 线段树更左侧部分的lprofit
+	// ans[3] : 线段树更左侧部分的rprofit
+	// rmax : 线段树更右侧部分的max
+	// rmin : 线段树更右侧部分的min
+	// rlpro : 线段树更右侧部分的lprofit
+	// rrpro : 线段树更右侧部分的rprofit
+	// 左侧部分和右侧部分的信息整合在一起得到整个范围的max、min、lprofit、rprofit
 	public static void merge(int[] ans, int rmax, int rmin, int rlpro, int rrpro) {
 		int lmax = ans[0];
 		int lmin = ans[1];
@@ -236,6 +245,11 @@ public class Code06_Tourism1 {
 		ans[3] = Math.max(Math.max(lrpro, rrpro), lmax - rmin);
 	}
 
+	// ans[0] : 线段树更左侧部分的max
+	// ans[1] : 线段树更左侧部分的min
+	// ans[2] : 线段树更左侧部分的lprofit
+	// ans[3] : 线段树更左侧部分的rprofit
+	// 随着线段树查询的展开，会有更右部分的信息整合进ans，最终整合出整体信息
 	public static void query(int[] ans, int jobl, int jobr, int l, int r, int i) {
 		if (jobl <= l && r <= jobr) {
 			merge(ans, max[i], min[i], lprofit[i], rprofit[i]);
@@ -259,6 +273,13 @@ public class Code06_Tourism1 {
 		query(ans, jobl, jobr, 1, n, 1);
 	}
 
+	public static void clone(int[] a, int[] b) {
+		a[0] = b[0];
+		a[1] = b[1];
+		a[2] = b[2];
+		a[3] = b[3];
+	}
+
 	public static int compute(int x, int y, int v) {
 		int tmpx = x, tmpy = y;
 		int[] xpath = new int[] { -INF, INF, 0, 0 };
@@ -268,31 +289,23 @@ public class Code06_Tourism1 {
 			if (dep[top[x]] <= dep[top[y]]) {
 				query(cur, dfn[top[y]], dfn[y]);
 				merge(cur, ypath[0], ypath[1], ypath[2], ypath[3]);
-				for (int i = 0; i <= 3; i++) {
-					ypath[i] = cur[i];
-				}
+				clone(ypath, cur);
 				y = fa[top[y]];
 			} else {
 				query(cur, dfn[top[x]], dfn[x]);
 				merge(cur, xpath[0], xpath[1], xpath[2], xpath[3]);
-				for (int i = 0; i <= 3; i++) {
-					xpath[i] = cur[i];
-				}
+				clone(xpath, cur);
 				x = fa[top[x]];
 			}
 		}
 		if (dep[x] <= dep[y]) {
 			query(cur, dfn[x], dfn[y]);
 			merge(cur, ypath[0], ypath[1], ypath[2], ypath[3]);
-			for (int i = 0; i <= 3; i++) {
-				ypath[i] = cur[i];
-			}
+			clone(ypath, cur);
 		} else {
 			query(cur, dfn[y], dfn[x]);
 			merge(cur, xpath[0], xpath[1], xpath[2], xpath[3]);
-			for (int i = 0; i <= 3; i++) {
-				xpath[i] = cur[i];
-			}
+			clone(xpath, cur);
 		}
 		int ans = Math.max(Math.max(xpath[3], ypath[2]), ypath[0] - xpath[1]);
 		x = tmpx;
