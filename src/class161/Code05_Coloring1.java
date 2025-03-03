@@ -46,6 +46,9 @@ public class Code05_Coloring1 {
 	public static int[] sum = new int[MAXN << 2];
 	public static int[] lcolor = new int[MAXN << 2];
 	public static int[] rcolor = new int[MAXN << 2];
+	// change是线段树的懒更新信息
+	// change[i] == 0 代表没有懒更新信息
+	// change[i] != 0 代表颜色重置为change[i]
 	public static int[] change = new int[MAXN << 2];
 
 	public static void addEdge(int u, int v) {
@@ -247,6 +250,7 @@ public class Code05_Coloring1 {
 		}
 	}
 
+	// 查询单点颜色，jobi为节点的dfn序号
 	public static int pointColor(int jobi, int l, int r, int i) {
 		if (l == r) {
 			return lcolor[i];
