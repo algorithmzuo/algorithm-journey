@@ -18,7 +18,6 @@ package class161;
 //
 //const int MAXN = 100001;
 //int n, m;
-//int arr[MAXN];
 //
 //int head[MAXN];
 //int nxt[MAXN << 1];
@@ -115,7 +114,8 @@ package class161;
 //    return ans;
 //}
 //
-//void pathUpdate(int x, int y, int v) {
+//void pathUpdate(int x, int v) {
+//    int y = 1;
 //    while (top[x] != top[y]) {
 //        if (dep[top[x]] <= dep[top[y]]) {
 //            updateRange(dfn[top[y]], dfn[y], v, 1, n, 1);
@@ -130,7 +130,7 @@ package class161;
 //
 //int install(int x) {
 //    int pre = sum[1];
-//    pathUpdate(1, x, 1);
+//    pathUpdate(x, 1);
 //    int post = sum[1];
 //    return abs(post - pre);
 //}

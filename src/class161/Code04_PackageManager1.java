@@ -26,8 +26,6 @@ public class Code04_PackageManager1 {
 
 	public static int n, m;
 
-	public static int[] arr = new int[MAXN];
-
 	public static int[] head = new int[MAXN];
 	public static int[] next = new int[MAXN << 1];
 	public static int[] to = new int[MAXN << 1];
@@ -220,7 +218,9 @@ public class Code04_PackageManager1 {
 		return ans;
 	}
 
-	public static void pathUpdate(int x, int y, int v) {
+	// 从1到x的路径上，所有节点值改成v
+	public static void pathUpdate(int x, int v) {
+		int y = 1;
 		while (top[x] != top[y]) {
 			if (dep[top[x]] <= dep[top[y]]) {
 				update(dfn[top[y]], dfn[y], v, 1, n, 1);
@@ -235,7 +235,7 @@ public class Code04_PackageManager1 {
 
 	public static int install(int x) {
 		int pre = sum[1];
-		pathUpdate(1, x, 1);
+		pathUpdate(x, 1);
 		int post = sum[1];
 		return Math.abs(post - pre);
 	}
