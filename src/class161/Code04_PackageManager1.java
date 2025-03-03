@@ -172,6 +172,7 @@ public class Code04_PackageManager1 {
 		sum[i] = sum[i << 1] + sum[i << 1 | 1];
 	}
 
+	// 线段树重置操作的懒更新
 	public static void lazy(int i, int v, int n) {
 		sum[i] = v * n;
 		update[i] = true;
