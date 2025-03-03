@@ -47,6 +47,7 @@ public class Code06_Tourism1 {
 	public static int[] min = new int[MAXN << 2];
 	public static int[] lprofit = new int[MAXN << 2];
 	public static int[] rprofit = new int[MAXN << 2];
+	// 线段树范围增加的懒更新信息
 	public static int[] addTag = new int[MAXN << 2];
 
 	public static void addEdge(int u, int v) {
