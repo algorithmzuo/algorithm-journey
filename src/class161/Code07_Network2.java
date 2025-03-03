@@ -46,21 +46,6 @@ package class161;
 //int ans[MAXM];
 //int cntans = 0;
 //
-//int kth(int num) {
-//    int left = 1, right = s, mid;
-//    while (left <= right) {
-//        mid = (left + right) / 2;
-//        if (sorted[mid] == num) {
-//            return mid;
-//        } else if (sorted[mid] < num) {
-//            left = mid + 1;
-//        } else {
-//            right = mid - 1;
-//        }
-//    }
-//    return -1;
-//}
-//
 //void addEdge(int u, int v) {
 //    nxt[++cntg] = head[u];
 //    to[cntg] = v;
@@ -141,6 +126,21 @@ package class161;
 //
 //int pointQuery(int x) {
 //    return query(dfn[x] + siz[x] - 1) - query(dfn[x] - 1);
+//}
+//
+//int kth(int num) {
+//    int left = 1, right = s, mid;
+//    while (left <= right) {
+//        mid = (left + right) / 2;
+//        if (sorted[mid] == num) {
+//            return mid;
+//        } else if (sorted[mid] < num) {
+//            left = mid + 1;
+//        } else {
+//            right = mid - 1;
+//        }
+//    }
+//    return -1;
 //}
 //
 //void clone(int *event1, int *event2) {

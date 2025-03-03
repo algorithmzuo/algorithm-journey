@@ -56,21 +56,6 @@ public class Code07_Network1 {
 	public static int[] ans = new int[MAXM];
 	public static int cntans = 0;
 
-	public static int kth(int num) {
-		int left = 1, right = s, mid;
-		while (left <= right) {
-			mid = (left + right) / 2;
-			if (sorted[mid] == num) {
-				return mid;
-			} else if (sorted[mid] < num) {
-				left = mid + 1;
-			} else {
-				right = mid - 1;
-			}
-		}
-		return -1;
-	}
-
 	public static void addEdge(int u, int v) {
 		next[++cntg] = head[u];
 		to[cntg] = v;
@@ -234,6 +219,21 @@ public class Code07_Network1 {
 
 	public static int pointQuery(int x) {
 		return query(dfn[x] + siz[x] - 1) - query(dfn[x] - 1);
+	}
+
+	public static int kth(int num) {
+		int left = 1, right = s, mid;
+		while (left <= right) {
+			mid = (left + right) / 2;
+			if (sorted[mid] == num) {
+				return mid;
+			} else if (sorted[mid] < num) {
+				left = mid + 1;
+			} else {
+				right = mid - 1;
+			}
+		}
+		return -1;
 	}
 
 	public static void clone(int[] event1, int[] event2) {
