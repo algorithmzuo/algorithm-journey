@@ -245,17 +245,9 @@ public class Code07_FarAway1 {
 		update(Math.min(dfn[x], dfn[y]), Math.max(dfn[x], dfn[y]), v, 1, n, 1);
 	}
 
-	// 判断root和u的关系
-	// 如果root和u是同一个点，返回-1
-	// 如果root不在u的子树上，返回0
-	// 如果root在u的子树上，找到u的哪个儿子的子树里有root，返回那个儿子的编号
-	public static int find(int root, int u) {
-		if (u == root) {
-			return -1;
-		}
-		if (dfn[root] < dfn[u] || dfn[u] + siz[u] <= dfn[root]) {
-			return 0;
-		}
+	// 已知root一定在u的子树上
+	// 找到u哪个儿子的子树里有root，返回那个儿子的编号
+	public static int findSon(int root, int u) {
 		while (top[root] != top[u]) {
 			if (fa[top[root]] == u) {
 				return top[root];
@@ -267,12 +259,12 @@ public class Code07_FarAway1 {
 
 	// 假设树的头节点变成root，当前树的形态下，查询u的子树中的最小值
 	public static int treeQuery(int root, int u) {
-		int uson = find(root, u);
-		if (uson == -1) {
+		if (root == u) {
 			return min[1];
-		} else if (uson == 0) {
+		} else if (dfn[root] < dfn[u] || dfn[u] + siz[u] <= dfn[root]) {
 			return query(dfn[u], dfn[u] + siz[u] - 1, 1, n, 1);
 		} else {
+			int uson = findSon(root, u);
 			int ans = query(1, dfn[uson] - 1, 1, n, 1);
 			if (dfn[uson] + siz[uson] <= n) {
 				ans = Math.min(ans, query(dfn[uson] + siz[uson], n, 1, n, 1));

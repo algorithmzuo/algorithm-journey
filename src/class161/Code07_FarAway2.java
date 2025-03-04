@@ -154,13 +154,7 @@ package class161;
 //    update(min(dfn[x], dfn[y]), max(dfn[x], dfn[y]), v, 1, n, 1);
 //}
 //
-//int find(int root, int u) {
-//    if (u == root) {
-//        return -1;
-//    }
-//    if (dfn[root] < dfn[u] || dfn[u] + siz[u] <= dfn[root]) {
-//        return 0;
-//    }
+//int findSon(int root, int u) {
 //    while (top[root] != top[u]) {
 //        if (fa[top[root]] == u) {
 //            return top[root];
@@ -171,12 +165,12 @@ package class161;
 //}
 //
 //int treeQuery(int root, int u) {
-//    int uson = find(root, u);
-//    if (uson == -1) {
+//    if (root == u) {
 //        return minv[1];
-//    } else if (uson == 0) {
+//    } else if (dfn[root] < dfn[u] || dfn[u] + siz[u] <= dfn[root]) {
 //        return query(dfn[u], dfn[u] + siz[u] - 1, 1, n, 1);
 //    } else {
+//        int uson = findSon(root, u);
 //        int ans = INT_MAX;
 //        if (1 <= dfn[uson] - 1) {
 //            ans = min(ans, query(1, dfn[uson] - 1, 1, n, 1));
