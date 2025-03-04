@@ -5,7 +5,7 @@ package class161;
 // 一共有m条操作，每种操作是如下3种类型中的一种
 // 操作 1 x     : 树的头节点变成x，树的形态重新组织
 // 操作 2 x y v : x到y的路径上，所有节点的值改成v
-// 操作 3 x     : 当前树的形态下，打印x的子树最小值
+// 操作 3 x     : 当前树的形态下，打印u的子树中的最小值
 // 1 <= n、m <= 10^5
 // 任何时候节点值一定是正数
 // 测试链接 : https://www.luogu.com.cn/problem/P3979
@@ -265,7 +265,7 @@ public class Code07_FarAway1 {
 		return son[u];
 	}
 
-	// 假设树的头节点变成root，查询在变化后的树中，u的子树中，最小值是多少
+	// 假设树的头节点变成root，当前树的形态下，查询u的子树中的最小值
 	public static int treeQuery(int root, int u) {
 		int uson = find(root, u);
 		if (uson == -1) {
