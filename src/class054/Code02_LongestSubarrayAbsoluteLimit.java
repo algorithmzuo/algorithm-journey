@@ -7,7 +7,7 @@ package class054;
 // 如果不存在满足条件的子数组，则返回 0
 // 测试链接 : https://leetcode.cn/problems/longest-continuous-subarray-with-absolute-diff-less-than-or-equal-to-limit/
 public class Code02_LongestSubarrayAbsoluteLimit {
-
+//todo 使用两个单调队列，维持一个窗口的最大值和最小值，然后如果最大值和最小值的差值不超过limit就一直扩大窗口，不满足计算出一个结果，然后窗口滑动。
 	public static int MAXN = 100001;
 
 	// 窗口内最大值的更新结构（单调队列）

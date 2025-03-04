@@ -18,6 +18,7 @@ public class Code04_LargestRectangleInHistogram {
 		int ans = 0, cur, left;
 		for (int i = 0; i < n; i++) {
 			// i -> arr[i]
+            //todo 小-》大 当前值为最小高度时所占的最大面积
 			while (r > 0 && height[stack[r - 1]] >= height[i]) {
 				cur = stack[--r];
 				left = r == 0 ? -1 : stack[r - 1];

@@ -18,11 +18,13 @@ public class Code01_MaximumWidthRamp {
 		r = 1;
 		int n = arr.length;
 		for (int i = 1; i < n; i++) {
+            //todo 比栈中元素小才入栈
 			if (arr[stack[r - 1]] > arr[i]) {
 				stack[r++] = i;
 			}
 		}
 		int ans = 0;
+        //todo 数组从右往左遍历，如果遇到数组中的值大于栈中元素的值，计算结果并出栈
 		for (int j = n - 1; j >= 0; j--) {
 			while (r > 0 && arr[stack[r - 1]] <= arr[j]) {
 				ans = Math.max(ans, j - stack[--r]);

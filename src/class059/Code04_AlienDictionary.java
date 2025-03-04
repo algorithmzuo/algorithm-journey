@@ -20,6 +20,7 @@ public class Code04_AlienDictionary {
 		// 入度表，26种字符
 		int[] indegree = new int[26];
 		Arrays.fill(indegree, -1);
+        //todo 存在于表中的元素为0；
 		for (String w : words) {
 			for (int i = 0; i < w.length(); i++) {
 				indegree[w.charAt(i) - 'a'] = 0;
@@ -33,11 +34,14 @@ public class Code04_AlienDictionary {
 		for (int i = 0; i < 26; i++) {
 			graph.add(new ArrayList<>());
 		}
+        //todo
 		for (int i = 0, j, len; i < words.length - 1; i++) {
 			String cur = words[i];
 			String next = words[i + 1];
 			j = 0;
+            //todo 获取到两个字符串较小的长度
 			len = Math.min(cur.length(), next.length());
+            //todo 逐个字符比较
 			for (; j < len; j++) {
 				if (cur.charAt(j) != next.charAt(j)) {
 					graph.get(cur.charAt(j) - 'a').add(next.charAt(j) - 'a');
@@ -45,6 +49,7 @@ public class Code04_AlienDictionary {
 					break;
 				}
 			}
+            //todo 如果当前字符串比下一个字符串还长，就不对，abc abcd
 			if (j < cur.length() && j == next.length()) {
 				return "";
 			}
@@ -52,6 +57,7 @@ public class Code04_AlienDictionary {
 		int[] queue = new int[26];
 		int l = 0, r = 0;
 		int kinds = 0;
+        //todo 统计有多少个类型，同时将入度为0的点入队列
 		for (int i = 0; i < 26; i++) {
 			if (indegree[i] != -1) {
 				kinds++;

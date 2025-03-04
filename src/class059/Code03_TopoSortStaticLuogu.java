@@ -76,6 +76,7 @@ public class Code03_TopoSortStaticLuogu {
 		heap[0] = heap[--heapSize];
 		// heapify的过程
 		int i = 0;
+        //todo l
 		int l = 1;
 		while (l < heapSize) {
 			int best = l + 1 < heapSize && heap[l + 1] < heap[l] ? l + 1 : l;

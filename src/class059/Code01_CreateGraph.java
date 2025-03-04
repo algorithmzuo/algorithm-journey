@@ -22,15 +22,17 @@ public class Code01_CreateGraph {
 	public static ArrayList<ArrayList<int[]>> graph2 = new ArrayList<>();
 
 	// 链式前向星方式建图
+    //todo 下标是开始点 值是边
 	public static int[] head = new int[MAXN];
-
+    //todo 下标是边 值是下一个边
 	public static int[] next = new int[MAXM];
-
+    //todo 下标是边 值是结束点
 	public static int[] to = new int[MAXM];
 
 	// 如果边有权重，那么需要这个数组
+    //todo 下标是边 值是权重
 	public static int[] weight = new int[MAXM];
-
+    //todo 边个数
 	public static int cnt;
 
 	public static void build(int n) {

@@ -11,6 +11,7 @@ public class Code03_MakingLargeIsland {
 		int n = grid.length;
 		int m = grid[0].length;
 		int id = 2;
+        //todo 将岛屿分组编号
 		for (int i = 0; i < n; i++) {
 			for (int j = 0; j < m; j++) {
 				if (grid[i][j] == 1) {
@@ -20,6 +21,7 @@ public class Code03_MakingLargeIsland {
 		}
 		int[] sizes = new int[id];
 		int ans = 0;
+        //todo 统计每个岛的数量
 		for (int i = 0; i < n; i++) {
 			for (int j = 0; j < m; j++) {
 				if (grid[i][j] > 1) {
@@ -33,10 +35,12 @@ public class Code03_MakingLargeIsland {
 		for (int i = 0; i < n; i++) {
 			for (int j = 0; j < m; j++) {
 				if (grid[i][j] == 0) {
+                    //todo 获取到上下左右的值
 					up = i > 0 ? grid[i - 1][j] : 0;
 					down = i + 1 < n ? grid[i + 1][j] : 0;
 					left = j > 0 ? grid[i][j - 1] : 0;
 					right = j + 1 < m ? grid[i][j + 1] : 0;
+                    //todo 链接上下左右
 					visited[up] = true;
 					merge = 1 + sizes[up];
 					if (!visited[down]) {
@@ -64,6 +68,7 @@ public class Code03_MakingLargeIsland {
 
 	
 	public static void dfs(int[][] grid, int n, int m, int i, int j, int id) {
+        //todo grid[i][j]!=1折磨，写成了grid[i][j]==0
 		if (i < 0 || i == n || j < 0 || j == m || grid[i][j] != 1) {
 			return;
 		}

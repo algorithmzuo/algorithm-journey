@@ -60,6 +60,7 @@ public class Code03_BigFishEatSmallFish {
 			// i号鱼，arr[i]
 			// 0轮是初始
 			curTurns = 0;
+            //todo 大-》小  栈中元素比当前元素小会弹出，意味着被吃掉
 			while (r > 0 && stack[r - 1][0] < arr[i]) {
 				curTurns = Math.max(curTurns + 1, stack[--r][1]);
 			}
@@ -78,7 +79,7 @@ public class Code03_BigFishEatSmallFish {
 	public static int[][] s = new int[MAXM][2];
 
 	public static int size;
-
+//todo 从后往前遍历，小-》大，如果遇到更大值就开始弹出，每弹出一次轮数+1，因为会同时进行，所以与弹出的值的轮数比一个最大值作为当前轮数
 	public static int totalSteps(int[] arr) {
 		size = 0;
 		int ans = 0;

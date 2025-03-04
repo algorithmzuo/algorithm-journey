@@ -48,6 +48,7 @@ public class Code02_FindAllPeopleWithSecret {
 		int fy = find(y);
 		if (fx != fy) {
 			father[fx] = fy;
+            //todo 很坑，需要注意左右值，合并需要把秘密状态向根同步
 			secret[fy] |= secret[fx];
 		}
 	}
@@ -62,10 +63,12 @@ public class Code02_FindAllPeopleWithSecret {
 		int m = meetings.length;
 		for (int l = 0, r; l < m;) {
 			r = l;
+            //todo 所有这个时间点开会的人
 			while (r + 1 < m && meetings[l][2] == meetings[r + 1][2]) {
 				r++;
 			}
 			// l....r这些会议，一定是一个时刻
+            //todo 开会的人都单独合到一个集合
 			for (int i = l; i <= r; i++) {
 				union(meetings[i][0], meetings[i][1]);
 			}
@@ -74,6 +77,7 @@ public class Code02_FindAllPeopleWithSecret {
 			for (int i = l, a, b; i <= r; i++) {
 				a = meetings[i][0];
 				b = meetings[i][1];
+                //todo 如果集合都不知道秘密就撤回
 				if (!secret[find(a)]) {
 					father[a] = a;
 				}
@@ -81,6 +85,7 @@ public class Code02_FindAllPeopleWithSecret {
 					father[b] = b;
 				}
 			}
+            //todo 继续下一个时间点开会的人
 			l = r + 1;
 		}
 		List<Integer> ans = new ArrayList<>();
@@ -91,5 +96,4 @@ public class Code02_FindAllPeopleWithSecret {
 		}
 		return ans;
 	}
-
 }

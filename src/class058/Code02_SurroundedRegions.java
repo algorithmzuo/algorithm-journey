@@ -9,6 +9,7 @@ public class Code02_SurroundedRegions {
 	public static void solve(char[][] board) {
 		int n = board.length;
 		int m = board[0].length;
+        //todo 处理边界联通的值
 		for (int j = 0; j < m; j++) {
 			if (board[0][j] == 'O') {
 				dfs(board, n, m, 0, j);
@@ -25,6 +26,7 @@ public class Code02_SurroundedRegions {
 				dfs(board, n, m, i, m - 1);
 			}
 		}
+        //todo 将内部不连通的修改掉，将连通的值恢复
 		for (int i = 0; i < n; i++) {
 			for (int j = 0; j < m; j++) {
 				if (board[i][j] == 'O') {

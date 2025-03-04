@@ -54,7 +54,7 @@ public class Code03_FallingWaterSmallestFlowerPot {
 		out.close();
 		br.close();
 	}
-
+//todo 拓展窗口，判断是否满足条件，满足就结算，然后继续判断弹出往后扩展
 	public static int compute() {
 		// arr[0...n-1][2]: x(0), 高度(1)
 		// 所有水滴根据x排序，谁小谁在前

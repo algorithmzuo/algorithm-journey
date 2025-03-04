@@ -21,7 +21,7 @@ public class Code02_RemoveDuplicateLetters {
 	public static char[] stack = new char[MAXN];
 
 	public static int r;
-
+//todo 先记录一个词频表，当不满足条件时，如果词频表不为空可以弹出来。再记录一个元素是否已经记录的信息，避免元素遗漏
 	public static String removeDuplicateLetters(String str) {
 		r = 0;
 		Arrays.fill(cnts, 0);

@@ -14,6 +14,7 @@ public class Code01_NumberOfIslands {
 		int n = board.length;
 		int m = board[0].length;
 		int islands = 0;
+        //todo 遇到满足条件的值就快速向四个方向扩散
 		for (int i = 0; i < n; i++) {
 			for (int j = 0; j < m; j++) {
 				if (board[i][j] == '1') {

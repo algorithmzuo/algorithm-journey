@@ -33,7 +33,8 @@ public class Code01_UnionFindNowCoder {
 		}
 	}
 
-	// i号节点，往上一直找，找到代表节点返回！
+	// i号节点，往上一直找，找到代表节点返回！、
+    //todo 优化点2 扁平化，路径上的节点都直接链接到头节点
 	public static int find(int i) {
 		// 沿途收集了几个点
 		int size = 0;
@@ -51,7 +52,7 @@ public class Code01_UnionFindNowCoder {
 	public static boolean isSameSet(int x, int y) {
 		return find(x) == find(y);
 	}
-
+    //todo 优化点1 小集合链接到大集合
 	public static void union(int x, int y) {
 		int fx = find(x);
 		int fy = find(y);

@@ -13,8 +13,10 @@ public class Code03_CouplesHoldingHands {
 		int n = row.length;
 		build(n / 2);
 		for (int i = 0; i < n; i += 2) {
+            //todo 把相邻对合并到一起
 			union(row[i] / 2, row[i + 1] / 2);
 		}
+        //todo 总对数-集合的个数 一个集合有n对情侣，需要交换n-1次，全都和到一起
 		return n / 2 - sets;
 	}
 
@@ -23,7 +25,7 @@ public class Code03_CouplesHoldingHands {
 	public static int[] father = new int[MAXN];
 
 	public static int sets;
-
+//todo 先分成m对
 	public static void build(int m) {
 		for (int i = 0; i < m; i++) {
 			father[i] = i;

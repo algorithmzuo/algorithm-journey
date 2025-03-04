@@ -18,7 +18,7 @@ public class Code01_SlidingWindowMaximum {
 		int n = arr.length;
 		// 先形成长度为k-1的窗口
 		for (int i = 0; i < k - 1; i++) {
-			// 大 -> 小
+			// 大 -> 小 严格递减
 			while (h < t && arr[deque[t - 1]] <= arr[i]) {
 				t--;
 			}

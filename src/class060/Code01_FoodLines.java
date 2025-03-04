@@ -57,7 +57,8 @@ public class Code01_FoodLines {
 		to[cnt] = v;
 		head[u] = cnt++;
 	}
-
+//todo 增加一个line数组，用来存放路径增多的信息， 入度为0的节点全都设置为1，然后下推，他的所有后继节点都会获得这个1，累加到最后答案就是
+//     大概就是起始有几条路径，看能分裂出几条来，加起来就是总路径数
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StreamTokenizer in = new StreamTokenizer(br);

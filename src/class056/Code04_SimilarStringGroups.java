@@ -42,7 +42,7 @@ public class Code04_SimilarStringGroups {
 			sets--;
 		}
 	}
-
+//todo 遍历每个元素，如果超过两个不同就不进行合并。
 	public static int numSimilarGroups(String[] strs) {
 		int n = strs.length;
 		int m = strs[0].length();

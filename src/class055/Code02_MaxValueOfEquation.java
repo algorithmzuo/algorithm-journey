@@ -30,15 +30,17 @@ public class Code02_MaxValueOfEquation {
 			// i号点是此时的点，当前的后面点，看之前哪个点的y-x值最大，x距离又不能超过k
 			x = points[i][0];
 			y = points[i][1];
+            //todo 前x+k》=后x
 			while (h < t && deque[h][0] + k < x) {
 				// 单调队列头部的可能性过期了，头部点的x与当前点x的距离超过了k
 				h++;
 			}
 			if (h < t) {
+                //todo 公式转化 后x+后y+前y-前小，求前y-前x的最大值
 				ans = Math.max(ans, x + y + deque[h][1] - deque[h][0]);
 			}
 			// i号点的x和y，该从尾部进入单调队列
-			// 大 -> 小
+			// 大 -> 小 todo 大的更容易满足条件，小的更不容易过期
 			while (h < t && deque[t - 1][1] - deque[t - 1][0] <= y - x) {
 				t--;
 			}

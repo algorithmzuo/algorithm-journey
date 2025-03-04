@@ -19,6 +19,7 @@ public class Code01_ShortestSubarrayWithSumAtLeastK {
 
 	public static int shortestSubarray(int[] arr, int K) {
 		int n = arr.length;
+        //todo 前缀和计算
 		for (int i = 0; i < n; i++) {
 			// [3,4,5]
 			//  0 1 2
@@ -30,18 +31,21 @@ public class Code01_ShortestSubarrayWithSumAtLeastK {
 		}
 		h = t = 0;
 		int ans = Integer.MAX_VALUE;
+        //todo 这里包含了一个0，0所以i<=n;
 		for (int i = 0; i <= n; i++) {
 			// 前0个数前缀和
 			// 前1个数前缀和
 			// 前2个数前缀和
 			// ...
 			// 前n个数前缀和
+            //todo 判断当前值与队列中最小值是否满足条件，满足就进行结算
 			while (h != t && sum[i] - sum[deque[h]] >= K) {
 				// 如果当前的前缀和 - 头前缀和，达标！
 				ans = Math.min(ans, i - deque[h++]);
 			}
 			// 前i个数前缀和，从尾部加入
 			// 小 大
+            //todo 队列中严格按照小-》大。小的更可能满足条件，大的距离更近，如果后边有更小的，前面的就被淘汰了
 			while (h != t && sum[deque[t - 1]] >= sum[i]) {
 				t--;
 			}

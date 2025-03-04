@@ -8,16 +8,20 @@ package class056;
 public class Code05_NumberOfIslands {
 
 	// 并查集的做法
+    //todo 遍历数组，找到所有岛屿，然后判断它的左侧和上侧是否可以链接，合成一个，最后输出set。不是最优方法，洪水填充
 	public static int numIslands(char[][] board) {
 		int n = board.length;
 		int m = board[0].length;
+        //todo 找到有多少个组
 		build(n, m, board);
 		for (int i = 0; i < n; i++) {
 			for (int j = 0; j < m; j++) {
 				if (board[i][j] == '1') {
+                    //todo 查看左侧有没有
 					if (j > 0 && board[i][j - 1] == '1') {
 						union(i, j, i, j - 1);
 					}
+                    //todo 查看上边有没有
 					if (i > 0 && board[i - 1][j] == '1') {
 						union(i, j, i - 1, j);
 					}

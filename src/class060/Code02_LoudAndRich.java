@@ -15,7 +15,7 @@ import java.util.ArrayList;
 // person y 是最安静的人（也就是安静值 quiet[y] 最小的人）。
 // 测试链接 : https://leetcode.cn/problems/loud-and-rich/
 public class Code02_LoudAndRich {
-
+    //todo 初始化每个节点最好的节点为自己，从入度为0的点开始比，如果某个节点自己最好的点的安静值比上边推下来的安静值大，就替换为上边推下来的安静值
 	public static int[] loudAndRich(int[][] richer, int[] quiet) {
 		int n = quiet.length;
 		ArrayList<ArrayList<Integer>> graph = new ArrayList<>();

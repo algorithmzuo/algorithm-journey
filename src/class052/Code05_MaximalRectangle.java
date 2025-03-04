@@ -15,7 +15,7 @@ public class Code05_MaximalRectangle {
 	public static int[] stack = new int[MAXN];
 
 	public static int r;
-
+//todo 压缩数组
 	public static int maximalRectangle(char[][] grid) {
 		int n = grid.length;
 		int m = grid[0].length;

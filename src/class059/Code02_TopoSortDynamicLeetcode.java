@@ -13,7 +13,7 @@ import java.util.ArrayList;
 // 你只要返回 任意一种 就可以了。如果不可能完成所有课程，返回 一个空数组
 // 测试链接 : https://leetcode.cn/problems/course-schedule-ii/
 public class Code02_TopoSortDynamicLeetcode {
-
+    //todo 建图，然后创建一个入度表，入度为0收集到一个队列中
 	public static int[] findOrder(int numCourses, int[][] prerequisites) {
 		ArrayList<ArrayList<Integer>> graph = new ArrayList<>();
 		// 0 ~ n-1
@@ -22,6 +22,7 @@ public class Code02_TopoSortDynamicLeetcode {
 		}
 		// 入度表
 		int[] indegree = new int[numCourses];
+        //todo 如果有循环依赖的话，每个入度都为1，会在循环那里入度无法收集到为0的点
 		for (int[] edge : prerequisites) {
 			graph.get(edge[1]).add(edge[0]);
 			indegree[edge[0]]++;

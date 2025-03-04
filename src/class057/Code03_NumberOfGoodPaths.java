@@ -54,6 +54,7 @@ public class Code03_NumberOfGoodPaths {
 			father[fx] = fy;
 		} else {
 			// 两个集团最大值一样！
+            //todo maxcnt保存着最大值的个数，路左侧的最大值个数*路右侧的最大值个数就是所有的路
 			path = maxcnt[fx] * maxcnt[fy];
 			father[fy] = fx;
 			maxcnt[fx] += maxcnt[fy];
@@ -67,7 +68,9 @@ public class Code03_NumberOfGoodPaths {
 		int ans = n;
 		// 课上重点讲这个核心排序！
 		// 处理边的时候，依次从小节点往大节点处理
+        //todo 从小节点到大节点处理，之后每次都是找最大节点，不会错漏
 		Arrays.sort(edges, (e1, e2) -> (Math.max(vals[e1[0]], vals[e1[1]]) - Math.max(vals[e2[0]], vals[e2[1]])));
+        //todo 将边合并到一个集合
 		for (int[] edge : edges) {
 			ans += union(edge[0], edge[1], vals);
 		}
@@ -107,5 +110,4 @@ public class Code03_NumberOfGoodPaths {
 				{ 9, 12 } };
 		System.out.println(numberOfGoodPaths(vals2, edges2));
 	}
-
 }

@@ -63,6 +63,7 @@ public class Code04_CountSubmatricesWithAllOnes {
 		r = 0;
 		int ans = 0;
 		for (int i = 0, left, len, bottom; i < m; i++) {
+            //todo 小-》大，
 			while (r > 0 && height[stack[r - 1]] >= height[i]) {
 				int cur = stack[--r];
 				if (height[cur] > height[i]) {

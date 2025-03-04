@@ -41,9 +41,12 @@ public class Code03_ParallelCoursesIII {
 			int cur = queue[l++];
 			// 1 : time[0]
 			// x : time[x-1]
+            //todo 当前课程花费的时间
 			cost[cur] += time[cur - 1];
+            //todo 这一批课程需要花费的最大时间
 			ans = Math.max(ans, cost[cur]);
 			for (int next : graph.get(cur)) {
+                //todo 上一批课程花费的最大时间
 				cost[next] = Math.max(cost[next], cost[cur]);
 				if (--indegree[next] == 0) {
 					queue[r++] = next;

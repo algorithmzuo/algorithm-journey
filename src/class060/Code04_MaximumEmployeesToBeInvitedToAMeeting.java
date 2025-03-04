@@ -9,7 +9,7 @@ package class060;
 // 其中 favorite[i] 表示第 i 位员工喜欢的员工。请你返回参加会议的 最多员工数目
 // 测试链接 : https://leetcode.cn/problems/maximum-employees-to-be-invited-to-a-meeting/
 public class Code04_MaximumEmployeesToBeInvitedToAMeeting {
-
+    //todo 这是一个找环的题，如果环只有两个，那就可以包含它的链，如果大于两个，就只能包含环的长度。
 	public static int maximumInvitations(int[] favorite) {
 		// 图 : favorite[a] = b : a -> b
 		int n = favorite.length;
@@ -27,6 +27,7 @@ public class Code04_MaximumEmployeesToBeInvitedToAMeeting {
 		}
 		// deep[i] : 不包括i在内，i之前的最长链的长度
 		int[] deep = new int[n];
+        //todo 从入度为0的点开始推，直到没有入度为0的点了，这时候只剩下环了
 		while (l < r) {
 			int cur = queue[l++];
 			int next = favorite[cur];

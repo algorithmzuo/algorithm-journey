@@ -22,21 +22,28 @@ public class Code04_BricksFallingWhenHit {
 		grid = g;
 		n = g.length;
 		m = g[0].length;
+        //todo 每个砖块打掉时掉落的数量
 		int[] ans = new int[h.length];
+        //todo 只有一个砖块时，不会掉落，只会被打掉或者没打掉
 		if (n == 1) {
 			return ans;
 		}
+        //todo 先将会打掉的砖块-1，和一般的砖块区别开
 		for (int[] hit : h) {
 			grid[hit[0]][hit[1]]--;
 		}
+        //todo 对链接天花板的砖块进行填充 这时，没有砖块的地方为0，被打掉砖块的地方为0，打空砖块的地方为-1，和天花板链接的砖块地方为2；
 		for (int i = 0; i < m; i++) {
 			dfs(0, i);
 		}
+        //todo 将打掉的砖块再+1
 		for (int i = h.length - 1, row, col; i >= 0; i--) {
 			row = h[i][0];
 			col = h[i][1];
 			grid[row][col]++;
+            //todo 如果有效
 			if (worth(row, col)) {
+                //todo 增加了几个2，-1是本身被打碎了
 				ans[i] = dfs(row, col) - 1;
 			}
 		}
@@ -54,6 +61,7 @@ public class Code04_BricksFallingWhenHit {
 	}
 
 	public static boolean worth(int i, int j) {
+        //todo 没有打空并且是挨着天花板或者周围有链接天花板的
 		return grid[i][j] == 1
 				&&
 				(i == 0

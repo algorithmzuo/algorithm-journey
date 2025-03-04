@@ -46,7 +46,7 @@ public class Code01_MostStonesRemovedWithSameRowOrColumn {
 			sets--;
 		}
 	}
-
+//todo 有一个结论，一个集合中的值最终会剩下一个
 	public static int removeStones(int[][] stones) {
 		int n = stones.length;
 		build(n);
