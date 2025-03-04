@@ -41,9 +41,9 @@ public class Code07_FarAway1 {
 	public static int[] min = new int[MAXN << 2];
 	// 重置操作的懒更新信息
 	// 因为题目说了，任何时候节点值一定是正数
-	// change[i] == 0，表示没有重置懒更新
-	// change[i] != 0，表示范围内的数字修改为change[i]
-	public static int[] change = new int[MAXN << 2];
+	// changeTag[i] == 0，表示没有重置懒更新
+	// changeTag[i] != 0，表示范围内的数字修改为changeTag[i]
+	public static int[] changeTag = new int[MAXN << 2];
 
 	public static void addEdge(int u, int v) {
 		next[++cntg] = head[u];
@@ -178,14 +178,14 @@ public class Code07_FarAway1 {
 
 	public static void lazy(int i, int v) {
 		min[i] = v;
-		change[i] = v;
+		changeTag[i] = v;
 	}
 
 	public static void down(int i) {
-		if (change[i] != 0) {
-			lazy(i << 1, change[i]);
-			lazy(i << 1 | 1, change[i]);
-			change[i] = 0;
+		if (changeTag[i] != 0) {
+			lazy(i << 1, changeTag[i]);
+			lazy(i << 1 | 1, changeTag[i]);
+			changeTag[i] = 0;
 		}
 	}
 
