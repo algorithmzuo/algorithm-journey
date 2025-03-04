@@ -35,7 +35,7 @@ package class161;
 //int cntd = 0;
 //
 //int minv[MAXN << 2];
-//int changeTag[MAXN << 2];
+//int change[MAXN << 2];
 //
 //void addEdge(int u, int v) {
 //    ++cntg;
@@ -87,14 +87,14 @@ package class161;
 //
 //void lazy(int i, int v) {
 //    minv[i] = v;
-//    changeTag[i] = v;
+//    change[i] = v;
 //}
 //
 //void down(int i) {
-//    if (changeTag[i] != 0) {
-//        lazy(i << 1, changeTag[i]);
-//        lazy(i << 1 | 1, changeTag[i]);
-//        changeTag[i] = 0;
+//    if (change[i] != 0) {
+//        lazy(i << 1, change[i]);
+//        lazy(i << 1 | 1, change[i]);
+//        change[i] = 0;
 //    }
 //}
 //
