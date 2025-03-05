@@ -47,7 +47,7 @@ public class Code02_UnderMoon1 {
 	// 但是需要同时兼顾，区间增加、区间修改，这两种操作
 	// 那么就牵扯到两种操作相互影响的问题
 	// 因为区间修改明显会取消之前的区间增加
-	// 讲解110，线段树章节，题目6，重点讲了这种线段树
+	// 讲解110，线段树章节，题目5、题目6，重点讲了这种线段树
 	// 不会的同学可以看看，讲的非常清楚
 	public static int[] max = new int[MAXN << 2];
 	public static int[] addTag = new int[MAXN << 2];
