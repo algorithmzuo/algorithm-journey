@@ -28,11 +28,13 @@ public class Code02_UnderMoon1 {
 	public static int n;
 	public static int[][] arr = new int[MAXN][3];
 
+	// 链式前向星
 	public static int[] head = new int[MAXN];
 	public static int[] next = new int[MAXN << 1];
 	public static int[] to = new int[MAXN << 1];
 	public static int cntg = 0;
 
+	// 重链剖分
 	public static int[] fa = new int[MAXN];
 	public static int[] dep = new int[MAXN];
 	public static int[] siz = new int[MAXN];
@@ -41,6 +43,12 @@ public class Code02_UnderMoon1 {
 	public static int[] dfn = new int[MAXN];
 	public static int cntd = 0;
 
+	// 线段树查询区间最大值
+	// 但是需要同时兼顾，区间增加、区间修改，这两种操作
+	// 那么就牵扯到两种操作相互影响的问题
+	// 因为区间修改明显会取消之前的区间增加
+	// 讲解110，线段树章节，题目6，重点讲了这种线段树
+	// 不会的同学可以看看，讲的非常清楚
 	public static int[] max = new int[MAXN << 2];
 	public static int[] addTag = new int[MAXN << 2];
 	public static boolean[] updateTag = new boolean[MAXN << 2];

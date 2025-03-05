@@ -23,11 +23,13 @@ public class Code01_GrassPlanting1 {
 	public static int MAXN = 100001;
 	public static int n, m;
 
+	// 链式前向星
 	public static int[] head = new int[MAXN];
 	public static int[] next = new int[MAXN << 1];
 	public static int[] to = new int[MAXN << 1];
 	public static int cntg = 0;
 
+	// 重链剖分
 	public static int[] fa = new int[MAXN];
 	public static int[] dep = new int[MAXN];
 	public static int[] siz = new int[MAXN];
@@ -36,6 +38,7 @@ public class Code01_GrassPlanting1 {
 	public static int[] dfn = new int[MAXN];
 	public static int cntd = 0;
 
+	// 线段树
 	public static int[] sum = new int[MAXN << 2];
 	public static int[] addTag = new int[MAXN << 2];
 
