@@ -1,12 +1,16 @@
 package class162;
 
-// 边权转化为点权的模版题，java版
-// 一共有n个节点，给定n-1条边，节点连成一棵树，初始时所有边的权值为0
-// 一共有m条操作，每条操作是如下2种类型中的一种
-// 操作 P x y : x到y的路径上，每条边的权值增加1
-// 操作 Q x y : x和y保证是直接连接的，查询他们之间的边权
-// 1 <= n、m <= 10^5
-// 测试链接 : https://www.luogu.com.cn/problem/P3038
+// 月下毛景树，java版
+// 一共有n个节点，节点编号从1到n，所有节点连成一棵树
+// 给定n-1条边，边的编号从1到n-1，每条边给定初始边权
+// 会进行若干次操作，每条操作的类型是如下4种类型中的一种
+// 操作 Change x v  : 第x条边的边权改成v
+// 操作 Cover x y v : x号点到y号点的路径上，所有边权改成v
+// 操作 Add x y v   : x号点到y号点的路径上，所有边权增加v
+// 操作 Max x y     : x号点到y号点的路径上，打印最大的边权
+// 1 <= n <= 10^5
+// 任何时候的边权 <= 10^9
+// 测试链接 : https://www.luogu.com.cn/problem/P4315
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
 import java.io.BufferedReader;
@@ -18,10 +22,11 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.util.StringTokenizer;
 
-public class Code01_GrassPlanting1 {
+public class Code02_UnderMoon1 {
 
 	public static int MAXN = 100001;
-	public static int n, m;
+	public static int n;
+	public static int[][] arr = new int[MAXN][3];
 
 	public static int[] head = new int[MAXN];
 	public static int[] next = new int[MAXN << 1];
@@ -36,8 +41,10 @@ public class Code01_GrassPlanting1 {
 	public static int[] dfn = new int[MAXN];
 	public static int cntd = 0;
 
-	public static int[] sum = new int[MAXN << 2];
+	public static int[] max = new int[MAXN << 2];
 	public static int[] addTag = new int[MAXN << 2];
+	public static boolean[] updateTag = new boolean[MAXN << 2];
+	public static int[] change = new int[MAXN << 2];
 
 	public static void addEdge(int u, int v) {
 		next[++cntg] = head[u];
@@ -162,29 +169,56 @@ public class Code01_GrassPlanting1 {
 	}
 
 	public static void up(int i) {
-		sum[i] = sum[i << 1] + sum[i << 1 | 1];
+		max[i] = Math.max(max[i << 1], max[i << 1 | 1]);
 	}
 
-	public static void lazy(int i, int v, int n) {
-		sum[i] += v * n;
+	public static void addLazy(int i, int v) {
+		max[i] += v;
 		addTag[i] += v;
 	}
 
-	public static void down(int i, int ln, int rn) {
+	public static void updateLazy(int i, int v) {
+		max[i] = v;
+		addTag[i] = 0;
+		updateTag[i] = true;
+		change[i] = v;
+	}
+
+	public static void down(int i) {
+		if (updateTag[i]) {
+			updateLazy(i << 1, change[i]);
+			updateLazy(i << 1 | 1, change[i]);
+			updateTag[i] = false;
+		}
 		if (addTag[i] != 0) {
-			lazy(i << 1, addTag[i], ln);
-			lazy(i << 1 | 1, addTag[i], rn);
+			addLazy(i << 1, addTag[i]);
+			addLazy(i << 1 | 1, addTag[i]);
 			addTag[i] = 0;
 		}
 	}
 
-	// 范围增加
+	public static void update(int jobl, int jobr, int jobv, int l, int r, int i) {
+		if (jobl <= l && r <= jobr) {
+			updateLazy(i, jobv);
+		} else {
+			int mid = (l + r) >> 1;
+			down(i);
+			if (jobl <= mid) {
+				update(jobl, jobr, jobv, l, mid, i << 1);
+			}
+			if (jobr > mid) {
+				update(jobl, jobr, jobv, mid + 1, r, i << 1 | 1);
+			}
+			up(i);
+		}
+	}
+
 	public static void add(int jobl, int jobr, int jobv, int l, int r, int i) {
 		if (jobl <= l && r <= jobr) {
-			lazy(i, jobv, r - l + 1);
+			addLazy(i, jobv);
 		} else {
-			int mid = (l + r) / 2;
-			down(i, mid - l + 1, r - mid);
+			int mid = (l + r) >> 1;
+			down(i);
 			if (jobl <= mid) {
 				add(jobl, jobr, jobv, l, mid, i << 1);
 			}
@@ -195,23 +229,42 @@ public class Code01_GrassPlanting1 {
 		}
 	}
 
-	// 单点查询
-	public static int query(int jobi, int l, int r, int i) {
-		if (l == r) {
-			return sum[i];
+	public static int query(int jobl, int jobr, int l, int r, int i) {
+		if (jobl <= l && r <= jobr) {
+			return max[i];
 		}
-		int mid = (l + r) / 2;
-		down(i, mid - l + 1, r - mid);
-		if (jobi <= mid) {
-			return query(jobi, l, mid, i << 1);
-		} else {
-			return query(jobi, mid + 1, r, i << 1 | 1);
+		int mid = (l + r) >> 1;
+		down(i);
+		int ans = Integer.MIN_VALUE;
+		if (jobl <= mid) {
+			ans = Math.max(ans, query(jobl, jobr, l, mid, i << 1));
 		}
+		if (jobr > mid) {
+			ans = Math.max(ans, query(jobl, jobr, mid + 1, r, i << 1 | 1));
+		}
+		return ans;
 	}
 
-	// x到y的路径上，每条边的边权变成下方点的点权
-	// 每条边的边权增加v，就是若干点的点权增加v
-	// 但是要注意！x和y的最低公共祖先，不能增加点权！
+	public static void edgeUpdate(int ei, int val) {
+		int x = arr[ei][0];
+		int y = arr[ei][1];
+		int down = Math.max(dfn[x], dfn[y]);
+		update(down, down, val, 1, n, 1);
+	}
+
+	public static void pathUpdate(int x, int y, int v) {
+		while (top[x] != top[y]) {
+			if (dep[top[x]] <= dep[top[y]]) {
+				update(dfn[top[y]], dfn[y], v, 1, n, 1);
+				y = fa[top[y]];
+			} else {
+				update(dfn[top[x]], dfn[x], v, 1, n, 1);
+				x = fa[top[x]];
+			}
+		}
+		update(Math.min(dfn[x], dfn[y]) + 1, Math.max(dfn[x], dfn[y]), v, 1, n, 1);
+	}
+
 	public static void pathAdd(int x, int y, int v) {
 		while (top[x] != top[y]) {
 			if (dep[top[x]] <= dep[top[y]]) {
@@ -222,38 +275,68 @@ public class Code01_GrassPlanting1 {
 				x = fa[top[x]];
 			}
 		}
-		// x和y的最低公共祖先，点权不增加！
 		add(Math.min(dfn[x], dfn[y]) + 1, Math.max(dfn[x], dfn[y]), v, 1, n, 1);
 	}
 
-	// 返回x和y之间这条边的边权
-	public static int edgeQuery(int x, int y) {
-		int down = Math.max(dfn[x], dfn[y]);
-		return query(down, 1, n, 1);
+	public static int pathMax(int x, int y) {
+		int ans = Integer.MIN_VALUE;
+		while (top[x] != top[y]) {
+			if (dep[top[x]] <= dep[top[y]]) {
+				ans = Math.max(ans, query(dfn[top[y]], dfn[y], 1, n, 1));
+				y = fa[top[y]];
+			} else {
+				ans = Math.max(ans, query(dfn[top[x]], dfn[x], 1, n, 1));
+				x = fa[top[x]];
+			}
+		}
+		ans = Math.max(ans, query(Math.min(dfn[x], dfn[y]) + 1, Math.max(dfn[x], dfn[y]), 1, n, 1));
+		return ans;
+	}
+
+	public static void prepare() {
+		for (int i = 1; i < n; i++) {
+			addEdge(arr[i][0], arr[i][1]);
+			addEdge(arr[i][1], arr[i][0]);
+		}
+		dfs3();
+		dfs4();
+		for (int i = 1; i < n; i++) {
+			edgeUpdate(i, arr[i][2]);
+		}
 	}
 
 	public static void main(String[] args) {
 		Kattio io = new Kattio();
 		n = io.nextInt();
-		m = io.nextInt();
-		for (int i = 1, u, v; i < n; i++) {
-			u = io.nextInt();
-			v = io.nextInt();
-			addEdge(u, v);
-			addEdge(v, u);
+		for (int i = 1; i < n; i++) {
+			arr[i][0] = io.nextInt();
+			arr[i][1] = io.nextInt();
+			arr[i][2] = io.nextInt();
 		}
-		dfs3();
-		dfs4();
-		String op;
-		for (int i = 1, x, y; i <= m; i++) {
-			op = io.next();
-			x = io.nextInt();
-			y = io.nextInt();
-			if (op.equals("P")) {
-				pathAdd(x, y, 1);
+		prepare();
+		String op = io.next();
+		int x, y, v;
+		while (!op.equals("Stop")) {
+			if (op.equals("Change")) {
+				x = io.nextInt();
+				v = io.nextInt();
+				edgeUpdate(x, v);
+			} else if (op.equals("Cover")) {
+				x = io.nextInt();
+				y = io.nextInt();
+				v = io.nextInt();
+				pathUpdate(x, y, v);
+			} else if (op.equals("Add")) {
+				x = io.nextInt();
+				y = io.nextInt();
+				v = io.nextInt();
+				pathAdd(x, y, v);
 			} else {
-				io.println(edgeQuery(x, y));
+				x = io.nextInt();
+				y = io.nextInt();
+				io.println(pathMax(x, y));
 			}
+			op = io.next();
 		}
 		io.flush();
 		io.close();
