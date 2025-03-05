@@ -22,11 +22,8 @@ import java.io.StreamTokenizer;
 public class Code06_Tourism1 {
 
 	public static int MAXN = 50001;
-
 	public static int INF = 1000000001;
-
 	public static int n, m;
-
 	public static int[] arr = new int[MAXN];
 
 	public static int[] head = new int[MAXN];

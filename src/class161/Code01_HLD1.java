@@ -25,9 +25,7 @@ import java.io.StreamTokenizer;
 public class Code01_HLD1 {
 
 	public static int MAXN = 100001;
-
 	public static int n, m, root, MOD;
-
 	public static int[] arr = new int[MAXN];
 
 	public static int[] head = new int[MAXN];

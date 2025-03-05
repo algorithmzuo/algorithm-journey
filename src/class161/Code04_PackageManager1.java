@@ -23,7 +23,6 @@ import java.util.StringTokenizer;
 public class Code04_PackageManager1 {
 
 	public static int MAXN = 100001;
-
 	public static int n, m;
 
 	public static int[] head = new int[MAXN];

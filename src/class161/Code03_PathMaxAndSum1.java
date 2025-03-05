@@ -24,11 +24,8 @@ import java.util.StringTokenizer;
 public class Code03_PathMaxAndSum1 {
 
 	public static int MAXN = 30001;
-
 	public static int INF = 10000001;
-
 	public static int n, m;
-
 	public static int[] arr = new int[MAXN];
 
 	public static int[] head = new int[MAXN];

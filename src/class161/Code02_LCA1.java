@@ -18,7 +18,6 @@ import java.io.StreamTokenizer;
 public class Code02_LCA1 {
 
 	public static int MAXN = 500001;
-
 	public static int n, m, root;
 
 	public static int[] head = new int[MAXN];
