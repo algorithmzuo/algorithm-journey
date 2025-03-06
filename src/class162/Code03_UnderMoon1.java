@@ -22,7 +22,7 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.util.StringTokenizer;
 
-public class Code02_UnderMoon1 {
+public class Code03_UnderMoon1 {
 
 	public static int MAXN = 100001;
 	public static int n;

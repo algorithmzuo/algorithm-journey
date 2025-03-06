@@ -23,7 +23,7 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.util.StringTokenizer;
 
-public class Code03_NationalTour1 {
+public class Code02_NationalTour1 {
 
 	public static int MAXN = 200001;
 	public static int n, m;
