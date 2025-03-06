@@ -1,7 +1,5 @@
 package class128;
 
-import java.util.Arrays;
-
 // 相邻必选的子序列最大中位数
 // 给定一个长度为n的数组arr
 // 合法子序列定义为，任意相邻的两个数至少要有一个被挑选所组成的子序列
@@ -12,6 +10,9 @@ import java.util.Arrays;
 // 2 <=  n <= 10^5
 // 1 <= arr[i] <= 10^9
 // 来自真实大厂笔试，对数器验证
+
+import java.util.Arrays;
+
 public class Code05_MaximizeMedian1 {
 
 	// 正式方法
