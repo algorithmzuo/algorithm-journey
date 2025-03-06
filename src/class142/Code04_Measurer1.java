@@ -23,7 +23,7 @@ import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 import java.util.Arrays;
 
-public class Code04_Measurer {
+public class Code04_Measurer1 {
 
 	public static int MAXN = 1002;
 
