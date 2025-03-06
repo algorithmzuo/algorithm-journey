@@ -1,6 +1,6 @@
 package class127;
 
-// 感谢热心的同学，找到了题目3的线上测试
+// 感谢热心的同学，找到了题目3的在线测试
 // 测试链接 : https://codeforces.com/problemset/problem/1215/B
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
