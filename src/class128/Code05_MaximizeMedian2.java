@@ -78,7 +78,7 @@ public class Code05_MaximizeMedian2 {
 	}
 
 	public static boolean check1(double x) {
-		// arr中所有的数字都减去m，得到的数字填入help1
+		// arr中所有的数字都减去x，得到的数字填入help1
 		for (int i = 1; i <= n; i++) {
 			help1[i] = (double) arr[i] - x;
 		}
