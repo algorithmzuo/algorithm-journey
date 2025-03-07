@@ -7,6 +7,7 @@ package class162;
 // 规定任何点到自己的距离为0
 // 打印每个点的答案
 // 1 <= n <= 10^6
+// 测试链接 : https://www.luogu.com.cn/problem/CF1009F
 // 测试链接 : https://codeforces.com/problemset/problem/1009/F
 // 如下实现是C++的版本，C++版本和java版本逻辑完全一样
 // 提交如下代码，可以通过所有测试用例

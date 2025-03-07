@@ -7,6 +7,7 @@ package class162;
 // 规定任何点到自己的距离为0
 // 打印每个点的答案
 // 1 <= n <= 10^6
+// 测试链接 : https://www.luogu.com.cn/problem/CF1009F
 // 测试链接 : https://codeforces.com/problemset/problem/1009/F
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
