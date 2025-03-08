@@ -10,7 +10,7 @@ package class162;
 // 1 <= n、k <= 2 * 10^5
 // 所有点权都是int类型的正数
 // 测试链接 : https://www.luogu.com.cn/problem/P10641
-// 提交以下的code，提交时请把类名改成"Main"，因为递归爆栈所以无法通过
+// 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
 import java.io.BufferedReader;
 import java.io.IOException;
