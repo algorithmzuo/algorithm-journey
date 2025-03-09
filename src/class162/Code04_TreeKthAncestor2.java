@@ -13,14 +13,15 @@ package class162;
 // 提交如下代码，可以通过所有测试用例
 
 //#include <bits/stdc++.h>
-//#define uint unsigned int
+//
+//#define ui unsigned int
 //
 //using namespace std;
 //
 //const int MAXN = 500001;
 //const int MAXH = 20;
 //int n, m;
-//uint s;
+//ui s;
 //int root;
 //
 //int head[MAXN];
@@ -40,7 +41,7 @@ package class162;
 //int up[MAXN];
 //int down[MAXN];
 //
-//uint get(uint x) {
+//ui get(ui x) {
 //    x ^= x << 13;
 //    x ^= x >> 17;
 //    x ^= x << 5;
