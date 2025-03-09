@@ -18,7 +18,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 
-public class Code04_DominantIndices2 {
+public class Code05_DominantIndices2 {
 
 	public static int MAXN = 1000001;
 	public static int n;

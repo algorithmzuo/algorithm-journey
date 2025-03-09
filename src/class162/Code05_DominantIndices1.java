@@ -10,6 +10,7 @@ package class162;
 // 测试链接 : https://www.luogu.com.cn/problem/CF1009F
 // 测试链接 : https://codeforces.com/problemset/problem/1009/F
 // 提交以下的code，提交时请把类名改成"Main"，因为递归爆栈所以无法通过
+// 迭代版的实现就是本节课Code05_DominantIndices2文件
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -18,7 +19,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 
-public class Code04_DominantIndices1 {
+public class Code05_DominantIndices1 {
 
 	public static int MAXN = 1000001;
 	public static int n;
