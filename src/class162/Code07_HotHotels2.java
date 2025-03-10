@@ -65,13 +65,13 @@ package class162;
 //        return;
 //    }
 //    dfs2(son[u], t);
-//    gid[u] = gid[son[u]] + 1;
 //    for (int e = head[u], v; e > 0; e = nxt[e]) {
 //        v = to[e];
 //        if (v != son[u] && v != fa[u]) {
 //            dfs2(v, v);
 //        }
 //    }
+//    gid[u] = gid[son[u]] + 1;
 //}
 //
 //void setf(int u, int i, long long v) {

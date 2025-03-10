@@ -71,13 +71,13 @@ public class Code07_HotHotels1 {
 			return;
 		}
 		dfs2(son[u], t);
-		gid[u] = gid[son[u]] + 1;
 		for (int e = head[u], v; e > 0; e = next[e]) {
 			v = to[e];
 			if (v != son[u] && v != fa[u]) {
 				dfs2(v, v);
 			}
 		}
+		gid[u] = gid[son[u]] + 1;
 	}
 
 	public static void setf(int u, int i, long v) {
