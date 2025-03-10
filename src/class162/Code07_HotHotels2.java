@@ -29,7 +29,7 @@ package class162;
 //
 //int fid[MAXN];
 //int gid[MAXN];
-//long long f[MAXN << 1];
+//long long f[MAXN];
 //long long g[MAXN << 1];
 //long long ans;
 //
