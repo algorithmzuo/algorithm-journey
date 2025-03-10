@@ -5,7 +5,7 @@ package class162;
 // 规定任何点到自己的距离为0
 // 定义d(u, x)，以u为头的子树中，到u的距离为x的节点数
 // 对于每个点u，想知道哪个尽量小的x，能取得最大的d(u, x)值
-// 打印每个点的答案
+// 打印每个点的答案x
 // 1 <= n <= 10^6
 // 测试链接 : https://www.luogu.com.cn/problem/CF1009F
 // 测试链接 : https://codeforces.com/problemset/problem/1009/F
