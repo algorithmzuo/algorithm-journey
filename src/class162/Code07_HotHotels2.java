@@ -118,6 +118,10 @@ package class162;
 //            for (int i = 0; i <= len[v]; i++) {
 //                if (i > 0) {
 //                    setg(u, i, getg(u, i) + getf(u, i) * getf(v, i - 1));
+//                }
+//            }
+//            for (int i = 0; i <= len[v]; i++) {
+//                if (i > 0) {
 //                    setf(u, i, getf(u, i) + getf(v, i - 1));
 //                }
 //                if (i < len[v]) {
