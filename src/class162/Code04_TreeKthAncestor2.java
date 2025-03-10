@@ -49,6 +49,22 @@ package class162;
 //    return x;
 //}
 //
+//void setUp(int u, int i, int v) {
+//    up[dfn[u] + i] = v;
+//}
+//
+//int getUp(int u, int i) {
+//    return up[dfn[u] + i];
+//}
+//
+//void setDown(int u, int i, int v) {
+//    down[dfn[u] + i] = v;
+//}
+//
+//int getDown(int u, int i) {
+//    return down[dfn[u] + i];
+//}
+//
 //void addEdge(int u, int v) {
 //    nxt[++cntg] = head[u];
 //    to[cntg] = v;
@@ -89,22 +105,6 @@ package class162;
 //            dfs2(v, v);
 //        }
 //    }
-//}
-//
-//void setUp(int u, int i, int v) {
-//    up[dfn[u] + i] = v;
-//}
-//
-//int getUp(int u, int i) {
-//    return up[dfn[u] + i];
-//}
-//
-//void setDown(int u, int i, int v) {
-//    down[dfn[u] + i] = v;
-//}
-//
-//int getDown(int u, int i) {
-//    return down[dfn[u] + i];
 //}
 //
 //void prepare() {

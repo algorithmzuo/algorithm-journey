@@ -57,6 +57,22 @@ public class Code04_TreeKthAncestor1 {
 		return s = x;
 	}
 
+	public static void setUp(int u, int i, int v) {
+		up[dfn[u] + i] = v;
+	}
+
+	public static int getUp(int u, int i) {
+		return up[dfn[u] + i];
+	}
+
+	public static void setDown(int u, int i, int v) {
+		down[dfn[u] + i] = v;
+	}
+
+	public static int getDown(int u, int i) {
+		return down[dfn[u] + i];
+	}
+
 	public static void addEdge(int u, int v) {
 		next[++cntg] = head[u];
 		to[cntg] = v;
@@ -184,22 +200,6 @@ public class Code04_TreeKthAncestor1 {
 				}
 			}
 		}
-	}
-
-	public static void setUp(int u, int i, int v) {
-		up[dfn[u] + i] = v;
-	}
-
-	public static int getUp(int u, int i) {
-		return up[dfn[u] + i];
-	}
-
-	public static void setDown(int u, int i, int v) {
-		down[dfn[u] + i] = v;
-	}
-
-	public static int getDown(int u, int i) {
-		return down[dfn[u] + i];
 	}
 
 	public static void prepare() {
