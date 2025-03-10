@@ -22,27 +22,28 @@ package class162;
 //int head[MAXN];
 //int nxt[MAXN << 1];
 //int to[MAXN << 1];
-//int cnt = 0;
+//int cntg = 0;
 //
 //int len[MAXN];
 //int son[MAXN];
+//int dfn[MAXN];
+//int cntd = 0;
 //
-//int start[MAXN];
 //int dp[MAXN];
 //int ansx[MAXN];
 //
 //void setVal(int u, int i, int v) {
-//    dp[start[u] + i] = v;
+//    dp[dfn[u] + i] = v;
 //}
 //
 //int getVal(int u, int i) {
-//    return dp[start[u] + i];
+//    return dp[dfn[u] + i];
 //}
 //
 //void addEdge(int u, int v) {
-//    nxt[++cnt] = head[u];
-//    to[cnt] = v;
-//    head[u] = cnt;
+//    nxt[++cntg] = head[u];
+//    to[cntg] = v;
+//    head[u] = cntg;
 //}
 //
 //void dfs1(int u, int fa) {
@@ -64,19 +65,11 @@ package class162;
 //}
 //
 //void dfs2(int u, int fa) {
+//    dfn[u] = ++cntd;
 //    setVal(u, 0, 1);
 //    if (son[u] == 0) {
 //        ansx[u] = 0;
 //        return;
-//    }
-//    start[son[u]] = start[u] + 1;
-//    int startSum = start[u] + len[u];
-//    for (int e = head[u], v; e > 0; e = nxt[e]) {
-//        v = to[e];
-//        if (v != fa && v != son[u]) {
-//            start[v] = startSum;
-//            startSum += len[v];
-//        }
 //    }
 //    dfs2(son[u], u);
 //    for (int e = head[u], v; e > 0; e = nxt[e]) {
@@ -112,7 +105,6 @@ package class162;
 //        addEdge(v, u);
 //    }
 //    dfs1(1, 0);
-//    start[1] = 1;
 //    dfs2(1, 0);
 //    for (int i = 1; i <= n; i++) {
 //        cout << ansx[i] << "\n";

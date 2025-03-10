@@ -18,7 +18,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 
-public class Code05_DominantIndices1 {
+public class Code06_DominantIndices1 {
 
 	public static int MAXN = 1000001;
 	public static int n;
@@ -27,29 +27,30 @@ public class Code05_DominantIndices1 {
 	public static int[] head = new int[MAXN];
 	public static int[] next = new int[MAXN << 1];
 	public static int[] to = new int[MAXN << 1];
-	public static int cnt = 0;
+	public static int cntg = 0;
 
 	// 长链剖分
 	public static int[] len = new int[MAXN];
 	public static int[] son = new int[MAXN];
+	public static int[] dfn = new int[MAXN];
+	public static int cntd = 0;
 
 	// 动态规划
-	public static int[] start = new int[MAXN];
 	public static int[] dp = new int[MAXN];
 	public static int[] ansx = new int[MAXN];
 
 	public static void set(int u, int i, int v) {
-		dp[start[u] + i] = v;
+		dp[dfn[u] + i] = v;
 	}
 
 	public static int get(int u, int i) {
-		return dp[start[u] + i];
+		return dp[dfn[u] + i];
 	}
 
 	public static void addEdge(int u, int v) {
-		next[++cnt] = head[u];
-		to[cnt] = v;
-		head[u] = cnt;
+		next[++cntg] = head[u];
+		to[cntg] = v;
+		head[u] = cntg;
 	}
 
 	// 递归版，C++可以通过，java会爆栈，迭代版是dfs3方法
@@ -73,31 +74,19 @@ public class Code05_DominantIndices1 {
 
 	// 递归版，C++可以通过，java会爆栈，迭代版是dfs4方法
 	public static void dfs2(int u, int fa) {
-		// 第一部分，给所有儿子设置start位置
+		dfn[u] = ++cntd;
 		set(u, 0, 1);
 		if (son[u] == 0) {
 			ansx[u] = 0;
 			return;
 		}
-		start[son[u]] = start[u] + 1;
-		int startSum = start[u] + len[u];
-		for (int e = head[u], v; e > 0; e = next[e]) {
-			v = to[e];
-			if (v != fa && v != son[u]) {
-				start[v] = startSum;
-				startSum += len[v];
-			}
-		}
-		// 第二部分，先遍历长儿子，得到的答案已经放在dp里了，自动复用
 		dfs2(son[u], u);
-		// 第三部分，处理其他儿子
 		for (int e = head[u], v; e > 0; e = next[e]) {
 			v = to[e];
 			if (v != fa && v != son[u]) {
 				dfs2(v, u);
 			}
 		}
-		// 第四部分，计算答案
 		ansx[u] = ansx[son[u]] + 1;
 		for (int e = head[u], v; e > 0; e = next[e]) {
 			v = to[e];
@@ -173,36 +162,28 @@ public class Code05_DominantIndices1 {
 		int v;
 		while (stacksize > 0) {
 			pop();
-			if (e == -1) { // e == -1，表示第一次来到当前节点，对应第一部分
+			if (e == -1) { // e == -1，表示第一次来到当前节点
+				dfn[u] = ++cntd;
 				set(u, 0, 1);
 				if (son[u] == 0) {
 					ansx[u] = 0;
 					continue;
 				}
-				start[son[u]] = start[u] + 1;
-				int startSum = start[u] + len[u];
-				for (int e = head[u]; e > 0; e = next[e]) {
-					v = to[e];
-					if (v != f && v != son[u]) {
-						start[v] = startSum;
-						startSum += len[v];
-					}
-				}
 				push(u, f, -2); // 设置e = -2，再弹出就表示处理完长儿子了
-				push(son[u], u, -1); // 长儿子的任务进入栈，对应第二部分
+				push(son[u], u, -1); // 长儿子的任务进入栈
 				continue;
 			} else if (e == -2) { // e == -2，表示长儿子已经处理完，该处理其他儿子了
 				e = head[u];
 			} else { // 每个儿子都处理
 				e = next[e];
 			}
-			if (e != 0) { // 对应第三部分
+			if (e != 0) {
 				push(u, f, e);
 				v = to[e];
 				if (v != f && v != son[u]) {
 					push(v, u, -1);
 				}
-			} else { // 对应第四部分，计算答案
+			} else { // 更新dp、计算答案
 				ansx[u] = ansx[son[u]] + 1;
 				for (int e = head[u]; e > 0; e = next[e]) {
 					v = to[e];
@@ -237,7 +218,6 @@ public class Code05_DominantIndices1 {
 			addEdge(v, u);
 		}
 		dfs3();
-		start[1] = 1;
 		dfs4();
 		for (int i = 1; i <= n; i++) {
 			out.println(ansx[i]);
