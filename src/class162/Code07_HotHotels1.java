@@ -37,6 +37,22 @@ public class Code07_HotHotels1 {
 	public static long[] g = new long[MAXN << 1];
 	public static long ans = 0;
 
+	public static void setf(int u, int i, long v) {
+		f[fid[u] + i] = v;
+	}
+
+	public static long getf(int u, int i) {
+		return f[fid[u] + i];
+	}
+
+	public static void setg(int u, int i, long v) {
+		g[gid[u] + i] = v;
+	}
+
+	public static long getg(int u, int i) {
+		return g[gid[u] + i];
+	}
+
 	public static void addEdge(int u, int v) {
 		next[++cntg] = head[u];
 		to[cntg] = v;
@@ -78,22 +94,6 @@ public class Code07_HotHotels1 {
 			}
 		}
 		gid[u] = gid[son[u]] + 1;
-	}
-
-	public static void setf(int u, int i, long v) {
-		f[fid[u] + i] = v;
-	}
-
-	public static long getf(int u, int i) {
-		return f[fid[u] + i];
-	}
-
-	public static void setg(int u, int i, long v) {
-		g[gid[u] + i] = v;
-	}
-
-	public static long getg(int u, int i) {
-		return g[gid[u] + i];
 	}
 
 	// 递归版，居然不改迭代版也能通过，那就不改了

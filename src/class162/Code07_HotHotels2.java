@@ -33,6 +33,22 @@ package class162;
 //long long g[MAXN << 1];
 //long long ans;
 //
+//void setf(int u, int i, long long v) {
+//    f[fid[u] + i] = v;
+//}
+//
+//long long getf(int u, int i) {
+//    return f[fid[u] + i];
+//}
+//
+//void setg(int u, int i, long long v) {
+//    g[gid[u] + i] = v;
+//}
+//
+//long long getg(int u, int i) {
+//    return g[gid[u] + i];
+//}
+//
 //void addEdge(int u, int v) {
 //    nxt[++cntg] = head[u];
 //    to[cntg] = v;
@@ -72,22 +88,6 @@ package class162;
 //        }
 //    }
 //    gid[u] = gid[son[u]] + 1;
-//}
-//
-//void setf(int u, int i, long long v) {
-//    f[fid[u] + i] = v;
-//}
-//
-//long long getf(int u, int i) {
-//    return f[fid[u] + i];
-//}
-//
-//void setg(int u, int i, long long v) {
-//    g[gid[u] + i] = v;
-//}
-//
-//long long getg(int u, int i) {
-//    return g[gid[u] + i];
 //}
 //
 //void dfs3(int u) {
