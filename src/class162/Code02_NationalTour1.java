@@ -27,6 +27,10 @@ public class Code02_NationalTour1 {
 
 	public static int MAXN = 200001;
 	public static int n, m;
+
+	// arr[i][0] : 第i条边的其中一点
+	// arr[i][1] : 第i条边的另外一点
+	// arr[i][2] : 第i条边的初始边权
 	public static int[][] arr = new int[MAXN][3];
 
 	// 链式前向星
