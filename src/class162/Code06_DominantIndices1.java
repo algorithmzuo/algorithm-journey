@@ -39,11 +39,11 @@ public class Code06_DominantIndices1 {
 	public static int[] dp = new int[MAXN];
 	public static int[] ansx = new int[MAXN];
 
-	public static void set(int u, int i, int v) {
+	public static void setdp(int u, int i, int v) {
 		dp[dfn[u] + i] = v;
 	}
 
-	public static int get(int u, int i) {
+	public static int getdp(int u, int i) {
 		return dp[dfn[u] + i];
 	}
 
@@ -75,9 +75,9 @@ public class Code06_DominantIndices1 {
 	// 递归版，C++可以通过，java会爆栈，迭代版是dfs4方法
 	public static void dfs2(int u, int fa) {
 		dfn[u] = ++cntd;
-		set(u, 0, 1);
+		setdp(u, 0, 1);
+		ansx[u] = 0;
 		if (son[u] == 0) {
-			ansx[u] = 0;
 			return;
 		}
 		dfs2(son[u], u);
@@ -87,19 +87,28 @@ public class Code06_DominantIndices1 {
 				dfs2(v, u);
 			}
 		}
+		// 注意一定要在合并其他儿子dp信息的过程中，去更新ansx
+		// 千万不要，最后再遍历一遍u的dp信息，然后更新ansx
+		// 因为任何for循环，都不能是长链的规模！
+		// 如果for循环是长链的规模，那么u遍历下去，u的重儿子又遍历下去，长链上每个节点都遍历下去
+		// 时间复杂度必然不再是O(n)，而是O(n^2)，长链剖分的优势就不存在了！
+		// 所以长链信息会被u直接继承，绝对不要有任何与长链的长度等规模的循环出现！
 		ansx[u] = ansx[son[u]] + 1;
 		for (int e = head[u], v; e > 0; e = next[e]) {
 			v = to[e];
 			if (v != fa && v != son[u]) {
 				for (int i = 1; i <= len[v]; i++) {
-					set(u, i, get(u, i) + get(v, i - 1));
-					if (get(u, i) > get(u, ansx[u]) || (get(u, i) == get(u, ansx[u]) && i < ansx[u])) {
+					setdp(u, i, getdp(u, i) + getdp(v, i - 1));
+					if (getdp(u, i) > getdp(u, ansx[u]) || (getdp(u, i) == getdp(u, ansx[u]) && i < ansx[u])) {
 						ansx[u] = i;
 					}
 				}
 			}
 		}
-		if (get(u, ansx[u]) == 1) {
+		// 如果u的某个距离，获得的最大节点数为1
+		// 那么u答案就是0距离，因为u到u自己的距离是0，也有1个节点了
+		// 根据题目要求，返回尽量小的距离
+		if (getdp(u, ansx[u]) == 1) {
 			ansx[u] = 0;
 		}
 	}
@@ -123,7 +132,7 @@ public class Code06_DominantIndices1 {
 		e = ufe[stacksize][2];
 	}
 
-	// 迭代版
+	// dfs1的迭代版
 	public static void dfs3() {
 		stacksize = 0;
 		push(1, 0, -1);
@@ -155,26 +164,26 @@ public class Code06_DominantIndices1 {
 		}
 	}
 
-	// 迭代版
+	// dfs2的迭代版
 	public static void dfs4() {
 		stacksize = 0;
 		push(1, 0, -1);
 		int v;
 		while (stacksize > 0) {
 			pop();
-			if (e == -1) { // e == -1，表示第一次来到当前节点
+			if (e == -1) {
 				dfn[u] = ++cntd;
-				set(u, 0, 1);
+				setdp(u, 0, 1);
+				ansx[u] = 0;
 				if (son[u] == 0) {
-					ansx[u] = 0;
 					continue;
 				}
-				push(u, f, -2); // 设置e = -2，再弹出就表示处理完长儿子了
-				push(son[u], u, -1); // 长儿子的任务进入栈
+				push(u, f, -2);
+				push(son[u], u, -1);
 				continue;
-			} else if (e == -2) { // e == -2，表示长儿子已经处理完，该处理其他儿子了
+			} else if (e == -2) {
 				e = head[u];
-			} else { // 每个儿子都处理
+			} else {
 				e = next[e];
 			}
 			if (e != 0) {
@@ -183,20 +192,20 @@ public class Code06_DominantIndices1 {
 				if (v != f && v != son[u]) {
 					push(v, u, -1);
 				}
-			} else { // 更新dp、计算答案
+			} else {
 				ansx[u] = ansx[son[u]] + 1;
 				for (int e = head[u]; e > 0; e = next[e]) {
 					v = to[e];
 					if (v != f && v != son[u]) {
 						for (int i = 1; i <= len[v]; i++) {
-							set(u, i, get(u, i) + get(v, i - 1));
-							if (get(u, i) > get(u, ansx[u]) || (get(u, i) == get(u, ansx[u]) && i < ansx[u])) {
+							setdp(u, i, getdp(u, i) + getdp(v, i - 1));
+							if (getdp(u, i) > getdp(u, ansx[u]) || (getdp(u, i) == getdp(u, ansx[u]) && i < ansx[u])) {
 								ansx[u] = i;
 							}
 						}
 					}
 				}
-				if (get(u, ansx[u]) == 1) {
+				if (getdp(u, ansx[u]) == 1) {
 					ansx[u] = 0;
 				}
 			}

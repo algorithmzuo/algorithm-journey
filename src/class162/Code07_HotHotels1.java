@@ -98,8 +98,8 @@ public class Code07_HotHotels1 {
 
 	// 递归版，居然不改迭代版也能通过，那就不改了
 	public static void dfs3(int u) {
+		setf(u, 0, 1);
 		if (son[u] == 0) {
-			setf(u, 0, 1);
 			return;
 		}
 		dfs3(son[u]);
@@ -110,7 +110,6 @@ public class Code07_HotHotels1 {
 			}
 		}
 		ans += getg(u, 0);
-		setf(u, 0, getf(u, 0) + 1);
 		for (int e = head[u], v; e > 0; e = next[e]) {
 			v = to[e];
 			if (v != son[u] && v != fa[u]) {

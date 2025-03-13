@@ -32,11 +32,11 @@ package class162;
 //int dp[MAXN];
 //int ansx[MAXN];
 //
-//void setVal(int u, int i, int v) {
+//void setdp(int u, int i, int v) {
 //    dp[dfn[u] + i] = v;
 //}
 //
-//int getVal(int u, int i) {
+//int getdp(int u, int i) {
 //    return dp[dfn[u] + i];
 //}
 //
@@ -66,9 +66,9 @@ package class162;
 //
 //void dfs2(int u, int fa) {
 //    dfn[u] = ++cntd;
-//    setVal(u, 0, 1);
+//    setdp(u, 0, 1);
+//    ansx[u] = 0;
 //    if (son[u] == 0) {
-//        ansx[u] = 0;
 //        return;
 //    }
 //    dfs2(son[u], u);
@@ -83,14 +83,14 @@ package class162;
 //        v = to[e];
 //        if (v != fa && v != son[u]) {
 //            for (int i = 1; i <= len[v]; i++) {
-//                setVal(u, i, getVal(u, i) + getVal(v, i - 1));
-//                if (getVal(u, i) > getVal(u, ansx[u]) || (getVal(u, i) == getVal(u, ansx[u]) && i < ansx[u])) {
+//                setdp(u, i, getdp(u, i) + getdp(v, i - 1));
+//                if (getdp(u, i) > getdp(u, ansx[u]) || (getdp(u, i) == getdp(u, ansx[u]) && i < ansx[u])) {
 //                    ansx[u] = i;
 //                }
 //            }
 //        }
 //    }
-//    if (getVal(u, ansx[u]) == 1) {
+//    if (getdp(u, ansx[u]) == 1) {
 //        ansx[u] = 0;
 //    }
 //}
