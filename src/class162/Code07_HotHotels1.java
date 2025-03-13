@@ -129,7 +129,7 @@ public class Code07_HotHotels1 {
 					}
 				}
 				for (int i = 0; i <= len[v]; i++) {
-					if (i > 0) {
+					if (i - 1 >= 0) {
 						setg(u, i, getg(u, i) + getf(u, i) * getf(v, i - 1));
 					}
 				}
@@ -144,7 +144,7 @@ public class Code07_HotHotels1 {
 			}
 		}
 		// u为头的子树中，选择三个点，u一定要参与
-		// 情况3 : u为头的子树中，最上方的点选u
+		// 情况3 : u为头的子树中，最上方的点选u，下方再选两个点
 		ans += getg(u, 0);
 	}
 
