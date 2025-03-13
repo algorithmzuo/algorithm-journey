@@ -36,8 +36,8 @@ public class Code07_HotHotels1 {
 	// 动态规划
 	public static int[] fid = new int[MAXN]; // 每个点在动态规划表f中的开始位置，就是dfn序
 	public static int[] gid = new int[MAXN]; // 每个点在动态规划表g中的开始位置，课上讲的设计
-	public static long[] f = new long[MAXN]; // 动态规划表f
-	public static long[] g = new long[MAXN << 1]; // 动态规划表g
+	public static long[] f = new long[MAXN]; // 动态规划表f，f[父][i]依赖f[子][i-1]
+	public static long[] g = new long[MAXN << 1]; // 动态规划表g，g[父][i]依赖g[子][i+1]
 	public static long ans = 0; // 答案
 
 	public static void setf(int u, int i, long v) {
@@ -117,23 +117,23 @@ public class Code07_HotHotels1 {
 		for (int e = head[u], v; e > 0; e = next[e]) {
 			v = to[e];
 			if (v != son[u] && v != fa[u]) {
-				// u为头的子树中，选择三个点，u一定不参与
-				// 情况1 : u遍历过的所有子树中选一个点，当前子树中选两个点
-				// 情况2 : u遍历过的所有子树中选两个点，当前子树中选一个点
+				// 情况2，u树上，选择三个点，u没被选中，但跨u选点
 				for (int i = 0; i <= len[v]; i++) {
-					if (i > 0 && i + 1 < len[v]) {
-						ans += getf(u, i) * getg(v, i + 1);
-					}
+					// 情况2的分支一，之前遍历的子树里选两个点，当前子树里选一个点
 					if (i < len[u] && i - 1 >= 0) {
 						ans += getg(u, i) * getf(v, i - 1);
 					}
+					// 情况2的分支二，之前遍历的子树里选一个点，当前子树里选两个点
+					if (i > 0 && i + 1 < len[v]) {
+						ans += getf(u, i) * getg(v, i + 1);
+					}
 				}
 				for (int i = 0; i <= len[v]; i++) {
-					if (i - 1 >= 0) {
-						setg(u, i, getg(u, i) + getf(u, i) * getf(v, i - 1));
-					}
 					if (i + 1 < len[v]) {
 						setg(u, i, getg(u, i) + getg(v, i + 1));
+					}
+					if (i - 1 >= 0) {
+						setg(u, i, getg(u, i) + getf(u, i) * getf(v, i - 1));
 					}
 				}
 				for (int i = 0; i <= len[v]; i++) {
@@ -143,8 +143,7 @@ public class Code07_HotHotels1 {
 				}
 			}
 		}
-		// u为头的子树中，选择三个点，u一定要参与
-		// 情况3 : u为头的子树中，最上方的点选u，下方再选两个点
+		// 情况1，u树上，选择三个点，u被选中
 		ans += getg(u, 0);
 	}
 
