@@ -21,21 +21,24 @@ public class Code07_HotHotels1 {
 	public static int MAXN = 100001;
 	public static int n;
 
+	// 链式前向星
 	public static int[] head = new int[MAXN];
 	public static int[] next = new int[MAXN << 1];
 	public static int[] to = new int[MAXN << 1];
 	public static int cntg = 0;
 
+	// 长链剖分
 	public static int[] fa = new int[MAXN];
 	public static int[] son = new int[MAXN];
 	public static int[] len = new int[MAXN];
 	public static int cntd = 0;
 
-	public static int[] fid = new int[MAXN];
-	public static int[] gid = new int[MAXN];
-	public static long[] f = new long[MAXN];
-	public static long[] g = new long[MAXN << 1];
-	public static long ans = 0;
+	// 动态规划
+	public static int[] fid = new int[MAXN]; // 每个点在动态规划表f中的开始位置，就是dfn序
+	public static int[] gid = new int[MAXN]; // 每个点在动态规划表g中的开始位置，独特的设计
+	public static long[] f = new long[MAXN]; // 动态规划表f
+	public static long[] g = new long[MAXN << 1]; // 动态规划表g
+	public static long ans = 0; // 答案
 
 	public static void setf(int u, int i, long v) {
 		f[fid[u] + i] = v;
@@ -80,6 +83,7 @@ public class Code07_HotHotels1 {
 	}
 
 	// 递归版，居然不改迭代版也能通过，那就不改了
+	// 给每个节点分配fid和gid
 	public static void dfs2(int u, int t) {
 		fid[u] = cntd++;
 		if (son[u] == 0) {
@@ -97,6 +101,7 @@ public class Code07_HotHotels1 {
 	}
 
 	// 递归版，居然不改迭代版也能通过，那就不改了
+	// 计算每个节点的f信息和g信息，同时统计答案
 	public static void dfs3(int u) {
 		setf(u, 0, 1);
 		if (son[u] == 0) {
