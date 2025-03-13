@@ -35,7 +35,7 @@ public class Code07_HotHotels1 {
 
 	// 动态规划
 	public static int[] fid = new int[MAXN]; // 每个点在动态规划表f中的开始位置，就是dfn序
-	public static int[] gid = new int[MAXN]; // 每个点在动态规划表g中的开始位置，独特的设计
+	public static int[] gid = new int[MAXN]; // 每个点在动态规划表g中的开始位置，课上讲的设计
 	public static long[] f = new long[MAXN]; // 动态规划表f
 	public static long[] g = new long[MAXN << 1]; // 动态规划表g
 	public static long ans = 0; // 答案
