@@ -132,13 +132,13 @@ public class Code07_HotHotels1 {
 					if (i - 1 >= 0) {
 						setg(u, i, getg(u, i) + getf(u, i) * getf(v, i - 1));
 					}
+					if (i + 1 < len[v]) {
+						setg(u, i, getg(u, i) + getg(v, i + 1));
+					}
 				}
 				for (int i = 0; i <= len[v]; i++) {
 					if (i - 1 >= 0) {
 						setf(u, i, getf(u, i) + getf(v, i - 1));
-					}
-					if (i + 1 < len[v]) {
-						setg(u, i, getg(u, i) + getg(v, i + 1));
 					}
 				}
 			}
