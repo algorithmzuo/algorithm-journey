@@ -37,6 +37,8 @@ public class Code06_DominantIndices1 {
 
 	// 动态规划
 	public static int[] dp = new int[MAXN];
+
+	// 答案数组
 	public static int[] ansx = new int[MAXN];
 
 	public static void setdp(int u, int i, int v) {
