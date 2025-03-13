@@ -114,16 +114,18 @@ public class Code07_HotHotels1 {
 				dfs3(v);
 			}
 		}
-		ans += getg(u, 0);
 		for (int e = head[u], v; e > 0; e = next[e]) {
 			v = to[e];
 			if (v != son[u] && v != fa[u]) {
+				// u为头的子树中，选择三个点，u一定不参与
+				// 情况1 : u遍历过的所有子树中选一个点，当前子树中选两个点
+				// 情况2 : u遍历过的所有子树中选两个点，当前子树中选一个点
 				for (int i = 0; i <= len[v]; i++) {
-					if (i > 0) {
-						ans += getg(u, i) * getf(v, i - 1);
-					}
-					if (i + 1 < len[v]) {
+					if (i > 0 && i + 1 < len[v]) {
 						ans += getf(u, i) * getg(v, i + 1);
+					}
+					if (i < len[u] && i - 1 >= 0) {
+						ans += getg(u, i) * getf(v, i - 1);
 					}
 				}
 				for (int i = 0; i <= len[v]; i++) {
@@ -132,15 +134,18 @@ public class Code07_HotHotels1 {
 					}
 				}
 				for (int i = 0; i <= len[v]; i++) {
-					if (i > 0) {
+					if (i - 1 >= 0) {
 						setf(u, i, getf(u, i) + getf(v, i - 1));
 					}
-					if (i < len[v]) {
+					if (i + 1 < len[v]) {
 						setg(u, i, getg(u, i) + getg(v, i + 1));
 					}
 				}
 			}
 		}
+		// u为头的子树中，选择三个点，u一定要参与
+		// 情况3 : u为头的子树中，最上方的点选u
+		ans += getg(u, 0);
 	}
 
 	public static void main(String[] args) throws IOException {

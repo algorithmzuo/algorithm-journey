@@ -102,16 +102,15 @@ package class162;
 //            dfs3(v);
 //        }
 //    }
-//    ans += getg(u, 0);
 //    for (int e = head[u], v; e > 0; e = nxt[e]) {
 //        v = to[e];
 //        if (v != son[u] && v != fa[u]) {
-//            for (int i = 0; i <= len[v]; i++) {
-//                if (i > 0) {
-//                    ans += getg(u, i) * getf(v, i - 1);
-//                }
-//                if (i + 1 < len[v]) {
+//            for (int i = 1; i <= len[v]; i++) {
+//                if (i > 0 && i + 1 < len[v]) {
 //                    ans += getf(u, i) * getg(v, i + 1);
+//                }
+//                if (i < len[u] && i - 1 >= 0) {
+//                    ans += getg(u, i) * getf(v, i - 1);
 //                }
 //            }
 //            for (int i = 0; i <= len[v]; i++) {
@@ -120,15 +119,16 @@ package class162;
 //                }
 //            }
 //            for (int i = 0; i <= len[v]; i++) {
-//                if (i > 0) {
+//                if (i - 1 >= 0) {
 //                    setf(u, i, getf(u, i) + getf(v, i - 1));
 //                }
-//                if (i < len[v]) {
+//                if (i + 1 < len[v]) {
 //                    setg(u, i, getg(u, i) + getg(v, i + 1));
 //                }
 //            }
 //        }
 //    }
+//    ans += getg(u, 0);
 //}
 //
 //int main() {
