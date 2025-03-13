@@ -74,13 +74,13 @@ package class162;
 //    len[u] = len[son[u]] + 1;
 //}
 //
-//void dfs2(int u, int t) {
+//void dfs2(int u, int top) {
 //    fid[u] = cntd++;
 //    if (son[u] == 0) {
-//        gid[u] = fid[t] * 2;
+//        gid[u] = fid[top] * 2;
 //        return;
 //    }
-//    dfs2(son[u], t);
+//    dfs2(son[u], top);
 //    for (int e = head[u], v; e > 0; e = nxt[e]) {
 //        v = to[e];
 //        if (v != son[u] && v != fa[u]) {

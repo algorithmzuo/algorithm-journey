@@ -84,13 +84,13 @@ public class Code07_HotHotels1 {
 
 	// 递归版，居然不改迭代版也能通过，那就不改了
 	// 给每个节点分配fid和gid
-	public static void dfs2(int u, int t) {
+	public static void dfs2(int u, int top) {
 		fid[u] = cntd++;
 		if (son[u] == 0) {
-			gid[u] = fid[t] * 2;
+			gid[u] = fid[top] * 2;
 			return;
 		}
-		dfs2(son[u], t);
+		dfs2(son[u], top);
 		for (int e = head[u], v; e > 0; e = next[e]) {
 			v = to[e];
 			if (v != son[u] && v != fa[u]) {
