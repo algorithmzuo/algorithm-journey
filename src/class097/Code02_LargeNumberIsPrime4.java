@@ -2,7 +2,7 @@ package class097;
 
 // Miller-Rabin测试，java版，不用BigInteger也能通过的实现
 // 这个文件课上没有讲，课上讲的是，java中的long是64位
-// 所以 long * long 需要128位才能不溢出，于是直接用BigInteger了
+// 所以 long * long 需要128位才能不溢出，于是直接用BigInteger中自带的方法了
 // 但是
 // 如果a和b都是long类型，其实 a * b的过程，用位运算去实现，中间结果都 % mod 即可
 // 这样就不需要使用BigInteger了
@@ -85,8 +85,8 @@ public class Code02_LargeNumberIsPrime4 {
 		return ans;
 	}
 
+	// a * b的过程，用位运算实现，让每一个中间结果都 % mod
 	// 这个原理来自，讲解033，位运算实现乘法
-	// a * b的过程，用位运算实现，让每一个中间过程都 % mod
 	// 这么写可以防止溢出，这也叫龟速乘
 	public static long multiply(long a, long b, long mod) {
 		a = (a % mod + mod) % mod;
