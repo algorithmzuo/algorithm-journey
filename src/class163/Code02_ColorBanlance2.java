@@ -32,17 +32,16 @@ public class Code02_ColorBanlance2 {
 		head[u] = cnt;
 	}
 
+	// 不会改迭代版，去看讲解118，详解了从递归版改迭代版
+	// stack1、size1、cur1、edge1
+	// 用来把effect、cancle、dfs1改成迭代版
 	public static int[][] stack1 = new int[MAXN][2];
+	public static int size1, cur1, edge1;
 
-	public static int size1;
-
-	public static int cur1, edge1;
-
+	// stack2、size2、cur2、edge2、keep2
+	// 用来把dfs2改成迭代版
 	public static int[][] stack2 = new int[MAXN][3];
-
-	public static int size2;
-
-	public static int cur2, edge2, keep2;
+	public static int size2, cur2, edge2, keep2;
 
 	public static void push1(int u, int e) {
 		stack1[size1][0] = u;
@@ -141,7 +140,23 @@ public class Code02_ColorBanlance2 {
 		push2(1, -1, 1);
 		while (size2 > 0) {
 			pop2();
-			if (edge2 != -2) {
+			if (edge2 == -2) {
+				colorCnt[arr[cur2]]++;
+				cntCnt[colorCnt[arr[cur2]] - 1]--;
+				cntCnt[colorCnt[arr[cur2]]]++;
+				for (int e = head[cur2], v; e > 0; e = next[e]) {
+					v = to[e];
+					if (v != son[cur2]) {
+						effect(v);
+					}
+				}
+				if (colorCnt[arr[cur2]] * cntCnt[colorCnt[arr[cur2]]] == siz[cur2]) {
+					ans++;
+				}
+				if (keep2 == 0) {
+					cancle(cur2);
+				}
+			} else {
 				if (edge2 == -1) {
 					edge2 = head[cur2];
 				} else {
@@ -157,22 +172,6 @@ public class Code02_ColorBanlance2 {
 					if (son[cur2] != 0) {
 						push2(son[cur2], -1, 1);
 					}
-				}
-			} else {
-				colorCnt[arr[cur2]]++;
-				cntCnt[colorCnt[arr[cur2]] - 1]--;
-				cntCnt[colorCnt[arr[cur2]]]++;
-				for (int e = head[cur2], v; e > 0; e = next[e]) {
-					v = to[e];
-					if (v != son[cur2]) {
-						effect(v);
-					}
-				}
-				if (colorCnt[arr[cur2]] * cntCnt[colorCnt[arr[cur2]]] == siz[cur2]) {
-					ans++;
-				}
-				if (keep2 == 0) {
-					cancle(cur2);
 				}
 			}
 		}

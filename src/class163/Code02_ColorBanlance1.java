@@ -3,8 +3,8 @@ package class163;
 // 颜色平衡的子树，java实现递归版
 // 测试链接 : https://www.luogu.com.cn/problem/P9233
 // 提交以下的code，提交时请把类名改成"Main"
-// 因为递归爆栈了，所以会有两个测试用例无法通过
-// 改成迭代的版本就是本节课Code02_ColorBanlance2文件
+// 因为树的深度太大，递归函数爆栈了，所以会有两个测试用例无法通过
+// 迭代版可以完全通过，就是本节课Code02_ColorBanlance2文件
 
 import java.io.BufferedReader;
 import java.io.IOException;
