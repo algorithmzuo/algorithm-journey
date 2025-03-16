@@ -23,7 +23,7 @@ public class Code01_ColorOnTree1 {
 	public static int[] to = new int[MAXN << 1];
 	public static int cnt = 0;
 
-	// 重链剖分
+	// 树链剖分
 	public static int[] fa = new int[MAXN];
 	public static int[] siz = new int[MAXN];
 	public static int[] son = new int[MAXN];
