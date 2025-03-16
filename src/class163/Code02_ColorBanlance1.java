@@ -1,7 +1,7 @@
 package class163;
 
-// 树上数颜色，java版
-// 测试链接 : https://www.luogu.com.cn/problem/U41492
+// 颜色平衡的子树，java版
+// 测试链接 : https://www.luogu.com.cn/problem/P9233
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
 import java.io.BufferedReader;
@@ -11,11 +11,11 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 
-public class Code01_ColorOnTree1 {
+public class Code02_ColorBanlance1 {
 
-	public static int MAXN = 100001;
+	public static int MAXN = 200001;
 
-	public static int n, m;
+	public static int n;
 
 	// 每个节点的颜色
 	public static int[] arr = new int[MAXN];
@@ -34,8 +34,10 @@ public class Code01_ColorOnTree1 {
 	// 启发式合并
 	// colorCnt[i] = j，表示i这种颜色出现了j次
 	public static int[] colorCnt = new int[MAXN];
-	public static int[] ans = new int[MAXN];
-	public static int total = 0;
+	// cntCnt[i] = j，表示出现次数为i的颜色一共有j种
+	public static int[] cntCnt = new int[MAXN];
+	// 颜色平衡子树的个数
+	public static int ans = 0;
 
 	public static void addEdge(int u, int v) {
 		next[++cnt] = head[u];
@@ -44,9 +46,9 @@ public class Code01_ColorOnTree1 {
 	}
 
 	public static void effect(int u) {
-		if (++colorCnt[arr[u]] == 1) {
-			total++;
-		}
+		colorCnt[arr[u]]++;
+		cntCnt[colorCnt[arr[u]] - 1]--;
+		cntCnt[colorCnt[arr[u]]]++;
 		for (int e = head[u], v; e > 0; e = next[e]) {
 			v = to[e];
 			if (v != fa[u]) {
@@ -56,9 +58,9 @@ public class Code01_ColorOnTree1 {
 	}
 
 	public static void cancle(int u) {
-		if (--colorCnt[arr[u]] == 0) {
-			total--;
-		}
+		colorCnt[arr[u]]--;
+		cntCnt[colorCnt[arr[u]] + 1]--;
+		cntCnt[colorCnt[arr[u]]]++;
 		for (int e = head[u], v; e > 0; e = next[e]) {
 			v = to[e];
 			if (v != fa[u]) {
@@ -97,16 +99,18 @@ public class Code01_ColorOnTree1 {
 		if (son[u] != 0) {
 			dfs2(son[u], 1);
 		}
-		if (++colorCnt[arr[u]] == 1) {
-			total++;
-		}
+		colorCnt[arr[u]]++;
+		cntCnt[colorCnt[arr[u]] - 1]--;
+		cntCnt[colorCnt[arr[u]]]++;
 		for (int e = head[u], v; e > 0; e = next[e]) {
 			v = to[e];
 			if (v != fa[u] && v != son[u]) {
 				effect(v);
 			}
 		}
-		ans[u] = total;
+		if (colorCnt[arr[u]] * cntCnt[colorCnt[arr[u]]] == siz[u]) {
+			ans++;
+		}
 		if (keep == 0) {
 			cancle(u);
 		}
@@ -118,27 +122,19 @@ public class Code01_ColorOnTree1 {
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
 		in.nextToken();
 		n = (int) in.nval;
-		for (int i = 1, u, v; i < n; i++) {
+		for (int i = 1, color, father; i <= n; i++) {
 			in.nextToken();
-			u = (int) in.nval;
+			color = (int) in.nval;
 			in.nextToken();
-			v = (int) in.nval;
-			addEdge(u, v);
-			addEdge(v, u);
-		}
-		for (int i = 1; i <= n; i++) {
-			in.nextToken();
-			arr[i] = (int) in.nval;
+			father = (int) in.nval;
+			arr[i] = color;
+			if (i != 1) {
+				addEdge(father, i);
+			}
 		}
 		dfs1(1, 0);
 		dfs2(1, 1);
-		in.nextToken();
-		m = (int) in.nval;
-		for (int i = 1, cur; i <= m; i++) {
-			in.nextToken();
-			cur = (int) in.nval;
-			out.println(ans[cur]);
-		}
+		out.println(ans);
 		out.flush();
 		out.close();
 		br.close();

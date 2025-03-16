@@ -1,7 +1,7 @@
 package class163;
 
-// 树上数颜色，C++版
-// 测试链接 : https://www.luogu.com.cn/problem/U41492
+// 颜色平衡的子树，C++版
+// 测试链接 : https://www.luogu.com.cn/problem/P9233
 // 如下实现是C++的版本，C++版本和java版本逻辑完全一样
 // 提交如下代码，可以通过所有测试用例
 
@@ -9,22 +9,19 @@ package class163;
 //
 //using namespace std;
 //
-//const int MAXN = 100001;
-//int n, m;
+//const int MAXN = 200001;
+//int n;
 //int arr[MAXN];
-//
 //int head[MAXN];
 //int nxt[MAXN << 1];
 //int to[MAXN << 1];
 //int cnt = 0;
-//
 //int fa[MAXN];
 //int siz[MAXN];
 //int son[MAXN];
-//
 //int colorCnt[MAXN];
-//int ans[MAXN];
-//int total = 0;
+//int cntCnt[MAXN];
+//int ans = 0;
 //
 //void addEdge(int u, int v) {
 //    nxt[++cnt] = head[u];
@@ -33,9 +30,9 @@ package class163;
 //}
 //
 //void effect(int u) {
-//    if (++colorCnt[arr[u]] == 1) {
-//        total++;
-//    }
+//    colorCnt[arr[u]]++;
+//    cntCnt[colorCnt[arr[u]] - 1]--;
+//    cntCnt[colorCnt[arr[u]]]++;
 //    for (int e = head[u], v; e > 0; e = nxt[e]) {
 //        v = to[e];
 //        if (v != fa[u]) {
@@ -45,9 +42,9 @@ package class163;
 //}
 //
 //void cancle(int u) {
-//    if (--colorCnt[arr[u]] == 0) {
-//        total--;
-//    }
+//    colorCnt[arr[u]]--;
+//    cntCnt[colorCnt[arr[u]] + 1]--;
+//    cntCnt[colorCnt[arr[u]]]++;
 //    for (int e = head[u], v; e > 0; e = nxt[e]) {
 //        v = to[e];
 //        if (v != fa[u]) {
@@ -86,16 +83,18 @@ package class163;
 //    if (son[u] != 0) {
 //        dfs2(son[u], 1);
 //    }
-//    if (++colorCnt[arr[u]] == 1) {
-//        total++;
-//    }
+//    colorCnt[arr[u]]++;
+//    cntCnt[colorCnt[arr[u]] - 1]--;
+//    cntCnt[colorCnt[arr[u]]]++;
 //    for (int e = head[u], v; e > 0; e = nxt[e]) {
 //        v = to[e];
 //        if (v != fa[u] && v != son[u]) {
 //            effect(v);
 //        }
 //    }
-//    ans[u] = total;
+//    if (colorCnt[arr[u]] * cntCnt[colorCnt[arr[u]]] == siz[u]) {
+//        ans++;
+//    }
 //    if (keep == 0) {
 //        cancle(u);
 //    }
@@ -105,20 +104,15 @@ package class163;
 //    ios::sync_with_stdio(false);
 //    cin.tie(nullptr);
 //    cin >> n;
-//    for (int i = 1, u, v; i < n; i++) {
-//        cin >> u >> v;
-//        addEdge(u, v);
-//        addEdge(v, u);
-//    }
-//    for (int i = 1; i <= n; i++) {
-//        cin >> arr[i];
+//    for (int i = 1, color, father; i <= n; i++) {
+//        cin >> color >> father;
+//        arr[i] = color;
+//        if (i != 1) {
+//            addEdge(father, i);
+//        }
 //    }
 //    dfs1(1, 0);
 //    dfs2(1, 1);
-//    cin >> m;
-//    for (int i = 1, cur; i <= m; i++) {
-//        cin >> cur;
-//        cout << ans[cur] << "\n";
-//    }
+//    cout << ans << "\n";
 //    return 0;
 //}
