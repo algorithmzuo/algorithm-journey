@@ -1,8 +1,10 @@
 package class163;
 
-// 颜色平衡的子树，java版
+// 颜色平衡的子树，java实现递归版
 // 测试链接 : https://www.luogu.com.cn/problem/P9233
-// 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
+// 提交以下的code，提交时请把类名改成"Main"
+// 因为递归爆栈了，所以会有两个测试用例无法通过
+// 改成迭代的版本就是本节课Code02_ColorBanlance2文件
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -27,7 +29,6 @@ public class Code02_ColorBanlance1 {
 	public static int cnt = 0;
 
 	// 树链剖分
-	public static int[] fa = new int[MAXN];
 	public static int[] siz = new int[MAXN];
 	public static int[] son = new int[MAXN];
 
@@ -49,11 +50,8 @@ public class Code02_ColorBanlance1 {
 		colorCnt[arr[u]]++;
 		cntCnt[colorCnt[arr[u]] - 1]--;
 		cntCnt[colorCnt[arr[u]]]++;
-		for (int e = head[u], v; e > 0; e = next[e]) {
-			v = to[e];
-			if (v != fa[u]) {
-				effect(v);
-			}
+		for (int e = head[u]; e > 0; e = next[e]) {
+			effect(to[e]);
 		}
 	}
 
@@ -61,30 +59,21 @@ public class Code02_ColorBanlance1 {
 		colorCnt[arr[u]]--;
 		cntCnt[colorCnt[arr[u]] + 1]--;
 		cntCnt[colorCnt[arr[u]]]++;
-		for (int e = head[u], v; e > 0; e = next[e]) {
-			v = to[e];
-			if (v != fa[u]) {
-				cancle(v);
-			}
+		for (int e = head[u]; e > 0; e = next[e]) {
+			cancle(to[e]);
 		}
 	}
 
-	public static void dfs1(int u, int f) {
-		fa[u] = f;
+	public static void dfs1(int u) {
 		siz[u] = 1;
-		for (int e = head[u], v; e > 0; e = next[e]) {
-			v = to[e];
-			if (v != f) {
-				dfs1(v, u);
-			}
+		for (int e = head[u]; e > 0; e = next[e]) {
+			dfs1(to[e]);
 		}
 		for (int e = head[u], v; e > 0; e = next[e]) {
 			v = to[e];
-			if (v != f) {
-				siz[u] += siz[v];
-				if (son[u] == 0 || siz[son[u]] < siz[v]) {
-					son[u] = v;
-				}
+			siz[u] += siz[v];
+			if (son[u] == 0 || siz[son[u]] < siz[v]) {
+				son[u] = v;
 			}
 		}
 	}
@@ -92,7 +81,7 @@ public class Code02_ColorBanlance1 {
 	public static void dfs2(int u, int keep) {
 		for (int e = head[u], v; e > 0; e = next[e]) {
 			v = to[e];
-			if (v != fa[u] && v != son[u]) {
+			if (v != son[u]) {
 				dfs2(v, 0);
 			}
 		}
@@ -104,7 +93,7 @@ public class Code02_ColorBanlance1 {
 		cntCnt[colorCnt[arr[u]]]++;
 		for (int e = head[u], v; e > 0; e = next[e]) {
 			v = to[e];
-			if (v != fa[u] && v != son[u]) {
+			if (v != son[u]) {
 				effect(v);
 			}
 		}
@@ -132,7 +121,7 @@ public class Code02_ColorBanlance1 {
 				addEdge(father, i);
 			}
 		}
-		dfs1(1, 0);
+		dfs1(1);
 		dfs2(1, 1);
 		out.println(ans);
 		out.flush();

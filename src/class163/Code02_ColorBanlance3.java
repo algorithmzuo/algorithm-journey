@@ -16,7 +16,6 @@ package class163;
 //int nxt[MAXN << 1];
 //int to[MAXN << 1];
 //int cnt = 0;
-//int fa[MAXN];
 //int siz[MAXN];
 //int son[MAXN];
 //int colorCnt[MAXN];
@@ -33,11 +32,8 @@ package class163;
 //    colorCnt[arr[u]]++;
 //    cntCnt[colorCnt[arr[u]] - 1]--;
 //    cntCnt[colorCnt[arr[u]]]++;
-//    for (int e = head[u], v; e > 0; e = nxt[e]) {
-//        v = to[e];
-//        if (v != fa[u]) {
-//            effect(v);
-//        }
+//    for (int e = head[u]; e > 0; e = nxt[e]) {
+//        effect(to[e]);
 //    }
 //}
 //
@@ -45,30 +41,21 @@ package class163;
 //    colorCnt[arr[u]]--;
 //    cntCnt[colorCnt[arr[u]] + 1]--;
 //    cntCnt[colorCnt[arr[u]]]++;
-//    for (int e = head[u], v; e > 0; e = nxt[e]) {
-//        v = to[e];
-//        if (v != fa[u]) {
-//            cancle(v);
-//        }
+//    for (int e = head[u]; e > 0; e = nxt[e]) {
+//        cancle(to[e]);
 //    }
 //}
 //
-//void dfs1(int u, int f) {
-//    fa[u] = f;
+//void dfs1(int u) {
 //    siz[u] = 1;
-//    for (int e = head[u], v; e > 0; e = nxt[e]) {
-//        v = to[e];
-//        if (v != f) {
-//            dfs1(v, u);
-//        }
+//    for (int e = head[u]; e > 0; e = nxt[e]) {
+//        dfs1(to[e]);
 //    }
 //    for (int e = head[u], v; e > 0; e = nxt[e]) {
 //        v = to[e];
-//        if (v != f) {
-//            siz[u] += siz[v];
-//            if (son[u] == 0 || siz[son[u]] < siz[v]) {
-//                son[u] = v;
-//            }
+//        siz[u] += siz[v];
+//        if (son[u] == 0 || siz[son[u]] < siz[v]) {
+//            son[u] = v;
 //        }
 //    }
 //}
@@ -76,7 +63,7 @@ package class163;
 //void dfs2(int u, int keep) {
 //    for (int e = head[u], v; e > 0; e = nxt[e]) {
 //        v = to[e];
-//        if (v != fa[u] && v != son[u]) {
+//        if (v != son[u]) {
 //            dfs2(v, 0);
 //        }
 //    }
@@ -88,7 +75,7 @@ package class163;
 //    cntCnt[colorCnt[arr[u]]]++;
 //    for (int e = head[u], v; e > 0; e = nxt[e]) {
 //        v = to[e];
-//        if (v != fa[u] && v != son[u]) {
+//        if (v != son[u]) {
 //            effect(v);
 //        }
 //    }
@@ -111,7 +98,7 @@ package class163;
 //            addEdge(father, i);
 //        }
 //    }
-//    dfs1(1, 0);
+//    dfs1(1);
 //    dfs2(1, 1);
 //    cout << ans << "\n";
 //    return 0;
