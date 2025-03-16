@@ -33,13 +33,11 @@ public class Code02_ColorBanlance2 {
 	}
 
 	// 不会改迭代版，去看讲解118，详解了从递归版改迭代版
-	// stack1、size1、cur1、edge1
-	// 用来把effect、cancle、dfs1改成迭代版
+	// stack1、size1、cur1、edge1，用于把effect、cancle、dfs1改成迭代版
 	public static int[][] stack1 = new int[MAXN][2];
 	public static int size1, cur1, edge1;
 
-	// stack2、size2、cur2、edge2、keep2
-	// 用来把dfs2改成迭代版
+	// stack2、size2、cur2、edge2、keep2，用于把dfs2改成迭代版
 	public static int[][] stack2 = new int[MAXN][3];
 	public static int size2, cur2, edge2, keep2;
 
