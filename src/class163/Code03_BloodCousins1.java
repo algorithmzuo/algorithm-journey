@@ -136,6 +136,8 @@ public class Code03_BloodCousins1 {
 			}
 		}
 		for (int i = 1; i <= n; i++) {
+			// 因为是森林结构，可能有多棵子树彼此是不联通的
+			// 所以对每一棵子树进行重链剖分、生成倍增表
 			if (root[i]) {
 				dfs1(i, 0);
 			}
@@ -153,6 +155,10 @@ public class Code03_BloodCousins1 {
 			}
 		}
 		for (int i = 1; i <= n; i++) {
+			// 因为是森林结构，可能有多棵子树彼此是不联通的
+			// 所以认为每一棵树的头都是轻儿子
+			// 这样每棵子树运行完后都会消除影响
+			// 不会影响下一棵子树的答案
 			if (root[i]) {
 				dfs2(i, 0);
 			}
