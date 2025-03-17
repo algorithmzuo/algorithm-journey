@@ -29,7 +29,7 @@ package class163;
 //int siz[MAXN];
 //int dep[MAXN];
 //int son[MAXN];
-//int stjump[MAXN][20];
+//int stjump[MAXN][MAXH];
 //
 //int nodeCnt[MAXN];
 //int ans[MAXN];
