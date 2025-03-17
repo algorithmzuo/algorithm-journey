@@ -1,6 +1,6 @@
 package class163;
 
-// 最长重排回文路径，java版，本题写递归函数不会爆栈
+// 最长重排回文路径，java版
 // 测试链接 : https://www.luogu.com.cn/problem/CF741D
 // 测试链接 : https://codeforces.com/problemset/problem/741/D
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
@@ -10,7 +10,7 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
-public class Code03_LongestRearrangePalindrome1 {
+public class Code06_LongestRearrangePalindrome1 {
 
 	public static int MAXN = 500001;
 	// 字符种类最多22种
