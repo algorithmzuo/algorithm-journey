@@ -26,14 +26,14 @@ package class163;
 //int ans[MAXN];
 //
 //void addEdge(int u, int v, int w) {
-//	nxt[++cnt] = head[u];
-//	to[cnt] = v;
-//	weight[cnt] = w;
+//    nxt[++cnt] = head[u];
+//    to[cnt] = v;
+//    weight[cnt] = w;
 //    head[u] = cnt;
 //}
 //
 //void dfs1(int u, int d, int x) {
-//	siz[u] = 1;
+//    siz[u] = 1;
 //    dep[u] = d;
 //    eor[u] = x;
 //    for (int e = head[u]; e > 0; e = nxt[e]) {
@@ -89,21 +89,21 @@ package class163;
 //        dfs2(son[u], 1);
 //    }
 //    for (int e = head[u]; e > 0; e = nxt[e]) {
-//    	ans[u] = max(ans[u], ans[to[e]]);
+//        ans[u] = max(ans[u], ans[to[e]]);
 //    }
 //    if (maxdep[eor[u]] != 0) {
-//    	ans[u] = max(ans[u], maxdep[eor[u]] - dep[u]);
+//        ans[u] = max(ans[u], maxdep[eor[u]] - dep[u]);
 //    }
 //    for (int i = 0; i < MAXV; i++) {
 //        if (maxdep[eor[u] ^ (1 << i)] != 0) {
-//        	ans[u] = max(ans[u], maxdep[eor[u] ^ (1 << i)] - dep[u]);
+//            ans[u] = max(ans[u], maxdep[eor[u] ^ (1 << i)] - dep[u]);
 //        }
 //    }
 //    maxdep[eor[u]] = max(maxdep[eor[u]], dep[u]);
 //    for (int e = head[u], v; e > 0; e = nxt[e]) {
 //        v = to[e];
 //        if (v != son[u]) {
-//        	ans[u] = max(ans[u], cross(v, dep[u]));
+//            ans[u] = max(ans[u], cross(v, dep[u]));
 //            effect(v);
 //        }
 //    }
