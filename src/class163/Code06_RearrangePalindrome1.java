@@ -10,7 +10,7 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
-public class Code06_LongestRearrangePalindrome1 {
+public class Code06_RearrangePalindrome1 {
 
 	public static int MAXN = 500001;
 	// 字符种类最多22种
