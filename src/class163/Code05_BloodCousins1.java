@@ -12,7 +12,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 
-public class Code03_BloodCousins1 {
+public class Code05_BloodCousins1 {
 
 	public static int MAXN = 100001;
 	public static int MAXH = 20;
