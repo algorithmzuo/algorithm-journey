@@ -28,7 +28,7 @@ public class Code05_BloodCousins1 {
 	public static int[] headq = new int[MAXN];
 	public static int[] nextq = new int[MAXN];
 	public static int[] ansiq = new int[MAXN];
-	public static int[] kthq = new int[MAXN];
+	public static int[] kq = new int[MAXN];
 	public static int cntq;
 
 	public static int[] siz = new int[MAXN];
@@ -45,10 +45,10 @@ public class Code05_BloodCousins1 {
 		headg[u] = cntg;
 	}
 
-	public static void addQuestion(int u, int idx, int kth) {
+	public static void addQuestion(int u, int i, int k) {
 		nextq[++cntq] = headq[u];
-		ansiq[cntq] = idx;
-		kthq[cntq] = kth;
+		ansiq[cntq] = i;
+		kq[cntq] = k;
 		headq[u] = cntq;
 	}
 
@@ -113,7 +113,7 @@ public class Code05_BloodCousins1 {
 			}
 		}
 		for (int i = headq[u]; i > 0; i = nextq[i]) {
-			ans[ansiq[i]] = nodeCnt[dep[u] + kthq[i]];
+			ans[ansiq[i]] = nodeCnt[dep[u] + kq[i]];
 		}
 		if (keep == 0) {
 			cancle(u);

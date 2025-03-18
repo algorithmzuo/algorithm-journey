@@ -1,8 +1,8 @@
 package class163;
 
-// 表亲数量，C++版
-// 测试链接 : https://www.luogu.com.cn/problem/CF208E
-// 测试链接 : https://codeforces.com/problemset/problem/208/E
+// 不同名字的数量，C++版
+// 测试链接 : https://www.luogu.com.cn/problem/CF246E
+// 测试链接 : https://codeforces.com/problemset/problem/246/E
 // 如下实现是C++的版本，C++版本和java版本逻辑完全一样
 // 提交如下代码，可以通过所有测试用例
 
@@ -11,10 +11,10 @@ package class163;
 //using namespace std;
 //
 //const int MAXN = 100001;
-//const int MAXH = 20;
 //int n, m;
-//
 //bool root[MAXN];
+//int arr[MAXN];
+//
 //int headg[MAXN];
 //int nextg[MAXN];
 //int tog[MAXN];
@@ -26,13 +26,37 @@ package class163;
 //int kq[MAXN];
 //int cntq;
 //
+//int fa[MAXN];
 //int siz[MAXN];
 //int dep[MAXN];
 //int son[MAXN];
-//int stjump[MAXN][MAXH];
-//
-//int nodeCnt[MAXN];
+//unordered_map<string, int> nameToId;
+//vector<unordered_set<int>> depSet;
 //int ans[MAXN];
+//
+//int nameId(const string &name) {
+//    if (nameToId.find(name) != nameToId.end()) {
+//        return nameToId[name];
+//    }
+//    int newId = nameToId.size() + 1;
+//    nameToId[name] = newId;
+//    return newId;
+//}
+//
+//void addId(int deep, int id) {
+//    depSet[deep].insert(id);
+//}
+//
+//void removeId(int deep, int id) {
+//    depSet[deep].erase(id);
+//}
+//
+//int sizeOfId(int deep) {
+//    if (deep > n) {
+//        return 0;
+//    }
+//    return (int)depSet[deep].size();
+//}
 //
 //void addEdge(int u, int v) {
 //    nextg[++cntg] = headg[u];
@@ -40,30 +64,17 @@ package class163;
 //    headg[u] = cntg;
 //}
 //
-//void addQuestion(int u, int i, int k) {
+//void addQuestion(int u, int ansi, int k) {
 //    nextq[++cntq] = headq[u];
-//    ansiq[cntq] = i;
+//    ansiq[cntq] = ansi;
 //    kq[cntq] = k;
 //    headq[u] = cntq;
 //}
 //
-//int kAncestor(int u, int k) {
-//    for (int p = MAXH - 1; p >= 0; p--) {
-//        if (k >= (1 << p)) {
-//            k -= (1 << p);
-//            u = stjump[u][p];
-//        }
-//    }
-//    return u;
-//}
-//
-//void dfs1(int u, int fa) {
+//void dfs1(int u, int f) {
+//    fa[u] = f;
 //    siz[u] = 1;
-//    dep[u] = dep[fa] + 1;
-//    stjump[u][0] = fa;
-//    for (int p = 1; p < MAXH; p++) {
-//        stjump[u][p] = stjump[ stjump[u][p - 1] ][p - 1];
-//    }
+//    dep[u] = dep[f] + 1;
 //    for (int e = headg[u]; e > 0; e = nextg[e]) {
 //        dfs1(tog[e], u);
 //    }
@@ -77,14 +88,14 @@ package class163;
 //}
 //
 //void effect(int u) {
-//    nodeCnt[dep[u]]++;
+//    addId(dep[u], arr[u]);
 //    for (int e = headg[u]; e > 0; e = nextg[e]) {
 //        effect(tog[e]);
 //    }
 //}
 //
 //void cancle(int u) {
-//    nodeCnt[dep[u]]--;
+//    removeId(dep[u], arr[u]);
 //    for (int e = headg[u]; e > 0; e = nextg[e]) {
 //        cancle(tog[e]);
 //    }
@@ -100,7 +111,7 @@ package class163;
 //    if (son[u] != 0) {
 //        dfs2(son[u], 1);
 //    }
-//    nodeCnt[dep[u]]++;
+//    addId(dep[u], arr[u]);
 //    for (int e = headg[u], v; e > 0; e = nextg[e]) {
 //        v = tog[e];
 //        if (v != son[u]) {
@@ -108,7 +119,7 @@ package class163;
 //        }
 //    }
 //    for (int i = headq[u]; i > 0; i = nextq[i]) {
-//    	ans[ansiq[i]] = nodeCnt[dep[u] + kq[i]];
+//    	ans[ansiq[i]] = sizeOfId(dep[u] + kq[i]);
 //    }
 //    if (keep == 0) {
 //        cancle(u);
@@ -119,8 +130,11 @@ package class163;
 //    ios::sync_with_stdio(false);
 //    cin.tie(nullptr);
 //    cin >> n;
-//    for (int i = 1, father; i <= n; i++) {
-//        cin >> father;
+//    string name;
+//    int father;
+//    for (int i = 1; i <= n; i++) {
+//        cin >> name >> father;
+//        arr[i] = nameId(name);
 //        if (father == 0) {
 //        	root[i] = true;
 //        } else {
@@ -132,13 +146,11 @@ package class163;
 //            dfs1(i, 0);
 //        }
 //    }
+//    depSet.resize(n + 1);
 //    cin >> m;
-//    for (int i = 1, u, k, kfather; i <= m; i++) {
-//        cin >> u >> k;
-//        kfather = kAncestor(u, k);
-//        if (kfather != 0) {
-//            addQuestion(kfather, i, k);
-//        }
+//    for (int i = 1, node, k; i <= m; i++) {
+//        cin >> node >> k;
+//        addQuestion(node, i, k);
 //    }
 //    for (int i = 1; i <= n; i++) {
 //        if (root[i]) {
@@ -146,12 +158,7 @@ package class163;
 //        }
 //    }
 //    for (int i = 1; i <= m; i++) {
-//        if (ans[i] == 0) {
-//            cout << "0 ";
-//        } else {
-//            cout << ans[i] - 1 << " ";
-//        }
+//        cout << ans[i] << "\n";
 //    }
-//    cout << "\n";
 //    return 0;
 //}
