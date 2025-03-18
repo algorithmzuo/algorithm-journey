@@ -133,28 +133,17 @@ public class Code02_ColorBanlance2 {
 		}
 	}
 
+	// 迭代版的dfs2，用edge2变量标记一个节点的不同阶段
+	// edge2 == -1，表示第一次来到当前节点，接下来依次处理轻儿子的子树
+	// edge2 > 0，表示正在依次处理轻儿子的子树
+	// edge2 == 0，表示处理完了所有轻儿子的子树，接下来处理重儿子的子树
+	// edge2 == -2，表示处理完了重儿子的子树，轮到启发式合并了
 	public static void dfs2() {
 		size2 = 0;
 		push2(1, -1, 1);
 		while (size2 > 0) {
 			pop2();
-			if (edge2 == -2) {
-				colorCnt[arr[cur2]]++;
-				cntCnt[colorCnt[arr[cur2]] - 1]--;
-				cntCnt[colorCnt[arr[cur2]]]++;
-				for (int e = head[cur2], v; e > 0; e = next[e]) {
-					v = to[e];
-					if (v != son[cur2]) {
-						effect(v);
-					}
-				}
-				if (colorCnt[arr[cur2]] * cntCnt[colorCnt[arr[cur2]]] == siz[cur2]) {
-					ans++;
-				}
-				if (keep2 == 0) {
-					cancle(cur2);
-				}
-			} else {
+			if (edge2 != -2) {
 				if (edge2 == -1) {
 					edge2 = head[cur2];
 				} else {
@@ -170,6 +159,22 @@ public class Code02_ColorBanlance2 {
 					if (son[cur2] != 0) {
 						push2(son[cur2], -1, 1);
 					}
+				}
+			} else {
+				colorCnt[arr[cur2]]++;
+				cntCnt[colorCnt[arr[cur2]] - 1]--;
+				cntCnt[colorCnt[arr[cur2]]]++;
+				for (int e = head[cur2], v; e > 0; e = next[e]) {
+					v = to[e];
+					if (v != son[cur2]) {
+						effect(v);
+					}
+				}
+				if (colorCnt[arr[cur2]] * cntCnt[colorCnt[arr[cur2]]] == siz[cur2]) {
+					ans++;
+				}
+				if (keep2 == 0) {
+					cancle(cur2);
 				}
 			}
 		}
