@@ -1,6 +1,6 @@
 package class163;
 
-// 不同名字的数量，C++版
+// 不同名字数量，C++版
 // 测试链接 : https://www.luogu.com.cn/problem/CF246E
 // 测试链接 : https://codeforces.com/problemset/problem/246/E
 // 如下实现是C++的版本，C++版本和java版本逻辑完全一样

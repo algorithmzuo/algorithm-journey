@@ -1,6 +1,6 @@
 package class163;
 
-// 不同名字的数量，java版
+// 不同名字数量，java版
 // 测试链接 : https://www.luogu.com.cn/problem/CF246E
 // 测试链接 : https://codeforces.com/problemset/problem/246/E
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
