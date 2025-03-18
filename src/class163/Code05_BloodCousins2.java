@@ -16,14 +16,14 @@ package class163;
 //
 //bool root[MAXN];
 //int headg[MAXN];
-//int nextg[MAXN << 1];
-//int tog[MAXN << 1];
+//int nextg[MAXN];
+//int tog[MAXN];
 //int cntg;
 //
 //int headq[MAXN];
-//int nextq[MAXN << 1];
-//int idxq[MAXN << 1];
-//int kthq[MAXN << 1];
+//int nextq[MAXN];
+//int idxq[MAXN];
+//int kthq[MAXN];
 //int cntq;
 //
 //int siz[MAXN];

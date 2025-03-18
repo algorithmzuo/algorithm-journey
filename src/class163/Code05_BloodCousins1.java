@@ -21,14 +21,14 @@ public class Code05_BloodCousins1 {
 	public static boolean[] root = new boolean[MAXN];
 
 	public static int[] headg = new int[MAXN];
-	public static int[] nextg = new int[MAXN << 1];
-	public static int[] tog = new int[MAXN << 1];
+	public static int[] nextg = new int[MAXN];
+	public static int[] tog = new int[MAXN];
 	public static int cntg;
 
 	public static int[] headq = new int[MAXN];
-	public static int[] nextq = new int[MAXN << 1];
-	public static int[] idxq = new int[MAXN << 1];
-	public static int[] kthq = new int[MAXN << 1];
+	public static int[] nextq = new int[MAXN];
+	public static int[] idxq = new int[MAXN];
+	public static int[] kthq = new int[MAXN];
 	public static int cntq;
 
 	public static int[] siz = new int[MAXN];

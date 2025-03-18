@@ -19,9 +19,9 @@ public class Code06_LongestRearrangePalindrome1 {
 
 	// 链式前向星
 	public static int[] head = new int[MAXN];
-	public static int[] next = new int[MAXN << 1];
-	public static int[] to = new int[MAXN << 1];
-	public static int[] weight = new int[MAXN << 1];
+	public static int[] next = new int[MAXN];
+	public static int[] to = new int[MAXN];
+	public static int[] weight = new int[MAXN];
 	public static int cnt = 0;
 
 	// 树链剖分
