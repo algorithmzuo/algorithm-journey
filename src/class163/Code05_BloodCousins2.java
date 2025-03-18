@@ -22,7 +22,7 @@ package class163;
 //
 //int headq[MAXN];
 //int nextq[MAXN];
-//int idxq[MAXN];
+//int ansiq[MAXN];
 //int kthq[MAXN];
 //int cntq;
 //
@@ -42,7 +42,7 @@ package class163;
 //
 //void addQuestion(int u, int idx, int kth) {
 //    nextq[++cntq] = headq[u];
-//    idxq[cntq] = idx;
+//    ansiq[cntq] = idx;
 //    kthq[cntq] = kth;
 //    headq[u] = cntq;
 //}
@@ -108,7 +108,7 @@ package class163;
 //        }
 //    }
 //    for (int i = headq[u]; i > 0; i = nextq[i]) {
-//    	ans[idxq[i]] = nodeCnt[dep[u] + kthq[i]];
+//    	ans[ansiq[i]] = nodeCnt[dep[u] + kthq[i]];
 //    }
 //    if (keep == 0) {
 //        cancle(u);
