@@ -1,10 +1,15 @@
 package class163;
 
 // 颜色平衡的子树，java实现递归版
+// 一共有n个节点，编号1~n，给定每个节点的颜色值和父亲节点编号
+// 输入保证所有节点一定组成一棵树，并且1号节点是树头
+// 如果一棵子树中，存在的每种颜色的节点个数都相同，这棵子树叫颜色平衡树
+// 打印整棵树中有多少个子树是颜色平衡树
+// 1 <= n、颜色值 <= 2 * 10^5
 // 测试链接 : https://www.luogu.com.cn/problem/P9233
 // 提交以下的code，提交时请把类名改成"Main"
 // 因为树的深度太大，递归函数爆栈了，所以会有两个测试用例无法通过
-// 迭代版可以完全通过，就是本节课Code03_ColorBanlance2文件
+// 迭代版可以完全通过，就是本节课Code02_ColorBanlance2文件
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -13,7 +18,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 
-public class Code03_ColorBanlance1 {
+public class Code02_ColorBanlance1 {
 
 	public static int MAXN = 200001;
 

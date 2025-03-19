@@ -1,6 +1,12 @@
 package class163;
 
 // 主导颜色累加和，java版
+// 一共有n个节点，编号1~n，给定n-1条边，所有节点连成一棵树，1号节点为树头
+// 每个节点给定一种颜色值，主导颜色累加和定义如下
+// 以x为头的子树上，哪种颜色出现最多，那种颜色就是主导颜色，主导颜色可能不止一种
+// 所有主导颜色的值累加起来，每个主导颜色只累加一次，就是该子树的主导颜色累加和
+// 打印1~n每个节点为头的子树的主导颜色累加和
+// 1 <= n、颜色值 <= 10^5
 // 测试链接 : https://www.luogu.com.cn/problem/CF600E
 // 测试链接 : https://codeforces.com/problemset/problem/600/E
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
@@ -12,7 +18,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 
-public class Code04_LomsatGelral1 {
+public class Code03_LomsatGelral1 {
 
 	public static int MAXN = 100001;
 	public static int n;

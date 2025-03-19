@@ -1,6 +1,12 @@
 package class163;
 
 // 不同名字数量，java版
+// 一共有n个节点，编号1~n，给定每个节点的名字和父亲节点编号
+// 名字是string类型，如果父亲节点编号为0，说明当前节点是某棵树的头节点
+// 注意，n个节点组成的是森林结构，可能有若干棵树
+// 一共有m条查询，每条查询 x k，含义如下
+// 以x为头的子树上，到x距离为k的所有节点中，打印不同名字的数量
+// 1 <= n、m <= 10^5
 // 测试链接 : https://www.luogu.com.cn/problem/CF246E
 // 测试链接 : https://codeforces.com/problemset/problem/246/E
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
@@ -17,7 +23,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.StringTokenizer;
 
-public class Code02_DifferntName1 {
+public class Code04_DifferntName1 {
 
 	public static int MAXN = 100001;
 	public static int n, m;
