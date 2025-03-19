@@ -12,7 +12,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 
-public class Code03_LomsatGelral1 {
+public class Code04_LomsatGelral1 {
 
 	public static int MAXN = 100001;
 	public static int n;

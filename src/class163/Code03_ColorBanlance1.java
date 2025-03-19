@@ -4,7 +4,7 @@ package class163;
 // 测试链接 : https://www.luogu.com.cn/problem/P9233
 // 提交以下的code，提交时请把类名改成"Main"
 // 因为树的深度太大，递归函数爆栈了，所以会有两个测试用例无法通过
-// 迭代版可以完全通过，就是本节课Code02_ColorBanlance2文件
+// 迭代版可以完全通过，就是本节课Code03_ColorBanlance2文件
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -13,7 +13,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 
-public class Code02_ColorBanlance1 {
+public class Code03_ColorBanlance1 {
 
 	public static int MAXN = 200001;
 

@@ -17,7 +17,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.StringTokenizer;
 
-public class Code04_DifferntName1 {
+public class Code02_DifferntName1 {
 
 	public static int MAXN = 100001;
 	public static int n, m;
