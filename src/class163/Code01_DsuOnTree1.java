@@ -1,6 +1,6 @@
 package class163;
 
-// 树上数颜色，java版
+// 树上启发式合并模版题，java版
 // 一共有n个节点，编号1~n，给定n-1条边，所有节点连成一棵树，1号节点为树头
 // 每个节点给定一种颜色值，一共有m条查询，每条查询给定参数x
 // 每条查询打印x为头的子树上，一共有多少种不同的颜色
@@ -15,7 +15,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 
-public class Code01_ColorOnTree1 {
+public class Code01_DsuOnTree1 {
 
 	public static int MAXN = 100001;
 
