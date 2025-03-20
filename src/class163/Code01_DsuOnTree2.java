@@ -1,128 +1,140 @@
 package class163;
 
-// 树上启发式合并模版题，C++版
-// 一共有n个节点，编号1~n，给定n-1条边，所有节点连成一棵树，1号节点为树头
-// 每个节点给定一种颜色值，一共有m条查询，每条查询给定参数x
-// 每条查询打印x为头的子树上，一共有多少种不同的颜色
-// 1 <= n、m、颜色值 <= 10^5
+// 树上启发式合并模版题，java版
+// 只需要关注有注释的代码
+// 揭示了轻儿子取消自己的影响后
+// 其实全局的信息统计就是空的
+// 所以改成注释的代码也是正确的
 // 测试链接 : https://www.luogu.com.cn/problem/U41492
-// 如下实现是C++的版本，C++版本和java版本逻辑完全一样
-// 提交如下代码，可以通过所有测试用例
+// 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
-//#include <bits/stdc++.h>
-//
-//using namespace std;
-//
-//const int MAXN = 100001;
-//int n, m;
-//int arr[MAXN];
-//
-//int head[MAXN];
-//int nxt[MAXN << 1];
-//int to[MAXN << 1];
-//int cnt = 0;
-//
-//int fa[MAXN];
-//int siz[MAXN];
-//int son[MAXN];
-//
-//int colorCnt[MAXN];
-//int ans[MAXN];
-//int total = 0;
-//
-//void addEdge(int u, int v) {
-//    nxt[++cnt] = head[u];
-//    to[cnt] = v;
-//    head[u] = cnt;
-//}
-//
-//void effect(int u) {
-//    if (++colorCnt[arr[u]] == 1) {
-//        total++;
-//    }
-//    for (int e = head[u], v; e > 0; e = nxt[e]) {
-//        v = to[e];
-//        if (v != fa[u]) {
-//            effect(v);
-//        }
-//    }
-//}
-//
-//void cancle(int u) {
-//    if (--colorCnt[arr[u]] == 0) {
-//        total--;
-//    }
-//    for (int e = head[u], v; e > 0; e = nxt[e]) {
-//        v = to[e];
-//        if (v != fa[u]) {
-//            cancle(v);
-//        }
-//    }
-//}
-//
-//void dfs1(int u, int f) {
-//    fa[u] = f;
-//    siz[u] = 1;
-//    for (int e = head[u], v; e > 0; e = nxt[e]) {
-//        v = to[e];
-//        if (v != f) {
-//            dfs1(v, u);
-//        }
-//    }
-//    for (int e = head[u], v; e > 0; e = nxt[e]) {
-//        v = to[e];
-//        if (v != f) {
-//            siz[u] += siz[v];
-//            if (son[u] == 0 || siz[son[u]] < siz[v]) {
-//                son[u] = v;
-//            }
-//        }
-//    }
-//}
-//
-//void dfs2(int u, int keep) {
-//    for (int e = head[u], v; e > 0; e = nxt[e]) {
-//        v = to[e];
-//        if (v != fa[u] && v != son[u]) {
-//            dfs2(v, 0);
-//        }
-//    }
-//    if (son[u] != 0) {
-//        dfs2(son[u], 1);
-//    }
-//    if (++colorCnt[arr[u]] == 1) {
-//        total++;
-//    }
-//    for (int e = head[u], v; e > 0; e = nxt[e]) {
-//        v = to[e];
-//        if (v != fa[u] && v != son[u]) {
-//            effect(v);
-//        }
-//    }
-//    ans[u] = total;
-//    if (keep == 0) {
-//        cancle(u);
-//    }
-//}
-//
-//int main() {
-//    ios::sync_with_stdio(false);
-//    cin.tie(nullptr);
-//    cin >> n;
-//    for (int i = 1, u, v; i < n; i++) {
-//        cin >> u >> v;
-//        addEdge(u, v);
-//        addEdge(v, u);
-//    }
-//    for (int i = 1; i <= n; i++) {
-//        cin >> arr[i];
-//    }
-//    dfs1(1, 0);
-//    dfs2(1, 1);
-//    cin >> m;
-//    for (int i = 1, cur; i <= m; i++) {
-//        cin >> cur;
-//        cout << ans[cur] << "\n";
-//    }
-//    return 0;
-//}
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.io.StreamTokenizer;
+
+public class Code01_DsuOnTree2 {
+
+	public static int MAXN = 100001;
+	public static int n, m;
+	public static int[] arr = new int[MAXN];
+	public static int[] head = new int[MAXN];
+	public static int[] next = new int[MAXN << 1];
+	public static int[] to = new int[MAXN << 1];
+	public static int cnt = 0;
+	public static int[] fa = new int[MAXN];
+	public static int[] siz = new int[MAXN];
+	public static int[] son = new int[MAXN];
+	public static int[] colorCnt = new int[MAXN];
+	public static int[] ans = new int[MAXN];
+	public static int total = 0;
+
+	public static void addEdge(int u, int v) {
+		next[++cnt] = head[u];
+		to[cnt] = v;
+		head[u] = cnt;
+	}
+
+	public static void effect(int u) {
+		if (++colorCnt[arr[u]] == 1) {
+			total++;
+		}
+		for (int e = head[u], v; e > 0; e = next[e]) {
+			v = to[e];
+			if (v != fa[u]) {
+				effect(v);
+			}
+		}
+	}
+
+	public static void cancle(int u) {
+		colorCnt[arr[u]] = 0; // 出现任何颜色，直接把该颜色的计数重置为0
+		for (int e = head[u], v; e > 0; e = next[e]) {
+			v = to[e];
+			if (v != fa[u]) {
+				cancle(v);
+			}
+		}
+	}
+
+	public static void dfs1(int u, int f) {
+		fa[u] = f;
+		siz[u] = 1;
+		for (int e = head[u], v; e > 0; e = next[e]) {
+			v = to[e];
+			if (v != f) {
+				dfs1(v, u);
+			}
+		}
+		for (int e = head[u], v; e > 0; e = next[e]) {
+			v = to[e];
+			if (v != f) {
+				siz[u] += siz[v];
+				if (son[u] == 0 || siz[son[u]] < siz[v]) {
+					son[u] = v;
+				}
+			}
+		}
+	}
+
+	public static void dfs2(int u, int keep) {
+		for (int e = head[u], v; e > 0; e = next[e]) {
+			v = to[e];
+			if (v != fa[u] && v != son[u]) {
+				dfs2(v, 0);
+			}
+		}
+		if (son[u] != 0) {
+			dfs2(son[u], 1);
+		}
+		if (++colorCnt[arr[u]] == 1) {
+			total++;
+		}
+		for (int e = head[u], v; e > 0; e = next[e]) {
+			v = to[e];
+			if (v != fa[u] && v != son[u]) {
+				effect(v);
+			}
+		}
+		ans[u] = total;
+		if (keep == 0) {
+			total = 0; // 直接把全局的不同颜色数量重置为0
+			cancle(u);
+		}
+	}
+
+	public static void main(String[] args) throws IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StreamTokenizer in = new StreamTokenizer(br);
+		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
+		in.nextToken();
+		n = (int) in.nval;
+		for (int i = 1, u, v; i < n; i++) {
+			in.nextToken();
+			u = (int) in.nval;
+			in.nextToken();
+			v = (int) in.nval;
+			addEdge(u, v);
+			addEdge(v, u);
+		}
+		for (int i = 1; i <= n; i++) {
+			in.nextToken();
+			arr[i] = (int) in.nval;
+		}
+		dfs1(1, 0);
+		dfs2(1, 1);
+		in.nextToken();
+		m = (int) in.nval;
+		for (int i = 1, cur; i <= m; i++) {
+			in.nextToken();
+			cur = (int) in.nval;
+			out.println(ans[cur]);
+		}
+		out.flush();
+		out.close();
+		br.close();
+	}
+
+}
