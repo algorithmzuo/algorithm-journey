@@ -173,10 +173,6 @@ public class Code04_DifferntName1 {
 			addQuestion(node, i, k);
 		}
 		for (int i = 1; i <= n; i++) {
-			// 因为是森林结构，可能有多棵子树彼此是不联通的
-			// 所以认为每一棵树的头都是轻儿子
-			// 这样每棵子树运行完后都会消除影响
-			// 不会影响下一棵子树的答案
 			if (root[i]) {
 				dfs2(i, 0);
 			}

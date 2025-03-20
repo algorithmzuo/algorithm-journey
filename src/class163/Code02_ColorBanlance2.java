@@ -44,7 +44,7 @@ public class Code02_ColorBanlance2 {
 
 	// stack2、size2、cur2、edge2、keep2，用于把dfs2改成迭代版
 	public static int[][] stack2 = new int[MAXN][3];
-	public static int size2, cur2, edge2, keep2;
+	public static int size2, cur2, keep2, edge2;
 
 	public static void push1(int u, int e) {
 		stack1[size1][0] = u;
@@ -58,18 +58,18 @@ public class Code02_ColorBanlance2 {
 		edge1 = stack1[size1][1];
 	}
 
-	public static void push2(int u, int e, int k) {
+	public static void push2(int u, int k, int e) {
 		stack2[size2][0] = u;
-		stack2[size2][1] = e;
-		stack2[size2][2] = k;
+		stack2[size2][1] = k;
+		stack2[size2][2] = e;
 		size2++;
 	}
 
 	public static void pop2() {
 		--size2;
 		cur2 = stack2[size2][0];
-		edge2 = stack2[size2][1];
-		keep2 = stack2[size2][2];
+		keep2 = stack2[size2][1];
+		edge2 = stack2[size2][2];
 	}
 
 	public static void effect(int root) {
@@ -112,9 +112,9 @@ public class Code02_ColorBanlance2 {
 		}
 	}
 
-	public static void dfs1() {
+	public static void dfs1(int u) {
 		size1 = 0;
-		push1(1, -1);
+		push1(u, -1);
 		while (size1 > 0) {
 			pop1();
 			if (edge1 == -1) {
@@ -143,9 +143,9 @@ public class Code02_ColorBanlance2 {
 	// edge2 > 0，表示正在依次处理轻儿子的子树
 	// edge2 == 0，表示处理完了所有轻儿子的子树，接下来处理重儿子的子树
 	// edge2 == -2，表示处理完了重儿子的子树，轮到启发式合并了
-	public static void dfs2() {
+	public static void dfs2(int u, int keep) {
 		size2 = 0;
-		push2(1, -1, 1);
+		push2(u, keep, -1);
 		while (size2 > 0) {
 			pop2();
 			if (edge2 != -2) {
@@ -155,14 +155,14 @@ public class Code02_ColorBanlance2 {
 					edge2 = next[edge2];
 				}
 				if (edge2 > 0) {
-					push2(cur2, edge2, keep2);
+					push2(cur2, keep2, edge2);
 					if (to[edge2] != son[cur2]) {
-						push2(to[edge2], -1, 0);
+						push2(to[edge2], 0, -1);
 					}
 				} else {
-					push2(cur2, -2, keep2);
+					push2(cur2, keep2, -2);
 					if (son[cur2] != 0) {
-						push2(son[cur2], -1, 1);
+						push2(son[cur2], 1, -1);
 					}
 				}
 			} else {
@@ -201,8 +201,8 @@ public class Code02_ColorBanlance2 {
 				addEdge(father, i);
 			}
 		}
-		dfs1();
-		dfs2();
+		dfs1(1);
+		dfs2(1, 0);
 		out.println(ans);
 		out.flush();
 		out.close();

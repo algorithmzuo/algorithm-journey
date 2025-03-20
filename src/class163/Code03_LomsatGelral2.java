@@ -129,7 +129,7 @@ package class163;
 //        addEdge(v, u);
 //    }
 //    dfs1(1, 0);
-//    dfs2(1, 1);
+//    dfs2(1, 0);
 //    for (int i = 1; i <= n; i++) {
 //        cout << ans[i] << " ";
 //    }

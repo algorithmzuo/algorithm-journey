@@ -124,7 +124,7 @@ public class Code01_DsuOnTree2 {
 			arr[i] = (int) in.nval;
 		}
 		dfs1(1, 0);
-		dfs2(1, 1);
+		dfs2(1, 0);
 		in.nextToken();
 		m = (int) in.nval;
 		for (int i = 1, cur; i <= m; i++) {

@@ -136,7 +136,7 @@ public class Code06_RearrangePalindrome1 {
 			addEdge(fth, i, edg);
 		}
 		dfs1(1, 1, 0);
-		dfs2(1, 1);
+		dfs2(1, 0);
 		for (int i = 1; i <= n; i++) {
 			out.print(ans[i] + " ");
 		}

@@ -127,7 +127,7 @@ public class Code02_ColorBanlance1 {
 			}
 		}
 		dfs1(1);
-		dfs2(1, 1);
+		dfs2(1, 0);
 		out.println(ans);
 		out.flush();
 		out.close();

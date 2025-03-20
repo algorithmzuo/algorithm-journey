@@ -117,7 +117,7 @@ package class163;
 //        cin >> arr[i];
 //    }
 //    dfs1(1, 0);
-//    dfs2(1, 1);
+//    dfs2(1, 0);
 //    cin >> m;
 //    for (int i = 1, cur; i <= m; i++) {
 //        cin >> cur;
