@@ -28,7 +28,7 @@ package class163;
 //
 //int colorCnt[MAXN];
 //int ans[MAXN];
-//int total = 0;
+//int diffColors = 0;
 //
 //void addEdge(int u, int v) {
 //    nxt[++cnt] = head[u];
@@ -38,7 +38,7 @@ package class163;
 //
 //void effect(int u) {
 //    if (++colorCnt[arr[u]] == 1) {
-//        total++;
+//        diffColors++;
 //    }
 //    for (int e = head[u], v; e > 0; e = nxt[e]) {
 //        v = to[e];
@@ -89,7 +89,7 @@ package class163;
 //        dfs2(son[u], 1);
 //    }
 //    if (++colorCnt[arr[u]] == 1) {
-//        total++;
+//        diffColors++;
 //    }
 //    for (int e = head[u], v; e > 0; e = nxt[e]) {
 //        v = to[e];
@@ -97,9 +97,9 @@ package class163;
 //            effect(v);
 //        }
 //    }
-//    ans[u] = total;
+//    ans[u] = diffColors;
 //    if (keep == 0) {
-//        total = 0;
+//        diffColors = 0;
 //        cancle(u);
 //    }
 //}

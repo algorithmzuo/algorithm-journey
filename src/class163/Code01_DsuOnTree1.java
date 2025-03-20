@@ -39,7 +39,7 @@ public class Code01_DsuOnTree1 {
 	// colorCnt[i] = j，表示i这种颜色出现了j次
 	public static int[] colorCnt = new int[MAXN];
 	public static int[] ans = new int[MAXN];
-	public static int total = 0;
+	public static int diffColors = 0;
 
 	public static void addEdge(int u, int v) {
 		next[++cnt] = head[u];
@@ -49,7 +49,7 @@ public class Code01_DsuOnTree1 {
 
 	public static void effect(int u) {
 		if (++colorCnt[arr[u]] == 1) {
-			total++;
+			diffColors++;
 		}
 		for (int e = head[u], v; e > 0; e = next[e]) {
 			v = to[e];
@@ -61,7 +61,7 @@ public class Code01_DsuOnTree1 {
 
 	public static void cancle(int u) {
 		if (--colorCnt[arr[u]] == 0) {
-			total--;
+			diffColors--;
 		}
 		for (int e = head[u], v; e > 0; e = next[e]) {
 			v = to[e];
@@ -102,7 +102,7 @@ public class Code01_DsuOnTree1 {
 			dfs2(son[u], 1);
 		}
 		if (++colorCnt[arr[u]] == 1) {
-			total++;
+			diffColors++;
 		}
 		for (int e = head[u], v; e > 0; e = next[e]) {
 			v = to[e];
@@ -110,7 +110,7 @@ public class Code01_DsuOnTree1 {
 				effect(v);
 			}
 		}
-		ans[u] = total;
+		ans[u] = diffColors;
 		if (keep == 0) {
 			cancle(u);
 		}
