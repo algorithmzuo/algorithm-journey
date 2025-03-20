@@ -144,8 +144,6 @@ public class Code05_BloodCousins1 {
 			}
 		}
 		for (int i = 1; i <= n; i++) {
-			// 因为是森林结构，可能有多棵子树彼此是不联通的
-			// 所以对每一棵子树进行重链剖分、生成倍增表
 			if (root[i]) {
 				dfs1(i, 0);
 			}
