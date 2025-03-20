@@ -1,8 +1,8 @@
 package class036;
 
-// 二叉树的最大特殊宽度
+// 二叉树的最大特殊宽度，java版
 // 测试链接 : https://leetcode.cn/problems/maximum-width-of-binary-tree/
-public class Code03_WidthOfBinaryTree {
+public class Code03_WidthOfBinaryTree1 {
 
 	// 不提交这个类
 	public static class TreeNode {
@@ -18,7 +18,7 @@ public class Code03_WidthOfBinaryTree {
 
 	public static TreeNode[] nq = new TreeNode[MAXN];
 
-	public static int[] iq = new int[MAXN];
+	public static long[] iq = new long[MAXN];
 
 	public static int l, r;
 
@@ -29,10 +29,10 @@ public class Code03_WidthOfBinaryTree {
 		iq[r++] = 1;
 		while (l < r) {
 			int size = r - l;
-			ans = Math.max(ans, iq[r - 1] - iq[l] + 1);
+			ans = Math.max(ans, (int) (iq[r - 1] - iq[l] + 1));
 			for (int i = 0; i < size; i++) {
 				TreeNode node = nq[l];
-				int id = iq[l++];
+				long id = iq[l++];
 				if (node.left != null) {
 					nq[r] = node.left;
 					iq[r++] = id * 2;
