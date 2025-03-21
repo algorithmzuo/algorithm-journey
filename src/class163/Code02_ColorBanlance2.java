@@ -20,7 +20,7 @@ public class Code02_ColorBanlance2 {
 
 	public static int MAXN = 200001;
 	public static int n;
-	public static int[] arr = new int[MAXN];
+	public static int[] color = new int[MAXN];
 	public static int[] head = new int[MAXN];
 	public static int[] next = new int[MAXN];
 	public static int[] to = new int[MAXN];
@@ -78,9 +78,9 @@ public class Code02_ColorBanlance2 {
 		while (size1 > 0) {
 			pop1();
 			if (edge1 == -1) {
-				colorCnt[arr[cur1]]++;
-				cntCnt[colorCnt[arr[cur1]] - 1]--;
-				cntCnt[colorCnt[arr[cur1]]]++;
+				colorCnt[color[cur1]]++;
+				cntCnt[colorCnt[color[cur1]] - 1]--;
+				cntCnt[colorCnt[color[cur1]]]++;
 				edge1 = head[cur1];
 			} else {
 				edge1 = next[edge1];
@@ -98,9 +98,9 @@ public class Code02_ColorBanlance2 {
 		while (size1 > 0) {
 			pop1();
 			if (edge1 == -1) {
-				colorCnt[arr[cur1]]--;
-				cntCnt[colorCnt[arr[cur1]] + 1]--;
-				cntCnt[colorCnt[arr[cur1]]]++;
+				colorCnt[color[cur1]]--;
+				cntCnt[colorCnt[color[cur1]] + 1]--;
+				cntCnt[colorCnt[color[cur1]]]++;
 				edge1 = head[cur1];
 			} else {
 				edge1 = next[edge1];
@@ -166,16 +166,16 @@ public class Code02_ColorBanlance2 {
 					}
 				}
 			} else {
-				colorCnt[arr[cur2]]++;
-				cntCnt[colorCnt[arr[cur2]] - 1]--;
-				cntCnt[colorCnt[arr[cur2]]]++;
+				colorCnt[color[cur2]]++;
+				cntCnt[colorCnt[color[cur2]] - 1]--;
+				cntCnt[colorCnt[color[cur2]]]++;
 				for (int e = head[cur2], v; e > 0; e = next[e]) {
 					v = to[e];
 					if (v != son[cur2]) {
 						effect(v);
 					}
 				}
-				if (colorCnt[arr[cur2]] * cntCnt[colorCnt[arr[cur2]]] == siz[cur2]) {
+				if (colorCnt[color[cur2]] * cntCnt[colorCnt[color[cur2]]] == siz[cur2]) {
 					ans++;
 				}
 				if (keep2 == 0) {
@@ -191,12 +191,11 @@ public class Code02_ColorBanlance2 {
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
 		in.nextToken();
 		n = (int) in.nval;
-		for (int i = 1, color, father; i <= n; i++) {
+		for (int i = 1, father; i <= n; i++) {
 			in.nextToken();
-			color = (int) in.nval;
+			color[i] = (int) in.nval;
 			in.nextToken();
 			father = (int) in.nval;
-			arr[i] = color;
 			if (i != 1) {
 				addEdge(father, i);
 			}

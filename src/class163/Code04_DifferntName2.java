@@ -19,7 +19,7 @@ package class163;
 //const int MAXN = 100001;
 //int n, m;
 //bool root[MAXN];
-//int arr[MAXN];
+//int id[MAXN];
 //
 //int headg[MAXN];
 //int nextg[MAXN];
@@ -94,14 +94,14 @@ package class163;
 //}
 //
 //void effect(int u) {
-//    addId(dep[u], arr[u]);
+//    addId(dep[u], id[u]);
 //    for (int e = headg[u]; e > 0; e = nextg[e]) {
 //        effect(tog[e]);
 //    }
 //}
 //
 //void cancle(int u) {
-//    removeId(dep[u], arr[u]);
+//    removeId(dep[u], id[u]);
 //    for (int e = headg[u]; e > 0; e = nextg[e]) {
 //        cancle(tog[e]);
 //    }
@@ -117,7 +117,7 @@ package class163;
 //    if (son[u] != 0) {
 //        dfs2(son[u], 1);
 //    }
-//    addId(dep[u], arr[u]);
+//    addId(dep[u], id[u]);
 //    for (int e = headg[u], v; e > 0; e = nextg[e]) {
 //        v = tog[e];
 //        if (v != son[u]) {
@@ -140,7 +140,7 @@ package class163;
 //    int father;
 //    for (int i = 1; i <= n; i++) {
 //        cin >> name >> father;
-//        arr[i] = nameId(name);
+//        id[i] = nameId(name);
 //        if (father == 0) {
 //        	root[i] = true;
 //        } else {

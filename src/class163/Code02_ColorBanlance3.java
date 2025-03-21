@@ -16,7 +16,7 @@ package class163;
 //
 //const int MAXN = 200001;
 //int n;
-//int arr[MAXN];
+//int color[MAXN];
 //int head[MAXN];
 //int nxt[MAXN];
 //int to[MAXN];
@@ -34,18 +34,18 @@ package class163;
 //}
 //
 //void effect(int u) {
-//    colorCnt[arr[u]]++;
-//    cntCnt[colorCnt[arr[u]] - 1]--;
-//    cntCnt[colorCnt[arr[u]]]++;
+//    colorCnt[color[u]]++;
+//    cntCnt[colorCnt[color[u]] - 1]--;
+//    cntCnt[colorCnt[color[u]]]++;
 //    for (int e = head[u]; e > 0; e = nxt[e]) {
 //        effect(to[e]);
 //    }
 //}
 //
 //void cancle(int u) {
-//    colorCnt[arr[u]]--;
-//    cntCnt[colorCnt[arr[u]] + 1]--;
-//    cntCnt[colorCnt[arr[u]]]++;
+//    colorCnt[color[u]]--;
+//    cntCnt[colorCnt[color[u]] + 1]--;
+//    cntCnt[colorCnt[color[u]]]++;
 //    for (int e = head[u]; e > 0; e = nxt[e]) {
 //        cancle(to[e]);
 //    }
@@ -75,16 +75,16 @@ package class163;
 //    if (son[u] != 0) {
 //        dfs2(son[u], 1);
 //    }
-//    colorCnt[arr[u]]++;
-//    cntCnt[colorCnt[arr[u]] - 1]--;
-//    cntCnt[colorCnt[arr[u]]]++;
+//    colorCnt[color[u]]++;
+//    cntCnt[colorCnt[color[u]] - 1]--;
+//    cntCnt[colorCnt[color[u]]]++;
 //    for (int e = head[u], v; e > 0; e = nxt[e]) {
 //        v = to[e];
 //        if (v != son[u]) {
 //            effect(v);
 //        }
 //    }
-//    if (colorCnt[arr[u]] * cntCnt[colorCnt[arr[u]]] == siz[u]) {
+//    if (colorCnt[color[u]] * cntCnt[colorCnt[color[u]]] == siz[u]) {
 //        ans++;
 //    }
 //    if (keep == 0) {
@@ -96,9 +96,8 @@ package class163;
 //    ios::sync_with_stdio(false);
 //    cin.tie(nullptr);
 //    cin >> n;
-//    for (int i = 1, color, father; i <= n; i++) {
-//        cin >> color >> father;
-//        arr[i] = color;
+//    for (int i = 1, father; i <= n; i++) {
+//        cin >> color[i] >> father;
 //        if (i != 1) {
 //            addEdge(father, i);
 //        }

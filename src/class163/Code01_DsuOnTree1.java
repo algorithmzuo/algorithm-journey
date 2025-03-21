@@ -22,7 +22,7 @@ public class Code01_DsuOnTree1 {
 	public static int n, m;
 
 	// 每个节点的颜色
-	public static int[] arr = new int[MAXN];
+	public static int[] color = new int[MAXN];
 
 	// 链式前向星
 	public static int[] head = new int[MAXN];
@@ -48,7 +48,7 @@ public class Code01_DsuOnTree1 {
 	}
 
 	public static void effect(int u) {
-		if (++colorCnt[arr[u]] == 1) {
+		if (++colorCnt[color[u]] == 1) {
 			diffColors++;
 		}
 		for (int e = head[u], v; e > 0; e = next[e]) {
@@ -60,7 +60,7 @@ public class Code01_DsuOnTree1 {
 	}
 
 	public static void cancle(int u) {
-		if (--colorCnt[arr[u]] == 0) {
+		if (--colorCnt[color[u]] == 0) {
 			diffColors--;
 		}
 		for (int e = head[u], v; e > 0; e = next[e]) {
@@ -101,7 +101,7 @@ public class Code01_DsuOnTree1 {
 		if (son[u] != 0) {
 			dfs2(son[u], 1);
 		}
-		if (++colorCnt[arr[u]] == 1) {
+		if (++colorCnt[color[u]] == 1) {
 			diffColors++;
 		}
 		for (int e = head[u], v; e > 0; e = next[e]) {
@@ -132,7 +132,7 @@ public class Code01_DsuOnTree1 {
 		}
 		for (int i = 1; i <= n; i++) {
 			in.nextToken();
-			arr[i] = (int) in.nval;
+			color[i] = (int) in.nval;
 		}
 		dfs1(1, 0);
 		dfs2(1, 0);

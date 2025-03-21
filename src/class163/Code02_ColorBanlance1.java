@@ -25,7 +25,7 @@ public class Code02_ColorBanlance1 {
 	public static int n;
 
 	// 每个节点的颜色
-	public static int[] arr = new int[MAXN];
+	public static int[] color = new int[MAXN];
 
 	// 链式前向星
 	public static int[] head = new int[MAXN];
@@ -52,18 +52,18 @@ public class Code02_ColorBanlance1 {
 	}
 
 	public static void effect(int u) {
-		colorCnt[arr[u]]++;
-		cntCnt[colorCnt[arr[u]] - 1]--;
-		cntCnt[colorCnt[arr[u]]]++;
+		colorCnt[color[u]]++;
+		cntCnt[colorCnt[color[u]] - 1]--;
+		cntCnt[colorCnt[color[u]]]++;
 		for (int e = head[u]; e > 0; e = next[e]) {
 			effect(to[e]);
 		}
 	}
 
 	public static void cancle(int u) {
-		colorCnt[arr[u]]--;
-		cntCnt[colorCnt[arr[u]] + 1]--;
-		cntCnt[colorCnt[arr[u]]]++;
+		colorCnt[color[u]]--;
+		cntCnt[colorCnt[color[u]] + 1]--;
+		cntCnt[colorCnt[color[u]]]++;
 		for (int e = head[u]; e > 0; e = next[e]) {
 			cancle(to[e]);
 		}
@@ -93,16 +93,16 @@ public class Code02_ColorBanlance1 {
 		if (son[u] != 0) {
 			dfs2(son[u], 1);
 		}
-		colorCnt[arr[u]]++;
-		cntCnt[colorCnt[arr[u]] - 1]--;
-		cntCnt[colorCnt[arr[u]]]++;
+		colorCnt[color[u]]++;
+		cntCnt[colorCnt[color[u]] - 1]--;
+		cntCnt[colorCnt[color[u]]]++;
 		for (int e = head[u], v; e > 0; e = next[e]) {
 			v = to[e];
 			if (v != son[u]) {
 				effect(v);
 			}
 		}
-		if (colorCnt[arr[u]] * cntCnt[colorCnt[arr[u]]] == siz[u]) {
+		if (colorCnt[color[u]] * cntCnt[colorCnt[color[u]]] == siz[u]) {
 			ans++;
 		}
 		if (keep == 0) {
@@ -116,12 +116,11 @@ public class Code02_ColorBanlance1 {
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
 		in.nextToken();
 		n = (int) in.nval;
-		for (int i = 1, color, father; i <= n; i++) {
+		for (int i = 1, father; i <= n; i++) {
 			in.nextToken();
-			color = (int) in.nval;
+			color[i] = (int) in.nval;
 			in.nextToken();
 			father = (int) in.nval;
-			arr[i] = color;
 			if (i != 1) {
 				addEdge(father, i);
 			}

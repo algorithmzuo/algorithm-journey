@@ -28,7 +28,7 @@ public class Code04_DifferntName1 {
 	public static int MAXN = 100001;
 	public static int n, m;
 	public static boolean[] root = new boolean[MAXN];
-	public static int[] arr = new int[MAXN];
+	public static int[] id = new int[MAXN];
 
 	public static int[] headg = new int[MAXN];
 	public static int[] nextg = new int[MAXN];
@@ -103,14 +103,14 @@ public class Code04_DifferntName1 {
 	}
 
 	public static void effect(int u) {
-		addId(dep[u], arr[u]);
+		addId(dep[u], id[u]);
 		for (int e = headg[u]; e > 0; e = nextg[e]) {
 			effect(tog[e]);
 		}
 	}
 
 	public static void cancle(int u) {
-		removeId(dep[u], arr[u]);
+		removeId(dep[u], id[u]);
 		for (int e = headg[u]; e > 0; e = nextg[e]) {
 			cancle(tog[e]);
 		}
@@ -126,7 +126,7 @@ public class Code04_DifferntName1 {
 		if (son[u] != 0) {
 			dfs2(son[u], 1);
 		}
-		addId(dep[u], arr[u]);
+		addId(dep[u], id[u]);
 		for (int e = headg[u], v; e > 0; e = nextg[e]) {
 			v = tog[e];
 			if (v != son[u]) {
@@ -149,7 +149,7 @@ public class Code04_DifferntName1 {
 		for (int i = 1; i <= n; i++) {
 			name = io.next();
 			father = io.nextInt();
-			arr[i] = nameId(name);
+			id[i] = nameId(name);
 			if (father == 0) {
 				root[i] = true;
 			} else {
