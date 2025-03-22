@@ -19,7 +19,7 @@ public class Code01_DsuOnTree2 {
 
 	public static int MAXN = 100001;
 	public static int n, m;
-	public static int[] color = new int[MAXN];
+	public static int[] arr = new int[MAXN];
 	public static int[] head = new int[MAXN];
 	public static int[] next = new int[MAXN << 1];
 	public static int[] to = new int[MAXN << 1];
@@ -58,7 +58,7 @@ public class Code01_DsuOnTree2 {
 	}
 
 	public static void effect(int u) {
-		if (++colorCnt[color[u]] == 1) {
+		if (++colorCnt[arr[u]] == 1) {
 			diffColors++;
 		}
 		for (int e = head[u], v; e > 0; e = next[e]) {
@@ -70,7 +70,7 @@ public class Code01_DsuOnTree2 {
 	}
 
 	public static void cancle(int u) {
-		colorCnt[color[u]] = 0; // 出现任何颜色，直接把该颜色的计数重置为0
+		colorCnt[arr[u]] = 0; // 出现任何颜色，直接把该颜色的计数重置为0
 		for (int e = head[u], v; e > 0; e = next[e]) {
 			v = to[e];
 			if (v != fa[u]) {
@@ -89,7 +89,7 @@ public class Code01_DsuOnTree2 {
 		if (son[u] != 0) {
 			dfs2(son[u], 1);
 		}
-		if (++colorCnt[color[u]] == 1) {
+		if (++colorCnt[arr[u]] == 1) {
 			diffColors++;
 		}
 		for (int e = head[u], v; e > 0; e = next[e]) {
@@ -121,7 +121,7 @@ public class Code01_DsuOnTree2 {
 		}
 		for (int i = 1; i <= n; i++) {
 			in.nextToken();
-			color[i] = (int) in.nval;
+			arr[i] = (int) in.nval;
 		}
 		dfs1(1, 0);
 		dfs2(1, 0);

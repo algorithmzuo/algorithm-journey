@@ -15,7 +15,7 @@ package class163;
 //
 //const int MAXN = 100001;
 //int n, m;
-//int color[MAXN];
+//int arr[MAXN];
 //
 //int head[MAXN];
 //int nxt[MAXN << 1];
@@ -57,7 +57,7 @@ package class163;
 //}
 //
 //void effect(int u) {
-//    if (++colorCnt[color[u]] == 1) {
+//    if (++colorCnt[arr[u]] == 1) {
 //        diffColors++;
 //    }
 //    for (int e = head[u], v; e > 0; e = nxt[e]) {
@@ -69,7 +69,7 @@ package class163;
 //}
 //
 //void cancle(int u) {
-//    colorCnt[color[u]] = 0;
+//    colorCnt[arr[u]] = 0;
 //    for (int e = head[u], v; e > 0; e = nxt[e]) {
 //        v = to[e];
 //        if (v != fa[u]) {
@@ -88,7 +88,7 @@ package class163;
 //    if (son[u] != 0) {
 //        dfs2(son[u], 1);
 //    }
-//    if (++colorCnt[color[u]] == 1) {
+//    if (++colorCnt[arr[u]] == 1) {
 //        diffColors++;
 //    }
 //    for (int e = head[u], v; e > 0; e = nxt[e]) {
@@ -114,7 +114,7 @@ package class163;
 //        addEdge(v, u);
 //    }
 //    for (int i = 1; i <= n; i++) {
-//        cin >> color[i];
+//        cin >> arr[i];
 //    }
 //    dfs1(1, 0);
 //    dfs2(1, 0);
