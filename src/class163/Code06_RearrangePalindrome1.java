@@ -76,7 +76,7 @@ public class Code06_RearrangePalindrome1 {
 		}
 	}
 
-	public static int cross(int u, int lcaDep) {
+	public static int answerFromLight(int u, int lcaDep) {
 		int ans = 0;
 		if (maxdep[eor[u]] != 0) {
 			ans = Math.max(ans, maxdep[eor[u]] + dep[u] - lcaDep * 2);
@@ -87,7 +87,7 @@ public class Code06_RearrangePalindrome1 {
 			}
 		}
 		for (int e = head[u]; e > 0; e = next[e]) {
-			ans = Math.max(ans, cross(to[e], lcaDep));
+			ans = Math.max(ans, answerFromLight(to[e], lcaDep));
 		}
 		return ans;
 	}
@@ -117,7 +117,7 @@ public class Code06_RearrangePalindrome1 {
 		for (int e = head[u], v; e > 0; e = next[e]) {
 			v = to[e];
 			if (v != son[u]) {
-				ans[u] = Math.max(ans[u], cross(v, dep[u]));
+				ans[u] = Math.max(ans[u], answerFromLight(v, dep[u]));
 				effect(v);
 			}
 		}

@@ -67,7 +67,7 @@ package class163;
 //    }
 //}
 //
-//int cross(int u, int lcaDep) {
+//int answerFromLight(int u, int lcaDep) {
 //    int ret = 0;
 //    if (maxdep[eor[u]] != 0) {
 //        ret = max(ret, maxdep[eor[u]] + dep[u] - lcaDep * 2);
@@ -78,7 +78,7 @@ package class163;
 //        }
 //    }
 //    for (int e = head[u]; e > 0; e = nxt[e]) {
-//        ret = max(ret, cross(to[e], lcaDep));
+//        ret = max(ret, answerFromLight(to[e], lcaDep));
 //    }
 //    return ret;
 //}
@@ -108,7 +108,7 @@ package class163;
 //    for (int e = head[u], v; e > 0; e = nxt[e]) {
 //        v = to[e];
 //        if (v != son[u]) {
-//            ans[u] = max(ans[u], cross(v, dep[u]));
+//            ans[u] = max(ans[u], answerFromLight(v, dep[u]));
 //            effect(v);
 //        }
 //    }
