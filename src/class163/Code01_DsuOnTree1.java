@@ -35,7 +35,7 @@ public class Code01_DsuOnTree1 {
 	public static int[] siz = new int[MAXN];
 	public static int[] son = new int[MAXN];
 
-	// 启发式合并
+	// 树上启发式合并
 	// colorCnt[i] = j，表示i这种颜色出现了j次
 	public static int[] colorCnt = new int[MAXN];
 	public static int[] ans = new int[MAXN];
@@ -47,6 +47,7 @@ public class Code01_DsuOnTree1 {
 		head[u] = cnt;
 	}
 
+	// 子树u每个节点贡献信息
 	public static void effect(int u) {
 		if (++colorCnt[color[u]] == 1) {
 			diffColors++;
@@ -59,6 +60,7 @@ public class Code01_DsuOnTree1 {
 		}
 	}
 
+	// 子树u每个节点取消贡献
 	public static void cancle(int u) {
 		if (--colorCnt[color[u]] == 0) {
 			diffColors--;
@@ -71,6 +73,7 @@ public class Code01_DsuOnTree1 {
 		}
 	}
 
+	// 重链剖分
 	public static void dfs1(int u, int f) {
 		fa[u] = f;
 		siz[u] = 1;
@@ -91,26 +94,34 @@ public class Code01_DsuOnTree1 {
 		}
 	}
 
+	// 树上启发式合并的过程
 	public static void dfs2(int u, int keep) {
+		// 遍历轻儿子的子树，统计子树的答案，然后取消贡献
 		for (int e = head[u], v; e > 0; e = next[e]) {
 			v = to[e];
 			if (v != fa[u] && v != son[u]) {
 				dfs2(v, 0);
 			}
 		}
+		// 遍历重儿子的子树，统计子树的答案，然后保留贡献
 		if (son[u] != 0) {
 			dfs2(son[u], 1);
 		}
+		// 当前节点贡献信息
 		if (++colorCnt[color[u]] == 1) {
 			diffColors++;
 		}
+		// 遍历轻儿子的子树，重新贡献一遍
 		for (int e = head[u], v; e > 0; e = next[e]) {
 			v = to[e];
 			if (v != fa[u] && v != son[u]) {
 				effect(v);
 			}
 		}
+		// 记录子树u的答案
 		ans[u] = diffColors;
+		// 如果u是上级节点的轻儿子，子树u的贡献取消
+		// 如果u是上级节点的重儿子，子树u的贡献保留
 		if (keep == 0) {
 			cancle(u);
 		}

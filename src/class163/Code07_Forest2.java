@@ -8,8 +8,7 @@ package class163;
 // 操作 L x y   : 点x和点y之间连接一条边
 //                题目保证操作后，所有节点仍然是森林
 // 题目要求强制在线，请不要使用离线算法
-// 1 <= n、m、t <= 8 * 10^4
-// 点权 <= 10^9
+// 1 <= n、m、t <= 8 * 10^4    点权 <= 10^9
 // 测试链接 : https://www.luogu.com.cn/problem/P3302
 // 如下实现是C++的版本，C++版本和java版本逻辑完全一样
 // 提交如下代码，可以通过所有测试用例
@@ -40,9 +39,10 @@ package class163;
 //int cntt = 0;
 //
 //int dep[MAXN];
-//int treeHead[MAXN];
-//int headSiz[MAXN];
 //int stjump[MAXN][MAXH];
+//
+//int treeHead[MAXN];
+//int setSiz[MAXN];
 //
 //int kth(int num) {
 //    int left = 1, right = diff, mid;
@@ -94,22 +94,6 @@ package class163;
 //    }
 //}
 //
-//void dfs(int u, int fa, int treeh) {
-//    root[u] = insert(arr[u], 1, diff, root[fa]);
-//    dep[u] = dep[fa] + 1;
-//    treeHead[u] = treeh;
-//    headSiz[treeh]++;
-//    stjump[u][0] = fa;
-//    for (int p = 1; p < MAXH; p++) {
-//        stjump[u][p] = stjump[ stjump[u][p - 1] ][p - 1];
-//    }
-//    for (int e = head[u]; e > 0; e = nxt[e]) {
-//        if (to[e] != fa) {
-//            dfs(to[e], u, treeh);
-//        }
-//    }
-//}
-//
 //int lca(int a, int b) {
 //    if (dep[a] < dep[b]) {
 //        int tmp = a;
@@ -140,12 +124,28 @@ package class163;
 //    return sorted[i];
 //}
 //
+//void dfs(int u, int fa, int treeh) {
+//    root[u] = insert(arr[u], 1, diff, root[fa]);
+//    dep[u] = dep[fa] + 1;
+//    treeHead[u] = treeh;
+//    setSiz[treeh]++;
+//    stjump[u][0] = fa;
+//    for (int p = 1; p < MAXH; p++) {
+//        stjump[u][p] = stjump[ stjump[u][p - 1] ][p - 1];
+//    }
+//    for (int e = head[u]; e > 0; e = nxt[e]) {
+//        if (to[e] != fa) {
+//            dfs(to[e], u, treeh);
+//        }
+//    }
+//}
+//
 //void connect(int x, int y) {
 //    addEdge(x, y);
 //    addEdge(y, x);
 //    int fx = treeHead[x];
 //    int fy = treeHead[y];
-//    if (headSiz[fx] >= headSiz[fy]) {
+//    if (setSiz[fx] >= setSiz[fy]) {
 //        dfs(y, x, fx);
 //    } else {
 //        dfs(x, y, fy);

@@ -8,8 +8,7 @@ package class163;
 // 操作 L x y   : 点x和点y之间连接一条边
 //                题目保证操作后，所有节点仍然是森林
 // 题目要求强制在线，请不要使用离线算法
-// 1 <= n、m、t <= 8 * 10^4
-// 点权 <= 10^9
+// 1 <= n、m、t <= 8 * 10^4    点权 <= 10^9
 // 测试链接 : https://www.luogu.com.cn/problem/P3302
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
@@ -43,10 +42,12 @@ public class Code07_Forest1 {
 	public static int cntt = 0;
 
 	public static int[] dep = new int[MAXN];
-	public static int[] treeHead = new int[MAXN];
-	public static int[] headSiz = new int[MAXN];
 	public static int[][] stjump = new int[MAXN][MAXH];
 
+	public static int[] treeHead = new int[MAXN];
+	public static int[] setSiz = new int[MAXN];
+
+	// 来自讲解158，题目4
 	public static int kth(int num) {
 		int left = 1, right = diff, mid;
 		while (left <= right) {
@@ -62,12 +63,14 @@ public class Code07_Forest1 {
 		return -1;
 	}
 
+	// 来自讲解158，题目4
 	public static void addEdge(int u, int v) {
 		next[++cntg] = head[u];
 		to[cntg] = v;
 		head[u] = cntg;
 	}
 
+	// 来自讲解158，题目4
 	public static int insert(int jobi, int l, int r, int i) {
 		int rt = ++cntt;
 		left[rt] = left[i];
@@ -84,6 +87,7 @@ public class Code07_Forest1 {
 		return rt;
 	}
 
+	// 来自讲解158，题目4
 	public static int query(int jobk, int l, int r, int u, int v, int lca, int lcafa) {
 		if (l == r) {
 			return l;
@@ -97,12 +101,44 @@ public class Code07_Forest1 {
 		}
 	}
 
+	// 来自讲解158，题目4
+	public static int lca(int a, int b) {
+		if (dep[a] < dep[b]) {
+			int tmp = a;
+			a = b;
+			b = tmp;
+		}
+		for (int p = MAXH - 1; p >= 0; p--) {
+			if (dep[stjump[a][p]] >= dep[b]) {
+				a = stjump[a][p];
+			}
+		}
+		if (a == b) {
+			return a;
+		}
+		for (int p = MAXH - 1; p >= 0; p--) {
+			if (stjump[a][p] != stjump[b][p]) {
+				a = stjump[a][p];
+				b = stjump[b][p];
+			}
+		}
+		return stjump[a][0];
+	}
+
+	// 来自讲解158，题目4
+	public static int queryKth(int x, int y, int k) {
+		int xylca = lca(x, y);
+		int lcafa = stjump[xylca][0];
+		int i = query(k, 1, diff, root[x], root[y], root[xylca], root[lcafa]);
+		return sorted[i];
+	}
+
 	// 递归版，C++可以通过，java无法通过，递归会爆栈
 	public static void dfs1(int u, int fa, int treeh) {
 		root[u] = insert(arr[u], 1, diff, root[fa]);
 		dep[u] = dep[fa] + 1;
 		treeHead[u] = treeh;
-		headSiz[treeh]++;
+		setSiz[treeh]++;
 		stjump[u][0] = fa;
 		for (int p = 1; p < MAXH; p++) {
 			stjump[u][p] = stjump[stjump[u][p - 1]][p - 1];
@@ -146,7 +182,7 @@ public class Code07_Forest1 {
 				root[cur] = insert(arr[cur], 1, diff, root[father]);
 				dep[cur] = dep[father] + 1;
 				treeHead[cur] = treehead;
-				headSiz[treehead]++;
+				setSiz[treehead]++;
 				stjump[cur][0] = father;
 				for (int p = 1; p < MAXH; p++) {
 					stjump[cur][p] = stjump[stjump[cur][p - 1]][p - 1];
@@ -164,48 +200,23 @@ public class Code07_Forest1 {
 		}
 	}
 
-	public static int lca(int a, int b) {
-		if (dep[a] < dep[b]) {
-			int tmp = a;
-			a = b;
-			b = tmp;
-		}
-		for (int p = MAXH - 1; p >= 0; p--) {
-			if (dep[stjump[a][p]] >= dep[b]) {
-				a = stjump[a][p];
-			}
-		}
-		if (a == b) {
-			return a;
-		}
-		for (int p = MAXH - 1; p >= 0; p--) {
-			if (stjump[a][p] != stjump[b][p]) {
-				a = stjump[a][p];
-				b = stjump[b][p];
-			}
-		}
-		return stjump[a][0];
-	}
-
-	public static int queryKth(int x, int y, int k) {
-		int xylca = lca(x, y);
-		int lcafa = stjump[xylca][0];
-		int i = query(k, 1, diff, root[x], root[y], root[xylca], root[lcafa]);
-		return sorted[i];
-	}
-
+	// x所在的树和y所在的树，合并成一棵树
 	public static void connect(int x, int y) {
 		addEdge(x, y);
 		addEdge(y, x);
 		int fx = treeHead[x];
 		int fy = treeHead[y];
-		if (headSiz[fx] >= headSiz[fy]) {
+		if (setSiz[fx] >= setSiz[fy]) {
 			dfs2(y, x, fx); // 调用dfs1的迭代版
 		} else {
 			dfs2(x, y, fy); // 调用dfs1的迭代版
 		}
 	}
 
+	// 离散化
+	// 每棵子树建立可持久化线段树
+	// 记录每个节点的所在子树的头节点
+	// 记录每棵子树的大小
 	public static void prepare() {
 		for (int i = 1; i <= n; i++) {
 			sorted[i] = arr[i];
