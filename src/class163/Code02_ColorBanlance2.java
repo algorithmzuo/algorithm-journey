@@ -1,11 +1,7 @@
 package class163;
 
 // 颜色平衡的子树，java实现迭代版
-// 一共有n个节点，编号1~n，给定每个节点的颜色值和父亲节点编号
-// 输入保证所有节点一定组成一棵树，并且1号节点是树头
-// 如果一棵子树中，存在的每种颜色的节点个数都相同，这棵子树叫颜色平衡树
-// 打印整棵树中有多少个子树是颜色平衡树
-// 1 <= n、颜色值 <= 2 * 10^5
+// 不会改迭代版，去看讲解118，详解了dfs从递归版改迭代版
 // 测试链接 : https://www.luogu.com.cn/problem/P9233
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
@@ -37,7 +33,6 @@ public class Code02_ColorBanlance2 {
 		head[u] = cnt;
 	}
 
-	// 不会改迭代版，去看讲解118，详解了从递归版改迭代版
 	// stack1、size1、cur1、edge1，用于把effect、cancle、dfs1改成迭代版
 	public static int[][] stack1 = new int[MAXN][2];
 	public static int size1, cur1, edge1;
@@ -70,6 +65,32 @@ public class Code02_ColorBanlance2 {
 		cur2 = stack2[size2][0];
 		keep2 = stack2[size2][1];
 		edge2 = stack2[size2][2];
+	}
+
+	public static void dfs1(int u) {
+		size1 = 0;
+		push1(u, -1);
+		while (size1 > 0) {
+			pop1();
+			if (edge1 == -1) {
+				siz[cur1] = 1;
+				edge1 = head[cur1];
+			} else {
+				edge1 = next[edge1];
+			}
+			if (edge1 != 0) {
+				push1(cur1, edge1);
+				push1(to[edge1], -1);
+			} else {
+				for (int e = head[cur1], v; e > 0; e = next[e]) {
+					v = to[e];
+					siz[cur1] += siz[v];
+					if (son[cur1] == 0 || siz[son[cur1]] < siz[v]) {
+						son[cur1] = v;
+					}
+				}
+			}
+		}
 	}
 
 	public static void effect(int root) {
@@ -108,32 +129,6 @@ public class Code02_ColorBanlance2 {
 			if (edge1 != 0) {
 				push1(cur1, edge1);
 				push1(to[edge1], -1);
-			}
-		}
-	}
-
-	public static void dfs1(int u) {
-		size1 = 0;
-		push1(u, -1);
-		while (size1 > 0) {
-			pop1();
-			if (edge1 == -1) {
-				siz[cur1] = 1;
-				edge1 = head[cur1];
-			} else {
-				edge1 = next[edge1];
-			}
-			if (edge1 != 0) {
-				push1(cur1, edge1);
-				push1(to[edge1], -1);
-			} else {
-				for (int e = head[cur1], v; e > 0; e = next[e]) {
-					v = to[e];
-					siz[cur1] += siz[v];
-					if (son[cur1] == 0 || siz[son[cur1]] < siz[v]) {
-						son[cur1] = v;
-					}
-				}
 			}
 		}
 	}

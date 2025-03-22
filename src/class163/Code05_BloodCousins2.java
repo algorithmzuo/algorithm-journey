@@ -54,16 +54,6 @@ package class163;
 //    headq[u] = cntq;
 //}
 //
-//int kAncestor(int u, int k) {
-//    for (int p = MAXH - 1; p >= 0; p--) {
-//        if (k >= (1 << p)) {
-//            k -= (1 << p);
-//            u = stjump[u][p];
-//        }
-//    }
-//    return u;
-//}
-//
 //void dfs1(int u, int fa) {
 //    siz[u] = 1;
 //    dep[u] = dep[fa] + 1;
@@ -81,6 +71,16 @@ package class163;
 //            son[u] = v;
 //        }
 //    }
+//}
+//
+//int kAncestor(int u, int k) {
+//    for (int p = MAXH - 1; p >= 0; p--) {
+//        if (k >= (1 << p)) {
+//            k -= (1 << p);
+//            u = stjump[u][p];
+//        }
+//    }
+//    return u;
 //}
 //
 //void effect(int u) {

@@ -33,6 +33,20 @@ package class163;
 //    head[u] = cnt;
 //}
 //
+//void dfs1(int u) {
+//    siz[u] = 1;
+//    for (int e = head[u]; e > 0; e = nxt[e]) {
+//        dfs1(to[e]);
+//    }
+//    for (int e = head[u], v; e > 0; e = nxt[e]) {
+//        v = to[e];
+//        siz[u] += siz[v];
+//        if (son[u] == 0 || siz[son[u]] < siz[v]) {
+//            son[u] = v;
+//        }
+//    }
+//}
+//
 //void effect(int u) {
 //    colorCnt[color[u]]++;
 //    cntCnt[colorCnt[color[u]] - 1]--;
@@ -48,20 +62,6 @@ package class163;
 //    cntCnt[colorCnt[color[u]]]++;
 //    for (int e = head[u]; e > 0; e = nxt[e]) {
 //        cancle(to[e]);
-//    }
-//}
-//
-//void dfs1(int u) {
-//    siz[u] = 1;
-//    for (int e = head[u]; e > 0; e = nxt[e]) {
-//        dfs1(to[e]);
-//    }
-//    for (int e = head[u], v; e > 0; e = nxt[e]) {
-//        v = to[e];
-//        siz[u] += siz[v];
-//        if (son[u] == 0 || siz[son[u]] < siz[v]) {
-//            son[u] = v;
-//        }
 //    }
 //}
 //

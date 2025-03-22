@@ -51,6 +51,20 @@ public class Code02_ColorBanlance1 {
 		head[u] = cnt;
 	}
 
+	public static void dfs1(int u) {
+		siz[u] = 1;
+		for (int e = head[u]; e > 0; e = next[e]) {
+			dfs1(to[e]);
+		}
+		for (int e = head[u], v; e > 0; e = next[e]) {
+			v = to[e];
+			siz[u] += siz[v];
+			if (son[u] == 0 || siz[son[u]] < siz[v]) {
+				son[u] = v;
+			}
+		}
+	}
+
 	public static void effect(int u) {
 		colorCnt[color[u]]++;
 		cntCnt[colorCnt[color[u]] - 1]--;
@@ -66,20 +80,6 @@ public class Code02_ColorBanlance1 {
 		cntCnt[colorCnt[color[u]]]++;
 		for (int e = head[u]; e > 0; e = next[e]) {
 			cancle(to[e]);
-		}
-	}
-
-	public static void dfs1(int u) {
-		siz[u] = 1;
-		for (int e = head[u]; e > 0; e = next[e]) {
-			dfs1(to[e]);
-		}
-		for (int e = head[u], v; e > 0; e = next[e]) {
-			v = to[e];
-			siz[u] += siz[v];
-			if (son[u] == 0 || siz[son[u]] < siz[v]) {
-				son[u] = v;
-			}
 		}
 	}
 

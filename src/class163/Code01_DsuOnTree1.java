@@ -47,6 +47,27 @@ public class Code01_DsuOnTree1 {
 		head[u] = cnt;
 	}
 
+	// 重链剖分
+	public static void dfs1(int u, int f) {
+		fa[u] = f;
+		siz[u] = 1;
+		for (int e = head[u], v; e > 0; e = next[e]) {
+			v = to[e];
+			if (v != f) {
+				dfs1(v, u);
+			}
+		}
+		for (int e = head[u], v; e > 0; e = next[e]) {
+			v = to[e];
+			if (v != f) {
+				siz[u] += siz[v];
+				if (son[u] == 0 || siz[son[u]] < siz[v]) {
+					son[u] = v;
+				}
+			}
+		}
+	}
+
 	// 子树u每个节点贡献信息
 	public static void effect(int u) {
 		if (++colorCnt[color[u]] == 1) {
@@ -69,27 +90,6 @@ public class Code01_DsuOnTree1 {
 			v = to[e];
 			if (v != fa[u]) {
 				cancle(v);
-			}
-		}
-	}
-
-	// 重链剖分
-	public static void dfs1(int u, int f) {
-		fa[u] = f;
-		siz[u] = 1;
-		for (int e = head[u], v; e > 0; e = next[e]) {
-			v = to[e];
-			if (v != f) {
-				dfs1(v, u);
-			}
-		}
-		for (int e = head[u], v; e > 0; e = next[e]) {
-			v = to[e];
-			if (v != f) {
-				siz[u] += siz[v];
-				if (son[u] == 0 || siz[son[u]] < siz[v]) {
-					son[u] = v;
-				}
 			}
 		}
 	}

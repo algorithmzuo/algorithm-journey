@@ -37,6 +37,26 @@ public class Code01_DsuOnTree2 {
 		head[u] = cnt;
 	}
 
+	public static void dfs1(int u, int f) {
+		fa[u] = f;
+		siz[u] = 1;
+		for (int e = head[u], v; e > 0; e = next[e]) {
+			v = to[e];
+			if (v != f) {
+				dfs1(v, u);
+			}
+		}
+		for (int e = head[u], v; e > 0; e = next[e]) {
+			v = to[e];
+			if (v != f) {
+				siz[u] += siz[v];
+				if (son[u] == 0 || siz[son[u]] < siz[v]) {
+					son[u] = v;
+				}
+			}
+		}
+	}
+
 	public static void effect(int u) {
 		if (++colorCnt[color[u]] == 1) {
 			diffColors++;
@@ -55,26 +75,6 @@ public class Code01_DsuOnTree2 {
 			v = to[e];
 			if (v != fa[u]) {
 				cancle(v);
-			}
-		}
-	}
-
-	public static void dfs1(int u, int f) {
-		fa[u] = f;
-		siz[u] = 1;
-		for (int e = head[u], v; e > 0; e = next[e]) {
-			v = to[e];
-			if (v != f) {
-				dfs1(v, u);
-			}
-		}
-		for (int e = head[u], v; e > 0; e = next[e]) {
-			v = to[e];
-			if (v != f) {
-				siz[u] += siz[v];
-				if (son[u] == 0 || siz[son[u]] < siz[v]) {
-					son[u] = v;
-				}
 			}
 		}
 	}

@@ -59,16 +59,6 @@ public class Code05_BloodCousins1 {
 		headq[u] = cntq;
 	}
 
-	public static int kAncestor(int u, int k) {
-		for (int p = MAXH - 1; p >= 0; p--) {
-			if (k >= 1 << p) {
-				k -= 1 << p;
-				u = stjump[u][p];
-			}
-		}
-		return u;
-	}
-
 	public static void dfs1(int u, int fa) {
 		siz[u] = 1;
 		dep[u] = dep[fa] + 1;
@@ -86,6 +76,16 @@ public class Code05_BloodCousins1 {
 				son[u] = v;
 			}
 		}
+	}
+
+	public static int kAncestor(int u, int k) {
+		for (int p = MAXH - 1; p >= 0; p--) {
+			if (k >= 1 << p) {
+				k -= 1 << p;
+				u = stjump[u][p];
+			}
+		}
+		return u;
 	}
 
 	public static void effect(int u) {
