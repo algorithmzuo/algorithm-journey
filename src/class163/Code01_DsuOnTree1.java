@@ -120,8 +120,7 @@ public class Code01_DsuOnTree1 {
 		}
 		// 记录子树u的答案
 		ans[u] = diffColors;
-		// 如果u是上级节点的轻儿子，子树u的贡献取消
-		// 如果u是上级节点的重儿子，子树u的贡献保留
+		// 如果u是上级节点的轻儿子，子树u的贡献取消，否则保留
 		if (keep == 0) {
 			cancle(u);
 		}
