@@ -76,17 +76,17 @@ public class Code06_RearrangePalindrome1 {
 		}
 	}
 
-	public static void answerFromLight(int u, int h) {
-		if (maxdep[eor[u]] != 0) {
-			ans[h] = Math.max(ans[h], maxdep[eor[u]] + dep[u] - dep[h] * 2);
+	public static void answerFromLight(int light, int u) {
+		if (maxdep[eor[light]] != 0) {
+			ans[u] = Math.max(ans[u], maxdep[eor[light]] + dep[light] - dep[u] * 2);
 		}
 		for (int i = 0; i < MAXV; i++) {
-			if (maxdep[eor[u] ^ (1 << i)] != 0) {
-				ans[h] = Math.max(ans[h], maxdep[eor[u] ^ (1 << i)] + dep[u] - dep[h] * 2);
+			if (maxdep[eor[light] ^ (1 << i)] != 0) {
+				ans[u] = Math.max(ans[u], maxdep[eor[light] ^ (1 << i)] + dep[light] - dep[u] * 2);
 			}
 		}
-		for (int e = head[u]; e > 0; e = next[e]) {
-			answerFromLight(to[e], h);
+		for (int e = head[light]; e > 0; e = next[e]) {
+			answerFromLight(to[e], u);
 		}
 	}
 
