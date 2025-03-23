@@ -67,20 +67,18 @@ package class163;
 //    }
 //}
 //
-//int answerFromLight(int u, int lcaDep) {
-//    int ret = 0;
+//void answerFromLight(int u, int h) {
 //    if (maxdep[eor[u]] != 0) {
-//        ret = max(ret, maxdep[eor[u]] + dep[u] - lcaDep * 2);
+//        ans[h] = max(ans[h], maxdep[eor[u]] + dep[u] - dep[h] * 2);
 //    }
 //    for (int i = 0; i < MAXV; i++) {
 //        if (maxdep[eor[u] ^ (1 << i)] != 0) {
-//            ret = max(ret, maxdep[eor[u] ^ (1 << i)] + dep[u] - lcaDep * 2);
+//            ans[h] = max(ans[h], maxdep[eor[u] ^ (1 << i)] + dep[u] - dep[h] * 2);
 //        }
 //    }
 //    for (int e = head[u]; e > 0; e = nxt[e]) {
-//        ret = max(ret, answerFromLight(to[e], lcaDep));
+//        answerFromLight(to[e], h);
 //    }
-//    return ret;
 //}
 //
 //void dfs2(int u, int keep) {
@@ -108,7 +106,7 @@ package class163;
 //    for (int e = head[u], v; e > 0; e = nxt[e]) {
 //        v = to[e];
 //        if (v != son[u]) {
-//            ans[u] = max(ans[u], answerFromLight(v, dep[u]));
+//            answerFromLight(v, u);
 //            effect(v);
 //        }
 //    }

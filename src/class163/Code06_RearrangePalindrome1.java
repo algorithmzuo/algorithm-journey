@@ -35,7 +35,7 @@ public class Code06_RearrangePalindrome1 {
 	public static int[] eor = new int[MAXN];
 	public static int[] son = new int[MAXN];
 
-	// 统计答案
+	// 树上启发式合并
 	public static int[] maxdep = new int[1 << MAXV];
 	public static int[] ans = new int[MAXN];
 
@@ -76,20 +76,18 @@ public class Code06_RearrangePalindrome1 {
 		}
 	}
 
-	public static int answerFromLight(int u, int lcaDep) {
-		int ans = 0;
+	public static void answerFromLight(int u, int h) {
 		if (maxdep[eor[u]] != 0) {
-			ans = Math.max(ans, maxdep[eor[u]] + dep[u] - lcaDep * 2);
+			ans[h] = Math.max(ans[h], maxdep[eor[u]] + dep[u] - dep[h] * 2);
 		}
 		for (int i = 0; i < MAXV; i++) {
 			if (maxdep[eor[u] ^ (1 << i)] != 0) {
-				ans = Math.max(ans, maxdep[eor[u] ^ (1 << i)] + dep[u] - lcaDep * 2);
+				ans[h] = Math.max(ans[h], maxdep[eor[u] ^ (1 << i)] + dep[u] - dep[h] * 2);
 			}
 		}
 		for (int e = head[u]; e > 0; e = next[e]) {
-			ans = Math.max(ans, answerFromLight(to[e], lcaDep));
+			answerFromLight(to[e], h);
 		}
-		return ans;
 	}
 
 	public static void dfs2(int u, int keep) {
@@ -122,7 +120,7 @@ public class Code06_RearrangePalindrome1 {
 		for (int e = head[u], v; e > 0; e = next[e]) {
 			v = to[e];
 			if (v != son[u]) {
-				ans[u] = Math.max(ans[u], answerFromLight(v, dep[u]));
+				answerFromLight(v, u);
 				effect(v);
 			}
 		}
