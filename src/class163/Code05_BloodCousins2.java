@@ -20,8 +20,8 @@ package class163;
 //const int MAXN = 100001;
 //const int MAXH = 20;
 //int n, m;
-//
 //bool root[MAXN];
+//
 //int headg[MAXN];
 //int nextg[MAXN];
 //int tog[MAXN];
@@ -38,7 +38,7 @@ package class163;
 //int son[MAXN];
 //int stjump[MAXN][MAXH];
 //
-//int nodeCnt[MAXN];
+//int depCnt[MAXN];
 //int ans[MAXN];
 //
 //void addEdge(int u, int v) {
@@ -84,14 +84,14 @@ package class163;
 //}
 //
 //void effect(int u) {
-//    nodeCnt[dep[u]]++;
+//    depCnt[dep[u]]++;
 //    for (int e = headg[u]; e > 0; e = nextg[e]) {
 //        effect(tog[e]);
 //    }
 //}
 //
 //void cancle(int u) {
-//    nodeCnt[dep[u]]--;
+//    depCnt[dep[u]]--;
 //    for (int e = headg[u]; e > 0; e = nextg[e]) {
 //        cancle(tog[e]);
 //    }
@@ -107,7 +107,7 @@ package class163;
 //    if (son[u] != 0) {
 //        dfs2(son[u], 1);
 //    }
-//    nodeCnt[dep[u]]++;
+//    depCnt[dep[u]]++;
 //    for (int e = headg[u], v; e > 0; e = nextg[e]) {
 //        v = tog[e];
 //        if (v != son[u]) {
@@ -115,7 +115,7 @@ package class163;
 //        }
 //    }
 //    for (int i = headq[u]; i > 0; i = nextq[i]) {
-//    	ans[ansiq[i]] = nodeCnt[dep[u] + kq[i]];
+//    	ans[ansiq[i]] = depCnt[dep[u] + kq[i]];
 //    }
 //    if (keep == 0) {
 //        cancle(u);

@@ -24,26 +24,29 @@ public class Code05_BloodCousins1 {
 	public static int MAXN = 100001;
 	public static int MAXH = 20;
 	public static int n, m;
-
 	public static boolean[] root = new boolean[MAXN];
 
+	// 链式前向星
 	public static int[] headg = new int[MAXN];
 	public static int[] nextg = new int[MAXN];
 	public static int[] tog = new int[MAXN];
 	public static int cntg;
 
+	// 问题列表
 	public static int[] headq = new int[MAXN];
 	public static int[] nextq = new int[MAXN];
 	public static int[] ansiq = new int[MAXN];
 	public static int[] kq = new int[MAXN];
 	public static int cntq;
 
+	// 树链剖分
 	public static int[] siz = new int[MAXN];
 	public static int[] dep = new int[MAXN];
 	public static int[] son = new int[MAXN];
 	public static int[][] stjump = new int[MAXN][MAXH];
 
-	public static int[] nodeCnt = new int[MAXN];
+	// 树上启发式合并
+	public static int[] depCnt = new int[MAXN];
 	public static int[] ans = new int[MAXN];
 
 	public static void addEdge(int u, int v) {
@@ -89,14 +92,14 @@ public class Code05_BloodCousins1 {
 	}
 
 	public static void effect(int u) {
-		nodeCnt[dep[u]]++;
+		depCnt[dep[u]]++;
 		for (int e = headg[u]; e > 0; e = nextg[e]) {
 			effect(tog[e]);
 		}
 	}
 
 	public static void cancle(int u) {
-		nodeCnt[dep[u]]--;
+		depCnt[dep[u]]--;
 		for (int e = headg[u]; e > 0; e = nextg[e]) {
 			cancle(tog[e]);
 		}
@@ -112,7 +115,7 @@ public class Code05_BloodCousins1 {
 		if (son[u] != 0) {
 			dfs2(son[u], 1);
 		}
-		nodeCnt[dep[u]]++;
+		depCnt[dep[u]]++;
 		for (int e = headg[u], v; e > 0; e = nextg[e]) {
 			v = tog[e];
 			if (v != son[u]) {
@@ -120,7 +123,7 @@ public class Code05_BloodCousins1 {
 			}
 		}
 		for (int i = headq[u]; i > 0; i = nextq[i]) {
-			ans[ansiq[i]] = nodeCnt[dep[u] + kq[i]];
+			ans[ansiq[i]] = depCnt[dep[u] + kq[i]];
 		}
 		if (keep == 0) {
 			cancle(u);
