@@ -21,23 +21,17 @@ import java.io.StreamTokenizer;
 public class Code02_ColorBanlance1 {
 
 	public static int MAXN = 200001;
-
 	public static int n;
-
-	// 每个节点的颜色
 	public static int[] color = new int[MAXN];
 
-	// 链式前向星
 	public static int[] head = new int[MAXN];
 	public static int[] next = new int[MAXN];
 	public static int[] to = new int[MAXN];
 	public static int cnt = 0;
 
-	// 树链剖分
 	public static int[] siz = new int[MAXN];
 	public static int[] son = new int[MAXN];
 
-	// 启发式合并
 	// colorCnt[i] = j，表示i这种颜色出现了j次
 	public static int[] colorCnt = new int[MAXN];
 	// colorNum[i] = j，表示出现次数为i的颜色一共有j种
