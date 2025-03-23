@@ -27,26 +27,31 @@ public class Code04_DifferntName1 {
 
 	public static int MAXN = 100001;
 	public static int n, m;
+
+	public static HashMap<String, Integer> nameId = new HashMap<>();
 	public static boolean[] root = new boolean[MAXN];
 	public static int[] id = new int[MAXN];
 
+	// 链式前向星
 	public static int[] headg = new int[MAXN];
 	public static int[] nextg = new int[MAXN];
 	public static int[] tog = new int[MAXN];
 	public static int cntg;
 
+	// 问题列表
 	public static int[] headq = new int[MAXN];
 	public static int[] nextq = new int[MAXN];
 	public static int[] ansiq = new int[MAXN];
 	public static int[] kq = new int[MAXN];
 	public static int cntq;
 
+	// 树链剖分
 	public static int[] fa = new int[MAXN];
 	public static int[] siz = new int[MAXN];
 	public static int[] dep = new int[MAXN];
 	public static int[] son = new int[MAXN];
 
-	public static HashMap<String, Integer> nameId = new HashMap<>();
+	// 树上启发式合并
 	public static ArrayList<HashSet<Integer>> depSet = new ArrayList<>();
 	public static int[] ans = new int[MAXN];
 

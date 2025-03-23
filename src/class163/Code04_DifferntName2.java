@@ -18,6 +18,8 @@ package class163;
 //
 //const int MAXN = 100001;
 //int n, m;
+//
+//unordered_map<string, int> nameId;
 //bool root[MAXN];
 //int id[MAXN];
 //
@@ -36,7 +38,7 @@ package class163;
 //int siz[MAXN];
 //int dep[MAXN];
 //int son[MAXN];
-//unordered_map<string, int> nameId;
+//
 //vector<unordered_set<int>> depSet;
 //int ans[MAXN];
 //
