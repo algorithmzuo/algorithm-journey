@@ -102,9 +102,12 @@ public class Code06_RearrangePalindrome1 {
 		if (son[u] != 0) {
 			dfs2(son[u], 1);
 		}
+		// 每一个儿子的子树，里得到的答案
 		for (int e = head[u]; e > 0; e = next[e]) {
 			ans[u] = Math.max(ans[u], ans[to[e]]);
 		}
+		// 选择当前节点，再选择重儿子树上的任意一点，得到的答案
+		// 枚举所有可能得到的异或值
 		if (maxdep[eor[u]] != 0) {
 			ans[u] = Math.max(ans[u], maxdep[eor[u]] - dep[u]);
 		}
@@ -113,7 +116,9 @@ public class Code06_RearrangePalindrome1 {
 				ans[u] = Math.max(ans[u], maxdep[eor[u] ^ (1 << i)] - dep[u]);
 			}
 		}
+		// 当前点的异或值，更新最大深度信息
 		maxdep[eor[u]] = Math.max(maxdep[eor[u]], dep[u]);
+		// 选择遍历过的部分里的任意一点，再选择当前遍历到的子树里的任意一点，得到的答案
 		for (int e = head[u], v; e > 0; e = next[e]) {
 			v = to[e];
 			if (v != son[u]) {
