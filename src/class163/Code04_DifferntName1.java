@@ -46,16 +46,16 @@ public class Code04_DifferntName1 {
 	public static int[] dep = new int[MAXN];
 	public static int[] son = new int[MAXN];
 
-	public static HashMap<String, Integer> nameToId = new HashMap<>();
+	public static HashMap<String, Integer> nameId = new HashMap<>();
 	public static ArrayList<HashSet<Integer>> depSet = new ArrayList<>();
 	public static int[] ans = new int[MAXN];
 
-	public static int nameId(String name) {
-		if (nameToId.containsKey(name)) {
-			return nameToId.get(name);
+	public static int getNameId(String name) {
+		if (nameId.containsKey(name)) {
+			return nameId.get(name);
 		}
-		nameToId.put(name, nameToId.size() + 1);
-		return nameToId.size();
+		nameId.put(name, nameId.size() + 1);
+		return nameId.size();
 	}
 
 	public static void addId(int deep, int id) {
@@ -66,7 +66,7 @@ public class Code04_DifferntName1 {
 		depSet.get(deep).remove(id);
 	}
 
-	public static int sizeOfId(int deep) {
+	public static int sizeOfDeep(int deep) {
 		if (deep > n) {
 			return 0;
 		}
@@ -134,7 +134,7 @@ public class Code04_DifferntName1 {
 			}
 		}
 		for (int i = headq[u]; i > 0; i = nextq[i]) {
-			ans[ansiq[i]] = sizeOfId(dep[u] + kq[i]);
+			ans[ansiq[i]] = sizeOfDeep(dep[u] + kq[i]);
 		}
 		if (keep == 0) {
 			cancle(u);
@@ -149,7 +149,7 @@ public class Code04_DifferntName1 {
 		for (int i = 1; i <= n; i++) {
 			name = io.next();
 			father = io.nextInt();
-			id[i] = nameId(name);
+			id[i] = getNameId(name);
 			if (father == 0) {
 				root[i] = true;
 			} else {

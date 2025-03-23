@@ -36,16 +36,16 @@ package class163;
 //int siz[MAXN];
 //int dep[MAXN];
 //int son[MAXN];
-//unordered_map<string, int> nameToId;
+//unordered_map<string, int> nameId;
 //vector<unordered_set<int>> depSet;
 //int ans[MAXN];
 //
-//int nameId(const string &name) {
-//    if (nameToId.find(name) != nameToId.end()) {
-//        return nameToId[name];
+//int getNameId(const string &name) {
+//    if (nameId.find(name) != nameId.end()) {
+//        return nameId[name];
 //    }
-//    int newId = nameToId.size() + 1;
-//    nameToId[name] = newId;
+//    int newId = nameId.size() + 1;
+//    nameId[name] = newId;
 //    return newId;
 //}
 //
@@ -57,7 +57,7 @@ package class163;
 //    depSet[deep].erase(id);
 //}
 //
-//int sizeOfId(int deep) {
+//int sizeOfDeep(int deep) {
 //    if (deep > n) {
 //        return 0;
 //    }
@@ -125,7 +125,7 @@ package class163;
 //        }
 //    }
 //    for (int i = headq[u]; i > 0; i = nextq[i]) {
-//    	ans[ansiq[i]] = sizeOfId(dep[u] + kq[i]);
+//    	ans[ansiq[i]] = sizeOfDeep(dep[u] + kq[i]);
 //    }
 //    if (keep == 0) {
 //        cancle(u);
@@ -140,7 +140,7 @@ package class163;
 //    int father;
 //    for (int i = 1; i <= n; i++) {
 //        cin >> name >> father;
-//        id[i] = nameId(name);
+//        id[i] = getNameId(name);
 //        if (father == 0) {
 //        	root[i] = true;
 //        } else {
