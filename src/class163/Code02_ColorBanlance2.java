@@ -24,7 +24,7 @@ public class Code02_ColorBanlance2 {
 	public static int[] siz = new int[MAXN];
 	public static int[] son = new int[MAXN];
 	public static int[] colorCnt = new int[MAXN];
-	public static int[] cntCnt = new int[MAXN];
+	public static int[] colorNum = new int[MAXN];
 	public static int ans = 0;
 
 	public static void addEdge(int u, int v) {
@@ -100,8 +100,8 @@ public class Code02_ColorBanlance2 {
 			pop1();
 			if (edge1 == -1) {
 				colorCnt[color[cur1]]++;
-				cntCnt[colorCnt[color[cur1]] - 1]--;
-				cntCnt[colorCnt[color[cur1]]]++;
+				colorNum[colorCnt[color[cur1]] - 1]--;
+				colorNum[colorCnt[color[cur1]]]++;
 				edge1 = head[cur1];
 			} else {
 				edge1 = next[edge1];
@@ -120,8 +120,8 @@ public class Code02_ColorBanlance2 {
 			pop1();
 			if (edge1 == -1) {
 				colorCnt[color[cur1]]--;
-				cntCnt[colorCnt[color[cur1]] + 1]--;
-				cntCnt[colorCnt[color[cur1]]]++;
+				colorNum[colorCnt[color[cur1]] + 1]--;
+				colorNum[colorCnt[color[cur1]]]++;
 				edge1 = head[cur1];
 			} else {
 				edge1 = next[edge1];
@@ -162,15 +162,15 @@ public class Code02_ColorBanlance2 {
 				}
 			} else {
 				colorCnt[color[cur2]]++;
-				cntCnt[colorCnt[color[cur2]] - 1]--;
-				cntCnt[colorCnt[color[cur2]]]++;
+				colorNum[colorCnt[color[cur2]] - 1]--;
+				colorNum[colorCnt[color[cur2]]]++;
 				for (int e = head[cur2], v; e > 0; e = next[e]) {
 					v = to[e];
 					if (v != son[cur2]) {
 						effect(v);
 					}
 				}
-				if (colorCnt[color[cur2]] * cntCnt[colorCnt[color[cur2]]] == siz[cur2]) {
+				if (colorCnt[color[cur2]] * colorNum[colorCnt[color[cur2]]] == siz[cur2]) {
 					ans++;
 				}
 				if (keep2 == 0) {

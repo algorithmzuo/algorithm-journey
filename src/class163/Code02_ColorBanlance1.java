@@ -40,8 +40,8 @@ public class Code02_ColorBanlance1 {
 	// 启发式合并
 	// colorCnt[i] = j，表示i这种颜色出现了j次
 	public static int[] colorCnt = new int[MAXN];
-	// cntCnt[i] = j，表示出现次数为i的颜色一共有j种
-	public static int[] cntCnt = new int[MAXN];
+	// colorNum[i] = j，表示出现次数为i的颜色一共有j种
+	public static int[] colorNum = new int[MAXN];
 	// 颜色平衡子树的个数
 	public static int ans = 0;
 
@@ -67,8 +67,8 @@ public class Code02_ColorBanlance1 {
 
 	public static void effect(int u) {
 		colorCnt[color[u]]++;
-		cntCnt[colorCnt[color[u]] - 1]--;
-		cntCnt[colorCnt[color[u]]]++;
+		colorNum[colorCnt[color[u]] - 1]--;
+		colorNum[colorCnt[color[u]]]++;
 		for (int e = head[u]; e > 0; e = next[e]) {
 			effect(to[e]);
 		}
@@ -76,8 +76,8 @@ public class Code02_ColorBanlance1 {
 
 	public static void cancle(int u) {
 		colorCnt[color[u]]--;
-		cntCnt[colorCnt[color[u]] + 1]--;
-		cntCnt[colorCnt[color[u]]]++;
+		colorNum[colorCnt[color[u]] + 1]--;
+		colorNum[colorCnt[color[u]]]++;
 		for (int e = head[u]; e > 0; e = next[e]) {
 			cancle(to[e]);
 		}
@@ -94,15 +94,15 @@ public class Code02_ColorBanlance1 {
 			dfs2(son[u], 1);
 		}
 		colorCnt[color[u]]++;
-		cntCnt[colorCnt[color[u]] - 1]--;
-		cntCnt[colorCnt[color[u]]]++;
+		colorNum[colorCnt[color[u]] - 1]--;
+		colorNum[colorCnt[color[u]]]++;
 		for (int e = head[u], v; e > 0; e = next[e]) {
 			v = to[e];
 			if (v != son[u]) {
 				effect(v);
 			}
 		}
-		if (colorCnt[color[u]] * cntCnt[colorCnt[color[u]]] == siz[u]) {
+		if (colorCnt[color[u]] * colorNum[colorCnt[color[u]]] == siz[u]) {
 			ans++;
 		}
 		if (keep == 0) {

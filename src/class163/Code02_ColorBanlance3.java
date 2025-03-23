@@ -24,7 +24,7 @@ package class163;
 //int siz[MAXN];
 //int son[MAXN];
 //int colorCnt[MAXN];
-//int cntCnt[MAXN];
+//int colorNum[MAXN];
 //int ans = 0;
 //
 //void addEdge(int u, int v) {
@@ -49,8 +49,8 @@ package class163;
 //
 //void effect(int u) {
 //    colorCnt[color[u]]++;
-//    cntCnt[colorCnt[color[u]] - 1]--;
-//    cntCnt[colorCnt[color[u]]]++;
+//    colorNum[colorCnt[color[u]] - 1]--;
+//    colorNum[colorCnt[color[u]]]++;
 //    for (int e = head[u]; e > 0; e = nxt[e]) {
 //        effect(to[e]);
 //    }
@@ -58,8 +58,8 @@ package class163;
 //
 //void cancle(int u) {
 //    colorCnt[color[u]]--;
-//    cntCnt[colorCnt[color[u]] + 1]--;
-//    cntCnt[colorCnt[color[u]]]++;
+//    colorNum[colorCnt[color[u]] + 1]--;
+//    colorNum[colorCnt[color[u]]]++;
 //    for (int e = head[u]; e > 0; e = nxt[e]) {
 //        cancle(to[e]);
 //    }
@@ -76,15 +76,15 @@ package class163;
 //        dfs2(son[u], 1);
 //    }
 //    colorCnt[color[u]]++;
-//    cntCnt[colorCnt[color[u]] - 1]--;
-//    cntCnt[colorCnt[color[u]]]++;
+//    colorNum[colorCnt[color[u]] - 1]--;
+//    colorNum[colorCnt[color[u]]]++;
 //    for (int e = head[u], v; e > 0; e = nxt[e]) {
 //        v = to[e];
 //        if (v != son[u]) {
 //            effect(v);
 //        }
 //    }
-//    if (colorCnt[color[u]] * cntCnt[colorCnt[color[u]]] == siz[u]) {
+//    if (colorCnt[color[u]] * colorNum[colorCnt[color[u]]] == siz[u]) {
 //        ans++;
 //    }
 //    if (keep == 0) {
