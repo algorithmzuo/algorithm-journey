@@ -53,12 +53,12 @@ public class Code04_TopKOddLengthProduct {
 		}
 		long ans = 1;
 		long sum = 0;
-		for (int len = (m & 1) == 1 ? m : (m - 1); len >= 0 && k >= 0; len -= 2) {
+		for (int len = (m & 1) == 1 ? m : (m - 1); len >= 1 && k > 0; len -= 2) {
 			sum += cnt[len];
 			ans = (ans * power(len, Math.min(k, sum))) % MOD;
 			k -= sum;
 		}
-		return k < 0 ? (int) ans : -1;
+		return k > 0 ? -1 : (int)ans;
 	}
 
 	public static void manacher(String str) {
