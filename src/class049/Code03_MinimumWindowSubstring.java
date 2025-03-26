@@ -12,29 +12,27 @@ public class Code03_MinimumWindowSubstring {
 		}
 		char[] s = str.toCharArray();
 		char[] t = tar.toCharArray();
-		int[] cnts = new int[256];
+		int[] map = new int[256];
 		for (char cha : t) {
-			cnts[cha]--;
+			map[cha]--;
 		}
 		// 最小覆盖子串的长度
 		int len = Integer.MAX_VALUE;
-		// 从哪个位置开头，发现的这个最小覆盖子串
+		// 从哪个位置开头，发现的最小覆盖子串
 		int start = 0;
-		for (int l = 0, r = 0, debt = t.length; r < s.length; r++) {
-			// s[r] 当前字符 -> int
-			// cnts[s[r]] : 当前字符欠债情况，负数就是欠债，正数就是多给的
-			if (cnts[s[r]]++ < 0) {
+		// 总债务
+		int debt = t.length;
+		for (int l = 0, r = 0; r < s.length; r++) {
+			// 窗口右边界向右，给出字符
+			if (map[s[r]]++ < 0) {
 				debt--;
 			}
 			if (debt == 0) {
-				// r位置结尾，真的有覆盖子串！
-				// 看看这个覆盖子串能不能尽量短
-				while (cnts[s[l]] > 0) {
-					// l位置的字符能拿回
-					cnts[s[l++]]--;
+				// 窗口左边界向右，拿回字符
+				while (map[s[l]] > 0) {
+					map[s[l++]]--;
 				}
-				// 从while里面出来，
-				// l....r就是r位置结尾的最小覆盖子串
+				// 以r位置结尾的达标窗口，更新答案
 				if (r - l + 1 < len) {
 					len = r - l + 1;
 					start = l;
