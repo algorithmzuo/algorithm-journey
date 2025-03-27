@@ -13,25 +13,25 @@ package class164;
 //	int u, v, w;
 //};
 //
-//const int MAXN = 200001;
+//const int MAXK = 200001;
 //const int MAXM = 300001;
 //int n, m, q;
 //Edge arr[MAXM];
 //
-//int father[MAXN];
-//int nodeKey[MAXN];
-//int cnth = 0;
+//int father[MAXK];
+//int nodeKey[MAXK];
+//int cntu = 0;
 //
-//int head[MAXN];
-//int nxt[MAXN];
-//int to[MAXN];
+//int head[MAXK];
+//int nxt[MAXK];
+//int to[MAXK];
 //int cntg = 0;
 //
-//int fa[MAXN];
-//int dep[MAXN];
-//int siz[MAXN];
-//int son[MAXN];
-//int top[MAXN];
+//int fa[MAXK];
+//int dep[MAXK];
+//int siz[MAXK];
+//int son[MAXK];
+//int top[MAXK];
 //
 //bool cmp(Edge x, Edge y) {
 //	return x.w < y.w;
@@ -55,16 +55,16 @@ package class164;
 //        father[i] = i;
 //    }
 //    sort(arr + 1, arr + m + 1, cmp);
-//    cnth = n;
+//    cntu = n;
 //    for (int i = 1, fx, fy; i <= m; i++) {
 //        fx = find(arr[i].u);
 //        fy = find(arr[i].v);
 //        if (fx != fy) {
-//            father[fx] = father[fy] = ++cnth;
-//            father[cnth] = cnth;
-//            nodeKey[cnth] = arr[i].w;
-//            addEdge(cnth, fx);
-//            addEdge(cnth, fy);
+//            father[fx] = father[fy] = ++cntu;
+//            father[cntu] = cntu;
+//            nodeKey[cntu] = arr[i].w;
+//            addEdge(cntu, fx);
+//            addEdge(cntu, fy);
 //        }
 //    }
 //}
@@ -73,19 +73,14 @@ package class164;
 //    fa[u] = f;
 //    dep[u] = dep[f] + 1;
 //    siz[u] = 1;
-//    for (int e = head[u], v; e > 0; e = nxt[e]) {
-//        v = to[e];
-//        if (v != f) {
-//            dfs1(v, u);
-//        }
+//    for (int e = head[u]; e > 0; e = nxt[e]) {
+//        dfs1(to[e], u);
 //    }
 //    for (int e = head[u], v; e > 0; e = nxt[e]) {
 //        v = to[e];
-//        if (v != f) {
-//            siz[u] += siz[v];
-//            if (son[u] == 0 || siz[son[u]] < siz[v]) {
-//                son[u] = v;
-//            }
+//        siz[u] += siz[v];
+//        if (son[u] == 0 || siz[son[u]] < siz[v]) {
+//            son[u] = v;
 //        }
 //    }
 //}
@@ -98,7 +93,7 @@ package class164;
 //    dfs2(son[u], t);
 //    for (int e = head[u], v; e > 0; e = nxt[e]) {
 //        v = to[e];
-//        if (v != fa[u] && v != son[u]) {
+//        if (v != son[u]) {
 //            dfs2(v, v);
 //        }
 //    }
@@ -123,7 +118,7 @@ package class164;
 //        cin >> arr[i].u >> arr[i].v >> arr[i].w;
 //    }
 //    kruskalRebuild();
-//    for (int i = 1; i <= cnth; i++) {
+//    for (int i = 1; i <= cntu; i++) {
 //        if (i == father[i]) {
 //            dfs1(i, 0);
 //            dfs2(i, i);

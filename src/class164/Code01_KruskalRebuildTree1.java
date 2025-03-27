@@ -11,28 +11,28 @@ import java.util.Arrays;
 
 public class Code01_KruskalRebuildTree1 {
 
-	public static int MAXN = 200001;
+	public static int MAXK = 200001;
 	public static int MAXM = 300001;
 	public static int n, m, q;
 	public static int[][] arr = new int[MAXM][3];
 
 	// 并查集
-	public static int[] father = new int[MAXN];
-	public static int[] nodeKey = new int[MAXN];
-	public static int cnth = 0;
+	public static int[] father = new int[MAXK];
+	public static int[] nodeKey = new int[MAXK];
+	public static int cntu = 0;
 
 	// 链式前向星
-	public static int[] head = new int[MAXN];
-	public static int[] next = new int[MAXN];
-	public static int[] to = new int[MAXN];
+	public static int[] head = new int[MAXK];
+	public static int[] next = new int[MAXK];
+	public static int[] to = new int[MAXK];
 	public static int cntg = 0;
 
 	// 树链剖分
-	public static int[] fa = new int[MAXN];
-	public static int[] dep = new int[MAXN];
-	public static int[] siz = new int[MAXN];
-	public static int[] son = new int[MAXN];
-	public static int[] top = new int[MAXN];
+	public static int[] fa = new int[MAXK];
+	public static int[] dep = new int[MAXK];
+	public static int[] siz = new int[MAXK];
+	public static int[] son = new int[MAXK];
+	public static int[] top = new int[MAXK];
 
 	public static int find(int i) {
 		if (i != father[i]) {
@@ -52,16 +52,16 @@ public class Code01_KruskalRebuildTree1 {
 			father[i] = i;
 		}
 		Arrays.sort(arr, 1, m + 1, (a, b) -> a[2] - b[2]);
-		cnth = n;
+		cntu = n;
 		for (int i = 1, fx, fy; i <= m; i++) {
 			fx = find(arr[i][0]);
 			fy = find(arr[i][1]);
 			if (fx != fy) {
-				father[fx] = father[fy] = ++cnth;
-				father[cnth] = cnth;
-				nodeKey[cnth] = arr[i][2];
-				addEdge(cnth, fx);
-				addEdge(cnth, fy);
+				father[fx] = father[fy] = ++cntu;
+				father[cntu] = cntu;
+				nodeKey[cntu] = arr[i][2];
+				addEdge(cntu, fx);
+				addEdge(cntu, fy);
 			}
 		}
 	}
@@ -70,19 +70,14 @@ public class Code01_KruskalRebuildTree1 {
 		fa[u] = f;
 		dep[u] = dep[f] + 1;
 		siz[u] = 1;
-		for (int e = head[u], v; e > 0; e = next[e]) {
-			v = to[e];
-			if (v != f) {
-				dfs1(v, u);
-			}
+		for (int e = head[u]; e > 0; e = next[e]) {
+			dfs1(to[e], u);
 		}
 		for (int e = head[u], v; e > 0; e = next[e]) {
 			v = to[e];
-			if (v != f) {
-				siz[u] += siz[v];
-				if (son[u] == 0 || siz[son[u]] < siz[v]) {
-					son[u] = v;
-				}
+			siz[u] += siz[v];
+			if (son[u] == 0 || siz[son[u]] < siz[v]) {
+				son[u] = v;
 			}
 		}
 	}
@@ -95,14 +90,14 @@ public class Code01_KruskalRebuildTree1 {
 		dfs2(son[u], t);
 		for (int e = head[u], v; e > 0; e = next[e]) {
 			v = to[e];
-			if (v != fa[u] && v != son[u]) {
+			if (v != son[u]) {
 				dfs2(v, v);
 			}
 		}
 	}
 
 	// 不会改迭代版，去看讲解118，详解了从递归版改迭代版
-	public static int[][] fse = new int[MAXN][3];
+	public static int[][] fse = new int[MAXK][3];
 
 	public static int stacksize, first, second, edge;
 
@@ -136,17 +131,13 @@ public class Code01_KruskalRebuildTree1 {
 			}
 			if (edge != 0) {
 				push(first, second, edge);
-				if (to[edge] != second) {
-					push(to[edge], first, -1);
-				}
+				push(to[edge], first, -1);
 			} else {
 				for (int e = head[first], v; e > 0; e = next[e]) {
 					v = to[e];
-					if (v != second) {
-						siz[first] += siz[v];
-						if (son[first] == 0 || siz[son[first]] < siz[v]) {
-							son[first] = v;
-						}
+					siz[first] += siz[v];
+					if (son[first] == 0 || siz[son[first]] < siz[v]) {
+						son[first] = v;
 					}
 				}
 			}
@@ -174,7 +165,7 @@ public class Code01_KruskalRebuildTree1 {
 			}
 			if (edge != 0) {
 				push(first, second, edge);
-				if (to[edge] != fa[first] && to[edge] != son[first]) {
+				if (to[edge] != son[first]) {
 					push(to[edge], to[edge], -1);
 				}
 			}
@@ -192,7 +183,7 @@ public class Code01_KruskalRebuildTree1 {
 		return dep[a] <= dep[b] ? a : b;
 	}
 
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) {
 		FastIO io = new FastIO(System.in, System.out);
 		n = io.nextInt();
 		m = io.nextInt();
@@ -202,7 +193,7 @@ public class Code01_KruskalRebuildTree1 {
 			arr[i][2] = io.nextInt();
 		}
 		kruskalRebuild();
-		for (int i = 1; i <= cnth; i++) {
+		for (int i = 1; i <= cntu; i++) {
 			if (i == father[i]) {
 				dfs3(i, 0); // 防止递归爆栈，所以调用dfs1的迭代版
 				dfs4(i, i); // 防止递归爆栈，所以调用dfs2的迭代版
