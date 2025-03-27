@@ -34,14 +34,14 @@ package class164;
 //int top[MAXK];
 //
 //bool cmp(Edge x, Edge y) {
-//	return x.w < y.w;
+//    return x.w < y.w;
 //}
 //
 //int find(int i) {
-//	if(i != father[i]) {
-//		father[i] = find(father[i]);
-//	}
-//	return father[i];
+//    if(i != father[i]) {
+//        father[i] = find(father[i]);
+//    }
+//    return father[i];
 //}
 //
 //void addEdge(int u, int v) {

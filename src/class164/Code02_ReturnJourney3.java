@@ -82,8 +82,8 @@ package class164;
 //        addEdgeG(arr[i].v, arr[i].u, arr[i].l);
 //    }
 //    for(int i = 1; i <= n; i++) {
-//    	dist[i] = INF;
-//    	visit[i] = false;
+//        dist[i] = INF;
+//        visit[i] = false;
 //    }
 //    dist[1] = 0;
 //    heap.push({1, 0});
@@ -95,12 +95,12 @@ package class164;
 //        x = node.cur;
 //        v = node.dis;
 //        if(!visit[x]) {
-//        	visit[x] = true;
+//        	  visit[x] = true;
 //            for(int e = headg[x], y, w; e > 0; e = nextg[e]) {
 //                y = tog[e];
 //                w = weightg[e];
 //                if(!visit[y] && dist[y] > v + w) {
-//                	dist[y] = v + w;
+//                    dist[y] = v + w;
 //                    heap.push({y, dist[y]});
 //                }
 //            }
