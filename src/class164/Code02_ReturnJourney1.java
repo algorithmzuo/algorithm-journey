@@ -10,7 +10,7 @@ import java.io.OutputStream;
 import java.util.Arrays;
 import java.util.PriorityQueue;
 
-public class Code02_Journey1 {
+public class Code02_ReturnJourney1 {
 
 	public static int MAXN = 200001;
 	public static int MAXK = 400001;
