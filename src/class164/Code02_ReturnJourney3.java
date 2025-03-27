@@ -14,16 +14,16 @@ package class164;
 //};
 //
 //bool EdgeCmp(Edge x, Edge y) {
-//    return x.a > y.a;
+//    return x.a > y.a; // 海拔高的边，排序排在数组前面
 //}
 //
 //struct HeapNode {
-//    int cur, cost;
+//    int cur, dis;
 //};
 //
 //struct HeapNodeCmp {
 //    bool operator()(const HeapNode &x, const HeapNode &y) const {
-//        return x.cost > y.cost; // 距离大，在堆的下方，C++的设定，其实是距离的小根堆
+//        return x.dis > y.dis; // 谁距离大，谁在堆下方，C++的设定，其实是距离的小根堆
 //    }
 //};
 //
@@ -93,7 +93,7 @@ package class164;
 //        node = heap.top();
 //        heap.pop();
 //        x = node.cur;
-//        v = node.cost;
+//        v = node.dis;
 //        if(!visit[x]) {
 //        	visit[x] = true;
 //            for(int e = headg[x], y, w; e > 0; e = nextg[e]) {
