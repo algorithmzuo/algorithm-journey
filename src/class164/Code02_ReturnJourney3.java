@@ -184,8 +184,7 @@ package class164;
 //        kruskalRebuild();
 //        dfs(cntu, 0);
 //        cin >> q >> k >> s;
-//        int lastAns = 0;
-//        for(int i = 1, node, line; i <= q; i++) {
+//        for(int i = 1, node, line, lastAns = 0; i <= q; i++) {
 //            cin >> node >> line;
 //            node = (node + k * lastAns - 1) % n + 1;
 //            line = (line + k * lastAns) % (s + 1);
