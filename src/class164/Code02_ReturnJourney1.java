@@ -1,8 +1,10 @@
 package class164;
 
-// 归程，java版
+// 归程，java实现递归版
 // 测试链接 : https://www.luogu.com.cn/problem/P4768
-// 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
+// 提交以下的code，提交时请把类名改成"Main"
+// 因为树的深度太大，递归函数爆栈了，所以无法全部通过所有测试用例
+// find方法、dfs方法都需要改成迭代版，就是本节课Code02_ReturnJourney2文件
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -37,7 +39,6 @@ public class Code02_ReturnJourney1 {
 
 	public static int[] father = new int[MAXK];
 	public static int[] nodeKey = new int[MAXK];
-	public static int[] stack = new int[MAXK];
 	public static int cntu;
 
 	public static int[] dep = new int[MAXK];
@@ -92,17 +93,11 @@ public class Code02_ReturnJourney1 {
 		headk[u] = cntk;
 	}
 
-	// 并查集查找集合的代表节点，递归版的实现会爆栈的
 	public static int find(int i) {
-		int size = 0;
-		while (i != father[i]) {
-			stack[size++] = i;
-			i = father[i];
+		if (i != father[i]) {
+			father[i] = find(father[i]);
 		}
-		while (size > 0) {
-			father[stack[--size]] = i;
-		}
-		return i;
+		return father[i];
 	}
 
 	public static void kruskalRebuild() {
@@ -124,14 +119,14 @@ public class Code02_ReturnJourney1 {
 		}
 	}
 
-	public static void dfs1(int u, int fa) {
+	public static void dfs(int u, int fa) {
 		dep[u] = dep[fa] + 1;
 		stjump[u][0] = fa;
 		for (int p = 1; p < MAXH; p++) {
 			stjump[u][p] = stjump[stjump[u][p - 1]][p - 1];
 		}
 		for (int e = headk[u]; e > 0; e = nextk[e]) {
-			dfs1(tok[e], u);
+			dfs(tok[e], u);
 		}
 		if (u <= n) {
 			mindist[u] = dist[u];
@@ -140,57 +135,6 @@ public class Code02_ReturnJourney1 {
 		}
 		for (int e = headk[u]; e > 0; e = nextk[e]) {
 			mindist[u] = Math.min(mindist[u], mindist[tok[e]]);
-		}
-	}
-
-	// 不会改迭代版，去看讲解118，详解了从递归版改迭代版
-	public static int[][] fse = new int[MAXK][3];
-
-	public static int stacksize, first, second, edge;
-
-	public static void push(int fir, int sec, int edg) {
-		fse[stacksize][0] = fir;
-		fse[stacksize][1] = sec;
-		fse[stacksize][2] = edg;
-		stacksize++;
-	}
-
-	public static void pop() {
-		--stacksize;
-		first = fse[stacksize][0];
-		second = fse[stacksize][1];
-		edge = fse[stacksize][2];
-	}
-
-	// dfs1的迭代版
-	public static void dfs2(int u, int fa) {
-		stacksize = 0;
-		push(u, fa, -1);
-		while (stacksize > 0) {
-			pop();
-			if (edge == -1) {
-				dep[first] = dep[second] + 1;
-				stjump[first][0] = second;
-				for (int p = 1; p < MAXH; p++) {
-					stjump[first][p] = stjump[stjump[first][p - 1]][p - 1];
-				}
-				edge = headk[first];
-			} else {
-				edge = nextk[edge];
-			}
-			if (edge != 0) {
-				push(first, second, edge);
-				push(tok[edge], first, -1);
-			} else {
-				if (first <= n) {
-					mindist[first] = dist[first];
-				} else {
-					mindist[first] = INF;
-				}
-				for (int e = headk[first]; e > 0; e = nextk[e]) {
-					mindist[first] = Math.min(mindist[first], mindist[tok[e]]);
-				}
-			}
 		}
 	}
 
@@ -218,7 +162,7 @@ public class Code02_ReturnJourney1 {
 			}
 			dijkstra();
 			kruskalRebuild();
-			dfs2(cntu, 0);
+			dfs(cntu, 0);
 			q = io.nextInt();
 			k = io.nextInt();
 			s = io.nextInt();
