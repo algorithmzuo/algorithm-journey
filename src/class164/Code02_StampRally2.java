@@ -23,7 +23,7 @@ package class164;
 //int head[MAXK];
 //int nxt[MAXK];
 //int to[MAXK];
-//int cntg;
+//int cntg = 0;
 //
 //int father[MAXK];
 //int nodeKey[MAXK];

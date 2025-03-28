@@ -18,14 +18,14 @@ package class164;
 //int n, m, q;
 //Edge arr[MAXM];
 //
-//int father[MAXK];
-//int nodeKey[MAXK];
-//int cntu = 0;
-//
 //int head[MAXK];
 //int nxt[MAXK];
 //int to[MAXK];
 //int cntg = 0;
+//
+//int father[MAXK];
+//int nodeKey[MAXK];
+//int cntu;
 //
 //int fa[MAXK];
 //int dep[MAXK];

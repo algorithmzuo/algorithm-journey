@@ -21,7 +21,7 @@ public class Code02_StampRally1 {
 	public static int[] head = new int[MAXK];
 	public static int[] next = new int[MAXK];
 	public static int[] to = new int[MAXK];
-	public static int cntg;
+	public static int cntg = 0;
 
 	public static int[] father = new int[MAXK];
 	public static int[] nodeKey = new int[MAXK];

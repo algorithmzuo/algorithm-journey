@@ -16,16 +16,16 @@ public class Code01_KruskalRebuild1 {
 	public static int n, m, q;
 	public static int[][] arr = new int[MAXM][3];
 
-	// 并查集
-	public static int[] father = new int[MAXK];
-	public static int[] nodeKey = new int[MAXK];
-	public static int cntu = 0;
-
 	// 链式前向星
 	public static int[] head = new int[MAXK];
 	public static int[] next = new int[MAXK];
 	public static int[] to = new int[MAXK];
 	public static int cntg = 0;
+
+	// 并查集
+	public static int[] father = new int[MAXK];
+	public static int[] nodeKey = new int[MAXK];
+	public static int cntu;
 
 	// 树链剖分
 	public static int[] fa = new int[MAXK];
