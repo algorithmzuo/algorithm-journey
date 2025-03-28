@@ -9,7 +9,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Arrays;
 
-public class Code02_YouyouTraining1 {
+public class Code02_Training1 {
 
 	public static int MAXK = 800001;
 	public static int MAXM = 400001;
