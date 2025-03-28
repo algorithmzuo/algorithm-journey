@@ -58,7 +58,7 @@ package class164;
 //int stjump[MAXK][MAXH];
 //int mindist[MAXK];
 //
-//void prepare() {
+//void clear() {
 //    cntg = 0;
 //    cntk = 0;
 //    for(int i = 1; i <= n; i++) {
@@ -176,7 +176,7 @@ package class164;
 //    cin >> t;
 //    for(int test = 1; test <= t; test++) {
 //        cin >> n >> m;
-//        prepare();
+//        clear();
 //        for(int i = 1; i <= m; i++) {
 //            cin >> arr[i].u >> arr[i].v >> arr[i].l >> arr[i].a;
 //        }

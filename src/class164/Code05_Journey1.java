@@ -44,7 +44,7 @@ public class Code05_Journey1 {
 	public static int[][] stjump = new int[MAXK][MAXH];
 	public static int[] mindist = new int[MAXK];
 
-	public static void prepare() {
+	public static void clear() {
 		cntg = cntk = 0;
 		Arrays.fill(headg, 1, n + 1, 0);
 		Arrays.fill(headk, 1, n * 2, 0);
@@ -209,7 +209,7 @@ public class Code05_Journey1 {
 		for (int test = 1; test <= t; test++) {
 			n = io.nextInt();
 			m = io.nextInt();
-			prepare();
+			clear();
 			for (int i = 1; i <= m; i++) {
 				arr[i][0] = io.nextInt();
 				arr[i][1] = io.nextInt();
