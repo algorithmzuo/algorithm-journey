@@ -4,7 +4,7 @@ package class164;
 // 测试链接 : https://www.luogu.com.cn/problem/P4768
 // 提交以下的code，提交时请把类名改成"Main"
 // 因为树的深度太大，递归函数爆栈了，所以无法全部通过所有测试用例
-// find方法、dfs方法都需要改成迭代版，就是本节课Code02_ReturnJourney2文件
+// find方法、dfs方法都需要改成迭代版，就是本节课Code03_ReturnJourney2文件
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -12,7 +12,7 @@ import java.io.OutputStream;
 import java.util.Arrays;
 import java.util.PriorityQueue;
 
-public class Code02_ReturnJourney1 {
+public class Code03_ReturnJourney1 {
 
 	public static int MAXN = 200001;
 	public static int MAXK = 400001;
