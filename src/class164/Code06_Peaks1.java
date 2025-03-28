@@ -5,7 +5,7 @@ package class164;
 // 提交以下的code，提交时请把类名改成"Main"
 // java实现的逻辑一定是正确的，但是通过不了
 // 因为这道题根据C++的运行空间，制定通过标准，根本没考虑java的用户
-// 想通过用C++实现，本节课Code04_Peaks2文件就是C++的实现
+// 想通过用C++实现，本节课Code06_Peaks2文件就是C++的实现
 // 两个版本的逻辑完全一样，C++版本可以通过所有测试
 
 import java.io.IOException;
@@ -13,7 +13,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Arrays;
 
-public class Code04_Peaks1 {
+public class Code06_Peaks1 {
 
 	public static int MAXN = 100001;
 	public static int MAXK = 200001;
