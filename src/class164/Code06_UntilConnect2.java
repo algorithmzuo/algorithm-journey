@@ -53,7 +53,9 @@ package class164;
 //}
 //
 //int find(int i) {
-//    if (i != father[i]) father[i] = find(father[i]);
+//    if (i != father[i]) {
+//        father[i] = find(father[i]);
+//    }
 //    return father[i];
 //}
 //
