@@ -1,8 +1,8 @@
 package class164;
 
-// 加边直到连通，java版
-// 测试链接 : https://www.luogu.com.cn/problem/CF1706E
-// 测试链接 : https://codeforces.com/problemset/problem/1706/E
+// 走过z个点的最大边权最小值，java版
+// 测试链接 : https://www.luogu.com.cn/problem/AT_agc002_d
+// 测试链接 : https://atcoder.jp/contests/agc002/tasks/agc002_d
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
 import java.io.IOException;
@@ -10,37 +10,31 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Arrays;
 
-public class Code03_UntilConnect1 {
+public class Code03_StampRally1 {
 
-	public static int MAXN = 100001;
 	public static int MAXK = 200001;
-	public static int MAXM = 200001;
+	public static int MAXM = 100001;
 	public static int MAXH = 20;
-	public static int t, n, m, q;
-	public static int[][] edge = new int[MAXM][3];
+	public static int n, m, q;
+	public static int[][] arr = new int[MAXM][3];
 
 	public static int[] head = new int[MAXK];
 	public static int[] next = new int[MAXK];
 	public static int[] to = new int[MAXK];
-	public static int cntg;
+	public static int cntg = 0;
 
 	public static int[] father = new int[MAXK];
 	public static int[] nodeKey = new int[MAXK];
 	public static int cntu;
 
 	public static int[] dep = new int[MAXK];
-	public static int[] dfn = new int[MAXK];
-	public static int[] seg = new int[MAXK];
+	public static int[] siz = new int[MAXK];
 	public static int[][] stjump = new int[MAXK][MAXH];
-	public static int cntd;
 
-	public static int[] lg2 = new int[MAXN];
-	public static int[][] stmax = new int[MAXN][MAXH];
-	public static int[][] stmin = new int[MAXN][MAXH];
-
-	public static void clear() {
-		cntg = cntd = 0;
-		Arrays.fill(head, 1, n * 2, 0);
+	public static void addEdge(int u, int v) {
+		next[++cntg] = head[u];
+		to[cntg] = v;
+		head[u] = cntg;
 	}
 
 	public static int find(int i) {
@@ -50,25 +44,19 @@ public class Code03_UntilConnect1 {
 		return father[i];
 	}
 
-	public static void addEdge(int u, int v) {
-		next[++cntg] = head[u];
-		to[cntg] = v;
-		head[u] = cntg;
-	}
-
 	public static void kruskalRebuild() {
 		for (int i = 1; i <= n; i++) {
 			father[i] = i;
 		}
-		Arrays.sort(edge, 1, m + 1, (a, b) -> a[2] - b[2]);
+		Arrays.sort(arr, 1, m + 1, (a, b) -> a[2] - b[2]);
 		cntu = n;
 		for (int i = 1, fx, fy; i <= m; i++) {
-			fx = find(edge[i][0]);
-			fy = find(edge[i][1]);
+			fx = find(arr[i][0]);
+			fy = find(arr[i][1]);
 			if (fx != fy) {
 				father[fx] = father[fy] = ++cntu;
 				father[cntu] = cntu;
-				nodeKey[cntu] = edge[i][2];
+				nodeKey[cntu] = arr[i][2];
 				addEdge(cntu, fx);
 				addEdge(cntu, fy);
 			}
@@ -77,8 +65,6 @@ public class Code03_UntilConnect1 {
 
 	public static void dfs(int u, int fa) {
 		dep[u] = dep[fa] + 1;
-		dfn[u] = ++cntd;
-		seg[cntd] = u;
 		stjump[u][0] = fa;
 		for (int p = 1; p < MAXH; p++) {
 			stjump[u][p] = stjump[stjump[u][p - 1]][p - 1];
@@ -86,90 +72,65 @@ public class Code03_UntilConnect1 {
 		for (int e = head[u]; e > 0; e = next[e]) {
 			dfs(to[e], u);
 		}
+		if (u <= n) {
+			siz[u] = 1;
+		} else {
+			siz[u] = 0;
+		}
+		for (int e = head[u]; e > 0; e = next[e]) {
+			siz[u] += siz[to[e]];
+		}
 	}
 
-	public static void buildst() {
-		lg2[0] = -1;
-		for (int i = 1; i <= n; i++) {
-			lg2[i] = lg2[i >> 1] + 1;
-			stmax[i][0] = dfn[i];
-			stmin[i][0] = dfn[i];
-		}
-		for (int p = 1; p <= lg2[n]; p++) {
-			for (int i = 1; i + (1 << p) - 1 <= n; i++) {
-				stmax[i][p] = Math.max(stmax[i][p - 1], stmax[i + (1 << (p - 1))][p - 1]);
-				stmin[i][p] = Math.min(stmin[i][p - 1], stmin[i + (1 << (p - 1))][p - 1]);
+	public static boolean check(int x, int y, int z, int limit) {
+		for (int p = MAXH - 1; p >= 0; p--) {
+			if (stjump[x][p] > 0 && nodeKey[stjump[x][p]] <= limit) {
+				x = stjump[x][p];
 			}
-		}
-	}
-
-	public static int dfnmin(int l, int r) {
-		int p = lg2[r - l + 1];
-		int ans = Math.min(stmin[l][p], stmin[r - (1 << p) + 1][p]);
-		return ans;
-	}
-
-	public static int dfnmax(int l, int r) {
-		int p = lg2[r - l + 1];
-		int ans = Math.max(stmax[l][p], stmax[r - (1 << p) + 1][p]);
-		return ans;
-	}
-
-	public static int lca(int a, int b) {
-		if (dep[a] < dep[b]) {
-			int tmp = a;
-			a = b;
-			b = tmp;
 		}
 		for (int p = MAXH - 1; p >= 0; p--) {
-			if (dep[stjump[a][p]] >= dep[b]) {
-				a = stjump[a][p];
+			if (stjump[y][p] > 0 && nodeKey[stjump[y][p]] <= limit) {
+				y = stjump[y][p];
 			}
 		}
-		if (a == b) {
-			return a;
+		if (x == y) {
+			return siz[x] >= z;
+		} else {
+			return siz[x] + siz[y] >= z;
 		}
-		for (int p = MAXH - 1; p >= 0; p--) {
-			if (stjump[a][p] != stjump[b][p]) {
-				a = stjump[a][p];
-				b = stjump[b][p];
-			}
-		}
-		return stjump[a][0];
 	}
 
-	public static int query(int l, int r) {
-		int x = seg[dfnmin(l, r)];
-		int y = seg[dfnmax(l, r)];
-		return nodeKey[lca(x, y)];
+	public static int query(int x, int y, int z) {
+		int l = 1, r = m, mid, ans = 0;
+		while (l <= r) {
+			mid = (l + r) / 2;
+			if (check(x, y, z, mid)) {
+				ans = mid;
+				r = mid - 1;
+			} else {
+				l = mid + 1;
+			}
+		}
+		return ans;
 	}
 
 	public static void main(String[] args) {
 		FastIO io = new FastIO(System.in, System.out);
-		t = io.nextInt();
-		for (int test = 1; test <= t; test++) {
-			n = io.nextInt();
-			m = io.nextInt();
-			q = io.nextInt();
-			for (int i = 1; i <= m; i++) {
-				edge[i][0] = io.nextInt();
-				edge[i][1] = io.nextInt();
-				edge[i][2] = i;
-			}
-			clear();
-			kruskalRebuild();
-			dfs(cntu, 0);
-			buildst();
-			for (int i = 1, l, r; i <= q; i++) {
-				l = io.nextInt();
-				r = io.nextInt();
-				if (l == r) {
-					io.write("0 ");
-				} else {
-					io.write(query(l, r) + " ");
-				}
-			}
-			io.write("\n");
+		n = io.nextInt();
+		m = io.nextInt();
+		for (int i = 1; i <= m; i++) {
+			arr[i][0] = io.nextInt();
+			arr[i][1] = io.nextInt();
+			arr[i][2] = i;
+		}
+		kruskalRebuild();
+		dfs(cntu, 0);
+		q = io.nextInt();
+		for (int i = 1, x, y, z; i <= q; i++) {
+			x = io.nextInt();
+			y = io.nextInt();
+			z = io.nextInt();
+			io.writelnInt(query(x, y, z));
 		}
 		io.flush();
 	}
