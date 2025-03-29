@@ -10,7 +10,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Arrays;
 
-public class Code07_DeleteAndQueries1 {
+public class Code07_GraphQueries1 {
 
 	public static int MAXN = 200001;
 	public static int MAXK = 400001;
