@@ -1,6 +1,12 @@
 package class164;
 
 // 删边和查询，C++版
+// 图里有n个点，m条无向边，初始时点权都不同，图里可能有若干个连通的部分
+// 一共有q条操作，每条操作是如下两种类型中的一种
+// 操作 1 x : 点x所在的连通区域中，假设点y拥有最大的点权
+//            打印y的点权，然后把y的点权修改为0
+// 操作 2 x : 删掉第x条边
+// 1 <= n <= 2 * 10^5    1 <= m <= 3 * 10^5    1 <= q <= 5 * 10^5
 // 测试链接 : https://www.luogu.com.cn/problem/CF1416D
 // 测试链接 : https://codeforces.com/problemset/problem/1416/D
 // 如下实现是C++的版本，C++版本和java版本逻辑完全一样
@@ -13,6 +19,10 @@ package class164;
 //struct Edge {
 //    int u, v, w;
 //};
+//
+//bool cmp(Edge x, Edge y) {
+//    return x.w < y.w;
+//}
 //
 //const int MAXN = 200001;
 //const int MAXK = 400001;
@@ -47,10 +57,6 @@ package class164;
 //
 //int ansMax;
 //int updateDfn;
-//
-//bool cmp(Edge x, Edge y) {
-//    return x.w < y.w;
-//}
 //
 //void prepare() {
 //    for (int i = 1; i <= q; i++) {
@@ -219,11 +225,11 @@ package class164;
 //    build(1, n, 1);
 //    for (int i = 1, anc; i <= q; i++) {
 //        if (ques[i][0] == 1) {
-//            ansMax = -INF;
 //            anc = getAncestor(ques[i][1], timeline[i]);
+//            ansMax = -INF;
 //            queryMax(leafstart[anc], leafstart[anc] + leafsiz[anc] - 1, 1, n, 1);
-//            update(updateDfn, 0, 1, n, 1);
 //            cout << ansMax << "\n";
+//            update(updateDfn, 0, 1, n, 1);
 //        }
 //    }
 //    return 0;

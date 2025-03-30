@@ -1,6 +1,12 @@
 package class164;
 
 // youyou的军训，java版
+// 图里有n个点，m条无向边，每条边给定不同的边权，图里可能有若干个连通的部分
+// 一共有q条操作，每条操作都是如下的三种类型中的一种
+// 操作 1 x   : 限制变量limit，把limit的值改成x
+// 操作 2 x   : 点x不能走过任何边权小于limit的边，打印此时x所在的连通区域大小
+// 操作 3 x y : 第x条边的边权修改为y，题目保证修改之后，第x条边的边权排名不变
+// 1 <= n、m、q <= 4 * 10^5
 // 测试链接 : https://www.luogu.com.cn/problem/P9638
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
@@ -16,19 +22,24 @@ public class Code02_Training1 {
 	public static int MAXH = 20;
 	public static int n, m, q;
 	public static int[][] edge = new int[MAXM][4];
+
+	// 边的编号对应重构树上的点的编号
 	public static int[] edgeToTree = new int[MAXM];
 
+	// Kruskal重构树
 	public static int[] head = new int[MAXK];
 	public static int[] next = new int[MAXK];
 	public static int[] to = new int[MAXK];
 	public static int cntg = 0;
 
+	// 并查集
 	public static int[] father = new int[MAXK];
 	public static int[] nodeKey = new int[MAXK];
 	public static int[] stack = new int[MAXK];
 	public static int cntu;
 
-	public static int[] siz = new int[MAXK];
+	// 树上dfs
+	public static int[] leafsiz = new int[MAXK];
 	public static int[][] stjump = new int[MAXK][MAXH];
 
 	// 并查集的find方法，需要改成迭代版不然会爆栈，C++实现不需要
@@ -70,7 +81,7 @@ public class Code02_Training1 {
 		}
 	}
 
-	// dfs1是递归函数，需要改成迭代版不然会爆栈，C++实现不需要
+	// dfs1是递归函数，需要改成迭代版，不然会爆栈，C++实现不需要
 	public static void dfs1(int u, int fa) {
 		stjump[u][0] = fa;
 		for (int p = 1; p < MAXH; p++) {
@@ -80,12 +91,12 @@ public class Code02_Training1 {
 			dfs1(to[e], u);
 		}
 		if (u <= n) {
-			siz[u] = 1;
+			leafsiz[u] = 1;
 		} else {
-			siz[u] = 0;
+			leafsiz[u] = 0;
 		}
 		for (int e = head[u]; e > 0; e = next[e]) {
-			siz[u] += siz[to[e]];
+			leafsiz[u] += leafsiz[to[e]];
 		}
 	}
 
@@ -127,12 +138,12 @@ public class Code02_Training1 {
 				push(to[e], u, -1);
 			} else {
 				if (u <= n) {
-					siz[u] = 1;
+					leafsiz[u] = 1;
 				} else {
-					siz[u] = 0;
+					leafsiz[u] = 0;
 				}
 				for (int ei = head[u]; ei > 0; ei = next[ei]) {
-					siz[u] += siz[to[ei]];
+					leafsiz[u] += leafsiz[to[ei]];
 				}
 			}
 		}
@@ -144,7 +155,7 @@ public class Code02_Training1 {
 				u = stjump[u][p];
 			}
 		}
-		return siz[u];
+		return leafsiz[u];
 	}
 
 	public static void main(String[] args) {

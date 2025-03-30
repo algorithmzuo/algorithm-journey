@@ -1,6 +1,11 @@
 package class164;
 
 // 加边直到连通，C++版
+// 图里有n个点，m条无向边，所有点都连通
+// 一共有q条查询，每条查询格式如下
+// 查询 l r : 至少要加完编号前多少的边，才能使得[l, r]中的所有点连通
+// 1 <= n <= 10^5
+// 1 <= m、q <= 2 * 10^5
 // 测试链接 : https://www.luogu.com.cn/problem/CF1706E
 // 测试链接 : https://codeforces.com/problemset/problem/1706/E
 // 如下实现是C++的版本，C++版本和java版本逻辑完全一样
@@ -13,6 +18,10 @@ package class164;
 //struct Edge {
 //    int u, v, w;
 //};
+//
+//bool cmp(Edge x, Edge y) {
+//    return x.w < y.w;
+//}
 //
 //const int MAXN = 100001;
 //const int MAXK = 200001;
@@ -39,10 +48,6 @@ package class164;
 //int lg2[MAXN];
 //int stmax[MAXN][MAXH];
 //int stmin[MAXN][MAXH];
-//
-//bool cmp(Edge x, Edge y) {
-//    return x.w < y.w;
-//}
 //
 //void clear() {
 //    cntg = 0;

@@ -1,6 +1,13 @@
 package class164;
 
 // 归程，C++版
+// 图里有n个点，m条无向边，每条边给定长度l和海拔a，所有点都连通
+// 一共有q条查询，查询格式如下
+// 查询 x y : 海拔 > y的边，走过没有代价
+//            海拔 <= y的边，走过的代价为边的长度
+//            从点x出发到达1号点，打印最小的代价
+// 1 <= n <= 2 * 10^5    1 <= m、q <= 4 * 10^5
+// 本题要求强制在线，具体规定请打开测试链接查看
 // 测试链接 : https://www.luogu.com.cn/problem/P4768
 // 如下实现是C++的版本，C++版本和java版本逻辑完全一样
 // 提交如下代码，可以通过所有测试用例
@@ -33,7 +40,7 @@ package class164;
 //const int MAXH = 20;
 //int INF = 2000000001;
 //int t, n, m, q, k, s;
-//Edge arr[MAXM];
+//Edge edge[MAXM];
 //
 //int headg[MAXN];
 //int nextg[MAXM << 1];
@@ -54,7 +61,6 @@ package class164;
 //int nodeKey[MAXK];
 //int cntu;
 //
-//int dep[MAXK];
 //int stjump[MAXK][MAXH];
 //int mindist[MAXK];
 //
@@ -78,8 +84,8 @@ package class164;
 //
 //void dijkstra() {
 //    for(int i = 1; i <= m; i++) {
-//        addEdgeG(arr[i].u, arr[i].v, arr[i].l);
-//        addEdgeG(arr[i].v, arr[i].u, arr[i].l);
+//        addEdgeG(edge[i].u, edge[i].v, edge[i].l);
+//        addEdgeG(edge[i].v, edge[i].u, edge[i].l);
 //    }
 //    for(int i = 1; i <= n; i++) {
 //        dist[i] = INF;
@@ -125,17 +131,17 @@ package class164;
 //    for(int i = 1; i <= n; i++) {
 //        father[i] = i;
 //    }
-//    sort(arr + 1, arr + m + 1, EdgeCmp);
+//    sort(edge + 1, edge + m + 1, EdgeCmp);
 //    cntu = n;
 //    for(int i = 1, fx, fy; i <= m; i++) {
-//        fx = find(arr[i].u);
-//        fy = find(arr[i].v);
+//        fx = find(edge[i].u);
+//        fy = find(edge[i].v);
 //        if(fx != fy) {
 //            cntu++;
 //            father[fx] = cntu;
 //            father[fy] = cntu;
 //            father[cntu] = cntu;
-//            nodeKey[cntu] = arr[i].a;
+//            nodeKey[cntu] = edge[i].a;
 //            addEdgeK(cntu, fx);
 //            addEdgeK(cntu, fy);
 //        }
@@ -143,7 +149,6 @@ package class164;
 //}
 //
 //void dfs(int u, int fa) {
-//    dep[u] = dep[fa] + 1;
 //    stjump[u][0] = fa;
 //    for(int p = 1; p < MAXH; p++) {
 //        stjump[u][p] = stjump[ stjump[u][p - 1] ][p - 1];
@@ -178,17 +183,17 @@ package class164;
 //        cin >> n >> m;
 //        clear();
 //        for(int i = 1; i <= m; i++) {
-//            cin >> arr[i].u >> arr[i].v >> arr[i].l >> arr[i].a;
+//            cin >> edge[i].u >> edge[i].v >> edge[i].l >> edge[i].a;
 //        }
 //        dijkstra();
 //        kruskalRebuild();
 //        dfs(cntu, 0);
 //        cin >> q >> k >> s;
-//        for(int i = 1, node, line, lastAns = 0; i <= q; i++) {
-//            cin >> node >> line;
-//            node = (node + k * lastAns - 1) % n + 1;
-//            line = (line + k * lastAns) % (s + 1);
-//            lastAns = query(node, line);
+//        for(int i = 1, x, y, lastAns = 0; i <= q; i++) {
+//            cin >> x >> y;
+//            x = (x + k * lastAns - 1) % n + 1;
+//            y = (y + k * lastAns) % (s + 1);
+//            lastAns = query(x, y);
 //            cout << lastAns << "\n";
 //        }
 //    }

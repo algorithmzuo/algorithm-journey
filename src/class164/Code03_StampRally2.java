@@ -1,6 +1,12 @@
 package class164;
 
-// 走过z个点的最大边权最小值，C++版
+// 边的最大编号的最小值，C++版
+// 图里有n个点，m条无向边，边的编号1~m，没有边权，所有点都连通
+// 一共有q条查询，查询的格式如下
+// 查询 x y z : 从两个点x和y出发，希望经过的点数量等于z
+//              每个点可以重复经过，但是重复经过只计算一次
+//              经过边的最大编号，最小是多少
+// 3 <= n、m、q <= 10^5
 // 测试链接 : https://www.luogu.com.cn/problem/AT_agc002_d
 // 测试链接 : https://atcoder.jp/contests/agc002/tasks/agc002_d
 // 如下实现是C++的版本，C++版本和java版本逻辑完全一样
@@ -14,11 +20,15 @@ package class164;
 //    int u, v, w;
 //};
 //
+//bool cmp(Edge x, Edge y) {
+//    return x.w < y.w;
+//}
+//
 //const int MAXK = 200001;
 //const int MAXM = 100001;
 //const int MAXH = 20;
 //int n, m, q;
-//Edge arr[MAXM];
+//Edge edge[MAXM];
 //
 //int head[MAXK];
 //int nxt[MAXK];
@@ -29,13 +39,8 @@ package class164;
 //int nodeKey[MAXK];
 //int cntu;
 //
-//int dep[MAXK];
-//int siz[MAXK];
 //int stjump[MAXK][MAXH];
-//
-//bool cmp(Edge x, Edge y) {
-//    return x.w < y.w;
-//}
+//int leafsiz[MAXK];
 //
 //void addEdge(int u, int v) {
 //    nxt[++cntg] = head[u];
@@ -54,15 +59,15 @@ package class164;
 //    for (int i = 1; i <= n; i++) {
 //        father[i] = i;
 //    }
-//    sort(arr + 1, arr + m + 1, cmp);
+//    sort(edge + 1, edge + m + 1, cmp);
 //    cntu = n;
 //    for (int i = 1, fx, fy; i <= m; i++) {
-//        fx = find(arr[i].u);
-//        fy = find(arr[i].v);
+//        fx = find(edge[i].u);
+//        fy = find(edge[i].v);
 //        if (fx != fy) {
 //            father[fx] = father[fy] = ++cntu;
 //            father[cntu] = cntu;
-//            nodeKey[cntu] = arr[i].w;
+//            nodeKey[cntu] = edge[i].w;
 //            addEdge(cntu, fx);
 //            addEdge(cntu, fy);
 //        }
@@ -70,7 +75,6 @@ package class164;
 //}
 //
 //void dfs(int u, int fa) {
-//    dep[u] = dep[fa] + 1;
 //    stjump[u][0] = fa;
 //    for (int p = 1; p < MAXH; p++) {
 //        stjump[u][p] = stjump[stjump[u][p - 1]][p - 1];
@@ -79,12 +83,12 @@ package class164;
 //        dfs(to[e], u);
 //    }
 //    if (u <= n) {
-//        siz[u] = 1;
+//        leafsiz[u] = 1;
 //    } else {
-//        siz[u] = 0;
+//        leafsiz[u] = 0;
 //    }
 //    for (int e = head[u]; e > 0; e = nxt[e]) {
-//        siz[u] += siz[to[e]];
+//        leafsiz[u] += leafsiz[to[e]];
 //    }
 //}
 //
@@ -100,9 +104,9 @@ package class164;
 //        }
 //    }
 //    if (x == y) {
-//        return siz[x] >= z;
+//        return leafsiz[x] >= z;
 //    } else {
-//        return siz[x] + siz[y] >= z;
+//        return leafsiz[x] + leafsiz[y] >= z;
 //    }
 //}
 //
@@ -125,8 +129,8 @@ package class164;
 //    cin.tie(nullptr);
 //    cin >> n >> m;
 //    for (int i = 1; i <= m; i++) {
-//        cin >> arr[i].u >> arr[i].v;
-//        arr[i].w = i;
+//        cin >> edge[i].u >> edge[i].v;
+//        edge[i].w = i;
 //    }
 //    kruskalRebuild();
 //    dfs(cntu, 0);

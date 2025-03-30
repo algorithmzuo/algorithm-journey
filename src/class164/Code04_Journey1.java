@@ -1,6 +1,13 @@
 package class164;
 
 // 归程，java版
+// 图里有n个点，m条无向边，每条边给定长度l和海拔a，所有点都连通
+// 一共有q条查询，查询格式如下
+// 查询 x y : 海拔 > y的边，走过没有代价
+//            海拔 <= y的边，走过的代价为边的长度
+//            从点x出发到达1号点，打印最小的代价
+// 1 <= n <= 2 * 10^5    1 <= m、q <= 4 * 10^5
+// 本题要求强制在线，具体规定请打开测试链接查看
 // 测试链接 : https://www.luogu.com.cn/problem/P4768
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
@@ -18,29 +25,33 @@ public class Code04_Journey1 {
 	public static int MAXH = 20;
 	public static int INF = 2000000001;
 	public static int t, n, m, q, k, s;
-	public static int[][] arr = new int[MAXM][4];
+	public static int[][] edge = new int[MAXM][4];
 
+	// 建图
 	public static int[] headg = new int[MAXN];
 	public static int[] nextg = new int[MAXM << 1];
 	public static int[] tog = new int[MAXM << 1];
 	public static int[] weightg = new int[MAXM << 1];
 	public static int cntg;
 
+	// dijkstra算法
 	public static int[] dist = new int[MAXN];
 	public static boolean[] visit = new boolean[MAXN];
 	public static PriorityQueue<int[]> heap = new PriorityQueue<>((a, b) -> a[1] - b[1]);
 
+	// Kruskal重构树
 	public static int[] headk = new int[MAXK];
 	public static int[] nextk = new int[MAXK];
 	public static int[] tok = new int[MAXK];
 	public static int cntk;
 
+	// 并查集
 	public static int[] father = new int[MAXK];
 	public static int[] nodeKey = new int[MAXK];
 	public static int[] stack = new int[MAXK];
 	public static int cntu;
 
-	public static int[] dep = new int[MAXK];
+	// 树上dfs
 	public static int[][] stjump = new int[MAXK][MAXH];
 	public static int[] mindist = new int[MAXK];
 
@@ -59,8 +70,8 @@ public class Code04_Journey1 {
 
 	public static void dijkstra() {
 		for (int i = 1; i <= m; i++) {
-			addEdgeG(arr[i][0], arr[i][1], arr[i][2]);
-			addEdgeG(arr[i][1], arr[i][0], arr[i][2]);
+			addEdgeG(edge[i][0], edge[i][1], edge[i][2]);
+			addEdgeG(edge[i][1], edge[i][0], edge[i][2]);
 		}
 		Arrays.fill(dist, 1, n + 1, INF);
 		Arrays.fill(visit, 1, n + 1, false);
@@ -109,15 +120,15 @@ public class Code04_Journey1 {
 		for (int i = 1; i <= n; i++) {
 			father[i] = i;
 		}
-		Arrays.sort(arr, 1, m + 1, (a, b) -> b[3] - a[3]);
+		Arrays.sort(edge, 1, m + 1, (a, b) -> b[3] - a[3]);
 		cntu = n;
 		for (int i = 1, fx, fy; i <= m; i++) {
-			fx = find(arr[i][0]);
-			fy = find(arr[i][1]);
+			fx = find(edge[i][0]);
+			fy = find(edge[i][1]);
 			if (fx != fy) {
 				father[fx] = father[fy] = ++cntu;
 				father[cntu] = cntu;
-				nodeKey[cntu] = arr[i][3];
+				nodeKey[cntu] = edge[i][3];
 				addEdgeK(cntu, fx);
 				addEdgeK(cntu, fy);
 			}
@@ -126,7 +137,6 @@ public class Code04_Journey1 {
 
 	// dfs1是递归函数，需要改成迭代版不然会爆栈，C++实现不需要
 	public static void dfs1(int u, int fa) {
-		dep[u] = dep[fa] + 1;
 		stjump[u][0] = fa;
 		for (int p = 1; p < MAXH; p++) {
 			stjump[u][p] = stjump[stjump[u][p - 1]][p - 1];
@@ -169,7 +179,6 @@ public class Code04_Journey1 {
 		while (stacksize > 0) {
 			pop();
 			if (e == -1) {
-				dep[u] = dep[f] + 1;
 				stjump[u][0] = f;
 				for (int p = 1; p < MAXH; p++) {
 					stjump[u][p] = stjump[stjump[u][p - 1]][p - 1];
@@ -211,10 +220,10 @@ public class Code04_Journey1 {
 			m = io.nextInt();
 			clear();
 			for (int i = 1; i <= m; i++) {
-				arr[i][0] = io.nextInt();
-				arr[i][1] = io.nextInt();
-				arr[i][2] = io.nextInt();
-				arr[i][3] = io.nextInt();
+				edge[i][0] = io.nextInt();
+				edge[i][1] = io.nextInt();
+				edge[i][2] = io.nextInt();
+				edge[i][3] = io.nextInt();
 			}
 			dijkstra();
 			kruskalRebuild();
@@ -222,10 +231,10 @@ public class Code04_Journey1 {
 			q = io.nextInt();
 			k = io.nextInt();
 			s = io.nextInt();
-			for (int i = 1, node, line, lastAns = 0; i <= q; i++) {
-				node = (io.nextInt() + k * lastAns - 1) % n + 1;
-				line = (io.nextInt() + k * lastAns) % (s + 1);
-				lastAns = query(node, line);
+			for (int i = 1, x, y, lastAns = 0; i <= q; i++) {
+				x = (io.nextInt() + k * lastAns - 1) % n + 1;
+				y = (io.nextInt() + k * lastAns) % (s + 1);
+				lastAns = query(x, y);
 				io.writelnInt(lastAns);
 			}
 		}

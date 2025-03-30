@@ -1,6 +1,11 @@
 package class164;
 
 // 加边直到连通，java版
+// 图里有n个点，m条无向边，所有点都连通
+// 一共有q条查询，每条查询格式如下
+// 查询 l r : 至少要加完编号前多少的边，才能使得[l, r]中的所有点连通
+// 1 <= n <= 10^5
+// 1 <= m、q <= 2 * 10^5
 // 测试链接 : https://www.luogu.com.cn/problem/CF1706E
 // 测试链接 : https://codeforces.com/problemset/problem/1706/E
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
@@ -19,21 +24,25 @@ public class Code06_UntilConnect1 {
 	public static int t, n, m, q;
 	public static int[][] edge = new int[MAXM][3];
 
+	// Kruskal重构树
 	public static int[] head = new int[MAXK];
 	public static int[] next = new int[MAXK];
 	public static int[] to = new int[MAXK];
 	public static int cntg;
 
+	// 并查集
 	public static int[] father = new int[MAXK];
 	public static int[] nodeKey = new int[MAXK];
 	public static int cntu;
 
+	// 树上dfs
 	public static int[] dep = new int[MAXK];
 	public static int[] dfn = new int[MAXK];
 	public static int[] seg = new int[MAXK];
 	public static int[][] stjump = new int[MAXK][MAXH];
 	public static int cntd;
 
+	// 倍增表查询区间最大值、最小值
 	public static int[] lg2 = new int[MAXN];
 	public static int[][] stmax = new int[MAXN][MAXH];
 	public static int[][] stmin = new int[MAXN][MAXH];

@@ -1,6 +1,14 @@
 package class164;
 
 // 边权上限内第k大点权，C++版
+// 图里有n个点，m条无向边，点有点权，边有边权，图里可能有若干个连通的部分
+// 一共有q条查询，查询格式如下
+// 查询 u x k : 从点u开始，只能走过权值<=x的边
+//              所有能到达的点中，打印第k大点权，如果不存在打印-1
+// 1 <= n <= 10^5
+// 0 <= m、q <= 5 * 10^5
+// 1 <= 点权、边权 <= 10^9
+// 本题要求强制在线，具体规定请打开测试链接查看
 // 测试链接 : https://www.luogu.com.cn/problem/P7834
 // 如下实现是C++的版本，C++版本和java版本逻辑完全一样
 // 提交如下代码，可以通过所有测试用例
@@ -12,6 +20,10 @@ package class164;
 //struct Edge {
 //    int u, v, w;
 //};
+//
+//bool cmp(Edge x, Edge y) {
+//    return x.w < y.w;
+//}
 //
 //const int MAXN = 100001;
 //const int MAXK = 200001;
@@ -45,10 +57,6 @@ package class164;
 //int rs[MAXT];
 //int segsiz[MAXT];
 //int cntt;
-//
-//bool cmp(Edge x, Edge y) {
-//    return x.w < y.w;
-//}
 //
 //int kth(int num) {
 //    int left = 1, right = diff;

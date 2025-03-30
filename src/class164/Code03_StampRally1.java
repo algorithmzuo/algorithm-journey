@@ -1,6 +1,12 @@
 package class164;
 
-// 走过z个点的最大边权最小值，java版
+// 边的最大编号的最小值，java版
+// 图里有n个点，m条无向边，边的编号1~m，没有边权，所有点都连通
+// 一共有q条查询，查询的格式如下
+// 查询 x y z : 从两个点x和y出发，希望经过的点数量等于z
+//              每个点可以重复经过，但是重复经过只计算一次
+//              经过边的最大编号，最小是多少
+// 3 <= n、m、q <= 10^5
 // 测试链接 : https://www.luogu.com.cn/problem/AT_agc002_d
 // 测试链接 : https://atcoder.jp/contests/agc002/tasks/agc002_d
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
@@ -16,20 +22,22 @@ public class Code03_StampRally1 {
 	public static int MAXM = 100001;
 	public static int MAXH = 20;
 	public static int n, m, q;
-	public static int[][] arr = new int[MAXM][3];
+	public static int[][] edge = new int[MAXM][3];
 
+	// Kruskal重构树
 	public static int[] head = new int[MAXK];
 	public static int[] next = new int[MAXK];
 	public static int[] to = new int[MAXK];
 	public static int cntg = 0;
 
+	// 并查集
 	public static int[] father = new int[MAXK];
 	public static int[] nodeKey = new int[MAXK];
 	public static int cntu;
 
-	public static int[] dep = new int[MAXK];
-	public static int[] siz = new int[MAXK];
+	// 树上dfs
 	public static int[][] stjump = new int[MAXK][MAXH];
+	public static int[] leafsiz = new int[MAXK];
 
 	public static void addEdge(int u, int v) {
 		next[++cntg] = head[u];
@@ -48,15 +56,15 @@ public class Code03_StampRally1 {
 		for (int i = 1; i <= n; i++) {
 			father[i] = i;
 		}
-		Arrays.sort(arr, 1, m + 1, (a, b) -> a[2] - b[2]);
+		Arrays.sort(edge, 1, m + 1, (a, b) -> a[2] - b[2]);
 		cntu = n;
 		for (int i = 1, fx, fy; i <= m; i++) {
-			fx = find(arr[i][0]);
-			fy = find(arr[i][1]);
+			fx = find(edge[i][0]);
+			fy = find(edge[i][1]);
 			if (fx != fy) {
 				father[fx] = father[fy] = ++cntu;
 				father[cntu] = cntu;
-				nodeKey[cntu] = arr[i][2];
+				nodeKey[cntu] = edge[i][2];
 				addEdge(cntu, fx);
 				addEdge(cntu, fy);
 			}
@@ -64,7 +72,6 @@ public class Code03_StampRally1 {
 	}
 
 	public static void dfs(int u, int fa) {
-		dep[u] = dep[fa] + 1;
 		stjump[u][0] = fa;
 		for (int p = 1; p < MAXH; p++) {
 			stjump[u][p] = stjump[stjump[u][p - 1]][p - 1];
@@ -73,12 +80,12 @@ public class Code03_StampRally1 {
 			dfs(to[e], u);
 		}
 		if (u <= n) {
-			siz[u] = 1;
+			leafsiz[u] = 1;
 		} else {
-			siz[u] = 0;
+			leafsiz[u] = 0;
 		}
 		for (int e = head[u]; e > 0; e = next[e]) {
-			siz[u] += siz[to[e]];
+			leafsiz[u] += leafsiz[to[e]];
 		}
 	}
 
@@ -94,9 +101,9 @@ public class Code03_StampRally1 {
 			}
 		}
 		if (x == y) {
-			return siz[x] >= z;
+			return leafsiz[x] >= z;
 		} else {
-			return siz[x] + siz[y] >= z;
+			return leafsiz[x] + leafsiz[y] >= z;
 		}
 	}
 
@@ -119,9 +126,9 @@ public class Code03_StampRally1 {
 		n = io.nextInt();
 		m = io.nextInt();
 		for (int i = 1; i <= m; i++) {
-			arr[i][0] = io.nextInt();
-			arr[i][1] = io.nextInt();
-			arr[i][2] = i;
+			edge[i][0] = io.nextInt();
+			edge[i][1] = io.nextInt();
+			edge[i][2] = i;
 		}
 		kruskalRebuild();
 		dfs(cntu, 0);

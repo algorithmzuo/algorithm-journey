@@ -1,6 +1,14 @@
 package class164;
 
 // 边权上限内第k大点权，java版
+// 图里有n个点，m条无向边，点有点权，边有边权，图里可能有若干个连通的部分
+// 一共有q条查询，查询格式如下
+// 查询 u x k : 从点u开始，只能走过权值<=x的边
+//              所有能到达的点中，打印第k大点权，如果不存在打印-1
+// 1 <= n <= 10^5
+// 0 <= m、q <= 5 * 10^5
+// 1 <= 点权、边权 <= 10^9
+// 本题要求强制在线，具体规定请打开测试链接查看
 // 测试链接 : https://www.luogu.com.cn/problem/P7834
 // 提交以下的code，提交时请把类名改成"Main"
 // java实现的逻辑一定是正确的，但是通过不了
@@ -28,21 +36,25 @@ public class Code05_Peaks1 {
 
 	public static int[][] edge = new int[MAXM][3];
 
+	// Kruskal重构树
 	public static int[] head = new int[MAXK];
 	public static int[] next = new int[MAXK];
 	public static int[] to = new int[MAXK];
 	public static int cntg = 0;
 
+	// 并查集
 	public static int[] father = new int[MAXK];
 	public static int[] nodeKey = new int[MAXK];
 	public static int cntu;
 
+	// 树上dfs
 	public static int[] dfn = new int[MAXK];
 	public static int[] seg = new int[MAXK];
 	public static int[][] stjump = new int[MAXK][MAXH];
 	public static int[] siz = new int[MAXK];
 	public static int cntd = 0;
 
+	// 可持久化线段树
 	public static int[] root = new int[MAXK];
 	public static int[] ls = new int[MAXT];
 	public static int[] rs = new int[MAXT];

@@ -1,6 +1,12 @@
 package class164;
 
 // youyou的军训，C++版
+// 图里有n个点，m条无向边，每条边给定不同的边权，图里可能有若干个连通的部分
+// 一共有q条操作，每条操作都是如下的三种类型中的一种
+// 操作 1 x   : 限制变量limit，把limit的值改成x
+// 操作 2 x   : 点x不能走过任何边权小于limit的边，打印此时x所在的连通区域大小
+// 操作 3 x y : 第x条边的边权修改为y，题目保证修改之后，第x条边的边权排名不变
+// 1 <= n、m、q <= 4 * 10^5
 // 测试链接 : https://www.luogu.com.cn/problem/P9638
 // 如下实现是C++的版本，C++版本和java版本逻辑完全一样
 // 提交如下代码，可以通过所有测试用例
@@ -13,11 +19,16 @@ package class164;
 //    int u, v, w, i;
 //};
 //
+//bool cmp(Edge x, Edge y) {
+//    return x.w > y.w;
+//}
+//
 //const int MAXK = 800001;
 //const int MAXM = 400001;
 //const int MAXH = 20;
 //int n, m, q;
 //Edge edge[MAXM];
+//
 //int edgeToTree[MAXM];
 //
 //int head[MAXK];
@@ -27,15 +38,10 @@ package class164;
 //
 //int father[MAXK];
 //int nodeKey[MAXK];
-//int stackArr[MAXK];
 //int cntu;
 //
-//int siz[MAXK];
+//int leafsiz[MAXK];
 //int stjump[MAXK][MAXH];
-//
-//bool cmp(Edge x, Edge y) {
-//    return x.w > y.w;
-//}
 //
 //int find(int i) {
 //    if (i != father[i]) {
@@ -79,12 +85,12 @@ package class164;
 //        dfs(to[e], u);
 //    }
 //    if (u <= n) {
-//        siz[u] = 1;
+//        leafsiz[u] = 1;
 //    } else {
-//        siz[u] = 0;
+//        leafsiz[u] = 0;
 //    }
 //    for (int e = head[u]; e > 0; e = nxt[e]) {
-//        siz[u] += siz[to[e]];
+//        leafsiz[u] += leafsiz[to[e]];
 //    }
 //}
 //
@@ -94,7 +100,7 @@ package class164;
 //            u = stjump[u][p];
 //        }
 //    }
-//    return siz[u];
+//    return leafsiz[u];
 //}
 //
 //int main() {
