@@ -15,7 +15,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Arrays;
 
-public class Code06_UntilConnect1 {
+public class Code05_UntilConnect1 {
 
 	public static int MAXN = 100001;
 	public static int MAXK = 200001;
