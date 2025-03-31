@@ -53,17 +53,17 @@ package class164;
 //bool visit[MAXN];
 //priority_queue<HeapNode, vector<HeapNode>, HeapNodeCmp> heap;
 //
+//int father[MAXK];
+//
 //int headk[MAXK];
 //int nextk[MAXK];
 //int tok[MAXK];
 //int cntk;
-//
-//int father[MAXK];
 //int nodeKey[MAXK];
 //int cntu;
 //
-//int stjump[MAXK][MAXH];
 //int mindist[MAXK];
+//int stjump[MAXK][MAXH];
 //
 //void clear() {
 //    cntg = 0;

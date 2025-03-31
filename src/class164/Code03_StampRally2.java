@@ -30,17 +30,17 @@ package class164;
 //int n, m, q;
 //Edge edge[MAXM];
 //
+//int father[MAXK];
+//
 //int head[MAXK];
 //int nxt[MAXK];
 //int to[MAXK];
 //int cntg = 0;
-//
-//int father[MAXK];
 //int nodeKey[MAXK];
 //int cntu;
 //
-//int stjump[MAXK][MAXH];
 //int leafsiz[MAXK];
+//int stjump[MAXK][MAXH];
 //
 //void addEdge(int u, int v) {
 //    nxt[++cntg] = head[u];

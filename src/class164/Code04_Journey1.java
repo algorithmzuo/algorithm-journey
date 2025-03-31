@@ -40,21 +40,22 @@ public class Code04_Journey1 {
 	public static boolean[] visit = new boolean[MAXN];
 	public static PriorityQueue<int[]> heap = new PriorityQueue<>((a, b) -> a[1] - b[1]);
 
+	// 并查集
+	public static int[] father = new int[MAXK];
+	public static int[] stack = new int[MAXK];
+
 	// Kruskal重构树
 	public static int[] headk = new int[MAXK];
 	public static int[] nextk = new int[MAXK];
 	public static int[] tok = new int[MAXK];
 	public static int cntk;
-
-	// 并查集
-	public static int[] father = new int[MAXK];
 	public static int[] nodeKey = new int[MAXK];
-	public static int[] stack = new int[MAXK];
 	public static int cntu;
 
-	// 树上dfs
-	public static int[][] stjump = new int[MAXK][MAXH];
+	// 树上dfs，Kruskal重构树的节点，子树中的所有点，走到1号节点的最小距离
 	public static int[] mindist = new int[MAXK];
+	// 树上dfs，Kruskal重构树的节点，倍增表
+	public static int[][] stjump = new int[MAXK][MAXH];
 
 	public static void clear() {
 		cntg = cntk = 0;

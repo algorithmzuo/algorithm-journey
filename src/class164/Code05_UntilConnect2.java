@@ -28,14 +28,14 @@ package class164;
 //const int MAXM = 200001;
 //const int MAXH = 20;
 //int t, n, m, q;
-//
 //Edge edge[MAXM];
+//
+//int father[MAXK];
+//
 //int head[MAXK];
 //int nxt[MAXK];
 //int to[MAXK];
 //int cntg;
-//
-//int father[MAXK];
 //int nodeKey[MAXK];
 //int cntu;
 //

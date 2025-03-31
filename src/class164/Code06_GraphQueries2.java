@@ -37,12 +37,12 @@ package class164;
 //int ques[MAXQ][2];
 //int timeline[MAXQ];
 //
+//int father[MAXK];
+//
 //int head[MAXK];
 //int nxt[MAXK];
 //int to[MAXK];
 //int cntg;
-//
-//int father[MAXK];
 //int nodeKey[MAXK];
 //int cntu;
 //

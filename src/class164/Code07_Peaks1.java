@@ -33,17 +33,16 @@ public class Code07_Peaks1 {
 	public static int[] node = new int[MAXN];
 	public static int[] sorted = new int[MAXN];
 	public static int diff;
-
 	public static int[][] edge = new int[MAXM][3];
+
+	// 并查集
+	public static int[] father = new int[MAXK];
 
 	// Kruskal重构树
 	public static int[] head = new int[MAXK];
 	public static int[] next = new int[MAXK];
 	public static int[] to = new int[MAXK];
 	public static int cntg = 0;
-
-	// 并查集
-	public static int[] father = new int[MAXK];
 	public static int[] nodeKey = new int[MAXK];
 	public static int cntu;
 

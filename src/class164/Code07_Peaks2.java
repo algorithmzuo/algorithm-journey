@@ -34,15 +34,14 @@ package class164;
 //int node[MAXN];
 //int sorted[MAXN];
 //int diff;
-//
 //Edge edge[MAXM];
+//
+//int father[MAXK];
 //
 //int head[MAXK];
 //int nxt[MAXK];
 //int to[MAXK];
 //int cntg;
-//
-//int father[MAXK];
 //int nodeKey[MAXK];
 //int cntu;
 //

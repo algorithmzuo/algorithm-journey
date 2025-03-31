@@ -24,20 +24,20 @@ public class Code03_StampRally1 {
 	public static int n, m, q;
 	public static int[][] edge = new int[MAXM][3];
 
+	// 并查集
+	public static int[] father = new int[MAXK];
+
 	// Kruskal重构树
 	public static int[] head = new int[MAXK];
 	public static int[] next = new int[MAXK];
 	public static int[] to = new int[MAXK];
 	public static int cntg = 0;
-
-	// 并查集
-	public static int[] father = new int[MAXK];
 	public static int[] nodeKey = new int[MAXK];
 	public static int cntu;
 
 	// 树上dfs
-	public static int[][] stjump = new int[MAXK][MAXH];
 	public static int[] leafsiz = new int[MAXK];
+	public static int[][] stjump = new int[MAXK][MAXH];
 
 	public static void addEdge(int u, int v) {
 		next[++cntg] = head[u];
