@@ -7,6 +7,7 @@ package class164;
 //              每个点可以重复经过，但是重复经过只计算一次
 //              经过边的最大编号，最小是多少
 // 3 <= n、m、q <= 10^5
+// 3 <= z <= n
 // 测试链接 : https://www.luogu.com.cn/problem/AT_agc002_d
 // 测试链接 : https://atcoder.jp/contests/agc002/tasks/agc002_d
 // 如下实现是C++的版本，C++版本和java版本逻辑完全一样
@@ -29,7 +30,6 @@ package class164;
 //const int MAXH = 20;
 //int n, m, q;
 //Edge edge[MAXM];
-//
 //int father[MAXK];
 //
 //int head[MAXK];

@@ -7,6 +7,7 @@ package class164;
 //              每个点可以重复经过，但是重复经过只计算一次
 //              经过边的最大编号，最小是多少
 // 3 <= n、m、q <= 10^5
+// 3 <= z <= n
 // 测试链接 : https://www.luogu.com.cn/problem/AT_agc002_d
 // 测试链接 : https://atcoder.jp/contests/agc002/tasks/agc002_d
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
@@ -23,7 +24,6 @@ public class Code03_StampRally1 {
 	public static int MAXH = 20;
 	public static int n, m, q;
 	public static int[][] edge = new int[MAXM][3];
-
 	// 并查集
 	public static int[] father = new int[MAXK];
 
