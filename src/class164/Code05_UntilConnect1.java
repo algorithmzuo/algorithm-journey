@@ -35,11 +35,15 @@ public class Code05_UntilConnect1 {
 	public static int[] nodeKey = new int[MAXK];
 	public static int cntu;
 
-	// 树上dfs
+	// 树上dfs，Kruskal重构树的节点，深度
 	public static int[] dep = new int[MAXK];
+	// 树上dfs，Kruskal重构树的节点，dfn序
 	public static int[] dfn = new int[MAXK];
+	// 树上dfs，seg[i] = j，代表dfn序号为i的节点，对应的原始节点编号为j
 	public static int[] seg = new int[MAXK];
+	// 树上dfs，Kruskal重构树的节点，倍增表
 	public static int[][] stjump = new int[MAXK][MAXH];
+	// 树上dfs，dfn序号的计数
 	public static int cntd;
 
 	// 倍增表查询区间最大值、最小值
@@ -97,6 +101,7 @@ public class Code05_UntilConnect1 {
 		}
 	}
 
+	// 构建数组上的st表，讲解117进行了详细的讲述
 	public static void buildst() {
 		lg2[0] = -1;
 		for (int i = 1; i <= n; i++) {
@@ -112,12 +117,14 @@ public class Code05_UntilConnect1 {
 		}
 	}
 
+	// 根据st表，[l..r]范围上的最小值，讲解117进行了详细的讲述
 	public static int dfnmin(int l, int r) {
 		int p = lg2[r - l + 1];
 		int ans = Math.min(stmin[l][p], stmin[r - (1 << p) + 1][p]);
 		return ans;
 	}
 
+	// 根据st表，[l..r]范围上的最大值，讲解117进行了详细的讲述
 	public static int dfnmax(int l, int r) {
 		int p = lg2[r - l + 1];
 		int ans = Math.max(stmax[l][p], stmax[r - (1 << p) + 1][p]);
