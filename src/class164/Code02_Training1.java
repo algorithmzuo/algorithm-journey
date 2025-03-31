@@ -21,25 +21,27 @@ public class Code02_Training1 {
 	public static int MAXM = 400001;
 	public static int MAXH = 20;
 	public static int n, m, q;
-	public static int[][] edge = new int[MAXM][4];
 
+	// 每条边的信息，节点u、节点v、边权w、边的编号i
+	public static int[][] edge = new int[MAXM][4];
 	// 边的编号对应重构树上的点的编号
 	public static int[] edgeToTree = new int[MAXM];
+
+	// 并查集
+	public static int[] father = new int[MAXK];
+	public static int[] stack = new int[MAXK];
 
 	// Kruskal重构树
 	public static int[] head = new int[MAXK];
 	public static int[] next = new int[MAXK];
 	public static int[] to = new int[MAXK];
 	public static int cntg = 0;
-
-	// 并查集
-	public static int[] father = new int[MAXK];
 	public static int[] nodeKey = new int[MAXK];
-	public static int[] stack = new int[MAXK];
 	public static int cntu;
 
-	// 树上dfs
+	// 树上dfs，Kruskal重构树的节点，子树上面有几个叶节点
 	public static int[] leafsiz = new int[MAXK];
+	// 树上dfs，Kruskal重构树的节点，倍增表
 	public static int[][] stjump = new int[MAXK][MAXH];
 
 	// 并查集的find方法，需要改成迭代版不然会爆栈，C++实现不需要
