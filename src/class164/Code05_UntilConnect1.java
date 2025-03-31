@@ -35,18 +35,18 @@ public class Code05_UntilConnect1 {
 	public static int[] nodeKey = new int[MAXK];
 	public static int cntu;
 
-	// 树上dfs，Kruskal重构树的节点，深度
+	// 深度
 	public static int[] dep = new int[MAXK];
-	// 树上dfs，Kruskal重构树的节点，dfn序
+	// dfn序
 	public static int[] dfn = new int[MAXK];
-	// 树上dfs，seg[i] = j，代表dfn序号为i的节点，对应的原始节点编号为j
+	// seg[i] = j，代表树上节点的dfn序号为i，对应原始节点的编号为j
 	public static int[] seg = new int[MAXK];
-	// 树上dfs，Kruskal重构树的节点，倍增表
+	// 树上的倍增表
 	public static int[][] stjump = new int[MAXK][MAXH];
-	// 树上dfs，dfn序号的计数
+	// dfn序号的计数
 	public static int cntd;
 
-	// 倍增表查询区间最大值、最小值
+	// 一维数组的倍增表，查询区间最大值、最小值
 	public static int[] lg2 = new int[MAXN];
 	public static int[][] stmax = new int[MAXN][MAXH];
 	public static int[][] stmin = new int[MAXN][MAXH];
