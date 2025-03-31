@@ -21,20 +21,23 @@ public class Code01_KruskalRebuild1 {
 	public static int MAXM = 300001;
 	public static int MAXH = 20;
 	public static int n, m, q;
+
+	// 每条边有三个信息，节点u、节点v、边权w
 	public static int[][] edge = new int[MAXM][3];
 
-	// Kruskal重构树
+	// 并查集
+	public static int[] father = new int[MAXK];
+	// Kruskal重构树的建图
 	public static int[] head = new int[MAXK];
 	public static int[] next = new int[MAXK];
 	public static int[] to = new int[MAXK];
 	public static int cntg = 0;
-
-	// 并查集
-	public static int[] father = new int[MAXK];
+	// Kruskal重构树上，节点的权值
 	public static int[] nodeKey = new int[MAXK];
+	// Kruskal重构树上，点的数量
 	public static int cntu;
 
-	// 树上dfs
+	// Kruskal重构树上，dfs过程建立的信息
 	public static int[] dep = new int[MAXK];
 	public static int[][] stjump = new int[MAXK][MAXH];
 
