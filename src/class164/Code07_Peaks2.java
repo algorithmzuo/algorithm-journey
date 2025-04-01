@@ -75,10 +75,9 @@ package class164;
 //    for (int i = 1; i <= n; i++) {
 //        sorted[i] = node[i];
 //    }
-//    sorted[n + 1] = 0;
-//    sort(sorted + 1, sorted + n + 2);
+//    sort(sorted + 1, sorted + n + 1);
 //    s = 1;
-//    for (int i = 2; i <= n + 1; i++) {
+//    for (int i = 2; i <= n; i++) {
 //        if (sorted[s] != sorted[i]) {
 //            sorted[++s] = sorted[i];
 //        }
@@ -187,6 +186,9 @@ package class164;
 //        if (stjump[u][p] > 0 && nodeKey[stjump[u][p]] <= x) {
 //            u = stjump[u][p];
 //        }
+//    }
+//    if(leafsiz[u] < k) {
+//        return 0;
 //    }
 //    int idx = query(k, 1, s, root[leafDfnMin[u] - 1], root[leafDfnMin[u] + leafsiz[u] - 1]);
 //    return sorted[idx];
