@@ -26,7 +26,7 @@ public class Code06_GraphQueries1 {
 	public static int INF = 1000000001;
 	public static int n, m, q;
 
-	// 所有节点的值
+	// 所有节点的值，需要记录，线段树也要使用
 	public static int[] node = new int[MAXN];
 	// 所有边，根据删除操作，设置每条边的权值
 	public static int[][] edge = new int[MAXM][3];
