@@ -26,11 +26,12 @@ public class Code06_GraphQueries1 {
 	public static int INF = 1000000001;
 	public static int n, m, q;
 
-	// 根据删除操作，给每条边设置边权，给查询操作设置时间线
+	// 所有节点的值
 	public static int[] node = new int[MAXN];
+	// 所有边，根据删除操作，设置每条边的权值
 	public static int[][] edge = new int[MAXM][3];
+	// 所有操作
 	public static int[][] ques = new int[MAXQ][2];
-	public static int[] timeline = new int[MAXQ];
 
 	// 并查集
 	public static int[] father = new int[MAXK];
@@ -50,12 +51,8 @@ public class Code06_GraphQueries1 {
 	public static int[] leafseg = new int[MAXK];
 	public static int cntd = 0;
 
-	// 线段树维护dfn区间的最大值、最大值来自哪个dfn编号
-	public static int[] maxval = new int[MAXN << 2];
+	// 线段树维护最大值来自哪个dfn编号
 	public static int[] maxdfn = new int[MAXN << 2];
-
-	public static int ansMax;
-	public static int updateDfn;
 
 	public static void prepare() {
 		for (int i = 1; i <= q; i++) {
@@ -70,9 +67,7 @@ public class Code06_GraphQueries1 {
 			}
 		}
 		for (int i = q; i >= 1; i--) {
-			if (ques[i][0] == 1) {
-				timeline[i] = time;
-			} else {
+			if (ques[i][0] == 2) {
 				edge[ques[i][1]][2] = ++time;
 			}
 		}
@@ -144,18 +139,15 @@ public class Code06_GraphQueries1 {
 	public static void up(int i) {
 		int l = i << 1;
 		int r = i << 1 | 1;
-		if (maxval[l] > maxval[r]) {
-			maxval[i] = maxval[l];
+		if (node[leafseg[maxdfn[l]]] > node[leafseg[maxdfn[r]]]) {
 			maxdfn[i] = maxdfn[l];
 		} else {
-			maxval[i] = maxval[r];
 			maxdfn[i] = maxdfn[r];
 		}
 	}
 
 	public static void build(int l, int r, int i) {
 		if (l == r) {
-			maxval[i] = node[leafseg[l]];
 			maxdfn[i] = l;
 		} else {
 			int mid = (l + r) / 2;
@@ -167,7 +159,7 @@ public class Code06_GraphQueries1 {
 
 	public static void update(int jobi, int jobv, int l, int r, int i) {
 		if (l == r) {
-			maxval[i] = jobv;
+			node[leafseg[jobi]] = jobv;
 		} else {
 			int mid = (l + r) / 2;
 			if (jobi <= mid) {
@@ -179,23 +171,22 @@ public class Code06_GraphQueries1 {
 		}
 	}
 
-	public static void updateAns(int curmax, int curdfn) {
-		if (ansMax < curmax) {
-			ansMax = curmax;
-			updateDfn = curdfn;
-		}
-	}
-
-	public static void queryMax(int jobl, int jobr, int l, int r, int i) {
+	public static int queryMaxDfn(int jobl, int jobr, int l, int r, int i) {
 		if (jobl <= l && r <= jobr) {
-			updateAns(maxval[i], maxdfn[i]);
+			return maxdfn[i];
 		} else {
 			int mid = (l + r) / 2;
+			int ldfn = 0, rdfn = 0;
 			if (jobl <= mid) {
-				queryMax(jobl, jobr, l, mid, i << 1);
+				ldfn = queryMaxDfn(jobl, jobr, l, mid, i << 1);
 			}
 			if (jobr > mid) {
-				queryMax(jobl, jobr, mid + 1, r, i << 1 | 1);
+				rdfn = queryMaxDfn(jobl, jobr, mid + 1, r, i << 1 | 1);
+			}
+			if (node[leafseg[ldfn]] > node[leafseg[rdfn]]) {
+				return ldfn;
+			} else {
+				return rdfn;
 			}
 		}
 	}
@@ -225,13 +216,15 @@ public class Code06_GraphQueries1 {
 			}
 		}
 		build(1, n, 1);
-		for (int i = 1, anc; i <= q; i++) {
+		int limit = m, anc, ansDfn;
+		for (int i = 1; i <= q; i++) {
 			if (ques[i][0] == 1) {
-				anc = getAncestor(ques[i][1], timeline[i]);
-				ansMax = -INF;
-				queryMax(leafstart[anc], leafstart[anc] + leafsiz[anc] - 1, 1, n, 1);
-				io.writelnInt(ansMax);
-				update(updateDfn, 0, 1, n, 1);
+				anc = getAncestor(ques[i][1], limit);
+				ansDfn = queryMaxDfn(leafstart[anc], leafstart[anc] + leafsiz[anc] - 1, 1, n, 1);
+				io.writelnInt(node[leafseg[ansDfn]]);
+				update(ansDfn, 0, 1, n, 1);
+			} else {
+				limit--;
 			}
 		}
 		io.flush();

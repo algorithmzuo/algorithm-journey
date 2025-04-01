@@ -35,7 +35,6 @@ package class164;
 //int node[MAXN];
 //Edge edge[MAXM];
 //int ques[MAXQ][2];
-//int timeline[MAXQ];
 //
 //int father[MAXK];
 //
@@ -52,11 +51,7 @@ package class164;
 //int leafseg[MAXK];
 //int cntd;
 //
-//int maxval[MAXN << 2];
 //int maxdfn[MAXN << 2];
-//
-//int ansMax;
-//int updateDfn;
 //
 //void prepare() {
 //    for (int i = 1; i <= q; i++) {
@@ -71,9 +66,7 @@ package class164;
 //        }
 //    }
 //    for (int i = q; i >= 1; i--) {
-//        if (ques[i][0] == 1) {
-//            timeline[i] = time;
-//        } else {
+//        if (ques[i][0] == 2) {
 //            edge[ques[i][1]].w = ++time;
 //        }
 //    }
@@ -145,18 +138,15 @@ package class164;
 //void up(int i) {
 //    int l = i << 1;
 //    int r = i << 1 | 1;
-//    if (maxval[l] > maxval[r]) {
-//        maxval[i] = maxval[l];
+//    if (node[leafseg[maxdfn[l]]] > node[leafseg[maxdfn[r]]]) {
 //        maxdfn[i] = maxdfn[l];
 //    } else {
-//        maxval[i] = maxval[r];
 //        maxdfn[i] = maxdfn[r];
 //    }
 //}
 //
 //void build(int l, int r, int i) {
 //    if (l == r) {
-//        maxval[i] = node[leafseg[l]];
 //        maxdfn[i] = l;
 //    } else {
 //        int mid = (l + r) / 2;
@@ -168,7 +158,7 @@ package class164;
 //
 //void update(int jobi, int jobv, int l, int r, int i) {
 //    if (l == r) {
-//        maxval[i] = jobv;
+//        node[leafseg[jobi]] = jobv;
 //    } else {
 //        int mid = (l + r) / 2;
 //        if (jobi <= mid) {
@@ -180,23 +170,22 @@ package class164;
 //    }
 //}
 //
-//void updateAns(int curmax, int curdfn) {
-//    if (ansMax < curmax) {
-//        ansMax = curmax;
-//        updateDfn = curdfn;
-//    }
-//}
-//
-//void queryMax(int jobl, int jobr, int l, int r, int i) {
+//int queryMaxDfn(int jobl, int jobr, int l, int r, int i) {
 //    if (jobl <= l && r <= jobr) {
-//        updateAns(maxval[i], maxdfn[i]);
+//        return maxdfn[i];
 //    } else {
 //        int mid = (l + r) / 2;
+//        int ldfn = 0, rdfn = 0;
 //        if (jobl <= mid) {
-//        	queryMax(jobl, jobr, l, mid, i << 1);
+//        	ldfn = queryMaxDfn(jobl, jobr, l, mid, i << 1);
 //        }
 //        if (jobr > mid) {
-//        	queryMax(jobl, jobr, mid + 1, r, i << 1 | 1);
+//        	rdfn = queryMaxDfn(jobl, jobr, mid + 1, r, i << 1 | 1);
+//        }
+//        if (node[leafseg[ldfn]] > node[leafseg[rdfn]]) {
+//            return ldfn;
+//        } else {
+//            return rdfn;
 //        }
 //    }
 //}
@@ -223,13 +212,15 @@ package class164;
 //        }
 //    }
 //    build(1, n, 1);
-//    for (int i = 1, anc; i <= q; i++) {
+//    int limit = m, anc, ansDfn;
+//    for (int i = 1; i <= q; i++) {
 //        if (ques[i][0] == 1) {
-//            anc = getAncestor(ques[i][1], timeline[i]);
-//            ansMax = -INF;
-//            queryMax(leafstart[anc], leafstart[anc] + leafsiz[anc] - 1, 1, n, 1);
-//            cout << ansMax << "\n";
-//            update(updateDfn, 0, 1, n, 1);
+//            anc = getAncestor(ques[i][1], limit);
+//            ansDfn = queryMaxDfn(leafstart[anc], leafstart[anc] + leafsiz[anc] - 1, 1, n, 1);
+//            cout << node[leafseg[ansDfn]] << "\n";
+//            update(ansDfn, 0, 1, n, 1);
+//        } else {
+//            limit--;
 //        }
 //    }
 //    return 0;
