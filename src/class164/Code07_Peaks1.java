@@ -46,21 +46,21 @@ public class Code07_Peaks1 {
 	public static int[] nodeKey = new int[MAXK];
 	public static int cntu;
 
-	// 节点dfn序号
-	public static int[] dfn = new int[MAXK];
-	// seg[i] = j，代表dfn序号为i的节点，是原始编号为j的节点
-	public static int[] seg = new int[MAXK];
 	// 倍增表
 	public static int[][] stjump = new int[MAXK][MAXH];
-	// 子树大小
-	public static int[] siz = new int[MAXK];
+	// 子树上的叶节点个数
+	public static int[] leafsiz = new int[MAXK];
+	// 子树上叶节点的dfn序号最小值
+	public static int[] leafDfnMin = new int[MAXK];
+	// leafseg[i] = j，表示dfn序号为i的叶节点，原始编号为j
+	public static int[] leafseg = new int[MAXK];
 	// dfn计数
 	public static int cntd = 0;
 
 	// 可持久化线段树
 	// 线段树的下标为某个数字，所以是值域线段树
 	// 数值范围[l..r]上，一共有几个数字，就是numcnt的含义
-	public static int[] root = new int[MAXK];
+	public static int[] root = new int[MAXN];
 	public static int[] ls = new int[MAXT];
 	public static int[] rs = new int[MAXT];
 	public static int[] numcnt = new int[MAXT];
@@ -131,9 +131,6 @@ public class Code07_Peaks1 {
 	}
 
 	public static void dfs(int u, int fa) {
-		siz[u] = 1;
-		dfn[u] = ++cntd;
-		seg[cntd] = u;
 		stjump[u][0] = fa;
 		for (int p = 1; p < MAXH; p++) {
 			stjump[u][p] = stjump[stjump[u][p - 1]][p - 1];
@@ -141,8 +138,17 @@ public class Code07_Peaks1 {
 		for (int e = head[u]; e > 0; e = next[e]) {
 			dfs(to[e], u);
 		}
+		if (u <= n) {
+			leafsiz[u] = 1;
+			leafDfnMin[u] = ++cntd;
+			leafseg[cntd] = u;
+		} else {
+			leafsiz[u] = 0;
+			leafDfnMin[u] = n + 1;
+		}
 		for (int e = head[u]; e > 0; e = next[e]) {
-			siz[u] += siz[to[e]];
+			leafsiz[u] += leafsiz[to[e]];
+			leafDfnMin[u] = Math.min(leafDfnMin[u], leafDfnMin[to[e]]);
 		}
 	}
 
@@ -192,7 +198,7 @@ public class Code07_Peaks1 {
 				u = stjump[u][p];
 			}
 		}
-		int idx = query(k, 1, diff, root[dfn[u] - 1], root[dfn[u] + siz[u] - 1]);
+		int idx = query(k, 1, diff, root[leafDfnMin[u] - 1], root[leafDfnMin[u] + leafsiz[u] - 1]);
 		return sorted[idx];
 	}
 
@@ -217,12 +223,8 @@ public class Code07_Peaks1 {
 			}
 		}
 		root[0] = build(1, diff);
-		for (int i = 1; i <= cntd; i++) {
-			if (seg[i] <= n) {
-				root[i] = insert(node[seg[i]], 1, diff, root[i - 1]);
-			} else {
-				root[i] = root[i - 1];
-			}
+		for (int i = 1; i <= n; i++) {
+			root[i] = insert(node[leafseg[i]], 1, diff, root[i - 1]);
 		}
 		for (int i = 1, u, x, k, lastAns = 0; i <= q; i++) {
 			u = io.nextInt();

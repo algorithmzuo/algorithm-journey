@@ -45,13 +45,13 @@ package class164;
 //int nodeKey[MAXK];
 //int cntu;
 //
-//int dfn[MAXK];
-//int seg[MAXK];
 //int stjump[MAXK][MAXH];
-//int siz[MAXK];
+//int leafsiz[MAXK];
+//int leafDfnMin[MAXK];
+//int leafseg[MAXK];
 //int cntd;
 //
-//int root[MAXK];
+//int root[MAXN];
 //int ls[MAXT];
 //int rs[MAXT];
 //int numcnt[MAXT];
@@ -122,18 +122,24 @@ package class164;
 //}
 //
 //void dfs(int u, int fa) {
-//    siz[u] = 1;
-//    dfn[u] = ++cntd;
-//    seg[cntd] = u;
 //    stjump[u][0] = fa;
 //    for (int p = 1; p < MAXH; p++) {
-//        stjump[u][p] = stjump[ stjump[u][p - 1] ][p - 1];
+//        stjump[u][p] = stjump[stjump[u][p - 1]][p - 1];
 //    }
 //    for (int e = head[u]; e > 0; e = nxt[e]) {
 //        dfs(to[e], u);
 //    }
+//    if (u <= n) {
+//        leafsiz[u] = 1;
+//        leafDfnMin[u] = ++cntd;
+//        leafseg[cntd] = u;
+//    } else {
+//        leafsiz[u] = 0;
+//        leafDfnMin[u] = n + 1;
+//    }
 //    for (int e = head[u]; e > 0; e = nxt[e]) {
-//        siz[u] += siz[to[e]];
+//        leafsiz[u] += leafsiz[to[e]];
+//        leafDfnMin[u] = min(leafDfnMin[u], leafDfnMin[to[e]]);
 //    }
 //}
 //
@@ -169,7 +175,7 @@ package class164;
 //        return l;
 //    }
 //    int mid = (l + r) / 2;
-//    int rsize = numcnt[ rs[post] ] - numcnt[ rs[pre] ];
+//    int rsize = numcnt[rs[post]] - numcnt[rs[pre]];
 //    if (rsize >= jobk) {
 //        return query(jobk, mid + 1, r, rs[pre], rs[post]);
 //    } else {
@@ -183,7 +189,7 @@ package class164;
 //            u = stjump[u][p];
 //        }
 //    }
-//    int idx = query(k, 1, diff, root[dfn[u] - 1], root[dfn[u] + siz[u] - 1]);
+//    int idx = query(k, 1, diff, root[leafDfnMin[u] - 1], root[leafDfnMin[u] + leafsiz[u] - 1]);
 //    return sorted[idx];
 //}
 //
@@ -205,12 +211,8 @@ package class164;
 //        }
 //    }
 //    root[0] = build(1, diff);
-//    for (int i = 1; i <= cntd; i++) {
-//        if (seg[i] <= n) {
-//            root[i] = insert(node[seg[i]], 1, diff, root[i - 1]);
-//        } else {
-//            root[i] = root[i - 1];
-//        }
+//    for (int i = 1; i <= n; i++) {
+//        root[i] = insert(node[leafseg[i]], 1, diff, root[i - 1]);
 //    }
 //    for (int i = 1, u, x, k, lastAns = 0; i <= q; i++) {
 //        cin >> u >> x >> k;
