@@ -23,7 +23,6 @@ public class Code06_GraphQueries1 {
 	public static int MAXM = 300001;
 	public static int MAXQ = 500001;
 	public static int MAXH = 20;
-	public static int INF = 1000000001;
 	public static int n, m, q;
 
 	// 所有节点的值，需要记录，线段树也要使用
@@ -44,15 +43,19 @@ public class Code06_GraphQueries1 {
 	public static int[] nodeKey = new int[MAXK];
 	public static int cntu;
 
-	// 树上dfs
+	// 倍增表
 	public static int[][] stjump = new int[MAXK][MAXH];
+	// 子树上的叶节点个数
 	public static int[] leafsiz = new int[MAXK];
-	public static int[] leafstart = new int[MAXK];
+	// 子树上叶节点的dfn序号最小值
+	public static int[] leafDfnMin = new int[MAXK];
+	// leafseg[i] = j，表示dfn序号为i的叶节点，原始编号为j
 	public static int[] leafseg = new int[MAXK];
+	// dfn的计数
 	public static int cntd = 0;
 
-	// 线段树维护最大值来自哪个dfn编号
-	public static int[] maxdfn = new int[MAXN << 2];
+	// 线段树的下标是dfn序号，维护范围内，拥有节点最大值的dfn序号
+	public static int[] maxValueDfn = new int[MAXN << 2];
 
 	public static void prepare() {
 		for (int i = 1; i <= q; i++) {
@@ -115,15 +118,15 @@ public class Code06_GraphQueries1 {
 		}
 		if (u <= n) {
 			leafsiz[u] = 1;
-			leafstart[u] = ++cntd;
+			leafDfnMin[u] = ++cntd;
 			leafseg[cntd] = u;
 		} else {
 			leafsiz[u] = 0;
-			leafstart[u] = INF;
+			leafDfnMin[u] = n + 1;
 		}
 		for (int e = head[u]; e > 0; e = next[e]) {
 			leafsiz[u] += leafsiz[to[e]];
-			leafstart[u] = Math.min(leafstart[u], leafstart[to[e]]);
+			leafDfnMin[u] = Math.min(leafDfnMin[u], leafDfnMin[to[e]]);
 		}
 	}
 
@@ -139,16 +142,16 @@ public class Code06_GraphQueries1 {
 	public static void up(int i) {
 		int l = i << 1;
 		int r = i << 1 | 1;
-		if (node[leafseg[maxdfn[l]]] > node[leafseg[maxdfn[r]]]) {
-			maxdfn[i] = maxdfn[l];
+		if (node[leafseg[maxValueDfn[l]]] > node[leafseg[maxValueDfn[r]]]) {
+			maxValueDfn[i] = maxValueDfn[l];
 		} else {
-			maxdfn[i] = maxdfn[r];
+			maxValueDfn[i] = maxValueDfn[r];
 		}
 	}
 
 	public static void build(int l, int r, int i) {
 		if (l == r) {
-			maxdfn[i] = l;
+			maxValueDfn[i] = l;
 		} else {
 			int mid = (l + r) / 2;
 			build(l, mid, i << 1);
@@ -157,6 +160,7 @@ public class Code06_GraphQueries1 {
 		}
 	}
 
+	// dfn序号为jobi，节点值更新成jobv
 	public static void update(int jobi, int jobv, int l, int r, int i) {
 		if (l == r) {
 			node[leafseg[jobi]] = jobv;
@@ -171,17 +175,18 @@ public class Code06_GraphQueries1 {
 		}
 	}
 
-	public static int queryMaxDfn(int jobl, int jobr, int l, int r, int i) {
+	// dfn范围[jobl..jobr]，哪个节点拥有最大值，返回该节点的dfn序号
+	public static int query(int jobl, int jobr, int l, int r, int i) {
 		if (jobl <= l && r <= jobr) {
-			return maxdfn[i];
+			return maxValueDfn[i];
 		} else {
 			int mid = (l + r) / 2;
 			int ldfn = 0, rdfn = 0;
 			if (jobl <= mid) {
-				ldfn = queryMaxDfn(jobl, jobr, l, mid, i << 1);
+				ldfn = query(jobl, jobr, l, mid, i << 1);
 			}
 			if (jobr > mid) {
-				rdfn = queryMaxDfn(jobl, jobr, mid + 1, r, i << 1 | 1);
+				rdfn = query(jobl, jobr, mid + 1, r, i << 1 | 1);
 			}
 			if (node[leafseg[ldfn]] > node[leafseg[rdfn]]) {
 				return ldfn;
@@ -189,6 +194,14 @@ public class Code06_GraphQueries1 {
 				return rdfn;
 			}
 		}
+	}
+
+	public static int queryAndUpdate(int x, int limit) {
+		int anc = getAncestor(x, limit);
+		int dfn = query(leafDfnMin[anc], leafDfnMin[anc] + leafsiz[anc] - 1, 1, n, 1);
+		int ans = node[leafseg[dfn]];
+		update(dfn, 0, 1, n, 1);
+		return ans;
 	}
 
 	public static void main(String[] args) {
@@ -216,13 +229,10 @@ public class Code06_GraphQueries1 {
 			}
 		}
 		build(1, n, 1);
-		int limit = m, anc, ansDfn;
+		int limit = m;
 		for (int i = 1; i <= q; i++) {
 			if (ques[i][0] == 1) {
-				anc = getAncestor(ques[i][1], limit);
-				ansDfn = queryMaxDfn(leafstart[anc], leafstart[anc] + leafsiz[anc] - 1, 1, n, 1);
-				io.writelnInt(node[leafseg[ansDfn]]);
-				update(ansDfn, 0, 1, n, 1);
+				io.writelnInt(queryAndUpdate(ques[i][1], limit));
 			} else {
 				limit--;
 			}
