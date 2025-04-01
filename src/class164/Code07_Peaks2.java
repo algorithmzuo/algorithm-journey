@@ -54,7 +54,7 @@ package class164;
 //int root[MAXK];
 //int ls[MAXT];
 //int rs[MAXT];
-//int segsiz[MAXT];
+//int numcnt[MAXT];
 //int cntt;
 //
 //int kth(int num) {
@@ -139,7 +139,7 @@ package class164;
 //
 //int build(int l, int r) {
 //    int rt = ++cntt;
-//    segsiz[rt] = 0;
+//    numcnt[rt] = 0;
 //    if (l < r) {
 //        int mid = (l + r) / 2;
 //        ls[rt] = build(l, mid);
@@ -152,7 +152,7 @@ package class164;
 //    int rt = ++cntt;
 //    ls[rt] = ls[i];
 //    rs[rt] = rs[i];
-//    segsiz[rt] = segsiz[i] + 1;
+//    numcnt[rt] = numcnt[i] + 1;
 //    if (l < r) {
 //        int mid = (l + r) / 2;
 //        if (jobi <= mid) {
@@ -169,7 +169,7 @@ package class164;
 //        return l;
 //    }
 //    int mid = (l + r) / 2;
-//    int rsize = segsiz[ rs[post] ] - segsiz[ rs[pre] ];
+//    int rsize = numcnt[ rs[post] ] - numcnt[ rs[pre] ];
 //    if (rsize >= jobk) {
 //        return query(jobk, mid + 1, r, rs[pre], rs[post]);
 //    } else {

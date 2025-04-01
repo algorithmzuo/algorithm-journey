@@ -57,7 +57,7 @@ public class Code07_Peaks1 {
 	public static int[] root = new int[MAXK];
 	public static int[] ls = new int[MAXT];
 	public static int[] rs = new int[MAXT];
-	public static int[] segsiz = new int[MAXT];
+	public static int[] numcnt = new int[MAXT];
 	public static int cntt = 0;
 
 	public static int kth(int num) {
@@ -142,7 +142,7 @@ public class Code07_Peaks1 {
 
 	public static int build(int l, int r) {
 		int rt = ++cntt;
-		segsiz[rt] = 0;
+		numcnt[rt] = 0;
 		if (l < r) {
 			int mid = (l + r) / 2;
 			ls[rt] = build(l, mid);
@@ -155,7 +155,7 @@ public class Code07_Peaks1 {
 		int rt = ++cntt;
 		ls[rt] = ls[i];
 		rs[rt] = rs[i];
-		segsiz[rt] = segsiz[i] + 1;
+		numcnt[rt] = numcnt[i] + 1;
 		if (l < r) {
 			int mid = (l + r) / 2;
 			if (jobi <= mid) {
@@ -171,7 +171,7 @@ public class Code07_Peaks1 {
 		if (l == r) {
 			return l;
 		}
-		int rsize = segsiz[rs[post]] - segsiz[rs[pre]];
+		int rsize = numcnt[rs[post]] - numcnt[rs[pre]];
 		int mid = (l + r) / 2;
 		if (rsize >= jobk) {
 			return query(jobk, mid + 1, r, rs[pre], rs[post]);
