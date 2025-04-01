@@ -46,14 +46,20 @@ public class Code07_Peaks1 {
 	public static int[] nodeKey = new int[MAXK];
 	public static int cntu;
 
-	// 树上dfs
+	// 节点dfn序号
 	public static int[] dfn = new int[MAXK];
+	// seg[i] = j，代表dfn序号为i的节点，是原始编号为j的节点
 	public static int[] seg = new int[MAXK];
+	// 倍增表
 	public static int[][] stjump = new int[MAXK][MAXH];
+	// 子树大小
 	public static int[] siz = new int[MAXK];
+	// dfn计数
 	public static int cntd = 0;
 
 	// 可持久化线段树
+	// 线段树的下标为某个数字，所以是值域线段树
+	// 数值范围[l..r]上，一共有几个数字，就是numcnt的含义
 	public static int[] root = new int[MAXK];
 	public static int[] ls = new int[MAXT];
 	public static int[] rs = new int[MAXT];
