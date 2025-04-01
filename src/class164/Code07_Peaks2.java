@@ -183,7 +183,7 @@ package class164;
 //    }
 //}
 //
-//int compute(int u, int x, int k) {
+//int kthMax(int u, int x, int k) {
 //    for (int p = MAXH - 1; p >= 0; p--) {
 //        if (stjump[u][p] > 0 && nodeKey[stjump[u][p]] <= x) {
 //            u = stjump[u][p];
@@ -219,7 +219,7 @@ package class164;
 //        u = ((u ^ lastAns) % n) + 1;
 //        x = x ^ lastAns;
 //        k = ((k ^ lastAns) % n) + 1;
-//        lastAns = compute(u, x, k);
+//        lastAns = kthMax(u, x, k);
 //        if (lastAns == 0) {
 //            cout << -1 << "\n";
 //        } else {

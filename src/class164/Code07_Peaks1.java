@@ -54,7 +54,7 @@ public class Code07_Peaks1 {
 	public static int[] leafDfnMin = new int[MAXK];
 	// leafseg[i] = j，表示dfn序号为i的叶节点，原始编号为j
 	public static int[] leafseg = new int[MAXK];
-	// dfn计数
+	// dfn的计数
 	public static int cntd = 0;
 
 	// 可持久化线段树
@@ -152,6 +152,7 @@ public class Code07_Peaks1 {
 		}
 	}
 
+	// 可持久化线段树的build
 	public static int build(int l, int r) {
 		int rt = ++cntt;
 		numcnt[rt] = 0;
@@ -163,6 +164,7 @@ public class Code07_Peaks1 {
 		return rt;
 	}
 
+	// 数值范围[l..r]，加了一个数字jobi，生成新版本的可持久化线段树
 	public static int insert(int jobi, int l, int r, int i) {
 		int rt = ++cntt;
 		ls[rt] = ls[i];
@@ -179,6 +181,8 @@ public class Code07_Peaks1 {
 		return rt;
 	}
 
+	// 可持久化线段树，前版本pre，后版本post，两个版本做差，得到数值范围[l..r]的词频
+	// 查询这个数值范围上，第jobk大的数字是什么
 	public static int query(int jobk, int l, int r, int pre, int post) {
 		if (l == r) {
 			return l;
@@ -192,7 +196,7 @@ public class Code07_Peaks1 {
 		}
 	}
 
-	public static int compute(int u, int x, int k) {
+	public static int kthMax(int u, int x, int k) {
 		for (int p = MAXH - 1; p >= 0; p--) {
 			if (stjump[u][p] > 0 && nodeKey[stjump[u][p]] <= x) {
 				u = stjump[u][p];
@@ -233,7 +237,7 @@ public class Code07_Peaks1 {
 			u = (u ^ lastAns) % n + 1;
 			x = x ^ lastAns;
 			k = (k ^ lastAns) % n + 1;
-			lastAns = compute(u, x, k);
+			lastAns = kthMax(u, x, k);
 			if (lastAns == 0) {
 				io.writelnInt(-1);
 			} else {
