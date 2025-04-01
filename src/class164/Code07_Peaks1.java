@@ -28,11 +28,10 @@ public class Code07_Peaks1 {
 	public static int MAXM = 500001;
 	public static int MAXT = MAXN * 40;
 	public static int MAXH = 20;
-	public static int n, m, q;
+	public static int n, m, q, s;
 
 	public static int[] node = new int[MAXN];
 	public static int[] sorted = new int[MAXN];
-	public static int diff;
 	public static int[][] edge = new int[MAXM][3];
 
 	// 并查集
@@ -67,7 +66,7 @@ public class Code07_Peaks1 {
 	public static int cntt = 0;
 
 	public static int kth(int num) {
-		int left = 1, right = diff, mid;
+		int left = 1, right = s, mid;
 		while (left <= right) {
 			mid = (left + right) / 2;
 			if (sorted[mid] == num) {
@@ -87,10 +86,10 @@ public class Code07_Peaks1 {
 		}
 		sorted[n + 1] = 0;
 		Arrays.sort(sorted, 1, n + 2);
-		diff = 1;
+		s = 1;
 		for (int i = 2; i <= n + 1; i++) {
-			if (sorted[diff] != sorted[i]) {
-				sorted[++diff] = sorted[i];
+			if (sorted[s] != sorted[i]) {
+				sorted[++s] = sorted[i];
 			}
 		}
 		for (int i = 1; i <= n; i++) {
@@ -202,7 +201,7 @@ public class Code07_Peaks1 {
 				u = stjump[u][p];
 			}
 		}
-		int idx = query(k, 1, diff, root[leafDfnMin[u] - 1], root[leafDfnMin[u] + leafsiz[u] - 1]);
+		int idx = query(k, 1, s, root[leafDfnMin[u] - 1], root[leafDfnMin[u] + leafsiz[u] - 1]);
 		return sorted[idx];
 	}
 
@@ -226,9 +225,9 @@ public class Code07_Peaks1 {
 				dfs(i, 0);
 			}
 		}
-		root[0] = build(1, diff);
+		root[0] = build(1, s);
 		for (int i = 1; i <= n; i++) {
-			root[i] = insert(node[leafseg[i]], 1, diff, root[i - 1]);
+			root[i] = insert(node[leafseg[i]], 1, s, root[i - 1]);
 		}
 		for (int i = 1, u, x, k, lastAns = 0; i <= q; i++) {
 			u = io.nextInt();

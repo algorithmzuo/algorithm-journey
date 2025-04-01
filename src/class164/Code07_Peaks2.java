@@ -30,10 +30,9 @@ package class164;
 //const int MAXM = 500001;
 //const int MAXT = MAXN * 40;
 //const int MAXH = 20;
-//int n, m, q;
+//int n, m, q, s;
 //int node[MAXN];
 //int sorted[MAXN];
-//int diff;
 //Edge edge[MAXM];
 //
 //int father[MAXK];
@@ -58,7 +57,7 @@ package class164;
 //int cntt;
 //
 //int kth(int num) {
-//    int left = 1, right = diff;
+//    int left = 1, right = s;
 //    while (left <= right) {
 //        int mid = (left + right) / 2;
 //        if (sorted[mid] == num) {
@@ -78,10 +77,10 @@ package class164;
 //    }
 //    sorted[n + 1] = 0;
 //    sort(sorted + 1, sorted + n + 2);
-//    diff = 1;
+//    s = 1;
 //    for (int i = 2; i <= n + 1; i++) {
-//        if (sorted[diff] != sorted[i]) {
-//            sorted[++diff] = sorted[i];
+//        if (sorted[s] != sorted[i]) {
+//            sorted[++s] = sorted[i];
 //        }
 //    }
 //    for (int i = 1; i <= n; i++) {
@@ -189,7 +188,7 @@ package class164;
 //            u = stjump[u][p];
 //        }
 //    }
-//    int idx = query(k, 1, diff, root[leafDfnMin[u] - 1], root[leafDfnMin[u] + leafsiz[u] - 1]);
+//    int idx = query(k, 1, s, root[leafDfnMin[u] - 1], root[leafDfnMin[u] + leafsiz[u] - 1]);
 //    return sorted[idx];
 //}
 //
@@ -210,9 +209,9 @@ package class164;
 //            dfs(i, 0);
 //        }
 //    }
-//    root[0] = build(1, diff);
+//    root[0] = build(1, s);
 //    for (int i = 1; i <= n; i++) {
-//        root[i] = insert(node[leafseg[i]], 1, diff, root[i - 1]);
+//        root[i] = insert(node[leafseg[i]], 1, s, root[i - 1]);
 //    }
 //    for (int i = 1, u, x, k, lastAns = 0; i <= q; i++) {
 //        cin >> u >> x >> k;
