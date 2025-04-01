@@ -58,15 +58,15 @@ package class164;
 //            edge[ques[i][1]].w = -1;
 //        }
 //    }
-//    int time = 0;
+//    int weight = 0;
 //    for (int i = 1; i <= m; i++) {
 //        if (edge[i].w != -1) {
-//            edge[i].w = ++time;
+//            edge[i].w = ++weight;
 //        }
 //    }
 //    for (int i = q; i >= 1; i--) {
 //        if (ques[i][0] == 2) {
-//            edge[ques[i][1]].w = ++time;
+//            edge[ques[i][1]].w = ++weight;
 //        }
 //    }
 //}

@@ -63,15 +63,15 @@ public class Code06_GraphQueries1 {
 				edge[ques[i][1]][2] = -1;
 			}
 		}
-		int time = 0;
+		int weight = 0;
 		for (int i = 1; i <= m; i++) {
 			if (edge[i][2] != -1) {
-				edge[i][2] = ++time;
+				edge[i][2] = ++weight;
 			}
 		}
 		for (int i = q; i >= 1; i--) {
 			if (ques[i][0] == 2) {
-				edge[ques[i][1]][2] = ++time;
+				edge[ques[i][1]][2] = ++weight;
 			}
 		}
 	}
