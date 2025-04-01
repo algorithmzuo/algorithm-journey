@@ -54,7 +54,7 @@ public class Code06_GraphQueries1 {
 	// dfn的计数
 	public static int cntd = 0;
 
-	// 线段树的下标是dfn序号，维护范围内，拥有节点最大值的dfn序号
+	// 线段树的下标是dfn序号，维护范围内，拥有最大点权的dfn序号
 	public static int[] maxValueDfn = new int[MAXN << 2];
 
 	public static void prepare() {
@@ -160,7 +160,7 @@ public class Code06_GraphQueries1 {
 		}
 	}
 
-	// dfn序号为jobi，节点值更新成jobv
+	// dfn序号为jobi，点权更新成jobv
 	public static void update(int jobi, int jobv, int l, int r, int i) {
 		if (l == r) {
 			node[leafseg[jobi]] = jobv;
@@ -175,7 +175,7 @@ public class Code06_GraphQueries1 {
 		}
 	}
 
-	// dfn范围[jobl..jobr]，哪个节点拥有最大值，返回该节点的dfn序号
+	// dfn范围[jobl..jobr]，哪个节点拥有最大点权，返回该节点的dfn序号
 	public static int query(int jobl, int jobr, int l, int r, int i) {
 		if (jobl <= l && r <= jobr) {
 			return maxValueDfn[i];
