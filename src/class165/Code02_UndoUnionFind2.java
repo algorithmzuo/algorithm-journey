@@ -51,12 +51,12 @@ package class165;
 //        big = h2;
 //        small = h1;
 //    }
-//    stacksiz++;
-//    opstack[stacksiz][0] = big;
-//    opstack[stacksiz][1] = small;
 //    father[small] = big;
 //    ncnt[big] += ncnt[small];
 //    ecnt[big] += ecnt[small] + 1;
+//    stacksiz++;
+//    opstack[stacksiz][0] = big;
+//    opstack[stacksiz][1] = small;
 //}
 //
 //void undo() {
