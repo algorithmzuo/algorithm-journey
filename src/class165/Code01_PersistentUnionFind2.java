@@ -72,26 +72,26 @@ package class165;
 //    }
 //}
 //
-//int find(int x, int version) {
-//    int fa = query(x, 1, n, rootfa[version]);
+//int find(int x, int v) {
+//    int fa = query(x, 1, n, rootfa[v]);
 //    if (x == fa) {
 //        return x;
 //    }
-//    return find(fa, version);
+//    return find(fa, v);
 //}
 //
-//void merge(int x, int y, int version) {
-//    int fx = find(x, version);
-//    int fy = find(y, version);
+//void merge(int x, int y, int v) {
+//    int fx = find(x, v);
+//    int fy = find(y, v);
 //    if (fx != fy) {
-//        int xsiz = query(fx, 1, n, rootsiz[version]);
-//        int ysiz = query(fy, 1, n, rootsiz[version]);
+//        int xsiz = query(fx, 1, n, rootsiz[v]);
+//        int ysiz = query(fy, 1, n, rootsiz[v]);
 //        if (xsiz >= ysiz) {
-//            rootfa[version] = update(fy, fx, 1, n, rootfa[version]);
-//            rootsiz[version] = update(fx, xsiz + ysiz, 1, n, rootsiz[version]);
+//            rootfa[v] = update(fy, fx, 1, n, rootfa[v]);
+//            rootsiz[v] = update(fx, xsiz + ysiz, 1, n, rootsiz[v]);
 //        } else {
-//            rootfa[version] = update(fx, fy, 1, n, rootfa[version]);
-//            rootsiz[version] = update(fy, xsiz + ysiz, 1, n, rootsiz[version]);
+//            rootfa[v] = update(fx, fy, 1, n, rootfa[v]);
+//            rootsiz[v] = update(fy, xsiz + ysiz, 1, n, rootsiz[v]);
 //        }
 //    }
 //}
@@ -102,20 +102,20 @@ package class165;
 //    cin >> n >> m;
 //    rootfa[0] = buildfa(1, n);
 //    rootsiz[0] = buildsiz(1, n);
-//    for (int version = 1, op, x, y; version <= m; version++) {
+//    for (int v = 1, op, x, y; v <= m; v++) {
 //        cin >> op;
-//        rootfa[version] = rootfa[version - 1];
-//        rootsiz[version] = rootsiz[version - 1];
+//        rootfa[v] = rootfa[v - 1];
+//        rootsiz[v] = rootsiz[v - 1];
 //        if (op == 1) {
 //            cin >> x >> y;
-//            merge(x, y, version);
+//            merge(x, y, v);
 //        } else if (op == 2) {
 //            cin >> x;
-//            rootfa[version] = rootfa[x];
-//            rootsiz[version] = rootsiz[x];
+//            rootfa[v] = rootfa[x];
+//            rootsiz[v] = rootsiz[x];
 //        } else {
 //            cin >> x >> y;
-//            if (find(x, version) == find(y, version)) {
+//            if (find(x, v) == find(y, v)) {
 //                cout << 1 << "\n";
 //            } else {
 //                cout << 0 << "\n";
