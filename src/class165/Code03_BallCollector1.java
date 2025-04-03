@@ -1,6 +1,6 @@
 package class165;
 
-// 可撤销并查集模版题，java版
+// 选球，java版
 // 测试链接 : https://www.luogu.com.cn/problem/AT_abc302_h
 // 测试链接 : https://atcoder.jp/contests/abc302/tasks/abc302_h
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
@@ -12,11 +12,10 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 
-public class Code02_UndoUnionFind1 {
+public class Code03_BallCollector1 {
 
 	public static int MAXN = 200001;
-	public static int[] a = new int[MAXN];
-	public static int[] b = new int[MAXN];
+	public static int[][] arr = new int[MAXN][2];
 
 	public static int[] head = new int[MAXN];
 	public static int[] next = new int[MAXN << 1];
@@ -73,7 +72,7 @@ public class Code02_UndoUnionFind1 {
 	}
 
 	public static void dfs(int u, int fa) {
-		int h1 = find(a[u]), h2 = find(b[u]);
+		int h1 = find(arr[u][0]), h2 = find(arr[u][1]);
 		boolean merged = false;
 		int add = 0;
 		if (h1 == h2) {
@@ -114,9 +113,9 @@ public class Code02_UndoUnionFind1 {
 		int n = (int) in.nval;
 		for (int i = 1; i <= n; i++) {
 			in.nextToken();
-			a[i] = (int) in.nval;
+			arr[i][0] = (int) in.nval;
 			in.nextToken();
-			b[i] = (int) in.nval;
+			arr[i][1] = (int) in.nval;
 		}
 		for (int i = 1, u, v; i < n; i++) {
 			in.nextToken();

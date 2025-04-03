@@ -1,6 +1,6 @@
 package class165;
 
-// 可撤销并查集模版题，C++版
+// 选球，C++版
 // 测试链接 : https://www.luogu.com.cn/problem/AT_abc302_h
 // 测试链接 : https://atcoder.jp/contests/abc302/tasks/abc302_h
 // 如下实现是C++的版本，C++版本和java版本逻辑完全一样
@@ -11,8 +11,7 @@ package class165;
 //using namespace std;
 //
 //const int MAXN = 200001;
-//int a[MAXN];
-//int b[MAXN];
+//int arr[MAXN][2];
 //
 //int head[MAXN];
 //int nxt[MAXN << 1];
@@ -69,7 +68,7 @@ package class165;
 //}
 //
 //void dfs(int u, int fa) {
-//    int h1 = find(a[u]), h2 = find(b[u]);
+//    int h1 = find(arr[u][0]), h2 = find(arr[u][1]);
 //    bool merged = false;
 //    int add = 0;
 //    if (h1 == h2) {
@@ -108,7 +107,7 @@ package class165;
 //    int n;
 //    cin >> n;
 //    for (int i = 1; i <= n; i++) {
-//        cin >> a[i] >> b[i];
+//        cin >> arr[i][0] >> arr[i][1];
 //    }
 //    for (int i = 1, u, v; i < n; i++) {
 //        cin >> u >> v;
