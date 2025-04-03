@@ -1,6 +1,6 @@
 package class165;
 
-// 可持久化并查集，C++版
+// 可持久化并查集模版题，C++版
 // 测试链接 : https://www.luogu.com.cn/problem/P3402
 // 如下实现是C++的版本，C++版本和java版本逻辑完全一样
 // 提交如下代码，可以通过所有测试用例
@@ -74,10 +74,11 @@ package class165;
 //
 //int find(int x, int v) {
 //    int fa = query(x, 1, n, rootfa[v]);
-//    if (x == fa) {
-//        return x;
+//    while(x != fa) {
+//        x = fa;
+//        fa = query(x, 1, n, rootfa[v]);
 //    }
-//    return find(fa, v);
+//    return x;
 //}
 //
 //void merge(int x, int y, int v) {

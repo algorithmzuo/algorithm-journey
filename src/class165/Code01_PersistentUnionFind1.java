@@ -1,6 +1,6 @@
 package class165;
 
-// 可持久化并查集，java版
+// 可持久化并查集模版题，java版
 // 测试链接 : https://www.luogu.com.cn/problem/P3402
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
@@ -79,10 +79,11 @@ public class Code01_PersistentUnionFind1 {
 
 	public static int find(int x, int v) {
 		int fa = query(x, 1, n, rootfa[v]);
-		if (x == fa) {
-			return x;
+		while (x != fa) {
+			x = fa;
+			fa = query(x, 1, n, rootfa[v]);
 		}
-		return find(fa, v);
+		return x;
 	}
 
 	public static void merge(int x, int y, int v) {
