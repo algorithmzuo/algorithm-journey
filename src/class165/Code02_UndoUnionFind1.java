@@ -1,6 +1,6 @@
 package class165;
 
-// 选球，java版
+// 可撤销并查集模版题，java版
 // 测试链接 : https://www.luogu.com.cn/problem/AT_abc302_h
 // 测试链接 : https://atcoder.jp/contests/abc302/tasks/abc302_h
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
@@ -12,7 +12,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 
-public class Code03_BallCollector1 {
+public class Code02_UndoUnionFind1 {
 
 	public static int MAXN = 200001;
 	public static int[][] arr = new int[MAXN][2];
@@ -23,11 +23,11 @@ public class Code03_BallCollector1 {
 	public static int cnt;
 
 	public static int[] father = new int[MAXN];
-	public static int[] ncnt = new int[MAXN];
-	public static int[] ecnt = new int[MAXN];
+	public static int[] siz = new int[MAXN];
+	public static int[] edgeCnt = new int[MAXN];
 
 	public static int[][] opstack = new int[MAXN][2];
-	public static int stacksiz = 0;
+	public static int opsize = 0;
 
 	public static int[] ans = new int[MAXN];
 	public static int ball = 0;
@@ -45,48 +45,51 @@ public class Code03_BallCollector1 {
 		return i;
 	}
 
-	public static void merge(int h1, int h2) {
-		int big, small;
-		if (ncnt[h1] >= ncnt[h2]) {
-			big = h1;
-			small = h2;
+	public static void merge(int x, int y) {
+		int fx = find(x), fy = find(y);
+		if (fx == fy) {
+			opstack[++opsize][0] = 0;
 		} else {
-			big = h2;
-			small = h1;
+			if (siz[fx] < siz[fy]) {
+				int tmp = fx;
+				fx = fy;
+				fy = tmp;
+			}
+			father[fy] = fx;
+			siz[fx] += siz[fy];
+			edgeCnt[fx] += edgeCnt[fy] + 1;
+			opstack[++opsize][0] = fx;
+			opstack[opsize][1] = fy;
 		}
-		father[small] = big;
-		ncnt[big] += ncnt[small];
-		ecnt[big] += ecnt[small] + 1;
-		stacksiz++;
-		opstack[stacksiz][0] = big;
-		opstack[stacksiz][1] = small;
 	}
 
 	public static void undo() {
-		int big = opstack[stacksiz][0];
-		int small = opstack[stacksiz][1];
-		stacksiz--;
-		father[small] = small;
-		ncnt[big] -= ncnt[small];
-		ecnt[big] -= ecnt[small] + 1;
+		if (opsize > 0 && opstack[opsize][0] != 0) {
+			int fx = opstack[opsize][0];
+			int fy = opstack[opsize--][1];
+			father[fy] = fy;
+			siz[fx] -= siz[fy];
+			edgeCnt[fx] -= edgeCnt[fy] + 1;
+		}
 	}
 
 	public static void dfs(int u, int fa) {
-		int h1 = find(arr[u][0]), h2 = find(arr[u][1]);
+		int x = arr[u][0], y = arr[u][1];
+		int fx = find(x), fy = find(y);
 		boolean merged = false;
 		int add = 0;
-		if (h1 == h2) {
-			ecnt[h1]++;
-			if (ncnt[h1] == ecnt[h1]) {
+		if (fx == fy) {
+			if (edgeCnt[fx] < siz[fx]) {
 				ball++;
 				add = 1;
 			}
+			edgeCnt[fx]++;
 		} else {
-			if (ecnt[h1] < ncnt[h1] || ecnt[h2] < ncnt[h2]) {
+			if (edgeCnt[fx] < siz[fx] || edgeCnt[fy] < siz[fy]) {
 				ball++;
 				add = 1;
 			}
-			merge(h1, h2);
+			merge(x, y);
 			merged = true;
 		}
 		if (u != 1) {
@@ -97,12 +100,12 @@ public class Code03_BallCollector1 {
 				dfs(to[e], u);
 			}
 		}
+		ball -= add;
 		if (merged) {
 			undo();
 		} else {
-			ecnt[h1]--;
+			edgeCnt[fx]--;
 		}
-		ball -= add;
 	}
 
 	public static void main(String[] args) throws IOException {
@@ -127,8 +130,8 @@ public class Code03_BallCollector1 {
 		}
 		for (int i = 1; i <= n; i++) {
 			father[i] = i;
-			ncnt[i] = 1;
-			ecnt[i] = 0;
+			siz[i] = 1;
+			edgeCnt[i] = 0;
 		}
 		dfs(1, 0);
 		for (int i = 2; i < n; i++) {
