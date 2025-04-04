@@ -98,10 +98,10 @@ public class Code05_BloodCousins1 {
 		}
 	}
 
-	public static void cancle(int u) {
+	public static void cancel(int u) {
 		depCnt[dep[u]]--;
 		for (int e = headg[u]; e > 0; e = nextg[e]) {
-			cancle(tog[e]);
+			cancel(tog[e]);
 		}
 	}
 
@@ -126,7 +126,7 @@ public class Code05_BloodCousins1 {
 			ans[ansiq[i]] = depCnt[dep[u] + kq[i]];
 		}
 		if (keep == 0) {
-			cancle(u);
+			cancel(u);
 		}
 	}
 

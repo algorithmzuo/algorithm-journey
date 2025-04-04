@@ -69,10 +69,10 @@ public class Code06_RearrangePalindrome1 {
 		}
 	}
 
-	public static void cancle(int u) {
+	public static void cancel(int u) {
 		maxdep[eor[u]] = 0;
 		for (int e = head[u]; e > 0; e = next[e]) {
-			cancle(to[e]);
+			cancel(to[e]);
 		}
 	}
 
@@ -125,7 +125,7 @@ public class Code06_RearrangePalindrome1 {
 			}
 		}
 		if (keep == 0) {
-			cancle(u);
+			cancel(u);
 		}
 	}
 

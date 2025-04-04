@@ -68,12 +68,12 @@ public class Code02_ColorBanlance1 {
 		}
 	}
 
-	public static void cancle(int u) {
+	public static void cancel(int u) {
 		colorCnt[color[u]]--;
 		colorNum[colorCnt[color[u]] + 1]--;
 		colorNum[colorCnt[color[u]]]++;
 		for (int e = head[u]; e > 0; e = next[e]) {
-			cancle(to[e]);
+			cancel(to[e]);
 		}
 	}
 
@@ -100,7 +100,7 @@ public class Code02_ColorBanlance1 {
 			ans++;
 		}
 		if (keep == 0) {
-			cancle(u);
+			cancel(u);
 		}
 	}
 

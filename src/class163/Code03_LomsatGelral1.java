@@ -79,13 +79,13 @@ public class Code03_LomsatGelral1 {
 		}
 	}
 
-	public static void cancle(int u) {
+	public static void cancel(int u) {
 		colorCnt[color[u]] = 0;
 		maxCnt[u] = 0;
 		for (int e = head[u], v; e > 0; e = next[e]) {
 			v = to[e];
 			if (v != fa[u]) {
-				cancle(v);
+				cancel(v);
 			}
 		}
 	}
@@ -116,7 +116,7 @@ public class Code03_LomsatGelral1 {
 			}
 		}
 		if (keep == 0) {
-			cancle(u);
+			cancel(u);
 		}
 	}
 

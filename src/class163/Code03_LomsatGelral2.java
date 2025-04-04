@@ -75,13 +75,13 @@ package class163;
 //    }
 //}
 //
-//void cancle(int u) {
+//void cancel(int u) {
 //    colorCnt[color[u]] = 0;
 //    maxCnt[u] = 0;
 //    for (int e = head[u], v; e > 0; e = nxt[e]) {
 //        v = to[e];
 //        if (v != fa[u]) {
-//            cancle(v);
+//            cancel(v);
 //        }
 //    }
 //}
@@ -112,7 +112,7 @@ package class163;
 //        }
 //    }
 //    if (keep == 0) {
-//        cancle(u);
+//        cancel(u);
 //    }
 //}
 //

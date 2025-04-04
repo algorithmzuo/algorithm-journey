@@ -102,10 +102,10 @@ package class163;
 //    }
 //}
 //
-//void cancle(int u) {
+//void cancel(int u) {
 //    removeId(dep[u], id[u]);
 //    for (int e = headg[u]; e > 0; e = nextg[e]) {
-//        cancle(tog[e]);
+//        cancel(tog[e]);
 //    }
 //}
 //
@@ -130,7 +130,7 @@ package class163;
 //    	ans[ansiq[i]] = sizeOfDeep(dep[u] + kq[i]);
 //    }
 //    if (keep == 0) {
-//        cancle(u);
+//        cancel(u);
 //    }
 //}
 //

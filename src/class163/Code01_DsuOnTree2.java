@@ -69,12 +69,12 @@ public class Code01_DsuOnTree2 {
 		}
 	}
 
-	public static void cancle(int u) {
+	public static void cancel(int u) {
 		colorCnt[arr[u]] = 0; // 出现任何颜色，直接把该颜色的计数重置为0
 		for (int e = head[u], v; e > 0; e = next[e]) {
 			v = to[e];
 			if (v != fa[u]) {
-				cancle(v);
+				cancel(v);
 			}
 		}
 	}
@@ -101,7 +101,7 @@ public class Code01_DsuOnTree2 {
 		ans[u] = diffColors;
 		if (keep == 0) {
 			diffColors = 0; // 直接把全局的不同颜色数量重置为0
-			cancle(u);
+			cancel(u);
 		}
 	}
 

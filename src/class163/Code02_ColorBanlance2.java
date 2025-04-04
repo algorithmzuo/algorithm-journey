@@ -34,7 +34,7 @@ public class Code02_ColorBanlance2 {
 	}
 
 	// stack1、size1、cur1、edge1
-	// 用于把effect、cancle、dfs1改成迭代版
+	// 用于把effect、cancel、dfs1改成迭代版
 	public static int[][] stack1 = new int[MAXN][2];
 	public static int size1, cur1, edge1;
 
@@ -115,7 +115,7 @@ public class Code02_ColorBanlance2 {
 		}
 	}
 
-	public static void cancle(int root) {
+	public static void cancel(int root) {
 		size1 = 0;
 		push1(root, -1);
 		while (size1 > 0) {
@@ -176,7 +176,7 @@ public class Code02_ColorBanlance2 {
 					ans++;
 				}
 				if (keep2 == 0) {
-					cancle(cur2);
+					cancel(cur2);
 				}
 			}
 		}

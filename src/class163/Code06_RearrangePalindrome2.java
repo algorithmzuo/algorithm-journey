@@ -60,10 +60,10 @@ package class163;
 //    }
 //}
 //
-//void cancle(int u) {
+//void cancel(int u) {
 //    maxdep[eor[u]] = 0;
 //    for (int e = head[u]; e > 0; e = nxt[e]) {
-//        cancle(to[e]);
+//        cancel(to[e]);
 //    }
 //}
 //
@@ -111,7 +111,7 @@ package class163;
 //        }
 //    }
 //    if (keep == 0) {
-//        cancle(u);
+//        cancel(u);
 //    }
 //}
 //

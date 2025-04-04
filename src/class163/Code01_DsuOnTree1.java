@@ -82,14 +82,14 @@ public class Code01_DsuOnTree1 {
 	}
 
 	// 子树u每个节点取消贡献
-	public static void cancle(int u) {
+	public static void cancel(int u) {
 		if (--colorCnt[arr[u]] == 0) {
 			diffColors--;
 		}
 		for (int e = head[u], v; e > 0; e = next[e]) {
 			v = to[e];
 			if (v != fa[u]) {
-				cancle(v);
+				cancel(v);
 			}
 		}
 	}
@@ -122,7 +122,7 @@ public class Code01_DsuOnTree1 {
 		ans[u] = diffColors;
 		// 如果u是上级节点的轻儿子，子树u的贡献取消，否则保留
 		if (keep == 0) {
-			cancle(u);
+			cancel(u);
 		}
 	}
 
