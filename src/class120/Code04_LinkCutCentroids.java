@@ -89,16 +89,12 @@ public class Code04_LinkCutCentroids {
 	}
 
 	// 返回重心的数量
-	public static int compute() {
-		dfs(1, 0);
+	public static int centerCnt() {
 		int m = 0;
 		for (int i = 1; i <= n; i++) {
 			if (maxsub[i] <= n / 2) {
 				centers[m++] = i;
 			}
-		}
-		if (m == 2) {
-			find(centers[1], centers[0]);
 		}
 		return m;
 	}
@@ -121,10 +117,12 @@ public class Code04_LinkCutCentroids {
 				addEdge(u, v);
 				addEdge(v, u);
 			}
-			if (compute() == 1) {
+			dfs(1, 0);
+			if (centerCnt() == 1) {
 				out.println(centers[0] + " " + to[head[centers[0]]]);
 				out.println(centers[0] + " " + to[head[centers[0]]]);
 			} else {
+				find(centers[1], centers[0]);
 				out.println(leafFather + " " + leaf);
 				out.println(centers[0] + " " + leaf);
 			}
