@@ -42,66 +42,59 @@ package class165;
 //}
 //
 //void merge(int x, int y) {
-//    int fx = find(x), fy = find(y);
-//    if (fx == fy) {
-//        opstack[++opsize][0] = 0;
-//    } else {
-//        if (siz[fx] < siz[fy]) {
-//            int tmp = fx;
-//            fx = fy;
-//            fy = tmp;
-//        }
-//        father[fy] = fx;
-//        siz[fx] += siz[fy];
-//        edgeCnt[fx] += edgeCnt[fy] + 1;
-//        opstack[++opsize][0] = fx;
-//        opstack[opsize][1] = fy;
+//    int fx = find(x);
+//    int fy = find(y);
+//    if (siz[fx] < siz[fy]) {
+//        int tmp = fx;
+//        fx = fy;
+//        fy = tmp;
 //    }
+//    father[fy] = fx;
+//    siz[fx] += siz[fy];
+//    edgeCnt[fx] += edgeCnt[fy] + 1;
+//    opstack[++opsize][0] = fx;
+//    opstack[opsize][1] = fy;
 //}
 //
 //void undo() {
-//    if (opsize > 0 && opstack[opsize][0] != 0) {
-//        int fx = opstack[opsize][0];
-//        int fy = opstack[opsize--][1];
-//        father[fy] = fy;
-//        siz[fx] -= siz[fy];
-//        edgeCnt[fx] -= edgeCnt[fy] + 1;
-//    }
+//    int fx = opstack[opsize][0];
+//    int fy = opstack[opsize--][1];
+//    father[fy] = fy;
+//    siz[fx] -= siz[fy];
+//    edgeCnt[fx] -= edgeCnt[fy] + 1;
 //}
 //
 //void dfs(int u, int fa) {
-//    int x = arr[u][0], y = arr[u][1];
-//    int fx = find(x), fy = find(y);
+//    int fx = find(arr[u][0]);
+//    int fy = find(arr[u][1]);
 //    bool merged = false;
 //    int add = 0;
 //    if (fx == fy) {
 //        if (edgeCnt[fx] < siz[fx]) {
 //            ball++;
 //            add = 1;
-//		}
+//        }
 //        edgeCnt[fx]++;
 //    } else {
 //        if (edgeCnt[fx] < siz[fx] || edgeCnt[fy] < siz[fy]) {
 //            ball++;
 //            add = 1;
 //        }
-//        merge(x, y);
+//        merge(fx, fy);
 //        merged = true;
 //    }
-//    if (u != 1) {
-//        ans[u] = ball;
-//    }
+//    ans[u] = ball;
 //    for (int e = head[u]; e > 0; e = nxt[e]) {
 //        if (to[e] != fa) {
 //            dfs(to[e], u);
 //        }
 //    }
-//    ball -= add;
 //    if (merged) {
 //        undo();
 //    } else {
 //        edgeCnt[fx]--;
 //    }
+//    ball -= add;
 //}
 //
 //int main() {
