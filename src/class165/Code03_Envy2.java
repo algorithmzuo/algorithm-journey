@@ -1,6 +1,6 @@
 package class165;
 
-// k条边同在最小生成树里，C++版
+// 同在最小生成树里，C++版
 // 测试链接 : https://www.luogu.com.cn/problem/CF891C
 // 测试链接 : https://codeforces.com/problemset/problem/891/C
 // 如下实现是C++的版本，C++版本和java版本逻辑完全一样
