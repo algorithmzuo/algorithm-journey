@@ -26,7 +26,7 @@ public class Code02_UndoUnionFind1 {
 	public static int[] siz = new int[MAXN];
 	public static int[] edgeCnt = new int[MAXN];
 
-	public static int[][] opstack = new int[MAXN][2];
+	public static int[][] rollback = new int[MAXN][2];
 	public static int opsize = 0;
 
 	public static int[] ans = new int[MAXN];
@@ -56,13 +56,13 @@ public class Code02_UndoUnionFind1 {
 		father[fy] = fx;
 		siz[fx] += siz[fy];
 		edgeCnt[fx] += edgeCnt[fy] + 1;
-		opstack[++opsize][0] = fx;
-		opstack[opsize][1] = fy;
+		rollback[++opsize][0] = fx;
+		rollback[opsize][1] = fy;
 	}
 
 	public static void undo() {
-		int fx = opstack[opsize][0];
-		int fy = opstack[opsize--][1];
+		int fx = rollback[opsize][0];
+		int fy = rollback[opsize--][1];
 		father[fy] = fy;
 		siz[fx] -= siz[fy];
 		edgeCnt[fx] -= edgeCnt[fy] + 1;

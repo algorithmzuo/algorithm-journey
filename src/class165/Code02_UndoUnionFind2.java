@@ -22,7 +22,7 @@ package class165;
 //int siz[MAXN];
 //int edgeCnt[MAXN];
 //
-//int opstack[MAXN][2];
+//int rollback[MAXN][2];
 //int opsize = 0;
 //
 //int ans[MAXN];
@@ -52,13 +52,13 @@ package class165;
 //    father[fy] = fx;
 //    siz[fx] += siz[fy];
 //    edgeCnt[fx] += edgeCnt[fy] + 1;
-//    opstack[++opsize][0] = fx;
-//    opstack[opsize][1] = fy;
+//    rollback[++opsize][0] = fx;
+//    rollback[opsize][1] = fy;
 //}
 //
 //void undo() {
-//    int fx = opstack[opsize][0];
-//    int fy = opstack[opsize--][1];
+//    int fx = rollback[opsize][0];
+//    int fy = rollback[opsize--][1];
 //    father[fy] = fy;
 //    siz[fx] -= siz[fy];
 //    edgeCnt[fx] -= edgeCnt[fy] + 1;
