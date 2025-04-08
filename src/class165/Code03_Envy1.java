@@ -1,6 +1,10 @@
 package class165;
 
 // 同在最小生成树里，java版
+// 一共有n个点，m条无向边，每条边有边权
+// 一共有q次查询，每条查询都给定参数k，表示该查询涉及k条边
+// 然后依次给出k条边的编号，打印这k条边能否同时出现在一颗最小生成树上
+// 1 <= n、m、q、所有查询涉及边的总量 <= 5 * 10^5
 // 测试链接 : https://www.luogu.com.cn/problem/CF891C
 // 测试链接 : https://codeforces.com/problemset/problem/891/C
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
