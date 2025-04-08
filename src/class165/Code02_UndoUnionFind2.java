@@ -41,7 +41,7 @@ package class165;
 //	return i;
 //}
 //
-//void merge(int x, int y) {
+//void Union(int x, int y) {
 //    int fx = find(x);
 //    int fy = find(y);
 //    if (siz[fx] < siz[fy]) {
@@ -67,7 +67,7 @@ package class165;
 //void dfs(int u, int fa) {
 //    int fx = find(arr[u][0]);
 //    int fy = find(arr[u][1]);
-//    bool merged = false;
+//    bool unioned = false;
 //    int add = 0;
 //    if (fx == fy) {
 //        if (edgeCnt[fx] < siz[fx]) {
@@ -80,8 +80,8 @@ package class165;
 //            ball++;
 //            add = 1;
 //        }
-//        merge(fx, fy);
-//        merged = true;
+//        Union(fx, fy);
+//        unioned = true;
 //    }
 //    ans[u] = ball;
 //    for (int e = head[u]; e > 0; e = nxt[e]) {
@@ -89,7 +89,7 @@ package class165;
 //            dfs(to[e], u);
 //        }
 //    }
-//    if (merged) {
+//    if (unioned) {
 //        undo();
 //    } else {
 //        edgeCnt[fx]--;

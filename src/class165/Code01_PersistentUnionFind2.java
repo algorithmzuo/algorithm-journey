@@ -81,7 +81,7 @@ package class165;
 //    return x;
 //}
 //
-//void merge(int x, int y, int v) {
+//void Union(int x, int y, int v) {
 //    int fx = find(x, v);
 //    int fy = find(y, v);
 //    if (fx != fy) {
@@ -109,7 +109,7 @@ package class165;
 //        rootsiz[v] = rootsiz[v - 1];
 //        if (op == 1) {
 //            cin >> x >> y;
-//            merge(x, y, v);
+//            Union(x, y, v);
 //        } else if (op == 2) {
 //            cin >> x;
 //            rootfa[v] = rootfa[x];

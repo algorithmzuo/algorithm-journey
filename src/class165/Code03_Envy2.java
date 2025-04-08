@@ -24,7 +24,7 @@ package class165;
 //
 //bool QueryEdgeCmp(QueryEdge x, QueryEdge y) {
 //    if(x.w != y.w) {
-//    	return x.w < y.w;
+//        return x.w < y.w;
 //    } else {
 //        return x.i < y.i;
 //    }
@@ -32,6 +32,7 @@ package class165;
 //
 //const int MAXN = 500001;
 //int n, m, q, k;
+//
 //Edge edge[MAXN];
 //QueryEdge queryEdge[MAXN];
 //
@@ -49,13 +50,9 @@ package class165;
 //    return i;
 //}
 //
-//bool merge(int x, int y) {
+//void Union(int x, int y) {
 //    int fx = find(x);
 //    int fy = find(y);
-//    if (fx == fy) {
-//        rollback[++opsize][0] = 0;
-//        return false;
-//    }
 //    if (siz[fx] < siz[fy]) {
 //        int tmp = fx;
 //        fx = fy;
@@ -65,18 +62,13 @@ package class165;
 //    siz[fx] += siz[fy];
 //    rollback[++opsize][0] = fx;
 //    rollback[opsize][1] = fy;
-//    return true;
 //}
 //
 //void undo() {
-//    if (rollback[opsize][0] == 0) {
-//        opsize--;
-//    } else {
-//        int fx = rollback[opsize][0];
-//        int fy = rollback[opsize--][1];
-//        father[fy] = fy;
-//        siz[fx] -= siz[fy];
-//    }
+//    int fx = rollback[opsize][0];
+//    int fy = rollback[opsize--][1];
+//    father[fy] = fy;
+//    siz[fx] -= siz[fy];
 //}
 //
 //void prepare() {
@@ -95,17 +87,24 @@ package class165;
 //    int ei = 1;
 //    for (int l = 1, r = 1; l <= k; l = ++r) {
 //        for (; ei <= m && edge[ei].w < queryEdge[l].w; ei++) {
-//            merge(edge[ei].u, edge[ei].v);
+//            if (find(edge[ei].u) != find(edge[ei].v)) {
+//                Union(edge[ei].u, edge[ei].v);
+//            }
 //        }
 //        while (r + 1 <= k && queryEdge[l].w == queryEdge[r + 1].w && queryEdge[l].i == queryEdge[r + 1].i) {
 //            r++;
 //        }
+//        int unionCnt = 0;
 //        for (int i = l; i <= r; i++) {
-//            if (!merge(queryEdge[i].u, queryEdge[i].v)) {
+//            if (find(queryEdge[i].u) == find(queryEdge[i].v)) {
 //                ans[queryEdge[i].i] = false;
+//                break;
+//            } else {
+//                Union(queryEdge[i].u, queryEdge[i].v);
+//                unionCnt++;
 //            }
 //        }
-//        for (int i = l; i <= r; i++) {
+//        for (int i = 1; i <= unionCnt; i++) {
 //            undo();
 //        }
 //    }

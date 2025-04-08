@@ -86,7 +86,7 @@ public class Code01_PersistentUnionFind1 {
 		return x;
 	}
 
-	public static void merge(int x, int y, int v) {
+	public static void union(int x, int y, int v) {
 		int fx = find(x, v);
 		int fy = find(y, v);
 		if (fx != fy) {
@@ -122,7 +122,7 @@ public class Code01_PersistentUnionFind1 {
 				x = (int) in.nval;
 				in.nextToken();
 				y = (int) in.nval;
-				merge(x, y, v);
+				union(x, y, v);
 			} else if (op == 2) {
 				in.nextToken();
 				x = (int) in.nval;

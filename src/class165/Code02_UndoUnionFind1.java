@@ -45,7 +45,7 @@ public class Code02_UndoUnionFind1 {
 		return i;
 	}
 
-	public static void merge(int x, int y) {
+	public static void union(int x, int y) {
 		int fx = find(x);
 		int fy = find(y);
 		if (siz[fx] < siz[fy]) {
@@ -71,7 +71,7 @@ public class Code02_UndoUnionFind1 {
 	public static void dfs(int u, int fa) {
 		int fx = find(arr[u][0]);
 		int fy = find(arr[u][1]);
-		boolean merged = false;
+		boolean unioned = false;
 		int add = 0;
 		if (fx == fy) {
 			if (edgeCnt[fx] < siz[fx]) {
@@ -84,8 +84,8 @@ public class Code02_UndoUnionFind1 {
 				ball++;
 				add = 1;
 			}
-			merge(fx, fy);
-			merged = true;
+			union(fx, fy);
+			unioned = true;
 		}
 		ans[u] = ball;
 		for (int e = head[u]; e > 0; e = next[e]) {
@@ -93,7 +93,7 @@ public class Code02_UndoUnionFind1 {
 				dfs(to[e], u);
 			}
 		}
-		if (merged) {
+		if (unioned) {
 			undo();
 		} else {
 			edgeCnt[fx]--;
