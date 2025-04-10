@@ -72,18 +72,18 @@ package class165;
 //void dfs(int u, int fa) {
 //    int fx = find(arr[u][0]);
 //    int fy = find(arr[u][1]);
+//    bool added = false;
 //    bool unioned = false;
-//    int add = 0;
 //    if (fx == fy) {
 //        if (edgeCnt[fx] < siz[fx]) {
 //            ball++;
-//            add = 1;
+//            added = true;
 //        }
 //        edgeCnt[fx]++;
 //    } else {
 //        if (edgeCnt[fx] < siz[fx] || edgeCnt[fy] < siz[fy]) {
 //            ball++;
-//            add = 1;
+//            added = true;
 //        }
 //        Union(fx, fy);
 //        unioned = true;
@@ -94,12 +94,14 @@ package class165;
 //            dfs(to[e], u);
 //        }
 //    }
+//    if (added) {
+//        ball--;
+//    }
 //    if (unioned) {
 //        undo();
 //    } else {
 //        edgeCnt[fx]--;
 //    }
-//    ball -= add;
 //}
 //
 //int main() {

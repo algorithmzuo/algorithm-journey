@@ -76,18 +76,18 @@ public class Code02_UndoUnionFind1 {
 	public static void dfs(int u, int fa) {
 		int fx = find(arr[u][0]);
 		int fy = find(arr[u][1]);
+		boolean added = false;
 		boolean unioned = false;
-		int add = 0;
 		if (fx == fy) {
 			if (edgeCnt[fx] < siz[fx]) {
 				ball++;
-				add = 1;
+				added = true;
 			}
 			edgeCnt[fx]++;
 		} else {
 			if (edgeCnt[fx] < siz[fx] || edgeCnt[fy] < siz[fy]) {
 				ball++;
-				add = 1;
+				added = true;
 			}
 			union(fx, fy);
 			unioned = true;
@@ -98,12 +98,14 @@ public class Code02_UndoUnionFind1 {
 				dfs(to[e], u);
 			}
 		}
+		if (added) {
+			ball--;
+		}
 		if (unioned) {
 			undo();
 		} else {
 			edgeCnt[fx]--;
 		}
-		ball -= add;
 	}
 
 	public static void main(String[] args) throws IOException {
