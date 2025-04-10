@@ -24,6 +24,7 @@ public class Code01_PersistentUnionFind1 {
 	public static int MAXT = 8000001;
 	public static int n, m;
 
+	// 可持久化线段树
 	public static int[] rootfa = new int[MAXM];
 	public static int[] rootsiz = new int[MAXM];
 	public static int[] ls = new int[MAXT];
@@ -31,6 +32,7 @@ public class Code01_PersistentUnionFind1 {
 	public static int[] val = new int[MAXT];
 	public static int cnt = 0;
 
+	// 建立可持久化的father数组
 	public static int buildfa(int l, int r) {
 		int rt = ++cnt;
 		if (l == r) {
@@ -43,6 +45,7 @@ public class Code01_PersistentUnionFind1 {
 		return rt;
 	}
 
+	// 建立可持久化的siz数组
 	public static int buildsiz(int l, int r) {
 		int rt = ++cnt;
 		if (l == r) {
@@ -55,6 +58,7 @@ public class Code01_PersistentUnionFind1 {
 		return rt;
 	}
 
+	// 来自讲解157，题目1，修改数组中一个位置的值，生成新版本的树
 	public static int update(int jobi, int jobv, int l, int r, int i) {
 		int rt = ++cnt;
 		ls[rt] = ls[i];
@@ -72,6 +76,7 @@ public class Code01_PersistentUnionFind1 {
 		return rt;
 	}
 
+	// 来自讲解157，题目1，查询数组中一个位置的值
 	public static int query(int jobi, int l, int r, int i) {
 		if (l == r) {
 			return val[i];
@@ -84,6 +89,7 @@ public class Code01_PersistentUnionFind1 {
 		}
 	}
 
+	// 基于v版本，查询x的集合头节点，不做扁平化
 	public static int find(int x, int v) {
 		int fa = query(x, 1, n, rootfa[v]);
 		while (x != fa) {
@@ -93,6 +99,7 @@ public class Code01_PersistentUnionFind1 {
 		return x;
 	}
 
+	// 基于v版本，合并x所在的集合和y所在的集合，生成新版本的树
 	public static void union(int x, int y, int v) {
 		int fx = find(x, v);
 		int fy = find(y, v);
