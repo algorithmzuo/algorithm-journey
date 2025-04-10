@@ -26,13 +26,21 @@ public class Code04_TeamBuilding1 {
 	public static int MAXN = 500001;
 	public static int n, m, k;
 
+	// 每个节点的颜色
 	public static int[] color = new int[MAXN];
+	// 每条边有两个端点
 	public static int[][] edge = new int[MAXN][2];
+
+	// 两个端点为不同颜色的边，u、ucolor、v、vcolor
 	public static int[][] crossEdge = new int[MAXN][4];
+	// 两个端点为不同颜色的边的数量
 	public static int cnt = 0;
 
+	// conflict[i] = true，表示颜色为i的组，组内即便是二分图，也无法调和矛盾
+	// conflict[i] = false，表示颜色为i的组，组内构成二分图，可以调和矛盾
 	public static boolean[] conflict = new boolean[MAXN];
 
+	// 可撤销并查集
 	public static int[] father = new int[MAXN << 1];
 	public static int[] siz = new int[MAXN << 1];
 	public static int[][] rollback = new int[MAXN << 1][2];
@@ -102,19 +110,20 @@ public class Code04_TeamBuilding1 {
 	public static long compute() {
 		Arrays.sort(crossEdge, 1, cnt + 1, (a, b) -> a[1] != b[1] ? (a[1] - b[1]) : (a[3] - b[3]));
 		long ans = (long) k * (k - 1) / 2;
+		int u, ucolor, v, vcolor, unionCnt;
 		for (int l = 1, r = 1; l <= cnt; l = ++r) {
-			while (r + 1 <= cnt && crossEdge[r + 1][1] == crossEdge[l][1] && crossEdge[r + 1][3] == crossEdge[l][3]) {
+			ucolor = crossEdge[l][1];
+			vcolor = crossEdge[l][3];
+			while (r + 1 <= cnt && crossEdge[r + 1][1] == ucolor && crossEdge[r + 1][3] == vcolor) {
 				r++;
 			}
-			int u, ucolor, v, vcolor, unionCnt = 0;
+			if (conflict[ucolor] || conflict[vcolor]) {
+				continue;
+			}
+			unionCnt = 0;
 			for (int i = l; i <= r; i++) {
 				u = crossEdge[i][0];
-				ucolor = crossEdge[i][1];
 				v = crossEdge[i][2];
-				vcolor = crossEdge[i][3];
-				if (conflict[ucolor] || conflict[vcolor]) {
-					break;
-				}
 				if (find(u) == find(v)) {
 					ans--;
 					break;

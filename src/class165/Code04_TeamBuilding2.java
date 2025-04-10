@@ -35,6 +35,7 @@ package class165;
 //
 //int color[MAXN];
 //int edge[MAXN][2];
+//
 //CrossEdge crossEdge[MAXN];
 //int cnt = 0;
 //
@@ -109,20 +110,20 @@ package class165;
 //long long compute() {
 //    sort(crossEdge + 1, crossEdge + cnt + 1, CrossEdgeCmp);
 //    long long ans = (long long)k * (k - 1) / 2;
+//    int u, ucolor, v, vcolor, unionCnt;
 //    for (int l = 1, r = 1; l <= cnt; l = ++r) {
-//        while (r + 1 <= cnt && crossEdge[r + 1].ucolor == crossEdge[l].ucolor
-//                && crossEdge[r + 1].vcolor == crossEdge[l].vcolor) {
+//        ucolor = crossEdge[l].ucolor;
+//        vcolor = crossEdge[l].vcolor;
+//        while (r + 1 <= cnt && crossEdge[r + 1].ucolor == ucolor && crossEdge[r + 1].vcolor == vcolor) {
 //            r++;
 //        }
-//        int u, v, ucolor, vcolor, unionCnt = 0;
+//        if (conflict[ucolor] || conflict[vcolor]) {
+//            continue;
+//        }
+//        unionCnt = 0;
 //        for (int i = l; i <= r; i++) {
 //            u = crossEdge[i].u;
-//            ucolor = crossEdge[i].ucolor;
 //            v = crossEdge[i].v;
-//            vcolor = crossEdge[i].vcolor;
-//            if (conflict[ucolor] || conflict[vcolor]) {
-//                break;
-//            }
 //            if (find(u) == find(v)) {
 //                ans--;
 //                break;
