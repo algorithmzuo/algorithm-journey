@@ -75,13 +75,13 @@ package class165;
 //    bool added = false;
 //    bool unioned = false;
 //    if (fx == fy) {
-//        if (edgeCnt[fx] < siz[fx]) {
+//        if (edgeCnt[fx] == siz[fx] - 1) {
 //            ball++;
 //            added = true;
 //        }
 //        edgeCnt[fx]++;
 //    } else {
-//        if (edgeCnt[fx] < siz[fx] || edgeCnt[fy] < siz[fy]) {
+//        if (edgeCnt[fx] == siz[fx] - 1 || edgeCnt[fy] == siz[fy] - 1) {
 //            ball++;
 //            added = true;
 //        }
