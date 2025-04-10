@@ -108,7 +108,7 @@ public class Code01_PersistentUnionFind1 {
 		return x;
 	}
 
-	// 基于v版本，合并x所在的集合和y所在的集合，生成新版本的数组
+	// v版本已经拷贝了v-1版本，合并x所在的集合和y所在的集合，去更新v版本
 	public static void union(int x, int y, int v) {
 		int fx = find(x, v);
 		int fy = find(y, v);
