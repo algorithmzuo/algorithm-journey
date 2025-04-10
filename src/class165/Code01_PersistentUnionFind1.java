@@ -24,9 +24,14 @@ public class Code01_PersistentUnionFind1 {
 	public static int MAXT = 8000001;
 	public static int n, m;
 
-	// 可持久化线段树
+	// rootfa[i] = j，表示father数组，i版本的头节点编号为j
 	public static int[] rootfa = new int[MAXM];
+
+	// rootsiz[i] = j，表示siz数组，i版本的头节点编号为j
 	public static int[] rootsiz = new int[MAXM];
+
+	// 可持久化father数组和可持久化siz数组，共用一个ls、rs、val
+	// 因为可持久化时，分配的节点编号不同，所以可以共用
 	public static int[] ls = new int[MAXT];
 	public static int[] rs = new int[MAXT];
 	public static int[] val = new int[MAXT];
@@ -58,7 +63,9 @@ public class Code01_PersistentUnionFind1 {
 		return rt;
 	}
 
-	// 来自讲解157，题目1，修改数组中一个位置的值，生成新版本的树
+	// 来自讲解157，题目1，修改数组中一个位置的值，生成新版本的数组
+	// 如果i属于可持久化father数组的节点，那么修改的就是father数组
+	// 如果i属于可持久化siz数组的节点，那么修改的就是siz数组
 	public static int update(int jobi, int jobv, int l, int r, int i) {
 		int rt = ++cnt;
 		ls[rt] = ls[i];
@@ -77,6 +84,8 @@ public class Code01_PersistentUnionFind1 {
 	}
 
 	// 来自讲解157，题目1，查询数组中一个位置的值
+	// 如果i属于可持久化father数组的节点，那么查询的就是father数组
+	// 如果i属于可持久化siz数组的节点，那么查询的就是siz数组
 	public static int query(int jobi, int l, int r, int i) {
 		if (l == r) {
 			return val[i];
@@ -99,7 +108,7 @@ public class Code01_PersistentUnionFind1 {
 		return x;
 	}
 
-	// 基于v版本，合并x所在的集合和y所在的集合，生成新版本的树
+	// 基于v版本，合并x所在的集合和y所在的集合，生成新版本的数组
 	public static void union(int x, int y, int v) {
 		int fx = find(x, v);
 		int fy = find(y, v);
