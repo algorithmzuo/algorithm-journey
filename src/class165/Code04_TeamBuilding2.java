@@ -1,8 +1,8 @@
 package class165;
 
 // 团建，C++版
-// 一共有n个人，每个人给定一种颜色，一共有m条边，每条边连接两个人，代表这两人之间有矛盾
-// 一共有k种颜色，颜色相同的人在一个小组，一种颜色代表一个组，可能有的组没人，但组是存在的
+// 一共有n个人，每个人给定组号，一共有m条边，代表两人之间有矛盾
+// 一共有k个小组，可能有的组没人，但是组依然存在
 // 假设组a和组b，两个组的人一起去团建，组a和组b的所有人，可以重新打乱
 // 如果所有人最多分成两个集团，每人都要参加划分，并且每个集团的内部不存在矛盾
 // 那么组a和组b就叫做一个"合法组对"，注意，组b和组a就不用重复计算了
@@ -18,21 +18,21 @@ package class165;
 //using namespace std;
 //
 //struct CrossEdge {
-//    int u, ucolor, v, vcolor;
+//    int u, uteam, v, vteam;
 //};
 //
 //bool CrossEdgeCmp(CrossEdge x, CrossEdge y) {
-//    if(x.ucolor != y.ucolor) {
-//    	return x.ucolor < y.ucolor;
+//    if(x.uteam != y.uteam) {
+//    	return x.uteam < y.uteam;
 //    } else {
-//    	return x.vcolor < y.vcolor;
+//    	return x.vteam < y.vteam;
 //    }
 //}
 //
 //const int MAXN = 500001;
 //int n, m, k;
 //
-//int color[MAXN];
+//int team[MAXN];
 //int edge[MAXN][2];
 //
 //CrossEdge crossEdge[MAXN];
@@ -81,23 +81,23 @@ package class165;
 //    for (int i = 1, u, v; i <= m; i++) {
 //        u = edge[i][0];
 //        v = edge[i][1];
-//        if (color[u] < color[v]) {
+//        if (team[u] < team[v]) {
 //            crossEdge[++cnt].u = u;
-//            crossEdge[cnt].ucolor = color[u];
+//            crossEdge[cnt].uteam = team[u];
 //            crossEdge[cnt].v = v;
-//            crossEdge[cnt].vcolor = color[v];
-//        } else if (color[u] > color[v]) {
+//            crossEdge[cnt].vteam = team[v];
+//        } else if (team[u] > team[v]) {
 //            crossEdge[++cnt].u = v;
-//            crossEdge[cnt].ucolor = color[v];
+//            crossEdge[cnt].uteam = team[v];
 //            crossEdge[cnt].v = u;
-//            crossEdge[cnt].vcolor = color[u];
+//            crossEdge[cnt].vteam = team[u];
 //        } else {
-//            if (conflict[color[u]]) {
+//            if (conflict[team[u]]) {
 //                continue;
 //            }
 //            if (find(u) == find(v)) {
 //                k--;
-//                conflict[color[u]] = true;
+//                conflict[team[u]] = true;
 //            } else {
 //            	Union(u, v + n);
 //            	Union(v, u + n);
@@ -109,14 +109,14 @@ package class165;
 //long long compute() {
 //    sort(crossEdge + 1, crossEdge + cnt + 1, CrossEdgeCmp);
 //    long long ans = (long long)k * (k - 1) / 2;
-//    int u, ucolor, v, vcolor, unionCnt;
+//    int u, uteam, v, vteam, unionCnt;
 //    for (int l = 1, r = 1; l <= cnt; l = ++r) {
-//        ucolor = crossEdge[l].ucolor;
-//        vcolor = crossEdge[l].vcolor;
-//        while (r + 1 <= cnt && crossEdge[r + 1].ucolor == ucolor && crossEdge[r + 1].vcolor == vcolor) {
+//        uteam = crossEdge[l].uteam;
+//        vteam = crossEdge[l].vteam;
+//        while (r + 1 <= cnt && crossEdge[r + 1].uteam == uteam && crossEdge[r + 1].vteam == vteam) {
 //            r++;
 //        }
-//        if (conflict[ucolor] || conflict[vcolor]) {
+//        if (conflict[uteam] || conflict[vteam]) {
 //            continue;
 //        }
 //        unionCnt = 0;
@@ -144,7 +144,7 @@ package class165;
 //    cin.tie(nullptr);
 //    cin >> n >> m >> k;
 //    for (int i = 1; i <= n; i++) {
-//        cin >> color[i];
+//        cin >> team[i];
 //    }
 //    for (int i = 1; i <= m; i++) {
 //        cin >> edge[i][0] >> edge[i][1];

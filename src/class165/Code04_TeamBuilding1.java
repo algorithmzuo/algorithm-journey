@@ -1,8 +1,8 @@
 package class165;
 
 // 团建，java版
-// 一共有n个人，每个人给定一种颜色，一共有m条边，每条边连接两个人，代表这两人之间有矛盾
-// 一共有k种颜色，颜色相同的人在一个小组，一种颜色代表一个组，可能有的组没人，但组是存在的
+// 一共有n个人，每个人给定组号，一共有m条边，代表两人之间有矛盾
+// 一共有k个小组，可能有的组没人，但是组依然存在
 // 假设组a和组b，两个组的人一起去团建，组a和组b的所有人，可以重新打乱
 // 如果所有人最多分成两个集团，每人都要参加划分，并且每个集团的内部不存在矛盾
 // 那么组a和组b就叫做一个"合法组对"，注意，组b和组a就不用重复计算了
@@ -25,18 +25,18 @@ public class Code04_TeamBuilding1 {
 	public static int MAXN = 500001;
 	public static int n, m, k;
 
-	// 每个节点的颜色
-	public static int[] color = new int[MAXN];
+	// 每个节点的组号
+	public static int[] team = new int[MAXN];
 	// 每条边有两个端点
 	public static int[][] edge = new int[MAXN][2];
 
-	// 两个端点为不同颜色的边，u、ucolor、v、vcolor
+	// 两个端点为不同组的边，u、uteam、v、vteam
 	public static int[][] crossEdge = new int[MAXN][4];
-	// 两个端点为不同颜色的边的数量
+	// 两个端点为不同组的边的数量
 	public static int cnt = 0;
 
-	// conflict[i] = true，表示颜色为i的组，组内即便是二分图，也无法调和矛盾
-	// conflict[i] = false，表示颜色为i的组，组内构成二分图，可以调和矛盾
+	// conflict[i] = true，表示i号组去划分二分图，也无法调和矛盾
+	// conflict[i] = false，表示i号组去划分二分图，可以调和矛盾
 	public static boolean[] conflict = new boolean[MAXN];
 
 	// 可撤销并查集
@@ -81,23 +81,23 @@ public class Code04_TeamBuilding1 {
 		for (int i = 1, u, v; i <= m; i++) {
 			u = edge[i][0];
 			v = edge[i][1];
-			if (color[u] < color[v]) {
+			if (team[u] < team[v]) {
 				crossEdge[++cnt][0] = u;
-				crossEdge[cnt][1] = color[u];
+				crossEdge[cnt][1] = team[u];
 				crossEdge[cnt][2] = v;
-				crossEdge[cnt][3] = color[v];
-			} else if (color[u] > color[v]) {
+				crossEdge[cnt][3] = team[v];
+			} else if (team[u] > team[v]) {
 				crossEdge[++cnt][0] = v;
-				crossEdge[cnt][1] = color[v];
+				crossEdge[cnt][1] = team[v];
 				crossEdge[cnt][2] = u;
-				crossEdge[cnt][3] = color[u];
+				crossEdge[cnt][3] = team[u];
 			} else {
-				if (conflict[color[u]]) {
+				if (conflict[team[u]]) {
 					continue;
 				}
 				if (find(u) == find(v)) {
 					k--;
-					conflict[color[u]] = true;
+					conflict[team[u]] = true;
 				} else {
 					union(u, v + n);
 					union(v, u + n);
@@ -109,14 +109,14 @@ public class Code04_TeamBuilding1 {
 	public static long compute() {
 		Arrays.sort(crossEdge, 1, cnt + 1, (a, b) -> a[1] != b[1] ? (a[1] - b[1]) : (a[3] - b[3]));
 		long ans = (long) k * (k - 1) / 2;
-		int u, ucolor, v, vcolor, unionCnt;
+		int u, uteam, v, vteam, unionCnt;
 		for (int l = 1, r = 1; l <= cnt; l = ++r) {
-			ucolor = crossEdge[l][1];
-			vcolor = crossEdge[l][3];
-			while (r + 1 <= cnt && crossEdge[r + 1][1] == ucolor && crossEdge[r + 1][3] == vcolor) {
+			uteam = crossEdge[l][1];
+			vteam = crossEdge[l][3];
+			while (r + 1 <= cnt && crossEdge[r + 1][1] == uteam && crossEdge[r + 1][3] == vteam) {
 				r++;
 			}
-			if (conflict[ucolor] || conflict[vcolor]) {
+			if (conflict[uteam] || conflict[vteam]) {
 				continue;
 			}
 			unionCnt = 0;
@@ -151,7 +151,7 @@ public class Code04_TeamBuilding1 {
 		k = (int) in.nval;
 		for (int i = 1; i <= n; i++) {
 			in.nextToken();
-			color[i] = (int) in.nval;
+			team[i] = (int) in.nval;
 		}
 		for (int i = 1; i <= m; i++) {
 			in.nextToken();
