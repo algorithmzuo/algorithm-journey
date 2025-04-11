@@ -25,7 +25,7 @@ public class Code03_Envy1 {
 	// 节点u、节点v、边权w
 	public static int[][] edge = new int[MAXN][3];
 	// 节点u、节点v、边权w、问题编号i
-	public static int[][] queryEdge = new int[MAXN][4];
+	public static int[][] queries = new int[MAXN][4];
 
 	// 可撤销并查集
 	public static int[] father = new int[MAXN];
@@ -70,28 +70,33 @@ public class Code03_Envy1 {
 			siz[i] = 1;
 		}
 		Arrays.sort(edge, 1, m + 1, (a, b) -> a[2] - b[2]);
-		Arrays.sort(queryEdge, 1, k + 1, (a, b) -> a[2] != b[2] ? (a[2] - b[2]) : (a[3] - b[3]));
+		Arrays.sort(queries, 1, k + 1, (a, b) -> a[2] != b[2] ? (a[2] - b[2]) : (a[3] - b[3]));
 		Arrays.fill(ans, 1, q + 1, true);
 	}
 
 	public static void compute() {
-		int ei = 1;
+		int ei = 1, queryId, unionCnt;
 		for (int l = 1, r = 1; l <= k; l = ++r) {
-			for (; ei <= m && edge[ei][2] < queryEdge[l][2]; ei++) {
+			while (r + 1 <= k && queries[l][2] == queries[r + 1][2] && queries[l][3] == queries[r + 1][3]) {
+				r++;
+			}
+			// 添加小于当前边权的边，利用Kruskal算法增加连通性，ei是不回退的
+			for (; ei <= m && edge[ei][2] < queries[l][2]; ei++) {
 				if (find(edge[ei][0]) != find(edge[ei][1])) {
 					union(edge[ei][0], edge[ei][1]);
 				}
 			}
-			while (r + 1 <= k && queryEdge[l][2] == queryEdge[r + 1][2] && queryEdge[l][3] == queryEdge[r + 1][3]) {
-				r++;
+			queryId = queries[l][3];
+			if (!ans[queryId]) {
+				continue;
 			}
-			int unionCnt = 0;
+			unionCnt = 0;
 			for (int i = l; i <= r; i++) {
-				if (find(queryEdge[i][0]) == find(queryEdge[i][1])) {
-					ans[queryEdge[i][3]] = false;
+				if (find(queries[i][0]) == find(queries[i][1])) {
+					ans[queryId] = false;
 					break;
 				} else {
-					union(queryEdge[i][0], queryEdge[i][1]);
+					union(queries[i][0], queries[i][1]);
 					unionCnt++;
 				}
 			}
@@ -126,10 +131,10 @@ public class Code03_Envy1 {
 			for (int j = 1, ei; j <= s; j++) {
 				in.nextToken();
 				ei = (int) in.nval;
-				queryEdge[++k][0] = edge[ei][0];
-				queryEdge[k][1] = edge[ei][1];
-				queryEdge[k][2] = edge[ei][2];
-				queryEdge[k][3] = i;
+				queries[++k][0] = edge[ei][0];
+				queries[k][1] = edge[ei][1];
+				queries[k][2] = edge[ei][2];
+				queries[k][3] = i;
 			}
 		}
 		prepare();

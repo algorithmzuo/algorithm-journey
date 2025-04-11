@@ -22,11 +22,11 @@ package class165;
 //    return x.w < y.w;
 //}
 //
-//struct QueryEdge {
+//struct Query {
 //    int u, v, w, i;
 //};
 //
-//bool QueryEdgeCmp(QueryEdge x, QueryEdge y) {
+//bool QueryCmp(Query x, Query y) {
 //    if(x.w != y.w) {
 //        return x.w < y.w;
 //    } else {
@@ -38,7 +38,7 @@ package class165;
 //int n, m, q, k;
 //
 //Edge edge[MAXN];
-//QueryEdge queryEdge[MAXN];
+//Query queries[MAXN];
 //
 //int father[MAXN];
 //int siz[MAXN];
@@ -81,30 +81,34 @@ package class165;
 //        siz[i] = 1;
 //    }
 //    sort(edge + 1, edge + m + 1, EdgeCmp);
-//    sort(queryEdge + 1, queryEdge + k + 1, QueryEdgeCmp);
+//    sort(queries + 1, queries + k + 1, QueryCmp);
 //    for (int i = 1; i <= q; i++) {
 //        ans[i] = true;
 //    }
 //}
 //
 //void compute() {
-//    int ei = 1;
+//    int ei = 1, queryId, unionCnt;
 //    for (int l = 1, r = 1; l <= k; l = ++r) {
-//        for (; ei <= m && edge[ei].w < queryEdge[l].w; ei++) {
+//        while (r + 1 <= k && queries[l].w == queries[r + 1].w && queries[l].i == queries[r + 1].i) {
+//            r++;
+//        }
+//        for (; ei <= m && edge[ei].w < queries[l].w; ei++) {
 //            if (find(edge[ei].u) != find(edge[ei].v)) {
 //                Union(edge[ei].u, edge[ei].v);
 //            }
 //        }
-//        while (r + 1 <= k && queryEdge[l].w == queryEdge[r + 1].w && queryEdge[l].i == queryEdge[r + 1].i) {
-//            r++;
+//        queryId = queries[l].i;
+//        if (!ans[queryId]) {
+//            continue;
 //        }
-//        int unionCnt = 0;
+//        unionCnt = 0;
 //        for (int i = l; i <= r; i++) {
-//            if (find(queryEdge[i].u) == find(queryEdge[i].v)) {
-//                ans[queryEdge[i].i] = false;
+//            if (find(queries[i].u) == find(queries[i].v)) {
+//                ans[queryId] = false;
 //                break;
 //            } else {
-//                Union(queryEdge[i].u, queryEdge[i].v);
+//                Union(queries[i].u, queries[i].v);
 //                unionCnt++;
 //            }
 //        }
@@ -127,10 +131,10 @@ package class165;
 //        cin >> s;
 //        for (int j = 1, ei; j <= s; j++) {
 //            cin >> ei;
-//            queryEdge[++k].u = edge[ei].u;
-//            queryEdge[k].v = edge[ei].v;
-//            queryEdge[k].w = edge[ei].w;
-//            queryEdge[k].i = i;
+//            queries[++k].u = edge[ei].u;
+//            queries[k].v = edge[ei].v;
+//            queries[k].w = edge[ei].w;
+//            queries[k].i = i;
 //        }
 //    }
 //    prepare();
