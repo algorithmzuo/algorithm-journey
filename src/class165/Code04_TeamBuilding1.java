@@ -35,8 +35,8 @@ public class Code04_TeamBuilding1 {
 	// 两个端点为不同组的边的数量
 	public static int cnt = 0;
 
-	// conflict[i] = true，表示i号组去划分二分图，也无法调和矛盾
-	// conflict[i] = false，表示i号组去划分二分图，可以调和矛盾
+	// conflict[i] = true，表示i号组自己去划分二分图，依然有冲突
+	// conflict[i] = false，表示i号组自己去划分二分图，没有冲突
 	public static boolean[] conflict = new boolean[MAXN];
 
 	// 可撤销并查集
