@@ -1,26 +1,27 @@
 package class166;
 
-// 线段树分治模版题，java版
-// 测试链接 : https://www.luogu.com.cn/problem/P5787
+// 最小mex生成树，java版
+// 测试链接 : https://www.luogu.com.cn/problem/P5631
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-public class Code01_SegmentTreeDivideAndConquer1 {
+public class Code02_MinimumMexTree1 {
 
-	public static int MAXN = 100001;
-	public static int MAXM = 200001;
-	public static int MAXT = 3000001;
-	public static int n, m, k;
+	public static int MAXN = 1000001;
+	public static int MAXM = 2000001;
+	public static int MAXT = 30000001;
+	public static int n, m, v;
 
 	public static int[] x = new int[MAXM];
 	public static int[] y = new int[MAXM];
+	public static int[] w = new int[MAXM];
 
-	public static int[] father = new int[MAXN << 1];
-	public static int[] siz = new int[MAXN << 1];
-	public static int[][] rollback = new int[MAXN << 1][2];
+	public static int[] father = new int[MAXN];
+	public static int[] siz = new int[MAXN];
+	public static int[][] rollback = new int[MAXN][2];
 	public static int opsize;
 
 	public static int[] head = new int[MAXT];
@@ -28,7 +29,7 @@ public class Code01_SegmentTreeDivideAndConquer1 {
 	public static int[] to = new int[MAXT];
 	public static int cnt = 0;
 
-	public static boolean[] ans = new boolean[MAXN];
+	public static int part;
 
 	public static void addEdge(int u, int v) {
 		next[++cnt] = head[u];
@@ -71,7 +72,7 @@ public class Code01_SegmentTreeDivideAndConquer1 {
 		if (jobl <= l && r <= jobr) {
 			addEdge(i, jobv);
 		} else {
-			int mid = (l + r) / 2;
+			int mid = (l + r) >> 1;
 			if (jobl <= mid) {
 				add(jobl, jobr, jobv, l, mid, i << 1);
 			}
@@ -81,65 +82,57 @@ public class Code01_SegmentTreeDivideAndConquer1 {
 		}
 	}
 
-	public static void dfs(int l, int r, int i) {
-		boolean check = true;
-		int u, v, fu, fv, unionCnt = 0;
-		for (int ei = head[i]; ei > 0; ei = next[ei]) {
-			u = x[to[ei]];
-			v = y[to[ei]];
-			fu = find(u);
-			fv = find(v);
-			if (fu == fv) {
-				check = false;
-				break;
-			} else {
-				union(u, v + n);
-				union(v, u + n);
-				unionCnt += 2;
+	public static int dfs(int l, int r, int i) {
+		int unionCnt = 0;
+		for (int ei = head[i], fx, fy; ei > 0; ei = next[ei]) {
+			fx = find(x[to[ei]]);
+			fy = find(y[to[ei]]);
+			if (fx != fy) {
+				union(fx, fy);
+				part--;
+				unionCnt++;
 			}
 		}
-		if (check) {
-			if (l == r) {
-				ans[l] = true;
-			} else {
-				int mid = (l + r) / 2;
-				dfs(l, mid, i << 1);
-				dfs(mid + 1, r, i << 1 | 1);
+		int ans = -1;
+		if (l == r) {
+			if (part == 1) {
+				ans = l;
 			}
 		} else {
-			for (int k = l; k <= r; k++) {
-				ans[k] = false;
+			int mid = (l + r) >> 1;
+			ans = dfs(l, mid, i << 1);
+			if (ans == -1) {
+				ans = dfs(mid + 1, r, i << 1 | 1);
 			}
 		}
 		for (int k = 1; k <= unionCnt; k++) {
 			undo();
+			part++;
 		}
+		return ans;
 	}
 
 	public static void main(String[] args) throws IOException {
 		FastIO io = new FastIO(System.in, System.out);
 		n = io.nextInt();
 		m = io.nextInt();
-		k = io.nextInt();
-		for (int i = 1, l, r; i <= m; i++) {
+		v = 0;
+		for (int i = 1; i <= m; i++) {
 			x[i] = io.nextInt();
 			y[i] = io.nextInt();
-			l = io.nextInt() + 1;
-			r = io.nextInt();
-			add(l, r, i, 1, k, 1);
+			w[i] = io.nextInt();
+			v = Math.max(v, w[i] + 1);
 		}
-		for (int i = 1; i <= n * 2; i++) {
+		for (int i = 1; i <= n; i++) {
 			father[i] = i;
 			siz[i] = 1;
 		}
-		dfs(1, k, 1);
-		for (int i = 1; i <= k; i++) {
-			if (ans[i]) {
-				io.write("Yes\n");
-			} else {
-				io.write("No\n");
-			}
+		for (int i = 1; i <= m; i++) {
+			add(0, w[i] - 1, i, 0, v, 1);
+			add(w[i] + 1, v, i, 0, v, 1);
 		}
+		part = n;
+		io.writelnInt(dfs(0, v, 1));
 		io.flush();
 	}
 
