@@ -66,9 +66,6 @@ public class Code02_MinimumMexTree1 {
 	}
 
 	public static void add(int jobl, int jobr, int jobv, int l, int r, int i) {
-		if (jobl > r || jobr < l) {
-			return;
-		}
 		if (jobl <= l && r <= jobr) {
 			addEdge(i, jobv);
 		} else {
@@ -128,7 +125,9 @@ public class Code02_MinimumMexTree1 {
 			siz[i] = 1;
 		}
 		for (int i = 1; i <= m; i++) {
-			add(0, w[i] - 1, i, 0, v, 1);
+			if (w[i] > 0) {
+				add(0, w[i] - 1, i, 0, v, 1);
+			}
 			add(w[i] + 1, v, i, 0, v, 1);
 		}
 		part = n;

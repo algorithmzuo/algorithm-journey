@@ -65,9 +65,6 @@ public class Code01_SegmentTreeDivideAndConquer1 {
 	}
 
 	public static void add(int jobl, int jobr, int jobv, int l, int r, int i) {
-		if (jobl > r || jobr < l) {
-			return;
-		}
 		if (jobl <= l && r <= jobr) {
 			addEdge(i, jobv);
 		} else {
