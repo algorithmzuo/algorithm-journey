@@ -109,7 +109,7 @@ public class Code02_MinimumMexTree1 {
 		return ans;
 	}
 
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) {
 		FastIO io = new FastIO(System.in, System.out);
 		n = io.nextInt();
 		m = io.nextInt();
