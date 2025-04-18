@@ -15,10 +15,6 @@ public class Code03_UniqueOccurrences1 {
 	public static int MAXT = 10000001;
 	public static int n, m;
 
-	public static int[] x = new int[MAXN];
-	public static int[] y = new int[MAXN];
-	public static int[] c = new int[MAXN];
-
 	public static int[] father = new int[MAXN];
 	public static int[] siz = new int[MAXN];
 	public static int[][] rollback = new int[MAXN][2];
@@ -26,26 +22,30 @@ public class Code03_UniqueOccurrences1 {
 
 	public static int[] headc = new int[MAXN];
 	public static int[] nextc = new int[MAXN];
-	public static int[] toc = new int[MAXN];
+	public static int[] xc = new int[MAXN];
+	public static int[] yc = new int[MAXN];
 	public static int cntc = 0;
 
-	public static int[] heads = new int[MAXT];
+	public static int[] heads = new int[MAXN << 2];
 	public static int[] nexts = new int[MAXT];
-	public static int[] tos = new int[MAXT];
+	public static int[] xs = new int[MAXT];
+	public static int[] ys = new int[MAXT];
 	public static int cnts = 0;
 
 	public static long ans = 0;
 
-	public static void addEdgeC(int u, int v) {
-		nextc[++cntc] = headc[u];
-		toc[cntc] = v;
-		headc[u] = cntc;
+	public static void addEdgeC(int i, int x, int y) {
+		nextc[++cntc] = headc[i];
+		xc[cntc] = x;
+		yc[cntc] = y;
+		headc[i] = cntc;
 	}
 
-	public static void addEdgeS(int u, int v) {
-		nexts[++cnts] = heads[u];
-		tos[cnts] = v;
-		heads[u] = cnts;
+	public static void addEdgeS(int i, int x, int y) {
+		nexts[++cnts] = heads[i];
+		xs[cnts] = x;
+		ys[cnts] = y;
+		heads[i] = cnts;
 	}
 
 	public static int find(int i) {
@@ -76,16 +76,16 @@ public class Code03_UniqueOccurrences1 {
 		siz[fx] -= siz[fy];
 	}
 
-	public static void add(int jobl, int jobr, int jobv, int l, int r, int i) {
+	public static void add(int jobl, int jobr, int jobx, int joby, int l, int r, int i) {
 		if (jobl <= l && r <= jobr) {
-			addEdgeS(i, jobv);
+			addEdgeS(i, jobx, joby);
 		} else {
 			int mid = (l + r) >> 1;
 			if (jobl <= mid) {
-				add(jobl, jobr, jobv, l, mid, i << 1);
+				add(jobl, jobr, jobx, joby, l, mid, i << 1);
 			}
 			if (jobr > mid) {
-				add(jobl, jobr, jobv, mid + 1, r, i << 1 | 1);
+				add(jobl, jobr, jobx, joby, mid + 1, r, i << 1 | 1);
 			}
 		}
 	}
@@ -93,8 +93,8 @@ public class Code03_UniqueOccurrences1 {
 	public static void dfs(int l, int r, int i) {
 		int unionCnt = 0;
 		for (int ei = heads[i], fx, fy; ei > 0; ei = nexts[ei]) {
-			fx = find(x[tos[ei]]);
-			fy = find(y[tos[ei]]);
+			fx = find(xs[ei]);
+			fy = find(ys[ei]);
 			if (fx != fy) {
 				union(fx, fy);
 				unionCnt++;
@@ -102,8 +102,8 @@ public class Code03_UniqueOccurrences1 {
 		}
 		if (l == r) {
 			for (int ei = headc[l], fx, fy; ei > 0; ei = nextc[ei]) {
-				fx = find(x[toc[ei]]);
-				fy = find(y[toc[ei]]);
+				fx = find(xc[ei]);
+				fy = find(yc[ei]);
 				ans += (long) siz[fx] * siz[fy];
 			}
 		} else {
@@ -119,18 +119,16 @@ public class Code03_UniqueOccurrences1 {
 	public static void main(String[] args) {
 		FastIO io = new FastIO(System.in, System.out);
 		n = io.nextInt();
-		for (int i = 1; i < n; i++) {
-			x[i] = io.nextInt();
-			y[i] = io.nextInt();
-			c[i] = io.nextInt();
-		}
-		for (int i = 1; i < n; i++) {
-			addEdgeC(c[i], i);
-			if (c[i] > 1) {
-				add(1, c[i] - 1, i, 1, n, 1);
+		for (int i = 1, x, y, c; i < n; i++) {
+			x = io.nextInt();
+			y = io.nextInt();
+			c = io.nextInt();
+			addEdgeC(c, x, y);
+			if (c > 1) {
+				add(1, c - 1, x, y, 1, n, 1);
 			}
-			if (c[i] < n) {
-				add(c[i] + 1, n, i, 1, n, 1);
+			if (c < n) {
+				add(c + 1, n, x, y, 1, n, 1);
 			}
 		}
 		for (int i = 1; i <= n; i++) {

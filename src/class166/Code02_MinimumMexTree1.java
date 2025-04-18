@@ -11,30 +11,28 @@ import java.io.OutputStream;
 public class Code02_MinimumMexTree1 {
 
 	public static int MAXN = 1000001;
-	public static int MAXM = 2000001;
+	public static int MAXV = 100001;
 	public static int MAXT = 30000001;
 	public static int n, m, v;
-
-	public static int[] x = new int[MAXM];
-	public static int[] y = new int[MAXM];
-	public static int[] w = new int[MAXM];
 
 	public static int[] father = new int[MAXN];
 	public static int[] siz = new int[MAXN];
 	public static int[][] rollback = new int[MAXN][2];
 	public static int opsize;
 
-	public static int[] head = new int[MAXT];
+	public static int[] head = new int[MAXV << 2];
 	public static int[] next = new int[MAXT];
-	public static int[] to = new int[MAXT];
+	public static int[] tox = new int[MAXT];
+	public static int[] toy = new int[MAXT];
 	public static int cnt = 0;
 
 	public static int part;
 
-	public static void addEdge(int u, int v) {
-		next[++cnt] = head[u];
-		to[cnt] = v;
-		head[u] = cnt;
+	public static void addEdge(int i, int x, int y) {
+		next[++cnt] = head[i];
+		tox[cnt] = x;
+		toy[cnt] = y;
+		head[i] = cnt;
 	}
 
 	public static int find(int i) {
@@ -65,16 +63,16 @@ public class Code02_MinimumMexTree1 {
 		siz[fx] -= siz[fy];
 	}
 
-	public static void add(int jobl, int jobr, int jobv, int l, int r, int i) {
+	public static void add(int jobl, int jobr, int jobx, int joby, int l, int r, int i) {
 		if (jobl <= l && r <= jobr) {
-			addEdge(i, jobv);
+			addEdge(i, jobx, joby);
 		} else {
 			int mid = (l + r) >> 1;
 			if (jobl <= mid) {
-				add(jobl, jobr, jobv, l, mid, i << 1);
+				add(jobl, jobr, jobx, joby, l, mid, i << 1);
 			}
 			if (jobr > mid) {
-				add(jobl, jobr, jobv, mid + 1, r, i << 1 | 1);
+				add(jobl, jobr, jobx, joby, mid + 1, r, i << 1 | 1);
 			}
 		}
 	}
@@ -82,8 +80,8 @@ public class Code02_MinimumMexTree1 {
 	public static int dfs(int l, int r, int i) {
 		int unionCnt = 0;
 		for (int ei = head[i], fx, fy; ei > 0; ei = next[ei]) {
-			fx = find(x[to[ei]]);
-			fy = find(y[to[ei]]);
+			fx = find(tox[ei]);
+			fy = find(toy[ei]);
 			if (fx != fy) {
 				union(fx, fy);
 				part--;
@@ -113,22 +111,19 @@ public class Code02_MinimumMexTree1 {
 		FastIO io = new FastIO(System.in, System.out);
 		n = io.nextInt();
 		m = io.nextInt();
-		v = 0;
-		for (int i = 1; i <= m; i++) {
-			x[i] = io.nextInt();
-			y[i] = io.nextInt();
-			w[i] = io.nextInt();
-			v = Math.max(v, w[i] + 1);
-		}
+		v = MAXV;
 		for (int i = 1; i <= n; i++) {
 			father[i] = i;
 			siz[i] = 1;
 		}
-		for (int i = 1; i <= m; i++) {
-			if (w[i] > 0) {
-				add(0, w[i] - 1, i, 0, v, 1);
+		for (int i = 1, x, y, w; i <= m; i++) {
+			x = io.nextInt();
+			y = io.nextInt();
+			w = io.nextInt();
+			if (w > 0) {
+				add(0, w - 1, x, y, 0, v, 1);
 			}
-			add(w[i] + 1, v, i, 0, v, 1);
+			add(w + 1, v, x, y, 0, v, 1);
 		}
 		part = n;
 		io.writelnInt(dfs(0, v, 1));

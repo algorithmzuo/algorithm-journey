@@ -11,29 +11,27 @@ import java.io.OutputStream;
 public class Code01_SegmentTreeDivideAndConquer1 {
 
 	public static int MAXN = 100001;
-	public static int MAXM = 200001;
 	public static int MAXT = 3000001;
 	public static int n, m, k;
-
-	public static int[] x = new int[MAXM];
-	public static int[] y = new int[MAXM];
 
 	public static int[] father = new int[MAXN << 1];
 	public static int[] siz = new int[MAXN << 1];
 	public static int[][] rollback = new int[MAXN << 1][2];
 	public static int opsize;
 
-	public static int[] head = new int[MAXT];
+	public static int[] head = new int[MAXN << 2];
 	public static int[] next = new int[MAXT];
-	public static int[] to = new int[MAXT];
+	public static int[] tox = new int[MAXT];
+	public static int[] toy = new int[MAXT];
 	public static int cnt = 0;
 
 	public static boolean[] ans = new boolean[MAXN];
 
-	public static void addEdge(int u, int v) {
-		next[++cnt] = head[u];
-		to[cnt] = v;
-		head[u] = cnt;
+	public static void addEdge(int i, int x, int y) {
+		next[++cnt] = head[i];
+		tox[cnt] = x;
+		toy[cnt] = y;
+		head[i] = cnt;
 	}
 
 	public static int find(int i) {
@@ -64,34 +62,34 @@ public class Code01_SegmentTreeDivideAndConquer1 {
 		siz[fx] -= siz[fy];
 	}
 
-	public static void add(int jobl, int jobr, int jobv, int l, int r, int i) {
+	public static void add(int jobl, int jobr, int jobx, int joby, int l, int r, int i) {
 		if (jobl <= l && r <= jobr) {
-			addEdge(i, jobv);
+			addEdge(i, jobx, joby);
 		} else {
 			int mid = (l + r) / 2;
 			if (jobl <= mid) {
-				add(jobl, jobr, jobv, l, mid, i << 1);
+				add(jobl, jobr, jobx, joby, l, mid, i << 1);
 			}
 			if (jobr > mid) {
-				add(jobl, jobr, jobv, mid + 1, r, i << 1 | 1);
+				add(jobl, jobr, jobx, joby, mid + 1, r, i << 1 | 1);
 			}
 		}
 	}
 
 	public static void dfs(int l, int r, int i) {
 		boolean check = true;
-		int u, v, fu, fv, unionCnt = 0;
-		for (int ei = head[i]; ei > 0; ei = next[ei]) {
-			u = x[to[ei]];
-			v = y[to[ei]];
-			fu = find(u);
-			fv = find(v);
-			if (fu == fv) {
+		int unionCnt = 0;
+		for (int ei = head[i], x, y, fx, fy; ei > 0; ei = next[ei]) {
+			x = tox[ei];
+			y = toy[ei];
+			fx = find(x);
+			fy = find(y);
+			if (fx == fy) {
 				check = false;
 				break;
 			} else {
-				union(u, v + n);
-				union(v, u + n);
+				union(x, y + n);
+				union(y, x + n);
 				unionCnt += 2;
 			}
 		}
@@ -118,16 +116,16 @@ public class Code01_SegmentTreeDivideAndConquer1 {
 		n = io.nextInt();
 		m = io.nextInt();
 		k = io.nextInt();
-		for (int i = 1, l, r; i <= m; i++) {
-			x[i] = io.nextInt();
-			y[i] = io.nextInt();
-			l = io.nextInt() + 1;
-			r = io.nextInt();
-			add(l, r, i, 1, k, 1);
-		}
 		for (int i = 1; i <= n * 2; i++) {
 			father[i] = i;
 			siz[i] = 1;
+		}
+		for (int i = 1, x, y, l, r; i <= m; i++) {
+			x = io.nextInt();
+			y = io.nextInt();
+			l = io.nextInt();
+			r = io.nextInt();
+			add(l + 1, r, x, y, 1, k, 1);
 		}
 		dfs(1, k, 1);
 		for (int i = 1; i <= k; i++) {
