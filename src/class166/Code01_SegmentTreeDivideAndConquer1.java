@@ -17,7 +17,7 @@ public class Code01_SegmentTreeDivideAndConquer1 {
 	public static int[] father = new int[MAXN << 1];
 	public static int[] siz = new int[MAXN << 1];
 	public static int[][] rollback = new int[MAXN << 1][2];
-	public static int opsize;
+	public static int opsize = 0;
 
 	public static int[] head = new int[MAXN << 2];
 	public static int[] next = new int[MAXT];

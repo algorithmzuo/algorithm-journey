@@ -22,13 +22,13 @@ public class Code04_GreatIntegration1 {
 	public static int[] father = new int[MAXN];
 	public static int[] siz = new int[MAXN];
 	public static int[][] rollback = new int[MAXN][2];
-	public static int opsize;
+	public static int opsize = 0;
 
 	public static int[] head = new int[MAXN << 2];
 	public static int[] next = new int[MAXT];
 	public static int[] tox = new int[MAXT];
 	public static int[] toy = new int[MAXT];
-	public static int cnt;
+	public static int cnt = 0;
 
 	public static long[] ans = new long[MAXN];
 

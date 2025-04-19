@@ -1,51 +1,47 @@
 package class166;
 
-// 独特事件，java版
-// 测试链接 : https://www.luogu.com.cn/problem/CF1681F
-// 测试链接 : https://codeforces.com/problemset/problem/1681/F
+// 连通图
+// 测试链接 : https://www.luogu.com.cn/problem/P5227
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Arrays;
 
-public class Code03_UniqueOccurrences1 {
+public class Code05_ConnectedGraph1 {
 
-	public static int MAXN = 500001;
+	public static int MAXN = 100001;
+	public static int MAXM = 200001;
+	public static int MAXE = 400001;
 	public static int MAXT = 10000001;
-	public static int n, m;
+	public static int n, m, k;
+
+	public static int[] x = new int[MAXM];
+	public static int[] y = new int[MAXM];
+
+	public static int[][] event = new int[MAXE][2];
+	public static int ecnt = 0;
+	public static boolean[] visit = new boolean[MAXM];
 
 	public static int[] father = new int[MAXN];
 	public static int[] siz = new int[MAXN];
 	public static int[][] rollback = new int[MAXN][2];
 	public static int opsize = 0;
 
-	public static int[] headc = new int[MAXN];
-	public static int[] nextc = new int[MAXN];
-	public static int[] xc = new int[MAXN];
-	public static int[] yc = new int[MAXN];
-	public static int cntc = 0;
+	public static int[] head = new int[MAXN << 2];
+	public static int[] next = new int[MAXT];
+	public static int[] tox = new int[MAXT];
+	public static int[] toy = new int[MAXT];
+	public static int cnt = 0;
 
-	public static int[] heads = new int[MAXN << 2];
-	public static int[] nexts = new int[MAXT];
-	public static int[] xs = new int[MAXT];
-	public static int[] ys = new int[MAXT];
-	public static int cnts = 0;
+	public static boolean[] ans = new boolean[MAXN];
 
-	public static long ans = 0;
-
-	public static void addEdgeC(int i, int x, int y) {
-		nextc[++cntc] = headc[i];
-		xc[cntc] = x;
-		yc[cntc] = y;
-		headc[i] = cntc;
-	}
-
-	public static void addEdgeS(int i, int x, int y) {
-		nexts[++cnts] = heads[i];
-		xs[cnts] = x;
-		ys[cnts] = y;
-		heads[i] = cnts;
+	public static void addEdge(int i, int x, int y) {
+		next[++cnt] = head[i];
+		tox[cnt] = x;
+		toy[cnt] = y;
+		head[i] = cnt;
 	}
 
 	public static int find(int i) {
@@ -78,7 +74,7 @@ public class Code03_UniqueOccurrences1 {
 
 	public static void add(int jobl, int jobr, int jobx, int joby, int l, int r, int i) {
 		if (jobl <= l && r <= jobr) {
-			addEdgeS(i, jobx, joby);
+			addEdge(i, jobx, joby);
 		} else {
 			int mid = (l + r) >> 1;
 			if (jobl <= mid) {
@@ -91,52 +87,96 @@ public class Code03_UniqueOccurrences1 {
 	}
 
 	public static void dfs(int l, int r, int i) {
+		boolean check = false;
 		int unionCnt = 0;
-		for (int ei = heads[i], fx, fy; ei > 0; ei = nexts[ei]) {
-			fx = find(xs[ei]);
-			fy = find(ys[ei]);
+		for (int ei = head[i], x, y, fx, fy; ei > 0; ei = next[ei]) {
+			x = tox[ei];
+			y = toy[ei];
+			fx = find(x);
+			fy = find(y);
 			if (fx != fy) {
 				union(fx, fy);
 				unionCnt++;
 			}
+			if (siz[find(fx)] == n) {
+				check = true;
+				break;
+			}
 		}
-		if (l == r) {
-			for (int ei = headc[l], fx, fy; ei > 0; ei = nextc[ei]) {
-				fx = find(xc[ei]);
-				fy = find(yc[ei]);
-				ans += (long) siz[fx] * siz[fy];
+		if (check) {
+			for (int j = l; j <= r; j++) {
+				ans[j] = true;
 			}
 		} else {
-			int mid = (l + r) >> 1;
-			dfs(l, mid, i << 1);
-			dfs(mid + 1, r, i << 1 | 1);
+			if (l == r) {
+				ans[l] = false;
+			} else {
+				int mid = (l + r) >> 1;
+				dfs(l, mid, i << 1);
+				dfs(mid + 1, r, i << 1 | 1);
+			}
 		}
-		for (int k = 1; k <= unionCnt; k++) {
+		for (int j = 1; j <= unionCnt; j++) {
 			undo();
+		}
+	}
+
+	public static void prepare() {
+		for (int i = 1; i <= n; i++) {
+			father[i] = i;
+			siz[i] = 1;
+		}
+		Arrays.sort(event, 1, ecnt + 1, (a, b) -> a[0] != b[0] ? (a[0] - b[0]) : (a[1] - b[1]));
+		int eid, t;
+		for (int l = 1, r = 1; l <= ecnt; l = ++r) {
+			eid = event[l][0];
+			visit[eid] = true;
+			while (r + 1 <= ecnt && event[r + 1][0] == eid) {
+				r++;
+			}
+			t = 1;
+			for (int i = l; i <= r; i++) {
+				if (t <= event[i][1] - 1) {
+					add(t, event[i][1] - 1, x[eid], y[eid], 1, k, 1);
+				}
+				t = event[i][1] + 1;
+			}
+			if (t <= k) {
+				add(t, k, x[eid], y[eid], 1, k, 1);
+			}
+		}
+		for (int i = 1; i <= m; i++) {
+			if (!visit[i]) {
+				add(1, k, x[i], y[i], 1, k, 1);
+			}
 		}
 	}
 
 	public static void main(String[] args) {
 		FastIO io = new FastIO(System.in, System.out);
 		n = io.nextInt();
-		for (int i = 1, x, y, c; i < n; i++) {
-			x = io.nextInt();
-			y = io.nextInt();
-			c = io.nextInt();
-			addEdgeC(c, x, y);
-			if (c > 1) {
-				add(1, c - 1, x, y, 1, n, 1);
-			}
-			if (c < n) {
-				add(c + 1, n, x, y, 1, n, 1);
+		m = io.nextInt();
+		for (int i = 1; i <= m; i++) {
+			x[i] = io.nextInt();
+			y[i] = io.nextInt();
+		}
+		k = io.nextInt();
+		for (int i = 1, s; i <= k; i++) {
+			s = io.nextInt();
+			for (int j = 1; j <= s; j++) {
+				event[++ecnt][0] = io.nextInt();
+				event[ecnt][1] = i;
 			}
 		}
-		for (int i = 1; i <= n; i++) {
-			father[i] = i;
-			siz[i] = 1;
+		prepare();
+		dfs(1, k, 1);
+		for (int i = 1; i <= k; i++) {
+			if (ans[i]) {
+				io.write("Connected\n");
+			} else {
+				io.write("Disconnected\n");
+			}
 		}
-		dfs(1, n, 1);
-		io.writelnLong(ans);
 		io.flush();
 	}
 
@@ -197,7 +237,15 @@ public class Code03_UniqueOccurrences1 {
 			return negative ? -val : val;
 		}
 
-		public void writelnLong(long x) {
+		public void write(String s) {
+			outBuf.append(s);
+		}
+
+		public void writeInt(int x) {
+			outBuf.append(x);
+		}
+
+		public void writelnInt(int x) {
 			outBuf.append(x).append('\n');
 		}
 

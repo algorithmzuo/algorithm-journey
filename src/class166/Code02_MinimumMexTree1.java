@@ -18,7 +18,7 @@ public class Code02_MinimumMexTree1 {
 	public static int[] father = new int[MAXN];
 	public static int[] siz = new int[MAXN];
 	public static int[][] rollback = new int[MAXN][2];
-	public static int opsize;
+	public static int opsize = 0;
 
 	public static int[] head = new int[MAXV << 2];
 	public static int[] next = new int[MAXT];
