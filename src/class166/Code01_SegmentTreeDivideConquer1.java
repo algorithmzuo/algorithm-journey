@@ -18,10 +18,7 @@ public class Code01_SegmentTreeDivideConquer1 {
 	public static int MAXT = 5000001;
 	public static int n, m;
 
-	public static int[] op = new int[MAXM];
-	public static int[] a = new int[MAXM];
-	public static int[] b = new int[MAXM];
-
+	public static int[][] event = new int[MAXM][3];
 	public static int[][] last = new int[MAXN][MAXN];
 
 	public static int[] father = new int[MAXN];
@@ -99,8 +96,11 @@ public class Code01_SegmentTreeDivideConquer1 {
 			}
 		}
 		if (l == r) {
-			if (op[l] == 2) {
-				ans[l] = find(a[l]) == find(b[l]);
+			int op = event[l][0];
+			int x = event[l][1];
+			int y = event[l][2];
+			if (op == 2) {
+				ans[l] = find(x) == find(y);
 			}
 		} else {
 			int mid = (l + r) / 2;
@@ -117,12 +117,13 @@ public class Code01_SegmentTreeDivideConquer1 {
 			father[i] = i;
 			siz[i] = 1;
 		}
-		for (int i = 1, x, y; i <= m; i++) {
-			x = a[i];
-			y = b[i];
-			if (op[i] == 0) {
+		for (int i = 1, op, x, y; i <= m; i++) {
+			op = event[i][0];
+			x = event[i][1];
+			y = event[i][2];
+			if (op == 0) {
 				last[x][y] = i;
-			} else if (op[i] == 1) {
+			} else if (op == 1) {
 				add(last[x][y], i - 1, x, y, 1, m, 1);
 				last[x][y] = 0;
 			}
@@ -140,18 +141,18 @@ public class Code01_SegmentTreeDivideConquer1 {
 		FastIO io = new FastIO(System.in, System.out);
 		n = io.nextInt();
 		m = io.nextInt();
-		for (int i = 1, x, y, t; i <= m; i++) {
-			t = io.nextInt();
+		for (int i = 1, op, x, y; i <= m; i++) {
+			op = io.nextInt();
 			x = io.nextInt();
 			y = io.nextInt();
-			op[i] = t;
-			a[i] = Math.min(x, y);
-			b[i] = Math.max(x, y);
+			event[i][0] = op;
+			event[i][1] = Math.min(x, y);
+			event[i][2] = Math.max(x, y);
 		}
 		prepare();
 		dfs(1, m, 1);
 		for (int i = 1; i <= m; i++) {
-			if (op[i] == 2) {
+			if (event[i][0] == 2) {
 				if (ans[i]) {
 					io.write("Y\n");
 				} else {
