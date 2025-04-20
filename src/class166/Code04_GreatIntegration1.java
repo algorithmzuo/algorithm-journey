@@ -115,8 +115,7 @@ public class Code04_GreatIntegration1 {
 			sorted[i][1] = event[i][1];
 			sorted[i][2] = event[i][2];
 		}
-		Arrays.sort(sorted, 1, q + 1,
-				(a, b) -> a[1] != b[1] ? a[1] - b[1] : (a[2] != b[2] ? a[2] - b[2] : a[0] - b[0]));
+		Arrays.sort(sorted, 1, q + 1, (a, b) -> a[1] != b[1] ? a[1] - b[1] : a[2] != b[2] ? a[2] - b[2] : a[0] - b[0]);
 		for (int l = 1, r = 1; l <= q; l = ++r) {
 			int t = sorted[l][0];
 			int x = sorted[l][1];
