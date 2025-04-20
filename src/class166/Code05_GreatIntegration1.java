@@ -10,7 +10,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.util.Arrays;
 
-public class Code04_GreatIntegration1 {
+public class Code05_GreatIntegration1 {
 
 	public static int MAXN = 100001;
 	public static int MAXT = 3000001;

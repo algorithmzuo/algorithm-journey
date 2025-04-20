@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-public class Code02_MinimumMexTree1 {
+public class Code03_MinimumMexTree1 {
 
 	public static int MAXN = 1000001;
 	public static int MAXV = 100001;

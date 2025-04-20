@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-public class Code03_UniqueOccurrences1 {
+public class Code04_UniqueOccurrences1 {
 
 	public static int MAXN = 500001;
 	public static int MAXT = 10000001;

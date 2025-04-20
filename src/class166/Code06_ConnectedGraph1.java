@@ -9,7 +9,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Arrays;
 
-public class Code05_ConnectedGraph1 {
+public class Code06_ConnectedGraph1 {
 
 	public static int MAXN = 100001;
 	public static int MAXM = 200001;

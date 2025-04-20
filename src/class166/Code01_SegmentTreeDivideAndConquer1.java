@@ -1,8 +1,12 @@
 package class166;
 
 // 线段树分治模版题，java版
-// 测试链接 : https://www.luogu.com.cn/problem/P5787
-// 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
+// 测试链接 : https://loj.ac/p/121
+// 提交以下的code，提交时请把类名改成"Main"
+// 测试平台看似支持java语言，其实无法通过
+// 内存过大跳警告，导致验证失败，想通过用C++实现
+// 本节课Code01_SegmentTreeDivideAndConquer2文件就是C++的实现
+// 逻辑完全一样，C++实现可以通过全部测试用例
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -10,22 +14,29 @@ import java.io.OutputStream;
 
 public class Code01_SegmentTreeDivideAndConquer1 {
 
-	public static int MAXN = 100001;
-	public static int MAXT = 3000001;
-	public static int n, m, k;
+	public static int MAXN = 5001;
+	public static int MAXM = 500001;
+	public static int MAXT = 5000001;
+	public static int n, m;
 
-	public static int[] father = new int[MAXN << 1];
-	public static int[] siz = new int[MAXN << 1];
-	public static int[][] rollback = new int[MAXN << 1][2];
+	public static int[] op = new int[MAXM];
+	public static int[] a = new int[MAXM];
+	public static int[] b = new int[MAXM];
+
+	public static int[][] last = new int[MAXN][MAXN];
+
+	public static int[] father = new int[MAXN];
+	public static int[] siz = new int[MAXN];
+	public static int[][] rollback = new int[MAXN][2];
 	public static int opsize = 0;
 
-	public static int[] head = new int[MAXN << 2];
+	public static int[] head = new int[MAXM << 2];
 	public static int[] next = new int[MAXT];
 	public static int[] tox = new int[MAXT];
 	public static int[] toy = new int[MAXT];
 	public static int cnt = 0;
 
-	public static boolean[] ans = new boolean[MAXN];
+	public static boolean[] ans = new boolean[MAXM];
 
 	public static void addEdge(int i, int x, int y) {
 		next[++cnt] = head[i];
@@ -66,7 +77,7 @@ public class Code01_SegmentTreeDivideAndConquer1 {
 		if (jobl <= l && r <= jobr) {
 			addEdge(i, jobx, joby);
 		} else {
-			int mid = (l + r) / 2;
+			int mid = (l + r) >> 1;
 			if (jobl <= mid) {
 				add(jobl, jobr, jobx, joby, l, mid, i << 1);
 			}
@@ -77,37 +88,52 @@ public class Code01_SegmentTreeDivideAndConquer1 {
 	}
 
 	public static void dfs(int l, int r, int i) {
-		boolean check = true;
 		int unionCnt = 0;
 		for (int ei = head[i], x, y, fx, fy; ei > 0; ei = next[ei]) {
 			x = tox[ei];
 			y = toy[ei];
 			fx = find(x);
 			fy = find(y);
-			if (fx == fy) {
-				check = false;
-				break;
-			} else {
-				union(x, y + n);
-				union(y, x + n);
-				unionCnt += 2;
+			if (fx != fy) {
+				union(fx, fy);
+				unionCnt++;
 			}
 		}
-		if (check) {
-			if (l == r) {
-				ans[l] = true;
-			} else {
-				int mid = (l + r) / 2;
-				dfs(l, mid, i << 1);
-				dfs(mid + 1, r, i << 1 | 1);
+		if (l == r) {
+			if (op[l] == 2) {
+				ans[l] = find(a[l]) == find(b[l]);
 			}
 		} else {
-			for (int k = l; k <= r; k++) {
-				ans[k] = false;
+			int mid = (l + r) / 2;
+			dfs(l, mid, i << 1);
+			dfs(mid + 1, r, i << 1 | 1);
+		}
+		for (int j = 1; j <= unionCnt; j++) {
+			undo();
+		}
+	}
+
+	public static void prepare() {
+		for (int i = 1; i <= n; i++) {
+			father[i] = i;
+			siz[i] = 1;
+		}
+		for (int i = 1, x, y; i <= m; i++) {
+			x = a[i];
+			y = b[i];
+			if (op[i] == 0) {
+				last[x][y] = i;
+			} else if (op[i] == 1) {
+				add(last[x][y], i - 1, x, y, 1, m, 1);
+				last[x][y] = 0;
 			}
 		}
-		for (int k = 1; k <= unionCnt; k++) {
-			undo();
+		for (int x = 1; x <= n; x++) {
+			for (int y = x + 1; y <= n; y++) {
+				if (last[x][y] != 0) {
+					add(last[x][y], m, x, y, 1, m, 1);
+				}
+			}
 		}
 	}
 
@@ -115,24 +141,23 @@ public class Code01_SegmentTreeDivideAndConquer1 {
 		FastIO io = new FastIO(System.in, System.out);
 		n = io.nextInt();
 		m = io.nextInt();
-		k = io.nextInt();
-		for (int i = 1; i <= n * 2; i++) {
-			father[i] = i;
-			siz[i] = 1;
-		}
-		for (int i = 1, x, y, l, r; i <= m; i++) {
+		for (int i = 1, x, y, t; i <= m; i++) {
+			t = io.nextInt();
 			x = io.nextInt();
 			y = io.nextInt();
-			l = io.nextInt();
-			r = io.nextInt();
-			add(l + 1, r, x, y, 1, k, 1);
+			op[i] = t;
+			a[i] = Math.min(x, y);
+			b[i] = Math.max(x, y);
 		}
-		dfs(1, k, 1);
-		for (int i = 1; i <= k; i++) {
-			if (ans[i]) {
-				io.write("Yes\n");
-			} else {
-				io.write("No\n");
+		prepare();
+		dfs(1, m, 1);
+		for (int i = 1; i <= m; i++) {
+			if (op[i] == 2) {
+				if (ans[i]) {
+					io.write("Y\n");
+				} else {
+					io.write("N\n");
+				}
 			}
 		}
 		io.flush();
