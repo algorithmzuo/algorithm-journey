@@ -3,16 +3,15 @@ package class166;
 // 线段树分治模版题，java版
 // 测试链接 : https://loj.ac/p/121
 // 提交以下的code，提交时请把类名改成"Main"
-// 测试平台看似支持java语言，其实无法通过
-// 内存过大跳警告，导致验证失败，想通过用C++实现
-// 本节课Code01_SegmentTreeDivideAndConquer2文件就是C++的实现
+// 测试平台看似支持java语言，其实无法通过，内存过大报警，导致验证失败
+// 想通过用C++实现，就是Code01_SegmentTreeDivideConquer2文件
 // 逻辑完全一样，C++实现可以通过全部测试用例
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-public class Code01_SegmentTreeDivideAndConquer1 {
+public class Code01_SegmentTreeDivideConquer1 {
 
 	public static int MAXN = 5001;
 	public static int MAXM = 500001;
