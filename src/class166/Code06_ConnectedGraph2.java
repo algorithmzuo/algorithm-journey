@@ -1,7 +1,7 @@
 package class166;
 
-// 大融合，C++版
-// 测试链接 : https://www.luogu.com.cn/problem/P4219
+// 连通图，C++版
+// 测试链接 : https://www.luogu.com.cn/problem/P5227
 // 如下实现是C++的版本，C++版本和java版本逻辑完全一样
 // 提交如下代码，可以通过所有测试用例
 
@@ -10,28 +10,30 @@ package class166;
 //using namespace std;
 //
 //struct Event {
-//    int x, y, t;
+//    int ei, t;
 //};
 //
 //bool EventCmp(Event a, Event b) {
-//    if (a.x != b.x) {
-//        return a.x < b.x;
-//    } else if (a.y != b.y) {
-//        return a.y < b.y;
+//    if (a.ei != b.ei) {
+//        return a.ei < b.ei;
 //    } else {
 //        return a.t < b.t;
 //    }
 //}
 //
 //const int MAXN = 100001;
-//const int MAXT = 3000001;
-//int n, q;
+//const int MAXM = 200001;
+//const int MAXE = 400001;
+//const int MAXT = 10000001;
 //
-//int op[MAXN];
-//int u[MAXN];
-//int v[MAXN];
+//int n, m, k;
 //
-//Event event[MAXN];
+//int u[MAXM];
+//int v[MAXM];
+//
+//Event event[MAXE];
+//int ecnt = 0;
+//bool vis[MAXM];
 //
 //int father[MAXN];
 //int siz[MAXN];
@@ -44,7 +46,7 @@ package class166;
 //int toy[MAXT];
 //int cnt = 0;
 //
-//long long ans[MAXN];
+//bool ans[MAXN];
 //
 //void addEdge(int i, int x, int y) {
 //    nxt[++cnt] = head[i];
@@ -96,25 +98,33 @@ package class166;
 //}
 //
 //void dfs(int l, int r, int i) {
+//    bool check = false;
 //    int unionCnt = 0;
-//    for (int ei = head[i], fx, fy; ei > 0; ei = nxt[ei]) {
-//        fx = find(tox[ei]);
-//        fy = find(toy[ei]);
+//    for (int ei = head[i]; ei > 0; ei = nxt[ei]) {
+//        int x = tox[ei], y = toy[ei], fx = find(x), fy = find(y);
 //        if (fx != fy) {
 //            Union(fx, fy);
 //            unionCnt++;
 //        }
+//        if (siz[find(fx)] == n) {
+//            check = true;
+//            break;
+//        }
 //    }
-//    if (l == r) {
-//        if (op[l] == 2) {
-//            ans[l] = 1LL * siz[find(u[l])] * siz[find(v[l])];
+//    if (check) {
+//        for (int j = l; j <= r; j++) {
+//            ans[j] = true;
 //        }
 //    } else {
-//        int mid = (l + r) >> 1;
-//        dfs(l, mid, i << 1);
-//        dfs(mid + 1, r, i << 1 | 1);
+//        if (l == r) {
+//            ans[l] = false;
+//        } else {
+//            int mid = (l + r) >> 1;
+//            dfs(l, mid, i << 1);
+//            dfs(mid + 1, r, i << 1 | 1);
+//        }
 //    }
-//    for (int k = 1; k <= unionCnt; k++) {
+//    for (int j = 1; j <= unionCnt; j++) {
 //        undo();
 //    }
 //}
@@ -124,23 +134,27 @@ package class166;
 //        father[i] = i;
 //        siz[i] = 1;
 //    }
-//    for (int i = 1; i <= q; i++) {
-//        event[i].x = u[i];
-//        event[i].y = v[i];
-//        event[i].t = i;
-//    }
-//    sort(event + 1, event + q + 1, EventCmp);
-//    for (int l = 1, r = 1; l <= q; l = ++r) {
-//        int x = event[l].x, y = event[l].y, t = event[l].t;
-//        while (r + 1 <= q && event[r + 1].x == x && event[r + 1].y == y) {
+//    sort(event + 1, event + ecnt + 1, EventCmp);
+//    for (int l = 1, r = 1, eid; l <= ecnt; l = ++r) {
+//        eid = event[l].ei;
+//        vis[eid] = true;
+//        while (r + 1 <= ecnt && event[r + 1].ei == eid) {
 //            r++;
 //        }
-//        for (int j = l + 1; j <= r; j++) {
-//            add(t, event[j].t - 1, x, y, 1, q, 1);
-//            t = event[j].t + 1;
+//        int t = 1;
+//        for (int i = l; i <= r; i++) {
+//            if (t <= event[i].t - 1) {
+//                add(t, event[i].t - 1, u[eid], v[eid], 1, k, 1);
+//            }
+//            t = event[i].t + 1;
 //        }
-//        if (t <= q) {
-//            add(t, q, x, y, 1, q, 1);
+//        if (t <= k) {
+//            add(t, k, u[eid], v[eid], 1, k, 1);
+//        }
+//    }
+//    for (int i = 1; i <= m; i++) {
+//        if (!vis[i]) {
+//            add(1, k, u[i], v[i], 1, k, 1);
 //        }
 //    }
 //}
@@ -148,20 +162,25 @@ package class166;
 //int main() {
 //    ios::sync_with_stdio(false);
 //    cin.tie(nullptr);
-//    cin >> n >> q;
-//    char t;
-//    int x, y;
-//    for (int i = 1; i <= q; i++) {
-//        cin >> t >> x >> y;
-//        op[i] = (t == 'A') ? 1 : 2;
-//        u[i] = min(x, y);
-//        v[i] = max(x, y);
+//    cin >> n >> m;
+//    for (int i = 1; i <= m; i++) {
+//        cin >> u[i] >> v[i];
+//    }
+//    cin >> k;
+//    for (int i = 1, s; i <= k; i++) {
+//        cin >> s;
+//        for (int j = 1; j <= s; j++) {
+//            cin >> event[++ecnt].ei;
+//            event[ecnt].t = i;
+//        }
 //    }
 //    prepare();
-//    dfs(1, q, 1);
-//    for (int i = 1; i <= q; i++) {
-//        if (op[i] == 2) {
-//            cout << ans[i] << '\n';
+//    dfs(1, k, 1);
+//    for (int i = 1; i <= k; i++) {
+//        if (ans[i]) {
+//            cout << "Connected" << "\n";
+//        } else {
+//            cout << "Disconnected" << "\n";
 //        }
 //    }
 //    return 0;

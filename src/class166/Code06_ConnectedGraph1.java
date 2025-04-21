@@ -89,11 +89,8 @@ public class Code06_ConnectedGraph1 {
 	public static void dfs(int l, int r, int i) {
 		boolean check = false;
 		int unionCnt = 0;
-		for (int ei = head[i], x, y, fx, fy; ei > 0; ei = next[ei]) {
-			x = tox[ei];
-			y = toy[ei];
-			fx = find(x);
-			fy = find(y);
+		for (int ei = head[i]; ei > 0; ei = next[ei]) {
+			int x = tox[ei], y = toy[ei], fx = find(x), fy = find(y);
 			if (fx != fy) {
 				union(fx, fy);
 				unionCnt++;

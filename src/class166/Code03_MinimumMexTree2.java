@@ -29,100 +29,102 @@ package class166;
 //int part;
 //
 //void addEdge(int i, int x, int y) {
-//	nxt[++cnt] = head[i];
-//	tox[cnt] = x;
-//	toy[cnt] = y;
-//	head[i] = cnt;
+//    nxt[++cnt] = head[i];
+//    tox[cnt] = x;
+//    toy[cnt] = y;
+//    head[i] = cnt;
 //}
 //
 //int find(int i) {
-//	while (i != father[i]) {
+//    while (i != father[i]) {
 //        i = father[i];
 //    }
-//	return i;
+//    return i;
 //}
 //
 //void Union(int x, int y) {
-//	int fx = find(x);
-//	int fy = find(y);
-//	if (siz[fx] < siz[fy]) {
-//		int tmp = fx;
-//		fx = fy;
-//		fy = tmp;
-//	}
-//	father[fy] = fx;
-//	siz[fx] += siz[fy];
-//	rollback[++opsize][0] = fx;
-//	rollback[opsize][1] = fy;
+//    int fx = find(x);
+//    int fy = find(y);
+//    if (siz[fx] < siz[fy]) {
+//        int tmp = fx;
+//        fx = fy;
+//        fy = tmp;
+//    }
+//    father[fy] = fx;
+//    siz[fx] += siz[fy];
+//    rollback[++opsize][0] = fx;
+//    rollback[opsize][1] = fy;
 //}
 //
 //void undo() {
-//	int fx = rollback[opsize][0];
-//	int fy = rollback[opsize--][1];
-//	father[fy] = fy;
-//	siz[fx] -= siz[fy];
+//    int fx = rollback[opsize][0];
+//    int fy = rollback[opsize--][1];
+//    father[fy] = fy;
+//    siz[fx] -= siz[fy];
 //}
 //
 //void add(int jobl, int jobr, int jobx, int joby, int l, int r, int i) {
-//	if (jobl <= l && r <= jobr) {
-//		addEdge(i, jobx, joby);
-//	} else {
-//		int mid = (l + r) >> 1;
-//		if (jobl <= mid) {
+//    if (jobl <= l && r <= jobr) {
+//        addEdge(i, jobx, joby);
+//    } else {
+//        int mid = (l + r) >> 1;
+//        if (jobl <= mid) {
 //            add(jobl, jobr, jobx, joby, l, mid, i << 1);
 //        }
-//		if (jobr > mid) {
+//        if (jobr > mid) {
 //            add(jobl, jobr, jobx, joby, mid + 1, r, i << 1 | 1);
 //        }
-//	}
+//    }
 //}
 //
 //int dfs(int l, int r, int i) {
-//	int unionCnt = 0;
-//	for (int ei = head[i]; ei > 0; ei = nxt[ei]) {
-//		int fx = find(tox[ei]);
-//		int fy = find(toy[ei]);
-//		if (fx != fy) {
-//			Union(fx, fy);
-//			part--;
-//			unionCnt++;
-//		}
-//	}
-//	int ans = -1;
-//	if (l == r) {
-//		if (part == 1) {
+//    int unionCnt = 0;
+//    for (int ei = head[i]; ei > 0; ei = nxt[ei]) {
+//        int fx = find(tox[ei]);
+//        int fy = find(toy[ei]);
+//        if (fx != fy) {
+//            Union(fx, fy);
+//            part--;
+//            unionCnt++;
+//        }
+//    }
+//    int ans = -1;
+//    if (l == r) {
+//        if (part == 1) {
 //            ans = l;
 //        }
-//	} else {
-//		int mid = (l + r) >> 1;
-//		ans = dfs(l, mid, i << 1);
-//		if (ans == -1) {
+//    } else {
+//        int mid = (l + r) >> 1;
+//        ans = dfs(l, mid, i << 1);
+//        if (ans == -1) {
 //            ans = dfs(mid + 1, r, i << 1 | 1);
 //        }
-//	}
-//	for (int k = 1; k <= unionCnt; k++) {
-//		undo();
-//		part++;
-//	}
-//	return ans;
+//    }
+//    for (int k = 1; k <= unionCnt; k++) {
+//        undo();
+//        part++;
+//    }
+//    return ans;
 //}
 //
 //int main() {
-//	ios::sync_with_stdio(false);
-//	cin.tie(nullptr);
-//	cin >> n >> m;
-//	v = MAXV;
-//	for (int i = 1; i <= n; i++) {
-//		father[i] = i;
-//		siz[i] = 1;
-//	}
-//	for (int i = 1; i <= m; i++) {
-//		int x, y, w;
-//		cin >> x >> y >> w;
-//		if (w > 0) add(0, w - 1, x, y, 0, v, 1);
-//		add(w + 1, v, x, y, 0, v, 1);
-//	}
-//	part = n;
-//	cout << dfs(0, v, 1) << '\n';
-//	return 0;
+//    ios::sync_with_stdio(false);
+//    cin.tie(nullptr);
+//    cin >> n >> m;
+//    v = MAXV;
+//    for (int i = 1; i <= n; i++) {
+//        father[i] = i;
+//        siz[i] = 1;
+//    }
+//    for (int i = 1; i <= m; i++) {
+//        int x, y, w;
+//        cin >> x >> y >> w;
+//        if (w > 0) {
+//            add(0, w - 1, x, y, 0, v, 1);
+//        }
+//        add(w + 1, v, x, y, 0, v, 1);
+//    }
+//    part = n;
+//    cout << dfs(0, v, 1) << '\n';
+//    return 0;
 //}

@@ -91,11 +91,11 @@ package class166;
 //        int x = u[e[qid[ei]]], xn = x + n, fx = find(color, x), fxn = find(color, xn);
 //        int y = v[e[qid[ei]]], yn = y + n, fy = find(color, y), fyn = find(color, yn);
 //        if (fx != fyn) {
-//        	Union(color, fx, fyn);
+//            Union(color, fx, fyn);
 //            unionCnt++;
 //        }
 //        if (fy != fxn) {
-//        	Union(color, fy, fxn);
+//            Union(color, fy, fxn);
 //            unionCnt++;
 //        }
 //    }
@@ -113,7 +113,7 @@ package class166;
 //        dfs(mid + 1, r, i << 1 | 1);
 //    }
 //    for (int j = 1; j <= unionCnt; j++) {
-//    	undo();
+//        undo();
 //    }
 //}
 //
