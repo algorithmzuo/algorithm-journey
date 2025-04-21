@@ -2,10 +2,7 @@ package class166;
 
 // 线段树分治模版题，java版
 // 测试链接 : https://loj.ac/p/121
-// 提交以下的code，提交时请把类名改成"Main"
-// 测试平台看似支持java语言，其实无法通过，内存过大报警，导致验证失败
-// 想通过用C++实现，就是Code01_SegmentTreeDivideConquer2文件
-// 逻辑完全一样，C++实现可以通过全部测试用例
+// 提交以下的code，提交时类名改成"Main"，多提交几次，可以通过所有测试用例
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -18,7 +15,10 @@ public class Code01_SegmentTreeDivideConquer1 {
 	public static int MAXT = 5000001;
 	public static int n, m;
 
-	public static int[][] event = new int[MAXM][3];
+	public static int[] op = new int[MAXM];
+	public static int[] u = new int[MAXM];
+	public static int[] v = new int[MAXM];
+
 	public static int[][] last = new int[MAXN][MAXN];
 
 	public static int[] father = new int[MAXN];
@@ -96,11 +96,8 @@ public class Code01_SegmentTreeDivideConquer1 {
 			}
 		}
 		if (l == r) {
-			int op = event[l][0];
-			int x = event[l][1];
-			int y = event[l][2];
-			if (op == 2) {
-				ans[l] = find(x) == find(y);
+			if (op[l] == 2) {
+				ans[l] = find(u[l]) == find(v[l]);
 			}
 		} else {
 			int mid = (l + r) / 2;
@@ -117,13 +114,13 @@ public class Code01_SegmentTreeDivideConquer1 {
 			father[i] = i;
 			siz[i] = 1;
 		}
-		for (int i = 1, op, x, y; i <= m; i++) {
-			op = event[i][0];
-			x = event[i][1];
-			y = event[i][2];
-			if (op == 0) {
+		for (int i = 1, t, x, y; i <= m; i++) {
+			t = op[i];
+			x = u[i];
+			y = v[i];
+			if (t == 0) {
 				last[x][y] = i;
-			} else if (op == 1) {
+			} else if (t == 1) {
 				add(last[x][y], i - 1, x, y, 1, m, 1);
 				last[x][y] = 0;
 			}
@@ -141,18 +138,18 @@ public class Code01_SegmentTreeDivideConquer1 {
 		FastIO io = new FastIO(System.in, System.out);
 		n = io.nextInt();
 		m = io.nextInt();
-		for (int i = 1, op, x, y; i <= m; i++) {
-			op = io.nextInt();
+		for (int i = 1, t, x, y; i <= m; i++) {
+			t = io.nextInt();
 			x = io.nextInt();
 			y = io.nextInt();
-			event[i][0] = op;
-			event[i][1] = Math.min(x, y);
-			event[i][2] = Math.max(x, y);
+			op[i] = t;
+			u[i] = Math.min(x, y);
+			v[i] = Math.max(x, y);
 		}
 		prepare();
 		dfs(1, m, 1);
 		for (int i = 1; i <= m; i++) {
-			if (event[i][0] == 2) {
+			if (op[i] == 2) {
 				if (ans[i]) {
 					io.write("Y\n");
 				} else {

@@ -17,8 +17,8 @@ public class Code06_ConnectedGraph1 {
 	public static int MAXT = 10000001;
 	public static int n, m, k;
 
-	public static int[] x = new int[MAXM];
-	public static int[] y = new int[MAXM];
+	public static int[] u = new int[MAXM];
+	public static int[] v = new int[MAXM];
 
 	public static int[][] event = new int[MAXE][2];
 	public static int ecnt = 0;
@@ -137,17 +137,17 @@ public class Code06_ConnectedGraph1 {
 			t = 1;
 			for (int i = l; i <= r; i++) {
 				if (t <= event[i][1] - 1) {
-					add(t, event[i][1] - 1, x[eid], y[eid], 1, k, 1);
+					add(t, event[i][1] - 1, u[eid], v[eid], 1, k, 1);
 				}
 				t = event[i][1] + 1;
 			}
 			if (t <= k) {
-				add(t, k, x[eid], y[eid], 1, k, 1);
+				add(t, k, u[eid], v[eid], 1, k, 1);
 			}
 		}
 		for (int i = 1; i <= m; i++) {
 			if (!visit[i]) {
-				add(1, k, x[i], y[i], 1, k, 1);
+				add(1, k, u[i], v[i], 1, k, 1);
 			}
 		}
 	}
@@ -157,8 +157,8 @@ public class Code06_ConnectedGraph1 {
 		n = io.nextInt();
 		m = io.nextInt();
 		for (int i = 1; i <= m; i++) {
-			x[i] = io.nextInt();
-			y[i] = io.nextInt();
+			u[i] = io.nextInt();
+			v[i] = io.nextInt();
 		}
 		k = io.nextInt();
 		for (int i = 1, s; i <= k; i++) {

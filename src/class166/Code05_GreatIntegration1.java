@@ -16,7 +16,10 @@ public class Code05_GreatIntegration1 {
 	public static int MAXT = 3000001;
 	public static int n, q;
 
-	public static int[][] event = new int[MAXN][3];
+	public static int[] op = new int[MAXN];
+	public static int[] u = new int[MAXN];
+	public static int[] v = new int[MAXN];
+
 	public static int[][] sorted = new int[MAXN][3];
 
 	public static int[] father = new int[MAXN];
@@ -92,8 +95,8 @@ public class Code05_GreatIntegration1 {
 			}
 		}
 		if (l == r) {
-			if (event[l][0] == 2) {
-				ans[l] = (long) siz[find(event[l][1])] * siz[find(event[l][2])];
+			if (op[l] == 2) {
+				ans[l] = (long) siz[find(u[l])] * siz[find(v[l])];
 			}
 		} else {
 			int mid = (l + r) >> 1;
@@ -111,21 +114,19 @@ public class Code05_GreatIntegration1 {
 			siz[i] = 1;
 		}
 		for (int i = 1; i <= q; i++) {
-			sorted[i][0] = i;
-			sorted[i][1] = event[i][1];
-			sorted[i][2] = event[i][2];
+			sorted[i][0] = u[i];
+			sorted[i][1] = v[i];
+			sorted[i][2] = i;
 		}
-		Arrays.sort(sorted, 1, q + 1, (a, b) -> a[1] != b[1] ? a[1] - b[1] : a[2] != b[2] ? a[2] - b[2] : a[0] - b[0]);
+		Arrays.sort(sorted, 1, q + 1, (a, b) -> a[0] != b[0] ? a[0] - b[0] : a[1] != b[1] ? a[1] - b[1] : a[2] - b[2]);
 		for (int l = 1, r = 1; l <= q; l = ++r) {
-			int t = sorted[l][0];
-			int x = sorted[l][1];
-			int y = sorted[l][2];
-			while (r + 1 <= q && sorted[r + 1][1] == x && sorted[r + 1][2] == y) {
+			int x = sorted[l][0], y = sorted[l][1], t = sorted[l][2];
+			while (r + 1 <= q && sorted[r + 1][0] == x && sorted[r + 1][1] == y) {
 				r++;
 			}
 			for (int i = l + 1; i <= r; i++) {
-				add(t, sorted[i][0] - 1, x, y, 1, q, 1);
-				t = sorted[i][0] + 1;
+				add(t, sorted[i][2] - 1, x, y, 1, q, 1);
+				t = sorted[i][2] + 1;
 			}
 			if (t <= q) {
 				add(t, q, x, y, 1, q, 1);
@@ -138,20 +139,20 @@ public class Code05_GreatIntegration1 {
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
 		n = in.nextInt();
 		q = in.nextInt();
-		char op;
-		int u, v;
+		char t;
+		int x, y;
 		for (int i = 1; i <= q; i++) {
-			op = in.nextChar();
-			u = in.nextInt();
-			v = in.nextInt();
-			event[i][0] = op == 'A' ? 1 : 2;
-			event[i][1] = Math.min(u, v);
-			event[i][2] = Math.max(u, v);
+			t = in.nextChar();
+			x = in.nextInt();
+			y = in.nextInt();
+			op[i] = t == 'A' ? 1 : 2;
+			u[i] = Math.min(x, y);
+			v[i] = Math.max(x, y);
 		}
 		prepare();
 		dfs(1, q, 1);
 		for (int i = 1; i <= q; i++) {
-			if (event[i][0] == 2) {
+			if (op[i] == 2) {
 				out.println(ans[i]);
 			}
 		}

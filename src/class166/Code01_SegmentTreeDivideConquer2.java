@@ -14,7 +14,10 @@ package class166;
 //const int MAXT = 5000001;
 //int n, m;
 //
-//int event[MAXM][3];
+//int op[MAXM];
+//int u[MAXM];
+//int v[MAXM];
+//
 //int last[MAXN][MAXN];
 //
 //int father[MAXN];
@@ -92,11 +95,8 @@ package class166;
 //        }
 //    }
 //    if (l == r) {
-//        int op = event[l][0];
-//        int x = event[l][1];
-//        int y = event[l][2];
-//        if (op == 2) {
-//            ans[l] = find(x) == find(y);
+//        if (op[l] == 2) {
+//            ans[l] = find(u[l]) == find(v[l]);
 //        }
 //    } else {
 //        int mid = (l + r) >> 1;
@@ -113,13 +113,13 @@ package class166;
 //        father[i] = i;
 //        siz[i] = 1;
 //    }
-//    for (int i = 1, op, x, y; i <= m; i++) {
-//        op = event[i][0];
-//        x = event[i][1];
-//        y = event[i][2];
-//        if (op == 0) {
+//    for (int i = 1, t, x, y; i <= m; i++) {
+//        t = op[i];
+//        x = u[i];
+//        y = v[i];
+//        if (t == 0) {
 //            last[x][y] = i;
-//        } else if (op == 1) {
+//        } else if (t == 1) {
 //            add(last[x][y], i - 1, x, y, 1, m, 1);
 //            last[x][y] = 0;
 //        }
@@ -137,16 +137,16 @@ package class166;
 //    ios::sync_with_stdio(false);
 //    cin.tie(nullptr);
 //    cin >> n >> m;
-//    for (int i = 1, op, x, y; i <= m; i++) {
-//        cin >> op >> x >> y;
-//        event[i][0] = op;
-//        event[i][1] = min(x, y);
-//        event[i][2] = max(x, y);
+//    for (int i = 1, t, x, y; i <= m; i++) {
+//        cin >> t >> x >> y;
+//        op[i] = t;
+//        u[i] = min(x, y);
+//        v[i] = max(x, y);
 //    }
 //    prepare();
 //    dfs(1, m, 1);
 //    for (int i = 1; i <= m; i++) {
-//        if (event[i][0] == 2) {
+//        if (op[i] == 2) {
 //            if (ans[i]) {
 //                cout << "Y" << "\n";
 //            } else {
