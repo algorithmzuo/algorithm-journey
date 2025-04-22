@@ -7,8 +7,7 @@ package class166;
 // 操作 e c : 第e条边，现在要涂成c颜色
 //           如果执行此操作之后，整张图还是合法状态，那么执行并打印"YES"
 //           如果执行此操作之后，整张图不再是合法状态，那么不执行并打印"NO"
-// 1 <= n、m、q <= 5 * 10^5
-// 1 <= k <= 50
+// 1 <= n、m、q <= 5 * 10^5    1 <= k <= 50
 // 测试链接 : https://www.luogu.com.cn/problem/CF576E
 // 测试链接 : https://codeforces.com/problemset/problem/576/E
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
