@@ -1,6 +1,10 @@
 package class166;
 
 // 独特事件，java版
+// 一共有n个节点，n-1条无向边，边给定颜色值，所有节点连成一棵树
+// 定义f(u, v) : 点u到点v的简单路径上恰好出现一次的颜色的数量
+// 打印 ∑(u = 1..n) ∑(v = u + 1..n) f(u, v) 的结果
+// 1 <= 颜色值 <= n <= 2 * 10^5
 // 测试链接 : https://www.luogu.com.cn/problem/CF1681F
 // 测试链接 : https://codeforces.com/problemset/problem/1681/F
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
