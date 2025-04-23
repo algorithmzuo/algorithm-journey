@@ -94,10 +94,17 @@ public class Code07_PaintingEdges1 {
 
 	public static void dfs(int l, int r, int i) {
 		int unionCnt = 0;
+		int color, x, y, xn, yn, fx, fy, fxn, fyn;
 		for (int ei = head[i]; ei > 0; ei = next[ei]) {
-			int color = c[qid[ei]];
-			int x = u[e[qid[ei]]], xn = x + n, fx = find(color, x), fxn = find(color, xn);
-			int y = v[e[qid[ei]]], yn = y + n, fy = find(color, y), fyn = find(color, yn);
+			color = c[qid[ei]];
+			x = u[e[qid[ei]]];
+			y = v[e[qid[ei]]];
+			xn = x + n;
+			yn = y + n;
+			fx = find(color, x);
+			fy = find(color, y);
+			fxn = find(color, xn);
+			fyn = find(color, yn);
 			if (fx != fyn) {
 				union(color, fx, fyn);
 				unionCnt++;
