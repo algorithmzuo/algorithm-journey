@@ -17,28 +17,37 @@ import java.io.OutputStream;
 
 public class Code01_SegmentTreeDivideConquer1 {
 
+	// 点的数量最大值
 	public static int MAXN = 5001;
+	// 操作数量最大值
 	public static int MAXM = 500001;
+	// 任务数量最大值
 	public static int MAXT = 5000001;
+
 	public static int n, m;
 
+	// 操作类型op、端点u、端点v
 	public static int[] op = new int[MAXM];
 	public static int[] u = new int[MAXM];
 	public static int[] v = new int[MAXM];
 
+	// last[x][y] : 点x和点y的边，上次出现的时间点
 	public static int[][] last = new int[MAXN][MAXN];
 
+	// 可撤销并查集
 	public static int[] father = new int[MAXN];
 	public static int[] siz = new int[MAXN];
 	public static int[][] rollback = new int[MAXN][2];
 	public static int opsize = 0;
 
+	// 线段树每个区间拥有哪些任务的列表，链式前向星表示
 	public static int[] head = new int[MAXM << 2];
 	public static int[] next = new int[MAXT];
 	public static int[] tox = new int[MAXT];
 	public static int[] toy = new int[MAXT];
 	public static int cnt = 0;
 
+	// ans[i]为第i条操作的答案，只有查询操作才有答案
 	public static boolean[] ans = new boolean[MAXM];
 
 	public static void addEdge(int i, int x, int y) {
