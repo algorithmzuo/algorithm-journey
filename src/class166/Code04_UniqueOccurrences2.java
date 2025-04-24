@@ -29,11 +29,11 @@ package class166;
 //int yc[MAXN];
 //int cntc = 0;
 //
-//int heads[MAXN << 2];
-//int nxts[MAXT];
-//int xs[MAXT];
-//int ys[MAXT];
-//int cnts = 0;
+//int headt[MAXN << 2];
+//int nxtt[MAXT];
+//int xt[MAXT];
+//int yt[MAXT];
+//int cntt = 0;
 //
 //long long ans = 0;
 //
@@ -45,10 +45,10 @@ package class166;
 //}
 //
 //void addEdgeS(int i, int x, int y) {
-//    nxts[++cnts] = heads[i];
-//    xs[cnts] = x;
-//    ys[cnts] = y;
-//    heads[i] = cnts;
+//    nxtt[++cntt] = headt[i];
+//    xt[cntt] = x;
+//    yt[cntt] = y;
+//    headt[i] = cntt;
 //}
 //
 //int find(int i) {
@@ -95,9 +95,9 @@ package class166;
 //
 //void dfs(int l, int r, int i) {
 //    int unionCnt = 0;
-//    for (int ei = heads[i], fx, fy; ei > 0; ei = nxts[ei]) {
-//        fx = find(xs[ei]);
-//        fy = find(ys[ei]);
+//    for (int ei = headt[i], fx, fy; ei > 0; ei = nxtt[ei]) {
+//        fx = find(xt[ei]);
+//        fy = find(yt[ei]);
 //        if (fx != fy) {
 //            Union(fx, fy);
 //            unionCnt++;

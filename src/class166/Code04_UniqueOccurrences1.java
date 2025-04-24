@@ -24,19 +24,19 @@ public class Code04_UniqueOccurrences1 {
 	public static int[][] rollback = new int[MAXN][2];
 	public static int opsize = 0;
 
-	// 每种颜色的边的列表
+	// 每种颜色拥有哪些边的列表
 	public static int[] headc = new int[MAXN];
 	public static int[] nextc = new int[MAXN];
 	public static int[] xc = new int[MAXN];
 	public static int[] yc = new int[MAXN];
 	public static int cntc = 0;
 
-	// 线段树区间上的任务列表
-	public static int[] heads = new int[MAXN << 2];
-	public static int[] nexts = new int[MAXT];
-	public static int[] xs = new int[MAXT];
-	public static int[] ys = new int[MAXT];
-	public static int cnts = 0;
+	// 颜色轴线段树的区间任务列表
+	public static int[] headt = new int[MAXN << 2];
+	public static int[] nextt = new int[MAXT];
+	public static int[] xt = new int[MAXT];
+	public static int[] yt = new int[MAXT];
+	public static int cntt = 0;
 
 	public static long ans = 0;
 
@@ -48,10 +48,10 @@ public class Code04_UniqueOccurrences1 {
 	}
 
 	public static void addEdgeS(int i, int x, int y) {
-		nexts[++cnts] = heads[i];
-		xs[cnts] = x;
-		ys[cnts] = y;
-		heads[i] = cnts;
+		nextt[++cntt] = headt[i];
+		xt[cntt] = x;
+		yt[cntt] = y;
+		headt[i] = cntt;
 	}
 
 	public static int find(int i) {
@@ -98,9 +98,9 @@ public class Code04_UniqueOccurrences1 {
 
 	public static void dfs(int l, int r, int i) {
 		int unionCnt = 0;
-		for (int ei = heads[i], fx, fy; ei > 0; ei = nexts[ei]) {
-			fx = find(xs[ei]);
-			fy = find(ys[ei]);
+		for (int ei = headt[i], fx, fy; ei > 0; ei = nextt[ei]) {
+			fx = find(xt[ei]);
+			fy = find(yt[ei]);
 			if (fx != fy) {
 				union(fx, fy);
 				unionCnt++;
