@@ -16,7 +16,7 @@ package class166;
 //
 //const int MAXN = 500001;
 //const int MAXT = 10000001;
-//int n, m;
+//int n, v;
 //
 //int father[MAXN];
 //int siz[MAXN];
@@ -64,7 +64,7 @@ package class166;
 //    if (siz[fx] < siz[fy]) {
 //        int tmp = fx;
 //        fx = fy;
-//        fx = tmp;
+//        fy = tmp;
 //    }
 //    father[fy] = fx;
 //    siz[fx] += siz[fy];
@@ -123,21 +123,22 @@ package class166;
 //    ios::sync_with_stdio(false);
 //    cin.tie(nullptr);
 //    cin >> n;
+//    v = n;
 //    for (int i = 1, x, y, c; i < n; i++) {
 //        cin >> x >> y >> c;
 //        addEdgeC(c, x, y);
 //        if (c > 1) {
-//            add(1, c - 1, x, y, 1, n, 1);
+//            add(1, c - 1, x, y, 1, v, 1);
 //        }
-//        if (c < n) {
-//            add(c + 1, n, x, y, 1, n, 1);
+//        if (c < v) {
+//            add(c + 1, v, x, y, 1, v, 1);
 //        }
 //    }
 //    for (int i = 1; i <= n; i++) {
 //        father[i] = i;
 //        siz[i] = 1;
 //    }
-//    dfs(1, n, 1);
+//    dfs(1, v, 1);
 //    cout << ans << '\n';
 //    return 0;
 //}

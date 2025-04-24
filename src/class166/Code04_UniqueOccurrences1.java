@@ -17,7 +17,7 @@ public class Code04_UniqueOccurrences1 {
 
 	public static int MAXN = 500001;
 	public static int MAXT = 10000001;
-	public static int n, m;
+	public static int n, v;
 
 	public static int[] father = new int[MAXN];
 	public static int[] siz = new int[MAXN];
@@ -123,23 +123,24 @@ public class Code04_UniqueOccurrences1 {
 	public static void main(String[] args) {
 		FastIO io = new FastIO(System.in, System.out);
 		n = io.nextInt();
+		v = n;
 		for (int i = 1, x, y, c; i < n; i++) {
 			x = io.nextInt();
 			y = io.nextInt();
 			c = io.nextInt();
 			addEdgeC(c, x, y);
 			if (c > 1) {
-				add(1, c - 1, x, y, 1, n, 1);
+				add(1, c - 1, x, y, 1, v, 1);
 			}
-			if (c < n) {
-				add(c + 1, n, x, y, 1, n, 1);
+			if (c < v) {
+				add(c + 1, v, x, y, 1, v, 1);
 			}
 		}
 		for (int i = 1; i <= n; i++) {
 			father[i] = i;
 			siz[i] = 1;
 		}
-		dfs(1, n, 1);
+		dfs(1, v, 1);
 		io.writelnLong(ans);
 		io.flush();
 	}
