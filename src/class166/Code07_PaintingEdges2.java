@@ -24,6 +24,7 @@ package class166;
 //
 //int u[MAXN];
 //int v[MAXN];
+//
 //int e[MAXN];
 //int c[MAXN];
 //int post[MAXN];
@@ -142,11 +143,11 @@ package class166;
 //        }
 //    }
 //    for (int i = 1; i <= m; i++) {
-//        post[i] = q + 1;
+//        post[i] = q;
 //    }
 //    for (int i = q; i >= 1; i--) {
-//        if (i + 1 <= post[e[i]] - 1) {
-//            add(i + 1, post[e[i]] - 1, i, 1, q, 1);
+//        if (i + 1 <= post[e[i]]) {
+//            add(i + 1, post[e[i]], i, 1, q, 1);
 //        }
 //        post[e[i]] = i;
 //    }

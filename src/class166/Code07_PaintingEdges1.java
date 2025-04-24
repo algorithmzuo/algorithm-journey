@@ -25,6 +25,7 @@ public class Code07_PaintingEdges1 {
 
 	public static int[] u = new int[MAXN];
 	public static int[] v = new int[MAXN];
+
 	public static int[] e = new int[MAXN];
 	public static int[] c = new int[MAXN];
 	public static int[] post = new int[MAXN];
@@ -34,11 +35,13 @@ public class Code07_PaintingEdges1 {
 	public static int[][] rollback = new int[MAXN << 1][3];
 	public static int opsize = 0;
 
+	// 时间轴线段树的区间上的任务列表
 	public static int[] head = new int[MAXN << 2];
 	public static int[] next = new int[MAXT];
 	public static int[] qid = new int[MAXT];
 	public static int cnt = 0;
 
+	// lastColor[i] : 第i号边上次成功涂上的颜色
 	public static int[] lastColor = new int[MAXN];
 
 	public static boolean[] ans = new boolean[MAXN];
@@ -143,11 +146,11 @@ public class Code07_PaintingEdges1 {
 			}
 		}
 		for (int i = 1; i <= m; i++) {
-			post[i] = q + 1;
+			post[i] = q;
 		}
 		for (int i = q; i >= 1; i--) {
-			if (i + 1 <= post[e[i]] - 1) {
-				add(i + 1, post[e[i]] - 1, i, 1, q, 1);
+			if (i + 1 <= post[e[i]]) {
+				add(i + 1, post[e[i]], i, 1, q, 1);
 			}
 			post[e[i]] = i;
 		}
