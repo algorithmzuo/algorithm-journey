@@ -102,13 +102,9 @@ package class166;
 //
 //void dfs(int l, int r, int i) {
 //    int unionCnt = 0;
-//    for (int ei = head[i], fx, fy; ei > 0; ei = nxt[ei]) {
-//        fx = find(tox[ei]);
-//        fy = find(toy[ei]);
-//        if (fx != fy) {
-//            Union(fx, fy);
-//            unionCnt++;
-//        }
+//    for (int ei = head[i]; ei > 0; ei = nxt[ei]) {
+//        Union(tox[ei], toy[ei]);
+//        unionCnt++;
 //    }
 //    if (l == r) {
 //        if (op[l] == 2) {

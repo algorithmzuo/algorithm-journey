@@ -92,13 +92,9 @@ public class Code05_GreatIntegration1 {
 
 	public static void dfs(int l, int r, int i) {
 		int unionCnt = 0;
-		for (int ei = head[i], fx, fy; ei > 0; ei = next[ei]) {
-			fx = find(tox[ei]);
-			fy = find(toy[ei]);
-			if (fx != fy) {
-				union(fx, fy);
-				unionCnt++;
-			}
+		for (int ei = head[i]; ei > 0; ei = next[ei]) {
+			union(tox[ei], toy[ei]);
+			unionCnt++;
 		}
 		if (l == r) {
 			if (op[l] == 2) {
