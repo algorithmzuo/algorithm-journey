@@ -98,13 +98,9 @@ public class Code04_UniqueOccurrences1 {
 
 	public static void dfs(int l, int r, int i) {
 		int unionCnt = 0;
-		for (int ei = headt[i], fx, fy; ei > 0; ei = nextt[ei]) {
-			fx = find(xt[ei]);
-			fy = find(yt[ei]);
-			if (fx != fy) {
-				union(fx, fy);
-				unionCnt++;
-			}
+		for (int ei = headt[i]; ei > 0; ei = nextt[ei]) {
+			union(xt[ei], yt[ei]);
+			unionCnt++;
 		}
 		if (l == r) {
 			for (int ei = headc[l], fx, fy; ei > 0; ei = nextc[ei]) {
