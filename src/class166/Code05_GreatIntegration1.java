@@ -4,7 +4,7 @@ package class166;
 // 一共有n个点，一共有q条操作，每条操作是如下两种类型中的一种
 // 操作 A x y : 点x和点y之间连一条边，保证之前x和y是不联通的
 // 操作 Q x y : 打印点x和点y之间这条边的负载，保证x和y之间有一条边
-// 边负载定义为，假设去掉这条边之后，端点1联通区大小 * 端点2联通区大小
+// 边负载定义为，这条边两侧端点各自连通区大小的乘积
 // 1 <= n、q <= 10^5
 // 测试链接 : https://www.luogu.com.cn/problem/P4219
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
@@ -25,6 +25,7 @@ public class Code05_GreatIntegration1 {
 	public static int[] u = new int[MAXN];
 	public static int[] v = new int[MAXN];
 
+	// 端点x、端点y、操作序号t
 	public static int[][] event = new int[MAXN][3];
 
 	public static int[] father = new int[MAXN];
