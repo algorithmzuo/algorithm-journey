@@ -36,6 +36,7 @@ public class Code07_PaintingEdges1 {
 	public static int opsize = 0;
 
 	// 时间轴线段树的区间上的任务列表
+	// 尤其注意qid的设置，课上进行了重点解释
 	public static int[] head = new int[MAXN << 2];
 	public static int[] next = new int[MAXT];
 	public static int[] qid = new int[MAXT];
