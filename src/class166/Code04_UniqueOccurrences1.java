@@ -24,12 +24,14 @@ public class Code04_UniqueOccurrences1 {
 	public static int[][] rollback = new int[MAXN][2];
 	public static int opsize = 0;
 
+	// 每种颜色的边的列表
 	public static int[] headc = new int[MAXN];
 	public static int[] nextc = new int[MAXN];
 	public static int[] xc = new int[MAXN];
 	public static int[] yc = new int[MAXN];
 	public static int cntc = 0;
 
+	// 线段树区间上的任务列表
 	public static int[] heads = new int[MAXN << 2];
 	public static int[] nexts = new int[MAXT];
 	public static int[] xs = new int[MAXT];
