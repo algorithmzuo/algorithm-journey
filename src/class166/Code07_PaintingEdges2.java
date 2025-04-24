@@ -26,8 +26,7 @@ package class166;
 //int v[MAXN];
 //int e[MAXN];
 //int c[MAXN];
-//
-//int help[MAXN];
+//int post[MAXN];
 //
 //int father[MAXK][MAXN << 1];
 //int siz[MAXK][MAXN << 1];
@@ -38,6 +37,8 @@ package class166;
 //int nxt[MAXT];
 //int qid[MAXT];
 //int cnt = 0;
+//
+//int lastColor[MAXN];
 //
 //bool ans[MAXN];
 //
@@ -116,10 +117,10 @@ package class166;
 //    if (l == r) {
 //        if (find(c[l], u[e[l]]) == find(c[l], v[e[l]])) {
 //            ans[l] = false;
-//            c[l] = help[e[l]];
+//            c[l] = lastColor[e[l]];
 //        } else {
 //            ans[l] = true;
-//            help[e[l]] = c[l];
+//            lastColor[e[l]] = c[l];
 //        }
 //    } else {
 //        int mid = (l + r) >> 1;
@@ -141,16 +142,13 @@ package class166;
 //        }
 //    }
 //    for (int i = 1; i <= m; i++) {
-//        help[i] = q + 1;
+//        post[i] = q + 1;
 //    }
 //    for (int i = q; i >= 1; i--) {
-//        if (i + 1 <= help[e[i]] - 1) {
-//            add(i + 1, help[e[i]] - 1, i, 1, q, 1);
+//        if (i + 1 <= post[e[i]] - 1) {
+//            add(i + 1, post[e[i]] - 1, i, 1, q, 1);
 //        }
-//        help[e[i]] = i;
-//    }
-//    for (int i = 1; i <= m; i++) {
-//        help[i] = 0;
+//        post[e[i]] = i;
 //    }
 //}
 //

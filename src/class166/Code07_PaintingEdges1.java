@@ -27,8 +27,7 @@ public class Code07_PaintingEdges1 {
 	public static int[] v = new int[MAXN];
 	public static int[] e = new int[MAXN];
 	public static int[] c = new int[MAXN];
-
-	public static int[] help = new int[MAXN];
+	public static int[] post = new int[MAXN];
 
 	public static int[][] father = new int[MAXK][MAXN << 1];
 	public static int[][] siz = new int[MAXK][MAXN << 1];
@@ -39,6 +38,8 @@ public class Code07_PaintingEdges1 {
 	public static int[] next = new int[MAXT];
 	public static int[] qid = new int[MAXT];
 	public static int cnt = 0;
+
+	public static int[] lastColor = new int[MAXN];
 
 	public static boolean[] ans = new boolean[MAXN];
 
@@ -117,10 +118,10 @@ public class Code07_PaintingEdges1 {
 		if (l == r) {
 			if (find(c[l], u[e[l]]) == find(c[l], v[e[l]])) {
 				ans[l] = false;
-				c[l] = help[e[l]];
+				c[l] = lastColor[e[l]];
 			} else {
 				ans[l] = true;
-				help[e[l]] = c[l];
+				lastColor[e[l]] = c[l];
 			}
 		} else {
 			int mid = (l + r) >> 1;
@@ -142,16 +143,13 @@ public class Code07_PaintingEdges1 {
 			}
 		}
 		for (int i = 1; i <= m; i++) {
-			help[i] = q + 1;
+			post[i] = q + 1;
 		}
 		for (int i = q; i >= 1; i--) {
-			if (i + 1 <= help[e[i]] - 1) {
-				add(i + 1, help[e[i]] - 1, i, 1, q, 1);
+			if (i + 1 <= post[e[i]] - 1) {
+				add(i + 1, post[e[i]] - 1, i, 1, q, 1);
 			}
-			help[e[i]] = i;
-		}
-		for (int i = 1; i <= m; i++) {
-			help[i] = 0;
+			post[e[i]] = i;
 		}
 	}
 
