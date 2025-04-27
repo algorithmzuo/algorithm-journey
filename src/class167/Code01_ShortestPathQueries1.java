@@ -15,7 +15,7 @@ public class Code01_ShortestPathQueries1 {
 
 	public static int MAXN = 200001;
 	public static int MAXT = 5000001;
-	public static int LIMIT = 20;
+	public static int DEEP = 20;
 	public static int BIT = 29;
 	public static int n, m, q;
 
@@ -31,7 +31,7 @@ public class Code01_ShortestPathQueries1 {
 
 	// 异或空间线性基
 	public static int[] basis = new int[BIT + 1];
-	public static int[][] backup = new int[LIMIT][BIT + 1];
+	public static int[][] backup = new int[DEEP][BIT + 1];
 
 	// 时间轴线段树上的区间任务列表
 	public static int[] head = new int[MAXN << 2];
@@ -155,8 +155,8 @@ public class Code01_ShortestPathQueries1 {
 		}
 	}
 
-	public static void dfs(int l, int r, int i, int deep) {
-		clone(backup[deep], basis);
+	public static void dfs(int l, int r, int i, int dep) {
+		clone(backup[dep], basis);
 		int unionCnt = 0;
 		for (int e = head[i]; e > 0; e = next[e]) {
 			if (union(tox[e], toy[e], tow[e])) {
@@ -169,10 +169,10 @@ public class Code01_ShortestPathQueries1 {
 			}
 		} else {
 			int mid = (l + r) >> 1;
-			dfs(l, mid, i << 1, deep + 1);
-			dfs(mid + 1, r, i << 1 | 1, deep + 1);
+			dfs(l, mid, i << 1, dep + 1);
+			dfs(mid + 1, r, i << 1 | 1, dep + 1);
 		}
-		clone(basis, backup[deep]);
+		clone(basis, backup[dep]);
 		for (int k = 1; k <= unionCnt; k++) {
 			undo();
 		}

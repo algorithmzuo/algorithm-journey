@@ -26,7 +26,7 @@ package class167;
 //
 //const int MAXN = 200001;
 //const int MAXT = 5000001;
-//const int LIMIT = 20;
+//const int DEEP = 20;
 //const int BIT = 29;
 //int n, m, q;
 //
@@ -39,7 +39,7 @@ package class167;
 //int d[MAXN];
 //
 //int basis[BIT + 1];
-//int backup[LIMIT][BIT + 1];
+//int backup[DEEP][BIT + 1];
 //
 //int head[MAXN << 2];
 //int nxt[MAXT];
