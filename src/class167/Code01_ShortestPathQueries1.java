@@ -15,8 +15,8 @@ public class Code01_ShortestPathQueries1 {
 
 	public static int MAXN = 200001;
 	public static int MAXT = 5000001;
-	public static int DEEP = 20;
 	public static int BIT = 29;
+	public static int DEEP = 20;
 	public static int n, m, q;
 
 	// 端点x、端点y、时间点t、边权w
