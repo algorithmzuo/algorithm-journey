@@ -149,7 +149,7 @@ package class167;
 //    int unionCnt = 0;
 //    for (int e = head[i]; e; e = nxt[e]) {
 //        if (Union(tox[e], toy[e], tow[e])) {
-//            ++unionCnt;
+//            unionCnt++;
 //        }
 //    }
 //    if (l == r) {
@@ -177,7 +177,7 @@ package class167;
 //        int x = event[l].x;
 //        int y = event[l].y;
 //        while (r + 1 <= eventCnt && event[r + 1].x == x && event[r + 1].y == y) {
-//            ++r;
+//            r++;
 //        }
 //        for (int i = l; i <= r; i += 2) {
 //            int start = event[i].t;
@@ -204,8 +204,7 @@ package class167;
 //            cin >> d[i];
 //        }
 //        if (op[i] != 3) {
-//            ++eventCnt;
-//            event[eventCnt].x = x[i];
+//            event[++eventCnt].x = x[i];
 //            event[eventCnt].y = y[i];
 //            event[eventCnt].t = i;
 //            event[eventCnt].w = d[i];
