@@ -98,7 +98,7 @@ package class167;
 //    int fb = find(b);
 //    w ^= eora ^ eorb;
 //    if (fa == fb) {
-//    	insert(w);
+//        insert(w);
 //        return false;
 //    }
 //    if (siz[fa] < siz[fb]) {
