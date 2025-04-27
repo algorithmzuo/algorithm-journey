@@ -185,16 +185,17 @@ public class Code01_ShortestPathQueries1 {
 		}
 		Arrays.sort(event, 1, eventCnt + 1,
 				(a, b) -> a[0] != b[0] ? a[0] - b[0] : a[1] != b[1] ? a[1] - b[1] : a[2] - b[2]);
+		int x, y, start, end, d;
 		for (int l = 1, r = 1; l <= eventCnt; l = ++r) {
-			int x = event[l][0];
-			int y = event[l][1];
+			x = event[l][0];
+			y = event[l][1];
 			while (r + 1 <= eventCnt && event[r + 1][0] == x && event[r + 1][1] == y) {
 				r++;
 			}
 			for (int i = l; i <= r; i += 2) {
-				int start = event[i][2];
-				int end = i + 1 <= r ? (event[i + 1][2] - 1) : q;
-				int d = event[i][3];
+				start = event[i][2];
+				end = i + 1 <= r ? (event[i + 1][2] - 1) : q;
+				d = event[i][3];
 				add(start, end, x, y, d, 0, q, 1);
 			}
 		}

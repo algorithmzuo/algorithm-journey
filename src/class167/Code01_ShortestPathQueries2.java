@@ -96,7 +96,7 @@ package class167;
 //    int eorb = getEor(b);
 //    int fa = find(a);
 //    int fb = find(b);
-//    w ^= eora ^ eorb;
+//    w = eora ^ eorb ^ w;
 //    if (fa == fb) {
 //        insert(w);
 //        return false;
@@ -173,17 +173,18 @@ package class167;
 //        siz[i] = 1;
 //    }
 //    sort(event + 1, event + eventCnt + 1, EventCmp);
+//    int x, y, start, end, d;
 //    for (int l = 1, r = 1; l <= eventCnt; l = ++r) {
-//        int x = event[l].x;
-//        int y = event[l].y;
+//        x = event[l].x;
+//        y = event[l].y;
 //        while (r + 1 <= eventCnt && event[r + 1].x == x && event[r + 1].y == y) {
 //            r++;
 //        }
 //        for (int i = l; i <= r; i += 2) {
-//            int start = event[i].t;
-//            int end = (i + 1 <= r) ? (event[i + 1].t - 1) : q;
-//            int w = event[i].w;
-//            add(start, end, x, y, w, 0, q, 1);
+//            start = event[i].t;
+//            end = (i + 1 <= r) ? (event[i + 1].t - 1) : q;
+//            d = event[i].w;
+//            add(start, end, x, y, d, 0, q, 1);
 //        }
 //    }
 //}
