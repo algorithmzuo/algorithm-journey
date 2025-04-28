@@ -1,6 +1,6 @@
 package class022;
 
-// 小和问题
+// 小和问题，java版
 // 测试链接 : https://www.nowcoder.com/practice/edfe05a1d45c4ea89101d936cac32469
 // 请同学们务必参考如下代码中关于输入、输出的处理
 // 这是输入输出处理效率很高的写法
@@ -13,7 +13,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 
-public class Code01_SmallSum {
+public class Code01_SmallSum1 {
 
 	public static int MAXN = 100001;
 
