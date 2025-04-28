@@ -51,7 +51,7 @@ public class Code01_ShortestPathQueries1 {
 	// 查询操作的答案
 	public static int[] ans = new int[MAXN];
 
-	// 当前数字插入线性基
+	// num插入线性基
 	public static void insert(int num) {
 		for (int i = BIT; i >= 0; i--) {
 			if (num >> i == 1) {
@@ -99,7 +99,7 @@ public class Code01_ShortestPathQueries1 {
 
 	// 可撤销并查集的合并，增加a和b之间，权值为w的边
 	// 集合合并的过程中，还要更新eor数组
-	// 这种更新eor的方式，参考讲解156，带权并查集
+	// 更新eor的方式，参考讲解156，带权并查集
 	public static boolean union(int a, int b, int w) {
 		int eora = getEor(a);
 		int eorb = getEor(b);
