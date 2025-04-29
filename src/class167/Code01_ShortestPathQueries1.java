@@ -33,6 +33,13 @@ public class Code01_ShortestPathQueries1 {
 	public static int[] inspos = new int[BIT];
 	public static int basiz = 0;
 
+	// 可撤销并查集 + 带权并查集
+	public static int[] father = new int[MAXN];
+	public static int[] siz = new int[MAXN];
+	public static int[] eor = new int[MAXN];
+	public static int[][] rollback = new int[MAXN][2];
+	public static int opsize = 0;
+
 	// 时间轴线段树上的区间任务列表
 	public static int[] head = new int[MAXN << 2];
 	public static int[] next = new int[MAXT];
@@ -40,13 +47,6 @@ public class Code01_ShortestPathQueries1 {
 	public static int[] toy = new int[MAXT];
 	public static int[] tow = new int[MAXT];
 	public static int cnt = 0;
-
-	// 可撤销并查集 + 带权并查集
-	public static int[] father = new int[MAXN];
-	public static int[] siz = new int[MAXN];
-	public static int[] eor = new int[MAXN];
-	public static int[][] rollback = new int[MAXN][2];
-	public static int opsize = 0;
 
 	// 查询操作的答案
 	public static int[] ans = new int[MAXN];
@@ -65,7 +65,7 @@ public class Code01_ShortestPathQueries1 {
 		}
 	}
 
-	// 根据线性基，返回num能结合出的最小异或和
+	// num结合线性基，能得到的最小异或值返回
 	public static int minEor(int num) {
 		for (int i = BIT - 1; i >= 0; i--) {
 			num = Math.min(num, num ^ basis[i]);
@@ -101,10 +101,14 @@ public class Code01_ShortestPathQueries1 {
 	// 可撤销并查集的合并，增加a和b之间，权值为w的边
 	// 集合合并的过程中，还要更新eor数组
 	// 更新eor的方式，参考讲解156，带权并查集
-	public static void union(int u, int v, int w) {
+	public static boolean union(int u, int v, int w) {
 		int fu = find(u);
 		int fv = find(v);
 		w = getEor(u) ^ getEor(v) ^ w;
+		if (fu == fv) {
+			insert(w);
+			return false;
+		}
 		if (siz[fu] < siz[fv]) {
 			int tmp = fu;
 			fu = fv;
@@ -115,6 +119,7 @@ public class Code01_ShortestPathQueries1 {
 		eor[fv] = w;
 		rollback[++opsize][0] = fu;
 		rollback[opsize][1] = fv;
+		return true;
 	}
 
 	// 并查集的撤销操作
@@ -152,19 +157,8 @@ public class Code01_ShortestPathQueries1 {
 	public static void dfs(int l, int r, int i) {
 		int oldsiz = basiz;
 		int unionCnt = 0;
-		int u, v, w, fu, fv, eoru, eorv;
 		for (int e = head[i]; e > 0; e = next[e]) {
-			u = tox[e];
-			v = toy[e];
-			w = tow[e];
-			fu = find(u);
-			fv = find(v);
-			eoru = getEor(u);
-			eorv = getEor(v);
-			if (fu == fv) {
-				insert(eoru ^ eorv ^ w);
-			} else {
-				union(u, v, w);
+			if (union(tox[e], toy[e], tow[e])) {
 				unionCnt++;
 			}
 		}

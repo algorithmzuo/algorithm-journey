@@ -41,18 +41,18 @@ package class167;
 //int inspos[BIT];
 //int basiz = 0;
 //
+//int father[MAXN];
+//int siz[MAXN];
+//int eor[MAXN];
+//int rollback[MAXN][2];
+//int opsize = 0;
+//
 //int head[MAXN << 2];
 //int nxt[MAXT];
 //int tox[MAXT];
 //int toy[MAXT];
 //int tow[MAXT];
 //int cnt = 0;
-//
-//int father[MAXN];
-//int siz[MAXN];
-//int eor[MAXN];
-//int rollback[MAXN][2];
-//int opsize = 0;
 //
 //int ans[MAXN];
 //
@@ -98,10 +98,14 @@ package class167;
 //    return res;
 //}
 //
-//void Union(int u, int v, int w) {
+//bool Union(int u, int v, int w) {
 //    int fu = find(u);
 //    int fv = find(v);
 //    w = getEor(u) ^ getEor(v) ^ w;
+//    if (fu == fv) {
+//        insert(w);
+//        return false;
+//    }
 //    if (siz[fu] < siz[fv]) {
 //        int tmp = fu;
 //        fu = fv;
@@ -112,6 +116,7 @@ package class167;
 //    eor[fv] = w;
 //    rollback[++opsize][0] = fu;
 //    rollback[opsize][1] = fv;
+//    return true;
 //}
 //
 //void undo() {
@@ -147,25 +152,14 @@ package class167;
 //void dfs(int l, int r, int i) {
 //    int oldsiz = basiz;
 //    int unionCnt = 0;
-//    int u, v, w, fu, fv, eoru, eorv;
 //    for (int e = head[i]; e; e = nxt[e]) {
-//        u = tox[e];
-//        v = toy[e];
-//        w = tow[e];
-//        fu = find(u);
-//        fv = find(v);
-//        eoru = getEor(u);
-//        eorv = getEor(v);
-//        if (fu == fv) {
-//            insert(eoru ^ eorv ^ w);
-//        } else {
-//            Union(u, v, w);
+//        if (Union(tox[e], toy[e], tow[e])) {
 //            unionCnt++;
 //        }
 //    }
 //    if (l == r) {
 //        if (op[l] == 3) {
-//        	ans[l] = minEor(getEor(x[l]) ^ getEor(y[l]));
+//            ans[l] = minEor(getEor(x[l]) ^ getEor(y[l]));
 //        }
 //    } else {
 //        int mid = (l + r) >> 1;
