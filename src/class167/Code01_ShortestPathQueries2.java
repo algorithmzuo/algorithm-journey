@@ -26,8 +26,7 @@ package class167;
 //
 //const int MAXN = 200001;
 //const int MAXT = 5000001;
-//const int BIT = 29;
-//const int DEEP = 20;
+//const int BIT = 30;
 //int n, m, q;
 //
 //Event event[MAXN << 1];
@@ -38,8 +37,9 @@ package class167;
 //int y[MAXN];
 //int d[MAXN];
 //
-//int basis[BIT + 1];
-//int backup[DEEP][BIT + 1];
+//int basis[BIT];
+//int inspos[BIT];
+//int basiz = 0;
 //
 //int head[MAXN << 2];
 //int nxt[MAXT];
@@ -51,16 +51,17 @@ package class167;
 //int father[MAXN];
 //int siz[MAXN];
 //int eor[MAXN];
-//int rollbackArr[MAXN][2];
+//int rollback[MAXN][2];
 //int opsize = 0;
 //
 //int ans[MAXN];
 //
 //void insert(int num) {
-//    for (int i = BIT; i >= 0; --i) {
+//    for (int i = BIT - 1; i >= 0; --i) {
 //        if (num >> i == 1) {
 //            if (basis[i] == 0) {
 //                basis[i] = num;
+//                inspos[basiz++] = i;
 //                return;
 //            }
 //            num ^= basis[i];
@@ -69,10 +70,16 @@ package class167;
 //}
 //
 //int minEor(int num) {
-//    for (int i = BIT; i >= 0; --i) {
+//    for (int i = BIT - 1; i >= 0; --i) {
 //        num = min(num, num ^ basis[i]);
 //    }
 //    return num;
+//}
+//
+//void cancel(int oldsiz) {
+//    while (basiz > oldsiz) {
+//        basis[inspos[--basiz]] = 0;
+//    }
 //}
 //
 //int find(int i) {
@@ -91,35 +98,28 @@ package class167;
 //    return res;
 //}
 //
-//bool Union(int a, int b, int w) {
-//    int eora = getEor(a);
-//    int eorb = getEor(b);
-//    int fa = find(a);
-//    int fb = find(b);
-//    w = eora ^ eorb ^ w;
-//    if (fa == fb) {
-//        insert(w);
-//        return false;
+//void Union(int u, int v, int w) {
+//    int fu = find(u);
+//    int fv = find(v);
+//    w = getEor(u) ^ getEor(v) ^ w;
+//    if (siz[fu] < siz[fv]) {
+//        int tmp = fu;
+//        fu = fv;
+//        fv = tmp;
 //    }
-//    if (siz[fa] < siz[fb]) {
-//        int tmp = fa;
-//        fa = fb;
-//        fb = tmp;
-//    }
-//    father[fb] = fa;
-//    siz[fa] += siz[fb];
-//    eor[fb] = w;
-//    rollbackArr[++opsize][0] = fa;
-//    rollbackArr[opsize][1] = fb;
-//    return true;
+//    father[fv] = fu;
+//    siz[fu] += siz[fv];
+//    eor[fv] = w;
+//    rollback[++opsize][0] = fu;
+//    rollback[opsize][1] = fv;
 //}
 //
 //void undo() {
-//    int fa = rollbackArr[opsize][0];
-//    int fb = rollbackArr[opsize--][1];
-//    father[fb] = fb;
-//    eor[fb] = 0;
-//    siz[fa] -= siz[fb];
+//    int fu = rollback[opsize][0];
+//    int fv = rollback[opsize--][1];
+//    father[fv] = fv;
+//    eor[fv] = 0;
+//    siz[fu] -= siz[fv];
 //}
 //
 //void addEdge(int idx, int u, int v, int w) {
@@ -144,11 +144,22 @@ package class167;
 //    }
 //}
 //
-//void dfs(int l, int r, int i, int dep) {
-//    memcpy(backup[dep], basis, sizeof(backup[dep]));
+//void dfs(int l, int r, int i) {
+//    int oldsiz = basiz;
 //    int unionCnt = 0;
+//    int u, v, w, fu, fv, eoru, eorv;
 //    for (int e = head[i]; e; e = nxt[e]) {
-//        if (Union(tox[e], toy[e], tow[e])) {
+//        u = tox[e];
+//        v = toy[e];
+//        w = tow[e];
+//        fu = find(u);
+//        fv = find(v);
+//        eoru = getEor(u);
+//        eorv = getEor(v);
+//        if (fu == fv) {
+//            insert(eoru ^ eorv ^ w);
+//        } else {
+//            Union(u, v, w);
 //            unionCnt++;
 //        }
 //    }
@@ -158,10 +169,10 @@ package class167;
 //        }
 //    } else {
 //        int mid = (l + r) >> 1;
-//        dfs(l, mid, i << 1, dep + 1);
-//        dfs(mid + 1, r, i << 1 | 1, dep + 1);
+//        dfs(l, mid, i << 1);
+//        dfs(mid + 1, r, i << 1 | 1);
 //    }
-//    memcpy(basis, backup[dep], sizeof(basis));
+//    cancel(oldsiz);
 //    for (int k = 1; k <= unionCnt; k++) {
 //        undo();
 //    }
@@ -212,7 +223,7 @@ package class167;
 //        }
 //    }
 //    prepare();
-//    dfs(0, q, 1, 0);
+//    dfs(0, q, 1);
 //    for (int i = 1; i <= q; i++) {
 //        if (op[i] == 3) {
 //            cout << ans[i] << '\n';

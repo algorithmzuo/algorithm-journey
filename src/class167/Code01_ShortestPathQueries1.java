@@ -15,8 +15,7 @@ public class Code01_ShortestPathQueries1 {
 
 	public static int MAXN = 200001;
 	public static int MAXT = 5000001;
-	public static int BIT = 29;
-	public static int DEEP = 20;
+	public static int BIT = 30;
 	public static int n, m, q;
 
 	// 端点x、端点y、时间点t、边权w
@@ -29,9 +28,10 @@ public class Code01_ShortestPathQueries1 {
 	public static int[] y = new int[MAXN];
 	public static int[] d = new int[MAXN];
 
-	// 异或空间线性基
-	public static int[] basis = new int[BIT + 1];
-	public static int[][] backup = new int[DEEP][BIT + 1];
+	// 可撤销线性基
+	public static int[] basis = new int[BIT];
+	public static int[] inspos = new int[BIT];
+	public static int basiz = 0;
 
 	// 时间轴线段树上的区间任务列表
 	public static int[] head = new int[MAXN << 2];
@@ -53,10 +53,11 @@ public class Code01_ShortestPathQueries1 {
 
 	// num插入线性基
 	public static void insert(int num) {
-		for (int i = BIT; i >= 0; i--) {
+		for (int i = BIT - 1; i >= 0; i--) {
 			if (num >> i == 1) {
 				if (basis[i] == 0) {
 					basis[i] = num;
+					inspos[basiz++] = i;
 					return;
 				}
 				num ^= basis[i];
@@ -66,16 +67,16 @@ public class Code01_ShortestPathQueries1 {
 
 	// 根据线性基，返回num能结合出的最小异或和
 	public static int minEor(int num) {
-		for (int i = BIT; i >= 0; i--) {
+		for (int i = BIT - 1; i >= 0; i--) {
 			num = Math.min(num, num ^ basis[i]);
 		}
 		return num;
 	}
 
-	// a把b的内容拷贝过来，用于线性基的撤销
-	public static void clone(int[] a, int[] b) {
-		for (int i = 0; i <= BIT; i++) {
-			a[i] = b[i];
+	// 线性基的撤销，让空间大小回到之前的规模
+	public static void cancel(int oldsiz) {
+		while (basiz > oldsiz) {
+			basis[inspos[--basiz]] = 0;
 		}
 	}
 
@@ -100,36 +101,29 @@ public class Code01_ShortestPathQueries1 {
 	// 可撤销并查集的合并，增加a和b之间，权值为w的边
 	// 集合合并的过程中，还要更新eor数组
 	// 更新eor的方式，参考讲解156，带权并查集
-	public static boolean union(int a, int b, int w) {
-		int eora = getEor(a);
-		int eorb = getEor(b);
-		int fa = find(a);
-		int fb = find(b);
-		w = eora ^ eorb ^ w;
-		if (fa == fb) {
-			insert(w);
-			return false;
+	public static void union(int u, int v, int w) {
+		int fu = find(u);
+		int fv = find(v);
+		w = getEor(u) ^ getEor(v) ^ w;
+		if (siz[fu] < siz[fv]) {
+			int tmp = fu;
+			fu = fv;
+			fv = tmp;
 		}
-		if (siz[fa] < siz[fb]) {
-			int tmp = fa;
-			fa = fb;
-			fb = tmp;
-		}
-		father[fb] = fa;
-		siz[fa] += siz[fb];
-		eor[fb] = w;
-		rollback[++opsize][0] = fa;
-		rollback[opsize][1] = fb;
-		return true;
+		father[fv] = fu;
+		siz[fu] += siz[fv];
+		eor[fv] = w;
+		rollback[++opsize][0] = fu;
+		rollback[opsize][1] = fv;
 	}
 
 	// 并查集的撤销操作
 	public static void undo() {
-		int fa = rollback[opsize][0];
-		int fb = rollback[opsize--][1];
-		father[fb] = fb;
-		eor[fb] = 0;
-		siz[fa] -= siz[fb];
+		int fx = rollback[opsize][0];
+		int fy = rollback[opsize--][1];
+		father[fy] = fy;
+		eor[fy] = 0;
+		siz[fx] -= siz[fy];
 	}
 
 	// 给某个线段树区间增加任务，点x到点y之间，增加权值为w的边
@@ -155,11 +149,22 @@ public class Code01_ShortestPathQueries1 {
 		}
 	}
 
-	public static void dfs(int l, int r, int i, int dep) {
-		clone(backup[dep], basis);
+	public static void dfs(int l, int r, int i) {
+		int oldsiz = basiz;
 		int unionCnt = 0;
+		int u, v, w, fu, fv, eoru, eorv;
 		for (int e = head[i]; e > 0; e = next[e]) {
-			if (union(tox[e], toy[e], tow[e])) {
+			u = tox[e];
+			v = toy[e];
+			w = tow[e];
+			fu = find(u);
+			fv = find(v);
+			eoru = getEor(u);
+			eorv = getEor(v);
+			if (fu == fv) {
+				insert(eoru ^ eorv ^ w);
+			} else {
+				union(u, v, w);
 				unionCnt++;
 			}
 		}
@@ -169,10 +174,10 @@ public class Code01_ShortestPathQueries1 {
 			}
 		} else {
 			int mid = (l + r) >> 1;
-			dfs(l, mid, i << 1, dep + 1);
-			dfs(mid + 1, r, i << 1 | 1, dep + 1);
+			dfs(l, mid, i << 1);
+			dfs(mid + 1, r, i << 1 | 1);
 		}
-		clone(basis, backup[dep]);
+		cancel(oldsiz);
 		for (int k = 1; k <= unionCnt; k++) {
 			undo();
 		}
@@ -229,7 +234,7 @@ public class Code01_ShortestPathQueries1 {
 			}
 		}
 		prepare();
-		dfs(0, q, 1, 0);
+		dfs(0, q, 1);
 		for (int i = 1; i <= q; i++) {
 			if (op[i] == 3) {
 				out.println(ans[i]);
