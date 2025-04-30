@@ -13,19 +13,23 @@ import java.util.Arrays;
 // 当 queries[j] 的查询结果为 true 时， answer 第 j 个值为 true ，否则为 false
 // 测试链接 : https://leetcode.cn/problems/checking-existence-of-edge-length-limited-paths/
 public class Code04_CheckingExistenceOfEdgeLengthLimit {
-
+    //todo 这个题本身就是简单的最小生成树，但是多了一个查询判断，所以生成最少生成树时判断权重超过查询的边的限制，判断是否存在在一个集合
 	public static boolean[] distanceLimitedPathsExist(int n, int[][] edges, int[][] queries) {
+        //todo 边根据权重进行排序
 		Arrays.sort(edges, (a, b) -> a[2] - b[2]);
 		int m = edges.length;
 		int k = queries.length;
+        //todo 将queries数组添加上自己的下标值
 		for (int i = 0; i < k; i++) {
 			questions[i][0] = queries[i][0];
 			questions[i][1] = queries[i][1];
 			questions[i][2] = queries[i][2];
 			questions[i][3] = i;
 		}
+        //todo 查询的边也根据权重排序
 		Arrays.sort(questions, 0, k, (a, b) -> a[2] - b[2]);
 		build(n);
+        //todo 结果数组
 		boolean[] ans = new boolean[k];
 		for (int i = 0, j = 0; i < k; i++) {
 			// i : 问题编号

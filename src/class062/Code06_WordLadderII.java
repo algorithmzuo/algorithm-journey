@@ -43,12 +43,15 @@ public class Code06_WordLadderII {
 		curLevel.clear();
 		nextLevel.clear();
 	}
-
+    //todo 将单词表构建成hashset，避免重复，查找单词表是否有结尾值，如果没有直接返回
+    // 宽度遍历构建图，从开始元素的每一层，修改每个字符，如果修改的结果能在单词表中找到就添加到图
 	public static List<List<String>> findLadders(String beginWord, String endWord, List<String> wordList) {
 		build(wordList);
+        //todo 不包含表示变不过去
 		if (!dict.contains(endWord)) {
 			return ans;
 		}
+        //todo 构建图，并检查是否存在endword
 		if (bfs(beginWord, endWord)) {
 			dfs(endWord, beginWord);
 		}
@@ -67,6 +70,7 @@ public class Code06_WordLadderII {
 				// 每个位置，字符a~z，换一遍！检查在词表中是否存在
 				// 避免，加工出自己
 				char[] w = word.toCharArray();
+                //todo 将当前层的每个元素都变一遍，如果单词表中存在这个元素就找到了
 				for (int i = 0; i < w.length; i++) {
 					char old = w[i];
 					for (char ch = 'a'; ch <= 'z'; ch++) {
@@ -76,17 +80,23 @@ public class Code06_WordLadderII {
 							if (str.equals(end)) {
 								find = true;
 							}
+                            //todo 如果图中不存在变出来的元素，就添加
 							graph.putIfAbsent(str, new ArrayList<>());
+                            //todo 反向添加，新变出来的字符串为key，旧字符串为value
 							graph.get(str).add(word);
+                            //todo 将新的字符串添加到下一层
 							nextLevel.add(str);
 						}
 					}
+                    //todo 恢复元素
 					w[i] = old;
 				}
 			}
 			if (find) {
 				return true;
 			} else {
+                //todo 。。。curlevel=nextlevel，直接清理nextlevel，然后一起丢了，，
+                //todo 依次向下遍历
 				HashSet<String> tmp = curLevel;
 				curLevel = nextLevel;
 				nextLevel = tmp;
@@ -98,13 +108,16 @@ public class Code06_WordLadderII {
 
 	public static void dfs(String word, String aim) {
 		path.addFirst(word);
+        //todo 如果找到头了，就添加整条路径
 		if (word.equals(aim)) {
 			ans.add(new ArrayList<>(path));
+            //todo
 		} else if (graph.containsKey(word)) {
 			for (String next : graph.get(word)) {
 				dfs(next, aim);
 			}
 		}
+        //todo 恢复
 		path.removeFirst();
 	}
 

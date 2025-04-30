@@ -14,7 +14,7 @@ import java.util.List;
 // 如果不存在这样的转换序列，返回 0 。
 // 测试链接 : https://leetcode.cn/problems/word-ladder/
 public class Code01_WordLadder {
-
+    //todo 双向广搜 开头是一层，结尾是一层，然后那一层小从哪一层遍历，如果小的一层遇到了大层的相同值就表示相遇了，返回层级
 	public static int ladderLength(String begin, String end, List<String> wordList) {
 		// 总词表
 		HashSet<String> dict = new HashSet<>(wordList);
@@ -29,6 +29,7 @@ public class Code01_WordLadder {
 		HashSet<String> nextLevel = new HashSet<>();
 		smallLevel.add(begin);
 		bigLevel.add(end);
+        //todo 开始就有两层，开始和结尾
 		for (int len = 2; !smallLevel.isEmpty(); len++) {
 			for (String w : smallLevel) {
 				// 从小侧扩展

@@ -15,6 +15,7 @@ public class Code05_TrappingRainWaterII {
 		// 0 : 行
 		// 1 : 列
 		// 2 : 水线
+        //todo 使用小根堆，弹出的点是最低的，他周围点根据最低位置存水
 		PriorityQueue<int[]> heap = new PriorityQueue<>((a, b) -> a[2] - b[2]);
 		boolean[][] visited = new boolean[n][m];
 		for (int i = 0; i < n; i++) {
@@ -39,6 +40,7 @@ public class Code05_TrappingRainWaterII {
 				nr = r + move[i];
 				nc = c + move[i + 1];
 				if (nr >= 0 && nr < n && nc >= 0 && nc < m && !visited[nr][nc]) {
+                    //todo 自己的高度与周围的高度取最大值，如果自己低，就能存w-自己高度的水，否则不存水
 					heap.add(new int[] { nr, nc, Math.max(height[nr][nc], w) });
 					visited[nr][nc] = true;
 				}

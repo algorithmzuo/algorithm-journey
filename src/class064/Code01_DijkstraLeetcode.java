@@ -12,6 +12,7 @@ import java.util.PriorityQueue;
 // 现在，从某个节点 s 发出一个信号
 // 需要多久才能使所有节点都收到信号
 // 如果不能使所有节点收到信号，返回 -1
+//todo 适用范围：有向图、边的权值没有负数
 // 测试链接 : https://leetcode.cn/problems/network-delay-time
 public class Code01_DijkstraLeetcode {
 

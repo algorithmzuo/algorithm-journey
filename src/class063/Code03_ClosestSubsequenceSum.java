@@ -13,6 +13,7 @@ import java.util.Arrays;
 // -10^7 <= nums[i] <= 10^7
 // -10^9 <= goal <= 10^9
 // 测试链接 : https://leetcode.cn/problems/closest-subsequence-sum/
+//todo 太难了，心累
 public class Code03_ClosestSubsequenceSum {
 
 	public static int MAXN = 1 << 20;
@@ -22,11 +23,13 @@ public class Code03_ClosestSubsequenceSum {
 	public static int[] rsum = new int[MAXN];
 
 	public static int fill;
-
+    //todo 解题方式：检查最大和和最小和和goal的关系，如果比大的还大，比小的还小可以直接出结果
+    // 对数组进行排序，然后展开，展开时可以对相同的值进行分组处理。然后对两个数组排序，遍历
 	public static int minAbsDifference(int[] nums, int goal) {
 		int n = nums.length;
 		long min = 0;
 		long max = 0;
+        //todo 获取到最大值和和最小值和
 		for (int i = 0; i < n; i++) {
 			if (nums[i] >= 0) {
 				max += nums[i];
@@ -72,6 +75,7 @@ public class Code03_ClosestSubsequenceSum {
 			}
 			// nums[ 1 1 1 1 1 2....
 			//       i         j
+            //todo 分组处理
 			for (int k = 0; k <= j - i; k++) {
 				// k = 0个
 				// k = 1个

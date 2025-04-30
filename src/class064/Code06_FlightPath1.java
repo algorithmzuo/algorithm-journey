@@ -29,11 +29,11 @@ public class Code06_FlightPath1 {
 	public static int MAXK = 11;
 
 	// 链式前向星建图需要
-	public static int[] head = new int[MAXN];
+	public static int[] head = new int[MAXN]; //点-》边
 
-	public static int[] next = new int[MAXM];
+	public static int[] next = new int[MAXM]; //边-》边
 
-	public static int[] to = new int[MAXM];
+	public static int[] to = new int[MAXM]; // 边-〉点
 
 	public static int[] weight = new int[MAXM];
 

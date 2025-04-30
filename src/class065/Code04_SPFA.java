@@ -101,19 +101,23 @@ public class Code04_SPFA {
 
 	// Bellman-Ford + SPFA优化的模版
 	public static boolean spfa(int n) {
+        //todo 从第一个节点走一遍
 		distance[1] = 0;
 		updateCnt[1]++;
+        //todo 记录权重变小的节点
 		queue[r++] = 1;
 		enter[1] = true;
 		while (l < r) {
 			int u = queue[l++];
 			enter[u] = false;
+            //todo 这个点权重变小导致相邻节点产生的影响
 			for (int ei = head[u], v, w; ei > 0; ei = next[ei]) {
 				v = to[ei];
 				w = weight[ei];
 				if (distance[u] + w < distance[v]) {
 					distance[v] = distance[u] + w;
 					if (!enter[v]) {
+                        //todo 放入队列一次算松弛一次,大概因为多个节点更新一个节点，会直接变成最小的值，存在假松弛
 						// 松弛次数超过n-1就有负环
 						if (++updateCnt[v] > n - 1) {
 							return true;

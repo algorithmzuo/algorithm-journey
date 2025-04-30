@@ -18,7 +18,8 @@ import java.util.PriorityQueue;
 
 // 时间复杂度O(n + m) + O(m * log m)
 public class Code02_PrimDynamic {
-
+//todo 先构建图，正向逆向都建，然后构建小根堆，根据权重排序，找一个节点，将他的临近节点都添加到堆中，弹出判断是否读过，没读过就依次处理。
+//   这个找一个点，查看他的最小权重的点是否处理过
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StreamTokenizer in = new StreamTokenizer(br);

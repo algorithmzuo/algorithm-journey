@@ -15,14 +15,19 @@ public class Code03_BellmanFord {
 	// Bellman-Ford算法
 	// 针对此题改写了松弛逻辑，课上讲了细节
 	public static int findCheapestPrice(int n, int[][] flights, int start, int target, int k) {
+        //todo 到每个城市的价格
 		int[] cur = new int[n];
 		Arrays.fill(cur, Integer.MAX_VALUE);
 		cur[start] = 0;
+        //todo 最多进行k+1轮
 		for (int i = 0; i <= k; i++) {
 			int[] next = Arrays.copyOf(cur, n);
+            //todo 遍历每条边
 			for (int[] edge : flights) {
 				// a -> b , w
+                //todo 当前节点有路到达
 				if (cur[edge[0]] != Integer.MAX_VALUE) {
+                    //todo 下一个节点经过该节点是否会松弛
 					next[edge[1]] = Math.min(next[edge[1]], cur[edge[0]] + edge[2]);
 				}
 			}

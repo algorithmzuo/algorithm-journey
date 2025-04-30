@@ -44,6 +44,7 @@ public class Code02_Floyd {
 			m = (int) in.nval;
 			for (int i = 0; i < m; i++) {
 				in.nextToken();
+                //todo 收集需要走的小岛，-1使和下标对应
 				path[i] = (int) in.nval - 1;
 			}
 			// 这道题给的图是邻接矩阵的形式
@@ -73,6 +74,7 @@ public class Code02_Floyd {
 		// O(N^3)的过程
 		// 枚举每个跳板
 		// 注意，跳板要最先枚举！跳板要最先枚举！跳板要最先枚举！
+        //todo 列举所有点，判断经过该点时，是否会会使别的点路径变短
 		for (int bridge = 0; bridge < n; bridge++) { // 跳板
 			for (int i = 0; i < n; i++) {
 				for (int j = 0; j < n; j++) {
@@ -88,5 +90,4 @@ public class Code02_Floyd {
 			}
 		}
 	}
-
 }

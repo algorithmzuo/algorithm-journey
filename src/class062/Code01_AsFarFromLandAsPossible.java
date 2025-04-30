@@ -34,6 +34,7 @@ public class Code01_AsFarFromLandAsPossible {
 		int n = grid.length;
 		int m = grid[0].length;
 		int seas = 0;
+        //todo 将所有陆地都加入到队列中
 		for (int i = 0; i < n; i++) {
 			for (int j = 0; j < m; j++) {
 				if (grid[i][j] == 1) {
@@ -54,6 +55,7 @@ public class Code01_AsFarFromLandAsPossible {
 			level++;
 			int size = r - l;
 			for (int k = 0, x, y, nx, ny; k < size; k++) {
+                //todo 做题做傻了，试图直接替代x,y，在下层for循环中导致不正确
 				x = queue[l][0];
 				y = queue[l++][1];
 				for (int i = 0; i < 4; i++) {
@@ -70,5 +72,4 @@ public class Code01_AsFarFromLandAsPossible {
 		}
 		return level - 1;
 	}
-
 }

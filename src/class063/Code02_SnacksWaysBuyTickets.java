@@ -10,7 +10,9 @@ package class063;
 // 第二行n个正整数v[i](0 <= v[i] <= 10^9),表示每袋零食的体积
 // 输出描述：
 // 输出一个正整数, 表示牛牛一共有多少种零食放法。
-// 测试链接 : https://www.luogu.com.cn/problem/P4799
+//测试链接 : https://www.nowcoder.com/practice/bf877f837467488692be703735db84e6?tpId=122&tqId=33698&ru=/exam/oj
+//测试链接 : https://www.luogu.com.cn/problem/P4799
+
 // 请同学们务必参考如下代码中关于输入、输出的处理
 // 这是输入输出处理效率很高的写法
 // 提交以下所有代码，把主类名改成Main，可以直接通过
@@ -59,11 +61,14 @@ public class Code02_SnacksWaysBuyTickets {
 	}
 
 	public static long compute() {
+        //todo 将数据分成两半，左侧收集到数组的大小，右侧收集到数组的大小
 		int lsize = f(0, n >> 1, 0, w, lsum, 0);
 		int rsize = f(n >> 1, n, 0, w, rsum, 0);
+        //todo 对两个数组进行排序
 		Arrays.sort(lsum, 0, lsize);
 		Arrays.sort(rsum, 0, rsize);
 		long ans = 0;
+        //todo 从左侧数组的最右侧判断，右侧数据能包含的数据个数
 		for (int i = lsize - 1, j = 0; i >= 0; i--) {
 			while (j < rsize && lsum[i] + rsum[j] <= w) {
 				j++;
@@ -73,16 +78,20 @@ public class Code02_SnacksWaysBuyTickets {
 		return ans;
 	}
 
-	// arr[i....e]结束，e再往右不展开了！
-	// 返回值 : ans数组填到了什么位置！
+	// arr[i....e)结束，e再往右不展开了！
+	// 返回值 : ans数组填到了什么位置！ 完了完了，我一瞬间不知道怎么遍历所有情况了，递归，又到递归了。
+    //todo 方法参数，i,e 从i到e，i表示下标位置，e表示数组长度，s表示累加和，w表示背包大小，ans表示收集到的数组，j表示收集到的数组长度
 	public static int f(int i, int e, long s, long w, long[] ans, int j) {
+        //todo 收集到的数据超过了背包大小
 		if (s > w) {
 			return j;
 		}
 		// s <= w
+        //todo 展开完了，开始收集
 		if (i == e) {
 			ans[j++] = s;
 		} else {
+            //todo 展开
 			// 不要arr[i]位置的数
 			j = f(i + 1, e, s, w, ans, j);
 			// 要arr[i]位置的数
@@ -90,5 +99,4 @@ public class Code02_SnacksWaysBuyTickets {
 		}
 		return j;
 	}
-
 }

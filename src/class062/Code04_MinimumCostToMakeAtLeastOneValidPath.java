@@ -30,6 +30,7 @@ public class Code04_MinimumCostToMakeAtLeastOneValidPath {
 		int m = grid.length;
 		int n = grid[0].length;
 		int[][] distance = new int[m][n];
+        //todo 设置所有点不可达
 		for (int i = 0; i < m; i++) {
 			for (int j = 0; j < n; j++) {
 				distance[i][j] = Integer.MAX_VALUE;
@@ -48,6 +49,7 @@ public class Code04_MinimumCostToMakeAtLeastOneValidPath {
 			for (int i = 1; i <= 4; i++) {
 				int nx = x + move[i][0];
 				int ny = y + move[i][1];
+                //todo 当前方向的障碍
 				int weight = grid[x][y] != i ? 1 : 0;
 				if (nx >= 0 && nx < m && ny >= 0 && ny < n 
 						&& distance[x][y] + weight < distance[nx][ny]) {

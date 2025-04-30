@@ -11,22 +11,28 @@ import java.util.Arrays;
 // 代表用管道将 house1j 和 house2j连接在一起的成本。连接是双向的。
 // 请返回 为所有房子都供水的最低总成本
 // 测试链接 : https://leetcode.cn/problems/optimize-water-distribution-in-a-village/
+//todo https://www.luogu.com.cn/problem/P1194
 public class Code03_OptimizeWaterDistribution {
 
 	public static int minCostToSupplyWater(int n, int[] wells, int[][] pipes) {
 		build(n);
+        //todo 将打井想象成一个虚拟的点到村庄的权重
 		for (int i = 0; i < n; i++, cnt++) {
 			// wells : 100   30
 			//         0(1)  1(2)
+            //虚拟点为0
 			edges[cnt][0] = 0;
+            //到每个村庄
 			edges[cnt][1] = i + 1;
 			edges[cnt][2] = wells[i];
 		}
+        //todo 村庄间链接
 		for (int i = 0; i < pipes.length; i++, cnt++) {
 			edges[cnt][0] = pipes[i][0];
 			edges[cnt][1] = pipes[i][1];
 			edges[cnt][2] = pipes[i][2];
 		}
+        //todo 对所有线的权重排序，k算法
 		Arrays.sort(edges, 0, cnt, (a, b) -> a[2] - b[2]);
 		int ans = 0;
 		for (int i = 0; i < cnt; i++) {
@@ -71,5 +77,4 @@ public class Code03_OptimizeWaterDistribution {
 			return false;
 		}
 	}
-
 }

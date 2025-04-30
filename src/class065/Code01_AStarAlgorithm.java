@@ -79,6 +79,7 @@ public class Code01_AStarAlgorithm {
 		// 1 : 列
 		// 2 : 从源点出发到达当前点的距离 + 当前点到终点的预估距离
 		PriorityQueue<int[]> heap = new PriorityQueue<>((a, b) -> a[2] - b[2]);
+        //todo 重点
 		heap.add(new int[] { startX, startY, 1 + f1(startX, startY, targetX, targetY) });
 		while (!heap.isEmpty()) {
 			int[] cur = heap.poll();

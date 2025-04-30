@@ -48,8 +48,10 @@ public class Code04_ShortestPathToGetAllKeys {
 					queue[r][0] = i;
 					queue[r][1] = j;
 					// 0 : 000000
+                    //todo 起始位置入队
 					queue[r++][2] = 0;
 				}
+                //todo 钥匙
 				if (grid[i][j] >= 'a' && grid[i][j] <= 'f') {
 					key |= 1 << (grid[i][j] - 'a');
 				}
@@ -58,6 +60,7 @@ public class Code04_ShortestPathToGetAllKeys {
 		for (int i = 0; i < n; i++) {
 			for (int j = 0; j < m; j++) {
 				for (int s = 0; s <= key; s++) {
+                    //todo 钥匙处于这个状态的点设置为false；
 					visited[i][j][s] = false;
 				}
 			}
@@ -68,10 +71,12 @@ public class Code04_ShortestPathToGetAllKeys {
 		build(g);
 		int level = 1;
 		while (l < r) {
+            //todo 分层遍历
 			for (int k = 0, size = r - l, x, y, s; k < size; k++) {
 				x = queue[l][0];
 				y = queue[l][1];
 				s = queue[l++][2];
+                //todo 向四个方向拓展
 				for (int i = 0, nx, ny, ns; i < 4; i++) {
 					nx = x + move[i];
 					ny = y + move[i + 1];

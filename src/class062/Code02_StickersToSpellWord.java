@@ -13,7 +13,6 @@ import java.util.HashSet;
 // 并且 target 被选择为两个随机单词的连接。
 // 测试链接 : https://leetcode.cn/problems/stickers-to-spell-word/
 public class Code02_StickersToSpellWord {
-
 	public static int MAXN = 401;
 
 	public static String[] queue = new String[MAXN];
@@ -44,8 +43,10 @@ public class Code02_StickersToSpellWord {
 		}
 		visited.clear();
 		for (String str : stickers) {
+            //todo 将所有票都根据字母大小排序
 			str = sort(str);
 			for (int i = 0; i < str.length(); i++) {
+                //todo 图中保存哪个字母，stickers
 				if (i == 0 || str.charAt(i) != str.charAt(i - 1)) {
 					graph.get(str.charAt(i) - 'a').add(str);
 				}
@@ -59,12 +60,15 @@ public class Code02_StickersToSpellWord {
 		// 使用队列的形式是整层弹出
 		while (l < r) {
 			int size = r - l;
+            //todo 遍历一层
 			for (int i = 0; i < size; i++) {
 				String cur = queue[l++];
 				for (String s : graph.get(cur.charAt(0) - 'a')) {
+                    //todo 剩余的字符串
 					String next = next(cur, s);
 					if (next.equals("")) {
 						return level;
+                        //todo 如果剩余的字符串没有出现过就入队
 					} else if (!visited.contains(next)) {
 						visited.add(next);
 						queue[r++] = next;
@@ -85,6 +89,7 @@ public class Code02_StickersToSpellWord {
 	public static String next(String t, String s) {
 		StringBuilder builder = new StringBuilder();
 		for (int i = 0, j = 0; i < t.length();) {
+            //todo s比t小，将t剩余的直接加上
 			if (j == s.length()) {
 				builder.append(t.charAt(i++));
 			} else {

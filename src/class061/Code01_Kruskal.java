@@ -53,7 +53,8 @@ public class Code01_Kruskal {
 			return false;
 		}
 	}
-
+    //todo 先根据权重进行排序，然后判断边是否在并查集中，不在的话就合并，判断是否达到n-1条边，满足就返回
+    //  这个找最小边，然后判断点是否在一个集合
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StreamTokenizer in = new StreamTokenizer(br);

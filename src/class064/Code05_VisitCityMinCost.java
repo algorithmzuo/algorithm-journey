@@ -16,12 +16,15 @@ public class Code05_VisitCityMinCost {
 
 	// 电动车总电量，cnt
 	public static int electricCarPlan(int[][] paths, int cnt, int start, int end, int[] charge) {
+        //todo 城市的数量
 		int n = charge.length;
+        //todo 建图
 		ArrayList<ArrayList<int[]>> graph = new ArrayList<>();
 		for (int i = 0; i < n; i++) {
 			graph.add(new ArrayList<>());
 		}
 		for (int[] path : paths) {
+            //todo path[2] 距离
 			graph.get(path[0]).add(new int[] { path[1], path[2] });
 			graph.get(path[1]).add(new int[] { path[0], path[2] });
 		}
@@ -55,7 +58,9 @@ public class Code05_VisitCityMinCost {
 				return cost;
 			}
 			visited[cur][power] = true;
+            //todo 剩余电量不是满的
 			if (power < cnt) {
+                //todo 扩点的方式
 				// 充一格电
 				// cur, power+1
 				if (!visited[cur][power + 1] && cost + charge[cur] < distance[cur][power + 1]) {

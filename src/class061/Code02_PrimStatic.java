@@ -24,7 +24,7 @@ import java.util.Arrays;
 public class Code02_PrimStatic {
 
 	public static int MAXN = 5001;
-
+    //todo 边要翻倍
 	public static int MAXM = 400001;
 
 	public static int n, m;
@@ -35,7 +35,7 @@ public class Code02_PrimStatic {
 	public static int[] next = new int[MAXM];
 
 	public static int[] to = new int[MAXM];
-
+    //todo 边的权重，不能初始化为点的数量，洛谷啥都不显示，只有个运行时错误，建议尽快倒闭
 	public static int[] weight = new int[MAXM];
 
 	public static int cnt;
@@ -80,6 +80,8 @@ public class Code02_PrimStatic {
 			heap[heapSize][1] = w;
 			where[v] = heapSize++;
 			heapInsert(where[v]);
+            //todo 优化点，如果这个节点已经存在了，就直接在堆中进行比较，只保留一个值，这样每个节点只会插入一次，弹出一次
+            // 正常逻辑是不管是否存在与否，都加进去然后弹出判断。
 		} else if (where[v] >= 0) {
 			// v这个点的记录，在堆上的位置是where[v]
 			heap[where[v]][1] = Math.min(heap[where[v]][1], w);
@@ -168,6 +170,7 @@ public class Code02_PrimStatic {
 		// 1节点出发
 		nodeCnt = 1;
 		where[1] = -2;
+        //todo 将所有相邻的点都放到队列中
 		for (int ei = head[1]; ei > 0; ei = next[ei]) {
 			addOrUpdateOrIgnore(ei);
 		}
