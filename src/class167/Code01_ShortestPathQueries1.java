@@ -15,7 +15,7 @@ public class Code01_ShortestPathQueries1 {
 
 	public static int MAXN = 200001;
 	public static int MAXT = 5000001;
-	public static int BIT = 30;
+	public static int BIT = 29;
 	public static int n, m, q;
 
 	// 端点x、端点y、时间点t、边权w
@@ -29,8 +29,8 @@ public class Code01_ShortestPathQueries1 {
 	public static int[] d = new int[MAXN];
 
 	// 可撤销线性基
-	public static int[] basis = new int[BIT];
-	public static int[] inspos = new int[BIT];
+	public static int[] basis = new int[BIT + 1];
+	public static int[] inspos = new int[BIT + 1];
 	public static int basiz = 0;
 
 	// 可撤销并查集 + 带权并查集
@@ -53,7 +53,7 @@ public class Code01_ShortestPathQueries1 {
 
 	// num插入线性基
 	public static void insert(int num) {
-		for (int i = BIT - 1; i >= 0; i--) {
+		for (int i = BIT; i >= 0; i--) {
 			if (num >> i == 1) {
 				if (basis[i] == 0) {
 					basis[i] = num;
@@ -67,7 +67,7 @@ public class Code01_ShortestPathQueries1 {
 
 	// num结合线性基，能得到的最小异或值返回
 	public static int minEor(int num) {
-		for (int i = BIT - 1; i >= 0; i--) {
+		for (int i = BIT; i >= 0; i--) {
 			num = Math.min(num, num ^ basis[i]);
 		}
 		return num;

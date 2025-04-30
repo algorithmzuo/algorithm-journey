@@ -18,13 +18,13 @@ public class Code02_EightVerticalHorizontal1 {
 
 		public int[] arr;
 
-		public BitSet(int size) {
-			len = (size + 31) / 32;
+		public BitSet() {
+			len = (1000 + 31) / 32;
 			arr = new int[len];
 		}
 
-		public BitSet(String s, int size) {
-			len = (size + 31) / 32;
+		public BitSet(String s) {
+			len = (1000 + 31) / 32;
 			arr = new int[len];
 			for (int i = 0, j = s.length() - 1; i < s.length(); i++, j--) {
 				set(i, s.charAt(j) - '0');
@@ -71,7 +71,7 @@ public class Code02_EightVerticalHorizontal1 {
 	public static int MAXN = 501;
 	public static int MAXQ = 1001;
 	public static int MAXT = 10001;
-	public static int BIT = 1000;
+	public static int BIT = 999;
 	public static int n, m, q;
 
 	// 记录每条操作
@@ -82,8 +82,8 @@ public class Code02_EightVerticalHorizontal1 {
 	public static int[] last = new int[MAXQ];
 
 	// 可撤销线性基
-	public static BitSet[] basis = new BitSet[BIT];
-	public static int[] inspos = new int[BIT];
+	public static BitSet[] basis = new BitSet[BIT + 1];
+	public static int[] inspos = new int[BIT + 1];
 	public static int basiz = 0;
 
 	// 可撤销并查集 + 带权并查集
@@ -105,7 +105,7 @@ public class Code02_EightVerticalHorizontal1 {
 	public static BitSet[] ans = new BitSet[MAXQ];
 
 	public static void insert(BitSet num) {
-		for (int i = BIT - 1; i >= 0; i--) {
+		for (int i = BIT; i >= 0; i--) {
 			if (num.get(i) == 1) {
 				if (basis[i].get(i) == 0) {
 					basis[i].copy(num);
@@ -119,8 +119,8 @@ public class Code02_EightVerticalHorizontal1 {
 
 	// 0这个数字结合线性基，得到的最大异或值返回
 	public static BitSet maxEor() {
-		BitSet ans = new BitSet(BIT);
-		for (int i = BIT - 1; i >= 0; i--) {
+		BitSet ans = new BitSet();
+		for (int i = BIT; i >= 0; i--) {
 			if (ans.get(i) == 0 && basis[i].get(i) == 1) {
 				ans.eor(basis[i]);
 			}
@@ -142,7 +142,7 @@ public class Code02_EightVerticalHorizontal1 {
 	}
 
 	public static BitSet getEor(int i) {
-		BitSet ans = new BitSet(BIT);
+		BitSet ans = new BitSet();
 		while (i != father[i]) {
 			ans.eor(eor[i]);
 			i = father[i];
@@ -153,7 +153,7 @@ public class Code02_EightVerticalHorizontal1 {
 	public static boolean union(int u, int v, BitSet w) {
 		int fu = find(u);
 		int fv = find(v);
-		BitSet weight = new BitSet(BIT);
+		BitSet weight = new BitSet();
 		weight.eor(getEor(u));
 		weight.eor(getEor(v));
 		weight.eor(w);
@@ -227,7 +227,7 @@ public class Code02_EightVerticalHorizontal1 {
 
 	public static void print(BitSet bs, PrintWriter out) {
 		boolean flag = false;
-		for (int i = BIT - 1, s; i >= 0; i--) {
+		for (int i = BIT, s; i >= 0; i--) {
 			s = bs.get(i);
 			if (s == 1) {
 				flag = true;
@@ -248,18 +248,18 @@ public class Code02_EightVerticalHorizontal1 {
 		n = in.nextInt();
 		m = in.nextInt();
 		q = in.nextInt();
-		for (int i = 0; i < BIT; i++) {
-			basis[i] = new BitSet(BIT);
+		for (int i = 0; i <= BIT; i++) {
+			basis[i] = new BitSet();
 		}
 		for (int i = 1; i <= n; i++) {
 			father[i] = i;
 			siz[i] = 1;
-			eor[i] = new BitSet(BIT);
+			eor[i] = new BitSet();
 		}
 		for (int i = 1; i <= m; i++) {
 			int u = in.nextInt();
 			int v = in.nextInt();
-			BitSet w = new BitSet(in.nextString(), BIT);
+			BitSet w = new BitSet(in.nextString());
 			union(u, v, w);
 		}
 		ans[0] = maxEor();
@@ -270,7 +270,7 @@ public class Code02_EightVerticalHorizontal1 {
 				edgeCnt++;
 				x[edgeCnt] = in.nextInt();
 				y[edgeCnt] = in.nextInt();
-				w[edgeCnt] = new BitSet(in.nextString(), BIT);
+				w[edgeCnt] = new BitSet(in.nextString());
 				last[edgeCnt] = i;
 			} else if (op.equals("Cancel")) {
 				int k = in.nextInt();
@@ -279,7 +279,7 @@ public class Code02_EightVerticalHorizontal1 {
 			} else {
 				int k = in.nextInt();
 				add(last[k], i - 1, x[k], y[k], w[k], 1, q, 1);
-				w[k] = new BitSet(in.nextString(), BIT);
+				w[k] = new BitSet(in.nextString());
 				last[k] = i;
 			}
 		}

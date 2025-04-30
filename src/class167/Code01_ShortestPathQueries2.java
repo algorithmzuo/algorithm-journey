@@ -26,7 +26,7 @@ package class167;
 //
 //const int MAXN = 200001;
 //const int MAXT = 5000001;
-//const int BIT = 30;
+//const int BIT = 29;
 //int n, m, q;
 //
 //Event event[MAXN << 1];
@@ -37,8 +37,8 @@ package class167;
 //int y[MAXN];
 //int d[MAXN];
 //
-//int basis[BIT];
-//int inspos[BIT];
+//int basis[BIT + 1];
+//int inspos[BIT + 1];
 //int basiz = 0;
 //
 //int father[MAXN];
@@ -57,7 +57,7 @@ package class167;
 //int ans[MAXN];
 //
 //void insert(int num) {
-//    for (int i = BIT - 1; i >= 0; --i) {
+//    for (int i = BIT; i >= 0; --i) {
 //        if (num >> i == 1) {
 //            if (basis[i] == 0) {
 //                basis[i] = num;
@@ -70,7 +70,7 @@ package class167;
 //}
 //
 //int minEor(int num) {
-//    for (int i = BIT - 1; i >= 0; --i) {
+//    for (int i = BIT; i >= 0; --i) {
 //        num = min(num, num ^ basis[i]);
 //    }
 //    return num;

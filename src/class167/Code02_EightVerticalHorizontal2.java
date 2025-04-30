@@ -13,13 +13,13 @@ package class167;
 //    int len;
 //    vector<int> arr;
 //
-//    BitSet(int size = 0) {
-//        len = (size + 31) / 32;
+//    BitSet() {
+//        len = (1000 + 31) / 32;
 //        arr.assign(len, 0);
 //    }
 //
-//    BitSet(const string& s, int size) {
-//        len = (size + 31) / 32;
+//    BitSet(const string& s) {
+//        len = (1000 + 31) / 32;
 //        arr.assign(len, 0);
 //        for (int i = 0, j = (int)s.size() - 1; i < (int)s.size(); i++, j--) {
 //            set(i, s[j] - '0');
@@ -56,7 +56,7 @@ package class167;
 //const int MAXN = 501;
 //const int MAXQ = 1001;
 //const int MAXT = 10001;
-//const int BIT = 1000;
+//const int BIT = 999;
 //
 //int n, m, q;
 //int x[MAXQ];
@@ -65,8 +65,8 @@ package class167;
 //int edgeCnt = 0;
 //int last[MAXQ];
 //
-//BitSet basis[BIT];
-//int inspos[BIT];
+//BitSet basis[BIT + 1];
+//int inspos[BIT + 1];
 //int basiz = 0;
 //
 //int father[MAXN];
@@ -85,7 +85,7 @@ package class167;
 //BitSet ans[MAXQ];
 //
 //void insert(BitSet num) {
-//    for (int i = BIT - 1; i >= 0; i--) {
+//    for (int i = BIT; i >= 0; i--) {
 //        if (num.get(i)) {
 //            if (basis[i].get(i) == 0) {
 //                basis[i].copy(num);
@@ -98,8 +98,8 @@ package class167;
 //}
 //
 //BitSet maxEor() {
-//    BitSet res(BIT);
-//    for (int i = BIT - 1; i >= 0; i--) {
+//    BitSet res = BitSet();
+//    for (int i = BIT; i >= 0; i--) {
 //        if (res.get(i) == 0 && basis[i].get(i) == 1) {
 //            res.eor(basis[i]);
 //        }
@@ -121,7 +121,7 @@ package class167;
 //}
 //
 //BitSet getEor(int i) {
-//    BitSet res(BIT);
+//    BitSet res = BitSet();
 //    while (i != father[i]) {
 //        res.eor(eor[i]);
 //        i = father[i];
@@ -130,8 +130,9 @@ package class167;
 //}
 //
 //bool Union(int u, int v, const BitSet& w) {
-//    int fu = find(u), fv = find(v);
-//    BitSet weight(BIT);
+//    int fu = find(u);
+//    int fv = find(v);
+//    BitSet weight = BitSet();
 //    weight.eor(getEor(u));
 //    weight.eor(getEor(v));
 //    weight.eor(w);
@@ -205,7 +206,7 @@ package class167;
 //
 //void print(const BitSet& bs) {
 //    bool flag = false;
-//    for (int i = BIT - 1, s; i >= 0; i--) {
+//    for (int i = BIT, s; i >= 0; i--) {
 //        s = bs.get(i);
 //        if (s == 1) {
 //            flag = true;
@@ -224,19 +225,19 @@ package class167;
 //    ios::sync_with_stdio(false);
 //    cin.tie(nullptr);
 //    cin >> n >> m >> q;
-//    for (int i = 0; i < BIT; i++) {
-//        basis[i] = BitSet(BIT);
+//    for (int i = 0; i <= BIT; i++) {
+//        basis[i] = BitSet();
 //    }
 //    for (int i = 1; i <= n; i++) {
 //        father[i] = i;
 //        siz[i] = 1;
-//        eor[i] = BitSet(BIT);
+//        eor[i] = BitSet();
 //    }
 //    int u, v;
 //    string str;
 //    for (int i = 1; i <= m; i++) {
 //        cin >> u >> v >> str;
-//        Union(u, v, BitSet(str, BIT));
+//        Union(u, v, BitSet(str));
 //    }
 //    ans[0] = maxEor();
 //    string op;
@@ -247,7 +248,7 @@ package class167;
 //            ++edgeCnt;
 //            cin >> x[edgeCnt] >> y[edgeCnt];
 //            cin >> str;
-//            w[edgeCnt] = BitSet(str, BIT);
+//            w[edgeCnt] = BitSet(str);
 //            last[edgeCnt] = i;
 //        } else if (op == "Cancel") {
 //            cin >> k;
@@ -257,7 +258,7 @@ package class167;
 //            cin >> k;
 //            add(last[k], i - 1, x[k], y[k], w[k], 1, q, 1);
 //            cin >> str;
-//            w[k] = BitSet(str, BIT);
+//            w[k] = BitSet(str);
 //            last[k] = i;
 //        }
 //    }
