@@ -18,8 +18,7 @@ package class167;
 //}
 //
 //const int MAXN = 100001;
-//const int MAXP = MAXN * 20;
-//const int MAXT = 1000001;
+//const int MAXT = 2000001;
 //const int BIT = 16;
 //int n, m, t;
 //
@@ -34,8 +33,8 @@ package class167;
 //int tim[MAXN];
 //
 //int root[MAXN];
-//int tree[MAXP][2];
-//int pass[MAXP];
+//int tree[MAXT][2];
+//int pass[MAXT];
 //int cntt;
 //
 //int headp[MAXN << 2];

@@ -13,8 +13,7 @@ import java.util.Arrays;
 public class Code04_MarsStore1 {
 
 	public static int MAXN = 100001;
-	public static int MAXP = MAXN * 20;
-	public static int MAXT = 1000001;
+	public static int MAXT = 2000001;
 	public static int BIT = 16;
 	public static int n, m, t;
 
@@ -29,8 +28,8 @@ public class Code04_MarsStore1 {
 	public static int[] tim = new int[MAXN];
 
 	public static int[] root = new int[MAXN];
-	public static int[][] tree = new int[MAXP][2];
-	public static int[] pass = new int[MAXP];
+	public static int[][] tree = new int[MAXT][2];
+	public static int[] pass = new int[MAXT];
 	public static int cntt = 0;
 
 	public static int[] headp = new int[MAXN << 2];
