@@ -22,13 +22,13 @@ public class Code03_MinimumXor1 {
 	public static int cnt = 1;
 
 	public static int[] eor = new int[MAXN];
-	public static int[] data = new int[MAXN];
+	public static int[] num = new int[MAXN];
 
-	public static int insert(int num, int changeCnt) {
+	public static int insert(int x, int changeCnt) {
 		int cur = 1;
 		pass[cur] += changeCnt;
 		for (int b = BIT, path; b >= 0; b--) {
-			path = (num >> b) & 1;
+			path = (x >> b) & 1;
 			if (tree[cur][path] == 0) {
 				tree[cur][path] = ++cnt;
 				fa[tree[cur][path]] = cur;
@@ -39,10 +39,10 @@ public class Code03_MinimumXor1 {
 		return cur;
 	}
 
-	public static void compute(int num, int changeCnt) {
-		int bottom = insert(num, changeCnt);
+	public static void compute(int x, int changeCnt) {
+		int bottom = insert(x, changeCnt);
 		eor[bottom] = (pass[bottom] >= 2 ? 0 : INF);
-		data[bottom] = (pass[bottom] == 1 ? num : 0);
+		num[bottom] = (pass[bottom] == 1 ? x : 0);
 		for (int i = fa[bottom], l, r; i > 0; i = fa[i]) {
 			l = tree[i][0];
 			r = tree[i][1];
@@ -51,14 +51,14 @@ public class Code03_MinimumXor1 {
 			} else if (l != 0 ^ r != 0) {
 				eor[i] = (l > 0 ? eor[l] : eor[r]);
 			} else if (Math.max(pass[l], pass[r]) == 1) {
-				eor[i] = data[l] ^ data[r];
+				eor[i] = num[l] ^ num[r];
 			} else {
 				eor[i] = Math.min(eor[l], eor[r]);
 			}
 			if (pass[l] + pass[r] == 1) {
-				data[i] = (pass[l] == 1 ? data[l] : data[r]);
+				num[i] = (pass[l] == 1 ? num[l] : num[r]);
 			} else {
-				data[i] = 0;
+				num[i] = 0;
 			}
 		}
 	}
@@ -67,16 +67,16 @@ public class Code03_MinimumXor1 {
 		FastReader in = new FastReader(System.in);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
 		int q = in.nextInt();
-		for (int i = 1, op, num; i <= q; i++) {
+		for (int i = 1, op, x; i <= q; i++) {
 			op = in.nextInt();
 			if (op == 3) {
 				out.println(eor[1]);
 			} else {
-				num = in.nextInt();
+				x = in.nextInt();
 				if (op == 1) {
-					compute(num, 1);
+					compute(x, 1);
 				} else {
-					compute(num, -1);
+					compute(x, -1);
 				}
 			}
 		}
