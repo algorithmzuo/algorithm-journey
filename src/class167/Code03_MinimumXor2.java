@@ -39,22 +39,22 @@ package class167;
 //
 //void compute(int x, int changeCnt) {
 //    int bottom = insert(x, changeCnt);
-//    eor[bottom] = (pass[bottom] >= 2 ? 0 : INF);
-//    num[bottom] = (pass[bottom] == 1 ? x : 0);
+//    eor[bottom] = pass[bottom] >= 2 ? 0 : INF;
+//    num[bottom] = pass[bottom] == 1 ? x : 0;
 //    for (int i = fa[bottom], l, r; i > 0; i = fa[i]) {
 //        l = tree[i][0];
 //        r = tree[i][1];
 //        if (pass[i] < 2) {
 //            eor[i] = INF;
 //        } else if ((l != 0) ^ (r != 0)) {
-//            eor[i] = (l > 0 ? eor[l] : eor[r]);
+//            eor[i] = l > 0 ? eor[l] : eor[r];
 //        } else if (max(pass[l], pass[r]) == 1) {
 //            eor[i] = num[l] ^ num[r];
 //        } else {
 //            eor[i] = min(eor[l], eor[r]);
 //        }
 //        if (pass[l] + pass[r] == 1) {
-//        	num[i] = (pass[l] == 1 ? num[l] : num[r]);
+//        	num[i] = pass[l] == 1 ? num[l] : num[r];
 //        } else {
 //        	num[i] = 0;
 //        }
