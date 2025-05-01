@@ -19,9 +19,10 @@ public class Code03_MinimumXor1 {
 	public static int[] fa = new int[MAXN];
 	public static int[][] tree = new int[MAXN][2];
 	public static int[] pass = new int[MAXN];
+	public static int cnt = 1;
+
 	public static int[] eor = new int[MAXN];
 	public static int[] data = new int[MAXN];
-	public static int cnt = 1;
 
 	public static int insert(int num, int changeCnt) {
 		int cur = 1;
@@ -35,19 +36,19 @@ public class Code03_MinimumXor1 {
 			cur = tree[cur][path];
 			pass[cur] += changeCnt;
 		}
-		eor[cur] = (pass[cur] >= 2 ? 0 : INF);
-		data[cur] = (pass[cur] == 1 ? num : 0);
 		return cur;
 	}
 
 	public static void compute(int num, int changeCnt) {
 		int bottom = insert(num, changeCnt);
+		eor[bottom] = (pass[bottom] >= 2 ? 0 : INF);
+		data[bottom] = (pass[bottom] == 1 ? num : 0);
 		for (int i = fa[bottom], l, r; i > 0; i = fa[i]) {
 			l = tree[i][0];
 			r = tree[i][1];
 			if (pass[i] < 2) {
 				eor[i] = INF;
-			} else if ((l > 0 ? 1 : 0) + (r > 0 ? 1 : 0) == 1) {
+			} else if (l != 0 ^ r != 0) {
 				eor[i] = (l > 0 ? eor[l] : eor[r]);
 			} else if (Math.max(pass[l], pass[r]) == 1) {
 				eor[i] = data[l] ^ data[r];
