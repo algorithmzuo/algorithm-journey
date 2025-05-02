@@ -9,17 +9,23 @@ package class167;
 //
 //using namespace std;
 //
+//const int MAXN = 501;
+//const int MAXQ = 1001;
+//const int MAXT = 10001;
+//const int BIT = 1000;
+//const int INTBIT = 32;
+//
 //struct BitSet {
 //    int len;
 //    vector<int> arr;
 //
 //    BitSet() {
-//        len = (1000 + 31) / 32;
+//        len = BIT / INTBIT + 1;
 //        arr.assign(len, 0);
 //    }
 //
 //    BitSet(const string& s) {
-//        len = (1000 + 31) / 32;
+//        len = BIT / INTBIT + 1;
 //        arr.assign(len, 0);
 //        for (int i = 0, j = (int)s.size() - 1; i < (int)s.size(); i++, j--) {
 //            set(i, s[j] - '0');
@@ -27,14 +33,14 @@ package class167;
 //    }
 //
 //    int get(int i) const {
-//        return (arr[i / 32] >> (i % 32)) & 1;
+//        return (arr[i / INTBIT] >> (i % INTBIT)) & 1;
 //    }
 //
 //    void set(int i, int v) {
 //        if (v) {
-//            arr[i / 32] |= 1 << (i % 32);
+//            arr[i / INTBIT] |= 1 << (i % INTBIT);
 //        } else {
-//            arr[i / 32] &= ~(1 << (i % 32));
+//            arr[i / INTBIT] &= ~(1 << (i % INTBIT));
 //        }
 //    }
 //
@@ -53,12 +59,8 @@ package class167;
 //    }
 //};
 //
-//const int MAXN = 501;
-//const int MAXQ = 1001;
-//const int MAXT = 10001;
-//const int BIT = 999;
-//
 //int n, m, q;
+//
 //int x[MAXQ];
 //int y[MAXQ];
 //BitSet w[MAXQ];

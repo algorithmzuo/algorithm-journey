@@ -11,6 +11,12 @@ import java.io.PrintWriter;
 
 public class Code02_EightVerticalHorizontal1 {
 
+	public static int MAXN = 501;
+	public static int MAXQ = 1001;
+	public static int MAXT = 10001;
+	public static int BIT = 1000;
+	public static int INTBIT = 32;
+
 	// 位图
 	static class BitSet {
 
@@ -19,12 +25,12 @@ public class Code02_EightVerticalHorizontal1 {
 		public int[] arr;
 
 		public BitSet() {
-			len = (1000 + 31) / 32;
+			len = BIT / INTBIT + 1;
 			arr = new int[len];
 		}
 
 		public BitSet(String s) {
-			len = (1000 + 31) / 32;
+			len = BIT / INTBIT + 1;
 			arr = new int[len];
 			for (int i = 0, j = s.length() - 1; i < s.length(); i++, j--) {
 				set(i, s.charAt(j) - '0');
@@ -33,15 +39,15 @@ public class Code02_EightVerticalHorizontal1 {
 
 		// 返回第i位的状态
 		public int get(int i) {
-			return (arr[i / 32] >> (i % 32)) & 1;
+			return (arr[i / INTBIT] >> (i % INTBIT)) & 1;
 		}
 
 		// 设置第i位的状态
 		public void set(int i, int v) {
 			if (v == 0) {
-				arr[i / 32] &= ~(1 << (i % 32));
+				arr[i / INTBIT] &= ~(1 << (i % INTBIT));
 			} else {
-				arr[i / 32] |= 1 << (i % 32);
+				arr[i / INTBIT] |= 1 << (i % INTBIT);
 			}
 		}
 
@@ -68,10 +74,6 @@ public class Code02_EightVerticalHorizontal1 {
 
 	}
 
-	public static int MAXN = 501;
-	public static int MAXQ = 1001;
-	public static int MAXT = 10001;
-	public static int BIT = 999;
 	public static int n, m, q;
 
 	// 记录每条操作

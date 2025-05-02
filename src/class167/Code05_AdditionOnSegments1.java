@@ -16,7 +16,7 @@ public class Code05_AdditionOnSegments1 {
 	public static int MAXT = 500001;
 	public static int BIT = 10000;
 	public static int INTBIT = 32;
-	public static int LEN = (BIT + INTBIT - 1) / INTBIT;
+	public static int LEN = BIT / INTBIT + 1;
 	public static int n, q;
 
 	public static int[] help = new int[LEN];
@@ -28,14 +28,14 @@ public class Code05_AdditionOnSegments1 {
 	public static int[] to = new int[MAXT];
 	public static int cnt = 0;
 
-	// 清空位图
+	// 清空
 	public static void clear(int[] bitset) {
 		for (int i = 0; i < LEN; i++) {
 			bitset[i] = 0;
 		}
 	}
 
-	// 位图set1 拷贝 位图set2的所有状态
+	// 位图set1 拷贝 位图set2
 	public static void clone(int[] set1, int[] set2) {
 		for (int i = 0; i < LEN; i++) {
 			set1[i] = set2[i];
@@ -56,14 +56,14 @@ public class Code05_AdditionOnSegments1 {
 		}
 	}
 
-	// 位图set1 或 位图set2的所有状态
+	// 位图set1 或 位图set2
 	public static void bitOr(int[] set1, int[] set2) {
 		for (int i = 0; i < LEN; i++) {
 			set1[i] |= set2[i];
 		}
 	}
 
-	// 位图ret 变成 位图bitset左移left位之后的状态
+	// 位图ret 变成 位图bitset左移left之后的状态
 	// 不使用一位一位拷贝的方式，因为太慢了
 	// 采用整块左移的方式，这样比较快
 	public static void bitLeft(int[] ret, int[] bitset, int left) {

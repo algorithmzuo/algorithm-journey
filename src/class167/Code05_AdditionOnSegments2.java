@@ -16,7 +16,7 @@ package class167;
 //const int MAXT = 500001;
 //const int BIT = 10000;
 //const int INTBIT = 32;
-//const int LEN = (BIT + INTBIT - 1) / INTBIT;
+//const int LEN = BIT / INTBIT + 1;
 //int n, q;
 //
 //ui help[LEN];
