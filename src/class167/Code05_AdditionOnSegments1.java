@@ -17,16 +17,18 @@ public class Code05_AdditionOnSegments1 {
 	public static int BIT = 10000;
 	public static int INTBIT = 32;
 	public static int LEN = BIT / INTBIT + 1;
+	public static int DEEP = 20;
 	public static int n, q;
-
-	public static int[] help = new int[LEN];
-	public static int[] path = new int[LEN];
-	public static int[] ans = new int[LEN];
 
 	public static int[] head = new int[MAXN << 2];
 	public static int[] next = new int[MAXT];
 	public static int[] to = new int[MAXT];
 	public static int cnt = 0;
+
+	public static int[] tmp = new int[LEN];
+	public static int[] path = new int[LEN];
+	public static int[][] backup = new int[DEEP][LEN];
+	public static int[] ans = new int[LEN];
 
 	// 清空
 	public static void clear(int[] bitset) {
@@ -63,23 +65,23 @@ public class Code05_AdditionOnSegments1 {
 		}
 	}
 
-	// 位图ret 变成 位图bitset左移left之后的状态
+	// 位图ret 变成 位图bitset左移move位的状态
 	// 不使用一位一位拷贝的方式，因为太慢了
 	// 采用整块左移的方式，这样比较快
-	public static void bitLeft(int[] ret, int[] bitset, int left) {
+	public static void bitLeft(int[] ret, int[] bitset, int move) {
 		clear(ret);
-		if (left >= BIT) {
+		if (move > BIT) {
 			return;
 		}
-		if (left <= 0) {
+		if (move <= 0) {
 			clone(ret, bitset);
 			return;
 		}
-		int shift = left / INTBIT;
-		int offset = left % INTBIT;
+		int shift = move / INTBIT;
+		int offset = move % INTBIT;
 		if (offset == 0) {
-			for (int i = LEN - 1; i >= shift; i--) {
-				ret[i] = bitset[i - shift];
+			for (int i = LEN - 1, j = i - shift; j >= 0; i--, j--) {
+				ret[i] = bitset[j];
 			}
 		} else {
 			int carry = INTBIT - offset, high, low;
@@ -90,10 +92,9 @@ public class Code05_AdditionOnSegments1 {
 			}
 			ret[shift] = bitset[0] << offset;
 		}
-		int extra = LEN * INTBIT - BIT - 1;
-		if (extra > 0) {
-			int mask = -1 >>> extra;
-			ret[LEN - 1] &= mask;
+		int rest = LEN * INTBIT - (BIT + 1);
+		if (rest > 0) {
+			ret[LEN - 1] &= (1 << (INTBIT - rest)) - 1;
 		}
 	}
 
@@ -117,21 +118,20 @@ public class Code05_AdditionOnSegments1 {
 		}
 	}
 
-	public static void dfs(int l, int r, int i) {
-		int[] backup = new int[LEN];
-		clone(backup, path);
+	public static void dfs(int l, int r, int i, int dep) {
+		clone(backup[dep], path);
 		for (int e = head[i]; e > 0; e = next[e]) {
-			bitLeft(help, path, to[e]);
-			bitOr(path, help);
+			bitLeft(tmp, path, to[e]);
+			bitOr(path, tmp);
 		}
 		if (l == r) {
 			bitOr(ans, path);
 		} else {
 			int mid = (l + r) >> 1;
-			dfs(l, mid, i << 1);
-			dfs(mid + 1, r, i << 1 | 1);
+			dfs(l, mid, i << 1, dep + 1);
+			dfs(mid + 1, r, i << 1 | 1, dep + 1);
 		}
-		clone(path, backup);
+		clone(path, backup[dep]);
 	}
 
 	public static void main(String[] args) throws Exception {
@@ -146,7 +146,7 @@ public class Code05_AdditionOnSegments1 {
 			add(l, r, k, 1, n, 1);
 		}
 		setBit(path, 0, 1);
-		dfs(1, n, 1);
+		dfs(1, n, 1, 1);
 		int ansCnt = 0;
 		for (int i = 1; i <= n; i++) {
 			if (getBit(ans, i) == 1) {

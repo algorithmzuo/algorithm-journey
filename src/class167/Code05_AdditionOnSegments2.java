@@ -17,16 +17,18 @@ package class167;
 //const int BIT = 10000;
 //const int INTBIT = 32;
 //const int LEN = BIT / INTBIT + 1;
+//const int DEEP = 20;
 //int n, q;
-//
-//ui help[LEN];
-//ui path[LEN];
-//ui ans[LEN];
 //
 //int head[MAXN << 2];
 //int nxt[MAXT];
 //int to[MAXT];
 //int cnt = 0;
+//
+//ui tmp[LEN];
+//ui path[LEN];
+//ui backup[DEEP][LEN];
+//ui ans[LEN];
 //
 //void clear(ui* bitset) {
 //    for (int i = 0; i < LEN; i++) {
@@ -58,20 +60,20 @@ package class167;
 //    }
 //}
 //
-//void bitLeft(ui* ret, ui* bitset, int left) {
+//void bitLeft(ui* ret, ui* bitset, int move) {
 //    clear(ret);
-//    if (left >= BIT) {
+//    if (move > BIT) {
 //        return;
 //    }
-//    if (left <= 0) {
+//    if (move <= 0) {
 //        clone(ret, bitset);
 //        return;
 //    }
-//    int shift = left / INTBIT;
-//    int offset = left % INTBIT;
+//    int shift = move / INTBIT;
+//    int offset = move % INTBIT;
 //    if (offset == 0) {
-//        for (int i = LEN - 1; i >= shift; i--) {
-//            ret[i] = bitset[i - shift];
+//        for (int i = LEN - 1, j = i - shift; j >= 0; i--, j--) {
+//            ret[i] = bitset[j];
 //        }
 //    } else {
 //        int carry = INTBIT - offset;
@@ -82,10 +84,9 @@ package class167;
 //        }
 //        ret[shift] = bitset[0] << offset;
 //    }
-//    int extra = LEN * INTBIT - BIT - 1;
-//    if (extra > 0) {
-//        ui mask = ~0u >> extra;
-//        ret[LEN - 1] &= mask;
+//    int rest = LEN * INTBIT - (BIT + 1);
+//    if (rest > 0) {
+//        ret[LEN - 1] &= (1u << (INTBIT - rest)) - 1u;
 //    }
 //}
 //
@@ -109,21 +110,20 @@ package class167;
 //    }
 //}
 //
-//void dfs(int l, int r, int i) {
-//    ui backup[LEN];
-//    clone(backup, path);
+//void dfs(int l, int r, int i, int dep) {
+//    clone(backup[dep], path);
 //    for (int e = head[i]; e > 0; e = nxt[e]) {
-//        bitLeft(help, path, to[e]);
-//        bitOr(path, help);
+//        bitLeft(tmp, path, to[e]);
+//        bitOr(path, tmp);
 //    }
 //    if (l == r) {
 //        bitOr(ans, path);
 //    } else {
 //        int mid = (l + r) >> 1;
-//        dfs(l, mid, i << 1);
-//        dfs(mid + 1, r, i << 1 | 1);
+//        dfs(l, mid, i << 1, dep + 1);
+//        dfs(mid + 1, r, i << 1 | 1, dep + 1);
 //    }
-//    clone(path, backup);
+//    clone(path, backup[dep]);
 //}
 //
 //int main() {
@@ -135,7 +135,7 @@ package class167;
 //        add(l, r, k, 1, n, 1);
 //    }
 //    setBit(path, 0, 1);
-//    dfs(1, n, 1);
+//    dfs(1, n, 1, 1);
 //    int ansCnt = 0;
 //    for (int i = 1; i <= n; i++) {
 //        if (getBit(ans, i) == 1) {
