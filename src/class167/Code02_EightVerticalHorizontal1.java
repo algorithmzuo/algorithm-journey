@@ -75,8 +75,6 @@ public class Code02_EightVerticalHorizontal1 {
 	}
 
 	public static int n, m, q;
-
-	// 记录每条操作
 	public static int[] x = new int[MAXQ];
 	public static int[] y = new int[MAXQ];
 	public static BitSet[] w = new BitSet[MAXQ];
