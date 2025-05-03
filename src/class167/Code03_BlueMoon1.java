@@ -8,13 +8,153 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.util.ArrayDeque;
+import java.util.Deque;
 
 public class Code03_BlueMoon1 {
-	
+
+	public static int MAXM = 50001;
+	public static int MAXP = 501;
+	public static int MAXT = 1000001;
+	public static long INF = 1000000000001L;
+	public static int m, p;
+
+	public static int[] op = new int[MAXM];
+	public static int[] x = new int[MAXM];
+	public static int[] y = new int[MAXM];
+
+	public static int[] head = new int[MAXM << 2];
+	public static int[] next = new int[MAXT];
+	public static int[] tow = new int[MAXT];
+	public static int[] tov = new int[MAXT];
+	public static int cnt = 0;
+
+	public static int used = 0;
+	public static long[][] dp = new long[MAXM][MAXP];
+	public static long[] ans = new long[MAXM];
+
+	public static void addEdge(int i, int w, int v) {
+		next[++cnt] = head[i];
+		tow[cnt] = w;
+		tov[cnt] = v;
+		head[i] = cnt;
+	}
+
+	public static void add(int jobl, int jobr, int jobw, int jobv, int l, int r, int i) {
+		if (jobl <= l && r <= jobr) {
+			addEdge(i, jobw, jobv);
+		} else {
+			int mid = (l + r) >> 1;
+			if (jobl <= mid) {
+				add(jobl, jobr, jobw, jobv, l, mid, i << 1);
+			}
+			if (jobr > mid) {
+				add(jobl, jobr, jobw, jobv, mid + 1, r, i << 1 | 1);
+			}
+		}
+	}
+
+	public static void dfs(int l, int r, int i) {
+		int siz = 0;
+		for (int e = head[i], w, v; e > 0; e = next[e]) {
+			w = tow[e];
+			v = tov[e];
+			for (int j = 0; j < p; j++) {
+				dp[used + siz + 1][j] = dp[used + siz][j];
+			}
+			for (int j = 0; j < p; j++) {
+				if (dp[used + siz][j] != -INF) {
+					dp[used + siz + 1][(j + w) % p] = Math.max(dp[used + siz + 1][(j + w) % p], dp[used + siz][j] + v);
+				}
+			}
+			siz++;
+		}
+		used += siz;
+		if (l == r) {
+			if (op[l] == 5) {
+				long ret = -INF;
+				for (int j = x[l]; j <= y[l]; j++) {
+					ret = Math.max(ret, dp[used][j]);
+				}
+				if (ret == -INF) {
+					ans[l] = -1;
+				} else {
+					ans[l] = ret;
+				}
+			}
+		} else {
+			int mid = (l + r) >> 1;
+			dfs(l, mid, i << 1);
+			dfs(mid + 1, r, i << 1 | 1);
+		}
+		used -= siz;
+	}
+
+	public static void prepare() {
+		Deque<int[]> deque = new ArrayDeque<>();
+		int[] data;
+		for (int i = 1; i <= m; i++) {
+			if (op[i] == 1) {
+				deque.addFirst(new int[] { x[i] % p, y[i], i });
+			} else if (op[i] == 2) {
+				deque.addLast(new int[] { x[i] % p, y[i], i });
+			} else if (op[i] == 3) {
+				data = deque.peekFirst();
+				add(data[2], i - 1, data[0], data[1], 1, m, 1);
+				deque.pollFirst();
+			} else if (op[i] == 4) {
+				data = deque.peekLast();
+				add(data[2], i - 1, data[0], data[1], 1, m, 1);
+				deque.pollLast();
+			}
+		}
+		while (!deque.isEmpty()) {
+			data = deque.peekFirst();
+			add(data[2], m, data[0], data[1], 1, m, 1);
+			deque.pollFirst();
+		}
+		for (int i = 0; i < MAXM; i++) {
+			for (int j = 0; j < MAXP; j++) {
+				dp[i][j] = -INF;
+			}
+		}
+		dp[0][0] = 0;
+	}
+
 	public static void main(String[] args) throws IOException {
 		FastReader in = new FastReader();
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
-		
+		in.nextInt();
+		m = in.nextInt();
+		p = in.nextInt();
+		String t;
+		for (int i = 1; i <= m; i++) {
+			t = in.nextString();
+			if (t.equals("IF")) {
+				op[i] = 1;
+				x[i] = in.nextInt();
+				y[i] = in.nextInt();
+			} else if (t.equals("IG")) {
+				op[i] = 2;
+				x[i] = in.nextInt();
+				y[i] = in.nextInt();
+			} else if (t.equals("DF")) {
+				op[i] = 3;
+			} else if (t.equals("DG")) {
+				op[i] = 4;
+			} else {
+				op[i] = 5;
+				x[i] = in.nextInt();
+				y[i] = in.nextInt();
+			}
+		}
+		prepare();
+		dfs(1, m, 1);
+		for (int i = 1; i <= m; i++) {
+			if (op[i] == 5) {
+				out.println(ans[i]);
+			}
+		}
 		out.flush();
 		out.close();
 	}
