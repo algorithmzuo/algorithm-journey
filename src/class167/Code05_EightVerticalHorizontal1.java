@@ -1,6 +1,16 @@
 package class167;
 
 // 八纵八横，java版
+// 一共有n个点，给定m条边，每条边的边权，用01字符串表达
+// 初始的m条边永不删除，接下来有q条操作，每种操作是如下三种类型中的一种
+// 操作 Add x y z  : 加入点x到点y的边，边权是z，z为01字符串
+//                   如果这是第k条添加操作，那么这条边编号为k
+// 操作 Cancel k   : 删除编号为k的边
+// 操作 Change k z : 编号为k的边，边权修改成z，z为01字符串
+// 从1号点出发，最后回到1号点，边随便走，沿途所有边的边权异或起来
+// 打印只有初始m条边的情况下，异或最大值为多少
+// 每一条操作结束后，都打印异或最大值为多少
+// 1 <= n、m <= 500    0 <= q <= 1000    1 <= 边权字符串长度 <= 1000
 // 测试链接 : https://www.luogu.com.cn/problem/P3733
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
@@ -14,7 +24,7 @@ public class Code05_EightVerticalHorizontal1 {
 	public static int MAXN = 501;
 	public static int MAXQ = 1001;
 	public static int MAXT = 10001;
-	public static int BIT = 1000;
+	public static int BIT = 999;
 	public static int INTBIT = 32;
 
 	// 位图
