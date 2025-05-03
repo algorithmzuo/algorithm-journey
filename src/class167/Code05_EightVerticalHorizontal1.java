@@ -327,22 +327,6 @@ public class Code05_EightVerticalHorizontal1 {
 			return buffer[ptr++];
 		}
 
-		public char nextChar() throws IOException {
-			byte c;
-			do {
-				c = readByte();
-				if (c == -1) {
-					return 0;
-				}
-			} while (c <= ' ');
-			char ans = 0;
-			while (c > ' ') {
-				ans = (char) c;
-				c = readByte();
-			}
-			return ans;
-		}
-
 		public int nextInt() throws IOException {
 			int num = 0;
 			byte b = readByte();
