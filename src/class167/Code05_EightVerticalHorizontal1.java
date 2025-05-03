@@ -9,7 +9,7 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
-public class Code02_EightVerticalHorizontal1 {
+public class Code05_EightVerticalHorizontal1 {
 
 	public static int MAXN = 501;
 	public static int MAXQ = 1001;

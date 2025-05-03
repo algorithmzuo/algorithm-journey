@@ -11,7 +11,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.util.Arrays;
 
-public class Code01_ShortestPathQueries1 {
+public class Code04_ShortestPathQueries1 {
 
 	public static int MAXN = 200001;
 	public static int MAXT = 5000001;

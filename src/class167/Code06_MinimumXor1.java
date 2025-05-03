@@ -10,7 +10,7 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
-public class Code03_MinimumXor1 {
+public class Code06_MinimumXor1 {
 
 	public static int MAXN = 10000001;
 	public static int BIT = 29;
