@@ -1,6 +1,6 @@
 package class167;
 
-// 博物馆抢劫案，java版
+// 博物馆劫案，java版
 // 测试链接 : https://www.luogu.com.cn/problem/CF601E
 // 测试链接 : https://codeforces.com/problemset/problem/601/E
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
@@ -38,7 +38,6 @@ public class Code01_MuseumRobbery1 {
 
 	public static long[] dp = new long[MAXK];
 	public static long[][] backup = new long[DEEP][MAXK];
-
 	public static long[] ans = new long[MAXQ];
 
 	public static void clone(long[] a, long[] b) {

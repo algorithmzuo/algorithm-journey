@@ -1,6 +1,6 @@
 package class167;
 
-// 博物馆抢劫案，C++版
+// 博物馆劫案，C++版
 // 测试链接 : https://www.luogu.com.cn/problem/CF601E
 // 测试链接 : https://codeforces.com/problemset/problem/601/E
 // 如下实现是C++的版本，C++版本和java版本逻辑完全一样
@@ -37,7 +37,6 @@ package class167;
 //
 //long long dp[MAXK];
 //long long backup[DEEP][MAXK];
-//
 //long long ans[MAXQ];
 //
 //void clone(long long* a, long long* b) {
