@@ -22,8 +22,6 @@ package class167;
 //const int MAXM = 50001;
 //const int MAXP = 501;
 //const int MAXT = 1000001;
-//const long long INF = 1000000000001LL;
-//
 //int m, p;
 //
 //int op[MAXM];
@@ -71,7 +69,7 @@ package class167;
 //            dp[used + siz + 1][j] = dp[used + siz][j];
 //        }
 //        for (int j = 0; j < p; j++) {
-//            if (dp[used + siz][j] != -INF) {
+//            if (dp[used + siz][j] != -1) {
 //                int nj = (j + w) % p;
 //                dp[used + siz + 1][nj] = max(dp[used + siz + 1][nj], dp[used + siz][j] + v);
 //            }
@@ -81,11 +79,11 @@ package class167;
 //    used += siz;
 //    if (l == r) {
 //        if (op[l] == 5) {
-//            long long ret = -INF;
+//            long long ret = -1;
 //            for (int j = x[l]; j <= y[l]; j++) {
 //                ret = max(ret, dp[used][j]);
 //            }
-//            ans[l] = (ret == -INF ? -1 : ret);
+//            ans[l] = ret;
 //        }
 //    } else {
 //        int mid = (l + r) >> 1;
@@ -118,7 +116,7 @@ package class167;
 //    }
 //    for (int i = 0; i < MAXM; i++) {
 //        for (int j = 0; j < MAXP; j++) {
-//            dp[i][j] = -INF;
+//            dp[i][j] = -1;
 //        }
 //    }
 //    dp[0][0] = 0;

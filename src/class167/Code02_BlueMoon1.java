@@ -26,7 +26,6 @@ public class Code02_BlueMoon1 {
 	public static int MAXM = 50001;
 	public static int MAXP = 501;
 	public static int MAXT = 1000001;
-	public static long INF = 1000000000001L;
 	public static int m, p;
 
 	public static int[] op = new int[MAXM];
@@ -75,7 +74,7 @@ public class Code02_BlueMoon1 {
 				dp[used + siz + 1][j] = dp[used + siz][j];
 			}
 			for (int j = 0; j < p; j++) {
-				if (dp[used + siz][j] != -INF) {
+				if (dp[used + siz][j] != -1) {
 					dp[used + siz + 1][(j + w) % p] = Math.max(dp[used + siz + 1][(j + w) % p], dp[used + siz][j] + v);
 				}
 			}
@@ -84,15 +83,11 @@ public class Code02_BlueMoon1 {
 		used += siz;
 		if (l == r) {
 			if (op[l] == 5) {
-				long ret = -INF;
+				long ret = -1;
 				for (int j = x[l]; j <= y[l]; j++) {
 					ret = Math.max(ret, dp[used][j]);
 				}
-				if (ret == -INF) {
-					ans[l] = -1;
-				} else {
-					ans[l] = ret;
-				}
+				ans[l] = ret;
 			}
 		} else {
 			int mid = (l + r) >> 1;
@@ -122,7 +117,7 @@ public class Code02_BlueMoon1 {
 		}
 		for (int i = 0; i < MAXM; i++) {
 			for (int j = 0; j < MAXP; j++) {
-				dp[i][j] = -INF;
+				dp[i][j] = -1;
 			}
 		}
 		dp[0][0] = 0;
