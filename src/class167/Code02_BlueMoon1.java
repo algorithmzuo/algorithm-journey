@@ -31,7 +31,7 @@ public class Code02_BlueMoon1 {
 	public static int[] x = new int[MAXM];
 	public static int[] y = new int[MAXM];
 
-	// 背包<装备特征值、装备战斗力、装备出现时间点>
+	// 背包<装备特征值%p、装备战斗力、装备出现时间点>
 	public static Deque<int[]> knapsack = new ArrayDeque<>();
 
 	public static int[] head = new int[MAXM << 2];
