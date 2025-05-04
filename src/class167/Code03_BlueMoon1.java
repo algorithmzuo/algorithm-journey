@@ -39,7 +39,6 @@ public class Code03_BlueMoon1 {
 	public static int[] tov = new int[MAXT];
 	public static int cnt = 0;
 
-	public static int used = 0;
 	public static long[][] dp = new long[MAXM][MAXP];
 	public static long[] ans = new long[MAXM];
 
@@ -64,7 +63,7 @@ public class Code03_BlueMoon1 {
 		}
 	}
 
-	public static void dfs(int l, int r, int i) {
+	public static void dfs(int l, int r, int i, int used) {
 		int siz = 0;
 		for (int e = head[i], w, v; e > 0; e = next[e]) {
 			w = tow[e];
@@ -94,10 +93,9 @@ public class Code03_BlueMoon1 {
 			}
 		} else {
 			int mid = (l + r) >> 1;
-			dfs(l, mid, i << 1);
-			dfs(mid + 1, r, i << 1 | 1);
+			dfs(l, mid, i << 1, used);
+			dfs(mid + 1, r, i << 1 | 1, used);
 		}
-		used -= siz;
 	}
 
 	public static void prepare() {
@@ -159,7 +157,7 @@ public class Code03_BlueMoon1 {
 			}
 		}
 		prepare();
-		dfs(1, m, 1);
+		dfs(1, m, 1, 0);
 		for (int i = 1; i <= m; i++) {
 			if (op[i] == 5) {
 				out.println(ans[i]);

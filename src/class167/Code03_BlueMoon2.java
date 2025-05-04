@@ -36,7 +36,6 @@ package class167;
 //int tov[MAXT];
 //int cnt = 0;
 //
-//int used = 0;
 //long long dp[MAXM][MAXP];
 //long long ans[MAXM];
 //
@@ -61,7 +60,7 @@ package class167;
 //    }
 //}
 //
-//void dfs(int l, int r, int i) {
+//void dfs(int l, int r, int i, int used) {
 //    int siz = 0;
 //    for (int e = head[i], w, v; e > 0; e = nxt[e]) {
 //        w = tow[e];
@@ -88,10 +87,9 @@ package class167;
 //        }
 //    } else {
 //        int mid = (l + r) >> 1;
-//        dfs(l, mid, i << 1);
-//        dfs(mid + 1, r, i << 1 | 1);
+//        dfs(l, mid, i << 1, used);
+//        dfs(mid + 1, r, i << 1 | 1, used);
 //    }
-//    used -= siz;
 //}
 //
 //void prepare() {
@@ -149,7 +147,7 @@ package class167;
 //        }
 //    }
 //    prepare();
-//    dfs(1, m, 1);
+//    dfs(1, m, 1, 0);
 //    for (int i = 1; i <= m; i++) {
 //        if (op[i] == 5) {
 //            cout << ans[i] << '\n';
