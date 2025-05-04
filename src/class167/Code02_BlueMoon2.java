@@ -93,26 +93,27 @@ package class167;
 //}
 //
 //void prepare() {
-//    deque<array<int,3>> dq;
+//    deque<array<int,3>> knapsack;
+//    array<int,3> equip;
 //    for (int i = 1; i <= m; i++) {
 //        if (op[i] == 1) {
-//            dq.push_front({x[i] % p, y[i], i});
+//            knapsack.push_front({x[i] % p, y[i], i});
 //        } else if (op[i] == 2) {
-//            dq.push_back({x[i] % p, y[i], i});
+//            knapsack.push_back({x[i] % p, y[i], i});
 //        } else if (op[i] == 3) {
-//            auto data = dq.front();
-//            add(data[2], i - 1, data[0], data[1], 1, m, 1);
-//            dq.pop_front();
+//            equip = knapsack.front();
+//            add(equip[2], i - 1, equip[0], equip[1], 1, m, 1);
+//            knapsack.pop_front();
 //        } else if (op[i] == 4) {
-//            auto data = dq.back();
-//            add(data[2], i - 1, data[0], data[1], 1, m, 1);
-//            dq.pop_back();
+//            equip = knapsack.back();
+//            add(equip[2], i - 1, equip[0], equip[1], 1, m, 1);
+//            knapsack.pop_back();
 //        }
 //    }
-//    while (!dq.empty()) {
-//        auto data = dq.front();
-//        add(data[2], m, data[0], data[1], 1, m, 1);
-//        dq.pop_front();
+//    while (!knapsack.empty()) {
+//        equip = knapsack.front();
+//        add(equip[2], m, equip[0], equip[1], 1, m, 1);
+//        knapsack.pop_front();
 //    }
 //    for (int i = 0; i < MAXM; i++) {
 //        for (int j = 0; j < MAXP; j++) {

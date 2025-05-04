@@ -16,7 +16,7 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
-public class Code02_AdditionOnSegments1 {
+public class Code03_AdditionOnSegments1 {
 
 	public static int MAXN = 10001;
 	public static int MAXT = 500001;

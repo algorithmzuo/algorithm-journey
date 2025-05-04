@@ -21,7 +21,7 @@ import java.io.PrintWriter;
 import java.util.ArrayDeque;
 import java.util.Deque;
 
-public class Code03_BlueMoon1 {
+public class Code02_BlueMoon1 {
 
 	public static int MAXM = 50001;
 	public static int MAXP = 501;
@@ -99,27 +99,25 @@ public class Code03_BlueMoon1 {
 	}
 
 	public static void prepare() {
-		Deque<int[]> deque = new ArrayDeque<>();
-		int[] data;
+		// 背包<装备特征值、装备战斗力、装备出现时间点>
+		Deque<int[]> knapsack = new ArrayDeque<>();
+		int[] equip;
 		for (int i = 1; i <= m; i++) {
 			if (op[i] == 1) {
-				deque.addFirst(new int[] { x[i] % p, y[i], i });
+				knapsack.addFirst(new int[] { x[i] % p, y[i], i });
 			} else if (op[i] == 2) {
-				deque.addLast(new int[] { x[i] % p, y[i], i });
+				knapsack.addLast(new int[] { x[i] % p, y[i], i });
 			} else if (op[i] == 3) {
-				data = deque.peekFirst();
-				add(data[2], i - 1, data[0], data[1], 1, m, 1);
-				deque.pollFirst();
+				equip = knapsack.pollFirst();
+				add(equip[2], i - 1, equip[0], equip[1], 1, m, 1);
 			} else if (op[i] == 4) {
-				data = deque.peekLast();
-				add(data[2], i - 1, data[0], data[1], 1, m, 1);
-				deque.pollLast();
+				equip = knapsack.pollLast();
+				add(equip[2], i - 1, equip[0], equip[1], 1, m, 1);
 			}
 		}
-		while (!deque.isEmpty()) {
-			data = deque.peekFirst();
-			add(data[2], m, data[0], data[1], 1, m, 1);
-			deque.pollFirst();
+		while (!knapsack.isEmpty()) {
+			equip = knapsack.pollFirst();
+			add(equip[2], m, equip[0], equip[1], 1, m, 1);
 		}
 		for (int i = 0; i < MAXM; i++) {
 			for (int j = 0; j < MAXP; j++) {
