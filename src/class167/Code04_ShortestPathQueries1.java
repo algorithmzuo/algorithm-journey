@@ -41,7 +41,7 @@ public class Code04_ShortestPathQueries1 {
 	public static int[] inspos = new int[BIT + 1];
 	public static int basiz = 0;
 
-	// 可撤销并查集 + 带权并查集
+	// 带权并查集 + 可撤销并查集
 	public static int[] father = new int[MAXN];
 	public static int[] siz = new int[MAXN];
 	public static int[] eor = new int[MAXN];
