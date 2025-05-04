@@ -1,13 +1,13 @@
 package class167;
 
 // 博物馆劫案，java版
-// 给定n件商品，商品有价值v和重量w，1~n号商品加入集合s，给定正数k、BASE、MOD
+// 给定n件商品，商品有价值v和重量w，1~n号商品加入集合s，给定正数k、BAS、MOD
 // 接下来有q个操作，每种操作是如下三种类型中的一种
 // 操作 1 x y : 集合s中增加价值x、重量y的商品，商品编号自增得到
 // 操作 2 x   : 集合s中删除编号为x的商品，删除时保证x号商品存在
 // 操作 3     : 查询当前的f(s)
 // 定义a(m) = 集合s中，挑选商品总重量<=m，能获得的最大价值
-// 定义f(s) = ∑(m = 1...k) ( a(m) * BASE的m-1次方 % MOD )
+// 定义f(s) = ∑(m = 1...k) ( a(m) * BAS的m-1次方 % MOD )
 // 1 <= n <= 5 * 10^3    1 <= q <= 3 * 10^4
 // 1 <= k、每件商品重量 <= 10^3    1 <= 每件商品价值 <= 10^6
 // 测试链接 : https://www.luogu.com.cn/problem/CF601E
@@ -26,18 +26,19 @@ public class Code01_MuseumRobbery1 {
 	public static int MAXK = 1001;
 	public static int MAXT = 1000001;
 	public static int DEEP = 20;
+	public static int BAS = 10000019;
 	public static int MOD = 1000000007;
-	public static int BASE = 10000019;
 	public static int n, k, q;
 
 	public static int[] v = new int[MAXN];
 	public static int[] w = new int[MAXN];
-	public static int[] from = new int[MAXN];
-	public static int[] to = new int[MAXN];
 
 	public static int[] op = new int[MAXQ];
 	public static int[] x = new int[MAXQ];
 	public static int[] y = new int[MAXQ];
+
+	public static int[] from = new int[MAXN];
+	public static int[] to = new int[MAXN];
 
 	public static int[] head = new int[MAXQ << 2];
 	public static int[] next = new int[MAXT];
@@ -87,11 +88,13 @@ public class Code01_MuseumRobbery1 {
 		}
 		if (l == r) {
 			if (op[l] == 3) {
-				long b = 1;
+				long ret = 0;
+				long base = 1;
 				for (int j = 1; j <= k; j++) {
-					ans[l] = (ans[l] + dp[j] * b) % MOD;
-					b = (b * BASE) % MOD;
+					ret = (ret + dp[j] * base) % MOD;
+					base = (base * BAS) % MOD;
 				}
+				ans[l] = ret;
 			}
 		} else {
 			int mid = (l + r) >> 1;

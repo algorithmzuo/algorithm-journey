@@ -1,13 +1,13 @@
 package class167;
 
 // 博物馆劫案，C++版
-// 给定n件商品，商品有价值v和重量w，1~n号商品加入集合s，给定正数k、BASE、MOD
+// 给定n件商品，商品有价值v和重量w，1~n号商品加入集合s，给定正数k、BAS、MOD
 // 接下来有q个操作，每种操作是如下三种类型中的一种
 // 操作 1 x y : 集合s中增加价值x、重量y的商品，商品编号自增得到
 // 操作 2 x   : 集合s中删除编号为x的商品，删除时保证x号商品存在
 // 操作 3     : 查询当前的f(s)
 // 定义a(m) = 集合s中，挑选商品总重量<=m，能获得的最大价值
-// 定义f(s) = ∑(m = 1...k) ( a(m) * BASE的m-1次方 % MOD )
+// 定义f(s) = ∑(m = 1...k) ( a(m) * BAS的m-1次方 % MOD )
 // 1 <= n <= 5 * 10^3    1 <= q <= 3 * 10^4
 // 1 <= k、每件商品重量 <= 10^3    1 <= 每件商品价值 <= 10^6
 // 测试链接 : https://www.luogu.com.cn/problem/CF601E
@@ -24,19 +24,19 @@ package class167;
 //const int MAXK = 1001;
 //const int MAXT = 1000001;
 //const int DEEP = 20;
+//const long long BAS = 10000019LL;
 //const long long MOD = 1000000007LL;
-//const long long BASE = 10000019LL;
-//
 //int n, k, q;
 //
 //int v[MAXN];
 //int w[MAXN];
-//int from[MAXN];
-//int to[MAXN];
 //
 //int op[MAXQ];
 //int x[MAXQ];
 //int y[MAXQ];
+//
+//int from[MAXN];
+//int to[MAXN];
 //
 //int head[MAXQ << 2];
 //int nxt[MAXT];
@@ -86,11 +86,13 @@ package class167;
 //    }
 //    if (l == r) {
 //        if (op[l] == 3) {
-//            long long b = 1;
+//            long long ret = 0;
+//            long long base = 1;
 //            for (int j = 1; j <= k; j++) {
-//                ans[l] = (ans[l] + dp[j] * b) % MOD;
-//                b = (b * BASE) % MOD;
+//                ret = (ret + dp[j] * base) % MOD;
+//                base = (base * BAS) % MOD;
 //            }
+//            ans[l] = ret;
 //        }
 //    } else {
 //        int mid = (l + r) >> 1;
@@ -102,8 +104,8 @@ package class167;
 //
 //void prepare() {
 //    for (int i = 1; i <= n; i++) {
-//    	from[i] = 1;
-//    	to[i] = q;
+//        from[i] = 1;
+//        to[i] = q;
 //    }
 //    for (int i = 1; i <= q; i++) {
 //        if (op[i] == 1) {
@@ -113,7 +115,7 @@ package class167;
 //            from[n] = i;
 //            to[n] = q;
 //        } else if (op[i] == 2) {
-//        	to[x[i]] = i;
+//            to[x[i]] = i;
 //        }
 //    }
 //    for (int i = 1; i <= n; i++) {
