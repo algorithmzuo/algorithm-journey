@@ -21,8 +21,8 @@ public class Code02_AdditionOnSegments1 {
 	public static int MAXN = 10001;
 	public static int MAXT = 500001;
 	public static int BIT = 10000;
-	public static int INTBIT = 32;
-	public static int LEN = BIT / INTBIT + 1;
+	public static int INT_BIT = 32;
+	public static int LEN = BIT / INT_BIT + 1;
 	public static int DEEP = 20;
 	public static int n, q;
 
@@ -52,15 +52,15 @@ public class Code02_AdditionOnSegments1 {
 
 	// 返回位图第i位的状态
 	public static int getBit(int[] bitset, int i) {
-		return (bitset[i / INTBIT] >> (i % INTBIT)) & 1;
+		return (bitset[i / INT_BIT] >> (i % INT_BIT)) & 1;
 	}
 
 	// 第i位的状态设置成v
 	public static void setBit(int[] bitset, int i, int v) {
 		if (v == 0) {
-			bitset[i / INTBIT] &= ~(1 << (i % INTBIT));
+			bitset[i / INT_BIT] &= ~(1 << (i % INT_BIT));
 		} else {
-			bitset[i / INTBIT] |= 1 << (i % INTBIT);
+			bitset[i / INT_BIT] |= 1 << (i % INT_BIT);
 		}
 	}
 
@@ -83,14 +83,14 @@ public class Code02_AdditionOnSegments1 {
 			clone(ret, bitset);
 			return;
 		}
-		int shift = move / INTBIT;
-		int offset = move % INTBIT;
+		int shift = move / INT_BIT;
+		int offset = move % INT_BIT;
 		if (offset == 0) {
 			for (int i = LEN - 1, j = i - shift; j >= 0; i--, j--) {
 				ret[i] = bitset[j];
 			}
 		} else {
-			int carry = INTBIT - offset, high, low;
+			int carry = INT_BIT - offset, high, low;
 			for (int i = LEN - 1; i > shift; i--) {
 				high = bitset[i - shift] << offset;
 				low = bitset[i - shift - 1] >>> carry;
@@ -98,9 +98,9 @@ public class Code02_AdditionOnSegments1 {
 			}
 			ret[shift] = bitset[0] << offset;
 		}
-		int rest = LEN * INTBIT - (BIT + 1);
+		int rest = LEN * INT_BIT - (BIT + 1);
 		if (rest > 0) {
-			ret[LEN - 1] &= (1 << (INTBIT - rest)) - 1;
+			ret[LEN - 1] &= (1 << (INT_BIT - rest)) - 1;
 		}
 	}
 

@@ -21,8 +21,8 @@ package class167;
 //
 //const int MAXN = 40001;
 //const int MAXQ = 30001;
-//const int MAXT = 1000001;
 //const int MAXK = 1001;
+//const int MAXT = 1000001;
 //const int DEEP = 20;
 //const long long MOD = 1000000007LL;
 //const long long BASE = 10000019LL;

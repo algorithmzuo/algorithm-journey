@@ -23,8 +23,8 @@ public class Code01_MuseumRobbery1 {
 
 	public static int MAXN = 40001;
 	public static int MAXQ = 30001;
-	public static int MAXT = 1000001;
 	public static int MAXK = 1001;
+	public static int MAXT = 1000001;
 	public static int DEEP = 20;
 	public static int MOD = 1000000007;
 	public static int BASE = 10000019;

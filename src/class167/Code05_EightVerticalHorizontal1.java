@@ -24,7 +24,7 @@ public class Code05_EightVerticalHorizontal1 {
 	public static int MAXQ = 1001;
 	public static int MAXT = 10001;
 	public static int BIT = 999;
-	public static int INTBIT = 32;
+	public static int INT_BIT = 32;
 
 	// 位图
 	static class BitSet {
@@ -34,12 +34,12 @@ public class Code05_EightVerticalHorizontal1 {
 		public int[] arr;
 
 		public BitSet() {
-			len = BIT / INTBIT + 1;
+			len = BIT / INT_BIT + 1;
 			arr = new int[len];
 		}
 
 		public BitSet(String s) {
-			len = BIT / INTBIT + 1;
+			len = BIT / INT_BIT + 1;
 			arr = new int[len];
 			for (int i = 0, j = s.length() - 1; i < s.length(); i++, j--) {
 				set(i, s.charAt(j) - '0');
@@ -48,15 +48,15 @@ public class Code05_EightVerticalHorizontal1 {
 
 		// 返回第i位的状态
 		public int get(int i) {
-			return (arr[i / INTBIT] >> (i % INTBIT)) & 1;
+			return (arr[i / INT_BIT] >> (i % INT_BIT)) & 1;
 		}
 
 		// 设置第i位的状态
 		public void set(int i, int v) {
 			if (v == 0) {
-				arr[i / INTBIT] &= ~(1 << (i % INTBIT));
+				arr[i / INT_BIT] &= ~(1 << (i % INT_BIT));
 			} else {
-				arr[i / INTBIT] |= 1 << (i % INTBIT);
+				arr[i / INT_BIT] |= 1 << (i % INT_BIT);
 			}
 		}
 
