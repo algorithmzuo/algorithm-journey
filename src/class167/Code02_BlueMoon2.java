@@ -30,6 +30,8 @@ package class167;
 //int x[MAXM];
 //int y[MAXM];
 //
+//deque<array<int,3>> knapsack;
+//
 //int head[MAXM << 2];
 //int nxt[MAXT];
 //int tow[MAXT];
@@ -93,7 +95,6 @@ package class167;
 //}
 //
 //void prepare() {
-//    deque<array<int,3>> knapsack;
 //    array<int,3> equip;
 //    for (int i = 1; i <= m; i++) {
 //        if (op[i] == 1) {

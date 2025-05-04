@@ -33,6 +33,9 @@ public class Code02_BlueMoon1 {
 	public static int[] x = new int[MAXM];
 	public static int[] y = new int[MAXM];
 
+	// 背包<装备特征值、装备战斗力、装备出现时间点>
+	public static Deque<int[]> knapsack = new ArrayDeque<>();
+
 	public static int[] head = new int[MAXM << 2];
 	public static int[] next = new int[MAXT];
 	public static int[] tow = new int[MAXT];
@@ -99,8 +102,6 @@ public class Code02_BlueMoon1 {
 	}
 
 	public static void prepare() {
-		// 背包<装备特征值、装备战斗力、装备出现时间点>
-		Deque<int[]> knapsack = new ArrayDeque<>();
 		int[] equip;
 		for (int i = 1; i <= m; i++) {
 			if (op[i] == 1) {
