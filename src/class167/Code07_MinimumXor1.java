@@ -27,8 +27,8 @@ public class Code07_MinimumXor1 {
 	public static int[] pass = new int[MAXN];
 	public static int cnt = 1;
 
-	public static int[] eor = new int[MAXN];
-	public static int[] num = new int[MAXN];
+	public static int[] mineor = new int[MAXN];
+	public static int[] only = new int[MAXN];
 
 	public static int insert(int x, int changeCnt) {
 		int cur = 1;
@@ -47,24 +47,24 @@ public class Code07_MinimumXor1 {
 
 	public static void compute(int x, int changeCnt) {
 		int bottom = insert(x, changeCnt);
-		eor[bottom] = pass[bottom] >= 2 ? 0 : INF;
-		num[bottom] = pass[bottom] == 1 ? x : 0;
+		mineor[bottom] = pass[bottom] >= 2 ? 0 : INF;
+		only[bottom] = pass[bottom] == 1 ? x : 0;
 		for (int i = fa[bottom], l, r; i > 0; i = fa[i]) {
 			l = tree[i][0];
 			r = tree[i][1];
 			if (pass[i] < 2) {
-				eor[i] = INF;
+				mineor[i] = INF;
 			} else if ((l != 0) ^ (r != 0)) {
-				eor[i] = l > 0 ? eor[l] : eor[r];
+				mineor[i] = l > 0 ? mineor[l] : mineor[r];
 			} else if (Math.max(pass[l], pass[r]) == 1) {
-				eor[i] = num[l] ^ num[r];
+				mineor[i] = only[l] ^ only[r];
 			} else {
-				eor[i] = Math.min(eor[l], eor[r]);
+				mineor[i] = Math.min(mineor[l], mineor[r]);
 			}
 			if (pass[l] + pass[r] == 1) {
-				num[i] = pass[l] == 1 ? num[l] : num[r];
+				only[i] = pass[l] == 1 ? only[l] : only[r];
 			} else {
-				num[i] = 0;
+				only[i] = 0;
 			}
 		}
 	}
@@ -76,7 +76,7 @@ public class Code07_MinimumXor1 {
 		for (int i = 1, op, x; i <= q; i++) {
 			op = in.nextInt();
 			if (op == 3) {
-				out.println(eor[1]);
+				out.println(mineor[1]);
 			} else {
 				x = in.nextInt();
 				if (op == 1) {

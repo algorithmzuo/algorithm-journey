@@ -25,8 +25,8 @@ package class167;
 //int pass[MAXN];
 //int cnt = 1;
 //
-//int eor[MAXN];
-//int num[MAXN];
+//int mineor[MAXN];
+//int only[MAXN];
 //
 //int insert(int x, int changeCnt) {
 //    int cur = 1;
@@ -45,24 +45,24 @@ package class167;
 //
 //void compute(int x, int changeCnt) {
 //    int bottom = insert(x, changeCnt);
-//    eor[bottom] = pass[bottom] >= 2 ? 0 : INF;
-//    num[bottom] = pass[bottom] == 1 ? x : 0;
+//    mineor[bottom] = pass[bottom] >= 2 ? 0 : INF;
+//    only[bottom] = pass[bottom] == 1 ? x : 0;
 //    for (int i = fa[bottom], l, r; i > 0; i = fa[i]) {
 //        l = tree[i][0];
 //        r = tree[i][1];
 //        if (pass[i] < 2) {
-//            eor[i] = INF;
+//            mineor[i] = INF;
 //        } else if ((l != 0) ^ (r != 0)) {
-//            eor[i] = l > 0 ? eor[l] : eor[r];
+//            mineor[i] = l > 0 ? mineor[l] : mineor[r];
 //        } else if (max(pass[l], pass[r]) == 1) {
-//            eor[i] = num[l] ^ num[r];
+//            mineor[i] = only[l] ^ only[r];
 //        } else {
-//            eor[i] = min(eor[l], eor[r]);
+//            mineor[i] = min(mineor[l], mineor[r]);
 //        }
 //        if (pass[l] + pass[r] == 1) {
-//        	num[i] = pass[l] == 1 ? num[l] : num[r];
+//        	only[i] = pass[l] == 1 ? only[l] : only[r];
 //        } else {
-//        	num[i] = 0;
+//        	only[i] = 0;
 //        }
 //    }
 //}
@@ -75,7 +75,7 @@ package class167;
 //    for (int i = 1, op, x; i <= q; i++) {
 //        cin >> op;
 //        if (op == 3) {
-//            cout << eor[1] << '\n';
+//            cout << mineor[1] << '\n';
 //        } else {
 //            cin >> x;
 //            if (op == 1) {
