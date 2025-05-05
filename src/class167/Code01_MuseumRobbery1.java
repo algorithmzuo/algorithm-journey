@@ -37,17 +37,23 @@ public class Code01_MuseumRobbery1 {
 	public static int[] x = new int[MAXQ];
 	public static int[] y = new int[MAXQ];
 
+	// 第i号商品的生效时间段，从from[i]持续到to[i]
 	public static int[] from = new int[MAXN];
 	public static int[] to = new int[MAXN];
 
+	// 时间轴线段树的区间上挂上生效的商品，价值v，重量w
 	public static int[] head = new int[MAXQ << 2];
 	public static int[] next = new int[MAXT];
 	public static int[] tov = new int[MAXT];
 	public static int[] tow = new int[MAXT];
 	public static int cnt = 0;
 
+	// 动态规划表
 	public static long[] dp = new long[MAXK];
+	// 动态规划表的备份
 	public static long[][] backup = new long[DEEP][MAXK];
+
+	// 答案
 	public static long[] ans = new long[MAXQ];
 
 	public static void clone(long[] a, long[] b) {

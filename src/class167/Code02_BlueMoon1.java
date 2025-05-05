@@ -25,6 +25,7 @@ public class Code02_BlueMoon1 {
 	public static int MAXM = 50001;
 	public static int MAXP = 501;
 	public static int MAXT = 1000001;
+	public static int DEEP = 20;
 	public static int m, p;
 
 	public static int[] op = new int[MAXM];
@@ -34,14 +35,28 @@ public class Code02_BlueMoon1 {
 	// 背包<装备特征值%p、装备战斗力、装备出现时间点>
 	public static Deque<int[]> knapsack = new ArrayDeque<>();
 
+	// 时间轴线段树的区间上挂上生效的商品，(特征值 % p)记为w，战斗力记为v
 	public static int[] head = new int[MAXM << 2];
 	public static int[] next = new int[MAXT];
 	public static int[] tow = new int[MAXT];
 	public static int[] tov = new int[MAXT];
 	public static int cnt = 0;
 
-	public static long[][] dp = new long[MAXM][MAXP];
+	// 动态规划表不考虑当前商品的状态，上一行的状态
+	public static long[] pre = new long[MAXP];
+	// 动态规划表考虑当前商品的状态，本行的状态，需要更新
+	public static long[] dp = new long[MAXP];
+	// 动态规划表的备份
+	public static long[][] backup = new long[DEEP][MAXP];
+
+	// 答案
 	public static long[] ans = new long[MAXM];
+
+	public static void clone(long[] a, long[] b) {
+		for (int i = 0; i < p; i++) {
+			a[i] = b[i];
+		}
+	}
 
 	public static void addEdge(int i, int w, int v) {
 		next[++cnt] = head[i];
@@ -64,35 +79,32 @@ public class Code02_BlueMoon1 {
 		}
 	}
 
-	public static void dfs(int l, int r, int i, int used) {
-		int siz = 0;
+	public static void dfs(int l, int r, int i, int dep) {
+		clone(backup[dep], dp);
 		for (int e = head[i], w, v; e > 0; e = next[e]) {
 			w = tow[e];
 			v = tov[e];
+			clone(pre, dp);
 			for (int j = 0; j < p; j++) {
-				dp[used + siz + 1][j] = dp[used + siz][j];
-			}
-			for (int j = 0; j < p; j++) {
-				if (dp[used + siz][j] != -1) {
-					dp[used + siz + 1][(j + w) % p] = Math.max(dp[used + siz + 1][(j + w) % p], dp[used + siz][j] + v);
+				if (pre[j] != -1) {
+					dp[(j + w) % p] = Math.max(dp[(j + w) % p], pre[j] + v);
 				}
 			}
-			siz++;
 		}
-		used += siz;
 		if (l == r) {
 			if (op[l] == 5) {
 				long ret = -1;
 				for (int j = x[l]; j <= y[l]; j++) {
-					ret = Math.max(ret, dp[used][j]);
+					ret = Math.max(ret, dp[j]);
 				}
 				ans[l] = ret;
 			}
 		} else {
 			int mid = (l + r) >> 1;
-			dfs(l, mid, i << 1, used);
-			dfs(mid + 1, r, i << 1 | 1, used);
+			dfs(l, mid, i << 1, dep + 1);
+			dfs(mid + 1, r, i << 1 | 1, dep + 1);
 		}
+		clone(dp, backup[dep]);
 	}
 
 	public static void prepare() {
@@ -114,12 +126,10 @@ public class Code02_BlueMoon1 {
 			equip = knapsack.pollFirst();
 			add(equip[2], m, equip[0], equip[1], 1, m, 1);
 		}
-		for (int i = 0; i < MAXM; i++) {
-			for (int j = 0; j < MAXP; j++) {
-				dp[i][j] = -1;
-			}
+		for (int i = 0; i < p; i++) {
+			dp[i] = -1;
 		}
-		dp[0][0] = 0;
+		dp[0] = 0;
 	}
 
 	public static void main(String[] args) throws IOException {
@@ -150,7 +160,7 @@ public class Code02_BlueMoon1 {
 			}
 		}
 		prepare();
-		dfs(1, m, 1, 0);
+		dfs(1, m, 1, 1);
 		for (int i = 1; i <= m; i++) {
 			if (op[i] == 5) {
 				out.println(ans[i]);

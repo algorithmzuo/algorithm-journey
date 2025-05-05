@@ -21,6 +21,7 @@ package class167;
 //const int MAXM = 50001;
 //const int MAXP = 501;
 //const int MAXT = 1000001;
+//const int DEEP = 20;
 //int m, p;
 //
 //int op[MAXM];
@@ -35,8 +36,17 @@ package class167;
 //int tov[MAXT];
 //int cnt = 0;
 //
-//long long dp[MAXM][MAXP];
+//long long pre[MAXP];
+//long long dp[MAXP];
+//long long backup[DEEP][MAXP];
+//
 //long long ans[MAXM];
+//
+//void clone(long long* a, long long* b) {
+//    for (int i = 0; i <= p; i++) {
+//        a[i] = b[i];
+//    }
+//}
 //
 //void addEdge(int i, int w, int v) {
 //    nxt[++cnt] = head[i];
@@ -59,36 +69,32 @@ package class167;
 //    }
 //}
 //
-//void dfs(int l, int r, int i, int used) {
-//    int siz = 0;
+//void dfs(int l, int r, int i, int dep) {
+//    clone(backup[dep], dp);
 //    for (int e = head[i], w, v; e > 0; e = nxt[e]) {
 //        w = tow[e];
 //        v = tov[e];
+//        clone(pre, dp);
 //        for (int j = 0; j < p; j++) {
-//            dp[used + siz + 1][j] = dp[used + siz][j];
-//        }
-//        for (int j = 0; j < p; j++) {
-//            if (dp[used + siz][j] != -1) {
-//                int nj = (j + w) % p;
-//                dp[used + siz + 1][nj] = max(dp[used + siz + 1][nj], dp[used + siz][j] + v);
+//            if (pre[j] != -1) {
+//                dp[(j + w) % p] = max(dp[(j + w) % p], pre[j] + v);
 //            }
 //        }
-//        siz++;
 //    }
-//    used += siz;
 //    if (l == r) {
 //        if (op[l] == 5) {
 //            long long ret = -1;
 //            for (int j = x[l]; j <= y[l]; j++) {
-//                ret = max(ret, dp[used][j]);
+//                ret = max(ret, dp[j]);
 //            }
 //            ans[l] = ret;
 //        }
 //    } else {
 //        int mid = (l + r) >> 1;
-//        dfs(l, mid, i << 1, used);
-//        dfs(mid + 1, r, i << 1 | 1, used);
+//        dfs(l, mid, i << 1, dep + 1);
+//        dfs(mid + 1, r, i << 1 | 1, dep + 1);
 //    }
+//    clone(dp, backup[dep]);
 //}
 //
 //void prepare() {
@@ -113,12 +119,10 @@ package class167;
 //        add(equip[2], m, equip[0], equip[1], 1, m, 1);
 //        knapsack.pop_front();
 //    }
-//    for (int i = 0; i < MAXM; i++) {
-//        for (int j = 0; j < MAXP; j++) {
-//            dp[i][j] = -1;
-//        }
+//    for (int i = 0; i < p; i++) {
+//        dp[i] = -1;
 //    }
-//    dp[0][0] = 0;
+//    dp[0] = 0;
 //}
 //
 //int main() {
@@ -146,7 +150,7 @@ package class167;
 //        }
 //    }
 //    prepare();
-//    dfs(1, m, 1, 0);
+//    dfs(1, m, 1, 1);
 //    for (int i = 1; i <= m; i++) {
 //        if (op[i] == 5) {
 //            cout << ans[i] << '\n';
