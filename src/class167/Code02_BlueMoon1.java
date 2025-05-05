@@ -35,16 +35,16 @@ public class Code02_BlueMoon1 {
 	// 背包<装备特征值%p、装备战斗力、装备出现时间点>
 	public static Deque<int[]> knapsack = new ArrayDeque<>();
 
-	// 时间轴线段树的区间上挂上生效的商品，(特征值 % p)记为w，战斗力记为v
+	// 时间轴线段树的区间上挂上生效的装备，(特征值 % p)记为w，战斗力记为v
 	public static int[] head = new int[MAXM << 2];
 	public static int[] next = new int[MAXT];
 	public static int[] tow = new int[MAXT];
 	public static int[] tov = new int[MAXT];
 	public static int cnt = 0;
 
-	// 动态规划表不考虑当前商品的状态，上一行的状态
+	// 动态规划表不考虑当前装备的状态，上一行的状态
 	public static long[] pre = new long[MAXP];
-	// 动态规划表考虑当前商品的状态，本行的状态，需要更新
+	// 动态规划表考虑当前装备的状态，本行的状态，需要更新
 	public static long[] dp = new long[MAXP];
 	// 动态规划表的备份
 	public static long[][] backup = new long[DEEP][MAXP];
