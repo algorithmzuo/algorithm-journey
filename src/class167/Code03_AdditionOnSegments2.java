@@ -29,7 +29,7 @@ package class167;
 //int to[MAXT];
 //int cnt = 0;
 //
-//bs path;
+//bs dp;
 //bs backup[DEEP];
 //bs ans;
 //
@@ -54,18 +54,18 @@ package class167;
 //}
 //
 //void dfs(int l, int r, int i, int dep) {
-//    backup[dep] = path;
+//    backup[dep] = dp;
 //    for (int e = head[i]; e > 0; e = nxt[e]) {
-//        path |= path << to[e];
+//        dp |= dp << to[e];
 //    }
 //    if (l == r) {
-//        ans |= path;
+//        ans |= dp;
 //    } else {
 //        int mid = (l + r) >> 1;
 //        dfs(l, mid, i << 1, dep + 1);
 //        dfs(mid + 1, r, i << 1 | 1, dep + 1);
 //    }
-//    path = backup[dep];
+//    dp = backup[dep];
 //}
 //
 //int main() {
@@ -76,7 +76,7 @@ package class167;
 //        cin >> l >> r >> k;
 //        add(l, r, k, 1, n, 1);
 //    }
-//    path[0] = 1;
+//    dp[0] = 1;
 //    dfs(1, n, 1, 1);
 //    int ansCnt = 0;
 //    for (int i = 1; i <= n; i++) {

@@ -21,9 +21,9 @@ public class Code03_AdditionOnSegments1 {
 	public static int MAXN = 10001;
 	public static int MAXT = 500001;
 	public static int BIT = 10000;
+	public static int DEEP = 20;
 	public static int INT_BIT = 32;
 	public static int LEN = BIT / INT_BIT + 1;
-	public static int DEEP = 20;
 	public static int n, q;
 
 	public static int[] head = new int[MAXN << 2];
@@ -32,7 +32,7 @@ public class Code03_AdditionOnSegments1 {
 	public static int cnt = 0;
 
 	public static int[] tmp = new int[LEN];
-	public static int[] path = new int[LEN];
+	public static int[] dp = new int[LEN];
 	public static int[][] backup = new int[DEEP][LEN];
 	public static int[] ans = new int[LEN];
 
@@ -127,19 +127,19 @@ public class Code03_AdditionOnSegments1 {
 	}
 
 	public static void dfs(int l, int r, int i, int dep) {
-		clone(backup[dep], path);
+		clone(backup[dep], dp);
 		for (int e = head[i]; e > 0; e = next[e]) {
-			bitLeft(tmp, path, to[e]);
-			bitOr(path, tmp);
+			bitLeft(tmp, dp, to[e]);
+			bitOr(dp, tmp);
 		}
 		if (l == r) {
-			bitOr(ans, path);
+			bitOr(ans, dp);
 		} else {
 			int mid = (l + r) >> 1;
 			dfs(l, mid, i << 1, dep + 1);
 			dfs(mid + 1, r, i << 1 | 1, dep + 1);
 		}
-		clone(path, backup[dep]);
+		clone(dp, backup[dep]);
 	}
 
 	public static void main(String[] args) throws Exception {
@@ -153,7 +153,7 @@ public class Code03_AdditionOnSegments1 {
 			k = in.nextInt();
 			add(l, r, k, 1, n, 1);
 		}
-		setBit(path, 0, 1);
+		setBit(dp, 0, 1);
 		dfs(1, n, 1, 1);
 		int ansCnt = 0;
 		for (int i = 1; i <= n; i++) {
