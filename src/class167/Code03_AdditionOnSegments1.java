@@ -98,6 +98,8 @@ public class Code03_AdditionOnSegments1 {
 			}
 			ret[shift] = bitset[0] << offset;
 		}
+		// 最高位BIT到最低位0，一共BIT+1个有效位
+		// 其他更高位信息需要清空，rest就是有多少无效的更高位
 		int rest = LEN * INT_BIT - (BIT + 1);
 		if (rest > 0) {
 			ret[LEN - 1] &= (1 << (INT_BIT - rest)) - 1;
