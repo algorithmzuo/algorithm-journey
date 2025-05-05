@@ -6,7 +6,7 @@ package class167;
 // 操作 1 x y d : 原图中加入，点x到点y，权值为d的边
 // 操作 2 x y   : 原图中删除，点x到点y的边
 // 操作 3 x y   : 点x到点y，所有路随便走，沿途边权都异或起来，打印能取得的异或最小值
-// 保证任意操作后，图连通、无重边、无自环，所有操作均合法
+// 保证x < y，并且任意操作后，图连通、无重边、无自环，所有操作均合法
 // 1 <= n、m、q <= 2 * 10^5
 // 测试链接 : https://www.luogu.com.cn/problem/CF938G
 // 测试链接 : https://codeforces.com/problemset/problem/938/G

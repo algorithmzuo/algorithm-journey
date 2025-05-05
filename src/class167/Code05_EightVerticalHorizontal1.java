@@ -1,7 +1,7 @@
 package class167;
 
 // 八纵八横，java版
-// 一共有n个点，给定m条边，每条边的边权，用01字符串表达
+// 一共有n个点，给定m条边，每条边的边权，用01字符串表达，初始时就保证图连通
 // 初始的m条边永不删除，接下来有q条操作，每种操作是如下三种类型中的一种
 // 操作 Add x y z  : 加入点x到点y的边，边权是z，z为01字符串，第k条添加操作，边的编号为k
 // 操作 Cancel k   : 删除编号为k的边
@@ -94,12 +94,10 @@ public class Code05_EightVerticalHorizontal1 {
 	public static int[] inspos = new int[BIT + 1];
 	public static int basiz = 0;
 
-	// 可撤销并查集 + 带权并查集
+	// 带权并查集
 	public static int[] father = new int[MAXN];
 	public static int[] siz = new int[MAXN];
 	public static BitSet[] eor = new BitSet[MAXN];
-	public static int[][] rollback = new int[MAXT][2];
-	public static int opsize = 0;
 
 	// 时间轴线段树上的区间任务列表
 	public static int[] head = new int[MAXQ << 2];
@@ -112,6 +110,7 @@ public class Code05_EightVerticalHorizontal1 {
 	// 每一步的最大异或值
 	public static BitSet[] ans = new BitSet[MAXQ];
 
+	// num插入线性基
 	public static void insert(BitSet num) {
 		for (int i = BIT; i >= 0; i--) {
 			if (num.get(i) == 1) {
@@ -136,6 +135,7 @@ public class Code05_EightVerticalHorizontal1 {
 		return ans;
 	}
 
+	// 线性基的撤销
 	public static void cancel(int oldsiz) {
 		while (basiz > oldsiz) {
 			basis[inspos[--basiz]].clear();
@@ -158,7 +158,7 @@ public class Code05_EightVerticalHorizontal1 {
 		return ans;
 	}
 
-	public static boolean union(int u, int v, BitSet w) {
+	public static void union(int u, int v, BitSet w) {
 		int fu = find(u);
 		int fv = find(v);
 		BitSet weight = new BitSet();
@@ -167,27 +167,16 @@ public class Code05_EightVerticalHorizontal1 {
 		weight.eor(w);
 		if (fu == fv) {
 			insert(weight);
-			return false;
+		} else {
+			if (siz[fu] < siz[fv]) {
+				int tmp = fu;
+				fu = fv;
+				fv = tmp;
+			}
+			father[fv] = fu;
+			siz[fu] += siz[fv];
+			eor[fv].copy(weight);
 		}
-		if (siz[fu] < siz[fv]) {
-			int tmp = fu;
-			fu = fv;
-			fv = tmp;
-		}
-		father[fv] = fu;
-		siz[fu] += siz[fv];
-		eor[fv].copy(weight);
-		rollback[++opsize][0] = fu;
-		rollback[opsize][1] = fv;
-		return true;
-	}
-
-	public static void undo() {
-		int fx = rollback[opsize][0];
-		int fy = rollback[opsize--][1];
-		father[fy] = fy;
-		eor[fy].clear();
-		siz[fx] -= siz[fy];
 	}
 
 	public static void addEdge(int i, int x, int y, BitSet w) {
@@ -214,11 +203,8 @@ public class Code05_EightVerticalHorizontal1 {
 
 	public static void dfs(int l, int r, int i) {
 		int oldsiz = basiz;
-		int unionCnt = 0;
 		for (int e = head[i]; e > 0; e = next[e]) {
-			if (union(tox[e], toy[e], tow[e])) {
-				unionCnt++;
-			}
+			union(tox[e], toy[e], tow[e]);
 		}
 		if (l == r) {
 			ans[l] = maxEor();
@@ -228,9 +214,6 @@ public class Code05_EightVerticalHorizontal1 {
 			dfs(mid + 1, r, i << 1 | 1);
 		}
 		cancel(oldsiz);
-		for (int k = 1; k <= unionCnt; k++) {
-			undo();
-		}
 	}
 
 	public static void print(BitSet bs, PrintWriter out) {

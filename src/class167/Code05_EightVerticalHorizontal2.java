@@ -1,7 +1,7 @@
 package class167;
 
 // 八纵八横，C++版
-// 一共有n个点，给定m条边，每条边的边权，用01字符串表达
+// 一共有n个点，给定m条边，每条边的边权，用01字符串表达，初始时就保证图连通
 // 初始的m条边永不删除，接下来有q条操作，每种操作是如下三种类型中的一种
 // 操作 Add x y z  : 加入点x到点y的边，边权是z，z为01字符串，第k条添加操作，边的编号为k
 // 操作 Cancel k   : 删除编号为k的边
@@ -38,8 +38,6 @@ package class167;
 //int father[MAXN];
 //int siz[MAXN];
 //bs eor[MAXN];
-//int rollback[MAXT][2];
-//int opsize = 0;
 //
 //int head[MAXQ << 2];
 //int nxt[MAXT];
@@ -95,33 +93,22 @@ package class167;
 //    return ret;
 //}
 //
-//bool Union(int u, int v, bs& w) {
+//void Union(int u, int v, bs& w) {
 //    int fu = find(u);
 //    int fv = find(v);
 //    bs weight = getEor(u) ^ getEor(v) ^ w;
 //    if (fu == fv) {
 //        insert(weight);
-//        return false;
+//    } else {
+//        if (siz[fu] < siz[fv]) {
+//            int tmp = fu;
+//            fu = fv;
+//            fv = tmp;
+//        }
+//        father[fv] = fu;
+//        siz[fu] += siz[fv];
+//        eor[fv] = weight;
 //    }
-//    if (siz[fu] < siz[fv]) {
-//        int tmp = fu;
-//        fu = fv;
-//        fv = tmp;
-//    }
-//    father[fv] = fu;
-//    siz[fu] += siz[fv];
-//    eor[fv] = weight;
-//    rollback[++opsize][0] = fu;
-//    rollback[opsize][1] = fv;
-//    return true;
-//}
-//
-//void undo() {
-//    int fu = rollback[opsize][0];
-//    int fv = rollback[opsize--][1];
-//    father[fv] = fv;
-//    eor[fv].reset();
-//    siz[fu] -= siz[fv];
 //}
 //
 //void addEdge(int i, int u, int v, bs& w) {
@@ -148,11 +135,8 @@ package class167;
 //
 //void dfs(int l, int r, int i) {
 //    int oldsiz = basiz;
-//    int unionCnt = 0;
 //    for (int e = head[i]; e; e = nxt[e]) {
-//        if (Union(tox[e], toy[e], tow[e])) {
-//            ++unionCnt;
-//        }
+//        Union(tox[e], toy[e], tow[e]);
 //    }
 //    if (l == r) {
 //        ans[l] = maxEor();
@@ -162,9 +146,6 @@ package class167;
 //        dfs(mid + 1, r, i << 1 | 1);
 //    }
 //    cancel(oldsiz);
-//    for (int k = 1; k <= unionCnt; k++) {
-//        undo();
-//    }
 //}
 //
 //void print(const bs& ret) {
