@@ -123,11 +123,13 @@ public class Code01_MuseumRobbery1 {
 				from[n] = i;
 				to[n] = q;
 			} else if (op[i] == 2) {
-				to[x[i]] = i;
+				to[x[i]] = i - 1;
 			}
 		}
 		for (int i = 1; i <= n; i++) {
-			add(from[i], to[i], v[i], w[i], 1, q, 1);
+			if (from[i] <= to[i]) {
+				add(from[i], to[i], v[i], w[i], 1, q, 1);
+			}
 		}
 	}
 
