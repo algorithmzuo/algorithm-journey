@@ -27,7 +27,9 @@ public class Code07_MinimumXor1 {
 	public static int[] pass = new int[MAXN];
 	public static int cnt = 1;
 
+	// 整棵树上最小异或值
 	public static int[] mineor = new int[MAXN];
+	// 整棵树上如果只有一个数x，才有记录，否则记录是0
 	public static int[] only = new int[MAXN];
 
 	public static int change(int x, int changeCnt) {
@@ -48,7 +50,7 @@ public class Code07_MinimumXor1 {
 	public static void compute(int x, int changeCnt) {
 		int bottom = change(x, changeCnt);
 		mineor[bottom] = pass[bottom] >= 2 ? 0 : INF;
-		only[bottom] = pass[bottom] >= 1 ? x : 0;
+		only[bottom] = pass[bottom] == 1 ? x : 0;
 		for (int i = fa[bottom], l, r; i > 0; i = fa[i]) {
 			l = tree[i][0];
 			r = tree[i][1];
