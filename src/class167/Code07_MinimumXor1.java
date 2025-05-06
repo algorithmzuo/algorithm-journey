@@ -48,7 +48,7 @@ public class Code07_MinimumXor1 {
 	public static void compute(int x, int changeCnt) {
 		int bottom = change(x, changeCnt);
 		mineor[bottom] = pass[bottom] >= 2 ? 0 : INF;
-		only[bottom] = pass[bottom] == 1 ? x : 0;
+		only[bottom] = pass[bottom] >= 1 ? x : 0;
 		for (int i = fa[bottom], l, r; i > 0; i = fa[i]) {
 			l = tree[i][0];
 			r = tree[i][1];
