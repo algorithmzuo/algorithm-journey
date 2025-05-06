@@ -28,7 +28,7 @@ package class167;
 //int mineor[MAXN];
 //int only[MAXN];
 //
-//int insert(int x, int changeCnt) {
+//int change(int x, int changeCnt) {
 //    int cur = 1;
 //    pass[cur] += changeCnt;
 //    for (int b = BIT, path; b >= 0; b--) {
@@ -44,7 +44,7 @@ package class167;
 //}
 //
 //void compute(int x, int changeCnt) {
-//    int bottom = insert(x, changeCnt);
+//    int bottom = change(x, changeCnt);
 //    mineor[bottom] = pass[bottom] >= 2 ? 0 : INF;
 //    only[bottom] = pass[bottom] == 1 ? x : 0;
 //    for (int i = fa[bottom], l, r; i > 0; i = fa[i]) {
@@ -52,10 +52,10 @@ package class167;
 //        r = tree[i][1];
 //        if (pass[i] < 2) {
 //            mineor[i] = INF;
-//        } else if ((l != 0) ^ (r != 0)) {
-//            mineor[i] = l > 0 ? mineor[l] : mineor[r];
-//        } else if (max(pass[l], pass[r]) == 1) {
+//        } else if (pass[l] == 1 && pass[r] == 1) {
 //            mineor[i] = only[l] ^ only[r];
+//        } else if (pass[l] == 0 ^ pass[r] == 0) {
+//            mineor[i] = pass[l] == 0 ? mineor[r] : mineor[l];
 //        } else {
 //            mineor[i] = min(mineor[l], mineor[r]);
 //        }
