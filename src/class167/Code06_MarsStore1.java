@@ -49,9 +49,12 @@ public class Code06_MarsStore1 {
 	public static int[] bid = new int[MAXT];
 	public static int cntb = 0;
 
+	// 每个商品(所属的商店编号，该商品的价格)
 	public static int[][] product = new int[MAXN][2];
 	public static int[] ans = new int[MAXN];
 
+	// 可持久化前缀树
+	// 基于i版本的树，添加num，返回新版本的编号
 	public static int insert(int num, int i) {
 		int rt = ++cntt;
 		tree[rt][0] = tree[i][0];
@@ -69,6 +72,8 @@ public class Code06_MarsStore1 {
 		return rt;
 	}
 
+	// 可持久化前缀树
+	// 根据(v版本 - u版本)的数据状况，看看哪个数字 ^ num能得到最大值并返回
 	public static int query(int num, int u, int v) {
 		int ans = 0;
 		for (int b = BIT, path, best; b >= 0; b--) {
@@ -98,6 +103,7 @@ public class Code06_MarsStore1 {
 		headb[i] = cntb;
 	}
 
+	// 当前商品编号pi，沿途经过的所有区间，都把该商品加上
 	public static void addProduct(int jobi, int pi, int l, int r, int i) {
 		addInfoP(i, pi);
 		if (l < r) {
@@ -110,6 +116,7 @@ public class Code06_MarsStore1 {
 		}
 	}
 
+	// 当前购买行为编号bi，命中的线段树区间，把该购买行为加上
 	public static void addBuy(int jobl, int jobr, int bi, int l, int r, int i) {
 		if (jobl <= l && r <= jobr) {
 			addInfoB(i, bi);
