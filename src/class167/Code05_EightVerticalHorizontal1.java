@@ -134,7 +134,7 @@ public class Code05_EightVerticalHorizontal1 {
 		}
 	}
 
-	// 带权并查集，扁平化优化，find的同时修改eor
+	// 扁平化优化，find的同时修改eor，就是经典的带权并查集
 	public static int find(int i) {
 		if (i != father[i]) {
 			int tmp = father[i];
