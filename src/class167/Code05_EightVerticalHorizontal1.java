@@ -59,13 +59,6 @@ public class Code05_EightVerticalHorizontal1 {
 			}
 		}
 
-		// 拷贝other每一位
-		public void copy(BitSet other) {
-			for (int i = 0; i < len; i++) {
-				arr[i] = other.arr[i];
-			}
-		}
-
 		// 异或other每一位
 		public void eor(BitSet other) {
 			for (int i = 0; i < len; i++) {
@@ -94,9 +87,8 @@ public class Code05_EightVerticalHorizontal1 {
 	public static int[] inspos = new int[BIT + 1];
 	public static int basiz = 0;
 
-	// 带权并查集
+	// 经典带权并查集，只做扁平化，不做小挂大
 	public static int[] father = new int[MAXN];
-	public static int[] siz = new int[MAXN];
 	public static BitSet[] eor = new BitSet[MAXN];
 
 	// 时间轴线段树上的区间任务列表
@@ -115,7 +107,7 @@ public class Code05_EightVerticalHorizontal1 {
 		for (int i = BIT; i >= 0; i--) {
 			if (num.get(i) == 1) {
 				if (basis[i].get(i) == 0) {
-					basis[i].copy(num);
+					basis[i] = num;
 					inspos[basiz++] = i;
 					return;
 				}
@@ -142,20 +134,19 @@ public class Code05_EightVerticalHorizontal1 {
 		}
 	}
 
+	// 带权并查集，扁平化优化，find的同时修改eor
 	public static int find(int i) {
-		while (i != father[i]) {
-			i = father[i];
+		if (i != father[i]) {
+			int tmp = father[i];
+			father[i] = find(tmp);
+			eor[i].eor(eor[tmp]);
 		}
-		return i;
+		return father[i];
 	}
 
 	public static BitSet getEor(int i) {
-		BitSet ans = new BitSet();
-		while (i != father[i]) {
-			ans.eor(eor[i]);
-			i = father[i];
-		}
-		return ans;
+		find(i);
+		return eor[i];
 	}
 
 	public static void union(int u, int v, BitSet w) {
@@ -168,14 +159,8 @@ public class Code05_EightVerticalHorizontal1 {
 		if (fu == fv) {
 			insert(weight);
 		} else {
-			if (siz[fu] < siz[fv]) {
-				int tmp = fu;
-				fu = fv;
-				fv = tmp;
-			}
 			father[fv] = fu;
-			siz[fu] += siz[fv];
-			eor[fv].copy(weight);
+			eor[fv] = weight;
 		}
 	}
 
@@ -244,7 +229,6 @@ public class Code05_EightVerticalHorizontal1 {
 		}
 		for (int i = 1; i <= n; i++) {
 			father[i] = i;
-			siz[i] = 1;
 			eor[i] = new BitSet();
 		}
 		for (int i = 1; i <= m; i++) {

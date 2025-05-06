@@ -36,7 +36,6 @@ package class167;
 //int basiz = 0;
 //
 //int father[MAXN];
-//int siz[MAXN];
 //bs eor[MAXN];
 //
 //int head[MAXQ << 2];
@@ -77,20 +76,18 @@ package class167;
 //    }
 //}
 //
-//int find(int v) {
-//    while (v != father[v]) {
-//        v = father[v];
+//int find(int i) {
+//    if (i != father[i]) {
+//        int tmp = father[i];
+//        father[i] = find(tmp);
+//        eor[i] ^= eor[tmp];
 //    }
-//    return v;
+//    return father[i];
 //}
 //
-//bs getEor(int v) {
-//    bs ret;
-//    while (v != father[v]) {
-//        ret ^= eor[v];
-//        v = father[v];
-//    }
-//    return ret;
+//bs getEor(int i) {
+//    find(i);
+//    return eor[i];
 //}
 //
 //void Union(int u, int v, bs& w) {
@@ -100,13 +97,7 @@ package class167;
 //    if (fu == fv) {
 //        insert(weight);
 //    } else {
-//        if (siz[fu] < siz[fv]) {
-//            int tmp = fu;
-//            fu = fv;
-//            fv = tmp;
-//        }
 //        father[fv] = fu;
-//        siz[fu] += siz[fv];
 //        eor[fv] = weight;
 //    }
 //}
@@ -173,7 +164,6 @@ package class167;
 //    }
 //    for (int i = 1; i <= n; ++i) {
 //        father[i] = i;
-//        siz[i] = 1;
 //        eor[i].reset();
 //    }
 //    int u, v;
