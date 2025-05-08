@@ -12,12 +12,10 @@ package class168;
 // 测试链接 : https://www.luogu.com.cn/problem/P3250
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
-import java.io.StreamTokenizer;
 import java.util.Arrays;
 
 public class Code06_Network1 {
@@ -296,31 +294,22 @@ public class Code06_Network1 {
 	}
 
 	public static void main(String[] args) throws IOException {
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StreamTokenizer in = new StreamTokenizer(br);
+		FastReader in = new FastReader(System.in);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
-		in.nextToken();
-		n = (int) in.nval;
-		in.nextToken();
-		m = (int) in.nval;
+		n = in.nextInt();
+		m = in.nextInt();
 		for (int i = 1, u, v; i < n; i++) {
-			in.nextToken();
-			u = (int) in.nval;
-			in.nextToken();
-			v = (int) in.nval;
+			u = in.nextInt();
+			v = in.nextInt();
 			addEdge(u, v);
 			addEdge(v, u);
 		}
 		for (int i = 1; i <= m; i++) {
-			in.nextToken();
-			events[i][0] = (int) in.nval;
-			in.nextToken();
-			events[i][1] = (int) in.nval;
+			events[i][0] = in.nextInt();
+			events[i][1] = in.nextInt();
 			if (events[i][0] == 0) {
-				in.nextToken();
-				events[i][2] = (int) in.nval;
-				in.nextToken();
-				events[i][3] = (int) in.nval;
+				events[i][2] = in.nextInt();
+				events[i][3] = in.nextInt();
 			}
 		}
 		prepare();
@@ -330,6 +319,45 @@ public class Code06_Network1 {
 		}
 		out.flush();
 		out.close();
+	}
+
+	// 读写工具类
+	static class FastReader {
+		private final byte[] buffer = new byte[1 << 20];
+		private int ptr = 0, len = 0;
+		private final InputStream in;
+
+		FastReader(InputStream in) {
+			this.in = in;
+		}
+
+		private int readByte() throws IOException {
+			if (ptr >= len) {
+				len = in.read(buffer);
+				ptr = 0;
+				if (len <= 0)
+					return -1;
+			}
+			return buffer[ptr++];
+		}
+
+		int nextInt() throws IOException {
+			int c;
+			do {
+				c = readByte();
+			} while (c <= ' ' && c != -1);
+			boolean neg = false;
+			if (c == '-') {
+				neg = true;
+				c = readByte();
+			}
+			int val = 0;
+			while (c > ' ' && c != -1) {
+				val = val * 10 + (c - '0');
+				c = readByte();
+			}
+			return neg ? -val : val;
+		}
 	}
 
 }
