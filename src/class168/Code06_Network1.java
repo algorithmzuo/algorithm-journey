@@ -20,7 +20,7 @@ import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 import java.util.Arrays;
 
-public class Code05_Network1 {
+public class Code06_Network1 {
 
 	public static int MAXN = 100001;
 	public static int MAXM = 200001;
