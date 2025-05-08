@@ -77,23 +77,23 @@ public class Code01_Meteors1 {
 		} else {
 			int mid = (tl + tr) >> 1;
 			int lsiz = 0, rsiz = 0, nation;
-			long times;
+			long satisfy;
 			for (int i = tl; i <= mid; i++) {
 				add(rainl[i], rainr[i], num[i]);
 			}
 			for (int i = al; i <= ar; i++) {
 				nation = arr[i];
-				times = 0;
+				satisfy = 0;
 				for (int e = head[nation]; e > 0; e = next[e]) {
-					times += query(to[e]) + query(to[e] + m);
-					if (times >= need[nation]) {
+					satisfy += query(to[e]) + query(to[e] + m);
+					if (satisfy >= need[nation]) {
 						break;
 					}
 				}
-				if (times >= need[nation]) {
+				if (satisfy >= need[nation]) {
 					lset[++lsiz] = nation;
 				} else {
-					need[nation] -= times;
+					need[nation] -= satisfy;
 					rset[++rsiz] = nation;
 				}
 			}
