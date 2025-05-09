@@ -10,7 +10,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.util.Arrays;
 
-public class Code02_MixedJuice1 {
+public class Code02_Juice1 {
 
 	public static int MAXN = 100001;
 	public static int n, m;
