@@ -176,9 +176,6 @@ package class168;
 //}
 //
 //void compute(int evtl, int evtr, int impl, int impr) {
-//    if (evtl > evtr) {
-//        return;
-//    }
 //    if (impl == impr) {
 //        for (int i = evtl; i <= evtr; i++) {
 //            if (events[i][0] > 0) {
