@@ -79,10 +79,12 @@ public class Code02_MixedJuice1 {
 			}
 		} else {
 			int mid = (jl + jr) >> 1;
+			// 线段树包含果汁的种类少就添加
 			while (used < mid) {
 				used++;
 				add(juice[used][1], juice[used][2], 1, maxp, 1);
 			}
+			// 线段树包含果汁的种类多就撤销
 			while (used > mid) {
 				add(juice[used][1], -juice[used][2], 1, maxp, 1);
 				used--;
