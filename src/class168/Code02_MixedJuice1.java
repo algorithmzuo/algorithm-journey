@@ -14,20 +14,23 @@ public class Code02_MixedJuice1 {
 
 	public static int MAXN = 100001;
 	public static int n, m;
-	// 果汁参数 : 美味度d、每升价格p、添加上限l
+	// 果汁有三个参数，美味度d、每升价格p、添加上限l
 	public static int[][] juice = new int[MAXN][3];
 	// 记录所有小朋友的编号
 	public static int[] arr = new int[MAXN];
-	// 小朋友的钱数
+	// 小朋友能花的钱数
 	public static long[] money = new long[MAXN];
-	// 小朋友需要至少多少升果汁
+	// 小朋友至少的果汁量
 	public static long[] least = new long[MAXN];
 
-	// 线段树
+	// 果汁单价作为下标的线段树
+	// maxp为单价的最大上限
 	public static int maxp = 0;
+	// suml[i] : 线段树某单价区间上，总果汁的量
 	public static long[] suml = new long[MAXN << 2];
+	// cost[i] : 线段树某单价区间上，如果总果汁的量全买，花费多少钱
 	public static long[] cost = new long[MAXN << 2];
-	// 多少种果汁参数加入了线段树
+	// 多少种果汁加入了线段树
 	public static int used = 0;
 
 	// 整体二分的过程需要
