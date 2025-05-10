@@ -21,7 +21,7 @@ package class168;
 //int n, m;
 //
 //Juice juice[MAXN];
-//int arr[MAXN];
+//int qid[MAXN];
 //long long money[MAXN];
 //long long least[MAXN];
 //
@@ -67,13 +67,16 @@ package class168;
 //    }
 //}
 //
-//void compute(int al, int ar, int jl, int jr) {
-//    if (jl == jr) {
-//        for (int i = al; i <= ar; i++) {
-//            ans[arr[i]] = jl;
+//void compute(int ql, int qr, int vl, int vr) {
+//    if (ql > qr) {
+//        return;
+//    }
+//    if (vl == vr) {
+//        for (int i = ql; i <= qr; i++) {
+//            ans[qid[i]] = vl;
 //        }
 //    } else {
-//        int mid = (jl + jr) >> 1;
+//        int mid = (vl + vr) >> 1;
 //        while (used < mid) {
 //            used++;
 //            add(juice[used].p, juice[used].l, 1, maxp, 1);
@@ -83,8 +86,8 @@ package class168;
 //            used--;
 //        }
 //        int lsiz = 0, rsiz = 0;
-//        for (int i = al, id; i <= ar; i++) {
-//            id = arr[i];
+//        for (int i = ql, id; i <= qr; i++) {
+//            id = qid[i];
 //            if (suml[1] >= least[id] && query(least[id], 1, maxp, 1) <= money[id]) {
 //                lset[++lsiz] = id;
 //            } else {
@@ -92,13 +95,13 @@ package class168;
 //            }
 //        }
 //        for (int i = 1; i <= lsiz; i++) {
-//            arr[al + i - 1] = lset[i];
+//            qid[ql + i - 1] = lset[i];
 //        }
 //        for (int i = 1; i <= rsiz; i++) {
-//            arr[al + lsiz + i - 1] = rset[i];
+//            qid[ql + lsiz + i - 1] = rset[i];
 //        }
-//        compute(al, al + lsiz - 1, jl, mid);
-//        compute(al + lsiz, ar, mid + 1, jr);
+//        compute(ql, ql + lsiz - 1, vl, mid);
+//        compute(ql + lsiz, qr, mid + 1, vr);
 //    }
 //}
 //
@@ -111,7 +114,7 @@ package class168;
 //        maxp = max(maxp, juice[i].p);
 //    }
 //    for (int i = 1; i <= m; i++) {
-//        arr[i] = i;
+//        qid[i] = i;
 //        cin >> money[i] >> least[i];
 //    }
 //    sort(juice + 1, juice + n + 1, JuiceCmp);

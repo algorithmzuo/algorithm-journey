@@ -10,14 +10,14 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.util.Arrays;
 
-public class Code02_Juice1 {
+public class Code03_Juice1 {
 
 	public static int MAXN = 100001;
 	public static int n, m;
 	// 果汁有三个参数，美味度d、每升价格p、添加上限l
 	public static int[][] juice = new int[MAXN][3];
 	// 记录所有小朋友的编号
-	public static int[] arr = new int[MAXN];
+	public static int[] qid = new int[MAXN];
 	// 小朋友能花的钱数
 	public static long[] money = new long[MAXN];
 	// 小朋友至少的果汁量
@@ -72,13 +72,16 @@ public class Code02_Juice1 {
 		}
 	}
 
-	public static void compute(int al, int ar, int jl, int jr) {
-		if (jl == jr) {
-			for (int i = al; i <= ar; i++) {
-				ans[arr[i]] = jl;
+	public static void compute(int ql, int qr, int vl, int vr) {
+		if (ql > qr) {
+			return;
+		}
+		if (vl == vr) {
+			for (int i = ql; i <= qr; i++) {
+				ans[qid[i]] = vl;
 			}
 		} else {
-			int mid = (jl + jr) >> 1;
+			int mid = (vl + vr) >> 1;
 			// 线段树包含果汁的种类少就添加
 			while (used < mid) {
 				used++;
@@ -90,8 +93,8 @@ public class Code02_Juice1 {
 				used--;
 			}
 			int lsiz = 0, rsiz = 0;
-			for (int i = al, id; i <= ar; i++) {
-				id = arr[i];
+			for (int i = ql, id; i <= qr; i++) {
+				id = qid[i];
 				if (suml[1] >= least[id] && query(least[id], 1, maxp, 1) <= money[id]) {
 					lset[++lsiz] = id;
 				} else {
@@ -99,13 +102,13 @@ public class Code02_Juice1 {
 				}
 			}
 			for (int i = 1; i <= lsiz; i++) {
-				arr[al + i - 1] = lset[i];
+				qid[ql + i - 1] = lset[i];
 			}
 			for (int i = 1; i <= rsiz; i++) {
-				arr[al + lsiz + i - 1] = rset[i];
+				qid[ql + lsiz + i - 1] = rset[i];
 			}
-			compute(al, al + lsiz - 1, jl, mid);
-			compute(al + lsiz, ar, mid + 1, jr);
+			compute(ql, ql + lsiz - 1, vl, mid);
+			compute(ql + lsiz, qr, mid + 1, vr);
 		}
 	}
 
@@ -121,7 +124,7 @@ public class Code02_Juice1 {
 			maxp = Math.max(maxp, juice[i][1]);
 		}
 		for (int i = 1; i <= m; i++) {
-			arr[i] = i;
+			qid[i] = i;
 			money[i] = in.nextLong();
 			least[i] = in.nextLong();
 		}

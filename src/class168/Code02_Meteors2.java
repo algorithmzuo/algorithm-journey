@@ -13,12 +13,13 @@ package class168;
 //
 //int n, m, k;
 //
-//int arr[MAXN];
+//int qid[MAXN];
 //int need[MAXN];
 //
 //int rainl[MAXN];
 //int rainr[MAXN];
 //int num[MAXN];
+//int used = 0;
 //
 //int head[MAXN];
 //int nxt[MAXN];
@@ -64,45 +65,48 @@ package class168;
 //    return ret;
 //}
 //
-//void compute(int al, int ar, int tl, int tr) {
-//    if (tl == tr) {
-//        for (int i = al; i <= ar; i++) {
-//            ans[arr[i]] = tl;
+//void compute(int ql, int qr, int vl, int vr) {
+//    if (ql > qr) {
+//        return;
+//    }
+//    if (vl == vr) {
+//        for (int i = ql; i <= qr; i++) {
+//            ans[qid[i]] = vl;
 //        }
 //    } else {
-//        int mid = (tl + tr) >> 1;
-//        int lsiz = 0, rsiz = 0, nation;
-//        long long satisfy;
-//        for (int i = tl; i <= mid; i++) {
-//            add(rainl[i], rainr[i], num[i]);
+//        int mid = (vl + vr) >> 1;
+//        int lsiz = 0, rsiz = 0;
+//        while (used < mid) {
+//            used++;
+//            add(rainl[used], rainr[used], num[used]);
 //        }
-//        for (int i = al; i <= ar; i++) {
-//            nation = arr[i];
-//            satisfy = 0;
-//            for (int e = head[nation]; e > 0; e = nxt[e]) {
+//        while (used > mid) {
+//            add(rainl[used], rainr[used], -num[used]);
+//            used--;
+//        }
+//        for (int i = ql; i <= qr; i++) {
+//            int id = qid[i];
+//            long long satisfy = 0;
+//            for (int e = head[id]; e > 0; e = nxt[e]) {
 //                satisfy += query(to[e]) + query(to[e] + m);
-//                if (satisfy >= need[nation]) {
+//                if (satisfy >= need[id]) {
 //                    break;
 //                }
 //            }
-//            if (satisfy >= need[nation]) {
-//                lset[++lsiz] = nation;
+//            if (satisfy >= need[id]) {
+//                lset[++lsiz] = id;
 //            } else {
-//                need[nation] -= static_cast<int>(satisfy);
-//                rset[++rsiz] = nation;
+//                rset[++rsiz] = id;
 //            }
 //        }
-//        for (int i = tl; i <= mid; i++) {
-//            add(rainl[i], rainr[i], -num[i]);
-//        }
 //        for (int i = 1; i <= lsiz; i++) {
-//            arr[al + i - 1] = lset[i];
+//            qid[ql + i - 1] = lset[i];
 //        }
 //        for (int i = 1; i <= rsiz; i++) {
-//            arr[al + lsiz + i - 1] = rset[i];
+//            qid[ql + lsiz + i - 1] = rset[i];
 //        }
-//        compute(al, al + lsiz - 1, tl, mid);
-//        compute(al + lsiz, ar, mid + 1, tr);
+//        compute(ql, ql + lsiz - 1, vl, mid);
+//        compute(ql + lsiz, qr, mid + 1, vr);
 //    }
 //}
 //
@@ -115,7 +119,7 @@ package class168;
 //        addEdge(nation, i);
 //    }
 //    for (int i = 1; i <= n; i++) {
-//        arr[i] = i;
+//        qid[i] = i;
 //        cin >> need[i];
 //    }
 //    cin >> k;

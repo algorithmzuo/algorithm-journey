@@ -5,7 +5,7 @@ package class168;
 // 提交以下的code，提交时请把类名改成"Main"
 // java实现的逻辑一定是正确的，但无法通过所有测试用例，内存使用过大
 // 因为这道题只考虑C++能通过的空间极限，根本没考虑java的用户
-// 想通过用C++实现，本节课Code01_Meteors2文件就是C++的实现
+// 想通过用C++实现，本节课Code02_Meteors2文件就是C++的实现
 // 两个版本的逻辑完全一样，C++版本可以通过所有测试
 
 import java.io.IOException;
@@ -13,17 +13,18 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
-public class Code01_Meteors1 {
+public class Code02_Meteors1 {
 
 	public static int MAXN = 300001;
 	public static int n, m, k;
 
-	public static int[] arr = new int[MAXN];
+	public static int[] qid = new int[MAXN];
 	public static int[] need = new int[MAXN];
 
 	public static int[] rainl = new int[MAXN];
 	public static int[] rainr = new int[MAXN];
 	public static int[] num = new int[MAXN];
+	public static int used = 0;
 
 	public static int[] head = new int[MAXN];
 	public static int[] next = new int[MAXN];
@@ -69,45 +70,48 @@ public class Code01_Meteors1 {
 		return ret;
 	}
 
-	public static void compute(int al, int ar, int tl, int tr) {
-		if (tl == tr) {
-			for (int i = al; i <= ar; i++) {
-				ans[arr[i]] = tl;
+	public static void compute(int ql, int qr, int vl, int vr) {
+		if (ql > qr) {
+			return;
+		}
+		if (vl == vr) {
+			for (int i = ql; i <= qr; i++) {
+				ans[qid[i]] = vl;
 			}
 		} else {
-			int mid = (tl + tr) >> 1;
-			int lsiz = 0, rsiz = 0, nation;
-			long satisfy;
-			for (int i = tl; i <= mid; i++) {
-				add(rainl[i], rainr[i], num[i]);
+			int mid = (vl + vr) >> 1;
+			int lsiz = 0, rsiz = 0;
+			while (used < mid) {
+				used++;
+				add(rainl[used], rainr[used], num[used]);
 			}
-			for (int i = al; i <= ar; i++) {
-				nation = arr[i];
-				satisfy = 0;
-				for (int e = head[nation]; e > 0; e = next[e]) {
+			while (used > mid) {
+				add(rainl[used], rainr[used], -num[used]);
+				used--;
+			}
+			for (int i = ql; i <= qr; i++) {
+				int id = qid[i];
+				long satisfy = 0;
+				for (int e = head[id]; e > 0; e = next[e]) {
 					satisfy += query(to[e]) + query(to[e] + m);
-					if (satisfy >= need[nation]) {
+					if (satisfy >= need[id]) {
 						break;
 					}
 				}
-				if (satisfy >= need[nation]) {
-					lset[++lsiz] = nation;
+				if (satisfy >= need[id]) {
+					lset[++lsiz] = id;
 				} else {
-					need[nation] -= satisfy;
-					rset[++rsiz] = nation;
+					rset[++rsiz] = id;
 				}
 			}
-			for (int i = tl; i <= mid; i++) {
-				add(rainl[i], rainr[i], -num[i]);
-			}
 			for (int i = 1; i <= lsiz; i++) {
-				arr[al + i - 1] = lset[i];
+				qid[ql + i - 1] = lset[i];
 			}
 			for (int i = 1; i <= rsiz; i++) {
-				arr[al + lsiz + i - 1] = rset[i];
+				qid[ql + lsiz + i - 1] = rset[i];
 			}
-			compute(al, al + lsiz - 1, tl, mid);
-			compute(al + lsiz, ar, mid + 1, tr);
+			compute(ql, ql + lsiz - 1, vl, mid);
+			compute(ql + lsiz, qr, mid + 1, vr);
 		}
 	}
 
@@ -121,7 +125,7 @@ public class Code01_Meteors1 {
 			addEdge(nation, i);
 		}
 		for (int i = 1; i <= n; i++) {
-			arr[i] = i;
+			qid[i] = i;
 			need[i] = in.nextInt();
 		}
 		k = in.nextInt();

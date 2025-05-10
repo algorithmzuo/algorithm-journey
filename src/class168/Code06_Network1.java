@@ -236,19 +236,22 @@ public class Code06_Network1 {
 		}
 	}
 
-	public static void compute(int evtl, int evtr, int impl, int impr) {
-		if (impl == impr) {
-			for (int i = evtl; i <= evtr; i++) {
+	public static void compute(int ql, int qr, int vl, int vr) {
+		if (ql > qr) {
+			return;
+		}
+		if (vl == vr) {
+			for (int i = ql; i <= qr; i++) {
 				if (events[i][0] > 0) {
-					ans[events[i][0]] = impl;
+					ans[events[i][0]] = vl;
 				}
 			}
 		} else {
-			int impm = (impl + impr) / 2;
+			int mid = (vl + vr) / 2;
 			int lsize = 0, rsize = 0, request = 0;
-			for (int i = evtl; i <= evtr; i++) {
+			for (int i = ql; i <= qr; i++) {
 				if (events[i][0] == 0) {
-					if (events[i][3] > impm) {
+					if (events[i][3] > mid) {
 						pathAdd(events[i][1], events[i][2], 1);
 						clone(rset[++rsize], events[i]);
 						request++;
@@ -256,7 +259,7 @@ public class Code06_Network1 {
 						clone(lset[++lsize], events[i]);
 					}
 				} else if (events[i][0] == -1) {
-					if (events[i][3] > impm) {
+					if (events[i][3] > mid) {
 						pathAdd(events[i][1], events[i][2], -1);
 						clone(rset[++rsize], events[i]);
 						request--;
@@ -272,21 +275,21 @@ public class Code06_Network1 {
 				}
 			}
 			for (int i = 1; i <= rsize; i++) {
-				if (rset[i][0] == 0 && rset[i][3] > impm) {
+				if (rset[i][0] == 0 && rset[i][3] > mid) {
 					pathAdd(rset[i][1], rset[i][2], -1);
 				}
-				if (rset[i][0] == -1 && rset[i][3] > impm) {
+				if (rset[i][0] == -1 && rset[i][3] > mid) {
 					pathAdd(rset[i][1], rset[i][2], 1);
 				}
 			}
-			for (int i = evtl, j = 1; j <= lsize; i++, j++) {
+			for (int i = ql, j = 1; j <= lsize; i++, j++) {
 				clone(events[i], lset[j]);
 			}
-			for (int i = evtl + lsize, j = 1; j <= rsize; i++, j++) {
+			for (int i = ql + lsize, j = 1; j <= rsize; i++, j++) {
 				clone(events[i], rset[j]);
 			}
-			compute(evtl, evtl + lsize - 1, impl, impm);
-			compute(evtl + lsize, evtr, impm + 1, impr);
+			compute(ql, ql + lsize - 1, vl, mid);
+			compute(ql + lsize, qr, mid + 1, vr);
 		}
 	}
 
