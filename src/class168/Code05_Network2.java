@@ -37,7 +37,7 @@ package class168;
 //
 //int tree[MAXN];
 //
-//int events[MAXM][4];
+//int event[MAXM][4];
 //
 //int lset[MAXM][4];
 //int rset[MAXM][4];
@@ -133,11 +133,11 @@ package class168;
 //void prepare() {
 //    dfs(1, 0);
 //    for (int i = 1; i <= m; i++) {
-//        if (events[i][0] == 1) {
-//            clone(events[i], events[events[i][1]]);
-//            events[i][0] = -1;
-//        } else if (events[i][0] == 2){
-//            events[i][0] = ++cntans;
+//        if (event[i][0] == 1) {
+//            clone(event[i], event[event[i][1]]);
+//            event[i][0] = -1;
+//        } else if (event[i][0] == 2){
+//            event[i][0] = ++cntans;
 //        }
 //    }
 //}
@@ -148,35 +148,35 @@ package class168;
 //    }
 //    if (vl == vr) {
 //        for (int i = ql; i <= qr; i++) {
-//            if (events[i][0] > 0) {
-//                ans[events[i][0]] = vl;
+//            if (event[i][0] > 0) {
+//                ans[event[i][0]] = vl;
 //            }
 //        }
 //    } else {
 //        int mid = (vl + vr) / 2;
 //        int lsize = 0, rsize = 0, request = 0;
 //        for (int i = ql; i <= qr; i++) {
-//            if (events[i][0] == 0) {
-//                if (events[i][3] > mid) {
-//                    pathAdd(events[i][1], events[i][2], 1);
-//                    clone(rset[++rsize], events[i]);
+//            if (event[i][0] == 0) {
+//                if (event[i][3] > mid) {
+//                    pathAdd(event[i][1], event[i][2], 1);
+//                    clone(rset[++rsize], event[i]);
 //                    request++;
 //                } else {
-//                    clone(lset[++lsize], events[i]);
+//                    clone(lset[++lsize], event[i]);
 //                }
-//            } else if (events[i][0] == -1) {
-//                if (events[i][3] > mid) {
-//                    pathAdd(events[i][1], events[i][2], -1);
-//                    clone(rset[++rsize], events[i]);
+//            } else if (event[i][0] == -1) {
+//                if (event[i][3] > mid) {
+//                    pathAdd(event[i][1], event[i][2], -1);
+//                    clone(rset[++rsize], event[i]);
 //                    request--;
 //                } else {
-//                    clone(lset[++lsize], events[i]);
+//                    clone(lset[++lsize], event[i]);
 //                }
 //            } else {
-//                if (pointQuery(events[i][1]) != request) {
-//                    clone(rset[++rsize], events[i]);
+//                if (pointQuery(event[i][1]) != request) {
+//                    clone(rset[++rsize], event[i]);
 //                } else {
-//                    clone(lset[++lsize], events[i]);
+//                    clone(lset[++lsize], event[i]);
 //                }
 //            }
 //        }
@@ -189,10 +189,10 @@ package class168;
 //            }
 //        }
 //        for (int i = ql, j = 1; j <= lsize; i++, j++) {
-//            clone(events[i], lset[j]);
+//            clone(event[i], lset[j]);
 //        }
 //        for (int i = ql + lsize, j = 1; j <= rsize; i++, j++) {
-//            clone(events[i], rset[j]);
+//            clone(event[i], rset[j]);
 //        }
 //        compute(ql, ql + lsize - 1, vl, mid);
 //        compute(ql + lsize, qr, mid + 1, vr);
@@ -209,9 +209,9 @@ package class168;
 //        addEdge(v, u);
 //    }
 //    for (int i = 1; i <= m; i++) {
-//        cin >> events[i][0] >> events[i][1];
-//        if (events[i][0] == 0) {
-//            cin >> events[i][2] >> events[i][3];
+//        cin >> event[i][0] >> event[i][1];
+//        if (event[i][0] == 0) {
+//            cin >> event[i][2] >> event[i][3];
 //        }
 //    }
 //    prepare();

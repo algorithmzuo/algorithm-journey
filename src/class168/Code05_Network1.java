@@ -43,7 +43,7 @@ public class Code05_Network1 {
 	public static int[] tree = new int[MAXN];
 
 	// 从早到晚发生的事件
-	public static int[][] events = new int[MAXM][4];
+	public static int[][] event = new int[MAXM][4];
 
 	// 整体二分
 	public static int[][] lset = new int[MAXM][4];
@@ -197,35 +197,35 @@ public class Code05_Network1 {
 		}
 		if (vl == vr) {
 			for (int i = ql; i <= qr; i++) {
-				if (events[i][0] > 0) {
-					ans[events[i][0]] = vl;
+				if (event[i][0] > 0) {
+					ans[event[i][0]] = vl;
 				}
 			}
 		} else {
 			int mid = (vl + vr) / 2;
 			int lsize = 0, rsize = 0, request = 0;
 			for (int i = ql; i <= qr; i++) {
-				if (events[i][0] == 0) {
-					if (events[i][3] > mid) {
-						pathAdd(events[i][1], events[i][2], 1);
-						clone(rset[++rsize], events[i]);
+				if (event[i][0] == 0) {
+					if (event[i][3] > mid) {
+						pathAdd(event[i][1], event[i][2], 1);
+						clone(rset[++rsize], event[i]);
 						request++;
 					} else {
-						clone(lset[++lsize], events[i]);
+						clone(lset[++lsize], event[i]);
 					}
-				} else if (events[i][0] == -1) {
-					if (events[i][3] > mid) {
-						pathAdd(events[i][1], events[i][2], -1);
-						clone(rset[++rsize], events[i]);
+				} else if (event[i][0] == -1) {
+					if (event[i][3] > mid) {
+						pathAdd(event[i][1], event[i][2], -1);
+						clone(rset[++rsize], event[i]);
 						request--;
 					} else {
-						clone(lset[++lsize], events[i]);
+						clone(lset[++lsize], event[i]);
 					}
 				} else {
-					if (pointQuery(events[i][1]) != request) {
-						clone(rset[++rsize], events[i]);
+					if (pointQuery(event[i][1]) != request) {
+						clone(rset[++rsize], event[i]);
 					} else {
-						clone(lset[++lsize], events[i]);
+						clone(lset[++lsize], event[i]);
 					}
 				}
 			}
@@ -238,10 +238,10 @@ public class Code05_Network1 {
 				}
 			}
 			for (int i = ql, j = 1; j <= lsize; i++, j++) {
-				clone(events[i], lset[j]);
+				clone(event[i], lset[j]);
 			}
 			for (int i = ql + lsize, j = 1; j <= rsize; i++, j++) {
-				clone(events[i], rset[j]);
+				clone(event[i], rset[j]);
 			}
 			compute(ql, ql + lsize - 1, vl, mid);
 			compute(ql + lsize, qr, mid + 1, vr);
@@ -251,11 +251,11 @@ public class Code05_Network1 {
 	public static void prepare() {
 		dfs2();
 		for (int i = 1; i <= m; i++) {
-			if (events[i][0] == 1) {
-				clone(events[i], events[events[i][1]]);
-				events[i][0] = -1;
-			} else if (events[i][0] == 2) {
-				events[i][0] = ++cntans;
+			if (event[i][0] == 1) {
+				clone(event[i], event[event[i][1]]);
+				event[i][0] = -1;
+			} else if (event[i][0] == 2) {
+				event[i][0] = ++cntans;
 			}
 		}
 	}
@@ -272,11 +272,11 @@ public class Code05_Network1 {
 			addEdge(v, u);
 		}
 		for (int i = 1; i <= m; i++) {
-			events[i][0] = in.nextInt();
-			events[i][1] = in.nextInt();
-			if (events[i][0] == 0) {
-				events[i][2] = in.nextInt();
-				events[i][3] = in.nextInt();
+			event[i][0] = in.nextInt();
+			event[i][1] = in.nextInt();
+			if (event[i][0] == 0) {
+				event[i][2] = in.nextInt();
+				event[i][3] = in.nextInt();
 			}
 		}
 		prepare();
