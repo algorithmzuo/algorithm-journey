@@ -230,11 +230,12 @@ public class Code04_PlateAndFruit1 {
 					}
 				}
 			}
-			for (int i = ql; i <= qr; i++) {
-				if (event[i][0] == 1 && event[i][4] <= mid) {
-					add(event[i][2], event[i][3], -event[i][5]);
-				}
-			}
+			// 这里为什么不用做撤销？
+			// 因为任何一个盘子，一定有两条扫描线
+			// 一条扫描线会增加yl..yr的计数
+			// 另外一条扫描线会减少计数
+			// 并且同一个盘子的两条扫描线不可能分开
+			// 所以此时树状数组就是清空的，并不需要做撤销了
 			for (int i = 1; i <= lsiz; i++) {
 				clone(event[ql + i - 1], lset[i]);
 			}

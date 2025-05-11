@@ -186,11 +186,6 @@ package class168;
 //                }
 //            }
 //        }
-//        for (int i = ql; i <= qr; i++) {
-//            if (event[i].op == 1 && event[i].v <= mid) {
-//                add(event[i].yl, event[i].yr, -event[i].d);
-//            }
-//        }
 //        for (int i = 1; i <= lsiz; i++) {
 //            clone(event[ql + i - 1], lset[i]);
 //        }
