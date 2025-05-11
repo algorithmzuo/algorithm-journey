@@ -26,7 +26,7 @@ package class168;
 //int n, p, q;
 //
 //int head[MAXN];
-//int nxtt[MAXN << 1];
+//int nxt[MAXN << 1];
 //int to[MAXN << 1];
 //int cntg = 0;
 //
@@ -47,7 +47,7 @@ package class168;
 //int ans[MAXN];
 //
 //void addEdge(int u, int v) {
-//    nxtt[++cntg] = head[u];
+//    nxt[++cntg] = head[u];
 //    to[cntg] = v;
 //    head[u] = cntg;
 //}
@@ -59,7 +59,7 @@ package class168;
 //    for (int p = 1; p < MAXH; p++) {
 //        stjump[u][p] = stjump[stjump[u][p - 1]][p - 1];
 //    }
-//    for (int e = head[u]; e > 0; e = nxtt[e]) {
+//    for (int e = head[u]; e > 0; e = nxt[e]) {
 //        if (to[e] != fa) {
 //            dfs(to[e], u);
 //        }
