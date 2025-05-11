@@ -4,7 +4,7 @@ package class168;
 // 一共有n个服务器，给定n-1条边，所有服务器连成一棵树
 // 某两个服务器之间的路径上，可能接受一条请求，路径上的所有服务器都需要保存该请求的重要度
 // 一共有m条操作，每条操作是如下3种类型中的一种，操作依次发生，第i条操作发生的时间为i
-// 操作 0 a b v : a号服务器到b号服务器的路径上，增加了一个重要度为v的请求
+// 操作 0 x y v : x号服务器到y号服务器的路径上，增加了一个重要度为v的请求
 // 操作 1 t     : 当初时间为t的操作，一定是增加请求的操作，现在这个请求结束了
 // 操作 2 x     : 当前时间下，和x号服务器无关的所有请求中，打印最大的重要度
 // 关于操作2，如果当前时间下，没有任何请求、或者所有请求都和x号服务器有关，打印-1
@@ -16,6 +16,10 @@ package class168;
 //#include <bits/stdc++.h>
 //
 //using namespace std;
+//
+//struct Event {
+//    int op, x, y, v;
+//};
 //
 //const int MAXN = 100001;
 //const int MAXM = 200001;
@@ -37,10 +41,11 @@ package class168;
 //
 //int tree[MAXN];
 //
-//int event[MAXM][4];
+//Event event[MAXM];
 //
-//int lset[MAXM][4];
-//int rset[MAXM][4];
+//Event lset[MAXM];
+//Event rset[MAXM];
+//
 //int ans[MAXM];
 //int cntans = 0;
 //
@@ -123,21 +128,14 @@ package class168;
 //    return query(dfn[x] + siz[x] - 1) - query(dfn[x] - 1);
 //}
 //
-//void clone(int* e1, int* e2) {
-//    e1[0] = e2[0];
-//    e1[1] = e2[1];
-//    e1[2] = e2[2];
-//    e1[3] = e2[3];
-//}
-//
 //void prepare() {
 //    dfs(1, 0);
 //    for (int i = 1; i <= m; i++) {
-//        if (event[i][0] == 1) {
-//            clone(event[i], event[event[i][1]]);
-//            event[i][0] = -1;
-//        } else if (event[i][0] == 2){
-//            event[i][0] = ++cntans;
+//        if (event[i].op == 1) {
+//            event[i] = event[event[i].x];
+//            event[i].op = -1;
+//        } else if (event[i].op == 2){
+//            event[i].op = ++cntans;
 //        }
 //    }
 //}
@@ -148,54 +146,54 @@ package class168;
 //    }
 //    if (vl == vr) {
 //        for (int i = ql; i <= qr; i++) {
-//            if (event[i][0] > 0) {
-//                ans[event[i][0]] = vl;
+//            if (event[i].op > 0) {
+//                ans[event[i].op] = vl;
 //            }
 //        }
 //    } else {
 //        int mid = (vl + vr) / 2;
-//        int lsize = 0, rsize = 0, request = 0;
+//        int lsiz = 0, rsiz = 0, request = 0;
 //        for (int i = ql; i <= qr; i++) {
-//            if (event[i][0] == 0) {
-//                if (event[i][3] > mid) {
-//                    pathAdd(event[i][1], event[i][2], 1);
-//                    clone(rset[++rsize], event[i]);
+//            if (event[i].op == 0) {
+//                if (event[i].v > mid) {
+//                    pathAdd(event[i].x, event[i].y, 1);
+//                    rset[++rsiz] = event[i];
 //                    request++;
 //                } else {
-//                    clone(lset[++lsize], event[i]);
+//                    lset[++lsiz] = event[i];
 //                }
-//            } else if (event[i][0] == -1) {
-//                if (event[i][3] > mid) {
-//                    pathAdd(event[i][1], event[i][2], -1);
-//                    clone(rset[++rsize], event[i]);
+//            } else if (event[i].op == -1) {
+//                if (event[i].v > mid) {
+//                    pathAdd(event[i].x, event[i].y, -1);
+//                    rset[++rsiz] = event[i];
 //                    request--;
 //                } else {
-//                    clone(lset[++lsize], event[i]);
+//                    lset[++lsiz] = event[i];
 //                }
 //            } else {
-//                if (pointQuery(event[i][1]) != request) {
-//                    clone(rset[++rsize], event[i]);
+//                if (pointQuery(event[i].x) != request) {
+//                    rset[++rsiz] = event[i];
 //                } else {
-//                    clone(lset[++lsize], event[i]);
+//                    lset[++lsiz] = event[i];
 //                }
 //            }
 //        }
-//        for (int i = 1; i <= rsize; i++) {
-//            if (rset[i][0] == 0 && rset[i][3] > mid) {
-//                pathAdd(rset[i][1], rset[i][2], -1);
+//        for (int i = 1; i <= rsiz; i++) {
+//            if (rset[i].op == 0 && rset[i].v > mid) {
+//                pathAdd(rset[i].x, rset[i].y, -1);
 //            }
-//            if (rset[i][0] == -1 && rset[i][3] > mid) {
-//                pathAdd(rset[i][1], rset[i][2], 1);
+//            if (rset[i].op == -1 && rset[i].v > mid) {
+//                pathAdd(rset[i].x, rset[i].y, 1);
 //            }
 //        }
-//        for (int i = ql, j = 1; j <= lsize; i++, j++) {
-//            clone(event[i], lset[j]);
+//        for (int i = 1; i <= lsiz; i++) {
+//            event[ql + i - 1] = lset[i];
 //        }
-//        for (int i = ql + lsize, j = 1; j <= rsize; i++, j++) {
-//            clone(event[i], rset[j]);
+//        for (int i = 1; i <= rsiz; i++) {
+//            event[ql + lsiz + i - 1] = rset[i];
 //        }
-//        compute(ql, ql + lsize - 1, vl, mid);
-//        compute(ql + lsize, qr, mid + 1, vr);
+//        compute(ql, ql + lsiz - 1, vl, mid);
+//        compute(ql + lsiz, qr, mid + 1, vr);
 //    }
 //}
 //
@@ -209,9 +207,9 @@ package class168;
 //        addEdge(v, u);
 //    }
 //    for (int i = 1; i <= m; i++) {
-//        cin >> event[i][0] >> event[i][1];
-//        if (event[i][0] == 0) {
-//            cin >> event[i][2] >> event[i][3];
+//        cin >> event[i].op >> event[i].x;
+//        if (event[i].op == 0) {
+//            cin >> event[i].y >> event[i].v;
 //        }
 //    }
 //    prepare();

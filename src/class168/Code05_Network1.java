@@ -4,7 +4,7 @@ package class168;
 // 一共有n个服务器，给定n-1条边，所有服务器连成一棵树
 // 某两个服务器之间的路径上，可能接受一条请求，路径上的所有服务器都需要保存该请求的重要度
 // 一共有m条操作，每条操作是如下3种类型中的一种，操作依次发生，第i条操作发生的时间为i
-// 操作 0 a b v : a号服务器到b号服务器的路径上，增加了一个重要度为v的请求
+// 操作 0 x y v : x号服务器到y号服务器的路径上，增加了一个重要度为v的请求
 // 操作 1 t     : 当初时间为t的操作，一定是增加请求的操作，现在这个请求结束了
 // 操作 2 x     : 当前时间下，和x号服务器无关的所有请求中，打印最大的重要度
 // 关于操作2，如果当前时间下，没有任何请求、或者所有请求都和x号服务器有关，打印-1
@@ -42,12 +42,16 @@ public class Code05_Network1 {
 	// 树状数组
 	public static int[] tree = new int[MAXN];
 
-	// 从早到晚发生的事件
+	// 从早到晚发生的事件，op、x、y、v
+	// op == 0，添加点x到点y，重要度为v的路径
+	// op == -1，删除点x到点y，重要度为v的路径
+	// op > 0，那么op表示问题的编号，查询和x相关的答案
 	public static int[][] event = new int[MAXM][4];
 
 	// 整体二分
 	public static int[][] lset = new int[MAXM][4];
 	public static int[][] rset = new int[MAXM][4];
+
 	public static int[] ans = new int[MAXM];
 	public static int cntans = 0;
 

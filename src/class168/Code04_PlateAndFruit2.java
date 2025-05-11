@@ -146,15 +146,6 @@ package class168;
 //    event[cnte].d = d;
 //}
 //
-//void clone(Event& e1, Event& e2) {
-//    e1.op = e2.op;
-//    e1.x = e2.x;
-//    e1.yl = e2.yl;
-//    e1.yr = e2.yr;
-//    e1.v = e2.v;
-//    e1.d = e2.d;
-//}
-//
 //void compute(int ql, int qr, int vl, int vr) {
 //    if (ql > qr) {
 //        return;
@@ -172,25 +163,25 @@ package class168;
 //            if (event[i].op == 1) {
 //                if (event[i].v <= mid) {
 //                    add(event[i].yl, event[i].yr, event[i].d);
-//                    clone(lset[++lsiz], event[i]);
+//                    lset[++lsiz] = event[i];
 //                } else {
-//                    clone(rset[++rsiz], event[i]);
+//                    rset[++rsiz] = event[i];
 //                }
 //            } else {
 //                int check = query(event[i].yl);
 //                if (check >= event[i].v) {
-//                    clone(lset[++lsiz], event[i]);
+//                    lset[++lsiz] = event[i];
 //                } else {
 //                    event[i].v -= check;
-//                    clone(rset[++rsiz], event[i]);
+//                    rset[++rsiz] = event[i];
 //                }
 //            }
 //        }
 //        for (int i = 1; i <= lsiz; i++) {
-//            clone(event[ql + i - 1], lset[i]);
+//            event[ql + i - 1] = lset[i];
 //        }
 //        for (int i = 1; i <= rsiz; i++) {
-//            clone(event[ql + lsiz + i - 1], rset[i]);
+//            event[ql + lsiz + i - 1] = rset[i];
 //        }
 //        compute(ql, ql + lsiz - 1, vl, mid);
 //        compute(ql + lsiz, qr, mid + 1, vr);
