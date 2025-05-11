@@ -20,7 +20,7 @@ package class168;
 //const int MAXN = 100001;
 //const int MAXM = 200001;
 //const int MAXH = 20;
-//
+//const int INF = 1000000001;
 //int n, m;
 //
 //int head[MAXN];
@@ -38,8 +38,6 @@ package class168;
 //int tree[MAXN];
 //
 //int events[MAXM][4];
-//int sorted[MAXM];
-//int s = 0;
 //
 //int lset[MAXM][4];
 //int rset[MAXM][4];
@@ -125,21 +123,6 @@ package class168;
 //    return query(dfn[x] + siz[x] - 1) - query(dfn[x] - 1);
 //}
 //
-//int kth(int num) {
-//    int left = 1, right = s, mid;
-//    while (left <= right) {
-//        mid = (left + right) / 2;
-//        if (sorted[mid] == num) {
-//            return mid;
-//        } else if (sorted[mid] < num) {
-//            left = mid + 1;
-//        } else {
-//            right = mid - 1;
-//        }
-//    }
-//    return -1;
-//}
-//
 //void clone(int* e1, int* e2) {
 //    e1[0] = e2[0];
 //    e1[1] = e2[1];
@@ -149,27 +132,11 @@ package class168;
 //
 //void prepare() {
 //    dfs(1, 0);
-//    sorted[0] = -1;
 //    for (int i = 1; i <= m; i++) {
-//        if (events[i][0] == 0) {
-//            sorted[++s] = events[i][3];
-//        }
-//    }
-//    sort(sorted + 1, sorted + s + 1);
-//    int len = 1;
-//    for (int i = 2; i <= s; i++) {
-//        if (sorted[len] != sorted[i]) {
-//            sorted[++len] = sorted[i];
-//        }
-//    }
-//    s = len;
-//    for (int i = 1; i <= m; i++) {
-//        if (events[i][0] == 0) {
-//            events[i][3] = kth(events[i][3]);
-//        } else if (events[i][0] == 1) {
+//        if (events[i][0] == 1) {
 //            clone(events[i], events[events[i][1]]);
 //            events[i][0] = -1;
-//        } else {
+//        } else if (events[i][0] == 2){
 //            events[i][0] = ++cntans;
 //        }
 //    }
@@ -248,9 +215,13 @@ package class168;
 //        }
 //    }
 //    prepare();
-//    compute(1, m, 0, s);
+//    compute(1, m, 0, INF);
 //    for (int i = 1; i <= cntans; i++) {
-//        cout << sorted[ans[i]] << '\n';
+//        if (ans[i] == 0) {
+//            cout << -1 << '\n';
+//        } else {
+//            cout << ans[i] << '\n';
+//        }
 //    }
 //    return 0;
 //}

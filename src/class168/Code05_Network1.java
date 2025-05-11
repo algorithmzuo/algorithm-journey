@@ -16,13 +16,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
-import java.util.Arrays;
 
 public class Code05_Network1 {
 
 	public static int MAXN = 100001;
 	public static int MAXM = 200001;
 	public static int MAXH = 20;
+	public static int INF = 1000000001;
 	public static int n, m;
 
 	// 链式前向星
@@ -44,8 +44,6 @@ public class Code05_Network1 {
 
 	// 从早到晚发生的事件
 	public static int[][] events = new int[MAXM][4];
-	public static int[] sorted = new int[MAXM];
-	public static int s = 0;
 
 	// 整体二分
 	public static int[][] lset = new int[MAXM][4];
@@ -186,54 +184,11 @@ public class Code05_Network1 {
 		return query(dfn[x] + siz[x] - 1) - query(dfn[x] - 1);
 	}
 
-	public static int kth(int num) {
-		int left = 1, right = s, mid;
-		while (left <= right) {
-			mid = (left + right) / 2;
-			if (sorted[mid] == num) {
-				return mid;
-			} else if (sorted[mid] < num) {
-				left = mid + 1;
-			} else {
-				right = mid - 1;
-			}
-		}
-		return -1;
-	}
-
 	public static void clone(int[] event1, int[] event2) {
 		event1[0] = event2[0];
 		event1[1] = event2[1];
 		event1[2] = event2[2];
 		event1[3] = event2[3];
-	}
-
-	public static void prepare() {
-		dfs2(); // 为了防止爆栈调用迭代版
-		sorted[0] = -1;
-		for (int i = 1; i <= m; i++) {
-			if (events[i][0] == 0) {
-				sorted[++s] = events[i][3];
-			}
-		}
-		Arrays.sort(sorted, 1, s + 1);
-		int len = 1;
-		for (int i = 2; i <= s; i++) {
-			if (sorted[len] != sorted[i]) {
-				sorted[++len] = sorted[i];
-			}
-		}
-		s = len;
-		for (int i = 1; i <= m; i++) {
-			if (events[i][0] == 0) {
-				events[i][3] = kth(events[i][3]);
-			} else if (events[i][0] == 1) {
-				clone(events[i], events[events[i][1]]);
-				events[i][0] = -1;
-			} else {
-				events[i][0] = ++cntans;
-			}
-		}
 	}
 
 	public static void compute(int ql, int qr, int vl, int vr) {
@@ -293,6 +248,18 @@ public class Code05_Network1 {
 		}
 	}
 
+	public static void prepare() {
+		dfs2();
+		for (int i = 1; i <= m; i++) {
+			if (events[i][0] == 1) {
+				clone(events[i], events[events[i][1]]);
+				events[i][0] = -1;
+			} else if (events[i][0] == 2) {
+				events[i][0] = ++cntans;
+			}
+		}
+	}
+
 	public static void main(String[] args) throws IOException {
 		FastReader in = new FastReader(System.in);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
@@ -313,9 +280,13 @@ public class Code05_Network1 {
 			}
 		}
 		prepare();
-		compute(1, m, 0, s);
+		compute(1, m, 0, INF);
 		for (int i = 1; i <= cntans; i++) {
-			out.println(sorted[ans[i]]);
+			if (ans[i] == 0) {
+				out.println(-1);
+			} else {
+				out.println(ans[i]);
+			}
 		}
 		out.flush();
 		out.close();
