@@ -17,7 +17,7 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
-public class Code05_Network1 {
+public class Code07_Network1 {
 
 	public static int MAXN = 100001;
 	public static int MAXM = 200001;
