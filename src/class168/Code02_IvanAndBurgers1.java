@@ -10,7 +10,7 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
-public class Code04_IvanAndBurgers1 {
+public class Code02_IvanAndBurgers1 {
 
 	public static int MAXN = 500001;
 	public static int BIT = 21;
