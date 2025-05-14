@@ -1,6 +1,12 @@
 package class168;
 
-// 度为奇数的最大边权，C++版
+// 度为奇的最小瓶颈边，C++版
+// 一共有n个点，初始没有边，依次加入m条无向边，每条边有边权
+// 每次加入后，询问是否存在一个边集，满足每个点连接的边的数量都是奇数
+// 如果存在，希望边集的最大边权，尽可能小，打印该值
+// 2 <= n <= 10^5
+// 1 <= m <= 3 * 10^5
+// 1 <= 边权 <= 10^9
 // 测试链接 : https://www.luogu.com.cn/problem/CF603E
 // 测试链接 : https://codeforces.com/problemset/problem/603/E
 // 如下实现是C++的版本，C++版本和java版本逻辑完全一样
@@ -23,7 +29,7 @@ package class168;
 //int n, m;
 //
 //Edge edge[MAXM];
-//Edge sorted[MAXM];
+//Edge wsort[MAXM];
 //
 //int oddnum;
 //int father[MAXN];
@@ -77,14 +83,14 @@ package class168;
 //    }
 //    if (vl == vr) {
 //        for (int i = ql; i <= qr; i++) {
-//            ans[i] = sorted[vl].w;
+//            ans[i] = wsort[vl].w;
 //        }
 //    } else {
 //        int mid = (vl + vr) >> 1;
 //        int unionCnt1 = 0;
 //        for (int i = vl; i <= mid; i++) {
-//            if (sorted[i].i < ql) {
-//                if (Union(sorted[i].x, sorted[i].y)) {
+//            if (wsort[i].i < ql) {
+//                if (Union(wsort[i].x, wsort[i].y)) {
 //                    unionCnt1++;
 //                }
 //            }
@@ -92,7 +98,7 @@ package class168;
 //        int unionCnt2 = 0;
 //        int split = qr + 1;
 //        for (int i = ql; i <= qr; i++) {
-//            if (edge[i].w <= sorted[mid].w) {
+//            if (edge[i].w <= wsort[mid].w) {
 //                if (Union(edge[i].x, edge[i].y)) {
 //                    unionCnt2++;
 //                }
@@ -111,7 +117,7 @@ package class168;
 //        }
 //        int unionCnt3 = 0;
 //        for (int i = ql; i <= split - 1; i++) {
-//            if (edge[i].w <= sorted[vl].w) {
+//            if (edge[i].w <= wsort[vl].w) {
 //                if (Union(edge[i].x, edge[i].y)) {
 //                    unionCnt3++;
 //                }
@@ -131,10 +137,10 @@ package class168;
 //        siz[i] = 1;
 //    }
 //    for (int i = 1; i <= m; i++) {
-//        sorted[i] = edge[i];
+//        wsort[i] = edge[i];
 //    }
-//    sort(sorted + 1, sorted + m + 1, EdgeCmp);
-//    sorted[m + 1].w = -1;
+//    sort(wsort + 1, wsort + m + 1, EdgeCmp);
+//    wsort[m + 1].w = -1;
 //}
 //
 //int main() {

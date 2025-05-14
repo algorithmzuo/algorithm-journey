@@ -1,6 +1,10 @@
 package class168;
 
 // 范围内最大异或和，java版
+// 给定一个长度为n的数组arr，下标1~n，接下来有q条查询，格式如下
+// 查询 l r : arr[l..r]中选若干个数，打印最大的异或和
+// 1 <= n、q <= 5 * 10^5
+// 0 <= arr[i] <= 10^6
 // 测试链接 : https://www.luogu.com.cn/problem/CF1100F
 // 测试链接 : https://codeforces.com/problemset/problem/1100/F
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
@@ -14,7 +18,7 @@ public class Code02_IvanAndBurgers1 {
 
 	public static int MAXN = 500001;
 	public static int BIT = 21;
-	public static int n, m;
+	public static int n, q;
 
 	public static int[] arr = new int[MAXN];
 	public static int[] qid = new int[MAXN];
@@ -117,14 +121,14 @@ public class Code02_IvanAndBurgers1 {
 		for (int i = 1; i <= n; i++) {
 			arr[i] = in.nextInt();
 		}
-		m = in.nextInt();
-		for (int i = 1; i <= m; i++) {
+		q = in.nextInt();
+		for (int i = 1; i <= q; i++) {
 			qid[i] = i;
 			l[i] = in.nextInt();
 			r[i] = in.nextInt();
 		}
-		compute(1, m, 1, n);
-		for (int i = 1; i <= m; i++) {
+		compute(1, q, 1, n);
+		for (int i = 1; i <= q; i++) {
 			out.println(ans[i]);
 		}
 		out.flush();

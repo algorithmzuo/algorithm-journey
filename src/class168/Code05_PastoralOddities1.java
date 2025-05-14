@@ -1,6 +1,12 @@
 package class168;
 
-// 度为奇数的最大边权，java版
+// 度为奇的最小瓶颈边，java版
+// 一共有n个点，初始没有边，依次加入m条无向边，每条边有边权
+// 每次加入后，询问是否存在一个边集，满足每个点连接的边的数量都是奇数
+// 如果存在，希望边集的最大边权，尽可能小，打印该值
+// 2 <= n <= 10^5
+// 1 <= m <= 3 * 10^5
+// 1 <= 边权 <= 10^9
 // 测试链接 : https://www.luogu.com.cn/problem/CF603E
 // 测试链接 : https://codeforces.com/problemset/problem/603/E
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
@@ -19,7 +25,7 @@ public class Code05_PastoralOddities1 {
 
 	// 边的编号i、端点x、端点y、权值w
 	public static int[][] edge = new int[MAXM][4];
-	public static int[][] sorted = new int[MAXM][4];
+	public static int[][] wsort = new int[MAXM][4];
 
 	// 节点数为奇数的联通区数量
 	public static int oddnum;
@@ -75,14 +81,14 @@ public class Code05_PastoralOddities1 {
 		}
 		if (vl == vr) {
 			for (int i = ql; i <= qr; i++) {
-				ans[i] = sorted[vl][3];
+				ans[i] = wsort[vl][3];
 			}
 		} else {
 			int mid = (vl + vr) >> 1;
 			int unionCnt1 = 0;
 			for (int i = vl; i <= mid; i++) {
-				if (sorted[i][0] < ql) {
-					if (union(sorted[i][1], sorted[i][2])) {
+				if (wsort[i][0] < ql) {
+					if (union(wsort[i][1], wsort[i][2])) {
 						unionCnt1++;
 					}
 				}
@@ -90,7 +96,7 @@ public class Code05_PastoralOddities1 {
 			int unionCnt2 = 0;
 			int split = qr + 1;
 			for (int i = ql; i <= qr; i++) {
-				if (edge[i][3] <= sorted[mid][3]) {
+				if (edge[i][3] <= wsort[mid][3]) {
 					if (union(edge[i][1], edge[i][2])) {
 						unionCnt2++;
 					}
@@ -109,7 +115,7 @@ public class Code05_PastoralOddities1 {
 			}
 			int unionCnt3 = 0;
 			for (int i = ql; i <= split - 1; i++) {
-				if (edge[i][3] <= sorted[vl][3]) {
+				if (edge[i][3] <= wsort[vl][3]) {
 					if (union(edge[i][1], edge[i][2])) {
 						unionCnt3++;
 					}
@@ -129,13 +135,13 @@ public class Code05_PastoralOddities1 {
 			siz[i] = 1;
 		}
 		for (int i = 1; i <= m; i++) {
-			sorted[i][0] = edge[i][0];
-			sorted[i][1] = edge[i][1];
-			sorted[i][2] = edge[i][2];
-			sorted[i][3] = edge[i][3];
+			wsort[i][0] = edge[i][0];
+			wsort[i][1] = edge[i][1];
+			wsort[i][2] = edge[i][2];
+			wsort[i][3] = edge[i][3];
 		}
-		Arrays.sort(sorted, 1, m + 1, (a, b) -> a[3] - b[3]);
-		sorted[m + 1][3] = -1;
+		Arrays.sort(wsort, 1, m + 1, (a, b) -> a[3] - b[3]);
+		wsort[m + 1][3] = -1;
 	}
 
 	public static void main(String[] args) throws Exception {
