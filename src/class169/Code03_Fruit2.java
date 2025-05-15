@@ -175,11 +175,11 @@ package class169;
 //                    rset[++rsiz] = event[i];
 //                }
 //            } else {
-//                int check = query(event[i].yl);
-//                if (check >= event[i].v) {
+//                int satisfy = query(event[i].yl);
+//                if (satisfy >= event[i].v) {
 //                    lset[++lsiz] = event[i];
 //                } else {
-//                    event[i].v -= check;
+//                    event[i].v -= satisfy;
 //                    rset[++rsiz] = event[i];
 //                }
 //            }

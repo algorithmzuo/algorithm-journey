@@ -228,11 +228,11 @@ public class Code03_Fruit1 {
 						clone(rset[++rsiz], event[i]);
 					}
 				} else {
-					int check = query(event[i][2]);
-					if (check >= event[i][4]) {
+					int satisfy = query(event[i][2]);
+					if (satisfy >= event[i][4]) {
 						clone(lset[++lsiz], event[i]);
 					} else {
-						event[i][4] -= check;
+						event[i][4] -= satisfy;
 						clone(rset[++rsiz], event[i]);
 					}
 				}
