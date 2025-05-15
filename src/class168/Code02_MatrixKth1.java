@@ -1,6 +1,6 @@
 package class168;
 
-// 区域第k小，java版
+// 矩阵第k小，java版
 // 给定一个n * n的矩阵，接下来有q条查询，格式如下
 // 查询 a b c d k : 左上角(a, b)，右下角(c, d)，打印该区域中第k小的数
 // 1 <= n <= 500
@@ -15,7 +15,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.util.Arrays;
 
-public class Code01_KthSmall1 {
+public class Code02_MatrixKth1 {
 
 	public static int MAXN = 501;
 	public static int MAXQ = 1000001;
@@ -60,7 +60,7 @@ public class Code01_KthSmall1 {
 		}
 	}
 
-	public static int query(int x, int y) {
+	public static int sum(int x, int y) {
 		int ret = 0;
 		for (int i = x; i > 0; i -= lowbit(i)) {
 			for (int j = y; j > 0; j -= lowbit(j)) {
@@ -71,7 +71,7 @@ public class Code01_KthSmall1 {
 	}
 
 	public static int query(int a, int b, int c, int d) {
-		return query(c, d) - query(a - 1, d) - query(c, b - 1) + query(a - 1, b - 1);
+		return sum(c, d) - sum(a - 1, d) - sum(c, b - 1) + sum(a - 1, b - 1);
 	}
 
 	public static void compute(int ql, int qr, int vl, int vr) {

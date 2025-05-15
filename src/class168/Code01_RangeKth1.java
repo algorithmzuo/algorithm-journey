@@ -1,74 +1,68 @@
 package class168;
 
-// 范围最大异或和，java版
-// 给定一个长度为n的数组arr，下标1~n，接下来有q条查询，格式如下
-// 查询 l r : arr[l..r]中选若干个数，打印最大的异或和
-// 1 <= n、q <= 5 * 10^5
-// 0 <= arr[i] <= 10^6
-// 测试链接 : https://www.luogu.com.cn/problem/CF1100F
-// 测试链接 : https://codeforces.com/problemset/problem/1100/F
+// 区间第k小，java版
+// 本题是讲解157，可持久化线段树模版题，现在作为整体二分的模版题
+// 给定一个长度为n的数组，接下来有m条查询，格式如下
+// 查询 l r k : 打印[l..r]范围内第k小的值
+// 1 <= n、m <= 2 * 10^5
+// 1 <= 数组中的数字 <= 10^9
+// 测试链接 : https://www.luogu.com.cn/problem/P3834
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.util.Arrays;
 
-public class Code07_IvanAndBurgers1 {
+public class Code01_RangeKth1 {
 
-	public static int MAXN = 500001;
-	public static int BIT = 21;
-	public static int n, q;
+	public static int MAXN = 200001;
+	public static int INF = 1000000001;
+	public static int n, m;
 
-	public static int[] arr = new int[MAXN];
+	// 位置i，数值v
+	public static int[][] arr = new int[MAXN][2];
+
+	// 查询
 	public static int[] qid = new int[MAXN];
 	public static int[] l = new int[MAXN];
 	public static int[] r = new int[MAXN];
+	public static int[] k = new int[MAXN];
 
-	public static int[][] baset = new int[MAXN][BIT + 1];
-	public static int[] tmp = new int[BIT + 1];
+	// 树状数组
+	public static int[] tree = new int[MAXN];
+	public static int used = 0;
 
+	// 整体二分
 	public static int[] lset = new int[MAXN];
 	public static int[] rset = new int[MAXN];
+
+	// 查询的答案
 	public static int[] ans = new int[MAXN];
 
-	public static void insert(int[] basis, int num) {
-		for (int i = BIT; i >= 0; i--) {
-			if (num >> i == 1) {
-				if (basis[i] == 0) {
-					basis[i] = num;
-					return;
-				}
-				num ^= basis[i];
-			}
+	public static int lowbit(int i) {
+		return i & -i;
+	}
+
+	public static void add(int i, int v) {
+		while (i <= n) {
+			tree[i] += v;
+			i += lowbit(i);
 		}
 	}
 
-	public static void clear(int[] basis) {
-		for (int i = 0; i <= BIT; i++) {
-			basis[i] = 0;
-		}
-	}
-
-	public static int maxEor(int[] basis) {
+	public static int sum(int i) {
 		int ret = 0;
-		for (int i = BIT; i >= 0; i--) {
-			ret = Math.max(ret, ret ^ basis[i]);
+		while (i > 0) {
+			ret += tree[i];
+			i -= lowbit(i);
 		}
 		return ret;
 	}
 
-	public static void clone(int[] b1, int[] b2) {
-		for (int i = 0; i <= BIT; i++) {
-			b1[i] = b2[i];
-		}
-	}
-
-	public static void merge(int[] b1, int[] b2) {
-		clone(tmp, b1);
-		for (int i = 0; i <= BIT; i++) {
-			insert(tmp, b2[i]);
-		}
+	public static int query(int l, int r) {
+		return sum(r) - sum(l - 1);
 	}
 
 	public static void compute(int ql, int qr, int vl, int vr) {
@@ -77,30 +71,26 @@ public class Code07_IvanAndBurgers1 {
 		}
 		if (vl == vr) {
 			for (int i = ql; i <= qr; i++) {
-				ans[qid[i]] = arr[vl];
+				ans[qid[i]] = vl;
 			}
 		} else {
-			int mid = (vl + vr) >> 1;
-			clear(baset[mid]);
-			insert(baset[mid], arr[mid]);
-			for (int i = mid - 1; i >= vl; i--) {
-				clone(baset[i], baset[i + 1]);
-				insert(baset[i], arr[i]);
+			int mid = (vl + vr) / 2;
+			while (used + 1 <= n && arr[used + 1][1] <= mid) {
+				used++;
+				add(arr[used][0], 1);
 			}
-			for (int i = mid + 1; i <= vr; i++) {
-				clone(baset[i], baset[i - 1]);
-				insert(baset[i], arr[i]);
+			while (used >= 1 && arr[used][1] > mid) {
+				add(arr[used][0], -1);
+				used--;
 			}
-			int lsiz = 0, rsiz = 0, id;
+			int lsiz = 0, rsiz = 0;
 			for (int i = ql; i <= qr; i++) {
-				id = qid[i];
-				if (r[id] < mid) {
+				int id = qid[i];
+				int check = query(l[id], r[id]);
+				if (check >= k[id]) {
 					lset[++lsiz] = id;
-				} else if (l[id] > mid) {
-					rset[++rsiz] = id;
 				} else {
-					merge(baset[l[id]], baset[r[id]]);
-					ans[id] = maxEor(tmp);
+					rset[++rsiz] = id;
 				}
 			}
 			for (int i = 1; i <= lsiz; i++) {
@@ -110,7 +100,7 @@ public class Code07_IvanAndBurgers1 {
 				qid[ql + lsiz + i - 1] = rset[i];
 			}
 			compute(ql, ql + lsiz - 1, vl, mid);
-			compute(ql + lsiz, ql + lsiz + rsiz - 1, mid + 1, vr);
+			compute(ql + lsiz, qr, mid + 1, vr);
 		}
 	}
 
@@ -118,17 +108,20 @@ public class Code07_IvanAndBurgers1 {
 		FastReader in = new FastReader(System.in);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
 		n = in.nextInt();
+		m = in.nextInt();
 		for (int i = 1; i <= n; i++) {
-			arr[i] = in.nextInt();
+			arr[i][0] = i;
+			arr[i][1] = in.nextInt();
 		}
-		q = in.nextInt();
-		for (int i = 1; i <= q; i++) {
+		for (int i = 1; i <= m; i++) {
 			qid[i] = i;
 			l[i] = in.nextInt();
 			r[i] = in.nextInt();
+			k[i] = in.nextInt();
 		}
-		compute(1, q, 1, n);
-		for (int i = 1; i <= q; i++) {
+		Arrays.sort(arr, 1, n + 1, (a, b) -> a[1] - b[1]);
+		compute(1, m, 0, INF);
+		for (int i = 1; i <= m; i++) {
 			out.println(ans[i]);
 		}
 		out.flush();
