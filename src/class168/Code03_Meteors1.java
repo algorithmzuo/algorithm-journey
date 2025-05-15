@@ -1,6 +1,6 @@
 package class168;
 
-// 陨石雨，java版
+// 陨石雨，第一种写法，java版
 // 一共有n个国家，给定n个数字，表示每个国家希望收集到的陨石数量
 // 一共有m个区域，1号区顺时针到2号区...m号区顺时针到1号区，即环形相连
 // 每个区域只属于某一个国家，给定m个数字，表示每个区域归属给哪个国家
@@ -12,7 +12,7 @@ package class168;
 // 提交以下的code，提交时请把类名改成"Main"
 // java实现的逻辑一定是正确的，但无法通过所有测试用例，内存使用过大
 // 因为这道题只考虑C++能通过的空间极限，根本没考虑java的用户
-// 想通过用C++实现，本节课Code03_Meteors2文件就是C++的实现
+// 想通过用C++实现，本节课Code03_Meteors3文件就是C++的实现
 // 两个版本的逻辑完全一样，C++版本可以通过所有测试
 
 import java.io.IOException;
@@ -31,7 +31,6 @@ public class Code03_Meteors1 {
 	public static int[] rainl = new int[MAXN];
 	public static int[] rainr = new int[MAXN];
 	public static int[] num = new int[MAXN];
-	public static int used = 0;
 
 	public static int[] head = new int[MAXN];
 	public static int[] next = new int[MAXN];
@@ -87,15 +86,10 @@ public class Code03_Meteors1 {
 			}
 		} else {
 			int mid = (vl + vr) >> 1;
+			for (int i = vl; i <= mid; i++) {
+				add(rainl[i], rainr[i], num[i]);
+			}
 			int lsiz = 0, rsiz = 0;
-			while (used < mid) {
-				used++;
-				add(rainl[used], rainr[used], num[used]);
-			}
-			while (used > mid) {
-				add(rainl[used], rainr[used], -num[used]);
-				used--;
-			}
 			for (int i = ql; i <= qr; i++) {
 				int id = qid[i];
 				long satisfy = 0;
@@ -108,6 +102,7 @@ public class Code03_Meteors1 {
 				if (satisfy >= need[id]) {
 					lset[++lsiz] = id;
 				} else {
+					need[id] -= satisfy;
 					rset[++rsiz] = id;
 				}
 			}
@@ -116,6 +111,9 @@ public class Code03_Meteors1 {
 			}
 			for (int i = 1; i <= rsiz; i++) {
 				qid[ql + lsiz + i - 1] = rset[i];
+			}
+			for (int i = vl; i <= mid; i++) {
+				add(rainl[i], rainr[i], -num[i]);
 			}
 			compute(ql, ql + lsiz - 1, vl, mid);
 			compute(ql + lsiz, qr, mid + 1, vr);
