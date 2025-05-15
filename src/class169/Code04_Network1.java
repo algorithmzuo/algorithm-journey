@@ -1,4 +1,4 @@
-package class168;
+package class169;
 
 // 网络，java版
 // 一共有n个服务器，给定n-1条边，所有服务器连成一棵树
@@ -17,7 +17,7 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
-public class Code07_Network1 {
+public class Code04_Network1 {
 
 	public static int MAXN = 100001;
 	public static int MAXM = 200001;

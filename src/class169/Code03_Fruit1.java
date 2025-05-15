@@ -1,4 +1,4 @@
-package class168;
+package class169;
 
 // 接水果，java版
 // 一共有n个点，给定n-1条无向边，所有点连成一棵树
@@ -17,7 +17,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.util.Arrays;
 
-public class Code06_Fruit1 {
+public class Code03_Fruit1 {
 
 	public static int MAXN = 40001;
 	public static int MAXH = 16;

@@ -1,4 +1,4 @@
-package class168;
+package class169;
 
 // 范围最大异或和，java版
 // 给定一个长度为n的数组arr，下标1~n，接下来有q条查询，格式如下
@@ -14,7 +14,7 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
-public class Code08_IvanAndBurgers1 {
+public class Code05_IvanAndBurgers1 {
 
 	public static int MAXN = 500001;
 	public static int BIT = 21;

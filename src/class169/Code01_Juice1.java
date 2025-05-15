@@ -1,4 +1,4 @@
-package class168;
+package class169;
 
 // 混合果汁，java版
 // 一共有n种果汁，每种果汁给定，美味度d、每升价格p、添加上限l
@@ -16,7 +16,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.util.Arrays;
 
-public class Code04_Juice1 {
+public class Code01_Juice1 {
 
 	public static int MAXN = 100001;
 	public static int n, m;

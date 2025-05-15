@@ -1,4 +1,4 @@
-package class168;
+package class169;
 
 // 度为奇最小瓶颈，java版
 // 一共有n个点，初始没有边，依次加入m条无向边，每条边有边权
@@ -17,7 +17,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.util.Arrays;
 
-public class Code05_PastoralOddities1 {
+public class Code02_PastoralOddities1 {
 
 	public static int MAXN = 100001;
 	public static int MAXM = 300002;

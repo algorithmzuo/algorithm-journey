@@ -1,4 +1,4 @@
-package class168;
+package class169;
 
 // 范围最大异或和，C++版
 // 给定一个长度为n的数组arr，下标1~n，接下来有q条查询，格式如下

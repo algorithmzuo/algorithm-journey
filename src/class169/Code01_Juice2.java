@@ -1,4 +1,4 @@
-package class168;
+package class169;
 
 // 混合果汁，C++版
 // 一共有n种果汁，每种果汁给定，美味度d、每升价格p、添加上限l
