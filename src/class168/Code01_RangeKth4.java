@@ -23,7 +23,6 @@ package class168;
 //}
 //
 //const int MAXN = 200001;
-//const int INF = 1000000001;
 //int n, m;
 //
 //Number arr[MAXN];
@@ -71,15 +70,15 @@ package class168;
 //    }
 //    if (vl == vr) {
 //        for (int i = ql; i <= qr; i++) {
-//            ans[qid[i]] = vl;
+//            ans[qid[i]] = arr[vl].v;
 //        }
 //    } else {
 //        int mid = (vl + vr) / 2;
-//        while (used + 1 <= n && arr[used + 1].v <= mid) {
+//        while (used + 1 <= mid) {
 //            used++;
 //            add(arr[used].i, 1);
 //        }
-//        while (used >= 1 && arr[used].v > mid) {
+//        while (used > mid) {
 //            add(arr[used].i, -1);
 //            used--;
 //        }
@@ -117,7 +116,7 @@ package class168;
 //        cin >> l[i] >> r[i] >> k[i];
 //    }
 //    sort(arr + 1, arr + n + 1, NumberCmp);
-//    compute(1, m, 0, INF);
+//    compute(1, m, 1, n);
 //    for (int i = 1; i <= m; i++) {
 //        cout << ans[i] << '\n';
 //    }

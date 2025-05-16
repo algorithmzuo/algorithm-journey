@@ -18,7 +18,6 @@ import java.util.Arrays;
 public class Code01_RangeKth2 {
 
 	public static int MAXN = 200001;
-	public static int INF = 1000000001;
 	public static int n, m;
 
 	public static int[][] arr = new int[MAXN][2];
@@ -67,15 +66,15 @@ public class Code01_RangeKth2 {
 		}
 		if (vl == vr) {
 			for (int i = ql; i <= qr; i++) {
-				ans[qid[i]] = vl;
+				ans[qid[i]] = arr[vl][1];
 			}
 		} else {
 			int mid = (vl + vr) / 2;
-			while (used + 1 <= n && arr[used + 1][1] <= mid) {
+			while (used + 1 <= mid) {
 				used++;
 				add(arr[used][0], 1);
 			}
-			while (used >= 1 && arr[used][1] > mid) {
+			while (used > mid) {
 				add(arr[used][0], -1);
 				used--;
 			}
@@ -117,7 +116,7 @@ public class Code01_RangeKth2 {
 			k[i] = in.nextInt();
 		}
 		Arrays.sort(arr, 1, n + 1, (a, b) -> a[1] - b[1]);
-		compute(1, m, 0, INF);
+		compute(1, m, 1, n);
 		for (int i = 1; i <= m; i++) {
 			out.println(ans[i]);
 		}
