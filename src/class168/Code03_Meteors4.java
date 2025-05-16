@@ -111,8 +111,8 @@ package class168;
 //        for (int i = 1; i <= rsiz; i++) {
 //            qid[ql + lsiz + i - 1] = rset[i];
 //        }
-//        compute(ql, ql + lsiz - 1, vl, mid);
 //        compute(ql + lsiz, qr, mid + 1, vr);
+//        compute(ql, ql + lsiz - 1, vl, mid);
 //    }
 //}
 //
