@@ -71,10 +71,12 @@ public class Code01_RangeKth2 {
 			}
 		} else {
 			int mid = (vl + vr) / 2;
+			// 数据不够就叠加
 			while (used < mid) {
 				used++;
 				add(arr[used][0], 1);
 			}
+			// 数据超了就撤销
 			while (used > mid) {
 				add(arr[used][0], -1);
 				used--;
