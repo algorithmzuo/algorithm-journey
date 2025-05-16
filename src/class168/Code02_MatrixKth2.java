@@ -32,7 +32,7 @@ public class Code02_MatrixKth2 {
 	public static int[] k = new int[MAXQ];
 
 	public static int[][] tree = new int[MAXN][MAXN];
-	// 操作使用的数量
+	// 数据的使用数量
 	public static int used = 0;
 
 	public static int[] lset = new int[MAXQ];
