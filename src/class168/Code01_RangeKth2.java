@@ -70,7 +70,7 @@ public class Code01_RangeKth2 {
 			}
 		} else {
 			int mid = (vl + vr) / 2;
-			while (used + 1 <= mid) {
+			while (used < mid) {
 				used++;
 				add(arr[used][0], 1);
 			}

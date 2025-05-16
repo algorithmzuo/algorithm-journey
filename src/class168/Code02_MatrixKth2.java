@@ -19,7 +19,6 @@ public class Code02_MatrixKth2 {
 
 	public static int MAXN = 501;
 	public static int MAXQ = 1000001;
-	public static int INF = 1000000001;
 	public static int n, q;
 
 	public static int[][] xyv = new int[MAXN * MAXN][3];
@@ -73,16 +72,16 @@ public class Code02_MatrixKth2 {
 		}
 		if (vl == vr) {
 			for (int i = ql; i <= qr; i++) {
-				ans[qid[i]] = vl;
+				ans[qid[i]] = xyv[vl][2];
 			}
 		} else {
 			int mid = (vl + vr) >> 1;
 			int lsiz = 0, rsiz = 0;
-			while (used + 1 <= cntv && xyv[used + 1][2] <= mid) {
+			while (used < mid) {
 				used++;
 				add(xyv[used][0], xyv[used][1], 1);
 			}
-			while (used >= 1 && xyv[used][2] > mid) {
+			while (used > mid) {
 				add(xyv[used][0], xyv[used][1], -1);
 				used--;
 			}
@@ -128,7 +127,7 @@ public class Code02_MatrixKth2 {
 			k[i] = in.nextInt();
 		}
 		Arrays.sort(xyv, 1, cntv + 1, (a, b) -> a[2] - b[2]);
-		compute(1, q, 0, INF);
+		compute(1, q, 1, cntv);
 		for (int i = 1; i <= q; i++) {
 			out.println(ans[i]);
 		}
