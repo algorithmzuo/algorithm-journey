@@ -60,6 +60,7 @@ public class Code01_RangeKth2 {
 		return sum(r) - sum(l - 1);
 	}
 
+	// 整体二分的第二种写法
 	public static void compute(int ql, int qr, int vl, int vr) {
 		if (ql > qr) {
 			return;

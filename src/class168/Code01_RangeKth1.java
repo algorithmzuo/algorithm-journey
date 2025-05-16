@@ -39,10 +39,12 @@ public class Code01_RangeKth1 {
 	// 查询的答案
 	public static int[] ans = new int[MAXN];
 
+	// 树状数组中的lowbit
 	public static int lowbit(int i) {
 		return i & -i;
 	}
 
+	// 树状数组中增加i位置的词频
 	public static void add(int i, int v) {
 		while (i <= n) {
 			tree[i] += v;
@@ -50,6 +52,7 @@ public class Code01_RangeKth1 {
 		}
 	}
 
+	// 树状数组中查询[1~i]范围的词频累加和
 	public static int sum(int i) {
 		int ret = 0;
 		while (i > 0) {
@@ -59,10 +62,13 @@ public class Code01_RangeKth1 {
 		return ret;
 	}
 
+	// 树状数组中查询[l~r]范围的词频累加和
 	public static int query(int l, int r) {
 		return sum(r) - sum(l - 1);
 	}
 
+	// 整体二分的第一种写法
+	// 问题范围[ql..qr]，答案范围[vl..vr]，答案范围的每个下标都是数字的排名
 	public static void compute(int ql, int qr, int vl, int vr) {
 		if (ql > qr) {
 			return;
