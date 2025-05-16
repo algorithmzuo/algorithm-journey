@@ -44,16 +44,17 @@ public class Code04_Network1 {
 
 	// 从早到晚发生的事件，op、x、y、v
 	// op == 0，添加点x到点y，重要度为v的路径
-	// op == -1，删除点x到点y，重要度为v的路径
-	// op > 0，那么op表示问题的编号，查询和x相关的答案
+	// op == 1，删除点x到点y，重要度为v的路径
+	// op == 2，查询和x相关的答案，y表示问题的编号
 	public static int[][] event = new int[MAXM][4];
+	// 查询问题的数量
+	public static int cntq = 0;
 
 	// 整体二分
 	public static int[][] lset = new int[MAXM][4];
 	public static int[][] rset = new int[MAXM][4];
 
 	public static int[] ans = new int[MAXM];
-	public static int cntans = 0;
 
 	public static void addEdge(int u, int v) {
 		next[++cntg] = head[u];
@@ -201,8 +202,8 @@ public class Code04_Network1 {
 		}
 		if (vl == vr) {
 			for (int i = ql; i <= qr; i++) {
-				if (event[i][0] > 0) {
-					ans[event[i][0]] = vl;
+				if (event[i][0] == 2) {
+					ans[event[i][2]] = vl;
 				}
 			}
 		} else {
@@ -210,26 +211,27 @@ public class Code04_Network1 {
 			int lsize = 0, rsize = 0, request = 0;
 			for (int i = ql; i <= qr; i++) {
 				if (event[i][0] == 0) {
-					if (event[i][3] > mid) {
+					if (event[i][3] <= mid) {
+						clone(lset[++lsize], event[i]);
+					} else {
 						pathAdd(event[i][1], event[i][2], 1);
-						clone(rset[++rsize], event[i]);
 						request++;
-					} else {
-						clone(lset[++lsize], event[i]);
-					}
-				} else if (event[i][0] == -1) {
-					if (event[i][3] > mid) {
-						pathAdd(event[i][1], event[i][2], -1);
 						clone(rset[++rsize], event[i]);
-						request--;
-					} else {
+
+					}
+				} else if (event[i][0] == 1) {
+					if (event[i][3] <= mid) {
 						clone(lset[++lsize], event[i]);
+					} else {
+						pathAdd(event[i][1], event[i][2], -1);
+						request--;
+						clone(rset[++rsize], event[i]);
 					}
 				} else {
-					if (pointQuery(event[i][1]) != request) {
-						clone(rset[++rsize], event[i]);
-					} else {
+					if (pointQuery(event[i][1]) == request) {
 						clone(lset[++lsize], event[i]);
+					} else {
+						clone(rset[++rsize], event[i]);
 					}
 				}
 			}
@@ -237,7 +239,7 @@ public class Code04_Network1 {
 				if (rset[i][0] == 0 && rset[i][3] > mid) {
 					pathAdd(rset[i][1], rset[i][2], -1);
 				}
-				if (rset[i][0] == -1 && rset[i][3] > mid) {
+				if (rset[i][0] == 1 && rset[i][3] > mid) {
 					pathAdd(rset[i][1], rset[i][2], 1);
 				}
 			}
@@ -257,9 +259,10 @@ public class Code04_Network1 {
 		for (int i = 1; i <= m; i++) {
 			if (event[i][0] == 1) {
 				clone(event[i], event[event[i][1]]);
-				event[i][0] = -1;
-			} else if (event[i][0] == 2) {
-				event[i][0] = ++cntans;
+				event[i][0] = 1;
+			}
+			if (event[i][0] == 2) {
+				event[i][2] = ++cntq;
 			}
 		}
 	}
@@ -285,7 +288,7 @@ public class Code04_Network1 {
 		}
 		prepare();
 		compute(1, m, 0, INF);
-		for (int i = 1; i <= cntans; i++) {
+		for (int i = 1; i <= cntq; i++) {
 			if (ans[i] == 0) {
 				out.println(-1);
 			} else {
