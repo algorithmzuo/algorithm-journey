@@ -21,24 +21,20 @@ public class Code01_RangeKth2 {
 	public static int INF = 1000000001;
 	public static int n, m;
 
-	// 位置i，数值v
 	public static int[][] arr = new int[MAXN][2];
 
-	// 查询
 	public static int[] qid = new int[MAXN];
 	public static int[] l = new int[MAXN];
 	public static int[] r = new int[MAXN];
 	public static int[] k = new int[MAXN];
 
-	// 树状数组
 	public static int[] tree = new int[MAXN];
+	// 操作使用的数量
 	public static int used = 0;
 
-	// 整体二分
 	public static int[] lset = new int[MAXN];
 	public static int[] rset = new int[MAXN];
 
-	// 查询的答案
 	public static int[] ans = new int[MAXN];
 
 	public static int lowbit(int i) {

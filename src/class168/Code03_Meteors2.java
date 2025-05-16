@@ -38,6 +38,7 @@ public class Code03_Meteors2 {
 	public static int cnt = 0;
 
 	public static long[] tree = new long[MAXN << 1];
+	// 操作使用的数量
 	public static int used = 0;
 
 	public static int[] lset = new int[MAXN];

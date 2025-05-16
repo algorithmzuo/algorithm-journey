@@ -29,7 +29,6 @@ package class168;
 //
 //Number xyv[MAXN * MAXN];
 //int cntv = 0;
-//int used = 0;
 //
 //int qid[MAXQ];
 //int a[MAXQ];
@@ -39,6 +38,7 @@ package class168;
 //int k[MAXQ];
 //
 //int tree[MAXN][MAXN];
+//int used = 0;
 //
 //int lset[MAXQ];
 //int rset[MAXQ];

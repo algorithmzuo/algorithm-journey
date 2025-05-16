@@ -22,30 +22,23 @@ public class Code02_MatrixKth2 {
 	public static int INF = 1000000001;
 	public static int n, q;
 
-	// 矩阵中的每个数字，所在行x、所在列y、数值v
 	public static int[][] xyv = new int[MAXN * MAXN][3];
 	public static int cntv = 0;
-	public static int used = 0;
 
-	// 查询任务的编号
 	public static int[] qid = new int[MAXQ];
-	// 查询范围的左上角坐标
 	public static int[] a = new int[MAXQ];
 	public static int[] b = new int[MAXQ];
-	// 查询范围的右下角坐标
 	public static int[] c = new int[MAXQ];
 	public static int[] d = new int[MAXQ];
-	// 查询任务的第几小值
 	public static int[] k = new int[MAXQ];
 
-	// 二维树状数组
 	public static int[][] tree = new int[MAXN][MAXN];
+	// 操作使用的数量
+	public static int used = 0;
 
-	// 整体二分
 	public static int[] lset = new int[MAXQ];
 	public static int[] rset = new int[MAXQ];
 
-	// 每条查询的答案
 	public static int[] ans = new int[MAXQ];
 
 	public static int lowbit(int i) {
