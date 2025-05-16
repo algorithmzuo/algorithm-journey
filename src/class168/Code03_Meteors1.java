@@ -149,6 +149,7 @@ public class Code03_Meteors1 {
 			}
 			num[i] = in.nextInt();
 		}
+		// 答案范围[1..k+1]，第k+1场陨石雨认为满足不了要求
 		compute(1, n, 1, k + 1);
 		for (int i = 1; i <= n; i++) {
 			if (ans[i] == k + 1) {
