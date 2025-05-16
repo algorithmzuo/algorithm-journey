@@ -38,7 +38,7 @@ public class Code03_Meteors2 {
 	public static int cnt = 0;
 
 	public static long[] tree = new long[MAXN << 1];
-	// 数据的使用数量
+	// 下了多少场陨石雨
 	public static int used = 0;
 
 	public static int[] lset = new int[MAXN];

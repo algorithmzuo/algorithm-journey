@@ -25,23 +25,30 @@ public class Code03_Meteors1 {
 	public static int MAXN = 300001;
 	public static int n, m, k;
 
+	// 国家编号
 	public static int[] qid = new int[MAXN];
+	// 国家的需求
 	public static int[] need = new int[MAXN];
 
+	// 陨石雨的参数
 	public static int[] rainl = new int[MAXN];
 	public static int[] rainr = new int[MAXN];
 	public static int[] num = new int[MAXN];
 
+	// 国家拥有的区域列表
 	public static int[] head = new int[MAXN];
 	public static int[] next = new int[MAXN];
 	public static int[] to = new int[MAXN];
 	public static int cnt = 0;
 
+	// 树状数组，支持范围修改、单点查询
 	public static long[] tree = new long[MAXN << 1];
 
+	// 整体二分
 	public static int[] lset = new int[MAXN];
 	public static int[] rset = new int[MAXN];
 
+	// 每个国家的答案
 	public static int[] ans = new int[MAXN];
 
 	public static void addEdge(int i, int v) {

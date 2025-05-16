@@ -23,6 +23,7 @@ public class Code02_MatrixKth1 {
 
 	// 矩阵中的每个数字，所在行x、所在列y、数值v
 	public static int[][] xyv = new int[MAXN * MAXN][3];
+	// 矩阵中一共有多少个数字，cntv就是矩阵的规模
 	public static int cntv = 0;
 
 	// 查询任务的编号
@@ -50,6 +51,7 @@ public class Code02_MatrixKth1 {
 		return i & -i;
 	}
 
+	// 二维空间中，(x,y)位置的词频加v
 	public static void add(int x, int y, int v) {
 		for (int i = x; i <= n; i += lowbit(i)) {
 			for (int j = y; j <= n; j += lowbit(j)) {
@@ -58,6 +60,7 @@ public class Code02_MatrixKth1 {
 		}
 	}
 
+	// 二维空间中，左上角(1,1)到右下角(x,y)范围上的词频累加和
 	public static int sum(int x, int y) {
 		int ret = 0;
 		for (int i = x; i > 0; i -= lowbit(i)) {
@@ -68,6 +71,7 @@ public class Code02_MatrixKth1 {
 		return ret;
 	}
 
+	// 二维空间中，左上角(a,b)到右下角(c,d)范围上的词频累加和
 	public static int query(int a, int b, int c, int d) {
 		return sum(c, d) - sum(a - 1, d) - sum(c, b - 1) + sum(a - 1, b - 1);
 	}
