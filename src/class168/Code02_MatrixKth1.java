@@ -33,7 +33,7 @@ public class Code02_MatrixKth1 {
 	// 查询范围的右下角坐标
 	public static int[] c = new int[MAXQ];
 	public static int[] d = new int[MAXQ];
-	// 查询任务的第几小值
+	// 查询矩阵内第k小
 	public static int[] k = new int[MAXQ];
 
 	// 二维树状数组
