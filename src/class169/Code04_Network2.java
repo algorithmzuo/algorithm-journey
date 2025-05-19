@@ -99,18 +99,24 @@ package class169;
 //    return stjump[a][0];
 //}
 //
+//int lowbit(int i) {
+//    return i & -i;
+//}
+//
 //void add(int i, int v) {
-//    for (; i <= n; i += i & -i) {
+//    while (i <= n) {
 //        tree[i] += v;
+//        i += lowbit(i);
 //    }
 //}
 //
 //int query(int i) {
-//    int sum = 0;
-//    for (; i > 0; i -= i & -i) {
-//        sum += tree[i];
+//    int ret = 0;
+//    while (i > 0) {
+//        ret += tree[i];
+//        i -= lowbit(i);
 //    }
-//    return sum;
+//    return ret;
 //}
 //
 //void pathAdd(int x, int y, int v) {

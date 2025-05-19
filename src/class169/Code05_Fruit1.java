@@ -17,7 +17,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.util.Arrays;
 
-public class Code04_Fruit1 {
+public class Code05_Fruit1 {
 
 	public static int MAXN = 40001;
 	public static int MAXH = 16;

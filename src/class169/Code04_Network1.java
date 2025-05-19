@@ -17,7 +17,7 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
-public class Code03_Network1 {
+public class Code04_Network1 {
 
 	public static int MAXN = 100001;
 	public static int MAXM = 200001;
@@ -160,18 +160,24 @@ public class Code03_Network1 {
 		return stjump[a][0];
 	}
 
+	public static int lowbit(int i) {
+		return i & -i;
+	}
+
 	public static void add(int i, int v) {
-		for (; i <= n; i += i & -i) {
+		while (i <= n) {
 			tree[i] += v;
+			i += lowbit(i);
 		}
 	}
 
 	public static int query(int i) {
-		int sum = 0;
-		for (; i > 0; i -= i & -i) {
-			sum += tree[i];
+		int ret = 0;
+		while (i > 0) {
+			ret += tree[i];
+			i -= lowbit(i);
 		}
-		return sum;
+		return ret;
 	}
 
 	public static void pathAdd(int x, int y, int v) {
