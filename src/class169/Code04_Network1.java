@@ -217,7 +217,6 @@ public class Code04_Network1 {
 						pathAdd(event[i][1], event[i][2], 1);
 						request++;
 						clone(rset[++rsize], event[i]);
-
 					}
 				} else if (event[i][0] == 1) {
 					if (event[i][3] <= mid) {
