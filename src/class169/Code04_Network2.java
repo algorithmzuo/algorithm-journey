@@ -17,10 +17,6 @@ package class169;
 //
 //using namespace std;
 //
-//struct Event {
-//    int op, x, y, v;
-//};
-//
 //const int MAXN = 100001;
 //const int MAXM = 200001;
 //const int MAXH = 20;
@@ -41,11 +37,15 @@ package class169;
 //
 //int tree[MAXN];
 //
-//Event event[MAXM];
+//int eid[MAXM];
+//int op[MAXM];
+//int x[MAXM];
+//int y[MAXM];
+//int v[MAXM];
 //int cntq = 0;
 //
-//Event lset[MAXM];
-//Event rset[MAXM];
+//int lset[MAXM];
+//int rset[MAXM];
 //
 //int ans[MAXM];
 //
@@ -134,73 +134,81 @@ package class169;
 //    return query(dfn[x] + siz[x] - 1) - query(dfn[x] - 1);
 //}
 //
-//void compute(int ql, int qr, int vl, int vr) {
-//    if (ql > qr) {
+//void compute(int el, int er, int vl, int vr) {
+//    if (el > er) {
 //        return;
 //    }
 //    if (vl == vr) {
-//        for (int i = ql; i <= qr; i++) {
-//            if (event[i].op == 2) {
-//                ans[event[i].y] = vl;
+//        for (int i = el; i <= er; i++) {
+//            int id = eid[i];
+//            if (op[id] == 2) {
+//                ans[y[id]] = vl;
 //            }
 //        }
 //    } else {
 //        int mid = (vl + vr) / 2;
 //        int lsiz = 0, rsiz = 0, request = 0;
-//        for (int i = ql; i <= qr; i++) {
-//            if (event[i].op == 0) {
-//                if (event[i].v <= mid) {
-//                    lset[++lsiz] = event[i];
+//        for (int i = el; i <= er; i++) {
+//            int id = eid[i];
+//            if (op[id] == 0) {
+//                if (v[id] <= mid) {
+//                    lset[++lsiz] = id;
 //                } else {
-//                    pathAdd(event[i].x, event[i].y, 1);
+//                    pathAdd(x[id], y[id], 1);
 //                    request++;
-//                    rset[++rsiz] = event[i];
+//                    rset[++rsiz] = id;
 //                }
-//            } else if (event[i].op == 1) {
-//                if (event[i].v <= mid) {
-//                    lset[++lsiz] = event[i];
+//            } else if (op[id] == 1) {
+//                if (v[id] <= mid) {
+//                    lset[++lsiz] = id;
 //                } else {
-//                    pathAdd(event[i].x, event[i].y, -1);
+//                    pathAdd(x[id], y[id], -1);
 //                    request--;
-//                    rset[++rsiz] = event[i];
+//                    rset[++rsiz] = id;
 //                }
 //            } else {
-//                if (pointQuery(event[i].x) == request) {
-//                    lset[++lsiz] = event[i];
+//                if (pointQuery(x[id]) == request) {
+//                    lset[++lsiz] = id;
 //                } else {
-//                    rset[++rsiz] = event[i];
+//                    rset[++rsiz] = id;
 //                }
-//            }
-//        }
-//        for (int i = 1; i <= rsiz; i++) {
-//            if (rset[i].op == 0 && rset[i].v > mid) {
-//                pathAdd(rset[i].x, rset[i].y, -1);
-//            }
-//            if (rset[i].op == 1 && rset[i].v > mid) {
-//                pathAdd(rset[i].x, rset[i].y, 1);
 //            }
 //        }
 //        for (int i = 1; i <= lsiz; i++) {
-//            event[ql + i - 1] = lset[i];
+//            eid[el + i - 1] = lset[i];
 //        }
 //        for (int i = 1; i <= rsiz; i++) {
-//            event[ql + lsiz + i - 1] = rset[i];
+//            eid[el + lsiz + i - 1] = rset[i];
 //        }
-//        compute(ql, ql + lsiz - 1, vl, mid);
-//        compute(ql + lsiz, qr, mid + 1, vr);
+//        for (int i = 1; i <= rsiz; i++) {
+//            int id = rset[i];
+//            if (op[id] == 0 && v[id] > mid) {
+//                pathAdd(x[id], y[id], -1);
+//            }
+//            if (op[id] == 1 && v[id] > mid) {
+//                pathAdd(x[id], y[id], 1);
+//            }
+//        }
+//        compute(el, el + lsiz - 1, vl, mid);
+//        compute(el + lsiz, er, mid + 1, vr);
 //    }
 //}
 //
 //void prepare() {
 //    dfs(1, 0);
 //    for (int i = 1; i <= m; i++) {
-//        if (event[i].op == 1) {
-//            event[i] = event[event[i].x];
-//            event[i].op = 1;
+//        if (op[i] == 1) {
+//            int pre = x[i];
+//            x[i] = x[pre];
+//            y[i] = y[pre];
+//            v[i] = v[pre];
 //        }
-//        if (event[i].op == 2){
-//            event[i].y = ++cntq;
+//        if (op[i] == 2) {
+//            y[i] = ++cntq;
 //        }
+//    }
+//    for (int i = 1; i <= m; i++) {
+//        eid[i] = i;
 //    }
 //}
 //
@@ -214,9 +222,9 @@ package class169;
 //        addEdge(v, u);
 //    }
 //    for (int i = 1; i <= m; i++) {
-//        cin >> event[i].op >> event[i].x;
-//        if (event[i].op == 0) {
-//            cin >> event[i].y >> event[i].v;
+//        cin >> op[i] >> x[i];
+//        if (op[i] == 0) {
+//            cin >> y[i] >> v[i];
 //        }
 //    }
 //    prepare();

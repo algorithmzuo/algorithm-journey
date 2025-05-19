@@ -42,17 +42,20 @@ public class Code04_Network1 {
 	// 树状数组
 	public static int[] tree = new int[MAXN];
 
-	// 从早到晚发生的事件，op、x、y、v
-	// op == 0，添加点x到点y，重要度为v的路径
-	// op == 1，删除点x到点y，重要度为v的路径
-	// op == 2，查询和x相关的答案，y表示问题的编号
-	public static int[][] event = new int[MAXM][4];
-	// 查询问题的数量
+	// 事件编号组成的数组
+	public static int[] eid = new int[MAXM];
+	// 如果op == 0，添加点x到点y，重要度为v的路径
+	// 如果op == 1，删除点x到点y，重要度为v的路径
+	// 如果op == 2，查询和x相关的答案，y表示问题的编号
+	public static int[] op = new int[MAXM];
+	public static int[] x = new int[MAXM];
+	public static int[] y = new int[MAXM];
+	public static int[] v = new int[MAXM];
 	public static int cntq = 0;
 
 	// 整体二分
-	public static int[][] lset = new int[MAXM][4];
-	public static int[][] rset = new int[MAXM][4];
+	public static int[] lset = new int[MAXM];
+	public static int[] rset = new int[MAXM];
 
 	public static int[] ans = new int[MAXM];
 
@@ -195,80 +198,81 @@ public class Code04_Network1 {
 		return query(dfn[x] + siz[x] - 1) - query(dfn[x] - 1);
 	}
 
-	public static void clone(int[] event1, int[] event2) {
-		event1[0] = event2[0];
-		event1[1] = event2[1];
-		event1[2] = event2[2];
-		event1[3] = event2[3];
-	}
-
-	public static void compute(int ql, int qr, int vl, int vr) {
-		if (ql > qr) {
+	public static void compute(int el, int er, int vl, int vr) {
+		if (el > er) {
 			return;
 		}
 		if (vl == vr) {
-			for (int i = ql; i <= qr; i++) {
-				if (event[i][0] == 2) {
-					ans[event[i][2]] = vl;
+			for (int i = el; i <= er; i++) {
+				int id = eid[i];
+				if (op[id] == 2) {
+					ans[y[id]] = vl;
 				}
 			}
 		} else {
 			int mid = (vl + vr) / 2;
-			int lsize = 0, rsize = 0, request = 0;
-			for (int i = ql; i <= qr; i++) {
-				if (event[i][0] == 0) {
-					if (event[i][3] <= mid) {
-						clone(lset[++lsize], event[i]);
+			int lsiz = 0, rsiz = 0, request = 0;
+			for (int i = el; i <= er; i++) {
+				int id = eid[i];
+				if (op[id] == 0) {
+					if (v[id] <= mid) {
+						lset[++lsiz] = id;
 					} else {
-						pathAdd(event[i][1], event[i][2], 1);
+						pathAdd(x[id], y[id], 1);
 						request++;
-						clone(rset[++rsize], event[i]);
+						rset[++rsiz] = id;
 					}
-				} else if (event[i][0] == 1) {
-					if (event[i][3] <= mid) {
-						clone(lset[++lsize], event[i]);
+				} else if (op[id] == 1) {
+					if (v[id] <= mid) {
+						lset[++lsiz] = id;
 					} else {
-						pathAdd(event[i][1], event[i][2], -1);
+						pathAdd(x[id], y[id], -1);
 						request--;
-						clone(rset[++rsize], event[i]);
+						rset[++rsiz] = id;
 					}
 				} else {
-					if (pointQuery(event[i][1]) == request) {
-						clone(lset[++lsize], event[i]);
+					if (pointQuery(x[id]) == request) {
+						lset[++lsiz] = id;
 					} else {
-						clone(rset[++rsize], event[i]);
+						rset[++rsiz] = id;
 					}
 				}
 			}
-			for (int i = 1; i <= rsize; i++) {
-				if (rset[i][0] == 0 && rset[i][3] > mid) {
-					pathAdd(rset[i][1], rset[i][2], -1);
+			for (int i = 1; i <= lsiz; i++) {
+				eid[el + i - 1] = lset[i];
+			}
+			for (int i = 1; i <= rsiz; i++) {
+				eid[el + lsiz + i - 1] = rset[i];
+			}
+			for (int i = 1; i <= rsiz; i++) {
+				int id = rset[i];
+				if (op[id] == 0 && v[id] > mid) {
+					pathAdd(x[id], y[id], -1);
 				}
-				if (rset[i][0] == 1 && rset[i][3] > mid) {
-					pathAdd(rset[i][1], rset[i][2], 1);
+				if (op[id] == 1 && v[id] > mid) {
+					pathAdd(x[id], y[id], 1);
 				}
 			}
-			for (int i = ql, j = 1; j <= lsize; i++, j++) {
-				clone(event[i], lset[j]);
-			}
-			for (int i = ql + lsize, j = 1; j <= rsize; i++, j++) {
-				clone(event[i], rset[j]);
-			}
-			compute(ql, ql + lsize - 1, vl, mid);
-			compute(ql + lsize, qr, mid + 1, vr);
+			compute(el, el + lsiz - 1, vl, mid);
+			compute(el + lsiz, er, mid + 1, vr);
 		}
 	}
 
 	public static void prepare() {
 		dfs2();
 		for (int i = 1; i <= m; i++) {
-			if (event[i][0] == 1) {
-				clone(event[i], event[event[i][1]]);
-				event[i][0] = 1;
+			if (op[i] == 1) {
+				int pre = x[i];
+				x[i] = x[pre];
+				y[i] = y[pre];
+				v[i] = v[pre];
 			}
-			if (event[i][0] == 2) {
-				event[i][2] = ++cntq;
+			if (op[i] == 2) {
+				y[i] = ++cntq;
 			}
+		}
+		for (int i = 1; i <= m; i++) {
+			eid[i] = i;
 		}
 	}
 
@@ -284,11 +288,11 @@ public class Code04_Network1 {
 			addEdge(v, u);
 		}
 		for (int i = 1; i <= m; i++) {
-			event[i][0] = in.nextInt();
-			event[i][1] = in.nextInt();
-			if (event[i][0] == 0) {
-				event[i][2] = in.nextInt();
-				event[i][3] = in.nextInt();
+			op[i] = in.nextInt();
+			x[i] = in.nextInt();
+			if (op[i] == 0) {
+				y[i] = in.nextInt();
+				v[i] = in.nextInt();
 			}
 		}
 		prepare();

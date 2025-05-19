@@ -28,7 +28,7 @@ public class Code03_CrbQueries1 {
 	// 事件编号组成的数组
 	public static int[] eid = new int[MAXN << 2];
 	// op == 1，代表修改事件，x处，值y，效果v
-	// op == 2，代表查询事件，[x..y]范围上查询第v小，答案填入q位置
+	// op == 2，代表查询事件，[x..y]范围上查询第v小，q表示问题的编号
 	public static int[] op = new int[MAXN << 2];
 	public static int[] x = new int[MAXN << 2];
 	public static int[] y = new int[MAXN << 2];
