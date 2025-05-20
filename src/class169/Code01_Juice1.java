@@ -32,9 +32,9 @@ public class Code01_Juice1 {
 	// 果汁单价作为下标的线段树
 	// maxp为单价的最大上限
 	public static int maxp = 0;
-	// suml[i] : 线段树某单价区间上，总果汁的量
+	// suml[i] : 线段树某单价区间上，允许添加的总量
 	public static long[] suml = new long[MAXN << 2];
-	// cost[i] : 线段树某单价区间上，如果总果汁的量全买，花费多少钱
+	// cost[i] : 线段树某单价区间上，如果允许添加的总量全要，花费多少钱
 	public static long[] cost = new long[MAXN << 2];
 	// 多少种果汁加入了线段树
 	public static int used = 0;
