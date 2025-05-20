@@ -30,7 +30,7 @@ public class Code01_Juice1 {
 	public static long[] least = new long[MAXN];
 
 	// 果汁单价作为下标的线段树
-	// maxp为单价的最大上限
+	// maxp为最大的果汁单价
 	public static int maxp = 0;
 	// suml[i] : 线段树某单价区间上，允许添加的总量
 	public static long[] suml = new long[MAXN << 2];
