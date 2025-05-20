@@ -39,7 +39,7 @@ public class Code05_Fruit1 {
 
 	// event[i][0]代表事件的类型，1为盘子类型，2为水果类型
 	// event[i][1]表示x轴的位置
-	// 如果是盘子类型，那么event[i][2..5]分别代表 : yl、yr、权值v、产生的影响d
+	// 如果是盘子类型，那么event[i][2..5]分别代表 : yl、yr、权值v、产生的效果d
 	// 如果是水果类型，那么event[i][2..5]分别代表 : y、空缺、要求v、问题的编号d
 	public static int[][] event = new int[MAXN << 3][6];
 	public static int cnte = 0;
