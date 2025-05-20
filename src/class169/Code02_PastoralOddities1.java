@@ -81,7 +81,7 @@ public class Code02_PastoralOddities1 {
 		}
 		if (vl == vr) {
 			for (int i = ql; i <= qr; i++) {
-				ans[i] = wsort[vl][3];
+				ans[i] = vl;
 			}
 		} else {
 			int mid = (vl + vr) >> 1;
@@ -158,7 +158,7 @@ public class Code02_PastoralOddities1 {
 		prepare();
 		compute(1, m, 1, m + 1);
 		for (int i = 1; i <= m; i++) {
-			out.println(ans[i]);
+			out.println(wsort[ans[i]][3]);
 		}
 		out.flush();
 		out.close();

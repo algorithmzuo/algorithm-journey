@@ -83,7 +83,7 @@ package class169;
 //    }
 //    if (vl == vr) {
 //        for (int i = ql; i <= qr; i++) {
-//            ans[i] = wsort[vl].w;
+//            ans[i] = vl;
 //        }
 //    } else {
 //        int mid = (vl + vr) >> 1;
@@ -154,7 +154,7 @@ package class169;
 //    prepare();
 //    compute(1, m, 1, m + 1);
 //    for (int i = 1; i <= m; i++) {
-//        cout << ans[i] << '\n';
+//        cout << wsort[ans[i]].w << '\n';
 //    }
 //    return 0;
 //}
