@@ -51,6 +51,7 @@ public class Code01_Juice1 {
 		cost[i] = cost[i << 1] + cost[i << 1 | 1];
 	}
 
+	// 单价为jobi，现在允许添加的量增加了jobv
 	public static void add(int jobi, int jobv, int l, int r, int i) {
 		if (l == r) {
 			suml[i] += jobv;
@@ -66,6 +67,8 @@ public class Code01_Juice1 {
 		}
 	}
 
+	// 总体积一共volume，已知总体积一定能耗尽
+	// 返回总体积耗尽的情况下，能花的最少钱数
 	public static long query(long volume, int l, int r, int i) {
 		if (l == r) {
 			return volume * l;
@@ -134,7 +137,10 @@ public class Code01_Juice1 {
 			money[i] = in.nextLong();
 			least[i] = in.nextLong();
 		}
+		// 所有果汁按照美味度排序，美味度大的在前，美味度小的在后
 		Arrays.sort(juice, 1, n + 1, (a, b) -> b[0] - a[0]);
+		// 答案范围就是美味度范围，从最美味的第1名，到最难喝的第n名
+		// 如果小朋友答案为n+1，说明无法满足这个小朋友
 		compute(1, m, 1, n + 1);
 		for (int i = 1; i <= m; i++) {
 			if (ans[i] == n + 1) {
