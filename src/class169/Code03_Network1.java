@@ -183,6 +183,7 @@ public class Code03_Network1 {
 		return ret;
 	}
 
+	// 点x到点y的路径上，每个点增加v个请求数量
 	public static void pathAdd(int x, int y, int v) {
 		int xylca = lca(x, y);
 		int lcafa = fa[xylca];
@@ -194,6 +195,7 @@ public class Code03_Network1 {
 		}
 	}
 
+	// 查询和x点相关的请求数量
 	public static int pointQuery(int x) {
 		return query(dfn[x] + siz[x] - 1) - query(dfn[x] - 1);
 	}
