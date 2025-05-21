@@ -18,7 +18,7 @@ package class169;
 //using namespace std;
 //
 //struct Event {
-//    int op, x, yl, yr, v, d;
+//    int op, x, yl, yr, v;
 //};
 //
 //bool EventCmp(Event e1, Event e2) {
@@ -137,21 +137,28 @@ package class169;
 //    return ret;
 //}
 //
-//void addPlate(int x, int yl, int yr, int v, int d) {
+//void addPlate(int x, int yl, int yr, int v) {
 //    event[++cnte].op = 1;
 //    event[cnte].x = x;
 //    event[cnte].yl = yl;
 //    event[cnte].yr = yr;
 //    event[cnte].v = v;
-//    event[cnte].d = d;
 //}
 //
-//void addFruit(int x, int y, int v, int d) {
+//void delPlate(int x, int yl, int yr, int v) {
 //    event[++cnte].op = 2;
 //    event[cnte].x = x;
-//    event[cnte].yl = y;
+//    event[cnte].yl = yl;
+//    event[cnte].yr = yr;
 //    event[cnte].v = v;
-//    event[cnte].d = d;
+//}
+//
+//void addFruit(int x, int y, int k, int i) {
+//    event[++cnte].op = 3;
+//    event[cnte].x = x;
+//    event[cnte].yl = y;
+//    event[cnte].yr = k;
+//    event[cnte].v = i;
 //}
 //
 //void compute(int el, int er, int vl, int vr) {
@@ -160,8 +167,8 @@ package class169;
 //    }
 //    if (vl == vr) {
 //        for (int i = el; i <= er; i++) {
-//            if (event[i].op == 2) {
-//                ans[event[i].d] = vl;
+//            if (event[i].op == 3) {
+//                ans[event[i].v] = vl;
 //            }
 //        }
 //    } else {
@@ -170,17 +177,24 @@ package class169;
 //        for (int i = el; i <= er; i++) {
 //            if (event[i].op == 1) {
 //                if (event[i].v <= mid) {
-//                    add(event[i].yl, event[i].yr, event[i].d);
+//                    add(event[i].yl, event[i].yr, 1);
+//                    lset[++lsiz] = event[i];
+//                } else {
+//                    rset[++rsiz] = event[i];
+//                }
+//            } else if (event[i].op == 2) {
+//                if (event[i].v <= mid) {
+//                    add(event[i].yl, event[i].yr, -1);
 //                    lset[++lsiz] = event[i];
 //                } else {
 //                    rset[++rsiz] = event[i];
 //                }
 //            } else {
 //                int satisfy = query(event[i].yl);
-//                if (satisfy >= event[i].v) {
+//                if (satisfy >= event[i].yr) {
 //                    lset[++lsiz] = event[i];
 //                } else {
-//                    event[i].v -= satisfy;
+//                    event[i].yr -= satisfy;
 //                    rset[++rsiz] = event[i];
 //                }
 //            }
@@ -216,13 +230,13 @@ package class169;
 //        int ablca = lca(a, b);
 //        if (ablca == a) {
 //            int son = lcaSon(a, b);
-//            addPlate(1, ldfn[b], rdfn[b], c, 1);
-//            addPlate(ldfn[son], ldfn[b], rdfn[b], c, -1);
-//            addPlate(ldfn[b], rdfn[son] + 1, n, c, 1);
-//            addPlate(rdfn[b] + 1, rdfn[son] + 1, n, c, -1);
+//            addPlate(1, ldfn[b], rdfn[b], c);
+//            delPlate(ldfn[son], ldfn[b], rdfn[b], c);
+//            addPlate(ldfn[b], rdfn[son] + 1, n, c);
+//            delPlate(rdfn[b] + 1, rdfn[son] + 1, n, c);
 //        } else {
-//            addPlate(ldfn[a], ldfn[b], rdfn[b], c, 1);
-//            addPlate(rdfn[a] + 1, ldfn[b], rdfn[b], c, -1);
+//            addPlate(ldfn[a], ldfn[b], rdfn[b], c);
+//            delPlate(rdfn[a] + 1, ldfn[b], rdfn[b], c);
 //        }
 //    }
 //    for (int i = 1, u, v, k; i <= q; i++) {

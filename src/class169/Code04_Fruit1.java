@@ -38,15 +38,14 @@ public class Code04_Fruit1 {
 
 	public static int[] tree = new int[MAXN];
 
-	// event[i][0] == 1为盘子类型
-	// 如果是盘子类型，event[i][1..5]分别代表 : x、yl、yr、权值v、产生的效果d
-	// event[i][0] == 2为水果类型
-	// 如果是水果类型，event[i][1..5]分别代表 : x、y、空缺、要求v、问题的编号d
-	public static int[][] event = new int[MAXN << 3][6];
+	// event[i][0] == 1为加盘子事件，x处加，yl..yr词频+1，盘子权值v
+	// event[i][0] == 2为删盘子事件，x处减，yl..yr词频+1，盘子权值v
+	// event[i][0] == 3为水果事件，x、yl、要求yr、问题编号v
+	public static int[][] event = new int[MAXN << 3][5];
 	public static int cnte = 0;
 
-	public static int[][] lset = new int[MAXN << 3][6];
-	public static int[][] rset = new int[MAXN << 3][6];
+	public static int[][] lset = new int[MAXN << 3][5];
+	public static int[][] rset = new int[MAXN << 3][5];
 
 	public static int[] ans = new int[MAXN];
 
@@ -181,21 +180,28 @@ public class Code04_Fruit1 {
 		return ret;
 	}
 
-	public static void addPlate(int x, int yl, int yr, int v, int d) {
+	public static void addPlate(int x, int yl, int yr, int v) {
 		event[++cnte][0] = 1;
 		event[cnte][1] = x;
 		event[cnte][2] = yl;
 		event[cnte][3] = yr;
 		event[cnte][4] = v;
-		event[cnte][5] = d;
 	}
 
-	public static void addFruit(int x, int y, int v, int d) {
+	public static void delPlate(int x, int yl, int yr, int v) {
 		event[++cnte][0] = 2;
 		event[cnte][1] = x;
-		event[cnte][2] = y;
+		event[cnte][2] = yl;
+		event[cnte][3] = yr;
 		event[cnte][4] = v;
-		event[cnte][5] = d;
+	}
+
+	public static void addFruit(int x, int y, int v, int i) {
+		event[++cnte][0] = 3;
+		event[cnte][1] = x;
+		event[cnte][2] = y;
+		event[cnte][3] = v;
+		event[cnte][4] = i;
 	}
 
 	public static void clone(int[] a, int[] b) {
@@ -204,7 +210,6 @@ public class Code04_Fruit1 {
 		a[2] = b[2];
 		a[3] = b[3];
 		a[4] = b[4];
-		a[5] = b[5];
 	}
 
 	public static void compute(int el, int er, int vl, int vr) {
@@ -213,8 +218,8 @@ public class Code04_Fruit1 {
 		}
 		if (vl == vr) {
 			for (int i = el; i <= er; i++) {
-				if (event[i][0] == 2) {
-					ans[event[i][5]] = vl;
+				if (event[i][0] == 3) {
+					ans[event[i][4]] = vl;
 				}
 			}
 		} else {
@@ -223,17 +228,24 @@ public class Code04_Fruit1 {
 			for (int i = el; i <= er; i++) {
 				if (event[i][0] == 1) {
 					if (event[i][4] <= mid) {
-						add(event[i][2], event[i][3], event[i][5]);
+						add(event[i][2], event[i][3], 1);
+						clone(lset[++lsiz], event[i]);
+					} else {
+						clone(rset[++rsiz], event[i]);
+					}
+				} else if (event[i][0] == 2) {
+					if (event[i][4] <= mid) {
+						add(event[i][2], event[i][3], -1);
 						clone(lset[++lsiz], event[i]);
 					} else {
 						clone(rset[++rsiz], event[i]);
 					}
 				} else {
 					int satisfy = query(event[i][2]);
-					if (satisfy >= event[i][4]) {
+					if (satisfy >= event[i][3]) {
 						clone(lset[++lsiz], event[i]);
 					} else {
-						event[i][4] -= satisfy;
+						event[i][3] -= satisfy;
 						clone(rset[++rsiz], event[i]);
 					}
 				}
@@ -280,13 +292,13 @@ public class Code04_Fruit1 {
 			int ablca = lca(a, b);
 			if (ablca == a) {
 				int son = lcaSon(a, b);
-				addPlate(1, ldfn[b], rdfn[b], c, 1);
-				addPlate(ldfn[son], ldfn[b], rdfn[b], c, -1);
-				addPlate(ldfn[b], rdfn[son] + 1, n, c, 1);
-				addPlate(rdfn[b] + 1, rdfn[son] + 1, n, c, -1);
+				addPlate(1, ldfn[b], rdfn[b], c);
+				delPlate(ldfn[son], ldfn[b], rdfn[b], c);
+				addPlate(ldfn[b], rdfn[son] + 1, n, c);
+				delPlate(rdfn[b] + 1, rdfn[son] + 1, n, c);
 			} else {
-				addPlate(ldfn[a], ldfn[b], rdfn[b], c, 1);
-				addPlate(rdfn[a] + 1, ldfn[b], rdfn[b], c, -1);
+				addPlate(ldfn[a], ldfn[b], rdfn[b], c);
+				delPlate(rdfn[a] + 1, ldfn[b], rdfn[b], c);
 			}
 		}
 		for (int i = 1; i <= q; i++) {
