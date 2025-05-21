@@ -2,8 +2,8 @@ package class169;
 
 // 带修改的区间第k小，C++版
 // 给定一个长度为n的数组arr，接下来是m条操作，每种操作是如下两种类型的一种
-// 操作 Q x y v : 查询arr[x..y]范围上第v小的值
 // 操作 C x y   : 把x位置的值修改成y
+// 操作 Q x y v : 查询arr[x..y]范围上第v小的值
 // 1 <= n、m <= 10^5
 // 1 <= 数组中的值 <= 10^9
 // 测试链接 : https://www.luogu.com.cn/problem/P2617
@@ -68,7 +68,7 @@ package class169;
 //    if (vl == vr) {
 //        for (int i = el; i <= er; i++) {
 //            int id = eid[i];
-//            if (op[id] == 1) {
+//            if (op[id] == 2) {
 //                ans[q[id]] = vl;
 //            }
 //        }
@@ -78,18 +78,18 @@ package class169;
 //        for (int i = el; i <= er; i++) {
 //            int id = eid[i];
 //            if (op[id] == 1) {
+//                if (y[id] <= mid) {
+//                    add(x[id], v[id]);
+//                    lset[++lsiz] = id;
+//                } else {
+//                    rset[++rsiz] = id;
+//                }
+//            } else {
 //                int satisfy = query(x[id], y[id]);
 //                if (v[id] <= satisfy) {
 //                    lset[++lsiz] = id;
 //                } else {
 //                    v[id] -= satisfy;
-//                    rset[++rsiz] = id;
-//                }
-//            } else {
-//                if (y[id] <= mid) {
-//                    add(x[id], v[id]);
-//                    lset[++lsiz] = id;
-//                } else {
 //                    rset[++rsiz] = id;
 //                }
 //            }
@@ -102,7 +102,7 @@ package class169;
 //        }
 //        for (int i = 1; i <= lsiz; i++) {
 //            int id = lset[i];
-//            if (op[id] == 2 && y[id] <= mid) {
+//            if (op[id] == 1 && y[id] <= mid) {
 //                add(x[id], -v[id]);
 //            }
 //        }
@@ -117,7 +117,7 @@ package class169;
 //    cin >> n >> m;
 //    for (int i = 1; i <= n; i++) {
 //        cin >> arr[i];
-//        op[++cnte] = 2;
+//        op[++cnte] = 1;
 //        x[cnte] = i;
 //        y[cnte] = arr[i];
 //        v[cnte] = 1;
@@ -125,22 +125,22 @@ package class169;
 //    for (int i = 1; i <= m; i++) {
 //        char type;
 //        cin >> type;
-//        if (type == 'Q') {
-//            op[++cnte] = 1;
-//            cin >> x[cnte] >> y[cnte] >> v[cnte];
-//            q[cnte] = ++cntq;
-//        } else {
+//        if (type == 'C') {
 //            int a, b;
 //            cin >> a >> b;
-//            op[++cnte] = 2;
+//            op[++cnte] = 1;
 //            x[cnte] = a;
 //            y[cnte] = arr[a];
 //            v[cnte] = -1;
-//            op[++cnte] = 2;
+//            op[++cnte] = 1;
 //            x[cnte] = a;
 //            y[cnte] = b;
 //            v[cnte] = 1;
 //            arr[a] = b;
+//        } else {
+//            op[++cnte] = 2;
+//            cin >> x[cnte] >> y[cnte] >> v[cnte];
+//            q[cnte] = ++cntq;
 //        }
 //    }
 //    for (int i = 1; i <= cnte; i++) {

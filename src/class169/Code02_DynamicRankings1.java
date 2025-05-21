@@ -2,8 +2,8 @@ package class169;
 
 // 带修改的区间第k小，java版
 // 给定一个长度为n的数组arr，接下来是m条操作，每种操作是如下两种类型的一种
-// 操作 Q x y v : 查询arr[x..y]范围上第v小的值
 // 操作 C x y   : 把x位置的值修改成y
+// 操作 Q x y v : 查询arr[x..y]范围上第v小的值
 // 1 <= n、m <= 10^5
 // 1 <= 数组中的值 <= 10^9
 // 测试链接 : https://www.luogu.com.cn/problem/P2617
@@ -26,8 +26,8 @@ public class Code02_DynamicRankings1 {
 
 	// 事件编号组成的数组
 	public static int[] eid = new int[MAXE];
-	// op == 1，代表查询事件，[x..y]范围上查询第v小，q表示问题的编号
-	// op == 2，代表修改事件，x处，值y，效果v
+	// op == 1，代表修改事件，x处，值y，效果v
+	// op == 2，代表查询事件，[x..y]范围上查询第v小，q表示问题的编号
 	public static int[] op = new int[MAXE];
 	public static int[] x = new int[MAXE];
 	public static int[] y = new int[MAXE];
@@ -77,7 +77,7 @@ public class Code02_DynamicRankings1 {
 		if (vl == vr) {
 			for (int i = el; i <= er; i++) {
 				int id = eid[i];
-				if (op[id] == 1) {
+				if (op[id] == 2) {
 					ans[q[id]] = vl;
 				}
 			}
@@ -87,18 +87,18 @@ public class Code02_DynamicRankings1 {
 			for (int i = el; i <= er; i++) {
 				int id = eid[i];
 				if (op[id] == 1) {
+					if (y[id] <= mid) {
+						add(x[id], v[id]);
+						lset[++lsiz] = id;
+					} else {
+						rset[++rsiz] = id;
+					}
+				} else {
 					int satisfy = query(x[id], y[id]);
 					if (v[id] <= satisfy) {
 						lset[++lsiz] = id;
 					} else {
 						v[id] -= satisfy;
-						rset[++rsiz] = id;
-					}
-				} else {
-					if (y[id] <= mid) {
-						add(x[id], v[id]);
-						lset[++lsiz] = id;
-					} else {
 						rset[++rsiz] = id;
 					}
 				}
@@ -111,7 +111,7 @@ public class Code02_DynamicRankings1 {
 			}
 			for (int i = 1; i <= lsiz; i++) {
 				int id = lset[i];
-				if (op[id] == 2 && y[id] <= mid) {
+				if (op[id] == 1 && y[id] <= mid) {
 					add(x[id], -v[id]);
 				}
 			}
@@ -127,7 +127,7 @@ public class Code02_DynamicRankings1 {
 		m = in.nextInt();
 		for (int i = 1; i <= n; i++) {
 			arr[i] = in.nextInt();
-			op[++cnte] = 2;
+			op[++cnte] = 1;
 			x[cnte] = i;
 			y[cnte] = arr[i];
 			v[cnte] = 1;
@@ -135,24 +135,24 @@ public class Code02_DynamicRankings1 {
 		char type;
 		for (int i = 1; i <= m; i++) {
 			type = in.nextChar();
-			if (type == 'Q') {
-				op[++cnte] = 1;
-				x[cnte] = in.nextInt();
-				y[cnte] = in.nextInt();
-				v[cnte] = in.nextInt();
-				q[cnte] = ++cntq;
-			} else {
+			if (type == 'C') {
 				int a = in.nextInt();
 				int b = in.nextInt();
-				op[++cnte] = 2;
+				op[++cnte] = 1;
 				x[cnte] = a;
 				y[cnte] = arr[a];
 				v[cnte] = -1;
-				op[++cnte] = 2;
+				op[++cnte] = 1;
 				x[cnte] = a;
 				y[cnte] = b;
 				v[cnte] = 1;
 				arr[a] = b;
+			} else {
+				op[++cnte] = 2;
+				x[cnte] = in.nextInt();
+				y[cnte] = in.nextInt();
+				v[cnte] = in.nextInt();
+				q[cnte] = ++cntq;
 			}
 		}
 		for (int i = 1; i <= cnte; i++) {
