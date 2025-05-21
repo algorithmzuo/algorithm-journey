@@ -31,11 +31,11 @@ package class169;
 //Edge edge[MAXM];
 //Edge wsort[MAXM];
 //
-//int oddnum;
 //int father[MAXN];
 //int siz[MAXN];
 //int rollback[MAXN][2];
 //int opsize = 0;
+//int oddnum;
 //
 //int ans[MAXM];
 //

@@ -17,23 +17,25 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.util.Arrays;
 
-public class Code02_PastoralOddities1 {
+public class Code05_PastoralOddities1 {
 
 	public static int MAXN = 100001;
 	public static int MAXM = 300002;
 	public static int n, m;
 
-	// 边的编号i、端点x、端点y、权值w
+	// edge是按时序组织的边数组
+	// wsort是按权值组织的边数组
+	// 边的时序i、端点x、端点y、权值w
 	public static int[][] edge = new int[MAXM][4];
 	public static int[][] wsort = new int[MAXM][4];
 
-	// 节点数为奇数的联通区数量
-	public static int oddnum;
 	// 可撤销并查集
 	public static int[] father = new int[MAXN];
 	public static int[] siz = new int[MAXN];
 	public static int[][] rollback = new int[MAXN][2];
 	public static int opsize = 0;
+	// 节点数为奇数的联通区数量
+	public static int oddnum;
 
 	public static int[] ans = new int[MAXM];
 
@@ -75,6 +77,10 @@ public class Code02_PastoralOddities1 {
 		}
 	}
 
+	// 按时序组织的边在edge里，当前来到[ql..qr]范围
+	// 按权值组织的边在wsort里，答案范围[vl..vr]
+	// 前提 : ql之前的边里，边权 <= wsort[vl].w 的所有边，都已经加到图上了
+	// 利用整体二分得到所有边的答案
 	public static void compute(int ql, int qr, int vl, int vr) {
 		if (ql > qr) {
 			return;
