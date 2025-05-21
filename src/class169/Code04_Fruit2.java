@@ -153,12 +153,12 @@ package class169;
 //    event[cnte].d = d;
 //}
 //
-//void compute(int ql, int qr, int vl, int vr) {
-//    if (ql > qr) {
+//void compute(int el, int er, int vl, int vr) {
+//    if (el > er) {
 //        return;
 //    }
 //    if (vl == vr) {
-//        for (int i = ql; i <= qr; i++) {
+//        for (int i = el; i <= er; i++) {
 //            if (event[i].op == 2) {
 //                ans[event[i].d] = vl;
 //            }
@@ -166,7 +166,7 @@ package class169;
 //    } else {
 //        int mid = (vl + vr) >> 1;
 //        int lsiz = 0, rsiz = 0;
-//        for (int i = ql; i <= qr; i++) {
+//        for (int i = el; i <= er; i++) {
 //            if (event[i].op == 1) {
 //                if (event[i].v <= mid) {
 //                    add(event[i].yl, event[i].yr, event[i].d);
@@ -185,13 +185,13 @@ package class169;
 //            }
 //        }
 //        for (int i = 1; i <= lsiz; i++) {
-//            event[ql + i - 1] = lset[i];
+//            event[el + i - 1] = lset[i];
 //        }
 //        for (int i = 1; i <= rsiz; i++) {
-//            event[ql + lsiz + i - 1] = rset[i];
+//            event[el + lsiz + i - 1] = rset[i];
 //        }
-//        compute(ql, ql + lsiz - 1, vl, mid);
-//        compute(ql + lsiz, qr, mid + 1, vr);
+//        compute(el, el + lsiz - 1, vl, mid);
+//        compute(el + lsiz, er, mid + 1, vr);
 //    }
 //}
 //

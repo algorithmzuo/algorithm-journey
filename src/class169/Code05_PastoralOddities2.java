@@ -77,27 +77,27 @@ package class169;
 //    }
 //}
 //
-//void compute(int ql, int qr, int vl, int vr) {
-//    if (ql > qr) {
+//void compute(int el, int er, int vl, int vr) {
+//    if (el > er) {
 //        return;
 //    }
 //    if (vl == vr) {
-//        for (int i = ql; i <= qr; i++) {
+//        for (int i = el; i <= er; i++) {
 //            ans[i] = vl;
 //        }
 //    } else {
 //        int mid = (vl + vr) >> 1;
 //        int unionCnt1 = 0;
 //        for (int i = vl; i <= mid; i++) {
-//            if (wsort[i].i < ql) {
+//            if (wsort[i].i < el) {
 //                if (Union(wsort[i].x, wsort[i].y)) {
 //                    unionCnt1++;
 //                }
 //            }
 //        }
 //        int unionCnt2 = 0;
-//        int split = qr + 1;
-//        for (int i = ql; i <= qr; i++) {
+//        int split = er + 1;
+//        for (int i = el; i <= er; i++) {
 //            if (edge[i].w <= wsort[mid].w) {
 //                if (Union(edge[i].x, edge[i].y)) {
 //                    unionCnt2++;
@@ -111,19 +111,19 @@ package class169;
 //        for (int i = 1; i <= unionCnt2; i++) {
 //            undo();
 //        }
-//        compute(ql, split - 1, mid + 1, vr);
+//        compute(el, split - 1, mid + 1, vr);
 //        for (int i = 1; i <= unionCnt1; i++) {
 //            undo();
 //        }
 //        int unionCnt3 = 0;
-//        for (int i = ql; i <= split - 1; i++) {
+//        for (int i = el; i <= split - 1; i++) {
 //            if (edge[i].w <= wsort[vl].w) {
 //                if (Union(edge[i].x, edge[i].y)) {
 //                    unionCnt3++;
 //                }
 //            }
 //        }
-//        compute(split, qr, vl, mid);
+//        compute(split, er, vl, mid);
 //        for (int i = 1; i <= unionCnt3; i++) {
 //            undo();
 //        }

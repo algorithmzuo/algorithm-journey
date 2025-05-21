@@ -81,27 +81,27 @@ public class Code05_PastoralOddities1 {
 	// 按权值组织的边在wsort里，答案范围[vl..vr]
 	// 前提 : ql之前的边里，边权 <= wsort[vl].w 的所有边，都已经加到图上了
 	// 利用整体二分得到所有边的答案
-	public static void compute(int ql, int qr, int vl, int vr) {
-		if (ql > qr) {
+	public static void compute(int el, int er, int vl, int vr) {
+		if (el > er) {
 			return;
 		}
 		if (vl == vr) {
-			for (int i = ql; i <= qr; i++) {
+			for (int i = el; i <= er; i++) {
 				ans[i] = vl;
 			}
 		} else {
 			int mid = (vl + vr) >> 1;
 			int unionCnt1 = 0;
 			for (int i = vl; i <= mid; i++) {
-				if (wsort[i][0] < ql) {
+				if (wsort[i][0] < el) {
 					if (union(wsort[i][1], wsort[i][2])) {
 						unionCnt1++;
 					}
 				}
 			}
 			int unionCnt2 = 0;
-			int split = qr + 1;
-			for (int i = ql; i <= qr; i++) {
+			int split = er + 1;
+			for (int i = el; i <= er; i++) {
 				if (edge[i][3] <= wsort[mid][3]) {
 					if (union(edge[i][1], edge[i][2])) {
 						unionCnt2++;
@@ -115,19 +115,19 @@ public class Code05_PastoralOddities1 {
 			for (int i = 1; i <= unionCnt2; i++) {
 				undo();
 			}
-			compute(ql, split - 1, mid + 1, vr);
+			compute(el, split - 1, mid + 1, vr);
 			for (int i = 1; i <= unionCnt1; i++) {
 				undo();
 			}
 			int unionCnt3 = 0;
-			for (int i = ql; i <= split - 1; i++) {
+			for (int i = el; i <= split - 1; i++) {
 				if (edge[i][3] <= wsort[vl][3]) {
 					if (union(edge[i][1], edge[i][2])) {
 						unionCnt3++;
 					}
 				}
 			}
-			compute(split, qr, vl, mid);
+			compute(split, er, vl, mid);
 			for (int i = 1; i <= unionCnt3; i++) {
 				undo();
 			}

@@ -206,12 +206,12 @@ public class Code04_Fruit1 {
 		a[5] = b[5];
 	}
 
-	public static void compute(int ql, int qr, int vl, int vr) {
-		if (ql > qr) {
+	public static void compute(int el, int er, int vl, int vr) {
+		if (el > er) {
 			return;
 		}
 		if (vl == vr) {
-			for (int i = ql; i <= qr; i++) {
+			for (int i = el; i <= er; i++) {
 				if (event[i][0] == 2) {
 					ans[event[i][5]] = vl;
 				}
@@ -219,7 +219,7 @@ public class Code04_Fruit1 {
 		} else {
 			int mid = (vl + vr) >> 1;
 			int lsiz = 0, rsiz = 0;
-			for (int i = ql; i <= qr; i++) {
+			for (int i = el; i <= er; i++) {
 				if (event[i][0] == 1) {
 					if (event[i][4] <= mid) {
 						add(event[i][2], event[i][3], event[i][5]);
@@ -244,13 +244,13 @@ public class Code04_Fruit1 {
 			// 同一个盘子的两条扫描线，一定会在一起，是不可能分开的
 			// 所以此时树状数组就是清空的，不需要再做撤销操作
 			for (int i = 1; i <= lsiz; i++) {
-				clone(event[ql + i - 1], lset[i]);
+				clone(event[el + i - 1], lset[i]);
 			}
 			for (int i = 1; i <= rsiz; i++) {
-				clone(event[ql + lsiz + i - 1], rset[i]);
+				clone(event[el + lsiz + i - 1], rset[i]);
 			}
-			compute(ql, ql + lsiz - 1, vl, mid);
-			compute(ql + lsiz, qr, mid + 1, vr);
+			compute(el, el + lsiz - 1, vl, mid);
+			compute(el + lsiz, er, mid + 1, vr);
 		}
 	}
 
