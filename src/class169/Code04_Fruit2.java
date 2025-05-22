@@ -231,7 +231,7 @@ package class169;
 //            b = tmp;
 //        }
 //        int ablca = lca(a, b);
-//        if (ablca == a) {
+//        if (ablca == a || ablca == b) {
 //            int son = lcaSon(a, b);
 //            addPlate(1, ldfn[b], rdfn[b], c);
 //            delPlate(ldfn[son], ldfn[b], rdfn[b], c);
