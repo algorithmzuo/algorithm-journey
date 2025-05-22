@@ -298,6 +298,8 @@ public class Code04_Fruit1 {
 				b = tmp;
 			}
 			int ablca = lca(a, b);
+			// 类型1，a和b的lca是a或b，2个区域，4个事件产生
+			// 类型2，a和b的lca不是a或b，1个区域，2个事件产生
 			if (ablca == a) {
 				int son = lcaSon(a, b);
 				// (1 ~ dfn[son]-1) (b子树上的dfn范围)
