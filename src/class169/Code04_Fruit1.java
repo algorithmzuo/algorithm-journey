@@ -41,12 +41,12 @@ public class Code04_Fruit1 {
 	// 只有y维度的树状数组
 	public static int[] tree = new int[MAXN];
 
-	// 所有事件编号的数组
+	// 所有事件排完序之后，依次把下标放入eid数组
 	public static int[] eid = new int[MAXN << 3];
-	// 每个对象有8个属性值
-	// event[i][0] == 1为加盘子事件，x处加，yl..yr词频+1，盘子权值v、空缺、空缺、空缺
-	// event[i][0] == 2为删盘子事件，x处减，yl..yr词频+1，盘子权值v、空缺、空缺、空缺
-	// event[i][0] == 3为水果事件，x、空缺、空缺、空缺、y、要求k、问题编号i
+	// 每个事件有8个属性值
+	// op==1加盘子，x处加、yl、yr，盘子权值v、空缺、空缺、空缺
+	// op==2删盘子，x处删、yl、yr，盘子权值v、空缺、空缺、空缺
+	// op==3为水果，x、空缺、空缺、空缺、y、要求k、问题编号i
 	public static int[][] event = new int[MAXN << 3][8];
 	// 事件的总数
 	public static int cnte = 0;
@@ -300,11 +300,14 @@ public class Code04_Fruit1 {
 			int ablca = lca(a, b);
 			if (ablca == a) {
 				int son = lcaSon(a, b);
+				// (1 ~ dfn[son]-1) (b子树上的dfn范围)
 				addPlate(1, ldfn[b], rdfn[b], c);
 				delPlate(ldfn[son], ldfn[b], rdfn[b], c);
+				// (b子树上的dfn范围) (son子树上最大的dfn序号+1 ~ n)
 				addPlate(ldfn[b], rdfn[son] + 1, n, c);
 				delPlate(rdfn[b] + 1, rdfn[son] + 1, n, c);
 			} else {
+				// (a子树上的dfn范围) (b子树上的dfn范围)
 				addPlate(ldfn[a], ldfn[b], rdfn[b], c);
 				delPlate(rdfn[a] + 1, ldfn[b], rdfn[b], c);
 			}
