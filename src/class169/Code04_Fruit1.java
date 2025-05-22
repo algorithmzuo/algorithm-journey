@@ -43,7 +43,7 @@ public class Code04_Fruit1 {
 
 	// 所有事件编号的数组
 	public static int[] eid = new int[MAXN << 3];
-	// 所有事件对象的数组，每个对象有8个属性值
+	// 每个对象有8个属性值
 	// event[i][0] == 1为加盘子事件，x处加，yl..yr词频+1，盘子权值v、空缺、空缺、空缺
 	// event[i][0] == 2为删盘子事件，x处减，yl..yr词频+1，盘子权值v、空缺、空缺、空缺
 	// event[i][0] == 3为水果事件，x、空缺、空缺、空缺、y、要求k、问题编号i
