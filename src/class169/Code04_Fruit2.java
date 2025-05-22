@@ -18,7 +18,7 @@ package class169;
 //using namespace std;
 //
 //struct Event {
-//    int op, x, yl, yr, v;
+//    int op, x, yl, yr, v, y, k, i;
 //};
 //
 //bool EventCmp(Event e1, Event e2) {
@@ -46,11 +46,12 @@ package class169;
 //
 //int tree[MAXN];
 //
+//int eid[MAXN << 3];
 //Event event[MAXN << 3];
 //int cnte = 0;
 //
-//Event lset[MAXN << 3];
-//Event rset[MAXN << 3];
+//int lset[MAXN << 3];
+//int rset[MAXN << 3];
 //
 //int ans[MAXN];
 //
@@ -156,9 +157,9 @@ package class169;
 //void addFruit(int x, int y, int k, int i) {
 //    event[++cnte].op = 3;
 //    event[cnte].x = x;
-//    event[cnte].yl = y;
-//    event[cnte].yr = k;
-//    event[cnte].v = i;
+//    event[cnte].y = y;
+//    event[cnte].k = k;
+//    event[cnte].i = i;
 //}
 //
 //void compute(int el, int er, int vl, int vr) {
@@ -167,43 +168,45 @@ package class169;
 //    }
 //    if (vl == vr) {
 //        for (int i = el; i <= er; i++) {
-//            if (event[i].op == 3) {
-//                ans[event[i].v] = vl;
+//            int id = eid[i];
+//            if (event[id].op == 3) {
+//                ans[event[id].i] = vl;
 //            }
 //        }
 //    } else {
 //        int mid = (vl + vr) >> 1;
 //        int lsiz = 0, rsiz = 0;
 //        for (int i = el; i <= er; i++) {
-//            if (event[i].op == 1) {
-//                if (event[i].v <= mid) {
-//                    add(event[i].yl, event[i].yr, 1);
-//                    lset[++lsiz] = event[i];
+//            int id = eid[i];
+//            if (event[id].op == 1) {
+//                if (event[id].v <= mid) {
+//                    add(event[id].yl, event[id].yr, 1);
+//                    lset[++lsiz] = id;
 //                } else {
-//                    rset[++rsiz] = event[i];
+//                    rset[++rsiz] = id;
 //                }
-//            } else if (event[i].op == 2) {
-//                if (event[i].v <= mid) {
-//                    add(event[i].yl, event[i].yr, -1);
-//                    lset[++lsiz] = event[i];
+//            } else if (event[id].op == 2) {
+//                if (event[id].v <= mid) {
+//                    add(event[id].yl, event[id].yr, -1);
+//                    lset[++lsiz] = id;
 //                } else {
-//                    rset[++rsiz] = event[i];
+//                    rset[++rsiz] = id;
 //                }
 //            } else {
-//                int satisfy = query(event[i].yl);
-//                if (satisfy >= event[i].yr) {
-//                    lset[++lsiz] = event[i];
+//                int satisfy = query(event[id].y);
+//                if (satisfy >= event[id].k) {
+//                    lset[++lsiz] = id;
 //                } else {
-//                    event[i].yr -= satisfy;
-//                    rset[++rsiz] = event[i];
+//                    event[id].k -= satisfy;
+//                    rset[++rsiz] = id;
 //                }
 //            }
 //        }
 //        for (int i = 1; i <= lsiz; i++) {
-//            event[el + i - 1] = lset[i];
+//            eid[el + i - 1] = lset[i];
 //        }
 //        for (int i = 1; i <= rsiz; i++) {
-//            event[el + lsiz + i - 1] = rset[i];
+//            eid[el + lsiz + i - 1] = rset[i];
 //        }
 //        compute(el, el + lsiz - 1, vl, mid);
 //        compute(el + lsiz, er, mid + 1, vr);
@@ -244,6 +247,9 @@ package class169;
 //        addFruit(min(ldfn[u], ldfn[v]), max(ldfn[u], ldfn[v]), k, i);
 //    }
 //    sort(event + 1, event + cnte + 1, EventCmp);
+//    for (int i = 1; i <= cnte; i++) {
+//        eid[i] = i;
+//    }
 //    compute(1, cnte, 0, INF);
 //    for (int i = 1; i <= q; i++) {
 //        cout << ans[i] << '\n';

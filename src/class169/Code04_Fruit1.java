@@ -25,28 +25,37 @@ public class Code04_Fruit1 {
 	public static int INF = 1000000001;
 	public static int n, p, q;
 
+	// 链式前向星
 	public static int[] head = new int[MAXN];
 	public static int[] next = new int[MAXN << 1];
 	public static int[] to = new int[MAXN << 1];
 	public static int cntg = 0;
 
+	// 树上倍增 + 每棵子树上的ldfn和rdfn
 	public static int[] dep = new int[MAXN];
 	public static int[] ldfn = new int[MAXN];
 	public static int[] rdfn = new int[MAXN];
 	public static int[][] stjump = new int[MAXN][MAXH];
 	public static int cntd = 0;
 
+	// 只有y维度的树状数组
 	public static int[] tree = new int[MAXN];
 
-	// event[i][0] == 1为加盘子事件，x处加，yl..yr词频+1，盘子权值v
-	// event[i][0] == 2为删盘子事件，x处减，yl..yr词频+1，盘子权值v
-	// event[i][0] == 3为水果事件，x、yl、要求yr、问题编号v
-	public static int[][] event = new int[MAXN << 3][5];
+	// 所有事件编号的数组
+	public static int[] eid = new int[MAXN << 3];
+	// 所有事件对象的数组，每个对象有8个属性值
+	// event[i][0] == 1为加盘子事件，x处加，yl..yr词频+1，盘子权值v、空缺、空缺、空缺
+	// event[i][0] == 2为删盘子事件，x处减，yl..yr词频+1，盘子权值v、空缺、空缺、空缺
+	// event[i][0] == 3为水果事件，x、空缺、空缺、空缺、y、要求k、问题编号i
+	public static int[][] event = new int[MAXN << 3][8];
+	// 事件的总数
 	public static int cnte = 0;
 
-	public static int[][] lset = new int[MAXN << 3][5];
-	public static int[][] rset = new int[MAXN << 3][5];
+	// 整体二分
+	public static int[] lset = new int[MAXN << 3];
+	public static int[] rset = new int[MAXN << 3];
 
+	// 每个水果的答案
 	public static int[] ans = new int[MAXN];
 
 	public static void addEdge(int u, int v) {
@@ -141,6 +150,8 @@ public class Code04_Fruit1 {
 		return stjump[a][0];
 	}
 
+	// 已知a和b的最低公共祖先一定是a或b
+	// 假设祖先为x，后代为y，返回x的哪个儿子的子树里有y
 	public static int lcaSon(int a, int b) {
 		if (dep[a] < dep[b]) {
 			int tmp = a;
@@ -166,11 +177,13 @@ public class Code04_Fruit1 {
 		}
 	}
 
+	// 树状数组中[l..r]范围上的每个数增加v
 	public static void add(int l, int r, int v) {
 		add(l, v);
 		add(r + 1, -v);
 	}
 
+	// 树状数组中查询单点的值
 	public static int query(int i) {
 		int ret = 0;
 		while (i > 0) {
@@ -196,20 +209,13 @@ public class Code04_Fruit1 {
 		event[cnte][4] = v;
 	}
 
-	public static void addFruit(int x, int y, int v, int i) {
+	public static void addFruit(int x, int y, int k, int i) {
 		event[++cnte][0] = 3;
 		event[cnte][1] = x;
-		event[cnte][2] = y;
-		event[cnte][3] = v;
-		event[cnte][4] = i;
-	}
-
-	public static void clone(int[] a, int[] b) {
-		a[0] = b[0];
-		a[1] = b[1];
-		a[2] = b[2];
-		a[3] = b[3];
-		a[4] = b[4];
+		// 2、3、4位空缺
+		event[cnte][5] = y;
+		event[cnte][6] = k;
+		event[cnte][7] = i;
 	}
 
 	public static void compute(int el, int er, int vl, int vr) {
@@ -218,35 +224,37 @@ public class Code04_Fruit1 {
 		}
 		if (vl == vr) {
 			for (int i = el; i <= er; i++) {
-				if (event[i][0] == 3) {
-					ans[event[i][4]] = vl;
+				int id = eid[i];
+				if (event[id][0] == 3) {
+					ans[event[id][7]] = vl;
 				}
 			}
 		} else {
 			int mid = (vl + vr) >> 1;
 			int lsiz = 0, rsiz = 0;
 			for (int i = el; i <= er; i++) {
-				if (event[i][0] == 1) {
-					if (event[i][4] <= mid) {
-						add(event[i][2], event[i][3], 1);
-						clone(lset[++lsiz], event[i]);
+				int id = eid[i];
+				if (event[id][0] == 1) {
+					if (event[id][4] <= mid) {
+						add(event[id][2], event[id][3], 1);
+						lset[++lsiz] = id;
 					} else {
-						clone(rset[++rsiz], event[i]);
+						rset[++rsiz] = id;
 					}
-				} else if (event[i][0] == 2) {
-					if (event[i][4] <= mid) {
-						add(event[i][2], event[i][3], -1);
-						clone(lset[++lsiz], event[i]);
+				} else if (event[id][0] == 2) {
+					if (event[id][4] <= mid) {
+						add(event[id][2], event[id][3], -1);
+						lset[++lsiz] = id;
 					} else {
-						clone(rset[++rsiz], event[i]);
+						rset[++rsiz] = id;
 					}
 				} else {
-					int satisfy = query(event[i][2]);
-					if (satisfy >= event[i][3]) {
-						clone(lset[++lsiz], event[i]);
+					int satisfy = query(event[id][5]);
+					if (satisfy >= event[id][6]) {
+						lset[++lsiz] = id;
 					} else {
-						event[i][3] -= satisfy;
-						clone(rset[++rsiz], event[i]);
+						event[id][6] -= satisfy;
+						rset[++rsiz] = id;
 					}
 				}
 			}
@@ -257,10 +265,10 @@ public class Code04_Fruit1 {
 			// 同一个盘子的两条扫描线，一定会在一起，是不可能分开的
 			// 所以此时树状数组就是清空的，不需要再做撤销操作
 			for (int i = 1; i <= lsiz; i++) {
-				clone(event[el + i - 1], lset[i]);
+				eid[el + i - 1] = lset[i];
 			}
 			for (int i = 1; i <= rsiz; i++) {
-				clone(event[el + lsiz + i - 1], rset[i]);
+				eid[el + lsiz + i - 1] = rset[i];
 			}
 			compute(el, el + lsiz - 1, vl, mid);
 			compute(el + lsiz, er, mid + 1, vr);
@@ -307,7 +315,11 @@ public class Code04_Fruit1 {
 			int k = in.nextInt();
 			addFruit(Math.min(ldfn[u], ldfn[v]), Math.max(ldfn[u], ldfn[v]), k, i);
 		}
+		// 根据x排序，如果x一样，加盘子排最前、删盘子其次、水果最后
 		Arrays.sort(event, 1, cnte + 1, (a, b) -> a[1] != b[1] ? a[1] - b[1] : a[0] - b[0]);
+		for (int i = 1; i <= cnte; i++) {
+			eid[i] = i;
+		}
 		compute(1, cnte, 0, INF);
 		for (int i = 1; i <= q; i++) {
 			out.println(ans[i]);
