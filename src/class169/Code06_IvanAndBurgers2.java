@@ -28,6 +28,7 @@ package class169;
 //
 //int lset[MAXN];
 //int rset[MAXN];
+//
 //int ans[MAXN];
 //
 //void insert(int* basis, int num) {
