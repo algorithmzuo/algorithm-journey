@@ -20,22 +20,21 @@ import java.util.Arrays;
 public class Code05_PastoralOddities1 {
 
 	public static int MAXN = 100001;
-	public static int MAXM = 300002;
+	public static int MAXM = 300001;
 	public static int n, m;
 
 	// edge是按时序组织的边数组
 	// wsort是按权值组织的边数组
-	// 边的时序i、端点x、端点y、权值w
-	public static int[][] edge = new int[MAXM][4];
-	public static int[][] wsort = new int[MAXM][4];
+	// 每条边有：端点x、端点y、权值w、时序tim、排名rak
+	public static int[][] edge = new int[MAXM][5];
+	public static int[][] wsort = new int[MAXM][5];
 
-	// 可撤销并查集
+	// 可撤销并查集 + 维护节点数为奇数的连通区数量oddnum
+	public static int oddnum;
 	public static int[] father = new int[MAXN];
 	public static int[] siz = new int[MAXN];
 	public static int[][] rollback = new int[MAXN][2];
 	public static int opsize = 0;
-	// 节点数为奇数的联通区数量
-	public static int oddnum;
 
 	public static int[] ans = new int[MAXM];
 
@@ -77,9 +76,9 @@ public class Code05_PastoralOddities1 {
 		}
 	}
 
-	// 按时序组织的边在edge里，当前来到[ql..qr]范围
+	// 按时序组织的边在edge里，当前来到[el..er]范围
 	// 按权值组织的边在wsort里，答案范围[vl..vr]
-	// 前提 : ql之前的边里，边权 <= wsort[vl].w 的所有边，都已经加到图上了
+	// 调用递归的前提 : el之前，边权排名<vl的边，已经加到图里了
 	// 利用整体二分得到所有边的答案
 	public static void compute(int el, int er, int vl, int vr) {
 		if (el > er) {
@@ -91,19 +90,21 @@ public class Code05_PastoralOddities1 {
 			}
 		} else {
 			int mid = (vl + vr) >> 1;
+			// 1) el之前，边权排名在[vl..mid]之间的边，加到图里，遍历wsort[vl..mid]来加速
 			int unionCnt1 = 0;
 			for (int i = vl; i <= mid; i++) {
-				if (wsort[i][0] < el) {
-					if (union(wsort[i][1], wsort[i][2])) {
+				if (wsort[i][3] < el) {
+					if (union(wsort[i][0], wsort[i][1])) {
 						unionCnt1++;
 					}
 				}
 			}
+			// 2) 从el开始，边权排名<=mid的边，加到图里，找到第一个达标的边split
 			int unionCnt2 = 0;
 			int split = er + 1;
 			for (int i = el; i <= er; i++) {
-				if (edge[i][3] <= wsort[mid][3]) {
-					if (union(edge[i][1], edge[i][2])) {
+				if (edge[i][4] <= mid) {
+					if (union(edge[i][0], edge[i][1])) {
 						unionCnt2++;
 					}
 				}
@@ -112,22 +113,28 @@ public class Code05_PastoralOddities1 {
 					break;
 				}
 			}
+			// 3) 撤销2)的效果，el之前，边权排名<=mid的边，都在图中
 			for (int i = 1; i <= unionCnt2; i++) {
 				undo();
 			}
+			// 4) 执行compute(el, split - 1, mid + 1, vr)，此时满足子递归的前提
 			compute(el, split - 1, mid + 1, vr);
+			// 5) 撤销1)的效果，此时只剩下前提了，el之前，边权排名<vl的边，都在图中
 			for (int i = 1; i <= unionCnt1; i++) {
 				undo();
 			}
+			// 6) 从el开始到split之前，边权排名<vl的边，加到图里
 			int unionCnt3 = 0;
 			for (int i = el; i <= split - 1; i++) {
-				if (edge[i][3] <= wsort[vl][3]) {
-					if (union(edge[i][1], edge[i][2])) {
+				if (edge[i][4] < vl) {
+					if (union(edge[i][0], edge[i][1])) {
 						unionCnt3++;
 					}
 				}
 			}
+			// 7) 执行compute(split, er, vl, mid)，此时满足子递归的前提
 			compute(split, er, vl, mid);
+			// 8) 撤销6)的效果，回到了前提
 			for (int i = 1; i <= unionCnt3; i++) {
 				undo();
 			}
@@ -146,8 +153,12 @@ public class Code05_PastoralOddities1 {
 			wsort[i][2] = edge[i][2];
 			wsort[i][3] = edge[i][3];
 		}
-		Arrays.sort(wsort, 1, m + 1, (a, b) -> a[3] - b[3]);
-		wsort[m + 1][3] = -1;
+		Arrays.sort(wsort, 1, m + 1, (a, b) -> a[2] - b[2]);
+		// edge数组和wsort数组里的每条边，设置排名信息
+		for (int i = 1; i <= m; i++) {
+			wsort[i][4] = i;
+			edge[wsort[i][3]][4] = i;
+		}
 	}
 
 	public static void main(String[] args) throws Exception {
@@ -156,15 +167,19 @@ public class Code05_PastoralOddities1 {
 		n = in.nextInt();
 		m = in.nextInt();
 		for (int i = 1; i <= m; i++) {
-			edge[i][0] = i;
+			edge[i][0] = in.nextInt();
 			edge[i][1] = in.nextInt();
 			edge[i][2] = in.nextInt();
-			edge[i][3] = in.nextInt();
+			edge[i][3] = i;
 		}
 		prepare();
 		compute(1, m, 1, m + 1);
 		for (int i = 1; i <= m; i++) {
-			out.println(wsort[ans[i]][3]);
+			if (ans[i] == m + 1) {
+				out.println(-1);
+			} else {
+				out.println(wsort[ans[i]][2]);
+			}
 		}
 		out.flush();
 		out.close();

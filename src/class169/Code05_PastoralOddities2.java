@@ -17,7 +17,7 @@ package class169;
 //using namespace std;
 //
 //struct Edge {
-//    int i, x, y, w;
+//    int x, y, w, tim, rak;
 //};
 //
 //bool EdgeCmp(Edge a, Edge b) {
@@ -25,17 +25,17 @@ package class169;
 //}
 //
 //const int MAXN = 100001;
-//const int MAXM = 300002;
+//const int MAXM = 300001;
 //int n, m;
 //
 //Edge edge[MAXM];
 //Edge wsort[MAXM];
 //
+//int oddnum;
 //int father[MAXN];
 //int siz[MAXN];
 //int rollback[MAXN][2];
 //int opsize = 0;
-//int oddnum;
 //
 //int ans[MAXM];
 //
@@ -89,7 +89,7 @@ package class169;
 //        int mid = (vl + vr) >> 1;
 //        int unionCnt1 = 0;
 //        for (int i = vl; i <= mid; i++) {
-//            if (wsort[i].i < el) {
+//            if (wsort[i].tim < el) {
 //                if (Union(wsort[i].x, wsort[i].y)) {
 //                    unionCnt1++;
 //                }
@@ -98,7 +98,7 @@ package class169;
 //        int unionCnt2 = 0;
 //        int split = er + 1;
 //        for (int i = el; i <= er; i++) {
-//            if (edge[i].w <= wsort[mid].w) {
+//            if (edge[i].rak <= mid) {
 //                if (Union(edge[i].x, edge[i].y)) {
 //                    unionCnt2++;
 //                }
@@ -117,7 +117,7 @@ package class169;
 //        }
 //        int unionCnt3 = 0;
 //        for (int i = el; i <= split - 1; i++) {
-//            if (edge[i].w <= wsort[vl].w) {
+//            if (edge[i].rak < vl) {
 //                if (Union(edge[i].x, edge[i].y)) {
 //                    unionCnt3++;
 //                }
@@ -137,10 +137,16 @@ package class169;
 //        siz[i] = 1;
 //    }
 //    for (int i = 1; i <= m; i++) {
-//        wsort[i] = edge[i];
+//        wsort[i].x = edge[i].x;
+//        wsort[i].y = edge[i].y;
+//        wsort[i].w = edge[i].w;
+//        wsort[i].tim = edge[i].tim;
 //    }
 //    sort(wsort + 1, wsort + m + 1, EdgeCmp);
-//    wsort[m + 1].w = -1;
+//    for (int i = 1; i <= m; i++) {
+//        wsort[i].rak = i;
+//        edge[wsort[i].tim].rak = i;
+//    }
 //}
 //
 //int main() {
@@ -148,13 +154,17 @@ package class169;
 //    cin.tie(nullptr);
 //    cin >> n >> m;
 //    for (int i = 1; i <= m; i++) {
-//        edge[i].i = i;
 //        cin >> edge[i].x >> edge[i].y >> edge[i].w;
+//        edge[i].tim = i;
 //    }
 //    prepare();
 //    compute(1, m, 1, m + 1);
 //    for (int i = 1; i <= m; i++) {
-//        cout << wsort[ans[i]].w << '\n';
+//        if (ans[i] == m + 1) {
+//            cout << -1 << '\n';
+//        } else {
+//            cout << wsort[ans[i]].w << '\n';
+//        }
 //    }
 //    return 0;
 //}
