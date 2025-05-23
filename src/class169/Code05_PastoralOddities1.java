@@ -23,8 +23,8 @@ public class Code05_PastoralOddities1 {
 	public static int MAXM = 300001;
 	public static int n, m;
 
-	// edge是按时序组织的边数组
-	// wsort是按权值组织的边数组
+	// edge代表所有边依次出现
+	// wsort代表所有边按边权排序
 	// 每条边有：端点x、端点y、边权w、时序tim、边权排名rak
 	public static int[][] edge = new int[MAXM][5];
 	public static int[][] wsort = new int[MAXM][5];
@@ -76,8 +76,8 @@ public class Code05_PastoralOddities1 {
 		}
 	}
 
-	// 按时序组织的边在edge里，当前来到[el..er]范围
-	// 按权值组织的边在wsort里，答案范围[vl..vr]
+	// 依次出现的边在edge里，当前来到[el..er]范围
+	// 权值排序后的边在wsort里，答案范围[vl..vr]，同时也是排名范围
 	// 调用递归的前提 : el之前，边权排名<vl的边，已经加到图里了
 	// 利用整体二分得到所有边的答案
 	public static void compute(int el, int er, int vl, int vr) {
