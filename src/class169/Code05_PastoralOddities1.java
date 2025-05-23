@@ -25,7 +25,7 @@ public class Code05_PastoralOddities1 {
 
 	// edge是按时序组织的边数组
 	// wsort是按权值组织的边数组
-	// 每条边有：端点x、端点y、权值w、时序tim、排名rak
+	// 每条边有：端点x、端点y、边权w、时序tim、边权排名rak
 	public static int[][] edge = new int[MAXM][5];
 	public static int[][] wsort = new int[MAXM][5];
 
@@ -154,7 +154,7 @@ public class Code05_PastoralOddities1 {
 			wsort[i][3] = edge[i][3];
 		}
 		Arrays.sort(wsort, 1, m + 1, (a, b) -> a[2] - b[2]);
-		// edge数组和wsort数组里的每条边，设置排名信息
+		// edge数组、wsort数组，每条边设置排名信息
 		for (int i = 1; i <= m; i++) {
 			wsort[i][4] = i;
 			edge[wsort[i][3]][4] = i;
