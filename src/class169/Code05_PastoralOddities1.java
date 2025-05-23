@@ -90,7 +90,7 @@ public class Code05_PastoralOddities1 {
 			}
 		} else {
 			int mid = (vl + vr) >> 1;
-			// 1) el之前，边权排名在[vl..mid]之间的边，加到图里，遍历wsort[vl..mid]来加速
+			// 1) el之前，边权排名在[vl..mid]之间的边，加到图里，通过遍历wsort[vl..mid]来加速
 			int unionCnt1 = 0;
 			for (int i = vl; i <= mid; i++) {
 				if (wsort[i][3] < el) {
@@ -99,7 +99,7 @@ public class Code05_PastoralOddities1 {
 					}
 				}
 			}
-			// 2) 从el开始，边权排名<=mid的边，加到图里，找到第一个达标的边split
+			// 2) 从el开始遍历，边权排名<=mid的边，加到图里，找到第一个达标的边split
 			int unionCnt2 = 0;
 			int split = er + 1;
 			for (int i = el; i <= er; i++) {
@@ -117,7 +117,7 @@ public class Code05_PastoralOddities1 {
 			for (int i = 1; i <= unionCnt2; i++) {
 				undo();
 			}
-			// 4) 执行compute(el, split - 1, mid + 1, vr)，此时满足子递归的前提
+			// 4) 执行 compute(el, split - 1, mid + 1, vr)，此时满足子递归的前提
 			compute(el, split - 1, mid + 1, vr);
 			// 5) 撤销1)的效果，此时只剩下前提了，el之前，边权排名<vl的边，都在图中
 			for (int i = 1; i <= unionCnt1; i++) {
@@ -132,7 +132,7 @@ public class Code05_PastoralOddities1 {
 					}
 				}
 			}
-			// 7) 执行compute(split, er, vl, mid)，此时满足子递归的前提
+			// 7) 执行 compute(split, er, vl, mid)，此时满足子递归的前提
 			compute(split, er, vl, mid);
 			// 8) 撤销6)的效果，回到了前提
 			for (int i = 1; i <= unionCnt3; i++) {
