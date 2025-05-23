@@ -30,6 +30,7 @@ public class Code06_IvanAndBurgers1 {
 
 	public static int[] lset = new int[MAXN];
 	public static int[] rset = new int[MAXN];
+
 	public static int[] ans = new int[MAXN];
 
 	public static void insert(int[] basis, int num) {
