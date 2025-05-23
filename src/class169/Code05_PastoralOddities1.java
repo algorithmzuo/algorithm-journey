@@ -29,7 +29,7 @@ public class Code05_PastoralOddities1 {
 	public static int[][] edge = new int[MAXM][5];
 	public static int[][] wsort = new int[MAXM][5];
 
-	// 可撤销并查集 + 维护节点数为奇数的连通区数量oddnum
+	// 可撤销并查集 + 节点数为奇数的连通区数量为oddnum
 	public static int oddnum;
 	public static int[] father = new int[MAXN];
 	public static int[] siz = new int[MAXN];
