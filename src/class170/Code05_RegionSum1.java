@@ -10,7 +10,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.util.Arrays;
 
-public class Code02_RegionSum1 {
+public class Code05_RegionSum1 {
 
 	public static int MAXN = 500001;
 	public static int n, m;
