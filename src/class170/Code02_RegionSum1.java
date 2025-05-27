@@ -1,6 +1,6 @@
 package class170;
 
-// 二维空间查询计数模版题，java版
+// 空间查询计数cdq模版题，java版
 // 测试链接 : https://www.luogu.com.cn/problem/P3755
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
