@@ -26,7 +26,7 @@ package class170;
 //const int MAXN = 200001;
 //int n, k;
 //Number arr[MAXN];
-//Number help[MAXN];
+//Number tmp[MAXN];
 //int tree[MAXN];
 //int f[MAXN];
 //int ans[MAXN];
@@ -67,26 +67,26 @@ package class170;
 //    p2 = m + 1;
 //    int i = l;
 //    while (p1 <= m && p2 <= r) {
-//        help[i++] = arr[p1].b <= arr[p2].b ? arr[p1++] : arr[p2++];
+//        tmp[i++] = arr[p1].b <= arr[p2].b ? arr[p1++] : arr[p2++];
 //    }
 //    while (p1 <= m) {
-//        help[i++] = arr[p1++];
+//        tmp[i++] = arr[p1++];
 //    }
 //    while (p2 <= r) {
-//        help[i++] = arr[p2++];
+//        tmp[i++] = arr[p2++];
 //    }
 //    for (i = l; i <= r; i++) {
-//        arr[i] = help[i];
+//        arr[i] = tmp[i];
 //    }
 //}
 //
-//void compute(int l, int r) {
+//void cdq(int l, int r) {
 //    if (l == r) {
 //        return;
 //    }
 //    int mid = (l + r) / 2;
-//    compute(l, mid);
-//    compute(mid + 1, r);
+//    cdq(l, mid);
+//    cdq(mid + 1, r);
 //    merge(l, mid, r);
 //}
 //
@@ -111,7 +111,7 @@ package class170;
 //        cin >> arr[i].a >> arr[i].b >> arr[i].c;
 //    }
 //    prepare();
-//    compute(1, n);
+//    cdq(1, n);
 //    for (int i = 1; i <= n; i++) {
 //        ans[f[i]]++;
 //    }

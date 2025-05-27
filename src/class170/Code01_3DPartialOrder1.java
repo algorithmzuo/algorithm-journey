@@ -17,7 +17,7 @@ public class Code01_3DPartialOrder1 {
 	// 位置i、属性a、属性b、属性c
 	public static int[][] arr = new int[MAXN][4];
 	// 归并排序辅助数组
-	public static int[][] help = new int[MAXN][4];
+	public static int[][] tmp = new int[MAXN][4];
 	// 树状数组
 	public static int[] tree = new int[MAXN];
 	// 每个位置统计f(i)
@@ -70,26 +70,26 @@ public class Code01_3DPartialOrder1 {
 		p2 = m + 1;
 		int i = l;
 		while (p1 <= m && p2 <= r) {
-			clone(help[i++], arr[p1][2] <= arr[p2][2] ? arr[p1++] : arr[p2++]);
+			clone(tmp[i++], arr[p1][2] <= arr[p2][2] ? arr[p1++] : arr[p2++]);
 		}
 		while (p1 <= m) {
-			clone(help[i++], arr[p1++]);
+			clone(tmp[i++], arr[p1++]);
 		}
 		while (p2 <= r) {
-			clone(help[i++], arr[p2++]);
+			clone(tmp[i++], arr[p2++]);
 		}
 		for (i = l; i <= r; i++) {
-			clone(arr[i], help[i]);
+			clone(arr[i], tmp[i]);
 		}
 	}
 
-	public static void compute(int l, int r) {
+	public static void cdq(int l, int r) {
 		if (l == r) {
 			return;
 		}
 		int mid = (l + r) / 2;
-		compute(l, mid);
-		compute(mid + 1, r);
+		cdq(l, mid);
+		cdq(mid + 1, r);
 		merge(l, mid, r);
 	}
 
@@ -121,7 +121,7 @@ public class Code01_3DPartialOrder1 {
 			arr[i][3] = in.nextInt();
 		}
 		prepare();
-		compute(1, n);
+		cdq(1, n);
 		for (int i = 1; i <= n; i++) {
 			ans[f[i]]++;
 		}
