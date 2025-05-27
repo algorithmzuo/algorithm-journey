@@ -14,14 +14,19 @@ public class Code01_3DPartialOrder1 {
 
 	public static int MAXN = 200001;
 	public static int n, k;
+
 	// 位置i、属性a、属性b、属性c
 	public static int[][] arr = new int[MAXN][4];
-	// 归并排序辅助数组
+
+	// 归并排序需要
 	public static int[][] tmp = new int[MAXN][4];
+
 	// 树状数组
 	public static int[] tree = new int[MAXN];
+
 	// 每个位置统计f(i)
 	public static int[] f = new int[MAXN];
+
 	// 答案
 	public static int[] ans = new int[MAXN];
 
