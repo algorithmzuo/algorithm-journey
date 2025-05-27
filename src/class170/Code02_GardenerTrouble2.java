@@ -78,7 +78,7 @@ package class170;
 //    if (l == r) {
 //        return;
 //    }
-//    int mid = (l + r) >> 1;
+//    int mid = (l + r) / 2;
 //    cdq(l, mid);
 //    cdq(mid + 1, r);
 //    merge(l, mid, r);

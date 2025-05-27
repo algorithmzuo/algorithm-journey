@@ -3,7 +3,7 @@ package class170;
 // 园丁的烦恼，java版
 // 测试链接 : https://www.luogu.com.cn/problem/P2163
 // 提交以下的code，提交时请把类名改成"Main"
-// java实现的逻辑一定是正确的，但无法通过所有测试用例，内存使用过大
+// java实现的逻辑一定是正确的，但无法通过测试用例，内存使用过大
 // 因为这道题只考虑C++能通过的空间极限，根本没考虑java的用户
 // 想通过用C++实现，本节课Code02_GardenerTrouble2文件就是C++的实现
 // 两个版本的逻辑完全一样，C++版本可以通过所有测试
@@ -83,7 +83,7 @@ public class Code02_GardenerTrouble1 {
 		if (l == r) {
 			return;
 		}
-		int mid = l + r >> 1;
+		int mid = (l + r) / 2;
 		cdq(l, mid);
 		cdq(mid + 1, r);
 		merge(l, mid, r);
