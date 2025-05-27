@@ -10,7 +10,7 @@ package class170;
 //using namespace std;
 //
 //struct Node {
-//    int op, x, y, v, q, num;
+//    int op, x, y, v, q, num; // 类型、x、y、效果v、问题q、树木量num
 //};
 //
 //bool NodeCmp(Node a, Node b) {
