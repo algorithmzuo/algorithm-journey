@@ -1,6 +1,6 @@
 package class170;
 
-// 空间查询计数cdq模版题，java版
+// 老C的任务，java版
 // 测试链接 : https://www.luogu.com.cn/problem/P3755
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
@@ -10,7 +10,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.util.Arrays;
 
-public class Code05_RegionSum1 {
+public class Code05_MissionOfC1 {
 
 	public static int MAXN = 500001;
 	public static int n, m;
