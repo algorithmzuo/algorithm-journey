@@ -100,7 +100,6 @@ package class170;
 //            f[arr[i].i] = r - i;
 //        }
 //    }
-//    fill(ans, ans + n, 0);
 //}
 //
 //int main() {

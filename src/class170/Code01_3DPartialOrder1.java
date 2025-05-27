@@ -14,7 +14,6 @@ public class Code01_3DPartialOrder1 {
 
 	public static int MAXN = 200001;
 	public static int n, k;
-
 	// 位置i、属性a、属性b、属性c
 	public static int[][] arr = new int[MAXN][4];
 	// 归并排序辅助数组
@@ -108,8 +107,6 @@ public class Code01_3DPartialOrder1 {
 				f[arr[i][0]] = r - i;
 			}
 		}
-		// 清空答案数组
-		Arrays.fill(ans, 0, n, 0);
 	}
 
 	public static void main(String[] args) throws IOException {
