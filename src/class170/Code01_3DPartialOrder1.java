@@ -95,9 +95,9 @@ public class Code01_3DPartialOrder1 {
 
 	public static void prepare() {
 		// 根据a排序，a一样根据b排序，b一样根据c排序
+		// 排序后a、b、c一样的同组内，组前的下标得不到同组后面的统计量
+		// 所以先设置f的初始值，把这部分提前补偿给组前的下标，然后跑CDQ分治
 		Arrays.sort(arr, 1, n + 1, (a, b) -> a[1] != b[1] ? a[1] - b[1] : a[2] != b[2] ? a[2] - b[2] : a[3] - b[3]);
-		// 排序后，a、b、c都一样的同一组内，组前的下标，得不到同组后面的统计量
-		// 所以先设置f的初始值，把这部分补偿给组前的下标
 		for (int l = 1, r = 1; l <= n; l = ++r) {
 			while (r + 1 <= n && arr[l][1] == arr[r + 1][1] && arr[l][2] == arr[r + 1][2]
 					&& arr[l][3] == arr[r + 1][3]) {
