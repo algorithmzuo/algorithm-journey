@@ -13,7 +13,7 @@ package class170;
 //    int i, a, b, c;
 //};
 //
-//bool NumberCmp(Number x, Number y) {
+//bool CmpAbc(Number x, Number y) {
 //    if (x.a != y.a) {
 //        return x.a < y.a;
 //    }
@@ -23,10 +23,13 @@ package class170;
 //    return x.c < y.c;
 //}
 //
+//bool CmpB(Number x, Number y) {
+//    return x.b < y.b;
+//}
+//
 //const int MAXN = 200001;
 //int n, k;
 //Number arr[MAXN];
-//Number tmp[MAXN];
 //int tree[MAXN];
 //int f[MAXN];
 //int ans[MAXN];
@@ -63,21 +66,7 @@ package class170;
 //    for (int i = l; i <= p1; i++) {
 //        add(arr[i].c, -1);
 //    }
-//    p1 = l;
-//    p2 = m + 1;
-//    int i = l;
-//    while (p1 <= m && p2 <= r) {
-//        tmp[i++] = arr[p1].b <= arr[p2].b ? arr[p1++] : arr[p2++];
-//    }
-//    while (p1 <= m) {
-//        tmp[i++] = arr[p1++];
-//    }
-//    while (p2 <= r) {
-//        tmp[i++] = arr[p2++];
-//    }
-//    for (i = l; i <= r; i++) {
-//        arr[i] = tmp[i];
-//    }
+//    sort(arr + l, arr + r + 1, CmpB);
 //}
 //
 //void cdq(int l, int r) {
@@ -91,7 +80,7 @@ package class170;
 //}
 //
 //void prepare() {
-//    sort(arr + 1, arr + n + 1, NumberCmp);
+//    sort(arr + 1, arr + n + 1, CmpAbc);
 //    for (int l = 1, r = 1; l <= n; l = ++r) {
 //        while (r + 1 <= n && arr[l].a == arr[r + 1].a && arr[l].b == arr[r + 1].b && arr[l].c == arr[r + 1].c) {
 //            r++;

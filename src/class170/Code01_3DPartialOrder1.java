@@ -18,9 +18,6 @@ public class Code01_3DPartialOrder1 {
 	// 位置i、属性a、属性b、属性c
 	public static int[][] arr = new int[MAXN][4];
 
-	// 归并排序需要
-	public static int[][] tmp = new int[MAXN][4];
-
 	// 树状数组
 	public static int[] tree = new int[MAXN];
 
@@ -29,13 +26,6 @@ public class Code01_3DPartialOrder1 {
 
 	// 答案
 	public static int[] ans = new int[MAXN];
-
-	public static void clone(int[] a, int[] b) {
-		a[0] = b[0];
-		a[1] = b[1];
-		a[2] = b[2];
-		a[3] = b[3];
-	}
 
 	public static int lowbit(int i) {
 		return i & -i;
@@ -71,21 +61,12 @@ public class Code01_3DPartialOrder1 {
 		for (int i = l; i <= p1; i++) {
 			add(arr[i][3], -1);
 		}
-		p1 = l;
-		p2 = m + 1;
-		int i = l;
-		while (p1 <= m && p2 <= r) {
-			clone(tmp[i++], arr[p1][2] <= arr[p2][2] ? arr[p1++] : arr[p2++]);
-		}
-		while (p1 <= m) {
-			clone(tmp[i++], arr[p1++]);
-		}
-		while (p2 <= r) {
-			clone(tmp[i++], arr[p2++]);
-		}
-		for (i = l; i <= r; i++) {
-			clone(arr[i], tmp[i]);
-		}
+		// 上面的过程，有树状数组的操作，O(n * log n)
+		// 复杂度表达式，t(n) = 2 * t(n / 2) + O(n * log n)
+		// 时间复杂度O(n * log n * log n)
+		// 既然复杂度已经如此，接下来根据b属性来归并，执行O(n)的过程就显得无所谓了
+		// 不如直接排序了，还更容易写
+		Arrays.sort(arr, l, r + 1, (a, b) -> a[2] - b[2]);
 	}
 
 	public static void cdq(int l, int r) {

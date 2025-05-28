@@ -14,7 +14,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.util.Arrays;
 
-public class Code04_GardenerTrouble1 {
+public class Code05_GardenerTrouble1 {
 
 	public static int MAXN = 500001 * 5;
 	public static int n, m;
