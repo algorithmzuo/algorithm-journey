@@ -13,7 +13,7 @@ package class170;
 //    int i, v, d, q;
 //};
 //
-//bool CmpIndex(Node x, Node y) {
+//bool NodeCmp(Node x, Node y) {
 //    return x.i < y.i;
 //}
 //
@@ -74,7 +74,7 @@ package class170;
 //    for (int i = m; i >= p1; i--) {
 //        add(arr[i].v, -arr[i].d);
 //    }
-//    sort(arr + l, arr + r + 1, CmpIndex);
+//    sort(arr + l, arr + r + 1, NodeCmp);
 //}
 //
 //void cdq(int l, int r) {
