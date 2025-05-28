@@ -9,11 +9,11 @@ package class170;
 //
 //using namespace std;
 //
-//struct Number {
+//struct Node {
 //    int i, v, d, q;
 //};
 //
-//bool CmpIndex(Number x, Number y) {
+//bool CmpIndex(Node x, Node y) {
 //    return x.i < y.i;
 //}
 //
@@ -25,7 +25,7 @@ package class170;
 //int pos[MAXN];
 //int del[MAXM];
 //
-//Number arr[MAXN + MAXM];
+//Node arr[MAXN + MAXM];
 //int cnt = 0;
 //
 //int tree[MAXN];
