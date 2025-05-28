@@ -13,7 +13,7 @@ import java.util.Arrays;
 public class Code06_AngelDoll1 {
 
 	public static int MAXN = 300001;
-	public static int MAXV = 1000001;
+	public static int MAXV = 1000002;
 	public static int INF = 1000000001;
 	public static int n, m, v;
 

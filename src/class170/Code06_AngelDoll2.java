@@ -18,7 +18,7 @@ package class170;
 //}
 //
 //const int MAXN = 300001;
-//const int MAXV = 1000001;
+//const int MAXV = 1000002;
 //const int INF = 1000000001;
 //int n, m, v;
 //
