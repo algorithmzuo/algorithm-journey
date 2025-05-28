@@ -1,12 +1,8 @@
 package class170;
 
-// 园丁的烦恼，java版
-// 测试链接 : https://www.luogu.com.cn/problem/P2163
-// 提交以下的code，提交时请把类名改成"Main"
-// java实现的逻辑一定是正确的，但无法通过测试用例，内存使用过大
-// 因为这道题只考虑C++能通过的空间极限，根本没考虑java的用户
-// 想通过用C++实现，本节课Code04_GardenerTrouble2文件就是C++的实现
-// 两个版本的逻辑完全一样，C++版本可以通过所有测试
+// 老C的任务，java版
+// 测试链接 : https://www.luogu.com.cn/problem/P3755
+// 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -14,12 +10,12 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.util.Arrays;
 
-public class Code04_GardenerTrouble1 {
+public class Code04_TaskOfC1 {
 
-	public static int MAXN = 500001 * 5;
+	public static int MAXN = 500001;
 	public static int n, m;
 
-	// op == 1代表树木，x、y
+	// op == 1代表基站，x、y、功率v
 	// op == 2代表查询，x、y、效果v、问题q
 	public static int[][] arr = new int[MAXN][5];
 	public static int cnt = 0;
@@ -28,7 +24,7 @@ public class Code04_GardenerTrouble1 {
 	public static int[][] tmp = new int[MAXN][5];
 
 	// 问题的答案
-	public static int[] ans = new int[MAXN];
+	public static long[] ans = new long[MAXN];
 
 	public static void clone(int[] a, int[] b) {
 		a[0] = b[0];
@@ -38,10 +34,11 @@ public class Code04_GardenerTrouble1 {
 		a[4] = b[4];
 	}
 
-	public static void addTree(int x, int y) {
+	public static void addStation(int x, int y, int v) {
 		arr[++cnt][0] = 1;
 		arr[cnt][1] = x;
 		arr[cnt][2] = y;
+		arr[cnt][3] = v;
 	}
 
 	public static void addQuery(int x, int y, int v, int q) {
@@ -53,16 +50,17 @@ public class Code04_GardenerTrouble1 {
 	}
 
 	public static void merge(int l, int m, int r) {
-		int p1, p2, tree = 0;
+		int p1, p2;
+		long sum = 0;
 		for (p1 = l - 1, p2 = m + 1; p2 <= r; p2++) {
 			while (p1 + 1 <= m && arr[p1 + 1][2] <= arr[p2][2]) {
 				p1++;
 				if (arr[p1][0] == 1) {
-					tree++;
+					sum += arr[p1][3];
 				}
 			}
 			if (arr[p2][0] == 2) {
-				ans[arr[p2][4]] += tree * arr[p2][3];
+				ans[arr[p2][4]] += sum * arr[p2][3];
 			}
 		}
 		p1 = l;
@@ -97,10 +95,11 @@ public class Code04_GardenerTrouble1 {
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
 		n = in.nextInt();
 		m = in.nextInt();
-		for (int i = 1, x, y; i <= n; i++) {
+		for (int i = 1, x, y, v; i <= n; i++) {
 			x = in.nextInt();
 			y = in.nextInt();
-			addTree(x, y);
+			v = in.nextInt();
+			addStation(x, y, v);
 		}
 		for (int i = 1, a, b, c, d; i <= m; i++) {
 			a = in.nextInt();
