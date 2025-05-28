@@ -10,7 +10,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.util.Arrays;
 
-public class Code05_AngelDoll1 {
+public class Code06_AngelDoll1 {
 
 	public static int MAXN = 300001;
 	public static int MAXV = 1000001;
