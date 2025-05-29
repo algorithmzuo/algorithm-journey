@@ -63,38 +63,6 @@ public class Code06_AngelDoll1 {
 		}
 	}
 
-	// 所有点变到第一象限
-	public static void to1() {
-		for (int i = 1; i <= cnte; i++) {
-			clone(arr[i], tim[i]);
-		}
-	}
-
-	// 所有点变到第二象限
-	public static void to2() {
-		for (int i = 1; i <= cnte; i++) {
-			clone(arr[i], tim[i]);
-			arr[i][1] = v - arr[i][1];
-		}
-	}
-
-	// 所有点变到第三象限
-	public static void to3() {
-		for (int i = 1; i <= cnte; i++) {
-			clone(arr[i], tim[i]);
-			arr[i][1] = v - arr[i][1];
-			arr[i][2] = v - arr[i][2];
-		}
-	}
-
-	// 所有点变到第四象限
-	public static void to4() {
-		for (int i = 1; i <= cnte; i++) {
-			clone(arr[i], tim[i]);
-			arr[i][2] = v - arr[i][2];
-		}
-	}
-
 	public static void merge(int l, int m, int r) {
 		int p1, p2;
 		for (p1 = l - 1, p2 = m + 1; p2 <= r; p2++) {
@@ -126,12 +94,50 @@ public class Code06_AngelDoll1 {
 		merge(l, mid, r);
 	}
 
+	// 点变换到第一象限进行cdq分治
+	public static void to1() {
+		for (int i = 1; i <= cnte; i++) {
+			clone(arr[i], tim[i]);
+		}
+		cdq(1, cnte);
+	}
+
+	// 点变换到第二象限进行cdq分治
+	public static void to2() {
+		for (int i = 1; i <= cnte; i++) {
+			clone(arr[i], tim[i]);
+			arr[i][1] = v - arr[i][1];
+		}
+		cdq(1, cnte);
+	}
+
+	// 点变换到第三象限进行cdq分治
+	public static void to3() {
+		for (int i = 1; i <= cnte; i++) {
+			clone(arr[i], tim[i]);
+			arr[i][1] = v - arr[i][1];
+			arr[i][2] = v - arr[i][2];
+		}
+		cdq(1, cnte);
+	}
+
+	// 点变换到第四象限进行cdq分治
+	public static void to4() {
+		for (int i = 1; i <= cnte; i++) {
+			clone(arr[i], tim[i]);
+			arr[i][2] = v - arr[i][2];
+		}
+		cdq(1, cnte);
+	}
+
 	public static void main(String[] args) throws IOException {
 		FastReader in = new FastReader(System.in);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
 		n = in.nextInt();
 		m = in.nextInt();
 		// 树状数组下标从1开始，所以x和y都要自增一下
+		// x或y的最大值用v记录，变换象限时，防止 v - (x或y) 出现0
+		// 所以最后v再自增一下
 		for (int i = 1, x, y; i <= n; i++) {
 			x = in.nextInt();
 			y = in.nextInt();
@@ -152,7 +158,6 @@ public class Code06_AngelDoll1 {
 			}
 			v = Math.max(v, Math.max(x, y));
 		}
-		// 变换象限时，防止 v - (x或y) 出现0，所以v再自增一下
 		v++;
 		for (int i = 1; i <= v; i++) {
 			tree[i] = -INF;
@@ -160,10 +165,10 @@ public class Code06_AngelDoll1 {
 		for (int i = 1; i <= cntq; i++) {
 			ans[i] = INF;
 		}
-		to1(); cdq(1, cnte);
-		to2(); cdq(1, cnte);
-		to3(); cdq(1, cnte);
-		to4(); cdq(1, cnte);
+		to1();
+		to2();
+		to3();
+		to4();
 		for (int i = 1; i <= cntq; i++) {
 			out.println(ans[i]);
 		}

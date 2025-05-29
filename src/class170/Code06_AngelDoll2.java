@@ -58,34 +58,6 @@ package class170;
 //    }
 //}
 //
-//void to1() {
-//    for (int i = 1; i <= cnte; i++) {
-//        arr[i] = tim[i];
-//    }
-//}
-//
-//void to2() {
-//    for (int i = 1; i <= cnte; i++) {
-//        arr[i] = tim[i];
-//        arr[i].x = v - arr[i].x;
-//    }
-//}
-//
-//void to3() {
-//    for (int i = 1; i <= cnte; i++) {
-//        arr[i] = tim[i];
-//        arr[i].x = v - arr[i].x;
-//        arr[i].y = v - arr[i].y;
-//    }
-//}
-//
-//void to4() {
-//    for (int i = 1; i <= cnte; i++) {
-//        arr[i] = tim[i];
-//        arr[i].y = v - arr[i].y;
-//    }
-//}
-//
 //void merge(int l, int m, int r) {
 //    int p1, p2;
 //    for (p1 = l - 1, p2 = m + 1; p2 <= r; p2++) {
@@ -117,6 +89,38 @@ package class170;
 //    merge(l, mid, r);
 //}
 //
+//void to1() {
+//    for (int i = 1; i <= cnte; i++) {
+//        arr[i] = tim[i];
+//    }
+//    cdq(1, cnte);
+//}
+//
+//void to2() {
+//    for (int i = 1; i <= cnte; i++) {
+//        arr[i] = tim[i];
+//        arr[i].x = v - arr[i].x;
+//    }
+//    cdq(1, cnte);
+//}
+//
+//void to3() {
+//    for (int i = 1; i <= cnte; i++) {
+//        arr[i] = tim[i];
+//        arr[i].x = v - arr[i].x;
+//        arr[i].y = v - arr[i].y;
+//    }
+//    cdq(1, cnte);
+//}
+//
+//void to4() {
+//    for (int i = 1; i <= cnte; i++) {
+//        arr[i] = tim[i];
+//        arr[i].y = v - arr[i].y;
+//    }
+//    cdq(1, cnte);
+//}
+//
 //int main() {
 //    ios::sync_with_stdio(false);
 //    cin.tie(nullptr);
@@ -145,10 +149,10 @@ package class170;
 //    for (int i = 1; i <= cntq; i++) {
 //        ans[i] = INF;
 //    }
-//    to1(); cdq(1, cnte);
-//    to2(); cdq(1, cnte);
-//    to3(); cdq(1, cnte);
-//    to4(); cdq(1, cnte);
+//    to1();
+//    to2();
+//    to3();
+//    to4();
 //    for (int i = 1; i <= cntq; i++) {
 //        cout << ans[i] << '\n';
 //    }
