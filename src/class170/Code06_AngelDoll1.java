@@ -19,12 +19,11 @@ public class Code06_AngelDoll1 {
 
 	// op == 1代表添加事件，x、y、空缺
 	// op == 1代表查询事件，x、y、问题q
+	// tim永远保持原始时序，每次执行cdq时，让arr去变动
 	public static int[][] tim = new int[MAXN << 1][4];
+	public static int[][] arr = new int[MAXN << 1][4];
 	public static int cnte = 0;
 	public static int cntq = 0;
-
-	// tim永远保持原始时序，每次执行cdq时，让arr去变动
-	public static int[][] arr = new int[MAXN << 1][4];
 
 	public static int[] tree = new int[MAXV];
 
@@ -49,18 +48,17 @@ public class Code06_AngelDoll1 {
 	}
 
 	public static int query(int i) {
-		int ret = 0;
+		int ret = -INF;
 		while (i > 0) {
 			ret = Math.max(ret, tree[i]);
 			i -= lowbit(i);
 		}
-		// 如果左下没有点，那么返回无效答案
-		return ret != 0 ? ret : -INF;
+		return ret;
 	}
 
 	public static void clear(int i) {
 		while (i <= v) {
-			tree[i] = 0;
+			tree[i] = -INF;
 			i += lowbit(i);
 		}
 	}
@@ -156,6 +154,9 @@ public class Code06_AngelDoll1 {
 		}
 		// 变换象限时，防止 v - (x或y) 出现0，所以v再自增一下
 		v++;
+		for (int i = 1; i <= v; i++) {
+			tree[i] = -INF;
+		}
 		for (int i = 1; i <= cntq; i++) {
 			ans[i] = INF;
 		}

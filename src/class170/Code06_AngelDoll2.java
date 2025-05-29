@@ -23,10 +23,12 @@ package class170;
 //int n, m, v;
 //
 //Node tim[MAXN << 1];
+//Node arr[MAXN << 1];
 //int cnte = 0;
 //int cntq = 0;
-//Node arr[MAXN << 1];
+//
 //int tree[MAXV];
+//
 //int ans[MAXN];
 //
 //int lowbit(int i) {
@@ -41,17 +43,17 @@ package class170;
 //}
 //
 //int query(int i) {
-//    int ret = 0;
+//    int ret = -INF;
 //    while (i > 0) {
 //        ret = max(ret, tree[i]);
 //        i -= lowbit(i);
 //    }
-//    return ret ? ret : -INF;
+//    return ret;
 //}
 //
 //void clear(int i) {
 //    while (i <= v) {
-//        tree[i] = 0;
+//        tree[i] = -INF;
 //        i += lowbit(i);
 //    }
 //}
@@ -137,6 +139,9 @@ package class170;
 //        v = max(v, max(x, y));
 //    }
 //    v++;
+//    for (int i = 1; i <= v; i++) {
+//        tree[i] = -INF;
+//    }
 //    for (int i = 1; i <= cntq; i++) {
 //        ans[i] = INF;
 //    }
