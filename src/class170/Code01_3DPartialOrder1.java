@@ -1,6 +1,12 @@
 package class170;
 
 // 三维偏序，java版
+// 一共有n个对象，属性值范围[1, k]，每个对象有a属性、b属性、c属性
+// f(i)表示，aj <= ai 且 bj <= bi 且 cj <= ci 且 j != i 的j的数量
+// ans(d)表示，f(i) == d 的i的数量
+// 打印所有的ans[d]，d的范围[0, n)
+// 1 <= n <= 10^5
+// 1 <= k <= 2 * 10^5
 // 测试链接 : https://www.luogu.com.cn/problem/P3810
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
@@ -21,10 +27,8 @@ public class Code01_3DPartialOrder1 {
 	// 树状数组
 	public static int[] tree = new int[MAXN];
 
-	// 每个位置统计f(i)
 	public static int[] f = new int[MAXN];
 
-	// 答案
 	public static int[] ans = new int[MAXN];
 
 	public static int lowbit(int i) {
@@ -61,11 +65,7 @@ public class Code01_3DPartialOrder1 {
 		for (int i = l; i <= p1; i++) {
 			add(arr[i][3], -1);
 		}
-		// 上面的过程有树状数组的操作，时间复杂度，O(n * log n)
-		// 复杂度表达式为 t(n) = 2 * t(n / 2) + O(n * log n)
-		// 上面表达式的复杂度为 O(n * log n * log n)
-		// 既然复杂度已经如此，接下来根据b属性来归并，做到O(n)的归并过程就不重要了
-		// 不如直接根据b属性排序，更容易写，还省了辅助数组的空间
+		// 直接排序，课上重点解释了这么做的理由
 		Arrays.sort(arr, l, r + 1, (a, b) -> a[2] - b[2]);
 	}
 
