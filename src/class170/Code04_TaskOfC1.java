@@ -68,6 +68,9 @@ public class Code04_TaskOfC1 {
 				ans[arr[p2][4]] += sum * arr[p2][3];
 			}
 		}
+		// 下面是经典归并的过程，为啥不直接排序了？
+		// 因为没有用到高级数据结构，复杂度可以做到O(n * log n)
+		// 那么就维持最好的复杂度，不用排序
 		p1 = l;
 		p2 = m + 1;
 		int i = l;
