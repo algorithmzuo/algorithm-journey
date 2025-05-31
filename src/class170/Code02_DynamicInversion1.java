@@ -60,7 +60,7 @@ public class Code02_DynamicInversion1 {
 		int p1, p2;
 		// 从左到右统计左侧值大的数量
 		for (p1 = l - 1, p2 = m + 1; p2 <= r; p2++) {
-			while (p1 + 1 <= m && arr[p1 + 1][1] <= arr[p2][1]) {
+			while (p1 + 1 <= m && arr[p1 + 1][1] < arr[p2][1]) {
 				p1++;
 				add(arr[p1][0], arr[p1][2]);
 			}
@@ -72,7 +72,7 @@ public class Code02_DynamicInversion1 {
 		}
 		// 从右到左统计右侧值小的数量
 		for (p1 = m + 1, p2 = r; p2 > m; p2--) {
-			while (p1 - 1 >= l && arr[p1 - 1][1] >= arr[p2][1]) {
+			while (p1 - 1 >= l && arr[p1 - 1][1] > arr[p2][1]) {
 				p1--;
 				add(arr[p1][0], arr[p1][2]);
 			}

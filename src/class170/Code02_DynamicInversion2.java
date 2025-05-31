@@ -61,7 +61,7 @@ package class170;
 //void merge(int l, int m, int r) {
 //    int p1, p2;
 //    for (p1 = l - 1, p2 = m + 1; p2 <= r; p2++) {
-//        while (p1 + 1 <= m && arr[p1 + 1].i <= arr[p2].i) {
+//        while (p1 + 1 <= m && arr[p1 + 1].i < arr[p2].i) {
 //            p1++;
 //            add(arr[p1].v, arr[p1].d);
 //        }
@@ -71,7 +71,7 @@ package class170;
 //        add(arr[i].v, -arr[i].d);
 //    }
 //    for (p1 = m + 1, p2 = r; p2 > m; p2--) {
-//        while (p1 - 1 >= l && arr[p1 - 1].i >= arr[p2].i) {
+//        while (p1 - 1 >= l && arr[p1 - 1].i > arr[p2].i) {
 //            p1--;
 //            add(arr[p1].v, arr[p1].d);
 //        }
