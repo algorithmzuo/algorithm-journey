@@ -26,7 +26,7 @@ public class Code02_DynamicInversion1 {
 	public static int[] pos = new int[MAXN];
 	public static int[] del = new int[MAXM];
 
-	// 位置i、数值v、效果d、问题q
+	// 位置i、数值v、效果d、问题编号q
 	public static int[][] arr = new int[MAXN + MAXM][4];
 	public static int cnt = 0;
 
@@ -56,6 +56,7 @@ public class Code02_DynamicInversion1 {
 
 	public static void merge(int l, int m, int r) {
 		int p1, p2;
+		// 从左到右获得贡献
 		for (p1 = l - 1, p2 = m + 1; p2 <= r; p2++) {
 			while (p1 + 1 <= m && arr[p1 + 1][0] <= arr[p2][0]) {
 				p1++;
@@ -63,9 +64,11 @@ public class Code02_DynamicInversion1 {
 			}
 			ans[arr[p2][3]] += arr[p2][2] * (query(n) - query(arr[p2][1]));
 		}
+		// 清除树状数组
 		for (int i = l; i <= p1; i++) {
 			add(arr[i][1], -arr[i][2]);
 		}
+		// 从右到左获得贡献
 		for (p1 = m + 1, p2 = r; p2 > m; p2--) {
 			while (p1 - 1 >= l && arr[p1 - 1][0] >= arr[p2][0]) {
 				p1--;
@@ -73,9 +76,11 @@ public class Code02_DynamicInversion1 {
 			}
 			ans[arr[p2][3]] += arr[p2][2] * query(arr[p2][1] - 1);
 		}
+		// 清除树状数组
 		for (int i = m; i >= p1; i--) {
 			add(arr[i][1], -arr[i][2]);
 		}
+		// 直接排序
 		Arrays.sort(arr, l, r + 1, (a, b) -> a[0] - b[0]);
 	}
 
