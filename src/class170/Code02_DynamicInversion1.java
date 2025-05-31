@@ -30,8 +30,10 @@ public class Code02_DynamicInversion1 {
 	public static int[][] arr = new int[MAXN + MAXM][4];
 	public static int cnt = 0;
 
+	// 树状数组
 	public static int[] tree = new int[MAXN];
 
+	// 每次逆序对的变化量
 	public static long[] ans = new long[MAXM];
 
 	public static int lowbit(int i) {
