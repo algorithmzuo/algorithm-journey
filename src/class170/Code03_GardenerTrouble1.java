@@ -70,6 +70,9 @@ public class Code03_GardenerTrouble1 {
 				ans[arr[p2][4]] += tree * arr[p2][3];
 			}
 		}
+		// 下面是经典归并的过程，为啥不排序了？
+		// 因为没有用到高级数据结构，复杂度可以做到O(n * log n)
+		// 那么就维持最好的复杂度，不用排序
 		p1 = l;
 		p2 = m + 1;
 		int i = l;
@@ -117,7 +120,7 @@ public class Code03_GardenerTrouble1 {
 			addQuery(a - 1, d, -1, i);
 			addQuery(c, b - 1, -1, i);
 		}
-		Arrays.sort(arr, 1, cnt + 1, (a, b) -> a[1] != b[1] ? a[1] - b[1] : a[2] != b[2] ? a[2] - b[2] : a[0] - b[0]);
+		Arrays.sort(arr, 1, cnt + 1, (a, b) -> a[1] != b[1] ? a[1] - b[1] : a[0] - b[0]);
 		cdq(1, cnt);
 		for (int i = 1; i <= m; i++) {
 			out.println(ans[i]);

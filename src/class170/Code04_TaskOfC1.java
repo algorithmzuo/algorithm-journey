@@ -116,7 +116,7 @@ public class Code04_TaskOfC1 {
 			addQuery(a - 1, d, -1, i);
 			addQuery(c, b - 1, -1, i);
 		}
-		Arrays.sort(arr, 1, cnt + 1, (a, b) -> a[1] != b[1] ? a[1] - b[1] : a[2] != b[2] ? a[2] - b[2] : a[0] - b[0]);
+		Arrays.sort(arr, 1, cnt + 1, (a, b) -> a[1] != b[1] ? a[1] - b[1] : a[0] - b[0]);
 		cdq(1, cnt);
 		for (int i = 1; i <= m; i++) {
 			out.println(ans[i]);
