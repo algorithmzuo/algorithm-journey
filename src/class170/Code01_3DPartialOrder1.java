@@ -18,17 +18,20 @@ import java.util.Arrays;
 
 public class Code01_3DPartialOrder1 {
 
-	public static int MAXN = 200001;
+	public static int MAXN = 100001;
+	public static int MAXK = 200001;
 	public static int n, k;
 
-	// 位置i、属性a、属性b、属性c
+	// 对象的编号i、属性a、属性b、属性c
 	public static int[][] arr = new int[MAXN][4];
 
-	// 树状数组
-	public static int[] tree = new int[MAXN];
+	// 树状数组，根据属性c的值增加词频，查询 <= 某个数的词频累加和
+	public static int[] tree = new int[MAXK];
 
+	// 每个对象的答案
 	public static int[] f = new int[MAXN];
 
+	// 题目要求的ans[d]
 	public static int[] ans = new int[MAXN];
 
 	public static int lowbit(int i) {
@@ -52,7 +55,8 @@ public class Code01_3DPartialOrder1 {
 	}
 
 	public static void merge(int l, int m, int r) {
-		// 利用左右各自有序，进行不回退的统计
+		// 利用左、右各自b属性有序
+		// 不回退的找，当前右组对象包括了几个左组的对象
 		int p1, p2;
 		for (p1 = l - 1, p2 = m + 1; p2 <= r; p2++) {
 			while (p1 + 1 <= m && arr[p1 + 1][2] <= arr[p2][2]) {
@@ -65,7 +69,7 @@ public class Code01_3DPartialOrder1 {
 		for (int i = l; i <= p1; i++) {
 			add(arr[i][3], -1);
 		}
-		// 直接排序，课上重点解释了原因
+		// 直接根据b属性排序，无需写经典的归并过程，课上重点解释了原因
 		Arrays.sort(arr, l, r + 1, (a, b) -> a[2] - b[2]);
 	}
 

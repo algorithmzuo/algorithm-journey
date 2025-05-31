@@ -33,10 +33,12 @@ package class170;
 //    return x.b < y.b;
 //}
 //
-//const int MAXN = 200001;
+//const int MAXN = 100001;
+//const int MAXK = 200001;
 //int n, k;
+//
 //Node arr[MAXN];
-//int tree[MAXN];
+//int tree[MAXK];
 //int f[MAXN];
 //int ans[MAXN];
 //
