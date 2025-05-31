@@ -73,6 +73,7 @@ public class Code01_3DPartialOrder1 {
 		Arrays.sort(arr, l, r + 1, (a, b) -> a[2] - b[2]);
 	}
 
+	// 大顺序已经按a属性排序，cdq分治里按b属性重新排序
 	public static void cdq(int l, int r) {
 		if (l == r) {
 			return;

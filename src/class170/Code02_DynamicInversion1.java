@@ -84,6 +84,7 @@ public class Code02_DynamicInversion1 {
 		Arrays.sort(arr, l, r + 1, (a, b) -> a[0] - b[0]);
 	}
 
+	// 整体按时序组织，cdq分治里根据下标重新排序
 	public static void cdq(int l, int r) {
 		if (l == r) {
 			return;
