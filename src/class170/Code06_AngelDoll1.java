@@ -24,7 +24,7 @@ public class Code06_AngelDoll1 {
 	public static int n, m, v;
 
 	// op == 1代表添加事件，x、y、空缺
-	// op == 1代表查询事件，x、y、问题q
+	// op == 1代表查询事件，x、y、查询编号q
 	// tim永远保持原始时序，每次执行cdq时，让arr去变动
 	public static int[][] tim = new int[MAXN << 1][4];
 	public static int[][] arr = new int[MAXN << 1][4];

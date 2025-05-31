@@ -25,7 +25,7 @@ public class Code03_GardenerTrouble1 {
 	public static int n, m;
 
 	// op == 1代表树木，x、y
-	// op == 2代表查询，x、y、效果v、问题q
+	// op == 2代表查询，x、y、效果v、查询编号q
 	public static int[][] arr = new int[MAXN][5];
 	public static int cnt = 0;
 

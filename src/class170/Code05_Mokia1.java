@@ -24,7 +24,7 @@ public class Code05_Mokia1 {
 	public static int w;
 
 	// op == 1表示增加事件，x、y、人数v
-	// op == 1表示查询事件，x、y、效果v、问题q
+	// op == 1表示查询事件，x、y、效果v、查询编号q
 	public static int[][] arr = new int[MAXN][5];
 	public static int cnte = 0;
 	public static int cntq = 0;
