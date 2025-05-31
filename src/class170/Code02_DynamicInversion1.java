@@ -22,6 +22,9 @@ public class Code02_DynamicInversion1 {
 	public static int MAXM = 50001;
 	public static int n, m;
 
+	// num : 原始序列依次的值
+	// pos : 每个值在什么位置
+	// del : 每一步删掉的值
 	public static int[] num = new int[MAXN];
 	public static int[] pos = new int[MAXN];
 	public static int[] del = new int[MAXM];
