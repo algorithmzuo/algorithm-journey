@@ -16,7 +16,7 @@ package class170;
 //using namespace std;
 //
 //struct Node {
-//    int i, v, d, q;
+//    int v, i, d, q;
 //};
 //
 //bool NodeCmp(Node x, Node y) {
@@ -95,14 +95,14 @@ package class170;
 //
 //void prepare() {
 //    for (int i = 1; i <= n; i++) {
-//        arr[++cnt].i = i;
-//        arr[cnt].v = num[i];
+//        arr[++cnt].v = num[i];
+//        arr[cnt].i = i;
 //        arr[cnt].d = 1;
 //        arr[cnt].q = 0;
 //    }
 //    for (int i = 1; i <= m; i++) {
-//        arr[++cnt].i = pos[del[i]];
-//        arr[cnt].v = del[i];
+//        arr[++cnt].v = del[i];
+//        arr[cnt].i = pos[del[i]];
 //        arr[cnt].d = -1;
 //        arr[cnt].q = i;
 //    }

@@ -26,7 +26,7 @@ public class Code02_DynamicInversion1 {
 	public static int[] pos = new int[MAXN];
 	public static int[] del = new int[MAXM];
 
-	// 位置i、数值v、效果d、问题编号q
+	// 数值v、位置i、效果d、问题编号q
 	public static int[][] arr = new int[MAXN + MAXM][4];
 	public static int cnt = 0;
 
@@ -58,32 +58,32 @@ public class Code02_DynamicInversion1 {
 
 	public static void merge(int l, int m, int r) {
 		int p1, p2;
-		// 从左到右获得贡献
+		// 从左到右统计左侧值大的数量
 		for (p1 = l - 1, p2 = m + 1; p2 <= r; p2++) {
-			while (p1 + 1 <= m && arr[p1 + 1][0] <= arr[p2][0]) {
+			while (p1 + 1 <= m && arr[p1 + 1][1] <= arr[p2][1]) {
 				p1++;
-				add(arr[p1][1], arr[p1][2]);
+				add(arr[p1][0], arr[p1][2]);
 			}
-			ans[arr[p2][3]] += arr[p2][2] * (query(n) - query(arr[p2][1]));
+			ans[arr[p2][3]] += arr[p2][2] * (query(n) - query(arr[p2][0]));
 		}
 		// 清除树状数组
 		for (int i = l; i <= p1; i++) {
-			add(arr[i][1], -arr[i][2]);
+			add(arr[i][0], -arr[i][2]);
 		}
-		// 从右到左获得贡献
+		// 从右到左统计右侧值小的数量
 		for (p1 = m + 1, p2 = r; p2 > m; p2--) {
-			while (p1 - 1 >= l && arr[p1 - 1][0] >= arr[p2][0]) {
+			while (p1 - 1 >= l && arr[p1 - 1][1] >= arr[p2][1]) {
 				p1--;
-				add(arr[p1][1], arr[p1][2]);
+				add(arr[p1][0], arr[p1][2]);
 			}
-			ans[arr[p2][3]] += arr[p2][2] * query(arr[p2][1] - 1);
+			ans[arr[p2][3]] += arr[p2][2] * query(arr[p2][0] - 1);
 		}
 		// 清除树状数组
 		for (int i = m; i >= p1; i--) {
-			add(arr[i][1], -arr[i][2]);
+			add(arr[i][0], -arr[i][2]);
 		}
 		// 直接排序
-		Arrays.sort(arr, l, r + 1, (a, b) -> a[0] - b[0]);
+		Arrays.sort(arr, l, r + 1, (a, b) -> a[1] - b[1]);
 	}
 
 	// 整体按时序组织，cdq分治里根据下标重新排序
@@ -99,14 +99,14 @@ public class Code02_DynamicInversion1 {
 
 	public static void prepare() {
 		for (int i = 1; i <= n; i++) {
-			arr[++cnt][0] = i;
-			arr[cnt][1] = num[i];
+			arr[++cnt][0] = num[i];
+			arr[cnt][1] = i;
 			arr[cnt][2] = 1;
 			arr[cnt][3] = 0;
 		}
 		for (int i = 1; i <= m; i++) {
-			arr[++cnt][0] = pos[del[i]];
-			arr[cnt][1] = del[i];
+			arr[++cnt][0] = del[i];
+			arr[cnt][1] = pos[del[i]];
 			arr[cnt][2] = -1;
 			arr[cnt][3] = i;
 		}
