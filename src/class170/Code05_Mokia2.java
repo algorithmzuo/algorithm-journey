@@ -24,18 +24,18 @@ package class170;
 //    return a.x < b.x;
 //}
 //
-//const int MAXN = 200001;
+//const int MAXM = 200001;
 //const int MAXV = 2000002;
 //const int INF = 1000000001;
 //int w;
 //
-//Node arr[MAXN];
+//Node arr[MAXM];
 //int cnte = 0;
 //int cntq = 0;
 //
 //int tree[MAXV];
 //
-//int ans[MAXN];
+//int ans[MAXM];
 //
 //int lowbit(int i) {
 //    return i & -i;
