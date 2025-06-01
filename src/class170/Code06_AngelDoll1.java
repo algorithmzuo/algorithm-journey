@@ -25,7 +25,7 @@ public class Code06_AngelDoll1 {
 
 	// op == 1代表添加事件，x、y、空缺
 	// op == 1代表查询事件，x、y、查询编号q
-	// tim永远保持原始时序，每次执行cdq时，让arr去变动
+	// tim永远保持原始时序，每次变换象限都拷贝给arr，然后执行cdq分治
 	public static int[][] tim = new int[MAXN << 1][4];
 	public static int[][] arr = new int[MAXN << 1][4];
 	public static int cnte = 0;
@@ -65,7 +65,7 @@ public class Code06_AngelDoll1 {
 		return ret;
 	}
 
-	// 因为本题的特殊性，树状数组一定需要全部清空的
+	// 因为本题的特殊性，树状数组一定全部清空
 	// 所以当初更新时，i位置碰过哪些位置，一律设置无效值即可
 	public static void clear(int i) {
 		while (i <= v) {
