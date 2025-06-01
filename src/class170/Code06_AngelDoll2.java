@@ -41,7 +41,7 @@ package class170;
 //    return i & -i;
 //}
 //
-//void update(int i, int num) {
+//void more(int i, int num) {
 //    while (i <= v) {
 //        tree[i] = max(tree[i], num);
 //        i += lowbit(i);
@@ -70,7 +70,7 @@ package class170;
 //        while (p1 + 1 <= m && arr[p1 + 1].x <= arr[p2].x) {
 //            p1++;
 //            if (arr[p1].op == 1) {
-//                update(arr[p1].y, arr[p1].x + arr[p1].y);
+//                more(arr[p1].y, arr[p1].x + arr[p1].y);
 //            }
 //        }
 //        if (arr[p2].op == 2) {

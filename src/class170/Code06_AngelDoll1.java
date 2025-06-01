@@ -24,7 +24,7 @@ public class Code06_AngelDoll1 {
 	public static int n, m, v;
 
 	// op == 1代表添加事件，x、y、空缺
-	// op == 1代表查询事件，x、y、查询编号q
+	// op == 2代表查询事件，x、y、查询编号q
 	// tim永远保持原始时序，每次变换象限都拷贝给arr，然后执行cdq分治
 	public static int[][] tim = new int[MAXN << 1][4];
 	public static int[][] arr = new int[MAXN << 1][4];
@@ -47,15 +47,15 @@ public class Code06_AngelDoll1 {
 		return i & -i;
 	}
 
-	// i位置的值设置成num，类似累加和操作，这里变成取最大值操作即可
-	public static void update(int i, int num) {
+	// 树状数组，如果i位置之前的值更大，忽略，num更大才更新
+	public static void more(int i, int num) {
 		while (i <= v) {
 			tree[i] = Math.max(tree[i], num);
 			i += lowbit(i);
 		}
 	}
 
-	// 查询1~i范围上的最大值
+	// 树状数组，查询1~i范围上的最大值
 	public static int query(int i) {
 		int ret = -INF;
 		while (i > 0) {
@@ -80,7 +80,7 @@ public class Code06_AngelDoll1 {
 			while (p1 + 1 <= m && arr[p1 + 1][1] <= arr[p2][1]) {
 				p1++;
 				if (arr[p1][0] == 1) {
-					update(arr[p1][2], arr[p1][1] + arr[p1][2]);
+					more(arr[p1][2], arr[p1][1] + arr[p1][2]);
 				}
 			}
 			if (arr[p2][0] == 2) {
