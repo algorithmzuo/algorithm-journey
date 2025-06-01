@@ -29,6 +29,7 @@ public class Code05_Mokia1 {
 	public static int cnte = 0;
 	public static int cntq = 0;
 
+	// 树状数组
 	public static int[] tree = new int[MAXV];
 
 	public static int[] ans = new int[MAXN];

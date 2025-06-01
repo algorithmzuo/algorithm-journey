@@ -31,6 +31,7 @@ public class Code06_AngelDoll1 {
 	public static int cnte = 0;
 	public static int cntq = 0;
 
+	// 树状数组，下标是y的值，维护前缀范围上的最大值
 	public static int[] tree = new int[MAXV];
 
 	public static int[] ans = new int[MAXN];
@@ -46,6 +47,7 @@ public class Code06_AngelDoll1 {
 		return i & -i;
 	}
 
+	// i位置的值设置成num，类似累加和操作，这里变成取最大值操作即可
 	public static void update(int i, int num) {
 		while (i <= v) {
 			tree[i] = Math.max(tree[i], num);
@@ -53,6 +55,7 @@ public class Code06_AngelDoll1 {
 		}
 	}
 
+	// 查询1~i范围上的最大值
 	public static int query(int i) {
 		int ret = -INF;
 		while (i > 0) {
@@ -62,6 +65,8 @@ public class Code06_AngelDoll1 {
 		return ret;
 	}
 
+	// 因为本题的特殊性，树状数组一定需要全部清空的
+	// 所以当初更新时，i位置碰过哪些位置，一律设置无效值即可
 	public static void clear(int i) {
 		while (i <= v) {
 			tree[i] = -INF;
@@ -165,9 +170,11 @@ public class Code06_AngelDoll1 {
 			v = Math.max(v, Math.max(x, y));
 		}
 		v++;
+		// 初始化树状数组
 		for (int i = 1; i <= v; i++) {
 			tree[i] = -INF;
 		}
+		// 初始化答案数组
 		for (int i = 1; i <= cntq; i++) {
 			ans[i] = INF;
 		}
