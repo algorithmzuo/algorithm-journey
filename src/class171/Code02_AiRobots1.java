@@ -1,6 +1,7 @@
 package class171;
 
 // 机器人可见对，java版
+// 测试链接 : https://www.luogu.com.cn/problem/CF1045G
 // 测试链接 : https://codeforces.com/problemset/problem/1045/G
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
