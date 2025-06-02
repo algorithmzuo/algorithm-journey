@@ -1,7 +1,7 @@
 package class171;
 
 // 奶牛音量和，C++版
-// 测试链接 : https://www.luogu.com.cn/problem/P2345
+// 测试链接 : https://www.luogu.com.cn/problem/P5094
 // 如下实现是C++的版本，C++版本和java版本逻辑完全一样
 // 提交如下代码，可以通过所有测试用例
 
@@ -17,7 +17,7 @@ package class171;
 //    return a.v < b.v;
 //}
 //
-//const int MAXN = 20001;
+//const int MAXN = 50001;
 //int n;
 //Node arr[MAXN];
 //Node tmp[MAXN];
