@@ -10,7 +10,7 @@ package class171;
 //using namespace std;
 //
 //struct Node {
-//    int i, v, minv, maxv;
+//    int i, v, min, max;
 //};
 //
 //bool CmpI(Node a, Node b) {
@@ -21,8 +21,8 @@ package class171;
 //    return a.v < b.v;
 //}
 //
-//bool CmpMinv(Node a, Node b) {
-//    return a.minv < b.minv;
+//bool CmpMin(Node a, Node b) {
+//    return a.min < b.min;
 //}
 //
 //const int MAXN = 100001;
@@ -61,17 +61,17 @@ package class171;
 //
 //void merge(int l, int m, int r) {
 //    sort(arr + l, arr + m + 1, CmpV);
-//    sort(arr + m + 1, arr + r + 1, CmpMinv);
+//    sort(arr + m + 1, arr + r + 1, CmpMin);
 //    int p1 = l - 1, p2 = m + 1;
 //    for (; p2 <= r; p2++) {
-//        while (p1 + 1 <= m && arr[p1 + 1].v <= arr[p2].minv) {
+//        while (p1 + 1 <= m && arr[p1 + 1].v <= arr[p2].min) {
 //            p1++;
-//            more(arr[p1].maxv, dp[arr[p1].i]);
+//            more(arr[p1].max, dp[arr[p1].i]);
 //        }
 //        dp[arr[p2].i] = max(dp[arr[p2].i], query(arr[p2].v) + 1);
 //    }
 //    for (int i = l; i <= p1; i++) {
-//        clear(arr[i].maxv);
+//        clear(arr[i].max);
 //    }
 //    sort(arr + l, arr + r + 1, CmpI);
 //}
@@ -93,14 +93,14 @@ package class171;
 //    for (int i = 1; i <= n; i++) {
 //        arr[i].i = i;
 //        cin >> arr[i].v;
-//        arr[i].minv = arr[i].v;
-//        arr[i].maxv = arr[i].v;
+//        arr[i].min = arr[i].v;
+//        arr[i].max = arr[i].v;
 //        dp[i] = 1;
 //    }
 //    for (int i = 1, idx, num; i <= m; i++) {
 //        cin >> idx >> num;
-//        arr[idx].minv = min(arr[idx].minv, num);
-//        arr[idx].maxv = max(arr[idx].maxv, num);
+//        arr[idx].min = min(arr[idx].min, num);
+//        arr[idx].max = max(arr[idx].max, num);
 //    }
 //    cdq(1, n);
 //    int ans = 0;

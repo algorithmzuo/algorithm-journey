@@ -15,7 +15,7 @@ public class Code03_Sequence1 {
 	public static int MAXN = 100001;
 	public static int n, m;
 
-	// 位置i、数值v、最小值minv、最大值maxv
+	// 位置i、数值v、最小值min、最大值max
 	public static int[][] arr = new int[MAXN][4];
 	public static int[] tree = new int[MAXN];
 	public static int[] dp = new int[MAXN];
