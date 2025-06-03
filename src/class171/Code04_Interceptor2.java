@@ -32,11 +32,11 @@ package class171;
 //int treelen[MAXN];
 //double treecnt[MAXN];
 //
-//int f1[MAXN];
-//double g1[MAXN];
+//int len1[MAXN];
+//double cnt1[MAXN];
 //
-//int f2[MAXN];
-//double g2[MAXN];
+//int len2[MAXN];
+//double cnt2[MAXN];
 //
 //int lowbit(int i) {
 //    return i & -i;
@@ -91,14 +91,14 @@ package class171;
 //    for (p1 = l - 1, p2 = m + 1; p2 <= r; p2++) {
 //        while (p1 + 1 <= m && arr[p1 + 1].h >= arr[p2].h) {
 //            p1++;
-//            add(s - arr[p1].v + 1, f1[arr[p1].i], g1[arr[p1].i]);
+//            add(s - arr[p1].v + 1, len1[arr[p1].i], cnt1[arr[p1].i]);
 //        }
 //        query(s - arr[p2].v + 1);
-//        if (querylen + 1 > f1[arr[p2].i]) {
-//            f1[arr[p2].i] = querylen + 1;
-//            g1[arr[p2].i] = querycnt;
-//        } else if (querylen + 1 == f1[arr[p2].i]) {
-//            g1[arr[p2].i] += querycnt;
+//        if (querylen + 1 > len1[arr[p2].i]) {
+//            len1[arr[p2].i] = querylen + 1;
+//            cnt1[arr[p2].i] = querycnt;
+//        } else if (querylen + 1 == len1[arr[p2].i]) {
+//            cnt1[arr[p2].i] += querycnt;
 //        }
 //    }
 //    for (int i = l; i <= p1; i++) {
@@ -128,14 +128,14 @@ package class171;
 //    for (p1 = l - 1, p2 = m + 1; p2 <= r; p2++) {
 //        while (p1 + 1 <= m && arr[p1 + 1].h <= arr[p2].h) {
 //            p1++;
-//            add(arr[p1].v, f2[arr[p1].i], g2[arr[p1].i]);
+//            add(arr[p1].v, len2[arr[p1].i], cnt2[arr[p1].i]);
 //        }
 //        query(arr[p2].v);
-//        if (querylen + 1 > f2[arr[p2].i]) {
-//            f2[arr[p2].i] = querylen + 1;
-//            g2[arr[p2].i] = querycnt;
-//        } else if (querylen + 1 == f2[arr[p2].i]) {
-//            g2[arr[p2].i] += querycnt;
+//        if (querylen + 1 > len2[arr[p2].i]) {
+//            len2[arr[p2].i] = querylen + 1;
+//            cnt2[arr[p2].i] = querycnt;
+//        } else if (querylen + 1 == len2[arr[p2].i]) {
+//            cnt2[arr[p2].i] += querycnt;
 //        }
 //    }
 //    for (int i = l; i <= p1; i++) {
@@ -182,8 +182,8 @@ package class171;
 //        v[i] = lower(v[i]);
 //    }
 //    for (int i = 1; i <= n; i++) {
-//        f1[i] = f2[i] = 1;
-//        g1[i] = g2[i] = 1.0;
+//        len1[i] = len2[i] = 1;
+//        cnt1[i] = cnt2[i] = 1.0;
 //    }
 //}
 //
@@ -195,8 +195,8 @@ package class171;
 //    }
 //    cdq2(1, n);
 //    for (int l = 1, r = n; l < r; l++, r--) {
-//        swap(f2[l], f2[r]);
-//        swap(g2[l], g2[r]);
+//        swap(len2[l], len2[r]);
+//        swap(cnt2[l], cnt2[r]);
 //    }
 //}
 //
@@ -210,19 +210,19 @@ package class171;
 //    int len = 0;
 //    double cnt = 0.0;
 //    for (int i = 1; i <= n; i++) {
-//        len = max(len, f1[i]);
+//        len = max(len, len1[i]);
 //    }
 //    for (int i = 1; i <= n; i++) {
-//        if (f1[i] == len) {
-//            cnt += g1[i];
+//        if (len1[i] == len) {
+//            cnt += cnt1[i];
 //        }
 //    }
 //    printf("%d\n", len);
 //    for (int i = 1; i <= n; i++) {
-//        if (f1[i] + f2[i] - 1 < len) {
+//        if (len1[i] + len2[i] - 1 < len) {
 //            printf("0 ");
 //        } else {
-//            printf("%.5f ", g1[i] * g2[i] / cnt);
+//            printf("%.5f ", cnt1[i] * cnt2[i] / cnt);
 //        }
 //    }
 //    printf("\n");

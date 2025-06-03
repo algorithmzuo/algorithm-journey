@@ -25,11 +25,11 @@ public class Code04_Interceptor1 {
 	public static int[] treelen = new int[MAXN];
 	public static double[] treecnt = new double[MAXN];
 
-	public static int[] f1 = new int[MAXN];
-	public static double[] g1 = new double[MAXN];
+	public static int[] len1 = new int[MAXN];
+	public static double[] cnt1 = new double[MAXN];
 
-	public static int[] f2 = new int[MAXN];
-	public static double[] g2 = new double[MAXN];
+	public static int[] len2 = new int[MAXN];
+	public static double[] cnt2 = new double[MAXN];
 
 	public static int lowbit(int x) {
 		return x & -x;
@@ -84,14 +84,14 @@ public class Code04_Interceptor1 {
 		for (p1 = l - 1, p2 = m + 1; p2 <= r; p2++) {
 			while (p1 + 1 <= m && arr[p1 + 1][1] >= arr[p2][1]) {
 				p1++;
-				add(s - arr[p1][2] + 1, f1[arr[p1][0]], g1[arr[p1][0]]);
+				add(s - arr[p1][2] + 1, len1[arr[p1][0]], cnt1[arr[p1][0]]);
 			}
 			query(s - arr[p2][2] + 1);
-			if (querylen + 1 > f1[arr[p2][0]]) {
-				f1[arr[p2][0]] = querylen + 1;
-				g1[arr[p2][0]] = querycnt;
-			} else if (querylen + 1 == f1[arr[p2][0]]) {
-				g1[arr[p2][0]] += querycnt;
+			if (querylen + 1 > len1[arr[p2][0]]) {
+				len1[arr[p2][0]] = querylen + 1;
+				cnt1[arr[p2][0]] = querycnt;
+			} else if (querylen + 1 == len1[arr[p2][0]]) {
+				cnt1[arr[p2][0]] += querycnt;
 			}
 		}
 		for (int i = l; i <= p1; i++) {
@@ -121,14 +121,14 @@ public class Code04_Interceptor1 {
 		for (p1 = l - 1, p2 = m + 1; p2 <= r; p2++) {
 			while (p1 + 1 <= m && arr[p1 + 1][1] <= arr[p2][1]) {
 				p1++;
-				add(arr[p1][2], f2[arr[p1][0]], g2[arr[p1][0]]);
+				add(arr[p1][2], len2[arr[p1][0]], cnt2[arr[p1][0]]);
 			}
 			query(arr[p2][2]);
-			if (querylen + 1 > f2[arr[p2][0]]) {
-				f2[arr[p2][0]] = querylen + 1;
-				g2[arr[p2][0]] = querycnt;
-			} else if (querylen + 1 == f2[arr[p2][0]]) {
-				g2[arr[p2][0]] += querycnt;
+			if (querylen + 1 > len2[arr[p2][0]]) {
+				len2[arr[p2][0]] = querylen + 1;
+				cnt2[arr[p2][0]] = querycnt;
+			} else if (querylen + 1 == len2[arr[p2][0]]) {
+				cnt2[arr[p2][0]] += querycnt;
 			}
 		}
 		for (int i = l; i <= p1; i++) {
@@ -175,8 +175,8 @@ public class Code04_Interceptor1 {
 			v[i] = lower(v[i]);
 		}
 		for (int i = 1; i <= n; i++) {
-			f1[i] = f2[i] = 1;
-			g1[i] = g2[i] = 1.0;
+			len1[i] = len2[i] = 1;
+			cnt1[i] = cnt2[i] = 1.0;
 		}
 	}
 
@@ -192,12 +192,12 @@ public class Code04_Interceptor1 {
 		}
 		cdq2(1, n);
 		for (int l = 1, r = n; l < r; l++, r--) {
-			int a = f2[l];
-			f2[l] = f2[r];
-			f2[r] = a;
-			double b = g2[l];
-			g2[l] = g2[r];
-			g2[r] = b;
+			int a = len2[l];
+			len2[l] = len2[r];
+			len2[r] = a;
+			double b = cnt2[l];
+			cnt2[l] = cnt2[r];
+			cnt2[r] = b;
 		}
 	}
 
@@ -214,19 +214,19 @@ public class Code04_Interceptor1 {
 		int len = 0;
 		double cnt = 0;
 		for (int i = 1; i <= n; i++) {
-			len = Math.max(len, f1[i]);
+			len = Math.max(len, len1[i]);
 		}
 		for (int i = 1; i <= n; i++) {
-			if (f1[i] == len) {
-				cnt += g1[i];
+			if (len1[i] == len) {
+				cnt += cnt1[i];
 			}
 		}
 		out.println(len);
 		for (int i = 1; i <= n; i++) {
-			if (f1[i] + f2[i] - 1 < len) {
+			if (len1[i] + len2[i] - 1 < len) {
 				out.print("0 ");
 			} else {
-				out.printf("%.5f ", g1[i] * g2[i] / cnt);
+				out.printf("%.5f ", cnt1[i] * cnt2[i] / cnt);
 			}
 		}
 		out.println();
