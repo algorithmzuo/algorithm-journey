@@ -64,7 +64,7 @@ package class167;
 //int ans[MAXN];
 //
 //void insert(int num) {
-//    for (int i = BIT; i >= 0; --i) {
+//    for (int i = BIT; i >= 0; i--) {
 //        if (num >> i == 1) {
 //            if (basis[i] == 0) {
 //                basis[i] = num;
@@ -77,7 +77,7 @@ package class167;
 //}
 //
 //int minEor(int num) {
-//    for (int i = BIT; i >= 0; --i) {
+//    for (int i = BIT; i >= 0; i--) {
 //        num = min(num, num ^ basis[i]);
 //    }
 //    return num;

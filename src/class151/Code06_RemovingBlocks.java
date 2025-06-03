@@ -53,7 +53,7 @@ public class Code06_RemovingBlocks {
 		for (int i = 1; i <= n; i++) {
 			ans = (ans + (long) (sum[i] + sum[n - i + 1] - 1) * arr[i]) % MOD;
 		}
-		for (int i = 1; i <= n; ++i) {
+		for (int i = 1; i <= n; i++) {
 			ans = ans * i % MOD;
 		}
 		return ans;

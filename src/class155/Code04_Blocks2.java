@@ -113,13 +113,13 @@ package class155;
 //
 //void compute() {
 //    int first = 0;
-//    for (int i = 1; i <= n; ++i) {
+//    for (int i = 1; i <= n; i++) {
 //        sort(arr + start[i], arr + boundary[i]);
 //        first += arr[start[i]];
 //    }
 //    dist[0] = -1;
 //    int head = 0;
-//    for (int i = 1; i <= n; ++i) {
+//    for (int i = 1; i <= n; i++) {
 //        head = merge(head, init(i, start[i]));
 //    }
 //    pre[head] = first;
@@ -146,17 +146,17 @@ package class155;
 //    cin.tie(nullptr);
 //    cin >> n >> k;
 //    int ai = 0;
-//    for (int i = 1; i <= n; ++i) {
+//    for (int i = 1; i <= n; i++) {
 //        int m;
 //        cin >> m;
 //        start[i] = ai + 1;
-//        for (int j = 1; j <= m; ++j) {
+//        for (int j = 1; j <= m; j++) {
 //            cin >> arr[++ai];
 //        }
 //        boundary[i] = start[i] + m;
 //    }
 //    compute();
-//    for (int i = 1; i <= k; ++i) {
+//    for (int i = 1; i <= k; i++) {
 //        cout << ans[i] << " ";
 //    }
 //    cout << endl;

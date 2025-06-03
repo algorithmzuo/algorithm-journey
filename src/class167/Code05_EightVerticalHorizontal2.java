@@ -48,7 +48,7 @@ package class167;
 //bs ans[MAXQ];
 //
 //void insert(bs& num) {
-//    for (int i = BIT; i >= 0; --i) {
+//    for (int i = BIT; i >= 0; i--) {
 //        if (num[i] == 1) {
 //            if (basis[i][i] == 0) {
 //                basis[i] = num;
@@ -159,16 +159,16 @@ package class167;
 //    ios::sync_with_stdio(false);
 //    cin.tie(nullptr);
 //    cin >> n >> m >> q;
-//    for (int i = 0; i <= BIT; ++i) {
+//    for (int i = 0; i <= BIT; i++) {
 //        basis[i].reset();
 //    }
-//    for (int i = 1; i <= n; ++i) {
+//    for (int i = 1; i <= n; i++) {
 //        father[i] = i;
 //        eor[i].reset();
 //    }
 //    int u, v;
 //    bs weight;
-//    for (int i = 1; i <= m; ++i) {
+//    for (int i = 1; i <= m; i++) {
 //        cin >> u >> v >> weight;
 //        Union(u, v, weight);
 //    }

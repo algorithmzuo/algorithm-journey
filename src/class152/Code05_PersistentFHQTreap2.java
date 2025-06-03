@@ -155,7 +155,7 @@ package class152;
 //    srand(time(0));
 //    int n;
 //    cin >> n;
-//    for (int i = 1; i <= n; ++i) {
+//    for (int i = 1; i <= n; i++) {
 //        int version, op, x;
 //        cin >> version >> op >> x;
 //        if (op == 1) {

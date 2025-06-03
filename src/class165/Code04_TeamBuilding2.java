@@ -74,7 +74,7 @@ package class165;
 //}
 //
 //void filter() {
-//    for (int i = 1; i <= 2 * n; ++i) {
+//    for (int i = 1; i <= 2 * n; i++) {
 //        father[i] = i;
 //        siz[i] = 1;
 //    }

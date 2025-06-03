@@ -51,7 +51,7 @@ public class Code06_FrogCrossRiver {
 		t = (int) in.nval;
 		in.nextToken();
 		m = (int) in.nval;
-		for (int i = 1; i <= m; ++i) {
+		for (int i = 1; i <= m; i++) {
 			in.nextToken();
 			arr[i] = (int) in.nval;
 		}

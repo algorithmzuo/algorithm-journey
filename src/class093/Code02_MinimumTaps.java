@@ -15,7 +15,7 @@ public class Code02_MinimumTaps {
 		// right[i] = j
 		// 所有左边界在i的水龙头里，影响到的最右右边界是j
 		int[] right = new int[n + 1];
-		for (int i = 0, start; i <= n; ++i) {
+		for (int i = 0, start; i <= n; i++) {
 			start = Math.max(0, i - ranges[i]);
 			right[start] = Math.max(right[start], i + ranges[i]);
 		}

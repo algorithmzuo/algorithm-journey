@@ -19,7 +19,7 @@ public class Code04_MinimumCostToCutAStick {
 		Arrays.sort(cuts);
 		int[] arr = new int[m + 2];
 		arr[0] = 0;
-		for (int i = 1; i <= m; ++i) {
+		for (int i = 1; i <= m; i++) {
 			arr[i] = cuts[i - 1];
 		}
 		arr[m + 1] = n;
@@ -59,7 +59,7 @@ public class Code04_MinimumCostToCutAStick {
 		Arrays.sort(cuts);
 		int[] arr = new int[m + 2];
 		arr[0] = 0;
-		for (int i = 1; i <= m; ++i) {
+		for (int i = 1; i <= m; i++) {
 			arr[i] = cuts[i - 1];
 		}
 		arr[m + 1] = n;
