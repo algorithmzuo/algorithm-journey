@@ -10,23 +10,22 @@ package class171;
 //using namespace std;
 //
 //struct Node {
-//    int i, v, min, max;
+//    int i, num, lv, rv;
 //};
 //
-//bool CmpI(Node a, Node b) {
-//    return a.i < b.i;
+//bool CmpNum(Node a, Node b) {
+//    return a.num < b.num;
 //}
 //
-//bool CmpV(Node a, Node b) {
-//    return a.v < b.v;
-//}
-//
-//bool CmpMin(Node a, Node b) {
-//    return a.min < b.min;
+//bool CmpLv(Node a, Node b) {
+//    return a.lv < b.lv;
 //}
 //
 //const int MAXN = 100001;
 //int n, m;
+//int num[MAXN];
+//int lv[MAXN];
+//int rv[MAXN];
 //
 //Node arr[MAXN];
 //int tree[MAXN];
@@ -60,20 +59,25 @@ package class171;
 //}
 //
 //void merge(int l, int m, int r) {
-//    sort(arr + l, arr + m + 1, CmpV);
-//    sort(arr + m + 1, arr + r + 1, CmpMin);
-//    int p1 = l - 1, p2 = m + 1;
-//    for (; p2 <= r; p2++) {
-//        while (p1 + 1 <= m && arr[p1 + 1].v <= arr[p2].min) {
+//    for (int i = l; i <= r; i++) {
+//        arr[i].i = i;
+//        arr[i].num = num[i];
+//        arr[i].lv = lv[i];
+//        arr[i].rv = rv[i];
+//    }
+//    sort(arr + l, arr + m + 1, CmpNum);
+//    sort(arr + m + 1, arr + r + 1, CmpLv);
+//    int p1, p2;
+//    for (p1 = l - 1, p2 = m + 1; p2 <= r; p2++) {
+//        while (p1 + 1 <= m && arr[p1 + 1].num <= arr[p2].lv) {
 //            p1++;
-//            more(arr[p1].max, dp[arr[p1].i]);
+//            more(arr[p1].rv, dp[arr[p1].i]);
 //        }
-//        dp[arr[p2].i] = max(dp[arr[p2].i], query(arr[p2].v) + 1);
+//        dp[arr[p2].i] = max(dp[arr[p2].i], query(arr[p2].num) + 1);
 //    }
 //    for (int i = l; i <= p1; i++) {
-//        clear(arr[i].max);
+//        clear(arr[i].rv);
 //    }
-//    sort(arr + l, arr + r + 1, CmpI);
 //}
 //
 //void cdq(int l, int r) {
@@ -91,16 +95,17 @@ package class171;
 //    cin.tie(nullptr);
 //    cin >> n >> m;
 //    for (int i = 1; i <= n; i++) {
-//        arr[i].i = i;
-//        cin >> arr[i].v;
-//        arr[i].min = arr[i].v;
-//        arr[i].max = arr[i].v;
-//        dp[i] = 1;
+//        cin >> num[i];
+//        lv[i] = num[i];
+//        rv[i] = num[i];
 //    }
-//    for (int i = 1, idx, num; i <= m; i++) {
-//        cin >> idx >> num;
-//        arr[idx].min = min(arr[idx].min, num);
-//        arr[idx].max = max(arr[idx].max, num);
+//    for (int i = 1, idx, val; i <= m; i++) {
+//        cin >> idx >> val;
+//        lv[idx] = min(lv[idx], val);
+//        rv[idx] = max(rv[idx], val);
+//    }
+//    for (int i = 1; i <= n; i++) {
+//        dp[i] = 1;
 //    }
 //    cdq(1, n);
 //    int ans = 0;

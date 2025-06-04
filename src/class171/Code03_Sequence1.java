@@ -14,8 +14,11 @@ public class Code03_Sequence1 {
 
 	public static int MAXN = 100001;
 	public static int n, m;
+	public static int[] num = new int[MAXN];
+	public static int[] lv = new int[MAXN];
+	public static int[] rv = new int[MAXN];
 
-	// 位置i、数值v、最小值min、最大值max
+	// 位置i、数值num、最小值lv、最大值rv
 	public static int[][] arr = new int[MAXN][4];
 	public static int[] tree = new int[MAXN];
 	public static int[] dp = new int[MAXN];
@@ -48,6 +51,12 @@ public class Code03_Sequence1 {
 	}
 
 	public static void merge(int l, int m, int r) {
+		for (int i = l; i <= r; i++) {
+			arr[i][0] = i;
+			arr[i][1] = num[i];
+			arr[i][2] = lv[i];
+			arr[i][3] = rv[i];
+		}
 		Arrays.sort(arr, l, m + 1, (a, b) -> a[1] - b[1]);
 		Arrays.sort(arr, m + 1, r + 1, (a, b) -> a[2] - b[2]);
 		int p1, p2;
@@ -61,7 +70,6 @@ public class Code03_Sequence1 {
 		for (int i = l; i <= p1; i++) {
 			clear(arr[i][3]);
 		}
-		Arrays.sort(arr, l, r + 1, (a, b) -> a[0] - b[0]);
 	}
 
 	public static void cdq(int l, int r) {
@@ -85,17 +93,18 @@ public class Code03_Sequence1 {
 		n = in.nextInt();
 		m = in.nextInt();
 		for (int i = 1; i <= n; i++) {
-			arr[i][0] = i;
-			arr[i][1] = in.nextInt();
-			arr[i][2] = arr[i][1];
-			arr[i][3] = arr[i][1];
-			dp[i] = 1;
+			num[i] = in.nextInt();
+			lv[i] = num[i];
+			rv[i] = num[i];
 		}
-		for (int i = 1, idx, num; i <= m; i++) {
+		for (int i = 1, idx, val; i <= m; i++) {
 			idx = in.nextInt();
-			num = in.nextInt();
-			arr[idx][2] = Math.min(arr[idx][2], num);
-			arr[idx][3] = Math.max(arr[idx][3], num);
+			val = in.nextInt();
+			lv[idx] = Math.min(lv[idx], val);
+			rv[idx] = Math.max(rv[idx], val);
+		}
+		for (int i = 1; i <= n; i++) {
+			dp[i] = 1;
 		}
 		cdq(1, n);
 		int ans = 0;
