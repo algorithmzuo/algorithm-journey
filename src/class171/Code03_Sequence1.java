@@ -14,11 +14,11 @@ public class Code03_Sequence1 {
 
 	public static int MAXN = 100001;
 	public static int n, m;
-	public static int[] num = new int[MAXN];
+	public static int[] v = new int[MAXN];
 	public static int[] lv = new int[MAXN];
 	public static int[] rv = new int[MAXN];
 
-	// 位置i、数值num、最小值lv、最大值rv
+	// 位置i、数值v、最小值lv、最大值rv
 	public static int[][] arr = new int[MAXN][4];
 	public static int[] tree = new int[MAXN];
 	public static int[] dp = new int[MAXN];
@@ -53,7 +53,7 @@ public class Code03_Sequence1 {
 	public static void merge(int l, int m, int r) {
 		for (int i = l; i <= r; i++) {
 			arr[i][0] = i;
-			arr[i][1] = num[i];
+			arr[i][1] = v[i];
 			arr[i][2] = lv[i];
 			arr[i][3] = rv[i];
 		}
@@ -93,9 +93,9 @@ public class Code03_Sequence1 {
 		n = in.nextInt();
 		m = in.nextInt();
 		for (int i = 1; i <= n; i++) {
-			num[i] = in.nextInt();
-			lv[i] = num[i];
-			rv[i] = num[i];
+			v[i] = in.nextInt();
+			lv[i] = v[i];
+			rv[i] = v[i];
 		}
 		for (int i = 1, idx, val; i <= m; i++) {
 			idx = in.nextInt();
