@@ -54,14 +54,32 @@ public class Code05_Cute1 {
 	public static class CmpB implements Comparator<Node> {
 		@Override
 		public int compare(Node x, Node y) {
-			return x.b - y.b;
+			if (x.b != y.b) {
+				return x.b - y.b;
+			}
+			if (x.c != y.c) {
+				return x.c - y.c;
+			}
+			if (x.d != y.d) {
+				return x.d - y.d;
+			}
+			return x.a - y.a;
 		}
 	}
 
 	public static class CmpC implements Comparator<Node> {
 		@Override
 		public int compare(Node x, Node y) {
-			return x.c - y.c;
+			if (x.c != y.c) {
+				return x.c - y.c;
+			}
+			if (x.d != y.d) {
+				return x.d - y.d;
+			}
+			if (x.a != y.a) {
+				return x.a - y.a;
+			}
+			return x.b - y.b;
 		}
 	}
 
@@ -70,16 +88,16 @@ public class Code05_Cute1 {
 	public static CmpC cmpC = new CmpC();
 
 	public static int MAXN = 100001;
+	public static long INF = (long) (1e18 + 1);
 	public static int n, s;
-	public static long INF = 1000000000000000001L;
 
 	public static Node[] arr = new Node[MAXN];
-	public static int[] abcd = new int[MAXN << 2];
+	public static int[] sortd = new int[MAXN];
 
 	public static Node[] tmp1 = new Node[MAXN];
 	public static Node[] tmp2 = new Node[MAXN];
 
-	public static long[] tree = new long[MAXN << 2];
+	public static long[] tree = new long[MAXN];
 	public static long[] dp = new long[MAXN];
 
 	public static int lowbit(int i) {
@@ -163,7 +181,7 @@ public class Code05_Cute1 {
 		int l = 1, r = s, m, ans = 1;
 		while (l <= r) {
 			m = (l + r) / 2;
-			if (abcd[m] >= num) {
+			if (sortd[m] >= num) {
 				ans = m;
 				r = m - 1;
 			} else {
@@ -174,30 +192,21 @@ public class Code05_Cute1 {
 	}
 
 	public static void prepare() {
-		// a、b、c、d离散化
 		for (int i = 1; i <= n; i++) {
-			abcd[++s] = arr[i].a;
-			abcd[++s] = arr[i].b;
-			abcd[++s] = arr[i].c;
-			abcd[++s] = arr[i].d;
+			sortd[i] = arr[i].d;
 		}
-		Arrays.sort(abcd, 1, s + 1);
-		int m = 1;
-		for (int i = 2; i <= s; i++) {
-			if (abcd[m] != abcd[i]) {
-				abcd[++m] = abcd[i];
+		Arrays.sort(sortd, 1, n + 1);
+		s = 1;
+		for (int i = 2; i <= n; i++) {
+			if (sortd[s] != sortd[i]) {
+				sortd[++s] = sortd[i];
 			}
 		}
-		s = m;
 		for (int i = 1; i <= n; i++) {
-			arr[i].a = lower(arr[i].a);
-			arr[i].b = lower(arr[i].b);
-			arr[i].c = lower(arr[i].c);
 			arr[i].d = lower(arr[i].d);
 		}
-		// 合并a、b、c、d都相等的对象成为一组对象
 		Arrays.sort(arr, 1, n + 1, cmpAbcdv);
-		m = 1;
+		int m = 1;
 		for (int i = 2; i <= n; i++) {
 			if (arr[m].a == arr[i].a && arr[m].b == arr[i].b && arr[m].c == arr[i].c && arr[m].d == arr[i].d) {
 				if (arr[i].v > 0) {
@@ -208,12 +217,10 @@ public class Code05_Cute1 {
 			}
 		}
 		n = m;
-		// 设置组号i、dp初始值
 		for (int i = 1; i <= n; i++) {
 			arr[i].i = i;
 			dp[i] = arr[i].v;
 		}
-		// 初始化树状数组
 		for (int i = 1; i <= s; i++) {
 			tree[i] = -INF;
 		}

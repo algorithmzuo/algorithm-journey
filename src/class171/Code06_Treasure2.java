@@ -1,7 +1,7 @@
 package class171;
 
-// 德丽莎世界第一可爱，C++版
-// 测试链接 : https://www.luogu.com.cn/problem/P5621
+// 寻找宝藏，C++版
+// 测试链接 : https://www.luogu.com.cn/problem/P4849
 // 如下实现是C++的版本，C++版本和java版本逻辑完全一样
 // 提交如下代码，可以通过所有测试用例
 
@@ -38,41 +38,59 @@ package class171;
 //    return x.b < y.b;
 //}
 //
-//const int MAXN = 100001;
+//const int MAXN = 80001;
 //const long long INF = 1e18 + 1;
+//const int MOD = 998244353;
 //int n, s;
 //
 //Node arr[MAXN];
-//int sortd[MAXN];
-//
 //Node tmp1[MAXN];
 //Node tmp2[MAXN];
-//long long tree[MAXN];
+//int sortd[MAXN];
+//
+//long long treeVal[MAXN];
+//int treeCnt[MAXN];
+//
 //long long dp[MAXN];
+//int cnt[MAXN];
 //
 //int lowbit(int i) {
 //    return i & -i;
 //}
 //
-//void more(int i, long long num) {
+//void add(int i, long long v, int c) {
 //    while (i <= s) {
-//        tree[i] = max(tree[i], num);
+//        if (v > treeVal[i]) {
+//            treeVal[i] = v;
+//            treeCnt[i] = c % MOD;
+//        } else if (v == treeVal[i]) {
+//            treeCnt[i] = (treeCnt[i] + c) % MOD;
+//        }
 //        i += lowbit(i);
 //    }
 //}
 //
-//long long query(int i) {
-//    long long ret = -INF;
+//long long queryVal;
+//int queryCnt;
+//
+//void query(int i) {
+//    queryVal = -INF;
+//    queryCnt = 0;
 //    while (i > 0) {
-//        ret = max(ret, tree[i]);
+//        if (treeVal[i] > queryVal) {
+//            queryVal = treeVal[i];
+//            queryCnt = treeCnt[i];
+//        } else if (treeVal[i] == queryVal) {
+//            queryCnt = (queryCnt + treeCnt[i]) % MOD;
+//        }
 //        i -= lowbit(i);
 //    }
-//    return ret;
 //}
 //
 //void clear(int i) {
 //    while (i <= s) {
-//        tree[i] = -INF;
+//        treeVal[i] = -INF;
+//        treeCnt[i] = 0;
 //        i += lowbit(i);
 //    }
 //}
@@ -83,16 +101,23 @@ package class171;
 //    }
 //    sort(tmp2 + l, tmp2 + m + 1, CmpC);
 //    sort(tmp2 + m + 1, tmp2 + r + 1, CmpC);
-//    int p1, p2;
+//    int p1, p2, id;
 //    for (p1 = l - 1, p2 = m + 1; p2 <= r; p2++) {
 //        while (p1 + 1 <= m && tmp2[p1 + 1].c <= tmp2[p2].c) {
 //            p1++;
 //            if (tmp2[p1].left) {
-//                more(tmp2[p1].d, dp[tmp2[p1].i]);
+//                add(tmp2[p1].d, dp[tmp2[p1].i], cnt[tmp2[p1].i]);
 //            }
 //        }
 //        if (!tmp2[p2].left) {
-//            dp[tmp2[p2].i] = max(dp[tmp2[p2].i], query(tmp2[p2].d) + tmp2[p2].v);
+//            query(tmp2[p2].d);
+//            id = tmp2[p2].i;
+//            if (queryVal + tmp2[p2].v > dp[id]) {
+//                dp[id] = queryVal + tmp2[p2].v;
+//                cnt[id] = queryCnt;
+//            } else if (queryVal + tmp2[p2].v == dp[id]) {
+//                cnt[id] = (cnt[id] + queryCnt) % MOD;
+//            }
 //        }
 //    }
 //    for (int i = l; i <= p1; i++) {
@@ -116,22 +141,22 @@ package class171;
 //    cdq1(l, mid);
 //    for (int i = l; i <= r; i++) {
 //        tmp1[i] = arr[i];
-//        tmp1[i].left = i <= mid;
+//        tmp1[i].left = (i <= mid);
 //    }
 //    sort(tmp1 + l, tmp1 + r + 1, CmpB);
 //    cdq2(l, r);
 //    cdq1(mid + 1, r);
 //}
 //
-//int lower(long long num) {
+//int lower(int num) {
 //    int l = 1, r = s, ans = 1;
 //    while (l <= r) {
-//        int m = (l + r) / 2;
-//        if (sortd[m] >= num) {
-//            ans = m;
-//            r = m - 1;
+//        int mid = (l + r) / 2;
+//        if (sortd[mid] >= num) {
+//            ans = mid;
+//            r = mid - 1;
 //        } else {
-//            l = m + 1;
+//            l = mid + 1;
 //        }
 //    }
 //    return ans;
@@ -156,9 +181,7 @@ package class171;
 //    for (int i = 2; i <= n; i++) {
 //        if (arr[m].a == arr[i].a && arr[m].b == arr[i].b &&
 //            arr[m].c == arr[i].c && arr[m].d == arr[i].d) {
-//            if (arr[i].v > 0) {
-//                arr[m].v += arr[i].v;
-//            }
+//            arr[m].v += arr[i].v;
 //        } else {
 //            arr[++m] = arr[i];
 //        }
@@ -167,25 +190,34 @@ package class171;
 //    for (int i = 1; i <= n; i++) {
 //        arr[i].i = i;
 //        dp[i] = arr[i].v;
+//        cnt[i] = 1;
 //    }
 //    for (int i = 1; i <= s; i++) {
-//        tree[i] = -INF;
+//        treeVal[i] = -INF;
+//        treeCnt[i] = 0;
 //    }
 //}
 //
 //int main() {
 //    ios::sync_with_stdio(false);
 //    cin.tie(nullptr);
-//    cin >> n;
+//    int m;
+//    cin >> n >> m;
 //    for (int i = 1; i <= n; i++) {
 //        cin >> arr[i].a >> arr[i].b >> arr[i].c >> arr[i].d >> arr[i].v;
 //    }
 //    prepare();
 //    cdq1(1, n);
-//    long long ans = -INF;
+//    long long best = 0;
+//    int ways = 0;
 //    for (int i = 1; i <= n; i++) {
-//        ans = max(ans, dp[i]);
+//        best = max(best, dp[i]);
 //    }
-//    cout << ans << '\n';
+//    for (int i = 1; i <= n; i++) {
+//        if (dp[i] == best) {
+//            ways = (ways + cnt[i]) % MOD;
+//        }
+//    }
+//    cout << best << '\n' << ways << '\n';
 //    return 0;
 //}
