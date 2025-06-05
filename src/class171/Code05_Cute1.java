@@ -5,7 +5,7 @@ package class171;
 // 提交以下的code，提交时请把类名改成"Main"
 // java实现的逻辑一定是正确的，但是有两个测试用例超时
 // 因为这道题只考虑C++能通过的时间标准，根本没考虑java的用户
-// 想通过用C++实现，本节课Code05_Theresa2文件就是C++的实现
+// 想通过用C++实现，本节课Code05_Cute2文件就是C++的实现
 // 两个版本的逻辑完全一样，C++版本可以通过所有测试
 
 import java.io.IOException;
@@ -15,7 +15,7 @@ import java.io.PrintWriter;
 import java.util.Arrays;
 import java.util.Comparator;
 
-public class Code05_Theresa1 {
+public class Code05_Cute1 {
 
 	public static class Node {
 		int a, b, c, d;
