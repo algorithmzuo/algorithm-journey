@@ -28,9 +28,8 @@ public class Code04_Interceptor1 {
 	// 位置i、高度h、速度v
 	public static int[][] arr = new int[MAXN][3];
 
-	// 树状数组，维护最大长度、最大长度出现的次数
-	public static int[] treelen = new int[MAXN];
-	public static double[] treecnt = new double[MAXN];
+	public static int[] treeVal = new int[MAXN];
+	public static double[] treeCnt = new double[MAXN];
 
 	public static int[] len1 = new int[MAXN];
 	public static double[] cnt1 = new double[MAXN];
@@ -38,34 +37,34 @@ public class Code04_Interceptor1 {
 	public static int[] len2 = new int[MAXN];
 	public static double[] cnt2 = new double[MAXN];
 
-	public static int lowbit(int x) {
-		return x & -x;
+	public static int lowbit(int i) {
+		return i & -i;
 	}
 
-	public static void add(int i, int len, double cnt) {
+	public static void add(int i, int val, double cnt) {
 		while (i <= s) {
-			if (len > treelen[i]) {
-				treelen[i] = len;
-				treecnt[i] = cnt;
-			} else if (len == treelen[i]) {
-				treecnt[i] += cnt;
+			if (val > treeVal[i]) {
+				treeVal[i] = val;
+				treeCnt[i] = cnt;
+			} else if (val == treeVal[i]) {
+				treeCnt[i] += cnt;
 			}
 			i += lowbit(i);
 		}
 	}
 
-	public static int querylen;
-	public static double querycnt;
+	public static int queryVal;
+	public static double queryCnt;
 
 	public static void query(int i) {
-		querylen = 0;
-		querycnt = 0;
+		queryVal = 0;
+		queryCnt = 0;
 		while (i > 0) {
-			if (treelen[i] > querylen) {
-				querylen = treelen[i];
-				querycnt = treecnt[i];
-			} else if (treelen[i] == querylen) {
-				querycnt += treecnt[i];
+			if (treeVal[i] > queryVal) {
+				queryVal = treeVal[i];
+				queryCnt = treeCnt[i];
+			} else if (treeVal[i] == queryVal) {
+				queryCnt += treeCnt[i];
 			}
 			i -= lowbit(i);
 		}
@@ -73,8 +72,8 @@ public class Code04_Interceptor1 {
 
 	public static void clear(int i) {
 		while (i <= s) {
-			treelen[i] = 0;
-			treecnt[i] = 0;
+			treeVal[i] = 0;
+			treeCnt[i] = 0;
 			i += lowbit(i);
 		}
 	}
@@ -94,11 +93,11 @@ public class Code04_Interceptor1 {
 				add(s - arr[p1][2] + 1, len1[arr[p1][0]], cnt1[arr[p1][0]]);
 			}
 			query(s - arr[p2][2] + 1);
-			if (querylen + 1 > len1[arr[p2][0]]) {
-				len1[arr[p2][0]] = querylen + 1;
-				cnt1[arr[p2][0]] = querycnt;
-			} else if (querylen + 1 == len1[arr[p2][0]]) {
-				cnt1[arr[p2][0]] += querycnt;
+			if (queryVal + 1 > len1[arr[p2][0]]) {
+				len1[arr[p2][0]] = queryVal + 1;
+				cnt1[arr[p2][0]] = queryCnt;
+			} else if (queryVal + 1 == len1[arr[p2][0]]) {
+				cnt1[arr[p2][0]] += queryCnt;
 			}
 		}
 		for (int i = l; i <= p1; i++) {
@@ -131,11 +130,11 @@ public class Code04_Interceptor1 {
 				add(arr[p1][2], len2[arr[p1][0]], cnt2[arr[p1][0]]);
 			}
 			query(arr[p2][2]);
-			if (querylen + 1 > len2[arr[p2][0]]) {
-				len2[arr[p2][0]] = querylen + 1;
-				cnt2[arr[p2][0]] = querycnt;
-			} else if (querylen + 1 == len2[arr[p2][0]]) {
-				cnt2[arr[p2][0]] += querycnt;
+			if (queryVal + 1 > len2[arr[p2][0]]) {
+				len2[arr[p2][0]] = queryVal + 1;
+				cnt2[arr[p2][0]] = queryCnt;
+			} else if (queryVal + 1 == len2[arr[p2][0]]) {
+				cnt2[arr[p2][0]] += queryCnt;
 			}
 		}
 		for (int i = l; i <= p1; i++) {

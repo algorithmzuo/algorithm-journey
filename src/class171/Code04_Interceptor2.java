@@ -36,8 +36,8 @@ package class171;
 //
 //Node arr[MAXN];
 //
-//int treelen[MAXN];
-//double treecnt[MAXN];
+//int treeVal[MAXN];
+//double treeCnt[MAXN];
 //
 //int len1[MAXN];
 //double cnt1[MAXN];
@@ -49,30 +49,30 @@ package class171;
 //    return i & -i;
 //}
 //
-//void add(int i, int len, double cnt) {
+//void add(int i, int val, double cnt) {
 //    while (i <= s) {
-//        if (len > treelen[i]) {
-//            treelen[i] = len;
-//            treecnt[i] = cnt;
-//        } else if (len == treelen[i]) {
-//            treecnt[i] += cnt;
+//        if (val > treeVal[i]) {
+//            treeVal[i] = val;
+//            treeCnt[i] = cnt;
+//        } else if (val == treeVal[i]) {
+//            treeCnt[i] += cnt;
 //        }
 //        i += lowbit(i);
 //    }
 //}
 //
-//int querylen;
-//double querycnt;
+//int queryVal;
+//double queryCnt;
 //
 //void query(int i) {
-//    querylen = 0;
-//    querycnt = 0;
+//    queryVal = 0;
+//    queryCnt = 0;
 //    while (i > 0) {
-//        if (treelen[i] > querylen) {
-//            querylen = treelen[i];
-//            querycnt = treecnt[i];
-//        } else if (treelen[i] == querylen) {
-//            querycnt += treecnt[i];
+//        if (treeVal[i] > queryVal) {
+//            queryVal = treeVal[i];
+//            queryCnt = treeCnt[i];
+//        } else if (treeVal[i] == queryVal) {
+//            queryCnt += treeCnt[i];
 //        }
 //        i -= lowbit(i);
 //    }
@@ -80,8 +80,8 @@ package class171;
 //
 //void clear(int i) {
 //    while (i <= s) {
-//        treelen[i] = 0;
-//        treecnt[i] = 0;
+//        treeVal[i] = 0;
+//        treeCnt[i] = 0;
 //        i += lowbit(i);
 //    }
 //}
@@ -101,11 +101,11 @@ package class171;
 //            add(s - arr[p1].v + 1, len1[arr[p1].i], cnt1[arr[p1].i]);
 //        }
 //        query(s - arr[p2].v + 1);
-//        if (querylen + 1 > len1[arr[p2].i]) {
-//            len1[arr[p2].i] = querylen + 1;
-//            cnt1[arr[p2].i] = querycnt;
-//        } else if (querylen + 1 == len1[arr[p2].i]) {
-//            cnt1[arr[p2].i] += querycnt;
+//        if (queryVal + 1 > len1[arr[p2].i]) {
+//            len1[arr[p2].i] = queryVal + 1;
+//            cnt1[arr[p2].i] = queryCnt;
+//        } else if (queryVal + 1 == len1[arr[p2].i]) {
+//            cnt1[arr[p2].i] += queryCnt;
 //        }
 //    }
 //    for (int i = l; i <= p1; i++) {
@@ -138,11 +138,11 @@ package class171;
 //            add(arr[p1].v, len2[arr[p1].i], cnt2[arr[p1].i]);
 //        }
 //        query(arr[p2].v);
-//        if (querylen + 1 > len2[arr[p2].i]) {
-//            len2[arr[p2].i] = querylen + 1;
-//            cnt2[arr[p2].i] = querycnt;
-//        } else if (querylen + 1 == len2[arr[p2].i]) {
-//            cnt2[arr[p2].i] += querycnt;
+//        if (queryVal + 1 > len2[arr[p2].i]) {
+//            len2[arr[p2].i] = queryVal + 1;
+//            cnt2[arr[p2].i] = queryCnt;
+//        } else if (queryVal + 1 == len2[arr[p2].i]) {
+//            cnt2[arr[p2].i] += queryCnt;
 //        }
 //    }
 //    for (int i = l; i <= p1; i++) {

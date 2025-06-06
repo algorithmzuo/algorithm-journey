@@ -18,10 +18,6 @@ import java.util.Comparator;
 
 public class Code06_Treasure1 {
 
-	public static int MAXN = 80001;
-	public static long INF = (long) (1e18 + 1);
-	public static int MOD = 998244353;
-
 	public static class Node {
 		int a, b, c, d;
 		int i;
@@ -92,7 +88,11 @@ public class Code06_Treasure1 {
 	public static Cmp2 cmp2 = new Cmp2();
 	public static Cmp3 cmp3 = new Cmp3();
 
+	public static int MAXN = 80001;
+	public static long INF = (long) (1e18 + 1);
+	public static int MOD = 998244353;
 	public static int n, s;
+
 	public static Node[] arr = new Node[MAXN];
 	public static Node[] tmp1 = new Node[MAXN];
 	public static Node[] tmp2 = new Node[MAXN];
