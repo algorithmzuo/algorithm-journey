@@ -32,7 +32,7 @@ public class Code05_Cute1 {
 		}
 	}
 
-	public static class CmpAbcdv implements Comparator<Node> {
+	public static class Cmp1 implements Comparator<Node> {
 		@Override
 		public int compare(Node x, Node y) {
 			if (x.a != y.a) {
@@ -51,7 +51,7 @@ public class Code05_Cute1 {
 		}
 	}
 
-	public static class CmpB implements Comparator<Node> {
+	public static class Cmp2 implements Comparator<Node> {
 		@Override
 		public int compare(Node x, Node y) {
 			if (x.b != y.b) {
@@ -67,7 +67,7 @@ public class Code05_Cute1 {
 		}
 	}
 
-	public static class CmpC implements Comparator<Node> {
+	public static class Cmp3 implements Comparator<Node> {
 		@Override
 		public int compare(Node x, Node y) {
 			if (x.c != y.c) {
@@ -83,9 +83,9 @@ public class Code05_Cute1 {
 		}
 	}
 
-	public static CmpAbcdv cmpAbcdv = new CmpAbcdv();
-	public static CmpB cmpB = new CmpB();
-	public static CmpC cmpC = new CmpC();
+	public static Cmp1 cmp1 = new Cmp1();
+	public static Cmp2 cmp2 = new Cmp2();
+	public static Cmp3 cmp3 = new Cmp3();
 
 	public static int MAXN = 100001;
 	public static long INF = (long) (1e18 + 1);
@@ -131,8 +131,8 @@ public class Code05_Cute1 {
 		for (int i = l; i <= r; i++) {
 			tmp2[i] = tmp1[i];
 		}
-		Arrays.sort(tmp2, l, m + 1, cmpC);
-		Arrays.sort(tmp2, m + 1, r + 1, cmpC);
+		Arrays.sort(tmp2, l, m + 1, cmp3);
+		Arrays.sort(tmp2, m + 1, r + 1, cmp3);
 		int p1, p2;
 		for (p1 = l - 1, p2 = m + 1; p2 <= r; p2++) {
 			while (p1 + 1 <= m && tmp2[p1 + 1].c <= tmp2[p2].c) {
@@ -172,7 +172,7 @@ public class Code05_Cute1 {
 			tmp1[i] = arr[i];
 			tmp1[i].left = i <= mid;
 		}
-		Arrays.sort(tmp1, l, r + 1, cmpB);
+		Arrays.sort(tmp1, l, r + 1, cmp2);
 		cdq2(l, r);
 		cdq1(mid + 1, r);
 	}
@@ -205,7 +205,7 @@ public class Code05_Cute1 {
 		for (int i = 1; i <= n; i++) {
 			arr[i].d = lower(arr[i].d);
 		}
-		Arrays.sort(arr, 1, n + 1, cmpAbcdv);
+		Arrays.sort(arr, 1, n + 1, cmp1);
 		int m = 1;
 		for (int i = 2; i <= n; i++) {
 			if (arr[m].a == arr[i].a && arr[m].b == arr[i].b && arr[m].c == arr[i].c && arr[m].d == arr[i].d) {

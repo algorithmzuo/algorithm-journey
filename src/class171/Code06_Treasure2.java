@@ -16,7 +16,7 @@ package class171;
 //    bool left;
 //};
 //
-//bool CmpAbcdv(Node x, Node y) {
+//bool Cmp1(Node x, Node y) {
 //    if (x.a != y.a) return x.a < y.a;
 //    if (x.b != y.b) return x.b < y.b;
 //    if (x.c != y.c) return x.c < y.c;
@@ -24,14 +24,14 @@ package class171;
 //    return x.v > y.v;
 //}
 //
-//bool CmpB(Node x, Node y) {
+//bool Cmp2(Node x, Node y) {
 //    if (x.b != y.b) return x.b < y.b;
 //    if (x.c != y.c) return x.c < y.c;
 //    if (x.d != y.d) return x.d < y.d;
 //    return x.a < y.a;
 //}
 //
-//bool CmpC(Node x, Node y) {
+//bool Cmp3(Node x, Node y) {
 //    if (x.c != y.c) return x.c < y.c;
 //    if (x.d != y.d) return x.d < y.d;
 //    if (x.a != y.a) return x.a < y.a;
@@ -99,8 +99,8 @@ package class171;
 //    for (int i = l; i <= r; i++) {
 //        tmp2[i] = tmp1[i];
 //    }
-//    sort(tmp2 + l, tmp2 + m + 1, CmpC);
-//    sort(tmp2 + m + 1, tmp2 + r + 1, CmpC);
+//    sort(tmp2 + l, tmp2 + m + 1, Cmp3);
+//    sort(tmp2 + m + 1, tmp2 + r + 1, Cmp3);
 //    int p1, p2, id;
 //    for (p1 = l - 1, p2 = m + 1; p2 <= r; p2++) {
 //        while (p1 + 1 <= m && tmp2[p1 + 1].c <= tmp2[p2].c) {
@@ -143,7 +143,7 @@ package class171;
 //        tmp1[i] = arr[i];
 //        tmp1[i].left = (i <= mid);
 //    }
-//    sort(tmp1 + l, tmp1 + r + 1, CmpB);
+//    sort(tmp1 + l, tmp1 + r + 1, Cmp2);
 //    cdq2(l, r);
 //    cdq1(mid + 1, r);
 //}
@@ -176,7 +176,7 @@ package class171;
 //    for (int i = 1; i <= n; i++) {
 //        arr[i].d = lower(arr[i].d);
 //    }
-//    sort(arr + 1, arr + n + 1, CmpAbcdv);
+//    sort(arr + 1, arr + n + 1, Cmp1);
 //    int m = 1;
 //    for (int i = 2; i <= n; i++) {
 //        if (arr[m].a == arr[i].a && arr[m].b == arr[i].b &&
@@ -218,6 +218,7 @@ package class171;
 //            ways = (ways + cnt[i]) % MOD;
 //        }
 //    }
-//    cout << best << '\n' << ways << '\n';
+//    cout << best << '\n';
+//    cout << ways << '\n';
 //    return 0;
 //}
