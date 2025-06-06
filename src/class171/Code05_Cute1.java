@@ -1,6 +1,12 @@
 package class171;
 
 // 德丽莎世界第一可爱，java版
+// 一共有n个怪兽，每个怪兽有a、b、c、d四个能力值，以及打败之后的收益v
+// 你可以选择任意顺序打怪兽，每次打的怪兽的四种能力值都不能小于上次打的怪兽
+// 打印你能获得的最大收益
+// 1 <= n <= 5 * 10^4
+// -10^5 <= a、b、c、d <= +10^5
+// -10^9 <= v <= +10^9
 // 测试链接 : https://www.luogu.com.cn/problem/P5621
 // 提交以下的code，提交时请把类名改成"Main"
 // java实现的逻辑一定是正确的，但是有两个测试用例超时
@@ -87,7 +93,7 @@ public class Code05_Cute1 {
 	public static Cmp2 cmp2 = new Cmp2();
 	public static Cmp3 cmp3 = new Cmp3();
 
-	public static int MAXN = 100001;
+	public static int MAXN = 50001;
 	public static long INF = (long) (1e18 + 1);
 	public static int n, s;
 

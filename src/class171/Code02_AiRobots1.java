@@ -1,6 +1,13 @@
 package class171;
 
-// 机器人可见对，java版
+// 机器人聊天对，java版
+// 一共有n个机器人，每个机器人给定，位置x、视野y、智商q
+// 第i个机器人可以看见的范围是[xi − yi, xi + yi]
+// 如果两个机器人相互之间可以看见，并且智商差距不大于k，那么它们会开始聊天
+// 打印有多少对机器人可以聊天
+// 1 <= n <= 10^5
+// 0 <= k <= 20
+// 0 <= x、y、q <= 10^9
 // 测试链接 : https://www.luogu.com.cn/problem/CF1045G
 // 测试链接 : https://codeforces.com/problemset/problem/1045/G
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
