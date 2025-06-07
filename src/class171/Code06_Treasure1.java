@@ -107,7 +107,7 @@ public class Code06_Treasure1 {
 		return i & -i;
 	}
 
-	public static void add(int i, long v, int c) {
+	public static void more(int i, long v, int c) {
 		while (i <= s) {
 			if (v > treeVal[i]) {
 				treeVal[i] = v;
@@ -155,7 +155,7 @@ public class Code06_Treasure1 {
 			while (p1 + 1 <= mid && tmp2[p1 + 1].c <= tmp2[p2].c) {
 				p1++;
 				if (tmp2[p1].left) {
-					add(tmp2[p1].d, dp[tmp2[p1].i], cnt[tmp2[p1].i]);
+					more(tmp2[p1].d, dp[tmp2[p1].i], cnt[tmp2[p1].i]);
 				}
 			}
 			if (!tmp2[p2].left) {

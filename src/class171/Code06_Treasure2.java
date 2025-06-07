@@ -62,7 +62,7 @@ package class171;
 //    return i & -i;
 //}
 //
-//void add(int i, long long v, int c) {
+//void more(int i, long long v, int c) {
 //    while (i <= s) {
 //        if (v > treeVal[i]) {
 //            treeVal[i] = v;
@@ -110,7 +110,7 @@ package class171;
 //        while (p1 + 1 <= m && tmp2[p1 + 1].c <= tmp2[p2].c) {
 //            p1++;
 //            if (tmp2[p1].left) {
-//                add(tmp2[p1].d, dp[tmp2[p1].i], cnt[tmp2[p1].i]);
+//                more(tmp2[p1].d, dp[tmp2[p1].i], cnt[tmp2[p1].i]);
 //            }
 //        }
 //        if (!tmp2[p2].left) {

@@ -41,7 +41,7 @@ public class Code04_Interceptor1 {
 		return i & -i;
 	}
 
-	public static void add(int i, int val, double cnt) {
+	public static void more(int i, int val, double cnt) {
 		while (i <= s) {
 			if (val > treeVal[i]) {
 				treeVal[i] = val;
@@ -90,7 +90,7 @@ public class Code04_Interceptor1 {
 		for (p1 = l - 1, p2 = m + 1; p2 <= r; p2++) {
 			while (p1 + 1 <= m && arr[p1 + 1][1] >= arr[p2][1]) {
 				p1++;
-				add(s - arr[p1][2] + 1, len1[arr[p1][0]], cnt1[arr[p1][0]]);
+				more(s - arr[p1][2] + 1, len1[arr[p1][0]], cnt1[arr[p1][0]]);
 			}
 			query(s - arr[p2][2] + 1);
 			if (queryVal + 1 > len1[arr[p2][0]]) {
@@ -127,7 +127,7 @@ public class Code04_Interceptor1 {
 		for (p1 = l - 1, p2 = m + 1; p2 <= r; p2++) {
 			while (p1 + 1 <= m && arr[p1 + 1][1] <= arr[p2][1]) {
 				p1++;
-				add(arr[p1][2], len2[arr[p1][0]], cnt2[arr[p1][0]]);
+				more(arr[p1][2], len2[arr[p1][0]], cnt2[arr[p1][0]]);
 			}
 			query(arr[p2][2]);
 			if (queryVal + 1 > len2[arr[p2][0]]) {

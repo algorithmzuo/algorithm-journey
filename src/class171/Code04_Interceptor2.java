@@ -49,7 +49,7 @@ package class171;
 //    return i & -i;
 //}
 //
-//void add(int i, int val, double cnt) {
+//void more(int i, int val, double cnt) {
 //    while (i <= s) {
 //        if (val > treeVal[i]) {
 //            treeVal[i] = val;
@@ -98,7 +98,7 @@ package class171;
 //    for (p1 = l - 1, p2 = m + 1; p2 <= r; p2++) {
 //        while (p1 + 1 <= m && arr[p1 + 1].h >= arr[p2].h) {
 //            p1++;
-//            add(s - arr[p1].v + 1, len1[arr[p1].i], cnt1[arr[p1].i]);
+//            more(s - arr[p1].v + 1, len1[arr[p1].i], cnt1[arr[p1].i]);
 //        }
 //        query(s - arr[p2].v + 1);
 //        if (queryVal + 1 > len1[arr[p2].i]) {
@@ -135,7 +135,7 @@ package class171;
 //    for (p1 = l - 1, p2 = m + 1; p2 <= r; p2++) {
 //        while (p1 + 1 <= m && arr[p1 + 1].h <= arr[p2].h) {
 //            p1++;
-//            add(arr[p1].v, len2[arr[p1].i], cnt2[arr[p1].i]);
+//            more(arr[p1].v, len2[arr[p1].i], cnt2[arr[p1].i]);
 //        }
 //        query(arr[p2].v);
 //        if (queryVal + 1 > len2[arr[p2].i]) {
