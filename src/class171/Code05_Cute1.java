@@ -57,7 +57,7 @@ public class Code05_Cute1 {
 		}
 	}
 
-	// 需要排序的稳定性
+	// 需要稳定排序
 	public static class Cmp2 implements Comparator<Node> {
 		@Override
 		public int compare(Node x, Node y) {
@@ -74,7 +74,7 @@ public class Code05_Cute1 {
 		}
 	}
 
-	// 需要排序的稳定性
+	// 需要稳定排序
 	public static class Cmp3 implements Comparator<Node> {
 		@Override
 		public int compare(Node x, Node y) {
