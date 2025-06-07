@@ -2,8 +2,8 @@ package class171;
 
 // 德丽莎世界第一可爱，java版
 // 一共有n个怪兽，每个怪兽有a、b、c、d四个能力值，以及打败之后的收益v
-// 你可以选择任意顺序打怪兽，每次打的怪兽的四种能力值都不能小于上次打的怪兽
-// 打印你能获得的最大收益
+// 可以选择任意顺序打怪兽，每次打的怪兽的四种能力值都不能小于上次打的怪兽
+// 打印能获得的最大收益，可能所有怪兽收益都是负数，那也需要至少打一只怪兽
 // 1 <= n <= 5 * 10^4
 // -10^5 <= a、b、c、d <= +10^5
 // -10^9 <= v <= +10^9
@@ -57,6 +57,7 @@ public class Code05_Cute1 {
 		}
 	}
 
+	// 需要排序的稳定性
 	public static class Cmp2 implements Comparator<Node> {
 		@Override
 		public int compare(Node x, Node y) {
@@ -73,6 +74,7 @@ public class Code05_Cute1 {
 		}
 	}
 
+	// 需要排序的稳定性
 	public static class Cmp3 implements Comparator<Node> {
 		@Override
 		public int compare(Node x, Node y) {

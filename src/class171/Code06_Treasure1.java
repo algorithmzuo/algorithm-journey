@@ -2,8 +2,8 @@ package class171;
 
 // 寻找宝藏，java版
 // 一共有n个宝藏，每个宝藏有a、b、c、d四个属性值，以及拿取之后的收益v
-// 你可以选择任意顺序拿取宝藏，每次拿的宝藏的四种属性值都不能小于上次拿的宝藏
-// 打印你能获得的最大收益，打印有多少种最佳拿取方法，方法数对 998244353 取余
+// 可以选择任意顺序拿取宝藏，每次拿的宝藏的四种属性值都不能小于上次拿的宝藏
+// 打印能获得的最大收益，打印有多少种最佳拿取方法，方法数对 998244353 取余
 // 1 <= n <= 8 * 10^4
 // 1 <= a、b、c、d、v <= 10^9
 // 测试链接 : https://www.luogu.com.cn/problem/P4849
@@ -45,13 +45,11 @@ public class Code06_Treasure1 {
 			if (x.c != y.c) {
 				return x.c - y.c;
 			}
-			if (x.d != y.d) {
-				return x.d - y.d;
-			}
-			return Long.compare(y.v, x.v);
+			return x.d - y.d;
 		}
 	}
 
+	// 需要排序的稳定性
 	public static class Cmp2 implements Comparator<Node> {
 		@Override
 		public int compare(Node x, Node y) {
@@ -68,6 +66,7 @@ public class Code06_Treasure1 {
 		}
 	}
 
+	// 需要排序的稳定性
 	public static class Cmp3 implements Comparator<Node> {
 		@Override
 		public int compare(Node x, Node y) {
