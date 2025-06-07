@@ -99,7 +99,7 @@ package class171;
 //    }
 //}
 //
-//void merge2(int l, int m, int r) {
+//void merge(int l, int m, int r) {
 //    for (int i = l; i <= r; i++) {
 //        tmp2[i] = tmp1[i];
 //    }
@@ -135,24 +135,20 @@ package class171;
 //    if (l == r) return;
 //    int mid = (l + r) / 2;
 //    cdq2(l, mid);
-//    merge2(l, mid, r);
+//    merge(l, mid, r);
 //    cdq2(mid + 1, r);
-//}
-//
-//void merge1(int l, int m, int r) {
-//    for (int i = l; i <= r; i++) {
-//        tmp1[i] = arr[i];
-//        tmp1[i].left = (i <= m);
-//    }
-//    sort(tmp1 + l, tmp1 + r + 1, Cmp2);
-//    cdq2(l, r);
 //}
 //
 //void cdq1(int l, int r) {
 //    if (l == r) return;
 //    int mid = (l + r) / 2;
 //    cdq1(l, mid);
-//    merge1(l, mid, r);
+//    for (int i = l; i <= r; i++) {
+//        tmp1[i] = arr[i];
+//        tmp1[i].left = i <= mid;
+//    }
+//    sort(tmp1 + l, tmp1 + r + 1, Cmp2);
+//    cdq2(l, r);
 //    cdq1(mid + 1, r);
 //}
 //

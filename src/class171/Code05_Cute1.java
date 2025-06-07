@@ -135,7 +135,7 @@ public class Code05_Cute1 {
 		}
 	}
 
-	public static void merge2(int l, int m, int r) {
+	public static void merge(int l, int m, int r) {
 		for (int i = l; i <= r; i++) {
 			tmp2[i] = tmp1[i];
 		}
@@ -160,23 +160,18 @@ public class Code05_Cute1 {
 		}
 	}
 
+	// tmp1[l..r]中所有对象根据b属性值稳定排序了
+	// 有些对象的dp值已经计算，left = true
+	// 有些对象的dp值还没计算，left = false
+	// 计算过的对象，去更新，还没计算出的对象dp值
 	public static void cdq2(int l, int r) {
 		if (l == r) {
 			return;
 		}
 		int mid = (l + r) / 2;
 		cdq2(l, mid);
-		merge2(l, mid, r);
+		merge(l, mid, r);
 		cdq2(mid + 1, r);
-	}
-
-	public static void merge1(int l, int m, int r) {
-		for (int i = l; i <= r; i++) {
-			tmp1[i] = arr[i];
-			tmp1[i].left = i <= m;
-		}
-		Arrays.sort(tmp1, l, r + 1, cmp2);
-		cdq2(l, r);
 	}
 
 	public static void cdq1(int l, int r) {
@@ -185,7 +180,12 @@ public class Code05_Cute1 {
 		}
 		int mid = (l + r) / 2;
 		cdq1(l, mid);
-		merge1(l, mid, r);
+		for (int i = l; i <= r; i++) {
+			tmp1[i] = arr[i];
+			tmp1[i].left = i <= mid;
+		}
+		Arrays.sort(tmp1, l, r + 1, cmp2);
+		cdq2(l, r);
 		cdq1(mid + 1, r);
 	}
 
