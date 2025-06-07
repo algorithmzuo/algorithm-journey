@@ -7,7 +7,7 @@ package class171;
 // 1 <= n <= 8 * 10^4
 // 1 <= a、b、c、d、v <= 10^9
 // 测试链接 : https://www.luogu.com.cn/problem/P4849
-// 提交以下的code，提交时请把类名改成"Main"，多提交几次，可以通过所有测试用例
+// 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
 import java.io.IOException;
 import java.io.InputStream;
