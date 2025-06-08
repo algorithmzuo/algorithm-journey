@@ -30,17 +30,17 @@ public class Code01_MooFest1 {
 
 	public static long merge(int l, int m, int r) {
 		int p1, p2;
-		long sum1 = 0, sum2 = 0, ans = 0;
+		long rsum = 0, lsum = 0, ans = 0;
 		for (p1 = l; p1 <= m; p1++) {
-			sum1 += arr[p1][1];
+			rsum += arr[p1][1];
 		}
 		for (p1 = l - 1, p2 = m + 1; p2 <= r; p2++) {
 			while (p1 + 1 <= m && arr[p1 + 1][1] < arr[p2][1]) {
 				p1++;
-				sum1 -= arr[p1][1];
-				sum2 += arr[p1][1];
+				rsum -= arr[p1][1];
+				lsum += arr[p1][1];
 			}
-			ans += (1L * (p1 - l + 1) * arr[p2][1] - sum2 + sum1 - 1L * (m - p1) * arr[p2][1]) * arr[p2][0];
+			ans += (1L * (p1 - l + 1) * arr[p2][1] - lsum + rsum - 1L * (m - p1) * arr[p2][1]) * arr[p2][0];
 		}
 		p1 = l;
 		p2 = m + 1;

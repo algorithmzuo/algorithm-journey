@@ -28,17 +28,17 @@ package class171;
 //
 //long long merge(int l, int m, int r) {
 //    int p1, p2;
-//    long long sum1 = 0, sum2 = 0, ans = 0;
+//    long long rsum = 0, lsum = 0, ans = 0;
 //    for (p1 = l; p1 <= m; p1++) {
-//        sum1 += arr[p1].x;
+//        rsum += arr[p1].x;
 //    }
 //    for (p1 = l - 1, p2 = m + 1; p2 <= r; p2++) {
 //        while (p1 + 1 <= m && arr[p1 + 1].x < arr[p2].x) {
 //            p1++;
-//            sum1 -= arr[p1].x;
-//            sum2 += arr[p1].x;
+//            rsum -= arr[p1].x;
+//            lsum += arr[p1].x;
 //        }
-//        ans += (1LL * (p1 - l + 1) * arr[p2].x - sum2 + sum1 - 1LL * (m - p1) * arr[p2].x) * arr[p2].v;
+//        ans += (1LL * (p1 - l + 1) * arr[p2].x - lsum + rsum - 1LL * (m - p1) * arr[p2].x) * arr[p2].v;
 //    }
 //    p1 = l;
 //    p2 = m + 1;
