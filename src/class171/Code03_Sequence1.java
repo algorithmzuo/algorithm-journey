@@ -25,6 +25,7 @@ public class Code03_Sequence1 {
 
 	// 位置i、数值v、最小值lv、最大值rv
 	public static int[][] arr = new int[MAXN][4];
+	// 树状数组维护前缀最大值
 	public static int[] tree = new int[MAXN];
 	public static int[] dp = new int[MAXN];
 
@@ -56,22 +57,30 @@ public class Code03_Sequence1 {
 	}
 
 	public static void merge(int l, int m, int r) {
+		// 辅助数组arr拷贝l..r所有的对象
+		// 接下来的排序都发生在arr中，不影响原始的次序
 		for (int i = l; i <= r; i++) {
 			arr[i][0] = i;
 			arr[i][1] = v[i];
 			arr[i][2] = lv[i];
 			arr[i][3] = rv[i];
 		}
+		// 左侧根据v排序
 		Arrays.sort(arr, l, m + 1, (a, b) -> a[1] - b[1]);
+		// 右侧根据lv排序
 		Arrays.sort(arr, m + 1, r + 1, (a, b) -> a[2] - b[2]);
 		int p1, p2;
 		for (p1 = l - 1, p2 = m + 1; p2 <= r; p2++) {
+			// 左侧对象.v <= 右侧对象.lv 窗口扩充
 			while (p1 + 1 <= m && arr[p1 + 1][1] <= arr[p2][2]) {
 				p1++;
+				// 树状数组中，下标是rv，加入的值是左侧对象的dp值
 				more(arr[p1][3], dp[arr[p1][0]]);
 			}
+			// 右侧对象更新dp值，查出1..v范围上最大的dp值 + 1
 			dp[arr[p2][0]] = Math.max(dp[arr[p2][0]], query(arr[p2][1]) + 1);
 		}
+		// 清空树状数组
 		for (int i = l; i <= p1; i++) {
 			clear(arr[i][3]);
 		}

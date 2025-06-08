@@ -28,12 +28,15 @@ public class Code04_Interceptor1 {
 	// 位置i、高度h、速度v
 	public static int[][] arr = new int[MAXN][3];
 
+	// 树状数组维护前缀最大值、最大值出现的次数
 	public static int[] treeVal = new int[MAXN];
 	public static double[] treeCnt = new double[MAXN];
 
+	// i位置结尾的情况下，最长不上升子序列的长度 及其 子序列个数
 	public static int[] len1 = new int[MAXN];
 	public static double[] cnt1 = new double[MAXN];
 
+	// i位置开头的情况下，最长不上升子序列的长度 及其 子序列个数
 	public static int[] len2 = new int[MAXN];
 	public static double[] cnt2 = new double[MAXN];
 
