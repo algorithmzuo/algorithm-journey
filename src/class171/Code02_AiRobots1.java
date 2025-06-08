@@ -23,7 +23,7 @@ public class Code02_AiRobots1 {
 	public static int MAXN = 100001;
 	public static int n, k, s;
 
-	// 位置x、视野y、智商q、左边界l、右边界r
+	// 位置x、视野y、智商q、能看到的最左位置l、能看到的最右位置r
 	public static int[][] arr = new int[MAXN][5];
 	// 所有x坐标组成的数组
 	public static int[] x = new int[MAXN];
