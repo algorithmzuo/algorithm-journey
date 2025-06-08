@@ -57,7 +57,7 @@ public class Code05_Cute1 {
 		}
 	}
 
-	// 根据属性b进行稳定排序
+	// 根据属性c进行排序，b一样的对象，保持原始次序
 	public static class Cmp2 implements Comparator<Node> {
 		@Override
 		public int compare(Node x, Node y) {
@@ -68,7 +68,7 @@ public class Code05_Cute1 {
 		}
 	}
 
-	// 根据属性c进行稳定排序
+	// 根据属性c进行排序，c一样的对象，保持原始次序
 	public static class Cmp3 implements Comparator<Node> {
 		@Override
 		public int compare(Node x, Node y) {
