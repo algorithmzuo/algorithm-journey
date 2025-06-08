@@ -82,11 +82,6 @@ public class Code03_Sequence1 {
 			return;
 		}
 		int mid = (l + r) / 2;
-		// 为什么顺序是左、merge、右，而不是经典顺序，左、右、merge？
-		// 因为右侧dp的计算依赖左侧dp的结果
-		// 需要先处理左侧范围，得到部分状态转移的可能性
-		// 然后把左侧dp结果推送到右侧，右侧先获得这些结果
-		// 在此基础上，最后处理右侧范围，才能把右侧dp计算正确
 		cdq(l, mid);
 		merge(l, mid, r);
 		cdq(mid + 1, r);
