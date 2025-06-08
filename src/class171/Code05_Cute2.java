@@ -32,16 +32,12 @@ package class171;
 //
 //bool Cmp2(Node x, Node y) {
 //    if (x.b != y.b) return x.b < y.b;
-//    if (x.c != y.c) return x.c < y.c;
-//    if (x.d != y.d) return x.d < y.d;
-//    return x.a < y.a;
+//    return x.i < y.i;
 //}
 //
 //bool Cmp3(Node x, Node y) {
 //    if (x.c != y.c) return x.c < y.c;
-//    if (x.d != y.d) return x.d < y.d;
-//    if (x.a != y.a) return x.a < y.a;
-//    return x.b < y.b;
+//    return x.i < y.i;
 //}
 //
 //const int MAXN = 50001;

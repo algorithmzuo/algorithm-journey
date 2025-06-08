@@ -49,37 +49,25 @@ public class Code06_Treasure1 {
 		}
 	}
 
-	// 需要稳定排序
+	// 根据属性b进行稳定排序
 	public static class Cmp2 implements Comparator<Node> {
 		@Override
 		public int compare(Node x, Node y) {
 			if (x.b != y.b) {
 				return x.b - y.b;
 			}
-			if (x.c != y.c) {
-				return x.c - y.c;
-			}
-			if (x.d != y.d) {
-				return x.d - y.d;
-			}
-			return x.a - y.a;
+			return x.i - y.i;
 		}
 	}
 
-	// 需要稳定排序
+	// 根据属性c进行稳定排序
 	public static class Cmp3 implements Comparator<Node> {
 		@Override
 		public int compare(Node x, Node y) {
 			if (x.c != y.c) {
 				return x.c - y.c;
 			}
-			if (x.d != y.d) {
-				return x.d - y.d;
-			}
-			if (x.a != y.a) {
-				return x.a - y.a;
-			}
-			return x.b - y.b;
+			return x.i - y.i;
 		}
 	}
 

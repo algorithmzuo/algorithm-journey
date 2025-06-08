@@ -57,37 +57,25 @@ public class Code05_Cute1 {
 		}
 	}
 
-	// 需要稳定排序
+	// 根据属性b进行稳定排序
 	public static class Cmp2 implements Comparator<Node> {
 		@Override
 		public int compare(Node x, Node y) {
 			if (x.b != y.b) {
 				return x.b - y.b;
 			}
-			if (x.c != y.c) {
-				return x.c - y.c;
-			}
-			if (x.d != y.d) {
-				return x.d - y.d;
-			}
-			return x.a - y.a;
+			return x.i - y.i;
 		}
 	}
 
-	// 需要稳定排序
+	// 根据属性c进行稳定排序
 	public static class Cmp3 implements Comparator<Node> {
 		@Override
 		public int compare(Node x, Node y) {
 			if (x.c != y.c) {
 				return x.c - y.c;
 			}
-			if (x.d != y.d) {
-				return x.d - y.d;
-			}
-			if (x.a != y.a) {
-				return x.a - y.a;
-			}
-			return x.b - y.b;
+			return x.i - y.i;
 		}
 	}
 
@@ -161,9 +149,9 @@ public class Code05_Cute1 {
 	}
 
 	// tmp1[l..r]中所有对象根据b属性值稳定排序了
-	// 有些对象的dp值已经计算，left = true
-	// 有些对象的dp值还没计算，left = false
-	// 计算过的对象，去更新，还没计算出的对象dp值
+	// dp值已经计算过的对象，left = true
+	// dp值还没计算过的对象，left = false
+	// 计算过的对象，去更新，还没还没计算过对象的dp值
 	public static void cdq2(int l, int r) {
 		if (l == r) {
 			return;
