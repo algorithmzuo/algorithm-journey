@@ -90,6 +90,7 @@ public class Code04_Interceptor1 {
 		Arrays.sort(arr, l, m + 1, (a, b) -> b[1] - a[1]);
 		Arrays.sort(arr, m + 1, r + 1, (a, b) -> b[1] - a[1]);
 		int p1, p2;
+		// 为了防止出现0下标，(s - v + 1)是树状数组的下标
 		for (p1 = l - 1, p2 = m + 1; p2 <= r; p2++) {
 			while (p1 + 1 <= m && arr[p1 + 1][1] >= arr[p2][1]) {
 				p1++;
@@ -108,6 +109,7 @@ public class Code04_Interceptor1 {
 		}
 	}
 
+	// 最长不上升子序列的长度 及其 个数
 	public static void cdq1(int l, int r) {
 		if (l == r) {
 			return;
@@ -145,6 +147,7 @@ public class Code04_Interceptor1 {
 		}
 	}
 
+	// 最长不下降子序列的长度 及其 个数
 	public static void cdq2(int l, int r) {
 		if (l == r) {
 			return;
