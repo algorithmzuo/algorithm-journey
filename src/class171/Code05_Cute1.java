@@ -27,7 +27,7 @@ public class Code05_Cute1 {
 		int a, b, c, d;
 		int i;
 		long v;
-		boolean left;
+		boolean left; // 是否是原左组的对象
 
 		public Node(int a_, int b_, int c_, int d_, long v_) {
 			a = a_;
@@ -57,7 +57,7 @@ public class Code05_Cute1 {
 		}
 	}
 
-	// 根据属性c进行排序，b一样的对象，保持原始次序
+	// 根据属性b进行排序，b一样的对象，保持原始次序
 	public static class Cmp2 implements Comparator<Node> {
 		@Override
 		public int compare(Node x, Node y) {
@@ -88,12 +88,19 @@ public class Code05_Cute1 {
 	public static int n, s;
 
 	public static Node[] arr = new Node[MAXN];
+
 	public static int[] sortd = new int[MAXN];
 
+	// 根据b重排时，准备的辅助数组，不改变原始次序
 	public static Node[] tmp1 = new Node[MAXN];
+
+	// 根据c重排时，准备的辅助数组，不改变原始次序
 	public static Node[] tmp2 = new Node[MAXN];
 
+	// 树状数组，维护前缀最大值
 	public static long[] tree = new long[MAXN];
+
+	// dp[i]表示i号怪兽最后杀死的情况下，最大的收益
 	public static long[] dp = new long[MAXN];
 
 	public static int lowbit(int i) {
@@ -149,9 +156,7 @@ public class Code05_Cute1 {
 	}
 
 	// tmp1[l..r]中所有对象根据b属性值稳定排序了
-	// dp值已经计算过的对象，left = true
-	// dp值还没计算过的对象，left = false
-	// 计算过的对象，去更新，还没还没计算过对象的dp值
+	// 让每个原左组的对象影响到后面每个原右组对象(更新dp)
 	public static void cdq2(int l, int r) {
 		if (l == r) {
 			return;
