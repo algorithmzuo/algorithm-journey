@@ -10,7 +10,7 @@ package class157;
 // 1 <= n、m <= 10^5
 // -10^9 <= arr[i] <= +10^9
 // 测试链接 : https://www.luogu.com.cn/problem/SP11470
-// 测试链接 : https://www.spoj.com/problems/TTM/
+// 测试链接 : https://www.spoj.com/problems/TTM
 // 提交以下的code，提交时请把类名改成"Main"
 // java实现的逻辑一定是正确的，但是通过不了
 // 因为这道题根据C++的运行时间，制定通过标准，根本没考虑java的用户
