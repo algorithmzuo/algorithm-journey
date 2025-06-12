@@ -45,7 +45,7 @@ public class Code01_GiveAway1 {
 	public static int num(int bid, int v) {
 		int l = bl[bid], r = br[bid], m, ans = 0;
 		while (l <= r) {
-			m = (l + r) / 2;
+			m = (l + r) >> 1;
 			if (sortv[m] >= v) {
 				ans += r - m + 1;
 				r = m - 1;

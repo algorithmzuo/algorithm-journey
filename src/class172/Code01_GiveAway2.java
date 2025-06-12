@@ -16,7 +16,8 @@ package class172;
 //int blen, bnum;
 //int arr[MAXN];
 //int bi[MAXN];
-//int bl[MAXB], br[MAXB];
+//int bl[MAXB];
+//int br[MAXB];
 //int sortv[MAXN];
 //
 //void build() {
