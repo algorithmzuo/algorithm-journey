@@ -1,6 +1,6 @@
 package class172;
 
-// 区间内>=的个数，java版
+// 单点修改区间查询，java版
 // 测试链接 : https://www.luogu.com.cn/problem/SP18185
 // 测试链接 : https://www.spoj.com/problems/GIVEAWAY
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
@@ -16,23 +16,23 @@ public class Code01_GiveAway1 {
 	public static int MAXN = 500001;
 	public static int MAXB = 1001;
 	public static int n, m;
-	public static int blen, bnum;
 	public static int[] arr = new int[MAXN];
+	public static int[] sortv = new int[MAXN];
+
+	public static int blen, bnum;
 	public static int[] bi = new int[MAXN];
 	public static int[] bl = new int[MAXB];
 	public static int[] br = new int[MAXB];
-	public static int[] sortv = new int[MAXN];
 
 	public static void build() {
 		blen = (int) Math.sqrt(n);
 		bnum = (n + blen - 1) / blen;
-		for (int i = 1, l = 1, r = blen; i <= bnum; i++, l += blen, r += blen) {
-			r = Math.min(r, n);
-			for (int j = l; j <= r; j++) {
-				bi[j] = i;
-			}
-			bl[i] = l;
-			br[i] = r;
+		for (int i = 1; i <= n; i++) {
+			bi[i] = (i - 1) / blen + 1;
+		}
+		for (int i = 1; i <= bnum; i++) {
+			bl[i] = (i - 1) * blen + 1;
+			br[i] = Math.min(i * blen, n);
 		}
 		for (int i = 1; i <= n; i++) {
 			sortv[i] = arr[i];
@@ -42,8 +42,8 @@ public class Code01_GiveAway1 {
 		}
 	}
 
-	public static int num(int bid, int v) {
-		int l = bl[bid], r = br[bid], m, ans = 0;
+	public static int num(int l, int r, int v) {
+		int m, ans = 0;
 		while (l <= r) {
 			m = (l + r) >> 1;
 			if (sortv[m] >= v) {
@@ -76,7 +76,7 @@ public class Code01_GiveAway1 {
 				}
 			}
 			for (int i = bi[l] + 1; i <= bi[r] - 1; i++) {
-				ans += num(i, v);
+				ans += num(bl[i], br[i], v);
 			}
 		}
 		return ans;
