@@ -25,10 +25,8 @@ public class Code03_Violet1 {
 
 	// freq[i][j]表示前i块中j出现的次数
 	public static int[][] freq = new int[MAXB][MAXN];
-
 	// mode[i][j]表示从i块到j块中的众数
 	public static int[][] mode = new int[MAXB][MAXB];
-
 	// 数字词频统计
 	public static int[] numCnt = new int[MAXN];
 
