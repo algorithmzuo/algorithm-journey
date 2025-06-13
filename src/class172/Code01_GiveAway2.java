@@ -1,6 +1,6 @@
 package class172;
 
-// 单点修改区间查询，C++版
+// Give Away，C++版
 // 测试链接 : https://www.luogu.com.cn/problem/SP18185
 // 测试链接 : https://www.spoj.com/problems/GIVEAWAY
 // 如下实现是C++的版本，C++版本和java版本逻辑完全一样

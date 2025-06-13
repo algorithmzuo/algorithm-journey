@@ -1,6 +1,6 @@
 package class172;
 
-// 单点修改区间查询，java版
+// Give Away，java版
 // 测试链接 : https://www.luogu.com.cn/problem/SP18185
 // 测试链接 : https://www.spoj.com/problems/GIVEAWAY
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
