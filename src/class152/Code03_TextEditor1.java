@@ -10,11 +10,11 @@ package class152;
 // Next       : 光标后移一个字符，操作保证光标不会到非法位置
 // Insert操作时，字符串s中ASCII码在[32,126]范围上的字符一定有n个，其他字符请过滤掉
 // 测试链接 : https://www.luogu.com.cn/problem/P4008
-// 如下实现是正确的，但java的版本无法通过所有测试用例
-// 这是洛谷平台没有照顾各种语言的实现所导致的
-// java的实现空间就是无法达标，C++的实现完全一样的逻辑，就是可以达标
-// C++版本是Code03_TextEditor2文件，可以通过所有测试用例
-// 在真正笔试、比赛时，一定是兼顾各种语言的，该实现是一定正确的
+// 提交以下的code，提交时请把类名改成"Main"
+// java实现的逻辑一定是正确的，但是内存占用过大，无法通过测试用例
+// 因为这道题只考虑C++能通过的空间标准，根本没考虑java的用户
+// 想通过用C++实现，本节课Code03_TextEditor2文件就是C++的实现
+// 两个版本的逻辑完全一样，C++版本可以通过所有测试
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -85,9 +85,6 @@ public class Code03_TextEditor1 {
 		}
 	}
 
-	// 我做了很多个版本的IO尝试，空间都无法达标
-	// 以下风格只是其中一种，无所谓了，逻辑是对的
-	// 想通过这个题看C++版本吧，完全一样的逻辑
 	public static void main(String[] args) throws IOException {
 		FastReader in = new FastReader();
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
