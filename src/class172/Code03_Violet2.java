@@ -43,6 +43,15 @@ package class172;
 //}
 //
 //void prepare() {
+//    blen = (int)sqrt(n);
+//    bnum = (n + blen - 1) / blen;
+//    for (int i = 1; i <= n; i++) {
+//        bi[i] = (i - 1) / blen + 1;
+//    }
+//    for (int i = 1; i <= bnum; i++) {
+//        bl[i] = (i - 1) * blen + 1;
+//        br[i] = min(i * blen, n);
+//    }
 //    for (int i = 1; i <= n; i++) {
 //        sortv[i] = arr[i];
 //    }
@@ -55,15 +64,6 @@ package class172;
 //    }
 //    for (int i = 1; i <= n; i++) {
 //        arr[i] = lower(arr[i]);
-//    }
-//    blen = (int)sqrt(n);
-//    bnum = (n + blen - 1) / blen;
-//    for (int i = 1; i <= n; i++) {
-//        bi[i] = (i - 1) / blen + 1;
-//    }
-//    for (int i = 1; i <= bnum; i++) {
-//        bl[i] = (i - 1) * blen + 1;
-//        br[i] = min(i * blen, n);
 //    }
 //    for (int i = 1; i <= bnum; i++) {
 //        for (int j = bl[i]; j <= br[i]; j++) {
