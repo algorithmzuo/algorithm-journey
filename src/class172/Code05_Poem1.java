@@ -34,7 +34,7 @@ public class Code05_Poem1 {
 	}
 
 	// 加1之前的词频是pre，返回加1之后，正偶数次的数的个数变化量
-	public static int change(int pre) {
+	public static int delta(int pre) {
 		return pre != 0 ? ((pre & 1) == 0 ? -1 : 1) : 0;
 	}
 
@@ -60,7 +60,7 @@ public class Code05_Poem1 {
 			for (int j = i; j <= bnum; j++) {
 				even[i][j] = even[i][j - 1];
 				for (int k = bl[j]; k <= br[j]; k++) {
-					even[i][j] += change(numCnt[arr[k]]);
+					even[i][j] += delta(numCnt[arr[k]]);
 					numCnt[arr[k]]++;
 				}
 			}
@@ -74,7 +74,7 @@ public class Code05_Poem1 {
 		int ans = 0;
 		if (bi[l] == bi[r]) {
 			for (int i = l; i <= r; i++) {
-				ans += change(numCnt[arr[i]]);
+				ans += delta(numCnt[arr[i]]);
 				numCnt[arr[i]]++;
 			}
 			for (int i = l; i <= r; i++) {
@@ -83,11 +83,11 @@ public class Code05_Poem1 {
 		} else {
 			ans = even[bi[l] + 1][bi[r] - 1];
 			for (int i = l; i <= br[bi[l]]; i++) {
-				ans += change(getCnt(bi[l] + 1, bi[r] - 1, arr[i]) + numCnt[arr[i]]);
+				ans += delta(getCnt(bi[l] + 1, bi[r] - 1, arr[i]) + numCnt[arr[i]]);
 				numCnt[arr[i]]++;
 			}
 			for (int i = bl[bi[r]]; i <= r; i++) {
-				ans += change(getCnt(bi[l] + 1, bi[r] - 1, arr[i]) + numCnt[arr[i]]);
+				ans += delta(getCnt(bi[l] + 1, bi[r] - 1, arr[i]) + numCnt[arr[i]]);
 				numCnt[arr[i]]++;
 			}
 			for (int i = l; i <= br[bi[l]]; i++) {

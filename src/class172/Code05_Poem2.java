@@ -27,7 +27,7 @@ package class172;
 //    return freq[r][v] - freq[l - 1][v];
 //}
 //
-//int change(int pre) {
+//int delta(int pre) {
 //    return pre ? ((pre & 1) ? 1 : -1) : 0;
 //}
 //
@@ -53,7 +53,7 @@ package class172;
 //        for (int j = i; j <= bnum; j++) {
 //            even[i][j] = even[i][j - 1];
 //            for (int k = bl[j]; k <= br[j]; k++) {
-//                even[i][j] += change(numCnt[arr[k]]);
+//                even[i][j] += delta(numCnt[arr[k]]);
 //                numCnt[arr[k]]++;
 //            }
 //        }
@@ -67,7 +67,7 @@ package class172;
 //    int ans = 0;
 //    if (bi[l] == bi[r]) {
 //        for (int i = l; i <= r; i++) {
-//            ans += change(numCnt[arr[i]]);
+//            ans += delta(numCnt[arr[i]]);
 //            numCnt[arr[i]]++;
 //        }
 //        for (int i = l; i <= r; i++) {
@@ -76,11 +76,11 @@ package class172;
 //    } else {
 //        ans = even[bi[l] + 1][bi[r] - 1];
 //        for (int i = l; i <= br[bi[l]]; i++) {
-//            ans += change(getCnt(bi[l] + 1, bi[r] - 1, arr[i]) + numCnt[arr[i]]);
+//            ans += delta(getCnt(bi[l] + 1, bi[r] - 1, arr[i]) + numCnt[arr[i]]);
 //            numCnt[arr[i]]++;
 //        }
 //        for (int i = bl[bi[r]]; i <= r; i++) {
-//            ans += change(getCnt(bi[l] + 1, bi[r] - 1, arr[i]) + numCnt[arr[i]]);
+//            ans += delta(getCnt(bi[l] + 1, bi[r] - 1, arr[i]) + numCnt[arr[i]]);
 //            numCnt[arr[i]]++;
 //        }
 //        for (int i = l; i <= br[bi[l]]; i++) {
