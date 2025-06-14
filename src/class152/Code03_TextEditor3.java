@@ -11,7 +11,7 @@ package class152;
 // Insert操作时，字符串s中ASCII码在[32,126]范围上的字符一定有n个，其他字符请过滤掉
 // 测试链接 : https://www.luogu.com.cn/problem/P4008
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
-// 一个能通过的版本，连数组都自己去扩容，IO彻底重写，看看就好
+// 一个能通过的版本，连数组都自己写扩容逻辑，IO彻底重写，看看就好
 
 import java.util.Arrays;
 
