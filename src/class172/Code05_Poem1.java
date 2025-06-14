@@ -1,24 +1,19 @@
 package class172;
 
-// 空间少求众数的次数，java版
-// 测试链接 : https://www.luogu.com.cn/problem/P5048
-// 提交以下的code，提交时请把类名改成"Main"
-// java实现的逻辑一定是正确的，但是内存占用过大，无法通过测试用例
-// 因为这道题只考虑C++能通过的空间标准，根本没考虑java的用户
-// 想通过用C++实现，本节课Code04_ModeCnt2文件就是C++的实现
-// 两个版本的逻辑完全一样，C++版本可以通过所有测试
+// 作诗，java版
+// 测试链接 : https://www.luogu.com.cn/problem/P4135
+// 提交交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
-import java.util.Arrays;
 
-public class Code04_ModeCnt1 {
+public class Code05_Poem1 {
 
-	public static int MAXN = 500001;
-	public static int MAXB = 801;
-	public static int n, m;
+	public static int MAXN = 100001;
+	public static int MAXB = 401;
+	public static int n, c, m;
 	public static int[] arr = new int[MAXN];
 
 	public static int blen, bnum;
@@ -26,15 +21,22 @@ public class Code04_ModeCnt1 {
 	public static int[] bl = new int[MAXB];
 	public static int[] br = new int[MAXB];
 
-	// 值、下标
-	public static int[][] bucket = new int[MAXN][2];
-	// bucketIdx[i] = j，代表数组的i位置元素在bucket中的j位置
-	public static int[] bucketIdx = new int[MAXN];
-
-	// modeCnt[i][j]表示从i块到j块中众数的出现次数
-	public static int[][] modeCnt = new int[MAXB][MAXB];
+	// freq[i][j]表示前i块中j出现的次数
+	public static int[][] freq = new int[MAXB][MAXN];
+	// even[i][j]表示从第i块到第j块出现正偶数次的数有几个
+	public static int[][] even = new int[MAXB][MAXB];
 	// 数字词频统计
 	public static int[] numCnt = new int[MAXN];
+
+	// 返回从l块到r块中，数字v的次数
+	public static int getCnt(int l, int r, int v) {
+		return freq[r][v] - freq[l - 1][v];
+	}
+
+	// 加1之前的词频是pre，返回加1之后，正偶数次的数的个数变化量
+	public static int change(int pre) {
+		return pre != 0 ? ((pre & 1) == 0 ? -1 : 1) : 0;
+	}
 
 	public static void prepare() {
 		blen = (int) Math.sqrt(n);
@@ -46,23 +48,23 @@ public class Code04_ModeCnt1 {
 			bl[i] = (i - 1) * blen + 1;
 			br[i] = Math.min(i * blen, n);
 		}
-		for (int i = 1; i <= n; i++) {
-			bucket[i][0] = arr[i];
-			bucket[i][1] = i;
-		}
-		Arrays.sort(bucket, 1, n + 1, (a, b) -> a[0] != b[0] ? a[0] - b[0] : a[1] - b[1]);
-		for (int i = 1; i <= n; i++) {
-			bucketIdx[bucket[i][1]] = i;
+		for (int i = 1; i <= bnum; i++) {
+			for (int j = bl[i]; j <= br[i]; j++) {
+				freq[i][arr[j]]++;
+			}
+			for (int j = 1; j <= c; j++) {
+				freq[i][j] += freq[i - 1][j];
+			}
 		}
 		for (int i = 1; i <= bnum; i++) {
 			for (int j = i; j <= bnum; j++) {
-				int cnt = modeCnt[i][j - 1];
+				even[i][j] = even[i][j - 1];
 				for (int k = bl[j]; k <= br[j]; k++) {
-					cnt = Math.max(cnt, ++numCnt[arr[k]]);
+					even[i][j] += change(numCnt[arr[k]]);
+					numCnt[arr[k]]++;
 				}
-				modeCnt[i][j] = cnt;
 			}
-			for (int j = 1; j <= n; j++) {
+			for (int j = 1; j <= c; j++) {
 				numCnt[j] = 0;
 			}
 		}
@@ -72,24 +74,27 @@ public class Code04_ModeCnt1 {
 		int ans = 0;
 		if (bi[l] == bi[r]) {
 			for (int i = l; i <= r; i++) {
-				ans = Math.max(ans, ++numCnt[arr[i]]);
+				ans += change(numCnt[arr[i]]);
+				numCnt[arr[i]]++;
 			}
 			for (int i = l; i <= r; i++) {
 				numCnt[arr[i]] = 0;
 			}
 		} else {
-			ans = modeCnt[bi[l] + 1][bi[r] - 1];
-			for (int i = l, idx; i <= br[bi[l]]; i++) {
-				idx = bucketIdx[i];
-				while (idx + ans <= n && bucket[idx + ans][0] == arr[i] && bucket[idx + ans][1] <= r) {
-					ans++;
-				}
+			ans = even[bi[l] + 1][bi[r] - 1];
+			for (int i = l; i <= br[bi[l]]; i++) {
+				ans += change(getCnt(bi[l] + 1, bi[r] - 1, arr[i]) + numCnt[arr[i]]);
+				numCnt[arr[i]]++;
 			}
-			for (int i = bl[bi[r]], idx; i <= r; i++) {
-				idx = bucketIdx[i];
-				while (idx - ans >= 1 && bucket[idx - ans][0] == arr[i] && bucket[idx - ans][1] >= l) {
-					ans++;
-				}
+			for (int i = bl[bi[r]]; i <= r; i++) {
+				ans += change(getCnt(bi[l] + 1, bi[r] - 1, arr[i]) + numCnt[arr[i]]);
+				numCnt[arr[i]]++;
+			}
+			for (int i = l; i <= br[bi[l]]; i++) {
+				numCnt[arr[i]] = 0;
+			}
+			for (int i = bl[bi[r]]; i <= r; i++) {
+				numCnt[arr[i]] = 0;
 			}
 		}
 		return ans;
@@ -99,14 +104,17 @@ public class Code04_ModeCnt1 {
 		FastReader in = new FastReader(System.in);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
 		n = in.nextInt();
+		c = in.nextInt();
 		m = in.nextInt();
 		for (int i = 1; i <= n; i++) {
 			arr[i] = in.nextInt();
 		}
 		prepare();
-		for (int i = 1, l, r, lastAns = 0; i <= m; i++) {
-			l = in.nextInt() ^ lastAns;
-			r = in.nextInt() ^ lastAns;
+		for (int i = 1, a, b, l, r, lastAns = 0; i <= m; i++) {
+			a = (in.nextInt() + lastAns) % n + 1;
+			b = (in.nextInt() + lastAns) % n + 1;
+			l = Math.min(a, b);
+			r = Math.max(a, b);
 			lastAns = query(l, r);
 			out.println(lastAns);
 		}
