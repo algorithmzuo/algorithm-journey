@@ -1,6 +1,6 @@
 package class172;
 
-// 文本编辑器，java版
+// 文本编辑器，块状链表实现，java版
 // 测试链接 : https://www.luogu.com.cn/problem/P4008
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
