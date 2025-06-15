@@ -52,11 +52,11 @@ public class Code06_TextEditor1 {
 		pi = pos;
 	}
 
-	public static void flush(int curb, int nextb, int tailLen, char[] src, int srcPos) {
+	public static void flush(int curb, int nextb, int nextLen, char[] src, int srcPos) {
 		nxt[nextb] = nxt[curb];
 		nxt[curb] = nextb;
-		siz[nextb] = tailLen;
-		System.arraycopy(src, srcPos, blocks[nextb], 0, tailLen);
+		siz[nextb] = nextLen;
+		System.arraycopy(src, srcPos, blocks[nextb], 0, nextLen);
 	}
 
 	public static void merge(int curb, int nextb) {

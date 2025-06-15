@@ -48,11 +48,11 @@ package class172;
 //    pi = pos;
 //}
 //
-//void flush(int curb, int nextb, int tailLen, char* src, int srcPos) {
+//void flush(int curb, int nextb, int nextLen, char* src, int srcPos) {
 //    nxt[nextb] = nxt[curb];
 //    nxt[curb] = nextb;
-//    siz[nextb] = tailLen;
-//    memcpy(blocks[nextb], src + srcPos, tailLen);
+//    siz[nextb] = nextLen;
+//    memcpy(blocks[nextb], src + srcPos, nextLen);
 //}
 //
 //void merge(int curb, int nextb) {
