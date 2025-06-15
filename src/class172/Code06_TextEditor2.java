@@ -48,7 +48,7 @@ package class172;
 //    pi = pos;
 //}
 //
-//void flush(int curb, int nextb, int nextLen, char* src, int srcPos) {
+//void link(int curb, int nextb, int nextLen, char* src, int srcPos) {
 //    nxt[nextb] = nxt[curb];
 //    nxt[curb] = nextb;
 //    siz[nextb] = nextLen;
@@ -65,7 +65,7 @@ package class172;
 //void split(int curb, int pos) {
 //    if (curb == -1 || pos == siz[curb]) return;
 //    int nextb = assign();
-//    flush(curb, nextb, siz[curb] - pos, blocks[curb], pos);
+//    link(curb, nextb, siz[curb] - pos, blocks[curb], pos);
 //    siz[curb] = pos;
 //}
 //
@@ -85,13 +85,13 @@ package class172;
 //    int curb = bi, newb, done = 0;
 //    while (done + BLEN <= len) {
 //        newb = assign();
-//        flush(curb, newb, BLEN, str, done);
+//        link(curb, newb, BLEN, str, done);
 //        done += BLEN;
 //        curb = newb;
 //    }
 //    if (len > done) {
 //        newb = assign();
-//        flush(curb, newb, len - done, str, done);
+//        link(curb, newb, len - done, str, done);
 //    }
 //    maintain();
 //}
