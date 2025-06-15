@@ -22,12 +22,12 @@ package class159;
 //int root[MAXN];
 //int ls[MAXT];
 //int rs[MAXT];
-//int size[MAXT];
+//int siz[MAXT];
 //int cnt;
 //
 //int build(int l, int r) {
 //    int rt = ++cnt;
-//    size[rt] = 0;
+//    siz[rt] = 0;
 //    if (l < r) {
 //        int mid = (l + r) / 2;
 //        ls[rt] = build(l, mid);
@@ -40,7 +40,7 @@ package class159;
 //    int rt = ++cnt;
 //    ls[rt] = ls[i];
 //    rs[rt] = rs[i];
-//    size[rt] = size[i] + 1;
+//    siz[rt] = siz[i] + 1;
 //    if (l < r) {
 //        int mid = (l + r) / 2;
 //        if (jobi <= mid) {
@@ -57,7 +57,7 @@ package class159;
 //        return 0;
 //    }
 //    if (jobl <= l && r <= jobr) {
-//        return size[v] - size[u];
+//        return siz[v] - siz[u];
 //    }
 //    int mid = (l + r) / 2;
 //    int ans = 0;

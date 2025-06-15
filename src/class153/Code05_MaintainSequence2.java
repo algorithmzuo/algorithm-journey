@@ -27,7 +27,7 @@ package class153;
 //int fa[MAXN];
 //int ls[MAXN];
 //int rs[MAXN];
-//int size[MAXN];
+//int siz[MAXN];
 //int space[MAXN], si;
 //int sum[MAXN];
 //int all[MAXN];
@@ -39,7 +39,7 @@ package class153;
 //
 //void up(int i) {
 //    int l = ls[i], r = rs[i];
-//    size[i] = size[l] + size[r] + 1;
+//    siz[i] = siz[l] + siz[r] + 1;
 //    sum[i] = sum[l] + sum[r] + num[i];
 //    all[i] = max(max(all[l], all[r]), suf[l] + num[i] + pre[r]);
 //    pre[i] = max(pre[l], sum[l] + num[i] + pre[r]);
@@ -100,7 +100,7 @@ package class153;
 //        update[i] = true;
 //        change[i] = val;
 //        num[i] = val;
-//        sum[i] = size[i] * val;
+//        sum[i] = siz[i] * val;
 //        all[i] = max(sum[i], val);
 //        pre[i] = max(sum[i], 0);
 //        suf[i] = max(sum[i], 0);
@@ -130,7 +130,7 @@ package class153;
 //
 //int init(int val) {
 //    int i = space[si--];
-//    size[i] = 1;
+//    siz[i] = 1;
 //    num[i] = sum[i] = all[i] = val;
 //    pre[i] = suf[i] = max(val, 0);
 //    fa[i] = ls[i] = rs[i] = 0;
@@ -157,12 +157,12 @@ package class153;
 //    int i = head;
 //    while (i != 0) {
 //        down(i);
-//        if (size[ls[i]] + 1 == rank) {
+//        if (siz[ls[i]] + 1 == rank) {
 //            return i;
-//        } else if (size[ls[i]] >= rank) {
+//        } else if (siz[ls[i]] >= rank) {
 //            i = ls[i];
 //        } else {
-//            rank -= size[ls[i]] + 1;
+//            rank -= siz[ls[i]] + 1;
 //            i = rs[i];
 //        }
 //    }

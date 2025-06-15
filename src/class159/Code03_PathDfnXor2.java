@@ -28,7 +28,7 @@ package class159;
 //int cntg = 0;
 //
 //int deep[MAXN];
-//int size[MAXN];
+//int siz[MAXN];
 //int stjump[MAXN][MAXH];
 //int dfn[MAXN];
 //int cntd = 0;
@@ -81,7 +81,7 @@ package class159;
 //
 //void dfs1(int u, int fa) {
 //    deep[u] = deep[fa] + 1;
-//    size[u] = 1;
+//    siz[u] = 1;
 //    stjump[u][0] = fa;
 //    dfn[u] = ++cntd;
 //    for (int p = 1; p < MAXH; p++) {
@@ -91,7 +91,7 @@ package class159;
 //        v = to[ei];
 //        if (v != fa) {
 //            dfs1(v, u);
-//            size[u] += size[v];
+//            siz[u] += siz[v];
 //        }
 //    }
 //}
@@ -144,7 +144,7 @@ package class159;
 //    for (int i = 1, op, x, y, z; i <= m; i++) {
 //        cin >> op >> x >> y;
 //        if (op == 1) {
-//            cout << query(y, root1[dfn[x] - 1], root1[dfn[x] + size[x] - 1]) << '\n';
+//            cout << query(y, root1[dfn[x] - 1], root1[dfn[x] + siz[x] - 1]) << '\n';
 //        } else {
 //            cin >> z;
 //            int lcafa = stjump[lca(x, y)][0];

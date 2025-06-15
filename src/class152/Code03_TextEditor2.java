@@ -27,22 +27,22 @@ package class152;
 //char key[MAXN];
 //int ls[MAXN];
 //int rs[MAXN];
-//int size[MAXN];
+//int siz[MAXN];
 //double priority[MAXN];
 //char ans[MAXN];
 //int ansi;
 //
 //void up(int i) {
-//    size[i] = size[ls[i]] + size[rs[i]] + 1;
+//    siz[i] = siz[ls[i]] + siz[rs[i]] + 1;
 //}
 //
 //void split(int l, int r, int i, int rank) {
 //    if (i == 0) {
 //        rs[l] = ls[r] = 0;
 //    } else {
-//        if (size[ls[i]] + 1 <= rank) {
+//        if (siz[ls[i]] + 1 <= rank) {
 //            rs[l] = i;
-//            split(i, r, rs[i], rank - size[ls[i]] - 1);
+//            split(i, r, rs[i], rank - siz[ls[i]] - 1);
 //        } else {
 //            ls[r] = i;
 //            split(l, i, ls[i], rank);
@@ -99,7 +99,7 @@ package class152;
 //                    ch = getchar();
 //                }
 //                key[++cnt] = ch;
-//                size[cnt] = 1;
+//                siz[cnt] = 1;
 //                priority[cnt] = (double)rand() / RAND_MAX;
 //                l = merge(l, cnt);
 //            }

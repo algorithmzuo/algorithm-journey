@@ -25,11 +25,11 @@ package class153;
 //int fa[MAXN];
 //int ls[MAXN];
 //int rs[MAXN];
-//int size[MAXN];
+//int siz[MAXN];
 //int pos[MAXN];
 //
 //void up(int i) {
-//    size[i] = size[ls[i]] + size[rs[i]] + 1;
+//    siz[i] = siz[ls[i]] + siz[rs[i]] + 1;
 //}
 //
 //int lr(int i) {
@@ -86,12 +86,12 @@ package class153;
 //int find(int rank) {
 //    int i = head;
 //    while (i != 0) {
-//        if (size[ls[i]] + 1 == rank) {
+//        if (siz[ls[i]] + 1 == rank) {
 //            return i;
-//        } else if (size[ls[i]] >= rank) {
+//        } else if (siz[ls[i]] >= rank) {
 //            i = ls[i];
 //        } else {
-//            rank -= size[ls[i]] + 1;
+//            rank -= siz[ls[i]] + 1;
 //            i = rs[i];
 //        }
 //    }
@@ -101,7 +101,7 @@ package class153;
 //void add(int s) {
 //    num[++cnt] = s;
 //    pos[s] = cnt;
-//    size[cnt] = 1;
+//    siz[cnt] = 1;
 //    fa[cnt] = head;
 //    rs[head] = cnt;
 //    splay(cnt, 0);
@@ -110,7 +110,7 @@ package class153;
 //int ask(int s) {
 //    int i = pos[s];
 //    splay(i, 0);
-//    return size[ls[i]];
+//    return siz[ls[i]];
 //}
 //
 //int query(int s) {

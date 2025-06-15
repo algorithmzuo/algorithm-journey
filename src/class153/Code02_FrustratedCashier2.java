@@ -24,13 +24,13 @@ package class153;
 //int fa[MAXN];
 //int ls[MAXN];
 //int rs[MAXN];
-//int size[MAXN];
+//int siz[MAXN];
 //int limit;
 //int change = 0;
 //int enter = 0;
 //
 //void up(int i) {
-//    size[i] = size[ls[i]] + size[rs[i]] + 1;
+//    siz[i] = siz[ls[i]] + siz[rs[i]] + 1;
 //}
 //
 //int lr(int i) {
@@ -86,7 +86,7 @@ package class153;
 //
 //void add(int num) {
 //    key[++cnt] = num;
-//    size[cnt] = 1;
+//    siz[cnt] = 1;
 //    if (head == 0) {
 //        head = cnt;
 //    } else {
@@ -115,10 +115,10 @@ package class153;
 //    int i = head, last = head;
 //    while (i != 0) {
 //        last = i;
-//        if (size[ls[i]] >= x) {
+//        if (siz[ls[i]] >= x) {
 //            i = ls[i];
-//        } else if (size[ls[i]] + 1 < x) {
-//            x -= size[ls[i]] + 1;
+//        } else if (siz[ls[i]] + 1 < x) {
+//            x -= siz[ls[i]] + 1;
 //            i = rs[i];
 //        } else {
 //            i = 0;
@@ -167,13 +167,13 @@ package class153;
 //            change -= x;
 //            departure();
 //        } else if (op == 'F') {
-//            if (x > size[head]) {
+//            if (x > siz[head]) {
 //                cout << -1 << endl;
 //            } else {
-//                cout << index(size[head] - x + 1) + change << endl;
+//                cout << index(siz[head] - x + 1) + change << endl;
 //            }
 //        }
 //    }
-//    cout << enter - size[head] << endl;
+//    cout << enter - siz[head] << endl;
 //    return 0;
 //}

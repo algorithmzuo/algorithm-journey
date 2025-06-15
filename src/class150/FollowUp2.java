@@ -24,7 +24,7 @@ package class150;
 //int key_count[MAXN];
 //int ls[MAXN];
 //int rs[MAXN];
-//int size[MAXN];
+//int siz[MAXN];
 //int diff[MAXN];
 //int collect[MAXN];
 //int ci;
@@ -35,12 +35,12 @@ package class150;
 //int init(int num) {
 //    key[++cnt] = num;
 //    ls[cnt] = rs[cnt] = 0;
-//    key_count[cnt] = size[cnt] = diff[cnt] = 1;
+//    key_count[cnt] = siz[cnt] = diff[cnt] = 1;
 //    return cnt;
 //}
 //
 //void up(int i) {
-//    size[i] = size[ls[i]] + size[rs[i]] + key_count[i];
+//    siz[i] = siz[ls[i]] + siz[rs[i]] + key_count[i];
 //    diff[i] = diff[ls[i]] + diff[rs[i]] + (key_count[i] > 0 ? 1 : 0);
 //}
 //
@@ -125,7 +125,7 @@ package class150;
 //    if (key[i] >= num) {
 //        return small(ls[i], num);
 //    } else {
-//        return size[ls[i]] + key_count[i] + small(rs[i], num);
+//        return siz[ls[i]] + key_count[i] + small(rs[i], num);
 //    }
 //}
 //
@@ -134,10 +134,10 @@ package class150;
 //}
 //
 //int index(int i, int x) {
-//    if (size[ls[i]] >= x) {
+//    if (siz[ls[i]] >= x) {
 //        return index(ls[i], x);
-//    } else if (size[ls[i]] + key_count[i] < x) {
-//        return index(rs[i], x - size[ls[i]] - key_count[i]);
+//    } else if (siz[ls[i]] + key_count[i] < x) {
+//        return index(rs[i], x - siz[ls[i]] - key_count[i]);
 //    }
 //    return key[i];
 //}
@@ -157,7 +157,7 @@ package class150;
 //
 //int post(int num) {
 //    int kth = getRank(num + 1);
-//    if (kth == size[head] + 1) {
+//    if (kth == siz[head] + 1) {
 //        return INT_MAX;
 //    } else {
 //        return index(kth);
@@ -193,7 +193,7 @@ package class150;
 //    memset(key_count, 0, sizeof(key_count));
 //    memset(ls, 0, sizeof(ls));
 //    memset(rs, 0, sizeof(rs));
-//    memset(size, 0, sizeof(size));
+//    memset(siz, 0, sizeof(siz));
 //    memset(diff, 0, sizeof(diff));
 //    cnt = 0;
 //    head = 0;

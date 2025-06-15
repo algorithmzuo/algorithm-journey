@@ -33,7 +33,7 @@ package class152;
 //int key[MAXM];
 //int ls[MAXM];
 //int rs[MAXM];
-//int size[MAXM];
+//int siz[MAXM];
 //double priority[MAXM];
 //
 //int copy(int i) {
@@ -41,13 +41,13 @@ package class152;
 //    key[cnt] = key[i];
 //    ls[cnt] = ls[i];
 //    rs[cnt] = rs[i];
-//    size[cnt] = size[i];
+//    siz[cnt] = siz[i];
 //    priority[cnt] = priority[i];
 //    return cnt;
 //}
 //
 //void up(int i) {
-//    size[i] = size[ls[i]] + size[rs[i]] + 1;
+//    siz[i] = siz[ls[i]] + siz[rs[i]] + 1;
 //}
 //
 //void split(int l, int r, int i, int num) {
@@ -90,7 +90,7 @@ package class152;
 //    ls[0] = rs[0] = 0;
 //    ++cnt;
 //    key[cnt] = num;
-//    size[cnt] = 1;
+//    siz[cnt] = 1;
 //    priority[cnt] = (double)rand() / RAND_MAX;
 //    head[v] = merge(merge(l, cnt), r);
 //}
@@ -113,15 +113,15 @@ package class152;
 //    if (key[i] >= num) {
 //        return small(ls[i], num);
 //    } else {
-//        return size[ls[i]] + 1 + small(rs[i], num);
+//        return siz[ls[i]] + 1 + small(rs[i], num);
 //    }
 //}
 //
 //int index(int i, int x) {
-//    if (size[ls[i]] >= x) {
+//    if (siz[ls[i]] >= x) {
 //        return index(ls[i], x);
-//    } else if (size[ls[i]] + 1 < x) {
-//        return index(rs[i], x - size[ls[i]] - 1);
+//    } else if (siz[ls[i]] + 1 < x) {
+//        return index(rs[i], x - siz[ls[i]] - 1);
 //    } else {
 //        return key[i];
 //    }

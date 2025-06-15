@@ -21,7 +21,7 @@ package class157;
 //int root[MAXN];
 //int ls[MAXT];
 //int rs[MAXT];
-//int size[MAXT];
+//int siz[MAXT];
 //int cnt;
 //
 //int kth(int num) {
@@ -40,7 +40,7 @@ package class157;
 //
 //int build(int l, int r) {
 //    int rt = ++cnt;
-//    size[rt] = 0;
+//    siz[rt] = 0;
 //    if (l < r) {
 //        int mid = (l + r) / 2;
 //        ls[rt] = build(l, mid);
@@ -53,7 +53,7 @@ package class157;
 //    int rt = ++cnt;
 //    ls[rt] = ls[i];
 //    rs[rt] = rs[i];
-//    size[rt] = size[i] + 1;
+//    siz[rt] = siz[i] + 1;
 //    if (l < r) {
 //        int mid = (l + r) / 2;
 //        if (jobi <= mid) {
@@ -69,12 +69,12 @@ package class157;
 //    if (l == r) {
 //        return l;
 //    }
-//    int lsize = size[ls[v]] - size[ls[u]];
+//    int lsiz = siz[ls[v]] - siz[ls[u]];
 //    int mid = (l + r) / 2;
-//    if (lsize >= jobk) {
+//    if (lsiz >= jobk) {
 //        return query(jobk, l, mid, ls[u], ls[v]);
 //    } else {
-//        return query(jobk - lsize, mid + 1, r, rs[u], rs[v]);
+//        return query(jobk - lsiz, mid + 1, r, rs[u], rs[v]);
 //    }
 //}
 //

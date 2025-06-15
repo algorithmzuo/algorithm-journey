@@ -37,7 +37,7 @@ package class160;
 //int cntt;
 //
 //int deep[MAXN];
-//int size[MAXN];
+//int siz[MAXN];
 //int dfn[MAXN];
 //int stjump[MAXN][MAXH];
 //int cntd;
@@ -69,7 +69,7 @@ package class160;
 //
 //void dfs(int u, int fa) {
 //    deep[u] = deep[fa] + 1;
-//    size[u] = 1;
+//    siz[u] = 1;
 //    dfn[u] = ++cntd;
 //    stjump[u][0] = fa;
 //    for (int p = 1; p < MAXH; p++) {
@@ -79,7 +79,7 @@ package class160;
 //        if (to[e] != fa) dfs(to[e], u);
 //    }
 //    for (int e = head[u]; e; e = nxt[e]) {
-//        if (to[e] != fa) size[u] += size[to[e]];
+//        if (to[e] != fa) siz[u] += siz[to[e]];
 //    }
 //}
 //
@@ -153,10 +153,10 @@ package class160;
 //
 //void update(int i, int v) {
 //    add(dfn[i], arr[i], -1);
-//    add(dfn[i] + size[i], arr[i], 1);
+//    add(dfn[i] + siz[i], arr[i], 1);
 //    arr[i] = kth(v);
 //    add(dfn[i], arr[i], 1);
-//    add(dfn[i] + size[i], arr[i], -1);
+//    add(dfn[i] + siz[i], arr[i], -1);
 //}
 //
 //int query(int x, int y, int k) {
@@ -192,7 +192,7 @@ package class160;
 //    dfs(1, 0);
 //    for (int i = 1; i <= n; i++) {
 //        add(dfn[i], arr[i], 1);
-//        add(dfn[i] + size[i], arr[i], -1);
+//        add(dfn[i] + siz[i], arr[i], -1);
 //    }
 //}
 //

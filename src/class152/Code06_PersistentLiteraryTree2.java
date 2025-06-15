@@ -28,7 +28,7 @@ package class152;
 //int key[MAXM];
 //int ls[MAXM];
 //int rs[MAXM];
-//int size[MAXM];
+//int siz[MAXM];
 //bool rev[MAXM];
 //long long sum[MAXM];
 //double priority[MAXM];
@@ -37,7 +37,7 @@ package class152;
 //    key[++cnt] = key[i];
 //    ls[cnt] = ls[i];
 //    rs[cnt] = rs[i];
-//    size[cnt] = size[i];
+//    siz[cnt] = siz[i];
 //    rev[cnt] = rev[i];
 //    sum[cnt] = sum[i];
 //    priority[cnt] = priority[i];
@@ -45,7 +45,7 @@ package class152;
 //}
 //
 //void up(int i) {
-//    size[i] = size[ls[i]] + size[rs[i]] + 1;
+//    siz[i] = siz[ls[i]] + siz[rs[i]] + 1;
 //    sum[i] = sum[ls[i]] + sum[rs[i]] + key[i];
 //}
 //
@@ -70,9 +70,9 @@ package class152;
 //    } else {
 //        i = copy(i);
 //        down(i);
-//        if (size[ls[i]] + 1 <= rank) {
+//        if (siz[ls[i]] + 1 <= rank) {
 //            rs[l] = i;
-//            split(i, r, rs[i], rank - size[ls[i]] - 1);
+//            split(i, r, rs[i], rank - siz[ls[i]] - 1);
 //        } else {
 //            ls[r] = i;
 //            split(l, i, ls[i], rank);
@@ -123,7 +123,7 @@ package class152;
 //            r = ls[0];
 //            ls[0] = rs[0] = 0;
 //            key[++cnt] = y;
-//            size[cnt] = 1;
+//            siz[cnt] = 1;
 //            sum[cnt] = y;
 //            priority[cnt] = (double)rand() / RAND_MAX;
 //            head[i] = merge(merge(l, cnt), r);

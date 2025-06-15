@@ -33,7 +33,7 @@ package class158;
 //int root[MAXN];
 //int ls[MAXT];
 //int rs[MAXT];
-//int size[MAXT];
+//int siz[MAXT];
 //int cntt = 0;
 //
 //int deep[MAXN];
@@ -56,7 +56,7 @@ package class158;
 //
 //int build(int l, int r) {
 //    int rt = ++cntt;
-//    size[rt] = 0;
+//    siz[rt] = 0;
 //    if (l < r) {
 //        int mid = (l + r) / 2;
 //        ls[rt] = build(l, mid);
@@ -89,7 +89,7 @@ package class158;
 //    int rt = ++cntt;
 //    ls[rt] = ls[i];
 //    rs[rt] = rs[i];
-//    size[rt] = size[i] + 1;
+//    siz[rt] = siz[i] + 1;
 //    if (l < r) {
 //        int mid = (l + r) / 2;
 //        if (jobi <= mid) {
@@ -105,12 +105,12 @@ package class158;
 //    if (l == r) {
 //        return l;
 //    }
-//    int lsize = size[ls[u]] + size[ls[v]] - size[ls[lca]] - size[ls[lcafa]];
+//    int lsiz = siz[ls[u]] + siz[ls[v]] - siz[ls[lca]] - siz[ls[lcafa]];
 //    int mid = (l + r) / 2;
-//    if (lsize >= jobk) {
+//    if (lsiz >= jobk) {
 //        return query(jobk, l, mid, ls[u], ls[v], ls[lca], ls[lcafa]);
 //    } else {
-//        return query(jobk - lsize, mid + 1, r, rs[u], rs[v], rs[lca], rs[lcafa]);
+//        return query(jobk - lsiz, mid + 1, r, rs[u], rs[v], rs[lca], rs[lcafa]);
 //    }
 //}
 //

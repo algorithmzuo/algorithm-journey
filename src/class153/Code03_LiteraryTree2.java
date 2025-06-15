@@ -21,7 +21,7 @@ package class153;
 //int fa[MAXN];
 //int ls[MAXN];
 //int rs[MAXN];
-//int size[MAXN];
+//int siz[MAXN];
 //bool rev[MAXN];
 //int sta[MAXN];
 //int si;
@@ -29,7 +29,7 @@ package class153;
 //int ai;
 //
 //void up(int i) {
-//    size[i] = size[ls[i]] + size[rs[i]] + 1;
+//    siz[i] = siz[ls[i]] + siz[rs[i]] + 1;
 //}
 //
 //int lr(int i) {
@@ -98,12 +98,12 @@ package class153;
 //    int i = head;
 //    while (i != 0) {
 //        down(i);
-//        if (size[ls[i]] + 1 == rank) {
+//        if (siz[ls[i]] + 1 == rank) {
 //            return i;
-//        } else if (size[ls[i]] >= rank) {
+//        } else if (siz[ls[i]] >= rank) {
 //            i = ls[i];
 //        } else {
-//            rank -= size[ls[i]] + 1;
+//            rank -= siz[ls[i]] + 1;
 //            i = rs[i];
 //        }
 //    }
@@ -112,7 +112,7 @@ package class153;
 //
 //void add(int x) {
 //    num[++cnt] = x;
-//    size[cnt] = 1;
+//    siz[cnt] = 1;
 //    fa[cnt] = head;
 //    rs[head] = cnt;
 //    splay(cnt, 0);
