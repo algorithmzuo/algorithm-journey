@@ -10,7 +10,7 @@ package class172;
 //using namespace std;
 //
 //const int MAXN = 3000001;
-//const int BLEN = 4001;
+//const int BLEN = 3001;
 //const int BNUM = (MAXN / BLEN) << 1;
 //
 //char blocks[BNUM][BLEN];

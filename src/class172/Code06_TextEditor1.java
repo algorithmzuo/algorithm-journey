@@ -12,7 +12,7 @@ import java.io.PrintWriter;
 public class Code06_TextEditor1 {
 
 	public static int MAXN = 3000001;
-	public static int BLEN = 4001;
+	public static int BLEN = 3001;
 	public static int BNUM = (MAXN / BLEN) << 1;
 
 	public static char[][] blocks = new char[BNUM][BLEN];
