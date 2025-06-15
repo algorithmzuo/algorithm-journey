@@ -43,44 +43,44 @@ public class Code06_TextEditor1 {
 	public static int bi, pi;
 
 	public static void find(int pos) {
-		int cur = 0;
-		while (cur != -1 && pos > siz[cur]) {
-			pos -= siz[cur];
-			cur = nxt[cur];
+		int curb = 0;
+		while (curb != -1 && pos > siz[curb]) {
+			pos -= siz[curb];
+			curb = nxt[curb];
 		}
-		bi = cur;
+		bi = curb;
 		pi = pos;
 	}
 
-	public static void flush(int cur, int next, int tailLen, char[] src, int srcPos) {
-		nxt[next] = nxt[cur];
-		nxt[cur] = next;
-		siz[next] = tailLen;
-		System.arraycopy(src, srcPos, blocks[next], 0, tailLen);
+	public static void flush(int curb, int nextb, int tailLen, char[] src, int srcPos) {
+		nxt[nextb] = nxt[curb];
+		nxt[curb] = nextb;
+		siz[nextb] = tailLen;
+		System.arraycopy(src, srcPos, blocks[nextb], 0, tailLen);
 	}
 
-	public static void merge(int cur, int next) {
-		System.arraycopy(blocks[next], 0, blocks[cur], siz[cur], siz[next]);
-		siz[cur] += siz[next];
-		nxt[cur] = nxt[next];
-		recycle(next);
+	public static void merge(int curb, int nextb) {
+		System.arraycopy(blocks[nextb], 0, blocks[curb], siz[curb], siz[nextb]);
+		siz[curb] += siz[nextb];
+		nxt[curb] = nxt[nextb];
+		recycle(nextb);
 	}
 
-	public static void split(int cur, int pos) {
-		if (cur == -1 || pos == siz[cur]) {
+	public static void split(int curb, int pos) {
+		if (curb == -1 || pos == siz[curb]) {
 			return;
 		}
-		int next = assign();
-		flush(cur, next, siz[cur] - pos, blocks[cur], pos);
-		siz[cur] = pos;
+		int nextb = assign();
+		flush(curb, nextb, siz[curb] - pos, blocks[curb], pos);
+		siz[curb] = pos;
 	}
 
 	public static void maintain() {
-		for (int cur = 0, next; cur != -1; cur = nxt[cur]) {
-			next = nxt[cur];
-			while (next != -1 && siz[cur] + siz[next] <= BLEN) {
-				merge(cur, next);
-				next = nxt[cur];
+		for (int curb = 0, nextb; curb != -1; curb = nxt[curb]) {
+			nextb = nxt[curb];
+			while (nextb != -1 && siz[curb] + siz[nextb] <= BLEN) {
+				merge(curb, nextb);
+				nextb = nxt[curb];
 			}
 		}
 	}
@@ -88,16 +88,16 @@ public class Code06_TextEditor1 {
 	public static void insert(int pos, int len) {
 		find(pos);
 		split(bi, pi);
-		int cur = bi, newb, done = 0;
+		int curb = bi, newb, done = 0;
 		while (done + BLEN <= len) {
 			newb = assign();
-			flush(cur, newb, BLEN, str, done);
+			flush(curb, newb, BLEN, str, done);
 			done += BLEN;
-			cur = newb;
+			curb = newb;
 		}
 		if (len > done) {
 			newb = assign();
-			flush(cur, newb, len - done, str, done);
+			flush(curb, newb, len - done, str, done);
 		}
 		maintain();
 	}
@@ -105,36 +105,36 @@ public class Code06_TextEditor1 {
 	public static void erase(int pos, int len) {
 		find(pos);
 		split(bi, pi);
-		int cur = bi, next = nxt[cur];
-		while (next != -1 && len > siz[next]) {
-			len -= siz[next];
-			recycle(next);
-			next = nxt[next];
+		int curb = bi, nextb = nxt[curb];
+		while (nextb != -1 && len > siz[nextb]) {
+			len -= siz[nextb];
+			recycle(nextb);
+			nextb = nxt[nextb];
 		}
-		if (next != -1) {
-			split(next, len);
-			recycle(next);
-			nxt[cur] = nxt[next];
+		if (nextb != -1) {
+			split(nextb, len);
+			recycle(nextb);
+			nxt[curb] = nxt[nextb];
 		} else {
-			nxt[cur] = -1;
+			nxt[curb] = -1;
 		}
 		maintain();
 	}
 
 	public static void get(int pos, int len) {
 		find(pos);
-		int cur = bi;
+		int curb = bi;
 		pos = pi;
-		int got = (len < siz[cur] - pos) ? len : (siz[cur] - pos);
-		System.arraycopy(blocks[cur], pos, str, 0, got);
-		cur = nxt[cur];
-		while (cur != -1 && got + siz[cur] <= len) {
-			System.arraycopy(blocks[cur], 0, str, got, siz[cur]);
-			got += siz[cur];
-			cur = nxt[cur];
+		int got = (len < siz[curb] - pos) ? len : (siz[curb] - pos);
+		System.arraycopy(blocks[curb], pos, str, 0, got);
+		curb = nxt[curb];
+		while (curb != -1 && got + siz[curb] <= len) {
+			System.arraycopy(blocks[curb], 0, str, got, siz[curb]);
+			got += siz[curb];
+			curb = nxt[curb];
 		}
-		if (cur != -1 && got < len) {
-			System.arraycopy(blocks[cur], 0, str, got, len - got);
+		if (curb != -1 && got < len) {
+			System.arraycopy(blocks[curb], 0, str, got, len - got);
 		}
 	}
 

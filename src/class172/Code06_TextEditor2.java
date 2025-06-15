@@ -39,42 +39,42 @@ package class172;
 //int bi, pi;
 //
 //void find(int pos) {
-//    int cur = 0;
-//    while (cur != -1 && pos > siz[cur]) {
-//        pos -= siz[cur];
-//        cur = nxt[cur];
+//    int curb = 0;
+//    while (curb != -1 && pos > siz[curb]) {
+//        pos -= siz[curb];
+//        curb = nxt[curb];
 //    }
-//    bi = cur;
+//    bi = curb;
 //    pi = pos;
 //}
 //
-//void flush(int cur, int nextb, int tailLen, char* src, int srcPos) {
-//    nxt[nextb] = nxt[cur];
-//    nxt[cur] = nextb;
+//void flush(int curb, int nextb, int tailLen, char* src, int srcPos) {
+//    nxt[nextb] = nxt[curb];
+//    nxt[curb] = nextb;
 //    siz[nextb] = tailLen;
 //    memcpy(blocks[nextb], src + srcPos, tailLen);
 //}
 //
-//void merge(int cur, int nextb) {
-//    memcpy(blocks[cur] + siz[cur], blocks[nextb], siz[nextb]);
-//    siz[cur] += siz[nextb];
-//    nxt[cur] = nxt[nextb];
+//void merge(int curb, int nextb) {
+//    memcpy(blocks[curb] + siz[curb], blocks[nextb], siz[nextb]);
+//    siz[curb] += siz[nextb];
+//    nxt[curb] = nxt[nextb];
 //    recycle(nextb);
 //}
 //
-//void split(int cur, int pos) {
-//    if (cur == -1 || pos == siz[cur]) return;
+//void split(int curb, int pos) {
+//    if (curb == -1 || pos == siz[curb]) return;
 //    int nextb = assign();
-//    flush(cur, nextb, siz[cur] - pos, blocks[cur], pos);
-//    siz[cur] = pos;
+//    flush(curb, nextb, siz[curb] - pos, blocks[curb], pos);
+//    siz[curb] = pos;
 //}
 //
 //void maintain() {
-//    for (int cur = 0, nextb; cur != -1; cur = nxt[cur]) {
-//        nextb = nxt[cur];
-//        while (nextb != -1 && siz[cur] + siz[nextb] <= BLEN) {
-//            merge(cur, nextb);
-//            nextb = nxt[cur];
+//    for (int curb = 0, nextb; curb != -1; curb = nxt[curb]) {
+//        nextb = nxt[curb];
+//        while (nextb != -1 && siz[curb] + siz[nextb] <= BLEN) {
+//            merge(curb, nextb);
+//            nextb = nxt[curb];
 //        }
 //    }
 //}
@@ -82,16 +82,16 @@ package class172;
 //void insert(int pos, int len) {
 //    find(pos);
 //    split(bi, pi);
-//    int cur = bi, newb, done = 0;
+//    int curb = bi, newb, done = 0;
 //    while (done + BLEN <= len) {
 //        newb = assign();
-//        flush(cur, newb, BLEN, str, done);
+//        flush(curb, newb, BLEN, str, done);
 //        done += BLEN;
-//        cur = newb;
+//        curb = newb;
 //    }
 //    if (len > done) {
 //        newb = assign();
-//        flush(cur, newb, len - done, str, done);
+//        flush(curb, newb, len - done, str, done);
 //    }
 //    maintain();
 //}
@@ -99,8 +99,8 @@ package class172;
 //void erase(int pos, int len) {
 //    find(pos);
 //    split(bi, pi);
-//    int cur = bi;
-//    int nextb = nxt[cur];
+//    int curb = bi;
+//    int nextb = nxt[curb];
 //    while (nextb != -1 && len > siz[nextb]) {
 //        len -= siz[nextb];
 //        recycle(nextb);
@@ -109,27 +109,27 @@ package class172;
 //    if (nextb != -1) {
 //        split(nextb, len);
 //        recycle(nextb);
-//        nxt[cur] = nxt[nextb];
+//        nxt[curb] = nxt[nextb];
 //    } else {
-//        nxt[cur] = -1;
+//        nxt[curb] = -1;
 //    }
 //    maintain();
 //}
 //
 //void get(int pos, int len) {
 //    find(pos);
-//    int cur = bi;
+//    int curb = bi;
 //    pos = pi;
-//    int got = (len < siz[cur] - pos) ? len : (siz[cur] - pos);
-//    memcpy(str, blocks[cur] + pos, got);
-//    cur = nxt[cur];
-//    while (cur != -1 && got + siz[cur] <= len) {
-//        memcpy(str + got, blocks[cur], siz[cur]);
-//        got += siz[cur];
-//        cur = nxt[cur];
+//    int got = (len < siz[curb] - pos) ? len : (siz[curb] - pos);
+//    memcpy(str, blocks[curb] + pos, got);
+//    curb = nxt[curb];
+//    while (curb != -1 && got + siz[curb] <= len) {
+//        memcpy(str + got, blocks[curb], siz[curb]);
+//        got += siz[curb];
+//        curb = nxt[curb];
 //    }
-//    if (cur != -1 && got < len) {
-//        memcpy(str + got, blocks[cur], len - got);
+//    if (curb != -1 && got < len) {
+//        memcpy(str + got, blocks[curb], len - got);
 //    }
 //}
 //
