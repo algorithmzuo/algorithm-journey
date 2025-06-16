@@ -42,8 +42,8 @@ public class Code01_GiveAway1 {
 		}
 	}
 
-	public static int num(int l, int r, int v) {
-		int m, ans = 0;
+	public static int getCnt(int i, int v) {
+		int l = bl[i], r = br[i], m, ans = 0;
 		while (l <= r) {
 			m = (l + r) >> 1;
 			if (sortv[m] >= v) {
@@ -76,7 +76,7 @@ public class Code01_GiveAway1 {
 				}
 			}
 			for (int i = bi[l] + 1; i <= bi[r] - 1; i++) {
-				ans += num(bl[i], br[i], v);
+				ans += getCnt(i, v);
 			}
 		}
 		return ans;

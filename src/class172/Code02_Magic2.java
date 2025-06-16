@@ -39,9 +39,9 @@ package class172;
 //    }
 //}
 //
-//int num(int l, int r, int v) {
-//    v -= lazy[bi[l]];
-//    int m, ans = 0;
+//int getCnt(int i, int v) {
+//    v -= lazy[i];
+//    int l = bl[i], r = br[i], m, ans = 0;
 //    while (l <= r) {
 //        m = (l + r) >> 1;
 //        if (sortv[m] >= v) {
@@ -72,8 +72,8 @@ package class172;
 //    } else {
 //        ans += innerQuery(l, br[bi[l]], v);
 //        ans += innerQuery(bl[bi[r]], r, v);
-//        for (int b = bi[l] + 1; b <= bi[r] - 1; b++) {
-//            ans += num(bl[b], br[b], v);
+//        for (int i = bi[l] + 1; i <= bi[r] - 1; i++) {
+//            ans += getCnt(i, v);
 //        }
 //    }
 //    return ans;

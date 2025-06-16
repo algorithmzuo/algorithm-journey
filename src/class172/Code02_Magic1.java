@@ -42,9 +42,9 @@ public class Code02_Magic1 {
 		}
 	}
 
-	public static int num(int l, int r, int v) {
-		v -= lazy[bi[l]];
-		int m, ans = 0;
+	public static int getCnt(int i, int v) {
+		v -= lazy[i];
+		int l = bl[i], r = br[i], m, ans = 0;
 		while (l <= r) {
 			m = (l + r) >> 1;
 			if (sortv[m] >= v) {
@@ -76,7 +76,7 @@ public class Code02_Magic1 {
 			ans += innerQuery(l, br[bi[l]], v);
 			ans += innerQuery(bl[bi[r]], r, v);
 			for (int i = bi[l] + 1; i <= bi[r] - 1; i++) {
-				ans += num(bl[i], br[i], v);
+				ans += getCnt(i, v);
 			}
 		}
 		return ans;
