@@ -82,12 +82,13 @@ package class172;
 //    for (int i = 1; i <= bnum; i++) {
 //        for (int j = i; j <= bnum; j++) {
 //            int most = mode[i][j - 1];
+//            int mostCnt = getCnt(i, j, most);
 //            for (int k = bl[j]; k <= br[j]; k++) {
 //                int cur = arr[k];
 //                int curCnt = getCnt(i, j, cur);
-//                int mostCnt = getCnt(i, j, most);
 //                if (curCnt > mostCnt || (curCnt == mostCnt && cur < most)) {
 //                    most = cur;
+//                    mostCnt = curCnt;
 //                }
 //            }
 //            mode[i][j] = most;
@@ -117,20 +118,21 @@ package class172;
 //            numCnt[arr[i]]++;
 //        }
 //        most = mode[bi[l] + 1][bi[r] - 1];
+//        int mostCnt = getCnt(bi[l] + 1, bi[r] - 1, most) + numCnt[most];
 //        for (int i = l; i <= br[bi[l]]; i++) {
 //            int cur = arr[i];
 //            int curCnt = getCnt(bi[l] + 1, bi[r] - 1, cur) + numCnt[cur];
-//            int mostCnt = getCnt(bi[l] + 1, bi[r] - 1, most) + numCnt[most];
 //            if (curCnt > mostCnt || (curCnt == mostCnt && cur < most)) {
 //                most = cur;
+//                mostCnt = curCnt;
 //            }
 //        }
 //        for (int i = bl[bi[r]]; i <= r; i++) {
 //            int cur = arr[i];
 //            int curCnt = getCnt(bi[l] + 1, bi[r] - 1, cur) + numCnt[cur];
-//            int mostCnt = getCnt(bi[l] + 1, bi[r] - 1, most) + numCnt[most];
 //            if (curCnt > mostCnt || (curCnt == mostCnt && cur < most)) {
 //                most = cur;
+//                mostCnt = curCnt;
 //            }
 //        }
 //        for (int i = l; i <= br[bi[l]]; i++) {

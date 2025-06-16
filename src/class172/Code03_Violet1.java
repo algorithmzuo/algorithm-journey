@@ -22,6 +22,8 @@ public class Code03_Violet1 {
 	public static int MAXB = 201;
 	public static int n, m, s;
 	public static int[] arr = new int[MAXN];
+
+	// 数字做离散化
 	public static int[] sortv = new int[MAXN];
 
 	public static int blen, bnum;
@@ -31,9 +33,9 @@ public class Code03_Violet1 {
 
 	// freq[i][j]表示前i块中j出现的次数
 	public static int[][] freq = new int[MAXB][MAXN];
-	// mode[i][j]表示从i块到j块中的众数
+	// mode[i][j]表示从i块到j块中的众数(最小)
 	public static int[][] mode = new int[MAXB][MAXB];
-	// 数字词频统计
+	// 数字的词频统计
 	public static int[] numCnt = new int[MAXN];
 
 	public static int lower(int num) {
@@ -92,12 +94,13 @@ public class Code03_Violet1 {
 		for (int i = 1; i <= bnum; i++) {
 			for (int j = i; j <= bnum; j++) {
 				int most = mode[i][j - 1];
+				int mostCnt = getCnt(i, j, most);
 				for (int k = bl[j]; k <= br[j]; k++) {
 					int cur = arr[k];
 					int curCnt = getCnt(i, j, cur);
-					int mostCnt = getCnt(i, j, most);
 					if (curCnt > mostCnt || (curCnt == mostCnt && cur < most)) {
 						most = cur;
+						mostCnt = curCnt;
 					}
 				}
 				mode[i][j] = most;
@@ -127,20 +130,21 @@ public class Code03_Violet1 {
 				numCnt[arr[i]]++;
 			}
 			most = mode[bi[l] + 1][bi[r] - 1];
+			int mostCnt = getCnt(bi[l] + 1, bi[r] - 1, most) + numCnt[most];
 			for (int i = l; i <= br[bi[l]]; i++) {
 				int cur = arr[i];
 				int curCnt = getCnt(bi[l] + 1, bi[r] - 1, cur) + numCnt[cur];
-				int mostCnt = getCnt(bi[l] + 1, bi[r] - 1, most) + numCnt[most];
 				if (curCnt > mostCnt || (curCnt == mostCnt && cur < most)) {
 					most = cur;
+					mostCnt = curCnt;
 				}
 			}
 			for (int i = bl[bi[r]]; i <= r; i++) {
 				int cur = arr[i];
 				int curCnt = getCnt(bi[l] + 1, bi[r] - 1, cur) + numCnt[cur];
-				int mostCnt = getCnt(bi[l] + 1, bi[r] - 1, most) + numCnt[most];
 				if (curCnt > mostCnt || (curCnt == mostCnt && cur < most)) {
 					most = cur;
+					mostCnt = curCnt;
 				}
 			}
 			for (int i = l; i <= br[bi[l]]; i++) {
