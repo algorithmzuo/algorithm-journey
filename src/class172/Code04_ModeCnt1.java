@@ -30,9 +30,9 @@ public class Code04_ModeCnt1 {
 	public static int[] bl = new int[MAXB];
 	public static int[] br = new int[MAXB];
 
-	// 值、下标
+	// (值、下标)，用来收集同一种数的下标列表
 	public static int[][] sortList = new int[MAXN][2];
-	// listIdx[i] = j，代表数组的i位置元素在sortList中的j位置
+	// listIdx[i] = j，表示arr[i]这个元素在sortList里的j位置
 	public static int[] listIdx = new int[MAXN];
 	// modeCnt[i][j]表示从i块到j块中众数的出现次数
 	public static int[][] modeCnt = new int[MAXB][MAXB];
