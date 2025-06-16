@@ -25,6 +25,7 @@ package class172;
 //int bi[MAXN];
 //int bl[MAXB];
 //int br[MAXB];
+//
 //int lazy[MAXB];
 //
 //void build() {

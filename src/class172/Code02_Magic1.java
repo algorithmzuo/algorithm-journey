@@ -28,6 +28,7 @@ public class Code02_Magic1 {
 	public static int[] bi = new int[MAXN];
 	public static int[] bl = new int[MAXB];
 	public static int[] br = new int[MAXB];
+
 	public static int[] lazy = new int[MAXB];
 
 	public static void build() {
