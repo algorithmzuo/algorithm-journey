@@ -1,6 +1,12 @@
 package class172;
 
 // 教主的魔法，java版
+// 给定一个长度为n的数组arr，接下来有m条操作，每条操作是如下两种类型中的一种
+// 操作 A l r v : 打印arr[l..r]范围上>=v的数字个数
+// 操作 M l r v : 把arr[l..r]范围上每个值都加上v
+// 1 <= n <= 10^6
+// 1 <= m <= 3000
+// 1 <= 数组中的值 <= 10^9
 // 测试链接 : https://www.luogu.com.cn/problem/P2801
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
@@ -14,7 +20,7 @@ public class Code02_Magic1 {
 
 	public static int MAXN = 1000001;
 	public static int MAXB = 1001;
-	public static int n, q;
+	public static int n, m;
 	public static int[] arr = new int[MAXN];
 	public static int[] sortv = new int[MAXN];
 
@@ -108,14 +114,14 @@ public class Code02_Magic1 {
 		FastReader in = new FastReader();
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
 		n = in.nextInt();
-		q = in.nextInt();
+		m = in.nextInt();
 		for (int i = 1; i <= n; i++) {
 			arr[i] = in.nextInt();
 		}
 		build();
 		char op;
 		int l, r, v;
-		for (int i = 1; i <= q; i++) {
+		for (int i = 1; i <= m; i++) {
 			op = in.nextChar();
 			l = in.nextInt();
 			r = in.nextInt();

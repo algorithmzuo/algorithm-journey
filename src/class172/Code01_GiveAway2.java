@@ -1,6 +1,12 @@
 package class172;
 
 // Give Away，C++版
+// 给定一个长度为n的数组arr，接下来有m条操作，每条操作是如下两种类型中的一种
+// 操作 0 a b c : 打印arr[a..b]范围上>=c的数字个数
+// 操作 1 a b   : 把arr[a]的值改成b
+// 1 <= n <= 5 * 10^5
+// 1 <= m <= 10^5
+// 1 <= 数组中的值 <= 10^9
 // 测试链接 : https://www.luogu.com.cn/problem/SP18185
 // 测试链接 : https://www.spoj.com/problems/GIVEAWAY
 // 如下实现是C++的版本，C++版本和java版本逻辑完全一样

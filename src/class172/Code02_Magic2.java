@@ -1,6 +1,12 @@
 package class172;
 
 // 教主的魔法，C++版
+// 给定一个长度为n的数组arr，接下来有m条操作，每条操作是如下两种类型中的一种
+// 操作 A l r v : 打印arr[l..r]范围上>=v的数字个数
+// 操作 M l r v : 把arr[l..r]范围上每个值都加上v
+// 1 <= n <= 10^6
+// 1 <= m <= 3000
+// 1 <= 数组中的值 <= 10^9
 // 测试链接 : https://www.luogu.com.cn/problem/P2801
 // 如下实现是C++的版本，C++版本和java版本逻辑完全一样
 // 提交如下代码，可以通过所有测试用例
@@ -11,7 +17,7 @@ package class172;
 //
 //const int MAXN = 1000001;
 //const int MAXB = 1001;
-//int n, q;
+//int n, m;
 //int arr[MAXN];
 //int sortv[MAXN];
 //
@@ -104,14 +110,14 @@ package class172;
 //int main() {
 //    ios::sync_with_stdio(false);
 //    cin.tie(nullptr);
-//    cin >> n >> q;
+//    cin >> n >> m;
 //    for (int i = 1; i <= n; i++) {
 //        cin >> arr[i];
 //    }
 //    build();
 //    char op;
 //    int l, r, v;
-//    for (int i = 0; i < q; i++) {
+//    for (int i = 1; i <= m; i++) {
 //        cin >> op >> l >> r >> v;
 //        if (op == 'A') {
 //            cout << query(l, r, v) << '\n';
