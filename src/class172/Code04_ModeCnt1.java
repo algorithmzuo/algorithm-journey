@@ -31,10 +31,9 @@ public class Code04_ModeCnt1 {
 	public static int[] br = new int[MAXB];
 
 	// 值、下标
-	public static int[][] bucket = new int[MAXN][2];
-	// bucketIdx[i] = j，代表数组的i位置元素在bucket中的j位置
-	public static int[] bucketIdx = new int[MAXN];
-
+	public static int[][] sortList = new int[MAXN][2];
+	// listIdx[i] = j，代表数组的i位置元素在sortList中的j位置
+	public static int[] listIdx = new int[MAXN];
 	// modeCnt[i][j]表示从i块到j块中众数的出现次数
 	public static int[][] modeCnt = new int[MAXB][MAXB];
 	// 数字词频统计
@@ -51,12 +50,12 @@ public class Code04_ModeCnt1 {
 			br[i] = Math.min(i * blen, n);
 		}
 		for (int i = 1; i <= n; i++) {
-			bucket[i][0] = arr[i];
-			bucket[i][1] = i;
+			sortList[i][0] = arr[i];
+			sortList[i][1] = i;
 		}
-		Arrays.sort(bucket, 1, n + 1, (a, b) -> a[0] != b[0] ? a[0] - b[0] : a[1] - b[1]);
+		Arrays.sort(sortList, 1, n + 1, (a, b) -> a[0] != b[0] ? a[0] - b[0] : a[1] - b[1]);
 		for (int i = 1; i <= n; i++) {
-			bucketIdx[bucket[i][1]] = i;
+			listIdx[sortList[i][1]] = i;
 		}
 		for (int i = 1; i <= bnum; i++) {
 			for (int j = i; j <= bnum; j++) {
@@ -84,14 +83,14 @@ public class Code04_ModeCnt1 {
 		} else {
 			ans = modeCnt[bi[l] + 1][bi[r] - 1];
 			for (int i = l, idx; i <= br[bi[l]]; i++) {
-				idx = bucketIdx[i];
-				while (idx + ans <= n && bucket[idx + ans][0] == arr[i] && bucket[idx + ans][1] <= r) {
+				idx = listIdx[i];
+				while (idx + ans <= n && sortList[idx + ans][0] == arr[i] && sortList[idx + ans][1] <= r) {
 					ans++;
 				}
 			}
 			for (int i = bl[bi[r]], idx; i <= r; i++) {
-				idx = bucketIdx[i];
-				while (idx - ans >= 1 && bucket[idx - ans][0] == arr[i] && bucket[idx - ans][1] >= l) {
+				idx = listIdx[i];
+				while (idx - ans >= 1 && sortList[idx - ans][0] == arr[i] && sortList[idx - ans][1] >= l) {
 					ans++;
 				}
 			}

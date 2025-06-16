@@ -34,8 +34,8 @@ package class172;
 //int bl[MAXB];
 //int br[MAXB];
 //
-//Node bucket[MAXN];
-//int bucketIdx[MAXN];
+//Node sortList[MAXN];
+//int listIdx[MAXN];
 //
 //int modeCnt[MAXB][MAXB];
 //int numCnt[MAXN];
@@ -51,12 +51,12 @@ package class172;
 //        br[i] = min(i * blen, n);
 //    }
 //    for (int i = 1; i <= n; i++) {
-//        bucket[i].v = arr[i];
-//        bucket[i].i = i;
+//        sortList[i].v = arr[i];
+//        sortList[i].i = i;
 //    }
-//    sort(bucket + 1, bucket + n + 1, NodeCmp);
+//    sort(sortList + 1, sortList + n + 1, NodeCmp);
 //    for (int i = 1; i <= n; i++) {
-//        bucketIdx[bucket[i].i] = i;
+//        listIdx[sortList[i].i] = i;
 //    }
 //    for (int i = 1; i <= bnum; i++) {
 //        for (int j = i; j <= bnum; j++) {
@@ -84,14 +84,14 @@ package class172;
 //    } else {
 //        ans = modeCnt[bi[l] + 1][bi[r] - 1];
 //        for (int i = l, idx; i <= br[bi[l]]; i++) {
-//            idx = bucketIdx[i];
-//            while (idx + ans <= n && bucket[idx + ans].v == arr[i] && bucket[idx + ans].i <= r) {
+//            idx = listIdx[i];
+//            while (idx + ans <= n && sortList[idx + ans].v == arr[i] && sortList[idx + ans].i <= r) {
 //                ans++;
 //            }
 //        }
 //        for (int i = bl[bi[r]], idx; i <= r; i++) {
-//            idx = bucketIdx[i];
-//            while (idx - ans >= 1 && bucket[idx - ans].v == arr[i] && bucket[idx - ans].i >= l) {
+//            idx = listIdx[i];
+//            while (idx - ans >= 1 && sortList[idx - ans].v == arr[i] && sortList[idx - ans].i >= l) {
 //                ans++;
 //            }
 //        }
