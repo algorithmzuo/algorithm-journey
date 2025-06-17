@@ -2,7 +2,7 @@ package class172;
 
 // 作诗，C++版
 // 给定一个长度为n的数组arr，接下来有m条操作，每条操作格式如下
-// 操作 l r : 打印arr[l..r]范围上，有多少数的出现次数是正偶数
+// 操作 l r : 打印arr[l..r]范围上，有多少个数出现正偶数次
 // 1 <= 所有数值 <= 10^5
 // 题目要求强制在线，具体规则可以打开测试链接查看
 // 测试链接 : https://www.luogu.com.cn/problem/P4135
@@ -31,11 +31,11 @@ package class172;
 //    return freq[r][v] - freq[l - 1][v];
 //}
 //
-//int delta(int pre) {
-//    if (pre == 0) {
+//int delta(int preCnt) {
+//    if (preCnt == 0) {
 //        return 0;
 //    }
-//    if ((pre & 1) == 0) {
+//    if ((preCnt & 1) == 0) {
 //        return -1;
 //    }
 //    return 1;
