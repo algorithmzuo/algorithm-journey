@@ -32,7 +32,13 @@ package class172;
 //}
 //
 //int delta(int pre) {
-//    return pre ? ((pre & 1) ? 1 : -1) : 0;
+//    if (pre == 0) {
+//        return 0;
+//    }
+//    if ((pre & 1) == 0) {
+//        return -1;
+//    }
+//    return 1;
 //}
 //
 //void prepare() {

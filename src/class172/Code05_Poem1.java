@@ -37,9 +37,15 @@ public class Code05_Poem1 {
 		return freq[r][v] - freq[l - 1][v];
 	}
 
-	// 加1之前的词频是pre，返回加1之后，正偶数次的数的个数变化量
+	// 加1之前的词频是pre，如果词频+1，返回 出现正偶数次的数的个数 变化量
 	public static int delta(int pre) {
-		return pre != 0 ? ((pre & 1) == 0 ? -1 : 1) : 0;
+		if (pre == 0) {
+			return 0;
+		}
+		if ((pre & 1) == 0) {
+			return -1;
+		}
+		return 1;
 	}
 
 	public static void prepare() {
