@@ -23,7 +23,7 @@ public class Code06_TextEditor1 {
 	public static int MAXN = 3000001;
 	// 每块的最大容量，近似等于 2 * 根号n，每块内容的大小不会超过该容量
 	public static int BLEN = 3001;
-	// 块的最大数量
+	// 块的数量上限
 	public static int BNUM = (MAXN / BLEN) << 1;
 
 	// 所有空间
