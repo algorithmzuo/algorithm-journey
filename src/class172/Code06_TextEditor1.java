@@ -19,17 +19,20 @@ import java.io.PrintWriter;
 
 public class Code06_TextEditor1 {
 
+	// 整个文章能到达的最大长度
 	public static int MAXN = 3000001;
-	// 每块的最大容量，近似等于 2 * 根号n
+	// 每块的最大容量，近似等于 2 * 根号n，每块内容的大小不会超过该容量
 	public static int BLEN = 3001;
 	// 块的最大数量
 	public static int BNUM = (MAXN / BLEN) << 1;
+
 	// 所有空间
 	public static char[][] blocks = new char[BNUM][BLEN];
 	// nxt[i]表示编号为i的块，下一块的编号
 	public static int[] nxt = new int[BNUM];
 	// siz[i]表示编号为i的块，写入了多少长度的内容
 	public static int[] siz = new int[BNUM];
+
 	// 编号分配池，其实是一个栈，分配编号从栈顶弹出，回收编号从栈顶压入
 	public static int[] pool = new int[BNUM];
 	// 分配池的栈顶

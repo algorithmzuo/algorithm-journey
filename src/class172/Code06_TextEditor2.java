@@ -24,6 +24,7 @@ package class172;
 //char blocks[BNUM][BLEN];
 //int nxt[BNUM];
 //int siz[BNUM];
+//
 //int pool[BNUM];
 //int top = 0;
 //
