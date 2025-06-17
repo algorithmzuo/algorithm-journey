@@ -21,7 +21,7 @@ public class Code06_TextEditor1 {
 
 	// 整个文章能到达的最大长度
 	public static int MAXN = 3000001;
-	// 每块的最大容量，近似等于 2 * 根号n，每块内容的大小不会超过该容量
+	// 块内容量，近似等于 2 * 根号n，每块内容大小不会超过容量
 	public static int BLEN = 3001;
 	// 块的数量上限
 	public static int BNUM = (MAXN / BLEN) << 1;
@@ -105,7 +105,7 @@ public class Code06_TextEditor1 {
 		siz[curb] = pos;
 	}
 
-	// 从头到尾遍历所有的块，任意相邻两块的大小累加和 <= BLEN，合并这两块
+	// 从头到尾遍历所有的块，任意相邻两块的内容大小累加和 <= 块内容量，就合并两块
 	public static void maintain() {
 		for (int curb = 0, nextb; curb != -1; curb = nxt[curb]) {
 			nextb = nxt[curb];
