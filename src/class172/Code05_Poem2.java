@@ -31,11 +31,11 @@ package class172;
 //    return freq[r][v] - freq[l - 1][v];
 //}
 //
-//int delta(int preCnt) {
-//    if (preCnt == 0) {
+//int delta(int curCnt) {
+//    if (curCnt == 0) {
 //        return 0;
 //    }
-//    if ((preCnt & 1) == 0) {
+//    if ((curCnt & 1) == 0) {
 //        return -1;
 //    }
 //    return 1;
