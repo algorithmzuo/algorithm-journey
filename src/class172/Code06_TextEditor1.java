@@ -105,7 +105,7 @@ public class Code06_TextEditor1 {
 		siz[curb] = pos;
 	}
 
-	// 从头到尾遍历所有的块，任意相邻两块的内容大小累加和 <= 块内容量，就合并两块
+	// 从头到尾遍历所有的块，检查任意相邻两块，内容大小的累加和 <= 块内容量，就合并
 	public static void maintain() {
 		for (int curb = 0, nextb; curb != -1; curb = nxt[curb]) {
 			nextb = nxt[curb];
