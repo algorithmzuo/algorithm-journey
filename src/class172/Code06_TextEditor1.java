@@ -26,7 +26,7 @@ public class Code06_TextEditor1 {
 	// 块的数量上限
 	public static int BNUM = (MAXN / BLEN) << 1;
 
-	// 所有空间，编号为i的块，内容就写入到blocks[i]
+	// 写入内容的空间，编号为i的块，内容写入到blocks[i]
 	public static char[][] blocks = new char[BNUM][BLEN];
 	// 编号分配池，其实是一个栈，分配编号从栈顶弹出，回收编号从栈顶压入
 	public static int[] pool = new int[BNUM];
