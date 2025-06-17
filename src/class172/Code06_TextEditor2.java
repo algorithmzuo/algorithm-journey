@@ -21,7 +21,7 @@ package class172;
 //const int BLEN = 3001;
 //const int BNUM = (MAXN / BLEN) << 1;
 //
-//char blocks[BNUM][BLEN];
+//char space[BNUM][BLEN];
 //int pool[BNUM];
 //int top = 0;
 //
@@ -62,12 +62,12 @@ package class172;
 //void linkAndWrite(int curb, int nextb, char* src, int pos, int len) {
 //    nxt[nextb] = nxt[curb];
 //    nxt[curb] = nextb;
-//    memcpy(blocks[nextb], src + pos, len);
+//    memcpy(space[nextb], src + pos, len);
 //    siz[nextb] = len;
 //}
 //
 //void merge(int curb, int nextb) {
-//    memcpy(blocks[curb] + siz[curb], blocks[nextb], siz[nextb]);
+//    memcpy(space[curb] + siz[curb], space[nextb], siz[nextb]);
 //    siz[curb] += siz[nextb];
 //    nxt[curb] = nxt[nextb];
 //    recycle(nextb);
@@ -76,7 +76,7 @@ package class172;
 //void split(int curb, int pos) {
 //    if (curb == -1 || pos == siz[curb]) return;
 //    int nextb = assign();
-//    linkAndWrite(curb, nextb, blocks[curb], pos, siz[curb] - pos);
+//    linkAndWrite(curb, nextb, space[curb], pos, siz[curb] - pos);
 //    siz[curb] = pos;
 //}
 //
@@ -132,15 +132,15 @@ package class172;
 //    int curb = bi;
 //    pos = pi;
 //    int done = (len < siz[curb] - pos) ? len : (siz[curb] - pos);
-//    memcpy(str, blocks[curb] + pos, done);
+//    memcpy(str, space[curb] + pos, done);
 //    curb = nxt[curb];
 //    while (curb != -1 && done + siz[curb] <= len) {
-//        memcpy(str + done, blocks[curb], siz[curb]);
+//        memcpy(str + done, space[curb], siz[curb]);
 //        done += siz[curb];
 //        curb = nxt[curb];
 //    }
 //    if (curb != -1 && done < len) {
-//        memcpy(str + done, blocks[curb], len - done);
+//        memcpy(str + done, space[curb], len - done);
 //    }
 //}
 //

@@ -26,8 +26,8 @@ public class Code06_TextEditor1 {
 	// 块的数量上限
 	public static int BNUM = (MAXN / BLEN) << 1;
 
-	// 写入内容的空间，编号为i的块，内容写入到blocks[i]
-	public static char[][] blocks = new char[BNUM][BLEN];
+	// 写入内容的空间，编号为i的块，内容写入到space[i]
+	public static char[][] space = new char[BNUM][BLEN];
 	// 编号分配池，其实是一个栈，分配编号从栈顶弹出，回收编号从栈顶压入
 	public static int[] pool = new int[BNUM];
 	// 分配池的栈顶
@@ -83,13 +83,13 @@ public class Code06_TextEditor1 {
 	public static void linkAndWrite(int curb, int nextb, char[] src, int pos, int len) {
 		nxt[nextb] = nxt[curb];
 		nxt[curb] = nextb;
-		System.arraycopy(src, pos, blocks[nextb], 0, len);
+		System.arraycopy(src, pos, space[nextb], 0, len);
 		siz[nextb] = len;
 	}
 
 	// curb块里，在内容的后面，追加nextb块的内容，然后nextb块从链表中删掉
 	public static void merge(int curb, int nextb) {
-		System.arraycopy(blocks[nextb], 0, blocks[curb], siz[curb], siz[nextb]);
+		System.arraycopy(space[nextb], 0, space[curb], siz[curb], siz[nextb]);
 		siz[curb] += siz[nextb];
 		nxt[curb] = nxt[nextb];
 		recycle(nextb);
@@ -101,11 +101,11 @@ public class Code06_TextEditor1 {
 			return;
 		}
 		int nextb = assign();
-		linkAndWrite(curb, nextb, blocks[curb], pos, siz[curb] - pos);
+		linkAndWrite(curb, nextb, space[curb], pos, siz[curb] - pos);
 		siz[curb] = pos;
 	}
 
-	// 从头到尾遍历所有的块，检查任意相邻两块，内容大小的累加和 <= 块内容量，就合并
+	// 从头到尾遍历所有的块，检查任意相邻块，内容大小的累加和 <= 块内容量，就合并
 	public static void maintain() {
 		for (int curb = 0, nextb; curb != -1; curb = nxt[curb]) {
 			nextb = nxt[curb];
@@ -160,15 +160,15 @@ public class Code06_TextEditor1 {
 		int curb = bi;
 		pos = pi;
 		int done = (len < siz[curb] - pos) ? len : (siz[curb] - pos);
-		System.arraycopy(blocks[curb], pos, str, 0, done);
+		System.arraycopy(space[curb], pos, str, 0, done);
 		curb = nxt[curb];
 		while (curb != -1 && done + siz[curb] <= len) {
-			System.arraycopy(blocks[curb], 0, str, done, siz[curb]);
+			System.arraycopy(space[curb], 0, str, done, siz[curb]);
 			done += siz[curb];
 			curb = nxt[curb];
 		}
 		if (curb != -1 && done < len) {
-			System.arraycopy(blocks[curb], 0, str, done, len - done);
+			System.arraycopy(space[curb], 0, str, done, len - done);
 		}
 	}
 
