@@ -37,12 +37,13 @@ public class Code05_Poem1 {
 		return freq[r][v] - freq[l - 1][v];
 	}
 
-	// 某种数的当前词频是cnt，如果词频加1，返回 出现正偶数次的数字个数 的变化量
-	public static int delta(int cnt) {
-		if (cnt == 0) {
+	// 某种数的之前词频是pre，现在如果词频加1
+	// 返回 出现正偶数次的数字个数 的变化量
+	public static int delta(int pre) {
+		if (pre == 0) {
 			return 0;
 		}
-		if ((cnt & 1) == 0) {
+		if ((pre & 1) == 0) {
 			return -1;
 		}
 		return 1;
