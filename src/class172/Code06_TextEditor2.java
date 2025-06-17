@@ -21,12 +21,12 @@ package class172;
 //const int BLEN = 3001;
 //const int BNUM = (MAXN / BLEN) << 1;
 //
-//int nxt[BNUM];
-//int siz[BNUM];
-//
 //char blocks[BNUM][BLEN];
 //int pool[BNUM];
 //int top = 0;
+//
+//int nxt[BNUM];
+//int siz[BNUM];
 //
 //char str[MAXN];
 //
