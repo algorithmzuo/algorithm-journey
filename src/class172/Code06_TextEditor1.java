@@ -20,34 +20,49 @@ import java.io.PrintWriter;
 public class Code06_TextEditor1 {
 
 	public static int MAXN = 3000001;
+	// 每块的最大容量，近似等于 2 * 根号n
 	public static int BLEN = 3001;
+	// 块的最大数量
 	public static int BNUM = (MAXN / BLEN) << 1;
-
+	// 所有空间
 	public static char[][] blocks = new char[BNUM][BLEN];
+	// nxt[i]表示编号为i的块，下一块的编号
 	public static int[] nxt = new int[BNUM];
+	// siz[i]表示编号为i的块，写入了多少长度的内容
 	public static int[] siz = new int[BNUM];
+	// 编号分配池，其实是一个栈，分配编号从栈顶弹出，回收编号从栈顶压入
 	public static int[] pool = new int[BNUM];
-	public static int psiz = 0;
+	// 分配池的栈顶
+	public static int top = 0;
 
+	// 插入字符串时，先读入进str，然后写入到块
+	// 获取字符串时，先从块里取出内容保留在str，然后打印str
 	public static char[] str = new char[MAXN];
 
+	// 准备好分配池，从栈顶到栈底，依次是1、2、... BNUM - 1
+	// 准备好头块的配置
 	public static void prepare() {
-		for (int i = 1; i < BNUM; i++) {
-			pool[i] = i;
+		for (int i = 1, id = BNUM - 1; i < BNUM; i++, id--) {
+			pool[i] = id;
 		}
-		psiz = BNUM - 1;
+		top = BNUM - 1;
 		siz[0] = 0;
 		nxt[0] = -1;
 	}
 
+	// 分配编号
 	public static int assign() {
-		return pool[psiz--];
+		return pool[top--];
 	}
 
-	public static void recycle(int i) {
-		pool[++psiz] = i;
+	// 回收编号
+	public static void recycle(int id) {
+		pool[++top] = id;
 	}
 
+	// 寻找整个文章中的pos位置
+	// 找到所在块的编号 和 块内位置
+	// 块编号设置给bi，块内位置设置给pi
 	public static int bi, pi;
 
 	public static void find(int pos) {
@@ -60,13 +75,16 @@ public class Code06_TextEditor1 {
 		pi = pos;
 	}
 
-	public static void link(int curb, int nextb, int nextLen, char[] src, int srcPos) {
+	// 链表中让curb块和nextb块，连在一起，然后让nextb块从0位置开始，写入如下的内容
+	// 从src[pos]开始，拿取长度为len的字符串
+	public static void linkAndWrite(int curb, int nextb, char[] src, int pos, int len) {
 		nxt[nextb] = nxt[curb];
 		nxt[curb] = nextb;
-		siz[nextb] = nextLen;
-		System.arraycopy(src, srcPos, blocks[nextb], 0, nextLen);
+		System.arraycopy(src, pos, blocks[nextb], 0, len);
+		siz[nextb] = len;
 	}
 
+	// curb块里，在内容的后面，追加nextb块的内容，然后nextb块从链表中删掉
 	public static void merge(int curb, int nextb) {
 		System.arraycopy(blocks[nextb], 0, blocks[curb], siz[curb], siz[nextb]);
 		siz[curb] += siz[nextb];
@@ -74,15 +92,17 @@ public class Code06_TextEditor1 {
 		recycle(nextb);
 	}
 
+	// curb块的pos位置往后的内容，写入到新分裂出的块里
 	public static void split(int curb, int pos) {
 		if (curb == -1 || pos == siz[curb]) {
 			return;
 		}
 		int nextb = assign();
-		link(curb, nextb, siz[curb] - pos, blocks[curb], pos);
+		linkAndWrite(curb, nextb, blocks[curb], pos, siz[curb] - pos);
 		siz[curb] = pos;
 	}
 
+	// 从头到尾遍历所有的块，任意相邻两块的大小累加和 <= BLEN，合并这两块
 	public static void maintain() {
 		for (int curb = 0, nextb; curb != -1; curb = nxt[curb]) {
 			nextb = nxt[curb];
@@ -93,23 +113,25 @@ public class Code06_TextEditor1 {
 		}
 	}
 
+	// 插入的字符串在str中，长度为len，从整个文章的pos位置插入
 	public static void insert(int pos, int len) {
 		find(pos);
 		split(bi, pi);
 		int curb = bi, newb, done = 0;
 		while (done + BLEN <= len) {
 			newb = assign();
-			link(curb, newb, BLEN, str, done);
+			linkAndWrite(curb, newb, str, done, BLEN);
 			done += BLEN;
 			curb = newb;
 		}
 		if (len > done) {
 			newb = assign();
-			link(curb, newb, len - done, str, done);
+			linkAndWrite(curb, newb, str, done, len - done);
 		}
 		maintain();
 	}
 
+	// 从整个文章的pos位置，往后len的长度，这些内容删掉
 	public static void erase(int pos, int len) {
 		find(pos);
 		split(bi, pi);
@@ -129,20 +151,21 @@ public class Code06_TextEditor1 {
 		maintain();
 	}
 
+	// 从整个文章的pos位置，往后len的长度，这些内容找到，写入进str
 	public static void get(int pos, int len) {
 		find(pos);
 		int curb = bi;
 		pos = pi;
-		int got = (len < siz[curb] - pos) ? len : (siz[curb] - pos);
-		System.arraycopy(blocks[curb], pos, str, 0, got);
+		int done = (len < siz[curb] - pos) ? len : (siz[curb] - pos);
+		System.arraycopy(blocks[curb], pos, str, 0, done);
 		curb = nxt[curb];
-		while (curb != -1 && got + siz[curb] <= len) {
-			System.arraycopy(blocks[curb], 0, str, got, siz[curb]);
-			got += siz[curb];
+		while (curb != -1 && done + siz[curb] <= len) {
+			System.arraycopy(blocks[curb], 0, str, done, siz[curb]);
+			done += siz[curb];
 			curb = nxt[curb];
 		}
-		if (curb != -1 && got < len) {
-			System.arraycopy(blocks[curb], 0, str, got, len - got);
+		if (curb != -1 && done < len) {
+			System.arraycopy(blocks[curb], 0, str, done, len - done);
 		}
 	}
 

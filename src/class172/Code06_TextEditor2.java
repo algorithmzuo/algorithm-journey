@@ -25,23 +25,25 @@ package class172;
 //int nxt[BNUM];
 //int siz[BNUM];
 //int pool[BNUM];
-//int psiz = 0;
+//int top = 0;
 //
 //char str[MAXN];
 //
 //void prepare() {
-//    for (int i = 1; i < BNUM; i++) pool[i] = i;
-//    psiz = BNUM - 1;
+//    for (int i = 1, id = BNUM - 1; i < BNUM; i++, id--) {
+//        pool[i] = id;
+//    }
+//    top = BNUM - 1;
 //    siz[0] = 0;
 //    nxt[0] = -1;
 //}
 //
 //int assign() {
-//    return pool[psiz--];
+//    return pool[top--];
 //}
 //
-//void recycle(int i) {
-//    pool[++psiz] = i;
+//void recycle(int id) {
+//    pool[++top] = id;
 //}
 //
 //int bi, pi;
@@ -56,11 +58,11 @@ package class172;
 //    pi = pos;
 //}
 //
-//void link(int curb, int nextb, int nextLen, char* src, int srcPos) {
+//void linkAndWrite(int curb, int nextb, char* src, int pos, int len) {
 //    nxt[nextb] = nxt[curb];
 //    nxt[curb] = nextb;
-//    siz[nextb] = nextLen;
-//    memcpy(blocks[nextb], src + srcPos, nextLen);
+//    memcpy(blocks[nextb], src + pos, len);
+//    siz[nextb] = len;
 //}
 //
 //void merge(int curb, int nextb) {
@@ -73,7 +75,7 @@ package class172;
 //void split(int curb, int pos) {
 //    if (curb == -1 || pos == siz[curb]) return;
 //    int nextb = assign();
-//    link(curb, nextb, siz[curb] - pos, blocks[curb], pos);
+//    linkAndWrite(curb, nextb, blocks[curb], pos, siz[curb] - pos);
 //    siz[curb] = pos;
 //}
 //
@@ -93,13 +95,13 @@ package class172;
 //    int curb = bi, newb, done = 0;
 //    while (done + BLEN <= len) {
 //        newb = assign();
-//        link(curb, newb, BLEN, str, done);
+//        linkAndWrite(curb, newb, str, done, BLEN);
 //        done += BLEN;
 //        curb = newb;
 //    }
 //    if (len > done) {
 //        newb = assign();
-//        link(curb, newb, len - done, str, done);
+//        linkAndWrite(curb, newb, str, done, len - done);
 //    }
 //    maintain();
 //}
@@ -128,16 +130,16 @@ package class172;
 //    find(pos);
 //    int curb = bi;
 //    pos = pi;
-//    int got = (len < siz[curb] - pos) ? len : (siz[curb] - pos);
-//    memcpy(str, blocks[curb] + pos, got);
+//    int done = (len < siz[curb] - pos) ? len : (siz[curb] - pos);
+//    memcpy(str, blocks[curb] + pos, done);
 //    curb = nxt[curb];
-//    while (curb != -1 && got + siz[curb] <= len) {
-//        memcpy(str + got, blocks[curb], siz[curb]);
-//        got += siz[curb];
+//    while (curb != -1 && done + siz[curb] <= len) {
+//        memcpy(str + done, blocks[curb], siz[curb]);
+//        done += siz[curb];
 //        curb = nxt[curb];
 //    }
-//    if (curb != -1 && got < len) {
-//        memcpy(str + got, blocks[curb], len - got);
+//    if (curb != -1 && done < len) {
+//        memcpy(str + done, blocks[curb], len - done);
 //    }
 //}
 //
