@@ -2,7 +2,7 @@ package class172;
 
 // 作诗，java版
 // 给定一个长度为n的数组arr，接下来有m条操作，每条操作格式如下
-// 操作 l r : 打印arr[l..r]范围上，有多少个数出现正偶数次
+// 操作 l r : 打印arr[l..r]范围上，有多少数的出现次数是正偶数
 // 1 <= 所有数值 <= 10^5
 // 题目要求强制在线，具体规则可以打开测试链接查看
 // 测试链接 : https://www.luogu.com.cn/problem/P4135
@@ -27,7 +27,7 @@ public class Code05_Poem1 {
 
 	// freq[i][j]表示前i块中j出现的次数
 	public static int[][] freq = new int[MAXB][MAXN];
-	// even[i][j]表示从第i块到第j块出现正偶数次的数有几个
+	// even[i][j]表示从第i块到第j块，有多少数的出现次数是正偶数
 	public static int[][] even = new int[MAXB][MAXB];
 	// 数字词频统计
 	public static int[] numCnt = new int[MAXN];
@@ -37,7 +37,7 @@ public class Code05_Poem1 {
 		return freq[r][v] - freq[l - 1][v];
 	}
 
-	// 加1之前的词频是pre，如果词频+1，返回 出现正偶数次的数的个数 变化量
+	// 加1之前的词频是pre，如果词频+1，返回 出现正偶数次的数字个数 的变化量
 	public static int delta(int pre) {
 		if (pre == 0) {
 			return 0;
