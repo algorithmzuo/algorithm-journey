@@ -3,11 +3,12 @@ package class173;
 // 区间逆序对，java版
 // 测试链接 : https://www.luogu.com.cn/problem/P5046
 // 提交以下的code，提交时请把类名改成"Main"
-// java实现的逻辑一定是正确的，但是无法通过所有测试用例
+// java实现的逻辑一定是正确的，但是无法通过测试
 // 因为这道题只考虑C++能通过的时间标准，根本没考虑java的用户
-// 甚至C++也需要考虑优化常数，想通过用C++实现，正式比赛不卡常
-// 本节课Code03_Inversion2文件就是C++的实现
+// 想通过用C++实现，本节课Code03_Inversion2文件就是C++的实现
 // 两个版本的逻辑完全一样，C++版本可以通过所有测试
+// 本题对C++来说，卡常的程度较浅，现在正式比赛是不卡常的
+
 
 import java.io.IOException;
 import java.io.InputStream;
