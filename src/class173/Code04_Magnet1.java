@@ -40,7 +40,6 @@ public class Code04_Magnet1 {
 	public static int MAXN = 300001;
 	public static int MAXB = 1001;
 	public static int n;
-
 	public static Node[] arr = new Node[MAXN];
 
 	public static int blen, bnum;
@@ -76,29 +75,24 @@ public class Code04_Magnet1 {
 		que[r++] = 0;
 		while (l < r) {
 			int cur = que[l++];
-			int block = bnum + 1;
 			for (int i = 1; i <= bnum; i++) {
 				if (maxm[i] > arr[cur].p) {
-					block = i;
-					break;
-				}
-			}
-			for (int i = 1; i < block; i++) {
-				while (bl[i] <= br[i] && dist(arr[0], arr[bl[i]]) <= arr[cur].range) {
-					if (!vis[bl[i]]) {
-						ans++;
-						que[r++] = bl[i];
-						vis[bl[i]] = true;
+					for (int j = bl[i]; j <= br[i]; j++) {
+						if (arr[j].dist <= arr[cur].range && arr[j].m <= arr[cur].p && !vis[j]) {
+							vis[j] = true;
+							que[r++] = j;
+							ans++;
+						}
 					}
-					bl[i]++;
-				}
-			}
-			if (block <= bnum) {
-				for (int i = bl[block]; i <= br[block]; i++) {
-					if (arr[i].m <= arr[cur].p && dist(arr[0], arr[i]) <= arr[cur].range && !vis[i]) {
-						ans++;
-						que[r++] = i;
-						vis[i] = true;
+					break;
+				} else {
+					while (bl[i] <= br[i] && dist(arr[0], arr[bl[i]]) <= arr[cur].range) {
+						if (!vis[bl[i]]) {
+							vis[bl[i]] = true;
+							que[r++] = bl[i];
+							ans++;
+						}
+						bl[i]++;
 					}
 				}
 			}
