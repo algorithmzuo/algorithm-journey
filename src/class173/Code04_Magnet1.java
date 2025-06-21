@@ -95,15 +95,14 @@ public class Code04_Magnet1 {
 						}
 					}
 					break;
-				} else {
-					while (bl[i] <= br[i] && arr[bl[i]].dist <= arr[cur].range) {
-						if (!vis[bl[i]]) {
-							vis[bl[i]] = true;
-							que[r++] = bl[i];
-							ans++;
-						}
-						bl[i]++;
+				}
+				while (bl[i] <= br[i] && arr[bl[i]].dist <= arr[cur].range) {
+					if (!vis[bl[i]]) {
+						vis[bl[i]] = true;
+						que[r++] = bl[i];
+						ans++;
 					}
+					bl[i]++;
 				}
 			}
 		}

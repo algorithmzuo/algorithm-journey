@@ -15,11 +15,11 @@ package class173;
 //    long long dist;
 //};
 //
-//bool cmp1(Node a, Node b) {
+//bool cmp1(Node &a, Node &b) {
 //    return a.m < b.m;
 //}
 //
-//bool cmp2(Node a, Node b) {
+//bool cmp2(Node &a, Node &b) {
 //    return a.dist < b.dist;
 //}
 //
@@ -71,15 +71,14 @@ package class173;
 //                    }
 //                }
 //                break;
-//            } else {
-//                while (bl[i] <= br[i] && arr[bl[i]].dist <= arr[cur].range) {
-//                    if (!vis[bl[i]]) {
-//                        vis[bl[i]] = true;
-//                        que[r++] = bl[i];
-//                        ans++;
-//                    }
-//                    bl[i]++;
+//            }
+//            while (bl[i] <= br[i] && arr[bl[i]].dist <= arr[cur].range) {
+//                if (!vis[bl[i]]) {
+//                    vis[bl[i]] = true;
+//                    que[r++] = bl[i];
+//                    ans++;
 //                }
+//                bl[i]++;
 //            }
 //        }
 //    }

@@ -13,7 +13,7 @@ package class173;
 //    int op, x, t, v, q;
 //};
 //
-//bool EventCmp(Event a, Event b) {
+//bool EventCmp(Event &a, Event &b) {
 //    return a.x != b.x ? a.x < b.x : a.t < b.t;
 //}
 //
