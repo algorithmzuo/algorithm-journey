@@ -11,19 +11,21 @@ package class173;
 //
 //using namespace std;
 //
-//char buf[1 << 20], *p1 = buf, *p2 = buf, obuf[1 << 20], *o = obuf;
+//char buf[1000000], *p1 = buf, *p2 = buf;
 //
-//inline char gc() {
-//    return p1 == p2 && (p2 = (p1 = buf) + fread(buf, 1, 1 << 21, stdin), p1 == p2) ? EOF : *p1++;
+//inline char getChar() {
+//    return p1 == p2 && (p2 = (p1 = buf) + fread(buf, 1, 1000000, stdin), p1 == p2) ? EOF : *p1++;
 //}
 //
 //inline int read() {
 //    int s = 0;
-//    char c = gc();
-//    while (!isdigit(c)) c = gc();
+//    char c = getChar();
+//    while (!isdigit(c)) {
+//        c = getChar();
+//    }
 //    while (isdigit(c)) {
 //        s = s * 10 + c - '0';
-//        c = gc();
+//        c = getChar();
 //    }
 //    return s;
 //}
