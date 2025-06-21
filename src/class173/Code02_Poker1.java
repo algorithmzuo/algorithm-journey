@@ -18,7 +18,7 @@ public class Code02_Poker1 {
 	public static int n, m;
 
 	public static int[] arr = new int[MAXN];
-	public static int[] sort = new int[MAXN];
+	public static int[] sortv = new int[MAXN];
 
 	public static int blen, bnum;
 	public static int[] bi = new int[MAXN];
@@ -31,9 +31,9 @@ public class Code02_Poker1 {
 			arr[i] += v;
 		}
 		for (int i = bl[bi[l]]; i <= br[bi[l]]; i++) {
-			sort[i] = arr[i];
+			sortv[i] = arr[i];
 		}
-		Arrays.sort(sort, bl[bi[l]], br[bi[l]] + 1);
+		Arrays.sort(sortv, bl[bi[l]], br[bi[l]] + 1);
 	}
 
 	public static void add(int l, int r, int v) {
@@ -62,7 +62,7 @@ public class Code02_Poker1 {
 				ans = Math.min(ans, arr[i] + lazy[rb]);
 			}
 			for (int i = lb + 1; i <= rb - 1; i++) {
-				ans = Math.min(ans, sort[bl[i]] + lazy[i]);
+				ans = Math.min(ans, sortv[bl[i]] + lazy[i]);
 			}
 		}
 		return ans;
@@ -82,7 +82,7 @@ public class Code02_Poker1 {
 				ans = Math.max(ans, arr[i] + lazy[rb]);
 			}
 			for (int i = lb + 1; i <= rb - 1; i++) {
-				ans = Math.max(ans, sort[br[i]] + lazy[i]);
+				ans = Math.max(ans, sortv[br[i]] + lazy[i]);
 			}
 		}
 		return ans;
@@ -91,16 +91,16 @@ public class Code02_Poker1 {
 	public static int getCnt(int i, int v) {
 		v -= lazy[i];
 		int l = bl[i], r = br[i];
-		if (sort[l] > v) {
+		if (sortv[l] > v) {
 			return 0;
 		}
-		if (sort[r] <= v) {
+		if (sortv[r] <= v) {
 			return r - l + 1;
 		}
 		int m, find = l;
 		while (l <= r) {
 			m = (l + r) / 2;
-			if (sort[m] <= v) {
+			if (sortv[m] <= v) {
 				find = m;
 				l = m + 1;
 			} else {
@@ -167,10 +167,10 @@ public class Code02_Poker1 {
 			br[i] = Math.min(i * blen, n);
 		}
 		for (int i = 1; i <= n; i++) {
-			sort[i] = arr[i];
+			sortv[i] = arr[i];
 		}
 		for (int i = 1; i <= bnum; i++) {
-			Arrays.sort(sort, bl[i], br[i] + 1);
+			Arrays.sort(sortv, bl[i], br[i] + 1);
 		}
 	}
 

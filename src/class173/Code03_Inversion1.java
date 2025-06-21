@@ -30,7 +30,7 @@ public class Code03_Inversion1 {
 
 	public static int[] tree = new int[MAXN];
 	public static int[] pre = new int[MAXN];
-	public static int[] nxt = new int[MAXN];
+	public static int[] suf = new int[MAXN];
 	public static int[][] cnt = new int[MAXB][MAXN];
 	public static long[][] dp = new long[MAXB][MAXB];
 
@@ -87,7 +87,7 @@ public class Code03_Inversion1 {
 			for (int i = bl[rb]; i <= r; i++) {
 				ans += br[rb - 1] - bl[lb + 1] + 1 - cnt[rb - 1][arr[i]] + cnt[lb][arr[i]];
 			}
-			ans += dp[lb + 1][rb - 1] + nxt[l] + pre[r] + calc(lb, l, br[lb], rb, bl[rb], r);
+			ans += dp[lb + 1][rb - 1] + suf[l] + pre[r] + calc(lb, l, br[lb], rb, bl[rb], r);
 		}
 		return ans;
 	}
@@ -123,7 +123,7 @@ public class Code03_Inversion1 {
 			}
 			for (int j = br[i]; j >= bl[i]; j--) {
 				if (j != br[i]) {
-					nxt[j] = nxt[j + 1] + sum(arr[j]);
+					suf[j] = suf[j + 1] + sum(arr[j]);
 				}
 				add(arr[j], 1);
 			}

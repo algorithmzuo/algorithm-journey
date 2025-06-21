@@ -4,7 +4,7 @@ package class173;
 // 测试链接 : https://www.luogu.com.cn/problem/P5046
 // 如下实现是C++的版本，C++版本和java版本逻辑完全一样
 // 提交如下代码，可以通过所有测试用例
-// 这道题比较卡常，C++实现也需要优化常数，比如重写读入函数
+// 这道题比较卡常，C++实现也需要优化常数，比如快读
 // 正式比赛不卡常！
 
 //#include <bits/stdc++.h>
@@ -49,7 +49,7 @@ package class173;
 //
 //int tree[MAXN];
 //int pre[MAXN];
-//int nxt[MAXN];
+//int suf[MAXN];
 //int cnt[MAXB][MAXN];
 //long long dp[MAXB][MAXB];
 //
@@ -105,7 +105,7 @@ package class173;
 //        for (int i = bl[rb]; i <= r; i++) {
 //            ans += br[rb - 1] - bl[lb + 1] + 1 - cnt[rb - 1][arr[i]] + cnt[lb][arr[i]];
 //        }
-//        ans += dp[lb + 1][rb - 1] + nxt[l] + pre[r] + calc(lb, l, br[lb], rb, bl[rb], r);
+//        ans += dp[lb + 1][rb - 1] + suf[l] + pre[r] + calc(lb, l, br[lb], rb, bl[rb], r);
 //    }
 //    return ans;
 //}
@@ -138,7 +138,7 @@ package class173;
 //        }
 //        for (int j = br[i]; j >= bl[i]; j--) {
 //            if (j != br[i]) {
-//                nxt[j] = nxt[j + 1] + sum(arr[j]);
+//                suf[j] = suf[j + 1] + sum(arr[j]);
 //            }
 //            add(arr[j], 1);
 //        }

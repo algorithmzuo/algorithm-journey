@@ -24,7 +24,7 @@ public class Code01_Sequence1 {
 	public static int cntq = 0;
 
 	public static long[] tim = new long[MAXN];
-	public static long[] sort = new long[MAXN];
+	public static long[] sortv = new long[MAXN];
 
 	public static int blen, bnum;
 	public static int[] bi = new int[MAXN];
@@ -54,9 +54,9 @@ public class Code01_Sequence1 {
 			tim[i] += v;
 		}
 		for (int i = bl[bi[l]]; i <= br[bi[l]]; i++) {
-			sort[i] = tim[i];
+			sortv[i] = tim[i];
 		}
-		Arrays.sort(sort, bl[bi[l]], br[bi[l]] + 1);
+		Arrays.sort(sortv, bl[bi[l]], br[bi[l]] + 1);
 	}
 
 	public static void add(int l, int r, long v) {
@@ -90,7 +90,7 @@ public class Code01_Sequence1 {
 		int l = bl[i], r = br[i], m, pos = br[i] + 1;
 		while (l <= r) {
 			m = (l + r) >> 1;
-			if (sort[m] >= v) {
+			if (sortv[m] >= v) {
 				pos = m;
 				r = m - 1;
 			} else {
