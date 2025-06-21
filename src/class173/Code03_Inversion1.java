@@ -7,8 +7,6 @@ package class173;
 // 因为这道题只考虑C++能通过的时间标准，根本没考虑java的用户
 // 想通过用C++实现，本节课Code03_Inversion2文件就是C++的实现
 // 两个版本的逻辑完全一样，C++版本可以通过所有测试
-// 本题对C++来说，卡常的程度较浅，现在正式比赛是不卡常的
-
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -56,13 +54,13 @@ public class Code03_Inversion1 {
 		return ret;
 	}
 
-	public static int calc(int i, int j, int li, int ri, int lj, int rj) {
+	public static int calc(int x, int xl, int xr, int y, int yl, int yr) {
 		int ans = 0;
-		for (int p1 = bl[i], p2 = bl[j] - 1, tmp = 0; p1 <= br[i]; p1++) {
-			if (li <= sortv[p1][1] && sortv[p1][1] <= ri) {
-				while (p2 + 1 <= br[j] && sortv[p1][0] > sortv[p2 + 1][0]) {
+		for (int p1 = bl[x], p2 = bl[y] - 1, tmp = 0; p1 <= br[x]; p1++) {
+			if (xl <= sortv[p1][1] && sortv[p1][1] <= xr) {
+				while (p2 + 1 <= br[y] && sortv[p1][0] > sortv[p2 + 1][0]) {
 					p2++;
-					if (lj <= sortv[p2][1] && sortv[p2][1] <= rj) {
+					if (yl <= sortv[p2][1] && sortv[p2][1] <= yr) {
 						tmp++;
 					}
 				}
@@ -80,7 +78,7 @@ public class Code03_Inversion1 {
 			if (l == bl[lb]) {
 				ans = pre[r];
 			} else {
-				ans = pre[r] - pre[l - 1] - calc(lb, lb, 1, l - 1, l, r);
+				ans = pre[r] - pre[l - 1] - calc(lb, 1, l - 1, lb, l, r);
 			}
 		} else {
 			for (int i = l; i <= br[lb]; i++) {
@@ -89,13 +87,13 @@ public class Code03_Inversion1 {
 			for (int i = bl[rb]; i <= r; i++) {
 				ans += br[rb - 1] - bl[lb + 1] + 1 - cnt[rb - 1][arr[i]] + cnt[lb][arr[i]];
 			}
-			ans += dp[lb + 1][rb - 1] + nxt[l] + pre[r] + calc(lb, rb, l, br[lb], bl[rb], r);
+			ans += dp[lb + 1][rb - 1] + nxt[l] + pre[r] + calc(lb, l, br[lb], rb, bl[rb], r);
 		}
 		return ans;
 	}
 
+	// 注意调整块长
 	public static void prepare() {
-		// 注意调整块长
 		blen = (int) (Math.sqrt(n) / 2);
 		bnum = (n + blen - 1) / blen;
 		for (int i = 1; i <= n; i++) {
@@ -141,7 +139,7 @@ public class Code03_Inversion1 {
 		}
 		for (int len = 2; len <= bnum; len++) {
 			for (int l = 1, r = l + len - 1; r <= bnum; l++, r++) {
-				dp[l][r] = dp[l + 1][r] + dp[l][r - 1] - dp[l + 1][r - 1] + calc(l, r, bl[l], br[l], bl[r], br[r]);
+				dp[l][r] = dp[l + 1][r] + dp[l][r - 1] - dp[l + 1][r - 1] + calc(l, bl[l], br[l], r, bl[r], br[r]);
 			}
 		}
 	}
