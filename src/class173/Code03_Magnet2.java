@@ -2,6 +2,7 @@ package class173;
 
 // 磁力块，C++版
 // 测试链接 : https://www.luogu.com.cn/problem/P10590
+// 测试链接 : https://codeforces.com/problemset/problem/198/E
 // 如下实现是C++的版本，C++版本和java版本逻辑完全一样
 // 提交如下代码，可以通过所有测试用例
 
@@ -61,24 +62,25 @@ package class173;
 //    que[r++] = 0;
 //    while (l < r) {
 //        int cur = que[l++];
-//        for (int i = 1; i <= bnum; i++) {
-//            if (maxm[i] > arr[cur].p) {
-//                for (int j = bl[i]; j <= br[i]; j++) {
-//                    if (arr[j].dist <= arr[cur].range && arr[j].m <= arr[cur].p && !vis[j]) {
-//                        vis[j] = true;
-//                        que[r++] = j;
+//        for (int b = 1; b <= bnum; b++) {
+//            if (maxm[b] > arr[cur].p) {
+//                for (int i = bl[b]; i <= br[b]; i++) {
+//                    if (arr[i].dist <= arr[cur].range && arr[i].m <= arr[cur].p && !vis[i]) {
+//                        vis[i] = true;
+//                        que[r++] = i;
 //                        ans++;
 //                    }
 //                }
 //                break;
 //            }
-//            while (bl[i] <= br[i] && arr[bl[i]].dist <= arr[cur].range) {
-//                if (!vis[bl[i]]) {
-//                    vis[bl[i]] = true;
-//                    que[r++] = bl[i];
+//            while (bl[b] <= br[b] && arr[bl[b]].dist <= arr[cur].range) {
+//                int i = bl[b];
+//                if (!vis[i]) {
+//                    vis[i] = true;
+//                    que[r++] = i;
 //                    ans++;
 //                }
-//                bl[i]++;
+//                bl[b]++;
 //            }
 //        }
 //    }

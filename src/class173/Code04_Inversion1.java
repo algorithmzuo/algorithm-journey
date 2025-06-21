@@ -5,7 +5,7 @@ package class173;
 // 提交以下的code，提交时请把类名改成"Main"
 // java实现的逻辑一定是正确的，但是无法通过测试
 // 因为这道题只考虑C++能通过的时间标准，根本没考虑java的用户
-// 想通过用C++实现，本节课Code03_Inversion2文件就是C++的实现
+// 想通过用C++实现，本节课Code04_Inversion2文件就是C++的实现
 // 两个版本的逻辑完全一样，C++版本可以通过所有测试
 
 import java.io.IOException;
@@ -14,7 +14,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.util.Arrays;
 
-public class Code03_Inversion1 {
+public class Code04_Inversion1 {
 
 	public static int MAXN = 100001;
 	public static int MAXB = 701;
