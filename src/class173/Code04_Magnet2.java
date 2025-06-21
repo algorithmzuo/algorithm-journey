@@ -11,7 +11,8 @@ package class173;
 //
 //struct Node {
 //    int x, y, m, p;
-//    long long range, dist;
+//    long long range;
+//    long long dist;
 //};
 //
 //bool cmp1(Node a, Node b) {
@@ -22,8 +23,8 @@ package class173;
 //    return a.dist < b.dist;
 //}
 //
-//const int MAXN = 300001;
-//const int MAXB = 1001;
+//const int MAXN = 250001;
+//const int MAXB = 501;
 //int n;
 //Node arr[MAXN];
 //
@@ -35,14 +36,6 @@ package class173;
 //
 //bool vis[MAXN];
 //int que[MAXN];
-//
-//inline long long pow2(long long x) {
-//    return x * x;
-//}
-//
-//inline long long dist(Node a, Node b) {
-//    return pow2(1L * a.x - b.x) + pow2(1L * a.y - b.y);
-//}
 //
 //void prepare() {
 //    blen = (int)sqrt(n);
@@ -79,7 +72,7 @@ package class173;
 //                }
 //                break;
 //            } else {
-//                while (bl[i] <= br[i] && dist(arr[0], arr[bl[i]]) <= arr[cur].range) {
+//                while (bl[i] <= br[i] && arr[bl[i]].dist <= arr[cur].range) {
 //                    if (!vis[bl[i]]) {
 //                        vis[bl[i]] = true;
 //                        que[r++] = bl[i];
@@ -103,9 +96,12 @@ package class173;
 //        cin >> x >> y >> m >> p >> range;
 //        arr[i] = {x, y, m, p, range, 0};
 //    }
+//    long long xd, yd;
 //    for (int i = 0; i <= n; i++) {
-//        arr[i].range = pow2(arr[i].range);
-//        arr[i].dist = dist(arr[0], arr[i]);
+//        arr[i].range = arr[i].range * arr[i].range;
+//        xd = arr[0].x - arr[i].x;
+//        yd = arr[0].y - arr[i].y;
+//        arr[i].dist = xd * xd + yd * yd;
 //    }
 //    prepare();
 //    cout << bfs() << '\n';

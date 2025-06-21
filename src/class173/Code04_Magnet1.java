@@ -2,7 +2,6 @@ package class173;
 
 // 磁力块，java版
 // 测试链接 : https://www.luogu.com.cn/problem/P10590
-// 提交以下的code，提交时请把类名改成"Main"
 // java实现的逻辑一定是正确的，但是无法通过测试
 // 因为这道题只考虑C++能通过的时间标准，根本没考虑java的用户
 // 想通过用C++实现，本节课Code04_Magnet2文件就是C++的实现
@@ -13,6 +12,7 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.util.Arrays;
+import java.util.Comparator;
 
 public class Code04_Magnet1 {
 
@@ -30,16 +30,25 @@ public class Code04_Magnet1 {
 		}
 	}
 
-	public static long pow2(long x) {
-		return x * x;
+	public static class Cmp1 implements Comparator<Node> {
+		@Override
+		public int compare(Node a, Node b) {
+			return a.m - b.m;
+		}
 	}
 
-	public static long dist(Node a, Node b) {
-		return pow2(a.x - b.x) + pow2(a.y - b.y);
+	public static class Cmp2 implements Comparator<Node> {
+		@Override
+		public int compare(Node a, Node b) {
+			return a.dist <= b.dist ? -1 : 1;
+		}
 	}
 
-	public static int MAXN = 300001;
-	public static int MAXB = 1001;
+	public static Cmp1 cmp1 = new Cmp1();
+	public static Cmp2 cmp2 = new Cmp2();
+
+	public static int MAXN = 250001;
+	public static int MAXB = 501;
 	public static int n;
 	public static Node[] arr = new Node[MAXN];
 
@@ -62,10 +71,10 @@ public class Code04_Magnet1 {
 			bl[i] = (i - 1) * blen + 1;
 			br[i] = Math.min(i * blen, n);
 		}
-		Arrays.sort(arr, 1, n + 1, (a, b) -> a.m - b.m);
+		Arrays.sort(arr, 1, n + 1, cmp1);
 		for (int i = 1; i <= bnum; i++) {
 			maxm[i] = arr[br[i]].m;
-			Arrays.sort(arr, bl[i], br[i] + 1, (a, b) -> a.dist <= b.dist ? -1 : 1);
+			Arrays.sort(arr, bl[i], br[i] + 1, cmp2);
 		}
 	}
 
@@ -87,7 +96,7 @@ public class Code04_Magnet1 {
 					}
 					break;
 				} else {
-					while (bl[i] <= br[i] && dist(arr[0], arr[bl[i]]) <= arr[cur].range) {
+					while (bl[i] <= br[i] && arr[bl[i]].dist <= arr[cur].range) {
 						if (!vis[bl[i]]) {
 							vis[bl[i]] = true;
 							que[r++] = bl[i];
@@ -119,9 +128,12 @@ public class Code04_Magnet1 {
 			range = in.nextInt();
 			arr[i] = new Node(x, y, m, p, range);
 		}
+		long xd, yd;
 		for (int i = 0; i <= n; i++) {
-			arr[i].range = pow2(arr[i].range);
-			arr[i].dist = dist(arr[0], arr[i]);
+			arr[i].range = arr[i].range * arr[i].range;
+			xd = arr[0].x - arr[i].x;
+			yd = arr[0].y - arr[i].y;
+			arr[i].dist = xd * xd + yd * yd;
 		}
 		prepare();
 		out.println(bfs());
