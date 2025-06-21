@@ -47,8 +47,8 @@ public class Code04_Magnet1 {
 	public static Cmp1 cmp1 = new Cmp1();
 	public static Cmp2 cmp2 = new Cmp2();
 
-	public static int MAXN = 250001;
-	public static int MAXB = 501;
+	public static int MAXN = 300001;
+	public static int MAXB = 601;
 	public static int n;
 	public static Node[] arr = new Node[MAXN];
 

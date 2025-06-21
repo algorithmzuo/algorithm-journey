@@ -23,8 +23,8 @@ package class173;
 //    return a.dist < b.dist;
 //}
 //
-//const int MAXN = 250001;
-//const int MAXB = 501;
+//const int MAXN = 300001;
+//const int MAXB = 601;
 //int n;
 //Node arr[MAXN];
 //
