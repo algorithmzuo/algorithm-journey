@@ -1,0 +1,176 @@
+package class173;
+
+// 磁力块，java版
+// 测试链接 : https://www.luogu.com.cn/problem/P10590
+// java实现的逻辑一定是正确的，但是无法通过测试
+// 因为这道题只考虑C++能通过的时间标准，根本没考虑java的用户
+// 想通过用C++实现，本节课Code04_Magnet2文件就是C++的实现
+// 两个版本的逻辑完全一样，C++版本可以通过所有测试
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.util.Arrays;
+
+public class Code04_Magnet1 {
+
+	public static class Node {
+		int x, y, m, p;
+		long range;
+		long dist;
+
+		public Node(int x_, int y_, int m_, int p_, int range_) {
+			x = x_;
+			y = y_;
+			m = m_;
+			p = p_;
+			range = range_;
+		}
+	}
+
+	public static long pow2(long x) {
+		return x * x;
+	}
+
+	public static long dist(Node a, Node b) {
+		return pow2(a.x - b.x) + pow2(a.y - b.y);
+	}
+
+	public static int MAXN = 300001;
+	public static int MAXB = 1001;
+	public static int n;
+
+	public static Node[] arr = new Node[MAXN];
+
+	public static int blen, bnum;
+	public static int[] bi = new int[MAXN];
+	public static int[] bl = new int[MAXB];
+	public static int[] br = new int[MAXB];
+	public static int[] maxm = new int[MAXB];
+
+	public static boolean[] vis = new boolean[MAXN];
+	public static int[] que = new int[MAXN];
+
+	public static void prepare() {
+		blen = (int) Math.sqrt(n);
+		bnum = (n + blen - 1) / blen;
+		for (int i = 1; i <= n; i++) {
+			bi[i] = (i - 1) / blen + 1;
+		}
+		for (int i = 1; i <= bnum; i++) {
+			bl[i] = (i - 1) * blen + 1;
+			br[i] = Math.min(i * blen, n);
+		}
+		Arrays.sort(arr, 1, n + 1, (a, b) -> a.m - b.m);
+		for (int i = 1; i <= bnum; i++) {
+			maxm[i] = arr[br[i]].m;
+			Arrays.sort(arr, bl[i], br[i] + 1, (a, b) -> a.dist <= b.dist ? -1 : 1);
+		}
+	}
+
+	public static int bfs() {
+		int ans = 0;
+		vis[0] = true;
+		int l = 1, r = 1;
+		que[r++] = 0;
+		while (l < r) {
+			int cur = que[l++];
+			int block = bnum + 1;
+			for (int i = 1; i <= bnum; i++) {
+				if (maxm[i] > arr[cur].p) {
+					block = i;
+					break;
+				}
+			}
+			for (int i = 1; i < block; i++) {
+				while (bl[i] <= br[i] && dist(arr[0], arr[bl[i]]) <= arr[cur].range) {
+					if (!vis[bl[i]]) {
+						ans++;
+						que[r++] = bl[i];
+						vis[bl[i]] = true;
+					}
+					bl[i]++;
+				}
+			}
+			if (block <= bnum) {
+				for (int i = bl[block]; i <= br[block]; i++) {
+					if (arr[i].m <= arr[cur].p && dist(arr[0], arr[i]) <= arr[cur].range && !vis[i]) {
+						ans++;
+						que[r++] = i;
+						vis[i] = true;
+					}
+				}
+			}
+		}
+		return ans;
+	}
+
+	public static void main(String[] args) throws IOException {
+		FastReader in = new FastReader(System.in);
+		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
+		int x = in.nextInt();
+		int y = in.nextInt();
+		int m = 0;
+		int p = in.nextInt();
+		int range = in.nextInt();
+		arr[0] = new Node(x, y, 0, p, range);
+		n = in.nextInt();
+		for (int i = 1; i <= n; i++) {
+			x = in.nextInt();
+			y = in.nextInt();
+			m = in.nextInt();
+			p = in.nextInt();
+			range = in.nextInt();
+			arr[i] = new Node(x, y, m, p, range);
+		}
+		for (int i = 0; i <= n; i++) {
+			arr[i].range = pow2(arr[i].range);
+			arr[i].dist = dist(arr[0], arr[i]);
+		}
+		prepare();
+		out.println(bfs());
+		out.flush();
+		out.close();
+	}
+
+	// 读写工具类
+	static class FastReader {
+		private final byte[] buffer = new byte[1 << 20];
+		private int ptr = 0, len = 0;
+		private final InputStream in;
+
+		FastReader(InputStream in) {
+			this.in = in;
+		}
+
+		private int readByte() throws IOException {
+			if (ptr >= len) {
+				len = in.read(buffer);
+				ptr = 0;
+				if (len <= 0)
+					return -1;
+			}
+			return buffer[ptr++];
+		}
+
+		int nextInt() throws IOException {
+			int c;
+			do {
+				c = readByte();
+			} while (c <= ' ' && c != -1);
+			boolean neg = false;
+			if (c == '-') {
+				neg = true;
+				c = readByte();
+			}
+			int val = 0;
+			while (c > ' ' && c != -1) {
+				val = val * 10 + (c - '0');
+				c = readByte();
+			}
+			return neg ? -val : val;
+		}
+	}
+
+}
