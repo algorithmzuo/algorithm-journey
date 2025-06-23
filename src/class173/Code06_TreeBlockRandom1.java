@@ -32,10 +32,10 @@ public class Code06_TreeBlockRandom1 {
 
 	// 随机撒点
 	public static int bnum;
+	public static boolean[] vis = new boolean[MAXN];
 	public static int[] tag = new int[MAXN];
 	public static int[] spe = new int[MAXN];
 	public static int[] up = new int[MAXN];
-	public static boolean[] vis = new boolean[MAXN];
 	public static BitSet[][] bitSet = new BitSet[MAXB][MAXB];
 
 	public static BitSet tmp = new BitSet();

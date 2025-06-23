@@ -27,10 +27,10 @@ package class173;
 //int top[MAXN];
 //
 //int bnum;
+//bool vis[MAXN];
 //int tag[MAXN];
 //int spe[MAXN];
 //int up[MAXN];
-//bool vis[MAXN];
 //bitset<MAXV> bitSet[MAXB][MAXB];
 //
 //bitset<MAXV> tmp;
