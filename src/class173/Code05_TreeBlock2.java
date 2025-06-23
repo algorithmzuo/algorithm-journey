@@ -157,7 +157,7 @@ package class173;
 //        }
 //        int ans1 = ans.count();
 //        ans.flip();
-//		int ans2 = ans._Find_first();
+//        int ans2 = ans._Find_first();
 //        cout << ans1 << ' ' << ans2 << '\n';
 //        last = ans1 + ans2;
 //    }
