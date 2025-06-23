@@ -29,6 +29,8 @@ public class Code01_Juice1 {
 	// 小朋友至少的果汁量
 	public static long[] least = new long[MAXN];
 
+	// 这种使用线段树的方式叫线段树二分
+	// 讲解146的题目2，也涉及线段树二分
 	// 果汁单价作为下标的线段树
 	// maxp为最大的果汁单价
 	public static int maxp = 0;

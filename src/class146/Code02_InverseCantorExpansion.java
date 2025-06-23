@@ -23,6 +23,8 @@ public class Code02_InverseCantorExpansion {
 	public static long[] arr = new long[MAXN];
 
 	// 线段树
+	// 这种使用线段树的方式叫线段树二分
+	// 讲解169的题目1，也涉及线段树二分
 	public static int[] sum = new int[MAXN << 2];
 
 	public static int n;
