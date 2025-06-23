@@ -1,6 +1,6 @@
 package class173;
 
-// 树上分块模版题，重链序列分块，java版
+// 树上分块模版题，重链剖分 + 序列分块，java版
 // 测试链接 : https://www.luogu.com.cn/problem/P3603
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
@@ -12,9 +12,8 @@ import java.io.PrintWriter;
 public class Code05_TreeBlockHld1 {
 
 	public static int MAXN = 100001;
-	public static int MAXB = 1001;
+	public static int MAXB = 301;
 	public static int MAXV = 30001;
-	public static int MAXS = (MAXV + 31) / 32;
 	public static int n, m, f, k;
 	public static int[] arr = new int[MAXN];
 
@@ -39,10 +38,58 @@ public class Code05_TreeBlockHld1 {
 	public static int[] bi = new int[MAXN];
 	public static int[] bl = new int[MAXB];
 	public static int[] br = new int[MAXB];
-	public static int[][] bitSet = new int[MAXB][MAXS];
+	public static BitSet[] bitSet = new BitSet[MAXB];
 
-	public static int[] tmp = new int[MAXS];
-	public static int[] ans = new int[MAXS];
+	// 答案
+	public static BitSet tmp = new BitSet();
+	public static BitSet ans = new BitSet();
+
+	static class BitSet {
+
+		int len;
+
+		public int[] set;
+
+		public BitSet() {
+			len = (MAXV + 31) / 32;
+			set = new int[len];
+		}
+
+		public void clear() {
+			for (int i = 0; i < len; i++) {
+				set[i] = 0;
+			}
+		}
+
+		public void setOne(int v) {
+			set[v / 32] |= 1 << (v % 32);
+		}
+
+		public void or(BitSet obj) {
+			for (int i = 0; i < len; i++) {
+				set[i] |= obj.set[i];
+			}
+		}
+
+		public int getOnes() {
+			int ans = 0;
+			for (int x : set) {
+				ans += Integer.bitCount(x);
+			}
+			return ans;
+		}
+
+		public int mex() {
+			for (int i = 0, inv; i < len; i++) {
+				inv = ~set[i];
+				if (inv != 0) {
+					return i * 32 + Integer.numberOfTrailingZeros(inv);
+				}
+			}
+			return -1;
+		}
+
+	}
 
 	public static void addEdge(int u, int v) {
 		next[++cntg] = head[u];
@@ -169,55 +216,21 @@ public class Code05_TreeBlockHld1 {
 		}
 	}
 
-	public static void setOne(int[] cur, int v) {
-		cur[v / 32] |= 1 << (v % 32);
-	}
-
-	public static void clear(int[] cur) {
-		for (int i = 0; i < MAXS; i++) {
-			cur[i] = 0;
-		}
-	}
-
-	public static void or(int[] a, int[] b) {
-		for (int i = 0; i < MAXS; i++) {
-			a[i] |= b[i];
-		}
-	}
-
-	public static int getOnes(int[] cur) {
-		int ans = 0;
-		for (int x : cur) {
-			ans += Integer.bitCount(x);
-		}
-		return ans;
-	}
-
-	public static int firstMiss(int[] cur) {
-		for (int i = 0, inv; i < MAXS; i++) {
-			inv = ~cur[i];
-			if (inv != 0) {
-				return i * 32 + Integer.numberOfTrailingZeros(inv);
-			}
-		}
-		return -1;
-	}
-
 	public static void query(int l, int r) {
-		clear(tmp);
+		tmp.clear();
 		if (bi[l] == bi[r]) {
 			for (int i = l; i <= r; i++) {
-				setOne(tmp, val[i]);
+				tmp.setOne(val[i]);
 			}
 		} else {
 			for (int i = l; i <= br[bi[l]]; i++) {
-				setOne(tmp, val[i]);
+				tmp.setOne(val[i]);
 			}
 			for (int i = bl[bi[r]]; i <= r; i++) {
-				setOne(tmp, val[i]);
+				tmp.setOne(val[i]);
 			}
 			for (int i = bi[l] + 1; i <= bi[r] - 1; i++) {
-				or(tmp, bitSet[i]);
+				tmp.or(bitSet[i]);
 			}
 		}
 	}
@@ -230,18 +243,18 @@ public class Code05_TreeBlockHld1 {
 				y = tmp;
 			}
 			query(dfn[top[x]], dfn[x]);
-			or(ans, tmp);
+			ans.or(tmp);
 			x = fa[top[x]];
 		}
 		query(Math.min(dfn[x], dfn[y]), Math.max(dfn[x], dfn[y]));
-		or(ans, tmp);
+		ans.or(tmp);
 	}
 
 	public static void prepare() {
 		dfs3();
 		dfs4();
 		// 调整块长
-		blen = (int) Math.sqrt(n * 20);
+		blen = (int) Math.sqrt(20.0 * n);
 		bnum = (n + blen - 1) / blen;
 		for (int i = 1; i <= n; i++) {
 			bi[i] = (i - 1) / blen + 1;
@@ -249,8 +262,9 @@ public class Code05_TreeBlockHld1 {
 		for (int i = 1; i <= bnum; i++) {
 			bl[i] = (i - 1) * blen + 1;
 			br[i] = Math.min(i * blen, n);
+			bitSet[i] = new BitSet();
 			for (int j = bl[i]; j <= br[i]; j++) {
-				setOne(bitSet[i], val[j]);
+				bitSet[i].setOne(val[j]);
 			}
 		}
 	}
@@ -272,7 +286,7 @@ public class Code05_TreeBlockHld1 {
 		}
 		prepare();
 		for (int i = 1, last = 0; i <= m; i++) {
-			clear(ans);
+			ans.clear();
 			k = in.nextInt();
 			for (int j = 1, x, y; j <= k; j++) {
 				x = in.nextInt();
@@ -283,8 +297,8 @@ public class Code05_TreeBlockHld1 {
 				}
 				updateAns(x, y);
 			}
-			int ans1 = getOnes(ans);
-			int ans2 = firstMiss(ans);
+			int ans1 = ans.getOnes();
+			int ans2 = ans.mex();
 			out.println(ans1 + " " + ans2);
 			last = ans1 + ans2;
 		}

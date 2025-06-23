@@ -1,6 +1,6 @@
 package class173;
 
-// 树上分块模版题，重链剖分 + 序列分块，C++版
+// 树上分块模版题，重链剖分 + 随机撒点，C++版
 // 测试链接 : https://www.luogu.com.cn/problem/P3603
 // 如下实现是C++的版本，C++版本和java版本逻辑完全一样
 // 提交如下代码，可以通过所有测试用例
@@ -25,15 +25,13 @@ package class173;
 //int siz[MAXN];
 //int son[MAXN];
 //int top[MAXN];
-//int dfn[MAXN];
-//int val[MAXN];
-//int cntd;
 //
-//int blen, bnum;
-//int bi[MAXN];
-//int bl[MAXB];
-//int br[MAXB];
-//bitset<MAXV> bitSet[MAXB];
+//int bnum;
+//int tag[MAXN];
+//int spe[MAXN];
+//int up[MAXN];
+//bool vis[MAXN];
+//bitset<MAXV> bitSet[MAXB][MAXB];
 //
 //bitset<MAXV> tmp;
 //bitset<MAXV> ans;
@@ -54,11 +52,11 @@ package class173;
 //            dfs1(v, u);
 //        }
 //    }
-//    for (int e = head[u]; e; e = nxt[e]) {
-//        int v = to[e];
+//    for (int e = head[u], v; e; e = nxt[e]) {
+//        v = to[e];
 //        if (v != f) {
 //            siz[u] += siz[v];
-//            if (!son[u] || siz[son[u]] < siz[v]) {
+//            if (son[u] == 0 || siz[son[u]] < siz[v]) {
 //                son[u] = v;
 //            }
 //        }
@@ -67,8 +65,6 @@ package class173;
 //
 //void dfs2(int u, int t) {
 //    top[u] = t;
-//    dfn[u] = ++cntd;
-//    val[cntd] = arr[u];
 //    if (!son[u]) {
 //        return;
 //    }
@@ -81,60 +77,75 @@ package class173;
 //    }
 //}
 //
-//void query(int l, int r) {
-//    tmp.reset();
-//    if (bi[l] == bi[r]) {
-//        for (int i = l; i <= r; i++) {
-//        	tmp[val[i]] = 1;
+//int lca(int a, int b) {
+//    while (top[a] != top[b]) {
+//        if (dep[top[a]] <= dep[top[b]]) {
+//            b = fa[top[b]];
+//        } else {
+//            a = fa[top[a]];
 //        }
-//    } else {
-//        for (int i = l; i <= br[bi[l]]; i++) {
-//        	tmp[val[i]] = 1;
-//        }
-//        for (int i = bl[bi[r]]; i <= r; i++) {
-//        	tmp[val[i]] = 1;
-//        }
-//        for (int i = bi[l] + 1; i <= bi[r] - 1; i++) {
-//        	tmp |= bitSet[i];
-//        }
+//    }
+//    return dep[a] <= dep[b] ? a : b;
+//}
+//
+//void query(int x, int xylca) {
+//    while (spe[x] == 0 && x != xylca) {
+//    	ans[arr[x]] = 1;
+//        x = fa[x];
+//    }
+//    int backup = x;
+//    while (up[x] && dep[up[x]] > dep[xylca]) {
+//        x = up[x];
+//    }
+//    ans |= bitSet[spe[backup]][spe[x]];
+//    while (x != xylca) {
+//    	ans[arr[x]] = 1;
+//        x = fa[x];
 //    }
 //}
 //
 //void updateAns(int x, int y) {
-//    while (top[x] != top[y]) {
-//        if (dep[top[x]] < dep[top[y]]) {
-//            swap(x, y);
-//        }
-//        query(dfn[top[x]], dfn[x]);
-//        ans |= tmp;
-//        x = fa[top[x]];
-//    }
-//    query(min(dfn[x], dfn[y]), max(dfn[x], dfn[y]));
-//    ans |= tmp;
+//    int xylca = lca(x, y);
+//    ans[arr[xylca]] = 1;
+//    query(x, xylca);
+//    query(y, xylca);
 //}
 //
 //void prepare() {
 //    dfs1(1, 0);
 //    dfs2(1, 1);
-//    blen = (int)sqrt(20.0 * n);
+//    int blen = (int)sqrt(20.0 * n);
 //    bnum = (n + blen - 1) / blen;
-//    for (int i = 1; i <= n; i++) {
-//        bi[i] = (i - 1) / blen + 1;
+//    for (int i = 1, pick; i <= bnum; i++) {
+//        do {
+//            pick = rand() % n + 1;
+//        } while (vis[pick]);
+//        vis[pick] = true;
+//        tag[i] = pick;
+//        spe[pick] = i;
 //    }
 //    for (int i = 1; i <= bnum; i++) {
-//        bl[i] = (i - 1) * blen + 1;
-//        br[i] = min(i * blen, n);
-//        for (int j = bl[i]; j <= br[i]; j++) {
-//            bitSet[i][val[j]] = 1;
-//        }
+//        int cur = tag[i];
+//        tmp.reset();
+//        do {
+//            tmp[arr[cur]] = 1;
+//            if (cur != tag[i] && spe[cur] > 0) {
+//                bitSet[i][spe[cur]] |= tmp;
+//                if (up[tag[i]] == 0) {
+//                    up[tag[i]] = cur;
+//                }
+//            }
+//            cur = fa[cur];
+//        } while (cur != 0);
 //    }
 //}
 //
 //int main() {
 //    ios::sync_with_stdio(false);
 //    cin.tie(nullptr);
+//    srand(time(0));
 //    cin >> n >> m >> f;
-//    for (int i = 1; i <= n; ++i) {
+//    for (int i = 1; i <= n; i++) {
 //        cin >> arr[i];
 //    }
 //    for (int i = 1, u, v; i < n; i++) {
@@ -143,9 +154,8 @@ package class173;
 //        addEdge(v, u);
 //    }
 //    prepare();
-//    int last = 0;
-//    for (int i = 1; i <= m; i++) {
-//        ans.reset(); 
+//    for (int i = 1, last = 0; i <= m; i++) {
+//        ans.reset();
 //        cin >> k;
 //        for (int j = 1, x, y; j <= k; j++) {
 //            cin >> x >> y;
