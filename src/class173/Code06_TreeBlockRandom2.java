@@ -124,20 +124,21 @@ package class173;
 //        tag[i] = pick;
 //        spe[pick] = i;
 //    }
-//    for (int i = 1; i <= bnum; i++) {
-//        int cur = tag[i];
+//    for (int i = 1, cur; i <= bnum; i++) {
 //        tmp.reset();
-//        do {
+//        tmp[arr[tag[i]]] = 1;
+//        cur = fa[tag[i]];
+//        while (cur != 0) {
 //            tmp[arr[cur]] = 1;
-//            if (cur != tag[i] && spe[cur] > 0) {
+//            if (spe[cur] > 0) {
 //                bitSet[i][spe[cur]] |= tmp;
 //                if (up[tag[i]] == 0) {
 //                    up[tag[i]] = cur;
 //                }
 //            }
 //            cur = fa[cur];
-//        } while (cur != 0);
-//    }
+//        }
+//    }	
 //}
 //
 //int main() {

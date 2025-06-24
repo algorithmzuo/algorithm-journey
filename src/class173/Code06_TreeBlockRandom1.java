@@ -262,18 +262,19 @@ public class Code06_TreeBlockRandom1 {
 			}
 		}
 		for (int i = 1, cur; i <= bnum; i++) {
-			cur = tag[i];
 			tmp.clear();
-			do {
+			tmp.setOne(arr[tag[i]]);
+			cur = fa[tag[i]];
+			while (cur != 0) {
 				tmp.setOne(arr[cur]);
-				if (cur != tag[i] && spe[cur] > 0) {
+				if (spe[cur] > 0) {
 					bitSet[i][spe[cur]].or(tmp);
 					if (up[tag[i]] == 0) {
 						up[tag[i]] = cur;
 					}
 				}
 				cur = fa[cur];
-			} while (cur != 0);
+			}
 		}
 	}
 
