@@ -5,7 +5,7 @@ package class173;
 // 测试链接 : https://codeforces.com/problemset/problem/198/E
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 // 为了这道题能用java通过，我没有把数据封装到一起，组成一个磁块对象
-// 自己手撸了双指针快排优化常数时间，其实并不需要这么做，因为正式比赛不卡常
+// 手写了双指针快排优化常数时间，一般不需要这么做，正式比赛不卡常
 
 import java.io.IOException;
 import java.io.InputStream;
