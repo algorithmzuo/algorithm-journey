@@ -1,6 +1,6 @@
 package class173;
 
-// 树上分块模版题，重链剖分 + 随机撒点，java版
+// 树上分块模版题，随机撒点分块，java版
 // 一共有n个节点，每个节点有点权，给定n-1条边，所有节点连成一棵树
 // 接下来有m条操作，每条操作都要打印两个答案，描述如下
 // 操作 k x1 y1 x2 y2 .. (一共k个点对) 
@@ -21,6 +21,7 @@ public class Code06_TreeBlockRandom1 {
 	public static int MAXN = 100001;
 	public static int MAXB = 301;
 	public static int MAXV = 30001;
+	public static int LIMIT = 17;
 	public static int n, m, f, k;
 	public static int[] arr = new int[MAXN];
 
@@ -30,12 +31,9 @@ public class Code06_TreeBlockRandom1 {
 	public static int[] to = new int[MAXN << 1];
 	public static int cntg = 0;
 
-	// 重链剖分
-	public static int[] fa = new int[MAXN];
+	// 树上倍增
 	public static int[] dep = new int[MAXN];
-	public static int[] siz = new int[MAXN];
-	public static int[] son = new int[MAXN];
-	public static int[] top = new int[MAXN];
+	public static int[][] stjump = new int[MAXN][LIMIT];
 
 	// 随机撒点
 	public static int bnum;
@@ -101,136 +99,90 @@ public class Code06_TreeBlockRandom1 {
 		head[u] = cntg;
 	}
 
-	public static void dfs1(int u, int f) {
-		fa[u] = f;
-		dep[u] = dep[f] + 1;
-		siz[u] = 1;
-		for (int e = head[u], v; e > 0; e = next[e]) {
-			v = to[e];
-			if (v != f) {
-				dfs1(v, u);
-			}
+	// 树上倍增递归版
+	public static void dfs1(int u, int fa) {
+		dep[u] = dep[fa] + 1;
+		stjump[u][0] = fa;
+		for (int p = 1; p < LIMIT; p++) {
+			stjump[u][p] = stjump[stjump[u][p - 1]][p - 1];
 		}
-		for (int e = head[u], v; e > 0; e = next[e]) {
-			v = to[e];
-			if (v != f) {
-				siz[u] += siz[v];
-				if (son[u] == 0 || siz[son[u]] < siz[v]) {
-					son[u] = v;
-				}
+		for (int e = head[u]; e != 0; e = next[e]) {
+			if (to[e] != fa) {
+				dfs1(to[e], u);
 			}
 		}
 	}
 
-	public static void dfs2(int u, int t) {
-		top[u] = t;
-		if (son[u] == 0) {
-			return;
-		}
-		dfs2(son[u], t);
-		for (int e = head[u], v; e > 0; e = next[e]) {
-			v = to[e];
-			if (v != fa[u] && v != son[u]) {
-				dfs2(v, v);
-			}
-		}
-	}
+	// 树上倍增迭代版
+	public static int[][] ufe = new int[MAXN][3];
 
-	// 不会改迭代版，去看讲解118，详解了从递归版改迭代版
-	public static int[][] fse = new int[MAXN][3];
+	public static int stackSize, cur, fath, edge;
 
-	public static int stacksize, first, second, edge;
-
-	public static void push(int fir, int sec, int edg) {
-		fse[stacksize][0] = fir;
-		fse[stacksize][1] = sec;
-		fse[stacksize][2] = edg;
-		stacksize++;
+	public static void push(int u, int f, int e) {
+		ufe[stackSize][0] = u;
+		ufe[stackSize][1] = f;
+		ufe[stackSize][2] = e;
+		stackSize++;
 	}
 
 	public static void pop() {
-		--stacksize;
-		first = fse[stacksize][0];
-		second = fse[stacksize][1];
-		edge = fse[stacksize][2];
+		--stackSize;
+		cur = ufe[stackSize][0];
+		fath = ufe[stackSize][1];
+		edge = ufe[stackSize][2];
 	}
 
-	// dfs1的迭代版
-	public static void dfs3() {
-		stacksize = 0;
+	public static void dfs2() {
+		stackSize = 0;
 		push(1, 0, -1);
-		while (stacksize > 0) {
+		while (stackSize > 0) {
 			pop();
 			if (edge == -1) {
-				fa[first] = second;
-				dep[first] = dep[second] + 1;
-				siz[first] = 1;
-				edge = head[first];
+				dep[cur] = dep[fath] + 1;
+				stjump[cur][0] = fath;
+				for (int p = 1; p < LIMIT; p++) {
+					stjump[cur][p] = stjump[stjump[cur][p - 1]][p - 1];
+				}
+				edge = head[cur];
 			} else {
 				edge = next[edge];
 			}
 			if (edge != 0) {
-				push(first, second, edge);
-				if (to[edge] != second) {
-					push(to[edge], first, -1);
-				}
-			} else {
-				for (int e = head[first], v; e > 0; e = next[e]) {
-					v = to[e];
-					if (v != second) {
-						siz[first] += siz[v];
-						if (son[first] == 0 || siz[son[first]] < siz[v]) {
-							son[first] = v;
-						}
-					}
-				}
-			}
-		}
-	}
-
-	// dfs2的迭代版
-	public static void dfs4() {
-		stacksize = 0;
-		push(1, 1, -1);
-		while (stacksize > 0) {
-			pop();
-			if (edge == -1) {
-				top[first] = second;
-				if (son[first] == 0) {
-					continue;
-				}
-				push(first, second, -2);
-				push(son[first], second, -1);
-				continue;
-			} else if (edge == -2) {
-				edge = head[first];
-			} else {
-				edge = next[edge];
-			}
-			if (edge != 0) {
-				push(first, second, edge);
-				if (to[edge] != fa[first] && to[edge] != son[first]) {
-					push(to[edge], to[edge], -1);
+				push(cur, fath, edge);
+				if (to[edge] != fath) {
+					push(to[edge], cur, -1);
 				}
 			}
 		}
 	}
 
 	public static int lca(int a, int b) {
-		while (top[a] != top[b]) {
-			if (dep[top[a]] <= dep[top[b]]) {
-				b = fa[top[b]];
-			} else {
-				a = fa[top[a]];
+		if (dep[a] < dep[b]) {
+			int tmp = a;
+			a = b;
+			b = tmp;
+		}
+		for (int p = LIMIT - 1; p >= 0; p--) {
+			if (dep[stjump[a][p]] >= dep[b]) {
+				a = stjump[a][p];
 			}
 		}
-		return dep[a] <= dep[b] ? a : b;
+		if (a == b) {
+			return a;
+		}
+		for (int p = LIMIT - 1; p >= 0; p--) {
+			if (stjump[a][p] != stjump[b][p]) {
+				a = stjump[a][p];
+				b = stjump[b][p];
+			}
+		}
+		return stjump[a][0];
 	}
 
 	public static void query(int x, int xylca) {
 		while (spe[x] == 0 && x != xylca) {
 			ans.setOne(arr[x]);
-			x = fa[x];
+			x = stjump[x][0];
 		}
 		int backup = x;
 		while (up[x] > 0 && dep[up[x]] > dep[xylca]) {
@@ -239,7 +191,7 @@ public class Code06_TreeBlockRandom1 {
 		ans.or(bitSet[spe[backup]][spe[x]]);
 		while (x != xylca) {
 			ans.setOne(arr[x]);
-			x = fa[x];
+			x = stjump[x][0];
 		}
 	}
 
@@ -251,8 +203,7 @@ public class Code06_TreeBlockRandom1 {
 	}
 
 	public static void prepare() {
-		dfs3();
-		dfs4();
+		dfs2();
 		int blen = (int) Math.sqrt(20.0 * n);
 		bnum = (n + blen - 1) / blen;
 		for (int i = 1, pick; i <= bnum; i++) {
@@ -271,7 +222,7 @@ public class Code06_TreeBlockRandom1 {
 		for (int i = 1, cur; i <= bnum; i++) {
 			tmp.clear();
 			tmp.setOne(arr[tag[i]]);
-			cur = fa[tag[i]];
+			cur = stjump[tag[i]][0];
 			while (cur != 0) {
 				tmp.setOne(arr[cur]);
 				if (spe[cur] > 0) {
@@ -280,7 +231,7 @@ public class Code06_TreeBlockRandom1 {
 						up[tag[i]] = cur;
 					}
 				}
-				cur = fa[cur];
+				cur = stjump[cur][0];
 			}
 		}
 	}

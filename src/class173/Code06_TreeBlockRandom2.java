@@ -1,6 +1,6 @@
 package class173;
 
-// 树上分块模版题，重链剖分 + 随机撒点，C++版
+// 树上分块模版题，随机撒点分块，C++版
 // 一共有n个节点，每个节点有点权，给定n-1条边，所有节点连成一棵树
 // 接下来有m条操作，每条操作都要打印两个答案，描述如下
 // 操作 k x1 y1 x2 y2 .. (一共k个点对) 
@@ -19,6 +19,7 @@ package class173;
 //const int MAXN = 100001;
 //const int MAXB = 301;
 //const int MAXV = 30001;
+//const int LIMIT = 17;
 //int n, m, f, k;
 //int arr[MAXN];
 //
@@ -27,11 +28,8 @@ package class173;
 //int to[MAXN << 1];
 //int cntg;
 //
-//int fa[MAXN];
 //int dep[MAXN];
-//int siz[MAXN];
-//int son[MAXN];
-//int top[MAXN];
+//int stjump[MAXN][LIMIT];
 //
 //int bnum;
 //bool vis[MAXN];
@@ -49,56 +47,44 @@ package class173;
 //    head[u] = cntg;
 //}
 //
-//void dfs1(int u, int f) {
-//    fa[u] = f;
-//    dep[u] = dep[f] + 1;
-//    siz[u] = 1;
-//    for (int e = head[u], v; e; e = nxt[e]) {
-//        v = to[e];
-//        if (v != f) {
-//            dfs1(v, u);
-//        }
+//void dfs(int u, int fa) {
+//    dep[u] = dep[fa] + 1;
+//    stjump[u][0] = fa;
+//    for (int p = 1; p < LIMIT; p++) {
+//        stjump[u][p] = stjump[stjump[u][p - 1]][p - 1];
 //    }
-//    for (int e = head[u], v; e; e = nxt[e]) {
-//        v = to[e];
-//        if (v != f) {
-//            siz[u] += siz[v];
-//            if (son[u] == 0 || siz[son[u]] < siz[v]) {
-//                son[u] = v;
-//            }
-//        }
-//    }
-//}
-//
-//void dfs2(int u, int t) {
-//    top[u] = t;
-//    if (!son[u]) {
-//        return;
-//    }
-//    dfs2(son[u], t);
-//    for (int e = head[u], v; e; e = nxt[e]) {
-//        v = to[e];
-//        if (v != fa[u] && v != son[u]) {
-//            dfs2(v, v);
+//    for (int e = head[u]; e; e = nxt[e]) {
+//        if (to[e] != fa) {
+//            dfs(to[e], u);
 //        }
 //    }
 //}
 //
 //int lca(int a, int b) {
-//    while (top[a] != top[b]) {
-//        if (dep[top[a]] <= dep[top[b]]) {
-//            b = fa[top[b]];
-//        } else {
-//            a = fa[top[a]];
+//    if (dep[a] < dep[b]) {
+//        swap(a, b);
+//    }
+//    for (int p = LIMIT - 1; p >= 0; p--) {
+//        if (dep[stjump[a][p]] >= dep[b]) {
+//            a = stjump[a][p];
 //        }
 //    }
-//    return dep[a] <= dep[b] ? a : b;
+//    if (a == b) {
+//        return a;
+//    }
+//    for (int p = LIMIT - 1; p >= 0; p--) {
+//        if (stjump[a][p] != stjump[b][p]) {
+//            a = stjump[a][p];
+//            b = stjump[b][p];
+//        }
+//    }
+//    return stjump[a][0];
 //}
 //
 //void query(int x, int xylca) {
 //    while (spe[x] == 0 && x != xylca) {
 //    	ans[arr[x]] = 1;
-//        x = fa[x];
+//        x = stjump[x][0];
 //    }
 //    int backup = x;
 //    while (up[x] && dep[up[x]] > dep[xylca]) {
@@ -107,7 +93,7 @@ package class173;
 //    ans |= bitSet[spe[backup]][spe[x]];
 //    while (x != xylca) {
 //    	ans[arr[x]] = 1;
-//        x = fa[x];
+//        x = stjump[x][0];
 //    }
 //}
 //
@@ -119,8 +105,7 @@ package class173;
 //}
 //
 //void prepare() {
-//    dfs1(1, 0);
-//    dfs2(1, 1);
+//    dfs(1, 0);
 //    int blen = (int)sqrt(20.0 * n);
 //    bnum = (n + blen - 1) / blen;
 //    for (int i = 1, pick; i <= bnum; i++) {
@@ -134,7 +119,7 @@ package class173;
 //    for (int i = 1, cur; i <= bnum; i++) {
 //        tmp.reset();
 //        tmp[arr[tag[i]]] = 1;
-//        cur = fa[tag[i]];
+//        cur = stjump[tag[i]][0];
 //        while (cur != 0) {
 //            tmp[arr[cur]] = 1;
 //            if (spe[cur] > 0) {
@@ -143,7 +128,7 @@ package class173;
 //                    up[tag[i]] = cur;
 //                }
 //            }
-//            cur = fa[cur];
+//            cur = stjump[cur][0];
 //        }
 //    }	
 //}
