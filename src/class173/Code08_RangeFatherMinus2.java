@@ -1,6 +1,11 @@
 package class173;
 
 // 区间父变小，C++版
+// 一棵大小为n树，节点1是树头，节点i的父节点 = arr[i]，2 <= i <= n
+// 接下来有m条操作，每种操作是如下两种类型中的一种
+// 操作 x y z : [x..y]范围上任何一点i，arr[i] = max(1, arr[i] - z)
+// 操作 x y   : 查询点x和点y的最低公共祖先
+// 2 <= n、m <= 10^5
 // 测试链接 : https://www.luogu.com.cn/problem/CF1491H
 // 测试链接 : https://codeforces.com/problemset/problem/1491/H
 // 如下实现是C++的版本，C++版本和java版本逻辑完全一样

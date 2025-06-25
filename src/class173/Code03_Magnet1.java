@@ -1,6 +1,16 @@
 package class173;
 
 // 磁力块，java版
+// 每个磁块有五个属性值，x、y、m、p、range
+// 表示磁块在(x, y)位置、质量为m、磁力为p、吸引半径range
+// 磁块A可以把磁块B吸到磁块A的位置，需要满足如下的条件
+// A与B的距离不大于A的吸引半径，并且B的质量不大于A的磁力
+// 你有一个初始磁块，给定初始磁块属性值，你永远在初始磁块的位置
+// 接下来给定n个磁块各自的属性值，你可以用初始磁块，吸过来其中的磁块
+// 吸过来的磁块可以被你随意使用，返回你最多能吸过来多少磁块
+// 1 <= n <= 3 * 10^5
+// -10^9 <= x、y <= +10^9
+// 1 <= m、p、range <= 10^9
 // 测试链接 : https://www.luogu.com.cn/problem/P10590
 // 测试链接 : https://codeforces.com/problemset/problem/198/E
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
@@ -36,13 +46,25 @@ public class Code03_Magnet1 {
 	// 下标为i的磁块和下标为j的磁块交换
 	public static void swap(int i, int j) {
 		int tmp1;
-		tmp1 = x[i]; x[i] = x[j]; x[j] = tmp1;
-		tmp1 = y[i]; y[i] = y[j]; y[j] = tmp1;
-		tmp1 = m[i]; m[i] = m[j]; m[j] = tmp1;
-		tmp1 = p[i]; p[i] = p[j]; p[j] = tmp1;
+		tmp1 = x[i];
+		x[i] = x[j];
+		x[j] = tmp1;
+		tmp1 = y[i];
+		y[i] = y[j];
+		y[j] = tmp1;
+		tmp1 = m[i];
+		m[i] = m[j];
+		m[j] = tmp1;
+		tmp1 = p[i];
+		p[i] = p[j];
+		p[j] = tmp1;
 		long tmp2;
-		tmp2 = range[i]; range[i] = range[j]; range[j] = tmp2;
-		tmp2 = dist[i]; dist[i] = dist[j]; dist[j] = tmp2;
+		tmp2 = range[i];
+		range[i] = range[j];
+		range[j] = tmp2;
+		tmp2 = dist[i];
+		dist[i] = dist[j];
+		dist[j] = tmp2;
 	}
 
 	// 所有磁块根据m值排序，手写双指针快排
