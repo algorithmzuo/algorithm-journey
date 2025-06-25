@@ -38,9 +38,9 @@ public class Code06_TreeBlockRandom1 {
 	// 随机撒点
 	public static int bnum;
 	public static boolean[] vis = new boolean[MAXN];
-	public static int[] tag = new int[MAXN];
-	public static int[] spe = new int[MAXN];
-	public static int[] up = new int[MAXN];
+	public static int[] capital = new int[MAXN];
+	public static int[] belong = new int[MAXN];
+	public static int[] top = new int[MAXN];
 	public static BitSet[][] bitSet = new BitSet[MAXB][MAXB];
 
 	public static BitSet tmp = new BitSet();
@@ -180,15 +180,15 @@ public class Code06_TreeBlockRandom1 {
 	}
 
 	public static void query(int x, int xylca) {
-		while (spe[x] == 0 && x != xylca) {
+		while (belong[x] == 0 && x != xylca) {
 			ans.setOne(arr[x]);
 			x = stjump[x][0];
 		}
 		int backup = x;
-		while (up[x] > 0 && dep[up[x]] > dep[xylca]) {
-			x = up[x];
+		while (top[x] > 0 && dep[top[x]] > dep[xylca]) {
+			x = top[x];
 		}
-		ans.or(bitSet[spe[backup]][spe[x]]);
+		ans.or(bitSet[belong[backup]][belong[x]]);
 		while (x != xylca) {
 			ans.setOne(arr[x]);
 			x = stjump[x][0];
@@ -211,8 +211,8 @@ public class Code06_TreeBlockRandom1 {
 				pick = (int) (Math.random() * n) + 1;
 			} while (vis[pick]);
 			vis[pick] = true;
-			tag[i] = pick;
-			spe[pick] = i;
+			capital[i] = pick;
+			belong[pick] = i;
 		}
 		for (int i = 0; i <= bnum; i++) {
 			for (int j = 0; j <= bnum; j++) {
@@ -221,14 +221,14 @@ public class Code06_TreeBlockRandom1 {
 		}
 		for (int i = 1, cur; i <= bnum; i++) {
 			tmp.clear();
-			tmp.setOne(arr[tag[i]]);
-			cur = stjump[tag[i]][0];
+			tmp.setOne(arr[capital[i]]);
+			cur = stjump[capital[i]][0];
 			while (cur != 0) {
 				tmp.setOne(arr[cur]);
-				if (spe[cur] > 0) {
-					bitSet[i][spe[cur]].or(tmp);
-					if (up[tag[i]] == 0) {
-						up[tag[i]] = cur;
+				if (belong[cur] > 0) {
+					bitSet[i][belong[cur]].or(tmp);
+					if (top[capital[i]] == 0) {
+						top[capital[i]] = cur;
 					}
 				}
 				cur = stjump[cur][0];

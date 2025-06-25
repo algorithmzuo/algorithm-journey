@@ -33,9 +33,9 @@ package class173;
 //
 //int bnum;
 //bool vis[MAXN];
-//int tag[MAXN];
-//int spe[MAXN];
-//int up[MAXN];
+//int capital[MAXN];
+//int belong[MAXN];
+//int top[MAXN];
 //bitset<MAXV> bitSet[MAXB][MAXB];
 //
 //bitset<MAXV> tmp;
@@ -82,15 +82,15 @@ package class173;
 //}
 //
 //void query(int x, int xylca) {
-//    while (spe[x] == 0 && x != xylca) {
+//    while (belong[x] == 0 && x != xylca) {
 //    	ans[arr[x]] = 1;
 //        x = stjump[x][0];
 //    }
 //    int backup = x;
-//    while (up[x] && dep[up[x]] > dep[xylca]) {
-//        x = up[x];
+//    while (top[x] && dep[top[x]] > dep[xylca]) {
+//        x = top[x];
 //    }
-//    ans |= bitSet[spe[backup]][spe[x]];
+//    ans |= bitSet[belong[backup]][belong[x]];
 //    while (x != xylca) {
 //    	ans[arr[x]] = 1;
 //        x = stjump[x][0];
@@ -113,19 +113,19 @@ package class173;
 //            pick = rand() % n + 1;
 //        } while (vis[pick]);
 //        vis[pick] = true;
-//        tag[i] = pick;
-//        spe[pick] = i;
+//        capital[i] = pick;
+//        belong[pick] = i;
 //    }
 //    for (int i = 1, cur; i <= bnum; i++) {
 //        tmp.reset();
-//        tmp[arr[tag[i]]] = 1;
-//        cur = stjump[tag[i]][0];
+//        tmp[arr[capital[i]]] = 1;
+//        cur = stjump[capital[i]][0];
 //        while (cur != 0) {
 //            tmp[arr[cur]] = 1;
-//            if (spe[cur] > 0) {
-//                bitSet[i][spe[cur]] |= tmp;
-//                if (up[tag[i]] == 0) {
-//                    up[tag[i]] = cur;
+//            if (belong[cur] > 0) {
+//                bitSet[i][belong[cur]] |= tmp;
+//                if (top[capital[i]] == 0) {
+//                    top[capital[i]] = cur;
 //                }
 //            }
 //            cur = stjump[cur][0];
