@@ -49,8 +49,8 @@ public class Code06_Random1 {
 	public static int[] repBlock = new int[MAXN];
 	// up[i] = j，表示i号节点是某块的代表，它往上跳到最近的代表点是j
 	public static int[] up = new int[MAXN];
-	// downSet[i]，表示第i块的代表点往上走到最近的代表点
-	// 但是路径不包括上方最近的代表点，沿途所有点权组成的位图
+	// downSet[i]，表示下方第i块的代表点往上走到最近的代表点
+	// 路径不包括上方代表点，沿途所有点权组成的位图
 	public static BitSet[] downSet = new BitSet[MAXB];
 
 	public static BitSet ans = new BitSet();
