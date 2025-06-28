@@ -6,7 +6,7 @@ package class173;
 // 操作 k x1 y1 x2 y2 .. (一共k个点对) 
 // 每个点对(x, y)，在树上都有从x到y的路径，那么k个点对就有k条路径
 // 先打印k条路径上不同点权的数量，再打印点权集合中没有出现的最小非负数(mex)
-// 1 <= n、m <= 10^5    点权 <= 30000
+// 1 <= n、点对总数 <= 10^5    点权 <= 30000
 // 题目要求强制在线，具体规则可以打开测试链接查看
 // 测试链接 : https://www.luogu.com.cn/problem/P3603
 // 如下实现是C++的版本，C++版本和java版本逻辑完全一样
@@ -37,9 +37,8 @@ package class173;
 //
 //int repBlock[MAXN];
 //int up[MAXN];
-//bitset<MAXV> bitSet[MAXB][MAXB];
+//bitset<MAXV> downSet[MAXB];
 //
-//bitset<MAXV> tmp;
 //bitset<MAXV> ans;
 //
 //void addEdge(int u, int v) {
@@ -84,16 +83,15 @@ package class173;
 //
 //void query(int x, int xylca) {
 //    while (repBlock[x] == 0 && x != xylca) {
-//    	ans[arr[x]] = 1;
+//        ans[arr[x]] = 1;
 //        x = stjump[x][0];
 //    }
-//    int from = x;
 //    while (up[x] && dep[up[x]] > dep[xylca]) {
+//        ans |= downSet[repBlock[x]];
 //        x = up[x];
 //    }
-//    ans |= bitSet[repBlock[from]][repBlock[x]];
 //    while (x != xylca) {
-//    	ans[arr[x]] = 1;
+//        ans[arr[x]] = 1;
 //        x = stjump[x][0];
 //    }
 //}
@@ -118,18 +116,16 @@ package class173;
 //        repBlock[pick] = b;
 //    }
 //    for (int b = 1, cur; b <= bnum; b++) {
-//        tmp.reset();
-//        tmp[arr[capital[b]]] = 1;
+//        downSet[b][arr[capital[b]]] = 1;
 //        cur = stjump[capital[b]][0];
 //        while (cur != 0) {
-//            tmp[arr[cur]] = 1;
 //            if (repBlock[cur] > 0) {
-//                bitSet[b][repBlock[cur]] |= tmp;
-//                if (up[capital[b]] == 0) {
-//                    up[capital[b]] = cur;
-//                }
+//                up[capital[b]] = cur;
+//                break;
+//            } else {
+//                downSet[b][arr[cur]] = 1;
+//                cur = stjump[cur][0];
 //            }
-//            cur = stjump[cur][0];
 //        }
 //    }	
 //}
@@ -160,8 +156,13 @@ package class173;
 //            updateAns(x, y);
 //        }
 //        int ans1 = ans.count();
-//        ans.flip();
-//        int ans2 = ans._Find_first();
+//        int ans2 = MAXV;
+//        for (int i = 0; i < MAXV; i++) {
+//            if (ans[i] == 0) {
+//                ans2 = i;
+//                break;
+//            }
+//        }
 //        cout << ans1 << ' ' << ans2 << '\n';
 //        last = ans1 + ans2;
 //    }

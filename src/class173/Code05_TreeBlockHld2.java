@@ -163,8 +163,13 @@ package class173;
 //            updateAns(x, y);
 //        }
 //        int ans1 = ans.count();
-//        ans.flip();
-//        int ans2 = ans._Find_first();
+//        int ans2 = MAXV;
+//        for (int i = 0; i < MAXV; i++) {
+//            if (ans[i] == 0) {
+//                ans2 = i;
+//                break;
+//            }
+//        }
 //        cout << ans1 << ' ' << ans2 << '\n';
 //        last = ans1 + ans2;
 //    }

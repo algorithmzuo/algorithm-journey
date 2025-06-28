@@ -6,7 +6,7 @@ package class173;
 // 操作 k x1 y1 x2 y2 .. (一共k个点对) 
 // 每个点对(x, y)，在树上都有从x到y的路径，那么k个点对就有k条路径
 // 先打印k条路径上不同点权的数量，再打印点权集合中没有出现的最小非负数(mex)
-// 1 <= n、m <= 10^5    点权 <= 30000
+// 1 <= n、点对总数 <= 10^5    点权 <= 30000
 // 题目要求强制在线，具体规则可以打开测试链接查看
 // 测试链接 : https://www.luogu.com.cn/problem/P3603
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
@@ -31,7 +31,7 @@ public class Code06_TreeBlockRandom1 {
 	public static int[] to = new int[MAXN << 1];
 	public static int cntg = 0;
 
-	// 树上倍增
+	// 树上倍增求LCA
 	public static int[] dep = new int[MAXN];
 	public static int[][] stjump = new int[MAXN][LIMIT];
 
@@ -49,10 +49,10 @@ public class Code06_TreeBlockRandom1 {
 	public static int[] repBlock = new int[MAXN];
 	// up[i] = j，表示i号节点是某块的代表，它往上跳到最近的代表点是j
 	public static int[] up = new int[MAXN];
-	// bitSet[i][j]，表示第i块代表点往上走到第j块的代表点，沿途所有点权组成的位图
-	public static BitSet[][] bitSet = new BitSet[MAXB][MAXB];
+	// downSet[i]，表示第i块的代表点往上走到最近的代表点
+	// 但是路径不包括上方最近的代表点，沿途所有点权组成的位图
+	public static BitSet[] downSet = new BitSet[MAXB];
 
-	public static BitSet tmp = new BitSet();
 	public static BitSet ans = new BitSet();
 
 	static class BitSet {
@@ -193,11 +193,10 @@ public class Code06_TreeBlockRandom1 {
 			ans.setOne(arr[x]);
 			x = stjump[x][0];
 		}
-		int from = x;
 		while (up[x] > 0 && dep[up[x]] > dep[xylca]) {
+			ans.or(downSet[repBlock[x]]);
 			x = up[x];
 		}
-		ans.or(bitSet[repBlock[from]][repBlock[x]]);
 		while (x != xylca) {
 			ans.setOne(arr[x]);
 			x = stjump[x][0];
@@ -223,24 +222,20 @@ public class Code06_TreeBlockRandom1 {
 			capital[b] = pick;
 			repBlock[pick] = b;
 		}
-		for (int i = 0; i <= bnum; i++) {
-			for (int j = 0; j <= bnum; j++) {
-				bitSet[i][j] = new BitSet();
-			}
+		for (int b = 0; b <= bnum; b++) {
+			downSet[b] = new BitSet();
 		}
 		for (int b = 1, cur; b <= bnum; b++) {
-			tmp.clear();
-			tmp.setOne(arr[capital[b]]);
+			downSet[b].setOne(arr[capital[b]]);
 			cur = stjump[capital[b]][0];
 			while (cur != 0) {
-				tmp.setOne(arr[cur]);
 				if (repBlock[cur] > 0) {
-					bitSet[b][repBlock[cur]].or(tmp);
-					if (up[capital[b]] == 0) {
-						up[capital[b]] = cur;
-					}
+					up[capital[b]] = cur;
+					break;
+				} else {
+					downSet[b].setOne(arr[cur]);
+					cur = stjump[cur][0];
 				}
-				cur = stjump[cur][0];
 			}
 		}
 	}
