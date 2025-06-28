@@ -16,7 +16,7 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
-public class Code05_TreeBlockHld1 {
+public class Code05_HLD1 {
 
 	public static int MAXN = 100001;
 	public static int MAXB = 301;
