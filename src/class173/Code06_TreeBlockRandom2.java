@@ -34,8 +34,9 @@ package class173;
 //int bnum;
 //bool vis[MAXN];
 //int capital[MAXN];
-//int belong[MAXN];
-//int top[MAXN];
+//
+//int repBlock[MAXN];
+//int up[MAXN];
 //bitset<MAXV> bitSet[MAXB][MAXB];
 //
 //bitset<MAXV> tmp;
@@ -82,15 +83,15 @@ package class173;
 //}
 //
 //void query(int x, int xylca) {
-//    while (belong[x] == 0 && x != xylca) {
+//    while (repBlock[x] == 0 && x != xylca) {
 //    	ans[arr[x]] = 1;
 //        x = stjump[x][0];
 //    }
-//    int backup = x;
-//    while (top[x] && dep[top[x]] > dep[xylca]) {
-//        x = top[x];
+//    int from = x;
+//    while (up[x] && dep[up[x]] > dep[xylca]) {
+//        x = up[x];
 //    }
-//    ans |= bitSet[belong[backup]][belong[x]];
+//    ans |= bitSet[repBlock[from]][repBlock[x]];
 //    while (x != xylca) {
 //    	ans[arr[x]] = 1;
 //        x = stjump[x][0];
@@ -108,24 +109,24 @@ package class173;
 //    dfs(1, 0);
 //    int blen = (int)sqrt(20.0 * n);
 //    bnum = (n + blen - 1) / blen;
-//    for (int i = 1, pick; i <= bnum; i++) {
+//    for (int b = 1, pick; b <= bnum; b++) {
 //        do {
 //            pick = rand() % n + 1;
 //        } while (vis[pick]);
 //        vis[pick] = true;
-//        capital[i] = pick;
-//        belong[pick] = i;
+//        capital[b] = pick;
+//        repBlock[pick] = b;
 //    }
-//    for (int i = 1, cur; i <= bnum; i++) {
+//    for (int b = 1, cur; b <= bnum; b++) {
 //        tmp.reset();
-//        tmp[arr[capital[i]]] = 1;
-//        cur = stjump[capital[i]][0];
+//        tmp[arr[capital[b]]] = 1;
+//        cur = stjump[capital[b]][0];
 //        while (cur != 0) {
 //            tmp[arr[cur]] = 1;
-//            if (belong[cur] > 0) {
-//                bitSet[i][belong[cur]] |= tmp;
-//                if (top[capital[i]] == 0) {
-//                    top[capital[i]] = cur;
+//            if (repBlock[cur] > 0) {
+//                bitSet[b][repBlock[cur]] |= tmp;
+//                if (up[capital[b]] == 0) {
+//                    up[capital[b]] = cur;
 //                }
 //            }
 //            cur = stjump[cur][0];

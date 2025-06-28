@@ -35,12 +35,21 @@ public class Code06_TreeBlockRandom1 {
 	public static int[] dep = new int[MAXN];
 	public static int[][] stjump = new int[MAXN][LIMIT];
 
-	// 随机撒点
+	// 随机撒点，预处理过程需要
+	// bnum表示块的数量，也表示会有几个点被选为代表点
 	public static int bnum;
+	// vis[i]表示i号点是否已经选为某个块的代表点
 	public static boolean[] vis = new boolean[MAXN];
-	public static int[] capital = new int[MAXN];
-	public static int[] belong = new int[MAXN];
-	public static int[] top = new int[MAXN];
+	// capital[i]表示第i块的代表节点
+	public static int[] capital = new int[MAXB];
+
+	// 随机撒点，预处理之后生成的信息
+	// repBlock[i] = j，表示i号节点是第j块的代表
+	// repBlock[i] = 0，表示i号节点不是任何块的代表
+	public static int[] repBlock = new int[MAXN];
+	// up[i] = j，表示i号节点是某块的代表，它往上跳到最近的代表点是j
+	public static int[] up = new int[MAXN];
+	// bitSet[i][j]，表示第i块代表点往上走到第j块的代表点，沿途所有点权组成的位图
 	public static BitSet[][] bitSet = new BitSet[MAXB][MAXB];
 
 	public static BitSet tmp = new BitSet();
@@ -180,15 +189,15 @@ public class Code06_TreeBlockRandom1 {
 	}
 
 	public static void query(int x, int xylca) {
-		while (belong[x] == 0 && x != xylca) {
+		while (repBlock[x] == 0 && x != xylca) {
 			ans.setOne(arr[x]);
 			x = stjump[x][0];
 		}
-		int backup = x;
-		while (top[x] > 0 && dep[top[x]] > dep[xylca]) {
-			x = top[x];
+		int from = x;
+		while (up[x] > 0 && dep[up[x]] > dep[xylca]) {
+			x = up[x];
 		}
-		ans.or(bitSet[belong[backup]][belong[x]]);
+		ans.or(bitSet[repBlock[from]][repBlock[x]]);
 		while (x != xylca) {
 			ans.setOne(arr[x]);
 			x = stjump[x][0];
@@ -206,29 +215,29 @@ public class Code06_TreeBlockRandom1 {
 		dfs2();
 		int blen = (int) Math.sqrt(20.0 * n);
 		bnum = (n + blen - 1) / blen;
-		for (int i = 1, pick; i <= bnum; i++) {
+		for (int b = 1, pick; b <= bnum; b++) {
 			do {
 				pick = (int) (Math.random() * n) + 1;
 			} while (vis[pick]);
 			vis[pick] = true;
-			capital[i] = pick;
-			belong[pick] = i;
+			capital[b] = pick;
+			repBlock[pick] = b;
 		}
 		for (int i = 0; i <= bnum; i++) {
 			for (int j = 0; j <= bnum; j++) {
 				bitSet[i][j] = new BitSet();
 			}
 		}
-		for (int i = 1, cur; i <= bnum; i++) {
+		for (int b = 1, cur; b <= bnum; b++) {
 			tmp.clear();
-			tmp.setOne(arr[capital[i]]);
-			cur = stjump[capital[i]][0];
+			tmp.setOne(arr[capital[b]]);
+			cur = stjump[capital[b]][0];
 			while (cur != 0) {
 				tmp.setOne(arr[cur]);
-				if (belong[cur] > 0) {
-					bitSet[i][belong[cur]].or(tmp);
-					if (top[capital[i]] == 0) {
-						top[capital[i]] = cur;
+				if (repBlock[cur] > 0) {
+					bitSet[b][repBlock[cur]].or(tmp);
+					if (up[capital[b]] == 0) {
+						up[capital[b]] = cur;
 					}
 				}
 				cur = stjump[cur][0];
