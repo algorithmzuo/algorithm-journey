@@ -28,7 +28,7 @@ public class Code07_Royal1 {
 	public static int[] to = new int[MAXN << 1];
 	public static int cntg;
 
-	public static int[] root = new int[MAXN];
+	public static int[] capital = new int[MAXN];
 	public static int[] belong = new int[MAXN];
 	public static int[] stack = new int[MAXN];
 	public static int siz;
@@ -47,7 +47,7 @@ public class Code07_Royal1 {
 			if (v != f) {
 				dfs(v, u);
 				if (siz - tmp >= b) {
-					root[++cntb] = u;
+					capital[++cntb] = u;
 					while (siz > tmp) {
 						belong[stack[siz--]] = cntb;
 					}
@@ -70,7 +70,7 @@ public class Code07_Royal1 {
 		}
 		dfs(1, 0);
 		if (cntb == 0) {
-			root[++cntb] = 1;
+			capital[++cntb] = 1;
 		}
 		while (siz > 0) {
 			belong[stack[siz--]] = cntb;
@@ -81,7 +81,7 @@ public class Code07_Royal1 {
 		}
 		out.println();
 		for (int i = 1; i <= cntb; i++) {
-			out.print(root[i] + " ");
+			out.print(capital[i] + " ");
 		}
 		out.println();
 		out.flush();

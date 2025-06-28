@@ -46,25 +46,13 @@ public class Code03_Magnet1 {
 	// 下标为i的磁块和下标为j的磁块交换
 	public static void swap(int i, int j) {
 		int tmp1;
-		tmp1 = x[i];
-		x[i] = x[j];
-		x[j] = tmp1;
-		tmp1 = y[i];
-		y[i] = y[j];
-		y[j] = tmp1;
-		tmp1 = m[i];
-		m[i] = m[j];
-		m[j] = tmp1;
-		tmp1 = p[i];
-		p[i] = p[j];
-		p[j] = tmp1;
+		tmp1 = x[i]; x[i] = x[j]; x[j] = tmp1;
+		tmp1 = y[i]; y[i] = y[j]; y[j] = tmp1;
+		tmp1 = m[i]; m[i] = m[j]; m[j] = tmp1;
+		tmp1 = p[i]; p[i] = p[j]; p[j] = tmp1;
 		long tmp2;
-		tmp2 = range[i];
-		range[i] = range[j];
-		range[j] = tmp2;
-		tmp2 = dist[i];
-		dist[i] = dist[j];
-		dist[j] = tmp2;
+		tmp2 = range[i]; range[i] = range[j]; range[j] = tmp2;
+		tmp2 = dist[i]; dist[i] = dist[j]; dist[j] = tmp2;
 	}
 
 	// 所有磁块根据m值排序，手写双指针快排

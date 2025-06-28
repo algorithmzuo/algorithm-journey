@@ -26,7 +26,7 @@ package class173;
 //int to[MAXN << 1];
 //int cntg;
 //
-//int root[MAXN];
+//int capital[MAXN];
 //int belong[MAXN];
 //int sta[MAXN];
 //int siz;
@@ -45,7 +45,7 @@ package class173;
 //        if (v != f) {
 //            dfs(v, u);
 //            if (siz - tmp >= b) {
-//                root[++cntb] = u;
+//                capital[++cntb] = u;
 //                while (siz > tmp) {
 //                    belong[sta[siz--]] = cntb;
 //                }
@@ -66,7 +66,7 @@ package class173;
 //    }
 //    dfs(1, 0);
 //    if (cntb == 0) {
-//        root[++cntb] = 1;
+//        capital[++cntb] = 1;
 //    }
 //    while (siz > 0) {
 //        belong[sta[siz--]] = cntb;
@@ -77,7 +77,7 @@ package class173;
 //    }
 //    cout << '\n';
 //    for (int i = 1; i <= cntb; i++) {
-//        cout << root[i] << ' ';
+//        cout << capital[i] << ' ';
 //    }
 //    cout << '\n';
 //    return 0;
