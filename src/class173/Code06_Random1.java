@@ -82,7 +82,7 @@ public class Code06_Random1 {
 			}
 		}
 
-		public int count() {
+		public int countOnes() {
 			int ans = 0;
 			for (int x : set) {
 				ans += Integer.bitCount(x);
@@ -222,10 +222,8 @@ public class Code06_Random1 {
 			capital[b] = pick;
 			repBlock[pick] = b;
 		}
-		for (int b = 0; b <= bnum; b++) {
-			downSet[b] = new BitSet();
-		}
 		for (int b = 1, cur; b <= bnum; b++) {
+			downSet[b] = new BitSet();
 			downSet[b].setOne(arr[capital[b]]);
 			cur = stjump[capital[b]][0];
 			while (cur != 0) {
@@ -268,7 +266,7 @@ public class Code06_Random1 {
 				}
 				updateAns(x, y);
 			}
-			int ans1 = ans.count();
+			int ans1 = ans.countOnes();
 			int ans2 = ans.mex();
 			out.println(ans1 + " " + ans2);
 			last = ans1 + ans2;
