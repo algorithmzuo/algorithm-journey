@@ -23,8 +23,8 @@ public class Code01_Sequence1 {
 	public static int n, m;
 	public static int[] arr = new int[MAXN];
 
-	// op == 1，代表修改事件，位置x、时刻t、修改效果v、空缺
-	// op == 2，代表查询事件，位置x、时刻t、查询标准v、问题编号q
+	// op == 1 表示修改事件、位置x、时刻t、修改效果v、空缺
+	// op == 2 表示查询事件、位置x、时刻t、查询标准v、问题编号q
 	public static int[][] event = new int[MAXN << 2][5];
 	public static int cnte = 0;
 	public static int cntq = 0;
