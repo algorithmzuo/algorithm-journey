@@ -82,7 +82,7 @@ public class Code06_Random1 {
 			}
 		}
 
-		public int getOnes() {
+		public int count() {
 			int ans = 0;
 			for (int x : set) {
 				ans += Integer.bitCount(x);
@@ -122,29 +122,29 @@ public class Code06_Random1 {
 		}
 	}
 
-	// 树上倍增迭代版
+	// 树上倍增迭代版，讲解118进行了详细讲述
 	public static int[][] ufe = new int[MAXN][3];
 
-	public static int stackSize, cur, fath, edge;
+	public static int stacksize, cur, fath, edge;
 
 	public static void push(int u, int f, int e) {
-		ufe[stackSize][0] = u;
-		ufe[stackSize][1] = f;
-		ufe[stackSize][2] = e;
-		stackSize++;
+		ufe[stacksize][0] = u;
+		ufe[stacksize][1] = f;
+		ufe[stacksize][2] = e;
+		stacksize++;
 	}
 
 	public static void pop() {
-		--stackSize;
-		cur = ufe[stackSize][0];
-		fath = ufe[stackSize][1];
-		edge = ufe[stackSize][2];
+		--stacksize;
+		cur = ufe[stacksize][0];
+		fath = ufe[stacksize][1];
+		edge = ufe[stacksize][2];
 	}
 
 	public static void dfs2() {
-		stackSize = 0;
+		stacksize = 0;
 		push(1, 0, -1);
-		while (stackSize > 0) {
+		while (stacksize > 0) {
 			pop();
 			if (edge == -1) {
 				dep[cur] = dep[fath] + 1;
@@ -268,7 +268,7 @@ public class Code06_Random1 {
 				}
 				updateAns(x, y);
 			}
-			int ans1 = ans.getOnes();
+			int ans1 = ans.count();
 			int ans2 = ans.mex();
 			out.println(ans1 + " " + ans2);
 			last = ans1 + ans2;
