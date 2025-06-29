@@ -23,7 +23,6 @@ public class Code04_Inversion1 {
 	public static int MAXN = 100001;
 	public static int MAXB = 701;
 	public static int n, m;
-
 	public static int[] arr = new int[MAXN];
 	public static int[][] sortv = new int[MAXN][2];
 
@@ -33,6 +32,7 @@ public class Code04_Inversion1 {
 	public static int[] br = new int[MAXB];
 
 	public static int[] tree = new int[MAXN];
+
 	public static int[] pre = new int[MAXN];
 	public static int[] suf = new int[MAXN];
 	public static int[][] cnt = new int[MAXB][MAXN];
