@@ -36,20 +36,19 @@ public class Code06_Random1 {
 	public static int[][] stjump = new int[MAXN][MAXP];
 
 	// 随机撒点，预处理阶段需要的信息
-	// bnum表示关键点数量
-	public static int bnum;
+	// markNum表示关键点数量
+	public static int markNum;
 	// vis[i]表示i号节点是否已经是关键点
 	public static boolean[] vis = new boolean[MAXN];
-	// capital[i]表示第i个关键点的节点编号
-	public static int[] capital = new int[MAXB];
+	// markNode[k] = i 表示第k个关键点是编号为i的节点
+	public static int[] markNode = new int[MAXB];
 
 	// 随机撒点，预处理阶段生成的信息
-	// repBlock[i] = j 表示i号节点是第j个关键点
-	// repBlock[i] = 0 表示i号节点是非关键点
-	public static int[] repBlock = new int[MAXN];
+	// kthMark[i] = k 表示i号节点是第k个关键点，kthMark[i] = 0 表示i号节点是非关键点
+	public static int[] kthMark = new int[MAXN];
 	// up[i] = j，表示i号节点是关键点，它往上跳到最近的关键点是j号节点
 	public static int[] up = new int[MAXN];
-	// downSet[i]的含义，路径是[第i个的关键点 .. 最近的上方关键点)，沿途所有节点值组成的位图
+	// downSet[k]的含义，路径是[第k个的关键点 .. 最近的上方关键点)，沿途所有节点值组成的位图
 	public static BitSet[] downSet = new BitSet[MAXB];
 
 	public static BitSet ans = new BitSet();
@@ -188,12 +187,12 @@ public class Code06_Random1 {
 	}
 
 	public static void query(int x, int xylca) {
-		while (repBlock[x] == 0 && x != xylca) {
+		while (kthMark[x] == 0 && x != xylca) {
 			ans.setOne(arr[x]);
 			x = stjump[x][0];
 		}
 		while (up[x] > 0 && dep[up[x]] > dep[xylca]) {
-			ans.or(downSet[repBlock[x]]);
+			ans.or(downSet[kthMark[x]]);
 			x = up[x];
 		}
 		while (x != xylca) {
@@ -211,23 +210,23 @@ public class Code06_Random1 {
 
 	public static void prepare() {
 		dfs2();
-		int blen = (int) Math.sqrt(20.0 * n);
-		bnum = (n + blen - 1) / blen;
-		for (int b = 1, pick; b <= bnum; b++) {
+		int len = (int) Math.sqrt(20.0 * n);
+		markNum = (n + len - 1) / len;
+		for (int b = 1, pick; b <= markNum; b++) {
 			do {
 				pick = (int) (Math.random() * n) + 1;
 			} while (vis[pick]);
 			vis[pick] = true;
-			capital[b] = pick;
-			repBlock[pick] = b;
+			markNode[b] = pick;
+			kthMark[pick] = b;
 		}
-		for (int b = 1, cur; b <= bnum; b++) {
+		for (int b = 1, cur; b <= markNum; b++) {
 			downSet[b] = new BitSet();
-			downSet[b].setOne(arr[capital[b]]);
-			cur = stjump[capital[b]][0];
+			downSet[b].setOne(arr[markNode[b]]);
+			cur = stjump[markNode[b]][0];
 			while (cur != 0) {
-				if (repBlock[cur] > 0) {
-					up[capital[b]] = cur;
+				if (kthMark[cur] > 0) {
+					up[markNode[b]] = cur;
 					break;
 				} else {
 					downSet[b].setOne(arr[cur]);

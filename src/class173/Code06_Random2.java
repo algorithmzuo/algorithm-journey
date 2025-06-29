@@ -31,11 +31,11 @@ package class173;
 //int dep[MAXN];
 //int stjump[MAXN][MAXP];
 //
-//int bnum;
+//int markNum;
 //bool vis[MAXN];
-//int capital[MAXN];
+//int markNode[MAXN];
 //
-//int repBlock[MAXN];
+//int kthMark[MAXN];
 //int up[MAXN];
 //bitset<MAXV> downSet[MAXB];
 //
@@ -82,12 +82,12 @@ package class173;
 //}
 //
 //void query(int x, int xylca) {
-//    while (repBlock[x] == 0 && x != xylca) {
+//    while (kthMark[x] == 0 && x != xylca) {
 //        ans[arr[x]] = 1;
 //        x = stjump[x][0];
 //    }
 //    while (up[x] && dep[up[x]] > dep[xylca]) {
-//        ans |= downSet[repBlock[x]];
+//        ans |= downSet[kthMark[x]];
 //        x = up[x];
 //    }
 //    while (x != xylca) {
@@ -105,22 +105,22 @@ package class173;
 //
 //void prepare() {
 //    dfs(1, 0);
-//    int blen = (int)sqrt(20.0 * n);
-//    bnum = (n + blen - 1) / blen;
-//    for (int b = 1, pick; b <= bnum; b++) {
+//    int len = (int)sqrt(20.0 * n);
+//    markNum = (n + len - 1) / len;
+//    for (int b = 1, pick; b <= markNum; b++) {
 //        do {
 //            pick = rand() % n + 1;
 //        } while (vis[pick]);
 //        vis[pick] = true;
-//        capital[b] = pick;
-//        repBlock[pick] = b;
+//        markNode[b] = pick;
+//        kthMark[pick] = b;
 //    }
-//    for (int b = 1, cur; b <= bnum; b++) {
-//        downSet[b][arr[capital[b]]] = 1;
-//        cur = stjump[capital[b]][0];
+//    for (int b = 1, cur; b <= markNum; b++) {
+//        downSet[b][arr[markNode[b]]] = 1;
+//        cur = stjump[markNode[b]][0];
 //        while (cur != 0) {
-//            if (repBlock[cur] > 0) {
-//                up[capital[b]] = cur;
+//            if (kthMark[cur] > 0) {
+//                up[markNode[b]] = cur;
 //                break;
 //            } else {
 //                downSet[b][arr[cur]] = 1;
