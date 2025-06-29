@@ -35,22 +35,21 @@ public class Code06_Random1 {
 	public static int[] dep = new int[MAXN];
 	public static int[][] stjump = new int[MAXN][MAXP];
 
-	// 随机撒点，预处理过程需要
-	// bnum表示块的数量，也表示会有几个点被选为代表点
+	// 随机撒点，预处理阶段需要的信息
+	// bnum表示关键点数量
 	public static int bnum;
-	// vis[i]表示i号点是否已经选为某个块的代表点
+	// vis[i]表示i号节点是否已经是关键点
 	public static boolean[] vis = new boolean[MAXN];
-	// capital[i]表示第i块的代表节点
+	// capital[i]表示第i个关键点的节点编号
 	public static int[] capital = new int[MAXB];
 
-	// 随机撒点，预处理之后生成的信息
-	// repBlock[i] = j，表示i号节点是第j块的代表
-	// repBlock[i] = 0，表示i号节点不是任何块的代表
+	// 随机撒点，预处理阶段生成的信息
+	// repBlock[i] = j 表示i号节点是第j个关键点
+	// repBlock[i] = 0 表示i号节点是非关键点
 	public static int[] repBlock = new int[MAXN];
-	// up[i] = j，表示i号节点是某块的代表，它往上跳到最近的代表点是j
+	// up[i] = j，表示i号节点是关键点，它往上跳到最近的关键点是j号节点
 	public static int[] up = new int[MAXN];
-	// downSet[i]，表示下方第i块的代表点往上走到最近的代表点
-	// 路径不包括上方代表点，沿途所有点权组成的位图
+	// downSet[i]的含义，路径是[第i个的关键点 .. 最近的上方关键点)，沿途所有节点值组成的位图
 	public static BitSet[] downSet = new BitSet[MAXB];
 
 	public static BitSet ans = new BitSet();
