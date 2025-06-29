@@ -19,7 +19,7 @@ package class173;
 //const int MAXN = 100001;
 //const int MAXB = 301;
 //const int MAXV = 30001;
-//const int LIMIT = 17;
+//const int MAXP = 17;
 //int n, m, f, k;
 //int arr[MAXN];
 //
@@ -29,7 +29,7 @@ package class173;
 //int cntg;
 //
 //int dep[MAXN];
-//int stjump[MAXN][LIMIT];
+//int stjump[MAXN][MAXP];
 //
 //int bnum;
 //bool vis[MAXN];
@@ -50,7 +50,7 @@ package class173;
 //void dfs(int u, int fa) {
 //    dep[u] = dep[fa] + 1;
 //    stjump[u][0] = fa;
-//    for (int p = 1; p < LIMIT; p++) {
+//    for (int p = 1; p < MAXP; p++) {
 //        stjump[u][p] = stjump[stjump[u][p - 1]][p - 1];
 //    }
 //    for (int e = head[u]; e; e = nxt[e]) {
@@ -64,7 +64,7 @@ package class173;
 //    if (dep[a] < dep[b]) {
 //        swap(a, b);
 //    }
-//    for (int p = LIMIT - 1; p >= 0; p--) {
+//    for (int p = MAXP - 1; p >= 0; p--) {
 //        if (dep[stjump[a][p]] >= dep[b]) {
 //            a = stjump[a][p];
 //        }
@@ -72,7 +72,7 @@ package class173;
 //    if (a == b) {
 //        return a;
 //    }
-//    for (int p = LIMIT - 1; p >= 0; p--) {
+//    for (int p = MAXP - 1; p >= 0; p--) {
 //        if (stjump[a][p] != stjump[b][p]) {
 //            a = stjump[a][p];
 //            b = stjump[b][p];
