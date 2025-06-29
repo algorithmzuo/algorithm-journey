@@ -141,8 +141,8 @@ public class Code04_Inversion1 {
 			}
 			dp[i][i] = pre[br[i]];
 		}
-		for (int len = 2; len <= bnum; len++) {
-			for (int l = 1, r = l + len - 1; r <= bnum; l++, r++) {
+		for (int l = bnum; l >= 1; l--) {
+			for (int r = l + 1; r <= bnum; r++) {
 				dp[l][r] = dp[l + 1][r] + dp[l][r - 1] - dp[l + 1][r - 1] + calc(l, bl[l], br[l], r, bl[r], br[r]);
 			}
 		}
