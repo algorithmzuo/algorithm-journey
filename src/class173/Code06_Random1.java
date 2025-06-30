@@ -35,15 +35,13 @@ public class Code06_Random1 {
 	public static int[] dep = new int[MAXN];
 	public static int[][] stjump = new int[MAXN][MAXP];
 
-	// 随机撒点，预处理阶段需要的信息
+	// 随机撒点
 	// markNum表示关键点数量
 	public static int markNum;
 	// vis[i]表示i号节点是否已经是关键点
 	public static boolean[] vis = new boolean[MAXN];
 	// markNode[k] = i 表示第k个关键点是编号为i的节点
 	public static int[] markNode = new int[MAXB];
-
-	// 随机撒点，预处理阶段生成的信息
 	// kthMark[i] = k 表示i号节点是第k个关键点，kthMark[i] = 0 表示i号节点是非关键点
 	public static int[] kthMark = new int[MAXN];
 	// up[i] = j，表示i号节点是关键点，它往上跳到最近的关键点是j号节点

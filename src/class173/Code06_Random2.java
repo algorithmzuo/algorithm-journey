@@ -34,7 +34,6 @@ package class173;
 //int markNum;
 //bool vis[MAXN];
 //int markNode[MAXN];
-//
 //int kthMark[MAXN];
 //int up[MAXN];
 //bitset<MAXV> downSet[MAXB];
