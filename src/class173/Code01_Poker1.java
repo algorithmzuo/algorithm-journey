@@ -19,7 +19,6 @@ public class Code01_Poker1 {
 
 	public static int MAXN = 100001;
 	public static int MAXB = 1001;
-	public static int INF = Integer.MAX_VALUE;
 	public static int n, m;
 
 	public static int[] arr = new int[MAXN];
@@ -54,7 +53,7 @@ public class Code01_Poker1 {
 	}
 
 	public static int getMin(int l, int r) {
-		int lb = bi[l], rb = bi[r], ans = INF;
+		int lb = bi[l], rb = bi[r], ans = 10000000;
 		if (lb == rb) {
 			for (int i = l; i <= r; i++) {
 				ans = Math.min(ans, arr[i] + lazy[lb]);
@@ -74,7 +73,7 @@ public class Code01_Poker1 {
 	}
 
 	public static int getMax(int l, int r) {
-		int lb = bi[l], rb = bi[r], ans = -INF;
+		int lb = bi[l], rb = bi[r], ans = -10000000;
 		if (lb == rb) {
 			for (int i = l; i <= r; i++) {
 				ans = Math.max(ans, arr[i] + lazy[lb]);
@@ -162,7 +161,7 @@ public class Code01_Poker1 {
 	}
 
 	public static void prepare() {
-		blen = (int) Math.sqrt(n);
+		blen = (int) Math.sqrt(n / 2);
 		bnum = (n + blen - 1) / blen;
 		for (int i = 1; i <= n; i++) {
 			bi[i] = (i - 1) / blen + 1;

@@ -16,7 +16,6 @@ package class173;
 //
 //const int MAXN = 100001;
 //const int MAXB = 1001;
-//const int INF = 2147483647;
 //
 //int n, m;
 //int arr[MAXN];
@@ -51,7 +50,7 @@ package class173;
 //}
 //
 //int getMin(int l, int r) {
-//    int lb = bi[l], rb = bi[r], ans = INF;
+//    int lb = bi[l], rb = bi[r], ans = 10000000;
 //    if (lb == rb) {
 //        for (int i = l; i <= r; i++) {
 //            ans = min(ans, arr[i] + lazy[lb]);
@@ -71,7 +70,7 @@ package class173;
 //}
 //
 //int getMax(int l, int r) {
-//    int lb = bi[l], rb = bi[r], ans = -INF;
+//    int lb = bi[l], rb = bi[r], ans = -10000000;
 //    if (lb == rb) {
 //        for (int i = l; i <= r; i++) {
 //            ans = max(ans, arr[i] + lazy[lb]);
@@ -158,7 +157,7 @@ package class173;
 //}
 //
 //void prepare() {
-//    blen = (int)sqrt(m);
+//    blen = (int)sqrt(n / 2);
 //    bnum = (n + blen - 1) / blen;
 //    for (int i = 1; i <= n; i++) {
 //        bi[i] = (i - 1) / blen + 1;
