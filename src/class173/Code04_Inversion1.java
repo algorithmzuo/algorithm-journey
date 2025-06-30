@@ -98,7 +98,7 @@ public class Code04_Inversion1 {
 
 	// 注意调整块长
 	public static void prepare() {
-		blen = (int) (Math.sqrt(n) / 2);
+		blen = (int) Math.sqrt(n / 4);
 		bnum = (n + blen - 1) / blen;
 		for (int i = 1; i <= n; i++) {
 			bi[i] = (i - 1) / blen + 1;
