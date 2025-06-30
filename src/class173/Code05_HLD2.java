@@ -42,7 +42,6 @@ package class173;
 //int br[MAXB];
 //bitset<MAXV> bitSet[MAXB];
 //
-//bitset<MAXV> tmp;
 //bitset<MAXV> ans;
 //
 //void addEdge(int u, int v) {
@@ -89,20 +88,19 @@ package class173;
 //}
 //
 //void query(int l, int r) {
-//    tmp.reset();
 //    if (bi[l] == bi[r]) {
 //        for (int i = l; i <= r; i++) {
-//        	tmp[val[i]] = 1;
+//        	ans[val[i]] = 1;
 //        }
 //    } else {
 //        for (int i = l; i <= br[bi[l]]; i++) {
-//        	tmp[val[i]] = 1;
+//        	ans[val[i]] = 1;
 //        }
 //        for (int i = bl[bi[r]]; i <= r; i++) {
-//        	tmp[val[i]] = 1;
+//        	ans[val[i]] = 1;
 //        }
 //        for (int i = bi[l] + 1; i <= bi[r] - 1; i++) {
-//        	tmp |= bitSet[i];
+//        	ans |= bitSet[i];
 //        }
 //    }
 //}
@@ -113,11 +111,9 @@ package class173;
 //            swap(x, y);
 //        }
 //        query(dfn[top[x]], dfn[x]);
-//        ans |= tmp;
 //        x = fa[top[x]];
 //    }
 //    query(min(dfn[x], dfn[y]), max(dfn[x], dfn[y]));
-//    ans |= tmp;
 //}
 //
 //void prepare() {

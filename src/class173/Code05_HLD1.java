@@ -47,8 +47,6 @@ public class Code05_HLD1 {
 	public static int[] br = new int[MAXB];
 	public static BitSet[] bitSet = new BitSet[MAXB];
 
-	// 答案
-	public static BitSet tmp = new BitSet();
 	public static BitSet ans = new BitSet();
 
 	static class BitSet {
@@ -224,20 +222,19 @@ public class Code05_HLD1 {
 	}
 
 	public static void query(int l, int r) {
-		tmp.clear();
 		if (bi[l] == bi[r]) {
 			for (int i = l; i <= r; i++) {
-				tmp.setOne(val[i]);
+				ans.setOne(val[i]);
 			}
 		} else {
 			for (int i = l; i <= br[bi[l]]; i++) {
-				tmp.setOne(val[i]);
+				ans.setOne(val[i]);
 			}
 			for (int i = bl[bi[r]]; i <= r; i++) {
-				tmp.setOne(val[i]);
+				ans.setOne(val[i]);
 			}
 			for (int i = bi[l] + 1; i <= bi[r] - 1; i++) {
-				tmp.or(bitSet[i]);
+				ans.or(bitSet[i]);
 			}
 		}
 	}
@@ -250,11 +247,9 @@ public class Code05_HLD1 {
 				y = tmp;
 			}
 			query(dfn[top[x]], dfn[x]);
-			ans.or(tmp);
 			x = fa[top[x]];
 		}
 		query(Math.min(dfn[x], dfn[y]), Math.max(dfn[x], dfn[y]));
-		ans.or(tmp);
 	}
 
 	public static void prepare() {
