@@ -255,7 +255,7 @@ public class Code05_HLD1 {
 	public static void prepare() {
 		dfs3();
 		dfs4();
-		blen = (int) Math.sqrt(20.0 * n);
+		blen = (int) Math.sqrt(n * 20);
 		bnum = (n + blen - 1) / blen;
 		for (int i = 1; i <= n; i++) {
 			bi[i] = (i - 1) / blen + 1;

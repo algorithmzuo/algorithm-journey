@@ -119,7 +119,7 @@ package class173;
 //void prepare() {
 //    dfs1(1, 0);
 //    dfs2(1, 1);
-//    blen = (int)sqrt(20.0 * n);
+//    blen = (int)sqrt(n * 20);
 //    bnum = (n + blen - 1) / blen;
 //    for (int i = 1; i <= n; i++) {
 //        bi[i] = (i - 1) / blen + 1;

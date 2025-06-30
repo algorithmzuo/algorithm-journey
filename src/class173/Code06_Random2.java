@@ -105,7 +105,7 @@ package class173;
 //
 //void prepare() {
 //    dfs(1, 0);
-//    int len = (int)sqrt(10.0 * n);
+//    int len = (int)sqrt(n * 10);
 //    markNum = (n + len - 1) / len;
 //    for (int b = 1, pick; b <= markNum; b++) {
 //        do {

@@ -210,7 +210,7 @@ public class Code06_Random1 {
 
 	public static void prepare() {
 		dfs2();
-		int len = (int) Math.sqrt(10.0 * n);
+		int len = (int) Math.sqrt(n * 10);
 		markNum = (n + len - 1) / len;
 		for (int b = 1, pick; b <= markNum; b++) {
 			do {
