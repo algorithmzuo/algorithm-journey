@@ -90,17 +90,17 @@ package class173;
 //void query(int l, int r) {
 //    if (bi[l] == bi[r]) {
 //        for (int i = l; i <= r; i++) {
-//        	ans[val[i]] = 1;
+//            ans[val[i]] = 1;
 //        }
 //    } else {
 //        for (int i = l; i <= br[bi[l]]; i++) {
-//        	ans[val[i]] = 1;
+//            ans[val[i]] = 1;
 //        }
 //        for (int i = bl[bi[r]]; i <= r; i++) {
-//        	ans[val[i]] = 1;
+//            ans[val[i]] = 1;
 //        }
 //        for (int i = bi[l] + 1; i <= bi[r] - 1; i++) {
-//        	ans |= bitSet[i];
+//            ans |= bitSet[i];
 //        }
 //    }
 //}
