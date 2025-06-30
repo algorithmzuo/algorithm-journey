@@ -17,7 +17,7 @@ package class173;
 //using namespace std;
 //
 //const int MAXN = 100001;
-//const int MAXB = 301;
+//const int MAXB = 401;
 //const int MAXV = 30001;
 //int n, m, f, k;
 //int arr[MAXN];

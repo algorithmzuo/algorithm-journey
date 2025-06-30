@@ -19,7 +19,7 @@ import java.io.PrintWriter;
 public class Code06_Random1 {
 
 	public static int MAXN = 100001;
-	public static int MAXB = 301;
+	public static int MAXB = 401;
 	public static int MAXV = 30001;
 	public static int MAXP = 17;
 	public static int n, m, f, k;
@@ -210,7 +210,7 @@ public class Code06_Random1 {
 
 	public static void prepare() {
 		dfs2();
-		int len = (int) Math.sqrt(20.0 * n);
+		int len = (int) Math.sqrt(10.0 * n);
 		markNum = (n + len - 1) / len;
 		for (int b = 1, pick; b <= markNum; b++) {
 			do {

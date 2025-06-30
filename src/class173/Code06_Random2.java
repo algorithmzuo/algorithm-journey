@@ -17,7 +17,7 @@ package class173;
 //using namespace std;
 //
 //const int MAXN = 100001;
-//const int MAXB = 301;
+//const int MAXB = 401;
 //const int MAXV = 30001;
 //const int MAXP = 17;
 //int n, m, f, k;
@@ -105,7 +105,7 @@ package class173;
 //
 //void prepare() {
 //    dfs(1, 0);
-//    int len = (int)sqrt(20.0 * n);
+//    int len = (int)sqrt(10.0 * n);
 //    markNum = (n + len - 1) / len;
 //    for (int b = 1, pick; b <= markNum; b++) {
 //        do {

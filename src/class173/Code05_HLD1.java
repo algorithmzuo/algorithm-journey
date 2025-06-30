@@ -19,7 +19,7 @@ import java.io.PrintWriter;
 public class Code05_HLD1 {
 
 	public static int MAXN = 100001;
-	public static int MAXB = 301;
+	public static int MAXB = 401;
 	public static int MAXV = 30001;
 	public static int n, m, f, k;
 	public static int[] arr = new int[MAXN];
@@ -260,7 +260,6 @@ public class Code05_HLD1 {
 	public static void prepare() {
 		dfs3();
 		dfs4();
-		// 调整块长
 		blen = (int) Math.sqrt(20.0 * n);
 		bnum = (n + blen - 1) / blen;
 		for (int i = 1; i <= n; i++) {
