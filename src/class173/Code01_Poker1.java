@@ -15,7 +15,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.util.Arrays;
 
-public class Code02_Poker1 {
+public class Code01_Poker1 {
 
 	public static int MAXN = 100001;
 	public static int MAXB = 1001;

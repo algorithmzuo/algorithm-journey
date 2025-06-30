@@ -16,7 +16,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.util.Arrays;
 
-public class Code01_Sequence1 {
+public class Code02_Sequence1 {
 
 	public static int MAXN = 100001;
 	public static int MAXB = 501;
