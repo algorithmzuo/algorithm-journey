@@ -11,7 +11,7 @@ package class173;
 // 测试链接 : https://www.luogu.com.cn/problem/P10590
 // 测试链接 : https://codeforces.com/problemset/problem/198/E
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
-// 为了这道题能用java通过，我没有把数据封装到一起，组成一个磁块对象
+// 为了这道题能用java通过，不把数据封装到一起组成一个磁块对象
 // 手写了双指针快排优化常数时间，一般不需要这么做，正式比赛不卡常
 
 import java.io.IOException;
@@ -120,7 +120,17 @@ public class Code03_Magnet1 {
 		while (l < r) {
 			int cur = que[l++];
 			for (int b = 1; b <= bnum; b++) {
-				if (maxm[b] > p[cur]) {
+				if (maxm[b] <= p[cur]) {
+					while (bl[b] <= br[b] && dist[bl[b]] <= range[cur]) {
+						int i = bl[b];
+						if (!vis[i]) {
+							vis[i] = true;
+							que[r++] = i;
+							ans++;
+						}
+						bl[b]++; // 重要剪枝逻辑
+					}
+				} else {
 					for (int j = bl[b]; j <= br[b]; j++) {
 						if (dist[j] <= range[cur] && m[j] <= p[cur] && !vis[j]) {
 							vis[j] = true;
@@ -129,15 +139,6 @@ public class Code03_Magnet1 {
 						}
 					}
 					break;
-				}
-				while (bl[b] <= br[b] && dist[bl[b]] <= range[cur]) {
-					int i = bl[b];
-					if (!vis[i]) {
-						vis[i] = true;
-						que[r++] = i;
-						ans++;
-					}
-					bl[b]++; // 重要剪枝逻辑
 				}
 			}
 		}

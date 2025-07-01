@@ -70,7 +70,17 @@ package class173;
 //    while (l < r) {
 //        int cur = que[l++];
 //        for (int b = 1; b <= bnum; b++) {
-//            if (maxm[b] > arr[cur].p) {
+//            if (maxm[b] <= arr[cur].p) {
+//                while (bl[b] <= br[b] && arr[bl[b]].dist <= arr[cur].range) {
+//                    int i = bl[b];
+//                    if (!vis[i]) {
+//                        vis[i] = true;
+//                        que[r++] = i;
+//                        ans++;
+//                    }
+//                    bl[b]++;
+//                }
+//            } else {
 //                for (int i = bl[b]; i <= br[b]; i++) {
 //                    if (arr[i].dist <= arr[cur].range && arr[i].m <= arr[cur].p && !vis[i]) {
 //                        vis[i] = true;
@@ -79,15 +89,6 @@ package class173;
 //                    }
 //                }
 //                break;
-//            }
-//            while (bl[b] <= br[b] && arr[bl[b]].dist <= arr[cur].range) {
-//                int i = bl[b];
-//                if (!vis[i]) {
-//                    vis[i] = true;
-//                    que[r++] = i;
-//                    ans++;
-//                }
-//                bl[b]++;
 //            }
 //        }
 //    }
