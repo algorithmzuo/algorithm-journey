@@ -11,7 +11,7 @@ package class173;
 // 测试链接 : https://www.luogu.com.cn/problem/P10590
 // 测试链接 : https://codeforces.com/problemset/problem/198/E
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
-// 为了这道题能用java通过，不把数据封装到一起组成一个磁块对象
+// 为了java的实现能通过，不把数据封装成一个磁块对象，然后去排序
 // 手写了双指针快排优化常数时间，一般不需要这么做，正式比赛不卡常
 
 import java.io.IOException;
