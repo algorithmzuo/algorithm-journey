@@ -137,7 +137,7 @@ public class Code03_Magnet1 {
 						que[r++] = i;
 						ans++;
 					}
-					bl[b]++;
+					bl[b]++; // 重要剪枝逻辑
 				}
 			}
 		}
