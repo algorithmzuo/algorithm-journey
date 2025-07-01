@@ -1,7 +1,7 @@
 package class173;
 
 // 区间逆序对，java版
-// 给定一个长度为n的数组arr，接下来有m条操作，每条操作格式如下
+// 给定一个长度为n的排列，接下来有m条操作，每条操作格式如下
 // 操作 l r : 打印arr[l..r]范围上的逆序对数量
 // 1 <= n、m <= 10^5
 // 题目要求强制在线，具体规则可以打开测试链接查看
@@ -66,7 +66,7 @@ public class Code04_Inversion1 {
 	// 更靠左的第x块，从xl到xr范围上，选第一个数
 	// 更靠左的第y块，从yl到yr范围上，选第二个数
 	// 这两个数一定要构成逆序对，返回这样的逆序对数量
-	public static int calc(int x, int xl, int xr, int y, int yl, int yr) {
+	public static int f(int x, int xl, int xr, int y, int yl, int yr) {
 		int ans = 0;
 		for (int p1 = bl[x], p2 = bl[y] - 1, cnt = 0; p1 <= br[x]; p1++) {
 			if (xl <= sortv[p1][1] && sortv[p1][1] <= xr) {
@@ -90,16 +90,16 @@ public class Code04_Inversion1 {
 			if (l == bl[lb]) {
 				ans = pre[r];
 			} else {
-				ans = pre[r] - pre[l - 1] - calc(lb, 1, l - 1, lb, l, r);
+				ans = pre[r] - pre[l - 1] - f(lb, 1, l - 1, lb, l, r);
 			}
 		} else {
 			for (int i = l; i <= br[lb]; i++) {
 				ans += cnt[rb - 1][arr[i]] - cnt[lb][arr[i]];
 			}
 			for (int i = bl[rb]; i <= r; i++) {
-				ans += br[rb - 1] - bl[lb + 1] + 1 - cnt[rb - 1][arr[i]] + cnt[lb][arr[i]];
+				ans += br[rb - 1] - bl[lb + 1] + 1 - (cnt[rb - 1][arr[i]] - cnt[lb][arr[i]]);
 			}
-			ans += dp[lb + 1][rb - 1] + suf[l] + pre[r] + calc(lb, l, br[lb], rb, bl[rb], r);
+			ans += dp[lb + 1][rb - 1] + suf[l] + pre[r] + f(lb, l, br[lb], rb, bl[rb], r);
 		}
 		return ans;
 	}
@@ -151,7 +151,7 @@ public class Code04_Inversion1 {
 		for (int l = bnum; l >= 1; l--) {
 			dp[l][l] = pre[br[l]];
 			for (int r = l + 1; r <= bnum; r++) {
-				dp[l][r] = dp[l + 1][r] + dp[l][r - 1] - dp[l + 1][r - 1] + calc(l, bl[l], br[l], r, bl[r], br[r]);
+				dp[l][r] = dp[l + 1][r] + dp[l][r - 1] - dp[l + 1][r - 1] + f(l, bl[l], br[l], r, bl[r], br[r]);
 			}
 		}
 	}
