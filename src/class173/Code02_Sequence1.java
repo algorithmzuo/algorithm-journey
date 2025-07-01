@@ -29,9 +29,9 @@ public class Code02_Sequence1 {
 	public static int cnte = 0;
 	public static int cntq = 0;
 
-	// 时间块内的值
+	// tim[i] = v，表示在i号时间点，所有数字都增加v
 	public static long[] tim = new long[MAXN];
-	// 每块的值排序
+	// 时间块内的所有值要排序，方便查询 >= v的数字个数
 	public static long[] sortv = new long[MAXN];
 
 	// 时间分块
@@ -41,6 +41,7 @@ public class Code02_Sequence1 {
 	public static int[] br = new int[MAXB];
 	public static long[] lazy = new long[MAXB];
 
+	// 每个查询的答案
 	public static int[] ans = new int[MAXN];
 
 	public static void addChange(int x, int t, int v) {
@@ -94,6 +95,7 @@ public class Code02_Sequence1 {
 		return ans;
 	}
 
+	// 第i块内>= v的数字个数
 	public static int getCnt(int i, long v) {
 		v -= lazy[i];
 		int l = bl[i], r = br[i], m, pos = br[i] + 1;
