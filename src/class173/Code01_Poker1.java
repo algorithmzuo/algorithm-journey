@@ -115,7 +115,7 @@ public class Code01_Poker1 {
 		return find - bl[i] + 1;
 	}
 
-	// 返回[l..r]范围上<= v的数字个数
+	// 返回arr[l..r]范围上<= v的数字个数
 	public static int getCnt(int l, int r, int v) {
 		int lb = bi[l], rb = bi[r], ans = 0;
 		if (lb == rb) {
