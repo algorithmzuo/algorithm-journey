@@ -89,7 +89,7 @@ package class173;
 //    return ans;
 //}
 //
-//int getCnt(int i, int v) {
+//int blockCnt(int i, int v) {
 //    v -= lazy[i];
 //    int l = bl[i], r = br[i];
 //    if (sortv[l] > v) {
@@ -111,7 +111,7 @@ package class173;
 //    return find - bl[i] + 1;
 //}
 //
-//int num(int l, int r, int v) {
+//int getCnt(int l, int r, int v) {
 //    int lb = bi[l], rb = bi[r], ans = 0;
 //    if (lb == rb) {
 //        for (int i = l; i <= r; i++) {
@@ -131,14 +131,14 @@ package class173;
 //            }
 //        }
 //        for (int i = lb + 1; i <= rb - 1; i++) {
-//            ans += getCnt(i, v);
+//            ans += blockCnt(i, v);
 //        }
 //    }
 //    return ans;
 //}
 //
-//int query(int l, int r, int v) {
-//    if (v < 1 || v > r - l + 1) {
+//int query(int l, int r, int k) {
+//    if (k < 1 || k > r - l + 1) {
 //        return -1;
 //    }
 //    int minv = getMin(l, r);
@@ -146,7 +146,7 @@ package class173;
 //    int ans = -1;
 //    while (minv <= maxv) {
 //        int midv = minv + (maxv - minv) / 2;
-//        if (num(l, r, midv) >= v) {
+//        if (getCnt(l, r, midv) >= k) {
 //            ans = midv;
 //            maxv = midv - 1;
 //        } else {

@@ -92,7 +92,8 @@ public class Code01_Poker1 {
 		return ans;
 	}
 
-	public static int getCnt(int i, int v) {
+	// 返回第i块内<= v的数字个数
+	public static int blockCnt(int i, int v) {
 		v -= lazy[i];
 		int l = bl[i], r = br[i];
 		if (sortv[l] > v) {
@@ -114,7 +115,8 @@ public class Code01_Poker1 {
 		return find - bl[i] + 1;
 	}
 
-	public static int num(int l, int r, int v) {
+	// 返回[l..r]范围上<= v的数字个数
+	public static int getCnt(int l, int r, int v) {
 		int lb = bi[l], rb = bi[r], ans = 0;
 		if (lb == rb) {
 			for (int i = l; i <= r; i++) {
@@ -134,14 +136,14 @@ public class Code01_Poker1 {
 				}
 			}
 			for (int i = lb + 1; i <= rb - 1; i++) {
-				ans += getCnt(i, v);
+				ans += blockCnt(i, v);
 			}
 		}
 		return ans;
 	}
 
-	public static int query(int l, int r, int v) {
-		if (v < 1 || v > r - l + 1) {
+	public static int query(int l, int r, int k) {
+		if (k < 1 || k > r - l + 1) {
 			return -1;
 		}
 		int minv = getMin(l, r);
@@ -150,7 +152,7 @@ public class Code01_Poker1 {
 		int ans = -1;
 		while (minv <= maxv) {
 			midv = minv + (maxv - minv) / 2;
-			if (num(l, r, midv) >= v) {
+			if (getCnt(l, r, midv) >= k) {
 				ans = midv;
 				maxv = midv - 1;
 			} else {
@@ -160,6 +162,7 @@ public class Code01_Poker1 {
 		return ans;
 	}
 
+	// 注意调整块长
 	public static void prepare() {
 		blen = (int) Math.sqrt(n / 2);
 		bnum = (n + blen - 1) / blen;
