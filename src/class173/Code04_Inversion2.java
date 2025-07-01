@@ -82,15 +82,15 @@ package class173;
 //
 //inline int calc(int x, int xl, int xr, int y, int yl, int yr) {
 //    int ans = 0;
-//    for (int p1 = bl[x], p2 = bl[y] - 1, tmp = 0; p1 <= br[x]; p1++) {
+//    for (int p1 = bl[x], p2 = bl[y] - 1, cnt = 0; p1 <= br[x]; p1++) {
 //        if (xl <= sortv[p1].i && sortv[p1].i <= xr) {
 //            while (p2 + 1 <= br[y] && sortv[p1].v > sortv[p2 + 1].v) {
 //                p2++;
 //                if (yl <= sortv[p2].i && sortv[p2].i <= yr) {
-//                    tmp++;
+//                    cnt++;
 //                }
 //            }
-//            ans += tmp;
+//            ans += cnt;
 //        }
 //    }
 //    return ans;
@@ -157,9 +157,9 @@ package class173;
 //            tmp += cnt[i][j];
 //            cnt[i][j] = tmp + cnt[i - 1][j];
 //        }
-//        dp[i][i] = pre[br[i]];
 //    }
 //    for (int l = bnum; l >= 1; l--) {
+//        dp[l][l] = pre[br[l]];
 //        for (int r = l + 1; r <= bnum; r++) {
 //            dp[l][r] = dp[l + 1][r] + dp[l][r - 1] - dp[l + 1][r - 1] + calc(l, bl[l], br[l], r, bl[r], br[r]);
 //        }

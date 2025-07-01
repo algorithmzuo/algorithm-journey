@@ -31,11 +31,16 @@ public class Code04_Inversion1 {
 	public static int[] bl = new int[MAXB];
 	public static int[] br = new int[MAXB];
 
+	// 树状数组
 	public static int[] tree = new int[MAXN];
 
+	// pre[i] : 从所在块最左位置到i位置，有多少逆序对
 	public static int[] pre = new int[MAXN];
+	// suf[i] : 从i位置到所在块最右位置，有多少逆序对
 	public static int[] suf = new int[MAXN];
+	// cnt[i][j] : 前i块里<=j的数字个数
 	public static int[][] cnt = new int[MAXB][MAXN];
+	// dp[i][j] : 从第i块到第j块有多少逆序对
 	public static long[][] dp = new long[MAXB][MAXB];
 
 	public static int lowbit(int i) {
@@ -58,17 +63,20 @@ public class Code04_Inversion1 {
 		return ret;
 	}
 
+	// 更靠左的第x块，从xl到xr范围上，选第一个数
+	// 更靠左的第y块，从yl到yr范围上，选第二个数
+	// 这两个数一定要构成逆序对，返回这样的逆序对数量
 	public static int calc(int x, int xl, int xr, int y, int yl, int yr) {
 		int ans = 0;
-		for (int p1 = bl[x], p2 = bl[y] - 1, tmp = 0; p1 <= br[x]; p1++) {
+		for (int p1 = bl[x], p2 = bl[y] - 1, cnt = 0; p1 <= br[x]; p1++) {
 			if (xl <= sortv[p1][1] && sortv[p1][1] <= xr) {
 				while (p2 + 1 <= br[y] && sortv[p1][0] > sortv[p2 + 1][0]) {
 					p2++;
 					if (yl <= sortv[p2][1] && sortv[p2][1] <= yr) {
-						tmp++;
+						cnt++;
 					}
 				}
-				ans += tmp;
+				ans += cnt;
 			}
 		}
 		return ans;
@@ -139,9 +147,9 @@ public class Code04_Inversion1 {
 				tmp += cnt[i][j];
 				cnt[i][j] = tmp + cnt[i - 1][j];
 			}
-			dp[i][i] = pre[br[i]];
 		}
 		for (int l = bnum; l >= 1; l--) {
+			dp[l][l] = pre[br[l]];
 			for (int r = l + 1; r <= bnum; r++) {
 				dp[l][r] = dp[l + 1][r] + dp[l][r - 1] - dp[l + 1][r - 1] + calc(l, bl[l], br[l], r, bl[r], br[r]);
 			}
