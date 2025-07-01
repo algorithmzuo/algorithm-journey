@@ -42,8 +42,8 @@ package class173;
 //int br[MAXB];
 //int maxm[MAXB];
 //
-//bool vis[MAXN];
 //int que[MAXN];
+//bool vis[MAXN];
 //
 //int bfs() {
 //    int ans = 0;
