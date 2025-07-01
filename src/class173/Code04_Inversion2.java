@@ -106,13 +106,14 @@ package class173;
 //            ans = pre[r] - pre[l - 1] - f(lb, bl[lb], l - 1, lb, l, r);
 //        }
 //    } else {
+//        ans = suf[l] + pre[r] + f(lb, l, br[lb], rb, bl[rb], r);
 //        for (int i = l; i <= br[lb]; i++) {
 //            ans += cnt[rb - 1][arr[i]] - cnt[lb][arr[i]];
 //        }
 //        for (int i = bl[rb]; i <= r; i++) {
 //            ans += br[rb - 1] - bl[lb + 1] + 1 - (cnt[rb - 1][arr[i]] - cnt[lb][arr[i]]);
 //        }
-//        ans += dp[lb + 1][rb - 1] + suf[l] + pre[r] + f(lb, l, br[lb], rb, bl[rb], r);
+//        ans += dp[lb + 1][rb - 1];
 //    }
 //    return ans;
 //}

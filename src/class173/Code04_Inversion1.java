@@ -24,6 +24,7 @@ public class Code04_Inversion1 {
 	public static int MAXB = 701;
 	public static int n, m;
 	public static int[] arr = new int[MAXN];
+	// (数值、位置)
 	public static int[][] sortv = new int[MAXN][2];
 
 	public static int blen, bnum;
@@ -31,7 +32,7 @@ public class Code04_Inversion1 {
 	public static int[] bl = new int[MAXB];
 	public static int[] br = new int[MAXB];
 
-	// 树状数组
+	// 树状数组，为了快速生成pre数组和suf数组
 	public static int[] tree = new int[MAXN];
 
 	// pre[i] : 从所在块最左位置到i位置，有多少逆序对
@@ -64,7 +65,8 @@ public class Code04_Inversion1 {
 	}
 
 	// 更靠左的第x块，从xl到xr范围上，选第一个数
-	// 更靠左的第y块，从yl到yr范围上，选第二个数
+	// 更靠右的第y块，从yl到yr范围上，选第二个数
+	// x和y可以相等，但是xl..xr需要在yl..yr的左侧
 	// 返回逆序对数量
 	public static int f(int x, int xl, int xr, int y, int yl, int yr) {
 		int ans = 0;
@@ -93,6 +95,8 @@ public class Code04_Inversion1 {
 				ans = pre[r] - pre[l - 1] - f(lb, bl[lb], l - 1, lb, l, r);
 			}
 		} else {
+			// 左散块[l..]内部逆序对 + 右散块[..r]内部逆序对 + 左散块 结合 右散块 的逆序对
+			ans = suf[l] + pre[r] + f(lb, l, br[lb], rb, bl[rb], r);
 			// 左散块中的arr[i]，作为第一个数
 			// 中间整块中的某个数字，作为第二个数
 			// 计算这样的逆序对数量
@@ -106,8 +110,8 @@ public class Code04_Inversion1 {
 			for (int i = bl[rb]; i <= r; i++) {
 				ans += br[rb - 1] - bl[lb + 1] + 1 - (cnt[rb - 1][arr[i]] - cnt[lb][arr[i]]);
 			}
-			// 中间整块的逆序对 + 左散块[l..]的逆序对 + 右散块[..r]的逆序对 + 左散块 结合 右散块 的逆序对
-			ans += dp[lb + 1][rb - 1] + suf[l] + pre[r] + f(lb, l, br[lb], rb, bl[rb], r);
+			// 中间整块的逆序对
+			ans += dp[lb + 1][rb - 1];
 		}
 		return ans;
 	}
