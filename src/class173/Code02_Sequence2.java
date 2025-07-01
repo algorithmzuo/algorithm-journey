@@ -42,21 +42,6 @@ package class173;
 //
 //int ans[MAXN];
 //
-//void addChange(int x, int t, int v) {
-//    event[++cnte].op = 1;
-//    event[cnte].x = x;
-//    event[cnte].t = t;
-//    event[cnte].v = v;
-//}
-//
-//void addQuery(int x, int t, int v) {
-//    event[++cnte].op = 2;
-//    event[cnte].x = x;
-//    event[cnte].t = t;
-//    event[cnte].v = v;
-//    event[cnte].q = ++cntq;
-//}
-//
 //void innerAdd(int l, int r, long long v) {
 //    for (int i = l; i <= r; i++) {
 //        tim[i] += v;
@@ -123,6 +108,21 @@ package class173;
 //        }
 //    }
 //    return ans;
+//}
+//
+//void addChange(int x, int t, int v) {
+//    event[++cnte].op = 1;
+//    event[cnte].x = x;
+//    event[cnte].t = t;
+//    event[cnte].v = v;
+//}
+//
+//void addQuery(int x, int t, int v) {
+//    event[++cnte].op = 2;
+//    event[cnte].x = x;
+//    event[cnte].t = t;
+//    event[cnte].v = v;
+//    event[cnte].q = ++cntq;
 //}
 //
 //void prepare() {

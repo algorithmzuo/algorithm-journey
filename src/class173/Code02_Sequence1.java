@@ -44,21 +44,6 @@ public class Code02_Sequence1 {
 	// 每个查询的答案
 	public static int[] ans = new int[MAXN];
 
-	public static void addChange(int x, int t, int v) {
-		event[++cnte][0] = 1;
-		event[cnte][1] = x;
-		event[cnte][2] = t;
-		event[cnte][3] = v;
-	}
-
-	public static void addQuery(int x, int t, int v) {
-		event[++cnte][0] = 2;
-		event[cnte][1] = x;
-		event[cnte][2] = t;
-		event[cnte][3] = v;
-		event[cnte][4] = ++cntq;
-	}
-
 	public static void innerAdd(int l, int r, long v) {
 		for (int i = l; i <= r; i++) {
 			tim[i] += v;
@@ -128,6 +113,21 @@ public class Code02_Sequence1 {
 		return ans;
 	}
 
+	public static void addChange(int x, int t, int v) {
+		event[++cnte][0] = 1;
+		event[cnte][1] = x;
+		event[cnte][2] = t;
+		event[cnte][3] = v;
+	}
+
+	public static void addQuery(int x, int t, int v) {
+		event[++cnte][0] = 2;
+		event[cnte][1] = x;
+		event[cnte][2] = t;
+		event[cnte][3] = v;
+		event[cnte][4] = ++cntq;
+	}
+
 	public static void prepare() {
 		blen = (int) Math.sqrt(m);
 		bnum = (m + blen - 1) / blen;
@@ -138,6 +138,7 @@ public class Code02_Sequence1 {
 			bl[i] = (i - 1) * blen + 1;
 			br[i] = Math.min(i * blen, m);
 		}
+		// 所有事件根据位置x排序，位置一样的事件，修改事件先执行，查询事件后执行
 		Arrays.sort(event, 1, cnte + 1, (a, b) -> a[1] != b[1] ? a[1] - b[1] : a[2] - b[2]);
 	}
 
