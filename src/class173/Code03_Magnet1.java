@@ -57,7 +57,8 @@ public class Code03_Magnet1 {
 		if (l >= r) {
 			return;
 		}
-		int i = l, j = r, pivot = m[(l + r) >>> 1];
+		int i = l, j = r;
+		int pivot = m[(l + r) >>> 1];
 		while (i <= j) {
 			while (m[i] < pivot) {
 				i++;
