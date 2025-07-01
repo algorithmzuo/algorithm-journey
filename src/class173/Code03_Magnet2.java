@@ -45,23 +45,6 @@ package class173;
 //bool vis[MAXN];
 //int que[MAXN];
 //
-//void prepare() {
-//    blen = (int)sqrt(n);
-//    bnum = (n + blen - 1) / blen;
-//    for (int i = 1; i <= n; i++) {
-//        bi[i] = (i - 1) / blen + 1;
-//    }
-//    for (int i = 1; i <= bnum; i++) {
-//        bl[i] = (i - 1) * blen + 1;
-//        br[i] = min(i * blen, n);
-//    }
-//    sort(arr + 1, arr + n + 1, cmp1);
-//    for (int i = 1; i <= bnum; i++) {
-//        maxm[i] = arr[br[i]].m;
-//        sort(arr + bl[i], arr + br[i] + 1, cmp2);
-//    }
-//}
-//
 //int bfs() {
 //    int ans = 0;
 //    vis[0] = true;
@@ -93,6 +76,23 @@ package class173;
 //        }
 //    }
 //    return ans;
+//}
+//
+//void prepare() {
+//    blen = (int)sqrt(n);
+//    bnum = (n + blen - 1) / blen;
+//    for (int i = 1; i <= n; i++) {
+//        bi[i] = (i - 1) / blen + 1;
+//    }
+//    for (int i = 1; i <= bnum; i++) {
+//        bl[i] = (i - 1) * blen + 1;
+//        br[i] = min(i * blen, n);
+//    }
+//    sort(arr + 1, arr + n + 1, cmp1);
+//    for (int i = 1; i <= bnum; i++) {
+//        maxm[i] = arr[br[i]].m;
+//        sort(arr + bl[i], arr + br[i] + 1, cmp2);
+//    }
 //}
 //
 //int main() {

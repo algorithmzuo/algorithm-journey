@@ -95,23 +95,6 @@ public class Code03_Magnet1 {
 		sortByDist(i, r);
 	}
 
-	public static void prepare() {
-		blen = (int) Math.sqrt(n);
-		bnum = (n + blen - 1) / blen;
-		for (int i = 1; i <= n; i++) {
-			bi[i] = (i - 1) / blen + 1;
-		}
-		for (int i = 1; i <= bnum; i++) {
-			bl[i] = (i - 1) * blen + 1;
-			br[i] = Math.min(i * blen, n);
-		}
-		sortByM(1, n);
-		for (int i = 1; i <= bnum; i++) {
-			maxm[i] = m[br[i]];
-			sortByDist(bl[i], br[i]);
-		}
-	}
-
 	public static int bfs() {
 		int ans = 0;
 		vis[0] = true;
@@ -143,6 +126,23 @@ public class Code03_Magnet1 {
 			}
 		}
 		return ans;
+	}
+
+	public static void prepare() {
+		blen = (int) Math.sqrt(n);
+		bnum = (n + blen - 1) / blen;
+		for (int i = 1; i <= n; i++) {
+			bi[i] = (i - 1) / blen + 1;
+		}
+		for (int i = 1; i <= bnum; i++) {
+			bl[i] = (i - 1) * blen + 1;
+			br[i] = Math.min(i * blen, n);
+		}
+		sortByM(1, n);
+		for (int i = 1; i <= bnum; i++) {
+			maxm[i] = m[br[i]];
+			sortByDist(bl[i], br[i]);
+		}
 	}
 
 	public static void main(String[] args) throws Exception {
