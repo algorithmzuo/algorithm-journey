@@ -103,7 +103,7 @@ package class173;
 //        if (l == bl[lb]) {
 //            ans = pre[r];
 //        } else {
-//            ans = pre[r] - pre[l - 1] - f(lb, 1, l - 1, lb, l, r);
+//            ans = pre[r] - pre[l - 1] - f(lb, bl[lb], l - 1, lb, l, r);
 //        }
 //    } else {
 //        for (int i = l; i <= br[lb]; i++) {

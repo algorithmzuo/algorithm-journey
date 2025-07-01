@@ -65,7 +65,7 @@ public class Code04_Inversion1 {
 
 	// 更靠左的第x块，从xl到xr范围上，选第一个数
 	// 更靠左的第y块，从yl到yr范围上，选第二个数
-	// 这两个数一定要构成逆序对，返回这样的逆序对数量
+	// 返回逆序对数量
 	public static int f(int x, int xl, int xr, int y, int yl, int yr) {
 		int ans = 0;
 		for (int p1 = bl[x], p2 = bl[y] - 1, cnt = 0; p1 <= br[x]; p1++) {
@@ -90,15 +90,23 @@ public class Code04_Inversion1 {
 			if (l == bl[lb]) {
 				ans = pre[r];
 			} else {
-				ans = pre[r] - pre[l - 1] - f(lb, 1, l - 1, lb, l, r);
+				ans = pre[r] - pre[l - 1] - f(lb, bl[lb], l - 1, lb, l, r);
 			}
 		} else {
+			// 左散块中的arr[i]，作为第一个数
+			// 中间整块中的某个数字，作为第二个数
+			// 计算这样的逆序对数量
+			// 注意因为题目给定的是排列！所以如下这么写没问题
 			for (int i = l; i <= br[lb]; i++) {
 				ans += cnt[rb - 1][arr[i]] - cnt[lb][arr[i]];
 			}
+			// 中间整块中的某个数字，作为第一个数
+			// 右散块中的arr[i]，作为第二个数
+			// 计算这样的逆序对数量
 			for (int i = bl[rb]; i <= r; i++) {
 				ans += br[rb - 1] - bl[lb + 1] + 1 - (cnt[rb - 1][arr[i]] - cnt[lb][arr[i]]);
 			}
+			// 中间整块的逆序对 + 左散块[l..]的逆序对 + 右散块[..r]的逆序对 + 左散块 结合 右散块 的逆序对
 			ans += dp[lb + 1][rb - 1] + suf[l] + pre[r] + f(lb, l, br[lb], rb, bl[rb], r);
 		}
 		return ans;
