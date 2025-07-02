@@ -28,9 +28,10 @@ package class173;
 //
 //int capital[MAXN];
 //int belong[MAXN];
+//int cntb;
+//
 //int sta[MAXN];
 //int siz;
-//int cntb;
 //
 //void addEdge(int u, int v) {
 //    nxt[++cntg] = head[u];

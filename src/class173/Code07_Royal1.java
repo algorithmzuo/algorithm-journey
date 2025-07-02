@@ -30,9 +30,10 @@ public class Code07_Royal1 {
 
 	public static int[] capital = new int[MAXN];
 	public static int[] belong = new int[MAXN];
+	public static int cntb;
+
 	public static int[] stack = new int[MAXN];
 	public static int siz;
-	public static int cntb;
 
 	public static void addEdge(int u, int v) {
 		next[++cntg] = head[u];
