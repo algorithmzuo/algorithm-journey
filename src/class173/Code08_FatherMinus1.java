@@ -2,7 +2,7 @@ package class173;
 
 // 区间父变小，java版
 // 一棵大小为n树，节点1是树头，节点i的父节点 = arr[i]，给定arr[2..n]
-// 接下来有m条操作，每种操作是如下两种类型中的一种
+// 对于每个i > 1，都有arr[i] < i，下来有m条操作，操作类型如下
 // 操作 x y z : [x..y]范围上任何一点i，arr[i] = max(1, arr[i] - z)
 // 操作 x y   : 查询点x和点y的最低公共祖先
 // 2 <= n、m <= 10^5
@@ -60,10 +60,12 @@ public class Code08_FatherMinus1 {
 				arr[i] = Math.max(1, arr[i] - v);
 			}
 			innerUpdate(bi[r]);
-			for (int i = bi[l] + 1; i <= bi[r] - 1; i++) {
-				lazy[i] = Math.min(n, lazy[i] + v);
-				if (++cnt[i] <= blen) {
-					innerUpdate(i);
+			for (int b = bi[l] + 1; b <= bi[r] - 1; b++) {
+				// 减少的幅度最多到n，不会更大
+				// 这样还可以让lazy保持int类型并且不溢出
+				lazy[b] = Math.min(n, lazy[b] + v);
+				if (++cnt[b] <= blen) {
+					innerUpdate(b);
 				}
 			}
 		}
@@ -79,16 +81,16 @@ public class Code08_FatherMinus1 {
 
 	public static int lca(int x, int y) {
 		while (bi[x] != bi[y] || jumpOut(x) != jumpOut(y)) {
-			if (bi[x] == bi[y]) {
-				x = jumpOut(x);
-				y = jumpOut(y);
-			} else {
+			if (bi[x] != bi[y]) {
 				if (bi[x] < bi[y]) {
 					int tmp = x;
 					x = y;
 					y = tmp;
 				}
 				x = jumpOut(x);
+			} else {
+				x = jumpOut(x);
+				y = jumpOut(y);
 			}
 		}
 		while (x != y) {
