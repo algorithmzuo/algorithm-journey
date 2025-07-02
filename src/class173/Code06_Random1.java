@@ -31,7 +31,7 @@ public class Code06_Random1 {
 	public static int[] to = new int[MAXN << 1];
 	public static int cntg = 0;
 
-	// 树上倍增求LCA
+	// 树上倍增，就只是为了快速求出LCA
 	public static int[] dep = new int[MAXN];
 	public static int[][] stjump = new int[MAXN][MAXP];
 
