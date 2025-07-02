@@ -44,9 +44,9 @@ package class173;
 //        v = to[e];
 //        if (v != f) {
 //            dfs(v, u);
-//            if (siz - tmp >= b) {
+//            if (siz >= tmp + b) {
 //                capital[++cntb] = u;
-//                while (siz > tmp) {
+//                while (siz != tmp) {
 //                    belong[sta[siz--]] = cntb;
 //                }
 //            }
