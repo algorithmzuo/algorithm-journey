@@ -3,8 +3,8 @@ package class173;
 // 区间父变小，java版
 // 一棵大小为n树，节点1是树头，给定fa[2..n]表示父亲节点编号
 // 对于每个i > 1，都有fa[i] < i，下来有m条操作，操作类型如下
-// 操作 x y z : [x..y]范围上任何一点i，fa[i] = max(1, fa[i] - z)
-// 操作 x y   : 查询点x和点y的最低公共祖先
+// 操作 1 x y z : [x..y]范围上任何一点i，fa[i] = max(1, fa[i] - z)
+// 操作 2 x y   : 查询点x和点y的最低公共祖先
 // 2 <= n、m <= 10^5
 // 测试链接 : https://www.luogu.com.cn/problem/CF1491H
 // 测试链接 : https://codeforces.com/problemset/problem/1491/H
