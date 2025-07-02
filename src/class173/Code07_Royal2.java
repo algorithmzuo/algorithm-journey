@@ -40,14 +40,14 @@ package class173;
 //}
 //
 //void dfs(int u, int f) {
-//    int tmp = siz;
+//    int x = siz;
 //    for (int e = head[u], v; e; e = nxt[e]) {
 //        v = to[e];
 //        if (v != f) {
 //            dfs(v, u);
-//            if (siz >= tmp + b) {
+//            if (siz - x >= b) {
 //                capital[++cntb] = u;
-//                while (siz != tmp) {
+//                while (siz != x) {
 //                    belong[sta[siz--]] = cntb;
 //                }
 //            }

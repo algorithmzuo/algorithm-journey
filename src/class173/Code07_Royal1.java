@@ -42,14 +42,14 @@ public class Code07_Royal1 {
 	}
 
 	public static void dfs(int u, int f) {
-		int tmp = siz;
+		int x = siz;
 		for (int e = head[u], v; e > 0; e = next[e]) {
 			v = to[e];
 			if (v != f) {
 				dfs(v, u);
-				if (siz >= tmp + b) {
+				if (siz - x >= b) {
 					capital[++cntb] = u;
-					while (siz != tmp) {
+					while (siz != x) {
 						belong[stack[siz--]] = cntb;
 					}
 				}
