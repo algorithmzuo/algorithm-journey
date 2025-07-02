@@ -18,6 +18,7 @@ package class173;
 //const int MAXN = 100001;
 //const int MAXB = 501;
 //int n, m;
+//
 //int fa[MAXN];
 //int out[MAXN];
 //
@@ -26,7 +27,7 @@ package class173;
 //int bl[MAXB];
 //int br[MAXB];
 //int lazy[MAXB];
-//int cnt[MAXB];
+//int minusCnt[MAXB];
 //
 //void innerUpdate(int b) {
 //    for (int i = bl[b]; i <= br[b]; i++) {
@@ -59,7 +60,7 @@ package class173;
 //        innerUpdate(bi[r]);
 //        for (int b = bi[l] + 1; b <= bi[r] - 1; b++) {
 //            lazy[b] = min(n, lazy[b] + v);
-//            if (++cnt[b] <= blen) {
+//            if (++minusCnt[b] <= blen) {
 //                innerUpdate(b);
 //            }
 //        }

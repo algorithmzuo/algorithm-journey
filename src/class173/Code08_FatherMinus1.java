@@ -20,15 +20,20 @@ public class Code08_FatherMinus1 {
 	public static int MAXN = 100001;
 	public static int MAXB = 501;
 	public static int n, m;
+
+	// 节点的父亲节点
 	public static int[] fa = new int[MAXN];
+	// 节点如果从所在块出去，会去往的最近节点
 	public static int[] out = new int[MAXN];
 
 	public static int blen, bnum;
 	public static int[] bi = new int[MAXN];
 	public static int[] bl = new int[MAXB];
 	public static int[] br = new int[MAXB];
+	// 块内所有节点的父亲编号减少的幅度
 	public static int[] lazy = new int[MAXB];
-	public static int[] cnt = new int[MAXB];
+	// 块内所有节点的父亲编号被统一削减的次数
+	public static int[] minusCnt = new int[MAXB];
 
 	public static void innerUpdate(int b) {
 		for (int i = bl[b]; i <= br[b]; i++) {
@@ -63,7 +68,7 @@ public class Code08_FatherMinus1 {
 				// 减少的幅度最多到n，不会更大
 				// 这样还可以让lazy保持int类型并且不溢出
 				lazy[b] = Math.min(n, lazy[b] + v);
-				if (++cnt[b] <= blen) {
+				if (++minusCnt[b] <= blen) {
 					innerUpdate(b);
 				}
 			}
