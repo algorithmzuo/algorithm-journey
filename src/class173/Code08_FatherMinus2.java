@@ -19,7 +19,7 @@ package class173;
 //const int MAXB = 501;
 //int n, m;
 //int fa[MAXN];
-//int outer[MAXN];
+//int out[MAXN];
 //
 //int blen, bnum;
 //int bi[MAXN];
@@ -35,9 +35,9 @@ package class173;
 //    lazy[b] = 0;
 //    for (int i = bl[b]; i <= br[b]; i++) {
 //        if (fa[i] < bl[b]) {
-//            outer[i] = fa[i];
+//            out[i] = fa[i];
 //        } else {
-//            outer[i] = outer[fa[i]];
+//            out[i] = out[fa[i]];
 //        }
 //    }
 //}
@@ -71,7 +71,7 @@ package class173;
 //}
 //
 //int jumpOut(int i) { 
-//    return max(1, outer[i] - lazy[bi[i]]);
+//    return max(1, out[i] - lazy[bi[i]]);
 //}
 //
 //int lca(int x, int y) {

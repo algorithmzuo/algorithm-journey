@@ -21,7 +21,7 @@ public class Code08_FatherMinus1 {
 	public static int MAXB = 501;
 	public static int n, m;
 	public static int[] fa = new int[MAXN];
-	public static int[] outer = new int[MAXN];
+	public static int[] out = new int[MAXN];
 
 	public static int blen, bnum;
 	public static int[] bi = new int[MAXN];
@@ -37,9 +37,9 @@ public class Code08_FatherMinus1 {
 		lazy[b] = 0;
 		for (int i = bl[b]; i <= br[b]; i++) {
 			if (fa[i] < bl[b]) {
-				outer[i] = fa[i];
+				out[i] = fa[i];
 			} else {
-				outer[i] = outer[fa[i]];
+				out[i] = out[fa[i]];
 			}
 		}
 	}
@@ -75,7 +75,7 @@ public class Code08_FatherMinus1 {
 	}
 
 	public static int jumpOut(int i) {
-		return Math.max(1, outer[i] - lazy[bi[i]]);
+		return Math.max(1, out[i] - lazy[bi[i]]);
 	}
 
 	public static int lca(int x, int y) {
