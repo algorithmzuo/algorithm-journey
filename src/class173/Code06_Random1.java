@@ -250,22 +250,22 @@ public class Code06_Random1 {
 			addEdge(v, u);
 		}
 		prepare();
-		for (int i = 1, last = 0; i <= m; i++) {
+		for (int i = 1, lastAns = 0; i <= m; i++) {
 			ans.clear();
 			k = in.nextInt();
 			for (int j = 1, x, y; j <= k; j++) {
 				x = in.nextInt();
 				y = in.nextInt();
 				if (f > 0) {
-					x = x ^ last;
-					y = y ^ last;
+					x = x ^ lastAns;
+					y = y ^ lastAns;
 				}
 				updateAns(x, y);
 			}
 			int ans1 = ans.countOnes();
 			int ans2 = ans.mex();
 			out.println(ans1 + " " + ans2);
-			last = ans1 + ans2;
+			lastAns = ans1 + ans2;
 		}
 		out.flush();
 		out.close();

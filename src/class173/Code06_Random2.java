@@ -143,14 +143,14 @@ package class173;
 //        addEdge(v, u);
 //    }
 //    prepare();
-//    for (int i = 1, last = 0; i <= m; i++) {
+//    for (int i = 1, lastAns = 0; i <= m; i++) {
 //        ans.reset();
 //        cin >> k;
 //        for (int j = 1, x, y; j <= k; j++) {
 //            cin >> x >> y;
 //            if (f) {
-//                x ^= last;
-//                y ^= last;
+//                x ^= lastAns;
+//                y ^= lastAns;
 //            }
 //            updateAns(x, y);
 //        }
@@ -163,7 +163,7 @@ package class173;
 //            }
 //        }
 //        cout << ans1 << ' ' << ans2 << '\n';
-//        last = ans1 + ans2;
+//        lastAns = ans1 + ans2;
 //    }
 //    return 0;
 //}
