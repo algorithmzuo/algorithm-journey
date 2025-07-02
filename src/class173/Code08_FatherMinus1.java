@@ -30,9 +30,9 @@ public class Code08_FatherMinus1 {
 	public static int[] bi = new int[MAXN];
 	public static int[] bl = new int[MAXB];
 	public static int[] br = new int[MAXB];
-	// 块内所有节点的父亲编号减少的幅度
+	// 块内所有节点的父亲编号，统一减少的幅度
 	public static int[] lazy = new int[MAXB];
-	// 块内所有节点的父亲编号被统一削减的次数
+	// 块内所有节点的父亲编号，统一削减的次数
 	public static int[] minusCnt = new int[MAXB];
 
 	public static void innerUpdate(int b) {
