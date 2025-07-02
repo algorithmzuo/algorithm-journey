@@ -1,9 +1,9 @@
 package class173;
 
 // 区间父变小，C++版
-// 一棵大小为n树，节点1是树头，节点i的父节点 = arr[i]，给定arr[2..n]
-// 对于每个i > 1，都有arr[i] < i，下来有m条操作，操作类型如下
-// 操作 x y z : [x..y]范围上任何一点i，arr[i] = max(1, arr[i] - z)
+// 一棵大小为n树，节点1是树头，给定fa[2..n]表示父亲节点编号
+// 对于每个i > 1，都有fa[i] < i，下来有m条操作，操作类型如下
+// 操作 x y z : [x..y]范围上任何一点i，fa[i] = max(1, fa[i] - z)
 // 操作 x y   : 查询点x和点y的最低公共祖先
 // 2 <= n、m <= 10^5
 // 测试链接 : https://www.luogu.com.cn/problem/CF1491H
@@ -18,27 +18,26 @@ package class173;
 //const int MAXN = 100001;
 //const int MAXB = 501;
 //int n, m;
-//int arr[MAXN];
+//int fa[MAXN];
+//int outer[MAXN];
 //
 //int blen, bnum;
 //int bi[MAXN];
 //int bl[MAXB];
 //int br[MAXB];
-//
 //int lazy[MAXB];
-//int outer[MAXN];
 //int cnt[MAXB];
 //
 //void innerUpdate(int b) {
 //    for (int i = bl[b]; i <= br[b]; i++) {
-//        arr[i] = max(1, arr[i] - lazy[b]);
+//        fa[i] = max(1, fa[i] - lazy[b]);
 //    }
 //    lazy[b] = 0;
 //    for (int i = bl[b]; i <= br[b]; i++) {
-//        if (arr[i] < bl[b]) {
-//            outer[i] = arr[i];
+//        if (fa[i] < bl[b]) {
+//            outer[i] = fa[i];
 //        } else {
-//            outer[i] = outer[arr[i]];
+//            outer[i] = outer[fa[i]];
 //        }
 //    }
 //}
@@ -46,16 +45,16 @@ package class173;
 //void update(int l, int r, int v) {
 //    if (bi[l] == bi[r]) {
 //        for (int i = l; i <= r; i++) {
-//            arr[i] = max(1, arr[i] - v);
+//            fa[i] = max(1, fa[i] - v);
 //        }
 //        innerUpdate(bi[l]);
 //    } else {
 //        for (int i = l; i <= br[bi[l]]; i++) {
-//            arr[i] = max(1, arr[i] - v);
+//            fa[i] = max(1, fa[i] - v);
 //        }
 //        innerUpdate(bi[l]);
 //        for (int i = bl[bi[r]]; i <= r; i++) {
-//            arr[i] = max(1, arr[i] - v);
+//            fa[i] = max(1, fa[i] - v);
 //        }
 //        innerUpdate(bi[r]);
 //        for (int b = bi[l] + 1; b <= bi[r] - 1; b++) {
@@ -68,7 +67,7 @@ package class173;
 //}
 //
 //int jumpFa(int i) {
-//    return max(1, arr[i] - lazy[bi[i]]);
+//    return max(1, fa[i] - lazy[bi[i]]);
 //}
 //
 //int jumpOut(int i) { 
@@ -114,7 +113,7 @@ package class173;
 //    cin.tie(nullptr);
 //    cin >> n >> m;
 //    for (int i = 2; i <= n; i++) {
-//        cin >> arr[i];
+//        cin >> fa[i];
 //    }
 //    prepare();
 //    for (int i = 1, op, x, y, z; i <= m; i++) {
