@@ -97,9 +97,9 @@ package class173;
 //
 //void updateAns(int x, int y) {
 //    int xylca = lca(x, y);
-//    ans[arr[xylca]] = 1;
 //    query(x, xylca);
 //    query(y, xylca);
+//    ans[arr[xylca]] = 1;
 //}
 //
 //void prepare() {

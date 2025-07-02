@@ -201,9 +201,9 @@ public class Code06_Random1 {
 
 	public static void updateAns(int x, int y) {
 		int xylca = lca(x, y);
-		ans.setOne(arr[xylca]);
 		query(x, xylca);
 		query(y, xylca);
+		ans.setOne(arr[xylca]);
 	}
 
 	public static void prepare() {
