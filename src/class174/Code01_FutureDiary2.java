@@ -165,12 +165,10 @@ package class174;
 //            sumCnt += valCnt;
 //        }
 //        for (int i = l; i <= br[bi[l]]; i++) {
-//            cnt1[bi[arr[i]]]--;
-//            cnt2[arr[i]]--;
+//            cnt1[bi[arr[i]]] = cnt2[arr[i]] = 0;
 //        }
 //        for (int i = bl[bi[r]]; i <= r; i++) {
-//            cnt1[bi[arr[i]]]--;
-//            cnt2[arr[i]]--;
+//            cnt1[bi[arr[i]]] = cnt2[arr[i]] = 0;
 //        }
 //    }
 //    return ans;
