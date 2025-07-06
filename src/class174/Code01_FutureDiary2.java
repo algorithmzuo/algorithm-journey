@@ -39,9 +39,9 @@ package class174;
 //int bl[MAXB];
 //int br[MAXB];
 //
+//int idxRoot[MAXN];
 //int valRoot[MAXB][MAXN];
 //int rootVal[MAXB][MAXN];
-//int idxRoot[MAXN];
 //
 //int sum1[MAXB][MAXB];
 //int sum2[MAXB][MAXN];

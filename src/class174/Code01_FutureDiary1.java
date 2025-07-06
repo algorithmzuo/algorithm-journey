@@ -3,7 +3,7 @@ package class174;
 // 未来日记，java版
 // 测试链接 : https://www.luogu.com.cn/problem/P4119
 // 提交以下的code，提交时请把类名改成"Main"
-// java实现的逻辑一定是正确的，但是无法通过测试
+// java实现的逻辑一定是正确的，但是运行超时
 // 因为这道题只考虑C++能通过的时间标准，根本没考虑java的用户
 // 想通过用C++实现，本节课Code01_FutureDiary2文件就是C++的实现
 // 两个版本的逻辑完全一样，C++版本可以通过所有测试
@@ -27,9 +27,9 @@ public class Code01_FutureDiary1 {
 	public static int[] bl = new int[MAXB];
 	public static int[] br = new int[MAXB];
 
+	public static int[] idxRoot = new int[MAXN];
 	public static int[][] valRoot = new int[MAXB][MAXN];
 	public static int[][] rootVal = new int[MAXB][MAXN];
-	public static int[] idxRoot = new int[MAXN];
 
 	public static int[][] sum1 = new int[MAXB][MAXB];
 	public static int[][] sum2 = new int[MAXB][MAXN];
@@ -252,4 +252,5 @@ public class Code01_FutureDiary1 {
 			return neg ? -val : val;
 		}
 	}
+
 }
