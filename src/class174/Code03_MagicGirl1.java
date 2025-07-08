@@ -70,18 +70,6 @@ public class Code03_MagicGirl1 {
 	public static Answer tmp = new Answer(0, 0, 0, 0);
 	public static Answer[] ans = new Answer[MAXN];
 
-	public static void swap(Node[] a, int i, int j) {
-		Node t = a[i];
-		a[i] = a[j];
-		a[j] = t;
-	}
-
-	public static void swap(int[] a, int i, int j) {
-		int t = a[i];
-		a[i] = a[j];
-		a[j] = t;
-	}
-
 	public static void radixSort() {
 		Arrays.fill(cntv, 0);
 		for (int i = 1; i <= siz; i++) cntv[v[arrq[i]] & OFFSET]++;
@@ -139,11 +127,12 @@ public class Code03_MagicGirl1 {
 					break;
 				}
 			}
+			Node tmp;
 			for (int i = pos; i < r && sortv[i].v > sortv[i + 1].v; i++) {
-				swap(sortv, i, i + 1);
+				tmp = sortv[i]; sortv[i] = sortv[i + 1]; sortv[i + 1] = tmp;
 			}
 			for (int i = pos; i > l && sortv[i - 1].v > sortv[i].v; i--) {
-				swap(sortv, i - 1, i);
+				tmp = sortv[i - 1]; sortv[i - 1] = sortv[i]; sortv[i] = tmp;
 			}
 		}
 	}
@@ -201,8 +190,8 @@ public class Code03_MagicGirl1 {
 		for (int i = 1; i <= m; i++) {
 			ans[i] = new Answer(0, 0, 0, 0);
 		}
-		int BNUM = (n + BLEN - 1) / BLEN;
-		for (int i = 1, l, r; i <= BNUM; i++) {
+		int bnum = (n + BLEN - 1) / BLEN;
+		for (int i = 1, l, r; i <= bnum; i++) {
 			l = (i - 1) * BLEN + 1;
 			r = Math.min(i * BLEN, n);
 			compute(l, r);

@@ -9,31 +9,6 @@ package class174;
 //
 //using namespace std;
 //
-//char buf[1000000], *p1 = buf, *p2 = buf;
-//
-//inline char gc() {
-//    if (p1 == p2) {
-//        p2 = (p1 = buf) + fread(buf, 1, 1000000, stdin);
-//        if (p1 == p2) {
-//            return EOF;
-//        }
-//    }
-//    return *p1++;
-//}
-//
-//inline int read() {
-//    int x = 0;
-//    char c = gc();
-//    while (!isdigit(c)) {
-//        c = gc();
-//    }
-//    while (isdigit(c)) {
-//        x = x * 10 + c - '0';
-//        c = gc();
-//    }
-//    return x;
-//}
-//
 //struct Node {
 //    int v;
 //    int i;
@@ -182,28 +157,27 @@ package class174;
 //}
 //
 //int main() {
-//    n = read();
-//    m = read();
+//    ios::sync_with_stdio(false);
+//    cin.tie(nullptr);
+//    cin >> n >> m;
 //    for (int i = 1; i <= n; i++) {
-//        arr[i] = read();
+//        cin >> arr[i];
 //    }
 //    for (int i = 1; i <= m; i++) {
-//        op[i] = read();
-//        x[i] = read();
-//        y[i] = read();
+//        cin >> op[i] >> x[i] >> y[i];
 //        if (op[i] == 2) {
-//            v[i] = read();
+//            cin >> v[i];
 //        }
 //    }
-//    int BNUM = (n + BLEN - 1) / BLEN;
-//    for (int i = 1, l, r; i <= BNUM; i++) {
+//    int bnum = (n + BLEN - 1) / BLEN;
+//    for (int i = 1, l, r; i <= bnum; i++) {
 //        l = (i - 1) * BLEN + 1;
 //        r = min(i * BLEN, n);
 //        compute(l, r);
 //    }
 //    for (int i = 1; i <= m; i++) {
 //        if (op[i] == 2) {
-//            printf("%lld\n", ans[i].res);
+//            cout << ans[i].res << '\n';
 //        }
 //    }
 //    return 0;
