@@ -62,9 +62,9 @@ package class174;
 //
 //const int MAXN = 300005;
 //const int MAXB = 601;
-//const int BLEN = 512;
-//const int OFFSET = 0x1ff;
-//const int POWER = 9;
+//const int POW2 = 9;
+//const int BLEN = 1 << POW2;
+//const int OFFSET = BLEN - 1;
 //int n, m;
 //
 //int arr[MAXN];
@@ -73,16 +73,12 @@ package class174;
 //int op[MAXN];
 //int x[MAXN];
 //int y[MAXN];
-//int z[MAXN];
+//int v[MAXN];
 //
-//int head1[MAXB];
-//int head2[MAXB];
-//int toq[MAXN << 1];
-//int nexte[MAXN << 1];
-//int cntg;
-//
-//int sortq[MAXN];
-//int cntq;
+//int arrq[MAXN];
+//int cntv[MAXB];
+//int help[MAXN];
+//int siz;
 //
 //int lst[MAXN];
 //int nxt[MAXN];
@@ -90,38 +86,31 @@ package class174;
 //Answer tmp;
 //Answer ans[MAXN];
 //
-//inline void addEdge(int *head, int u, int v) {
-//    nexte[++cntg] = head[u];
-//    toq[cntg] = v;
-//    head[u] = cntg;
+//inline void radixSort() {
+//    fill(cntv, cntv + MAXB, 0);
+//    for (int i = 1; i <= siz; i++) cntv[v[arrq[i]] & OFFSET]++;
+//    for (int i = 1; i < MAXB; i++) cntv[i] += cntv[i - 1];
+//    for (int i = siz; i >= 1; i--) help[cntv[v[arrq[i]] & OFFSET]--] = arrq[i];
+//    for (int i = 1; i <= siz; i++) arrq[i] = help[i];
+//    fill(cntv, cntv + MAXB, 0);
+//    for (int i = 1; i <= siz; i++) cntv[v[arrq[i]] >> POW2]++;
+//    for (int i = 1; i < MAXB; i++) cntv[i] += cntv[i - 1];
+//    for (int i = siz; i >= 1; i--) help[cntv[v[arrq[i]] >> POW2]--] = arrq[i];
+//    for (int i = 1; i <= siz; i++) arrq[i] = help[i];
 //}
 //
 //void calc(int l, int r) {
-//    for (int md = 0; md < BLEN; ++md) {
-//        for (int e = head1[md]; e; e = nexte[e]) {
-//            addEdge(head2, z[toq[e]] >> POWER, toq[e]);
-//        }
-//        head1[md] = 0;
-//    }
-//    for (int tm = n / BLEN; tm >= 0; --tm) {
-//        for (int e = head2[tm]; e; e = nexte[e]) {
-//            sortq[++cntq] = toq[e];
-//        }
-//        head2[tm] = 0;
-//    }
-//    for (int left = 1, right = cntq; left < right; ++left, --right) {
-//        swap(sortq[left], sortq[right]);
-//    }
-//    for (int i = l; i <= r; ++i) {
+//	radixSort();
+//    for (int i = l; i <= r; i++) {
 //        lst[i] = i - 1;
 //        nxt[i] = i + 1;
 //    }
 //    tmp = { 0, 0, r - l + 1, 0 };
 //    int k = 1;
-//    for (int i = l, idx; i <= r; ++i) {
+//    for (int i = l, idx; i <= r; i++) {
 //        idx = sortv[i].i;
-//        for(; k <= cntq && z[sortq[k]] < arr[idx]; ++k) {
-//        	ans[sortq[k]].merge(tmp);
+//        for(; k <= siz && v[arrq[k]] < arr[idx]; k++) {
+//        	ans[arrq[k]].merge(tmp);
 //        }
 //        if (lst[idx] == l - 1) {
 //            tmp.pre += nxt[idx] - idx;
@@ -133,10 +122,10 @@ package class174;
 //        lst[nxt[idx]] = lst[idx];
 //        nxt[lst[idx]] = nxt[idx];
 //    }
-//    for(; k <= cntq; ++k) {
-//    	ans[sortq[k]].merge(tmp);
+//    for(; k <= siz; k++) {
+//    	ans[arrq[k]].merge(tmp);
 //    }
-//    cntg = cntq = 0;
+//    siz = 0;
 //}
 //
 //inline void update(int qi, int l, int r) {
@@ -145,28 +134,28 @@ package class174;
 //        calc(l, r);
 //        arr[jobi] = jobv;
 //        int pos = 0;
-//        for (int i = l; i <= r; ++i) {
+//        for (int i = l; i <= r; i++) {
 //            if (sortv[i].i == jobi) {
 //                sortv[i].v = jobv;
 //                pos = i;
 //                break;
 //            }
 //        }
-//        for (int i = pos; i < r && sortv[i].v > sortv[i + 1].v; ++i) {
+//        for (int i = pos; i < r && sortv[i].v > sortv[i + 1].v; i++) {
 //            swap(sortv[i], sortv[i + 1]);
 //        }
-//        for (int i = pos; i > l && sortv[i - 1].v > sortv[i].v; --i) {
+//        for (int i = pos; i > l && sortv[i - 1].v > sortv[i].v; i--) {
 //            swap(sortv[i - 1], sortv[i]);
 //        }
 //    }
 //}
 //
 //inline void query(int qi, int l, int r) {
-//    int jobl = x[qi], jobr = y[qi], jobv = z[qi];
+//    int jobl = x[qi], jobr = y[qi], jobv = v[qi];
 //    if (jobl <= l && r <= jobr) {
-//        addEdge(head1, jobv & OFFSET, qi);
+//        arrq[++siz] = qi;
 //    } else {
-//    	for (int i = max(jobl, l); i <= min(jobr, r); ++i) {
+//    	for (int i = max(jobl, l); i <= min(jobr, r); i++) {
 //            if (arr[i] <= jobv) {
 //                tmp = { 1, 1, 1, 1 };
 //            }else {
@@ -178,11 +167,11 @@ package class174;
 //}
 //
 //void compute(int l, int r) {
-//    for (int i = l; i <= r; ++i) {
+//    for (int i = l; i <= r; i++) {
 //        sortv[i] = { arr[i], i };
 //    }
 //    sort(sortv + l, sortv + r + 1, nodeCmp);
-//    for (int qi = 1; qi <= m; ++qi) {
+//    for (int qi = 1; qi <= m; qi++) {
 //        if (op[qi] == 1) {
 //            update(qi, l, r);
 //        } else {
@@ -195,24 +184,24 @@ package class174;
 //int main() {
 //    n = read();
 //    m = read();
-//    for (int i = 1; i <= n; ++i) {
+//    for (int i = 1; i <= n; i++) {
 //        arr[i] = read();
 //    }
-//    for (int i = 1; i <= m; ++i) {
+//    for (int i = 1; i <= m; i++) {
 //        op[i] = read();
 //        x[i] = read();
 //        y[i] = read();
 //        if (op[i] == 2) {
-//            z[i] = read();
+//        	v[i] = read();
 //        }
 //    }
 //    int BNUM = (n + BLEN - 1) / BLEN;
-//    for (int i = 1, l, r; i <= BNUM; ++i) {
+//    for (int i = 1, l, r; i <= BNUM; i++) {
 //        l = (i - 1) * BLEN + 1;
 //        r = min(i * BLEN, n);
 //        compute(l, r);
 //    }
-//    for (int i = 1; i <= m; ++i) {
+//    for (int i = 1; i <= m; i++) {
 //        if (op[i] == 2) {
 //            printf("%lld\n", ans[i].res);
 //        }

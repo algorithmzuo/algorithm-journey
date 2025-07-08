@@ -16,7 +16,6 @@ public class Code03_MagicGirl1 {
 
 	static class Node {
 		int v, i;
-
 		Node(int v_, int i_) {
 			v = v_;
 			i = i_;
@@ -26,14 +25,12 @@ public class Code03_MagicGirl1 {
 	static class Answer {
 		int pre, suf, len;
 		long res;
-
 		Answer(int p, int s, int l, long r) {
 			pre = p;
 			suf = s;
 			len = l;
 			res = r;
 		}
-
 		void merge(Answer right) {
 			res += right.res + 1L * suf * right.pre;
 			if (pre == len)
@@ -45,14 +42,13 @@ public class Code03_MagicGirl1 {
 			}
 			len += right.len;
 		}
-
 	}
 
 	public static int MAXN = 300005;
 	public static int MAXB = 601;
-	public static int BLEN = 512;
-	public static int OFFSET = 0x1ff;
-	public static int POWER = 9;
+	public static int POW2 = 9;
+	public static int BLEN = 1 << POW2;
+	public static int OFFSET = BLEN - 1;
 	public static int n, m;
 
 	public static int[] arr = new int[MAXN];
@@ -61,16 +57,12 @@ public class Code03_MagicGirl1 {
 	public static int[] op = new int[MAXN];
 	public static int[] x = new int[MAXN];
 	public static int[] y = new int[MAXN];
-	public static int[] z = new int[MAXN];
+	public static int[] v = new int[MAXN];
 
-	public static int[] head1 = new int[MAXB];
-	public static int[] head2 = new int[MAXB];
-	public static int[] toq = new int[MAXN << 1];
-	public static int[] nexte = new int[MAXN << 1];
-	public static int cntg;
-
-	public static int[] sortq = new int[MAXN];
-	public static int cntq;
+	public static int[] arrq = new int[MAXN];
+	public static int[] cntv = new int[MAXB];
+	public static int[] help = new int[MAXN];
+	public static int siz;
 
 	public static int[] lst = new int[MAXN];
 	public static int[] nxt = new int[MAXN];
@@ -90,29 +82,22 @@ public class Code03_MagicGirl1 {
 		a[j] = t;
 	}
 
-	public static void addEdge(int[] head, int u, int v) {
-		nexte[++cntg] = head[u];
-		toq[cntg] = v;
-		head[u] = cntg;
+	public static void radixSort() {
+		Arrays.fill(cntv, 0);
+		for (int i = 1; i <= siz; i++) cntv[v[arrq[i]] & OFFSET]++;
+		for (int i = 1; i < MAXB; i++) cntv[i] += cntv[i - 1];
+		for (int i = siz; i >= 1; i--) help[cntv[v[arrq[i]] & OFFSET]--] = arrq[i];
+		for (int i = 1; i <= siz; i++) arrq[i] = help[i];
+		Arrays.fill(cntv, 0);
+		for (int i = 1; i <= siz; i++) cntv[v[arrq[i]] >> POW2]++;
+		for (int i = 1; i < MAXB; i++) cntv[i] += cntv[i - 1];
+		for (int i = siz; i >= 1; i--) help[cntv[v[arrq[i]] >> POW2]--] = arrq[i];
+		for (int i = 1; i <= siz; i++) arrq[i] = help[i];
 	}
 
 	public static void calc(int l, int r) {
-		for (int md = 0; md < BLEN; ++md) {
-			for (int e = head1[md]; e != 0; e = nexte[e]) {
-				addEdge(head2, z[toq[e]] >> POWER, toq[e]);
-			}
-			head1[md] = 0;
-		}
-		for (int tm = n / BLEN; tm >= 0; --tm) {
-			for (int e = head2[tm]; e != 0; e = nexte[e]) {
-				sortq[++cntq] = toq[e];
-			}
-			head2[tm] = 0;
-		}
-		for (int left = 1, right = cntq; left < right; ++left, --right) {
-			swap(sortq, left, right);
-		}
-		for (int i = l; i <= r; ++i) {
+		radixSort();
+		for (int i = l; i <= r; i++) {
 			lst[i] = i - 1;
 			nxt[i] = i + 1;
 		}
@@ -120,10 +105,10 @@ public class Code03_MagicGirl1 {
 		tmp.len = r - l + 1;
 		tmp.res = 0;
 		int k = 1;
-		for (int i = l; i <= r; ++i) {
+		for (int i = l; i <= r; i++) {
 			int idx = sortv[i].i;
-			while (k <= cntq && z[sortq[k]] < arr[idx]) {
-				ans[sortq[k++]].merge(tmp);
+			for (; k <= siz && v[arrq[k]] < arr[idx]; k++) {
+				ans[arrq[k]].merge(tmp);
 			}
 			if (lst[idx] == l - 1) {
 				tmp.pre += nxt[idx] - idx;
@@ -135,10 +120,10 @@ public class Code03_MagicGirl1 {
 			lst[nxt[idx]] = lst[idx];
 			nxt[lst[idx]] = nxt[idx];
 		}
-		while (k <= cntq) {
-			ans[sortq[k++]].merge(tmp);
+		for (; k <= siz; k++) {
+			ans[arrq[k]].merge(tmp);
 		}
-		cntg = cntq = 0;
+		siz = 0;
 	}
 
 	public static void update(int qi, int l, int r) {
@@ -147,28 +132,28 @@ public class Code03_MagicGirl1 {
 			calc(l, r);
 			arr[jobi] = jobv;
 			int pos = 0;
-			for (int i = l; i <= r; ++i) {
+			for (int i = l; i <= r; i++) {
 				if (sortv[i].i == jobi) {
 					sortv[i].v = jobv;
 					pos = i;
 					break;
 				}
 			}
-			for (int i = pos; i < r && sortv[i].v > sortv[i + 1].v; ++i) {
+			for (int i = pos; i < r && sortv[i].v > sortv[i + 1].v; i++) {
 				swap(sortv, i, i + 1);
 			}
-			for (int i = pos; i > l && sortv[i - 1].v > sortv[i].v; --i) {
+			for (int i = pos; i > l && sortv[i - 1].v > sortv[i].v; i--) {
 				swap(sortv, i - 1, i);
 			}
 		}
 	}
 
 	public static void query(int qi, int l, int r) {
-		int jobl = x[qi], jobr = y[qi], jobv = z[qi];
+		int jobl = x[qi], jobr = y[qi], jobv = v[qi];
 		if (jobl <= l && r <= jobr) {
-			addEdge(head1, jobv & OFFSET, qi);
+			arrq[++siz] = qi;
 		} else {
-			for (int i = Math.max(jobl, l); i <= Math.min(jobr, r); ++i) {
+			for (int i = Math.max(jobl, l); i <= Math.min(jobr, r); i++) {
 				if (arr[i] <= jobv) {
 					tmp.pre = tmp.suf = tmp.len = 1;
 					tmp.res = 1;
@@ -183,11 +168,11 @@ public class Code03_MagicGirl1 {
 	}
 
 	public static void compute(int l, int r) {
-		for (int i = l; i <= r; ++i) {
+		for (int i = l; i <= r; i++) {
 			sortv[i] = new Node(arr[i], i);
 		}
 		Arrays.sort(sortv, l, r + 1, (a, b) -> a.v - b.v);
-		for (int qi = 1; qi <= m; ++qi) {
+		for (int qi = 1; qi <= m; qi++) {
 			if (op[qi] == 1) {
 				update(qi, l, r);
 			} else {
@@ -202,27 +187,27 @@ public class Code03_MagicGirl1 {
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
 		n = in.nextInt();
 		m = in.nextInt();
-		for (int i = 1; i <= n; ++i) {
+		for (int i = 1; i <= n; i++) {
 			arr[i] = in.nextInt();
 		}
-		for (int i = 1; i <= m; ++i) {
+		for (int i = 1; i <= m; i++) {
 			op[i] = in.nextInt();
 			x[i] = in.nextInt();
 			y[i] = in.nextInt();
 			if (op[i] == 2) {
-				z[i] = in.nextInt();
+				v[i] = in.nextInt();
 			}
 		}
-		for (int i = 1; i <= m; ++i) {
+		for (int i = 1; i <= m; i++) {
 			ans[i] = new Answer(0, 0, 0, 0);
 		}
 		int BNUM = (n + BLEN - 1) / BLEN;
-		for (int b = 1, l, r; b <= BNUM; ++b) {
-			l = (b - 1) * BLEN + 1;
-			r = Math.min(b * BLEN, n);
+		for (int i = 1, l, r; i <= BNUM; i++) {
+			l = (i - 1) * BLEN + 1;
+			r = Math.min(i * BLEN, n);
 			compute(l, r);
 		}
-		for (int i = 1; i <= m; ++i) {
+		for (int i = 1; i <= m; i++) {
 			if (op[i] == 2) {
 				out.println(ans[i].res);
 			}
