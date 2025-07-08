@@ -14,14 +14,6 @@ import java.util.Arrays;
 
 public class Code03_MagicGirl1 {
 
-	static class Node {
-		int v, i;
-		Node(int v_, int i_) {
-			v = v_;
-			i = i_;
-		}
-	}
-
 	static class Answer {
 		int pre, suf, len;
 		long res;
@@ -52,7 +44,7 @@ public class Code03_MagicGirl1 {
 	public static int n, m;
 
 	public static int[] arr = new int[MAXN];
-	public static Node[] sortv = new Node[MAXN];
+	public static Integer[] pos = new Integer[MAXN];
 
 	public static int[] op = new int[MAXN];
 	public static int[] x = new int[MAXN];
@@ -93,8 +85,8 @@ public class Code03_MagicGirl1 {
 		tmp.len = r - l + 1;
 		tmp.res = 0;
 		int k = 1;
-		for (int i = l; i <= r; i++) {
-			int idx = sortv[i].i;
+		for (int i = l, idx; i <= r; i++) {
+			idx = pos[i];
 			for (; k <= siz && v[arrq[k]] < arr[idx]; k++) {
 				ans[arrq[k]].merge(tmp);
 			}
@@ -119,20 +111,19 @@ public class Code03_MagicGirl1 {
 		if (l <= jobi && jobi <= r) {
 			calc(l, r);
 			arr[jobi] = jobv;
-			int pos = 0;
+			int find = 0;
 			for (int i = l; i <= r; i++) {
-				if (sortv[i].i == jobi) {
-					sortv[i].v = jobv;
-					pos = i;
+				if (pos[i] == jobi) {
+					find = i;
 					break;
 				}
 			}
-			Node tmp;
-			for (int i = pos; i < r && sortv[i].v > sortv[i + 1].v; i++) {
-				tmp = sortv[i]; sortv[i] = sortv[i + 1]; sortv[i + 1] = tmp;
+			int tmp;
+			for (int i = find; i < r && arr[pos[i]] > arr[pos[i + 1]]; i++) {
+				tmp = pos[i]; pos[i] = pos[i + 1]; pos[i + 1] = tmp;
 			}
-			for (int i = pos; i > l && sortv[i - 1].v > sortv[i].v; i--) {
-				tmp = sortv[i - 1]; sortv[i - 1] = sortv[i]; sortv[i] = tmp;
+			for (int i = find; i > l && arr[pos[i - 1]] > arr[pos[i]]; i--) {
+				tmp = pos[i - 1]; pos[i - 1] = pos[i]; pos[i] = tmp;
 			}
 		}
 	}
@@ -158,9 +149,9 @@ public class Code03_MagicGirl1 {
 
 	public static void compute(int l, int r) {
 		for (int i = l; i <= r; i++) {
-			sortv[i] = new Node(arr[i], i);
+			pos[i] = i;
 		}
-		Arrays.sort(sortv, l, r + 1, (a, b) -> a.v - b.v);
+		Arrays.sort(pos, l, r + 1, (a, b) -> arr[a] - arr[b]);
 		for (int qi = 1; qi <= m; qi++) {
 			if (op[qi] == 1) {
 				update(qi, l, r);

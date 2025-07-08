@@ -9,15 +9,6 @@ package class174;
 //
 //using namespace std;
 //
-//struct Node {
-//    int v;
-//    int i;
-//};
-//
-//inline bool nodeCmp(const Node &a, const Node &b) {
-//    return a.v < b.v;
-//}
-//
 //struct Answer {
 //    int pre, suf, len;
 //    long long res;
@@ -43,7 +34,7 @@ package class174;
 //int n, m;
 //
 //int arr[MAXN];
-//Node sortv[MAXN];
+//int pos[MAXN];
 //
 //int op[MAXN];
 //int x[MAXN];
@@ -83,9 +74,9 @@ package class174;
 //    tmp = { 0, 0, r - l + 1, 0 };
 //    int k = 1;
 //    for (int i = l, idx; i <= r; i++) {
-//        idx = sortv[i].i;
+//        idx = pos[i];
 //        for(; k <= siz && v[arrq[k]] < arr[idx]; k++) {
-//        	ans[arrq[k]].merge(tmp);
+//            ans[arrq[k]].merge(tmp);
 //        }
 //        if (lst[idx] == l - 1) {
 //            tmp.pre += nxt[idx] - idx;
@@ -98,7 +89,7 @@ package class174;
 //        nxt[lst[idx]] = nxt[idx];
 //    }
 //    for(; k <= siz; k++) {
-//    	ans[arrq[k]].merge(tmp);
+//        ans[arrq[k]].merge(tmp);
 //    }
 //    siz = 0;
 //}
@@ -108,19 +99,18 @@ package class174;
 //    if (l <= jobi && jobi <= r) {
 //        calc(l, r);
 //        arr[jobi] = jobv;
-//        int pos = 0;
+//        int find = 0;
 //        for (int i = l; i <= r; i++) {
-//            if (sortv[i].i == jobi) {
-//                sortv[i].v = jobv;
-//                pos = i;
+//            if (pos[i] == jobi) {
+//                find = i;
 //                break;
 //            }
 //        }
-//        for (int i = pos; i < r && sortv[i].v > sortv[i + 1].v; i++) {
-//            swap(sortv[i], sortv[i + 1]);
+//        for (int i = find; i < r && arr[pos[i]] > arr[pos[i + 1]]; i++) {
+//            swap(pos[i], pos[i + 1]);
 //        }
-//        for (int i = pos; i > l && sortv[i - 1].v > sortv[i].v; i--) {
-//            swap(sortv[i - 1], sortv[i]);
+//        for (int i = find; i > l && arr[pos[i - 1]] > arr[pos[i]]; i--) {
+//            swap(pos[i - 1], pos[i]);
 //        }
 //    }
 //}
@@ -143,9 +133,9 @@ package class174;
 //
 //void compute(int l, int r) {
 //    for (int i = l; i <= r; i++) {
-//        sortv[i] = { arr[i], i };
+//        pos[i] = i;
 //    }
-//    sort(sortv + l, sortv + r + 1, nodeCmp);
+//    sort(pos + l, pos + r + 1, [&](int a, int b) {return arr[a] < arr[b];});
 //    for (int qi = 1; qi <= m; qi++) {
 //        if (op[qi] == 1) {
 //            update(qi, l, r);
