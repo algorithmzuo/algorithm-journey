@@ -100,7 +100,7 @@ package class174;
 //}
 //
 //void calc(int l, int r) {
-//	radixSort();
+//    radixSort();
 //    for (int i = l; i <= r; i++) {
 //        lst[i] = i - 1;
 //        nxt[i] = i + 1;
@@ -155,13 +155,13 @@ package class174;
 //    if (jobl <= l && r <= jobr) {
 //        arrq[++siz] = qi;
 //    } else {
-//    	for (int i = max(jobl, l); i <= min(jobr, r); i++) {
+//        for (int i = max(jobl, l); i <= min(jobr, r); i++) {
 //            if (arr[i] <= jobv) {
 //                tmp = { 1, 1, 1, 1 };
-//            }else {
-//            	tmp = { 0, 0, 1, 0 };
+//            } else {
+//                tmp = { 0, 0, 1, 0 };
 //            }
-//    		ans[qi].merge(tmp);
+//            ans[qi].merge(tmp);
 //        }
 //    }
 //}
@@ -192,7 +192,7 @@ package class174;
 //        x[i] = read();
 //        y[i] = read();
 //        if (op[i] == 2) {
-//        	v[i] = read();
+//            v[i] = read();
 //        }
 //    }
 //    int BNUM = (n + BLEN - 1) / BLEN;
