@@ -2,9 +2,7 @@ package class174;
 
 // 未来日记，java版
 // 测试链接 : https://www.luogu.com.cn/problem/P4119
-// 提交以下的code，提交时请把类名改成"Main"
-// java实现的逻辑一定是正确的，但是运行超时
-// 因为这道题只考虑C++能通过的时间标准，根本没考虑java的用户
+// 提交以下的code，提交时请把类名改成"Main"，本题卡常，java实现无法通过
 // 想通过用C++实现，本节课Code01_FutureDiary2文件就是C++的实现
 // 两个版本的逻辑完全一样，C++版本可以通过所有测试
 
