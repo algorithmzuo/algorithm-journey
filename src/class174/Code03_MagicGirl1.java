@@ -59,8 +59,8 @@ public class Code03_MagicGirl1 {
 	public static int[] help = new int[MAXN];
 	public static int siz;
 
-	public static int[] lst = new int[MAXN];
-	public static int[] nxt = new int[MAXN];
+	public static int[] last = new int[MAXN];
+	public static int[] next = new int[MAXN];
 
 	public static Answer tmp = new Answer(0, 0, 0, 0);
 	public static Answer[] ans = new Answer[MAXN];
@@ -83,7 +83,7 @@ public class Code03_MagicGirl1 {
 		quickSort(i, r);
 	}
 
-	// 根据查询任务的jobv，对查询任务的编号进行基数排序
+	// 根据查询任务的v值，对查询任务的编号进行基数排序
 	public static void radixSort() {
 		Arrays.fill(cntv, 0);
 		for (int i = 1; i <= siz; i++) cntv[v[arrq[i]] & OFFSET]++;
@@ -100,8 +100,8 @@ public class Code03_MagicGirl1 {
 	public static void calc(int l, int r) {
 		radixSort();
 		for (int i = l; i <= r; i++) {
-			lst[i] = i - 1;
-			nxt[i] = i + 1;
+			last[i] = i - 1;
+			next[i] = i + 1;
 		}
 		tmp.pre = tmp.suf = 0;
 		tmp.len = r - l + 1;
@@ -112,15 +112,15 @@ public class Code03_MagicGirl1 {
 			for (; k <= siz && v[arrq[k]] < arr[idx]; k++) {
 				ans[arrq[k]].merge(tmp);
 			}
-			if (lst[idx] == l - 1) {
-				tmp.pre += nxt[idx] - idx;
+			if (last[idx] == l - 1) {
+				tmp.pre += next[idx] - idx;
 			}
-			if (nxt[idx] == r + 1) {
-				tmp.suf += idx - lst[idx];
+			if (next[idx] == r + 1) {
+				tmp.suf += idx - last[idx];
 			}
-			tmp.res += 1L * (idx - lst[idx]) * (nxt[idx] - idx);
-			lst[nxt[idx]] = lst[idx];
-			nxt[lst[idx]] = nxt[idx];
+			tmp.res += 1L * (idx - last[idx]) * (next[idx] - idx);
+			last[next[idx]] = last[idx];
+			next[last[idx]] = next[idx];
 		}
 		for (; k <= siz; k++) {
 			ans[arrq[k]].merge(tmp);
