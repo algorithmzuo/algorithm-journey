@@ -12,6 +12,7 @@ package class174;
 //struct Answer {
 //    int pre, suf, len;
 //    long long res;
+//
 //    inline void merge(const Answer &right) {
 //        res += right.res + 1LL * suf * right.pre;
 //        if (pre == len) {

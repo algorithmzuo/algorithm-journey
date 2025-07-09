@@ -17,12 +17,14 @@ public class Code03_MagicGirl1 {
 	static class Answer {
 		int pre, suf, len;
 		long res;
+
 		Answer(int p, int s, int l, long r) {
 			pre = p;
 			suf = s;
 			len = l;
 			res = r;
 		}
+
 		void merge(Answer right) {
 			res += right.res + 1L * suf * right.pre;
 			if (pre == len)
@@ -44,7 +46,7 @@ public class Code03_MagicGirl1 {
 	public static int n, m;
 
 	public static int[] arr = new int[MAXN];
-	public static Integer[] pos = new Integer[MAXN];
+	public static int[] pos = new int[MAXN];
 
 	public static int[] op = new int[MAXN];
 	public static int[] x = new int[MAXN];
@@ -61,7 +63,26 @@ public class Code03_MagicGirl1 {
 
 	public static Answer tmp = new Answer(0, 0, 0, 0);
 	public static Answer[] ans = new Answer[MAXN];
+	
+	// 根据arr[pos[i]]的值，对pos[l..r]进行双指针快排
+	public static void quickSort(int l, int r) {
+		if (l >= r) {
+			return;
+		}
+		int i = l, j = r, pivot = arr[pos[(l + r) >> 1]], tmp;
+		while (i <= j) {
+			while (arr[pos[i]] < pivot) i++;
+			while (arr[pos[j]] > pivot) j--;
+			if (i <= j) {
+				tmp = pos[i]; pos[i] = pos[j]; pos[j] = tmp;
+				i++; j--;
+			}
+		}
+		quickSort(l, j);
+		quickSort(i, r);
+	}
 
+	// 根据查询任务的jobv，对查询任务的编号进行基数排序
 	public static void radixSort() {
 		Arrays.fill(cntv, 0);
 		for (int i = 1; i <= siz; i++) cntv[v[arrq[i]] & OFFSET]++;
@@ -151,7 +172,7 @@ public class Code03_MagicGirl1 {
 		for (int i = l; i <= r; i++) {
 			pos[i] = i;
 		}
-		Arrays.sort(pos, l, r + 1, (a, b) -> arr[a] - arr[b]);
+		quickSort(l, r);
 		for (int qi = 1; qi <= m; qi++) {
 			if (op[qi] == 1) {
 				update(qi, l, r);

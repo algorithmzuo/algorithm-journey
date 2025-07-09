@@ -54,21 +54,13 @@ public class Code03_Magnet1 {
 
 	// 所有磁块根据m值排序，手写双指针快排
 	public static void sortByM(int l, int r) {
-		if (l >= r) {
-			return;
-		}
+		if (l >= r) return;
 		int i = l, j = r;
-		int pivot = m[(l + r) >>> 1];
+		int pivot = m[(l + r) >> 1];
 		while (i <= j) {
-			while (m[i] < pivot) {
-				i++;
-			}
-			while (m[j] > pivot) {
-				j--;
-			}
-			if (i <= j) {
-				swap(i++, j--);
-			}
+			while (m[i] < pivot) i++;
+			while (m[j] > pivot) j--;
+			if (i <= j) swap(i++, j--);
 		}
 		sortByM(l, j);
 		sortByM(i, r);
@@ -76,21 +68,13 @@ public class Code03_Magnet1 {
 
 	// 所有磁块根据dist值排序，手写双指针快排
 	public static void sortByDist(int l, int r) {
-		if (l >= r) {
-			return;
-		}
+		if (l >= r) return;
 		int i = l, j = r;
-		long pivot = dist[(l + r) >>> 1];
+		long pivot = dist[(l + r) >> 1];
 		while (i <= j) {
-			while (dist[i] < pivot) {
-				i++;
-			}
-			while (dist[j] > pivot) {
-				j--;
-			}
-			if (i <= j) {
-				swap(i++, j--);
-			}
+			while (dist[i] < pivot) i++;
+			while (dist[j] > pivot) j--;
+			if (i <= j) swap(i++, j--);
 		}
 		sortByDist(l, j);
 		sortByDist(i, r);
