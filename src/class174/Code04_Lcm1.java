@@ -126,6 +126,9 @@ public class Code04_Lcm1 {
 			}
 		}
 		if (cntq > 0) {
+			// 可以使用额外的数组，每块内部根据b进行排序
+			// 每次把新块归并进来，保证 1..l-1 范围根据b有序
+			// 可以省掉一个log的复杂度，本题不做这个优化也能通过，索性算了
 			Arrays.sort(edge, 1, l, cmpb);
 			int pos = 1;
 			for (int i = 1; i <= cntq; i++) {
