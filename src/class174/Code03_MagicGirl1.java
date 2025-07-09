@@ -103,9 +103,7 @@ public class Code03_MagicGirl1 {
 			last[i] = i - 1;
 			next[i] = i + 1;
 		}
-		tmp.pre = tmp.suf = 0;
-		tmp.len = r - l + 1;
-		tmp.res = 0;
+		tmp.pre = 0; tmp.suf = 0; tmp.len = r - l + 1; tmp.res = 0;
 		int k = 1;
 		for (int i = l, idx; i <= r; i++) {
 			idx = pos[i];
@@ -157,12 +155,9 @@ public class Code03_MagicGirl1 {
 		} else {
 			for (int i = Math.max(jobl, l); i <= Math.min(jobr, r); i++) {
 				if (arr[i] <= jobv) {
-					tmp.pre = tmp.suf = tmp.len = 1;
-					tmp.res = 1;
+					tmp.pre = 1; tmp.suf = 1; tmp.len = 1; tmp.res = 1;
 				} else {
-					tmp.pre = tmp.suf = 0;
-					tmp.len = 1;
-					tmp.res = 0;
+					tmp.pre = 0; tmp.suf = 0; tmp.len = 1; tmp.res = 0;
 				}
 				ans[qi].merge(tmp);
 			}
