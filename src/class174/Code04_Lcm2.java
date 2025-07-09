@@ -59,8 +59,11 @@ package class174;
 //}
 //
 //void Union(int x, int y, int a, int b) {
-//    int fx = find(x), fy = find(y);
-//    if (siz[fx] < siz[fy]) swap(fx, fy);
+//    int fx = find(x);
+//    int fy = find(y);
+//    if (siz[fx] < siz[fy]) {
+//        swap(fx, fy);
+//    }
 //    rollback[++opsize][0] = fx;
 //    rollback[opsize][1] = fy;
 //    rollback[opsize][2] = siz[fx];
@@ -86,7 +89,8 @@ package class174;
 //}
 //
 //bool query(int x, int y, int a, int b) {
-//    int fx = find(x), fy = find(y);
+//    int fx = find(x);
+//    int fy = find(y);
 //    return fx == fy && maxa[fx] == a && maxb[fx] == b;
 //}
 //
@@ -102,9 +106,8 @@ package class174;
 //        sort(edge + 1, edge + l, cmpb);
 //        int pos = 1;
 //        for (int i = 1; i <= cntq; i++) {
-//            while (pos < l && edge[pos].b <= ques[arr[i]].b) {
+//            for (; pos < l && edge[pos].b <= ques[arr[i]].b; pos++) {
 //                Union(edge[pos].u, edge[pos].v, edge[pos].a, edge[pos].b);
-//                pos++;
 //            }
 //            opsize = 0;
 //            for (int j = l; j <= r; j++) {
