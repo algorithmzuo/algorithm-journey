@@ -3,7 +3,6 @@ package class174;
 // 桥梁，java版
 // 测试链接 : https://www.luogu.com.cn/problem/P5443
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
-// 为了java版本能通过，不定义任何类，关于排序一律手写
 
 import java.io.IOException;
 import java.io.InputStream;

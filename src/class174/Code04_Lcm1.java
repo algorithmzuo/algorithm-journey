@@ -8,38 +8,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
-import java.util.Arrays;
-import java.util.Comparator;
 
 public class Code04_Lcm1 {
-
-	static class Param {
-		int u, v, a, b, qid;
-
-		public Param(int u_, int v_, int a_, int b_) {
-			u = u_;
-			v = v_;
-			a = a_;
-			b = b_;
-		}
-	}
-
-	static class CmpA implements Comparator<Param> {
-		@Override
-		public int compare(Param o1, Param o2) {
-			return o1.a - o2.a;
-		}
-	}
-
-	static class CmpB implements Comparator<Param> {
-		@Override
-		public int compare(Param o1, Param o2) {
-			return o1.b - o2.b;
-		}
-	}
-
-	public static CmpA cmpa = new CmpA();
-	public static CmpB cmpb = new CmpB();
 
 	public static int MAXN = 50001;
 	public static int MAXM = 100001;
@@ -47,10 +17,21 @@ public class Code04_Lcm1 {
 	public static int n, m, q;
 	public static int blen, bnum;
 
-	public static Param[] edge = new Param[MAXM];
-	public static Param[] ques = new Param[MAXQ];
+	public static int[] eu = new int[MAXM];
+	public static int[] ev = new int[MAXM];
+	public static int[] ea = new int[MAXM];
+	public static int[] eb = new int[MAXM];
 
-	public static int[] arr = new int[MAXQ];
+	public static int[] qu = new int[MAXQ];
+	public static int[] qv = new int[MAXQ];
+	public static int[] qa = new int[MAXQ];
+	public static int[] qb = new int[MAXQ];
+	public static int[] qid = new int[MAXQ];
+
+	public static int[] arre = new int[MAXM];
+	public static int[] arrq = new int[MAXQ];
+
+	public static int[] cur = new int[MAXQ];
 	public static int cntq = 0;
 
 	public static int[] fa = new int[MAXN];
@@ -61,6 +42,21 @@ public class Code04_Lcm1 {
 	public static int opsize = 0;
 
 	public static boolean[] ans = new boolean[MAXQ];
+
+	public static void sort(int[] idx, int[] v, int l, int r) {
+		if (l >= r) return;
+		int i = l, j = r, pivot = v[idx[(l + r) >> 1]], tmp;
+		while (i <= j) {
+			while (v[idx[i]] < pivot) i++;
+			while (v[idx[j]] > pivot) j--;
+			if (i <= j) {
+				tmp = idx[i]; idx[i] = idx[j]; idx[j] = tmp;
+				i++; j--;
+			}
+		}
+		sort(idx, v, l, j);
+		sort(idx, v, i, r);
+	}
 
 	public static void build() {
 		for (int i = 1; i <= n; i++) {
@@ -82,9 +78,7 @@ public class Code04_Lcm1 {
 		int fx = find(x);
 		int fy = find(y);
 		if (siz[fx] < siz[fy]) {
-			int tmp = fx;
-			fx = fy;
-			fy = tmp;
+			int tmp = fx; fx = fy; fy = tmp;
 		}
 		rollback[++opsize][0] = fx;
 		rollback[opsize][1] = fy;
@@ -121,27 +115,28 @@ public class Code04_Lcm1 {
 		cntq = 0;
 		for (int i = 1; i <= q; i++) {
 			// 保证每条询问只落入其中的一块
-			if (edge[l].a <= ques[i].a && (r + 1 > m || ques[i].a < edge[r + 1].a)) {
-				arr[++cntq] = i;
+			if (ea[arre[l]] <= qa[arrq[i]] && (r + 1 > m || qa[arrq[i]] < ea[arre[r + 1]])) {
+				cur[++cntq] = arrq[i];
 			}
 		}
 		if (cntq > 0) {
 			// 可以使用额外的数组，每块内部根据b进行排序
 			// 每次把新块归并进来，保证 1..l-1 范围根据b有序
 			// 可以省掉一个log的复杂度，本题不做这个优化也能通过，索性算了
-			Arrays.sort(edge, 1, l, cmpb);
+			sort(arre, eb, 1, l - 1);
 			int pos = 1;
 			for (int i = 1; i <= cntq; i++) {
-				for (; pos < l && edge[pos].b <= ques[arr[i]].b; pos++) {
-					union(edge[pos].u, edge[pos].v, edge[pos].a, edge[pos].b);
+				for (int edge = arre[pos]; pos < l && eb[edge] <= qb[cur[i]]; pos++, edge = arre[pos]) {
+					union(eu[edge], ev[edge], ea[edge], eb[edge]);
 				}
 				opsize = 0;
 				for (int j = l; j <= r; j++) {
-					if (edge[j].a <= ques[arr[i]].a && edge[j].b <= ques[arr[i]].b) {
-						union(edge[j].u, edge[j].v, edge[j].a, edge[j].b);
+					int edge = arre[j];
+					if (ea[edge] <= qa[cur[i]] && eb[edge] <= qb[cur[i]]) {
+						union(eu[edge], ev[edge], ea[edge], eb[edge]);
 					}
 				}
-				ans[ques[arr[i]].qid] = query(ques[arr[i]].u, ques[arr[i]].v, ques[arr[i]].a, ques[arr[i]].b);
+				ans[qid[cur[i]]] = query(qu[cur[i]], qv[cur[i]], qa[cur[i]], qb[cur[i]]);
 				undo();
 			}
 		}
@@ -158,8 +153,14 @@ public class Code04_Lcm1 {
 	public static void prepare() {
 		blen = Math.max(1, (int) Math.sqrt(m * log2(n)));
 		bnum = (m + blen - 1) / blen;
-		Arrays.sort(edge, 1, m + 1, cmpa);
-		Arrays.sort(ques, 1, q + 1, cmpb);
+		for (int i = 1; i <= m; i++) {
+			arre[i] = i;
+		}
+		for (int i = 1; i <= q; i++) {
+			arrq[i] = i;
+		}
+		sort(arre, ea, 1, m);
+		sort(arrq, qb, 1, q);
 	}
 
 	public static void main(String[] args) throws IOException {
@@ -167,21 +168,19 @@ public class Code04_Lcm1 {
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
 		n = in.nextInt();
 		m = in.nextInt();
-		for (int i = 1, u, v, a, b; i <= m; i++) {
-			u = in.nextInt();
-			v = in.nextInt();
-			a = in.nextInt();
-			b = in.nextInt();
-			edge[i] = new Param(u, v, a, b);
+		for (int i = 1; i <= m; i++) {
+			eu[i] = in.nextInt();
+			ev[i] = in.nextInt();
+			ea[i] = in.nextInt();
+			eb[i] = in.nextInt();
 		}
 		q = in.nextInt();
-		for (int i = 1, u, v, a, b; i <= q; i++) {
-			u = in.nextInt();
-			v = in.nextInt();
-			a = in.nextInt();
-			b = in.nextInt();
-			ques[i] = new Param(u, v, a, b);
-			ques[i].qid = i;
+		for (int i = 1; i <= q; i++) {
+			qu[i] = in.nextInt();
+			qv[i] = in.nextInt();
+			qa[i] = in.nextInt();
+			qb[i] = in.nextInt();
+			qid[i] = i;
 		}
 		prepare();
 		for (int i = 1, l, r; i <= bnum; i++) {
