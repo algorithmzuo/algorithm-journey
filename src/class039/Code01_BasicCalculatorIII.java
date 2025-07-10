@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 // 含有嵌套的表达式求值
 // 力扣上本题为会员题，所以额外提供了牛客网的测试链接
-// 如果在牛客网上提交，请将函数名从改calculate为solve
+// 如果在牛客网上提交，请将函数名从calculate改为solve
 // 测试链接 : https://leetcode.cn/problems/basic-calculator-iii/
 // 测试链接 : https://www.nowcoder.com/practice/c215ba61c8b1443b996351df929dc4d4
 public class Code01_BasicCalculatorIII {
