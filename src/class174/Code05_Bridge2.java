@@ -37,6 +37,19 @@ package class174;
 //int curw[MAXN];
 //int ans[MAXN];
 //
+//void merge(int l1, int r1, int l2, int r2) {
+//    int i = 0;
+//    while (l1 <= r1 && l2 <= r2) {
+//        eid[++i] = w[change[l1]] >= w[unchange[l2]] ? change[l1++] : unchange[l2++];
+//    }
+//    while (l1 <= r1) {
+//        eid[++i] = change[l1++];
+//    }
+//    while (l2 <= r2) {
+//        eid[++i] = unchange[l2++];
+//    }
+//}
+//
 //void build() {
 //    for (int i = 1; i <= n; i++) {
 //        fa[i] = i;
@@ -71,19 +84,6 @@ package class174;
 //        fy = rollback[opsize][1];
 //        fa[fy] = fy;
 //        siz[fx] -= siz[fy];
-//    }
-//}
-//
-//void merge(int l1, int r1, int l2, int r2) {
-//    int i = 0;
-//    while (l1 <= r1 && l2 <= r2) {
-//        eid[++i] = w[change[l1]] >= w[unchange[l2]] ? change[l1++] : unchange[l2++];
-//    }
-//    while (l1 <= r1) {
-//        eid[++i] = change[l1++];
-//    }
-//    while (l2 <= r2) {
-//        eid[++i] = unchange[l2++];
 //    }
 //}
 //

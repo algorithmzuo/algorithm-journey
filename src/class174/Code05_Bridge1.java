@@ -3,6 +3,7 @@ package class174;
 // 桥梁，java版
 // 测试链接 : https://www.luogu.com.cn/problem/P5443
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
+// 为了java版本能通过，不定义任何类，关于排序一律手写
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -40,7 +41,7 @@ public class Code05_Bridge1 {
 	public static int[] curw = new int[MAXN];
 	public static int[] ans = new int[MAXN];
 
-	// 编号组成的数组idx，根据v[编号]的值进行从大到小排序，手写双指针快排
+	// idx[l..r]由序号组成，v[序号]的值越大，序号越靠前，手写双指针快排
 	public static void sort(int[] idx, int[] v, int l, int r) {
 		if (l >= r) return;
 		int i = l, j = r, pivot = v[idx[(l + r) >> 1]], tmp;
@@ -54,6 +55,22 @@ public class Code05_Bridge1 {
 		}
 		sort(idx, v, l, j);
 		sort(idx, v, i, r);
+	}
+
+	// change[l1..r1]都是边的序号，已经有序了，w[序号]的值越大，序号越靠前
+	// unchange[l2..r2]都是边的序号，已经有序了，w[序号]的值越大，序号越靠前
+	// 把两个数组中的序号，根据w[序号]的值，归并到eid中
+	public static void merge(int l1, int r1, int l2, int r2) {
+		int i = 0;
+		while (l1 <= r1 && l2 <= r2) {
+			eid[++i] = w[change[l1]] >= w[unchange[l2]] ? change[l1++] : unchange[l2++];
+		}
+		while (l1 <= r1) {
+			eid[++i] = change[l1++];
+		}
+		while (l2 <= r2) {
+			eid[++i] = unchange[l2++];
+		}
 	}
 
 	public static void build() {
@@ -93,19 +110,6 @@ public class Code05_Bridge1 {
 			fy = rollback[opsize][1];
 			fa[fy] = fy;
 			siz[fx] -= siz[fy];
-		}
-	}
-
-	public static void merge(int l1, int r1, int l2, int r2) {
-		int i = 0;
-		while (l1 <= r1 && l2 <= r2) {
-			eid[++i] = w[change[l1]] >= w[unchange[l2]] ? change[l1++] : unchange[l2++];
-		}
-		while (l1 <= r1) {
-			eid[++i] = change[l1++];
-		}
-		while (l2 <= r2) {
-			eid[++i] = unchange[l2++];
 		}
 	}
 
