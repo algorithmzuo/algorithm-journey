@@ -135,9 +135,7 @@ package class174;
 //            unchange[++siz2] = eid[i];
 //        }
 //    }
-//    if (siz1 > 0) {
-//        std::sort(change + 1, change + siz1 + 1, [&](int x, int y) { return w[x] > w[y]; });
-//    }
+//    sort(change + 1, change + siz1 + 1, [&](int x, int y) { return w[x] > w[y]; });
 //    merge(1, siz1, 1, siz2);
 //}
 //
@@ -150,7 +148,7 @@ package class174;
 //    for (int i = 1; i <= q; i++) {
 //        qid[i] = i;
 //    }
-//    std::sort(eid + 1, eid + m + 1, [&](int x, int y) { return w[x] > w[y]; });
+//    sort(eid + 1, eid + m + 1, [&](int x, int y) { return w[x] > w[y]; });
 //}
 //
 //int main() {
