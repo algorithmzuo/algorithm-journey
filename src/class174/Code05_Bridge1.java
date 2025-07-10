@@ -23,11 +23,11 @@ public class Code05_Bridge1 {
 	public static int[] a = new int[MAXN];
 	public static int[] b = new int[MAXN];
 
-	public static int[] eid = new int[MAXN];
+	public static int[] arre = new int[MAXN];
 	public static int[] change = new int[MAXN];
 	public static int[] unchange = new int[MAXN];
 
-	public static int[] qid = new int[MAXN];
+	public static int[] arrq = new int[MAXN];
 	public static int[] update = new int[MAXN];
 	public static int[] query = new int[MAXN];
 
@@ -62,13 +62,13 @@ public class Code05_Bridge1 {
 	public static void merge(int l1, int r1, int l2, int r2) {
 		int i = 0;
 		while (l1 <= r1 && l2 <= r2) {
-			eid[++i] = w[change[l1]] >= w[unchange[l2]] ? change[l1++] : unchange[l2++];
+			arre[++i] = w[change[l1]] >= w[unchange[l2]] ? change[l1++] : unchange[l2++];
 		}
 		while (l1 <= r1) {
-			eid[++i] = change[l1++];
+			arre[++i] = change[l1++];
 		}
 		while (l2 <= r2) {
-			eid[++i] = unchange[l2++];
+			arre[++i] = unchange[l2++];
 		}
 	}
 
@@ -117,19 +117,19 @@ public class Code05_Bridge1 {
 		Arrays.fill(vis, false);
 		int cntu = 0, cntq = 0;
 		for (int i = l; i <= r; i++) {
-			if (op[qid[i]] == 1) {
-				vis[a[qid[i]]] = true;
-				update[++cntu] = qid[i];
+			if (op[arrq[i]] == 1) {
+				vis[a[arrq[i]]] = true;
+				update[++cntu] = arrq[i];
 			} else {
-				query[++cntq] = qid[i];
+				query[++cntq] = arrq[i];
 			}
 		}
 		sort(query, b, 1, cntq);
 		int k = 1;
 		for (int i = 1; i <= cntq; i++) {
-			for (; k <= m && w[eid[k]] >= b[query[i]]; k++) {
-				if (!vis[eid[k]]) {
-					union(u[eid[k]], v[eid[k]]);
+			for (; k <= m && w[arre[k]] >= b[query[i]]; k++) {
+				if (!vis[arre[k]]) {
+					union(u[arre[k]], v[arre[k]]);
 				}
 			}
 			opsize = 0;
@@ -154,10 +154,10 @@ public class Code05_Bridge1 {
 		}
 		int siz1 = 0, siz2 = 0;
 		for (int i = 1; i <= m; i++) {
-			if (vis[eid[i]]) {
-				change[++siz1] = eid[i];
+			if (vis[arre[i]]) {
+				change[++siz1] = arre[i];
 			} else {
-				unchange[++siz2] = eid[i];
+				unchange[++siz2] = arre[i];
 			}
 		}
 		sort(change, w, 1, siz1);
@@ -176,12 +176,12 @@ public class Code05_Bridge1 {
 		blen = Math.max(1, (int) Math.sqrt(q * log2(n)));
 		bnum = (q + blen - 1) / blen;
 		for (int i = 1; i <= m; i++) {
-			eid[i] = i;
+			arre[i] = i;
 		}
 		for (int i = 1; i <= q; i++) {
-			qid[i] = i;
+			arrq[i] = i;
 		}
-		sort(eid, w, 1, m);
+		sort(arre, w, 1, m);
 	}
 
 	public static void main(String[] args) throws IOException {
