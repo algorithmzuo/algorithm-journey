@@ -15,30 +15,6 @@ import java.util.Arrays;
 
 public class Code03_MagicGirl1 {
 
-	static class Answer {
-		int pre, suf, len;
-		long res;
-
-		Answer(int p, int s, int l, long r) {
-			pre = p;
-			suf = s;
-			len = l;
-			res = r;
-		}
-
-		void merge(Answer right) {
-			res += right.res + 1L * suf * right.pre;
-			if (pre == len)
-				pre += right.pre;
-			if (right.suf == right.len) {
-				suf += right.suf;
-			} else {
-				suf = right.suf;
-			}
-			len += right.len;
-		}
-	}
-
 	public static int MAXN = 300005;
 	public static int MAXB = 601;
 	public static int POW2 = 9;
@@ -62,14 +38,27 @@ public class Code03_MagicGirl1 {
 	public static int[] last = new int[MAXN];
 	public static int[] next = new int[MAXN];
 
-	public static Answer tmp = new Answer(0, 0, 0, 0);
-	public static Answer[] ans = new Answer[MAXN];
-	
+	public static int[] pre = new int[MAXN];
+	public static int[] suf = new int[MAXN];
+	public static int[] len = new int[MAXN];
+	public static long[] ans = new long[MAXN];
+
+	public static void mergeAns(int i, int rpre, int rsuf, int rlen, int rans) {
+		ans[i] += rans + 1L * suf[i] * rpre;
+		if (pre[i] == len[i]) {
+			pre[i] += rpre;
+		}
+		if (rsuf == rlen) {
+			suf[i] += rsuf;
+		} else {
+			suf[i] = rsuf;
+		}
+		len[i] += rlen;
+	}
+
 	// 根据arr[pos[i]]的值，对pos[l..r]进行双指针快排
 	public static void quickSort(int l, int r) {
-		if (l >= r) {
-			return;
-		}
+		if (l >= r) return;
 		int i = l, j = r, pivot = arr[pos[(l + r) >> 1]], tmp;
 		while (i <= j) {
 			while (arr[pos[i]] < pivot) i++;
@@ -103,25 +92,25 @@ public class Code03_MagicGirl1 {
 			last[i] = i - 1;
 			next[i] = i + 1;
 		}
-		tmp.pre = 0; tmp.suf = 0; tmp.len = r - l + 1; tmp.res = 0;
+		int rpre = 0, rsuf = 0, rlen = r - l + 1, rans = 0;
 		int k = 1;
 		for (int i = l, idx; i <= r; i++) {
 			idx = pos[i];
 			for (; k <= siz && v[arrq[k]] < arr[idx]; k++) {
-				ans[arrq[k]].merge(tmp);
+				mergeAns(arrq[k], rpre, rsuf, rlen, rans);
 			}
 			if (last[idx] == l - 1) {
-				tmp.pre += next[idx] - idx;
+				rpre += next[idx] - idx;
 			}
 			if (next[idx] == r + 1) {
-				tmp.suf += idx - last[idx];
+				rsuf += idx - last[idx];
 			}
-			tmp.res += 1L * (idx - last[idx]) * (next[idx] - idx);
+			rans += 1L * (idx - last[idx]) * (next[idx] - idx);
 			last[next[idx]] = last[idx];
 			next[last[idx]] = next[idx];
 		}
 		for (; k <= siz; k++) {
-			ans[arrq[k]].merge(tmp);
+			mergeAns(arrq[k], rpre, rsuf, rlen, rans);
 		}
 		siz = 0;
 	}
@@ -155,11 +144,10 @@ public class Code03_MagicGirl1 {
 		} else {
 			for (int i = Math.max(jobl, l); i <= Math.min(jobr, r); i++) {
 				if (arr[i] <= jobv) {
-					tmp.pre = 1; tmp.suf = 1; tmp.len = 1; tmp.res = 1;
+					mergeAns(qi, 1, 1, 1, 1);
 				} else {
-					tmp.pre = 0; tmp.suf = 0; tmp.len = 1; tmp.res = 0;
+					mergeAns(qi, 0, 0, 1, 0);
 				}
-				ans[qi].merge(tmp);
 			}
 		}
 	}
@@ -195,9 +183,6 @@ public class Code03_MagicGirl1 {
 				v[i] = in.nextInt();
 			}
 		}
-		for (int i = 1; i <= m; i++) {
-			ans[i] = new Answer(0, 0, 0, 0);
-		}
 		int bnum = (n + BLEN - 1) / BLEN;
 		for (int i = 1, l, r; i <= bnum; i++) {
 			l = (i - 1) * BLEN + 1;
@@ -206,7 +191,7 @@ public class Code03_MagicGirl1 {
 		}
 		for (int i = 1; i <= m; i++) {
 			if (op[i] == 2) {
-				out.println(ans[i].res);
+				out.println(ans[i]);
 			}
 		}
 		out.flush();

@@ -9,24 +9,6 @@ package class174;
 //
 //using namespace std;
 //
-//struct Answer {
-//    int pre, suf, len;
-//    long long res;
-//
-//    inline void merge(const Answer &right) {
-//        res += right.res + 1LL * suf * right.pre;
-//        if (pre == len) {
-//            pre += right.pre;
-//        }
-//        if (right.suf == right.len) {
-//            suf += right.suf;
-//        } else {
-//            suf = right.suf;
-//        }
-//        len += right.len;
-//    }
-//};
-//
 //const int MAXN = 300005;
 //const int MAXB = 601;
 //const int POW2 = 9;
@@ -50,8 +32,23 @@ package class174;
 //int lst[MAXN];
 //int nxt[MAXN];
 //
-//Answer tmp;
-//Answer ans[MAXN];
+//int pre[MAXN];
+//int suf[MAXN];
+//int len[MAXN];
+//long long ans[MAXN];
+//
+//inline void mergeAns(int i, int rpre, int rsuf, int rlen, int rans) {
+//    ans[i] += rans + 1LL * suf[i] * rpre;
+//    if (pre[i] == len[i]) {
+//        pre[i] += rpre;
+//    }
+//    if (rsuf == rlen) {
+//        suf[i] += rsuf;
+//    } else {
+//        suf[i] = rsuf;
+//    }
+//    len[i] += rlen;
+//}
 //
 //inline void radixSort() {
 //    fill(cntv, cntv + MAXB, 0);
@@ -72,25 +69,25 @@ package class174;
 //        lst[i] = i - 1;
 //        nxt[i] = i + 1;
 //    }
-//    tmp = { 0, 0, r - l + 1, 0 };
+//    int rpre = 0, rsuf = 0, rlen = r - l + 1, rans = 0;
 //    int k = 1;
 //    for (int i = l, idx; i <= r; i++) {
 //        idx = pos[i];
 //        for(; k <= siz && v[arrq[k]] < arr[idx]; k++) {
-//            ans[arrq[k]].merge(tmp);
+//            mergeAns(arrq[k], rpre, rsuf, rlen, rans);
 //        }
 //        if (lst[idx] == l - 1) {
-//            tmp.pre += nxt[idx] - idx;
+//            rpre += nxt[idx] - idx;
 //        }
 //        if (nxt[idx] == r + 1) {
-//            tmp.suf += idx - lst[idx];
+//            rsuf += idx - lst[idx];
 //        }
-//        tmp.res += 1LL * (idx - lst[idx]) * (nxt[idx] - idx);
+//        rans += 1LL * (idx - lst[idx]) * (nxt[idx] - idx);
 //        lst[nxt[idx]] = lst[idx];
 //        nxt[lst[idx]] = nxt[idx];
 //    }
 //    for(; k <= siz; k++) {
-//        ans[arrq[k]].merge(tmp);
+//        mergeAns(arrq[k], rpre, rsuf, rlen, rans);
 //    }
 //    siz = 0;
 //}
@@ -123,11 +120,10 @@ package class174;
 //    } else {
 //        for (int i = max(jobl, l); i <= min(jobr, r); i++) {
 //            if (arr[i] <= jobv) {
-//                tmp = { 1, 1, 1, 1 };
+//                mergeAns(qi, 1, 1, 1, 1);
 //            } else {
-//                tmp = { 0, 0, 1, 0 };
+//                mergeAns(qi, 0, 0, 1, 0);
 //            }
-//            ans[qi].merge(tmp);
 //        }
 //    }
 //}
@@ -168,7 +164,7 @@ package class174;
 //    }
 //    for (int i = 1; i <= m; i++) {
 //        if (op[i] == 2) {
-//            cout << ans[i].res << '\n';
+//            cout << ans[i] << '\n';
 //        }
 //    }
 //    return 0;
