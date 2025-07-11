@@ -1,6 +1,10 @@
 package class174;
 
 // 未来日记，java版
+// 给定一个长度为n的数组arr，一共有m条操作，每条操作类型如下
+// 操作 1 l r x y : arr[l..r]范围上，所有值x变成值y
+// 操作 2 l r k   : arr[l..r]范围上，查询第k小的值
+// 1 <= n、m、arr[i] <= 10^5
 // 测试链接 : https://www.luogu.com.cn/problem/P4119
 // 提交以下的code，提交时请把类名改成"Main"
 // java实现的逻辑一定是正确的，但是本题卡常，无法通过所有测试用例

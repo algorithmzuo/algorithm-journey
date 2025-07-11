@@ -1,6 +1,11 @@
 package class174;
 
 // 魔法少女网站，java版
+// 给定一个长度为n的数组arr，一共有m条操作，每条操作类型如下
+// 操作 1 x v   : arr[x]的值变成v
+// 操作 2 x y v : arr[x..y]范围上，查询有多少连续子数组的最大值 <= v
+// 1 <= n、m <= 3 * 10^5
+// 1 <= arr[i] <= n
 // 测试链接 : https://www.luogu.com.cn/problem/P6578
 // 提交以下的code，提交时请把类名改成"Main"
 // java实现的逻辑一定是正确的，但是本题卡常，无法通过所有测试用例
@@ -116,7 +121,7 @@ public class Code02_MagicGirl1 {
 	}
 
 	public static void update(int qi, int l, int r) {
-		int jobi = x[qi], jobv = y[qi];
+		int jobi = x[qi], jobv = v[qi];
 		if (l <= jobi && jobi <= r) {
 			calc(l, r);
 			arr[jobi] = jobv;
@@ -178,8 +183,10 @@ public class Code02_MagicGirl1 {
 		for (int i = 1; i <= m; i++) {
 			op[i] = in.nextInt();
 			x[i] = in.nextInt();
-			y[i] = in.nextInt();
-			if (op[i] == 2) {
+			if (op[i] == 1) {
+				v[i] = in.nextInt();
+			} else {
+				y[i] = in.nextInt();
 				v[i] = in.nextInt();
 			}
 		}

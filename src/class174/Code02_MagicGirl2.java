@@ -1,6 +1,11 @@
 package class174;
 
 // 魔法少女网站，C++版
+// 给定一个长度为n的数组arr，一共有m条操作，每条操作类型如下
+// 操作 1 x v   : arr[x]的值变成v
+// 操作 2 x y v : arr[x..y]范围上，查询有多少连续子数组的最大值 <= v
+// 1 <= n、m <= 3 * 10^5
+// 1 <= arr[i] <= n
 // 测试链接 : https://www.luogu.com.cn/problem/P6578
 // 如下实现是C++的版本，C++版本和java版本逻辑完全一样
 // 提交如下代码，可以通过所有测试用例
@@ -93,7 +98,7 @@ package class174;
 //}
 //
 //inline void update(int qi, int l, int r) {
-//    int jobi = x[qi], jobv = y[qi];
+//    int jobi = x[qi], jobv = v[qi];
 //    if (l <= jobi && jobi <= r) {
 //        calc(l, r);
 //        arr[jobi] = jobv;
@@ -151,9 +156,11 @@ package class174;
 //        cin >> arr[i];
 //    }
 //    for (int i = 1; i <= m; i++) {
-//        cin >> op[i] >> x[i] >> y[i];
-//        if (op[i] == 2) {
+//        cin >> op[i] >> x[i];
+//        if (op[i] == 1) {
 //            cin >> v[i];
+//        } else {
+//            cin >> y[i] >> v[i];
 //        }
 //    }
 //    int bnum = (n + BLEN - 1) / BLEN;
