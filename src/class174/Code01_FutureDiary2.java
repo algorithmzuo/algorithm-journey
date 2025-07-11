@@ -39,9 +39,9 @@ package class174;
 //int bl[MAXB];
 //int br[MAXB];
 //
-//int idxRoot[MAXN];
-//int valRoot[MAXB][MAXN];
-//int rootVal[MAXB][MAXN];
+//int idxPos[MAXN];
+//int valPos[MAXB][MAXN];
+//int posVal[MAXB][MAXN];
 //
 //int sum1[MAXB][MAXB];
 //int sum2[MAXB][MAXN];
@@ -50,29 +50,29 @@ package class174;
 //
 //void build(int b) {
 //    for (int i = 1; i <= blen; i++) {
-//        valRoot[b][rootVal[b][i]] = 0;
+//        valPos[b][posVal[b][i]] = 0;
 //    }
 //    int cnt = 0;
 //    for (int i = bl[b]; i <= br[b]; i++) {
-//        if (valRoot[b][arr[i]] == 0) {
+//        if (valPos[b][arr[i]] == 0) {
 //            cnt++;
-//            valRoot[b][arr[i]] = cnt;
-//            rootVal[b][cnt] = arr[i];
+//            valPos[b][arr[i]] = cnt;
+//            posVal[b][cnt] = arr[i];
 //        }
-//        idxRoot[i] = valRoot[b][arr[i]];
+//        idxPos[i] = valPos[b][arr[i]];
 //    }
 //}
 //
 //void down(int b) {
 //    for (int i = bl[b]; i <= br[b]; i++) {
-//        arr[i] = rootVal[b][idxRoot[i]];
+//        arr[i] = posVal[b][idxPos[i]];
 //    }
 //}
 //
 //void xToy(int b, int x, int y) {
-//    valRoot[b][y] = valRoot[b][x];
-//    rootVal[b][valRoot[b][x]] = y;
-//    valRoot[b][x] = 0;
+//    valPos[b][y] = valPos[b][x];
+//    posVal[b][valPos[b][x]] = y;
+//    valPos[b][x] = 0;
 //}
 //
 //void innerUpdate(int l, int r, int x, int y) {

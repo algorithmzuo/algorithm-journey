@@ -26,9 +26,9 @@ public class Code01_FutureDiary1 {
 	public static int[] bl = new int[MAXB];
 	public static int[] br = new int[MAXB];
 
-	public static int[] idxRoot = new int[MAXN];
-	public static int[][] valRoot = new int[MAXB][MAXN];
-	public static int[][] rootVal = new int[MAXB][MAXN];
+	public static int[] idxPos = new int[MAXN];
+	public static int[][] valPos = new int[MAXB][MAXN];
+	public static int[][] posVal = new int[MAXB][MAXN];
 
 	public static int[][] sum1 = new int[MAXB][MAXB];
 	public static int[][] sum2 = new int[MAXB][MAXN];
@@ -37,28 +37,28 @@ public class Code01_FutureDiary1 {
 
 	public static void build(int b) {
 		for (int i = 1; i <= blen; i++) {
-			valRoot[b][rootVal[b][i]] = 0;
+			valPos[b][posVal[b][i]] = 0;
 		}
 		for (int i = bl[b], cnt = 0; i <= br[b]; i++) {
-			if (valRoot[b][arr[i]] == 0) {
+			if (valPos[b][arr[i]] == 0) {
 				cnt++;
-				valRoot[b][arr[i]] = cnt;
-				rootVal[b][cnt] = arr[i];
+				valPos[b][arr[i]] = cnt;
+				posVal[b][cnt] = arr[i];
 			}
-			idxRoot[i] = valRoot[b][arr[i]];
+			idxPos[i] = valPos[b][arr[i]];
 		}
 	}
 
 	public static void down(int b) {
 		for (int i = bl[b]; i <= br[b]; i++) {
-			arr[i] = rootVal[b][idxRoot[i]];
+			arr[i] = posVal[b][idxPos[i]];
 		}
 	}
 
 	public static void xToy(int b, int x, int y) {
-		valRoot[b][y] = valRoot[b][x];
-		rootVal[b][valRoot[b][x]] = y;
-		valRoot[b][x] = 0;
+		valPos[b][y] = valPos[b][x];
+		posVal[b][valPos[b][x]] = y;
+		valPos[b][x] = 0;
 	}
 
 	public static void innerUpdate(int l, int r, int x, int y) {
