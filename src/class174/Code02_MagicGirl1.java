@@ -15,7 +15,7 @@ import java.util.Arrays;
 
 public class Code02_MagicGirl1 {
 
-	public static int MAXN = 300005;
+	public static int MAXN = 300002;
 	public static int MAXB = 601;
 	public static int POW2 = 9;
 	public static int BLEN = 1 << POW2;

@@ -29,7 +29,7 @@ package class174;
 //}
 //
 //const int MAXN = 100001;
-//const int MAXB = 318;
+//const int MAXB = 401;
 //int n, m;
 //int arr[MAXN];
 //int tmp[MAXN];

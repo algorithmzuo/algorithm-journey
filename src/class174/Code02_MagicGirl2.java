@@ -9,7 +9,7 @@ package class174;
 //
 //using namespace std;
 //
-//const int MAXN = 300005;
+//const int MAXN = 300002;
 //const int MAXB = 601;
 //const int POW2 = 9;
 //const int BLEN = 1 << POW2;

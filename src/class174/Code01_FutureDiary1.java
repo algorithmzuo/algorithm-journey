@@ -16,7 +16,7 @@ import java.util.Arrays;
 public class Code01_FutureDiary1 {
 
 	public static int MAXN = 100001;
-	public static int MAXB = 318;
+	public static int MAXB = 401;
 	public static int n, m;
 	public static int[] arr = new int[MAXN];
 	public static int[] tmp = new int[MAXN];
