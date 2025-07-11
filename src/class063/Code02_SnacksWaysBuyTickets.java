@@ -73,7 +73,7 @@ public class Code02_SnacksWaysBuyTickets {
 		return ans;
 	}
 
-	// arr[i....e]结束，e再往右不展开了！
+	// arr[i..e-1]范围上展开，到达e就停止
 	// 返回值 : ans数组填到了什么位置！
 	public static int f(int i, int e, long s, long w, long[] ans, int j) {
 		if (s > w) {
