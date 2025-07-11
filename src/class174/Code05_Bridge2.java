@@ -9,33 +9,37 @@ package class174;
 //
 //using namespace std;
 //
-//const int MAXN = 100001;
+//const int MAXN = 50001;
+//const int MAXM = 100001;
+//const int MAXQ = 100001;
 //int n, m, q;
 //int blen, bnum;
-//int u[MAXN];
-//int v[MAXN];
-//int w[MAXN];
 //
-//int op[MAXN];
-//int a[MAXN];
-//int b[MAXN];
+//int u[MAXM];
+//int v[MAXM];
+//int w[MAXM];
 //
-//int arre[MAXN];
-//int change[MAXN];
-//int unchange[MAXN];
-//
-//int arrq[MAXN];
-//int update[MAXN];
-//int query[MAXN];
+//int op[MAXQ];
+//int a[MAXQ];
+//int b[MAXQ];
 //
 //int fa[MAXN];
 //int siz[MAXN];
-//int rollback[MAXN][2];
+//int rollback[MAXM][2];
 //int opsize = 0;
 //
-//bool vis[MAXN];
-//int curw[MAXN];
-//int ans[MAXN];
+//int arre[MAXM];
+//int change[MAXM];
+//int unchange[MAXM];
+//
+//int arrq[MAXQ];
+//int update[MAXQ];
+//int query[MAXQ];
+//
+//bool vis[MAXM];
+//int curw[MAXM];
+//
+//int ans[MAXQ];
 //
 //void merge(int l1, int r1, int l2, int r2) {
 //    int i = 0;

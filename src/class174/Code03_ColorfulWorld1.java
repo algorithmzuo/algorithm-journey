@@ -16,19 +16,23 @@ import java.util.Arrays;
 public class Code03_ColorfulWorld1 {
 
 	public static int MAXN = 1000001;
+	public static int MAXM = 500001;
+	public static int MAXV = 100002;
 	public static int n, m;
 	public static int blen, bnum;
 	public static int maxv, lazy;
+
 	public static int[] arr = new int[MAXN];
+	public static int[] op = new int[MAXM];
+	public static int[] ql = new int[MAXM];
+	public static int[] qr = new int[MAXM];
+	public static int[] qx = new int[MAXM];
 
-	public static int[] op = new int[MAXN];
-	public static int[] ql = new int[MAXN];
-	public static int[] qr = new int[MAXN];
-	public static int[] qx = new int[MAXN];
+	public static int[] pre0 = new int[MAXN];
+	public static int[] fa = new int[MAXV];
+	public static int[] sum = new int[MAXV];
 
-	public static int[] fa = new int[MAXN];
-	public static int[] sum = new int[MAXN];
-	public static int[] ans = new int[MAXN];
+	public static int[] ans = new int[MAXM];
 
 	public static int find(int x) {
 		if (x != fa[x]) {
@@ -134,11 +138,11 @@ public class Code03_ColorfulWorld1 {
 		blen = (int) Math.sqrt(n * 3.0);
 		bnum = (n + blen - 1) / blen;
 		for (int i = 1; i <= n; i++) {
-			sum[i] = sum[i - 1] + (arr[i] == 0 ? 1 : 0);
+			pre0[i] = pre0[i - 1] + (arr[i] == 0 ? 1 : 0);
 		}
 		for (int i = 1; i <= m; i++) {
 			if (op[i] == 2 && qx[i] == 0) {
-				ans[i] = sum[qr[i]] - sum[ql[i] - 1];
+				ans[i] = pre0[qr[i]] - pre0[ql[i] - 1];
 			}
 		}
 	}

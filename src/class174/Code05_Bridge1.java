@@ -12,33 +12,37 @@ import java.util.Arrays;
 
 public class Code05_Bridge1 {
 
-	public static int MAXN = 100001;
+	public static int MAXN = 50001;
+	public static int MAXM = 100001;
+	public static int MAXQ = 100001;
 	public static int n, m, q;
 	public static int blen, bnum;
-	public static int[] u = new int[MAXN];
-	public static int[] v = new int[MAXN];
-	public static int[] w = new int[MAXN];
 
-	public static int[] op = new int[MAXN];
-	public static int[] a = new int[MAXN];
-	public static int[] b = new int[MAXN];
+	public static int[] u = new int[MAXM];
+	public static int[] v = new int[MAXM];
+	public static int[] w = new int[MAXM];
 
-	public static int[] arre = new int[MAXN];
-	public static int[] change = new int[MAXN];
-	public static int[] unchange = new int[MAXN];
-
-	public static int[] arrq = new int[MAXN];
-	public static int[] update = new int[MAXN];
-	public static int[] query = new int[MAXN];
+	public static int[] op = new int[MAXQ];
+	public static int[] a = new int[MAXQ];
+	public static int[] b = new int[MAXQ];
 
 	public static int[] fa = new int[MAXN];
 	public static int[] siz = new int[MAXN];
-	public static int[][] rollback = new int[MAXN][2];
+	public static int[][] rollback = new int[MAXM][2];
 	public static int opsize = 0;
 
-	public static boolean[] vis = new boolean[MAXN];
-	public static int[] curw = new int[MAXN];
-	public static int[] ans = new int[MAXN];
+	public static int[] arre = new int[MAXM];
+	public static int[] change = new int[MAXM];
+	public static int[] unchange = new int[MAXM];
+
+	public static int[] arrq = new int[MAXQ];
+	public static int[] update = new int[MAXQ];
+	public static int[] query = new int[MAXQ];
+
+	public static boolean[] vis = new boolean[MAXM];
+	public static int[] curw = new int[MAXM];
+
+	public static int[] ans = new int[MAXQ];
 
 	// idx[l..r]由序号组成，v[序号]的值越大，序号越靠前，手写双指针快排
 	public static void sort(int[] idx, int[] v, int l, int r) {

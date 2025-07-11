@@ -10,19 +10,23 @@ package class174;
 //using namespace std;
 //
 //const int MAXN = 1000001;
+//const int MAXM = 500001;
+//const int MAXV = 100002;
 //int n, m;
 //int blen, bnum;
 //int maxv, lazy;
+//
 //int arr[MAXN];
+//int op[MAXM];
+//int ql[MAXM];
+//int qr[MAXM];
+//int qx[MAXM];
 //
-//int op[MAXN];
-//int ql[MAXN];
-//int qr[MAXN];
-//int qx[MAXN];
+//int pre0[MAXN];
+//int fa[MAXV];
+//int sum[MAXV];
 //
-//int fa[MAXN];
-//int sum[MAXN];
-//int ans[MAXN];
+//int ans[MAXM];
 //
 //int find(int x) {
 //    if (x != fa[x]) {
@@ -128,11 +132,11 @@ package class174;
 //    blen = (int)sqrt(n * 3.0);
 //    bnum = (n + blen - 1) / blen;
 //    for (int i = 1; i <= n; i++) {
-//        sum[i] = sum[i - 1] + (arr[i] == 0 ? 1 : 0);
+//        pre0[i] = pre0[i - 1] + (arr[i] == 0 ? 1 : 0);
 //    }
 //    for (int i = 1; i <= m; i++) {
 //        if (op[i] == 2 && qx[i] == 0) {
-//            ans[i] = sum[qr[i]] - sum[ql[i] - 1];
+//            ans[i] = pre0[qr[i]] - pre0[ql[i] - 1];
 //        }
 //    }
 //}
