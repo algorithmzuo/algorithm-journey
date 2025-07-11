@@ -7,7 +7,7 @@ package class094;
 // 这棵树的初始重量 + 这棵树增长到这一天的总增重
 // 从第1天开始，你一共有m天可以砍树，返回m天内你获得的最大收益
 // 测试链接 : https://pintia.cn/problem-sets/91827364500/exam/problems/type/7?problemSetProblemId=91827367873
-// 如果测试链接失效，去往 ZOJ Problem Set 网站上找第3211题，本题的名字叫 "Dream City"
+// 如果测试链接失效，搜索 "ZOJ Problem Set" 所在网站，找第3211题 "Dream City"
 // 提交以下的code，提交时请把类名改成"Main"，可以直接通过
 
 import java.io.BufferedReader;
