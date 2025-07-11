@@ -5,8 +5,19 @@ import java.util.Arrays;
 // 执行所有任务的最少初始电量
 // 每一个任务有两个参数，需要耗费的电量、至少多少电量才能开始这个任务
 // 返回手机至少需要多少的初始电量，才能执行完所有的任务
-// 来自真实大厂笔试，没有在线测试，对数器验证
+// 测试链接 : https://leetcode.cn/problems/minimum-initial-energy-to-finish-tasks/
 public class Code05_MinimalBatteryPower {
+
+	// 同学找到了本题的在线测试，把如下minimumEffort方法提交，可以直接通过
+	// 测试链接 : https://leetcode.cn/problems/minimum-initial-energy-to-finish-tasks/
+	public static int minimumEffort(int[][] tasks) {
+		Arrays.sort(tasks, (a, b) -> (b[0] - b[1]) - (a[0] - a[1]));
+		int ans = 0;
+		for (int[] job : tasks) {
+			ans = Math.max(ans + job[0], job[1]);
+		}
+		return ans;
+	}
 
 	// 暴力递归
 	// 为了验证
