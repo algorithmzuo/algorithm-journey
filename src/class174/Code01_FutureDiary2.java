@@ -73,12 +73,6 @@ package class174;
 //    }
 //}
 //
-//void xtoy(int b, int x, int y) {
-//    valrt[b][y] = valrt[b][x];
-//    rtval[b][valrt[b][x]] = y;
-//    valrt[b][x] = 0;
-//}
-//
 //void innerUpdate(int l, int r, int x, int y) {
 //    down(bi[l]);
 //    for (int i = l; i <= r; i++) {
@@ -91,6 +85,12 @@ package class174;
 //        }
 //    }
 //    build(bi[l]);
+//}
+//
+//void xtoy(int b, int x, int y) {
+//    valrt[b][y] = valrt[b][x];
+//    rtval[b][valrt[b][x]] = y;
+//    valrt[b][x] = 0;
 //}
 //
 //void update(int l, int r, int x, int y) {

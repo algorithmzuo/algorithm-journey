@@ -29,16 +29,25 @@ public class Code01_FutureDiary1 {
 	public static int[] bl = new int[MAXB];
 	public static int[] br = new int[MAXB];
 
+	// idxrt[i]表示下标i，在归属的块中，对应的根编号
+	// valrt[b][v]表示序列块b中的数值v，对应的根编号
+	// rtval[b][i]表示序列块b中的根编号i，对应的数值
 	public static int[] idxrt = new int[MAXN];
 	public static int[][] valrt = new int[MAXB][MAXN];
 	public static int[][] rtval = new int[MAXB][MAXN];
 
+	// tmp用于临时排序找第k小的值
+	// sum1[b][i]表示序列块b中，来自值域块i的数字有几个
+	// sum2[b][v]表示序列块b中，数字v有几个
+	// cnt1[i]表示遍历过程中，统计值域块i的数字有几个
+	// cnt2[v]表示遍历过程中，统计数字v有几个
 	public static int[] tmp = new int[MAXN];
 	public static int[][] sum1 = new int[MAXB][MAXB];
 	public static int[][] sum2 = new int[MAXB][MAXN];
 	public static int[] cnt1 = new int[MAXB];
 	public static int[] cnt2 = new int[MAXN];
 
+	// 序列第b块中，根据arr中的值建立起，idxrt、valrt[b]、rtval[b]
 	public static void build(int b) {
 		for (int i = 1; i <= blen; i++) {
 			valrt[b][rtval[b][i]] = 0;
@@ -53,18 +62,14 @@ public class Code01_FutureDiary1 {
 		}
 	}
 
+	// 序列第b块中，有些位置的值已经改了，让改动写入arr
 	public static void down(int b) {
 		for (int i = bl[b]; i <= br[b]; i++) {
 			arr[i] = rtval[b][idxrt[i]];
 		}
 	}
 
-	public static void xtoy(int b, int x, int y) {
-		valrt[b][y] = valrt[b][x];
-		rtval[b][valrt[b][x]] = y;
-		valrt[b][x] = 0;
-	}
-
+	// 序列[l..r]范围上，目前既有x又有y，把所有x改成y
 	public static void innerUpdate(int l, int r, int x, int y) {
 		down(bi[l]);
 		for (int i = l; i <= r; i++) {
@@ -79,10 +84,18 @@ public class Code01_FutureDiary1 {
 		build(bi[l]);
 	}
 
+	// 序列第b块中，目前没有y这个数值，把块中所有的x改成y
+	public static void xtoy(int b, int x, int y) {
+		valrt[b][y] = valrt[b][x];
+		rtval[b][valrt[b][x]] = y;
+		valrt[b][x] = 0;
+	}
+
 	public static void update(int l, int r, int x, int y) {
 		if (x == y || (sum2[bi[r]][x] - sum2[bi[l] - 1][x] == 0)) {
 			return;
 		}
+		// 前缀统计变成当前块统计
 		for (int b = bi[n]; b >= bi[l]; b--) {
 			sum1[b][bi[x]] -= sum1[b - 1][bi[x]];
 			sum1[b][bi[y]] -= sum1[b - 1][bi[y]];
@@ -97,6 +110,8 @@ public class Code01_FutureDiary1 {
 			for (int b = bi[l] + 1; b <= bi[r] - 1; b++) {
 				if (sum2[b][x] != 0) {
 					if (sum2[b][y] != 0) {
+						// 可以证明
+						// 整块发生innerUpdate的次数 <= 根号n
 						innerUpdate(bl[b], br[b], x, y);
 					} else {
 						sum1[b][bi[y]] += sum2[b][x];
@@ -108,6 +123,7 @@ public class Code01_FutureDiary1 {
 				}
 			}
 		}
+		// 当前块统计变回前缀统计
 		for (int b = bi[l]; b <= bi[n]; b++) {
 			sum1[b][bi[x]] += sum1[b - 1][bi[x]];
 			sum1[b][bi[y]] += sum1[b - 1][bi[y]];
@@ -128,16 +144,19 @@ public class Code01_FutureDiary1 {
 		} else {
 			down(bi[l]);
 			down(bi[r]);
+			// 左散块中，每种值的词频统计
 			for (int i = l; i <= br[bi[l]]; i++) {
 				cnt1[bi[arr[i]]]++;
 				cnt2[arr[i]]++;
 			}
+			// 右散块中，每种值的词频统计
 			for (int i = bl[bi[r]]; i <= r; i++) {
 				cnt1[bi[arr[i]]]++;
 				cnt2[arr[i]]++;
 			}
 			int sumCnt = 0;
 			int vblock = 0;
+			// 先定位第k小的数，来自值域的哪个块，vblock
 			for (int b = 1; b <= bi[MAXN - 1]; b++) {
 				int blockCnt = cnt1[b] + sum1[bi[r] - 1][b] - sum1[bi[l]][b];
 				if (sumCnt + blockCnt < k) {
@@ -147,6 +166,7 @@ public class Code01_FutureDiary1 {
 					break;
 				}
 			}
+			// 再定位第k小的数，来自值域第vblock块中，具体什么数字
 			for (int v = (vblock - 1) * blen + 1; v <= vblock * blen; v++) {
 				int valCnt = cnt2[v] + sum2[bi[r] - 1][v] - sum2[bi[l]][v];
 				if (sumCnt + valCnt >= k) {
@@ -156,9 +176,11 @@ public class Code01_FutureDiary1 {
 					sumCnt += valCnt;
 				}
 			}
+			// 左散块的词频统计清空
 			for (int i = l; i <= br[bi[l]]; i++) {
 				cnt1[bi[arr[i]]] = cnt2[arr[i]] = 0;
 			}
+			// 右散块的词频统计清空
 			for (int i = bl[bi[r]]; i <= r; i++) {
 				cnt1[bi[arr[i]]] = cnt2[arr[i]] = 0;
 			}
@@ -169,14 +191,22 @@ public class Code01_FutureDiary1 {
 	public static void prepare() {
 		blen = (int) Math.sqrt(n);
 		bnum = (n + blen - 1) / blen;
+		// i一定要枚举[1, MAXN)
+		// 因为不仅序列要分块，值域也要分块
+		// bi[i]可以查询下标i来自哪个序列块
+		// bi[v]也可查询数字v来自哪个值域块
 		for (int i = 1; i < MAXN; i++) {
 			bi[i] = (i - 1) / blen + 1;
 		}
+		// bl[i]表示下标第i块的左边界
+		// br[i]表示下标第i块的右边界
+		// bl、br 仅用于序列分块
 		for (int i = 1; i <= bnum; i++) {
 			bl[i] = (i - 1) * blen + 1;
 			br[i] = Math.min(i * blen, n);
 			build(i);
 		}
+		// 初始建立sum1、sum2，都表示前缀信息
 		for (int i = 1; i <= bnum; i++) {
 			for (int j = 1; j < MAXB; j++) {
 				sum1[i][j] = sum1[i - 1][j];
