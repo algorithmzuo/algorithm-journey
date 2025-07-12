@@ -146,6 +146,7 @@ public class Code01_FutureDiary1 {
 	public static int query(int l, int r, int k) {
 		int ans = 0;
 		boolean inner = bi[l] == bi[r];
+		// 建立散块的词频统计
 		if (inner) {
 			down(bi[l]);
 			addCnt(l, r);
@@ -159,6 +160,7 @@ public class Code01_FutureDiary1 {
 		int vblock = 0;
 		// 定位第k小的数字，来自哪个值域块
 		for (int b = 1; b <= bi[MAXN - 1]; b++) {
+			// 如果不存在中间的整块，词频 = 散块词频，否则 词频 = 散块词频 + 整块词频
 			int cnt = cnt1[b] + (inner ? 0 : sum1[bi[r] - 1][b] - sum1[bi[l]][b]);
 			if (sumCnt + cnt >= k) {
 				vblock = b;
@@ -169,6 +171,7 @@ public class Code01_FutureDiary1 {
 		}
 		// 定位第k小的数字，来自值域块的哪个数字
 		for (int v = (vblock - 1) * blen + 1; v <= vblock * blen; v++) {
+			// 如果不存在中间的整块，词频 = 散块词频，否则 词频 = 散块词频 + 整块词频
 			int cnt = cnt2[v] + (inner ? 0 : sum2[bi[r] - 1][v] - sum2[bi[l]][v]);
 			if (sumCnt + cnt >= k) {
 				ans = v;
@@ -177,6 +180,7 @@ public class Code01_FutureDiary1 {
 				sumCnt += cnt;
 			}
 		}
+		// 清空散块的词频统计
 		if (inner) {
 			clearCnt(l, r);
 		} else {
