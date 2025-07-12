@@ -23,6 +23,8 @@ public class Code01_FutureDiary1 {
 	public static int n, m;
 	public static int[] arr = new int[MAXN];
 
+	// blen既表示序列块长，也表示值域块长
+	// bnum只表示序列块的数量
 	// bi[i]可以查询下标i来自哪个序列块
 	// bi[v]也可查询数字v来自哪个值域块
 	// bl[i]表示下标第i块的左边界
