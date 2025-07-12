@@ -18,7 +18,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.util.Arrays;
 
-public class Code05_Bridge1 {
+public class Code04_Bridge1 {
 
 	public static int MAXN = 50001;
 	public static int MAXM = 100001;

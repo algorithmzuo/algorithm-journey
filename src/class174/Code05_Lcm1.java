@@ -16,7 +16,7 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
-public class Code04_Lcm1 {
+public class Code05_Lcm1 {
 
 	public static int MAXN = 50001;
 	public static int MAXM = 100001;
