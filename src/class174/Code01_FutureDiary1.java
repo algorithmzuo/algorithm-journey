@@ -66,7 +66,7 @@ public class Code01_FutureDiary1 {
 		}
 	}
 
-	// 序列[l..r]范围上，目前既有x又有y，把所有x改成y
+	// 序列[l..r]范围上，有x有y，把所有x改成y
 	public static void innerUpdate(int l, int r, int x, int y) {
 		writeArray(bi[l]);
 		for (int i = l; i <= r; i++) {
@@ -81,7 +81,7 @@ public class Code01_FutureDiary1 {
 		build(bi[l]);
 	}
 
-	// 序列第b块中，有x无y，把块中所有的x改成y
+	// 序列第b块中，有x无y，把所有x改成y
 	public static void xtoy(int b, int x, int y) {
 		valrt[b][y] = valrt[b][x];
 		rtval[b][valrt[b][x]] = y;
