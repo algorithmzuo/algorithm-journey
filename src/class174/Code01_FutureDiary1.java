@@ -112,7 +112,7 @@ public class Code01_FutureDiary1 {
 				if (sum2[b][x] != 0) {
 					if (sum2[b][y] != 0) {
 						// 可以证明
-						// 整块发生innerUpdate的次数 <= 根号n
+						// 整块发生innerUpdate的次数 <= 块长
 						innerUpdate(bl[b], br[b], x, y);
 					} else {
 						sum1[b][bi[y]] += sum2[b][x];
