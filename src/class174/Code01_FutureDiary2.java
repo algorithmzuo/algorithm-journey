@@ -51,7 +51,7 @@ package class174;
 //int cnt1[MAXB];
 //int cnt2[MAXN];
 //
-//void buildSet(int b) {
+//void build(int b) {
 //    for (int i = 1; i <= blen; i++) {
 //        valrt[b][rtval[b][i]] = 0;
 //    }
@@ -83,7 +83,7 @@ package class174;
 //            arr[i] = y;
 //        }
 //    }
-//    buildSet(bi[l]);
+//    build(bi[l]);
 //}
 //
 //void xtoy(int b, int x, int y) {
@@ -129,7 +129,7 @@ package class174;
 //    }
 //}
 //
-//void buildCnt(int l, int r) {
+//void addCnt(int l, int r) {
 //    for (int i = l; i <= r; i++) {
 //        cnt1[bi[arr[i]]]++;
 //        cnt2[arr[i]]++;
@@ -147,12 +147,12 @@ package class174;
 //    bool inner = bi[l] == bi[r];
 //    if (inner) {
 //        down(bi[l]);
-//        buildCnt(l, r);
+//        addCnt(l, r);
 //    } else {
 //        down(bi[l]);
 //        down(bi[r]);
-//        buildCnt(l, br[bi[l]]);
-//        buildCnt(bl[bi[r]], r);
+//        addCnt(l, br[bi[l]]);
+//        addCnt(bl[bi[r]], r);
 //    }
 //    int sumCnt = 0;
 //    int vblock = 0;
@@ -192,7 +192,7 @@ package class174;
 //    for (int i = 1; i <= bnum; i++) {
 //        bl[i] = (i - 1) * blen + 1;
 //        br[i] = min(i * blen, n);
-//        buildSet(i);
+//        build(i);
 //    }
 //    for (int i = 1; i <= bnum; i++) {
 //        for (int j = 1; j < MAXB; j++) {

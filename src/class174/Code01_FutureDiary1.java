@@ -46,7 +46,7 @@ public class Code01_FutureDiary1 {
 	public static int[] cnt2 = new int[MAXN];
 
 	// 序列第b块中，根据arr中的值建立起，idxrt、valrt[b]、rtval[b]
-	public static void buildSet(int b) {
+	public static void build(int b) {
 		for (int i = 1; i <= blen; i++) {
 			valrt[b][rtval[b][i]] = 0;
 		}
@@ -79,7 +79,7 @@ public class Code01_FutureDiary1 {
 				arr[i] = y;
 			}
 		}
-		buildSet(bi[l]);
+		build(bi[l]);
 	}
 
 	// 序列第b块中，目前没有y这个数值，把块中所有的x改成y
@@ -130,7 +130,7 @@ public class Code01_FutureDiary1 {
 		}
 	}
 
-	public static void buildCnt(int l, int r) {
+	public static void addCnt(int l, int r) {
 		for (int i = l; i <= r; i++) {
 			cnt1[bi[arr[i]]]++;
 			cnt2[arr[i]]++;
@@ -148,12 +148,12 @@ public class Code01_FutureDiary1 {
 		boolean inner = bi[l] == bi[r];
 		if (inner) {
 			down(bi[l]);
-			buildCnt(l, r);
+			addCnt(l, r);
 		} else {
 			down(bi[l]);
 			down(bi[r]);
-			buildCnt(l, br[bi[l]]);
-			buildCnt(bl[bi[r]], r);
+			addCnt(l, br[bi[l]]);
+			addCnt(bl[bi[r]], r);
 		}
 		int sumCnt = 0;
 		int vblock = 0;
@@ -202,7 +202,7 @@ public class Code01_FutureDiary1 {
 		for (int i = 1; i <= bnum; i++) {
 			bl[i] = (i - 1) * blen + 1;
 			br[i] = Math.min(i * blen, n);
-			buildSet(i);
+			build(i);
 		}
 		// 初始建立sum1、sum2，都表示前缀信息
 		for (int i = 1; i <= bnum; i++) {
