@@ -66,14 +66,14 @@ public class Code01_FutureDiary1 {
 		}
 	}
 
-	// 命中了整块修改有x无y的情况，序列第b块中所有x改成y
+	// 命中了整块修改，有x无y的情况，序列第b块中所有x改成y
 	public static void lazy(int b, int x, int y) {
 		valset[b][y] = valset[b][x];
 		setval[b][valset[b][x]] = y;
 		valset[b][x] = 0;
 	}
 
-	// 之前的整块修改有x无y的情况，导致序列第b块中有些值改动了，把改动写入arr
+	// 之前命中了整块修改，有x无y的情况，导致序列第b块中有些值改动了，把改动写入arr
 	public static void down(int b) {
 		for (int i = bl[b]; i <= br[b]; i++) {
 			arr[i] = setval[b][idxset[i]];
