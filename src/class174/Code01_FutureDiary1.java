@@ -35,10 +35,10 @@ public class Code01_FutureDiary1 {
 	public static int[][] valrt = new int[MAXB][MAXN];
 	public static int[][] rtval = new int[MAXB][MAXN];
 
-	// sum1[b][i]表示前b个序列块中，来自值域块i的数字有几个
-	// sum2[b][v]表示前b个序列块中，数字v有几个
-	// cnt1[i]表示遍历散块，统计值域块i的数字有几个
-	// cnt2[v]表示遍历散块，统计数字v有几个
+	// sum1[k][b]表示前k个序列块中，第b块个值域块的数字有几个
+	// sum2[k][v]表示前k个序列块中，数字v有几个
+	// cnt1[b]表示遍历散块之后，第b块个值域块的数字有几个
+	// cnt2[v]表示遍历散块之后，数字v有几个
 	public static int[][] sum1 = new int[MAXB][MAXB];
 	public static int[][] sum2 = new int[MAXB][MAXN];
 	public static int[] cnt1 = new int[MAXB];
