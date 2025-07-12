@@ -28,8 +28,8 @@ public class Code01_FutureDiary1 {
 	public static int[] bl = new int[MAXB];
 	public static int[] br = new int[MAXB];
 
-	// idxset[i]表示下标i，在归属的块中，所属集合的编号
-	// valset[b][v]表示序列块b中的数值v，所属集合的编号
+	// idxset[i]表示下标i，在归属的块中，来自哪个集合
+	// valset[b][v]表示序列块b中的数值v，来自哪个集合
 	// setval[b][s]表示序列块b中的集合s，对应的数值
 	public static int[] idxset = new int[MAXN];
 	public static int[][] valset = new int[MAXB][MAXN];
@@ -49,18 +49,25 @@ public class Code01_FutureDiary1 {
 		for (int i = 1; i <= blen; i++) {
 			valset[b][setval[b][i]] = 0;
 		}
-		for (int i = bl[b], cnt = 0; i <= br[b]; i++) {
+		for (int i = bl[b], s = 0; i <= br[b]; i++) {
 			if (valset[b][arr[i]] == 0) {
-				cnt++;
-				valset[b][arr[i]] = cnt;
-				setval[b][cnt] = arr[i];
+				s++;
+				valset[b][arr[i]] = s;
+				setval[b][s] = arr[i];
 			}
 			idxset[i] = valset[b][arr[i]];
 		}
 	}
 
-	// 序列第b块中，有些位置的值已经改了，让改动写入arr
-	public static void writeArray(int b) {
+	// 命中了整块修改有x无y的情况，序列第b块中，把所有x改成y
+	public static void lazy(int b, int x, int y) {
+		valset[b][y] = valset[b][x];
+		setval[b][valset[b][x]] = y;
+		valset[b][x] = 0;
+	}
+
+	// 之前的整块修改有x无y的情况，导致序列第b块中，有些值改动了，把改动写入arr
+	public static void down(int b) {
 		for (int i = bl[b]; i <= br[b]; i++) {
 			arr[i] = setval[b][idxset[i]];
 		}
@@ -68,7 +75,7 @@ public class Code01_FutureDiary1 {
 
 	// 序列[l..r]范围上，有x有y，把所有x改成y
 	public static void innerUpdate(int l, int r, int x, int y) {
-		writeArray(bi[l]);
+		down(bi[l]);
 		for (int i = l; i <= r; i++) {
 			if (arr[i] == x) {
 				sum1[bi[i]][bi[x]]--;
@@ -79,13 +86,6 @@ public class Code01_FutureDiary1 {
 			}
 		}
 		build(bi[l]);
-	}
-
-	// 序列第b块中，有x无y，把所有x改成y
-	public static void xtoy(int b, int x, int y) {
-		valset[b][y] = valset[b][x];
-		setval[b][valset[b][x]] = y;
-		valset[b][x] = 0;
 	}
 
 	public static void update(int l, int r, int x, int y) {
@@ -115,7 +115,7 @@ public class Code01_FutureDiary1 {
 						sum1[b][bi[x]] -= sum2[b][x];
 						sum2[b][y] += sum2[b][x];
 						sum2[b][x] = 0;
-						xtoy(b, x, y);
+						lazy(b, x, y);
 					}
 				}
 			}
@@ -147,11 +147,11 @@ public class Code01_FutureDiary1 {
 		boolean inner = bi[l] == bi[r];
 		// 建立散块的词频统计
 		if (inner) {
-			writeArray(bi[l]);
+			down(bi[l]);
 			addCnt(l, r);
 		} else {
-			writeArray(bi[l]);
-			writeArray(bi[r]);
+			down(bi[l]);
+			down(bi[r]);
 			addCnt(l, br[bi[l]]);
 			addCnt(bl[bi[r]], r);
 		}

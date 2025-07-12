@@ -55,25 +55,30 @@ package class174;
 //    for (int i = 1; i <= blen; i++) {
 //        valset[b][setval[b][i]] = 0;
 //    }
-//    int cnt = 0;
-//    for (int i = bl[b]; i <= br[b]; i++) {
+//    for (int i = bl[b], s = 0; i <= br[b]; i++) {
 //        if (valset[b][arr[i]] == 0) {
-//            cnt++;
-//            valset[b][arr[i]] = cnt;
-//            setval[b][cnt] = arr[i];
+//            s++;
+//            valset[b][arr[i]] = s;
+//            setval[b][s] = arr[i];
 //        }
 //        idxset[i] = valset[b][arr[i]];
 //    }
 //}
 //
-//void writeArray(int b) {
+//void lazy(int b, int x, int y) {
+//    valset[b][y] = valset[b][x];
+//    setval[b][valset[b][x]] = y;
+//    valset[b][x] = 0;
+//}
+//
+//void down(int b) {
 //    for (int i = bl[b]; i <= br[b]; i++) {
 //        arr[i] = setval[b][idxset[i]];
 //    }
 //}
 //
 //void innerUpdate(int l, int r, int x, int y) {
-//    writeArray(bi[l]);
+//    down(bi[l]);
 //    for (int i = l; i <= r; i++) {
 //        if (arr[i] == x) {
 //            sum1[bi[i]][bi[x]]--;
@@ -84,12 +89,6 @@ package class174;
 //        }
 //    }
 //    build(bi[l]);
-//}
-//
-//void xtoy(int b, int x, int y) {
-//    valset[b][y] = valset[b][x];
-//    setval[b][valset[b][x]] = y;
-//    valset[b][x] = 0;
 //}
 //
 //void update(int l, int r, int x, int y) {
@@ -116,7 +115,7 @@ package class174;
 //                    sum1[b][bi[x]] -= sum2[b][x];
 //                    sum2[b][y] += sum2[b][x];
 //                    sum2[b][x] = 0;
-//                    xtoy(b, x, y);
+//                    lazy(b, x, y);
 //                }
 //            }
 //        }
@@ -146,11 +145,11 @@ package class174;
 //    int ans = 0;
 //    bool inner = bi[l] == bi[r];
 //    if (inner) {
-//        writeArray(bi[l]);
+//        down(bi[l]);
 //        addCnt(l, r);
 //    } else {
-//        writeArray(bi[l]);
-//        writeArray(bi[r]);
+//        down(bi[l]);
+//        down(bi[r]);
 //        addCnt(l, br[bi[l]]);
 //        addCnt(bl[bi[r]], r);
 //    }
