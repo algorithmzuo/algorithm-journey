@@ -23,7 +23,6 @@ public class Code01_FutureDiary1 {
 	public static int MAXB = 401;
 	public static int n, m;
 	public static int[] arr = new int[MAXN];
-	public static int[] tmp = new int[MAXN];
 
 	public static int blen, bnum;
 	public static int[] bi = new int[MAXN];
@@ -34,6 +33,7 @@ public class Code01_FutureDiary1 {
 	public static int[][] valrt = new int[MAXB][MAXN];
 	public static int[][] rtval = new int[MAXB][MAXN];
 
+	public static int[] tmp = new int[MAXN];
 	public static int[][] sum1 = new int[MAXB][MAXB];
 	public static int[][] sum2 = new int[MAXB][MAXN];
 	public static int[] cnt1 = new int[MAXB];

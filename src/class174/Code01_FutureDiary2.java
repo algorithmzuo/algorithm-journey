@@ -36,7 +36,6 @@ package class174;
 //const int MAXB = 401;
 //int n, m;
 //int arr[MAXN];
-//int tmp[MAXN];
 //
 //int blen, bnum;
 //int bi[MAXN];
@@ -47,6 +46,7 @@ package class174;
 //int valrt[MAXB][MAXN];
 //int rtval[MAXB][MAXN];
 //
+//int tmp[MAXN];
 //int sum1[MAXB][MAXB];
 //int sum2[MAXB][MAXN];
 //int cnt1[MAXB];
