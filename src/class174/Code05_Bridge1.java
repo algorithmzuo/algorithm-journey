@@ -5,8 +5,8 @@ package class174;
 // u v w : u到v的边，边权为w，边权同时代表限重
 // 如果开车从边上经过，车的重量 <= 边的限重，车才能走过这条边
 // 接下来有q条操作，每条操作的格式如下
-// 操作 1 a b : 编号为a的边，边权变成b
-// 操作 2 a b : 编号为a的点是出发点，车重为b，查询车能到达几个不同的点
+// 操作 1 eid tow : 编号为eid的边，边权变成tow
+// 操作 2 nid car : 编号为nid的点出发，车重为car，查询能到达几个不同的点
 // 1 <= n <= 5 * 10^4    0 <= m <= 10^5
 // 1 <= q <= 10^5        1 <= 其他数据 <= 10^9
 // 测试链接 : https://www.luogu.com.cn/problem/P5443
@@ -31,8 +31,10 @@ public class Code05_Bridge1 {
 	public static int[] w = new int[MAXM];
 
 	public static int[] op = new int[MAXQ];
-	public static int[] a = new int[MAXQ];
-	public static int[] b = new int[MAXQ];
+	public static int[] eid = new int[MAXQ];
+	public static int[] tow = new int[MAXQ];
+	public static int[] nid = new int[MAXQ];
+	public static int[] car = new int[MAXQ];
 
 	public static int[] fa = new int[MAXN];
 	public static int[] siz = new int[MAXN];
@@ -105,9 +107,7 @@ public class Code05_Bridge1 {
 			return;
 		}
 		if (siz[fx] < siz[fy]) {
-			int tmp = fx;
-			fx = fy;
-			fy = tmp;
+			int tmp = fx; fx = fy; fy = tmp;
 		}
 		fa[fy] = fx;
 		siz[fx] += siz[fy];
@@ -130,39 +130,39 @@ public class Code05_Bridge1 {
 		int cntu = 0, cntq = 0;
 		for (int i = l; i <= r; i++) {
 			if (op[arrq[i]] == 1) {
-				vis[a[arrq[i]]] = true;
+				vis[eid[arrq[i]]] = true;
 				update[++cntu] = arrq[i];
 			} else {
 				query[++cntq] = arrq[i];
 			}
 		}
-		sort(query, b, 1, cntq);
+		sort(query, car, 1, cntq);
 		int k = 1;
 		for (int i = 1; i <= cntq; i++) {
-			for (; k <= m && w[arre[k]] >= b[query[i]]; k++) {
+			for (; k <= m && w[arre[k]] >= car[query[i]]; k++) {
 				if (!vis[arre[k]]) {
 					union(u[arre[k]], v[arre[k]]);
 				}
 			}
 			opsize = 0;
 			for (int j = 1; j <= cntu; j++) {
-				curw[a[update[j]]] = w[a[update[j]]];
+				curw[eid[update[j]]] = w[eid[update[j]]];
 			}
 			for (int j = 1; j <= cntu; j++) {
 				if (update[j] < query[i]) {
-					curw[a[update[j]]] = b[update[j]];
+					curw[eid[update[j]]] = tow[update[j]];
 				}
 			}
 			for (int j = 1; j <= cntu; j++) {
-				if (curw[a[update[j]]] >= b[query[i]]) {
-					union(u[a[update[j]]], v[a[update[j]]]);
+				if (curw[eid[update[j]]] >= car[query[i]]) {
+					union(u[eid[update[j]]], v[eid[update[j]]]);
 				}
 			}
-			ans[query[i]] = siz[find(a[query[i]])];
+			ans[query[i]] = siz[find(nid[query[i]])];
 			undo();
 		}
 		for (int i = 1; i <= cntu; i++) {
-			w[a[update[i]]] = b[update[i]];
+			w[eid[update[i]]] = tow[update[i]];
 		}
 		int siz1 = 0, siz2 = 0;
 		for (int i = 1; i <= m; i++) {
@@ -209,8 +209,13 @@ public class Code05_Bridge1 {
 		q = in.nextInt();
 		for (int i = 1; i <= q; i++) {
 			op[i] = in.nextInt();
-			a[i] = in.nextInt();
-			b[i] = in.nextInt();
+			if (op[i] == 1) {
+				eid[i] = in.nextInt();
+				tow[i] = in.nextInt();
+			} else {
+				nid[i] = in.nextInt();
+				car[i] = in.nextInt();
+			}
 		}
 		prepare();
 		for (int i = 1, l, r; i <= bnum; i++) {
