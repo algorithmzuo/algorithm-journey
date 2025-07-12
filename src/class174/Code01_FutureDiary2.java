@@ -184,7 +184,7 @@ package class174;
 //}
 //
 //void prepare() {
-//    blen = (int)sqrt(n);
+//    blen = 300;
 //    bnum = (n + blen - 1) / blen;
 //    for (int i = 1; i < MAXN; i++) {
 //        bi[i] = (i - 1) / blen + 1;

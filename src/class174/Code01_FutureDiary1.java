@@ -190,7 +190,7 @@ public class Code01_FutureDiary1 {
 	}
 
 	public static void prepare() {
-		blen = (int) Math.sqrt(n);
+		blen = 300;
 		bnum = (n + blen - 1) / blen;
 		// i一定要枚举[1, MAXN)
 		// 因为不仅序列要分块，值域也要分块
