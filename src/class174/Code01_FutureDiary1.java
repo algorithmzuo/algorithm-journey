@@ -169,7 +169,7 @@ public class Code01_FutureDiary1 {
 				sumCnt += cnt;
 			}
 		}
-		// 定位第k小的数字，来自值域块的哪个数字
+		// 定位第k小的数字，来自值域块的具体数字
 		for (int v = (vblock - 1) * blen + 1; v <= vblock * blen; v++) {
 			// 如果不存在中间的整块，词频 = 散块词频，否则 词频 = 散块词频 + 整块词频
 			int cnt = cnt2[v] + (inner ? 0 : sum2[bi[r] - 1][v] - sum2[bi[l]][v]);
