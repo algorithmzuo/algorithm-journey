@@ -46,13 +46,12 @@ package class174;
 //int valrt[MAXB][MAXN];
 //int rtval[MAXB][MAXN];
 //
-//int tmp[MAXN];
 //int sum1[MAXB][MAXB];
 //int sum2[MAXB][MAXN];
 //int cnt1[MAXB];
 //int cnt2[MAXN];
 //
-//void build(int b) {
+//void buildSet(int b) {
 //    for (int i = 1; i <= blen; i++) {
 //        valrt[b][rtval[b][i]] = 0;
 //    }
@@ -84,7 +83,7 @@ package class174;
 //            arr[i] = y;
 //        }
 //    }
-//    build(bi[l]);
+//    buildSet(bi[l]);
 //}
 //
 //void xtoy(int b, int x, int y) {
@@ -130,50 +129,56 @@ package class174;
 //    }
 //}
 //
+//void buildCnt(int l, int r) {
+//    for (int i = l; i <= r; i++) {
+//        cnt1[bi[arr[i]]]++;
+//        cnt2[arr[i]]++;
+//    }
+//}
+//
+//void clearCnt(int l, int r) {
+//    for (int i = l; i <= r; i++) {
+//        cnt1[bi[arr[i]]] = cnt2[arr[i]] = 0;
+//    }
+//}
+//
 //int query(int l, int r, int k) {
 //    int ans = 0;
-//    if (bi[l] == bi[r]) {
+//    bool inner = bi[l] == bi[r];
+//    if (inner) {
 //        down(bi[l]);
-//        for (int i = l; i <= r; i++) {
-//            tmp[i] = arr[i];
-//        }
-//        sort(tmp + l, tmp + r + 1);
-//        ans = tmp[l + k - 1];
+//        buildCnt(l, r);
 //    } else {
 //        down(bi[l]);
 //        down(bi[r]);
-//        for (int i = l; i <= br[bi[l]]; i++) {
-//            cnt1[bi[arr[i]]]++;
-//            cnt2[arr[i]]++;
+//        buildCnt(l, br[bi[l]]);
+//        buildCnt(bl[bi[r]], r);
+//    }
+//    int sumCnt = 0;
+//    int vblock = 0;
+//    for (int b = 1; b <= bi[MAXN - 1]; b++) {
+//        int blockCnt = cnt1[b] + (inner ? 0 : sum1[bi[r] - 1][b] - sum1[bi[l]][b]);
+//        if (sumCnt + blockCnt < k) {
+//            sumCnt += blockCnt;
+//        } else {
+//            vblock = b;
+//            break;
 //        }
-//        for (int i = bl[bi[r]]; i <= r; i++) {
-//            cnt1[bi[arr[i]]]++;
-//            cnt2[arr[i]]++;
-//        }
-//        int sumCnt = 0, vblock = 0;
-//        for (int b = 1; b <= bi[MAXN - 1]; b++) {
-//            int blockCnt = cnt1[b] + sum1[bi[r] - 1][b] - sum1[bi[l]][b];
-//            if (sumCnt + blockCnt < k) {
-//                sumCnt += blockCnt;
-//            } else {
-//                vblock = b;
-//                break;
-//            }
-//        }
-//        for (int v = (vblock - 1) * blen + 1; v <= vblock * blen; v++) {
-//            int valCnt = cnt2[v] + sum2[bi[r] - 1][v] - sum2[bi[l]][v];
-//            if (sumCnt + valCnt >= k) {
-//                ans = v;
-//                break;
-//            }
+//    }
+//    for (int v = (vblock - 1) * blen + 1; v <= vblock * blen; v++) {
+//        int valCnt = cnt2[v] + (inner ? 0 : sum2[bi[r] - 1][v] - sum2[bi[l]][v]);
+//        if (sumCnt + valCnt >= k) {
+//            ans = v;
+//            break;
+//        } else {
 //            sumCnt += valCnt;
 //        }
-//        for (int i = l; i <= br[bi[l]]; i++) {
-//            cnt1[bi[arr[i]]] = cnt2[arr[i]] = 0;
-//        }
-//        for (int i = bl[bi[r]]; i <= r; i++) {
-//            cnt1[bi[arr[i]]] = cnt2[arr[i]] = 0;
-//        }
+//    }
+//    if (inner) {
+//        clearCnt(l, r);
+//    } else {
+//        clearCnt(l, br[bi[l]]);
+//        clearCnt(bl[bi[r]], r);
 //    }
 //    return ans;
 //}
@@ -187,7 +192,7 @@ package class174;
 //    for (int i = 1; i <= bnum; i++) {
 //        bl[i] = (i - 1) * blen + 1;
 //        br[i] = min(i * blen, n);
-//        build(i);
+//        buildSet(i);
 //    }
 //    for (int i = 1; i <= bnum; i++) {
 //        for (int j = 1; j < MAXB; j++) {

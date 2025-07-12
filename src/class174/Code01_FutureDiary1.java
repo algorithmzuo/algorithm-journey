@@ -15,7 +15,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
-import java.util.Arrays;
 
 public class Code01_FutureDiary1 {
 
@@ -37,19 +36,17 @@ public class Code01_FutureDiary1 {
 	public static int[][] valrt = new int[MAXB][MAXN];
 	public static int[][] rtval = new int[MAXB][MAXN];
 
-	// tmp用于临时排序找第k小的值
 	// sum1[b][i]表示前b个序列块中，来自值域块i的数字有几个
 	// sum2[b][v]表示前b个序列块中，数字v有几个
 	// cnt1[i]表示遍历散块，统计值域块i的数字有几个
 	// cnt2[v]表示遍历散块，统计数字v有几个
-	public static int[] tmp = new int[MAXN];
 	public static int[][] sum1 = new int[MAXB][MAXB];
 	public static int[][] sum2 = new int[MAXB][MAXN];
 	public static int[] cnt1 = new int[MAXB];
 	public static int[] cnt2 = new int[MAXN];
 
 	// 序列第b块中，根据arr中的值建立起，idxrt、valrt[b]、rtval[b]
-	public static void build(int b) {
+	public static void buildSet(int b) {
 		for (int i = 1; i <= blen; i++) {
 			valrt[b][rtval[b][i]] = 0;
 		}
@@ -82,7 +79,7 @@ public class Code01_FutureDiary1 {
 				arr[i] = y;
 			}
 		}
-		build(bi[l]);
+		buildSet(bi[l]);
 	}
 
 	// 序列第b块中，目前没有y这个数值，把块中所有的x改成y
@@ -133,58 +130,56 @@ public class Code01_FutureDiary1 {
 		}
 	}
 
+	public static void buildCnt(int l, int r) {
+		for (int i = l; i <= r; i++) {
+			cnt1[bi[arr[i]]]++;
+			cnt2[arr[i]]++;
+		}
+	}
+
+	public static void clearCnt(int l, int r) {
+		for (int i = l; i <= r; i++) {
+			cnt1[bi[arr[i]]] = cnt2[arr[i]] = 0;
+		}
+	}
+
 	public static int query(int l, int r, int k) {
 		int ans = 0;
-		if (bi[l] == bi[r]) {
+		boolean inner = bi[l] == bi[r];
+		if (inner) {
 			down(bi[l]);
-			for (int i = l; i <= r; i++) {
-				tmp[i] = arr[i];
-			}
-			Arrays.sort(tmp, l, r + 1);
-			ans = tmp[l + k - 1];
+			buildCnt(l, r);
 		} else {
 			down(bi[l]);
 			down(bi[r]);
-			// 左散块中，每种值的词频统计
-			for (int i = l; i <= br[bi[l]]; i++) {
-				cnt1[bi[arr[i]]]++;
-				cnt2[arr[i]]++;
+			buildCnt(l, br[bi[l]]);
+			buildCnt(bl[bi[r]], r);
+		}
+		int sumCnt = 0;
+		int vblock = 0;
+		for (int b = 1; b <= bi[MAXN - 1]; b++) {
+			int blockCnt = cnt1[b] + (inner ? 0 : sum1[bi[r] - 1][b] - sum1[bi[l]][b]);
+			if (sumCnt + blockCnt < k) {
+				sumCnt += blockCnt;
+			} else {
+				vblock = b;
+				break;
 			}
-			// 右散块中，每种值的词频统计
-			for (int i = bl[bi[r]]; i <= r; i++) {
-				cnt1[bi[arr[i]]]++;
-				cnt2[arr[i]]++;
+		}
+		for (int v = (vblock - 1) * blen + 1; v <= vblock * blen; v++) {
+			int valCnt = cnt2[v] + (inner ? 0 : sum2[bi[r] - 1][v] - sum2[bi[l]][v]);
+			if (sumCnt + valCnt >= k) {
+				ans = v;
+				break;
+			} else {
+				sumCnt += valCnt;
 			}
-			int sumCnt = 0;
-			int vblock = 0;
-			// 先定位第k小的数，来自值域的哪个块，vblock
-			for (int b = 1; b <= bi[MAXN - 1]; b++) {
-				int blockCnt = cnt1[b] + sum1[bi[r] - 1][b] - sum1[bi[l]][b];
-				if (sumCnt + blockCnt < k) {
-					sumCnt += blockCnt;
-				} else {
-					vblock = b;
-					break;
-				}
-			}
-			// 再定位第k小的数，来自值域第vblock块中，具体什么数字
-			for (int v = (vblock - 1) * blen + 1; v <= vblock * blen; v++) {
-				int valCnt = cnt2[v] + sum2[bi[r] - 1][v] - sum2[bi[l]][v];
-				if (sumCnt + valCnt >= k) {
-					ans = v;
-					break;
-				} else {
-					sumCnt += valCnt;
-				}
-			}
-			// 左散块的词频统计清空
-			for (int i = l; i <= br[bi[l]]; i++) {
-				cnt1[bi[arr[i]]] = cnt2[arr[i]] = 0;
-			}
-			// 右散块的词频统计清空
-			for (int i = bl[bi[r]]; i <= r; i++) {
-				cnt1[bi[arr[i]]] = cnt2[arr[i]] = 0;
-			}
+		}
+		if (inner) {
+			clearCnt(l, r);
+		} else {
+			clearCnt(l, br[bi[l]]);
+			clearCnt(bl[bi[r]], r);
 		}
 		return ans;
 	}
@@ -205,7 +200,7 @@ public class Code01_FutureDiary1 {
 		for (int i = 1; i <= bnum; i++) {
 			bl[i] = (i - 1) * blen + 1;
 			br[i] = Math.min(i * blen, n);
-			build(i);
+			buildSet(i);
 		}
 		// 初始建立sum1、sum2，都表示前缀信息
 		for (int i = 1; i <= bnum; i++) {
