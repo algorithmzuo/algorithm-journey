@@ -31,7 +31,8 @@ public class Code01_FutureDiary1 {
 	// idxrt[i]表示下标i，在归属的块中，对应的根编号
 	// valrt[b][v]表示序列块b中的数值v，对应的根编号
 	// rtval[b][i]表示序列块b中的根编号i，对应的数值
-	// 绝不会向上跳跃多次才能找到根编号，很像并查集，其实不是
+	// 块中有x无y时，x要改成y，这三个信息才体现作用
+	// 绝不会向上跳跃多次才能找到根编号，不是并查集
 	public static int[] idxrt = new int[MAXN];
 	public static int[][] valrt = new int[MAXB][MAXN];
 	public static int[][] rtval = new int[MAXB][MAXN];
