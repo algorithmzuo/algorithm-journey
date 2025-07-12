@@ -157,22 +157,24 @@ public class Code01_FutureDiary1 {
 		}
 		int sumCnt = 0;
 		int vblock = 0;
+		// 定位第k小的数字，来自哪个值域块
 		for (int b = 1; b <= bi[MAXN - 1]; b++) {
-			int blockCnt = cnt1[b] + (inner ? 0 : sum1[bi[r] - 1][b] - sum1[bi[l]][b]);
-			if (sumCnt + blockCnt < k) {
-				sumCnt += blockCnt;
-			} else {
+			int cnt = cnt1[b] + (inner ? 0 : sum1[bi[r] - 1][b] - sum1[bi[l]][b]);
+			if (sumCnt + cnt >= k) {
 				vblock = b;
 				break;
+			} else {
+				sumCnt += cnt;
 			}
 		}
+		// 定位第k小的数字，来自值域块的哪个数字
 		for (int v = (vblock - 1) * blen + 1; v <= vblock * blen; v++) {
-			int valCnt = cnt2[v] + (inner ? 0 : sum2[bi[r] - 1][v] - sum2[bi[l]][v]);
-			if (sumCnt + valCnt >= k) {
+			int cnt = cnt2[v] + (inner ? 0 : sum2[bi[r] - 1][v] - sum2[bi[l]][v]);
+			if (sumCnt + cnt >= k) {
 				ans = v;
 				break;
 			} else {
-				sumCnt += valCnt;
+				sumCnt += cnt;
 			}
 		}
 		if (inner) {
