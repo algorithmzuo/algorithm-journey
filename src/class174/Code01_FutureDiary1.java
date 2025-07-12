@@ -62,7 +62,7 @@ public class Code01_FutureDiary1 {
 	}
 
 	// 序列第b块中，有些位置的值已经改了，让改动写入arr
-	public static void down(int b) {
+	public static void writeArray(int b) {
 		for (int i = bl[b]; i <= br[b]; i++) {
 			arr[i] = rtval[b][idxrt[i]];
 		}
@@ -70,7 +70,7 @@ public class Code01_FutureDiary1 {
 
 	// 序列[l..r]范围上，目前既有x又有y，把所有x改成y
 	public static void innerUpdate(int l, int r, int x, int y) {
-		down(bi[l]);
+		writeArray(bi[l]);
 		for (int i = l; i <= r; i++) {
 			if (arr[i] == x) {
 				sum1[bi[i]][bi[x]]--;
@@ -149,11 +149,11 @@ public class Code01_FutureDiary1 {
 		boolean inner = bi[l] == bi[r];
 		// 建立散块的词频统计
 		if (inner) {
-			down(bi[l]);
+			writeArray(bi[l]);
 			addCnt(l, r);
 		} else {
-			down(bi[l]);
-			down(bi[r]);
+			writeArray(bi[l]);
+			writeArray(bi[r]);
 			addCnt(l, br[bi[l]]);
 			addCnt(bl[bi[r]], r);
 		}

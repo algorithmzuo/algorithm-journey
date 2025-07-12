@@ -66,14 +66,14 @@ package class174;
 //    }
 //}
 //
-//void down(int b) {
+//void writeArray(int b) {
 //    for (int i = bl[b]; i <= br[b]; i++) {
 //        arr[i] = rtval[b][idxrt[i]];
 //    }
 //}
 //
 //void innerUpdate(int l, int r, int x, int y) {
-//    down(bi[l]);
+//    writeArray(bi[l]);
 //    for (int i = l; i <= r; i++) {
 //        if (arr[i] == x) {
 //            sum1[bi[i]][bi[x]]--;
@@ -146,11 +146,11 @@ package class174;
 //    int ans = 0;
 //    bool inner = bi[l] == bi[r];
 //    if (inner) {
-//        down(bi[l]);
+//        writeArray(bi[l]);
 //        addCnt(l, r);
 //    } else {
-//        down(bi[l]);
-//        down(bi[r]);
+//        writeArray(bi[l]);
+//        writeArray(bi[r]);
 //        addCnt(l, br[bi[l]]);
 //        addCnt(bl[bi[r]], r);
 //    }
