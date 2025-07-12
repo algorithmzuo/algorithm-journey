@@ -83,7 +83,7 @@ public class Code01_FutureDiary1 {
 		build(bi[l]);
 	}
 
-	// 序列第b块中，目前没有y这个数值，把块中所有的x改成y
+	// 序列第b块中，有x无y，把块中所有的x改成y
 	public static void xtoy(int b, int x, int y) {
 		valrt[b][y] = valrt[b][x];
 		rtval[b][valrt[b][x]] = y;
