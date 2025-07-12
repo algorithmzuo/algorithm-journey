@@ -73,7 +73,7 @@ package class174;
 //    }
 //}
 //
-//void xToy(int b, int x, int y) {
+//void xtoy(int b, int x, int y) {
 //    valrt[b][y] = valrt[b][x];
 //    rtval[b][valrt[b][x]] = y;
 //    valrt[b][x] = 0;
@@ -117,7 +117,7 @@ package class174;
 //                    sum1[b][bi[x]] -= sum2[b][x];
 //                    sum2[b][y] += sum2[b][x];
 //                    sum2[b][x] = 0;
-//                    xToy(b, x, y);
+//                    xtoy(b, x, y);
 //                }
 //            }
 //        }
