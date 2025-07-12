@@ -44,11 +44,18 @@ public class Code01_FutureDiary1 {
 	public static int[] cnt1 = new int[MAXB];
 	public static int[] cnt2 = new int[MAXN];
 
-	// 序列第b块中，根据arr中的值建立起，idxset、valset[b]、setval[b]
+	// 序列第b块中，根据当前arr中的值，重建集合
 	public static void build(int b) {
+		// 根据arr中的值重建集合，需要放弃之前的信息
+		// 可是数值范围很大，不能枚举数值去清空 valset
+		// 注意到，一个块里集合的数量 <= 块长
+		// 所以根据 setval[b][s]，得到每个集合之前的对应值v
+		// 然后 valset[b][v] = 0，让块内之前的每个值，不再挂靠任何集合
+		// 这样可以避免数值的枚举，做到快速清空 valset
 		for (int i = 1; i <= blen; i++) {
 			valset[b][setval[b][i]] = 0;
 		}
+		// 重建集合的过程
 		for (int i = bl[b], s = 0; i <= br[b]; i++) {
 			if (valset[b][arr[i]] == 0) {
 				s++;
