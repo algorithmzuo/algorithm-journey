@@ -20,11 +20,10 @@ import java.util.Arrays;
 
 public class Code02_MagicGirl1 {
 
-	public static int MAXN = 300002;
+	public static int MAXN = 300002; // 双向链表需要n+1下标
 	public static int MAXB = 601;
-	public static int POW2 = 9;
-	public static int BLEN = 1 << POW2;
-	public static int OFFSET = BLEN - 1;
+	public static int POW = 9; // 块长为(2的POW次方)，/ 块长时，>> POW即可
+	public static int OFFSET = (1 << POW) - 1; // % 块长时, & OFFSET即可
 	public static int n, m;
 
 	public static int[] arr = new int[MAXN];
@@ -85,9 +84,9 @@ public class Code02_MagicGirl1 {
 		for (int i = siz; i >= 1; i--) help[cntv[v[arrq[i]] & OFFSET]--] = arrq[i];
 		for (int i = 1; i <= siz; i++) arrq[i] = help[i];
 		Arrays.fill(cntv, 0);
-		for (int i = 1; i <= siz; i++) cntv[v[arrq[i]] >> POW2]++;
+		for (int i = 1; i <= siz; i++) cntv[v[arrq[i]] >> POW]++;
 		for (int i = 1; i < MAXB; i++) cntv[i] += cntv[i - 1];
-		for (int i = siz; i >= 1; i--) help[cntv[v[arrq[i]] >> POW2]--] = arrq[i];
+		for (int i = siz; i >= 1; i--) help[cntv[v[arrq[i]] >> POW]--] = arrq[i];
 		for (int i = 1; i <= siz; i++) arrq[i] = help[i];
 	}
 
@@ -190,10 +189,11 @@ public class Code02_MagicGirl1 {
 				v[i] = in.nextInt();
 			}
 		}
-		int bnum = (n + BLEN - 1) / BLEN;
+		int blen = 1 << POW;
+		int bnum = (n + blen - 1) / blen;
 		for (int i = 1, l, r; i <= bnum; i++) {
-			l = (i - 1) * BLEN + 1;
-			r = Math.min(i * BLEN, n);
+			l = (i - 1) * blen + 1;
+			r = Math.min(i * blen, n);
 			compute(l, r);
 		}
 		for (int i = 1; i <= m; i++) {

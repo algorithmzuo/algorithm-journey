@@ -16,9 +16,8 @@ package class174;
 //
 //const int MAXN = 300002;
 //const int MAXB = 601;
-//const int POW2 = 9;
-//const int BLEN = 1 << POW2;
-//const int OFFSET = BLEN - 1;
+//const int POW = 9;
+//const int OFFSET = (1 << POW) - 1;
 //int n, m;
 //
 //int arr[MAXN];
@@ -62,9 +61,9 @@ package class174;
 //    for (int i = siz; i >= 1; i--) help[cntv[v[arrq[i]] & OFFSET]--] = arrq[i];
 //    for (int i = 1; i <= siz; i++) arrq[i] = help[i];
 //    fill(cntv, cntv + MAXB, 0);
-//    for (int i = 1; i <= siz; i++) cntv[v[arrq[i]] >> POW2]++;
+//    for (int i = 1; i <= siz; i++) cntv[v[arrq[i]] >> POW]++;
 //    for (int i = 1; i < MAXB; i++) cntv[i] += cntv[i - 1];
-//    for (int i = siz; i >= 1; i--) help[cntv[v[arrq[i]] >> POW2]--] = arrq[i];
+//    for (int i = siz; i >= 1; i--) help[cntv[v[arrq[i]] >> POW]--] = arrq[i];
 //    for (int i = 1; i <= siz; i++) arrq[i] = help[i];
 //}
 //
@@ -163,10 +162,11 @@ package class174;
 //            cin >> y[i] >> v[i];
 //        }
 //    }
-//    int bnum = (n + BLEN - 1) / BLEN;
+//    int blen = 1 << POW;
+//    int bnum = (n + blen - 1) / blen;
 //    for (int i = 1, l, r; i <= bnum; i++) {
-//        l = (i - 1) * BLEN + 1;
-//        r = min(i * BLEN, n);
+//        l = (i - 1) * blen + 1;
+//        r = min(i * blen, n);
 //        compute(l, r);
 //    }
 //    for (int i = 1; i <= m; i++) {
