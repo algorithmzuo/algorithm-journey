@@ -32,15 +32,16 @@ public class Code01_FutureDiary1 {
 	// idxrt[i]表示下标i，在归属的块中，对应的根编号
 	// valrt[b][v]表示序列块b中的数值v，对应的根编号
 	// rtval[b][i]表示序列块b中的根编号i，对应的数值
+	// 绝不会向上跳跃多次才能找到根编号，很像并查集，其实不是
 	public static int[] idxrt = new int[MAXN];
 	public static int[][] valrt = new int[MAXB][MAXN];
 	public static int[][] rtval = new int[MAXB][MAXN];
 
 	// tmp用于临时排序找第k小的值
-	// sum1[b][i]表示序列块b中，来自值域块i的数字有几个
-	// sum2[b][v]表示序列块b中，数字v有几个
-	// cnt1[i]表示遍历过程中，统计值域块i的数字有几个
-	// cnt2[v]表示遍历过程中，统计数字v有几个
+	// sum1[b][i]表示前b个序列块中，来自值域块i的数字有几个
+	// sum2[b][v]表示前b个序列块中，数字v有几个
+	// cnt1[i]表示遍历散块，统计值域块i的数字有几个
+	// cnt2[v]表示遍历散块，统计数字v有几个
 	public static int[] tmp = new int[MAXN];
 	public static int[][] sum1 = new int[MAXB][MAXB];
 	public static int[][] sum2 = new int[MAXB][MAXN];
