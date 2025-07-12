@@ -23,6 +23,10 @@ public class Code01_FutureDiary1 {
 	public static int n, m;
 	public static int[] arr = new int[MAXN];
 
+	// bi[i]可以查询下标i来自哪个序列块
+	// bi[v]也可查询数字v来自哪个值域块
+	// bl[i]表示下标第i块的左边界
+	// br[i]表示下标第i块的右边界
 	public static int blen, bnum;
 	public static int[] bi = new int[MAXN];
 	public static int[] bl = new int[MAXB];
@@ -201,13 +205,9 @@ public class Code01_FutureDiary1 {
 		bnum = (n + blen - 1) / blen;
 		// i一定要枚举[1, MAXN)
 		// 因为不仅序列要分块，值域也要分块
-		// bi[i]可以查询下标i来自哪个序列块
-		// bi[v]也可查询数字v来自哪个值域块
 		for (int i = 1; i < MAXN; i++) {
 			bi[i] = (i - 1) / blen + 1;
 		}
-		// bl[i]表示下标第i块的左边界
-		// br[i]表示下标第i块的右边界
 		// bl、br 仅用于序列分块
 		for (int i = 1; i <= bnum; i++) {
 			bl[i] = (i - 1) * blen + 1;
