@@ -28,12 +28,12 @@ public class Code01_FutureDiary1 {
 	public static int[] bl = new int[MAXB];
 	public static int[] br = new int[MAXB];
 
-	// idxrt[i]表示下标i，在归属的块中，对应的根编号
-	// valrt[b][v]表示序列块b中的数值v，对应的根编号
-	// rtval[b][i]表示序列块b中的根编号i，对应的数值
-	public static int[] idxrt = new int[MAXN];
-	public static int[][] valrt = new int[MAXB][MAXN];
-	public static int[][] rtval = new int[MAXB][MAXN];
+	// idxset[i]表示下标i，在归属的块中，所属集合的编号
+	// valset[b][v]表示序列块b中的数值v，所属集合的编号
+	// setval[b][s]表示序列块b中的集合s，对应的数值
+	public static int[] idxset = new int[MAXN];
+	public static int[][] valset = new int[MAXB][MAXN];
+	public static int[][] setval = new int[MAXB][MAXN];
 
 	// sum1[k][b]表示前k个序列块中，第b块个值域块的数字有几个
 	// sum2[k][v]表示前k个序列块中，数字v有几个
@@ -44,25 +44,25 @@ public class Code01_FutureDiary1 {
 	public static int[] cnt1 = new int[MAXB];
 	public static int[] cnt2 = new int[MAXN];
 
-	// 序列第b块中，根据arr中的值建立起，idxrt、valrt[b]、rtval[b]
+	// 序列第b块中，根据arr中的值建立起，idxset、valset[b]、setval[b]
 	public static void build(int b) {
 		for (int i = 1; i <= blen; i++) {
-			valrt[b][rtval[b][i]] = 0;
+			valset[b][setval[b][i]] = 0;
 		}
 		for (int i = bl[b], cnt = 0; i <= br[b]; i++) {
-			if (valrt[b][arr[i]] == 0) {
+			if (valset[b][arr[i]] == 0) {
 				cnt++;
-				valrt[b][arr[i]] = cnt;
-				rtval[b][cnt] = arr[i];
+				valset[b][arr[i]] = cnt;
+				setval[b][cnt] = arr[i];
 			}
-			idxrt[i] = valrt[b][arr[i]];
+			idxset[i] = valset[b][arr[i]];
 		}
 	}
 
 	// 序列第b块中，有些位置的值已经改了，让改动写入arr
 	public static void writeArray(int b) {
 		for (int i = bl[b]; i <= br[b]; i++) {
-			arr[i] = rtval[b][idxrt[i]];
+			arr[i] = setval[b][idxset[i]];
 		}
 	}
 
@@ -83,9 +83,9 @@ public class Code01_FutureDiary1 {
 
 	// 序列第b块中，有x无y，把所有x改成y
 	public static void xtoy(int b, int x, int y) {
-		valrt[b][y] = valrt[b][x];
-		rtval[b][valrt[b][x]] = y;
-		valrt[b][x] = 0;
+		valset[b][y] = valset[b][x];
+		setval[b][valset[b][x]] = y;
+		valset[b][x] = 0;
 	}
 
 	public static void update(int l, int r, int x, int y) {

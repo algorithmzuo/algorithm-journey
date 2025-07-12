@@ -42,9 +42,9 @@ package class174;
 //int bl[MAXB];
 //int br[MAXB];
 //
-//int idxrt[MAXN];
-//int valrt[MAXB][MAXN];
-//int rtval[MAXB][MAXN];
+//int idxset[MAXN];
+//int valset[MAXB][MAXN];
+//int setval[MAXB][MAXN];
 //
 //int sum1[MAXB][MAXB];
 //int sum2[MAXB][MAXN];
@@ -53,22 +53,22 @@ package class174;
 //
 //void build(int b) {
 //    for (int i = 1; i <= blen; i++) {
-//        valrt[b][rtval[b][i]] = 0;
+//        valset[b][setval[b][i]] = 0;
 //    }
 //    int cnt = 0;
 //    for (int i = bl[b]; i <= br[b]; i++) {
-//        if (valrt[b][arr[i]] == 0) {
+//        if (valset[b][arr[i]] == 0) {
 //            cnt++;
-//            valrt[b][arr[i]] = cnt;
-//            rtval[b][cnt] = arr[i];
+//            valset[b][arr[i]] = cnt;
+//            setval[b][cnt] = arr[i];
 //        }
-//        idxrt[i] = valrt[b][arr[i]];
+//        idxset[i] = valset[b][arr[i]];
 //    }
 //}
 //
 //void writeArray(int b) {
 //    for (int i = bl[b]; i <= br[b]; i++) {
-//        arr[i] = rtval[b][idxrt[i]];
+//        arr[i] = setval[b][idxset[i]];
 //    }
 //}
 //
@@ -87,9 +87,9 @@ package class174;
 //}
 //
 //void xtoy(int b, int x, int y) {
-//    valrt[b][y] = valrt[b][x];
-//    rtval[b][valrt[b][x]] = y;
-//    valrt[b][x] = 0;
+//    valset[b][y] = valset[b][x];
+//    setval[b][valset[b][x]] = y;
+//    valset[b][x] = 0;
 //}
 //
 //void update(int l, int r, int x, int y) {
