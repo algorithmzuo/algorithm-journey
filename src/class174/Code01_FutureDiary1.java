@@ -93,6 +93,7 @@ public class Code01_FutureDiary1 {
 	}
 
 	public static void update(int l, int r, int x, int y) {
+		// 必要的剪枝
 		if (x == y || (sum2[bi[r]][x] - sum2[bi[l] - 1][x] == 0)) {
 			return;
 		}
