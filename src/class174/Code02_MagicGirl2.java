@@ -21,17 +21,18 @@ package class174;
 //int n, m;
 //
 //int arr[MAXN];
-//int pos[MAXN];
-//
 //int op[MAXN];
 //int x[MAXN];
 //int y[MAXN];
 //int v[MAXN];
 //
-//int arrq[MAXN];
+//int pos[MAXN];
+//int que[MAXN];
+//int cntp;
+//int cntq;
+//
 //int cntv[MAXB];
 //int help[MAXN];
-//int siz;
 //
 //int lst[MAXN];
 //int nxt[MAXN];
@@ -54,31 +55,31 @@ package class174;
 //    len[i] += rlen;
 //}
 //
-//inline void radixSort() {
+//inline void radix(int* idx, int* val, int siz) {
 //    fill(cntv, cntv + MAXB, 0);
-//    for (int i = 1; i <= siz; i++) cntv[v[arrq[i]] & OFFSET]++;
+//    for (int i = 1; i <= siz; i++) cntv[val[idx[i]] & OFFSET]++;
 //    for (int i = 1; i < MAXB; i++) cntv[i] += cntv[i - 1];
-//    for (int i = siz; i >= 1; i--) help[cntv[v[arrq[i]] & OFFSET]--] = arrq[i];
-//    for (int i = 1; i <= siz; i++) arrq[i] = help[i];
+//    for (int i = siz; i >= 1; i--) help[cntv[val[idx[i]] & OFFSET]--] = idx[i];
+//    for (int i = 1; i <= siz; i++) idx[i] = help[i];
 //    fill(cntv, cntv + MAXB, 0);
-//    for (int i = 1; i <= siz; i++) cntv[v[arrq[i]] >> POW]++;
+//    for (int i = 1; i <= siz; i++) cntv[val[idx[i]] >> POW]++;
 //    for (int i = 1; i < MAXB; i++) cntv[i] += cntv[i - 1];
-//    for (int i = siz; i >= 1; i--) help[cntv[v[arrq[i]] >> POW]--] = arrq[i];
-//    for (int i = 1; i <= siz; i++) arrq[i] = help[i];
+//    for (int i = siz; i >= 1; i--) help[cntv[val[idx[i]] >> POW]--] = idx[i];
+//    for (int i = 1; i <= siz; i++) idx[i] = help[i];
 //}
 //
 //void calc(int l, int r) {
-//    radixSort();
+//    radix(que, v, cntq);
 //    for (int i = l; i <= r; i++) {
 //        lst[i] = i - 1;
 //        nxt[i] = i + 1;
 //    }
 //    int rpre = 0, rsuf = 0, rlen = r - l + 1, rans = 0;
 //    int k = 1;
-//    for (int i = l, idx; i <= r; i++) {
-//        idx = pos[i];
-//        for(; k <= siz && v[arrq[k]] < arr[idx]; k++) {
-//            mergeAns(arrq[k], rpre, rsuf, rlen, rans);
+//    for (int i = 1; i <= cntp; i++) {
+//        int idx = pos[i];
+//        for(; k <= cntq && v[que[k]] < arr[idx]; k++) {
+//            mergeAns(que[k], rpre, rsuf, rlen, rans);
 //        }
 //        if (lst[idx] == l - 1) {
 //            rpre += nxt[idx] - idx;
@@ -90,10 +91,10 @@ package class174;
 //        lst[nxt[idx]] = lst[idx];
 //        nxt[lst[idx]] = nxt[idx];
 //    }
-//    for(; k <= siz; k++) {
-//        mergeAns(arrq[k], rpre, rsuf, rlen, rans);
+//    for(; k <= cntq; k++) {
+//        mergeAns(que[k], rpre, rsuf, rlen, rans);
 //    }
-//    siz = 0;
+//    cntq = 0;
 //}
 //
 //inline void update(int qi, int l, int r) {
@@ -102,16 +103,16 @@ package class174;
 //        calc(l, r);
 //        arr[jobi] = jobv;
 //        int find = 0;
-//        for (int i = l; i <= r; i++) {
+//        for (int i = 1; i <= cntp; i++) {
 //            if (pos[i] == jobi) {
 //                find = i;
 //                break;
 //            }
 //        }
-//        for (int i = find; i < r && arr[pos[i]] > arr[pos[i + 1]]; i++) {
+//        for (int i = find; i < cntp && arr[pos[i]] > arr[pos[i + 1]]; i++) {
 //            swap(pos[i], pos[i + 1]);
 //        }
-//        for (int i = find; i > l && arr[pos[i - 1]] > arr[pos[i]]; i--) {
+//        for (int i = find; i > 1 && arr[pos[i - 1]] > arr[pos[i]]; i--) {
 //            swap(pos[i - 1], pos[i]);
 //        }
 //    }
@@ -120,7 +121,7 @@ package class174;
 //inline void query(int qi, int l, int r) {
 //    int jobl = x[qi], jobr = y[qi], jobv = v[qi];
 //    if (jobl <= l && r <= jobr) {
-//        arrq[++siz] = qi;
+//        que[++cntq] = qi;
 //    } else {
 //        for (int i = max(jobl, l); i <= min(jobr, r); i++) {
 //            if (arr[i] <= jobv) {
@@ -133,10 +134,11 @@ package class174;
 //}
 //
 //void compute(int l, int r) {
+//    cntp = 0;
 //    for (int i = l; i <= r; i++) {
-//        pos[i] = i;
+//        pos[++cntp] = i;
 //    }
-//    sort(pos + l, pos + r + 1, [&](int a, int b) {return arr[a] < arr[b];});
+//    radix(pos, arr, cntp);
 //    for (int qi = 1; qi <= m; qi++) {
 //        if (op[qi] == 1) {
 //            update(qi, l, r);

@@ -27,17 +27,18 @@ public class Code02_MagicGirl1 {
 	public static int n, m;
 
 	public static int[] arr = new int[MAXN];
-	public static int[] pos = new int[MAXN];
-
 	public static int[] op = new int[MAXN];
 	public static int[] x = new int[MAXN];
 	public static int[] y = new int[MAXN];
 	public static int[] v = new int[MAXN];
 
-	public static int[] arrq = new int[MAXN];
+	public static int[] pos = new int[MAXN];
+	public static int[] que = new int[MAXN];
+	public static int cntp;
+	public static int cntq;
+
 	public static int[] cntv = new int[MAXB];
 	public static int[] help = new int[MAXN];
-	public static int siz;
 
 	public static int[] last = new int[MAXN];
 	public static int[] next = new int[MAXN];
@@ -60,48 +61,31 @@ public class Code02_MagicGirl1 {
 		len[i] += rlen;
 	}
 
-	// 根据arr[pos[i]]的值，对pos[l..r]进行双指针快排
-	public static void quickSort(int l, int r) {
-		if (l >= r) return;
-		int i = l, j = r, pivot = arr[pos[(l + r) >> 1]], tmp;
-		while (i <= j) {
-			while (arr[pos[i]] < pivot) i++;
-			while (arr[pos[j]] > pivot) j--;
-			if (i <= j) {
-				tmp = pos[i]; pos[i] = pos[j]; pos[j] = tmp;
-				i++; j--;
-			}
-		}
-		quickSort(l, j);
-		quickSort(i, r);
-	}
-
-	// 根据查询任务的v值，对查询任务的编号进行基数排序
-	public static void radixSort() {
+	public static void radix(int[] idx, int[] val, int siz) {
 		Arrays.fill(cntv, 0);
-		for (int i = 1; i <= siz; i++) cntv[v[arrq[i]] & OFFSET]++;
+		for (int i = 1; i <= siz; i++) cntv[val[idx[i]] & OFFSET]++;
 		for (int i = 1; i < MAXB; i++) cntv[i] += cntv[i - 1];
-		for (int i = siz; i >= 1; i--) help[cntv[v[arrq[i]] & OFFSET]--] = arrq[i];
-		for (int i = 1; i <= siz; i++) arrq[i] = help[i];
+		for (int i = siz; i >= 1; i--) help[cntv[val[idx[i]] & OFFSET]--] = idx[i];
+		for (int i = 1; i <= siz; i++) idx[i] = help[i];
 		Arrays.fill(cntv, 0);
-		for (int i = 1; i <= siz; i++) cntv[v[arrq[i]] >> POW]++;
+		for (int i = 1; i <= siz; i++) cntv[val[idx[i]] >> POW]++;
 		for (int i = 1; i < MAXB; i++) cntv[i] += cntv[i - 1];
-		for (int i = siz; i >= 1; i--) help[cntv[v[arrq[i]] >> POW]--] = arrq[i];
-		for (int i = 1; i <= siz; i++) arrq[i] = help[i];
+		for (int i = siz; i >= 1; i--) help[cntv[val[idx[i]] >> POW]--] = idx[i];
+		for (int i = 1; i <= siz; i++) idx[i] = help[i];
 	}
 
 	public static void calc(int l, int r) {
-		radixSort();
+		radix(que, v, cntq);
 		for (int i = l; i <= r; i++) {
 			last[i] = i - 1;
 			next[i] = i + 1;
 		}
 		int rpre = 0, rsuf = 0, rlen = r - l + 1, rans = 0;
 		int k = 1;
-		for (int i = l, idx; i <= r; i++) {
-			idx = pos[i];
-			for (; k <= siz && v[arrq[k]] < arr[idx]; k++) {
-				mergeAns(arrq[k], rpre, rsuf, rlen, rans);
+		for (int i = 1; i <= cntp; i++) {
+			int idx = pos[i];
+			for (; k <= cntq && v[que[k]] < arr[idx]; k++) {
+				mergeAns(que[k], rpre, rsuf, rlen, rans);
 			}
 			if (last[idx] == l - 1) {
 				rpre += next[idx] - idx;
@@ -113,10 +97,10 @@ public class Code02_MagicGirl1 {
 			last[next[idx]] = last[idx];
 			next[last[idx]] = next[idx];
 		}
-		for (; k <= siz; k++) {
-			mergeAns(arrq[k], rpre, rsuf, rlen, rans);
+		for (; k <= cntq; k++) {
+			mergeAns(que[k], rpre, rsuf, rlen, rans);
 		}
-		siz = 0;
+		cntq = 0;
 	}
 
 	public static void update(int qi, int l, int r) {
@@ -125,18 +109,22 @@ public class Code02_MagicGirl1 {
 			calc(l, r);
 			arr[jobi] = jobv;
 			int find = 0;
-			for (int i = l; i <= r; i++) {
+			for (int i = 1; i <= cntp; i++) {
 				if (pos[i] == jobi) {
 					find = i;
 					break;
 				}
 			}
 			int tmp;
-			for (int i = find; i < r && arr[pos[i]] > arr[pos[i + 1]]; i++) {
-				tmp = pos[i]; pos[i] = pos[i + 1]; pos[i + 1] = tmp;
+			for (int i = find; i < cntp && arr[pos[i]] > arr[pos[i + 1]]; i++) {
+				tmp = pos[i];
+				pos[i] = pos[i + 1];
+				pos[i + 1] = tmp;
 			}
-			for (int i = find; i > l && arr[pos[i - 1]] > arr[pos[i]]; i--) {
-				tmp = pos[i - 1]; pos[i - 1] = pos[i]; pos[i] = tmp;
+			for (int i = find; i > 1 && arr[pos[i - 1]] > arr[pos[i]]; i--) {
+				tmp = pos[i - 1];
+				pos[i - 1] = pos[i];
+				pos[i] = tmp;
 			}
 		}
 	}
@@ -144,7 +132,7 @@ public class Code02_MagicGirl1 {
 	public static void query(int qi, int l, int r) {
 		int jobl = x[qi], jobr = y[qi], jobv = v[qi];
 		if (jobl <= l && r <= jobr) {
-			arrq[++siz] = qi;
+			que[++cntq] = qi;
 		} else {
 			for (int i = Math.max(jobl, l); i <= Math.min(jobr, r); i++) {
 				if (arr[i] <= jobv) {
@@ -157,10 +145,11 @@ public class Code02_MagicGirl1 {
 	}
 
 	public static void compute(int l, int r) {
+		cntp = 0;
 		for (int i = l; i <= r; i++) {
-			pos[i] = i;
+			pos[++cntp] = i;
 		}
-		quickSort(l, r);
+		radix(pos, arr, cntp);
 		for (int qi = 1; qi <= m; qi++) {
 			if (op[qi] == 1) {
 				update(qi, l, r);
