@@ -83,11 +83,14 @@ public class Code02_MagicGirl1 {
 	// que[1..cntq]放着所有查询的编号，每条查询都包含arr[l..r]
 	// 根据arr[l..r]的数字状况，更新每个查询的答案信息
 	public static void calc(int l, int r) {
-		radix(que, v, cntq);
+		cntp = 0;
 		for (int i = l; i <= r; i++) {
+			pos[++cntp] = i;
 			last[i] = i - 1;
 			next[i] = i + 1;
 		}
+		radix(pos, arr, cntq);
+		radix(que, v, cntq);
 		int rpre = 0, rsuf = 0, rlen = r - l + 1, rans = 0;
 		int k = 1;
 		for (int i = 1; i <= cntp; i++) {
@@ -111,45 +114,25 @@ public class Code02_MagicGirl1 {
 		cntq = 0;
 	}
 
-	public static void update(int qi, int l, int r) {
-		int jobi = x[qi], jobv = v[qi];
-		if (l <= jobi && jobi <= r) {
-			calc(l, r);
-			arr[jobi] = jobv;
-			cntp = 0;
-			for (int i = l; i <= r; i++) {
-				pos[++cntp] = i;
-			}
-			radix(pos, arr, cntp);
-		}
-	}
-
-	public static void query(int qi, int l, int r) {
-		int jobl = x[qi], jobr = y[qi], jobv = v[qi];
-		if (jobl <= l && r <= jobr) {
-			que[++cntq] = qi;
-		} else {
-			for (int i = Math.max(jobl, l); i <= Math.min(jobr, r); i++) {
-				if (arr[i] <= jobv) {
-					mergeAns(qi, 1, 1, 1, 1);
-				} else {
-					mergeAns(qi, 0, 0, 1, 0);
-				}
-			}
-		}
-	}
-
 	public static void compute(int l, int r) {
-		cntp = 0;
-		for (int i = l; i <= r; i++) {
-			pos[++cntp] = i;
-		}
-		radix(pos, arr, cntp);
 		for (int qi = 1; qi <= m; qi++) {
 			if (op[qi] == 1) {
-				update(qi, l, r);
+				if (l <= x[qi] && x[qi] <= r) {
+					calc(l, r);
+					arr[x[qi]] = v[qi];
+				}
 			} else {
-				query(qi, l, r);
+				if (x[qi] <= l && r <= y[qi]) {
+					que[++cntq] = qi;
+				} else {
+					for (int i = Math.max(x[qi], l); i <= Math.min(y[qi], r); i++) {
+						if (arr[i] <= v[qi]) {
+							mergeAns(qi, 1, 1, 1, 1);
+						} else {
+							mergeAns(qi, 0, 0, 1, 0);
+						}
+					}
+				}
 			}
 		}
 		calc(l, r);

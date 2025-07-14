@@ -63,11 +63,14 @@ package class174;
 //}
 //
 //void calc(int l, int r) {
-//    radix(que, v, cntq);
+//    cntp = 0;
 //    for (int i = l; i <= r; i++) {
+//        pos[++cntp] = i;
 //        lst[i] = i - 1;
 //        nxt[i] = i + 1;
 //    }
+//    radix(pos, arr, cntp);
+//    radix(que, v, cntq);
 //    int rpre = 0, rsuf = 0, rlen = r - l + 1, rans = 0;
 //    int k = 1;
 //    for (int i = 1; i <= cntp; i++) {
@@ -91,45 +94,25 @@ package class174;
 //    cntq = 0;
 //}
 //
-//inline void update(int qi, int l, int r) {
-//    int jobi = x[qi], jobv = v[qi];
-//    if (l <= jobi && jobi <= r) {
-//        calc(l, r);
-//        arr[jobi] = jobv;
-//        cntp = 0;
-//        for (int i = l; i <= r; i++) {
-//            pos[++cntp] = i;
-//        }
-//        radix(pos, arr, cntp);
-//    }
-//}
-//
-//inline void query(int qi, int l, int r) {
-//    int jobl = x[qi], jobr = y[qi], jobv = v[qi];
-//    if (jobl <= l && r <= jobr) {
-//        que[++cntq] = qi;
-//    } else {
-//        for (int i = max(jobl, l); i <= min(jobr, r); i++) {
-//            if (arr[i] <= jobv) {
-//                mergeAns(qi, 1, 1, 1, 1);
-//            } else {
-//                mergeAns(qi, 0, 0, 1, 0);
-//            }
-//        }
-//    }
-//}
-//
 //void compute(int l, int r) {
-//    cntp = 0;
-//    for (int i = l; i <= r; i++) {
-//        pos[++cntp] = i;
-//    }
-//    radix(pos, arr, cntp);
 //    for (int qi = 1; qi <= m; qi++) {
 //        if (op[qi] == 1) {
-//            update(qi, l, r);
+//            if (l <= x[qi] && x[qi] <= r) {
+//                calc(l, r);
+//                arr[x[qi]] = v[qi];
+//            }
 //        } else {
-//            query(qi, l, r);
+//            if (x[qi] <= l && r <= y[qi]) {
+//                que[++cntq] = qi;
+//            } else {
+//                for (int i = max(x[qi], l); i <= min(y[qi], r); i++) {
+//                    if (arr[i] <= v[qi]) {
+//                        mergeAns(qi, 1, 1, 1, 1);
+//                    } else {
+//                        mergeAns(qi, 0, 0, 1, 0);
+//                    }
+//                }
+//            }
 //        }
 //    }
 //    calc(l, r);
