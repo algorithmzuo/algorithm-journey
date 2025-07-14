@@ -21,8 +21,8 @@ import java.util.Arrays;
 public class Code02_MagicGirl1 {
 
 	public static int MAXN = 300002; // 双向链表需要n+1下标
-	public static int MAXB = 601;
-	public static int POW = 9; // 块长为(2的POW次方)，/ 块长时，>> POW即可
+	public static int MAXB = 601; // 块的最大数量
+	public static int POW = 9; // 块长为 2的POW次方，/ 块长时，>> POW即可
 	public static int OFFSET = (1 << POW) - 1; // % 块长时, & OFFSET即可
 	public static int n, m;
 
@@ -32,26 +32,27 @@ public class Code02_MagicGirl1 {
 	public static int[] y = new int[MAXN];
 	public static int[] v = new int[MAXN];
 
-	public static int[] pos = new int[MAXN];
-	public static int[] que = new int[MAXN];
-	public static int cntp;
-	public static int cntq;
+	public static int[] pos = new int[MAXN]; // 当前序列块的下标放入pos
+	public static int[] que = new int[MAXN]; // 如果查询包含当前序列块，查询下标放入que
+	public static int cntp; // cntp是pos中的下标个数
+	public static int cntq; // cntq是que中的下标个数
 
+	// 基数排序
 	public static int[] cntv = new int[MAXB];
 	public static int[] help = new int[MAXN];
 
+	// 双指针
 	public static int[] last = new int[MAXN];
 	public static int[] next = new int[MAXN];
 
-	public static int[] pre = new int[MAXN];
-	public static int[] suf = new int[MAXN];
-	public static int[] len = new int[MAXN];
-	public static long[] ans = new long[MAXN];
+	// 每个查询的答案信息
+	public static int[] pre = new int[MAXN]; // 达标前缀长度
+	public static int[] suf = new int[MAXN]; // 达标后缀长度
+	public static int[] len = new int[MAXN]; // 总长度
+	public static long[] ans = new long[MAXN]; // 达标子数组数量
 
-	// idx[1..siz]都是下标，下标之间根据val[下标]进行从小到大的基数排序
-	// 每个val[下标]的数值，只有两位
-	// 高位 : val[下标] >> POW
-	// 低位 : val[下标] & OFFSET
+	// idx[1..siz]放着所有下标，下标之间根据val[下标]进行从小到大的基数排序
+	// 每个val[下标]只有两位，高位数值(val[下标] >> POW)，低位数值(val[下标] & OFFSET)
 	public static void radix(int[] idx, int[] val, int siz) {
 		Arrays.fill(cntv, 0);
 		for (int i = 1; i <= siz; i++) cntv[val[idx[i]] & OFFSET]++;
@@ -65,9 +66,9 @@ public class Code02_MagicGirl1 {
 		for (int i = 1; i <= siz; i++) idx[i] = help[i];
 	}
 
-	// 左侧形成的区域，pre[i]、suf[i]、len[i]、ans[i]
-	// 右侧形成的区域，rpre、rsuf、rlen、rans
-	// 左侧与右侧合并，修改好pre[i]、suf[i]、len[i]、ans[i]
+	// 之前的答案信息 pre[i]、suf[i]、len[i]、ans[i]
+	// 当前的答案信息 rpre、rsuf、rlen、rans
+	// 之前信息吸收当前信息
 	public static void mergeAns(int i, int rpre, int rsuf, int rlen, int rans) {
 		ans[i] += rans + 1L * suf[i] * rpre;
 		if (pre[i] == len[i]) {
@@ -81,6 +82,8 @@ public class Code02_MagicGirl1 {
 		len[i] += rlen;
 	}
 
+	// que[1..cntq]放着所有查询的编号，每条查询都包含arr[l..r]
+	// 根据arr[l..r]的数字状况，更新每个查询的答案信息
 	public static void calc(int l, int r) {
 		radix(que, v, cntq);
 		for (int i = l; i <= r; i++) {
