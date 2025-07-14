@@ -21,7 +21,7 @@ import java.util.Arrays;
 public class Code02_MagicGirl1 {
 
 	public static int MAXN = 300002; // 双向链表需要n+1下标
-	public static int MAXB = 601; // 块的最大数量
+	public static int MAXB = 601; // 块的数量上限
 	public static int POW = 9; // 块长为 2的POW次方，/ 块长时，>> POW即可
 	public static int OFFSET = (1 << POW) - 1; // % 块长时, & OFFSET即可
 	public static int n, m;
@@ -32,10 +32,12 @@ public class Code02_MagicGirl1 {
 	public static int[] y = new int[MAXN];
 	public static int[] v = new int[MAXN];
 
-	public static int[] pos = new int[MAXN]; // 当前序列块的下标放入pos
-	public static int[] que = new int[MAXN]; // 如果查询包含当前序列块，查询下标放入que
-	public static int cntp; // cntp是pos中的下标个数
-	public static int cntq; // cntq是que中的下标个数
+	// pos[1..cntp]存放数组下标
+	// que[1..cntq]存放查询下标
+	public static int[] pos = new int[MAXN];
+	public static int[] que = new int[MAXN];
+	public static int cntp;
+	public static int cntq;
 
 	// 基数排序
 	public static int[] cntv = new int[MAXB];
@@ -68,7 +70,7 @@ public class Code02_MagicGirl1 {
 
 	// 之前的答案信息 pre[i]、suf[i]、len[i]、ans[i]
 	// 当前的答案信息 rpre、rsuf、rlen、rans
-	// 之前信息吸收当前信息
+	// 之前答案合并当前答案
 	public static void mergeAns(int i, int rpre, int rsuf, int rlen, int rans) {
 		ans[i] += rans + 1L * suf[i] * rpre;
 		if (pre[i] == len[i]) {
