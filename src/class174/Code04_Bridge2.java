@@ -38,11 +38,11 @@ package class174;
 //int rollback[MAXM][2];
 //int opsize = 0;
 //
-//int arre[MAXM];
+//int edge[MAXM];
 //int change[MAXM];
 //int unchange[MAXM];
 //
-//int arrq[MAXQ];
+//int operate[MAXQ];
 //int update[MAXQ];
 //int query[MAXQ];
 //
@@ -54,13 +54,13 @@ package class174;
 //void merge(int l1, int r1, int l2, int r2) {
 //    int i = 0;
 //    while (l1 <= r1 && l2 <= r2) {
-//        arre[++i] = w[change[l1]] >= w[unchange[l2]] ? change[l1++] : unchange[l2++];
+//        edge[++i] = w[change[l1]] >= w[unchange[l2]] ? change[l1++] : unchange[l2++];
 //    }
 //    while (l1 <= r1) {
-//        arre[++i] = change[l1++];
+//        edge[++i] = change[l1++];
 //    }
 //    while (l2 <= r2) {
-//        arre[++i] = unchange[l2++];
+//        edge[++i] = unchange[l2++];
 //    }
 //}
 //
@@ -106,19 +106,19 @@ package class174;
 //    fill(vis + 1, vis + m + 1, false);
 //    int cntu = 0, cntq = 0;
 //    for (int i = l; i <= r; i++) {
-//        if (op[arrq[i]] == 1) {
-//            vis[eid[arrq[i]]] = true;
-//            update[++cntu] = arrq[i];
+//        if (op[operate[i]] == 1) {
+//            vis[eid[operate[i]]] = true;
+//            update[++cntu] = operate[i];
 //        } else {
-//            query[++cntq] = arrq[i];
+//            query[++cntq] = operate[i];
 //        }
 //    }
 //    sort(query + 1, query + cntq + 1, [&](int x, int y) { return car[x] > car[y]; });
 //    int k = 1;
 //    for (int i = 1; i <= cntq; i++) {
-//        for (; k <= m && w[arre[k]] >= car[query[i]]; k++) {
-//            if (!vis[arre[k]]) {
-//                Union(u[arre[k]], v[arre[k]]);
+//        for (; k <= m && w[edge[k]] >= car[query[i]]; k++) {
+//            if (!vis[edge[k]]) {
+//                Union(u[edge[k]], v[edge[k]]);
 //            }
 //        }
 //        opsize = 0;
@@ -143,10 +143,10 @@ package class174;
 //    }
 //    int siz1 = 0, siz2 = 0;
 //    for (int i = 1; i <= m; i++) {
-//        if (vis[arre[i]]) {
-//            change[++siz1] = arre[i];
+//        if (vis[edge[i]]) {
+//            change[++siz1] = edge[i];
 //        } else {
-//            unchange[++siz2] = arre[i];
+//            unchange[++siz2] = edge[i];
 //        }
 //    }
 //    sort(change + 1, change + siz1 + 1, [&](int x, int y) { return w[x] > w[y]; });
@@ -157,12 +157,12 @@ package class174;
 //    blen = max(1, (int)sqrt(q * log2(n)));
 //    bnum = (q + blen - 1) / blen;
 //    for (int i = 1; i <= m; i++) {
-//        arre[i] = i;
+//        edge[i] = i;
 //    }
 //    for (int i = 1; i <= q; i++) {
-//        arrq[i] = i;
+//        operate[i] = i;
 //    }
-//    sort(arre + 1, arre + m + 1, [&](int x, int y) { return w[x] > w[y]; });
+//    sort(edge + 1, edge + m + 1, [&](int x, int y) { return w[x] > w[y]; });
 //}
 //
 //int main() {

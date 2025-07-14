@@ -33,8 +33,8 @@ package class174;
 //int qb[MAXQ];
 //int qid[MAXQ];
 //
-//int arre[MAXM];
-//int arrq[MAXQ];
+//int edge[MAXM];
+//int ques[MAXQ];
 //
 //int cur[MAXQ];
 //int cntq = 0;
@@ -102,22 +102,21 @@ package class174;
 //    build();
 //    cntq = 0;
 //    for (int i = 1; i <= q; i++) {
-//        if (ea[arre[l]] <= qa[arrq[i]] && (r + 1 > m || qa[arrq[i]] < ea[arre[r + 1]])) {
-//            cur[++cntq] = arrq[i];
+//        if (ea[edge[l]] <= qa[ques[i]] && (r + 1 > m || qa[ques[i]] < ea[edge[r + 1]])) {
+//            cur[++cntq] = ques[i];
 //        }
 //    }
 //    if (cntq > 0) {
-//        sort(arre + 1, arre + l, [&](int x, int y) { return eb[x] < eb[y]; });
+//        sort(edge + 1, edge + l, [&](int x, int y) { return eb[x] < eb[y]; });
 //        int pos = 1;
 //        for (int i = 1; i <= cntq; i++) {
-//            for (int edge = arre[pos]; pos < l && eb[edge] <= qb[cur[i]]; pos++, edge = arre[pos]) {
-//                Union(eu[edge], ev[edge], ea[edge], eb[edge]);
+//            for (; pos < l && eb[edge[pos]] <= qb[cur[i]]; pos++) {
+//                Union(eu[edge[pos]], ev[edge[pos]], ea[edge[pos]], eb[edge[pos]]);
 //            }
 //            opsize = 0;
 //            for (int j = l; j <= r; j++) {
-//                int edge = arre[j];
-//                if (ea[edge] <= qa[cur[i]] && eb[edge] <= qb[cur[i]]) {
-//            	    Union(eu[edge], ev[edge], ea[edge], eb[edge]);
+//                if (ea[edge[j]] <= qa[cur[i]] && eb[edge[j]] <= qb[cur[i]]) {
+//            	      Union(eu[edge[j]], ev[edge[j]], ea[edge[j]], eb[edge[j]]);
 //                }
 //            }
 //            ans[qid[cur[i]]] = query(qu[cur[i]], qv[cur[i]], qa[cur[i]], qb[cur[i]]);
@@ -130,13 +129,13 @@ package class174;
 //    blen = max(1, (int)sqrt(m * log2(n)));
 //    bnum = (m + blen - 1) / blen;
 //    for (int i = 1; i <= m; i++) {
-//        arre[i] = i;
+//        edge[i] = i;
 //    }
 //    for (int i = 1; i <= q; i++) {
-//        arrq[i] = i;
+//        ques[i] = i;
 //    }
-//    sort(arre + 1, arre + m + 1, [&](int x, int y) { return ea[x] < ea[y]; });
-//    sort(arrq + 1, arrq + q + 1, [&](int x, int y) { return qb[x] < qb[y]; });
+//    sort(edge + 1, edge + m + 1, [&](int x, int y) { return ea[x] < ea[y]; });
+//    sort(ques + 1, ques + q + 1, [&](int x, int y) { return qb[x] < qb[y]; });
 //}
 //
 //int main() {

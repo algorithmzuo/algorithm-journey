@@ -35,8 +35,8 @@ public class Code05_Lcm1 {
 	public static int[] qb = new int[MAXQ];
 	public static int[] qid = new int[MAXQ];
 
-	public static int[] arre = new int[MAXM];
-	public static int[] arrq = new int[MAXQ];
+	public static int[] edge = new int[MAXM];
+	public static int[] ques = new int[MAXQ];
 
 	public static int[] cur = new int[MAXQ];
 	public static int cntq = 0;
@@ -122,25 +122,24 @@ public class Code05_Lcm1 {
 		cntq = 0;
 		for (int i = 1; i <= q; i++) {
 			// 保证每条询问只落入其中的一块
-			if (ea[arre[l]] <= qa[arrq[i]] && (r + 1 > m || qa[arrq[i]] < ea[arre[r + 1]])) {
-				cur[++cntq] = arrq[i];
+			if (ea[edge[l]] <= qa[ques[i]] && (r + 1 > m || qa[ques[i]] < ea[edge[r + 1]])) {
+				cur[++cntq] = ques[i];
 			}
 		}
 		if (cntq > 0) {
 			// 可以使用额外的数组，每块内部根据b进行排序
 			// 每次把新块归并进来，保证 1..l-1 范围根据b有序
 			// 可以省掉一个log的复杂度，本题不做这个优化也能通过，索性算了
-			sort(arre, eb, 1, l - 1);
+			sort(edge, eb, 1, l - 1);
 			int pos = 1;
 			for (int i = 1; i <= cntq; i++) {
-				for (int edge = arre[pos]; pos < l && eb[edge] <= qb[cur[i]]; pos++, edge = arre[pos]) {
-					union(eu[edge], ev[edge], ea[edge], eb[edge]);
+				for (; pos < l && eb[edge[pos]] <= qb[cur[i]]; pos++) {
+					union(eu[edge[pos]], ev[edge[pos]], ea[edge[pos]], eb[edge[pos]]);
 				}
 				opsize = 0;
 				for (int j = l; j <= r; j++) {
-					int edge = arre[j];
-					if (ea[edge] <= qa[cur[i]] && eb[edge] <= qb[cur[i]]) {
-						union(eu[edge], ev[edge], ea[edge], eb[edge]);
+					if (ea[edge[j]] <= qa[cur[i]] && eb[edge[j]] <= qb[cur[i]]) {
+						union(eu[edge[j]], ev[edge[j]], ea[edge[j]], eb[edge[j]]);
 					}
 				}
 				ans[qid[cur[i]]] = query(qu[cur[i]], qv[cur[i]], qa[cur[i]], qb[cur[i]]);
@@ -161,13 +160,13 @@ public class Code05_Lcm1 {
 		blen = Math.max(1, (int) Math.sqrt(m * log2(n)));
 		bnum = (m + blen - 1) / blen;
 		for (int i = 1; i <= m; i++) {
-			arre[i] = i;
+			edge[i] = i;
 		}
 		for (int i = 1; i <= q; i++) {
-			arrq[i] = i;
+			ques[i] = i;
 		}
-		sort(arre, ea, 1, m);
-		sort(arrq, qb, 1, q);
+		sort(edge, ea, 1, m);
+		sort(ques, qb, 1, q);
 	}
 
 	public static void main(String[] args) throws IOException {
