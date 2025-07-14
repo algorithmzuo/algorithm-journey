@@ -56,15 +56,9 @@ package class174;
 //}
 //
 //inline void mergeAns(int i, int rpre, int rsuf, int rlen, int rans) {
-//    ans[i] += rans + 1LL * suf[i] * rpre;
-//    if (pre[i] == len[i]) {
-//        pre[i] += rpre;
-//    }
-//    if (rsuf == rlen) {
-//        suf[i] += rsuf;
-//    } else {
-//        suf[i] = rsuf;
-//    }
+//    ans[i] += rans + 1L * suf[i] * rpre;
+//    pre[i] = pre[i] != len[i] ? pre[i] : len[i] + rpre;
+//    suf[i] = rsuf != rlen ? rsuf : rlen + suf[i];
 //    len[i] += rlen;
 //}
 //

@@ -51,7 +51,7 @@ public class Code02_MagicGirl1 {
 	public static int[] pre = new int[MAXN]; // <=v的前缀长度
 	public static int[] suf = new int[MAXN]; // <=v的后缀长度
 	public static int[] len = new int[MAXN]; // 总长度
-	public static long[] ans = new long[MAXN]; // 达标子数组数量
+	public static long[] ans = new long[MAXN]; // 达标子数组个数
 
 	// 讲解028 - 基数排序，不会的话去看课
 	// idx[1..siz]中的编号排序，根据val[编号]的值排序
@@ -75,14 +75,8 @@ public class Code02_MagicGirl1 {
 	// 左侧答案合并右侧答案
 	public static void mergeAns(int i, int rpre, int rsuf, int rlen, int rans) {
 		ans[i] += rans + 1L * suf[i] * rpre;
-		if (pre[i] == len[i]) {
-			pre[i] += rpre;
-		}
-		if (rsuf == rlen) {
-			suf[i] += rsuf;
-		} else {
-			suf[i] = rsuf;
-		}
+		pre[i] = pre[i] != len[i] ? pre[i] : len[i] + rpre;
+		suf[i] = rsuf != rlen ? rsuf : rlen + suf[i];
 		len[i] += rlen;
 	}
 
