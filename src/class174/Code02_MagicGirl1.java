@@ -48,8 +48,8 @@ public class Code02_MagicGirl1 {
 	public static int[] next = new int[MAXN];
 
 	// 每个查询的答案信息
-	public static int[] pre = new int[MAXN]; // 达标前缀长度
-	public static int[] suf = new int[MAXN]; // 达标后缀长度
+	public static int[] pre = new int[MAXN]; // <=v的前缀长度
+	public static int[] suf = new int[MAXN]; // <=v的后缀长度
 	public static int[] len = new int[MAXN]; // 总长度
 	public static long[] ans = new long[MAXN]; // 达标子数组数量
 
@@ -70,9 +70,9 @@ public class Code02_MagicGirl1 {
 		for (int i = 1; i <= siz; i++) idx[i] = help[i];
 	}
 
-	// 之前的答案信息 pre[i]、suf[i]、len[i]、ans[i]
-	// 当前的答案信息 rpre、rsuf、rlen、rans
-	// 之前答案合并当前答案
+	// 左侧的答案信息 pre[i]、suf[i]、len[i]、ans[i]
+	// 右侧的答案信息 rpre、rsuf、rlen、rans
+	// 左侧答案合并右侧答案
 	public static void mergeAns(int i, int rpre, int rsuf, int rlen, int rans) {
 		ans[i] += rans + 1L * suf[i] * rpre;
 		if (pre[i] == len[i]) {
