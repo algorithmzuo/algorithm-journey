@@ -42,19 +42,6 @@ package class174;
 //int len[MAXN];
 //long long ans[MAXN];
 //
-//inline void mergeAns(int i, int rpre, int rsuf, int rlen, int rans) {
-//    ans[i] += rans + 1LL * suf[i] * rpre;
-//    if (pre[i] == len[i]) {
-//        pre[i] += rpre;
-//    }
-//    if (rsuf == rlen) {
-//        suf[i] += rsuf;
-//    } else {
-//        suf[i] = rsuf;
-//    }
-//    len[i] += rlen;
-//}
-//
 //inline void radix(int* idx, int* val, int siz) {
 //    fill(cntv, cntv + MAXB, 0);
 //    for (int i = 1; i <= siz; i++) cntv[val[idx[i]] & OFFSET]++;
@@ -66,6 +53,19 @@ package class174;
 //    for (int i = 1; i < MAXB; i++) cntv[i] += cntv[i - 1];
 //    for (int i = siz; i >= 1; i--) help[cntv[val[idx[i]] >> POW]--] = idx[i];
 //    for (int i = 1; i <= siz; i++) idx[i] = help[i];
+//}
+//
+//inline void mergeAns(int i, int rpre, int rsuf, int rlen, int rans) {
+//    ans[i] += rans + 1LL * suf[i] * rpre;
+//    if (pre[i] == len[i]) {
+//        pre[i] += rpre;
+//    }
+//    if (rsuf == rlen) {
+//        suf[i] += rsuf;
+//    } else {
+//        suf[i] = rsuf;
+//    }
+//    len[i] += rlen;
 //}
 //
 //void calc(int l, int r) {

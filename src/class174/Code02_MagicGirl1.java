@@ -48,19 +48,10 @@ public class Code02_MagicGirl1 {
 	public static int[] len = new int[MAXN];
 	public static long[] ans = new long[MAXN];
 
-	public static void mergeAns(int i, int rpre, int rsuf, int rlen, int rans) {
-		ans[i] += rans + 1L * suf[i] * rpre;
-		if (pre[i] == len[i]) {
-			pre[i] += rpre;
-		}
-		if (rsuf == rlen) {
-			suf[i] += rsuf;
-		} else {
-			suf[i] = rsuf;
-		}
-		len[i] += rlen;
-	}
-
+	// idx[1..siz]都是下标，下标之间根据val[下标]进行从小到大的基数排序
+	// 每个val[下标]的数值，只有两位
+	// 高位 : val[下标] >> POW
+	// 低位 : val[下标] & OFFSET
 	public static void radix(int[] idx, int[] val, int siz) {
 		Arrays.fill(cntv, 0);
 		for (int i = 1; i <= siz; i++) cntv[val[idx[i]] & OFFSET]++;
@@ -72,6 +63,22 @@ public class Code02_MagicGirl1 {
 		for (int i = 1; i < MAXB; i++) cntv[i] += cntv[i - 1];
 		for (int i = siz; i >= 1; i--) help[cntv[val[idx[i]] >> POW]--] = idx[i];
 		for (int i = 1; i <= siz; i++) idx[i] = help[i];
+	}
+
+	// 左侧形成的区域，pre[i]、suf[i]、len[i]、ans[i]
+	// 右侧形成的区域，rpre、rsuf、rlen、rans
+	// 左侧与右侧合并，修改好pre[i]、suf[i]、len[i]、ans[i]
+	public static void mergeAns(int i, int rpre, int rsuf, int rlen, int rans) {
+		ans[i] += rans + 1L * suf[i] * rpre;
+		if (pre[i] == len[i]) {
+			pre[i] += rpre;
+		}
+		if (rsuf == rlen) {
+			suf[i] += rsuf;
+		} else {
+			suf[i] = rsuf;
+		}
+		len[i] += rlen;
 	}
 
 	public static void calc(int l, int r) {
