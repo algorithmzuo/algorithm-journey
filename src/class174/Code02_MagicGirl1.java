@@ -43,7 +43,7 @@ public class Code02_MagicGirl1 {
 	public static int[] cntv = new int[MAXB];
 	public static int[] help = new int[MAXN];
 
-	// 双指针
+	// 双链表
 	public static int[] last = new int[MAXN];
 	public static int[] next = new int[MAXN];
 
