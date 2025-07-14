@@ -122,24 +122,11 @@ public class Code02_MagicGirl1 {
 		if (l <= jobi && jobi <= r) {
 			calc(l, r);
 			arr[jobi] = jobv;
-			int find = 0;
-			for (int i = 1; i <= cntp; i++) {
-				if (pos[i] == jobi) {
-					find = i;
-					break;
-				}
+			cntp = 0;
+			for (int i = l; i <= r; i++) {
+				pos[++cntp] = i;
 			}
-			int tmp;
-			for (int i = find; i < cntp && arr[pos[i]] > arr[pos[i + 1]]; i++) {
-				tmp = pos[i];
-				pos[i] = pos[i + 1];
-				pos[i + 1] = tmp;
-			}
-			for (int i = find; i > 1 && arr[pos[i - 1]] > arr[pos[i]]; i--) {
-				tmp = pos[i - 1];
-				pos[i - 1] = pos[i];
-				pos[i] = tmp;
-			}
+			radix(pos, arr, cntp);
 		}
 	}
 

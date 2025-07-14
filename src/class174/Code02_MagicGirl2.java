@@ -102,19 +102,11 @@ package class174;
 //    if (l <= jobi && jobi <= r) {
 //        calc(l, r);
 //        arr[jobi] = jobv;
-//        int find = 0;
-//        for (int i = 1; i <= cntp; i++) {
-//            if (pos[i] == jobi) {
-//                find = i;
-//                break;
-//            }
+//        cntp = 0;
+//        for (int i = l; i <= r; i++) {
+//            pos[++cntp] = i;
 //        }
-//        for (int i = find; i < cntp && arr[pos[i]] > arr[pos[i + 1]]; i++) {
-//            swap(pos[i], pos[i + 1]);
-//        }
-//        for (int i = find; i > 1 && arr[pos[i - 1]] > arr[pos[i]]; i--) {
-//            swap(pos[i - 1], pos[i]);
-//        }
+//        radix(pos, arr, cntp);
 //    }
 //}
 //
