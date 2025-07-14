@@ -54,7 +54,7 @@ public class Code02_MagicGirl1 {
 	public static long[] ans = new long[MAXN]; // 达标子数组数量
 
 	// 讲解028 - 基数排序，不会的话看一下
-	// idx[1..siz]存放着编号，编号之间根据val[编号]，进行从小到大的基数排序
+	// idx[1..siz]存放着编号，编号根据val[编号]的值排序，值只有两位
 	// val[编号]的高位 = val[编号] >> POW
 	// val[编号]的低位 = val[编号] & OFFSET
 	public static void radix(int[] idx, int[] val, int siz) {
