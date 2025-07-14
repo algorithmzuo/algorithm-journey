@@ -53,8 +53,9 @@ public class Code02_MagicGirl1 {
 	public static int[] len = new int[MAXN]; // 总长度
 	public static long[] ans = new long[MAXN]; // 达标子数组数量
 
-	// idx[1..siz]放着所有下标，下标之间根据val[下标]进行从小到大的基数排序
-	// val[下标]只有两位，高位 = val[下标] >> POW，低位 = val[下标] & OFFSET
+	// idx[1..siz]存放着编号，编号之间根据val[编号]，进行从小到大的基数排序
+	// val[编号]的高位 = val[编号] >> POW
+	// val[编号]的低位 = val[编号] & OFFSET
 	public static void radix(int[] idx, int[] val, int siz) {
 		Arrays.fill(cntv, 0);
 		for (int i = 1; i <= siz; i++) cntv[val[idx[i]] & OFFSET]++;
