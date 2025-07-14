@@ -20,10 +20,10 @@ import java.util.Arrays;
 
 public class Code02_MagicGirl1 {
 
-	public static int MAXN = 300002; // 双向链表需要n+1下标
-	public static int MAXB = 601; // 块的数量上限
-	public static int POW = 9; // 块长为 2的POW次方，/ 块长时，>> POW即可
-	public static int OFFSET = (1 << POW) - 1; // % 块长时, & OFFSET即可
+	public static int MAXN = 300002;
+	public static int MAXB = 601;
+	public static int POW = 9;
+	public static int OFFSET = (1 << POW) - 1;
 	public static int n, m;
 
 	public static int[] arr = new int[MAXN];
@@ -54,7 +54,7 @@ public class Code02_MagicGirl1 {
 	public static long[] ans = new long[MAXN]; // 达标子数组数量
 
 	// idx[1..siz]放着所有下标，下标之间根据val[下标]进行从小到大的基数排序
-	// 每个val[下标]只有两位，高位数值(val[下标] >> POW)，低位数值(val[下标] & OFFSET)
+	// val[下标]只有两位，高位 = val[下标] >> POW，低位 = val[下标] & OFFSET
 	public static void radix(int[] idx, int[] val, int siz) {
 		Arrays.fill(cntv, 0);
 		for (int i = 1; i <= siz; i++) cntv[val[idx[i]] & OFFSET]++;
