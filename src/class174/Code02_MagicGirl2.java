@@ -63,7 +63,6 @@ package class174;
 //}
 //
 //void calc(int l, int r) {
-//    cntp = 0;
 //    for (int i = l; i <= r; i++) {
 //        pos[++cntp] = i;
 //        lst[i] = i - 1;
@@ -91,7 +90,7 @@ package class174;
 //    for(; k <= cntq; k++) {
 //        mergeAns(que[k], rpre, rsuf, rlen, rans);
 //    }
-//    cntq = 0;
+//    cntp = cntq = 0;
 //}
 //
 //void compute(int l, int r) {

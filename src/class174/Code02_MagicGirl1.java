@@ -83,7 +83,6 @@ public class Code02_MagicGirl1 {
 	// que[1..cntq]放着所有查询的编号，每条查询都包含arr[l..r]
 	// 根据arr[l..r]的数字状况，更新每个查询的答案信息
 	public static void calc(int l, int r) {
-		cntp = 0;
 		for (int i = l; i <= r; i++) {
 			pos[++cntp] = i;
 			last[i] = i - 1;
@@ -111,7 +110,7 @@ public class Code02_MagicGirl1 {
 		for (; k <= cntq; k++) {
 			mergeAns(que[k], rpre, rsuf, rlen, rans);
 		}
-		cntq = 0;
+		cntp = cntq = 0;
 	}
 
 	public static void compute(int l, int r) {
