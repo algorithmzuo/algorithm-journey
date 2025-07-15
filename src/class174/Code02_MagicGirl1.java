@@ -33,7 +33,7 @@ public class Code02_MagicGirl1 {
 	public static int[] v = new int[MAXN];
 
 	// pos[1..cntp]是当前序列块的下标
-	// que[1..cntq]是整包清算的查询编号
+	// que[1..cntq]是整包结算的查询编号
 	public static int[] pos = new int[MAXN];
 	public static int[] que = new int[MAXN];
 	public static int cntp;
