@@ -53,7 +53,7 @@ package class174;
 //
 //void update(int qi, int l, int r) {
 //    int jobl = ql[qi], jobr = qr[qi], jobx = qx[qi];
-//    if (jobx > maxv - lazy || jobl > r || jobr < l) {
+//    if (jobx >= maxv - lazy || jobl > r || jobr < l) {
 //        return;
 //    }
 //    if (jobl <= l && r <= jobr) {
@@ -97,10 +97,7 @@ package class174;
 //
 //void query(int qi, int l, int r) {
 //    int jobl = ql[qi], jobr = qr[qi], jobx = qx[qi];
-//    if (jobx == 0) {
-//        return;
-//    }
-//    if (jobx > maxv - lazy || jobl > r || jobr < l) {
+//    if (jobx == 0 || jobx > maxv - lazy || jobl > r || jobr < l) {
 //        return;
 //    }
 //    if (jobl <= l && r <= jobr) {

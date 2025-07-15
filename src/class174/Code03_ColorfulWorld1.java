@@ -59,7 +59,7 @@ public class Code03_ColorfulWorld1 {
 
 	public static void update(int qi, int l, int r) {
 		int jobl = ql[qi], jobr = qr[qi], jobx = qx[qi];
-		if (jobx > maxv - lazy || jobl > r || jobr < l) {
+		if (jobx >= maxv - lazy || jobl > r || jobr < l) {
 			return;
 		}
 		if (jobl <= l && r <= jobr) {
@@ -103,10 +103,7 @@ public class Code03_ColorfulWorld1 {
 
 	public static void query(int qi, int l, int r) {
 		int jobl = ql[qi], jobr = qr[qi], jobx = qx[qi];
-		if (jobx == 0) {
-			return;
-		}
-		if (jobx > maxv - lazy || jobl > r || jobr < l) {
+		if (jobx == 0 || jobx > maxv - lazy || jobl > r || jobr < l) {
 			return;
 		}
 		if (jobl <= l && r <= jobr) {
