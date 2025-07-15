@@ -111,6 +111,7 @@ public class Code02_MagicGirl1 {
 		cntp = cntq = 0;
 	}
 
+	// 序列块[l..r]，处理一遍所有的操作(单改 + 查询)
 	public static void compute(int l, int r) {
 		for (int qi = 1; qi <= m; qi++) {
 			if (op[qi] == 1) {
