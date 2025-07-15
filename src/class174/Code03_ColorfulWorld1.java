@@ -36,7 +36,7 @@ public class Code03_ColorfulWorld1 {
 
 	public static int[] pre0 = new int[MAXN];
 	public static int[] fa = new int[MAXV];
-	public static int[] sum = new int[MAXV];
+	public static int[] cntv = new int[MAXV];
 
 	public static int[] ans = new int[MAXM];
 
@@ -65,19 +65,19 @@ public class Code03_ColorfulWorld1 {
 		if (jobl <= l && r <= jobr) {
 			if ((jobx << 1) <= maxv - lazy) {
 				for (int v = lazy + 1; v <= lazy + jobx; v++) {
-					sum[v + jobx] += sum[v];
-					sum[v] = 0;
+					cntv[v + jobx] += cntv[v];
+					cntv[v] = 0;
 					union(v, v + jobx);
 				}
 				lazy += jobx;
 			} else {
 				for (int v = maxv; v > lazy + jobx; v--) {
-					sum[v - jobx] += sum[v];
-					sum[v] = 0;
+					cntv[v - jobx] += cntv[v];
+					cntv[v] = 0;
 					union(v, v - jobx);
 				}
 				for (int v = maxv; v >= 0; v--) {
-					if (sum[v] != 0) {
+					if (cntv[v] != 0) {
 						maxv = v;
 						break;
 					}
@@ -87,13 +87,13 @@ public class Code03_ColorfulWorld1 {
 			down(l, r);
 			for (int i = Math.max(l, jobl); i <= Math.min(r, jobr); i++) {
 				if (arr[i] - lazy > jobx) {
-					sum[arr[i]]--;
+					cntv[arr[i]]--;
 					arr[i] -= jobx;
-					sum[arr[i]]++;
+					cntv[arr[i]]++;
 				}
 			}
 			for (int v = maxv; v >= 0; v--) {
-				if (sum[v] != 0) {
+				if (cntv[v] != 0) {
 					maxv = v;
 					break;
 				}
@@ -107,7 +107,7 @@ public class Code03_ColorfulWorld1 {
 			return;
 		}
 		if (jobl <= l && r <= jobr) {
-			ans[qi] += sum[jobx + lazy];
+			ans[qi] += cntv[jobx + lazy];
 		} else {
 			down(l, r);
 			for (int i = Math.max(l, jobl); i <= Math.min(r, jobr); i++) {
@@ -119,11 +119,11 @@ public class Code03_ColorfulWorld1 {
 	}
 
 	public static void compute(int l, int r) {
-		Arrays.fill(sum, 0);
+		Arrays.fill(cntv, 0);
 		maxv = lazy = 0;
 		for (int i = l; i <= r; i++) {
 			maxv = Math.max(maxv, arr[i]);
-			sum[arr[i]]++;
+			cntv[arr[i]]++;
 		}
 		for (int v = 0; v <= maxv; v++) {
 			fa[v] = v;
