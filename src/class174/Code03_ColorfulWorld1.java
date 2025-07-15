@@ -46,6 +46,7 @@ public class Code03_ColorfulWorld1 {
 	// 查询的答案
 	public static int[] ans = new int[MAXM];
 
+	// 查询x值变成了什么
 	public static int find(int x) {
 		if (x != fa[x]) {
 			fa[x] = find(fa[x]);
@@ -53,10 +54,12 @@ public class Code03_ColorfulWorld1 {
 		return fa[x];
 	}
 
+	// 所有x值变成y值
 	public static void union(int x, int y) {
 		fa[find(x)] = find(y);
 	}
 
+	// 根据值域并查集的修改结果，把修改写入arr[l..r]
 	public static void down(int l, int r) {
 		for (int i = l; i <= r; i++) {
 			arr[i] = find(arr[i]);
