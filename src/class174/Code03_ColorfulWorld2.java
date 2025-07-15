@@ -41,8 +41,8 @@ package class174;
 //    return fa[x];
 //}
 //
-//void Union(int x, int y) {
-//    fa[find(x)] = find(y);
+//void change(int x, int y) {
+//    fa[x] = y;
 //}
 //
 //void down(int l, int r) {
@@ -61,14 +61,14 @@ package class174;
 //            for (int v = lazy + 1; v <= lazy + jobx; v++) {
 //                cntv[v + jobx] += cntv[v];
 //                cntv[v] = 0;
-//                Union(v, v + jobx);
+//                change(v, v + jobx);
 //            }
 //            lazy += jobx;
 //        } else {
 //            for (int v = lazy + jobx + 1; v <= maxv; v++) {
 //                cntv[v - jobx] += cntv[v];
 //                cntv[v] = 0;
-//                Union(v, v - jobx);
+//                change(v, v - jobx);
 //            }
 //            for (int v = maxv; v >= 0; v--) {
 //                if (cntv[v] != 0) {

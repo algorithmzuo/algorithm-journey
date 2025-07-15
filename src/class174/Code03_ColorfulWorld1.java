@@ -55,8 +55,8 @@ public class Code03_ColorfulWorld1 {
 	}
 
 	// 所有x值变成y值
-	public static void union(int x, int y) {
-		fa[find(x)] = find(y);
+	public static void change(int x, int y) {
+		fa[x] = y;
 	}
 
 	// 修改保留在值域并查集，把修改写入arr[l..r]
@@ -76,14 +76,14 @@ public class Code03_ColorfulWorld1 {
 				for (int v = lazy + 1; v <= lazy + jobx; v++) {
 					cntv[v + jobx] += cntv[v];
 					cntv[v] = 0;
-					union(v, v + jobx);
+					change(v, v + jobx);
 				}
 				lazy += jobx;
 			} else {
 				for (int v = lazy + jobx + 1; v <= maxv; v++) {
 					cntv[v - jobx] += cntv[v];
 					cntv[v] = 0;
-					union(v, v - jobx);
+					change(v, v - jobx);
 				}
 				for (int v = maxv; v >= 0; v--) {
 					if (cntv[v] != 0) {
