@@ -59,7 +59,7 @@ public class Code03_ColorfulWorld1 {
 		fa[find(x)] = find(y);
 	}
 
-	// 修改保留在值域并查集，把真实值写入arr[l..r]
+	// 修改保留在值域并查集，把修改写入arr[l..r]
 	public static void down(int l, int r) {
 		for (int i = l; i <= r; i++) {
 			arr[i] = find(arr[i]);
