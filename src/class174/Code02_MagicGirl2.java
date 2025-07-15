@@ -27,7 +27,7 @@ package class174;
 //int v[MAXN];
 //
 //int pos[MAXN];
-//int que[MAXN];
+//int qid[MAXN];
 //int cntp;
 //int cntq;
 //
@@ -69,10 +69,10 @@ package class174;
 //        nxt[i] = i + 1;
 //    }
 //    radix(pos, arr, cntp);
-//    radix(que, v, cntq);
+//    radix(qid, v, cntq);
 //    int curPre = 0, curSuf = 0, curLen = r - l + 1, curAns = 0;
 //    for (int i = 1, j = 1, idx; i <= cntq; i++) {
-//        while (j <= cntp && arr[pos[j]] <= v[que[i]]) {
+//        while (j <= cntp && arr[pos[j]] <= v[qid[i]]) {
 //            idx = pos[j];
 //            if (lst[idx] == l - 1) {
 //                curPre += nxt[idx] - idx;
@@ -85,7 +85,7 @@ package class174;
 //            nxt[lst[idx]] = nxt[idx];
 //            j++;
 //        }
-//        merge(que[i], curPre, curSuf, curLen, curAns);
+//        merge(qid[i], curPre, curSuf, curLen, curAns);
 //    }
 //    cntp = cntq = 0;
 //}
@@ -99,7 +99,7 @@ package class174;
 //            }
 //        } else {
 //            if (x[qi] <= l && r <= y[qi]) {
-//                que[++cntq] = qi;
+//                qid[++cntq] = qi;
 //            } else {
 //                for (int i = max(x[qi], l); i <= min(y[qi], r); i++) {
 //                    if (arr[i] <= v[qi]) {

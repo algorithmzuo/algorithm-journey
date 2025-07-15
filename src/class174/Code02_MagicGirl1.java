@@ -33,9 +33,9 @@ public class Code02_MagicGirl1 {
 	public static int[] v = new int[MAXN];
 
 	// pos[1..cntp]是当前序列块的下标
-	// que[1..cntq]是整包结算的查询编号
+	// qid[1..cntq]是整包结算的查询编号
 	public static int[] pos = new int[MAXN];
-	public static int[] que = new int[MAXN];
+	public static int[] qid = new int[MAXN];
 	public static int cntp;
 	public static int cntq;
 
@@ -81,7 +81,7 @@ public class Code02_MagicGirl1 {
 	}
 
 	// 整包结算
-	// que[1..cntq]是查询编号，每条查询整包[l..r]
+	// qid[1..cntq]是查询编号，每条查询整包[l..r]
 	// 根据序列块的数字状况，更新每个查询的答案信息
 	public static void calc(int l, int r) {
 		for (int i = l; i <= r; i++) {
@@ -90,10 +90,10 @@ public class Code02_MagicGirl1 {
 			next[i] = i + 1;
 		}
 		radix(pos, arr, cntp);
-		radix(que, v, cntq);
+		radix(qid, v, cntq);
 		int curPre = 0, curSuf = 0, curLen = r - l + 1, curAns = 0;
 		for (int i = 1, j = 1, idx; i <= cntq; i++) {
-			while (j <= cntp && arr[pos[j]] <= v[que[i]]) {
+			while (j <= cntp && arr[pos[j]] <= v[qid[i]]) {
 				idx = pos[j];
 				if (last[idx] == l - 1) {
 					curPre += next[idx] - idx;
@@ -106,7 +106,7 @@ public class Code02_MagicGirl1 {
 				next[last[idx]] = next[idx];
 				j++;
 			}
-			merge(que[i], curPre, curSuf, curLen, curAns);
+			merge(qid[i], curPre, curSuf, curLen, curAns);
 		}
 		cntp = cntq = 0;
 	}
@@ -120,7 +120,7 @@ public class Code02_MagicGirl1 {
 				}
 			} else {
 				if (x[qi] <= l && r <= y[qi]) {
-					que[++cntq] = qi;
+					qid[++cntq] = qi;
 				} else {
 					for (int i = Math.max(x[qi], l); i <= Math.min(y[qi], r); i++) {
 						if (arr[i] <= v[qi]) {
