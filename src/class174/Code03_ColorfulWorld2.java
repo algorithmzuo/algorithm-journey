@@ -28,8 +28,8 @@ package class174;
 //int qr[MAXM];
 //int qx[MAXM];
 //
-//int pre0[MAXN];
 //int fa[MAXV];
+//int pre0[MAXN];
 //int cntv[MAXV];
 //
 //int ans[MAXM];

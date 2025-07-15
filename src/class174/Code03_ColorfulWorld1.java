@@ -34,8 +34,8 @@ public class Code03_ColorfulWorld1 {
 	public static int[] qr = new int[MAXM];
 	public static int[] qx = new int[MAXM];
 
-	public static int[] pre0 = new int[MAXN];
 	public static int[] fa = new int[MAXV];
+	public static int[] pre0 = new int[MAXN];
 	public static int[] cntv = new int[MAXV];
 
 	public static int[] ans = new int[MAXM];
