@@ -55,11 +55,11 @@ package class174;
 //    for (int i = 1; i <= siz; i++) idx[i] = help[i];
 //}
 //
-//inline void mergeAns(int i, int rpre, int rsuf, int rlen, int rans) {
-//    ans[i] += rans + 1L * suf[i] * rpre;
-//    pre[i] = pre[i] != len[i] ? pre[i] : len[i] + rpre;
-//    suf[i] = rsuf != rlen ? rsuf : rlen + suf[i];
-//    len[i] += rlen;
+//inline void mergeAns(int i, int curPre, int curSuf, int curLen, int curAns) {
+//    ans[i] += 1L * suf[i] * curPre + curAns;
+//    pre[i] = pre[i] + (pre[i] == len[i] ? curPre : 0);
+//    suf[i] = curSuf + (curSuf == curLen ? suf[i] : 0);
+//    len[i] += curLen;
 //}
 //
 //void calc(int l, int r) {
@@ -70,25 +70,22 @@ package class174;
 //    }
 //    radix(pos, arr, cntp);
 //    radix(que, v, cntq);
-//    int rpre = 0, rsuf = 0, rlen = r - l + 1, rans = 0;
-//    int k = 1;
-//    for (int i = 1; i <= cntp; i++) {
-//        int idx = pos[i];
-//        for(; k <= cntq && v[que[k]] < arr[idx]; k++) {
-//            mergeAns(que[k], rpre, rsuf, rlen, rans);
+//    int curPre = 0, curSuf = 0, curLen = r - l + 1, curAns = 0;
+//    for (int i = 1, j = 1, idx; i <= cntq; i++) {
+//        while (j <= cntp && arr[pos[j]] <= v[que[i]]) {
+//            idx = pos[j];
+//            if (lst[idx] == l - 1) {
+//                curPre += nxt[idx] - idx;
+//            }
+//            if (nxt[idx] == r + 1) {
+//                curSuf += idx - lst[idx];
+//            }
+//            curAns += 1L * (idx - lst[idx]) * (nxt[idx] - idx);
+//            lst[nxt[idx]] = lst[idx];
+//            nxt[lst[idx]] = nxt[idx];
+//            j++;
 //        }
-//        if (lst[idx] == l - 1) {
-//            rpre += nxt[idx] - idx;
-//        }
-//        if (nxt[idx] == r + 1) {
-//            rsuf += idx - lst[idx];
-//        }
-//        rans += 1LL * (idx - lst[idx]) * (nxt[idx] - idx);
-//        lst[nxt[idx]] = lst[idx];
-//        nxt[lst[idx]] = nxt[idx];
-//    }
-//    for(; k <= cntq; k++) {
-//        mergeAns(que[k], rpre, rsuf, rlen, rans);
+//        mergeAns(que[i], curPre, curSuf, curLen, curAns);
 //    }
 //    cntp = cntq = 0;
 //}

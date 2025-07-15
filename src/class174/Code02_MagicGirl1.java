@@ -32,8 +32,8 @@ public class Code02_MagicGirl1 {
 	public static int[] y = new int[MAXN];
 	public static int[] v = new int[MAXN];
 
-	// pos[1..cntp]存放数组下标
-	// que[1..cntq]存放查询下标
+	// pos[1..cntp]是当前序列块的下标
+	// que[1..cntq]是整包清算的查询编号
 	public static int[] pos = new int[MAXN];
 	public static int[] que = new int[MAXN];
 	public static int cntp;
@@ -47,14 +47,14 @@ public class Code02_MagicGirl1 {
 	public static int[] last = new int[MAXN];
 	public static int[] next = new int[MAXN];
 
-	// 每个查询的答案信息
-	public static int[] pre = new int[MAXN]; // <=v的前缀长度
-	public static int[] suf = new int[MAXN]; // <=v的后缀长度
-	public static int[] len = new int[MAXN]; // 总长度
-	public static long[] ans = new long[MAXN]; // 达标子数组个数
+	// 每条查询的答案信息
+	public static int[] pre = new int[MAXN];
+	public static int[] suf = new int[MAXN];
+	public static int[] len = new int[MAXN];
+	public static long[] ans = new long[MAXN];
 
 	// 讲解028 - 基数排序，不会的话去看课
-	// idx[1..siz]中的编号排序，根据val[编号]的值排序
+	// idx[1..siz]都是编号，编号根据val[编号]的值排序
 	// val[编号]的高位 = val[编号] >> POW
 	// val[编号]的低位 = val[编号] & OFFSET
 	public static void radix(int[] idx, int[] val, int siz) {
@@ -70,17 +70,18 @@ public class Code02_MagicGirl1 {
 		for (int i = 1; i <= siz; i++) idx[i] = help[i];
 	}
 
-	// 左侧的答案信息 pre[i]、suf[i]、len[i]、ans[i]
-	// 右侧的答案信息 rpre、rsuf、rlen、rans
-	// 左侧答案合并右侧答案
-	public static void mergeAns(int i, int rpre, int rsuf, int rlen, int rans) {
-		ans[i] += rans + 1L * suf[i] * rpre;
-		pre[i] = pre[i] != len[i] ? pre[i] : len[i] + rpre;
-		suf[i] = rsuf != rlen ? rsuf : rlen + suf[i];
-		len[i] += rlen;
+	// 之前的答案信息 pre[i]、suf[i]、len[i]、ans[i]
+	// 当前的答案信息 curPre、curSuf、curLen、curAns
+	// 之前的答案合并当前的答案
+	public static void mergeAns(int i, int curPre, int curSuf, int curLen, int curAns) {
+		ans[i] += 1L * suf[i] * curPre + curAns;
+		pre[i] = pre[i] + (pre[i] == len[i] ? curPre : 0);
+		suf[i] = curSuf + (curSuf == curLen ? suf[i] : 0);
+		len[i] += curLen;
 	}
 
-	// que[1..cntq]放着所有查询的编号，每条查询都包含arr[l..r]
+	// 整包结算
+	// que[1..cntq]是查询编号，每条查询整包arr[l..r]
 	// 根据arr[l..r]的数字状况，更新每个查询的答案信息
 	public static void calc(int l, int r) {
 		for (int i = l; i <= r; i++) {
@@ -88,27 +89,24 @@ public class Code02_MagicGirl1 {
 			last[i] = i - 1;
 			next[i] = i + 1;
 		}
-		radix(pos, arr, cntq);
+		radix(pos, arr, cntp);
 		radix(que, v, cntq);
-		int rpre = 0, rsuf = 0, rlen = r - l + 1, rans = 0;
-		int k = 1;
-		for (int i = 1; i <= cntp; i++) {
-			int idx = pos[i];
-			for (; k <= cntq && v[que[k]] < arr[idx]; k++) {
-				mergeAns(que[k], rpre, rsuf, rlen, rans);
+		int curPre = 0, curSuf = 0, curLen = r - l + 1, curAns = 0;
+		for (int i = 1, j = 1, idx; i <= cntq; i++) {
+			while (j <= cntp && arr[pos[j]] <= v[que[i]]) {
+				idx = pos[j];
+				if (last[idx] == l - 1) {
+					curPre += next[idx] - idx;
+				}
+				if (next[idx] == r + 1) {
+					curSuf += idx - last[idx];
+				}
+				curAns += 1L * (idx - last[idx]) * (next[idx] - idx);
+				last[next[idx]] = last[idx];
+				next[last[idx]] = next[idx];
+				j++;
 			}
-			if (last[idx] == l - 1) {
-				rpre += next[idx] - idx;
-			}
-			if (next[idx] == r + 1) {
-				rsuf += idx - last[idx];
-			}
-			rans += 1L * (idx - last[idx]) * (next[idx] - idx);
-			last[next[idx]] = last[idx];
-			next[last[idx]] = next[idx];
-		}
-		for (; k <= cntq; k++) {
-			mergeAns(que[k], rpre, rsuf, rlen, rans);
+			mergeAns(que[i], curPre, curSuf, curLen, curAns);
 		}
 		cntp = cntq = 0;
 	}
