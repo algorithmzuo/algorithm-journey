@@ -81,8 +81,8 @@ public class Code02_MagicGirl1 {
 	}
 
 	// 整包结算
-	// que[1..cntq]是查询编号，每条查询整包arr[l..r]
-	// 根据arr[l..r]的数字状况，更新每个查询的答案信息
+	// que[1..cntq]是查询编号，每条查询整包[l..r]
+	// 根据序列块的数字状况，更新每个查询的答案信息
 	public static void calc(int l, int r) {
 		for (int i = l; i <= r; i++) {
 			pos[++cntp] = i;
