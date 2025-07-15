@@ -80,7 +80,7 @@ public class Code03_ColorfulWorld1 {
 				}
 				lazy += jobx;
 			} else {
-				for (int v = maxv; v > lazy + jobx; v--) {
+				for (int v = lazy + jobx + 1; v <= maxv; v++) {
 					cntv[v - jobx] += cntv[v];
 					cntv[v] = 0;
 					union(v, v - jobx);
