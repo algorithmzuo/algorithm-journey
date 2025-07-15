@@ -70,10 +70,10 @@ public class Code02_MagicGirl1 {
 		for (int i = 1; i <= siz; i++) idx[i] = help[i];
 	}
 
-	// 之前的答案信息 pre[i]、suf[i]、len[i]、ans[i]
-	// 当前的答案信息 curPre、curSuf、curLen、curAns
-	// 之前的答案合并当前的答案
-	public static void mergeAns(int i, int curPre, int curSuf, int curLen, int curAns) {
+	// 查询的答案信息 pre[i]、suf[i]、len[i]、ans[i]
+	// 当前块答案信息 curPre、curSuf、curLen、curAns
+	// 查询的答案信息 合并 当前块答案信息
+	public static void merge(int i, int curPre, int curSuf, int curLen, int curAns) {
 		ans[i] += 1L * suf[i] * curPre + curAns;
 		pre[i] = pre[i] + (pre[i] == len[i] ? curPre : 0);
 		suf[i] = curSuf + (curSuf == curLen ? suf[i] : 0);
@@ -106,7 +106,7 @@ public class Code02_MagicGirl1 {
 				next[last[idx]] = next[idx];
 				j++;
 			}
-			mergeAns(que[i], curPre, curSuf, curLen, curAns);
+			merge(que[i], curPre, curSuf, curLen, curAns);
 		}
 		cntp = cntq = 0;
 	}
@@ -124,9 +124,9 @@ public class Code02_MagicGirl1 {
 				} else {
 					for (int i = Math.max(x[qi], l); i <= Math.min(y[qi], r); i++) {
 						if (arr[i] <= v[qi]) {
-							mergeAns(qi, 1, 1, 1, 1);
+							merge(qi, 1, 1, 1, 1);
 						} else {
-							mergeAns(qi, 0, 0, 1, 0);
+							merge(qi, 0, 0, 1, 0);
 						}
 					}
 				}

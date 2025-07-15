@@ -55,7 +55,7 @@ package class174;
 //    for (int i = 1; i <= siz; i++) idx[i] = help[i];
 //}
 //
-//inline void mergeAns(int i, int curPre, int curSuf, int curLen, int curAns) {
+//inline void merge(int i, int curPre, int curSuf, int curLen, int curAns) {
 //    ans[i] += 1L * suf[i] * curPre + curAns;
 //    pre[i] = pre[i] + (pre[i] == len[i] ? curPre : 0);
 //    suf[i] = curSuf + (curSuf == curLen ? suf[i] : 0);
@@ -85,7 +85,7 @@ package class174;
 //            nxt[lst[idx]] = nxt[idx];
 //            j++;
 //        }
-//        mergeAns(que[i], curPre, curSuf, curLen, curAns);
+//        merge(que[i], curPre, curSuf, curLen, curAns);
 //    }
 //    cntp = cntq = 0;
 //}
@@ -103,9 +103,9 @@ package class174;
 //            } else {
 //                for (int i = max(x[qi], l); i <= min(y[qi], r); i++) {
 //                    if (arr[i] <= v[qi]) {
-//                        mergeAns(qi, 1, 1, 1, 1);
+//                        merge(qi, 1, 1, 1, 1);
 //                    } else {
-//                        mergeAns(qi, 0, 0, 1, 0);
+//                        merge(qi, 0, 0, 1, 0);
 //                    }
 //                }
 //            }
