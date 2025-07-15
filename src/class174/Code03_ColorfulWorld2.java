@@ -20,7 +20,6 @@ package class174;
 //const int MAXV = 100002;
 //int n, m;
 //int blen, bnum;
-//int maxv, lazy;
 //
 //int arr[MAXN];
 //int op[MAXM];
@@ -28,6 +27,7 @@ package class174;
 //int qr[MAXM];
 //int qx[MAXM];
 //
+//int maxv, lazy;
 //int fa[MAXV];
 //int pre0[MAXN];
 //int cntv[MAXV];

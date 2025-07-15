@@ -26,7 +26,6 @@ public class Code03_ColorfulWorld1 {
 	public static int MAXV = 100002;
 	public static int n, m;
 	public static int blen, bnum;
-	public static int maxv, lazy;
 
 	public static int[] arr = new int[MAXN];
 	public static int[] op = new int[MAXM];
@@ -34,10 +33,17 @@ public class Code03_ColorfulWorld1 {
 	public static int[] qr = new int[MAXM];
 	public static int[] qx = new int[MAXM];
 
+	// maxv代表一个序列块中的最大值
+	// lazy代表一个序列块中，所有数字需要统计减去多少
+	// fa代表值域并查集
+	// pre0代表数组前缀上0的词频统计
+	// cntv代表一个序列块中每种值的词频统计
+	public static int maxv, lazy;
 	public static int[] fa = new int[MAXV];
 	public static int[] pre0 = new int[MAXN];
 	public static int[] cntv = new int[MAXV];
 
+	// 查询的答案
 	public static int[] ans = new int[MAXM];
 
 	public static int find(int x) {
