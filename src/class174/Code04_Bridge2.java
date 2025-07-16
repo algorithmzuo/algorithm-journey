@@ -155,12 +155,6 @@ package class174;
 //void prepare() {
 //    blen = max(1, (int)sqrt(q * log2(n)));
 //    bnum = (q + blen - 1) / blen;
-//    for (int i = 1; i <= m; i++) {
-//        edge[i] = i;
-//    }
-//    for (int i = 1; i <= q; i++) {
-//        operate[i] = i;
-//    }
 //    sort(edge + 1, edge + m + 1, [&](int x, int y) { return w[x] > w[y]; });
 //}
 //
@@ -170,6 +164,7 @@ package class174;
 //    cin >> n >> m;
 //    for (int i = 1; i <= m; i++) {
 //        cin >> u[i] >> v[i] >> w[i];
+//        edge[i] = i;
 //    }
 //    cin >> q;
 //    for (int i = 1; i <= q; i++) {
@@ -179,6 +174,7 @@ package class174;
 //        } else {
 //            cin >> nid[i] >> car[i];
 //        }
+//        operate[i] = i;
 //    }
 //    prepare();
 //    for (int i = 1, l, r; i <= bnum; i++) {

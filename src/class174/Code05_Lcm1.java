@@ -33,13 +33,12 @@ public class Code05_Lcm1 {
 	public static int[] qv = new int[MAXQ];
 	public static int[] qa = new int[MAXQ];
 	public static int[] qb = new int[MAXQ];
-	public static int[] qid = new int[MAXQ];
 
 	public static int[] edge = new int[MAXM];
-	public static int[] ques = new int[MAXQ];
+	public static int[] query = new int[MAXQ];
 
 	public static int[] cur = new int[MAXQ];
-	public static int cntq = 0;
+	public static int cursiz = 0;
 
 	public static int[] fa = new int[MAXN];
 	public static int[] siz = new int[MAXN];
@@ -111,7 +110,7 @@ public class Code05_Lcm1 {
 		}
 	}
 
-	public static boolean query(int x, int y, int a, int b) {
+	public static boolean check(int x, int y, int a, int b) {
 		int fx = find(x);
 		int fy = find(y);
 		return fx == fy && maxa[fx] == a && maxb[fx] == b;
@@ -119,17 +118,17 @@ public class Code05_Lcm1 {
 
 	public static void compute(int l, int r) {
 		build();
-		cntq = 0;
+		cursiz = 0;
 		for (int i = 1; i <= q; i++) {
-			// 保证每条询问只落入其中的一块
-			if (ea[edge[l]] <= qa[ques[i]] && (r + 1 > m || qa[ques[i]] < ea[edge[r + 1]])) {
-				cur[++cntq] = ques[i];
+			// 保证每条查询只在一个边的序列块中处理
+			if (ea[edge[l]] <= qa[query[i]] && (r + 1 > m || qa[query[i]] < ea[edge[r + 1]])) {
+				cur[++cursiz] = query[i];
 			}
 		}
-		if (cntq > 0) {
+		if (cursiz > 0) {
 			// 本题直接排序能通过，就不写归并了
 			sort(edge, eb, 1, l - 1);
-			for (int i = 1, j = 1; i <= cntq; i++) {
+			for (int i = 1, j = 1; i <= cursiz; i++) {
 				while (j < l && eb[edge[j]] <= qb[cur[i]]) {
 					union(eu[edge[j]], ev[edge[j]], ea[edge[j]], eb[edge[j]]);
 					j++;
@@ -140,31 +139,21 @@ public class Code05_Lcm1 {
 						union(eu[edge[k]], ev[edge[k]], ea[edge[k]], eb[edge[k]]);
 					}
 				}
-				ans[qid[cur[i]]] = query(qu[cur[i]], qv[cur[i]], qa[cur[i]], qb[cur[i]]);
+				ans[cur[i]] = check(qu[cur[i]], qv[cur[i]], qa[cur[i]], qb[cur[i]]);
 				undo();
 			}
 		}
 	}
 
-	public static int log2(int n) {
-		int ans = 0;
-		while ((1 << ans) <= (n >> 1)) {
-			ans++;
-		}
-		return ans;
-	}
-
 	public static void prepare() {
-		blen = Math.max(1, (int) Math.sqrt(m * log2(n)));
+		int log2n = 0;
+		while ((1 << log2n) <= (n >> 1)) {
+			log2n++;
+		}
+		blen = Math.max(1, (int) Math.sqrt(m * log2n));
 		bnum = (m + blen - 1) / blen;
-		for (int i = 1; i <= m; i++) {
-			edge[i] = i;
-		}
-		for (int i = 1; i <= q; i++) {
-			ques[i] = i;
-		}
 		sort(edge, ea, 1, m);
-		sort(ques, qb, 1, q);
+		sort(query, qb, 1, q);
 	}
 
 	public static void main(String[] args) throws IOException {
@@ -177,6 +166,7 @@ public class Code05_Lcm1 {
 			ev[i] = in.nextInt();
 			ea[i] = in.nextInt();
 			eb[i] = in.nextInt();
+			edge[i] = i;
 		}
 		q = in.nextInt();
 		for (int i = 1; i <= q; i++) {
@@ -184,7 +174,7 @@ public class Code05_Lcm1 {
 			qv[i] = in.nextInt();
 			qa[i] = in.nextInt();
 			qb[i] = in.nextInt();
-			qid[i] = i;
+			query[i] = i;
 		}
 		prepare();
 		for (int i = 1, l, r; i <= bnum; i++) {
@@ -193,11 +183,7 @@ public class Code05_Lcm1 {
 			compute(l, r);
 		}
 		for (int i = 1; i <= q; i++) {
-			if (ans[i]) {
-				out.println("Yes");
-			} else {
-				out.println("No");
-			}
+			out.println(ans[i] ? "Yes" : "No");
 		}
 		out.flush();
 		out.close();

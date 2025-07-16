@@ -175,23 +175,13 @@ public class Code04_Bridge1 {
 		merge(1, siz1, 1, siz2);
 	}
 
-	public static int log2(int n) {
-		int ans = 0;
-		while ((1 << ans) <= (n >> 1)) {
-			ans++;
-		}
-		return ans;
-	}
-
 	public static void prepare() {
-		blen = Math.max(1, (int) Math.sqrt(q * log2(n)));
+		int log2n = 0;
+		while ((1 << log2n) <= (n >> 1)) {
+			log2n++;
+		}
+		blen = Math.max(1, (int) Math.sqrt(q * log2n));
 		bnum = (q + blen - 1) / blen;
-		for (int i = 1; i <= m; i++) {
-			edge[i] = i;
-		}
-		for (int i = 1; i <= q; i++) {
-			operate[i] = i;
-		}
 		sort(edge, w, 1, m);
 	}
 
@@ -204,6 +194,7 @@ public class Code04_Bridge1 {
 			u[i] = in.nextInt();
 			v[i] = in.nextInt();
 			w[i] = in.nextInt();
+			edge[i] = i;
 		}
 		q = in.nextInt();
 		for (int i = 1; i <= q; i++) {
@@ -215,6 +206,7 @@ public class Code04_Bridge1 {
 				nid[i] = in.nextInt();
 				car[i] = in.nextInt();
 			}
+			operate[i] = i;
 		}
 		prepare();
 		for (int i = 1, l, r; i <= bnum; i++) {

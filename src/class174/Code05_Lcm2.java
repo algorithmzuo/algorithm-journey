@@ -31,13 +31,12 @@ package class174;
 //int qv[MAXQ];
 //int qa[MAXQ];
 //int qb[MAXQ];
-//int qid[MAXQ];
 //
 //int edge[MAXM];
-//int ques[MAXQ];
+//int query[MAXQ];
 //
 //int cur[MAXQ];
-//int cntq = 0;
+//int cursiz;
 //
 //int fa[MAXN];
 //int siz[MAXN];
@@ -93,22 +92,22 @@ package class174;
 //    }
 //}
 //
-//bool query(int x, int y, int a, int b) {
+//bool check(int x, int y, int a, int b) {
 //    int fx = find(x), fy = find(y);
 //    return fx == fy && maxa[fx] == a && maxb[fx] == b;
 //}
 //
 //void compute(int l, int r) {
 //    build();
-//    cntq = 0;
+//    cursiz = 0;
 //    for (int i = 1; i <= q; i++) {
-//        if (ea[edge[l]] <= qa[ques[i]] && (r + 1 > m || qa[ques[i]] < ea[edge[r + 1]])) {
-//            cur[++cntq] = ques[i];
+//        if (ea[edge[l]] <= qa[query[i]] && (r + 1 > m || qa[query[i]] < ea[edge[r + 1]])) {
+//            cur[++cursiz] = query[i];
 //        }
 //    }
-//    if (cntq > 0) {
+//    if (cursiz > 0) {
 //        sort(edge + 1, edge + l, [&](int x, int y) { return eb[x] < eb[y]; });
-//        for (int i = 1, j = 1; i <= cntq; i++) {
+//        for (int i = 1, j = 1; i <= cursiz; i++) {
 //            while (j < l && eb[edge[j]] <= qb[cur[i]]) {
 //                Union(eu[edge[j]], ev[edge[j]], ea[edge[j]], eb[edge[j]]);
 //                j++;
@@ -119,7 +118,7 @@ package class174;
 //            	      Union(eu[edge[k]], ev[edge[k]], ea[edge[k]], eb[edge[k]]);
 //                }
 //            }
-//            ans[qid[cur[i]]] = query(qu[cur[i]], qv[cur[i]], qa[cur[i]], qb[cur[i]]);
+//            ans[cur[i]] = check(qu[cur[i]], qv[cur[i]], qa[cur[i]], qb[cur[i]]);
 //            undo();
 //        }
 //    }
@@ -128,14 +127,8 @@ package class174;
 //void prepare() {
 //    blen = max(1, (int)sqrt(m * log2(n)));
 //    bnum = (m + blen - 1) / blen;
-//    for (int i = 1; i <= m; i++) {
-//        edge[i] = i;
-//    }
-//    for (int i = 1; i <= q; i++) {
-//        ques[i] = i;
-//    }
 //    sort(edge + 1, edge + m + 1, [&](int x, int y) { return ea[x] < ea[y]; });
-//    sort(ques + 1, ques + q + 1, [&](int x, int y) { return qb[x] < qb[y]; });
+//    sort(query + 1, query + q + 1, [&](int x, int y) { return qb[x] < qb[y]; });
 //}
 //
 //int main() {
@@ -144,11 +137,12 @@ package class174;
 //    cin >> n >> m;
 //    for (int i = 1; i <= m; i++) {
 //        cin >> eu[i] >> ev[i] >> ea[i] >> eb[i];
+//        edge[i] = i;
 //    }
 //    cin >> q;
 //    for (int i = 1; i <= q; i++) {
 //        cin >> qu[i] >> qv[i] >> qa[i] >> qb[i];
-//        qid[i] = i;
+//        query[i] = i;
 //    }
 //    prepare();
 //    for (int i = 1, l, r; i <= bnum; i++) {
