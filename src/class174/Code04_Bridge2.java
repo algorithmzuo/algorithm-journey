@@ -34,9 +34,7 @@ package class174;
 //int car[MAXQ];
 //
 //int edge[MAXM];
-//int change[MAXM];
-//int unchange[MAXM];
-//bool vis[MAXM];
+//bool change[MAXM];
 //int curw[MAXM];
 //
 //int operate[MAXQ];
@@ -48,20 +46,10 @@ package class174;
 //int rollback[MAXM][2];
 //int opsize = 0;
 //
-//int ans[MAXQ];
+//int arr1[MAXM];
+//int arr2[MAXM];
 //
-//void merge(int l1, int r1, int l2, int r2) {
-//    int i = 0;
-//    while (l1 <= r1 && l2 <= r2) {
-//        edge[++i] = w[change[l1]] >= w[unchange[l2]] ? change[l1++] : unchange[l2++];
-//    }
-//    while (l1 <= r1) {
-//        edge[++i] = change[l1++];
-//    }
-//    while (l2 <= r2) {
-//        edge[++i] = unchange[l2++];
-//    }
-//}
+//int ans[MAXQ];
 //
 //void build() {
 //    for (int i = 1; i <= n; i++) {
@@ -100,13 +88,35 @@ package class174;
 //    }
 //}
 //
+//void merge() {
+//    int siz1 = 0, siz2 = 0;
+//    for (int i = 1; i <= m; i++) {
+//        if (change[edge[i]]) {
+//            arr1[++siz1] = edge[i];
+//        } else {
+//            arr2[++siz2] = edge[i];
+//        }
+//    }
+//    sort(arr1 + 1, arr1 + siz1 + 1, [&](int x, int y) { return w[x] > w[y]; });
+//    int i = 0, p1 = 1, p2 = 1;
+//    while (p1 <= siz1 && p2 <= siz2) {
+//        edge[++i] = w[arr1[p1]] >= w[arr2[p2]] ? arr1[p1++] : arr2[p2++];
+//    }
+//    while (p1 <= siz1) {
+//        edge[++i] = arr1[p1++];
+//    }
+//    while (p2 <= siz2) {
+//        edge[++i] = arr2[p2++];
+//    }
+//}
+//
 //void compute(int l, int r) {
 //    build();
-//    fill(vis + 1, vis + m + 1, false);
+//    fill(change + 1, change + m + 1, false);
 //    int cntu = 0, cntq = 0;
 //    for (int i = l; i <= r; i++) {
 //        if (op[operate[i]] == 1) {
-//            vis[eid[operate[i]]] = true;
+//            change[eid[operate[i]]] = true;
 //            update[++cntu] = operate[i];
 //        } else {
 //            query[++cntq] = operate[i];
@@ -115,7 +125,7 @@ package class174;
 //    sort(query + 1, query + cntq + 1, [&](int x, int y) { return car[x] > car[y]; });
 //    for (int i = 1, j = 1; i <= cntq; i++) {
 //        while (j <= m && w[edge[j]] >= car[query[i]]) {
-//            if (!vis[edge[j]]) {
+//            if (!change[edge[j]]) {
 //                Union(u[edge[j]], v[edge[j]]);
 //            }
 //            j++;
@@ -124,10 +134,8 @@ package class174;
 //        for (int k = 1; k <= cntu; k++) {
 //            curw[eid[update[k]]] = w[eid[update[k]]];
 //        }
-//        for (int k = 1; k <= cntu; k++) {
-//            if (update[k] < query[i]) {
-//                curw[eid[update[k]]] = tow[update[k]];
-//            }
+//        for (int k = 1; k <= cntu && update[k] < query[i]; k++) {
+//            curw[eid[update[k]]] = tow[update[k]];
 //        }
 //        for (int k = 1; k <= cntu; k++) {
 //            if (curw[eid[update[k]]] >= car[query[i]]) {
@@ -140,16 +148,7 @@ package class174;
 //    for (int i = 1; i <= cntu; i++) {
 //        w[eid[update[i]]] = tow[update[i]];
 //    }
-//    int siz1 = 0, siz2 = 0;
-//    for (int i = 1; i <= m; i++) {
-//        if (vis[edge[i]]) {
-//            change[++siz1] = edge[i];
-//        } else {
-//            unchange[++siz2] = edge[i];
-//        }
-//    }
-//    sort(change + 1, change + siz1 + 1, [&](int x, int y) { return w[x] > w[y]; });
-//    merge(1, siz1, 1, siz2);
+//    merge();
 //}
 //
 //void prepare() {

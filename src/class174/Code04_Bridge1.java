@@ -37,9 +37,7 @@ public class Code04_Bridge1 {
 	public static int[] car = new int[MAXQ];
 
 	public static int[] edge = new int[MAXM];
-	public static int[] change = new int[MAXM];
-	public static int[] unchange = new int[MAXM];
-	public static boolean[] vis = new boolean[MAXM];
+	public static boolean[] change = new boolean[MAXM];
 	public static int[] curw = new int[MAXM];
 
 	public static int[] operate = new int[MAXQ];
@@ -50,6 +48,9 @@ public class Code04_Bridge1 {
 	public static int[] siz = new int[MAXN];
 	public static int[][] rollback = new int[MAXM][2];
 	public static int opsize = 0;
+
+	public static int[] arr1 = new int[MAXM];
+	public static int[] arr2 = new int[MAXM];
 
 	public static int[] ans = new int[MAXQ];
 
@@ -67,22 +68,6 @@ public class Code04_Bridge1 {
 		}
 		sort(idx, val, l, j);
 		sort(idx, val, i, r);
-	}
-
-	// change[l1..r1]和unchange[l2..r2]都是边的序号
-	// 各自的数组中，序号是有序的，w[序号]的值越大，序号越靠前
-	// 归并两个数组的序号
-	public static void merge(int l1, int r1, int l2, int r2) {
-		int i = 0;
-		while (l1 <= r1 && l2 <= r2) {
-			edge[++i] = w[change[l1]] >= w[unchange[l2]] ? change[l1++] : unchange[l2++];
-		}
-		while (l1 <= r1) {
-			edge[++i] = change[l1++];
-		}
-		while (l2 <= r2) {
-			edge[++i] = unchange[l2++];
-		}
 	}
 
 	public static void build() {
@@ -123,56 +108,81 @@ public class Code04_Bridge1 {
 		}
 	}
 
+	public static void merge() {
+		int siz1 = 0, siz2 = 0;
+		for (int i = 1; i <= m; i++) {
+			if (change[edge[i]]) {
+				arr1[++siz1] = edge[i];
+			} else {
+				arr2[++siz2] = edge[i];
+			}
+		}
+		sort(arr1, w, 1, siz1);
+		int i = 0, p1 = 1, p2 = 1;
+		while (p1 <= siz1 && p2 <= siz2) {
+			edge[++i] = w[arr1[p1]] >= w[arr2[p2]] ? arr1[p1++] : arr2[p2++];
+		}
+		while (p1 <= siz1) {
+			edge[++i] = arr1[p1++];
+		}
+		while (p2 <= siz2) {
+			edge[++i] = arr2[p2++];
+		}
+	}
+
+	// 当前操作序号[l..r]，之前的所有修改操作都已生效
+	// 所有边的序号edge[1..m]，按照边权从大到小排序
+	// 处理当前操作块的所有操作
 	public static void compute(int l, int r) {
-		build();
-		Arrays.fill(vis, false);
+		build(); // 重建并查集，目前没有任何联通性
+		Arrays.fill(change, false); // 清空边的修改标记
 		int cntu = 0, cntq = 0;
 		for (int i = l; i <= r; i++) {
-			if (op[operate[i]] == 1) {
-				vis[eid[operate[i]]] = true;
+			if (op[operate[i]] == 1) { // 修改类型的操作
+				change[eid[operate[i]]] = true;
 				update[++cntu] = operate[i];
-			} else {
+			} else { // 查询类型的操作
 				query[++cntq] = operate[i];
 			}
 		}
+		// 查询操作的所有序号，根据车重从大到小排序
+		// 然后依次处理所有查询
 		sort(query, car, 1, cntq);
 		for (int i = 1, j = 1; i <= cntq; i++) {
+			// 边权 >= 当前车重 的边全部连上，注意这是不回退的
 			while (j <= m && w[edge[j]] >= car[query[i]]) {
-				if (!vis[edge[j]]) {
+				if (!change[edge[j]]) {
 					union(u[edge[j]], v[edge[j]]);
 				}
 				j++;
 			}
+			// 注意需要用可撤销并查集，撤销会改值的边
 			opsize = 0;
+			// 会改值的边，边权先继承改之前的值
 			for (int k = 1; k <= cntu; k++) {
 				curw[eid[update[k]]] = w[eid[update[k]]];
 			}
-			for (int k = 1; k <= cntu; k++) {
-				if (update[k] < query[i]) {
-					curw[eid[update[k]]] = tow[update[k]];
-				}
+			// 修改操作的时序 < 当前查询操作的时序，那么相关边的边权改成最新值
+			for (int k = 1; k <= cntu && update[k] < query[i]; k++) {
+				curw[eid[update[k]]] = tow[update[k]];
 			}
+			// 会改值的边，其中 边权 >= 当前车重 的边全部连上
 			for (int k = 1; k <= cntu; k++) {
 				if (curw[eid[update[k]]] >= car[query[i]]) {
 					union(u[eid[update[k]]], v[eid[update[k]]]);
 				}
 			}
+			// 并查集修改完毕，查询答案
 			ans[query[i]] = siz[find(nid[query[i]])];
+			// 并查集的撤销
 			undo();
 		}
+		// 所有会改值的边，边权修改，因为即将去下个操作块
 		for (int i = 1; i <= cntu; i++) {
 			w[eid[update[i]]] = tow[update[i]];
 		}
-		int siz1 = 0, siz2 = 0;
-		for (int i = 1; i <= m; i++) {
-			if (vis[edge[i]]) {
-				change[++siz1] = edge[i];
-			} else {
-				unchange[++siz2] = edge[i];
-			}
-		}
-		sort(change, w, 1, siz1);
-		merge(1, siz1, 1, siz2);
+		// 没改值的边和改了值的边，根据边权从大到小合并
+		merge();
 	}
 
 	public static void prepare() {
