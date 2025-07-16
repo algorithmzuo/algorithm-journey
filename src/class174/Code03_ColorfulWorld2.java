@@ -132,7 +132,7 @@ package class174;
 //}
 //
 //void prepare() {
-//    blen = (int)sqrt(n * 3.0);
+//    blen = (int)sqrt(n);
 //    bnum = (n + blen - 1) / blen;
 //    for (int i = 1; i <= n; i++) {
 //        pre0[i] = pre0[i - 1] + (arr[i] == 0 ? 1 : 0);

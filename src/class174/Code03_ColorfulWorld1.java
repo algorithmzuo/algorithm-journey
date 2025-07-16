@@ -147,7 +147,7 @@ public class Code03_ColorfulWorld1 {
 	}
 
 	public static void prepare() {
-		blen = (int) Math.sqrt(n * 3.0);
+		blen = (int) Math.sqrt(n);
 		bnum = (n + blen - 1) / blen;
 		for (int i = 1; i <= n; i++) {
 			pre0[i] = pre0[i - 1] + (arr[i] == 0 ? 1 : 0);
