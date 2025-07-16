@@ -49,19 +49,19 @@ public class Code05_Lcm1 {
 
 	public static boolean[] ans = new boolean[MAXQ];
 
-	public static void sort(int[] idx, int[] v, int l, int r) {
+	public static void sort(int[] idx, int[] val, int l, int r) {
 		if (l >= r) return;
-		int i = l, j = r, pivot = v[idx[(l + r) >> 1]], tmp;
+		int i = l, j = r, pivot = val[idx[(l + r) >> 1]], tmp;
 		while (i <= j) {
-			while (v[idx[i]] < pivot) i++;
-			while (v[idx[j]] > pivot) j--;
+			while (val[idx[i]] < pivot) i++;
+			while (val[idx[j]] > pivot) j--;
 			if (i <= j) {
 				tmp = idx[i]; idx[i] = idx[j]; idx[j] = tmp;
 				i++; j--;
 			}
 		}
-		sort(idx, v, l, j);
-		sort(idx, v, i, r);
+		sort(idx, val, l, j);
+		sort(idx, val, i, r);
 	}
 
 	public static void build() {
