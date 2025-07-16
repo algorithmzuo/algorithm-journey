@@ -36,16 +36,16 @@ public class Code04_Bridge1 {
 	public static int[] nid = new int[MAXQ];
 	public static int[] car = new int[MAXQ];
 
-	// edge里是所有边的编号
+	// edge是所有边的编号
 	// change表示边的分类
 	// curw表示边最新的权值
 	public static int[] edge = new int[MAXM];
 	public static boolean[] change = new boolean[MAXM];
 	public static int[] curw = new int[MAXM];
 
-	// edge里是所有操作的编号
-	// query里是当前操作块里查询操作的编号
-	// update里是当前操作块里修改操作的编号
+	// edge是所有操作的编号
+	// query是当前操作块查询操作的编号
+	// update是当前操作块修改操作的编号
 	public static int[] operate = new int[MAXQ];
 	public static int[] query = new int[MAXQ];
 	public static int[] update = new int[MAXQ];
