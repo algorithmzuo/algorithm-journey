@@ -117,10 +117,12 @@ public class Code05_Lcm1 {
 	}
 
 	public static void compute(int l, int r) {
+		// 重建并查集，目前没有任何连通性
 		build();
+		// 重要剪枝
+		// 保证每条查询只在一个边的序列块中处理
 		cursiz = 0;
 		for (int i = 1; i <= q; i++) {
-			// 保证每条查询只在一个边的序列块中处理
 			if (ea[edge[l]] <= qa[query[i]] && (r + 1 > m || qa[query[i]] < ea[edge[r + 1]])) {
 				cur[++cursiz] = query[i];
 			}

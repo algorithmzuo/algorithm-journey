@@ -143,7 +143,7 @@ public class Code04_Bridge1 {
 	// 所有边的编号edge[1..m]，按照边权从大到小排序
 	// 处理当前操作块的所有操作
 	public static void compute(int l, int r) {
-		// 重建并查集，目前没有任何联通性
+		// 重建并查集，目前没有任何连通性
 		// 清空边的修改标记
 		build(); 
 		Arrays.fill(change, false);
