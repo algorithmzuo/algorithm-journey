@@ -53,25 +53,25 @@ public class Code04_Bridge1 {
 
 	public static int[] ans = new int[MAXQ];
 
-	// idx[l..r]由序号组成，v[序号]的值越大，序号越靠前，手写双指针快排
-	public static void sort(int[] idx, int[] v, int l, int r) {
+	// idx[l..r]都是编号，编号根据val[编号]的值从大到小排序，手写双指针快排
+	public static void sort(int[] idx, int[] val, int l, int r) {
 		if (l >= r) return;
-		int i = l, j = r, pivot = v[idx[(l + r) >> 1]], tmp;
+		int i = l, j = r, pivot = val[idx[(l + r) >> 1]], tmp;
 		while (i <= j) {
-			while (v[idx[i]] > pivot) i++;
-			while (v[idx[j]] < pivot) j--;
+			while (val[idx[i]] > pivot) i++;
+			while (val[idx[j]] < pivot) j--;
 			if (i <= j) {
 				tmp = idx[i]; idx[i] = idx[j]; idx[j] = tmp;
 				i++; j--;
 			}
 		}
-		sort(idx, v, l, j);
-		sort(idx, v, i, r);
+		sort(idx, val, l, j);
+		sort(idx, val, i, r);
 	}
 
-	// change[l1..r1]都是边的序号，已经有序了，w[序号]的值越大，序号越靠前
-	// unchange[l2..r2]都是边的序号，已经有序了，w[序号]的值越大，序号越靠前
-	// 把两个数组中的序号，根据w[序号]的值，归并到eid中
+	// change[l1..r1]和unchange[l2..r2]都是边的序号
+	// 各自的数组中，序号是有序的，w[序号]的值越大，序号越靠前
+	// 归并两个数组的序号
 	public static void merge(int l1, int r1, int l2, int r2) {
 		int i = 0;
 		while (l1 <= r1 && l2 <= r2) {
