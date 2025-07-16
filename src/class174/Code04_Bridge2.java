@@ -182,7 +182,7 @@ package class174;
 //        compute(l, r);
 //    }
 //    for (int i = 1; i <= q; i++) {
-//        if (ans[i]) {
+//        if (op[i] == 2) {
 //            cout << ans[i] << '\n';
 //        }
 //    }

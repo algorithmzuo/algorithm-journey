@@ -43,7 +43,7 @@ public class Code04_Bridge1 {
 	public static boolean[] change = new boolean[MAXM];
 	public static int[] curw = new int[MAXM];
 
-	// edge是所有操作的编号
+	// operate是所有操作的编号
 	// query是当前操作块查询操作的编号
 	// update是当前操作块修改操作的编号
 	public static int[] operate = new int[MAXQ];
@@ -236,7 +236,7 @@ public class Code04_Bridge1 {
 			compute(l, r);
 		}
 		for (int i = 1; i <= q; i++) {
-			if (ans[i] > 0) {
+			if (op[i] == 2) {
 				out.println(ans[i]);
 			}
 		}
