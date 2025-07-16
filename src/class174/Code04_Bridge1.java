@@ -36,7 +36,7 @@ public class Code04_Bridge1 {
 	public static int[] nid = new int[MAXQ];
 	public static int[] car = new int[MAXQ];
 
-	// edge里是所有边的序号
+	// edge里是所有边的编号
 	// change表示边的分类
 	// curw表示边最新的权值
 	public static int[] edge = new int[MAXM];
@@ -139,8 +139,8 @@ public class Code04_Bridge1 {
 		}
 	}
 
-	// 当前操作序号[l..r]，之前的所有修改操作都已生效
-	// 所有边的序号edge[1..m]，按照边权从大到小排序
+	// 当前操作编号[l..r]，之前的所有修改操作都已生效
+	// 所有边的编号edge[1..m]，按照边权从大到小排序
 	// 处理当前操作块的所有操作
 	public static void compute(int l, int r) {
 		build(); // 重建并查集，目前没有任何联通性
@@ -154,7 +154,7 @@ public class Code04_Bridge1 {
 				query[++cntq] = operate[i];
 			}
 		}
-		// 查询操作的所有序号，根据车重从大到小排序
+		// 查询操作的所有编号，根据车重从大到小排序
 		// 然后依次处理所有查询
 		sort(query, car, 1, cntq);
 		for (int i = 1, j = 1; i <= cntq; i++) {
