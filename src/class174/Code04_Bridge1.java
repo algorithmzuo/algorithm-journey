@@ -137,25 +137,25 @@ public class Code04_Bridge1 {
 			}
 		}
 		sort(query, car, 1, cntq);
-		int k = 1;
-		for (int i = 1; i <= cntq; i++) {
-			for (; k <= m && w[edge[k]] >= car[query[i]]; k++) {
-				if (!vis[edge[k]]) {
-					union(u[edge[k]], v[edge[k]]);
+		for (int i = 1, j = 1; i <= cntq; i++) {
+			while (j <= m && w[edge[j]] >= car[query[i]]) {
+				if (!vis[edge[j]]) {
+					union(u[edge[j]], v[edge[j]]);
 				}
+				j++;
 			}
 			opsize = 0;
-			for (int j = 1; j <= cntu; j++) {
-				curw[eid[update[j]]] = w[eid[update[j]]];
+			for (int k = 1; k <= cntu; k++) {
+				curw[eid[update[k]]] = w[eid[update[k]]];
 			}
-			for (int j = 1; j <= cntu; j++) {
-				if (update[j] < query[i]) {
-					curw[eid[update[j]]] = tow[update[j]];
+			for (int k = 1; k <= cntu; k++) {
+				if (update[k] < query[i]) {
+					curw[eid[update[k]]] = tow[update[k]];
 				}
 			}
-			for (int j = 1; j <= cntu; j++) {
-				if (curw[eid[update[j]]] >= car[query[i]]) {
-					union(u[eid[update[j]]], v[eid[update[j]]]);
+			for (int k = 1; k <= cntu; k++) {
+				if (curw[eid[update[k]]] >= car[query[i]]) {
+					union(u[eid[update[k]]], v[eid[update[k]]]);
 				}
 			}
 			ans[query[i]] = siz[find(nid[query[i]])];

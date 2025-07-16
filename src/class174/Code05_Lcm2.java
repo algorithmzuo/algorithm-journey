@@ -108,15 +108,15 @@ package class174;
 //    }
 //    if (cntq > 0) {
 //        sort(edge + 1, edge + l, [&](int x, int y) { return eb[x] < eb[y]; });
-//        int pos = 1;
-//        for (int i = 1; i <= cntq; i++) {
-//            for (; pos < l && eb[edge[pos]] <= qb[cur[i]]; pos++) {
-//                Union(eu[edge[pos]], ev[edge[pos]], ea[edge[pos]], eb[edge[pos]]);
+//        for (int i = 1, j = 1; i <= cntq; i++) {
+//            while (j < l && eb[edge[j]] <= qb[cur[i]]) {
+//                Union(eu[edge[j]], ev[edge[j]], ea[edge[j]], eb[edge[j]]);
+//                j++;
 //            }
 //            opsize = 0;
-//            for (int j = l; j <= r; j++) {
-//                if (ea[edge[j]] <= qa[cur[i]] && eb[edge[j]] <= qb[cur[i]]) {
-//            	      Union(eu[edge[j]], ev[edge[j]], ea[edge[j]], eb[edge[j]]);
+//            for (int k = l; k <= r; k++) {
+//                if (ea[edge[k]] <= qa[cur[i]] && eb[edge[k]] <= qb[cur[i]]) {
+//            	      Union(eu[edge[k]], ev[edge[k]], ea[edge[k]], eb[edge[k]]);
 //                }
 //            }
 //            ans[qid[cur[i]]] = query(qu[cur[i]], qv[cur[i]], qa[cur[i]], qb[cur[i]]);

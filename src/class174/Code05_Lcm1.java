@@ -127,19 +127,17 @@ public class Code05_Lcm1 {
 			}
 		}
 		if (cntq > 0) {
-			// 可以使用额外的数组，每块内部根据b进行排序
-			// 每次把新块归并进来，保证 1..l-1 范围根据b有序
-			// 可以省掉一个log的复杂度，本题不做这个优化也能通过，索性算了
+			// 本题直接排序能通过，就不写归并了
 			sort(edge, eb, 1, l - 1);
-			int pos = 1;
-			for (int i = 1; i <= cntq; i++) {
-				for (; pos < l && eb[edge[pos]] <= qb[cur[i]]; pos++) {
-					union(eu[edge[pos]], ev[edge[pos]], ea[edge[pos]], eb[edge[pos]]);
+			for (int i = 1, j = 1; i <= cntq; i++) {
+				while (j < l && eb[edge[j]] <= qb[cur[i]]) {
+					union(eu[edge[j]], ev[edge[j]], ea[edge[j]], eb[edge[j]]);
+					j++;
 				}
 				opsize = 0;
-				for (int j = l; j <= r; j++) {
-					if (ea[edge[j]] <= qa[cur[i]] && eb[edge[j]] <= qb[cur[i]]) {
-						union(eu[edge[j]], ev[edge[j]], ea[edge[j]], eb[edge[j]]);
+				for (int k = l; k <= r; k++) {
+					if (ea[edge[k]] <= qa[cur[i]] && eb[edge[k]] <= qb[cur[i]]) {
+						union(eu[edge[k]], ev[edge[k]], ea[edge[k]], eb[edge[k]]);
 					}
 				}
 				ans[qid[cur[i]]] = query(qu[cur[i]], qv[cur[i]], qa[cur[i]], qb[cur[i]]);
