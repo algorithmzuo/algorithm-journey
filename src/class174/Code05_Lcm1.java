@@ -117,8 +117,6 @@ public class Code05_Lcm1 {
 	}
 
 	public static void compute(int l, int r) {
-		// 重建并查集，目前没有任何连通性
-		build();
 		// 重要剪枝
 		// 保证每条查询只在一个边的序列块中处理
 		cursiz = 0;
@@ -128,6 +126,8 @@ public class Code05_Lcm1 {
 			}
 		}
 		if (cursiz > 0) {
+			// 重建并查集，目前没有任何连通性
+			build();
 			// 本题直接排序能通过，就不写归并了
 			sort(edge, eb, 1, l - 1);
 			for (int i = 1, j = 1; i <= cursiz; i++) {

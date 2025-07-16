@@ -98,7 +98,6 @@ package class174;
 //}
 //
 //void compute(int l, int r) {
-//    build();
 //    cursiz = 0;
 //    for (int i = 1; i <= q; i++) {
 //        if (ea[edge[l]] <= qa[query[i]] && (r + 1 > m || qa[query[i]] < ea[edge[r + 1]])) {
@@ -106,6 +105,7 @@ package class174;
 //        }
 //    }
 //    if (cursiz > 0) {
+//        build();
 //        sort(edge + 1, edge + l, [&](int x, int y) { return eb[x] < eb[y]; });
 //        for (int i = 1, j = 1; i <= cursiz; i++) {
 //            while (j < l && eb[edge[j]] <= qb[cur[i]]) {
