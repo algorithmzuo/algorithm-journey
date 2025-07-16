@@ -38,8 +38,8 @@ package class174;
 //int curw[MAXM];
 //
 //int operate[MAXQ];
-//int update[MAXQ];
 //int query[MAXQ];
+//int update[MAXQ];
 //
 //int fa[MAXN];
 //int siz[MAXN];

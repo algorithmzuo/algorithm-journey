@@ -36,22 +36,31 @@ public class Code04_Bridge1 {
 	public static int[] nid = new int[MAXQ];
 	public static int[] car = new int[MAXQ];
 
+	// edge里是所有边的序号
+	// change表示边的分类
+	// curw表示边最新的权值
 	public static int[] edge = new int[MAXM];
 	public static boolean[] change = new boolean[MAXM];
 	public static int[] curw = new int[MAXM];
 
+	// edge里是所有操作的编号
+	// query里是当前操作块里查询操作的编号
+	// update里是当前操作块里修改操作的编号
 	public static int[] operate = new int[MAXQ];
-	public static int[] update = new int[MAXQ];
 	public static int[] query = new int[MAXQ];
+	public static int[] update = new int[MAXQ];
 
+	// 可撤销并查集
 	public static int[] fa = new int[MAXN];
 	public static int[] siz = new int[MAXN];
 	public static int[][] rollback = new int[MAXM][2];
 	public static int opsize = 0;
 
+	// 归并的辅助数组
 	public static int[] arr1 = new int[MAXM];
 	public static int[] arr2 = new int[MAXM];
 
+	// 所有查询的答案
 	public static int[] ans = new int[MAXQ];
 
 	// idx[l..r]都是编号，编号根据val[编号]的值从大到小排序，手写双指针快排
