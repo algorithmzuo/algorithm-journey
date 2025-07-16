@@ -33,21 +33,20 @@ package class174;
 //int nid[MAXQ];
 //int car[MAXQ];
 //
-//int fa[MAXN];
-//int siz[MAXN];
-//int rollback[MAXM][2];
-//int opsize = 0;
-//
 //int edge[MAXM];
 //int change[MAXM];
 //int unchange[MAXM];
+//bool vis[MAXM];
+//int curw[MAXM];
 //
 //int operate[MAXQ];
 //int update[MAXQ];
 //int query[MAXQ];
 //
-//bool vis[MAXM];
-//int curw[MAXM];
+//int fa[MAXN];
+//int siz[MAXN];
+//int rollback[MAXM][2];
+//int opsize = 0;
 //
 //int ans[MAXQ];
 //

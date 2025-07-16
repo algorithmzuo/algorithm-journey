@@ -36,21 +36,20 @@ public class Code04_Bridge1 {
 	public static int[] nid = new int[MAXQ];
 	public static int[] car = new int[MAXQ];
 
-	public static int[] fa = new int[MAXN];
-	public static int[] siz = new int[MAXN];
-	public static int[][] rollback = new int[MAXM][2];
-	public static int opsize = 0;
-
 	public static int[] edge = new int[MAXM];
 	public static int[] change = new int[MAXM];
 	public static int[] unchange = new int[MAXM];
+	public static boolean[] vis = new boolean[MAXM];
+	public static int[] curw = new int[MAXM];
 
 	public static int[] operate = new int[MAXQ];
 	public static int[] update = new int[MAXQ];
 	public static int[] query = new int[MAXQ];
 
-	public static boolean[] vis = new boolean[MAXM];
-	public static int[] curw = new int[MAXM];
+	public static int[] fa = new int[MAXN];
+	public static int[] siz = new int[MAXN];
+	public static int[][] rollback = new int[MAXM][2];
+	public static int opsize = 0;
 
 	public static int[] ans = new int[MAXQ];
 
