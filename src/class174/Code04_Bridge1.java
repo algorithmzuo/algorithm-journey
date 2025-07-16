@@ -143,14 +143,16 @@ public class Code04_Bridge1 {
 	// 所有边的编号edge[1..m]，按照边权从大到小排序
 	// 处理当前操作块的所有操作
 	public static void compute(int l, int r) {
-		build(); // 重建并查集，目前没有任何联通性
-		Arrays.fill(change, false); // 清空边的修改标记
+		// 重建并查集，目前没有任何联通性
+		// 清空边的修改标记
+		build(); 
+		Arrays.fill(change, false);
 		int cntu = 0, cntq = 0;
 		for (int i = l; i <= r; i++) {
-			if (op[operate[i]] == 1) { // 修改类型的操作
+			if (op[operate[i]] == 1) {
 				change[eid[operate[i]]] = true;
 				update[++cntu] = operate[i];
-			} else { // 查询类型的操作
+			} else {
 				query[++cntq] = operate[i];
 			}
 		}
