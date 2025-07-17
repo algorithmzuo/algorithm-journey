@@ -14,6 +14,50 @@ package class174;
 //
 //using namespace std;
 //
+//namespace fastio {
+//    static const int SZ = 1 << 20;
+//    char ibuf[SZ], *is = ibuf, *ie = ibuf;
+//    inline int gc() {
+//        if (is == ie) {
+//            size_t len = fread(ibuf, 1, SZ, stdin);
+//            if (len == 0) return -1;
+//            is = ibuf;
+//            ie = ibuf + len;
+//        }
+//        return *is++;
+//    }
+//    template <typename T>
+//    inline bool readInt(T& x) {
+//        int c = gc(); if (c == -1) return false;
+//        bool neg = false;
+//        while (c != '-' && (c < '0' || c > '9')) { c = gc(); if (c == -1) return false; }
+//        if (c == '-') { neg = true; c = gc(); }
+//        x = 0;
+//        while (c >= '0' && c <= '9') { x = x * 10 + (c & 15); c = gc(); }
+//        if (neg) x = -x;
+//        return true;
+//    }
+//    char obuf[SZ]; char* op = obuf;
+//    inline void flush() {
+//        fwrite(obuf, 1, op - obuf, stdout);
+//        op = obuf;
+//    }
+//    template <typename T>
+//    inline void writeInt(T x, char end = '\n') {
+//        if (op > obuf + SZ - 64) flush();
+//        if (x == 0) { *op++ = '0'; *op++ = end; return; }
+//        if (x < 0) { *op++ = '-'; x = -x; }
+//        char s[24]; int n = 0;
+//        while (x) { s[n++] = char('0' + x % 10); x /= 10; }
+//        while (n) *op++ = s[--n];
+//        *op++ = end;
+//    }
+//}
+//
+//using fastio::readInt;
+//using fastio::writeInt;
+//using fastio::flush;
+//
 //const int MAXN = 300002;
 //const int MAXB = 601;
 //const int POW = 9;
@@ -43,16 +87,16 @@ package class174;
 //long long ans[MAXN];
 //
 //inline void radix(int* idx, int* val, int siz) {
-//    fill(cntv, cntv + MAXB, 0);
+//    memset(cntv, 0, sizeof(int) * MAXB);
 //    for (int i = 1; i <= siz; i++) cntv[val[idx[i]] & OFFSET]++;
 //    for (int i = 1; i < MAXB; i++) cntv[i] += cntv[i - 1];
 //    for (int i = siz; i >= 1; i--) help[cntv[val[idx[i]] & OFFSET]--] = idx[i];
-//    for (int i = 1; i <= siz; i++) idx[i] = help[i];
-//    fill(cntv, cntv + MAXB, 0);
+//    memcpy(idx + 1, help + 1, siz * sizeof(int));
+//    memset(cntv, 0, sizeof(int) * MAXB);
 //    for (int i = 1; i <= siz; i++) cntv[val[idx[i]] >> POW]++;
 //    for (int i = 1; i < MAXB; i++) cntv[i] += cntv[i - 1];
 //    for (int i = siz; i >= 1; i--) help[cntv[val[idx[i]] >> POW]--] = idx[i];
-//    for (int i = 1; i <= siz; i++) idx[i] = help[i];
+//    memcpy(idx + 1, help + 1, siz * sizeof(int));
 //}
 //
 //inline void merge(int i, int curPre, int curSuf, int curLen, int curAns) {
@@ -115,18 +159,19 @@ package class174;
 //}
 //
 //int main() {
-//    ios::sync_with_stdio(false);
-//    cin.tie(nullptr);
-//    cin >> n >> m;
+//    readInt(n);
+//    readInt(m);
 //    for (int i = 1; i <= n; i++) {
-//        cin >> arr[i];
+//        readInt(arr[i]);
 //    }
 //    for (int i = 1; i <= m; i++) {
-//        cin >> op[i] >> x[i];
+//        readInt(op[i]);
+//        readInt(x[i]);
 //        if (op[i] == 1) {
-//            cin >> v[i];
+//            readInt(v[i]);
 //        } else {
-//            cin >> y[i] >> v[i];
+//            readInt(y[i]);
+//            readInt(v[i]);
 //        }
 //    }
 //    int blen = 1 << POW;
@@ -138,8 +183,9 @@ package class174;
 //    }
 //    for (int i = 1; i <= m; i++) {
 //        if (op[i] == 2) {
-//            cout << ans[i] << '\n';
+//            writeInt(ans[i]);
 //        }
 //    }
+//    flush();
 //    return 0;
 //}

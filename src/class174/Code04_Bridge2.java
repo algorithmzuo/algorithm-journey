@@ -112,7 +112,7 @@ package class174;
 //
 //void compute(int l, int r) {
 //    build();
-//    fill(change + 1, change + m + 1, false);
+//    memset(change + 1, 0, m * sizeof(bool));
 //    int cntu = 0, cntq = 0;
 //    for (int i = l; i <= r; i++) {
 //        if (op[operate[i]] == 1) {

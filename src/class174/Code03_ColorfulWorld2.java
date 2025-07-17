@@ -113,7 +113,7 @@ package class174;
 //}
 //
 //void compute(int l, int r) {
-//    fill(cntv, cntv + MAXV, 0);
+//    memset(cntv, 0, sizeof(int) * MAXV);
 //    maxv = lazy = 0;
 //    for (int i = l; i <= r; i++) {
 //        maxv = max(maxv, arr[i]);
