@@ -2,10 +2,11 @@ package class164;
 
 // youyou的军训，java版
 // 图里有n个点，m条无向边，每条边给定不同的边权，图里可能有若干个连通的部分
-// 一共有q条操作，每条操作都是如下的三种类型中的一种
-// 操作 1 x   : 限制变量limit，把limit的值改成x
+// 一开始limit = 0，接下来有q条操作，每条操作都是如下的三种类型中的一种
+// 操作 1 x   : 所有修改操作生效，然后limit变成x，图中那些边权小于limit的边断开
 // 操作 2 x   : 点x不能走过任何边权小于limit的边，打印此时x所在的连通区域大小
-// 操作 3 x y : 第x条边的边权修改为y，题目保证修改之后，第x条边的边权排名不变
+// 操作 3 x y : 第x条边的边权修改为y，但不是立刻生效，而是下次limit改变时生效
+// 题目保证边权不管怎么修改，所有边权都不相等，并且每条边的边权排名不发生变化
 // 1 <= n、m、q <= 4 * 10^5
 // 测试链接 : https://www.luogu.com.cn/problem/P9638
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
@@ -43,6 +44,14 @@ public class Code02_Training1 {
 	public static int[] leafsiz = new int[MAXK];
 	// 树上dfs，Kruskal重构树的节点，倍增表
 	public static int[][] stjump = new int[MAXK][MAXH];
+
+	// 边权的修改操作先不生效，等到下次limit被设置时生效
+	// 修改了哪些边
+	public static int[] pendEdge = new int[MAXM];
+	// 修改成了什么边权
+	public static int[] pendVal = new int[MAXM];
+	// 修改操作的个数
+	public static int cntp = 0;
 
 	// 并查集的find方法，需要改成迭代版不然会爆栈，C++实现不需要
 	public static int find(int i) {
@@ -181,6 +190,11 @@ public class Code02_Training1 {
 		for (int i = 1; i <= q; i++) {
 			op = io.nextInt();
 			if (op == 1) {
+				// 从上次limit改变开始，积攒的修改操作统一生效
+				for (int k = 1; k <= cntp; k++) {
+					nodeKey[edgeToTree[pendEdge[k]]] = pendVal[k];
+				}
+				cntp = 0;
 				limit = io.nextInt();
 			} else if (op == 2) {
 				x = io.nextInt();
@@ -188,8 +202,10 @@ public class Code02_Training1 {
 			} else {
 				x = io.nextInt();
 				y = io.nextInt();
+				// 修改操作先收集起来，等到limit改变时，统一生效
 				if (edgeToTree[x] != 0) {
-					nodeKey[edgeToTree[x]] = y;
+					pendEdge[++cntp] = x;
+					pendVal[cntp] = y;
 				}
 			}
 		}
