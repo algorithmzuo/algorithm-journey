@@ -44,7 +44,7 @@ package class174;
 //    }
 //    template <typename T>
 //    inline void writeInt(T x, char end = '\n') {
-//        if (op > obuf + SZ - 64) flush();
+//        if (op > obuf + SZ - 256) flush();
 //        if (x == 0) { *op++ = '0'; *op++ = end; return; }
 //        if (x < 0) { *op++ = '-'; x = -x; }
 //        char s[24]; int n = 0;
