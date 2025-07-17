@@ -12,10 +12,7 @@ package class119;
 // 如下实现是C++的版本，C++版本和java版本逻辑完全一样
 // 提交如下代码，可以通过所有测试用例
 
-//#include <iostream>
-//#include <algorithm>
-//#include <cmath>
-//#include <cstdio>
+//#include <bits/stdc++.h>
 //
 //using namespace std;
 //
@@ -43,12 +40,12 @@ package class119;
 //void build(int n) {
 //    power = log2(n);
 //    cnt = 1;
-//    fill(head, head + n + 1, 0);
+//    memset(head + 1, 0, n * sizeof(int));
 //}
 //
 //void addEdge(int u, int v) {
-//	edgeNext[cnt] = head[u];
-//	edgeTo[cnt] = v;
+//    edgeNext[cnt] = head[u];
+//    edgeTo[cnt] = v;
 //    head[u] = cnt++;
 //}
 //
