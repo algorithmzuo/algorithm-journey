@@ -2,11 +2,11 @@ package class164;
 
 // youyou的军训，C++版
 // 图里有n个点，m条无向边，每条边给定不同的边权，图里可能有若干个连通的部分
-// 一开始limit = 0，接下来有q条操作，每条操作都是如下的三种类型中的一种
-// 操作 1 x   : 所有修改操作生效，然后limit变成x，图中那些边权小于limit的边断开
-// 操作 2 x   : 查询点x所在连通区域大小
-// 操作 3 x y : 第x条边的边权修改为y，但不是立刻生效，而是下次limit改变时生效
-// 题目保证边权不管怎么修改，所有边权都不相等，并且每条边的边权排名不发生变化
+// 一开始limit = 0，接下来有q条操作，每种操作的格式如下
+// 操作 1 x   : 所有修改操作生效，然后limit设置成x
+// 操作 2 x   : 从点x出发，只能走过 边权 < limit 的边，查询最多到达几个点
+// 操作 3 x y : 第x条边的边权修改为y，不是立刻生效，等到下次操作1发生时生效
+// 题目保证边权不管如何修改，所有边权都不相等，并且每条边的边权排名不发生变化
 // 1 <= n、m、q <= 4 * 10^5
 // 测试链接 : https://www.luogu.com.cn/problem/P9638
 // 如下实现是C++的版本，C++版本和java版本逻辑完全一样
@@ -28,8 +28,13 @@ package class164;
 //const int MAXM = 400001;
 //const int MAXH = 20;
 //int n, m, q;
+//
 //Edge edge[MAXM];
 //int edgeToTree[MAXM];
+//
+//int pendEdge[MAXM];
+//int pendVal[MAXM];
+//int cntp;
 //
 //int father[MAXK];
 //
@@ -42,10 +47,6 @@ package class164;
 //
 //int leafsiz[MAXK];
 //int stjump[MAXK][MAXH];
-//
-//int pendEdge[MAXM];
-//int pendVal[MAXM];
-//int cntp;
 //
 //int find(int i) {
 //    if (i != father[i]) {
