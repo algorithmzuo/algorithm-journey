@@ -112,14 +112,19 @@ public class Code04_MomoEquation1 {
 		l = (long) in.nval - 1;
 		in.nextToken();
 		r = (long) in.nval;
-		in.nextToken();
-		x = (int) in.nval;
-		prepare();
-		for (int i = 2, vi; i <= n; i++) {
+		x = 0;
+		for (int i = 1, vi; i <= n; i++) {
 			in.nextToken();
 			vi = (int) in.nval;
-			for (int j = 0; j < x; j++) {
-				addEdge(j, (j + vi) % x, vi);
+			if (vi != 0) {
+				if (x == 0) {
+					x = vi;
+					prepare();
+				} else {
+					for (int j = 0; j < x; j++) {
+						addEdge(j, (j + vi) % x, vi);
+					}
+				}
 			}
 		}
 		out.println(compute());
