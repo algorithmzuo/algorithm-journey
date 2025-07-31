@@ -30,17 +30,17 @@ public class Code04_Initialization1 {
 	public static int[] br = new int[MAXB];
 
 	public static void add(int x, int y, int z) {
-		if (x >= blen) {
-			for (int i = y; i <= n; i += x) {
-				arr[i] += z;
-				sum[bi[i]] += z;
-			}
-		} else {
+		if (x <= blen) {
 			for (int i = y; i <= x; i++) {
 				pre[x][i] += z;
 			}
 			for (int i = 1; i <= y; i++) {
 				suf[x][i] += z;
+			}
+		} else {
+			for (int i = y; i <= n; i += x) {
+				arr[i] += z;
+				sum[bi[i]] += z;
 			}
 		}
 	}
@@ -68,7 +68,7 @@ public class Code04_Initialization1 {
 
 	public static long query(int l, int r) {
 		long ans = querySum(l, r);
-		for (int x = 1, lb, rb, num; x < blen; x++) {
+		for (int x = 1, lb, rb, num; x <= blen; x++) {
 			lb = (l - 1) / x + 1;
 			rb = (r - 1) / x + 1;
 			num = rb - lb - 1;
@@ -82,7 +82,7 @@ public class Code04_Initialization1 {
 	}
 
 	public static void prepare() {
-		blen = 128;
+		blen = 150;
 		bnum = (n + blen - 1) / blen;
 		for (int i = 1; i <= n; i++) {
 			bi[i] = (i - 1) / blen + 1;
