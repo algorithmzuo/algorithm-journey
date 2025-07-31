@@ -12,38 +12,36 @@ package class175;
 //
 //const int MAXN = 100001;
 //const int MAXB = 401;
-//const int MAXS = MAXN + MAXB;
 //int t, n, q, blen;
 //int arr[MAXN];
-//long long f[MAXS][MAXB];
-//long long g[MAXS][MAXB];
+//long long f[MAXN][MAXB];
+//long long g[MAXN][MAXB];
 //
 //long long query(int s, int d, int k) {
-//    if (d <= blen) {
-//        return g[s][d] - g[s + d * k][d] - f[s + d * k][d] * k;
-//    }
 //    long long ans = 0;
-//    for (int i = 1; i <= k; i++) {
-//        ans += 1LL * i * arr[s + (i - 1) * d];
+//    if (d <= blen) {
+//        ans = g[s][d];
+//        if (s + d * k <= n) {
+//            ans -= g[s + d * k][d] + f[s + d * k][d] * k;
+//        }
+//    } else {
+//        for (int i = 1; i <= k; i++) {
+//            ans += 1LL * arr[s + (i - 1) * d] * i;
+//        }
 //    }
 //    return ans;
 //}
 //
 //void prepare() {
 //    blen = (int)sqrt(n);
-//    for (int s = 1; s <= n + blen; s++) {
-//        for (int d = 1; d < MAXB; d++) {
-//            f[s][d] = g[s][d] = 0;
+//    for (int s = n; s >= 1; s--) {
+//        for (int d = 1; d <= blen; d++) {
+//            f[s][d] = arr[s] + (s + d > n ? 0 : f[s + d][d]);
 //        }
 //    }
 //    for (int s = n; s >= 1; s--) {
 //        for (int d = 1; d <= blen; d++) {
-//            f[s][d] = f[s + d][d] + arr[s];
-//        }
-//    }
-//    for (int s = n; s >= 1; s--) {
-//        for (int d = 1; d <= blen; d++) {
-//            g[s][d] = g[s + d][d] + f[s][d];
+//            g[s][d] = f[s][d] + (s + d > n ? 0 : g[s + d][d]);
 //        }
 //    }
 //}
@@ -54,7 +52,7 @@ package class175;
 //    cin >> t;
 //    for (int c = 1; c <= t; c++) {
 //        cin >> n >> q;
-//        for (int i = 1; i <= n; ++i) {
+//        for (int i = 1; i <= n; i++) {
 //            cin >> arr[i];
 //        }
 //        prepare();

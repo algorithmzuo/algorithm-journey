@@ -10,42 +10,40 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
-public class Code02_SumOfProgression1 {
+public class Code03_SumOfProgression1 {
 
 	public static int MAXN = 100001;
 	public static int MAXB = 401;
-	public static int MAXS = MAXN + MAXB;
 	public static int t, n, q, blen;
 	public static int[] arr = new int[MAXN];
-	public static long[][] f = new long[MAXS][MAXB];
-	public static long[][] g = new long[MAXS][MAXB];
+	public static long[][] f = new long[MAXN][MAXB];
+	public static long[][] g = new long[MAXN][MAXB];
 
 	public static long query(int s, int d, int k) {
-		if (d <= blen) {
-			return g[s][d] - g[s + d * k][d] - f[s + d * k][d] * k;
-		}
 		long ans = 0;
-		for (int i = 1; i <= k; i++) {
-			ans += 1L * arr[s + (i - 1) * d] * i;
+		if (d <= blen) {
+			ans = g[s][d];
+			if (s + d * k <= n) {
+				ans = ans - g[s + d * k][d] - f[s + d * k][d] * k;
+			}
+		} else {
+			for (int i = 1; i <= k; i++) {
+				ans += 1L * arr[s + (i - 1) * d] * i;
+			}
 		}
 		return ans;
 	}
 
 	public static void prepare() {
 		blen = (int) Math.sqrt(n);
-		for (int s = 1; s <= n + blen; s++) {
-			for (int d = 1; d < MAXB; d++) {
-				f[s][d] = g[s][d] = 0;
+		for (int s = n; s >= 1; s--) {
+			for (int d = 1; d <= blen; d++) {
+				f[s][d] = arr[s] + (s + d > n ? 0 : f[s + d][d]);
 			}
 		}
 		for (int s = n; s >= 1; s--) {
 			for (int d = 1; d <= blen; d++) {
-				f[s][d] = f[s + d][d] + arr[s];
-			}
-		}
-		for (int s = n; s >= 1; s--) {
-			for (int d = 1; d <= blen; d++) {
-				g[s][d] = g[s + d][d] + f[s][d];
+				g[s][d] = f[s][d] + (s + d > n ? 0 : g[s + d][d]);
 			}
 		}
 	}
