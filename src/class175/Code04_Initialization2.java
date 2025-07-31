@@ -73,7 +73,7 @@ package class175;
 //            ans = ans + pre[x][x] * num + pre[x][(r - 1) % x + 1] + suf[x][(l - 1) % x + 1];
 //        }
 //    }
-//    return ans;
+//    return (ans % MOD + MOD) % MOD;
 //}
 //
 //void prepare() {
@@ -105,7 +105,7 @@ package class175;
 //            cin >> z;
 //            add(x, y, z);
 //        } else {
-//            cout << ((query(x, y) % MOD + MOD) % MOD) << '\n';
+//            cout << query(x, y) << '\n';
 //        }
 //    }
 //    return 0;

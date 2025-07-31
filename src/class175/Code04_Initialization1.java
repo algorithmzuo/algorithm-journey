@@ -78,7 +78,7 @@ public class Code04_Initialization1 {
 				ans = ans + pre[x][x] * num + pre[x][(r - 1) % x + 1] + suf[x][(l - 1) % x + 1];
 			}
 		}
-		return ans;
+		return (ans % MOD + MOD) % MOD;
 	}
 
 	public static void prepare() {
@@ -113,7 +113,7 @@ public class Code04_Initialization1 {
 				z = in.nextInt();
 				add(x, y, z);
 			} else {
-				out.println((query(x, y) % MOD + MOD) % MOD);
+				out.println(query(x, y));
 			}
 		}
 		out.flush();
