@@ -68,9 +68,9 @@ package class175;
 //        rb = (r - 1) / x + 1;
 //        num = rb - lb - 1;
 //        if (lb == rb) {
-//            ans = ans - pre[x][(l - 1) % x] + pre[x][(r - 1) % x + 1];
+//            ans = ans + pre[x][(r - 1) % x + 1] - pre[x][(l - 1) % x];
 //        } else {
-//            ans = ans + pre[x][x] * num + pre[x][(r - 1) % x + 1] + suf[x][(l - 1) % x + 1];
+//            ans = ans + suf[x][(l - 1) % x + 1] + pre[x][x] * num + pre[x][(r - 1) % x + 1];
 //        }
 //    }
 //    return (ans % MOD + MOD) % MOD;
