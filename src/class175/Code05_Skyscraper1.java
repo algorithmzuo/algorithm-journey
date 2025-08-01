@@ -33,10 +33,9 @@ public class Code05_Skyscraper1 {
 	public static int[] to = new int[MAXN];
 	public static int cnt;
 
-	// bfs需要
+	// bfs过程
 	public static ArrayDeque<Node> que = new ArrayDeque<>();
-	public static BitSet[] set = new BitSet[MAXN];
-	public static boolean[] vis = new boolean[MAXN];
+	public static BitSet[] vis = new BitSet[MAXN];
 
 	public static void add(int idx, int jump) {
 		next[++cnt] = head[idx];
@@ -44,20 +43,22 @@ public class Code05_Skyscraper1 {
 		head[idx] = cnt;
 	}
 
-	public static void extend(int idx, int jump, int step) {
-		if (!set[idx].get(jump)) {
-			set[idx].set(jump);
-			que.addLast(new Node(idx, jump, step));
-		}
-		if (!vis[idx]) {
-			vis[idx] = true;
-			for (int e = head[idx], nextJump; e > 0; e = next[e]) {
-				nextJump = to[e];
-				if (!set[idx].get(nextJump)) {
-					set[idx].set(nextJump);
-					que.addLast(new Node(idx, nextJump, step));
-				}
+	public static void trigger(int idx, int step) {
+		for (int e = head[idx], nextJump; e > 0; e = next[e]) {
+			nextJump = to[e];
+			if (!vis[idx].get(nextJump)) {
+				vis[idx].set(nextJump);
+				que.addLast(new Node(idx, nextJump, step));
 			}
+		}
+		head[idx] = 0;
+	}
+
+	public static void extend(int idx, int jump, int step) {
+		trigger(idx, step);
+		if (!vis[idx].get(jump)) {
+			vis[idx].set(jump);
+			que.addLast(new Node(idx, jump, step));
 		}
 	}
 
@@ -65,17 +66,10 @@ public class Code05_Skyscraper1 {
 		if (s == t) {
 			return 0;
 		}
-		for (int idx = 0; idx < MAXN; idx++) {
-			set[idx] = new BitSet();
+		for (int i = 0; i < MAXN; i++) {
+			vis[i] = new BitSet();
 		}
-		vis[s] = true;
-		for (int e = head[s], jump; e > 0; e = next[e]) {
-			jump = to[e];
-			if (!set[s].get(jump)) {
-				set[s].set(jump);
-				que.addLast(new Node(s, jump, 0));
-			}
-		}
+		trigger(s, 0);
 		while (!que.isEmpty()) {
 			Node cur = que.pollFirst();
 			int idx = cur.idx;

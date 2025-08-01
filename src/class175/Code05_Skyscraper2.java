@@ -23,8 +23,7 @@ package class175;
 //int cnt;
 //
 //deque<Node> que;
-//bitset<MAXN> bs[MAXN];
-//bool vis[MAXN];
+//bitset<MAXN> vis[MAXN];
 //
 //void add(int idx, int jump) {
 //    nxt[++cnt] = head[idx];
@@ -32,20 +31,22 @@ package class175;
 //    head[idx] = cnt;
 //}
 //
-//void extend(int idx, int jump, int step) {
-//    if (!bs[idx].test(jump)) {
-//        bs[idx].set(jump);
-//        que.push_back({idx, jump, step});
-//    }
-//    if (!vis[idx]) {
-//        vis[idx] = true;
-//        for (int e = head[idx], nextJump; e; e = nxt[e]) {
-//            nextJump = to[e];
-//            if (!bs[idx].test(nextJump)) {
-//                bs[idx].set(nextJump);
-//                que.push_back({idx, nextJump, step});
-//            }
+//void trigger(int idx, int step) {
+//    for (int e = head[idx], nextJump; e; e = nxt[e]) {
+//        nextJump = to[e];
+//        if (!vis[idx].test(nextJump)) {
+//            vis[idx].set(nextJump);
+//            que.push_back({idx, nextJump, step});
 //        }
+//    }
+//    head[idx] = 0;
+//}
+//
+//void extend(int idx, int jump, int step) {
+//    trigger(idx, step);
+//    if (!vis[idx].test(jump)) {
+//        vis[idx].set(jump);
+//        que.push_back({idx, jump, step});
 //    }
 //}
 //
@@ -54,18 +55,10 @@ package class175;
 //        return 0;
 //    }
 //    for (int i = 0; i < n; i++) {
-//        bs[i].reset();
-//        vis[i] = false;
+//        vis[i].reset();
 //    }
 //    que.clear();
-//    vis[s] = true;
-//    for (int e = head[s], jump; e; e = nxt[e]) {
-//        jump = to[e];
-//        if (!bs[s].test(jump)) {
-//            bs[s].set(jump);
-//            que.push_back({s, jump, 0});
-//        }
-//    }
+//    trigger(s, 0);
 //    while (!que.empty()) {
 //        Node cur = que.front();
 //        que.pop_front();
