@@ -67,14 +67,17 @@ package class175;
 //}
 //
 //int findLimit(int l, int r, int pathCnt) {
-//    int limit = 1;
+//    int limit = -1;
 //    while (l <= r) {
 //        int mid = (l + r) >> 1;
-//        if (getCnt(mid) <= pathCnt) {
+//        int cnt = getCnt(mid);
+//        if (cnt < pathCnt) {
+//            r = mid - 1;
+//        } else if (cnt > pathCnt) {
+//            l = mid + 1;
+//        } else {
 //            limit = mid;
 //            r = mid - 1;
-//        } else {
-//            l = mid + 1;
 //        }
 //    }
 //    return limit;
@@ -87,7 +90,7 @@ package class175;
 //    int l = 1, r = n;
 //    for (int pathCnt = 0; pathCnt * blen <= n; pathCnt++) {
 //        int limit = findLimit(l, r, pathCnt);
-//        if (getCnt(limit) == pathCnt) {
+//        if (limit != -1) {
 //            ans[limit] = pathCnt;
 //            r = limit;
 //        }
