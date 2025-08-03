@@ -13,7 +13,7 @@ import java.io.IOException;
 public class Code06_TillCollapse1 {
 
 	public static int MAXN = 100001;
-	public static int n, blen = 1000;
+	public static int n, blen;
 	public static int[] arr = new int[MAXN];
 	public static int[] num = new int[MAXN];
 	public static int[] ans = new int[MAXN];
@@ -43,7 +43,6 @@ public class Code06_TillCollapse1 {
 	}
 
 	public static void compute() {
-		Arrays.fill(ans, 1, n + 1, -1);
 		for (int i = 1; i <= blen; i++) {
 			ans[i] = query(i);
 		}
@@ -63,6 +62,15 @@ public class Code06_TillCollapse1 {
 		}
 	}
 
+	public static void prepare() {
+		int log2n = 0;
+		while ((1 << log2n) <= (n >> 1)) {
+			log2n++;
+		}
+		blen = Math.max(1, (int) Math.sqrt(n * log2n));
+		Arrays.fill(ans, 1, n + 1, -1);
+	}
+
 	public static void main(String[] args) throws Exception {
 		FastReader in = new FastReader(System.in);
 		PrintWriter out = new PrintWriter(System.out);
@@ -70,6 +78,7 @@ public class Code06_TillCollapse1 {
 		for (int i = 1; i <= n; i++) {
 			arr[i] = in.nextInt();
 		}
+		prepare();
 		compute();
 		for (int i = 1; i <= n; i++) {
 			if (ans[i] == -1) {

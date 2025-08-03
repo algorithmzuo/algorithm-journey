@@ -11,7 +11,7 @@ package class175;
 //using namespace std;
 //
 //const int MAXN = 100001;
-//int n, blen = 1000;
+//int n, blen;
 //int arr[MAXN];
 //int num[MAXN];
 //int ans[MAXN];
@@ -41,7 +41,6 @@ package class175;
 //}
 //
 //void compute() {
-//    fill(ans + 1, ans + n + 1, -1);
 //    for (int i = 1; i <= blen; i++) {
 //        ans[i] = query(i);
 //    }
@@ -61,6 +60,11 @@ package class175;
 //    }
 //}
 //
+//void prepare() {
+//    blen = max(1, (int)sqrt(n * log2(n)));
+//    fill(ans + 1, ans + n + 1, -1);
+//}
+//
 //int main() {
 //    ios::sync_with_stdio(false);
 //    cin.tie(nullptr);
@@ -68,6 +72,7 @@ package class175;
 //    for (int i = 1; i <= n; i++) {
 //        cin >> arr[i];
 //    }
+//    prepare();
 //    compute();
 //    for (int i = 1; i <= n; i++) {
 //        if (ans[i] == -1) {
