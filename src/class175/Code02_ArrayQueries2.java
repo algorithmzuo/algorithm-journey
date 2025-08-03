@@ -1,6 +1,9 @@
 package class175;
 
 // 数组查询，C++版
+// 给定一个长度为n的数组arr，接下来有q条查询，查询格式如下
+// 查询 p k : p 不断变成 p + arr[p] + k，直到 p > n 停止，打印操作次数
+// 1 <= n、q <= 10 ^ 5
 // 测试链接 : https://www.luogu.com.cn/problem/CF797E
 // 测试链接 : https://codeforces.com/problemset/problem/797/E
 // 如下实现是C++的版本，C++版本和java版本逻辑完全一样

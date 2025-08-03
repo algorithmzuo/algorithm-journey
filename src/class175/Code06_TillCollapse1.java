@@ -1,6 +1,10 @@
 package class175;
 
 // 直到倒下，java版
+// 给定一个长度为n的数组arr，考虑如下问题的解
+// 希望知道arr最少划分成几段，可以做到每段内，不同数值的个数 <= k
+// 打印k = 1, 2, 3..n时，所有的答案
+// 1 <= arr[i] <= n <= 10^5
 // 测试链接 : https://www.luogu.com.cn/problem/CF786C
 // 测试链接 : https://codeforces.com/problemset/problem/786/C
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例

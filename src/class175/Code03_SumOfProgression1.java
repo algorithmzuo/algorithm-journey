@@ -1,6 +1,12 @@
 package class175;
 
 // 等差数列求和，java版
+// 一共有t组测试，每组测试遵循同样的设定
+// 给定一个长度为n的数组arr，接下来有q条查询，查询格式如下
+// 查询 s d k : arr[s]作为第1项、arr[s + 1d]作为第2项、arr[s + 2d]作为第3项...
+//             每项的值 * 项的编号，一共k项都累加起来，打印累加和
+// 1 <= n <= 10^5
+// 1 <= q <= 2 * 10^5
 // 测试链接 : https://www.luogu.com.cn/problem/CF1921F
 // 测试链接 : https://codeforces.com/problemset/problem/1921/F
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例

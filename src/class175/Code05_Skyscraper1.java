@@ -1,6 +1,11 @@
 package class175;
 
 // 雅加达的摩天楼，java版
+// 有n个大楼，编号0~n-1，有m个狗子，编号0~m-1
+// 每只狗子有两个参数，idx表示狗子的初始大楼，jump表示狗子的跳跃能力
+// 狗子在i位置，可以来到 i - jump 或 i + jump，向左向右自由跳跃，但不能越界
+// 0号狗子有消息希望传给1号狗子，所有狗子都可帮忙，返回至少传几次，无法送达打印-1
+// 1 <= n、m <= 30000
 // 测试链接 : https://www.luogu.com.cn/problem/P3645
 // 测试链接 : https://uoj.ac/problem/111
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
@@ -27,7 +32,7 @@ public class Code05_Skyscraper1 {
 	public static int MAXN = 30001;
 	public static int n, m;
 
-	// 每个位置拥有的doge列表
+	// 每个位置拥有的狗子列表
 	public static int[] head = new int[MAXN];
 	public static int[] next = new int[MAXN];
 	public static int[] to = new int[MAXN];
