@@ -41,25 +41,23 @@ package class175;
 //}
 //
 //void compute() {
+//    fill(ans + 1, ans + n + 1, -1);
 //    for (int i = 1; i <= blen; i++) {
 //        ans[i] = query(i);
 //    }
-//    for (int i = blen + 1; i <= n; i++) {
-//        int tmp = query(i);
+//    for (int i = blen + 1; i <= n;) {
+//        ans[i] = query(i);
 //        int l = i, r = n, find = i;
 //        while (l <= r) {
 //            int mid = (l + r) >> 1;
-//            if (query(mid) >= tmp) {
+//            if (query(mid) >= ans[i]) {
 //                find = mid;
 //                l = mid + 1;
 //            } else {
 //                r = mid - 1;
 //            }
 //        }
-//        for (int j = i; j <= find; j++) {
-//            ans[j] = tmp;
-//        }
-//        i = find;
+//        i = find + 1;
 //    }
 //}
 //
@@ -72,6 +70,9 @@ package class175;
 //    }
 //    compute();
 //    for (int i = 1; i <= n; i++) {
+//        if (ans[i] == -1) {
+//            ans[i] = ans[i - 1];
+//        }
 //        cout << ans[i] << ' ';
 //    }
 //    cout << '\n';
