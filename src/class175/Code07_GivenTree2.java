@@ -67,7 +67,7 @@ package class175;
 //}
 //
 //int findLimit(int l, int r, int pathCnt) {
-//    int limit = -1;
+//    int find = -1;
 //    while (l <= r) {
 //        int mid = (l + r) >> 1;
 //        int cnt = getCnt(mid);
@@ -76,23 +76,22 @@ package class175;
 //        } else if (cnt > pathCnt) {
 //            l = mid + 1;
 //        } else {
-//            limit = mid;
+//            find = mid;
 //            r = mid - 1;
 //        }
 //    }
-//    return limit;
+//    return find;
 //}
 //
 //void compute() {
 //    for (int k = 1; k <= blen; k++) {
 //        ans[k] = getCnt(k);
 //    }
-//    int l = 1, r = n;
-//    for (int pathCnt = 0; pathCnt * blen <= n; pathCnt++) {
-//        int limit = findLimit(l, r, pathCnt);
-//        if (limit != -1) {
-//            ans[limit] = pathCnt;
-//            r = limit;
+//    for (int pathCnt = 0, limit = n; pathCnt * blen <= n; pathCnt++) {
+//        int find = findLimit(1, limit, pathCnt);
+//        if (find != -1) {
+//            ans[find] = pathCnt;
+//            limit = find;
 //        }
 //    }
 //}
