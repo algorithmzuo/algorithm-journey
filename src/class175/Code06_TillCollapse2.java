@@ -66,9 +66,8 @@ package class175;
 //    for (int i = 1; i <= blen; i++) {
 //        ans[i] = query(i);
 //    }
-//    for (int i = blen + 1; i <= n;) {
+//    for (int i = blen + 1; i <= n; i = jump(i, n, ans[i]) + 1) {
 //        ans[i] = query(i);
-//        i = jump(i, n, ans[i]) + 1;
 //    }
 //}
 //
