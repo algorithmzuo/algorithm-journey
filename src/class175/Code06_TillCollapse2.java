@@ -17,31 +17,49 @@ package class175;
 //const int MAXN = 100001;
 //int n, blen;
 //int arr[MAXN];
-//int num[MAXN];
+//bool vis[MAXN];
 //int ans[MAXN];
 //
-//int query(int x) {
-//    memset(num, 0, sizeof(num));
-//    int cnt = 0, lst = 1, tot = 0;
+//int query(int limit) {
+//    int num = 0, cnt = 0, start = 1;
 //    for (int i = 1; i <= n; i++) {
-//        if (num[arr[i]] == 0) {
-//            cnt++;
-//            num[arr[i]] = 1;
-//        }
-//        if (cnt > x) {
-//            tot++;
-//            for (int j = lst; j <= i; j++) {
-//                num[arr[j]] = 0;
+//        if (!vis[arr[i]]) {
+//            num++;
+//            if (num > limit) {
+//                cnt++;
+//                for (int j = start; j < i; j++) {
+//                    vis[arr[j]] = false;
+//                }
+//                start = i;
+//                num = 1;
 //            }
-//            lst = i;
-//            num[arr[i]] = 1;
-//            cnt = 1;
+//            vis[arr[i]] = true;
 //        }
 //    }
-//    if (cnt > 0) {
-//        tot++;
+//    if (num > 0) {
+//        cnt++;
+//        for (int j = start; j <= n; j++) {
+//            vis[arr[j]] = false;
+//        }
 //    }
-//    return tot;
+//    return cnt;
+//}
+//
+//int jump(int l, int r, int curAns) {
+//    int find = l;
+//    while (l <= r) {
+//        int mid = (l + r) >> 1;
+//        int check = query(mid);
+//        if (check < curAns) {
+//            r = mid - 1;
+//        } else if (check > curAns) {
+//            l = mid + 1;
+//        } else {
+//            find = mid;
+//            l = mid + 1;
+//        }
+//    }
+//    return find;
 //}
 //
 //void compute() {
@@ -50,17 +68,7 @@ package class175;
 //    }
 //    for (int i = blen + 1; i <= n;) {
 //        ans[i] = query(i);
-//        int l = i, r = n, find = i;
-//        while (l <= r) {
-//            int mid = (l + r) >> 1;
-//            if (query(mid) >= ans[i]) {
-//                find = mid;
-//                l = mid + 1;
-//            } else {
-//                r = mid - 1;
-//            }
-//        }
-//        i = find + 1;
+//        i = jump(i, n, ans[i]) + 1;
 //    }
 //}
 //

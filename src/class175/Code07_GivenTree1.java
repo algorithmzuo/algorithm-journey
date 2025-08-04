@@ -51,7 +51,7 @@ public class Code07_GivenTree1 {
 		}
 	}
 
-	public static int getCnt(int limit) {
+	public static int dp(int limit) {
 		int pathCnt = 0;
 		for (int dfn = n, cur, father; dfn >= 1; dfn--) {
 			cur = seg[dfn];
@@ -73,32 +73,32 @@ public class Code07_GivenTree1 {
 		return pathCnt;
 	}
 
-	public static int findLimit(int l, int r, int pathCnt) {
-		int find = -1;
+	public static int find(int l, int r, int pathCnt) {
+		int limit = -1;
 		while (l <= r) {
 			int mid = (l + r) >> 1;
-			int cnt = getCnt(mid);
+			int cnt = dp(mid);
 			if (cnt < pathCnt) {
 				r = mid - 1;
 			} else if (cnt > pathCnt) {
 				l = mid + 1;
 			} else {
-				find = mid;
+				limit = mid;
 				r = mid - 1;
 			}
 		}
-		return find;
+		return limit;
 	}
 
 	public static void compute() {
 		for (int k = 1; k <= blen; k++) {
-			ans[k] = getCnt(k);
+			ans[k] = dp(k);
 		}
-		for (int pathCnt = 0, limit = n; pathCnt * blen <= n; pathCnt++) {
-			int find = findLimit(1, limit, pathCnt);
-			if (find != -1) {
-				ans[find] = pathCnt;
-				limit = find;
+		for (int pathCnt = 0, r = n; pathCnt * blen <= n; pathCnt++) {
+			int limit = find(1, r, pathCnt);
+			if (limit != -1) {
+				ans[limit] = pathCnt;
+				r = limit;
 			}
 		}
 	}
