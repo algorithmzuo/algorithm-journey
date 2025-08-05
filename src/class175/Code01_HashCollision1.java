@@ -32,11 +32,11 @@ public class Code01_HashCollision1 {
 		return ans;
 	}
 
-	public static void update(int x, int y) {
-		int delta = y - arr[x];
-		arr[x] = y;
-		for (int mod = 1; mod <= blen; mod++) {
-			dp[mod][x % mod] += delta;
+	public static void update(int i, int v) {
+		int delta = v - arr[i];
+		arr[i] = v;
+		for (int x = 1; x <= blen; x++) {
+			dp[x][i % x] += delta;
 		}
 	}
 
