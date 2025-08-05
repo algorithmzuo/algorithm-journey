@@ -82,11 +82,15 @@ public class Code04_Initialization1 {
 				ans = ans + suf[x][(l - 1) % x + 1] + pre[x][x] * num + pre[x][(r - 1) % x + 1];
 			}
 		}
-		return (ans % MOD + MOD) % MOD;
+		return ans % MOD;
 	}
 
 	public static void prepare() {
-		blen = 150;
+		int log2n = 0;
+		while ((1 << log2n) <= (n >> 1)) {
+			log2n++;
+		}
+		blen = Math.max(1, (int) Math.sqrt(n / log2n));
 		bnum = (n + blen - 1) / blen;
 		for (int i = 1; i <= n; i++) {
 			bi[i] = (i - 1) / blen + 1;

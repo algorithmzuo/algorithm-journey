@@ -77,11 +77,11 @@ package class175;
 //            ans = ans + suf[x][(l - 1) % x + 1] + pre[x][x] * num + pre[x][(r - 1) % x + 1];
 //        }
 //    }
-//    return (ans % MOD + MOD) % MOD;
+//    return ans % MOD;
 //}
 //
 //void prepare() {
-//    blen = 150;
+//    blen = max(1, (int)sqrt(n / log2(n)));
 //    bnum = (n + blen - 1) / blen;
 //    for (int i = 1; i <= n; i++) {
 //        bi[i] = (i - 1) / blen + 1;
