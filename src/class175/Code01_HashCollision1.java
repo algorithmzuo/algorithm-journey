@@ -42,9 +42,9 @@ public class Code01_HashCollision1 {
 
 	public static void prepare() {
 		blen = (int) Math.sqrt(n);
-		for (int mod = 1; mod <= blen; mod++) {
+		for (int x = 1; x <= blen; x++) {
 			for (int i = 1; i <= n; i++) {
-				dp[mod][i % mod] += arr[i];
+				dp[x][i % x] += arr[i];
 			}
 		}
 	}
