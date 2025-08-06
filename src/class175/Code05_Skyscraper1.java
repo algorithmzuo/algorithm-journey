@@ -19,12 +19,12 @@ import java.util.BitSet;
 public class Code05_Skyscraper1 {
 
 	static class Node {
-		int idx, jump, step;
+		int idx, jump, time;
 
-		Node(int i, int j, int s) {
+		Node(int i, int j, int t) {
 			idx = i;
 			jump = j;
-			step = s;
+			time = t;
 		}
 
 	}
@@ -47,22 +47,22 @@ public class Code05_Skyscraper1 {
 		head[idx] = cnt;
 	}
 
-	public static void trigger(int idx, int step) {
+	public static void trigger(int idx, int time) {
 		for (int e = head[idx], nextJump; e > 0; e = next[e]) {
 			nextJump = to[e];
 			if (!vis[idx].get(nextJump)) {
 				vis[idx].set(nextJump);
-				que.addLast(new Node(idx, nextJump, step));
+				que.addLast(new Node(idx, nextJump, time));
 			}
 		}
 		head[idx] = 0;
 	}
 
-	public static void extend(int idx, int jump, int step) {
-		trigger(idx, step);
+	public static void extend(int idx, int jump, int time) {
+		trigger(idx, time);
 		if (!vis[idx].get(jump)) {
 			vis[idx].set(jump);
-			que.addLast(new Node(idx, jump, step));
+			que.addLast(new Node(idx, jump, time));
 		}
 	}
 
@@ -78,15 +78,15 @@ public class Code05_Skyscraper1 {
 			Node cur = que.pollFirst();
 			int idx = cur.idx;
 			int jump = cur.jump;
-			int step = cur.step;
+			int time = cur.time;
 			if (idx - jump == t || idx + jump == t) {
-				return step + 1;
+				return time + 1;
 			}
 			if (idx - jump >= 0) {
-				extend(idx - jump, jump, step + 1);
+				extend(idx - jump, jump, time + 1);
 			}
 			if (idx + jump < n) {
-				extend(idx + jump, jump, step + 1);
+				extend(idx + jump, jump, time + 1);
 			}
 		}
 		return -1;

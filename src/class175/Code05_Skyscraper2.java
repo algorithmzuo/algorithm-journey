@@ -16,7 +16,7 @@ package class175;
 //using namespace std;
 //
 //struct Node {
-//    int idx, jump, step;
+//    int idx, jump, time;
 //};
 //
 //const int MAXN = 30001;
@@ -35,22 +35,22 @@ package class175;
 //    head[idx] = cnt;
 //}
 //
-//void trigger(int idx, int step) {
+//void trigger(int idx, int time) {
 //    for (int e = head[idx], nextJump; e; e = nxt[e]) {
 //        nextJump = to[e];
 //        if (!vis[idx].test(nextJump)) {
 //            vis[idx].set(nextJump);
-//            que.push_back({idx, nextJump, step});
+//            que.push_back({idx, nextJump, time});
 //        }
 //    }
 //    head[idx] = 0;
 //}
 //
-//void extend(int idx, int jump, int step) {
-//    trigger(idx, step);
+//void extend(int idx, int jump, int time) {
+//    trigger(idx, time);
 //    if (!vis[idx].test(jump)) {
 //        vis[idx].set(jump);
-//        que.push_back({idx, jump, step});
+//        que.push_back({idx, jump, time});
 //    }
 //}
 //
@@ -68,15 +68,15 @@ package class175;
 //        que.pop_front();
 //        int idx = cur.idx;
 //        int jump = cur.jump;
-//        int step = cur.step;
+//        int time = cur.time;
 //        if (idx - jump == t || idx + jump == t) {
-//            return step + 1;
+//            return time + 1;
 //        }
 //        if (idx - jump >= 0) {
-//            extend(idx - jump, jump, step + 1);
+//            extend(idx - jump, jump, time + 1);
 //        }
 //        if (idx + jump < n) {
-//            extend(idx + jump, jump, step + 1);
+//            extend(idx + jump, jump, time + 1);
 //        }
 //    }
 //    return -1;
