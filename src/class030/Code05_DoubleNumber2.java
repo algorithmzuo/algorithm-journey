@@ -13,10 +13,10 @@ package class030;
 //            eor1 ^= x;
 //        }
 //        // 为什么这么写？自己去查！语言问题自己搞定
-//        uint32_t rightOne = (uint32_t)eor1 & (-(uint32_t)eor1);
+//        unsigned int rightOne = (unsigned int)eor1 & (-(unsigned int)eor1);
 //        int a = 0;
 //        for (int x : nums) {
-//            if (((uint32_t)x & rightOne) == 0) {
+//            if (((unsigned int)x & rightOne) == 0) {
 //                a ^= x;
 //            }
 //        }
