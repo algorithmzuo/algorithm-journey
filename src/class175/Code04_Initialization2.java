@@ -14,7 +14,7 @@ package class175;
 //using namespace std;
 //
 //const int MAXN = 200001;
-//const int MAXB = 2001;
+//const int MAXB = 501;
 //const int MOD  = 1000000007;
 //int n, m;
 //
@@ -81,7 +81,7 @@ package class175;
 //}
 //
 //void prepare() {
-//    blen = max(1, (int)sqrt(n / log2(n)));
+//    blen = (int)sqrt(n);
 //    bnum = (n + blen - 1) / blen;
 //    for (int i = 1; i <= n; i++) {
 //        bi[i] = (i - 1) / blen + 1;

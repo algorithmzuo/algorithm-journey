@@ -19,7 +19,7 @@ import java.io.PrintWriter;
 public class Code04_Initialization1 {
 
 	public static int MAXN = 200001;
-	public static int MAXB = 2001;
+	public static int MAXB = 501;
 	public static int MOD = 1000000007;
 	public static int n, m;
 
@@ -90,7 +90,7 @@ public class Code04_Initialization1 {
 		while ((1 << log2n) <= (n >> 1)) {
 			log2n++;
 		}
-		blen = Math.max(1, (int) Math.sqrt(n / log2n));
+		blen = (int) Math.sqrt(n);
 		bnum = (n + blen - 1) / blen;
 		for (int i = 1; i <= n; i++) {
 			bi[i] = (i - 1) / blen + 1;
