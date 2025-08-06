@@ -21,7 +21,6 @@ package class175;
 //
 //const int MAXN = 30001;
 //int n, m;
-//
 //int head[MAXN];
 //int nxt[MAXN];
 //int to[MAXN];

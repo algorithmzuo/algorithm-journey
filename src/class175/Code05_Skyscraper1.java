@@ -31,7 +31,6 @@ public class Code05_Skyscraper1 {
 
 	public static int MAXN = 30001;
 	public static int n, m;
-
 	// 每个位置拥有的狗子列表
 	public static int[] head = new int[MAXN];
 	public static int[] next = new int[MAXN];
