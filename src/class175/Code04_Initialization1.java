@@ -72,11 +72,11 @@ public class Code04_Initialization1 {
 
 	public static long query(int l, int r) {
 		long ans = querySum(l, r);
-		for (int x = 1, lb, rb, num; x <= blen; x++) {
-			lb = (l - 1) / x + 1;
-			rb = (r - 1) / x + 1;
-			num = rb - lb - 1;
-			if (lb == rb) {
+		for (int x = 1, lth, rth, num; x <= blen; x++) {
+			lth = (l - 1) / x + 1;
+			rth = (r - 1) / x + 1;
+			num = rth - lth - 1;
+			if (lth == rth) {
 				ans = ans + pre[x][(r - 1) % x + 1] - pre[x][(l - 1) % x];
 			} else {
 				ans = ans + suf[x][(l - 1) % x + 1] + pre[x][x] * num + pre[x][(r - 1) % x + 1];
