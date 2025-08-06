@@ -19,7 +19,7 @@ package class175;
 //int n, m;
 //
 //long long arr[MAXN];
-//long long sum[MAXN];
+//long long sum[MAXB];
 //long long pre[MAXB][MAXB];
 //long long suf[MAXB][MAXB];
 //
