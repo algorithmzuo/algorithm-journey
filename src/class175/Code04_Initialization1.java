@@ -23,10 +23,10 @@ public class Code04_Initialization1 {
 	public static int MOD = 1000000007;
 	public static int n, m;
 
-	public static long[] arr = new long[MAXN];
-	public static long[] sum = new long[MAXB];
 	public static long[][] pre = new long[MAXB][MAXB];
 	public static long[][] suf = new long[MAXB][MAXB];
+	public static long[] arr = new long[MAXN];
+	public static long[] sum = new long[MAXB];
 
 	public static int blen, bnum;
 	public static int[] bi = new int[MAXN];

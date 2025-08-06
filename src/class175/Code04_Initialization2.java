@@ -18,10 +18,10 @@ package class175;
 //const int MOD  = 1000000007;
 //int n, m;
 //
-//long long arr[MAXN];
-//long long sum[MAXB];
 //long long pre[MAXB][MAXB];
 //long long suf[MAXB][MAXB];
+//long long arr[MAXN];
+//long long sum[MAXB];
 //
 //int blen, bnum;
 //int bi[MAXN];
