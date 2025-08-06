@@ -48,11 +48,11 @@ public class Code05_Skyscraper1 {
 	}
 
 	public static void trigger(int idx, int time) {
-		for (int e = head[idx], nextJump; e > 0; e = next[e]) {
-			nextJump = to[e];
-			if (!vis[idx].get(nextJump)) {
-				vis[idx].set(nextJump);
-				que.addLast(new Node(idx, nextJump, time));
+		for (int e = head[idx], jump; e > 0; e = next[e]) {
+			jump = to[e];
+			if (!vis[idx].get(jump)) {
+				vis[idx].set(jump);
+				que.addLast(new Node(idx, jump, time));
 			}
 		}
 		head[idx] = 0;

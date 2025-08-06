@@ -36,11 +36,11 @@ package class175;
 //}
 //
 //void trigger(int idx, int time) {
-//    for (int e = head[idx], nextJump; e; e = nxt[e]) {
-//        nextJump = to[e];
-//        if (!vis[idx].test(nextJump)) {
-//            vis[idx].set(nextJump);
-//            que.push_back({idx, nextJump, time});
+//    for (int e = head[idx], jump; e; e = nxt[e]) {
+//        jump = to[e];
+//        if (!vis[idx].test(jump)) {
+//            vis[idx].set(jump);
+//            que.push_back({idx, jump, time});
 //        }
 //    }
 //    head[idx] = 0;
