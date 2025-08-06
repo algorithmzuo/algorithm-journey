@@ -67,7 +67,9 @@ public class Code07_GivenTree1 {
 			} else if (len[cur] > max2[father]) {
 				max2[father] = len[cur];
 			}
-			max1[cur] = max2[cur] = 0;
+		}
+		for (int i = 1; i <= n; i++) {
+			len[i] = max1[i] = max2[i] = 0;
 		}
 		return cnt;
 	}
