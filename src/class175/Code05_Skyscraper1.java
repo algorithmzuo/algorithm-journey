@@ -31,7 +31,7 @@ public class Code05_Skyscraper1 {
 
 	public static int MAXN = 30001;
 	public static int n, m;
-	// 每个位置拥有的狗子列表
+	// 每个大楼拥有的狗子列表
 	public static int[] head = new int[MAXN];
 	public static int[] next = new int[MAXN];
 	public static int[] to = new int[MAXN];
@@ -39,6 +39,7 @@ public class Code05_Skyscraper1 {
 
 	// bfs过程
 	public static ArrayDeque<Node> que = new ArrayDeque<>();
+	// vis[idx]是个位图，可以表示vis[idx][jump]是否出现过
 	public static BitSet[] vis = new BitSet[MAXN];
 
 	public static void add(int idx, int jump) {
