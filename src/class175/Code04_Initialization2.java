@@ -33,7 +33,7 @@ package class175;
 //        for (int i = y; i <= x; i++) {
 //            pre[x][i] += z;
 //        }
-//        for (int i = 1; i <= y; i++) {
+//        for (int i = y; i >= 1; i--) {
 //            suf[x][i] += z;
 //        }
 //    } else {
