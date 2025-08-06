@@ -59,14 +59,14 @@ package class175;
 //            l = mid + 1;
 //        }
 //    }
-//    return find;
+//    return find + 1;
 //}
 //
 //void compute() {
 //    for (int i = 1; i <= blen; i++) {
 //        ans[i] = query(i);
 //    }
-//    for (int i = blen + 1; i <= n; i = jump(i, n, ans[i]) + 1) {
+//    for (int i = blen + 1; i <= n; i = jump(i, n, ans[i])) {
 //        ans[i] = query(i);
 //    }
 //}

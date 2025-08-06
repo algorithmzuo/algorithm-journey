@@ -19,7 +19,6 @@ public class Code07_GivenTree1 {
 
 	public static int MAXN = 200001;
 	public static int n, blen;
-
 	public static int[] head = new int[MAXN];
 	public static int[] next = new int[MAXN << 1];
 	public static int[] to = new int[MAXN << 1];
@@ -51,13 +50,13 @@ public class Code07_GivenTree1 {
 		}
 	}
 
-	public static int dp(int limit) {
-		int pathCnt = 0;
+	public static int query(int limit) {
+		int cnt = 0;
 		for (int dfn = n, cur, father; dfn >= 1; dfn--) {
 			cur = seg[dfn];
 			father = fa[cur];
 			if (max1[cur] + max2[cur] + 1 >= limit) {
-				pathCnt++;
+				cnt++;
 				len[cur] = 0;
 			} else {
 				len[cur] = max1[cur] + 1;
@@ -70,36 +69,32 @@ public class Code07_GivenTree1 {
 			}
 			max1[cur] = max2[cur] = 0;
 		}
-		return pathCnt;
+		return cnt;
 	}
 
-	public static int find(int l, int r, int pathCnt) {
-		int limit = -1;
+	public static int jump(int l, int r, int curAns) {
+		int find = l;
 		while (l <= r) {
 			int mid = (l + r) >> 1;
-			int cnt = dp(mid);
-			if (cnt < pathCnt) {
+			int check = query(mid);
+			if (check < curAns) {
 				r = mid - 1;
-			} else if (cnt > pathCnt) {
+			} else if (check > curAns) {
 				l = mid + 1;
 			} else {
-				limit = mid;
-				r = mid - 1;
+				find = mid;
+				l = mid + 1;
 			}
 		}
-		return limit;
+		return find + 1;
 	}
 
 	public static void compute() {
-		for (int k = 1; k <= blen; k++) {
-			ans[k] = dp(k);
+		for (int i = 1; i <= blen; i++) {
+			ans[i] = query(i);
 		}
-		for (int pathCnt = 0, r = n; pathCnt * blen <= n; pathCnt++) {
-			int limit = find(1, r, pathCnt);
-			if (limit != -1) {
-				ans[limit] = pathCnt;
-				r = limit;
-			}
+		for (int i = blen + 1; i <= n; i = jump(i, n, ans[i])) {
+			ans[i] = query(i);
 		}
 	}
 

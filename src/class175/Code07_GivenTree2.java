@@ -17,7 +17,6 @@ package class175;
 //
 //const int MAXN = 200001;
 //int n, blen;
-//
 //int head[MAXN];
 //int nxt[MAXN << 1];
 //int to[MAXN << 1];
@@ -34,7 +33,7 @@ package class175;
 //int ans[MAXN];
 //
 //void addEdge(int u, int v) {
-//	nxt[++cntg] = head[u];
+//    nxt[++cntg] = head[u];
 //    to[cntg] = v;
 //    head[u] = cntg;
 //}
@@ -43,61 +42,57 @@ package class175;
 //    fa[u] = f;
 //    seg[++cntd] = u;
 //    for (int e = head[u]; e; e = nxt[e]) {
-//    	if (to[e] != f) {
-//    	    dfs(to[e], u);
-//    	}
+//        if (to[e] != f) {
+//            dfs(to[e], u);
+//        }
 //    }
 //}
 //
-//int dp(int limit) {
-//    int pathCnt = 0;
+//int query(int limit) {
+//    int cnt = 0;
 //    for (int dfn = n, cur, father; dfn >= 1; dfn--) {
 //        cur = seg[dfn];
 //        father = fa[cur];
 //        if (max1[cur] + max2[cur] + 1 >= limit) {
-//            pathCnt++;
+//            cnt++;
 //            len[cur] = 0;
 //        } else {
 //            len[cur] = max1[cur] + 1;
 //        }
 //        if (len[cur] > max1[father]) {
-//        	max2[father] = max1[father];
+//            max2[father] = max1[father];
 //            max1[father] = len[cur];
 //        } else if (len[cur] > max2[father]) {
-//        	max2[father] = len[cur];
+//            max2[father] = len[cur];
 //        }
 //        max1[cur] = max2[cur] = 0;
 //    }
-//    return pathCnt;
+//    return cnt;
 //}
 //
-//int find(int l, int r, int pathCnt) {
-//    int limit = -1;
+//int jump(int l, int r, int curAns) {
+//    int find = l;
 //    while (l <= r) {
 //        int mid = (l + r) >> 1;
-//        int cnt = dp(mid);
-//        if (cnt < pathCnt) {
+//        int check = query(mid);
+//        if (check < curAns) {
 //            r = mid - 1;
-//        } else if (cnt > pathCnt) {
+//        } else if (check > curAns) {
 //            l = mid + 1;
 //        } else {
-//            limit = mid;
-//            r = mid - 1;
+//            find = mid;
+//            l = mid + 1;
 //        }
 //    }
-//    return limit;
+//    return find + 1;
 //}
 //
 //void compute() {
-//    for (int k = 1; k <= blen; k++) {
-//        ans[k] = dp(k);
+//    for (int i = 1; i <= blen; i++) {
+//        ans[i] = query(i);
 //    }
-//    for (int pathCnt = 0, r = n; pathCnt * blen <= n; pathCnt++) {
-//        int limit = find(1, r, pathCnt);
-//        if (limit != -1) {
-//            ans[limit] = pathCnt;
-//            r = limit;
-//        }
+//    for (int i = blen + 1; i <= n; i = jump(i, n, ans[i])) {
+//        ans[i] = query(i);
 //    }
 //}
 //
