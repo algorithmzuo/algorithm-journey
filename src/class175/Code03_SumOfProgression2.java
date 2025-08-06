@@ -20,15 +20,15 @@ package class175;
 //const int MAXB = 401;
 //int t, n, q, blen;
 //int arr[MAXN];
-//long long f[MAXN][MAXB];
-//long long g[MAXN][MAXB];
+//long long f[MAXB][MAXN];
+//long long g[MAXB][MAXN];
 //
 //long long query(int s, int d, int k) {
 //    long long ans = 0;
 //    if (d <= blen) {
-//        ans = g[s][d];
+//        ans = g[d][s];
 //        if (s + d * k <= n) {
-//            ans -= g[s + d * k][d] + f[s + d * k][d] * k;
+//            ans -= g[d][s + d * k] + f[d][s + d * k] * k;
 //        }
 //    } else {
 //        for (int i = 1; i <= k; i++) {
@@ -40,14 +40,14 @@ package class175;
 //
 //void prepare() {
 //    blen = (int)sqrt(n);
-//    for (int s = n; s >= 1; s--) {
-//        for (int d = 1; d <= blen; d++) {
-//            f[s][d] = arr[s] + (s + d > n ? 0 : f[s + d][d]);
+//    for (int d = 1; d <= blen; d++) {
+//        for (int s = n; s >= 1; s--) {
+//            f[d][s] = arr[s] + (s + d > n ? 0 : f[d][s + d]);
 //        }
 //    }
-//    for (int s = n; s >= 1; s--) {
-//        for (int d = 1; d <= blen; d++) {
-//            g[s][d] = f[s][d] + (s + d > n ? 0 : g[s + d][d]);
+//    for (int d = 1; d <= blen; d++) {
+//        for (int s = n; s >= 1; s--) {
+//            g[d][s] = f[d][s] + (s + d > n ? 0 : g[d][s + d]);
 //        }
 //    }
 //}
