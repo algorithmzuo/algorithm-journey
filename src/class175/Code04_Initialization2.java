@@ -67,7 +67,7 @@ package class175;
 //
 //long long query(int l, int r) {
 //    long long ans = querySum(l, r);
-//    for (int x = 1, lb, rb, num; x <= blen; x++) {
+//    for (int x = 1, lth, rth, num; x <= blen; x++) {
 //        lth = (l - 1) / x + 1;
 //        rth = (r - 1) / x + 1;
 //        num = rth - lth - 1;
