@@ -41,13 +41,13 @@ package class175;
 //void prepare() {
 //    blen = (int)sqrt(n);
 //    for (int d = 1; d <= blen; d++) {
-//        for (int s = n; s >= 1; s--) {
-//            f[d][s] = arr[s] + (s + d > n ? 0 : f[d][s + d]);
+//        for (int i = n; i >= 1; i--) {
+//            f[d][i] = arr[i] + (i + d > n ? 0 : f[d][i + d]);
 //        }
 //    }
 //    for (int d = 1; d <= blen; d++) {
-//        for (int s = n; s >= 1; s--) {
-//            g[d][s] = f[d][s] + (s + d > n ? 0 : g[d][s + d]);
+//        for (int i = n; i >= 1; i--) {
+//            g[d][i] = f[d][i] + (i + d > n ? 0 : g[d][i + d]);
 //        }
 //    }
 //}
