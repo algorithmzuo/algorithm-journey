@@ -86,10 +86,6 @@ public class Code04_Initialization1 {
 	}
 
 	public static void prepare() {
-		int log2n = 0;
-		while ((1 << log2n) <= (n >> 1)) {
-			log2n++;
-		}
 		blen = (int) Math.sqrt(n);
 		bnum = (n + blen - 1) / blen;
 		for (int i = 1; i <= n; i++) {
