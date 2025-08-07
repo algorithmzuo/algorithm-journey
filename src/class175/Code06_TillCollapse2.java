@@ -21,22 +21,22 @@ package class175;
 //int ans[MAXN];
 //
 //int query(int limit) {
-//    int num = 0, cnt = 0, start = 1;
+//    int kind = 0, cnt = 0, start = 1;
 //    for (int i = 1; i <= n; i++) {
 //        if (!vis[arr[i]]) {
-//            num++;
-//            if (num > limit) {
+//            kind++;
+//            if (kind > limit) {
 //                cnt++;
 //                for (int j = start; j < i; j++) {
 //                    vis[arr[j]] = false;
 //                }
 //                start = i;
-//                num = 1;
+//                kind = 1;
 //            }
 //            vis[arr[i]] = true;
 //        }
 //    }
-//    if (num > 0) {
+//    if (kind > 0) {
 //        cnt++;
 //        for (int j = start; j <= n; j++) {
 //            vis[arr[j]] = false;
