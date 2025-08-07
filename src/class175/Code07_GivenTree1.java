@@ -54,12 +54,12 @@ public class Code07_GivenTree1 {
 		}
 	}
 
-	public static int query(int limit) {
+	public static int query(int k) {
 		int cnt = 0;
 		for (int dfn = n, cur, father; dfn >= 1; dfn--) {
 			cur = seg[dfn];
 			father = fa[cur];
-			if (max1[cur] + max2[cur] + 1 >= limit) {
+			if (max1[cur] + max2[cur] + 1 >= k) {
 				cnt++;
 				len[cur] = 0;
 			} else {
@@ -105,7 +105,6 @@ public class Code07_GivenTree1 {
 	}
 
 	public static void prepare() {
-		dfs(1, 0);
 		int log2n = 0;
 		while ((1 << log2n) <= (n >> 1)) {
 			log2n++;
@@ -124,6 +123,7 @@ public class Code07_GivenTree1 {
 			addEdge(u, v);
 			addEdge(v, u);
 		}
+		dfs(1, 0);
 		prepare();
 		compute();
 		for (int i = 1; i <= n; i++) {

@@ -47,12 +47,12 @@ package class175;
 //    }
 //}
 //
-//int query(int limit) {
+//int query(int k) {
 //    int cnt = 0;
 //    for (int dfn = n, cur, father; dfn >= 1; dfn--) {
 //        cur = seg[dfn];
 //        father = fa[cur];
-//        if (max1[cur] + max2[cur] + 1 >= limit) {
+//        if (max1[cur] + max2[cur] + 1 >= k) {
 //            cnt++;
 //            len[cur] = 0;
 //        } else {
@@ -98,7 +98,6 @@ package class175;
 //}
 //
 //void prepare() {
-//    dfs(1, 0);
 //    blen = max(1, (int)sqrt(n * log2(n)));
 //    fill(ans + 1, ans + n + 1, -1);
 //}
@@ -112,6 +111,7 @@ package class175;
 //        addEdge(u, v);
 //        addEdge(v, u);
 //    }
+//    dfs(1, 0);
 //    prepare();
 //    compute();
 //    for (int i = 1; i <= n; i++) {
