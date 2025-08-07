@@ -22,7 +22,7 @@ package class175;
 //int cntg = 0;
 //
 //int fa[MAXN];
-//int seg[MAXN];
+//int dfnOrder[MAXN];
 //int cntd = 0;
 //
 //int len[MAXN];
@@ -39,7 +39,7 @@ package class175;
 //
 //void dfs(int u, int f) {
 //    fa[u] = f;
-//    seg[++cntd] = u;
+//    dfnOrder[++cntd] = u;
 //    for (int e = head[u]; e; e = nxt[e]) {
 //        if (to[e] != f) {
 //            dfs(to[e], u);
@@ -49,8 +49,8 @@ package class175;
 //
 //int query(int k) {
 //    int cnt = 0;
-//    for (int dfn = n, cur, father; dfn >= 1; dfn--) {
-//        cur = seg[dfn];
+//    for (int i = n, cur, father; i >= 1; i--) {
+//        cur = dfnOrder[i];
 //        father = fa[cur];
 //        if (max1[cur] + max2[cur] + 1 >= k) {
 //            cnt++;

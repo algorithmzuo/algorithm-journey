@@ -24,9 +24,9 @@ public class Code07_GivenTree1 {
 	public static int cntg = 0;
 
 	// fa[i]表示，i节点的父节点编号
-	// seg[d]表示，dfn序号为d的节点，在图上的编号是什么
+	// dfnOrder是根据dfn序，依次收集上来的节点编号
 	public static int[] fa = new int[MAXN];
-	public static int[] seg = new int[MAXN];
+	public static int[] dfnOrder = new int[MAXN];
 	public static int cntd = 0;
 
 	// len[i]表示，当前i号节点只能往下走，没分配成路径的最长链的长度
@@ -46,7 +46,7 @@ public class Code07_GivenTree1 {
 
 	public static void dfs(int u, int f) {
 		fa[u] = f;
-		seg[++cntd] = u;
+		dfnOrder[++cntd] = u;
 		for (int e = head[u]; e > 0; e = next[e]) {
 			if (to[e] != f) {
 				dfs(to[e], u);
@@ -56,8 +56,8 @@ public class Code07_GivenTree1 {
 
 	public static int query(int k) {
 		int cnt = 0;
-		for (int dfn = n, cur, father; dfn >= 1; dfn--) {
-			cur = seg[dfn];
+		for (int i = n, cur, father; i >= 1; i--) {
+			cur = dfnOrder[i];
 			father = fa[cur];
 			if (max1[cur] + max2[cur] + 1 >= k) {
 				cnt++;
