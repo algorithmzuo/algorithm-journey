@@ -24,10 +24,15 @@ public class Code07_GivenTree1 {
 	public static int[] to = new int[MAXN << 1];
 	public static int cntg = 0;
 
+	// fa[i]表示，i节点的父节点编号
+	// seg[d]表示，dfn序号为d的节点，在图上的编号是什么
 	public static int[] fa = new int[MAXN];
 	public static int[] seg = new int[MAXN];
 	public static int cntd = 0;
 
+	// len[i]表示，当前i号节点只能往下走，没分配成路径的最长链的长度
+	// max1[i]表示，最大值 { len[a], len[b], len[c] ... }，其中a、b、c..是i的子节点
+	// max2[i]表示，次大值 { len[a], len[b], len[c] ... }，其中a、b、c..是i的子节点
 	public static int[] len = new int[MAXN];
 	public static int[] max1 = new int[MAXN];
 	public static int[] max2 = new int[MAXN];
