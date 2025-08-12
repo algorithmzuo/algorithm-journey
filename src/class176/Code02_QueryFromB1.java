@@ -1,7 +1,7 @@
 package class176;
 
-// 普通莫队模版题，java版
-// 测试链接 : https://www.luogu.com.cn/problem/SP3267
+// 小B的询问，java版
+// 测试链接 : https://www.luogu.com.cn/problem/P2709
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
 import java.io.IOException;
@@ -11,7 +11,7 @@ import java.io.PrintWriter;
 import java.util.Arrays;
 import java.util.Comparator;
 
-public class Code01_MoAlgorithm1 {
+public class Code02_QueryFromB1 {
 
 	// 莫队经典排序
 	public static class QueryCmp1 implements Comparator<int[]> {
@@ -45,28 +45,24 @@ public class Code01_MoAlgorithm1 {
 	public static QueryCmp1 cmp1 = new QueryCmp1();
 	public static QueryCmp2 cmp2 = new QueryCmp2();
 
-	public static int MAXN = 30001;
-	public static int MAXV = 1000001;
-	public static int MAXQ = 200001;
-	public static int n, q;
+	public static int MAXN = 50001;
+	public static int n, m, k;
 	public static int[] arr = new int[MAXN];
-	public static int[][] query = new int[MAXQ][3];
+	public static int[][] query = new int[MAXN][3];
 
 	public static int[] bi = new int[MAXN];
-	public static int[] cnt = new int[MAXV];
-	public static int kind = 0;
-	public static int[] ans = new int[MAXQ];
+	public static int[] cnt = new int[MAXN];
+	public static long sum = 0;
+	public static long[] ans = new long[MAXN];
 
 	public static void del(int idx) {
-		if (--cnt[arr[idx]] == 0) {
-			kind--;
-		}
+		sum -= 2 * cnt[arr[idx]] - 1;
+		cnt[arr[idx]]--;
 	}
 
 	public static void add(int idx) {
-		if (++cnt[arr[idx]] == 1) {
-			kind++;
-		}
+		sum += 2 * cnt[arr[idx]] + 1;
+		cnt[arr[idx]]++;
 	}
 
 	public static void prepare() {
@@ -74,13 +70,13 @@ public class Code01_MoAlgorithm1 {
 		for (int i = 1; i <= n; i++) {
 			bi[i] = (i - 1) / blen + 1;
 		}
-		// Arrays.sort(query, 1, q + 1, cmp1);
-		Arrays.sort(query, 1, q + 1, cmp2);
+		// Arrays.sort(query, 1, m + 1, cmp1);
+		Arrays.sort(query, 1, m + 1, cmp2);
 	}
 
 	public static void compute() {
 		int winl = 1, winr = 0;
-		for (int i = 1; i <= q; i++) {
+		for (int i = 1; i <= m; i++) {
 			int jobl = query[i][0];
 			int jobr = query[i][1];
 			while (winl < jobl) {
@@ -95,7 +91,7 @@ public class Code01_MoAlgorithm1 {
 			while (winr > jobr) {
 				del(winr--);
 			}
-			ans[query[i][2]] = kind;
+			ans[query[i][2]] = sum;
 		}
 	}
 
@@ -103,18 +99,19 @@ public class Code01_MoAlgorithm1 {
 		FastReader in = new FastReader(System.in);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
 		n = in.nextInt();
+		m = in.nextInt();
+		k = in.nextInt();
 		for (int i = 1; i <= n; i++) {
 			arr[i] = in.nextInt();
 		}
-		q = in.nextInt();
-		for (int i = 1; i <= q; i++) {
+		for (int i = 1; i <= m; i++) {
 			query[i][0] = in.nextInt();
 			query[i][1] = in.nextInt();
 			query[i][2] = i;
 		}
 		prepare();
 		compute();
-		for (int i = 1; i <= q; i++) {
+		for (int i = 1; i <= m; i++) {
 			out.println(ans[i]);
 		}
 		out.flush();

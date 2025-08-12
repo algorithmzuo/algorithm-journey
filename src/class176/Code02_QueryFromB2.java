@@ -1,7 +1,7 @@
 package class176;
 
-// 普通莫队模版题，C++版
-// 测试链接 : https://www.luogu.com.cn/problem/SP3267
+// 小B的询问，C++版
+// 测试链接 : https://www.luogu.com.cn/problem/P2709
 // 如下实现是C++的版本，C++版本和java版本逻辑完全一样
 // 提交如下代码，可以通过所有测试用例
 
@@ -13,17 +13,15 @@ package class176;
 //    int l, r, id;
 //};
 //
-//const int MAXN = 30001;
-//const int MAXV = 1000001;
-//const int MAXQ = 200001;
-//int n, q;
+//const int MAXN = 50001;
+//int n, m, k;
 //int arr[MAXN];
-//Query query[MAXQ];
+//Query query[MAXN];
 //
 //int bi[MAXN];
-//int cnt[MAXV];
-//int kind = 0;
-//int ans[MAXQ];
+//int cnt[MAXN];
+//long long sum = 0;
+//long long ans[MAXN];
 //
 //bool QueryCmp1(Query &a, Query &b) {
 //    if (bi[a.l] != bi[b.l]) {
@@ -43,15 +41,13 @@ package class176;
 //}
 //
 //void del(int idx) {
-//    if (--cnt[arr[idx]] == 0) {
-//        kind--;
-//    }
+//    sum -= 2 * cnt[arr[idx]] - 1;
+//    cnt[arr[idx]]--;
 //}
 //
 //void add(int idx) {
-//    if (++cnt[arr[idx]] == 1) {
-//        kind++;
-//    }
+//    sum += 2 * cnt[arr[idx]] + 1;
+//    cnt[arr[idx]]++;
 //}
 //
 //void prepare() {
@@ -59,12 +55,12 @@ package class176;
 //    for (int i = 1; i <= n; i++) {
 //        bi[i] = (i - 1) / blen + 1;
 //    }
-//    sort(query + 1, query + q + 1, QueryCmp2);
+//    sort(query + 1, query + m + 1, QueryCmp2);
 //}
 //
 //void compute() {
 //    int winl = 1, winr = 0;
-//    for (int i = 1; i <= q; i++) {
+//    for (int i = 1; i <= m; i++) {
 //        int jobl = query[i].l;
 //        int jobr = query[i].r;
 //        while (winl < jobl) {
@@ -79,26 +75,25 @@ package class176;
 //        while (winr > jobr) {
 //            del(winr--);
 //        }
-//        ans[query[i].id] = kind;
+//        ans[query[i].id] = sum;
 //    }
 //}
 //
 //int main() {
 //    ios::sync_with_stdio(false);
 //    cin.tie(nullptr);
-//    cin >> n;
+//    cin >> n >> m >> k;
 //    for (int i = 1; i <= n; i++) {
 //        cin >> arr[i];
 //    }
-//    cin >> q;
-//    for (int i = 1; i <= q; i++) {
+//    for (int i = 1; i <= m; i++) {
 //        cin >> query[i].l;
 //        cin >> query[i].r;
 //        query[i].id = i;
 //    }
 //    prepare();
 //    compute();
-//    for (int i = 1; i <= q; i++) {
+//    for (int i = 1; i <= m; i++) {
 //        cout << ans[i] << '\n';
 //    }
 //    return 0;
