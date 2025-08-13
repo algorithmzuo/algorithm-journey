@@ -115,7 +115,7 @@ public class Code04_BloodyString1 {
 			int jobl = query[i][0];
 			int jobr = query[i][1];
 			// 为了滑动窗口时，不让词频变成负数
-			// 先执行关于加的，再执行关于减的
+			// 先执行加词频的操作，再执行减词频的操作
 			while (winl > jobl) {
 				add(--winl);
 			}
