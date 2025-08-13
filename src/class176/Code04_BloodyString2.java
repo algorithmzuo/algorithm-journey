@@ -1,7 +1,7 @@
 package class176;
 
-// 小Z的袜子，C++版
-// 测试链接 : https://www.luogu.com.cn/problem/P1494
+// 大爷的字符串题，C++版
+// 测试链接 : https://www.luogu.com.cn/problem/P3709
 // 如下实现是C++的版本，C++版本和java版本逻辑完全一样
 // 提交如下代码，可以通过所有测试用例
 
@@ -13,16 +13,17 @@ package class176;
 //    int l, r, id;
 //};
 //
-//const int MAXN = 50001;
+//const int MAXN = 200001;
 //int n, m;
 //int arr[MAXN];
+//int sorted[MAXN];
 //Query query[MAXN];
 //
 //int bi[MAXN];
-//int cnt[MAXN];
-//long long sum = 0;
-//long long ans1[MAXN];
-//long long ans2[MAXN];
+//int cnt1[MAXN];
+//int cnt2[MAXN];
+//int maxCnt = 0;
+//int ans[MAXN];
 //
 //bool QueryCmp1(Query &a, Query &b) {
 //    if (bi[a.l] != bi[b.l]) {
@@ -41,23 +42,52 @@ package class176;
 //    return a.r > b.r;
 //}
 //
-//long long gcd(long long a, long long b) {
-//    return b == 0 ? a : gcd(b, a % b);
+//int kth(int len, int num) {
+//    int left = 1, right = len, mid, ret = 0;
+//    while (left <= right) {
+//        mid = (left + right) >> 1;
+//        if (sorted[mid] <= num) {
+//        	ret = mid;
+//            left = mid + 1;
+//        } else {
+//            right = mid - 1;
+//        }
+//    }
+//    return ret;
 //}
 //
 //void del(int idx) {
-//    sum -= cnt[arr[idx]] * cnt[arr[idx]];
-//    cnt[arr[idx]]--;
-//    sum += cnt[arr[idx]] * cnt[arr[idx]];
+//    int num = arr[idx];
+//    if (cnt1[num] == maxCnt && cnt2[cnt1[num]] == 1) {
+//        maxCnt--;
+//    }
+//    cnt2[cnt1[num]]--;
+//    cnt2[--cnt1[num]]++;
 //}
 //
 //void add(int idx) {
-//    sum -= cnt[arr[idx]] * cnt[arr[idx]];
-//    cnt[arr[idx]]++;
-//    sum += cnt[arr[idx]] * cnt[arr[idx]];
+//    int num = arr[idx];
+//    cnt2[cnt1[num]]--;
+//    cnt2[++cnt1[num]]++;
+//    if (cnt1[num] > maxCnt) {
+//        maxCnt = cnt1[num];
+//    }
 //}
 //
 //void prepare() {
+//    for (int i = 1; i <= n; i++) {
+//        sorted[i] = arr[i];
+//    }
+//    sort(sorted + 1, sorted + n + 1);
+//    int len = 1;
+//    for (int i = 2; i <= n; i++) {
+//        if (sorted[len] != sorted[i]) {
+//            sorted[++len] = sorted[i];
+//        }
+//    }
+//    for (int i = 1; i <= n; i++) {
+//        arr[i] = kth(len, arr[i]);
+//    }
 //    int blen = (int)sqrt(n);
 //    for (int i = 1; i <= n; i++) {
 //        bi[i] = (i - 1) / blen + 1;
@@ -70,29 +100,19 @@ package class176;
 //    for (int i = 1; i <= m; i++) {
 //        int jobl = query[i].l;
 //        int jobr = query[i].r;
-//        int id = query[i].id;
-//        while (winl < jobl) {
-//            del(winl++);
-//        }
 //        while (winl > jobl) {
 //            add(--winl);
 //        }
 //        while (winr < jobr) {
 //            add(++winr);
 //        }
+//        while (winl < jobl) {
+//            del(winl++);
+//        }
 //        while (winr > jobr) {
 //            del(winr--);
 //        }
-//        if (jobl == jobr) {
-//            ans1[id] = 0;
-//            ans2[id] = 1;
-//        } else {
-//            ans1[id] = sum - (jobr - jobl + 1);
-//            ans2[id] = 1LL * (jobr - jobl + 1) * (jobr - jobl);
-//            long long g = gcd(ans1[id], ans2[id]);
-//            ans1[id] /= g;
-//            ans2[id] /= g;
-//        }
+//        ans[query[i].id] = maxCnt;
 //    }
 //}
 //
@@ -111,7 +131,7 @@ package class176;
 //    prepare();
 //    compute();
 //    for (int i = 1; i <= m; i++) {
-//        cout << ans1[i] << '/' << ans2[i] << '\n';
+//        cout << -ans[i] << '\n';
 //    }
 //    return 0;
 //}
