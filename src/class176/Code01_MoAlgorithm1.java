@@ -83,14 +83,14 @@ public class Code01_MoAlgorithm1 {
 		for (int i = 1; i <= q; i++) {
 			int jobl = query[i][0];
 			int jobr = query[i][1];
-			while (winl < jobl) {
-				del(winl++);
-			}
 			while (winl > jobl) {
 				add(--winl);
 			}
 			while (winr < jobr) {
 				add(++winr);
+			}
+			while (winl < jobl) {
+				del(winl++);
 			}
 			while (winr > jobr) {
 				del(winr--);

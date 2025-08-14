@@ -1,7 +1,7 @@
 package class176;
 
-// 小B的询问，java版
-// 测试链接 : https://www.luogu.com.cn/problem/P2709
+// 异或序列，java版
+// 测试链接 : https://www.luogu.com.cn/problem/P4462
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
 import java.io.IOException;
@@ -11,7 +11,7 @@ import java.io.PrintWriter;
 import java.util.Arrays;
 import java.util.Comparator;
 
-public class Code02_QueryFromB1 {
+public class Code05_XorSequence1 {
 
 	// 莫队经典排序
 	public static class QueryCmp1 implements Comparator<int[]> {
@@ -45,28 +45,54 @@ public class Code02_QueryFromB1 {
 	public static QueryCmp1 cmp1 = new QueryCmp1();
 	public static QueryCmp2 cmp2 = new QueryCmp2();
 
-	public static int MAXN = 50001;
+	public static int MAXN = 100001;
+	public static int MAXK = 1 << 20;
 	public static int n, m, k;
 	public static int[] arr = new int[MAXN];
 	public static int[][] query = new int[MAXN][3];
 
+	public static int[] pre = new int[MAXN];
 	public static int[] bi = new int[MAXN];
-	public static int[] cnt = new int[MAXN];
-	public static long sum = 0;
+
+	public static long[] cnt = new long[MAXK];
 	public static long[] ans = new long[MAXN];
+	public static long cur;
 
 	public static void del(int idx) {
-		sum -= 2 * cnt[arr[idx]] - 1;
-		cnt[arr[idx]]--;
+		int xor = pre[idx];
+		if (k != 0) {
+			cur -= cnt[xor] * cnt[xor ^ k];
+		} else {
+			cur -= (cnt[xor] * (cnt[xor] - 1)) >> 1;
+		}
+		cnt[xor]--;
+		if (k != 0) {
+			cur += cnt[xor] * cnt[xor ^ k];
+		} else {
+			cur += (cnt[xor] * (cnt[xor] - 1)) >> 1;
+		}
 	}
 
 	public static void add(int idx) {
-		sum += 2 * cnt[arr[idx]] + 1;
-		cnt[arr[idx]]++;
+		int xor = pre[idx];
+		if (k != 0) {
+			cur -= cnt[xor] * cnt[xor ^ k];
+		} else {
+			cur -= (cnt[xor] * (cnt[xor] - 1)) >> 1;
+		}
+		cnt[xor]++;
+		if (k != 0) {
+			cur += cnt[xor] * cnt[xor ^ k];
+		} else {
+			cur += (cnt[xor] * (cnt[xor] - 1)) >> 1;
+		}
 	}
 
 	public static void prepare() {
-		int blen = (int) Math.sqrt(n);
+		for (int i = 1; i <= n; i++) {
+			pre[i] = pre[i - 1] ^ arr[i];
+		}
+		int blen = Math.max(1, (int) Math.sqrt(n));
 		for (int i = 1; i <= n; i++) {
 			bi[i] = (i - 1) / blen + 1;
 		}
@@ -77,7 +103,8 @@ public class Code02_QueryFromB1 {
 	public static void compute() {
 		int winl = 1, winr = 0;
 		for (int i = 1; i <= m; i++) {
-			int jobl = query[i][0];
+			// 左边界要-1
+			int jobl = query[i][0] - 1;
 			int jobr = query[i][1];
 			while (winl > jobl) {
 				add(--winl);
@@ -91,7 +118,7 @@ public class Code02_QueryFromB1 {
 			while (winr > jobr) {
 				del(winr--);
 			}
-			ans[query[i][2]] = sum;
+			ans[query[i][2]] = cur;
 		}
 	}
 

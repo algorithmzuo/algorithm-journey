@@ -90,14 +90,14 @@ public class Code03_SockFromZ1 {
 			int jobl = query[i][0];
 			int jobr = query[i][1];
 			int id = query[i][2];
-			while (winl < jobl) {
-				del(winl++);
-			}
 			while (winl > jobl) {
 				add(--winl);
 			}
 			while (winr < jobr) {
 				add(++winr);
+			}
+			while (winl < jobl) {
+				del(winl++);
 			}
 			while (winr > jobr) {
 				del(winr--);

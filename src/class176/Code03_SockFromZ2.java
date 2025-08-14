@@ -71,14 +71,14 @@ package class176;
 //        int jobl = query[i].l;
 //        int jobr = query[i].r;
 //        int id = query[i].id;
-//        while (winl < jobl) {
-//            del(winl++);
-//        }
 //        while (winl > jobl) {
 //            add(--winl);
 //        }
 //        while (winr < jobr) {
 //            add(++winr);
+//        }
+//        while (winl < jobl) {
+//            del(winl++);
 //        }
 //        while (winr > jobr) {
 //            del(winr--);

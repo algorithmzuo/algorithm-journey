@@ -67,14 +67,14 @@ package class176;
 //    for (int i = 1; i <= q; i++) {
 //        int jobl = query[i].l;
 //        int jobr = query[i].r;
-//        while (winl < jobl) {
-//            del(winl++);
-//        }
 //        while (winl > jobl) {
 //            add(--winl);
 //        }
 //        while (winr < jobr) {
 //            add(++winr);
+//        }
+//        while (winl < jobl) {
+//            del(winl++);
 //        }
 //        while (winr > jobr) {
 //            del(winr--);
