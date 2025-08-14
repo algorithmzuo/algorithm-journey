@@ -59,32 +59,32 @@ public class Code05_XorSequence1 {
 	public static long cur;
 
 	public static void del(int idx) {
-		int xor = pre[idx];
+		int x = pre[idx];
 		if (k != 0) {
-			cur -= cnt[xor] * cnt[xor ^ k];
+			cur -= cnt[x] * cnt[x ^ k];
 		} else {
-			cur -= (cnt[xor] * (cnt[xor] - 1)) >> 1;
+			cur -= (cnt[x] * (cnt[x] - 1)) >> 1;
 		}
-		cnt[xor]--;
+		cnt[x]--;
 		if (k != 0) {
-			cur += cnt[xor] * cnt[xor ^ k];
+			cur += cnt[x] * cnt[x ^ k];
 		} else {
-			cur += (cnt[xor] * (cnt[xor] - 1)) >> 1;
+			cur += (cnt[x] * (cnt[x] - 1)) >> 1;
 		}
 	}
 
 	public static void add(int idx) {
-		int xor = pre[idx];
+		int x = pre[idx];
 		if (k != 0) {
-			cur -= cnt[xor] * cnt[xor ^ k];
+			cur -= cnt[x] * cnt[x ^ k];
 		} else {
-			cur -= (cnt[xor] * (cnt[xor] - 1)) >> 1;
+			cur -= (cnt[x] * (cnt[x] - 1)) >> 1;
 		}
-		cnt[xor]++;
+		cnt[x]++;
 		if (k != 0) {
-			cur += cnt[xor] * cnt[xor ^ k];
+			cur += cnt[x] * cnt[x ^ k];
 		} else {
-			cur += (cnt[xor] * (cnt[xor] - 1)) >> 1;
+			cur += (cnt[x] * (cnt[x] - 1)) >> 1;
 		}
 	}
 
@@ -92,7 +92,7 @@ public class Code05_XorSequence1 {
 		for (int i = 1; i <= n; i++) {
 			pre[i] = pre[i - 1] ^ arr[i];
 		}
-		int blen = Math.max(1, (int) Math.sqrt(n));
+		int blen = (int) Math.sqrt(n);
 		for (int i = 1; i <= n; i++) {
 			bi[i] = (i - 1) / blen + 1;
 		}
