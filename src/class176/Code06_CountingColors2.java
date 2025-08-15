@@ -53,7 +53,7 @@ package class176;
 //    }
 //}
 //
-//void updateTime(int jobl, int jobr, int tim) {
+//void moveTime(int jobl, int jobr, int tim) {
 //    int pos = update[tim].i;
 //    int val = update[tim].v;
 //    if (jobl <= pos && pos <= jobr) {
@@ -93,10 +93,10 @@ package class176;
 //            del(arr[winr--]);
 //        }
 //        while (wint < jobt) {
-//            updateTime(jobl, jobr, ++wint);
+//            moveTime(jobl, jobr, ++wint);
 //        }
 //        while (wint > jobt) {
-//            updateTime(jobl, jobr, wint--);
+//            moveTime(jobl, jobr, wint--);
 //        }
 //        ans[id] = kind;
 //     }

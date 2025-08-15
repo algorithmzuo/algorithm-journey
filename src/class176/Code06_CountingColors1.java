@@ -54,7 +54,7 @@ public class Code06_CountingColors1 {
 		}
 	}
 
-	public static void updateTime(int jobl, int jobr, int tim) {
+	public static void moveTime(int jobl, int jobr, int tim) {
 		int pos = update[tim][0];
 		int val = update[tim][1];
 		if (jobl <= pos && pos <= jobr) {
@@ -94,10 +94,10 @@ public class Code06_CountingColors1 {
 				del(arr[winr--]);
 			}
 			while (wint < jobt) {
-				updateTime(jobl, jobr, ++wint);
+				moveTime(jobl, jobr, ++wint);
 			}
 			while (wint > jobt) {
-				updateTime(jobl, jobr, wint--);
+				moveTime(jobl, jobr, wint--);
 			}
 			ans[id] = kind;
 		}
