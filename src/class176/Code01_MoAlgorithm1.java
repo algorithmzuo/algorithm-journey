@@ -2,6 +2,7 @@ package class176;
 
 // 普通莫队模版题，java版
 // 测试链接 : https://www.luogu.com.cn/problem/SP3267
+// 测试链接 : https://www.spoj.com/problems/DQUERY/
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
 import java.io.IOException;
@@ -42,9 +43,6 @@ public class Code01_MoAlgorithm1 {
 
 	}
 
-	public static QueryCmp1 mo1 = new QueryCmp1();
-	public static QueryCmp2 mo2 = new QueryCmp2();
-
 	public static int MAXN = 30001;
 	public static int MAXV = 1000001;
 	public static int MAXQ = 200001;
@@ -74,8 +72,8 @@ public class Code01_MoAlgorithm1 {
 		for (int i = 1; i <= n; i++) {
 			bi[i] = (i - 1) / blen + 1;
 		}
-		// Arrays.sort(query, 1, q + 1, cmp1);
-		Arrays.sort(query, 1, q + 1, mo2);
+		Arrays.sort(query, 1, q + 1, new QueryCmp1());
+		// Arrays.sort(query, 1, q + 1, new QueryCmp2());
 	}
 
 	public static void compute() {

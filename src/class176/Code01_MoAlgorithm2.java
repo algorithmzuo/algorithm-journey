@@ -2,6 +2,7 @@ package class176;
 
 // 普通莫队模版题，C++版
 // 测试链接 : https://www.luogu.com.cn/problem/SP3267
+// 测试链接 : https://www.spoj.com/problems/DQUERY/
 // 如下实现是C++的版本，C++版本和java版本逻辑完全一样
 // 提交如下代码，可以通过所有测试用例
 
@@ -27,14 +28,14 @@ package class176;
 //
 //bool QueryCmp1(Query &a, Query &b) {
 //    if (bi[a.l] != bi[b.l]) {
-//        return a.l < b.l;
+//        return bi[a.l] < bi[b.l];
 //    }
 //    return a.r < b.r;
 //}
 //
 //bool QueryCmp2(Query &a, Query &b) {
 //    if (bi[a.l] != bi[b.l]) {
-//        return a.l < b.l;
+//        return bi[a.l] < bi[b.l];
 //    }
 //    if ((bi[a.l] & 1) == 1) {
 //        return a.r < b.r;
