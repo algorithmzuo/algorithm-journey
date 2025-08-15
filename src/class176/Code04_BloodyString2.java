@@ -46,8 +46,7 @@ package class176;
 //    return ret;
 //}
 //
-//void del(int idx) {
-//    int num = arr[idx];
+//void del(int num) {
 //    if (cnt1[num] == maxCnt && cnt2[cnt1[num]] == 1) {
 //        maxCnt--;
 //    }
@@ -55,8 +54,7 @@ package class176;
 //    cnt2[--cnt1[num]]++;
 //}
 //
-//void add(int idx) {
-//    int num = arr[idx];
+//void add(int num) {
 //    cnt2[cnt1[num]]--;
 //    cnt2[++cnt1[num]]++;
 //    if (cnt1[num] > maxCnt) {
@@ -91,16 +89,16 @@ package class176;
 //        int jobl = query[i].l;
 //        int jobr = query[i].r;
 //        while (winl > jobl) {
-//            add(--winl);
+//            add(arr[--winl]);
 //        }
 //        while (winr < jobr) {
-//            add(++winr);
+//            add(arr[++winr]);
 //        }
 //        while (winl < jobl) {
-//            del(winl++);
+//            del(arr[winl++]);
 //        }
 //        while (winr > jobr) {
-//            del(winr--);
+//            del(arr[winr--]);
 //        }
 //        ans[query[i].id] = maxCnt;
 //    }

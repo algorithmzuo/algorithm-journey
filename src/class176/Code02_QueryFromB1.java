@@ -35,14 +35,14 @@ public class Code02_QueryFromB1 {
 	public static long sum = 0;
 	public static long[] ans = new long[MAXN];
 
-	public static void del(int idx) {
-		sum -= 2 * cnt[arr[idx]] - 1;
-		cnt[arr[idx]]--;
+	public static void del(int num) {
+		sum -= 2 * cnt[num] - 1;
+		cnt[num]--;
 	}
 
-	public static void add(int idx) {
-		sum += 2 * cnt[arr[idx]] + 1;
-		cnt[arr[idx]]++;
+	public static void add(int num) {
+		sum += 2 * cnt[num] + 1;
+		cnt[num]++;
 	}
 
 	public static void prepare() {
@@ -59,16 +59,16 @@ public class Code02_QueryFromB1 {
 			int jobl = query[i][0];
 			int jobr = query[i][1];
 			while (winl > jobl) {
-				add(--winl);
+				add(arr[--winl]);
 			}
 			while (winr < jobr) {
-				add(++winr);
+				add(arr[++winr]);
 			}
 			while (winl < jobl) {
-				del(winl++);
+				del(arr[winl++]);
 			}
 			while (winr > jobr) {
-				del(winr--);
+				del(arr[winr--]);
 			}
 			ans[query[i][2]] = sum;
 		}

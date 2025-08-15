@@ -43,16 +43,16 @@ public class Code03_SockFromZ1 {
 		return b == 0 ? a : gcd(b, a % b);
 	}
 
-	public static void del(int idx) {
-		sum -= cnt[arr[idx]] * cnt[arr[idx]];
-		cnt[arr[idx]]--;
-		sum += cnt[arr[idx]] * cnt[arr[idx]];
+	public static void del(int num) {
+		sum -= cnt[num] * cnt[num];
+		cnt[num]--;
+		sum += cnt[num] * cnt[num];
 	}
 
-	public static void add(int idx) {
-		sum -= cnt[arr[idx]] * cnt[arr[idx]];
-		cnt[arr[idx]]++;
-		sum += cnt[arr[idx]] * cnt[arr[idx]];
+	public static void add(int num) {
+		sum -= cnt[num] * cnt[num];
+		cnt[num]++;
+		sum += cnt[num] * cnt[num];
 	}
 
 	public static void prepare() {
@@ -70,16 +70,16 @@ public class Code03_SockFromZ1 {
 			int jobr = query[i][1];
 			int id = query[i][2];
 			while (winl > jobl) {
-				add(--winl);
+				add(arr[--winl]);
 			}
 			while (winr < jobr) {
-				add(++winr);
+				add(arr[++winr]);
 			}
 			while (winl < jobl) {
-				del(winl++);
+				del(arr[winl++]);
 			}
 			while (winr > jobr) {
-				del(winr--);
+				del(arr[winr--]);
 			}
 			if (jobl == jobr) {
 				ans1[id] = 0;

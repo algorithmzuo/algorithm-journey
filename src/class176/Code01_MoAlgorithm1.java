@@ -55,14 +55,14 @@ public class Code01_MoAlgorithm1 {
 	public static int kind = 0;
 	public static int[] ans = new int[MAXQ];
 
-	public static void del(int idx) {
-		if (--cnt[arr[idx]] == 0) {
+	public static void del(int num) {
+		if (--cnt[num] == 0) {
 			kind--;
 		}
 	}
 
-	public static void add(int idx) {
-		if (++cnt[arr[idx]] == 1) {
+	public static void add(int num) {
+		if (++cnt[num] == 1) {
 			kind++;
 		}
 	}
@@ -82,16 +82,16 @@ public class Code01_MoAlgorithm1 {
 			int jobl = query[i][0];
 			int jobr = query[i][1];
 			while (winl > jobl) {
-				add(--winl);
+				add(arr[--winl]);
 			}
 			while (winr < jobr) {
-				add(++winr);
+				add(arr[++winr]);
 			}
 			while (winl < jobl) {
-				del(winl++);
+				del(arr[winl++]);
 			}
 			while (winr > jobr) {
-				del(winr--);
+				del(arr[winr--]);
 			}
 			ans[query[i][2]] = kind;
 		}

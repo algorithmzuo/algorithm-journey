@@ -33,8 +33,7 @@ package class176;
 //    return a.r < b.r;
 //}
 //
-//void del(int idx) {
-//    int x = pre[idx];
+//void del(int x) {
 //    if (k != 0) {
 //        cur -= cnt[x] * cnt[x ^ k];
 //    } else {
@@ -48,8 +47,7 @@ package class176;
 //    }
 //}
 //
-//void add(int idx) {
-//    int x = pre[idx];
+//void add(int x) {
 //    if (k != 0) {
 //        cur -= cnt[x] * cnt[x ^ k];
 //    } else {
@@ -80,16 +78,16 @@ package class176;
 //        int jobl = query[i].l - 1;
 //        int jobr = query[i].r;
 //        while (winl > jobl) {
-//            add(--winl);
+//            add(pre[--winl]);
 //        }
 //        while (winr < jobr) {
-//            add(++winr);
+//            add(pre[++winr]);
 //        }
 //        while (winl < jobl) {
-//            del(winl++);
+//            del(pre[winl++]);
 //        }
 //        while (winr > jobr) {
-//            del(winr--);
+//            del(pre[winr--]);
 //        }
 //        ans[query[i].id] = cur;
 //    }

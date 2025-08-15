@@ -35,16 +35,16 @@ package class176;
 //    return b == 0 ? a : gcd(b, a % b);
 //}
 //
-//void del(int idx) {
-//    sum -= cnt[arr[idx]] * cnt[arr[idx]];
-//    cnt[arr[idx]]--;
-//    sum += cnt[arr[idx]] * cnt[arr[idx]];
+//void del(int num) {
+//    sum -= cnt[num] * cnt[num];
+//    cnt[num]--;
+//    sum += cnt[num] * cnt[num];
 //}
 //
-//void add(int idx) {
-//    sum -= cnt[arr[idx]] * cnt[arr[idx]];
-//    cnt[arr[idx]]++;
-//    sum += cnt[arr[idx]] * cnt[arr[idx]];
+//void add(int num) {
+//    sum -= cnt[num] * cnt[num];
+//    cnt[num]++;
+//    sum += cnt[num] * cnt[num];
 //}
 //
 //void prepare() {
@@ -62,16 +62,16 @@ package class176;
 //        int jobr = query[i].r;
 //        int id = query[i].id;
 //        while (winl > jobl) {
-//            add(--winl);
+//            add(arr[--winl]);
 //        }
 //        while (winr < jobr) {
-//            add(++winr);
+//            add(arr[++winr]);
 //        }
 //        while (winl < jobl) {
-//            del(winl++);
+//            del(arr[winl++]);
 //        }
 //        while (winr > jobr) {
-//            del(winr--);
+//            del(arr[winr--]);
 //        }
 //        if (jobl == jobr) {
 //            ans1[id] = 0;

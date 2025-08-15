@@ -38,8 +38,7 @@ public class Code05_XorSequence1 {
 	public static long[] ans = new long[MAXN];
 	public static long cur;
 
-	public static void del(int idx) {
-		int x = pre[idx];
+	public static void del(int x) {
 		if (k != 0) {
 			cur -= cnt[x] * cnt[x ^ k];
 		} else {
@@ -53,8 +52,7 @@ public class Code05_XorSequence1 {
 		}
 	}
 
-	public static void add(int idx) {
-		int x = pre[idx];
+	public static void add(int x) {
 		if (k != 0) {
 			cur -= cnt[x] * cnt[x ^ k];
 		} else {
@@ -86,16 +84,16 @@ public class Code05_XorSequence1 {
 			int jobl = query[i][0] - 1;
 			int jobr = query[i][1];
 			while (winl > jobl) {
-				add(--winl);
+				add(pre[--winl]);
 			}
 			while (winr < jobr) {
-				add(++winr);
+				add(pre[++winr]);
 			}
 			while (winl < jobl) {
-				del(winl++);
+				del(pre[winl++]);
 			}
 			while (winr > jobr) {
-				del(winr--);
+				del(pre[winr--]);
 			}
 			ans[query[i][2]] = cur;
 		}

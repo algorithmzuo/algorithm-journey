@@ -51,8 +51,7 @@ public class Code04_BloodyString1 {
 		return ret;
 	}
 
-	public static void del(int idx) {
-		int num = arr[idx];
+	public static void del(int num) {
 		if (cnt1[num] == maxCnt && cnt2[cnt1[num]] == 1) {
 			maxCnt--;
 		}
@@ -60,8 +59,7 @@ public class Code04_BloodyString1 {
 		cnt2[--cnt1[num]]++;
 	}
 
-	public static void add(int idx) {
-		int num = arr[idx];
+	public static void add(int num) {
 		cnt2[cnt1[num]]--;
 		cnt2[++cnt1[num]]++;
 		maxCnt = Math.max(maxCnt, cnt1[num]);
@@ -94,16 +92,16 @@ public class Code04_BloodyString1 {
 			int jobl = query[i][0];
 			int jobr = query[i][1];
 			while (winl > jobl) {
-				add(--winl);
+				add(arr[--winl]);
 			}
 			while (winr < jobr) {
-				add(++winr);
+				add(arr[++winr]);
 			}
 			while (winl < jobl) {
-				del(winl++);
+				del(arr[winl++]);
 			}
 			while (winr > jobr) {
-				del(winr--);
+				del(arr[winr--]);
 			}
 			ans[query[i][2]] = maxCnt;
 		}

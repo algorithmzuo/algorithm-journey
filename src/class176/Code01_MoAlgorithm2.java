@@ -43,14 +43,14 @@ package class176;
 //    return a.r > b.r;
 //}
 //
-//void del(int idx) {
-//    if (--cnt[arr[idx]] == 0) {
+//void del(int num) {
+//    if (--cnt[num] == 0) {
 //        kind--;
 //    }
 //}
 //
-//void add(int idx) {
-//    if (++cnt[arr[idx]] == 1) {
+//void add(int num) {
+//    if (++cnt[num] == 1) {
 //        kind++;
 //    }
 //}
@@ -69,16 +69,16 @@ package class176;
 //        int jobl = query[i].l;
 //        int jobr = query[i].r;
 //        while (winl > jobl) {
-//            add(--winl);
+//            add(arr[--winl]);
 //        }
 //        while (winr < jobr) {
-//            add(++winr);
+//            add(arr[++winr]);
 //        }
 //        while (winl < jobl) {
-//            del(winl++);
+//            del(arr[winl++]);
 //        }
 //        while (winr > jobr) {
-//            del(winr--);
+//            del(arr[winr--]);
 //        }
 //        ans[query[i].id] = kind;
 //    }

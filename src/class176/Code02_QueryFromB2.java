@@ -30,14 +30,14 @@ package class176;
 //    return a.r < b.r;
 //}
 //
-//void del(int idx) {
-//    sum -= 2 * cnt[arr[idx]] - 1;
-//    cnt[arr[idx]]--;
+//void del(int num) {
+//    sum -= 2 * cnt[num] - 1;
+//    cnt[num]--;
 //}
 //
-//void add(int idx) {
-//    sum += 2 * cnt[arr[idx]] + 1;
-//    cnt[arr[idx]]++;
+//void add(int num) {
+//    sum += 2 * cnt[num] + 1;
+//    cnt[num]++;
 //}
 //
 //void prepare() {
@@ -54,16 +54,16 @@ package class176;
 //        int jobl = query[i].l;
 //        int jobr = query[i].r;
 //        while (winl > jobl) {
-//            add(--winl);
+//            add(arr[--winl]);
 //        }
 //        while (winr < jobr) {
-//            add(++winr);
+//            add(arr[++winr]);
 //        }
 //        while (winl < jobl) {
-//            del(winl++);
+//            del(arr[winl++]);
 //        }
 //        while (winr > jobr) {
-//            del(winr--);
+//            del(arr[winr--]);
 //        }
 //        ans[query[i].id] = sum;
 //    }
