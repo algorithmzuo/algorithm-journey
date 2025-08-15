@@ -27,7 +27,7 @@ public class Code01_MoAlgorithm1 {
 
 	}
 
-	// 莫队奇偶排序
+	// 莫队奇偶排序，玄学优化
 	public static class QueryCmp2 implements Comparator<int[]> {
 
 		@Override
@@ -72,8 +72,8 @@ public class Code01_MoAlgorithm1 {
 		for (int i = 1; i <= n; i++) {
 			bi[i] = (i - 1) / blen + 1;
 		}
-		Arrays.sort(query, 1, q + 1, new QueryCmp1());
-		// Arrays.sort(query, 1, q + 1, new QueryCmp2());
+		// Arrays.sort(query, 1, q + 1, new QueryCmp1());
+		Arrays.sort(query, 1, q + 1, new QueryCmp2());
 	}
 
 	public static void compute() {
