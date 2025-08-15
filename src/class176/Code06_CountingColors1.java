@@ -36,8 +36,7 @@ public class Code06_CountingColors1 {
 
 	public static int[][] query = new int[MAXN][4];
 	public static int[][] update = new int[MAXN][2];
-	public static int cntq;
-	public static int cntu;
+	public static int cntq, cntu;
 
 	public static int[] cnt = new int[MAXV];
 	public static int[] ans = new int[MAXN];
@@ -68,7 +67,7 @@ public class Code06_CountingColors1 {
 	}
 
 	public static void prepare() {
-		int blen = Math.max(1, (int) Math.pow(n, 0.666));
+		int blen = Math.max(1, (int) Math.pow(n, 2.0 / 3));
 		for (int i = 1; i <= n; i++) {
 			bi[i] = (i - 1) / blen + 1;
 		}
