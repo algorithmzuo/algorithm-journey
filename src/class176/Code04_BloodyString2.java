@@ -25,21 +25,11 @@ package class176;
 //int maxCnt = 0;
 //int ans[MAXN];
 //
-//bool QueryCmp1(Query &a, Query &b) {
+//bool QueryCmp(Query &a, Query &b) {
 //    if (bi[a.l] != bi[b.l]) {
-//        return a.l < b.l;
+//        return bi[a.l] < bi[b.l];
 //    }
 //    return a.r < b.r;
-//}
-//
-//bool QueryCmp2(Query &a, Query &b) {
-//    if (bi[a.l] != bi[b.l]) {
-//        return a.l < b.l;
-//    }
-//    if ((bi[a.l] & 1) == 1) {
-//        return a.r < b.r;
-//    }
-//    return a.r > b.r;
 //}
 //
 //int kth(int len, int num) {
@@ -92,7 +82,7 @@ package class176;
 //    for (int i = 1; i <= n; i++) {
 //        bi[i] = (i - 1) / blen + 1;
 //    }
-//    sort(query + 1, query + m + 1, QueryCmp2);
+//    sort(query + 1, query + m + 1, QueryCmp);
 //}
 //
 //void compute() {

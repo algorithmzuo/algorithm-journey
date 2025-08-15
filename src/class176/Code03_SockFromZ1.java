@@ -16,37 +16,17 @@ import java.util.Comparator;
 
 public class Code03_SockFromZ1 {
 
-	// 莫队经典排序
-	public static class QueryCmp1 implements Comparator<int[]> {
+	public static class QueryCmp implements Comparator<int[]> {
 
 		@Override
 		public int compare(int[] a, int[] b) {
 			if (bi[a[0]] != bi[b[0]]) {
-				return a[0] - b[0];
+				return bi[a[0]] - bi[b[0]];
 			}
 			return a[1] - b[1];
 		}
 
 	}
-
-	// 莫队奇偶排序
-	public static class QueryCmp2 implements Comparator<int[]> {
-
-		@Override
-		public int compare(int[] a, int[] b) {
-			if (bi[a[0]] != bi[b[0]]) {
-				return a[0] - b[0];
-			}
-			if ((bi[a[0]] & 1) == 1) {
-				return a[1] - b[1];
-			}
-			return b[1] - a[1];
-		}
-
-	}
-
-	public static QueryCmp1 cmp1 = new QueryCmp1();
-	public static QueryCmp2 cmp2 = new QueryCmp2();
 
 	public static int MAXN = 50001;
 	public static int n, m;
@@ -80,8 +60,7 @@ public class Code03_SockFromZ1 {
 		for (int i = 1; i <= n; i++) {
 			bi[i] = (i - 1) / blen + 1;
 		}
-		// Arrays.sort(query, 1, m + 1, cmp1);
-		Arrays.sort(query, 1, m + 1, cmp2);
+		Arrays.sort(query, 1, m + 1, new QueryCmp());
 	}
 
 	public static void compute() {
