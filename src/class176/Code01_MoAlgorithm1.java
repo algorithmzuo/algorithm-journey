@@ -19,7 +19,7 @@ public class Code01_MoAlgorithm1 {
 		@Override
 		public int compare(int[] a, int[] b) {
 			if (bi[a[0]] != bi[b[0]]) {
-				return a[0] - b[0];
+				return bi[a[0]] - bi[b[0]];
 			}
 			return a[1] - b[1];
 		}
@@ -32,7 +32,7 @@ public class Code01_MoAlgorithm1 {
 		@Override
 		public int compare(int[] a, int[] b) {
 			if (bi[a[0]] != bi[b[0]]) {
-				return a[0] - b[0];
+				return bi[a[0]] - bi[b[0]];
 			}
 			if ((bi[a[0]] & 1) == 1) {
 				return a[1] - b[1];
@@ -42,8 +42,8 @@ public class Code01_MoAlgorithm1 {
 
 	}
 
-	public static QueryCmp1 cmp1 = new QueryCmp1();
-	public static QueryCmp2 cmp2 = new QueryCmp2();
+	public static QueryCmp1 mo1 = new QueryCmp1();
+	public static QueryCmp2 mo2 = new QueryCmp2();
 
 	public static int MAXN = 30001;
 	public static int MAXV = 1000001;
@@ -75,7 +75,7 @@ public class Code01_MoAlgorithm1 {
 			bi[i] = (i - 1) / blen + 1;
 		}
 		// Arrays.sort(query, 1, q + 1, cmp1);
-		Arrays.sort(query, 1, q + 1, cmp2);
+		Arrays.sort(query, 1, q + 1, mo2);
 	}
 
 	public static void compute() {
