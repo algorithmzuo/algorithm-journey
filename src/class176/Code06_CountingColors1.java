@@ -55,16 +55,16 @@ public class Code06_CountingColors1 {
 		}
 	}
 
-	public static void updateTime(int jobl, int jobr, int t) {
-		int pos = update[t][0];
-		int val = update[t][1];
+	public static void updateTime(int jobl, int jobr, int tim) {
+		int pos = update[tim][0];
+		int val = update[tim][1];
 		if (jobl <= pos && pos <= jobr) {
 			del(arr[pos]);
 			add(val);
 		}
 		int tmp = arr[pos];
 		arr[pos] = val;
-		update[t][1] = tmp;
+		update[tim][1] = tmp;
 	}
 
 	public static void prepare() {
