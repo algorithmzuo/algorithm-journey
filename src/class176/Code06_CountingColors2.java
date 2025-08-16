@@ -14,7 +14,7 @@ package class176;
 //};
 //
 //struct Update {
-//    int i, v;
+//    int pos, val;
 //};
 //
 //const int MAXN = 200001;
@@ -68,15 +68,15 @@ package class176;
 //}
 //
 //void moveTime(int jobl, int jobr, int tim) {
-//    int pos = update[tim].i;
-//    int val = update[tim].v;
+//    int pos = update[tim].pos;
+//    int val = update[tim].val;
 //    if (jobl <= pos && pos <= jobr) {
 //        del(arr[pos]);
 //        add(val);
 //    }
 //    int tmp = arr[pos];
 //    arr[pos] = val;
-//    update[tim].v = tmp;
+//    update[tim].val = tmp;
 //}
 //
 //void prepare() {
@@ -124,19 +124,21 @@ package class176;
 //        cin >> arr[i];
 //    }
 //    char op;
-//    int x, y;
+//    int l, r, pos, val;
 //    for (int i = 1; i <= m; i++) {
-//        cin >> op >> x >> y;
+//        cin >> op;
 //        if (op == 'Q') {
+//            cin >> l >> r;
 //            cntq++;
-//            query[cntq].l = x;
-//            query[cntq].r = y;
+//            query[cntq].l = l;
+//            query[cntq].r = r;
 //            query[cntq].t = cntu;
 //            query[cntq].id = cntq;
 //        } else {
+//            cin >> pos >> val;
 //            cntu++;
-//            update[cntu].i = x;
-//            update[cntu].v = y;
+//            update[cntu].pos = pos;
+//            update[cntu].val = val;
 //        }
 //    }
 //    prepare();

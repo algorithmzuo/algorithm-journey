@@ -134,21 +134,23 @@ public class Code06_CountingColors1 {
 			arr[i] = in.nextInt();
 		}
 		char op;
-		int x, y;
+		int l, r, pos, val;
 		for (int i = 1; i <= m; i++) {
 			op = in.nextChar();
-			x = in.nextInt();
-			y = in.nextInt();
 			if (op == 'Q') {
+				l = in.nextInt();
+				r = in.nextInt();
 				cntq++;
-				query[cntq][0] = x;
-				query[cntq][1] = y;
+				query[cntq][0] = l;
+				query[cntq][1] = r;
 				query[cntq][2] = cntu;
 				query[cntq][3] = cntq;
 			} else {
+				pos = in.nextInt();
+				val = in.nextInt();
 				cntu++;
-				update[cntu][0] = x;
-				update[cntu][1] = y;
+				update[cntu][0] = pos;
+				update[cntu][1] = val;
 			}
 		}
 		prepare();
