@@ -39,8 +39,9 @@ package class176;
 //    }
 //    if ((bi[a.l] & 1) == 1) {
 //        return a.r < b.r;
+//    } else {
+//        return a.r > b.r;
 //    }
-//    return a.r > b.r;
 //}
 //
 //void del(int num) {

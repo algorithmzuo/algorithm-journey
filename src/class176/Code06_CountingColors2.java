@@ -31,12 +31,26 @@ package class176;
 //int ans[MAXN];
 //int kind;
 //
-//bool QueryCmp(Query &a, Query &b) {
+//bool QueryCmp1(Query &a, Query &b) {
 //    if (bi[a.l] != bi[b.l]) {
 //        return bi[a.l] < bi[b.l];
 //    }
 //    if (bi[a.r] != bi[b.r]) {
 //        return bi[a.r] < bi[b.r];
+//    }
+//    return a.t < b.t;
+//}
+//
+//bool QueryCmp2(Query &a, Query &b) {
+//    if (bi[a.l] != bi[b.l]) {
+//        return bi[a.l] < bi[b.l];
+//    }
+//    if (bi[a.r] != bi[b.r]) {
+//        if ((bi[a.l] & 1) == 1) {
+//            return bi[a.r] < bi[b.r];
+//        } else {
+//            return bi[a.r] > bi[b.r];
+//        }
 //    }
 //    return a.t < b.t;
 //}
@@ -70,7 +84,7 @@ package class176;
 //    for (int i = 1; i <= n; i++) {
 //        bi[i] = (i - 1) / blen + 1;
 //    }
-//    sort(query + 1, query + cntq + 1, QueryCmp);
+//    sort(query + 1, query + cntq + 1, QueryCmp2);
 //}
 //
 //void compute() {

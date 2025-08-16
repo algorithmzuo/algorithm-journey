@@ -14,7 +14,7 @@ import java.util.Comparator;
 
 public class Code01_MoAlgorithm1 {
 
-	// 莫队经典排序
+	// 普通莫队经典排序
 	public static class QueryCmp1 implements Comparator<int[]> {
 
 		@Override
@@ -27,7 +27,7 @@ public class Code01_MoAlgorithm1 {
 
 	}
 
-	// 莫队奇偶排序，玄学优化
+	// 普通莫队奇偶排序
 	public static class QueryCmp2 implements Comparator<int[]> {
 
 		@Override
@@ -37,8 +37,9 @@ public class Code01_MoAlgorithm1 {
 			}
 			if ((bi[a[0]] & 1) == 1) {
 				return a[1] - b[1];
+			} else {
+				return b[1] - a[1];
 			}
-			return b[1] - a[1];
 		}
 
 	}
