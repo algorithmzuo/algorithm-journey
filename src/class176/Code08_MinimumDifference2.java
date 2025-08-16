@@ -67,8 +67,8 @@ package class176;
 //    int pos = update[tim].pos;
 //    int val = update[tim].val;
 //    if (jobl <= pos && pos <= jobr) {
-//    	del(arr[pos]);
-//    	add(val);
+//        del(arr[pos]);
+//        add(val);
 //    }
 //    int tmp = arr[pos];
 //    arr[pos] = val;
