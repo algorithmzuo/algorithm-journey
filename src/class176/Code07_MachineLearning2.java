@@ -151,14 +151,14 @@ package class176;
 //        cin >> op;
 //        if (op == 1) {
 //            cin >> l >> r;
-//            ++cntq;
+//            cntq++;
 //            query[cntq].l = l;
 //            query[cntq].r = r;
 //            query[cntq].t = cntu;
 //            query[cntq].id = cntq;
 //        } else {
 //            cin >> pos >> val;
-//            ++cntu;
+//            cntu++;
 //            update[cntu].pos = pos;
 //            update[cntu].val = val;
 //        }

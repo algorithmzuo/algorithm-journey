@@ -156,7 +156,7 @@ package class176;
 //        cin >> op;
 //        if (op == 1) {
 //            cin >> l >> r >> k;
-//            ++cntq;
+//            cntq++;
 //            query[cntq].l = l;
 //            query[cntq].r = r;
 //            query[cntq].k = k;
@@ -164,7 +164,7 @@ package class176;
 //            query[cntq].id = cntq;
 //        } else {
 //            cin >> pos >> val;
-//            ++cntu;
+//            cntu++;
 //            update[cntu].pos = pos;
 //            update[cntu].val = val;
 //        }
