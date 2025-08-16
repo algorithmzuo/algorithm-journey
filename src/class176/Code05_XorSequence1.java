@@ -1,6 +1,9 @@
 package class176;
 
 // 异或序列，java版
+// 给定一个长度为n的数组arr，给定一个数字k，一共有m条查询，格式如下
+// 查询 l r : arr[l..r]范围上，有多少子数组的异或和为k，打印其数量
+// 0 <= n、m、k、arr[i] <= 10^5
 // 测试链接 : https://www.luogu.com.cn/problem/P4462
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 

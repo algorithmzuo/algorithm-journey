@@ -1,6 +1,11 @@
 package class176;
 
 // 数颜色，C++版
+// 给定一个长度为n的数组arr，一共有m条操作，操作格式如下
+// 操作 Q l r     : 打印arr[l..r]范围上有几种不同的数
+// 操作 R pos val : 把arr[pos]的值设置成val
+// 1 <= n、m <= 2 * 10^5
+// 1 <= arr[i]、val <= 10^6
 // 测试链接 : https://www.luogu.com.cn/problem/P1903
 // 如下实现是C++的版本，C++版本和java版本逻辑完全一样
 // 提交如下代码，可以通过所有测试用例

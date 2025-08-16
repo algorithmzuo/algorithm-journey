@@ -1,6 +1,11 @@
 package class176;
 
 // 普通莫队模版题，C++版
+// 给定一个长度为n的数组arr，一共有q条查询，格式如下
+// 查询 l r : 打印arr[l..r]范围上有几种不同的数字
+// 1 <= n <= 3 * 10^4
+// 1 <= arr[i] <= 10^6
+// 1 <= q <= 2 * 10^5
 // 测试链接 : https://www.luogu.com.cn/problem/SP3267
 // 测试链接 : https://www.spoj.com/problems/DQUERY/
 // 如下实现是C++的版本，C++版本和java版本逻辑完全一样

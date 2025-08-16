@@ -1,6 +1,13 @@
 package class176;
 
 // 最小化极差，java版
+// 给定一个长度为n的数组arr，一共有m条操作，操作格式如下
+// 操作 1 l r k   : arr[l..r]范围上，选出k个真的出现并且互不相同的数
+//                  这些数假设为a1、a2 .. ak，对应的出现次数假设为cnt1、cnt2 .. cntk
+//                  打印 max{cnt1 .. cntk} - min{cnt1 .. cntk} 的最小值
+//                  如果无法选出k个数，打印-1
+// 操作 2 pos val : 把arr[pos]的值设置成val
+// 1 <= 所有数据 <= 10^5
 // 测试链接 : https://www.luogu.com.cn/problem/CF1476G
 // 测试链接 : https://codeforces.com/problemset/problem/1476/G
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
