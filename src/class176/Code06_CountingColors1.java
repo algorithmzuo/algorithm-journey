@@ -18,8 +18,7 @@ import java.util.Comparator;
 
 public class Code06_CountingColors1 {
 
-	// 带修莫队经典排序
-	public static class QueryCmp1 implements Comparator<int[]> {
+	public static class QueryCmp implements Comparator<int[]> {
 
 		@Override
 		public int compare(int[] a, int[] b) {
@@ -28,26 +27,6 @@ public class Code06_CountingColors1 {
 			}
 			if (bi[a[1]] != bi[b[1]]) {
 				return bi[a[1]] - bi[b[1]];
-			}
-			return a[2] - b[2];
-		}
-
-	}
-
-	// 带修莫队奇偶排序
-	public static class QueryCmp2 implements Comparator<int[]> {
-
-		@Override
-		public int compare(int[] a, int[] b) {
-			if (bi[a[0]] != bi[b[0]]) {
-				return bi[a[0]] - bi[b[0]];
-			}
-			if (bi[a[1]] != bi[b[1]]) {
-				if ((bi[a[0]] & 1) == 1) {
-					return bi[a[1]] - bi[b[1]];
-				} else {
-					return bi[b[1]] - bi[a[1]];
-				}
 			}
 			return a[2] - b[2];
 		}
@@ -97,8 +76,7 @@ public class Code06_CountingColors1 {
 		for (int i = 1; i <= n; i++) {
 			bi[i] = (i - 1) / blen + 1;
 		}
-		// Arrays.sort(query, 1, cntq + 1, new QueryCmp1());
-		Arrays.sort(query, 1, cntq + 1, new QueryCmp2());
+		Arrays.sort(query, 1, cntq + 1, new QueryCmp());
 	}
 
 	public static void compute() {
