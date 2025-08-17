@@ -1,6 +1,6 @@
 package class176;
 
-// 数颜色，java版
+// 带修莫队入门题，java版
 // 给定一个长度为n的数组arr，一共有m条操作，操作格式如下
 // 操作 Q l r     : 打印arr[l..r]范围上有几种不同的数
 // 操作 R pos val : 把arr[pos]的值设置成val
