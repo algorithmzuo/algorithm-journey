@@ -16,7 +16,7 @@ import java.io.PrintWriter;
 import java.util.Arrays;
 import java.util.Comparator;
 
-public class Code06_CountingColors1 {
+public class Code06_MoWithModify1 {
 
 	public static class QueryCmp implements Comparator<int[]> {
 
