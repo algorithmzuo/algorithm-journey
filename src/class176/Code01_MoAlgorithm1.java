@@ -58,8 +58,8 @@ public class Code01_MoAlgorithm1 {
 
 	public static int[] bi = new int[MAXN];
 	public static int[] cnt = new int[MAXV];
-	public static int kind = 0;
 	public static int[] ans = new int[MAXQ];
+	public static int kind = 0;
 
 	public static void del(int num) {
 		if (--cnt[num] == 0) {
