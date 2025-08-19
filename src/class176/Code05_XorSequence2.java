@@ -21,12 +21,11 @@ package class176;
 //int n, m, k;
 //int arr[MAXN];
 //Query query[MAXN];
-//
 //int bi[MAXN];
+//
 //int pre[MAXN];
 //long long cnt[MAXS];
 //long long cur;
-//
 //long long ans[MAXN];
 //
 //bool QueryCmp(Query &a, Query &b) {

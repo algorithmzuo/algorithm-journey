@@ -21,12 +21,14 @@ public class Code05_XorSequence1 {
 	public static int n, m, k;
 	public static int[] arr = new int[MAXN];
 	public static int[][] query = new int[MAXN][3];
-
 	public static int[] bi = new int[MAXN];
-	public static int[] pre = new int[MAXN];
-	public static long[] cnt = new long[MAXS];
-	public static long cur;
 
+	// pre[i] == x，表示前i个数字的前缀异或和为x
+	public static int[] pre = new int[MAXN];
+	// cnt[x] = a，表示窗口内，前缀异或和x，一共有a个
+	public static long[] cnt = new long[MAXS];
+	// cur表示窗口内，异或和为k的子数组数量
+	public static long cur;
 	public static long[] ans = new long[MAXN];
 
 	public static class QueryCmp implements Comparator<int[]> {
