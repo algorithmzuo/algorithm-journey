@@ -22,11 +22,12 @@ package class176;
 //int arr[MAXN];
 //int sorted[MAXN];
 //Query query[MAXN];
-//
 //int bi[MAXN];
+//
 //int cnt1[MAXN];
 //int cnt2[MAXN];
 //int maxCnt = 0;
+//
 //int ans[MAXN];
 //
 //bool QueryCmp(Query &a, Query &b) {

@@ -17,6 +17,22 @@ import java.util.Comparator;
 
 public class Code04_BloodyString1 {
 
+	public static int MAXN = 200001;
+	public static int n, m;
+	public static int[] arr = new int[MAXN];
+	public static int[] sorted = new int[MAXN];
+	public static int[][] query = new int[MAXN][3];
+	public static int[] bi = new int[MAXN];
+
+	// cnt1[i] = j，表示窗口内，i这种数出现的次数为j
+	// cnt2[i] = j，表示窗口内，出现次数为i的数，一共有j种
+	// maxCnt表示窗口内众数的次数
+	public static int[] cnt1 = new int[MAXN];
+	public static int[] cnt2 = new int[MAXN];
+	public static int maxCnt = 0;
+
+	public static int[] ans = new int[MAXN];
+
 	public static class QueryCmp implements Comparator<int[]> {
 
 		@Override
@@ -28,18 +44,6 @@ public class Code04_BloodyString1 {
 		}
 
 	}
-
-	public static int MAXN = 200001;
-	public static int n, m;
-	public static int[] arr = new int[MAXN];
-	public static int[] sorted = new int[MAXN];
-	public static int[][] query = new int[MAXN][3];
-
-	public static int[] bi = new int[MAXN];
-	public static int[] cnt1 = new int[MAXN];
-	public static int[] cnt2 = new int[MAXN];
-	public static int maxCnt = 0;
-	public static int[] ans = new int[MAXN];
 
 	public static int kth(int len, int num) {
 		int left = 1, right = len, mid, ret = 0;
