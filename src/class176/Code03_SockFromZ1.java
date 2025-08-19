@@ -2,8 +2,8 @@ package class176;
 
 // 小Z的袜子，java版
 // 给定一个长度为n的数组arr，一共有m条查询，格式如下
-// 查询 l r : arr[l..r]范围上，如果随机选两个数，打印数字相同的概率
-//            打印的结果用分数的形式表达，并且约分到最简的形式
+// 查询 l r : arr[l..r]范围上，随机选不同位置的两个数，打印数值相同的概率
+//            概率用分数的形式表达，并且约分到最简的形式
 // 1 <= n、m、arr[i] <= 5 * 10^4
 // 测试链接 : https://www.luogu.com.cn/problem/P1494
 // 提交以下的code，提交时请把类名改成"Main"
@@ -20,6 +20,17 @@ import java.util.Comparator;
 
 public class Code03_SockFromZ1 {
 
+	public static int MAXN = 50001;
+	public static int n, m;
+	public static int[] arr = new int[MAXN];
+	public static int[][] query = new int[MAXN][3];
+
+	public static int[] bi = new int[MAXN];
+	public static int[] cnt = new int[MAXN];
+	public static long sum = 0;
+	public static long[] ans1 = new long[MAXN];
+	public static long[] ans2 = new long[MAXN];
+
 	public static class QueryCmp implements Comparator<int[]> {
 
 		@Override
@@ -31,17 +42,6 @@ public class Code03_SockFromZ1 {
 		}
 
 	}
-
-	public static int MAXN = 50001;
-	public static int n, m;
-	public static int[] arr = new int[MAXN];
-	public static int[][] query = new int[MAXN][3];
-
-	public static int[] bi = new int[MAXN];
-	public static int[] cnt = new int[MAXN];
-	public static long sum = 0;
-	public static long[] ans1 = new long[MAXN];
-	public static long[] ans2 = new long[MAXN];
 
 	public static long gcd(long a, long b) {
 		return b == 0 ? a : gcd(b, a % b);
