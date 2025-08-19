@@ -56,15 +56,15 @@ package class176;
 //        maxCnt--;
 //    }
 //    cnt2[cnt1[num]]--;
-//    cnt2[--cnt1[num]]++;
+//    cnt1[num]--;
+//    cnt2[cnt1[num]]++;
 //}
 //
 //void add(int num) {
 //    cnt2[cnt1[num]]--;
-//    cnt2[++cnt1[num]]++;
-//    if (cnt1[num] > maxCnt) {
-//        maxCnt = cnt1[num];
-//    }
+//    cnt1[num]++;
+//    cnt2[cnt1[num]]++;
+//    maxCnt = max(maxCnt, cnt1[num]);
 //}
 //
 //void prepare() {

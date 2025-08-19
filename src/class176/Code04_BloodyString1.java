@@ -64,12 +64,14 @@ public class Code04_BloodyString1 {
 			maxCnt--;
 		}
 		cnt2[cnt1[num]]--;
-		cnt2[--cnt1[num]]++;
+		cnt1[num]--;
+		cnt2[cnt1[num]]++;
 	}
 
 	public static void add(int num) {
 		cnt2[cnt1[num]]--;
-		cnt2[++cnt1[num]]++;
+		cnt1[num]++;
+		cnt2[cnt1[num]]++;
 		maxCnt = Math.max(maxCnt, cnt1[num]);
 	}
 
