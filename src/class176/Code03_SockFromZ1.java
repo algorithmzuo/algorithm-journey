@@ -28,7 +28,10 @@ public class Code03_SockFromZ1 {
 	public static int[] bi = new int[MAXN];
 	public static int[] cnt = new int[MAXN];
 	public static long sum = 0;
+
+	// 每个查询的分子的值
 	public static long[] ans1 = new long[MAXN];
+	// 每个查询的分母的值
 	public static long[] ans2 = new long[MAXN];
 
 	public static class QueryCmp implements Comparator<int[]> {
