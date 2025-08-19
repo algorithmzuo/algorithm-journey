@@ -87,7 +87,8 @@ public class Code05_XorSequence1 {
 	public static void compute() {
 		int winl = 1, winr = 0;
 		for (int i = 1; i <= m; i++) {
-			// 窗口[l..r]，但是前缀可能性多一种，1..l-1
+			// 任务范围[jobl, jobr]，但是前缀可能性会多一种
+			// 所以左边界-1
 			int jobl = query[i][0] - 1;
 			int jobr = query[i][1];
 			while (winl > jobl) {
