@@ -26,7 +26,7 @@ public class Code04_BloodyString1 {
 
 	// cnt1[i] = j，表示窗口内，数字i出现了j次
 	// cnt2[i] = j，表示窗口内，出现了i次的数，有j种
-	// maxCnt表示窗口内众数的次数
+	// maxCnt，表示窗口内，众数的次数
 	public static int[] cnt1 = new int[MAXN];
 	public static int[] cnt2 = new int[MAXN];
 	public static int maxCnt = 0;
