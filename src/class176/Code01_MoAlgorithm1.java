@@ -24,7 +24,8 @@ public class Code01_MoAlgorithm1 {
 	public static int MAXQ = 200001;
 	public static int n, q;
 	public static int[] arr = new int[MAXN];
-	public static int[][] query = new int[MAXQ][3]; // jobl, jobr, 问题id
+	// jobl, jobr, 问题id
+	public static int[][] query = new int[MAXQ][3];
 
 	public static int[] bi = new int[MAXN];
 	public static int[] cnt = new int[MAXV];
