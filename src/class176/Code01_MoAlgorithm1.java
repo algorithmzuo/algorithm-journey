@@ -19,6 +19,19 @@ import java.util.Comparator;
 
 public class Code01_MoAlgorithm1 {
 
+	public static int MAXN = 30001;
+	public static int MAXV = 1000001;
+	public static int MAXQ = 200001;
+	public static int n, q;
+	public static int[] arr = new int[MAXN];
+	public static int[][] query = new int[MAXQ][3]; // jobl, jobr, 问题id
+
+	public static int[] bi = new int[MAXN];
+	public static int[] cnt = new int[MAXV];
+	public static int kind = 0;
+
+	public static int[] ans = new int[MAXQ];
+
 	// 普通莫队经典排序
 	public static class QueryCmp1 implements Comparator<int[]> {
 
@@ -48,18 +61,6 @@ public class Code01_MoAlgorithm1 {
 		}
 
 	}
-
-	public static int MAXN = 30001;
-	public static int MAXV = 1000001;
-	public static int MAXQ = 200001;
-	public static int n, q;
-	public static int[] arr = new int[MAXN];
-	public static int[][] query = new int[MAXQ][3];
-
-	public static int[] bi = new int[MAXN];
-	public static int[] cnt = new int[MAXV];
-	public static int[] ans = new int[MAXQ];
-	public static int kind = 0;
 
 	public static void del(int num) {
 		if (--cnt[num] == 0) {

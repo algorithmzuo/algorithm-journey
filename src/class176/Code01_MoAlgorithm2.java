@@ -28,8 +28,9 @@ package class176;
 //
 //int bi[MAXN];
 //int cnt[MAXV];
-//int ans[MAXQ];
 //int kind = 0;
+//
+//int ans[MAXQ];
 //
 //bool QueryCmp1(Query &a, Query &b) {
 //    if (bi[a.l] != bi[b.l]) {
