@@ -18,6 +18,18 @@ import java.util.Comparator;
 
 public class Code02_QueryFromB1 {
 
+	public static int MAXN = 50001;
+	public static int n, m, k;
+	public static int[] arr = new int[MAXN];
+	// jobl, jobr, 问题id
+	public static int[][] query = new int[MAXN][3];
+
+	public static int[] bi = new int[MAXN];
+	public static int[] cnt = new int[MAXN];
+	public static int sum = 0;
+
+	public static int[] ans = new int[MAXN];
+
 	public static class QueryCmp implements Comparator<int[]> {
 
 		@Override
@@ -29,16 +41,6 @@ public class Code02_QueryFromB1 {
 		}
 
 	}
-
-	public static int MAXN = 50001;
-	public static int n, m, k;
-	public static int[] arr = new int[MAXN];
-	public static int[][] query = new int[MAXN][3];
-
-	public static int[] bi = new int[MAXN];
-	public static int[] cnt = new int[MAXN];
-	public static int sum = 0;
-	public static int[] ans = new int[MAXN];
 
 	public static void del(int num) {
 		sum -= cnt[num] * cnt[num];
