@@ -37,17 +37,19 @@ public class Code02_QueryFromB1 {
 
 	public static int[] bi = new int[MAXN];
 	public static int[] cnt = new int[MAXN];
-	public static long sum = 0;
-	public static long[] ans = new long[MAXN];
+	public static int sum = 0;
+	public static int[] ans = new int[MAXN];
 
 	public static void del(int num) {
-		sum -= 2 * cnt[num] - 1;
+		sum -= cnt[num] * cnt[num];
 		cnt[num]--;
+		sum += cnt[num] * cnt[num];
 	}
 
 	public static void add(int num) {
-		sum += 2 * cnt[num] + 1;
+		sum -= cnt[num] * cnt[num];
 		cnt[num]++;
+		sum += cnt[num] * cnt[num];
 	}
 
 	public static void prepare() {

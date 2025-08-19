@@ -25,8 +25,8 @@ package class176;
 //
 //int bi[MAXN];
 //int cnt[MAXN];
-//long long sum = 0;
-//long long ans[MAXN];
+//int sum = 0;
+//int ans[MAXN];
 //
 //bool QueryCmp(Query &a, Query &b) {
 //    if (bi[a.l] != bi[b.l]) {
@@ -36,13 +36,15 @@ package class176;
 //}
 //
 //void del(int num) {
-//    sum -= 2 * cnt[num] - 1;
+//    sum -= cnt[num] * cnt[num];
 //    cnt[num]--;
+//    sum += cnt[num] * cnt[num];
 //}
 //
 //void add(int num) {
-//    sum += 2 * cnt[num] + 1;
+//    sum -= cnt[num] * cnt[num];
 //    cnt[num]++;
+//    sum += cnt[num] * cnt[num];
 //}
 //
 //void prepare() {
