@@ -16,6 +16,19 @@ import java.util.Comparator;
 
 public class Code05_XorSequence1 {
 
+	public static int MAXN = 100001;
+	public static int MAXS = 1 << 20;
+	public static int n, m, k;
+	public static int[] arr = new int[MAXN];
+	public static int[][] query = new int[MAXN][3];
+
+	public static int[] bi = new int[MAXN];
+	public static int[] pre = new int[MAXN];
+	public static long[] cnt = new long[MAXS];
+	public static long cur;
+
+	public static long[] ans = new long[MAXN];
+
 	public static class QueryCmp implements Comparator<int[]> {
 
 		@Override
@@ -27,19 +40,6 @@ public class Code05_XorSequence1 {
 		}
 
 	}
-
-	public static int MAXN = 100001;
-	public static int MAXK = 1 << 20;
-	public static int n, m, k;
-	public static int[] arr = new int[MAXN];
-	public static int[][] query = new int[MAXN][3];
-
-	public static int[] pre = new int[MAXN];
-	public static int[] bi = new int[MAXN];
-
-	public static long[] cnt = new long[MAXK];
-	public static long[] ans = new long[MAXN];
-	public static long cur;
 
 	public static void del(int x) {
 		if (k != 0) {

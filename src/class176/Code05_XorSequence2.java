@@ -17,17 +17,17 @@ package class176;
 //};
 //
 //const int MAXN = 100001;
-//const int MAXK = 1 << 20;
+//const int MAXS = 1 << 20;
 //int n, m, k;
 //int arr[MAXN];
 //Query query[MAXN];
 //
-//int pre[MAXN];
 //int bi[MAXN];
-//
-//long long cnt[MAXK];
-//long long ans[MAXN];
+//int pre[MAXN];
+//long long cnt[MAXS];
 //long long cur;
+//
+//long long ans[MAXN];
 //
 //bool QueryCmp(Query &a, Query &b) {
 //    if (bi[a.l] != bi[b.l]) {
