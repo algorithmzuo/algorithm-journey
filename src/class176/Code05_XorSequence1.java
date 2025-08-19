@@ -27,8 +27,8 @@ public class Code05_XorSequence1 {
 	public static int[] pre = new int[MAXN];
 	// cnt[x] = a，表示窗口内，前缀异或和x，一共有a个
 	public static long[] cnt = new long[MAXS];
-	// cur表示窗口内，异或和为k的子数组数量
-	public static long cur;
+	// num表示窗口内，异或和为k的子数组数量
+	public static long num;
 	public static long[] ans = new long[MAXN];
 
 	public static class QueryCmp implements Comparator<int[]> {
@@ -43,31 +43,33 @@ public class Code05_XorSequence1 {
 
 	}
 
+	// 前缀异或和x要删除一次
 	public static void del(int x) {
 		if (k != 0) {
-			cur -= cnt[x] * cnt[x ^ k];
+			num -= cnt[x] * cnt[x ^ k];
 		} else {
-			cur -= (cnt[x] * (cnt[x] - 1)) >> 1;
+			num -= (cnt[x] * (cnt[x] - 1)) >> 1;
 		}
 		cnt[x]--;
 		if (k != 0) {
-			cur += cnt[x] * cnt[x ^ k];
+			num += cnt[x] * cnt[x ^ k];
 		} else {
-			cur += (cnt[x] * (cnt[x] - 1)) >> 1;
+			num += (cnt[x] * (cnt[x] - 1)) >> 1;
 		}
 	}
 
+	// 前缀异或和x要增加一次
 	public static void add(int x) {
 		if (k != 0) {
-			cur -= cnt[x] * cnt[x ^ k];
+			num -= cnt[x] * cnt[x ^ k];
 		} else {
-			cur -= (cnt[x] * (cnt[x] - 1)) >> 1;
+			num -= (cnt[x] * (cnt[x] - 1)) >> 1;
 		}
 		cnt[x]++;
 		if (k != 0) {
-			cur += cnt[x] * cnt[x ^ k];
+			num += cnt[x] * cnt[x ^ k];
 		} else {
-			cur += (cnt[x] * (cnt[x] - 1)) >> 1;
+			num += (cnt[x] * (cnt[x] - 1)) >> 1;
 		}
 	}
 
@@ -85,7 +87,7 @@ public class Code05_XorSequence1 {
 	public static void compute() {
 		int winl = 1, winr = 0;
 		for (int i = 1; i <= m; i++) {
-			// 左边界要-1
+			// 窗口[l..r]，但是前缀可能性多一种，1..l-1
 			int jobl = query[i][0] - 1;
 			int jobr = query[i][1];
 			while (winl > jobl) {
@@ -100,7 +102,7 @@ public class Code05_XorSequence1 {
 			while (winr > jobr) {
 				del(pre[winr--]);
 			}
-			ans[query[i][2]] = cur;
+			ans[query[i][2]] = num;
 		}
 	}
 

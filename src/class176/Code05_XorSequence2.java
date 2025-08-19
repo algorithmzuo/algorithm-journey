@@ -25,7 +25,7 @@ package class176;
 //
 //int pre[MAXN];
 //long long cnt[MAXS];
-//long long cur;
+//long long num;
 //long long ans[MAXN];
 //
 //bool QueryCmp(Query &a, Query &b) {
@@ -37,29 +37,29 @@ package class176;
 //
 //void del(int x) {
 //    if (k != 0) {
-//        cur -= cnt[x] * cnt[x ^ k];
+//        num -= cnt[x] * cnt[x ^ k];
 //    } else {
-//        cur -= (cnt[x] * (cnt[x] - 1)) >> 1;
+//        num -= (cnt[x] * (cnt[x] - 1)) >> 1;
 //    }
 //    cnt[x]--;
 //    if (k != 0) {
-//        cur += cnt[x] * cnt[x ^ k];
+//        num += cnt[x] * cnt[x ^ k];
 //    } else {
-//        cur += (cnt[x] * (cnt[x] - 1)) >> 1;
+//        num += (cnt[x] * (cnt[x] - 1)) >> 1;
 //    }
 //}
 //
 //void add(int x) {
 //    if (k != 0) {
-//        cur -= cnt[x] * cnt[x ^ k];
+//        num -= cnt[x] * cnt[x ^ k];
 //    } else {
-//        cur -= (cnt[x] * (cnt[x] - 1)) >> 1;
+//        num -= (cnt[x] * (cnt[x] - 1)) >> 1;
 //    }
 //    cnt[x]++;
 //    if (k != 0) {
-//        cur += cnt[x] * cnt[x ^ k];
+//        num += cnt[x] * cnt[x ^ k];
 //    } else {
-//        cur += (cnt[x] * (cnt[x] - 1)) >> 1;
+//        num += (cnt[x] * (cnt[x] - 1)) >> 1;
 //    }
 //}
 //
@@ -91,7 +91,7 @@ package class176;
 //        while (winr > jobr) {
 //            del(pre[winr--]);
 //        }
-//        ans[query[i].id] = cur;
+//        ans[query[i].id] = num;
 //    }
 //}
 //
