@@ -69,7 +69,7 @@ public class Code06_MoWithModify1 {
 			add(val);
 		}
 		// 这里比较巧妙
-		// 修改时间点不管前进还是后退
+		// 时间窗口不管前进还是后退
 		// 数据只要在arr和update之间交换即可
 		int tmp = arr[pos];
 		arr[pos] = val;
