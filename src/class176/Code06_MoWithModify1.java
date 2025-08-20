@@ -18,6 +18,22 @@ import java.util.Comparator;
 
 public class Code06_MoWithModify1 {
 
+	public static int MAXN = 200001;
+	public static int MAXV = 1000001;
+	public static int n, m;
+	public static int[] arr = new int[MAXN];
+	public static int[] bi = new int[MAXN];
+
+	public static int[][] query = new int[MAXN][4];
+	public static int[][] update = new int[MAXN][2];
+	public static int cntq, cntu;
+
+	public static int[] cnt = new int[MAXV];
+	public static int kind;
+
+	public static int[] ans = new int[MAXN];
+
+	// 带修莫队的任务排序
 	public static class QueryCmp implements Comparator<int[]> {
 
 		@Override
@@ -32,20 +48,6 @@ public class Code06_MoWithModify1 {
 		}
 
 	}
-
-	public static int MAXN = 200001;
-	public static int MAXV = 1000001;
-	public static int n, m;
-	public static int[] arr = new int[MAXN];
-	public static int[] bi = new int[MAXN];
-
-	public static int[][] query = new int[MAXN][4];
-	public static int[][] update = new int[MAXN][2];
-	public static int cntq, cntu;
-
-	public static int[] cnt = new int[MAXV];
-	public static int[] ans = new int[MAXN];
-	public static int kind;
 
 	public static void del(int num) {
 		if (--cnt[num] == 0) {
@@ -66,17 +68,12 @@ public class Code06_MoWithModify1 {
 			del(arr[pos]);
 			add(val);
 		}
+		// 这里比较巧妙
+		// 修改时间点不管前进还是后退
+		// 数据只要在arr和update之间交换即可
 		int tmp = arr[pos];
 		arr[pos] = val;
 		update[tim][1] = tmp;
-	}
-
-	public static void prepare() {
-		int blen = Math.max(1, (int) Math.pow(n, 2.0 / 3));
-		for (int i = 1; i <= n; i++) {
-			bi[i] = (i - 1) / blen + 1;
-		}
-		Arrays.sort(query, 1, cntq + 1, new QueryCmp());
 	}
 
 	public static void compute() {
@@ -106,6 +103,14 @@ public class Code06_MoWithModify1 {
 			}
 			ans[id] = kind;
 		}
+	}
+
+	public static void prepare() {
+		int blen = Math.max(1, (int) Math.pow(n, 2.0 / 3));
+		for (int i = 1; i <= n; i++) {
+			bi[i] = (i - 1) / blen + 1;
+		}
+		Arrays.sort(query, 1, cntq + 1, new QueryCmp());
 	}
 
 	public static void main(String[] args) throws Exception {

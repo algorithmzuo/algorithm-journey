@@ -33,8 +33,9 @@ package class176;
 //int cntq, cntu;
 //
 //int cnt[MAXV];
-//int ans[MAXN];
 //int kind;
+//
+//int ans[MAXN];
 //
 //bool QueryCmp(Query &a, Query &b) {
 //    if (bi[a.l] != bi[b.l]) {
@@ -70,14 +71,6 @@ package class176;
 //    update[tim].val = tmp;
 //}
 //
-//void prepare() {
-//    int blen = max(1, (int)pow(n, 2.0 / 3));
-//    for (int i = 1; i <= n; i++) {
-//        bi[i] = (i - 1) / blen + 1;
-//    }
-//    sort(query + 1, query + cntq + 1, QueryCmp);
-//}
-//
 //void compute() {
 //    int winl = 1, winr = 0, wint = 0;
 //    for (int i = 1; i <= cntq; i++) {
@@ -105,6 +98,14 @@ package class176;
 //        }
 //        ans[id] = kind;
 //     }
+//}
+//
+//void prepare() {
+//    int blen = max(1, (int)pow(n, 2.0 / 3));
+//    for (int i = 1; i <= n; i++) {
+//        bi[i] = (i - 1) / blen + 1;
+//    }
+//    sort(query + 1, query + cntq + 1, QueryCmp);
 //}
 //
 //int main() {
