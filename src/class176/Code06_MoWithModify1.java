@@ -24,7 +24,9 @@ public class Code06_MoWithModify1 {
 	public static int[] arr = new int[MAXN];
 	public static int[] bi = new int[MAXN];
 
+	// 每条查询 : jobl、jobr、jobt、id
 	public static int[][] query = new int[MAXN][4];
+	// 每条修改 : pos、val
 	public static int[][] update = new int[MAXN][2];
 	public static int cntq, cntu;
 
@@ -61,6 +63,8 @@ public class Code06_MoWithModify1 {
 		}
 	}
 
+	// jobl..jobr 数组范围
+	// tim : 生效或者撤销的修改时间点
 	public static void moveTime(int jobl, int jobr, int tim) {
 		int pos = update[tim][0];
 		int val = update[tim][1];
@@ -68,8 +72,7 @@ public class Code06_MoWithModify1 {
 			del(arr[pos]);
 			add(val);
 		}
-		// 时间窗口不管前进还是后退
-		// 数据只要在arr和update之间交换即可
+		// 不管生效还是撤销，数据只要在arr和update之间交换即可
 		int tmp = arr[pos];
 		arr[pos] = val;
 		update[tim][1] = tmp;
