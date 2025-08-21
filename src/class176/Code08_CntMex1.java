@@ -1,6 +1,6 @@
 package class176;
 
-// 机器学习，java版
+// 次数的mex，java版
 // 给定一个长度为n的数组arr，一共有m条操作，操作格式如下
 // 操作 1 l r     : arr[l..r]范围上，每种数字出现的次数，假设构成一个集合
 //                  打印这个集合中，没出现的最小非负整数，就是打印次数的mex
@@ -18,7 +18,7 @@ import java.io.PrintWriter;
 import java.util.Arrays;
 import java.util.Comparator;
 
-public class Code08_MachineLearning1 {
+public class Code08_CntMex1 {
 
 	public static int MAXN = 100001;
 	public static int n, m;
