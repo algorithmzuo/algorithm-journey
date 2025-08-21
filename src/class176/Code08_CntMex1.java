@@ -30,6 +30,8 @@ public class Code08_CntMex1 {
 	public static int[][] update = new int[MAXN][2];
 	public static int cntq, cntu;
 
+	// cnt1[i] = j，表示i这种数出现了j次
+	// cnt2[i] = j，表示出现次数为i的数有j种
 	public static int[] cnt1 = new int[MAXN << 1];
 	public static int[] cnt2 = new int[MAXN];
 
