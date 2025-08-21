@@ -32,7 +32,7 @@ package class176;
 //int cntq, cntu;
 //
 //int cnt[MAXN];
-//int curAns;
+//int curCnt;
 //
 //int ans[MAXN];
 //
@@ -48,20 +48,20 @@ package class176;
 //
 //void del(int num) {
 //    if (cnt[num] == 1) {
-//        curAns--;
+//        curCnt--;
 //    }
 //    if (cnt[num] == 2) {
-//        curAns++;
+//        curCnt++;
 //    }
 //    cnt[num]--;
 //}
 //
 //void add(int num) {
 //    if (cnt[num] == 0) {
-//        curAns++;
+//        curCnt++;
 //    }
 //    if (cnt[num] == 1) {
-//        curAns--;
+//        curCnt--;
 //    }
 //    cnt[num]++;
 //}
@@ -103,7 +103,7 @@ package class176;
 //        while (wint > jobt) {
 //            moveTime(jobl, jobr, wint--);
 //        }
-//        ans[id] = curAns;
+//        ans[id] = curCnt;
 //     }
 //}
 //

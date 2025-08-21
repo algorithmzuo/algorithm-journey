@@ -30,8 +30,10 @@ public class Code07_UniqueNumbers1 {
 	public static int[][] update = new int[MAXN][2];
 	public static int cntq, cntu;
 
+	// 每种数字的词频统计
 	public static int[] cnt = new int[MAXN];
-	public static int curAns = 0;
+	// curCnt代表出现次数1次的数有几种
+	public static int curCnt = 0;
 
 	public static int[] ans = new int[MAXN];
 
@@ -50,20 +52,20 @@ public class Code07_UniqueNumbers1 {
 
 	public static void del(int num) {
 		if (cnt[num] == 1) {
-			curAns--;
+			curCnt--;
 		}
 		if (cnt[num] == 2) {
-			curAns++;
+			curCnt++;
 		}
 		cnt[num]--;
 	}
 
 	public static void add(int num) {
 		if (cnt[num] == 0) {
-			curAns++;
+			curCnt++;
 		}
 		if (cnt[num] == 1) {
-			curAns--;
+			curCnt--;
 		}
 		cnt[num]++;
 	}
@@ -105,7 +107,7 @@ public class Code07_UniqueNumbers1 {
 			while (wint > jobt) {
 				moveTime(jobl, jobr, wint--);
 			}
-			ans[id] = curAns;
+			ans[id] = curCnt;
 		}
 	}
 
