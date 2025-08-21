@@ -24,8 +24,8 @@ public class Code08_MachineLearning1 {
 	public static int n, m;
 	public static int[] arr = new int[MAXN];
 	public static int[] sorted = new int[MAXN << 1];
-
 	public static int[] bi = new int[MAXN];
+
 	public static int[][] query = new int[MAXN][4];
 	public static int[][] update = new int[MAXN][2];
 	public static int cntq, cntu;
@@ -113,6 +113,7 @@ public class Code08_MachineLearning1 {
 			while (wint > jobt) {
 				moveTime(jobl, jobr, wint--);
 			}
+			// 如下枚举看似暴力，其实O(根号n)的复杂度
 			int ret = 1;
 			while (ret <= n && cnt2[ret] > 0) {
 				ret++;
