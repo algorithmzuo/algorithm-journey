@@ -77,16 +77,11 @@ public class Code06_BaldChief1 {
 			sum += Math.abs(pos[v] - pos[v - 1]);
 		}
 		int winl = 1, winr = n;
-		long lastBlockSum = sum;
 		for (int block = 1, qi = 1; block <= bnum && qi <= m; block++) {
-			while (winr < n) {
-				undo(arr[++winr]);
-			}
-			sum = lastBlockSum;
 			while (winl < bl[block]) {
 				del(arr[winl++]);
 			}
-			lastBlockSum = sum;
+			long before = sum;
 			for (; qi <= m && bi[query[qi][0]] == block; qi++) {
 				int jobl = query[qi][0];
 				int jobr = query[qi][1];
@@ -104,6 +99,10 @@ public class Code06_BaldChief1 {
 				}
 				sum = backup;
 			}
+			while (winr < n) {
+				undo(arr[++winr]);
+			}
+			sum = before;
 		}
 	}
 

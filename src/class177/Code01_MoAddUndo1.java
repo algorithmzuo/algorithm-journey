@@ -1,11 +1,8 @@
 package class177;
 
-// 只减不加的回滚莫队入门题，java版
-// 本题最优解为主席树，讲解158，题目2，已经讲述
-// 给定一个长度为n的数组arr，一共有m条查询，格式如下
-// 查询 l r : 打印arr[l..r]内没有出现过的最小自然数，注意0是自然数
-// 0 <= n、m、arr[i] <= 2 * 10^5
-// 测试链接 : https://www.luogu.com.cn/problem/P4137
+// 只增回滚莫队入门题，java版
+// 测试链接 : https://www.luogu.com.cn/problem/AT_joisc2014_c
+// 测试链接 : https://atcoder.jp/contests/joisc2014/tasks/joisc2014_c
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
 import java.io.IOException;
@@ -15,21 +12,25 @@ import java.io.PrintWriter;
 import java.util.Arrays;
 import java.util.Comparator;
 
-public class Code05_MoOnlyDel1 {
+public class Code01_MoAddUndo1 {
 
-	public static int MAXN = 200001;
-	public static int MAXB = 501;
+	public static int MAXN = 100001;
+	public static int MAXB = 401;
 	public static int n, m;
 	public static int[] arr = new int[MAXN];
 	public static int[][] query = new int[MAXN][3];
+	public static int[] sorted = new int[MAXN];
+	public static int cntv;
 
 	public static int blen, bnum;
 	public static int[] bi = new int[MAXN];
-	public static int[] bl = new int[MAXB];
+	public static int[] br = new int[MAXB];
 
-	public static int[] cnt = new int[MAXN + 1];
-	public static int mex;
-	public static int[] ans = new int[MAXN];
+	public static int[] forceCnt = new int[MAXN];
+	public static int[] cnt = new int[MAXN];
+
+	public static long curAns = 0;
+	public static long[] ans = new long[MAXN];
 
 	public static class QueryCmp implements Comparator<int[]> {
 
@@ -38,65 +39,99 @@ public class Code05_MoOnlyDel1 {
 			if (bi[a[0]] != bi[b[0]]) {
 				return bi[a[0]] - bi[b[0]];
 			}
-			return b[1] - a[1];
+			return a[1] - b[1];
 		}
 
 	}
 
-	public static void del(int num) {
-		if (--cnt[num] == 0) {
-			mex = Math.min(mex, num);
+	public static int kth(int num) {
+		int left = 1, right = cntv, mid, ret = 0;
+		while (left <= right) {
+			mid = (left + right) / 2;
+			if (sorted[mid] <= num) {
+				ret = mid;
+				left = mid + 1;
+			} else {
+				right = mid - 1;
+			}
 		}
+		return ret;
+	}
+
+	public static long force(int l, int r) {
+		long ret = 0;
+		for (int i = l; i <= r; i++) {
+			forceCnt[arr[i]]++;
+		}
+		for (int i = l; i <= r; i++) {
+			ret = Math.max(ret, (long) forceCnt[arr[i]] * sorted[arr[i]]);
+		}
+		for (int i = l; i <= r; i++) {
+			forceCnt[arr[i]]--;
+		}
+		return ret;
 	}
 
 	public static void add(int num) {
 		cnt[num]++;
+		curAns = Math.max(curAns, (long) cnt[num] * sorted[num]);
+	}
+
+	public static void undo(int num) {
+		cnt[num]--;
 	}
 
 	public static void compute() {
-		for (int i = 1; i <= n; i++) {
-			add(arr[i]);
-		}
-		int winl = 1, winr = n;
 		for (int block = 1, qi = 1; block <= bnum && qi <= m; block++) {
-			while (winr < n) {
-				add(arr[++winr]);
-			}
-			while (winl < bl[block]) {
-				del(arr[winl++]);
-			}
-			mex = 0;
-			while (cnt[mex] != 0) {
-				mex++;
-			}
+			curAns = 0;
+			Arrays.fill(cnt, 1, cntv + 1, 0);
+			int winl = br[block] + 1;
+			int winr = br[block];
 			for (; qi <= m && bi[query[qi][0]] == block; qi++) {
 				int jobl = query[qi][0];
 				int jobr = query[qi][1];
 				int id = query[qi][2];
-				while (winr > jobr) {
-					del(arr[winr--]);
-				}
-				int backup = mex;
-				while (winl < jobl) {
-					del(arr[winl++]);
-				}
-				ans[id] = mex;
-				mex = backup;
-				while (winl > bl[block]) {
-					add(arr[--winl]);
+				if (jobr <= br[block]) {
+					ans[id] = force(jobl, jobr);
+				} else {
+					while (winr < jobr) {
+						add(arr[++winr]);
+					}
+					long backup = curAns;
+					while (winl > jobl) {
+						add(arr[--winl]);
+					}
+					ans[id] = curAns;
+					curAns = backup;
+					while (winl <= br[block]) {
+						undo(arr[winl++]);
+					}
 				}
 			}
 		}
 	}
 
 	public static void prepare() {
+		for (int i = 1; i <= n; i++) {
+			sorted[i] = arr[i];
+		}
+		Arrays.sort(sorted, 1, n + 1);
+		cntv = 1;
+		for (int i = 2; i <= n; i++) {
+			if (sorted[cntv] != sorted[i]) {
+				sorted[++cntv] = sorted[i];
+			}
+		}
+		for (int i = 1; i <= n; i++) {
+			arr[i] = kth(arr[i]);
+		}
 		blen = (int) Math.sqrt(n);
 		bnum = (n + blen - 1) / blen;
 		for (int i = 1; i <= n; i++) {
 			bi[i] = (i - 1) / blen + 1;
 		}
 		for (int i = 1; i <= bnum; i++) {
-			bl[i] = (i - 1) * blen + 1;
+			br[i] = Math.min(i * blen, n);
 		}
 		Arrays.sort(query, 1, m + 1, new QueryCmp());
 	}

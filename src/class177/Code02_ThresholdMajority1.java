@@ -72,16 +72,16 @@ public class Code02_ThresholdMajority1 {
 		return maxCnt >= k ? sorted[numAns] : -1;
 	}
 
-	public static void del(int num) {
-		cnt[num]--;
-	}
-
 	public static void add(int num) {
 		cnt[num]++;
 		if (cnt[num] > maxCnt || (cnt[num] == maxCnt && num < numAns)) {
 			maxCnt = cnt[num];
 			numAns = num;
 		}
+	}
+	
+	public static void undo(int num) {
+		cnt[num]--;
 	}
 
 	public static void compute() {
@@ -115,7 +115,7 @@ public class Code02_ThresholdMajority1 {
 					maxCnt = backupCnt;
 					numAns = backupNum;
 					while (winl <= br[block]) {
-						del(arr[winl++]);
+						undo(arr[winl++]);
 					}
 				}
 			}

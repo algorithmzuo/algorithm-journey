@@ -74,13 +74,6 @@ public class Code04_ZeroQuery1 {
 		return ret;
 	}
 
-	public static void delLeft(int idx) {
-		int num = arr[idx];
-		if (end[num] == idx) {
-			end[num] = 0;
-		}
-	}
-
 	public static void addRight(int idx) {
 		int num = arr[idx];
 		end[num] = idx;
@@ -96,6 +89,13 @@ public class Code04_ZeroQuery1 {
 			curAns = Math.max(curAns, end[num] - idx);
 		} else {
 			end[num] = idx;
+		}
+	}
+
+	public static void undoLeft(int idx) {
+		int num = arr[idx];
+		if (end[num] == idx) {
+			end[num] = 0;
 		}
 	}
 
@@ -123,7 +123,7 @@ public class Code04_ZeroQuery1 {
 					ans[id] = curAns;
 					curAns = backup;
 					while (winl <= br[block]) {
-						delLeft(winl++);
+						undoLeft(winl++);
 					}
 				}
 			}

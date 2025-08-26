@@ -89,7 +89,7 @@ public class Code03_SameNumberMaxDist1 {
 		curAns = Math.max(curAns, idx - start[num]);
 	}
 
-	public static void addLeft(int idx) {
+	public static void undoLeft(int idx) {
 		int num = arr[idx];
 		if (end[num] != 0) {
 			curAns = Math.max(curAns, end[num] - idx);
@@ -117,7 +117,7 @@ public class Code03_SameNumberMaxDist1 {
 					}
 					int backup = curAns;
 					while (winl > jobl) {
-						addLeft(--winl);
+						undoLeft(--winl);
 					}
 					ans[id] = curAns;
 					curAns = backup;

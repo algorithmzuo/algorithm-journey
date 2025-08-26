@@ -82,16 +82,11 @@ package class177;
 //        sum += abs(pos[v] - pos[v - 1]);
 //    }
 //    int winl = 1, winr = n;
-//    long long lastBlockSum = sum;
 //    for (int block = 1, qi = 1; block <= bnum && qi <= m; block++) {
-//        while (winr < n) {
-//            undo(arr[++winr]);
-//        }
-//        sum = lastBlockSum;
 //        while (winl < bl[block]) {
 //            del(arr[winl++]);
 //        }
-//        lastBlockSum = sum;
+//        long long before = sum;
 //        for (; qi <= m && bi[query[qi].l] == block; qi++) {
 //            int jobl = query[qi].l;
 //            int jobr = query[qi].r;
@@ -109,6 +104,10 @@ package class177;
 //            }
 //            sum = backup;
 //        }
+//        while (winr < n) {
+//            undo(arr[++winr]);
+//        }
+//        sum = before;
 //    }
 //}
 //
