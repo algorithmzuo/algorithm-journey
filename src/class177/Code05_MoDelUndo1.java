@@ -66,7 +66,7 @@ public class Code05_MoDelUndo1 {
 			while (winl < bl[block]) {
 				del(arr[winl++]);
 			}
-			int before = mex;
+			int beforeJob = mex;
 			for (; qi <= m && bi[query[qi][0]] == block; qi++) {
 				int jobl = query[qi][0];
 				int jobr = query[qi][1];
@@ -87,7 +87,7 @@ public class Code05_MoDelUndo1 {
 			while (winr < n) {
 				undo(arr[++winr]);
 			}
-			mex = before;
+			mex = beforeJob;
 		}
 	}
 

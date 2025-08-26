@@ -86,7 +86,7 @@ package class177;
 //        while (winl < bl[block]) {
 //            del(arr[winl++]);
 //        }
-//        long long before = sum;
+//        long long beforeJob = sum;
 //        for (; qi <= m && bi[query[qi].l] == block; qi++) {
 //            int jobl = query[qi].l;
 //            int jobr = query[qi].r;
@@ -107,7 +107,7 @@ package class177;
 //        while (winr < n) {
 //            undo(arr[++winr]);
 //        }
-//        sum = before;
+//        sum = beforeJob;
 //    }
 //}
 //

@@ -81,7 +81,7 @@ public class Code06_BaldChief1 {
 			while (winl < bl[block]) {
 				del(arr[winl++]);
 			}
-			long before = sum;
+			long beforeJob = sum;
 			for (; qi <= m && bi[query[qi][0]] == block; qi++) {
 				int jobl = query[qi][0];
 				int jobr = query[qi][1];
@@ -102,7 +102,7 @@ public class Code06_BaldChief1 {
 			while (winr < n) {
 				undo(arr[++winr]);
 			}
-			sum = before;
+			sum = beforeJob;
 		}
 	}
 
