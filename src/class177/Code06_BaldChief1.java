@@ -60,7 +60,7 @@ public class Code06_BaldChief1 {
 	}
 
 	// 加入num，必须保证num上一次删除的数字
-	// 也就是说，undo的调用就是del操作的回滚
+	// 也就是说，undo的调用必须是del操作的回滚
 	public static void undo(int num) {
 		next[last[num]] = num;
 		last[next[num]] = num;
