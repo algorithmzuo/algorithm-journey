@@ -73,13 +73,6 @@ public class Code03_SameNumberMaxDist1 {
 		return ret;
 	}
 
-	public static void delLeft(int idx) {
-		int num = arr[idx];
-		if (end[num] == idx) {
-			end[num] = 0;
-		}
-	}
-
 	public static void addRight(int idx) {
 		int num = arr[idx];
 		end[num] = idx;
@@ -89,12 +82,19 @@ public class Code03_SameNumberMaxDist1 {
 		curAns = Math.max(curAns, idx - start[num]);
 	}
 
-	public static void undoLeft(int idx) {
+	public static void addLeft(int idx) {
 		int num = arr[idx];
 		if (end[num] != 0) {
 			curAns = Math.max(curAns, end[num] - idx);
 		} else {
 			end[num] = idx;
+		}
+	}
+
+	public static void undoLeft(int idx) {
+		int num = arr[idx];
+		if (end[num] == idx) {
+			end[num] = 0;
 		}
 	}
 
@@ -117,12 +117,12 @@ public class Code03_SameNumberMaxDist1 {
 					}
 					int backup = curAns;
 					while (winl > jobl) {
-						undoLeft(--winl);
+						addLeft(--winl);
 					}
 					ans[id] = curAns;
 					curAns = backup;
 					while (winl <= br[block]) {
-						delLeft(winl++);
+						undoLeft(winl++);
 					}
 				}
 			}
