@@ -33,8 +33,8 @@ public class Code07_MoOnTree1 {
 
 	public static int[] dep = new int[MAXN];
 	public static int[] seg = new int[MAXN << 1];
-	public static int[] startId = new int[MAXN];
-	public static int[] endId = new int[MAXN];
+	public static int[] st = new int[MAXN];
+	public static int[] ed = new int[MAXN];
 	public static int[][] stjump = new int[MAXN][MAXP];
 	public static int cntd;
 
@@ -68,7 +68,7 @@ public class Code07_MoOnTree1 {
 	public static void dfs(int u, int fa) {
 		dep[u] = dep[fa] + 1;
 		seg[++cntd] = u;
-		startId[u] = cntd;
+		st[u] = cntd;
 		stjump[u][0] = fa;
 		for (int p = 1; p < MAXP; p++) {
 			stjump[u][p] = stjump[stjump[u][p - 1]][p - 1];
@@ -80,7 +80,7 @@ public class Code07_MoOnTree1 {
 			}
 		}
 		seg[++cntd] = u;
-		endId[u] = cntd;
+		ed[u] = cntd;
 	}
 
 	public static int lca(int a, int b) {
@@ -201,19 +201,19 @@ public class Code07_MoOnTree1 {
 		for (int i = 1, u, v, uvlca; i <= m; i++) {
 			u = in.nextInt();
 			v = in.nextInt();
-			if (startId[v] < startId[u]) {
+			if (st[v] < st[u]) {
 				int tmp = u;
 				u = v;
 				v = tmp;
 			}
 			uvlca = lca(u, v);
 			if (u == uvlca) {
-				query[i][0] = startId[u];
-				query[i][1] = startId[v];
+				query[i][0] = st[u];
+				query[i][1] = st[v];
 				query[i][2] = 0;
 			} else {
-				query[i][0] = endId[u];
-				query[i][1] = startId[v];
+				query[i][0] = ed[u];
+				query[i][1] = st[v];
 				query[i][2] = uvlca;
 			}
 			query[i][3] = i;

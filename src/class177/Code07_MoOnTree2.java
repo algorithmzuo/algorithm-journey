@@ -30,8 +30,8 @@ package class177;
 //
 //int dep[MAXN];
 //int seg[MAXN << 1];
-//int startId[MAXN];
-//int endId[MAXN];
+//int st[MAXN];
+//int ed[MAXN];
 //int stjump[MAXN][MAXP];
 //int cntd;
 //
@@ -65,7 +65,7 @@ package class177;
 //void dfs(int u, int fa) {
 //    dep[u] = dep[fa] + 1;
 //    seg[++cntd] = u;
-//    startId[u] = cntd;
+//    st[u] = cntd;
 //    stjump[u][0] = fa;
 //    for (int p = 1; p < MAXP; p++) {
 //        stjump[u][p] = stjump[stjump[u][p - 1]][p - 1];
@@ -77,7 +77,7 @@ package class177;
 //        }
 //    }
 //    seg[++cntd] = u;
-//    endId[u] = cntd;
+//    ed[u] = cntd;
 //}
 //
 //int lca(int a, int b) {
@@ -185,17 +185,17 @@ package class177;
 //    dfs(1, 0);
 //    for (int i = 1, u, v, uvlca; i <= m; i++) {
 //        cin >> u >> v;
-//        if (startId[v] < startId[u]) {
+//        if (st[v] < st[u]) {
 //            int tmp = u; u = v; v = tmp;
 //        }
 //        uvlca = lca(u, v);
 //        if (u == uvlca) {
-//        	query[i].l = startId[u];
-//        	query[i].r = startId[v];
+//        	query[i].l = st[u];
+//        	query[i].r = st[v];
 //        	query[i].lca = 0;
 //        } else {
-//        	query[i].l = endId[u];
-//        	query[i].r = startId[v];
+//        	query[i].l = ed[u];
+//        	query[i].r = st[v];
 //        	query[i].lca = uvlca;
 //        }
 //        query[i].id = i;

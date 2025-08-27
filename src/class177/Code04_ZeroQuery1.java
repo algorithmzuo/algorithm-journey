@@ -26,9 +26,9 @@ public class Code04_ZeroQuery1 {
 	public static int[] bi = new int[MAXN];
 	public static int[] br = new int[MAXB];
 
-	public static int[] forceEnd = new int[MAXN + 1];
-	public static int[] start = new int[MAXN + 1];
-	public static int[] end = new int[MAXN + 1];
+	public static int[] forceEd = new int[MAXN + 1];
+	public static int[] st = new int[MAXN + 1];
+	public static int[] ed = new int[MAXN + 1];
 
 	public static int curAns = 0;
 	public static int[] ans = new int[MAXN];
@@ -62,48 +62,48 @@ public class Code04_ZeroQuery1 {
 	public static int force(int l, int r) {
 		int ret = 0;
 		for (int i = l; i <= r; i++) {
-			if (forceEnd[arr[i]] == 0) {
-				forceEnd[arr[i]] = i;
+			if (forceEd[arr[i]] == 0) {
+				forceEd[arr[i]] = i;
 			} else {
-				ret = Math.max(ret, i - forceEnd[arr[i]]);
+				ret = Math.max(ret, i - forceEd[arr[i]]);
 			}
 		}
 		for (int i = l; i <= r; i++) {
-			forceEnd[arr[i]] = 0;
+			forceEd[arr[i]] = 0;
 		}
 		return ret;
 	}
 
 	public static void addRight(int idx) {
 		int num = arr[idx];
-		end[num] = idx;
-		if (start[num] == 0) {
-			start[num] = idx;
+		ed[num] = idx;
+		if (st[num] == 0) {
+			st[num] = idx;
 		}
-		curAns = Math.max(curAns, idx - start[num]);
+		curAns = Math.max(curAns, idx - st[num]);
 	}
 
 	public static void addLeft(int idx) {
 		int num = arr[idx];
-		if (end[num] != 0) {
-			curAns = Math.max(curAns, end[num] - idx);
+		if (ed[num] != 0) {
+			curAns = Math.max(curAns, ed[num] - idx);
 		} else {
-			end[num] = idx;
+			ed[num] = idx;
 		}
 	}
 
 	public static void undoLeft(int idx) {
 		int num = arr[idx];
-		if (end[num] == idx) {
-			end[num] = 0;
+		if (ed[num] == idx) {
+			ed[num] = 0;
 		}
 	}
 
 	public static void compute() {
 		for (int block = 1, qi = 1; block <= bnum && qi <= m; block++) {
 			curAns = 0;
-			Arrays.fill(start, 1, cntv + 1, 0);
-			Arrays.fill(end, 1, cntv + 1, 0);
+			Arrays.fill(st, 1, cntv + 1, 0);
+			Arrays.fill(ed, 1, cntv + 1, 0);
 			int winl = br[block] + 1;
 			int winr = br[block];
 			for (; qi <= m && bi[query[qi][0]] == block; qi++) {
