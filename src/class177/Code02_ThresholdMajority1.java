@@ -1,6 +1,6 @@
 package class177;
 
-// 到达阈值的最小众数，java版
+// 达到阈值的最小众数，java版
 // 测试链接 : https://leetcode.cn/problems/threshold-majority-queries/
 // 提交如下代码中的Solution类，可以通过所有测试用例
 
