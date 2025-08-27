@@ -2,7 +2,7 @@ package class177;
 
 // 达到阈值的最小众数，java版
 // 测试链接 : https://leetcode.cn/problems/threshold-majority-queries/
-// 提交如下代码中的Solution类，可以通过所有测试用例
+// 提交以下代码中的Solution类，可以通过所有测试用例
 
 import java.util.Arrays;
 import java.util.Comparator;
@@ -58,21 +58,22 @@ public class Code02_ThresholdMajority1 {
 		}
 
 		public static int force(int l, int r, int k) {
-			int maxCnt = 0;
-			int numAns = 0;
+			int mx = 0;
+			int who = 0;
 			for (int i = l; i <= r; i++) {
 				forceCnt[arr[i]]++;
 			}
 			for (int i = l; i <= r; i++) {
-				if (forceCnt[arr[i]] > maxCnt || (forceCnt[arr[i]] == maxCnt && arr[i] < numAns)) {
-					maxCnt = forceCnt[arr[i]];
-					numAns = arr[i];
+				int num = arr[i];
+				if (forceCnt[num] > mx || (forceCnt[num] == mx && num < who)) {
+					mx = forceCnt[num];
+					who = num;
 				}
 			}
 			for (int i = l; i <= r; i++) {
 				forceCnt[arr[i]]--;
 			}
-			return maxCnt >= k ? sorted[numAns] : -1;
+			return mx >= k ? sorted[who] : -1;
 		}
 
 		public static void add(int num) {
