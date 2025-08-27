@@ -92,8 +92,7 @@ public class Code02_ThresholdMajority1 {
 				maxCnt = 0;
 				numAns = 0;
 				Arrays.fill(cnt, 1, cntv + 1, 0);
-				int winl = br[block] + 1;
-				int winr = br[block];
+				int winl = br[block] + 1, winr = br[block];
 				for (; qi <= m && bi[query[qi][0]] == block; qi++) {
 					int jobl = query[qi][0];
 					int jobr = query[qi][1];

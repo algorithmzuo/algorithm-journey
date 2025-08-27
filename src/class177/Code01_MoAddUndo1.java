@@ -86,8 +86,7 @@ public class Code01_MoAddUndo1 {
 		for (int block = 1, qi = 1; block <= bnum && qi <= m; block++) {
 			curAns = 0;
 			Arrays.fill(cnt, 1, cntv + 1, 0);
-			int winl = br[block] + 1;
-			int winr = br[block];
+			int winl = br[block] + 1, winr = br[block];
 			for (; qi <= m && bi[query[qi][0]] == block; qi++) {
 				int jobl = query[qi][0];
 				int jobr = query[qi][1];

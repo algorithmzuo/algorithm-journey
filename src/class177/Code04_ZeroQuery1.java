@@ -104,8 +104,7 @@ public class Code04_ZeroQuery1 {
 			curAns = 0;
 			Arrays.fill(st, 1, cntv + 1, 0);
 			Arrays.fill(ed, 1, cntv + 1, 0);
-			int winl = br[block] + 1;
-			int winr = br[block];
+			int winl = br[block] + 1, winr = br[block];
 			for (; qi <= m && bi[query[qi][0]] == block; qi++) {
 				int jobl = query[qi][0] - 1;
 				int jobr = query[qi][1];
