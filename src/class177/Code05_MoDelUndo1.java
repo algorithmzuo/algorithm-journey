@@ -44,6 +44,16 @@ public class Code05_MoDelUndo1 {
 
 	}
 
+	public static void init() {
+		for (int i = 1; i <= n; i++) {
+			cnt[arr[i]]++;
+		}
+		mex = 0;
+		while (cnt[mex] != 0) {
+			mex++;
+		}
+	}
+
 	public static void del(int num) {
 		if (--cnt[num] == 0) {
 			mex = Math.min(mex, num);
@@ -55,13 +65,7 @@ public class Code05_MoDelUndo1 {
 	}
 
 	public static void compute() {
-		for (int i = 1; i <= n; i++) {
-			undo(arr[i]);
-		}
-		mex = 0;
-		while (cnt[mex] != 0) {
-			mex++;
-		}
+		init();
 		int winl = 1, winr = n;
 		for (int block = 1, qi = 1; block <= bnum && qi <= m; block++) {
 			while (winl < bl[block]) {

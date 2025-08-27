@@ -38,6 +38,16 @@ package class177;
 //    return b.r < a.r;
 //}
 //
+//void init() {
+//    for (int i = 1; i <= n; i++) {
+//        cnt[arr[i]]++;
+//    }
+//    mex = 0;
+//    while (cnt[mex] != 0) {
+//        mex++;
+//    }
+//}
+//
 //void del(int num) {
 //    if (--cnt[num] == 0) {
 //        mex = min(mex, num);
@@ -49,13 +59,7 @@ package class177;
 //}
 //
 //void compute() {
-//    for (int i = 1; i <= n; i++) {
-//        undo(arr[i]);
-//    }
-//    mex = 0;
-//    while (cnt[mex] != 0) {
-//        mex++;
-//    }
+//    init();
 //    int winl = 1, winr = n;
 //    for (int block = 1, qi = 1; block <= bnum && qi <= m; block++) {
 //        while (winl < bl[block]) {

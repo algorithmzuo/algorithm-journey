@@ -43,6 +43,18 @@ public class Code06_BaldChief1 {
 
 	}
 
+	public static void init() {
+		for (int v = 1; v <= n; v++) {
+			last[v] = v - 1;
+			next[v] = v + 1;
+		}
+		next[0] = 1;
+		last[n + 1] = n;
+		for (int v = 2; v <= n; v++) {
+			sum += Math.abs(pos[v] - pos[v - 1]);
+		}
+	}
+
 	// 删除num
 	public static void del(int num) {
 		int less = last[num], more = next[num];
@@ -67,15 +79,7 @@ public class Code06_BaldChief1 {
 	}
 
 	public static void compute() {
-		for (int v = 1; v <= n; v++) {
-			last[v] = v - 1;
-			next[v] = v + 1;
-		}
-		next[0] = 1;
-		last[n + 1] = n;
-		for (int v = 2; v <= n; v++) {
-			sum += Math.abs(pos[v] - pos[v - 1]);
-		}
+		init();
 		int winl = 1, winr = n;
 		for (int block = 1, qi = 1; block <= bnum && qi <= m; block++) {
 			while (winl < bl[block]) {
@@ -94,10 +98,10 @@ public class Code06_BaldChief1 {
 					del(arr[winl++]);
 				}
 				ans[id] = sum;
+				sum = backup;
 				while (winl > bl[block]) {
 					undo(arr[--winl]);
 				}
-				sum = backup;
 			}
 			while (winr < n) {
 				undo(arr[++winr]);
