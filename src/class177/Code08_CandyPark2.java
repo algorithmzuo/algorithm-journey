@@ -1,8 +1,7 @@
 package class177;
 
-// 树上莫队入门题，C++版
-// 测试链接 : https://www.luogu.com.cn/problem/SP10707
-// 测试链接 : https://www.spoj.com/problems/COT2/
+// 糖果公园，C++版
+// 测试链接 : https://www.luogu.com.cn/problem/P4074
 // 如下实现是C++的版本，C++版本和java版本逻辑完全一样
 // 提交如下代码，可以通过所有测试用例
 
@@ -11,23 +10,28 @@ package class177;
 //using namespace std;
 //
 //struct Query {
-//    int l, r, lca, id;
+//    int l, r, t, lca, id;
 //};
 //
-//const int MAXN = 40001;
-//const int MAXM = 100001;
-//const int MAXP = 20;
+//struct Update {
+//    int pos, val;
+//};
 //
-//int n, m;
-//int color[MAXN];
-//Query query[MAXM];
-//int sorted[MAXN];
-//int cntv;
+//const int MAXN = 100001;
+//const int MAXP = 20;
+//int n, m, q;
+//int v[MAXN];
+//int w[MAXN];
+//int c[MAXN];
 //
 //int head[MAXN];
 //int to[MAXN << 1];
 //int nxt[MAXN << 1];
 //int cntg;
+//
+//Query query[MAXN];
+//Update update[MAXN];
+//int cntq, cntu;
 //
 //int dep[MAXN];
 //int seg[MAXN << 1];
@@ -39,28 +43,13 @@ package class177;
 //int bi[MAXN << 1];
 //bool vis[MAXN];
 //int cnt[MAXN];
-//int kind;
-//
-//int ans[MAXM];
+//long long curAns;
+//long long ans[MAXN];
 //
 //void addEdge(int u, int v) {
 //    nxt[++cntg] = head[u];
 //    to[cntg] = v;
 //    head[u] = cntg;
-//}
-//
-//int kth(int num) {
-//    int left = 1, right = cntv, mid, ret = 0;
-//    while (left <= right) {
-//        mid = (left + right) / 2;
-//        if (sorted[mid] <= num) {
-//            ret = mid;
-//            left = mid + 1;
-//        } else {
-//            right = mid - 1;
-//        }
-//    }
-//    return ret;
 //}
 //
 //void dfs(int u, int fa) {
@@ -106,28 +95,43 @@ package class177;
 //    if (bi[a.l] != bi[b.l]) {
 //        return bi[a.l] < bi[b.l];
 //    }
-//    return a.r < b.r;
+//    if (bi[a.r] != bi[b.r]) {
+//        return bi[a.r] < bi[b.r];
+//    }
+//    return a.t < b.t;
 //}
 //
 //void modify(int node) {
-//    int val = color[node];
+//    int candy = c[node];
 //    if (vis[node]) {
-//        if (--cnt[val] == 0) {
-//            kind--;
-//        }
+//        curAns -= 1LL * v[candy] * w[cnt[candy]--];
 //    } else {
-//        if (++cnt[val] == 1) {
-//            kind++;
-//        }
+//        curAns += 1LL * v[candy] * w[++cnt[candy]];
 //    }
 //    vis[node] = !vis[node];
 //}
 //
+//void moveTime(int tim) {
+//    int pos = update[tim].pos;
+//    int oldVal = c[pos];
+//    int newVal = update[tim].val;
+//    if (vis[pos]) {
+//        modify(pos);
+//        c[pos] = newVal;
+//        update[tim].val = oldVal;
+//        modify(pos);
+//    } else {
+//        c[pos] = newVal;
+//        update[tim].val = oldVal;
+//    }
+//}
+//
 //void compute() {
-//    int winl = 1, winr = 0;
-//    for (int i = 1; i <= m; i++) {
+//    int winl = 1, winr = 0, wint = 0;
+//    for (int i = 1; i <= cntq; i++) {
 //        int jobl = query[i].l;
 //        int jobr = query[i].r;
+//        int jobt = query[i].t;
 //        int lca = query[i].lca;
 //        int id = query[i].id;
 //        while (winl > jobl) {
@@ -142,70 +146,70 @@ package class177;
 //        while (winr > jobr) {
 //            modify(seg[winr--]);
 //        }
+//        while (wint < jobt) {
+//            moveTime(++wint);
+//        }
+//        while (wint > jobt) {
+//            moveTime(wint--);
+//        }
 //        if (lca > 0) {
 //            modify(lca);
 //        }
-//        ans[id] = kind;
+//        ans[id] = curAns;
 //        if (lca > 0) {
 //            modify(lca);
 //        }
 //    }
 //}
 //
-//void prepare() {
-//    for (int i = 1; i <= n; i++) {
-//        sorted[i] = color[i];
-//    }
-//    sort(sorted + 1, sorted + n + 1);
-//    cntv = 1;
-//    for (int i = 2; i <= n; i++) {
-//        if (sorted[cntv] != sorted[i]) {
-//            sorted[++cntv] = sorted[i];
-//        }
-//    }
-//    for (int i = 1; i <= n; i++) {
-//        color[i] = kth(color[i]);
-//    }
-//    int blen = (int) sqrt(cntd);
+//void prapare() {
+//    int blen = max(1, (int)pow(cntd, 2.0 / 3.0));
 //    for (int i = 1; i <= cntd; i++) {
 //        bi[i] = (i - 1) / blen + 1;
 //    }
-//    sort(query + 1, query + m + 1, QueryCmp);
+//    sort(query + 1, query + cntq + 1, QueryCmp);
 //}
 //
 //int main() {
 //    ios::sync_with_stdio(false);
 //    cin.tie(nullptr);
-//    cin >> n >> m;
+//    cin >> n >> m >> q;
+//    for (int i = 1; i <= m; i++) {
+//        cin >> v[i];
+//    }
 //    for (int i = 1; i <= n; i++) {
-//        cin >> color[i];
+//        cin >> w[i];
 //    }
 //    for (int i = 1, u, v; i < n; i++) {
 //        cin >> u >> v;
 //        addEdge(u, v);
 //        addEdge(v, u);
 //    }
-//    dfs(1, 0);
-//    for (int i = 1, u, v, uvlca; i <= m; i++) {
-//        cin >> u >> v;
-//        if (st[v] < st[u]) {
-//            swap(u, v);
-//        }
-//        uvlca = lca(u, v);
-//        if (u == uvlca) {
-//            query[i].l = st[u];
-//            query[i].r = st[v];
-//            query[i].lca = 0;
-//        } else {
-//            query[i].l = ed[u];
-//            query[i].r = st[v];
-//            query[i].lca = uvlca;
-//        }
-//        query[i].id = i;
+//    for (int i = 1; i <= n; i++) {
+//        cin >> c[i];
 //    }
-//    prepare();
+//    dfs(1, 0);
+//    for (int i = 1, op, x, y; i <= q; i++) {
+//        cin >> op >> x >> y;
+//        if (op == 0) {
+//            cntu++;
+//            update[cntu].pos = x;
+//            update[cntu].val = y;
+//        } else {
+//            if (st[x] > st[y]) {
+//                swap(x, y);
+//            }
+//            int xylca = lca(x, y);
+//            if (x == xylca) {
+//                query[++cntq] = {st[x], st[y], cntu, 0, cntq};
+//            } else {
+//                query[++cntq] = {ed[x], st[y], cntu, xylca, cntq};
+//            }
+//        }
+//    }
+//    prapare();
 //    compute();
-//    for (int i = 1; i <= m; i++) {
+//    for (int i = 1; i <= cntq; i++) {
 //        cout << ans[i] << '\n';
 //    }
 //    return 0;

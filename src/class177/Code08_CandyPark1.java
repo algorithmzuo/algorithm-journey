@@ -1,12 +1,8 @@
 package class177;
 
-// 树上莫队入门题，java版
-// 测试链接 : https://www.luogu.com.cn/problem/SP10707
-// 测试链接 : https://www.spoj.com/problems/COT2/
-// 提交以下的code，提交时请把类名改成"Main"
-// java实现的逻辑一定是正确的，但是本题卡常，无法通过所有测试用例
-// 想通过用C++实现，本节课Code07_MoOnTree2文件就是C++的实现
-// 两个版本的逻辑完全一样，C++版本可以通过所有测试
+// 糖果公园，java版
+// 测试链接 : https://www.luogu.com.cn/problem/P4074
+// 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -15,21 +11,25 @@ import java.io.PrintWriter;
 import java.util.Arrays;
 import java.util.Comparator;
 
-public class Code07_MoOnTree1 {
+public class Code08_CandyPark1 {
 
-	public static int MAXN = 40001;
-	public static int MAXM = 100001;
+	public static int MAXN = 100001;
 	public static int MAXP = 20;
-	public static int n, m;
-	public static int[] color = new int[MAXN];
-	public static int[][] query = new int[MAXM][4];
-	public static int[] sorted = new int[MAXN];
-	public static int cntv;
+	public static int n, m, q;
+	public static int[] v = new int[MAXN];
+	public static int[] w = new int[MAXN];
+	public static int[] c = new int[MAXN];
 
 	public static int[] head = new int[MAXN];
 	public static int[] to = new int[MAXN << 1];
 	public static int[] next = new int[MAXN << 1];
 	public static int cntg;
+
+	// 每条查询 : l、r、t、lca、id
+	public static int[][] query = new int[MAXN][5];
+	// 每条修改 : pos、val
+	public static int[][] update = new int[MAXN][2];
+	public static int cntq, cntu;
 
 	public static int[] dep = new int[MAXN];
 	public static int[] seg = new int[MAXN << 1];
@@ -41,9 +41,8 @@ public class Code07_MoOnTree1 {
 	public static int[] bi = new int[MAXN << 1];
 	public static boolean[] vis = new boolean[MAXN];
 	public static int[] cnt = new int[MAXN];
-	public static int kind = 0;
-
-	public static int[] ans = new int[MAXM];
+	public static long curAns;
+	public static long[] ans = new long[MAXN];
 
 	public static void addEdge(int u, int v) {
 		next[++cntg] = head[u];
@@ -51,21 +50,8 @@ public class Code07_MoOnTree1 {
 		head[u] = cntg;
 	}
 
-	public static int kth(int num) {
-		int left = 1, right = cntv, mid, ret = 0;
-		while (left <= right) {
-			mid = (left + right) / 2;
-			if (sorted[mid] <= num) {
-				ret = mid;
-				left = mid + 1;
-			} else {
-				right = mid - 1;
-			}
-		}
-		return ret;
-	}
-
-	public static void dfs(int u, int fa) {
+	// 递归版，C++可以通过，java会爆栈，需要改迭代
+	public static void dfs1(int u, int fa) {
 		dep[u] = dep[fa] + 1;
 		seg[++cntd] = u;
 		st[u] = cntd;
@@ -76,11 +62,60 @@ public class Code07_MoOnTree1 {
 		for (int e = head[u], v; e > 0; e = next[e]) {
 			v = to[e];
 			if (v != fa) {
-				dfs(v, u);
+				dfs1(v, u);
 			}
 		}
 		seg[++cntd] = u;
 		ed[u] = cntd;
+	}
+
+	// 不会改迭代版，去看讲解118，详解了从递归版改迭代版
+	public static int[][] ufe = new int[MAXN][3];
+
+	public static int stacksize, u, f, e;
+
+	public static void push(int u, int f, int e) {
+		ufe[stacksize][0] = u;
+		ufe[stacksize][1] = f;
+		ufe[stacksize][2] = e;
+		stacksize++;
+	}
+
+	public static void pop() {
+		--stacksize;
+		u = ufe[stacksize][0];
+		f = ufe[stacksize][1];
+		e = ufe[stacksize][2];
+	}
+
+	// dfs1的迭代版
+	public static void dfs2() {
+		stacksize = 0;
+		push(1, 0, -1);
+		while (stacksize > 0) {
+			pop();
+			if (e == -1) {
+				dep[u] = dep[f] + 1;
+				seg[++cntd] = u;
+				st[u] = cntd;
+				stjump[u][0] = f;
+				for (int p = 1; p < MAXP; p++) {
+					stjump[u][p] = stjump[stjump[u][p - 1]][p - 1];
+				}
+				e = head[u];
+			} else {
+				e = next[e];
+			}
+			if (e != 0) {
+				push(u, f, e);
+				if (to[e] != f) {
+					push(to[e], u, -1);
+				}
+			} else {
+				seg[++cntd] = u;
+				ed[u] = cntd;
+			}
+		}
 	}
 
 	public static int lca(int a, int b) {
@@ -106,7 +141,7 @@ public class Code07_MoOnTree1 {
 		return stjump[a][0];
 	}
 
-	// 普通莫队经典排序
+	// 带修莫队经典排序
 	public static class QueryCmp implements Comparator<int[]> {
 
 		@Override
@@ -114,32 +149,47 @@ public class Code07_MoOnTree1 {
 			if (bi[a[0]] != bi[b[0]]) {
 				return bi[a[0]] - bi[b[0]];
 			}
-			return a[1] - b[1];
+			if (bi[a[1]] != bi[b[1]]) {
+				return bi[a[1]] - bi[b[1]];
+			}
+			return a[2] - b[2];
 		}
 
 	}
 
 	public static void modify(int node) {
-		int val = color[node];
+		int candy = c[node];
 		if (vis[node]) {
-			if (--cnt[val] == 0) {
-				kind--;
-			}
+			curAns -= (long) v[candy] * w[cnt[candy]--];
 		} else {
-			if (++cnt[val] == 1) {
-				kind++;
-			}
+			curAns += (long) v[candy] * w[++cnt[candy]];
 		}
 		vis[node] = !vis[node];
 	}
 
+	public static void moveTime(int tim) {
+		int pos = update[tim][0];
+		int oldVal = c[pos];
+		int newVal = update[tim][1];
+		if (vis[pos]) {
+			modify(pos);
+			c[pos] = newVal;
+			update[tim][1] = oldVal;
+			modify(pos);
+		} else {
+			c[pos] = newVal;
+			update[tim][1] = oldVal;
+		}
+	}
+
 	public static void compute() {
-		int winl = 1, winr = 0;
-		for (int i = 1; i <= m; i++) {
+		int winl = 1, winr = 0, wint = 0;
+		for (int i = 1; i <= cntq; i++) {
 			int jobl = query[i][0];
 			int jobr = query[i][1];
-			int lca = query[i][2];
-			int id = query[i][3];
+			int jobt = query[i][2];
+			int lca = query[i][3];
+			int id = query[i][4];
 			while (winl > jobl) {
 				modify(seg[--winl]);
 			}
@@ -152,36 +202,28 @@ public class Code07_MoOnTree1 {
 			while (winr > jobr) {
 				modify(seg[winr--]);
 			}
+			while (wint < jobt) {
+				moveTime(++wint);
+			}
+			while (wint > jobt) {
+				moveTime(wint--);
+			}
 			if (lca > 0) {
 				modify(lca);
 			}
-			ans[id] = kind;
+			ans[id] = curAns;
 			if (lca > 0) {
 				modify(lca);
 			}
 		}
 	}
 
-	public static void prepare() {
-		for (int i = 1; i <= n; i++) {
-			sorted[i] = color[i];
-		}
-		Arrays.sort(sorted, 1, n + 1);
-		cntv = 1;
-		for (int i = 2; i <= n; i++) {
-			if (sorted[cntv] != sorted[i]) {
-				sorted[++cntv] = sorted[i];
-			}
-		}
-		for (int i = 1; i <= n; i++) {
-			color[i] = kth(color[i]);
-		}
-		// 括号序列分块
-		int blen = (int) Math.sqrt(cntd);
+	public static void prapare() {
+		int blen = Math.max(1, (int) Math.pow(cntd, 2.0 / 3));
 		for (int i = 1; i <= cntd; i++) {
 			bi[i] = (i - 1) / blen + 1;
 		}
-		Arrays.sort(query, 1, m + 1, new QueryCmp());
+		Arrays.sort(query, 1, cntq + 1, new QueryCmp());
 	}
 
 	public static void main(String[] args) throws Exception {
@@ -189,8 +231,12 @@ public class Code07_MoOnTree1 {
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
 		n = in.nextInt();
 		m = in.nextInt();
+		q = in.nextInt();
+		for (int i = 1; i <= m; i++) {
+			v[i] = in.nextInt();
+		}
 		for (int i = 1; i <= n; i++) {
-			color[i] = in.nextInt();
+			w[i] = in.nextInt();
 		}
 		for (int i = 1, u, v; i < n; i++) {
 			u = in.nextInt();
@@ -198,30 +244,43 @@ public class Code07_MoOnTree1 {
 			addEdge(u, v);
 			addEdge(v, u);
 		}
-		dfs(1, 0);
-		for (int i = 1, u, v, uvlca; i <= m; i++) {
-			u = in.nextInt();
-			v = in.nextInt();
-			if (st[v] < st[u]) {
-				int tmp = u;
-				u = v;
-				v = tmp;
-			}
-			uvlca = lca(u, v);
-			if (u == uvlca) {
-				query[i][0] = st[u];
-				query[i][1] = st[v];
-				query[i][2] = 0;
-			} else {
-				query[i][0] = ed[u];
-				query[i][1] = st[v];
-				query[i][2] = uvlca;
-			}
-			query[i][3] = i;
+		for (int i = 1; i <= n; i++) {
+			c[i] = in.nextInt();
 		}
-		prepare();
+		dfs2();
+		for (int i = 1, op, x, y; i <= q; i++) {
+			op = in.nextInt();
+			x = in.nextInt();
+			y = in.nextInt();
+			if (op == 0) {
+				cntu++;
+				update[cntu][0] = x;
+				update[cntu][1] = y;
+			} else {
+				if (st[x] > st[y]) {
+					int tmp = x;
+					x = y;
+					y = tmp;
+				}
+				int xylca = lca(x, y);
+				if (x == xylca) {
+					query[++cntq][0] = st[x];
+					query[cntq][1] = st[y];
+					query[cntq][2] = cntu;
+					query[cntq][3] = 0;
+					query[cntq][4] = cntq;
+				} else {
+					query[++cntq][0] = ed[x];
+					query[cntq][1] = st[y];
+					query[cntq][2] = cntu;
+					query[cntq][3] = xylca;
+					query[cntq][4] = cntq;
+				}
+			}
+		}
+		prapare();
 		compute();
-		for (int i = 1; i <= m; i++) {
+		for (int i = 1; i <= cntq; i++) {
 			out.println(ans[i]);
 		}
 		out.flush();

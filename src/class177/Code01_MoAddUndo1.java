@@ -32,6 +32,7 @@ public class Code01_MoAddUndo1 {
 	public static long curAns = 0;
 	public static long[] ans = new long[MAXN];
 
+	// 只增回滚莫队经典排序
 	public static class QueryCmp implements Comparator<int[]> {
 
 		@Override

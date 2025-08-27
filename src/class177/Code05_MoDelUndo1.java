@@ -31,6 +31,7 @@ public class Code05_MoDelUndo1 {
 	public static int mex;
 	public static int[] ans = new int[MAXN];
 
+	// 只删回滚莫队经典排序
 	public static class QueryCmp implements Comparator<int[]> {
 
 		@Override
