@@ -90,7 +90,7 @@ public class Code02_ThresholdMajority1 {
 			}
 		}
 
-		public static void undo(int num) {
+		public static void del(int num) {
 			cnt[num]--;
 		}
 
@@ -124,7 +124,7 @@ public class Code02_ThresholdMajority1 {
 						maxCnt = backupCnt;
 						numAns = backupNum;
 						while (winl <= br[block]) {
-							undo(arr[winl++]);
+							del(arr[winl++]);
 						}
 					}
 				}

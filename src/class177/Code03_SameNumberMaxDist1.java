@@ -96,7 +96,7 @@ public class Code03_SameNumberMaxDist1 {
 		}
 	}
 
-	public static void undoLeft(int idx) {
+	public static void delLeft(int idx) {
 		int num = arr[idx];
 		if (ed[num] == idx) {
 			ed[num] = 0;
@@ -126,7 +126,7 @@ public class Code03_SameNumberMaxDist1 {
 					ans[id] = curAns;
 					curAns = backup;
 					while (winl <= br[block]) {
-						undoLeft(winl++);
+						delLeft(winl++);
 					}
 				}
 			}

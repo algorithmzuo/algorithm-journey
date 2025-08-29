@@ -86,7 +86,7 @@ package class177;
 //    }
 //}
 //
-//void undo(int num) {
+//void del(int num) {
 //    cnt[num]--;
 //}
 //
@@ -120,7 +120,7 @@ package class177;
 //                maxCnt = backupCnt;
 //                numAns = backupNum;
 //                while (winl <= br[block]) {
-//                    undo(arr[winl++]);
+//                    del(arr[winl++]);
 //                }
 //            }
 //        }

@@ -91,7 +91,7 @@ package class177;
 //    }
 //}
 //
-//void undoLeft(int idx) {
+//void delLeft(int idx) {
 //    int num = arr[idx];
 //    if (ed[num] == idx) {
 //        ed[num] = 0;
@@ -121,7 +121,7 @@ package class177;
 //                ans[id] = curAns;
 //                curAns = backup;
 //                while (winl <= br[block]) {
-//                    undoLeft(winl++);
+//                    delLeft(winl++);
 //                }
 //            }
 //        }

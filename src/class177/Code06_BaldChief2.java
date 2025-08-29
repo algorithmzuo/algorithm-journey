@@ -67,7 +67,7 @@ package class177;
 //    lst[more] = less;
 //}
 //
-//inline void undo(int num) {
+//inline void add(int num) {
 //    nxt[lst[num]] = num;
 //    lst[nxt[num]] = num;
 //}
@@ -109,11 +109,11 @@ package class177;
 //            ans[id] = sum;
 //            sum = backup;
 //            while (winl > bl[block]) {
-//                undo(arr[--winl]);
+//                add(arr[--winl]);
 //            }
 //        }
 //        while (winr < n) {
-//            undo(arr[++winr]);
+//            add(arr[++winr]);
 //        }
 //        sum = beforeJob;
 //    }

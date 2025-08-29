@@ -78,7 +78,7 @@ package class177;
 //    curAns = max(curAns, 1LL * cnt[num] * sorted[num]);
 //}
 //
-//void undo(int num) {
+//void del(int num) {
 //    cnt[num]--;
 //}
 //
@@ -104,7 +104,7 @@ package class177;
 //                ans[id] = curAns;
 //                curAns = backup;
 //                while (winl <= br[block]) {
-//                    undo(arr[winl++]);
+//                    del(arr[winl++]);
 //                }
 //            }
 //        }

@@ -60,7 +60,6 @@ public class Code06_BaldChief1 {
 		}
 	}
 
-	// 删除num
 	public static void del(int num) {
 		int less = last[num], more = next[num];
 		if (less != 0) {
@@ -76,9 +75,7 @@ public class Code06_BaldChief1 {
 		last[more] = less;
 	}
 
-	// 加入num，必须保证num上一次删除的数字
-	// 也就是说，undo的调用必须是del操作的回滚
-	public static void undo(int num) {
+	public static void add(int num) {
 		next[last[num]] = num;
 		last[next[num]] = num;
 	}
@@ -105,11 +102,11 @@ public class Code06_BaldChief1 {
 				ans[id] = sum;
 				sum = backup;
 				while (winl > bl[block]) {
-					undo(arr[--winl]);
+					add(arr[--winl]);
 				}
 			}
 			while (winr < n) {
-				undo(arr[++winr]);
+				add(arr[++winr]);
 			}
 			sum = beforeJob;
 		}

@@ -84,7 +84,7 @@ public class Code01_MoAddUndo1 {
 		curAns = Math.max(curAns, (long) cnt[num] * sorted[num]);
 	}
 
-	public static void undo(int num) {
+	public static void del(int num) {
 		cnt[num]--;
 	}
 
@@ -110,7 +110,7 @@ public class Code01_MoAddUndo1 {
 					ans[id] = curAns;
 					curAns = backup;
 					while (winl <= br[block]) {
-						undo(arr[winl++]);
+						del(arr[winl++]);
 					}
 				}
 			}

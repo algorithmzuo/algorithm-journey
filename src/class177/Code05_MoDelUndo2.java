@@ -54,7 +54,7 @@ package class177;
 //    }
 //}
 //
-//void undo(int num) {
+//void add(int num) {
 //    cnt[num]++;
 //}
 //
@@ -80,11 +80,11 @@ package class177;
 //            ans[id] = mex;
 //            mex = backup;
 //            while (winl > bl[block]) {
-//                undo(arr[--winl]);
+//                add(arr[--winl]);
 //            }
 //        }
 //        while (winr < n) {
-//            undo(arr[++winr]);
+//            add(arr[++winr]);
 //        }
 //        mex = beforeJob;
 //    }
