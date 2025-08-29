@@ -1,6 +1,9 @@
 package class177;
 
 // 累加和为0的最长子数组，java版
+// 给定一个长度为n的数组arr，其中只有1和-1两种值
+// 一共有m条查询，格式 l r : 打印arr[l..r]范围上，累加和为0的最长子数组长度
+// 1 <= n、m <= 5 * 10^4
 // 测试链接 : https://www.luogu.com.cn/problem/SP20644
 // 测试链接 : https://www.spoj.com/problems/ZQUERY/
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
@@ -14,21 +17,21 @@ import java.util.Comparator;
 
 public class Code04_ZeroQuery1 {
 
-	public static int MAXN = 50001;
+	public static int MAXN = 50002;
 	public static int MAXB = 301;
 	public static int n, m;
 	public static int[] arr = new int[MAXN];
 	public static int[][] query = new int[MAXN][3];
-	public static int[] sorted = new int[MAXN + 1];
+	public static int[] sorted = new int[MAXN];
 	public static int cntv;
 
 	public static int blen, bnum;
 	public static int[] bi = new int[MAXN];
 	public static int[] br = new int[MAXB];
 
-	public static int[] forceEd = new int[MAXN + 1];
-	public static int[] st = new int[MAXN + 1];
-	public static int[] ed = new int[MAXN + 1];
+	public static int[] forceEd = new int[MAXN];
+	public static int[] st = new int[MAXN];
+	public static int[] ed = new int[MAXN];
 
 	public static int curAns = 0;
 	public static int[] ans = new int[MAXN];
@@ -106,7 +109,7 @@ public class Code04_ZeroQuery1 {
 			Arrays.fill(ed, 1, cntv + 1, 0);
 			int winl = br[block] + 1, winr = br[block];
 			for (; qi <= m && bi[query[qi][0]] == block; qi++) {
-				int jobl = query[qi][0] - 1;
+				int jobl = query[qi][0];
 				int jobr = query[qi][1];
 				int id = query[qi][2];
 				if (jobr <= br[block]) {
@@ -130,24 +133,29 @@ public class Code04_ZeroQuery1 {
 	}
 
 	public static void prepare() {
+		// 生成前缀和数组，下标从1开始，补充一个前缀长度为0的前缀和
 		for (int i = 1; i <= n; i++) {
 			arr[i] += arr[i - 1];
 		}
-		int len = 0;
-		sorted[++len] = 0;
-		for (int i = 1; i <= n; i++) {
-			sorted[++len] = arr[i];
+		for (int i = n; i >= 0; i--) {
+			arr[i + 1] = arr[i];
 		}
-		Arrays.sort(sorted, 1, len + 1);
+		n++;
+		// 离散化
+		for (int i = 1; i <= n; i++) {
+			sorted[i] = arr[i];
+		}
+		Arrays.sort(sorted, 1, n + 1);
 		cntv = 1;
-		for (int i = 2; i <= len; i++) {
+		for (int i = 2; i <= n; i++) {
 			if (sorted[cntv] != sorted[i]) {
 				sorted[++cntv] = sorted[i];
 			}
 		}
-		for (int i = 0; i <= n; i++) {
+		for (int i = 1; i <= n; i++) {
 			arr[i] = kth(arr[i]);
 		}
+		// 分块
 		blen = (int) Math.sqrt(n);
 		bnum = (n + blen - 1) / blen;
 		for (int i = 1; i <= n; i++) {
@@ -155,6 +163,11 @@ public class Code04_ZeroQuery1 {
 		}
 		for (int i = 1; i <= bnum; i++) {
 			br[i] = Math.min(i * blen, n);
+		}
+		// 原来查询范围 l..r，对应前缀查询范围 l-1..r
+		// 但是前缀和平移了，所以对应的前缀查询范围 l..r+1
+		for (int i = 1; i <= m; i++) {
+			query[i][1]++;
 		}
 		Arrays.sort(query, 1, m + 1, new QueryCmp());
 	}

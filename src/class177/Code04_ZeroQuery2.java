@@ -14,21 +14,21 @@ package class177;
 //    int l, r, id;
 //};
 //
-//const int MAXN = 50001;
+//const int MAXN = 50002;
 //const int MAXB = 301;
 //int n, m;
 //int arr[MAXN];
 //Query query[MAXN];
-//int sorted[MAXN + 1];
+//int sorted[MAXN];
 //int cntv;
 //
 //int blen, bnum;
 //int bi[MAXN];
 //int br[MAXB];
 //
-//int forceEd[MAXN + 1];
-//int st[MAXN + 1];
-//int ed[MAXN + 1];
+//int forceEd[MAXN];
+//int st[MAXN];
+//int ed[MAXN];
 //
 //int curAns = 0;
 //int ans[MAXN];
@@ -101,7 +101,7 @@ package class177;
 //        fill(ed + 1, ed + cntv + 1, 0);
 //        int winl = br[block] + 1, winr = br[block];
 //        for (; qi <= m && bi[query[qi].l] == block; qi++) {
-//            int jobl = query[qi].l - 1;
+//            int jobl = query[qi].l;
 //            int jobr = query[qi].r;
 //            int id = query[qi].id;
 //            if (jobr <= br[block]) {
@@ -128,19 +128,21 @@ package class177;
 //    for (int i = 1; i <= n; i++) {
 //        arr[i] += arr[i - 1];
 //    }
-//    int len = 0;
-//    sorted[++len] = 0;
-//    for (int i = 1; i <= n; i++) {
-//        sorted[++len] = arr[i];
+//    for (int i = n; i >= 0; i--) {
+//        arr[i + 1] = arr[i];
 //    }
-//    sort(sorted + 1, sorted + len + 1);
+//    n++;
+//    for (int i = 1; i <= n; i++) {
+//        sorted[i] = arr[i];
+//    }
+//    sort(sorted + 1, sorted + n + 1);
 //    cntv = 1;
-//    for (int i = 2; i <= len; i++) {
+//    for (int i = 2; i <= n; i++) {
 //        if (sorted[cntv] != sorted[i]) {
 //            sorted[++cntv] = sorted[i];
 //        }
 //    }
-//    for (int i = 0; i <= n; i++) {
+//    for (int i = 1; i <= n; i++) {
 //        arr[i] = kth(arr[i]);
 //    }
 //    blen = (int)sqrt(n);
@@ -150,6 +152,9 @@ package class177;
 //    }
 //    for (int i = 1; i <= bnum; i++) {
 //        br[i] = min(i * blen, n);
+//    }
+//    for (int i = 1; i <= m; i++) {
+//        query[i].r++;
 //    }
 //    sort(query + 1, query + m + 1, QueryCmp);
 //}

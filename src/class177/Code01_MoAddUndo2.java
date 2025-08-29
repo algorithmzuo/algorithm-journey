@@ -1,6 +1,12 @@
 package class177;
 
 // 只增回滚莫队入门题，C++版
+// 给定一个长度为n的数组arr，下面定义重要度的概念
+// 如果一段范围上，数字x出现c次，那么这个数字的重要度为x * c
+// 范围上的最大重要度，就是该范围上，每种数字的重要度取最大值
+// 一共有m条查询，格式 l r : 打印arr[l..r]范围上的最大重要度
+// 1 <= n、m <= 10^5
+// 1 <= arr[i] <= 10^9
 // 测试链接 : https://www.luogu.com.cn/problem/AT_joisc2014_c
 // 测试链接 : https://atcoder.jp/contests/joisc2014/tasks/joisc2014_c
 // 如下实现是C++的版本，C++版本和java版本逻辑完全一样
