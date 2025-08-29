@@ -141,7 +141,11 @@ public class Code04_ZeroQuery1 {
 			arr[i + 1] = arr[i];
 		}
 		n++;
-		// 离散化
+		// 原来查询范围 l..r，对应前缀和查询范围 l-1..r
+		// 现在前缀和平移了，所以对应前缀查询范围 l..r+1
+		for (int i = 1; i <= m; i++) {
+			query[i][1]++;
+		}
 		for (int i = 1; i <= n; i++) {
 			sorted[i] = arr[i];
 		}
@@ -155,7 +159,6 @@ public class Code04_ZeroQuery1 {
 		for (int i = 1; i <= n; i++) {
 			arr[i] = kth(arr[i]);
 		}
-		// 分块
 		blen = (int) Math.sqrt(n);
 		bnum = (n + blen - 1) / blen;
 		for (int i = 1; i <= n; i++) {
@@ -163,11 +166,6 @@ public class Code04_ZeroQuery1 {
 		}
 		for (int i = 1; i <= bnum; i++) {
 			br[i] = Math.min(i * blen, n);
-		}
-		// 原来查询范围 l..r，对应前缀查询范围 l-1..r
-		// 但是前缀和平移了，所以对应的前缀查询范围 l..r+1
-		for (int i = 1; i <= m; i++) {
-			query[i][1]++;
 		}
 		Arrays.sort(query, 1, m + 1, new QueryCmp());
 	}

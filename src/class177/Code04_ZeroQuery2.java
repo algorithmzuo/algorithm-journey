@@ -1,6 +1,9 @@
 package class177;
 
 // 累加和为0的最长子数组，C++版
+// 给定一个长度为n的数组arr，其中只有1和-1两种值
+// 一共有m条查询，格式 l r : 打印arr[l..r]范围上，累加和为0的最长子数组长度
+// 1 <= n、m <= 5 * 10^4
 // 测试链接 : https://www.luogu.com.cn/problem/SP20644
 // 测试链接 : https://www.spoj.com/problems/ZQUERY/
 // 如下实现是C++的版本，C++版本和java版本逻辑完全一样
@@ -132,6 +135,9 @@ package class177;
 //        arr[i + 1] = arr[i];
 //    }
 //    n++;
+//    for (int i = 1; i <= m; i++) {
+//        query[i].r++;
+//    }
 //    for (int i = 1; i <= n; i++) {
 //        sorted[i] = arr[i];
 //    }
@@ -152,9 +158,6 @@ package class177;
 //    }
 //    for (int i = 1; i <= bnum; i++) {
 //        br[i] = min(i * blen, n);
-//    }
-//    for (int i = 1; i <= m; i++) {
-//        query[i].r++;
 //    }
 //    sort(query + 1, query + m + 1, QueryCmp);
 //}
