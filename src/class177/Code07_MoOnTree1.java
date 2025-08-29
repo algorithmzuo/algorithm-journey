@@ -1,6 +1,11 @@
 package class177;
 
 // 树上莫队入门题，java版
+// 一共有n个节点，每个节点给定颜色值，给定n-1条边，所有节点连成一棵树
+// 一共有m条查询，格式 u v : 打印点u到点v的简单路径上，有几种不同的颜色
+// 1 <= n <= 4 * 10^4
+// 1 <= m <= 10^5
+// 1 <= 颜色值 <= 2 * 10^9
 // 测试链接 : https://www.luogu.com.cn/problem/SP10707
 // 测试链接 : https://www.spoj.com/problems/COT2/
 // 提交以下的code，提交时请把类名改成"Main"
