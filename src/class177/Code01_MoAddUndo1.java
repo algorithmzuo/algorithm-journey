@@ -29,9 +29,7 @@ public class Code01_MoAddUndo1 {
 	public static int cntv;
 
 	public static int blen, bnum;
-	// 查询块号
 	public static int[] bi = new int[MAXN];
-	// 查询每块的右边界
 	public static int[] br = new int[MAXB];
 
 	// 词频表
