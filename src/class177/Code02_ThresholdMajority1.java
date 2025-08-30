@@ -30,7 +30,6 @@ public class Code02_ThresholdMajority1 {
 		public static int[] bi = new int[MAXN];
 		public static int[] br = new int[MAXB];
 
-		public static int[] forceCnt = new int[MAXN];
 		public static int[] cnt = new int[MAXN];
 		public static int maxCnt;
 		public static int minMode;
@@ -67,17 +66,17 @@ public class Code02_ThresholdMajority1 {
 			int mx = 0;
 			int who = 0;
 			for (int i = l; i <= r; i++) {
-				forceCnt[arr[i]]++;
+				cnt[arr[i]]++;
 			}
 			for (int i = l; i <= r; i++) {
 				int num = arr[i];
-				if (forceCnt[num] > mx || (forceCnt[num] == mx && num < who)) {
-					mx = forceCnt[num];
+				if (cnt[num] > mx || (cnt[num] == mx && num < who)) {
+					mx = cnt[num];
 					who = num;
 				}
 			}
 			for (int i = l; i <= r; i++) {
-				forceCnt[arr[i]]--;
+				cnt[arr[i]]--;
 			}
 			return mx >= k ? sorted[who] : -1;
 		}

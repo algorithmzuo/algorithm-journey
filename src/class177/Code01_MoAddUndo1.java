@@ -34,9 +34,7 @@ public class Code01_MoAddUndo1 {
 	// 查询每块的右边界
 	public static int[] br = new int[MAXB];
 
-	// 每组暴力遍历的任务，需要的词频表为forceCnt
-	public static int[] forceCnt = new int[MAXN];
-	// 每组滑窗回滚的任务，需要的词频表为cnt
+	// 词频表
 	public static int[] cnt = new int[MAXN];
 	// 当前窗口的最大重要度
 	public static long curAns = 0;
@@ -74,13 +72,13 @@ public class Code01_MoAddUndo1 {
 	public static long force(int l, int r) {
 		long ret = 0;
 		for (int i = l; i <= r; i++) {
-			forceCnt[arr[i]]++;
+			cnt[arr[i]]++;
 		}
 		for (int i = l; i <= r; i++) {
-			ret = Math.max(ret, (long) forceCnt[arr[i]] * sorted[arr[i]]);
+			ret = Math.max(ret, (long) cnt[arr[i]] * sorted[arr[i]]);
 		}
 		for (int i = l; i <= r; i++) {
-			forceCnt[arr[i]]--;
+			cnt[arr[i]]--;
 		}
 		return ret;
 	}

@@ -32,7 +32,6 @@ package class177;
 //int bi[MAXN];
 //int br[MAXB];
 //
-//int forceCnt[MAXN];
 //int cnt[MAXN];
 //long long curAns = 0;
 //
@@ -62,13 +61,13 @@ package class177;
 //long long force(int l, int r) {
 //    long long ret = 0;
 //    for (int i = l; i <= r; i++) {
-//        forceCnt[arr[i]]++;
+//        cnt[arr[i]]++;
 //    }
 //    for (int i = l; i <= r; i++) {
-//        ret = max(ret, 1LL * forceCnt[arr[i]] * sorted[arr[i]]);
+//        ret = max(ret, 1LL * cnt[arr[i]] * sorted[arr[i]]);
 //    }
 //    for (int i = l; i <= r; i++) {
-//        forceCnt[arr[i]]--;
+//        cnt[arr[i]]--;
 //    }
 //    return ret;
 //}

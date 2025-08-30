@@ -32,10 +32,9 @@ package class177;
 //int bi[MAXN];
 //int br[MAXB];
 //
-//int forceCnt[MAXN];
 //int cnt[MAXN];
 //int maxCnt;
-//int numAns;
+//int minMode;
 //
 //int ans[MAXM];
 //
@@ -63,26 +62,26 @@ package class177;
 //int force(int l, int r, int k) {
 //    int mx = 0, who = 0;
 //    for (int i = l; i <= r; i++) {
-//        forceCnt[arr[i]]++;
+//        cnt[arr[i]]++;
 //    }
 //    for (int i = l; i <= r; i++) {
 //        int num = arr[i];
-//        if (forceCnt[num] > mx || (forceCnt[num] == mx && num < who)) {
-//            mx = forceCnt[num];
+//        if (cnt[num] > mx || (cnt[num] == mx && num < who)) {
+//            mx = cnt[num];
 //            who = num;
 //        }
 //    }
 //    for (int i = l; i <= r; i++) {
-//        forceCnt[arr[i]]--;
+//        cnt[arr[i]]--;
 //    }
 //    return mx >= k ? sorted[who] : -1;
 //}
 //
 //void add(int num) {
 //    cnt[num]++;
-//    if (cnt[num] > maxCnt || (cnt[num] == maxCnt && num < numAns)) {
+//    if (cnt[num] > maxCnt || (cnt[num] == maxCnt && num < minMode)) {
 //        maxCnt = cnt[num];
-//        numAns = num;
+//        minMode = num;
 //    }
 //}
 //
@@ -93,7 +92,7 @@ package class177;
 //void compute() {
 //    for (int block = 1, qi = 1; block <= bnum && qi <= m; block++) {
 //        maxCnt = 0;
-//        numAns = 0;
+//        minMode = 0;
 //        fill(cnt + 1, cnt + cntv + 1, 0);
 //        int winl = br[block] + 1, winr = br[block];
 //        for (; qi <= m && bi[query[qi].l] == block; qi++) {
@@ -108,17 +107,17 @@ package class177;
 //                    add(arr[++winr]);
 //                }
 //                int backupCnt = maxCnt;
-//                int backupNum = numAns;
+//                int backupNum = minMode;
 //                while (winl > jobl) {
 //                    add(arr[--winl]);
 //                }
 //                if (maxCnt >= jobk) {
-//                    ans[id] = sorted[numAns];
+//                    ans[id] = sorted[minMode];
 //                } else {
 //                	ans[id] = -1;
 //                }
 //                maxCnt = backupCnt;
-//                numAns = backupNum;
+//                minMode = backupNum;
 //                while (winl <= br[block]) {
 //                    del(arr[winl++]);
 //                }

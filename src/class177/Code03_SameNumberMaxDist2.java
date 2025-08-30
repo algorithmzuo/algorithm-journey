@@ -30,11 +30,10 @@ package class177;
 //int bi[MAXN];
 //int br[MAXB];
 //
-//int forceEd[MAXN];
-//int st[MAXN];
-//int ed[MAXN];
+//int first[MAXN];
+//int mostRight[MAXN];
+//int maxDist;
 //
-//int curAns = 0;
 //int ans[MAXN];
 //
 //bool QueryCmp(Query &a, Query &b) {
@@ -61,48 +60,48 @@ package class177;
 //int force(int l, int r) {
 //    int ret = 0;
 //    for (int i = l; i <= r; i++) {
-//        if (forceEd[arr[i]] == 0) {
-//            forceEd[arr[i]] = i;
+//        if (first[arr[i]] == 0) {
+//            first[arr[i]] = i;
 //        } else {
-//            ret = max(ret, i - forceEd[arr[i]]);
+//            ret = max(ret, i - first[arr[i]]);
 //        }
 //    }
 //    for (int i = l; i <= r; i++) {
-//        forceEd[arr[i]] = 0;
+//        first[arr[i]] = 0;
 //    }
 //    return ret;
 //}
 //
 //void addRight(int idx) {
 //    int num = arr[idx];
-//    ed[num] = idx;
-//    if (st[num] == 0) {
-//        st[num] = idx;
+//    mostRight[num] = idx;
+//    if (first[num] == 0) {
+//        first[num] = idx;
 //    }
-//    curAns = max(curAns, idx - st[num]);
+//    maxDist = max(maxDist, idx - first[num]);
 //}
 //
 //void addLeft(int idx) {
 //    int num = arr[idx];
-//    if (ed[num] != 0) {
-//        curAns = max(curAns, ed[num] - idx);
+//    if (mostRight[num] != 0) {
+//        maxDist = max(maxDist, mostRight[num] - idx);
 //    } else {
-//        ed[num] = idx;
+//        mostRight[num] = idx;
 //    }
 //}
 //
 //void delLeft(int idx) {
 //    int num = arr[idx];
-//    if (ed[num] == idx) {
-//        ed[num] = 0;
+//    if (mostRight[num] == idx) {
+//        mostRight[num] = 0;
 //    }
 //}
 //
 //void compute() {
 //    for (int block = 1, qi = 1; block <= bnum && qi <= m; block++) {
-//        curAns = 0;
-//        fill(st + 1, st + cntv + 1, 0);
-//        fill(ed + 1, ed + cntv + 1, 0);
+//        maxDist = 0;
+//        fill(first + 1, first + cntv + 1, 0);
+//        fill(mostRight + 1, mostRight + cntv + 1, 0);
 //        int winl = br[block] + 1, winr = br[block];
 //        for (; qi <= m && bi[query[qi].l] == block; qi++) {
 //            int jobl = query[qi].l;
@@ -114,12 +113,12 @@ package class177;
 //                while (winr < jobr) {
 //                    addRight(++winr);
 //                }
-//                int backup = curAns;
+//                int backup = maxDist;
 //                while (winl > jobl) {
 //                    addLeft(--winl);
 //                }
-//                ans[id] = curAns;
-//                curAns = backup;
+//                ans[id] = maxDist;
+//                maxDist = backup;
 //                while (winl <= br[block]) {
 //                    delLeft(winl++);
 //                }
