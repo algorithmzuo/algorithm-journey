@@ -29,11 +29,10 @@ public class Code04_ZeroQuery1 {
 	public static int[] bi = new int[MAXN];
 	public static int[] br = new int[MAXB];
 
-	public static int[] forceEd = new int[MAXN];
-	public static int[] st = new int[MAXN];
-	public static int[] ed = new int[MAXN];
+	public static int[] first = new int[MAXN];
+	public static int[] mostRight = new int[MAXN];
+	public static int maxDist;
 
-	public static int curAns = 0;
 	public static int[] ans = new int[MAXN];
 
 	public static class QueryCmp implements Comparator<int[]> {
@@ -65,48 +64,48 @@ public class Code04_ZeroQuery1 {
 	public static int force(int l, int r) {
 		int ret = 0;
 		for (int i = l; i <= r; i++) {
-			if (forceEd[arr[i]] == 0) {
-				forceEd[arr[i]] = i;
+			if (first[arr[i]] == 0) {
+				first[arr[i]] = i;
 			} else {
-				ret = Math.max(ret, i - forceEd[arr[i]]);
+				ret = Math.max(ret, i - first[arr[i]]);
 			}
 		}
 		for (int i = l; i <= r; i++) {
-			forceEd[arr[i]] = 0;
+			first[arr[i]] = 0;
 		}
 		return ret;
 	}
 
 	public static void addRight(int idx) {
 		int num = arr[idx];
-		ed[num] = idx;
-		if (st[num] == 0) {
-			st[num] = idx;
+		mostRight[num] = idx;
+		if (first[num] == 0) {
+			first[num] = idx;
 		}
-		curAns = Math.max(curAns, idx - st[num]);
+		maxDist = Math.max(maxDist, idx - first[num]);
 	}
 
 	public static void addLeft(int idx) {
 		int num = arr[idx];
-		if (ed[num] != 0) {
-			curAns = Math.max(curAns, ed[num] - idx);
+		if (mostRight[num] != 0) {
+			maxDist = Math.max(maxDist, mostRight[num] - idx);
 		} else {
-			ed[num] = idx;
+			mostRight[num] = idx;
 		}
 	}
 
 	public static void delLeft(int idx) {
 		int num = arr[idx];
-		if (ed[num] == idx) {
-			ed[num] = 0;
+		if (mostRight[num] == idx) {
+			mostRight[num] = 0;
 		}
 	}
 
 	public static void compute() {
 		for (int block = 1, qi = 1; block <= bnum && qi <= m; block++) {
-			curAns = 0;
-			Arrays.fill(st, 1, cntv + 1, 0);
-			Arrays.fill(ed, 1, cntv + 1, 0);
+			maxDist = 0;
+			Arrays.fill(first, 1, cntv + 1, 0);
+			Arrays.fill(mostRight, 1, cntv + 1, 0);
 			int winl = br[block] + 1, winr = br[block];
 			for (; qi <= m && bi[query[qi][0]] == block; qi++) {
 				int jobl = query[qi][0];
@@ -118,12 +117,12 @@ public class Code04_ZeroQuery1 {
 					while (winr < jobr) {
 						addRight(++winr);
 					}
-					int backup = curAns;
+					int backup = maxDist;
 					while (winl > jobl) {
 						addLeft(--winl);
 					}
-					ans[id] = curAns;
-					curAns = backup;
+					ans[id] = maxDist;
+					maxDist = backup;
 					while (winl <= br[block]) {
 						delLeft(winl++);
 					}
