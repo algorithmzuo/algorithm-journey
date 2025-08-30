@@ -38,9 +38,9 @@ public class Code01_MoAddUndo1 {
 	public static int[] forceCnt = new int[MAXN];
 	// 每组滑窗回滚的任务，需要的词频表为cnt
 	public static int[] cnt = new int[MAXN];
-
 	// 当前窗口的最大重要度
 	public static long curAns = 0;
+
 	// 收集所有答案
 	public static long[] ans = new long[MAXN];
 

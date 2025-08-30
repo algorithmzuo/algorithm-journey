@@ -34,9 +34,9 @@ package class177;
 //
 //int forceCnt[MAXN];
 //int cnt[MAXN];
-//
 //int maxCnt;
 //int numAns;
+//
 //int ans[MAXM];
 //
 //bool QueryCmp(Query &a, Query &b) {

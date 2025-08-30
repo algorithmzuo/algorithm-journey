@@ -32,9 +32,9 @@ public class Code02_ThresholdMajority1 {
 
 		public static int[] forceCnt = new int[MAXN];
 		public static int[] cnt = new int[MAXN];
-
 		public static int maxCnt;
-		public static int numAns;
+		public static int minMode;
+
 		public static int[] ans = new int[MAXM];
 
 		public static class QueryCmp implements Comparator<int[]> {
@@ -84,9 +84,9 @@ public class Code02_ThresholdMajority1 {
 
 		public static void add(int num) {
 			cnt[num]++;
-			if (cnt[num] > maxCnt || (cnt[num] == maxCnt && num < numAns)) {
+			if (cnt[num] > maxCnt || (cnt[num] == maxCnt && num < minMode)) {
 				maxCnt = cnt[num];
-				numAns = num;
+				minMode = num;
 			}
 		}
 
@@ -97,7 +97,7 @@ public class Code02_ThresholdMajority1 {
 		public static void compute() {
 			for (int block = 1, qi = 1; block <= bnum && qi <= m; block++) {
 				maxCnt = 0;
-				numAns = 0;
+				minMode = 0;
 				Arrays.fill(cnt, 1, cntv + 1, 0);
 				int winl = br[block] + 1, winr = br[block];
 				for (; qi <= m && bi[query[qi][0]] == block; qi++) {
@@ -112,17 +112,17 @@ public class Code02_ThresholdMajority1 {
 							add(arr[++winr]);
 						}
 						int backupCnt = maxCnt;
-						int backupNum = numAns;
+						int backupNum = minMode;
 						while (winl > jobl) {
 							add(arr[--winl]);
 						}
 						if (maxCnt >= jobk) {
-							ans[id] = sorted[numAns];
+							ans[id] = sorted[minMode];
 						} else {
 							ans[id] = -1;
 						}
 						maxCnt = backupCnt;
-						numAns = backupNum;
+						minMode = backupNum;
 						while (winl <= br[block]) {
 							del(arr[winl++]);
 						}
