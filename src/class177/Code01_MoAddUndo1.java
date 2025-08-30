@@ -67,6 +67,7 @@ public class Code01_MoAddUndo1 {
 		return ret;
 	}
 
+	// 暴力遍历arr[l..r]得到答案
 	public static long force(int l, int r) {
 		long ret = 0;
 		for (int i = l; i <= r; i++) {
@@ -81,11 +82,13 @@ public class Code01_MoAddUndo1 {
 		return ret;
 	}
 
+	// 窗口增加num，词频和答案都更新
 	public static void add(int num) {
 		cnt[num]++;
 		curAns = Math.max(curAns, (long) cnt[num] * sorted[num]);
 	}
 
+	// 窗口减少num，词频更新、答案不更新
 	public static void del(int num) {
 		cnt[num]--;
 	}
