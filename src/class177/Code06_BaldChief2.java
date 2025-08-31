@@ -40,18 +40,6 @@ package class177;
 //    return a.r > b.r;
 //}
 //
-//inline void init() {
-//    for (int v = 1; v <= n; v++) {
-//        lst[v] = v - 1;
-//        nxt[v] = v + 1;
-//    }
-//    nxt[0] = 1;
-//    lst[n + 1] = n;
-//    for (int v = 2; v <= n; v++) {
-//        sum += abs(pos[v] - pos[v - 1]);
-//    }
-//}
-//
 //inline void del(int num) {
 //    int less = lst[num], more = nxt[num];
 //    if (less != 0) {
@@ -88,7 +76,15 @@ package class177;
 //}
 //
 //void compute() {
-//    init();
+//    for (int v = 1; v <= n; v++) {
+//        lst[v] = v - 1;
+//        nxt[v] = v + 1;
+//    }
+//    nxt[0] = 1;
+//    lst[n + 1] = n;
+//    for (int v = 2; v <= n; v++) {
+//        sum += abs(pos[v] - pos[v - 1]);
+//    }
 //    int winl = 1, winr = n;
 //    for (int block = 1, qi = 1; block <= bnum && qi <= m; block++) {
 //        while (winl < bl[block]) {
