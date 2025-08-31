@@ -83,10 +83,10 @@ package class177;
 //
 //void addLeft(int idx) {
 //    int num = arr[idx];
-//    if (mostRight[num] != 0) {
-//        maxDist = max(maxDist, mostRight[num] - idx);
-//    } else {
+//    if (mostRight[num] == 0) {
 //        mostRight[num] = idx;
+//    } else {
+//        maxDist = max(maxDist, mostRight[num] - idx);
 //    }
 //}
 //

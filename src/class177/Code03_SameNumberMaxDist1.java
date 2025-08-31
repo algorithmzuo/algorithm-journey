@@ -30,7 +30,7 @@ public class Code03_SameNumberMaxDist1 {
 	public static int[] bi = new int[MAXN];
 	public static int[] br = new int[MAXB];
 
-	// first[x] = i，不考虑窗口左扩的情况下，数字x首次出现在i位置
+	// first[x] = i，只考虑右扩的情况下，数字x首次出现在i位置
 	public static int[] first = new int[MAXN];
 	// mostRight[x] = i，窗口中数字x最右出现在i位置
 	public static int[] mostRight = new int[MAXN];
@@ -91,10 +91,10 @@ public class Code03_SameNumberMaxDist1 {
 
 	public static void addLeft(int idx) {
 		int num = arr[idx];
-		if (mostRight[num] != 0) {
-			maxDist = Math.max(maxDist, mostRight[num] - idx);
-		} else {
+		if (mostRight[num] == 0) {
 			mostRight[num] = idx;
+		} else {
+			maxDist = Math.max(maxDist, mostRight[num] - idx);
 		}
 	}
 

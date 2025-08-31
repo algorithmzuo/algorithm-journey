@@ -87,10 +87,10 @@ public class Code04_ZeroQuery1 {
 
 	public static void addLeft(int idx) {
 		int num = arr[idx];
-		if (mostRight[num] != 0) {
-			maxDist = Math.max(maxDist, mostRight[num] - idx);
-		} else {
+		if (mostRight[num] == 0) {
 			mostRight[num] = idx;
+		} else {
+			maxDist = Math.max(maxDist, mostRight[num] - idx);
 		}
 	}
 
