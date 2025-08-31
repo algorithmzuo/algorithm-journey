@@ -30,7 +30,7 @@ public class Code03_SameNumberMaxDist1 {
 	public static int[] bi = new int[MAXN];
 	public static int[] br = new int[MAXB];
 
-	// first[x]表示只考虑右扩的情况下，数字x首次出现的位置
+	// first[x]表示只考虑窗口右扩阶段，数字x首次出现的位置
 	public static int[] first = new int[MAXN];
 	// mostRight[x]表示窗口中数字x最右出现的位置
 	public static int[] mostRight = new int[MAXN];
