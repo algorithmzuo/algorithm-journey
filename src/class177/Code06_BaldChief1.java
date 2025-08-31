@@ -75,6 +75,7 @@ public class Code06_BaldChief1 {
 		last[more] = less;
 	}
 
+	// 加数字的顺序，就是删数字的顺序的回滚，才能这么方便的更新
 	public static void add(int num) {
 		next[last[num]] = num;
 		last[next[num]] = num;
