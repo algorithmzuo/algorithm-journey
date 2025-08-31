@@ -30,9 +30,9 @@ public class Code03_SameNumberMaxDist1 {
 	public static int[] bi = new int[MAXN];
 	public static int[] br = new int[MAXB];
 
-	// first[x] = i，只考虑右扩的情况下，数字x首次出现在i位置
+	// first[x]表示只考虑右扩的情况下，数字x首次出现的位置
 	public static int[] first = new int[MAXN];
-	// mostRight[x] = i，窗口中数字x最右出现在i位置
+	// mostRight[x]表示窗口中数字x最右出现的位置
 	public static int[] mostRight = new int[MAXN];
 	// 答案信息，相同的数的最远间隔距离
 	public static int maxDist;
