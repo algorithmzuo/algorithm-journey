@@ -27,7 +27,7 @@ public class Code05_MoDelUndo1 {
 	public static int[] bi = new int[MAXN];
 	public static int[] bl = new int[MAXB];
 
-	public static int[] cnt = new int[MAXN + 1];
+	public static int[] cnt = new int[MAXN];
 	public static int mex;
 	public static int[] ans = new int[MAXN];
 

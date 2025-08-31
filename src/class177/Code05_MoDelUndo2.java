@@ -27,7 +27,7 @@ package class177;
 //int bi[MAXN];
 //int bl[MAXB];
 //
-//int cnt[MAXN + 1];
+//int cnt[MAXN];
 //int mex;
 //int ans[MAXN];
 //
