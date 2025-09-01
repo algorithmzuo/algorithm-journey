@@ -138,7 +138,8 @@ public class Code07_MoOnTree1 {
 
 	}
 
-	// 窗口不管是加入还是删除node，遇到node就翻转信息即可
+	// 窗口不管是加入还是删除node
+	// 只要遇到node就翻转信息即可
 	public static void invert(int node) {
 		int val = color[node];
 		if (vis[node]) {
