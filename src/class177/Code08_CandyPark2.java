@@ -51,7 +51,7 @@ package class177;
 //int bi[MAXN << 1];
 //bool vis[MAXN];
 //int cnt[MAXN];
-//long long curAns;
+//long long happy;
 //long long ans[MAXN];
 //
 //void addEdge(int u, int v) {
@@ -112,9 +112,9 @@ package class177;
 //void invert(int node) {
 //    int candy = c[node];
 //    if (vis[node]) {
-//        curAns -= 1LL * v[candy] * w[cnt[candy]--];
+//        happy -= 1LL * v[candy] * w[cnt[candy]--];
 //    } else {
-//        curAns += 1LL * v[candy] * w[++cnt[candy]];
+//        happy += 1LL * v[candy] * w[++cnt[candy]];
 //    }
 //    vis[node] = !vis[node];
 //}
@@ -163,7 +163,7 @@ package class177;
 //        if (lca > 0) {
 //            invert(lca);
 //        }
-//        ans[id] = curAns;
+//        ans[id] = happy;
 //        if (lca > 0) {
 //            invert(lca);
 //        }

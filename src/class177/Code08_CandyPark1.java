@@ -49,7 +49,7 @@ public class Code08_CandyPark1 {
 	public static int[] bi = new int[MAXN << 1];
 	public static boolean[] vis = new boolean[MAXN];
 	public static int[] cnt = new int[MAXN];
-	public static long curAns;
+	public static long happy;
 	public static long[] ans = new long[MAXN];
 
 	public static void addEdge(int u, int v) {
@@ -170,9 +170,9 @@ public class Code08_CandyPark1 {
 	public static void invert(int node) {
 		int candy = c[node];
 		if (vis[node]) {
-			curAns -= (long) v[candy] * w[cnt[candy]--];
+			happy -= (long) v[candy] * w[cnt[candy]--];
 		} else {
-			curAns += (long) v[candy] * w[++cnt[candy]];
+			happy += (long) v[candy] * w[++cnt[candy]];
 		}
 		vis[node] = !vis[node];
 	}
@@ -221,7 +221,7 @@ public class Code08_CandyPark1 {
 			if (lca > 0) {
 				invert(lca);
 			}
-			ans[id] = curAns;
+			ans[id] = happy;
 			if (lca > 0) {
 				invert(lca);
 			}
