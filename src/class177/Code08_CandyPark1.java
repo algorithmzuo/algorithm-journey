@@ -177,16 +177,22 @@ public class Code08_CandyPark1 {
 		vis[node] = !vis[node];
 	}
 
+	// 上节课带修莫队的重要过程
+	// tim为生效或者撤销的修改时间点，公园更换糖果
 	public static void moveTime(int tim) {
 		int pos = update[tim][0];
 		int oldVal = c[pos];
 		int newVal = update[tim][1];
-		if (vis[pos]) {
+		if (vis[pos]) { // 如果当前公园生效中
+			// 老糖果invert效果
 			invert(pos);
+			// 新老糖果换位
 			c[pos] = newVal;
 			update[tim][1] = oldVal;
+			// 新糖果invert效果
 			invert(pos);
-		} else {
+		} else { // 如果当前公园不在生效中
+			// 新老糖果换位即可
 			c[pos] = newVal;
 			update[tim][1] = oldVal;
 		}
