@@ -25,9 +25,10 @@ package class177;
 //
 //int n, m;
 //int color[MAXN];
-//Query query[MAXM];
 //int sorted[MAXN];
 //int cntv;
+//
+//Query query[MAXM];
 //
 //int head[MAXN];
 //int to[MAXN << 1];
@@ -42,6 +43,7 @@ package class177;
 //int cntd;
 //
 //int bi[MAXN << 1];
+//
 //bool vis[MAXN];
 //int cnt[MAXN];
 //int kind;
@@ -114,7 +116,7 @@ package class177;
 //    return a.r < b.r;
 //}
 //
-//void modify(int node) {
+//void invert(int node) {
 //    int val = color[node];
 //    if (vis[node]) {
 //        if (--cnt[val] == 0) {
@@ -136,23 +138,23 @@ package class177;
 //        int lca = query[i].lca;
 //        int id = query[i].id;
 //        while (winl > jobl) {
-//            modify(seg[--winl]);
+//            invert(seg[--winl]);
 //        }
 //        while (winr < jobr) {
-//            modify(seg[++winr]);
+//            invert(seg[++winr]);
 //        }
 //        while (winl < jobl) {
-//            modify(seg[winl++]);
+//            invert(seg[winl++]);
 //        }
 //        while (winr > jobr) {
-//            modify(seg[winr--]);
+//            invert(seg[winr--]);
 //        }
 //        if (lca > 0) {
-//            modify(lca);
+//            invert(lca);
 //        }
 //        ans[id] = kind;
 //        if (lca > 0) {
-//            modify(lca);
+//            invert(lca);
 //        }
 //    }
 //}

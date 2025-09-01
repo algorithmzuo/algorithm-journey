@@ -27,9 +27,13 @@ public class Code07_MoOnTree1 {
 	public static int MAXP = 20;
 	public static int n, m;
 	public static int[] color = new int[MAXN];
-	public static int[][] query = new int[MAXM][4];
 	public static int[] sorted = new int[MAXN];
 	public static int cntv;
+
+	// 查询的参数，jobl、jobr、lca、id
+	// 如果是类型1，那么lca == 0，表示空缺
+	// 如果是类型2，那么lca > 0，查询结果需要补充这个单点信息
+	public static int[][] query = new int[MAXM][4];
 
 	// 链式前向星
 	public static int[] head = new int[MAXN];
@@ -134,7 +138,8 @@ public class Code07_MoOnTree1 {
 
 	}
 
-	public static void modify(int node) {
+	// 窗口不管是加入还是删除node，遇到node就翻转信息即可
+	public static void invert(int node) {
 		int val = color[node];
 		if (vis[node]) {
 			if (--cnt[val] == 0) {
@@ -156,23 +161,23 @@ public class Code07_MoOnTree1 {
 			int lca = query[i][2];
 			int id = query[i][3];
 			while (winl > jobl) {
-				modify(seg[--winl]);
+				invert(seg[--winl]);
 			}
 			while (winr < jobr) {
-				modify(seg[++winr]);
+				invert(seg[++winr]);
 			}
 			while (winl < jobl) {
-				modify(seg[winl++]);
+				invert(seg[winl++]);
 			}
 			while (winr > jobr) {
-				modify(seg[winr--]);
+				invert(seg[winr--]);
 			}
 			if (lca > 0) {
-				modify(lca);
+				invert(lca);
 			}
 			ans[id] = kind;
 			if (lca > 0) {
-				modify(lca);
+				invert(lca);
 			}
 		}
 	}

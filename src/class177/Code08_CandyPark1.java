@@ -165,7 +165,8 @@ public class Code08_CandyPark1 {
 
 	}
 
-	public static void modify(int node) {
+	// 窗口不管是加入还是删除node，遇到node就翻转信息即可
+	public static void invert(int node) {
 		int candy = c[node];
 		if (vis[node]) {
 			curAns -= (long) v[candy] * w[cnt[candy]--];
@@ -180,10 +181,10 @@ public class Code08_CandyPark1 {
 		int oldVal = c[pos];
 		int newVal = update[tim][1];
 		if (vis[pos]) {
-			modify(pos);
+			invert(pos);
 			c[pos] = newVal;
 			update[tim][1] = oldVal;
-			modify(pos);
+			invert(pos);
 		} else {
 			c[pos] = newVal;
 			update[tim][1] = oldVal;
@@ -199,16 +200,16 @@ public class Code08_CandyPark1 {
 			int lca = query[i][3];
 			int id = query[i][4];
 			while (winl > jobl) {
-				modify(seg[--winl]);
+				invert(seg[--winl]);
 			}
 			while (winr < jobr) {
-				modify(seg[++winr]);
+				invert(seg[++winr]);
 			}
 			while (winl < jobl) {
-				modify(seg[winl++]);
+				invert(seg[winl++]);
 			}
 			while (winr > jobr) {
-				modify(seg[winr--]);
+				invert(seg[winr--]);
 			}
 			while (wint < jobt) {
 				moveTime(++wint);
@@ -217,11 +218,11 @@ public class Code08_CandyPark1 {
 				moveTime(wint--);
 			}
 			if (lca > 0) {
-				modify(lca);
+				invert(lca);
 			}
 			ans[id] = curAns;
 			if (lca > 0) {
-				modify(lca);
+				invert(lca);
 			}
 		}
 	}

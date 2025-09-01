@@ -109,7 +109,7 @@ package class177;
 //    return a.t < b.t;
 //}
 //
-//void modify(int node) {
+//void invert(int node) {
 //    int candy = c[node];
 //    if (vis[node]) {
 //        curAns -= 1LL * v[candy] * w[cnt[candy]--];
@@ -124,10 +124,10 @@ package class177;
 //    int oldVal = c[pos];
 //    int newVal = update[tim].val;
 //    if (vis[pos]) {
-//        modify(pos);
+//        invert(pos);
 //        c[pos] = newVal;
 //        update[tim].val = oldVal;
-//        modify(pos);
+//        invert(pos);
 //    } else {
 //        c[pos] = newVal;
 //        update[tim].val = oldVal;
@@ -143,16 +143,16 @@ package class177;
 //        int lca = query[i].lca;
 //        int id = query[i].id;
 //        while (winl > jobl) {
-//            modify(seg[--winl]);
+//            invert(seg[--winl]);
 //        }
 //        while (winr < jobr) {
-//            modify(seg[++winr]);
+//            invert(seg[++winr]);
 //        }
 //        while (winl < jobl) {
-//            modify(seg[winl++]);
+//            invert(seg[winl++]);
 //        }
 //        while (winr > jobr) {
-//            modify(seg[winr--]);
+//            invert(seg[winr--]);
 //        }
 //        while (wint < jobt) {
 //            moveTime(++wint);
@@ -161,11 +161,11 @@ package class177;
 //            moveTime(wint--);
 //        }
 //        if (lca > 0) {
-//            modify(lca);
+//            invert(lca);
 //        }
 //        ans[id] = curAns;
 //        if (lca > 0) {
-//            modify(lca);
+//            invert(lca);
 //        }
 //    }
 //}
