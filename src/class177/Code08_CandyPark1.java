@@ -165,7 +165,8 @@ public class Code08_CandyPark1 {
 
 	}
 
-	// 窗口不管是加入还是删除node，遇到node就翻转信息即可
+	// 窗口不管是加入还是删除node
+	// 只要遇到node就翻转信息即可
 	public static void invert(int node) {
 		int candy = c[node];
 		if (vis[node]) {
