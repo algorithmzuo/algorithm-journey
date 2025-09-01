@@ -31,11 +31,18 @@ public class Code07_MoOnTree1 {
 	public static int[] sorted = new int[MAXN];
 	public static int cntv;
 
+	// 链式前向星
 	public static int[] head = new int[MAXN];
 	public static int[] to = new int[MAXN << 1];
 	public static int[] next = new int[MAXN << 1];
 	public static int cntg;
 
+	// dep是深度
+	// seg是括号序
+	// st是节点开始序
+	// ed是节点结束序
+	// stjump是倍增表
+	// cntd是括号序列的长度
 	public static int[] dep = new int[MAXN];
 	public static int[] seg = new int[MAXN << 1];
 	public static int[] st = new int[MAXN];
@@ -43,7 +50,10 @@ public class Code07_MoOnTree1 {
 	public static int[][] stjump = new int[MAXN][MAXP];
 	public static int cntd;
 
+	// 分块
 	public static int[] bi = new int[MAXN << 1];
+
+	// 窗口信息
 	public static boolean[] vis = new boolean[MAXN];
 	public static int[] cnt = new int[MAXN];
 	public static int kind = 0;
