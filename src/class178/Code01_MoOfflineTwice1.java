@@ -128,9 +128,17 @@ public class Code01_MoOfflineTwice1 {
 			for (int q = head[i]; q > 0; q = next[q]) {
 				int id = qid[q], l = ql[q], r = qr[q], op = qop[q];
 				for (int j = l; j <= r; j++) {
+					// 计算j 对 1..i范围的贡献
+					// 此时1..i范围上的数字都更新过cnt
 					if (j <= i && k == 0) {
+						// j在1..i范围上，此时又有k==0
+						// 那么arr[j]一定更新过cnt，并且(arr[j], arr[j])一定算进贡献了
+						// 但是题目要求的二元组必须是不同位置，所以贡献要进行减1修正
 						ans[id] += (long) op * (cnt[arr[j]] - 1);
 					} else {
+						// 要么j不在1..i范围上，arr[j]没更新过cnt
+						// 要么k!=0，(arr[j], arr[j])无法被算成贡献
+						// 无论哪种情况，贡献都是正确的，不用进行减1修正
 						ans[id] += (long) op * cnt[arr[j]];
 					}
 				}
