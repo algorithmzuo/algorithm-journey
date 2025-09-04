@@ -84,7 +84,7 @@ package class178;
 //        }
 //    }
 //    int winl = 1, winr = 0;
-//    int kIs0 = (k == 0 ? 1 : 0);
+//    int k0 = (k == 0 ? 1 : 0);
 //    for (int i = 1; i <= m; i++) {
 //        int jobl = query[i].l;
 //        int jobr = query[i].r;
@@ -105,13 +105,13 @@ package class178;
 //            addQuery(winr, id, jobl, winl - 1, 1);
 //        }
 //        while (winl > jobl) {
-//            ans[id] -= pre[--winl] + kIs0;
+//            ans[id] -= pre[--winl] + k0;
 //        }
 //        if (winl < jobl) {
 //            addQuery(winr, id, winl, jobl - 1, -1);
 //        }
 //        while (winl < jobl) {
-//            ans[id] += pre[winl++] + kIs0;
+//            ans[id] += pre[winl++] + k0;
 //        }
 //    }
 //    memset(cnt, 0, sizeof(cnt));

@@ -90,7 +90,7 @@ public class Code01_MoOfflineTwice1 {
 		}
 		// 莫队
 		int winl = 1, winr = 0;
-		int kIs0 = (k == 0 ? 1 : 0);
+		int k0 = (k == 0 ? 1 : 0);
 		for (int i = 1; i <= m; i++) {
 			int jobl = query[i][0];
 			int jobr = query[i][1];
@@ -111,13 +111,13 @@ public class Code01_MoOfflineTwice1 {
 				addQuery(winr, id, jobl, winl - 1, 1);
 			}
 			while (winl > jobl) {
-				ans[id] -= pre[--winl] + kIs0;
+				ans[id] -= pre[--winl] + k0;
 			}
 			if (winl < jobl) {
 				addQuery(winr, id, winl, jobl - 1, -1);
 			}
 			while (winl < jobl) {
-				ans[id] += pre[winl++] + kIs0;
+				ans[id] += pre[winl++] + k0;
 			}
 		}
 		// 第二次离线
