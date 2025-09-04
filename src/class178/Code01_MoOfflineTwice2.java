@@ -84,7 +84,6 @@ package class178;
 //        }
 //    }
 //    int winl = 1, winr = 0;
-//    int k0 = (k == 0 ? 1 : 0);
 //    for (int i = 1; i <= m; i++) {
 //        int jobl = query[i].l;
 //        int jobr = query[i].r;
@@ -105,13 +104,13 @@ package class178;
 //            addQuery(winr, id, jobl, winl - 1, 1);
 //        }
 //        while (winl > jobl) {
-//            ans[id] -= pre[--winl] + k0;
+//            ans[id] -= pre[--winl];
 //        }
 //        if (winl < jobl) {
 //            addQuery(winr, id, winl, jobl - 1, -1);
 //        }
 //        while (winl < jobl) {
-//            ans[id] += pre[winl++] + k0;
+//            ans[id] += pre[winl++];
 //        }
 //    }
 //    memset(cnt, 0, sizeof(cnt));
@@ -121,8 +120,12 @@ package class178;
 //        }
 //        for (int q = head[i]; q > 0; q = nxt[q]) {
 //            int id = qid[q], l = ql[q], r = qr[q], op = qop[q];
-//            for (int x = l; x <= r; x++) {
-//                ans[id] += 1LL * op * cnt[arr[x]];
+//            for (int j = l; j <= r; j++) {
+//                if (j <= i && k == 0) {
+//                    ans[id] += 1LL * op * (cnt[arr[j]] - 1);
+//                } else {
+//                    ans[id] += 1LL * op * cnt[arr[j]];
+//                }
 //            }
 //        }
 //    }

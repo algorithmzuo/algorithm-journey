@@ -90,7 +90,6 @@ public class Code01_MoOfflineTwice1 {
 		}
 		// 莫队
 		int winl = 1, winr = 0;
-		int k0 = (k == 0 ? 1 : 0);
 		for (int i = 1; i <= m; i++) {
 			int jobl = query[i][0];
 			int jobr = query[i][1];
@@ -111,13 +110,13 @@ public class Code01_MoOfflineTwice1 {
 				addQuery(winr, id, jobl, winl - 1, 1);
 			}
 			while (winl > jobl) {
-				ans[id] -= pre[--winl] + k0;
+				ans[id] -= pre[--winl];
 			}
 			if (winl < jobl) {
 				addQuery(winr, id, winl, jobl - 1, -1);
 			}
 			while (winl < jobl) {
-				ans[id] += pre[winl++] + k0;
+				ans[id] += pre[winl++];
 			}
 		}
 		// 第二次离线
@@ -128,8 +127,12 @@ public class Code01_MoOfflineTwice1 {
 			}
 			for (int q = head[i]; q > 0; q = next[q]) {
 				int id = qid[q], l = ql[q], r = qr[q], op = qop[q];
-				for (int x = l; x <= r; x++) {
-					ans[id] += (long) op * cnt[arr[x]];
+				for (int j = l; j <= r; j++) {
+					if (j <= i && k == 0) {
+						ans[id] += (long) op * (cnt[arr[j]] - 1);
+					} else {
+						ans[id] += (long) op * cnt[arr[j]];
+					}
 				}
 			}
 		}
