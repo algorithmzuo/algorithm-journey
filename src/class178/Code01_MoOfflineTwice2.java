@@ -16,7 +16,6 @@ package class178;
 //const int MAXN = 100001;
 //const int MAXQ = 200001;
 //const int MAXV = 1 << 14;
-//
 //int n, m, k;
 //int arr[MAXN];
 //Query query[MAXN];
