@@ -23,12 +23,11 @@ public class Code02_OfflineInversion1 {
 	public static int[] arr = new int[MAXN];
 	public static int[][] query = new int[MAXN][3];
 
-	// 值的离散化
+	// 离散化
 	public static int[] sorted = new int[MAXN];
 	public static int cntv;
 
-	// bi用于序列分块 + 值域分块
-	// bl和br用于值域分块
+	// bi用于序列分块、值域分块，bl和br用于值域分块
 	public static int[] bi = new int[MAXN];
 	public static int[] bl = new int[MAXB];
 	public static int[] br = new int[MAXB];
