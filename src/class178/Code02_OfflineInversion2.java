@@ -9,19 +9,25 @@ package class178;
 //
 //using namespace std;
 //
-//struct Query {
+//struct Query1 {
 //    int l, r, id;
 //};
 //
+//struct Query2 {
+//    int pos, id, l, r, op;
+//};
+//
 //const int MAXN = 100002;
-//const int MAXQ = 200001;
 //const int MAXB = 401;
 //int n, m;
 //int arr[MAXN];
-//Query query[MAXN];
-//
 //int sorted[MAXN];
 //int cntv;
+//
+//Query1 query1[MAXN];
+//Query2 lquery[MAXN];
+//Query2 rquery[MAXN];
+//int cntl, cntr;
 //
 //int bi[MAXN];
 //int bl[MAXB];
@@ -34,22 +40,17 @@ package class178;
 //long long cnt[MAXN];
 //long long lazy[MAXB];
 //
-//int headl[MAXN];
-//int headr[MAXN];
-//int nxt[MAXQ];
-//int qid[MAXQ];
-//int ql[MAXQ];
-//int qr[MAXQ];
-//int qop[MAXQ];
-//int cntq;
-//
 //long long ans[MAXN];
 //
-//bool QueryCmp(Query &a, Query &b) {
+//bool Cmp1(Query1 &a, Query1 &b) {
 //    if (bi[a.l] != bi[b.l]) {
 //        return bi[a.l] < bi[b.l];
 //    }
 //    return a.r < b.r;
+//}
+//
+//bool Cmp2(Query2 &a, Query2 &b) {
+//    return a.pos < b.pos;
 //}
 //
 //int kth(int num) {
@@ -87,25 +88,23 @@ package class178;
 //}
 //
 //void clear() {
-//    fill(tree + 1, tree + cntv + 1, 0);
+//    memset(tree + 1, 0, cntv * sizeof(int));
 //}
 //
 //void addLeftQuery(int pos, int id, int l, int r, int op) {
-//    nxt[++cntq] = headl[pos];
-//    qid[cntq] = id;
-//    ql[cntq] = l;
-//    qr[cntq] = r;
-//    qop[cntq] = op;
-//    headl[pos] = cntq;
+//    lquery[++cntl].pos = pos;
+//    lquery[cntl].id = id;
+//    lquery[cntl].l = l;
+//    lquery[cntl].r = r;
+//    lquery[cntl].op = op;
 //}
 //
 //void addRightQuery(int pos, int id, int l, int r, int op) {
-//    nxt[++cntq] = headr[pos];
-//    qid[cntq] = id;
-//    ql[cntq] = l;
-//    qr[cntq] = r;
-//    qop[cntq] = op;
-//    headr[pos] = cntq;
+//    rquery[++cntr].pos = pos;
+//    rquery[cntr].id = id;
+//    rquery[cntr].l = l;
+//    rquery[cntr].r = r;
+//    rquery[cntr].op = op;
 //}
 //
 //void addLeftCnt(int val) {
@@ -159,7 +158,7 @@ package class178;
 //        bl[i] = (i - 1) * blen + 1;
 //        br[i] = min(i * blen, cntv);
 //    }
-//    sort(query + 1, query + m + 1, QueryCmp);
+//    sort(query1 + 1, query1 + m + 1, Cmp1);
 //}
 //
 //void compute() {
@@ -174,9 +173,9 @@ package class178;
 //    }
 //    int winl = 1, winr = 0;
 //    for (int i = 1; i <= m; i++) {
-//        int jobl = query[i].l;
-//        int jobr = query[i].r;
-//        int id = query[i].id;
+//        int jobl = query1[i].l;
+//        int jobr = query1[i].r;
+//        int id = query1[i].id;
 //        if (winr < jobr) {
 //            addLeftQuery(winl - 1, id, winr + 1, jobr, -1);
 //            ans[id] += pre[jobr] - pre[winr];
@@ -196,10 +195,14 @@ package class178;
 //        winl = jobl;
 //        winr = jobr;
 //    }
-//    for (int i = 1; i <= n; i++) {
-//        addLeftCnt(arr[i] - 1);
-//        for (int q = headl[i]; q > 0; q = nxt[q]) {
-//            int id = qid[q], l = ql[q], r = qr[q], op = qop[q];
+//    sort(lquery + 1, lquery + cntl + 1, Cmp2);
+//    sort(rquery + 1, rquery + cntr + 1, Cmp2);
+//    for (int pos = 0, qi = 1; pos <= n && qi <= cntl; pos++) {
+//        if (pos >= 1) {
+//            addLeftCnt(arr[pos] - 1);
+//        }
+//        for (; qi <= cntl && lquery[qi].pos == pos; qi++) {
+//            int id = lquery[qi].id, l = lquery[qi].l, r = lquery[qi].r, op = lquery[qi].op;
 //            long long ret = 0;
 //            for (int j = l; j <= r; j++) {
 //                ret += getCnt(arr[j]);
@@ -207,12 +210,14 @@ package class178;
 //            ans[id] += ret * op;
 //        }
 //    }
-//    memset(cnt,  0, sizeof(cnt));
 //    memset(lazy, 0, sizeof(lazy));
-//    for (int i = n; i >= 1; i--) {
-//        addRightCnt(arr[i] + 1);
-//        for (int q = headr[i]; q > 0; q = nxt[q]) {
-//            int id = qid[q], l = ql[q], r = qr[q], op = qop[q];
+//    memset(cnt, 0, sizeof(cnt));
+//    for (int pos = n + 1, qi = cntr; pos >= 1 && qi >= 1; pos--) {
+//        if (pos <= n) {
+//            addRightCnt(arr[pos] + 1);
+//        }
+//        for (; qi >= 1 && rquery[qi].pos == pos; qi--) {
+//            int id = rquery[qi].id, l = rquery[qi].l, r = rquery[qi].r, op = rquery[qi].op;
 //            long long ret = 0;
 //            for (int j = l; j <= r; j++) {
 //                ret += getCnt(arr[j]);
@@ -230,13 +235,13 @@ package class178;
 //        cin >> arr[i];
 //    }
 //    for (int i = 1; i <= m; i++) {
-//        cin >> query[i].l >> query[i].r;
-//        query[i].id = i;
+//        cin >> query1[i].l >> query1[i].r;
+//        query1[i].id = i;
 //    }
 //    prepare();
 //    compute();
 //    for (int i = 2; i <= m; i++) {
-//    	ans[query[i].id] += ans[query[i - 1].id];
+//        ans[query1[i].id] += ans[query1[i - 1].id];
 //    }
 //    for (int i = 1; i <= m; i++) {
 //        cout << ans[i] << '\n';

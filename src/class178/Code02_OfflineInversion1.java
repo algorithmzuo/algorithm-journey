@@ -17,15 +17,18 @@ import java.util.Comparator;
 public class Code02_OfflineInversion1 {
 
 	public static int MAXN = 100002;
-	public static int MAXQ = 200001;
 	public static int MAXB = 401;
 	public static int n, m;
 	public static int[] arr = new int[MAXN];
-	public static int[][] query = new int[MAXN][3];
-
-	// 离散化
 	public static int[] sorted = new int[MAXN];
 	public static int cntv;
+
+	// 第一次离线任务，l、r、id
+	// 第二次离线任务，pos、id、l、r、op
+	public static int[][] query1 = new int[MAXN][3];
+	public static int[][] lquery = new int[MAXN][5];
+	public static int[][] rquery = new int[MAXN][5];
+	public static int cntl, cntr;
 
 	// bi用于序列分块、值域分块，bl和br用于值域分块
 	public static int[] bi = new int[MAXN];
@@ -44,25 +47,22 @@ public class Code02_OfflineInversion1 {
 	// 块的懒信息，整块加了多少词频
 	public static long[] lazy = new long[MAXB];
 
-	// 链式前向星，二次离线的任务列表
-	public static int[] headl = new int[MAXN];
-	public static int[] headr = new int[MAXN];
-	public static int[] next = new int[MAXQ];
-	public static int[] qid = new int[MAXQ];
-	public static int[] ql = new int[MAXQ];
-	public static int[] qr = new int[MAXQ];
-	public static int[] qop = new int[MAXQ];
-	public static int cntq;
-
 	public static long[] ans = new long[MAXN];
 
-	public static class QueryCmp implements Comparator<int[]> {
+	public static class Cmp1 implements Comparator<int[]> {
 		@Override
 		public int compare(int[] a, int[] b) {
 			if (bi[a[0]] != bi[b[0]]) {
 				return bi[a[0]] - bi[b[0]];
 			}
 			return a[1] - b[1];
+		}
+	}
+
+	public static class Cmp2 implements Comparator<int[]> {
+		@Override
+		public int compare(int[] a, int[] b) {
+			return a[0] - b[0];
 		}
 	}
 
@@ -105,21 +105,19 @@ public class Code02_OfflineInversion1 {
 	}
 
 	public static void addLeftQuery(int pos, int id, int l, int r, int op) {
-		next[++cntq] = headl[pos];
-		qid[cntq] = id;
-		ql[cntq] = l;
-		qr[cntq] = r;
-		qop[cntq] = op;
-		headl[pos] = cntq;
+		lquery[++cntl][0] = pos;
+		lquery[cntl][1] = id;
+		lquery[cntl][2] = l;
+		lquery[cntl][3] = r;
+		lquery[cntl][4] = op;
 	}
 
 	public static void addRightQuery(int pos, int id, int l, int r, int op) {
-		next[++cntq] = headr[pos];
-		qid[cntq] = id;
-		ql[cntq] = l;
-		qr[cntq] = r;
-		qop[cntq] = op;
-		headr[pos] = cntq;
+		rquery[++cntr][0] = pos;
+		rquery[cntr][1] = id;
+		rquery[cntr][2] = l;
+		rquery[cntr][3] = r;
+		rquery[cntr][4] = op;
 	}
 
 	public static void addLeftCnt(int val) {
@@ -173,7 +171,7 @@ public class Code02_OfflineInversion1 {
 			bl[i] = (i - 1) * blen + 1;
 			br[i] = Math.min(i * blen, cntv);
 		}
-		Arrays.sort(query, 1, m + 1, new QueryCmp());
+		Arrays.sort(query1, 1, m + 1, new Cmp1());
 	}
 
 	public static void compute() {
@@ -188,9 +186,9 @@ public class Code02_OfflineInversion1 {
 		}
 		int winl = 1, winr = 0;
 		for (int i = 1; i <= m; i++) {
-			int jobl = query[i][0];
-			int jobr = query[i][1];
-			int id = query[i][2];
+			int jobl = query1[i][0];
+			int jobr = query1[i][1];
+			int id = query1[i][2];
 			if (winr < jobr) {
 				addLeftQuery(winl - 1, id, winr + 1, jobr, -1);
 				ans[id] += pre[jobr] - pre[winr];
@@ -210,10 +208,14 @@ public class Code02_OfflineInversion1 {
 			winl = jobl;
 			winr = jobr;
 		}
-		for (int i = 1; i <= n; i++) {
-			addLeftCnt(arr[i] - 1);
-			for (int q = headl[i]; q > 0; q = next[q]) {
-				int id = qid[q], l = ql[q], r = qr[q], op = qop[q];
+		Arrays.sort(lquery, 1, cntl + 1, new Cmp2());
+		Arrays.sort(rquery, 1, cntr + 1, new Cmp2());
+		for (int pos = 0, qi = 1; pos <= n && qi <= cntl; pos++) {
+			if (pos >= 1) {
+				addLeftCnt(arr[pos] - 1);
+			}
+			for (; qi <= cntl && lquery[qi][0] == pos; qi++) {
+				int id = lquery[qi][1], l = lquery[qi][2], r = lquery[qi][3], op = lquery[qi][4];
 				long ret = 0;
 				for (int j = l; j <= r; j++) {
 					ret += getCnt(arr[j]);
@@ -223,10 +225,12 @@ public class Code02_OfflineInversion1 {
 		}
 		Arrays.fill(lazy, 0);
 		Arrays.fill(cnt, 0);
-		for (int i = n; i >= 1; i--) {
-			addRightCnt(arr[i] + 1);
-			for (int q = headr[i]; q > 0; q = next[q]) {
-				int id = qid[q], l = ql[q], r = qr[q], op = qop[q];
+		for (int pos = n + 1, qi = cntr; pos >= 1 && qi >= 1; pos--) {
+			if (pos <= n) {
+				addRightCnt(arr[pos] + 1);
+			}
+			for (; qi >= 1 && rquery[qi][0] == pos; qi--) {
+				int id = rquery[qi][1], l = rquery[qi][2], r = rquery[qi][3], op = rquery[qi][4];
 				long ret = 0;
 				for (int j = l; j <= r; j++) {
 					ret += getCnt(arr[j]);
@@ -245,14 +249,14 @@ public class Code02_OfflineInversion1 {
 			arr[i] = in.nextInt();
 		}
 		for (int i = 1; i <= m; i++) {
-			query[i][0] = in.nextInt();
-			query[i][1] = in.nextInt();
-			query[i][2] = i;
+			query1[i][0] = in.nextInt();
+			query1[i][1] = in.nextInt();
+			query1[i][2] = i;
 		}
 		prepare();
 		compute();
 		for (int i = 2; i <= m; i++) {
-			ans[query[i][2]] += ans[query[i - 1][2]];
+			ans[query1[i][2]] += ans[query1[i - 1][2]];
 		}
 		for (int i = 1; i <= m; i++) {
 			out.println(ans[i]);

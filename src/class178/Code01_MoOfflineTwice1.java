@@ -17,36 +17,38 @@ import java.util.Comparator;
 public class Code01_MoOfflineTwice1 {
 
 	public static int MAXN = 100001;
-	public static int MAXQ = 200001;
 	public static int MAXV = 1 << 14;
 	public static int n, m, k;
 	public static int[] arr = new int[MAXN];
-	public static int[][] query = new int[MAXN][3];
-
 	public static int[] kOneArr = new int[MAXV];
 	public static int cntk;
+
+	// 第一次离线任务，l、r、id
+	// 第二次离线任务，pos、id、l、r、op
+	public static int[][] query1 = new int[MAXN][3];
+	public static int[][] query2 = new int[MAXN << 1][5];
+	public static int cntq;
 
 	public static int[] bi = new int[MAXN];
 	public static int[] pre = new int[MAXN];
 	public static int[] cnt = new int[MAXV];
 
-	public static int[] head = new int[MAXN];
-	public static int[] next = new int[MAXQ];
-	public static int[] qid = new int[MAXQ];
-	public static int[] ql = new int[MAXQ];
-	public static int[] qr = new int[MAXQ];
-	public static int[] qop = new int[MAXQ];
-	public static int cntq;
-
 	public static long[] ans = new long[MAXN];
 
-	public static class QueryCmp implements Comparator<int[]> {
+	public static class Cmp1 implements Comparator<int[]> {
 		@Override
 		public int compare(int[] a, int[] b) {
 			if (bi[a[0]] != bi[b[0]]) {
 				return bi[a[0]] - bi[b[0]];
 			}
 			return a[1] - b[1];
+		}
+	}
+
+	public static class Cmp2 implements Comparator<int[]> {
+		@Override
+		public int compare(int[] a, int[] b) {
+			return a[0] - b[0];
 		}
 	}
 
@@ -60,12 +62,11 @@ public class Code01_MoOfflineTwice1 {
 	}
 
 	public static void addQuery(int pos, int id, int l, int r, int op) {
-		next[++cntq] = head[pos];
-		qid[cntq] = id;
-		ql[cntq] = l;
-		qr[cntq] = r;
-		qop[cntq] = op;
-		head[pos] = cntq;
+		query2[++cntq][0] = pos;
+		query2[cntq][1] = id;
+		query2[cntq][2] = l;
+		query2[cntq][3] = r;
+		query2[cntq][4] = op;
 	}
 
 	public static void prepare() {
@@ -73,7 +74,7 @@ public class Code01_MoOfflineTwice1 {
 		for (int i = 1; i <= n; i++) {
 			bi[i] = (i - 1) / blen + 1;
 		}
-		Arrays.sort(query, 1, m + 1, new QueryCmp());
+		Arrays.sort(query1, 1, m + 1, new Cmp1());
 		for (int v = 0; v < MAXV; v++) {
 			if (countOne(v) == k) {
 				kOneArr[++cntk] = v;
@@ -88,12 +89,12 @@ public class Code01_MoOfflineTwice1 {
 				cnt[arr[i] ^ kOneArr[j]]++;
 			}
 		}
-		// 莫队
+		// 第一次离线
 		int winl = 1, winr = 0;
 		for (int i = 1; i <= m; i++) {
-			int jobl = query[i][0];
-			int jobr = query[i][1];
-			int id = query[i][2];
+			int jobl = query1[i][0];
+			int jobr = query1[i][1];
+			int id = query1[i][2];
 			if (winr < jobr) {
 				addQuery(winl - 1, id, winr + 1, jobr, -1);
 			}
@@ -121,24 +122,19 @@ public class Code01_MoOfflineTwice1 {
 		}
 		// 第二次离线
 		Arrays.fill(cnt, 0);
-		for (int i = 1; i <= n; i++) {
-			for (int j = 1; j <= cntk; j++) {
-				cnt[arr[i] ^ kOneArr[j]]++;
+		Arrays.sort(query2, 1, cntq + 1, new Cmp2());
+		for (int pos = 0, qi = 1; pos <= n && qi <= cntq; pos++) {
+			if (pos >= 1) {
+				for (int j = 1; j <= cntk; j++) {
+					cnt[arr[pos] ^ kOneArr[j]]++;
+				}
 			}
-			for (int q = head[i]; q > 0; q = next[q]) {
-				int id = qid[q], l = ql[q], r = qr[q], op = qop[q];
+			for (; qi <= cntq && query2[qi][0] == pos; qi++) {
+				int id = query2[qi][1], l = query2[qi][2], r = query2[qi][3], op = query2[qi][4];
 				for (int j = l; j <= r; j++) {
-					// 计算j 对 1..i范围的贡献
-					// 此时1..i范围上的数字都更新过cnt
-					if (j <= i && k == 0) {
-						// j在1..i范围上，此时又有k==0
-						// 那么arr[j]一定更新过cnt，并且(arr[j], arr[j])一定算进贡献了
-						// 但是题目要求的二元组必须是不同位置，所以贡献要进行减1修正
+					if (j <= pos && k == 0) {
 						ans[id] += (long) op * (cnt[arr[j]] - 1);
 					} else {
-						// 要么j不在1..i范围上，arr[j]没更新过cnt
-						// 要么k!=0，(arr[j], arr[j])无法被算成贡献
-						// 无论哪种情况，贡献都是正确的，不用进行减1修正
 						ans[id] += (long) op * cnt[arr[j]];
 					}
 				}
@@ -156,14 +152,14 @@ public class Code01_MoOfflineTwice1 {
 			arr[i] = in.nextInt();
 		}
 		for (int i = 1; i <= m; i++) {
-			query[i][0] = in.nextInt();
-			query[i][1] = in.nextInt();
-			query[i][2] = i;
+			query1[i][0] = in.nextInt();
+			query1[i][1] = in.nextInt();
+			query1[i][2] = i;
 		}
 		prepare();
 		compute();
 		for (int i = 2; i <= m; i++) {
-			ans[query[i][2]] += ans[query[i - 1][2]];
+			ans[query1[i][2]] += ans[query1[i - 1][2]];
 		}
 		for (int i = 1; i <= m; i++) {
 			out.println(ans[i]);
