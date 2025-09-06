@@ -27,10 +27,10 @@ package class178;
 //int bl[MAXB];
 //int br[MAXB];
 //
+//int tree[MAXN];
 //long long pre[MAXN];
 //long long suf[MAXN];
 //
-//int tree[MAXN];
 //long long cnt[MAXN];
 //long long lazy[MAXB];
 //

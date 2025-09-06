@@ -32,12 +32,12 @@ public class Code02_OfflineInversion1 {
 	public static int[] bl = new int[MAXB];
 	public static int[] br = new int[MAXB];
 
-	// 前后缀信息
-	public static long[] pre = new long[MAXN];
-	public static long[] suf = new long[MAXN];
-
 	// 树状数组
 	public static int[] tree = new int[MAXN];
+	// 前缀信息
+	public static long[] pre = new long[MAXN];
+	// 后缀信息
+	public static long[] suf = new long[MAXN];
 
 	// 每种值加了多少词频
 	public static long[] cnt = new long[MAXN];
