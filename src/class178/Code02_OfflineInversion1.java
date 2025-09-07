@@ -197,6 +197,7 @@ public class Code02_OfflineInversion1 {
 				addLeftQuery(winl - 1, id, jobr + 1, winr, 1);
 				ans[id] -= pre[winr] - pre[jobr];
 			}
+			winr = jobr;
 			if (winl > jobl) {
 				addRightQuery(jobr + 1, id, jobl, winl - 1, -1);
 				ans[id] += suf[jobl] - suf[winl];
@@ -206,7 +207,6 @@ public class Code02_OfflineInversion1 {
 				ans[id] -= suf[winl] - suf[jobl];
 			}
 			winl = jobl;
-			winr = jobr;
 		}
 		Arrays.sort(lquery, 1, cntl + 1, new Cmp2());
 		Arrays.sort(rquery, 1, cntr + 1, new Cmp2());

@@ -184,6 +184,7 @@ package class178;
 //            addLeftQuery(winl - 1, id, jobr + 1, winr, 1);
 //            ans[id] -= pre[winr] - pre[jobr];
 //        }
+//        winr = jobr;
 //        if (winl > jobl) {
 //            addRightQuery(jobr + 1, id, jobl, winl - 1, -1);
 //            ans[id] += suf[jobl] - suf[winl];
@@ -193,7 +194,6 @@ package class178;
 //            ans[id] -= suf[winl] - suf[jobl];
 //        }
 //        winl = jobl;
-//        winr = jobr;
 //    }
 //    sort(lquery + 1, lquery + cntl + 1, Cmp2);
 //    sort(rquery + 1, rquery + cntr + 1, Cmp2);
