@@ -9,25 +9,6 @@ package class178;
 //
 //using namespace std;
 //
-//char buf[1000000], *p1 = buf, *p2 = buf;
-//
-//inline char getChar() {
-//    return p1 == p2 && (p2 = (p1 = buf) + fread(buf, 1, 1000000, stdin), p1 == p2) ? EOF : *p1++;
-//}
-//
-//inline int read() {
-//    int s = 0;
-//    char c = getChar();
-//    while (!isdigit(c)) {
-//        c = getChar();
-//    }
-//    while (isdigit(c)) {
-//        s = s * 10 + c - '0';
-//        c = getChar();
-//    }
-//    return s;
-//}
-//
 //struct Query1 {
 //    int l, r, id;
 //};
@@ -65,11 +46,7 @@ package class178;
 //    if (bi[a.l] != bi[b.l]) {
 //        return bi[a.l] < bi[b.l];
 //    }
-//    if (bi[a.l] & 1) {
-//        return a.r < b.r;
-//    } else {
-//        return b.r < a.r;
-//    }
+//    return a.r < b.r;
 //}
 //
 //bool Cmp2(Query2 &a, Query2 &b) {
@@ -187,14 +164,14 @@ package class178;
 //}
 //
 //int main() {
-//    n = read();
-//    m = read();
+//    ios::sync_with_stdio(false);
+//    cin.tie(nullptr);
+//    cin >> n >> m;
 //    for (int i = 1; i <= n; i++) {
-//        arr[i] = read();
+//        cin >> arr[i];
 //    }
 //    for (int i = 1; i <= m; i++) {
-//        query1[i].l = read();
-//        query1[i].r = read();
+//        cin >> query1[i].l >> query1[i].r;
 //        query1[i].id = i;
 //    }
 //    prepare();
@@ -203,7 +180,7 @@ package class178;
 //        ans[query1[i].id] += ans[query1[i - 1].id];
 //    }
 //    for (int i = 1; i <= m; i++) {
-//        printf("%lld\n", ans[i]);
+//        cout << ans[i] << '\n';
 //    }
 //    return 0;
 //}

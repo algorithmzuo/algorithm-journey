@@ -44,18 +44,13 @@ public class Code04_Gosick1 {
 
 	public static long[] ans = new long[MAXN];
 
-	// 莫队奇偶排序，优化常数时间
 	public static class Cmp1 implements Comparator<int[]> {
 		@Override
 		public int compare(int[] a, int[] b) {
 			if (bi[a[0]] != bi[b[0]]) {
 				return bi[a[0]] - bi[b[0]];
 			}
-			if ((bi[a[0]] & 1) == 1) {
-				return a[1] - b[1];
-			} else {
-				return b[1] - a[1];
-			}
+			return a[1] - b[1];
 		}
 	}
 
