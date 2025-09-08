@@ -18,9 +18,16 @@ public class Code04_Gosick1 {
 
 	public static int MAXN = 500001;
 	public static int MAXF = 5000001;
-	public static int LIMIT = 80;
+	public static int LIMIT = 100;
 	public static int n, m, maxv;
 	public static int[] arr = new int[MAXN];
+	public static int[] bi = new int[MAXN];
+
+	// 每个数的因子表
+	public static int[] head = new int[MAXN];
+	public static int[] nxt = new int[MAXF];
+	public static int[] fac = new int[MAXF];
+	public static int cntf;
 
 	// l、r、id
 	public static int[][] query1 = new int[MAXN][3];
@@ -28,22 +35,16 @@ public class Code04_Gosick1 {
 	public static int[][] query2 = new int[MAXN << 1][5];
 	public static int cntq;
 
-	public static int[] head = new int[MAXN];
-	public static int[] nxt = new int[MAXF];
-	public static int[] fac = new int[MAXF];
-	public static int cntf;
-
-	public static int[] bi = new int[MAXN];
 	public static int[] fcnt = new int[MAXN];
 	public static int[] xcnt = new int[MAXN];
-	public static int[] pre = new int[MAXN];
+	public static long[] pre = new long[MAXN];
 
 	public static int[] cnt1 = new int[MAXN];
 	public static int[] cnt2 = new int[MAXN];
 
 	public static long[] ans = new long[MAXN];
 
-	// 莫队奇偶排序优化常数时间
+	// 莫队奇偶排序，优化一下常数
 	public static class Cmp1 implements Comparator<int[]> {
 		@Override
 		public int compare(int[] a, int[] b) {
@@ -65,22 +66,13 @@ public class Code04_Gosick1 {
 		}
 	}
 
-	public static void addFactor(int v, int f) {
-		nxt[++cntf] = head[v];
-		fac[cntf] = f;
-		head[v] = cntf;
-	}
-
-	public static void buildFactors(int x) {
-		if (head[x] > 0) {
-			return;
-		}
-		for (int f = 1, other; f * f <= x; f++) {
-			if (x % f == 0) {
-				addFactor(x, f);
-				other = x / f;
-				if (f != other) {
-					addFactor(x, other);
+	public static void addFactors(int num) {
+		if (head[num] == 0) {
+			for (int f = 1; f * f <= num; f++) {
+				if (num % f == 0) {
+					nxt[++cntf] = head[num];
+					fac[cntf] = f;
+					head[num] = cntf;
 				}
 			}
 		}
@@ -94,82 +86,95 @@ public class Code04_Gosick1 {
 		query2[cntq][4] = op;
 	}
 
-	public static void prepare() {
-		int blen = Math.max(n / (int) Math.sqrt(m), 1);
-		for (int i = 1, num; i <= n; i++) {
-			bi[i] = (i - 1) / blen + 1;
-			num = arr[i];
-			maxv = Math.max(maxv, num);
-			buildFactors(num);
-			for (int e = head[num], f; e > 0; e = nxt[e]) {
+	public static void compute() {
+		for (int i = 1, x; i <= n; i++) {
+			x = arr[i];
+			for (int e = head[x], f, other; e > 0; e = nxt[e]) {
 				f = fac[e];
+				other = x / f;
 				fcnt[f]++;
 				pre[i] += xcnt[f];
+				if (other != f) {
+					fcnt[other]++;
+					pre[i] += xcnt[other];
+				}
 			}
-			pre[i] += pre[i - 1] + fcnt[num];
-			xcnt[num]++;
+			pre[i] += fcnt[x] + pre[i - 1];
+			xcnt[x]++;
 		}
-		Arrays.sort(query1, 1, m + 1, new Cmp1());
-	}
-
-	public static void compute() {
 		int winl = 1, winr = 0;
 		for (int i = 1; i <= m; i++) {
 			int jobl = query1[i][0];
 			int jobr = query1[i][1];
 			int id = query1[i][2];
 			if (winr < jobr) {
-				ans[id] += pre[jobr] - pre[winr];
 				addQuery(winl - 1, id, winr + 1, jobr, -1);
+				ans[id] += pre[jobr] - pre[winr];
+				winr = jobr;
+			}
+			if (winl > jobl) {
+				addQuery(winr, id, jobl, winl - 1, 1);
+				ans[id] -= pre[winl - 1] - pre[jobl - 1];
+				winl = jobl;
 			}
 			if (winr > jobr) {
-				ans[id] -= pre[winr] - pre[jobr];
 				addQuery(winl - 1, id, jobr + 1, winr, 1);
-			}
-			winr = jobr;
-			if (winl > jobl) {
-				ans[id] -= pre[winl - 1] - pre[jobl - 1];
-				addQuery(winr, id, jobl, winl - 1, 1);
+				ans[id] -= pre[winr] - pre[jobr];
+				winr = jobr;
 			}
 			if (winl < jobl) {
-				ans[id] += pre[jobl - 1] - pre[winl - 1];
 				addQuery(winr, id, winl, jobl - 1, -1);
+				ans[id] += pre[jobl - 1] - pre[winl - 1];
+				winl = jobl;
 			}
-			winl = jobl;
 		}
 		Arrays.sort(query2, 1, cntq + 1, new Cmp2());
 		Arrays.fill(fcnt, 0);
-		for (int i = 1, j = 1; i <= cntq; i++) {
-			int pos = query2[i][0], id = query2[i][1], l = query2[i][2], r = query2[i][3], op = query2[i][4];
-			while (j <= pos) {
-				int x = arr[j++];
-				buildFactors(x);
-				for (int e = head[x], f; e > 0; e = nxt[e]) {
+		for (int pos = 0, qi = 1; pos <= n && qi <= cntq; pos++) {
+			if (pos >= 1) {
+				int num = arr[pos];
+				for (int e = head[num], f, other; e > 0; e = nxt[e]) {
 					f = fac[e];
+					other = num / f;
 					fcnt[f]++;
+					if (other != f) {
+						fcnt[other]++;
+					}
 				}
-				if (x > LIMIT) {
-					for (int k = x; k <= maxv; k += x) {
-						fcnt[k]++;
+				if (num > LIMIT) {
+					for (int v = num; v <= maxv; v += num) {
+						fcnt[v]++;
 					}
 				}
 			}
-			for (int k = l; k <= r; k++) {
-				ans[id] += (long) op * fcnt[arr[k]];
+			for (; qi <= cntq && query2[qi][0] == pos; qi++) {
+				int id = query2[qi][1], l = query2[qi][2], r = query2[qi][3], op = query2[qi][4];
+				for (int i = l; i <= r; i++) {
+					ans[id] += (long) op * fcnt[arr[i]];
+				}
 			}
 		}
-		for (int i = 1; i <= LIMIT; i++) {
-			cnt1[0] = 0;
-			cnt2[0] = 0;
-			for (int j = 1; j <= n; j++) {
-				cnt1[j] = cnt1[j - 1] + (arr[j] == i ? 1 : 0);
-				cnt2[j] = cnt2[j - 1] + (arr[j] % i == 0 ? 1 : 0);
+		for (int v = 1; v <= LIMIT; v++) {
+			cnt1[0] = cnt2[0] = 0;
+			for (int i = 1; i <= n; i++) {
+				cnt1[i] = cnt1[i - 1] + (arr[i] == v ? 1 : 0);
+				cnt2[i] = cnt2[i - 1] + (arr[i] % v == 0 ? 1 : 0);
 			}
-			for (int j = 1; j <= cntq; j++) {
-				int pos = query2[j][0], id = query2[j][1], l = query2[j][2], r = query2[j][3], op = query2[j][4];
-				ans[id] += (long) (cnt2[r] - cnt2[l - 1]) * cnt1[pos] * op;
+			for (int i = 1; i <= cntq; i++) {
+				int pos = query2[i][0], id = query2[i][1], l = query2[i][2], r = query2[i][3], op = query2[i][4];
+				ans[id] += (long) op * cnt1[pos] * (cnt2[r] - cnt2[l - 1]);
 			}
 		}
+	}
+
+	public static void prepare() {
+		int blen = (int) Math.sqrt(n);
+		for (int i = 1; i <= n; i++) {
+			bi[i] = (i - 1) / blen + 1;
+			maxv = Math.max(maxv, arr[i]);
+			addFactors(arr[i]);
+		}
+		Arrays.sort(query1, 1, m + 1, new Cmp1());
 	}
 
 	public static void main(String[] args) throws Exception {
