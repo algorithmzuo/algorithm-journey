@@ -38,7 +38,7 @@ package class178;
 //
 //const int MAXN = 500001;
 //const int MAXF = 5000001;
-//const int LIMIT = 100;
+//const int LIMIT = 80;
 //int n, m, maxv;
 //int arr[MAXN];
 //int bi[MAXN];
@@ -120,23 +120,21 @@ package class178;
 //        if (winr < jobr) {
 //            addQuery(winl - 1, id, winr + 1, jobr, -1);
 //            ans[id] += pre[jobr] - pre[winr];
-//            winr = jobr;
-//        }
-//        if (winl > jobl) {
-//            addQuery(winr, id, jobl, winl - 1, 1);
-//            ans[id] -= pre[winl - 1] - pre[jobl - 1];
-//            winl = jobl;
 //        }
 //        if (winr > jobr) {
 //            addQuery(winl - 1, id, jobr + 1, winr, 1);
 //            ans[id] -= pre[winr] - pre[jobr];
-//            winr = jobr;
+//        }
+//        winr = jobr;
+//        if (winl > jobl) {
+//            addQuery(winr, id, jobl, winl - 1, 1);
+//            ans[id] -= pre[winl - 1] - pre[jobl - 1];
 //        }
 //        if (winl < jobl) {
 //            addQuery(winr, id, winl, jobl - 1, -1);
 //            ans[id] += pre[jobl - 1] - pre[winl - 1];
-//            winl = jobl;
 //        }
+//        winl = jobl;
 //    }
 //    sort(query2 + 1, query2 + cntq + 1, Cmp2);
 //    memset(fcnt, 0, sizeof(fcnt));
