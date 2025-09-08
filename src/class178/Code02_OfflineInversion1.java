@@ -199,11 +199,11 @@ public class Code02_OfflineInversion1 {
 			}
 			winr = jobr;
 			if (winl > jobl) {
-				addRightQuery(jobr + 1, id, jobl, winl - 1, -1);
+				addRightQuery(winr + 1, id, jobl, winl - 1, -1);
 				ans[id] += suf[jobl] - suf[winl];
 			}
 			if (winl < jobl) {
-				addRightQuery(jobr + 1, id, winl, jobl - 1, 1);
+				addRightQuery(winr + 1, id, winl, jobl - 1, 1);
 				ans[id] -= suf[winl] - suf[jobl];
 			}
 			winl = jobl;
