@@ -29,10 +29,8 @@ public class Code04_Gosick1 {
 	public static int[] fac = new int[MAXF];
 	public static int cntf;
 
-	// l、r、id
-	public static int[][] query1 = new int[MAXN][3];
-	// pos、id、l、r、op
-	public static int[][] query2 = new int[MAXN << 1][5];
+	public static int[][] query = new int[MAXN][3];
+	public static int[][] offline = new int[MAXN << 1][5];
 	public static int cntq;
 
 	public static int[] fcnt = new int[MAXN];
@@ -44,7 +42,7 @@ public class Code04_Gosick1 {
 
 	public static long[] ans = new long[MAXN];
 
-	public static class Cmp1 implements Comparator<int[]> {
+	public static class QueryCmp implements Comparator<int[]> {
 		@Override
 		public int compare(int[] a, int[] b) {
 			if (bi[a[0]] != bi[b[0]]) {
@@ -54,7 +52,7 @@ public class Code04_Gosick1 {
 		}
 	}
 
-	public static class Cmp2 implements Comparator<int[]> {
+	public static class OfflineCmp implements Comparator<int[]> {
 		@Override
 		public int compare(int[] a, int[] b) {
 			return a[0] - b[0];
@@ -73,12 +71,12 @@ public class Code04_Gosick1 {
 		}
 	}
 
-	public static void addQuery(int pos, int id, int l, int r, int op) {
-		query2[++cntq][0] = pos;
-		query2[cntq][1] = id;
-		query2[cntq][2] = l;
-		query2[cntq][3] = r;
-		query2[cntq][4] = op;
+	public static void addOffline(int pos, int id, int l, int r, int op) {
+		offline[++cntq][0] = pos;
+		offline[cntq][1] = id;
+		offline[cntq][2] = l;
+		offline[cntq][3] = r;
+		offline[cntq][4] = op;
 	}
 
 	public static void compute() {
@@ -99,29 +97,29 @@ public class Code04_Gosick1 {
 		}
 		int winl = 1, winr = 0;
 		for (int i = 1; i <= m; i++) {
-			int jobl = query1[i][0];
-			int jobr = query1[i][1];
-			int id = query1[i][2];
+			int jobl = query[i][0];
+			int jobr = query[i][1];
+			int id = query[i][2];
 			if (winr < jobr) {
-				addQuery(winl - 1, id, winr + 1, jobr, -1);
+				addOffline(winl - 1, id, winr + 1, jobr, -1);
 				ans[id] += pre[jobr] - pre[winr];
 			}
 			if (winr > jobr) {
-				addQuery(winl - 1, id, jobr + 1, winr, 1);
+				addOffline(winl - 1, id, jobr + 1, winr, 1);
 				ans[id] -= pre[winr] - pre[jobr];
 			}
 			winr = jobr;
 			if (winl > jobl) {
-				addQuery(winr, id, jobl, winl - 1, 1);
+				addOffline(winr, id, jobl, winl - 1, 1);
 				ans[id] -= pre[winl - 1] - pre[jobl - 1];
 			}
 			if (winl < jobl) {
-				addQuery(winr, id, winl, jobl - 1, -1);
+				addOffline(winr, id, winl, jobl - 1, -1);
 				ans[id] += pre[jobl - 1] - pre[winl - 1];
 			}
 			winl = jobl;
 		}
-		Arrays.sort(query2, 1, cntq + 1, new Cmp2());
+		Arrays.sort(offline, 1, cntq + 1, new OfflineCmp());
 		Arrays.fill(fcnt, 0);
 		for (int pos = 0, qi = 1; pos <= n && qi <= cntq; pos++) {
 			if (pos >= 1) {
@@ -140,8 +138,8 @@ public class Code04_Gosick1 {
 					}
 				}
 			}
-			for (; qi <= cntq && query2[qi][0] == pos; qi++) {
-				int id = query2[qi][1], l = query2[qi][2], r = query2[qi][3], op = query2[qi][4];
+			for (; qi <= cntq && offline[qi][0] == pos; qi++) {
+				int id = offline[qi][1], l = offline[qi][2], r = offline[qi][3], op = offline[qi][4];
 				for (int i = l; i <= r; i++) {
 					ans[id] += (long) op * fcnt[arr[i]];
 				}
@@ -154,7 +152,7 @@ public class Code04_Gosick1 {
 				cnt2[i] = cnt2[i - 1] + (arr[i] % v == 0 ? 1 : 0);
 			}
 			for (int i = 1; i <= cntq; i++) {
-				int pos = query2[i][0], id = query2[i][1], l = query2[i][2], r = query2[i][3], op = query2[i][4];
+				int pos = offline[i][0], id = offline[i][1], l = offline[i][2], r = offline[i][3], op = offline[i][4];
 				ans[id] += (long) op * cnt1[pos] * (cnt2[r] - cnt2[l - 1]);
 			}
 		}
@@ -167,7 +165,7 @@ public class Code04_Gosick1 {
 			maxv = Math.max(maxv, arr[i]);
 			addFactors(arr[i]);
 		}
-		Arrays.sort(query1, 1, m + 1, new Cmp1());
+		Arrays.sort(query, 1, m + 1, new QueryCmp());
 	}
 
 	public static void main(String[] args) throws Exception {
@@ -179,14 +177,14 @@ public class Code04_Gosick1 {
 			arr[i] = in.nextInt();
 		}
 		for (int i = 1; i <= m; i++) {
-			query1[i][0] = in.nextInt();
-			query1[i][1] = in.nextInt();
-			query1[i][2] = i;
+			query[i][0] = in.nextInt();
+			query[i][1] = in.nextInt();
+			query[i][2] = i;
 		}
 		prepare();
 		compute();
 		for (int i = 2; i <= m; i++) {
-			ans[query1[i][2]] += ans[query1[i - 1][2]];
+			ans[query[i][2]] += ans[query[i - 1][2]];
 		}
 		for (int i = 1; i <= m; i++) {
 			out.println(ans[i]);

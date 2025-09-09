@@ -9,11 +9,11 @@ package class178;
 //
 //using namespace std;
 //
-//struct Query1 {
+//struct Query {
 //    int l, r, id;
 //};
 //
-//struct Query2 {
+//struct Offline {
 //    int pos, id, l, r, op;
 //};
 //
@@ -24,9 +24,9 @@ package class178;
 //int sorted[MAXN];
 //int cntv;
 //
-//Query1 query1[MAXN];
-//Query2 lquery[MAXN];
-//Query2 rquery[MAXN];
+//Query query1[MAXN];
+//Offline loffline[MAXN];
+//Offline roffline[MAXN];
 //int cntl, cntr;
 //
 //int bi[MAXN];
@@ -42,14 +42,14 @@ package class178;
 //
 //long long ans[MAXN];
 //
-//bool Cmp1(Query1 &a, Query1 &b) {
+//bool QueryCmp(Query &a, Query &b) {
 //    if (bi[a.l] != bi[b.l]) {
 //        return bi[a.l] < bi[b.l];
 //    }
 //    return a.r < b.r;
 //}
 //
-//bool Cmp2(Query2 &a, Query2 &b) {
+//bool OfflineCmp(Offline &a, Offline &b) {
 //    return a.pos < b.pos;
 //}
 //
@@ -91,20 +91,20 @@ package class178;
 //    memset(tree + 1, 0, cntv * sizeof(int));
 //}
 //
-//void addLeftQuery(int pos, int id, int l, int r, int op) {
-//    lquery[++cntl].pos = pos;
-//    lquery[cntl].id = id;
-//    lquery[cntl].l = l;
-//    lquery[cntl].r = r;
-//    lquery[cntl].op = op;
+//void addLeftOffline(int pos, int id, int l, int r, int op) {
+//    loffline[++cntl].pos = pos;
+//    loffline[cntl].id = id;
+//    loffline[cntl].l = l;
+//    loffline[cntl].r = r;
+//    loffline[cntl].op = op;
 //}
 //
-//void addRightQuery(int pos, int id, int l, int r, int op) {
-//    rquery[++cntr].pos = pos;
-//    rquery[cntr].id = id;
-//    rquery[cntr].l = l;
-//    rquery[cntr].r = r;
-//    rquery[cntr].op = op;
+//void addRightOffline(int pos, int id, int l, int r, int op) {
+//    roffline[++cntr].pos = pos;
+//    roffline[cntr].id = id;
+//    roffline[cntr].l = l;
+//    roffline[cntr].r = r;
+//    roffline[cntr].op = op;
 //}
 //
 //void addLeftCnt(int val) {
@@ -158,7 +158,7 @@ package class178;
 //        bl[i] = (i - 1) * blen + 1;
 //        br[i] = min(i * blen, cntv);
 //    }
-//    sort(query1 + 1, query1 + m + 1, Cmp1);
+//    sort(query1 + 1, query1 + m + 1, QueryCmp);
 //}
 //
 //void compute() {
@@ -177,32 +177,32 @@ package class178;
 //        int jobr = query1[i].r;
 //        int id = query1[i].id;
 //        if (winr < jobr) {
-//            addLeftQuery(winl - 1, id, winr + 1, jobr, -1);
+//            addLeftOffline(winl - 1, id, winr + 1, jobr, -1);
 //            ans[id] += pre[jobr] - pre[winr];
 //        }
 //        if (winr > jobr) {
-//            addLeftQuery(winl - 1, id, jobr + 1, winr, 1);
+//            addLeftOffline(winl - 1, id, jobr + 1, winr, 1);
 //            ans[id] -= pre[winr] - pre[jobr];
 //        }
 //        winr = jobr;
 //        if (winl > jobl) {
-//            addRightQuery(winr + 1, id, jobl, winl - 1, -1);
+//            addRightOffline(winr + 1, id, jobl, winl - 1, -1);
 //            ans[id] += suf[jobl] - suf[winl];
 //        }
 //        if (winl < jobl) {
-//            addRightQuery(winr + 1, id, winl, jobl - 1, 1);
+//            addRightOffline(winr + 1, id, winl, jobl - 1, 1);
 //            ans[id] -= suf[winl] - suf[jobl];
 //        }
 //        winl = jobl;
 //    }
-//    sort(lquery + 1, lquery + cntl + 1, Cmp2);
-//    sort(rquery + 1, rquery + cntr + 1, Cmp2);
+//    sort(loffline + 1, loffline + cntl + 1, OfflineCmp);
+//    sort(roffline + 1, roffline + cntr + 1, OfflineCmp);
 //    for (int pos = 0, qi = 1; pos <= n && qi <= cntl; pos++) {
 //        if (pos >= 1) {
 //            addLeftCnt(arr[pos] - 1);
 //        }
-//        for (; qi <= cntl && lquery[qi].pos == pos; qi++) {
-//            int id = lquery[qi].id, l = lquery[qi].l, r = lquery[qi].r, op = lquery[qi].op;
+//        for (; qi <= cntl && loffline[qi].pos == pos; qi++) {
+//            int id = loffline[qi].id, l = loffline[qi].l, r = loffline[qi].r, op = loffline[qi].op;
 //            long long ret = 0;
 //            for (int j = l; j <= r; j++) {
 //                ret += getCnt(arr[j]);
@@ -216,8 +216,8 @@ package class178;
 //        if (pos <= n) {
 //            addRightCnt(arr[pos] + 1);
 //        }
-//        for (; qi >= 1 && rquery[qi].pos == pos; qi--) {
-//            int id = rquery[qi].id, l = rquery[qi].l, r = rquery[qi].r, op = rquery[qi].op;
+//        for (; qi >= 1 && roffline[qi].pos == pos; qi--) {
+//            int id = roffline[qi].id, l = roffline[qi].l, r = roffline[qi].r, op = roffline[qi].op;
 //            long long ret = 0;
 //            for (int j = l; j <= r; j++) {
 //                ret += getCnt(arr[j]);

@@ -23,11 +23,9 @@ public class Code02_OfflineInversion1 {
 	public static int[] sorted = new int[MAXN];
 	public static int cntv;
 
-	// 第一次离线任务，l、r、id
-	// 第二次离线任务，pos、id、l、r、op
-	public static int[][] query1 = new int[MAXN][3];
-	public static int[][] lquery = new int[MAXN][5];
-	public static int[][] rquery = new int[MAXN][5];
+	public static int[][] query = new int[MAXN][3];
+	public static int[][] loffline = new int[MAXN][5];
+	public static int[][] roffline = new int[MAXN][5];
 	public static int cntl, cntr;
 
 	// bi用于序列分块、值域分块，bl和br用于值域分块
@@ -49,7 +47,7 @@ public class Code02_OfflineInversion1 {
 
 	public static long[] ans = new long[MAXN];
 
-	public static class Cmp1 implements Comparator<int[]> {
+	public static class QueryCmp implements Comparator<int[]> {
 		@Override
 		public int compare(int[] a, int[] b) {
 			if (bi[a[0]] != bi[b[0]]) {
@@ -59,7 +57,7 @@ public class Code02_OfflineInversion1 {
 		}
 	}
 
-	public static class Cmp2 implements Comparator<int[]> {
+	public static class OfflineCmp implements Comparator<int[]> {
 		@Override
 		public int compare(int[] a, int[] b) {
 			return a[0] - b[0];
@@ -104,20 +102,20 @@ public class Code02_OfflineInversion1 {
 		Arrays.fill(tree, 1, cntv + 1, 0);
 	}
 
-	public static void addLeftQuery(int pos, int id, int l, int r, int op) {
-		lquery[++cntl][0] = pos;
-		lquery[cntl][1] = id;
-		lquery[cntl][2] = l;
-		lquery[cntl][3] = r;
-		lquery[cntl][4] = op;
+	public static void addLeftOffline(int pos, int id, int l, int r, int op) {
+		loffline[++cntl][0] = pos;
+		loffline[cntl][1] = id;
+		loffline[cntl][2] = l;
+		loffline[cntl][3] = r;
+		loffline[cntl][4] = op;
 	}
 
-	public static void addRightQuery(int pos, int id, int l, int r, int op) {
-		rquery[++cntr][0] = pos;
-		rquery[cntr][1] = id;
-		rquery[cntr][2] = l;
-		rquery[cntr][3] = r;
-		rquery[cntr][4] = op;
+	public static void addRightOffline(int pos, int id, int l, int r, int op) {
+		roffline[++cntr][0] = pos;
+		roffline[cntr][1] = id;
+		roffline[cntr][2] = l;
+		roffline[cntr][3] = r;
+		roffline[cntr][4] = op;
 	}
 
 	public static void addLeftCnt(int val) {
@@ -171,7 +169,7 @@ public class Code02_OfflineInversion1 {
 			bl[i] = (i - 1) * blen + 1;
 			br[i] = Math.min(i * blen, cntv);
 		}
-		Arrays.sort(query1, 1, m + 1, new Cmp1());
+		Arrays.sort(query, 1, m + 1, new QueryCmp());
 	}
 
 	public static void compute() {
@@ -186,36 +184,36 @@ public class Code02_OfflineInversion1 {
 		}
 		int winl = 1, winr = 0;
 		for (int i = 1; i <= m; i++) {
-			int jobl = query1[i][0];
-			int jobr = query1[i][1];
-			int id = query1[i][2];
+			int jobl = query[i][0];
+			int jobr = query[i][1];
+			int id = query[i][2];
 			if (winr < jobr) {
-				addLeftQuery(winl - 1, id, winr + 1, jobr, -1);
+				addLeftOffline(winl - 1, id, winr + 1, jobr, -1);
 				ans[id] += pre[jobr] - pre[winr];
 			}
 			if (winr > jobr) {
-				addLeftQuery(winl - 1, id, jobr + 1, winr, 1);
+				addLeftOffline(winl - 1, id, jobr + 1, winr, 1);
 				ans[id] -= pre[winr] - pre[jobr];
 			}
 			winr = jobr;
 			if (winl > jobl) {
-				addRightQuery(winr + 1, id, jobl, winl - 1, -1);
+				addRightOffline(winr + 1, id, jobl, winl - 1, -1);
 				ans[id] += suf[jobl] - suf[winl];
 			}
 			if (winl < jobl) {
-				addRightQuery(winr + 1, id, winl, jobl - 1, 1);
+				addRightOffline(winr + 1, id, winl, jobl - 1, 1);
 				ans[id] -= suf[winl] - suf[jobl];
 			}
 			winl = jobl;
 		}
-		Arrays.sort(lquery, 1, cntl + 1, new Cmp2());
-		Arrays.sort(rquery, 1, cntr + 1, new Cmp2());
+		Arrays.sort(loffline, 1, cntl + 1, new OfflineCmp());
+		Arrays.sort(roffline, 1, cntr + 1, new OfflineCmp());
 		for (int pos = 0, qi = 1; pos <= n && qi <= cntl; pos++) {
 			if (pos >= 1) {
 				addLeftCnt(arr[pos] - 1);
 			}
-			for (; qi <= cntl && lquery[qi][0] == pos; qi++) {
-				int id = lquery[qi][1], l = lquery[qi][2], r = lquery[qi][3], op = lquery[qi][4];
+			for (; qi <= cntl && loffline[qi][0] == pos; qi++) {
+				int id = loffline[qi][1], l = loffline[qi][2], r = loffline[qi][3], op = loffline[qi][4];
 				long ret = 0;
 				for (int j = l; j <= r; j++) {
 					ret += getCnt(arr[j]);
@@ -229,8 +227,8 @@ public class Code02_OfflineInversion1 {
 			if (pos <= n) {
 				addRightCnt(arr[pos] + 1);
 			}
-			for (; qi >= 1 && rquery[qi][0] == pos; qi--) {
-				int id = rquery[qi][1], l = rquery[qi][2], r = rquery[qi][3], op = rquery[qi][4];
+			for (; qi >= 1 && roffline[qi][0] == pos; qi--) {
+				int id = roffline[qi][1], l = roffline[qi][2], r = roffline[qi][3], op = roffline[qi][4];
 				long ret = 0;
 				for (int j = l; j <= r; j++) {
 					ret += getCnt(arr[j]);
@@ -249,14 +247,14 @@ public class Code02_OfflineInversion1 {
 			arr[i] = in.nextInt();
 		}
 		for (int i = 1; i <= m; i++) {
-			query1[i][0] = in.nextInt();
-			query1[i][1] = in.nextInt();
-			query1[i][2] = i;
+			query[i][0] = in.nextInt();
+			query[i][1] = in.nextInt();
+			query[i][2] = i;
 		}
 		prepare();
 		compute();
 		for (int i = 2; i <= m; i++) {
-			ans[query1[i][2]] += ans[query1[i - 1][2]];
+			ans[query[i][2]] += ans[query[i - 1][2]];
 		}
 		for (int i = 1; i <= m; i++) {
 			out.println(ans[i]);
