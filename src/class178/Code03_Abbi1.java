@@ -1,11 +1,8 @@
 package class178;
 
-// 莫队二次离线入门题，java版
-// 测试链接 : https://www.luogu.com.cn/problem/P4887
-// 提交以下的code，提交时请把类名改成"Main"
-// java实现的逻辑一定是正确的，但是本题卡常，无法通过所有测试用例
-// 想通过用C++实现，本节课Code01_MoOfflineTwice2文件就是C++的实现
-// 两个版本的逻辑完全一样，C++版本可以通过所有测试
+// 区间查询Abbi值，java版
+// 测试链接 : https://www.luogu.com.cn/problem/P5501
+// 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -14,21 +11,19 @@ import java.io.PrintWriter;
 import java.util.Arrays;
 import java.util.Comparator;
 
-public class Code01_MoOfflineTwice1 {
+public class Code03_Abbi1 {
 
-	public static int MAXN = 100001;
-	public static int MAXV = 1 << 14;
-	public static int n, m, k;
+	public static int MAXN = 500001;
+	public static int MAXV = 100000;
+	public static int MAXB = 401;
+	public static int n, m;
 	public static int[] arr = new int[MAXN];
-	public static int[] kOneArr = new int[MAXV];
-	public static int cntk;
+	public static long[] presum = new long[MAXN];
+	public static int[] bi = new int[MAXN];
+	public static int[] br = new int[MAXB];
 
-	// 莫队任务，l、r、id
-	// 第二次离线任务，pos、id、l、r、op
 	public static int[][] query = new int[MAXN][3];
 
-	// 第二次离线任务，x、id、l、r、op
-	// 位置x的任务列表用链式前向星表示
 	public static int[] headq = new int[MAXN];
 	public static int[] nextq = new int[MAXN << 1];
 	public static int[] qid = new int[MAXN << 1];
@@ -37,9 +32,14 @@ public class Code01_MoOfflineTwice1 {
 	public static int[] qop = new int[MAXN << 1];
 	public static int cntq;
 
-	public static int[] bi = new int[MAXN];
-	public static int[] pre = new int[MAXN];
-	public static int[] cnt = new int[MAXV];
+	public static long[] treeCnt = new long[MAXV + 1];
+	public static long[] treeSum = new long[MAXV + 1];
+
+	public static long[] pre = new long[MAXN];
+	public static int[] cnt1 = new int[MAXB];
+	public static int[] cnt2 = new int[MAXN];
+	public static long[] sum1 = new long[MAXB];
+	public static long[] sum2 = new long[MAXN];
 
 	public static long[] ans = new long[MAXN];
 
@@ -53,15 +53,6 @@ public class Code01_MoOfflineTwice1 {
 		}
 	}
 
-	public static int countOne(int num) {
-		int ret = 0;
-		while (num > 0) {
-			ret++;
-			num -= num & -num;
-		}
-		return ret;
-	}
-
 	public static void addOffline(int x, int id, int l, int r, int op) {
 		nextq[++cntq] = headq[x];
 		headq[x] = cntq;
@@ -71,25 +62,74 @@ public class Code01_MoOfflineTwice1 {
 		qop[cntq] = op;
 	}
 
+	public static int lowbit(int x) {
+		return x & -x;
+	}
+
+	public static void add(long[] tree, int x, int v) {
+		while (x <= MAXV) {
+			tree[x] += v;
+			x += lowbit(x);
+		}
+	}
+
+	public static long sum(long[] tree, int x) {
+		long ret = 0;
+		while (x > 0) {
+			ret += tree[x];
+			x -= lowbit(x);
+		}
+		return ret;
+	}
+
+	public static void addVal(int val) {
+		if (val <= 0) {
+			return;
+		}
+		for (int b = bi[val]; b <= bi[MAXV]; b++) {
+			cnt1[b]++;
+			sum1[b] += val;
+		}
+		for (int i = val; i <= br[bi[val]]; i++) {
+			cnt2[i]++;
+			sum2[i] += val;
+		}
+	}
+
+	public static long getSum(int x) {
+		if (x <= 0) {
+			return 0;
+		}
+		return sum1[bi[x] - 1] + sum2[x];
+	}
+
+	public static int getCnt(int x) {
+		if (x <= 0) {
+			return 0;
+		}
+		return cnt1[bi[x] - 1] + cnt2[x];
+	}
+
 	public static void prepare() {
-		int blen = (int) Math.sqrt(n);
 		for (int i = 1; i <= n; i++) {
+			presum[i] = presum[i - 1] + arr[i];
+		}
+		int blen = (int) Math.sqrt(MAXV);
+		int bnum = (MAXV + blen - 1) / blen;
+		for (int i = 1; i <= MAXV; i++) {
 			bi[i] = (i - 1) / blen + 1;
 		}
-		Arrays.sort(query, 1, m + 1, new QueryCmp());
-		for (int v = 0; v < MAXV; v++) {
-			if (countOne(v) == k) {
-				kOneArr[++cntk] = v;
-			}
+		for (int b = 1; b <= bnum; b++) {
+			br[b] = Math.min(b * blen, MAXV);
 		}
+		Arrays.sort(query, 1, m + 1, new QueryCmp());
 	}
 
 	public static void compute() {
 		for (int i = 1; i <= n; i++) {
-			pre[i] = cnt[arr[i]];
-			for (int j = 1; j <= cntk; j++) {
-				cnt[arr[i] ^ kOneArr[j]]++;
-			}
+			pre[i] = pre[i - 1] + sum(treeCnt, arr[i] - 1) * arr[i] + sum(treeSum, MAXV) - sum(treeSum, arr[i]);
+			add(treeCnt, arr[i], 1);
+			add(treeSum, arr[i], arr[i]);
 		}
 		int winl = 1, winr = 0;
 		for (int i = 1; i <= m; i++) {
@@ -98,44 +138,39 @@ public class Code01_MoOfflineTwice1 {
 			int id = query[i][2];
 			if (winr < jobr) {
 				addOffline(winl - 1, id, winr + 1, jobr, -1);
-			}
-			while (winr < jobr) {
-				ans[id] += pre[++winr];
+				ans[id] += pre[jobr] - pre[winr];
 			}
 			if (winr > jobr) {
 				addOffline(winl - 1, id, jobr + 1, winr, 1);
+				ans[id] -= pre[winr] - pre[jobr];
 			}
-			while (winr > jobr) {
-				ans[id] -= pre[winr--];
-			}
+			winr = jobr;
 			if (winl > jobl) {
 				addOffline(winr, id, jobl, winl - 1, 1);
-			}
-			while (winl > jobl) {
-				ans[id] -= pre[--winl];
+				ans[id] -= pre[winl - 1] - pre[jobl - 1];
+
 			}
 			if (winl < jobl) {
 				addOffline(winr, id, winl, jobl - 1, -1);
+				ans[id] += pre[jobl - 1] - pre[winl - 1];
 			}
-			while (winl < jobl) {
-				ans[id] += pre[winl++];
-			}
+			winl = jobl;
 		}
-		// 第二次离线
-		Arrays.fill(cnt, 0);
+		long sum = 0;
+		long tmp;
 		for (int i = 0; i <= n; i++) {
 			if (i >= 1) {
-				for (int j = 1; j <= cntk; j++) {
-					cnt[arr[i] ^ kOneArr[j]]++;
-				}
+				addVal(arr[i]);
+				sum += arr[i];
 			}
 			for (int q = headq[i]; q > 0; q = nextq[q]) {
 				int id = qid[q], l = ql[q], r = qr[q], op = qop[q];
 				for (int j = l; j <= r; j++) {
-					if (j <= i && k == 0) {
-						ans[id] += (long) op * (cnt[arr[j]] - 1);
+					tmp = (long) getCnt(arr[j] - 1) * arr[j] + sum - getSum(arr[j]);
+					if (op == 1) {
+						ans[id] += tmp;
 					} else {
-						ans[id] += (long) op * cnt[arr[j]];
+						ans[id] -= tmp;
 					}
 				}
 			}
@@ -147,7 +182,6 @@ public class Code01_MoOfflineTwice1 {
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
 		n = in.nextInt();
 		m = in.nextInt();
-		k = in.nextInt();
 		for (int i = 1; i <= n; i++) {
 			arr[i] = in.nextInt();
 		}
@@ -160,6 +194,9 @@ public class Code01_MoOfflineTwice1 {
 		compute();
 		for (int i = 2; i <= m; i++) {
 			ans[query[i][2]] += ans[query[i - 1][2]];
+		}
+		for (int i = 1; i <= m; i++) {
+			ans[query[i][2]] += presum[query[i][1]] - presum[query[i][0] - 1];
 		}
 		for (int i = 1; i <= m; i++) {
 			out.println(ans[i]);
