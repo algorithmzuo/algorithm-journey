@@ -23,14 +23,19 @@ public class Code04_Gosick1 {
 	public static int[] arr = new int[MAXN];
 	public static int[] bi = new int[MAXN];
 
-	// 每个数的因子表
-	public static int[] head = new int[MAXN];
-	public static int[] nxt = new int[MAXF];
+	public static int[] headf = new int[MAXN];
+	public static int[] nextf = new int[MAXF];
 	public static int[] fac = new int[MAXF];
 	public static int cntf;
 
 	public static int[][] query = new int[MAXN][3];
-	public static int[][] offline = new int[MAXN << 1][5];
+	public static int[] headq = new int[MAXN];
+	public static int[] nextq = new int[MAXN << 1];
+	public static int[] qx = new int[MAXN << 1];
+	public static int[] qid = new int[MAXN << 1];
+	public static int[] ql = new int[MAXN << 1];
+	public static int[] qr = new int[MAXN << 1];
+	public static int[] qop = new int[MAXN << 1];
 	public static int cntq;
 
 	public static int[] fcnt = new int[MAXN];
@@ -52,37 +57,32 @@ public class Code04_Gosick1 {
 		}
 	}
 
-	public static class OfflineCmp implements Comparator<int[]> {
-		@Override
-		public int compare(int[] a, int[] b) {
-			return a[0] - b[0];
-		}
-	}
-
 	public static void addFactors(int num) {
-		if (head[num] == 0) {
+		if (headf[num] == 0) {
 			for (int f = 1; f * f <= num; f++) {
 				if (num % f == 0) {
-					nxt[++cntf] = head[num];
+					nextf[++cntf] = headf[num];
 					fac[cntf] = f;
-					head[num] = cntf;
+					headf[num] = cntf;
 				}
 			}
 		}
 	}
 
-	public static void addOffline(int pos, int id, int l, int r, int op) {
-		offline[++cntq][0] = pos;
-		offline[cntq][1] = id;
-		offline[cntq][2] = l;
-		offline[cntq][3] = r;
-		offline[cntq][4] = op;
+	public static void addOffline(int x, int id, int l, int r, int op) {
+		nextq[++cntq] = headq[x];
+		headq[x] = cntq;
+		qx[cntq] = x;
+		qid[cntq] = id;
+		ql[cntq] = l;
+		qr[cntq] = r;
+		qop[cntq] = op;
 	}
 
 	public static void compute() {
 		for (int i = 1, x; i <= n; i++) {
 			x = arr[i];
-			for (int e = head[x], f, other; e > 0; e = nxt[e]) {
+			for (int e = headf[x], f, other; e > 0; e = nextf[e]) {
 				f = fac[e];
 				other = x / f;
 				fcnt[f]++;
@@ -119,12 +119,11 @@ public class Code04_Gosick1 {
 			}
 			winl = jobl;
 		}
-		Arrays.sort(offline, 1, cntq + 1, new OfflineCmp());
 		Arrays.fill(fcnt, 0);
-		for (int pos = 0, qi = 1; pos <= n && qi <= cntq; pos++) {
-			if (pos >= 1) {
-				int num = arr[pos];
-				for (int e = head[num], f, other; e > 0; e = nxt[e]) {
+		for (int i = 0; i <= n; i++) {
+			if (i >= 1) {
+				int num = arr[i];
+				for (int e = headf[num], f, other; e > 0; e = nextf[e]) {
 					f = fac[e];
 					other = num / f;
 					fcnt[f]++;
@@ -138,10 +137,10 @@ public class Code04_Gosick1 {
 					}
 				}
 			}
-			for (; qi <= cntq && offline[qi][0] == pos; qi++) {
-				int id = offline[qi][1], l = offline[qi][2], r = offline[qi][3], op = offline[qi][4];
-				for (int i = l; i <= r; i++) {
-					ans[id] += (long) op * fcnt[arr[i]];
+			for (int q = headq[i]; q > 0; q = nextq[q]) {
+				int id = qid[q], l = ql[q], r = qr[q], op = qop[q];
+				for (int j = l; j <= r; j++) {
+					ans[id] += (long) op * fcnt[arr[j]];
 				}
 			}
 		}
@@ -152,8 +151,8 @@ public class Code04_Gosick1 {
 				cnt2[i] = cnt2[i - 1] + (arr[i] % v == 0 ? 1 : 0);
 			}
 			for (int i = 1; i <= cntq; i++) {
-				int pos = offline[i][0], id = offline[i][1], l = offline[i][2], r = offline[i][3], op = offline[i][4];
-				ans[id] += (long) op * cnt1[pos] * (cnt2[r] - cnt2[l - 1]);
+				int x = qx[i], id = qid[i], l = ql[i], r = qr[i], op = qop[i];
+				ans[id] += (long) op * cnt1[x] * (cnt2[r] - cnt2[l - 1]);
 			}
 		}
 	}

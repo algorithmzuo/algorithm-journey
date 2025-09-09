@@ -13,21 +13,24 @@ package class178;
 //    int l, r, id;
 //};
 //
-//struct Offline {
-//    int pos, id, l, r, op;
-//};
-//
 //const int MAXN = 100002;
 //const int MAXB = 401;
+//
 //int n, m;
 //int arr[MAXN];
 //int sorted[MAXN];
 //int cntv;
 //
-//Query query1[MAXN];
-//Offline loffline[MAXN];
-//Offline roffline[MAXN];
-//int cntl, cntr;
+//Query query[MAXN];
+//
+//int headl[MAXN];
+//int headr[MAXN];
+//int nextq[MAXN << 1];
+//int qid[MAXN << 1];
+//int ql[MAXN << 1];
+//int qr[MAXN << 1];
+//int qop[MAXN << 1];
+//int cntq;
 //
 //int bi[MAXN];
 //int bl[MAXB];
@@ -47,10 +50,6 @@ package class178;
 //        return bi[a.l] < bi[b.l];
 //    }
 //    return a.r < b.r;
-//}
-//
-//bool OfflineCmp(Offline &a, Offline &b) {
-//    return a.pos < b.pos;
 //}
 //
 //int kth(int num) {
@@ -91,20 +90,22 @@ package class178;
 //    memset(tree + 1, 0, cntv * sizeof(int));
 //}
 //
-//void addLeftOffline(int pos, int id, int l, int r, int op) {
-//    loffline[++cntl].pos = pos;
-//    loffline[cntl].id = id;
-//    loffline[cntl].l = l;
-//    loffline[cntl].r = r;
-//    loffline[cntl].op = op;
+//void addLeftOffline(int x, int id, int l, int r, int op) {
+//    nextq[++cntq] = headl[x];
+//    headl[x] = cntq;
+//    qid[cntq] = id;
+//    ql[cntq] = l;
+//    qr[cntq] = r;
+//    qop[cntq] = op;
 //}
 //
-//void addRightOffline(int pos, int id, int l, int r, int op) {
-//    roffline[++cntr].pos = pos;
-//    roffline[cntr].id = id;
-//    roffline[cntr].l = l;
-//    roffline[cntr].r = r;
-//    roffline[cntr].op = op;
+//void addRightOffline(int x, int id, int l, int r, int op) {
+//    nextq[++cntq] = headr[x];
+//    headr[x] = cntq;
+//    qid[cntq] = id;
+//    ql[cntq] = l;
+//    qr[cntq] = r;
+//    qop[cntq] = op;
 //}
 //
 //void addLeftCnt(int val) {
@@ -158,7 +159,7 @@ package class178;
 //        bl[i] = (i - 1) * blen + 1;
 //        br[i] = min(i * blen, cntv);
 //    }
-//    sort(query1 + 1, query1 + m + 1, QueryCmp);
+//    sort(query + 1, query + m + 1, QueryCmp);
 //}
 //
 //void compute() {
@@ -173,9 +174,9 @@ package class178;
 //    }
 //    int winl = 1, winr = 0;
 //    for (int i = 1; i <= m; i++) {
-//        int jobl = query1[i].l;
-//        int jobr = query1[i].r;
-//        int id = query1[i].id;
+//        int jobl = query[i].l;
+//        int jobr = query[i].r;
+//        int id = query[i].id;
 //        if (winr < jobr) {
 //            addLeftOffline(winl - 1, id, winr + 1, jobr, -1);
 //            ans[id] += pre[jobr] - pre[winr];
@@ -195,14 +196,12 @@ package class178;
 //        }
 //        winl = jobl;
 //    }
-//    sort(loffline + 1, loffline + cntl + 1, OfflineCmp);
-//    sort(roffline + 1, roffline + cntr + 1, OfflineCmp);
-//    for (int pos = 0, qi = 1; pos <= n && qi <= cntl; pos++) {
-//        if (pos >= 1) {
-//            addLeftCnt(arr[pos] - 1);
+//    for (int i = 0; i <= n; i++) {
+//        if (i >= 1) {
+//            addLeftCnt(arr[i] - 1);
 //        }
-//        for (; qi <= cntl && loffline[qi].pos == pos; qi++) {
-//            int id = loffline[qi].id, l = loffline[qi].l, r = loffline[qi].r, op = loffline[qi].op;
+//        for (int q = headl[i]; q > 0; q = nextq[q]) {
+//            int id = qid[q], l = ql[q], r = qr[q], op = qop[q];
 //            long long ret = 0;
 //            for (int j = l; j <= r; j++) {
 //                ret += getCnt(arr[j]);
@@ -212,12 +211,12 @@ package class178;
 //    }
 //    memset(lazy, 0, sizeof(lazy));
 //    memset(cnt, 0, sizeof(cnt));
-//    for (int pos = n + 1, qi = cntr; pos >= 1 && qi >= 1; pos--) {
-//        if (pos <= n) {
-//            addRightCnt(arr[pos] + 1);
+//    for (int i = n + 1; i >= 1; i--) {
+//        if (i <= n) {
+//            addRightCnt(arr[i] + 1);
 //        }
-//        for (; qi >= 1 && roffline[qi].pos == pos; qi--) {
-//            int id = roffline[qi].id, l = roffline[qi].l, r = roffline[qi].r, op = roffline[qi].op;
+//        for (int q = headr[i]; q > 0; q = nextq[q]) {
+//            int id = qid[q], l = ql[q], r = qr[q], op = qop[q];
 //            long long ret = 0;
 //            for (int j = l; j <= r; j++) {
 //                ret += getCnt(arr[j]);
@@ -235,13 +234,13 @@ package class178;
 //        cin >> arr[i];
 //    }
 //    for (int i = 1; i <= m; i++) {
-//        cin >> query1[i].l >> query1[i].r;
-//        query1[i].id = i;
+//        cin >> query[i].l >> query[i].r;
+//        query[i].id = i;
 //    }
 //    prepare();
 //    compute();
 //    for (int i = 2; i <= m; i++) {
-//        ans[query1[i].id] += ans[query1[i - 1].id];
+//        ans[query[i].id] += ans[query[i - 1].id];
 //    }
 //    for (int i = 1; i <= m; i++) {
 //        cout << ans[i] << '\n';

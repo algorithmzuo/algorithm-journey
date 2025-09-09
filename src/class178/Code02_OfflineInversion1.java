@@ -24,9 +24,15 @@ public class Code02_OfflineInversion1 {
 	public static int cntv;
 
 	public static int[][] query = new int[MAXN][3];
-	public static int[][] loffline = new int[MAXN][5];
-	public static int[][] roffline = new int[MAXN][5];
-	public static int cntl, cntr;
+
+	public static int[] headl = new int[MAXN];
+	public static int[] headr = new int[MAXN];
+	public static int[] nextq = new int[MAXN << 1];
+	public static int[] qid = new int[MAXN << 1];
+	public static int[] ql = new int[MAXN << 1];
+	public static int[] qr = new int[MAXN << 1];
+	public static int[] qop = new int[MAXN << 1];
+	public static int cntq;
 
 	// bi用于序列分块、值域分块，bl和br用于值域分块
 	public static int[] bi = new int[MAXN];
@@ -54,13 +60,6 @@ public class Code02_OfflineInversion1 {
 				return bi[a[0]] - bi[b[0]];
 			}
 			return a[1] - b[1];
-		}
-	}
-
-	public static class OfflineCmp implements Comparator<int[]> {
-		@Override
-		public int compare(int[] a, int[] b) {
-			return a[0] - b[0];
 		}
 	}
 
@@ -102,20 +101,22 @@ public class Code02_OfflineInversion1 {
 		Arrays.fill(tree, 1, cntv + 1, 0);
 	}
 
-	public static void addLeftOffline(int pos, int id, int l, int r, int op) {
-		loffline[++cntl][0] = pos;
-		loffline[cntl][1] = id;
-		loffline[cntl][2] = l;
-		loffline[cntl][3] = r;
-		loffline[cntl][4] = op;
+	public static void addLeftOffline(int x, int id, int l, int r, int op) {
+		nextq[++cntq] = headl[x];
+		headl[x] = cntq;
+		qid[cntq] = id;
+		ql[cntq] = l;
+		qr[cntq] = r;
+		qop[cntq] = op;
 	}
 
-	public static void addRightOffline(int pos, int id, int l, int r, int op) {
-		roffline[++cntr][0] = pos;
-		roffline[cntr][1] = id;
-		roffline[cntr][2] = l;
-		roffline[cntr][3] = r;
-		roffline[cntr][4] = op;
+	public static void addRightOffline(int x, int id, int l, int r, int op) {
+		nextq[++cntq] = headr[x];
+		headr[x] = cntq;
+		qid[cntq] = id;
+		ql[cntq] = l;
+		qr[cntq] = r;
+		qop[cntq] = op;
 	}
 
 	public static void addLeftCnt(int val) {
@@ -206,14 +207,12 @@ public class Code02_OfflineInversion1 {
 			}
 			winl = jobl;
 		}
-		Arrays.sort(loffline, 1, cntl + 1, new OfflineCmp());
-		Arrays.sort(roffline, 1, cntr + 1, new OfflineCmp());
-		for (int pos = 0, qi = 1; pos <= n && qi <= cntl; pos++) {
-			if (pos >= 1) {
-				addLeftCnt(arr[pos] - 1);
+		for (int i = 0; i <= n; i++) {
+			if (i >= 1) {
+				addLeftCnt(arr[i] - 1);
 			}
-			for (; qi <= cntl && loffline[qi][0] == pos; qi++) {
-				int id = loffline[qi][1], l = loffline[qi][2], r = loffline[qi][3], op = loffline[qi][4];
+			for (int q = headl[i]; q > 0; q = nextq[q]) {
+				int id = qid[q], l = ql[q], r = qr[q], op = qop[q];
 				long ret = 0;
 				for (int j = l; j <= r; j++) {
 					ret += getCnt(arr[j]);
@@ -223,12 +222,12 @@ public class Code02_OfflineInversion1 {
 		}
 		Arrays.fill(lazy, 0);
 		Arrays.fill(cnt, 0);
-		for (int pos = n + 1, qi = cntr; pos >= 1 && qi >= 1; pos--) {
-			if (pos <= n) {
-				addRightCnt(arr[pos] + 1);
+		for (int i = n + 1; i >= 1; i--) {
+			if (i <= n) {
+				addRightCnt(arr[i] + 1);
 			}
-			for (; qi >= 1 && roffline[qi][0] == pos; qi--) {
-				int id = roffline[qi][1], l = roffline[qi][2], r = roffline[qi][3], op = roffline[qi][4];
+			for (int q = headr[i]; q > 0; q = nextq[q]) {
+				int id = qid[q], l = ql[q], r = qr[q], op = qop[q];
 				long ret = 0;
 				for (int j = l; j <= r; j++) {
 					ret += getCnt(arr[j]);

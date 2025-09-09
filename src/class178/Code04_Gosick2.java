@@ -13,24 +13,27 @@ package class178;
 //    int l, r, id;
 //};
 //
-//struct Offline {
-//    int pos, id, l, r, op;
-//};
-//
 //const int MAXN = 500001;
 //const int MAXF = 5000001;
 //const int LIMIT = 80;
+//
 //int n, m, maxv;
 //int arr[MAXN];
 //int bi[MAXN];
 //
-//int head[MAXN];
-//int nxt[MAXF];
+//int headf[MAXN];
+//int nextf[MAXF];
 //int fac[MAXF];
 //int cntf;
 //
 //Query query[MAXN];
-//Offline offline[MAXN << 1];
+//int headq[MAXN];
+//int nextq[MAXN << 1];
+//int qx[MAXN << 1];
+//int qid[MAXN << 1];
+//int ql[MAXN << 1];
+//int qr[MAXN << 1];
+//int qop[MAXN << 1];
 //int cntq;
 //
 //int fcnt[MAXN];
@@ -49,34 +52,32 @@ package class178;
 //    return a.r < b.r;
 //}
 //
-//bool OfflineCmp(Offline &a, Offline &b) {
-//    return a.pos < b.pos;
-//}
-//
 //void addFactors(int num) {
-//    if (head[num] == 0) {
+//    if (headf[num] == 0) {
 //        for (int f = 1; f * f <= num; f++) {
 //            if (num % f == 0) {
-//                nxt[++cntf] = head[num];
+//                nextf[++cntf] = headf[num];
 //                fac[cntf] = f;
-//                head[num] = cntf;
+//                headf[num] = cntf;
 //            }
 //        }
 //    }
 //}
 //
-//void addOffline(int pos, int id, int l, int r, int op) {
-//    offline[++cntq].pos = pos;
-//    offline[cntq].id = id;
-//    offline[cntq].l = l;
-//    offline[cntq].r = r;
-//    offline[cntq].op = op;
+//void addOffline(int x, int id, int l, int r, int op) {
+//    nextq[++cntq] = headq[x];
+//    headq[x] = cntq;
+//    qx[cntq] = x;
+//    qid[cntq] = id;
+//    ql[cntq] = l;
+//    qr[cntq] = r;
+//    qop[cntq] = op;
 //}
 //
 //void compute() {
 //    for (int i = 1, x; i <= n; i++) {
 //        x = arr[i];
-//        for (int e = head[x], f, other; e > 0; e = nxt[e]) {
+//        for (int e = headf[x], f, other; e > 0; e = nextf[e]) {
 //            f = fac[e];
 //            other = x / f;
 //            fcnt[f]++;
@@ -113,12 +114,11 @@ package class178;
 //        }
 //        winl = jobl;
 //    }
-//    sort(offline + 1, offline + cntq + 1, OfflineCmp);
 //    memset(fcnt, 0, sizeof(fcnt));
-//    for (int pos = 0, qi = 1; pos <= n && qi <= cntq; pos++) {
-//        if (pos >= 1) {
-//            int num = arr[pos];
-//            for (int e = head[num], f, other; e > 0; e = nxt[e]) {
+//    for (int i = 0; i <= n; i++) {
+//        if (i >= 1) {
+//            int num = arr[i];
+//            for (int e = headf[num], f, other; e > 0; e = nextf[e]) {
 //                f = fac[e];
 //                other = num / f;
 //                fcnt[f]++;
@@ -132,10 +132,10 @@ package class178;
 //                }
 //            }
 //        }
-//        for (; qi <= cntq && offline[qi].pos == pos; qi++) {
-//            int id = offline[qi].id, l = offline[qi].l, r = offline[qi].r, op = offline[qi].op;
-//            for (int i = l; i <= r; i++) {
-//                ans[id] += 1LL * op * fcnt[arr[i]];
+//        for (int q = headq[i]; q > 0; q = nextq[q]) {
+//            int id = qid[q], l = ql[q], r = qr[q], op = qop[q];
+//            for (int j = l; j <= r; j++) {
+//                ans[id] += 1LL * op * fcnt[arr[j]];
 //            }
 //        }
 //    }
@@ -146,9 +146,9 @@ package class178;
 //            cnt1[i] = cnt1[i - 1] + (arr[i] == v ? 1 : 0);
 //            cnt2[i] = cnt2[i - 1] + (arr[i] % v == 0 ? 1 : 0);
 //        }
-//        for (int i = 1; i <= cntq; i++) {
-//            int pos = offline[i].pos, id = offline[i].id, l = offline[i].l, r = offline[i].r, op = offline[i].op;
-//            ans[id] += 1LL * op * cnt1[pos] * (cnt2[r] - cnt2[l - 1]);
+//        for(int i = 1; i <= cntq; i++) {
+//             int x = qx[i], id = qid[i], l = ql[i], r = qr[i], op = qop[i];
+//             ans[id] += 1LL * op * cnt1[x] * (cnt2[r] - cnt2[l - 1]);
 //        }
 //    }
 //}
