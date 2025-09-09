@@ -148,7 +148,6 @@ public class Code03_Abbi1 {
 			if (winl > jobl) {
 				addOffline(winr, id, jobl, winl - 1, 1);
 				ans[id] -= pre[winl - 1] - pre[jobl - 1];
-
 			}
 			if (winl < jobl) {
 				addOffline(winr, id, winl, jobl - 1, -1);

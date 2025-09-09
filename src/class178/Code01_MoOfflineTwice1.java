@@ -38,8 +38,8 @@ public class Code01_MoOfflineTwice1 {
 	public static int cntq;
 
 	public static int[] bi = new int[MAXN];
-	public static int[] pre = new int[MAXN];
 	public static int[] cnt = new int[MAXV];
+	public static long[] pre = new long[MAXN];
 
 	public static long[] ans = new long[MAXN];
 
@@ -86,7 +86,7 @@ public class Code01_MoOfflineTwice1 {
 
 	public static void compute() {
 		for (int i = 1; i <= n; i++) {
-			pre[i] = cnt[arr[i]];
+			pre[i] = pre[i - 1] + cnt[arr[i]];
 			for (int j = 1; j <= cntk; j++) {
 				cnt[arr[i] ^ kOneArr[j]]++;
 			}
@@ -98,28 +98,22 @@ public class Code01_MoOfflineTwice1 {
 			int id = query[i][2];
 			if (winr < jobr) {
 				addOffline(winl - 1, id, winr + 1, jobr, -1);
-			}
-			while (winr < jobr) {
-				ans[id] += pre[++winr];
+				ans[id] += pre[jobr] - pre[winr];
 			}
 			if (winr > jobr) {
 				addOffline(winl - 1, id, jobr + 1, winr, 1);
+				ans[id] -= pre[winr] - pre[jobr];
 			}
-			while (winr > jobr) {
-				ans[id] -= pre[winr--];
-			}
+			winr = jobr;
 			if (winl > jobl) {
 				addOffline(winr, id, jobl, winl - 1, 1);
-			}
-			while (winl > jobl) {
-				ans[id] -= pre[--winl];
+				ans[id] -= pre[winl - 1] - pre[jobl - 1];
 			}
 			if (winl < jobl) {
 				addOffline(winr, id, winl, jobl - 1, -1);
+				ans[id] += pre[jobl - 1] - pre[winl - 1];
 			}
-			while (winl < jobl) {
-				ans[id] += pre[winl++];
-			}
+			winl = jobl;
 		}
 		// 第二次离线
 		Arrays.fill(cnt, 0);
@@ -132,9 +126,17 @@ public class Code01_MoOfflineTwice1 {
 			for (int q = headq[i]; q > 0; q = nextq[q]) {
 				int id = qid[q], l = ql[q], r = qr[q], op = qop[q];
 				for (int j = l; j <= r; j++) {
+					// 计算j 对 1..i范围的贡献
+					// 此时1..i范围上的数字都更新过cnt
 					if (j <= i && k == 0) {
+						// j在1..i范围上，此时又有k==0
+						// 那么arr[j]一定更新过cnt，并且(arr[j], arr[j])一定算进贡献了
+						// 但是题目要求的二元组必须是不同位置，所以贡献要进行减1修正
 						ans[id] += (long) op * (cnt[arr[j]] - 1);
 					} else {
+						// 要么j不在1..i范围上，arr[j]没更新过cnt
+						// 要么k!=0，(arr[j], arr[j])无法被算成贡献
+						// 无论哪种情况，贡献都是正确的，不用进行减1修正
 						ans[id] += (long) op * cnt[arr[j]];
 					}
 				}

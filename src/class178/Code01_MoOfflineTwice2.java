@@ -31,8 +31,8 @@ package class178;
 //int cntq;
 //
 //int bi[MAXN];
-//int pre[MAXN];
 //int cnt[MAXV];
+//long long pre[MAXN];
 //
 //long long ans[MAXN];
 //
@@ -76,7 +76,7 @@ package class178;
 //
 //void compute() {
 //    for (int i = 1; i <= n; i++) {
-//        pre[i] = cnt[arr[i]];
+//        pre[i] = pre[i - 1] + cnt[arr[i]];
 //        for (int j = 1; j <= cntk; j++) {
 //            cnt[arr[i] ^ kOneArr[j]]++;
 //        }
@@ -88,28 +88,22 @@ package class178;
 //        int id = query[i].id;
 //        if (winr < jobr) {
 //            addOffline(winl - 1, id, winr + 1, jobr, -1);
-//        }
-//        while (winr < jobr) {
-//            ans[id] += pre[++winr];
+//            ans[id] += pre[jobr] - pre[winr];
 //        }
 //        if (winr > jobr) {
 //            addOffline(winl - 1, id, jobr + 1, winr, 1);
+//            ans[id] -= pre[winr] - pre[jobr];
 //        }
-//        while (winr > jobr) {
-//            ans[id] -= pre[winr--];
-//        }
+//        winr = jobr;
 //        if (winl > jobl) {
 //            addOffline(winr, id, jobl, winl - 1, 1);
-//        }
-//        while (winl > jobl) {
-//            ans[id] -= pre[--winl];
+//            ans[id] -= pre[winl - 1] - pre[jobl - 1];
 //        }
 //        if (winl < jobl) {
 //            addOffline(winr, id, winl, jobl - 1, -1);
+//            ans[id] += pre[jobl - 1] - pre[winl - 1];
 //        }
-//        while (winl < jobl) {
-//            ans[id] += pre[winl++];
-//        }
+//        winl = jobl;
 //    }
 //    memset(cnt, 0, sizeof(cnt));
 //    for (int i = 0; i <= n; i++) {
