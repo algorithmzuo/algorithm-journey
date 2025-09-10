@@ -30,10 +30,10 @@ package class178;
 //int headq[MAXN];
 //int nextq[MAXN << 1];
 //int qx[MAXN << 1];
-//int qid[MAXN << 1];
 //int ql[MAXN << 1];
 //int qr[MAXN << 1];
 //int qop[MAXN << 1];
+//int qid[MAXN << 1];
 //int cntq;
 //
 //int fcnt[MAXN];
@@ -64,14 +64,14 @@ package class178;
 //    }
 //}
 //
-//void addOffline(int x, int id, int l, int r, int op) {
+//void addOffline(int x, int l, int r, int op, int id) {
 //    nextq[++cntq] = headq[x];
 //    headq[x] = cntq;
 //    qx[cntq] = x;
-//    qid[cntq] = id;
 //    ql[cntq] = l;
 //    qr[cntq] = r;
 //    qop[cntq] = op;
+//    qid[cntq] = id;
 //}
 //
 //void compute() {
@@ -96,20 +96,20 @@ package class178;
 //        int jobr = query[i].r;
 //        int id = query[i].id;
 //        if (winr < jobr) {
-//            addOffline(winl - 1, id, winr + 1, jobr, -1);
+//            addOffline(winl - 1, winr + 1, jobr, -1, id);
 //            ans[id] += pre[jobr] - pre[winr];
 //        }
 //        if (winr > jobr) {
-//            addOffline(winl - 1, id, jobr + 1, winr, 1);
+//            addOffline(winl - 1, jobr + 1, winr, 1, id);
 //            ans[id] -= pre[winr] - pre[jobr];
 //        }
 //        winr = jobr;
 //        if (winl > jobl) {
-//            addOffline(winr, id, jobl, winl - 1, 1);
+//            addOffline(winr, jobl, winl - 1, 1, id);
 //            ans[id] -= pre[winl - 1] - pre[jobl - 1];
 //        }
 //        if (winl < jobl) {
-//            addOffline(winr, id, winl, jobl - 1, -1);
+//            addOffline(winr, winl, jobl - 1, -1, id);
 //            ans[id] += pre[jobl - 1] - pre[winl - 1];
 //        }
 //        winl = jobl;
@@ -133,7 +133,7 @@ package class178;
 //            }
 //        }
 //        for (int q = headq[i]; q > 0; q = nextq[q]) {
-//            int id = qid[q], l = ql[q], r = qr[q], op = qop[q];
+//            int l = ql[q], r = qr[q], op = qop[q], id = qid[q];
 //            for (int j = l; j <= r; j++) {
 //                ans[id] += 1LL * op * fcnt[arr[j]];
 //            }
@@ -147,7 +147,7 @@ package class178;
 //            cnt2[i] = cnt2[i - 1] + (arr[i] % v == 0 ? 1 : 0);
 //        }
 //        for(int i = 1; i <= cntq; i++) {
-//             int x = qx[i], id = qid[i], l = ql[i], r = qr[i], op = qop[i];
+//             int x = qx[i], l = ql[i], r = qr[i], op = qop[i], id = qid[i];
 //             ans[id] += 1LL * op * cnt1[x] * (cnt2[r] - cnt2[l - 1]);
 //        }
 //    }
