@@ -24,7 +24,6 @@ package class178;
 //int br[MAXB];
 //
 //Query query[MAXN];
-//
 //int headq[MAXN];
 //int nextq[MAXN << 1];
 //int ql[MAXN << 1];

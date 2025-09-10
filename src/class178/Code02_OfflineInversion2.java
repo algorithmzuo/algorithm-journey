@@ -22,7 +22,6 @@ package class178;
 //int cntv;
 //
 //Query query[MAXN];
-//
 //int headl[MAXN];
 //int headr[MAXN];
 //int nextq[MAXN << 1];
@@ -40,8 +39,8 @@ package class178;
 //long long pre[MAXN];
 //long long suf[MAXN];
 //
-//long long cnt[MAXN];
-//long long lazy[MAXB];
+//long long cnt1[MAXB];
+//long long cnt2[MAXN];
 //
 //long long ans[MAXN];
 //
@@ -112,11 +111,11 @@ package class178;
 //    if (val <= 0) {
 //        return;
 //    }
-//    for (int i = bl[bi[val]]; i <= val; i++) {
-//        cnt[i]++;
-//    }
 //    for (int b = 1; b <= bi[val] - 1; b++) {
-//        lazy[b]++;
+//        cnt1[b]++;
+//    }
+//    for (int i = bl[bi[val]]; i <= val; i++) {
+//        cnt2[i]++;
 //    }
 //}
 //
@@ -124,16 +123,16 @@ package class178;
 //    if (val > cntv) {
 //        return;
 //    }
-//    for (int i = val; i <= br[bi[val]]; i++) {
-//        cnt[i]++;
-//    }
 //    for (int b = bi[val] + 1; b <= bi[cntv]; b++) {
-//        lazy[b]++;
+//        cnt1[b]++;
+//    }
+//    for (int i = val; i <= br[bi[val]]; i++) {
+//        cnt2[i]++;
 //    }
 //}
 //
 //long long getCnt(int val) {
-//    return cnt[val] + lazy[bi[val]];
+//    return cnt1[bi[val]] + cnt2[val];
 //}
 //
 //void prepare() {
@@ -209,8 +208,8 @@ package class178;
 //            ans[id] += ret * op;
 //        }
 //    }
-//    memset(lazy, 0, sizeof(lazy));
-//    memset(cnt, 0, sizeof(cnt));
+//    memset(cnt1, 0, sizeof(cnt1));
+//    memset(cnt2, 0, sizeof(cnt2));
 //    for (int i = n + 1; i >= 1; i--) {
 //        if (i <= n) {
 //            addRightCnt(arr[i] + 1);

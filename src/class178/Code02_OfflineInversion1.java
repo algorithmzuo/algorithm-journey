@@ -24,7 +24,6 @@ public class Code02_OfflineInversion1 {
 	public static int cntv;
 
 	public static int[][] query = new int[MAXN][3];
-
 	public static int[] headl = new int[MAXN];
 	public static int[] headr = new int[MAXN];
 	public static int[] nextq = new int[MAXN << 1];
@@ -46,10 +45,10 @@ public class Code02_OfflineInversion1 {
 	// 后缀信息
 	public static long[] suf = new long[MAXN];
 
+	// 整块加了多少词频
+	public static long[] cnt1 = new long[MAXB];
 	// 每种值加了多少词频
-	public static long[] cnt = new long[MAXN];
-	// 块的懒信息，整块加了多少词频
-	public static long[] lazy = new long[MAXB];
+	public static long[] cnt2 = new long[MAXN];
 
 	public static long[] ans = new long[MAXN];
 
@@ -123,11 +122,11 @@ public class Code02_OfflineInversion1 {
 		if (val <= 0) {
 			return;
 		}
-		for (int i = bl[bi[val]]; i <= val; i++) {
-			cnt[i]++;
-		}
 		for (int b = 1; b <= bi[val] - 1; b++) {
-			lazy[b]++;
+			cnt1[b]++;
+		}
+		for (int i = bl[bi[val]]; i <= val; i++) {
+			cnt2[i]++;
 		}
 	}
 
@@ -135,16 +134,16 @@ public class Code02_OfflineInversion1 {
 		if (val > cntv) {
 			return;
 		}
-		for (int i = val; i <= br[bi[val]]; i++) {
-			cnt[i]++;
-		}
 		for (int b = bi[val] + 1; b <= bi[cntv]; b++) {
-			lazy[b]++;
+			cnt1[b]++;
+		}
+		for (int i = val; i <= br[bi[val]]; i++) {
+			cnt2[i]++;
 		}
 	}
 
 	public static long getCnt(int val) {
-		return cnt[val] + lazy[bi[val]];
+		return cnt1[bi[val]] + cnt2[val];
 	}
 
 	public static void prepare() {
@@ -220,8 +219,8 @@ public class Code02_OfflineInversion1 {
 				ans[id] += ret * op;
 			}
 		}
-		Arrays.fill(lazy, 0);
-		Arrays.fill(cnt, 0);
+		Arrays.fill(cnt1, 0);
+		Arrays.fill(cnt2, 0);
 		for (int i = n + 1; i >= 1; i--) {
 			if (i <= n) {
 				addRightCnt(arr[i] + 1);

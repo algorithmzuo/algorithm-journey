@@ -23,7 +23,6 @@ public class Code03_Abbi1 {
 	public static int[] br = new int[MAXB];
 
 	public static int[][] query = new int[MAXN][3];
-
 	public static int[] headq = new int[MAXN];
 	public static int[] nextq = new int[MAXN << 1];
 	public static int[] ql = new int[MAXN << 1];
