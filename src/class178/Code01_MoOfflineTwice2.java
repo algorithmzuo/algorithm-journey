@@ -38,6 +38,7 @@ package class178;
 //
 //int cnt[MAXV];
 //long long pre[MAXN];
+//
 //long long ans[MAXN];
 //
 //bool QueryCmp(Query &a, Query &b) {

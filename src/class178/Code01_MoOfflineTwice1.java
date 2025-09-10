@@ -42,8 +42,11 @@ public class Code01_MoOfflineTwice1 {
 	public static int[] qid = new int[MAXN << 1];
 	public static int cntq;
 
+	// cnt[v] : 当前的数字v作为第二个数，之前出现的数字作为第一个数，有多少合法的二元组
 	public static int[] cnt = new int[MAXV];
+	// pre[i] : 单点信息的前缀和，课上重点图解了
 	public static long[] pre = new long[MAXN];
+
 	public static long[] ans = new long[MAXN];
 
 	public static class QueryCmp implements Comparator<int[]> {
