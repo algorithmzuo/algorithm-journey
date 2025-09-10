@@ -81,6 +81,7 @@ public class Code04_Gosick1 {
 
 	public static void compute() {
 		for (int i = 1, x; i <= n; i++) {
+			pre[i] = pre[i - 1];
 			x = arr[i];
 			for (int e = headf[x], f, other; e > 0; e = nextf[e]) {
 				f = fac[e];
@@ -92,7 +93,7 @@ public class Code04_Gosick1 {
 					pre[i] += xcnt[other];
 				}
 			}
-			pre[i] += fcnt[x] + pre[i - 1];
+			pre[i] += fcnt[x];
 			xcnt[x]++;
 		}
 		int winl = 1, winr = 0;

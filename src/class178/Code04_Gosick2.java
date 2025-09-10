@@ -76,6 +76,7 @@ package class178;
 //
 //void compute() {
 //    for (int i = 1, x; i <= n; i++) {
+//        pre[i] = pre[i - 1];
 //        x = arr[i];
 //        for (int e = headf[x], f, other; e > 0; e = nextf[e]) {
 //            f = fac[e];
@@ -87,7 +88,7 @@ package class178;
 //                pre[i] += xcnt[other];
 //            }
 //        }
-//        pre[i] += fcnt[x] + pre[i - 1];
+//        pre[i] += fcnt[x];
 //        xcnt[x]++;
 //    }
 //    int winl = 1, winr = 0;
