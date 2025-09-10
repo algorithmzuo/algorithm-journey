@@ -34,8 +34,8 @@ package class178;
 //
 //long long treeCnt[MAXV + 1];
 //long long treeSum[MAXV + 1];
-//
 //long long pre[MAXN];
+//
 //int cnt1[MAXB];
 //int cnt2[MAXN];
 //long long sum1[MAXB];

@@ -33,8 +33,8 @@ public class Code03_Abbi1 {
 
 	public static long[] treeCnt = new long[MAXV + 1];
 	public static long[] treeSum = new long[MAXV + 1];
-
 	public static long[] pre = new long[MAXN];
+
 	public static int[] cnt1 = new int[MAXB];
 	public static int[] cnt2 = new int[MAXN];
 	public static long[] sum1 = new long[MAXB];
