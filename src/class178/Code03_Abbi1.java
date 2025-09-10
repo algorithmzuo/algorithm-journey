@@ -26,10 +26,10 @@ public class Code03_Abbi1 {
 
 	public static int[] headq = new int[MAXN];
 	public static int[] nextq = new int[MAXN << 1];
-	public static int[] qid = new int[MAXN << 1];
 	public static int[] ql = new int[MAXN << 1];
 	public static int[] qr = new int[MAXN << 1];
 	public static int[] qop = new int[MAXN << 1];
+	public static int[] qid = new int[MAXN << 1];
 	public static int cntq;
 
 	public static long[] treeCnt = new long[MAXV + 1];
@@ -53,13 +53,13 @@ public class Code03_Abbi1 {
 		}
 	}
 
-	public static void addOffline(int x, int id, int l, int r, int op) {
+	public static void addOffline(int x, int l, int r, int op, int id) {
 		nextq[++cntq] = headq[x];
 		headq[x] = cntq;
-		qid[cntq] = id;
 		ql[cntq] = l;
 		qr[cntq] = r;
 		qop[cntq] = op;
+		qid[cntq] = id;
 	}
 
 	public static int lowbit(int x) {
@@ -137,20 +137,20 @@ public class Code03_Abbi1 {
 			int jobr = query[i][1];
 			int id = query[i][2];
 			if (winr < jobr) {
-				addOffline(winl - 1, id, winr + 1, jobr, -1);
+				addOffline(winl - 1, winr + 1, jobr, -1, id);
 				ans[id] += pre[jobr] - pre[winr];
 			}
 			if (winr > jobr) {
-				addOffline(winl - 1, id, jobr + 1, winr, 1);
+				addOffline(winl - 1, jobr + 1, winr, 1, id);
 				ans[id] -= pre[winr] - pre[jobr];
 			}
 			winr = jobr;
 			if (winl > jobl) {
-				addOffline(winr, id, jobl, winl - 1, 1);
+				addOffline(winr, jobl, winl - 1, 1, id);
 				ans[id] -= pre[winl - 1] - pre[jobl - 1];
 			}
 			if (winl < jobl) {
-				addOffline(winr, id, winl, jobl - 1, -1);
+				addOffline(winr, winl, jobl - 1, -1, id);
 				ans[id] += pre[jobl - 1] - pre[winl - 1];
 			}
 			winl = jobl;
@@ -163,7 +163,7 @@ public class Code03_Abbi1 {
 				sum += arr[i];
 			}
 			for (int q = headq[i]; q > 0; q = nextq[q]) {
-				int id = qid[q], l = ql[q], r = qr[q], op = qop[q];
+				int l = ql[q], r = qr[q], op = qop[q], id = qid[q];
 				for (int j = l; j <= r; j++) {
 					tmp = (long) getCnt(arr[j] - 1) * arr[j] + sum - getSum(arr[j]);
 					if (op == 1) {
