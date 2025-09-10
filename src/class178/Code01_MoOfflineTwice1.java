@@ -52,11 +52,15 @@ public class Code01_MoOfflineTwice1 {
 		}
 	}
 
+	public static int lowbit(int i) {
+		return i & -i;
+	}
+
 	public static int countOne(int num) {
 		int ret = 0;
 		while (num > 0) {
 			ret++;
-			num -= num & -num;
+			num -= lowbit(num);
 		}
 		return ret;
 	}

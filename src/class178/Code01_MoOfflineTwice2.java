@@ -43,11 +43,15 @@ package class178;
 //    return a.r < b.r;
 //}
 //
+//int lowbit(int i) {
+//    return i & -i;
+//}
+//
 //int countOne(int num) {
 //    int ret = 0;
 //    while (num > 0) {
 //        ret++;
-//        num -= num & -num;
+//        num -= lowbit(num);
 //    }
 //    return ret;
 //}
