@@ -1,10 +1,10 @@
 package class178;
 
 // 莫队二次离线入门题，java版
-// 给定一个长度为n的数组arr，给定一个非负整数k，下面给出合法二元组的定义
+// 给定一个长度为n的数组arr，给定一个非负整数k，下面给出k1二元组的定义
 // 位置二元组(i, j)，i和j必须是不同的，并且 arr[i]异或arr[j] 的二进制状态里有k个1
 // 当i != j时，(i, j)和(j, i)认为是相同的二元组
-// 一共有m条查询，格式为 l r : 打印arr[l..r]范围上，有多少合法二元组
+// 一共有m条查询，格式为 l r : 打印arr[l..r]范围上，有多少k1二元组
 // 1 <= n、m <= 10^5
 // 0 <= arr[i]、k < 16384(2的14次方)
 // 测试链接 : https://www.luogu.com.cn/problem/P4887
@@ -42,7 +42,7 @@ public class Code01_MoOfflineTwice1 {
 	public static int[] qid = new int[MAXN << 1];
 	public static int cntq;
 
-	// cnt[v] : 当前的数字v作为第二个数，之前出现的数字作为第一个数，产生多少合法二元组
+	// cnt[v] : 当前的数字v作为第二个数，之前出现的数字作为第一个数，产生多少k1二元组
 	public static int[] cnt = new int[MAXV];
 	// pre[i] : 单点信息的前缀和，课上重点图解了
 	public static long[] pre = new long[MAXN];
