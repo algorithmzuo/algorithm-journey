@@ -187,11 +187,11 @@ package class178;
 //        }
 //        winr = jobr;
 //        if (winl > jobl) {
-//            addRightOffline(winr + 1, id, jobl, winl - 1, -1);
+//            addRightOffline(winr, id, jobl, winl - 1, -1);
 //            ans[id] += suf[jobl] - suf[winl];
 //        }
 //        if (winl < jobl) {
-//            addRightOffline(winr + 1, id, winl, jobl - 1, 1);
+//            addRightOffline(winr, id, winl, jobl - 1, 1);
 //            ans[id] -= suf[winl] - suf[jobl];
 //        }
 //        winl = jobl;
@@ -212,9 +212,6 @@ package class178;
 //    memset(lazy, 0, sizeof(lazy));
 //    memset(cnt, 0, sizeof(cnt));
 //    for (int i = n + 1; i >= 1; i--) {
-//        if (i <= n) {
-//            addRightCnt(arr[i] + 1);
-//        }
 //        for (int q = headr[i]; q > 0; q = nextq[q]) {
 //            int id = qid[q], l = ql[q], r = qr[q], op = qop[q];
 //            long long ret = 0;
@@ -222,6 +219,9 @@ package class178;
 //                ret += getCnt(arr[j]);
 //            }
 //            ans[id] += ret * op;
+//        }
+//        if (i <= n) {
+//            addRightCnt(arr[i] + 1);
 //        }
 //    }
 //}
