@@ -198,11 +198,11 @@ public class Code02_OfflineInversion1 {
 			}
 			winr = jobr;
 			if (winl > jobl) {
-				addRightOffline(winr, id, jobl, winl - 1, -1);
+				addRightOffline(winr + 1, id, jobl, winl - 1, -1);
 				ans[id] += suf[jobl] - suf[winl];
 			}
 			if (winl < jobl) {
-				addRightOffline(winr, id, winl, jobl - 1, 1);
+				addRightOffline(winr + 1, id, winl, jobl - 1, 1);
 				ans[id] -= suf[winl] - suf[jobl];
 			}
 			winl = jobl;
@@ -223,6 +223,9 @@ public class Code02_OfflineInversion1 {
 		Arrays.fill(lazy, 0);
 		Arrays.fill(cnt, 0);
 		for (int i = n + 1; i >= 1; i--) {
+			if (i <= n) {
+				addRightCnt(arr[i] + 1);
+			}
 			for (int q = headr[i]; q > 0; q = nextq[q]) {
 				int id = qid[q], l = ql[q], r = qr[q], op = qop[q];
 				long ret = 0;
@@ -230,9 +233,6 @@ public class Code02_OfflineInversion1 {
 					ret += getCnt(arr[j]);
 				}
 				ans[id] += ret * op;
-			}
-			if (i <= n) {
-				addRightCnt(arr[i] + 1);
 			}
 		}
 	}
