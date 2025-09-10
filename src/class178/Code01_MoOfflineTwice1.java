@@ -26,7 +26,7 @@ public class Code01_MoOfflineTwice1 {
 	// 莫队任务，l、r、id
 	public static int[][] query = new int[MAXN][3];
 
-	// 第二次离线任务，x、l、r、op、id
+	// 离线任务，x、l、r、op、id
 	// 位置x的任务列表用链式前向星表示
 	public static int[] headq = new int[MAXN];
 	public static int[] nextq = new int[MAXN << 1];
@@ -94,6 +94,7 @@ public class Code01_MoOfflineTwice1 {
 				cnt[arr[i] ^ kOneArr[j]]++;
 			}
 		}
+		// 第一次离线，执行莫队
 		int winl = 1, winr = 0;
 		for (int i = 1; i <= m; i++) {
 			int jobl = query[i][0];
@@ -118,7 +119,7 @@ public class Code01_MoOfflineTwice1 {
 			}
 			winl = jobl;
 		}
-		// 第二次离线
+		// 第二次离线，执行离线任务
 		Arrays.fill(cnt, 0);
 		for (int i = 0; i <= n; i++) {
 			if (i >= 1) {
