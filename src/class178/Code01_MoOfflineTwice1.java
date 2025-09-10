@@ -35,8 +35,8 @@ public class Code01_MoOfflineTwice1 {
 
 	// 离线任务，x、l、r、op、id
 	// 位置x的任务列表用链式前向星表示
-	// headl是winr变动时，加入的离线任务
-	// headr是winl变动时，加入的离线任务
+	// headl[x]，x在l~r左侧的离线任务列表
+	// headr[x]，x在l~r右侧的离线任务列表
 	public static int[] headl = new int[MAXN];
 	public static int[] headr = new int[MAXN];
 	public static int[] nextq = new int[MAXN << 1];
