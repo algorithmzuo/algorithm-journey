@@ -194,6 +194,9 @@ public class Code01_MoOfflineTwice1 {
 		}
 		prepare();
 		compute();
+		// ans[i]代表答案变化量
+		// 所以加工出前缀和才是每个查询的答案
+		// 注意在普通莫队的顺序下，去生成前缀和
 		for (int i = 2; i <= m; i++) {
 			ans[query[i][2]] += ans[query[i - 1][2]];
 		}
