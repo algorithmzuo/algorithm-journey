@@ -1,6 +1,6 @@
 package class178;
 
-// 允许离线查询逆序对，java版
+// 区间逆序对，java版
 // 讲解173，题目4，必须在线查询区间逆序对，本题允许离线
 // 测试链接 : https://www.luogu.com.cn/problem/P5047
 // 提交以下的code，提交时请把类名改成"Main"
