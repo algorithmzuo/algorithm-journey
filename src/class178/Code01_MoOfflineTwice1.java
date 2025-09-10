@@ -22,7 +22,7 @@ import java.util.Comparator;
 
 public class Code01_MoOfflineTwice1 {
 
-	public static int MAXN = 100001;
+	public static int MAXN = 100002;
 	public static int MAXV = 1 << 14;
 	public static int n, m, k;
 	public static int[] arr = new int[MAXN];
@@ -32,9 +32,13 @@ public class Code01_MoOfflineTwice1 {
 
 	// 莫队任务，l、r、id
 	public static int[][] query = new int[MAXN][3];
+
 	// 离线任务，x、l、r、op、id
 	// 位置x的任务列表用链式前向星表示
-	public static int[] headq = new int[MAXN];
+	// headl是winr变动时，加入的离线任务
+	// headr是winl变动时，加入的离线任务
+	public static int[] headl = new int[MAXN];
+	public static int[] headr = new int[MAXN];
 	public static int[] nextq = new int[MAXN << 1];
 	public static int[] ql = new int[MAXN << 1];
 	public static int[] qr = new int[MAXN << 1];
@@ -44,8 +48,10 @@ public class Code01_MoOfflineTwice1 {
 
 	// cnt[v] : 当前的数字v作为第二个数，之前出现的数字作为第一个数，产生多少k1二元组
 	public static int[] cnt = new int[MAXV];
-	// pre[i] : 单点信息的前缀和，课上重点图解了
+	// 前缀和
 	public static long[] pre = new long[MAXN];
+	// 后缀和
+	public static long[] suf = new long[MAXN];
 
 	public static long[] ans = new long[MAXN];
 
@@ -72,9 +78,18 @@ public class Code01_MoOfflineTwice1 {
 		return ret;
 	}
 
-	public static void addOffline(int x, int l, int r, int op, int id) {
-		nextq[++cntq] = headq[x];
-		headq[x] = cntq;
+	public static void addLeftOffline(int x, int l, int r, int op, int id) {
+		nextq[++cntq] = headl[x];
+		headl[x] = cntq;
+		ql[cntq] = l;
+		qr[cntq] = r;
+		qop[cntq] = op;
+		qid[cntq] = id;
+	}
+
+	public static void addRightOffline(int x, int l, int r, int op, int id) {
+		nextq[++cntq] = headr[x];
+		headr[x] = cntq;
 		ql[cntq] = l;
 		qr[cntq] = r;
 		qop[cntq] = op;
@@ -101,32 +116,38 @@ public class Code01_MoOfflineTwice1 {
 				cnt[arr[i] ^ kOneArr[j]]++;
 			}
 		}
-		// 第一次离线，执行莫队
+		Arrays.fill(cnt, 0);
+		for (int i = n; i >= 1; i--) {
+			suf[i] = suf[i + 1] + cnt[arr[i]];
+			for (int j = 1; j <= cntk; j++) {
+				cnt[arr[i] ^ kOneArr[j]]++;
+			}
+		}
+		// 执行莫队
 		int winl = 1, winr = 0;
 		for (int i = 1; i <= m; i++) {
 			int jobl = query[i][0];
 			int jobr = query[i][1];
 			int id = query[i][2];
 			if (winr < jobr) {
-				addOffline(winl - 1, winr + 1, jobr, -1, id);
+				addLeftOffline(winl - 1, winr + 1, jobr, -1, id);
 				ans[id] += pre[jobr] - pre[winr];
 			}
 			if (winr > jobr) {
-				addOffline(winl - 1, jobr + 1, winr, 1, id);
+				addLeftOffline(winl - 1, jobr + 1, winr, 1, id);
 				ans[id] -= pre[winr] - pre[jobr];
 			}
 			winr = jobr;
 			if (winl > jobl) {
-				addOffline(winr, jobl, winl - 1, 1, id);
-				ans[id] -= pre[winl - 1] - pre[jobl - 1];
+				addRightOffline(winr + 1, jobl, winl - 1, -1, id);
+				ans[id] += suf[jobl] - suf[winl];
 			}
 			if (winl < jobl) {
-				addOffline(winr, winl, jobl - 1, -1, id);
-				ans[id] += pre[jobl - 1] - pre[winl - 1];
+				addRightOffline(winr + 1, winl, jobl - 1, 1, id);
+				ans[id] -= suf[winl] - suf[jobl];
 			}
 			winl = jobl;
 		}
-		// 第二次离线，执行离线任务
 		Arrays.fill(cnt, 0);
 		for (int i = 0; i <= n; i++) {
 			if (i >= 1) {
@@ -134,22 +155,24 @@ public class Code01_MoOfflineTwice1 {
 					cnt[arr[i] ^ kOneArr[j]]++;
 				}
 			}
-			for (int q = headq[i]; q > 0; q = nextq[q]) {
+			for (int q = headl[i]; q > 0; q = nextq[q]) {
 				int l = ql[q], r = qr[q], op = qop[q], id = qid[q];
 				for (int j = l; j <= r; j++) {
-					// 计算j 对 1..i范围的贡献
-					// 此时1..i范围上的数字都更新过cnt
-					if (j <= i && k == 0) {
-						// j在1..i范围上，此时又有k==0
-						// 那么arr[j]一定更新过cnt，并且(arr[j], arr[j])一定算进贡献了
-						// 但是题目要求的二元组必须是不同位置，所以贡献要进行减1修正
-						ans[id] += (long) op * (cnt[arr[j]] - 1);
-					} else {
-						// 要么j不在1..i范围上，arr[j]没更新过cnt
-						// 要么k!=0，(arr[j], arr[j])无法被算成贡献
-						// 无论哪种情况，贡献都是正确的，不用进行减1修正
-						ans[id] += (long) op * cnt[arr[j]];
-					}
+					ans[id] += (long) op * cnt[arr[j]];
+				}
+			}
+		}
+		Arrays.fill(cnt, 0);
+		for (int i = n + 1; i >= 1; i--) {
+			if (i <= n) {
+				for (int j = 1; j <= cntk; j++) {
+					cnt[arr[i] ^ kOneArr[j]]++;
+				}
+			}
+			for (int q = headr[i]; q > 0; q = nextq[q]) {
+				int l = ql[q], r = qr[q], op = qop[q], id = qid[q];
+				for (int j = l; j <= r; j++) {
+					ans[id] += (long) op * cnt[arr[j]];
 				}
 			}
 		}
