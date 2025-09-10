@@ -20,12 +20,12 @@ public class Code01_MoOfflineTwice1 {
 	public static int MAXV = 1 << 14;
 	public static int n, m, k;
 	public static int[] arr = new int[MAXN];
+	public static int[] bi = new int[MAXN];
 	public static int[] kOneArr = new int[MAXV];
 	public static int cntk;
 
 	// 莫队任务，l、r、id
 	public static int[][] query = new int[MAXN][3];
-
 	// 离线任务，x、l、r、op、id
 	// 位置x的任务列表用链式前向星表示
 	public static int[] headq = new int[MAXN];
@@ -36,10 +36,8 @@ public class Code01_MoOfflineTwice1 {
 	public static int[] qid = new int[MAXN << 1];
 	public static int cntq;
 
-	public static int[] bi = new int[MAXN];
 	public static int[] cnt = new int[MAXV];
 	public static long[] pre = new long[MAXN];
-
 	public static long[] ans = new long[MAXN];
 
 	public static class QueryCmp implements Comparator<int[]> {

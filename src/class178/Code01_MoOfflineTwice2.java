@@ -17,11 +17,11 @@ package class178;
 //const int MAXV = 1 << 14;
 //int n, m, k;
 //int arr[MAXN];
+//int bi[MAXN];
 //int kOneArr[MAXV];
 //int cntk;
 //
 //Query query[MAXN];
-//
 //int headq[MAXN];
 //int nextq[MAXN << 1];
 //int ql[MAXN << 1];
@@ -30,10 +30,8 @@ package class178;
 //int qid[MAXN << 1];
 //int cntq;
 //
-//int bi[MAXN];
 //int cnt[MAXV];
 //long long pre[MAXN];
-//
 //long long ans[MAXN];
 //
 //bool QueryCmp(Query &a, Query &b) {
