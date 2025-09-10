@@ -28,10 +28,10 @@ public class Code02_OfflineInversion1 {
 	public static int[] headl = new int[MAXN];
 	public static int[] headr = new int[MAXN];
 	public static int[] nextq = new int[MAXN << 1];
-	public static int[] qid = new int[MAXN << 1];
 	public static int[] ql = new int[MAXN << 1];
 	public static int[] qr = new int[MAXN << 1];
 	public static int[] qop = new int[MAXN << 1];
+	public static int[] qid = new int[MAXN << 1];
 	public static int cntq;
 
 	// bi用于序列分块、值域分块，bl和br用于值域分块
@@ -101,22 +101,22 @@ public class Code02_OfflineInversion1 {
 		Arrays.fill(tree, 1, cntv + 1, 0);
 	}
 
-	public static void addLeftOffline(int x, int id, int l, int r, int op) {
+	public static void addLeftOffline(int x, int l, int r, int op, int id) {
 		nextq[++cntq] = headl[x];
 		headl[x] = cntq;
-		qid[cntq] = id;
 		ql[cntq] = l;
 		qr[cntq] = r;
 		qop[cntq] = op;
+		qid[cntq] = id;
 	}
 
-	public static void addRightOffline(int x, int id, int l, int r, int op) {
+	public static void addRightOffline(int x, int l, int r, int op, int id) {
 		nextq[++cntq] = headr[x];
 		headr[x] = cntq;
-		qid[cntq] = id;
 		ql[cntq] = l;
 		qr[cntq] = r;
 		qop[cntq] = op;
+		qid[cntq] = id;
 	}
 
 	public static void addLeftCnt(int val) {
@@ -189,20 +189,20 @@ public class Code02_OfflineInversion1 {
 			int jobr = query[i][1];
 			int id = query[i][2];
 			if (winr < jobr) {
-				addLeftOffline(winl - 1, id, winr + 1, jobr, -1);
+				addLeftOffline(winl - 1, winr + 1, jobr, -1, id);
 				ans[id] += pre[jobr] - pre[winr];
 			}
 			if (winr > jobr) {
-				addLeftOffline(winl - 1, id, jobr + 1, winr, 1);
+				addLeftOffline(winl - 1, jobr + 1, winr, 1, id);
 				ans[id] -= pre[winr] - pre[jobr];
 			}
 			winr = jobr;
 			if (winl > jobl) {
-				addRightOffline(winr + 1, id, jobl, winl - 1, -1);
+				addRightOffline(winr + 1, jobl, winl - 1, -1, id);
 				ans[id] += suf[jobl] - suf[winl];
 			}
 			if (winl < jobl) {
-				addRightOffline(winr + 1, id, winl, jobl - 1, 1);
+				addRightOffline(winr + 1, winl, jobl - 1, 1, id);
 				ans[id] -= suf[winl] - suf[jobl];
 			}
 			winl = jobl;
@@ -212,7 +212,7 @@ public class Code02_OfflineInversion1 {
 				addLeftCnt(arr[i] - 1);
 			}
 			for (int q = headl[i]; q > 0; q = nextq[q]) {
-				int id = qid[q], l = ql[q], r = qr[q], op = qop[q];
+				int l = ql[q], r = qr[q], op = qop[q], id = qid[q];
 				long ret = 0;
 				for (int j = l; j <= r; j++) {
 					ret += getCnt(arr[j]);
@@ -227,7 +227,7 @@ public class Code02_OfflineInversion1 {
 				addRightCnt(arr[i] + 1);
 			}
 			for (int q = headr[i]; q > 0; q = nextq[q]) {
-				int id = qid[q], l = ql[q], r = qr[q], op = qop[q];
+				int l = ql[q], r = qr[q], op = qop[q], id = qid[q];
 				long ret = 0;
 				for (int j = l; j <= r; j++) {
 					ret += getCnt(arr[j]);

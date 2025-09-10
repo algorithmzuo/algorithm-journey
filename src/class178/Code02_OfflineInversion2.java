@@ -26,10 +26,10 @@ package class178;
 //int headl[MAXN];
 //int headr[MAXN];
 //int nextq[MAXN << 1];
-//int qid[MAXN << 1];
 //int ql[MAXN << 1];
 //int qr[MAXN << 1];
 //int qop[MAXN << 1];
+//int qid[MAXN << 1];
 //int cntq;
 //
 //int bi[MAXN];
@@ -90,22 +90,22 @@ package class178;
 //    memset(tree + 1, 0, cntv * sizeof(int));
 //}
 //
-//void addLeftOffline(int x, int id, int l, int r, int op) {
+//void addLeftOffline(int x, int l, int r, int op, int id) {
 //    nextq[++cntq] = headl[x];
 //    headl[x] = cntq;
-//    qid[cntq] = id;
 //    ql[cntq] = l;
 //    qr[cntq] = r;
 //    qop[cntq] = op;
+//    qid[cntq] = id;
 //}
 //
-//void addRightOffline(int x, int id, int l, int r, int op) {
+//void addRightOffline(int x, int l, int r, int op, int id) {
 //    nextq[++cntq] = headr[x];
 //    headr[x] = cntq;
-//    qid[cntq] = id;
 //    ql[cntq] = l;
 //    qr[cntq] = r;
 //    qop[cntq] = op;
+//    qid[cntq] = id;
 //}
 //
 //void addLeftCnt(int val) {
@@ -178,20 +178,20 @@ package class178;
 //        int jobr = query[i].r;
 //        int id = query[i].id;
 //        if (winr < jobr) {
-//            addLeftOffline(winl - 1, id, winr + 1, jobr, -1);
+//            addLeftOffline(winl - 1, winr + 1, jobr, -1, id);
 //            ans[id] += pre[jobr] - pre[winr];
 //        }
 //        if (winr > jobr) {
-//            addLeftOffline(winl - 1, id, jobr + 1, winr, 1);
+//            addLeftOffline(winl - 1, jobr + 1, winr, 1, id);
 //            ans[id] -= pre[winr] - pre[jobr];
 //        }
 //        winr = jobr;
 //        if (winl > jobl) {
-//            addRightOffline(winr + 1, id, jobl, winl - 1, -1);
+//            addRightOffline(winr + 1, jobl, winl - 1, -1, id);
 //            ans[id] += suf[jobl] - suf[winl];
 //        }
 //        if (winl < jobl) {
-//            addRightOffline(winr + 1, id, winl, jobl - 1, 1);
+//            addRightOffline(winr + 1, winl, jobl - 1, 1, id);
 //            ans[id] -= suf[winl] - suf[jobl];
 //        }
 //        winl = jobl;
@@ -201,7 +201,7 @@ package class178;
 //            addLeftCnt(arr[i] - 1);
 //        }
 //        for (int q = headl[i]; q > 0; q = nextq[q]) {
-//            int id = qid[q], l = ql[q], r = qr[q], op = qop[q];
+//            int l = ql[q], r = qr[q], op = qop[q], id = qid[q];
 //            long long ret = 0;
 //            for (int j = l; j <= r; j++) {
 //                ret += getCnt(arr[j]);
@@ -216,7 +216,7 @@ package class178;
 //            addRightCnt(arr[i] + 1);
 //        }
 //        for (int q = headr[i]; q > 0; q = nextq[q]) {
-//            int id = qid[q], l = ql[q], r = qr[q], op = qop[q];
+//            int l = ql[q], r = qr[q], op = qop[q], id = qid[q];
 //            long long ret = 0;
 //            for (int j = l; j <= r; j++) {
 //                ret += getCnt(arr[j]);
