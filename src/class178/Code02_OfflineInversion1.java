@@ -101,10 +101,6 @@ public class Code02_OfflineInversion1 {
 		return ret;
 	}
 
-	public static void clear() {
-		Arrays.fill(tree, 1, cntv + 1, 0);
-	}
-
 	public static void addLeftOffline(int x, int l, int r, int op, int id) {
 		nextq[++cntq] = headl[x];
 		headl[x] = cntq;
@@ -182,7 +178,7 @@ public class Code02_OfflineInversion1 {
 			pre[i] = pre[i - 1] + sum(cntv) - sum(arr[i]);
 			add(arr[i], 1);
 		}
-		clear();
+		Arrays.fill(tree, 1, cntv + 1, 0);
 		for (int i = n; i >= 1; i--) {
 			suf[i] = suf[i + 1] + sum(arr[i] - 1);
 			add(arr[i], 1);
