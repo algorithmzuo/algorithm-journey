@@ -44,8 +44,8 @@ package class178;
 //long long pre[MAXN];
 //long long suf[MAXN];
 //
-//long long cnt1[MAXB];
-//long long cnt2[MAXN];
+//long long blockCnt[MAXB];
+//long long innerCnt[MAXN];
 //
 //long long ans[MAXN];
 //
@@ -117,10 +117,10 @@ package class178;
 //        return;
 //    }
 //    for (int b = 1; b <= bi[val] - 1; b++) {
-//        cnt1[b]++;
+//        blockCnt[b]++;
 //    }
 //    for (int i = bl[bi[val]]; i <= val; i++) {
-//        cnt2[i]++;
+//        innerCnt[i]++;
 //    }
 //}
 //
@@ -129,15 +129,15 @@ package class178;
 //        return;
 //    }
 //    for (int b = bi[val] + 1; b <= bi[cntv]; b++) {
-//        cnt1[b]++;
+//        blockCnt[b]++;
 //    }
 //    for (int i = val; i <= br[bi[val]]; i++) {
-//        cnt2[i]++;
+//        innerCnt[i]++;
 //    }
 //}
 //
 //long long getCnt(int val) {
-//    return cnt1[bi[val]] + cnt2[val];
+//    return blockCnt[bi[val]] + innerCnt[val];
 //}
 //
 //void prepare() {
@@ -200,11 +200,11 @@ package class178;
 //        }
 //        winl = jobl;
 //    }
-//    for (int i = 0; i <= n; i++) {
-//        if (i >= 1) {
-//            addLeftCnt(arr[i] - 1);
+//    for (int x = 0; x <= n; x++) {
+//        if (x >= 1) {
+//            addLeftCnt(arr[x] - 1);
 //        }
-//        for (int q = headl[i]; q > 0; q = nextq[q]) {
+//        for (int q = headl[x]; q > 0; q = nextq[q]) {
 //            int l = ql[q], r = qr[q], op = qop[q], id = qid[q];
 //            long long ret = 0;
 //            for (int j = l; j <= r; j++) {
@@ -213,13 +213,13 @@ package class178;
 //            ans[id] += ret * op;
 //        }
 //    }
-//    memset(cnt1, 0, sizeof(cnt1));
-//    memset(cnt2, 0, sizeof(cnt2));
-//    for (int i = n + 1; i >= 1; i--) {
-//        if (i <= n) {
-//            addRightCnt(arr[i] + 1);
+//    memset(blockCnt, 0, sizeof(blockCnt));
+//    memset(innerCnt, 0, sizeof(innerCnt));
+//    for (int x = n + 1; x >= 1; x--) {
+//        if (x <= n) {
+//            addRightCnt(arr[x] + 1);
 //        }
-//        for (int q = headr[i]; q > 0; q = nextq[q]) {
+//        for (int q = headr[x]; q > 0; q = nextq[q]) {
 //            int l = ql[q], r = qr[q], op = qop[q], id = qid[q];
 //            long long ret = 0;
 //            for (int j = l; j <= r; j++) {

@@ -42,10 +42,10 @@ public class Code03_Abbi1 {
 	public static long[] treeSum = new long[MAXV + 1];
 	public static long[] pre = new long[MAXN];
 
-	public static int[] cnt1 = new int[MAXB];
-	public static int[] cnt2 = new int[MAXN];
-	public static long[] sum1 = new long[MAXB];
-	public static long[] sum2 = new long[MAXN];
+	public static int[] blockCnt = new int[MAXB];
+	public static int[] innerCnt = new int[MAXN];
+	public static long[] blockSum = new long[MAXB];
+	public static long[] innerSum = new long[MAXN];
 
 	public static long[] ans = new long[MAXN];
 
@@ -93,12 +93,12 @@ public class Code03_Abbi1 {
 			return;
 		}
 		for (int b = bi[val]; b <= bi[MAXV]; b++) {
-			cnt1[b]++;
-			sum1[b] += val;
+			blockCnt[b]++;
+			blockSum[b] += val;
 		}
 		for (int i = val; i <= br[bi[val]]; i++) {
-			cnt2[i]++;
-			sum2[i] += val;
+			innerCnt[i]++;
+			innerSum[i] += val;
 		}
 	}
 
@@ -106,14 +106,14 @@ public class Code03_Abbi1 {
 		if (x <= 0) {
 			return 0;
 		}
-		return sum1[bi[x] - 1] + sum2[x];
+		return blockSum[bi[x] - 1] + innerSum[x];
 	}
 
 	public static int getCnt(int x) {
 		if (x <= 0) {
 			return 0;
 		}
-		return cnt1[bi[x] - 1] + cnt2[x];
+		return blockCnt[bi[x] - 1] + innerCnt[x];
 	}
 
 	public static void prepare() {
@@ -163,12 +163,12 @@ public class Code03_Abbi1 {
 		}
 		long sum = 0;
 		long tmp;
-		for (int i = 0; i <= n; i++) {
-			if (i >= 1) {
-				addVal(arr[i]);
-				sum += arr[i];
+		for (int x = 0; x <= n; x++) {
+			if (x >= 1) {
+				addVal(arr[x]);
+				sum += arr[x];
 			}
-			for (int q = headq[i]; q > 0; q = nextq[q]) {
+			for (int q = headq[x]; q > 0; q = nextq[q]) {
 				int l = ql[q], r = qr[q], op = qop[q], id = qid[q];
 				for (int j = l; j <= r; j++) {
 					tmp = (long) getCnt(arr[j] - 1) * arr[j] + sum - getSum(arr[j]);

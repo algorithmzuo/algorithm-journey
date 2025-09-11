@@ -85,12 +85,12 @@ public class Code04_Gosick1 {
 	}
 
 	public static void compute() {
-		for (int i = 1, x; i <= n; i++) {
+		for (int i = 1; i <= n; i++) {
 			pre[i] = pre[i - 1];
-			x = arr[i];
-			for (int e = headf[x], f, other; e > 0; e = nextf[e]) {
+			int num = arr[i];
+			for (int e = headf[num], f, other; e > 0; e = nextf[e]) {
 				f = fac[e];
-				other = x / f;
+				other = num / f;
 				fcnt[f]++;
 				pre[i] += xcnt[f];
 				if (other != f) {
@@ -98,8 +98,8 @@ public class Code04_Gosick1 {
 					pre[i] += xcnt[other];
 				}
 			}
-			pre[i] += fcnt[x];
-			xcnt[x]++;
+			pre[i] += fcnt[num];
+			xcnt[num]++;
 		}
 		int winl = 1, winr = 0;
 		for (int i = 1; i <= m; i++) {
@@ -126,9 +126,9 @@ public class Code04_Gosick1 {
 			winl = jobl;
 		}
 		Arrays.fill(fcnt, 0);
-		for (int i = 0; i <= n; i++) {
-			if (i >= 1) {
-				int num = arr[i];
+		for (int x = 0; x <= n; x++) {
+			if (x >= 1) {
+				int num = arr[x];
 				for (int e = headf[num], f, other; e > 0; e = nextf[e]) {
 					f = fac[e];
 					other = num / f;
@@ -143,7 +143,7 @@ public class Code04_Gosick1 {
 					}
 				}
 			}
-			for (int q = headq[i]; q > 0; q = nextq[q]) {
+			for (int q = headq[x]; q > 0; q = nextq[q]) {
 				int l = ql[q], r = qr[q], op = qop[q], id = qid[q];
 				for (int j = l; j <= r; j++) {
 					ans[id] += (long) op * fcnt[arr[j]];

@@ -50,10 +50,10 @@ public class Code02_OfflineInversion1 {
 	// 后缀信息
 	public static long[] suf = new long[MAXN];
 
-	// 整块加了多少词频
-	public static long[] cnt1 = new long[MAXB];
-	// 每种值加了多少词频
-	public static long[] cnt2 = new long[MAXN];
+	// 整块增加的词频
+	public static long[] blockCnt = new long[MAXB];
+	// 块内单个数值的词频
+	public static long[] innerCnt = new long[MAXN];
 
 	public static long[] ans = new long[MAXN];
 
@@ -128,10 +128,10 @@ public class Code02_OfflineInversion1 {
 			return;
 		}
 		for (int b = 1; b <= bi[val] - 1; b++) {
-			cnt1[b]++;
+			blockCnt[b]++;
 		}
 		for (int i = bl[bi[val]]; i <= val; i++) {
-			cnt2[i]++;
+			innerCnt[i]++;
 		}
 	}
 
@@ -140,15 +140,15 @@ public class Code02_OfflineInversion1 {
 			return;
 		}
 		for (int b = bi[val] + 1; b <= bi[cntv]; b++) {
-			cnt1[b]++;
+			blockCnt[b]++;
 		}
 		for (int i = val; i <= br[bi[val]]; i++) {
-			cnt2[i]++;
+			innerCnt[i]++;
 		}
 	}
 
 	public static long getCnt(int val) {
-		return cnt1[bi[val]] + cnt2[val];
+		return blockCnt[bi[val]] + innerCnt[val];
 	}
 
 	public static void prepare() {
@@ -211,11 +211,11 @@ public class Code02_OfflineInversion1 {
 			}
 			winl = jobl;
 		}
-		for (int i = 0; i <= n; i++) {
-			if (i >= 1) {
-				addLeftCnt(arr[i] - 1);
+		for (int x = 0; x <= n; x++) {
+			if (x >= 1) {
+				addLeftCnt(arr[x] - 1);
 			}
-			for (int q = headl[i]; q > 0; q = nextq[q]) {
+			for (int q = headl[x]; q > 0; q = nextq[q]) {
 				int l = ql[q], r = qr[q], op = qop[q], id = qid[q];
 				long ret = 0;
 				for (int j = l; j <= r; j++) {
@@ -224,13 +224,13 @@ public class Code02_OfflineInversion1 {
 				ans[id] += ret * op;
 			}
 		}
-		Arrays.fill(cnt1, 0);
-		Arrays.fill(cnt2, 0);
-		for (int i = n + 1; i >= 1; i--) {
-			if (i <= n) {
-				addRightCnt(arr[i] + 1);
+		Arrays.fill(blockCnt, 0);
+		Arrays.fill(innerCnt, 0);
+		for (int x = n + 1; x >= 1; x--) {
+			if (x <= n) {
+				addRightCnt(arr[x] + 1);
 			}
-			for (int q = headr[i]; q > 0; q = nextq[q]) {
+			for (int q = headr[x]; q > 0; q = nextq[q]) {
 				int l = ql[q], r = qr[q], op = qop[q], id = qid[q];
 				long ret = 0;
 				for (int j = l; j <= r; j++) {

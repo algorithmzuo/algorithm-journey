@@ -43,10 +43,10 @@ package class178;
 //long long treeSum[MAXV + 1];
 //long long pre[MAXN];
 //
-//int cnt1[MAXB];
-//int cnt2[MAXN];
-//long long sum1[MAXB];
-//long long sum2[MAXN];
+//int blockCnt[MAXB];
+//int innerCnt[MAXN];
+//long long blockSum[MAXB];
+//long long innerSum[MAXN];
 //
 //long long ans[MAXN];
 //
@@ -91,12 +91,12 @@ package class178;
 //        return;
 //    }
 //    for (int b = bi[val]; b <= bi[MAXV]; b++) {
-//        cnt1[b]++;
-//        sum1[b] += val;
+//        blockCnt[b]++;
+//        blockSum[b] += val;
 //    }
 //    for (int i = val; i <= br[bi[val]]; i++) {
-//        cnt2[i]++;
-//        sum2[i] += val;
+//        innerCnt[i]++;
+//        innerSum[i] += val;
 //    }
 //}
 //
@@ -104,14 +104,14 @@ package class178;
 //    if (x <= 0) {
 //        return 0;
 //    }
-//    return sum1[bi[x] - 1] + sum2[x];
+//    return blockSum[bi[x] - 1] + innerSum[x];
 //}
 //
 //int getCnt(int x) {
 //    if (x <= 0) {
 //        return 0;
 //    }
-//    return cnt1[bi[x] - 1] + cnt2[x];
+//    return blockCnt[bi[x] - 1] + innerCnt[x];
 //}
 //
 //void prepare() {
@@ -161,12 +161,12 @@ package class178;
 //    }
 //    long long sum = 0;
 //    long long tmp;
-//    for (int i = 0; i <= n; i++) {
-//        if (i >= 1) {
-//            addVal(arr[i]);
-//            sum += arr[i];
+//    for (int x = 0; x <= n; x++) {
+//        if (x >= 1) {
+//            addVal(arr[x]);
+//            sum += arr[x];
 //        }
-//        for (int q = headq[i]; q > 0; q = nextq[q]) {
+//        for (int q = headq[x]; q > 0; q = nextq[q]) {
 //            int l = ql[q], r = qr[q], op = qop[q], id = qid[q];
 //            for (int j = l; j <= r; j++) {
 //                tmp = 1LL * getCnt(arr[j] - 1) * arr[j] + sum - getSum(arr[j]);

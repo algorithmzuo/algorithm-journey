@@ -134,13 +134,13 @@ package class178;
 //        winl = jobl;
 //    }
 //    memset(cnt, 0, sizeof(cnt));
-//    for (int i = 0; i <= n; i++) {
-//        if (i >= 1) {
+//    for (int x = 0; x <= n; x++) {
+//        if (x >= 1) {
 //            for (int j = 1; j <= cntk; j++) {
-//                cnt[arr[i] ^ kOneArr[j]]++;
+//                cnt[arr[x] ^ kOneArr[j]]++;
 //            }
 //        }
-//        for (int q = headl[i]; q > 0; q = nextq[q]) {
+//        for (int q = headl[x]; q > 0; q = nextq[q]) {
 //            int l = ql[q], r = qr[q], op = qop[q], id = qid[q];
 //            for (int j = l; j <= r; j++) {
 //                ans[id] += 1LL * op * cnt[arr[j]];
@@ -148,13 +148,13 @@ package class178;
 //        }
 //    }
 //    memset(cnt, 0, sizeof(cnt));
-//    for (int i = n + 1; i >= 1; i--) {
-//        if (i <= n) {
+//    for (int x = n + 1; x >= 1; x--) {
+//        if (x <= n) {
 //            for (int j = 1; j <= cntk; j++) {
-//                cnt[arr[i] ^ kOneArr[j]]++;
+//                cnt[arr[x] ^ kOneArr[j]]++;
 //            }
 //        }
-//        for (int q = headr[i]; q > 0; q = nextq[q]) {
+//        for (int q = headr[x]; q > 0; q = nextq[q]) {
 //            int l = ql[q], r = qr[q], op = qop[q], id = qid[q];
 //            for (int j = l; j <= r; j++) {
 //                ans[id] += 1LL * op * cnt[arr[j]];
