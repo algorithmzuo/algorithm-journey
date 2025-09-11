@@ -119,26 +119,22 @@ public class Code02_OfflineInversion1 {
 		qid[cntq] = id;
 	}
 
+	// 增加1 ~ val-1，这些数字的词频
 	public static void addLeftCnt(int val) {
-		if (val <= 0) {
-			return;
-		}
 		for (int b = 1; b <= bi[val] - 1; b++) {
 			blockCnt[b]++;
 		}
-		for (int i = bl[bi[val]]; i <= val; i++) {
+		for (int i = bl[bi[val]]; i < val; i++) {
 			numCnt[i]++;
 		}
 	}
 
+	// 增加val+1 ~ cntv，这些数字的词频
 	public static void addRightCnt(int val) {
-		if (val > cntv) {
-			return;
-		}
 		for (int b = bi[val] + 1; b <= bi[cntv]; b++) {
 			blockCnt[b]++;
 		}
-		for (int i = val; i <= br[bi[val]]; i++) {
+		for (int i = val + 1; i <= br[bi[val]]; i++) {
 			numCnt[i]++;
 		}
 	}
@@ -209,7 +205,7 @@ public class Code02_OfflineInversion1 {
 		}
 		for (int x = 0; x <= n; x++) {
 			if (x >= 1) {
-				addLeftCnt(arr[x] - 1);
+				addLeftCnt(arr[x]);
 			}
 			for (int q = headl[x]; q > 0; q = nextq[q]) {
 				int l = ql[q], r = qr[q], op = qop[q], id = qid[q];
@@ -224,7 +220,7 @@ public class Code02_OfflineInversion1 {
 		Arrays.fill(numCnt, 0);
 		for (int x = n + 1; x >= 1; x--) {
 			if (x <= n) {
-				addRightCnt(arr[x] + 1);
+				addRightCnt(arr[x]);
 			}
 			for (int q = headr[x]; q > 0; q = nextq[q]) {
 				int l = ql[q], r = qr[q], op = qop[q], id = qid[q];
