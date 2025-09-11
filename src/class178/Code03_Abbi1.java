@@ -26,6 +26,7 @@ public class Code03_Abbi1 {
 	public static int n, m;
 	public static int[] arr = new int[MAXN];
 	public static long[] presum = new long[MAXN];
+
 	public static int[] bi = new int[MAXN];
 	public static int[] br = new int[MAXB];
 

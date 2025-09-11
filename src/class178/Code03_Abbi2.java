@@ -23,10 +23,10 @@ package class178;
 //const int MAXN = 500001;
 //const int MAXV = 100000;
 //const int MAXB = 401;
-//
 //int n, m;
 //int arr[MAXN];
 //long long presum[MAXN];
+//
 //int bi[MAXN];
 //int br[MAXB];
 //
