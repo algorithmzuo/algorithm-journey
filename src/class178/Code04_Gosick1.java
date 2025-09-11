@@ -174,7 +174,6 @@ public class Code04_Gosick1 {
 	}
 
 	public static void main(String[] args) throws Exception {
-		System.out.println("测试");
 		FastReader in = new FastReader(System.in);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
 		n = in.nextInt();
