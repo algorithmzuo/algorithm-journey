@@ -46,6 +46,7 @@ package class178;
 //
 //int blockLessCnt[MAXB];
 //int numLessCnt[MAXN];
+//
 //long long blockMoreSum[MAXB];
 //long long numMoreSum[MAXN];
 //

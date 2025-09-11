@@ -46,6 +46,7 @@ public class Code03_Abbi1 {
 
 	public static int[] blockLessCnt = new int[MAXB];
 	public static int[] numLessCnt = new int[MAXN];
+
 	public static long[] blockMoreSum = new long[MAXB];
 	public static long[] numMoreSum = new long[MAXN];
 
