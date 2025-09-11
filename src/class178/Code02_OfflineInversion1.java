@@ -52,8 +52,8 @@ public class Code02_OfflineInversion1 {
 
 	// 整块增加的词频
 	public static long[] blockCnt = new long[MAXB];
-	// 块内单个数值的词频
-	public static long[] innerCnt = new long[MAXN];
+	// 单个数值的词频
+	public static long[] numCnt = new long[MAXN];
 
 	public static long[] ans = new long[MAXN];
 
@@ -131,7 +131,7 @@ public class Code02_OfflineInversion1 {
 			blockCnt[b]++;
 		}
 		for (int i = bl[bi[val]]; i <= val; i++) {
-			innerCnt[i]++;
+			numCnt[i]++;
 		}
 	}
 
@@ -143,12 +143,12 @@ public class Code02_OfflineInversion1 {
 			blockCnt[b]++;
 		}
 		for (int i = val; i <= br[bi[val]]; i++) {
-			innerCnt[i]++;
+			numCnt[i]++;
 		}
 	}
 
 	public static long getCnt(int val) {
-		return blockCnt[bi[val]] + innerCnt[val];
+		return blockCnt[bi[val]] + numCnt[val];
 	}
 
 	public static void prepare() {
@@ -225,7 +225,7 @@ public class Code02_OfflineInversion1 {
 			}
 		}
 		Arrays.fill(blockCnt, 0);
-		Arrays.fill(innerCnt, 0);
+		Arrays.fill(numCnt, 0);
 		for (int x = n + 1; x >= 1; x--) {
 			if (x <= n) {
 				addRightCnt(arr[x] + 1);

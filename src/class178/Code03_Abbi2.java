@@ -44,9 +44,9 @@ package class178;
 //long long pre[MAXN];
 //
 //int blockCnt[MAXB];
-//int innerCnt[MAXN];
+//int numCnt[MAXN];
 //long long blockSum[MAXB];
-//long long innerSum[MAXN];
+//long long numSum[MAXN];
 //
 //long long ans[MAXN];
 //
@@ -95,8 +95,8 @@ package class178;
 //        blockSum[b] += val;
 //    }
 //    for (int i = val; i <= br[bi[val]]; i++) {
-//        innerCnt[i]++;
-//        innerSum[i] += val;
+//        numCnt[i]++;
+//        numSum[i] += val;
 //    }
 //}
 //
@@ -104,14 +104,14 @@ package class178;
 //    if (x <= 0) {
 //        return 0;
 //    }
-//    return blockSum[bi[x] - 1] + innerSum[x];
+//    return blockSum[bi[x] - 1] + numSum[x];
 //}
 //
 //int getCnt(int x) {
 //    if (x <= 0) {
 //        return 0;
 //    }
-//    return blockCnt[bi[x] - 1] + innerCnt[x];
+//    return blockCnt[bi[x] - 1] + numCnt[x];
 //}
 //
 //void prepare() {

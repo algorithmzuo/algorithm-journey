@@ -43,9 +43,9 @@ public class Code03_Abbi1 {
 	public static long[] pre = new long[MAXN];
 
 	public static int[] blockCnt = new int[MAXB];
-	public static int[] innerCnt = new int[MAXN];
+	public static int[] numCnt = new int[MAXN];
 	public static long[] blockSum = new long[MAXB];
-	public static long[] innerSum = new long[MAXN];
+	public static long[] numSum = new long[MAXN];
 
 	public static long[] ans = new long[MAXN];
 
@@ -97,8 +97,8 @@ public class Code03_Abbi1 {
 			blockSum[b] += val;
 		}
 		for (int i = val; i <= br[bi[val]]; i++) {
-			innerCnt[i]++;
-			innerSum[i] += val;
+			numCnt[i]++;
+			numSum[i] += val;
 		}
 	}
 
@@ -106,14 +106,14 @@ public class Code03_Abbi1 {
 		if (x <= 0) {
 			return 0;
 		}
-		return blockSum[bi[x] - 1] + innerSum[x];
+		return blockSum[bi[x] - 1] + numSum[x];
 	}
 
 	public static int getCnt(int x) {
 		if (x <= 0) {
 			return 0;
 		}
-		return blockCnt[bi[x] - 1] + innerCnt[x];
+		return blockCnt[bi[x] - 1] + numCnt[x];
 	}
 
 	public static void prepare() {

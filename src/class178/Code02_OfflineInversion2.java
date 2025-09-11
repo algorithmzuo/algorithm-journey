@@ -45,7 +45,7 @@ package class178;
 //long long suf[MAXN];
 //
 //long long blockCnt[MAXB];
-//long long innerCnt[MAXN];
+//long long numCnt[MAXN];
 //
 //long long ans[MAXN];
 //
@@ -120,7 +120,7 @@ package class178;
 //        blockCnt[b]++;
 //    }
 //    for (int i = bl[bi[val]]; i <= val; i++) {
-//        innerCnt[i]++;
+//        numCnt[i]++;
 //    }
 //}
 //
@@ -132,12 +132,12 @@ package class178;
 //        blockCnt[b]++;
 //    }
 //    for (int i = val; i <= br[bi[val]]; i++) {
-//        innerCnt[i]++;
+//        numCnt[i]++;
 //    }
 //}
 //
 //long long getCnt(int val) {
-//    return blockCnt[bi[val]] + innerCnt[val];
+//    return blockCnt[bi[val]] + numCnt[val];
 //}
 //
 //void prepare() {
@@ -214,7 +214,7 @@ package class178;
 //        }
 //    }
 //    memset(blockCnt, 0, sizeof(blockCnt));
-//    memset(innerCnt, 0, sizeof(innerCnt));
+//    memset(numCnt, 0, sizeof(numCnt));
 //    for (int x = n + 1; x >= 1; x--) {
 //        if (x <= n) {
 //            addRightCnt(arr[x] + 1);
