@@ -25,9 +25,10 @@ package class178;
 //const int MAXB = 401;
 //int n, m;
 //int arr[MAXN];
-//long long presum[MAXN];
+//long long preSum[MAXN];
 //
 //int bi[MAXN];
+//int bl[MAXB];
 //int br[MAXB];
 //
 //Query query[MAXN];
@@ -43,10 +44,10 @@ package class178;
 //long long treeSum[MAXV + 1];
 //long long pre[MAXN];
 //
-//int blockCnt[MAXB];
-//int numCnt[MAXN];
-//long long blockSum[MAXB];
-//long long numSum[MAXN];
+//int blockLessCnt[MAXB];
+//int numLessCnt[MAXN];
+//long long blockMoreSum[MAXB];
+//long long numMoreSum[MAXN];
 //
 //long long ans[MAXN];
 //
@@ -87,44 +88,40 @@ package class178;
 //}
 //
 //void addVal(int val) {
-//    if (val <= 0) {
-//        return;
+//    for (int b = bi[val] + 1; b <= bi[MAXV]; b++) {
+//        blockLessCnt[b]++;
 //    }
-//    for (int b = bi[val]; b <= bi[MAXV]; b++) {
-//        blockCnt[b]++;
-//        blockSum[b] += val;
+//    for (int i = val + 1; i <= br[bi[val]]; i++) {
+//        numLessCnt[i]++;
 //    }
-//    for (int i = val; i <= br[bi[val]]; i++) {
-//        numCnt[i]++;
-//        numSum[i] += val;
+//    for (int b = 1; b <= bi[val] - 1; b++) {
+//        blockMoreSum[b] += val;
+//    }
+//    for (int i = bl[bi[val]]; i < val; i++) {
+//        numMoreSum[i] += val;
 //    }
 //}
 //
-//long long getSum(int x) {
-//    if (x <= 0) {
-//        return 0;
-//    }
-//    return blockSum[bi[x] - 1] + numSum[x];
+//int lessCnt(int x) {
+//    return blockLessCnt[bi[x]] + numLessCnt[x];
 //}
 //
-//int getCnt(int x) {
-//    if (x <= 0) {
-//        return 0;
-//    }
-//    return blockCnt[bi[x] - 1] + numCnt[x];
+//long long moreSum(int x) {
+//    return blockMoreSum[bi[x]] + numMoreSum[x];
 //}
 //
 //void prepare() {
 //    for (int i = 1; i <= n; i++) {
-//        presum[i] = presum[i - 1] + arr[i];
+//        preSum[i] = preSum[i - 1] + arr[i];
 //    }
 //    int blen = (int)sqrt(MAXV);
 //    int bnum = (MAXV + blen - 1) / blen;
 //    for (int i = 1; i <= MAXV; i++) {
 //        bi[i] = (i - 1) / blen + 1;
 //    }
-//    for (int b = 1; b <= bnum; b++) {
-//        br[b] = min(b * blen, MAXV);
+//    for (int i = 1; i <= bnum; i++) {
+//        bl[i] = (i - 1) * blen + 1;
+//        br[i] = min(i * blen, MAXV);
 //    }
 //    sort(query + 1, query + m + 1, QueryCmp);
 //}
@@ -159,17 +156,15 @@ package class178;
 //        }
 //        winl = jobl;
 //    }
-//    long long sum = 0;
 //    long long tmp;
 //    for (int x = 0; x <= n; x++) {
 //        if (x >= 1) {
 //            addVal(arr[x]);
-//            sum += arr[x];
 //        }
 //        for (int q = headq[x]; q > 0; q = nextq[q]) {
 //            int l = ql[q], r = qr[q], op = qop[q], id = qid[q];
 //            for (int j = l; j <= r; j++) {
-//                tmp = 1LL * getCnt(arr[j] - 1) * arr[j] + sum - getSum(arr[j]);
+//                tmp = 1LL * lessCnt(arr[j]) * arr[j] + moreSum(arr[j]);
 //                if (op == 1) {
 //                    ans[id] += tmp;
 //                } else {
@@ -197,7 +192,7 @@ package class178;
 //        ans[query[i].id] += ans[query[i - 1].id];
 //    }
 //    for (int i = 1; i <= m; i++) {
-//        ans[query[i].id] += presum[query[i].r] - presum[query[i].l - 1];
+//        ans[query[i].id] += preSum[query[i].r] - preSum[query[i].l - 1];
 //    }
 //    for (int i = 1; i <= m; i++) {
 //        cout << ans[i] << '\n';

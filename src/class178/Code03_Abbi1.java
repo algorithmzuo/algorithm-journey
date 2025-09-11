@@ -25,9 +25,10 @@ public class Code03_Abbi1 {
 	public static int MAXB = 401;
 	public static int n, m;
 	public static int[] arr = new int[MAXN];
-	public static long[] presum = new long[MAXN];
+	public static long[] preSum = new long[MAXN];
 
 	public static int[] bi = new int[MAXN];
+	public static int[] bl = new int[MAXB];
 	public static int[] br = new int[MAXB];
 
 	public static int[][] query = new int[MAXN][3];
@@ -43,10 +44,10 @@ public class Code03_Abbi1 {
 	public static long[] treeSum = new long[MAXV + 1];
 	public static long[] pre = new long[MAXN];
 
-	public static int[] blockCnt = new int[MAXB];
-	public static int[] numCnt = new int[MAXN];
-	public static long[] blockSum = new long[MAXB];
-	public static long[] numSum = new long[MAXN];
+	public static int[] blockLessCnt = new int[MAXB];
+	public static int[] numLessCnt = new int[MAXN];
+	public static long[] blockMoreSum = new long[MAXB];
+	public static long[] numMoreSum = new long[MAXN];
 
 	public static long[] ans = new long[MAXN];
 
@@ -90,44 +91,40 @@ public class Code03_Abbi1 {
 	}
 
 	public static void addVal(int val) {
-		if (val <= 0) {
-			return;
+		for (int b = bi[val] + 1; b <= bi[MAXV]; b++) {
+			blockLessCnt[b]++;
 		}
-		for (int b = bi[val]; b <= bi[MAXV]; b++) {
-			blockCnt[b]++;
-			blockSum[b] += val;
+		for (int i = val + 1; i <= br[bi[val]]; i++) {
+			numLessCnt[i]++;
 		}
-		for (int i = val; i <= br[bi[val]]; i++) {
-			numCnt[i]++;
-			numSum[i] += val;
+		for (int b = 1; b <= bi[val] - 1; b++) {
+			blockMoreSum[b] += val;
+		}
+		for (int i = bl[bi[val]]; i < val; i++) {
+			numMoreSum[i] += val;
 		}
 	}
 
-	public static long getSum(int x) {
-		if (x <= 0) {
-			return 0;
-		}
-		return blockSum[bi[x] - 1] + numSum[x];
+	public static int lessCnt(int x) {
+		return blockLessCnt[bi[x]] + numLessCnt[x];
 	}
 
-	public static int getCnt(int x) {
-		if (x <= 0) {
-			return 0;
-		}
-		return blockCnt[bi[x] - 1] + numCnt[x];
+	public static long moreSum(int x) {
+		return blockMoreSum[bi[x]] + numMoreSum[x];
 	}
 
 	public static void prepare() {
 		for (int i = 1; i <= n; i++) {
-			presum[i] = presum[i - 1] + arr[i];
+			preSum[i] = preSum[i - 1] + arr[i];
 		}
 		int blen = (int) Math.sqrt(MAXV);
 		int bnum = (MAXV + blen - 1) / blen;
 		for (int i = 1; i <= MAXV; i++) {
 			bi[i] = (i - 1) / blen + 1;
 		}
-		for (int b = 1; b <= bnum; b++) {
-			br[b] = Math.min(b * blen, MAXV);
+		for (int i = 1; i <= bnum; i++) {
+			bl[i] = (i - 1) * blen + 1;
+			br[i] = Math.min(i * blen, MAXV);
 		}
 		Arrays.sort(query, 1, m + 1, new QueryCmp());
 	}
@@ -162,17 +159,15 @@ public class Code03_Abbi1 {
 			}
 			winl = jobl;
 		}
-		long sum = 0;
 		long tmp;
 		for (int x = 0; x <= n; x++) {
 			if (x >= 1) {
 				addVal(arr[x]);
-				sum += arr[x];
 			}
 			for (int q = headq[x]; q > 0; q = nextq[q]) {
 				int l = ql[q], r = qr[q], op = qop[q], id = qid[q];
 				for (int j = l; j <= r; j++) {
-					tmp = (long) getCnt(arr[j] - 1) * arr[j] + sum - getSum(arr[j]);
+					tmp = (long) lessCnt(arr[j]) * arr[j] + moreSum(arr[j]);
 					if (op == 1) {
 						ans[id] += tmp;
 					} else {
@@ -198,11 +193,13 @@ public class Code03_Abbi1 {
 		}
 		prepare();
 		compute();
+		// 加工前缀和
 		for (int i = 2; i <= m; i++) {
 			ans[query[i][2]] += ans[query[i - 1][2]];
 		}
+		// 贡献是修正过的概念，现在补偿回来
 		for (int i = 1; i <= m; i++) {
-			ans[query[i][2]] += presum[query[i][1]] - presum[query[i][0] - 1];
+			ans[query[i][2]] += preSum[query[i][1]] - preSum[query[i][0] - 1];
 		}
 		for (int i = 1; i <= m; i++) {
 			out.println(ans[i]);
