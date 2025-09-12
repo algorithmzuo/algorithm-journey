@@ -126,6 +126,7 @@ public class Code04_Gosick1 {
 			}
 			winl = jobl;
 		}
+		// 二次离线阶段，fcnt[v]表示v这个数字获得的，因子的数量 + 倍数的数量
 		Arrays.fill(fcnt, 0);
 		for (int x = 0; x <= n; x++) {
 			if (x >= 1) {
