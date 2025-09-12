@@ -27,10 +27,12 @@ public class Code03_Abbi1 {
 	public static int[] arr = new int[MAXN];
 	public static long[] preSum = new long[MAXN];
 
+	// 序列分块 + 值域分块
 	public static int[] bi = new int[MAXN];
 	public static int[] bl = new int[MAXB];
 	public static int[] br = new int[MAXB];
 
+	// 莫队任务 + 二次离线任务(x, l, r, op)
 	public static int[][] query = new int[MAXN][3];
 	public static int[] headq = new int[MAXN];
 	public static int[] nextq = new int[MAXN << 1];
@@ -40,13 +42,18 @@ public class Code03_Abbi1 {
 	public static int[] qid = new int[MAXN << 1];
 	public static int cntq;
 
+	// 值域树状数组，统计<x的个数
 	public static long[] treeCnt = new long[MAXV + 1];
+	// 值域树状数组，统计>x所有数的累加和
 	public static long[] treeSum = new long[MAXV + 1];
+	// 前缀信息
 	public static long[] pre = new long[MAXN];
 
+	// 值域分块，统计<x的个数
 	public static int[] blockLessCnt = new int[MAXB];
 	public static int[] numLessCnt = new int[MAXN];
 
+	// 值域分块，统计>x所有数的累加和
 	public static long[] blockMoreSum = new long[MAXB];
 	public static long[] numMoreSum = new long[MAXN];
 
@@ -91,6 +98,7 @@ public class Code03_Abbi1 {
 		return ret;
 	}
 
+	// 执行二次离线的过程中，加入数字val，修改相关信息
 	public static void addVal(int val) {
 		for (int b = bi[val] + 1; b <= bi[MAXV]; b++) {
 			blockLessCnt[b]++;
@@ -106,10 +114,12 @@ public class Code03_Abbi1 {
 		}
 	}
 
+	// 查询<x的个数
 	public static int lessCnt(int x) {
 		return blockLessCnt[bi[x]] + numLessCnt[x];
 	}
 
+	// 查询>x的所有数累加和
 	public static long moreSum(int x) {
 		return blockMoreSum[bi[x]] + numMoreSum[x];
 	}
