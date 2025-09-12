@@ -2,10 +2,11 @@ package class178;
 
 // 区间倍数二元组，java版
 // 给定一个长度为n的数组arr，下面给出倍数二元组的定义
-// 位置二元组(i, j)，i和j可以相同，并且arr[i]是arr[j]的倍数(>=1倍)
-// 当i != j时，(i, j)和(j, i)认为是不同的二元组
+// 如果arr[i]是arr[j]的倍数(>=1倍)，那么(i, j)就是一个倍数二元组
+// 当i != j时，(i, j)和(j, i)认为是不同的二元组，不要漏算
+// 当i == j时，(i, j)和(j, i)认为是相同的二元组，不要多算
+// 比如[2, 4, 2, 6]，有10个倍数二元组
 // 一共有m条查询，格式为 l r : 打印arr[l..r]范围上，有多少倍数二元组
-// 比如，[1, 1, 4, 5]有10个倍数二元组
 // 1 <= n、m、arr[i] <= 5 * 10^5
 // 测试链接 : https://www.luogu.com.cn/problem/P5398
 // 提交以下的code，提交时请把类名改成"Main"
@@ -29,12 +30,16 @@ public class Code04_Gosick1 {
 	public static int[] arr = new int[MAXN];
 	public static int[] bi = new int[MAXN];
 
+	// 每个数的因子表，用链式前向星表达
 	public static int[] headf = new int[MAXN];
 	public static int[] nextf = new int[MAXF];
 	public static int[] fac = new int[MAXF];
 	public static int cntf;
 
+	// 莫队任务
 	public static int[][] query = new int[MAXN][3];
+
+	// 二次离线的任务，也是链式前向星
 	public static int[] headq = new int[MAXN];
 	public static int[] nextq = new int[MAXN << 1];
 	public static int[] qx = new int[MAXN << 1];
@@ -44,15 +49,12 @@ public class Code04_Gosick1 {
 	public static int[] qid = new int[MAXN << 1];
 	public static int cntq;
 
-	// 每个数分解出的因子v，都会让fcnt[v]增加计数
-	public static int[] fcnt = new int[MAXN];
-	// 每个数x，都会让xcnt[x]增加计数
+	// xcnt[v] = 之前出现的数中，有多少数是此时数字v的倍数
 	public static int[] xcnt = new int[MAXN];
+	// vcnt[v] = 之前出现的数中，数字v出现了多少次
+	public static int[] vcnt = new int[MAXN];
 	// 前缀信息
 	public static long[] pre = new long[MAXN];
-
-	public static int[] cnt1 = new int[MAXN];
-	public static int[] cnt2 = new int[MAXN];
 
 	public static long[] ans = new long[MAXN];
 
@@ -89,23 +91,21 @@ public class Code04_Gosick1 {
 	}
 
 	public static void compute() {
-		// 单点贡献 = (之前数, 当前数) + (当前数，之前数) + (当前数，当前数)算1次
-		// 然后把每一步的单点贡献，生成前缀和数组pre
 		for (int i = 1; i <= n; i++) {
-			pre[i] = pre[i - 1];
 			int num = arr[i];
+			pre[i] = pre[i - 1];
+			pre[i] += xcnt[num];
 			for (int e = headf[num], f, other; e > 0; e = nextf[e]) {
 				f = fac[e];
 				other = num / f;
-				fcnt[f]++;
-				pre[i] += xcnt[f];
+				xcnt[f]++;
+				pre[i] += vcnt[f];
 				if (other != f) {
-					fcnt[other]++;
-					pre[i] += xcnt[other];
+					xcnt[other]++;
+					pre[i] += vcnt[other];
 				}
 			}
-			pre[i] += fcnt[num];
-			xcnt[num]++;
+			vcnt[num]++;
 		}
 		int winl = 1, winr = 0;
 		for (int i = 1; i <= m; i++) {
@@ -121,51 +121,55 @@ public class Code04_Gosick1 {
 				ans[id] -= pre[winr] - pre[jobr];
 			}
 			winr = jobr;
+			// 接下来是winl滑动
+			// 课上重点图解了，需要考虑 (2 * 滑动窗口长度) 的修正
 			if (winl > jobl) {
 				addOffline(winr, jobl, winl - 1, 1, id);
-				ans[id] -= pre[winl - 1] - pre[jobl - 1];
+				ans[id] -= pre[winl - 1] - pre[jobl - 1] + 2 * (winl - jobl);
 			}
 			if (winl < jobl) {
 				addOffline(winr, winl, jobl - 1, -1, id);
-				ans[id] += pre[jobl - 1] - pre[winl - 1];
+				ans[id] += pre[jobl - 1] - pre[winl - 1] + 2 * (jobl - winl);
 			}
 			winl = jobl;
 		}
-		// 二次离线阶段，fcnt[v]表示v这个数字获得的，因子的数量 + 倍数的数量
-		Arrays.fill(fcnt, 0);
+		// 接下来的过程，v的(因子的数量 + 倍数的数量)，都计入xcnt[v]
+		Arrays.fill(xcnt, 0);
 		for (int x = 0; x <= n; x++) {
 			if (x >= 1) {
 				int num = arr[x];
 				for (int e = headf[num], f, other; e > 0; e = nextf[e]) {
 					f = fac[e];
 					other = num / f;
-					fcnt[f]++;
+					xcnt[f]++;
 					if (other != f) {
-						fcnt[other]++;
+						xcnt[other]++;
 					}
 				}
+				// 只关心大于LIMIT值的num，去关心num的倍数能否得到计数
 				if (num > LIMIT) {
 					for (int v = num; v <= maxv; v += num) {
-						fcnt[v]++;
+						xcnt[v]++;
 					}
 				}
 			}
 			for (int q = headq[x]; q > 0; q = nextq[q]) {
 				int l = ql[q], r = qr[q], op = qop[q], id = qid[q];
 				for (int j = l; j <= r; j++) {
-					ans[id] += (long) op * fcnt[arr[j]];
+					ans[id] += (long) op * xcnt[arr[j]];
 				}
 			}
 		}
+		// 1 ~ LIMIT 这些值的倍数之前是忽略的，现在计算，复用vcnt和xcnt
 		for (int v = 1; v <= LIMIT; v++) {
-			cnt1[0] = cnt2[0] = 0;
+			vcnt[0] = xcnt[0] = 0;
 			for (int i = 1; i <= n; i++) {
-				cnt1[i] = cnt1[i - 1] + (arr[i] == v ? 1 : 0);
-				cnt2[i] = cnt2[i - 1] + (arr[i] % v == 0 ? 1 : 0);
+				vcnt[i] = vcnt[i - 1] + (arr[i] == v ? 1 : 0);
+				xcnt[i] = xcnt[i - 1] + (arr[i] % v == 0 ? 1 : 0);
 			}
 			for (int i = 1; i <= cntq; i++) {
 				int x = qx[i], l = ql[i], r = qr[i], op = qop[i], id = qid[i];
-				ans[id] += (long) op * cnt1[x] * (cnt2[r] - cnt2[l - 1]);
+				ans[id] += (long) op * vcnt[x] * (xcnt[r] - xcnt[l - 1]);
 			}
 		}
 	}
@@ -195,8 +199,13 @@ public class Code04_Gosick1 {
 		}
 		prepare();
 		compute();
+		// 加工前缀和
 		for (int i = 2; i <= m; i++) {
 			ans[query[i][2]] += ans[query[i - 1][2]];
+		}
+		// 贡献是重新定义的，答案需要补偿回来
+		for (int i = 1; i <= m; i++) {
+			ans[query[i][2]] += query[i][1] - query[i][0] + 1;
 		}
 		for (int i = 1; i <= m; i++) {
 			out.println(ans[i]);

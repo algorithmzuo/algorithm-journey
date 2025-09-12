@@ -2,10 +2,11 @@ package class178;
 
 // 区间倍数二元组，C++版
 // 给定一个长度为n的数组arr，下面给出倍数二元组的定义
-// 位置二元组(i, j)，i和j可以相同，并且arr[i]是arr[j]的倍数(>=1倍)
-// 当i != j时，(i, j)和(j, i)认为是不同的二元组
+// 如果arr[i]是arr[j]的倍数(>=1倍)，那么(i, j)就是一个倍数二元组
+// 当i != j时，(i, j)和(j, i)认为是不同的二元组，不要漏算
+// 当i == j时，(i, j)和(j, i)认为是相同的二元组，不要多算
+// 比如[2, 4, 2, 6]，有10个倍数二元组
 // 一共有m条查询，格式为 l r : 打印arr[l..r]范围上，有多少倍数二元组
-// 比如，[1, 1, 4, 5]有10个倍数二元组
 // 1 <= n、m、arr[i] <= 5 * 10^5
 // 测试链接 : https://www.luogu.com.cn/problem/P5398
 // 如下实现是C++的版本，C++版本和java版本逻辑完全一样
@@ -22,7 +23,6 @@ package class178;
 //const int MAXN = 500001;
 //const int MAXF = 5000001;
 //const int LIMIT = 100;
-//
 //int n, m, maxv;
 //int arr[MAXN];
 //int bi[MAXN];
@@ -42,12 +42,9 @@ package class178;
 //int qid[MAXN << 1];
 //int cntq;
 //
-//int fcnt[MAXN];
 //int xcnt[MAXN];
+//int vcnt[MAXN];
 //long long pre[MAXN];
-//
-//int cnt1[MAXN];
-//int cnt2[MAXN];
 //
 //long long ans[MAXN];
 //
@@ -82,20 +79,20 @@ package class178;
 //
 //void compute() {
 //    for (int i = 1; i <= n; i++) {
-//        pre[i] = pre[i - 1];
 //        int num = arr[i];
+//        pre[i] = pre[i - 1];
+//        pre[i] += xcnt[num];
 //        for (int e = headf[num], f, other; e > 0; e = nextf[e]) {
 //            f = fac[e];
 //            other = num / f;
-//            fcnt[f]++;
-//            pre[i] += xcnt[f];
+//            xcnt[f]++;
+//            pre[i] += vcnt[f];
 //            if (other != f) {
-//                fcnt[other]++;
-//                pre[i] += xcnt[other];
+//                xcnt[other]++;
+//                pre[i] += vcnt[other];
 //            }
 //        }
-//        pre[i] += fcnt[num];
-//        xcnt[num]++;
+//        vcnt[num]++;
 //    }
 //    int winl = 1, winr = 0;
 //    for (int i = 1; i <= m; i++) {
@@ -113,49 +110,48 @@ package class178;
 //        winr = jobr;
 //        if (winl > jobl) {
 //            addOffline(winr, jobl, winl - 1, 1, id);
-//            ans[id] -= pre[winl - 1] - pre[jobl - 1];
+//            ans[id] -= pre[winl - 1] - pre[jobl - 1] + 2 * (winl - jobl);
 //        }
 //        if (winl < jobl) {
 //            addOffline(winr, winl, jobl - 1, -1, id);
-//            ans[id] += pre[jobl - 1] - pre[winl - 1];
+//            ans[id] += pre[jobl - 1] - pre[winl - 1] + 2 * (jobl - winl);
 //        }
 //        winl = jobl;
 //    }
-//    memset(fcnt, 0, sizeof(fcnt));
+//    memset(xcnt, 0, sizeof(xcnt));
 //    for (int x = 0; x <= n; x++) {
 //        if (x >= 1) {
 //            int num = arr[x];
 //            for (int e = headf[num], f, other; e > 0; e = nextf[e]) {
 //                f = fac[e];
 //                other = num / f;
-//                fcnt[f]++;
+//                xcnt[f]++;
 //                if (other != f) {
-//                    fcnt[other]++;
+//                    xcnt[other]++;
 //                }
 //            }
 //            if (num > LIMIT) {
 //                for (int v = num; v <= maxv; v += num) {
-//                    fcnt[v]++;
+//                    xcnt[v]++;
 //                }
 //            }
 //        }
 //        for (int q = headq[x]; q > 0; q = nextq[q]) {
 //            int l = ql[q], r = qr[q], op = qop[q], id = qid[q];
 //            for (int j = l; j <= r; j++) {
-//                ans[id] += 1LL * op * fcnt[arr[j]];
+//                ans[id] += 1LL * op * xcnt[arr[j]];
 //            }
 //        }
 //    }
 //    for (int v = 1; v <= LIMIT; v++) {
-//        cnt1[0] = 0;
-//        cnt2[0] = 0;
+//        vcnt[0] = xcnt[0] = 0;
 //        for (int i = 1; i <= n; i++) {
-//            cnt1[i] = cnt1[i - 1] + (arr[i] == v ? 1 : 0);
-//            cnt2[i] = cnt2[i - 1] + (arr[i] % v == 0 ? 1 : 0);
+//            vcnt[i] = vcnt[i - 1] + (arr[i] == v ? 1 : 0);
+//            xcnt[i] = xcnt[i - 1] + (arr[i] % v == 0 ? 1 : 0);
 //        }
 //        for(int i = 1; i <= cntq; i++) {
 //             int x = qx[i], l = ql[i], r = qr[i], op = qop[i], id = qid[i];
-//             ans[id] += 1LL * op * cnt1[x] * (cnt2[r] - cnt2[l - 1]);
+//             ans[id] += 1LL * op * vcnt[x] * (xcnt[r] - xcnt[l - 1]);
 //        }
 //    }
 //}
@@ -185,6 +181,9 @@ package class178;
 //    compute();
 //    for (int i = 2; i <= m; i++) {
 //        ans[query[i].id] += ans[query[i - 1].id];
+//    }
+//    for (int i = 1; i <= m; i++) {
+//        ans[query[i].id] += query[i].r - query[i].l + 1;
 //    }
 //    for (int i = 1; i <= m; i++) {
 //        cout << ans[i] << '\n';
