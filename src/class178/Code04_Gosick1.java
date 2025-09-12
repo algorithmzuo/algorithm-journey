@@ -107,6 +107,7 @@ public class Code04_Gosick1 {
 			}
 			vcnt[num]++;
 		}
+		// 第一次离线，执行莫队
 		int winl = 1, winr = 0;
 		for (int i = 1; i <= m; i++) {
 			int jobl = query[i][0];
@@ -133,7 +134,7 @@ public class Code04_Gosick1 {
 			}
 			winl = jobl;
 		}
-		// 接下来的过程，v的(因子的数量 + 倍数的数量)，都计入xcnt[v]
+		// 第二次离线，因子的数量 + 部分num倍数的数量，都计入xcnt[v]
 		Arrays.fill(xcnt, 0);
 		for (int x = 0; x <= n; x++) {
 			if (x >= 1) {
@@ -160,7 +161,7 @@ public class Code04_Gosick1 {
 				}
 			}
 		}
-		// 1 ~ LIMIT 这些值的倍数之前是忽略的，现在计算，复用vcnt和xcnt
+		// 第三次离线，1 ~ LIMIT 这些值的倍数之前是忽略的，复用vcnt和xcnt
 		for (int v = 1; v <= LIMIT; v++) {
 			vcnt[0] = xcnt[0] = 0;
 			for (int i = 1; i <= n; i++) {
