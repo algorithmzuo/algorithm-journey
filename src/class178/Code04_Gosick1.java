@@ -44,8 +44,11 @@ public class Code04_Gosick1 {
 	public static int[] qid = new int[MAXN << 1];
 	public static int cntq;
 
+	// 每个数分解出的因子v，都会让fcnt[v]增加计数
 	public static int[] fcnt = new int[MAXN];
+	// 每个数x，都会让xcnt[x]增加计数
 	public static int[] xcnt = new int[MAXN];
+	// 前缀信息
 	public static long[] pre = new long[MAXN];
 
 	public static int[] cnt1 = new int[MAXN];
@@ -86,6 +89,8 @@ public class Code04_Gosick1 {
 	}
 
 	public static void compute() {
+		// 单点贡献 = (之前数, 当前数) + (当前数，之前数) + (当前数，当前数)算1次
+		// 然后把每一步的单点贡献，生成前缀和数组pre
 		for (int i = 1; i <= n; i++) {
 			pre[i] = pre[i - 1];
 			int num = arr[i];
