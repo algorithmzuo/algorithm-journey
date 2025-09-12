@@ -122,7 +122,7 @@ public class Code04_Gosick1 {
 			}
 			winr = jobr;
 			// 接下来是winl滑动
-			// 课上重点图解了，需要考虑 (2 * 滑动窗口长度) 的修正
+			// 课上重点图解了，需要考虑 (2 * 滑动长度) 的修正
 			if (winl > jobl) {
 				addOffline(winr, jobl, winl - 1, 1, id);
 				ans[id] -= pre[winl - 1] - pre[jobl - 1] + 2 * (winl - jobl);
