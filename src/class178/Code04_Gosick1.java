@@ -24,7 +24,7 @@ public class Code04_Gosick1 {
 
 	public static int MAXN = 500001;
 	public static int MAXF = 5000001;
-	public static int LIMIT = 80;
+	public static int LIMIT = 100;
 	public static int n, m, maxv;
 	public static int[] arr = new int[MAXN];
 	public static int[] bi = new int[MAXN];

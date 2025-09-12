@@ -21,7 +21,7 @@ package class178;
 //
 //const int MAXN = 500001;
 //const int MAXF = 5000001;
-//const int LIMIT = 80;
+//const int LIMIT = 100;
 //
 //int n, m, maxv;
 //int arr[MAXN];
