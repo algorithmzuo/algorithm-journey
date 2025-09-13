@@ -134,7 +134,7 @@ public class Code04_Gosick1 {
 			}
 			winl = jobl;
 		}
-		// 第二次离线，因子的数量 + 部分num倍数的数量，都计入xcnt[v]
+		// 第二次离线，num倍数的数量 + num一部分因子的数量，都计入xcnt[num]
 		Arrays.fill(xcnt, 0);
 		for (int x = 0; x <= n; x++) {
 			if (x >= 1) {
@@ -147,7 +147,7 @@ public class Code04_Gosick1 {
 						xcnt[other]++;
 					}
 				}
-				// 只关心大于LIMIT值的num，去关心num的倍数能否得到计数
+				// 只处理大于LIMIT值的num
 				if (num > LIMIT) {
 					for (int v = num; v <= maxv; v += num) {
 						xcnt[v]++;
@@ -161,8 +161,11 @@ public class Code04_Gosick1 {
 				}
 			}
 		}
-		// 第三次离线，1 ~ LIMIT 这些值的倍数之前是忽略的，复用vcnt和xcnt
+		// 第三次离线，1 ~ LIMIT 这些因子是少算了的，如今补回来
 		for (int v = 1; v <= LIMIT; v++) {
+			// 复用vcnt和xcnt
+			// vcnt[i]，当前表示，1~i范围上，v出现的次数
+			// xcnt[i]，当前表示，1~i范围上，v的倍数出现的次数
 			vcnt[0] = xcnt[0] = 0;
 			for (int i = 1; i <= n; i++) {
 				vcnt[i] = vcnt[i - 1] + (arr[i] == v ? 1 : 0);
@@ -200,7 +203,7 @@ public class Code04_Gosick1 {
 		}
 		prepare();
 		compute();
-		// 加工前缀和
+		// 答案变化量生成前缀和
 		for (int i = 2; i <= m; i++) {
 			ans[query[i][2]] += ans[query[i - 1][2]];
 		}
