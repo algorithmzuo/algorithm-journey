@@ -53,7 +53,9 @@ public class Code01_QueryMatch1 {
 
 	public static void build(int l, int r, int i) {
 		if (l == r) {
+			match[i] = 0;
 			resta[i] = 1;
+			overb[i] = 0;
 		} else {
 			int mid = (l + r) >> 1;
 			build(l, mid, i << 1);
@@ -65,9 +67,9 @@ public class Code01_QueryMatch1 {
 	public static void add(int jobv, int l, int r, int i) {
 		if (l == r) {
 			if (resta[i] == 1) {
-				resta[i] = 0;
 				match[i] = 1;
-			} else if (resta[i] == 0) {
+				resta[i] = 0;
+			} else {
 				overb[i]++;
 			}
 		} else {
@@ -88,8 +90,6 @@ public class Code01_QueryMatch1 {
 				resta[i] = 1;
 			} else {
 				overb[i]--;
-				match[i] = 1;
-				resta[i] = 0;
 			}
 		} else {
 			int mid = (l + r) >> 1;
