@@ -48,9 +48,9 @@ public class Code02_SimpleQuery1 {
 		query[cntq][3] = id;
 	}
 
-	// 注意win1和win2不代表一段区间，而是代表arr中的两个覆盖区域
-	// win1 = 0，win2 = 0，表示两个覆盖区域一开始都没有数字
-	// 同理job1和job2也不代表区间，而是代表两个区域在arr中各自覆盖多大
+	// 注意win1和win2不代表一段区间，而是代表两个独立的区域，各自覆盖arr
+	// 初始时，win1 = 0，win2 = 0，表示两个覆盖区域一开始都没有数字
+	// 同理job1和job2也不代表区间，而是代表这两个区域各自覆盖多大
 	public static void compute() {
 		int win1 = 0, win2 = 0;
 		for (int i = 1; i <= cntq; i++) {
