@@ -11,7 +11,7 @@ import java.io.PrintWriter;
 import java.util.Arrays;
 import java.util.Comparator;
 
-public class Code01_QueryMatch1 {
+public class Code01_MaximumMatch1 {
 
 	public static int MAXN = 152502;
 	public static int MAXM = 52502;
