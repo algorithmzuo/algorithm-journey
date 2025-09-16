@@ -16,22 +16,16 @@ public class Code02_SimpleQuery1 {
 	public static int MAXN = 50001;
 	public static int n, m, cntq;
 	public static int[] arr = new int[MAXN];
+
 	// siz1、siz2、op、id
 	public static int[][] query = new int[MAXN << 2][4];
 
 	public static int[] bi = new int[MAXN];
-	public static int[] cntl = new int[MAXN];
-	public static int[] cntr = new int[MAXN];
+	public static int[] cnt1 = new int[MAXN];
+	public static int[] cnt2 = new int[MAXN];
 
 	public static long sum = 0;
 	public static long[] ans = new long[MAXN];
-
-	public static void addQuery(int siz1, int siz2, int op, int id) {
-		query[++cntq][0] = siz1;
-		query[cntq][1] = siz2;
-		query[cntq][2] = op;
-		query[cntq][3] = id;
-	}
 
 	public static class QueryCmp implements Comparator<int[]> {
 		@Override
@@ -47,12 +41,17 @@ public class Code02_SimpleQuery1 {
 		}
 	}
 
+	public static void addQuery(int siz1, int siz2, int op, int id) {
+		query[++cntq][0] = siz1;
+		query[cntq][1] = siz2;
+		query[cntq][2] = op;
+		query[cntq][3] = id;
+	}
+
 	public static void compute() {
-		// 注意win1和win2
-		// 不代表普通莫队中，一前一后的一段区间
-		// 代表的是arr中两个覆盖的区域，并且一开始都没覆盖到数字
-		// 同理job1和job2也不代表一段区间
-		// 而是代表两个区域在arr中要覆盖多大
+		// 注意win1和win2不代表一段区间，而是代表arr中的两个覆盖区域
+		// win1 = 0，win2 = 0，表示两个覆盖区域一开始都没有数字
+		// 同理job1和job2也不代表区间，而是代表两个区域在arr中要覆盖多大
 		int win1 = 0, win2 = 0;
 		for (int i = 1; i <= cntq; i++) {
 			int job1 = query[i][0];
@@ -60,20 +59,20 @@ public class Code02_SimpleQuery1 {
 			int op = query[i][2];
 			int id = query[i][3];
 			while (win1 < job1) {
-				++cntl[arr[++win1]];
-				sum += cntr[arr[win1]];
+				++cnt1[arr[++win1]];
+				sum += cnt2[arr[win1]];
 			}
 			while (win1 > job1) {
-				--cntl[arr[win1]];
-				sum -= cntr[arr[win1--]];
+				--cnt1[arr[win1]];
+				sum -= cnt2[arr[win1--]];
 			}
 			while (win2 < job2) {
-				++cntr[arr[++win2]];
-				sum += cntl[arr[win2]];
+				++cnt2[arr[++win2]];
+				sum += cnt1[arr[win2]];
 			}
 			while (win2 > job2) {
-				--cntr[arr[win2]];
-				sum -= cntl[arr[win2--]];
+				--cnt2[arr[win2]];
+				sum -= cnt1[arr[win2--]];
 			}
 			ans[id] += sum * op;
 		}
