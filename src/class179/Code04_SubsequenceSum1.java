@@ -99,7 +99,7 @@ public class Code04_SubsequenceSum1 {
 		}
 	}
 
-	public static long getAns(int len, int mod) {
+	public static void setAns(int len, int mod, int id) {
 		int blen = (int) Math.sqrt(len);
 		int bnum = (len + blen - 1) / blen;
 		smlPow[0] = 1;
@@ -110,14 +110,14 @@ public class Code04_SubsequenceSum1 {
 		for (int i = 1; i <= bnum; i++) {
 			bigPow[i] = (bigPow[i - 1] * smlPow[blen]) % mod;
 		}
-		long ret = 0, tmp;
+		long res = 0, tmp;
 		for (int p = head; p > 0; p = next[p]) {
 			tmp = bigPow[len / blen] * smlPow[len % blen] % mod;
 			tmp -= bigPow[(len - p) / blen] * smlPow[(len - p) % blen] % mod;
 			tmp = (tmp * sum[p]) % mod;
-			ret = ((ret + tmp) % mod + mod) % mod;
+			res = ((res + tmp) % mod + mod) % mod;
 		}
-		return ret;
+		ans[id] = res;
 	}
 
 	public static void compute() {
@@ -139,7 +139,7 @@ public class Code04_SubsequenceSum1 {
 			while (winr > jobr) {
 				del(arr[winr--]);
 			}
-			ans[id] = getAns(jobr - jobl + 1, mod);
+			setAns(jobr - jobl + 1, mod, id);
 		}
 	}
 

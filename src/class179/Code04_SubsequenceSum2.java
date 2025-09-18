@@ -94,7 +94,7 @@ package class179;
 //    }
 //}
 //
-//long long getAns(int len, int mod) {
+//void setAns(int len, int mod, int id) {
 //    int blen = (int)sqrt(len);
 //    int bnum = (len + blen - 1) / blen;
 //    smlPow[0] = 1;
@@ -105,14 +105,14 @@ package class179;
 //    for (int i = 1; i <= bnum; i++) {
 //        bigPow[i] = (bigPow[i - 1] * smlPow[blen]) % mod;
 //    }
-//    long long ret = 0, tmp;
+//    long long res = 0, tmp;
 //    for (int p = head; p > 0; p = nxt[p]) {
 //        tmp = bigPow[len / blen] * smlPow[len % blen] % mod;
 //        tmp -= bigPow[(len - p) / blen] * smlPow[(len - p) % blen] % mod;
 //        tmp = (tmp * sum[p]) % mod;
-//        ret = ((ret + tmp) % mod + mod) % mod;
+//        res = ((res + tmp) % mod + mod) % mod;
 //    }
-//    return ret;
+//    ans[id] = res;
 //}
 //
 //void compute() {
@@ -134,7 +134,7 @@ package class179;
 //        while (winr > jobr) {
 //            del(arr[winr--]);
 //        }
-//        ans[id] = getAns(jobr - jobl + 1, mod);
+//        setAns(jobr - jobl + 1, mod, id);
 //    }
 //}
 //
