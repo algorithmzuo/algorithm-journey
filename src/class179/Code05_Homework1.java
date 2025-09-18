@@ -112,15 +112,15 @@ public class Code05_Homework1 {
 	}
 
 	public static void prepare() {
-		int limit = MAXN - 1;
-		int blen = (int) Math.sqrt(limit);
-		int bnum = (limit + blen - 1) / blen;
-		for (int i = 1; i <= limit; i++) {
+		int nv = MAXN - 1;
+		int blen = (int) Math.sqrt(nv);
+		int bnum = (nv + blen - 1) / blen;
+		for (int i = 1; i <= nv; i++) {
 			bi[i] = (i - 1) / blen + 1;
 		}
 		for (int i = 1; i <= bnum; i++) {
 			bl[i] = (i - 1) * blen + 1;
-			br[i] = Math.min(i * blen, limit);
+			br[i] = Math.min(i * blen, nv);
 		}
 		Arrays.sort(query, 1, m + 1, new QueryCmp());
 	}
