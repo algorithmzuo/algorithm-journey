@@ -27,8 +27,8 @@ package class179;
 //int cnt[MAXN];
 //long long sum[MAXN];
 //
-//long long inpow[MAXB];
-//long long outpow[MAXB];
+//long long smlPow[MAXB];
+//long long bigPow[MAXB];
 //
 //long long ans[MAXN];
 //
@@ -97,18 +97,18 @@ package class179;
 //long long getAns(int len, int mod) {
 //    int blen = (int)sqrt(len);
 //    int bnum = (len + blen - 1) / blen;
-//    inpow[0] = 1;
+//    smlPow[0] = 1;
 //    for (int i = 1; i <= blen; i++) {
-//        inpow[i] = (inpow[i - 1] << 1) % mod;
+//        smlPow[i] = (smlPow[i - 1] << 1) % mod;
 //    }
-//    outpow[0] = 1;
+//    bigPow[0] = 1;
 //    for (int i = 1; i <= bnum; i++) {
-//        outpow[i] = (outpow[i - 1] * inpow[blen]) % mod;
+//        bigPow[i] = (bigPow[i - 1] * smlPow[blen]) % mod;
 //    }
 //    long long ret = 0, tmp;
 //    for (int p = head; p > 0; p = nxt[p]) {
-//        tmp = outpow[len / blen] * inpow[len % blen] % mod;
-//        tmp -= outpow[(len - p) / blen] * inpow[(len - p) % blen] % mod;
+//        tmp = bigPow[len / blen] * smlPow[len % blen] % mod;
+//        tmp -= bigPow[(len - p) / blen] * smlPow[(len - p) % blen] % mod;
 //        tmp = (tmp * sum[p]) % mod;
 //        ret = ((ret + tmp) % mod + mod) % mod;
 //    }
@@ -120,8 +120,8 @@ package class179;
 //    for (int i = 1; i <= m; i++) {
 //        int jobl = query[i].l;
 //        int jobr = query[i].r;
-//        int mod  = query[i].mod;
-//        int id   = query[i].id;
+//        int mod = query[i].mod;
+//        int id = query[i].id;
 //        while (winl > jobl) add(arr[--winl]);
 //        while (winr < jobr) add(arr[++winr]);
 //        while (winl < jobl) del(arr[winl++]);

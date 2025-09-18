@@ -31,8 +31,8 @@ public class Code04_SubsequenceSum1 {
 	public static int[] cnt = new int[MAXN];
 	public static long[] sum = new long[MAXN];
 
-	public static long[] inpow = new long[MAXB];
-	public static long[] outpow = new long[MAXB];
+	public static long[] smlPow = new long[MAXB];
+	public static long[] bigPow = new long[MAXB];
 
 	public static long[] ans = new long[MAXN];
 
@@ -102,18 +102,18 @@ public class Code04_SubsequenceSum1 {
 	public static long getAns(int len, int mod) {
 		int blen = (int) Math.sqrt(len);
 		int bnum = (len + blen - 1) / blen;
-		inpow[0] = 1;
+		smlPow[0] = 1;
 		for (int i = 1; i <= blen; i++) {
-			inpow[i] = (inpow[i - 1] << 1) % mod;
+			smlPow[i] = (smlPow[i - 1] << 1) % mod;
 		}
-		outpow[0] = 1;
+		bigPow[0] = 1;
 		for (int i = 1; i <= bnum; i++) {
-			outpow[i] = (outpow[i - 1] * inpow[blen]) % mod;
+			bigPow[i] = (bigPow[i - 1] * smlPow[blen]) % mod;
 		}
 		long ret = 0, tmp;
 		for (int p = head; p > 0; p = next[p]) {
-			tmp = outpow[len / blen] * inpow[len % blen] % mod;
-			tmp -= outpow[(len - p) / blen] * inpow[(len - p) % blen] % mod;
+			tmp = bigPow[len / blen] * smlPow[len % blen] % mod;
+			tmp -= bigPow[(len - p) / blen] * smlPow[(len - p) % blen] % mod;
 			tmp = (tmp * sum[p]) % mod;
 			ret = ((ret + tmp) % mod + mod) % mod;
 		}
