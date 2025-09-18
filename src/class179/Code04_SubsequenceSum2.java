@@ -49,7 +49,7 @@ package class179;
 //    head = x;
 //}
 //
-//void removeNode(int x) {
+//void delNode(int x) {
 //    if (x == head) {
 //        head = nxt[head];
 //        lst[head] = 0;
@@ -67,7 +67,7 @@ package class179;
 //        sum[cnt[num]] -= num;
 //    }
 //    if (cnt[num] > 0 && sum[cnt[num]] == 0) {
-//        removeNode(cnt[num]);
+//        delNode(cnt[num]);
 //    }
 //    cnt[num]++;
 //    if (cnt[num] > 0 && sum[cnt[num]] == 0) {
@@ -83,7 +83,7 @@ package class179;
 //        sum[cnt[num]] -= num;
 //    }
 //    if (cnt[num] > 0 && sum[cnt[num]] == 0) {
-//        removeNode(cnt[num]);
+//        delNode(cnt[num]);
 //    }
 //    cnt[num]--;
 //    if (cnt[num] > 0 && sum[cnt[num]] == 0) {

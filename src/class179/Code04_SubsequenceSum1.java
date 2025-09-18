@@ -56,7 +56,7 @@ public class Code04_SubsequenceSum1 {
 		head = x;
 	}
 
-	public static void removeNode(int x) {
+	public static void delNode(int x) {
 		if (x == head) {
 			head = next[head];
 			last[head] = next[x] = 0;
@@ -72,7 +72,7 @@ public class Code04_SubsequenceSum1 {
 			sum[cnt[num]] -= num;
 		}
 		if (cnt[num] > 0 && sum[cnt[num]] == 0) {
-			removeNode(cnt[num]);
+			delNode(cnt[num]);
 		}
 		cnt[num]++;
 		if (cnt[num] > 0 && sum[cnt[num]] == 0) {
@@ -88,7 +88,7 @@ public class Code04_SubsequenceSum1 {
 			sum[cnt[num]] -= num;
 		}
 		if (cnt[num] > 0 && sum[cnt[num]] == 0) {
-			removeNode(cnt[num]);
+			delNode(cnt[num]);
 		}
 		cnt[num]--;
 		if (cnt[num] > 0 && sum[cnt[num]] == 0) {
