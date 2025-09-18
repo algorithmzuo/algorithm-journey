@@ -122,10 +122,18 @@ package class179;
 //        int jobr = query[i].r;
 //        int mod = query[i].mod;
 //        int id = query[i].id;
-//        while (winl > jobl) add(arr[--winl]);
-//        while (winr < jobr) add(arr[++winr]);
-//        while (winl < jobl) del(arr[winl++]);
-//        while (winr > jobr) del(arr[winr--]);
+//        while (winl > jobl) {
+//            add(arr[--winl]);
+//        }
+//        while (winr < jobr) {
+//            add(arr[++winr]);
+//        }
+//        while (winl < jobl) {
+//            del(arr[winl++]);
+//        }
+//        while (winr > jobr) {
+//            del(arr[winr--]);
+//        }
 //        ans[id] = getAns(jobr - jobl + 1, mod);
 //    }
 //}
