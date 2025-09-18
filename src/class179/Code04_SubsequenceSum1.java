@@ -1,0 +1,216 @@
+package class179;
+
+// 区间子序列的和，java版
+// 测试链接 : https://www.luogu.com.cn/problem/P5072
+// 提交以下的code，提交时请把类名改成"Main"
+// java实现的逻辑一定是正确的，但是本题卡常，无法通过所有测试用例
+// 想通过用C++实现，本节课Code04_SubsequenceSum2文件就是C++的实现
+// 两个版本的逻辑完全一样，C++版本可以通过所有测试
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.util.Arrays;
+import java.util.Comparator;
+
+public class Code04_SubsequenceSum1 {
+
+	public static int MAXN = 100001;
+	public static int MAXB = 401;
+	public static int n, m;
+	public static int[] arr = new int[MAXN];
+	// 每条查询的格式 : l、r、mod、id
+	public static int[][] query = new int[MAXN][4];
+	public static int[] bi = new int[MAXN];
+
+	public static int head;
+	public static int[] last = new int[MAXN];
+	public static int[] next = new int[MAXN];
+
+	public static int[] cnt = new int[MAXN];
+	public static long[] sum = new long[MAXN];
+
+	public static long[] inpow = new long[MAXB];
+	public static long[] outpow = new long[MAXB];
+
+	public static long[] ans = new long[MAXN];
+
+	public static class QueryCmp implements Comparator<int[]> {
+		@Override
+		public int compare(int[] a, int[] b) {
+			if (bi[a[0]] != bi[b[0]]) {
+				return bi[a[0]] - bi[b[0]];
+			}
+			if ((bi[a[0]] & 1) == 1) {
+				return a[1] - b[1];
+			} else {
+				return b[1] - a[1];
+			}
+		}
+	}
+
+	public static void addNode(int x) {
+		last[head] = x;
+		next[x] = head;
+		head = x;
+	}
+
+	public static void removeNode(int x) {
+		if (x == head) {
+			head = next[head];
+			last[head] = next[x] = 0;
+		} else {
+			next[last[x]] = next[x];
+			last[next[x]] = last[x];
+			last[x] = next[x] = 0;
+		}
+	}
+
+	public static void add(int num) {
+		if (cnt[num] > 0) {
+			sum[cnt[num]] -= num;
+		}
+		if (cnt[num] > 0 && sum[cnt[num]] == 0) {
+			removeNode(cnt[num]);
+		}
+		cnt[num]++;
+		if (cnt[num] > 0 && sum[cnt[num]] == 0) {
+			addNode(cnt[num]);
+		}
+		if (cnt[num] > 0) {
+			sum[cnt[num]] += num;
+		}
+	}
+
+	public static void del(int num) {
+		if (cnt[num] > 0) {
+			sum[cnt[num]] -= num;
+		}
+		if (cnt[num] > 0 && sum[cnt[num]] == 0) {
+			removeNode(cnt[num]);
+		}
+		cnt[num]--;
+		if (cnt[num] > 0 && sum[cnt[num]] == 0) {
+			addNode(cnt[num]);
+		}
+		if (cnt[num] > 0) {
+			sum[cnt[num]] += num;
+		}
+	}
+
+	public static long getAns(int len, int mod) {
+		int blen = (int) Math.sqrt(len);
+		int bnum = (len + blen - 1) / blen;
+		inpow[0] = 1;
+		for (int i = 1; i <= blen; i++) {
+			inpow[i] = (inpow[i - 1] << 1) % mod;
+		}
+		outpow[0] = 1;
+		for (int i = 1; i <= bnum; i++) {
+			outpow[i] = (outpow[i - 1] * inpow[blen]) % mod;
+		}
+		long ret = 0, tmp;
+		for (int p = head; p > 0; p = next[p]) {
+			tmp = outpow[len / blen] * inpow[len % blen] % mod;
+			tmp -= outpow[(len - p) / blen] * inpow[(len - p) % blen] % mod;
+			tmp = (tmp * sum[p]) % mod;
+			ret = ((ret + tmp) % mod + mod) % mod;
+		}
+		return ret;
+	}
+
+	public static void compute() {
+		int winl = 1, winr = 0;
+		for (int i = 1; i <= m; i++) {
+			int jobl = query[i][0];
+			int jobr = query[i][1];
+			int mod = query[i][2];
+			int id = query[i][3];
+			while (winl > jobl) {
+				add(arr[--winl]);
+			}
+			while (winr < jobr) {
+				add(arr[++winr]);
+			}
+			while (winl < jobl) {
+				del(arr[winl++]);
+			}
+			while (winr > jobr) {
+				del(arr[winr--]);
+			}
+			ans[id] = getAns(jobr - jobl + 1, mod);
+		}
+	}
+
+	public static void prepare() {
+		int blen = (int) Math.sqrt(n);
+		for (int i = 1; i <= n; i++) {
+			bi[i] = (i - 1) / blen + 1;
+		}
+		Arrays.sort(query, 1, m + 1, new QueryCmp());
+	}
+
+	public static void main(String[] args) throws Exception {
+		FastReader in = new FastReader(System.in);
+		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
+		n = in.nextInt();
+		m = in.nextInt();
+		for (int i = 1; i <= n; i++) {
+			arr[i] = in.nextInt();
+		}
+		for (int i = 1; i <= m; i++) {
+			query[i][0] = in.nextInt();
+			query[i][1] = in.nextInt();
+			query[i][2] = in.nextInt();
+			query[i][3] = i;
+		}
+		prepare();
+		compute();
+		for (int i = 1; i <= m; i++) {
+			out.println(ans[i]);
+		}
+		out.flush();
+		out.close();
+	}
+
+	// 读写工具类
+	static class FastReader {
+		private final byte[] buffer = new byte[1 << 16];
+		private int ptr = 0, len = 0;
+		private final InputStream in;
+
+		FastReader(InputStream in) {
+			this.in = in;
+		}
+
+		private int readByte() throws IOException {
+			if (ptr >= len) {
+				len = in.read(buffer);
+				ptr = 0;
+				if (len <= 0)
+					return -1;
+			}
+			return buffer[ptr++];
+		}
+
+		int nextInt() throws IOException {
+			int c;
+			do {
+				c = readByte();
+			} while (c <= ' ' && c != -1);
+			boolean neg = false;
+			if (c == '-') {
+				neg = true;
+				c = readByte();
+			}
+			int val = 0;
+			while (c > ' ' && c != -1) {
+				val = val * 10 + (c - '0');
+				c = readByte();
+			}
+			return neg ? -val : val;
+		}
+	}
+
+}
