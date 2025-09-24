@@ -16,15 +16,17 @@ public class Code06_LCP1 {
 	public static int MAXN = 3000001;
 	public static int MAXM = 100001;
 	public static int n, m, k;
-	public static long[] arr = new long[MAXN];
+
+	public static char[] str = new char[MAXN];
 	public static int[][] query = new int[MAXM][3];
 
 	public static int base = 499;
 	public static long[] pow = new long[MAXN];
 	public static long[] hash = new long[MAXN];
 
+	public static long[] val = new long[MAXN];
 	public static long[] sorted = new long[MAXN];
-	public static int[] val = new int[MAXN];
+	public static int[] arr = new int[MAXN];
 	public static int[] bi = new int[MAXN];
 
 	public static long[] cnt = new long[MAXN];
@@ -81,16 +83,16 @@ public class Code06_LCP1 {
 				ans[id] = 0;
 			} else {
 				while (winl > jobl) {
-					add(val[--winl]);
+					add(arr[--winl]);
 				}
 				while (winr < jobr) {
-					add(val[++winr]);
+					add(arr[++winr]);
 				}
 				while (winl < jobl) {
-					del(val[winl++]);
+					del(arr[winl++]);
 				}
 				while (winr > jobr) {
-					del(val[winr--]);
+					del(arr[winr--]);
 				}
 				ans[id] = (curAns - (jobr - jobl + 1)) / 2;
 			}
@@ -101,14 +103,14 @@ public class Code06_LCP1 {
 		pow[0] = 1;
 		for (int i = 1; i <= n; i++) {
 			pow[i] = pow[i - 1] * base;
-			hash[i] = hash[i - 1] * base + arr[i];
+			hash[i] = hash[i - 1] * base + (str[i] - 'a' + 1);
 		}
 		for (int l = 1, r = k; r <= n; l++, r++) {
-			arr[l] = hash[r] - hash[l - 1] * pow[r - l + 1];
+			val[l] = hash[r] - hash[l - 1] * pow[r - l + 1];
 		}
 		n = n - k + 1;
 		for (int i = 1; i <= n; i++) {
-			sorted[i] = arr[i];
+			sorted[i] = val[i];
 		}
 		Arrays.sort(sorted, 1, n + 1);
 		int len = 1;
@@ -118,7 +120,7 @@ public class Code06_LCP1 {
 			}
 		}
 		for (int i = 1; i <= n; i++) {
-			val[i] = kth(len, arr[i]);
+			arr[i] = kth(len, val[i]);
 		}
 		int blen = Math.max(1, (int) ((double) n / Math.sqrt(m)));
 		for (int i = 1; i <= n; i++) {
@@ -136,10 +138,8 @@ public class Code06_LCP1 {
 		n = in.nextInt();
 		m = in.nextInt();
 		k = in.nextInt();
-		char c;
 		for (int i = 1; i <= n; i++) {
-			c = in.nextLowerCase();
-			arr[i] = c - 'a' + 1;
+			str[i] = in.nextLowerCase();
 		}
 		for (int i = 1; i <= m; i++) {
 			query[i][0] = in.nextInt();
