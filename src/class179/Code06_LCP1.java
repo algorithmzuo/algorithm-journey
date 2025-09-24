@@ -105,9 +105,11 @@ public class Code06_LCP1 {
 		}
 		for (int l = 1, r = k; r <= n; l++, r++) {
 			arr[l] = hash[r] - hash[l - 1] * pow[r - l + 1];
-			sorted[l] = arr[l];
 		}
 		n = n - k + 1;
+		for (int i = 1; i <= n; i++) {
+			sorted[i] = arr[i];
+		}
 		Arrays.sort(sorted, 1, n + 1);
 		int len = 1;
 		for (int i = 2; i <= n; i++) {
