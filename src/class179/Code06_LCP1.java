@@ -17,6 +17,7 @@ public class Code06_LCP1 {
 	public static int MAXM = 100001;
 	public static int n, m, k;
 
+	public static int len, cntq;
 	public static char[] str = new char[MAXN];
 	public static int[][] query = new int[MAXM][3];
 
@@ -33,8 +34,8 @@ public class Code06_LCP1 {
 	public static long curAns;
 	public static long[] ans = new long[MAXM];
 
-	public static int kth(int len, long num) {
-		int left = 1, right = len, mid, ret = 0;
+	public static int kth(int siz, long num) {
+		int left = 1, right = siz, mid, ret = 0;
 		while (left <= right) {
 			mid = (left + right) / 2;
 			if (sorted[mid] <= num) {
@@ -75,27 +76,23 @@ public class Code06_LCP1 {
 
 	public static void compute() {
 		int winl = 1, winr = 0;
-		for (int i = 1; i <= m; i++) {
+		for (int i = 1; i <= cntq; i++) {
 			int jobl = query[i][0];
 			int jobr = query[i][1];
 			int id = query[i][2];
-			if (jobl > jobr) {
-				ans[id] = 0;
-			} else {
-				while (winl > jobl) {
-					add(arr[--winl]);
-				}
-				while (winr < jobr) {
-					add(arr[++winr]);
-				}
-				while (winl < jobl) {
-					del(arr[winl++]);
-				}
-				while (winr > jobr) {
-					del(arr[winr--]);
-				}
-				ans[id] = (curAns - (jobr - jobl + 1)) / 2;
+			while (winl > jobl) {
+				add(arr[--winl]);
 			}
+			while (winr < jobr) {
+				add(arr[++winr]);
+			}
+			while (winl < jobl) {
+				del(arr[winl++]);
+			}
+			while (winr > jobr) {
+				del(arr[winr--]);
+			}
+			ans[id] = (curAns - (jobr - jobl + 1)) / 2;
 		}
 	}
 
@@ -108,28 +105,24 @@ public class Code06_LCP1 {
 		for (int l = 1, r = k; r <= n; l++, r++) {
 			val[l] = hash[r] - hash[l - 1] * pow[r - l + 1];
 		}
-		n = n - k + 1;
-		for (int i = 1; i <= n; i++) {
+		for (int i = 1; i <= len; i++) {
 			sorted[i] = val[i];
 		}
-		Arrays.sort(sorted, 1, n + 1);
-		int len = 1;
-		for (int i = 2; i <= n; i++) {
-			if (sorted[len] != sorted[i]) {
-				sorted[++len] = sorted[i];
+		Arrays.sort(sorted, 1, len + 1);
+		int cntv = 1;
+		for (int i = 2; i <= len; i++) {
+			if (sorted[cntv] != sorted[i]) {
+				sorted[++cntv] = sorted[i];
 			}
 		}
-		for (int i = 1; i <= n; i++) {
-			arr[i] = kth(len, val[i]);
+		for (int i = 1; i <= len; i++) {
+			arr[i] = kth(cntv, val[i]);
 		}
-		int blen = Math.max(1, (int) ((double) n / Math.sqrt(m)));
-		for (int i = 1; i <= n; i++) {
+		int blen = Math.max(1, (int) ((double) len / Math.sqrt(cntq)));
+		for (int i = 1; i <= len; i++) {
 			bi[i] = (i - 1) / blen + 1;
 		}
-		for (int i = 1; i <= m; i++) {
-			query[i][1] = Math.min(query[i][1], n);
-		}
-		Arrays.sort(query, 1, m + 1, new QueryCmp());
+		Arrays.sort(query, 1, cntq + 1, new QueryCmp());
 	}
 
 	public static void main(String[] args) throws Exception {
@@ -141,10 +134,16 @@ public class Code06_LCP1 {
 		for (int i = 1; i <= n; i++) {
 			str[i] = in.nextLowerCase();
 		}
-		for (int i = 1; i <= m; i++) {
-			query[i][0] = in.nextInt();
-			query[i][1] = in.nextInt();
-			query[i][2] = i;
+		len = n - k + 1;
+		cntq = 0;
+		for (int i = 1, l, r; i <= m; i++) {
+			l = in.nextInt();
+			r = in.nextInt();
+			if (l <= len) {
+				query[++cntq][0] = l;
+				query[cntq][1] = Math.min(r, len);
+				query[cntq][2] = i;
+			}
 		}
 		prepare();
 		compute();
