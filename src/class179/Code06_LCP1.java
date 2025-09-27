@@ -16,8 +16,7 @@ public class Code06_LCP1 {
 	public static int MAXN = 3000001;
 	public static int MAXM = 100001;
 	public static int n, m, k;
-
-	public static int len, cntq;
+	public static int len, cntq, cntv;
 	public static char[] str = new char[MAXN];
 	public static int[][] query = new int[MAXM][3];
 
@@ -34,8 +33,8 @@ public class Code06_LCP1 {
 	public static long curAns;
 	public static long[] ans = new long[MAXM];
 
-	public static int kth(int siz, long num) {
-		int left = 1, right = siz, mid, ret = 0;
+	public static int kth(long num) {
+		int left = 1, right = cntv, mid, ret = 0;
 		while (left <= right) {
 			mid = (left + right) / 2;
 			if (sorted[mid] <= num) {
@@ -109,14 +108,14 @@ public class Code06_LCP1 {
 			sorted[i] = val[i];
 		}
 		Arrays.sort(sorted, 1, len + 1);
-		int cntv = 1;
+		cntv = 1;
 		for (int i = 2; i <= len; i++) {
 			if (sorted[cntv] != sorted[i]) {
 				sorted[++cntv] = sorted[i];
 			}
 		}
 		for (int i = 1; i <= len; i++) {
-			arr[i] = kth(cntv, val[i]);
+			arr[i] = kth(val[i]);
 		}
 		int blen = Math.max(1, (int) ((double) len / Math.sqrt(cntq)));
 		for (int i = 1; i <= len; i++) {
