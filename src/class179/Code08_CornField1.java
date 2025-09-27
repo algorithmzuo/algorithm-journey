@@ -108,7 +108,7 @@ public class Code08_CornField1 {
 	public static BitSet bitSet2 = new BitSet(MAXN);
 
 	public static int[] cnt = new int[MAXN];
-	public static int[] pre = new int[MAXN];
+	public static int[] lastPos = new int[MAXN];
 	public static int[] maxLeft = new int[MAXN];
 
 	public static boolean[] ans = new boolean[MAXN];
@@ -204,17 +204,17 @@ public class Code08_CornField1 {
 	public static void special() {
 		for (int x = 1; x < blen; x++) {
 			if (headq[x] != 0) {
-				Arrays.fill(pre, 0);
+				Arrays.fill(lastPos, 0);
 				Arrays.fill(maxLeft, 0);
 				int last = 0;
 				for (int i = 1; i <= n; i++) {
 					int val = arr[i];
-					pre[val] = i;
+					lastPos[val] = i;
 					if (val * x <= MAXV) {
-						last = Math.max(last, pre[val * x]);
+						last = Math.max(last, lastPos[val * x]);
 					}
 					if (val % x == 0) {
-						last = Math.max(last, pre[val / x]);
+						last = Math.max(last, lastPos[val / x]);
 					}
 					maxLeft[i] = last;
 				}
