@@ -11,7 +11,7 @@ import java.io.PrintWriter;
 import java.util.Arrays;
 import java.util.Comparator;
 
-public class Code08_CornField1 {
+public class Code08_YnoiCornfield1 {
 
 	static class BitSet {
 		int len;
