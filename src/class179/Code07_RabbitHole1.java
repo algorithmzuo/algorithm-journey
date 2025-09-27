@@ -34,7 +34,7 @@ public class Code07_RabbitHole1 {
 			}
 		}
 
-		public void clone(BitSet obj) {
+		public void copy(BitSet obj) {
 			for (int i = 0; i < len; i++) {
 				status[i] = obj.status[i];
 			}
@@ -61,6 +61,7 @@ public class Code07_RabbitHole1 {
 			}
 			return ret;
 		}
+
 	}
 
 	public static int MAXN = 100001;
@@ -136,7 +137,7 @@ public class Code07_RabbitHole1 {
 			}
 			if (!hasSet[id]) {
 				hasSet[id] = true;
-				bitSet[id].clone(curSet);
+				bitSet[id].copy(curSet);
 			} else {
 				bitSet[id].and(curSet);
 			}
