@@ -14,17 +14,11 @@ import java.util.Comparator;
 public class Code07_RabbitHole1 {
 
 	static class BitSet {
-
-		final int POW = 6;
-
-		final int MASK = 63;
-
 		int len;
-
 		long[] status;
 
 		public BitSet(int siz) {
-			len = (siz + MASK) >> POW;
+			len = (siz + 63) >> 6;
 			status = new long[len];
 		}
 
@@ -47,11 +41,11 @@ public class Code07_RabbitHole1 {
 		}
 
 		public void setOne(int bit) {
-			status[bit >> POW] |= 1L << (bit & MASK);
+			status[bit >> 6] |= 1L << (bit & 63);
 		}
 
 		public void setZero(int bit) {
-			status[bit >> POW] &= ~(1L << (bit & MASK));
+			status[bit >> 6] &= ~(1L << (bit & 63));
 		}
 
 		public int getOnes() {
