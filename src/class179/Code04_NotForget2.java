@@ -1,6 +1,6 @@
 package class179;
 
-// 区间子序列的和，C++版
+// 盼君勿忘，C++版
 // 测试链接 : https://www.luogu.com.cn/problem/P5072
 // 如下实现是C++的版本，C++版本和java版本逻辑完全一样
 // 提交如下代码，可以通过所有测试用例

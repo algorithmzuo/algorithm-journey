@@ -1,10 +1,10 @@
 package class179;
 
-// 区间子序列的和，java版
+// 盼君勿忘，java版
 // 测试链接 : https://www.luogu.com.cn/problem/P5072
 // 提交以下的code，提交时请把类名改成"Main"
 // java实现的逻辑一定是正确的，但是本题卡常，无法通过所有测试用例
-// 想通过用C++实现，本节课Code04_SubsequenceSum2文件就是C++的实现
+// 想通过用C++实现，本节课Code04_NotForget2文件就是C++的实现
 // 两个版本的逻辑完全一样，C++版本可以通过所有测试
 
 import java.io.IOException;
@@ -14,7 +14,7 @@ import java.io.PrintWriter;
 import java.util.Arrays;
 import java.util.Comparator;
 
-public class Code04_SubsequenceSum1 {
+public class Code04_NotForget1 {
 
 	public static int MAXN = 100001;
 	public static int MAXB = 401;
