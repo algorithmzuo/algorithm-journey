@@ -92,11 +92,11 @@ public class Code08_YnoiCornfield1 {
 	public static int[] arr = new int[MAXN];
 	public static int[] bi = new int[MAXN];
 
-	// 普通查询，op、l、r、x、id
+	// 普通查询，l、r、x、op、id
 	public static int[][] query = new int[MAXN][5];
 	public static int cntq;
 
-	// 特别查询，l、r、id
+	// 特别查询，x的问题列表 : l、r、id
 	public static int[] headq = new int[MAXB];
 	public static int[] nextq = new int[MAXN];
 	public static int[] ql = new int[MAXN];
@@ -124,13 +124,13 @@ public class Code08_YnoiCornfield1 {
 	public static class QueryCmp implements Comparator<int[]> {
 		@Override
 		public int compare(int[] a, int[] b) {
-			if (bi[a[1]] != bi[b[1]]) {
-				return bi[a[1]] - bi[b[1]];
+			if (bi[a[0]] != bi[b[0]]) {
+				return bi[a[0]] - bi[b[0]];
 			}
-			if ((bi[a[1]] & 1) == 1) {
-				return a[2] - b[2];
+			if ((bi[a[0]] & 1) == 1) {
+				return a[1] - b[1];
 			} else {
-				return b[2] - a[2];
+				return b[1] - a[1];
 			}
 		}
 	}
@@ -180,10 +180,10 @@ public class Code08_YnoiCornfield1 {
 	public static void compute() {
 		int winl = 1, winr = 0;
 		for (int i = 1; i <= cntq; i++) {
-			int op = query[i][0];
-			int jobl = query[i][1];
-			int jobr = query[i][2];
-			int jobx = query[i][3];
+			int jobl = query[i][0];
+			int jobr = query[i][1];
+			int jobx = query[i][2];
+			int op = query[i][3];
 			int id = query[i][4];
 			while (winl > jobl) {
 				add(arr[--winl]);
@@ -248,10 +248,10 @@ public class Code08_YnoiCornfield1 {
 			if (op == 4 && x < blen) {
 				addSpecial(x, l, r, i);
 			} else {
-				query[++cntq][0] = op;
-				query[cntq][1] = l;
-				query[cntq][2] = r;
-				query[cntq][3] = x;
+				query[++cntq][0] = l;
+				query[cntq][1] = r;
+				query[cntq][2] = x;
+				query[cntq][3] = op;
 				query[cntq][4] = i;
 			}
 		}
