@@ -151,7 +151,7 @@ public class Code08_YnoiCornfield1 {
 		}
 	}
 
-	public static boolean getAns(int op, int x) {
+	public static boolean calc(int op, int x) {
 		if (op == 1) {
 			return bitSet1.andSelfMoveLeft(x);
 		} else if (op == 2) {
@@ -197,7 +197,7 @@ public class Code08_YnoiCornfield1 {
 			while (winr > jobr) {
 				del(arr[winr--]);
 			}
-			ans[id] = getAns(op, jobx);
+			ans[id] = calc(op, jobx);
 		}
 	}
 
