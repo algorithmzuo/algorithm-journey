@@ -21,8 +21,8 @@ public class Code06_LCP1 {
 	public static int[][] query = new int[MAXM][3];
 
 	public static int base = 499;
-	public static long[] pow = new long[MAXN];
-	public static long[] hash = new long[MAXN];
+	public static long[] basePower = new long[MAXN];
+	public static long[] hashValue = new long[MAXN];
 
 	public static long[] val = new long[MAXN];
 	public static long[] sorted = new long[MAXN];
@@ -96,13 +96,13 @@ public class Code06_LCP1 {
 	}
 
 	public static void prepare() {
-		pow[0] = 1;
+		basePower[0] = 1;
 		for (int i = 1; i <= n; i++) {
-			pow[i] = pow[i - 1] * base;
-			hash[i] = hash[i - 1] * base + (str[i] - 'a' + 1);
+			basePower[i] = basePower[i - 1] * base;
+			hashValue[i] = hashValue[i - 1] * base + (str[i] - 'a' + 1);
 		}
 		for (int l = 1, r = k; r <= n; l++, r++) {
-			val[l] = hash[r] - hash[l - 1] * pow[r - l + 1];
+			val[l] = hashValue[r] - hashValue[l - 1] * basePower[r - l + 1];
 		}
 		for (int i = 1; i <= len; i++) {
 			sorted[i] = val[i];
