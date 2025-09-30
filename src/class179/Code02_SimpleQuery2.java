@@ -1,6 +1,12 @@
 package class179;
 
 // 简单的询问，C++版
+// 给定一个长度为n的数组arr，下标从1到n
+// 函数get(l, r, x) = arr[l..r]范围上，数组x出现的次数
+// 接下来有q条查询，格式如下
+// 查询 l1 r1 l2 r2 : 每种x都算，打印 get(l1, r1, x) * get(l2, r2, x) 的累加和
+// 1 <= n、q <= 5 * 10^4
+// 1 <= arr[i] <= n
 // 测试链接 : https://www.luogu.com.cn/problem/P5268
 // 如下实现是C++的版本，C++版本和java版本逻辑完全一样
 // 提交如下代码，可以通过所有测试用例
@@ -14,14 +20,13 @@ package class179;
 //};
 //
 //const int MAXN = 50001;
-//int n, m, cntq;
+//int n, q, cntq;
 //int arr[MAXN];
 //Query query[MAXN << 2];
-//
 //int bi[MAXN];
+//
 //int cnt1[MAXN];
 //int cnt2[MAXN];
-//
 //long long sumv = 0;
 //long long ans[MAXN];
 //
@@ -29,7 +34,7 @@ package class179;
 //    if (bi[a.siz1] != bi[b.siz1]) {
 //        return bi[a.siz1] < bi[b.siz1];
 //    }
-//    if ((bi[a.siz1] & 1) == 1) {
+//    if (bi[a.siz1] & 1) {
 //        return a.siz2 < b.siz2;
 //    } else {
 //        return a.siz2 > b.siz2;
@@ -90,8 +95,8 @@ package class179;
 //    for (int i = 1; i <= n; i++) {
 //        cin >> arr[i];
 //    }
-//    cin >> m;
-//    for (int i = 1, l1, r1, l2, r2; i <= m; i++) {
+//    cin >> q;
+//    for (int i = 1, l1, r1, l2, r2; i <= q; i++) {
 //        cin >> l1 >> r1 >> l2 >> r2;
 //        addQuery(r1, r2, 1, i);
 //        addQuery(r1, l2 - 1, -1, i);
@@ -100,7 +105,7 @@ package class179;
 //    }
 //    prepare();
 //    compute();
-//    for (int i = 1; i <= m; i++) {
+//    for (int i = 1; i <= q; i++) {
 //        cout << ans[i] << '\n';
 //    }
 //    return 0;

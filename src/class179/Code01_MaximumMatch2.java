@@ -1,6 +1,13 @@
 package class179;
 
 // 区间最大匹配，C++版
+// 给定长度为n的数组a、长度为m的数组b、一个正数z
+// 数组a中数字x、数组b中数字y，如果x + y <= z，那么构成一个匹配
+// 已经匹配的数字，不可以重复使用，一共有q条查询，格式如下
+// 查询 l r : 数组b[l..r]范围上的数字，随意选择数组a中的数字，打印最多匹配数
+// 1 <= n <= 152501
+// 1 <= m、q <= 52501
+// 1 <= a[i]、b[i]、z <= 10^9
 // 测试链接 : https://www.luogu.com.cn/problem/P4477
 // 如下实现是C++的版本，C++版本和java版本逻辑完全一样
 // 提交如下代码，可以通过所有测试用例
@@ -28,14 +35,14 @@ package class179;
 //
 //int ans[MAXQ];
 //
-//bool QueryCmp(Query &A, Query &B) {
-//    if (bi[A.l] != bi[B.l]) {
-//        return bi[A.l] < bi[B.l];
+//bool QueryCmp(Query &a, Query &b) {
+//    if (bi[a.l] != bi[b.l]) {
+//        return bi[a.l] < bi[b.l];
 //    }
-//    if ((bi[A.l] & 1) == 1) {
-//        return A.r < B.r;
+//    if (bi[a.l] & 1) {
+//        return a.r < b.r;
 //    } else {
-//        return A.r > B.r;
+//        return a.r > b.r;
 //    }
 //}
 //

@@ -48,9 +48,14 @@ package class179;
 //}
 //
 //bool QueryCmp(const Query &a, const Query &b) {
-//    if (bi[a.l] != bi[b.l]) return bi[a.l] < bi[b.l];
-//    if ((bi[a.l] & 1) == 1) return a.r < b.r;
-//    return a.r > b.r;
+//    if (bi[a.l] != bi[b.l]) {
+//        return bi[a.l] < bi[b.l];
+//    }
+//    if (bi[a.l] & 1) {
+//        return a.r < b.r;
+//    } else {
+//        return a.r > b.r;
+//    }
 //}
 //
 //void add(int x) {

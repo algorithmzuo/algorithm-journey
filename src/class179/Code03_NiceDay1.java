@@ -42,14 +42,16 @@ public class Code03_NiceDay1 {
 	}
 
 	public static void add(int s) {
-		num += cnt[s]++;
+		num += cnt[s];
+		cnt[s]++;
 		for (int i = 0; i < 26; i++) {
 			num += cnt[s ^ (1 << i)];
 		}
 	}
 
 	public static void del(int s) {
-		num -= --cnt[s];
+		cnt[s]--;
+		num -= cnt[s];
 		for (int i = 0; i < 26; i++) {
 			num -= cnt[s ^ (1 << i)];
 		}

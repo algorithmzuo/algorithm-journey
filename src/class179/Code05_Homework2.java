@@ -29,14 +29,14 @@ package class179;
 //int ans1[MAXN];
 //int ans2[MAXN];
 //
-//bool QueryCmp(Query &A, Query &B) {
-//    if (bi[A.l] != bi[B.l]) {
-//        return bi[A.l] < bi[B.l];
+//bool QueryCmp(Query &a, Query &b) {
+//    if (bi[a.l] != bi[b.l]) {
+//        return bi[a.l] < bi[b.l];
 //    }
-//    if ((bi[A.l] & 1) == 1) {
-//        return A.r < B.r;
+//    if (bi[a.l] & 1) {
+//        return a.r < b.r;
 //    } else {
-//        return A.r > B.r;
+//        return a.r > b.r;
 //    }
 //}
 //

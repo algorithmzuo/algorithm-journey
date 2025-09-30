@@ -36,14 +36,16 @@ package class179;
 //}
 //
 //void add(int s) {
-//    num += cnt[s]++;
+//    num += cnt[s];
+//    cnt[s]++;
 //    for (int i = 0; i < 26; i++) {
 //        num += cnt[s ^ (1 << i)];
 //    }
 //}
 //
 //void del(int s) {
-//    num -= --cnt[s];
+//    cnt[s]--;
+//    num -= cnt[s];
 //    for (int i = 0; i < 26; i++) {
 //        num -= cnt[s ^ (1 << i)];
 //    }

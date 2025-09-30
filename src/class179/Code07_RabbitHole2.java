@@ -43,14 +43,14 @@ package class179;
 //    return ret;
 //}
 //
-//bool QueryCmp(const Query& a, const Query& b) {
+//bool QueryCmp(const Query &a, const Query &b) {
 //    if (bi[a.l] != bi[b.l]) {
 //        return bi[a.l] < bi[b.l];
 //    }
-//    if ((bi[a.l] & 1) == 1) {
+//    if (bi[a.l] & 1) {
 //        return a.r < b.r;
 //    } else {
-//    	return a.r > b.r;
+//        return a.r > b.r;
 //    }
 //}
 //

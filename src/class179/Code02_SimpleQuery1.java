@@ -1,6 +1,12 @@
 package class179;
 
 // 简单的询问，java版
+// 给定一个长度为n的数组arr，下标从1到n
+// 函数get(l, r, x) = arr[l..r]范围上，数组x出现的次数
+// 接下来有q条查询，格式如下
+// 查询 l1 r1 l2 r2 : 每种x都算，打印 get(l1, r1, x) * get(l2, r2, x) 的累加和
+// 1 <= n、q <= 5 * 10^4
+// 1 <= arr[i] <= n
 // 测试链接 : https://www.luogu.com.cn/problem/P5268
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
@@ -14,16 +20,14 @@ import java.util.Comparator;
 public class Code02_SimpleQuery1 {
 
 	public static int MAXN = 50001;
-	public static int n, m, cntq;
+	public static int n, q, cntq;
 	public static int[] arr = new int[MAXN];
-
 	// siz1、siz2、op、id
 	public static int[][] query = new int[MAXN << 2][4];
-
 	public static int[] bi = new int[MAXN];
+
 	public static int[] cnt1 = new int[MAXN];
 	public static int[] cnt2 = new int[MAXN];
-
 	public static long sum = 0;
 	public static long[] ans = new long[MAXN];
 
@@ -100,8 +104,8 @@ public class Code02_SimpleQuery1 {
 		for (int i = 1; i <= n; i++) {
 			arr[i] = in.nextInt();
 		}
-		m = in.nextInt();
-		for (int i = 1, l1, r1, l2, r2; i <= m; i++) {
+		q = in.nextInt();
+		for (int i = 1, l1, r1, l2, r2; i <= q; i++) {
 			l1 = in.nextInt();
 			r1 = in.nextInt();
 			l2 = in.nextInt();
@@ -113,7 +117,7 @@ public class Code02_SimpleQuery1 {
 		}
 		prepare();
 		compute();
-		for (int i = 1; i <= m; i++) {
+		for (int i = 1; i <= q; i++) {
 			out.println(ans[i]);
 		}
 		out.flush();
