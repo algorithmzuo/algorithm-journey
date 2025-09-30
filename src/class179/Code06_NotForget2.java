@@ -1,6 +1,11 @@
 package class179;
 
 // 盼君勿忘，C++版
+// 一个序列中每种数字只保留一个，得到的累加和，叫做去重累加和
+// 给定一个长度为n的数组arr，接下来是m条查询，查询格式如下
+// 查询 l r p : arr[l..r]范围上，累加每个子序列的去重累加和 % p 的结果打印
+// 1 <= n、m、arr[i] <= 10^5
+// 1 <= p <= 10^9
 // 测试链接 : https://www.luogu.com.cn/problem/P5072
 // 如下实现是C++的版本，C++版本和java版本逻辑完全一样
 // 提交如下代码，可以通过所有测试用例
@@ -27,8 +32,8 @@ package class179;
 //int cnt[MAXN];
 //long long sum[MAXN];
 //
-//long long smlPow[MAXB];
-//long long bigPow[MAXB];
+//long long smlPower[MAXB];
+//long long bigPower[MAXB];
 //
 //long long ans[MAXN];
 //
@@ -97,18 +102,18 @@ package class179;
 //void setAns(int len, int mod, int id) {
 //    int blen = (int)sqrt(len);
 //    int bnum = (len + blen - 1) / blen;
-//    smlPow[0] = 1;
+//    smlPower[0] = 1;
 //    for (int i = 1; i <= blen; i++) {
-//        smlPow[i] = (smlPow[i - 1] << 1) % mod;
+//        smlPower[i] = (smlPower[i - 1] << 1) % mod;
 //    }
-//    bigPow[0] = 1;
+//    bigPower[0] = 1;
 //    for (int i = 1; i <= bnum; i++) {
-//        bigPow[i] = (bigPow[i - 1] * smlPow[blen]) % mod;
+//        bigPower[i] = (bigPower[i - 1] * smlPower[blen]) % mod;
 //    }
 //    long long res = 0, tmp;
 //    for (int p = head; p > 0; p = nxt[p]) {
-//        tmp = bigPow[len / blen] * smlPow[len % blen] % mod;
-//        tmp -= bigPow[(len - p) / blen] * smlPow[(len - p) % blen] % mod;
+//        tmp = bigPower[len / blen] * smlPower[len % blen] % mod;
+//        tmp -= bigPower[(len - p) / blen] * smlPower[(len - p) % blen] % mod;
 //        tmp = (tmp * sum[p]) % mod;
 //        res = ((res + tmp) % mod + mod) % mod;
 //    }
