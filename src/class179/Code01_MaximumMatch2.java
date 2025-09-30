@@ -89,11 +89,11 @@ package class179;
 //
 //void del(int jobv, int l, int r, int i) {
 //    if (l == r) {
-//        if (overb[i] == 0) {
-//        	match[i] = 0;
-//            resta[i] = 1;
-//        } else {
+//        if (overb[i] > 0) {
 //            overb[i]--;
+//        } else {
+//            match[i] = 0;
+//            resta[i] = 1;
 //        }
 //    } else {
 //        int mid = (l + r) >> 1;

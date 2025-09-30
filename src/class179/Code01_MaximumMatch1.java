@@ -96,11 +96,11 @@ public class Code01_MaximumMatch1 {
 
 	public static void del(int jobv, int l, int r, int i) {
 		if (l == r) {
-			if (overb[i] == 0) {
+			if (overb[i] > 0) {
+				overb[i]--;
+			} else {
 				match[i] = 0;
 				resta[i] = 1;
-			} else {
-				overb[i]--;
 			}
 		} else {
 			int mid = (l + r) >> 1;
