@@ -17,7 +17,7 @@ import java.io.PrintWriter;
 import java.util.Arrays;
 import java.util.Comparator;
 
-public class Code04_LCP1 {
+public class Code03_LCP1 {
 
 	public static int MAXN = 3000001;
 	public static int MAXM = 100001;
