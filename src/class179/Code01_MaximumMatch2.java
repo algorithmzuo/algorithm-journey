@@ -108,7 +108,7 @@ package class179;
 //
 //void prepare() {
 //    sort(a + 1, a + n + 1);
-//    int blen = (int)sqrt(n);
+//    int blen = (int)sqrt(m);
 //    for (int i = 1; i <= m; i++) {
 //        bi[i] = (i - 1) / blen + 1;
 //    }
