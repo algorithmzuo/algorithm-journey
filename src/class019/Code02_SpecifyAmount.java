@@ -69,7 +69,7 @@ public class Code02_SpecifyAmount{
 		for (int i = 0; i < m; i++) {
 			cur += arr[i];
 			max = Math.max(max, cur);
-			cur = cur < 0 ? 0 : cur;
+			cur = Math.max(cur, 0)
 		}
 		return max;
 	}
