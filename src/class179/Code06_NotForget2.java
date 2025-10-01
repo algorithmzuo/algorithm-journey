@@ -15,7 +15,7 @@ package class179;
 //using namespace std;
 //
 //struct Query {
-//    int l, r, mod, id;
+//    int l, r, p, id;
 //};
 //
 //const int MAXN = 100001;
@@ -99,23 +99,23 @@ package class179;
 //    }
 //}
 //
-//void setAns(int len, int mod, int id) {
+//void setAns(int len, int p, int id) {
 //    int blen = (int)sqrt(len);
 //    int bnum = (len + blen - 1) / blen;
 //    smlPower[0] = 1;
 //    for (int i = 1; i <= blen; i++) {
-//        smlPower[i] = (smlPower[i - 1] << 1) % mod;
+//        smlPower[i] = (smlPower[i - 1] << 1) % p;
 //    }
 //    bigPower[0] = 1;
 //    for (int i = 1; i <= bnum; i++) {
-//        bigPower[i] = (bigPower[i - 1] * smlPower[blen]) % mod;
+//        bigPower[i] = (bigPower[i - 1] * smlPower[blen]) % p;
 //    }
 //    long long res = 0, tmp;
-//    for (int p = head; p > 0; p = nxt[p]) {
-//        tmp = bigPower[len / blen] * smlPower[len % blen] % mod;
-//        tmp -= bigPower[(len - p) / blen] * smlPower[(len - p) % blen] % mod;
-//        tmp = (tmp * sum[p]) % mod;
-//        res = ((res + tmp) % mod + mod) % mod;
+//    for (int t = head; t > 0; t = nxt[t]) {
+//        tmp = bigPower[len / blen] * smlPower[len % blen] % p;
+//        tmp -= bigPower[(len - t) / blen] * smlPower[(len - t) % blen] % p;
+//        tmp = (tmp * sum[t]) % p;
+//        res = ((res + tmp) % p + p) % p;
 //    }
 //    ans[id] = res;
 //}
@@ -125,7 +125,7 @@ package class179;
 //    for (int i = 1; i <= m; i++) {
 //        int jobl = query[i].l;
 //        int jobr = query[i].r;
-//        int mod = query[i].mod;
+//        int jobp = query[i].p;
 //        int id = query[i].id;
 //        while (winl > jobl) {
 //            add(arr[--winl]);
@@ -139,7 +139,7 @@ package class179;
 //        while (winr > jobr) {
 //            del(arr[winr--]);
 //        }
-//        setAns(jobr - jobl + 1, mod, id);
+//        setAns(jobr - jobl + 1, jobp, id);
 //    }
 //}
 //
@@ -159,7 +159,7 @@ package class179;
 //        cin >> arr[i];
 //    }
 //    for (int i = 1; i <= m; i++) {
-//        cin >> query[i].l >> query[i].r >> query[i].mod;
+//        cin >> query[i].l >> query[i].r >> query[i].p;
 //        query[i].id = i;
 //    }
 //    prepare();

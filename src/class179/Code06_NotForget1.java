@@ -25,7 +25,7 @@ public class Code06_NotForget1 {
 	public static int MAXB = 401;
 	public static int n, m;
 	public static int[] arr = new int[MAXN];
-	// 每条查询的格式 : l、r、mod、id
+	// 每条查询的格式 : l、r、p、id
 	public static int[][] query = new int[MAXN][4];
 	public static int[] bi = new int[MAXN];
 
@@ -104,23 +104,23 @@ public class Code06_NotForget1 {
 		}
 	}
 
-	public static void setAns(int len, int mod, int id) {
+	public static void setAns(int len, int p, int id) {
 		int blen = (int) Math.sqrt(len);
 		int bnum = (len + blen - 1) / blen;
 		smlPower[0] = 1;
 		for (int i = 1; i <= blen; i++) {
-			smlPower[i] = (smlPower[i - 1] << 1) % mod;
+			smlPower[i] = (smlPower[i - 1] << 1) % p;
 		}
 		bigPower[0] = 1;
 		for (int i = 1; i <= bnum; i++) {
-			bigPower[i] = (bigPower[i - 1] * smlPower[blen]) % mod;
+			bigPower[i] = (bigPower[i - 1] * smlPower[blen]) % p;
 		}
 		long res = 0, tmp;
-		for (int p = head; p > 0; p = next[p]) {
-			tmp = bigPower[len / blen] * smlPower[len % blen] % mod;
-			tmp -= bigPower[(len - p) / blen] * smlPower[(len - p) % blen] % mod;
-			tmp = (tmp * sum[p]) % mod;
-			res = ((res + tmp) % mod + mod) % mod;
+		for (int t = head; t > 0; t = next[t]) {
+			tmp = bigPower[len / blen] * smlPower[len % blen] % p;
+			tmp -= bigPower[(len - t) / blen] * smlPower[(len - t) % blen] % p;
+			tmp = (tmp * sum[t]) % p;
+			res = ((res + tmp) % p + p) % p;
 		}
 		ans[id] = res;
 	}
@@ -130,7 +130,7 @@ public class Code06_NotForget1 {
 		for (int i = 1; i <= m; i++) {
 			int jobl = query[i][0];
 			int jobr = query[i][1];
-			int mod = query[i][2];
+			int jobp = query[i][2];
 			int id = query[i][3];
 			while (winl > jobl) {
 				add(arr[--winl]);
@@ -144,7 +144,7 @@ public class Code06_NotForget1 {
 			while (winr > jobr) {
 				del(arr[winr--]);
 			}
-			setAns(jobr - jobl + 1, mod, id);
+			setAns(jobr - jobl + 1, jobp, id);
 		}
 	}
 

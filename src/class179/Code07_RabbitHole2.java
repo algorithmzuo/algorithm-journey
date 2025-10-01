@@ -101,7 +101,7 @@ package class179;
 //
 //void prepare() {
 //    for (int i = 1; i <= n; i++) {
-//    	sorted[i] = arr[i];
+//        sorted[i] = arr[i];
 //    }
 //    sort(sorted + 1, sorted + n + 1);
 //    for (int i = 1; i <= n; i++) {
