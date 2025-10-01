@@ -26,7 +26,7 @@ package class179;
 //int n, m, z, q;
 //int a[MAXN];
 //int b[MAXM];
-//Query querys[MAXQ];
+//Query query[MAXQ];
 //int bi[MAXM];
 //
 //int match[MAXN << 2];
@@ -112,16 +112,16 @@ package class179;
 //    for (int i = 1; i <= m; i++) {
 //        bi[i] = (i - 1) / blen + 1;
 //    }
-//    sort(querys + 1, querys + q + 1, QueryCmp);
+//    sort(query + 1, query + q + 1, QueryCmp);
 //    build(1, n, 1);
 //}
 //
 //void compute() {
 //    int winl = 1, winr = 0;
 //    for (int i = 1; i <= q; i++) {
-//        int jobl = querys[i].l;
-//        int jobr = querys[i].r;
-//        int id   = querys[i].id;
+//        int jobl = query[i].l;
+//        int jobr = query[i].r;
+//        int id   = query[i].id;
 //        while (winl > jobl) {
 //            add(b[--winl], 1, n, 1);
 //        }
@@ -150,8 +150,8 @@ package class179;
 //    }
 //    cin >> q;
 //    for (int i = 1; i <= q; i++) {
-//        cin >> querys[i].l >> querys[i].r;
-//        querys[i].id = i;
+//        cin >> query[i].l >> query[i].r;
+//        query[i].id = i;
 //    }
 //    prepare();
 //    compute();
