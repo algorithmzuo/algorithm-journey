@@ -99,22 +99,22 @@ package class179;
 //}
 //
 //void prepare() {
-//	basePower[0] = 1;
+//    basePower[0] = 1;
 //    for (int i = 1; i <= n; i++) {
-//    	basePower[i] = basePower[i - 1] * base;
-//    	hashValue[i] = hashValue[i - 1] * base + (str[i] - 'a' + 1);
+//        basePower[i] = basePower[i - 1] * base;
+//        hashValue[i] = hashValue[i - 1] * base + (str[i] - 'a' + 1);
 //    }
 //    for (int l = 1, r = k; r <= n; l++, r++) {
 //        val[l] = hashValue[r] - hashValue[l - 1] * basePower[r - l + 1];
 //    }
 //    for (int i = 1; i <= len; i++) {
-//    	sorted[i] = val[i];
+//        sorted[i] = val[i];
 //    }
 //    sort(sorted + 1, sorted + len + 1);
 //    cntv = 1;
 //    for (int i = 2; i <= len; i++) {
 //        if (sorted[cntv] != sorted[i]) {
-//        	sorted[++cntv] = sorted[i];
+//            sorted[++cntv] = sorted[i];
 //        }
 //    }
 //    for (int i = 1; i <= len; i++) {
@@ -131,11 +131,8 @@ package class179;
 //    ios::sync_with_stdio(false);
 //    cin.tie(nullptr);
 //    cin >> n >> m >> k;
-//    string s;
-//    s.reserve(n);
-//    cin >> s;
 //    for (int i = 1; i <= n; i++) {
-//    	str[i] = s[i - 1];
+//        cin >> str[i];
 //    }
 //    len = n - k + 1;
 //    cntq = 0;
