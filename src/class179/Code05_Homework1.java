@@ -21,7 +21,7 @@ public class Code05_Homework1 {
 	public static int MAXN = 100001;
 	public static int n, m;
 	public static int[] arr = new int[MAXN];
-	// l、r、a、b、id
+	// 查询任务，l、r、a、b、id
 	public static int[][] query = new int[MAXN][5];
 	public static int[] bi = new int[MAXN];
 	public static int[] bl = new int[MAXN];

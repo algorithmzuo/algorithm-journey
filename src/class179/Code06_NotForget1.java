@@ -25,7 +25,7 @@ public class Code06_NotForget1 {
 	public static int MAXB = 401;
 	public static int n, m;
 	public static int[] arr = new int[MAXN];
-	// 每条查询的格式 : l、r、p、id
+	// 查询任务，l、r、p、id
 	public static int[][] query = new int[MAXN][4];
 	public static int[] bi = new int[MAXN];
 
