@@ -22,7 +22,7 @@ public class Code02_SimpleQuery1 {
 	public static int MAXN = 50001;
 	public static int n, q, cntq;
 	public static int[] arr = new int[MAXN];
-	// siz1、siz2、op、id
+	// 查询任务，siz1、siz2、op、id
 	public static int[][] query = new int[MAXN << 2][4];
 	public static int[] bi = new int[MAXN];
 
