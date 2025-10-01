@@ -27,7 +27,7 @@ public class Code01_NiceDay1 {
 	public static int[][] query = new int[MAXN][3];
 	public static int[] bi = new int[MAXN];
 
-	public static short[] cnt = new short[MAXV];
+	public static int[] cnt = new int[MAXV];
 	public static long num = 0;
 	public static long[] ans = new long[MAXN];
 

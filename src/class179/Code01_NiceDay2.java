@@ -24,7 +24,7 @@ package class179;
 //Query query[MAXN];
 //
 //int bi[MAXN];
-//short cnt[MAXV];
+//int cnt[MAXV];
 //long long num = 0;
 //long long ans[MAXN];
 //
