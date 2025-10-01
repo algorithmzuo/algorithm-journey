@@ -25,7 +25,7 @@ package class179;
 //
 //int bi[MAXN];
 //int cnt[MAXV];
-//long long num = 0;
+//long long curAns = 0;
 //long long ans[MAXN];
 //
 //bool QueryCmp(Query &a, Query &b) {
@@ -40,18 +40,18 @@ package class179;
 //}
 //
 //void add(int s) {
-//    num += cnt[s];
+//    curAns += cnt[s];
 //    cnt[s]++;
 //    for (int i = 0; i < 26; i++) {
-//        num += cnt[s ^ (1 << i)];
+//        curAns += cnt[s ^ (1 << i)];
 //    }
 //}
 //
 //void del(int s) {
 //    cnt[s]--;
-//    num -= cnt[s];
+//    curAns -= cnt[s];
 //    for (int i = 0; i < 26; i++) {
-//        num -= cnt[s ^ (1 << i)];
+//        curAns -= cnt[s ^ (1 << i)];
 //    }
 //}
 //
@@ -73,7 +73,7 @@ package class179;
 //        while (winr > jobr) {
 //            del(arr[winr--]);
 //        }
-//        ans[id] = num;
+//        ans[id] = curAns;
 //    }
 //}
 //

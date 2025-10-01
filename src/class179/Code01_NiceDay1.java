@@ -28,7 +28,7 @@ public class Code01_NiceDay1 {
 	public static int[] bi = new int[MAXN];
 
 	public static int[] cnt = new int[MAXV];
-	public static long num = 0;
+	public static long curAns = 0;
 	public static long[] ans = new long[MAXN];
 
 	public static class QueryCmp implements Comparator<int[]> {
@@ -46,18 +46,18 @@ public class Code01_NiceDay1 {
 	}
 
 	public static void add(int s) {
-		num += cnt[s];
+		curAns += cnt[s];
 		cnt[s]++;
 		for (int i = 0; i < 26; i++) {
-			num += cnt[s ^ (1 << i)];
+			curAns += cnt[s ^ (1 << i)];
 		}
 	}
 
 	public static void del(int s) {
 		cnt[s]--;
-		num -= cnt[s];
+		curAns -= cnt[s];
 		for (int i = 0; i < 26; i++) {
-			num -= cnt[s ^ (1 << i)];
+			curAns -= cnt[s ^ (1 << i)];
 		}
 	}
 
@@ -79,7 +79,7 @@ public class Code01_NiceDay1 {
 			while (winr > jobr) {
 				del(arr[winr--]);
 			}
-			ans[id] = num;
+			ans[id] = curAns;
 		}
 	}
 
