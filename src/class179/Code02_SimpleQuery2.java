@@ -56,20 +56,24 @@ package class179;
 //        int op = query[i].op;
 //        int id = query[i].id;
 //        while (win1 < job1) {
-//            ++cnt1[arr[++win1]];
+//            win1++;
+//            cnt1[arr[win1]]++;
 //            sumv += cnt2[arr[win1]];
 //        }
 //        while (win1 > job1) {
-//            --cnt1[arr[win1]];
-//            sumv -= cnt2[arr[win1--]];
+//            cnt1[arr[win1]]--;
+//            sumv -= cnt2[arr[win1]];
+//            win1--;
 //        }
 //        while (win2 < job2) {
-//            ++cnt2[arr[++win2]];
+//            win2++;
+//            cnt2[arr[win2]]++;
 //            sumv += cnt1[arr[win2]];
 //        }
 //        while (win2 > job2) {
-//            --cnt2[arr[win2]];
-//            sumv -= cnt1[arr[win2--]];
+//            cnt2[arr[win2]]--;
+//            sumv -= cnt1[arr[win2]];
+//            win2--;
 //        }
 //        ans[id] += sumv * op;
 //    }
