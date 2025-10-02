@@ -26,9 +26,12 @@ public class Code02_SimpleQuery1 {
 	public static int[][] query = new int[MAXN << 2][4];
 	public static int[] bi = new int[MAXN];
 
+	// cnt1 : arr[1..siz1]范围内每种数字出现的次数
+	// cnt2 : arr[1..siz2]范围内每种数字出现的次数
 	public static int[] cnt1 = new int[MAXN];
 	public static int[] cnt2 = new int[MAXN];
-	public static long sum = 0;
+	public static long curAns = 0;
+
 	public static long[] ans = new long[MAXN];
 
 	public static class QueryCmp implements Comparator<int[]> {
@@ -65,24 +68,24 @@ public class Code02_SimpleQuery1 {
 			while (win1 < job1) {
 				win1++;
 				cnt1[arr[win1]]++;
-				sum += cnt2[arr[win1]];
+				curAns += cnt2[arr[win1]];
 			}
 			while (win1 > job1) {
 				cnt1[arr[win1]]--;
-				sum -= cnt2[arr[win1]];
+				curAns -= cnt2[arr[win1]];
 				win1--;
 			}
 			while (win2 < job2) {
 				win2++;
 				cnt2[arr[win2]]++;
-				sum += cnt1[arr[win2]];
+				curAns += cnt1[arr[win2]];
 			}
 			while (win2 > job2) {
 				cnt2[arr[win2]]--;
-				sum -= cnt1[arr[win2]];
+				curAns -= cnt1[arr[win2]];
 				win2--;
 			}
-			ans[id] += sum * op;
+			ans[id] += curAns * op;
 		}
 	}
 

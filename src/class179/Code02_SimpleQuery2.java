@@ -27,7 +27,7 @@ package class179;
 //
 //int cnt1[MAXN];
 //int cnt2[MAXN];
-//long long sumv = 0;
+//long long curAns = 0;
 //long long ans[MAXN];
 //
 //bool QueryCmp(Query &a, Query &b) {
@@ -58,24 +58,24 @@ package class179;
 //        while (win1 < job1) {
 //            win1++;
 //            cnt1[arr[win1]]++;
-//            sumv += cnt2[arr[win1]];
+//            curAns += cnt2[arr[win1]];
 //        }
 //        while (win1 > job1) {
 //            cnt1[arr[win1]]--;
-//            sumv -= cnt2[arr[win1]];
+//            curAns -= cnt2[arr[win1]];
 //            win1--;
 //        }
 //        while (win2 < job2) {
 //            win2++;
 //            cnt2[arr[win2]]++;
-//            sumv += cnt1[arr[win2]];
+//            curAns += cnt1[arr[win2]];
 //        }
 //        while (win2 > job2) {
 //            cnt2[arr[win2]]--;
-//            sumv -= cnt1[arr[win2]];
+//            curAns -= cnt1[arr[win2]];
 //            win2--;
 //        }
-//        ans[id] += sumv * op;
+//        ans[id] += curAns * op;
 //    }
 //}
 //
