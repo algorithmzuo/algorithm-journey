@@ -19,7 +19,7 @@ package class179;
 //};
 //
 //const int MAXN = 100001;
-//
+//const int MAXV = 100000;
 //int n, m;
 //int arr[MAXN];
 //Query query[MAXN];
@@ -114,15 +114,14 @@ package class179;
 //}
 //
 //void prepare() {
-//    int nv = MAXN - 1;
-//    int blen = (int)sqrt(nv);
-//    int bnum = (nv + blen - 1) / blen;
-//    for (int i = 1; i <= nv; i++) {
+//    int blen = (int)sqrt(MAXV);
+//    int bnum = (MAXV + blen - 1) / blen;
+//    for (int i = 1; i <= MAXV; i++) {
 //        bi[i] = (i - 1) / blen + 1;
 //    }
 //    for (int i = 1; i <= bnum; i++) {
 //        bl[i] = (i - 1) * blen + 1;
-//        br[i] = min(i * blen, nv);
+//        br[i] = min(i * blen, MAXV);
 //    }
 //    sort(query + 1, query + m + 1, QueryCmp);
 //}

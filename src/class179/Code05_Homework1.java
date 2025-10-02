@@ -19,6 +19,7 @@ import java.util.Comparator;
 public class Code05_Homework1 {
 
 	public static int MAXN = 100001;
+	public static int MAXV = 100000;
 	public static int n, m;
 	public static int[] arr = new int[MAXN];
 	// 查询任务，l、r、a、b、id
@@ -117,15 +118,14 @@ public class Code05_Homework1 {
 	}
 
 	public static void prepare() {
-		int nv = MAXN - 1;
-		int blen = (int) Math.sqrt(nv);
-		int bnum = (nv + blen - 1) / blen;
-		for (int i = 1; i <= nv; i++) {
+		int blen = (int) Math.sqrt(MAXV);
+		int bnum = (MAXV + blen - 1) / blen;
+		for (int i = 1; i <= MAXV; i++) {
 			bi[i] = (i - 1) / blen + 1;
 		}
 		for (int i = 1; i <= bnum; i++) {
 			bl[i] = (i - 1) * blen + 1;
-			br[i] = Math.min(i * blen, nv);
+			br[i] = Math.min(i * blen, MAXV);
 		}
 		Arrays.sort(query, 1, m + 1, new QueryCmp());
 	}
