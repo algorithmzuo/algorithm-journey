@@ -20,17 +20,18 @@ public class Code05_Homework1 {
 
 	public static int MAXN = 100001;
 	public static int MAXV = 100000;
+	public static int MAXB = 401;
 	public static int n, m;
 	public static int[] arr = new int[MAXN];
 	// 查询任务，l、r、a、b、id
 	public static int[][] query = new int[MAXN][5];
 	public static int[] bi = new int[MAXN];
-	public static int[] bl = new int[MAXN];
-	public static int[] br = new int[MAXN];
+	public static int[] bl = new int[MAXB];
+	public static int[] br = new int[MAXB];
 
 	public static int[] numCnt = new int[MAXN];
-	public static int[] blockCnt = new int[MAXN];
-	public static int[] blockKind = new int[MAXN];
+	public static int[] blockCnt = new int[MAXB];
+	public static int[] blockKind = new int[MAXB];
 
 	public static int[] ans1 = new int[MAXN];
 	public static int[] ans2 = new int[MAXN];

@@ -20,16 +20,17 @@ package class179;
 //
 //const int MAXN = 100001;
 //const int MAXV = 100000;
+//const int MAXB = 401;
 //int n, m;
 //int arr[MAXN];
 //Query query[MAXN];
 //int bi[MAXN];
-//int bl[MAXN];
-//int br[MAXN];
+//int bl[MAXB];
+//int br[MAXB];
 //
 //int numCnt[MAXN];
-//int blockCnt[MAXN];
-//int blockKind[MAXN];
+//int blockCnt[MAXB];
+//int blockKind[MAXB];
 //
 //int ans1[MAXN];
 //int ans2[MAXN];
