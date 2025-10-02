@@ -26,16 +26,18 @@ public class Code03_LCP1 {
 	public static char[] str = new char[MAXN];
 	public static int[][] query = new int[MAXM][3];
 
+	// 字符串哈希
 	public static int base = 499;
 	public static long[] basePower = new long[MAXN];
 	public static long[] hashValue = new long[MAXN];
 
+	// 哈希值离散化，用哈希值替代字符串，再用排名替代哈希值
 	public static long[] val = new long[MAXN];
 	public static long[] sorted = new long[MAXN];
 	public static int[] arr = new int[MAXN];
 	public static int[] bi = new int[MAXN];
 
-	public static long[] cnt = new long[MAXN];
+	public static int[] cnt = new int[MAXN];
 	public static long curAns;
 	public static long[] ans = new long[MAXM];
 
@@ -121,7 +123,7 @@ public class Code03_LCP1 {
 		for (int i = 1; i <= len; i++) {
 			arr[i] = kth(val[i]);
 		}
-		// 块长优化
+		// 优化块长
 		int blen = Math.max(1, (int) ((double) n / Math.sqrt(m)));
 		for (int i = 1; i <= n; i++) {
 			bi[i] = (i - 1) / blen + 1;
@@ -138,11 +140,13 @@ public class Code03_LCP1 {
 		for (int i = 1; i <= n; i++) {
 			str[i] = in.nextLowerCase();
 		}
+		// 有效开头的个数，剩下的开头舍弃
 		len = n - k + 1;
 		cntq = 0;
 		for (int i = 1, l, r; i <= m; i++) {
 			l = in.nextInt();
 			r = in.nextInt();
+			// 过滤查询并调整查询参数
 			if (l <= len) {
 				query[++cntq][0] = l;
 				query[cntq][1] = Math.min(r, len);

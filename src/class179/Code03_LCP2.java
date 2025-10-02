@@ -35,7 +35,7 @@ package class179;
 //int arr[MAXN];
 //int bi[MAXN];
 //
-//long long cnt[MAXN];
+//int cnt[MAXN];
 //long long curAns;
 //long long ans[MAXM];
 //
