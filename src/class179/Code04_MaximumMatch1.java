@@ -32,7 +32,7 @@ public class Code04_MaximumMatch1 {
 	// 线段树维护匹配信息，a[l..r]和b数组的数字进行匹配，l..r对应的信息在i位置
 	// match[i] = v，a[l..r]和b数组的数字，一共匹配了v对
 	// resta[i] = v，a[l..r]中还有v个数，可用于匹配b数组的数字
-	// overb[i] = v，a[l..r]已经耗尽，但是还有v个b数组的数字需要匹配
+	// overb[i] = v，a[l..r]已经耗尽，但是还有v个b数组的数字没有满足
 	public static int[] match = new int[MAXN << 2];
 	public static int[] resta = new int[MAXN << 2];
 	public static int[] overb = new int[MAXN << 2];
