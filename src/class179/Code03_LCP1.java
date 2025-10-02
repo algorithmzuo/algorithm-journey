@@ -123,8 +123,9 @@ public class Code03_LCP1 {
 		for (int i = 1; i <= len; i++) {
 			arr[i] = kth(val[i]);
 		}
-		int blen = Math.max(1, (int) ((double) len / Math.sqrt(cntq)));
-		for (int i = 1; i <= len; i++) {
+		// 块长优化
+		int blen = Math.max(1, (int) ((double) n / Math.sqrt(m)));
+		for (int i = 1; i <= n; i++) {
 			bi[i] = (i - 1) / blen + 1;
 		}
 		Arrays.sort(query, 1, cntq + 1, new QueryCmp());

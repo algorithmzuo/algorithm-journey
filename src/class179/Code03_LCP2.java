@@ -120,8 +120,8 @@ package class179;
 //    for (int i = 1; i <= len; i++) {
 //        arr[i] = kth(val[i]);
 //    }
-//    int blen = max(1, (int)((double)len / sqrt((double)cntq)));
-//    for (int i = 1; i <= len; i++) {
+//    int blen = max(1, (int)((double)n / sqrt((double)m)));
+//    for (int i = 1; i <= n; i++) {
 //        bi[i] = (i - 1) / blen + 1;
 //    }
 //    sort(query + 1, query + cntq + 1, QueryCmp);
