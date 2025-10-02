@@ -68,15 +68,13 @@ public class Code03_LCP1 {
 	}
 
 	public static void add(int x) {
-		curAns -= cnt[x] * cnt[x];
+		curAns += cnt[x];
 		cnt[x]++;
-		curAns += cnt[x] * cnt[x];
 	}
 
 	public static void del(int x) {
-		curAns -= cnt[x] * cnt[x];
 		cnt[x]--;
-		curAns += cnt[x] * cnt[x];
+		curAns -= cnt[x];
 	}
 
 	public static void compute() {
@@ -97,7 +95,7 @@ public class Code03_LCP1 {
 			while (winr > jobr) {
 				del(arr[winr--]);
 			}
-			ans[id] = (curAns - (jobr - jobl + 1)) / 2;
+			ans[id] = curAns;
 		}
 	}
 

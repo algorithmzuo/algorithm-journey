@@ -65,15 +65,13 @@ package class179;
 //}
 //
 //void add(int x) {
-//    curAns -= cnt[x] * cnt[x];
+//    curAns += cnt[x];
 //    cnt[x]++;
-//    curAns += cnt[x] * cnt[x];
 //}
 //
 //void del(int x) {
-//    curAns -= cnt[x] * cnt[x];
 //    cnt[x]--;
-//    curAns += cnt[x] * cnt[x];
+//    curAns -= cnt[x];
 //}
 //
 //void compute() {
@@ -94,7 +92,7 @@ package class179;
 //        while (winr > jobr) {
 //            del(arr[winr--]);
 //        }
-//        ans[id] = (curAns - (jobr - jobl + 1)) / 2;
+//        ans[id] = curAns;
 //    }
 //}
 //
