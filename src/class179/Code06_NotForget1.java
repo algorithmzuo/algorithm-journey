@@ -29,13 +29,20 @@ public class Code06_NotForget1 {
 	public static int[][] query = new int[MAXN][4];
 	public static int[] bi = new int[MAXN];
 
+	// 次数桶组成的链表
+	// 有数字进入次数桶，该次数桶才进入链表，链表内部不需要有序组织
 	public static int head;
 	public static int[] last = new int[MAXN];
 	public static int[] next = new int[MAXN];
 
+	// cnt[v] = c，表示v这个数出现了c次，也可以说v在c次桶里
+	// sum[c] = x，表示c次桶内的所有数字，每种数字只统计一次，累加和为x
 	public static int[] cnt = new int[MAXN];
 	public static long[] sum = new long[MAXN];
 
+	// 假设[l..r]范围长度len，blockLen为块的长度，blockNum为块的数量
+	// smlPower[i]，表示p的i次方的值，i <= blockLen
+	// bigPower[i]，表示p的(i * blockLen)次方的值，i <= blockNum
 	public static long[] smlPower = new long[MAXB];
 	public static long[] bigPower = new long[MAXB];
 
@@ -105,20 +112,20 @@ public class Code06_NotForget1 {
 	}
 
 	public static void setAns(int len, int p, int id) {
-		int blen = (int) Math.sqrt(len);
-		int bnum = (len + blen - 1) / blen;
+		int blockLen = (int) Math.sqrt(len);
+		int blockNum = (len + blockLen - 1) / blockLen;
 		smlPower[0] = 1;
-		for (int i = 1; i <= blen; i++) {
+		for (int i = 1; i <= blockLen; i++) {
 			smlPower[i] = (smlPower[i - 1] << 1) % p;
 		}
 		bigPower[0] = 1;
-		for (int i = 1; i <= bnum; i++) {
-			bigPower[i] = (bigPower[i - 1] * smlPower[blen]) % p;
+		for (int i = 1; i <= blockNum; i++) {
+			bigPower[i] = (bigPower[i - 1] * smlPower[blockLen]) % p;
 		}
 		long res = 0, tmp;
 		for (int t = head; t > 0; t = next[t]) {
-			tmp = bigPower[len / blen] * smlPower[len % blen] % p;
-			tmp -= bigPower[(len - t) / blen] * smlPower[(len - t) % blen] % p;
+			tmp = bigPower[len / blockLen] * smlPower[len % blockLen] % p;
+			tmp -= bigPower[(len - t) / blockLen] * smlPower[(len - t) % blockLen] % p;
 			tmp = (tmp * sum[t]) % p;
 			res = ((res + tmp) % p + p) % p;
 		}

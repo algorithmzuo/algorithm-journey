@@ -100,20 +100,20 @@ package class179;
 //}
 //
 //void setAns(int len, int p, int id) {
-//    int blen = (int)sqrt(len);
-//    int bnum = (len + blen - 1) / blen;
+//    int blockLen = (int)sqrt(len);
+//    int blockNum = (len + blockLen - 1) / blockLen;
 //    smlPower[0] = 1;
-//    for (int i = 1; i <= blen; i++) {
+//    for (int i = 1; i <= blockLen; i++) {
 //        smlPower[i] = (smlPower[i - 1] << 1) % p;
 //    }
 //    bigPower[0] = 1;
-//    for (int i = 1; i <= bnum; i++) {
-//        bigPower[i] = (bigPower[i - 1] * smlPower[blen]) % p;
+//    for (int i = 1; i <= blockNum; i++) {
+//        bigPower[i] = (bigPower[i - 1] * smlPower[blockLen]) % p;
 //    }
 //    long long res = 0, tmp;
 //    for (int t = head; t > 0; t = nxt[t]) {
-//        tmp = bigPower[len / blen] * smlPower[len % blen] % p;
-//        tmp -= bigPower[(len - t) / blen] * smlPower[(len - t) % blen] % p;
+//        tmp = bigPower[len / blockLen] * smlPower[len % blockLen] % p;
+//        tmp -= bigPower[(len - t) / blockLen] * smlPower[(len - t) % blockLen] % p;
 //        tmp = (tmp * sum[t]) % p;
 //        res = ((res + tmp) % p + p) % p;
 //    }
