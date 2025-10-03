@@ -88,10 +88,8 @@ package class179;
 //        return (bitSet1 & (bitSet2 >> (MAXV - x))).any();
 //    } else if (op == 3) {
 //        for (int f = 1; f * f <= x; f++) {
-//            if (x % f == 0) {
-//                if (bitSet1[f] && bitSet1[x / f]) {
+//            if (x % f == 0 && bitSet1[f] && bitSet1[x / f]) {
 //                    return true;
-//                }
 //            }
 //        }
 //        return false;
