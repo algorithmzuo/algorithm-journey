@@ -164,9 +164,9 @@ public class Code08_YnoiCornfield1 {
 		} else if (op == 2) {
 			return bitSet1.andOtherMoveRight(bitSet2, MAXV - x);
 		} else if (op == 3) {
-			for (int d = 1; d * d <= x; d++) {
-				if (x % d == 0) {
-					if (bitSet1.status(d) && bitSet1.status(x / d)) {
+			for (int f = 1; f * f <= x; f++) {
+				if (x % f == 0) {
+					if (bitSet1.status(f) && bitSet1.status(x / f)) {
 						return true;
 					}
 				}
