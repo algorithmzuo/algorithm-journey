@@ -50,27 +50,7 @@ public class Code08_YnoiCornfield1 {
 			return false;
 		}
 
-		// 检查 自己 & 自己左移k位 是否有非零位
-		public boolean andSelfMoveLeft(int k) {
-			int ws = k >> 6;
-			int bs = k & 63;
-			for (int i = len - 1; i >= 0; i--) {
-				int src = i - ws;
-				if (src < 0) {
-					break;
-				}
-				long shifted = (status[src] << bs);
-				if (bs != 0 && src - 1 >= 0) {
-					shifted |= (status[src - 1] >>> (64 - bs));
-				}
-				if ((status[i] & shifted) != 0L) {
-					return true;
-				}
-			}
-			return false;
-		}
-
-		// 检查 自己 & other右移k位 是否有非零位
+		// 检查 自己 & other右移k位 是否有1存在
 		public boolean andOtherMoveRight(BitSet other, int k) {
 			int ws = k >> 6;
 			int bs = k & 63;
@@ -79,9 +59,9 @@ public class Code08_YnoiCornfield1 {
 				if (src >= len) {
 					break;
 				}
-				long shifted = (other.status[src] >>> bs);
+				long shifted = other.status[src] >>> bs;
 				if (bs != 0 && src + 1 < len) {
-					shifted |= (other.status[src + 1] << (64 - bs));
+					shifted |= other.status[src + 1] << (64 - bs);
 				}
 				if ((status[i] & shifted) != 0L) {
 					return true;
@@ -160,7 +140,7 @@ public class Code08_YnoiCornfield1 {
 
 	public static boolean calc(int op, int x) {
 		if (op == 1) {
-			return bitSet1.andSelfMoveLeft(x);
+			return bitSet1.andOtherMoveRight(bitSet1, x);
 		} else if (op == 2) {
 			return bitSet1.andOtherMoveRight(bitSet2, MAXV - x);
 		} else if (op == 3) {

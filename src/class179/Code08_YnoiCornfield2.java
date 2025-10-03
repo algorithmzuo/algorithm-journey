@@ -83,7 +83,7 @@ package class179;
 //
 //bool calc(int op, int x) {
 //    if (op == 1) {
-//        return (bitSet1 & (bitSet1 << x)).any();
+//        return (bitSet1 & (bitSet1 >> x)).any();
 //    } else if (op == 2) {
 //        return (bitSet1 & (bitSet2 >> (MAXV - x))).any();
 //    } else if (op == 3) {
