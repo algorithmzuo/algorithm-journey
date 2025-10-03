@@ -29,7 +29,7 @@ public class Code06_NotForget1 {
 	public static int[][] query = new int[MAXN][4];
 	public static int[] bi = new int[MAXN];
 
-	// 次数桶组成的链表
+	// 有效次数桶组成的双向链表
 	// 有数字进入次数桶，该次数桶才进入链表，链表内部不需要有序组织
 	public static int head;
 	public static int[] last = new int[MAXN];
@@ -122,6 +122,7 @@ public class Code06_NotForget1 {
 		for (int i = 1; i <= blockNum; i++) {
 			bigPower[i] = (bigPower[i - 1] * smlPower[blockLen]) % p;
 		}
+		// t次桶的贡献 = [2的len次方 - 2的(len-t)次方] * sum[t]
 		long res = 0, p1, p2, tmp;
 		p1 = bigPower[len / blockLen] * smlPower[len % blockLen] % p;
 		for (int t = head; t > 0; t = next[t]) {
