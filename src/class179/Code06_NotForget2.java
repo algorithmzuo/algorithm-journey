@@ -110,11 +110,11 @@ package class179;
 //    for (int i = 1; i <= blockNum; i++) {
 //        bigPower[i] = (bigPower[i - 1] * smlPower[blockLen]) % p;
 //    }
-//    long long res = 0, tmp;
+//    long long res = 0, p1, p2, tmp;
+//    p1 = bigPower[len / blockLen] * smlPower[len % blockLen] % p;
 //    for (int t = head; t > 0; t = nxt[t]) {
-//        tmp = bigPower[len / blockLen] * smlPower[len % blockLen] % p;
-//        tmp -= bigPower[(len - t) / blockLen] * smlPower[(len - t) % blockLen] % p;
-//        tmp = (tmp * sum[t]) % p;
+//        p2 = bigPower[(len - t) / blockLen] * smlPower[(len - t) % blockLen] % p;
+//        tmp = (p1 - p2) * sum[t] % p;
 //        res = ((res + tmp) % p + p) % p;
 //    }
 //    ans[id] = res;
