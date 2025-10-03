@@ -115,8 +115,8 @@ public class Code08_YnoiCornfield1 {
 	public static BitSet bitSet2 = new BitSet(MAXN);
 
 	public static int[] cnt = new int[MAXN];
-	public static int[] lastPos = new int[MAXN];
-	public static int[] maxLeft = new int[MAXN];
+	public static int[] pre = new int[MAXN];
+	public static int[] dp = new int[MAXN];
 
 	public static boolean[] ans = new boolean[MAXN];
 
@@ -211,25 +211,24 @@ public class Code08_YnoiCornfield1 {
 	public static void special() {
 		for (int x = 1; x < blen; x++) {
 			if (headq[x] != 0) {
-				Arrays.fill(lastPos, 0);
-				Arrays.fill(maxLeft, 0);
-				int last = 0;
+				Arrays.fill(pre, 0);
+				Arrays.fill(dp, 0);
 				for (int i = 1; i <= n; i++) {
-					int val = arr[i];
-					lastPos[val] = i;
-					if (val * x <= MAXV) {
-						last = Math.max(last, lastPos[val * x]);
+					int v = arr[i];
+					pre[v] = i;
+					dp[i] = dp[i - 1];
+					if (v * x <= MAXV) {
+						dp[i] = Math.max(dp[i], pre[v * x]);
 					}
-					if (val % x == 0) {
-						last = Math.max(last, lastPos[val / x]);
+					if (v % x == 0) {
+						dp[i] = Math.max(dp[i], pre[v / x]);
 					}
-					maxLeft[i] = last;
 				}
 				for (int q = headq[x]; q > 0; q = nextq[q]) {
 					int l = ql[q];
 					int r = qr[q];
 					int id = qid[q];
-					ans[id] = l <= maxLeft[r];
+					ans[id] = l <= dp[r];
 				}
 			}
 		}

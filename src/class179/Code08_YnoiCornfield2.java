@@ -41,8 +41,8 @@ package class179;
 //bitset<MAXN> bitSet2;
 //
 //int cnt[MAXN];
-//int lastPos[MAXN];
-//int maxLeft[MAXN];
+//int pre[MAXN];
+//int dp[MAXN];
 //
 //bool ans[MAXN];
 //
@@ -132,25 +132,24 @@ package class179;
 //void special() {
 //    for (int x = 1; x < blen; x++) {
 //        if (headq[x] != 0) {
-//            memset(lastPos, 0, sizeof(int) * (MAXV + 1));
-//            memset(maxLeft, 0, sizeof(int) * (n + 1));
-//            int last = 0;
+//            memset(pre, 0, sizeof(int) * (MAXV + 1));
+//            memset(dp, 0, sizeof(int) * (n + 1));
 //            for (int i = 1; i <= n; i++) {
-//                int val = arr[i];
-//                lastPos[val] = i;
-//                if (1LL * val * x <= MAXV) {
-//                    last = max(last, lastPos[val * x]);
+//                int v = arr[i];
+//                pre[v] = i;
+//                dp[i] = dp[i-1];
+//                if (v * x <= MAXV) {
+//                    dp[i] = max(dp[i], pre[v * x]);
 //                }
-//                if (val % x == 0) {
-//                    last = max(last, lastPos[val / x]);
+//                if (v % x == 0) {
+//                    dp[i] = max(dp[i], pre[v / x]);
 //                }
-//                maxLeft[i] = last;
 //            }
 //            for (int q = headq[x]; q > 0; q = nextq[q]) {
 //                int l = ql[q];
 //                int r = qr[q];
 //                int id = qid[q];
-//                ans[id] = (l <= maxLeft[r]);
+//                ans[id] = (l <= dp[r]);
 //            }
 //        }
 //    }
