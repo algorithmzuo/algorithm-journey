@@ -157,7 +157,7 @@ package class179;
 //    ios::sync_with_stdio(false);
 //    cin.tie(nullptr);
 //    cin >> n >> m;
-//    blen = (int)sqrt(n);
+//    blen = (int)sqrt(MAXV);
 //    for (int i = 1; i <= n; i++) {
 //        bi[i] = (i - 1) / blen + 1;
 //    }

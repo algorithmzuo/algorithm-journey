@@ -210,7 +210,7 @@ public class Code08_YnoiCornfield1 {
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
 		n = in.nextInt();
 		m = in.nextInt();
-		blen = (int) Math.sqrt(n);
+		blen = (int) Math.sqrt(MAXV);
 		for (int i = 1; i <= n; i++) {
 			bi[i] = (i - 1) / blen + 1;
 		}
