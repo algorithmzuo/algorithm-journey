@@ -40,6 +40,7 @@ public class Code06_NotForget1 {
 	public static int[] cnt = new int[MAXN];
 	public static long[] sum = new long[MAXN];
 
+	// 光速幂
 	// 假设[l..r]范围长度len，blockLen为块的长度，blockNum为块的数量
 	// smlPower[i]，表示p的i次方的值，i <= blockLen
 	// bigPower[i]，表示p的(i * blockLen)次方的值，i <= blockNum
@@ -112,6 +113,8 @@ public class Code06_NotForget1 {
 	}
 
 	public static void setAns(int len, int p, int id) {
+		// 光速幂
+		// 构建smlPower和bigPower
 		int blockLen = (int) Math.sqrt(len);
 		int blockNum = (len + blockLen - 1) / blockLen;
 		smlPower[0] = 1;
