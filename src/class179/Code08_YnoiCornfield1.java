@@ -37,23 +37,14 @@ public class Code08_YnoiCornfield1 {
 			status[bit >> 6] &= ~(1L << (bit & 63));
 		}
 
-		public boolean status(int bit) {
+		public boolean getStatus(int bit) {
 			return ((status[bit >> 6] >> (bit & 63)) & 1L) != 0L;
 		}
 
-		public boolean andOther(BitSet other) {
-			for (int i = 0; i < len; i++) {
-				if ((status[i] & other.status[i]) != 0L) {
-					return true;
-				}
-			}
-			return false;
-		}
-
 		// 检查 自己 & other右移k位 是否有1存在
-		public boolean andOtherMoveRight(BitSet other, int k) {
-			int ws = k >> 6;
-			int bs = k & 63;
+		public boolean andOtherMoveRight(BitSet other, int move) {
+			int ws = move >> 6;
+			int bs = move & 63;
 			for (int i = 0; i < len; i++) {
 				int src = i + ws;
 				if (src >= len) {
@@ -91,10 +82,12 @@ public class Code08_YnoiCornfield1 {
 	public static int[] qid = new int[MAXN];
 	public static int cnts;
 
+	// 数字出现的词频
+	public static int[] cnt = new int[MAXN];
 	public static BitSet bitSet1 = new BitSet(MAXN);
 	public static BitSet bitSet2 = new BitSet(MAXN);
 
-	public static int[] cnt = new int[MAXN];
+	// 特别查询的dp过程
 	public static int[] pre = new int[MAXN];
 	public static int[] dp = new int[MAXN];
 
@@ -145,7 +138,7 @@ public class Code08_YnoiCornfield1 {
 			return bitSet1.andOtherMoveRight(bitSet2, MAXV - x);
 		} else if (op == 3) {
 			for (int f = 1; f * f <= x; f++) {
-				if (x % f == 0 && bitSet1.status(f) && bitSet1.status(x / f)) {
+				if (x % f == 0 && bitSet1.getStatus(f) && bitSet1.getStatus(x / f)) {
 					return true;
 				}
 			}
@@ -153,7 +146,7 @@ public class Code08_YnoiCornfield1 {
 		} else {
 			if (x >= 1) {
 				for (int i = 1; i * x <= MAXV; i++) {
-					if (bitSet1.status(i) && bitSet1.status(i * x)) {
+					if (bitSet1.getStatus(i) && bitSet1.getStatus(i * x)) {
 						return true;
 					}
 				}

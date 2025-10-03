@@ -37,10 +37,10 @@ package class179;
 //int qid[MAXN];
 //int cnts = 0;
 //
+//int cnt[MAXN];
 //bitset<MAXN> bitSet1;
 //bitset<MAXN> bitSet2;
 //
-//int cnt[MAXN];
 //int pre[MAXN];
 //int dp[MAXN];
 //
