@@ -71,13 +71,20 @@ public class Code07_RabbitHole1 {
 	public static int n, m;
 	public static int[] arr = new int[MAXN];
 	public static int[][] query = new int[MAXT * 3][3];
+
+	// 排序之后不去重
+	// 得到每个数字的排名
 	public static int[] sorted = new int[MAXN];
 	public static int[] bi = new int[MAXN];
 
+	// cnt[v] = c，表示窗口中数字v出现c次
 	public static int[] cnt = new int[MAXN];
-	public static boolean[] hasSet = new boolean[MAXT];
-	public static BitSet[] bitSet = new BitSet[MAXT];
+	// 当前窗口的位图
 	public static BitSet curSet;
+	// 问题从来没获得位图就拷贝，问题获得过位图就做&运算
+	public static boolean[] hasSet = new boolean[MAXT];
+	// 每个问题的位图
+	public static BitSet[] bitSet = new BitSet[MAXT];
 
 	public static int[] ans = new int[MAXT];
 

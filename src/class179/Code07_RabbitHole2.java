@@ -25,13 +25,14 @@ package class179;
 //const int MAXT = 30001;
 //int n, m;
 //int arr[MAXN];
+//
 //int sorted[MAXN];
 //int bi[MAXN];
 //
 //int cnt[MAXN];
+//bitset<MAXN> curSet;
 //bool hasSet[MAXT];
 //bitset<MAXN> bitSet[MAXT];
-//bitset<MAXN> curSet;
 //
 //Query query[MAXT * 3];
 //
