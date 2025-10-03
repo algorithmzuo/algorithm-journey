@@ -36,7 +36,7 @@ public class Code06_NotForget1 {
 	public static int[] next = new int[MAXN];
 
 	// cnt[v] = c，表示v这个数出现了c次，也可以说v在c次桶里
-	// sum[c] = x，表示c次桶内的所有数字，每种数字只统计一次，累加和为x
+	// sum[c] = x，表示c次桶内的数字，每种数字只统计一次，累加和为x
 	public static int[] cnt = new int[MAXN];
 	public static long[] sum = new long[MAXN];
 
