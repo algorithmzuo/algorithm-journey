@@ -121,6 +121,7 @@ public class Code02_War1 {
 		return dist;
 	}
 
+	// 单调栈的方式建立虚树
 	public static void buildVirtualTree() {
 		Arrays.sort(arr, 1, k + 1, (a, b) -> a[1] - b[1]);
 		cntv = 0;
