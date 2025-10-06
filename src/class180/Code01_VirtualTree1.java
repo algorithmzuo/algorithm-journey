@@ -39,7 +39,6 @@ public class Code01_VirtualTree1 {
 
 	// 第二种建树方式
 	public static int[] stack = new int[MAXN];
-	public static int top;
 
 	public static int[] siz = new int[MAXN];
 	public static int[] dp = new int[MAXN];
@@ -140,8 +139,8 @@ public class Code01_VirtualTree1 {
 	public static void buildVirtualTree2() {
 		sortByDfn(arr, 1, k);
 		cntv = 0;
-		top = 0;
 		headv[1] = 0;
+		int top = 0;
 		stack[++top] = 1;
 		for (int i = 1; i <= k; i++) {
 			int x = arr[i];

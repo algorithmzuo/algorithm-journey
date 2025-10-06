@@ -36,8 +36,6 @@ public class Code02_War1 {
 	public static int[] arr = new int[MAXN];
 	public static boolean[] isKey = new boolean[MAXN];
 	public static int[] stack = new int[MAXN];
-	public static int top;
-
 	public static long[] dp = new long[MAXN];
 
 	public static void addEdgeG(int u, int v, int w) {
@@ -139,8 +137,8 @@ public class Code02_War1 {
 	public static void buildVirtualTree() {
 		sortByDfn(arr, 1, k);
 		cntv = 0;
-		top = 0;
 		headv[1] = 0;
+		int top = 0;
 		stack[++top] = 1;
 		for (int i = 1; i <= k; i++) {
 			int x = arr[i];
