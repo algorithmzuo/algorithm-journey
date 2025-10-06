@@ -89,7 +89,10 @@ public class Code04_Measurer2 {
 		}
 		for (int i = 1; i <= m1; i++) {
 			if (vow[i][0] == 1) {
-				addEdge(vow[i][1], vow[i][2], -Math.log(-limit + vow[i][3]));
+				// 课上的代码没有这个判断，加上才是正确的，防止log里出现负数
+				if (-limit + vow[i][3] >= 0) {
+					addEdge(vow[i][1], vow[i][2], -Math.log(-limit + vow[i][3]));
+				}
 			} else {
 				addEdge(vow[i][1], vow[i][2], Math.log(limit + vow[i][3]));
 			}
