@@ -144,6 +144,9 @@ public class Code02_War1 {
 		stack[++top] = 1;
 		for (int i = 1; i <= k; i++) {
 			int x = arr[i];
+			if (x == 1) {
+				continue;
+			}
 			int y = stack[top];
 			int lca = getLca(x, y);
 			while (top > 1 && dfn[stack[top - 1]] >= dfn[lca]) {
