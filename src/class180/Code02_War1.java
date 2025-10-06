@@ -8,7 +8,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
-import java.util.Arrays;
 
 public class Code02_War1 {
 
@@ -34,8 +33,7 @@ public class Code02_War1 {
 	public static int[][] mindist = new int[MAXN][MAXP];
 	public static int cntd;
 
-	// 节点编号、dfn序
-	public static int[][] arr = new int[MAXN][2];
+	public static int[] arr = new int[MAXN];
 	public static boolean[] isKey = new boolean[MAXN];
 	public static int[] stack = new int[MAXN];
 	public static int top;
@@ -54,6 +52,23 @@ public class Code02_War1 {
 		tov[cntv] = v;
 		weightv[cntv] = w;
 		headv[u] = cntv;
+	}
+
+	// nums中的数，根据dfn的大小排序，手撸双指针快排
+	public static void sortByDfn(int[] nums, int l, int r) {
+		if (l >= r) return;
+		int i = l, j = r;
+		int pivot = nums[(l + r) >> 1];
+		while (i <= j) {
+			while (dfn[nums[i]] < dfn[pivot]) i++;
+			while (dfn[nums[j]] > dfn[pivot]) j--;
+			if (i <= j) {
+				int tmp = nums[i]; nums[i] = nums[j]; nums[j] = tmp;
+				i++; j--;
+			}
+		}
+		sortByDfn(nums, l, j);
+		sortByDfn(nums, i, r);
 	}
 
 	public static void dfs(int u, int fa, int w) {
@@ -123,13 +138,13 @@ public class Code02_War1 {
 
 	// 单调栈的方式建立虚树
 	public static void buildVirtualTree() {
-		Arrays.sort(arr, 1, k + 1, (a, b) -> a[1] - b[1]);
+		sortByDfn(arr, 1, k);
 		cntv = 0;
 		top = 0;
 		headv[1] = 0;
 		stack[++top] = 1;
 		for (int i = 1; i <= k; i++) {
-			int x = arr[i][0];
+			int x = arr[i];
 			int y = stack[top];
 			int lca = getLca(x, y);
 			while (top > 1 && dfn[stack[top - 1]] >= dfn[lca]) {
@@ -170,11 +185,11 @@ public class Code02_War1 {
 	public static long compute() {
 		buildVirtualTree();
 		for (int i = 1; i <= k; i++) {
-			isKey[arr[i][0]] = true;
+			isKey[arr[i]] = true;
 		}
 		dpOnTree(1);
 		for (int i = 1; i <= k; i++) {
-			isKey[arr[i][0]] = false;
+			isKey[arr[i]] = false;
 		}
 		return dp[1];
 	}
@@ -194,10 +209,8 @@ public class Code02_War1 {
 		m = in.nextInt();
 		for (int t = 1; t <= m; t++) {
 			k = in.nextInt();
-			for (int i = 1, node; i <= k; i++) {
-				node = in.nextInt();
-				arr[i][0] = node;
-				arr[i][1] = dfn[node];
+			for (int i = 1; i <= k; i++) {
+				arr[i] = in.nextInt();
 			}
 			out.println(compute());
 		}
