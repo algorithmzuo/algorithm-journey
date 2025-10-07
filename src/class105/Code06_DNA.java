@@ -15,7 +15,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
-public class Code06_LikeLotusRoot {
+public class Code06_DNA {
 
 	public static int MAXN = 100001;
 
