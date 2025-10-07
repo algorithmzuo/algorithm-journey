@@ -99,7 +99,7 @@ public class HashFunction {
 //		for (String str : set) {
 //			System.out.println(str);
 //		}
-		System.out.println("不同哈希值的数量 : " + strs.size());
+		System.out.println("不同哈希值的数量 : " + set.size());
 		System.out.println();
 
 		int m = 13;
