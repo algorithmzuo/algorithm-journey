@@ -34,8 +34,9 @@ public class Code02_War1 {
 	public static int cntd;
 
 	public static int[] arr = new int[MAXN];
-	public static boolean[] isKey = new boolean[MAXN];
+	public static int[] tmp = new int[MAXN << 1];
 	public static int[] stack = new int[MAXN];
+	public static boolean[] isKey = new boolean[MAXN];
 	public static long[] dp = new long[MAXN];
 
 	public static void addEdgeG(int u, int v, int w) {
@@ -133,18 +134,47 @@ public class Code02_War1 {
 		return dist;
 	}
 
-	// 单调栈的方式建立虚树
-	public static void buildVirtualTree() {
+	// 二次排序 + LCA连边的方式建立虚树
+	public static int buildVirtualTree1() {
 		sortByDfn(arr, 1, k);
+		int len = 0;
+		for (int i = 1; i < k; i++) {
+			tmp[++len] = arr[i];
+			tmp[++len] = getLca(arr[i], arr[i + 1]);
+		}
+		tmp[++len] = arr[k];
+		// 因为题目是让所有关键点不能和1号点连通
+		// 所以一定要让1号点加入
+		tmp[++len] = 1;
+		sortByDfn(tmp, 1, len);
+		int unique = 1;
+		for (int i = 2; i <= len; i++) {
+			if (tmp[unique] != tmp[i]) {
+				tmp[++unique] = tmp[i];
+			}
+		}
+		cntv = 0;
+		for (int i = 1; i <= unique; i++) {
+			headv[tmp[i]] = 0;
+		}
+		for (int i = 1; i < unique; i++) {
+			int lca = getLca(tmp[i], tmp[i + 1]);
+			addEdgeV(lca, tmp[i + 1], getDist(lca, tmp[i + 1]));
+		}
+		return tmp[1];
+	}
+
+	// 单调栈的方式建立虚树
+	public static int buildVirtualTree2() {
+		sortByDfn(arr, 1, k);
+		// 因为题目是让所有关键点不能和1号点连通
+		// 所以一定要让1号点加入
 		cntv = 0;
 		headv[1] = 0;
 		int top = 0;
 		stack[++top] = 1;
 		for (int i = 1; i <= k; i++) {
 			int x = arr[i];
-			if (x == 1) {
-				continue;
-			}
 			int y = stack[top];
 			int lca = getLca(x, y);
 			while (top > 1 && dfn[stack[top - 1]] >= dfn[lca]) {
@@ -164,6 +194,7 @@ public class Code02_War1 {
 			addEdgeV(stack[top - 1], stack[top], getDist(stack[top - 1], stack[top]));
 			top--;
 		}
+		return stack[1];
 	}
 
 	public static void dpOnTree(int u) {
@@ -183,15 +214,16 @@ public class Code02_War1 {
 	}
 
 	public static long compute() {
-		buildVirtualTree();
 		for (int i = 1; i <= k; i++) {
 			isKey[arr[i]] = true;
 		}
-		dpOnTree(1);
+		int tree = buildVirtualTree1();
+		// int tree = buildVirtualTree2();
+		dpOnTree(tree);
 		for (int i = 1; i <= k; i++) {
 			isKey[arr[i]] = false;
 		}
-		return dp[1];
+		return dp[tree];
 	}
 
 	public static void main(String[] args) throws Exception {

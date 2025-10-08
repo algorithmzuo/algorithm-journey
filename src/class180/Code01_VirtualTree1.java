@@ -110,7 +110,7 @@ public class Code01_VirtualTree1 {
 	}
 
 	// 二次排序 + LCA连边的方式建立虚树
-	public static void buildVirtualTree1() {
+	public static int buildVirtualTree1() {
 		sortByDfn(arr, 1, k);
 		int len = 0;
 		for (int i = 1; i < k; i++) {
@@ -118,7 +118,6 @@ public class Code01_VirtualTree1 {
 			tmp[++len] = getLca(arr[i], arr[i + 1]);
 		}
 		tmp[++len] = arr[k];
-		tmp[++len] = 1;
 		sortByDfn(tmp, 1, len);
 		int unique = 1;
 		for (int i = 2; i <= len; i++) {
@@ -133,20 +132,18 @@ public class Code01_VirtualTree1 {
 		for (int i = 1; i < unique; i++) {
 			addEdgeV(getLca(tmp[i], tmp[i + 1]), tmp[i + 1]);
 		}
+		return tmp[1];
 	}
 
 	// 单调栈的方式建立虚树
-	public static void buildVirtualTree2() {
+	public static int buildVirtualTree2() {
 		sortByDfn(arr, 1, k);
 		cntv = 0;
-		headv[1] = 0;
+		headv[arr[1]] = 0;
 		int top = 0;
-		stack[++top] = 1;
-		for (int i = 1; i <= k; i++) {
+		stack[++top] = arr[1];
+		for (int i = 2; i <= k; i++) {
 			int x = arr[i];
-			if (x == 1) {
-				continue;
-			}
 			int y = stack[top];
 			int lca = getLca(x, y);
 			while (top > 1 && dfn[stack[top - 1]] >= dfn[lca]) {
@@ -166,17 +163,16 @@ public class Code01_VirtualTree1 {
 			addEdgeV(stack[top - 1], stack[top]);
 			top--;
 		}
+		return stack[1];
 	}
 
-	public static void dpOnTree(int u, int fa) {
+	public static void dpOnTree(int u) {
 		dp[u] = siz[u] = 0;
 		for (int e = headv[u], v; e > 0; e = nextv[e]) {
 			v = tov[e];
-			if (v != fa) {
-				dpOnTree(v, u);
-				dp[u] += dp[v];
-				siz[u] += siz[v];
-			}
+			dpOnTree(v);
+			dp[u] += dp[v];
+			siz[u] += siz[v];
 		}
 		if (isKey[u]) {
 			dp[u] += siz[u];
@@ -200,10 +196,10 @@ public class Code01_VirtualTree1 {
 		}
 		int ans = -1;
 		if (check) {
-			// buildVirtualTree1();
-			buildVirtualTree2();
-			dpOnTree(1, 0);
-			ans = dp[1];
+			int tree = buildVirtualTree1();
+			// int tree = buildVirtualTree2();
+			dpOnTree(tree);
+			ans = dp[tree];
 		}
 		for (int i = 1; i <= k; i++) {
 			isKey[arr[i]] = false;
