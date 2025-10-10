@@ -173,14 +173,14 @@ public class Code06_TreelandAndViruses1 {
 			int u = tmp[i];
 			bestDist[u] = n + 1;
 			bestTime[u] = n + 1;
-			bestPre[u] = 0;
+			bestPre[u] = n + 1;
 			vis[u] = false;
 		}
 		for (int i = 1; i <= k; i++) {
 			int s = start[i];
 			bestDist[s] = 0;
-			bestPre[s] = s;
 			bestTime[s] = 0;
+			bestPre[s] = s;
 			heap.add(new Node(s, 0, 0, s));
 		}
 		while (!heap.isEmpty()) {
