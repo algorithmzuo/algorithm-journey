@@ -9,9 +9,32 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.util.Comparator;
 import java.util.PriorityQueue;
 
 public class Code06_TreelandAndViruses1 {
+
+	static class Node {
+		int id, dist, time, source, sourceOrder;
+
+		Node(int id_, int dist_, int time_, int source_, int sourceOrder_) {
+			id = id_;
+			dist = dist_;
+			time = time_;
+			source = source_;
+			sourceOrder = sourceOrder_;
+		}
+	}
+
+	static class NodeCmp implements Comparator<Node> {
+		@Override
+		public int compare(Node o1, Node o2) {
+			if (o1.time != o2.time) {
+				return o1.time - o2.time;
+			}
+			return o1.sourceOrder - o2.sourceOrder;
+		}
+	}
 
 	public static int MAXN = 200001;
 	public static int MAXP = 20;
@@ -42,10 +65,10 @@ public class Code06_TreelandAndViruses1 {
 	public static int unique;
 
 	// dijkstra算法需要
+	public static PriorityQueue<Node> heap = new PriorityQueue<>(new NodeCmp());
 	public static boolean[] vis = new boolean[MAXN];
-	public static int[] bestDist = new int[MAXN];
-	public static int[] bestTime = new int[MAXN];
-	public static int[] bestPre = new int[MAXN];
+	public static int[] minTime = new int[MAXN];
+	public static int[] bestSource = new int[MAXN];
 
 	public static void addEdgeG(int u, int v) {
 		nextg[++cntg] = headg[u];
@@ -147,57 +170,38 @@ public class Code06_TreelandAndViruses1 {
 		return tmp[1];
 	}
 
-	static class Node {
-		int id, dist, time, pre;
-
-		Node(int id_, int dist_, int time_, int pre_) {
-			id = id_;
-			dist = dist_;
-			time = time_;
-			pre = pre_;
-		}
-	}
-
-	public static int getTime(int dist, int pre) {
-		return (dist + speed[pre] - 1) / speed[pre];
+	public static int getTime(int dist, int source) {
+		return (dist + speed[source] - 1) / speed[source];
 	}
 
 	public static void dijkstra() {
-		PriorityQueue<Node> heap = new PriorityQueue<>((a, b) -> {
-			if (a.time != b.time) {
-				return a.time - b.time;
-			}
-			return order[a.pre] - order[b.pre];
-		});
 		for (int i = 1; i <= unique; i++) {
 			int u = tmp[i];
-			bestDist[u] = n + 1;
-			bestTime[u] = n + 1;
-			bestPre[u] = n + 1;
+			minTime[u] = n + 1;
+			bestSource[u] = n + 1;
 			vis[u] = false;
 		}
 		for (int i = 1; i <= k; i++) {
 			int s = start[i];
-			bestDist[s] = 0;
-			bestTime[s] = 0;
-			bestPre[s] = s;
-			heap.add(new Node(s, 0, 0, s));
+			minTime[s] = 0;
+			bestSource[s] = s;
+			heap.add(new Node(s, 0, 0, s, order[s]));
 		}
 		while (!heap.isEmpty()) {
 			Node cur = heap.poll();
 			int u = cur.id;
+			int source = cur.source;
+			int sourceOrder = cur.sourceOrder;
 			if (!vis[u]) {
 				vis[u] = true;
 				for (int e = headv[u]; e > 0; e = nextv[e]) {
 					int v = tov[e];
 					int dist = cur.dist + Math.abs(dep[u] - dep[v]);
-					int pre = cur.pre;
-					int time = getTime(dist, pre);
-					if (!vis[v] && (time < bestTime[v] || (time == bestTime[v] && order[pre] < order[bestPre[v]]))) {
-						bestTime[v] = time;
-						bestDist[v] = dist;
-						bestPre[v] = pre;
-						heap.add(new Node(v, dist, time, pre));
+					int time = getTime(dist, source);
+					if (!vis[v] && (time < minTime[v] || (time == minTime[v] && sourceOrder < order[bestSource[v]]))) {
+						minTime[v] = time;
+						bestSource[v] = source;
+						heap.add(new Node(v, dist, time, source, sourceOrder));
 					}
 				}
 			}
@@ -230,7 +234,7 @@ public class Code06_TreelandAndViruses1 {
 			buildVirtualTree();
 			dijkstra();
 			for (int i = 1; i <= m; i++) {
-				out.print(order[bestPre[key[i]]] + " ");
+				out.print(order[bestSource[key[i]]] + " ");
 			}
 			out.println();
 		}
