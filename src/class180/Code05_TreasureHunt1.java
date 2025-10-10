@@ -31,7 +31,9 @@ public class Code05_TreasureHunt1 {
 
 	public static int[] arr = new int[MAXN];
 	public static boolean[] vis = new boolean[MAXN];
+	// 这里为了方便，使用语言自带的有序表
 	public static TreeSet<Integer> set = new TreeSet<>();
+
 	public static long[] ans = new long[MAXN];
 
 	public static void addEdge(int u, int v, int w) {
