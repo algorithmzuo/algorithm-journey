@@ -115,15 +115,15 @@ public class Code04_WorldTree1 {
 
 	public static int buildVirtualTree() {
 		sortByDfn(arr, 1, k);
+		// 一定要加入1号点
+		// 因为题目问的是所有节点的归属问题
 		int len = 0;
+		tmp[++len] = 1;
 		for (int i = 1; i < k; i++) {
 			tmp[++len] = arr[i];
 			tmp[++len] = getLca(arr[i], arr[i + 1]);
 		}
 		tmp[++len] = arr[k];
-		// 一定要加入1号点
-		// 因为题目问的是所有节点的归属问题
-		tmp[++len] = 1;
 		sortByDfn(tmp, 1, len);
 		int unique = 1;
 		for (int i = 2; i <= len; i++) {

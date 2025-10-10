@@ -9,7 +9,7 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
-public class Code02_War1 {
+public class Code03_War1 {
 
 	public static int MAXN = 300001;
 	public static int MAXP = 20;
@@ -137,15 +137,15 @@ public class Code02_War1 {
 	// 二次排序 + LCA连边的方式建立虚树
 	public static int buildVirtualTree1() {
 		sortByDfn(arr, 1, k);
+		// 因为题目是让所有关键点不能和1号点连通
+		// 所以一定要让1号点加入
 		int len = 0;
+		tmp[++len] = 1;
 		for (int i = 1; i < k; i++) {
 			tmp[++len] = arr[i];
 			tmp[++len] = getLca(arr[i], arr[i + 1]);
 		}
 		tmp[++len] = arr[k];
-		// 因为题目是让所有关键点不能和1号点连通
-		// 所以一定要让1号点加入
-		tmp[++len] = 1;
 		sortByDfn(tmp, 1, len);
 		int unique = 1;
 		for (int i = 2; i <= len; i++) {

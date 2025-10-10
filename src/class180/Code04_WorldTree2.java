@@ -96,12 +96,12 @@ package class180;
 //int buildVirtualTree() {
 //    sort(arr + 1, arr + k + 1, cmp);
 //    int len = 0;
+//    tmp[++len] = 1;
 //    for (int i = 1; i < k; i++) {
 //    	tmp[++len] = arr[i];
 //    	tmp[++len] = getLca(arr[i], arr[i + 1]);
 //    }
 //    tmp[++len] = arr[k];
-//    tmp[++len] = 1;
 //    sort(tmp + 1, tmp + len + 1, cmp);
 //    int unique = 1;
 //    for (int i = 2; i <= len; i++) {
