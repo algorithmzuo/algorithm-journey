@@ -34,6 +34,7 @@ public class Code02_BigProject1 {
 	public static int[] arr = new int[MAXN];
 	public static boolean[] isKey = new boolean[MAXN];
 	public static int[] tmp = new int[MAXN << 1];
+	public static int[] stack = new int[MAXN];
 
 	public static int[] siz = new int[MAXN];
 	public static long[] dp = new long[MAXN];
@@ -156,7 +157,8 @@ public class Code02_BigProject1 {
 		return stjump[a][0];
 	}
 
-	public static int buildVirtualTree() {
+	// 二次排序 + LCA连边的方式建立虚树
+	public static int buildVirtualTree1() {
 		sortByDfn(arr, 1, k);
 		int len = 0;
 		for (int i = 1; i < k; i++) {
@@ -179,6 +181,37 @@ public class Code02_BigProject1 {
 			addEdgeV(getLca(tmp[i], tmp[i + 1]), tmp[i + 1]);
 		}
 		return tmp[1];
+	}
+
+	// 单调栈的方式建立虚树
+	public static int buildVirtualTree2() {
+		sortByDfn(arr, 1, k);
+		cntv = 0;
+		headv[arr[1]] = 0;
+		int top = 0;
+		stack[++top] = arr[1];
+		for (int i = 2; i <= k; i++) {
+			int x = arr[i];
+			int y = stack[top];
+			int lca = getLca(x, y);
+			while (top > 1 && dfn[stack[top - 1]] >= dfn[lca]) {
+				addEdgeV(stack[top - 1], stack[top]);
+				top--;
+			}
+			if (lca != stack[top]) {
+				headv[lca] = 0;
+				addEdgeV(lca, stack[top]);
+				top--;
+				stack[++top] = lca;
+			}
+			headv[x] = 0;
+			stack[++top] = x;
+		}
+		while (top > 1) {
+			addEdgeV(stack[top - 1], stack[top]);
+			top--;
+		}
+		return stack[1];
 	}
 
 	// dp递归版，java会爆栈，C++可以通过
@@ -249,7 +282,8 @@ public class Code02_BigProject1 {
 		for (int i = 1; i <= k; i++) {
 			isKey[arr[i]] = true;
 		}
-		int tree = buildVirtualTree();
+		int tree = buildVirtualTree1();
+		// int tree = buildVirtualTree2();
 		costSum = 0;
 		costMin = INF;
 		costMax = -INF;
