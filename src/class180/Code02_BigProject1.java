@@ -76,7 +76,6 @@ public class Code02_BigProject1 {
 		headv[u] = cntv;
 	}
 
-	// nums中的数，根据dfn的大小排序，手撸双指针快排
 	public static void sortByDfn(int[] nums, int l, int r) {
 		if (l >= r) return;
 		int i = l, j = r;
