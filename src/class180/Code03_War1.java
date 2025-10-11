@@ -1,6 +1,13 @@
 package class180;
 
 // 消耗战，java版
+// 一共有n个节点，给定n-1条无向边，每条边有边权，所有节点组成一棵树
+// 一共有q条查询，每条查询格式如下
+// 查询 k a1 a2 ... ak : 给出了k个不同的关键节点，并且一定不包含1号节点
+//                       你可以随意选择边进行切断，切断的代价就是边权
+//                       目的是让所有关键点都无法到达1号节点，打印最小总代价
+// 1 <= n、m <= 5 * 10^5
+// 1 <= 所有查询给出的点的总数 <= 5 * 10^5
 // 测试链接 : https://www.luogu.com.cn/problem/P2495
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
@@ -11,7 +18,7 @@ import java.io.PrintWriter;
 
 public class Code03_War1 {
 
-	public static int MAXN = 300001;
+	public static int MAXN = 500001;
 	public static int MAXP = 20;
 	public static int n, q, k;
 
@@ -37,7 +44,8 @@ public class Code03_War1 {
 	public static boolean[] isKey = new boolean[MAXN];
 	public static int[] tmp = new int[MAXN << 1];
 	public static int[] stk = new int[MAXN];
-	public static long[] dp = new long[MAXN];
+
+	public static long[] cut = new long[MAXN];
 
 	public static void addEdgeG(int u, int v, int w) {
 		nextg[++cntg] = headg[u];
@@ -197,18 +205,18 @@ public class Code03_War1 {
 		return stk[1];
 	}
 
-	public static void dpOnTree(int u) {
+	public static void dp(int u) {
 		for (int e = headv[u]; e > 0; e = nextv[e]) {
-			dpOnTree(tov[e]);
+			dp(tov[e]);
 		}
-		dp[u] = 0;
+		cut[u] = 0;
 		for (int e = headv[u], v, w; e > 0; e = nextv[e]) {
 			v = tov[e];
 			w = weightv[e];
 			if (isKey[v]) {
-				dp[u] += w;
+				cut[u] += w;
 			} else {
-				dp[u] += Math.min(dp[v], w);
+				cut[u] += Math.min(cut[v], w);
 			}
 		}
 	}
@@ -219,11 +227,11 @@ public class Code03_War1 {
 		}
 		int tree = buildVirtualTree1();
 		// int tree = buildVirtualTree2();
-		dpOnTree(tree);
+		dp(tree);
 		for (int i = 1; i <= k; i++) {
 			isKey[arr[i]] = false;
 		}
-		return dp[tree];
+		return cut[tree];
 	}
 
 	public static void main(String[] args) throws Exception {

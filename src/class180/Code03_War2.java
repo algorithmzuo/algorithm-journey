@@ -1,6 +1,13 @@
 package class180;
 
 // 消耗战，C++版
+// 一共有n个节点，给定n-1条无向边，每条边有边权，所有节点组成一棵树
+// 一共有q条查询，每条查询格式如下
+// 查询 k a1 a2 ... ak : 给出了k个不同的关键节点，并且一定不包含1号节点
+//                       你可以随意选择边进行切断，切断的代价就是边权
+//                       目的是让所有关键点都无法到达1号节点，打印最小总代价
+// 1 <= n、m <= 5 * 10^5
+// 1 <= 所有查询给出的点的总数 <= 5 * 10^5
 // 测试链接 : https://www.luogu.com.cn/problem/P2495
 // 如下实现是C++的版本，C++版本和java版本逻辑完全一样
 // 提交如下代码，可以通过所有测试用例
@@ -9,7 +16,7 @@ package class180;
 //
 //using namespace std;
 //
-//const int MAXN = 300001;
+//const int MAXN = 500001;
 //const int MAXP = 20;
 //int n, q, k;
 //
@@ -35,7 +42,8 @@ package class180;
 //bool isKey[MAXN];
 //int tmp[MAXN << 1];
 //int stk[MAXN];
-//long long dp[MAXN];
+//
+//long long cut[MAXN];
 //
 //bool cmp(int x, int y) {
 //    return dfn[x] < dfn[y];
@@ -172,18 +180,18 @@ package class180;
 //    return stk[1];
 //}
 //
-//void dpOnTree(int u) {
+//void dp(int u) {
 //    for (int e = headv[u]; e; e = nextv[e]) {
-//        dpOnTree(tov[e]);
+//        dp(tov[e]);
 //    }
-//    dp[u] = 0;
+//    cut[u] = 0;
 //    for (int e = headv[u]; e; e = nextv[e]) {
 //        int v = tov[e];
 //        int w = weightv[e];
 //        if (isKey[v]) {
-//            dp[u] += w;
+//            cut[u] += w;
 //        } else {
-//            dp[u] += min(dp[v], (long long)w);
+//            cut[u] += min(cut[v], (long long)w);
 //        }
 //    }
 //}
@@ -194,11 +202,11 @@ package class180;
 //    }
 //    int tree = buildVirtualTree1();
 //    // int tree = buildVirtualTree2();
-//    dpOnTree(tree);
+//    dp(tree);
 //    for (int i = 1; i <= k; i++) {
 //        isKey[arr[i]] = false;
 //    }
-//    return dp[tree];
+//    return cut[tree];
 //}
 //
 //int main() {
