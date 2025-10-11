@@ -62,9 +62,8 @@ public class Code06_TreelandAndViruses1 {
 
 	public static int[] arr = new int[MAXN << 1];
 	public static int[] tmp = new int[MAXN << 2];
-	public static int unique;
+	public static int len;
 
-	// dijkstra算法需要
 	public static PriorityQueue<Node> heap = new PriorityQueue<>(new NodeCmp());
 	public static boolean[] vis = new boolean[MAXN];
 	public static int[] minTime = new int[MAXN];
@@ -92,7 +91,9 @@ public class Code06_TreelandAndViruses1 {
 			while (dfn[nums[i]] < dfn[pivot]) i++;
 			while (dfn[nums[j]] > dfn[pivot]) j--;
 			if (i <= j) {
-				int tmp = nums[i]; nums[i] = nums[j]; nums[j] = tmp;
+				int tmp = nums[i];
+				nums[i] = nums[j];
+				nums[j] = tmp;
 				i++; j--;
 			}
 		}
@@ -144,14 +145,14 @@ public class Code06_TreelandAndViruses1 {
 			arr[++tot] = query[i];
 		}
 		sortByDfn(arr, 1, tot);
-		int len = 0;
+		len = 0;
 		for (int i = 1; i < tot; i++) {
 			tmp[++len] = arr[i];
 			tmp[++len] = getLca(arr[i], arr[i + 1]);
 		}
 		tmp[++len] = arr[tot];
 		sortByDfn(tmp, 1, len);
-		unique = 1;
+		int unique = 1;
 		for (int i = 2; i <= len; i++) {
 			if (tmp[unique] != tmp[i]) {
 				tmp[++unique] = tmp[i];
@@ -169,11 +170,12 @@ public class Code06_TreelandAndViruses1 {
 			addEdgeV(lca, tmp[i + 1]);
 			addEdgeV(tmp[i + 1], lca);
 		}
+		len = unique;
 		return tmp[1];
 	}
 
 	public static void dijkstra() {
-		for (int i = 1; i <= unique; i++) {
+		for (int i = 1; i <= len; i++) {
 			int u = tmp[i];
 			minTime[u] = n + 1;
 			bestSource[u] = n + 1;

@@ -125,13 +125,17 @@ package class180;
 //    }
 //    tmp[++len] = arr[k];
 //    sort(tmp + 1, tmp + len + 1, cmp);
-//    int uniqueCnt = 1;
+//    int unique = 1;
 //    for (int i = 2; i <= len; i++) {
-//        if (tmp[uniqueCnt] != tmp[i]) tmp[++uniqueCnt] = tmp[i];
+//        if (tmp[unique] != tmp[i]) {
+//            tmp[++unique] = tmp[i];
+//        }
 //    }
 //    cntv = 0;
-//    for (int i = 1; i <= uniqueCnt; i++) headv[tmp[i]] = 0;
-//    for (int i = 1; i < uniqueCnt; i++) {
+//    for (int i = 1; i <= unique; i++) {
+//        headv[tmp[i]] = 0;
+//    }
+//    for (int i = 1; i < unique; i++) {
 //        int lca = getLca(tmp[i], tmp[i + 1]);
 //        addEdgeV(lca, tmp[i + 1], getDist(lca, tmp[i + 1]));
 //    }
