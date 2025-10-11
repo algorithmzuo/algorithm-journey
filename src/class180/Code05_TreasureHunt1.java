@@ -151,13 +151,13 @@ public class Code05_TreasureHunt1 {
 			}
 			low = seg[low];
 			high = seg[high];
-			long curDist = getDist(nodeId, low) + getDist(nodeId, high) - getDist(low, high);
+			long delta = getDist(nodeId, low) + getDist(nodeId, high) - getDist(low, high);
 			if (!vis[nodeId]) {
 				vis[nodeId] = true;
-				curAns += curDist;
+				curAns += delta;
 			} else {
 				vis[nodeId] = false;
-				curAns -= curDist;
+				curAns -= delta;
 			}
 			ans[i] = curAns;
 		}
