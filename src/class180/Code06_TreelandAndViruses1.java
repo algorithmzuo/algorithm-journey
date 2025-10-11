@@ -57,8 +57,8 @@ public class Code06_TreelandAndViruses1 {
 
 	public static int[] start = new int[MAXN];
 	public static int[] speed = new int[MAXN];
-	public static int[] order = new int[MAXN];
 	public static int[] query = new int[MAXN];
+	public static int[] order = new int[MAXN];
 
 	public static int[] arr = new int[MAXN << 1];
 	public static int[] tmp = new int[MAXN << 2];
@@ -69,6 +69,8 @@ public class Code06_TreelandAndViruses1 {
 	public static boolean[] vis = new boolean[MAXN];
 	public static int[] minTime = new int[MAXN];
 	public static int[] bestSource = new int[MAXN];
+
+	public static int[] ans = new int[MAXN];
 
 	public static void addEdgeG(int u, int v) {
 		nextg[++cntg] = headg[u];
@@ -170,10 +172,6 @@ public class Code06_TreelandAndViruses1 {
 		return tmp[1];
 	}
 
-	public static int getTime(int dist, int source) {
-		return (dist + speed[source] - 1) / speed[source];
-	}
-
 	public static void dijkstra() {
 		for (int i = 1; i <= unique; i++) {
 			int u = tmp[i];
@@ -197,7 +195,7 @@ public class Code06_TreelandAndViruses1 {
 				for (int e = headv[u]; e > 0; e = nextv[e]) {
 					int v = tov[e];
 					int dist = cur.dist + Math.abs(dep[u] - dep[v]);
-					int time = getTime(dist, source);
+					int time = (dist + speed[source] - 1) / speed[source];
 					if (!vis[v] && (time < minTime[v] || (time == minTime[v] && sourceOrder < order[bestSource[v]]))) {
 						minTime[v] = time;
 						bestSource[v] = source;
@@ -205,6 +203,17 @@ public class Code06_TreelandAndViruses1 {
 					}
 				}
 			}
+		}
+	}
+
+	public static void compute() {
+		for (int i = 1; i <= k; i++) {
+			order[start[i]] = i;
+		}
+		buildVirtualTree();
+		dijkstra();
+		for (int i = 1; i <= m; i++) {
+			ans[i] = order[bestSource[query[i]]];
 		}
 	}
 
@@ -226,15 +235,13 @@ public class Code06_TreelandAndViruses1 {
 			for (int i = 1; i <= k; i++) {
 				start[i] = in.nextInt();
 				speed[start[i]] = in.nextInt();
-				order[start[i]] = i;
 			}
 			for (int i = 1; i <= m; i++) {
 				query[i] = in.nextInt();
 			}
-			buildVirtualTree();
-			dijkstra();
+			compute();
 			for (int i = 1; i <= m; i++) {
-				out.print(order[bestSource[query[i]]] + " ");
+				out.print(ans[i] + " ");
 			}
 			out.println();
 		}

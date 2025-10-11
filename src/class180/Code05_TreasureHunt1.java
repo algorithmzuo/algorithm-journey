@@ -144,14 +144,14 @@ public class Code05_TreasureHunt1 {
 			if (!vis[nodeId]) {
 				set.add(dfnId);
 			}
-			int pre = set.lower(dfnId) != null ? set.lower(dfnId) : set.last();
-			int post = set.higher(dfnId) != null ? set.higher(dfnId) : set.first();
+			int low = set.lower(dfnId) != null ? set.lower(dfnId) : set.last();
+			int high = set.higher(dfnId) != null ? set.higher(dfnId) : set.first();
 			if (vis[nodeId]) {
 				set.remove(dfnId);
 			}
-			pre = seg[pre];
-			post = seg[post];
-			long curDist = getDist(nodeId, pre) + getDist(nodeId, post) - getDist(pre, post);
+			low = seg[low];
+			high = seg[high];
+			long curDist = getDist(nodeId, low) + getDist(nodeId, high) - getDist(low, high);
 			if (!vis[nodeId]) {
 				vis[nodeId] = true;
 				curAns += curDist;
