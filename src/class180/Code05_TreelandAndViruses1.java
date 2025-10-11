@@ -163,9 +163,8 @@ public class Code05_TreelandAndViruses1 {
 			headv[tmp[i]] = 0;
 		}
 		for (int i = 1; i < unique; i++) {
-			// 这里要两个方向加边
+			// 虚树的边不是单向的，是双向的
 			// 因为病毒感染既可以向上也可以向下
-			// 所以跑dijkstra算法时需要无向图
 			int lca = getLca(tmp[i], tmp[i + 1]);
 			addEdgeV(lca, tmp[i + 1]);
 			addEdgeV(tmp[i + 1], lca);
