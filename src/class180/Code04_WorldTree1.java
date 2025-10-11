@@ -1,6 +1,13 @@
 package class180;
 
 // 世界树，java版
+// 一共有n个节点，给定n-1条无向边，所有节点组成一棵树
+// 一共有q条查询，每条查询格式如下
+// 查询 k a1 a2 ... ak : 给出了k个不同的关键节点，树上每个点都找最近的关键点来管理自己
+//                       最近的关键点如果有多个，选择编号最小的关键点
+//                       打印每个关键点的管理节点数量
+// 1 <= n、q <= 3 * 10^5
+// 1 <= 所有查询给出的点的总数 <= 3 * 10^5
 // 测试链接 : https://www.luogu.com.cn/problem/P3233
 // 提交以下的code，提交时请把类名改成"Main"
 // 本题递归函数较多，java版不改成迭代会爆栈，导致无法通过
@@ -41,7 +48,7 @@ public class Code04_WorldTree1 {
 	public static boolean[] isKey = new boolean[MAXN];
 	public static int[] tmp = new int[MAXN << 1];
 
-	public static int[] dp = new int[MAXN];
+	public static int[] mindist = new int[MAXN];
 	public static int[] pick = new int[MAXN];
 	public static int[] ans = new int[MAXN];
 
@@ -143,20 +150,20 @@ public class Code04_WorldTree1 {
 	}
 
 	public static void dp1(int u) {
-		dp[u] = INF;
+		mindist[u] = INF;
 		for (int e = headv[u]; e > 0; e = nextv[e]) {
 			int v = tov[e];
 			dp1(v);
 			int dis = dep[v] - dep[u];
-			if (dp[u] > dp[v] + dis) {
-				dp[u] = dp[v] + dis;
+			if (mindist[u] > mindist[v] + dis) {
+				mindist[u] = mindist[v] + dis;
 				pick[u] = pick[v];
-			} else if (dp[u] == dp[v] + dis) {
+			} else if (mindist[u] == mindist[v] + dis) {
 				pick[u] = Math.min(pick[u], pick[v]);
 			}
 		}
 		if (isKey[u]) {
-			dp[u] = 0;
+			mindist[u] = 0;
 			pick[u] = u;
 		}
 	}
@@ -164,8 +171,8 @@ public class Code04_WorldTree1 {
 	public static void calc(int x, int y) {
 		int b = y;
 		for (int p = MAXP - 1; p >= 0; p--) {
-			int l = dep[y] - dep[stjump[b][p]] + dp[y];
-			int r = dep[stjump[b][p]] - dep[x] + dp[x];
+			int l = dep[y] - dep[stjump[b][p]] + mindist[y];
+			int r = dep[stjump[b][p]] - dep[x] + mindist[x];
 			if (dep[stjump[b][p]] > dep[x] && (l < r || (l == r && pick[y] < pick[x]))) {
 				b = stjump[b][p];
 			}
@@ -178,10 +185,10 @@ public class Code04_WorldTree1 {
 		for (int e = headv[u]; e > 0; e = nextv[e]) {
 			int v = tov[e];
 			int dis = dep[v] - dep[u];
-			if (dp[v] > dp[u] + dis) {
-				dp[v] = dp[u] + dis;
+			if (mindist[v] > mindist[u] + dis) {
+				mindist[v] = mindist[u] + dis;
 				pick[v] = pick[u];
-			} else if (dp[v] == dp[u] + dis) {
+			} else if (mindist[v] == mindist[u] + dis) {
 				pick[v] = Math.min(pick[v], pick[u]);
 			}
 			calc(u, v);
