@@ -39,6 +39,10 @@ package class180;
 //int pick[MAXN];
 //int ans[MAXN];
 //
+//bool cmp(int x, int y) {
+//    return dfn[x] < dfn[y];
+//}
+//
 //void addEdgeG(int u, int v) {
 //    nextg[++cntg] = headg[u];
 //    tog[cntg] = v;
@@ -49,10 +53,6 @@ package class180;
 //    nextv[++cntv] = headv[u];
 //    tov[cntv] = v;
 //    headv[u] = cntv;
-//}
-//
-//bool cmp(int x, int y) {
-//    return dfn[x] < dfn[y];
 //}
 //
 //void dfs(int u, int fa) {

@@ -13,7 +13,7 @@ public class Code03_War1 {
 
 	public static int MAXN = 300001;
 	public static int MAXP = 20;
-	public static int n, m, k;
+	public static int n, q, k;
 
 	public static int[] headg = new int[MAXN];
 	public static int[] nextg = new int[MAXN << 1];
@@ -34,9 +34,9 @@ public class Code03_War1 {
 	public static int cntd;
 
 	public static int[] arr = new int[MAXN];
-	public static int[] tmp = new int[MAXN << 1];
-	public static int[] stack = new int[MAXN];
 	public static boolean[] isKey = new boolean[MAXN];
+	public static int[] tmp = new int[MAXN << 1];
+	public static int[] stk = new int[MAXN];
 	public static long[] dp = new long[MAXN];
 
 	public static void addEdgeG(int u, int v, int w) {
@@ -172,29 +172,29 @@ public class Code03_War1 {
 		cntv = 0;
 		headv[1] = 0;
 		int top = 0;
-		stack[++top] = 1;
+		stk[++top] = 1;
 		for (int i = 1; i <= k; i++) {
 			int x = arr[i];
-			int y = stack[top];
+			int y = stk[top];
 			int lca = getLca(x, y);
-			while (top > 1 && dfn[stack[top - 1]] >= dfn[lca]) {
-				addEdgeV(stack[top - 1], stack[top], getDist(stack[top - 1], stack[top]));
+			while (top > 1 && dfn[stk[top - 1]] >= dfn[lca]) {
+				addEdgeV(stk[top - 1], stk[top], getDist(stk[top - 1], stk[top]));
 				top--;
 			}
-			if (lca != stack[top]) {
+			if (lca != stk[top]) {
 				headv[lca] = 0;
-				addEdgeV(lca, stack[top], getDist(lca, stack[top]));
+				addEdgeV(lca, stk[top], getDist(lca, stk[top]));
 				top--;
-				stack[++top] = lca;
+				stk[++top] = lca;
 			}
 			headv[x] = 0;
-			stack[++top] = x;
+			stk[++top] = x;
 		}
 		while (top > 1) {
-			addEdgeV(stack[top - 1], stack[top], getDist(stack[top - 1], stack[top]));
+			addEdgeV(stk[top - 1], stk[top], getDist(stk[top - 1], stk[top]));
 			top--;
 		}
-		return stack[1];
+		return stk[1];
 	}
 
 	public static void dpOnTree(int u) {
@@ -238,8 +238,8 @@ public class Code03_War1 {
 			addEdgeG(v, u, w);
 		}
 		dfs(1, 0, 0);
-		m = in.nextInt();
-		for (int t = 1; t <= m; t++) {
+		q = in.nextInt();
+		for (int t = 1; t <= q; t++) {
 			k = in.nextInt();
 			for (int i = 1; i <= k; i++) {
 				arr[i] = in.nextInt();
