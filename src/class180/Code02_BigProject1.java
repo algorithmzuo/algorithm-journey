@@ -22,7 +22,7 @@ import java.io.PrintWriter;
 public class Code02_BigProject1 {
 
 	public static int MAXN = 1000001;
-	public static int MAXP = 21;
+	public static int MAXP = 20;
 	public static long INF = 1L << 60;
 	public static int n, q, k;
 

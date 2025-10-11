@@ -20,7 +20,7 @@ package class180;
 //using namespace std;
 //
 //const int MAXN = 1000001;
-//const int MAXP = 21;
+//const int MAXP = 20;
 //const long long INF = 1LL << 60;
 //int n, q, k;
 //
