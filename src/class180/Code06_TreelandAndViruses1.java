@@ -58,7 +58,7 @@ public class Code06_TreelandAndViruses1 {
 	public static int[] start = new int[MAXN];
 	public static int[] speed = new int[MAXN];
 	public static int[] order = new int[MAXN];
-	public static int[] key = new int[MAXN];
+	public static int[] query = new int[MAXN];
 
 	public static int[] arr = new int[MAXN << 1];
 	public static int[] tmp = new int[MAXN << 2];
@@ -139,7 +139,7 @@ public class Code06_TreelandAndViruses1 {
 			arr[++tot] = start[i];
 		}
 		for (int i = 1; i <= m; i++) {
-			arr[++tot] = key[i];
+			arr[++tot] = query[i];
 		}
 		sortByDfn(arr, 1, tot);
 		int len = 0;
@@ -229,12 +229,12 @@ public class Code06_TreelandAndViruses1 {
 				order[start[i]] = i;
 			}
 			for (int i = 1; i <= m; i++) {
-				key[i] = in.nextInt();
+				query[i] = in.nextInt();
 			}
 			buildVirtualTree();
 			dijkstra();
 			for (int i = 1; i <= m; i++) {
-				out.print(order[bestSource[key[i]]] + " ");
+				out.print(order[bestSource[query[i]]] + " ");
 			}
 			out.println();
 		}
