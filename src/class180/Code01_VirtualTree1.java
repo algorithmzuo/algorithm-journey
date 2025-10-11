@@ -36,9 +36,8 @@ public class Code01_VirtualTree1 {
 
 	// 第一种建树方式
 	public static int[] tmp = new int[MAXN << 1];
-
 	// 第二种建树方式
-	public static int[] stack = new int[MAXN];
+	public static int[] stk = new int[MAXN];
 
 	public static int[] siz = new int[MAXN];
 	public static int[] dp = new int[MAXN];
@@ -88,9 +87,7 @@ public class Code01_VirtualTree1 {
 
 	public static int getLca(int a, int b) {
 		if (dep[a] < dep[b]) {
-			int tmp = a;
-			a = b;
-			b = tmp;
+			int tmp = a; a = b; b = tmp;
 		}
 		for (int p = MAXP - 1; p >= 0; p--) {
 			if (dep[stjump[a][p]] >= dep[b]) {
@@ -141,29 +138,29 @@ public class Code01_VirtualTree1 {
 		cntv = 0;
 		headv[arr[1]] = 0;
 		int top = 0;
-		stack[++top] = arr[1];
+		stk[++top] = arr[1];
 		for (int i = 2; i <= k; i++) {
 			int x = arr[i];
-			int y = stack[top];
+			int y = stk[top];
 			int lca = getLca(x, y);
-			while (top > 1 && dfn[stack[top - 1]] >= dfn[lca]) {
-				addEdgeV(stack[top - 1], stack[top]);
+			while (top > 1 && dfn[stk[top - 1]] >= dfn[lca]) {
+				addEdgeV(stk[top - 1], stk[top]);
 				top--;
 			}
-			if (lca != stack[top]) {
+			if (lca != stk[top]) {
 				headv[lca] = 0;
-				addEdgeV(lca, stack[top]);
+				addEdgeV(lca, stk[top]);
 				top--;
-				stack[++top] = lca;
+				stk[++top] = lca;
 			}
 			headv[x] = 0;
-			stack[++top] = x;
+			stk[++top] = x;
 		}
 		while (top > 1) {
-			addEdgeV(stack[top - 1], stack[top]);
+			addEdgeV(stk[top - 1], stk[top]);
 			top--;
 		}
-		return stack[1];
+		return stk[1];
 	}
 
 	public static void dpOnTree(int u) {

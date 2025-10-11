@@ -40,6 +40,7 @@ public class Code04_WorldTree1 {
 	public static int[] arr = new int[MAXN];
 	public static boolean[] isKey = new boolean[MAXN];
 	public static int[] tmp = new int[MAXN << 1];
+
 	public static int[] dp = new int[MAXN];
 	public static int[] pick = new int[MAXN];
 	public static int[] ans = new int[MAXN];
