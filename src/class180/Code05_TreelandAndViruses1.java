@@ -12,7 +12,7 @@ import java.io.PrintWriter;
 import java.util.Comparator;
 import java.util.PriorityQueue;
 
-public class Code06_TreelandAndViruses1 {
+public class Code05_TreelandAndViruses1 {
 
 	static class Node {
 		int id, dist, time, source, sourceOrder;

@@ -10,7 +10,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.util.TreeSet;
 
-public class Code05_TreasureHunt1 {
+public class Code06_TreasureHunt1 {
 
 	public static int MAXN = 100001;
 	public static int MAXP = 20;
