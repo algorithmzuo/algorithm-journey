@@ -1,6 +1,12 @@
 package class180;
 
 // 寻宝游戏，C++版
+// 一共有n个节点，给定n-1条无向边，每条边有边权，所有节点组成一棵树
+// 一开始所有的节点都没有宝物，接下来有m条操作，每条操作格式如下
+// 操作 x : 如果x号点上无宝物，那么变成有宝物，如果x号点上有宝物，那么变成无宝物
+// 每次操作后，树上会形成新的宝物分布，所以每次你都可以选择任何点作为出发点
+// 目标是拿完当前状况下的所有宝物，最后回到出发点，打印最小的总路程，一共有m条打印
+// 1 <= n、m <= 10^5
 // 测试链接 : https://www.luogu.com.cn/problem/P3320
 // 如下实现是C++的版本，C++版本和java版本逻辑完全一样
 // 提交如下代码，可以通过所有测试用例
@@ -89,14 +95,11 @@ package class180;
 //        int dfnId = dfn[nodeId];
 //        if (!vis[nodeId]) {
 //            st.insert(dfnId);
-//        }
-//        int low = (it = st.lower_bound(dfnId)) == st.begin() ? *--st.end() : *--it;
-//        int high = (it = st.upper_bound(dfnId)) == st.end() ? *st.begin() : *it;
-//        if (vis[nodeId]) {
+//        } else {
 //            st.erase(dfnId);
 //        }
-//        low = seg[low];
-//        high = seg[high];
+//        int low = seg[(it = st.lower_bound(dfnId)) == st.begin() ? *--st.end() : *--it];
+//        int high = seg[(it = st.upper_bound(dfnId)) == st.end() ? *st.begin() : *it];
 //        long long delta = getDist(nodeId, low) + getDist(nodeId, high) - getDist(low, high);
 //        if (!vis[nodeId]) {
 //            vis[nodeId] = true;
