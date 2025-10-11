@@ -1,6 +1,16 @@
 package class180;
 
 // 大工程，C++版
+// 一共有n个节点，给定n-1条边，所有节点组成一棵树
+// 如果在节点a和节点b之间建立新通道，那么代价是两个节点在树上的距离
+// 一共有q条查询，每条查询格式如下
+// 查询 k a1 a2 ... ak : 给出了k个不同的节点，任意两个节点之间都会建立新通道
+//                       打印新通道的代价和
+//                       打印新通道中代价最小的值
+//                       打印新通道中代价最大的值
+// 1 <= n <= 10^6
+// 1 <= q <= 5 * 10^4
+// 1 <= 所有查询给出的点的总数 <= 2 * n
 // 测试链接 : https://www.luogu.com.cn/problem/P4103
 // 如下实现是C++的版本，C++版本和java版本逻辑完全一样
 // 提交如下代码，可以通过所有测试用例
@@ -36,7 +46,7 @@ package class180;
 //int stk[MAXN];
 //
 //int siz[MAXN];
-//long long dp[MAXN];
+//long long sum[MAXN];
 //long long minv[MAXN];
 //long long maxv[MAXN];
 //long long costSum, costMin, costMax;
@@ -144,9 +154,9 @@ package class180;
 //    return stk[1];
 //}
 //
-//void dpOnTree(int u) {
+//void dp(int u) {
 //    siz[u] = isKey[u] ? 1 : 0;
-//    dp[u] = 0;
+//    sum[u] = 0;
 //    if (isKey[u]) {
 //        minv[u] = maxv[u] = 0;
 //    } else {
@@ -154,14 +164,14 @@ package class180;
 //        maxv[u] = -INF;
 //    }
 //    for (int e = headv[u]; e; e = nextv[e]) {
-//        dpOnTree(tov[e]);
+//        dp(tov[e]);
 //    }
 //    for (int e = headv[u]; e; e = nextv[e]) {
 //        int v = tov[e];
 //        long long len = (long long)dep[v] - dep[u];
-//        costSum += (dp[u] + 1LL * siz[u] * len) * siz[v] + dp[v] * siz[u];
+//        costSum += (sum[u] + 1LL * siz[u] * len) * siz[v] + sum[v] * siz[u];
 //        siz[u] += siz[v];
-//        dp[u] += dp[v] + len * siz[v];
+//        sum[u] += sum[v] + len * siz[v];
 //        costMin = min(costMin, minv[u] + minv[v] + len);
 //        costMax = max(costMax, maxv[u] + maxv[v] + len);
 //        minv[u] = min(minv[u], minv[v] + len);
@@ -178,7 +188,7 @@ package class180;
 //    costSum = 0;
 //    costMin = INF;
 //    costMax = -INF;
-//    dpOnTree(tree);
+//    dp(tree);
 //    for (int i = 1; i <= k; i++) {
 //        isKey[arr[i]] = false;
 //    }

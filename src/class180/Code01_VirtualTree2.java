@@ -1,6 +1,14 @@
 package class180;
 
 // 虚树模版题，C++版
+// 一共有n个节点，给定n-1条边，所有节点组成一棵树
+// 一共有q条查询，每条查询格式如下
+// 查询 k a1 a2 ... ak : 给出了k个不同的重要点，其他点是非重要点
+//                       你可以攻占非重要点，被攻占的点无法通行
+//                       要让重要点两两之间不再连通，打印至少需要攻占几个非重要点
+//                       如果攻占非重要点无法达成目标，打印-1
+// 1 <= n、q <= 10^5
+// 1 <= 所有查询给出的点的总数 <= 10^5
 // 测试链接 : https://www.luogu.com.cn/problem/CF613D
 // 测试链接 : https://codeforces.com/problemset/problem/613/D
 // 如下实现是C++的版本，C++版本和java版本逻辑完全一样
@@ -36,7 +44,7 @@ package class180;
 //int stk[MAXN];
 //
 //int siz[MAXN];
-//int dp[MAXN];
+//int cost[MAXN];
 //
 //bool cmp(int x, int y) {
 //    return dfn[x] < dfn[y];
@@ -142,19 +150,19 @@ package class180;
 //    return stk[1];
 //}
 //
-//void dpOnTree(int u) {
-//    dp[u] = siz[u] = 0;
+//void dp(int u) {
+//    cost[u] = siz[u] = 0;
 //    for (int e = headv[u]; e; e = nextv[e]) {
 //        int v = tov[e];
-//        dpOnTree(v);
-//        dp[u] += dp[v];
+//        dp(v);
+//        cost[u] += cost[v];
 //        siz[u] += siz[v];
 //    }
 //    if (isKey[u]) {
-//        dp[u] += siz[u];
+//        cost[u] += siz[u];
 //        siz[u] = 1;
 //    } else if (siz[u] > 1) {
-//        dp[u] += 1;
+//        cost[u] += 1;
 //        siz[u] = 0;
 //    }
 //}
@@ -174,8 +182,8 @@ package class180;
 //    if (check) {
 //        int tree = buildVirtualTree1();
 //        // int tree = buildVirtualTree2();
-//        dpOnTree(tree);
-//        ans = dp[tree];
+//        dp(tree);
+//        ans = cost[tree];
 //    }
 //    for (int i = 1; i <= k; i++) {
 //        isKey[arr[i]] = false;
