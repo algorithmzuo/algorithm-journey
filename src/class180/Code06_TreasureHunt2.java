@@ -94,19 +94,23 @@ package class180;
 //        int nodeId = arr[i];
 //        int dfnId = dfn[nodeId];
 //        if (!vis[nodeId]) {
+//            vis[nodeId] = true;
 //            st.insert(dfnId);
 //        } else {
+//            vis[nodeId] = false;
 //            st.erase(dfnId);
 //        }
-//        int low = seg[(it = st.lower_bound(dfnId)) == st.begin() ? *--st.end() : *--it];
-//        int high = seg[(it = st.upper_bound(dfnId)) == st.end() ? *st.begin() : *it];
-//        long long delta = getDist(nodeId, low) + getDist(nodeId, high) - getDist(low, high);
-//        if (!vis[nodeId]) {
-//            vis[nodeId] = true;
-//            curAns += delta;
+//        if (st.size() <= 1) {
+//            curAns = 0;
 //        } else {
-//            vis[nodeId] = false;
-//            curAns -= delta;
+//            int low = seg[(it = st.lower_bound(dfnId)) == st.begin() ? *--st.end() : *--it];
+//            int high = seg[(it = st.upper_bound(dfnId)) == st.end() ? *st.begin() : *it];
+//            long long delta = getDist(nodeId, low) + getDist(nodeId, high) - getDist(low, high);
+//            if (vis[nodeId]) {
+//                curAns += delta;
+//            } else {
+//                curAns -= delta;
+//            }
 //        }
 //        ans[i] = curAns;
 //    }

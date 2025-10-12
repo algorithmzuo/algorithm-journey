@@ -148,19 +148,23 @@ public class Code06_TreasureHunt1 {
 			int nodeId = arr[i];
 			int dfnId = dfn[nodeId];
 			if (!vis[nodeId]) {
+				vis[nodeId] = true;
 				set.add(dfnId);
 			} else {
+				vis[nodeId] = false;
 				set.remove(dfnId);
 			}
-			int low = seg[set.lower(dfnId) != null ? set.lower(dfnId) : set.last()];
-			int high = seg[set.higher(dfnId) != null ? set.higher(dfnId) : set.first()];
-			long delta = getDist(nodeId, low) + getDist(nodeId, high) - getDist(low, high);
-			if (!vis[nodeId]) {
-				vis[nodeId] = true;
-				curAns += delta;
+			if (set.size() <= 1) {
+				curAns = 0;
 			} else {
-				vis[nodeId] = false;
-				curAns -= delta;
+				int low = seg[set.lower(dfnId) != null ? set.lower(dfnId) : set.last()];
+				int high = seg[set.higher(dfnId) != null ? set.higher(dfnId) : set.first()];
+				long delta = getDist(nodeId, low) + getDist(nodeId, high) - getDist(low, high);
+				if (vis[nodeId]) {
+					curAns += delta;
+				} else {
+					curAns -= delta;
+				}
 			}
 			ans[i] = curAns;
 		}
