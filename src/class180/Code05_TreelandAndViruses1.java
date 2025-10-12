@@ -100,9 +100,7 @@ public class Code05_TreelandAndViruses1 {
 			while (dfn[nums[i]] < dfn[pivot]) i++;
 			while (dfn[nums[j]] > dfn[pivot]) j--;
 			if (i <= j) {
-				int tmp = nums[i];
-				nums[i] = nums[j];
-				nums[j] = tmp;
+				int tmp = nums[i]; nums[i] = nums[j]; nums[j] = tmp;
 				i++; j--;
 			}
 		}
@@ -198,18 +196,21 @@ public class Code05_TreelandAndViruses1 {
 		while (!heap.isEmpty()) {
 			Node cur = heap.poll();
 			int u = cur.id;
-			int source = cur.source;
-			int sourceOrder = cur.sourceOrder;
+			int udist = cur.dist;
+			int usource = cur.source;
+			int usourceOrder = cur.sourceOrder;
 			if (!vis[u]) {
 				vis[u] = true;
 				for (int e = headv[u]; e > 0; e = nextv[e]) {
 					int v = tov[e];
-					int dist = cur.dist + Math.abs(dep[u] - dep[v]);
-					int time = (dist + speed[source] - 1) / speed[source];
-					if (!vis[v] && (time < minTime[v] || (time == minTime[v] && sourceOrder < order[bestSource[v]]))) {
-						minTime[v] = time;
-						bestSource[v] = source;
-						heap.add(new Node(v, dist, time, source, sourceOrder));
+					if (!vis[v]) {
+						int vdist = udist + Math.abs(dep[u] - dep[v]);
+						int vtime = (vdist + speed[usource] - 1) / speed[usource];
+						if (vtime < minTime[v] || (vtime == minTime[v] && usourceOrder < order[bestSource[v]])) {
+							minTime[v] = vtime;
+							bestSource[v] = usource;
+							heap.add(new Node(v, vdist, vtime, usource, usourceOrder));
+						}
 					}
 				}
 			}

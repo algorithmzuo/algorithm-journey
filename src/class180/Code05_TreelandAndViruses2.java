@@ -166,16 +166,21 @@ package class180;
 //        Node cur = heap.top();
 //        heap.pop();
 //        int u = cur.id;
+//        int udist = cur.dist;
+//        int usource = cur.source;
+//        int usourceOrder = cur.sourceOrder;
 //        if (!vis[u]) {
 //            vis[u] = true;
 //            for (int e = headv[u]; e; e = nextv[e]) {
 //                int v = tov[e];
-//                int dist = cur.dist + abs(dep[u] - dep[v]);
-//                int time = (dist + speed[cur.source] - 1) / speed[cur.source];
-//                if (!vis[v] && (time < minTime[v] || (time == minTime[v] && cur.sourceOrder < order[bestSource[v]]))) {
-//                    minTime[v] = time;
-//                    bestSource[v] = cur.source;
-//                    heap.push(Node{v, dist, time, cur.source, cur.sourceOrder});
+//                if (!vis[v]) {
+//                    int vdist = udist + abs(dep[u] - dep[v]);
+//                    int vtime = (vdist + speed[usource] - 1) / speed[usource];
+//                    if (vtime < minTime[v] || (vtime == minTime[v] && usourceOrder < order[bestSource[v]])) {
+//                        minTime[v] = vtime;
+//                        bestSource[v] = usource;
+//                        heap.push(Node{v, vdist, vtime, usource, usourceOrder});
+//                    }
 //                }
 //            }
 //        }
