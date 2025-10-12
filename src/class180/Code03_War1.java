@@ -117,9 +117,7 @@ public class Code03_War1 {
 	public static int getDist(int a, int b) {
 		int dist = 100000001;
 		if (dep[a] < dep[b]) {
-			int tmp = a;
-			a = b;
-			b = tmp;
+			int tmp = a; a = b; b = tmp;
 		}
 		for (int p = MAXP - 1; p >= 0; p--) {
 			if (dep[stjump[a][p]] >= dep[b]) {

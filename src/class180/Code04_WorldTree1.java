@@ -64,7 +64,6 @@ public class Code04_WorldTree1 {
 		headv[u] = cntv;
 	}
 
-	// nums中的数，根据dfn的大小排序，手撸双指针快排
 	public static void sortByDfn(int[] nums, int l, int r) {
 		if (l >= r) return;
 		int i = l, j = r;
@@ -166,17 +165,18 @@ public class Code04_WorldTree1 {
 		}
 	}
 
-	public static void calc(int x, int y) {
-		int f = y;
+	public static void calc(int u, int v) {
+		int x = v;
 		for (int p = MAXP - 1; p >= 0; p--) {
-			int tox = dep[stjump[f][p]] - dep[x] + mindist[x];
-			int toy = dep[y] - dep[stjump[f][p]] + mindist[y];
-			if (dep[x] < dep[stjump[f][p]] && (toy < tox || (toy == tox && pick[y] < pick[x]))) {
-				f = stjump[f][p];
+			int tou = dep[stjump[x][p]] - dep[u] + mindist[u];
+			int tov = dep[v] - dep[stjump[x][p]] + mindist[v];
+			if (dep[u] < dep[stjump[x][p]] && (tov < tou || (tov == tou && pick[v] < pick[u]))) {
+				x = stjump[x][p];
 			}
 		}
-		ans[pick[y]] += siz[f] - siz[y];
-		ans[pick[x]] -= siz[f];
+		int delta = siz[x] - siz[v];
+		ans[pick[u]] -= delta;
+		ans[pick[v]] += delta;
 	}
 
 	public static void dp2(int u) {
@@ -191,6 +191,7 @@ public class Code04_WorldTree1 {
 				pick[v] = Math.min(pick[v], pick[u]);
 			}
 			calc(u, v);
+			ans[pick[u]] -= siz[v];
 			dp2(v);
 		}
 	}

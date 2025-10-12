@@ -145,17 +145,18 @@ package class180;
 //    }
 //}
 //
-//void calc(int x, int y) {
-//    int f = y;
+//void calc(int u, int v) {
+//    int x = v;
 //    for (int p = MAXP - 1; p >= 0; p--) {
-//        int tox = (dep[stjump[f][p]] - dep[x]) + mindist[x];
-//        int toy = (dep[y] - dep[stjump[f][p]]) + mindist[y];
-//        if (dep[x] < dep[stjump[f][p]] && (toy < tox || (toy == tox && pick[y] < pick[x]))) {
-//            f = stjump[f][p];
+//        int tou = (dep[stjump[x][p]] - dep[u]) + mindist[u];
+//        int tov = (dep[v] - dep[stjump[x][p]]) + mindist[v];
+//        if (dep[u] < dep[stjump[x][p]] && (tov < tou || (tov == tou && pick[v] < pick[u]))) {
+//            x = stjump[x][p];
 //        }
 //    }
-//    ans[pick[y]] += siz[f] - siz[y];
-//    ans[pick[x]] -= siz[f];
+//    int delta = siz[x] - siz[v];
+//    ans[pick[u]] -= delta;
+//    ans[pick[v]] += delta;
 //}
 //
 //void dp2(int u) {
@@ -170,6 +171,7 @@ package class180;
 //            pick[v] = min(pick[v], pick[u]);
 //        }
 //        calc(u, v);
+//        ans[pick[u]] -= siz[v];
 //        dp2(v);
 //    }
 //}
