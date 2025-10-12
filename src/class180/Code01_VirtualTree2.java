@@ -162,7 +162,7 @@ package class180;
 //        cost[u] += siz[u];
 //        siz[u] = 1;
 //    } else if (siz[u] > 1) {
-//        cost[u] += 1;
+//        cost[u]++;
 //        siz[u] = 0;
 //    }
 //}
