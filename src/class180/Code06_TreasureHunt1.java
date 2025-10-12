@@ -117,9 +117,7 @@ public class Code06_TreasureHunt1 {
 
 	public static int getLca(int a, int b) {
 		if (dep[a] < dep[b]) {
-			int tmp = a;
-			a = b;
-			b = tmp;
+			int tmp = a; a = b; b = tmp;
 		}
 		for (int p = MAXP - 1; p >= 0; p--) {
 			if (dep[stjump[a][p]] >= dep[b]) {
