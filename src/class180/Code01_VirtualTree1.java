@@ -173,8 +173,8 @@ public class Code01_VirtualTree1 {
 
 	public static void dp(int u) {
 		cost[u] = siz[u] = 0;
-		for (int e = headv[u], v; e > 0; e = nextv[e]) {
-			v = tov[e];
+		for (int e = headv[u]; e > 0; e = nextv[e]) {
+			int v = tov[e];
 			dp(v);
 			cost[u] += cost[v];
 			siz[u] += siz[v];
