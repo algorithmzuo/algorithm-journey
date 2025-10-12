@@ -5,7 +5,7 @@ package class180;
 // 一共有q条查询，每条查询格式如下
 // 查询 k a1 a2 ... ak : 给出了k个不同的关键节点，树上每个点都找最近的关键点来管理自己
 //                       最近的关键点如果有多个，选择编号最小的关键点
-//                       打印每个关键点的管理节点数量
+//                       打印每个关键点所管理的节点数量
 // 1 <= n、q <= 3 * 10^5
 // 1 <= 所有查询给出的点的总数 <= 3 * 10^5
 // 测试链接 : https://www.luogu.com.cn/problem/P3233
@@ -105,15 +105,15 @@ package class180;
 //    int len = 0;
 //    tmp[++len] = 1;
 //    for (int i = 1; i < k; i++) {
-//    	tmp[++len] = arr[i];
-//    	tmp[++len] = getLca(arr[i], arr[i + 1]);
+//        tmp[++len] = arr[i];
+//        tmp[++len] = getLca(arr[i], arr[i + 1]);
 //    }
 //    tmp[++len] = arr[k];
 //    sort(tmp + 1, tmp + len + 1, cmp);
 //    int unique = 1;
 //    for (int i = 2; i <= len; i++) {
 //        if (tmp[unique] != tmp[i]) {
-//        	tmp[++unique] = tmp[i];
+//            tmp[++unique] = tmp[i];
 //        }
 //    }
 //    cntv = 0;
@@ -146,19 +146,20 @@ package class180;
 //}
 //
 //void calc(int x, int y) {
-//    int b = y;
+//    int f = y;
 //    for (int p = MAXP - 1; p >= 0; p--) {
-//        int l = (dep[y] - dep[stjump[b][p]]) + mindist[y];
-//        int r = (dep[stjump[b][p]] - dep[x]) + mindist[x];
-//        if (dep[stjump[b][p]] > dep[x] && (l < r || (l == r && pick[y] < pick[x]))) {
-//            b = stjump[b][p];
+//        int tox = (dep[stjump[f][p]] - dep[x]) + mindist[x];
+//        int toy = (dep[y] - dep[stjump[f][p]]) + mindist[y];
+//        if (dep[x] < dep[stjump[f][p]] && (toy < tox || (toy == tox && pick[y] < pick[x]))) {
+//            f = stjump[f][p];
 //        }
 //    }
-//    ans[pick[y]] += siz[b] - siz[y];
-//    ans[pick[x]] -= siz[b];
+//    ans[pick[y]] += siz[f] - siz[y];
+//    ans[pick[x]] -= siz[f];
 //}
 //
 //void dp2(int u) {
+//    ans[pick[u]] += siz[u];
 //    for (int e = headv[u]; e; e = nextv[e]) {
 //        int v = tov[e];
 //        int dis = dep[v] - dep[u];
@@ -171,7 +172,6 @@ package class180;
 //        calc(u, v);
 //        dp2(v);
 //    }
-//    ans[pick[u]] += siz[u];
 //}
 //
 //void compute() {
