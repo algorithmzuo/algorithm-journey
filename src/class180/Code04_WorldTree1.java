@@ -165,6 +165,20 @@ public class Code04_WorldTree1 {
 		}
 	}
 
+	public static void dp2(int u) {
+		for (int e = headv[u]; e > 0; e = nextv[e]) {
+			int v = tov[e];
+			int dis = dep[v] - dep[u];
+			if (mindist[v] > mindist[u] + dis) {
+				mindist[v] = mindist[u] + dis;
+				pick[v] = pick[u];
+			} else if (mindist[v] == mindist[u] + dis) {
+				pick[v] = Math.min(pick[v], pick[u]);
+			}
+			dp2(v);
+		}
+	}
+
 	public static void calc(int u, int v) {
 		int x = v;
 		for (int p = MAXP - 1; p >= 0; p--) {
@@ -179,20 +193,13 @@ public class Code04_WorldTree1 {
 		ans[pick[v]] += delta;
 	}
 
-	public static void dp2(int u) {
+	public static void dp3(int u) {
 		ans[pick[u]] += siz[u];
 		for (int e = headv[u]; e > 0; e = nextv[e]) {
 			int v = tov[e];
-			int dis = dep[v] - dep[u];
-			if (mindist[v] > mindist[u] + dis) {
-				mindist[v] = mindist[u] + dis;
-				pick[v] = pick[u];
-			} else if (mindist[v] == mindist[u] + dis) {
-				pick[v] = Math.min(pick[v], pick[u]);
-			}
 			calc(u, v);
 			ans[pick[u]] -= siz[v];
-			dp2(v);
+			dp3(v);
 		}
 	}
 
@@ -207,6 +214,7 @@ public class Code04_WorldTree1 {
 		int tree = buildVirtualTree();
 		dp1(tree);
 		dp2(tree);
+		dp3(tree);
 		for (int i = 1; i <= k; i++) {
 			isKey[arr[i]] = false;
 		}
