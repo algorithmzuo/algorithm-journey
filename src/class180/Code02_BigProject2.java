@@ -99,7 +99,7 @@ package class180;
 //    return stjump[a][0];
 //}
 //
-//int buildVirtualTree() {
+//int buildVirtualTree1() {
 //    sort(arr + 1, arr + k + 1, cmp);
 //    int len = 0;
 //    for (int i = 1; i < k; i++) {
@@ -122,6 +122,36 @@ package class180;
 //        addEdgeV(getLca(tmp[i], tmp[i + 1]), tmp[i + 1]);
 //    }
 //    return tmp[1];
+//}
+//
+//int buildVirtualTree2() {
+//    sort(arr + 1, arr + k + 1, cmp);
+//    cntv = 0;
+//    headv[arr[1]] = 0;
+//    int top = 0;
+//    stk[++top] = arr[1];
+//    for (int i = 2; i <= k; i++) {
+//        int x = arr[i];
+//        int y = stk[top];
+//        int lca = getLca(x, y);
+//        while (top > 1 && dfn[stk[top - 1]] >= dfn[lca]) {
+//            addEdgeV(stk[top - 1], stk[top]);
+//            top--;
+//        }
+//        if (lca != stk[top]) {
+//            headv[lca] = 0;
+//            addEdgeV(lca, stk[top]);
+//            top--;
+//            stk[++top] = lca;
+//        }
+//        headv[x] = 0;
+//        stk[++top] = x;
+//    }
+//    while (top > 1) {
+//        addEdgeV(stk[top - 1], stk[top]);
+//        top--;
+//    }
+//    return stk[1];
 //}
 //
 //void dp(int u) {
@@ -153,7 +183,8 @@ package class180;
 //    for (int i = 1; i <= k; i++) {
 //        isKey[arr[i]] = true;
 //    }
-//    int tree = buildVirtualTree();
+//    int tree = buildVirtualTree1();
+//    // int tree = buildVirtualTree2();
 //    costSum = 0;
 //    costMin = INF;
 //    costMax = -INF;
