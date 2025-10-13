@@ -1,6 +1,6 @@
 package class180;
 
-// 虚树模版题，java版
+// 王国和城市，java版
 // 一共有n个节点，给定n-1条无向边，所有节点组成一棵树
 // 一共有q条查询，每条查询格式如下
 // 查询 k a1 a2 ... ak : 给出了k个不同的重要点，其他点是非重要点
@@ -18,7 +18,7 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
-public class Code01_VirtualTree1 {
+public class Code01_KingdomAndCities1 {
 
 	public static int MAXN = 100001;
 	public static int MAXP = 20;
