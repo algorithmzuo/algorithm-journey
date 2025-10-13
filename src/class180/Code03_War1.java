@@ -188,8 +188,7 @@ public class Code03_War1 {
 			if (lca != stk[top]) {
 				headv[lca] = 0;
 				addEdgeV(lca, stk[top], getDist(lca, stk[top]));
-				top--;
-				stk[++top] = lca;
+				stk[top] = lca;
 			}
 			headv[x] = 0;
 			stk[++top] = x;

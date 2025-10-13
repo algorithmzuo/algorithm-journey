@@ -167,8 +167,7 @@ package class180;
 //        if (lca != stk[top]) {
 //            headv[lca] = 0;
 //            addEdgeV(lca, stk[top], getDist(lca, stk[top]));
-//            top--;
-//            stk[++top] = lca;
+//            stk[top] = lca;
 //        }
 //        headv[x] = 0;
 //        stk[++top] = x;

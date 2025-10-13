@@ -207,8 +207,7 @@ public class Code02_BigProject1 {
 			if (lca != stk[top]) {
 				headv[lca] = 0;
 				addEdgeV(lca, stk[top]);
-				top--;
-				stk[++top] = lca;
+				stk[top] = lca;
 			}
 			headv[x] = 0;
 			stk[++top] = x;
