@@ -24,22 +24,27 @@ public class Code01_KingdomAndCities1 {
 	public static int MAXP = 20;
 	public static int n, q, k;
 
+	// 原始树
 	public static int[] headg = new int[MAXN];
 	public static int[] nextg = new int[MAXN << 1];
 	public static int[] tog = new int[MAXN << 1];
 	public static int cntg;
 
+	// 虚树
 	public static int[] headv = new int[MAXN];
 	public static int[] nextv = new int[MAXN];
 	public static int[] tov = new int[MAXN];
 	public static int cntv;
 
+	// 树上倍增求LCA + 生成dfn序
 	public static int[] dep = new int[MAXN];
 	public static int[] dfn = new int[MAXN];
 	public static int[][] stjump = new int[MAXN][MAXP];
 	public static int cntd;
 
+	// 关键点数组
 	public static int[] arr = new int[MAXN];
+	// 标记节点是否是关键点
 	public static boolean[] isKey = new boolean[MAXN];
 
 	// 第一种建树方式
@@ -47,15 +52,20 @@ public class Code01_KingdomAndCities1 {
 	// 第二种建树方式
 	public static int[] stk = new int[MAXN];
 
+	// 动态规划相关
+	// siz[u]，表示还有几个关键点与u相连
+	// cost[u]，表示节点u的子树中，做到关键点之间不连通，至少需要攻占几个点
 	public static int[] siz = new int[MAXN];
 	public static int[] cost = new int[MAXN];
 
+	// 原始树连边
 	public static void addEdgeG(int u, int v) {
 		nextg[++cntg] = headg[u];
 		tog[cntg] = v;
 		headg[u] = cntg;
 	}
 
+	// 虚树连边
 	public static void addEdgeV(int u, int v) {
 		nextv[++cntv] = headv[u];
 		tov[cntv] = v;
@@ -79,6 +89,7 @@ public class Code01_KingdomAndCities1 {
 		sortByDfn(nums, i, r);
 	}
 
+	// 树上倍增的dfs过程
 	public static void dfs(int u, int fa) {
 		dep[u] = dep[fa] + 1;
 		dfn[u] = ++cntd;
@@ -93,6 +104,7 @@ public class Code01_KingdomAndCities1 {
 		}
 	}
 
+	// 返回a和b的最低公共祖先
 	public static int getLca(int a, int b) {
 		if (dep[a] < dep[b]) {
 			int tmp = a; a = b; b = tmp;
@@ -170,6 +182,7 @@ public class Code01_KingdomAndCities1 {
 		return stk[1];
 	}
 
+	// 树型dp的过程
 	public static void dp(int u) {
 		cost[u] = siz[u] = 0;
 		for (int e = headv[u]; e > 0; e = nextv[e]) {
@@ -188,11 +201,15 @@ public class Code01_KingdomAndCities1 {
 	}
 
 	public static int compute() {
+		// 节点标记关键点信息
 		for (int i = 1; i <= k; i++) {
 			isKey[arr[i]] = true;
 		}
 		boolean check = true;
 		for (int i = 1; i <= k; i++) {
+			// 只能通过攻占非关键点的方式，来隔开关键点
+			// 所以如果 a 和 a的父节点 都是关键点，这是怎么也隔不开的
+			// 直接返回-1即可
 			if (isKey[stjump[arr[i]][0]]) {
 				check = false;
 				break;
@@ -205,6 +222,7 @@ public class Code01_KingdomAndCities1 {
 			dp(tree);
 			ans = cost[tree];
 		}
+		// 节点撤销关键点信息
 		for (int i = 1; i <= k; i++) {
 			isKey[arr[i]] = false;
 		}
