@@ -99,25 +99,12 @@ package class180;
 //    return stjump[a][0];
 //}
 //
-//int getDist(int a, int b) {
+//int getDist(int u, int v) {
 //    int dist = 100000001;
-//    if (dep[a] < dep[b]) {
-//        swap(a, b);
-//    }
 //    for (int p = MAXP - 1; p >= 0; p--) {
-//        if (dep[stjump[a][p]] >= dep[b]) {
-//            dist = min(dist, mindist[a][p]);
-//            a = stjump[a][p];
-//        }
-//    }
-//    if (a == b) {
-//        return dist;
-//    }
-//    for (int p = MAXP - 1; p >= 0; p--) {
-//        if (stjump[a][p] != stjump[b][p]) {
-//            dist = min(dist, min(mindist[a][p], mindist[b][p]));
-//            a = stjump[a][p];
-//            b = stjump[b][p];
+//        if (dep[stjump[v][p]] >= dep[u]) {
+//            dist = min(dist, mindist[v][p]);
+//            v = stjump[v][p];
 //        }
 //    }
 //    return dist;

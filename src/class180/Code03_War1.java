@@ -114,25 +114,13 @@ public class Code03_War1 {
 		return stjump[a][0];
 	}
 
-	public static int getDist(int a, int b) {
+	// 已知u一定是v的祖先节点，返回u到v路径上的最小边权
+	public static int getDist(int u, int v) {
 		int dist = 100000001;
-		if (dep[a] < dep[b]) {
-			int tmp = a; a = b; b = tmp;
-		}
 		for (int p = MAXP - 1; p >= 0; p--) {
-			if (dep[stjump[a][p]] >= dep[b]) {
-				dist = Math.min(dist, mindist[a][p]);
-				a = stjump[a][p];
-			}
-		}
-		if (a == b) {
-			return dist;
-		}
-		for (int p = MAXP - 1; p >= 0; p--) {
-			if (stjump[a][p] != stjump[b][p]) {
-				dist = Math.min(dist, Math.min(mindist[a][p], mindist[b][p]));
-				a = stjump[a][p];
-				b = stjump[b][p];
+			if (dep[stjump[v][p]] >= dep[u]) {
+				dist = Math.min(dist, mindist[v][p]);
+				v = stjump[v][p];
 			}
 		}
 		return dist;
