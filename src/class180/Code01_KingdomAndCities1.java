@@ -155,7 +155,7 @@ public class Code01_KingdomAndCities1 {
 				addEdgeV(stk[top - 1], stk[top]);
 				top--;
 			}
-			if (lca != stk[top]) {
+			if (dfn[stk[top]] > dfn[lca]) {
 				headv[lca] = 0;
 				addEdgeV(lca, stk[top]);
 				stk[top] = lca;

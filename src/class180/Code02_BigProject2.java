@@ -83,7 +83,9 @@ package class180;
 //        swap(a, b);
 //    }
 //    for (int p = MAXP - 1; p >= 0; p--) {
-//        if (dep[ stjump[a][p] ] >= dep[b]) a = stjump[a][p];
+//        if (dep[ stjump[a][p] ] >= dep[b]) {
+//            a = stjump[a][p];
+//        }
 //    }
 //    if (a == b) {
 //        return a;
@@ -136,7 +138,7 @@ package class180;
 //            addEdgeV(stk[top - 1], stk[top]);
 //            top--;
 //        }
-//        if (lca != stk[top]) {
+//        if (dfn[stk[top]] > dfn[lca]) {
 //            headv[lca] = 0;
 //            addEdgeV(lca, stk[top]);
 //            stk[top] = lca;
