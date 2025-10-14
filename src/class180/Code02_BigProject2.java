@@ -45,8 +45,8 @@ package class180;
 //
 //int siz[MAXN];
 //long long sum[MAXN];
-//long long minv[MAXN];
-//long long maxv[MAXN];
+//long long near[MAXN];
+//long long far[MAXN];
 //long long costSum, costMin, costMax;
 //
 //bool cmp(int x, int y) {
@@ -157,10 +157,10 @@ package class180;
 //    siz[u] = isKey[u] ? 1 : 0;
 //    sum[u] = 0;
 //    if (isKey[u]) {
-//        minv[u] = maxv[u] = 0;
+//        near[u] = far[u] = 0;
 //    } else {
-//        minv[u] = INF;
-//        maxv[u] = -INF;
+//        near[u] = INF;
+//        far[u] = -INF;
 //    }
 //    for (int e = headv[u]; e; e = nextv[e]) {
 //        dp(tov[e]);
@@ -171,10 +171,10 @@ package class180;
 //        costSum += (sum[u] + 1LL * siz[u] * len) * siz[v] + sum[v] * siz[u];
 //        siz[u] += siz[v];
 //        sum[u] += sum[v] + len * siz[v];
-//        costMin = min(costMin, minv[u] + minv[v] + len);
-//        costMax = max(costMax, maxv[u] + maxv[v] + len);
-//        minv[u] = min(minv[u], minv[v] + len);
-//        maxv[u] = max(maxv[u], maxv[v] + len);
+//        costMin = min(costMin, near[u] + near[v] + len);
+//        costMax = max(costMax, far[u] + far[v] + len);
+//        near[u] = min(near[u], near[v] + len);
+//        far[u] = max(far[u], far[v] + len);
 //    }
 //}
 //

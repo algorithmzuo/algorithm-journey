@@ -45,10 +45,16 @@ public class Code02_BigProject1 {
 	public static int[] tmp = new int[MAXN << 1];
 	public static int[] stk = new int[MAXN];
 
+	// siz[u]表示子树u上，关键点的数量
+	// sum[u]表示子树u上，所有关键点到u的总距离
+	// near[u]表示子树u上，到u最近关键点的距离
+	// far[u]表示子树u上，到u最远关键点的距离
 	public static int[] siz = new int[MAXN];
 	public static long[] sum = new long[MAXN];
-	public static long[] minv = new long[MAXN];
-	public static long[] maxv = new long[MAXN];
+	public static long[] near = new long[MAXN];
+	public static long[] far = new long[MAXN];
+
+	// 新通道的代价和、新通道中代价最小的值、新通道中代价最大的值
 	public static long costSum, costMin, costMax;
 
 	// dfs过程和dp过程，C++同学可以使用递归版
@@ -224,10 +230,10 @@ public class Code02_BigProject1 {
 		siz[u] = isKey[u] ? 1 : 0;
 		sum[u] = 0;
 		if (isKey[u]) {
-			maxv[u] = minv[u] = 0;
+			far[u] = near[u] = 0;
 		} else {
-			minv[u] = INF;
-			maxv[u] = -INF;
+			near[u] = INF;
+			far[u] = -INF;
 		}
 		for (int e = headv[u]; e > 0; e = nextv[e]) {
 			dp1(tov[e]);
@@ -238,10 +244,10 @@ public class Code02_BigProject1 {
 			costSum += (sum[u] + 1L * siz[u] * len) * siz[v] + sum[v] * siz[u];
 			siz[u] += siz[v];
 			sum[u] += sum[v] + len * siz[v];
-			costMin = Math.min(costMin, minv[u] + minv[v] + len);
-			costMax = Math.max(costMax, maxv[u] + maxv[v] + len);
-			minv[u] = Math.min(minv[u], minv[v] + len);
-			maxv[u] = Math.max(maxv[u], maxv[v] + len);
+			costMin = Math.min(costMin, near[u] + near[v] + len);
+			costMax = Math.max(costMax, far[u] + far[v] + len);
+			near[u] = Math.min(near[u], near[v] + len);
+			far[u] = Math.max(far[u], far[v] + len);
 		}
 	}
 
@@ -255,10 +261,10 @@ public class Code02_BigProject1 {
 				siz[u] = isKey[u] ? 1 : 0;
 				sum[u] = 0;
 				if (isKey[u]) {
-					maxv[u] = minv[u] = 0;
+					far[u] = near[u] = 0;
 				} else {
-					minv[u] = INF;
-					maxv[u] = -INF;
+					near[u] = INF;
+					far[u] = -INF;
 				}
 				e = headv[u];
 			} else {
@@ -274,10 +280,10 @@ public class Code02_BigProject1 {
 					costSum += (sum[u] + 1L * siz[u] * len) * siz[v] + sum[v] * siz[u];
 					siz[u] += siz[v];
 					sum[u] += sum[v] + len * siz[v];
-					costMin = Math.min(costMin, minv[u] + minv[v] + len);
-					costMax = Math.max(costMax, maxv[u] + maxv[v] + len);
-					minv[u] = Math.min(minv[u], minv[v] + len);
-					maxv[u] = Math.max(maxv[u], maxv[v] + len);
+					costMin = Math.min(costMin, near[u] + near[v] + len);
+					costMax = Math.max(costMax, far[u] + far[v] + len);
+					near[u] = Math.min(near[u], near[v] + len);
+					far[u] = Math.max(far[u], far[v] + len);
 				}
 			}
 		}
