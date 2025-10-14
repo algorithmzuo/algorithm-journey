@@ -53,8 +53,8 @@ public class Code01_KingdomAndCities1 {
 	public static int[] stk = new int[MAXN];
 
 	// 动态规划相关
-	// siz[u]，表示节点u的子树中，还有几个重要点和u相连
-	// cost[u]，表示节点u的子树中，做到关键点之间不连通，至少需要攻占几个点
+	// siz[u]，还有几个重要点没和u断开，值为0或者1
+	// cost[u]，表示节点u的子树中，做到不违规，至少需要攻占几个非重要点
 	public static int[] siz = new int[MAXN];
 	public static int[] cost = new int[MAXN];
 
