@@ -49,8 +49,8 @@ package class180;
 //
 //int start[MAXN];
 //int speed[MAXN];
+//int order[MAXN];
 //int query[MAXN];
-//int virusId[MAXN];
 //
 //int arr[MAXN << 1];
 //int tmp[MAXN << 2];
@@ -59,8 +59,7 @@ package class180;
 //priority_queue<Node> heap;
 //bool vis[MAXN];
 //int minTime[MAXN];
-//int sourceCity[MAXN];
-//int ans[MAXN];
+//int findVirus[MAXN];
 //
 //bool cmp(int x, int y) {
 //    return dfn[x] < dfn[y];
@@ -152,14 +151,14 @@ package class180;
 //    for (int i = 1; i <= len; i++) {
 //        int u = tmp[i];
 //        minTime[u] = n + 1;
-//        sourceCity[u] = n + 1;
+//        findVirus[u] = k + 1;
 //        vis[u] = false;
 //    }
 //    for (int i = 1; i <= k; i++) {
 //        int s = start[i];
 //        minTime[s] = 0;
-//        sourceCity[s] = s;
-//        heap.push(Node{s, 0, 0, s, virusId[s]});
+//        findVirus[s] = order[s];
+//        heap.push(Node{s, 0, 0, s, order[s]});
 //    }
 //    while (!heap.empty()) {
 //        Node cur = heap.top();
@@ -175,25 +174,14 @@ package class180;
 //                if (!vis[v]) {
 //                    int vdist = udist + abs(dep[u] - dep[v]);
 //                    int vtime = (vdist + speed[usource] - 1) / speed[usource];
-//                    if (vtime < minTime[v] || (vtime == minTime[v] && uvirus < virusId[sourceCity[v]])) {
+//                    if (vtime < minTime[v] || (vtime == minTime[v] && uvirus < findVirus[v])) {
 //                        minTime[v] = vtime;
-//                        sourceCity[v] = usource;
+//                        findVirus[v] = uvirus;
 //                        heap.push(Node{v, vdist, vtime, usource, uvirus});
 //                    }
 //                }
 //            }
 //        }
-//    }
-//}
-//
-//void compute() {
-//    for (int i = 1; i <= k; i++) {
-//        virusId[start[i]] = i;
-//    }
-//    buildVirtualTree();
-//    dijkstra();
-//    for (int i = 1; i <= m; i++) {
-//        ans[i] = virusId[sourceCity[query[i]]];
 //    }
 //}
 //
@@ -214,13 +202,15 @@ package class180;
 //            cin >> s >> v;
 //            start[i] = s;
 //            speed[s] = v;
+//            order[s] = i;
 //        }
 //        for (int i = 1; i <= m; i++) {
 //            cin >> query[i];
 //        }
-//        compute();
+//        buildVirtualTree();
+//        dijkstra();
 //        for (int i = 1; i <= m; i++) {
-//            cout << ans[i] << ' ';
+//            cout << findVirus[query[i]] << ' ';
 //        }
 //        cout << '\n';
 //    }

@@ -65,8 +65,8 @@ public class Code05_TreelandAndViruses1 {
 
 	public static int[] start = new int[MAXN];
 	public static int[] speed = new int[MAXN];
+	public static int[] order = new int[MAXN];
 	public static int[] query = new int[MAXN];
-	public static int[] virusId = new int[MAXN];
 
 	public static int[] arr = new int[MAXN << 1];
 	public static int[] tmp = new int[MAXN << 2];
@@ -75,9 +75,7 @@ public class Code05_TreelandAndViruses1 {
 	public static PriorityQueue<Node> heap = new PriorityQueue<>(new NodeCmp());
 	public static boolean[] vis = new boolean[MAXN];
 	public static int[] minTime = new int[MAXN];
-	public static int[] sourceCity = new int[MAXN];
-
-	public static int[] ans = new int[MAXN];
+	public static int[] findVirus = new int[MAXN];
 
 	public static void addEdgeG(int u, int v) {
 		nextg[++cntg] = headg[u];
@@ -183,14 +181,14 @@ public class Code05_TreelandAndViruses1 {
 		for (int i = 1; i <= len; i++) {
 			int u = tmp[i];
 			minTime[u] = n + 1;
-			sourceCity[u] = n + 1;
+			findVirus[u] = k + 1;
 			vis[u] = false;
 		}
 		for (int i = 1; i <= k; i++) {
 			int s = start[i];
 			minTime[s] = 0;
-			sourceCity[s] = s;
-			heap.add(new Node(s, 0, 0, s, virusId[s]));
+			findVirus[s] = order[s];
+			heap.add(new Node(s, 0, 0, s, order[s]));
 		}
 		while (!heap.isEmpty()) {
 			Node cur = heap.poll();
@@ -205,25 +203,14 @@ public class Code05_TreelandAndViruses1 {
 					if (!vis[v]) {
 						int vdist = udist + Math.abs(dep[u] - dep[v]);
 						int vtime = (vdist + speed[usource] - 1) / speed[usource];
-						if (vtime < minTime[v] || (vtime == minTime[v] && uvirus < virusId[sourceCity[v]])) {
+						if (vtime < minTime[v] || (vtime == minTime[v] && uvirus < findVirus[v])) {
 							minTime[v] = vtime;
-							sourceCity[v] = usource;
+							findVirus[v] = uvirus;
 							heap.add(new Node(v, vdist, vtime, usource, uvirus));
 						}
 					}
 				}
 			}
-		}
-	}
-
-	public static void compute() {
-		for (int i = 1; i <= k; i++) {
-			virusId[start[i]] = i;
-		}
-		buildVirtualTree();
-		dijkstra();
-		for (int i = 1; i <= m; i++) {
-			ans[i] = virusId[sourceCity[query[i]]];
 		}
 	}
 
@@ -245,13 +232,15 @@ public class Code05_TreelandAndViruses1 {
 			for (int i = 1; i <= k; i++) {
 				start[i] = in.nextInt();
 				speed[start[i]] = in.nextInt();
+				order[start[i]] = i;
 			}
 			for (int i = 1; i <= m; i++) {
 				query[i] = in.nextInt();
 			}
-			compute();
+			buildVirtualTree();
+			dijkstra();
 			for (int i = 1; i <= m; i++) {
-				out.print(ans[i] + " ");
+				out.print(findVirus[query[i]] + " ");
 			}
 			out.println();
 		}
