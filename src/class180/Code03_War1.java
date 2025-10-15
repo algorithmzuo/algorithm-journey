@@ -37,6 +37,7 @@ public class Code03_War1 {
 	public static int[] dep = new int[MAXN];
 	public static int[] dfn = new int[MAXN];
 	public static int[][] stjump = new int[MAXN][MAXP];
+	// 上方最小距离的倍增表
 	public static int[][] mindist = new int[MAXN][MAXP];
 	public static int cntd;
 
