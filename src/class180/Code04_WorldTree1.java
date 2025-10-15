@@ -49,7 +49,7 @@ public class Code04_WorldTree1 {
 	public static boolean[] isKey = new boolean[MAXN];
 	public static int[] tmp = new int[MAXN << 1];
 
-	// near[u]表示u节点的最近管理点
+	// near[u]表示u节点找到的最近管理点
 	public static int[] near = new int[MAXN];
 	// dist[u]表示u节点到最近管理点的距离
 	public static int[] dist = new int[MAXN];
@@ -207,7 +207,7 @@ public class Code04_WorldTree1 {
 
 	// 每个点都有了最近的管理点，更新相关的管理点的计数
 	public static void dp3(int u) {
-		// 管理u的关键节点，先获得原树里子树u的所有节点
+		// u的管理节点，先获得原树里子树u的所有节点
 		// 然后经历修正的过程，把管理节点的数量更新正确
 		ans[near[u]] += siz[u];
 		for (int e = headv[u]; e > 0; e = nextv[e]) {
