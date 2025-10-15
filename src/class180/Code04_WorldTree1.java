@@ -150,8 +150,7 @@ public class Code04_WorldTree1 {
 		return tmp[1];
 	}
 
-	// 从下往上更新最近管理点
-	// 节点u根据孩子的管理点，找到离u最近的管理点
+	// 下方找最近管理点，节点u根据孩子的管理点，找到离u最近的管理点
 	public static void dp1(int u) {
 		dist[u] = INF;
 		for (int e = headv[u]; e > 0; e = nextv[e]) {
@@ -171,8 +170,7 @@ public class Code04_WorldTree1 {
 		}
 	}
 
-	// 从上往下更新最近管理点
-	// 根据u找到的最近管理点，更新每个孩子节点v的最近管理点
+	// 上方找最近管理点，根据u找到的最近管理点，更新每个孩子节点v的最近管理点
 	public static void dp2(int u) {
 		for (int e = headv[u]; e > 0; e = nextv[e]) {
 			int v = tov[e];
