@@ -157,11 +157,9 @@ public class Code04_WorldTree1 {
 			int v = tov[e];
 			dp1(v);
 			int w = dep[v] - dep[u];
-			if (dist[u] > dist[v] + w) {
+			if (dist[v] + w < dist[u] || (dist[v] + w == dist[u] && manager[v] < manager[u])) {
 				dist[u] = dist[v] + w;
 				manager[u] = manager[v];
-			} else if (dist[u] == dist[v] + w) {
-				manager[u] = Math.min(manager[u], manager[v]);
 			}
 		}
 		if (isKey[u]) {
@@ -175,11 +173,9 @@ public class Code04_WorldTree1 {
 		for (int e = headv[u]; e > 0; e = nextv[e]) {
 			int v = tov[e];
 			int w = dep[v] - dep[u];
-			if (dist[v] > dist[u] + w) {
+			if (dist[u] + w < dist[v] || (dist[u] + w == dist[v] && manager[u] < manager[v])) {
 				dist[v] = dist[u] + w;
 				manager[v] = manager[u];
-			} else if (dist[v] == dist[u] + w) {
-				manager[v] = Math.min(manager[v], manager[u]);
 			}
 			dp2(v);
 		}

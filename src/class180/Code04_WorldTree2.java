@@ -132,11 +132,9 @@ package class180;
 //        int v = tov[e];
 //        dp1(v);
 //        int w = dep[v] - dep[u];
-//        if (dist[u] > dist[v] + w) {
+//        if (dist[v] + w < dist[u] || (dist[v] + w == dist[u] && manager[v] < manager[u])) {
 //            dist[u] = dist[v] + w;
 //            manager[u] = manager[v];
-//        } else if (dist[u] == dist[v] + w) {
-//            manager[u] = min(manager[u], manager[v]);
 //        }
 //    }
 //    if (isKey[u]) {
@@ -149,11 +147,9 @@ package class180;
 //    for (int e = headv[u]; e; e = nextv[e]) {
 //        int v = tov[e];
 //        int w = dep[v] - dep[u];
-//        if (dist[v] > dist[u] + w) {
+//        if (dist[u] + w < dist[v] || (dist[u] + w == dist[v] && manager[u] < manager[v])) {
 //            dist[v] = dist[u] + w;
 //            manager[v] = manager[u];
-//        } else if (dist[v] == dist[u] + w) {
-//            manager[v] = min(manager[v], manager[u]);
 //        }
 //        dp2(v);
 //    }
