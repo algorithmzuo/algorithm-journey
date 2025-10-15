@@ -24,7 +24,6 @@ public class Code04_WorldTree1 {
 
 	public static int MAXN = 300001;
 	public static int MAXP = 20;
-	public static int INF = 1000000001;
 	public static int n, q, k;
 
 	public static int[] headg = new int[MAXN];
@@ -152,7 +151,7 @@ public class Code04_WorldTree1 {
 
 	// 下方找最近管理点，节点u根据孩子的管理点，找到离u最近的管理点
 	public static void dp1(int u) {
-		dist[u] = INF;
+		dist[u] = 1000000001;
 		for (int e = headv[u]; e > 0; e = nextv[e]) {
 			int v = tov[e];
 			dp1(v);

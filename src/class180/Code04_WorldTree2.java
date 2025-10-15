@@ -18,7 +18,6 @@ package class180;
 //
 //const int MAXN = 300001;
 //const int MAXP = 20;
-//const int INF = 1000000001;
 //int n, q, k;
 //
 //int headg[MAXN];
@@ -127,7 +126,7 @@ package class180;
 //}
 //
 //void dp1(int u) {
-//    dist[u] = INF;
+//    dist[u] = 1000000001;
 //    for (int e = headv[u]; e; e = nextv[e]) {
 //        int v = tov[e];
 //        dp1(v);
