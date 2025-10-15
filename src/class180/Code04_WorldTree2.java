@@ -42,8 +42,8 @@ package class180;
 //bool isKey[MAXN];
 //int tmp[MAXN << 1];
 //
-//int mindist[MAXN];
-//int pick[MAXN];
+//int near[MAXN];
+//int dist[MAXN];
 //int ans[MAXN];
 //
 //bool cmp(int x, int y) {
@@ -127,21 +127,21 @@ package class180;
 //}
 //
 //void dp1(int u) {
-//    mindist[u] = INF;
+//    dist[u] = INF;
 //    for (int e = headv[u]; e; e = nextv[e]) {
 //        int v = tov[e];
 //        dp1(v);
 //        int dis = dep[v] - dep[u];
-//        if (mindist[u] > mindist[v] + dis) {
-//            mindist[u] = mindist[v] + dis;
-//            pick[u] = pick[v];
-//        } else if (mindist[u] == mindist[v] + dis) {
-//            pick[u] = min(pick[u], pick[v]);
+//        if (dist[u] > dist[v] + dis) {
+//            dist[u] = dist[v] + dis;
+//            near[u] = near[v];
+//        } else if (dist[u] == dist[v] + dis) {
+//            near[u] = min(near[u], near[v]);
 //        }
 //    }
 //    if (isKey[u]) {
-//        mindist[u] = 0;
-//        pick[u] = u;
+//        dist[u] = 0;
+//        near[u] = u;
 //    }
 //}
 //
@@ -149,39 +149,39 @@ package class180;
 //    for (int e = headv[u]; e; e = nextv[e]) {
 //        int v = tov[e];
 //        int dis = dep[v] - dep[u];
-//        if (mindist[v] > mindist[u] + dis) {
-//            mindist[v] = mindist[u] + dis;
-//            pick[v] = pick[u];
-//        } else if (mindist[v] == mindist[u] + dis) {
-//            pick[v] = min(pick[v], pick[u]);
+//        if (dist[v] > dist[u] + dis) {
+//            dist[v] = dist[u] + dis;
+//            near[v] = near[u];
+//        } else if (dist[v] == dist[u] + dis) {
+//            near[v] = min(near[v], near[u]);
 //        }
 //        dp2(v);
 //    }
 //}
 //
 //void amend(int u, int v) {
-//    if (pick[u] == pick[v]) {
+//    if (near[u] == near[v]) {
 //        return;
 //    }
 //    int x = v;
 //    for (int p = MAXP - 1; p >= 0; p--) {
-//        int tou = (dep[stjump[x][p]] - dep[u]) + mindist[u];
-//        int tov = (dep[v] - dep[stjump[x][p]]) + mindist[v];
-//        if (dep[u] < dep[stjump[x][p]] && (tov < tou || (tov == tou && pick[v] < pick[u]))) {
+//        int tou = (dep[stjump[x][p]] - dep[u]) + dist[u];
+//        int tov = (dep[v] - dep[stjump[x][p]]) + dist[v];
+//        if (dep[u] < dep[stjump[x][p]] && (tov < tou || (tov == tou && near[v] < near[u]))) {
 //            x = stjump[x][p];
 //        }
 //    }
 //    int delta = siz[x] - siz[v];
-//    ans[pick[u]] -= delta;
-//    ans[pick[v]] += delta;
+//    ans[near[u]] -= delta;
+//    ans[near[v]] += delta;
 //}
 //
 //void dp3(int u) {
-//    ans[pick[u]] += siz[u];
+//    ans[near[u]] += siz[u];
 //    for (int e = headv[u]; e; e = nextv[e]) {
 //        int v = tov[e];
 //        amend(u, v);
-//        ans[pick[u]] -= siz[v];
+//        ans[near[u]] -= siz[v];
 //        dp3(v);
 //    }
 //}

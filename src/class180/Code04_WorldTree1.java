@@ -49,10 +49,10 @@ public class Code04_WorldTree1 {
 	public static boolean[] isKey = new boolean[MAXN];
 	public static int[] tmp = new int[MAXN << 1];
 
-	// mindist[u]表示u节点到管理点的最短距离
-	public static int[] mindist = new int[MAXN];
-	// mindist[u]表示u节点的最近管理点
-	public static int[] pick = new int[MAXN];
+	// near[u]表示u节点的最近管理点
+	public static int[] near = new int[MAXN];
+	// dist[u]表示u节点到最近管理点的距离
+	public static int[] dist = new int[MAXN];
 	// ans[i]表示i这个管理点，管理了几个点
 	public static int[] ans = new int[MAXN];
 
@@ -153,21 +153,21 @@ public class Code04_WorldTree1 {
 	// 从下往上更新最近管理点
 	// 节点u根据孩子的管理点，找到离u最近的管理点
 	public static void dp1(int u) {
-		mindist[u] = INF;
+		dist[u] = INF;
 		for (int e = headv[u]; e > 0; e = nextv[e]) {
 			int v = tov[e];
 			dp1(v);
 			int dis = dep[v] - dep[u];
-			if (mindist[u] > mindist[v] + dis) {
-				mindist[u] = mindist[v] + dis;
-				pick[u] = pick[v];
-			} else if (mindist[u] == mindist[v] + dis) {
-				pick[u] = Math.min(pick[u], pick[v]);
+			if (dist[u] > dist[v] + dis) {
+				dist[u] = dist[v] + dis;
+				near[u] = near[v];
+			} else if (dist[u] == dist[v] + dis) {
+				near[u] = Math.min(near[u], near[v]);
 			}
 		}
 		if (isKey[u]) {
-			mindist[u] = 0;
-			pick[u] = u;
+			dist[u] = 0;
+			near[u] = u;
 		}
 	}
 
@@ -177,47 +177,47 @@ public class Code04_WorldTree1 {
 		for (int e = headv[u]; e > 0; e = nextv[e]) {
 			int v = tov[e];
 			int dis = dep[v] - dep[u];
-			if (mindist[v] > mindist[u] + dis) {
-				mindist[v] = mindist[u] + dis;
-				pick[v] = pick[u];
-			} else if (mindist[v] == mindist[u] + dis) {
-				pick[v] = Math.min(pick[v], pick[u]);
+			if (dist[v] > dist[u] + dis) {
+				dist[v] = dist[u] + dis;
+				near[v] = near[u];
+			} else if (dist[v] == dist[u] + dis) {
+				near[v] = Math.min(near[v], near[u]);
 			}
 			dp2(v);
 		}
 	}
 
 	// 已知u一定是v的祖先节点，u到v之间的大量节点没有被纳入到虚树
-	// 这部分节点之前都分配给了pick[u]，现在根据最近距离做重新分配
-	// 可能有若干节点会重新分配给pick[v]，修正相关的计数
+	// 这部分节点之前都分配给了near[u]，现在根据最近距离做重新分配
+	// 可能若干节点会重新分配给near[v]，修正相关的计数
 	public static void amend(int u, int v) {
-		if (pick[u] == pick[v]) {
+		if (near[u] == near[v]) {
 			return;
 		}
 		int x = v;
 		for (int p = MAXP - 1; p >= 0; p--) {
-			int tou = dep[stjump[x][p]] - dep[u] + mindist[u];
-			int tov = dep[v] - dep[stjump[x][p]] + mindist[v];
-			if (dep[u] < dep[stjump[x][p]] && (tov < tou || (tov == tou && pick[v] < pick[u]))) {
+			int tou = dep[stjump[x][p]] - dep[u] + dist[u];
+			int tov = dep[v] - dep[stjump[x][p]] + dist[v];
+			if (dep[u] < dep[stjump[x][p]] && (tov < tou || (tov == tou && near[v] < near[u]))) {
 				x = stjump[x][p];
 			}
 		}
 		int delta = siz[x] - siz[v];
-		ans[pick[u]] -= delta;
-		ans[pick[v]] += delta;
+		ans[near[u]] -= delta;
+		ans[near[v]] += delta;
 	}
 
 	// 每个点都有了最近的管理点，更新相关的管理点的计数
 	public static void dp3(int u) {
 		// 管理u的关键节点，先获得原树里子树u的所有节点
 		// 然后经历修正的过程，把管理节点的数量更新正确
-		ans[pick[u]] += siz[u];
+		ans[near[u]] += siz[u];
 		for (int e = headv[u]; e > 0; e = nextv[e]) {
 			int v = tov[e];
 			// 修正的过程
 			amend(u, v);
 			// 马上去往v执行dp3的过程，所以子树v的节点现在扣除
-			ans[pick[u]] -= siz[v];
+			ans[near[u]] -= siz[v];
 			// 子树v怎么分配节点，那是后续dp3(v)的事情
 			dp3(v);
 		}
