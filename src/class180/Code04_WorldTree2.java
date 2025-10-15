@@ -159,7 +159,10 @@ package class180;
 //    }
 //}
 //
-//void calc(int u, int v) {
+//void amend(int u, int v) {
+//    if (pick[u] == pick[v]) {
+//        return;
+//    }
 //    int x = v;
 //    for (int p = MAXP - 1; p >= 0; p--) {
 //        int tou = (dep[stjump[x][p]] - dep[u]) + mindist[u];
@@ -177,7 +180,7 @@ package class180;
 //    ans[pick[u]] += siz[u];
 //    for (int e = headv[u]; e; e = nextv[e]) {
 //        int v = tov[e];
-//        calc(u, v);
+//        amend(u, v);
 //        ans[pick[u]] -= siz[v];
 //        dp3(v);
 //    }

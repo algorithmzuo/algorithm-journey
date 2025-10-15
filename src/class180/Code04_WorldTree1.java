@@ -38,6 +38,7 @@ public class Code04_WorldTree1 {
 	public static int cntv;
 
 	public static int[] dep = new int[MAXN];
+	// 注意siz[u]表示在原树里，子树u有几个节点
 	public static int[] siz = new int[MAXN];
 	public static int[] dfn = new int[MAXN];
 	public static int[][] stjump = new int[MAXN][MAXP];
@@ -48,8 +49,11 @@ public class Code04_WorldTree1 {
 	public static boolean[] isKey = new boolean[MAXN];
 	public static int[] tmp = new int[MAXN << 1];
 
+	// mindist[u]表示u节点到管理点的最短距离
 	public static int[] mindist = new int[MAXN];
+	// mindist[u]表示u节点的最近管理点
 	public static int[] pick = new int[MAXN];
+	// ans[i]表示i这个管理点，管理了几个点
 	public static int[] ans = new int[MAXN];
 
 	public static void addEdgeG(int u, int v) {
@@ -146,6 +150,8 @@ public class Code04_WorldTree1 {
 		return tmp[1];
 	}
 
+	// 从下往上更新最近管理点
+	// 节点u根据孩子的管理点，找到离u最近的管理点
 	public static void dp1(int u) {
 		mindist[u] = INF;
 		for (int e = headv[u]; e > 0; e = nextv[e]) {
@@ -165,6 +171,8 @@ public class Code04_WorldTree1 {
 		}
 	}
 
+	// 从上往下更新最近管理点
+	// 根据u找到的最近管理点，更新每个孩子节点v的最近管理点
 	public static void dp2(int u) {
 		for (int e = headv[u]; e > 0; e = nextv[e]) {
 			int v = tov[e];
@@ -179,7 +187,13 @@ public class Code04_WorldTree1 {
 		}
 	}
 
-	public static void calc(int u, int v) {
+	// 已知u一定是v的祖先节点，u到v之间的大量节点没有被纳入到虚树
+	// 这部分节点之前都分配给了pick[u]，现在根据最近距离做重新分配
+	// 可能有若干节点会重新分配给pick[v]，修正相关的计数
+	public static void amend(int u, int v) {
+		if (pick[u] == pick[v]) {
+			return;
+		}
 		int x = v;
 		for (int p = MAXP - 1; p >= 0; p--) {
 			int tou = dep[stjump[x][p]] - dep[u] + mindist[u];
@@ -193,12 +207,18 @@ public class Code04_WorldTree1 {
 		ans[pick[v]] += delta;
 	}
 
+	// 每个点都有了最近的管理点，更新相关的管理点的计数
 	public static void dp3(int u) {
+		// 管理u的关键节点，先获得原树里子树u的所有节点
+		// 然后经历修正的过程，把管理节点的数量更新正确
 		ans[pick[u]] += siz[u];
 		for (int e = headv[u]; e > 0; e = nextv[e]) {
 			int v = tov[e];
-			calc(u, v);
+			// 修正的过程
+			amend(u, v);
+			// 马上去往v执行dp3的过程，所以子树v的节点现在扣除
 			ans[pick[u]] -= siz[v];
+			// 子树v怎么分配节点，那是后续dp3(v)的事情
 			dp3(v);
 		}
 	}
