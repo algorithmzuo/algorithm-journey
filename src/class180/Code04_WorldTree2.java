@@ -42,7 +42,7 @@ package class180;
 //bool isKey[MAXN];
 //int tmp[MAXN << 1];
 //
-//int near[MAXN];
+//int manager[MAXN];
 //int dist[MAXN];
 //int ans[MAXN];
 //
@@ -131,57 +131,57 @@ package class180;
 //    for (int e = headv[u]; e; e = nextv[e]) {
 //        int v = tov[e];
 //        dp1(v);
-//        int dis = dep[v] - dep[u];
-//        if (dist[u] > dist[v] + dis) {
-//            dist[u] = dist[v] + dis;
-//            near[u] = near[v];
-//        } else if (dist[u] == dist[v] + dis) {
-//            near[u] = min(near[u], near[v]);
+//        int w = dep[v] - dep[u];
+//        if (dist[u] > dist[v] + w) {
+//            dist[u] = dist[v] + w;
+//            manager[u] = manager[v];
+//        } else if (dist[u] == dist[v] + w) {
+//            manager[u] = min(manager[u], manager[v]);
 //        }
 //    }
 //    if (isKey[u]) {
 //        dist[u] = 0;
-//        near[u] = u;
+//        manager[u] = u;
 //    }
 //}
 //
 //void dp2(int u) {
 //    for (int e = headv[u]; e; e = nextv[e]) {
 //        int v = tov[e];
-//        int dis = dep[v] - dep[u];
-//        if (dist[v] > dist[u] + dis) {
-//            dist[v] = dist[u] + dis;
-//            near[v] = near[u];
-//        } else if (dist[v] == dist[u] + dis) {
-//            near[v] = min(near[v], near[u]);
+//        int w = dep[v] - dep[u];
+//        if (dist[v] > dist[u] + w) {
+//            dist[v] = dist[u] + w;
+//            manager[v] = manager[u];
+//        } else if (dist[v] == dist[u] + w) {
+//            manager[v] = min(manager[v], manager[u]);
 //        }
 //        dp2(v);
 //    }
 //}
 //
 //void amend(int u, int v) {
-//    if (near[u] == near[v]) {
+//    if (manager[u] == manager[v]) {
 //        return;
 //    }
 //    int x = v;
 //    for (int p = MAXP - 1; p >= 0; p--) {
 //        int tou = (dep[stjump[x][p]] - dep[u]) + dist[u];
 //        int tov = (dep[v] - dep[stjump[x][p]]) + dist[v];
-//        if (dep[u] < dep[stjump[x][p]] && (tov < tou || (tov == tou && near[v] < near[u]))) {
+//        if (dep[u] < dep[stjump[x][p]] && (tov < tou || (tov == tou && manager[v] < manager[u]))) {
 //            x = stjump[x][p];
 //        }
 //    }
 //    int delta = siz[x] - siz[v];
-//    ans[near[u]] -= delta;
-//    ans[near[v]] += delta;
+//    ans[manager[u]] -= delta;
+//    ans[manager[v]] += delta;
 //}
 //
 //void dp3(int u) {
-//    ans[near[u]] += siz[u];
+//    ans[manager[u]] += siz[u];
 //    for (int e = headv[u]; e; e = nextv[e]) {
 //        int v = tov[e];
 //        amend(u, v);
-//        ans[near[u]] -= siz[v];
+//        ans[manager[u]] -= siz[v];
 //        dp3(v);
 //    }
 //}
