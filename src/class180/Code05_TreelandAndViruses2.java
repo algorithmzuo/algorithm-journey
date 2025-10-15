@@ -19,12 +19,12 @@ package class180;
 //using namespace std;
 //
 //struct Node {
-//    int id, dist, time, source, sourceOrder;
+//    int id, dist, time, source, virus;
 //    bool operator<(const Node &other) const {
 //        if (time != other.time) {
 //            return time > other.time;
 //        }
-//        return sourceOrder > other.sourceOrder;
+//        return virus > other.virus;
 //    }
 //};
 //
@@ -50,7 +50,7 @@ package class180;
 //int start[MAXN];
 //int speed[MAXN];
 //int query[MAXN];
-//int order[MAXN];
+//int virusId[MAXN];
 //
 //int arr[MAXN << 1];
 //int tmp[MAXN << 2];
@@ -59,7 +59,7 @@ package class180;
 //priority_queue<Node> heap;
 //bool vis[MAXN];
 //int minTime[MAXN];
-//int bestSource[MAXN];
+//int sourceCity[MAXN];
 //int ans[MAXN];
 //
 //bool cmp(int x, int y) {
@@ -152,14 +152,14 @@ package class180;
 //    for (int i = 1; i <= len; i++) {
 //        int u = tmp[i];
 //        minTime[u] = n + 1;
-//        bestSource[u] = n + 1;
+//        sourceCity[u] = n + 1;
 //        vis[u] = false;
 //    }
 //    for (int i = 1; i <= k; i++) {
 //        int s = start[i];
 //        minTime[s] = 0;
-//        bestSource[s] = s;
-//        heap.push(Node{s, 0, 0, s, order[s]});
+//        sourceCity[s] = s;
+//        heap.push(Node{s, 0, 0, s, virusId[s]});
 //    }
 //    while (!heap.empty()) {
 //        Node cur = heap.top();
@@ -167,7 +167,7 @@ package class180;
 //        int u = cur.id;
 //        int udist = cur.dist;
 //        int usource = cur.source;
-//        int usourceOrder = cur.sourceOrder;
+//        int uvirus = cur.virus;
 //        if (!vis[u]) {
 //            vis[u] = true;
 //            for (int e = headv[u]; e; e = nextv[e]) {
@@ -175,10 +175,10 @@ package class180;
 //                if (!vis[v]) {
 //                    int vdist = udist + abs(dep[u] - dep[v]);
 //                    int vtime = (vdist + speed[usource] - 1) / speed[usource];
-//                    if (vtime < minTime[v] || (vtime == minTime[v] && usourceOrder < order[bestSource[v]])) {
+//                    if (vtime < minTime[v] || (vtime == minTime[v] && uvirus < virusId[sourceCity[v]])) {
 //                        minTime[v] = vtime;
-//                        bestSource[v] = usource;
-//                        heap.push(Node{v, vdist, vtime, usource, usourceOrder});
+//                        sourceCity[v] = usource;
+//                        heap.push(Node{v, vdist, vtime, usource, uvirus});
 //                    }
 //                }
 //            }
@@ -188,12 +188,12 @@ package class180;
 //
 //void compute() {
 //    for (int i = 1; i <= k; i++) {
-//        order[start[i]] = i;
+//        virusId[start[i]] = i;
 //    }
 //    buildVirtualTree();
 //    dijkstra();
 //    for (int i = 1; i <= m; i++) {
-//        ans[i] = order[bestSource[query[i]]];
+//        ans[i] = virusId[sourceCity[query[i]]];
 //    }
 //}
 //

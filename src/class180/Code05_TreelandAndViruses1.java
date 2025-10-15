@@ -23,14 +23,14 @@ import java.util.PriorityQueue;
 public class Code05_TreelandAndViruses1 {
 
 	static class Node {
-		int id, dist, time, source, sourceOrder;
+		int id, dist, time, source, virus;
 
-		Node(int id_, int dist_, int time_, int source_, int sourceOrder_) {
+		Node(int id_, int dist_, int time_, int source_, int virus_) {
 			id = id_;
 			dist = dist_;
 			time = time_;
 			source = source_;
-			sourceOrder = sourceOrder_;
+			virus = virus_;
 		}
 	}
 
@@ -40,7 +40,7 @@ public class Code05_TreelandAndViruses1 {
 			if (o1.time != o2.time) {
 				return o1.time - o2.time;
 			}
-			return o1.sourceOrder - o2.sourceOrder;
+			return o1.virus - o2.virus;
 		}
 	}
 
@@ -66,7 +66,7 @@ public class Code05_TreelandAndViruses1 {
 	public static int[] start = new int[MAXN];
 	public static int[] speed = new int[MAXN];
 	public static int[] query = new int[MAXN];
-	public static int[] order = new int[MAXN];
+	public static int[] virusId = new int[MAXN];
 
 	public static int[] arr = new int[MAXN << 1];
 	public static int[] tmp = new int[MAXN << 2];
@@ -75,7 +75,7 @@ public class Code05_TreelandAndViruses1 {
 	public static PriorityQueue<Node> heap = new PriorityQueue<>(new NodeCmp());
 	public static boolean[] vis = new boolean[MAXN];
 	public static int[] minTime = new int[MAXN];
-	public static int[] bestSource = new int[MAXN];
+	public static int[] sourceCity = new int[MAXN];
 
 	public static int[] ans = new int[MAXN];
 
@@ -183,21 +183,21 @@ public class Code05_TreelandAndViruses1 {
 		for (int i = 1; i <= len; i++) {
 			int u = tmp[i];
 			minTime[u] = n + 1;
-			bestSource[u] = n + 1;
+			sourceCity[u] = n + 1;
 			vis[u] = false;
 		}
 		for (int i = 1; i <= k; i++) {
 			int s = start[i];
 			minTime[s] = 0;
-			bestSource[s] = s;
-			heap.add(new Node(s, 0, 0, s, order[s]));
+			sourceCity[s] = s;
+			heap.add(new Node(s, 0, 0, s, virusId[s]));
 		}
 		while (!heap.isEmpty()) {
 			Node cur = heap.poll();
 			int u = cur.id;
 			int udist = cur.dist;
 			int usource = cur.source;
-			int usourceOrder = cur.sourceOrder;
+			int uvirus = cur.virus;
 			if (!vis[u]) {
 				vis[u] = true;
 				for (int e = headv[u]; e > 0; e = nextv[e]) {
@@ -205,10 +205,10 @@ public class Code05_TreelandAndViruses1 {
 					if (!vis[v]) {
 						int vdist = udist + Math.abs(dep[u] - dep[v]);
 						int vtime = (vdist + speed[usource] - 1) / speed[usource];
-						if (vtime < minTime[v] || (vtime == minTime[v] && usourceOrder < order[bestSource[v]])) {
+						if (vtime < minTime[v] || (vtime == minTime[v] && uvirus < virusId[sourceCity[v]])) {
 							minTime[v] = vtime;
-							bestSource[v] = usource;
-							heap.add(new Node(v, vdist, vtime, usource, usourceOrder));
+							sourceCity[v] = usource;
+							heap.add(new Node(v, vdist, vtime, usource, uvirus));
 						}
 					}
 				}
@@ -218,12 +218,12 @@ public class Code05_TreelandAndViruses1 {
 
 	public static void compute() {
 		for (int i = 1; i <= k; i++) {
-			order[start[i]] = i;
+			virusId[start[i]] = i;
 		}
 		buildVirtualTree();
 		dijkstra();
 		for (int i = 1; i <= m; i++) {
-			ans[i] = order[bestSource[query[i]]];
+			ans[i] = virusId[sourceCity[query[i]]];
 		}
 	}
 
