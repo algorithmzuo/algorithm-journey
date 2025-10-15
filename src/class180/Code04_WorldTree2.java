@@ -160,10 +160,13 @@ package class180;
 //    }
 //    int x = v;
 //    for (int p = MAXP - 1; p >= 0; p--) {
-//        int tou = (dep[stjump[x][p]] - dep[u]) + dist[u];
-//        int tov = (dep[v] - dep[stjump[x][p]]) + dist[v];
-//        if (dep[u] < dep[stjump[x][p]] && (tov < tou || (tov == tou && manager[v] < manager[u]))) {
-//            x = stjump[x][p];
+//        int jump = stjump[x][p];
+//        if (dep[u] < dep[jump]) {
+//            int tou = dep[jump] - dep[u] + dist[u];
+//            int tov = dep[v] - dep[jump] + dist[v];
+//            if (tov < tou || (tov == tou && manager[v] < manager[u])) {
+//                x = jump;
+//            }
 //        }
 //    }
 //    int delta = siz[x] - siz[v];

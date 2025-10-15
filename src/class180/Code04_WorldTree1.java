@@ -189,10 +189,13 @@ public class Code04_WorldTree1 {
 		}
 		int x = v;
 		for (int p = MAXP - 1; p >= 0; p--) {
-			int tou = dep[stjump[x][p]] - dep[u] + dist[u];
-			int tov = dep[v] - dep[stjump[x][p]] + dist[v];
-			if (dep[u] < dep[stjump[x][p]] && (tov < tou || (tov == tou && manager[v] < manager[u]))) {
-				x = stjump[x][p];
+			int jump = stjump[x][p];
+			if (dep[u] < dep[jump]) {
+				int tou = dep[jump] - dep[u] + dist[u];
+				int tov = dep[v] - dep[jump] + dist[v];
+				if (tov < tou || (tov == tou && manager[v] < manager[u])) {
+					x = jump;
+				}
 			}
 		}
 		int delta = siz[x] - siz[v];
@@ -200,7 +203,7 @@ public class Code04_WorldTree1 {
 		ans[manager[v]] += delta;
 	}
 
-	// 每个点都有了最近的管理点，更新相关的管理点的计数
+	// 每个点都有了最近的管理点，更新相关管理点的管理节点计数
 	public static void dp3(int u) {
 		// u的管理节点，先获得原树里子树u的所有节点
 		// 然后经历修正的过程，把管理节点的数量更新正确
@@ -209,7 +212,7 @@ public class Code04_WorldTree1 {
 			int v = tov[e];
 			// 修正的过程
 			amend(u, v);
-			// 马上去往v执行dp3的过程，所以子树v的节点现在扣除
+			// 马上要执行dp3(v)，所以子树v的节点现在扣除
 			ans[manager[u]] -= siz[v];
 			// 子树v怎么分配节点，那是后续dp3(v)的事情
 			dp3(v);
