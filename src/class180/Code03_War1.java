@@ -45,6 +45,7 @@ public class Code03_War1 {
 	public static int[] tmp = new int[MAXN << 1];
 	public static int[] stk = new int[MAXN];
 
+	// cut[u]表示子树u上的所有关键节点，都连不上u的话，需要切除边的最小代价
 	public static long[] cut = new long[MAXN];
 
 	public static void addEdgeG(int u, int v, int w) {
