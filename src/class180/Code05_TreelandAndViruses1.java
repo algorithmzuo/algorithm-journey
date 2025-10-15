@@ -23,13 +23,12 @@ import java.util.PriorityQueue;
 public class Code05_TreelandAndViruses1 {
 
 	static class Node {
-		int id, dist, time, source, virus;
+		int id, dist, time, virus;
 
-		Node(int id_, int dist_, int time_, int source_, int virus_) {
+		Node(int id_, int dist_, int time_, int virus_) {
 			id = id_;
 			dist = dist_;
 			time = time_;
-			source = source_;
 			virus = virus_;
 		}
 	}
@@ -65,7 +64,6 @@ public class Code05_TreelandAndViruses1 {
 
 	public static int[] start = new int[MAXN];
 	public static int[] speed = new int[MAXN];
-	public static int[] order = new int[MAXN];
 	public static int[] query = new int[MAXN];
 
 	public static int[] arr = new int[MAXN << 1];
@@ -187,14 +185,13 @@ public class Code05_TreelandAndViruses1 {
 		for (int i = 1; i <= k; i++) {
 			int s = start[i];
 			minTime[s] = 0;
-			findVirus[s] = order[s];
-			heap.add(new Node(s, 0, 0, s, order[s]));
+			findVirus[s] = i;
+			heap.add(new Node(s, 0, 0, i));
 		}
 		while (!heap.isEmpty()) {
 			Node cur = heap.poll();
 			int u = cur.id;
 			int udist = cur.dist;
-			int usource = cur.source;
 			int uvirus = cur.virus;
 			if (!vis[u]) {
 				vis[u] = true;
@@ -202,11 +199,11 @@ public class Code05_TreelandAndViruses1 {
 					int v = tov[e];
 					if (!vis[v]) {
 						int vdist = udist + Math.abs(dep[u] - dep[v]);
-						int vtime = (vdist + speed[usource] - 1) / speed[usource];
+						int vtime = (vdist + speed[uvirus] - 1) / speed[uvirus];
 						if (vtime < minTime[v] || (vtime == minTime[v] && uvirus < findVirus[v])) {
 							minTime[v] = vtime;
 							findVirus[v] = uvirus;
-							heap.add(new Node(v, vdist, vtime, usource, uvirus));
+							heap.add(new Node(v, vdist, vtime, uvirus));
 						}
 					}
 				}
@@ -231,8 +228,7 @@ public class Code05_TreelandAndViruses1 {
 			m = in.nextInt();
 			for (int i = 1; i <= k; i++) {
 				start[i] = in.nextInt();
-				speed[start[i]] = in.nextInt();
-				order[start[i]] = i;
+				speed[i] = in.nextInt();
 			}
 			for (int i = 1; i <= m; i++) {
 				query[i] = in.nextInt();

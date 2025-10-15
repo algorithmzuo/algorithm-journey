@@ -19,7 +19,7 @@ package class180;
 //using namespace std;
 //
 //struct Node {
-//    int id, dist, time, source, virus;
+//    int id, dist, time, virus;
 //    bool operator<(const Node &other) const {
 //        if (time != other.time) {
 //            return time > other.time;
@@ -49,7 +49,6 @@ package class180;
 //
 //int start[MAXN];
 //int speed[MAXN];
-//int order[MAXN];
 //int query[MAXN];
 //
 //int arr[MAXN << 1];
@@ -157,15 +156,14 @@ package class180;
 //    for (int i = 1; i <= k; i++) {
 //        int s = start[i];
 //        minTime[s] = 0;
-//        findVirus[s] = order[s];
-//        heap.push(Node{s, 0, 0, s, order[s]});
+//        findVirus[s] = i;
+//        heap.push(Node{s, 0, 0, i});
 //    }
 //    while (!heap.empty()) {
 //        Node cur = heap.top();
 //        heap.pop();
 //        int u = cur.id;
 //        int udist = cur.dist;
-//        int usource = cur.source;
 //        int uvirus = cur.virus;
 //        if (!vis[u]) {
 //            vis[u] = true;
@@ -173,11 +171,11 @@ package class180;
 //                int v = tov[e];
 //                if (!vis[v]) {
 //                    int vdist = udist + abs(dep[u] - dep[v]);
-//                    int vtime = (vdist + speed[usource] - 1) / speed[usource];
+//                    int vtime = (vdist + speed[uvirus] - 1) / speed[uvirus];
 //                    if (vtime < minTime[v] || (vtime == minTime[v] && uvirus < findVirus[v])) {
 //                        minTime[v] = vtime;
 //                        findVirus[v] = uvirus;
-//                        heap.push(Node{v, vdist, vtime, usource, uvirus});
+//                        heap.push(Node{v, vdist, vtime, uvirus});
 //                    }
 //                }
 //            }
@@ -199,10 +197,7 @@ package class180;
 //    for (int t = 1; t <= q; t++) {
 //        cin >> k >> m;
 //        for (int i = 1, s, v; i <= k; i++) {
-//            cin >> s >> v;
-//            start[i] = s;
-//            speed[s] = v;
-//            order[s] = i;
+//            cin >> start[i] >> speed[i];
 //        }
 //        for (int i = 1; i <= m; i++) {
 //            cin >> query[i];
