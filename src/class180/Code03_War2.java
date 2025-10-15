@@ -43,7 +43,7 @@ package class180;
 //int tmp[MAXN << 1];
 //int stk[MAXN];
 //
-//long long cut[MAXN];
+//long long cost[MAXN];
 //
 //bool cmp(int x, int y) {
 //    return dfn[x] < dfn[y];
@@ -170,14 +170,14 @@ package class180;
 //    for (int e = headv[u]; e; e = nextv[e]) {
 //        dp(tov[e]);
 //    }
-//    cut[u] = 0;
+//    cost[u] = 0;
 //    for (int e = headv[u]; e; e = nextv[e]) {
 //        int v = tov[e];
 //        int w = weightv[e];
 //        if (isKey[v]) {
-//            cut[u] += w;
+//            cost[u] += w;
 //        } else {
-//            cut[u] += min(cut[v], (long long)w);
+//            cost[u] += min(cost[v], (long long)w);
 //        }
 //    }
 //}
@@ -192,7 +192,7 @@ package class180;
 //    for (int i = 1; i <= k; i++) {
 //        isKey[arr[i]] = false;
 //    }
-//    return cut[tree];
+//    return cost[tree];
 //}
 //
 //int main() {

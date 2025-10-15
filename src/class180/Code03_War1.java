@@ -46,8 +46,8 @@ public class Code03_War1 {
 	public static int[] tmp = new int[MAXN << 1];
 	public static int[] stk = new int[MAXN];
 
-	// cut[u]表示子树u上的所有关键节点，都连不上u的话，需要切除边的最小代价
-	public static long[] cut = new long[MAXN];
+	// cost[u]表示虚树中，u下方的所有关键节点，都连不上u的话，最小总代价
+	public static long[] cost = new long[MAXN];
 
 	public static void addEdgeG(int u, int v, int w) {
 		nextg[++cntg] = headg[u];
@@ -194,14 +194,14 @@ public class Code03_War1 {
 		for (int e = headv[u]; e > 0; e = nextv[e]) {
 			dp(tov[e]);
 		}
-		cut[u] = 0;
+		cost[u] = 0;
 		for (int e = headv[u], v, w; e > 0; e = nextv[e]) {
 			v = tov[e];
 			w = weightv[e];
 			if (isKey[v]) {
-				cut[u] += w;
+				cost[u] += w;
 			} else {
-				cut[u] += Math.min(cut[v], w);
+				cost[u] += Math.min(cost[v], w);
 			}
 		}
 	}
@@ -216,7 +216,7 @@ public class Code03_War1 {
 		for (int i = 1; i <= k; i++) {
 			isKey[arr[i]] = false;
 		}
-		return cut[tree];
+		return cost[tree];
 	}
 
 	public static void main(String[] args) throws Exception {
