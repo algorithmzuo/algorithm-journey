@@ -36,7 +36,7 @@ public class Code06_TreasureHunt1 {
 	public static int cntd;
 
 	public static int[] arr = new int[MAXN];
-	public static boolean[] vis = new boolean[MAXN];
+	public static boolean[] treasure = new boolean[MAXN];
 	// 这里为了方便，使用语言自带的有序表
 	public static TreeSet<Integer> set = new TreeSet<>();
 
@@ -145,11 +145,11 @@ public class Code06_TreasureHunt1 {
 		for (int i = 1; i <= m; i++) {
 			int nodeId = arr[i];
 			int dfnId = dfn[nodeId];
-			if (!vis[nodeId]) {
-				vis[nodeId] = true;
+			if (!treasure[nodeId]) {
+				treasure[nodeId] = true;
 				set.add(dfnId);
 			} else {
-				vis[nodeId] = false;
+				treasure[nodeId] = false;
 				set.remove(dfnId);
 			}
 			if (set.size() <= 1) {
@@ -158,7 +158,7 @@ public class Code06_TreasureHunt1 {
 				int low = seg[set.lower(dfnId) != null ? set.lower(dfnId) : set.last()];
 				int high = seg[set.higher(dfnId) != null ? set.higher(dfnId) : set.first()];
 				long delta = getDist(nodeId, low) + getDist(nodeId, high) - getDist(low, high);
-				if (vis[nodeId]) {
+				if (treasure[nodeId]) {
 					curAns += delta;
 				} else {
 					curAns -= delta;
