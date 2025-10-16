@@ -1,11 +1,12 @@
 package class180;
 
 // 寻宝游戏，java版
-// 一共有n个节点，给定n-1条无向边，每条边有边权，所有节点组成一棵树
-// 开始时所有节点都是无宝点，接下来有m条操作，每条操作格式如下
-// 操作 x : 如果x号点是无宝点，那么变成有宝点，如果x号点是有宝点，那么变成无宝点
-// 每次操作后，每个有宝点都会刷新宝物，你可以瞬移到任何地点作为出发点，瞬移无代价
-// 然后你需要走路去拿所有的宝物，最后回到出发点，打印最小的行走总路程，一共m条打印
+// 一共有n个节点，节点有两种类型，刷宝的点 和 不刷宝的点
+// 一共有n-1条无向边，每条边有边权，所有节点组成一棵树
+// 开始时所有节点都是不刷宝的点，接下来有m条操作，格式如下
+// 操作 x : x号点的类型翻转，刷宝的点 变成 不刷宝的点，不刷宝的点 变成 刷宝的点
+// 一次操作后，每个刷宝的点都会产生宝物，你可以瞬移到任何点作为出发点，瞬移是无代价的
+// 你需要走路拿到所有的宝物，最后回到出发点，打印最小的行走总路程，一共有m条打印
 // 1 <= n、m <= 10^5
 // 测试链接 : https://www.luogu.com.cn/problem/P3320
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
@@ -29,9 +30,9 @@ public class Code06_TreasureHunt1 {
 	public static int cntg;
 
 	public static int[] dep = new int[MAXN];
+	public static long[] dist = new long[MAXN];
 	public static int[] dfn = new int[MAXN];
 	public static int[] seg = new int[MAXN];
-	public static long[] dist = new long[MAXN];
 	public static int[][] stjump = new int[MAXN][MAXP];
 	public static int cntd;
 
