@@ -57,7 +57,7 @@ public class Code01_PromotionCounting1 {
 		siz[i] = siz[ls[i]] + siz[rs[i]];
 	}
 
-	public static int insert(int jobi, int l, int r, int i) {
+	public static int add(int jobi, int l, int r, int i) {
 		int rt = i;
 		if (rt == 0) {
 			rt = ++cntt;
@@ -67,9 +67,9 @@ public class Code01_PromotionCounting1 {
 		} else {
 			int mid = (l + r) / 2;
 			if (jobi <= mid) {
-				ls[rt] = insert(jobi, l, mid, ls[rt]);
+				ls[rt] = add(jobi, l, mid, ls[rt]);
 			} else {
-				rs[rt] = insert(jobi, mid + 1, r, rs[rt]);
+				rs[rt] = add(jobi, mid + 1, r, rs[rt]);
 			}
 			up(rt);
 		}
@@ -187,7 +187,7 @@ public class Code01_PromotionCounting1 {
 			arr[i] = kth(arr[i]);
 		}
 		for (int i = 1; i <= n; i++) {
-			root[i] = insert(arr[i], 1, cntv, root[i]);
+			root[i] = add(arr[i], 1, cntv, root[i]);
 		}
 		// dfs1(1, 0);
 		dfs2();

@@ -54,7 +54,7 @@ package class181;
 //    siz[i] = siz[ls[i]] + siz[rs[i]];
 //}
 //
-//int insert(int jobi, int l, int r, int i) {
+//int add(int jobi, int l, int r, int i) {
 //    int rt = i;
 //    if (rt == 0) {
 //        rt = ++cntt;
@@ -64,9 +64,9 @@ package class181;
 //    } else {
 //        int mid = (l + r) >> 1;
 //        if (jobi <= mid) {
-//            ls[rt] = insert(jobi, l, mid, ls[rt]);
+//            ls[rt] = add(jobi, l, mid, ls[rt]);
 //        } else {
-//            rs[rt] = insert(jobi, mid + 1, r, rs[rt]);
+//            rs[rt] = add(jobi, mid + 1, r, rs[rt]);
 //        }
 //        up(rt);
 //    }
@@ -137,7 +137,7 @@ package class181;
 //        arr[i] = kth(arr[i]);
 //    }
 //    for (int i = 1; i <= n; i++) {
-//        root[i] = insert(arr[i], 1, cntv, root[i]);
+//        root[i] = add(arr[i], 1, cntv, root[i]);
 //    }
 //    dfs(1, 0);
 //}
