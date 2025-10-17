@@ -109,7 +109,7 @@ public class Code01_PromotionCounting1 {
 		return ret;
 	}
 
-	// 递归版，java会爆栈，C++可以通过
+	// dfs递归版，java会爆栈，C++可以通过
 	public static void dfs1(int u, int fa) {
 		for (int e = head[u]; e > 0; e = nxt[e]) {
 			int v = to[e];
@@ -144,7 +144,7 @@ public class Code01_PromotionCounting1 {
 		e = ufe[stacksize][2];
 	}
 
-	// dfs1改的迭代版
+	// dfs1改迭代
 	public static void dfs2() {
 		stacksize = 0;
 		push(1, 0, -1);
