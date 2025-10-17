@@ -9,11 +9,11 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
-public class Code02_TailOfRainyDay1 {
+public class Code02_RainDayTail1 {
 
 	public static int MAXN = 100001;
 	public static int MAXV = 100000;
-	public static int MAXT = MAXN * 80;
+	public static int MAXT = MAXN * 50;
 	public static int MAXP = 20;
 	public static int n, m;
 	public static int[][] query = new int[MAXN][3];
