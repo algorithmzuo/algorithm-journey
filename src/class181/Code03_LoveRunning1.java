@@ -16,7 +16,6 @@ public class Code03_LoveRunning1 {
 	public static int MAXP = 20;
 	public static int n, m;
 	public static int[] arr = new int[MAXN];
-	public static int[][] query = new int[MAXN][2];
 
 	public static int[] head = new int[MAXN];
 	public static int[] nxt = new int[MAXN << 1];
@@ -222,23 +221,6 @@ public class Code03_LoveRunning1 {
 		}
 	}
 
-	public static void compute() {
-		// dfs1(1, 0);
-		dfs2();
-		for (int i = 1; i <= m; i++) {
-			int x = query[i][0];
-			int y = query[i][1];
-			int lca = getLca(x, y);
-			int lcafa = stjump[lca][0];
-			rootl[x] = add(dep[x], 1, 1, n, rootl[x]);
-			rootl[lca] = add(dep[x], -1, 1, n, rootl[lca]);
-			rootr[y] = add(2 * dep[lca] - dep[x], 1, -n, n, rootr[y]);
-			rootr[lcafa] = add(2 * dep[lca] - dep[x], -1, -n, n, rootr[lcafa]);
-		}
-		// calc1(1, 0);
-		calc2();
-	}
-
 	public static void main(String[] args) throws Exception {
 		FastReader in = new FastReader(System.in);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
@@ -253,11 +235,20 @@ public class Code03_LoveRunning1 {
 		for (int i = 1; i <= n; i++) {
 			arr[i] = in.nextInt();
 		}
+		// dfs1(1, 0);
+		dfs2();
 		for (int i = 1; i <= m; i++) {
-			query[i][0] = in.nextInt();
-			query[i][1] = in.nextInt();
+			int x = in.nextInt();
+			int y = in.nextInt();
+			int lca = getLca(x, y);
+			int lcafa = stjump[lca][0];
+			rootl[x] = add(dep[x], 1, 1, n, rootl[x]);
+			rootl[lca] = add(dep[x], -1, 1, n, rootl[lca]);
+			rootr[y] = add(2 * dep[lca] - dep[x], 1, -n, n, rootr[y]);
+			rootr[lcafa] = add(2 * dep[lca] - dep[x], -1, -n, n, rootr[lcafa]);
 		}
-		compute();
+		// calc1(1, 0);
+		calc2();
 		for (int i = 1; i <= n; i++) {
 			out.print(ans[i] + " ");
 		}

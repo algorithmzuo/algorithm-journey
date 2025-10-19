@@ -16,7 +16,6 @@ public class Code02_RainyDayTail1 {
 	public static int MAXT = MAXN * 50;
 	public static int MAXP = 20;
 	public static int n, m;
-	public static int[][] query = new int[MAXN][3];
 
 	public static int[] head = new int[MAXN];
 	public static int[] nxt = new int[MAXN << 1];
@@ -220,24 +219,6 @@ public class Code02_RainyDayTail1 {
 		}
 	}
 
-	public static void compute() {
-		// dfs1(1, 0);
-		dfs2();
-		for (int i = 1; i <= m; i++) {
-			int x = query[i][0];
-			int y = query[i][1];
-			int food = query[i][2];
-			int lca = getLca(x, y);
-			int lcafa = stjump[lca][0];
-			root[x] = add(food, 1, 1, MAXV, root[x]);
-			root[y] = add(food, 1, 1, MAXV, root[y]);
-			root[lca] = add(food, -1, 1, MAXV, root[lca]);
-			root[lcafa] = add(food, -1, 1, MAXV, root[lcafa]);
-		}
-		// calc1(1, 0);
-		calc2();
-	}
-
 	public static void main(String[] args) throws Exception {
 		FastReader in = new FastReader(System.in);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
@@ -249,12 +230,21 @@ public class Code02_RainyDayTail1 {
 			addEdge(u, v);
 			addEdge(v, u);
 		}
+		// dfs1(1, 0);
+		dfs2();
 		for (int i = 1; i <= m; i++) {
-			query[i][0] = in.nextInt();
-			query[i][1] = in.nextInt();
-			query[i][2] = in.nextInt();
+			int x = in.nextInt();
+			int y = in.nextInt();
+			int food = in.nextInt();
+			int lca = getLca(x, y);
+			int lcafa = stjump[lca][0];
+			root[x] = add(food, 1, 1, MAXV, root[x]);
+			root[y] = add(food, 1, 1, MAXV, root[y]);
+			root[lca] = add(food, -1, 1, MAXV, root[lca]);
+			root[lcafa] = add(food, -1, 1, MAXV, root[lcafa]);
 		}
-		compute();
+		// calc1(1, 0);
+		calc2();
 		for (int i = 1; i <= n; i++) {
 			out.println(ans[i]);
 		}
