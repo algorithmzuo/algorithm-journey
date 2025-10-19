@@ -59,7 +59,7 @@ package class177;
 //int kth(int num) {
 //    int left = 1, right = cntv, mid, ret = 0;
 //    while (left <= right) {
-//        mid = (left + right) / 2;
+//        mid = (left + right) >> 1;
 //        if (sorted[mid] <= num) {
 //            ret = mid;
 //            left = mid + 1;

@@ -53,7 +53,7 @@ public class Code08_MachineLearning1 {
 	public static int kth(int len, int num) {
 		int left = 1, right = len, mid, ret = 0;
 		while (left <= right) {
-			mid = (left + right) / 2;
+			mid = (left + right) >> 1;
 			if (sorted[mid] <= num) {
 				ret = mid;
 				left = mid + 1;
