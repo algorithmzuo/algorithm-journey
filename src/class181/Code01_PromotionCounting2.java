@@ -106,11 +106,11 @@ package class181;
 //    return ret;
 //}
 //
-//void dfs(int u, int fa) {
+//void calc(int u, int fa) {
 //    for (int e = head[u]; e; e = nxt[e]) {
 //        int v = to[e];
 //        if (v != fa) {
-//            dfs(v, u);
+//            calc(v, u);
 //        }
 //    }
 //    for (int e = head[u]; e; e = nxt[e]) {
@@ -139,7 +139,7 @@ package class181;
 //    for (int i = 1; i <= n; i++) {
 //        root[i] = add(arr[i], 1, cntv, root[i]);
 //    }
-//    dfs(1, 0);
+//    calc(1, 0);
 //}
 //
 //int main() {

@@ -42,7 +42,7 @@ public class Code01_PromotionCounting1 {
 	public static int kth(int num) {
 		int left = 1, right = cntv, mid, ret = 0;
 		while (left <= right) {
-			mid = (left + right) / 2;
+			mid = (left + right) >> 1;
 			if (sorted[mid] <= num) {
 				ret = mid;
 				left = mid + 1;
@@ -65,7 +65,7 @@ public class Code01_PromotionCounting1 {
 		if (l == r) {
 			siz[rt]++;
 		} else {
-			int mid = (l + r) / 2;
+			int mid = (l + r) >> 1;
 			if (jobi <= mid) {
 				ls[rt] = add(jobi, l, mid, ls[rt]);
 			} else {
@@ -83,7 +83,7 @@ public class Code01_PromotionCounting1 {
 		if (l == r) {
 			siz[t1] += siz[t2];
 		} else {
-			int mid = (l + r) / 2;
+			int mid = (l + r) >> 1;
 			ls[t1] = merge(l, mid, ls[t1], ls[t2]);
 			rs[t1] = merge(mid + 1, r, rs[t1], rs[t2]);
 			up(t1);
@@ -98,7 +98,7 @@ public class Code01_PromotionCounting1 {
 		if (jobl <= l && r <= jobr) {
 			return siz[i];
 		}
-		int mid = (l + r) / 2;
+		int mid = (l + r) >> 1;
 		int ret = 0;
 		if (jobl <= mid) {
 			ret += query(jobl, jobr, l, mid, ls[i]);
@@ -109,12 +109,12 @@ public class Code01_PromotionCounting1 {
 		return ret;
 	}
 
-	// dfs递归版，java会爆栈，C++可以通过
-	public static void dfs1(int u, int fa) {
+	// 递归版，java会爆栈，C++可以通过
+	public static void calc1(int u, int fa) {
 		for (int e = head[u]; e > 0; e = nxt[e]) {
 			int v = to[e];
 			if (v != fa) {
-				dfs1(v, u);
+				calc1(v, u);
 			}
 		}
 		for (int e = head[u]; e > 0; e = nxt[e]) {
@@ -144,8 +144,8 @@ public class Code01_PromotionCounting1 {
 		e = ufe[stacksize][2];
 	}
 
-	// dfs1改迭代
-	public static void dfs2() {
+	// calc1改迭代
+	public static void calc2() {
 		stacksize = 0;
 		push(1, 0, -1);
 		while (stacksize > 0) {
@@ -189,8 +189,8 @@ public class Code01_PromotionCounting1 {
 		for (int i = 1; i <= n; i++) {
 			root[i] = add(arr[i], 1, cntv, root[i]);
 		}
-		// dfs1(1, 0);
-		dfs2();
+		// calc1(1, 0);
+		calc2();
 	}
 
 	public static void main(String[] args) throws Exception {

@@ -1,7 +1,7 @@
 package class181;
 
-// 雨天的尾巴，java版
-// 测试链接 : https://www.luogu.com.cn/problem/P4556
+// 天天爱跑步，java版
+// 测试链接 : https://www.luogu.com.cn/problem/P1600
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
 import java.io.IOException;
@@ -9,14 +9,14 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
-public class Code02_RainyDayTail1 {
+public class Code03_LoveRunning1 {
 
-	public static int MAXN = 100001;
-	public static int MAXV = 100000;
+	public static int MAXN = 300001;
 	public static int MAXT = MAXN * 50;
 	public static int MAXP = 20;
 	public static int n, m;
-	public static int[][] query = new int[MAXN][3];
+	public static int[] arr = new int[MAXN];
+	public static int[][] query = new int[MAXN][2];
 
 	public static int[] head = new int[MAXN];
 	public static int[] nxt = new int[MAXN << 1];
@@ -26,10 +26,11 @@ public class Code02_RainyDayTail1 {
 	public static int[] dep = new int[MAXN];
 	public static int[][] stjump = new int[MAXN][MAXP];
 
-	public static int[] root = new int[MAXN];
+	public static int[] rootl = new int[MAXN];
+	public static int[] rootr = new int[MAXN];
 	public static int[] ls = new int[MAXT];
 	public static int[] rs = new int[MAXT];
-	public static int[] maxCnt = new int[MAXT];
+	public static int[] sum = new int[MAXT];
 	public static int cntt;
 
 	public static int[] ans = new int[MAXN];
@@ -122,7 +123,7 @@ public class Code02_RainyDayTail1 {
 	}
 
 	public static void up(int i) {
-		maxCnt[i] = Math.max(maxCnt[ls[i]], maxCnt[rs[i]]);
+		sum[i] = sum[ls[i]] + sum[rs[i]];
 	}
 
 	public static int add(int jobi, int jobv, int l, int r, int i) {
@@ -131,7 +132,7 @@ public class Code02_RainyDayTail1 {
 			rt = ++cntt;
 		}
 		if (l == r) {
-			maxCnt[rt] += jobv;
+			sum[rt] += jobv;
 		} else {
 			int mid = (l + r) >> 1;
 			if (jobi <= mid) {
@@ -149,7 +150,7 @@ public class Code02_RainyDayTail1 {
 			return t1 + t2;
 		}
 		if (l == r) {
-			maxCnt[t1] += maxCnt[t2];
+			sum[t1] += sum[t2];
 		} else {
 			int mid = (l + r) >> 1;
 			ls[t1] = merge(l, mid, ls[t1], ls[t2]);
@@ -159,15 +160,18 @@ public class Code02_RainyDayTail1 {
 		return t1;
 	}
 
-	public static int query(int l, int r, int i) {
+	public static int query(int jobi, int l, int r, int i) {
+		if (jobi < l || jobi > r || i == 0) {
+			return 0;
+		}
 		if (l == r) {
-			return l;
+			return sum[i];
 		}
 		int mid = (l + r) >> 1;
-		if (maxCnt[i] == maxCnt[ls[i]]) {
-			return query(l, mid, ls[i]);
+		if (jobi <= mid) {
+			return query(jobi, l, mid, ls[i]);
 		} else {
-			return query(mid + 1, r, rs[i]);
+			return query(jobi, mid + 1, r, rs[i]);
 		}
 	}
 
@@ -182,12 +186,11 @@ public class Code02_RainyDayTail1 {
 		for (int ei = head[u]; ei > 0; ei = nxt[ei]) {
 			int v = to[ei];
 			if (v != fa) {
-				root[u] = merge(1, MAXV, root[u], root[v]);
+				rootl[u] = merge(1, n, rootl[u], rootl[v]);
+				rootr[u] = merge(-n, n, rootr[u], rootr[v]);
 			}
 		}
-		if (maxCnt[root[u]] > 0) {
-			ans[u] = query(1, MAXV, root[u]);
-		}
+		ans[u] = query(dep[u] + arr[u], 1, n, rootl[u]) + query(dep[u] - arr[u], -n, n, rootr[u]);
 	}
 
 	// calc1改迭代
@@ -210,12 +213,11 @@ public class Code02_RainyDayTail1 {
 				for (int ei = head[u]; ei > 0; ei = nxt[ei]) {
 					int v = to[ei];
 					if (v != f) {
-						root[u] = merge(1, MAXV, root[u], root[v]);
+						rootl[u] = merge(1, n, rootl[u], rootl[v]);
+						rootr[u] = merge(-n, n, rootr[u], rootr[v]);
 					}
 				}
-				if (maxCnt[root[u]] > 0) {
-					ans[u] = query(1, MAXV, root[u]);
-				}
+				ans[u] = query(dep[u] + arr[u], 1, n, rootl[u]) + query(dep[u] - arr[u], -n, n, rootr[u]);
 			}
 		}
 	}
@@ -226,13 +228,12 @@ public class Code02_RainyDayTail1 {
 		for (int i = 1; i <= m; i++) {
 			int x = query[i][0];
 			int y = query[i][1];
-			int food = query[i][2];
 			int lca = getLca(x, y);
 			int lcafa = stjump[lca][0];
-			root[x] = add(food, 1, 1, MAXV, root[x]);
-			root[y] = add(food, 1, 1, MAXV, root[y]);
-			root[lca] = add(food, -1, 1, MAXV, root[lca]);
-			root[lcafa] = add(food, -1, 1, MAXV, root[lcafa]);
+			rootl[x] = add(dep[x], 1, 1, n, rootl[x]);
+			rootl[lca] = add(dep[x], -1, 1, n, rootl[lca]);
+			rootr[y] = add(2 * dep[lca] - dep[x], 1, -n, n, rootr[y]);
+			rootr[lcafa] = add(2 * dep[lca] - dep[x], -1, -n, n, rootr[lcafa]);
 		}
 		// calc1(1, 0);
 		calc2();
@@ -249,15 +250,18 @@ public class Code02_RainyDayTail1 {
 			addEdge(u, v);
 			addEdge(v, u);
 		}
+		for (int i = 1; i <= n; i++) {
+			arr[i] = in.nextInt();
+		}
 		for (int i = 1; i <= m; i++) {
 			query[i][0] = in.nextInt();
 			query[i][1] = in.nextInt();
-			query[i][2] = in.nextInt();
 		}
 		compute();
 		for (int i = 1; i <= n; i++) {
-			out.println(ans[i]);
+			out.print(ans[i] + " ");
 		}
+		out.println();
 		out.flush();
 		out.close();
 	}
