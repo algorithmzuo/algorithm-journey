@@ -41,6 +41,9 @@ public class Code05_LeadersGroup1 {
 	}
 
 	public static void lazy(int i, int v) {
+		// 如果区间信息不存在
+		// 说明没有插入过节点
+		// 那么无需保留懒信息
 		if (i != 0) {
 			max[i] += v;
 			addTag[i] += v;
