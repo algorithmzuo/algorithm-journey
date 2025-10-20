@@ -26,7 +26,6 @@ public class Code05_LeadersGroup1 {
 	public static int[] ls = new int[MAXT];
 	public static int[] rs = new int[MAXT];
 	public static int[] max = new int[MAXT];
-	// 懒更新信息，不是对整个区间加，而是对已存在的节点统一加
 	public static int[] addTag = new int[MAXT];
 	public static int cntt;
 
@@ -41,9 +40,7 @@ public class Code05_LeadersGroup1 {
 	}
 
 	public static void lazy(int i, int v) {
-		// 如果区间信息不存在
-		// 说明没有插入过节点
-		// 那么无需保留懒信息
+		// 如果区间信息不存在，说明没有建立过dp信息，那么不需要加v
 		if (i != 0) {
 			max[i] += v;
 			addTag[i] += v;
@@ -78,24 +75,24 @@ public class Code05_LeadersGroup1 {
 		return rt;
 	}
 
-	public static int merge(int l, int r, int t1, int t2, int t1max, int t2max) {
+	public static int merge(int l, int r, int t1, int t2, int rmax1, int rmax2) {
 		if (t1 == 0 || t2 == 0) {
 			if (t1 != 0) {
-				lazy(t1, t2max);
+				lazy(t1, rmax2);
 			}
 			if (t2 != 0) {
-				lazy(t2, t1max);
+				lazy(t2, rmax1);
 			}
 			return t1 + t2;
 		}
 		if (l == r) {
-			max[t1] = Math.max(max[t1], t1max) + Math.max(max[t2], t2max);
+			max[t1] = Math.max(max[t1], rmax1) + Math.max(max[t2], rmax2);
 		} else {
 			down(t1);
 			down(t2);
 			int mid = (l + r) >> 1;
-			ls[t1] = merge(l, mid, ls[t1], ls[t2], Math.max(max[rs[t1]], t1max), Math.max(max[rs[t2]], t2max));
-			rs[t1] = merge(mid + 1, r, rs[t1], rs[t2], t1max, t2max);
+			ls[t1] = merge(l, mid, ls[t1], ls[t2], Math.max(max[rs[t1]], rmax1), Math.max(max[rs[t2]], rmax2));
+			rs[t1] = merge(mid + 1, r, rs[t1], rs[t2], rmax1, rmax2);
 			up(t1);
 		}
 		return t1;
