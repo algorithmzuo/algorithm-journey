@@ -1,4 +1,4 @@
-package class181;
+package class182;
 
 // 领导集团问题，java版
 // 测试链接 : https://www.luogu.com.cn/problem/P4577
@@ -9,7 +9,7 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
-public class Code05_LeadersGroup1 {
+public class Code01_LeadersGroup1 {
 
 	public static int MAXN = 200001;
 	public static int MAXV = 1000000000;
