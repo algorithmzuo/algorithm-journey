@@ -1,6 +1,6 @@
 package class182;
 
-// 根节点的概率问题，java版
+// 根节点的概率，java版
 // 测试链接 : https://www.luogu.com.cn/problem/P5298
 // 提交以下的code，提交时请把类名改成"Main"
 // java实现的逻辑一定是正确的，但是本题卡常，无法通过所有测试用例
@@ -131,16 +131,52 @@ public class Code02_Minimax1 {
 		return t1;
 	}
 
-	public static void dfs(int u) {
+	// 递归版，java会爆栈，C++可以通过
+	public static void dfs1(int u) {
 		if (childCnt[u] == 0) {
 			root[u] = update(val[u], 1, 1, cntv, root[u]);
 		} else if (childCnt[u] == 1) {
-			dfs(child[u][0]);
+			dfs1(child[u][0]);
 			root[u] = root[child[u][0]];
 		} else {
-			dfs(child[u][0]);
-			dfs(child[u][1]);
+			dfs1(child[u][0]);
+			dfs1(child[u][1]);
 			root[u] = merge(1, cntv, root[child[u][0]], root[child[u][1]], 0, 0, val[u]);
+		}
+	}
+
+	// dfs1改成迭代版
+	public static void dfs2() {
+		int[][] stack = new int[n][2];
+		int siz = 0;
+		stack[++siz][0] = 1;
+		stack[siz][1] = 0;
+		while (siz > 0) {
+			int u = stack[siz][0];
+			int s = stack[siz--][1];
+			if (childCnt[u] == 0) {
+				root[u] = update(val[u], 1, 1, cntv, root[u]);
+			} else if (childCnt[u] == 1) {
+				if (s == 0) {
+					stack[++siz][0] = u;
+					stack[siz][1] = 1;
+					stack[++siz][0] = child[u][0];
+					stack[siz][1] = 0;
+				} else {
+					root[u] = root[child[u][0]];
+				}
+			} else {
+				if (s == 0) {
+					stack[++siz][0] = u;
+					stack[siz][1] = 1;
+					stack[++siz][0] = child[u][1];
+					stack[siz][1] = 0;
+					stack[++siz][0] = child[u][0];
+					stack[siz][1] = 0;
+				} else {
+					root[u] = merge(1, cntv, root[child[u][0]], root[child[u][1]], 0, 0, val[u]);
+				}
+			}
 		}
 	}
 
@@ -198,7 +234,8 @@ public class Code02_Minimax1 {
 			val[i] = in.nextInt();
 		}
 		prepare();
-		dfs(1);
+		// dfs1(1);
+		dfs2();
 		getd(1, cntv, root[1]);
 		long ans = 0;
 		for (int i = 1; i <= cntv; i++) {
