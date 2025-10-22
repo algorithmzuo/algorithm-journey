@@ -99,9 +99,9 @@ public class Code03_Fate1 {
 		}
 		if (l == r) {
 			sum1 = (sum1 + sum[t2]) % MOD;
-			long tmp = sum[t1];
-			sum[t1] = ((sum[t1] * sum1) % MOD + (sum[t2] * sum2) % MOD) % MOD;
-			sum2 = (sum2 + tmp) % MOD;
+			long tmp = sum2;
+			sum2 = (sum2 + sum[t1]) % MOD;
+			sum[t1] = ((sum[t1] * sum1) % MOD + (sum[t2] * tmp) % MOD) % MOD;
 		} else {
 			down(t1);
 			down(t2);
