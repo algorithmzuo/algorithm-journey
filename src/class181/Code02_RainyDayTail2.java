@@ -1,6 +1,10 @@
 package class181;
 
 // 雨天的尾巴，C++版
+// 一共有n个节点，给定n-1条边，所有节点组成一棵树
+// 给定m条路径，格式 x y v，表示x到y路径上的每个点都收到一个数字v
+// 打印第i号点上，收到次数最多的数字，如果不止一种，打印值最小的数字，一共n条打印
+// 1 <= n、m、v <= 10^5
 // 测试链接 : https://www.luogu.com.cn/problem/P4556
 // 如下实现是C++的版本，C++版本和java版本逻辑完全一样
 // 提交如下代码，可以通过所有测试用例
@@ -145,14 +149,14 @@ package class181;
 //        addEdge(v, u);
 //    }
 //    dfs(1, 0);
-//    for (int i = 1, x, y, food; i <= m; i++) {
-//        cin >> x >> y >> food;
+//    for (int i = 1, x, y, v; i <= m; i++) {
+//        cin >> x >> y >> v;
 //        int lca = getLca(x, y);
 //        int lcafa = stjump[lca][0];
-//        root[x] = add(food, 1, 1, MAXV, root[x]);
-//        root[y] = add(food, 1, 1, MAXV, root[y]);
-//        root[lca] = add(food, -1, 1, MAXV, root[lca]);
-//        root[lcafa] = add(food, -1, 1, MAXV, root[lcafa]);
+//        root[x] = add(v, 1, 1, MAXV, root[x]);
+//        root[y] = add(v, 1, 1, MAXV, root[y]);
+//        root[lca] = add(v, -1, 1, MAXV, root[lca]);
+//        root[lcafa] = add(v, -1, 1, MAXV, root[lcafa]);
 //    }
 //    calc(1, 0);
 //    for (int i = 1; i <= n; i++) {
