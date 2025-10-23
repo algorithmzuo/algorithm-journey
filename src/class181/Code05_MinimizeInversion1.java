@@ -1,6 +1,13 @@
 package class181;
 
 // 最小化逆序对，java版
+// 给定数字n，表示一棵二叉树有n个叶节点，叶节点的权值都不同并且都是1~n范围的数字
+// 树上的任何节点，要么是叶节点，要么一定有两个孩子，请从输入流中不断读取数字x来建树
+// 如果 x != 0，表示当前来到叶节点并且权值为x，注意只有叶节点有权值
+// 如果 x == 0，表示当前来到非叶节点，先递归建立左树，再递归建立右树
+// 输入流保证根据规则可以建好这棵二叉树，你可以任选一些节点，交换这些节点的左右子树
+// 目的是先序遍历整棵树之后，所有叶节点权值组成的序列中，逆序对数量尽可能小，打印这个最小值
+// 2 <= n <= 2 * 10^5
 // 测试链接 : https://www.luogu.com.cn/problem/P3521
 // 提交以下的code，提交时请把类名改成"Main"
 // java实现的逻辑一定是正确的，但是本题卡常，无法通过所有测试用例
@@ -22,7 +29,7 @@ public class Code05_MinimizeInversion1 {
 	public static int[] siz = new int[MAXT];
 	public static int cntt;
 
-	public static long ans, u, v;
+	public static long ans;
 
 	public static void up(int i) {
 		siz[i] = siz[ls[i]] + siz[rs[i]];
@@ -44,6 +51,8 @@ public class Code05_MinimizeInversion1 {
 		return rt;
 	}
 
+	public static int no, yes;
+
 	public static int merge(int l, int r, int t1, int t2) {
 		if (t1 == 0 || t2 == 0) {
 			return t1 + t2;
@@ -51,8 +60,8 @@ public class Code05_MinimizeInversion1 {
 		if (l == r) {
 			siz[t1] += siz[t2];
 		} else {
-			u += (long) siz[rs[t1]] * siz[ls[t2]];
-			v += (long) siz[ls[t1]] * siz[rs[t2]];
+			no += (long) siz[rs[t1]] * siz[ls[t2]];
+			yes += (long) siz[ls[t1]] * siz[rs[t2]];
 			int mid = (l + r) >> 1;
 			ls[t1] = merge(l, mid, ls[t1], ls[t2]);
 			rs[t1] = merge(mid + 1, r, rs[t1], rs[t2]);
@@ -67,9 +76,9 @@ public class Code05_MinimizeInversion1 {
 		if (val == 0) {
 			int left = dfs();
 			int right = dfs();
-			u = v = 0;
+			no = yes = 0;
 			rt = merge(1, n, left, right);
-			ans += Math.min(u, v);
+			ans += Math.min(no, yes);
 		} else {
 			rt = build(val, 1, n);
 		}
