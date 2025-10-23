@@ -130,11 +130,6 @@ package class181;
 //        int v = to[e];
 //        if (v != fa) {
 //            calc(v, u);
-//        }
-//    }
-//    for (int e = head[u]; e; e = nxt[e]) {
-//        int v = to[e];
-//        if (v != fa) {
 //            rootl[u] = merge(1, n, rootl[u], rootl[v]);
 //            rootr[u] = merge(-n, n, rootr[u], rootr[v]);
 //        }

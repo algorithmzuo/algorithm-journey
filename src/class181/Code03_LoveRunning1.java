@@ -180,11 +180,6 @@ public class Code03_LoveRunning1 {
 			int v = to[e];
 			if (v != fa) {
 				calc1(v, u);
-			}
-		}
-		for (int ei = head[u]; ei > 0; ei = nxt[ei]) {
-			int v = to[ei];
-			if (v != fa) {
 				rootl[u] = merge(1, n, rootl[u], rootl[v]);
 				rootr[u] = merge(-n, n, rootr[u], rootr[v]);
 			}

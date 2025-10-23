@@ -176,11 +176,6 @@ public class Code02_RainyDayTail1 {
 			int v = to[e];
 			if (v != fa) {
 				calc1(v, u);
-			}
-		}
-		for (int ei = head[u]; ei > 0; ei = nxt[ei]) {
-			int v = to[ei];
-			if (v != fa) {
 				root[u] = merge(1, MAXV, root[u], root[v]);
 			}
 		}

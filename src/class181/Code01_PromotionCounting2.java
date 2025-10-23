@@ -111,11 +111,6 @@ package class181;
 //        int v = to[e];
 //        if (v != fa) {
 //            calc(v, u);
-//        }
-//    }
-//    for (int e = head[u]; e; e = nxt[e]) {
-//        int v = to[e];
-//        if (v != fa) {
 //            root[u] = merge(1, cntv, root[u], root[v]);
 //        }
 //    }
