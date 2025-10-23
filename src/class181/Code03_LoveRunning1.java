@@ -1,6 +1,13 @@
 package class181;
 
 // 天天爱跑步，java版
+// 一共有n个点，给定n-1条边，所有节点组成一棵树
+// 每个点上都有一个观察员，给出每个观察员的观测时刻w[i]
+// 给出m个跑步者的路线，格式 x y : 该跑步者出发时刻为0，从x跑到y
+// 任何跑步者通过任何一条边，耗时都是1秒
+// 某个跑步者到达i号点的时刻 == w[i]，那么该跑步者才会被i号点的观察员观测到
+// 打印i号点的观察员，能观测到多少人，一共n条打印
+// 1 <= n、m、w[i] <= 3 * 10^5
 // 测试链接 : https://www.luogu.com.cn/problem/P1600
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
@@ -15,7 +22,7 @@ public class Code03_LoveRunning1 {
 	public static int MAXT = MAXN * 50;
 	public static int MAXP = 20;
 	public static int n, m;
-	public static int[] arr = new int[MAXN];
+	public static int[] w = new int[MAXN];
 
 	public static int[] head = new int[MAXN];
 	public static int[] nxt = new int[MAXN << 1];
@@ -184,7 +191,7 @@ public class Code03_LoveRunning1 {
 				rootr[u] = merge(-n, n, rootr[u], rootr[v]);
 			}
 		}
-		ans[u] = query(dep[u] + arr[u], 1, n, rootl[u]) + query(dep[u] - arr[u], -n, n, rootr[u]);
+		ans[u] = query(dep[u] + w[u], 1, n, rootl[u]) + query(dep[u] - w[u], -n, n, rootr[u]);
 	}
 
 	// calc1改迭代
@@ -211,7 +218,7 @@ public class Code03_LoveRunning1 {
 						rootr[u] = merge(-n, n, rootr[u], rootr[v]);
 					}
 				}
-				ans[u] = query(dep[u] + arr[u], 1, n, rootl[u]) + query(dep[u] - arr[u], -n, n, rootr[u]);
+				ans[u] = query(dep[u] + w[u], 1, n, rootl[u]) + query(dep[u] - w[u], -n, n, rootr[u]);
 			}
 		}
 	}
@@ -228,7 +235,7 @@ public class Code03_LoveRunning1 {
 			addEdge(v, u);
 		}
 		for (int i = 1; i <= n; i++) {
-			arr[i] = in.nextInt();
+			w[i] = in.nextInt();
 		}
 		// dfs1(1, 0);
 		dfs2();

@@ -1,6 +1,13 @@
 package class181;
 
 // 天天爱跑步，C++版
+// 一共有n个点，给定n-1条边，所有节点组成一棵树
+// 每个点上都有一个观察员，给出每个观察员的观测时刻w[i]
+// 给出m个跑步者的路线，格式 x y : 该跑步者出发时刻为0，从x跑到y
+// 任何跑步者通过任何一条边，耗时都是1秒
+// 某个跑步者到达i号点的时刻 == w[i]，那么该跑步者才会被i号点的观察员观测到
+// 打印i号点的观察员，能观测到多少人，一共n条打印
+// 1 <= n、m、w[i] <= 3 * 10^5
 // 测试链接 : https://www.luogu.com.cn/problem/P1600
 // 如下实现是C++的版本，C++版本和java版本逻辑完全一样
 // 提交如下代码，可以通过所有测试用例
@@ -13,7 +20,7 @@ package class181;
 //const int MAXT = MAXN * 50;
 //const int MAXP = 20;
 //int n, m;
-//int arr[MAXN];
+//int w[MAXN];
 //
 //int head[MAXN];
 //int nxt[MAXN << 1];
@@ -134,7 +141,7 @@ package class181;
 //            rootr[u] = merge(-n, n, rootr[u], rootr[v]);
 //        }
 //    }
-//    ans[u] = query(dep[u] + arr[u], 1, n, rootl[u]) + query(dep[u] - arr[u], -n, n, rootr[u]);
+//    ans[u] = query(dep[u] + w[u], 1, n, rootl[u]) + query(dep[u] - w[u], -n, n, rootr[u]);
 //}
 //
 //int main() {
@@ -147,7 +154,7 @@ package class181;
 //        addEdge(v, u);
 //    }
 //    for (int i = 1; i <= n; i++) {
-//        cin >> arr[i];
+//        cin >> w[i];
 //    }
 //    dfs(1, 0);
 //    for (int i = 1, x, y; i <= m; i++) {
