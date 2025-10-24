@@ -22,13 +22,13 @@ package class181;
 //int root[MAXN];
 //int ls[MAXT];
 //int rs[MAXT];
-//int sum[MAXT];
+//int siz[MAXT];
 //int cntt;
 //
 //int father[MAXN];
 //
 //void up(int i) {
-//    sum[i] = sum[ls[i]] + sum[rs[i]];
+//    siz[i] = siz[ls[i]] + siz[rs[i]];
 //}
 //
 //int add(int jobi, int l, int r, int i) {
@@ -37,7 +37,7 @@ package class181;
 //        rt = ++cntt;
 //    }
 //    if (l == r) {
-//        sum[rt]++;
+//        siz[rt]++;
 //    } else {
 //        int mid = (l + r) >> 1;
 //        if (jobi <= mid) {
@@ -55,7 +55,7 @@ package class181;
 //        return t1 + t2;
 //    }
 //    if (l == r) {
-//        sum[t1] += sum[t2];
+//        siz[t1] += siz[t2];
 //    } else {
 //        int mid = (l + r) >> 1;
 //        ls[t1] = merge(l, mid, ls[t1], ls[t2]);
@@ -66,17 +66,17 @@ package class181;
 //}
 //
 //int query(int jobk, int l, int r, int i) {
-//    if (i == 0 || jobk > sum[i]) {
+//    if (i == 0 || jobk > siz[i]) {
 //        return -1;
 //    }
 //    if (l == r) {
 //        return pos[l];
 //    }
 //    int mid = (l + r) >> 1;
-//    if (sum[ls[i]] >= jobk) {
+//    if (siz[ls[i]] >= jobk) {
 //        return query(jobk, l, mid, ls[i]);
 //    } else {
-//        return query(jobk - sum[ls[i]], mid + 1, r, rs[i]);
+//        return query(jobk - siz[ls[i]], mid + 1, r, rs[i]);
 //    }
 //}
 //

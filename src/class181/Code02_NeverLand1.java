@@ -14,7 +14,7 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
-public class Code04_NeverLand1 {
+public class Code02_NeverLand1 {
 
 	public static int MAXN = 100001;
 	public static int MAXT = MAXN * 40;
@@ -24,13 +24,13 @@ public class Code04_NeverLand1 {
 	public static int[] root = new int[MAXN];
 	public static int[] ls = new int[MAXT];
 	public static int[] rs = new int[MAXT];
-	public static int[] sum = new int[MAXT];
+	public static int[] siz = new int[MAXT];
 	public static int cntt;
 
 	public static int[] father = new int[MAXN];
 
 	public static void up(int i) {
-		sum[i] = sum[ls[i]] + sum[rs[i]];
+		siz[i] = siz[ls[i]] + siz[rs[i]];
 	}
 
 	public static int add(int jobi, int l, int r, int i) {
@@ -39,7 +39,7 @@ public class Code04_NeverLand1 {
 			rt = ++cntt;
 		}
 		if (l == r) {
-			sum[rt]++;
+			siz[rt]++;
 		} else {
 			int mid = (l + r) >> 1;
 			if (jobi <= mid) {
@@ -57,7 +57,7 @@ public class Code04_NeverLand1 {
 			return t1 + t2;
 		}
 		if (l == r) {
-			sum[t1] += sum[t2];
+			siz[t1] += siz[t2];
 		} else {
 			int mid = (l + r) >> 1;
 			ls[t1] = merge(l, mid, ls[t1], ls[t2]);
@@ -68,17 +68,17 @@ public class Code04_NeverLand1 {
 	}
 
 	public static int query(int jobk, int l, int r, int i) {
-		if (i == 0 || jobk > sum[i]) {
+		if (i == 0 || jobk > siz[i]) {
 			return -1;
 		}
 		if (l == r) {
 			return pos[l];
 		}
 		int mid = (l + r) >> 1;
-		if (sum[ls[i]] >= jobk) {
+		if (siz[ls[i]] >= jobk) {
 			return query(jobk, l, mid, ls[i]);
 		} else {
-			return query(jobk - sum[ls[i]], mid + 1, r, rs[i]);
+			return query(jobk - siz[ls[i]], mid + 1, r, rs[i]);
 		}
 	}
 

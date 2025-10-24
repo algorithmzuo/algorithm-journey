@@ -16,7 +16,7 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
-public class Code03_LoveRunning1 {
+public class Code04_LoveRunning1 {
 
 	public static int MAXN = 300001;
 	public static int MAXT = MAXN * 50;
