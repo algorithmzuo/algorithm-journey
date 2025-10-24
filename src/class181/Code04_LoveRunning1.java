@@ -245,9 +245,9 @@ public class Code04_LoveRunning1 {
 			int lca = getLca(x, y);
 			int lcafa = stjump[lca][0];
 			rtUp[x] = add(dep[x], 1, 1, n, rtUp[x]);
-			rtUp[lca] = add(dep[x], -1, 1, n, rtUp[lca]);
+			rtUp[lcafa] = add(dep[x], -1, 1, n, rtUp[lcafa]);
 			rtDown[y] = add(2 * dep[lca] - dep[x], 1, -n, n, rtDown[y]);
-			rtDown[lcafa] = add(2 * dep[lca] - dep[x], -1, -n, n, rtDown[lcafa]);
+			rtDown[lca] = add(2 * dep[lca] - dep[x], -1, -n, n, rtDown[lca]);
 		}
 		// calc1(1, 0);
 		calc2();
