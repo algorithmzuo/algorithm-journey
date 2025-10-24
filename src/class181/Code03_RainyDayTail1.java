@@ -169,7 +169,7 @@ public class Code03_RainyDayTail1 {
 			return l;
 		}
 		int mid = (l + r) >> 1;
-		if (maxCnt[i] == maxCnt[ls[i]]) {
+		if (maxCnt[ls[i]] >= maxCnt[rs[i]]) {
 			return query(l, mid, ls[i]);
 		} else {
 			return query(mid + 1, r, rs[i]);
