@@ -56,7 +56,7 @@ package class181;
 //        siz[t1] += siz[t2];
 //    } else {
 //        no += 1LL * siz[rs[t1]] * siz[ls[t2]];
-//        yes += 1LL * siz[ls[t1]] * siz[rs[t2]];
+//        yes += 1LL * siz[rs[t2]] * siz[ls[t1]];
 //        int mid = (l + r) >> 1;
 //        ls[t1] = merge(l, mid, ls[t1], ls[t2]);
 //        rs[t1] = merge(mid + 1, r, rs[t1], rs[t2]);
