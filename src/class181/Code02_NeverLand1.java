@@ -19,9 +19,13 @@ public class Code02_NeverLand1 {
 	public static int MAXN = 100001;
 	public static int MAXT = MAXN * 40;
 	public static int n, m, q;
+
+	// pos[v] = i，表示数字v属于第i号岛
 	public static int[] pos = new int[MAXN];
+	// 并查集
 	public static int[] father = new int[MAXN];
 
+	// 权值线段树
 	public static int[] root = new int[MAXN];
 	public static int[] ls = new int[MAXT];
 	public static int[] rs = new int[MAXT];
