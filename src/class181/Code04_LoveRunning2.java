@@ -29,8 +29,8 @@ package class181;
 //
 //int dep[MAXN];
 //int stjump[MAXN][MAXP];
-//int rootl[MAXN];
-//int rootr[MAXN];
+//int rtUp[MAXN];
+//int rtDown[MAXN];
 //int ls[MAXT];
 //int rs[MAXT];
 //int sum[MAXT];
@@ -137,11 +137,11 @@ package class181;
 //        int v = to[e];
 //        if (v != fa) {
 //            calc(v, u);
-//            rootl[u] = merge(1, n, rootl[u], rootl[v]);
-//            rootr[u] = merge(-n, n, rootr[u], rootr[v]);
+//            rtUp[u] = merge(1, n, rtUp[u], rtUp[v]);
+//            rtDown[u] = merge(-n, n, rtDown[u], rtDown[v]);
 //        }
 //    }
-//    ans[u] = query(dep[u] + w[u], 1, n, rootl[u]) + query(dep[u] - w[u], -n, n, rootr[u]);
+//    ans[u] = query(dep[u] + w[u], 1, n, rtUp[u]) + query(dep[u] - w[u], -n, n, rtDown[u]);
 //}
 //
 //int main() {
@@ -161,10 +161,10 @@ package class181;
 //        cin >> x >> y;
 //        int lca = getLca(x, y);
 //        int lcafa = stjump[lca][0];
-//        rootl[x] = add(dep[x], 1, 1, n, rootl[x]);
-//        rootl[lca] = add(dep[x], -1, 1, n, rootl[lca]);
-//        rootr[y] = add(2 * dep[lca] - dep[x], 1, -n, n, rootr[y]);
-//        rootr[lcafa] = add(2 * dep[lca] - dep[x], -1, -n, n, rootr[lcafa]);
+//        rtUp[x] = add(dep[x], 1, 1, n, rtUp[x]);
+//        rtUp[lca] = add(dep[x], -1, 1, n, rtUp[lca]);
+//        rtDown[y] = add(2 * dep[lca] - dep[x], 1, -n, n, rtDown[y]);
+//        rtDown[lcafa] = add(2 * dep[lca] - dep[x], -1, -n, n, rtDown[lcafa]);
 //    }
 //    calc(1, 0);
 //    for (int i = 1; i <= n; i++) {

@@ -32,8 +32,8 @@ public class Code04_LoveRunning1 {
 	public static int[] dep = new int[MAXN];
 	public static int[][] stjump = new int[MAXN][MAXP];
 
-	public static int[] rootl = new int[MAXN];
-	public static int[] rootr = new int[MAXN];
+	public static int[] rtUp = new int[MAXN];
+	public static int[] rtDown = new int[MAXN];
 	public static int[] ls = new int[MAXT];
 	public static int[] rs = new int[MAXT];
 	public static int[] sum = new int[MAXT];
@@ -187,11 +187,11 @@ public class Code04_LoveRunning1 {
 			int v = to[e];
 			if (v != fa) {
 				calc1(v, u);
-				rootl[u] = merge(1, n, rootl[u], rootl[v]);
-				rootr[u] = merge(-n, n, rootr[u], rootr[v]);
+				rtUp[u] = merge(1, n, rtUp[u], rtUp[v]);
+				rtDown[u] = merge(-n, n, rtDown[u], rtDown[v]);
 			}
 		}
-		ans[u] = query(dep[u] + w[u], 1, n, rootl[u]) + query(dep[u] - w[u], -n, n, rootr[u]);
+		ans[u] = query(dep[u] + w[u], 1, n, rtUp[u]) + query(dep[u] - w[u], -n, n, rtDown[u]);
 	}
 
 	// calc1改迭代
@@ -214,11 +214,11 @@ public class Code04_LoveRunning1 {
 				for (int ei = head[u]; ei > 0; ei = nxt[ei]) {
 					int v = to[ei];
 					if (v != f) {
-						rootl[u] = merge(1, n, rootl[u], rootl[v]);
-						rootr[u] = merge(-n, n, rootr[u], rootr[v]);
+						rtUp[u] = merge(1, n, rtUp[u], rtUp[v]);
+						rtDown[u] = merge(-n, n, rtDown[u], rtDown[v]);
 					}
 				}
-				ans[u] = query(dep[u] + w[u], 1, n, rootl[u]) + query(dep[u] - w[u], -n, n, rootr[u]);
+				ans[u] = query(dep[u] + w[u], 1, n, rtUp[u]) + query(dep[u] - w[u], -n, n, rtDown[u]);
 			}
 		}
 	}
@@ -244,10 +244,10 @@ public class Code04_LoveRunning1 {
 			int y = in.nextInt();
 			int lca = getLca(x, y);
 			int lcafa = stjump[lca][0];
-			rootl[x] = add(dep[x], 1, 1, n, rootl[x]);
-			rootl[lca] = add(dep[x], -1, 1, n, rootl[lca]);
-			rootr[y] = add(2 * dep[lca] - dep[x], 1, -n, n, rootr[y]);
-			rootr[lcafa] = add(2 * dep[lca] - dep[x], -1, -n, n, rootr[lcafa]);
+			rtUp[x] = add(dep[x], 1, 1, n, rtUp[x]);
+			rtUp[lca] = add(dep[x], -1, 1, n, rtUp[lca]);
+			rtDown[y] = add(2 * dep[lca] - dep[x], 1, -n, n, rtDown[y]);
+			rtDown[lcafa] = add(2 * dep[lca] - dep[x], -1, -n, n, rtDown[lcafa]);
 		}
 		// calc1(1, 0);
 		calc2();
