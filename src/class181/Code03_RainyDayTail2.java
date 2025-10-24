@@ -136,7 +136,9 @@ package class181;
 //            root[u] = merge(1, MAXV, root[u], root[v]);
 //        }
 //    }
-//    if (root[u] && maxCnt[root[u]] > 0) {
+//    if (maxCnt[root[u]] == 0) {
+//        ans[u] = 0;
+//    } else {
 //        ans[u] = query(1, MAXV, root[u]);
 //    }
 //}

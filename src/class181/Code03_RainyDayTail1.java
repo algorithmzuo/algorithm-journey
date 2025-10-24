@@ -185,7 +185,9 @@ public class Code03_RainyDayTail1 {
 				root[u] = merge(1, MAXV, root[u], root[v]);
 			}
 		}
-		if (maxCnt[root[u]] > 0) {
+		if (maxCnt[root[u]] == 0) {
+			ans[u] = 0;
+		} else {
 			ans[u] = query(1, MAXV, root[u]);
 		}
 	}
@@ -213,7 +215,9 @@ public class Code03_RainyDayTail1 {
 						root[u] = merge(1, MAXV, root[u], root[v]);
 					}
 				}
-				if (maxCnt[root[u]] > 0) {
+				if (maxCnt[root[u]] == 0) {
+					ans[u] = 0;
+				} else {
 					ans[u] = query(1, MAXV, root[u]);
 				}
 			}
