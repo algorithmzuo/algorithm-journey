@@ -18,14 +18,13 @@ package class181;
 //const int MAXT = MAXN * 40;
 //int n, m, q;
 //int pos[MAXN];
+//int father[MAXN];
 //
 //int root[MAXN];
 //int ls[MAXT];
 //int rs[MAXT];
 //int siz[MAXT];
 //int cntt;
-//
-//int father[MAXN];
 //
 //void up(int i) {
 //    siz[i] = siz[ls[i]] + siz[rs[i]];

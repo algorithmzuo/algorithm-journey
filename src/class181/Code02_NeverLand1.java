@@ -20,14 +20,13 @@ public class Code02_NeverLand1 {
 	public static int MAXT = MAXN * 40;
 	public static int n, m, q;
 	public static int[] pos = new int[MAXN];
+	public static int[] father = new int[MAXN];
 
 	public static int[] root = new int[MAXN];
 	public static int[] ls = new int[MAXT];
 	public static int[] rs = new int[MAXT];
 	public static int[] siz = new int[MAXT];
 	public static int cntt;
-
-	public static int[] father = new int[MAXN];
 
 	public static void up(int i) {
 		siz[i] = siz[ls[i]] + siz[rs[i]];
