@@ -77,24 +77,32 @@ public class Code01_LeadersGroup1 {
 		return rt;
 	}
 
-	public static int merge(int l, int r, int t1, int t2, int rmax1, int rmax2) {
+	public static int max1, max2;
+
+	public static int merge(int l, int r, int t1, int t2) {
 		if (t1 == 0 || t2 == 0) {
 			if (t1 != 0) {
-				lazy(t1, rmax2);
+				lazy(t1, max2);
 			}
 			if (t2 != 0) {
-				lazy(t2, rmax1);
+				lazy(t2, max1);
 			}
 			return t1 + t2;
 		}
 		if (l == r) {
-			max[t1] = Math.max(max[t1], rmax1) + Math.max(max[t2], rmax2);
+			max[t1] = Math.max(max[t1], max1) + Math.max(max[t2], max2);
 		} else {
 			down(t1);
 			down(t2);
 			int mid = (l + r) >> 1;
-			ls[t1] = merge(l, mid, ls[t1], ls[t2], Math.max(max[rs[t1]], rmax1), Math.max(max[rs[t2]], rmax2));
-			rs[t1] = merge(mid + 1, r, rs[t1], rs[t2], rmax1, rmax2);
+			int tmp1 = max1;
+			int tmp2 = max2;
+			max1 = Math.max(max1, max[rs[t1]]);
+			max2 = Math.max(max2, max[rs[t2]]);
+			ls[t1] = merge(l, mid, ls[t1], ls[t2]);
+			max1 = tmp1;
+			max2 = tmp2;
+			rs[t1] = merge(mid + 1, r, rs[t1], rs[t2]);
 			up(t1);
 		}
 		return t1;
@@ -125,7 +133,8 @@ public class Code01_LeadersGroup1 {
 			int v = to[e];
 			dp(v);
 			val += query(arr[u], MAXV, 1, MAXV, root[v]);
-			root[u] = merge(1, MAXV, root[u], root[v], 0, 0);
+			max1 = max2 = 0;
+			root[u] = merge(1, MAXV, root[u], root[v]);
 		}
 		root[u] = add(arr[u], val, 1, MAXV, root[u]);
 	}

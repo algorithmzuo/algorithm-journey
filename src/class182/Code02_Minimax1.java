@@ -103,7 +103,9 @@ public class Code02_Minimax1 {
 		return rt;
 	}
 
-	public static int merge(int l, int r, int t1, int t2, long v, long mul1, long mul2) {
+	public static long v, mul1, mul2;
+
+	public static int merge(int l, int r, int t1, int t2) {
 		if (t1 == 0 || t2 == 0) {
 			if (t1 != 0) {
 				lazy(t1, mul1);
@@ -124,9 +126,14 @@ public class Code02_Minimax1 {
 		long rsum1 = sum[rs1];
 		long lsum2 = sum[ls2];
 		long rsum2 = sum[rs2];
-		long tmp = (1 - v + MOD) % MOD;
-		ls[t1] = merge(l, mid, ls1, ls2, v, (mul1 + rsum2 * tmp) % MOD, (mul2 + rsum1 * tmp) % MOD);
-		rs[t1] = merge(mid + 1, r, rs1, rs2, v, (mul1 + lsum2 * v) % MOD, (mul2 + lsum1 * v) % MOD);
+		long tmp1 = mul1;
+		long tmp2 = mul2;
+		mul1 = (tmp1 + rsum2 * (1 - v + MOD) % MOD) % MOD;
+		mul2 = (tmp2 + rsum1 * (1 - v + MOD) % MOD) % MOD;
+		ls[t1] = merge(l, mid, ls1, ls2);
+		mul1 = (tmp1 + lsum2 * v) % MOD;
+		mul2 = (tmp2 + lsum1 * v) % MOD;
+		rs[t1] = merge(mid + 1, r, rs1, rs2);
 		up(t1);
 		return t1;
 	}
@@ -141,7 +148,10 @@ public class Code02_Minimax1 {
 		} else {
 			dfs1(child[u][0]);
 			dfs1(child[u][1]);
-			root[u] = merge(1, cntv, root[child[u][0]], root[child[u][1]], val[u], 0, 0);
+			v = val[u];
+			mul1 = 0;
+			mul2 = 0;
+			root[u] = merge(1, cntv, root[child[u][0]], root[child[u][1]]);
 		}
 	}
 
@@ -174,7 +184,10 @@ public class Code02_Minimax1 {
 					stack[++siz][0] = child[u][0];
 					stack[siz][1] = 0;
 				} else {
-					root[u] = merge(1, cntv, root[child[u][0]], root[child[u][1]], val[u], 0, 0);
+					v = val[u];
+					mul1 = 0;
+					mul2 = 0;
+					root[u] = merge(1, cntv, root[child[u][0]], root[child[u][1]]);
 				}
 			}
 		}
