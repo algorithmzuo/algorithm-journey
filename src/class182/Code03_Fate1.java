@@ -6,6 +6,8 @@ package class182;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 
 public class Code03_Fate1 {
 
@@ -215,6 +217,7 @@ public class Code03_Fate1 {
 
 	public static void main(String[] args) throws IOException {
 		FastReader in = new FastReader(System.in);
+		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
 		n = in.nextInt();
 		for (int i = 1, u, v; i < n; i++) {
 			u = in.nextInt();
@@ -233,7 +236,9 @@ public class Code03_Fate1 {
 		// dp1(1, 0);
 		dp2();
 		long ans = query(0, 0, 0, n, root[1]) % MOD;
-		System.out.println(ans);
+		out.println(ans);
+		out.flush();
+		out.close();
 	}
 
 	// 读写工具类
