@@ -40,7 +40,9 @@ public class Code01_LeadersGroup1 {
 	}
 
 	public static void lazy(int i, int v) {
-		// 如果区间信息不存在，说明没有建立过dp信息，那么不需要加v
+		// 如果区间信息不存在
+		// 说明没有建立过dp信息
+		// 那么不需要增加v
 		if (i != 0) {
 			max[i] += v;
 			addTag[i] += v;
