@@ -112,11 +112,11 @@ public class Code02_Minimax1 {
 			}
 			return t1 + t2;
 		}
-		down(t1);
-		down(t2);
 		if (l == r) {
 			sum[t1] = (sum[t1] * mul1 % MOD + sum[t2] * mul2 % MOD) % MOD;
 		} else {
+			down(t1);
+			down(t2);
 			int mid = (l + r) >> 1;
 			long lsum1 = sum[ls[t1]];
 			long rsum1 = sum[rs[t1]];
