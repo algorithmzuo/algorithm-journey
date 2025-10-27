@@ -11,7 +11,7 @@ public class Code03_Fate1 {
 
 	public static int MAXN = 500001;
 	public static int MAXT = MAXN * 40;
-	public static int MOD = 998244353;
+	public static final int MOD = 998244353;
 	public static int n, m;
 
 	public static int[] head = new int[MAXN];

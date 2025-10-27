@@ -12,8 +12,8 @@ import java.util.Arrays;
 
 public class Code02_Minimax1 {
 
-	public static final int MAXN = 300001;
-	public static final int MAXT = MAXN * 40;
+	public static int MAXN = 300001;
+	public static int MAXT = MAXN * 40;
 	public static final int MOD = 998244353;
 	public static int n;
 
