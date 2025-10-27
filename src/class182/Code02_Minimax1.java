@@ -157,7 +157,7 @@ public class Code02_Minimax1 {
 
 	// dfs1改成迭代版
 	public static void dfs2() {
-		int[][] stack = new int[n][2];
+		int[][] stack = new int[n + 1][2];
 		int siz = 0;
 		stack[++siz][0] = 1;
 		stack[siz][1] = 0;
