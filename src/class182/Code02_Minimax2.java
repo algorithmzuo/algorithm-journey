@@ -98,7 +98,7 @@ package class182;
 //    return rt;
 //}
 //
-//long long v, mul1, mul2;
+//long long p, mul1, mul2;
 //
 //int merge(int l, int r, int t1, int t2) {
 //    if (t1 == 0 || t2 == 0) {
@@ -123,11 +123,11 @@ package class182;
 //    long long rsum2 = sum[rs2];
 //    long long m1 = mul1;
 //    long long m2 = mul2;
-//    mul1 = (m1 + rsum2 * (1 - v + MOD) % MOD) % MOD;
-//    mul2 = (m2 + rsum1 * (1 - v + MOD) % MOD) % MOD;
+//    mul1 = (m1 + rsum2 * (1 - p + MOD) % MOD) % MOD;
+//    mul2 = (m2 + rsum1 * (1 - p + MOD) % MOD) % MOD;
 //    ls[t1] = merge(l, mid, ls1, ls2);
-//    mul1 = (m1 + lsum2 * v) % MOD;
-//    mul2 = (m2 + lsum1 * v) % MOD;
+//    mul1 = (m1 + lsum2 * p) % MOD;
+//    mul2 = (m2 + lsum1 * p) % MOD;
 //    rs[t1] = merge(mid + 1, r, rs1, rs2);
 //    up(t1);
 //    return t1;
@@ -142,7 +142,7 @@ package class182;
 //    } else {
 //        dfs(child[u][0]);
 //        dfs(child[u][1]);
-//        v = val[u];
+//        p = val[u];
 //        mul1 = 0;
 //        mul2 = 0;
 //        root[u] = merge(1, cntv, root[child[u][0]], root[child[u][1]]);

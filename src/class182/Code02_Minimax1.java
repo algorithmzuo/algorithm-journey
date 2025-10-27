@@ -2,10 +2,7 @@ package class182;
 
 // 根节点的概率，java版
 // 测试链接 : https://www.luogu.com.cn/problem/P5298
-// 提交以下的code，提交时请把类名改成"Main"
-// java实现的逻辑一定是正确的，但是本题卡常，无法通过所有测试用例
-// 想通过用C++实现，本节课Code02_Minimax2文件就是C++的实现
-// 两个版本的逻辑完全一样，C++版本可以通过所有测试
+// 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -15,9 +12,9 @@ import java.util.Arrays;
 
 public class Code02_Minimax1 {
 
-	public static int MAXN = 300001;
-	public static int MAXT = MAXN * 40;
-	public static int MOD = 998244353;
+	public static final int MAXN = 300001;
+	public static final int MAXT = MAXN * 40;
+	public static final int MOD = 998244353;
 	public static int n;
 
 	public static int[] fa = new int[MAXN];
@@ -103,7 +100,7 @@ public class Code02_Minimax1 {
 		return rt;
 	}
 
-	public static long v, mul1, mul2;
+	public static long p, mul1, mul2;
 
 	public static int merge(int l, int r, int t1, int t2) {
 		if (t1 == 0 || t2 == 0) {
@@ -128,11 +125,11 @@ public class Code02_Minimax1 {
 		long rsum2 = sum[rs2];
 		long m1 = mul1;
 		long m2 = mul2;
-		mul1 = (m1 + rsum2 * (1 - v + MOD) % MOD) % MOD;
-		mul2 = (m2 + rsum1 * (1 - v + MOD) % MOD) % MOD;
+		mul1 = (m1 + rsum2 * (1 - p + MOD) % MOD) % MOD;
+		mul2 = (m2 + rsum1 * (1 - p + MOD) % MOD) % MOD;
 		ls[t1] = merge(l, mid, ls1, ls2);
-		mul1 = (m1 + lsum2 * v) % MOD;
-		mul2 = (m2 + lsum1 * v) % MOD;
+		mul1 = (m1 + lsum2 * p) % MOD;
+		mul2 = (m2 + lsum1 * p) % MOD;
 		rs[t1] = merge(mid + 1, r, rs1, rs2);
 		up(t1);
 		return t1;
@@ -148,7 +145,7 @@ public class Code02_Minimax1 {
 		} else {
 			dfs1(child[u][0]);
 			dfs1(child[u][1]);
-			v = val[u];
+			p = val[u];
 			mul1 = 0;
 			mul2 = 0;
 			root[u] = merge(1, cntv, root[child[u][0]], root[child[u][1]]);
@@ -184,7 +181,7 @@ public class Code02_Minimax1 {
 					stack[++siz][0] = child[u][0];
 					stack[siz][1] = 0;
 				} else {
-					v = val[u];
+					p = val[u];
 					mul1 = 0;
 					mul2 = 0;
 					root[u] = merge(1, cntv, root[child[u][0]], root[child[u][1]]);
