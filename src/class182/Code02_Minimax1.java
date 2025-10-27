@@ -79,21 +79,21 @@ public class Code02_Minimax1 {
 		}
 	}
 
-	public static int update(int jobi, int jobv, int l, int r, int i) {
+	public static int insert(int jobi, int l, int r, int i) {
 		int rt = i;
 		if (rt == 0) {
 			rt = ++cntt;
 			mul[rt] = 1;
 		}
 		if (l == r) {
-			sum[rt] = jobv % MOD;
+			sum[rt] = 1;
 		} else {
 			down(rt);
 			int mid = (l + r) >> 1;
 			if (jobi <= mid) {
-				ls[rt] = update(jobi, jobv, l, mid, ls[rt]);
+				ls[rt] = insert(jobi, l, mid, ls[rt]);
 			} else {
-				rs[rt] = update(jobi, jobv, mid + 1, r, rs[rt]);
+				rs[rt] = insert(jobi, mid + 1, r, rs[rt]);
 			}
 			up(rt);
 		}
@@ -134,7 +134,7 @@ public class Code02_Minimax1 {
 	// 迭代版，java会爆栈，C++可以通过
 	public static void dfs1(int u) {
 		if (childCnt[u] == 0) {
-			root[u] = update(val[u], 1, 1, cntv, root[u]);
+			root[u] = insert(val[u], 1, cntv, root[u]);
 		} else if (childCnt[u] == 1) {
 			dfs1(child[u][0]);
 			root[u] = root[child[u][0]];
@@ -158,7 +158,7 @@ public class Code02_Minimax1 {
 			int u = stack[siz][0];
 			int s = stack[siz--][1];
 			if (childCnt[u] == 0) {
-				root[u] = update(val[u], 1, 1, cntv, root[u]);
+				root[u] = insert(val[u], 1, cntv, root[u]);
 			} else if (childCnt[u] == 1) {
 				if (s == 0) {
 					stack[++siz][0] = u;

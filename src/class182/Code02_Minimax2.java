@@ -77,21 +77,21 @@ package class182;
 //    }
 //}
 //
-//int update(int jobi, int jobv, int l, int r, int i) {
+//int insert(int jobi, int l, int r, int i) {
 //    int rt = i;
 //    if (rt == 0) {
 //        rt = ++cntt;
 //        mul[rt] = 1;
 //    }
 //    if (l == r) {
-//    	sum[rt] = jobv % MOD;
+//    	sum[rt] = 1;
 //    } else {
 //        down(rt);
 //        int mid = (l + r) >> 1;
 //        if (jobi <= mid) {
-//            ls[rt] = update(jobi, jobv, l, mid, ls[rt]);
+//            ls[rt] = insert(jobi, l, mid, ls[rt]);
 //        } else {
-//            rs[rt] = update(jobi, jobv, mid + 1, r, rs[rt]);
+//            rs[rt] = insert(jobi, mid + 1, r, rs[rt]);
 //        }
 //        up(rt);
 //    }
@@ -131,7 +131,7 @@ package class182;
 //
 //void dfs(int u) {
 //    if (childCnt[u] == 0) {
-//        root[u] = update(val[u], 1, 1, cntv, root[u]);
+//        root[u] = insert(val[u], 1, cntv, root[u]);
 //    } else if (childCnt[u] == 1) {
 //        dfs(child[u][0]);
 //        root[u] = root[child[u][0]];
