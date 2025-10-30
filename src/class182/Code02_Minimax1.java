@@ -100,20 +100,20 @@ public class Code02_Minimax1 {
 		return rt;
 	}
 
-	public static long p, mul1, mul2;
+	public static long p, sum1, sum2;
 
 	public static int merge(int l, int r, int t1, int t2) {
 		if (t1 == 0 || t2 == 0) {
 			if (t1 != 0) {
-				lazy(t1, mul2);
+				lazy(t1, sum2);
 			}
 			if (t2 != 0) {
-				lazy(t2, mul1);
+				lazy(t2, sum1);
 			}
 			return t1 + t2;
 		}
 		if (l == r) {
-			sum[t1] = (sum[t1] * mul2 % MOD + sum[t2] * mul1 % MOD) % MOD;
+			sum[t1] = (sum[t1] * sum2 % MOD + sum[t2] * sum1 % MOD) % MOD;
 		} else {
 			down(t1);
 			down(t2);
@@ -122,13 +122,13 @@ public class Code02_Minimax1 {
 			long rsum1 = sum[rs[t1]];
 			long lsum2 = sum[ls[t2]];
 			long rsum2 = sum[rs[t2]];
-			long m1 = mul1;
-			long m2 = mul2;
-			mul1 = (m1 + rsum1 * (1 - p + MOD) % MOD) % MOD;
-			mul2 = (m2 + rsum2 * (1 - p + MOD) % MOD) % MOD;
+			long s1 = sum1;
+			long s2 = sum2;
+			sum1 = (s1 + rsum1 * (1 - p + MOD) % MOD) % MOD;
+			sum2 = (s2 + rsum2 * (1 - p + MOD) % MOD) % MOD;
 			ls[t1] = merge(l, mid, ls[t1], ls[t2]);
-			mul1 = (m1 + lsum1 * p) % MOD;
-			mul2 = (m2 + lsum2 * p) % MOD;
+			sum1 = (s1 + lsum1 * p) % MOD;
+			sum2 = (s2 + lsum2 * p) % MOD;
 			rs[t1] = merge(mid + 1, r, rs[t1], rs[t2]);
 			up(t1);
 		}
@@ -146,7 +146,7 @@ public class Code02_Minimax1 {
 			dfs1(child[u][0]);
 			dfs1(child[u][1]);
 			p = val[u];
-			mul1 = mul2 = 0;
+			sum1 = sum2 = 0;
 			root[u] = merge(1, cntv, root[child[u][0]], root[child[u][1]]);
 		}
 	}
@@ -181,7 +181,7 @@ public class Code02_Minimax1 {
 					stack[siz][1] = 0;
 				} else {
 					p = val[u];
-					mul1 = mul2 = 0;
+					sum1 = sum2 = 0;
 					root[u] = merge(1, cntv, root[child[u][0]], root[child[u][1]]);
 				}
 			}
