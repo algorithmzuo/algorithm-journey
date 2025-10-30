@@ -95,13 +95,13 @@ public class Code01_LeadersGroup1 {
 			down(t1);
 			down(t2);
 			int mid = (l + r) >> 1;
-			int tmp1 = max1;
-			int tmp2 = max2;
+			int mx1 = max1;
+			int mx2 = max2;
 			max1 = Math.max(max1, max[rs[t1]]);
 			max2 = Math.max(max2, max[rs[t2]]);
 			ls[t1] = merge(l, mid, ls[t1], ls[t2]);
-			max1 = tmp1;
-			max2 = tmp2;
+			max1 = mx1;
+			max2 = mx2;
 			rs[t1] = merge(mid + 1, r, rs[t1], rs[t2]);
 			up(t1);
 		}

@@ -70,16 +70,16 @@ public class Code03_Fate1 {
 		}
 	}
 
-	public static int build(int jobi, int l, int r) {
+	public static int insert(int jobi, int l, int r) {
 		int rt = ++cntt;
 		sum[rt] = 1;
 		mul[rt] = 1;
 		if (l < r) {
 			int mid = (l + r) >> 1;
 			if (jobi <= mid) {
-				ls[rt] = build(jobi, l, mid);
+				ls[rt] = insert(jobi, l, mid);
 			} else {
-				rs[rt] = build(jobi, mid + 1, r);
+				rs[rt] = insert(jobi, mid + 1, r);
 			}
 		}
 		return rt;
@@ -90,25 +90,26 @@ public class Code03_Fate1 {
 	public static int merge(int l, int r, int t1, int t2) {
 		if (t1 == 0 || t2 == 0) {
 			if (t1 != 0) {
-				sum1 = (sum1 + sum[t1]) % MOD;
 				lazy(t1, sum2);
 			}
 			if (t2 != 0) {
-				sum2 = (sum2 + sum[t2]) % MOD;
 				lazy(t2, sum1);
 			}
 			return t1 + t2;
 		}
 		if (l == r) {
-			long tmp = sum1;
-			sum1 = (sum1 + sum[t1]) % MOD;
-			sum2 = (sum2 + sum[t2]) % MOD;
-			sum[t1] = ((sum[t1] * sum2) % MOD + (sum[t2] * tmp) % MOD) % MOD;
+			sum[t1] = ((sum[t1] * (sum2 + sum[t2])) % MOD + (sum[t2] * sum1) % MOD) % MOD;
 		} else {
 			down(t1);
 			down(t2);
 			int mid = (l + r) >> 1;
+			long lsum1 = sum[ls[t1]];
+			long lsum2 = sum[ls[t2]];
+			long s1 = sum1;
+			long s2 = sum2;
 			ls[t1] = merge(l, mid, ls[t1], ls[t2]);
+			sum1 = (s1 + lsum1) % MOD;
+			sum2 = (s2 + lsum2) % MOD;
 			rs[t1] = merge(mid + 1, r, rs[t1], rs[t2]);
 			sum[t1] = (sum[ls[t1]] + sum[rs[t1]]) % MOD;
 		}
@@ -168,7 +169,7 @@ public class Code03_Fate1 {
 
 	// 递归版，java会爆栈，C++可以通过
 	public static void dp1(int u, int fa) {
-		root[u] = build(maxdep[u], 0, n);
+		root[u] = insert(maxdep[u], 0, n);
 		for (int e = head[u]; e > 0; e = nxt[e]) {
 			int v = to[e];
 			if (v != fa) {
@@ -192,7 +193,7 @@ public class Code03_Fate1 {
 		while (stacksize > 0) {
 			pop();
 			if (e == -1) {
-				root[u] = build(maxdep[u], 0, n);
+				root[u] = insert(maxdep[u], 0, n);
 				e = head[u];
 			} else {
 				e = nxt[e];
