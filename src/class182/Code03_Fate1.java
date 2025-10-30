@@ -55,6 +55,10 @@ public class Code03_Fate1 {
 		head[u] = cntg;
 	}
 
+	public static void up(int i) {
+		sum[i] = (sum[ls[i]] + sum[rs[i]]) % MOD;
+	}
+
 	public static void lazy(int i, long v) {
 		if (i != 0) {
 			sum[i] = sum[i] * v % MOD;
@@ -70,17 +74,23 @@ public class Code03_Fate1 {
 		}
 	}
 
-	public static int insert(int jobi, int l, int r) {
-		int rt = ++cntt;
-		sum[rt] = 1;
-		mul[rt] = 1;
-		if (l < r) {
+	public static int insert(int jobi, int l, int r, int i) {
+		int rt = i;
+		if (rt == 0) {
+			rt = ++cntt;
+			mul[rt] = 1;
+		}
+		if (l == r) {
+			sum[rt] = 1;
+		} else {
+			down(rt);
 			int mid = (l + r) >> 1;
 			if (jobi <= mid) {
-				ls[rt] = insert(jobi, l, mid);
+				ls[rt] = insert(jobi, l, mid, ls[rt]);
 			} else {
-				rs[rt] = insert(jobi, mid + 1, r);
+				rs[rt] = insert(jobi, mid + 1, r, rs[rt]);
 			}
+			up(rt);
 		}
 		return rt;
 	}
@@ -111,7 +121,7 @@ public class Code03_Fate1 {
 			sum1 = (s1 + lsum1) % MOD;
 			sum2 = (s2 + lsum2) % MOD;
 			rs[t1] = merge(mid + 1, r, rs[t1], rs[t2]);
-			sum[t1] = (sum[ls[t1]] + sum[rs[t1]]) % MOD;
+			up(t1);
 		}
 		return t1;
 	}
@@ -169,7 +179,7 @@ public class Code03_Fate1 {
 
 	// 递归版，java会爆栈，C++可以通过
 	public static void dp1(int u, int fa) {
-		root[u] = insert(maxdep[u], 0, n);
+		root[u] = insert(maxdep[u], 0, n, root[u]);
 		for (int e = head[u]; e > 0; e = nxt[e]) {
 			int v = to[e];
 			if (v != fa) {
@@ -193,7 +203,7 @@ public class Code03_Fate1 {
 		while (stacksize > 0) {
 			pop();
 			if (e == -1) {
-				root[u] = insert(maxdep[u], 0, n);
+				root[u] = insert(maxdep[u], 0, n, root[u]);
 				e = head[u];
 			} else {
 				e = nxt[e];
