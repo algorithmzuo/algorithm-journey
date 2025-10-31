@@ -22,8 +22,8 @@ public class Code02_Minimax1 {
 	public static int[] sorted = new int[MAXN];
 	public static int cntv;
 
-	public static int[] childCnt = new int[MAXN];
-	public static int[][] child = new int[MAXN][2];
+	public static int[] sonCnt = new int[MAXN];
+	public static int[][] son = new int[MAXN][2];
 
 	public static int[] root = new int[MAXN];
 	public static int[] ls = new int[MAXT];
@@ -129,15 +129,15 @@ public class Code02_Minimax1 {
 
 	// 迭代版，java会爆栈，C++可以通过
 	public static void dfs1(int u) {
-		if (childCnt[u] == 0) {
+		if (sonCnt[u] == 0) {
 			root[u] = insert(val[u], 1, cntv, root[u]);
-		} else if (childCnt[u] == 1) {
-			dfs1(child[u][0]);
-			root[u] = root[child[u][0]];
+		} else if (sonCnt[u] == 1) {
+			dfs1(son[u][0]);
+			root[u] = root[son[u][0]];
 		} else {
-			dfs1(child[u][0]);
-			dfs1(child[u][1]);
-			root[u] = merge(1, cntv, root[child[u][0]], root[child[u][1]], val[u], 0, 0);
+			dfs1(son[u][0]);
+			dfs1(son[u][1]);
+			root[u] = merge(1, cntv, root[son[u][0]], root[son[u][1]], val[u], 0, 0);
 		}
 	}
 
@@ -150,27 +150,27 @@ public class Code02_Minimax1 {
 		while (siz > 0) {
 			int u = stack[siz][0];
 			int s = stack[siz--][1];
-			if (childCnt[u] == 0) {
+			if (sonCnt[u] == 0) {
 				root[u] = insert(val[u], 1, cntv, root[u]);
-			} else if (childCnt[u] == 1) {
+			} else if (sonCnt[u] == 1) {
 				if (s == 0) {
 					stack[++siz][0] = u;
 					stack[siz][1] = 1;
-					stack[++siz][0] = child[u][0];
+					stack[++siz][0] = son[u][0];
 					stack[siz][1] = 0;
 				} else {
-					root[u] = root[child[u][0]];
+					root[u] = root[son[u][0]];
 				}
 			} else {
 				if (s == 0) {
 					stack[++siz][0] = u;
 					stack[siz][1] = 1;
-					stack[++siz][0] = child[u][1];
+					stack[++siz][0] = son[u][1];
 					stack[siz][1] = 0;
-					stack[++siz][0] = child[u][0];
+					stack[++siz][0] = son[u][0];
 					stack[siz][1] = 0;
 				} else {
-					root[u] = merge(1, cntv, root[child[u][0]], root[child[u][1]], val[u], 0, 0);
+					root[u] = merge(1, cntv, root[son[u][0]], root[son[u][1]], val[u], 0, 0);
 				}
 			}
 		}
@@ -193,12 +193,12 @@ public class Code02_Minimax1 {
 	public static void prepare() {
 		for (int i = 1; i <= n; i++) {
 			if (fa[i] != 0) {
-				child[fa[i]][childCnt[fa[i]]++] = i;
+				son[fa[i]][sonCnt[fa[i]]++] = i;
 			}
 		}
 		long inv = power(10000, MOD - 2);
 		for (int i = 1; i <= n; i++) {
-			if (childCnt[i] == 0) {
+			if (sonCnt[i] == 0) {
 				sorted[++cntv] = val[i];
 			} else {
 				val[i] = (int) (inv * val[i] % MOD);
@@ -213,7 +213,7 @@ public class Code02_Minimax1 {
 		}
 		cntv = len;
 		for (int i = 1; i <= n; i++) {
-			if (childCnt[i] == 0) {
+			if (sonCnt[i] == 0) {
 				val[i] = kth(val[i]);
 			}
 		}
