@@ -117,25 +117,35 @@ public class Code04_SegmentTreeSplit1 {
 		return t1;
 	}
 
-	public static int split(int t1, long rank) {
-		if (t1 == 0) {
-			return 0;
+	public static int tree1, tree2;
+
+	public static void split(int jobl, int jobr, int l, int r, int t1) {
+		if (jobr < l || r < jobl || t1 == 0) {
+			tree1 = t1;
+			tree2 = 0;
+			return;
+		}
+		if (jobl <= l && r <= jobr) {
+			tree1 = 0;
+			tree2 = t1;
+			return;
 		}
 		int t2 = newNode();
-		long lsum = sum[ls[t1]];
-		if (rank > lsum) {
-			rs[t2] = split(rs[t1], rank - lsum);
-		} else {
-			int tmp = rs[t1];
-			rs[t1] = rs[t2];
-			rs[t2] = tmp;
-			if (rank < lsum) {
-				ls[t2] = split(ls[t1], rank);
-			}
+		int mid = (l + r) >> 1;
+		if (jobl <= mid) {
+			split(jobl, jobr, l, mid, ls[t1]);
+			ls[t1] = tree1;
+			ls[t2] = tree2;
+		}
+		if (jobr > mid) {
+			split(jobl, jobr, mid + 1, r, rs[t1]);
+			rs[t1] = tree1;
+			rs[t2] = tree2;
 		}
 		up(t1);
 		up(t2);
-		return t2;
+		tree1 = t1;
+		tree2 = t2;
 	}
 
 	public static void main(String[] args) throws Exception {
@@ -155,11 +165,9 @@ public class Code04_SegmentTreeSplit1 {
 				x = in.nextInt();
 				y = in.nextInt();
 				z = in.nextInt();
-				long k1 = query(1, z, 1, n, root[x]);
-				long k2 = query(y, z, 1, n, root[x]);
-				root[++cntRoot] = split(root[x], k1 - k2);
-				int tmp = split(root[cntRoot], k2);
-				root[x] = merge(1, n, root[x], tmp);
+				split(y, z, 1, n, root[x]);
+				root[x] = tree1;
+				root[++cntRoot] = tree2;
 			} else if (op == 1) {
 				x = in.nextInt();
 				y = in.nextInt();
