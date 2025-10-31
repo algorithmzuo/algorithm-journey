@@ -95,9 +95,7 @@ public class Code03_Fate1 {
 		return rt;
 	}
 
-	public static long sum1, sum2;
-
-	public static int merge(int l, int r, int t1, int t2) {
+	public static int merge(int l, int r, int t1, int t2, long sum1, long sum2) {
 		if (t1 == 0 || t2 == 0) {
 			if (t1 != 0) {
 				lazy(t1, sum2);
@@ -113,14 +111,10 @@ public class Code03_Fate1 {
 			down(t1);
 			down(t2);
 			int mid = (l + r) >> 1;
-			long lsum1 = sum[ls[t1]];
-			long lsum2 = sum[ls[t2]];
-			long s1 = sum1;
-			long s2 = sum2;
-			ls[t1] = merge(l, mid, ls[t1], ls[t2]);
-			sum1 = (s1 + lsum1) % MOD;
-			sum2 = (s2 + lsum2) % MOD;
-			rs[t1] = merge(mid + 1, r, rs[t1], rs[t2]);
+			long tmp1 = sum[ls[t1]];
+			long tmp2 = sum[ls[t2]];
+			ls[t1] = merge(l, mid, ls[t1], ls[t2], sum1, sum2);
+			rs[t1] = merge(mid + 1, r, rs[t1], rs[t2], sum1 + tmp1, sum2 + tmp2);
 			up(t1);
 		}
 		return t1;
@@ -189,9 +183,7 @@ public class Code03_Fate1 {
 		for (int ei = head[u]; ei > 0; ei = nxt[ei]) {
 			int v = to[ei];
 			if (v != fa) {
-				sum1 = 0;
-				sum2 = query(0, dep[u], 0, n, root[v]);
-				root[u] = merge(0, n, root[u], root[v]);
+				root[u] = merge(0, n, root[u], root[v], 0, query(0, dep[u], 0, n, root[v]));
 			}
 		}
 	}
@@ -217,9 +209,7 @@ public class Code03_Fate1 {
 				for (int ei = head[u]; ei > 0; ei = nxt[ei]) {
 					int v = to[ei];
 					if (v != f) {
-						sum1 = 0;
-						sum2 = query(0, dep[u], 0, n, root[v]);
-						root[u] = merge(0, n, root[u], root[v]);
+						root[u] = merge(0, n, root[u], root[v], 0, query(0, dep[u], 0, n, root[v]));
 					}
 				}
 			}

@@ -77,9 +77,7 @@ public class Code01_LeadersGroup1 {
 		return rt;
 	}
 
-	public static int max1, max2;
-
-	public static int merge(int l, int r, int t1, int t2) {
+	public static int merge(int l, int r, int t1, int t2, int max1, int max2) {
 		if (t1 == 0 || t2 == 0) {
 			if (t1 != 0) {
 				lazy(t1, max2);
@@ -95,14 +93,8 @@ public class Code01_LeadersGroup1 {
 			down(t1);
 			down(t2);
 			int mid = (l + r) >> 1;
-			int mx1 = max1;
-			int mx2 = max2;
-			max1 = Math.max(max1, max[rs[t1]]);
-			max2 = Math.max(max2, max[rs[t2]]);
-			ls[t1] = merge(l, mid, ls[t1], ls[t2]);
-			max1 = mx1;
-			max2 = mx2;
-			rs[t1] = merge(mid + 1, r, rs[t1], rs[t2]);
+			ls[t1] = merge(l, mid, ls[t1], ls[t2], Math.max(max1, max[rs[t1]]), Math.max(max2, max[rs[t2]]));
+			rs[t1] = merge(mid + 1, r, rs[t1], rs[t2], max1, max2);
 			up(t1);
 		}
 		return t1;
@@ -133,8 +125,7 @@ public class Code01_LeadersGroup1 {
 			int v = to[e];
 			dp(v);
 			val += query(arr[u], MAXV, 1, MAXV, root[v]);
-			max1 = max2 = 0;
-			root[u] = merge(1, MAXV, root[u], root[v]);
+			root[u] = merge(1, MAXV, root[u], root[v], 0, 0);
 		}
 		root[u] = add(arr[u], val, 1, MAXV, root[u]);
 	}

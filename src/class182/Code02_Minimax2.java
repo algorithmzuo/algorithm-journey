@@ -98,9 +98,7 @@ package class182;
 //    return rt;
 //}
 //
-//long long p, sum1, sum2;
-//
-//int merge(int l, int r, int t1, int t2) {
+//int merge(int l, int r, int t1, int t2, int p, long long sum1, long long sum2) {
 //    if (t1 == 0 || t2 == 0) {
 //        if (t1) {
 //            lazy(t1, sum2);
@@ -116,18 +114,12 @@ package class182;
 //        down(t1);
 //        down(t2);
 //        int mid = (l + r) >> 1;
-//        long long lsum1 = sum[ls[t1]];
-//        long long rsum1 = sum[rs[t1]];
-//        long long lsum2 = sum[ls[t2]];
-//        long long rsum2 = sum[rs[t2]];
-//        long long s1 = sum1;
-//        long long s2 = sum2;
-//        sum1 = (s1 + rsum1 * (1 - p + MOD) % MOD) % MOD;
-//        sum2 = (s2 + rsum2 * (1 - p + MOD) % MOD) % MOD;
-//        ls[t1] = merge(l, mid, ls[t1], ls[t2]);
-//        sum1 = (s1 + lsum1 * p) % MOD;
-//        sum2 = (s2 + lsum2 * p) % MOD;
-//        rs[t1] = merge(mid + 1, r, rs[t1], rs[t2]);
+//        long long l1 = (sum1 + sum[rs[t1]] * (1 - p + MOD)) % MOD;
+//        long long l2 = (sum2 + sum[rs[t2]] * (1 - p + MOD)) % MOD;
+//        long long r1 = (sum1 + sum[ls[t1]] * p) % MOD;
+//        long long r2 = (sum2 + sum[ls[t2]] * p) % MOD;
+//        ls[t1] = merge(l, mid, ls[t1], ls[t2], p, l1, l2);
+//        rs[t1] = merge(mid + 1, r, rs[t1], rs[t2], p, r1, r2);
 //        up(t1);
 //    }
 //    return t1;
@@ -142,9 +134,7 @@ package class182;
 //    } else {
 //        dfs(child[u][0]);
 //        dfs(child[u][1]);
-//        p = val[u];
-//        sum1 = sum2 = 0;
-//        root[u] = merge(1, cntv, root[child[u][0]], root[child[u][1]]);
+//        root[u] = merge(1, cntv, root[child[u][0]], root[child[u][1]], val[u], 0, 0);
 //    }
 //}
 //
