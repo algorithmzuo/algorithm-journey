@@ -120,7 +120,7 @@ public class Code04_SegmentTreeSplit1 {
 	public static int tree1, tree2;
 
 	public static void split(int jobl, int jobr, int l, int r, int t1) {
-		if (jobr < l || r < jobl || t1 == 0) {
+		if (t1 == 0) {
 			tree1 = t1;
 			tree2 = 0;
 			return;
