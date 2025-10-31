@@ -23,9 +23,9 @@ package class182;
 //int top;
 //
 //void prepare() {
-//	top = 0;
+//    top = 0;
 //    for (int i = 1; i < MAXT; i++) {
-//    	pool[++top] = i;
+//        pool[++top] = i;
 //    }
 //}
 //
@@ -34,7 +34,7 @@ package class182;
 //}
 //
 //void del(int i) {
-//	pool[++top] = i;
+//    pool[++top] = i;
 //    ls[i] = 0;
 //    rs[i] = 0;
 //    sum[i] = 0;
@@ -102,13 +102,15 @@ package class182;
 //}
 //
 //int split(int x, long long k) {
-//    if (x == 0) return 0;
+//    if (x == 0) {
+//        return 0;
+//    }
 //    int y = newNode();
 //    long long lsum = sum[ls[x]];
 //    if (k > lsum) {
 //        rs[y] = split(rs[x], k - lsum);
 //    } else {
-//    	swap(rs[x], rs[y]);
+//        swap(rs[x], rs[y]);
 //    }
 //    if (k < lsum) {
 //        ls[y] = split(ls[x], k);
