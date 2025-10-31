@@ -40,6 +40,10 @@ package class182;
 //    sum[i] = 0;
 //}
 //
+//void up(int i) {
+//    sum[i] = (sum[ls[i]] + sum[rs[i]]);
+//}
+//
 //int add(int jobi, int jobv, int l, int r, int i) {
 //    int rt = i;
 //    if (rt == 0) {
@@ -90,34 +94,39 @@ package class182;
 //    }
 //}
 //
-//int merge(int t1, int t2) {
+//int merge(int l, int r, int t1, int t2) {
 //    if (t1 == 0 || t2 == 0) {
 //        return t1 + t2;
 //    }
-//    sum[t1] += sum[t2];
-//    ls[t1] = merge(ls[t1], ls[t2]);
-//    rs[t1] = merge(rs[t1], rs[t2]);
-//    del(t2);
+//    if (l == r) {
+//        sum[t1] += sum[t2];
+//    } else {
+//        int mid = (l + r) >> 1;
+//        ls[t1] = merge(l, mid, ls[t1], ls[t2]);
+//        rs[t1] = merge(mid + 1, r, rs[t1], rs[t2]);
+//        up(t1);
+//        del(t2);
+//    }
 //    return t1;
 //}
 //
-//int split(int x, long long k) {
-//    if (x == 0) {
+//int split(int t1, long long rank) {
+//    if (t1 == 0) {
 //        return 0;
 //    }
-//    int y = newNode();
-//    long long lsum = sum[ls[x]];
-//    if (k > lsum) {
-//        rs[y] = split(rs[x], k - lsum);
+//    int t2 = newNode();
+//    long long lsum = sum[ls[t1]];
+//    if (rank > lsum) {
+//        rs[t2] = split(rs[t1], rank - lsum);
 //    } else {
-//        swap(rs[x], rs[y]);
-//        if (k < lsum) {
-//            ls[y] = split(ls[x], k);
+//        swap(rs[t1], rs[t2]);
+//        if (rank < lsum) {
+//            ls[t2] = split(ls[t1], rank);
 //        }
 //    }
-//    sum[y] = sum[x] - k;
-//    sum[x] = k;
-//    return y;
+//    sum[t2] = sum[t1] - rank;
+//    sum[t1] = rank;
+//    return t2;
 //}
 //
 //int main() {
@@ -138,10 +147,10 @@ package class182;
 //            long long k2 = query(y, z, 1, n, root[x]);
 //            root[++cntRoot] = split(root[x], k1 - k2);
 //            int tmp = split(root[cntRoot], k2);
-//            root[x] = merge(root[x], tmp);
+//            root[x] = merge(1, n, root[x], tmp);
 //        } else if (op == 1) {
 //            cin >> x >> y;
-//            root[x] = merge(root[x], root[y]);
+//            root[x] = merge(1, n, root[x], root[y]);
 //        } else if (op == 2) {
 //            cin >> x >> y >> z;
 //            root[x] = add(z, y, 1, n, root[x]);

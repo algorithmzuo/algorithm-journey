@@ -45,19 +45,25 @@ public class Code04_SegmentTreeSplit1 {
 		sum[i] = 0;
 	}
 
+	public static void up(int i) {
+		sum[i] = (sum[ls[i]] + sum[rs[i]]);
+	}
+
 	public static int add(int jobi, int jobv, int l, int r, int i) {
 		int rt = i;
 		if (rt == 0) {
 			rt = newNode();
 		}
-		sum[rt] += jobv;
-		if (l < r) {
+		if (l == r) {
+			sum[rt] += jobv;
+		} else {
 			int mid = (l + r) >> 1;
 			if (jobi <= mid) {
 				ls[rt] = add(jobi, jobv, l, mid, ls[rt]);
 			} else {
 				rs[rt] = add(jobi, jobv, mid + 1, r, rs[rt]);
 			}
+			up(rt);
 		}
 		return rt;
 	}
@@ -95,36 +101,41 @@ public class Code04_SegmentTreeSplit1 {
 		}
 	}
 
-	public static int merge(int t1, int t2) {
+	public static int merge(int l, int r, int t1, int t2) {
 		if (t1 == 0 || t2 == 0) {
 			return t1 + t2;
 		}
-		sum[t1] += sum[t2];
-		ls[t1] = merge(ls[t1], ls[t2]);
-		rs[t1] = merge(rs[t1], rs[t2]);
-		del(t2);
+		if (l == r) {
+			sum[t1] += sum[t2];
+		} else {
+			int mid = (l + r) >> 1;
+			ls[t1] = merge(l, mid, ls[t1], ls[t2]);
+			rs[t1] = merge(mid + 1, r, rs[t1], rs[t2]);
+			up(t1);
+			del(t2);
+		}
 		return t1;
 	}
 
-	public static int split(int x, long k) {
-		if (x == 0) {
+	public static int split(int t1, long rank) {
+		if (t1 == 0) {
 			return 0;
 		}
-		int y = newNode();
-		long lsum = sum[ls[x]];
-		if (k > lsum) {
-			rs[y] = split(rs[x], k - lsum);
+		int t2 = newNode();
+		long lsum = sum[ls[t1]];
+		if (rank > lsum) {
+			rs[t2] = split(rs[t1], rank - lsum);
 		} else {
-			int tmp = rs[x];
-			rs[x] = rs[y];
-			rs[y] = tmp;
-			if (k < lsum) {
-				ls[y] = split(ls[x], k);
+			int tmp = rs[t1];
+			rs[t1] = rs[t2];
+			rs[t2] = tmp;
+			if (rank < lsum) {
+				ls[t2] = split(ls[t1], rank);
 			}
 		}
-		sum[y] = sum[x] - k;
-		sum[x] = k;
-		return y;
+		sum[t2] = sum[t1] - rank;
+		sum[t1] = rank;
+		return t2;
 	}
 
 	public static void main(String[] args) throws Exception {
@@ -148,11 +159,11 @@ public class Code04_SegmentTreeSplit1 {
 				long k2 = query(y, z, 1, n, root[x]);
 				root[++cntRoot] = split(root[x], k1 - k2);
 				int tmp = split(root[cntRoot], k2);
-				root[x] = merge(root[x], tmp);
+				root[x] = merge(1, n, root[x], tmp);
 			} else if (op == 1) {
 				x = in.nextInt();
 				y = in.nextInt();
-				root[x] = merge(root[x], root[y]);
+				root[x] = merge(1, n, root[x], root[y]);
 			} else if (op == 2) {
 				x = in.nextInt();
 				y = in.nextInt();
