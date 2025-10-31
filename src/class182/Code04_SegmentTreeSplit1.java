@@ -118,9 +118,9 @@ public class Code04_SegmentTreeSplit1 {
 			int tmp = rs[x];
 			rs[x] = rs[y];
 			rs[y] = tmp;
-		}
-		if (k < lsum) {
-			ls[y] = split(ls[x], k);
+			if (k < lsum) {
+				ls[y] = split(ls[x], k);
+			}
 		}
 		sum[y] = sum[x] - k;
 		sum[x] = k;

@@ -111,9 +111,9 @@ package class182;
 //        rs[y] = split(rs[x], k - lsum);
 //    } else {
 //        swap(rs[x], rs[y]);
-//    }
-//    if (k < lsum) {
-//        ls[y] = split(ls[x], k);
+//        if (k < lsum) {
+//            ls[y] = split(ls[x], k);
+//        }
 //    }
 //    sum[y] = sum[x] - k;
 //    sum[x] = k;
