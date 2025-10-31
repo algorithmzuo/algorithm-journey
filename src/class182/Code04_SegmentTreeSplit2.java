@@ -49,14 +49,16 @@ package class182;
 //    if (rt == 0) {
 //        rt = newNode();
 //    }
-//    sum[rt] += jobv;
-//    if (l < r) {
+//    if (l == r) {
+//        sum[rt] += jobv;
+//    } else {
 //        int mid = (l + r) >> 1;
 //        if (jobi <= mid) {
 //            ls[rt] = add(jobi, jobv, l, mid, ls[rt]);
 //        } else {
 //            rs[rt] = add(jobi, jobv, mid + 1, r, rs[rt]);
 //        }
+//        up(rt);
 //    }
 //    return rt;
 //}
@@ -124,8 +126,8 @@ package class182;
 //            ls[t2] = split(ls[t1], rank);
 //        }
 //    }
-//    sum[t2] = sum[t1] - rank;
-//    sum[t1] = rank;
+//    up(t1);
+//    up(t2);
 //    return t2;
 //}
 //

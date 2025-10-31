@@ -133,8 +133,8 @@ public class Code04_SegmentTreeSplit1 {
 				ls[t2] = split(ls[t1], rank);
 			}
 		}
-		sum[t2] = sum[t1] - rank;
-		sum[t1] = rank;
+		up(t1);
+		up(t2);
 		return t2;
 	}
 
