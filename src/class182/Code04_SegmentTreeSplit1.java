@@ -112,8 +112,8 @@ public class Code04_SegmentTreeSplit1 {
 			ls[t1] = merge(l, mid, ls[t1], ls[t2]);
 			rs[t1] = merge(mid + 1, r, rs[t1], rs[t2]);
 			up(t1);
-			del(t2);
 		}
+		del(t2);
 		return t1;
 	}
 

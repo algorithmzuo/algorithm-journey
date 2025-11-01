@@ -22,7 +22,6 @@ public class Code05_MassChangeQueries1 {
 	public static int[] ls = new int[MAXT];
 	public static int[] rs = new int[MAXT];
 	public static int[] sum = new int[MAXT];
-	public static int cntt;
 
 	public static int[] pool = new int[MAXT];
 	public static int top;
@@ -81,8 +80,8 @@ public class Code05_MassChangeQueries1 {
 			ls[t1] = merge(l, mid, ls[t1], ls[t2]);
 			rs[t1] = merge(mid + 1, r, rs[t1], rs[t2]);
 			up(t1);
-			del(t2);
 		}
+		del(t2);
 		return t1;
 	}
 
