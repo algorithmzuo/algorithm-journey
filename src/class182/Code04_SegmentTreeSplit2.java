@@ -146,8 +146,8 @@ package class182;
 //int main() {
 //    ios::sync_with_stdio(false);
 //    cin.tie(nullptr);
-//    cin >> n >> m;
 //    prepare();
+//    cin >> n >> m;
 //    cntRoot = 1;
 //    for (int i = 1, x; i <= n; i++) {
 //        cin >> x;

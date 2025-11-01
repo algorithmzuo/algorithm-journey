@@ -132,12 +132,12 @@ public class Code05_MassChangeQueries1 {
 	public static void main(String[] args) throws Exception {
 		FastReader in = new FastReader(System.in);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
+		prepare();
 		n = in.nextInt();
 		for (int i = 1; i <= n; i++) {
 			arr[i] = in.nextInt();
 		}
 		q = in.nextInt();
-		prepare();
 		for (int i = 1; i <= n; i++) {
 			root[arr[i]] = insert(i, 1, n, root[arr[i]]);
 		}

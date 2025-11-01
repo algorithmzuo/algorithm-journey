@@ -151,9 +151,9 @@ public class Code04_SegmentTreeSplit1 {
 	public static void main(String[] args) throws Exception {
 		FastReader in = new FastReader(System.in);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
+		prepare();
 		n = in.nextInt();
 		m = in.nextInt();
-		prepare();
 		cntRoot = 1;
 		for (int i = 1, x; i <= n; i++) {
 			x = in.nextInt();
