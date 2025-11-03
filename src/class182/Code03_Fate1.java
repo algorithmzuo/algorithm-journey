@@ -1,6 +1,12 @@
 package class182;
 
 // 命运，java版
+// 一共有n个节点，给定n-1条边，所有节点组成一棵树，规定1号节点是树头
+// 给定m个点对，每个点对(x, y)，已知x是y的祖先节点，路径由从上到下的边组成
+// 你可以给树上的每条边涂色，每条边都能涂上白色或者黑色，完全由你决定
+// 但是请保证每个点对的路径中，至少有一个黑色存在
+// 打印给树涂色的方法数，答案对 998244353 取模
+// 1 <= n、m <= 5 * 10^5
 // 测试链接 : https://www.luogu.com.cn/problem/P6773
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
@@ -178,11 +184,6 @@ public class Code03_Fate1 {
 			int v = to[e];
 			if (v != fa) {
 				dp1(v, u);
-			}
-		}
-		for (int ei = head[u]; ei > 0; ei = nxt[ei]) {
-			int v = to[ei];
-			if (v != fa) {
 				root[u] = merge(0, n, root[u], root[v], 0, query(0, dep[u], 0, n, root[v]));
 			}
 		}
