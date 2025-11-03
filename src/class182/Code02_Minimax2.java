@@ -1,6 +1,14 @@
 package class182;
 
-// 根节点的概率，C++版
+// 根节点的取值概率，C++版
+// 一共有n个节点，1号节点是整棵树的头，所有节点组成一棵树
+// 给定一个长度为n的数组arr，如果节点x是叶，那么arr[x]表示点权，所有叶节点的点权都不同
+// 如果节点x不是叶，那么它最多有两个孩子，那么arr[x]代表概率，按如下规则决定节点x的点权
+// 以arr[x]的概率是所有儿子的点权最大值，以1 - arr[x]的概率是所有儿子的点权最小值
+// 表示概率时，arr[x]范围是[1, 9999]，表示概率[0.0001 ~ 0.9999]
+// 假设1号结点的权值有m种可能性，第i小的权值是Vi，取得的概率为Di
+// 计算 i = 1..m 时，每一项 (i * Vi * Di * Di) 的累加和，答案对 998244353 取模
+// 1 <= n <= 3 * 10^5    1 <= 叶节点权值 <= 10^9    1 <= 概率 <= 9999
 // 测试链接 : https://www.luogu.com.cn/problem/P5298
 // 如下实现是C++的版本，C++版本和java版本逻辑完全一样
 // 提交如下代码，可以通过所有测试用例
@@ -15,7 +23,7 @@ package class182;
 //int n;
 //
 //int fa[MAXN];
-//int val[MAXN];
+//int arr[MAXN];
 //int sorted[MAXN];
 //int cntv;
 //
@@ -127,14 +135,14 @@ package class182;
 //
 //void dfs(int u) {
 //    if (sonCnt[u] == 0) {
-//        root[u] = insert(val[u], 1, cntv, root[u]);
+//        root[u] = insert(arr[u], 1, cntv, root[u]);
 //    } else if (sonCnt[u] == 1) {
 //        dfs(son[u][0]);
 //        root[u] = root[son[u][0]];
 //    } else {
 //        dfs(son[u][0]);
 //        dfs(son[u][1]);
-//        root[u] = merge(1, cntv, root[son[u][0]], root[son[u][1]], val[u], 0, 0);
+//        root[u] = merge(1, cntv, root[son[u][0]], root[son[u][1]], arr[u], 0, 0);
 //    }
 //}
 //
@@ -161,9 +169,9 @@ package class182;
 //    long long inv = power(10000, MOD - 2);
 //    for (int i = 1; i <= n; i++) {
 //        if (sonCnt[i] == 0) {
-//            sorted[++cntv] = val[i];
+//            sorted[++cntv] = arr[i];
 //        } else {
-//            val[i] = (int)(inv * val[i] % MOD);
+//            arr[i] = (int)(inv * arr[i] % MOD);
 //        }
 //    }
 //    sort(sorted + 1, sorted + cntv + 1);
@@ -176,7 +184,7 @@ package class182;
 //    cntv = len;
 //    for (int i = 1; i <= n; i++) {
 //        if (sonCnt[i] == 0) {
-//            val[i] = kth(val[i]);
+//            arr[i] = kth(arr[i]);
 //        }
 //    }
 //}
@@ -189,7 +197,7 @@ package class182;
 //        cin >> fa[i];
 //    }
 //    for (int i = 1; i <= n; i++) {
-//        cin >> val[i];
+//        cin >> arr[i];
 //    }
 //    prepare();
 //    dfs(1);
