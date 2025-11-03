@@ -79,6 +79,25 @@ package class182;
 //    return rt;
 //}
 //
+//int query(int jobl, int jobr, int l, int r, int i) {
+//    if (i == 0) {
+//        return 0;
+//    }
+//    if (jobl <= l && r <= jobr) {
+//        return maxv[i];
+//    }
+//    down(i);
+//    int mid = (l + r) >> 1;
+//    int ans = 0;
+//    if (jobl <= mid) {
+//        ans = max(ans, query(jobl, jobr, l, mid, ls[i]));
+//    }
+//    if (jobr > mid) {
+//        ans = max(ans, query(jobl, jobr, mid + 1, r, rs[i]));
+//    }
+//    return ans;
+//}
+//
 //int merge(int l, int r, int t1, int t2, int max1, int max2) {
 //    if (t1 == 0 || t2 == 0) {
 //        if (t1 != 0) {
@@ -100,25 +119,6 @@ package class182;
 //        up(t1);
 //    }
 //    return t1;
-//}
-//
-//int query(int jobl, int jobr, int l, int r, int i) {
-//    if (i == 0) {
-//        return 0;
-//    }
-//    if (jobl <= l && r <= jobr) {
-//        return maxv[i];
-//    }
-//    down(i);
-//    int mid = (l + r) >> 1;
-//    int ans = 0;
-//    if (jobl <= mid) {
-//        ans = max(ans, query(jobl, jobr, l, mid, ls[i]));
-//    }
-//    if (jobr > mid) {
-//        ans = max(ans, query(jobl, jobr, mid + 1, r, rs[i]));
-//    }
-//    return ans;
 //}
 //
 //void dp(int u) {

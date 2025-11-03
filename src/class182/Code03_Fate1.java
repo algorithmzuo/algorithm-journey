@@ -101,6 +101,25 @@ public class Code03_Fate1 {
 		return rt;
 	}
 
+	public static long query(int jobl, int jobr, int l, int r, int i) {
+		if (i == 0) {
+			return 0;
+		}
+		if (jobl <= l && r <= jobr) {
+			return sum[i] % MOD;
+		}
+		down(i);
+		int mid = (l + r) >> 1;
+		long ans = 0;
+		if (jobl <= mid) {
+			ans = query(jobl, jobr, l, mid, ls[i]);
+		}
+		if (jobr > mid) {
+			ans = (ans + query(jobl, jobr, mid + 1, r, rs[i])) % MOD;
+		}
+		return ans;
+	}
+
 	public static int merge(int l, int r, int t1, int t2, long sum1, long sum2) {
 		if (t1 == 0 || t2 == 0) {
 			if (t1 != 0) {
@@ -124,25 +143,6 @@ public class Code03_Fate1 {
 			up(t1);
 		}
 		return t1;
-	}
-
-	public static long query(int jobl, int jobr, int l, int r, int i) {
-		if (i == 0) {
-			return 0;
-		}
-		if (jobl <= l && r <= jobr) {
-			return sum[i] % MOD;
-		}
-		down(i);
-		int mid = (l + r) >> 1;
-		long ans = 0;
-		if (jobl <= mid) {
-			ans = query(jobl, jobr, l, mid, ls[i]);
-		}
-		if (jobr > mid) {
-			ans = (ans + query(jobl, jobr, mid + 1, r, rs[i])) % MOD;
-		}
-		return ans;
 	}
 
 	// 递归版，java会爆栈，C++可以通过

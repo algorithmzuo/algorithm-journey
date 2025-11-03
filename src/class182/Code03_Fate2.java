@@ -81,6 +81,25 @@ package class182;
 //    return rt;
 //}
 //
+//long long query(int jobl, int jobr, int l, int r, int i) {
+//    if (i == 0) {
+//        return 0;
+//    }
+//    if (jobl <= l && r <= jobr) {
+//        return sum[i] % MOD;
+//    }
+//    down(i);
+//    int mid = (l + r) >> 1;
+//    long long ans = 0;
+//    if (jobl <= mid) {
+//        ans = query(jobl, jobr, l, mid, ls[i]) % MOD;
+//    }
+//    if (jobr > mid) {
+//        ans = (ans + query(jobl, jobr, mid + 1, r, rs[i])) % MOD;
+//    }
+//    return ans;
+//}
+//
 //int Merge(int l, int r, int t1, int t2, long long sum1, long long sum2) {
 //    if (t1 == 0 || t2 == 0) {
 //        if (t1 != 0) {
@@ -104,25 +123,6 @@ package class182;
 //        up(t1);
 //    }
 //    return t1;
-//}
-//
-//long long query(int jobl, int jobr, int l, int r, int i) {
-//    if (i == 0) {
-//        return 0;
-//    }
-//    if (jobl <= l && r <= jobr) {
-//        return sum[i] % MOD;
-//    }
-//    down(i);
-//    int mid = (l + r) >> 1;
-//    long long ans = 0;
-//    if (jobl <= mid) {
-//        ans = query(jobl, jobr, l, mid, ls[i]) % MOD;
-//    }
-//    if (jobr > mid) {
-//        ans = (ans + query(jobl, jobr, mid + 1, r, rs[i])) % MOD;
-//    }
-//    return ans;
 //}
 //
 //void dfs(int u, int fa) {
