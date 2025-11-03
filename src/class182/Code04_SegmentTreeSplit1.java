@@ -30,7 +30,7 @@ public class Code04_SegmentTreeSplit1 {
 	public static int[] ls = new int[MAXT];
 	public static int[] rs = new int[MAXT];
 	public static long[] sum = new long[MAXT];
-	public static int cntRoot;
+	public static int version;
 
 	public static int[] pool = new int[MAXT];
 	public static int top;
@@ -162,10 +162,10 @@ public class Code04_SegmentTreeSplit1 {
 		prepare();
 		n = in.nextInt();
 		m = in.nextInt();
-		cntRoot = 1;
+		version = 1;
 		for (int i = 1, x; i <= n; i++) {
 			x = in.nextInt();
-			root[cntRoot] = add(i, x, 1, n, root[1]);
+			root[version] = add(i, x, 1, n, root[1]);
 		}
 		for (int i = 1, op, x, y, z; i <= m; i++) {
 			op = in.nextInt();
@@ -175,7 +175,7 @@ public class Code04_SegmentTreeSplit1 {
 				z = in.nextInt();
 				split(y, z, 1, n, root[x]);
 				root[x] = tree1;
-				root[++cntRoot] = tree2;
+				root[++version] = tree2;
 			} else if (op == 1) {
 				x = in.nextInt();
 				y = in.nextInt();

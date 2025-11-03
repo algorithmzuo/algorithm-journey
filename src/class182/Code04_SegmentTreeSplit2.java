@@ -25,7 +25,7 @@ package class182;
 //int ls[MAXT];
 //int rs[MAXT];
 //long long sum[MAXT];
-//int cntRoot;
+//int version;
 //
 //int pool[MAXT];
 //int top;
@@ -156,10 +156,10 @@ package class182;
 //    cin.tie(nullptr);
 //    prepare();
 //    cin >> n >> m;
-//    cntRoot = 1;
+//    version = 1;
 //    for (int i = 1, x; i <= n; i++) {
 //        cin >> x;
-//        root[cntRoot] = add(i, x, 1, n, root[1]);
+//        root[version] = add(i, x, 1, n, root[1]);
 //    }
 //    for (int i = 1, op, x, y, z; i <= m; i++) {
 //        cin >> op;
@@ -167,7 +167,7 @@ package class182;
 //            cin >> x >> y >> z;
 //            split(y, z, 1, n, root[x]);
 //            root[x] = tree1;
-//            root[++cntRoot] = tree2;
+//            root[++version] = tree2;
 //        } else if (op == 1) {
 //            cin >> x >> y;
 //            root[x] = merge(1, n, root[x], root[y]);
