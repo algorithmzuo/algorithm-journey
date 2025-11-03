@@ -137,7 +137,7 @@ package class173;
 //    ios::sync_with_stdio(false);
 //    cin.tie(nullptr);
 //    cin >> n >> m >> f;
-//    for (int i = 1; i <= n; ++i) {
+//    for (int i = 1; i <= n; i++) {
 //        cin >> arr[i];
 //    }
 //    for (int i = 1, u, v; i < n; i++) {

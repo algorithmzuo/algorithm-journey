@@ -1,6 +1,11 @@
 package class182;
 
 // 值全改的操作，java版
+// 给定一个长度为n的数组arr，接下来有q条操作，格式如下
+// 操作 l r x y : arr[l..r]范围上，所有数字x改成数字y
+// 所有操作做完之后，从左到右打印arr中的值
+// 1 <= n、q <= 2 * 10^5
+// 1 <= arr[i]、x、y <= 100
 // 测试链接 : https://www.luogu.com.cn/problem/CF911G
 // 测试链接 : https://codeforces.com/problemset/problem/911/G
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
@@ -46,8 +51,8 @@ public class Code05_MassChangeQueries1 {
 		sum[i] = 0;
 	}
 
-	public static void up(int p) {
-		sum[p] = sum[ls[p]] + sum[rs[p]];
+	public static void up(int i) {
+		sum[i] = sum[ls[i]] + sum[rs[i]];
 	}
 
 	public static int insert(int jobi, int l, int r, int i) {
@@ -146,11 +151,9 @@ public class Code05_MassChangeQueries1 {
 			r = in.nextInt();
 			x = in.nextInt();
 			y = in.nextInt();
-			if (x != y) {
-				split(l, r, 1, n, root[x]);
-				root[x] = tree1;
-				root[y] = merge(1, n, root[y], tree2);
-			}
+			split(l, r, 1, n, root[x]);
+			root[x] = tree1;
+			root[y] = merge(1, n, root[y], tree2);
 		}
 		for (int v = 1; v <= MAXV; v++) {
 			dfs(v, 1, n, root[v]);
@@ -158,7 +161,6 @@ public class Code05_MassChangeQueries1 {
 		for (int i = 1; i <= n; i++) {
 			out.print(ans[i] + " ");
 		}
-		out.println();
 		out.flush();
 		out.close();
 	}
