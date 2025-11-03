@@ -7,7 +7,7 @@ package class182;
 // 那么需要保证 u的点权 <= v的点权，除此之外就没有别的限制了
 // 打印你最多能在树上选择几个点
 // 1 <= n <= 2 * 10^5
-// 0 <= 点权 <= 10^9
+// 1 <= 点权 <= 10^9
 // 测试链接 : https://www.luogu.com.cn/problem/P4577
 // 如下实现是C++的版本，C++版本和java版本逻辑完全一样
 // 提交如下代码，可以通过所有测试用例
@@ -59,7 +59,7 @@ package class182;
 //    }
 //}
 //
-//int add(int jobi, int jobv, int l, int r, int i) {
+//int update(int jobi, int jobv, int l, int r, int i) {
 //    int rt = i;
 //    if (rt == 0) {
 //        rt = ++cntt;
@@ -70,9 +70,9 @@ package class182;
 //        down(rt);
 //        int mid = (l + r) >> 1;
 //        if (jobi <= mid) {
-//            ls[rt] = add(jobi, jobv, l, mid, ls[rt]);
+//            ls[rt] = update(jobi, jobv, l, mid, ls[rt]);
 //        } else {
-//            rs[rt] = add(jobi, jobv, mid + 1, r, rs[rt]);
+//            rs[rt] = update(jobi, jobv, mid + 1, r, rs[rt]);
 //        }
 //        up(rt);
 //    }
@@ -90,7 +90,7 @@ package class182;
 //        return t1 + t2;
 //    }
 //    if (l == r) {
-//        maxv[t1] = max(maxv[t1], max1) + max(maxv[t2], max2);
+//        maxv[t1] += max(maxv[t2], max2);
 //    } else {
 //        down(t1);
 //        down(t2);
@@ -129,7 +129,7 @@ package class182;
 //        val += query(arr[u], MAXV, 1, MAXV, root[v]);
 //        root[u] = merge(1, MAXV, root[u], root[v], 0, 0);
 //    }
-//    root[u] = add(arr[u], val, 1, MAXV, root[u]);
+//    root[u] = update(arr[u], val, 1, MAXV, root[u]);
 //}
 //
 //int main() {
@@ -144,6 +144,6 @@ package class182;
 //        addEdge(fa, i);
 //    }
 //    dp(1);
-//    cout << maxv[root[1]] << '\n';
+//    cout << query(1, MAXV, 1, MAXV, root[1]) << '\n';
 //    return 0;
 //}

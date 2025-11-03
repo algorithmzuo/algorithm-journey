@@ -7,7 +7,7 @@ package class182;
 // 那么需要保证 u的点权 <= v的点权，除此之外就没有别的限制了
 // 打印你最多能在树上选择几个点
 // 1 <= n <= 2 * 10^5
-// 0 <= 点权 <= 10^9
+// 1 <= 点权 <= 10^9
 // 测试链接 : https://www.luogu.com.cn/problem/P4577
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
@@ -61,7 +61,7 @@ public class Code01_LeadersGroup1 {
 		}
 	}
 
-	public static int add(int jobi, int jobv, int l, int r, int i) {
+	public static int update(int jobi, int jobv, int l, int r, int i) {
 		int rt = i;
 		if (rt == 0) {
 			rt = ++cntt;
@@ -72,9 +72,9 @@ public class Code01_LeadersGroup1 {
 			down(rt);
 			int mid = (l + r) >> 1;
 			if (jobi <= mid) {
-				ls[rt] = add(jobi, jobv, l, mid, ls[rt]);
+				ls[rt] = update(jobi, jobv, l, mid, ls[rt]);
 			} else {
-				rs[rt] = add(jobi, jobv, mid + 1, r, rs[rt]);
+				rs[rt] = update(jobi, jobv, mid + 1, r, rs[rt]);
 			}
 			up(rt);
 		}
@@ -92,7 +92,7 @@ public class Code01_LeadersGroup1 {
 			return t1 + t2;
 		}
 		if (l == r) {
-			maxv[t1] = Math.max(maxv[t1], max1) + Math.max(maxv[t2], max2);
+			maxv[t1] += Math.max(maxv[t2], max2);
 		} else {
 			down(t1);
 			down(t2);
@@ -131,7 +131,7 @@ public class Code01_LeadersGroup1 {
 			val += query(arr[u], MAXV, 1, MAXV, root[v]);
 			root[u] = merge(1, MAXV, root[u], root[v], 0, 0);
 		}
-		root[u] = add(arr[u], val, 1, MAXV, root[u]);
+		root[u] = update(arr[u], val, 1, MAXV, root[u]);
 	}
 
 	public static void main(String[] args) throws Exception {
@@ -146,7 +146,7 @@ public class Code01_LeadersGroup1 {
 			addEdge(fa, i);
 		}
 		dp(1);
-		out.println(maxv[root[1]]);
+		out.println(query(1, MAXV, 1, MAXV, root[1]));
 		out.flush();
 		out.close();
 	}
