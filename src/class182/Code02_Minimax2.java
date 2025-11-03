@@ -59,12 +59,12 @@ package class182;
 //}
 //
 //void up(int i) {
-//	sum[i] = (sum[ls[i]] + sum[rs[i]]) % MOD;
+//    sum[i] = (sum[ls[i]] + sum[rs[i]]) % MOD;
 //}
 //
 //void lazy(int i, long long v) {
 //    if (i) {
-//    	sum[i] = sum[i] * v % MOD;
+//        sum[i] = sum[i] * v % MOD;
 //        mul[i] = mul[i] * v % MOD;
 //    }
 //}
@@ -84,7 +84,7 @@ package class182;
 //        mul[rt] = 1;
 //    }
 //    if (l == r) {
-//    	sum[rt] = 1;
+//        sum[rt] = 1;
 //    } else {
 //        down(rt);
 //        int mid = (l + r) >> 1;

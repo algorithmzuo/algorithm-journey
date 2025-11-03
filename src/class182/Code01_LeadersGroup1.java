@@ -1,6 +1,13 @@
 package class182;
 
 // 领导集团问题，java版
+// 一共有n个节点，给定每个点的点权，所有节点组成一棵树
+// 已知1号节点是整棵树的头，其他节点的父亲节点都会给出
+// 如果你在树上选择了u、v两个节点，并且u是v的祖先节点的话
+// 那么需要保证 u的点权 <= v的点权，除此之外就没有别的限制了
+// 打印你最多能在树上选择几个点
+// 1 <= n <= 2 * 10^5
+// 0 <= 点权 <= 10^9
 // 测试链接 : https://www.luogu.com.cn/problem/P4577
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
@@ -25,7 +32,7 @@ public class Code01_LeadersGroup1 {
 	public static int[] root = new int[MAXN];
 	public static int[] ls = new int[MAXT];
 	public static int[] rs = new int[MAXT];
-	public static int[] max = new int[MAXT];
+	public static int[] maxv = new int[MAXT];
 	public static int[] addTag = new int[MAXT];
 	public static int cntt;
 
@@ -36,15 +43,12 @@ public class Code01_LeadersGroup1 {
 	}
 
 	public static void up(int i) {
-		max[i] = Math.max(max[ls[i]], max[rs[i]]);
+		maxv[i] = Math.max(maxv[ls[i]], maxv[rs[i]]);
 	}
 
 	public static void lazy(int i, int v) {
-		// 如果区间信息不存在
-		// 说明没有建立过dp信息
-		// 那么不需要增加v
 		if (i != 0) {
-			max[i] += v;
+			maxv[i] += v;
 			addTag[i] += v;
 		}
 	}
@@ -63,7 +67,7 @@ public class Code01_LeadersGroup1 {
 			rt = ++cntt;
 		}
 		if (l == r) {
-			max[rt] = Math.max(max[rt], jobv);
+			maxv[rt] = Math.max(maxv[rt], jobv);
 		} else {
 			down(rt);
 			int mid = (l + r) >> 1;
@@ -88,12 +92,12 @@ public class Code01_LeadersGroup1 {
 			return t1 + t2;
 		}
 		if (l == r) {
-			max[t1] = Math.max(max[t1], max1) + Math.max(max[t2], max2);
+			maxv[t1] = Math.max(maxv[t1], max1) + Math.max(maxv[t2], max2);
 		} else {
 			down(t1);
 			down(t2);
 			int mid = (l + r) >> 1;
-			ls[t1] = merge(l, mid, ls[t1], ls[t2], Math.max(max1, max[rs[t1]]), Math.max(max2, max[rs[t2]]));
+			ls[t1] = merge(l, mid, ls[t1], ls[t2], Math.max(max1, maxv[rs[t1]]), Math.max(max2, maxv[rs[t2]]));
 			rs[t1] = merge(mid + 1, r, rs[t1], rs[t2], max1, max2);
 			up(t1);
 		}
@@ -105,7 +109,7 @@ public class Code01_LeadersGroup1 {
 			return 0;
 		}
 		if (jobl <= l && r <= jobr) {
-			return max[i];
+			return maxv[i];
 		}
 		down(i);
 		int mid = (l + r) >> 1;
@@ -142,7 +146,7 @@ public class Code01_LeadersGroup1 {
 			addEdge(fa, i);
 		}
 		dp(1);
-		out.println(max[root[1]]);
+		out.println(maxv[root[1]]);
 		out.flush();
 		out.close();
 	}
