@@ -124,12 +124,12 @@ public class Code02_Minimax1 {
 			down(t1);
 			down(t2);
 			int mid = (l + r) >> 1;
-			long l1 = (sum1 + sum[rs[t1]] * (1 - p + MOD)) % MOD;
-			long l2 = (sum2 + sum[rs[t2]] * (1 - p + MOD)) % MOD;
-			long r1 = (sum1 + sum[ls[t1]] * p) % MOD;
-			long r2 = (sum2 + sum[ls[t2]] * p) % MOD;
-			ls[t1] = merge(l, mid, ls[t1], ls[t2], p, l1, l2);
-			rs[t1] = merge(mid + 1, r, rs[t1], rs[t2], p, r1, r2);
+			long lsum1 = (sum1 + sum[rs[t1]] * (1 - p + MOD)) % MOD;
+			long lsum2 = (sum2 + sum[rs[t2]] * (1 - p + MOD)) % MOD;
+			long rsum1 = (sum1 + sum[ls[t1]] * p) % MOD;
+			long rsum2 = (sum2 + sum[ls[t2]] * p) % MOD;
+			ls[t1] = merge(l, mid, ls[t1], ls[t2], p, lsum1, lsum2);
+			rs[t1] = merge(mid + 1, r, rs[t1], rs[t2], p, rsum1, rsum2);
 			up(t1);
 		}
 		return t1;
