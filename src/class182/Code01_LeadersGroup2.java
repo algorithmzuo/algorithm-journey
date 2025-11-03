@@ -122,14 +122,14 @@ package class182;
 //}
 //
 //void dp(int u) {
-//    int val = 1;
+//    int val = 0;
 //    for (int e = head[u]; e; e = nxt[e]) {
 //        int v = to[e];
 //        dp(v);
 //        val += query(arr[u], MAXV, 1, MAXV, root[v]);
 //        root[u] = merge(1, MAXV, root[u], root[v], 0, 0);
 //    }
-//    root[u] = update(arr[u], val, 1, MAXV, root[u]);
+//    root[u] = update(arr[u], val + 1, 1, MAXV, root[u]);
 //}
 //
 //int main() {
