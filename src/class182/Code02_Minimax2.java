@@ -38,7 +38,7 @@ package class182;
 //long long sum[MAXT];
 //long long mul[MAXT];
 //
-//long long d[MAXN];
+//long long D[MAXN];
 //
 //long long power(long long x, int p) {
 //    long long ans = 1;
@@ -151,7 +151,7 @@ package class182;
 //        return;
 //    }
 //    if (l == r) {
-//        d[l] = sum[i] % MOD;
+//        D[l] = sum[i] % MOD;
 //    } else {
 //        down(i);
 //        int mid = (l + r) >> 1;
@@ -204,7 +204,7 @@ package class182;
 //    getd(1, cntv, root[1]);
 //    long long ans = 0;
 //    for (int i = 1; i <= cntv; i++) {
-//        ans = (ans + (1LL * i * sorted[i]) % MOD * d[i] % MOD * d[i] % MOD) % MOD;
+//        ans = (ans + (1LL * i * sorted[i]) % MOD * D[i] % MOD * D[i] % MOD) % MOD;
 //    }
 //    cout << ans << '\n';
 //    return 0;

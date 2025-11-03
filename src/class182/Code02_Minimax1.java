@@ -40,7 +40,7 @@ public class Code02_Minimax1 {
 	public static long[] mul = new long[MAXT];
 	public static int cntt;
 
-	public static long[] d = new long[MAXN];
+	public static long[] D = new long[MAXN];
 
 	public static long power(long x, int p) {
 		long ans = 1;
@@ -189,7 +189,7 @@ public class Code02_Minimax1 {
 			return;
 		}
 		if (l == r) {
-			d[l] = sum[i] % MOD;
+			D[l] = sum[i] % MOD;
 		} else {
 			down(i);
 			int mid = (l + r) >> 1;
@@ -243,7 +243,7 @@ public class Code02_Minimax1 {
 		getd(1, cntv, root[1]);
 		long ans = 0;
 		for (int i = 1; i <= cntv; i++) {
-			ans = (ans + 1L * i * sorted[i] % MOD * d[i] % MOD * d[i]) % MOD;
+			ans = (ans + 1L * i * sorted[i] % MOD * D[i] % MOD * D[i]) % MOD;
 		}
 		out.println(ans);
 		out.flush();
