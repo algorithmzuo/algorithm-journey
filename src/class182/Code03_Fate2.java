@@ -29,7 +29,7 @@ package class182;
 //int ls[MAXT];
 //int rs[MAXT];
 //long long sum[MAXT];
-//long long mul[MAXT];
+//long long mulLazy[MAXT];
 //int cntt;
 //
 //int dep[MAXN];
@@ -48,15 +48,15 @@ package class182;
 //void lazy(int i, long long v) {
 //    if (i != 0) {
 //        sum[i] = sum[i] * v % MOD;
-//        mul[i] = mul[i] * v % MOD;
+//        mulLazy[i] = mulLazy[i] * v % MOD;
 //    }
 //}
 //
 //void down(int i) {
-//    if (mul[i] != 1) {
-//        lazy(ls[i], mul[i]);
-//        lazy(rs[i], mul[i]);
-//        mul[i] = 1;
+//    if (mulLazy[i] != 1) {
+//        lazy(ls[i], mulLazy[i]);
+//        lazy(rs[i], mulLazy[i]);
+//        mulLazy[i] = 1;
 //    }
 //}
 //
@@ -64,7 +64,7 @@ package class182;
 //    int rt = i;
 //    if (rt == 0) {
 //        rt = ++cntt;
-//        mul[rt] = 1;
+//        mulLazy[rt] = 1;
 //    }
 //    if (l == r) {
 //        sum[rt] = 1;

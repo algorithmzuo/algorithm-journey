@@ -32,7 +32,7 @@ package class182;
 //int ls[MAXT];
 //int rs[MAXT];
 //int maxv[MAXT];
-//int addTag[MAXT];
+//int addLazy[MAXT];
 //int cntt;
 //
 //int kth(int num) {
@@ -62,15 +62,15 @@ package class182;
 //void lazy(int i, int v) {
 //    if (i != 0) {
 //        maxv[i] += v;
-//        addTag[i] += v;
+//        addLazy[i] += v;
 //    }
 //}
 //
 //void down(int i) {
-//    if (addTag[i] > 0) {
-//        lazy(ls[i], addTag[i]);
-//        lazy(rs[i], addTag[i]);
-//        addTag[i] = 0;
+//    if (addLazy[i] > 0) {
+//        lazy(ls[i], addLazy[i]);
+//        lazy(rs[i], addLazy[i]);
+//        addLazy[i] = 0;
 //    }
 //}
 //

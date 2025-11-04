@@ -35,7 +35,7 @@ public class Code01_LeadersGroup1 {
 	public static int[] ls = new int[MAXT];
 	public static int[] rs = new int[MAXT];
 	public static int[] maxv = new int[MAXT];
-	public static int[] addTag = new int[MAXT];
+	public static int[] addLazy = new int[MAXT];
 	public static int cntt;
 
 	public static int kth(int num) {
@@ -65,15 +65,15 @@ public class Code01_LeadersGroup1 {
 	public static void lazy(int i, int v) {
 		if (i != 0) {
 			maxv[i] += v;
-			addTag[i] += v;
+			addLazy[i] += v;
 		}
 	}
 
 	public static void down(int i) {
-		if (addTag[i] > 0) {
-			lazy(ls[i], addTag[i]);
-			lazy(rs[i], addTag[i]);
-			addTag[i] = 0;
+		if (addLazy[i] > 0) {
+			lazy(ls[i], addLazy[i]);
+			lazy(rs[i], addLazy[i]);
+			addLazy[i] = 0;
 		}
 	}
 

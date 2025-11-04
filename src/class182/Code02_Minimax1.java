@@ -37,7 +37,7 @@ public class Code02_Minimax1 {
 	public static int[] ls = new int[MAXT];
 	public static int[] rs = new int[MAXT];
 	public static long[] sum = new long[MAXT];
-	public static long[] mul = new long[MAXT];
+	public static long[] mulLazy = new long[MAXT];
 	public static int cntt;
 
 	public static long[] D = new long[MAXN];
@@ -75,15 +75,15 @@ public class Code02_Minimax1 {
 	public static void lazy(int i, long v) {
 		if (i != 0) {
 			sum[i] = sum[i] * v % MOD;
-			mul[i] = mul[i] * v % MOD;
+			mulLazy[i] = mulLazy[i] * v % MOD;
 		}
 	}
 
 	public static void down(int i) {
-		if (mul[i] != 1) {
-			lazy(ls[i], mul[i]);
-			lazy(rs[i], mul[i]);
-			mul[i] = 1;
+		if (mulLazy[i] != 1) {
+			lazy(ls[i], mulLazy[i]);
+			lazy(rs[i], mulLazy[i]);
+			mulLazy[i] = 1;
 		}
 	}
 
@@ -91,7 +91,7 @@ public class Code02_Minimax1 {
 		int rt = i;
 		if (rt == 0) {
 			rt = ++cntt;
-			mul[rt] = 1;
+			mulLazy[rt] = 1;
 		}
 		if (l == r) {
 			sum[rt] = 1;
