@@ -77,6 +77,7 @@ public class Code01_LeadersGroup1 {
 		}
 	}
 
+	// jobi来了个新值jobv，如果比之前获得的值更大就更新，否则不更新
 	public static int update(int jobi, int jobv, int l, int r, int i) {
 		int rt = i;
 		if (rt == 0) {
@@ -97,6 +98,7 @@ public class Code01_LeadersGroup1 {
 		return rt;
 	}
 
+	// 查询[jobl..jobr]范围上的最大值
 	public static int query(int jobl, int jobr, int l, int r, int i) {
 		if (i == 0) {
 			return 0;
@@ -116,6 +118,8 @@ public class Code01_LeadersGroup1 {
 		return ans;
 	}
 
+	// 线段树合并
+	// max1代表dp[u][r+1...]的最大值，max2代表dp[v][r+1...]的最大值
 	public static int merge(int l, int r, int t1, int t2, int max1, int max2) {
 		if (t1 == 0 || t2 == 0) {
 			if (t1 != 0) {
@@ -145,8 +149,10 @@ public class Code01_LeadersGroup1 {
 			int v = to[e];
 			dp(v);
 			sum += query(arr[u], cntv, 1, cntv, root[v]);
+			// 不选u的情况，每棵子树合并一遍
 			root[u] = merge(1, cntv, root[u], root[v], 0, 0);
 		}
+		// 选u的情况，最后sum需要加1
 		root[u] = update(arr[u], sum + 1, 1, cntv, root[u]);
 	}
 
