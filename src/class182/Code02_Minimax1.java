@@ -136,21 +136,21 @@ public class Code02_Minimax1 {
 	}
 
 	// 迭代版，java会爆栈，C++可以通过
-	public static void dfs1(int u) {
+	public static void dp1(int u) {
 		if (sonCnt[u] == 0) {
 			root[u] = insert(arr[u], 1, cntv, root[u]);
 		} else if (sonCnt[u] == 1) {
-			dfs1(son[u][0]);
+			dp1(son[u][0]);
 			root[u] = root[son[u][0]];
 		} else {
-			dfs1(son[u][0]);
-			dfs1(son[u][1]);
+			dp1(son[u][0]);
+			dp1(son[u][1]);
 			root[u] = merge(1, cntv, root[son[u][0]], root[son[u][1]], arr[u], 0, 0);
 		}
 	}
 
-	// dfs1改成迭代版
-	public static void dfs2() {
+	// dp1改成迭代版
+	public static void dp2() {
 		int[][] stack = new int[n + 1][2];
 		int siz = 0;
 		stack[++siz][0] = 1;
@@ -238,8 +238,8 @@ public class Code02_Minimax1 {
 			arr[i] = in.nextInt();
 		}
 		prepare();
-		// dfs1(1);
-		dfs2();
+		// dp1(1);
+		dp2();
 		getd(1, cntv, root[1]);
 		long ans = 0;
 		for (int i = 1; i <= cntv; i++) {

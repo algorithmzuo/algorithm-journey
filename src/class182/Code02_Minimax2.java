@@ -33,10 +33,9 @@ package class182;
 //int root[MAXN];
 //int ls[MAXT];
 //int rs[MAXT];
-//int cntt;
-//
 //long long sum[MAXT];
 //long long mulLazy[MAXT];
+//int cntt;
 //
 //long long D[MAXN];
 //
@@ -133,15 +132,15 @@ package class182;
 //    return t1;
 //}
 //
-//void dfs(int u) {
+//void dp(int u) {
 //    if (sonCnt[u] == 0) {
 //        root[u] = insert(arr[u], 1, cntv, root[u]);
 //    } else if (sonCnt[u] == 1) {
-//        dfs(son[u][0]);
+//        dp(son[u][0]);
 //        root[u] = root[son[u][0]];
 //    } else {
-//        dfs(son[u][0]);
-//        dfs(son[u][1]);
+//        dp(son[u][0]);
+//        dp(son[u][1]);
 //        root[u] = merge(1, cntv, root[son[u][0]], root[son[u][1]], arr[u], 0, 0);
 //    }
 //}
@@ -200,7 +199,7 @@ package class182;
 //        cin >> arr[i];
 //    }
 //    prepare();
-//    dfs(1);
+//    dp(1);
 //    getd(1, cntv, root[1]);
 //    long long ans = 0;
 //    for (int i = 1; i <= cntv; i++) {
