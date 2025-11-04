@@ -17,10 +17,11 @@ package class182;
 //using namespace std;
 //
 //const int MAXN = 200001;
-//const int MAXV = 1000000000;
-//const int MAXT = MAXN * 40;
+//const int MAXT = MAXN * 20;
 //int n;
 //int arr[MAXN];
+//int sorted[MAXN];
+//int cntv;
 //
 //int head[MAXN];
 //int nxt[MAXN];
@@ -33,6 +34,20 @@ package class182;
 //int maxv[MAXT];
 //int addTag[MAXT];
 //int cntt;
+//
+//int kth(int num) {
+//    int left = 1, right = cntv, ret = 0;
+//    while (left <= right) {
+//        int mid = (left + right) >> 1;
+//        if (sorted[mid] <= num) {
+//            ret = mid;
+//            left = mid + 1;
+//        } else {
+//            right = mid - 1;
+//        }
+//    }
+//    return ret;
+//}
 //
 //void addEdge(int u, int v) {
 //    nxt[++cntg] = head[u];
@@ -122,14 +137,31 @@ package class182;
 //}
 //
 //void dp(int u) {
-//    int val = 0;
+//    int sum = 0;
 //    for (int e = head[u]; e; e = nxt[e]) {
 //        int v = to[e];
 //        dp(v);
-//        val += query(arr[u], MAXV, 1, MAXV, root[v]);
-//        root[u] = merge(1, MAXV, root[u], root[v], 0, 0);
+//        sum += query(arr[u], cntv, 1, cntv, root[v]);
+//        root[u] = merge(1, cntv, root[u], root[v], 0, 0);
 //    }
-//    root[u] = update(arr[u], val + 1, 1, MAXV, root[u]);
+//    root[u] = update(arr[u], sum + 1, 1, cntv, root[u]);
+//}
+//
+//void prepare() {
+//    for (int i = 1; i <= n; i++) {
+//        sorted[++cntv] = arr[i];
+//    }
+//    sort(sorted + 1, sorted + cntv + 1);
+//    int len = 1;
+//    for (int i = 2; i <= cntv; i++) {
+//        if (sorted[len] != sorted[i]) {
+//            sorted[++len] = sorted[i];
+//        }
+//    }
+//    cntv = len;
+//    for (int i = 1; i <= n; i++) {
+//        arr[i] = kth(arr[i]);
+//    }
 //}
 //
 //int main() {
@@ -143,7 +175,8 @@ package class182;
 //        cin >> fa;
 //        addEdge(fa, i);
 //    }
+//    prepare();
 //    dp(1);
-//    cout << query(1, MAXV, 1, MAXV, root[1]) << '\n';
+//    cout << query(1, cntv, 1, cntv, root[1]) << '\n';
 //    return 0;
 //}

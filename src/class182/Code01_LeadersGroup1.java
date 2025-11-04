@@ -15,14 +15,16 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.util.Arrays;
 
 public class Code01_LeadersGroup1 {
 
 	public static int MAXN = 200001;
-	public static int MAXV = 1000000000;
-	public static int MAXT = MAXN * 40;
+	public static int MAXT = MAXN * 20;
 	public static int n;
 	public static int[] arr = new int[MAXN];
+	public static int[] sorted = new int[MAXN];
+	public static int cntv;
 
 	public static int[] head = new int[MAXN];
 	public static int[] nxt = new int[MAXN];
@@ -35,6 +37,20 @@ public class Code01_LeadersGroup1 {
 	public static int[] maxv = new int[MAXT];
 	public static int[] addTag = new int[MAXT];
 	public static int cntt;
+
+	public static int kth(int num) {
+		int left = 1, right = cntv, mid, ret = 0;
+		while (left <= right) {
+			mid = (left + right) >> 1;
+			if (sorted[mid] <= num) {
+				ret = mid;
+				left = mid + 1;
+			} else {
+				right = mid - 1;
+			}
+		}
+		return ret;
+	}
 
 	public static void addEdge(int u, int v) {
 		nxt[++cntg] = head[u];
@@ -124,14 +140,31 @@ public class Code01_LeadersGroup1 {
 	}
 
 	public static void dp(int u) {
-		int val = 0;
+		int sum = 0;
 		for (int e = head[u]; e > 0; e = nxt[e]) {
 			int v = to[e];
 			dp(v);
-			val += query(arr[u], MAXV, 1, MAXV, root[v]);
-			root[u] = merge(1, MAXV, root[u], root[v], 0, 0);
+			sum += query(arr[u], cntv, 1, cntv, root[v]);
+			root[u] = merge(1, cntv, root[u], root[v], 0, 0);
 		}
-		root[u] = update(arr[u], val + 1, 1, MAXV, root[u]);
+		root[u] = update(arr[u], sum + 1, 1, cntv, root[u]);
+	}
+
+	public static void prepare() {
+		for (int i = 1; i <= n; i++) {
+			sorted[++cntv] = arr[i];
+		}
+		Arrays.sort(sorted, 1, cntv + 1);
+		int len = 1;
+		for (int i = 2; i <= cntv; i++) {
+			if (sorted[len] != sorted[i]) {
+				sorted[++len] = sorted[i];
+			}
+		}
+		cntv = len;
+		for (int i = 1; i <= n; i++) {
+			arr[i] = kth(arr[i]);
+		}
 	}
 
 	public static void main(String[] args) throws Exception {
@@ -145,8 +178,9 @@ public class Code01_LeadersGroup1 {
 			fa = in.nextInt();
 			addEdge(fa, i);
 		}
+		prepare();
 		dp(1);
-		out.println(query(1, MAXV, 1, MAXV, root[1]));
+		out.println(query(1, cntv, 1, cntv, root[1]));
 		out.flush();
 		out.close();
 	}
