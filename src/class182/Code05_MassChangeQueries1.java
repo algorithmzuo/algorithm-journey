@@ -31,8 +31,6 @@ public class Code05_MassChangeQueries1 {
 	public static int[] pool = new int[MAXT];
 	public static int top;
 
-	public static int[] ans = new int[MAXN];
-
 	public static void prepare() {
 		top = 0;
 		for (int i = 1; i < MAXT; i++) {
@@ -126,7 +124,7 @@ public class Code05_MassChangeQueries1 {
 			return;
 		}
 		if (l == r) {
-			ans[l] = val;
+			arr[l] = val;
 		} else {
 			int mid = (l + r) >> 1;
 			dfs(val, l, mid, ls[i]);
@@ -159,7 +157,7 @@ public class Code05_MassChangeQueries1 {
 			dfs(v, 1, n, root[v]);
 		}
 		for (int i = 1; i <= n; i++) {
-			out.print(ans[i] + " ");
+			out.print(arr[i] + " ");
 		}
 		out.flush();
 		out.close();

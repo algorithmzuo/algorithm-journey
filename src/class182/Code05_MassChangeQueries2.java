@@ -29,8 +29,6 @@ package class182;
 //int pool[MAXT];
 //int top;
 //
-//int ans[MAXN];
-//
 //void prepare() {
 //    top = 0;
 //    for (int i = 1; i < MAXT; i++) {
@@ -124,7 +122,7 @@ package class182;
 //        return;
 //    }
 //    if (l == r) {
-//        ans[l] = val;
+//        arr[l] = val;
 //    } else {
 //        int mid = (l + r) >> 1;
 //        dfs(val, l, mid, ls[i]);
@@ -154,7 +152,7 @@ package class182;
 //        dfs(v, 1, n, root[v]);
 //    }
 //    for (int i = 1; i <= n; i++) {
-//        cout << ans[i] << ' ';
+//        cout << arr[i] << ' ';
 //    }
 //    return 0;
 //}
