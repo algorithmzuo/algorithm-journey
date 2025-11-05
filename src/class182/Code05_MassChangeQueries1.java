@@ -140,10 +140,10 @@ public class Code05_MassChangeQueries1 {
 		for (int i = 1; i <= n; i++) {
 			arr[i] = in.nextInt();
 		}
-		q = in.nextInt();
 		for (int i = 1; i <= n; i++) {
 			root[arr[i]] = insert(i, 1, n, root[arr[i]]);
 		}
+		q = in.nextInt();
 		for (int i = 1, l, r, x, y; i <= q; i++) {
 			l = in.nextInt();
 			r = in.nextInt();

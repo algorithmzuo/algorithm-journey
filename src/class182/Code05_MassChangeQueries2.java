@@ -138,10 +138,10 @@ package class182;
 //    for (int i = 1; i <= n; i++) {
 //        cin >> arr[i];
 //    }
-//    cin >> q;
 //    for (int i = 1; i <= n; i++) {
 //        root[arr[i]] = insert(i, 1, n, root[arr[i]]);
 //    }
+//    cin >> q;
 //    for (int i = 1, l, r, x, y; i <= q; i++) {
 //        cin >> l >> r >> x >> y;
 //        split(l, r, 1, n, root[x]);
