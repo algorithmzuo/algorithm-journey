@@ -19,7 +19,7 @@ public class Code05_MassChangeQueries1 {
 
 	public static int MAXN = 200001;
 	public static int MAXV = 100;
-	public static int MAXT = MAXN * 40;
+	public static int MAXT = MAXN * 10;
 	public static int n, q;
 	public static int[] arr = new int[MAXN];
 

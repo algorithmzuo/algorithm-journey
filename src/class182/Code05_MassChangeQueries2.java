@@ -17,7 +17,7 @@ package class182;
 //
 //const int MAXN = 200001;
 //const int MAXV = 100;
-//const int MAXT = MAXN * 40;
+//const int MAXT = MAXN * 10;
 //int n, q;
 //int arr[MAXN];
 //
