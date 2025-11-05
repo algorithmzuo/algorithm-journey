@@ -10,10 +10,7 @@ package class182;
 // 操作 4 x y   : x号集合中，查询第y小的数字，不存在打印-1
 // 1 <= 所有数据 <= 2 * 10^5
 // 测试链接 : https://www.luogu.com.cn/problem/P5494
-// 提交以下的code，提交时请把类名改成"Main"
-// java实现的逻辑一定是正确的，但是本题卡常，无法通过所有测试用例
-// 想通过用C++实现，本节课Code04_SegmentTreeSplit2文件就是C++的实现
-// 两个版本的逻辑完全一样，C++版本可以通过所有测试
+// 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -23,7 +20,7 @@ import java.io.PrintWriter;
 public class Code04_SegmentTreeSplit1 {
 
 	public static int MAXN = 200001;
-	public static int MAXT = MAXN * 40;
+	public static int MAXT = MAXN * 10;
 	public static int n, m;
 
 	public static int[] root = new int[MAXN];

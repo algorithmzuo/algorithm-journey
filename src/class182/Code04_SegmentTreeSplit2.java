@@ -18,7 +18,7 @@ package class182;
 //using namespace std;
 //
 //const int MAXN = 200001;
-//const int MAXT = MAXN * 40;
+//const int MAXT = MAXN * 10;
 //int n, m;
 //
 //int root[MAXN];
