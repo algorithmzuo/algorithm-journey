@@ -24,7 +24,7 @@ package class182;
 //int root[MAXV + 1];
 //int ls[MAXT];
 //int rs[MAXT];
-//int sum[MAXT];
+//bool status[MAXT];
 //
 //int pool[MAXT];
 //int top;
@@ -44,11 +44,11 @@ package class182;
 //    pool[++top] = i;
 //    ls[i] = 0;
 //    rs[i] = 0;
-//    sum[i] = 0;
+//    status[i] = false;
 //}
 //
 //void up(int i) {
-//    sum[i] = sum[ls[i]] + sum[rs[i]];
+//    status[i] = status[ls[i]] | status[rs[i]];
 //}
 //
 //int insert(int jobi, int l, int r, int i) {
@@ -57,7 +57,7 @@ package class182;
 //        rt = newNode();
 //    }
 //    if (l == r) {
-//        sum[rt]++;
+//        status[rt] = true;
 //    } else {
 //        int mid = (l + r) >> 1;
 //        if (jobi <= mid) {
@@ -75,7 +75,7 @@ package class182;
 //        return t1 + t2;
 //    }
 //    if (l == r) {
-//        sum[t1] += sum[t2];
+//        status[t1] |= status[t2];
 //    } else {
 //        int mid = (l + r) >> 1;
 //        ls[t1] = merge(l, mid, ls[t1], ls[t2]);
@@ -118,7 +118,7 @@ package class182;
 //}
 //
 //void dfs(int val, int l, int r, int i) {
-//    if (i == 0 || sum[i] == 0) {
+//    if (i == 0 || !status[i]) {
 //        return;
 //    }
 //    if (l == r) {
