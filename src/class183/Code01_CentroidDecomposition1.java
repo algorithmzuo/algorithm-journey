@@ -155,7 +155,7 @@ public class Code01_CentroidDecomposition1 {
 		}
 	}
 
-	public static void solve(int u) {
+	public static void compute(int u) {
 		vis[u] = true;
 		pre[0] = true;
 		calc(u);
@@ -167,7 +167,7 @@ public class Code01_CentroidDecomposition1 {
 				maxp[centroid] = n;
 				// getCentroid1(v, u);
 				getCentroid2(v, u);
-				solve(centroid);
+				compute(centroid);
 			}
 		}
 	}
@@ -192,7 +192,7 @@ public class Code01_CentroidDecomposition1 {
 		maxp[centroid] = n;
 		// getCentroid1(1, 0);
 		getCentroid2(1, 0);
-		solve(centroid);
+		compute(centroid);
 		for (int i = 1; i <= m; i++) {
 			if (ans[i]) {
 				out.println("AYE");

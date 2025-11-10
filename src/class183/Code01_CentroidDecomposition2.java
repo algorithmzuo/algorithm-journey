@@ -96,7 +96,7 @@ package class183;
 //    }
 //}
 //
-//void solve(int u) {
+//void compute(int u) {
 //    vis[u] = true;
 //    pre[0] = true;
 //    calc(u);
@@ -107,7 +107,7 @@ package class183;
 //            centroid = 0;
 //            maxp[centroid] = n;
 //            getCentroid(v, u);
-//            solve(centroid);
+//            compute(centroid);
 //        }
 //    }
 //}
@@ -128,7 +128,7 @@ package class183;
 //    centroid = 0;
 //    maxp[centroid] = n;
 //    getCentroid(1, 0);
-//    solve(centroid);
+//    compute(centroid);
 //    for (int i = 1; i <= m; i++) {
 //        if (ans[i]) {
 //            cout << "AYE" << '\n';
