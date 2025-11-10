@@ -66,6 +66,7 @@ public class Code02_Tree1 {
 	}
 
 	public static long calc(int u, int fa, int w) {
+		dis[fa] = 0;
 		cnta = 0;
 		getDistance(u, fa, w);
 		long ans = 0;
