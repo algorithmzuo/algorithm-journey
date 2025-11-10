@@ -32,10 +32,9 @@ public class Code01_CentroidDecomposition1 {
 
 	public static int[] dis = new int[MAXN];
 	public static int[] valArr = new int[MAXV];
-	public static int cntv;
-	public static int[] que = new int[MAXV];
-	public static int cntq;
-	public static boolean[] judge = new boolean[MAXV];
+	public static int[] valQue = new int[MAXV];
+	public static boolean[] valJudge = new boolean[MAXV];
+	public static int cnta, cntq;
 
 	public static boolean[] ans = new boolean[MAXN];
 
@@ -119,7 +118,7 @@ public class Code01_CentroidDecomposition1 {
 
 	public static void getDistance(int u, int fa, int w) {
 		dis[u] = dis[fa] + w;
-		valArr[++cntv] = dis[u];
+		valArr[++cnta] = dis[u];
 		for (int e = head[u]; e > 0; e = nxt[e]) {
 			int v = to[e];
 			if (v != fa && !vis[v]) {
@@ -135,29 +134,29 @@ public class Code01_CentroidDecomposition1 {
 			int v = to[e];
 			int w = weight[e];
 			if (!vis[v]) {
-				cntv = 0;
+				cnta = 0;
 				getDistance(v, u, w);
-				for (int k = cntv; k > 0; k--) {
+				for (int k = cnta; k > 0; k--) {
 					for (int l = 1; l <= m; l++) {
 						if (query[l] >= valArr[k]) {
-							ans[l] |= judge[query[l] - valArr[k]];
+							ans[l] |= valJudge[query[l] - valArr[k]];
 						}
 					}
 				}
-				for (int k = cntv; k > 0; k--) {
-					que[++cntq] = valArr[k];
-					judge[valArr[k]] = true;
+				for (int k = cnta; k > 0; k--) {
+					valQue[++cntq] = valArr[k];
+					valJudge[valArr[k]] = true;
 				}
 			}
 		}
 		for (int i = cntq; i > 0; i--) {
-			judge[que[i]] = false;
+			valJudge[valQue[i]] = false;
 		}
 	}
 
 	public static void solve(int u) {
 		vis[u] = true;
-		judge[0] = true;
+		valJudge[0] = true;
 		calc(u);
 		for (int e = head[u]; e > 0; e = nxt[e]) {
 			int v = to[e];
