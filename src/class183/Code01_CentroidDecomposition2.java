@@ -26,10 +26,11 @@ package class183;
 //int centroid;
 //
 //int dis[MAXN];
-//int valArr[MAXV];
-//int valQue[MAXV];
-//bool valJudge[MAXV];
-//int cnta, cntq;
+//int arr[MAXV];
+//int que[MAXV];
+//bool judge[MAXV];
+//int cnta;
+//int cntq;
 //
 //bool ans[MAXN];
 //
@@ -59,7 +60,7 @@ package class183;
 //
 //void getDistance(int u, int fa, int w) {
 //    dis[u] = dis[fa] + w;
-//    valArr[++cnta] = dis[u];
+//    arr[++cnta] = dis[u];
 //    for (int e = head[u]; e > 0; e = nxt[e]) {
 //        int v = to[e];
 //        if (v != fa && !vis[v]) {
@@ -79,25 +80,25 @@ package class183;
 //            getDistance(v, u, w);
 //            for (int k = cnta; k > 0; k--) {
 //                for (int l = 1; l <= m; l++) {
-//                    if (query[l] >= valArr[k]) {
-//                        ans[l] |= valJudge[query[l] - valArr[k]];
+//                    if (query[l] >= arr[k]) {
+//                        ans[l] |= judge[query[l] - arr[k]];
 //                    }
 //                }
 //            }
 //            for (int k = cnta; k > 0; k--) {
-//                valQue[++cntq] = valArr[k];
-//                valJudge[valArr[k]] = true;
+//                que[++cntq] = arr[k];
+//                judge[arr[k]] = true;
 //            }
 //        }
 //    }
 //    for (int i = cntq; i > 0; i--) {
-//        valJudge[valQue[i]] = false;
+//        judge[que[i]] = false;
 //    }
 //}
 //
 //void solve(int u) {
 //    vis[u] = true;
-//    valJudge[0] = true;
+//    judge[0] = true;
 //    calc(u);
 //    for (int e = head[u]; e > 0; e = nxt[e]) {
 //        int v = to[e];
