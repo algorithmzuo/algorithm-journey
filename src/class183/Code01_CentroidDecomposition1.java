@@ -27,7 +27,7 @@ public class Code01_CentroidDecomposition1 {
 
 	public static boolean[] vis = new boolean[MAXN];
 	public static int[] siz = new int[MAXN];
-	public static int[] maxp = new int[MAXN];
+	public static int[] maxPart = new int[MAXN];
 	public static int centroid;
 
 	public static int[] dis = new int[MAXN];
@@ -49,17 +49,17 @@ public class Code01_CentroidDecomposition1 {
 	// 找重心递归版，java会爆栈，C++可以通过
 	public static void getCentroid1(int u, int fa) {
 		siz[u] = 1;
-		maxp[u] = 0;
+		maxPart[u] = 0;
 		for (int e = head[u]; e > 0; e = nxt[e]) {
 			int v = to[e];
 			if (v != fa && !vis[v]) {
 				getCentroid1(v, u);
 				siz[u] += siz[v];
-				maxp[u] = Math.max(siz[v], maxp[u]);
+				maxPart[u] = Math.max(siz[v], maxPart[u]);
 			}
 		}
-		maxp[u] = Math.max(maxp[u], total - siz[u]);
-		if (maxp[u] < maxp[centroid]) {
+		maxPart[u] = Math.max(maxPart[u], total - siz[u]);
+		if (maxPart[u] < maxPart[centroid]) {
 			centroid = u;
 		}
 	}
@@ -90,7 +90,7 @@ public class Code01_CentroidDecomposition1 {
 			pop();
 			if (e == -1) {
 				siz[u] = 1;
-				maxp[u] = 0;
+				maxPart[u] = 0;
 				e = head[u];
 			} else {
 				e = nxt[e];
@@ -106,11 +106,11 @@ public class Code01_CentroidDecomposition1 {
 					int v = to[ei];
 					if (v != f && !vis[v]) {
 						siz[u] += siz[v];
-						maxp[u] = Math.max(siz[v], maxp[u]);
+						maxPart[u] = Math.max(siz[v], maxPart[u]);
 					}
 				}
-				maxp[u] = Math.max(maxp[u], total - siz[u]);
-				if (maxp[u] < maxp[centroid]) {
+				maxPart[u] = Math.max(maxPart[u], total - siz[u]);
+				if (maxPart[u] < maxPart[centroid]) {
 					centroid = u;
 				}
 			}
@@ -164,7 +164,7 @@ public class Code01_CentroidDecomposition1 {
 			if (!vis[v]) {
 				total = siz[v];
 				centroid = 0;
-				maxp[centroid] = n;
+				maxPart[centroid] = n;
 				// getCentroid1(v, u);
 				getCentroid2(v, u);
 				compute(centroid);
@@ -189,7 +189,7 @@ public class Code01_CentroidDecomposition1 {
 		}
 		total = n;
 		centroid = 0;
-		maxp[centroid] = n;
+		maxPart[centroid] = n;
 		// getCentroid1(1, 0);
 		getCentroid2(1, 0);
 		compute(centroid);

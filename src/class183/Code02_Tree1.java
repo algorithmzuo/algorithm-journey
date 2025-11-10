@@ -23,7 +23,7 @@ public class Code02_Tree1 {
 
 	public static boolean[] vis = new boolean[MAXN];
 	public static int[] siz = new int[MAXN];
-	public static int[] maxp = new int[MAXN];
+	public static int[] maxPart = new int[MAXN];
 	public static int centroid;
 
 	public static int[] dis = new int[MAXN];
@@ -39,17 +39,17 @@ public class Code02_Tree1 {
 
 	public static void getCentroid(int u, int fa) {
 		siz[u] = 1;
-		maxp[u] = 0;
+		maxPart[u] = 0;
 		for (int e = head[u]; e > 0; e = nxt[e]) {
 			int v = to[e];
 			if (v != fa && !vis[v]) {
 				getCentroid(v, u);
 				siz[u] += siz[v];
-				maxp[u] = Math.max(siz[v], maxp[u]);
+				maxPart[u] = Math.max(siz[v], maxPart[u]);
 			}
 		}
-		maxp[u] = Math.max(maxp[u], total - siz[u]);
-		if (maxp[u] < maxp[centroid]) {
+		maxPart[u] = Math.max(maxPart[u], total - siz[u]);
+		if (maxPart[u] < maxPart[centroid]) {
 			centroid = u;
 		}
 	}
@@ -92,7 +92,7 @@ public class Code02_Tree1 {
 				ans -= calc(v, u, weight[e]);
 				total = siz[v];
 				centroid = 0;
-				maxp[centroid] = n;
+				maxPart[centroid] = n;
 				getCentroid(v, 0);
 				ans += compute(centroid);
 			}
@@ -114,7 +114,7 @@ public class Code02_Tree1 {
 		k = in.nextInt();
 		total = n;
 		centroid = 0;
-		maxp[centroid] = n;
+		maxPart[centroid] = n;
 		getCentroid(1, 0);
 		out.println(compute(centroid));
 		out.flush();

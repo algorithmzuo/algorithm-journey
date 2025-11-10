@@ -22,7 +22,7 @@ package class183;
 //
 //bool vis[MAXN];
 //int siz[MAXN];
-//int maxp[MAXN];
+//int maxPart[MAXN];
 //int centroid;
 //
 //int dis[MAXN];
@@ -43,17 +43,17 @@ package class183;
 //
 //void getCentroid(int u, int fa) {
 //    siz[u] = 1;
-//    maxp[u] = 0;
+//    maxPart[u] = 0;
 //    for (int e = head[u]; e > 0; e = nxt[e]) {
 //        int v = to[e];
 //        if (v != fa && !vis[v]) {
 //            getCentroid(v, u);
 //            siz[u] += siz[v];
-//            maxp[u] = max(maxp[u], siz[v]);
+//            maxPart[u] = max(maxPart[u], siz[v]);
 //        }
 //    }
-//    maxp[u] = max(maxp[u], total - siz[u]);
-//    if (maxp[u] < maxp[centroid]) {
+//    maxPart[u] = max(maxPart[u], total - siz[u]);
+//    if (maxPart[u] < maxPart[centroid]) {
 //        centroid = u;
 //    }
 //}
@@ -105,7 +105,7 @@ package class183;
 //        if (!vis[v]) {
 //            total = siz[v];
 //            centroid = 0;
-//            maxp[centroid] = n;
+//            maxPart[centroid] = n;
 //            getCentroid(v, u);
 //            compute(centroid);
 //        }
@@ -126,7 +126,7 @@ package class183;
 //    }
 //    total = n;
 //    centroid = 0;
-//    maxp[centroid] = n;
+//    maxPart[centroid] = n;
 //    getCentroid(1, 0);
 //    compute(centroid);
 //    for (int i = 1; i <= m; i++) {
