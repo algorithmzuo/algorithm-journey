@@ -15,7 +15,7 @@ import java.io.PrintWriter;
 public class Code01_CentroidDecomposition1 {
 
 	public static int MAXN = 10001;
-	public static int MAXV = 20000001;
+	public static int MAXV = 15000001;
 	public static int n, m, total;
 	public static int[] query = new int[MAXN];
 
@@ -206,7 +206,7 @@ public class Code01_CentroidDecomposition1 {
 
 	// 读写工具类
 	static class FastReader {
-		private final byte[] buffer = new byte[1 << 16];
+		private final byte[] buffer = new byte[1 << 20];
 		private int ptr = 0, len = 0;
 		private final InputStream in;
 

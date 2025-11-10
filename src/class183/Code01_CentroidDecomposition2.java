@@ -10,7 +10,7 @@ package class183;
 //using namespace std;
 //
 //const int MAXN = 10001;
-//const int MAXV = 20000001;
+//const int MAXV = 15000001;
 //int n, m, total;
 //int query[MAXN];
 //
