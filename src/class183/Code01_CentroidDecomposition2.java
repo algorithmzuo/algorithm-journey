@@ -28,7 +28,7 @@ package class183;
 //int dis[MAXN];
 //int arr[MAXV];
 //int que[MAXV];
-//bool judge[MAXV];
+//bool pre[MAXV];
 //int cnta;
 //int cntq;
 //
@@ -80,25 +80,25 @@ package class183;
 //            getDistance(v, u, w);
 //            for (int k = cnta; k > 0; k--) {
 //                for (int l = 1; l <= m; l++) {
-//                    if (query[l] >= arr[k]) {
-//                        ans[l] |= judge[query[l] - arr[k]];
+//                    if (query[l] - arr[k] >= 0) {
+//                        ans[l] |= pre[query[l] - arr[k]];
 //                    }
 //                }
 //            }
 //            for (int k = cnta; k > 0; k--) {
 //                que[++cntq] = arr[k];
-//                judge[arr[k]] = true;
+//                pre[arr[k]] = true;
 //            }
 //        }
 //    }
 //    for (int i = cntq; i > 0; i--) {
-//        judge[que[i]] = false;
+//        pre[que[i]] = false;
 //    }
 //}
 //
 //void solve(int u) {
 //    vis[u] = true;
-//    judge[0] = true;
+//    pre[0] = true;
 //    calc(u);
 //    for (int e = head[u]; e > 0; e = nxt[e]) {
 //        int v = to[e];

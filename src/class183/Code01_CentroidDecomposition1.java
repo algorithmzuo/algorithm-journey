@@ -33,7 +33,7 @@ public class Code01_CentroidDecomposition1 {
 	public static int[] dis = new int[MAXN];
 	public static int[] arr = new int[MAXV];
 	public static int[] que = new int[MAXV];
-	public static boolean[] judge = new boolean[MAXV];
+	public static boolean[] pre = new boolean[MAXV];
 	public static int cnta;
 	public static int cntq;
 
@@ -139,25 +139,25 @@ public class Code01_CentroidDecomposition1 {
 				getDistance(v, u, w);
 				for (int k = cnta; k > 0; k--) {
 					for (int l = 1; l <= m; l++) {
-						if (query[l] >= arr[k]) {
-							ans[l] |= judge[query[l] - arr[k]];
+						if (query[l] - arr[k] >= 0) {
+							ans[l] |= pre[query[l] - arr[k]];
 						}
 					}
 				}
 				for (int k = cnta; k > 0; k--) {
 					que[++cntq] = arr[k];
-					judge[arr[k]] = true;
+					pre[arr[k]] = true;
 				}
 			}
 		}
 		for (int i = cntq; i > 0; i--) {
-			judge[que[i]] = false;
+			pre[que[i]] = false;
 		}
 	}
 
 	public static void solve(int u) {
 		vis[u] = true;
-		judge[0] = true;
+		pre[0] = true;
 		calc(u);
 		for (int e = head[u]; e > 0; e = nxt[e]) {
 			int v = to[e];
