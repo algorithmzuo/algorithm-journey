@@ -137,20 +137,20 @@ public class Code01_CentroidDecomposition1 {
 			if (!vis[v]) {
 				cnta = 0;
 				getDistance(v, u, w);
-				for (int k = cnta; k > 0; k--) {
-					for (int l = 1; l <= m; l++) {
-						if (query[l] - arr[k] >= 0) {
-							ans[l] |= pre[query[l] - arr[k]];
+				for (int i = 1; i <= m; i++) {
+					for (int j = 1; j <= cnta; j++) {
+						if (query[i] - arr[j] >= 0) {
+							ans[i] |= pre[query[i] - arr[j]];
 						}
 					}
 				}
-				for (int k = cnta; k > 0; k--) {
-					que[++cntq] = arr[k];
-					pre[arr[k]] = true;
+				for (int i = 1; i <= cnta; i++) {
+					que[++cntq] = arr[i];
+					pre[arr[i]] = true;
 				}
 			}
 		}
-		for (int i = cntq; i > 0; i--) {
+		for (int i = 1; i <= cntq; i++) {
 			pre[que[i]] = false;
 		}
 	}
