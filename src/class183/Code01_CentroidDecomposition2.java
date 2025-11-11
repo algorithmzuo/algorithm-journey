@@ -53,7 +53,7 @@ package class183;
 //        }
 //    }
 //    maxPart[u] = max(maxPart[u], total - siz[u]);
-//    if (maxPart[u] < maxPart[centroid]) {
+//    if (centroid == 0 || maxPart[u] < maxPart[centroid]) {
 //        centroid = u;
 //    }
 //}
@@ -105,7 +105,6 @@ package class183;
 //        if (!vis[v]) {
 //            total = siz[v];
 //            centroid = 0;
-//            maxPart[centroid] = n;
 //            getCentroid(v, u);
 //            compute(centroid);
 //        }
@@ -126,7 +125,6 @@ package class183;
 //    }
 //    total = n;
 //    centroid = 0;
-//    maxPart[centroid] = n;
 //    getCentroid(1, 0);
 //    compute(centroid);
 //    for (int i = 1; i <= m; i++) {

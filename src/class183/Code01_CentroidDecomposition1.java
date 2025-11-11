@@ -59,7 +59,7 @@ public class Code01_CentroidDecomposition1 {
 			}
 		}
 		maxPart[u] = Math.max(maxPart[u], total - siz[u]);
-		if (maxPart[u] < maxPart[centroid]) {
+		if (centroid == 0 || maxPart[u] < maxPart[centroid]) {
 			centroid = u;
 		}
 	}
@@ -110,7 +110,7 @@ public class Code01_CentroidDecomposition1 {
 					}
 				}
 				maxPart[u] = Math.max(maxPart[u], total - siz[u]);
-				if (maxPart[u] < maxPart[centroid]) {
+				if (centroid == 0 || maxPart[u] < maxPart[centroid]) {
 					centroid = u;
 				}
 			}
@@ -164,7 +164,6 @@ public class Code01_CentroidDecomposition1 {
 			if (!vis[v]) {
 				total = siz[v];
 				centroid = 0;
-				maxPart[centroid] = n;
 				// getCentroid1(v, u);
 				getCentroid2(v, u);
 				compute(centroid);
@@ -189,7 +188,6 @@ public class Code01_CentroidDecomposition1 {
 		}
 		total = n;
 		centroid = 0;
-		maxPart[centroid] = n;
 		// getCentroid1(1, 0);
 		getCentroid2(1, 0);
 		compute(centroid);

@@ -49,7 +49,7 @@ public class Code02_Tree1 {
 			}
 		}
 		maxPart[u] = Math.max(maxPart[u], total - siz[u]);
-		if (maxPart[u] < maxPart[centroid]) {
+		if (centroid == 0 || maxPart[u] < maxPart[centroid]) {
 			centroid = u;
 		}
 	}
@@ -92,7 +92,6 @@ public class Code02_Tree1 {
 				ans -= calc(v, u, weight[e]);
 				total = siz[v];
 				centroid = 0;
-				maxPart[centroid] = n;
 				getCentroid(v, 0);
 				ans += compute(centroid);
 			}
@@ -114,7 +113,6 @@ public class Code02_Tree1 {
 		k = in.nextInt();
 		total = n;
 		centroid = 0;
-		maxPart[centroid] = n;
 		getCentroid(1, 0);
 		out.println(compute(centroid));
 		out.flush();
