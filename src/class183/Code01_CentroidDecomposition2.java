@@ -10,9 +10,10 @@ package class183;
 //using namespace std;
 //
 //const int MAXN = 10001;
+//const int MAXM = 101;
 //const int MAXV = 10000001;
 //int n, m, maxq, total;
-//int query[MAXN];
+//int query[MAXM];
 //
 //int head[MAXN];
 //int nxt[MAXN << 1];
@@ -26,12 +27,12 @@ package class183;
 //int centroid;
 //
 //int dis[MAXN];
-//int arr[MAXV];
-//int que[MAXV];
-//bool pre[MAXV];
+//int arr[MAXN];
+//int que[MAXN];
+//bool check[MAXV];
 //int cnta, cntq;
 //
-//bool ans[MAXN];
+//bool ans[MAXM];
 //
 //void addEdge(int u, int v, int w) {
 //    nxt[++cntg] = head[u];
@@ -83,24 +84,24 @@ package class183;
 //            for (int i = 1; i <= m; i++) {
 //                for (int j = 1; j <= cnta; j++) {
 //                    if (query[i] - arr[j] >= 0) {
-//                        ans[i] |= pre[query[i] - arr[j]];
+//                        ans[i] |= check[query[i] - arr[j]];
 //                    }
 //                }
 //            }
 //            for (int i = 1; i <= cnta; i++) {
 //                que[++cntq] = arr[i];
-//                pre[arr[i]] = true;
+//                check[arr[i]] = true;
 //            }
 //        }
 //    }
 //    for (int i = 1; i <= cntq; i++) {
-//        pre[que[i]] = false;
+//        check[que[i]] = false;
 //    }
 //}
 //
 //void compute(int u) {
 //    vis[u] = true;
-//    pre[0] = true;
+//    check[0] = true;
 //    calc(u);
 //    for (int e = head[u]; e > 0; e = nxt[e]) {
 //        int v = to[e];

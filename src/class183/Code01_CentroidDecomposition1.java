@@ -12,9 +12,10 @@ import java.io.PrintWriter;
 public class Code01_CentroidDecomposition1 {
 
 	public static int MAXN = 10001;
+	public static int MAXM = 101;
 	public static int MAXV = 10000001;
 	public static int n, m, maxq, total;
-	public static int[] query = new int[MAXN];
+	public static int[] query = new int[MAXM];
 
 	public static int[] head = new int[MAXN];
 	public static int[] nxt = new int[MAXN << 1];
@@ -28,12 +29,12 @@ public class Code01_CentroidDecomposition1 {
 	public static int centroid;
 
 	public static int[] dis = new int[MAXN];
-	public static int[] arr = new int[MAXV];
-	public static int[] que = new int[MAXV];
-	public static boolean[] pre = new boolean[MAXV];
+	public static int[] arr = new int[MAXN];
+	public static int[] que = new int[MAXN];
+	public static boolean[] check = new boolean[MAXV];
 	public static int cnta, cntq;
 
-	public static boolean[] ans = new boolean[MAXN];
+	public static boolean[] ans = new boolean[MAXM];
 
 	public static void addEdge(int u, int v, int w) {
 		nxt[++cntg] = head[u];
@@ -85,24 +86,24 @@ public class Code01_CentroidDecomposition1 {
 				for (int i = 1; i <= m; i++) {
 					for (int j = 1; j <= cnta; j++) {
 						if (query[i] - arr[j] >= 0) {
-							ans[i] |= pre[query[i] - arr[j]];
+							ans[i] |= check[query[i] - arr[j]];
 						}
 					}
 				}
 				for (int i = 1; i <= cnta; i++) {
 					que[++cntq] = arr[i];
-					pre[arr[i]] = true;
+					check[arr[i]] = true;
 				}
 			}
 		}
 		for (int i = 1; i <= cntq; i++) {
-			pre[que[i]] = false;
+			check[que[i]] = false;
 		}
 	}
 
 	public static void compute(int u) {
 		vis[u] = true;
-		pre[0] = true;
+		check[0] = true;
 		calc(u);
 		for (int e = head[u]; e > 0; e = nxt[e]) {
 			int v = to[e];
