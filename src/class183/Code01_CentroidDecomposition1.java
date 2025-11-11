@@ -2,10 +2,7 @@ package class183;
 
 // 点分治，也叫重心分治，java版
 // 测试链接 : https://www.luogu.com.cn/problem/P3806
-// 提交以下的code，提交时请把类名改成"Main"
-// java实现的逻辑一定是正确的，但是本题卡常，无法通过所有测试用例
-// 想通过用C++实现，本节课Code01_CentroidDecomposition2文件就是C++的实现
-// 两个版本的逻辑完全一样，C++版本可以通过所有测试
+// 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -15,8 +12,8 @@ import java.io.PrintWriter;
 public class Code01_CentroidDecomposition1 {
 
 	public static int MAXN = 10001;
-	public static int MAXV = 15000001;
-	public static int n, m, total;
+	public static int MAXV = 10000001;
+	public static int n, m, maxq, total;
 	public static int[] query = new int[MAXN];
 
 	public static int[] head = new int[MAXN];
@@ -46,14 +43,13 @@ public class Code01_CentroidDecomposition1 {
 		head[u] = cntg;
 	}
 
-	// 找重心递归版，java会爆栈，C++可以通过
-	public static void getCentroid1(int u, int fa) {
+	public static void getCentroid(int u, int fa) {
 		siz[u] = 1;
 		maxPart[u] = 0;
 		for (int e = head[u]; e > 0; e = nxt[e]) {
 			int v = to[e];
 			if (v != fa && !vis[v]) {
-				getCentroid1(v, u);
+				getCentroid(v, u);
 				siz[u] += siz[v];
 				maxPart[u] = Math.max(siz[v], maxPart[u]);
 			}
@@ -64,61 +60,11 @@ public class Code01_CentroidDecomposition1 {
 		}
 	}
 
-	// 讲解118，递归改迭代需要的栈
-	public static int[][] ufe = new int[MAXN][3];
-	public static int stacksize, u, f, e;
-
-	public static void push(int u, int f, int e) {
-		ufe[stacksize][0] = u;
-		ufe[stacksize][1] = f;
-		ufe[stacksize][2] = e;
-		stacksize++;
-	}
-
-	public static void pop() {
-		--stacksize;
-		u = ufe[stacksize][0];
-		f = ufe[stacksize][1];
-		e = ufe[stacksize][2];
-	}
-
-	// 找重心迭代版
-	public static void getCentroid2(int cur, int fa) {
-		stacksize = 0;
-		push(cur, fa, -1);
-		while (stacksize > 0) {
-			pop();
-			if (e == -1) {
-				siz[u] = 1;
-				maxPart[u] = 0;
-				e = head[u];
-			} else {
-				e = nxt[e];
-			}
-			if (e != 0) {
-				push(u, f, e);
-				int v = to[e];
-				if (v != f && !vis[v]) {
-					push(v, u, -1);
-				}
-			} else {
-				for (int ei = head[u]; ei > 0; ei = nxt[ei]) {
-					int v = to[ei];
-					if (v != f && !vis[v]) {
-						siz[u] += siz[v];
-						maxPart[u] = Math.max(siz[v], maxPart[u]);
-					}
-				}
-				maxPart[u] = Math.max(maxPart[u], total - siz[u]);
-				if (centroid == 0 || maxPart[u] < maxPart[centroid]) {
-					centroid = u;
-				}
-			}
-		}
-	}
-
 	public static void getDistance(int u, int fa, int w) {
 		dis[u] = dis[fa] + w;
+		if (dis[u] > maxq) {
+			return;
+		}
 		arr[++cnta] = dis[u];
 		for (int e = head[u]; e > 0; e = nxt[e]) {
 			int v = to[e];
@@ -164,8 +110,7 @@ public class Code01_CentroidDecomposition1 {
 			if (!vis[v]) {
 				total = siz[v];
 				centroid = 0;
-				// getCentroid1(v, u);
-				getCentroid2(v, u);
+				getCentroid(v, u);
 				compute(centroid);
 			}
 		}
@@ -185,11 +130,11 @@ public class Code01_CentroidDecomposition1 {
 		}
 		for (int i = 1; i <= m; i++) {
 			query[i] = in.nextInt();
+			maxq = Math.max(maxq, query[i]);
 		}
 		total = n;
 		centroid = 0;
-		// getCentroid1(1, 0);
-		getCentroid2(1, 0);
+		getCentroid(1, 0);
 		compute(centroid);
 		for (int i = 1; i <= m; i++) {
 			if (ans[i]) {

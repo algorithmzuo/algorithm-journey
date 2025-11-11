@@ -10,8 +10,8 @@ package class183;
 //using namespace std;
 //
 //const int MAXN = 10001;
-//const int MAXV = 15000001;
-//int n, m, total;
+//const int MAXV = 10000001;
+//int n, m, maxq, total;
 //int query[MAXN];
 //
 //int head[MAXN];
@@ -60,6 +60,9 @@ package class183;
 //
 //void getDistance(int u, int fa, int w) {
 //    dis[u] = dis[fa] + w;
+//    if (dis[u] > maxq) {
+//        return;
+//    }
 //    arr[++cnta] = dis[u];
 //    for (int e = head[u]; e > 0; e = nxt[e]) {
 //        int v = to[e];
@@ -122,6 +125,7 @@ package class183;
 //    }
 //    for (int i = 1; i <= m; i++) {
 //        cin >> query[i];
+//        maxq = max(maxq, query[i]);
 //    }
 //    total = n;
 //    centroid = 0;
