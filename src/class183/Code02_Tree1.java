@@ -56,6 +56,9 @@ public class Code02_Tree1 {
 
 	public static void getDistance(int u, int fa, int w) {
 		dis[u] = dis[fa] + w;
+		if (dis[u] > k) {
+			return;
+		}
 		arr[++cnta] = dis[u];
 		for (int e = head[u]; e > 0; e = nxt[e]) {
 			int v = to[e];
