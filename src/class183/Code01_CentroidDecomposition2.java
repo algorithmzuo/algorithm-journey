@@ -29,8 +29,7 @@ package class183;
 //int arr[MAXV];
 //int que[MAXV];
 //bool pre[MAXV];
-//int cnta;
-//int cntq;
+//int cnta, cntq;
 //
 //bool ans[MAXN];
 //

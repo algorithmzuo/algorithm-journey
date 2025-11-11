@@ -31,8 +31,7 @@ public class Code01_CentroidDecomposition1 {
 	public static int[] arr = new int[MAXV];
 	public static int[] que = new int[MAXV];
 	public static boolean[] pre = new boolean[MAXV];
-	public static int cnta;
-	public static int cntq;
+	public static int cnta, cntq;
 
 	public static boolean[] ans = new boolean[MAXN];
 
