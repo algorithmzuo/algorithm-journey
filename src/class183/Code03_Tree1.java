@@ -66,9 +66,9 @@ public class Code03_Tree1 {
 		}
 	}
 
-	public static long calc(int u, int fa, int w) {
+	public static long calc(int u, int dis) {
 		cnta = 0;
-		dfs(u, fa, w);
+		dfs(u, 0, dis);
 		long ans = 0;
 		Arrays.sort(disArr, 1, cnta + 1);
 		for (int l = 1, r = cnta; l < r;) {
@@ -84,12 +84,12 @@ public class Code03_Tree1 {
 
 	public static long solve(int u) {
 		long ans = 0;
-		ans += calc(u, 0, 0);
+		ans += calc(u, 0);
 		vis[u] = true;
 		for (int e = head[u]; e > 0; e = nxt[e]) {
 			int v = to[e];
 			if (!vis[v]) {
-				ans -= calc(v, u, weight[e]);
+				ans -= calc(v, weight[e]);
 				total = siz[v];
 				centroid = 0;
 				getCentroid(v, 0);
@@ -121,7 +121,7 @@ public class Code03_Tree1 {
 
 	// 读写工具类
 	static class FastReader {
-		private final byte[] buffer = new byte[1 << 20];
+		private final byte[] buffer = new byte[1 << 16];
 		private int ptr = 0, len = 0;
 		private final InputStream in;
 
