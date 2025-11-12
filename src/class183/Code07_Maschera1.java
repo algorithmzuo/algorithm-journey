@@ -27,13 +27,13 @@ public class Code07_Maschera1 {
 	public static int[] maxPart = new int[MAXN];
 	public static int centroid;
 
-	public static int[] allMaxv = new int[MAXN];
-	public static int[] allEdge = new int[MAXN];
-	public static int cnta;
-
 	public static int[] curMaxv = new int[MAXN];
 	public static int[] curEdge = new int[MAXN];
 	public static int cntc;
+
+	public static int[] allMaxv = new int[MAXN];
+	public static int[] allEdge = new int[MAXN];
+	public static int cnta;
 
 	public static long ans;
 
