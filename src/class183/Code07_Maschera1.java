@@ -182,10 +182,10 @@ public class Code07_Maschera1 {
 
 	public static void sort(int[] maxv, int[] edge, int l, int r) {
 		if (l >= r) return;
-		int i = l, j = r, pv = maxv[(l + r) >> 1], pe = edge[(l + r) >> 1], tmp;
+		int i = l, j = r, pivot = maxv[(l + r) >> 1], tmp;
 		while (i <= j) {
-			while (maxv[i] < pv || (maxv[i] == pv && edge[i] < pe)) i++;
-			while (maxv[j] > pv || (maxv[j] == pv && edge[j] > pe)) j--;
+			while (maxv[i] < pivot) i++;
+			while (maxv[j] > pivot) j--;
 			if (i <= j) {
 				tmp = maxv[i]; maxv[i] = maxv[j]; maxv[j] = tmp;
 				tmp = edge[i]; edge[i] = edge[j]; edge[j] = tmp;
