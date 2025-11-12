@@ -55,7 +55,7 @@ package class183;
 //    }
 //}
 //
-//void getPath(int u, int fa, int sum, int edge) {
+//void dfs(int u, int fa, int sum, int edge) {
 //    if (sum > k) {
 //        return;
 //    }
@@ -64,7 +64,7 @@ package class183;
 //    for (int e = head[u]; e; e = nxt[e]) {
 //        int v = to[e];
 //        if (v != fa && !vis[v]) {
-//            getPath(v, u, sum + weight[e], edge + 1);
+//            dfs(v, u, sum + weight[e], edge + 1);
 //        }
 //    }
 //}
@@ -77,7 +77,7 @@ package class183;
 //        int v = to[e];
 //        if (!vis[v]) {
 //            int tmp = cnta;
-//            getPath(v, u, weight[e], 1);
+//            dfs(v, u, weight[e], 1);
 //            for (int i = tmp + 1; i <= cnta; i++) {
 //                ans = min(ans, dp[k - sumArr[i]] + edgeArr[i]);
 //            }
@@ -92,7 +92,7 @@ package class183;
 //    return ans;
 //}
 //
-//int compute(int u) {
+//int solve(int u) {
 //    int ans = INF;
 //    vis[u] = true;
 //    ans = min(ans, calc(u));
@@ -102,7 +102,7 @@ package class183;
 //            total = siz[v];
 //            centroid = 0;
 //            getCentroid(v, 0);
-//            ans = min(ans, compute(centroid));
+//            ans = min(ans, solve(centroid));
 //        }
 //    }
 //    return ans;
@@ -123,7 +123,7 @@ package class183;
 //    centroid = 0;
 //    getCentroid(1, 0);
 //    fill(dp, dp + MAXK, INF);
-//    int ans = compute(centroid);
+//    int ans = solve(centroid);
 //    if (ans == INF) {
 //        ans = -1;
 //    }

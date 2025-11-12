@@ -116,8 +116,8 @@ public class Code02_Race1 {
 		}
 	}
 
-	// 收集路径的递归版，java会爆栈，C++可以通过
-	public static void getPath1(int u, int fa, int sum, int edge) {
+	// 收集信息递归版，java会爆栈，C++可以通过
+	public static void dfs1(int u, int fa, int sum, int edge) {
 		if (sum > k) {
 			return;
 		}
@@ -126,13 +126,13 @@ public class Code02_Race1 {
 		for (int e = head[u]; e > 0; e = nxt[e]) {
 			int v = to[e];
 			if (v != fa && !vis[v]) {
-				getPath1(v, u, sum + weight[e], edge + 1);
+				dfs1(v, u, sum + weight[e], edge + 1);
 			}
 		}
 	}
 
-	// 收集路径的迭代版
-	public static void getPath2(int cur, int fa, int psum, int pedge) {
+	// 收集信息的迭代版
+	public static void dfs2(int cur, int fa, int psum, int pedge) {
 		stacksize = 0;
 		push(cur, fa, psum, pedge, -1);
 		while (stacksize > 0) {
@@ -165,8 +165,8 @@ public class Code02_Race1 {
 			int v = to[e];
 			if (!vis[v]) {
 				int tmp = cnta;
-				// getPath1(v, u, weight[e], 1);
-				getPath2(v, u, weight[e], 1);
+				// dfs1(v, u, weight[e], 1);
+				dfs2(v, u, weight[e], 1);
 				for (int i = tmp + 1; i <= cnta; i++) {
 					ans = Math.min(ans, dp[k - sumArr[i]] + edgeArr[i]);
 				}
@@ -181,7 +181,7 @@ public class Code02_Race1 {
 		return ans;
 	}
 
-	public static int compute(int u) {
+	public static int solve(int u) {
 		int ans = INF;
 		vis[u] = true;
 		ans = Math.min(ans, calc(u));
@@ -192,7 +192,7 @@ public class Code02_Race1 {
 				centroid = 0;
 				// getCentroid1(v, 0);
 				getCentroid2(v, 0);
-				ans = Math.min(ans, compute(centroid));
+				ans = Math.min(ans, solve(centroid));
 			}
 		}
 		return ans;
@@ -215,7 +215,7 @@ public class Code02_Race1 {
 		// getCentroid1(1, 0);
 		getCentroid2(1, 0);
 		Arrays.fill(dp, INF);
-		int ans = compute(centroid);
+		int ans = solve(centroid);
 		if (ans == INF) {
 			ans = -1;
 		}

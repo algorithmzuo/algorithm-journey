@@ -54,7 +54,7 @@ public class Code05_Tree1 {
 		}
 	}
 
-	public static void getDistance(int u, int fa, int w) {
+	public static void dfs(int u, int fa, int w) {
 		dis[u] = dis[fa] + w;
 		if (dis[u] > k) {
 			return;
@@ -63,7 +63,7 @@ public class Code05_Tree1 {
 		for (int e = head[u]; e > 0; e = nxt[e]) {
 			int v = to[e];
 			if (v != fa && !vis[v]) {
-				getDistance(v, u, weight[e]);
+				dfs(v, u, weight[e]);
 			}
 		}
 	}
@@ -71,7 +71,7 @@ public class Code05_Tree1 {
 	public static long calc(int u, int fa, int w) {
 		dis[fa] = 0;
 		cnta = 0;
-		getDistance(u, fa, w);
+		dfs(u, fa, w);
 		long ans = 0;
 		Arrays.sort(arr, 1, cnta + 1);
 		for (int l = 1, r = cnta; l < r;) {
@@ -85,7 +85,7 @@ public class Code05_Tree1 {
 		return ans;
 	}
 
-	public static long compute(int u) {
+	public static long solve(int u) {
 		long ans = 0;
 		ans += calc(u, 0, 0);
 		vis[u] = true;
@@ -96,7 +96,7 @@ public class Code05_Tree1 {
 				total = siz[v];
 				centroid = 0;
 				getCentroid(v, 0);
-				ans += compute(centroid);
+				ans += solve(centroid);
 			}
 		}
 		return ans;
@@ -117,7 +117,7 @@ public class Code05_Tree1 {
 		total = n;
 		centroid = 0;
 		getCentroid(1, 0);
-		out.println(compute(centroid));
+		out.println(solve(centroid));
 		out.flush();
 		out.close();
 	}

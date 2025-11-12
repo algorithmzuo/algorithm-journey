@@ -58,7 +58,7 @@ package class183;
 //    }
 //}
 //
-//void getDistance(int u, int fa, int w) {
+//void dfs(int u, int fa, int w) {
 //    dis[u] = dis[fa] + w;
 //    if (dis[u] > maxq) {
 //        return;
@@ -67,7 +67,7 @@ package class183;
 //    for (int e = head[u]; e > 0; e = nxt[e]) {
 //        int v = to[e];
 //        if (v != fa && !vis[v]) {
-//            getDistance(v, u, weight[e]);
+//            dfs(v, u, weight[e]);
 //        }
 //    }
 //}
@@ -80,7 +80,7 @@ package class183;
 //        int w = weight[e];
 //        if (!vis[v]) {
 //            cnta = 0;
-//            getDistance(v, u, w);
+//            dfs(v, u, w);
 //            for (int i = 1; i <= m; i++) {
 //                for (int j = 1; j <= cnta; j++) {
 //                    if (query[i] - arr[j] >= 0) {
@@ -99,7 +99,7 @@ package class183;
 //    }
 //}
 //
-//void compute(int u) {
+//void solve(int u) {
 //    vis[u] = true;
 //    check[0] = true;
 //    calc(u);
@@ -109,7 +109,7 @@ package class183;
 //            total = siz[v];
 //            centroid = 0;
 //            getCentroid(v, u);
-//            compute(centroid);
+//            solve(centroid);
 //        }
 //    }
 //}
@@ -130,7 +130,7 @@ package class183;
 //    total = n;
 //    centroid = 0;
 //    getCentroid(1, 0);
-//    compute(centroid);
+//    solve(centroid);
 //    for (int i = 1; i <= m; i++) {
 //        if (ans[i]) {
 //            cout << "AYE" << '\n';

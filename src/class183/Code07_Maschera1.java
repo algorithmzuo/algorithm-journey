@@ -139,8 +139,8 @@ public class Code07_Maschera1 {
 		}
 	}
 
-	// 收集路径的递归版，java会爆栈，C++可以通过
-	public static void getPath1(int u, int fa, int maxv, int edge) {
+	// 收集信息递归版，java会爆栈，C++可以通过
+	public static void dfs1(int u, int fa, int maxv, int edge) {
 		if (edge > r) {
 			return;
 		}
@@ -149,13 +149,13 @@ public class Code07_Maschera1 {
 		for (int e = head[u]; e > 0; e = nxt[e]) {
 			int v = to[e];
 			if (v != fa && !vis[v]) {
-				getPath1(v, u, Math.max(maxv, weight[e]), edge + 1);
+				dfs1(v, u, Math.max(maxv, weight[e]), edge + 1);
 			}
 		}
 	}
 
-	// 收集路径的迭代版
-	public static void getPath2(int cur, int fa, int pmaxv, int pedge) {
+	// 收集信息迭代版
+	public static void dfs2(int cur, int fa, int pmaxv, int pedge) {
 		stacksize = 0;
 		push(cur, fa, pmaxv, pedge, -1);
 		while (stacksize > 0) {
@@ -202,8 +202,8 @@ public class Code07_Maschera1 {
 			int v = to[e];
 			if (!vis[v]) {
 				cntc = 0;
-				// getPath1(v, u, weight[e], 1);
-				getPath2(v, u, weight[e], 1);
+				// dfs1(v, u, weight[e], 1);
+				dfs2(v, u, weight[e], 1);
 				if (cntc > 0) {
 					sort(curMaxv, curEdge, 1, cntc);
 					for (int i = 1; i <= cntc; i++) {
@@ -249,7 +249,7 @@ public class Code07_Maschera1 {
 		}
 	}
 
-	public static void compute(int u) {
+	public static void solve(int u) {
 		calc(u);
 		vis[u] = true;
 		for (int e = head[u]; e > 0; e = nxt[e]) {
@@ -259,7 +259,7 @@ public class Code07_Maschera1 {
 				centroid = 0;
 				// getCentroid1(v, 0);
 				getCentroid2(v, 0);
-				compute(centroid);
+				solve(centroid);
 			}
 		}
 	}
@@ -281,7 +281,7 @@ public class Code07_Maschera1 {
 		centroid = 0;
 		// getCentroid1(1, 0);
 		getCentroid2(1, 0);
-		compute(centroid);
+		solve(centroid);
 		out.println(ans << 1);
 		out.flush();
 		out.close();
