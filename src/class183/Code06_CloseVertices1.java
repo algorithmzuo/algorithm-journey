@@ -5,6 +5,6 @@ package class183;
 // 测试链接 : https://codeforces.com/problemset/problem/293/E
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
-public class Code04_CloseVertices1 {
+public class Code06_CloseVertices1 {
 
 }
