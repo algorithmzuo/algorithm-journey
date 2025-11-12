@@ -1,7 +1,7 @@
 package class183;
 
-// 首都，java版
-// 测试链接 : https://www.luogu.com.cn/problem/P7215
+// 消息传递，java版
+// 测试链接 : https://www.luogu.com.cn/problem/P6626
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
 import java.io.IOException;
@@ -9,43 +9,45 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
-public class Code04_Capital1 {
+public class Code05_Message1 {
 
-	public static int MAXN = 200001;
-	public static int INF = 1000000001;
-	public static int n, k, total;
-	public static int[] color = new int[MAXN];
+	public static int MAXN = 100001;
+	public static int t, n, m, total;
 
 	public static int[] headg = new int[MAXN];
 	public static int[] nextg = new int[MAXN << 1];
 	public static int[] tog = new int[MAXN << 1];
 	public static int cntg;
 
-	public static int[] headc = new int[MAXN];
-	public static int[] nextc = new int[MAXN];
-	public static int[] toc = new int[MAXN];
-	public static int cntc;
+	public static int[] headq = new int[MAXN];
+	public static int[] nextq = new int[MAXN];
+	public static int[] tim = new int[MAXN];
+	public static int[] qid = new int[MAXN];
+	public static int cntq;
 
 	public static boolean[] vis = new boolean[MAXN];
 	public static int[] siz = new int[MAXN];
 	public static int[] maxPart = new int[MAXN];
 	public static int centroid;
 
-	public static int[] father = new int[MAXN];
-	public static int[] nodeStamp = new int[MAXN];
-	public static int[] colorStamp = new int[MAXN];
-	public static int[] que = new int[MAXN];
-	public static boolean[] enter = new boolean[MAXN];
+	public static int[] dep = new int[MAXN];
+	public static int[] depCnt = new int[MAXN];
+	public static int maxDeep;
+
+	public static int[] timArr = new int[MAXN];
+	public static int[] qidArr = new int[MAXN];
+	public static int cnta;
+
+	public static int[] ans = new int[MAXN];
 
 	// 讲解118，递归函数改成迭代所需要的栈
-	public static int[][] stack = new int[MAXN][4];
-	public static int stacksize, u, f, rt, e;
+	public static int[][] stack = new int[MAXN][3];
+	public static int stacksize, u, f, e;
 
-	public static void push(int u, int f, int rt, int e) {
+	public static void push(int u, int f, int e) {
 		stack[stacksize][0] = u;
 		stack[stacksize][1] = f;
-		stack[stacksize][2] = rt;
-		stack[stacksize][3] = e;
+		stack[stacksize][2] = e;
 		stacksize++;
 	}
 
@@ -53,8 +55,7 @@ public class Code04_Capital1 {
 		--stacksize;
 		u = stack[stacksize][0];
 		f = stack[stacksize][1];
-		rt = stack[stacksize][2];
-		e = stack[stacksize][3];
+		e = stack[stacksize][2];
 	}
 
 	public static void addEdge(int u, int v) {
@@ -63,10 +64,11 @@ public class Code04_Capital1 {
 		headg[u] = cntg;
 	}
 
-	public static void addNode(int color, int node) {
-		nextc[++cntc] = headc[color];
-		toc[cntc] = node;
-		headc[color] = cntc;
+	public static void addQuery(int u, int t, int id) {
+		nextq[++cntq] = headq[u];
+		tim[cntq] = t;
+		qid[cntq] = id;
+		headq[u] = cntq;
 	}
 
 	// 找重心的递归版，java会爆栈，C++可以通过
@@ -90,7 +92,7 @@ public class Code04_Capital1 {
 	// 找重心的迭代版
 	public static void getCentroid2(int cur, int fa) {
 		stacksize = 0;
-		push(cur, fa, 0, -1);
+		push(cur, fa, -1);
 		while (stacksize > 0) {
 			pop();
 			if (e == -1) {
@@ -101,10 +103,10 @@ public class Code04_Capital1 {
 				e = nextg[e];
 			}
 			if (e != 0) {
-				push(u, f, 0, e);
+				push(u, f, e);
 				int v = tog[e];
 				if (v != f && !vis[v]) {
-					push(tog[e], u, 0, -1);
+					push(tog[e], u, -1);
 				}
 			} else {
 				for (int ei = headg[u]; ei > 0; ei = nextg[ei]) {
@@ -123,76 +125,85 @@ public class Code04_Capital1 {
 	}
 
 	// 收集信息递归版，java会爆栈，C++可以通过
-	public static void dfs1(int u, int fa, int root) {
-		father[u] = fa;
-		nodeStamp[u] = root;
-		enter[u] = false;
+	public static void dfs1(int u, int fa) {
+		dep[u] = dep[fa] + 1;
+		depCnt[dep[u]]++;
+		maxDeep = Math.max(maxDeep, dep[u]);
+		for (int e = headq[u]; e > 0; e = nextq[e]) {
+			if (tim[e] + 1 >= dep[u]) {
+				timArr[++cnta] = tim[e] - dep[u] + 2;
+				qidArr[cnta] = qid[e];
+			}
+		}
 		for (int e = headg[u]; e > 0; e = nextg[e]) {
 			int v = tog[e];
 			if (v != fa && !vis[v]) {
-				dfs1(v, u, root);
+				dfs1(v, u);
 			}
 		}
 	}
 
 	// 收集信息迭代版
-	public static void dfs2(int cur, int fa, int root) {
+	public static void dfs2(int cur, int fa) {
 		stacksize = 0;
-		push(cur, fa, root, -1);
+		push(cur, fa, -1);
 		while (stacksize > 0) {
 			pop();
 			if (e == -1) {
-				father[u] = f;
-				nodeStamp[u] = rt;
-				enter[u] = false;
+				dep[u] = dep[f] + 1;
+				depCnt[dep[u]]++;
+				maxDeep = Math.max(maxDeep, dep[u]);
+				for (int e = headq[u]; e > 0; e = nextq[e]) {
+					if (tim[e] + 1 >= dep[u]) {
+						timArr[++cnta] = tim[e] - dep[u] + 2;
+						qidArr[cnta] = qid[e];
+					}
+				}
 				e = headg[u];
 			} else {
 				e = nextg[e];
 			}
 			if (e != 0) {
-				push(u, f, rt, e);
+				push(u, f, e);
 				int v = tog[e];
 				if (v != f && !vis[v]) {
-					push(tog[e], u, rt, -1);
+					push(tog[e], u, -1);
 				}
 			}
 		}
 	}
 
-	public static int calc(int u) {
-		// dfs1(u, 0, u);
-		dfs2(u, 0, u);
-		int l = 1, r = 0;
-		que[++r] = u;
-		enter[u] = true;
-		int ans = 0;
-		while (l <= r) {
-			int cur = que[l++];
-			if (cur != u && !enter[father[cur]]) {
-				que[++r] = father[cur];
-				enter[father[cur]] = true;
-			}
-			if (colorStamp[color[cur]] != u) {
-				colorStamp[color[cur]] = u;
-				ans++;
-				for (int e = headc[color[cur]]; e > 0; e = nextc[e]) {
-					int v = toc[e];
-					if (nodeStamp[v] != u) {
-						return INF;
-					}
-					if (!enter[v]) {
-						que[++r] = v;
-						enter[v] = true;
-					}
+	public static void calc(int u) {
+		cnta = 0;
+		maxDeep = 0;
+		// dfs1(u, 0);
+		dfs2(u, 0);
+		for (int i = 1; i <= cnta; i++) {
+			ans[qidArr[i]] += depCnt[timArr[i]];
+		}
+		for (int d = 1; d <= maxDeep; d++) {
+			depCnt[d] = 0;
+		}
+		for (int e = headg[u]; e > 0; e = nextg[e]) {
+			int v = tog[e];
+			if (!vis[v]) {
+				cnta = 0;
+				maxDeep = 0;
+				// dfs1(v, u);
+				dfs2(v, u);
+				for (int i = 1; i <= cnta; i++) {
+					ans[qidArr[i]] -= depCnt[timArr[i]];
+				}
+				for (int d = 1; d <= maxDeep; d++) {
+					depCnt[d] = 0;
 				}
 			}
 		}
-		return ans;
 	}
 
-	public static int solve(int u) {
+	public static void solve(int u) {
 		vis[u] = true;
-		int ans = calc(u);
+		calc(u);
 		for (int e = headg[u]; e > 0; e = nextg[e]) {
 			int v = tog[e];
 			if (!vis[v]) {
@@ -200,33 +211,52 @@ public class Code04_Capital1 {
 				centroid = 0;
 				// getCentroid1(v, u);
 				getCentroid2(v, u);
-				ans = Math.min(ans, solve(centroid));
+				solve(centroid);
 			}
 		}
-		return ans;
+	}
+
+	public static void prepare() {
+		cntg = 0;
+		cntq = 0;
+		for (int i = 1; i <= n; i++) {
+			headg[i] = 0;
+			headq[i] = 0;
+			vis[i] = false;
+		}
+		for (int i = 1; i <= m; i++) {
+			ans[i] = 0;
+		}
 	}
 
 	public static void main(String[] args) throws Exception {
 		FastReader in = new FastReader(System.in);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
-		n = in.nextInt();
-		k = in.nextInt();
-		for (int i = 1, u, v; i < n; i++) {
-			u = in.nextInt();
-			v = in.nextInt();
-			addEdge(u, v);
-			addEdge(v, u);
+		t = in.nextInt();
+		for (int c = 1; c <= t; c++) {
+			n = in.nextInt();
+			m = in.nextInt();
+			prepare();
+			for (int i = 1, u, v; i < n; i++) {
+				u = in.nextInt();
+				v = in.nextInt();
+				addEdge(u, v);
+				addEdge(v, u);
+			}
+			for (int i = 1, x, k; i <= m; i++) {
+				x = in.nextInt();
+				k = in.nextInt();
+				addQuery(x, k, i);
+			}
+			total = n;
+			centroid = 0;
+			// getCentroid1(1, 0);
+			getCentroid2(1, 0);
+			solve(centroid);
+			for (int i = 1; i <= m; i++) {
+				out.println(ans[i]);
+			}
 		}
-		for (int i = 1; i <= n; i++) {
-			color[i] = in.nextInt();
-			addNode(color[i], i);
-		}
-		total = n;
-		centroid = 0;
-		// getCentroid1(1, 0);
-		getCentroid2(1, 0);
-		int ans = solve(centroid);
-		out.println(ans - 1);
 		out.flush();
 		out.close();
 	}

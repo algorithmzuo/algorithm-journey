@@ -10,7 +10,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.util.Arrays;
 
-public class Code05_Tree1 {
+public class Code03_Tree1 {
 
 	public static int MAXN = 50001;
 	public static int n, k, total;
