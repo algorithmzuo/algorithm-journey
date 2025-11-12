@@ -28,11 +28,10 @@ public class Code01_CentroidDecomposition1 {
 	public static int[] maxPart = new int[MAXN];
 	public static int centroid;
 
-	public static int[] dis = new int[MAXN];
-	public static int[] arr = new int[MAXN];
-	public static int[] que = new int[MAXN];
+	public static int[] curDis = new int[MAXN];
+	public static int[] allDis = new int[MAXN];
 	public static boolean[] check = new boolean[MAXV];
-	public static int cnta, cntq;
+	public static int cntc, cnta;
 
 	public static boolean[] ans = new boolean[MAXM];
 
@@ -60,44 +59,42 @@ public class Code01_CentroidDecomposition1 {
 		}
 	}
 
-	public static void dfs(int u, int fa, int w) {
-		dis[u] = dis[fa] + w;
-		if (dis[u] > maxq) {
+	public static void dfs(int u, int fa, int dis) {
+		if (dis > maxq) {
 			return;
 		}
-		arr[++cnta] = dis[u];
+		curDis[++cntc] = dis;
 		for (int e = head[u]; e > 0; e = nxt[e]) {
 			int v = to[e];
 			if (v != fa && !vis[v]) {
-				dfs(v, u, weight[e]);
+				dfs(v, u, dis + weight[e]);
 			}
 		}
 	}
 
 	public static void calc(int u) {
-		dis[u] = 0;
-		cntq = 0;
+		cnta = 0;
 		for (int e = head[u]; e > 0; e = nxt[e]) {
 			int v = to[e];
 			int w = weight[e];
 			if (!vis[v]) {
-				cnta = 0;
+				cntc = 0;
 				dfs(v, u, w);
 				for (int i = 1; i <= m; i++) {
-					for (int j = 1; j <= cnta; j++) {
-						if (query[i] - arr[j] >= 0) {
-							ans[i] |= check[query[i] - arr[j]];
+					for (int j = 1; j <= cntc; j++) {
+						if (query[i] - curDis[j] >= 0) {
+							ans[i] |= check[query[i] - curDis[j]];
 						}
 					}
 				}
-				for (int i = 1; i <= cnta; i++) {
-					que[++cntq] = arr[i];
-					check[arr[i]] = true;
+				for (int i = 1; i <= cntc; i++) {
+					allDis[++cnta] = curDis[i];
+					check[curDis[i]] = true;
 				}
 			}
 		}
-		for (int i = 1; i <= cntq; i++) {
-			check[que[i]] = false;
+		for (int i = 1; i <= cnta; i++) {
+			check[allDis[i]] = false;
 		}
 	}
 

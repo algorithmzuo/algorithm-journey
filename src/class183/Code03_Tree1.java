@@ -26,8 +26,7 @@ public class Code03_Tree1 {
 	public static int[] maxPart = new int[MAXN];
 	public static int centroid;
 
-	public static int[] dis = new int[MAXN];
-	public static int[] arr = new int[MAXN];
+	public static int[] disArr = new int[MAXN];
 	public static int cnta;
 
 	public static void addEdge(int u, int v, int w) {
@@ -54,28 +53,26 @@ public class Code03_Tree1 {
 		}
 	}
 
-	public static void dfs(int u, int fa, int w) {
-		dis[u] = dis[fa] + w;
-		if (dis[u] > k) {
+	public static void dfs(int u, int fa, int dis) {
+		if (dis > k) {
 			return;
 		}
-		arr[++cnta] = dis[u];
+		disArr[++cnta] = dis;
 		for (int e = head[u]; e > 0; e = nxt[e]) {
 			int v = to[e];
 			if (v != fa && !vis[v]) {
-				dfs(v, u, weight[e]);
+				dfs(v, u, dis + weight[e]);
 			}
 		}
 	}
 
 	public static long calc(int u, int fa, int w) {
-		dis[fa] = 0;
 		cnta = 0;
 		dfs(u, fa, w);
 		long ans = 0;
-		Arrays.sort(arr, 1, cnta + 1);
+		Arrays.sort(disArr, 1, cnta + 1);
 		for (int l = 1, r = cnta; l < r;) {
-			if (arr[l] + arr[r] <= k) {
+			if (disArr[l] + disArr[r] <= k) {
 				ans += r - l;
 				l++;
 			} else {
