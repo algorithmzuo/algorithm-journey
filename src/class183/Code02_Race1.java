@@ -1,18 +1,21 @@
 package class183;
 
-// 路径魔力总和，java版
-// 测试链接 : https://www.luogu.com.cn/problem/P5351
+// 权值和为k的路径的最少边数，java版
+// 测试链接 : https://www.luogu.com.cn/problem/P4149
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.util.Arrays;
 
-public class Code04_Maschera1 {
+public class Code02_Race1 {
 
-	public static int MAXN = 100001;
-	public static int n, l, r, total;
+	public static int MAXN = 200001;
+	public static int MAXK = 1000001;
+	public static int INF = 1000000001;
+	public static int n, k, total;
 
 	public static int[] head = new int[MAXN];
 	public static int[] nxt = new int[MAXN << 1];
@@ -20,31 +23,25 @@ public class Code04_Maschera1 {
 	public static int[] weight = new int[MAXN << 1];
 	public static int cntg;
 
-	public static int[] tree = new int[MAXN];
-
 	public static boolean[] vis = new boolean[MAXN];
 	public static int[] siz = new int[MAXN];
 	public static int[] maxPart = new int[MAXN];
 	public static int centroid;
 
-	public static int[] allMaxv = new int[MAXN];
-	public static int[] allEdge = new int[MAXN];
+	public static int[] sumArr = new int[MAXN];
+	public static int[] edgeArr = new int[MAXN];
 	public static int cnta;
 
-	public static int[] curMaxv = new int[MAXN];
-	public static int[] curEdge = new int[MAXN];
-	public static int cntc;
-
-	public static long ans;
+	public static int[] dp = new int[MAXK];
 
 	// 讲解118，递归函数改成迭代所需要的栈
 	public static int[][] stack = new int[MAXN][5];
-	public static int stacksize, u, f, maxv, edge, e;
+	public static int stacksize, u, f, sum, edge, e;
 
-	public static void push(int u, int f, int maxv, int edge, int e) {
+	public static void push(int u, int f, int sum, int edge, int e) {
 		stack[stacksize][0] = u;
 		stack[stacksize][1] = f;
-		stack[stacksize][2] = maxv;
+		stack[stacksize][2] = sum;
 		stack[stacksize][3] = edge;
 		stack[stacksize][4] = e;
 		stacksize++;
@@ -54,7 +51,7 @@ public class Code04_Maschera1 {
 		--stacksize;
 		u = stack[stacksize][0];
 		f = stack[stacksize][1];
-		maxv = stack[stacksize][2];
+		sum = stack[stacksize][2];
 		edge = stack[stacksize][3];
 		e = stack[stacksize][4];
 	}
@@ -64,26 +61,6 @@ public class Code04_Maschera1 {
 		to[cntg] = v;
 		weight[cntg] = w;
 		head[u] = cntg;
-	}
-
-	public static int lowbit(int i) {
-		return i & -i;
-	}
-
-	public static void add(int i, int v) {
-		while (i <= r) {
-			tree[i] += v;
-			i += lowbit(i);
-		}
-	}
-
-	public static int sum(int i) {
-		int ret = 0;
-		while (i > 0) {
-			ret += tree[i];
-			i -= lowbit(i);
-		}
-		return ret;
 	}
 
 	// 找重心的递归版，java会爆栈，C++可以通过
@@ -140,118 +117,74 @@ public class Code04_Maschera1 {
 	}
 
 	// 收集路径的递归版，java会爆栈，C++可以通过
-	public static void getPath1(int u, int fa, int maxv, int edge) {
-		if (edge > r) {
+	public static void getPath1(int u, int fa, int sum, int edge) {
+		if (sum > k) {
 			return;
 		}
-		curMaxv[++cntc] = maxv;
-		curEdge[cntc] = edge;
+		sumArr[++cnta] = sum;
+		edgeArr[cnta] = edge;
 		for (int e = head[u]; e > 0; e = nxt[e]) {
 			int v = to[e];
 			if (v != fa && !vis[v]) {
-				getPath1(v, u, Math.max(maxv, weight[e]), edge + 1);
+				getPath1(v, u, sum + weight[e], edge + 1);
 			}
 		}
 	}
 
 	// 收集路径的迭代版
-	public static void getPath2(int cur, int fa, int pmaxv, int pedge) {
+	public static void getPath2(int cur, int fa, int psum, int pedge) {
 		stacksize = 0;
-		push(cur, fa, pmaxv, pedge, -1);
+		push(cur, fa, psum, pedge, -1);
 		while (stacksize > 0) {
 			pop();
 			if (e == -1) {
-				if (edge > r) {
+				if (sum > k) {
 					continue;
 				}
-				curMaxv[++cntc] = maxv;
-				curEdge[cntc] = edge;
+				sumArr[++cnta] = sum;
+				edgeArr[cnta] = edge;
 				e = head[u];
 			} else {
 				e = nxt[e];
 			}
 			if (e != 0) {
-				push(u, f, maxv, edge, e);
+				push(u, f, sum, edge, e);
 				int v = to[e];
 				if (v != f && !vis[v]) {
-					push(to[e], u, Math.max(maxv, weight[e]), edge + 1, -1);
+					push(to[e], u, sum + weight[e], edge + 1, -1);
 				}
 			}
 		}
 	}
 
-	public static void sort(int[] maxv, int[] edge, int l, int r) {
-		if (l >= r) return;
-		int i = l, j = r, pv = maxv[(l + r) >> 1], pe = edge[(l + r) >> 1], tmp;
-		while (i <= j) {
-			while (maxv[i] < pv || (maxv[i] == pv && edge[i] < pe)) i++;
-			while (maxv[j] > pv || (maxv[j] == pv && edge[j] > pe)) j--;
-			if (i <= j) {
-				tmp = maxv[i]; maxv[i] = maxv[j]; maxv[j] = tmp;
-				tmp = edge[i]; edge[i] = edge[j]; edge[j] = tmp;
-				i++; j--;
-			}
-		}
-		sort(maxv, edge, l, j);
-		sort(maxv, edge, i, r);
-	}
-
-	public static void calc(int u) {
+	public static int calc(int u) {
+		int ans = INF;
 		cnta = 0;
+		dp[0] = 0;
 		for (int e = head[u]; e > 0; e = nxt[e]) {
 			int v = to[e];
 			if (!vis[v]) {
-				cntc = 0;
+				int tmp = cnta;
 				// getPath1(v, u, weight[e], 1);
 				getPath2(v, u, weight[e], 1);
-				if (cntc > 0) {
-					sort(curMaxv, curEdge, 1, cntc);
-					for (int i = 1; i <= cntc; i++) {
-						int left = l - curEdge[i] - 1;
-						int right = r - curEdge[i];
-						if (right >= 0) {
-							left = Math.max(left, 0);
-							right = Math.min(right, r);
-							ans -= 1L * curMaxv[i] * (sum(right) - sum(left));
-						}
-						add(curEdge[i], 1);
-					}
-					for (int i = 1; i <= cntc; i++) {
-						add(curEdge[i], -1);
-					}
-					for (int i = 1; i <= cntc; i++) {
-						allMaxv[++cnta] = curMaxv[i];
-						allEdge[cnta] = curEdge[i];
-					}
+				for (int i = tmp + 1; i <= cnta; i++) {
+					ans = Math.min(ans, dp[k - sumArr[i]] + edgeArr[i]);
+				}
+				for (int i = tmp + 1; i <= cnta; i++) {
+					dp[sumArr[i]] = Math.min(dp[sumArr[i]], edgeArr[i]);
 				}
 			}
 		}
-		if (cnta > 0) {
-			sort(allMaxv, allEdge, 1, cnta);
-			for (int i = 1; i <= cnta; i++) {
-				int left = l - allEdge[i] - 1;
-				int right = r - allEdge[i];
-				if (right >= 0) {
-					left = Math.max(left, 0);
-					right = Math.min(right, r);
-					ans += 1L * allMaxv[i] * (sum(right) - sum(left));
-				}
-				add(allEdge[i], 1);
-			}
-			for (int i = 1; i <= cnta; i++) {
-				add(allEdge[i], -1);
-			}
-			for (int i = 1; i <= cnta; i++) {
-				if (allEdge[i] >= l) {
-					ans += allMaxv[i];
-				}
-			}
+		for (int i = 1; i <= cnta; i++) {
+			dp[sumArr[i]] = INF;
 		}
+		return ans;
 	}
 
-	public static void compute(int u) {
-		calc(u);
+	public static int compute(int u) {
+		int ans = INF;
 		vis[u] = true;
+		ans = Math.min(ans, calc(u));
 		for (int e = head[u]; e > 0; e = nxt[e]) {
 			int v = to[e];
 			if (!vis[v]) {
@@ -259,20 +192,20 @@ public class Code04_Maschera1 {
 				centroid = 0;
 				// getCentroid1(v, 0);
 				getCentroid2(v, 0);
-				compute(centroid);
+				ans = Math.min(ans, compute(centroid));
 			}
 		}
+		return ans;
 	}
 
 	public static void main(String[] args) throws Exception {
 		FastReader in = new FastReader(System.in);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
 		n = in.nextInt();
-		l = in.nextInt();
-		r = in.nextInt();
+		k = in.nextInt();
 		for (int i = 1, u, v, w; i < n; i++) {
-			u = in.nextInt();
-			v = in.nextInt();
+			u = in.nextInt() + 1;
+			v = in.nextInt() + 1;
 			w = in.nextInt();
 			addEdge(u, v, w);
 			addEdge(v, u, w);
@@ -281,8 +214,12 @@ public class Code04_Maschera1 {
 		centroid = 0;
 		// getCentroid1(1, 0);
 		getCentroid2(1, 0);
-		compute(centroid);
-		out.println(ans << 1);
+		Arrays.fill(dp, INF);
+		int ans = compute(centroid);
+		if (ans == INF) {
+			ans = -1;
+		}
+		out.println(ans);
 		out.flush();
 		out.close();
 	}
