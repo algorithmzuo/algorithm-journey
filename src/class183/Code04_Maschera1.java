@@ -207,18 +207,14 @@ public class Code04_Maschera1 {
 				if (cntc > 0) {
 					sort(curMaxv, curEdge, 1, cntc);
 					for (int i = 1; i <= cntc; i++) {
-						int maxv = curMaxv[i];
-						int edge = curEdge[i];
-						int left = l - edge - 1;
-						int right = r - edge;
+						int left = l - curEdge[i] - 1;
+						int right = r - curEdge[i];
 						if (right >= 0) {
 							left = Math.max(left, 0);
 							right = Math.min(right, r);
-							if (left <= right) {
-								ans -= 1L * maxv * (sum(right) - sum(left));
-							}
+							ans -= 1L * curMaxv[i] * (sum(right) - sum(left));
 						}
-						add(edge, 1);
+						add(curEdge[i], 1);
 					}
 					for (int i = 1; i <= cntc; i++) {
 						add(curEdge[i], -1);
@@ -233,18 +229,14 @@ public class Code04_Maschera1 {
 		if (cnta > 0) {
 			sort(allMaxv, allEdge, 1, cnta);
 			for (int i = 1; i <= cnta; i++) {
-				int maxv = allMaxv[i];
-				int edge = allEdge[i];
-				int left = l - edge - 1;
-				int right = r - edge;
+				int left = l - allEdge[i] - 1;
+				int right = r - allEdge[i];
 				if (right >= 0) {
 					left = Math.max(left, 0);
 					right = Math.min(right, r);
-					if (left <= right) {
-						ans += 1L * maxv * (sum(right) - sum(left));
-					}
+					ans += 1L * allMaxv[i] * (sum(right) - sum(left));
 				}
-				add(edge, 1);
+				add(allEdge[i], 1);
 			}
 			for (int i = 1; i <= cnta; i++) {
 				add(allEdge[i], -1);
