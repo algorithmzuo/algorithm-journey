@@ -44,7 +44,7 @@ public class Code04_CloseVertices1 {
 	}
 
 	public static void add(int i, int v) {
-		while (i <= n + 1) {
+		while (i <= limitl + 1) {
 			tree[i] += v;
 			i += lowbit(i);
 		}
