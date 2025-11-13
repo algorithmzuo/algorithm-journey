@@ -12,7 +12,7 @@ import java.io.PrintWriter;
 public class Code07_Maschera1 {
 
 	public static int MAXN = 100001;
-	public static int n, l, r, total;
+	public static int n, l, r;
 
 	public static int[] head = new int[MAXN];
 	public static int[] nxt = new int[MAXN << 1];
@@ -20,11 +20,10 @@ public class Code07_Maschera1 {
 	public static int[] weight = new int[MAXN << 1];
 	public static int cntg;
 
-	public static int[] tree = new int[MAXN];
-
 	public static boolean[] vis = new boolean[MAXN];
 	public static int[] siz = new int[MAXN];
 	public static int[] maxPart = new int[MAXN];
+	public static int total;
 	public static int centroid;
 
 	public static int[] curMaxv = new int[MAXN];
@@ -34,6 +33,8 @@ public class Code07_Maschera1 {
 	public static int[] allMaxv = new int[MAXN];
 	public static int[] allEdge = new int[MAXN];
 	public static int cnta;
+
+	public static int[] tree = new int[MAXN];
 
 	public static long ans;
 

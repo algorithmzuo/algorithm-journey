@@ -12,7 +12,7 @@ package class183;
 //const int MAXN = 200001;
 //const int MAXK = 1000001;
 //const int INF = 1000000001;
-//int n, k, total;
+//int n, k;
 //
 //int head[MAXN];
 //int nxt[MAXN << 1];
@@ -23,6 +23,7 @@ package class183;
 //bool vis[MAXN];
 //int siz[MAXN];
 //int maxPart[MAXN];
+//int total;
 //int centroid;
 //
 //int sumArr[MAXN];

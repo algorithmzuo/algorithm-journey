@@ -13,7 +13,7 @@ import java.util.Arrays;
 public class Code03_Tree1 {
 
 	public static int MAXN = 50001;
-	public static int n, k, total;
+	public static int n, k;
 
 	public static int[] head = new int[MAXN];
 	public static int[] nxt = new int[MAXN << 1];
@@ -24,6 +24,7 @@ public class Code03_Tree1 {
 	public static boolean[] vis = new boolean[MAXN];
 	public static int[] siz = new int[MAXN];
 	public static int[] maxPart = new int[MAXN];
+	public static int total;
 	public static int centroid;
 
 	public static int[] disArr = new int[MAXN];

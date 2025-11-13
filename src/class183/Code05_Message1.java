@@ -12,7 +12,7 @@ import java.io.PrintWriter;
 public class Code05_Message1 {
 
 	public static int MAXN = 100001;
-	public static int t, n, m, total;
+	public static int t, n, m;
 
 	public static int[] headg = new int[MAXN];
 	public static int[] nextg = new int[MAXN << 1];
@@ -28,6 +28,7 @@ public class Code05_Message1 {
 	public static boolean[] vis = new boolean[MAXN];
 	public static int[] siz = new int[MAXN];
 	public static int[] maxPart = new int[MAXN];
+	public static int total;
 	public static int centroid;
 
 	public static int[] depCnt = new int[MAXN];

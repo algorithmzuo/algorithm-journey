@@ -1,6 +1,10 @@
 package class183;
 
 // 点分治，也叫重心分解，java版
+// 一共有n个节点，给定n-1条边，每条边有边权，所有节点组成一棵树
+// 一共有m条查询，每条查询给定一个数字k，打印树上距离为k的点对是否存在
+// 1 <= n <= 10^4    1 <= 边权 <= 10^4
+// 1 <= m <= 100     1 <= k <= 10^7
 // 测试链接 : https://www.luogu.com.cn/problem/P3806
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
@@ -14,8 +18,10 @@ public class Code01_CentroidDecomposition1 {
 	public static int MAXN = 10001;
 	public static int MAXM = 101;
 	public static int MAXV = 10000001;
-	public static int n, m, maxq, total;
+	public static int n, m;
+
 	public static int[] query = new int[MAXM];
+	public static int maxq;
 
 	public static int[] head = new int[MAXN];
 	public static int[] nxt = new int[MAXN << 1];
@@ -26,6 +32,7 @@ public class Code01_CentroidDecomposition1 {
 	public static boolean[] vis = new boolean[MAXN];
 	public static int[] siz = new int[MAXN];
 	public static int[] maxPart = new int[MAXN];
+	public static int total;
 	public static int centroid;
 
 	public static int[] curDis = new int[MAXN];

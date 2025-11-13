@@ -13,7 +13,7 @@ import java.io.PrintWriter;
 public class Code04_CloseVertices1 {
 
 	public static int MAXN = 100005;
-	public static int n, limitl, limitw, total;
+	public static int n, limitl, limitw;
 
 	public static int[] head = new int[MAXN];
 	public static int[] nxt = new int[MAXN << 1];
@@ -24,6 +24,7 @@ public class Code04_CloseVertices1 {
 	public static boolean[] vis = new boolean[MAXN];
 	public static int[] siz = new int[MAXN];
 	public static int[] maxPart = new int[MAXN];
+	public static int total;
 	public static int centroid;
 
 	public static int[] disArr = new int[MAXN];

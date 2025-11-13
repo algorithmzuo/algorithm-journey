@@ -13,7 +13,7 @@ public class Code06_Capital1 {
 
 	public static int MAXN = 200001;
 	public static int INF = 1000000001;
-	public static int n, k, total;
+	public static int n, k;
 	public static int[] color = new int[MAXN];
 
 	public static int[] headg = new int[MAXN];
@@ -29,6 +29,7 @@ public class Code06_Capital1 {
 	public static boolean[] vis = new boolean[MAXN];
 	public static int[] siz = new int[MAXN];
 	public static int[] maxPart = new int[MAXN];
+	public static int total;
 	public static int centroid;
 
 	public static int[] father = new int[MAXN];
