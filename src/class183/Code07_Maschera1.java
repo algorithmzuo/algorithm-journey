@@ -1,6 +1,12 @@
 package class183;
 
-// 所有路径的魔力和，java版
+// 所有合法路径的魔力和，java版
+// 一共有n个节点，给定n-1条边，每条边有边权，所有节点组成一棵树
+// 给定两个整数l、r，对于任意两个不同节点u、v，考虑它们之间的简单路径
+// 如果路径上边的数量在[l, r]范围内，则这条路径是合法路径
+// 路径的魔力值 = 路径上所有边权的最大值，打印所有合法路径的魔力和
+// 注意，u到v和v到u视为两条不同的路径，均要计入答案
+// 1 <= n、边权 <= 10^5
 // 测试链接 : https://www.luogu.com.cn/problem/P5351
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
@@ -12,7 +18,7 @@ import java.io.PrintWriter;
 public class Code07_Maschera1 {
 
 	public static int MAXN = 100001;
-	public static int n, minEdge, maxEdge;
+	public static int n, l, r;
 
 	public static int[] head = new int[MAXN];
 	public static int[] nxt = new int[MAXN << 1];
@@ -29,14 +35,11 @@ public class Code07_Maschera1 {
 	public static int[] curMaxv = new int[MAXN];
 	public static int[] curEdge = new int[MAXN];
 	public static int cntc;
-
 	public static int[] allMaxv = new int[MAXN];
 	public static int[] allEdge = new int[MAXN];
 	public static int cnta;
 
 	public static int[] tree = new int[MAXN];
-
-	public static long ans;
 
 	// 讲解118，递归函数改成迭代所需要的栈
 	public static int[][] stack = new int[MAXN][5];
@@ -88,7 +91,7 @@ public class Code07_Maschera1 {
 	}
 
 	public static void add(int i, int v) {
-		while (i <= maxEdge) {
+		while (i <= r) {
 			tree[i] += v;
 			i += lowbit(i);
 		}
@@ -158,7 +161,7 @@ public class Code07_Maschera1 {
 
 	// 收集信息递归版，java会爆栈，C++可以通过
 	public static void dfs1(int u, int fa, int maxv, int edge) {
-		if (edge > maxEdge) {
+		if (edge > r) {
 			return;
 		}
 		curMaxv[++cntc] = maxv;
@@ -178,7 +181,7 @@ public class Code07_Maschera1 {
 		while (stacksize > 0) {
 			pop();
 			if (e == -1) {
-				if (edge > maxEdge) {
+				if (edge > r) {
 					continue;
 				}
 				curMaxv[++cntc] = maxv;
@@ -197,7 +200,8 @@ public class Code07_Maschera1 {
 		}
 	}
 
-	public static void calc(int u) {
+	public static long calc(int u) {
+		long ans = 0;
 		cnta = 0;
 		for (int e = head[u]; e > 0; e = nxt[e]) {
 			int v = to[e];
@@ -207,9 +211,7 @@ public class Code07_Maschera1 {
 				dfs2(v, u, weight[e], 1);
 				sort(curMaxv, curEdge, 1, cntc);
 				for (int i = 1; i <= cntc; i++) {
-					int l = minEdge - curEdge[i] - 1;
-					int r = maxEdge - curEdge[i];
-					ans -= 1L * curMaxv[i] * (sum(r) - sum(l));
+					ans -= 1L * curMaxv[i] * (sum(r - curEdge[i]) - sum(l - curEdge[i] - 1));
 					add(curEdge[i], 1);
 				}
 				for (int i = 1; i <= cntc; i++) {
@@ -223,24 +225,23 @@ public class Code07_Maschera1 {
 		}
 		sort(allMaxv, allEdge, 1, cnta);
 		for (int i = 1; i <= cnta; i++) {
-			int l = minEdge - allEdge[i] - 1;
-			int r = maxEdge - allEdge[i];
-			ans += 1L * allMaxv[i] * (sum(r) - sum(l));
+			ans += 1L * allMaxv[i] * (sum(r - allEdge[i]) - sum(l - allEdge[i] - 1));
 			add(allEdge[i], 1);
 		}
 		for (int i = 1; i <= cnta; i++) {
 			add(allEdge[i], -1);
 		}
 		for (int i = 1; i <= cnta; i++) {
-			if (allEdge[i] >= minEdge) {
+			if (allEdge[i] >= l) {
 				ans += allMaxv[i];
 			}
 		}
+		return ans;
 	}
 
-	public static void solve(int u) {
-		calc(u);
+	public static long solve(int u) {
 		vis[u] = true;
+		long ans = calc(u);
 		for (int e = head[u]; e > 0; e = nxt[e]) {
 			int v = to[e];
 			if (!vis[v]) {
@@ -248,17 +249,18 @@ public class Code07_Maschera1 {
 				centroid = 0;
 				// getCentroid1(v, 0);
 				getCentroid2(v, 0);
-				solve(centroid);
+				ans += solve(centroid);
 			}
 		}
+		return ans;
 	}
 
 	public static void main(String[] args) throws Exception {
 		FastReader in = new FastReader(System.in);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
 		n = in.nextInt();
-		minEdge = in.nextInt();
-		maxEdge = in.nextInt();
+		l = in.nextInt();
+		r = in.nextInt();
 		for (int i = 1, u, v, w; i < n; i++) {
 			u = in.nextInt();
 			v = in.nextInt();
@@ -270,7 +272,7 @@ public class Code07_Maschera1 {
 		centroid = 0;
 		// getCentroid1(1, 0);
 		getCentroid2(1, 0);
-		solve(centroid);
+		long ans = solve(centroid);
 		out.println(ans << 1);
 		out.flush();
 		out.close();
