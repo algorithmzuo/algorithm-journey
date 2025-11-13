@@ -1,6 +1,14 @@
 package class183;
 
-// 相近的点对数量，java版
+// 相近点对的数量，java版
+// 一共有n个节点，所有节点组成一棵树，1号节点是树头
+// 从2号点开始，给定每个点的父节点编号、与父节点之间无向边的边权
+// 给定两个整数limitl、limitw，如下为(a, b)是相近点对的定义
+// 首先a < b，其次两者简单路径的边数不超过limitl、权值和不超过limitw
+// 打印树上有多少相近点对
+// 1 <= limitl <= n <= 10^5
+// 0 <= limitw <= 10^9
+// 0 <= 边权 <= 10^4
 // 测试链接 : https://www.luogu.com.cn/problem/CF293E
 // 测试链接 : https://codeforces.com/problemset/problem/293/E
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
@@ -12,7 +20,7 @@ import java.io.PrintWriter;
 
 public class Code04_CloseVertices1 {
 
-	public static int MAXN = 100005;
+	public static int MAXN = 100002;
 	public static int n, limitl, limitw;
 
 	public static int[] head = new int[MAXN];
