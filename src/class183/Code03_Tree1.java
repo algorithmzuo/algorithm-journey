@@ -1,6 +1,11 @@
 package class183;
 
 // 距离<=k的点对数量，java版
+// 一共有n个节点，给定n-1条边，每条边有边权，所有节点组成一棵树
+// 给定数字k，求出树上两点距离<=k的点对数量
+// 1 <= n <= 4 * 10^4
+// 0 <= 边权 <= 10^3
+// 0 <= k <= 2 * 10^4
 // 测试链接 : https://www.luogu.com.cn/problem/P4178
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
@@ -72,7 +77,7 @@ public class Code03_Tree1 {
 		dfs(u, 0, dis);
 		long ans = 0;
 		Arrays.sort(disArr, 1, cnta + 1);
-		for (int l = 1, r = cnta; l < r;) {
+		for (int l = 1, r = cnta; l <= r;) {
 			if (disArr[l] + disArr[r] <= k) {
 				ans += r - l;
 				l++;
