@@ -31,7 +31,7 @@ public class Code05_Message1 {
 	public static int centroid;
 
 	public static int[] depCnt = new int[MAXN];
-	public static int maxDeep;
+	public static int maxDep;
 
 	public static int[] timArr = new int[MAXN];
 	public static int[] qidArr = new int[MAXN];
@@ -126,19 +126,19 @@ public class Code05_Message1 {
 	}
 
 	// 收集信息递归版，java会爆栈，C++可以通过
-	public static void dfs1(int u, int fa, int deep) {
-		depCnt[deep]++;
-		maxDeep = Math.max(maxDeep, deep);
+	public static void dfs1(int u, int fa, int dep) {
+		depCnt[dep]++;
+		maxDep = Math.max(maxDep, dep);
 		for (int e = headq[u]; e > 0; e = nextq[e]) {
-			if (tim[e] + 1 >= deep) {
-				timArr[++cnta] = tim[e] - deep + 2;
+			if (tim[e] + 1 >= dep) {
+				timArr[++cnta] = tim[e] - dep + 2;
 				qidArr[cnta] = qid[e];
 			}
 		}
 		for (int e = headg[u]; e > 0; e = nextg[e]) {
 			int v = tog[e];
 			if (v != fa && !vis[v]) {
-				dfs1(v, u, deep + 1);
+				dfs1(v, u, dep + 1);
 			}
 		}
 	}
@@ -151,7 +151,7 @@ public class Code05_Message1 {
 			pop();
 			if (e == -1) {
 				depCnt[dep]++;
-				maxDeep = Math.max(maxDeep, dep);
+				maxDep = Math.max(maxDep, dep);
 				for (int e = headq[u]; e > 0; e = nextq[e]) {
 					if (tim[e] + 1 >= dep) {
 						timArr[++cnta] = tim[e] - dep + 2;
@@ -174,26 +174,26 @@ public class Code05_Message1 {
 
 	public static void calc(int u) {
 		cnta = 0;
-		maxDeep = 0;
+		maxDep = 0;
 		// dfs1(u, 0, 1);
 		dfs2(u, 0, 1);
 		for (int i = 1; i <= cnta; i++) {
 			ans[qidArr[i]] += depCnt[timArr[i]];
 		}
-		for (int d = 1; d <= maxDeep; d++) {
+		for (int d = 1; d <= maxDep; d++) {
 			depCnt[d] = 0;
 		}
 		for (int e = headg[u]; e > 0; e = nextg[e]) {
 			int v = tog[e];
 			if (!vis[v]) {
 				cnta = 0;
-				maxDeep = 0;
+				maxDep = 0;
 				// dfs1(v, u, 2);
 				dfs2(v, u, 2);
 				for (int i = 1; i <= cnta; i++) {
 					ans[qidArr[i]] -= depCnt[timArr[i]];
 				}
-				for (int d = 1; d <= maxDeep; d++) {
+				for (int d = 1; d <= maxDep; d++) {
 					depCnt[d] = 0;
 				}
 			}

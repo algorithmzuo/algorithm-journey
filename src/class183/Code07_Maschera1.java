@@ -59,6 +59,22 @@ public class Code07_Maschera1 {
 		e = stack[stacksize][4];
 	}
 
+	public static void sort(int[] maxv, int[] edge, int l, int r) {
+		if (l >= r) return;
+		int i = l, j = r, pivot = maxv[(l + r) >> 1], tmp;
+		while (i <= j) {
+			while (maxv[i] < pivot) i++;
+			while (maxv[j] > pivot) j--;
+			if (i <= j) {
+				tmp = maxv[i]; maxv[i] = maxv[j]; maxv[j] = tmp;
+				tmp = edge[i]; edge[i] = edge[j]; edge[j] = tmp;
+				i++; j--;
+			}
+		}
+		sort(maxv, edge, l, j);
+		sort(maxv, edge, i, r);
+	}
+
 	public static void addEdge(int u, int v, int w) {
 		nxt[++cntg] = head[u];
 		to[cntg] = v;
@@ -178,22 +194,6 @@ public class Code07_Maschera1 {
 				}
 			}
 		}
-	}
-
-	public static void sort(int[] maxv, int[] edge, int l, int r) {
-		if (l >= r) return;
-		int i = l, j = r, pivot = maxv[(l + r) >> 1], tmp;
-		while (i <= j) {
-			while (maxv[i] < pivot) i++;
-			while (maxv[j] > pivot) j--;
-			if (i <= j) {
-				tmp = maxv[i]; maxv[i] = maxv[j]; maxv[j] = tmp;
-				tmp = edge[i]; edge[i] = edge[j]; edge[j] = tmp;
-				i++; j--;
-			}
-		}
-		sort(maxv, edge, l, j);
-		sort(maxv, edge, i, r);
 	}
 
 	public static void calc(int u) {

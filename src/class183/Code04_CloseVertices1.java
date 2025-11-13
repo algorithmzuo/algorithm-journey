@@ -32,6 +32,22 @@ public class Code04_CloseVertices1 {
 
 	public static int[] tree = new int[MAXN];
 
+	public static void sort(int l, int r) {
+		if (l >= r) return;
+		int i = l, j = r, pivot = disArr[(l + r) >> 1], tmp;
+		while (i <= j) {
+			while (disArr[i] < pivot) i++;
+			while (disArr[j] > pivot) j--;
+			if (i <= j) {
+				tmp = disArr[i]; disArr[i] = disArr[j]; disArr[j] = tmp;
+				tmp = depArr[i]; depArr[i] = depArr[j]; depArr[j] = tmp;
+				i++; j--;
+			}
+		}
+		sort(l, j);
+		sort(i, r);
+	}
+
 	public static void addEdge(int u, int v, int w) {
 		nxt[++cntg] = head[u];
 		to[cntg] = v;
@@ -88,22 +104,6 @@ public class Code04_CloseVertices1 {
 				dfs(v, u, dis + weight[e], dep + 1);
 			}
 		}
-	}
-
-	public static void sort(int l, int r) {
-		if (l >= r) return;
-		int i = l, j = r, pivot = disArr[(l + r) >> 1], tmp;
-		while (i <= j) {
-			while (disArr[i] < pivot) i++;
-			while (disArr[j] > pivot) j--;
-			if (i <= j) {
-				tmp = disArr[i]; disArr[i] = disArr[j]; disArr[j] = tmp;
-				tmp = depArr[i]; depArr[i] = depArr[j]; depArr[j] = tmp;
-				i++; j--;
-			}
-		}
-		sort(l, j);
-		sort(i, r);
 	}
 
 	public static long calc(int u, int dis, int dep) {
