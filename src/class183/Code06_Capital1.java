@@ -1,6 +1,11 @@
 package class183;
 
 // 首都，java版
+// 一共有n个节点，给定n-1条边，所有节点组成一棵树
+// 给定长度为n的数组color，color[i]表示i号节点的颜色，颜色有k种
+// 你需要在树上找到一个连通区，连通区内出现的每种颜色，都不会出现在连通区外
+// 这样的连通区可能有多个，希望包含的颜色数量尽量少，打印(最少颜色数 - 1)的结果
+// 1 <= n、k <= 2 * 10^5
 // 测试链接 : https://www.luogu.com.cn/problem/P7215
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
@@ -40,12 +45,12 @@ public class Code06_Capital1 {
 
 	// 讲解118，递归函数改成迭代所需要的栈
 	public static int[][] stack = new int[MAXN][4];
-	public static int stacksize, u, f, rt, e;
+	public static int stacksize, u, f, stamp, e;
 
-	public static void push(int u, int f, int rt, int e) {
+	public static void push(int u, int f, int stamp, int e) {
 		stack[stacksize][0] = u;
 		stack[stacksize][1] = f;
-		stack[stacksize][2] = rt;
+		stack[stacksize][2] = stamp;
 		stack[stacksize][3] = e;
 		stacksize++;
 	}
@@ -54,7 +59,7 @@ public class Code06_Capital1 {
 		--stacksize;
 		u = stack[stacksize][0];
 		f = stack[stacksize][1];
-		rt = stack[stacksize][2];
+		stamp = stack[stacksize][2];
 		e = stack[stacksize][3];
 	}
 
@@ -124,37 +129,37 @@ public class Code06_Capital1 {
 	}
 
 	// 收集信息递归版，java会爆栈，C++可以通过
-	public static void dfs1(int u, int fa, int root) {
+	public static void dfs1(int u, int fa, int stamp) {
 		father[u] = fa;
-		nodeStamp[u] = root;
+		nodeStamp[u] = stamp;
 		enter[u] = false;
 		for (int e = headg[u]; e > 0; e = nextg[e]) {
 			int v = tog[e];
 			if (v != fa && !vis[v]) {
-				dfs1(v, u, root);
+				dfs1(v, u, stamp);
 			}
 		}
 	}
 
 	// 收集信息迭代版
-	public static void dfs2(int cur, int fa, int root) {
+	public static void dfs2(int cur, int fa, int sta) {
 		stacksize = 0;
-		push(cur, fa, root, -1);
+		push(cur, fa, sta, -1);
 		while (stacksize > 0) {
 			pop();
 			if (e == -1) {
 				father[u] = f;
-				nodeStamp[u] = rt;
+				nodeStamp[u] = stamp;
 				enter[u] = false;
 				e = headg[u];
 			} else {
 				e = nextg[e];
 			}
 			if (e != 0) {
-				push(u, f, rt, e);
+				push(u, f, stamp, e);
 				int v = tog[e];
 				if (v != f && !vis[v]) {
-					push(tog[e], u, rt, -1);
+					push(tog[e], u, stamp, -1);
 				}
 			}
 		}
