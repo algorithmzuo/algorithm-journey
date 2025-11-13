@@ -1,6 +1,11 @@
 package class183;
 
 // 权值和为k的路径的最少边数，java版
+// 一共有n个节点，给定n-1条边，每条边有边权，所有节点组成一棵树
+// 给定数字k，要求路径权值和等于k，并且边的数量最小
+// 打印最小边数，如果不存在路径打印-1，注意点的编号从0开始
+// 1 <= n <= 2 * 10^5
+// 0 <= 边权、k <= 10^6
 // 测试链接 : https://www.luogu.com.cn/problem/P4149
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
@@ -29,7 +34,7 @@ public class Code02_Race1 {
 	public static int total;
 	public static int centroid;
 
-	public static int[] sumArr = new int[MAXN];
+	public static int[] disArr = new int[MAXN];
 	public static int[] edgeArr = new int[MAXN];
 	public static int cnta;
 
@@ -37,12 +42,12 @@ public class Code02_Race1 {
 
 	// 讲解118，递归函数改成迭代所需要的栈
 	public static int[][] stack = new int[MAXN][5];
-	public static int stacksize, u, f, sum, edge, e;
+	public static int stacksize, u, f, dis, edge, e;
 
-	public static void push(int u, int f, int sum, int edge, int e) {
+	public static void push(int u, int f, int dis, int edge, int e) {
 		stack[stacksize][0] = u;
 		stack[stacksize][1] = f;
-		stack[stacksize][2] = sum;
+		stack[stacksize][2] = dis;
 		stack[stacksize][3] = edge;
 		stack[stacksize][4] = e;
 		stacksize++;
@@ -52,7 +57,7 @@ public class Code02_Race1 {
 		--stacksize;
 		u = stack[stacksize][0];
 		f = stack[stacksize][1];
-		sum = stack[stacksize][2];
+		dis = stack[stacksize][2];
 		edge = stack[stacksize][3];
 		e = stack[stacksize][4];
 	}
@@ -118,41 +123,41 @@ public class Code02_Race1 {
 	}
 
 	// 收集信息递归版，java会爆栈，C++可以通过
-	public static void dfs1(int u, int fa, int sum, int edge) {
-		if (sum > k) {
+	public static void dfs1(int u, int fa, int dis, int edge) {
+		if (dis > k) {
 			return;
 		}
-		sumArr[++cnta] = sum;
+		disArr[++cnta] = dis;
 		edgeArr[cnta] = edge;
 		for (int e = head[u]; e > 0; e = nxt[e]) {
 			int v = to[e];
 			if (v != fa && !vis[v]) {
-				dfs1(v, u, sum + weight[e], edge + 1);
+				dfs1(v, u, dis + weight[e], edge + 1);
 			}
 		}
 	}
 
 	// 收集信息的迭代版
-	public static void dfs2(int cur, int fa, int psum, int pedge) {
+	public static void dfs2(int cur, int fa, int pathDis, int pathEdge) {
 		stacksize = 0;
-		push(cur, fa, psum, pedge, -1);
+		push(cur, fa, pathDis, pathEdge, -1);
 		while (stacksize > 0) {
 			pop();
 			if (e == -1) {
-				if (sum > k) {
+				if (dis > k) {
 					continue;
 				}
-				sumArr[++cnta] = sum;
+				disArr[++cnta] = dis;
 				edgeArr[cnta] = edge;
 				e = head[u];
 			} else {
 				e = nxt[e];
 			}
 			if (e != 0) {
-				push(u, f, sum, edge, e);
+				push(u, f, dis, edge, e);
 				int v = to[e];
 				if (v != f && !vis[v]) {
-					push(to[e], u, sum + weight[e], edge + 1, -1);
+					push(to[e], u, dis + weight[e], edge + 1, -1);
 				}
 			}
 		}
@@ -169,15 +174,15 @@ public class Code02_Race1 {
 				// dfs1(v, u, weight[e], 1);
 				dfs2(v, u, weight[e], 1);
 				for (int i = tmp + 1; i <= cnta; i++) {
-					ans = Math.min(ans, dp[k - sumArr[i]] + edgeArr[i]);
+					ans = Math.min(ans, dp[k - disArr[i]] + edgeArr[i]);
 				}
 				for (int i = tmp + 1; i <= cnta; i++) {
-					dp[sumArr[i]] = Math.min(dp[sumArr[i]], edgeArr[i]);
+					dp[disArr[i]] = Math.min(dp[disArr[i]], edgeArr[i]);
 				}
 			}
 		}
 		for (int i = 1; i <= cnta; i++) {
-			dp[sumArr[i]] = INF;
+			dp[disArr[i]] = INF;
 		}
 		return ans;
 	}

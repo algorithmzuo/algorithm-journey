@@ -1,6 +1,11 @@
 package class183;
 
 // 权值和为k的路径的最少边数，C++版
+// 一共有n个节点，给定n-1条边，每条边有边权，所有节点组成一棵树
+// 给定数字k，要求路径权值和等于k，并且边的数量最小
+// 打印最小边数，如果不存在路径打印-1，注意点的编号从0开始
+// 1 <= n <= 2 * 10^5
+// 0 <= 边权、k <= 10^6
 // 测试链接 : https://www.luogu.com.cn/problem/P4149
 // 如下实现是C++的版本，C++版本和java版本逻辑完全一样
 // 提交如下代码，可以通过所有测试用例
@@ -8,6 +13,10 @@ package class183;
 //#include <bits/stdc++.h>
 //
 //using namespace std;
+//
+//struct Node {
+//    int dis, edge;
+//};
 //
 //const int MAXN = 200001;
 //const int MAXK = 1000001;
@@ -26,8 +35,7 @@ package class183;
 //int total;
 //int centroid;
 //
-//int sumArr[MAXN];
-//int edgeArr[MAXN];
+//Node arr[MAXN];
 //int cnta;
 //
 //int dp[MAXK];
@@ -56,16 +64,15 @@ package class183;
 //    }
 //}
 //
-//void dfs(int u, int fa, int sum, int edge) {
-//    if (sum > k) {
+//void dfs(int u, int fa, int dis, int edge) {
+//    if (dis > k) {
 //        return;
 //    }
-//    sumArr[++cnta] = sum;
-//    edgeArr[cnta] = edge;
+//    arr[++cnta] = { dis, edge };
 //    for (int e = head[u]; e; e = nxt[e]) {
 //        int v = to[e];
 //        if (v != fa && !vis[v]) {
-//            dfs(v, u, sum + weight[e], edge + 1);
+//            dfs(v, u, dis + weight[e], edge + 1);
 //        }
 //    }
 //}
@@ -80,15 +87,15 @@ package class183;
 //            int tmp = cnta;
 //            dfs(v, u, weight[e], 1);
 //            for (int i = tmp + 1; i <= cnta; i++) {
-//                ans = min(ans, dp[k - sumArr[i]] + edgeArr[i]);
+//                ans = min(ans, dp[k - arr[i].dis] + arr[i].edge);
 //            }
 //            for (int i = tmp + 1; i <= cnta; i++) {
-//                dp[sumArr[i]] = min(dp[sumArr[i]], edgeArr[i]);
+//                dp[arr[i].dis] = min(dp[arr[i].dis], arr[i].edge);
 //            }
 //        }
 //    }
 //    for (int i = 1; i <= cnta; i++) {
-//        dp[sumArr[i]] = INF;
+//        dp[arr[i].dis] = INF;
 //    }
 //    return ans;
 //}
