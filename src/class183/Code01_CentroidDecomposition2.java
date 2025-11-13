@@ -35,10 +35,8 @@ package class183;
 //
 //int curDis[MAXN];
 //int cntc;
-//
 //int allDis[MAXN];
 //int cnta;
-//
 //bool check[MAXV];
 //
 //bool ans[MAXM];

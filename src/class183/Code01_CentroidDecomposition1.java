@@ -37,10 +37,8 @@ public class Code01_CentroidDecomposition1 {
 
 	public static int[] curDis = new int[MAXN];
 	public static int cntc;
-
 	public static int[] allDis = new int[MAXN];
 	public static int cnta;
-
 	public static boolean[] check = new boolean[MAXV];
 
 	public static boolean[] ans = new boolean[MAXM];
