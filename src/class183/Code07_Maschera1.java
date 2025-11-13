@@ -12,7 +12,7 @@ import java.io.PrintWriter;
 public class Code07_Maschera1 {
 
 	public static int MAXN = 100001;
-	public static int n, l, r;
+	public static int n, minEdge, maxEdge;
 
 	public static int[] head = new int[MAXN];
 	public static int[] nxt = new int[MAXN << 1];
@@ -88,7 +88,7 @@ public class Code07_Maschera1 {
 	}
 
 	public static void add(int i, int v) {
-		while (i <= r) {
+		while (i <= maxEdge) {
 			tree[i] += v;
 			i += lowbit(i);
 		}
@@ -158,7 +158,7 @@ public class Code07_Maschera1 {
 
 	// 收集信息递归版，java会爆栈，C++可以通过
 	public static void dfs1(int u, int fa, int maxv, int edge) {
-		if (edge > r) {
+		if (edge > maxEdge) {
 			return;
 		}
 		curMaxv[++cntc] = maxv;
@@ -178,7 +178,7 @@ public class Code07_Maschera1 {
 		while (stacksize > 0) {
 			pop();
 			if (e == -1) {
-				if (edge > r) {
+				if (edge > maxEdge) {
 					continue;
 				}
 				curMaxv[++cntc] = maxv;
@@ -205,47 +205,35 @@ public class Code07_Maschera1 {
 				cntc = 0;
 				// dfs1(v, u, weight[e], 1);
 				dfs2(v, u, weight[e], 1);
-				if (cntc > 0) {
-					sort(curMaxv, curEdge, 1, cntc);
-					for (int i = 1; i <= cntc; i++) {
-						int left = l - curEdge[i] - 1;
-						int right = r - curEdge[i];
-						if (right >= 0) {
-							left = Math.max(left, 0);
-							right = Math.min(right, r);
-							ans -= 1L * curMaxv[i] * (sum(right) - sum(left));
-						}
-						add(curEdge[i], 1);
-					}
-					for (int i = 1; i <= cntc; i++) {
-						add(curEdge[i], -1);
-					}
-					for (int i = 1; i <= cntc; i++) {
-						allMaxv[++cnta] = curMaxv[i];
-						allEdge[cnta] = curEdge[i];
-					}
+				sort(curMaxv, curEdge, 1, cntc);
+				for (int i = 1; i <= cntc; i++) {
+					int l = minEdge - curEdge[i] - 1;
+					int r = maxEdge - curEdge[i];
+					ans -= 1L * curMaxv[i] * (sum(r) - sum(l));
+					add(curEdge[i], 1);
+				}
+				for (int i = 1; i <= cntc; i++) {
+					add(curEdge[i], -1);
+				}
+				for (int i = 1; i <= cntc; i++) {
+					allMaxv[++cnta] = curMaxv[i];
+					allEdge[cnta] = curEdge[i];
 				}
 			}
 		}
-		if (cnta > 0) {
-			sort(allMaxv, allEdge, 1, cnta);
-			for (int i = 1; i <= cnta; i++) {
-				int left = l - allEdge[i] - 1;
-				int right = r - allEdge[i];
-				if (right >= 0) {
-					left = Math.max(left, 0);
-					right = Math.min(right, r);
-					ans += 1L * allMaxv[i] * (sum(right) - sum(left));
-				}
-				add(allEdge[i], 1);
-			}
-			for (int i = 1; i <= cnta; i++) {
-				add(allEdge[i], -1);
-			}
-			for (int i = 1; i <= cnta; i++) {
-				if (allEdge[i] >= l) {
-					ans += allMaxv[i];
-				}
+		sort(allMaxv, allEdge, 1, cnta);
+		for (int i = 1; i <= cnta; i++) {
+			int l = minEdge - allEdge[i] - 1;
+			int r = maxEdge - allEdge[i];
+			ans += 1L * allMaxv[i] * (sum(r) - sum(l));
+			add(allEdge[i], 1);
+		}
+		for (int i = 1; i <= cnta; i++) {
+			add(allEdge[i], -1);
+		}
+		for (int i = 1; i <= cnta; i++) {
+			if (allEdge[i] >= minEdge) {
+				ans += allMaxv[i];
 			}
 		}
 	}
@@ -269,8 +257,8 @@ public class Code07_Maschera1 {
 		FastReader in = new FastReader(System.in);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
 		n = in.nextInt();
-		l = in.nextInt();
-		r = in.nextInt();
+		minEdge = in.nextInt();
+		maxEdge = in.nextInt();
 		for (int i = 1, u, v, w; i < n; i++) {
 			u = in.nextInt();
 			v = in.nextInt();
