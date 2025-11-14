@@ -33,9 +33,6 @@ public class Code08_Capital1 {
 
 	public static boolean[] vis = new boolean[MAXN];
 	public static int[] siz = new int[MAXN];
-	public static int[] maxPart = new int[MAXN];
-	public static int total;
-	public static int centroid;
 
 	public static int[] father = new int[MAXN];
 	public static int[] nodeStamp = new int[MAXN];
@@ -75,33 +72,26 @@ public class Code08_Capital1 {
 		headc[color] = cntc;
 	}
 
-	// 找重心的递归版，java会爆栈，C++可以通过
-	public static void getCentroid1(int u, int fa) {
+	// 得到子树大小递归版，java会爆栈，C++可以通过
+	public static int getSize1(int u, int fa) {
 		siz[u] = 1;
-		maxPart[u] = 0;
 		for (int e = headg[u]; e > 0; e = nextg[e]) {
 			int v = tog[e];
 			if (v != fa && !vis[v]) {
-				getCentroid1(v, u);
-				siz[u] += siz[v];
-				maxPart[u] = Math.max(siz[v], maxPart[u]);
+				siz[u] += getSize1(v, u);
 			}
 		}
-		maxPart[u] = Math.max(maxPart[u], total - siz[u]);
-		if (centroid == 0 || maxPart[u] < maxPart[centroid]) {
-			centroid = u;
-		}
+		return siz[u];
 	}
 
-	// 找重心的迭代版
-	public static void getCentroid2(int cur, int fa) {
+	// 得到子树大小迭代版
+	public static int getSize2(int cur, int fa) {
 		stacksize = 0;
 		push(cur, fa, 0, -1);
 		while (stacksize > 0) {
 			pop();
 			if (e == -1) {
 				siz[u] = 1;
-				maxPart[u] = 0;
 				e = headg[u];
 			} else {
 				e = nextg[e];
@@ -110,22 +100,37 @@ public class Code08_Capital1 {
 				push(u, f, 0, e);
 				int v = tog[e];
 				if (v != f && !vis[v]) {
-					push(tog[e], u, 0, -1);
+					push(v, u, 0, -1);
 				}
 			} else {
 				for (int ei = headg[u]; ei > 0; ei = nextg[ei]) {
 					int v = tog[ei];
 					if (v != f && !vis[v]) {
 						siz[u] += siz[v];
-						maxPart[u] = Math.max(siz[v], maxPart[u]);
 					}
-				}
-				maxPart[u] = Math.max(maxPart[u], total - siz[u]);
-				if (centroid == 0 || maxPart[u] < maxPart[centroid]) {
-					centroid = u;
 				}
 			}
 		}
+		return siz[cur];
+	}
+
+	public static int getCentroid(int u, int fa) {
+		// int half = getSize1(u, fa) >> 1;
+		int half = getSize2(u, fa) >> 1;
+		boolean find = false;
+		while (!find) {
+			find = true;
+			for (int e = headg[u]; e > 0; e = nextg[e]) {
+				int v = tog[e];
+				if (v != fa && !vis[v] && siz[v] > half) {
+					fa = u;
+					u = v;
+					find = false;
+					break;
+				}
+			}
+		}
+		return u;
 	}
 
 	// 收集信息递归版，java会爆栈，C++可以通过
@@ -202,11 +207,7 @@ public class Code08_Capital1 {
 		for (int e = headg[u]; e > 0; e = nextg[e]) {
 			int v = tog[e];
 			if (!vis[v]) {
-				total = siz[v];
-				centroid = 0;
-				// getCentroid1(v, u);
-				getCentroid2(v, u);
-				ans = Math.min(ans, solve(centroid));
+				ans = Math.min(ans, solve(getCentroid(v, u)));
 			}
 		}
 		return ans;
@@ -227,11 +228,7 @@ public class Code08_Capital1 {
 			color[i] = in.nextInt();
 			addNode(color[i], i);
 		}
-		total = n;
-		centroid = 0;
-		// getCentroid1(1, 0);
-		getCentroid2(1, 0);
-		int ans = solve(centroid);
+		int ans = solve(getCentroid(1, 0));
 		out.println(ans - 1);
 		out.flush();
 		out.close();

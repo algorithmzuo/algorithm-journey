@@ -31,9 +31,6 @@ package class183;
 //
 //bool vis[MAXN];
 //int siz[MAXN];
-//int maxPart[MAXN];
-//int total;
-//int centroid;
 //
 //int father[MAXN];
 //int nodeStamp[MAXN];
@@ -53,21 +50,33 @@ package class183;
 //    headc[color] = cntc;
 //}
 //
-//void getCentroid(int u, int fa) {
+//int getSize(int u, int fa) {
 //    siz[u] = 1;
-//    maxPart[u] = 0;
-//    for (int e = headg[u]; e > 0; e = nextg[e]) {
+//    for (int e = headg[u]; e; e = nextg[e]) {
 //        int v = tog[e];
 //        if (v != fa && !vis[v]) {
-//            getCentroid(v, u);
-//            siz[u] += siz[v];
-//            maxPart[u] = max(maxPart[u], siz[v]);
+//            siz[u] += getSize(v, u);
 //        }
 //    }
-//    maxPart[u] = max(maxPart[u], total - siz[u]);
-//    if (centroid == 0 || maxPart[u] < maxPart[centroid]) {
-//        centroid = u;
+//    return siz[u];
+//}
+//
+//int getCentroid(int u, int fa) {
+//    int half = getSize(u, fa) >> 1;
+//    bool find = false;
+//    while (!find) {
+//        find = true;
+//        for (int e = headg[u]; e; e = nextg[e]) {
+//            int v = tog[e];
+//            if (v != fa && !vis[v] && siz[v] > half) {
+//                fa = u;
+//                u = v;
+//                find = false;
+//                break;
+//            }
+//        }
 //    }
+//    return u;
 //}
 //
 //void dfs(int u, int fa, int stamp) {
@@ -118,10 +127,7 @@ package class183;
 //    for (int e = headg[u]; e > 0; e = nextg[e]) {
 //        int v = tog[e];
 //        if (!vis[v]) {
-//            total = siz[v];
-//            centroid = 0;
-//            getCentroid(v, u);
-//            ans = min(ans, solve(centroid));
+//            ans = min(ans, solve(getCentroid(v, u)));
 //        }
 //    }
 //    return ans;
@@ -140,10 +146,7 @@ package class183;
 //        cin >> color[i];
 //        addNode(color[i], i);
 //    }
-//    total = n;
-//    centroid = 0;
-//    getCentroid(1, 0);
-//    int ans = solve(centroid);
+//    int ans = solve(getCentroid(1, 0));
 //    cout << (ans - 1) << '\n';
 //    return 0;
 //}
