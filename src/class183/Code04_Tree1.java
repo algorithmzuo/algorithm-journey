@@ -28,9 +28,6 @@ public class Code04_Tree1 {
 
 	public static boolean[] vis = new boolean[MAXN];
 	public static int[] siz = new int[MAXN];
-	public static int[] maxPart = new int[MAXN];
-	public static int total;
-	public static int centroid;
 
 	public static int[] disArr = new int[MAXN];
 	public static int cnta;
@@ -42,21 +39,33 @@ public class Code04_Tree1 {
 		head[u] = cntg;
 	}
 
-	public static void getCentroid(int u, int fa) {
+	public static int getSize(int u, int fa) {
 		siz[u] = 1;
-		maxPart[u] = 0;
 		for (int e = head[u]; e > 0; e = nxt[e]) {
 			int v = to[e];
 			if (v != fa && !vis[v]) {
-				getCentroid(v, u);
-				siz[u] += siz[v];
-				maxPart[u] = Math.max(siz[v], maxPart[u]);
+				siz[u] += getSize(v, u);
 			}
 		}
-		maxPart[u] = Math.max(maxPart[u], total - siz[u]);
-		if (centroid == 0 || maxPart[u] < maxPart[centroid]) {
-			centroid = u;
+		return siz[u];
+	}
+
+	public static int getCentroid(int u, int fa) {
+		int half = getSize(u, fa) >> 1;
+		boolean find = false;
+		while (!find) {
+			find = true;
+			for (int e = head[u]; e > 0; e = nxt[e]) {
+				int v = to[e];
+				if (v != fa && !vis[v] && siz[v] > half) {
+					fa = u;
+					u = v;
+					find = false;
+					break;
+				}
+			}
 		}
+		return u;
 	}
 
 	public static void dfs(int u, int fa, int dis) {
@@ -96,10 +105,7 @@ public class Code04_Tree1 {
 			int v = to[e];
 			if (!vis[v]) {
 				ans -= calc(v, weight[e]);
-				total = siz[v];
-				centroid = 0;
-				getCentroid(v, 0);
-				ans += solve(centroid);
+				ans += solve(getCentroid(v, u));
 			}
 		}
 		return ans;
@@ -117,10 +123,7 @@ public class Code04_Tree1 {
 			addEdge(v, u, w);
 		}
 		k = in.nextInt();
-		total = n;
-		centroid = 0;
-		getCentroid(1, 0);
-		out.println(solve(centroid));
+		out.println(solve(getCentroid(1, 0)));
 		out.flush();
 		out.close();
 	}
