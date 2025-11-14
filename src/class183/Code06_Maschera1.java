@@ -28,9 +28,6 @@ public class Code06_Maschera1 {
 
 	public static boolean[] vis = new boolean[MAXN];
 	public static int[] siz = new int[MAXN];
-	public static int[] maxPart = new int[MAXN];
-	public static int total;
-	public static int centroid;
 
 	public static int[] curMaxv = new int[MAXN];
 	public static int[] curEdge = new int[MAXN];
@@ -106,33 +103,26 @@ public class Code06_Maschera1 {
 		return ret;
 	}
 
-	// 找重心的递归版，java会爆栈，C++可以通过
-	public static void getCentroid1(int u, int fa) {
+	// 得到子树大小递归版，java会爆栈，C++可以通过
+	public static int getSize1(int u, int fa) {
 		siz[u] = 1;
-		maxPart[u] = 0;
 		for (int e = head[u]; e > 0; e = nxt[e]) {
 			int v = to[e];
 			if (v != fa && !vis[v]) {
-				getCentroid1(v, u);
-				siz[u] += siz[v];
-				maxPart[u] = Math.max(siz[v], maxPart[u]);
+				siz[u] += getSize1(v, u);
 			}
 		}
-		maxPart[u] = Math.max(maxPart[u], total - siz[u]);
-		if (centroid == 0 || maxPart[u] < maxPart[centroid]) {
-			centroid = u;
-		}
+		return siz[u];
 	}
 
-	// 找重心的迭代版
-	public static void getCentroid2(int cur, int fa) {
+	// 得到子树大小迭代版
+	public static int getSize2(int cur, int fa) {
 		stacksize = 0;
 		push(cur, fa, 0, 0, -1);
 		while (stacksize > 0) {
 			pop();
 			if (e == -1) {
 				siz[u] = 1;
-				maxPart[u] = 0;
 				e = head[u];
 			} else {
 				e = nxt[e];
@@ -141,22 +131,37 @@ public class Code06_Maschera1 {
 				push(u, f, 0, 0, e);
 				int v = to[e];
 				if (v != f && !vis[v]) {
-					push(to[e], u, 0, 0, -1);
+					push(v, u, 0, 0, -1);
 				}
 			} else {
 				for (int ei = head[u]; ei > 0; ei = nxt[ei]) {
 					int v = to[ei];
 					if (v != f && !vis[v]) {
 						siz[u] += siz[v];
-						maxPart[u] = Math.max(siz[v], maxPart[u]);
 					}
-				}
-				maxPart[u] = Math.max(maxPart[u], total - siz[u]);
-				if (centroid == 0 || maxPart[u] < maxPart[centroid]) {
-					centroid = u;
 				}
 			}
 		}
+		return siz[cur];
+	}
+
+	public static int getCentroid(int u, int fa) {
+		// int half = getSize1(u, fa) >> 1;
+		int half = getSize2(u, fa) >> 1;
+		boolean find = false;
+		while (!find) {
+			find = true;
+			for (int e = head[u]; e > 0; e = nxt[e]) {
+				int v = to[e];
+				if (v != fa && !vis[v] && siz[v] > half) {
+					fa = u;
+					u = v;
+					find = false;
+					break;
+				}
+			}
+		}
+		return u;
 	}
 
 	// 收集信息递归版，java会爆栈，C++可以通过
@@ -245,11 +250,7 @@ public class Code06_Maschera1 {
 		for (int e = head[u]; e > 0; e = nxt[e]) {
 			int v = to[e];
 			if (!vis[v]) {
-				total = siz[v];
-				centroid = 0;
-				// getCentroid1(v, 0);
-				getCentroid2(v, 0);
-				ans += solve(centroid);
+				ans += solve(getCentroid(v, u));
 			}
 		}
 		return ans;
@@ -268,11 +269,7 @@ public class Code06_Maschera1 {
 			addEdge(u, v, w);
 			addEdge(v, u, w);
 		}
-		total = n;
-		centroid = 0;
-		// getCentroid1(1, 0);
-		getCentroid2(1, 0);
-		long ans = solve(centroid);
+		long ans = solve(getCentroid(1, 0));
 		out.println(ans << 1);
 		out.flush();
 		out.close();

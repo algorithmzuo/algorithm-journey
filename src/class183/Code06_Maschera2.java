@@ -34,9 +34,6 @@ package class183;
 //
 //bool vis[MAXN];
 //int siz[MAXN];
-//int maxPart[MAXN];
-//int total;
-//int centroid;
 //
 //Node cur[MAXN];
 //int cntc;
@@ -72,21 +69,33 @@ package class183;
 //    return ret;
 //}
 //
-//void getCentroid(int u, int fa) {
+//int getSize(int u, int fa) {
 //    siz[u] = 1;
-//    maxPart[u] = 0;
 //    for (int e = head[u]; e; e = nxt[e]) {
 //        int v = to[e];
 //        if (v != fa && !vis[v]) {
-//            getCentroid(v, u);
-//            siz[u] += siz[v];
-//            maxPart[u] = max(maxPart[u], siz[v]);
+//            siz[u] += getSize(v, u);
 //        }
 //    }
-//    maxPart[u] = max(maxPart[u], total - siz[u]);
-//    if (centroid == 0 || maxPart[u] < maxPart[centroid]) {
-//        centroid = u;
+//    return siz[u];
+//}
+//
+//int getCentroid(int u, int fa) {
+//    int half = getSize(u, fa) >> 1;
+//    bool find = false;
+//    while (!find) {
+//        find = true;
+//        for (int e = head[u]; e; e = nxt[e]) {
+//            int v = to[e];
+//            if (v != fa && !vis[v] && siz[v] > half) {
+//                fa = u;
+//                u = v;
+//                find = false;
+//                break;
+//            }
+//        }
 //    }
+//    return u;
 //}
 //
 //void dfs(int u, int fa, int maxv, int edge) {
@@ -145,10 +154,7 @@ package class183;
 //    for (int e = head[u]; e; e = nxt[e]) {
 //        int v = to[e];
 //        if (!vis[v]) {
-//            total = siz[v];
-//            centroid = 0;
-//            getCentroid(v, 0);
-//            ans += solve(centroid);
+//            ans += solve(getCentroid(v, u));
 //        }
 //    }
 //    return ans;
@@ -163,10 +169,7 @@ package class183;
 //        addEdge(u, v, w);
 //        addEdge(v, u, w);
 //    }
-//    total = n;
-//    centroid = 0;
-//    getCentroid(1, 0);
-//    long long ans = solve(centroid);
+//    long long ans = solve(getCentroid(1, 0));
 //    cout << (ans << 1) << '\n';
 //    return 0;
 //}
