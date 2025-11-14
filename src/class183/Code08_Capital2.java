@@ -83,7 +83,7 @@ package class183;
 //    father[u] = fa;
 //    nodeStamp[u] = stamp;
 //    enter[u] = false;
-//    for (int e = headg[u]; e > 0; e = nextg[e]) {
+//    for (int e = headg[u]; e; e = nextg[e]) {
 //        int v = tog[e];
 //        if (v != fa && !vis[v]) {
 //            dfs(v, u, stamp);
@@ -106,7 +106,7 @@ package class183;
 //        if (colorStamp[color[cur]] != u) {
 //            colorStamp[color[cur]] = u;
 //            ans++;
-//            for (int e = headc[color[cur]]; e > 0; e = nextc[e]) {
+//            for (int e = headc[color[cur]]; e; e = nextc[e]) {
 //                int v = toc[e];
 //                if (nodeStamp[v] != u) {
 //                    return INF;
@@ -124,7 +124,7 @@ package class183;
 //int solve(int u) {
 //    vis[u] = true;
 //    int ans = calc(u);
-//    for (int e = headg[u]; e > 0; e = nextg[e]) {
+//    for (int e = headg[u]; e; e = nextg[e]) {
 //        int v = tog[e];
 //        if (!vis[v]) {
 //            ans = min(ans, solve(getCentroid(v, u)));

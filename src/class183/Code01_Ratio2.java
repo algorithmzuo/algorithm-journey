@@ -42,7 +42,7 @@ package class183;
 //
 //int getSize(int u, int fa) {
 //    siz[u] = 1;
-//    for (int e = head[u]; e > 0; e = nxt[e]) {
+//    for (int e = head[u]; e; e = nxt[e]) {
 //        int v = to[e];
 //        if (v != fa && !vis[v]) {
 //            siz[u] += getSize(v, u);
@@ -56,7 +56,7 @@ package class183;
 //    bool find = false;
 //    while (!find) {
 //        find = true;
-//        for (int e = head[u]; e > 0; e = nxt[e]) {
+//        for (int e = head[u]; e; e = nxt[e]) {
 //            int v = to[e];
 //            if (v != fa && !vis[v] && siz[v] > half) {
 //                fa = u;
@@ -71,7 +71,7 @@ package class183;
 //
 //void dfs(int u, int fa, int dis) {
 //    cur[dis % 3]++;
-//    for (int e = head[u]; e > 0; e = nxt[e]) {
+//    for (int e = head[u]; e; e = nxt[e]) {
 //        int v = to[e];
 //        if (v != fa && !vis[v]) {
 //            dfs(v, u, dis + weight[e]);
@@ -82,7 +82,7 @@ package class183;
 //int calc(int u) {
 //    int ans = 0;
 //    all[0] = all[1] = all[2] = 0;
-//    for (int e = head[u]; e > 0; e = nxt[e]) {
+//    for (int e = head[u]; e; e = nxt[e]) {
 //        int v = to[e];
 //        int w = weight[e];
 //        if (!vis[v]) {
@@ -100,7 +100,7 @@ package class183;
 //int solve(int u) {
 //    vis[u] = true;
 //    int ans = calc(u);
-//    for (int e = head[u]; e > 0; e = nxt[e]) {
+//    for (int e = head[u]; e; e = nxt[e]) {
 //        int v = to[e];
 //        if (!vis[v]) {
 //            ans += solve(getCentroid(v, u));
