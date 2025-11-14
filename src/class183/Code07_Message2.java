@@ -35,9 +35,6 @@ package class183;
 //
 //bool vis[MAXN];
 //int siz[MAXN];
-//int maxPart[MAXN];
-//int total;
-//int centroid;
 //
 //int depCnt[MAXN];
 //int maxDep;
@@ -60,21 +57,33 @@ package class183;
 //    headq[u] = cntq;
 //}
 //
-//void getCentroid(int u, int fa) {
+//int getSize(int u, int fa) {
 //    siz[u] = 1;
-//    maxPart[u] = 0;
 //    for (int e = headg[u]; e; e = nextg[e]) {
 //        int v = tog[e];
 //        if (v != fa && !vis[v]) {
-//            getCentroid(v, u);
-//            siz[u] += siz[v];
-//            maxPart[u] = max(maxPart[u], siz[v]);
+//            siz[u] += getSize(v, u);
 //        }
 //    }
-//    maxPart[u] = max(maxPart[u], total - siz[u]);
-//    if (centroid == 0 || maxPart[u] < maxPart[centroid]) {
-//        centroid = u;
+//    return siz[u];
+//}
+//
+//int getCentroid(int u, int fa) {
+//    int half = getSize(u, fa) >> 1;
+//    bool find = false;
+//    while (!find) {
+//        find = true;
+//        for (int e = headg[u]; e; e = nextg[e]) {
+//            int v = tog[e];
+//            if (v != fa && !vis[v] && siz[v] > half) {
+//                fa = u;
+//                u = v;
+//                find = false;
+//                break;
+//            }
+//        }
 //    }
+//    return u;
 //}
 //
 //void dfs(int u, int fa, int dep) {
@@ -125,10 +134,7 @@ package class183;
 //    for (int e = headg[u]; e; e = nextg[e]) {
 //        int v = tog[e];
 //        if (!vis[v]) {
-//            total = siz[v];
-//            centroid = 0;
-//            getCentroid(v, u);
-//            solve(centroid);
+//            solve(getCentroid(v, u));
 //        }
 //    }
 //}
@@ -162,10 +168,7 @@ package class183;
 //            cin >> x >> k;
 //            addQuery(x, k, i);
 //        }
-//        total = n;
-//        centroid = 0;
-//        getCentroid(1, 0);
-//        solve(centroid);
+//        solve(getCentroid(1, 0));
 //        for (int i = 1; i <= m; i++) {
 //            cout << ans[i] << '\n';
 //        }
