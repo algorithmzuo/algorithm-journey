@@ -13,7 +13,7 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
-public class Code01_CentroidDecomposition1 {
+public class Code02_Template1 {
 
 	public static int MAXN = 10001;
 	public static int MAXM = 101;

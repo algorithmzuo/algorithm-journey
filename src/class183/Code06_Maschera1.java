@@ -1,26 +1,24 @@
 package class183;
 
-// 权值和为k的路径的最少边数，java版
+// 所有合法路径的魔力和，java版
 // 一共有n个节点，给定n-1条边，每条边有边权，所有节点组成一棵树
-// 给定数字k，要求路径权值和等于k，并且边的数量最小
-// 打印最小边数，如果不存在路径打印-1，注意点的编号从0开始
-// 1 <= n <= 2 * 10^5
-// 0 <= 边权、k <= 10^6
-// 测试链接 : https://www.luogu.com.cn/problem/P4149
+// 给定两个整数l、r，对于任意两个不同节点u、v，考虑它们之间的简单路径
+// 如果路径上边的数量在[l, r]范围内，则这条路径是合法路径
+// 路径的魔力值 = 路径上所有边权的最大值，打印所有合法路径的魔力和
+// 注意，u到v和v到u视为两条不同的路径，均要计入答案
+// 1 <= n、边权 <= 10^5
+// 测试链接 : https://www.luogu.com.cn/problem/P5351
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
-import java.util.Arrays;
 
-public class Code02_Race1 {
+public class Code06_Maschera1 {
 
-	public static int MAXN = 200001;
-	public static int MAXK = 1000001;
-	public static int INF = 1000000001;
-	public static int n, k;
+	public static int MAXN = 100001;
+	public static int n, l, r;
 
 	public static int[] head = new int[MAXN];
 	public static int[] nxt = new int[MAXN << 1];
@@ -34,20 +32,23 @@ public class Code02_Race1 {
 	public static int total;
 	public static int centroid;
 
-	public static int[] disArr = new int[MAXN];
-	public static int[] edgeArr = new int[MAXN];
+	public static int[] curMaxv = new int[MAXN];
+	public static int[] curEdge = new int[MAXN];
+	public static int cntc;
+	public static int[] allMaxv = new int[MAXN];
+	public static int[] allEdge = new int[MAXN];
 	public static int cnta;
 
-	public static int[] dp = new int[MAXK];
+	public static int[] tree = new int[MAXN];
 
 	// 讲解118，递归函数改成迭代所需要的栈
 	public static int[][] stack = new int[MAXN][5];
-	public static int stacksize, u, f, dis, edge, e;
+	public static int stacksize, u, f, maxv, edge, e;
 
-	public static void push(int u, int f, int dis, int edge, int e) {
+	public static void push(int u, int f, int maxv, int edge, int e) {
 		stack[stacksize][0] = u;
 		stack[stacksize][1] = f;
-		stack[stacksize][2] = dis;
+		stack[stacksize][2] = maxv;
 		stack[stacksize][3] = edge;
 		stack[stacksize][4] = e;
 		stacksize++;
@@ -57,9 +58,25 @@ public class Code02_Race1 {
 		--stacksize;
 		u = stack[stacksize][0];
 		f = stack[stacksize][1];
-		dis = stack[stacksize][2];
+		maxv = stack[stacksize][2];
 		edge = stack[stacksize][3];
 		e = stack[stacksize][4];
+	}
+
+	public static void sort(int[] maxv, int[] edge, int l, int r) {
+		if (l >= r) return;
+		int i = l, j = r, pivot = maxv[(l + r) >> 1], tmp;
+		while (i <= j) {
+			while (maxv[i] < pivot) i++;
+			while (maxv[j] > pivot) j--;
+			if (i <= j) {
+				tmp = maxv[i]; maxv[i] = maxv[j]; maxv[j] = tmp;
+				tmp = edge[i]; edge[i] = edge[j]; edge[j] = tmp;
+				i++; j--;
+			}
+		}
+		sort(maxv, edge, l, j);
+		sort(maxv, edge, i, r);
 	}
 
 	public static void addEdge(int u, int v, int w) {
@@ -67,6 +84,26 @@ public class Code02_Race1 {
 		to[cntg] = v;
 		weight[cntg] = w;
 		head[u] = cntg;
+	}
+
+	public static int lowbit(int i) {
+		return i & -i;
+	}
+
+	public static void add(int i, int v) {
+		while (i <= r) {
+			tree[i] += v;
+			i += lowbit(i);
+		}
+	}
+
+	public static int sum(int i) {
+		int ret = 0;
+		while (i > 0) {
+			ret += tree[i];
+			i -= lowbit(i);
+		}
+		return ret;
 	}
 
 	// 找重心的递归版，java会爆栈，C++可以通过
@@ -123,74 +160,88 @@ public class Code02_Race1 {
 	}
 
 	// 收集信息递归版，java会爆栈，C++可以通过
-	public static void dfs1(int u, int fa, int dis, int edge) {
-		if (dis > k) {
+	public static void dfs1(int u, int fa, int maxv, int edge) {
+		if (edge > r) {
 			return;
 		}
-		disArr[++cnta] = dis;
-		edgeArr[cnta] = edge;
+		curMaxv[++cntc] = maxv;
+		curEdge[cntc] = edge;
 		for (int e = head[u]; e > 0; e = nxt[e]) {
 			int v = to[e];
 			if (v != fa && !vis[v]) {
-				dfs1(v, u, dis + weight[e], edge + 1);
+				dfs1(v, u, Math.max(maxv, weight[e]), edge + 1);
 			}
 		}
 	}
 
-	// 收集信息的迭代版
-	public static void dfs2(int cur, int fa, int pathDis, int pathEdge) {
+	// 收集信息迭代版
+	public static void dfs2(int cur, int fa, int pmaxv, int pedge) {
 		stacksize = 0;
-		push(cur, fa, pathDis, pathEdge, -1);
+		push(cur, fa, pmaxv, pedge, -1);
 		while (stacksize > 0) {
 			pop();
 			if (e == -1) {
-				if (dis > k) {
+				if (edge > r) {
 					continue;
 				}
-				disArr[++cnta] = dis;
-				edgeArr[cnta] = edge;
+				curMaxv[++cntc] = maxv;
+				curEdge[cntc] = edge;
 				e = head[u];
 			} else {
 				e = nxt[e];
 			}
 			if (e != 0) {
-				push(u, f, dis, edge, e);
+				push(u, f, maxv, edge, e);
 				int v = to[e];
 				if (v != f && !vis[v]) {
-					push(to[e], u, dis + weight[e], edge + 1, -1);
+					push(to[e], u, Math.max(maxv, weight[e]), edge + 1, -1);
 				}
 			}
 		}
 	}
 
-	public static int calc(int u) {
-		int ans = INF;
+	public static long calc(int u) {
+		long ans = 0;
 		cnta = 0;
-		dp[0] = 0;
 		for (int e = head[u]; e > 0; e = nxt[e]) {
 			int v = to[e];
 			if (!vis[v]) {
-				int tmp = cnta;
+				cntc = 0;
 				// dfs1(v, u, weight[e], 1);
 				dfs2(v, u, weight[e], 1);
-				for (int i = tmp + 1; i <= cnta; i++) {
-					ans = Math.min(ans, dp[k - disArr[i]] + edgeArr[i]);
+				sort(curMaxv, curEdge, 1, cntc);
+				for (int i = 1; i <= cntc; i++) {
+					ans -= 1L * curMaxv[i] * (sum(r - curEdge[i]) - sum(l - curEdge[i] - 1));
+					add(curEdge[i], 1);
 				}
-				for (int i = tmp + 1; i <= cnta; i++) {
-					dp[disArr[i]] = Math.min(dp[disArr[i]], edgeArr[i]);
+				for (int i = 1; i <= cntc; i++) {
+					add(curEdge[i], -1);
+				}
+				for (int i = 1; i <= cntc; i++) {
+					allMaxv[++cnta] = curMaxv[i];
+					allEdge[cnta] = curEdge[i];
 				}
 			}
 		}
+		sort(allMaxv, allEdge, 1, cnta);
 		for (int i = 1; i <= cnta; i++) {
-			dp[disArr[i]] = INF;
+			ans += 1L * allMaxv[i] * (sum(r - allEdge[i]) - sum(l - allEdge[i] - 1));
+			add(allEdge[i], 1);
+		}
+		for (int i = 1; i <= cnta; i++) {
+			add(allEdge[i], -1);
+		}
+		for (int i = 1; i <= cnta; i++) {
+			if (allEdge[i] >= l) {
+				ans += allMaxv[i];
+			}
 		}
 		return ans;
 	}
 
-	public static int solve(int u) {
-		int ans = INF;
+	public static long solve(int u) {
 		vis[u] = true;
-		ans = Math.min(ans, calc(u));
+		long ans = calc(u);
 		for (int e = head[u]; e > 0; e = nxt[e]) {
 			int v = to[e];
 			if (!vis[v]) {
@@ -198,7 +249,7 @@ public class Code02_Race1 {
 				centroid = 0;
 				// getCentroid1(v, 0);
 				getCentroid2(v, 0);
-				ans = Math.min(ans, solve(centroid));
+				ans += solve(centroid);
 			}
 		}
 		return ans;
@@ -208,10 +259,11 @@ public class Code02_Race1 {
 		FastReader in = new FastReader(System.in);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
 		n = in.nextInt();
-		k = in.nextInt();
+		l = in.nextInt();
+		r = in.nextInt();
 		for (int i = 1, u, v, w; i < n; i++) {
-			u = in.nextInt() + 1;
-			v = in.nextInt() + 1;
+			u = in.nextInt();
+			v = in.nextInt();
 			w = in.nextInt();
 			addEdge(u, v, w);
 			addEdge(v, u, w);
@@ -220,12 +272,8 @@ public class Code02_Race1 {
 		centroid = 0;
 		// getCentroid1(1, 0);
 		getCentroid2(1, 0);
-		Arrays.fill(dp, INF);
-		int ans = solve(centroid);
-		if (ans == INF) {
-			ans = -1;
-		}
-		out.println(ans);
+		long ans = solve(centroid);
+		out.println(ans << 1);
 		out.flush();
 		out.close();
 	}

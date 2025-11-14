@@ -18,7 +18,7 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
-public class Code04_CloseVertices1 {
+public class Code05_CloseVertices1 {
 
 	public static int MAXN = 100002;
 	public static int n, limitl, limitw;
