@@ -1,6 +1,6 @@
 package class183;
 
-// 点分治，也叫重心分解，C++版
+// 点分治模版题，C++版
 // 一共有n个节点，给定n-1条边，每条边有边权，所有节点组成一棵树
 // 一共有m条查询，每条查询给定数字k，打印树上距离为k的点对是否存在
 // 1 <= n <= 10^4    1 <= 边权 <= 10^4
@@ -29,13 +29,10 @@ package class183;
 //
 //bool vis[MAXN];
 //int siz[MAXN];
-//int maxPart[MAXN];
-//int total;
-//int centroid;
 //
-//int curDis[MAXN];
+//int cur[MAXN];
 //int cntc;
-//int allDis[MAXN];
+//int all[MAXN];
 //int cnta;
 //bool check[MAXV];
 //
@@ -48,28 +45,40 @@ package class183;
 //    head[u] = cntg;
 //}
 //
-//void getCentroid(int u, int fa) {
+//int getSize(int u, int fa) {
 //    siz[u] = 1;
-//    maxPart[u] = 0;
 //    for (int e = head[u]; e; e = nxt[e]) {
 //        int v = to[e];
 //        if (v != fa && !vis[v]) {
-//            getCentroid(v, u);
-//            siz[u] += siz[v];
-//            maxPart[u] = max(maxPart[u], siz[v]);
+//            siz[u] += getSize(v, u);
 //        }
 //    }
-//    maxPart[u] = max(maxPart[u], total - siz[u]);
-//    if (centroid == 0 || maxPart[u] < maxPart[centroid]) {
-//        centroid = u;
+//    return siz[u];
+//}
+//
+//int getCentroid(int u, int fa) {
+//    int half = getSize(u, fa) >> 1;
+//    bool find = false;
+//    while (!find) {
+//        find = true;
+//        for (int e = head[u]; e; e = nxt[e]) {
+//            int v = to[e];
+//            if (v != fa && !vis[v] && siz[v] > half) {
+//                fa = u;
+//                u = v;
+//                find = false;
+//                break;
+//            }
+//        }
 //    }
+//    return u;
 //}
 //
 //void dfs(int u, int fa, int dis) {
 //    if (dis > maxq) {
 //        return;
 //    }
-//    curDis[++cntc] = dis;
+//    cur[++cntc] = dis;
 //    for (int e = head[u]; e; e = nxt[e]) {
 //        int v = to[e];
 //        if (v != fa && !vis[v]) {
@@ -80,41 +89,37 @@ package class183;
 //
 //void calc(int u) {
 //    cnta = 0;
+//    check[0] = true;
 //    for (int e = head[u]; e; e = nxt[e]) {
 //        int v = to[e];
-//        int w = weight[e];
 //        if (!vis[v]) {
 //            cntc = 0;
-//            dfs(v, u, w);
+//            dfs(v, u, weight[e]);
 //            for (int i = 1; i <= m; i++) {
 //                for (int j = 1; j <= cntc; j++) {
-//                    if (query[i] - curDis[j] >= 0) {
-//                        ans[i] |= check[query[i] - curDis[j]];
+//                    if (query[i] - cur[j] >= 0) {
+//                        ans[i] |= check[query[i] - cur[j]];
 //                    }
 //                }
 //            }
 //            for (int i = 1; i <= cntc; i++) {
-//                allDis[++cnta] = curDis[i];
-//                check[curDis[i]] = true;
+//                all[++cnta] = cur[i];
+//                check[cur[i]] = true;
 //            }
 //        }
 //    }
 //    for (int i = 1; i <= cnta; i++) {
-//        check[allDis[i]] = false;
+//        check[all[i]] = false;
 //    }
 //}
 //
 //void solve(int u) {
 //    vis[u] = true;
-//    check[0] = true;
 //    calc(u);
 //    for (int e = head[u]; e; e = nxt[e]) {
 //        int v = to[e];
 //        if (!vis[v]) {
-//            total = siz[v];
-//            centroid = 0;
-//            getCentroid(v, u);
-//            solve(centroid);
+//            solve(getCentroid(v, u));
 //        }
 //    }
 //}
@@ -132,10 +137,7 @@ package class183;
 //        cin >> query[i];
 //        maxq = max(maxq, query[i]);
 //    }
-//    total = n;
-//    centroid = 0;
-//    getCentroid(1, 0);
-//    solve(centroid);
+//    solve(getCentroid(1, 0));
 //    for (int i = 1; i <= m; i++) {
 //        if (ans[i]) {
 //            cout << "AYE" << '\n';
