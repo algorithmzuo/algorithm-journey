@@ -1,4 +1,4 @@
-package class183;
+package class184;
 
 // 首都，java版
 // 一共有n个节点，给定n-1条边，所有节点组成一棵树
@@ -14,7 +14,7 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
-public class Code08_Capital1 {
+public class Code01_Capital1 {
 
 	public static int MAXN = 200001;
 	public static int INF = 1000000001;
