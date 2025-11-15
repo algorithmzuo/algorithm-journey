@@ -77,19 +77,19 @@ public class Code07_Message1 {
 	}
 
 	// 得到子树大小递归版，java会爆栈，C++可以通过
-	public static int getSize1(int u, int fa) {
+	public static void getSize1(int u, int fa) {
 		siz[u] = 1;
 		for (int e = headg[u]; e > 0; e = nextg[e]) {
 			int v = tog[e];
 			if (v != fa && !vis[v]) {
-				siz[u] += getSize1(v, u);
+				getSize1(v, u);
+				siz[u] += siz[v];
 			}
 		}
-		return siz[u];
 	}
 
 	// 得到子树大小迭代版
-	public static int getSize2(int cur, int fa) {
+	public static void getSize2(int cur, int fa) {
 		stacksize = 0;
 		push(cur, fa, 0, -1);
 		while (stacksize > 0) {
@@ -115,12 +115,12 @@ public class Code07_Message1 {
 				}
 			}
 		}
-		return siz[cur];
 	}
 
 	public static int getCentroid(int u, int fa) {
-		// int half = getSize1(u, fa) >> 1;
-		int half = getSize2(u, fa) >> 1;
+		// getSize1(u, fa);
+		getSize2(u, fa);
+		int half = siz[u] >> 1;
 		boolean find = false;
 		while (!find) {
 			find = true;

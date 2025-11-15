@@ -81,19 +81,20 @@ public class Code05_CloseVertices1 {
 		return ret;
 	}
 
-	public static int getSize(int u, int fa) {
+	public static void getSize(int u, int fa) {
 		siz[u] = 1;
 		for (int e = head[u]; e > 0; e = nxt[e]) {
 			int v = to[e];
 			if (v != fa && !vis[v]) {
-				siz[u] += getSize(v, u);
+				getSize(v, u);
+				siz[u] += siz[v];
 			}
 		}
-		return siz[u];
 	}
 
 	public static int getCentroid(int u, int fa) {
-		int half = getSize(u, fa) >> 1;
+		getSize(u, fa);
+		int half = siz[u] >> 1;
 		boolean find = false;
 		while (!find) {
 			find = true;

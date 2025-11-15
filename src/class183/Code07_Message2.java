@@ -57,19 +57,20 @@ package class183;
 //    headq[u] = cntq;
 //}
 //
-//int getSize(int u, int fa) {
+//void getSize(int u, int fa) {
 //    siz[u] = 1;
 //    for (int e = headg[u]; e; e = nextg[e]) {
 //        int v = tog[e];
 //        if (v != fa && !vis[v]) {
-//            siz[u] += getSize(v, u);
+//            getSize(v, u);
+//            siz[u] += siz[v];
 //        }
 //    }
-//    return siz[u];
 //}
 //
 //int getCentroid(int u, int fa) {
-//    int half = getSize(u, fa) >> 1;
+//    getSize(u, fa);
+//    int half = siz[u] >> 1;
 //    bool find = false;
 //    while (!find) {
 //        find = true;
