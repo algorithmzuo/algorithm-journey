@@ -1,6 +1,6 @@
 package class183;
 
-// 点分治模版题，java版
+// 距离为k的点对是否存在，java版
 // 一共有n个节点，给定n-1条边，每条边有边权，所有节点组成一棵树
 // 一共有m条查询，每条查询给定数字k，打印树上距离为k的点对是否存在
 // 1 <= n <= 10^4    1 <= 边权 <= 10^4
@@ -13,7 +13,7 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
-public class Code02_Template1 {
+public class Code02_Exist1 {
 
 	public static int MAXN = 10001;
 	public static int MAXM = 101;
