@@ -81,7 +81,7 @@ package class183;
 //}
 //
 //int calc(int u) {
-//    int ans = 0;
+//    int ans = 1;
 //    all[0] = all[1] = all[2] = 0;
 //    for (int e = head[u]; e; e = nxt[e]) {
 //        int v = to[e];
@@ -95,7 +95,7 @@ package class183;
 //            all[2] += cur[2];
 //        }
 //    }
-//    return ans + 1;
+//    return ans;
 //}
 //
 //int solve(int u) {

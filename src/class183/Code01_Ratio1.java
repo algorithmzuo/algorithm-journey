@@ -85,7 +85,7 @@ public class Code01_Ratio1 {
 	}
 
 	public static int calc(int u) {
-		int ans = 0;
+		int ans = 1;
 		all[0] = all[1] = all[2] = 0;
 		for (int e = head[u]; e > 0; e = nxt[e]) {
 			int v = to[e];
@@ -99,7 +99,7 @@ public class Code01_Ratio1 {
 				all[2] += cur[2];
 			}
 		}
-		return ans + 1;
+		return ans;
 	}
 
 	public static int solve(int u) {
