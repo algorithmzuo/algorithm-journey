@@ -25,6 +25,7 @@ public class Code01_Ratio1 {
 	public static int[] weight = new int[MAXN << 1];
 	public static int cntg;
 
+	// vis[u] = true，表示u是之前的分治点
 	public static boolean[] vis = new boolean[MAXN];
 	public static int[] siz = new int[MAXN];
 
