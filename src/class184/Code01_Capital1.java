@@ -42,7 +42,8 @@ public class Code01_Capital1 {
 
 	// 讲解118，递归函数改成迭代所需要的栈
 	public static int[][] stack = new int[MAXN][4];
-	public static int stacksize, u, f, stamp, e;
+	public static int u, f, stamp, e;
+	public static int stacksize;
 
 	public static void push(int u, int f, int stamp, int e) {
 		stack[stacksize][0] = u;

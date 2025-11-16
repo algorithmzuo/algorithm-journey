@@ -40,7 +40,8 @@ public class Code06_Maschera1 {
 
 	// 讲解118，递归函数改成迭代所需要的栈
 	public static int[][] stack = new int[MAXN][5];
-	public static int stacksize, u, f, maxv, edge, e;
+	public static int u, f, maxv, edge, e;
+	public static int stacksize;
 
 	public static void push(int u, int f, int maxv, int edge, int e) {
 		stack[stacksize][0] = u;

@@ -45,7 +45,8 @@ public class Code07_Message1 {
 
 	// 讲解118，递归函数改成迭代所需要的栈
 	public static int[][] stack = new int[MAXN][4];
-	public static int stacksize, u, f, dep, e;
+	public static int u, f, dep, e;
+	public static int stacksize;
 
 	public static void push(int u, int f, int dep, int e) {
 		stack[stacksize][0] = u;
