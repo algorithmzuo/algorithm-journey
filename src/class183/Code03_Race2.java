@@ -36,6 +36,7 @@ package class183;
 //int cnta;
 //
 //int dp[MAXK];
+//int ans;
 //
 //void addEdge(int u, int v, int w) {
 //    nxt[++cntg] = head[u];
@@ -87,8 +88,7 @@ package class183;
 //    }
 //}
 //
-//int calc(int u) {
-//    int ans = INF;
+//void calc(int u) {
 //    cnta = 0;
 //    dp[0] = 0;
 //    for (int e = head[u]; e; e = nxt[e]) {
@@ -107,20 +107,17 @@ package class183;
 //    for (int i = 1; i <= cnta; i++) {
 //        dp[arr[i].dis] = INF;
 //    }
-//    return ans;
 //}
 //
-//int solve(int u) {
-//    int ans = INF;
+//void solve(int u) {
 //    vis[u] = true;
-//    ans = min(ans, calc(u));
+//    calc(u);
 //    for (int e = head[u]; e; e = nxt[e]) {
 //        int v = to[e];
 //        if (!vis[v]) {
-//            ans = min(ans, solve(getCentroid(v, u)));
+//            solve(getCentroid(v, u));
 //        }
 //    }
-//    return ans;
 //}
 //
 //int main() {
@@ -135,7 +132,8 @@ package class183;
 //        addEdge(v, u, w);
 //    }
 //    fill(dp, dp + MAXK, INF);
-//    int ans = solve(getCentroid(1, 0));
+//    ans = INF;
+//    solve(getCentroid(1, 0));
 //    if (ans == INF) {
 //        ans = -1;
 //    }

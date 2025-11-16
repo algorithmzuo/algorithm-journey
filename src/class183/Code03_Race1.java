@@ -36,6 +36,7 @@ public class Code03_Race1 {
 	public static int cnta;
 
 	public static int[] dp = new int[MAXK];
+	public static int ans;
 
 	// 讲解118，递归函数改成迭代所需要的栈
 	public static int[][] stack = new int[MAXN][5];
@@ -169,8 +170,7 @@ public class Code03_Race1 {
 		}
 	}
 
-	public static int calc(int u) {
-		int ans = INF;
+	public static void calc(int u) {
 		cnta = 0;
 		dp[0] = 0;
 		for (int e = head[u]; e > 0; e = nxt[e]) {
@@ -190,20 +190,17 @@ public class Code03_Race1 {
 		for (int i = 1; i <= cnta; i++) {
 			dp[disArr[i]] = INF;
 		}
-		return ans;
 	}
 
-	public static int solve(int u) {
-		int ans = INF;
+	public static void solve(int u) {
 		vis[u] = true;
-		ans = Math.min(ans, calc(u));
+		calc(u);
 		for (int e = head[u]; e > 0; e = nxt[e]) {
 			int v = to[e];
 			if (!vis[v]) {
-				ans = Math.min(ans, solve(getCentroid(v, u)));
+				solve(getCentroid(v, u));
 			}
 		}
-		return ans;
 	}
 
 	public static void main(String[] args) throws Exception {
@@ -219,7 +216,8 @@ public class Code03_Race1 {
 			addEdge(v, u, w);
 		}
 		Arrays.fill(dp, INF);
-		int ans = solve(getCentroid(1, 0));
+		ans = INF;
+		solve(getCentroid(1, 0));
 		if (ans == INF) {
 			ans = -1;
 		}
