@@ -28,6 +28,8 @@ public class Code01_Ratio1 {
 	public static boolean[] vis = new boolean[MAXN];
 	public static int[] siz = new int[MAXN];
 
+	// cur[v]，表示往下走的当前路径中，路径权值和 % 3 == v的路径有多少条
+	// all[v]，表示往下走的所有路径中，路径权值和 % 3 == v的路径有多少条
 	public static int[] cur = new int[3];
 	public static int[] all = new int[3];
 
@@ -83,7 +85,7 @@ public class Code01_Ratio1 {
 	}
 
 	public static int calc(int u) {
-		int ans = 0;
+		int ans = 1;
 		all[0] = all[1] = all[2] = 0;
 		for (int e = head[u]; e > 0; e = nxt[e]) {
 			int v = to[e];
@@ -124,7 +126,8 @@ public class Code01_Ratio1 {
 			addEdge(u, v, w);
 			addEdge(v, u, w);
 		}
-		int a = solve(getCentroid(1, 0)) + n;
+		int centroid = getCentroid(1, 0);
+		int a = solve(centroid);
 		int b = n * n;
 		int c = gcd(a, b);
 		a /= c;
