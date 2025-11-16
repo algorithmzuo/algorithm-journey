@@ -31,8 +31,6 @@ public class Code01_Ratio1 {
 	public static int[] cur = new int[3];
 	public static int[] all = new int[3];
 
-	public static int ans;
-
 	public static int gcd(int a, int b) {
 		return b == 0 ? a : gcd(b, a % b);
 	}
@@ -84,7 +82,8 @@ public class Code01_Ratio1 {
 		}
 	}
 
-	public static void calc(int u) {
+	public static int calc(int u) {
+		int ans = 0;
 		all[0] = all[1] = all[2] = 0;
 		for (int e = head[u]; e > 0; e = nxt[e]) {
 			int v = to[e];
@@ -98,17 +97,20 @@ public class Code01_Ratio1 {
 				all[2] += cur[2];
 			}
 		}
+		return ans;
 	}
 
-	public static void solve(int u) {
+	public static int solve(int u) {
+		int ans = 0;
 		vis[u] = true;
-		calc(u);
+		ans += calc(u);
 		for (int e = head[u]; e > 0; e = nxt[e]) {
 			int v = to[e];
 			if (!vis[v]) {
-				solve(getCentroid(v, u));
+				ans += solve(getCentroid(v, u));
 			}
 		}
+		return ans;
 	}
 
 	public static void main(String[] args) throws Exception {
@@ -122,8 +124,7 @@ public class Code01_Ratio1 {
 			addEdge(u, v, w);
 			addEdge(v, u, w);
 		}
-		solve(getCentroid(1, 0));
-		int a = ans + n;
+		int a = solve(getCentroid(1, 0)) + n;
 		int b = n * n;
 		int c = gcd(a, b);
 		a /= c;

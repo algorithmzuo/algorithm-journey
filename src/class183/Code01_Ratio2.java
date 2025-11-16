@@ -29,8 +29,6 @@ package class183;
 //int cur[3];
 //int all[3];
 //
-//int ans;
-//
 //int gcd(int a, int b) {
 //    return b == 0 ? a : gcd(b, a % b);
 //}
@@ -82,7 +80,8 @@ package class183;
 //    }
 //}
 //
-//void calc(int u) {
+//int calc(int u) {
+//    int ans = 0;
 //    all[0] = all[1] = all[2] = 0;
 //    for (int e = head[u]; e; e = nxt[e]) {
 //        int v = to[e];
@@ -96,17 +95,20 @@ package class183;
 //            all[2] += cur[2];
 //        }
 //    }
+//    return ans;
 //}
 //
-//void solve(int u) {
+//int solve(int u) {
+//    int ans = 0;
 //    vis[u] = true;
-//    calc(u);
+//    ans += calc(u);
 //    for (int e = head[u]; e; e = nxt[e]) {
 //        int v = to[e];
 //        if (!vis[v]) {
-//            solve(getCentroid(v, u));
+//            ans += solve(getCentroid(v, u));
 //        }
 //    }
+//    return ans;
 //}
 //
 //int main() {
@@ -118,8 +120,7 @@ package class183;
 //        addEdge(u, v, w);
 //        addEdge(v, u, w);
 //    }
-//    solve(getCentroid(1, 0));
-//    int a = ans + n;
+//    int a = solve(getCentroid(1, 0)) + n;
 //    int b = n * n;
 //    int c = gcd(a, b);
 //    a /= c;
