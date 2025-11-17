@@ -34,8 +34,10 @@ package class183;
 //
 //Node cur[MAXN];
 //int cntc;
-//Node all[MAXN];
+//
+//int allDis[MAXN];
 //int cnta;
+//
 //int dp[MAXK];
 //
 //void addEdge(int u, int v, int w) {
@@ -101,13 +103,13 @@ package class183;
 //                ans = min(ans, dp[k - cur[i].dis] + cur[i].edge);
 //            }
 //            for (int i = 1; i <= cntc; i++) {
-//                all[++cnta] = cur[i];
+//                allDis[++cnta] = cur[i].dis;
 //                dp[cur[i].dis] = min(dp[cur[i].dis], cur[i].edge);
 //            }
 //        }
 //    }
 //    for (int i = 1; i <= cnta; i++) {
-//        dp[all[i].dis] = INF;
+//        dp[allDis[i]] = INF;
 //    }
 //    return ans;
 //}

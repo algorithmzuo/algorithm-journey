@@ -31,14 +31,15 @@ public class Code03_Race1 {
 	public static boolean[] vis = new boolean[MAXN];
 	public static int[] siz = new int[MAXN];
 
-	// 从u出发到当前子树的节点，收集(路径权值和, 边数)
+	// 从u出发到当前子树的节点，收集(路径权值和, 路径边数)
 	public static int[] curDis = new int[MAXN];
 	public static int[] curEdge = new int[MAXN];
 	public static int cntc;
-	// 从u出发到之前子树的节点，收集(路径权值和, 边数)
+
+	// 从u出发到之前子树的节点，收集路径权值和
 	public static int[] allDis = new int[MAXN];
-	public static int[] allEdge = new int[MAXN];
 	public static int cnta;
+
 	// dp[v]表示，从u出发到之前子树的节点，路径权值和为v的路径，最少边数是多少
 	public static int[] dp = new int[MAXK];
 
@@ -189,7 +190,6 @@ public class Code03_Race1 {
 				}
 				for (int i = 1; i <= cntc; i++) {
 					allDis[++cnta] = curDis[i];
-					allEdge[cnta] = curEdge[i];
 					dp[curDis[i]] = Math.min(dp[curDis[i]], curEdge[i]);
 				}
 			}
