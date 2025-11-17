@@ -31,10 +31,12 @@ public class Code03_Race1 {
 	public static boolean[] vis = new boolean[MAXN];
 	public static int[] siz = new int[MAXN];
 
+	// 从u出发，到当前子树的每个节点，收集(路径权值和, 边数)
 	public static int[] disArr = new int[MAXN];
 	public static int[] edgeArr = new int[MAXN];
 	public static int cnta;
 
+	// dp[v]表示，从u出发到之前子树的节点，路径权值和为v的路径，最少边数是多少
 	public static int[] dp = new int[MAXK];
 
 	// 讲解118，递归函数改成迭代所需要的栈
