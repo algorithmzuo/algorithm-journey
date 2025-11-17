@@ -21,7 +21,7 @@ public class Code02_Exist1 {
 	public static int n, m;
 
 	public static int[] query = new int[MAXM];
-	public static int maxq;
+	public static int maxk;
 
 	public static int[] head = new int[MAXN];
 	public static int[] nxt = new int[MAXN << 1];
@@ -32,10 +32,15 @@ public class Code02_Exist1 {
 	public static boolean[] vis = new boolean[MAXN];
 	public static int[] siz = new int[MAXN];
 
+	// 从u出发，到当前子树每个节点，收集路径权值和
 	public static int[] cur = new int[MAXN];
 	public static int cntc;
+
+	// 从u出发，到之前所有子树的每个节点，收集路径权值和
 	public static int[] all = new int[MAXN];
 	public static int cnta;
+
+	// 使用数组替代哈希表，因为哈希表常数时间大，无法通过测试
 	public static boolean[] exist = new boolean[MAXV];
 
 	public static boolean[] ans = new boolean[MAXM];
@@ -78,7 +83,7 @@ public class Code02_Exist1 {
 	}
 
 	public static void dfs(int u, int fa, int dis) {
-		if (dis > maxq) {
+		if (dis > maxk) {
 			return;
 		}
 		cur[++cntc] = dis;
@@ -141,7 +146,7 @@ public class Code02_Exist1 {
 		}
 		for (int i = 1; i <= m; i++) {
 			query[i] = in.nextInt();
-			maxq = Math.max(maxq, query[i]);
+			maxk = Math.max(maxk, query[i]);
 		}
 		solve(getCentroid(1, 0));
 		for (int i = 1; i <= m; i++) {

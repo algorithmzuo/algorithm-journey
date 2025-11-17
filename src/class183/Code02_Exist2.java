@@ -19,7 +19,7 @@ package class183;
 //int n, m;
 //
 //int query[MAXM];
-//int maxq;
+//int maxk;
 //
 //int head[MAXN];
 //int nxt[MAXN << 1];
@@ -32,8 +32,10 @@ package class183;
 //
 //int cur[MAXN];
 //int cntc;
+//
 //int all[MAXN];
 //int cnta;
+//
 //bool exist[MAXV];
 //
 //bool ans[MAXM];
@@ -76,7 +78,7 @@ package class183;
 //}
 //
 //void dfs(int u, int fa, int dis) {
-//    if (dis > maxq) {
+//    if (dis > maxk) {
 //        return;
 //    }
 //    cur[++cntc] = dis;
@@ -136,7 +138,7 @@ package class183;
 //    }
 //    for (int i = 1; i <= m; i++) {
 //        cin >> query[i];
-//        maxq = max(maxq, query[i]);
+//        maxk = max(maxk, query[i]);
 //    }
 //    solve(getCentroid(1, 0));
 //    for (int i = 1; i <= m; i++) {
