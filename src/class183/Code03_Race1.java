@@ -32,10 +32,13 @@ public class Code03_Race1 {
 	public static int[] siz = new int[MAXN];
 
 	// 从u出发，到当前子树的每个节点，收集(路径权值和, 边数)
-	public static int[] disArr = new int[MAXN];
-	public static int[] edgeArr = new int[MAXN];
+	public static int[] curDis = new int[MAXN];
+	public static int[] curEdge = new int[MAXN];
+	public static int cntc;
+	// 从u出发，到之前子树的每个节点，收集(路径权值和, 边数)
+	public static int[] allDis = new int[MAXN];
+	public static int[] allEdge = new int[MAXN];
 	public static int cnta;
-
 	// dp[v]表示，从u出发到之前子树的节点，路径权值和为v的路径，最少边数是多少
 	public static int[] dp = new int[MAXK];
 
@@ -135,8 +138,8 @@ public class Code03_Race1 {
 		if (dis > k) {
 			return;
 		}
-		disArr[++cnta] = dis;
-		edgeArr[cnta] = edge;
+		curDis[++cntc] = dis;
+		curEdge[cntc] = edge;
 		for (int e = head[u]; e > 0; e = nxt[e]) {
 			int v = to[e];
 			if (v != fa && !vis[v]) {
@@ -155,8 +158,8 @@ public class Code03_Race1 {
 				if (dis > k) {
 					continue;
 				}
-				disArr[++cnta] = dis;
-				edgeArr[cnta] = edge;
+				curDis[++cntc] = dis;
+				curEdge[cntc] = edge;
 				e = head[u];
 			} else {
 				e = nxt[e];
@@ -178,19 +181,21 @@ public class Code03_Race1 {
 		for (int e = head[u]; e > 0; e = nxt[e]) {
 			int v = to[e];
 			if (!vis[v]) {
-				int tmp = cnta;
+				cntc = 0;
 				// dfs1(v, u, weight[e], 1);
 				dfs2(v, u, weight[e], 1);
-				for (int i = tmp + 1; i <= cnta; i++) {
-					ans = Math.min(ans, dp[k - disArr[i]] + edgeArr[i]);
+				for (int i = 1; i <= cntc; i++) {
+					ans = Math.min(ans, dp[k - curDis[i]] + curEdge[i]);
 				}
-				for (int i = tmp + 1; i <= cnta; i++) {
-					dp[disArr[i]] = Math.min(dp[disArr[i]], edgeArr[i]);
+				for (int i = 1; i <= cntc; i++) {
+					allDis[++cnta] = curDis[i];
+					allEdge[cnta] = curEdge[i];
+					dp[curDis[i]] = Math.min(dp[curDis[i]], curEdge[i]);
 				}
 			}
 		}
 		for (int i = 1; i <= cnta; i++) {
-			dp[disArr[i]] = INF;
+			dp[allDis[i]] = INF;
 		}
 		return ans;
 	}

@@ -32,9 +32,10 @@ package class183;
 //bool vis[MAXN];
 //int siz[MAXN];
 //
-//Node arr[MAXN];
+//Node cur[MAXN];
+//int cntc;
+//Node all[MAXN];
 //int cnta;
-//
 //int dp[MAXK];
 //
 //void addEdge(int u, int v, int w) {
@@ -78,7 +79,7 @@ package class183;
 //    if (dis > k) {
 //        return;
 //    }
-//    arr[++cnta] = { dis, edge };
+//    cur[++cntc] = { dis, edge };
 //    for (int e = head[u]; e; e = nxt[e]) {
 //        int v = to[e];
 //        if (v != fa && !vis[v]) {
@@ -94,18 +95,19 @@ package class183;
 //    for (int e = head[u]; e; e = nxt[e]) {
 //        int v = to[e];
 //        if (!vis[v]) {
-//            int tmp = cnta;
+//            cntc = 0;
 //            dfs(v, u, weight[e], 1);
-//            for (int i = tmp + 1; i <= cnta; i++) {
-//                ans = min(ans, dp[k - arr[i].dis] + arr[i].edge);
+//            for (int i = 1; i <= cntc; i++) {
+//                ans = min(ans, dp[k - cur[i].dis] + cur[i].edge);
 //            }
-//            for (int i = tmp + 1; i <= cnta; i++) {
-//                dp[arr[i].dis] = min(dp[arr[i].dis], arr[i].edge);
+//            for (int i = 1; i <= cntc; i++) {
+//                all[++cnta] = cur[i];
+//                dp[cur[i].dis] = min(dp[cur[i].dis], cur[i].edge);
 //            }
 //        }
 //    }
 //    for (int i = 1; i <= cnta; i++) {
-//        dp[arr[i].dis] = INF;
+//        dp[all[i].dis] = INF;
 //    }
 //    return ans;
 //}
