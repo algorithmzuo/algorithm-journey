@@ -96,9 +96,8 @@ package class183;
 //}
 //
 //long long solve(int u) {
-//    long long ans = 0;
-//    ans += calc(u, 0);
 //    vis[u] = true;
+//    long long ans = calc(u, 0);
 //    for (int e = head[u]; e; e = nxt[e]) {
 //        int v = to[e];
 //        if (!vis[v]) {

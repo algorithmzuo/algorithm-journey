@@ -82,6 +82,9 @@ public class Code04_Tree1 {
 		}
 	}
 
+	// 从真正的头来到u时，路径权值和为dis
+	// 子树u上的点对(x, y)，需要走过，x -> 真正的头 -> y
+	// 返回距离<=k的点对数量
 	public static long calc(int u, int dis) {
 		cnta = 0;
 		dfs(u, 0, dis);
@@ -99,9 +102,8 @@ public class Code04_Tree1 {
 	}
 
 	public static long solve(int u) {
-		long ans = 0;
-		ans += calc(u, 0);
 		vis[u] = true;
+		long ans = calc(u, 0);
 		for (int e = head[u]; e > 0; e = nxt[e]) {
 			int v = to[e];
 			if (!vis[v]) {
