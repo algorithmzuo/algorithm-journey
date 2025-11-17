@@ -34,7 +34,7 @@ package class183;
 //int cntc;
 //int all[MAXN];
 //int cnta;
-//bool check[MAXV];
+//bool exist[MAXV];
 //
 //bool ans[MAXM];
 //
@@ -90,27 +90,27 @@ package class183;
 //
 //void calc(int u) {
 //    cnta = 0;
-//    check[0] = true;
+//    exist[0] = true;
 //    for (int e = head[u]; e; e = nxt[e]) {
 //        int v = to[e];
 //        if (!vis[v]) {
 //            cntc = 0;
 //            dfs(v, u, weight[e]);
 //            for (int i = 1; i <= m; i++) {
-//                for (int j = 1; j <= cntc; j++) {
+//                for (int j = 1; !ans[i] && j <= cntc; j++) {
 //                    if (query[i] - cur[j] >= 0) {
-//                        ans[i] |= check[query[i] - cur[j]];
+//                        ans[i] |= exist[query[i] - cur[j]];
 //                    }
 //                }
 //            }
 //            for (int i = 1; i <= cntc; i++) {
 //                all[++cnta] = cur[i];
-//                check[cur[i]] = true;
+//                exist[cur[i]] = true;
 //            }
 //        }
 //    }
 //    for (int i = 1; i <= cnta; i++) {
-//        check[all[i]] = false;
+//        exist[all[i]] = false;
 //    }
 //}
 //

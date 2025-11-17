@@ -36,7 +36,7 @@ public class Code02_Exist1 {
 	public static int cntc;
 	public static int[] all = new int[MAXN];
 	public static int cnta;
-	public static boolean[] check = new boolean[MAXV];
+	public static boolean[] exist = new boolean[MAXV];
 
 	public static boolean[] ans = new boolean[MAXM];
 
@@ -92,27 +92,27 @@ public class Code02_Exist1 {
 
 	public static void calc(int u) {
 		cnta = 0;
-		check[0] = true;
+		exist[0] = true;
 		for (int e = head[u]; e > 0; e = nxt[e]) {
 			int v = to[e];
 			if (!vis[v]) {
 				cntc = 0;
 				dfs(v, u, weight[e]);
 				for (int i = 1; i <= m; i++) {
-					for (int j = 1; j <= cntc; j++) {
+					for (int j = 1; !ans[i] && j <= cntc; j++) {
 						if (query[i] - cur[j] >= 0) {
-							ans[i] |= check[query[i] - cur[j]];
+							ans[i] |= exist[query[i] - cur[j]];
 						}
 					}
 				}
 				for (int i = 1; i <= cntc; i++) {
 					all[++cnta] = cur[i];
-					check[cur[i]] = true;
+					exist[cur[i]] = true;
 				}
 			}
 		}
 		for (int i = 1; i <= cnta; i++) {
-			check[all[i]] = false;
+			exist[all[i]] = false;
 		}
 	}
 
