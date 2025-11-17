@@ -31,11 +31,11 @@ public class Code03_Race1 {
 	public static boolean[] vis = new boolean[MAXN];
 	public static int[] siz = new int[MAXN];
 
-	// 从u出发，到当前子树的每个节点，收集(路径权值和, 边数)
+	// 从u出发到当前子树的节点，收集(路径权值和, 边数)
 	public static int[] curDis = new int[MAXN];
 	public static int[] curEdge = new int[MAXN];
 	public static int cntc;
-	// 从u出发，到之前子树的每个节点，收集(路径权值和, 边数)
+	// 从u出发到之前子树的节点，收集(路径权值和, 边数)
 	public static int[] allDis = new int[MAXN];
 	public static int[] allEdge = new int[MAXN];
 	public static int cnta;
