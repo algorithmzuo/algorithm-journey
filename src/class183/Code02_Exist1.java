@@ -32,7 +32,7 @@ public class Code02_Exist1 {
 	public static boolean[] vis = new boolean[MAXN];
 	public static int[] siz = new int[MAXN];
 
-	// 从u出发，到当前子树每个节点，收集路径权值和
+	// 从u出发，到当前子树的每个节点，收集路径权值和
 	public static int[] cur = new int[MAXN];
 	public static int cntc;
 
@@ -40,7 +40,7 @@ public class Code02_Exist1 {
 	public static int[] all = new int[MAXN];
 	public static int cnta;
 
-	// 使用数组替代哈希表，因为哈希表常数时间大，无法通过测试
+	// 使用数组替代哈希表，因为哈希表常数时间大，会超时
 	public static boolean[] exist = new boolean[MAXV];
 
 	public static boolean[] ans = new boolean[MAXM];

@@ -32,10 +32,8 @@ package class183;
 //
 //int cur[MAXN];
 //int cntc;
-//
 //int all[MAXN];
 //int cnta;
-//
 //bool exist[MAXV];
 //
 //bool ans[MAXM];
