@@ -41,7 +41,7 @@ public class Code03_Race1 {
 	public static int[] allDis = new int[MAXN];
 	public static int cnta;
 
-	// dp[v]表示，从u出发到之前子树的节点，路径权值和为v的路径，最少边数是多少
+	// dp[s]表示，从u出发到之前子树的节点，路径权值和为s的路径，最少边数是多少
 	public static int[] dp = new int[MAXK];
 
 	// 讲解118，递归函数改成迭代所需要的栈
