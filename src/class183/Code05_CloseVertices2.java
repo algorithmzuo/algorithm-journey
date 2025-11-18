@@ -120,18 +120,18 @@ package class183;
 //    for (int i = 1; i <= cnta; i++) {
 //        add(arr[i].edge, 1);
 //    }
-//    long long ret = 0;
+//    long long ans = 0;
 //    for (int l = 1, r = cnta; l <= r; ) {
 //        if (arr[l].dis + arr[r].dis <= limitw) {
 //            add(arr[l].edge, -1);
-//            ret += sum(limitl - arr[l].edge);
+//            ans += sum(limitl - arr[l].edge);
 //            l++;
 //        } else {
 //            add(arr[r].edge, -1);
 //            r--;
 //        }
 //    }
-//    return ret;
+//    return ans;
 //}
 //
 //long long solve(int u) {

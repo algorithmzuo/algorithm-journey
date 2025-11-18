@@ -139,18 +139,18 @@ public class Code05_CloseVertices1 {
 		for (int i = 1; i <= cnta; i++) {
 			add(edgeArr[i], 1);
 		}
-		long ret = 0;
+		long ans = 0;
 		for (int l = 1, r = cnta; l <= r;) {
 			if (disArr[l] + disArr[r] <= limitw) {
 				add(edgeArr[l], -1);
-				ret += sum(limitl - edgeArr[l]);
+				ans += sum(limitl - edgeArr[l]);
 				l++;
 			} else {
 				add(edgeArr[r], -1);
 				r--;
 			}
 		}
-		return ret;
+		return ans;
 	}
 
 	public static long solve(int u) {

@@ -17,7 +17,7 @@ import java.io.PrintWriter;
 
 public class Code06_Maschera1 {
 
-	public static int MAXN = 100001;
+	public static int MAXN = 100002;
 	public static int n, l, r;
 
 	public static int[] head = new int[MAXN];
@@ -29,11 +29,8 @@ public class Code06_Maschera1 {
 	public static boolean[] vis = new boolean[MAXN];
 	public static int[] siz = new int[MAXN];
 
-	public static int[] curMaxv = new int[MAXN];
-	public static int[] curEdge = new int[MAXN];
-	public static int cntc;
-	public static int[] allMaxv = new int[MAXN];
-	public static int[] allEdge = new int[MAXN];
+	public static int[] maxvArr = new int[MAXN];
+	public static int[] edgeArr = new int[MAXN];
 	public static int cnta;
 
 	public static int[] tree = new int[MAXN];
@@ -61,20 +58,20 @@ public class Code06_Maschera1 {
 		e = stack[stacksize][4];
 	}
 
-	public static void sort(int[] maxv, int[] edge, int l, int r) {
+	public static void sort(int l, int r) {
 		if (l >= r) return;
-		int i = l, j = r, pivot = maxv[(l + r) >> 1], tmp;
+		int i = l, j = r, pivot = maxvArr[(l + r) >> 1], tmp;
 		while (i <= j) {
-			while (maxv[i] < pivot) i++;
-			while (maxv[j] > pivot) j--;
+			while (maxvArr[i] < pivot) i++;
+			while (maxvArr[j] > pivot) j--;
 			if (i <= j) {
-				tmp = maxv[i]; maxv[i] = maxv[j]; maxv[j] = tmp;
-				tmp = edge[i]; edge[i] = edge[j]; edge[j] = tmp;
+				tmp = maxvArr[i]; maxvArr[i] = maxvArr[j]; maxvArr[j] = tmp;
+				tmp = edgeArr[i]; edgeArr[i] = edgeArr[j]; edgeArr[j] = tmp;
 				i++; j--;
 			}
 		}
-		sort(maxv, edge, l, j);
-		sort(maxv, edge, i, r);
+		sort(l, j);
+		sort(i, r);
 	}
 
 	public static void addEdge(int u, int v, int w) {
@@ -89,13 +86,15 @@ public class Code06_Maschera1 {
 	}
 
 	public static void add(int i, int v) {
-		while (i <= r) {
+		i++;
+		while (i <= r + 1) {
 			tree[i] += v;
 			i += lowbit(i);
 		}
 	}
 
 	public static int sum(int i) {
+		i++;
 		int ret = 0;
 		while (i > 0) {
 			ret += tree[i];
@@ -170,8 +169,8 @@ public class Code06_Maschera1 {
 		if (edge > r) {
 			return;
 		}
-		curMaxv[++cntc] = maxv;
-		curEdge[cntc] = edge;
+		maxvArr[++cnta] = maxv;
+		edgeArr[cnta] = edge;
 		for (int e = head[u]; e > 0; e = nxt[e]) {
 			int v = to[e];
 			if (v != fa && !vis[v]) {
@@ -190,8 +189,8 @@ public class Code06_Maschera1 {
 				if (edge > r) {
 					continue;
 				}
-				curMaxv[++cntc] = maxv;
-				curEdge[cntc] = edge;
+				maxvArr[++cnta] = maxv;
+				edgeArr[cnta] = edge;
 				e = head[u];
 			} else {
 				e = nxt[e];
@@ -206,51 +205,29 @@ public class Code06_Maschera1 {
 		}
 	}
 
-	public static long calc(int u) {
-		long ans = 0;
+	public static long calc(int u, int maxv, int edge) {
 		cnta = 0;
-		for (int e = head[u]; e > 0; e = nxt[e]) {
-			int v = to[e];
-			if (!vis[v]) {
-				cntc = 0;
-				// dfs1(v, u, weight[e], 1);
-				dfs2(v, u, weight[e], 1);
-				sort(curMaxv, curEdge, 1, cntc);
-				for (int i = 1; i <= cntc; i++) {
-					ans -= 1L * curMaxv[i] * (sum(r - curEdge[i]) - sum(l - curEdge[i] - 1));
-					add(curEdge[i], 1);
-				}
-				for (int i = 1; i <= cntc; i++) {
-					add(curEdge[i], -1);
-				}
-				for (int i = 1; i <= cntc; i++) {
-					allMaxv[++cnta] = curMaxv[i];
-					allEdge[cnta] = curEdge[i];
-				}
-			}
-		}
-		sort(allMaxv, allEdge, 1, cnta);
+		// dfs1(u, 0, maxv, edge);
+		dfs2(u, 0, maxv, edge);
+		sort(1, cnta);
+		long ans = 0;
 		for (int i = 1; i <= cnta; i++) {
-			ans += 1L * allMaxv[i] * (sum(r - allEdge[i]) - sum(l - allEdge[i] - 1));
-			add(allEdge[i], 1);
+			ans += 1L * maxvArr[i] * (sum(r - edgeArr[i]) - sum(l - edgeArr[i] - 1));
+			add(edgeArr[i], 1);
 		}
 		for (int i = 1; i <= cnta; i++) {
-			add(allEdge[i], -1);
-		}
-		for (int i = 1; i <= cnta; i++) {
-			if (allEdge[i] >= l) {
-				ans += allMaxv[i];
-			}
+			add(edgeArr[i], -1);
 		}
 		return ans;
 	}
 
 	public static long solve(int u) {
 		vis[u] = true;
-		long ans = calc(u);
+		long ans = calc(u, 0, 0);
 		for (int e = head[u]; e > 0; e = nxt[e]) {
 			int v = to[e];
 			if (!vis[v]) {
+				ans -= calc(v, weight[e], 1);
 				ans += solve(getCentroid(v, u));
 			}
 		}

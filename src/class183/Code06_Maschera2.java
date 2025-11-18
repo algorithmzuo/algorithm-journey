@@ -23,7 +23,7 @@ package class183;
 //    return a.maxv < b.maxv;
 //}
 //
-//const int MAXN = 100001;
+//const int MAXN = 100002;
 //int n, l, r;
 //
 //int head[MAXN];
@@ -35,9 +35,7 @@ package class183;
 //bool vis[MAXN];
 //int siz[MAXN];
 //
-//Node cur[MAXN];
-//int cntc;
-//Node all[MAXN];
+//Node arr[MAXN];
 //int cnta;
 //
 //int tree[MAXN];
@@ -54,13 +52,15 @@ package class183;
 //}
 //
 //void add(int i, int v) {
-//    while (i <= r) {
+//    i++;
+//    while (i <= r + 1) {
 //        tree[i] += v;
 //        i += lowbit(i);
 //    }
 //}
 //
 //int sum(int i) {
+//    i++;
 //    int ret = 0;
 //    while (i > 0) {
 //        ret += tree[i];
@@ -103,7 +103,7 @@ package class183;
 //    if (edge > r) {
 //        return;
 //    }
-//    cur[++cntc] = { maxv, edge };
+//    arr[++cnta] = { maxv, edge };
 //    for (int e = head[u]; e; e = nxt[e]) {
 //        int v = to[e];
 //        if (v != fa && !vis[v]) {
@@ -112,49 +112,28 @@ package class183;
 //    }
 //}
 //
-//long long calc(int u) {
-//    long long ans = 0;
+//long long calc(int u, int maxv, int edge) {
 //    cnta = 0;
-//    for (int e = head[u]; e; e = nxt[e]) {
-//        int v = to[e];
-//        if (!vis[v]) {
-//            cntc = 0;
-//            dfs(v, u, weight[e], 1);
-//            sort(cur + 1, cur + cntc + 1, NodeCmp);
-//            for (int i = 1; i <= cntc; i++) {
-//                ans -= 1LL * cur[i].maxv * (sum(r - cur[i].edge) - sum(l - cur[i].edge - 1));
-//                add(cur[i].edge, 1);
-//            }
-//            for (int i = 1; i <= cntc; i++) {
-//                add(cur[i].edge, -1);
-//            }
-//            for (int i = 1; i <= cntc; i++) {
-//                all[++cnta] = cur[i];
-//            }
-//        }
-//    }
-//    sort(all + 1, all + cnta + 1, NodeCmp);
+//    dfs(u, 0, maxv, edge);
+//    sort(arr + 1, arr + cnta + 1, NodeCmp);
+//    long long ans = 0;
 //    for (int i = 1; i <= cnta; i++) {
-//        ans += 1LL * all[i].maxv * (sum(r - all[i].edge) - sum(l - all[i].edge - 1));
-//        add(all[i].edge, 1);
+//        ans += 1LL * arr[i].maxv * (sum(r - arr[i].edge) - sum(l - arr[i].edge - 1));
+//        add(arr[i].edge, 1);
 //    }
 //    for (int i = 1; i <= cnta; i++) {
-//        add(all[i].edge, -1);
-//    }
-//    for (int i = 1; i <= cnta; i++) {
-//        if (all[i].edge >= l) {
-//            ans += all[i].maxv;
-//        }
+//        add(arr[i].edge, -1);
 //    }
 //    return ans;
 //}
 //
 //long long solve(int u) {
 //    vis[u] = true;
-//    long long ans = calc(u);
+//    long long ans = calc(u, 0, 0);
 //    for (int e = head[u]; e; e = nxt[e]) {
 //        int v = to[e];
 //        if (!vis[v]) {
+//            ans -= calc(v, weight[e], 1);
 //            ans += solve(getCentroid(v, u));
 //        }
 //    }
