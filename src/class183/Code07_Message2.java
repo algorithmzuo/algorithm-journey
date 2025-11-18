@@ -103,38 +103,25 @@ package class183;
 //    }
 //}
 //
-//void calc(int u) {
+//void calc(int u, int dep, int effect) {
 //    cnta = 0;
 //    maxDep = 0;
-//    dfs(u, 0, 1);
+//    dfs(u, 0, dep);
 //    for (int i = 1; i <= cnta; i++) {
-//        ans[arr[i].qid] += depCnt[arr[i].tim];
+//        ans[arr[i].qid] += depCnt[arr[i].tim] * effect;
 //    }
 //    for (int d = 1; d <= maxDep; d++) {
 //        depCnt[d] = 0;
-//    }
-//    for (int e = headg[u]; e; e = nextg[e]) {
-//        int v = tog[e];
-//        if (!vis[v]) {
-//            cnta = 0;
-//            maxDep = 0;
-//            dfs(v, u, 2);
-//            for (int i = 1; i <= cnta; i++) {
-//                ans[arr[i].qid] -= depCnt[arr[i].tim];
-//            }
-//            for (int d = 1; d <= maxDep; d++) {
-//                depCnt[d] = 0;
-//            }
-//        }
 //    }
 //}
 //
 //void solve(int u) {
 //    vis[u] = true;
-//    calc(u);
+//    calc(u, 1, 1);
 //    for (int e = headg[u]; e; e = nextg[e]) {
 //        int v = tog[e];
 //        if (!vis[v]) {
+//            calc(v, 2, -1);
 //            solve(getCentroid(v, u));
 //        }
 //    }

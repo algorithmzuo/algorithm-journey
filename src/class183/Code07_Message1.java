@@ -185,40 +185,26 @@ public class Code07_Message1 {
 		}
 	}
 
-	public static void calc(int u) {
+	public static void calc(int u, int dep, int effect) {
 		cnta = 0;
 		maxDep = 0;
-		// dfs1(u, 0, 1);
-		dfs2(u, 0, 1);
+		// dfs1(u, 0, dep);
+		dfs2(u, 0, dep);
 		for (int i = 1; i <= cnta; i++) {
-			ans[qidArr[i]] += depCnt[timArr[i]];
+			ans[qidArr[i]] += depCnt[timArr[i]] * effect;
 		}
 		for (int d = 1; d <= maxDep; d++) {
 			depCnt[d] = 0;
-		}
-		for (int e = headg[u]; e > 0; e = nextg[e]) {
-			int v = tog[e];
-			if (!vis[v]) {
-				cnta = 0;
-				maxDep = 0;
-				// dfs1(v, u, 2);
-				dfs2(v, u, 2);
-				for (int i = 1; i <= cnta; i++) {
-					ans[qidArr[i]] -= depCnt[timArr[i]];
-				}
-				for (int d = 1; d <= maxDep; d++) {
-					depCnt[d] = 0;
-				}
-			}
 		}
 	}
 
 	public static void solve(int u) {
 		vis[u] = true;
-		calc(u);
+		calc(u, 1, 1);
 		for (int e = headg[u]; e > 0; e = nextg[e]) {
 			int v = tog[e];
 			if (!vis[v]) {
+				calc(v, 2, -1);
 				solve(getCentroid(v, u));
 			}
 		}
