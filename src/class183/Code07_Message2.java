@@ -2,9 +2,7 @@ package class183;
 
 // 消息传递，C++版
 // 一共有n个节点，给定n-1条边，所有节点组成一棵树
-// 如果x号节点收到一个消息，那么消息会从x开始扩散，速度为每天越过一条边
-// 接下来有m条查询，每条查询都是相互独立的，格式如下
-// 查询 x k : 第0天的时候，x号节点得到一条信息，打印第k天时，新收到该消息的人数
+// 一共有m条查询，格式 x k : 打印有多少点，到达x的简单路径上有k条边
 // 1 <= n、m <= 10^5
 // 0 <= k < n
 // 测试链接 : https://www.luogu.com.cn/problem/P6626
@@ -16,7 +14,7 @@ package class183;
 //using namespace std;
 //
 //struct Node {
-//    int tim, qid;
+//    int need, qid;
 //};
 //
 //const int MAXN = 100001;
@@ -29,7 +27,7 @@ package class183;
 //
 //int headq[MAXN];
 //int nextq[MAXN];
-//int tim[MAXN];
+//int dis[MAXN];
 //int qid[MAXN];
 //int cntq;
 //
@@ -50,9 +48,9 @@ package class183;
 //    headg[u] = cntg;
 //}
 //
-//void addQuery(int u, int t, int id) {
+//void addQuery(int u, int k, int id) {
 //    nextq[++cntq] = headq[u];
-//    tim[cntq] = t;
+//    dis[cntq] = k;
 //    qid[cntq] = id;
 //    headq[u] = cntq;
 //}
@@ -91,8 +89,8 @@ package class183;
 //    nodeCnt[edge]++;
 //    maxEdge = max(maxEdge, edge);
 //    for (int e = headq[u]; e; e = nextq[e]) {
-//        if (tim[e] >= edge) {
-//            arr[++cnta] = { tim[e] - edge, qid[e] };
+//        if (dis[e] >= edge) {
+//            arr[++cnta] = { dis[e] - edge, qid[e] };
 //        }
 //    }
 //    for (int e = headg[u]; e; e = nextg[e]) {
@@ -108,7 +106,7 @@ package class183;
 //    maxEdge = 0;
 //    dfs(u, 0, edge);
 //    for (int i = 1; i <= cnta; i++) {
-//        ans[arr[i].qid] += nodeCnt[arr[i].tim] * effect;
+//        ans[arr[i].qid] += nodeCnt[arr[i].need] * effect;
 //    }
 //    for (int v = 0; v <= maxEdge; v++) {
 //        nodeCnt[v] = 0;

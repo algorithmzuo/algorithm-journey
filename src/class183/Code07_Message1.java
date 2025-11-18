@@ -2,9 +2,7 @@ package class183;
 
 // 消息传递，java版
 // 一共有n个节点，给定n-1条边，所有节点组成一棵树
-// 如果x号节点收到一个消息，那么消息会从x开始扩散，速度为每天越过一条边
-// 接下来有m条查询，每条查询都是相互独立的，格式如下
-// 查询 x k : 第0天的时候，x号节点得到一条信息，打印第k天时，新收到该消息的人数
+// 一共有m条查询，格式 x k : 打印有多少点，到达x的简单路径上有k条边
 // 1 <= n、m <= 10^5
 // 0 <= k < n
 // 测试链接 : https://www.luogu.com.cn/problem/P6626
@@ -27,18 +25,18 @@ public class Code07_Message1 {
 
 	public static int[] headq = new int[MAXN];
 	public static int[] nextq = new int[MAXN];
-	public static int[] tim = new int[MAXN];
+	public static int[] dis = new int[MAXN];
 	public static int[] qid = new int[MAXN];
 	public static int cntq;
 
 	public static boolean[] vis = new boolean[MAXN];
 	public static int[] siz = new int[MAXN];
 
-	// nodeCnt[i] = j，表示距离头有i条边的点有j个
+	// nodeCnt[i] = j，表示从u往下走i条边，一共能找到j个点
 	public static int[] nodeCnt = new int[MAXN];
 	public static int maxEdge;
 
-	public static int[] timArr = new int[MAXN];
+	public static int[] needArr = new int[MAXN];
 	public static int[] qidArr = new int[MAXN];
 	public static int cnta;
 
@@ -71,9 +69,9 @@ public class Code07_Message1 {
 		headg[u] = cntg;
 	}
 
-	public static void addQuery(int u, int t, int id) {
+	public static void addQuery(int u, int k, int id) {
 		nextq[++cntq] = headq[u];
-		tim[cntq] = t;
+		dis[cntq] = k;
 		qid[cntq] = id;
 		headq[u] = cntq;
 	}
@@ -144,8 +142,8 @@ public class Code07_Message1 {
 		nodeCnt[edge]++;
 		maxEdge = Math.max(maxEdge, edge);
 		for (int e = headq[u]; e > 0; e = nextq[e]) {
-			if (tim[e] >= edge) {
-				timArr[++cnta] = tim[e] - edge;
+			if (dis[e] >= edge) {
+				needArr[++cnta] = dis[e] - edge;
 				qidArr[cnta] = qid[e];
 			}
 		}
@@ -167,8 +165,8 @@ public class Code07_Message1 {
 				nodeCnt[edge]++;
 				maxEdge = Math.max(maxEdge, edge);
 				for (int e = headq[u]; e > 0; e = nextq[e]) {
-					if (tim[e] >= edge) {
-						timArr[++cnta] = tim[e] - edge;
+					if (dis[e] >= edge) {
+						needArr[++cnta] = dis[e] - edge;
 						qidArr[cnta] = qid[e];
 					}
 				}
@@ -192,7 +190,7 @@ public class Code07_Message1 {
 		// dfs1(u, 0, edge);
 		dfs2(u, 0, edge);
 		for (int i = 1; i <= cnta; i++) {
-			ans[qidArr[i]] += nodeCnt[timArr[i]] * effect;
+			ans[qidArr[i]] += nodeCnt[needArr[i]] * effect;
 		}
 		for (int v = 0; v <= maxEdge; v++) {
 			nodeCnt[v] = 0;
