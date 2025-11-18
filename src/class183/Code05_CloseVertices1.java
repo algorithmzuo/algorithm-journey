@@ -63,9 +63,9 @@ public class Code05_CloseVertices1 {
 		return i & -i;
 	}
 
+	// 边的数量从0开始，但是树状数组下标从1开始
+	// 所以i++，平移一下，然后使用树状数组
 	public static void add(int i, int v) {
-		// 边的数量最小是0，但是树状数组下标从1开始
-		// 所以i++，平移一下，然后使用树状数组
 		i++;
 		while (i <= limitl + 1) {
 			tree[i] += v;
@@ -73,9 +73,9 @@ public class Code05_CloseVertices1 {
 		}
 	}
 
+	// 边的数量从0开始，但是树状数组下标从1开始
+	// 所以i++，平移一下，然后使用树状数组
 	public static int sum(int i) {
-		// 边的数量最小是0，但是树状数组下标从1开始
-		// 所以i++，平移一下，然后使用树状数组
 		i++;
 		int ret = 0;
 		while (i > 0) {
@@ -131,7 +131,7 @@ public class Code05_CloseVertices1 {
 
 	// 从真正的头来到u时，路径权值和为dis，边的数量为edge
 	// 子树u上的点对(x, y)，需要走过，x -> 真正的头 -> y
-	// 返回 距离<=limitw、边数<=limitwl 的点对数量
+	// 返回 路径权值和<=limitw、路径边数<=limitwl 的点对数量
 	public static long calc(int u, int dis, int edge) {
 		cnta = 0;
 		dfs(u, 0, dis, edge);
