@@ -34,6 +34,10 @@ public class Code05_CloseVertices1 {
 	public static int[] edgeArr = new int[MAXN];
 	public static int cnta;
 
+	// 树状数组
+	// 下标是边数，统计节点个数
+	// 但是注意，边数从0开始，而树状数组的下标从1开始
+	// 所以每次的入参i，需要i++进行平移
 	public static int[] tree = new int[MAXN];
 
 	public static void sort(int l, int r) {
@@ -63,20 +67,16 @@ public class Code05_CloseVertices1 {
 		return i & -i;
 	}
 
-	// 边的数量从0开始，但是树状数组下标从1开始
-	// 所以i++，平移一下，然后使用树状数组
 	public static void add(int i, int v) {
-		i++;
+		i++; // 平移
 		while (i <= limitl + 1) {
 			tree[i] += v;
 			i += lowbit(i);
 		}
 	}
 
-	// 边的数量从0开始，但是树状数组下标从1开始
-	// 所以i++，平移一下，然后使用树状数组
 	public static int sum(int i) {
-		i++;
+		i++; // 平移
 		int ret = 0;
 		while (i > 0) {
 			ret += tree[i];
