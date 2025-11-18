@@ -34,8 +34,9 @@ public class Code07_Message1 {
 	public static boolean[] vis = new boolean[MAXN];
 	public static int[] siz = new int[MAXN];
 
-	public static int[] depCnt = new int[MAXN];
-	public static int maxDep;
+	// nodeCnt[i] = j，表示距离头有i条边的点有j个
+	public static int[] nodeCnt = new int[MAXN];
+	public static int maxEdge;
 
 	public static int[] timArr = new int[MAXN];
 	public static int[] qidArr = new int[MAXN];
@@ -45,13 +46,13 @@ public class Code07_Message1 {
 
 	// 讲解118，递归函数改成迭代所需要的栈
 	public static int[][] stack = new int[MAXN][4];
-	public static int u, f, dep, e;
+	public static int u, f, edge, e;
 	public static int stacksize;
 
-	public static void push(int u, int f, int dep, int e) {
+	public static void push(int u, int f, int edge, int e) {
 		stack[stacksize][0] = u;
 		stack[stacksize][1] = f;
-		stack[stacksize][2] = dep;
+		stack[stacksize][2] = edge;
 		stack[stacksize][3] = e;
 		stacksize++;
 	}
@@ -60,7 +61,7 @@ public class Code07_Message1 {
 		--stacksize;
 		u = stack[stacksize][0];
 		f = stack[stacksize][1];
-		dep = stack[stacksize][2];
+		edge = stack[stacksize][2];
 		e = stack[stacksize][3];
 	}
 
@@ -139,35 +140,35 @@ public class Code07_Message1 {
 	}
 
 	// 收集信息递归版，java会爆栈，C++可以通过
-	public static void dfs1(int u, int fa, int dep) {
-		depCnt[dep]++;
-		maxDep = Math.max(maxDep, dep);
+	public static void dfs1(int u, int fa, int edge) {
+		nodeCnt[edge]++;
+		maxEdge = Math.max(maxEdge, edge);
 		for (int e = headq[u]; e > 0; e = nextq[e]) {
-			if (tim[e] + 1 >= dep) {
-				timArr[++cnta] = tim[e] - dep + 2;
+			if (tim[e] >= edge) {
+				timArr[++cnta] = tim[e] - edge;
 				qidArr[cnta] = qid[e];
 			}
 		}
 		for (int e = headg[u]; e > 0; e = nextg[e]) {
 			int v = tog[e];
 			if (v != fa && !vis[v]) {
-				dfs1(v, u, dep + 1);
+				dfs1(v, u, edge + 1);
 			}
 		}
 	}
 
 	// 收集信息迭代版
-	public static void dfs2(int cur, int fa, int deep) {
+	public static void dfs2(int cur, int fa, int edg) {
 		stacksize = 0;
-		push(cur, fa, deep, -1);
+		push(cur, fa, edg, -1);
 		while (stacksize > 0) {
 			pop();
 			if (e == -1) {
-				depCnt[dep]++;
-				maxDep = Math.max(maxDep, dep);
+				nodeCnt[edge]++;
+				maxEdge = Math.max(maxEdge, edge);
 				for (int e = headq[u]; e > 0; e = nextq[e]) {
-					if (tim[e] + 1 >= dep) {
-						timArr[++cnta] = tim[e] - dep + 2;
+					if (tim[e] >= edge) {
+						timArr[++cnta] = tim[e] - edge;
 						qidArr[cnta] = qid[e];
 					}
 				}
@@ -176,35 +177,35 @@ public class Code07_Message1 {
 				e = nextg[e];
 			}
 			if (e != 0) {
-				push(u, f, dep, e);
+				push(u, f, edge, e);
 				int v = tog[e];
 				if (v != f && !vis[v]) {
-					push(tog[e], u, dep + 1, -1);
+					push(tog[e], u, edge + 1, -1);
 				}
 			}
 		}
 	}
 
-	public static void calc(int u, int dep, int effect) {
+	public static void calc(int u, int edge, int effect) {
 		cnta = 0;
-		maxDep = 0;
-		// dfs1(u, 0, dep);
-		dfs2(u, 0, dep);
+		maxEdge = 0;
+		// dfs1(u, 0, edge);
+		dfs2(u, 0, edge);
 		for (int i = 1; i <= cnta; i++) {
-			ans[qidArr[i]] += depCnt[timArr[i]] * effect;
+			ans[qidArr[i]] += nodeCnt[timArr[i]] * effect;
 		}
-		for (int d = 1; d <= maxDep; d++) {
-			depCnt[d] = 0;
+		for (int v = 0; v <= maxEdge; v++) {
+			nodeCnt[v] = 0;
 		}
 	}
 
 	public static void solve(int u) {
 		vis[u] = true;
-		calc(u, 1, 1);
+		calc(u, 0, 1);
 		for (int e = headg[u]; e > 0; e = nextg[e]) {
 			int v = tog[e];
 			if (!vis[v]) {
-				calc(v, 2, -1);
+				calc(v, 1, -1);
 				solve(getCentroid(v, u));
 			}
 		}

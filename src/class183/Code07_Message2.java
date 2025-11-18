@@ -36,8 +36,8 @@ package class183;
 //bool vis[MAXN];
 //int siz[MAXN];
 //
-//int depCnt[MAXN];
-//int maxDep;
+//int nodeCnt[MAXN];
+//int maxEdge;
 //
 //Node arr[MAXN];
 //int cnta;
@@ -87,41 +87,41 @@ package class183;
 //    return u;
 //}
 //
-//void dfs(int u, int fa, int dep) {
-//    depCnt[dep]++;
-//    maxDep = max(maxDep, dep);
+//void dfs(int u, int fa, int edge) {
+//    nodeCnt[edge]++;
+//    maxEdge = max(maxEdge, edge);
 //    for (int e = headq[u]; e; e = nextq[e]) {
-//        if (tim[e] + 1 >= dep) {
-//            arr[++cnta] = { tim[e] - dep + 2, qid[e] };
+//        if (tim[e] >= edge) {
+//            arr[++cnta] = { tim[e] - edge, qid[e] };
 //        }
 //    }
 //    for (int e = headg[u]; e; e = nextg[e]) {
 //        int v = tog[e];
 //        if (v != fa && !vis[v]) {
-//            dfs(v, u, dep + 1);
+//            dfs(v, u, edge + 1);
 //        }
 //    }
 //}
 //
-//void calc(int u, int dep, int effect) {
+//void calc(int u, int edge, int effect) {
 //    cnta = 0;
-//    maxDep = 0;
-//    dfs(u, 0, dep);
+//    maxEdge = 0;
+//    dfs(u, 0, edge);
 //    for (int i = 1; i <= cnta; i++) {
-//        ans[arr[i].qid] += depCnt[arr[i].tim] * effect;
+//        ans[arr[i].qid] += nodeCnt[arr[i].tim] * effect;
 //    }
-//    for (int d = 1; d <= maxDep; d++) {
-//        depCnt[d] = 0;
+//    for (int v = 0; v <= maxEdge; v++) {
+//        nodeCnt[v] = 0;
 //    }
 //}
 //
 //void solve(int u) {
 //    vis[u] = true;
-//    calc(u, 1, 1);
+//    calc(u, 0, 1);
 //    for (int e = headg[u]; e; e = nextg[e]) {
 //        int v = tog[e];
 //        if (!vis[v]) {
-//            calc(v, 2, -1);
+//            calc(v, 1, -1);
 //            solve(getCentroid(v, u));
 //        }
 //    }
