@@ -10,7 +10,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.util.Arrays;
 
-public class Code02_HardProblem1 {
+public class Code02_Difficult1 {
 
 	public static int MAXN = 200001;
 	public static long INF = 1L << 60;
