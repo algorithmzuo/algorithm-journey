@@ -1,0 +1,224 @@
+package class184;
+
+// 树的难题，C++版
+// 测试链接 : https://www.luogu.com.cn/problem/P3714
+// 如下实现是C++的版本，C++版本和java版本逻辑完全一样
+// 提交如下代码，可以通过所有测试用例
+
+//#include <bits/stdc++.h>
+//
+//using namespace std;
+//
+//struct Edge {
+//    int node, color;
+//};
+//
+//bool EdgeCmp(Edge a, Edge b) {
+//    return a.color < b.color;
+//}
+//
+//const int MAXN = 200001;
+//const long long INF = 1LL << 60;
+//int n, m, limitl, limitr;
+//
+//int val[MAXN];
+//
+//int head[MAXN];
+//int nxt[MAXN << 1];
+//int to[MAXN << 1];
+//int color[MAXN << 1];
+//int cntg;
+//
+//long long all[MAXN << 2];
+//long long cur[MAXN << 2];
+//
+//bool vis[MAXN];
+//int siz[MAXN];
+//
+//Edge edgeArr[MAXN];
+//int cnte;
+//
+//int edgeCnt[MAXN];
+//long long pathSum[MAXN];
+//int nodeArr[MAXN];
+//int cnta;
+//
+//int colorNodes[MAXN];
+//int cntc;
+//
+//void addEdge(int u, int v, int c) {
+//    nxt[++cntg] = head[u];
+//    to[cntg] = v;
+//    color[cntg] = c;
+//    head[u] = cntg;
+//}
+//
+//void build(long long *tree, int l, int r, int i) {
+//    tree[i] = -INF;
+//    if (l < r) {
+//        int mid = (l + r) >> 1;
+//        build(tree, l, mid, i << 1);
+//        build(tree, mid + 1, r, i << 1 | 1);
+//    }
+//}
+//
+//void clear(long long *tree, int l, int r, int i) {
+//    if (tree[i] == -INF) {
+//        return;
+//    }
+//    tree[i] = -INF;
+//    if (l < r) {
+//        int mid = (l + r) >> 1;
+//        clear(tree, l, mid, i << 1);
+//        clear(tree, mid + 1, r, i << 1 | 1);
+//    }
+//}
+//
+//void update(long long *tree, int jobi, long long jobv, int l, int r, int i) {
+//    if (l == r) {
+//        tree[i] = max(tree[i], jobv);
+//    } else {
+//        int mid = (l + r) >> 1;
+//        if (jobi <= mid) {
+//            update(tree, jobi, jobv, l, mid, i << 1);
+//        } else {
+//            update(tree, jobi, jobv, mid + 1, r, i << 1 | 1);
+//        }
+//        tree[i] = max(tree[i << 1], tree[i << 1 | 1]);
+//    }
+//}
+//
+//long long query(long long *tree, int jobl, int jobr, int l, int r, int i) {
+//    if (jobl <= l && r <= jobr) {
+//        return tree[i];
+//    }
+//    int mid = (l + r) >> 1;
+//    long long ans = -INF;
+//    if (jobl <= mid) {
+//        ans = max(ans, query(tree, jobl, jobr, l, mid, i << 1));
+//    }
+//    if (jobr > mid) {
+//        ans = max(ans, query(tree, jobl, jobr, mid + 1, r, i << 1 | 1));
+//    }
+//    return ans;
+//}
+//
+//void getSize(int u, int fa) {
+//    siz[u] = 1;
+//    for (int e = head[u]; e > 0; e = nxt[e]) {
+//        int v = to[e];
+//        if (v != fa && !vis[v]) {
+//            getSize(v, u);
+//            siz[u] += siz[v];
+//        }
+//    }
+//}
+//
+//int getCentroid(int u, int fa) {
+//    getSize(u, fa);
+//    int half = siz[u] >> 1;
+//    bool find = false;
+//    while (!find) {
+//        find = true;
+//        for (int e = head[u]; e > 0; e = nxt[e]) {
+//            int v = to[e];
+//            if (v != fa && !vis[v] && siz[v] > half) {
+//                fa = u;
+//                u = v;
+//                find = false;
+//                break;
+//            }
+//        }
+//    }
+//    return u;
+//}
+//
+//void dfs(int u, int fa, int pre, int edge, long long sum) {
+//    if (edge > limitr) {
+//        return;
+//    }
+//    edgeCnt[u] = edge;
+//    pathSum[u] = sum;
+//    nodeArr[++cnta] = u;
+//    for (int e = head[u]; e > 0; e = nxt[e]) {
+//        int v = to[e];
+//        int c = color[e];
+//        if (v != fa && !vis[v]) {
+//            dfs(v, u, c, edge + 1, sum + (pre == c ? 0 : val[c]));
+//        }
+//    }
+//}
+//
+//long long calc(int u) {
+//    cnte = 0;
+//    for (int e = head[u]; e > 0; e = nxt[e]) {
+//        int v = to[e];
+//        int c = color[e];
+//        if (!vis[v]) {
+//            edgeArr[++cnte] = {v, c};
+//        }
+//    }
+//    sort(edgeArr + 1, edgeArr + cnte + 1, EdgeCmp);
+//    update(all, 0, 0, 0, n, 1);
+//    long long ans = -INF;
+//    cntc = 0;
+//    for (int k = 1; k <= cnte; k++) {
+//        int v = edgeArr[k].node;
+//        int c = edgeArr[k].color;
+//        if (k > 1 && edgeArr[k - 1].color != c) {
+//            clear(cur, 0, n, 1);
+//            for (int i = 1; i <= cntc; i++) {
+//                int node = colorNodes[i];
+//                update(all, edgeCnt[node], pathSum[node], 0, n, 1);
+//            }
+//            cntc = 0;
+//        }
+//        cnta = 0;
+//        dfs(v, u, c, 1, val[c]);
+//        for (int i = 1; i <= cnta; i++) {
+//            int node = nodeArr[i];
+//            int l = max(0, limitl - edgeCnt[node]);
+//            int r = limitr - edgeCnt[node];
+//            ans = max(ans, query(all, l, r, 0, n, 1) + pathSum[node]);
+//            ans = max(ans, query(cur, l, r, 0, n, 1) + pathSum[node] - val[c]);
+//        }
+//        for (int i = 1; i <= cnta; i++) {
+//            int node = nodeArr[i];
+//            colorNodes[++cntc] = node;
+//            update(cur, edgeCnt[node], pathSum[node], 0, n, 1);
+//        }
+//    }
+//    clear(all, 0, n, 1);
+//    clear(cur, 0, n, 1);
+//    return ans;
+//}
+//
+//long long solve(int u) {
+//    vis[u] = true;
+//    long long ans = calc(u);
+//    for (int e = head[u]; e > 0; e = nxt[e]) {
+//        int v = to[e];
+//        if (!vis[v]) {
+//            ans = max(ans, solve(getCentroid(v, u)));
+//        }
+//    }
+//    return ans;
+//}
+//
+//int main() {
+//    ios::sync_with_stdio(false);
+//    cin.tie(nullptr);
+//    cin >> n >> m >> limitl >> limitr;
+//    for (int i = 1; i <= m; i++) {
+//        cin >> val[i];
+//    }
+//    for (int i = 1, u, v, c; i < n; i++) {
+//        cin >> u >> v >> c;
+//        addEdge(u, v, c);
+//        addEdge(v, u, c);
+//    }
+//    build(all, 0, n, 1);
+//    build(cur, 0, n, 1);
+//    cout << solve(getCentroid(1, 0)) << '\n';
+//    return 0;
+//}
