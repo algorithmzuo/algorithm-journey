@@ -33,10 +33,10 @@ package class184;
 //int siz[MAXN];
 //
 //int father[MAXN];
-//int nodeStamp[MAXN];
-//int colorStamp[MAXN];
+//int curRoot[MAXN];
 //int que[MAXN];
-//bool enter[MAXN];
+//bool nodeVis[MAXN];
+//bool colorVis[MAXN];
 //
 //void addEdge(int u, int v) {
 //    nextg[++cntg] = headg[u];
@@ -80,14 +80,15 @@ package class184;
 //    return u;
 //}
 //
-//void dfs(int u, int fa, int stamp) {
+//void dfs(int u, int fa, int rt) {
 //    father[u] = fa;
-//    nodeStamp[u] = stamp;
-//    enter[u] = false;
+//    curRoot[u] = rt;
+//    nodeVis[u] = false;
+//    colorVis[color[u]] = false;
 //    for (int e = headg[u]; e; e = nextg[e]) {
 //        int v = tog[e];
 //        if (v != fa && !vis[v]) {
-//            dfs(v, u, stamp);
+//            dfs(v, u, rt);
 //        }
 //    }
 //}
@@ -96,25 +97,25 @@ package class184;
 //    dfs(u, 0, u);
 //    int l = 1, r = 0;
 //    que[++r] = u;
-//    enter[u] = true;
+//    nodeVis[u] = true;
 //    int ans = 0;
 //    while (l <= r) {
 //        int cur = que[l++];
-//        if (cur != u && !enter[father[cur]]) {
+//        if (cur != u && !nodeVis[father[cur]]) {
 //            que[++r] = father[cur];
-//            enter[father[cur]] = true;
+//            nodeVis[father[cur]] = true;
 //        }
-//        if (colorStamp[color[cur]] != u) {
-//            colorStamp[color[cur]] = u;
+//        if (!colorVis[color[cur]]) {
+//            colorVis[color[cur]] = true;
 //            ans++;
 //            for (int e = headc[color[cur]]; e; e = nextc[e]) {
 //                int v = toc[e];
-//                if (nodeStamp[v] != u) {
+//                if (curRoot[v] != u) {
 //                    return INF;
 //                }
-//                if (!enter[v]) {
+//                if (!nodeVis[v]) {
 //                    que[++r] = v;
-//                    enter[v] = true;
+//                    nodeVis[v] = true;
 //                }
 //            }
 //        }

@@ -35,20 +35,20 @@ public class Code01_Capital1 {
 	public static int[] siz = new int[MAXN];
 
 	public static int[] father = new int[MAXN];
-	public static int[] nodeStamp = new int[MAXN];
-	public static int[] colorStamp = new int[MAXN];
+	public static int[] curRoot = new int[MAXN];
 	public static int[] que = new int[MAXN];
-	public static boolean[] enter = new boolean[MAXN];
+	public static boolean[] nodeVis = new boolean[MAXN];
+	public static boolean[] colorVis = new boolean[MAXN];
 
 	// 讲解118，递归函数改成迭代所需要的栈
 	public static int[][] stack = new int[MAXN][4];
-	public static int u, f, stamp, e;
+	public static int u, f, rt, e;
 	public static int stacksize;
 
-	public static void push(int u, int f, int stamp, int e) {
+	public static void push(int u, int f, int rt, int e) {
 		stack[stacksize][0] = u;
 		stack[stacksize][1] = f;
-		stack[stacksize][2] = stamp;
+		stack[stacksize][2] = rt;
 		stack[stacksize][3] = e;
 		stacksize++;
 	}
@@ -57,7 +57,7 @@ public class Code01_Capital1 {
 		--stacksize;
 		u = stack[stacksize][0];
 		f = stack[stacksize][1];
-		stamp = stack[stacksize][2];
+		rt = stack[stacksize][2];
 		e = stack[stacksize][3];
 	}
 
@@ -135,37 +135,39 @@ public class Code01_Capital1 {
 	}
 
 	// 收集信息递归版，java会爆栈，C++可以通过
-	public static void dfs1(int u, int fa, int stamp) {
+	public static void dfs1(int u, int fa, int rt) {
 		father[u] = fa;
-		nodeStamp[u] = stamp;
-		enter[u] = false;
+		curRoot[u] = rt;
+		nodeVis[u] = false;
+		colorVis[color[u]] = false;
 		for (int e = headg[u]; e > 0; e = nextg[e]) {
 			int v = tog[e];
 			if (v != fa && !vis[v]) {
-				dfs1(v, u, stamp);
+				dfs1(v, u, rt);
 			}
 		}
 	}
 
 	// 收集信息迭代版
-	public static void dfs2(int cur, int fa, int sta) {
+	public static void dfs2(int cur, int fa, int root) {
 		stacksize = 0;
-		push(cur, fa, sta, -1);
+		push(cur, fa, root, -1);
 		while (stacksize > 0) {
 			pop();
 			if (e == -1) {
 				father[u] = f;
-				nodeStamp[u] = stamp;
-				enter[u] = false;
+				curRoot[u] = rt;
+				nodeVis[u] = false;
+				colorVis[color[u]] = false;
 				e = headg[u];
 			} else {
 				e = nextg[e];
 			}
 			if (e != 0) {
-				push(u, f, stamp, e);
+				push(u, f, rt, e);
 				int v = tog[e];
 				if (v != f && !vis[v]) {
-					push(tog[e], u, stamp, -1);
+					push(tog[e], u, rt, -1);
 				}
 			}
 		}
@@ -176,25 +178,25 @@ public class Code01_Capital1 {
 		dfs2(u, 0, u);
 		int l = 1, r = 0;
 		que[++r] = u;
-		enter[u] = true;
+		nodeVis[u] = true;
 		int ans = 0;
 		while (l <= r) {
 			int cur = que[l++];
-			if (cur != u && !enter[father[cur]]) {
+			if (cur != u && !nodeVis[father[cur]]) {
 				que[++r] = father[cur];
-				enter[father[cur]] = true;
+				nodeVis[father[cur]] = true;
 			}
-			if (colorStamp[color[cur]] != u) {
-				colorStamp[color[cur]] = u;
+			if (!colorVis[color[cur]]) {
+				colorVis[color[cur]] = true;
 				ans++;
 				for (int e = headc[color[cur]]; e > 0; e = nextc[e]) {
 					int v = toc[e];
-					if (nodeStamp[v] != u) {
+					if (curRoot[v] != u) {
 						return INF;
 					}
-					if (!enter[v]) {
+					if (!nodeVis[v]) {
 						que[++r] = v;
-						enter[v] = true;
+						nodeVis[v] = true;
 					}
 				}
 			}
