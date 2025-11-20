@@ -20,7 +20,6 @@ package class184;
 //const int MAXN = 200001;
 //const long long INF = 1LL << 60;
 //int n, m, limitl, limitr;
-//
 //int val[MAXN];
 //
 //int head[MAXN];

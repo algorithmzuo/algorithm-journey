@@ -15,7 +15,6 @@ public class Code02_Difficult1 {
 	public static int MAXN = 200001;
 	public static long INF = 1L << 60;
 	public static int n, m, limitl, limitr;
-
 	public static int[] val = new int[MAXN];
 
 	public static int[] head = new int[MAXN];
