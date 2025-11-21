@@ -112,7 +112,7 @@ public class Code03_Freezing1 {
 			curlen = 0;
 			dfs(v, u, 1, w >= limit ? 1 : -1, limit);
 			int ql = 1, qr = 0;
-			// 建立窗口阶段，子树按秩处理非常重要
+			// 根据之前的信息，初步建立窗口，子树按秩处理非常重要
 			for (int i = prelen; i >= limitl; i--) {
 				while (ql <= qr && preVal[que[qr]] <= preVal[i]) {
 					qr--;
@@ -162,8 +162,8 @@ public class Code03_Freezing1 {
 				edgeArr[cnte][1] = siz[v];
 			}
 		}
-		// 子树按秩排序，依次处理，秩是大小或者高度
-		// 如果不这么做，建立窗口阶段，复杂度会爆炸
+		// 子树按大小或者高度排序，然后依次处理
+		// 如果不按秩处理，建立窗口阶段，复杂度会炸
 		// 课上会重点解释
 		Arrays.sort(edgeArr, 1, cnte + 1, (a, b) -> a[1] - b[1]);
 		int l = 1, r = cntw, mid;
