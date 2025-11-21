@@ -42,8 +42,8 @@ package class184;
 //int nodeArr[MAXN];
 //int cnta;
 //
-//int colorNodes[MAXN];
-//int cntc;
+//int bucket[MAXN];
+//int cntb;
 //
 //void addEdge(int u, int v, int c) {
 //    nxt[++cntg] = head[u];
@@ -160,17 +160,17 @@ package class184;
 //    sort(edgeArr + 1, edgeArr + cnte + 1, EdgeCmp);
 //    update(all, 0, 0, 0, n, 1);
 //    long long ans = -INF;
-//    cntc = 0;
+//    cntb = 0;
 //    for (int k = 1; k <= cnte; k++) {
 //        int v = edgeArr[k].node;
 //        int c = edgeArr[k].color;
 //        if (k > 1 && edgeArr[k - 1].color != c) {
 //            clear(cur, 0, n, 1);
-//            for (int i = 1; i <= cntc; i++) {
-//                int node = colorNodes[i];
+//            for (int i = 1; i <= cntb; i++) {
+//                int node = bucket[i];
 //                update(all, edgeCnt[node], pathSum[node], 0, n, 1);
 //            }
-//            cntc = 0;
+//            cntb = 0;
 //        }
 //        cnta = 0;
 //        dfs(v, u, c, 1, val[c]);
@@ -183,7 +183,7 @@ package class184;
 //        }
 //        for (int i = 1; i <= cnta; i++) {
 //            int node = nodeArr[i];
-//            colorNodes[++cntc] = node;
+//            bucket[++cntb] = node;
 //            update(cur, edgeCnt[node], pathSum[node], 0, n, 1);
 //        }
 //    }

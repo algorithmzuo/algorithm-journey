@@ -40,8 +40,8 @@ public class Code02_Difficult1 {
 	public static int[] nodeArr = new int[MAXN];
 	public static int cnta;
 
-	public static int[] colorNodes = new int[MAXN];
-	public static int cntc;
+	public static int[] bucket = new int[MAXN];
+	public static int cntb;
 
 	// 讲解118，递归函数改成迭代所需要的栈
 	public static int[][] stack = new int[MAXN][5];
@@ -246,17 +246,17 @@ public class Code02_Difficult1 {
 		Arrays.sort(edgeArr, 1, cnte + 1, (a, b) -> a[1] - b[1]);
 		update(all, 0, 0, 0, n, 1);
 		long ans = -INF;
-		cntc = 0;
+		cntb = 0;
 		for (int k = 1; k <= cnte; k++) {
 			int v = edgeArr[k][0];
 			int c = edgeArr[k][1];
 			if (k > 1 && edgeArr[k - 1][1] != c) {
 				clear(cur, 0, n, 1);
-				for (int i = 1; i <= cntc; i++) {
-					int node = colorNodes[i];
+				for (int i = 1; i <= cntb; i++) {
+					int node = bucket[i];
 					update(all, edgeCnt[node], pathSum[node], 0, n, 1);
 				}
-				cntc = 0;
+				cntb = 0;
 			}
 			cnta = 0;
 			// dfs1(v, u, c, 1, val[c]);
@@ -270,7 +270,7 @@ public class Code02_Difficult1 {
 			}
 			for (int i = 1; i <= cnta; i++) {
 				int node = nodeArr[i];
-				colorNodes[++cntc] = node;
+				bucket[++cntb] = node;
 				update(cur, edgeCnt[node], pathSum[node], 0, n, 1);
 			}
 		}
