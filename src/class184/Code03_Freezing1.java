@@ -161,6 +161,9 @@ public class Code03_Freezing1 {
 				edgeArr[cnte][1] = siz[v];
 			}
 		}
+		// 子树按秩排序并处理，秩可以是大小或者高度
+		// 如果不这么做，建立窗口阶段，复杂度会爆炸
+		// 课上会重点解释
 		Arrays.sort(edgeArr, 1, cnte + 1, (a, b) -> a[1] - b[1]);
 		int l = 1, r = cntw, mid;
 		while (l <= r) {
