@@ -24,9 +24,9 @@ public class Code02_Difficult1 {
 	public static int cntg;
 
 	// 遍历之前子树形成的线段树，维护最大值信息
-	public static long[] all = new long[MAXN << 2];
+	public static long[] preTree = new long[MAXN << 2];
 	// 遍历当前子树形成的线段树，维护最大值信息
-	public static long[] cur = new long[MAXN << 2];
+	public static long[] curTree = new long[MAXN << 2];
 
 	public static boolean[] vis = new boolean[MAXN];
 	public static int[] siz = new int[MAXN];
@@ -46,14 +46,14 @@ public class Code02_Difficult1 {
 	// 讲解118，递归函数改成迭代所需要的栈
 	public static int[][] stack = new int[MAXN][5];
 	public static long[] sumst = new long[MAXN];
-	public static int u, f, pre, edge, e;
+	public static int u, f, preColor, edge, e;
 	public static long sum;
 	public static int stacksize;
 
-	public static void push(int u, int f, int pre, int edge, long sum, int e) {
+	public static void push(int u, int f, int preColor, int edge, long sum, int e) {
 		stack[stacksize][0] = u;
 		stack[stacksize][1] = f;
-		stack[stacksize][2] = pre;
+		stack[stacksize][2] = preColor;
 		stack[stacksize][3] = edge;
 		stack[stacksize][4] = e;
 		sumst[stacksize] = sum;
@@ -64,7 +64,7 @@ public class Code02_Difficult1 {
 		--stacksize;
 		u = stack[stacksize][0];
 		f = stack[stacksize][1];
-		pre = stack[stacksize][2];
+		preColor = stack[stacksize][2];
 		edge = stack[stacksize][3];
 		e = stack[stacksize][4];
 		sum = sumst[stacksize];
@@ -189,7 +189,7 @@ public class Code02_Difficult1 {
 	}
 
 	// 收集信息递归版，java会爆栈，C++可以通过
-	public static void dfs1(int u, int fa, int pre, int edge, long sum) {
+	public static void dfs1(int u, int fa, int preColor, int edge, long sum) {
 		if (edge > limitr) {
 			return;
 		}
@@ -200,15 +200,15 @@ public class Code02_Difficult1 {
 			int v = to[e];
 			int c = color[e];
 			if (v != fa && !vis[v]) {
-				dfs1(v, u, c, edge + 1, sum + (pre == c ? 0 : val[c]));
+				dfs1(v, u, c, edge + 1, sum + (preColor == c ? 0 : val[c]));
 			}
 		}
 	}
 
 	// 收集信息迭代版
-	public static void dfs2(int cur, int fa, int prec, int pedge, long psum) {
+	public static void dfs2(int cur, int fa, int pcolor, int pedge, long psum) {
 		stacksize = 0;
-		push(cur, fa, prec, pedge, psum, -1);
+		push(cur, fa, pcolor, pedge, psum, -1);
 		while (stacksize > 0) {
 			pop();
 			if (e == -1) {
@@ -223,11 +223,11 @@ public class Code02_Difficult1 {
 				e = nxt[e];
 			}
 			if (e != 0) {
-				push(u, f, pre, edge, sum, e);
+				push(u, f, preColor, edge, sum, e);
 				int v = to[e];
 				int c = color[e];
 				if (v != f && !vis[v]) {
-					push(v, u, c, edge + 1, sum + (pre == c ? 0 : val[c]), -1);
+					push(v, u, c, edge + 1, sum + (preColor == c ? 0 : val[c]), -1);
 				}
 			}
 		}
@@ -244,17 +244,17 @@ public class Code02_Difficult1 {
 			}
 		}
 		Arrays.sort(edgeArr, 1, cnte + 1, (a, b) -> a[1] - b[1]);
-		update(all, 0, 0, 0, n, 1);
+		update(preTree, 0, 0, 0, n, 1);
 		long ans = -INF;
 		cntb = 0;
 		for (int k = 1; k <= cnte; k++) {
 			int v = edgeArr[k][0];
 			int c = edgeArr[k][1];
 			if (k > 1 && edgeArr[k - 1][1] != c) {
-				clear(cur, 0, n, 1);
+				clear(curTree, 0, n, 1);
 				for (int i = 1; i <= cntb; i++) {
 					int node = bucket[i];
-					update(all, edgeCnt[node], pathSum[node], 0, n, 1);
+					update(preTree, edgeCnt[node], pathSum[node], 0, n, 1);
 				}
 				cntb = 0;
 			}
@@ -265,17 +265,17 @@ public class Code02_Difficult1 {
 				int node = nodeArr[i];
 				int l = Math.max(0, limitl - edgeCnt[node]);
 				int r = limitr - edgeCnt[node];
-				ans = Math.max(ans, query(all, l, r, 0, n, 1) + pathSum[node]);
-				ans = Math.max(ans, query(cur, l, r, 0, n, 1) + pathSum[node] - val[c]);
+				ans = Math.max(ans, query(preTree, l, r, 0, n, 1) + pathSum[node]);
+				ans = Math.max(ans, query(curTree, l, r, 0, n, 1) + pathSum[node] - val[c]);
 			}
 			for (int i = 1; i <= cnta; i++) {
 				int node = nodeArr[i];
 				bucket[++cntb] = node;
-				update(cur, edgeCnt[node], pathSum[node], 0, n, 1);
+				update(curTree, edgeCnt[node], pathSum[node], 0, n, 1);
 			}
 		}
-		clear(all, 0, n, 1);
-		clear(cur, 0, n, 1);
+		clear(preTree, 0, n, 1);
+		clear(curTree, 0, n, 1);
 		return ans;
 	}
 
@@ -308,8 +308,8 @@ public class Code02_Difficult1 {
 			addEdge(u, v, c);
 			addEdge(v, u, c);
 		}
-		build(all, 0, n, 1);
-		build(cur, 0, n, 1);
+		build(preTree, 0, n, 1);
+		build(curTree, 0, n, 1);
 		out.println(solve(getCentroid(1, 0)));
 		out.flush();
 		out.close();

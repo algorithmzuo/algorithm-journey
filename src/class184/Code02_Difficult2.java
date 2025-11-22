@@ -28,8 +28,8 @@ package class184;
 //int color[MAXN << 1];
 //int cntg;
 //
-//long long all[MAXN << 2];
-//long long cur[MAXN << 2];
+//long long preTree[MAXN << 2];
+//long long curTree[MAXN << 2];
 //
 //bool vis[MAXN];
 //int siz[MAXN];
@@ -132,7 +132,7 @@ package class184;
 //    return u;
 //}
 //
-//void dfs(int u, int fa, int pre, int edge, long long sum) {
+//void dfs(int u, int fa, int preColor, int edge, long long sum) {
 //    if (edge > limitr) {
 //        return;
 //    }
@@ -143,7 +143,7 @@ package class184;
 //        int v = to[e];
 //        int c = color[e];
 //        if (v != fa && !vis[v]) {
-//            dfs(v, u, c, edge + 1, sum + (pre == c ? 0 : val[c]));
+//            dfs(v, u, c, edge + 1, sum + (preColor == c ? 0 : val[c]));
 //        }
 //    }
 //}
@@ -158,17 +158,17 @@ package class184;
 //        }
 //    }
 //    sort(edgeArr + 1, edgeArr + cnte + 1, EdgeCmp);
-//    update(all, 0, 0, 0, n, 1);
+//    update(preTree, 0, 0, 0, n, 1);
 //    long long ans = -INF;
 //    cntb = 0;
 //    for (int k = 1; k <= cnte; k++) {
 //        int v = edgeArr[k].node;
 //        int c = edgeArr[k].color;
 //        if (k > 1 && edgeArr[k - 1].color != c) {
-//            clear(cur, 0, n, 1);
+//            clear(curTree, 0, n, 1);
 //            for (int i = 1; i <= cntb; i++) {
 //                int node = bucket[i];
-//                update(all, edgeCnt[node], pathSum[node], 0, n, 1);
+//                update(preTree, edgeCnt[node], pathSum[node], 0, n, 1);
 //            }
 //            cntb = 0;
 //        }
@@ -178,17 +178,17 @@ package class184;
 //            int node = nodeArr[i];
 //            int l = max(0, limitl - edgeCnt[node]);
 //            int r = limitr - edgeCnt[node];
-//            ans = max(ans, query(all, l, r, 0, n, 1) + pathSum[node]);
-//            ans = max(ans, query(cur, l, r, 0, n, 1) + pathSum[node] - val[c]);
+//            ans = max(ans, query(preTree, l, r, 0, n, 1) + pathSum[node]);
+//            ans = max(ans, query(curTree, l, r, 0, n, 1) + pathSum[node] - val[c]);
 //        }
 //        for (int i = 1; i <= cnta; i++) {
 //            int node = nodeArr[i];
 //            bucket[++cntb] = node;
-//            update(cur, edgeCnt[node], pathSum[node], 0, n, 1);
+//            update(curTree, edgeCnt[node], pathSum[node], 0, n, 1);
 //        }
 //    }
-//    clear(all, 0, n, 1);
-//    clear(cur, 0, n, 1);
+//    clear(preTree, 0, n, 1);
+//    clear(curTree, 0, n, 1);
 //    return ans;
 //}
 //
@@ -216,8 +216,8 @@ package class184;
 //        addEdge(u, v, c);
 //        addEdge(v, u, c);
 //    }
-//    build(all, 0, n, 1);
-//    build(cur, 0, n, 1);
+//    build(preTree, 0, n, 1);
+//    build(curTree, 0, n, 1);
 //    cout << solve(getCentroid(1, 0)) << '\n';
 //    return 0;
 //}
