@@ -125,7 +125,6 @@ public class Code04_Courier1 {
 		dist[u] = d;
 		for (int e = head[u]; e > 0; e = nxt[e]) {
 			int v = to[e];
-			// 注意没有vis[v]的判断
 			if (v != fa) {
 				dfs1(v, u, d + weight[e], t);
 			}
@@ -148,7 +147,6 @@ public class Code04_Courier1 {
 			if (e != 0) {
 				push(u, f, d, t, e);
 				int v = to[e];
-				// 注意没有vis[v]的判断
 				if (v != f) {
 					push(v, u, d + weight[e], t, -1);
 				}
@@ -156,33 +154,36 @@ public class Code04_Courier1 {
 		}
 	}
 
-	public static int solve(int u) {
-		vis[u] = true;
-		tree[u] = u;
-		dist[u] = 0;
-		for (int e = head[u]; e > 0; e = nxt[e]) {
-			int v = to[e];
-			int w = weight[e];
-			// dfs1(v, u, w, v);
-			dfs2(v, u, w, v);
-		}
-		int ans = 0, son = 0, cur, t1, t2;
-		for (int i = 1; i <= m; i++) {
-			cur = dist[a[i]] + dist[b[i]];
-			t1 = tree[a[i]];
-			t2 = tree[b[i]];
-			if (ans < cur) {
-				ans = cur;
-				son = t1 == t2 ? t1 : -1;
-			} else if (ans == cur && (t1 != t2 || t1 != son)) {
-				son = -1;
+	public static int compute() {
+		int ans = 1000000001;
+		int u = getCentroid(1, 0);
+		while (!vis[u]) {
+			vis[u] = true;
+			tree[u] = u;
+			dist[u] = 0;
+			for (int e = head[u]; e > 0; e = nxt[e]) {
+				int v = to[e];
+				int w = weight[e];
+				// dfs1(v, u, w, v);
+				dfs2(v, u, w, v);
 			}
-		}
-		if (son != -1) {
-			son = getCentroid(son, u);
-			if (!vis[son]) {
-				ans = Math.min(ans, solve(son));
+			int maxDist = 0, son = 0;
+			for (int i = 1; i <= m; i++) {
+				int curDist = dist[a[i]] + dist[b[i]];
+				int t1 = tree[a[i]];
+				int t2 = tree[b[i]];
+				if (maxDist < curDist) {
+					maxDist = curDist;
+					son = t1 == t2 ? t1 : 0;
+				} else if (maxDist == curDist && (t1 != t2 || t1 != son)) {
+					son = 0;
+				}
 			}
+			ans = Math.min(ans, maxDist);
+			if (son == 0) {
+				break;
+			}
+			u = getCentroid(son, u);
 		}
 		return ans;
 	}
@@ -203,7 +204,7 @@ public class Code04_Courier1 {
 			a[i] = in.nextInt();
 			b[i] = in.nextInt();
 		}
-		out.println(solve(getCentroid(1, 0)));
+		out.println(compute());
 		out.flush();
 		out.close();
 	}
