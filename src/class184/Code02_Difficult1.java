@@ -23,8 +23,8 @@ public class Code02_Difficult1 {
 	public static int[] color = new int[MAXN << 1];
 	public static int cntg;
 
-	// 遍历之前子树形成的线段树，维护最大值信息
-	public static long[] preTree = new long[MAXN << 2];
+	// 遍历之前所有子树形成的线段树，维护最大值信息
+	public static long[] allTree = new long[MAXN << 2];
 	// 遍历当前子树形成的线段树，维护最大值信息
 	public static long[] curTree = new long[MAXN << 2];
 
@@ -244,7 +244,7 @@ public class Code02_Difficult1 {
 			}
 		}
 		Arrays.sort(edgeArr, 1, cnte + 1, (a, b) -> a[1] - b[1]);
-		update(preTree, 0, 0, 0, n, 1);
+		update(allTree, 0, 0, 0, n, 1);
 		long ans = -INF;
 		cntb = 0;
 		for (int k = 1; k <= cnte; k++) {
@@ -254,7 +254,7 @@ public class Code02_Difficult1 {
 				clear(curTree, 0, n, 1);
 				for (int i = 1; i <= cntb; i++) {
 					int node = bucket[i];
-					update(preTree, edgeCnt[node], pathSum[node], 0, n, 1);
+					update(allTree, edgeCnt[node], pathSum[node], 0, n, 1);
 				}
 				cntb = 0;
 			}
@@ -265,7 +265,7 @@ public class Code02_Difficult1 {
 				int node = nodeArr[i];
 				int l = Math.max(0, limitl - edgeCnt[node]);
 				int r = limitr - edgeCnt[node];
-				ans = Math.max(ans, query(preTree, l, r, 0, n, 1) + pathSum[node]);
+				ans = Math.max(ans, query(allTree, l, r, 0, n, 1) + pathSum[node]);
 				ans = Math.max(ans, query(curTree, l, r, 0, n, 1) + pathSum[node] - val[c]);
 			}
 			for (int i = 1; i <= cnta; i++) {
@@ -274,7 +274,7 @@ public class Code02_Difficult1 {
 				update(curTree, edgeCnt[node], pathSum[node], 0, n, 1);
 			}
 		}
-		clear(preTree, 0, n, 1);
+		clear(allTree, 0, n, 1);
 		clear(curTree, 0, n, 1);
 		return ans;
 	}
@@ -308,7 +308,7 @@ public class Code02_Difficult1 {
 			addEdge(u, v, c);
 			addEdge(v, u, c);
 		}
-		build(preTree, 0, n, 1);
+		build(allTree, 0, n, 1);
 		build(curTree, 0, n, 1);
 		out.println(solve(getCentroid(1, 0)));
 		out.flush();

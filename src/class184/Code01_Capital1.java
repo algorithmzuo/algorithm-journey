@@ -167,7 +167,7 @@ public class Code01_Capital1 {
 				push(u, f, rt, e);
 				int v = tog[e];
 				if (v != f && !vis[v]) {
-					push(tog[e], u, rt, -1);
+					push(v, u, rt, -1);
 				}
 			}
 		}
