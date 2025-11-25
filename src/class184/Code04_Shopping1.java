@@ -16,7 +16,7 @@ public class Code04_Shopping1 {
 	public static int INF = 1000000001;
 	public static int t, n, m;
 
-	public static int[] w = new int[MAXN];
+	public static int[] v = new int[MAXN];
 	public static int[] c = new int[MAXN];
 	public static int[] d = new int[MAXN];
 
@@ -32,8 +32,8 @@ public class Code04_Shopping1 {
 	public static int[] endDfn = new int[MAXN];
 	public static int cnta;
 
-	public static int[] cost = new int[MAXN];
 	public static int[] value = new int[MAXN];
+	public static int[] cost = new int[MAXN];
 	public static int[][] dp = new int[MAXN][MAXM];
 
 	public static void prepare() {
@@ -101,25 +101,25 @@ public class Code04_Shopping1 {
 			// 这里用二进制分组处理多重背包，代码量较小
 			// 也可以用单调队列，之前的课都讲过，码量大
 			for (int k = 1; k <= cnt; k <<= 1) {
-				cost[++num] = c[cur] * k;
-				value[num] = w[cur] * k;
+				value[++num] = v[cur] * k;
+				cost[num] = c[cur] * k;
 				cnt -= k;
 			}
 			if (cnt > 0) {
-				cost[++num] = c[cur] * cnt;
-				value[num] = w[cur] * cnt;
+				value[++num] = v[cur] * cnt;
+				cost[num] = c[cur] * cnt;
 			}
 			// 必须要选一件cur
 			for (int j = m; j >= c[cur]; j--) {
-				dp[i][j] = dp[i + 1][j - c[cur]] + w[cur];
+				dp[i][j] = dp[i + 1][j - c[cur]] + v[cur];
 			}
-			// 已选第一件的基础上再加
+			// 选了一件的基础上再加
 			for (int k = 1; k <= num; k++) {
 				for (int j = m; j >= cost[k]; j--) {
 					dp[i][j] = Math.max(dp[i][j], dp[i][j - cost[k]] + value[k]);
 				}
 			}
-			// 不选cur那么整棵子树都不能选，跳到endDfn[cur] + 1
+			// 如果不选cur，那么整棵子树都不能选，跳到endDfn[cur] + 1
 			for (int j = 0; j <= m; j++) {
 				dp[i][j] = Math.max(dp[i][j], dp[endDfn[cur] + 1][j]);
 			}
@@ -154,7 +154,7 @@ public class Code04_Shopping1 {
 			n = in.nextInt();
 			m = in.nextInt();
 			for (int i = 1; i <= n; i++) {
-				w[i] = in.nextInt();
+				v[i] = in.nextInt();
 			}
 			for (int i = 1; i <= n; i++) {
 				c[i] = in.nextInt();
