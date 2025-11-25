@@ -26,8 +26,8 @@ public class Code05_ModeString1 {
 	public static int[] to = new int[MAXN << 1];
 	public static int cntg;
 
-	public static long[] strPre = new long[MAXN];
-	public static long[] strSuf = new long[MAXN];
+	public static long[] pre = new long[MAXN];
+	public static long[] suf = new long[MAXN];
 
 	public static boolean[] vis = new boolean[MAXN];
 	public static int[] siz = new int[MAXN];
@@ -136,11 +136,11 @@ public class Code05_ModeString1 {
 	public static void dfs1(int u, int fa, int dep, long hash) {
 		deep[u] = dep;
 		hash = (hash * BASE + val[u] - 'A' + 1) % MOD;
-		if (hash == strPre[dep]) {
+		if (hash == pre[dep]) {
 			curPre[(dep - 1) % m + 1]++;
 			ans += allSuf[m - (dep - 1) % m];
 		}
-		if (hash == strSuf[dep]) {
+		if (hash == suf[dep]) {
 			curSuf[(dep - 1) % m + 1]++;
 			ans += allPre[m - (dep - 1) % m];
 		}
@@ -162,11 +162,11 @@ public class Code05_ModeString1 {
 			if (e == -1) {
 				deep[u] = dep;
 				hash = (hash * BASE + val[u] - 'A' + 1) % MOD;
-				if (hash == strPre[dep]) {
+				if (hash == pre[dep]) {
 					curPre[(dep - 1) % m + 1]++;
 					ans += allSuf[m - (dep - 1) % m];
 				}
-				if (hash == strSuf[dep]) {
+				if (hash == suf[dep]) {
 					curSuf[(dep - 1) % m + 1]++;
 					ans += allPre[m - (dep - 1) % m];
 				}
@@ -237,8 +237,8 @@ public class Code05_ModeString1 {
 		}
 		long tmp = 1;
 		for (int i = 1; i <= n; i++) {
-			strPre[i] = (strPre[i - 1] + tmp * (str[(i - 1) % m + 1] - 'A' + 1)) % MOD;
-			strSuf[i] = (strSuf[i - 1] + tmp * (str[m - (i - 1) % m] - 'A' + 1)) % MOD;
+			pre[i] = (pre[i - 1] + tmp * (str[(i - 1) % m + 1] - 'A' + 1)) % MOD;
+			suf[i] = (suf[i - 1] + tmp * (str[m - (i - 1) % m] - 'A' + 1)) % MOD;
 			tmp = tmp * BASE % MOD;
 		}
 	}
