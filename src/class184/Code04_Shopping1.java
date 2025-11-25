@@ -11,7 +11,7 @@ import java.io.PrintWriter;
 
 public class Code04_Shopping1 {
 
-	public static int MAXN = 1001;
+	public static int MAXN = 502;
 	public static int MAXM = 4001;
 	public static int INF = 1000000001;
 	public static int t, n, m;
