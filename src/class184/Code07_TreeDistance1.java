@@ -19,7 +19,7 @@ public class Code07_TreeDistance1 {
 	public static int n, m;
 	public static int[] queryl = new int[MAXM];
 	public static int[] queryr = new int[MAXM];
-	public static int[] queryid = new int[MAXM];
+	public static int[] queryId = new int[MAXM];
 
 	public static int[] keyl = new int[MAXK];
 	public static int[] keyr = new int[MAXK];
@@ -76,7 +76,7 @@ public class Code07_TreeDistance1 {
 			if (i <= j) {
 				tmp = queryl[i]; queryl[i] = queryl[j]; queryl[j] = tmp;
 				tmp = queryr[i]; queryr[i] = queryr[j]; queryr[j] = tmp;
-				tmp = queryid[i]; queryid[i] = queryid[j]; queryid[j] = tmp;
+				tmp = queryId[i]; queryId[i] = queryId[j]; queryId[j] = tmp;
 				i++; j--;
 			}
 		}
@@ -282,9 +282,9 @@ public class Code07_TreeDistance1 {
 				idx++;
 			}
 			if (queryl[i] == queryr[i]) {
-				ans[queryid[i]] = -1;
+				ans[queryId[i]] = -1;
 			} else {
-				ans[queryid[i]] = query(queryr[i]);
+				ans[queryId[i]] = query(queryr[i]);
 			}
 		}
 	}
@@ -304,7 +304,7 @@ public class Code07_TreeDistance1 {
 		for (int i = 1; i <= m; i++) {
 			queryl[i] = in.nextInt();
 			queryr[i] = in.nextInt();
-			queryid[i] = i;
+			queryId[i] = i;
 		}
 		compute();
 		for (int i = 1; i <= m; i++) {
