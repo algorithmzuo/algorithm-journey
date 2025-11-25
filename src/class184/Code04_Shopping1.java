@@ -11,7 +11,7 @@ import java.io.PrintWriter;
 
 public class Code04_Shopping1 {
 
-	public static int MAXN = 502;
+	public static int MAXN = 501;
 	public static int MAXM = 4001;
 	public static int INF = 1000000001;
 	public static int t, n, m;
@@ -30,11 +30,11 @@ public class Code04_Shopping1 {
 
 	public static int[] nodeArr = new int[MAXN];
 	public static int[] endDfn = new int[MAXN];
-	public static int cnta;
+	public static int cntd;
 
 	public static int[] val = new int[MAXN];
 	public static int[] cost = new int[MAXN];
-	public static int[][] dp = new int[MAXN][MAXM];
+	public static int[][] dp = new int[MAXN + 1][MAXM];
 
 	public static void prepare() {
 		cntg = 0;
@@ -81,20 +81,20 @@ public class Code04_Shopping1 {
 	}
 
 	public static void dfs(int u, int fa) {
-		nodeArr[++cnta] = u;
+		nodeArr[++cntd] = u;
 		for (int e = head[u]; e > 0; e = nxt[e]) {
 			int v = to[e];
 			if (v != fa && !vis[v]) {
 				dfs(v, u);
 			}
 		}
-		endDfn[u] = cnta;
+		endDfn[u] = cntd;
 	}
 
 	public static int calc(int u) {
-		cnta = 0;
+		cntd = 0;
 		dfs(u, 0);
-		for (int i = cnta; i > 0; i--) {
+		for (int i = cntd; i > 0; i--) {
 			int cur = nodeArr[i];
 			int cnt = d[cur] - 1;
 			int num = 0;
@@ -126,7 +126,7 @@ public class Code04_Shopping1 {
 		}
 		int ans = dp[1][m];
 		// 返回之前清空
-		for (int i = 1; i <= cnta; i++) {
+		for (int i = 1; i <= cntd; i++) {
 			for (int j = 0; j <= m; j++) {
 				dp[i][j] = 0;
 			}
