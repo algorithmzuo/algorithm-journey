@@ -104,15 +104,7 @@ package class184;
 //
 //void calc(int u) {
 //    cnta = 0;
-//    dist[u] = 0;
-//    nodeArr[++cnta] = u;
-//    for (int e = head[u]; e; e = nxt[e]) {
-//        int v = to[e];
-//        int w = weight[e];
-//        if (!vis[v]) {
-//            dfs(v, u, w);
-//        }
-//    }
+//    dfs(u, 0, 0);
 //    sort(nodeArr + 1, nodeArr + cnta + 1);
 //    int top = 0;
 //    for (int i = 1; i <= cnta; i++) {

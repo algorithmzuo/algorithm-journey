@@ -216,16 +216,8 @@ public class Code07_TreeDistance1 {
 
 	public static void calc(int u) {
 		cnta = 0;
-		dist[u] = 0;
-		nodeArr[++cnta] = u;
-		for (int e = head[u]; e > 0; e = nxt[e]) {
-			int v = to[e];
-			int w = weight[e];
-			if (!vis[v]) {
-				// dfs1(v, u, w);
-				dfs2(v, u, w);
-			}
-		}
+		// dfs1(u, 0, 0);
+		dfs2(u, 0, 0);
 		Arrays.sort(nodeArr, 1, cnta + 1);
 		int top = 0;
 		for (int i = 1; i <= cnta; i++) {
