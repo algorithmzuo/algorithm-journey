@@ -66,6 +66,7 @@ public class Code07_TreeDistance1 {
 		dis = distst[stacksize];
 	}
 
+	// 查询根据l从大到小排序，java自带的排序慢，手撸双指针快排
 	public static void sortQuery(int l, int r) {
 		if (l >= r) return;
 		int i = l, j = r, pivot = queryl[(l + r) >> 1], tmp;
@@ -83,16 +84,18 @@ public class Code07_TreeDistance1 {
 		sortQuery(i, r);
 	}
 
+	// 关键点对根据l从大到小排序，java自带的排序慢，手撸双指针快排
 	public static void sortKey(int l, int r) {
 		if (l >= r) return;
-		int i = l, j = r, pivot = keyl[(l + r) >> 1];
+		int i = l, j = r, pivot = keyl[(l + r) >> 1], t1;
+		long t2;
 		while (i <= j) {
 			while (keyl[i] > pivot) i++;
 			while (keyl[j] < pivot) j--;
 			if (i <= j) {
-				int t1 = keyl[i]; keyl[i] = keyl[j]; keyl[j] = t1;
+				t1 = keyl[i]; keyl[i] = keyl[j]; keyl[j] = t1;
 				t1 = keyr[i]; keyr[i] = keyr[j]; keyr[j] = t1;
-				long t2 = keyDist[i]; keyDist[i] = keyDist[j]; keyDist[j] = t2;
+				t2 = keyDist[i]; keyDist[i] = keyDist[j]; keyDist[j] = t2;
 				i++; j--;
 			}
 		}
