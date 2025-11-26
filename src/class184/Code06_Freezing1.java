@@ -1,6 +1,11 @@
 package class184;
 
-// 最大中位数路径，java版
+// 最大上中位数路径，java版
+// 一共有n个节点，给定n-1条边，每条边给定边权，所有节点组成一棵树
+// 一条简单路径上，收集所有边权组成序列，其中的上中位数作为路径的权
+// 边数在[limitl, limitr]范围的所有路径中，找到最大权的路径
+// 如果有多条路径，找到其中一个方案即可，打印两个端点
+// 1 <= n <= 10^5    0 <= 边权 <= 10^9
 // 测试链接 : https://www.luogu.com.cn/problem/CF150E
 // 测试链接 : https://codeforces.com/problemset/problem/150/E
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
@@ -15,10 +20,10 @@ public class Code06_Freezing1 {
 
 	public static int MAXN = 100001;
 	public static int INF = 1000000001;
-	public static int n, limitl, limitr;
+	public static int n, limitl, limitr, cntw;
 
+	// 端点u、端点v、边权w
 	public static int[][] arr = new int[MAXN][3];
-	public static int cntw;
 
 	public static int[] head = new int[MAXN];
 	public static int[] nxt = new int[MAXN << 1];
@@ -29,6 +34,7 @@ public class Code06_Freezing1 {
 	public static boolean[] vis = new boolean[MAXN];
 	public static int[] siz = new int[MAXN];
 
+	// 边的编号eid、边连接的子树大小size
 	public static int[][] edgeArr = new int[MAXN][2];
 	public static int cnte;
 
@@ -103,9 +109,9 @@ public class Code06_Freezing1 {
 		allVal[0] = 0;
 		allNode[0] = u;
 		allLen = 0;
-		for (int ei = 1; ei <= cnte; ei++) {
-			int v = to[edgeArr[ei][0]];
-			int w = weight[edgeArr[ei][0]];
+		for (int k = 1; k <= cnte; k++) {
+			int v = to[edgeArr[k][0]];
+			int w = weight[edgeArr[k][0]];
 			for (int i = 1; i <= siz[v]; i++) {
 				curVal[i] = -INF;
 			}
