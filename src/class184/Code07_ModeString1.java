@@ -1,6 +1,13 @@
 package class184;
 
 // 模式字符串，java版
+// 一共有n个点，给定n-1条边，所有节点组成一棵树
+// 每个点有点权，是一个大写字母，只考虑大写字母A到Z
+// 给定一个长度为m的字符串s，也只由大写字母A到Z组成
+// 考虑点对(u, v)的简单路径，把沿途节点的字母拼接起来
+// 如果拼接字符串恰好是s重复正数次，那么该点对合法
+// 打印合法点对的数量，注意(u, v)和(v, u)是不同的点对
+// 1 <= m <= n <= 10^5
 // 测试链接 : https://www.luogu.com.cn/problem/P4075
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
@@ -247,7 +254,7 @@ public class Code07_ModeString1 {
 		FastReader in = new FastReader(System.in);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
 		t = in.nextInt();
-		for (int c = 1; c <= t; c++) {
+		for (int k = 1; k <= t; k++) {
 			n = in.nextInt();
 			m = in.nextInt();
 			for (int i = 1; i <= n; i++) {
