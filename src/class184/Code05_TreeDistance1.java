@@ -8,7 +8,7 @@ package class184;
 // 也可以说，[x, y]范围的支配点对距离是dist(a, b)
 // 特别的，如果x == y，那么[x, y]范围的支配点对距离是-1
 // 一共有m条查询，格式 x y : 输入保证x <= y，打印[x, y]范围的支配点对距离
-// 1 <= n <= 2 * 10^5    1 <= m <= 10^6
+// 1 <= n <= 2 * 10^5    1 <= m <= 10^6    1 <= 边权 <= 10^9
 // 测试链接 : https://www.luogu.com.cn/problem/P9678
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
@@ -25,12 +25,12 @@ public class Code05_TreeDistance1 {
 	public static int MAXK = 10000001;
 	public static long INF = 1L << 60;
 	public static int n, m;
-	public static int[] queryl = new int[MAXM];
-	public static int[] queryr = new int[MAXM];
-	public static int[] queryId = new int[MAXM];
+	public static int[] qx = new int[MAXM];
+	public static int[] qy = new int[MAXM];
+	public static int[] qid = new int[MAXM];
 
-	public static int[] keyl = new int[MAXK];
-	public static int[] keyr = new int[MAXK];
+	public static int[] keya = new int[MAXK];
+	public static int[] keyb = new int[MAXK];
 	public static long[] keyDist = new long[MAXK];
 	public static int cntk;
 
@@ -74,17 +74,17 @@ public class Code05_TreeDistance1 {
 		dis = distst[stacksize];
 	}
 
-	// 所有查询，根据l的值，从大到小排序，java自带的排序慢，手撸双指针快排
+	// 所有查询，根据x的值，从大到小排序，java自带的排序慢，手撸双指针快排
 	public static void sortQuery(int l, int r) {
 		if (l >= r) return;
-		int i = l, j = r, pivot = queryl[(l + r) >> 1], tmp;
+		int i = l, j = r, pivot = qx[(l + r) >> 1], tmp;
 		while (i <= j) {
-			while (queryl[i] > pivot) i++;
-			while (queryl[j] < pivot) j--;
+			while (qx[i] > pivot) i++;
+			while (qx[j] < pivot) j--;
 			if (i <= j) {
-				tmp = queryl[i]; queryl[i] = queryl[j]; queryl[j] = tmp;
-				tmp = queryr[i]; queryr[i] = queryr[j]; queryr[j] = tmp;
-				tmp = queryId[i]; queryId[i] = queryId[j]; queryId[j] = tmp;
+				tmp = qx[i]; qx[i] = qx[j]; qx[j] = tmp;
+				tmp = qy[i]; qy[i] = qy[j]; qy[j] = tmp;
+				tmp = qid[i]; qid[i] = qid[j]; qid[j] = tmp;
 				i++; j--;
 			}
 		}
@@ -92,17 +92,17 @@ public class Code05_TreeDistance1 {
 		sortQuery(i, r);
 	}
 
-	// 所有关键点，根据l的值，从大到小排序，java自带的排序慢，手撸双指针快排
+	// 所有关键点，根据a的值，从大到小排序，java自带的排序慢，手撸双指针快排
 	public static void sortKey(int l, int r) {
 		if (l >= r) return;
-		int i = l, j = r, pivot = keyl[(l + r) >> 1], t1;
+		int i = l, j = r, pivot = keya[(l + r) >> 1], t1;
 		long t2;
 		while (i <= j) {
-			while (keyl[i] > pivot) i++;
-			while (keyl[j] < pivot) j--;
+			while (keya[i] > pivot) i++;
+			while (keya[j] < pivot) j--;
 			if (i <= j) {
-				t1 = keyl[i]; keyl[i] = keyl[j]; keyl[j] = t1;
-				t1 = keyr[i]; keyr[i] = keyr[j]; keyr[j] = t1;
+				t1 = keya[i]; keya[i] = keya[j]; keya[j] = t1;
+				t1 = keyb[i]; keyb[i] = keyb[j]; keyb[j] = t1;
 				t2 = keyDist[i]; keyDist[i] = keyDist[j]; keyDist[j] = t2;
 				i++; j--;
 			}
@@ -216,9 +216,9 @@ public class Code05_TreeDistance1 {
 		}
 	}
 
-	public static void addKey(int kl, int kr, long kdist) {
-		keyl[++cntk] = kl;
-		keyr[cntk] = kr;
+	public static void addKey(int ka, int kb, long kdist) {
+		keya[++cntk] = ka;
+		keyb[cntk] = kb;
 		keyDist[cntk] = kdist;
 	}
 
@@ -283,16 +283,14 @@ public class Code05_TreeDistance1 {
 		sortQuery(1, m);
 		sortKey(1, cntk);
 		buildTree();
-		int idx = 1;
-		for (int i = 1; i <= m; i++) {
-			while (idx <= cntk && keyl[idx] >= queryl[i]) {
-				add(keyr[idx], keyDist[idx]);
-				idx++;
+		for (int i = 1, j = 1; i <= m; i++) {
+			for (; j <= cntk && keya[j] >= qx[i]; j++) {
+				add(keyb[j], keyDist[j]);
 			}
-			if (queryl[i] == queryr[i]) {
-				ans[queryId[i]] = -1;
+			if (qx[i] == qy[i]) {
+				ans[qid[i]] = -1;
 			} else {
-				ans[queryId[i]] = query(queryr[i]);
+				ans[qid[i]] = query(qy[i]);
 			}
 		}
 	}
@@ -310,9 +308,9 @@ public class Code05_TreeDistance1 {
 		}
 		m = in.nextInt();
 		for (int i = 1; i <= m; i++) {
-			queryl[i] = in.nextInt();
-			queryr[i] = in.nextInt();
-			queryId[i] = i;
+			qx[i] = in.nextInt();
+			qy[i] = in.nextInt();
+			qid[i] = i;
 		}
 		compute();
 		for (int i = 1; i <= m; i++) {

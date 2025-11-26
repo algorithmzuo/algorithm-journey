@@ -1,6 +1,14 @@
 package class184;
 
 // 支配点对距离，C++版
+// 一共有n个节点，给定n-1条边，每条边给定边权，所有节点组成一棵树
+// 节点i到节点j的简单路径权值和，定义为dist(i, j)
+// 在[x, y]范围上，选两个编号a、b，要求a < b，这样的选择可能有很多情况
+// 如果dist(a, b)是所有情况中最小的，就说点对(a, b)支配了[x, y]范围
+// 也可以说，[x, y]范围的支配点对距离是dist(a, b)
+// 特别的，如果x == y，那么[x, y]范围的支配点对距离是-1
+// 一共有m条查询，格式 x y : 输入保证x <= y，打印[x, y]范围的支配点对距离
+// 1 <= n <= 2 * 10^5    1 <= m <= 10^6    1 <= 边权 <= 10^9
 // 测试链接 : https://www.luogu.com.cn/problem/P9678
 // 如下实现是C++的版本，C++版本和java版本逻辑完全一样
 // 提交如下代码，可以通过所有测试用例
@@ -10,20 +18,20 @@ package class184;
 //using namespace std;
 //
 //struct Query {
-//    int l, r, id;
+//    int x, y, id;
 //};
 //
 //struct Key {
-//    int l, r;
+//    int a, b;
 //    long long dist;
 //};
 //
-//bool QueryCmp(Query a, Query b) {
-//    return a.l > b.l;
+//bool QueryCmp(Query q1, Query q2) {
+//    return q1.x > q2.x;
 //}
 //
-//bool KeyCmp(Key a, Key b) {
-//    return a.l > b.l;
+//bool KeyCmp(Key k1, Key k2) {
+//    return k1.a > k2.a;
 //}
 //
 //const int MAXN = 200001;
@@ -163,15 +171,14 @@ package class184;
 //    sort(keyArr + 1, keyArr + cntk + 1, KeyCmp);
 //    buildTree();
 //    int idx = 1;
-//    for (int i = 1; i <= m; i++) {
-//        while (idx <= cntk && keyArr[idx].l >= queryArr[i].l) {
-//            add(keyArr[idx].r, keyArr[idx].dist);
-//            idx++;
+//    for (int i = 1, j = 1; i <= m; i++) {
+//        for (; j <= cntk && keyArr[j].a >= queryArr[i].x; j++) {
+//            add(keyArr[j].b, keyArr[j].dist);
 //        }
-//        if (queryArr[i].l == queryArr[i].r) {
+//        if (queryArr[i].x == queryArr[i].y) {
 //            ans[queryArr[i].id] = -1;
 //        } else {
-//            ans[queryArr[i].id] = query(queryArr[i].r);
+//            ans[queryArr[i].id] = query(queryArr[i].y);
 //        }
 //    }
 //}
@@ -187,7 +194,7 @@ package class184;
 //    }
 //    cin >> m;
 //    for (int i = 1; i <= m; i++) {
-//        cin >> queryArr[i].l >> queryArr[i].r;
+//        cin >> queryArr[i].x >> queryArr[i].y;
 //        queryArr[i].id = i;
 //    }
 //    compute();
