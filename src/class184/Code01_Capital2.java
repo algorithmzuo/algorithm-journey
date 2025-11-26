@@ -33,7 +33,8 @@ package class184;
 //int siz[MAXN];
 //
 //int father[MAXN];
-//int curRoot[MAXN];
+//int curCentroid[MAXN];
+//
 //int que[MAXN];
 //bool nodeVis[MAXN];
 //bool colorVis[MAXN];
@@ -80,15 +81,15 @@ package class184;
 //    return u;
 //}
 //
-//void dfs(int u, int fa, int rt) {
+//void dfs(int u, int fa, int centroid) {
 //    father[u] = fa;
-//    curRoot[u] = rt;
+//    curCentroid[u] = centroid;
 //    nodeVis[u] = false;
 //    colorVis[color[u]] = false;
 //    for (int e = headg[u]; e; e = nextg[e]) {
 //        int v = tog[e];
 //        if (v != fa && !vis[v]) {
-//            dfs(v, u, rt);
+//            dfs(v, u, centroid);
 //        }
 //    }
 //}
@@ -110,7 +111,7 @@ package class184;
 //            ans++;
 //            for (int e = headc[color[cur]]; e; e = nextc[e]) {
 //                int v = toc[e];
-//                if (curRoot[v] != u) {
+//                if (curCentroid[v] != u) {
 //                    return INF;
 //                }
 //                if (!nodeVis[v]) {
