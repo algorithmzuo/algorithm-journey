@@ -16,7 +16,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.util.Arrays;
 
-public class Code06_Freezing1 {
+public class Code05_Freezing1 {
 
 	public static int MAXN = 100001;
 	public static int INF = 1000000001;
