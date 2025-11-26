@@ -1,6 +1,13 @@
 package class184;
 
 // 树上购物，java版
+// 一共有n个商店，有n-1条路构成一棵树，第i个商店只卖第i种物品
+// 给定每种物品三个属性，价值v[i]、单价c[i]、数量d[i]
+// 你逛商店可能会购买物品，要求所有买过东西的商店，在树上必须连通
+// 你有m元，打印能获得的最大价值总和
+// 1 <= n <= 500
+// 1 <= m <= 4000
+// 1 <= d[i] <= 2000
 // 测试链接 : https://www.luogu.com.cn/problem/P6326
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
@@ -13,7 +20,6 @@ public class Code04_Shopping1 {
 
 	public static int MAXN = 501;
 	public static int MAXM = 4001;
-	public static int INF = 1000000001;
 	public static int t, n, m;
 
 	public static int[] v = new int[MAXN];

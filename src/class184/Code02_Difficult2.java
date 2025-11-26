@@ -112,7 +112,7 @@ package class184;
 //
 //void getSize(int u, int fa) {
 //    siz[u] = 1;
-//    for (int e = head[u]; e > 0; e = nxt[e]) {
+//    for (int e = head[u]; e; e = nxt[e]) {
 //        int v = to[e];
 //        if (v != fa && !vis[v]) {
 //            getSize(v, u);
@@ -127,7 +127,7 @@ package class184;
 //    bool find = false;
 //    while (!find) {
 //        find = true;
-//        for (int e = head[u]; e > 0; e = nxt[e]) {
+//        for (int e = head[u]; e; e = nxt[e]) {
 //            int v = to[e];
 //            if (v != fa && !vis[v] && siz[v] > half) {
 //                fa = u;
@@ -147,7 +147,7 @@ package class184;
 //    edgeCnt[u] = edge;
 //    pathSum[u] = sum;
 //    nodeArr[++cnta] = u;
-//    for (int e = head[u]; e > 0; e = nxt[e]) {
+//    for (int e = head[u]; e; e = nxt[e]) {
 //        int v = to[e];
 //        int c = color[e];
 //        if (v != fa && !vis[v]) {
@@ -158,7 +158,7 @@ package class184;
 //
 //long long calc(int u) {
 //    cnte = 0;
-//    for (int e = head[u]; e > 0; e = nxt[e]) {
+//    for (int e = head[u]; e; e = nxt[e]) {
 //        int v = to[e];
 //        int c = color[e];
 //        if (!vis[v]) {
@@ -203,7 +203,7 @@ package class184;
 //long long solve(int u) {
 //    vis[u] = true;
 //    long long ans = calc(u);
-//    for (int e = head[u]; e > 0; e = nxt[e]) {
+//    for (int e = head[u]; e; e = nxt[e]) {
 //        int v = to[e];
 //        if (!vis[v]) {
 //            ans = max(ans, solve(getCentroid(v, u)));
