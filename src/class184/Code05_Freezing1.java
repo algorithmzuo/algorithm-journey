@@ -38,9 +38,9 @@ public class Code05_Freezing1 {
 	public static int[][] edgeArr = new int[MAXN][2];
 	public static int cnte;
 
-	public static int[] allVal = new int[MAXN];
-	public static int[] allNode = new int[MAXN];
-	public static int allLen;
+	public static int[] preVal = new int[MAXN];
+	public static int[] preNode = new int[MAXN];
+	public static int preLen;
 
 	public static int[] curVal = new int[MAXN];
 	public static int[] curNode = new int[MAXN];
@@ -106,9 +106,9 @@ public class Code05_Freezing1 {
 	}
 
 	public static boolean check(int u, int limit) {
-		allVal[0] = 0;
-		allNode[0] = u;
-		allLen = 0;
+		preVal[0] = 0;
+		preNode[0] = u;
+		preLen = 0;
 		for (int k = 1; k <= cnte; k++) {
 			int v = to[edgeArr[k][0]];
 			int w = weight[edgeArr[k][0]];
@@ -119,8 +119,8 @@ public class Code05_Freezing1 {
 			dfs(v, u, 1, w >= limit ? 1 : -1, limit);
 			int ql = 1, qr = 0;
 			// 根据之前的信息，初步建立窗口，子树按秩处理非常重要
-			for (int i = allLen; i >= limitl; i--) {
-				while (ql <= qr && allVal[que[qr]] <= allVal[i]) {
+			for (int i = preLen; i >= limitl; i--) {
+				while (ql <= qr && preVal[que[qr]] <= preVal[i]) {
 					qr--;
 				}
 				que[++qr] = i;
@@ -128,8 +128,8 @@ public class Code05_Freezing1 {
 			int down = limitr, up = limitl;
 			for (int i = 1; i <= curLen; i++) {
 				up--;
-				if (up >= 0 && up <= allLen) {
-					while (ql <= qr && allVal[que[qr]] <= allVal[up]) {
+				if (up >= 0 && up <= preLen) {
+					while (ql <= qr && preVal[que[qr]] <= preVal[up]) {
 						qr--;
 					}
 					que[++qr] = up;
@@ -138,22 +138,22 @@ public class Code05_Freezing1 {
 					ql++;
 				}
 				down--;
-				if (ql <= qr && allVal[que[ql]] + curVal[i] >= 0) {
+				if (ql <= qr && preVal[que[ql]] + curVal[i] >= 0) {
 					if (limit > ans) {
 						ans = limit;
 						ansu = curNode[i];
-						ansv = allNode[que[ql]];
+						ansv = preNode[que[ql]];
 					}
 					return true;
 				}
 			}
 			for (int i = 1; i <= curLen; i++) {
-				if (i > allLen || curVal[i] > allVal[i]) {
-					allVal[i] = curVal[i];
-					allNode[i] = curNode[i];
+				if (i > preLen || curVal[i] > preVal[i]) {
+					preVal[i] = curVal[i];
+					preNode[i] = curNode[i];
 				}
 			}
-			allLen = Math.max(allLen, curLen);
+			preLen = Math.max(preLen, curLen);
 		}
 		return false;
 	}
