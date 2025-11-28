@@ -38,10 +38,10 @@ package class184;
 //int siz[MAXN];
 //
 //int deep[MAXN];
-//long long curPre[MAXN];
-//long long curSuf[MAXN];
-//long long allPre[MAXN];
-//long long allSuf[MAXN];
+//long long curp[MAXN];
+//long long curs[MAXN];
+//long long allp[MAXN];
+//long long alls[MAXN];
 //
 //long long ans;
 //
@@ -85,12 +85,12 @@ package class184;
 //    deep[u] = dep;
 //    hash = (hash * BASE + (val[u] - 'A' + 1)) % MOD;
 //    if (hash == pre[dep]) {
-//        curPre[(dep - 1) % m + 1]++;
-//        ans += allSuf[m - (dep - 1) % m];
+//        curp[(dep - 1) % m + 1]++;
+//        ans += alls[m - (dep - 1) % m];
 //    }
 //    if (hash == suf[dep]) {
-//        curSuf[(dep - 1) % m + 1]++;
-//        ans += allPre[m - (dep - 1) % m];
+//        curs[(dep - 1) % m + 1]++;
+//        ans += allp[m - (dep - 1) % m];
 //    }
 //    for (int e = head[u]; e; e = nxt[e]) {
 //        int v = to[e];
@@ -103,22 +103,22 @@ package class184;
 //
 //void calc(int u) {
 //    int maxDep = 0;
-//    allPre[1] = allSuf[1] = 1;
+//    allp[1] = alls[1] = 1;
 //    for (int e = head[u]; e; e = nxt[e]) {
 //        int v = to[e];
 //        if (!vis[v]) {
 //            dfs(v, u, 2, 1LL * (val[u] - 'A' + 1));
 //            int curDep = min(deep[v], m);
 //            for (int i = 1; i <= curDep; i++) {
-//                allPre[i] += curPre[i];
-//                allSuf[i] += curSuf[i];
-//                curPre[i] = curSuf[i] = 0;
+//                allp[i] += curp[i];
+//                alls[i] += curs[i];
+//                curp[i] = curs[i] = 0;
 //            }
 //            maxDep = max(maxDep, curDep);
 //        }
 //    }
 //    for (int i = 1; i <= maxDep; i++) {
-//        allPre[i] = allSuf[i] = 0;
+//        allp[i] = alls[i] = 0;
 //    }
 //}
 //

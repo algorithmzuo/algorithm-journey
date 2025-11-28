@@ -40,10 +40,10 @@ public class Code07_ModeString1 {
 	public static int[] siz = new int[MAXN];
 
 	public static int[] deep = new int[MAXN];
-	public static long[] curPre = new long[MAXN];
-	public static long[] curSuf = new long[MAXN];
-	public static long[] allPre = new long[MAXN];
-	public static long[] allSuf = new long[MAXN];
+	public static long[] curp = new long[MAXN];
+	public static long[] curs = new long[MAXN];
+	public static long[] allp = new long[MAXN];
+	public static long[] alls = new long[MAXN];
 
 	public static long ans;
 
@@ -144,12 +144,12 @@ public class Code07_ModeString1 {
 		deep[u] = dep;
 		hash = (hash * BASE + val[u] - 'A' + 1) % MOD;
 		if (hash == pre[dep]) {
-			curPre[(dep - 1) % m + 1]++;
-			ans += allSuf[m - (dep - 1) % m];
+			curp[(dep - 1) % m + 1]++;
+			ans += alls[m - (dep - 1) % m];
 		}
 		if (hash == suf[dep]) {
-			curSuf[(dep - 1) % m + 1]++;
-			ans += allPre[m - (dep - 1) % m];
+			curs[(dep - 1) % m + 1]++;
+			ans += allp[m - (dep - 1) % m];
 		}
 		for (int e = head[u]; e > 0; e = nxt[e]) {
 			int v = to[e];
@@ -170,12 +170,12 @@ public class Code07_ModeString1 {
 				deep[u] = dep;
 				hash = (hash * BASE + val[u] - 'A' + 1) % MOD;
 				if (hash == pre[dep]) {
-					curPre[(dep - 1) % m + 1]++;
-					ans += allSuf[m - (dep - 1) % m];
+					curp[(dep - 1) % m + 1]++;
+					ans += alls[m - (dep - 1) % m];
 				}
 				if (hash == suf[dep]) {
-					curSuf[(dep - 1) % m + 1]++;
-					ans += allPre[m - (dep - 1) % m];
+					curs[(dep - 1) % m + 1]++;
+					ans += allp[m - (dep - 1) % m];
 				}
 				e = head[u];
 			} else {
@@ -200,7 +200,7 @@ public class Code07_ModeString1 {
 
 	public static void calc(int u) {
 		int maxDep = 0;
-		allPre[1] = allSuf[1] = 1;
+		allp[1] = alls[1] = 1;
 		for (int e = head[u]; e > 0; e = nxt[e]) {
 			int v = to[e];
 			if (!vis[v]) {
@@ -208,15 +208,15 @@ public class Code07_ModeString1 {
 				dfs2(v, u, 2, val[u] - 'A' + 1);
 				int curDep = Math.min(deep[v], m);
 				for (int i = 1; i <= curDep; i++) {
-					allPre[i] += curPre[i];
-					allSuf[i] += curSuf[i];
-					curPre[i] = curSuf[i] = 0;
+					allp[i] += curp[i];
+					alls[i] += curs[i];
+					curp[i] = curs[i] = 0;
 				}
 				maxDep = Math.max(maxDep, curDep);
 			}
 		}
 		for (int i = 1; i <= maxDep; i++) {
-			allPre[i] = allSuf[i] = 0;
+			allp[i] = alls[i] = 0;
 		}
 	}
 
