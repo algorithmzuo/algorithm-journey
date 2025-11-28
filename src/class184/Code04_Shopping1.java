@@ -113,15 +113,15 @@ public class Code04_Shopping1 {
 				val[++num] = v[cur] * cnt;
 				cost[num] = c[cur] * cnt;
 			}
-			// 如果不选cur，那么整棵子树都不能选了，跳到endDfn[cur] + 1
+			// 不选cur的情况，那么cur的子树都跳过，直接跳到endDfn[cur] + 1
 			for (int j = 0; j <= m; j++) {
 				dp[i][j] = dp[endDfn[cur] + 1][j];
 			}
-			// 如果选cur，那么先必选一件
+			// 必选cur的情况，先只选一件
 			for (int j = m; j >= c[cur]; j--) {
 				dp[i][j] = Math.max(dp[i][j], dp[i + 1][j - c[cur]] + v[cur]);
 			}
-			// 然后在一件的基础上，增加更多
+			// 然后用二进制分组，拼出可能的更多件
 			for (int k = 1; k <= num; k++) {
 				for (int j = m; j >= cost[k]; j--) {
 					dp[i][j] = Math.max(dp[i][j], dp[i][j - cost[k]] + val[k]);
