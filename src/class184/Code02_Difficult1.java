@@ -31,9 +31,9 @@ public class Code02_Difficult1 {
 	public static int[] color = new int[MAXN << 1];
 	public static int cntg;
 
-	// 遍历之前所有子树形成的线段树，维护最大值信息
-	public static long[] allTree = new long[MAXN << 2];
-	// 遍历当前子树形成的线段树，维护最大值信息
+	// 之前颜色的子树形成的线段树，维护最大值信息
+	public static long[] preTree = new long[MAXN << 2];
+	// 当前颜色的子树形成的线段树，维护最大值信息
 	public static long[] curTree = new long[MAXN << 2];
 
 	public static boolean[] vis = new boolean[MAXN];
@@ -45,11 +45,11 @@ public class Code02_Difficult1 {
 
 	public static int[] edgeCnt = new int[MAXN];
 	public static long[] pathSum = new long[MAXN];
-	public static int[] nodeArr = new int[MAXN];
-	public static int cnta;
 
-	public static int[] bucket = new int[MAXN];
-	public static int cntb;
+	public static int[] subtreeNode = new int[MAXN];
+	public static int cnts;
+	public static int[] colorNode = new int[MAXN];
+	public static int cntc;
 
 	// 讲解118，递归函数改成迭代所需要的栈
 	public static int[][] stack = new int[MAXN][5];
@@ -203,7 +203,7 @@ public class Code02_Difficult1 {
 		}
 		edgeCnt[u] = edge;
 		pathSum[u] = sum;
-		nodeArr[++cnta] = u;
+		subtreeNode[++cnts] = u;
 		for (int e = head[u]; e > 0; e = nxt[e]) {
 			int v = to[e];
 			int c = color[e];
@@ -225,7 +225,7 @@ public class Code02_Difficult1 {
 				}
 				edgeCnt[u] = edge;
 				pathSum[u] = sum;
-				nodeArr[++cnta] = u;
+				subtreeNode[++cnts] = u;
 				e = head[u];
 			} else {
 				e = nxt[e];
@@ -252,37 +252,37 @@ public class Code02_Difficult1 {
 			}
 		}
 		Arrays.sort(edgeArr, 1, cnte + 1, (a, b) -> a[1] - b[1]);
-		update(allTree, 0, 0, 0, n, 1);
+		update(preTree, 0, 0, 0, n, 1);
 		long ans = -INF;
-		cntb = 0;
+		cntc = 0;
 		for (int k = 1; k <= cnte; k++) {
 			int v = edgeArr[k][0];
 			int c = edgeArr[k][1];
 			if (k > 1 && edgeArr[k - 1][1] != c) {
 				clear(curTree, 0, n, 1);
-				for (int i = 1; i <= cntb; i++) {
-					int node = bucket[i];
-					update(allTree, edgeCnt[node], pathSum[node], 0, n, 1);
+				for (int i = 1; i <= cntc; i++) {
+					int node = colorNode[i];
+					update(preTree, edgeCnt[node], pathSum[node], 0, n, 1);
 				}
-				cntb = 0;
+				cntc = 0;
 			}
-			cnta = 0;
+			cnts = 0;
 			// dfs1(v, u, c, 1, val[c]);
 			dfs2(v, u, c, 1, val[c]);
-			for (int i = 1; i <= cnta; i++) {
-				int node = nodeArr[i];
+			for (int i = 1; i <= cnts; i++) {
+				int node = subtreeNode[i];
 				int l = Math.max(0, limitl - edgeCnt[node]);
 				int r = limitr - edgeCnt[node];
-				ans = Math.max(ans, query(allTree, l, r, 0, n, 1) + pathSum[node]);
+				ans = Math.max(ans, query(preTree, l, r, 0, n, 1) + pathSum[node]);
 				ans = Math.max(ans, query(curTree, l, r, 0, n, 1) + pathSum[node] - val[c]);
 			}
-			for (int i = 1; i <= cnta; i++) {
-				int node = nodeArr[i];
-				bucket[++cntb] = node;
+			for (int i = 1; i <= cnts; i++) {
+				int node = subtreeNode[i];
+				colorNode[++cntc] = node;
 				update(curTree, edgeCnt[node], pathSum[node], 0, n, 1);
 			}
 		}
-		clear(allTree, 0, n, 1);
+		clear(preTree, 0, n, 1);
 		clear(curTree, 0, n, 1);
 		return ans;
 	}
@@ -316,7 +316,7 @@ public class Code02_Difficult1 {
 			addEdge(u, v, c);
 			addEdge(v, u, c);
 		}
-		build(allTree, 0, n, 1);
+		build(preTree, 0, n, 1);
 		build(curTree, 0, n, 1);
 		out.println(solve(getCentroid(1, 0)));
 		out.flush();
