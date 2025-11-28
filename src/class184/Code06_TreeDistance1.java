@@ -47,7 +47,8 @@ public class Code06_TreeDistance1 {
 	public static int[] nodeArr = new int[MAXN];
 	public static int cnta;
 	public static int[] sta = new int[MAXN];
-	public static long[] tree = new long[MAXN];
+
+	public static long[] minv = new long[MAXN << 2];
 
 	public static long[] ans = new long[MAXM];
 
@@ -74,13 +75,13 @@ public class Code06_TreeDistance1 {
 		dis = distst[stacksize];
 	}
 
-	// 所有查询，根据x的值，从大到小排序，java自带的排序慢，手撸双指针快排
+	// 所有查询根据y从小到大排序，java自带的排序慢，手撸双指针快排
 	public static void sortQuery(int l, int r) {
 		if (l >= r) return;
-		int i = l, j = r, pivot = qx[(l + r) >> 1], tmp;
+		int i = l, j = r, pivot = qy[(l + r) >> 1], tmp;
 		while (i <= j) {
-			while (qx[i] > pivot) i++;
-			while (qx[j] < pivot) j--;
+			while (qy[i] < pivot) i++;
+			while (qy[j] > pivot) j--;
 			if (i <= j) {
 				tmp = qx[i]; qx[i] = qx[j]; qx[j] = tmp;
 				tmp = qy[i]; qy[i] = qy[j]; qy[j] = tmp;
@@ -92,14 +93,14 @@ public class Code06_TreeDistance1 {
 		sortQuery(i, r);
 	}
 
-	// 所有关键点，根据a的值，从大到小排序，java自带的排序慢，手撸双指针快排
+	// 所有关键点根据b从小到大排序，java自带的排序慢，手撸双指针快排
 	public static void sortKey(int l, int r) {
 		if (l >= r) return;
-		int i = l, j = r, pivot = keya[(l + r) >> 1], t1;
+		int i = l, j = r, pivot = keyb[(l + r) >> 1], t1;
 		long t2;
 		while (i <= j) {
-			while (keya[i] > pivot) i++;
-			while (keya[j] < pivot) j--;
+			while (keyb[i] < pivot) i++;
+			while (keyb[j] > pivot) j--;
 			if (i <= j) {
 				t1 = keya[i]; keya[i] = keya[j]; keya[j] = t1;
 				t1 = keyb[i]; keyb[i] = keyb[j]; keyb[j] = t1;
@@ -252,45 +253,63 @@ public class Code06_TreeDistance1 {
 		}
 	}
 
-	public static void buildTree() {
-		for (int i = 1; i <= n; i++) {
-			tree[i] = INF;
+	public static void up(int i) {
+		minv[i] = Math.min(minv[i << 1], minv[i << 1 | 1]);
+	}
+
+	public static void build(int l, int r, int i) {
+		if (l == r) {
+			minv[i] = INF;
+		} else {
+			int mid = (l + r) >> 1;
+			build(l, mid, i << 1);
+			build(mid + 1, r, i << 1 | 1);
+			up(i);
 		}
 	}
 
-	public static int lowbit(int i) {
-		return i & -i;
-	}
-
-	public static void add(int i, long v) {
-		while (i <= n) {
-			tree[i] = Math.min(tree[i], v);
-			i += lowbit(i);
+	public static void update(int jobi, long jobv, int l, int r, int i) {
+		if (l == r) {
+			minv[i] = Math.min(minv[i], jobv);
+		} else {
+			int mid = (l + r) >> 1;
+			if (jobi <= mid) {
+				update(jobi, jobv, l, mid, i << 1);
+			} else {
+				update(jobi, jobv, mid + 1, r, i << 1 | 1);
+			}
+			up(i);
 		}
 	}
 
-	public static long query(int i) {
-		long ret = INF;
-		while (i > 0) {
-			ret = Math.min(ret, tree[i]);
-			i -= lowbit(i);
+	public static long query(int jobl, int jobr, int l, int r, int i) {
+		if (jobl <= l && r <= jobr) {
+			return minv[i];
 		}
-		return ret;
+		long ans = INF;
+		int mid = (l + r) >> 1;
+		if (jobl <= mid) {
+			ans = Math.min(ans, query(jobl, jobr, l, mid, i << 1));
+		}
+		if (jobr > mid) {
+			ans = Math.min(ans, query(jobl, jobr, mid + 1, r, i << 1 | 1));
+		}
+		return ans;
 	}
 
 	public static void compute() {
 		solve(getCentroid(1, 0));
 		sortQuery(1, m);
 		sortKey(1, cntk);
-		buildTree();
+		build(1, n, 1);
 		for (int i = 1, j = 1; i <= m; i++) {
-			for (; j <= cntk && keya[j] >= qx[i]; j++) {
-				add(keyb[j], keyDist[j]);
+			for (; j <= cntk && keyb[j] <= qy[i]; j++) {
+				update(keya[j], keyDist[j], 1, n, 1);
 			}
 			if (qx[i] == qy[i]) {
 				ans[qid[i]] = -1;
 			} else {
-				ans[qid[i]] = query(qy[i]);
+				ans[qid[i]] = query(qx[i], qy[i], 1, n, 1);
 			}
 		}
 	}

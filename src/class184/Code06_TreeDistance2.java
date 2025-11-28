@@ -27,11 +27,11 @@ package class184;
 //};
 //
 //bool QueryCmp(Query q1, Query q2) {
-//    return q1.x > q2.x;
+//    return q1.y < q2.y;
 //}
 //
 //bool KeyCmp(Key k1, Key k2) {
-//    return k1.a > k2.a;
+//    return k1.b < k2.b;
 //}
 //
 //const int MAXN = 200001;
@@ -57,7 +57,8 @@ package class184;
 //int nodeArr[MAXN];
 //int cnta;
 //int sta[MAXN];
-//long long tree[MAXN];
+//
+//long long minv[MAXN << 2];
 //
 //long long ans[MAXM];
 //
@@ -139,46 +140,63 @@ package class184;
 //    }
 //}
 //
-//void buildTree() {
-//    for (int i = 1; i <= n; i++) {
-//        tree[i] = INF;
+//void up(int i) {
+//    minv[i] = min(minv[i << 1], minv[i << 1 | 1]);
+//}
+//
+//void build(int l, int r, int i) {
+//    if (l == r) {
+//        minv[i] = INF;
+//    } else {
+//        int mid = (l + r) >> 1;
+//        build(l, mid, i << 1);
+//        build(mid + 1, r, i << 1 | 1);
+//        up(i);
 //    }
 //}
 //
-//int lowbit(int i) {
-//    return i & -i;
-//}
-//
-//void add(int i, long long v) {
-//    while (i <= n) {
-//        tree[i] = min(tree[i], v);
-//        i += lowbit(i);
+//void update(int jobi, long long jobv, int l, int r, int i) {
+//    if (l == r) {
+//        minv[i] = min(minv[i], jobv);
+//    } else {
+//        int mid = (l + r) >> 1;
+//        if (jobi <= mid) {
+//            update(jobi, jobv, l, mid, i << 1);
+//        } else {
+//            update(jobi, jobv, mid + 1, r, i << 1 | 1);
+//        }
+//        up(i);
 //    }
 //}
 //
-//long long query(int i) {
-//    long long ret = INF;
-//    while (i > 0) {
-//        ret = min(ret, tree[i]);
-//        i -= lowbit(i);
+//long long query(int jobl, int jobr, int l, int r, int i) {
+//    if (jobl <= l && r <= jobr) {
+//        return minv[i];
 //    }
-//    return ret;
+//    long long ans = INF;
+//    int mid = (l + r) >> 1;
+//    if (jobl <= mid) {
+//        ans = min(ans, query(jobl, jobr, l, mid, i << 1));
+//    }
+//    if (jobr > mid) {
+//        ans = min(ans, query(jobl, jobr, mid + 1, r, i << 1 | 1));
+//    }
+//    return ans;
 //}
 //
 //void compute() {
 //    solve(getCentroid(1, 0));
 //    sort(queryArr + 1, queryArr + m + 1, QueryCmp);
 //    sort(keyArr + 1, keyArr + cntk + 1, KeyCmp);
-//    buildTree();
-//    int idx = 1;
+//    build(1, n, 1);
 //    for (int i = 1, j = 1; i <= m; i++) {
-//        for (; j <= cntk && keyArr[j].a >= queryArr[i].x; j++) {
-//            add(keyArr[j].b, keyArr[j].dist);
+//        for (; j <= cntk && keyArr[j].b <= queryArr[i].y; j++) {
+//            update(keyArr[j].a, keyArr[j].dist, 1, n, 1);
 //        }
 //        if (queryArr[i].x == queryArr[i].y) {
 //            ans[queryArr[i].id] = -1;
 //        } else {
-//            ans[queryArr[i].id] = query(queryArr[i].y);
+//            ans[queryArr[i].id] = query(queryArr[i].x, queryArr[i].y, 1, n, 1);
 //        }
 //    }
 //}
