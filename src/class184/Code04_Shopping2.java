@@ -109,16 +109,16 @@ package class184;
 //            val[++num] = v[cur] * cnt;
 //            cost[num] = c[cur] * cnt;
 //        }
-//        for (int j = 0; j <= m; j++) {
-//            dp[i][j] = dp[endDfn[cur] + 1][j];
-//        }
 //        for (int j = m; j >= c[cur]; j--) {
-//            dp[i][j] = max(dp[i][j], dp[i + 1][j - c[cur]] + v[cur]);
+//            dp[i][j] = dp[i + 1][j - c[cur]] + v[cur];
 //        }
 //        for (int k = 1; k <= num; k++) {
 //            for (int j = m; j >= cost[k]; j--) {
 //                dp[i][j] = max(dp[i][j], dp[i][j - cost[k]] + val[k]);
 //            }
+//        }
+//        for (int j = 0; j <= m; j++) {
+//            dp[i][j] = max(dp[i][j], dp[endDfn[cur] + 1][j]);
 //        }
 //    }
 //    int ans = dp[1][m];
