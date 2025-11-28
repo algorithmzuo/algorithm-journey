@@ -114,6 +114,7 @@ public class Code04_Shopping1 {
 				cost[num] = c[cur] * cnt;
 			}
 			// 不选cur的情况，那么cur的子树都跳过，直接跳到endDfn[cur] + 1
+			// 这里需要理解有效结构的概念，讲解079，题目5的最优解，进行了讲述
 			for (int j = 0; j <= m; j++) {
 				dp[i][j] = dp[endDfn[cur] + 1][j];
 			}
