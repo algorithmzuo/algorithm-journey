@@ -35,7 +35,7 @@ public class Code01_Capital1 {
 	public static int[] siz = new int[MAXN];
 
 	public static int[] father = new int[MAXN];
-	public static int[] curCentroid = new int[MAXN];
+	public static int[] nodeRoot = new int[MAXN];
 
 	public static int[] que = new int[MAXN];
 	public static boolean[] nodeVis = new boolean[MAXN];
@@ -43,13 +43,13 @@ public class Code01_Capital1 {
 
 	// 讲解118，递归函数改成迭代所需要的栈
 	public static int[][] stack = new int[MAXN][4];
-	public static int u, f, centroid, e;
+	public static int u, f, rt, e;
 	public static int stacksize;
 
-	public static void push(int u, int f, int centroid, int e) {
+	public static void push(int u, int f, int rt, int e) {
 		stack[stacksize][0] = u;
 		stack[stacksize][1] = f;
-		stack[stacksize][2] = centroid;
+		stack[stacksize][2] = rt;
 		stack[stacksize][3] = e;
 		stacksize++;
 	}
@@ -58,7 +58,7 @@ public class Code01_Capital1 {
 		--stacksize;
 		u = stack[stacksize][0];
 		f = stack[stacksize][1];
-		centroid = stack[stacksize][2];
+		rt = stack[stacksize][2];
 		e = stack[stacksize][3];
 	}
 
@@ -136,28 +136,28 @@ public class Code01_Capital1 {
 	}
 
 	// 收集信息递归版，java会爆栈，C++可以通过
-	public static void dfs1(int u, int fa, int centroid) {
+	public static void dfs1(int u, int fa, int rt) {
 		father[u] = fa;
-		curCentroid[u] = centroid;
+		nodeRoot[u] = rt;
 		nodeVis[u] = false;
 		colorVis[color[u]] = false;
 		for (int e = headg[u]; e > 0; e = nextg[e]) {
 			int v = tog[e];
 			if (v != fa && !vis[v]) {
-				dfs1(v, u, centroid);
+				dfs1(v, u, rt);
 			}
 		}
 	}
 
 	// 收集信息迭代版
-	public static void dfs2(int cur, int fa, int cen) {
+	public static void dfs2(int cur, int fa, int root) {
 		stacksize = 0;
-		push(cur, fa, cen, -1);
+		push(cur, fa, root, -1);
 		while (stacksize > 0) {
 			pop();
 			if (e == -1) {
 				father[u] = f;
-				curCentroid[u] = centroid;
+				nodeRoot[u] = rt;
 				nodeVis[u] = false;
 				colorVis[color[u]] = false;
 				e = headg[u];
@@ -165,10 +165,10 @@ public class Code01_Capital1 {
 				e = nextg[e];
 			}
 			if (e != 0) {
-				push(u, f, centroid, e);
+				push(u, f, rt, e);
 				int v = tog[e];
 				if (v != f && !vis[v]) {
-					push(v, u, centroid, -1);
+					push(v, u, rt, -1);
 				}
 			}
 		}
@@ -192,7 +192,7 @@ public class Code01_Capital1 {
 				ans++;
 				for (int e = headc[color[cur]]; e > 0; e = nextc[e]) {
 					int v = toc[e];
-					if (curCentroid[v] != u) {
+					if (nodeRoot[v] != u) {
 						return INF;
 					}
 					if (!nodeVis[v]) {
