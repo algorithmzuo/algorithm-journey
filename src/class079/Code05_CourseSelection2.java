@@ -21,7 +21,7 @@ import java.io.StreamTokenizer;
 import java.util.Arrays;
 
 // 最优解，链式前向星建图 + dfn序的利用 + 巧妙定义下的尝试
-// 时间复杂度O(n*m)，觉得难可以跳过，这个最优解是非常巧妙和精彩的！
+// 时间复杂度O(n * m)，推荐掌握，尤其是理解有效结构
 public class Code05_CourseSelection2 {
 
 	public static int MAXN = 301;
