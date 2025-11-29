@@ -101,7 +101,7 @@ public class Code04_Shopping1 {
 		for (int i = cntd; i > 0; i--) {
 			int cur = nodeArr[i];
 			// 二进制分组优化，注意物品量-1，然后二进制分组
-			// 因为会必选一件，然后考虑更多件，原因课上解释了
+			// 先必选一件，然后考虑更多件，课上解释了为什么
 			int cnt = d[cur] - 1;
 			int num = 0;
 			for (int k = 1; k <= cnt; k <<= 1) {
