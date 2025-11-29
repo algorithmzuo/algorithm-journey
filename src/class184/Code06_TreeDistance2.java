@@ -56,10 +56,11 @@ package class184;
 //long long dist[MAXN];
 //int nodeArr[MAXN];
 //int cnta;
+//
 //int sta[MAXN];
+//int top;
 //
 //long long minv[MAXN << 2];
-//
 //long long ans[MAXM];
 //
 //void addEdge(int u, int v, int w) {
@@ -111,27 +112,25 @@ package class184;
 //    }
 //}
 //
+//void stackAdd(int cur) {
+//    while (top > 0 && dist[sta[top]] >= dist[cur]) {
+//        keyArr[++cntk] = { min(sta[top], cur), max(sta[top], cur), dist[sta[top]] + dist[cur] };
+//        top--;
+//    }
+//    sta[++top] = cur;
+//}
+//
 //void calc(int u) {
 //    cnta = 0;
 //    dfs(u, 0, 0);
 //    sort(nodeArr + 1, nodeArr + cnta + 1);
-//    int top = 0;
+//    top = 0;
 //    for (int i = 1; i <= cnta; i++) {
-//        int cur = nodeArr[i];
-//        while (top > 0 && dist[sta[top]] >= dist[cur]) {
-//            keyArr[++cntk] = { sta[top], cur, dist[sta[top]] + dist[cur] };
-//            top--;
-//        }
-//        sta[++top] = cur;
+//        stackAdd(nodeArr[i]);
 //    }
 //    top = 0;
 //    for (int i = cnta; i >= 1; i--) {
-//        int cur = nodeArr[i];
-//        while (top > 0 && dist[sta[top]] >= dist[cur]) {
-//            keyArr[++cntk] = { cur, sta[top], dist[cur] + dist[sta[top]] };
-//            top--;
-//        }
-//        sta[++top] = cur;
+//        stackAdd(nodeArr[i]);
 //    }
 //}
 //

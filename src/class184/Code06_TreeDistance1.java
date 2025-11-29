@@ -46,9 +46,11 @@ public class Code06_TreeDistance1 {
 	public static long[] dist = new long[MAXN];
 	public static int[] nodeArr = new int[MAXN];
 	public static int cnta;
-	public static int[] sta = new int[MAXN];
-	public static long[] minv = new long[MAXN << 2];
 
+	public static int[] sta = new int[MAXN];
+	public static int top;
+
+	public static long[] minv = new long[MAXN << 2];
 	public static long[] ans = new long[MAXM];
 
 	// 讲解118，递归函数改成迭代所需要的栈
@@ -216,10 +218,14 @@ public class Code06_TreeDistance1 {
 		}
 	}
 
-	public static void addKey(int ka, int kb, long kdist) {
-		keya[++cntk] = ka;
-		keyb[cntk] = kb;
-		keyDist[cntk] = kdist;
+	public static void stackAdd(int cur) {
+		while (top > 0 && dist[sta[top]] >= dist[cur]) {
+			keya[++cntk] = Math.min(sta[top], cur);
+			keyb[cntk] = Math.max(sta[top], cur);
+			keyDist[cntk] = dist[sta[top]] + dist[cur];
+			top--;
+		}
+		sta[++top] = cur;
 	}
 
 	public static void calc(int u) {
@@ -227,23 +233,13 @@ public class Code06_TreeDistance1 {
 		// dfs1(u, 0, 0);
 		dfs2(u, 0, 0);
 		Arrays.sort(nodeArr, 1, cnta + 1);
-		int top = 0;
+		top = 0;
 		for (int i = 1; i <= cnta; i++) {
-			int cur = nodeArr[i];
-			while (top > 0 && dist[sta[top]] >= dist[cur]) {
-				addKey(sta[top], cur, dist[sta[top]] + dist[cur]);
-				top--;
-			}
-			sta[++top] = cur;
+			stackAdd(nodeArr[i]);
 		}
 		top = 0;
 		for (int i = cnta; i >= 1; i--) {
-			int cur = nodeArr[i];
-			while (top > 0 && dist[sta[top]] >= dist[cur]) {
-				addKey(cur, sta[top], dist[cur] + dist[sta[top]]);
-				top--;
-			}
-			sta[++top] = cur;
+			stackAdd(nodeArr[i]);
 		}
 	}
 
