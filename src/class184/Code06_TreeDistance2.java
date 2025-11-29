@@ -122,8 +122,14 @@ package class184;
 //            keyArr[++cntk] = { sta[top], cur, dist[sta[top]] + dist[cur] };
 //            top--;
 //        }
-//        if (top > 0) {
-//            keyArr[++cntk] = { sta[top], cur, dist[sta[top]] + dist[cur] };
+//        sta[++top] = cur;
+//    }
+//    top = 0;
+//    for (int i = cnta; i >= 1; i--) {
+//        int cur = nodeArr[i];
+//        while (top > 0 && dist[sta[top]] >= dist[cur]) {
+//            keyArr[++cntk] = { cur, sta[top], dist[cur] + dist[sta[top]] };
+//            top--;
 //        }
 //        sta[++top] = cur;
 //    }

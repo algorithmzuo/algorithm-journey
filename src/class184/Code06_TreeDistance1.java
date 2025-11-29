@@ -47,7 +47,6 @@ public class Code06_TreeDistance1 {
 	public static int[] nodeArr = new int[MAXN];
 	public static int cnta;
 	public static int[] sta = new int[MAXN];
-
 	public static long[] minv = new long[MAXN << 2];
 
 	public static long[] ans = new long[MAXM];
@@ -235,8 +234,14 @@ public class Code06_TreeDistance1 {
 				addKey(sta[top], cur, dist[sta[top]] + dist[cur]);
 				top--;
 			}
-			if (top > 0) {
-				addKey(sta[top], cur, dist[sta[top]] + dist[cur]);
+			sta[++top] = cur;
+		}
+		top = 0;
+		for (int i = cnta; i >= 1; i--) {
+			int cur = nodeArr[i];
+			while (top > 0 && dist[sta[top]] >= dist[cur]) {
+				addKey(cur, sta[top], dist[cur] + dist[sta[top]]);
+				top--;
 			}
 			sta[++top] = cur;
 		}
