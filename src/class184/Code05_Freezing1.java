@@ -88,9 +88,6 @@ public class Code05_Freezing1 {
 	}
 
 	public static void dfs(int u, int fa, int edge, int sum, int limit) {
-		if (edge > limitr) {
-			return;
-		}
 		curLen = Math.max(curLen, edge);
 		if (sum > curVal[edge]) {
 			curVal[edge] = sum;
@@ -119,7 +116,7 @@ public class Code05_Freezing1 {
 			dfs(v, u, 1, w >= limit ? 1 : -1, limit);
 			int ql = 1, qr = 0;
 			// 根据之前的信息，初步建立窗口，子树按秩处理非常重要
-			for (int i = preLen; i >= limitl; i--) {
+			for (int i = Math.min(preLen, limitr); i >= limitl; i--) {
 				while (ql <= qr && preVal[que[qr]] <= preVal[i]) {
 					qr--;
 				}

@@ -99,9 +99,6 @@ package class184;
 //}
 //
 //void dfs(int u, int fa, int edge, int sum, int limit) {
-//    if (edge > limitr) {
-//        return;
-//    }
 //    curLen = max(curLen, edge);
 //    if (sum > curVal[edge]) {
 //        curVal[edge] = sum;
@@ -129,7 +126,7 @@ package class184;
 //        curLen = 0;
 //        dfs(v, u, 1, w >= limit ? 1 : -1, limit);
 //        int ql = 1, qr = 0;
-//        for (int i = preLen; i >= limitl; i--) {
+//        for (int i = min(preLen, limitr); i >= limitl; i--) {
 //            while (ql <= qr && preVal[que[qr]] <= preVal[i]) {
 //                qr--;
 //            }
