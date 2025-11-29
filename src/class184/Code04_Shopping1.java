@@ -95,15 +95,19 @@ public class Code04_Shopping1 {
 		endDfn[u] = cntd;
 	}
 
+	// 需要理解有效结构的概念，讲解079，题目5的最优解，进行了讲述
+	// 需要理解多重背包的二进制分组优化，讲解075，进行了讲述
+	// 采用二进制分组优化的原因是代码量小，复杂度会多一个log
+	// 有兴趣的同学，可以自行尝试单调队列优化的方式，代码较多
 	public static int calc(int u) {
 		cntd = 0;
 		dfs(u, 0);
 		for (int i = cntd; i > 0; i--) {
 			int cur = nodeArr[i];
+			// 二进制分组优化，注意物品量-1，然后二进制分组
+			// 因为会必选一件，然后考虑更多件，原因课上解释了
 			int cnt = d[cur] - 1;
 			int num = 0;
-			// 这里用二进制分组处理多重背包，代码量较小
-			// 也可以用单调队列，之前的课都讲过，码量大
 			for (int k = 1; k <= cnt; k <<= 1) {
 				val[++num] = v[cur] * k;
 				cost[num] = c[cur] * k;
@@ -124,7 +128,6 @@ public class Code04_Shopping1 {
 				}
 			}
 			// 不选cur的情况，那么cur的子树都跳过，直接跳到endDfn[cur] + 1
-			// 这里需要理解有效结构的概念，讲解079，题目5的最优解，进行了讲述
 			for (int j = 0; j <= m; j++) {
 				dp[i][j] = Math.max(dp[i][j], dp[endDfn[cur] + 1][j]);
 			}
