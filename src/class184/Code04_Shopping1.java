@@ -95,10 +95,6 @@ public class Code04_Shopping1 {
 		endDfn[u] = cntd;
 	}
 
-	// 讲解079，题目5树上01背包，掌握最优解，理解有效结构的概念
-	// 讲解075，掌握多重背包的二进制分组优化
-	// 采用二进制分组优化的原因是代码量小，复杂度多一个log
-	// 有兴趣的同学，可以尝试单调队列优化的方式，代码较多
 	public static int calc(int u) {
 		cntd = 0;
 		dfs(u, 0);
