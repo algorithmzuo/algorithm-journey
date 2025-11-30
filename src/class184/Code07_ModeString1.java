@@ -19,7 +19,6 @@ import java.io.PrintWriter;
 public class Code07_ModeString1 {
 
 	public static int MAXN = 100001;
-	public static final int MOD = 1000000007;
 	public static final int BASE = 499;
 	public static int t, n, m;
 
@@ -142,7 +141,7 @@ public class Code07_ModeString1 {
 	// 收集信息 + 结算答案递归版，java会爆栈，C++可以通过
 	public static void dfs1(int u, int fa, int dep, long hash) {
 		deep[u] = dep;
-		hash = (hash * BASE + val[u] - 'A' + 1) % MOD;
+		hash = hash * BASE + val[u] - 'A' + 1;
 		if (hash == pre[dep]) {
 			curp[(dep - 1) % m + 1]++;
 			ans += alls[m - (dep - 1) % m];
@@ -168,7 +167,7 @@ public class Code07_ModeString1 {
 			pop();
 			if (e == -1) {
 				deep[u] = dep;
-				hash = (hash * BASE + val[u] - 'A' + 1) % MOD;
+				hash = hash * BASE + val[u] - 'A' + 1;
 				if (hash == pre[dep]) {
 					curp[(dep - 1) % m + 1]++;
 					ans += alls[m - (dep - 1) % m];
@@ -244,9 +243,9 @@ public class Code07_ModeString1 {
 		}
 		long tmp = 1;
 		for (int i = 1; i <= n; i++) {
-			pre[i] = (pre[i - 1] + tmp * (str[(i - 1) % m + 1] - 'A' + 1)) % MOD;
-			suf[i] = (suf[i - 1] + tmp * (str[m - (i - 1) % m] - 'A' + 1)) % MOD;
-			tmp = tmp * BASE % MOD;
+			pre[i] = pre[i - 1] + tmp * (str[(i - 1) % m + 1] - 'A' + 1);
+			suf[i] = suf[i - 1] + tmp * (str[m - (i - 1) % m] - 'A' + 1);
+			tmp = tmp * BASE;
 		}
 	}
 

@@ -17,7 +17,6 @@ package class184;
 //using namespace std;
 //
 //const int MAXN = 100001;
-//const long long MOD = 1000000007;
 //const long long BASE = 499;
 //int t, n, m;
 //
@@ -83,7 +82,7 @@ package class184;
 //
 //void dfs(int u, int fa, int dep, long long hash) {
 //    deep[u] = dep;
-//    hash = (hash * BASE + (val[u] - 'A' + 1)) % MOD;
+//    hash = hash * BASE + (val[u] - 'A' + 1);
 //    if (hash == pre[dep]) {
 //        curp[(dep - 1) % m + 1]++;
 //        ans += alls[m - (dep - 1) % m];
@@ -146,9 +145,9 @@ package class184;
 //    }
 //    long long tmp = 1;
 //    for (int i = 1; i <= n; i++) {
-//        pre[i] = (pre[i - 1] + tmp * (str[(i - 1) % m + 1] - 'A' + 1)) % MOD;
-//        suf[i] = (suf[i - 1] + tmp * (str[m - (i - 1) % m] - 'A' + 1)) % MOD;
-//        tmp = tmp * BASE % MOD;
+//        pre[i] = pre[i - 1] + tmp * (str[(i - 1) % m + 1] - 'A' + 1);
+//        suf[i] = suf[i - 1] + tmp * (str[m - (i - 1) % m] - 'A' + 1);
+//        tmp = tmp * BASE;
 //    }
 //}
 //
