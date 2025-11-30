@@ -25,10 +25,13 @@ public class Code06_TreeDistance1 {
 	public static int MAXP = 10000001;
 	public static long INF = 1L << 60;
 	public static int n, m;
+
+	// 所有查询
 	public static int[] qx = new int[MAXM];
 	public static int[] qy = new int[MAXM];
 	public static int[] qid = new int[MAXM];
 
+	// 保留的点对
 	public static int[] pa = new int[MAXP];
 	public static int[] pb = new int[MAXP];
 	public static long[] pdist = new long[MAXP];
@@ -47,10 +50,14 @@ public class Code06_TreeDistance1 {
 	public static int[] nodeArr = new int[MAXN];
 	public static int cnta;
 
+	// 单调栈
 	public static int[] sta = new int[MAXN];
 	public static int top;
 
-	public static long[] minv = new long[MAXN << 2];
+	// 维护最小值的线段树
+	public static long[] minTree = new long[MAXN << 2];
+
+	// 查询的答案
 	public static long[] ans = new long[MAXM];
 
 	// 讲解118，递归函数改成迭代所需要的栈
@@ -234,10 +241,14 @@ public class Code06_TreeDistance1 {
 		dfs2(u, 0, 0);
 		Arrays.sort(nodeArr, 1, cnta + 1);
 		top = 0;
+		// 所有点的编号，从左往右遍历
+		// 找右侧最近的、距离 <= dist的点，去生成点对
 		for (int i = 1; i <= cnta; i++) {
 			stackAdd(nodeArr[i]);
 		}
 		top = 0;
+		// 所有点的编号，从右往左遍历
+		// 找左侧最近的、距离 <= dist的点，去生成点对
 		for (int i = cnta; i >= 1; i--) {
 			stackAdd(nodeArr[i]);
 		}
@@ -255,12 +266,12 @@ public class Code06_TreeDistance1 {
 	}
 
 	public static void up(int i) {
-		minv[i] = Math.min(minv[i << 1], minv[i << 1 | 1]);
+		minTree[i] = Math.min(minTree[i << 1], minTree[i << 1 | 1]);
 	}
 
 	public static void build(int l, int r, int i) {
 		if (l == r) {
-			minv[i] = INF;
+			minTree[i] = INF;
 		} else {
 			int mid = (l + r) >> 1;
 			build(l, mid, i << 1);
@@ -271,7 +282,7 @@ public class Code06_TreeDistance1 {
 
 	public static void update(int jobi, long jobv, int l, int r, int i) {
 		if (l == r) {
-			minv[i] = Math.min(minv[i], jobv);
+			minTree[i] = Math.min(minTree[i], jobv);
 		} else {
 			int mid = (l + r) >> 1;
 			if (jobi <= mid) {
@@ -285,7 +296,7 @@ public class Code06_TreeDistance1 {
 
 	public static long query(int jobl, int jobr, int l, int r, int i) {
 		if (jobl <= l && r <= jobr) {
-			return minv[i];
+			return minTree[i];
 		}
 		long ans = INF;
 		int mid = (l + r) >> 1;

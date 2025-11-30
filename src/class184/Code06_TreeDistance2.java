@@ -60,7 +60,7 @@ package class184;
 //int sta[MAXN];
 //int top;
 //
-//long long minv[MAXN << 2];
+//long long minTree[MAXN << 2];
 //long long ans[MAXM];
 //
 //void addEdge(int u, int v, int w) {
@@ -146,12 +146,12 @@ package class184;
 //}
 //
 //void up(int i) {
-//    minv[i] = min(minv[i << 1], minv[i << 1 | 1]);
+//    minTree[i] = min(minTree[i << 1], minTree[i << 1 | 1]);
 //}
 //
 //void build(int l, int r, int i) {
 //    if (l == r) {
-//        minv[i] = INF;
+//        minTree[i] = INF;
 //    } else {
 //        int mid = (l + r) >> 1;
 //        build(l, mid, i << 1);
@@ -162,7 +162,7 @@ package class184;
 //
 //void update(int jobi, long long jobv, int l, int r, int i) {
 //    if (l == r) {
-//        minv[i] = min(minv[i], jobv);
+//        minTree[i] = min(minTree[i], jobv);
 //    } else {
 //        int mid = (l + r) >> 1;
 //        if (jobi <= mid) {
@@ -176,7 +176,7 @@ package class184;
 //
 //long long query(int jobl, int jobr, int l, int r, int i) {
 //    if (jobl <= l && r <= jobr) {
-//        return minv[i];
+//        return minTree[i];
 //    }
 //    long long ans = INF;
 //    int mid = (l + r) >> 1;
