@@ -21,7 +21,7 @@ package class184;
 //    int x, y, id;
 //};
 //
-//struct Key {
+//struct Pair {
 //    int a, b;
 //    long long dist;
 //};
@@ -30,8 +30,8 @@ package class184;
 //    return q1.y < q2.y;
 //}
 //
-//bool KeyCmp(Key k1, Key k2) {
-//    return k1.b < k2.b;
+//bool PairCmp(Pair p1, Pair p2) {
+//    return p1.b < p2.b;
 //}
 //
 //const int MAXN = 200001;
@@ -41,7 +41,7 @@ package class184;
 //int n, m;
 //Query queryArr[MAXM];
 //
-//Key keyArr[MAXK];
+//Pair pairArr[MAXK];
 //int cntk;
 //
 //int head[MAXN];
@@ -114,7 +114,7 @@ package class184;
 //
 //void stackAdd(int cur) {
 //    while (top > 0 && dist[sta[top]] >= dist[cur]) {
-//        keyArr[++cntk] = { min(sta[top], cur), max(sta[top], cur), dist[sta[top]] + dist[cur] };
+//        pairArr[++cntk] = { min(sta[top], cur), max(sta[top], cur), dist[sta[top]] + dist[cur] };
 //        top--;
 //    }
 //    sta[++top] = cur;
@@ -192,11 +192,11 @@ package class184;
 //void compute() {
 //    solve(getCentroid(1, 0));
 //    sort(queryArr + 1, queryArr + m + 1, QueryCmp);
-//    sort(keyArr + 1, keyArr + cntk + 1, KeyCmp);
+//    sort(pairArr + 1, pairArr + cntk + 1, PairCmp);
 //    build(1, n, 1);
 //    for (int i = 1, j = 1; i <= m; i++) {
-//        for (; j <= cntk && keyArr[j].b <= queryArr[i].y; j++) {
-//            update(keyArr[j].a, keyArr[j].dist, 1, n, 1);
+//        for (; j <= cntk && pairArr[j].b <= queryArr[i].y; j++) {
+//            update(pairArr[j].a, pairArr[j].dist, 1, n, 1);
 //        }
 //        if (queryArr[i].x == queryArr[i].y) {
 //            ans[queryArr[i].id] = -1;
