@@ -36,13 +36,13 @@ package class184;
 //
 //const int MAXN = 200001;
 //const int MAXM = 1000001;
-//const int MAXK = 10000001;
+//const int MAXP = 10000001;
 //const long long INF = 1LL << 60;
 //int n, m;
 //Query queryArr[MAXM];
 //
-//Pair pairArr[MAXK];
-//int cntk;
+//Pair pairArr[MAXP];
+//int cntp;
 //
 //int head[MAXN];
 //int nxt[MAXN << 1];
@@ -114,7 +114,7 @@ package class184;
 //
 //void stackAdd(int cur) {
 //    while (top > 0 && dist[sta[top]] >= dist[cur]) {
-//        pairArr[++cntk] = { min(sta[top], cur), max(sta[top], cur), dist[sta[top]] + dist[cur] };
+//        pairArr[++cntp] = { min(sta[top], cur), max(sta[top], cur), dist[sta[top]] + dist[cur] };
 //        top--;
 //    }
 //    sta[++top] = cur;
@@ -192,10 +192,10 @@ package class184;
 //void compute() {
 //    solve(getCentroid(1, 0));
 //    sort(queryArr + 1, queryArr + m + 1, QueryCmp);
-//    sort(pairArr + 1, pairArr + cntk + 1, PairCmp);
+//    sort(pairArr + 1, pairArr + cntp + 1, PairCmp);
 //    build(1, n, 1);
 //    for (int i = 1, j = 1; i <= m; i++) {
-//        for (; j <= cntk && pairArr[j].b <= queryArr[i].y; j++) {
+//        for (; j <= cntp && pairArr[j].b <= queryArr[i].y; j++) {
 //            update(pairArr[j].a, pairArr[j].dist, 1, n, 1);
 //        }
 //        if (queryArr[i].x == queryArr[i].y) {

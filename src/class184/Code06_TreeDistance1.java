@@ -22,17 +22,17 @@ public class Code06_TreeDistance1 {
 
 	public static int MAXN = 200001;
 	public static int MAXM = 1000001;
-	public static int MAXK = 10000001;
+	public static int MAXP = 10000001;
 	public static long INF = 1L << 60;
 	public static int n, m;
 	public static int[] qx = new int[MAXM];
 	public static int[] qy = new int[MAXM];
 	public static int[] qid = new int[MAXM];
 
-	public static int[] pa = new int[MAXK];
-	public static int[] pb = new int[MAXK];
-	public static long[] pdist = new long[MAXK];
-	public static int cntk;
+	public static int[] pa = new int[MAXP];
+	public static int[] pb = new int[MAXP];
+	public static long[] pdist = new long[MAXP];
+	public static int cntp;
 
 	public static int[] head = new int[MAXN];
 	public static int[] nxt = new int[MAXN << 1];
@@ -220,9 +220,9 @@ public class Code06_TreeDistance1 {
 
 	public static void stackAdd(int cur) {
 		while (top > 0 && dist[sta[top]] >= dist[cur]) {
-			pa[++cntk] = Math.min(sta[top], cur);
-			pb[cntk] = Math.max(sta[top], cur);
-			pdist[cntk] = dist[sta[top]] + dist[cur];
+			pa[++cntp] = Math.min(sta[top], cur);
+			pb[cntp] = Math.max(sta[top], cur);
+			pdist[cntp] = dist[sta[top]] + dist[cur];
 			top--;
 		}
 		sta[++top] = cur;
@@ -301,10 +301,10 @@ public class Code06_TreeDistance1 {
 	public static void compute() {
 		solve(getCentroid(1, 0));
 		sortQuery(1, m);
-		sortPair(1, cntk);
+		sortPair(1, cntp);
 		build(1, n, 1);
 		for (int i = 1, j = 1; i <= m; i++) {
-			for (; j <= cntk && pb[j] <= qy[i]; j++) {
+			for (; j <= cntp && pb[j] <= qy[i]; j++) {
 				update(pa[j], pdist[j], 1, n, 1);
 			}
 			if (qx[i] == qy[i]) {
