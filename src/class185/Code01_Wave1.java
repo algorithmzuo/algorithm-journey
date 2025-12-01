@@ -65,6 +65,7 @@ public class Code01_Wave1 {
 		head[u] = cntg;
 	}
 
+	// 重链剖分收集信息递归版，java会爆栈，C++不会
 	public static void dfs1(int u, int f) {
 		fa[u] = f;
 		dep[u] = dep[f] + 1;
@@ -86,6 +87,7 @@ public class Code01_Wave1 {
 		}
 	}
 
+	// 根据重儿子剖分的递归版，java会爆栈，C++不会
 	public static void dfs2(int u, int t) {
 		top[u] = t;
 		if (son[u] == 0) {
@@ -100,6 +102,7 @@ public class Code01_Wave1 {
 		}
 	}
 
+	// dfs1改成迭代版
 	public static void dfs3(int cur, int father) {
 		stacksize = 0;
 		push(cur, father, 0, -1);
@@ -133,6 +136,7 @@ public class Code01_Wave1 {
 		}
 	}
 
+	// dfs2改成迭代版
 	public static void dfs4(int cur, int tag) {
 		stacksize = 0;
 		push(cur, 0, tag, -1);
@@ -161,6 +165,7 @@ public class Code01_Wave1 {
 		}
 	}
 
+	// 找重心需要计算子树大小的递归版，java会爆栈，C++不会
 	public static void getSize1(int u, int fa) {
 		siz[u] = 1;
 		for (int e = head[u]; e > 0; e = nxt[e]) {
@@ -172,6 +177,7 @@ public class Code01_Wave1 {
 		}
 	}
 
+	// getSize1的迭代版
 	public static void getSize2(int cur, int fa) {
 		stacksize = 0;
 		push(cur, fa, 0, -1);
