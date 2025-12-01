@@ -9,7 +9,7 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
-public class Code01_Game1 {
+public class Code02_Game1 {
 
 	public static int MAXN = 100001;
 	public static int MAXH = 18;
@@ -199,7 +199,7 @@ public class Code01_Game1 {
 		}
 	}
 
-	public static int update(int jobi, int jobv, int l, int r, int i) {
+	public static int add(int jobi, int jobv, int l, int r, int i) {
 		int rt = i;
 		if (rt == 0) {
 			rt = ++cntt;
@@ -209,9 +209,9 @@ public class Code01_Game1 {
 		} else {
 			int mid = (l + r) >> 1;
 			if (jobi <= mid) {
-				ls[rt] = update(jobi, jobv, l, mid, ls[rt]);
+				ls[rt] = add(jobi, jobv, l, mid, ls[rt]);
 			} else {
-				rs[rt] = update(jobi, jobv, mid + 1, r, rs[rt]);
+				rs[rt] = add(jobi, jobv, mid + 1, r, rs[rt]);
 			}
 			sum[rt] = sum[ls[rt]] + sum[rs[rt]];
 		}
@@ -241,9 +241,9 @@ public class Code01_Game1 {
 		while (cur > 0) {
 			dist = getDist(cur, x);
 			if (k - dist >= 0) {
-				tree1[cur] = update(k - dist, v, 0, n - 1, tree1[cur]);
+				tree1[cur] = add(k - dist, v, 0, n - 1, tree1[cur]);
 				if (pre > 0) {
-					tree2[pre] = update(k - dist, v, 0, n - 1, tree2[pre]);
+					tree2[pre] = add(k - dist, v, 0, n - 1, tree2[pre]);
 				}
 			}
 			pre = cur;
@@ -253,12 +253,14 @@ public class Code01_Game1 {
 
 	public static int query(int x) {
 		int ans = 0;
-		int cur = x;
+		int cur = x, pre = 0, dist;
 		while (cur > 0) {
-			ans += query(getDist(cur, x), n - 1, 0, n - 1, tree1[cur]);
-			if (centfa[cur] > 0) {
-				ans -= query(getDist(centfa[cur], x), n - 1, 0, n - 1, tree2[cur]);
+			dist = getDist(cur, x);
+			ans += query(dist, n - 1, 0, n - 1, tree1[cur]);
+			if (pre > 0) {
+				ans -= query(dist, n - 1, 0, n - 1, tree2[pre]);
 			}
+			pre = cur;
 			cur = centfa[cur];
 		}
 		return ans;

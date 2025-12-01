@@ -9,7 +9,7 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
-public class Code02_Wave1 {
+public class Code01_Wave1 {
 
 	public static int MAXN = 100001;
 	public static int MAXH = 18;
@@ -252,7 +252,7 @@ public class Code02_Wave1 {
 		}
 	}
 
-	public static int update(int jobi, int jobv, int l, int r, int i) {
+	public static int add(int jobi, int jobv, int l, int r, int i) {
 		int rt = i;
 		if (rt == 0) {
 			rt = ++cntt;
@@ -262,9 +262,9 @@ public class Code02_Wave1 {
 		} else {
 			int mid = (l + r) >> 1;
 			if (jobi <= mid) {
-				ls[rt] = update(jobi, jobv, l, mid, ls[rt]);
+				ls[rt] = add(jobi, jobv, l, mid, ls[rt]);
 			} else {
-				rs[rt] = update(jobi, jobv, mid + 1, r, rs[rt]);
+				rs[rt] = add(jobi, jobv, mid + 1, r, rs[rt]);
 			}
 			sum[rt] = sum[ls[rt]] + sum[rs[rt]];
 		}
@@ -290,18 +290,21 @@ public class Code02_Wave1 {
 	}
 
 	public static void update(int x, int v) {
-		int cur = x;
+		int cur = x, pre = 0, dist;
 		while (cur > 0) {
-			tree1[cur] = update(getDist(cur, x), v, 0, n - 1, tree1[cur]);
-			if (centfa[cur] > 0) {
-				tree2[cur] = update(getDist(centfa[cur], x), v, 0, n - 1, tree2[cur]);
+			dist = getDist(cur, x);
+			tree1[cur] = add(dist, v, 0, n - 1, tree1[cur]);
+			if (pre > 0) {
+				tree2[pre] = add(dist, v, 0, n - 1, tree2[pre]);
 			}
+			pre = cur;
 			cur = centfa[cur];
 		}
 	}
 
 	public static int query(int x, int k) {
-		int ans = 0, cur = x, pre = 0, dist;
+		int ans = 0;
+		int cur = x, pre = 0, dist;
 		while (cur > 0) {
 			dist = getDist(cur, x);
 			if (k - dist >= 0) {
