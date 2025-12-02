@@ -31,8 +31,8 @@ public class Code01_Wave1 {
 	public static boolean[] vis = new boolean[MAXN];
 	public static int[] centfa = new int[MAXN];
 
-	public static int[] tree1 = new int[MAXN];
-	public static int[] tree2 = new int[MAXN];
+	public static int[] addTree = new int[MAXN];
+	public static int[] minusTree = new int[MAXN];
 	public static int[] ls = new int[MAXT];
 	public static int[] rs = new int[MAXT];
 	public static int[] sum = new int[MAXT];
@@ -253,22 +253,21 @@ public class Code01_Wave1 {
 	}
 
 	public static int add(int jobi, int jobv, int l, int r, int i) {
-		int rt = i;
-		if (rt == 0) {
-			rt = ++cntt;
+		if (i == 0) {
+			i = ++cntt;
 		}
 		if (l == r) {
-			sum[rt] += jobv;
+			sum[i] += jobv;
 		} else {
 			int mid = (l + r) >> 1;
 			if (jobi <= mid) {
-				ls[rt] = add(jobi, jobv, l, mid, ls[rt]);
+				ls[i] = add(jobi, jobv, l, mid, ls[i]);
 			} else {
-				rs[rt] = add(jobi, jobv, mid + 1, r, rs[rt]);
+				rs[i] = add(jobi, jobv, mid + 1, r, rs[i]);
 			}
-			sum[rt] = sum[ls[rt]] + sum[rs[rt]];
+			sum[i] = sum[ls[i]] + sum[rs[i]];
 		}
-		return rt;
+		return i;
 	}
 
 	public static int query(int jobl, int jobr, int l, int r, int i) {
@@ -293,9 +292,9 @@ public class Code01_Wave1 {
 		int cur = x, pre = 0, dist;
 		while (cur > 0) {
 			dist = getDist(cur, x);
-			tree1[cur] = add(dist, v, 0, n - 1, tree1[cur]);
+			addTree[cur] = add(dist, v, 0, n - 1, addTree[cur]);
 			if (pre > 0) {
-				tree2[pre] = add(dist, v, 0, n - 1, tree2[pre]);
+				minusTree[pre] = add(dist, v, 0, n - 1, minusTree[pre]);
 			}
 			pre = cur;
 			cur = centfa[cur];
@@ -308,9 +307,9 @@ public class Code01_Wave1 {
 		while (cur > 0) {
 			dist = getDist(cur, x);
 			if (k - dist >= 0) {
-				ans += query(0, k - dist, 0, n - 1, tree1[cur]);
+				ans += query(0, k - dist, 0, n - 1, addTree[cur]);
 				if (pre > 0) {
-					ans -= query(0, k - dist, 0, n - 1, tree2[pre]);
+					ans -= query(0, k - dist, 0, n - 1, minusTree[pre]);
 				}
 			}
 			pre = cur;
