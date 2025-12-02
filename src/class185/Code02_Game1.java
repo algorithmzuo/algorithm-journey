@@ -60,6 +60,7 @@ public class Code02_Game1 {
 		head[u] = cntg;
 	}
 
+	// 树上倍增收集信息递归版，java会爆栈，C++不会
 	public static void dfs1(int u, int fa) {
 		dep[u] = dep[fa] + 1;
 		stjump[u][0] = fa;
@@ -235,7 +236,7 @@ public class Code02_Game1 {
 		return ans;
 	}
 
-	public static void update(int x, int k, int v) {
+	public static void add(int x, int k, int v) {
 		int cur = x, pre = 0, dist;
 		while (cur > 0) {
 			dist = getDist(cur, x);
@@ -287,7 +288,7 @@ public class Code02_Game1 {
 				x = in.nextInt();
 				k = in.nextInt();
 				v = in.nextInt();
-				update(x, k, v);
+				add(x, k, v);
 			} else {
 				x = in.nextInt();
 				out.println(query(x));

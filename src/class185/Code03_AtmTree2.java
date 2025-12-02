@@ -1,7 +1,7 @@
 package class185;
 
-// 烁烁的游戏，C++版
-// 测试链接 : https://www.luogu.com.cn/problem/P10603
+// Atm的树，C++版
+// 测试链接 : https://www.luogu.com.cn/problem/P10604
 // 如下实现是C++的版本，C++版本和java版本逻辑完全一样
 // 提交如下代码，可以通过所有测试用例
 
@@ -9,17 +9,19 @@ package class185;
 //
 //using namespace std;
 //
-//const int MAXN = 100001;
+//const int MAXN = 20001;
 //const int MAXH = 18;
-//const int MAXT = 20000001;
-//int n, m;
+//const int MAXT = 1000001;
+//int n, k, sumw;
 //
 //int head[MAXN];
 //int nxt[MAXN << 1];
 //int to[MAXN << 1];
+//int weight[MAXN << 1];
 //int cntg;
 //
 //int dep[MAXN];
+//int dist[MAXN];
 //int stjump[MAXN][MAXH];
 //
 //bool vis[MAXN];
@@ -33,22 +35,25 @@ package class185;
 //int sum[MAXT];
 //int cntt;
 //
-//void addEdge(int u, int v) {
+//void addEdge(int u, int v, int w) {
 //    nxt[++cntg] = head[u];
 //    to[cntg] = v;
+//    weight[cntg] = w;
 //    head[u] = cntg;
 //}
 //
-//void dfs(int u, int fa) {
+//void dfs(int u, int fa, int dis) {
 //    dep[u] = dep[fa] + 1;
+//    dist[u] = dis;
 //    stjump[u][0] = fa;
 //    for (int p = 1; p < MAXH; p++) {
 //        stjump[u][p] = stjump[stjump[u][p - 1]][p - 1];
 //    }
 //    for (int e = head[u]; e; e = nxt[e]) {
 //        int v = to[e];
+//        int w = weight[e];
 //        if (v != fa) {
-//            dfs(v, u);
+//            dfs(v, u, dis + w);
 //        }
 //    }
 //}
@@ -86,7 +91,7 @@ package class185;
 //}
 //
 //int getDist(int x, int y) {
-//    return dep[x] + dep[y] - (dep[getLca(x, y)] << 1);
+//    return dist[x] + dist[y] - (dist[getLca(x, y)] << 1);
 //}
 //
 //int getCentroid(int u, int fa) {
@@ -119,18 +124,18 @@ package class185;
 //    }
 //}
 //
-//int add(int jobi, int jobv, int l, int r, int i) {
+//int add(int jobi, int l, int r, int i) {
 //    if (i == 0) {
 //        i = ++cntt;
 //    }
 //    if (l == r) {
-//        sum[i] += jobv;
+//        sum[i]++;
 //    } else {
 //        int mid = (l + r) >> 1;
 //        if (jobi <= mid) {
-//            ls[i] = add(jobi, jobv, l, mid, ls[i]);
+//            ls[i] = add(jobi, l, mid, ls[i]);
 //        } else {
-//            rs[i] = add(jobi, jobv, mid + 1, r, rs[i]);
+//            rs[i] = add(jobi, mid + 1, r, rs[i]);
 //        }
 //        sum[i] = sum[ls[i]] + sum[rs[i]];
 //    }
@@ -155,29 +160,29 @@ package class185;
 //    return ans;
 //}
 //
-//void add(int x, int k, int v) {
-//    int cur = x, pre = 0, dist;
+//void add(int x) {
+//    int cur = x, pre = 0, distance;
 //    while (cur > 0) {
-//        dist = getDist(cur, x);
-//        if (k - dist >= 0) {
-//            addTree[cur] = add(k - dist, v, 0, n - 1, addTree[cur]);
-//            if (pre > 0) {
-//                minusTree[pre] = add(k - dist, v, 0, n - 1, minusTree[pre]);
-//            }
+//        distance = getDist(cur, x);
+//        addTree[cur] = add(distance, 0, sumw, addTree[cur]);
+//        if (pre > 0) {
+//            minusTree[pre] = add(distance, 0, sumw, minusTree[pre]);
 //        }
 //        pre = cur;
 //        cur = centfa[cur];
 //    }
 //}
 //
-//int query(int x) {
+//int query(int x, int limit) {
 //    int ans = 0;
-//    int cur = x, pre = 0, dist;
+//    int cur = x, pre = 0, distance;
 //    while (cur > 0) {
-//        dist = getDist(cur, x);
-//        ans += query(dist, n - 1, 0, n - 1, addTree[cur]);
-//        if (pre > 0) {
-//            ans -= query(dist, n - 1, 0, n - 1, minusTree[pre]);
+//        distance = getDist(cur, x);
+//        if (limit - distance >= 0) {
+//            ans += query(0, limit - distance, 0, sumw, addTree[cur]);
+//            if (pre > 0) {
+//                ans -= query(0, limit - distance, 0, sumw, minusTree[pre]);
+//            }
 //        }
 //        pre = cur;
 //        cur = centfa[cur];
@@ -185,28 +190,40 @@ package class185;
 //    return ans;
 //}
 //
+//int compute(int x) {
+//    int ans = 0;
+//    int l = 0, r = sumw, mid;
+//    while (l <= r) {
+//        mid = (l + r) >> 1;
+//        if (query(x, mid) >= k) {
+//            ans = mid;
+//            r = mid - 1;
+//        } else {
+//            l = mid + 1;
+//        }
+//    }
+//    return ans;
+//}
+//
 //int main() {
 //    ios::sync_with_stdio(false);
 //    cin.tie(nullptr);
-//    cin >> n >> m;
-//    for (int i = 1, u, v; i < n; i++) {
-//        cin >> u >> v;
-//        addEdge(u, v);
-//        addEdge(v, u);
+//    cin >> n;
+//    cin >> k;
+//    k = k + 1;
+//    for (int i = 1, u, v, w; i < n; i++) {
+//        cin >> u >> v >> w;
+//        addEdge(u, v, w);
+//        addEdge(v, u, w);
+//        sumw += w;
 //    }
-//    dfs(1, 0);
+//    dfs(1, 0, 0);
 //    centroidTree(getCentroid(1, 0), 0);
-//    char op;
-//    int x, k, v;
-//    for (int i = 1; i <= m; i++) {
-//        cin >> op;
-//        if (op == 'M') {
-//            cin >> x >> k >> v;
-//            add(x, k, v);
-//        } else {
-//            cin >> x;
-//            cout << query(x) << '\n';
-//        }
+//    for (int i = 1; i <= n; i++) {
+//        add(i);
+//    }
+//    for (int i = 1; i <= n; i++) {
+//        cout << compute(i) << '\n';
 //    }
 //    return 0;
 //}

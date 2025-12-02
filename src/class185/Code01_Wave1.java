@@ -288,7 +288,7 @@ public class Code01_Wave1 {
 		return ans;
 	}
 
-	public static void update(int x, int v) {
+	public static void add(int x, int v) {
 		int cur = x, pre = 0, dist;
 		while (cur > 0) {
 			dist = getDist(cur, x);
@@ -338,7 +338,7 @@ public class Code01_Wave1 {
 		dfs4(1, 1);
 		centroidTree(getCentroid(1, 0), 0);
 		for (int i = 1; i <= n; i++) {
-			update(i, arr[i]);
+			add(i, arr[i]);
 		}
 		int lastAns = 0;
 		for (int i = 1, op, x, y; i <= m; i++) {
@@ -351,7 +351,7 @@ public class Code01_Wave1 {
 				lastAns = query(x, y);
 				out.println(lastAns);
 			} else {
-				update(x, y - arr[x]);
+				add(x, y - arr[x]);
 				arr[x] = y;
 			}
 		}

@@ -169,7 +169,7 @@ package class185;
 //    return ans;
 //}
 //
-//void update(int x, int v) {
+//void add(int x, int v) {
 //    int cur = x, pre = 0, dist;
 //    while (cur > 0) {
 //        dist = getDist(cur, x);
@@ -215,7 +215,7 @@ package class185;
 //    dfs2(1, 1);
 //    centroidTree(getCentroid(1, 0), 0);
 //    for (int i = 1; i <= n; i++) {
-//        update(i, arr[i]);
+//        add(i, arr[i]);
 //    }
 //    int lastAns = 0;
 //    for (int i = 1, op, x, y; i <= m; i++) {
@@ -226,7 +226,7 @@ package class185;
 //            lastAns = query(x, y);
 //            cout << lastAns << '\n';
 //        } else {
-//            update(x, y - arr[x]);
+//            add(x, y - arr[x]);
 //            arr[x] = y;
 //        }
 //    }
