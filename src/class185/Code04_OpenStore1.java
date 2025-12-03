@@ -213,41 +213,6 @@ public class Code04_OpenStore1 {
 		}
 	}
 
-	public static int getLca(int a, int b) {
-		while (top[a] != top[b]) {
-			if (dep[top[a]] <= dep[top[b]]) {
-				b = fa[top[b]];
-			} else {
-				a = fa[top[a]];
-			}
-		}
-		return dep[a] <= dep[b] ? a : b;
-	}
-
-	public static int getDist(int x, int y) {
-		return dist[x] + dist[y] - (dist[getLca(x, y)] << 1);
-	}
-
-	public static int getCentroid(int u, int fa) {
-		// getSize1(u, fa);
-		getSize2(u, fa);
-		int half = siz[u] >> 1;
-		boolean find = false;
-		while (!find) {
-			find = true;
-			for (int e = head[u]; e > 0; e = nxt[e]) {
-				int v = to[e];
-				if (v != fa && !vis[v] && siz[v] > half) {
-					fa = u;
-					u = v;
-					find = false;
-					break;
-				}
-			}
-		}
-		return u;
-	}
-
 	public static void collect1(int u, int fa, int sum, int rt) {
 		xage[++cntx] = age[u];
 		xsum[cntx] = sum;
@@ -289,6 +254,41 @@ public class Code04_OpenStore1 {
 				}
 			}
 		}
+	}
+
+	public static int getLca(int a, int b) {
+		while (top[a] != top[b]) {
+			if (dep[top[a]] <= dep[top[b]]) {
+				b = fa[top[b]];
+			} else {
+				a = fa[top[a]];
+			}
+		}
+		return dep[a] <= dep[b] ? a : b;
+	}
+
+	public static int getDist(int x, int y) {
+		return dist[x] + dist[y] - (dist[getLca(x, y)] << 1);
+	}
+
+	public static int getCentroid(int u, int fa) {
+		// getSize1(u, fa);
+		getSize2(u, fa);
+		int half = siz[u] >> 1;
+		boolean find = false;
+		while (!find) {
+			find = true;
+			for (int e = head[u]; e > 0; e = nxt[e]) {
+				int v = to[e];
+				if (v != fa && !vis[v] && siz[v] > half) {
+					fa = u;
+					u = v;
+					find = false;
+					break;
+				}
+			}
+		}
+		return u;
 	}
 
 	public static void centroidTree(int u, int fa) {
