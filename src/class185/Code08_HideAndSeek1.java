@@ -1,6 +1,6 @@
 package class185;
 
-// 捉迷藏，最优解是树上括号序，java版
+// 捉迷藏，正解是树的括号序，java版
 // 测试链接 : https://www.luogu.com.cn/problem/P2056
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
@@ -13,9 +13,10 @@ public class Code08_HideAndSeek1 {
 
 	public static int MAXN = 100001;
 	public static int MAXS = MAXN * 3;
+	public static int MAXT = MAXS << 2;
 	public static int INF = 1000000001;
-	public static int PAL = -1;
-	public static int PAR = -2;
+	public static int RIGHT_PA = -1;
+	public static int LEFT_PA = -2;
 	public static int n, m;
 
 	public static boolean[] light = new boolean[MAXN];
@@ -28,13 +29,21 @@ public class Code08_HideAndSeek1 {
 	public static int[] seg = new int[MAXS];
 	public static int cntd;
 
-	public static int[] pal = new int[MAXS << 2];
-	public static int[] par = new int[MAXS << 2];
-	public static int[] ladd = new int[MAXS << 2];
-	public static int[] lminus = new int[MAXS << 2];
-	public static int[] radd = new int[MAXS << 2];
-	public static int[] rminus = new int[MAXS << 2];
-	public static int[] dist = new int[MAXS << 2];
+	// 注意区分preMinus和postMinus
+	// rpa : 都消掉之后的右括号数量
+	// lpa : 都消掉之后的左括号数量
+	// preAdd : 区间左端点到任意黑点，max(右括号 + 左括号)
+	// preMinus : 区间左端点到任意黑点，max(左括号 - 右括号)
+	// postAdd : 任意黑点到区间右端点，max(右括号 + 左括号)
+	// postMinus : 任意黑点到区间右端点，max(右括号 - 左括号)
+	// dist : 选择任意两个黑点的最大距离
+	public static int[] rpa = new int[MAXT];
+	public static int[] lpa = new int[MAXT];
+	public static int[] preAdd = new int[MAXT];
+	public static int[] preMinus = new int[MAXT];
+	public static int[] postAdd = new int[MAXT];
+	public static int[] postMinus = new int[MAXT];
+	public static int[] dist = new int[MAXT];
 
 	// 讲解118，递归函数改成迭代所需要的栈
 	public static int[][] stack = new int[MAXN][3];
@@ -63,7 +72,7 @@ public class Code08_HideAndSeek1 {
 
 	// 收集括号序递归版，java会爆栈，C++可以通过
 	public static void dfs1(int u, int fa) {
-		seg[++cntd] = PAL;
+		seg[++cntd] = LEFT_PA;
 		seg[++cntd] = u;
 		dfn[u] = cntd;
 		for (int e = head[u]; e > 0; e = nxt[e]) {
@@ -72,7 +81,7 @@ public class Code08_HideAndSeek1 {
 				dfs1(v, u);
 			}
 		}
-		seg[++cntd] = PAR;
+		seg[++cntd] = RIGHT_PA;
 	}
 
 	// dfs1的迭代版
@@ -82,7 +91,7 @@ public class Code08_HideAndSeek1 {
 		while (stacksize > 0) {
 			pop();
 			if (e == -1) {
-				seg[++cntd] = PAL;
+				seg[++cntd] = LEFT_PA;
 				seg[++cntd] = u;
 				dfn[u] = cntd;
 				e = head[u];
@@ -96,43 +105,43 @@ public class Code08_HideAndSeek1 {
 					push(v, u, -1);
 				}
 			} else {
-				seg[++cntd] = PAR;
+				seg[++cntd] = RIGHT_PA;
 			}
 		}
 	}
 
-	public static void set(int i, int v) {
-		par[i] = pal[i] = 0;
-		ladd[i] = lminus[i] = radd[i] = rminus[i] = -INF;
+	public static void setSingle(int i, int v) {
+		rpa[i] = lpa[i] = 0;
+		preAdd[i] = preMinus[i] = postAdd[i] = postMinus[i] = -INF;
 		dist[i] = -INF;
-		if (v == PAL) {
-			pal[i] = 1;
-		} else if (v == PAR) {
-			par[i] = 1;
+		if (v == RIGHT_PA) {
+			rpa[i] = 1;
+		} else if (v == LEFT_PA) {
+			lpa[i] = 1;
 		} else if (!light[v]) {
-			ladd[i] = lminus[i] = radd[i] = rminus[i] = 0;
+			preAdd[i] = preMinus[i] = postAdd[i] = postMinus[i] = 0;
 		}
 	}
 
 	public static void up(int i) {
 		int l = i << 1, r = i << 1 | 1;
-		if (pal[l] > par[r]) {
-			par[i] = par[l];
-			pal[i] = pal[l] - par[r] + pal[r];
+		if (lpa[l] > rpa[r]) {
+			rpa[i] = rpa[l];
+			lpa[i] = lpa[l] - rpa[r] + lpa[r];
 		} else {
-			par[i] = par[l] + par[r] - pal[l];
-			pal[i] = pal[r];
+			rpa[i] = rpa[l] + rpa[r] - lpa[l];
+			lpa[i] = lpa[r];
 		}
-		ladd[i] = Math.max(ladd[l], Math.max(ladd[r] + par[l] - pal[l], lminus[r] + par[l] + pal[l]));
-		lminus[i] = Math.max(lminus[l], lminus[r] - par[l] + pal[l]);
-		radd[i] = Math.max(radd[r], Math.max(radd[l] - par[r] + pal[r], rminus[l] + par[r] + pal[r]));
-		rminus[i] = Math.max(rminus[r], rminus[l] + par[r] - pal[r]);
-		dist[i] = Math.max(Math.max(dist[l], dist[r]), Math.max(radd[l] + lminus[r], rminus[l] + ladd[r]));
+		preAdd[i] = Math.max(preAdd[l], Math.max(rpa[l] + preAdd[r] - lpa[l], rpa[l] + lpa[l] + preMinus[r]));
+		preMinus[i] = Math.max(preMinus[l], lpa[l] - rpa[l] + preMinus[r]);
+		postAdd[i] = Math.max(postAdd[r], Math.max(postAdd[l] - rpa[r] + lpa[r], postMinus[l] + rpa[r] + lpa[r]));
+		postMinus[i] = Math.max(postMinus[r], postMinus[l] + rpa[r] - lpa[r]);
+		dist[i] = Math.max(Math.max(dist[l], dist[r]), Math.max(postAdd[l] + preMinus[r], preAdd[r] + postMinus[l]));
 	}
 
 	public static void build(int l, int r, int i) {
 		if (l == r) {
-			set(i, seg[l]);
+			setSingle(i, seg[l]);
 		} else {
 			int mid = (l + r) >> 1;
 			build(l, mid, i << 1);
@@ -143,7 +152,7 @@ public class Code08_HideAndSeek1 {
 
 	public static void update(int jobi, int l, int r, int i) {
 		if (l == r) {
-			set(i, seg[l]);
+			setSingle(i, seg[l]);
 		} else {
 			int mid = (l + r) >> 1;
 			if (jobi <= mid) {
