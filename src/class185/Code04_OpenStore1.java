@@ -388,17 +388,17 @@ public class Code04_OpenStore1 {
 		sum = fsum[b] - (a == l ? 0 : fsum[a - 1]);
 	}
 
-	public static long compute(int x, int agel, int ager) {
-		queryx(x, agel, ager);
+	public static long compute(int u, int agel, int ager) {
+		queryx(u, agel, ager);
 		long ans = sum;
 		long num1, sum1, num2, sum2;
-		for (int cur = x, fa = centfa[cur]; fa > 0; cur = fa, fa = centfa[cur]) {
+		for (int cur = u, fa = centfa[cur]; fa > 0; cur = fa, fa = centfa[cur]) {
 			queryx(fa, agel, ager);
 			num1 = num; sum1 = sum;
 			queryf(cur, agel, ager);
 			num2 = num; sum2 = sum;
 			ans += sum1 - sum2;
-			ans += (num1 - num2) * getDist(x, fa);
+			ans += (num1 - num2) * getDist(u, fa);
 		}
 		return ans;
 	}
@@ -435,10 +435,10 @@ public class Code04_OpenStore1 {
 			}
 		}
 		long lastAns = 0;
-		for (int i = 1; i <= Q; i++) {
-			int x = in.nextInt();
-			int l = in.nextInt();
-			int r = in.nextInt();
+		for (int i = 1, u, l, r; i <= Q; i++) {
+			u = in.nextInt();
+			l = in.nextInt();
+			r = in.nextInt();
 			l = (int) ((lastAns + l) % A);
 			r = (int) ((lastAns + r) % A);
 			if (l > r) {
@@ -446,7 +446,7 @@ public class Code04_OpenStore1 {
 				l = r;
 				r = tmp;
 			}
-			lastAns = compute(x, l, r);
+			lastAns = compute(u, l, r);
 			out.println(lastAns);
 		}
 		out.flush();
