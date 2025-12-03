@@ -15,8 +15,8 @@ public class Code08_HideSeek1 {
 	public static int MAXS = MAXN * 3;
 	public static int MAXT = MAXS << 2;
 	public static int INF = 1000000001;
-	public static int RIGHT_PA = -1;
-	public static int LEFT_PA = -2;
+	public static int PAR = -1;
+	public static int PAL = -2;
 	public static int n, m;
 
 	public static boolean[] light = new boolean[MAXN];
@@ -29,20 +29,20 @@ public class Code08_HideSeek1 {
 	public static int[] seg = new int[MAXS];
 	public static int cntd;
 
-	// 注意区分preMinus和postMinus
-	// rpa : 都消掉之后的右括号数量
-	// lpa : 都消掉之后的左括号数量
-	// preAdd : 区间左端点到任意黑点，max(右括号 + 左括号)
-	// preMinus : 区间左端点到任意黑点，max(左括号 - 右括号)
-	// postAdd : 任意黑点到区间右端点，max(右括号 + 左括号)
-	// postMinus : 任意黑点到区间右端点，max(右括号 - 左括号)
+	// 注意区分lminus和rminus
+	// pr : 都消掉之后的右括号数量
+	// pl : 都消掉之后的左括号数量
+	// ladd : 左端点到任意黑点，max(右括号 + 左括号)
+	// lminus : 左端点到任意黑点，max(左括号 - 右括号)
+	// radd : 任意黑点到右端点，max(右括号 + 左括号)
+	// rminus : 任意黑点到右端点，max(右括号 - 左括号)
 	// dist : 选择任意两个黑点的最大距离
-	public static int[] rpa = new int[MAXT];
-	public static int[] lpa = new int[MAXT];
-	public static int[] preAdd = new int[MAXT];
-	public static int[] preMinus = new int[MAXT];
-	public static int[] postAdd = new int[MAXT];
-	public static int[] postMinus = new int[MAXT];
+	public static int[] pr = new int[MAXT];
+	public static int[] pl = new int[MAXT];
+	public static int[] ladd = new int[MAXT];
+	public static int[] lminus = new int[MAXT];
+	public static int[] radd = new int[MAXT];
+	public static int[] rminus = new int[MAXT];
 	public static int[] dist = new int[MAXT];
 
 	// 讲解118，递归函数改成迭代所需要的栈
@@ -72,7 +72,7 @@ public class Code08_HideSeek1 {
 
 	// 收集括号序递归版，java会爆栈，C++可以通过
 	public static void dfs1(int u, int fa) {
-		seg[++cntd] = LEFT_PA;
+		seg[++cntd] = PAL;
 		seg[++cntd] = u;
 		dfn[u] = cntd;
 		for (int e = head[u]; e > 0; e = nxt[e]) {
@@ -81,7 +81,7 @@ public class Code08_HideSeek1 {
 				dfs1(v, u);
 			}
 		}
-		seg[++cntd] = RIGHT_PA;
+		seg[++cntd] = PAR;
 	}
 
 	// dfs1的迭代版
@@ -91,7 +91,7 @@ public class Code08_HideSeek1 {
 		while (stacksize > 0) {
 			pop();
 			if (e == -1) {
-				seg[++cntd] = LEFT_PA;
+				seg[++cntd] = PAL;
 				seg[++cntd] = u;
 				dfn[u] = cntd;
 				e = head[u];
@@ -105,38 +105,38 @@ public class Code08_HideSeek1 {
 					push(v, u, -1);
 				}
 			} else {
-				seg[++cntd] = RIGHT_PA;
+				seg[++cntd] = PAR;
 			}
 		}
 	}
 
 	public static void setSingle(int i, int v) {
-		rpa[i] = lpa[i] = 0;
-		preAdd[i] = preMinus[i] = postAdd[i] = postMinus[i] = -INF;
+		pr[i] = pl[i] = 0;
+		ladd[i] = lminus[i] = radd[i] = rminus[i] = -INF;
 		dist[i] = -INF;
-		if (v == RIGHT_PA) {
-			rpa[i] = 1;
-		} else if (v == LEFT_PA) {
-			lpa[i] = 1;
+		if (v == PAR) {
+			pr[i] = 1;
+		} else if (v == PAL) {
+			pl[i] = 1;
 		} else if (!light[v]) {
-			preAdd[i] = preMinus[i] = postAdd[i] = postMinus[i] = 0;
+			ladd[i] = lminus[i] = radd[i] = rminus[i] = 0;
 		}
 	}
 
 	public static void up(int i) {
 		int l = i << 1, r = i << 1 | 1;
-		if (lpa[l] > rpa[r]) {
-			rpa[i] = rpa[l];
-			lpa[i] = lpa[l] - rpa[r] + lpa[r];
+		if (pl[l] > pr[r]) {
+			pr[i] = pr[l];
+			pl[i] = pl[l] - pr[r] + pl[r];
 		} else {
-			rpa[i] = rpa[l] + rpa[r] - lpa[l];
-			lpa[i] = lpa[r];
+			pr[i] = pr[l] + pr[r] - pl[l];
+			pl[i] = pl[r];
 		}
-		preAdd[i] = Math.max(preAdd[l], Math.max(rpa[l] + preAdd[r] - lpa[l], rpa[l] + lpa[l] + preMinus[r]));
-		preMinus[i] = Math.max(preMinus[l], lpa[l] - rpa[l] + preMinus[r]);
-		postAdd[i] = Math.max(postAdd[r], Math.max(postAdd[l] - rpa[r] + lpa[r], postMinus[l] + rpa[r] + lpa[r]));
-		postMinus[i] = Math.max(postMinus[r], postMinus[l] + rpa[r] - lpa[r]);
-		dist[i] = Math.max(Math.max(dist[l], dist[r]), Math.max(postAdd[l] + preMinus[r], preAdd[r] + postMinus[l]));
+		ladd[i] = Math.max(ladd[l], Math.max(pr[l] + ladd[r] - pl[l], pr[l] + pl[l] + lminus[r]));
+		lminus[i] = Math.max(lminus[l], pl[l] - pr[l] + lminus[r]);
+		radd[i] = Math.max(radd[r], Math.max(radd[l] - pr[r] + pl[r], rminus[l] + pr[r] + pl[r]));
+		rminus[i] = Math.max(rminus[r], rminus[l] + pr[r] - pl[r]);
+		dist[i] = Math.max(Math.max(dist[l], dist[r]), Math.max(radd[l] + lminus[r], ladd[r] + rminus[l]));
 	}
 
 	public static void build(int l, int r, int i) {
