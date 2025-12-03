@@ -29,7 +29,7 @@ public class Code07_HideSeek1 {
 	public static int[] seg = new int[MAXS];
 	public static int cntd;
 
-	// 注意区分lminus和rminus
+	// 注意区分lminus、rminus
 	// pr : 都消掉之后的右括号数量
 	// pl : 都消掉之后的左括号数量
 	// ladd : 左端点到任意黑点，max(右括号 + 左括号)
