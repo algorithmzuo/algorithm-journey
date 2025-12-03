@@ -9,7 +9,7 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
-public class Code08_HideSeek1 {
+public class Code07_HideSeek1 {
 
 	public static int MAXN = 100001;
 	public static int MAXS = MAXN * 3;
