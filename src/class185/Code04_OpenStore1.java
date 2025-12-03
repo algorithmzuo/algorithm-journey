@@ -2,7 +2,494 @@ package class185;
 
 // 开店，java版
 // 测试链接 : https://www.luogu.com.cn/problem/P3241
+// 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 
 public class Code04_OpenStore1 {
+
+	public static int MAXN = 200001;
+	public static int MAXK = 10000001;
+	public static int n, Q, A;
+	public static int[] age = new int[MAXN];
+
+	public static int[] head = new int[MAXN];
+	public static int[] nxt = new int[MAXN << 1];
+	public static int[] to = new int[MAXN << 1];
+	public static int[] weight = new int[MAXN << 1];
+	public static int cntg;
+
+	public static int[] fa = new int[MAXN];
+	public static int[] dep = new int[MAXN];
+	public static int[] siz = new int[MAXN];
+	public static int[] son = new int[MAXN];
+	public static int[] top = new int[MAXN];
+	public static int[] dist = new int[MAXN];
+
+	public static boolean[] vis = new boolean[MAXN];
+	public static int[] centfa = new int[MAXN];
+
+	public static int[] xl = new int[MAXN];
+	public static int[] xr = new int[MAXN];
+	public static int[] xage = new int[MAXK];
+	public static long[] xsum = new long[MAXK];
+	public static int cntx;
+
+	public static int[] fl = new int[MAXN];
+	public static int[] fr = new int[MAXN];
+	public static int[] fage = new int[MAXK];
+	public static long[] fsum = new long[MAXK];
+	public static int cntf;
+
+	// 讲解118，递归函数改成迭代所需要的栈
+	public static int[][] stack = new int[MAXN][5];
+	public static int u, f, a, b, e;
+	public static int stacksize;
+
+	public static void push(int u, int f, int a, int b, int e) {
+		stack[stacksize][0] = u;
+		stack[stacksize][1] = f;
+		stack[stacksize][2] = a;
+		stack[stacksize][3] = b;
+		stack[stacksize][4] = e;
+		stacksize++;
+	}
+
+	public static void pop() {
+		--stacksize;
+		u = stack[stacksize][0];
+		f = stack[stacksize][1];
+		a = stack[stacksize][2];
+		b = stack[stacksize][3];
+		e = stack[stacksize][4];
+	}
+
+	public static void addEdge(int u, int v, int w) {
+		nxt[++cntg] = head[u];
+		to[cntg] = v;
+		weight[cntg] = w;
+		head[u] = cntg;
+	}
+
+	public static void dfs1(int u, int f, int dis) {
+		fa[u] = f;
+		dep[u] = dep[f] + 1;
+		dist[u] = dis;
+		siz[u] = 1;
+		for (int e = head[u]; e > 0; e = nxt[e]) {
+			int v = to[e];
+			int w = weight[e];
+			if (v != f) {
+				dfs1(v, u, dis + w);
+			}
+		}
+		for (int ei = head[u], v; ei > 0; ei = nxt[ei]) {
+			v = to[ei];
+			if (v != f) {
+				siz[u] += siz[v];
+				if (son[u] == 0 || siz[son[u]] < siz[v]) {
+					son[u] = v;
+				}
+			}
+		}
+	}
+
+	public static void dfs2(int u, int t) {
+		top[u] = t;
+		if (son[u] == 0) {
+			return;
+		}
+		dfs2(son[u], t);
+		for (int e = head[u], v; e > 0; e = nxt[e]) {
+			v = to[e];
+			if (v != fa[u] && v != son[u]) {
+				dfs2(v, v);
+			}
+		}
+	}
+
+	public static void dfs3(int cur, int father, int distance) {
+		stacksize = 0;
+		push(cur, father, distance, 0, -1);
+		while (stacksize > 0) {
+			pop();
+			if (e == -1) {
+				fa[u] = f;
+				dep[u] = dep[f] + 1;
+				dist[u] = a;
+				siz[u] = 1;
+				e = head[u];
+			} else {
+				e = nxt[e];
+			}
+			if (e != 0) {
+				push(u, f, a, 0, e);
+				int v = to[e];
+				int w = weight[e];
+				if (v != f) {
+					push(v, u, a + w, 0, -1);
+				}
+			} else {
+				for (int ei = head[u]; ei > 0; ei = nxt[ei]) {
+					int v = to[ei];
+					if (v != f) {
+						siz[u] += siz[v];
+						if (son[u] == 0 || siz[son[u]] < siz[v]) {
+							son[u] = v;
+						}
+					}
+				}
+			}
+		}
+	}
+
+	public static void dfs4(int cur, int tag) {
+		stacksize = 0;
+		push(cur, 0, 0, tag, -1);
+		while (stacksize > 0) {
+			pop();
+			if (e == -1) {
+				top[u] = b;
+				if (son[u] == 0) {
+					continue;
+				}
+				push(u, 0, 0, b, -2);
+				push(son[u], 0, 0, b, -1);
+				continue;
+			} else if (e == -2) {
+				e = head[u];
+			} else {
+				e = nxt[e];
+			}
+			if (e != 0) {
+				push(u, 0, 0, b, e);
+				int v = to[e];
+				if (v != fa[u] && v != son[u]) {
+					push(v, 0, 0, v, -1);
+				}
+			}
+		}
+	}
+
+	public static void getSize1(int u, int fa) {
+		siz[u] = 1;
+		for (int e = head[u]; e > 0; e = nxt[e]) {
+			int v = to[e];
+			if (v != fa && !vis[v]) {
+				getSize1(v, u);
+				siz[u] += siz[v];
+			}
+		}
+	}
+
+	public static void getSize2(int cur, int fa) {
+		stacksize = 0;
+		push(cur, fa, 0, 0, -1);
+		while (stacksize > 0) {
+			pop();
+			if (e == -1) {
+				siz[u] = 1;
+				e = head[u];
+			} else {
+				e = nxt[e];
+			}
+			if (e != 0) {
+				push(u, f, 0, 0, e);
+				int v = to[e];
+				if (v != f && !vis[v]) {
+					push(v, u, 0, 0, -1);
+				}
+			} else {
+				for (int ei = head[u]; ei > 0; ei = nxt[ei]) {
+					int v = to[ei];
+					if (v != f && !vis[v]) {
+						siz[u] += siz[v];
+					}
+				}
+			}
+		}
+	}
+
+	public static int getLca(int a, int b) {
+		while (top[a] != top[b]) {
+			if (dep[top[a]] <= dep[top[b]]) {
+				b = fa[top[b]];
+			} else {
+				a = fa[top[a]];
+			}
+		}
+		return dep[a] <= dep[b] ? a : b;
+	}
+
+	public static int getDist(int x, int y) {
+		return dist[x] + dist[y] - (dist[getLca(x, y)] << 1);
+	}
+
+	public static int getCentroid(int u, int fa) {
+		// getSize1(u, fa);
+		getSize2(u, fa);
+		int half = siz[u] >> 1;
+		boolean find = false;
+		while (!find) {
+			find = true;
+			for (int e = head[u]; e > 0; e = nxt[e]) {
+				int v = to[e];
+				if (v != fa && !vis[v] && siz[v] > half) {
+					fa = u;
+					u = v;
+					find = false;
+					break;
+				}
+			}
+		}
+		return u;
+	}
+
+	public static void collect1(int u, int fa, int sum, int rt) {
+		xage[++cntx] = age[u];
+		xsum[cntx] = sum;
+		if (centfa[rt] > 0) {
+			fage[++cntf] = age[u];
+			fsum[cntf] = getDist(u, centfa[rt]);
+		}
+		for (int e = head[u]; e > 0; e = nxt[e]) {
+			int v = to[e];
+			int w = weight[e];
+			if (v != fa && !vis[v]) {
+				collect1(v, u, sum + w, rt);
+			}
+		}
+	}
+
+	public static void collect2(int cur, int father, int psum, int cen) {
+		stacksize = 0;
+		push(cur, father, psum, cen, -1);
+		while (stacksize > 0) {
+			pop();
+			if (e == -1) {
+				xage[++cntx] = age[u];
+				xsum[cntx] = a;
+				if (centfa[b] > 0) {
+					fage[++cntf] = age[u];
+					fsum[cntf] = getDist(u, centfa[b]);
+				}
+				e = head[u];
+			} else {
+				e = nxt[e];
+			}
+			if (e != 0) {
+				push(u, f, a, b, e);
+				int v = to[e];
+				int w = weight[e];
+				if (v != f && !vis[v]) {
+					push(v, u, a + w, b, -1);
+				}
+			}
+		}
+	}
+
+	public static void centroidTree(int u, int fa) {
+		centfa[u] = fa;
+		vis[u] = true;
+		xl[u] = cntx + 1;
+		fl[u] = cntf + 1;
+		// collect1(u, 0, 0, u);
+		collect2(u, 0, 0, u);
+		xr[u] = cntx;
+		fr[u] = cntf;
+		for (int e = head[u]; e > 0; e = nxt[e]) {
+			int v = to[e];
+			if (!vis[v]) {
+				centroidTree(getCentroid(v, u), u);
+			}
+		}
+	}
+
+	public static int kth(int[] arr, int l, int r, int target) {
+		int ans = r + 1;
+		while (l <= r) {
+			int mid = (l + r) >> 1;
+			if (arr[mid] >= target) {
+				ans = mid;
+				r = mid - 1;
+			} else {
+				l = mid + 1;
+			}
+		}
+		return ans;
+	}
+
+	public static void sortx(int l, int r) {
+		if (l >= r) return;
+		int i = l, j = r, pivot = xage[(l + r) >> 1], tmp1;
+		long tmp2;
+		while (i <= j) {
+			while (xage[i] < pivot) i++;
+			while (xage[j] > pivot) j--;
+			if (i <= j) {
+				tmp1 = xage[i]; xage[i] = xage[j]; xage[j] = tmp1;
+				tmp2 = xsum[i]; xsum[i] = xsum[j]; xsum[j] = tmp2;
+				i++; j--;
+			}
+		}
+		sortx(l, j);
+		sortx(i, r);
+	}
+
+	public static void sortf(int l, int r) {
+		if (l >= r) return;
+		int i = l, j = r, pivot = fage[(l + r) >> 1], tmp1;
+		long tmp2;
+		while (i <= j) {
+			while (fage[i] < pivot) i++;
+			while (fage[j] > pivot) j--;
+			if (i <= j) {
+				tmp1 = fage[i]; fage[i] = fage[j]; fage[j] = tmp1;
+				tmp2 = fsum[i]; fsum[i] = fsum[j]; fsum[j] = tmp2;
+				i++; j--;
+			}
+		}
+		sortf(l, j);
+		sortf(i, r);
+	}
+
+	public static long num, sum;
+
+	public static void queryx(int u, int agel, int ager) {
+		int l = xl[u], r = xr[u];
+		if (l > r) {
+			num = sum = 0;
+			return;
+		}
+		int a = kth(xage, l, r, agel), b = kth(xage, l, r, ager + 1) - 1;
+		if (a > b) {
+			num = sum = 0;
+			return;
+		}
+		num = b - a + 1;
+		sum = xsum[b] - (a == l ? 0 : xsum[a - 1]);
+	}
+
+	public static void queryf(int u, int agel, int ager) {
+		int l = fl[u], r = fr[u];
+		if (l > r) {
+			num = sum = 0;
+			return;
+		}
+		int a = kth(fage, l, r, agel), b = kth(fage, l, r, ager + 1) - 1;
+		if (a > b) {
+			num = sum = 0;
+			return;
+		}
+		num = b - a + 1;
+		sum = fsum[b] - (a == l ? 0 : fsum[a - 1]);
+	}
+
+	public static long compute(int x, int agel, int ager) {
+		queryx(x, agel, ager);
+		long ans = sum;
+		long num1, sum1, num2, sum2;
+		for (int cur = x, fa = centfa[cur]; fa > 0; cur = fa, fa = centfa[cur]) {
+			queryx(fa, agel, ager);
+			num1 = num; sum1 = sum;
+			queryf(cur, agel, ager);
+			num2 = num; sum2 = sum;
+			ans += sum1 - sum2;
+			ans += (num1 - num2) * getDist(x, fa);
+		}
+		return ans;
+	}
+
+	public static void main(String[] args) throws Exception {
+		FastReader in = new FastReader(System.in);
+		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
+		n = in.nextInt();
+		Q = in.nextInt();
+		A = in.nextInt();
+		for (int i = 1; i <= n; i++) {
+			age[i] = in.nextInt();
+		}
+		for (int i = 1; i < n; i++) {
+			int a = in.nextInt();
+			int b = in.nextInt();
+			int c = in.nextInt();
+			addEdge(a, b, c);
+			addEdge(b, a, c);
+		}
+		// dfs1(1, 0, 0);
+		// dfs2(1, 1);
+		dfs3(1, 0, 0);
+		dfs4(1, 1);
+		centroidTree(getCentroid(1, 0), 0);
+		for (int i = 1; i <= n; i++) {
+			sortx(xl[i], xr[i]);
+			for (int j = xl[i] + 1; j <= xr[i]; j++) {
+				xsum[j] += xsum[j - 1];
+			}
+			sortf(fl[i], fr[i]);
+			for (int j = fl[i] + 1; j <= fr[i]; j++) {
+				fsum[j] += fsum[j - 1];
+			}
+		}
+		long lastAns = 0;
+		for (int i = 1; i <= Q; i++) {
+			int x = in.nextInt();
+			int l = in.nextInt();
+			int r = in.nextInt();
+			l = (int) ((lastAns + l) % A);
+			r = (int) ((lastAns + r) % A);
+			if (l > r) {
+				int tmp = l;
+				l = r;
+				r = tmp;
+			}
+			lastAns = compute(x, l, r);
+			out.println(lastAns);
+		}
+		out.flush();
+		out.close();
+	}
+
+	// 读写工具类
+	static class FastReader {
+		private final byte[] buffer = new byte[1 << 16];
+		private int ptr = 0, len = 0;
+		private final InputStream in;
+
+		FastReader(InputStream in) {
+			this.in = in;
+		}
+
+		private int readByte() throws IOException {
+			if (ptr >= len) {
+				len = in.read(buffer);
+				ptr = 0;
+				if (len <= 0)
+					return -1;
+			}
+			return buffer[ptr++];
+		}
+
+		int nextInt() throws IOException {
+			int c;
+			do {
+				c = readByte();
+			} while (c <= ' ' && c != -1);
+			boolean neg = false;
+			if (c == '-') {
+				neg = true;
+				c = readByte();
+			}
+			int val = 0;
+			while (c > ' ' && c != -1) {
+				val = val * 10 + (c - '0');
+				c = readByte();
+			}
+			return neg ? -val : val;
+		}
+	}
 
 }
