@@ -342,17 +342,15 @@ public class Code04_OpenStore1 {
 	public static long nodeCnt, pathSum;
 
 	public static void query(int[] age, long[] sum, int l, int r, int agel, int ager) {
-		if (l > r) {
-			nodeCnt = pathSum = 0;
-			return;
+		nodeCnt = pathSum = 0;
+		if (l <= r) {
+			int a = kth(age, l, r, agel);
+			int b = kth(age, l, r, ager + 1) - 1;
+			if (a <= b) {
+				nodeCnt = b - a + 1;
+				pathSum = sum[b] - (a == l ? 0 : sum[a - 1]);
+			}
 		}
-		int a = kth(age, l, r, agel), b = kth(age, l, r, ager + 1) - 1;
-		if (a > b) {
-			nodeCnt = pathSum = 0;
-			return;
-		}
-		nodeCnt = b - a + 1;
-		pathSum = sum[b] - (a == l ? 0 : sum[a - 1]);
 	}
 
 	public static long compute(int u, int agel, int ager) {

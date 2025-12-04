@@ -185,18 +185,15 @@ package class185;
 //long long nodeCnt, pathSum;
 //
 //void query(Node arr[], int l, int r, int agel, int ager) {
-//    if (l > r) {
-//        nodeCnt = pathSum = 0;
-//        return;
+//    nodeCnt = pathSum = 0;
+//    if (l <= r) {
+//        int a = kth(arr, l, r, agel);
+//        int b = kth(arr, l, r, ager + 1) - 1;
+//        if (a <= b) {
+//            nodeCnt = 1L + b - a;
+//            pathSum = arr[b].sum - (a == l ? 0 : arr[a - 1].sum);
+//        }
 //    }
-//    int a = kth(arr, l, r, agel);
-//    int b = kth(arr, l, r, ager + 1) - 1;
-//    if (a > b) {
-//        nodeCnt = pathSum = 0;
-//        return;
-//    }
-//    nodeCnt = 1L + b - a;
-//    pathSum = arr[b].sum - (a == l ? 0 : arr[a - 1].sum);
 //}
 //
 //long long compute(int u, int agel, int ager) {
