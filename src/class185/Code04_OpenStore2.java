@@ -61,14 +61,14 @@ package class185;
 //    dep[u] = dep[f] + 1;
 //    dist[u] = dis;
 //    siz[u] = 1;
-//    for (int e = head[u]; e > 0; e = nxt[e]) {
+//    for (int e = head[u]; e; e = nxt[e]) {
 //        int v = to[e];
 //        int w = weight[e];
 //        if (v != f) {
 //            dfs1(v, u, dis + w);
 //        }
 //    }
-//    for (int ei = head[u], v; ei > 0; ei = nxt[ei]) {
+//    for (int ei = head[u], v; ei; ei = nxt[ei]) {
 //        v = to[ei];
 //        if (v != f) {
 //            siz[u] += siz[v];
@@ -85,7 +85,7 @@ package class185;
 //        return;
 //    }
 //    dfs2(son[u], t);
-//    for (int e = head[u], v; e > 0; e = nxt[e]) {
+//    for (int e = head[u], v; e; e = nxt[e]) {
 //        v = to[e];
 //        if (v != fa[u] && v != son[u]) {
 //            dfs2(v, v);
@@ -110,7 +110,7 @@ package class185;
 //
 //void getSize(int u, int f) {
 //    siz[u] = 1;
-//    for (int e = head[u]; e > 0; e = nxt[e]) {
+//    for (int e = head[u]; e; e = nxt[e]) {
 //        int v = to[e];
 //        if (v != f && !vis[v]) {
 //            getSize(v, u);
@@ -125,7 +125,7 @@ package class185;
 //    bool find = false;
 //    while (!find) {
 //        find = true;
-//        for (int e = head[u]; e > 0; e = nxt[e]) {
+//        for (int e = head[u]; e; e = nxt[e]) {
 //            int v = to[e];
 //            if (v != f && !vis[v] && siz[v] > half) {
 //                f = u;
@@ -143,7 +143,7 @@ package class185;
 //    if (centfa[rt] > 0) {
 //        farr[++cntf] = { age[u], getDist(u, centfa[rt]) };
 //    }
-//    for (int e = head[u]; e > 0; e = nxt[e]) {
+//    for (int e = head[u]; e; e = nxt[e]) {
 //        int v = to[e];
 //        int w = weight[e];
 //        if (v != f && !vis[v]) {
@@ -160,7 +160,7 @@ package class185;
 //    collect(u, 0, 0, u);
 //    xr[u] = cntx;
 //    fr[u] = cntf;
-//    for (int e = head[u]; e > 0; e = nxt[e]) {
+//    for (int e = head[u]; e; e = nxt[e]) {
 //        int v = to[e];
 //        if (!vis[v]) {
 //            centroidTree(getCentroid(v, u), u);

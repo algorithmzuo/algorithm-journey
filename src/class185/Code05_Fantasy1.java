@@ -37,8 +37,8 @@ public class Code05_Fantasy1 {
 	public static int[] centfa = new int[MAXN];
 
 	public static long[] num = new long[MAXN];
-	public static long[] sumx = new long[MAXN];
-	public static long[] sumf = new long[MAXN];
+	public static long[] xsum = new long[MAXN];
+	public static long[] fsum = new long[MAXN];
 
 	// 讲解118，递归函数改成迭代所需要的栈
 	public static int[][] stack = new int[MAXN][5];
@@ -269,17 +269,17 @@ public class Code05_Fantasy1 {
 		for (int cur = x, fa = centfa[cur]; fa > 0; cur = fa, fa = centfa[cur]) {
 			int dist = getDist(x, fa);
 			num[fa] += v;
-			sumx[fa] += 1L * v * dist;
-			sumf[cur] += 1L * v * dist;
+			xsum[fa] += 1L * v * dist;
+			fsum[cur] += 1L * v * dist;
 		}
 	}
 
 	public static long query(int x) {
-		long ans = sumx[x];
+		long ans = xsum[x];
 		for (int cur = x, fa = centfa[cur]; fa > 0; cur = fa, fa = centfa[cur]) {
 			int dist = getDist(x, fa);
 			ans += (num[fa] - num[cur]) * dist;
-			ans += (sumx[fa] - sumf[cur]);
+			ans += (xsum[fa] - fsum[cur]);
 		}
 		return ans;
 	}
