@@ -13,7 +13,7 @@ public class Code04_OpenStore1 {
 
 	public static int MAXN = 200001;
 	public static int MAXK = 10000001;
-	public static int n, Q, A;
+	public static int n, m, A;
 	public static int[] age = new int[MAXN];
 
 	public static int[] head = new int[MAXN];
@@ -308,11 +308,11 @@ public class Code04_OpenStore1 {
 		}
 	}
 
-	public static int kth(int[] arr, int l, int r, int target) {
+	public static int kth(int[] arr, int l, int r, int x) {
 		int ans = r + 1;
 		while (l <= r) {
 			int mid = (l + r) >> 1;
-			if (arr[mid] >= target) {
+			if (arr[mid] >= x) {
 				ans = mid;
 				r = mid - 1;
 			} else {
@@ -322,83 +322,50 @@ public class Code04_OpenStore1 {
 		return ans;
 	}
 
-	public static void sortx(int l, int r) {
+	public static void sort(int[] age, long[] sum, int l, int r) {
 		if (l >= r) return;
-		int i = l, j = r, pivot = xage[(l + r) >> 1], tmp1;
+		int i = l, j = r, pivot = age[(l + r) >> 1], tmp1;
 		long tmp2;
 		while (i <= j) {
-			while (xage[i] < pivot) i++;
-			while (xage[j] > pivot) j--;
+			while (age[i] < pivot) i++;
+			while (age[j] > pivot) j--;
 			if (i <= j) {
-				tmp1 = xage[i]; xage[i] = xage[j]; xage[j] = tmp1;
-				tmp2 = xsum[i]; xsum[i] = xsum[j]; xsum[j] = tmp2;
+				tmp1 = age[i]; age[i] = age[j]; age[j] = tmp1;
+				tmp2 = sum[i]; sum[i] = sum[j]; sum[j] = tmp2;
 				i++; j--;
 			}
 		}
-		sortx(l, j);
-		sortx(i, r);
+		sort(age, sum, l, j);
+		sort(age, sum, i, r);
 	}
 
-	public static void sortf(int l, int r) {
-		if (l >= r) return;
-		int i = l, j = r, pivot = fage[(l + r) >> 1], tmp1;
-		long tmp2;
-		while (i <= j) {
-			while (fage[i] < pivot) i++;
-			while (fage[j] > pivot) j--;
-			if (i <= j) {
-				tmp1 = fage[i]; fage[i] = fage[j]; fage[j] = tmp1;
-				tmp2 = fsum[i]; fsum[i] = fsum[j]; fsum[j] = tmp2;
-				i++; j--;
-			}
-		}
-		sortf(l, j);
-		sortf(i, r);
-	}
+	public static long nodeCnt, pathSum;
 
-	public static long num, sum;
-
-	public static void queryx(int u, int agel, int ager) {
-		int l = xl[u], r = xr[u];
+	public static void query(int[] age, long[] sum, int l, int r, int agel, int ager) {
 		if (l > r) {
-			num = sum = 0;
+			nodeCnt = pathSum = 0;
 			return;
 		}
-		int a = kth(xage, l, r, agel), b = kth(xage, l, r, ager + 1) - 1;
+		int a = kth(age, l, r, agel), b = kth(age, l, r, ager + 1) - 1;
 		if (a > b) {
-			num = sum = 0;
+			nodeCnt = pathSum = 0;
 			return;
 		}
-		num = b - a + 1;
-		sum = xsum[b] - (a == l ? 0 : xsum[a - 1]);
-	}
-
-	public static void queryf(int u, int agel, int ager) {
-		int l = fl[u], r = fr[u];
-		if (l > r) {
-			num = sum = 0;
-			return;
-		}
-		int a = kth(fage, l, r, agel), b = kth(fage, l, r, ager + 1) - 1;
-		if (a > b) {
-			num = sum = 0;
-			return;
-		}
-		num = b - a + 1;
-		sum = fsum[b] - (a == l ? 0 : fsum[a - 1]);
+		nodeCnt = b - a + 1;
+		pathSum = sum[b] - (a == l ? 0 : sum[a - 1]);
 	}
 
 	public static long compute(int u, int agel, int ager) {
-		queryx(u, agel, ager);
-		long ans = sum;
-		long num1, sum1, num2, sum2;
+		query(xage, xsum, xl[u], xr[u], agel, ager);
+		long ans = pathSum;
+		long cnt1, sum1, cnt2, sum2;
 		for (int cur = u, fa = centfa[cur]; fa > 0; cur = fa, fa = centfa[cur]) {
-			queryx(fa, agel, ager);
-			num1 = num; sum1 = sum;
-			queryf(cur, agel, ager);
-			num2 = num; sum2 = sum;
+			query(xage, xsum, xl[fa], xr[fa], agel, ager);
+			cnt1 = nodeCnt; sum1 = pathSum;
+			query(fage, fsum, fl[cur], fr[cur], agel, ager);
+			cnt2 = nodeCnt; sum2 = pathSum;
 			ans += sum1 - sum2;
-			ans += (num1 - num2) * getDist(u, fa);
+			ans += (cnt1 - cnt2) * getDist(u, fa);
 		}
 		return ans;
 	}
@@ -407,7 +374,7 @@ public class Code04_OpenStore1 {
 		FastReader in = new FastReader(System.in);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
 		n = in.nextInt();
-		Q = in.nextInt();
+		m = in.nextInt();
 		A = in.nextInt();
 		for (int i = 1; i <= n; i++) {
 			age[i] = in.nextInt();
@@ -425,26 +392,24 @@ public class Code04_OpenStore1 {
 		dfs4(1, 1);
 		centroidTree(getCentroid(1, 0), 0);
 		for (int i = 1; i <= n; i++) {
-			sortx(xl[i], xr[i]);
+			sort(xage, xsum, xl[i], xr[i]);
 			for (int j = xl[i] + 1; j <= xr[i]; j++) {
 				xsum[j] += xsum[j - 1];
 			}
-			sortf(fl[i], fr[i]);
+			sort(fage, fsum, fl[i], fr[i]);
 			for (int j = fl[i] + 1; j <= fr[i]; j++) {
 				fsum[j] += fsum[j - 1];
 			}
 		}
 		long lastAns = 0;
-		for (int i = 1, u, l, r; i <= Q; i++) {
+		for (int i = 1, u, l, r; i <= m; i++) {
 			u = in.nextInt();
 			l = in.nextInt();
 			r = in.nextInt();
 			l = (int) ((lastAns + l) % A);
 			r = (int) ((lastAns + r) % A);
 			if (l > r) {
-				int tmp = l;
-				l = r;
-				r = tmp;
+				int tmp = l; l = r; r = tmp;
 			}
 			lastAns = compute(u, l, r);
 			out.println(lastAns);
