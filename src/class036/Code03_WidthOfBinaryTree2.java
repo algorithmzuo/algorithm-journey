@@ -21,7 +21,7 @@ package class036;
 //       iq[r++] = 1ULL;
 //       while (l < r) {
 //           int size = r - l;
-//           ans = std::max(ans, static_cast<int>(iq[r - 1] - iq[l] + 1ULL));
+//           ans = std::max(ans, (int)(iq[r - 1] - iq[l] + 1));
 //           for (int i = 0; i < size; i++) {
 //               TreeNode* node = nq[l];
 //               ULL id = iq[l++];
