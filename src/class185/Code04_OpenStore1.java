@@ -359,9 +359,11 @@ public class Code04_OpenStore1 {
 		long cnt1, sum1, cnt2, sum2;
 		for (int cur = u, fa = centfa[cur]; fa > 0; cur = fa, fa = centfa[cur]) {
 			query(xage, xsum, xl[fa], xr[fa], agel, ager);
-			cnt1 = nodeCnt; sum1 = pathSum;
+			cnt1 = nodeCnt;
+			sum1 = pathSum;
 			query(fage, fsum, fl[cur], fr[cur], agel, ager);
-			cnt2 = nodeCnt; sum2 = pathSum;
+			cnt2 = nodeCnt;
+			sum2 = pathSum;
 			ans += sum1 - sum2;
 			ans += (cnt1 - cnt2) * getDist(u, fa);
 		}
