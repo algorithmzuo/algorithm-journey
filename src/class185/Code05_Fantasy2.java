@@ -12,17 +12,12 @@ package class185;
 //const int MAXN = 100001;
 //int n, m;
 //
-//int headg[MAXN];
-//int nxtg[MAXN << 1];
-//int tog[MAXN << 1];
-//int weightg[MAXN << 1];
+//int head[MAXN];
+//int nxt[MAXN << 1];
+//int to[MAXN << 1];
+//int weight[MAXN << 1];
+//int cent[MAXN << 1];
 //int cntg;
-//
-//int headc[MAXN];
-//int nxtc[MAXN << 1];
-//int toc[MAXN << 1];
-//int centc[MAXN << 1];
-//int cntc;
 //
 //int fa[MAXN];
 //int dep[MAXN];
@@ -38,18 +33,11 @@ package class185;
 //long long xsum[MAXN];
 //long long fsum[MAXN];
 //
-//void addEdgeG(int u, int v, int w) {
-//    nxtg[++cntg] = headg[u];
-//    tog[cntg] = v;
-//    weightg[cntg] = w;
-//    headg[u] = cntg;
-//}
-//
-//void addEdgeC(int u, int v, int cen) {
-//    nxtc[++cntc] = headc[u];
-//    toc[cntc] = v;
-//    centc[cntc] = cen;
-//    headc[u] = cntc;
+//void addEdge(int u, int v, int w) {
+//    nxt[++cntg] = head[u];
+//    to[cntg] = v;
+//    weight[cntg] = w;
+//    head[u] = cntg;
 //}
 //
 //void dfs1(int u, int f, int dis) {
@@ -57,15 +45,15 @@ package class185;
 //    dep[u] = dep[f] + 1;
 //    dist[u] = dis;
 //    siz[u] = 1;
-//    for (int e = headg[u]; e; e = nxtg[e]) {
-//        int v = tog[e];
-//        int w = weightg[e];
+//    for (int e = head[u]; e; e = nxt[e]) {
+//        int v = to[e];
+//        int w = weight[e];
 //        if (v != f) {
 //            dfs1(v, u, dis + w);
 //        }
 //    }
-//    for (int ei = headg[u], v; ei; ei = nxtg[ei]) {
-//        v = tog[ei];
+//    for (int ei = head[u], v; ei; ei = nxt[ei]) {
+//        v = to[ei];
 //        if (v != f) {
 //            siz[u] += siz[v];
 //            if (son[u] == 0 || siz[son[u]] < siz[v]) {
@@ -81,8 +69,8 @@ package class185;
 //        return;
 //    }
 //    dfs2(son[u], t);
-//    for (int e = headg[u], v; e; e = nxtg[e]) {
-//        v = tog[e];
+//    for (int e = head[u], v; e; e = nxt[e]) {
+//        v = to[e];
 //        if (v != fa[u] && v != son[u]) {
 //            dfs2(v, v);
 //        }
@@ -106,8 +94,8 @@ package class185;
 //
 //void getSize(int u, int f) {
 //    siz[u] = 1;
-//    for (int e = headg[u]; e; e = nxtg[e]) {
-//        int v = tog[e];
+//    for (int e = head[u]; e; e = nxt[e]) {
+//        int v = to[e];
 //        if (v != f && !vis[v]) {
 //            getSize(v, u);
 //            siz[u] += siz[v];
@@ -121,8 +109,8 @@ package class185;
 //    bool find = false;
 //    while (!find) {
 //        find = true;
-//        for (int e = headg[u]; e; e = nxtg[e]) {
-//            int v = tog[e];
+//        for (int e = head[u]; e; e = nxt[e]) {
+//            int v = to[e];
 //            if (v != f && !vis[v] && siz[v] > half) {
 //                f = u;
 //                u = v;
@@ -137,11 +125,11 @@ package class185;
 //void centroidTree(int u, int f) {
 //    centfa[u] = f;
 //    vis[u] = true;
-//    for (int e = headg[u]; e; e = nxtg[e]) {
-//        int v = tog[e];
+//    for (int e = head[u]; e; e = nxt[e]) {
+//        int v = to[e];
 //        if (!vis[v]) {
 //            int nextCent = getCentroid(v, u);
-//            addEdgeC(u, v, nextCent);
+//            cent[e] = nextCent;
 //            centroidTree(nextCent, u);
 //        }
 //    }
@@ -169,10 +157,10 @@ package class185;
 //
 //long long compute(int u) {
 //    long long ans = query(u);
-//    for (int e = headc[u]; e; e = nxtc[e]) {
-//        int v = toc[e];
+//    for (int e = head[u]; e; e = nxt[e]) {
+//        int v = to[e];
 //        if (query(v) < ans) {
-//            return compute(centc[e]);
+//            return compute(cent[e]);
 //        }
 //    }
 //    return ans;
@@ -184,8 +172,8 @@ package class185;
 //    cin >> n >> m;
 //    for (int i = 1, u, v, w; i < n; i++) {
 //        cin >> u >> v >> w;
-//        addEdgeG(u, v, w);
-//        addEdgeG(v, u, w);
+//        addEdge(u, v, w);
+//        addEdge(v, u, w);
 //    }
 //    dfs1(1, 0, 0);
 //    dfs2(1, 1);
