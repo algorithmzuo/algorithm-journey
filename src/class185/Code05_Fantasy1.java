@@ -177,6 +177,21 @@ public class Code05_Fantasy1 {
 		}
 	}
 
+	public static int getLca(int a, int b) {
+		while (top[a] != top[b]) {
+			if (dep[top[a]] <= dep[top[b]]) {
+				b = fa[top[b]];
+			} else {
+				a = fa[top[a]];
+			}
+		}
+		return dep[a] <= dep[b] ? a : b;
+	}
+
+	public static int getDist(int x, int y) {
+		return dist[x] + dist[y] - (dist[getLca(x, y)] << 1);
+	}
+
 	public static void getSize1(int u, int fa) {
 		siz[u] = 1;
 		for (int e = headg[u]; e > 0; e = nxtg[e]) {
@@ -214,21 +229,6 @@ public class Code05_Fantasy1 {
 				}
 			}
 		}
-	}
-
-	public static int getLca(int a, int b) {
-		while (top[a] != top[b]) {
-			if (dep[top[a]] <= dep[top[b]]) {
-				b = fa[top[b]];
-			} else {
-				a = fa[top[a]];
-			}
-		}
-		return dep[a] <= dep[b] ? a : b;
-	}
-
-	public static int getDist(int x, int y) {
-		return dist[x] + dist[y] - (dist[getLca(x, y)] << 1);
 	}
 
 	public static int getCentroid(int u, int fa) {

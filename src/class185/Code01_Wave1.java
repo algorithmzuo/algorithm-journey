@@ -165,6 +165,21 @@ public class Code01_Wave1 {
 		}
 	}
 
+	public static int getLca(int a, int b) {
+		while (top[a] != top[b]) {
+			if (dep[top[a]] <= dep[top[b]]) {
+				b = fa[top[b]];
+			} else {
+				a = fa[top[a]];
+			}
+		}
+		return dep[a] <= dep[b] ? a : b;
+	}
+
+	public static int getDist(int x, int y) {
+		return dep[x] + dep[y] - (dep[getLca(x, y)] << 1);
+	}
+
 	// 找重心需要计算子树大小的递归版，java会爆栈，C++不会
 	public static void getSize1(int u, int fa) {
 		siz[u] = 1;
@@ -204,21 +219,6 @@ public class Code01_Wave1 {
 				}
 			}
 		}
-	}
-
-	public static int getLca(int a, int b) {
-		while (top[a] != top[b]) {
-			if (dep[top[a]] <= dep[top[b]]) {
-				b = fa[top[b]];
-			} else {
-				a = fa[top[a]];
-			}
-		}
-		return dep[a] <= dep[b] ? a : b;
-	}
-
-	public static int getDist(int x, int y) {
-		return dep[x] + dep[y] - (dep[getLca(x, y)] << 1);
 	}
 
 	public static int getCentroid(int u, int fa) {

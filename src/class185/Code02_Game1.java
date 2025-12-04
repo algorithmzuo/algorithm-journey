@@ -101,6 +101,33 @@ public class Code02_Game1 {
 		}
 	}
 
+	public static int getLca(int a, int b) {
+		if (dep[a] < dep[b]) {
+			int tmp = a;
+			a = b;
+			b = tmp;
+		}
+		for (int p = MAXH - 1; p >= 0; p--) {
+			if (dep[stjump[a][p]] >= dep[b]) {
+				a = stjump[a][p];
+			}
+		}
+		if (a == b) {
+			return a;
+		}
+		for (int p = MAXH - 1; p >= 0; p--) {
+			if (stjump[a][p] != stjump[b][p]) {
+				a = stjump[a][p];
+				b = stjump[b][p];
+			}
+		}
+		return stjump[a][0];
+	}
+
+	public static int getDist(int x, int y) {
+		return dep[x] + dep[y] - (dep[getLca(x, y)] << 1);
+	}
+
 	// 找重心需要计算子树大小的递归版，java会爆栈，C++不会
 	public static void getSize1(int u, int fa) {
 		siz[u] = 1;
@@ -140,33 +167,6 @@ public class Code02_Game1 {
 				}
 			}
 		}
-	}
-
-	public static int getLca(int a, int b) {
-		if (dep[a] < dep[b]) {
-			int tmp = a;
-			a = b;
-			b = tmp;
-		}
-		for (int p = MAXH - 1; p >= 0; p--) {
-			if (dep[stjump[a][p]] >= dep[b]) {
-				a = stjump[a][p];
-			}
-		}
-		if (a == b) {
-			return a;
-		}
-		for (int p = MAXH - 1; p >= 0; p--) {
-			if (stjump[a][p] != stjump[b][p]) {
-				a = stjump[a][p];
-				b = stjump[b][p];
-			}
-		}
-		return stjump[a][0];
-	}
-
-	public static int getDist(int x, int y) {
-		return dep[x] + dep[y] - (dep[getLca(x, y)] << 1);
 	}
 
 	public static int getCentroid(int u, int fa) {

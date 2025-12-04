@@ -89,17 +89,6 @@ package class185;
 //    }
 //}
 //
-//void getSize(int u, int f) {
-//    siz[u] = 1;
-//    for (int e = headg[u]; e; e = nxtg[e]) {
-//        int v = tog[e];
-//        if (v != f && !vis[v]) {
-//            getSize(v, u);
-//            siz[u] += siz[v];
-//        }
-//    }
-//}
-//
 //int getLca(int a, int b) {
 //    while (top[a] != top[b]) {
 //        if (dep[top[a]] <= dep[top[b]]) {
@@ -113,6 +102,17 @@ package class185;
 //
 //int getDist(int x, int y) {
 //    return dist[x] + dist[y] - (dist[getLca(x, y)] << 1);
+//}
+//
+//void getSize(int u, int f) {
+//    siz[u] = 1;
+//    for (int e = headg[u]; e; e = nxtg[e]) {
+//        int v = tog[e];
+//        if (v != f && !vis[v]) {
+//            getSize(v, u);
+//            siz[u] += siz[v];
+//        }
+//    }
 //}
 //
 //int getCentroid(int u, int f) {
