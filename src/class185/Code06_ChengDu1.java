@@ -2,6 +2,7 @@ package class185;
 
 // 成都七中，java版
 // 测试链接 : https://www.luogu.com.cn/problem/P5311
+// 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -20,25 +21,55 @@ public class Code06_ChengDu1 {
 	public static int cntg;
 
 	public static int[] headq = new int[MAXN];
-	public static int[] nxtq = new int[MAXN << 1];
-	public static int[] ql = new int[MAXN << 1];
-	public static int[] qr = new int[MAXN << 1];
-	public static int[] qid = new int[MAXN << 1];
+	public static int[] nxtq = new int[MAXN];
+	public static int[] ql = new int[MAXN];
+	public static int[] qr = new int[MAXN];
+	public static int[] qid = new int[MAXN];
 	public static int cntq;
 
 	public static boolean[] vis = new boolean[MAXN];
 	public static int[] siz = new int[MAXN];
 
-	public static int[] headc = new int[MAXN];
-	public static int[] nxtc = new int[MAXN << 1];
-	public static int[] toc = new int[MAXN << 1];
-	public static int cntc;
-
 	public static int[] tree = new int[MAXN];
+
+	public static int[] xl = new int[MAXN];
+	public static int[] xr = new int[MAXN];
+	public static int[] xid = new int[MAXN];
+	public static int cntx;
+
+	public static int[] yl = new int[MAXN];
+	public static int[] yr = new int[MAXN];
+	public static int[] yid = new int[MAXN];
+	public static int cnty;
+
+	public static int[] pos = new int[MAXN];
 
 	public static int[] ans = new int[MAXN];
 
-	public static void addEdgeG(int u, int v) {
+	// 讲解118，递归函数改成迭代所需要的栈
+	public static int[][] stack = new int[MAXN][5];
+	public static int u, f, nl, nr, e;
+	public static int stacksize;
+
+	public static void push(int u, int f, int nl, int nr, int e) {
+		stack[stacksize][0] = u;
+		stack[stacksize][1] = f;
+		stack[stacksize][2] = nl;
+		stack[stacksize][3] = nr;
+		stack[stacksize][4] = e;
+		stacksize++;
+	}
+
+	public static void pop() {
+		--stacksize;
+		u = stack[stacksize][0];
+		f = stack[stacksize][1];
+		nl = stack[stacksize][2];
+		nr = stack[stacksize][3];
+		e = stack[stacksize][4];
+	}
+
+	public static void addEdge(int u, int v) {
 		nxtg[++cntg] = headg[u];
 		tog[cntg] = v;
 		headg[u] = cntg;
@@ -50,12 +81,6 @@ public class Code06_ChengDu1 {
 		qr[cntq] = r;
 		qid[cntq] = id;
 		headq[u] = cntq;
-	}
-
-	public static void addEdgeC(int u, int v) {
-		nxtc[++cntc] = headc[u];
-		toc[cntc] = v;
-		headc[u] = cntc;
 	}
 
 	public static int lowbit(int i) {
@@ -81,19 +106,54 @@ public class Code06_ChengDu1 {
 		return ret;
 	}
 
-	public static void getSize(int u, int fa) {
+	public static int query(int l, int r) {
+		return sum(r) - sum(l - 1);
+	}
+
+	// 找重心需要计算子树大小的递归版，java会爆栈，C++不会
+	public static void getSize1(int u, int fa) {
 		siz[u] = 1;
 		for (int e = headg[u]; e > 0; e = nxtg[e]) {
 			int v = tog[e];
 			if (v != fa && !vis[v]) {
-				getSize(v, u);
+				getSize1(v, u);
 				siz[u] += siz[v];
 			}
 		}
 	}
 
+	// getSize1的迭代版
+	public static void getSize2(int cur, int fa) {
+		stacksize = 0;
+		push(cur, fa, 0, 0, -1);
+		while (stacksize > 0) {
+			pop();
+			if (e == -1) {
+				siz[u] = 1;
+				e = headg[u];
+			} else {
+				e = nxtg[e];
+			}
+			if (e != 0) {
+				push(u, f, 0, 0, e);
+				int v = tog[e];
+				if (v != f && !vis[v]) {
+					push(v, u, 0, 0, -1);
+				}
+			} else {
+				for (int ei = headg[u]; ei > 0; ei = nxtg[ei]) {
+					int v = tog[ei];
+					if (v != f && !vis[v]) {
+						siz[u] += siz[v];
+					}
+				}
+			}
+		}
+	}
+
 	public static int getCentroid(int u, int fa) {
-		getSize(u, fa);
+		// getSize1(u, fa);
+		getSize2(u, fa);
 		int half = siz[u] >> 1;
 		boolean find = false;
 		while (!find) {
@@ -111,27 +171,110 @@ public class Code06_ChengDu1 {
 		return u;
 	}
 
-	public static void centroidTree(int u, int fa) {
-		vis[u] = true;
+	public static void dfs1(int u, int fa, int nl, int nr) {
+		xl[++cntx] = nl;
+		xr[cntx] = nr;
+		xid[cntx] = color[u];
+		for (int e = headq[u]; e > 0; e = nxtq[e]) {
+			int qui = qid[e];
+			int qul = ql[e];
+			int qur = qr[e];
+			if (qul <= nl && nr <= qur) {
+				yl[++cnty] = qul;
+				yr[cnty] = qur;
+				yid[cnty] = qui;
+			}
+		}
 		for (int e = headg[u]; e > 0; e = nxtg[e]) {
 			int v = tog[e];
-			if (!vis[v]) {
-				int nextCent = getCentroid(v, u);
-				addEdgeC(u, nextCent);
-				centroidTree(getCentroid(v, u), u);
+			if (v != fa && !vis[v]) {
+				dfs1(v, u, Math.min(v, nl), Math.max(v, nr));
 			}
 		}
 	}
 
-	public static void collect(int u) {
-
+	// dfs1的迭代版
+	public static void dfs2(int cur, int fa, int nodel, int noder) {
+		stacksize = 0;
+		push(cur, fa, nodel, noder, -1);
+		while (stacksize > 0) {
+			pop();
+			if (e == -1) {
+				xl[++cntx] = nl;
+				xr[cntx] = nr;
+				xid[cntx] = color[u];
+				for (int e = headq[u]; e > 0; e = nxtq[e]) {
+					int qui = qid[e];
+					int qul = ql[e];
+					int qur = qr[e];
+					if (qul <= nl && nr <= qur) {
+						yl[++cnty] = qul;
+						yr[cnty] = qur;
+						yid[cnty] = qui;
+					}
+				}
+				e = headg[u];
+			} else {
+				e = nxtg[e];
+			}
+			if (e != 0) {
+				push(u, f, nl, nr, e);
+				int v = tog[e];
+				if (v != f && !vis[v]) {
+					push(v, u, Math.min(v, nl), Math.max(v, nr), -1);
+				}
+			}
+		}
 	}
 
-	public static void compute(int u) {
+	public static void sort(int[] al, int[] ar, int[] ai, int l, int r) {
+		if (l >= r) return;
+		int i = l, j = r, pivot = ar[(l + r) >> 1], tmp;
+		while (i <= j) {
+			while (ar[i] < pivot) i++;
+			while (ar[j] > pivot) j--;
+			if (i <= j) {
+				tmp = al[i]; al[i] = al[j]; al[j] = tmp;
+				tmp = ar[i]; ar[i] = ar[j]; ar[j] = tmp;
+				tmp = ai[i]; ai[i] = ai[j]; ai[j] = tmp;
+				i++; j--;
+			}
+		}
+		sort(al, ar, ai, l, j);
+		sort(al, ar, ai, i, r);
+	}
+
+	public static void calc(int u) {
+		cntx = cnty = 0;
+		// dfs1(u, 0, u, u);
+		dfs2(u, 0, u, u);
+		sort(xl, xr, xid, 1, cntx);
+		sort(yl, yr, yid, 1, cnty);
+		for (int i = 1, j = 1; i <= cnty; i++) {
+			while (j <= cntx && xr[j] <= yr[i]) {
+				if (xl[j] > pos[xid[j]]) {
+					add(pos[xid[j]], -1);
+					pos[xid[j]] = xl[j];
+					add(pos[xid[j]], 1);
+				}
+				j++;
+			}
+			ans[yid[i]] = Math.max(ans[yid[i]], query(yl[i], n));
+		}
+		for (int i = 1; i <= cntx; i++) {
+			add(pos[xid[i]], -1);
+			pos[xid[i]] = 0;
+		}
+	}
+
+	public static void solve(int u) {
 		vis[u] = true;
-		collect(u);
-		for (int e = headc[u]; e > 0; e = nxtc[e]) {
-			compute(toc[e]);
+		calc(u);
+		for (int e = headg[u]; e > 0; e = nxtg[e]) {
+			int v = tog[e];
+			if (!vis[v]) {
+				solve(getCentroid(v, u));
+			}
 		}
 	}
 
@@ -146,8 +289,8 @@ public class Code06_ChengDu1 {
 		for (int i = 1, u, v; i < n; i++) {
 			u = in.nextInt();
 			v = in.nextInt();
-			addEdgeG(u, v);
-			addEdgeG(v, u);
+			addEdge(u, v);
+			addEdge(v, u);
 		}
 		for (int i = 1, l, r, x; i <= m; i++) {
 			l = in.nextInt();
@@ -155,7 +298,7 @@ public class Code06_ChengDu1 {
 			x = in.nextInt();
 			addQuery(x, l, r, i);
 		}
-
+		solve(getCentroid(1, 0));
 		for (int i = 1; i <= m; i++) {
 			out.println(ans[i]);
 		}
