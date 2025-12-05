@@ -1,6 +1,11 @@
 package class185;
 
 // 开店，C++版
+// 树上有n个人，每个人有年龄，给定n-1条路，每条路有距离
+// 一共有m次查询，格式 u l r : 年龄在[l, r]的所有人，打印他们到第u号人的距离总和
+// 1 <= n <= 1.5 * 10^5    1 <= m <= 2 * 10^5
+// 0 <= 人的年龄 <= 10^9    1 <= 路的距离 <= 1000
+// 本题要求强制在线，得到操作参数的规则，打开测试链接查看
 // 测试链接 : https://www.luogu.com.cn/problem/P3241
 // 如下实现是C++的版本，C++版本和java版本逻辑完全一样
 // 提交如下代码，可以通过所有测试用例
@@ -220,11 +225,10 @@ package class185;
 //    for (int i = 1; i <= n; i++) {
 //        cin >> age[i];
 //    }
-//    for (int i = 1; i < n; i++) {
-//        int a, b, c;
-//        cin >> a >> b >> c;
-//        addEdge(a, b, c);
-//        addEdge(b, a, c);
+//    for (int i = 1, u, v, w; i < n; i++) {
+//        cin >> u >> v >> w;
+//        addEdge(u, v, w);
+//        addEdge(v, u, w);
 //    }
 //    dfs1(1, 0, 0);
 //    dfs2(1, 1);
