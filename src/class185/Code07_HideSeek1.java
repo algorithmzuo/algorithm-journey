@@ -1,6 +1,13 @@
 package class185;
 
 // 捉迷藏，正解是树的括号序，java版
+// 树上有n个点，点的初始颜色为黑，给定n-1条边，边权都是1
+// 一共有m条操作，每条操作是如下两种类型中的一种
+// 操作 C x : 改变点x的颜色，黑变成白，白变成黑
+// 操作 G   : 打印树上最远的两个黑色点的距离
+//            如果只有一个黑点打印0，如果无黑点打印-1
+// 1 <= n <= 10^5
+// 1 <= m <= 5 * 10^5
 // 测试链接 : https://www.luogu.com.cn/problem/P2056
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
@@ -18,8 +25,8 @@ public class Code07_HideSeek1 {
 	public static int PAR = -1;
 	public static int PAL = -2;
 	public static int n, m;
+	public static boolean[] black = new boolean[MAXN];
 
-	public static boolean[] light = new boolean[MAXN];
 	public static int[] head = new int[MAXN];
 	public static int[] nxt = new int[MAXN << 1];
 	public static int[] to = new int[MAXN << 1];
@@ -118,7 +125,7 @@ public class Code07_HideSeek1 {
 			pr[i] = 1;
 		} else if (v == PAL) {
 			pl[i] = 1;
-		} else if (!light[v]) {
+		} else if (black[v]) {
 			ladd[i] = lminus[i] = radd[i] = rminus[i] = 0;
 		}
 	}
@@ -168,6 +175,9 @@ public class Code07_HideSeek1 {
 		FastReader in = new FastReader();
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
 		n = in.nextInt();
+		for (int i = 1; i <= n; i++) {
+			black[i] = true;
+		}
 		for (int i = 1, u, v; i < n; i++) {
 			u = in.nextInt();
 			v = in.nextInt();
@@ -178,22 +188,22 @@ public class Code07_HideSeek1 {
 		dfs2(1, 0);
 		build(1, cntd, 1);
 		m = in.nextInt();
-		int offCnt = n;
+		int blackCnt = n;
 		char op;
 		for (int i = 1, x; i <= m; i++) {
 			op = in.nextChar();
 			if (op == 'C') {
 				x = in.nextInt();
-				light[x] = !light[x];
-				if (!light[x]) {
-					offCnt++;
+				black[x] = !black[x];
+				if (black[x]) {
+					blackCnt++;
 				} else {
-					offCnt--;
+					blackCnt--;
 				}
 				update(dfn[x], 1, cntd, 1);
 			} else {
-				if (offCnt <= 1) {
-					out.println(offCnt - 1);
+				if (blackCnt <= 1) {
+					out.println(blackCnt - 1);
 				} else {
 					out.println(dist[1]);
 				}

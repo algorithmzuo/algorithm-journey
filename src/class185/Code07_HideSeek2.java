@@ -1,6 +1,13 @@
 package class185;
 
 // 捉迷藏，正解是树的括号序，C++版
+// 树上有n个点，点的初始颜色为黑，给定n-1条边，边权都是1
+// 一共有m条操作，每条操作是如下两种类型中的一种
+// 操作 C x : 改变点x的颜色，黑变成白，白变成黑
+// 操作 G   : 打印树上最远的两个黑色点的距离
+//            如果只有一个黑点打印0，如果无黑点打印-1
+// 1 <= n <= 10^5
+// 1 <= m <= 5 * 10^5
 // 测试链接 : https://www.luogu.com.cn/problem/P2056
 // 如下实现是C++的版本，C++版本和java版本逻辑完全一样
 // 提交如下代码，可以通过所有测试用例
@@ -16,7 +23,7 @@ package class185;
 //const int PAR = -1;
 //const int PAL = -2;
 //int n, m;
-//bool light[MAXN];
+//bool black[MAXN];
 //
 //int head[MAXN];
 //int nxt[MAXN << 1];
@@ -33,7 +40,7 @@ package class185;
 //int lminus[MAXT];
 //int radd[MAXT];
 //int rminus[MAXT];
-//int distv[MAXT];
+//int dist[MAXT];
 //
 //void addEdge(int u, int v) {
 //    nxt[++cntg] = head[u];
@@ -57,12 +64,12 @@ package class185;
 //void setSingle(int i, int v) {
 //    pr[i] = pl[i] = 0;
 //    ladd[i] = lminus[i] = radd[i] = rminus[i] = -INF;
-//    distv[i] = -INF;
+//    dist[i] = -INF;
 //    if (v == PAR) {
 //        pr[i] = 1;
 //    } else if (v == PAL) {
 //        pl[i] = 1;
-//    } else if (!light[v]) {
+//    } else if (black[v]) {
 //    	ladd[i] = lminus[i] = radd[i] = rminus[i] = 0;
 //    }
 //}
@@ -81,7 +88,7 @@ package class185;
 //    lminus[i] = max(lminus[l], pl[l] - pr[l] + lminus[r]);
 //    radd[i] = max(radd[r], max(radd[l] - pr[r] + pl[r], rminus[l] + pr[r] + pl[r]));
 //    rminus[i] = max(rminus[r], rminus[l] + pr[r] - pl[r]);
-//    distv[i] = max(max(distv[l], distv[r]), max(radd[l] + lminus[r], ladd[r] + rminus[l]));
+//    dist[i] = max(max(dist[l], dist[r]), max(radd[l] + lminus[r], ladd[r] + rminus[l]));
 //}
 //
 //void build(int l, int r, int i) {
@@ -113,6 +120,9 @@ package class185;
 //    ios::sync_with_stdio(false);
 //    cin.tie(nullptr);
 //    cin >> n;
+//    for (int i = 1; i <= n; i++) {
+//        black[i] = true;
+//    }
 //    for (int i = 1, u, v; i < n; i++) {
 //        cin >> u >> v;
 //        addEdge(u, v);
@@ -121,24 +131,24 @@ package class185;
 //    dfs(1, 0);
 //    build(1, cntd, 1);
 //    cin >> m;
-//    int offCnt = n;
+//    int blackCnt = n;
 //    char op;
 //    for (int i = 1, x; i <= m; i++) {
 //        cin >> op;
 //        if (op == 'C') {
 //            cin >> x;
-//            light[x] = !light[x];
-//            if (!light[x]) {
-//                offCnt++;
+//            black[x] = !black[x];
+//            if (black[x]) {
+//                blackCnt++;
 //            } else {
-//                offCnt--;
+//                blackCnt--;
 //            }
 //            update(dfn[x], 1, cntd, 1);
 //        } else {
-//            if (offCnt <= 1) {
-//                cout << (offCnt - 1) << '\n';
+//            if (blackCnt <= 1) {
+//                cout << (blackCnt - 1) << '\n';
 //            } else {
-//                cout << distv[1] << '\n';
+//                cout << dist[1] << '\n';
 //            }
 //        }
 //    }
