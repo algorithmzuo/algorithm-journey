@@ -36,8 +36,6 @@ package class185;
 //bool vis[MAXN];
 //int siz[MAXN];
 //
-//int tree[MAXN];
-//
 //Node arrx[MAXN];
 //int cntx;
 //
@@ -45,6 +43,7 @@ package class185;
 //int cnty;
 //
 //int pos[MAXN];
+//int tree[MAXN];
 //
 //int ans[MAXN];
 //

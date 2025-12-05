@@ -30,8 +30,6 @@ public class Code06_ChengDu1 {
 	public static boolean[] vis = new boolean[MAXN];
 	public static int[] siz = new int[MAXN];
 
-	public static int[] tree = new int[MAXN];
-
 	public static int[] xl = new int[MAXN];
 	public static int[] xr = new int[MAXN];
 	public static int[] xid = new int[MAXN];
@@ -43,6 +41,7 @@ public class Code06_ChengDu1 {
 	public static int cnty;
 
 	public static int[] pos = new int[MAXN];
+	public static int[] tree = new int[MAXN];
 
 	public static int[] ans = new int[MAXN];
 
