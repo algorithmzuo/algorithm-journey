@@ -135,18 +135,18 @@ public class Code03_AtmTree1 {
 		}
 	}
 
-	public static int add(int jobi, int l, int r, int i) {
+	public static int add(int jobi, int jobv, int l, int r, int i) {
 		if (i == 0) {
 			i = ++cntt;
 		}
 		if (l == r) {
-			sum[i]++;
+			sum[i] += jobv;
 		} else {
 			int mid = (l + r) >> 1;
 			if (jobi <= mid) {
-				ls[i] = add(jobi, l, mid, ls[i]);
+				ls[i] = add(jobi, jobv, l, mid, ls[i]);
 			} else {
-				rs[i] = add(jobi, mid + 1, r, rs[i]);
+				rs[i] = add(jobi, jobv, mid + 1, r, rs[i]);
 			}
 			sum[i] = sum[ls[i]] + sum[rs[i]];
 		}
@@ -172,31 +172,22 @@ public class Code03_AtmTree1 {
 	}
 
 	public static void add(int x) {
-		int cur = x, pre = 0, distance;
-		while (cur > 0) {
-			distance = getDist(cur, x);
-			addTree[cur] = add(distance, 0, sumw, addTree[cur]);
-			if (pre > 0) {
-				minusTree[pre] = add(distance, 0, sumw, minusTree[pre]);
-			}
-			pre = cur;
-			cur = centfa[cur];
+		addTree[x] = add(0, 1, 0, sumw, addTree[x]);
+		for (int cur = x, fa = centfa[cur]; fa > 0; cur = fa, fa = centfa[cur]) {
+			int dist = getDist(x, fa);
+			addTree[fa] = add(dist, 1, 0, sumw, addTree[fa]);
+			minusTree[cur] = add(dist, 1, 0, sumw, minusTree[cur]);
 		}
 	}
 
 	public static int query(int x, int limit) {
-		int ans = 0;
-		int cur = x, pre = 0, distance;
-		while (cur > 0) {
-			distance = getDist(cur, x);
-			if (limit - distance >= 0) {
-				ans += query(0, limit - distance, 0, sumw, addTree[cur]);
-				if (pre > 0) {
-					ans -= query(0, limit - distance, 0, sumw, minusTree[pre]);
-				}
+		int ans = query(0, limit, 0, sumw, addTree[x]);
+		for (int cur = x, fa = centfa[cur]; fa > 0; cur = fa, fa = centfa[cur]) {
+			int dist = getDist(x, fa);
+			if (limit - dist >= 0) {
+				ans += query(0, limit - dist, 0, sumw, addTree[fa]);
+				ans -= query(0, limit - dist, 0, sumw, minusTree[cur]);
 			}
-			pre = cur;
-			cur = centfa[cur];
 		}
 		return ans;
 	}
