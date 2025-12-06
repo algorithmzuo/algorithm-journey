@@ -162,31 +162,22 @@ package class185;
 //}
 //
 //void add(int x, int k, int v) {
-//    int cur = x, pre = 0, dist;
-//    while (cur > 0) {
-//        dist = getDist(cur, x);
+//    addTree[x] = add(k, v, 0, n - 1, addTree[x]);
+//    for (int cur = x, fa = centfa[cur]; fa > 0; cur = fa, fa = centfa[cur]) {
+//        int dist = getDist(x, fa);
 //        if (k - dist >= 0) {
-//            addTree[cur] = add(k - dist, v, 0, n - 1, addTree[cur]);
-//            if (pre > 0) {
-//                minusTree[pre] = add(k - dist, v, 0, n - 1, minusTree[pre]);
-//            }
+//            addTree[fa] = add(k - dist, v, 0, n - 1, addTree[fa]);
+//            minusTree[cur] = add(k - dist, v, 0, n - 1, minusTree[cur]);
 //        }
-//        pre = cur;
-//        cur = centfa[cur];
 //    }
 //}
 //
 //int query(int x) {
-//    int ans = 0;
-//    int cur = x, pre = 0, dist;
-//    while (cur > 0) {
-//        dist = getDist(cur, x);
-//        ans += query(dist, n - 1, 0, n - 1, addTree[cur]);
-//        if (pre > 0) {
-//            ans -= query(dist, n - 1, 0, n - 1, minusTree[pre]);
-//        }
-//        pre = cur;
-//        cur = centfa[cur];
+//    int ans = query(0, n - 1, 0, n - 1, addTree[x]);
+//    for (int cur = x, fa = centfa[cur]; fa > 0; cur = fa, fa = centfa[cur]) {
+//        int dist = getDist(x, fa);
+//        ans += query(dist, n - 1, 0, n - 1, addTree[fa]);
+//        ans -= query(dist, n - 1, 0, n - 1, minusTree[cur]);
 //    }
 //    return ans;
 //}
