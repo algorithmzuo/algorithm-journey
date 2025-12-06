@@ -296,31 +296,22 @@ public class Code01_Wave1 {
 	}
 
 	public static void add(int x, int v) {
-		int cur = x, pre = 0, dist;
-		while (cur > 0) {
-			dist = getDist(cur, x);
-			addTree[cur] = add(dist, v, 0, n - 1, addTree[cur]);
-			if (pre > 0) {
-				minusTree[pre] = add(dist, v, 0, n - 1, minusTree[pre]);
-			}
-			pre = cur;
-			cur = centfa[cur];
+		addTree[x] = add(0, v, 0, n - 1, addTree[x]);
+		for (int cur = x, fa = centfa[cur]; fa > 0; cur = fa, fa = centfa[cur]) {
+			int dist = getDist(x, fa);
+			addTree[fa] = add(dist, v, 0, n - 1, addTree[fa]);
+			minusTree[cur] = add(dist, v, 0, n - 1, minusTree[cur]);
 		}
 	}
 
 	public static int query(int x, int k) {
-		int ans = 0;
-		int cur = x, pre = 0, dist;
-		while (cur > 0) {
-			dist = getDist(cur, x);
+		int ans = query(0, k, 0, n - 1, addTree[x]);
+		for (int cur = x, fa = centfa[cur]; fa > 0; cur = fa, fa = centfa[cur]) {
+			int dist = getDist(x, fa);
 			if (k - dist >= 0) {
-				ans += query(0, k - dist, 0, n - 1, addTree[cur]);
-				if (pre > 0) {
-					ans -= query(0, k - dist, 0, n - 1, minusTree[pre]);
-				}
+				ans += query(0, k - dist, 0, n - 1, addTree[fa]);
+				ans -= query(0, k - dist, 0, n - 1, minusTree[cur]);
 			}
-			pre = cur;
-			cur = centfa[cur];
 		}
 		return ans;
 	}
