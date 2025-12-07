@@ -17,7 +17,6 @@ package class185;
 //using namespace std;
 //
 //const int MAXN = 100001;
-//const int MAXH = 18;
 //const int MAXT = 10000001;
 //int n, m;
 //int arr[MAXN];

@@ -19,7 +19,6 @@ import java.io.PrintWriter;
 public class Code01_Wave1 {
 
 	public static int MAXN = 100001;
-	public static int MAXH = 18;
 	public static int MAXT = 10000001;
 	public static int n, m;
 	public static int[] arr = new int[MAXN];
