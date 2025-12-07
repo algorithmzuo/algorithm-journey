@@ -2,9 +2,9 @@ package class185;
 
 // 幻想乡战略游戏，C++版
 // 树上有n个点，每个点的初始点权是0，给定n-1条边，每条边有边权
-// 如果点x是指挥点，它指挥点y的成本 = x到y的简单路径权值和 * y的点权
-// 树上存在某个最佳的指挥点，指挥所有点的总成本最小，叫做最小指挥总成本
-// 一共m条操作，格式 x v : 先把x的点权增加v，然后打印此时的最小指挥总成本
+// 如果点x是指挥点，它指挥点y的花费 = x到y的简单路径权值和 * y的点权
+// 树上存在某个最佳的指挥点，指挥所有点的总花费最小，叫做最小指挥总花费
+// 一共m条操作，格式 x v : 先把x的点权增加v，然后打印此时的最小指挥总花费
 // 注意参数v有可能是负数，但题目保证任何时候，点权不会出现负数
 // 1 <= n、m <= 10^5
 // 1 <= 边权 <= 1000
@@ -37,9 +37,9 @@ package class185;
 //bool vis[MAXN];
 //int centfa[MAXN];
 //
-//long long num[MAXN];
-//long long xsum[MAXN];
-//long long fsum[MAXN];
+//long long sum[MAXN];
+//long long addCost[MAXN];
+//long long minusCost[MAXN];
 //
 //void addEdge(int u, int v, int w) {
 //    nxt[++cntg] = head[u];
@@ -144,21 +144,22 @@ package class185;
 //}
 //
 //void add(int x, int v) {
-//    num[x] += v;
-//    for (int cur = x, f = centfa[cur]; f > 0; cur = f, f = centfa[cur]) {
-//        int dist = getDist(x, f);
-//        num[f] += v;
-//        xsum[f] += 1LL * v * dist;
-//        fsum[cur] += 1LL * v * dist;
+//    sum[x] += v;
+//    for (int cur = x, fa = centfa[cur]; fa > 0; cur = fa, fa = centfa[cur]) {
+//        int dist = getDist(x, fa);
+//        sum[fa] += v;
+//        addCost[fa] += 1LL * v * dist;
+//        minusCost[cur] += 1LL * v * dist;
 //    }
 //}
 //
 //long long query(int x) {
-//    long long ans = xsum[x];
-//    for (int cur = x, f = centfa[cur]; f > 0; cur = f, f = centfa[cur]) {
-//        int dist = getDist(x, f);
-//        ans += (num[f] - num[cur]) * dist;
-//        ans += (xsum[f] - fsum[cur]);
+//    long long ans = addCost[x];
+//    for (int cur = x, fa = centfa[cur]; fa > 0; cur = fa, fa = centfa[cur]) {
+//        int dist = getDist(x, fa);
+//        ans += addCost[fa];
+//        ans -= minusCost[cur];
+//        ans += (sum[fa] - sum[cur]) * dist;
 //    }
 //    return ans;
 //}

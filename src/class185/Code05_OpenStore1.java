@@ -17,7 +17,7 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
-public class Code04_OpenStore1 {
+public class Code05_OpenStore1 {
 
 	public static int MAXN = 200001;
 	public static int MAXK = 10000001;
