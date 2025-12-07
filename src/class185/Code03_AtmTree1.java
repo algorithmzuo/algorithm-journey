@@ -171,12 +171,12 @@ public class Code03_AtmTree1 {
 		return ans;
 	}
 
-	public static void add(int x) {
-		addTree[x] = add(0, 1, 0, sumw, addTree[x]);
+	public static void add(int x, int v) {
+		addTree[x] = add(0, v, 0, sumw, addTree[x]);
 		for (int cur = x, fa = centfa[cur]; fa > 0; cur = fa, fa = centfa[cur]) {
 			int dist = getDist(x, fa);
-			addTree[fa] = add(dist, 1, 0, sumw, addTree[fa]);
-			minusTree[cur] = add(dist, 1, 0, sumw, minusTree[cur]);
+			addTree[fa] = add(dist, v, 0, sumw, addTree[fa]);
+			minusTree[cur] = add(dist, v, 0, sumw, minusTree[cur]);
 		}
 	}
 
@@ -223,7 +223,7 @@ public class Code03_AtmTree1 {
 		dfs(1, 0, 0);
 		centroidTree(getCentroid(1, 0), 0);
 		for (int i = 1; i <= n; i++) {
-			add(i);
+			add(i, 1);
 		}
 		for (int i = 1; i <= n; i++) {
 			out.println(compute(i));
