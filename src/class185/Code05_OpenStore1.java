@@ -17,7 +17,7 @@ import java.io.PrintWriter;
 public class Code05_OpenStore1 {
 
 	public static int MAXN = 200001;
-	public static int MAXK = 10000001;
+	public static int MAXK = 4000001;
 	public static int n, m, A;
 	public static int[] age = new int[MAXN];
 
@@ -355,7 +355,7 @@ public class Code05_OpenStore1 {
 
 	public static long nodeCnt, pathSum;
 
-	// 下标范围[l...r]代表当前的列表，找到年龄范围[agel, ager]的人
+	// 下标范围[l...r]代表当前节点的列表，找到年龄范围[agel, ager]的人
 	// 查到的人数设置给nodeCnt，查到的距离总和设置给pathSum
 	public static void query(int[] age, long[] sum, int l, int r, int agel, int ager) {
 		nodeCnt = pathSum = 0;

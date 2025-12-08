@@ -24,7 +24,7 @@ package class185;
 //}
 //
 //const int MAXN = 200001;
-//const int MAXK = 10000001;
+//const int MAXK = 4000001;
 //int n, m, A;
 //int age[MAXN];
 //
