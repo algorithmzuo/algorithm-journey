@@ -34,15 +34,15 @@ public class Code06_ChengDu1 {
 	public static boolean[] vis = new boolean[MAXN];
 	public static int[] siz = new int[MAXN];
 
-	public static int[] xl = new int[MAXN];
-	public static int[] xr = new int[MAXN];
-	public static int[] xid = new int[MAXN];
-	public static int cntx;
+	public static int[] nodel = new int[MAXN];
+	public static int[] noder = new int[MAXN];
+	public static int[] ncolor = new int[MAXN];
+	public static int cntNode;
 
-	public static int[] yl = new int[MAXN];
-	public static int[] yr = new int[MAXN];
-	public static int[] yid = new int[MAXN];
-	public static int cnty;
+	public static int[] quesl = new int[MAXN];
+	public static int[] quesr = new int[MAXN];
+	public static int[] quesid = new int[MAXN];
+	public static int cntQues;
 
 	public static int[] pos = new int[MAXN];
 	public static int[] tree = new int[MAXN];
@@ -175,17 +175,14 @@ public class Code06_ChengDu1 {
 	}
 
 	public static void dfs1(int u, int fa, int nl, int nr) {
-		xl[++cntx] = nl;
-		xr[cntx] = nr;
-		xid[cntx] = color[u];
-		for (int e = headq[u]; e > 0; e = nxtq[e]) {
-			int qui = qid[e];
-			int qul = ql[e];
-			int qur = qr[e];
-			if (qul <= nl && nr <= qur) {
-				yl[++cnty] = qul;
-				yr[cnty] = qur;
-				yid[cnty] = qui;
+		nodel[++cntNode] = nl;
+		noder[cntNode] = nr;
+		ncolor[cntNode] = color[u];
+		for (int ei = headq[u]; ei > 0; ei = nxtq[ei]) {
+			if (ql[ei] <= nl && nr <= qr[ei]) {
+				quesl[++cntQues] = ql[ei];
+				quesr[cntQues] = qr[ei];
+				quesid[cntQues] = qid[ei];
 			}
 		}
 		for (int e = headg[u]; e > 0; e = nxtg[e]) {
@@ -197,23 +194,20 @@ public class Code06_ChengDu1 {
 	}
 
 	// dfs1的迭代版
-	public static void dfs2(int cur, int fa, int nodel, int noder) {
+	public static void dfs2(int cur, int fa, int nodeMin, int nodeMax) {
 		stacksize = 0;
-		push(cur, fa, nodel, noder, -1);
+		push(cur, fa, nodeMin, nodeMax, -1);
 		while (stacksize > 0) {
 			pop();
 			if (e == -1) {
-				xl[++cntx] = nl;
-				xr[cntx] = nr;
-				xid[cntx] = color[u];
-				for (int e = headq[u]; e > 0; e = nxtq[e]) {
-					int qui = qid[e];
-					int qul = ql[e];
-					int qur = qr[e];
-					if (qul <= nl && nr <= qur) {
-						yl[++cnty] = qul;
-						yr[cnty] = qur;
-						yid[cnty] = qui;
+				nodel[++cntNode] = nl;
+				noder[cntNode] = nr;
+				ncolor[cntNode] = color[u];
+				for (int ei = headq[u]; ei > 0; ei = nxtq[ei]) {
+					if (ql[ei] <= nl && nr <= qr[ei]) {
+						quesl[++cntQues] = ql[ei];
+						quesr[cntQues] = qr[ei];
+						quesid[cntQues] = qid[ei];
 					}
 				}
 				e = headg[u];
@@ -248,25 +242,26 @@ public class Code06_ChengDu1 {
 	}
 
 	public static void calc(int u) {
-		cntx = cnty = 0;
+		cntNode = 0;
+		cntQues = 0;
 		// dfs1(u, 0, u, u);
 		dfs2(u, 0, u, u);
-		sort(xl, xr, xid, 1, cntx);
-		sort(yl, yr, yid, 1, cnty);
-		for (int i = 1, j = 1; i <= cnty; i++) {
-			while (j <= cntx && xr[j] <= yr[i]) {
-				if (xl[j] > pos[xid[j]]) {
-					add(pos[xid[j]], -1);
-					pos[xid[j]] = xl[j];
-					add(pos[xid[j]], 1);
+		sort(nodel, noder, ncolor, 1, cntNode);
+		sort(quesl, quesr, quesid, 1, cntQues);
+		for (int i = 1, j = 1; i <= cntQues; i++) {
+			while (j <= cntNode && noder[j] <= quesr[i]) {
+				if (nodel[j] > pos[ncolor[j]]) {
+					add(pos[ncolor[j]], -1);
+					pos[ncolor[j]] = nodel[j];
+					add(pos[ncolor[j]], 1);
 				}
 				j++;
 			}
-			ans[yid[i]] = Math.max(ans[yid[i]], query(yl[i], n));
+			ans[quesid[i]] = Math.max(ans[quesid[i]], query(quesl[i], n));
 		}
-		for (int i = 1; i <= cntx; i++) {
-			add(pos[xid[i]], -1);
-			pos[xid[i]] = 0;
+		for (int i = 1; i <= cntNode; i++) {
+			add(pos[ncolor[i]], -1);
+			pos[ncolor[i]] = 0;
 		}
 	}
 

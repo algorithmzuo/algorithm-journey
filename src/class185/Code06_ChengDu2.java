@@ -14,10 +14,18 @@ package class185;
 //using namespace std;
 //
 //struct Node {
-//    int l, r, id;
+//    int l, r, color;
+//};
+//
+//struct Ques {
+//    int l, r, qid;
 //};
 //
 //bool NodeCmp(Node x, Node y) {
+//    return x.r < y.r;
+//}
+//
+//bool QuesCmp(Ques x, Ques y) {
 //    return x.r < y.r;
 //}
 //
@@ -40,11 +48,11 @@ package class185;
 //bool vis[MAXN];
 //int siz[MAXN];
 //
-//Node arrx[MAXN];
-//int cntx;
+//Node nodeArr[MAXN];
+//int cntNode;
 //
-//Node arry[MAXN];
-//int cnty;
+//Ques quesArr[MAXN];
+//int cntQues;
 //
 //int pos[MAXN];
 //int tree[MAXN];
@@ -123,13 +131,10 @@ package class185;
 //}
 //
 //void dfs(int u, int fa, int nl, int nr) {
-//    arrx[++cntx] = { nl, nr, color[u] };
+//    nodeArr[++cntNode] = { nl, nr, color[u] };
 //    for (int e = headq[u]; e > 0; e = nxtq[e]) {
-//        int qui = qid[e];
-//        int qul = ql[e];
-//        int qur = qr[e];
-//        if (qul <= nl && nr <= qur) {
-//            arry[++cnty] = { qul, qur, qui };
+//        if (ql[e] <= nl && nr <= qr[e]) {
+//            quesArr[++cntQues] = { ql[e], qr[e], qid[e] };
 //        }
 //    }
 //    for (int e = headg[u]; e > 0; e = nxtg[e]) {
@@ -141,24 +146,25 @@ package class185;
 //}
 //
 //void calc(int u) {
-//    cntx = cnty = 0;
+//    cntNode = 0;
+//    cntQues = 0;
 //    dfs(u, 0, u, u);
-//    sort(arrx + 1, arrx + cntx + 1, NodeCmp);
-//    sort(arry + 1, arry + cnty + 1, NodeCmp);
-//    for (int i = 1, j = 1; i <= cnty; i++) {
-//        while (j <= cntx && arrx[j].r <= arry[i].r) {
-//            if (arrx[j].l > pos[arrx[j].id]) {
-//                add(pos[arrx[j].id], -1);
-//                pos[arrx[j].id] = arrx[j].l;
-//                add(pos[arrx[j].id], 1);
+//    sort(nodeArr + 1, nodeArr + cntNode + 1, NodeCmp);
+//    sort(quesArr + 1, quesArr + cntQues + 1, QuesCmp);
+//    for (int i = 1, j = 1; i <= cntQues; i++) {
+//        while (j <= cntNode && nodeArr[j].r <= quesArr[i].r) {
+//            if (nodeArr[j].l > pos[nodeArr[j].color]) {
+//                add(pos[nodeArr[j].color], -1);
+//                pos[nodeArr[j].color] = nodeArr[j].l;
+//                add(pos[nodeArr[j].color], 1);
 //            }
 //            j++;
 //        }
-//        ans[arry[i].id] = max(ans[arry[i].id], query(arry[i].l, n));
+//        ans[quesArr[i].qid] = max(ans[quesArr[i].qid], query(quesArr[i].l, n));
 //    }
-//    for (int i = 1; i <= cntx; i++) {
-//        add(pos[arrx[i].id], -1);
-//        pos[arrx[i].id] = 0;
+//    for (int i = 1; i <= cntNode; i++) {
+//        add(pos[nodeArr[i].color], -1);
+//        pos[nodeArr[i].color] = 0;
 //    }
 //}
 //
