@@ -4,10 +4,8 @@ package class185;
 // 树上有n个人，每个人有年龄，给定n-1条路，每条路有距离
 // 一共有m次查询，格式如下
 // 查询 u l r : 年龄在[l, r]的所有人，打印他们到第u号人的距离总和
-// 1 <= n <= 1.5 * 10^5
-// 1 <= m <= 2 * 10^5
-// 0 <= 人的年龄 <= 10^9
-// 1 <= 路的距离 <= 1000
+// 1 <= n <= 1.5 * 10^5    1 <= m <= 2 * 10^5
+// 0 <= 年龄值 <= 10^9      1 <= 距离值 <= 1000
 // 本题要求强制在线，得到操作参数的规则，打开测试链接查看
 // 测试链接 : https://www.luogu.com.cn/problem/P3241
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
@@ -40,16 +38,16 @@ public class Code05_OpenStore1 {
 	public static boolean[] vis = new boolean[MAXN];
 	public static int[] centfa = new int[MAXN];
 
-	public static int[] xl = new int[MAXN];
-	public static int[] xr = new int[MAXN];
-	public static int[] xage = new int[MAXK];
-	public static long[] xsum = new long[MAXK];
-	public static int cntx;
+	public static int[] curl = new int[MAXN];
+	public static int[] curr = new int[MAXN];
+	public static int[] curAge = new int[MAXK];
+	public static long[] curSum = new long[MAXK];
+	public static int cntc;
 
-	public static int[] fl = new int[MAXN];
-	public static int[] fr = new int[MAXN];
-	public static int[] fage = new int[MAXK];
-	public static long[] fsum = new long[MAXK];
+	public static int[] fal = new int[MAXN];
+	public static int[] far = new int[MAXN];
+	public static int[] faAge = new int[MAXK];
+	public static long[] faSum = new long[MAXK];
 	public static int cntf;
 
 	// 讲解118，递归函数改成迭代所需要的栈
@@ -257,11 +255,11 @@ public class Code05_OpenStore1 {
 	}
 
 	public static void collect1(int u, int fa, int sum, int rt) {
-		xage[++cntx] = age[u];
-		xsum[cntx] = sum;
+		curAge[++cntc] = age[u];
+		curSum[cntc] = sum;
 		if (centfa[rt] > 0) {
-			fage[++cntf] = age[u];
-			fsum[cntf] = getDist(u, centfa[rt]);
+			faAge[++cntf] = age[u];
+			faSum[cntf] = getDist(u, centfa[rt]);
 		}
 		for (int e = head[u]; e > 0; e = nxt[e]) {
 			int v = to[e];
@@ -278,11 +276,11 @@ public class Code05_OpenStore1 {
 		while (stacksize > 0) {
 			pop();
 			if (e == -1) {
-				xage[++cntx] = age[u];
-				xsum[cntx] = a;
+				curAge[++cntc] = age[u];
+				curSum[cntc] = a;
 				if (centfa[b] > 0) {
-					fage[++cntf] = age[u];
-					fsum[cntf] = getDist(u, centfa[b]);
+					faAge[++cntf] = age[u];
+					faSum[cntf] = getDist(u, centfa[b]);
 				}
 				e = head[u];
 			} else {
@@ -302,12 +300,12 @@ public class Code05_OpenStore1 {
 	public static void centroidTree(int u, int fa) {
 		centfa[u] = fa;
 		vis[u] = true;
-		xl[u] = cntx + 1;
-		fl[u] = cntf + 1;
+		curl[u] = cntc + 1;
+		fal[u] = cntf + 1;
 		// collect1(u, 0, 0, u);
 		collect2(u, 0, 0, u);
-		xr[u] = cntx;
-		fr[u] = cntf;
+		curr[u] = cntc;
+		far[u] = cntf;
 		for (int e = head[u]; e > 0; e = nxt[e]) {
 			int v = to[e];
 			if (!vis[v]) {
@@ -361,19 +359,19 @@ public class Code05_OpenStore1 {
 		}
 	}
 
-	public static long compute(int u, int agel, int ager) {
-		query(xage, xsum, xl[u], xr[u], agel, ager);
+	public static long compute(int x, int agel, int ager) {
+		query(curAge, curSum, curl[x], curr[x], agel, ager);
 		long ans = pathSum;
 		long cnt1, sum1, cnt2, sum2;
-		for (int cur = u, fa = centfa[cur]; fa > 0; cur = fa, fa = centfa[cur]) {
-			query(xage, xsum, xl[fa], xr[fa], agel, ager);
+		for (int cur = x, fa = centfa[cur]; fa > 0; cur = fa, fa = centfa[cur]) {
+			query(curAge, curSum, curl[fa], curr[fa], agel, ager);
 			cnt1 = nodeCnt;
 			sum1 = pathSum;
-			query(fage, fsum, fl[cur], fr[cur], agel, ager);
+			query(faAge, faSum, fal[cur], far[cur], agel, ager);
 			cnt2 = nodeCnt;
 			sum2 = pathSum;
 			ans += sum1 - sum2;
-			ans += (cnt1 - cnt2) * getDist(u, fa);
+			ans += (cnt1 - cnt2) * getDist(x, fa);
 		}
 		return ans;
 	}
@@ -400,13 +398,13 @@ public class Code05_OpenStore1 {
 		dfs4(1, 1);
 		centroidTree(getCentroid(1, 0), 0);
 		for (int i = 1; i <= n; i++) {
-			sort(xage, xsum, xl[i], xr[i]);
-			for (int j = xl[i] + 1; j <= xr[i]; j++) {
-				xsum[j] += xsum[j - 1];
+			sort(curAge, curSum, curl[i], curr[i]);
+			for (int j = curl[i] + 1; j <= curr[i]; j++) {
+				curSum[j] += curSum[j - 1];
 			}
-			sort(fage, fsum, fl[i], fr[i]);
-			for (int j = fl[i] + 1; j <= fr[i]; j++) {
-				fsum[j] += fsum[j - 1];
+			sort(faAge, faSum, fal[i], far[i]);
+			for (int j = fal[i] + 1; j <= far[i]; j++) {
+				faSum[j] += faSum[j - 1];
 			}
 		}
 		long lastAns = 0;

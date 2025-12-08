@@ -4,10 +4,8 @@ package class185;
 // 树上有n个人，每个人有年龄，给定n-1条路，每条路有距离
 // 一共有m次查询，格式如下
 // 查询 u l r : 年龄在[l, r]的所有人，打印他们到第u号人的距离总和
-// 1 <= n <= 1.5 * 10^5
-// 1 <= m <= 2 * 10^5
-// 0 <= 人的年龄 <= 10^9
-// 1 <= 路的距离 <= 1000
+// 1 <= n <= 1.5 * 10^5    1 <= m <= 2 * 10^5
+// 0 <= 年龄值 <= 10^9      1 <= 距离值 <= 1000
 // 本题要求强制在线，得到操作参数的规则，打开测试链接查看
 // 测试链接 : https://www.luogu.com.cn/problem/P3241
 // 如下实现是C++的版本，C++版本和java版本逻辑完全一样
@@ -47,14 +45,14 @@ package class185;
 //bool vis[MAXN];
 //int centfa[MAXN];
 //
-//int xl[MAXN];
-//int xr[MAXN];
-//Node xarr[MAXK];
-//int cntx;
+//int curl[MAXN];
+//int curr[MAXN];
+//Node curArr[MAXK];
+//int cntc;
 //
-//int fl[MAXN];
-//int fr[MAXN];
-//Node farr[MAXK];
+//int fal[MAXN];
+//int far[MAXN];
+//Node faArr[MAXK];
 //int cntf;
 //
 //void addEdge(int u, int v, int w) {
@@ -147,9 +145,9 @@ package class185;
 //}
 //
 //void collect(int u, int f, int sum, int rt) {
-//    xarr[++cntx] = { age[u], sum };
+//    curArr[++cntc] = { age[u], sum };
 //    if (centfa[rt] > 0) {
-//        farr[++cntf] = { age[u], getDist(u, centfa[rt]) };
+//        faArr[++cntf] = { age[u], getDist(u, centfa[rt]) };
 //    }
 //    for (int e = head[u]; e; e = nxt[e]) {
 //        int v = to[e];
@@ -163,11 +161,11 @@ package class185;
 //void centroidTree(int u, int f) {
 //    centfa[u] = f;
 //    vis[u] = true;
-//    xl[u] = cntx + 1;
-//    fl[u] = cntf + 1;
+//    curl[u] = cntc + 1;
+//    fal[u] = cntf + 1;
 //    collect(u, 0, 0, u);
-//    xr[u] = cntx;
-//    fr[u] = cntf;
+//    curr[u] = cntc;
+//    far[u] = cntf;
 //    for (int e = head[u]; e; e = nxt[e]) {
 //        int v = to[e];
 //        if (!vis[v]) {
@@ -205,14 +203,14 @@ package class185;
 //}
 //
 //long long compute(int u, int agel, int ager) {
-//    query(xarr, xl[u], xr[u], agel, ager);
+//    query(curArr, curl[u], curr[u], agel, ager);
 //    long long ans = pathSum;
 //    long long cnt1, sum1, cnt2, sum2;
 //    for (int cur = u, f = centfa[cur]; f > 0; cur = f, f = centfa[cur]) {
-//        query(xarr, xl[f], xr[f], agel, ager);
+//        query(curArr, curl[f], curr[f], agel, ager);
 //        cnt1 = nodeCnt;
 //        sum1 = pathSum;
-//        query(farr, fl[cur], fr[cur], agel, ager);
+//        query(faArr, fal[cur], far[cur], agel, ager);
 //        cnt2 = nodeCnt;
 //        sum2 = pathSum;
 //        ans += sum1 - sum2;
@@ -237,13 +235,13 @@ package class185;
 //    dfs2(1, 1);
 //    centroidTree(getCentroid(1, 0), 0);
 //    for (int i = 1; i <= n; i++) {
-//        sort(xarr + xl[i], xarr + xr[i] + 1, NodeCmp);
-//        for (int j = xl[i] + 1; j <= xr[i]; j++) {
-//            xarr[j].sum += xarr[j - 1].sum;
+//        sort(curArr + curl[i], curArr + curr[i] + 1, NodeCmp);
+//        for (int j = curl[i] + 1; j <= curr[i]; j++) {
+//            curArr[j].sum += curArr[j - 1].sum;
 //        }
-//        sort(farr + fl[i], farr + fr[i] + 1, NodeCmp);
-//        for (int j = fl[i] + 1; j <= fr[i]; j++) {
-//            farr[j].sum += farr[j - 1].sum;
+//        sort(faArr + fal[i], faArr + far[i] + 1, NodeCmp);
+//        for (int j = fal[i] + 1; j <= far[i]; j++) {
+//            faArr[j].sum += faArr[j - 1].sum;
 //        }
 //    }
 //    long long lastAns = 0;
