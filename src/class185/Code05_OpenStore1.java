@@ -37,14 +37,14 @@ public class Code05_OpenStore1 {
 	public static boolean[] vis = new boolean[MAXN];
 	public static int[] centfa = new int[MAXN];
 
-	// cur列表(年龄，到当前重心的距离)
+	// cur列表(年龄，到当前重心距离)
 	public static int[] curl = new int[MAXN];
 	public static int[] curr = new int[MAXN];
 	public static int[] curAge = new int[MAXK];
 	public static long[] curSum = new long[MAXK];
 	public static int cntc;
 
-	// fa列表(年龄，到上级重心的距离)
+	// fa列表(年龄，到上级重心距离)
 	public static int[] fal = new int[MAXN];
 	public static int[] far = new int[MAXN];
 	public static int[] faAge = new int[MAXK];
