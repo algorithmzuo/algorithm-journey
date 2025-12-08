@@ -253,7 +253,7 @@ public class Code05_OpenStore1 {
 		return u;
 	}
 
-	public static void collect1(int u, int fa, int sum, int rt) {
+	public static void getList1(int u, int fa, int sum, int rt) {
 		curAge[++cntc] = age[u];
 		curSum[cntc] = sum;
 		if (centfa[rt] > 0) {
@@ -264,12 +264,12 @@ public class Code05_OpenStore1 {
 			int v = to[e];
 			int w = weight[e];
 			if (v != fa && !vis[v]) {
-				collect1(v, u, sum + w, rt);
+				getList1(v, u, sum + w, rt);
 			}
 		}
 	}
 
-	public static void collect2(int cur, int father, int psum, int cen) {
+	public static void getList2(int cur, int father, int psum, int cen) {
 		stacksize = 0;
 		push(cur, father, psum, cen, -1);
 		while (stacksize > 0) {
@@ -301,8 +301,8 @@ public class Code05_OpenStore1 {
 		vis[u] = true;
 		curl[u] = cntc + 1;
 		fal[u] = cntf + 1;
-		// collect1(u, 0, 0, u);
-		collect2(u, 0, 0, u);
+		// getList1(u, 0, 0, u);
+		getList2(u, 0, 0, u);
 		curr[u] = cntc;
 		far[u] = cntf;
 		for (int e = head[u]; e > 0; e = nxt[e]) {

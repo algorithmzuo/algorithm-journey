@@ -143,7 +143,7 @@ package class185;
 //    return u;
 //}
 //
-//void collect(int u, int f, int sum, int rt) {
+//void getList(int u, int f, int sum, int rt) {
 //    curArr[++cntc] = { age[u], sum };
 //    if (centfa[rt] > 0) {
 //        faArr[++cntf] = { age[u], getDist(u, centfa[rt]) };
@@ -152,7 +152,7 @@ package class185;
 //        int v = to[e];
 //        int w = weight[e];
 //        if (v != f && !vis[v]) {
-//            collect(v, u, sum + w, rt);
+//            getList(v, u, sum + w, rt);
 //        }
 //    }
 //}
@@ -162,7 +162,7 @@ package class185;
 //    vis[u] = true;
 //    curl[u] = cntc + 1;
 //    fal[u] = cntf + 1;
-//    collect(u, 0, 0, u);
+//    getList(u, 0, 0, u);
 //    curr[u] = cntc;
 //    far[u] = cntf;
 //    for (int e = head[u]; e; e = nxt[e]) {
