@@ -37,12 +37,14 @@ public class Code05_OpenStore1 {
 	public static boolean[] vis = new boolean[MAXN];
 	public static int[] centfa = new int[MAXN];
 
+	// cur列表(年龄，到当前重心的距离)
 	public static int[] curl = new int[MAXN];
 	public static int[] curr = new int[MAXN];
 	public static int[] curAge = new int[MAXK];
 	public static long[] curSum = new long[MAXK];
 	public static int cntc;
 
+	// fa列表(年龄，到上级重心的距离)
 	public static int[] fal = new int[MAXN];
 	public static int[] far = new int[MAXN];
 	public static int[] faAge = new int[MAXK];
@@ -253,6 +255,9 @@ public class Code05_OpenStore1 {
 		return u;
 	}
 
+	// 递归版，java会爆栈，C++可以通过
+	// 来到了一片连通区，当前重心是rt，上级重心是centfa[rt]
+	// 生成两个列表，距离到当前重心的列表，距离到上级重心的列表
 	public static void getList1(int u, int fa, int sum, int rt) {
 		curAge[++cntc] = age[u];
 		curSum[cntc] = sum;
@@ -269,6 +274,7 @@ public class Code05_OpenStore1 {
 		}
 	}
 
+	// getList1的迭代版
 	public static void getList2(int cur, int father, int psum, int cen) {
 		stacksize = 0;
 		push(cur, father, psum, cen, -1);
@@ -313,6 +319,7 @@ public class Code05_OpenStore1 {
 		}
 	}
 
+	// 查询x在有序数组arr中的排名
 	public static int kth(int[] arr, int l, int r, int x) {
 		int ans = r + 1;
 		while (l <= r) {
@@ -327,6 +334,8 @@ public class Code05_OpenStore1 {
 		return ans;
 	}
 
+	// 每个对象两个属性(age, sum)，所有对象根据年龄排序
+	// java自带的排序慢，手撸双指针快排，C++实现时可以用自带的排序
 	public static void sort(int[] age, long[] sum, int l, int r) {
 		if (l >= r) return;
 		int i = l, j = r, pivot = age[(l + r) >> 1], tmp1;
@@ -346,6 +355,8 @@ public class Code05_OpenStore1 {
 
 	public static long nodeCnt, pathSum;
 
+	// 下标范围[l...r]代表当前的列表，找到年龄范围[agel, ager]的人
+	// 查到的人数设置给nodeCnt，查到的距离总和设置给pathSum
 	public static void query(int[] age, long[] sum, int l, int r, int agel, int ager) {
 		nodeCnt = pathSum = 0;
 		if (l <= r) {
@@ -369,7 +380,8 @@ public class Code05_OpenStore1 {
 			query(faAge, faSum, fal[cur], far[cur], agel, ager);
 			cnt2 = nodeCnt;
 			sum2 = pathSum;
-			ans += sum1 - sum2;
+			ans += sum1;
+			ans -= sum2;
 			ans += (cnt1 - cnt2) * getDist(x, fa);
 		}
 		return ans;

@@ -195,7 +195,7 @@ package class185;
 //        int a = kth(arr, l, r, agel);
 //        int b = kth(arr, l, r, ager + 1) - 1;
 //        if (a <= b) {
-//            nodeCnt = 1L + b - a;
+//            nodeCnt = b - a + 1;
 //            pathSum = arr[b].sum - (a == l ? 0 : arr[a - 1].sum);
 //        }
 //    }
@@ -212,8 +212,9 @@ package class185;
 //        query(faArr, fal[cur], far[cur], agel, ager);
 //        cnt2 = nodeCnt;
 //        sum2 = pathSum;
-//        ans += sum1 - sum2;
-//        ans += (cnt1 - cnt2) * 1LL * getDist(u, f);
+//        ans += sum1;
+//        ans -= sum2;
+//        ans += (cnt1 - cnt2) * getDist(u, f);
 //    }
 //    return ans;
 //}
