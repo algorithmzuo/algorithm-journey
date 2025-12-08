@@ -19,11 +19,13 @@ public class Code06_ChengDu1 {
 	public static int n, m;
 	public static int[] color = new int[MAXN];
 
+	// 建树
 	public static int[] headg = new int[MAXN];
 	public static int[] nxtg = new int[MAXN << 1];
 	public static int[] tog = new int[MAXN << 1];
 	public static int cntg;
 
+	// 每个节点的问题列表
 	public static int[] headq = new int[MAXN];
 	public static int[] nxtq = new int[MAXN];
 	public static int[] ql = new int[MAXN];
@@ -31,22 +33,27 @@ public class Code06_ChengDu1 {
 	public static int[] qid = new int[MAXN];
 	public static int cntq;
 
+	// 点分治
 	public static boolean[] vis = new boolean[MAXN];
 	public static int[] siz = new int[MAXN];
 
+	// 每来到一个重心，收集节点列表，nodel和noder是解锁条件，ncolor是节点颜色
 	public static int[] nodel = new int[MAXN];
 	public static int[] noder = new int[MAXN];
 	public static int[] ncolor = new int[MAXN];
 	public static int cntNode;
 
+	// 每来到一个重心，收集问题列表，只收集值得讨论的问题
 	public static int[] quesl = new int[MAXN];
 	public static int[] quesr = new int[MAXN];
 	public static int[] quesid = new int[MAXN];
 	public static int cntQues;
 
+	// pos[v] = i，表示颜色v的左边界，最右位置出现在i
 	public static int[] pos = new int[MAXN];
+	// 树状数组
 	public static int[] tree = new int[MAXN];
-
+	// 问题答案
 	public static int[] ans = new int[MAXN];
 
 	// 讲解118，递归函数改成迭代所需要的栈

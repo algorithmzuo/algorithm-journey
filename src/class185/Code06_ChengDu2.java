@@ -56,7 +56,6 @@ package class185;
 //
 //int pos[MAXN];
 //int tree[MAXN];
-//
 //int ans[MAXN];
 //
 //void addEdge(int u, int v) {
