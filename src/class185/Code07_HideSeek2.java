@@ -176,45 +176,45 @@ package class185;
 //    }
 //}
 //
-//void addDist(int x) {
+//void addAns(int x) {
 //    if (sonMax[x].size() >= 2) {
 //        maxDist.add(sonMax[x].first() + sonMax[x].second());
 //    }
 //}
 //
-//void delDist(int x) {
+//void delAns(int x) {
 //    if (sonMax[x].size() >= 2) {
 //        maxDist.del(sonMax[x].first() + sonMax[x].second());
 //    }
 //}
 //
 //void on(int x) {
-//    delDist(x);
+//    delAns(x);
 //    sonMax[x].del(0);
-//    addDist(x);
+//    addAns(x);
 //    for (int u = x, f = centfa[u]; f > 0; u = f, f = centfa[u]) {
-//        delDist(f);
+//        delAns(f);
 //        sonMax[f].del(distFa[u].first());
 //        distFa[u].del(getDist(x, f));
 //        if (distFa[u].size() > 0) {
 //            sonMax[f].add(distFa[u].first());
 //        }
-//        addDist(f);
+//        addAns(f);
 //    }
 //}
 //
 //void off(int x) {
-//    delDist(x);
+//    delAns(x);
 //    sonMax[x].add(0);
-//    addDist(x);
+//    addAns(x);
 //    for (int u = x, f = centfa[u]; f > 0; u = f, f = centfa[u]) {
-//        delDist(f);
+//        delAns(f);
 //        if (distFa[u].size() > 0) {
 //            sonMax[f].del(distFa[u].first());
 //        }
 //        distFa[u].add(getDist(x, f));
 //        sonMax[f].add(distFa[u].first());
-//        addDist(f);
+//        addAns(f);
 //    }
 //}
 //
@@ -234,7 +234,7 @@ package class185;
 //        }
 //    }
 //    for (int i = 1; i <= n; i++) {
-//        addDist(i);
+//        addAns(i);
 //    }
 //}
 //

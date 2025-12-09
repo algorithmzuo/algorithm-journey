@@ -86,7 +86,7 @@ public class Code07_HideSeek1 {
 	// distFa[u] : u的连通区里，每个黑点到上级重心的距离，组成的集合
 	// sonMax[u] : u的每个儿子连通区里，都选一个最远的黑点，到u的最大距离，组成的集合
 	//             如果u自己是黑点，那么0要加入集合
-	// maxDist   : 每个重心，在自己的连通区里，选两个最远的黑点，得到的最大距离，放入全局集合
+	// maxDist   : 每个重心在连通区里，选两个最远黑点的最大距离，作为自己的答案，放入全局集合
 	public static Set[] distFa = new Set[MAXN];
 	public static Set[] sonMax = new Set[MAXN];
 	public static Set maxDist = new Set();
@@ -305,45 +305,45 @@ public class Code07_HideSeek1 {
 		}
 	}
 
-	public static void addDist(int x) {
+	public static void addAns(int x) {
 		if (sonMax[x].size() >= 2) {
 			maxDist.add(sonMax[x].first() + sonMax[x].second());
 		}
 	}
 
-	public static void delDist(int x) {
+	public static void delAns(int x) {
 		if (sonMax[x].size() >= 2) {
 			maxDist.del(sonMax[x].first() + sonMax[x].second());
 		}
 	}
 
 	public static void on(int x) {
-		delDist(x);
+		delAns(x);
 		sonMax[x].del(0);
-		addDist(x);
+		addAns(x);
 		for (int u = x, fa = centfa[u]; fa > 0; u = fa, fa = centfa[u]) {
-			delDist(fa);
+			delAns(fa);
 			sonMax[fa].del(distFa[u].first());
 			distFa[u].del(getDist(x, fa));
 			if (distFa[u].size() > 0) {
 				sonMax[fa].add(distFa[u].first());
 			}
-			addDist(fa);
+			addAns(fa);
 		}
 	}
 
 	public static void off(int x) {
-		delDist(x);
+		delAns(x);
 		sonMax[x].add(0);
-		addDist(x);
+		addAns(x);
 		for (int u = x, fa = centfa[u]; fa > 0; u = fa, fa = centfa[u]) {
-			delDist(fa);
+			delAns(fa);
 			if (distFa[u].size() > 0) {
 				sonMax[fa].del(distFa[u].first());
 			}
 			distFa[u].add(getDist(x, fa));
 			sonMax[fa].add(distFa[u].first());
-			addDist(fa);
+			addAns(fa);
 		}
 	}
 
@@ -367,7 +367,7 @@ public class Code07_HideSeek1 {
 			}
 		}
 		for (int i = 1; i <= n; i++) {
-			addDist(i);
+			addAns(i);
 		}
 	}
 
