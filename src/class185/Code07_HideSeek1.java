@@ -1,13 +1,11 @@
 package class185;
 
-// 捉迷藏，正解是树的括号序，java版
+// 捉迷藏，树的括号序 + 线段树的最优解，java版
 // 树上有n个点，点的初始颜色为黑，给定n-1条边，边权都是1
 // 一共有m条操作，每条操作是如下两种类型中的一种
 // 操作 C x : 改变点x的颜色，黑变成白，白变成黑
-// 操作 G   : 打印树上最远的两个黑色点的距离
-//            如果只有一个黑点打印0，如果无黑点打印-1
-// 1 <= n <= 10^5
-// 1 <= m <= 5 * 10^5
+// 操作 G   : 打印最远的两个黑点的距离，只有一个黑点打印0，无黑点打印-1
+// 1 <= n <= 10^5    1 <= m <= 5 * 10^5
 // 测试链接 : https://www.luogu.com.cn/problem/P2056
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
@@ -19,8 +17,7 @@ import java.io.PrintWriter;
 public class Code07_HideSeek1 {
 
 	public static int MAXN = 100001;
-	public static int MAXS = MAXN * 3;
-	public static int MAXT = MAXS << 2;
+	public static int MAXT = MAXN * 12;
 	public static int INF = 1000000001;
 	public static int PAR = -1;
 	public static int PAL = -2;
@@ -33,17 +30,18 @@ public class Code07_HideSeek1 {
 	public static int cntg;
 
 	public static int[] dfn = new int[MAXN];
-	public static int[] seg = new int[MAXS];
+	public static int[] seg = new int[MAXN * 3];
 	public static int cntd;
 
-	// 注意区分lminus、rminus
-	// pr : 都消掉之后的右括号数量
-	// pl : 都消掉之后的左括号数量
-	// ladd : 左端点到任意黑点，max(右括号 + 左括号)
+	// 以下含义都是在括号序列抵消成最简状态的情况下
+	// pr : 右括号数量
+	// pl : 左括号数量
+	// ladd   : 左端点到任意黑点，max(右括号 + 左括号)
 	// lminus : 左端点到任意黑点，max(左括号 - 右括号)
-	// radd : 任意黑点到右端点，max(右括号 + 左括号)
+	// radd   : 任意黑点到右端点，max(右括号 + 左括号)
 	// rminus : 任意黑点到右端点，max(右括号 - 左括号)
-	// dist : 选择任意两个黑点的最大距离
+	// dist   : 选择任意两个黑点的最大距离
+	// 注意区分lminus、rminus
 	public static int[] pr = new int[MAXT];
 	public static int[] pl = new int[MAXT];
 	public static int[] ladd = new int[MAXT];

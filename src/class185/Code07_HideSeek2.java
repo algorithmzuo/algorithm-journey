@@ -1,13 +1,11 @@
 package class185;
 
-// 捉迷藏，正解是树的括号序，C++版
+// 捉迷藏，树的括号序 + 线段树的最优解，C++版
 // 树上有n个点，点的初始颜色为黑，给定n-1条边，边权都是1
 // 一共有m条操作，每条操作是如下两种类型中的一种
 // 操作 C x : 改变点x的颜色，黑变成白，白变成黑
-// 操作 G   : 打印树上最远的两个黑色点的距离
-//            如果只有一个黑点打印0，如果无黑点打印-1
-// 1 <= n <= 10^5
-// 1 <= m <= 5 * 10^5
+// 操作 G   : 打印最远的两个黑点的距离，只有一个黑点打印0，无黑点打印-1
+// 1 <= n <= 10^5    1 <= m <= 5 * 10^5
 // 测试链接 : https://www.luogu.com.cn/problem/P2056
 // 如下实现是C++的版本，C++版本和java版本逻辑完全一样
 // 提交如下代码，可以通过所有测试用例
@@ -17,8 +15,7 @@ package class185;
 //using namespace std;
 //
 //const int MAXN = 100001;
-//const int MAXS = MAXN * 3;
-//const int MAXT = MAXS << 2;
+//const int MAXT = MAXN * 12;
 //const int INF = 1000000001;
 //const int PAR = -1;
 //const int PAL = -2;
@@ -31,7 +28,7 @@ package class185;
 //int cntg;
 //
 //int dfn[MAXN];
-//int seg[MAXS];
+//int seg[MAXN * 3];
 //int cntd;
 //
 //int pr[MAXT];
