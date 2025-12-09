@@ -33,7 +33,7 @@ public class Code07_HideSeek3 {
 	public static int[] seg = new int[MAXN * 3];
 	public static int cntd;
 
-	// 以下含义都是在括号序列抵消成最简状态的情况下
+	// 以下概念都是括号序列消除到最简状态的定义
 	// pr : 右括号数量
 	// pl : 左括号数量
 	// ladd   : 左端点到任意黑点，max(右括号 + 左括号)
