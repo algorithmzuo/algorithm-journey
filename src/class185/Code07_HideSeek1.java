@@ -7,8 +7,8 @@ package class185;
 // 操作 G   : 打印最远的两个黑点的距离，只有一个黑点打印0，无黑点打印-1
 // 1 <= n <= 10^5    1 <= m <= 5 * 10^5
 // 测试链接 : https://www.luogu.com.cn/problem/P2056
-// 提交以下的code，提交时请把类名改成"Main"，无法通过所有测试用例
-// 本节课Code07_HideSeek3文件是最优解实现，可以通过所有测试用例
+// 提交以下的code，提交时请把类名改成"Main"，一个测试用例空间超标
+// 本节课Code07_HideSeek3文件是最优解的实现，可以通过所有测试用例
 
 import java.io.IOException;
 import java.io.InputStream;
