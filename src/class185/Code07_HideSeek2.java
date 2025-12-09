@@ -25,34 +25,34 @@ package class185;
 //        }
 //    }
 //
+//    int popHead() {
+//        int ans = addHeap.top();
+//        addHeap.pop();
+//        clean();
+//        return ans;
+//    }
+//
 //    int size() {
 //        return (int)addHeap.size() - (int)delHeap.size();
 //    }
 //
-//    void push(int v) {
+//    void add(int v) {
 //        addHeap.push(v);
 //    }
 //
 //    void del(int v) {
 //        delHeap.push(v);
+//        clean();
 //    }
 //
-//    int pop() {
-//        clean();
-//        int x = addHeap.top();
-//        addHeap.pop();
-//        return x;
-//    }
-//
-//    int top() {
-//        clean();
+//    int first() {
 //        return addHeap.top();
 //    }
 //
 //    int second() {
-//        int a = pop();
-//        int b = top();
-//        push(a);
+//        int a = popHead();
+//        int b = first();
+//        add(a);
 //        return b;
 //    }
 //};
@@ -77,7 +77,7 @@ package class185;
 //
 //Set distFa[MAXN];
 //Set sonMax[MAXN];
-//Set top2;
+//Set maxDist;
 //
 //void addEdge(int u, int v) {
 //    nxt[++cntg] = head[u];
@@ -107,7 +107,7 @@ package class185;
 //}
 //
 //void dfs2(int u, int t) {
-//	top[u] = t;
+//    top[u] = t;
 //    if (son[u] == 0) {
 //        return;
 //    }
@@ -176,45 +176,45 @@ package class185;
 //    }
 //}
 //
-//void addTop2(int x) {
+//void addDist(int x) {
 //    if (sonMax[x].size() >= 2) {
-//        top2.push(sonMax[x].top() + sonMax[x].second());
+//        maxDist.add(sonMax[x].first() + sonMax[x].second());
 //    }
 //}
 //
-//void delTop2(int x) {
+//void delDist(int x) {
 //    if (sonMax[x].size() >= 2) {
-//        top2.del(sonMax[x].top() + sonMax[x].second());
+//        maxDist.del(sonMax[x].first() + sonMax[x].second());
 //    }
 //}
 //
 //void on(int x) {
-//    delTop2(x);
+//    delDist(x);
 //    sonMax[x].del(0);
-//    addTop2(x);
+//    addDist(x);
 //    for (int u = x, f = centfa[u]; f > 0; u = f, f = centfa[u]) {
-//        delTop2(f);
-//        sonMax[f].del(distFa[u].top());
+//        delDist(f);
+//        sonMax[f].del(distFa[u].first());
 //        distFa[u].del(getDist(x, f));
 //        if (distFa[u].size() > 0) {
-//            sonMax[f].push(distFa[u].top());
+//            sonMax[f].add(distFa[u].first());
 //        }
-//        addTop2(f);
+//        addDist(f);
 //    }
 //}
 //
 //void off(int x) {
-//    delTop2(x);
-//    sonMax[x].push(0);
-//    addTop2(x);
+//    delDist(x);
+//    sonMax[x].add(0);
+//    addDist(x);
 //    for (int u = x, f = centfa[u]; f > 0; u = f, f = centfa[u]) {
-//        delTop2(f);
+//        delDist(f);
 //        if (distFa[u].size() > 0) {
-//            sonMax[f].del(distFa[u].top());
+//            sonMax[f].del(distFa[u].first());
 //        }
-//        distFa[u].push(getDist(x, f));
-//        sonMax[f].push(distFa[u].top());
-//        addTop2(f);
+//        distFa[u].add(getDist(x, f));
+//        sonMax[f].add(distFa[u].first());
+//        addDist(f);
 //    }
 //}
 //
@@ -224,17 +224,17 @@ package class185;
 //    }
 //    for (int i = 1; i <= n; i++) {
 //        for (int u = i, f = centfa[u]; f > 0; u = f, f = centfa[u]) {
-//            distFa[u].push(getDist(i, f));
+//            distFa[u].add(getDist(i, f));
 //        }
 //    }
 //    for (int i = 1; i <= n; i++) {
-//        sonMax[i].push(0);
+//        sonMax[i].add(0);
 //        if (centfa[i] > 0) {
-//            sonMax[centfa[i]].push(distFa[i].top());
+//            sonMax[centfa[i]].add(distFa[i].first());
 //        }
 //    }
 //    for (int i = 1; i <= n; i++) {
-//        addTop2(i);
+//        addDist(i);
 //    }
 //}
 //
@@ -270,7 +270,7 @@ package class185;
 //            if (blackCnt <= 1) {
 //                cout << (blackCnt - 1) << '\n';
 //            } else {
-//                cout << top2.top() << '\n';
+//                cout << maxDist.first() << '\n';
 //            }
 //        }
 //    }

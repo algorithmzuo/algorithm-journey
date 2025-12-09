@@ -34,32 +34,33 @@ public class Code07_HideSeek1 {
 			}
 		}
 
+		int popHead() {
+			int ans = addHeap.poll();
+			clean();
+			return ans;
+		}
+
 		int size() {
 			return addHeap.size() - delHeap.size();
 		}
 
-		void push(int v) {
+		void add(int v) {
 			addHeap.add(v);
 		}
 
 		void del(int v) {
 			delHeap.add(v);
+			clean();
 		}
 
-		int pop() {
-			clean();
-			return addHeap.poll();
-		}
-
-		int top() {
-			clean();
+		int first() {
 			return addHeap.peek();
 		}
 
 		int second() {
-			int a = pop();
-			int b = top();
-			push(a);
+			int a = popHead();
+			int b = first();
+			add(a);
 			return b;
 		}
 	}
@@ -82,12 +83,13 @@ public class Code07_HideSeek1 {
 	public static boolean[] vis = new boolean[MAXN];
 	public static int[] centfa = new int[MAXN];
 
-	// distFa[u] : 点分树中，重心u连通区的每个节点，到上级重心的距离
-	// sonMax[u] : 点分树中，重心u的所有儿子，distFa的最大值
-	// top2 : 全局收集每个点的sonMax中的最大、次大
+	// distFa[u] : u的连通区里，每个黑点到上级重心的距离，组成的集合
+	// sonMax[u] : u的每个儿子连通区里，都选一个最远的黑点，到u的最大距离，组成的集合
+	//             如果u自己是黑点，那么0要加入集合
+	// maxDist   : 每个重心，在自己的连通区里，选两个最远的黑点，得到的最大距离，放入全局集合
 	public static Set[] distFa = new Set[MAXN];
 	public static Set[] sonMax = new Set[MAXN];
-	public static Set top2 = new Set();
+	public static Set maxDist = new Set();
 
 	// 讲解118，递归函数改成迭代所需要的栈
 	public static int[][] stack = new int[MAXN][4];
@@ -303,45 +305,45 @@ public class Code07_HideSeek1 {
 		}
 	}
 
-	public static void addTop2(int x) {
+	public static void addDist(int x) {
 		if (sonMax[x].size() >= 2) {
-			top2.push(sonMax[x].top() + sonMax[x].second());
+			maxDist.add(sonMax[x].first() + sonMax[x].second());
 		}
 	}
 
-	public static void delTop2(int x) {
+	public static void delDist(int x) {
 		if (sonMax[x].size() >= 2) {
-			top2.del(sonMax[x].top() + sonMax[x].second());
+			maxDist.del(sonMax[x].first() + sonMax[x].second());
 		}
 	}
 
 	public static void on(int x) {
-		delTop2(x);
+		delDist(x);
 		sonMax[x].del(0);
-		addTop2(x);
+		addDist(x);
 		for (int u = x, fa = centfa[u]; fa > 0; u = fa, fa = centfa[u]) {
-			delTop2(fa);
-			sonMax[fa].del(distFa[u].top());
+			delDist(fa);
+			sonMax[fa].del(distFa[u].first());
 			distFa[u].del(getDist(x, fa));
 			if (distFa[u].size() > 0) {
-				sonMax[fa].push(distFa[u].top());
+				sonMax[fa].add(distFa[u].first());
 			}
-			addTop2(fa);
+			addDist(fa);
 		}
 	}
 
 	public static void off(int x) {
-		delTop2(x);
-		sonMax[x].push(0);
-		addTop2(x);
+		delDist(x);
+		sonMax[x].add(0);
+		addDist(x);
 		for (int u = x, fa = centfa[u]; fa > 0; u = fa, fa = centfa[u]) {
-			delTop2(fa);
+			delDist(fa);
 			if (distFa[u].size() > 0) {
-				sonMax[fa].del(distFa[u].top());
+				sonMax[fa].del(distFa[u].first());
 			}
-			distFa[u].push(getDist(x, fa));
-			sonMax[fa].push(distFa[u].top());
-			addTop2(fa);
+			distFa[u].add(getDist(x, fa));
+			sonMax[fa].add(distFa[u].first());
+			addDist(fa);
 		}
 	}
 
@@ -355,17 +357,17 @@ public class Code07_HideSeek1 {
 		}
 		for (int i = 1; i <= n; i++) {
 			for (int u = i, fa = centfa[u]; fa > 0; u = fa, fa = centfa[u]) {
-				distFa[u].push(getDist(i, fa));
+				distFa[u].add(getDist(i, fa));
 			}
 		}
 		for (int i = 1; i <= n; i++) {
-			sonMax[i].push(0);
+			sonMax[i].add(0);
 			if (centfa[i] > 0) {
-				sonMax[centfa[i]].push(distFa[i].top());
+				sonMax[centfa[i]].add(distFa[i].first());
 			}
 		}
 		for (int i = 1; i <= n; i++) {
-			addTop2(i);
+			addDist(i);
 		}
 	}
 
@@ -404,7 +406,7 @@ public class Code07_HideSeek1 {
 				if (blackCnt <= 1) {
 					out.println(blackCnt - 1);
 				} else {
-					out.println(top2.top());
+					out.println(maxDist.first());
 				}
 			}
 		}
