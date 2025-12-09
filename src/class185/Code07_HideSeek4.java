@@ -77,14 +77,13 @@ package class185;
 //
 //void point(int i, int v) {
 //    pr[i] = pl[i] = 0;
-//    ladd[i] = lminus[i] = radd[i] = rminus[i] = -INF;
-//    dist[i] = -INF;
+//    ladd[i] = lminus[i] = radd[i] = rminus[i] = dist[i] = -INF;
 //    if (v == PAR) {
 //        pr[i] = 1;
 //    } else if (v == PAL) {
 //        pl[i] = 1;
 //    } else if (black[v]) {
-//        ladd[i] = lminus[i] = radd[i] = rminus[i] = 0;
+//        ladd[i] = lminus[i] = radd[i] = rminus[i] = dist[i] = 0;
 //    }
 //}
 //
