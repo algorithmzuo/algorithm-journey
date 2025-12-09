@@ -115,19 +115,6 @@ public class Code07_HideSeek3 {
 		}
 	}
 
-	public static void setSingle(int i, int v) {
-		pr[i] = pl[i] = 0;
-		ladd[i] = lminus[i] = radd[i] = rminus[i] = -INF;
-		dist[i] = -INF;
-		if (v == PAR) {
-			pr[i] = 1;
-		} else if (v == PAL) {
-			pl[i] = 1;
-		} else if (black[v]) {
-			ladd[i] = lminus[i] = radd[i] = rminus[i] = 0;
-		}
-	}
-
 	public static void up(int i) {
 		int l = i << 1, r = i << 1 | 1;
 		if (pl[l] > pr[r]) {
@@ -144,9 +131,22 @@ public class Code07_HideSeek3 {
 		dist[i] = Math.max(Math.max(dist[l], dist[r]), Math.max(radd[l] + lminus[r], ladd[r] + rminus[l]));
 	}
 
+	public static void point(int i, int v) {
+		pr[i] = pl[i] = 0;
+		ladd[i] = lminus[i] = radd[i] = rminus[i] = -INF;
+		dist[i] = -INF;
+		if (v == PAR) {
+			pr[i] = 1;
+		} else if (v == PAL) {
+			pl[i] = 1;
+		} else if (black[v]) {
+			ladd[i] = lminus[i] = radd[i] = rminus[i] = 0;
+		}
+	}
+
 	public static void build(int l, int r, int i) {
 		if (l == r) {
-			setSingle(i, seg[l]);
+			point(i, seg[l]);
 		} else {
 			int mid = (l + r) >> 1;
 			build(l, mid, i << 1);
@@ -157,7 +157,7 @@ public class Code07_HideSeek3 {
 
 	public static void update(int jobi, int l, int r, int i) {
 		if (l == r) {
-			setSingle(i, seg[l]);
+			point(i, seg[l]);
 		} else {
 			int mid = (l + r) >> 1;
 			if (jobi <= mid) {

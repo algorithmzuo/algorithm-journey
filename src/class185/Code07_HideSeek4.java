@@ -58,19 +58,6 @@ package class185;
 //    seg[++cntd] = PAR;
 //}
 //
-//void setSingle(int i, int v) {
-//    pr[i] = pl[i] = 0;
-//    ladd[i] = lminus[i] = radd[i] = rminus[i] = -INF;
-//    dist[i] = -INF;
-//    if (v == PAR) {
-//        pr[i] = 1;
-//    } else if (v == PAL) {
-//        pl[i] = 1;
-//    } else if (black[v]) {
-//    	ladd[i] = lminus[i] = radd[i] = rminus[i] = 0;
-//    }
-//}
-//
 //void up(int i) {
 //    int l = i << 1;
 //    int r = i << 1 | 1;
@@ -88,9 +75,22 @@ package class185;
 //    dist[i] = max(max(dist[l], dist[r]), max(radd[l] + lminus[r], ladd[r] + rminus[l]));
 //}
 //
+//void point(int i, int v) {
+//    pr[i] = pl[i] = 0;
+//    ladd[i] = lminus[i] = radd[i] = rminus[i] = -INF;
+//    dist[i] = -INF;
+//    if (v == PAR) {
+//        pr[i] = 1;
+//    } else if (v == PAL) {
+//        pl[i] = 1;
+//    } else if (black[v]) {
+//        ladd[i] = lminus[i] = radd[i] = rminus[i] = 0;
+//    }
+//}
+//
 //void build(int l, int r, int i) {
 //    if (l == r) {
-//        setSingle(i, seg[l]);
+//        point(i, seg[l]);
 //    } else {
 //        int mid = (l + r) >> 1;
 //        build(l, mid, i << 1);
@@ -101,7 +101,7 @@ package class185;
 //
 //void update(int jobi, int l, int r, int i) {
 //    if (l == r) {
-//        setSingle(i, seg[l]);
+//        point(i, seg[l]);
 //    } else {
 //        int mid = (l + r) >> 1;
 //        if (jobi <= mid) {
