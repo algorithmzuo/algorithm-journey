@@ -1,26 +1,70 @@
 package class185;
 
-// 捉迷藏，树的括号序 + 线段树的最优解，java版
+// 捉迷藏，点分树的解，java版
 // 树上有n个点，点的初始颜色为黑，给定n-1条边，边权都是1
 // 一共有m条操作，每条操作是如下两种类型中的一种
 // 操作 C x : 改变点x的颜色，黑变成白，白变成黑
 // 操作 G   : 打印最远的两个黑点的距离，只有一个黑点打印0，无黑点打印-1
 // 1 <= n <= 10^5    1 <= m <= 5 * 10^5
 // 测试链接 : https://www.luogu.com.cn/problem/P2056
-// 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
+// 提交以下的code，提交时请把类名改成"Main"，无法通过所有测试用例
+// 本节课Code07_HideSeek3文件是最优解实现，可以通过所有测试用例
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.util.PriorityQueue;
 
 public class Code07_HideSeek1 {
 
+	static class Set {
+		PriorityQueue<Integer> addHeap;
+		PriorityQueue<Integer> delHeap;
+
+		public Set() {
+			addHeap = new PriorityQueue<>((a, b) -> b.compareTo(a));
+			delHeap = new PriorityQueue<>((a, b) -> b.compareTo(a));
+		}
+
+		void clean() {
+			while (!delHeap.isEmpty() && delHeap.peek().equals(addHeap.peek())) {
+				addHeap.poll();
+				delHeap.poll();
+			}
+		}
+
+		int size() {
+			return addHeap.size() - delHeap.size();
+		}
+
+		void push(int v) {
+			addHeap.add(v);
+		}
+
+		void del(int v) {
+			delHeap.add(v);
+		}
+
+		int pop() {
+			clean();
+			return addHeap.poll();
+		}
+
+		int top() {
+			clean();
+			return addHeap.peek();
+		}
+
+		int second() {
+			int a = pop();
+			int b = top();
+			push(a);
+			return b;
+		}
+	}
+
 	public static int MAXN = 100001;
-	public static int MAXT = MAXN * 12;
-	public static int INF = 1000000001;
-	public static int PAR = -1;
-	public static int PAL = -2;
 	public static int n, m;
 	public static boolean[] black = new boolean[MAXN];
 
@@ -29,36 +73,32 @@ public class Code07_HideSeek1 {
 	public static int[] to = new int[MAXN << 1];
 	public static int cntg;
 
-	public static int[] dfn = new int[MAXN];
-	public static int[] seg = new int[MAXN * 3];
-	public static int cntd;
+	public static int[] fa = new int[MAXN];
+	public static int[] dep = new int[MAXN];
+	public static int[] siz = new int[MAXN];
+	public static int[] son = new int[MAXN];
+	public static int[] top = new int[MAXN];
 
-	// 以下含义都是在括号序列抵消成最简状态的情况下
-	// pr : 右括号数量
-	// pl : 左括号数量
-	// ladd   : 左端点到任意黑点，max(右括号 + 左括号)
-	// lminus : 左端点到任意黑点，max(左括号 - 右括号)
-	// radd   : 任意黑点到右端点，max(右括号 + 左括号)
-	// rminus : 任意黑点到右端点，max(右括号 - 左括号)
-	// dist   : 选择任意两个黑点的最大距离
-	// 注意区分lminus、rminus
-	public static int[] pr = new int[MAXT];
-	public static int[] pl = new int[MAXT];
-	public static int[] ladd = new int[MAXT];
-	public static int[] lminus = new int[MAXT];
-	public static int[] radd = new int[MAXT];
-	public static int[] rminus = new int[MAXT];
-	public static int[] dist = new int[MAXT];
+	public static boolean[] vis = new boolean[MAXN];
+	public static int[] centfa = new int[MAXN];
+
+	// distFa[u] : 点分树中，重心u连通区的每个节点，到上级重心的距离
+	// sonMax[u] : 点分树中，重心u的所有儿子，distFa的最大值
+	// top2 : 全局收集每个点的sonMax中的最大、次大
+	public static Set[] distFa = new Set[MAXN];
+	public static Set[] sonMax = new Set[MAXN];
+	public static Set top2 = new Set();
 
 	// 讲解118，递归函数改成迭代所需要的栈
-	public static int[][] stack = new int[MAXN][3];
-	public static int u, f, e;
+	public static int[][] stack = new int[MAXN][4];
+	public static int u, f, t, e;
 	public static int stacksize;
 
-	public static void push(int u, int f, int e) {
+	public static void push(int u, int f, int t, int e) {
 		stack[stacksize][0] = u;
 		stack[stacksize][1] = f;
-		stack[stacksize][2] = e;
+		stack[stacksize][2] = t;
+		stack[stacksize][3] = e;
 		stacksize++;
 	}
 
@@ -66,7 +106,8 @@ public class Code07_HideSeek1 {
 		--stacksize;
 		u = stack[stacksize][0];
 		f = stack[stacksize][1];
-		e = stack[stacksize][2];
+		t = stack[stacksize][2];
+		e = stack[stacksize][3];
 	}
 
 	public static void addEdge(int u, int v) {
@@ -75,97 +116,256 @@ public class Code07_HideSeek1 {
 		head[u] = cntg;
 	}
 
-	// 收集括号序递归版，java会爆栈，C++可以通过
-	public static void dfs1(int u, int fa) {
-		seg[++cntd] = PAL;
-		seg[++cntd] = u;
-		dfn[u] = cntd;
-		for (int e = head[u]; e > 0; e = nxt[e]) {
-			int v = to[e];
-			if (v != fa) {
+	// 重链剖分收集信息递归版，java会爆栈，C++不会
+	public static void dfs1(int u, int f) {
+		fa[u] = f;
+		dep[u] = dep[f] + 1;
+		siz[u] = 1;
+		for (int e = head[u], v; e > 0; e = nxt[e]) {
+			v = to[e];
+			if (v != f) {
 				dfs1(v, u);
 			}
 		}
-		seg[++cntd] = PAR;
+		for (int ei = head[u], v; ei > 0; ei = nxt[ei]) {
+			v = to[ei];
+			if (v != f) {
+				siz[u] += siz[v];
+				if (son[u] == 0 || siz[son[u]] < siz[v]) {
+					son[u] = v;
+				}
+			}
+		}
 	}
 
-	// dfs1的迭代版
-	public static void dfs2(int cur, int fa) {
+	// 根据重儿子剖分的递归版，java会爆栈，C++不会
+	public static void dfs2(int u, int t) {
+		top[u] = t;
+		if (son[u] == 0) {
+			return;
+		}
+		dfs2(son[u], t);
+		for (int e = head[u], v; e > 0; e = nxt[e]) {
+			v = to[e];
+			if (v != fa[u] && v != son[u]) {
+				dfs2(v, v);
+			}
+		}
+	}
+
+	// dfs1改成迭代版
+	public static void dfs3(int cur, int father) {
 		stacksize = 0;
-		push(cur, fa, -1);
+		push(cur, father, 0, -1);
 		while (stacksize > 0) {
 			pop();
 			if (e == -1) {
-				seg[++cntd] = PAL;
-				seg[++cntd] = u;
-				dfn[u] = cntd;
+				fa[u] = f;
+				dep[u] = dep[f] + 1;
+				siz[u] = 1;
 				e = head[u];
 			} else {
 				e = nxt[e];
 			}
 			if (e != 0) {
-				push(u, f, e);
+				push(u, f, 0, e);
 				int v = to[e];
 				if (v != f) {
-					push(v, u, -1);
+					push(v, u, 0, -1);
 				}
 			} else {
-				seg[++cntd] = PAR;
+				for (int ei = head[u]; ei > 0; ei = nxt[ei]) {
+					int v = to[ei];
+					if (v != f) {
+						siz[u] += siz[v];
+						if (son[u] == 0 || siz[son[u]] < siz[v]) {
+							son[u] = v;
+						}
+					}
+				}
 			}
 		}
 	}
 
-	public static void setSingle(int i, int v) {
-		pr[i] = pl[i] = 0;
-		ladd[i] = lminus[i] = radd[i] = rminus[i] = -INF;
-		dist[i] = -INF;
-		if (v == PAR) {
-			pr[i] = 1;
-		} else if (v == PAL) {
-			pl[i] = 1;
-		} else if (black[v]) {
-			ladd[i] = lminus[i] = radd[i] = rminus[i] = 0;
-		}
-	}
-
-	public static void up(int i) {
-		int l = i << 1, r = i << 1 | 1;
-		if (pl[l] > pr[r]) {
-			pr[i] = pr[l];
-			pl[i] = pl[l] - pr[r] + pl[r];
-		} else {
-			pr[i] = pr[l] + pr[r] - pl[l];
-			pl[i] = pl[r];
-		}
-		ladd[i] = Math.max(ladd[l], Math.max(pr[l] + ladd[r] - pl[l], pr[l] + pl[l] + lminus[r]));
-		lminus[i] = Math.max(lminus[l], pl[l] - pr[l] + lminus[r]);
-		radd[i] = Math.max(radd[r], Math.max(radd[l] - pr[r] + pl[r], rminus[l] + pr[r] + pl[r]));
-		rminus[i] = Math.max(rminus[r], rminus[l] + pr[r] - pl[r]);
-		dist[i] = Math.max(Math.max(dist[l], dist[r]), Math.max(radd[l] + lminus[r], ladd[r] + rminus[l]));
-	}
-
-	public static void build(int l, int r, int i) {
-		if (l == r) {
-			setSingle(i, seg[l]);
-		} else {
-			int mid = (l + r) >> 1;
-			build(l, mid, i << 1);
-			build(mid + 1, r, i << 1 | 1);
-			up(i);
-		}
-	}
-
-	public static void update(int jobi, int l, int r, int i) {
-		if (l == r) {
-			setSingle(i, seg[l]);
-		} else {
-			int mid = (l + r) >> 1;
-			if (jobi <= mid) {
-				update(jobi, l, mid, i << 1);
+	// dfs2改成迭代版
+	public static void dfs4(int cur, int tag) {
+		stacksize = 0;
+		push(cur, 0, tag, -1);
+		while (stacksize > 0) {
+			pop();
+			if (e == -1) {
+				top[u] = t;
+				if (son[u] == 0) {
+					continue;
+				}
+				push(u, 0, t, -2);
+				push(son[u], 0, t, -1);
+				continue;
+			} else if (e == -2) {
+				e = head[u];
 			} else {
-				update(jobi, mid + 1, r, i << 1 | 1);
+				e = nxt[e];
 			}
-			up(i);
+			if (e != 0) {
+				push(u, 0, t, e);
+				int v = to[e];
+				if (v != fa[u] && v != son[u]) {
+					push(v, 0, v, -1);
+				}
+			}
+		}
+	}
+
+	// 找重心需要计算子树大小的递归版，java会爆栈，C++不会
+	public static void getSize1(int u, int fa) {
+		siz[u] = 1;
+		for (int e = head[u]; e > 0; e = nxt[e]) {
+			int v = to[e];
+			if (v != fa && !vis[v]) {
+				getSize1(v, u);
+				siz[u] += siz[v];
+			}
+		}
+	}
+
+	// getSize1的迭代版
+	public static void getSize2(int cur, int fa) {
+		stacksize = 0;
+		push(cur, fa, 0, -1);
+		while (stacksize > 0) {
+			pop();
+			if (e == -1) {
+				siz[u] = 1;
+				e = head[u];
+			} else {
+				e = nxt[e];
+			}
+			if (e != 0) {
+				push(u, f, 0, e);
+				int v = to[e];
+				if (v != f && !vis[v]) {
+					push(v, u, 0, -1);
+				}
+			} else {
+				for (int ei = head[u]; ei > 0; ei = nxt[ei]) {
+					int v = to[ei];
+					if (v != f && !vis[v]) {
+						siz[u] += siz[v];
+					}
+				}
+			}
+		}
+	}
+
+	public static int getLca(int a, int b) {
+		while (top[a] != top[b]) {
+			if (dep[top[a]] <= dep[top[b]]) {
+				b = fa[top[b]];
+			} else {
+				a = fa[top[a]];
+			}
+		}
+		return dep[a] <= dep[b] ? a : b;
+	}
+
+	public static int getDist(int x, int y) {
+		return dep[x] + dep[y] - (dep[getLca(x, y)] << 1);
+	}
+
+	public static int getCentroid(int u, int fa) {
+		// getSize1(u, fa);
+		getSize2(u, fa);
+		int half = siz[u] >> 1;
+		boolean find = false;
+		while (!find) {
+			find = true;
+			for (int e = head[u]; e > 0; e = nxt[e]) {
+				int v = to[e];
+				if (v != fa && !vis[v] && siz[v] > half) {
+					fa = u;
+					u = v;
+					find = false;
+					break;
+				}
+			}
+		}
+		return u;
+	}
+
+	public static void centroidTree(int u, int fa) {
+		centfa[u] = fa;
+		vis[u] = true;
+		for (int e = head[u]; e > 0; e = nxt[e]) {
+			int v = to[e];
+			if (!vis[v]) {
+				centroidTree(getCentroid(v, u), u);
+			}
+		}
+	}
+
+	public static void addTop2(int x) {
+		if (sonMax[x].size() >= 2) {
+			top2.push(sonMax[x].top() + sonMax[x].second());
+		}
+	}
+
+	public static void delTop2(int x) {
+		if (sonMax[x].size() >= 2) {
+			top2.del(sonMax[x].top() + sonMax[x].second());
+		}
+	}
+
+	public static void on(int x) {
+		delTop2(x);
+		sonMax[x].del(0);
+		addTop2(x);
+		for (int u = x, fa = centfa[u]; fa > 0; u = fa, fa = centfa[u]) {
+			delTop2(fa);
+			sonMax[fa].del(distFa[u].top());
+			distFa[u].del(getDist(x, fa));
+			if (distFa[u].size() > 0) {
+				sonMax[fa].push(distFa[u].top());
+			}
+			addTop2(fa);
+		}
+	}
+
+	public static void off(int x) {
+		delTop2(x);
+		sonMax[x].push(0);
+		addTop2(x);
+		for (int u = x, fa = centfa[u]; fa > 0; u = fa, fa = centfa[u]) {
+			delTop2(fa);
+			if (distFa[u].size() > 0) {
+				sonMax[fa].del(distFa[u].top());
+			}
+			distFa[u].push(getDist(x, fa));
+			sonMax[fa].push(distFa[u].top());
+			addTop2(fa);
+		}
+	}
+
+	public static void prepare() {
+		for (int i = 1; i <= n; i++) {
+			black[i] = true;
+		}
+		for (int i = 1; i <= n; i++) {
+			distFa[i] = new Set();
+			sonMax[i] = new Set();
+		}
+		for (int i = 1; i <= n; i++) {
+			for (int u = i, fa = centfa[u]; fa > 0; u = fa, fa = centfa[u]) {
+				distFa[u].push(getDist(i, fa));
+			}
+		}
+		for (int i = 1; i <= n; i++) {
+			sonMax[i].push(0);
+			if (centfa[i] > 0) {
+				sonMax[centfa[i]].push(distFa[i].top());
+			}
+		}
+		for (int i = 1; i <= n; i++) {
+			addTop2(i);
 		}
 	}
 
@@ -173,9 +373,6 @@ public class Code07_HideSeek1 {
 		FastReader in = new FastReader();
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
 		n = in.nextInt();
-		for (int i = 1; i <= n; i++) {
-			black[i] = true;
-		}
 		for (int i = 1, u, v; i < n; i++) {
 			u = in.nextInt();
 			v = in.nextInt();
@@ -183,8 +380,11 @@ public class Code07_HideSeek1 {
 			addEdge(v, u);
 		}
 		// dfs1(1, 0);
-		dfs2(1, 0);
-		build(1, cntd, 1);
+		// dfs2(1, 1);
+		dfs3(1, 0);
+		dfs4(1, 1);
+		centroidTree(getCentroid(1, 0), 0);
+		prepare();
 		m = in.nextInt();
 		int blackCnt = n;
 		char op;
@@ -194,16 +394,17 @@ public class Code07_HideSeek1 {
 				x = in.nextInt();
 				black[x] = !black[x];
 				if (black[x]) {
+					off(x);
 					blackCnt++;
 				} else {
+					on(x);
 					blackCnt--;
 				}
-				update(dfn[x], 1, cntd, 1);
 			} else {
 				if (blackCnt <= 1) {
 					out.println(blackCnt - 1);
 				} else {
-					out.println(dist[1]);
+					out.println(top2.top());
 				}
 			}
 		}

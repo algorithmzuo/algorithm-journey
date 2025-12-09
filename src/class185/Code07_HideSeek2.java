@@ -1,6 +1,6 @@
 package class185;
 
-// 捉迷藏，树的括号序 + 线段树的最优解，C++版
+// 捉迷藏，点分树的解，C++版
 // 树上有n个点，点的初始颜色为黑，给定n-1条边，边权都是1
 // 一共有m条操作，每条操作是如下两种类型中的一种
 // 操作 C x : 改变点x的颜色，黑变成白，白变成黑
@@ -14,11 +14,50 @@ package class185;
 //
 //using namespace std;
 //
+//struct Set {
+//    priority_queue<int> addHeap;
+//    priority_queue<int> delHeap;
+//
+//    void clean() {
+//        while (!delHeap.empty() && !addHeap.empty() && delHeap.top() == addHeap.top()) {
+//            addHeap.pop();
+//            delHeap.pop();
+//        }
+//    }
+//
+//    int size() {
+//        return (int)addHeap.size() - (int)delHeap.size();
+//    }
+//
+//    void push(int v) {
+//        addHeap.push(v);
+//    }
+//
+//    void del(int v) {
+//        delHeap.push(v);
+//    }
+//
+//    int pop() {
+//        clean();
+//        int x = addHeap.top();
+//        addHeap.pop();
+//        return x;
+//    }
+//
+//    int top() {
+//        clean();
+//        return addHeap.top();
+//    }
+//
+//    int second() {
+//        int a = pop();
+//        int b = top();
+//        push(a);
+//        return b;
+//    }
+//};
+//
 //const int MAXN = 100001;
-//const int MAXT = MAXN * 12;
-//const int INF = 1000000001;
-//const int PAR = -1;
-//const int PAL = -2;
 //int n, m;
 //bool black[MAXN];
 //
@@ -27,17 +66,18 @@ package class185;
 //int to[MAXN << 1];
 //int cntg;
 //
-//int dfn[MAXN];
-//int seg[MAXN * 3];
-//int cntd;
+//int fa[MAXN];
+//int dep[MAXN];
+//int siz[MAXN];
+//int son[MAXN];
+//int top[MAXN];
 //
-//int pr[MAXT];
-//int pl[MAXT];
-//int ladd[MAXT];
-//int lminus[MAXT];
-//int radd[MAXT];
-//int rminus[MAXT];
-//int dist[MAXT];
+//bool vis[MAXN];
+//int centfa[MAXN];
+//
+//Set distFa[MAXN];
+//Set sonMax[MAXN];
+//Set top2;
 //
 //void addEdge(int u, int v) {
 //    nxt[++cntg] = head[u];
@@ -45,71 +85,156 @@ package class185;
 //    head[u] = cntg;
 //}
 //
-//void dfs(int u, int fa) {
-//    seg[++cntd] = PAL;
-//    seg[++cntd] = u;
-//    dfn[u] = cntd;
-//    for (int e = head[u]; e > 0; e = nxt[e]) {
+//void dfs1(int u, int f) {
+//    fa[u] = f;
+//    dep[u] = dep[f] + 1;
+//    siz[u] = 1;
+//    for (int e = head[u], v; e; e = nxt[e]) {
+//        v = to[e];
+//        if (v != f) {
+//            dfs1(v, u);
+//        }
+//    }
+//    for (int e = head[u], v; e; e = nxt[e]) {
+//        v = to[e];
+//        if (v != f) {
+//            siz[u] += siz[v];
+//            if (son[u] == 0 || siz[son[u]] < siz[v]) {
+//                son[u] = v;
+//            }
+//        }
+//    }
+//}
+//
+//void dfs2(int u, int t) {
+//	top[u] = t;
+//    if (son[u] == 0) {
+//        return;
+//    }
+//    dfs2(son[u], t);
+//    for (int e = head[u], v; e; e = nxt[e]) {
+//        v = to[e];
+//        if (v != fa[u] && v != son[u]) {
+//            dfs2(v, v);
+//        }
+//    }
+//}
+//
+//void getSize(int u, int f) {
+//    siz[u] = 1;
+//    for (int e = head[u]; e; e = nxt[e]) {
 //        int v = to[e];
-//        if (v != fa) {
-//            dfs(v, u);
+//        if (v != f && !vis[v]) {
+//            getSize(v, u);
+//            siz[u] += siz[v];
 //        }
 //    }
-//    seg[++cntd] = PAR;
 //}
 //
-//void setSingle(int i, int v) {
-//    pr[i] = pl[i] = 0;
-//    ladd[i] = lminus[i] = radd[i] = rminus[i] = -INF;
-//    dist[i] = -INF;
-//    if (v == PAR) {
-//        pr[i] = 1;
-//    } else if (v == PAL) {
-//        pl[i] = 1;
-//    } else if (black[v]) {
-//    	ladd[i] = lminus[i] = radd[i] = rminus[i] = 0;
-//    }
-//}
-//
-//void up(int i) {
-//    int l = i << 1;
-//    int r = i << 1 | 1;
-//    if (pl[l] > pr[r]) {
-//        pr[i] = pr[l];
-//        pl[i] = pl[l] - pr[r] + pl[r];
-//    } else {
-//        pr[i] = pr[l] + pr[r] - pl[l];
-//        pl[i] = pl[r];
-//    }
-//    ladd[i] = max(ladd[l], max(pr[l] + ladd[r] - pl[l], pr[l] + pl[l] + lminus[r]));
-//    lminus[i] = max(lminus[l], pl[l] - pr[l] + lminus[r]);
-//    radd[i] = max(radd[r], max(radd[l] - pr[r] + pl[r], rminus[l] + pr[r] + pl[r]));
-//    rminus[i] = max(rminus[r], rminus[l] + pr[r] - pl[r]);
-//    dist[i] = max(max(dist[l], dist[r]), max(radd[l] + lminus[r], ladd[r] + rminus[l]));
-//}
-//
-//void build(int l, int r, int i) {
-//    if (l == r) {
-//        setSingle(i, seg[l]);
-//    } else {
-//        int mid = (l + r) >> 1;
-//        build(l, mid, i << 1);
-//        build(mid + 1, r, i << 1 | 1);
-//        up(i);
-//    }
-//}
-//
-//void update(int jobi, int l, int r, int i) {
-//    if (l == r) {
-//        setSingle(i, seg[l]);
-//    } else {
-//        int mid = (l + r) >> 1;
-//        if (jobi <= mid) {
-//            update(jobi, l, mid, i << 1);
+//int getLca(int a, int b) {
+//    while (top[a] != top[b]) {
+//        if (dep[top[a]] <= dep[top[b]]) {
+//            b = fa[top[b]];
 //        } else {
-//            update(jobi, mid + 1, r, i << 1 | 1);
+//            a = fa[top[a]];
 //        }
-//        up(i);
+//    }
+//    return dep[a] <= dep[b] ? a : b;
+//}
+//
+//int getDist(int x, int y) {
+//    return dep[x] + dep[y] - (dep[getLca(x, y)] << 1);
+//}
+//
+//int getCentroid(int u, int f) {
+//    getSize(u, f);
+//    int half = siz[u] >> 1;
+//    bool find = false;
+//    while (!find) {
+//        find = true;
+//        for (int e = head[u]; e; e = nxt[e]) {
+//            int v = to[e];
+//            if (v != f && !vis[v] && siz[v] > half) {
+//                f = u;
+//                u = v;
+//                find = false;
+//                break;
+//            }
+//        }
+//    }
+//    return u;
+//}
+//
+//void centroidTree(int u, int f) {
+//    centfa[u] = f;
+//    vis[u] = true;
+//    for (int e = head[u]; e; e = nxt[e]) {
+//        int v = to[e];
+//        if (!vis[v]) {
+//            centroidTree(getCentroid(v, u), u);
+//        }
+//    }
+//}
+//
+//void addTop2(int x) {
+//    if (sonMax[x].size() >= 2) {
+//        top2.push(sonMax[x].top() + sonMax[x].second());
+//    }
+//}
+//
+//void delTop2(int x) {
+//    if (sonMax[x].size() >= 2) {
+//        top2.del(sonMax[x].top() + sonMax[x].second());
+//    }
+//}
+//
+//void on(int x) {
+//    delTop2(x);
+//    sonMax[x].del(0);
+//    addTop2(x);
+//    for (int u = x, f = centfa[u]; f > 0; u = f, f = centfa[u]) {
+//        delTop2(f);
+//        sonMax[f].del(distFa[u].top());
+//        distFa[u].del(getDist(x, f));
+//        if (distFa[u].size() > 0) {
+//            sonMax[f].push(distFa[u].top());
+//        }
+//        addTop2(f);
+//    }
+//}
+//
+//void off(int x) {
+//    delTop2(x);
+//    sonMax[x].push(0);
+//    addTop2(x);
+//    for (int u = x, f = centfa[u]; f > 0; u = f, f = centfa[u]) {
+//        delTop2(f);
+//        if (distFa[u].size() > 0) {
+//            sonMax[f].del(distFa[u].top());
+//        }
+//        distFa[u].push(getDist(x, f));
+//        sonMax[f].push(distFa[u].top());
+//        addTop2(f);
+//    }
+//}
+//
+//void prepare() {
+//    for (int i = 1; i <= n; i++) {
+//        black[i] = true;
+//    }
+//    for (int i = 1; i <= n; i++) {
+//        for (int u = i, f = centfa[u]; f > 0; u = f, f = centfa[u]) {
+//            distFa[u].push(getDist(i, f));
+//        }
+//    }
+//    for (int i = 1; i <= n; i++) {
+//        sonMax[i].push(0);
+//        if (centfa[i] > 0) {
+//            sonMax[centfa[i]].push(distFa[i].top());
+//        }
+//    }
+//    for (int i = 1; i <= n; i++) {
+//        addTop2(i);
 //    }
 //}
 //
@@ -117,16 +242,15 @@ package class185;
 //    ios::sync_with_stdio(false);
 //    cin.tie(nullptr);
 //    cin >> n;
-//    for (int i = 1; i <= n; i++) {
-//        black[i] = true;
-//    }
 //    for (int i = 1, u, v; i < n; i++) {
 //        cin >> u >> v;
 //        addEdge(u, v);
 //        addEdge(v, u);
 //    }
-//    dfs(1, 0);
-//    build(1, cntd, 1);
+//    dfs1(1, 0);
+//    dfs2(1, 1);
+//    centroidTree(getCentroid(1, 0), 0);
+//    prepare();
 //    cin >> m;
 //    int blackCnt = n;
 //    char op;
@@ -136,16 +260,17 @@ package class185;
 //            cin >> x;
 //            black[x] = !black[x];
 //            if (black[x]) {
+//                off(x);
 //                blackCnt++;
 //            } else {
+//                on(x);
 //                blackCnt--;
 //            }
-//            update(dfn[x], 1, cntd, 1);
 //        } else {
 //            if (blackCnt <= 1) {
 //                cout << (blackCnt - 1) << '\n';
 //            } else {
-//                cout << dist[1] << '\n';
+//                cout << top2.top() << '\n';
 //            }
 //        }
 //    }
