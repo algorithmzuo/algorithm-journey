@@ -59,20 +59,20 @@ package class185;
 //}
 //
 //void up(int i) {
-//    int l = i << 1;
-//    int r = i << 1 | 1;
-//    if (pl[l] > pr[r]) {
-//        pr[i] = pr[l];
-//        pl[i] = pl[l] - pr[r] + pl[r];
+//    int pre = i << 1;
+//    int post = i << 1 | 1;
+//    if (pl[pre] > pr[post]) {
+//        pr[i] = pr[pre];
+//        pl[i] = pl[pre] - pr[post] + pl[post];
 //    } else {
-//        pr[i] = pr[l] + pr[r] - pl[l];
-//        pl[i] = pl[r];
+//        pr[i] = pr[pre] + pr[post] - pl[pre];
+//        pl[i] = pl[post];
 //    }
-//    ladd[i] = max(ladd[l], max(pr[l] + ladd[r] - pl[l], pr[l] + pl[l] + lminus[r]));
-//    lminus[i] = max(lminus[l], pl[l] - pr[l] + lminus[r]);
-//    radd[i] = max(radd[r], max(radd[l] - pr[r] + pl[r], rminus[l] + pr[r] + pl[r]));
-//    rminus[i] = max(rminus[r], rminus[l] + pr[r] - pl[r]);
-//    dist[i] = max(max(dist[l], dist[r]), max(radd[l] + lminus[r], ladd[r] + rminus[l]));
+//    ladd[i] = max(ladd[pre], max(pr[pre] + ladd[post] - pl[pre], pr[pre] + pl[pre] + lminus[post]));
+//    lminus[i] = max(lminus[pre], pl[pre] - pr[pre] + lminus[post]);
+//    radd[i] = max(radd[post], max(radd[pre] - pr[post] + pl[post], rminus[pre] + pr[post] + pl[post]));
+//    rminus[i] = max(rminus[post], rminus[pre] + pr[post] - pl[post]);
+//    dist[i] = max(max(dist[pre], dist[post]), max(radd[pre] + lminus[post], rminus[pre] + ladd[post]));
 //}
 //
 //void point(int i, int v) {

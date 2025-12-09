@@ -40,7 +40,7 @@ public class Code07_HideSeek3 {
 	// lminus : 左端点到任意黑点，max(左括号 - 右括号)
 	// radd   : 任意黑点到右端点，max(右括号 + 左括号)
 	// rminus : 任意黑点到右端点，max(右括号 - 左括号)
-	// dist   : 选择任意两个黑点的最大距离
+	// dist   : 选择两个黑点的最大距离
 	// 注意区分lminus、rminus
 	public static int[] pr = new int[MAXT];
 	public static int[] pl = new int[MAXT];
@@ -116,19 +116,20 @@ public class Code07_HideSeek3 {
 	}
 
 	public static void up(int i) {
-		int l = i << 1, r = i << 1 | 1;
-		if (pl[l] > pr[r]) {
-			pr[i] = pr[l];
-			pl[i] = pl[l] - pr[r] + pl[r];
+		int pre = i << 1;
+		int post = i << 1 | 1;
+		if (pl[pre] > pr[post]) {
+			pr[i] = pr[pre];
+			pl[i] = pl[pre] - pr[post] + pl[post];
 		} else {
-			pr[i] = pr[l] + pr[r] - pl[l];
-			pl[i] = pl[r];
+			pr[i] = pr[pre] + pr[post] - pl[pre];
+			pl[i] = pl[post];
 		}
-		ladd[i] = Math.max(ladd[l], Math.max(pr[l] + ladd[r] - pl[l], pr[l] + pl[l] + lminus[r]));
-		lminus[i] = Math.max(lminus[l], pl[l] - pr[l] + lminus[r]);
-		radd[i] = Math.max(radd[r], Math.max(radd[l] - pr[r] + pl[r], rminus[l] + pr[r] + pl[r]));
-		rminus[i] = Math.max(rminus[r], rminus[l] + pr[r] - pl[r]);
-		dist[i] = Math.max(Math.max(dist[l], dist[r]), Math.max(radd[l] + lminus[r], ladd[r] + rminus[l]));
+		ladd[i] = Math.max(ladd[pre], Math.max(pr[pre] + ladd[post] - pl[pre], pr[pre] + pl[pre] + lminus[post]));
+		lminus[i] = Math.max(lminus[pre], pl[pre] - pr[pre] + lminus[post]);
+		radd[i] = Math.max(radd[post], Math.max(radd[pre] - pr[post] + pl[post], rminus[pre] + pr[post] + pl[post]));
+		rminus[i] = Math.max(rminus[post], rminus[pre] + pr[post] - pl[post]);
+		dist[i] = Math.max(Math.max(dist[pre], dist[post]), Math.max(radd[pre] + lminus[post], rminus[pre] + ladd[post]));
 	}
 
 	public static void point(int i, int v) {
