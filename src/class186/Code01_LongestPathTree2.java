@@ -19,7 +19,7 @@ package class186;
 //}
 //
 //const int MAXN = 200001;
-//const int MAXS = 2000001;
+//const int MAXS = 1000001;
 //int n;
 //int arr[MAXN];
 //
