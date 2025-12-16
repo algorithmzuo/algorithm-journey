@@ -157,23 +157,15 @@ public class Code02_Cobweb1 {
 	}
 
 	public static void sort(int[] key, long[] path, int l, int r) {
-		if (l >= r)
-			return;
+		if (l >= r) return;
 		int i = l, j = r, pivot = key[(l + r) >> 1];
 		while (i <= j) {
-			while (key[i] < pivot)
-				i++;
-			while (key[j] > pivot)
-				j--;
+			while (key[i] < pivot) i++;
+			while (key[j] > pivot) j--;
 			if (i <= j) {
-				int tmp1 = key[i];
-				key[i] = key[j];
-				key[j] = tmp1;
-				long tmp2 = path[i];
-				path[i] = path[j];
-				path[j] = tmp2;
-				i++;
-				j--;
+				int tmp1 = key[i]; key[i] = key[j]; key[j] = tmp1;
+				long tmp2 = path[i]; path[i] = path[j]; path[j] = tmp2;
+				i++; j--;
 			}
 		}
 		sort(key, path, l, j);
