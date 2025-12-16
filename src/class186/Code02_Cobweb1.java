@@ -15,7 +15,7 @@ public class Code02_Cobweb1 {
 	public static int MAXN = 400001;
 	public static int MAXS = 4000001;
 	public static final int MOD = 1000000007;
-	public static int n, realNode;
+	public static int n, real;
 
 	public static int[] headg = new int[MAXN];
 	public static int[] nextg = new int[MAXN << 1];
@@ -187,7 +187,7 @@ public class Code02_Cobweb1 {
 	}
 
 	public static void dfs(int u, int fa, int red, int black, long path) {
-		if (u <= realNode) {
+		if (u <= real) {
 			rkey[++cnta] = 2 * red - black;
 			rpath[cnta] = path;
 			bkey[cnta] = 2 * black - red;
@@ -204,7 +204,7 @@ public class Code02_Cobweb1 {
 	}
 
 	public static void calcAns(int u, int fa, int red, int black, long path) {
-		if (u <= realNode) {
+		if (u <= real) {
 			int r = less(rkey, cnta, black - 2 * red);
 			int b = less(bkey, cnta, red - 2 * black);
 			if (r > 0) {
@@ -266,7 +266,7 @@ public class Code02_Cobweb1 {
 		FastReader in = new FastReader(System.in);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
 		n = in.nextInt();
-		realNode = n;
+		real = n;
 		ans1 = ans2 = 1;
 		for (int i = 1, u, v, w, c; i < n; i++) {
 			u = in.nextInt();
