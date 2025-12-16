@@ -32,13 +32,13 @@ public class Code01_LongestPathTree1 {
 	public static boolean[] vis = new boolean[MAXN];
 	public static int[] siz = new int[MAXN];
 
-	public static int[] preEdge = new int[MAXN];
-	public static int[] preMinv = new int[MAXN];
-	public static int cntp;
+	public static int[] ledge = new int[MAXN];
+	public static int[] lminv = new int[MAXN];
+	public static int cntl;
 
-	public static int[] curEdge = new int[MAXN];
-	public static int[] curMinv = new int[MAXN];
-	public static int cntc;
+	public static int[] redge = new int[MAXN];
+	public static int[] rminv = new int[MAXN];
+	public static int cntr;
 
 	// 讲解118，递归函数改成迭代所需要的栈
 	public static int[][] stack = new int[MAXN][6];
@@ -224,11 +224,11 @@ public class Code01_LongestPathTree1 {
 	// 收集信息递归版，java会爆栈，C++可以通过
 	public static void dfs1(int u, int fa, int edge, int minv, int op) {
 		if (op == 0) {
-			preEdge[++cntp] = edge;
-			preMinv[cntp] = minv;
+			ledge[++cntl] = edge;
+			lminv[cntl] = minv;
 		} else {
-			curEdge[++cntc] = edge;
-			curMinv[cntc] = minv;
+			redge[++cntr] = edge;
+			rminv[cntr] = minv;
 		}
 		for (int e = headg[u]; e > 0; e = nextg[e]) {
 			int v = tog[e];
@@ -246,11 +246,11 @@ public class Code01_LongestPathTree1 {
 			pop();
 			if (e == -1) {
 				if (op == 0) {
-					preEdge[++cntp] = edge;
-					preMinv[cntp] = minv;
+					ledge[++cntl] = edge;
+					lminv[cntl] = minv;
 				} else {
-					curEdge[++cntc] = edge;
-					curMinv[cntc] = minv;
+					redge[++cntr] = edge;
+					rminv[cntr] = minv;
 				}
 				e = headg[u];
 			} else {
@@ -285,34 +285,34 @@ public class Code01_LongestPathTree1 {
 	}
 
 	public static long calc(int edge) {
-		cntp = cntc = 0;
+		cntl = cntr = 0;
 		int v = tog[edge];
 		// dfs1(v, 0, 0, arr[v], 0);
 		dfs2(v, 0, 0, arr[v], 0);
 		v = tog[edge ^ 1];
 		// dfs1(v, 0, 0, arr[v], 1);
 		dfs2(v, 0, 0, arr[v], 1);
-		sort(preEdge, preMinv, 1, cntp);
-		sort(curEdge, curMinv, 1, cntc);
+		sort(ledge, lminv, 1, cntl);
+		sort(redge, rminv, 1, cntr);
 		long ans = 0;
 		long maxEdge = 0;
-		for (int i = cntc, j = cntp; i >= 1; i--) {
-			while (j >= 1 && preMinv[j] >= curMinv[i]) {
-				maxEdge = Math.max(maxEdge, preEdge[j]);
+		for (int i = cntr, j = cntl; i >= 1; i--) {
+			while (j >= 1 && lminv[j] >= rminv[i]) {
+				maxEdge = Math.max(maxEdge, ledge[j]);
 				j--;
 			}
-			if (j < cntp) {
-				ans = Math.max(ans, 1L * curMinv[i] * (maxEdge + curEdge[i] + weightg[edge] + 1));
+			if (j < cntl) {
+				ans = Math.max(ans, 1L * rminv[i] * (maxEdge + redge[i] + weightg[edge] + 1));
 			}
 		}
 		maxEdge = 0;
-		for (int i = cntp, j = cntc; i >= 1; i--) {
-			while (j >= 1 && curMinv[j] >= preMinv[i]) {
-				maxEdge = Math.max(maxEdge, curEdge[j]);
+		for (int i = cntl, j = cntr; i >= 1; i--) {
+			while (j >= 1 && rminv[j] >= lminv[i]) {
+				maxEdge = Math.max(maxEdge, redge[j]);
 				j--;
 			}
-			if (j < cntc) {
-				ans = Math.max(ans, 1L * preMinv[i] * (maxEdge + preEdge[i] + weightg[edge] + 1));
+			if (j < cntr) {
+				ans = Math.max(ans, 1L * lminv[i] * (maxEdge + ledge[i] + weightg[edge] + 1));
 			}
 		}
 		return ans;

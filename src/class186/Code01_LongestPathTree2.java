@@ -38,11 +38,11 @@ package class186;
 //bool vis[MAXN];
 //int siz[MAXN];
 //
-//Node preArr[MAXN];
-//int cntp;
+//Node larr[MAXN];
+//int cntl;
 //
-//Node curArr[MAXN];
-//int cntc;
+//Node rarr[MAXN];
+//int cntr;
 //
 //void addEdge(int u, int v, int w) {
 //    nextg[++cntg] = headg[u];
@@ -142,9 +142,9 @@ package class186;
 //
 //void dfs(int u, int fa, int edge, int minv, int op) {
 //    if (op == 0) {
-//        preArr[++cntp] = { edge, minv };
+//        larr[++cntl] = { edge, minv };
 //    } else {
-//        curArr[++cntc] = { edge, minv };
+//        rarr[++cntr] = { edge, minv };
 //    }
 //    for (int e = headg[u]; e; e = nextg[e]) {
 //        int v = tog[e];
@@ -155,32 +155,32 @@ package class186;
 //}
 //
 //long long calc(int edge) {
-//    cntp = cntc = 0;
+//    cntl = cntr = 0;
 //    int v = tog[edge];
 //    dfs(v, 0, 0, arr[v], 0);
 //    v = tog[edge ^ 1];
 //    dfs(v, 0, 0, arr[v], 1);
-//    sort(preArr + 1, preArr + cntp + 1, NodeCmp);
-//    sort(curArr + 1, curArr + cntc + 1, NodeCmp);
+//    sort(larr + 1, larr + cntl + 1, NodeCmp);
+//    sort(rarr + 1, rarr + cntr + 1, NodeCmp);
 //    long long ans = 0;
 //    long long maxEdge = 0;
-//    for (int i = cntc, j = cntp; i >= 1; i--) {
-//        while (j >= 1 && preArr[j].minv >= curArr[i].minv) {
-//            maxEdge = max(maxEdge, 1LL * preArr[j].edge);
+//    for (int i = cntr, j = cntl; i >= 1; i--) {
+//        while (j >= 1 && larr[j].minv >= rarr[i].minv) {
+//            maxEdge = max(maxEdge, 1LL * larr[j].edge);
 //            j--;
 //        }
-//        if (j < cntp) {
-//            ans = max(ans, 1LL * curArr[i].minv * (maxEdge + curArr[i].edge + weightg[edge] + 1));
+//        if (j < cntl) {
+//            ans = max(ans, 1LL * rarr[i].minv * (maxEdge + rarr[i].edge + weightg[edge] + 1));
 //        }
 //    }
 //    maxEdge = 0;
-//    for (int i = cntp, j = cntc; i >= 1; i--) {
-//        while (j >= 1 && curArr[j].minv >= preArr[i].minv) {
-//            maxEdge = max(maxEdge, 1LL * curArr[j].edge);
+//    for (int i = cntl, j = cntr; i >= 1; i--) {
+//        while (j >= 1 && rarr[j].minv >= larr[i].minv) {
+//            maxEdge = max(maxEdge, 1LL * rarr[j].edge);
 //            j--;
 //        }
-//        if (j < cntc) {
-//            ans = max(ans, 1LL * preArr[i].minv * (maxEdge + preArr[i].edge + weightg[edge] + 1));
+//        if (j < cntr) {
+//            ans = max(ans, 1LL * larr[i].minv * (maxEdge + larr[i].edge + weightg[edge] + 1));
 //        }
 //    }
 //    return ans;
