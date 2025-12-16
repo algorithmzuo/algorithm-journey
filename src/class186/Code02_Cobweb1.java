@@ -194,7 +194,7 @@ public class Code02_Cobweb1 {
 		return ans;
 	}
 
-	public static void collect(int u, int fa, int red, int black, long path) {
+	public static void dfs(int u, int fa, int red, int black, long path) {
 		if (u <= realNode) {
 			rkey[++cnta] = 2 * red - black;
 			rpath[cnta] = path;
@@ -206,20 +206,20 @@ public class Code02_Cobweb1 {
 			if (v != fa && !vis[e >> 1]) {
 				int nextRed = red + (colorg[e] == 0 ? 1 : 0);
 				int nextBlack = black + (colorg[e] == 1 ? 1 : 0);
-				collect(v, u, nextRed, nextBlack, path * weightg[e] % MOD);
+				dfs(v, u, nextRed, nextBlack, path * weightg[e] % MOD);
 			}
 		}
 	}
 
-	public static void dfs(int u, int fa, int red, int black, long path) {
+	public static void calcAns(int u, int fa, int red, int black, long path) {
 		if (u <= realNode) {
-			int t = less(rkey, cnta, black - 2 * red);
-			if (t > 0) {
-				ans2 = ans2 * power(path, t) % MOD * rpath[t] % MOD;
+			int r = less(rkey, cnta, black - 2 * red);
+			int b = less(bkey, cnta, red - 2 * black);
+			if (r > 0) {
+				ans2 = ans2 * power(path, r) % MOD * rpath[r] % MOD;
 			}
-			t = less(bkey, cnta, red - 2 * black);
-			if (t > 0) {
-				ans2 = ans2 * power(path, t) % MOD * bpath[t] % MOD;
+			if (b > 0) {
+				ans2 = ans2 * power(path, b) % MOD * bpath[b] % MOD;
 			}
 		}
 		for (int e = headg[u]; e > 0; e = nextg[e]) {
@@ -227,7 +227,7 @@ public class Code02_Cobweb1 {
 			if (v != fa && !vis[e >> 1]) {
 				int nextRed = red + (colorg[e] == 0 ? 1 : 0);
 				int nextBlack = black + (colorg[e] == 1 ? 1 : 0);
-				dfs(v, u, nextRed, nextBlack, path * weightg[e] % MOD);
+				calcAns(v, u, nextRed, nextBlack, path * weightg[e] % MOD);
 			}
 		}
 	}
@@ -235,7 +235,7 @@ public class Code02_Cobweb1 {
 	public static void calc(int edge) {
 		cnta = 0;
 		int v = tog[edge];
-		collect(v, 0, 0, 0, 1);
+		dfs(v, 0, 0, 0, 1);
 		sort(rkey, rpath, 1, cnta);
 		sort(bkey, bpath, 1, cnta);
 		for (int i = 2; i <= cnta; i++) {
@@ -245,7 +245,7 @@ public class Code02_Cobweb1 {
 		v = tog[edge ^ 1];
 		int red = (colorg[edge] == 0 ? 1 : 0);
 		int black = (colorg[edge] == 1 ? 1 : 0);
-		dfs(v, 0, red, black, weightg[edge] % MOD);
+		calcAns(v, 0, red, black, weightg[edge] % MOD);
 	}
 
 	public static void solve(int u) {
