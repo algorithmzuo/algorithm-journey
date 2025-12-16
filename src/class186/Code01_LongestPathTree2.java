@@ -38,11 +38,11 @@ package class186;
 //bool vis[MAXN];
 //int siz[MAXN];
 //
-//Node curArr[MAXN];
-//int cntc;
-//
 //Node preArr[MAXN];
 //int cntp;
+//
+//Node curArr[MAXN];
+//int cntc;
 //
 //void addEdge(int u, int v, int w) {
 //    nextg[++cntg] = headg[u];
@@ -140,27 +140,26 @@ package class186;
 //    return edge;
 //}
 //
-//void dfs(int u, int fa, int edge, int minv) {
-//    curArr[++cntc] = { edge, minv };
+//void dfs(int u, int fa, int edge, int minv, int op) {
+//    if (op == 0) {
+//        preArr[++cntp] = { edge, minv };
+//    } else {
+//        curArr[++cntc] = { edge, minv };
+//    }
 //    for (int e = headg[u]; e; e = nextg[e]) {
 //        int v = tog[e];
 //        if (v != fa && !vis[e >> 1]) {
-//            dfs(v, u, edge + weightg[e], min(minv, arr[v]));
+//            dfs(v, u, edge + weightg[e], min(minv, arr[v]), op);
 //        }
 //    }
 //}
 //
 //long long calc(int edge) {
-//    cntc = 0;
+//    cntp = cntc = 0;
 //    int v = tog[edge];
-//    dfs(v, 0, 0, arr[v]);
-//    for (int i = 1; i <= cntc; i++) {
-//        preArr[i] = curArr[i];
-//    }
-//    cntp = cntc;
-//    cntc = 0;
+//    dfs(v, 0, 0, arr[v], 0);
 //    v = tog[edge ^ 1];
-//    dfs(v, 0, 0, arr[v]);
+//    dfs(v, 0, 0, arr[v], 1);
 //    sort(preArr + 1, preArr + cntp + 1, NodeCmp);
 //    sort(curArr + 1, curArr + cntc + 1, NodeCmp);
 //    long long ans = 0;

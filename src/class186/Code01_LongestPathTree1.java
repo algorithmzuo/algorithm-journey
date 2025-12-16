@@ -32,25 +32,26 @@ public class Code01_LongestPathTree1 {
 	public static boolean[] vis = new boolean[MAXN];
 	public static int[] siz = new int[MAXN];
 
-	public static int[] curEdge = new int[MAXN];
-	public static int[] curMinv = new int[MAXN];
-	public static int cntc;
-
 	public static int[] preEdge = new int[MAXN];
 	public static int[] preMinv = new int[MAXN];
 	public static int cntp;
 
+	public static int[] curEdge = new int[MAXN];
+	public static int[] curMinv = new int[MAXN];
+	public static int cntc;
+
 	// 讲解118，递归函数改成迭代所需要的栈
-	public static int[][] stack = new int[MAXN][5];
-	public static int u, f, edge, minv, e;
+	public static int[][] stack = new int[MAXN][6];
+	public static int u, f, edge, minv, op, e;
 	public static int stacksize;
 
-	public static void push(int u, int f, int edge, int minv, int e) {
+	public static void push(int u, int f, int edge, int minv, int op, int e) {
 		stack[stacksize][0] = u;
 		stack[stacksize][1] = f;
 		stack[stacksize][2] = edge;
 		stack[stacksize][3] = minv;
-		stack[stacksize][4] = e;
+		stack[stacksize][4] = op;
+		stack[stacksize][5] = e;
 		stacksize++;
 	}
 
@@ -60,7 +61,8 @@ public class Code01_LongestPathTree1 {
 		f = stack[stacksize][1];
 		edge = stack[stacksize][2];
 		minv = stack[stacksize][3];
-		e = stack[stacksize][4];
+		op = stack[stacksize][4];
+		e = stack[stacksize][5];
 	}
 
 	public static void addEdge(int u, int v, int w) {
@@ -91,7 +93,7 @@ public class Code01_LongestPathTree1 {
 	// buildSon1的迭代版
 	public static void buildSon2(int cur, int father) {
 		stacksize = 0;
-		push(cur, father, 0, 0, -1);
+		push(cur, father, 0, 0, 0, -1);
 		while (stacksize > 0) {
 			pop();
 			if (e == -1) {
@@ -106,10 +108,10 @@ public class Code01_LongestPathTree1 {
 				e = nextg[e];
 			}
 			if (e != 0) {
-				push(u, f, 0, 0, e);
+				push(u, f, 0, 0, 0, e);
 				int v = tog[e];
 				if (v != f) {
-					push(v, u, 0, 0, -1);
+					push(v, u, 0, 0, 0, -1);
 				}
 			}
 		}
@@ -167,7 +169,7 @@ public class Code01_LongestPathTree1 {
 	// getSize1的迭代版
 	public static void getSize2(int cur, int fa) {
 		stacksize = 0;
-		push(cur, fa, 0, 0, -1);
+		push(cur, fa, 0, 0, 0, -1);
 		while (stacksize > 0) {
 			pop();
 			if (e == -1) {
@@ -177,10 +179,10 @@ public class Code01_LongestPathTree1 {
 				e = nextg[e];
 			}
 			if (e != 0) {
-				push(u, f, 0, 0, e);
+				push(u, f, 0, 0, 0, e);
 				int v = tog[e];
 				if (v != f && !vis[e >> 1]) {
-					push(v, u, 0, 0, -1);
+					push(v, u, 0, 0, 0, -1);
 				}
 			} else {
 				for (int ei = headg[u]; ei > 0; ei = nextg[ei]) {
@@ -220,35 +222,45 @@ public class Code01_LongestPathTree1 {
 	}
 
 	// 收集信息递归版，java会爆栈，C++可以通过
-	public static void dfs1(int u, int fa, int edge, int minv) {
-		curEdge[++cntc] = edge;
-		curMinv[cntc] = minv;
+	public static void dfs1(int u, int fa, int edge, int minv, int op) {
+		if (op == 0) {
+			preEdge[++cntp] = edge;
+			preMinv[cntp] = minv;
+		} else {
+			curEdge[++cntc] = edge;
+			curMinv[cntc] = minv;
+		}
 		for (int e = headg[u]; e > 0; e = nextg[e]) {
 			int v = tog[e];
 			if (v != fa && !vis[e >> 1]) {
-				dfs1(v, u, edge + weightg[e], Math.min(minv, arr[v]));
+				dfs1(v, u, edge + weightg[e], Math.min(minv, arr[v]), op);
 			}
 		}
 	}
 
 	// dfs1的迭代版
-	public static void dfs2(int cur, int fa, int pedge, int pminv) {
+	public static void dfs2(int cur, int fa, int pedge, int pminv, int opt) {
 		stacksize = 0;
-		push(cur, fa, pedge, pminv, -1);
+		push(cur, fa, pedge, pminv, opt, -1);
 		while (stacksize > 0) {
 			pop();
 			if (e == -1) {
-				curEdge[++cntc] = edge;
-				curMinv[cntc] = minv;
+				if (op == 0) {
+					preEdge[++cntp] = edge;
+					preMinv[cntp] = minv;
+				} else {
+					curEdge[++cntc] = edge;
+					curMinv[cntc] = minv;
+				}
 				e = headg[u];
 			} else {
 				e = nextg[e];
 			}
 			if (e != 0) {
-				push(u, f, edge, minv, e);
+				push(u, f, edge, minv, op, e);
 				int v = tog[e];
 				if (v != f && !vis[e >> 1]) {
-					push(v, u, edge + weightg[e], Math.min(minv, arr[v]), -1);
+					push(v, u, edge + weightg[e], Math.min(minv, arr[v]), op, -1);
 				}
 			}
 		}
@@ -273,19 +285,13 @@ public class Code01_LongestPathTree1 {
 	}
 
 	public static long calc(int edge) {
-		cntc = 0;
+		cntp = cntc = 0;
 		int v = tog[edge];
-		// dfs1(v, 0, 0, arr[v]);
-		dfs2(v, 0, 0, arr[v]);
-		for (int i = 1; i <= cntc; i++) {
-			preEdge[i] = curEdge[i];
-			preMinv[i] = curMinv[i];
-		}
-		cntp = cntc;
-		cntc = 0;
+		// dfs1(v, 0, 0, arr[v], 0);
+		dfs2(v, 0, 0, arr[v], 0);
 		v = tog[edge ^ 1];
-		// dfs1(v, 0, 0, arr[v]);
-		dfs2(v, 0, 0, arr[v]);
+		// dfs1(v, 0, 0, arr[v], 1);
+		dfs2(v, 0, 0, arr[v], 1);
 		sort(preEdge, preMinv, 1, cntp);
 		sort(curEdge, curMinv, 1, cntc);
 		long ans = 0;
