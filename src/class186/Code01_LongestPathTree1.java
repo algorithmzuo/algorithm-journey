@@ -132,21 +132,21 @@ public class Code01_LongestPathTree1 {
 					addEdge(son, u, 1);
 				}
 			} else {
-				int addNode1 = ++n;
-				int addNode2 = ++n;
-				arr[addNode1] = arr[u];
-				arr[addNode2] = arr[u];
-				addEdge(u, addNode1, 0);
-				addEdge(addNode1, u, 0);
-				addEdge(u, addNode2, 0);
-				addEdge(addNode2, u, 0);
+				int node1 = ++n;
+				int node2 = ++n;
+				arr[node1] = arr[u];
+				arr[node2] = arr[u];
+				addEdge(u, node1, 0);
+				addEdge(node1, u, 0);
+				addEdge(u, node2, 0);
+				addEdge(node2, u, 0);
 				boolean add1 = true;
 				for (int e = heads[u]; e > 0; e = nexts[e]) {
 					int son = sons[e];
 					if (add1) {
-						addSon(addNode1, son);
+						addSon(node1, son);
 					} else {
-						addSon(addNode2, son);
+						addSon(node2, son);
 					}
 					add1 = !add1;
 				}

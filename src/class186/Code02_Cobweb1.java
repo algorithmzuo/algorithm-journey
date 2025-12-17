@@ -15,7 +15,7 @@ public class Code02_Cobweb1 {
 	public static int MAXN = 400001;
 	public static int MAXS = 4000001;
 	public static final int MOD = 1000000007;
-	public static int n, real;
+	public static int n, cntn;
 
 	public static int[] headg = new int[MAXN];
 	public static int[] nextg = new int[MAXN << 1];
@@ -85,10 +85,10 @@ public class Code02_Cobweb1 {
 	public static void rebuildTree() {
 		buildSon(1, 0);
 		cntg = 1;
-		for (int u = 1; u <= n; u++) {
+		for (int u = 1; u <= cntn; u++) {
 			headg[u] = 0;
 		}
-		for (int u = 1; u <= n; u++) {
+		for (int u = 1; u <= cntn; u++) {
 			if (sonCnt[u] <= 2) {
 				for (int e = heads[u]; e > 0; e = nexts[e]) {
 					int v = sons[e];
@@ -98,21 +98,21 @@ public class Code02_Cobweb1 {
 					addEdge(v, u, w, c);
 				}
 			} else {
-				int addNode1 = ++n;
-				int addNode2 = ++n;
-				addEdge(u, addNode1, 1, -1);
-				addEdge(addNode1, u, 1, -1);
-				addEdge(u, addNode2, 1, -1);
-				addEdge(addNode2, u, 1, -1);
+				int node1 = ++cntn;
+				int node2 = ++cntn;
+				addEdge(u, node1, 1, -1);
+				addEdge(node1, u, 1, -1);
+				addEdge(u, node2, 1, -1);
+				addEdge(node2, u, 1, -1);
 				boolean add1 = true;
 				for (int e = heads[u]; e > 0; e = nexts[e]) {
 					int v = sons[e];
 					int w = weights[e];
 					int c = colors[e];
 					if (add1) {
-						addSon(addNode1, v, w, c);
+						addSon(node1, v, w, c);
 					} else {
-						addSon(addNode2, v, w, c);
+						addSon(node2, v, w, c);
 					}
 					add1 = !add1;
 				}
@@ -187,7 +187,7 @@ public class Code02_Cobweb1 {
 	}
 
 	public static void dfs(int u, int fa, int red, int black, long path) {
-		if (u <= real) {
+		if (u <= n) {
 			rkey[++cnta] = 2 * red - black;
 			rpath[cnta] = path;
 			bkey[cnta] = 2 * black - red;
@@ -204,7 +204,7 @@ public class Code02_Cobweb1 {
 	}
 
 	public static void calcAns(int u, int fa, int red, int black, long path) {
-		if (u <= real) {
+		if (u <= n) {
 			int r = less(rkey, cnta, black - 2 * red);
 			int b = less(bkey, cnta, red - 2 * black);
 			if (r > 0) {
@@ -266,7 +266,7 @@ public class Code02_Cobweb1 {
 		FastReader in = new FastReader(System.in);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
 		n = in.nextInt();
-		real = n;
+		cntn = n;
 		ans1 = ans2 = 1;
 		for (int i = 1, u, v, w, c; i < n; i++) {
 			u = in.nextInt();
