@@ -23,6 +23,12 @@ public class Code03_ViolentWriting1 {
 	public static int[] weight1 = new int[MAXN << 1];
 	public static int cnt1;
 
+	public static int[] head2 = new int[MAXN];
+	public static int[] next2 = new int[MAXN << 1];
+	public static int[] to2 = new int[MAXN << 1];
+	public static int[] weight2 = new int[MAXN << 1];
+	public static int cnt2;
+
 	public static long[] dis1 = new long[MAXN];
 
 	public static int[] sonCnt = new int[MAXN];
@@ -43,12 +49,6 @@ public class Code03_ViolentWriting1 {
 	public static int[] lastPtr = new int[MAXN];
 	public static int[] rt = new int[MAXN];
 	public static int totT;
-
-	public static int[] head2 = new int[MAXN];
-	public static int[] next2 = new int[MAXN << 1];
-	public static int[] to2 = new int[MAXN << 1];
-	public static int[] weight2 = new int[MAXN << 1];
-	public static int cnt2;
 
 	public static long ans;
 
@@ -232,10 +232,6 @@ public class Code03_ViolentWriting1 {
 		FastReader in = new FastReader(System.in);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
 		n = in.nextInt();
-		cntn = n;
-		Arrays.fill(mx0, -INF);
-		Arrays.fill(mx1, -INF);
-		ans = -INF;
 		for (int i = 1, u, v, w; i < n; i++) {
 			u = in.nextInt();
 			v = in.nextInt();
@@ -243,9 +239,6 @@ public class Code03_ViolentWriting1 {
 			addEdge1(u, v, w);
 			addEdge1(v, u, w);
 		}
-		getDist(1, 0, 0);
-		rebuildTree();
-		solve(1);
 		for (int i = 1, u, v, w; i < n; i++) {
 			u = in.nextInt();
 			v = in.nextInt();
@@ -253,6 +246,13 @@ public class Code03_ViolentWriting1 {
 			addEdge2(u, v, w);
 			addEdge2(v, u, w);
 		}
+		cntn = n;
+		Arrays.fill(mx0, -INF);
+		Arrays.fill(mx1, -INF);
+		ans = -INF;
+		getDist(1, 0, 0);
+		rebuildTree();
+		solve(1);
 		compute(1, 0, 0);
 		out.println(ans >> 1);
 		out.flush();

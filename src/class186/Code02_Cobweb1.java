@@ -266,8 +266,6 @@ public class Code02_Cobweb1 {
 		FastReader in = new FastReader(System.in);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
 		n = in.nextInt();
-		cntn = n;
-		ans1 = ans2 = 1;
 		for (int i = 1, u, v, w, c; i < n; i++) {
 			u = in.nextInt();
 			v = in.nextInt();
@@ -276,6 +274,8 @@ public class Code02_Cobweb1 {
 			addEdge(u, v, w, c);
 			addEdge(v, u, w, c);
 		}
+		cntn = n;
+		ans1 = ans2 = 1;
 		prepare(1, 0);
 		rebuildTree();
 		solve(1);
