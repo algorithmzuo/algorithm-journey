@@ -20,7 +20,7 @@ package class186;
 //
 //const int MAXN = 200001;
 //const int MAXS = 1000001;
-//int n;
+//int n, cntn;
 //int arr[MAXN];
 //
 //int headg[MAXN];
@@ -70,11 +70,12 @@ package class186;
 //
 //void rebuildTree() {
 //    buildSon(1, 0);
+//    cntn = n;
 //    cntg = 1;
-//    for (int u = 1; u <= n; u++) {
+//    for (int u = 1; u <= cntn; u++) {
 //        headg[u] = 0;
 //    }
-//    for (int u = 1; u <= n; u++) {
+//    for (int u = 1; u <= cntn; u++) {
 //        if (sonCnt[u] <= 2) {
 //            for (int e = heads[u]; e; e = nexts[e]) {
 //                int son = sons[e];
@@ -82,8 +83,8 @@ package class186;
 //                addEdge(son, u, 1);
 //            }
 //        } else {
-//            int node1 = ++n;
-//            int node2 = ++n;
+//            int node1 = ++cntn;
+//            int node2 = ++cntn;
 //            arr[node1] = arr[u];
 //            arr[node2] = arr[u];
 //            addEdge(u, node1, 0);

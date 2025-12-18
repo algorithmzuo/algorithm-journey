@@ -84,6 +84,7 @@ public class Code02_Cobweb1 {
 
 	public static void rebuildTree() {
 		buildSon(1, 0);
+		cntn = n;
 		cntg = 1;
 		for (int u = 1; u <= cntn; u++) {
 			headg[u] = 0;
@@ -274,7 +275,6 @@ public class Code02_Cobweb1 {
 			addEdge(u, v, w, c);
 			addEdge(v, u, w, c);
 		}
-		cntn = n;
 		ans1 = ans2 = 1;
 		prepare(1, 0);
 		rebuildTree();

@@ -94,6 +94,7 @@ package class186;
 //
 //void rebuildTree() {
 //    buildSon(1, 0);
+//    cntn = n;
 //    cnt1 = 1;
 //    for (int i = 1; i <= cntn; i++) {
 //        head1[i] = 0;
@@ -233,13 +234,12 @@ package class186;
 //        addEdge1(v, u, w);
 //    }
 //    for (int i = 1, u, v, w; i < n; i++) {
-//    	cin >> u >> v >> w;
+//        cin >> u >> v >> w;
 //        addEdge2(u, v, w);
 //        addEdge2(v, u, w);
 //    }
-//    cntn = n;
 //    for (int i = 1; i < MAXT; i++) {
-//    	lmax[i] = rmax[i] = -INF;
+//        lmax[i] = rmax[i] = -INF;
 //    }
 //    ans = -INF;
 //    getDist(1, 0, 0);

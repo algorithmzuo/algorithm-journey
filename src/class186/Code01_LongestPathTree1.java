@@ -14,7 +14,7 @@ public class Code01_LongestPathTree1 {
 
 	public static int MAXN = 200001;
 	public static int MAXS = 1000001;
-	public static int n;
+	public static int n, cntn;
 	public static int[] arr = new int[MAXN];
 
 	public static int[] headg = new int[MAXN];
@@ -120,11 +120,12 @@ public class Code01_LongestPathTree1 {
 	public static void rebuildTree() {
 		// buildSon1(1, 0);
 		buildSon2(1, 0);
+		cntn = n;
 		cntg = 1;
-		for (int u = 1; u <= n; u++) {
+		for (int u = 1; u <= cntn; u++) {
 			headg[u] = 0;
 		}
-		for (int u = 1; u <= n; u++) {
+		for (int u = 1; u <= cntn; u++) {
 			if (sonCnt[u] <= 2) {
 				for (int e = heads[u]; e > 0; e = nexts[e]) {
 					int son = sons[e];
@@ -132,8 +133,8 @@ public class Code01_LongestPathTree1 {
 					addEdge(son, u, 1);
 				}
 			} else {
-				int node1 = ++n;
-				int node2 = ++n;
+				int node1 = ++cntn;
+				int node2 = ++cntn;
 				arr[node1] = arr[u];
 				arr[node2] = arr[u];
 				addEdge(u, node1, 0);

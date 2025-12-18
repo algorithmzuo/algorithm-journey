@@ -99,6 +99,7 @@ public class Code03_ViolentWriting1 {
 
 	public static void rebuildTree() {
 		buildSon(1, 0);
+		cntn = n;
 		cnt1 = 1;
 		for (int i = 1; i <= cntn; i++) {
 			head1[i] = 0;
@@ -246,7 +247,6 @@ public class Code03_ViolentWriting1 {
 			addEdge2(u, v, w);
 			addEdge2(v, u, w);
 		}
-		cntn = n;
 		for (int i = 1; i < MAXT; i++) {
 			lmax[i] = rmax[i] = -INF;
 		}
