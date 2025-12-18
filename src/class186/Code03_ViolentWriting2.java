@@ -170,14 +170,16 @@ package class186;
 //            latest[u] = ++cntt;
 //            root[u] = cntt;
 //        }
+//        int cur = latest[u];
+//        int nxt = ++cntt;
 //        if (op == 0) {
-//            ls[latest[u]] = ++cntt;
-//            lmax[latest[u]] = dis1[u] + dist;
+//            ls[cur] = nxt;
+//            lmax[cur] = dis1[u] + dist;
 //        } else {
-//            rs[latest[u]] = ++cntt;
-//            rmax[latest[u]] = dis1[u] + dist;
+//            rs[cur] = nxt;
+//            rmax[cur] = dis1[u] + dist;
 //        }
-//        latest[u] = cntt;
+//        latest[u] = nxt;
 //    }
 //    for (int e = head1[u]; e > 0; e = next1[e]) {
 //        int v = to1[e];
