@@ -19,7 +19,7 @@ package class186;
 //}
 //
 //const int MAXN = 200001;
-//const int MAXS = 1000001;
+//const int MAXM = 1000001;
 //int n, cntn;
 //int arr[MAXN];
 //
@@ -31,8 +31,8 @@ package class186;
 //
 //int sonCnt[MAXN];
 //int heads[MAXN];
-//int nexts[MAXS];
-//int sons[MAXS];
+//int nexts[MAXM];
+//int sons[MAXM];
 //int cnts;
 //
 //bool vis[MAXN];

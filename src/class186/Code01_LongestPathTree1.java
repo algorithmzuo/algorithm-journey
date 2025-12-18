@@ -13,7 +13,7 @@ import java.io.PrintWriter;
 public class Code01_LongestPathTree1 {
 
 	public static int MAXN = 200001;
-	public static int MAXS = 1000001;
+	public static int MAXM = 1000001;
 	public static int n, cntn;
 	public static int[] arr = new int[MAXN];
 
@@ -25,8 +25,8 @@ public class Code01_LongestPathTree1 {
 
 	public static int[] sonCnt = new int[MAXN];
 	public static int[] heads = new int[MAXN];
-	public static int[] nexts = new int[MAXS];
-	public static int[] sons = new int[MAXS];
+	public static int[] nexts = new int[MAXM];
+	public static int[] sons = new int[MAXM];
 	public static int cnts;
 
 	public static boolean[] vis = new boolean[MAXN];

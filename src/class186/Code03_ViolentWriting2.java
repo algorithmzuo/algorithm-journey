@@ -10,8 +10,7 @@ package class186;
 //using namespace std;
 //
 //const int MAXN = 1000001;
-//const int MAXS = 10000001;
-//const int MAXT = 10000001;
+//const int MAXM = 10000001;
 //const long long INF = 1LL << 50;
 //int n, cntn;
 //
@@ -31,19 +30,19 @@ package class186;
 //
 //int sonCnt[MAXN];
 //int heads[MAXN];
-//int nexts[MAXS];
-//int sons[MAXS];
-//int weights[MAXS];
+//int nexts[MAXM];
+//int sons[MAXM];
+//int weights[MAXM];
 //int cnts;
 //
 //bool vis[MAXN];
 //int siz[MAXN];
 //
 //int root[MAXN];
-//int ls[MAXT];
-//int rs[MAXT];
-//long long lmax[MAXT];
-//long long rmax[MAXT];
+//int ls[MAXM];
+//int rs[MAXM];
+//long long lmax[MAXM];
+//long long rmax[MAXM];
 //int cntt;
 //
 //int latest[MAXN];
@@ -238,7 +237,7 @@ package class186;
 //        addEdge2(u, v, w);
 //        addEdge2(v, u, w);
 //    }
-//    for (int i = 1; i < MAXT; i++) {
+//    for (int i = 1; i < MAXM; i++) {
 //        lmax[i] = rmax[i] = -INF;
 //    }
 //    ans = -INF;

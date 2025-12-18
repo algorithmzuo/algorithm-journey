@@ -15,8 +15,7 @@ import java.io.PrintWriter;
 public class Code03_ViolentWriting1 {
 
 	public static int MAXN = 1000001;
-	public static int MAXS = 10000001;
-	public static int MAXT = 10000001;
+	public static int MAXM = 10000001;
 	public static long INF = 1L << 50;
 	public static int n, cntn;
 
@@ -36,19 +35,19 @@ public class Code03_ViolentWriting1 {
 
 	public static int[] sonCnt = new int[MAXN];
 	public static int[] heads = new int[MAXN];
-	public static int[] nexts = new int[MAXS];
-	public static int[] sons = new int[MAXS];
-	public static int[] weights = new int[MAXS];
+	public static int[] nexts = new int[MAXM];
+	public static int[] sons = new int[MAXM];
+	public static int[] weights = new int[MAXM];
 	public static int cnts;
 
 	public static boolean[] vis = new boolean[MAXN];
 	public static int[] siz = new int[MAXN];
 
 	public static int[] root = new int[MAXN];
-	public static int[] ls = new int[MAXT];
-	public static int[] rs = new int[MAXT];
-	public static long[] lmax = new long[MAXT];
-	public static long[] rmax = new long[MAXT];
+	public static int[] ls = new int[MAXM];
+	public static int[] rs = new int[MAXM];
+	public static long[] lmax = new long[MAXM];
+	public static long[] rmax = new long[MAXM];
 	public static int cntt;
 
 	public static int[] latest = new int[MAXN];
@@ -247,7 +246,7 @@ public class Code03_ViolentWriting1 {
 			addEdge2(u, v, w);
 			addEdge2(v, u, w);
 		}
-		for (int i = 1; i < MAXT; i++) {
+		for (int i = 1; i < MAXM; i++) {
 			lmax[i] = rmax[i] = -INF;
 		}
 		ans = -INF;
