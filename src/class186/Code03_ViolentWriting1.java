@@ -2,12 +2,15 @@ package class186;
 
 // 暴力写挂，java版
 // 测试链接 : https://www.luogu.com.cn/problem/P4565
+// 提交以下的code，提交时请把类名改成"Main"
+// java实现的逻辑一定是正确的，但是本题卡常，无法通过所有测试用例
+// 想通过用C++实现，本节课Code03_ViolentWriting2文件就是C++的实现
+// 两个版本的逻辑完全一样，C++版本可以通过所有测试
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
-import java.util.Arrays;
 
 public class Code03_ViolentWriting1 {
 
@@ -41,14 +44,14 @@ public class Code03_ViolentWriting1 {
 	public static boolean[] vis = new boolean[MAXN];
 	public static int[] siz = new int[MAXN];
 
-	public static long[] mx0 = new long[MAXT];
-	public static long[] mx1 = new long[MAXT];
-	public static int[] ch0 = new int[MAXT];
-	public static int[] ch1 = new int[MAXT];
+	public static int[] root = new int[MAXN];
+	public static int[] ls = new int[MAXT];
+	public static int[] rs = new int[MAXT];
+	public static long[] lmax = new long[MAXT];
+	public static long[] rmax = new long[MAXT];
+	public static int cntt;
 
-	public static int[] lastPtr = new int[MAXN];
-	public static int[] rt = new int[MAXN];
-	public static int totT;
+	public static int[] latest = new int[MAXN];
 
 	public static long ans;
 
@@ -74,12 +77,12 @@ public class Code03_ViolentWriting1 {
 		heads[u] = cnts;
 	}
 
-	public static void getDist(int u, int fa, long dist) {
-		dis1[u] = dist;
+	public static void getDist(int u, int fa, long dist1) {
+		dis1[u] = dist1;
 		for (int e = head1[u]; e > 0; e = next1[e]) {
 			int v = to1[e];
 			if (v != fa) {
-				getDist(v, u, dist + weight1[e]);
+				getDist(v, u, dist1 + weight1[e]);
 			}
 		}
 	}
@@ -168,19 +171,18 @@ public class Code03_ViolentWriting1 {
 
 	public static void dfs(int u, int fa, long dist, int op) {
 		if (u <= n) {
-			++totT;
-			if (lastPtr[u] == 0) {
-				rt[u] = lastPtr[u] = totT;
-				++totT;
+			if (latest[u] == 0) {
+				latest[u] = ++cntt;
+				root[u] = cntt;
 			}
 			if (op == 0) {
-				ch0[lastPtr[u]] = totT;
-				mx0[lastPtr[u]] = dis1[u] + dist;
+				ls[latest[u]] = ++cntt;
+				lmax[latest[u]] = dis1[u] + dist;
 			} else {
-				ch1[lastPtr[u]] = totT;
-				mx1[lastPtr[u]] = dis1[u] + dist;
+				rs[latest[u]] = ++cntt;
+				rmax[latest[u]] = dis1[u] + dist;
 			}
-			lastPtr[u] = totT;
+			latest[u] = cntt;
 		}
 		for (int e = head1[u]; e > 0; e = next1[e]) {
 			int v = to1[e];
@@ -207,23 +209,21 @@ public class Code03_ViolentWriting1 {
 		if (x == 0 || y == 0) {
 			return x + y;
 		}
-		long cand1 = mx0[x] + mx1[y];
-		long cand2 = mx0[y] + mx1[x];
-		ans = Math.max(ans, Math.max(cand1, cand2) + 2L * t);
-		mx0[x] = Math.max(mx0[x], mx0[y]);
-		mx1[x] = Math.max(mx1[x], mx1[y]);
-		ch0[x] = mergeTree(ch0[x], ch0[y], t);
-		ch1[x] = mergeTree(ch1[x], ch1[y], t);
+		ans = Math.max(ans, Math.max(lmax[x] + rmax[y], lmax[y] + rmax[x]) + t * 2);
+		lmax[x] = Math.max(lmax[x], lmax[y]);
+		rmax[x] = Math.max(rmax[x], rmax[y]);
+		ls[x] = mergeTree(ls[x], ls[y], t);
+		rs[x] = mergeTree(rs[x], rs[y], t);
 		return x;
 	}
 
 	public static void compute(int u, int fa, long dist2) {
-		ans = Math.max(ans, 2L * (dis1[u] - dist2));
+		ans = Math.max(ans, (dis1[u] - dist2) * 2);
 		for (int e = head2[u]; e > 0; e = next2[e]) {
 			int v = to2[e];
 			if (v != fa) {
 				compute(v, u, dist2 + weight2[e]);
-				rt[u] = mergeTree(rt[u], rt[v], -dist2);
+				root[u] = mergeTree(root[u], root[v], -dist2);
 			}
 		}
 	}
@@ -247,8 +247,9 @@ public class Code03_ViolentWriting1 {
 			addEdge2(v, u, w);
 		}
 		cntn = n;
-		Arrays.fill(mx0, -INF);
-		Arrays.fill(mx1, -INF);
+		for (int i = 1; i < MAXT; i++) {
+			lmax[i] = rmax[i] = -INF;
+		}
 		ans = -INF;
 		getDist(1, 0, 0);
 		rebuildTree();
