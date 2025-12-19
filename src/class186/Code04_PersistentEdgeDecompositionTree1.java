@@ -3,7 +3,7 @@ package class186;
 // 可持久化边分树，java版
 // 测试链接 : https://www.luogu.com.cn/problem/CF757G
 // 测试链接 : https://codeforces.com/problemset/problem/757/G
-// java实现的逻辑一定是正确的，因为递归爆栈+卡空间，导致无法通过，索性保持最易懂的写法
+// java实现的逻辑一定是正确的，因为递归爆栈、卡空间，导致无法通过，索性保持最易懂的写法
 // 想通过用C++实现，本节课Code04_PersistentEdgeDecompositionTree2文件就是C++的实现
 // 两个版本的逻辑完全一样，C++版本可以通过所有测试
 
