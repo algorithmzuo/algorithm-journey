@@ -151,8 +151,8 @@ package class186;
 //            if (v != fa && !vis[e >> 1]) {
 //                int cur = max(total - siz[v], siz[v]);
 //                if (cur < best) {
-//                    best = cur;
 //                    edge = e;
+//                    best = cur;
 //                    nextfa = u;
 //                    nextu = v;
 //                }

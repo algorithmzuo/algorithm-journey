@@ -156,8 +156,8 @@ public class Code03_ViolentWriting1 {
 				if (v != fa && !vis[e >> 1]) {
 					int cur = Math.max(total - siz[v], siz[v]);
 					if (cur < best) {
-						best = cur;
 						edge = e;
+						best = cur;
 						nextfa = u;
 						nextu = v;
 					}
