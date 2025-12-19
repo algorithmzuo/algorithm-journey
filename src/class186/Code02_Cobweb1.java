@@ -173,7 +173,7 @@ public class Code02_Cobweb1 {
 		sort(key, path, i, r);
 	}
 
-	public static int less(int[] arr, int len, int num) {
+	public static int lessThan(int[] arr, int len, int num) {
 		int l = 1, r = len, mid, ans = 0;
 		while (l <= r) {
 			mid = (l + r) >> 1;
@@ -206,8 +206,8 @@ public class Code02_Cobweb1 {
 
 	public static void calcAns(int u, int fa, int red, int black, long path) {
 		if (u <= n) {
-			int r = less(rkey, cnta, black - 2 * red);
-			int b = less(bkey, cnta, red - 2 * black);
+			int r = lessThan(rkey, cnta, black - 2 * red);
+			int b = lessThan(bkey, cnta, red - 2 * black);
 			if (r > 0) {
 				ans2 = ans2 * power(path, r) % MOD * rpath[r] % MOD;
 			}
