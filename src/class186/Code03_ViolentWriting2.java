@@ -9,10 +9,12 @@ package class186;
 //
 //using namespace std;
 //
+//using ll = long long;
+//
 //const int MAXN = 366667;
 //const int MAXM = MAXN << 1;
 //const int MAXT = 10000001;
-//const long long INF = 1LL << 50;
+//const ll INF = 1LL << 50;
 //
 //int n, cntn;
 //
@@ -22,7 +24,7 @@ package class186;
 //int weight1[MAXN << 1];
 //int cnt1;
 //
-//long long dis1[MAXN];
+//ll dis1[MAXN];
 //
 //int latest[MAXM];
 //int head2[MAXM];
@@ -43,11 +45,11 @@ package class186;
 //int root[MAXN];
 //int ls[MAXT];
 //int rs[MAXT];
-//long long lmax[MAXT];
-//long long rmax[MAXT];
+//ll lmax[MAXT];
+//ll rmax[MAXT];
 //int cntt;
 //
-//long long ans;
+//ll ans;
 //
 //void addEdge1(int u, int v, int w) {
 //    next1[++cnt1] = head1[u];
@@ -70,7 +72,7 @@ package class186;
 //    head3[u] = cnt3;
 //}
 //
-//void getDist(int u, int fa, long long dist1) {
+//void getDist(int u, int fa, ll dist1) {
 //    dis1[u] = dist1;
 //    for (int e = head1[u]; e > 0; e = next1[e]) {
 //        int v = to1[e];
@@ -138,7 +140,7 @@ package class186;
 //    return edge;
 //}
 //
-//void dfs(int u, int fa, long long dist, int op) {
+//void dfs(int u, int fa, ll dist, int op) {
 //    if (u <= n) {
 //        if (latest[u] == 0) {
 //            latest[u] = ++cntt;
@@ -176,7 +178,7 @@ package class186;
 //    }
 //}
 //
-//int mergeTree(int x, int y, long long t) {
+//int mergeTree(int x, int y, ll t) {
 //    if (x == 0 || y == 0) {
 //        return x + y;
 //    }
@@ -188,7 +190,7 @@ package class186;
 //    return x;
 //}
 //
-//void compute(int u, int fa, long long dist2) {
+//void compute(int u, int fa, ll dist2) {
 //    ans = max(ans, (dis1[u] - dist2) * 2);
 //    for (int e = head3[u]; e > 0; e = next3[e]) {
 //        int v = to3[e];
