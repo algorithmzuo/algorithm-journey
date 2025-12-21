@@ -9,11 +9,11 @@ package class186;
 //
 //using namespace std;
 //
-//using ll = long long;
+//const int MAXN = 366667;
+//const int MAXM = MAXN << 1;
+//const int MAXT = 10000001;
+//const long long INF = 1LL << 50;
 //
-//const int MAXN = 1000001;
-//const int MAXM = 10000001;
-//const ll INF = 1LL << 50;
 //int n, cntn;
 //
 //int head1[MAXN];
@@ -22,34 +22,32 @@ package class186;
 //int weight1[MAXN << 1];
 //int cnt1;
 //
-//int head2[MAXN];
-//int next2[MAXN << 1];
-//int to2[MAXN << 1];
-//int weight2[MAXN << 1];
+//long long dis1[MAXN];
+//
+//int latest[MAXM];
+//int head2[MAXM];
+//int next2[MAXM << 1];
+//int to2[MAXM << 1];
+//int weight2[MAXM << 1];
 //int cnt2;
 //
-//ll dis1[MAXN];
+//int head3[MAXN];
+//int next3[MAXN << 1];
+//int to3[MAXN << 1];
+//int weight3[MAXN << 1];
+//int cnt3;
 //
-//int sonCnt[MAXN];
-//int heads[MAXN];
-//int nexts[MAXM];
-//int sons[MAXM];
-//int weights[MAXM];
-//int cnts;
-//
-//bool vis[MAXN];
-//int siz[MAXN];
+//bool vis[MAXM];
+//int siz[MAXM];
 //
 //int root[MAXN];
-//int ls[MAXM];
-//int rs[MAXM];
-//ll lmax[MAXM];
-//ll rmax[MAXM];
+//int ls[MAXT];
+//int rs[MAXT];
+//long long lmax[MAXT];
+//long long rmax[MAXT];
 //int cntt;
 //
-//int latest[MAXN];
-//
-//ll ans;
+//long long ans;
 //
 //void addEdge1(int u, int v, int w) {
 //    next1[++cnt1] = head1[u];
@@ -65,15 +63,14 @@ package class186;
 //    head2[u] = cnt2;
 //}
 //
-//void addSon(int u, int v, int w) {
-//    sonCnt[u]++;
-//    nexts[++cnts] = heads[u];
-//    sons[cnts] = v;
-//    weights[cnts] = w;
-//    heads[u] = cnts;
+//void addEdge3(int u, int v, int w) {
+//    next3[++cnt3] = head3[u];
+//    to3[cnt3] = v;
+//    weight3[cnt3] = w;
+//    head3[u] = cnt3;
 //}
 //
-//void getDist(int u, int fa, ll dist1) {
+//void getDist(int u, int fa, long long dist1) {
 //    dis1[u] = dist1;
 //    for (int e = head1[u]; e > 0; e = next1[e]) {
 //        int v = to1[e];
@@ -83,57 +80,32 @@ package class186;
 //    }
 //}
 //
-//void buildSon(int u, int fa) {
+//void rebuild(int u, int fa) {
 //    for (int e = head1[u]; e > 0; e = next1[e]) {
 //        int v = to1[e];
+//        int w = weight1[e];
 //        if (v != fa) {
-//            addSon(u, v, weight1[e]);
-//            buildSon(v, u);
-//        }
-//    }
-//}
-//
-//void rebuildTree() {
-//    buildSon(1, 0);
-//    cntn = n;
-//    cnt1 = 1;
-//    for (int i = 1; i <= cntn; i++) {
-//        head1[i] = 0;
-//    }
-//    for (int u = 1; u <= cntn; u++) {
-//        if (sonCnt[u] <= 2) {
-//            for (int e = heads[u]; e > 0; e = nexts[e]) {
-//                int v = sons[e];
-//                int w = weights[e];
-//                addEdge1(u, v, w);
-//                addEdge1(v, u, w);
+//            if (latest[u] == 0) {
+//                latest[u] = u;
+//                addEdge2(u, v, w);
+//                addEdge2(v, u, w);
+//            } else {
+//                int add = ++cntn;
+//                addEdge2(latest[u], add, 0);
+//                addEdge2(add, latest[u], 0);
+//                addEdge2(add, v, w);
+//                addEdge2(v, add, w);
+//                latest[u] = add;
 //            }
-//        } else {
-//            int node1 = ++cntn;
-//            int node2 = ++cntn;
-//            addEdge1(u, node1, 0);
-//            addEdge1(node1, u, 0);
-//            addEdge1(u, node2, 0);
-//            addEdge1(node2, u, 0);
-//            bool add1 = true;
-//            for (int e = heads[u]; e > 0; e = nexts[e]) {
-//                int v = sons[e];
-//                int w = weights[e];
-//                if (add1) {
-//                    addSon(node1, v, w);
-//                } else {
-//                    addSon(node2, v, w);
-//                }
-//                add1 = !add1;
-//            }
+//            rebuild(v, u);
 //        }
 //    }
 //}
 //
 //void getSize(int u, int fa) {
 //    siz[u] = 1;
-//    for (int e = head1[u]; e > 0; e = next1[e]) {
-//        int v = to1[e];
+//    for (int e = head2[u]; e > 0; e = next2[e]) {
+//        int v = to2[e];
 //        if (v != fa && !vis[e >> 1]) {
 //            getSize(v, u);
 //            siz[u] += siz[v];
@@ -148,8 +120,8 @@ package class186;
 //    int best = total;
 //    while (u > 0) {
 //        int nextu = 0, nextfa = 0;
-//        for (int e = head1[u]; e > 0; e = next1[e]) {
-//            int v = to1[e];
+//        for (int e = head2[u]; e > 0; e = next2[e]) {
+//            int v = to2[e];
 //            if (v != fa && !vis[e >> 1]) {
 //                int cur = max(total - siz[v], siz[v]);
 //                if (cur < best) {
@@ -166,7 +138,7 @@ package class186;
 //    return edge;
 //}
 //
-//void dfs(int u, int fa, ll dist, int op) {
+//void dfs(int u, int fa, long long dist, int op) {
 //    if (u <= n) {
 //        if (latest[u] == 0) {
 //            latest[u] = ++cntt;
@@ -183,10 +155,10 @@ package class186;
 //        }
 //        latest[u] = nxt;
 //    }
-//    for (int e = head1[u]; e > 0; e = next1[e]) {
-//        int v = to1[e];
+//    for (int e = head2[u]; e > 0; e = next2[e]) {
+//        int v = to2[e];
 //        if (v != fa && !vis[e >> 1]) {
-//            dfs(v, u, dist + weight1[e], op);
+//            dfs(v, u, dist + weight2[e], op);
 //        }
 //    }
 //}
@@ -195,16 +167,16 @@ package class186;
 //    int edge = getCentroidEdge(u, 0);
 //    if (edge > 0) {
 //        vis[edge >> 1] = true;
-//        int v1 = to1[edge];
-//        int v2 = to1[edge ^ 1];
+//        int v1 = to2[edge];
+//        int v2 = to2[edge ^ 1];
 //        dfs(v1, 0, 0, 0);
-//        dfs(v2, 0, weight1[edge], 1);
+//        dfs(v2, 0, weight2[edge], 1);
 //        solve(v1);
 //        solve(v2);
 //    }
 //}
 //
-//int mergeTree(int x, int y, ll t) {
+//int mergeTree(int x, int y, long long t) {
 //    if (x == 0 || y == 0) {
 //        return x + y;
 //    }
@@ -216,12 +188,12 @@ package class186;
 //    return x;
 //}
 //
-//void compute(int u, int fa, ll dist2) {
+//void compute(int u, int fa, long long dist2) {
 //    ans = max(ans, (dis1[u] - dist2) * 2);
-//    for (int e = head2[u]; e > 0; e = next2[e]) {
-//        int v = to2[e];
+//    for (int e = head3[u]; e > 0; e = next3[e]) {
+//        int v = to3[e];
 //        if (v != fa) {
-//            compute(v, u, dist2 + weight2[e]);
+//            compute(v, u, dist2 + weight3[e]);
 //            root[u] = mergeTree(root[u], root[v], -dist2);
 //        }
 //    }
@@ -238,15 +210,20 @@ package class186;
 //    }
 //    for (int i = 1, u, v, w; i < n; i++) {
 //        cin >> u >> v >> w;
-//        addEdge2(u, v, w);
-//        addEdge2(v, u, w);
+//        addEdge3(u, v, w);
+//        addEdge3(v, u, w);
 //    }
-//    for (int i = 1; i < MAXM; i++) {
+//    for (int i = 1; i < MAXT; i++) {
 //        lmax[i] = rmax[i] = -INF;
 //    }
+//    cntn = n;
+//    cnt2 = 1;
 //    ans = -INF;
 //    getDist(1, 0, 0);
-//    rebuildTree();
+//    rebuild(1, 0);
+//    for (int i = 1; i <= n; i++) {
+//        latest[i] = 0;
+//    }
 //    solve(1);
 //    compute(1, 0, 0);
 //    cout << (ans >> 1) << '\n';

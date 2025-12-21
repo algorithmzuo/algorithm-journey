@@ -14,8 +14,9 @@ import java.io.PrintWriter;
 
 public class Code03_ViolentWriting1 {
 
-	public static int MAXN = 1000001;
-	public static int MAXM = 10000001;
+	public static int MAXN = 366667;
+	public static int MAXM = MAXN << 1;
+	public static int MAXT = 10000001;
 	public static long INF = 1L << 50;
 	public static int n, cntn;
 
@@ -25,32 +26,30 @@ public class Code03_ViolentWriting1 {
 	public static int[] weight1 = new int[MAXN << 1];
 	public static int cnt1;
 
-	public static int[] head2 = new int[MAXN];
-	public static int[] next2 = new int[MAXN << 1];
-	public static int[] to2 = new int[MAXN << 1];
-	public static int[] weight2 = new int[MAXN << 1];
-	public static int cnt2;
-
 	public static long[] dis1 = new long[MAXN];
 
-	public static int[] sonCnt = new int[MAXN];
-	public static int[] heads = new int[MAXN];
-	public static int[] nexts = new int[MAXM];
-	public static int[] sons = new int[MAXM];
-	public static int[] weights = new int[MAXM];
-	public static int cnts;
+	public static int[] latest = new int[MAXM];
+	public static int[] head2 = new int[MAXM];
+	public static int[] next2 = new int[MAXM << 1];
+	public static int[] to2 = new int[MAXM << 1];
+	public static int[] weight2 = new int[MAXM << 1];
+	public static int cnt2;
 
-	public static boolean[] vis = new boolean[MAXN];
-	public static int[] siz = new int[MAXN];
+	public static int[] head3 = new int[MAXN];
+	public static int[] next3 = new int[MAXN << 1];
+	public static int[] to3 = new int[MAXN << 1];
+	public static int[] weight3 = new int[MAXN << 1];
+	public static int cnt3;
+
+	public static boolean[] vis = new boolean[MAXM];
+	public static int[] siz = new int[MAXM];
 
 	public static int[] root = new int[MAXN];
-	public static int[] ls = new int[MAXM];
-	public static int[] rs = new int[MAXM];
-	public static long[] lmax = new long[MAXM];
-	public static long[] rmax = new long[MAXM];
+	public static int[] ls = new int[MAXT];
+	public static int[] rs = new int[MAXT];
+	public static long[] lmax = new long[MAXT];
+	public static long[] rmax = new long[MAXT];
 	public static int cntt;
-
-	public static int[] latest = new int[MAXN];
 
 	public static long ans;
 
@@ -68,12 +67,11 @@ public class Code03_ViolentWriting1 {
 		head2[u] = cnt2;
 	}
 
-	public static void addSon(int u, int v, int w) {
-		sonCnt[u]++;
-		nexts[++cnts] = heads[u];
-		sons[cnts] = v;
-		weights[cnts] = w;
-		heads[u] = cnts;
+	public static void addEdge3(int u, int v, int w) {
+		next3[++cnt3] = head3[u];
+		to3[cnt3] = v;
+		weight3[cnt3] = w;
+		head3[u] = cnt3;
 	}
 
 	public static void getDist(int u, int fa, long dist1) {
@@ -86,57 +84,32 @@ public class Code03_ViolentWriting1 {
 		}
 	}
 
-	public static void buildSon(int u, int fa) {
+	public static void rebuild(int u, int fa) {
 		for (int e = head1[u]; e > 0; e = next1[e]) {
 			int v = to1[e];
+			int w = weight1[e];
 			if (v != fa) {
-				addSon(u, v, weight1[e]);
-				buildSon(v, u);
-			}
-		}
-	}
-
-	public static void rebuildTree() {
-		buildSon(1, 0);
-		cntn = n;
-		cnt1 = 1;
-		for (int i = 1; i <= cntn; i++) {
-			head1[i] = 0;
-		}
-		for (int u = 1; u <= cntn; u++) {
-			if (sonCnt[u] <= 2) {
-				for (int e = heads[u]; e > 0; e = nexts[e]) {
-					int v = sons[e];
-					int w = weights[e];
-					addEdge1(u, v, w);
-					addEdge1(v, u, w);
+				if (latest[u] == 0) {
+					latest[u] = u;
+					addEdge2(u, v, w);
+					addEdge2(v, u, w);
+				} else {
+					int add = ++cntn;
+					addEdge2(latest[u], add, 0);
+					addEdge2(add, latest[u], 0);
+					addEdge2(add, v, w);
+					addEdge2(v, add, w);
+					latest[u] = add;
 				}
-			} else {
-				int node1 = ++cntn;
-				int node2 = ++cntn;
-				addEdge1(u, node1, 0);
-				addEdge1(node1, u, 0);
-				addEdge1(u, node2, 0);
-				addEdge1(node2, u, 0);
-				boolean add1 = true;
-				for (int e = heads[u]; e > 0; e = nexts[e]) {
-					int v = sons[e];
-					int w = weights[e];
-					if (add1) {
-						addSon(node1, v, w);
-					} else {
-						addSon(node2, v, w);
-					}
-					add1 = !add1;
-				}
+				rebuild(v, u);
 			}
 		}
 	}
 
 	public static void getSize(int u, int fa) {
 		siz[u] = 1;
-		for (int e = head1[u]; e > 0; e = next1[e]) {
-			int v = to1[e];
+		for (int e = head2[u]; e > 0; e = next2[e]) {
+			int v = to2[e];
 			if (v != fa && !vis[e >> 1]) {
 				getSize(v, u);
 				siz[u] += siz[v];
@@ -151,8 +124,8 @@ public class Code03_ViolentWriting1 {
 		int best = total;
 		while (u > 0) {
 			int nextu = 0, nextfa = 0;
-			for (int e = head1[u]; e > 0; e = next1[e]) {
-				int v = to1[e];
+			for (int e = head2[u]; e > 0; e = next2[e]) {
+				int v = to2[e];
 				if (v != fa && !vis[e >> 1]) {
 					int cur = Math.max(total - siz[v], siz[v]);
 					if (cur < best) {
@@ -186,10 +159,10 @@ public class Code03_ViolentWriting1 {
 			}
 			latest[u] = nxt;
 		}
-		for (int e = head1[u]; e > 0; e = next1[e]) {
-			int v = to1[e];
+		for (int e = head2[u]; e > 0; e = next2[e]) {
+			int v = to2[e];
 			if (v != fa && !vis[e >> 1]) {
-				dfs(v, u, dist + weight1[e], op);
+				dfs(v, u, dist + weight2[e], op);
 			}
 		}
 	}
@@ -198,10 +171,10 @@ public class Code03_ViolentWriting1 {
 		int edge = getCentroidEdge(u, 0);
 		if (edge > 0) {
 			vis[edge >> 1] = true;
-			int v1 = to1[edge];
-			int v2 = to1[edge ^ 1];
+			int v1 = to2[edge];
+			int v2 = to2[edge ^ 1];
 			dfs(v1, 0, 0, 0);
-			dfs(v2, 0, weight1[edge], 1);
+			dfs(v2, 0, weight2[edge], 1);
 			solve(v1);
 			solve(v2);
 		}
@@ -221,10 +194,10 @@ public class Code03_ViolentWriting1 {
 
 	public static void compute(int u, int fa, long dist2) {
 		ans = Math.max(ans, (dis1[u] - dist2) * 2);
-		for (int e = head2[u]; e > 0; e = next2[e]) {
-			int v = to2[e];
+		for (int e = head3[u]; e > 0; e = next3[e]) {
+			int v = to3[e];
 			if (v != fa) {
-				compute(v, u, dist2 + weight2[e]);
+				compute(v, u, dist2 + weight3[e]);
 				root[u] = mergeTree(root[u], root[v], -dist2);
 			}
 		}
@@ -245,15 +218,20 @@ public class Code03_ViolentWriting1 {
 			u = in.nextInt();
 			v = in.nextInt();
 			w = in.nextInt();
-			addEdge2(u, v, w);
-			addEdge2(v, u, w);
+			addEdge3(u, v, w);
+			addEdge3(v, u, w);
 		}
-		for (int i = 1; i < MAXM; i++) {
+		for (int i = 1; i < MAXT; i++) {
 			lmax[i] = rmax[i] = -INF;
 		}
+		cntn = n;
+		cnt2 = 1;
 		ans = -INF;
 		getDist(1, 0, 0);
-		rebuildTree();
+		rebuild(1, 0);
+		for (int i = 1; i <= n; i++) {
+			latest[i] = 0;
+		}
 		solve(1);
 		compute(1, 0, 0);
 		out.println(ans >> 1);
