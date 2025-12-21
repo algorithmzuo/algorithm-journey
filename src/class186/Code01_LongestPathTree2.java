@@ -10,6 +10,8 @@ package class186;
 //
 //using namespace std;
 //
+//using ll = long long;
+//
 //struct Node {
 //    int edge, minv;
 //};
@@ -131,7 +133,7 @@ package class186;
 //    }
 //}
 //
-//long long calc(int edge) {
+//ll calc(int edge) {
 //    cntl = cntr = 0;
 //    int v1 = to2[edge];
 //    int v2 = to2[edge ^ 1];
@@ -139,8 +141,8 @@ package class186;
 //    dfs(v2, 0, 0, arr[v2], 1);
 //    sort(larr + 1, larr + cntl + 1, NodeCmp);
 //    sort(rarr + 1, rarr + cntr + 1, NodeCmp);
-//    long long ans = 0;
-//    long long maxEdge = 0;
+//    ll ans = 0;
+//    ll maxEdge = 0;
 //    for (int i = cntr, j = cntl; i >= 1; i--) {
 //        while (j >= 1 && larr[j].minv >= rarr[i].minv) {
 //            maxEdge = max(maxEdge, 1LL * larr[j].edge);
@@ -163,8 +165,8 @@ package class186;
 //    return ans;
 //}
 //
-//long long solve(int u) {
-//    long long ans = 0;
+//ll solve(int u) {
+//    ll ans = 0;
 //    int edge = getCentroidEdge(u, 0);
 //    if (edge > 0) {
 //        vis[edge >> 1] = true;
@@ -190,7 +192,7 @@ package class186;
 //    cntn = n;
 //    cnt2 = 1;
 //    rebuild(1, 0);
-//    long long ans = solve(1);
+//    ll ans = solve(1);
 //    cout << ans << '\n';
 //    return 0;
 //}

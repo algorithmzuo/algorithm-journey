@@ -12,33 +12,32 @@ import java.io.PrintWriter;
 
 public class Code02_Cobweb1 {
 
-	public static int MAXN = 400001;
-	public static int MAXM = 4000001;
+	public static int MAXN = 200001;
 	public static final int MOD = 1000000007;
 	public static int n, cntn;
 
-	public static int[] headg = new int[MAXN];
-	public static int[] nextg = new int[MAXN << 1];
-	public static int[] tog = new int[MAXN << 1];
-	public static int[] weightg = new int[MAXN << 1];
-	public static int[] colorg = new int[MAXN << 1];
-	public static int cntg;
+	public static int[] head1 = new int[MAXN];
+	public static int[] next1 = new int[MAXN << 1];
+	public static int[] to1 = new int[MAXN << 1];
+	public static int[] weight1 = new int[MAXN << 1];
+	public static int[] color1 = new int[MAXN << 1];
+	public static int cnt1;
 
-	public static int[] sonCnt = new int[MAXN];
-	public static int[] heads = new int[MAXN];
-	public static int[] nexts = new int[MAXM];
-	public static int[] sons = new int[MAXM];
-	public static int[] weights = new int[MAXM];
-	public static int[] colors = new int[MAXM];
-	public static int cnts;
+	public static int[] latest = new int[MAXN];
+	public static int[] head2 = new int[MAXN];
+	public static int[] next2 = new int[MAXN << 1];
+	public static int[] to2 = new int[MAXN << 1];
+	public static int[] weight2 = new int[MAXN << 1];
+	public static int[] color2 = new int[MAXN << 1];
+	public static int cnt2;
 
 	public static boolean[] vis = new boolean[MAXN];
 	public static int[] siz = new int[MAXN];
 
-	public static int[] rkey = new int[MAXN];
-	public static long[] rpath = new long[MAXN];
-	public static int[] bkey = new int[MAXN];
-	public static long[] bpath = new long[MAXN];
+	public static int[] redKey = new int[MAXN];
+	public static long[] redPath = new long[MAXN];
+	public static int[] blackKey = new int[MAXN];
+	public static long[] blackPath = new long[MAXN];
 	public static int cnta;
 
 	public static long ans1, ans2;
@@ -55,76 +54,50 @@ public class Code02_Cobweb1 {
 		return ans;
 	}
 
-	public static void addEdge(int u, int v, int w, int c) {
-		nextg[++cntg] = headg[u];
-		tog[cntg] = v;
-		weightg[cntg] = w;
-		colorg[cntg] = c;
-		headg[u] = cntg;
+	public static void addEdge1(int u, int v, int w, int c) {
+		next1[++cnt1] = head1[u];
+		to1[cnt1] = v;
+		weight1[cnt1] = w;
+		color1[cnt1] = c;
+		head1[u] = cnt1;
 	}
 
-	public static void addSon(int u, int v, int w, int c) {
-		sonCnt[u]++;
-		nexts[++cnts] = heads[u];
-		sons[cnts] = v;
-		weights[cnts] = w;
-		colors[cnts] = c;
-		heads[u] = cnts;
+	public static void addEdge2(int u, int v, int w, int c) {
+		next2[++cnt2] = head2[u];
+		to2[cnt2] = v;
+		weight2[cnt2] = w;
+		color2[cnt2] = c;
+		head2[u] = cnt2;
 	}
 
-	public static void buildSon(int u, int fa) {
-		for (int e = headg[u]; e > 0; e = nextg[e]) {
-			int v = tog[e];
+	public static void rebuild(int u, int fa) {
+		for (int e = head1[u]; e > 0; e = next1[e]) {
+			int v = to1[e];
+			int w = weight1[e];
+			int c = color1[e];
 			if (v != fa) {
-				addSon(u, v, weightg[e], colorg[e]);
-				buildSon(v, u);
+				if (latest[u] == 0) {
+					latest[u] = u;
+					addEdge2(u, v, w, c);
+					addEdge2(v, u, w, c);
+				} else {
+					int add = ++cntn;
+					addEdge2(latest[u], add, 1, -1);
+					addEdge2(add, latest[u], 1, -1);
+					addEdge2(add, v, w, c);
+					addEdge2(v, add, w, c);
+					latest[u] = add;
+				}
+				rebuild(v, u);
 			}
 		}
-	}
 
-	public static void rebuildTree() {
-		buildSon(1, 0);
-		cntn = n;
-		cntg = 1;
-		for (int u = 1; u <= cntn; u++) {
-			headg[u] = 0;
-		}
-		for (int u = 1; u <= cntn; u++) {
-			if (sonCnt[u] <= 2) {
-				for (int e = heads[u]; e > 0; e = nexts[e]) {
-					int v = sons[e];
-					int w = weights[e];
-					int c = colors[e];
-					addEdge(u, v, w, c);
-					addEdge(v, u, w, c);
-				}
-			} else {
-				int node1 = ++cntn;
-				int node2 = ++cntn;
-				addEdge(u, node1, 1, -1);
-				addEdge(node1, u, 1, -1);
-				addEdge(u, node2, 1, -1);
-				addEdge(node2, u, 1, -1);
-				boolean add1 = true;
-				for (int e = heads[u]; e > 0; e = nexts[e]) {
-					int v = sons[e];
-					int w = weights[e];
-					int c = colors[e];
-					if (add1) {
-						addSon(node1, v, w, c);
-					} else {
-						addSon(node2, v, w, c);
-					}
-					add1 = !add1;
-				}
-			}
-		}
 	}
 
 	public static void getSize(int u, int fa) {
 		siz[u] = 1;
-		for (int e = headg[u]; e > 0; e = nextg[e]) {
-			int v = tog[e];
+		for (int e = head2[u]; e > 0; e = next2[e]) {
+			int v = to2[e];
 			if (v != fa && !vis[e >> 1]) {
 				getSize(v, u);
 				siz[u] += siz[v];
@@ -139,8 +112,8 @@ public class Code02_Cobweb1 {
 		int best = total;
 		while (u > 0) {
 			int nextu = 0, nextfa = 0;
-			for (int e = headg[u]; e > 0; e = nextg[e]) {
-				int v = tog[e];
+			for (int e = head2[u]; e > 0; e = next2[e]) {
+				int v = to2[e];
 				if (v != fa && !vis[e >> 1]) {
 					int cur = Math.max(total - siz[v], siz[v]);
 					if (cur < best) {
@@ -189,56 +162,56 @@ public class Code02_Cobweb1 {
 
 	public static void dfs(int u, int fa, int red, int black, long path) {
 		if (u <= n) {
-			rkey[++cnta] = 2 * red - black;
-			rpath[cnta] = path;
-			bkey[cnta] = 2 * black - red;
-			bpath[cnta] = path;
+			redKey[++cnta] = 2 * red - black;
+			redPath[cnta] = path;
+			blackKey[cnta] = 2 * black - red;
+			blackPath[cnta] = path;
 		}
-		for (int e = headg[u]; e > 0; e = nextg[e]) {
-			int v = tog[e];
+		for (int e = head2[u]; e > 0; e = next2[e]) {
+			int v = to2[e];
 			if (v != fa && !vis[e >> 1]) {
-				int nextRed = red + (colorg[e] == 0 ? 1 : 0);
-				int nextBlack = black + (colorg[e] == 1 ? 1 : 0);
-				dfs(v, u, nextRed, nextBlack, path * weightg[e] % MOD);
+				int nextRed = red + (color2[e] == 0 ? 1 : 0);
+				int nextBlack = black + (color2[e] == 1 ? 1 : 0);
+				dfs(v, u, nextRed, nextBlack, path * weight2[e] % MOD);
 			}
 		}
 	}
 
 	public static void calcAns(int u, int fa, int red, int black, long path) {
 		if (u <= n) {
-			int r = lessThan(rkey, cnta, black - 2 * red);
-			int b = lessThan(bkey, cnta, red - 2 * black);
+			int r = lessThan(redKey, cnta, black - 2 * red);
+			int b = lessThan(blackKey, cnta, red - 2 * black);
 			if (r > 0) {
-				ans2 = ans2 * power(path, r) % MOD * rpath[r] % MOD;
+				ans2 = ans2 * power(path, r) % MOD * redPath[r] % MOD;
 			}
 			if (b > 0) {
-				ans2 = ans2 * power(path, b) % MOD * bpath[b] % MOD;
+				ans2 = ans2 * power(path, b) % MOD * blackPath[b] % MOD;
 			}
 		}
-		for (int e = headg[u]; e > 0; e = nextg[e]) {
-			int v = tog[e];
+		for (int e = head2[u]; e > 0; e = next2[e]) {
+			int v = to2[e];
 			if (v != fa && !vis[e >> 1]) {
-				int nextRed = red + (colorg[e] == 0 ? 1 : 0);
-				int nextBlack = black + (colorg[e] == 1 ? 1 : 0);
-				calcAns(v, u, nextRed, nextBlack, path * weightg[e] % MOD);
+				int nextRed = red + (color2[e] == 0 ? 1 : 0);
+				int nextBlack = black + (color2[e] == 1 ? 1 : 0);
+				calcAns(v, u, nextRed, nextBlack, path * weight2[e] % MOD);
 			}
 		}
 	}
 
 	public static void calc(int edge) {
 		cnta = 0;
-		int v = tog[edge];
+		int v = to2[edge];
 		dfs(v, 0, 0, 0, 1);
-		sort(rkey, rpath, 1, cnta);
-		sort(bkey, bpath, 1, cnta);
+		sort(redKey, redPath, 1, cnta);
+		sort(blackKey, blackPath, 1, cnta);
 		for (int i = 2; i <= cnta; i++) {
-			rpath[i] = rpath[i - 1] * rpath[i] % MOD;
-			bpath[i] = bpath[i - 1] * bpath[i] % MOD;
+			redPath[i] = redPath[i - 1] * redPath[i] % MOD;
+			blackPath[i] = blackPath[i - 1] * blackPath[i] % MOD;
 		}
-		v = tog[edge ^ 1];
-		int red = (colorg[edge] == 0 ? 1 : 0);
-		int black = (colorg[edge] == 1 ? 1 : 0);
-		calcAns(v, 0, red, black, weightg[edge] % MOD);
+		v = to2[edge ^ 1];
+		int red = (color2[edge] == 0 ? 1 : 0);
+		int black = (color2[edge] == 1 ? 1 : 0);
+		calcAns(v, 0, red, black, weight2[edge] % MOD);
 	}
 
 	public static void solve(int u) {
@@ -246,19 +219,19 @@ public class Code02_Cobweb1 {
 		if (edge > 0) {
 			vis[edge >> 1] = true;
 			calc(edge);
-			solve(tog[edge]);
-			solve(tog[edge ^ 1]);
+			solve(to2[edge]);
+			solve(to2[edge ^ 1]);
 		}
 	}
 
 	public static void prepare(int u, int fa) {
 		siz[u] = 1;
-		for (int e = headg[u]; e > 0; e = nextg[e]) {
-			int v = tog[e];
+		for (int e = head1[u]; e > 0; e = next1[e]) {
+			int v = to1[e];
 			if (v != fa) {
 				prepare(v, u);
 				siz[u] += siz[v];
-				ans1 = ans1 * power(weightg[e], (long) siz[v] * (n - siz[v])) % MOD;
+				ans1 = ans1 * power(weight1[e], (long) siz[v] * (n - siz[v])) % MOD;
 			}
 		}
 	}
@@ -272,12 +245,14 @@ public class Code02_Cobweb1 {
 			v = in.nextInt();
 			w = in.nextInt();
 			c = in.nextInt();
-			addEdge(u, v, w, c);
-			addEdge(v, u, w, c);
+			addEdge1(u, v, w, c);
+			addEdge1(v, u, w, c);
 		}
+		cntn = n;
+		cnt2 = 1;
 		ans1 = ans2 = 1;
 		prepare(1, 0);
-		rebuildTree();
+		rebuild(1, 0);
 		solve(1);
 		long ans = ans1 * power(ans2, MOD - 2) % MOD;
 		out.println(ans);

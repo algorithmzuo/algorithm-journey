@@ -21,25 +21,24 @@ package class186;
 //    return x.key < y.key;
 //}
 //
-//const int MAXN = 400001;
-//const int MAXM = 4000001;
+//const int MAXN = 200001;
 //const int MOD = 1000000007;
 //int n, cntn;
 //
-//int headg[MAXN];
-//int nextg[MAXN << 1];
-//int tog[MAXN << 1];
-//int weightg[MAXN << 1];
-//int colorg[MAXN << 1];
-//int cntg;
+//int head1[MAXN];
+//int next1[MAXN << 1];
+//int to1[MAXN << 1];
+//int weight1[MAXN << 1];
+//int color1[MAXN << 1];
+//int cnt1;
 //
-//int sonCnt[MAXN];
-//int heads[MAXN];
-//int nexts[MAXM];
-//int sons[MAXM];
-//int weights[MAXM];
-//int colors[MAXM];
-//int cnts;
+//int latest[MAXN];
+//int head2[MAXN];
+//int next2[MAXN << 1];
+//int to2[MAXN << 1];
+//int weight2[MAXN << 1];
+//int color2[MAXN << 1];
+//int cnt2;
 //
 //bool vis[MAXN];
 //int siz[MAXN];
@@ -63,76 +62,49 @@ package class186;
 //    return ans;
 //}
 //
-//void addEdge(int u, int v, int w, int c) {
-//    nextg[++cntg] = headg[u];
-//    tog[cntg] = v;
-//    weightg[cntg] = w;
-//    colorg[cntg] = c;
-//    headg[u] = cntg;
+//void addEdge1(int u, int v, int w, int c) {
+//    next1[++cnt1] = head1[u];
+//    to1[cnt1] = v;
+//    weight1[cnt1] = w;
+//    color1[cnt1] = c;
+//    head1[u] = cnt1;
 //}
 //
-//void addSon(int u, int v, int w, int c) {
-//    sonCnt[u]++;
-//    nexts[++cnts] = heads[u];
-//    sons[cnts] = v;
-//    weights[cnts] = w;
-//    colors[cnts] = c;
-//    heads[u] = cnts;
+//void addEdge2(int u, int v, int w, int c) {
+//    next2[++cnt2] = head2[u];
+//    to2[cnt2] = v;
+//    weight2[cnt2] = w;
+//    color2[cnt2] = c;
+//    head2[u] = cnt2;
 //}
 //
-//void buildSon(int u, int fa) {
-//    for (int e = headg[u]; e > 0; e = nextg[e]) {
-//        int v = tog[e];
+//void rebuild(int u, int fa) {
+//    for (int e = head1[u]; e > 0; e = next1[e]) {
+//        int v = to1[e];
+//        int w = weight1[e];
+//        int c = color1[e];
 //        if (v != fa) {
-//            addSon(u, v, weightg[e], colorg[e]);
-//            buildSon(v, u);
-//        }
-//    }
-//}
-//
-//void rebuildTree() {
-//    buildSon(1, 0);
-//    cntn = n;
-//    cntg = 1;
-//    for (int u = 1; u <= cntn; u++) {
-//        headg[u] = 0;
-//    }
-//    for (int u = 1; u <= cntn; u++) {
-//        if (sonCnt[u] <= 2) {
-//            for (int e = heads[u]; e > 0; e = nexts[e]) {
-//                int v = sons[e];
-//                int w = weights[e];
-//                int c = colors[e];
-//                addEdge(u, v, w, c);
-//                addEdge(v, u, w, c);
+//            if (latest[u] == 0) {
+//                latest[u] = u;
+//                addEdge2(u, v, w, c);
+//                addEdge2(v, u, w, c);
+//            } else {
+//                int add = ++cntn;
+//                addEdge2(latest[u], add, 1, -1);
+//                addEdge2(add, latest[u], 1, -1);
+//                addEdge2(add, v, w, c);
+//                addEdge2(v, add, w, c);
+//                latest[u] = add;
 //            }
-//        } else {
-//            int node1 = ++cntn;
-//            int node2 = ++cntn;
-//            addEdge(u, node1, 1, -1);
-//            addEdge(node1, u, 1, -1);
-//            addEdge(u, node2, 1, -1);
-//            addEdge(node2, u, 1, -1);
-//            bool add1 = true;
-//            for (int e = heads[u]; e > 0; e = nexts[e]) {
-//                int v = sons[e];
-//                int w = weights[e];
-//                int c = colors[e];
-//                if (add1) {
-//                    addSon(node1, v, w, c);
-//                } else {
-//                    addSon(node2, v, w, c);
-//                }
-//                add1 = !add1;
-//            }
+//            rebuild(v, u);
 //        }
 //    }
 //}
 //
 //void getSize(int u, int fa) {
 //    siz[u] = 1;
-//    for (int e = headg[u]; e > 0; e = nextg[e]) {
-//        int v = tog[e];
+//    for (int e = head2[u]; e > 0; e = next2[e]) {
+//        int v = to2[e];
 //        if (v != fa && !vis[e >> 1]) {
 //            getSize(v, u);
 //            siz[u] += siz[v];
@@ -147,8 +119,8 @@ package class186;
 //    int best = total;
 //    while (u > 0) {
 //        int nextu = 0, nextfa = 0;
-//        for (int e = headg[u]; e > 0; e = nextg[e]) {
-//            int v = tog[e];
+//        for (int e = head2[u]; e > 0; e = next2[e]) {
+//            int v = to2[e];
 //            if (v != fa && !vis[e >> 1]) {
 //                int cur = max(total - siz[v], siz[v]);
 //                if (cur < best) {
@@ -184,12 +156,12 @@ package class186;
 //        redArr[++cnta] = { 2 * red - black, path };
 //        blackArr[cnta] = { 2 * black - red, path };
 //    }
-//    for (int e = headg[u]; e > 0; e = nextg[e]) {
-//        int v = tog[e];
+//    for (int e = head2[u]; e > 0; e = next2[e]) {
+//        int v = to2[e];
 //        if (v != fa && !vis[e >> 1]) {
-//            int nextRed = red + (colorg[e] == 0 ? 1 : 0);
-//            int nextBlack = black + (colorg[e] == 1 ? 1 : 0);
-//            dfs(v, u, nextRed, nextBlack, path * weightg[e] % MOD);
+//            int nextRed = red + (color2[e] == 0 ? 1 : 0);
+//            int nextBlack = black + (color2[e] == 1 ? 1 : 0);
+//            dfs(v, u, nextRed, nextBlack, path * weight2[e] % MOD);
 //        }
 //    }
 //}
@@ -205,19 +177,19 @@ package class186;
 //            ans2 = ans2 * power(path, b) % MOD * blackArr[b].path % MOD;
 //        }
 //    }
-//    for (int e = headg[u]; e > 0; e = nextg[e]) {
-//        int v = tog[e];
+//    for (int e = head2[u]; e > 0; e = next2[e]) {
+//        int v = to2[e];
 //        if (v != fa && !vis[e >> 1]) {
-//            int nextRed = red + (colorg[e] == 0 ? 1 : 0);
-//            int nextBlack = black + (colorg[e] == 1 ? 1 : 0);
-//            calcAns(v, u, nextRed, nextBlack, path * weightg[e] % MOD);
+//            int nextRed = red + (color2[e] == 0 ? 1 : 0);
+//            int nextBlack = black + (color2[e] == 1 ? 1 : 0);
+//            calcAns(v, u, nextRed, nextBlack, path * weight2[e] % MOD);
 //        }
 //    }
 //}
 //
 //void calc(int edge) {
 //    cnta = 0;
-//    int v = tog[edge];
+//    int v = to2[edge];
 //    dfs(v, 0, 0, 0, 1);
 //    sort(redArr + 1, redArr + cnta + 1, NodeCmp);
 //    sort(blackArr + 1, blackArr + cnta + 1, NodeCmp);
@@ -225,10 +197,10 @@ package class186;
 //        redArr[i].path = redArr[i - 1].path * redArr[i].path % MOD;
 //        blackArr[i].path = blackArr[i - 1].path * blackArr[i].path % MOD;
 //    }
-//    v = tog[edge ^ 1];
-//    int red = (colorg[edge] == 0 ? 1 : 0);
-//    int black = (colorg[edge] == 1 ? 1 : 0);
-//    calcAns(v, 0, red, black, weightg[edge] % MOD);
+//    v = to2[edge ^ 1];
+//    int red = (color2[edge] == 0 ? 1 : 0);
+//    int black = (color2[edge] == 1 ? 1 : 0);
+//    calcAns(v, 0, red, black, weight2[edge] % MOD);
 //}
 //
 //void solve(int u) {
@@ -236,19 +208,19 @@ package class186;
 //    if (edge > 0) {
 //        vis[edge >> 1] = true;
 //        calc(edge);
-//        solve(tog[edge]);
-//        solve(tog[edge ^ 1]);
+//        solve(to2[edge]);
+//        solve(to2[edge ^ 1]);
 //    }
 //}
 //
 //void prepare(int u, int fa) {
 //    siz[u] = 1;
-//    for (int e = headg[u]; e > 0; e = nextg[e]) {
-//        int v = tog[e];
+//    for (int e = head1[u]; e > 0; e = next1[e]) {
+//        int v = to1[e];
 //        if (v != fa) {
 //            prepare(v, u);
 //            siz[u] += siz[v];
-//            ans1 = ans1 * power(weightg[e], 1LL * siz[v] * (n - siz[v])) % MOD;
+//            ans1 = ans1 * power(weight1[e], 1LL * siz[v] * (n - siz[v])) % MOD;
 //        }
 //    }
 //}
@@ -259,12 +231,14 @@ package class186;
 //    cin >> n;
 //    for (int i = 1, u, v, w, c; i < n; i++) {
 //        cin >> u >> v >> w >> c;
-//        addEdge(u, v, w, c);
-//        addEdge(v, u, w, c);
+//        addEdge1(u, v, w, c);
+//        addEdge1(v, u, w, c);
 //    }
+//    cntn = n;
+//    cnt2 = 1;
 //    ans1 = ans2 = 1;
 //    prepare(1, 0);
-//    rebuildTree();
+//    rebuild(1, 0);
 //    solve(1);
 //    ll ans = ans1 * power(ans2, MOD - 2) % MOD;
 //    cout << ans << '\n';
