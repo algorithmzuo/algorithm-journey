@@ -1,6 +1,13 @@
 package class186;
 
 // 可持久化边分树，java版
+// 树上有n个节点，给定n-1条边，每条边有边权
+// 给定长度为n的数组arr，代表点编号组成的一个排列
+// 接下来有q条操作，每条操作是如下两种类型中的一种
+// 操作 1 x y z : 打印arr[x..y]中每个节点到节点z的简单路径距离之和
+// 操作 2 x     : 交换arr[x]和arr[x+1]的值，输入保证 1 <= x < n
+// 1 <= n、q <= 2 * 10^5
+// 本题要求强制在线，得到操作参数的规则，打开测试链接查看
 // 测试链接 : https://www.luogu.com.cn/problem/CF757G
 // 测试链接 : https://codeforces.com/problemset/problem/757/G
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
