@@ -22,7 +22,6 @@ public class Code01_LongestPathTree1 {
 	public static int[] weight1 = new int[MAXN << 1];
 	public static int cnt1;
 
-	public static int[] lastNode = new int[MAXN];
 	public static int[] head2 = new int[MAXN];
 	public static int[] next2 = new int[MAXN << 1];
 	public static int[] to2 = new int[MAXN << 1];
@@ -81,22 +80,23 @@ public class Code01_LongestPathTree1 {
 
 	// 多叉树重构成二叉树递归版，java会爆栈，C++可以通过
 	public static void rebuild1(int u, int fa) {
+		int last = 0;
 		for (int e = head1[u]; e > 0; e = next1[e]) {
 			int v = to1[e];
 			int w = weight1[e];
 			if (v != fa) {
-				if (lastNode[u] == 0) {
-					lastNode[u] = u;
+				if (last == 0) {
+					last = u;
 					addEdge2(u, v, w);
 					addEdge2(v, u, w);
 				} else {
 					int add = ++cntn;
 					arr[add] = arr[u];
-					addEdge2(lastNode[u], add, 0);
-					addEdge2(add, lastNode[u], 0);
+					addEdge2(last, add, 0);
+					addEdge2(add, last, 0);
 					addEdge2(add, v, w);
 					addEdge2(v, add, w);
-					lastNode[u] = add;
+					last = add;
 				}
 				rebuild1(v, u);
 			}
@@ -110,22 +110,23 @@ public class Code01_LongestPathTree1 {
 		while (stacksize > 0) {
 			pop();
 			if (e == -1) {
+				int last = 0;
 				for (int ei = head1[u]; ei > 0; ei = next1[ei]) {
 					int v = to1[ei];
 					int w = weight1[ei];
 					if (v != f) {
-						if (lastNode[u] == 0) {
-							lastNode[u] = u;
+						if (last == 0) {
+							last = u;
 							addEdge2(u, v, w);
 							addEdge2(v, u, w);
 						} else {
 							int add = ++cntn;
 							arr[add] = arr[u];
-							addEdge2(lastNode[u], add, 0);
-							addEdge2(add, lastNode[u], 0);
+							addEdge2(last, add, 0);
+							addEdge2(add, last, 0);
 							addEdge2(add, v, w);
 							addEdge2(v, add, w);
-							lastNode[u] = add;
+							last = add;
 						}
 					}
 				}

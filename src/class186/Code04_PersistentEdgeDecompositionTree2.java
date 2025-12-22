@@ -22,7 +22,6 @@ package class186;
 //int weight1[MAXN << 1];
 //int cnt1;
 //
-//int lastNode[MAXN];
 //int head2[MAXN];
 //int next2[MAXN << 1];
 //int to2[MAXN << 1];
@@ -32,6 +31,7 @@ package class186;
 //bool vis[MAXN];
 //int siz[MAXN];
 //
+//int up[MAXN];
 //int root[MAXN];
 //int ls[MAXT];
 //int rs[MAXT];
@@ -59,21 +59,22 @@ package class186;
 //}
 //
 //void rebuild(int u, int fa) {
+//    int last = 0;
 //    for (int e = head1[u]; e > 0; e = next1[e]) {
 //        int v = to1[e];
 //        int w = weight1[e];
 //        if (v != fa) {
-//            if (lastNode[u] == 0) {
-//                lastNode[u] = u;
+//            if (last == 0) {
+//                last = u;
 //                addEdge2(u, v, w);
 //                addEdge2(v, u, w);
 //            } else {
 //                int add = ++cntn;
-//                addEdge2(lastNode[u], add, 0);
-//                addEdge2(add, lastNode[u], 0);
+//                addEdge2(last, add, 0);
+//                addEdge2(add, last, 0);
 //                addEdge2(add, v, w);
 //                addEdge2(v, add, w);
-//                lastNode[u] = add;
+//                last = add;
 //            }
 //            rebuild(v, u);
 //        }
@@ -118,11 +119,11 @@ package class186;
 //
 //void dfs(int u, int fa, ll dist, int op) {
 //    if (u <= n) {
-//        if (lastNode[u] == 0) {
-//            lastNode[u] = ++cntt;
+//        if (up[u] == 0) {
+//            up[u] = ++cntt;
 //            root[u] = cntt;
 //        }
-//        int cur = lastNode[u];
+//        int cur = up[u];
 //        int nxt = ++cntt;
 //        if (op == 0) {
 //            ls[cur] = nxt;
@@ -133,7 +134,7 @@ package class186;
 //            rsum[cur] = dist;
 //            rcnt[cur] = 1;
 //        }
-//        lastNode[u] = nxt;
+//        up[u] = nxt;
 //    }
 //    for (int e = head2[u]; e > 0; e = next2[e]) {
 //        int v = to2[e];
@@ -201,9 +202,6 @@ package class186;
 //    cntn = n;
 //    cnt2 = 1;
 //    rebuild(1, 0);
-//    for (int i = 1; i <= n; i++) {
-//        lastNode[i] = 0;
-//    }
 //    solve(1);
 //    for (int i = 1; i <= n; i++) {
 //        tree[i] = add(tree[i - 1], root[arr[i]]);

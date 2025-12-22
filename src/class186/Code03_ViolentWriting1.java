@@ -28,7 +28,6 @@ public class Code03_ViolentWriting1 {
 
 	public static long[] dis1 = new long[MAXN];
 
-	public static int[] lastNode = new int[MAXN];
 	public static int[] head2 = new int[MAXM];
 	public static int[] next2 = new int[MAXM << 1];
 	public static int[] to2 = new int[MAXM << 1];
@@ -44,6 +43,7 @@ public class Code03_ViolentWriting1 {
 	public static boolean[] vis = new boolean[MAXM];
 	public static int[] siz = new int[MAXM];
 
+	public static int[] up = new int[MAXN];
 	public static int[] root = new int[MAXN];
 	public static int[] ls = new int[MAXT];
 	public static int[] rs = new int[MAXT];
@@ -85,21 +85,22 @@ public class Code03_ViolentWriting1 {
 	}
 
 	public static void rebuild(int u, int fa) {
+		int last = 0;
 		for (int e = head1[u]; e > 0; e = next1[e]) {
 			int v = to1[e];
 			int w = weight1[e];
 			if (v != fa) {
-				if (lastNode[u] == 0) {
-					lastNode[u] = u;
+				if (last == 0) {
+					last = u;
 					addEdge2(u, v, w);
 					addEdge2(v, u, w);
 				} else {
 					int add = ++cntn;
-					addEdge2(lastNode[u], add, 0);
-					addEdge2(add, lastNode[u], 0);
+					addEdge2(last, add, 0);
+					addEdge2(add, last, 0);
 					addEdge2(add, v, w);
 					addEdge2(v, add, w);
-					lastNode[u] = add;
+					last = add;
 				}
 				rebuild(v, u);
 			}
@@ -144,11 +145,11 @@ public class Code03_ViolentWriting1 {
 
 	public static void dfs(int u, int fa, long dist, int op) {
 		if (u <= n) {
-			if (lastNode[u] == 0) {
-				lastNode[u] = ++cntt;
+			if (up[u] == 0) {
+				up[u] = ++cntt;
 				root[u] = cntt;
 			}
-			int cur = lastNode[u];
+			int cur = up[u];
 			int nxt = ++cntt;
 			if (op == 0) {
 				ls[cur] = nxt;
@@ -157,7 +158,7 @@ public class Code03_ViolentWriting1 {
 				rs[cur] = nxt;
 				rmax[cur] = dis1[u] + dist;
 			}
-			lastNode[u] = nxt;
+			up[u] = nxt;
 		}
 		for (int e = head2[u]; e > 0; e = next2[e]) {
 			int v = to2[e];
@@ -229,9 +230,6 @@ public class Code03_ViolentWriting1 {
 		ans = -INF;
 		getDist(1, 0, 0);
 		rebuild(1, 0);
-		for (int i = 1; i <= n; i++) {
-			lastNode[i] = 0;
-		}
 		solve(1);
 		compute(1, 0, 0);
 		out.println(ans >> 1);
