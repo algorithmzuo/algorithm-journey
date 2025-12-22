@@ -28,7 +28,7 @@ public class Code03_ViolentWriting1 {
 
 	public static long[] dis1 = new long[MAXN];
 
-	public static int[] latest = new int[MAXM];
+	public static int[] lastNode = new int[MAXN];
 	public static int[] head2 = new int[MAXM];
 	public static int[] next2 = new int[MAXM << 1];
 	public static int[] to2 = new int[MAXM << 1];
@@ -89,17 +89,17 @@ public class Code03_ViolentWriting1 {
 			int v = to1[e];
 			int w = weight1[e];
 			if (v != fa) {
-				if (latest[u] == 0) {
-					latest[u] = u;
+				if (lastNode[u] == 0) {
+					lastNode[u] = u;
 					addEdge2(u, v, w);
 					addEdge2(v, u, w);
 				} else {
 					int add = ++cntn;
-					addEdge2(latest[u], add, 0);
-					addEdge2(add, latest[u], 0);
+					addEdge2(lastNode[u], add, 0);
+					addEdge2(add, lastNode[u], 0);
 					addEdge2(add, v, w);
 					addEdge2(v, add, w);
-					latest[u] = add;
+					lastNode[u] = add;
 				}
 				rebuild(v, u);
 			}
@@ -144,11 +144,11 @@ public class Code03_ViolentWriting1 {
 
 	public static void dfs(int u, int fa, long dist, int op) {
 		if (u <= n) {
-			if (latest[u] == 0) {
-				latest[u] = ++cntt;
+			if (lastNode[u] == 0) {
+				lastNode[u] = ++cntt;
 				root[u] = cntt;
 			}
-			int cur = latest[u];
+			int cur = lastNode[u];
 			int nxt = ++cntt;
 			if (op == 0) {
 				ls[cur] = nxt;
@@ -157,7 +157,7 @@ public class Code03_ViolentWriting1 {
 				rs[cur] = nxt;
 				rmax[cur] = dis1[u] + dist;
 			}
-			latest[u] = nxt;
+			lastNode[u] = nxt;
 		}
 		for (int e = head2[u]; e > 0; e = next2[e]) {
 			int v = to2[e];
@@ -230,7 +230,7 @@ public class Code03_ViolentWriting1 {
 		getDist(1, 0, 0);
 		rebuild(1, 0);
 		for (int i = 1; i <= n; i++) {
-			latest[i] = 0;
+			lastNode[i] = 0;
 		}
 		solve(1);
 		compute(1, 0, 0);
