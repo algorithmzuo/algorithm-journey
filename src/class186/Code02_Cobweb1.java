@@ -23,7 +23,7 @@ public class Code02_Cobweb1 {
 	public static int[] color1 = new int[MAXN << 1];
 	public static int cnt1;
 
-	public static int[] latest = new int[MAXN];
+	public static int[] lastNode = new int[MAXN];
 	public static int[] head2 = new int[MAXN];
 	public static int[] next2 = new int[MAXN << 1];
 	public static int[] to2 = new int[MAXN << 1];
@@ -76,17 +76,17 @@ public class Code02_Cobweb1 {
 			int w = weight1[e];
 			int c = color1[e];
 			if (v != fa) {
-				if (latest[u] == 0) {
-					latest[u] = u;
+				if (lastNode[u] == 0) {
+					lastNode[u] = u;
 					addEdge2(u, v, w, c);
 					addEdge2(v, u, w, c);
 				} else {
 					int add = ++cntn;
-					addEdge2(latest[u], add, 1, -1);
-					addEdge2(add, latest[u], 1, -1);
+					addEdge2(lastNode[u], add, 1, -1);
+					addEdge2(add, lastNode[u], 1, -1);
 					addEdge2(add, v, w, c);
 					addEdge2(v, add, w, c);
-					latest[u] = add;
+					lastNode[u] = add;
 				}
 				rebuild(v, u);
 			}

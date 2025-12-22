@@ -22,7 +22,7 @@ public class Code01_LongestPathTree1 {
 	public static int[] weight1 = new int[MAXN << 1];
 	public static int cnt1;
 
-	public static int[] latest = new int[MAXN];
+	public static int[] lastNode = new int[MAXN];
 	public static int[] head2 = new int[MAXN];
 	public static int[] next2 = new int[MAXN << 1];
 	public static int[] to2 = new int[MAXN << 1];
@@ -85,18 +85,18 @@ public class Code01_LongestPathTree1 {
 			int v = to1[e];
 			int w = weight1[e];
 			if (v != fa) {
-				if (latest[u] == 0) {
-					latest[u] = u;
+				if (lastNode[u] == 0) {
+					lastNode[u] = u;
 					addEdge2(u, v, w);
 					addEdge2(v, u, w);
 				} else {
 					int add = ++cntn;
 					arr[add] = arr[u];
-					addEdge2(latest[u], add, 0);
-					addEdge2(add, latest[u], 0);
+					addEdge2(lastNode[u], add, 0);
+					addEdge2(add, lastNode[u], 0);
 					addEdge2(add, v, w);
 					addEdge2(v, add, w);
-					latest[u] = add;
+					lastNode[u] = add;
 				}
 				rebuild1(v, u);
 			}
@@ -114,18 +114,18 @@ public class Code01_LongestPathTree1 {
 					int v = to1[ei];
 					int w = weight1[ei];
 					if (v != f) {
-						if (latest[u] == 0) {
-							latest[u] = u;
+						if (lastNode[u] == 0) {
+							lastNode[u] = u;
 							addEdge2(u, v, w);
 							addEdge2(v, u, w);
 						} else {
 							int add = ++cntn;
 							arr[add] = arr[u];
-							addEdge2(latest[u], add, 0);
-							addEdge2(add, latest[u], 0);
+							addEdge2(lastNode[u], add, 0);
+							addEdge2(add, lastNode[u], 0);
 							addEdge2(add, v, w);
 							addEdge2(v, add, w);
-							latest[u] = add;
+							lastNode[u] = add;
 						}
 					}
 				}

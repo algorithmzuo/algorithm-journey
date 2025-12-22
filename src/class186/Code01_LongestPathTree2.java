@@ -30,7 +30,7 @@ package class186;
 //int weight1[MAXN << 1];
 //int cnt1;
 //
-//int latest[MAXN];
+//int lastNode[MAXN];
 //int head2[MAXN];
 //int next2[MAXN << 1];
 //int to2[MAXN << 1];
@@ -65,18 +65,18 @@ package class186;
 //        int v = to1[e];
 //        int w = weight1[e];
 //        if (v != fa) {
-//            if (latest[u] == 0) {
-//                latest[u] = u;
+//            if (lastNode[u] == 0) {
+//                lastNode[u] = u;
 //                addEdge2(u, v, w);
 //                addEdge2(v, u, w);
 //            } else {
 //                int add = ++cntn;
 //                arr[add] = arr[u];
-//                addEdge2(latest[u], add, 0);
-//                addEdge2(add, latest[u], 0);
+//                addEdge2(lastNode[u], add, 0);
+//                addEdge2(add, lastNode[u], 0);
 //                addEdge2(add, v, w);
 //                addEdge2(v, add, w);
-//                latest[u] = add;
+//                lastNode[u] = add;
 //            }
 //            rebuild(v, u);
 //        }
