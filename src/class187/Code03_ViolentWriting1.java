@@ -9,8 +9,9 @@ package class187;
 // 点对(x, y)，要求x <= y，打印这个指标的最大值
 // 1 <= n <= 366666
 // 测试链接 : https://www.luogu.com.cn/problem/P4565
+// 测试链接 : https://loj.ac/p/2553
 // 提交以下的code，提交时请把类名改成"Main"
-// java实现的逻辑一定是正确的，因为递归爆栈、卡空间，导致无法通过，索性保持最易懂的写法
+// java实现的逻辑一定是正确的，需要把太多递归函数改成迭代版才能通过，索性不改了
 // 想通过用C++实现，本节课Code03_ViolentWriting2文件就是C++的实现
 // 两个版本的逻辑完全一样，C++版本可以通过所有测试
 
@@ -188,15 +189,15 @@ public class Code03_ViolentWriting1 {
 		}
 	}
 
-	public static int mergeTree(int x, int y, long dist2) {
+	public static int mergeTree(int x, int y, long add) {
 		if (x == 0 || y == 0) {
 			return x + y;
 		}
-		ans = Math.max(ans, Math.max(lmax[x] + rmax[y], lmax[y] + rmax[x]) - dist2 * 2);
+		ans = Math.max(ans, Math.max(lmax[x] + rmax[y], lmax[y] + rmax[x]) + add);
 		lmax[x] = Math.max(lmax[x], lmax[y]);
 		rmax[x] = Math.max(rmax[x], rmax[y]);
-		ls[x] = mergeTree(ls[x], ls[y], dist2);
-		rs[x] = mergeTree(rs[x], rs[y], dist2);
+		ls[x] = mergeTree(ls[x], ls[y], add);
+		rs[x] = mergeTree(rs[x], rs[y], add);
 		return x;
 	}
 
@@ -206,7 +207,7 @@ public class Code03_ViolentWriting1 {
 			int v = to2[e];
 			if (v != fa) {
 				compute(v, u, dist2 + weight2[e]);
-				root[u] = mergeTree(root[u], root[v], dist2);
+				root[u] = mergeTree(root[u], root[v], -dist2 * 2);
 			}
 		}
 	}

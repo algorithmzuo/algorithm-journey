@@ -9,6 +9,7 @@ package class187;
 // 点对(x, y)，要求x <= y，打印这个指标的最大值
 // 1 <= n <= 366666
 // 测试链接 : https://www.luogu.com.cn/problem/P4565
+// 测试链接 : https://loj.ac/p/2553
 // 如下实现是C++的版本，C++版本和java版本逻辑完全一样
 // 提交如下代码，可以通过所有测试用例
 
@@ -186,15 +187,15 @@ package class187;
 //    }
 //}
 //
-//int mergeTree(int x, int y, ll dist2) {
+//int mergeTree(int x, int y, ll add) {
 //    if (x == 0 || y == 0) {
 //        return x + y;
 //    }
-//    ans = max(ans, max(lmax[x] + rmax[y], lmax[y] + rmax[x]) - dist2 * 2);
+//    ans = max(ans, max(lmax[x] + rmax[y], lmax[y] + rmax[x]) + add);
 //    lmax[x] = max(lmax[x], lmax[y]);
 //    rmax[x] = max(rmax[x], rmax[y]);
-//    ls[x] = mergeTree(ls[x], ls[y], dist2);
-//    rs[x] = mergeTree(rs[x], rs[y], dist2);
+//    ls[x] = mergeTree(ls[x], ls[y], add);
+//    rs[x] = mergeTree(rs[x], rs[y], add);
 //    return x;
 //}
 //
@@ -204,7 +205,7 @@ package class187;
 //        int v = to2[e];
 //        if (v != fa) {
 //            compute(v, u, dist2 + weight2[e]);
-//            root[u] = mergeTree(root[u], root[v], dist2);
+//            root[u] = mergeTree(root[u], root[v], -dist2 * 2);
 //        }
 //    }
 //}
