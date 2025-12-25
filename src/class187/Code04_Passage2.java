@@ -16,6 +16,7 @@ package class187;
 //const int MAXM = MAXN << 1;
 //const int MAXH = 20;
 //const int MAXT = MAXN * 20;
+//const ll INF = 1LL << 60;
 //int n, cntn;
 //
 //int head0[MAXN];
@@ -264,7 +265,19 @@ package class187;
 //    return max(max(p1, p2), max(p3, p4));
 //}
 //
+//int x, y;
+//ll xv, yv, dist;
+//
+//void bestDiam(int curx, int cury, ll curxv, ll curyv) {
+//    ll curDist = getDist(curx, cury, curxv, curyv);
+//    if (curDist > dist) {
+//        dist = curDist; x = curx; y = cury; xv = curxv; yv = curyv;
+//    }
+//}
+//
 //void mergeInfo(int a, int b, int op) {
+//    int ax, ay, bx, by;
+//    ll axv, ayv, bxv, byv;
 //    if (op == 0) {
 //        if (lx[b] == 0) {
 //            return;
@@ -273,6 +286,8 @@ package class187;
 //            lx[a] = lx[b]; ly[a] = ly[b]; lxv[a] = lxv[b]; lyv[a] = lyv[b];
 //            return;
 //        }
+//        ax = lx[a]; ay = ly[a]; axv = lxv[a]; ayv = lyv[a];
+//        bx = lx[b]; by = ly[b]; bxv = lxv[b]; byv = lyv[b];
 //    } else {
 //        if (rx[b] == 0) {
 //            return;
@@ -281,42 +296,20 @@ package class187;
 //            rx[a] = rx[b]; ry[a] = ry[b]; rxv[a] = rxv[b]; ryv[a] = ryv[b];
 //            return;
 //        }
-//    }
-//    int ax, ay, bx, by;
-//    ll axv, ayv, bxv, byv;
-//    if (op == 0) {
-//        ax = lx[a]; ay = ly[a]; axv = lxv[a]; ayv = lyv[a];
-//        bx = lx[b]; by = ly[b]; bxv = lxv[b]; byv = lyv[b];
-//    } else {
 //        ax = rx[a]; ay = ry[a]; axv = rxv[a]; ayv = ryv[a];
 //        bx = rx[b]; by = ry[b]; bxv = rxv[b]; byv = ryv[b];
 //    }
-//    int cx = ax, cy = ay; ll cxv = axv, cyv = ayv;
-//    ll best = getDist(ax, ay, axv, ayv);
-//    ll pk = getDist(bx, by, bxv, byv);
-//    if (pk > best) {
-//        best = pk; cx = bx; cy = by; cxv = bxv; cyv = byv;
-//    }
-//    pk = getDist(ax, bx, axv, bxv);
-//    if (pk > best) {
-//        best = pk; cx = ax; cy = bx; cxv = axv; cyv = bxv;
-//    }
-//    pk = getDist(ax, by, axv, byv);
-//    if (pk > best) {
-//        best = pk; cx = ax; cy = by; cxv = axv; cyv = byv;
-//    }
-//    pk = getDist(ay, bx, ayv, bxv);
-//    if (pk > best) {
-//        best = pk; cx = ay; cy = bx; cxv = ayv; cyv = bxv;
-//    }
-//    pk = getDist(ay, by, ayv, byv);
-//    if (pk > best) {
-//        cx = ay; cy = by; cxv = ayv; cyv = byv;
-//    }
+//    dist = -INF;
+//    bestDiam(ax, ay, axv, ayv);
+//    bestDiam(bx, by, bxv, byv);
+//    bestDiam(ax, bx, axv, bxv);
+//    bestDiam(ax, by, axv, byv);
+//    bestDiam(ay, bx, ayv, bxv);
+//    bestDiam(ay, by, ayv, byv);
 //    if (op == 0) {
-//        lx[a] = cx; ly[a] = cy; lxv[a] = cxv; lyv[a] = cyv;
+//        lx[a] = x; ly[a] = y; lxv[a] = xv; lyv[a] = yv;
 //    } else {
-//        rx[a] = cx; ry[a] = cy; rxv[a] = cxv; ryv[a] = cyv;
+//        rx[a] = x; ry[a] = y; rxv[a] = xv; ryv[a] = yv;
 //    }
 //}
 //
@@ -374,7 +367,7 @@ package class187;
 //    cnt1 = 1;
 //    rebuild(1, 0);
 //    solve(1);
-//    ans = -(1LL << 60);
+//    ans = -INF;
 //    compute(1, 0);
 //    cout << ans << '\n';
 //    return 0;

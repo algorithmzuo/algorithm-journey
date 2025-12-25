@@ -19,6 +19,7 @@ public class Code04_Passage1 {
 	public static int MAXM = MAXN << 1;
 	public static int MAXH = 20;
 	public static int MAXT = MAXN * 20;
+	public static long INF = 1L << 60;
 	public static int n, cntn;
 
 	public static int[] head0 = new int[MAXN];
@@ -267,7 +268,19 @@ public class Code04_Passage1 {
 		return Math.max(Math.max(p1, p2), Math.max(p3, p4));
 	}
 
+	public static int x, y;
+	public static long xv, yv, dist;
+
+	public static void bestDiam(int curx, int cury, long curxv, long curyv) {
+		long curDist = getDist(curx, cury, curxv, curyv);
+		if (curDist > dist) {
+			dist = curDist; x = curx; y = cury; xv = curxv; yv = curyv;
+		}
+	}
+
 	public static void mergeInfo(int a, int b, int op) {
+		int ax, ay, bx, by;
+		long axv, ayv, bxv, byv;
 		if (op == 0) {
 			if (lx[b] == 0) {
 				return;
@@ -276,6 +289,8 @@ public class Code04_Passage1 {
 				lx[a] = lx[b]; ly[a] = ly[b]; lxv[a] = lxv[b]; lyv[a] = lyv[b];
 				return;
 			}
+			ax = lx[a]; ay = ly[a]; axv = lxv[a]; ayv = lyv[a];
+			bx = lx[b]; by = ly[b]; bxv = lxv[b]; byv = lyv[b];
 		} else {
 			if (rx[b] == 0) {
 				return;
@@ -284,43 +299,20 @@ public class Code04_Passage1 {
 				rx[a] = rx[b]; ry[a] = ry[b]; rxv[a] = rxv[b]; ryv[a] = ryv[b];
 				return;
 			}
-		}
-		int ax, ay, bx, by;
-		long axv, ayv, bxv, byv;
-		if (op == 0) {
-			ax = lx[a]; ay = ly[a]; axv = lxv[a]; ayv = lyv[a];
-			bx = lx[b]; by = ly[b]; bxv = lxv[b]; byv = lyv[b];
-		} else {
 			ax = rx[a]; ay = ry[a]; axv = rxv[a]; ayv = ryv[a];
 			bx = rx[b]; by = ry[b]; bxv = rxv[b]; byv = ryv[b];
 		}
-		int cx = ax, cy = ay;
-		long cxv = axv, cyv = ayv;
-		long best = getDist(ax, ay, axv, ayv);
-		long pk = getDist(bx, by, bxv, byv);
-		if (pk > best) {
-			best = pk; cx = bx; cy = by; cxv = bxv; cyv = byv;
-		}
-		pk = getDist(ax, bx, axv, bxv);
-		if (pk > best) {
-			best = pk; cx = ax; cy = bx; cxv = axv; cyv = bxv;
-		}
-		pk = getDist(ax, by, axv, byv);
-		if (pk > best) {
-			best = pk; cx = ax; cy = by; cxv = axv; cyv = byv;
-		}
-		pk = getDist(ay, bx, ayv, bxv);
-		if (pk > best) {
-			best = pk; cx = ay; cy = bx; cxv = ayv; cyv = bxv;
-		}
-		pk = getDist(ay, by, ayv, byv);
-		if (pk > best) {
-			cx = ay; cy = by; cxv = ayv; cyv = byv;
-		}
+		dist = -INF;
+		bestDiam(ax, ay, axv, ayv);
+		bestDiam(bx, by, bxv, byv);
+		bestDiam(ax, bx, axv, bxv);
+		bestDiam(ax, by, axv, byv);
+		bestDiam(ay, bx, ayv, bxv);
+		bestDiam(ay, by, ayv, byv);
 		if (op == 0) {
-			lx[a] = cx; ly[a] = cy; lxv[a] = cxv; lyv[a] = cyv;
+			lx[a] = x; ly[a] = y; lxv[a] = xv; lyv[a] = yv;
 		} else {
-			rx[a] = cx; ry[a] = cy; rxv[a] = cxv; ryv[a] = cyv;
+			rx[a] = x; ry[a] = y; rxv[a] = xv; ryv[a] = yv;
 		}
 	}
 
@@ -384,7 +376,7 @@ public class Code04_Passage1 {
 		cnt1 = 1;
 		rebuild(1, 0);
 		solve(1);
-		ans = -(1L << 60);
+		ans = -INF;
 		compute(1, 0);
 		out.println(ans);
 		out.flush();
