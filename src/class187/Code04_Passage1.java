@@ -4,7 +4,7 @@ package class187;
 // 测试链接 : https://www.luogu.com.cn/problem/P4220
 // 测试链接 : https://loj.ac/p/2339
 // 提交以下的code，提交时请把类名改成"Main"
-// java实现的逻辑一定是正确的，需要把太多递归函数改成迭代版才能通过，索性不改了
+// java实现的逻辑一定是正确的，但是需要把太多递归函数改成迭代才能通过，索性不改了
 // 想通过用C++实现，本节课Code04_Passage2文件就是C++的实现
 // 两个版本的逻辑完全一样，C++版本可以通过所有测试
 
@@ -142,12 +142,12 @@ public class Code04_Passage1 {
 		return getUp(rmq[x][k], rmq[y - (1 << k) + 1][k]);
 	}
 
-	public static void distTree3(int u, int fa, long dist) {
+	public static void dfsTree3(int u, int fa, long dist) {
 		dist3[u] = dist;
 		for (int e = head3[u]; e > 0; e = next3[e]) {
 			int v = to3[e];
 			if (v != fa) {
-				distTree3(v, u, dist + weight3[e]);
+				dfsTree3(v, u, dist + weight3[e]);
 			}
 		}
 	}
@@ -379,7 +379,7 @@ public class Code04_Passage1 {
 			addEdge3(v, u, w);
 		}
 		rmqTree2();
-		distTree3(1, 0, 0);
+		dfsTree3(1, 0, 0);
 		cntn = n;
 		cnt1 = 1;
 		rebuild(1, 0);

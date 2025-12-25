@@ -139,12 +139,12 @@ package class187;
 //    return getUp(rmq[x][k], rmq[y - (1 << k) + 1][k]);
 //}
 //
-//void distTree3(int u, int fa, ll dist) {
+//void dfsTree3(int u, int fa, ll dist) {
 //    dist3[u] = dist;
 //    for (int e = head3[u]; e > 0; e = next3[e]) {
 //        int v = to3[e];
 //        if (v != fa) {
-//            distTree3(v, u, dist + weight3[e]);
+//            dfsTree3(v, u, dist + weight3[e]);
 //        }
 //    }
 //}
@@ -369,7 +369,7 @@ package class187;
 //        addEdge3(v, u, w);
 //    }
 //    rmqTree2();
-//    distTree3(1, 0, 0);
+//    dfsTree3(1, 0, 0);
 //    cntn = n;
 //    cnt1 = 1;
 //    rebuild(1, 0);
