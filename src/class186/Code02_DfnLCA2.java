@@ -19,8 +19,8 @@ package class186;
 //int cntg;
 //
 //int dfn[MAXN];
-//int lg2[MAXN << 1];
-//int rmq[MAXN << 1][MAXH];
+//int lg2[MAXN];
+//int rmq[MAXN][MAXH];
 //int cntd;
 //
 //void addEdge(int u, int v) {

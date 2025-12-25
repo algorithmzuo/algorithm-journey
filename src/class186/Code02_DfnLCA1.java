@@ -21,8 +21,8 @@ public class Code02_DfnLCA1 {
 	public static int cntg;
 
 	public static int[] dfn = new int[MAXN];
-	public static int[] lg2 = new int[MAXN << 1];
-	public static int[][] rmq = new int[MAXN << 1][MAXH];
+	public static int[] lg2 = new int[MAXN];
+	public static int[][] rmq = new int[MAXN][MAXH];
 	public static int cntd;
 
 	// 讲解118，递归函数改成迭代所需要的栈
