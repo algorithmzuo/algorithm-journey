@@ -1,4 +1,4 @@
-package class186;
+package class187;
 
 // 红黑蛛网，java版
 // 一共n个节点，给定n-1条边，所有节点组成一棵树

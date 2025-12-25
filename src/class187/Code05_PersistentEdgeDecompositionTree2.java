@@ -1,4 +1,4 @@
-package class186;
+package class187;
 
 // 可持久化边分树，C++版
 // 树上有n个节点，给定n-1条边，每条边有边权

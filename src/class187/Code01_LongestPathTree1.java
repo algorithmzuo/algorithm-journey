@@ -1,4 +1,4 @@
-package class186;
+package class187;
 
 // 最长道路tree，java版
 // 一共n个节点，每个点给定点权，给定n-1条边，所有节点组成一棵树
