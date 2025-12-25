@@ -142,6 +142,16 @@ public class Code04_Passage1 {
 		return getUp(rmq[x][k], rmq[y - (1 << k) + 1][k]);
 	}
 
+	public static void distTree3(int u, int fa, long dist) {
+		dist3[u] = dist;
+		for (int e = head3[u]; e > 0; e = next3[e]) {
+			int v = to3[e];
+			if (v != fa) {
+				distTree3(v, u, dist + weight3[e]);
+			}
+		}
+	}
+
 	public static void rebuild(int u, int fa) {
 		int last = 0;
 		for (int e = head0[u]; e > 0; e = next0[e]) {
@@ -239,16 +249,6 @@ public class Code04_Passage1 {
 			dfsTree1(v2, 0, weight1[edge], 1);
 			solve(v1);
 			solve(v2);
-		}
-	}
-
-	public static void distTree3(int u, int fa, long dist) {
-		dist3[u] = dist;
-		for (int e = head3[u]; e > 0; e = next3[e]) {
-			int v = to3[e];
-			if (v != fa) {
-				distTree3(v, u, dist + weight3[e]);
-			}
 		}
 	}
 

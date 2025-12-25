@@ -139,6 +139,16 @@ package class187;
 //    return getUp(rmq[x][k], rmq[y - (1 << k) + 1][k]);
 //}
 //
+//void distTree3(int u, int fa, ll dist) {
+//    dist3[u] = dist;
+//    for (int e = head3[u]; e > 0; e = next3[e]) {
+//        int v = to3[e];
+//        if (v != fa) {
+//            distTree3(v, u, dist + weight3[e]);
+//        }
+//    }
+//}
+//
 //void rebuild(int u, int fa) {
 //    int last = 0;
 //    for (int e = head0[u]; e > 0; e = next0[e]) {
@@ -239,22 +249,11 @@ package class187;
 //    }
 //}
 //
-//void distTree3(int u, int fa, ll dist) {
-//    dist3[u] = dist;
-//    for (int e = head3[u]; e > 0; e = next3[e]) {
-//        int v = to3[e];
-//        if (v != fa) {
-//            distTree3(v, u, dist + weight3[e]);
-//        }
-//    }
-//}
-//
 //ll getDist(int x, int y, ll xv, ll yv) {
 //    if (x == y) {
 //        return 0;
 //    }
-//    int l = lcaTree2(x, y);
-//    return dist2[x] + dist2[y] - dist2[l] * 2 + xv + yv;
+//    return dist2[x] + dist2[y] - dist2[lcaTree2(x, y)] * 2 + xv + yv;
 //}
 //
 //ll bestCross(int x1, int y1, ll x1v, ll y1v, int x2, int y2, ll x2v, ll y2v) {
