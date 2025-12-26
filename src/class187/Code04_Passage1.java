@@ -1,6 +1,12 @@
 package class187;
 
 // 通道，java版
+// 三棵树t1、t2、t3都有n个节点，各自给定n-1条边以及每条边的边权，边权没有负数
+// 点对(x, y)，要求两点必须不同，两点在树上的距离就是简单路径上边权的累加和
+// 点对(x, y)，在t1、t2、t3的距离，分别记为dis1(x, y)、dis2(x, y)、dis3(x, y)
+// 打印最大的dis1(x, y) + dis2(x, y) + dis3(x, y)
+// 2 <= n <= 10^5
+// 0 <= 边权 <= 10^12
 // 测试链接 : https://www.luogu.com.cn/problem/P4220
 // 测试链接 : https://loj.ac/p/2339
 // 提交以下的code，提交时请把类名改成"Main"
@@ -260,55 +266,55 @@ public class Code04_Passage1 {
 		return dist2[x] + dist2[y] - dist2[lcaTree2(x, y)] * 2 + xv + yv;
 	}
 
-	public static long bestCross(int x1, int y1, long x1v, long y1v, int x2, int y2, long x2v, long y2v) {
-		long p1 = getDist(x1, x2, x1v, x2v);
-		long p2 = getDist(x1, y2, x1v, y2v);
-		long p3 = getDist(y1, x2, y1v, x2v);
-		long p4 = getDist(y1, y2, y1v, y2v);
+	public static int ax, ay, bx, by;
+	public static long axv, ayv, bxv, byv;
+
+	public static void getInfo(int a, int b, int aop, int bop) {
+		if (aop == 0) {
+			ax = lx[a]; ay = ly[a]; axv = lxv[a]; ayv = lyv[a];
+		} else {
+			ax = rx[a]; ay = ry[a]; axv = rxv[a]; ayv = ryv[a];
+		}
+		if (bop == 0) {
+			bx = lx[b]; by = ly[b]; bxv = lxv[b]; byv = lyv[b];
+		} else {
+			bx = rx[b]; by = ry[b]; bxv = rxv[b]; byv = ryv[b];
+		}
+	}
+
+	public static long bestCross(int a, int b, int aop, int bop) {
+		getInfo(a, b, aop, bop);
+		long p1 = getDist(ax, bx, axv, bxv);
+		long p2 = getDist(ax, by, axv, byv);
+		long p3 = getDist(ay, bx, ayv, bxv);
+		long p4 = getDist(ay, by, ayv, byv);
 		return Math.max(Math.max(p1, p2), Math.max(p3, p4));
 	}
 
 	public static int x, y;
-	public static long xv, yv, dist;
+	public static long xv, yv, bestDist;
 
-	public static void bestDiam(int curx, int cury, long curxv, long curyv) {
+	public static void better(int curx, int cury, long curxv, long curyv) {
+		if (curx == 0 || cury == 0) {
+			return;
+		}
 		long curDist = getDist(curx, cury, curxv, curyv);
-		if (curDist > dist) {
-			dist = curDist; x = curx; y = cury; xv = curxv; yv = curyv;
+		if (curDist > bestDist) {
+			bestDist = curDist; x = curx; y = cury; xv = curxv; yv = curyv;
 		}
 	}
 
 	public static void mergeInfo(int a, int b, int op) {
-		int ax, ay, bx, by;
-		long axv, ayv, bxv, byv;
-		if (op == 0) {
-			if (lx[b] == 0) {
-				return;
-			}
-			if (lx[a] == 0) {
-				lx[a] = lx[b]; ly[a] = ly[b]; lxv[a] = lxv[b]; lyv[a] = lyv[b];
-				return;
-			}
-			ax = lx[a]; ay = ly[a]; axv = lxv[a]; ayv = lyv[a];
-			bx = lx[b]; by = ly[b]; bxv = lxv[b]; byv = lyv[b];
-		} else {
-			if (rx[b] == 0) {
-				return;
-			}
-			if (rx[a] == 0) {
-				rx[a] = rx[b]; ry[a] = ry[b]; rxv[a] = rxv[b]; ryv[a] = ryv[b];
-				return;
-			}
-			ax = rx[a]; ay = ry[a]; axv = rxv[a]; ayv = ryv[a];
-			bx = rx[b]; by = ry[b]; bxv = rxv[b]; byv = ryv[b];
-		}
-		dist = -INF;
-		bestDiam(ax, ay, axv, ayv);
-		bestDiam(bx, by, bxv, byv);
-		bestDiam(ax, bx, axv, bxv);
-		bestDiam(ax, by, axv, byv);
-		bestDiam(ay, bx, ayv, bxv);
-		bestDiam(ay, by, ayv, byv);
+		getInfo(a, b, op, op);
+		bestDist = -INF;
+		x = y = 0;
+		xv = yv = 0; 
+		better(ax, ay, axv, ayv);
+		better(bx, by, bxv, byv);
+		better(ax, bx, axv, bxv);
+		better(ax, by, axv, byv);
+		better(ay, bx, ayv, bxv);
+		better(ay, by, ayv, byv);
 		if (op == 0) {
 			lx[a] = x; ly[a] = y; lxv[a] = xv; lyv[a] = yv;
 		} else {
@@ -320,11 +326,11 @@ public class Code04_Passage1 {
 		if (a == 0 || b == 0) {
 			return a + b;
 		}
-		if (lx[a] > 0 && rx[b] > 0) {
-			ans = Math.max(ans, bestCross(lx[a], ly[a], lxv[a], lyv[a], rx[b], ry[b], rxv[b], ryv[b]) + add);
+		if (ls[a] > 0 && rs[b] > 0) {
+			ans = Math.max(ans, bestCross(a, b, 0, 1) + add);
 		}
-		if (rx[a] > 0 && lx[b] > 0) {
-			ans = Math.max(ans, bestCross(rx[a], ry[a], rxv[a], ryv[a], lx[b], ly[b], lxv[b], lyv[b]) + add);
+		if (rs[a] > 0 && ls[b] > 0) {
+			ans = Math.max(ans, bestCross(a, b, 1, 0) + add);
 		}
 		mergeInfo(a, b, 0);
 		mergeInfo(a, b, 1);
