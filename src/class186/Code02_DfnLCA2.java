@@ -30,7 +30,7 @@ package class186;
 //}
 //
 //int getUp(int x, int y) {
-//    return dfn[x] <= dfn[y] ? x : y;
+//    return dfn[x] < dfn[y] ? x : y;
 //}
 //
 //void dfs(int u, int fa) {

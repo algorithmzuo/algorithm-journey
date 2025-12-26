@@ -18,7 +18,6 @@ package class186;
 //int tog[MAXN << 1];
 //int cntg;
 //
-//int dep[MAXN];
 //int first[MAXN];
 //int lg2[MAXN << 1];
 //int rmq[MAXN << 1][MAXH];
@@ -31,11 +30,10 @@ package class186;
 //}
 //
 //int getUp(int x, int y) {
-//    return dep[x] <= dep[y] ? x : y;
+//    return first[x] < first[y] ? x : y;
 //}
 //
 //void dfs(int u, int fa) {
-//    dep[u] = dep[fa] + 1;
 //    first[u] = ++cntEuler;
 //    rmq[first[u]][0] = u;
 //    for (int e = headg[u]; e > 0; e = nextg[e]) {

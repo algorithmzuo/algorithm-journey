@@ -51,7 +51,7 @@ public class Code02_DfnLCA1 {
 	}
 
 	public static int getUp(int x, int y) {
-		return dfn[x] <= dfn[y] ? x : y;
+		return dfn[x] < dfn[y] ? x : y;
 	}
 
 	// dfn序递归版，java会爆栈，C++可以通过

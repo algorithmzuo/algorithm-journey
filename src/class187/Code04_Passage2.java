@@ -99,7 +99,7 @@ package class187;
 //}
 //
 //int getUp(int x, int y) {
-//    return dfn[x] <= dfn[y] ? x : y;
+//    return dfn[x] < dfn[y] ? x : y;
 //}
 //
 //void dfsTree2(int u, int fa, ll dis2) {

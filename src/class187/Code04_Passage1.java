@@ -102,7 +102,7 @@ public class Code04_Passage1 {
 	}
 
 	public static int getUp(int x, int y) {
-		return dfn[x] <= dfn[y] ? x : y;
+		return dfn[x] < dfn[y] ? x : y;
 	}
 
 	public static void dfsTree2(int u, int fa, long dis2) {

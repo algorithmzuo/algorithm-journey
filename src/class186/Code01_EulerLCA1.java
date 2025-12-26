@@ -20,7 +20,6 @@ public class Code01_EulerLCA1 {
 	public static int[] tog = new int[MAXN << 1];
 	public static int cntg;
 
-	public static int[] dep = new int[MAXN];
 	public static int[] first = new int[MAXN];
 	public static int[] lg2 = new int[MAXN << 1];
 	public static int[][] rmq = new int[MAXN << 1][MAXH];
@@ -52,12 +51,11 @@ public class Code01_EulerLCA1 {
 	}
 
 	public static int getUp(int x, int y) {
-		return dep[x] <= dep[y] ? x : y;
+		return first[x] < first[y] ? x : y;
 	}
 
 	// 欧拉序递归版，java会爆栈，C++可以通过
 	public static void dfs1(int u, int fa) {
-		dep[u] = dep[fa] + 1;
 		first[u] = ++cntEuler;
 		rmq[first[u]][0] = u;
 		for (int e = headg[u]; e > 0; e = nextg[e]) {
@@ -76,7 +74,6 @@ public class Code01_EulerLCA1 {
 		while (stacksize > 0) {
 			pop();
 			if (e == -1) {
-				dep[u] = dep[f] + 1;
 				first[u] = ++cntEuler;
 				rmq[first[u]][0] = u;
 				e = headg[u];
