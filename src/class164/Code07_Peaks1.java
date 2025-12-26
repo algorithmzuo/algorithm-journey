@@ -27,7 +27,7 @@ public class Code07_Peaks1 {
 	public static int MAXK = 200001;
 	public static int MAXM = 500001;
 	public static int MAXT = MAXN * 40;
-	public static int MAXH = 20;
+	public static int MAXP = 20;
 	public static int n, m, q, s;
 
 	public static int[] node = new int[MAXN];
@@ -46,7 +46,7 @@ public class Code07_Peaks1 {
 	public static int cntu;
 
 	// 倍增表
-	public static int[][] stjump = new int[MAXK][MAXH];
+	public static int[][] stjump = new int[MAXK][MAXP];
 	// 子树上的叶节点个数
 	public static int[] leafsiz = new int[MAXK];
 	// 子树上叶节点的dfn序号最小值
@@ -130,7 +130,7 @@ public class Code07_Peaks1 {
 
 	public static void dfs(int u, int fa) {
 		stjump[u][0] = fa;
-		for (int p = 1; p < MAXH; p++) {
+		for (int p = 1; p < MAXP; p++) {
 			stjump[u][p] = stjump[stjump[u][p - 1]][p - 1];
 		}
 		for (int e = head[u]; e > 0; e = next[e]) {
@@ -195,7 +195,7 @@ public class Code07_Peaks1 {
 	}
 
 	public static int kthMax(int u, int x, int k) {
-		for (int p = MAXH - 1; p >= 0; p--) {
+		for (int p = MAXP - 1; p >= 0; p--) {
 			if (stjump[u][p] > 0 && nodeKey[stjump[u][p]] <= x) {
 				u = stjump[u][p];
 			}

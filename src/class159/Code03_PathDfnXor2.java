@@ -17,7 +17,7 @@ package class159;
 //
 //const int MAXN = 100001;
 //const int MAXT = MAXN * 62;
-//const int MAXH = 16;
+//const int MAXP = 16;
 //const int BIT = 29;
 //int n, m;
 //int arr[MAXN];
@@ -29,7 +29,7 @@ package class159;
 //
 //int deep[MAXN];
 //int siz[MAXN];
-//int stjump[MAXN][MAXH];
+//int stjump[MAXN][MAXP];
 //int dfn[MAXN];
 //int cntd = 0;
 //
@@ -84,7 +84,7 @@ package class159;
 //    siz[u] = 1;
 //    stjump[u][0] = fa;
 //    dfn[u] = ++cntd;
-//    for (int p = 1; p < MAXH; p++) {
+//    for (int p = 1; p < MAXP; p++) {
 //        stjump[u][p] = stjump[stjump[u][p - 1]][p - 1];
 //    }
 //    for (int ei = head[u], v; ei > 0; ei = nxt[ei]) {
@@ -110,7 +110,7 @@ package class159;
 //    if (deep[a] < deep[b]) {
 //        swap(a, b);
 //    }
-//    for (int p = MAXH - 1; p >= 0; p--) {
+//    for (int p = MAXP - 1; p >= 0; p--) {
 //        if (deep[stjump[a][p]] >= deep[b]) {
 //            a = stjump[a][p];
 //        }
@@ -118,7 +118,7 @@ package class159;
 //    if (a == b) {
 //        return a;
 //    }
-//    for (int p = MAXH - 1; p >= 0; p--) {
+//    for (int p = MAXP - 1; p >= 0; p--) {
 //        if (stjump[a][p] != stjump[b][p]) {
 //            a = stjump[a][p];
 //            b = stjump[b][p];

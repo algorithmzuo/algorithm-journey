@@ -19,7 +19,7 @@ package class163;
 //
 //const int MAXN = 80001;
 //const int MAXT = MAXN * 110;
-//const int MAXH = 20;
+//const int MAXP = 20;
 //int testcase;
 //int n, m, t;
 //
@@ -39,7 +39,7 @@ package class163;
 //int cntt = 0;
 //
 //int dep[MAXN];
-//int stjump[MAXN][MAXH];
+//int stjump[MAXN][MAXP];
 //
 //int treeHead[MAXN];
 //int setSiz[MAXN];
@@ -100,7 +100,7 @@ package class163;
 //        a = b;
 //        b = tmp;
 //    }
-//    for (int p = MAXH - 1; p >= 0; p--) {
+//    for (int p = MAXP - 1; p >= 0; p--) {
 //        if (dep[stjump[a][p]] >= dep[b]) {
 //            a = stjump[a][p];
 //        }
@@ -108,7 +108,7 @@ package class163;
 //    if (a == b) {
 //        return a;
 //    }
-//    for (int p = MAXH - 1; p >= 0; p--) {
+//    for (int p = MAXP - 1; p >= 0; p--) {
 //        if (stjump[a][p] != stjump[b][p]) {
 //            a = stjump[a][p];
 //            b = stjump[b][p];
@@ -130,7 +130,7 @@ package class163;
 //    treeHead[u] = treeh;
 //    setSiz[treeh]++;
 //    stjump[u][0] = fa;
-//    for (int p = 1; p < MAXH; p++) {
+//    for (int p = 1; p < MAXP; p++) {
 //        stjump[u][p] = stjump[ stjump[u][p - 1] ][p - 1];
 //    }
 //    for (int e = head[u]; e > 0; e = nxt[e]) {

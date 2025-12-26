@@ -29,7 +29,7 @@ package class164;
 //const int MAXK = 200001;
 //const int MAXM = 500001;
 //const int MAXT = MAXN * 40;
-//const int MAXH = 20;
+//const int MAXP = 20;
 //int n, m, q, s;
 //int node[MAXN];
 //int sorted[MAXN];
@@ -44,7 +44,7 @@ package class164;
 //int nodeKey[MAXK];
 //int cntu;
 //
-//int stjump[MAXK][MAXH];
+//int stjump[MAXK][MAXP];
 //int leafsiz[MAXK];
 //int leafDfnMin[MAXK];
 //int leafseg[MAXK];
@@ -121,7 +121,7 @@ package class164;
 //
 //void dfs(int u, int fa) {
 //    stjump[u][0] = fa;
-//    for (int p = 1; p < MAXH; p++) {
+//    for (int p = 1; p < MAXP; p++) {
 //        stjump[u][p] = stjump[stjump[u][p - 1]][p - 1];
 //    }
 //    for (int e = head[u]; e > 0; e = nxt[e]) {
@@ -182,7 +182,7 @@ package class164;
 //}
 //
 //int kthMax(int u, int x, int k) {
-//    for (int p = MAXH - 1; p >= 0; p--) {
+//    for (int p = MAXP - 1; p >= 0; p--) {
 //        if (stjump[u][p] > 0 && nodeKey[stjump[u][p]] <= x) {
 //            u = stjump[u][p];
 //        }

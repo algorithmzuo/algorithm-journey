@@ -19,7 +19,7 @@ import java.io.PrintWriter;
 public class Code03_AtmTree1 {
 
 	public static int MAXN = 20001;
-	public static int MAXH = 18;
+	public static int MAXP = 18;
 	public static int MAXT = 1000001;
 	public static int n, k, sumw;
 
@@ -31,7 +31,7 @@ public class Code03_AtmTree1 {
 
 	public static int[] dep = new int[MAXN];
 	public static int[] dist = new int[MAXN];
-	public static int[][] stjump = new int[MAXN][MAXH];
+	public static int[][] stjump = new int[MAXN][MAXP];
 
 	public static boolean[] vis = new boolean[MAXN];
 	public static int[] siz = new int[MAXN];
@@ -55,7 +55,7 @@ public class Code03_AtmTree1 {
 		dep[u] = dep[fa] + 1;
 		dist[u] = dis;
 		stjump[u][0] = fa;
-		for (int p = 1; p < MAXH; p++) {
+		for (int p = 1; p < MAXP; p++) {
 			stjump[u][p] = stjump[stjump[u][p - 1]][p - 1];
 		}
 		for (int e = head[u]; e > 0; e = nxt[e]) {
@@ -73,7 +73,7 @@ public class Code03_AtmTree1 {
 			a = b;
 			b = tmp;
 		}
-		for (int p = MAXH - 1; p >= 0; p--) {
+		for (int p = MAXP - 1; p >= 0; p--) {
 			if (dep[stjump[a][p]] >= dep[b]) {
 				a = stjump[a][p];
 			}
@@ -81,7 +81,7 @@ public class Code03_AtmTree1 {
 		if (a == b) {
 			return a;
 		}
-		for (int p = MAXH - 1; p >= 0; p--) {
+		for (int p = MAXP - 1; p >= 0; p--) {
 			if (stjump[a][p] != stjump[b][p]) {
 				a = stjump[a][p];
 				b = stjump[b][p];

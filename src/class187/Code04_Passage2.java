@@ -20,7 +20,7 @@ package class187;
 //
 //const int MAXN = 100001;
 //const int MAXM = MAXN << 1;
-//const int MAXH = 20;
+//const int MAXP = 20;
 //const int MAXT = MAXN * 20;
 //const ll INF = 1LL << 60;
 //int n, cntn;
@@ -51,7 +51,7 @@ package class187;
 //
 //int dfn[MAXN];
 //int lg2[MAXN];
-//int rmq[MAXN][MAXH];
+//int rmq[MAXN][MAXP];
 //int cntd;
 //
 //ll dist2[MAXN];

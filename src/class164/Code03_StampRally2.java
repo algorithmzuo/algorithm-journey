@@ -27,7 +27,7 @@ package class164;
 //
 //const int MAXK = 200001;
 //const int MAXM = 100001;
-//const int MAXH = 20;
+//const int MAXP = 20;
 //int n, m, q;
 //Edge edge[MAXM];
 //int father[MAXK];
@@ -40,7 +40,7 @@ package class164;
 //int cntu;
 //
 //int leafsiz[MAXK];
-//int stjump[MAXK][MAXH];
+//int stjump[MAXK][MAXP];
 //
 //void addEdge(int u, int v) {
 //    nxt[++cntg] = head[u];
@@ -76,7 +76,7 @@ package class164;
 //
 //void dfs(int u, int fa) {
 //    stjump[u][0] = fa;
-//    for (int p = 1; p < MAXH; p++) {
+//    for (int p = 1; p < MAXP; p++) {
 //        stjump[u][p] = stjump[stjump[u][p - 1]][p - 1];
 //    }
 //    for (int e = head[u]; e > 0; e = nxt[e]) {
@@ -93,12 +93,12 @@ package class164;
 //}
 //
 //bool check(int x, int y, int z, int limit) {
-//    for (int p = MAXH - 1; p >= 0; p--) {
+//    for (int p = MAXP - 1; p >= 0; p--) {
 //        if (stjump[x][p] > 0 && nodeKey[stjump[x][p]] <= limit) {
 //            x = stjump[x][p];
 //        }
 //    }
-//    for (int p = MAXH - 1; p >= 0; p--) {
+//    for (int p = MAXP - 1; p >= 0; p--) {
 //        if (stjump[y][p] > 0 && nodeKey[stjump[y][p]] <= limit) {
 //            y = stjump[y][p];
 //        }

@@ -25,7 +25,7 @@ public class Code07_NetworkManagement1 {
 
 	public static int MAXT = MAXN * 110;
 
-	public static int MAXH = 18;
+	public static int MAXP = 18;
 
 	public static int n, m, s;
 
@@ -62,7 +62,7 @@ public class Code07_NetworkManagement1 {
 
 	public static int[] dfn = new int[MAXN];
 
-	public static int[][] stjump = new int[MAXN][MAXH];
+	public static int[][] stjump = new int[MAXN][MAXP];
 
 	public static int cntd = 0;
 
@@ -105,7 +105,7 @@ public class Code07_NetworkManagement1 {
 		size[u] = 1;
 		dfn[u] = ++cntd;
 		stjump[u][0] = fa;
-		for (int p = 1; p < MAXH; p++) {
+		for (int p = 1; p < MAXP; p++) {
 			stjump[u][p] = stjump[stjump[u][p - 1]][p - 1];
 		}
 		for (int e = head[u]; e > 0; e = next[e]) {
@@ -151,7 +151,7 @@ public class Code07_NetworkManagement1 {
 				size[u] = 1;
 				dfn[u] = ++cntd;
 				stjump[u][0] = f;
-				for (int p = 1; p < MAXH; p++) {
+				for (int p = 1; p < MAXP; p++) {
 					stjump[u][p] = stjump[stjump[u][p - 1]][p - 1];
 				}
 				e = head[u];
@@ -179,7 +179,7 @@ public class Code07_NetworkManagement1 {
 			a = b;
 			b = tmp;
 		}
-		for (int p = MAXH - 1; p >= 0; p--) {
+		for (int p = MAXP - 1; p >= 0; p--) {
 			if (deep[stjump[a][p]] >= deep[b]) {
 				a = stjump[a][p];
 			}
@@ -187,7 +187,7 @@ public class Code07_NetworkManagement1 {
 		if (a == b) {
 			return a;
 		}
-		for (int p = MAXH - 1; p >= 0; p--) {
+		for (int p = MAXP - 1; p >= 0; p--) {
 			if (stjump[a][p] != stjump[b][p]) {
 				a = stjump[a][p];
 				b = stjump[b][p];

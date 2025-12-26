@@ -22,7 +22,7 @@ public class Code07_Forest1 {
 
 	public static int MAXN = 80001;
 	public static int MAXT = MAXN * 110;
-	public static int MAXH = 20;
+	public static int MAXP = 20;
 	public static int testcase;
 	public static int n, m, t;
 
@@ -42,7 +42,7 @@ public class Code07_Forest1 {
 	public static int cntt = 0;
 
 	public static int[] dep = new int[MAXN];
-	public static int[][] stjump = new int[MAXN][MAXH];
+	public static int[][] stjump = new int[MAXN][MAXP];
 
 	public static int[] treeHead = new int[MAXN];
 	public static int[] setSiz = new int[MAXN];
@@ -108,7 +108,7 @@ public class Code07_Forest1 {
 			a = b;
 			b = tmp;
 		}
-		for (int p = MAXH - 1; p >= 0; p--) {
+		for (int p = MAXP - 1; p >= 0; p--) {
 			if (dep[stjump[a][p]] >= dep[b]) {
 				a = stjump[a][p];
 			}
@@ -116,7 +116,7 @@ public class Code07_Forest1 {
 		if (a == b) {
 			return a;
 		}
-		for (int p = MAXH - 1; p >= 0; p--) {
+		for (int p = MAXP - 1; p >= 0; p--) {
 			if (stjump[a][p] != stjump[b][p]) {
 				a = stjump[a][p];
 				b = stjump[b][p];
@@ -140,7 +140,7 @@ public class Code07_Forest1 {
 		treeHead[u] = treeh;
 		setSiz[treeh]++;
 		stjump[u][0] = fa;
-		for (int p = 1; p < MAXH; p++) {
+		for (int p = 1; p < MAXP; p++) {
 			stjump[u][p] = stjump[stjump[u][p - 1]][p - 1];
 		}
 		for (int e = head[u]; e > 0; e = next[e]) {
@@ -184,7 +184,7 @@ public class Code07_Forest1 {
 				treeHead[cur] = treehead;
 				setSiz[treehead]++;
 				stjump[cur][0] = father;
-				for (int p = 1; p < MAXH; p++) {
+				for (int p = 1; p < MAXP; p++) {
 					stjump[cur][p] = stjump[stjump[cur][p - 1]][p - 1];
 				}
 				edge = head[cur];

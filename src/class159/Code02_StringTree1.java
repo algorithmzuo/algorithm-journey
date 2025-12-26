@@ -24,7 +24,7 @@ public class Code02_StringTree1 {
 
 	public static int MAXT = 1000001;
 
-	public static int MAXH = 20;
+	public static int MAXP = 20;
 
 	public static int n, m;
 
@@ -51,7 +51,7 @@ public class Code02_StringTree1 {
 	// 树上倍增和LCA需要
 	public static int[] deep = new int[MAXN];
 
-	public static int[][] stjump = new int[MAXN][MAXH];
+	public static int[][] stjump = new int[MAXN][MAXP];
 
 	public static void addEdge(int u, int v, String w) {
 		next[++cntg] = head[u];
@@ -102,7 +102,7 @@ public class Code02_StringTree1 {
 		root[u] = insert(path, root[fa]);
 		deep[u] = deep[fa] + 1;
 		stjump[u][0] = fa;
-		for (int p = 1; p < MAXH; p++) {
+		for (int p = 1; p < MAXP; p++) {
 			stjump[u][p] = stjump[stjump[u][p - 1]][p - 1];
 		}
 		for (int e = head[u]; e > 0; e = next[e]) {
@@ -150,7 +150,7 @@ public class Code02_StringTree1 {
 				root[u] = insert(p, root[f]);
 				deep[u] = deep[f] + 1;
 				stjump[u][0] = f;
-				for (int p = 1; p < MAXH; p++) {
+				for (int p = 1; p < MAXP; p++) {
 					stjump[u][p] = stjump[stjump[u][p - 1]][p - 1];
 				}
 				e = head[u];
@@ -172,7 +172,7 @@ public class Code02_StringTree1 {
 			a = b;
 			b = tmp;
 		}
-		for (int p = MAXH - 1; p >= 0; p--) {
+		for (int p = MAXP - 1; p >= 0; p--) {
 			if (deep[stjump[a][p]] >= deep[b]) {
 				a = stjump[a][p];
 			}
@@ -180,7 +180,7 @@ public class Code02_StringTree1 {
 		if (a == b) {
 			return a;
 		}
-		for (int p = MAXH - 1; p >= 0; p--) {
+		for (int p = MAXP - 1; p >= 0; p--) {
 			if (stjump[a][p] != stjump[b][p]) {
 				a = stjump[a][p];
 				b = stjump[b][p];

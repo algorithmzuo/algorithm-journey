@@ -21,7 +21,7 @@ public class Code03_Network1 {
 
 	public static int MAXN = 100001;
 	public static int MAXM = 200001;
-	public static int MAXH = 20;
+	public static int MAXP = 20;
 	public static int INF = 1000000001;
 	public static int n, m;
 
@@ -36,7 +36,7 @@ public class Code03_Network1 {
 	public static int[] dep = new int[MAXN];
 	public static int[] siz = new int[MAXN];
 	public static int[] dfn = new int[MAXN];
-	public static int[][] stjump = new int[MAXN][MAXH];
+	public static int[][] stjump = new int[MAXN][MAXP];
 	public static int cntd;
 
 	// 树状数组
@@ -72,7 +72,7 @@ public class Code03_Network1 {
 		siz[u] = 1;
 		dfn[u] = ++cntd;
 		stjump[u][0] = f;
-		for (int p = 1; p < MAXH; p++) {
+		for (int p = 1; p < MAXP; p++) {
 			stjump[u][p] = stjump[stjump[u][p - 1]][p - 1];
 		}
 		for (int e = head[u]; e != 0; e = next[e]) {
@@ -118,7 +118,7 @@ public class Code03_Network1 {
 				siz[u] = 1;
 				dfn[u] = ++cntd;
 				stjump[u][0] = f;
-				for (int p = 1; p < MAXH; p++) {
+				for (int p = 1; p < MAXP; p++) {
 					stjump[u][p] = stjump[stjump[u][p - 1]][p - 1];
 				}
 				e = head[u];
@@ -146,7 +146,7 @@ public class Code03_Network1 {
 			a = b;
 			b = tmp;
 		}
-		for (int p = MAXH - 1; p >= 0; p--) {
+		for (int p = MAXP - 1; p >= 0; p--) {
 			if (dep[stjump[a][p]] >= dep[b]) {
 				a = stjump[a][p];
 			}
@@ -154,7 +154,7 @@ public class Code03_Network1 {
 		if (a == b) {
 			return a;
 		}
-		for (int p = MAXH - 1; p >= 0; p--) {
+		for (int p = MAXP - 1; p >= 0; p--) {
 			if (stjump[a][p] != stjump[b][p]) {
 				a = stjump[a][p];
 				b = stjump[b][p];

@@ -19,7 +19,7 @@ package class162;
 //using namespace std;
 //
 //const int MAXN = 500001;
-//const int MAXH = 20;
+//const int MAXP = 20;
 //int n, m;
 //ui s;
 //int root;
@@ -29,7 +29,7 @@ package class162;
 //int to[MAXN];
 //int cntg = 0;
 //
-//int stjump[MAXN][MAXH];
+//int stjump[MAXN][MAXP];
 //int dep[MAXN];
 //int len[MAXN];
 //int son[MAXN];
@@ -73,7 +73,7 @@ package class162;
 //
 //void dfs1(int u, int f) {
 //    stjump[u][0] = f;
-//    for (int p = 1; p < MAXH; p++) {
+//    for (int p = 1; p < MAXP; p++) {
 //        stjump[u][p] = stjump[stjump[u][p - 1]][p - 1];
 //    }
 //    dep[u] = dep[f] + 1;

@@ -24,7 +24,7 @@ public class Code04_Journey1 {
 	public static int MAXN = 200001;
 	public static int MAXK = 400001;
 	public static int MAXM = 400001;
-	public static int MAXH = 20;
+	public static int MAXP = 20;
 	public static int INF = 2000000001;
 	public static int t, n, m, q, k, s;
 	public static int[][] edge = new int[MAXM][4];
@@ -56,7 +56,7 @@ public class Code04_Journey1 {
 	// 树上dfs，Kruskal重构树的节点，子树中的所有点，走到1号节点的最小距离
 	public static int[] mindist = new int[MAXK];
 	// 树上dfs，Kruskal重构树的节点，倍增表
-	public static int[][] stjump = new int[MAXK][MAXH];
+	public static int[][] stjump = new int[MAXK][MAXP];
 
 	public static void clear() {
 		cntg = cntk = 0;
@@ -141,7 +141,7 @@ public class Code04_Journey1 {
 	// dfs1是递归函数，需要改成迭代版不然会爆栈，C++实现不需要
 	public static void dfs1(int u, int fa) {
 		stjump[u][0] = fa;
-		for (int p = 1; p < MAXH; p++) {
+		for (int p = 1; p < MAXP; p++) {
 			stjump[u][p] = stjump[stjump[u][p - 1]][p - 1];
 		}
 		for (int e = headk[u]; e > 0; e = nextk[e]) {
@@ -183,7 +183,7 @@ public class Code04_Journey1 {
 			pop();
 			if (e == -1) {
 				stjump[u][0] = f;
-				for (int p = 1; p < MAXH; p++) {
+				for (int p = 1; p < MAXP; p++) {
 					stjump[u][p] = stjump[stjump[u][p - 1]][p - 1];
 				}
 				e = headk[u];
@@ -207,7 +207,7 @@ public class Code04_Journey1 {
 	}
 
 	public static int query(int node, int line) {
-		for (int p = MAXH - 1; p >= 0; p--) {
+		for (int p = MAXP - 1; p >= 0; p--) {
 			if (stjump[node][p] > 0 && nodeKey[stjump[node][p]] > line) {
 				node = stjump[node][p];
 			}

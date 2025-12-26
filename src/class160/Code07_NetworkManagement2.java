@@ -18,7 +18,7 @@ package class160;
 //
 //const int MAXN = 80001;
 //const int MAXT = MAXN * 110;
-//const int MAXH = 18;
+//const int MAXP = 18;
 //int n, m, s;
 //
 //int arr[MAXN];
@@ -39,7 +39,7 @@ package class160;
 //int deep[MAXN];
 //int siz[MAXN];
 //int dfn[MAXN];
-//int stjump[MAXN][MAXH];
+//int stjump[MAXN][MAXP];
 //int cntd;
 //
 //int addTree[MAXN];
@@ -72,7 +72,7 @@ package class160;
 //    siz[u] = 1;
 //    dfn[u] = ++cntd;
 //    stjump[u][0] = fa;
-//    for (int p = 1; p < MAXH; p++) {
+//    for (int p = 1; p < MAXP; p++) {
 //        stjump[u][p] = stjump[stjump[u][p - 1]][p - 1];
 //    }
 //    for (int e = head[u]; e; e = nxt[e]) {
@@ -85,13 +85,13 @@ package class160;
 //
 //int lca(int a, int b) {
 //    if (deep[a] < deep[b]) swap(a, b);
-//    for (int p = MAXH - 1; p >= 0; p--) {
+//    for (int p = MAXP - 1; p >= 0; p--) {
 //        if (deep[stjump[a][p]] >= deep[b]) {
 //            a = stjump[a][p];
 //        }
 //    }
 //    if (a == b) return a;
-//    for (int p = MAXH - 1; p >= 0; p--) {
+//    for (int p = MAXP - 1; p >= 0; p--) {
 //        if (stjump[a][p] != stjump[b][p]) {
 //            a = stjump[a][p];
 //            b = stjump[b][p];

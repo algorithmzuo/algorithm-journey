@@ -21,7 +21,7 @@ import java.util.Arrays;
 public class Code04_Fruit1 {
 
 	public static int MAXN = 40001;
-	public static int MAXH = 16;
+	public static int MAXP = 16;
 	public static int INF = 1000000001;
 	public static int n, p, q;
 
@@ -35,7 +35,7 @@ public class Code04_Fruit1 {
 	public static int[] dep = new int[MAXN];
 	public static int[] ldfn = new int[MAXN];
 	public static int[] rdfn = new int[MAXN];
-	public static int[][] stjump = new int[MAXN][MAXH];
+	public static int[][] stjump = new int[MAXN][MAXP];
 	public static int cntd = 0;
 
 	// 只有y维度的树状数组
@@ -69,7 +69,7 @@ public class Code04_Fruit1 {
 		dep[u] = dep[fa] + 1;
 		ldfn[u] = ++cntd;
 		stjump[u][0] = fa;
-		for (int p = 1; p < MAXH; p++) {
+		for (int p = 1; p < MAXP; p++) {
 			stjump[u][p] = stjump[stjump[u][p - 1]][p - 1];
 		}
 		for (int e = head[u]; e > 0; e = next[e]) {
@@ -109,7 +109,7 @@ public class Code04_Fruit1 {
 				dep[u] = dep[f] + 1;
 				ldfn[u] = ++cntd;
 				stjump[u][0] = f;
-				for (int p = 1; p < MAXH; p++) {
+				for (int p = 1; p < MAXP; p++) {
 					stjump[u][p] = stjump[stjump[u][p - 1]][p - 1];
 				}
 				e = head[u];
@@ -133,7 +133,7 @@ public class Code04_Fruit1 {
 			a = b;
 			b = tmp;
 		}
-		for (int p = MAXH - 1; p >= 0; p--) {
+		for (int p = MAXP - 1; p >= 0; p--) {
 			if (dep[stjump[a][p]] >= dep[b]) {
 				a = stjump[a][p];
 			}
@@ -141,7 +141,7 @@ public class Code04_Fruit1 {
 		if (a == b) {
 			return a;
 		}
-		for (int p = MAXH - 1; p >= 0; p--) {
+		for (int p = MAXP - 1; p >= 0; p--) {
 			if (stjump[a][p] != stjump[b][p]) {
 				a = stjump[a][p];
 				b = stjump[b][p];
@@ -158,7 +158,7 @@ public class Code04_Fruit1 {
 			a = b;
 			b = tmp;
 		}
-		for (int p = MAXH - 1; p >= 0; p--) {
+		for (int p = MAXP - 1; p >= 0; p--) {
 			if (dep[stjump[a][p]] > dep[b]) {
 				a = stjump[a][p];
 			}

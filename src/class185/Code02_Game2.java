@@ -16,7 +16,7 @@ package class185;
 //using namespace std;
 //
 //const int MAXN = 100001;
-//const int MAXH = 18;
+//const int MAXP = 18;
 //const int MAXT = 20000001;
 //int n, m;
 //
@@ -26,7 +26,7 @@ package class185;
 //int cntg;
 //
 //int dep[MAXN];
-//int stjump[MAXN][MAXH];
+//int stjump[MAXN][MAXP];
 //
 //bool vis[MAXN];
 //int siz[MAXN];
@@ -48,7 +48,7 @@ package class185;
 //void dfs(int u, int fa) {
 //    dep[u] = dep[fa] + 1;
 //    stjump[u][0] = fa;
-//    for (int p = 1; p < MAXH; p++) {
+//    for (int p = 1; p < MAXP; p++) {
 //        stjump[u][p] = stjump[stjump[u][p - 1]][p - 1];
 //    }
 //    for (int e = head[u]; e; e = nxt[e]) {
@@ -63,7 +63,7 @@ package class185;
 //    if (dep[a] < dep[b]) {
 //        swap(a, b);
 //    }
-//    for (int p = MAXH - 1; p >= 0; p--) {
+//    for (int p = MAXP - 1; p >= 0; p--) {
 //        if (dep[stjump[a][p]] >= dep[b]) {
 //            a = stjump[a][p];
 //        }
@@ -71,7 +71,7 @@ package class185;
 //    if (a == b) {
 //        return a;
 //    }
-//    for (int p = MAXH - 1; p >= 0; p--) {
+//    for (int p = MAXP - 1; p >= 0; p--) {
 //        if (stjump[a][p] != stjump[b][p]) {
 //            a = stjump[a][p];
 //            b = stjump[b][p];

@@ -15,7 +15,7 @@ import java.io.PrintWriter;
 public class Code01_EulerLCA1 {
 
 	public static int MAXN = 500001;
-	public static int MAXH = 20;
+	public static int MAXP = 20;
 	public static int n, m, root;
 
 	public static int[] headg = new int[MAXN];
@@ -25,7 +25,7 @@ public class Code01_EulerLCA1 {
 
 	public static int[] first = new int[MAXN];
 	public static int[] lg2 = new int[MAXN << 1];
-	public static int[][] rmq = new int[MAXN << 1][MAXH];
+	public static int[][] rmq = new int[MAXN << 1][MAXP];
 	public static int cntEuler;
 
 	// 讲解118，递归函数改成迭代所需要的栈

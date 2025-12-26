@@ -13,7 +13,7 @@ package class186;
 //using namespace std;
 //
 //const int MAXN = 500001;
-//const int MAXH = 20;
+//const int MAXP = 20;
 //int n, m, root;
 //
 //int headg[MAXN];
@@ -23,7 +23,7 @@ package class186;
 //
 //int first[MAXN];
 //int lg2[MAXN << 1];
-//int rmq[MAXN << 1][MAXH];
+//int rmq[MAXN << 1][MAXP];
 //int cntEuler;
 //
 //void addEdge(int u, int v) {

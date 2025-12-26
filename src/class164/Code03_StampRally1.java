@@ -21,7 +21,7 @@ public class Code03_StampRally1 {
 
 	public static int MAXK = 200001;
 	public static int MAXM = 100001;
-	public static int MAXH = 20;
+	public static int MAXP = 20;
 	public static int n, m, q;
 	public static int[][] edge = new int[MAXM][3];
 	// 并查集
@@ -37,7 +37,7 @@ public class Code03_StampRally1 {
 
 	// 树上dfs
 	public static int[] leafsiz = new int[MAXK];
-	public static int[][] stjump = new int[MAXK][MAXH];
+	public static int[][] stjump = new int[MAXK][MAXP];
 
 	public static void addEdge(int u, int v) {
 		next[++cntg] = head[u];
@@ -73,7 +73,7 @@ public class Code03_StampRally1 {
 
 	public static void dfs(int u, int fa) {
 		stjump[u][0] = fa;
-		for (int p = 1; p < MAXH; p++) {
+		for (int p = 1; p < MAXP; p++) {
 			stjump[u][p] = stjump[stjump[u][p - 1]][p - 1];
 		}
 		for (int e = head[u]; e > 0; e = next[e]) {
@@ -90,12 +90,12 @@ public class Code03_StampRally1 {
 	}
 
 	public static boolean check(int x, int y, int z, int limit) {
-		for (int p = MAXH - 1; p >= 0; p--) {
+		for (int p = MAXP - 1; p >= 0; p--) {
 			if (stjump[x][p] > 0 && nodeKey[stjump[x][p]] <= limit) {
 				x = stjump[x][p];
 			}
 		}
-		for (int p = MAXH - 1; p >= 0; p--) {
+		for (int p = MAXP - 1; p >= 0; p--) {
 			if (stjump[y][p] > 0 && nodeKey[stjump[y][p]] <= limit) {
 				y = stjump[y][p];
 			}

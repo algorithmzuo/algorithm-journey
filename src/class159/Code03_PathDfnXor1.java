@@ -26,7 +26,7 @@ public class Code03_PathDfnXor1 {
 
 	public static int MAXT = MAXN * 62;
 
-	public static int MAXH = 16;
+	public static int MAXP = 16;
 
 	public static int BIT = 29;
 
@@ -52,7 +52,7 @@ public class Code03_PathDfnXor1 {
 	public static int[] size = new int[MAXN];
 
 	// 树上dfs求st表
-	public static int[][] stjump = new int[MAXN][MAXH];
+	public static int[][] stjump = new int[MAXN][MAXP];
 
 	// 树上dfs求每个节点的dfn序号
 	public static int[] dfn = new int[MAXN];
@@ -123,7 +123,7 @@ public class Code03_PathDfnXor1 {
 		size[u] = 1;
 		stjump[u][0] = fa;
 		dfn[u] = ++cntd;
-		for (int p = 1; p < MAXH; p++) {
+		for (int p = 1; p < MAXP; p++) {
 			stjump[u][p] = stjump[stjump[u][p - 1]][p - 1];
 		}
 		for (int ei = head[u], v; ei > 0; ei = next[ei]) {
@@ -154,7 +154,7 @@ public class Code03_PathDfnXor1 {
 			a = b;
 			b = tmp;
 		}
-		for (int p = MAXH - 1; p >= 0; p--) {
+		for (int p = MAXP - 1; p >= 0; p--) {
 			if (deep[stjump[a][p]] >= deep[b]) {
 				a = stjump[a][p];
 			}
@@ -162,7 +162,7 @@ public class Code03_PathDfnXor1 {
 		if (a == b) {
 			return a;
 		}
-		for (int p = MAXH - 1; p >= 0; p--) {
+		for (int p = MAXP - 1; p >= 0; p--) {
 			if (stjump[a][p] != stjump[b][p]) {
 				a = stjump[a][p];
 				b = stjump[b][p];

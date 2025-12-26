@@ -22,7 +22,7 @@ public class Code06_GraphQueries1 {
 	public static int MAXK = 400001;
 	public static int MAXM = 300001;
 	public static int MAXQ = 500001;
-	public static int MAXH = 20;
+	public static int MAXP = 20;
 	public static int n, m, q;
 
 	// 节点值的数组，需要记录，线段树也要使用
@@ -44,7 +44,7 @@ public class Code06_GraphQueries1 {
 	public static int cntu;
 
 	// 倍增表
-	public static int[][] stjump = new int[MAXK][MAXH];
+	public static int[][] stjump = new int[MAXK][MAXP];
 	// 子树上的叶节点个数
 	public static int[] leafsiz = new int[MAXK];
 	// 子树上叶节点的dfn序号最小值
@@ -110,7 +110,7 @@ public class Code06_GraphQueries1 {
 
 	public static void dfs(int u, int fa) {
 		stjump[u][0] = fa;
-		for (int p = 1; p < MAXH; p++) {
+		for (int p = 1; p < MAXP; p++) {
 			stjump[u][p] = stjump[stjump[u][p - 1]][p - 1];
 		}
 		for (int e = head[u]; e > 0; e = next[e]) {
@@ -131,7 +131,7 @@ public class Code06_GraphQueries1 {
 	}
 
 	public static int getAncestor(int u, int limit) {
-		for (int p = MAXH - 1; p >= 0; p--) {
+		for (int p = MAXP - 1; p >= 0; p--) {
 			if (stjump[u][p] > 0 && nodeKey[stjump[u][p]] <= limit) {
 				u = stjump[u][p];
 			}

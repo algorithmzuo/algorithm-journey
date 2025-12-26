@@ -20,7 +20,7 @@ public class Code02_Training1 {
 
 	public static int MAXK = 800001;
 	public static int MAXM = 400001;
-	public static int MAXH = 20;
+	public static int MAXP = 20;
 	public static int n, m, q;
 
 	// 每条边的信息，节点u、节点v、边权w、边的编号i
@@ -51,7 +51,7 @@ public class Code02_Training1 {
 	// 树上dfs，Kruskal重构树的节点，子树上面有几个叶节点
 	public static int[] leafsiz = new int[MAXK];
 	// 树上dfs，Kruskal重构树的节点，倍增表
-	public static int[][] stjump = new int[MAXK][MAXH];
+	public static int[][] stjump = new int[MAXK][MAXP];
 
 	// 并查集的find方法，需要改成迭代版不然会爆栈，C++实现不需要
 	public static int find(int i) {
@@ -95,7 +95,7 @@ public class Code02_Training1 {
 	// dfs1是递归函数，需要改成迭代版，不然会爆栈，C++实现不需要
 	public static void dfs1(int u, int fa) {
 		stjump[u][0] = fa;
-		for (int p = 1; p < MAXH; p++) {
+		for (int p = 1; p < MAXP; p++) {
 			stjump[u][p] = stjump[stjump[u][p - 1]][p - 1];
 		}
 		for (int e = head[u]; e > 0; e = next[e]) {
@@ -137,7 +137,7 @@ public class Code02_Training1 {
 			pop();
 			if (e == -1) {
 				stjump[u][0] = f;
-				for (int p = 1; p < MAXH; p++) {
+				for (int p = 1; p < MAXP; p++) {
 					stjump[u][p] = stjump[stjump[u][p - 1]][p - 1];
 				}
 				e = head[u];
@@ -161,7 +161,7 @@ public class Code02_Training1 {
 	}
 
 	public static int query(int u, int limit) {
-		for (int p = MAXH - 1; p >= 0; p--) {
+		for (int p = MAXP - 1; p >= 0; p--) {
 			if (stjump[u][p] > 0 && nodeKey[stjump[u][p]] >= limit) {
 				u = stjump[u][p];
 			}

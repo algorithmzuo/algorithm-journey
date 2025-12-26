@@ -21,7 +21,7 @@ import java.io.StreamTokenizer;
 public class Code04_TreeKthAncestor1 {
 
 	public static int MAXN = 500001;
-	public static int MAXH = 20;
+	public static int MAXP = 20;
 	public static int n, m;
 	public static long s;
 	public static int root;
@@ -33,7 +33,7 @@ public class Code04_TreeKthAncestor1 {
 	public static int cntg = 0;
 
 	// 倍增表 + 长链剖分
-	public static int[][] stjump = new int[MAXN][MAXH];
+	public static int[][] stjump = new int[MAXN][MAXP];
 	public static int[] dep = new int[MAXN];
 	public static int[] len = new int[MAXN];
 	public static int[] son = new int[MAXN];
@@ -82,7 +82,7 @@ public class Code04_TreeKthAncestor1 {
 	// 递归版
 	public static void dfs1(int u, int f) {
 		stjump[u][0] = f;
-		for (int p = 1; p < MAXH; p++) {
+		for (int p = 1; p < MAXP; p++) {
 			stjump[u][p] = stjump[stjump[u][p - 1]][p - 1];
 		}
 		dep[u] = dep[f] + 1;
@@ -146,7 +146,7 @@ public class Code04_TreeKthAncestor1 {
 			pop();
 			if (edge == -1) {
 				stjump[first][0] = second;
-				for (int p = 1; p < MAXH; p++) {
+				for (int p = 1; p < MAXP; p++) {
 					stjump[first][p] = stjump[stjump[first][p - 1]][p - 1];
 				}
 				dep[first] = dep[second] + 1;

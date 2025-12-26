@@ -20,7 +20,7 @@ public class Code01_KruskalRebuild1 {
 
 	public static int MAXK = 200001;
 	public static int MAXM = 300001;
-	public static int MAXH = 20;
+	public static int MAXP = 20;
 	public static int n, m, q;
 
 	// 每条边有三个信息，节点u、节点v、边权w
@@ -40,7 +40,7 @@ public class Code01_KruskalRebuild1 {
 
 	// Kruskal重构树上，dfs过程建立的信息
 	public static int[] dep = new int[MAXK];
-	public static int[][] stjump = new int[MAXK][MAXH];
+	public static int[][] stjump = new int[MAXK][MAXP];
 
 	public static int find(int i) {
 		if (i != father[i]) {
@@ -78,7 +78,7 @@ public class Code01_KruskalRebuild1 {
 	public static void dfs1(int u, int fa) {
 		dep[u] = dep[fa] + 1;
 		stjump[u][0] = fa;
-		for (int p = 1; p < MAXH; p++) {
+		for (int p = 1; p < MAXP; p++) {
 			stjump[u][p] = stjump[stjump[u][p - 1]][p - 1];
 		}
 		for (int e = head[u]; e > 0; e = next[e]) {
@@ -113,7 +113,7 @@ public class Code01_KruskalRebuild1 {
 			if (e == -1) {
 				dep[u] = dep[f] + 1;
 				stjump[u][0] = f;
-				for (int p = 1; p < MAXH; p++) {
+				for (int p = 1; p < MAXP; p++) {
 					stjump[u][p] = stjump[stjump[u][p - 1]][p - 1];
 				}
 				e = head[u];
@@ -133,7 +133,7 @@ public class Code01_KruskalRebuild1 {
 			a = b;
 			b = tmp;
 		}
-		for (int p = MAXH - 1; p >= 0; p--) {
+		for (int p = MAXP - 1; p >= 0; p--) {
 			if (dep[stjump[a][p]] >= dep[b]) {
 				a = stjump[a][p];
 			}
@@ -141,7 +141,7 @@ public class Code01_KruskalRebuild1 {
 		if (a == b) {
 			return a;
 		}
-		for (int p = MAXH - 1; p >= 0; p--) {
+		for (int p = MAXP - 1; p >= 0; p--) {
 			if (stjump[a][p] != stjump[b][p]) {
 				a = stjump[a][p];
 				b = stjump[b][p];

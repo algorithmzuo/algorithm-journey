@@ -23,7 +23,7 @@ public class Code04_Passage1 {
 
 	public static int MAXN = 100001;
 	public static int MAXM = MAXN << 1;
-	public static int MAXH = 20;
+	public static int MAXP = 20;
 	public static int MAXT = MAXN * 20;
 	public static long INF = 1L << 60;
 	public static int n, cntn;
@@ -54,7 +54,7 @@ public class Code04_Passage1 {
 
 	public static int[] dfn = new int[MAXN];
 	public static int[] lg2 = new int[MAXN];
-	public static int[][] rmq = new int[MAXN][MAXH];
+	public static int[][] rmq = new int[MAXN][MAXP];
 	public static int cntd;
 
 	public static long[] dist2 = new long[MAXN];

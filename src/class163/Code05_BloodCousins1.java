@@ -22,7 +22,7 @@ import java.io.StreamTokenizer;
 public class Code05_BloodCousins1 {
 
 	public static int MAXN = 100001;
-	public static int MAXH = 20;
+	public static int MAXP = 20;
 	public static int n, m;
 	public static boolean[] root = new boolean[MAXN];
 
@@ -43,7 +43,7 @@ public class Code05_BloodCousins1 {
 	public static int[] siz = new int[MAXN];
 	public static int[] dep = new int[MAXN];
 	public static int[] son = new int[MAXN];
-	public static int[][] stjump = new int[MAXN][MAXH];
+	public static int[][] stjump = new int[MAXN][MAXP];
 
 	// 树上启发式合并
 	public static int[] depCnt = new int[MAXN];
@@ -66,7 +66,7 @@ public class Code05_BloodCousins1 {
 		siz[u] = 1;
 		dep[u] = dep[fa] + 1;
 		stjump[u][0] = fa;
-		for (int p = 1; p < MAXH; p++) {
+		for (int p = 1; p < MAXP; p++) {
 			stjump[u][p] = stjump[stjump[u][p - 1]][p - 1];
 		}
 		for (int e = headg[u]; e > 0; e = nextg[e]) {
@@ -82,7 +82,7 @@ public class Code05_BloodCousins1 {
 	}
 
 	public static int kAncestor(int u, int k) {
-		for (int p = MAXH - 1; p >= 0; p--) {
+		for (int p = MAXP - 1; p >= 0; p--) {
 			if (k >= 1 << p) {
 				k -= 1 << p;
 				u = stjump[u][p];

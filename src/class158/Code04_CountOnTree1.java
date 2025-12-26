@@ -25,9 +25,9 @@ public class Code04_CountOnTree1 {
 
 	public static int MAXN = 100001;
 
-	public static int MAXH = 20;
+	public static int MAXP = 20;
 
-	public static int MAXT = MAXN * MAXH;
+	public static int MAXT = MAXN * MAXP;
 
 	public static int n, m, s;
 
@@ -60,7 +60,7 @@ public class Code04_CountOnTree1 {
 	// 树上倍增找lca需要
 	public static int[] deep = new int[MAXN];
 
-	public static int[][] stjump = new int[MAXN][MAXH];
+	public static int[][] stjump = new int[MAXN][MAXP];
 
 	public static int kth(int num) {
 		int left = 1, right = s, mid;
@@ -142,7 +142,7 @@ public class Code04_CountOnTree1 {
 		root[u] = insert(kth(arr[u]), 1, s, root[f]);
 		deep[u] = deep[f] + 1;
 		stjump[u][0] = f;
-		for (int p = 1; p < MAXH; p++) {
+		for (int p = 1; p < MAXP; p++) {
 			stjump[u][p] = stjump[stjump[u][p - 1]][p - 1];
 		}
 		for (int ei = head[u]; ei > 0; ei = next[ei]) {
@@ -182,7 +182,7 @@ public class Code04_CountOnTree1 {
 				root[u] = insert(kth(arr[u]), 1, s, root[f]);
 				deep[u] = deep[f] + 1;
 				stjump[u][0] = f;
-				for (int p = 1; p < MAXH; p++) {
+				for (int p = 1; p < MAXP; p++) {
 					stjump[u][p] = stjump[stjump[u][p - 1]][p - 1];
 				}
 				e = head[u];
@@ -204,7 +204,7 @@ public class Code04_CountOnTree1 {
 			a = b;
 			b = tmp;
 		}
-		for (int p = MAXH - 1; p >= 0; p--) {
+		for (int p = MAXP - 1; p >= 0; p--) {
 			if (deep[stjump[a][p]] >= deep[b]) {
 				a = stjump[a][p];
 			}
@@ -212,7 +212,7 @@ public class Code04_CountOnTree1 {
 		if (a == b) {
 			return a;
 		}
-		for (int p = MAXH - 1; p >= 0; p--) {
+		for (int p = MAXP - 1; p >= 0; p--) {
 			if (stjump[a][p] != stjump[b][p]) {
 				a = stjump[a][p];
 				b = stjump[b][p];

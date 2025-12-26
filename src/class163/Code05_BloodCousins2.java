@@ -18,7 +18,7 @@ package class163;
 //using namespace std;
 //
 //const int MAXN = 100001;
-//const int MAXH = 20;
+//const int MAXP = 20;
 //int n, m;
 //bool root[MAXN];
 //
@@ -36,7 +36,7 @@ package class163;
 //int siz[MAXN];
 //int dep[MAXN];
 //int son[MAXN];
-//int stjump[MAXN][MAXH];
+//int stjump[MAXN][MAXP];
 //
 //int depCnt[MAXN];
 //int ans[MAXN];
@@ -58,7 +58,7 @@ package class163;
 //    siz[u] = 1;
 //    dep[u] = dep[fa] + 1;
 //    stjump[u][0] = fa;
-//    for (int p = 1; p < MAXH; p++) {
+//    for (int p = 1; p < MAXP; p++) {
 //        stjump[u][p] = stjump[ stjump[u][p - 1] ][p - 1];
 //    }
 //    for (int e = headg[u]; e > 0; e = nextg[e]) {
@@ -74,7 +74,7 @@ package class163;
 //}
 //
 //int kAncestor(int u, int k) {
-//    for (int p = MAXH - 1; p >= 0; p--) {
+//    for (int p = MAXP - 1; p >= 0; p--) {
 //        if (k >= (1 << p)) {
 //            k -= (1 << p);
 //            u = stjump[u][p];

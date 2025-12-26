@@ -26,7 +26,7 @@ package class164;
 //
 //const int MAXK = 800001;
 //const int MAXM = 400001;
-//const int MAXH = 20;
+//const int MAXP = 20;
 //int n, m, q;
 //
 //Edge edge[MAXM];
@@ -46,7 +46,7 @@ package class164;
 //int cntu;
 //
 //int leafsiz[MAXK];
-//int stjump[MAXK][MAXH];
+//int stjump[MAXK][MAXP];
 //
 //int find(int i) {
 //    if (i != father[i]) {
@@ -83,7 +83,7 @@ package class164;
 //
 //void dfs(int u, int fa) {
 //    stjump[u][0] = fa;
-//    for (int p = 1; p < MAXH; p++) {
+//    for (int p = 1; p < MAXP; p++) {
 //        stjump[u][p] = stjump[stjump[u][p - 1]][p - 1];
 //    }
 //    for (int e = head[u]; e > 0; e = nxt[e]) {
@@ -100,7 +100,7 @@ package class164;
 //}
 //
 //int query(int u, int limit) {
-//    for (int p = MAXH - 1; p >= 0; p--) {
+//    for (int p = MAXP - 1; p >= 0; p--) {
 //        if (stjump[u][p] > 0 && nodeKey[stjump[u][p]] >= limit) {
 //            u = stjump[u][p];
 //        }

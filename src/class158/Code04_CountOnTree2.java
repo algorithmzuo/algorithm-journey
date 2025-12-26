@@ -19,8 +19,8 @@ package class158;
 //using namespace std;
 //
 //const int MAXN = 100001;
-//const int MAXH = 20;
-//const int MAXT = MAXN * MAXH;
+//const int MAXP = 20;
+//const int MAXT = MAXN * MAXP;
 //int n, m, s;
 //int arr[MAXN];
 //int sorted[MAXN];
@@ -37,7 +37,7 @@ package class158;
 //int cntt = 0;
 //
 //int deep[MAXN];
-//int stjump[MAXN][MAXH];
+//int stjump[MAXN][MAXP];
 //
 //int kth(int num) {
 //    int left = 1, right = s, mid;
@@ -118,7 +118,7 @@ package class158;
 //    root[u] = insert(kth(arr[u]), 1, s, root[f]);
 //    deep[u] = deep[f] + 1;
 //    stjump[u][0] = f;
-//    for (int p = 1; p < MAXH; p++) {
+//    for (int p = 1; p < MAXP; p++) {
 //        stjump[u][p] = stjump[stjump[u][p - 1]][p - 1];
 //    }
 //    for (int ei = head[u]; ei > 0; ei = nxt[ei]) {
@@ -132,7 +132,7 @@ package class158;
 //    if (deep[a] < deep[b]) {
 //        swap(a, b);
 //    }
-//    for (int p = MAXH - 1; p >= 0; p--) {
+//    for (int p = MAXP - 1; p >= 0; p--) {
 //        if (deep[stjump[a][p]] >= deep[b]) {
 //            a = stjump[a][p];
 //        }
@@ -140,7 +140,7 @@ package class158;
 //    if (a == b) {
 //        return a;
 //    }
-//    for (int p = MAXH - 1; p >= 0; p--) {
+//    for (int p = MAXP - 1; p >= 0; p--) {
 //        if (stjump[a][p] != stjump[b][p]) {
 //            a = stjump[a][p];
 //            b = stjump[b][p];

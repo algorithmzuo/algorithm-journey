@@ -29,7 +29,7 @@ package class169;
 //}
 //
 //const int MAXN = 40001;
-//const int MAXH = 16;
+//const int MAXP = 16;
 //const int INF = 1000000001;
 //int n, p, q;
 //
@@ -41,7 +41,7 @@ package class169;
 //int dep[MAXN];
 //int ldfn[MAXN];
 //int rdfn[MAXN];
-//int stjump[MAXN][MAXH];
+//int stjump[MAXN][MAXP];
 //int cntd = 0;
 //
 //int tree[MAXN];
@@ -65,7 +65,7 @@ package class169;
 //    dep[u] = dep[fa] + 1;
 //    ldfn[u] = ++cntd;
 //    stjump[u][0] = fa;
-//    for (int p = 1; p < MAXH; p++) {
+//    for (int p = 1; p < MAXP; p++) {
 //        stjump[u][p] = stjump[stjump[u][p - 1]][p - 1];
 //    }
 //    for (int e = head[u]; e > 0; e = nxt[e]) {
@@ -82,7 +82,7 @@ package class169;
 //        a = b;
 //        b = tmp;
 //    }
-//    for (int p = MAXH - 1; p >= 0; p--) {
+//    for (int p = MAXP - 1; p >= 0; p--) {
 //        if (dep[stjump[a][p]] >= dep[b]) {
 //            a = stjump[a][p];
 //        }
@@ -90,7 +90,7 @@ package class169;
 //    if (a == b) {
 //        return a;
 //    }
-//    for (int p = MAXH - 1; p >= 0; p--) {
+//    for (int p = MAXP - 1; p >= 0; p--) {
 //        if (stjump[a][p] != stjump[b][p]) {
 //            a = stjump[a][p];
 //            b = stjump[b][p];
@@ -105,7 +105,7 @@ package class169;
 //        a = b;
 //        b = tmp;
 //    }
-//    for (int p = MAXH - 1; p >= 0; p--) {
+//    for (int p = MAXP - 1; p >= 0; p--) {
 //        if (dep[stjump[a][p]] > dep[b]) {
 //            a = stjump[a][p];
 //        }

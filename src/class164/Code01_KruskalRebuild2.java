@@ -26,7 +26,7 @@ package class164;
 //
 //const int MAXK = 200001;
 //const int MAXM = 300001;
-//const int MAXH = 20;
+//const int MAXP = 20;
 //int n, m, q;
 //Edge edge[MAXM];
 //
@@ -39,7 +39,7 @@ package class164;
 //int cntu;
 //
 //int dep[MAXK];
-//int stjump[MAXK][MAXH];
+//int stjump[MAXK][MAXP];
 //
 //int find(int i) {
 //    if (i != father[i]) {
@@ -76,7 +76,7 @@ package class164;
 //void dfs(int u, int fa) {
 //    dep[u] = dep[fa] + 1;
 //    stjump[u][0] = fa;
-//    for (int p = 1; p < MAXH; p++) {
+//    for (int p = 1; p < MAXP; p++) {
 //        stjump[u][p] = stjump[stjump[u][p - 1]][p - 1];
 //    }
 //    for (int e = head[u]; e > 0; e = nxt[e]) {
@@ -90,7 +90,7 @@ package class164;
 //        a = b;
 //        b = tmp;
 //    }
-//    for (int p = MAXH - 1; p >= 0; p--) {
+//    for (int p = MAXP - 1; p >= 0; p--) {
 //        if (dep[stjump[a][p]] >= dep[b]) {
 //            a = stjump[a][p];
 //        }
@@ -98,7 +98,7 @@ package class164;
 //    if (a == b) {
 //        return a;
 //    }
-//    for (int p = MAXH - 1; p >= 0; p--) {
+//    for (int p = MAXP - 1; p >= 0; p--) {
 //        if (stjump[a][p] != stjump[b][p]) {
 //            a = stjump[a][p];
 //            b = stjump[b][p];

@@ -20,7 +20,7 @@ public class Code05_UntilConnect1 {
 	public static int MAXN = 100001;
 	public static int MAXK = 200001;
 	public static int MAXM = 200001;
-	public static int MAXH = 20;
+	public static int MAXP = 20;
 	public static int t, n, m, q;
 	public static int[][] edge = new int[MAXM][3];
 
@@ -42,14 +42,14 @@ public class Code05_UntilConnect1 {
 	// seg[i] = j，代表树上节点的dfn序号为i，对应原始节点的编号为j
 	public static int[] seg = new int[MAXK];
 	// 树上的倍增表
-	public static int[][] stjump = new int[MAXK][MAXH];
+	public static int[][] stjump = new int[MAXK][MAXP];
 	// dfn序号的计数
 	public static int cntd;
 
 	// 一维数组的倍增表，查询区间最大值、最小值
 	public static int[] lg2 = new int[MAXN];
-	public static int[][] stmax = new int[MAXN][MAXH];
-	public static int[][] stmin = new int[MAXN][MAXH];
+	public static int[][] stmax = new int[MAXN][MAXP];
+	public static int[][] stmin = new int[MAXN][MAXP];
 
 	public static void clear() {
 		cntg = cntd = 0;
@@ -93,7 +93,7 @@ public class Code05_UntilConnect1 {
 		dfn[u] = ++cntd;
 		seg[cntd] = u;
 		stjump[u][0] = fa;
-		for (int p = 1; p < MAXH; p++) {
+		for (int p = 1; p < MAXP; p++) {
 			stjump[u][p] = stjump[stjump[u][p - 1]][p - 1];
 		}
 		for (int e = head[u]; e > 0; e = next[e]) {
@@ -137,7 +137,7 @@ public class Code05_UntilConnect1 {
 			a = b;
 			b = tmp;
 		}
-		for (int p = MAXH - 1; p >= 0; p--) {
+		for (int p = MAXP - 1; p >= 0; p--) {
 			if (dep[stjump[a][p]] >= dep[b]) {
 				a = stjump[a][p];
 			}
@@ -145,7 +145,7 @@ public class Code05_UntilConnect1 {
 		if (a == b) {
 			return a;
 		}
-		for (int p = MAXH - 1; p >= 0; p--) {
+		for (int p = MAXP - 1; p >= 0; p--) {
 			if (stjump[a][p] != stjump[b][p]) {
 				a = stjump[a][p];
 				b = stjump[b][p];
