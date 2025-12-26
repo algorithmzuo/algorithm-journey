@@ -26,7 +26,7 @@ public class Code02_DfnLCA1 {
 	public static int[] dfn = new int[MAXN];
 	public static int[] lg2 = new int[MAXN];
 	public static int[][] rmq = new int[MAXN][MAXH];
-	public static int cntd;
+	public static int cntDfn;
 
 	// 讲解118，递归函数改成迭代所需要的栈
 	public static int[][] stack = new int[MAXN][3];
@@ -59,7 +59,7 @@ public class Code02_DfnLCA1 {
 
 	// dfn序递归版，java会爆栈，C++可以通过
 	public static void dfs1(int u, int fa) {
-		dfn[u] = ++cntd;
+		dfn[u] = ++cntDfn;
 		rmq[dfn[u]][0] = fa;
 		for (int e = headg[u]; e > 0; e = nextg[e]) {
 			int v = tog[e];
@@ -76,7 +76,7 @@ public class Code02_DfnLCA1 {
 		while (stacksize > 0) {
 			pop();
 			if (e == -1) {
-				dfn[u] = ++cntd;
+				dfn[u] = ++cntDfn;
 				rmq[dfn[u]][0] = f;
 				e = headg[u];
 			} else {

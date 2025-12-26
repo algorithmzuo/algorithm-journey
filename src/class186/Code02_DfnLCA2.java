@@ -24,7 +24,7 @@ package class186;
 //int dfn[MAXN];
 //int lg2[MAXN];
 //int rmq[MAXN][MAXH];
-//int cntd;
+//int cntDfn;
 //
 //void addEdge(int u, int v) {
 //    nextg[++cntg] = headg[u];
@@ -37,7 +37,7 @@ package class186;
 //}
 //
 //void dfs(int u, int fa) {
-//    dfn[u] = ++cntd;
+//    dfn[u] = ++cntDfn;
 //    rmq[dfn[u]][0] = fa;
 //    for (int e = headg[u]; e > 0; e = nextg[e]) {
 //        int v = tog[e];
