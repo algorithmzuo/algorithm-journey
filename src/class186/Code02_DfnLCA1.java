@@ -1,6 +1,9 @@
 package class186;
 
 // dfn序求LCA，java版
+// 一共有n个节点，给定n-1条边，所有节点组成一棵树，给定树头root
+// 一共有m条查询，格式 u v : 打印u和v的最低公共祖先
+// 1 <= n、m <= 5 * 10^5
 // 测试链接 : https://www.luogu.com.cn/problem/P3379
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
