@@ -34,8 +34,6 @@ public class Code03_ViolentWriting1 {
 	public static int[] weight0 = new int[MAXN << 1];
 	public static int cnt0;
 
-	public static long[] dis1 = new long[MAXN];
-
 	public static int[] head1 = new int[MAXM];
 	public static int[] next1 = new int[MAXM << 1];
 	public static int[] to1 = new int[MAXM << 1];
@@ -47,6 +45,8 @@ public class Code03_ViolentWriting1 {
 	public static int[] to2 = new int[MAXN << 1];
 	public static int[] weight2 = new int[MAXN << 1];
 	public static int cnt2;
+
+	public static long[] dis1 = new long[MAXN];
 
 	public static boolean[] vis = new boolean[MAXM];
 	public static int[] siz = new int[MAXM];

@@ -32,8 +32,6 @@ package class187;
 //int weight0[MAXN << 1];
 //int cnt0;
 //
-//ll dis1[MAXN];
-//
 //int head1[MAXM];
 //int next1[MAXM << 1];
 //int to1[MAXM << 1];
@@ -45,6 +43,8 @@ package class187;
 //int to2[MAXN << 1];
 //int weight2[MAXN << 1];
 //int cnt2;
+//
+//ll dis1[MAXN];
 //
 //bool vis[MAXM];
 //int siz[MAXM];
