@@ -52,16 +52,16 @@ public class Code04_Passage1 {
 	public static long[] weight3 = new long[MAXN << 1];
 	public static int cnt3;
 
-	public static int[] dfn = new int[MAXN];
-	public static int[] lg2 = new int[MAXN];
-	public static int[][] rmq = new int[MAXN][MAXP];
-	public static int cntd;
-
 	public static long[] dist2 = new long[MAXN];
 	public static long[] dist3 = new long[MAXN];
 
 	public static boolean[] vis = new boolean[MAXM];
 	public static int[] siz = new int[MAXM];
+
+	public static int[] dfn = new int[MAXN];
+	public static int[] lg2 = new int[MAXN];
+	public static int[][] rmq = new int[MAXN][MAXP];
+	public static int cntd;
 
 	public static int[] up = new int[MAXN];
 	public static int[] root = new int[MAXN];
@@ -107,59 +107,17 @@ public class Code04_Passage1 {
 		head3[u] = cnt3;
 	}
 
-	public static int getUp(int x, int y) {
-		return dfn[x] < dfn[y] ? x : y;
-	}
-
-	public static void dfsTree2(int u, int fa, long dis2) {
-		dfn[u] = ++cntd;
-		rmq[dfn[u]][0] = fa;
-		dist2[u] = dis2;
+	public static void dfsTree2(int u, int fa, long dist) {
+		dist2[u] = dist;
 		for (int e = head2[u]; e > 0; e = next2[e]) {
 			int v = to2[e];
 			if (v != fa) {
-				dfsTree2(v, u, dis2 + weight2[e]);
+				dfsTree2(v, u, dist + weight2[e]);
 			}
 		}
 	}
 
-	public static void rmqTree2() {
-		dfsTree2(1, 0, 0);
-		for (int i = 2; i <= n; i++) {
-			lg2[i] = lg2[i >> 1] + 1;
-		}
-		for (int pre = 0, cur = 1; cur <= lg2[n]; pre++, cur++) {
-			for (int i = 1; i + (1 << cur) - 1 <= n; i++) {
-				rmq[i][cur] = getUp(rmq[i][pre], rmq[i + (1 << pre)][pre]);
-			}
-		}
-	}
-
-	public static int lcaTree2(int x, int y) {
-		if (x == y) {
-			return x;
-		}
-		x = dfn[x];
-		y = dfn[y];
-		if (x > y) {
-			int tmp = x; x = y; y = tmp;
-		}
-		x++;
-		int k = lg2[y - x + 1];
-		return getUp(rmq[x][k], rmq[y - (1 << k) + 1][k]);
-	}
-
-	public static void dfsTree3(int u, int fa, long dist) {
-		dist3[u] = dist;
-		for (int e = head3[u]; e > 0; e = next3[e]) {
-			int v = to3[e];
-			if (v != fa) {
-				dfsTree3(v, u, dist + weight3[e]);
-			}
-		}
-	}
-
-	public static void rebuild(int u, int fa) {
+	public static void rebuildTree1(int u, int fa) {
 		int last = 0;
 		for (int e = head0[u]; e > 0; e = next0[e]) {
 			int v = to0[e];
@@ -177,7 +135,7 @@ public class Code04_Passage1 {
 					addEdge1(v, add, w);
 					last = add;
 				}
-				rebuild(v, u);
+				rebuildTree1(v, u);
 			}
 		}
 	}
@@ -218,7 +176,7 @@ public class Code04_Passage1 {
 		return edge;
 	}
 
-	public static void dfsTree1(int u, int fa, long dis1, int op) {
+	public static void dfsTree1(int u, int fa, long dist, int op) {
 		if (u <= n) {
 			if (up[u] == 0) {
 				up[u] = ++cntt;
@@ -226,7 +184,7 @@ public class Code04_Passage1 {
 			}
 			int cur = up[u];
 			int nxt = ++cntt;
-			long val = dis1 + dist3[u];
+			long val = dist + dist2[u];
 			if (op == 0) {
 				ls[cur] = nxt;
 				lx[cur] = ly[cur] = u;
@@ -241,12 +199,12 @@ public class Code04_Passage1 {
 		for (int e = head1[u]; e > 0; e = next1[e]) {
 			int v = to1[e];
 			if (v != fa && !vis[e >> 1]) {
-				dfsTree1(v, u, dis1 + weight1[e], op);
+				dfsTree1(v, u, dist + weight1[e], op);
 			}
 		}
 	}
 
-	public static void solve(int u) {
+	public static void solveTree1(int u) {
 		int edge = getCentroidEdge(u, 0);
 		if (edge > 0) {
 			vis[edge >> 1] = true;
@@ -254,45 +212,92 @@ public class Code04_Passage1 {
 			int v2 = to1[edge ^ 1];
 			dfsTree1(v1, 0, 0, 0);
 			dfsTree1(v2, 0, weight1[edge], 1);
-			solve(v1);
-			solve(v2);
+			solveTree1(v1);
+			solveTree1(v2);
 		}
+	}
+
+	public static int getUp(int x, int y) {
+		return dfn[x] < dfn[y] ? x : y;
+	}
+
+	public static void dfsTree3(int u, int fa, long dist) {
+		dfn[u] = ++cntd;
+		rmq[dfn[u]][0] = fa;
+		dist3[u] = dist;
+		for (int e = head3[u]; e > 0; e = next3[e]) {
+			int v = to3[e];
+			if (v != fa) {
+				dfsTree3(v, u, dist + weight3[e]);
+			}
+		}
+	}
+
+	public static void rmqTree3() {
+		dfsTree3(1, 0, 0);
+		for (int i = 2; i <= n; i++) {
+			lg2[i] = lg2[i >> 1] + 1;
+		}
+		for (int pre = 0, cur = 1; cur <= lg2[n]; pre++, cur++) {
+			for (int i = 1; i + (1 << cur) - 1 <= n; i++) {
+				rmq[i][cur] = getUp(rmq[i][pre], rmq[i + (1 << pre)][pre]);
+			}
+		}
+	}
+
+	public static int lcaTree3(int x, int y) {
+		if (x == y) {
+			return x;
+		}
+		x = dfn[x];
+		y = dfn[y];
+		if (x > y) {
+			int tmp = x; x = y; y = tmp;
+		}
+		x++;
+		int k = lg2[y - x + 1];
+		return getUp(rmq[x][k], rmq[y - (1 << k) + 1][k]);
+	}
+
+	public static long getDist3(int x, int y) {
+		return dist3[x] + dist3[y] - dist3[lcaTree3(x, y)] * 2;
 	}
 
 	public static long getDist(int x, int y, long xv, long yv) {
 		if (x == y) {
 			return 0;
 		}
-		return dist2[x] + dist2[y] - dist2[lcaTree2(x, y)] * 2 + xv + yv;
+		return getDist3(x, y) + xv + yv;
 	}
 
-	public static int ax, ay, bx, by;
-	public static long axv, ayv, bxv, byv;
+	public static int a, b, c, d;
+	public static long av, bv, cv, dv;
 
-	public static void getInfo(int a, int b, int aop, int bop) {
-		if (aop == 0) {
-			ax = lx[a]; ay = ly[a]; axv = lxv[a]; ayv = lyv[a];
+	public static void getInfo(int i, int j, int iop, int jop) {
+		if (iop == 0) {
+			a = lx[i]; b = ly[i]; av = lxv[i]; bv = lyv[i];
 		} else {
-			ax = rx[a]; ay = ry[a]; axv = rxv[a]; ayv = ryv[a];
+			a = rx[i]; b = ry[i]; av = rxv[i]; bv = ryv[i];
 		}
-		if (bop == 0) {
-			bx = lx[b]; by = ly[b]; bxv = lxv[b]; byv = lyv[b];
+		if (jop == 0) {
+			c = lx[j]; d = ly[j]; cv = lxv[j]; dv = lyv[j];
 		} else {
-			bx = rx[b]; by = ry[b]; bxv = rxv[b]; byv = ryv[b];
+			c = rx[j]; d = ry[j]; cv = rxv[j]; dv = ryv[j];
 		}
 	}
 
-	public static long bestCross(int a, int b, int aop, int bop) {
-		getInfo(a, b, aop, bop);
-		long p1 = getDist(ax, bx, axv, bxv);
-		long p2 = getDist(ax, by, axv, byv);
-		long p3 = getDist(ay, bx, ayv, bxv);
-		long p4 = getDist(ay, by, ayv, byv);
+	public static long bestCross(int i, int j, int iop, int jop) {
+		getInfo(i, j, iop, jop);
+		long p1 = getDist(a, c, av, cv);
+		long p2 = getDist(a, d, av, dv);
+		long p3 = getDist(b, c, bv, cv);
+		long p4 = getDist(b, d, bv, dv);
 		return Math.max(Math.max(p1, p2), Math.max(p3, p4));
 	}
 
 	public static int x, y;
-	public static long xv, yv, bestDist;
+	public static long xv, yv;
+	public static long bestDist;
 
 	public static void better(int curx, int cury, long curxv, long curyv) {
 		if (curx == 0 || cury == 0) {
@@ -300,51 +305,52 @@ public class Code04_Passage1 {
 		}
 		long curDist = getDist(curx, cury, curxv, curyv);
 		if (curDist > bestDist) {
-			bestDist = curDist; x = curx; y = cury; xv = curxv; yv = curyv;
+			x = curx; y = cury; xv = curxv; yv = curyv;
+			bestDist = curDist;
 		}
 	}
 
-	public static void mergeInfo(int a, int b, int op) {
-		getInfo(a, b, op, op);
-		bestDist = -INF;
+	public static void mergeInfo(int i, int j, int op) {
+		getInfo(i, j, op, op);
 		x = y = 0;
-		xv = yv = 0; 
-		better(ax, ay, axv, ayv);
-		better(bx, by, bxv, byv);
-		better(ax, bx, axv, bxv);
-		better(ax, by, axv, byv);
-		better(ay, bx, ayv, bxv);
-		better(ay, by, ayv, byv);
+		xv = yv = 0;
+		bestDist = -INF;
+		better(a, b, av, bv);
+		better(c, d, cv, dv);
+		better(a, c, av, cv);
+		better(a, d, av, dv);
+		better(b, c, bv, cv);
+		better(b, d, bv, dv);
 		if (op == 0) {
-			lx[a] = x; ly[a] = y; lxv[a] = xv; lyv[a] = yv;
+			lx[i] = x; ly[i] = y; lxv[i] = xv; lyv[i] = yv;
 		} else {
-			rx[a] = x; ry[a] = y; rxv[a] = xv; ryv[a] = yv;
+			rx[i] = x; ry[i] = y; rxv[i] = xv; ryv[i] = yv;
 		}
 	}
 
-	public static int mergeTree(int a, int b, long add) {
-		if (a == 0 || b == 0) {
-			return a + b;
+	public static int mergeTree(int i, int j, long add) {
+		if (i == 0 || j == 0) {
+			return i + j;
 		}
-		if (ls[a] > 0 && rs[b] > 0) {
-			ans = Math.max(ans, bestCross(a, b, 0, 1) + add);
+		if (ls[i] > 0 && rs[j] > 0) {
+			ans = Math.max(ans, bestCross(i, j, 0, 1) + add);
 		}
-		if (rs[a] > 0 && ls[b] > 0) {
-			ans = Math.max(ans, bestCross(a, b, 1, 0) + add);
+		if (rs[i] > 0 && ls[j] > 0) {
+			ans = Math.max(ans, bestCross(i, j, 1, 0) + add);
 		}
-		mergeInfo(a, b, 0);
-		mergeInfo(a, b, 1);
-		ls[a] = mergeTree(ls[a], ls[b], add);
-		rs[a] = mergeTree(rs[a], rs[b], add);
-		return a;
+		mergeInfo(i, j, 0);
+		mergeInfo(i, j, 1);
+		ls[i] = mergeTree(ls[i], ls[j], add);
+		rs[i] = mergeTree(rs[i], rs[j], add);
+		return i;
 	}
 
 	public static void compute(int u, int fa) {
-		for (int e = head3[u]; e > 0; e = next3[e]) {
-			int v = to3[e];
+		for (int e = head2[u]; e > 0; e = next2[e]) {
+			int v = to2[e];
 			if (v != fa) {
 				compute(v, u);
-				root[u] = mergeTree(root[u], root[v], -dist3[u] * 2);
+				root[u] = mergeTree(root[u], root[v], -dist2[u] * 2);
 			}
 		}
 	}
@@ -376,13 +382,13 @@ public class Code04_Passage1 {
 			addEdge3(u, v, w);
 			addEdge3(v, u, w);
 		}
-		rmqTree2();
-		dfsTree3(1, 0, 0);
 		cntn = n;
 		cnt1 = 1;
-		rebuild(1, 0);
-		solve(1);
 		ans = -INF;
+		dfsTree2(1, 0, 0);
+		rebuildTree1(1, 0);
+		solveTree1(1);
+		rmqTree3();
 		compute(1, 0);
 		out.println(ans);
 		out.flush();
