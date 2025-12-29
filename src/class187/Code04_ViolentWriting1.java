@@ -12,7 +12,7 @@ package class187;
 // 测试链接 : https://loj.ac/p/2553
 // 提交以下的code，提交时请把类名改成"Main"
 // java实现的逻辑一定是正确的，但是需要把太多递归函数改成迭代才能通过，索性不改了
-// 想通过用C++实现，本节课Code03_ViolentWriting2文件就是C++的实现
+// 想通过用C++实现，本节课Code04_ViolentWriting2文件就是C++的实现
 // 两个版本的逻辑完全一样，C++版本可以通过所有测试
 
 import java.io.IOException;
@@ -20,7 +20,7 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
-public class Code03_ViolentWriting1 {
+public class Code04_ViolentWriting1 {
 
 	public static int MAXN = 366667;
 	public static int MAXM = MAXN << 1;

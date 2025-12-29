@@ -17,7 +17,7 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
-public class Code05_PersistentEdgeDecompositionTree1 {
+public class Code03_PersistentEdgeDecompositionTree1 {
 
 	public static int MAXN = 400001;
 	public static int MAXT = MAXN * 30;
@@ -49,7 +49,7 @@ public class Code05_PersistentEdgeDecompositionTree1 {
 	public static int cntt;
 
 	public static int[] arr = new int[MAXN];
-	public static int[] tree = new int[MAXN];
+	public static int[] pre = new int[MAXN];
 
 	public static void addEdge1(int u, int v, int w) {
 		next1[++cnt1] = head1[u];
@@ -164,33 +164,33 @@ public class Code05_PersistentEdgeDecompositionTree1 {
 		}
 	}
 
-	public static int add(int pre, int addt) {
-		if (pre == 0 || addt == 0) {
-			return pre + addt;
+	public static int add(int p, int i) {
+		if (p == 0 || i == 0) {
+			return p + i;
 		}
 		int rt = ++cntt;
-		ls[rt] = ls[pre];
-		rs[rt] = rs[pre];
-		lcnt[rt] = lcnt[pre] + lcnt[addt];
-		rcnt[rt] = rcnt[pre] + rcnt[addt];
-		lsum[rt] = lsum[pre] + lsum[addt];
-		rsum[rt] = rsum[pre] + rsum[addt];
-		if (lcnt[addt] > 0) {
-			ls[rt] = add(ls[rt], ls[addt]);
+		ls[rt] = ls[p];
+		rs[rt] = rs[p];
+		lcnt[rt] = lcnt[p] + lcnt[i];
+		rcnt[rt] = rcnt[p] + rcnt[i];
+		lsum[rt] = lsum[p] + lsum[i];
+		rsum[rt] = rsum[p] + rsum[i];
+		if (ls[i] > 0) {
+			ls[rt] = add(ls[rt], ls[i]);
 		}
-		if (rcnt[addt] > 0) {
-			rs[rt] = add(rs[rt], rs[addt]);
+		if (rs[i] > 0) {
+			rs[rt] = add(rs[rt], rs[i]);
 		}
 		return rt;
 	}
 
-	public static long query(int i, int t1, int t2) {
-		if (lcnt[i] == 0 && rcnt[i] == 0) {
+	public static long query(int p1, int p2, int i) {
+		if (ls[i] == 0 && rs[i] == 0) {
 			return 0;
-		} else if (lcnt[i] > 0) {
-			return query(ls[i], ls[t1], ls[t2]) + rsum[t2] - rsum[t1] + lsum[i] * (rcnt[t2] - rcnt[t1]);
+		} else if (ls[i] > 0) {
+			return query(ls[p1], ls[p2], ls[i]) + rsum[p2] - rsum[p1] + lsum[i] * (rcnt[p2] - rcnt[p1]);
 		} else {
-			return query(rs[i], rs[t1], rs[t2]) + lsum[t2] - lsum[t1] + rsum[i] * (lcnt[t2] - lcnt[t1]);
+			return query(rs[p1], rs[p2], rs[i]) + lsum[p2] - lsum[p1] + rsum[i] * (lcnt[p2] - lcnt[p1]);
 		}
 	}
 
@@ -214,7 +214,7 @@ public class Code05_PersistentEdgeDecompositionTree1 {
 		rebuild(1, 0);
 		solve(1);
 		for (int i = 1; i <= n; i++) {
-			tree[i] = add(tree[i - 1], root[arr[i]]);
+			pre[i] = add(pre[i - 1], root[arr[i]]);
 		}
 		long mask = (1L << 30) - 1;
 		long lastAns = 0;
@@ -232,7 +232,7 @@ public class Code05_PersistentEdgeDecompositionTree1 {
 				x = (int) a;
 				y = (int) b;
 				z = (int) c;
-				lastAns = query(root[z], tree[x - 1], tree[y]);
+				lastAns = query(pre[x - 1], pre[y], root[z]);
 				out.println(lastAns);
 				lastAns &= mask;
 			} else {
@@ -242,7 +242,7 @@ public class Code05_PersistentEdgeDecompositionTree1 {
 				tmp = arr[x];
 				arr[x] = arr[x + 1];
 				arr[x + 1] = tmp;
-				tree[x] = add(tree[x - 1], root[arr[x]]);
+				pre[x] = add(pre[x - 1], root[arr[x]]);
 			}
 		}
 		out.flush();
