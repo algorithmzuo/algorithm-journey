@@ -129,24 +129,30 @@ public class Code04_ViolentWriting1 {
 	public static int getCentroidEdge(int u, int fa) {
 		getSize(u, fa);
 		int total = siz[u];
-		int edge = 0;
-		int best = total;
-		while (u > 0) {
-			int nextu = 0, nextfa = 0;
+		int half = total >> 1;
+		boolean find = false;
+		while (!find) {
+			find = true;
 			for (int e = head1[u]; e > 0; e = next1[e]) {
 				int v = to1[e];
-				if (v != fa && !vis[e >> 1]) {
-					int cur = Math.max(total - siz[v], siz[v]);
-					if (cur < best) {
-						edge = e;
-						best = cur;
-						nextfa = u;
-						nextu = v;
-					}
+				if (v != fa && !vis[e >> 1] && siz[v] > half) {
+					fa = u;
+					u = v;
+					find = false;
+					break;
 				}
 			}
-			fa = nextfa;
-			u = nextu;
+		}
+		int best = 0, edge = 0;
+		for (int e = head1[u]; e > 0; e = next1[e]) {
+			if (!vis[e >> 1]) {
+				int v = to1[e];
+				int sub = v == fa ? (total - siz[u]) : siz[v];
+				if (sub > best) {
+					best = sub;
+					edge = e;
+				}
+			}
 		}
 		return edge;
 	}
