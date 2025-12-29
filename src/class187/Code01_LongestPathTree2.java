@@ -49,6 +49,8 @@ package class187;
 //Node rarr[MAXN];
 //int cntr;
 //
+//ll ans;
+//
 //void addEdge1(int u, int v, int w) {
 //    next1[++cnt1] = head1[u];
 //    to1[cnt1] = v;
@@ -137,7 +139,7 @@ package class187;
 //    }
 //}
 //
-//ll calc(int edge) {
+//void calc(int edge) {
 //    cntl = cntr = 0;
 //    int v1 = to2[edge];
 //    int v2 = to2[edge ^ 1];
@@ -145,7 +147,6 @@ package class187;
 //    dfs(v2, 0, 0, arr[v2], 1);
 //    sort(larr + 1, larr + cntl + 1, NodeCmp);
 //    sort(rarr + 1, rarr + cntr + 1, NodeCmp);
-//    ll ans = 0;
 //    ll maxEdge = 0;
 //    for (int i = cntr, j = cntl; i >= 1; i--) {
 //        while (j >= 1 && larr[j].minv >= rarr[i].minv) {
@@ -166,19 +167,16 @@ package class187;
 //            ans = max(ans, 1LL * larr[i].minv * (maxEdge + larr[i].edge + weight2[edge] + 1));
 //        }
 //    }
-//    return ans;
 //}
 //
-//ll solve(int u) {
-//    ll ans = 0;
+//void solve(int u) {
 //    int edge = getCentroidEdge(u, 0);
 //    if (edge > 0) {
 //        vis[edge >> 1] = true;
-//        ans = calc(edge);
-//        ans = max(ans, solve(to2[edge]));
-//        ans = max(ans, solve(to2[edge ^ 1]));
+//        calc(edge);
+//        solve(to2[edge]);
+//        solve(to2[edge ^ 1]);
 //    }
-//    return ans;
 //}
 //
 //int main() {
@@ -196,7 +194,7 @@ package class187;
 //    cntn = n;
 //    cnt2 = 1;
 //    rebuild(1, 0);
-//    ll ans = solve(1);
+//    solve(1);
 //    cout << ans << '\n';
 //    return 0;
 //}

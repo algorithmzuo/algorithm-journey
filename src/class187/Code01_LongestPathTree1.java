@@ -43,6 +43,8 @@ public class Code01_LongestPathTree1 {
 	public static int[] rminv = new int[MAXN];
 	public static int cntr;
 
+	public static long ans;
+
 	// 讲解118，递归函数改成迭代所需要的栈
 	public static int[][] stack = new int[MAXN][6];
 	public static int u, f, edge, minv, op, e;
@@ -82,7 +84,7 @@ public class Code01_LongestPathTree1 {
 		head2[u] = cnt2;
 	}
 
-	// 多叉树重构成二叉树递归版，java会爆栈，C++可以通过
+	// 普通树进行三度化的重构递归版，java会爆栈，C++可以通过
 	public static void rebuild1(int u, int fa) {
 		int last = 0;
 		for (int e = head1[u]; e > 0; e = next1[e]) {
@@ -189,6 +191,7 @@ public class Code01_LongestPathTree1 {
 		}
 	}
 
+	// 找寻重心边，重心边的序号返回
 	public static int getCentroidEdge(int u, int fa) {
 		// getSize1(u, fa);
 		getSize2(u, fa);
@@ -278,7 +281,7 @@ public class Code01_LongestPathTree1 {
 		sort(edge, minv, i, r);
 	}
 
-	public static long calc(int edge) {
+	public static void calc(int edge) {
 		cntl = cntr = 0;
 		int v1 = to2[edge];
 		int v2 = to2[edge ^ 1];
@@ -288,7 +291,6 @@ public class Code01_LongestPathTree1 {
 		dfs2(v2, 0, 0, arr[v2], 1);
 		sort(ledge, lminv, 1, cntl);
 		sort(redge, rminv, 1, cntr);
-		long ans = 0;
 		long maxEdge = 0;
 		for (int i = cntr, j = cntl; i >= 1; i--) {
 			while (j >= 1 && lminv[j] >= rminv[i]) {
@@ -309,19 +311,16 @@ public class Code01_LongestPathTree1 {
 				ans = Math.max(ans, 1L * lminv[i] * (maxEdge + ledge[i] + weight2[edge] + 1));
 			}
 		}
-		return ans;
 	}
 
-	public static long solve(int u) {
-		long ans = 0;
+	public static void solve(int u) {
 		int edge = getCentroidEdge(u, 0);
 		if (edge > 0) {
 			vis[edge >> 1] = true;
-			ans = calc(edge);
-			ans = Math.max(ans, solve(to2[edge]));
-			ans = Math.max(ans, solve(to2[edge ^ 1]));
+			calc(edge);
+			solve(to2[edge]);
+			solve(to2[edge ^ 1]);
 		}
-		return ans;
 	}
 
 	public static void main(String[] args) throws Exception {
@@ -341,7 +340,7 @@ public class Code01_LongestPathTree1 {
 		cnt2 = 1;
 		// rebuild1(1, 0);
 		rebuild2(1, 0);
-		long ans = solve(1);
+		solve(1);
 		out.println(ans);
 		out.flush();
 		out.close();
