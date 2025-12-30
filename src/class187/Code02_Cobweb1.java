@@ -173,7 +173,7 @@ public class Code02_Cobweb1 {
 		return ans;
 	}
 
-	public static void dfs(int u, int fa, int red, int black, long path) {
+	public static void dfsLeft(int u, int fa, int red, int black, long path) {
 		if (u <= n) {
 			redKey[++cnta] = 2 * red - black;
 			redPath[cnta] = path;
@@ -185,12 +185,12 @@ public class Code02_Cobweb1 {
 			if (v != fa && !vis[e >> 1]) {
 				int nextRed = red + (color2[e] == 0 ? 1 : 0);
 				int nextBlack = black + (color2[e] == 1 ? 1 : 0);
-				dfs(v, u, nextRed, nextBlack, path * weight2[e] % MOD);
+				dfsLeft(v, u, nextRed, nextBlack, path * weight2[e] % MOD);
 			}
 		}
 	}
 
-	public static void calcAns(int u, int fa, int red, int black, long path) {
+	public static void dfsRight(int u, int fa, int red, int black, long path) {
 		if (u <= n) {
 			int r = lessThan(redKey, cnta, black - 2 * red);
 			int b = lessThan(blackKey, cnta, red - 2 * black);
@@ -206,43 +206,43 @@ public class Code02_Cobweb1 {
 			if (v != fa && !vis[e >> 1]) {
 				int nextRed = red + (color2[e] == 0 ? 1 : 0);
 				int nextBlack = black + (color2[e] == 1 ? 1 : 0);
-				calcAns(v, u, nextRed, nextBlack, path * weight2[e] % MOD);
+				dfsRight(v, u, nextRed, nextBlack, path * weight2[e] % MOD);
 			}
 		}
 	}
 
 	public static void calc(int edge) {
 		cnta = 0;
-		int v = to2[edge];
-		dfs(v, 0, 0, 0, 1);
+		int v1 = to2[edge];
+		dfsLeft(v1, 0, 0, 0, 1);
 		sort(redKey, redPath, 1, cnta);
 		sort(blackKey, blackPath, 1, cnta);
 		for (int i = 2; i <= cnta; i++) {
 			redPath[i] = redPath[i - 1] * redPath[i] % MOD;
 			blackPath[i] = blackPath[i - 1] * blackPath[i] % MOD;
 		}
-		v = to2[edge ^ 1];
+		int v2 = to2[edge ^ 1];
 		int red = (color2[edge] == 0 ? 1 : 0);
 		int black = (color2[edge] == 1 ? 1 : 0);
-		calcAns(v, 0, red, black, weight2[edge] % MOD);
+		dfsRight(v2, 0, red, black, weight2[edge] % MOD);
 	}
 
-	public static void solve(int u) {
+	public static void getAns2(int u) {
 		int edge = getCentroidEdge(u, 0);
 		if (edge > 0) {
 			vis[edge >> 1] = true;
 			calc(edge);
-			solve(to2[edge]);
-			solve(to2[edge ^ 1]);
+			getAns2(to2[edge]);
+			getAns2(to2[edge ^ 1]);
 		}
 	}
 
-	public static void prepare(int u, int fa) {
+	public static void getAns1(int u, int fa) {
 		siz[u] = 1;
 		for (int e = head1[u]; e > 0; e = next1[e]) {
 			int v = to1[e];
 			if (v != fa) {
-				prepare(v, u);
+				getAns1(v, u);
 				siz[u] += siz[v];
 				ans1 = ans1 * power(weight1[e], (long) siz[v] * (n - siz[v])) % MOD;
 			}
@@ -264,9 +264,9 @@ public class Code02_Cobweb1 {
 		cntn = n;
 		cnt2 = 1;
 		ans1 = ans2 = 1;
-		prepare(1, 0);
+		getAns1(1, 0);
 		rebuild(1, 0);
-		solve(1);
+		getAns2(1);
 		long ans = ans1 * power(ans2, MOD - 2) % MOD;
 		out.println(ans);
 		out.flush();
