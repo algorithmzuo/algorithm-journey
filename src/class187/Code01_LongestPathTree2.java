@@ -154,16 +154,6 @@ package class187;
 //    sort(larr + 1, larr + cntl + 1, NodeCmp);
 //    sort(rarr + 1, rarr + cntr + 1, NodeCmp);
 //    ll maxEdge = 0;
-//    for (int i = cntr, j = cntl; i >= 1; i--) {
-//        while (j >= 1 && larr[j].minv >= rarr[i].minv) {
-//            maxEdge = max(maxEdge, 1LL * larr[j].edge);
-//            j--;
-//        }
-//        if (j < cntl) {
-//            ans = max(ans, 1LL * rarr[i].minv * (maxEdge + rarr[i].edge + 1));
-//        }
-//    }
-//    maxEdge = 0;
 //    for (int i = cntl, j = cntr; i >= 1; i--) {
 //        while (j >= 1 && rarr[j].minv >= larr[i].minv) {
 //            maxEdge = max(maxEdge, 1LL * rarr[j].edge);
@@ -171,6 +161,16 @@ package class187;
 //        }
 //        if (j < cntr) {
 //            ans = max(ans, 1LL * larr[i].minv * (maxEdge + larr[i].edge + 1));
+//        }
+//    }
+//    maxEdge = 0;
+//    for (int i = cntr, j = cntl; i >= 1; i--) {
+//        while (j >= 1 && larr[j].minv >= rarr[i].minv) {
+//            maxEdge = max(maxEdge, 1LL * larr[j].edge);
+//            j--;
+//        }
+//        if (j < cntl) {
+//            ans = max(ans, 1LL * rarr[i].minv * (maxEdge + rarr[i].edge + 1));
 //        }
 //    }
 //}

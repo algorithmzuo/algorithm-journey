@@ -298,16 +298,6 @@ public class Code01_LongestPathTree1 {
 		sort(ledge, lminv, 1, cntl);
 		sort(redge, rminv, 1, cntr);
 		long maxEdge = 0;
-		for (int i = cntr, j = cntl; i >= 1; i--) {
-			while (j >= 1 && lminv[j] >= rminv[i]) {
-				maxEdge = Math.max(maxEdge, ledge[j]);
-				j--;
-			}
-			if (j < cntl) {
-				ans = Math.max(ans, 1L * rminv[i] * (maxEdge + redge[i] + 1));
-			}
-		}
-		maxEdge = 0;
 		for (int i = cntl, j = cntr; i >= 1; i--) {
 			while (j >= 1 && rminv[j] >= lminv[i]) {
 				maxEdge = Math.max(maxEdge, redge[j]);
@@ -315,6 +305,16 @@ public class Code01_LongestPathTree1 {
 			}
 			if (j < cntr) {
 				ans = Math.max(ans, 1L * lminv[i] * (maxEdge + ledge[i] + 1));
+			}
+		}
+		maxEdge = 0;
+		for (int i = cntr, j = cntl; i >= 1; i--) {
+			while (j >= 1 && lminv[j] >= rminv[i]) {
+				maxEdge = Math.max(maxEdge, ledge[j]);
+				j--;
+			}
+			if (j < cntl) {
+				ans = Math.max(ans, 1L * rminv[i] * (maxEdge + redge[i] + 1));
 			}
 		}
 	}
