@@ -150,7 +150,7 @@ package class187;
 //    int v1 = to2[edge];
 //    int v2 = to2[edge ^ 1];
 //    dfs(v1, 0, 0, arr[v1], 0);
-//    dfs(v2, 0, 0, arr[v2], 1);
+//    dfs(v2, 0, weight2[edge], arr[v2], 1);
 //    sort(larr + 1, larr + cntl + 1, NodeCmp);
 //    sort(rarr + 1, rarr + cntr + 1, NodeCmp);
 //    ll maxEdge = 0;
@@ -160,7 +160,7 @@ package class187;
 //            j--;
 //        }
 //        if (j < cntl) {
-//            ans = max(ans, 1LL * rarr[i].minv * (maxEdge + rarr[i].edge + weight2[edge] + 1));
+//            ans = max(ans, 1LL * rarr[i].minv * (maxEdge + rarr[i].edge + 1));
 //        }
 //    }
 //    maxEdge = 0;
@@ -170,7 +170,7 @@ package class187;
 //            j--;
 //        }
 //        if (j < cntr) {
-//            ans = max(ans, 1LL * larr[i].minv * (maxEdge + larr[i].edge + weight2[edge] + 1));
+//            ans = max(ans, 1LL * larr[i].minv * (maxEdge + larr[i].edge + 1));
 //        }
 //    }
 //}

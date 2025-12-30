@@ -292,9 +292,9 @@ public class Code01_LongestPathTree1 {
 		int v1 = to2[edge];
 		int v2 = to2[edge ^ 1];
 		// dfs1(v1, 0, 0, arr[v1], 0);
-		// dfs1(v2, 0, 0, arr[v2], 1);
+		// dfs1(v2, 0, weight2[edge], arr[v2], 1);
 		dfs2(v1, 0, 0, arr[v1], 0);
-		dfs2(v2, 0, 0, arr[v2], 1);
+		dfs2(v2, 0, weight2[edge], arr[v2], 1);
 		sort(ledge, lminv, 1, cntl);
 		sort(redge, rminv, 1, cntr);
 		long maxEdge = 0;
@@ -304,7 +304,7 @@ public class Code01_LongestPathTree1 {
 				j--;
 			}
 			if (j < cntl) {
-				ans = Math.max(ans, 1L * rminv[i] * (maxEdge + redge[i] + weight2[edge] + 1));
+				ans = Math.max(ans, 1L * rminv[i] * (maxEdge + redge[i] + 1));
 			}
 		}
 		maxEdge = 0;
@@ -314,7 +314,7 @@ public class Code01_LongestPathTree1 {
 				j--;
 			}
 			if (j < cntr) {
-				ans = Math.max(ans, 1L * lminv[i] * (maxEdge + ledge[i] + weight2[edge] + 1));
+				ans = Math.max(ans, 1L * lminv[i] * (maxEdge + ledge[i] + 1));
 			}
 		}
 	}
