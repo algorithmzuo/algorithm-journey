@@ -52,7 +52,7 @@ public class Code05_Passage1 {
 	public static long[] weight3 = new long[MAXN << 1];
 	public static int cnt3;
 
-	public static long[] dist2 = new long[MAXN];
+	public static long[] dep2 = new long[MAXN];
 	public static long[] dist3 = new long[MAXN];
 
 	public static boolean[] vis = new boolean[MAXM];
@@ -107,12 +107,12 @@ public class Code05_Passage1 {
 		head3[u] = cnt3;
 	}
 
-	public static void dfsTree2(int u, int fa, long dist) {
-		dist2[u] = dist;
+	public static void dfsTree2(int u, int fa, long dep) {
+		dep2[u] = dep;
 		for (int e = head2[u]; e > 0; e = next2[e]) {
 			int v = to2[e];
 			if (v != fa) {
-				dfsTree2(v, u, dist + weight2[e]);
+				dfsTree2(v, u, dep + weight2[e]);
 			}
 		}
 	}
@@ -190,7 +190,7 @@ public class Code05_Passage1 {
 			}
 			int cur = up[u];
 			int nxt = ++cntt;
-			long val = path + dist2[u];
+			long val = path + dep2[u];
 			if (op == 0) {
 				ls[cur] = nxt;
 				lx[cur] = ly[cur] = u;
@@ -356,7 +356,7 @@ public class Code05_Passage1 {
 			int v = to2[e];
 			if (v != fa) {
 				compute(v, u);
-				root[u] = mergeTree(root[u], root[v], -dist2[u] * 2);
+				root[u] = mergeTree(root[u], root[v], -dep2[u] * 2);
 			}
 		}
 	}

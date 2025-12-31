@@ -49,7 +49,7 @@ package class187;
 //ll weight3[MAXN << 1];
 //int cnt3;
 //
-//ll dist2[MAXN];
+//ll dep2[MAXN];
 //ll dist3[MAXN];
 //
 //bool vis[MAXM];
@@ -104,12 +104,12 @@ package class187;
 //    head3[u] = cnt3;
 //}
 //
-//void dfsTree2(int u, int fa, ll dist) {
-//    dist2[u] = dist;
+//void dfsTree2(int u, int fa, ll dep) {
+//    dep2[u] = dep;
 //    for (int e = head2[u]; e > 0; e = next2[e]) {
 //        int v = to2[e];
 //        if (v != fa) {
-//            dfsTree2(v, u, dist + weight2[e]);
+//            dfsTree2(v, u, dep + weight2[e]);
 //        }
 //    }
 //}
@@ -187,7 +187,7 @@ package class187;
 //        }
 //        int cur = up[u];
 //        int nxt = ++cntt;
-//        ll val = path + dist2[u];
+//        ll val = path + dep2[u];
 //        if (op == 0) {
 //            ls[cur] = nxt;
 //            lx[cur] = ly[cur] = u;
@@ -354,7 +354,7 @@ package class187;
 //        int v = to2[e];
 //        if (v != fa) {
 //            compute(v, u);
-//            root[u] = mergeTree(root[u], root[v], -dist2[u] * 2);
+//            root[u] = mergeTree(root[u], root[v], -dep2[u] * 2);
 //        }
 //    }
 //}
