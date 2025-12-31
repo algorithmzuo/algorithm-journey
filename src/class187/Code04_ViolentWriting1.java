@@ -157,7 +157,7 @@ public class Code04_ViolentWriting1 {
 		return edge;
 	}
 
-	public static void dfs(int u, int fa, long dist, int op) {
+	public static void dfs(int u, int fa, long path, int op) {
 		if (u <= n) {
 			if (up[u] == 0) {
 				up[u] = ++cntt;
@@ -167,17 +167,17 @@ public class Code04_ViolentWriting1 {
 			int nxt = ++cntt;
 			if (op == 0) {
 				ls[cur] = nxt;
-				lmax[cur] = dis1[u] + dist;
+				lmax[cur] = dis1[u] + path;
 			} else {
 				rs[cur] = nxt;
-				rmax[cur] = dis1[u] + dist;
+				rmax[cur] = dis1[u] + path;
 			}
 			up[u] = nxt;
 		}
 		for (int e = head1[u]; e > 0; e = next1[e]) {
 			int v = to1[e];
 			if (v != fa && !vis[e >> 1]) {
-				dfs(v, u, dist + weight1[e], op);
+				dfs(v, u, path + weight1[e], op);
 			}
 		}
 	}

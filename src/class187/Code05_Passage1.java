@@ -182,7 +182,7 @@ public class Code05_Passage1 {
 		return edge;
 	}
 
-	public static void dfsTree1(int u, int fa, long dist, int op) {
+	public static void dfsTree1(int u, int fa, long path, int op) {
 		if (u <= n) {
 			if (up[u] == 0) {
 				up[u] = ++cntt;
@@ -190,7 +190,7 @@ public class Code05_Passage1 {
 			}
 			int cur = up[u];
 			int nxt = ++cntt;
-			long val = dist + dist2[u];
+			long val = path + dist2[u];
 			if (op == 0) {
 				ls[cur] = nxt;
 				lx[cur] = ly[cur] = u;
@@ -205,7 +205,7 @@ public class Code05_Passage1 {
 		for (int e = head1[u]; e > 0; e = next1[e]) {
 			int v = to1[e];
 			if (v != fa && !vis[e >> 1]) {
-				dfsTree1(v, u, dist + weight1[e], op);
+				dfsTree1(v, u, path + weight1[e], op);
 			}
 		}
 	}

@@ -155,7 +155,7 @@ package class187;
 //    return edge;
 //}
 //
-//void dfs(int u, int fa, ll dist, int op) {
+//void dfs(int u, int fa, ll path, int op) {
 //    if (u <= n) {
 //        if (up[u] == 0) {
 //            up[u] = ++cntt;
@@ -165,17 +165,17 @@ package class187;
 //        int nxt = ++cntt;
 //        if (op == 0) {
 //            ls[cur] = nxt;
-//            lmax[cur] = dis1[u] + dist;
+//            lmax[cur] = dis1[u] + path;
 //        } else {
 //            rs[cur] = nxt;
-//            rmax[cur] = dis1[u] + dist;
+//            rmax[cur] = dis1[u] + path;
 //        }
 //        up[u] = nxt;
 //    }
 //    for (int e = head1[u]; e > 0; e = next1[e]) {
 //        int v = to1[e];
 //        if (v != fa && !vis[e >> 1]) {
-//            dfs(v, u, dist + weight1[e], op);
+//            dfs(v, u, path + weight1[e], op);
 //        }
 //    }
 //}
