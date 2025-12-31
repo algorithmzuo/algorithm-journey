@@ -183,8 +183,7 @@ package class187;
 //    rsum[rt] = rsum[p] + rsum[i];
 //    if (ls[i] > 0) {
 //        ls[rt] = add(ls[rt], ls[i]);
-//    }
-//    if (rs[i] > 0) {
+//    } else {
 //        rs[rt] = add(rs[rt], rs[i]);
 //    }
 //    return rt;
