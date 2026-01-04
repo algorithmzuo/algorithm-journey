@@ -37,6 +37,7 @@ public class Code01_EulerianTrail1 {
 	public static int[] trail = new int[MAXM];
 	public static int top;
 
+	// 讲解118，递归函数改成迭代所需要的栈
 	public static int[] stack = new int[MAXM];
 	public static int u;
 	public static int stacksize;
@@ -98,6 +99,7 @@ public class Code01_EulerianTrail1 {
 		return 1;
 	}
 
+	// Hierholzer算法递归版，java会爆栈，C++可以通过
 	public static void dfs1(int u) {
 		for (int e = cur[u]; e > 0; e = cur[u]) {
 			cur[u] = nxt[e];
@@ -106,6 +108,7 @@ public class Code01_EulerianTrail1 {
 		trail[++top] = u;
 	}
 
+	// Hierholzer算法迭代版
 	public static void dfs2(int node) {
 		stacksize = 0;
 		push(node);
