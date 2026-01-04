@@ -1,6 +1,6 @@
 package class188;
 
-// 欧拉路径，java版
+// 有向图的欧拉路径，java版
 // 测试链接 : https://www.luogu.com.cn/problem/P7771
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
@@ -11,7 +11,7 @@ import java.io.PrintWriter;
 import java.util.Arrays;
 import java.util.Comparator;
 
-public class Code01_EulerianTrail1 {
+public class Code01_DirectedEulerianTrail1 {
 
 	public static class EdgeCmp implements Comparator<int[]> {
 		@Override
