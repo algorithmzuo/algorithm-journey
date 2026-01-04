@@ -62,7 +62,7 @@ package class188;
 //    }
 //}
 //
-//int findStart() {
+//int getStart() {
 //    int s = 0;
 //    for (int i = 1; i <= n; i++) {
 //        if (abs(outDeg[i] - inDeg[i]) > 1) {
@@ -102,7 +102,7 @@ package class188;
 //        cin >> edgeArr[i].u >> edgeArr[i].v;
 //    }
 //    connect();
-//    int start = findStart();
+//    int start = getStart();
 //    if (start == -1) {
 //        cout << "No\n";
 //    } else {

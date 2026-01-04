@@ -1,7 +1,7 @@
 package class188;
 
-// 有向图的欧拉路径，java版
-// 测试链接 : https://www.luogu.com.cn/problem/P7771
+// 无向图的欧拉路径，java版
+// 测试链接 : https://www.luogu.com.cn/problem/P2731
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
 import java.io.IOException;
@@ -11,7 +11,7 @@ import java.io.PrintWriter;
 import java.util.Arrays;
 import java.util.Comparator;
 
-public class Code01_DirectedEulerianTrail1 {
+public class Code02_UndirectedEulerianTrail1 {
 
 	public static class EdgeCmp implements Comparator<int[]> {
 		@Override
@@ -20,54 +20,44 @@ public class Code01_DirectedEulerianTrail1 {
 		}
 	}
 
-	public static int MAXN = 100001;
-	public static int MAXM = 200002;
+	public static int MAXN = 501;
+	public static int MAXM = 3001;
 	public static int n, m;
-	public static int[][] edgeArr = new int[MAXM][2];
+	public static int[][] edgeArr = new int[MAXM][3];
 
 	public static int[] head = new int[MAXN];
 	public static int[] nxt = new int[MAXM];
 	public static int[] to = new int[MAXM];
+	public static int[] eid = new int[MAXM];
 	public static int cnt;
 
 	public static int[] cur = new int[MAXN];
-	public static int[] outDeg = new int[MAXN];
-	public static int[] inDeg = new int[MAXN];
+	public static int[] deg = new int[MAXN];
 
+	public static boolean[] vis = new boolean[MAXM];
 	public static int[] trail = new int[MAXM];
 	public static int top;
 
-	// 讲解118，递归函数改成迭代所需要的栈
-	public static int[] stack = new int[MAXM];
-	public static int u;
-	public static int stacksize;
-
-	public static void push(int u) {
-		stack[stacksize++] = u;
-	}
-
-	public static void pop() {
-		u = stack[--stacksize];
-	}
-
-	public static void addEdge(int u, int v) {
+	public static void addEdge(int u, int v, int id) {
 		nxt[++cnt] = head[u];
 		to[cnt] = v;
+		eid[cnt] = id;
 		head[u] = cnt;
 	}
 
 	public static void connect() {
-		Arrays.sort(edgeArr, 1, m + 1, new EdgeCmp());
-		for (int l = 1, r = 1; l <= m; l = ++r) {
-			while (r + 1 <= m && edgeArr[l][0] == edgeArr[r + 1][0]) {
+		int mm = m << 1;
+		Arrays.sort(edgeArr, 1, mm + 1, new EdgeCmp());
+		for (int l = 1, r = 1; l <= mm; l = ++r) {
+			while (r + 1 <= mm && edgeArr[l][0] == edgeArr[r + 1][0]) {
 				r++;
 			}
-			for (int i = r, u, v; i >= l; i--) {
+			for (int i = r, u, v, id; i >= l; i--) {
 				u = edgeArr[i][0];
 				v = edgeArr[i][1];
-				outDeg[u]++;
-				inDeg[v]++;
-				addEdge(u, v);
+				id = edgeArr[i][2];
+				deg[u]++;
+				addEdge(u, v, id);
 			}
 		}
 		for (int i = 1; i <= n; i++) {
@@ -75,80 +65,53 @@ public class Code01_DirectedEulerianTrail1 {
 		}
 	}
 
-	public static int getStart() {
-		int s = 0;
+	public static int getStart(int minNode) {
 		for (int i = 1; i <= n; i++) {
-			if (Math.abs(outDeg[i] - inDeg[i]) > 1) {
-				return -1;
-			}
-			if (outDeg[i] > inDeg[i]) {
-				if (s != 0) {
-					return -1;
-				}
-				s = i;
-			}
-		}
-		if (s > 0) {
-			return s;
-		}
-		for (int i = 1; i <= n; i++) {
-			if (outDeg[i] > 0) {
+			if ((deg[i] & 1) == 1) {
 				return i;
 			}
 		}
-		return 1;
-	}
-
-	// Hierholzer算法递归版，java会爆栈，C++可以通过
-	public static void dfs1(int u) {
-		for (int e = cur[u]; e > 0; e = cur[u]) {
-			cur[u] = nxt[e];
-			dfs1(to[e]);
-		}
-		trail[++top] = u;
-	}
-
-	// Hierholzer算法迭代版
-	public static void dfs2(int node) {
-		stacksize = 0;
-		push(node);
-		while (stacksize > 0) {
-			pop();
-			int e = cur[u];
-			if (e != 0) {
-				cur[u] = nxt[e];
-				push(u);
-				push(to[e]);
-			} else {
-				trail[++top] = u;
+		for (int i = 1; i <= n; i++) {
+			if (deg[i] > 0) {
+				return i;
 			}
 		}
+		return minNode;
+	}
+
+	public static void dfs(int u) {
+		for (int e = cur[u]; e > 0; e = cur[u]) {
+			cur[u] = nxt[e];
+			if (!vis[eid[e]]) {
+				vis[eid[e]] = true;
+				dfs(to[e]);
+			}
+		}
+		trail[++top] = u;
 	}
 
 	public static void main(String[] args) throws Exception {
 		FastReader in = new FastReader(System.in);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
-		n = in.nextInt();
+		n = 500;
 		m = in.nextInt();
-		for (int i = 1; i <= m; i++) {
-			edgeArr[i][0] = in.nextInt();
-			edgeArr[i][1] = in.nextInt();
+		int minNode = n;
+		for (int i = 1, u, v, k = 0; i <= m; i++) {
+			u = in.nextInt();
+			v = in.nextInt();
+			minNode = Math.min(minNode, Math.min(u, v));
+			edgeArr[++k][0] = u;
+			edgeArr[k][1] = v;
+			edgeArr[k][2] = i;
+			edgeArr[++k][0] = v;
+			edgeArr[k][1] = u;
+			edgeArr[k][2] = i;
 		}
 		connect();
-		int start = getStart();
-		if (start == -1) {
-			out.println("No");
-		} else {
-			// dfs1(start);
-			dfs2(start);
-			if (top != m + 1) {
-				out.println("No");
-			} else {
-				for (int i = top; i >= 1; i--) {
-					out.print(trail[i] + " ");
-				}
-				out.println();
-			}
+		int start = getStart(minNode);
+		dfs(start);
+		for (int i = top; i >= 1; i--) {
+			out.println(trail[i]);
 		}
 		out.flush();
 		out.close();
