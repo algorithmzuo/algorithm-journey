@@ -38,6 +38,19 @@ public class Code02_UndirectedEulerianTrail1 {
 	public static int[] trail = new int[MAXM];
 	public static int top;
 
+	// 讲解118，递归函数改成迭代所需要的栈
+	public static int[] stack = new int[MAXM];
+	public static int u;
+	public static int stacksize;
+
+	public static void push(int u) {
+		stack[stacksize++] = u;
+	}
+
+	public static void pop() {
+		u = stack[--stacksize];
+	}
+
 	public static void addEdge(int u, int v, int id) {
 		nxt[++cnt] = head[u];
 		to[cnt] = v;
@@ -79,15 +92,38 @@ public class Code02_UndirectedEulerianTrail1 {
 		return minNode;
 	}
 
-	public static void dfs(int u) {
+	// Hierholzer算法递归版
+	public static void dfs1(int u) {
 		for (int e = cur[u]; e > 0; e = cur[u]) {
 			cur[u] = nxt[e];
 			if (!vis[eid[e]]) {
 				vis[eid[e]] = true;
-				dfs(to[e]);
+				dfs1(to[e]);
 			}
 		}
 		trail[++top] = u;
+	}
+
+	// Hierholzer算法迭代版
+	public static void dfs2(int node) {
+		stacksize = 0;
+		push(node);
+		while (stacksize > 0) {
+			pop();
+			int e = cur[u];
+			if (e != 0) {
+				cur[u] = nxt[e];
+				if (!vis[eid[e]]) {
+					vis[eid[e]] = true;
+					push(u);
+					push(to[e]);
+				} else {
+					push(u);
+				}
+			} else {
+				trail[++top] = u;
+			}
+		}
 	}
 
 	public static void main(String[] args) throws Exception {
@@ -109,7 +145,8 @@ public class Code02_UndirectedEulerianTrail1 {
 		}
 		connect();
 		int start = getStart(minNode);
-		dfs(start);
+		// dfs1(start);
+		dfs2(start);
 		for (int i = top; i >= 1; i--) {
 			out.println(trail[i]);
 		}
