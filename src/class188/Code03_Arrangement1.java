@@ -6,7 +6,7 @@ package class188;
 
 import java.util.Arrays;
 
-public class Code04_Arrangement1 {
+public class Code03_Arrangement1 {
 
 	class Solution {
 
