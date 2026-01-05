@@ -34,8 +34,8 @@ package class188;
 //int outDeg[MAXN];
 //int inDeg[MAXN];
 //
-//int trail[MAXM];
-//int top;
+//int path[MAXM];
+//int cntp;
 //
 //void addEdge(int u, int v) {
 //    nxt[++cnt] = head[u];
@@ -91,7 +91,7 @@ package class188;
 //        cur[u] = nxt[e];
 //        dfs(to[e]);
 //    }
-//    trail[++top] = u;
+//    path[++cntp] = u;
 //}
 //
 //int main() {
@@ -107,11 +107,11 @@ package class188;
 //        cout << "No\n";
 //    } else {
 //        dfs(start);
-//        if (top != m + 1) {
+//        if (cntp != m + 1) {
 //            cout << "No\n";
 //        } else {
-//            for (int i = top; i >= 1; i--) {
-//                cout << trail[i] << " ";
+//            for (int i = cntp; i >= 1; i--) {
+//                cout << path[i] << " ";
 //            }
 //            cout << "\n";
 //        }
