@@ -28,7 +28,7 @@ public class Code01_DirectedEulerianPath1 {
 	public static int[] head = new int[MAXN];
 	public static int[] nxt = new int[MAXM];
 	public static int[] to = new int[MAXM];
-	public static int cnt;
+	public static int cntg;
 
 	public static int[] cur = new int[MAXN];
 	public static int[] outDeg = new int[MAXN];
@@ -51,9 +51,9 @@ public class Code01_DirectedEulerianPath1 {
 	}
 
 	public static void addEdge(int u, int v) {
-		nxt[++cnt] = head[u];
-		to[cnt] = v;
-		head[u] = cnt;
+		nxt[++cntg] = head[u];
+		to[cntg] = v;
+		head[u] = cntg;
 	}
 
 	public static void connect() {

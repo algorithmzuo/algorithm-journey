@@ -29,7 +29,7 @@ public class Code02_UndirectedEulerianPath1 {
 	public static int[] nxt = new int[MAXM];
 	public static int[] to = new int[MAXM];
 	public static int[] eid = new int[MAXM];
-	public static int cnt;
+	public static int cntg;
 
 	public static int[] cur = new int[MAXN];
 	public static int[] deg = new int[MAXN];
@@ -52,10 +52,10 @@ public class Code02_UndirectedEulerianPath1 {
 	}
 
 	public static void addEdge(int u, int v, int id) {
-		nxt[++cnt] = head[u];
-		to[cnt] = v;
-		eid[cnt] = id;
-		head[u] = cnt;
+		nxt[++cntg] = head[u];
+		to[cntg] = v;
+		eid[cntg] = id;
+		head[u] = cntg;
 	}
 
 	public static void connect() {

@@ -28,7 +28,7 @@ package class188;
 //int head[MAXN];
 //int nxt[MAXM];
 //int to[MAXM];
-//int cnt;
+//int cntg;
 //
 //int cur[MAXN];
 //int outDeg[MAXN];
@@ -38,9 +38,9 @@ package class188;
 //int cntp;
 //
 //void addEdge(int u, int v) {
-//    nxt[++cnt] = head[u];
-//    to[cnt] = v;
-//    head[u] = cnt;
+//    nxt[++cntg] = head[u];
+//    to[cntg] = v;
+//    head[u] = cntg;
 //}
 //
 //void connect() {
