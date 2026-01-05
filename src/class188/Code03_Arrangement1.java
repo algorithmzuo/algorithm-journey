@@ -93,10 +93,10 @@ public class Code03_Arrangement1 {
 			return 1;
 		}
 
-		public static void dfs(int u) {
+		public static void euler(int u) {
 			for (int e = cur[u]; e > 0; e = cur[u]) {
 				cur[u] = nxt[e];
-				dfs(to[e]);
+				euler(to[e]);
 			}
 			path[++cntp] = u;
 		}
@@ -107,7 +107,7 @@ public class Code03_Arrangement1 {
 			prepare();
 			connect();
 			int start = getStart();
-			dfs(start);
+			euler(start);
 			if (cntp != m + 1) {
 				return null;
 			}

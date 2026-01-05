@@ -86,10 +86,10 @@ package class188;
 //    return 1;
 //}
 //
-//void dfs(int u) {
+//void euler(int u) {
 //    for (int e = cur[u]; e > 0; e = cur[u]) {
 //        cur[u] = nxt[e];
-//        dfs(to[e]);
+//        euler(to[e]);
 //    }
 //    path[++cntp] = u;
 //}
@@ -106,7 +106,7 @@ package class188;
 //    if (start == -1) {
 //        cout << "No\n";
 //    } else {
-//        dfs(start);
+//        euler(start);
 //        if (cntp != m + 1) {
 //            cout << "No\n";
 //        } else {

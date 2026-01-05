@@ -49,13 +49,13 @@ public class Code04_LetterPairs1 {
 		return -1;
 	}
 
-	public static void dfs(int u) {
+	public static void euler(int u) {
 		for (int v = cur[u]; v < MAXN; v = cur[u]) {
 			cur[u]++;
 			if (graph[u][v] > 0) {
 				graph[u][v]--;
 				graph[v][u]--;
-				dfs(v);
+				euler(v);
 			}
 		}
 		path[++cntp] = u;
@@ -81,7 +81,7 @@ public class Code04_LetterPairs1 {
 		if (start == -1) {
 			out.println("No Solution");
 		} else {
-			dfs(start);
+			euler(start);
 			if (cntp != n + 1) {
 				out.println("No Solution");
 			} else {

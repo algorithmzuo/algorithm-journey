@@ -100,16 +100,16 @@ public class Code01_DirectedEulerianPath1 {
 	}
 
 	// Hierholzer算法递归版，java会爆栈，C++可以通过
-	public static void dfs1(int u) {
+	public static void euler1(int u) {
 		for (int e = cur[u]; e > 0; e = cur[u]) {
 			cur[u] = nxt[e];
-			dfs1(to[e]);
+			euler1(to[e]);
 		}
 		path[++cntp] = u;
 	}
 
 	// Hierholzer算法迭代版
-	public static void dfs2(int node) {
+	public static void euler2(int node) {
 		stacksize = 0;
 		push(node);
 		while (stacksize > 0) {
@@ -139,8 +139,8 @@ public class Code01_DirectedEulerianPath1 {
 		if (start == -1) {
 			out.println("No");
 		} else {
-			// dfs1(start);
-			dfs2(start);
+			// euler1(start);
+			euler2(start);
 			if (cntp != m + 1) {
 				out.println("No");
 			} else {
