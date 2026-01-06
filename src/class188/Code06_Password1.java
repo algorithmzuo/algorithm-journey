@@ -65,7 +65,7 @@ public class Code06_Password1 {
 			} else {
 				prepare();
 				euler2(0);
-				for (int i = 1; i < n - 1; i++) {
+				for (int i = 1; i <= n - 2; i++) {
 					out.print("0");
 				}
 				for (int i = cntp; i >= 1; i--) {
