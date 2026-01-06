@@ -9,7 +9,7 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
-public class Code04_LetterPairs1 {
+public class Code05_LetterPairs1 {
 
 	public static int MAXN = 52;
 	public static int MAXP = 2001;
@@ -28,7 +28,7 @@ public class Code04_LetterPairs1 {
 		return (char) (v < 26 ? ('A' + v) : ('a' + v - 26));
 	}
 
-	public static int getStart() {
+	public static int undirectedStart() {
 		int odd = 0;
 		for (int i = 0; i < MAXN; i++) {
 			if ((deg[i] & 1) == 1) {
@@ -77,7 +77,7 @@ public class Code04_LetterPairs1 {
 			deg[u]++;
 			deg[v]++;
 		}
-		int start = getStart();
+		int start = undirectedStart();
 		if (start == -1) {
 			out.println("No Solution");
 		} else {

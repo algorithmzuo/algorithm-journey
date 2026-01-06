@@ -1,7 +1,7 @@
 package class188;
 
-// 有向图的欧拉路径，java版
-// 测试链接 : https://www.luogu.com.cn/problem/P7771
+// 词链，java版
+// 测试链接 : https://www.luogu.com.cn/problem/P1127
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
 import java.io.IOException;
@@ -11,23 +11,30 @@ import java.io.PrintWriter;
 import java.util.Arrays;
 import java.util.Comparator;
 
-public class Code01_DirectedEulerianPath1 {
+public class Code04_WordChain1 {
 
-	public static class EdgeCmp implements Comparator<int[]> {
-		@Override
-		public int compare(int[] e1, int[] e2) {
-			return e1[0] != e2[0] ? (e1[0] - e2[0]) : (e1[1] - e2[1]);
+	public static class EdgeCmp implements Comparator<Integer> {
+		public int compare(Integer i, Integer j) {
+			if (a[i] != a[j]) {
+				return a[i] - a[j];
+			}
+			return w[i].compareTo(w[j]);
 		}
 	}
 
-	public static int MAXN = 100001;
-	public static int MAXM = 200002;
-	public static int n, m;
-	public static int[][] edgeArr = new int[MAXM][2];
+	public static int MAXN = 26;
+	public static int MAXM = 1002;
+	public static int m;
+
+	public static int[] a = new int[MAXM];
+	public static int[] b = new int[MAXM];
+	public static String[] w = new String[MAXM];
+	public static Integer[] eidArr = new Integer[MAXM];
 
 	public static int[] head = new int[MAXN];
 	public static int[] nxt = new int[MAXM];
 	public static int[] to = new int[MAXM];
+	public static int[] edgeid = new int[MAXM];
 	public static int cntg;
 
 	public static int[] cur = new int[MAXN];
@@ -37,47 +44,43 @@ public class Code01_DirectedEulerianPath1 {
 	public static int[] path = new int[MAXM];
 	public static int cntp;
 
-	// 讲解118，递归函数改成迭代所需要的栈
-	public static int[] stack = new int[MAXM];
-	public static int u;
-	public static int stacksize;
-
-	public static void push(int u) {
-		stack[stacksize++] = u;
-	}
-
-	public static void pop() {
-		u = stack[--stacksize];
-	}
-
-	public static void addEdge(int u, int v) {
+	public static void addEdge(int u, int v, int eid) {
 		nxt[++cntg] = head[u];
 		to[cntg] = v;
+		edgeid[cntg] = eid;
 		head[u] = cntg;
 	}
 
+	public static int startNode(String str) {
+		return str.charAt(0) - 'a';
+	}
+
+	public static int endNode(String str) {
+		return str.charAt(str.length() - 1) - 'a';
+	}
+
 	public static void connect() {
-		Arrays.sort(edgeArr, 1, m + 1, new EdgeCmp());
+		Arrays.sort(eidArr, 1, m + 1, new EdgeCmp());
 		for (int l = 1, r = 1; l <= m; l = ++r) {
-			while (r + 1 <= m && edgeArr[l][0] == edgeArr[r + 1][0]) {
+			while (r + 1 <= m && a[eidArr[l]] == a[eidArr[r + 1]]) {
 				r++;
 			}
 			for (int i = r, u, v; i >= l; i--) {
-				u = edgeArr[i][0];
-				v = edgeArr[i][1];
+				u = a[eidArr[i]];
+				v = b[eidArr[i]];
 				outDeg[u]++;
 				inDeg[v]++;
-				addEdge(u, v);
+				addEdge(u, v, eidArr[i]);
 			}
 		}
-		for (int i = 1; i <= n; i++) {
+		for (int i = 0; i < MAXN; i++) {
 			cur[i] = head[i];
 		}
 	}
 
 	public static int directedStart() {
 		int start = -1, end = -1;
-		for (int i = 1; i <= n; i++) {
+		for (int i = 0; i < MAXN; i++) {
 			int d = outDeg[i] - inDeg[i];
 			if (d == 1) {
 				if (start != -1) {
@@ -99,7 +102,7 @@ public class Code01_DirectedEulerianPath1 {
 		if (start != -1) {
 			return start;
 		}
-		for (int i = 1; i <= n; i++) {
+		for (int i = 0; i < MAXN; i++) {
 			if (outDeg[i] > 0) {
 				return i;
 			}
@@ -107,53 +110,38 @@ public class Code01_DirectedEulerianPath1 {
 		return -1;
 	}
 
-	// Hierholzer算法递归版，java会爆栈，C++可以通过
-	public static void euler1(int u) {
+	public static void euler(int u, int eid) {
 		for (int e = cur[u]; e > 0; e = cur[u]) {
 			cur[u] = nxt[e];
-			euler1(to[e]);
+			euler(to[e], edgeid[e]);
 		}
-		path[++cntp] = u;
-	}
-
-	// Hierholzer算法迭代版
-	public static void euler2(int node) {
-		stacksize = 0;
-		push(node);
-		while (stacksize > 0) {
-			pop();
-			int e = cur[u];
-			if (e != 0) {
-				cur[u] = nxt[e];
-				push(u);
-				push(to[e]);
-			} else {
-				path[++cntp] = u;
-			}
-		}
+		path[++cntp] = eid;
 	}
 
 	public static void main(String[] args) throws Exception {
 		FastReader in = new FastReader(System.in);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
-		n = in.nextInt();
 		m = in.nextInt();
+		String str;
 		for (int i = 1; i <= m; i++) {
-			edgeArr[i][0] = in.nextInt();
-			edgeArr[i][1] = in.nextInt();
+			str = in.nextString();
+			a[i] = startNode(str);
+			b[i] = endNode(str);
+			w[i] = str;
+			eidArr[i] = i;
 		}
 		connect();
 		int start = directedStart();
 		if (start == -1) {
-			out.println("No");
+			out.println("***");
 		} else {
-			// euler1(start);
-			euler2(start);
+			euler(start, 0);
 			if (cntp != m + 1) {
-				out.println("No");
+				out.println("***");
 			} else {
-				for (int i = cntp; i >= 1; i--) {
-					out.print(path[i] + " ");
+				out.print(w[path[cntp - 1]]);
+				for (int i = cntp - 2; i >= 1; i--) {
+					out.print("." + w[path[i]]);
 				}
 				out.println();
 			}
@@ -199,6 +187,24 @@ public class Code01_DirectedEulerianPath1 {
 			}
 			return neg ? -val : val;
 		}
+
+		String nextString() throws IOException {
+			int c;
+			do {
+				c = readByte();
+				if (c == -1)
+					return null;
+			} while (c < 'a' || c > 'z');
+			StringBuilder sb = new StringBuilder();
+			while (c >= 'a' && c <= 'z') {
+				sb.append((char) c);
+				c = readByte();
+				if (c == -1)
+					break;
+			}
+			return sb.toString();
+		}
+
 	}
 
 }

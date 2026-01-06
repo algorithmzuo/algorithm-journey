@@ -79,7 +79,7 @@ public class Code03_Arrangement1 {
 			}
 		}
 
-		public static int getStart() {
+		public static int directedStart() {
 			for (int i = 1; i <= n; i++) {
 				if (outDeg[i] == inDeg[i] + 1) {
 					return i;
@@ -106,7 +106,7 @@ public class Code03_Arrangement1 {
 			pair = pairs;
 			prepare();
 			connect();
-			int start = getStart();
+			int start = directedStart();
 			euler(start);
 			if (cntp != m + 1) {
 				return null;

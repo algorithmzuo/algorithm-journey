@@ -78,18 +78,25 @@ public class Code02_UndirectedEulerianPath1 {
 		}
 	}
 
-	public static int getStart(int minNode) {
+	public static int undirectedStart() {
+		int odd = 0;
 		for (int i = 1; i <= n; i++) {
 			if ((deg[i] & 1) == 1) {
-				return i;
+				odd++;
 			}
+		}
+		if (odd != 0 && odd != 2) {
+			return -1;
 		}
 		for (int i = 1; i <= n; i++) {
-			if (deg[i] > 0) {
+			if (odd != 0 && (deg[i] & 1) == 1) {
+				return i;
+			}
+			if (odd == 0 && deg[i] > 0) {
 				return i;
 			}
 		}
-		return minNode;
+		return -1;
 	}
 
 	// Hierholzer算法递归版
@@ -144,7 +151,10 @@ public class Code02_UndirectedEulerianPath1 {
 			edgeArr[k][2] = i;
 		}
 		connect();
-		int start = getStart(minNode);
+		int start = undirectedStart();
+		if (start == -1) {
+			start = minNode;
+		}
 		// euler1(start);
 		euler2(start);
 		for (int i = cntp; i >= 1; i--) {

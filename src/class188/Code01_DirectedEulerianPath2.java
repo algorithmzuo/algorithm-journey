@@ -62,28 +62,36 @@ package class188;
 //    }
 //}
 //
-//int getStart() {
-//    int s = 0;
+//int directedStart() {
+//    int start = -1, end = -1;
 //    for (int i = 1; i <= n; i++) {
-//        if (abs(outDeg[i] - inDeg[i]) > 1) {
-//            return -1;
-//        }
-//        if (outDeg[i] > inDeg[i]) {
-//            if (s != 0) {
+//        int d = outDeg[i] - inDeg[i];
+//        if (d == 1) {
+//            if (start != -1) {
 //                return -1;
 //            }
-//            s = i;
+//            start = i;
+//        } else if (d == -1) {
+//            if (end != -1) {
+//                return -1;
+//            }
+//            end = i;
+//        } else if (d != 0) {
+//            return -1;
 //        }
 //    }
-//    if (s > 0) {
-//        return s;
+//    if ((start == -1) ^ (end == -1)) {
+//        return -1;
+//    }
+//    if (start != -1) {
+//        return start;
 //    }
 //    for (int i = 1; i <= n; i++) {
 //        if (outDeg[i] > 0) {
 //            return i;
 //        }
 //    }
-//    return 1;
+//    return -1;
 //}
 //
 //void euler(int u) {
@@ -102,7 +110,7 @@ package class188;
 //        cin >> edgeArr[i].u >> edgeArr[i].v;
 //    }
 //    connect();
-//    int start = getStart();
+//    int start = directedStart();
 //    if (start == -1) {
 //        cout << "No\n";
 //    } else {
