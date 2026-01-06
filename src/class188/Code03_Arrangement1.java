@@ -80,17 +80,35 @@ public class Code03_Arrangement1 {
 		}
 
 		public static int directedStart() {
+			int start = -1, end = -1;
 			for (int i = 1; i <= n; i++) {
-				if (outDeg[i] == inDeg[i] + 1) {
-					return i;
+				int d = outDeg[i] - inDeg[i];
+				if (d == 1) {
+					if (start != -1) {
+						return -1;
+					}
+					start = i;
+				} else if (d == -1) {
+					if (end != -1) {
+						return -1;
+					}
+					end = i;
+				} else if (d != 0) {
+					return -1;
 				}
+			}
+			if ((start == -1) ^ (end == -1)) {
+				return -1;
+			}
+			if (start != -1) {
+				return start;
 			}
 			for (int i = 1; i <= n; i++) {
 				if (outDeg[i] > 0) {
 					return i;
 				}
 			}
-			return 1;
+			return -1;
 		}
 
 		public static void euler(int u) {
@@ -107,6 +125,9 @@ public class Code03_Arrangement1 {
 			prepare();
 			connect();
 			int start = directedStart();
+			if (start == -1) {
+				return null;
+			}
 			euler(start);
 			if (cntp != m + 1) {
 				return null;
