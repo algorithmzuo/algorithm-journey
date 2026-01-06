@@ -35,7 +35,7 @@ public class Code06_Password1 {
 
 	// 递归版
 	public static void euler1(int u) {
-		while (cur[u] <= 9) {
+		while (cur[u] < 10) {
 			euler1((u * 10 + (cur[u]++)) % MOD);
 		}
 		path[++cntp] = u;
@@ -46,7 +46,7 @@ public class Code06_Password1 {
 		sta[++top] = u;
 		while (top > 0) {
 			u = sta[top--];
-			if (cur[u] <= 9) {
+			if (cur[u] < 10) {
 				sta[++top] = u;
 				sta[++top] = (u * 10 + (cur[u]++)) % MOD;
 			} else {
