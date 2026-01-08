@@ -92,10 +92,10 @@ public class Code10_DingXiangRoad1 {
 			fa2[i] = find(fa1, i);
 			deg2[i] = deg1[i];
 		}
+		long ans = sum;
 		deg2[start]++;
 		deg2[end]++;
 		union(fa2, start, end);
-		long ans = sum;
 		for (int i = 1, pre = 0, cur; i <= cnt; i++) {
 			cur = nodeArr[i];
 			if ((deg2[cur] & 1) == 1) {
