@@ -11,7 +11,7 @@ import java.io.PrintWriter;
 import java.util.Arrays;
 import java.util.Comparator;
 
-public class Code02_UndirectedEulerianPath1 {
+public class Code02_UndirectedEuler1 {
 
 	public static class EdgeCmp implements Comparator<int[]> {
 		@Override
