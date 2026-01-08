@@ -9,7 +9,7 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
-public class Code07_Garbage1 {
+public class Code08_Garbage1 {
 
 	public static int MAXN = 100001;
 	public static int MAXM = 2000001;
