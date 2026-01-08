@@ -9,7 +9,7 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
-public class Code07_DrumMaster1 {
+public class Code07_Taiko1 {
 
 	public static int MAXN = 3001;
 	public static int n, MOD;
