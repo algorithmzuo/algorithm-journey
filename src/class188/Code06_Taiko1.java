@@ -1,7 +1,7 @@
 package class188;
 
-// 所有可能性的密码串，java版
-// 测试链接 : http://poj.org/problem?id=1780
+// 太鼓达人，java版
+// 测试链接 : https://loj.ac/p/10110
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
 import java.io.IOException;
@@ -9,72 +9,47 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
-public class Code06_Password1 {
+public class Code06_Taiko1 {
 
-	public static int MAXN = 1000002;
+	public static int MAXN = 3001;
 	public static int n, MOD;
 
 	public static int[] cur = new int[MAXN];
 	public static int[] path = new int[MAXN];
 	public static int cntp;
 
-	public static int[] sta = new int[MAXN];
-	public static int top;
+	public static void euler(int u) {
+		while (cur[u] < 2) {
+			euler((u * 2 + (cur[u]++)) % MOD);
+		}
+		path[++cntp] = u;
+	}
 
 	public static void prepare() {
 		MOD = 1;
 		for (int i = 1; i <= n - 1; i++) {
-			MOD *= 10;
+			MOD <<= 1;
 		}
 		for (int i = 0; i < MOD; i++) {
 			cur[i] = 0;
 		}
 		cntp = 0;
-		top = 0;
-	}
-
-	// 递归版
-	public static void euler1(int u) {
-		while (cur[u] < 10) {
-			euler1((u * 10 + (cur[u]++)) % MOD);
-		}
-		path[++cntp] = u;
-	}
-
-	// 迭代版
-	public static void euler2(int u) {
-		sta[++top] = u;
-		while (top > 0) {
-			u = sta[top--];
-			if (cur[u] < 10) {
-				sta[++top] = u;
-				sta[++top] = (u * 10 + (cur[u]++)) % MOD;
-			} else {
-				path[++cntp] = u;
-			}
-		}
 	}
 
 	public static void main(String[] args) throws Exception {
 		FastReader in = new FastReader(System.in);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
 		n = in.nextInt();
-		while (n != 0) {
-			if (n == 1) {
-				out.println("0123456789");
-			} else {
-				prepare();
-				euler2(0);
-				for (int i = 1; i <= n - 2; i++) {
-					out.print("0");
-				}
-				for (int i = cntp; i >= 1; i--) {
-					out.print(path[i] % 10);
-				}
-				out.println();
-			}
-			n = in.nextInt();
+		prepare();
+		euler(0);
+		out.print((MOD << 1) + " ");
+		for (int i = 1; i <= n - 2; i++) {
+			out.print("0");
 		}
+		for (int i = cntp; i >= n; i--) {
+			out.print(path[i] % 2);
+		}
+		out.println();
 		out.flush();
 		out.close();
 	}
