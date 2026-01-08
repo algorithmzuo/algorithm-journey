@@ -53,11 +53,10 @@ public class Code10_DingXiangRoad1 {
 	}
 
 	public static int find(int[] fa, int x) {
-		while (x != fa[x]) {
+		if (x != fa[x]) {
 			fa[x] = find(fa, fa[x]);
-			x = fa[x];
 		}
-		return x;
+		return fa[x];
 	}
 
 	public static void union(int[] fa, int x, int y) {
@@ -69,9 +68,10 @@ public class Code10_DingXiangRoad1 {
 	}
 
 	public static long kruskal() {
-		Arrays.sort(edgeArr, 1, cnt, new EdgeCmp());
 		long cost = 0;
-		for (int i = 1; i <= cnt - 1; i++) {
+		int edgeCnt = cnt - 1;
+		Arrays.sort(edgeArr, 1, edgeCnt + 1, new EdgeCmp());
+		for (int i = 1; i <= edgeCnt; i++) {
 			int u = edgeArr[i][0];
 			int v = edgeArr[i][1];
 			int w = edgeArr[i][2];
