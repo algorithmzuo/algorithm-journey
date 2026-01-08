@@ -21,14 +21,14 @@ public class Code10_DingXiangRoad1 {
 	public static int[] b = new int[MAXM];
 
 	public static boolean[] fix = new boolean[MAXN];
+	public static TreeSet<Integer> nodeSet = new TreeSet<>();
+	public static int[] nodeArr = new int[MAXN];
+	public static int cnt;
+
 	public static int[] fa1 = new int[MAXN];
 	public static int[] deg1 = new int[MAXN];
 	public static int[] fa2 = new int[MAXN];
 	public static int[] deg2 = new int[MAXN];
-
-	public static TreeSet<Integer> nodeSet = new TreeSet<>();
-	public static int[] nodeArr = new int[MAXN];
-	public static int cnt;
 
 	// u、v、w
 	public static int[][] edgeArr = new int[MAXN][3];
