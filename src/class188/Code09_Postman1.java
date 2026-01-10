@@ -58,15 +58,15 @@ public class Code09_Postman1 {
 	public static int cntg;
 	public static int edgeCnt;
 
-	public static PairMap map1 = new PairMap();
-	public static PairMap map2 = new PairMap();
+	public static PairMap pairEdge = new PairMap();
+	public static PairMap chainHead = new PairMap();
 	public static int[] lastChain = new int[MAXM];
 
 	public static int[] curv = new int[MAXN];
 	public static int[] inDeg = new int[MAXN];
 	public static int[] outDeg = new int[MAXN];
 
-	public static boolean[] startEdge = new boolean[MAXM];
+	public static boolean[] start = new boolean[MAXM];
 	public static int[] nextEdge = new int[MAXM];
 	public static boolean[] visEdge = new boolean[MAXM];
 
@@ -87,8 +87,8 @@ public class Code09_Postman1 {
 
 	public static boolean prepare() {
 		for (int i = 1; i <= m; i++) {
-			map1.put(u[i], v[i], i);
-			startEdge[i] = true;
+			pairEdge.put(u[i], v[i], i);
+			start[i] = true;
 		}
 		int siz = chain[1], l = 2, r = l + siz - 1;
 		int a, b, ledge, redge;
@@ -97,16 +97,16 @@ public class Code09_Postman1 {
 			for (int i = l; i < r; i++) {
 				a = chain[i];
 				b = chain[i + 1];
-				if (!map1.contains(a, b)) {
+				if (!pairEdge.contains(a, b)) {
 					return false;
 				}
-				redge = map1.get(a, b);
+				redge = pairEdge.get(a, b);
 				if (ledge != 0) {
 					if (nextEdge[ledge] != 0 && nextEdge[ledge] != redge) {
 						return false;
 					}
 					nextEdge[ledge] = redge;
-					startEdge[redge] = false;
+					start[redge] = false;
 				}
 				ledge = redge;
 			}
@@ -132,7 +132,7 @@ public class Code09_Postman1 {
 
 	public static boolean compress() {
 		for (int i = 1; i <= m; i++) {
-			if (startEdge[i]) {
+			if (start[i]) {
 				int x = u[i];
 				int y = v[i];
 				if (nextEdge[i] != 0) {
@@ -141,10 +141,10 @@ public class Code09_Postman1 {
 						return false;
 					}
 					y = v[end];
-					if (map2.contains(x, y)) {
-						lastChain[i] = map2.get(x, y);
+					if (chainHead.contains(x, y)) {
+						lastChain[i] = chainHead.get(x, y);
 					}
-					map2.put(x, y, i);
+					chainHead.put(x, y, i);
 				}
 				addEdge(x, y);
 				outDeg[x]++;
@@ -193,22 +193,23 @@ public class Code09_Postman1 {
 				ans[++cnta] = y;
 			} else {
 				int x = ans[cnta];
-				if (!map2.contains(x, y)) {
+				if (!chainHead.contains(x, y)) {
 					ans[++cnta] = y;
 				} else {
-					int cur = map2.get(x, y);
+					int cur = chainHead.get(x, y);
 					if (lastChain[cur] != 0) {
-						map2.put(x, y, lastChain[cur]);
+						chainHead.put(x, y, lastChain[cur]);
 					} else {
-						map2.remove(x, y);
+						chainHead.remove(x, y);
 					}
-					for (int e = cur; e > 0; e = nextEdge[e]) {
-						ans[++cnta] = v[e];
+					while (cur > 0) {
+						ans[++cnta] = v[cur];
+						cur = nextEdge[cur];
 					}
 				}
 			}
 		}
-		if (!map2.isEmpty() || cnta != m + 1) {
+		if (!chainHead.isEmpty() || cnta != m + 1) {
 			return false;
 		}
 		return true;
