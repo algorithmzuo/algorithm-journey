@@ -12,13 +12,16 @@ import java.io.PrintWriter;
 public class Code05_LetterPairs1 {
 
 	public static int MAXN = 53;
-	public static int MAXP = 2002;
+	public static int MAXM = 2001;
 	public static int n = 52, m;
+	public static char[] a = new char[MAXM];
+	public static char[] b = new char[MAXM];
+
 	public static int[][] graph = new int[MAXN][MAXN];
 	public static int[] deg = new int[MAXN];
 	public static int[] cur = new int[MAXN];
 
-	public static int[] path = new int[MAXP];
+	public static int[] path = new int[MAXM];
 	public static int cntp;
 
 	public static int getInt(char c) {
@@ -27,6 +30,20 @@ public class Code05_LetterPairs1 {
 
 	public static char getChar(int v) {
 		return (char) (v <= 26 ? ('A' + v - 1) : ('a' + v - 27));
+	}
+
+	public static void connect() {
+		for (int i = 1, u, v; i <= m; i++) {
+			u = getInt(a[i]);
+			v = getInt(b[i]);
+			graph[u][v]++;
+			graph[v][u]++;
+			deg[u]++;
+			deg[v]++;
+		}
+		for (int i = 1; i <= n; i++) {
+			cur[i] = 1;
+		}
 	}
 
 	public static int undirectedStart() {
@@ -66,21 +83,11 @@ public class Code05_LetterPairs1 {
 		FastReader in = new FastReader(System.in);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
 		m = in.nextInt();
-		char a, b;
-		int u, v;
 		for (int i = 1; i <= m; i++) {
-			a = in.nextChar();
-			b = in.nextChar();
-			u = getInt(a);
-			v = getInt(b);
-			graph[u][v]++;
-			graph[v][u]++;
-			deg[u]++;
-			deg[v]++;
+			a[i] = in.nextChar();
+			b[i] = in.nextChar();
 		}
-		for (int i = 1; i <= n; i++) {
-			cur[i] = 1;
-		}
+		connect();
 		int start = undirectedStart();
 		if (start == -1) {
 			out.println("No Solution");
