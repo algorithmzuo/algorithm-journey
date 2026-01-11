@@ -24,8 +24,7 @@ public class Code04_WordChain1 {
 
 	public static int MAXN = 27;
 	public static int MAXM = 1002;
-	public static int n = 26;
-	public static int m;
+	public static int n = 26, m;
 
 	public static int[] a = new int[MAXM];
 	public static int[] b = new int[MAXM];

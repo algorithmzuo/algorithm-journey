@@ -9,10 +9,11 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
-public class Code07_LetterPairs1 {
+public class Code05_LetterPairs1 {
 
-	public static int MAXN = 52;
-	public static int MAXP = 2001;
+	public static int MAXN = 53;
+	public static int MAXP = 2002;
+	public static int n = 52, m;
 	public static int[][] graph = new int[MAXN][MAXN];
 	public static int[] deg = new int[MAXN];
 	public static int[] cur = new int[MAXN];
@@ -21,16 +22,16 @@ public class Code07_LetterPairs1 {
 	public static int cntp;
 
 	public static int getInt(char c) {
-		return c <= 'Z' ? (c - 'A') : (c - 'a' + 26);
+		return c <= 'Z' ? (c - 'A' + 1) : (c - 'a' + 27);
 	}
 
 	public static char getChar(int v) {
-		return (char) (v < 26 ? ('A' + v) : ('a' + v - 26));
+		return (char) (v <= 26 ? ('A' + v - 1) : ('a' + v - 27));
 	}
 
 	public static int undirectedStart() {
 		int odd = 0;
-		for (int i = 0; i < MAXN; i++) {
+		for (int i = 1; i <= n; i++) {
 			if ((deg[i] & 1) == 1) {
 				odd++;
 			}
@@ -38,7 +39,7 @@ public class Code07_LetterPairs1 {
 		if (odd != 0 && odd != 2) {
 			return -1;
 		}
-		for (int i = 0; i < MAXN; i++) {
+		for (int i = 1; i <= n; i++) {
 			if (odd != 0 && (deg[i] & 1) == 1) {
 				return i;
 			}
@@ -50,7 +51,7 @@ public class Code07_LetterPairs1 {
 	}
 
 	public static void euler(int u) {
-		for (int v = cur[u]; v < MAXN; v = cur[u]) {
+		for (int v = cur[u]; v <= n; v = cur[u]) {
 			cur[u]++;
 			if (graph[u][v] > 0) {
 				graph[u][v]--;
@@ -64,10 +65,10 @@ public class Code07_LetterPairs1 {
 	public static void main(String[] args) throws Exception {
 		FastReader in = new FastReader(System.in);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
-		int n = in.nextInt();
+		m = in.nextInt();
 		char a, b;
 		int u, v;
-		for (int i = 1; i <= n; i++) {
+		for (int i = 1; i <= m; i++) {
 			a = in.nextChar();
 			b = in.nextChar();
 			u = getInt(a);
@@ -77,12 +78,15 @@ public class Code07_LetterPairs1 {
 			deg[u]++;
 			deg[v]++;
 		}
+		for (int i = 1; i <= n; i++) {
+			cur[i] = 1;
+		}
 		int start = undirectedStart();
 		if (start == -1) {
 			out.println("No Solution");
 		} else {
 			euler(start);
-			if (cntp != n + 1) {
+			if (cntp != m + 1) {
 				out.println("No Solution");
 			} else {
 				for (int i = cntp; i >= 1; i--) {
