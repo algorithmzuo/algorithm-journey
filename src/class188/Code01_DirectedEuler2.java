@@ -65,19 +65,15 @@ package class188;
 //int directedStart() {
 //    int start = -1, end = -1;
 //    for (int i = 1; i <= n; i++) {
-//        int d = outDeg[i] - inDeg[i];
-//        if (d == 1) {
-//            if (start != -1) {
-//                return -1;
-//            }
-//            start = i;
-//        } else if (d == -1) {
-//            if (end != -1) {
-//                return -1;
-//            }
-//            end = i;
-//        } else if (d != 0) {
+//        int v = outDeg[i] - inDeg[i];
+//        if (v < -1 || v > 1 || (v == 1 && start != -1) || (v == -1 && end != -1)) {
 //            return -1;
+//        }
+//        if (v == 1) {
+//            start = i;
+//        }
+//        if (v == -1) {
+//            end = i;
 //        }
 //    }
 //    if ((start == -1) ^ (end == -1)) {

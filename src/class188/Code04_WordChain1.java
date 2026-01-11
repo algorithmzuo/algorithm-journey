@@ -22,8 +22,9 @@ public class Code04_WordChain1 {
 		}
 	}
 
-	public static int MAXN = 26;
+	public static int MAXN = 27;
 	public static int MAXM = 1002;
+	public static int n = 26;
 	public static int m;
 
 	public static int[] a = new int[MAXM];
@@ -52,11 +53,11 @@ public class Code04_WordChain1 {
 	}
 
 	public static int startNode(String str) {
-		return str.charAt(0) - 'a';
+		return str.charAt(0) - 'a' + 1;
 	}
 
 	public static int endNode(String str) {
-		return str.charAt(str.length() - 1) - 'a';
+		return str.charAt(str.length() - 1) - 'a' + 1;
 	}
 
 	public static void connect() {
@@ -73,27 +74,23 @@ public class Code04_WordChain1 {
 				addEdge(u, v, eidArr[i]);
 			}
 		}
-		for (int i = 0; i < MAXN; i++) {
+		for (int i = 1; i <= n; i++) {
 			cur[i] = head[i];
 		}
 	}
 
 	public static int directedStart() {
 		int start = -1, end = -1;
-		for (int i = 0; i < MAXN; i++) {
-			int d = outDeg[i] - inDeg[i];
-			if (d == 1) {
-				if (start != -1) {
-					return -1;
-				}
-				start = i;
-			} else if (d == -1) {
-				if (end != -1) {
-					return -1;
-				}
-				end = i;
-			} else if (d != 0) {
+		for (int i = 1; i <= n; i++) {
+			int v = outDeg[i] - inDeg[i];
+			if (v < -1 || v > 1 || (v == 1 && start != -1) || (v == -1 && end != -1)) {
 				return -1;
+			}
+			if (v == 1) {
+				start = i;
+			}
+			if (v == -1) {
+				end = i;
 			}
 		}
 		if ((start == -1) ^ (end == -1)) {
@@ -102,7 +99,7 @@ public class Code04_WordChain1 {
 		if (start != -1) {
 			return start;
 		}
-		for (int i = 0; i < MAXN; i++) {
+		for (int i = 1; i <= n; i++) {
 			if (outDeg[i] > 0) {
 				return i;
 			}
