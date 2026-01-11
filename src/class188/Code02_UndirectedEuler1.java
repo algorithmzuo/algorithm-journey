@@ -1,6 +1,10 @@
 package class188;
 
 // 无向图的欧拉路径，java版
+// 图中给定m条无向边，每条边给出两个端点
+// 如果存在欧拉路径，输出字典序最小的结果，如果不存在打印No
+// 节点编号的范围是[1, 500]，所有点不一定都出现，以给定的边为准
+// 1 <= m <= 1024
 // 测试链接 : https://www.luogu.com.cn/problem/P2731
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
@@ -21,14 +25,14 @@ public class Code02_UndirectedEuler1 {
 	}
 
 	public static int MAXN = 501;
-	public static int MAXM = 3001;
-	public static int n, m;
-	public static int[][] edgeArr = new int[MAXM][3];
+	public static int MAXM = 2001;
+	public static int n = 500, m;
+	public static int[][] edgeArr = new int[MAXM << 1][3];
 
 	public static int[] head = new int[MAXN];
-	public static int[] nxt = new int[MAXM];
-	public static int[] to = new int[MAXM];
-	public static int[] eid = new int[MAXM];
+	public static int[] nxt = new int[MAXM << 1];
+	public static int[] to = new int[MAXM << 1];
+	public static int[] eid = new int[MAXM << 1];
 	public static int cntg;
 
 	public static int[] cur = new int[MAXN];
@@ -136,13 +140,10 @@ public class Code02_UndirectedEuler1 {
 	public static void main(String[] args) throws Exception {
 		FastReader in = new FastReader(System.in);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
-		n = 500;
 		m = in.nextInt();
-		int minNode = n;
 		for (int i = 1, u, v, k = 0; i <= m; i++) {
 			u = in.nextInt();
 			v = in.nextInt();
-			minNode = Math.min(minNode, Math.min(u, v));
 			edgeArr[++k][0] = u;
 			edgeArr[k][1] = v;
 			edgeArr[k][2] = i;
@@ -153,12 +154,17 @@ public class Code02_UndirectedEuler1 {
 		connect();
 		int start = undirectedStart();
 		if (start == -1) {
-			start = minNode;
-		}
-		// euler1(start);
-		euler2(start);
-		for (int i = cntp; i >= 1; i--) {
-			out.println(path[i]);
+			out.println("No");
+		} else {
+			// euler1(start);
+			euler2(start);
+			if (cntp != m + 1) {
+				out.println("No");
+			} else {
+				for (int i = cntp; i >= 1; i--) {
+					out.println(path[i]);
+				}
+			}
 		}
 		out.flush();
 		out.close();
