@@ -13,7 +13,7 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
-public class Code06_Password1 {
+public class Code05_Password1 {
 
 	public static int MAXN = 1000002;
 	public static int n, k, m;

@@ -10,7 +10,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.util.HashMap;
 
-public class Code10_Postman1 {
+public class Code08_Postman1 {
 
 	static class PairMap {
 		public HashMap<Long, Integer> map = new HashMap<>();
