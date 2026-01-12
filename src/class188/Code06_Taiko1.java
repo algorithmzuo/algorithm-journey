@@ -10,6 +10,7 @@ package class188;
 // 1 <= n <= 11
 // 本题可以推广到k进制，代码就是按照推广来实现的
 // 测试链接 : https://www.luogu.com.cn/problem/P10950
+// 测试链接 : https://loj.ac/p/10110
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
 import java.io.IOException;
@@ -26,7 +27,9 @@ public class Code06_Taiko1 {
 	public static int[] path = new int[MAXN];
 	public static int cntp;
 
-	public static void prepare() {
+	public static void prepare(int len, int num) {
+		n = len;
+		k = num;
 		m = 1;
 		for (int i = 1; i <= n - 1; i++) {
 			m *= k;
@@ -48,9 +51,9 @@ public class Code06_Taiko1 {
 	public static void main(String[] args) throws Exception {
 		FastReader in = new FastReader(System.in);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
-		n = in.nextInt();
-		k = 2;
-		prepare();
+		int len = in.nextInt();
+		int num = 2;
+		prepare(len, num);
 		euler(0, 0);
 		out.print((m * k) + " ");
 		for (int i = 1; i <= n - 1; i++) {

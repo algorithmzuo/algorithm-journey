@@ -10,6 +10,7 @@ package class188;
 // 1 <= n <= 11
 // 本题可以推广到k进制，代码就是按照推广来实现的
 // 测试链接 : https://www.luogu.com.cn/problem/P10950
+// 测试链接 : https://loj.ac/p/10110
 // 如下实现是C++的版本，C++版本和java版本逻辑完全一样
 // 提交如下代码，可以通过所有测试用例
 
@@ -24,7 +25,9 @@ package class188;
 //int path[MAXN];
 //int cntp;
 //
-//void prepare() {
+//void prepare(int len, int num) {
+//    n = len;
+//    k = num;
 //    m = 1;
 //    for (int i = 1; i <= n - 1; i++) {
 //        m *= k;
@@ -46,9 +49,10 @@ package class188;
 //int main() {
 //    ios::sync_with_stdio(false);
 //    cin.tie(nullptr);
-//    cin >> n;
-//    k = 2;
-//    prepare();
+//    int len;
+//    cin >> len;
+//    int num = 2;
+//    prepare(len, num);
 //    euler(0, 0);
 //    cout << (m * k) << " ";
 //    for (int i = 1; i <= n - 1; i++) {
