@@ -9,12 +9,11 @@ package class188;
 // 如下实现是C++的版本，C++版本和java版本逻辑完全一样
 // 提交如下代码，可以通过所有测试用例
 
-//#include <bits/stdc++.h>
-//
-//using namespace std;
+//#include <cstdio>
 //
 //const int MAXN = 1000002;
 //int n, k, m;
+//
 //int cur[MAXN];
 //int path[MAXN];
 //int cntp;
@@ -64,22 +63,20 @@ package class188;
 //}
 //
 //int main() {
-//    ios::sync_with_stdio(false);
-//    cin.tie(nullptr);
 //    int len;
-//    cin >> len;
 //    int num = 10;
+//    scanf("%d", &len);
 //    while (len != 0) {
 //        prepare(len, num);
 //        euler(0, 0);
 //        for (int i = 1; i <= n - 1; i++) {
-//            cout << "0";
+//            putchar('0');
 //        }
 //        for (int i = cntp - 1; i >= 1; i--) {
-//            cout << path[i];
+//            putchar((char)('0' + path[i]));
 //        }
-//        cout << "\n";
-//        cin >> len;
+//        putchar('\n');
+//        scanf("%d", &len);
 //    }
 //    return 0;
 //}
