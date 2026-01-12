@@ -42,19 +42,6 @@ public class Code02_UndirectedEuler1 {
 	public static int[] path = new int[MAXM];
 	public static int cntp;
 
-	// 讲解118，递归函数改成迭代所需要的栈
-	public static int[] stack = new int[MAXM];
-	public static int u;
-	public static int stacksize;
-
-	public static void push(int u) {
-		stack[stacksize++] = u;
-	}
-
-	public static void pop() {
-		u = stack[--stacksize];
-	}
-
 	public static void addEdge(int u, int v, int id) {
 		nxt[++cntg] = head[u];
 		to[cntg] = v;
@@ -116,20 +103,23 @@ public class Code02_UndirectedEuler1 {
 	}
 
 	// Hierholzer算法迭代版
+	public static int[] sta = new int[MAXM];
+	public static int top;
+
 	public static void euler2(int node) {
-		stacksize = 0;
-		push(node);
-		while (stacksize > 0) {
-			pop();
+		top = 0;
+		sta[++top] = node;
+		while (top > 0) {
+			int u = sta[top--];
 			int e = cur[u];
 			if (e != 0) {
 				cur[u] = nxt[e];
 				if (!vis[eid[e]]) {
 					vis[eid[e]] = true;
-					push(u);
-					push(to[e]);
+					sta[++top] = u;
+					sta[++top] = to[e];
 				} else {
-					push(u);
+					sta[++top] = u;
 				}
 			} else {
 				path[++cntp] = u;
