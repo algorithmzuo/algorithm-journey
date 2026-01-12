@@ -11,13 +11,13 @@ package class188;
 
 //class Solution {
 //public:
-//    int MAXN = 5001;
+//    static const int MAXN = 5001;
 //    int n, k, m;
-//    int cur[5001];
-//    int path[5001];
+//    int cur[MAXN];
+//    int path[MAXN];
 //    int cntp;
 //
-//    int sta[5001][2];
+//    int sta[MAXN][2];
 //    int u, e;
 //    int stacksize;
 //
