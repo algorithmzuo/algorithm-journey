@@ -1,6 +1,6 @@
 package class188;
 
-// 所有可能性的密码串，java版
+// 所有可能的密码串，java版
 // 测试链接 : http://poj.org/problem?id=1780
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
@@ -9,7 +9,7 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
-public class Code06_Password1 {
+public class Code05_Password1 {
 
 	public static int MAXN = 1000002;
 	public static int n, MOD;
