@@ -1,6 +1,10 @@
 package class188;
 
 // 所有可能的密码串，java版
+// 给定正数n，表示密码有n位，每一位可能的数字是[0..9]
+// 密码有(10^n)个可能性，构造一个字符串，其中的连续子串包含所有可能的密码
+// 先保证字符串的长度最短，然后保证字典序尽量的小，返回这个字符串
+// 1 <= n <= 6
 // 测试链接 : http://poj.org/problem?id=1780
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
@@ -9,48 +13,55 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
-public class Code05_Password1 {
+public class Code06_Password1 {
 
 	public static int MAXN = 1000002;
-	public static int n, MOD;
-
+	public static int n, k, m;
 	public static int[] cur = new int[MAXN];
 	public static int[] path = new int[MAXN];
 	public static int cntp;
 
-	public static int[] sta = new int[MAXN];
-	public static int top;
+	public static int[][] sta = new int[MAXN][2];
+	public static int u, e;
+	public static int stacksize;
 
-	public static void prepare() {
-		MOD = 1;
+	public static void push(int u, int e) {
+		sta[stacksize][0] = u;
+		sta[stacksize][1] = e;
+		stacksize++;
+	}
+
+	public static void pop() {
+		stacksize--;
+		u = sta[stacksize][0];
+		e = sta[stacksize][1];
+	}
+
+	public static void prepare(int len, int num) {
+		n = len;
+		k = num;
+		m = 1;
 		for (int i = 1; i <= n - 1; i++) {
-			MOD *= 10;
+			m *= k;
 		}
-		for (int i = 0; i < MOD; i++) {
+		for (int i = 0; i < m; i++) {
 			cur[i] = 0;
 		}
 		cntp = 0;
-		top = 0;
 	}
 
-	// 递归版
-	public static void euler1(int u) {
-		while (cur[u] < 10) {
-			euler1((u * 10 + (cur[u]++)) % MOD);
-		}
-		path[++cntp] = u;
-	}
-
-	// 迭代版
-	public static void euler2(int u) {
-		sta[++top] = u;
-		while (top > 0) {
-			u = sta[top--];
-			if (cur[u] < 10) {
-				sta[++top] = u;
-				sta[++top] = (u * 10 + (cur[u]++)) % MOD;
+	// 本题的递归深度很大，递归版会爆栈，java和C++都只有迭代版可以通过
+	public static void euler(int node, int edge) {
+		stacksize = 0;
+		push(node, edge);
+		while (stacksize > 0) {
+			pop();
+			if (cur[u] < k) {
+				int ne = cur[u]++;
+				push(u, e);
+				push((u * k + ne) % m, ne);
 			} else {
-				path[++cntp] = u;
+				path[++cntp] = e;
 			}
 		}
 	}
@@ -58,22 +69,19 @@ public class Code05_Password1 {
 	public static void main(String[] args) throws Exception {
 		FastReader in = new FastReader(System.in);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
-		n = in.nextInt();
-		while (n != 0) {
-			if (n == 1) {
-				out.println("0123456789");
-			} else {
-				prepare();
-				euler2(0);
-				for (int i = 1; i <= n - 2; i++) {
-					out.print("0");
-				}
-				for (int i = cntp; i >= 1; i--) {
-					out.print(path[i] % 10);
-				}
-				out.println();
+		int len = in.nextInt();
+		int num = 10;
+		while (len != 0) {
+			prepare(len, num);
+			euler(0, 0);
+			for (int i = 1; i <= n - 1; i++) {
+				out.print("0");
 			}
-			n = in.nextInt();
+			for (int i = cntp - 1; i >= 1; i--) {
+				out.print(path[i]);
+			}
+			out.println();
+			len = in.nextInt();
 		}
 		out.flush();
 		out.close();
