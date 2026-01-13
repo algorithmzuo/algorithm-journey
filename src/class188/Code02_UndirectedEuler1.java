@@ -69,6 +69,7 @@ public class Code02_UndirectedEuler1 {
 		}
 	}
 
+	// 无向图中找到一个起点，去生成欧拉回路 或者 欧拉路径
 	public static int undirectedStart() {
 		int odd = 0;
 		for (int i = 1; i <= n; i++) {
@@ -80,10 +81,10 @@ public class Code02_UndirectedEuler1 {
 			return -1;
 		}
 		for (int i = 1; i <= n; i++) {
-			if (odd != 0 && (deg[i] & 1) == 1) {
+			if (odd == 0 && deg[i] > 0) {
 				return i;
 			}
-			if (odd == 0 && deg[i] > 0) {
+			if (odd == 2 && (deg[i] & 1) == 1) {
 				return i;
 			}
 		}

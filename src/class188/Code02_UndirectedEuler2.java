@@ -77,10 +77,10 @@ package class188;
 //        return -1;
 //    }
 //    for (int i = 1; i <= n; i++) {
-//        if (odd != 0 && (deg[i] & 1) == 1) {
+//        if (odd == 0 && deg[i] > 0) {
 //            return i;
 //        }
-//        if (odd == 0 && deg[i] > 0) {
+//        if (odd == 2 && (deg[i] & 1) == 1) {
 //            return i;
 //        }
 //    }

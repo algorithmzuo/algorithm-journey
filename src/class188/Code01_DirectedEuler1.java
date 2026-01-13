@@ -66,6 +66,7 @@ public class Code01_DirectedEuler1 {
 		}
 	}
 
+	// 有向图中找到一个起点，去生成欧拉回路 或者 欧拉路径
 	public static int directedStart() {
 		int start = -1, end = -1;
 		for (int i = 1; i <= n; i++) {
