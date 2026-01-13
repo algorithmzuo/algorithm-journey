@@ -8,7 +8,7 @@ package class188;
 // 测试链接 : https://leetcode.cn/problems/cracking-the-safe/
 // 提交以下代码中的Solution类，可以通过所有测试用例
 
-public class Code05_CrackingTheSafe1 {
+public class Code06_CrackingTheSafe1 {
 
 	class Solution {
 

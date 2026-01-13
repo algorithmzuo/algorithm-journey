@@ -17,7 +17,7 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
-public class Code07_LetterPairs1 {
+public class Code05_LetterPairs1 {
 
 	public static int MAXN = 53;
 	public static int MAXM = 2001;

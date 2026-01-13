@@ -19,7 +19,7 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.TreeSet;
 
-public class Code10_DingXiangRoad1 {
+public class Code11_DingXiangRoad1 {
 
 	public static int MAXN = 3001;
 	public static int MAXM = 3000001;
