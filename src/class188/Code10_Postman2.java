@@ -39,9 +39,9 @@ package class188;
 //int inDeg[MAXN];
 //int outDeg[MAXN];
 //
-//bool startArr[MAXM];
-//int nextEdge[MAXM];
-//bool visEdge[MAXM];
+//bool start[MAXM];
+//int etoe[MAXM];
+//bool vis[MAXM];
 //
 //int path[MAXM];
 //int cntp;
@@ -55,10 +55,10 @@ package class188;
 //    headg[x] = cntg;
 //}
 //
-//bool prepare() {
+//bool linkEdge() {
 //    for (int i = 1; i <= m; i++) {
 //        pairEdge[{u[i], v[i]}] = i;
-//        startArr[i] = true;
+//        start[i] = true;
 //    }
 //    int siz = chain[1], l = 2, r = l + siz - 1;
 //    int a, b, ledge, redge;
@@ -73,11 +73,11 @@ package class188;
 //            }
 //            redge = it->second;
 //            if (ledge != 0) {
-//                if (nextEdge[ledge] != 0 && nextEdge[ledge] != redge) {
+//                if (etoe[ledge] != 0 && etoe[ledge] != redge) {
 //                    return false;
 //                }
-//                nextEdge[ledge] = redge;
-//                startArr[redge] = false;
+//                etoe[ledge] = redge;
+//                start[redge] = false;
 //            }
 //            ledge = redge;
 //        }
@@ -88,25 +88,23 @@ package class188;
 //    return true;
 //}
 //
-//int getChainEnd(int start) {
-//    int end = start;
-//    while (!visEdge[end] && nextEdge[end] != 0) {
-//        visEdge[end] = true;
-//        end = nextEdge[end];
+//int getChainEnd(int edge) {
+//    while (etoe[edge] != 0) {
+//        if (vis[edge]) {
+//            return -1;
+//        }
+//        vis[edge] = true;
+//        edge = etoe[edge];
 //    }
-//    if (visEdge[end]) {
-//        return -1;
-//    }
-//    visEdge[end] = true;
-//    return end;
+//    return edge;
 //}
 //
 //bool compress() {
 //    for (int i = 1; i <= m; i++) {
-//        if (startArr[i]) {
+//        if (start[i]) {
 //            int x = u[i];
 //            int y = v[i];
-//            if (nextEdge[i] != 0) {
+//            if (etoe[i] != 0) {
 //                int end = getChainEnd(i);
 //                if (end == -1) {
 //                    return false;
@@ -162,7 +160,7 @@ package class188;
 //                }
 //                while (cur > 0) {
 //                    ans[++cnta] = v[cur];
-//                    cur = nextEdge[cur];
+//                    cur = etoe[cur];
 //                }
 //            }
 //        }
@@ -174,7 +172,7 @@ package class188;
 //}
 //
 //bool compute() {
-//    if (!prepare()) {
+//    if (!linkEdge()) {
 //        return false;
 //    }
 //    if (!compress()) {

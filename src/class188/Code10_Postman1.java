@@ -75,8 +75,8 @@ public class Code10_Postman1 {
 	public static int[] outDeg = new int[MAXN];
 
 	public static boolean[] start = new boolean[MAXM];
-	public static int[] nextEdge = new int[MAXM];
-	public static boolean[] visEdge = new boolean[MAXM];
+	public static int[] etoe = new int[MAXM];
+	public static boolean[] vis = new boolean[MAXM];
 
 	public static int[] sta = new int[MAXM];
 	public static int top;
@@ -93,7 +93,7 @@ public class Code10_Postman1 {
 		headg[x] = cntg;
 	}
 
-	public static boolean prepare() {
+	public static boolean linkEdge() {
 		for (int i = 1; i <= m; i++) {
 			pairEdge.put(u[i], v[i], i);
 			start[i] = true;
@@ -110,10 +110,10 @@ public class Code10_Postman1 {
 				}
 				redge = pairEdge.get(a, b);
 				if (ledge != 0) {
-					if (nextEdge[ledge] != 0 && nextEdge[ledge] != redge) {
+					if (etoe[ledge] != 0 && etoe[ledge] != redge) {
 						return false;
 					}
-					nextEdge[ledge] = redge;
+					etoe[ledge] = redge;
 					start[redge] = false;
 				}
 				ledge = redge;
@@ -125,17 +125,15 @@ public class Code10_Postman1 {
 		return true;
 	}
 
-	public static int getChainEnd(int start) {
-		int end = start;
-		while (!visEdge[end] && nextEdge[end] != 0) {
-			visEdge[end] = true;
-			end = nextEdge[end];
+	public static int getChainEnd(int edge) {
+		while (etoe[edge] != 0) {
+			if (vis[edge] == true) {
+				return -1;
+			}
+			vis[edge] = true;
+			edge = etoe[edge];
 		}
-		if (visEdge[end]) {
-			return -1;
-		}
-		visEdge[end] = true;
-		return end;
+		return edge;
 	}
 
 	public static boolean compress() {
@@ -143,7 +141,7 @@ public class Code10_Postman1 {
 			if (start[i]) {
 				int x = u[i];
 				int y = v[i];
-				if (nextEdge[i] != 0) {
+				if (etoe[i] != 0) {
 					int end = getChainEnd(i);
 					if (end == -1) {
 						return false;
@@ -212,7 +210,7 @@ public class Code10_Postman1 {
 					}
 					while (cur > 0) {
 						ans[++cnta] = v[cur];
-						cur = nextEdge[cur];
+						cur = etoe[cur];
 					}
 				}
 			}
@@ -224,7 +222,7 @@ public class Code10_Postman1 {
 	}
 
 	public static boolean compute() {
-		if (!prepare()) {
+		if (!linkEdge()) {
 			return false;
 		}
 		if (!compress()) {
