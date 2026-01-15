@@ -54,11 +54,10 @@ package class188;
 //    cnta++;
 //    ansArr[++idx] = u;
 //    ansl[cnta] = idx;
-//    int x = path[cntp--];
-//    while (x != u) {
-//        inpath[x] = false;
-//        ansArr[++idx] = x;
-//        x = path[cntp--];
+//    while (path[cntp] != u) {
+//        inpath[path[cntp]] = false;
+//        ansArr[++idx] = path[cntp];
+//        cntp--;
 //    }
 //    ansArr[++idx] = u;
 //    ansr[cnta] = idx;
@@ -75,9 +74,10 @@ package class188;
 //    }
 //    if (inpath[u]) {
 //        getCircle(u);
+//    } else {
+//        inpath[u] = true;
+//        path[++cntp] = u;
 //    }
-//    inpath[u] = true;
-//    path[++cntp] = u;
 //}
 //
 //int main() {

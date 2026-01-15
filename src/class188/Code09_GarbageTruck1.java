@@ -56,11 +56,10 @@ public class Code09_GarbageTruck1 {
 		cnta++;
 		ansArr[++idx] = u;
 		ansl[cnta] = idx;
-		int x = path[cntp--];
-		while (x != u) {
-			inpath[x] = false;
-			ansArr[++idx] = x;
-			x = path[cntp--];
+		while (path[cntp] != u) {
+			inpath[path[cntp]] = false;
+			ansArr[++idx] = path[cntp];
+			cntp--;
 		}
 		ansArr[++idx] = u;
 		ansr[cnta] = idx;
@@ -77,9 +76,10 @@ public class Code09_GarbageTruck1 {
 		}
 		if (inpath[u]) {
 			getCircle(u);
+		} else {
+			inpath[u] = true;
+			path[++cntp] = u;
 		}
-		inpath[u] = true;
-		path[++cntp] = u;
 	}
 
 	public static int[] sta = new int[MAXM];
@@ -104,9 +104,10 @@ public class Code09_GarbageTruck1 {
 			} else {
 				if (inpath[u]) {
 					getCircle(u);
+				} else {
+					inpath[u] = true;
+					path[++cntp] = u;
 				}
-				inpath[u] = true;
-				path[++cntp] = u;
 			}
 		}
 	}
