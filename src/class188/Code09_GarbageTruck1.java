@@ -32,18 +32,17 @@ public class Code09_GarbageTruck1 {
 
 	public static int[] deg = new int[MAXN];
 	public static int[] cur = new int[MAXN];
-	public static boolean[] enter = new boolean[MAXN];
 	public static boolean[] visNode = new boolean[MAXN];
 	public static boolean[] visEdge = new boolean[MAXM];
 
+	public static boolean[] inpath = new boolean[MAXN];
 	public static int[] path = new int[MAXM];
 	public static int cntp;
 
-	public static int[] arr = new int[MAXM];
-	public static int idx;
-
+	public static int[] ansArr = new int[MAXM];
 	public static int[] ansl = new int[MAXM];
 	public static int[] ansr = new int[MAXM];
+	public static int idx;
 	public static int cnta;
 
 	public static void addEdge(int u, int v, int id) {
@@ -51,6 +50,20 @@ public class Code09_GarbageTruck1 {
 		to[cntg] = v;
 		eid[cntg] = id;
 		head[u] = cntg;
+	}
+
+	public static void getCircle(int u) {
+		cnta++;
+		ansArr[++idx] = u;
+		ansl[cnta] = idx;
+		int x = path[cntp--];
+		while (x != u) {
+			inpath[x] = false;
+			ansArr[++idx] = x;
+			x = path[cntp--];
+		}
+		ansArr[++idx] = u;
+		ansr[cnta] = idx;
 	}
 
 	public static void euler1(int u) {
@@ -62,21 +75,11 @@ public class Code09_GarbageTruck1 {
 				euler1(to[e]);
 			}
 		}
-		if (!enter[u]) {
-			enter[u] = true;
-			path[++cntp] = u;
-		} else {
-			cnta++;
-			arr[++idx] = u;
-			ansl[cnta] = ansr[cnta] = idx;
-			while (cntp > 0 && path[cntp] != u) {
-				enter[path[cntp]] = false;
-				arr[++idx] = path[cntp--];
-				ansr[cnta] = idx;
-			}
-			arr[++idx] = u;
-			ansr[cnta] = idx;
+		if (inpath[u]) {
+			getCircle(u);
 		}
+		inpath[u] = true;
+		path[++cntp] = u;
 	}
 
 	public static int[] sta = new int[MAXM];
@@ -99,21 +102,11 @@ public class Code09_GarbageTruck1 {
 					sta[++top] = u;
 				}
 			} else {
-				if (!enter[u]) {
-					enter[u] = true;
-					path[++cntp] = u;
-				} else {
-					cnta++;
-					arr[++idx] = u;
-					ansl[cnta] = ansr[cnta] = idx;
-					while (cntp > 0 && path[cntp] != u) {
-						enter[path[cntp]] = false;
-						arr[++idx] = path[cntp--];
-						ansr[cnta] = idx;
-					}
-					arr[++idx] = u;
-					ansr[cnta] = idx;
+				if (inpath[u]) {
+					getCircle(u);
 				}
+				inpath[u] = true;
+				path[++cntp] = u;
 			}
 		}
 	}
@@ -158,7 +151,7 @@ public class Code09_GarbageTruck1 {
 			for (int i = 1; i <= cnta; i++) {
 				out.print((ansr[i] - ansl[i]) + " ");
 				for (int j = ansl[i]; j <= ansr[i]; j++) {
-					out.print(arr[j] + " ");
+					out.print(ansArr[j] + " ");
 				}
 				out.println();
 			}

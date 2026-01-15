@@ -30,18 +30,17 @@ package class188;
 //
 //int deg[MAXN];
 //int cur[MAXN];
-//bool enter[MAXN];
 //bool visNode[MAXN];
 //bool visEdge[MAXM];
 //
+//bool inpath[MAXN];
 //int path[MAXM];
 //int cntp;
 //
-//int arr[MAXM];
-//int idx;
-//
+//int ansArr[MAXM];
 //int ansl[MAXM];
 //int ansr[MAXM];
+//int idx;
 //int cnta;
 //
 //void addEdge(int u, int v, int id) {
@@ -49,6 +48,20 @@ package class188;
 //    to[cntg] = v;
 //    eid[cntg] = id;
 //    head[u] = cntg;
+//}
+//
+//void getCircle(int u) {
+//    cnta++;
+//    ansArr[++idx] = u;
+//    ansl[cnta] = idx;
+//    int x = path[cntp--];
+//    while (x != u) {
+//        inpath[x] = false;
+//        ansArr[++idx] = x;
+//        x = path[cntp--];
+//    }
+//    ansArr[++idx] = u;
+//    ansr[cnta] = idx;
 //}
 //
 //void euler(int u) {
@@ -60,21 +73,11 @@ package class188;
 //            euler(to[e]);
 //        }
 //    }
-//    if (!enter[u]) {
-//        enter[u] = true;
-//        path[++cntp] = u;
-//    } else {
-//        cnta++;
-//        arr[++idx] = u;
-//        ansl[cnta] = ansr[cnta] = idx;
-//        while (cntp > 0 && path[cntp] != u) {
-//            enter[path[cntp]] = false;
-//            arr[++idx] = path[cntp--];
-//            ansr[cnta] = idx;
-//        }
-//        arr[++idx] = u;
-//        ansr[cnta] = idx;
+//    if (inpath[u]) {
+//        getCircle(u);
 //    }
+//    inpath[u] = true;
+//    path[++cntp] = u;
 //}
 //
 //int main() {
@@ -112,7 +115,7 @@ package class188;
 //        for (int i = 1; i <= cnta; i++) {
 //            cout << (ansr[i] - ansl[i]) << " ";
 //            for (int j = ansl[i]; j <= ansr[i]; j++) {
-//                cout << arr[j] << " ";
+//                cout << ansArr[j] << " ";
 //            }
 //            cout << "\n";
 //        }
