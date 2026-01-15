@@ -70,8 +70,8 @@ package class188;
 //
 //    string crackSafe(int n, int k) {
 //        prepare(n, k);
-//        euler1(0, 0);
-//        // euler2(0, 0);
+//        euler1(0, -1);
+//        // euler2(0, -1);
 //        string ans;
 //        ans.reserve((n - 1) + (cntp - 1));
 //        for (int i = 1; i <= n - 1; i++) {

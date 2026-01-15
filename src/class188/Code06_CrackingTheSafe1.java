@@ -74,8 +74,8 @@ public class Code06_CrackingTheSafe1 {
 
 		public String crackSafe(int len, int num) {
 			prepare(len, num);
-			euler1(0, 0);
-			// euler2(0, 0);
+			euler1(0, -1);
+			// euler2(0, -1);
 			StringBuilder str = new StringBuilder();
 			for (int i = 1; i <= n - 1; i++) {
 				str.append("0");

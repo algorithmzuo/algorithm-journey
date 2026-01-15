@@ -73,7 +73,7 @@ public class Code07_Password1 {
 		int num = 10;
 		while (len != 0) {
 			prepare(len, num);
-			euler(0, 0);
+			euler(0, -1);
 			for (int i = 1; i <= n - 1; i++) {
 				out.print("0");
 			}

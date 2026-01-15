@@ -54,7 +54,7 @@ public class Code08_Taiko1 {
 		int len = in.nextInt();
 		int num = 2;
 		prepare(len, num);
-		euler(0, 0);
+		euler(0, -1);
 		out.print((m * k) + " ");
 		for (int i = 1; i <= n - 1; i++) {
 			out.print("0");

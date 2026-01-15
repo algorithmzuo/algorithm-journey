@@ -53,7 +53,7 @@ package class188;
 //    cin >> len;
 //    int num = 2;
 //    prepare(len, num);
-//    euler(0, 0);
+//    euler(0, -1);
 //    cout << (m * k) << " ";
 //    for (int i = 1; i <= n - 1; i++) {
 //        cout << "0";

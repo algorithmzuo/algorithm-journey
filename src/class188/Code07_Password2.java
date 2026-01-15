@@ -68,7 +68,7 @@ package class188;
 //    scanf("%d", &len);
 //    while (len != 0) {
 //        prepare(len, num);
-//        euler(0, 0);
+//        euler(0, -1);
 //        for (int i = 1; i <= n - 1; i++) {
 //            putchar('0');
 //        }
