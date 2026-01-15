@@ -25,7 +25,7 @@ public class Code04_WordChain1 {
 			if (a[i] != a[j]) {
 				return a[i] - a[j];
 			}
-			return w[i].compareTo(w[j]);
+			return str[i].compareTo(str[j]);
 		}
 	}
 
@@ -33,28 +33,28 @@ public class Code04_WordChain1 {
 	public static int MAXM = 1002;
 	public static int n = 26, m;
 
+	public static String[] str = new String[MAXM];
 	public static int[] a = new int[MAXM];
 	public static int[] b = new int[MAXM];
-	public static String[] w = new String[MAXM];
 	public static Integer[] eidArr = new Integer[MAXM];
 
 	public static int[] head = new int[MAXN];
 	public static int[] nxt = new int[MAXM];
 	public static int[] to = new int[MAXM];
-	public static int[] edgeid = new int[MAXM];
+	public static String[] weight = new String[MAXM];
 	public static int cntg;
 
 	public static int[] cur = new int[MAXN];
 	public static int[] outDeg = new int[MAXN];
 	public static int[] inDeg = new int[MAXN];
 
-	public static int[] path = new int[MAXM];
+	public static String[] path = new String[MAXM];
 	public static int cntp;
 
-	public static void addEdge(int u, int v, int eid) {
+	public static void addEdge(int u, int v, String w) {
 		nxt[++cntg] = head[u];
 		to[cntg] = v;
-		edgeid[cntg] = eid;
+		weight[cntg] = w;
 		head[u] = cntg;
 	}
 
@@ -77,7 +77,7 @@ public class Code04_WordChain1 {
 				v = b[eidArr[i]];
 				outDeg[u]++;
 				inDeg[v]++;
-				addEdge(u, v, eidArr[i]);
+				addEdge(u, v, str[eidArr[i]]);
 			}
 		}
 		for (int i = 1; i <= n; i++) {
@@ -113,24 +113,22 @@ public class Code04_WordChain1 {
 		return -1;
 	}
 
-	public static void euler(int u, int eid) {
+	public static void euler(int u, String w) {
 		for (int e = cur[u]; e > 0; e = cur[u]) {
 			cur[u] = nxt[e];
-			euler(to[e], edgeid[e]);
+			euler(to[e], weight[e]);
 		}
-		path[++cntp] = eid;
+		path[++cntp] = w;
 	}
 
 	public static void main(String[] args) throws Exception {
 		FastReader in = new FastReader(System.in);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
 		m = in.nextInt();
-		String str;
 		for (int i = 1; i <= m; i++) {
-			str = in.nextString();
-			a[i] = startNode(str);
-			b[i] = endNode(str);
-			w[i] = str;
+			str[i] = in.nextString();
+			a[i] = startNode(str[i]);
+			b[i] = endNode(str[i]);
 			eidArr[i] = i;
 		}
 		connect();
@@ -138,13 +136,13 @@ public class Code04_WordChain1 {
 		if (start == -1) {
 			out.println("***");
 		} else {
-			euler(start, 0);
+			euler(start, "");
 			if (cntp != m + 1) {
 				out.println("***");
 			} else {
-				out.print(w[path[cntp - 1]]);
+				out.print(path[cntp - 1]);
 				for (int i = cntp - 2; i >= 1; i--) {
-					out.print("." + w[path[i]]);
+					out.print("." + path[i]);
 				}
 				out.println();
 			}

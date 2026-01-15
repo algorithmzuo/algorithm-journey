@@ -20,35 +20,35 @@ package class188;
 //const int MAXM = 1002;
 //int n = 26, m;
 //
+//string str[MAXM];
 //int a[MAXM];
 //int b[MAXM];
-//string w[MAXM];
 //int eidArr[MAXM];
 //
 //int head[MAXN];
 //int nxt[MAXM];
 //int to[MAXM];
-//int edgeid[MAXM];
+//string weight[MAXM];
 //int cntg;
 //
 //int cur[MAXN];
 //int outDeg[MAXN];
 //int inDeg[MAXN];
 //
-//int path[MAXM];
+//string path[MAXM];
 //int cntp;
 //
 //bool EdgeCmp(int i, int j) {
 //    if (a[i] != a[j]) {
 //        return a[i] < a[j];
 //    }
-//    return w[i] < w[j];
+//    return str[i] < str[j];
 //}
 //
-//void addEdge(int u, int v, int eid) {
+//void addEdge(int u, int v, string w) {
 //    nxt[++cntg] = head[u];
 //    to[cntg] = v;
-//    edgeid[cntg] = eid;
+//    weight[cntg] = w;
 //    head[u] = cntg;
 //}
 //
@@ -71,7 +71,7 @@ package class188;
 //            v = b[eidArr[i]];
 //            outDeg[u]++;
 //            inDeg[v]++;
-//            addEdge(u, v, eidArr[i]);
+//            addEdge(u, v, str[eidArr[i]]);
 //        }
 //    }
 //    for (int i = 1; i <= n; i++) {
@@ -107,24 +107,22 @@ package class188;
 //    return -1;
 //}
 //
-//void euler(int u, int eid) {
+//void euler(int u, string w) {
 //    for (int e = cur[u]; e > 0; e = cur[u]) {
 //        cur[u] = nxt[e];
-//        euler(to[e], edgeid[e]);
+//        euler(to[e], weight[e]);
 //    }
-//    path[++cntp] = eid;
+//    path[++cntp] = w;
 //}
 //
 //int main() {
 //    ios::sync_with_stdio(false);
 //    cin.tie(nullptr);
 //    cin >> m;
-//    string str;
 //    for (int i = 1; i <= m; i++) {
-//        cin >> str;
-//        a[i] = startNode(str);
-//        b[i] = endNode(str);
-//        w[i] = str;
+//        cin >> str[i];
+//        a[i] = startNode(str[i]);
+//        b[i] = endNode(str[i]);
 //        eidArr[i] = i;
 //    }
 //    connect();
@@ -132,13 +130,13 @@ package class188;
 //    if (start == -1) {
 //        cout << "***\n";
 //    } else {
-//        euler(start, 0);
+//        euler(start, "");
 //        if (cntp != m + 1) {
 //            cout << "***\n";
 //        } else {
-//            cout << w[path[cntp - 1]];
+//            cout << path[cntp - 1];
 //            for (int i = cntp - 2; i >= 1; i--) {
-//                cout << "." << w[path[i]];
+//                cout << "." << path[i];
 //            }
 //            cout << "\n";
 //        }
