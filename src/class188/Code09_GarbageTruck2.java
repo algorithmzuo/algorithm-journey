@@ -50,17 +50,17 @@ package class188;
 //    head[u] = cntg;
 //}
 //
-//void getCircle(int u) {
+//void popCircle(int u) {
 //    cnta++;
 //    ansArr[++idx] = u;
 //    ansl[cnta] = idx;
-//    while (path[cntp] != u) {
-//        inpath[path[cntp]] = false;
-//        ansArr[++idx] = path[cntp];
-//        cntp--;
+//    for (int pop = path[cntp--]; pop != u; pop = path[cntp--]) {
+//        inpath[pop] = false;
+//        ansArr[++idx] = pop;
 //    }
 //    ansArr[++idx] = u;
 //    ansr[cnta] = idx;
+//    inpath[u] = false;
 //}
 //
 //void euler(int u) {
@@ -73,11 +73,10 @@ package class188;
 //        }
 //    }
 //    if (inpath[u]) {
-//        getCircle(u);
-//    } else {
-//        inpath[u] = true;
-//        path[++cntp] = u;
+//        popCircle(u);
 //    }
+//    inpath[u] = true;
+//    path[++cntp] = u;
 //}
 //
 //int main() {

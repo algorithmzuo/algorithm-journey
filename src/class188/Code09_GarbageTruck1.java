@@ -52,17 +52,17 @@ public class Code09_GarbageTruck1 {
 		head[u] = cntg;
 	}
 
-	public static void getCircle(int u) {
+	public static void popCircle(int u) {
 		cnta++;
 		ansArr[++idx] = u;
 		ansl[cnta] = idx;
-		while (path[cntp] != u) {
-			inpath[path[cntp]] = false;
-			ansArr[++idx] = path[cntp];
-			cntp--;
+		for (int pop = path[cntp--]; pop != u; pop = path[cntp--]) {
+			inpath[pop] = false;
+			ansArr[++idx] = pop;
 		}
 		ansArr[++idx] = u;
 		ansr[cnta] = idx;
+		inpath[u] = false;
 	}
 
 	public static void euler1(int u) {
@@ -75,11 +75,10 @@ public class Code09_GarbageTruck1 {
 			}
 		}
 		if (inpath[u]) {
-			getCircle(u);
-		} else {
-			inpath[u] = true;
-			path[++cntp] = u;
+			popCircle(u);
 		}
+		inpath[u] = true;
+		path[++cntp] = u;
 	}
 
 	public static int[] sta = new int[MAXM];
@@ -103,11 +102,10 @@ public class Code09_GarbageTruck1 {
 				}
 			} else {
 				if (inpath[u]) {
-					getCircle(u);
-				} else {
-					inpath[u] = true;
-					path[++cntp] = u;
+					popCircle(u);
 				}
+				inpath[u] = true;
+				path[++cntp] = u;
 			}
 		}
 	}
