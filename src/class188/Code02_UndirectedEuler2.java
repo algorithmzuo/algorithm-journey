@@ -26,7 +26,7 @@ package class188;
 //
 //const int MAXN = 501;
 //const int MAXM = 2001;
-//int n = 500, m;
+//int n = 500, m, k;
 //Edge edgeArr[MAXM << 1];
 //
 //int head[MAXN];
@@ -50,10 +50,9 @@ package class188;
 //}
 //
 //void connect() {
-//    int mm = m << 1;
-//    sort(edgeArr + 1, edgeArr + mm + 1, EdgeCmp);
-//    for (int l = 1, r = 1; l <= mm; l = ++r) {
-//        while (r + 1 <= mm && edgeArr[l].u == edgeArr[r + 1].u) {
+//    sort(edgeArr + 1, edgeArr + k + 1, EdgeCmp);
+//    for (int l = 1, r = 1; l <= k; l = ++r) {
+//        while (r + 1 <= k && edgeArr[l].u == edgeArr[r + 1].u) {
 //            r++;
 //        }
 //        for (int i = r; i >= l; i--) {
@@ -102,7 +101,8 @@ package class188;
 //    ios::sync_with_stdio(false);
 //    cin.tie(nullptr);
 //    cin >> m;
-//    for (int i = 1, u, v, k = 0; i <= m; i++) {
+//    k = 0;
+//    for (int i = 1, u, v; i <= m; i++) {
 //        cin >> u >> v;
 //        edgeArr[++k] = { u, v, i };
 //        edgeArr[++k] = { v, u, i };

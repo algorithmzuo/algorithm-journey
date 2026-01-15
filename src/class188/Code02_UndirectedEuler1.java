@@ -26,7 +26,7 @@ public class Code02_UndirectedEuler1 {
 
 	public static int MAXN = 501;
 	public static int MAXM = 2001;
-	public static int n = 500, m;
+	public static int n = 500, m, k;
 	public static int[][] edgeArr = new int[MAXM << 1][3];
 
 	public static int[] head = new int[MAXN];
@@ -50,10 +50,9 @@ public class Code02_UndirectedEuler1 {
 	}
 
 	public static void connect() {
-		int mm = m << 1;
-		Arrays.sort(edgeArr, 1, mm + 1, new EdgeCmp());
-		for (int l = 1, r = 1; l <= mm; l = ++r) {
-			while (r + 1 <= mm && edgeArr[l][0] == edgeArr[r + 1][0]) {
+		Arrays.sort(edgeArr, 1, k + 1, new EdgeCmp());
+		for (int l = 1, r = 1; l <= k; l = ++r) {
+			while (r + 1 <= k && edgeArr[l][0] == edgeArr[r + 1][0]) {
 				r++;
 			}
 			for (int i = r, u, v, id; i >= l; i--) {
@@ -132,7 +131,8 @@ public class Code02_UndirectedEuler1 {
 		FastReader in = new FastReader(System.in);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
 		m = in.nextInt();
-		for (int i = 1, u, v, k = 0; i <= m; i++) {
+		k = 0;
+		for (int i = 1, u, v; i <= m; i++) {
 			u = in.nextInt();
 			v = in.nextInt();
 			edgeArr[++k][0] = u;
