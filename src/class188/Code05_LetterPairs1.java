@@ -22,8 +22,7 @@ public class Code05_LetterPairs1 {
 	public static int MAXN = 53;
 	public static int MAXM = 2001;
 	public static int n = 52, m;
-	public static char[] a = new char[MAXM];
-	public static char[] b = new char[MAXM];
+	public static char[][] arr = new char[MAXM][2];
 
 	public static int[][] graph = new int[MAXN][MAXN];
 	public static int[] deg = new int[MAXN];
@@ -42,8 +41,8 @@ public class Code05_LetterPairs1 {
 
 	public static void connect() {
 		for (int i = 1, u, v; i <= m; i++) {
-			u = getInt(a[i]);
-			v = getInt(b[i]);
+			u = getInt(arr[i][0]);
+			v = getInt(arr[i][1]);
 			graph[u][v]++;
 			graph[v][u]++;
 			deg[u]++;
@@ -92,8 +91,8 @@ public class Code05_LetterPairs1 {
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
 		m = in.nextInt();
 		for (int i = 1; i <= m; i++) {
-			a[i] = in.nextChar();
-			b[i] = in.nextChar();
+			arr[i][0] = in.nextChar();
+			arr[i][1] = in.nextChar();
 		}
 		connect();
 		int start = undirectedStart();

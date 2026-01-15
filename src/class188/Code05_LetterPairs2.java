@@ -20,8 +20,7 @@ package class188;
 //const int MAXN = 53;
 //const int MAXM = 2001;
 //int n = 52, m;
-//char a[MAXM];
-//char b[MAXM];
+//char arr[MAXM][2];
 //
 //int graph[MAXN][MAXN];
 //int deg[MAXN];
@@ -40,8 +39,8 @@ package class188;
 //
 //void connect() {
 //    for (int i = 1, u, v; i <= m; i++) {
-//        u = getInt(a[i]);
-//        v = getInt(b[i]);
+//        u = getInt(arr[i][0]);
+//        v = getInt(arr[i][1]);
 //        graph[u][v]++;
 //        graph[v][u]++;
 //        deg[u]++;
@@ -90,7 +89,7 @@ package class188;
 //    cin.tie(nullptr);
 //    cin >> m;
 //    for (int i = 1; i <= m; i++) {
-//        cin >> a[i] >> b[i];
+//        cin >> arr[i][0] >> arr[i][1];
 //    }
 //    connect();
 //    int start = undirectedStart();
