@@ -28,10 +28,11 @@ package class188;
 //int eid[MAXM];
 //int cntg;
 //
-//int deg[MAXN];
-//int cur[MAXN];
 //bool visNode[MAXN];
 //bool visEdge[MAXM];
+//
+//int deg[MAXN];
+//int cur[MAXN];
 //
 //bool inpath[MAXN];
 //int path[MAXM];

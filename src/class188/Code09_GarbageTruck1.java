@@ -32,7 +32,11 @@ public class Code09_GarbageTruck1 {
 
 	public static int[] deg = new int[MAXN];
 	public static int[] cur = new int[MAXN];
+
+	// 区分多个连通区
 	public static boolean[] visNode = new boolean[MAXN];
+
+	// 标记无向边是否已经使用
 	public static boolean[] visEdge = new boolean[MAXM];
 
 	public static boolean[] inpath = new boolean[MAXN];
