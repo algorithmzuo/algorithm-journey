@@ -21,25 +21,24 @@ package class188;
 //const int MAXM = 200005;
 //const int MAXC = 2000005;
 //int n, m, t;
-//int u[MAXM];
-//int v[MAXM];
-//int chain[MAXC];
+//int a[MAXM];
+//int b[MAXM];
+//int seq[MAXC];
+//
+//map<pair<int, int>, int> pairEdge;
 //
 //int headg[MAXN];
 //int nextg[MAXM];
 //int tog[MAXM];
+//int chainHead[MAXM];
 //int cntg;
 //int edgeCnt;
 //
-//map<pair<int, int>, int> pairEdge;
-//map<pair<int, int>, int> chainHead;
-//int lastChain[MAXM];
-//
-//int curv[MAXN];
+//int cur[MAXN];
 //int inDeg[MAXN];
 //int outDeg[MAXN];
 //
-//bool start[MAXM];
+//bool isHead[MAXM];
 //int etoe[MAXM];
 //bool vis[MAXM];
 //
@@ -49,24 +48,25 @@ package class188;
 //int ans[MAXM];
 //int cnta;
 //
-//void addEdge(int x, int y) {
+//void addEdge(int x, int y, int h) {
 //    nextg[++cntg] = headg[x];
 //    tog[cntg] = y;
+//    chainHead[cntg] = h;
 //    headg[x] = cntg;
 //}
 //
 //bool linkEdge() {
 //    for (int i = 1; i <= m; i++) {
-//        pairEdge[{u[i], v[i]}] = i;
-//        start[i] = true;
+//        pairEdge[{a[i], b[i]}] = i;
+//        isHead[i] = true;
 //    }
-//    int siz = chain[1], l = 2, r = l + siz - 1;
+//    int siz = seq[1], l = 2, r = l + siz - 1;
 //    int a, b, ledge, redge;
 //    while (siz > 0) {
 //        ledge = 0;
 //        for (int i = l; i < r; i++) {
-//            a = chain[i];
-//            b = chain[i + 1];
+//            a = seq[i];
+//            b = seq[i + 1];
 //            auto it = pairEdge.find({a, b});
 //            if (it == pairEdge.end()) {
 //                return false;
@@ -77,20 +77,20 @@ package class188;
 //                    return false;
 //                }
 //                etoe[ledge] = redge;
-//                start[redge] = false;
+//                isHead[redge] = false;
 //            }
 //            ledge = redge;
 //        }
-//        siz = chain[r + 1];
+//        siz = seq[r + 1];
 //        l = r + 2;
 //        r = l + siz - 1;
 //    }
 //    return true;
 //}
 //
-//int getChainEnd(int edge) {
+//int getLinkEnd(int edge) {
 //    while (etoe[edge] != 0) {
-//        if (vis[edge]) {
+//        if (vis[edge] == true) {
 //            return -1;
 //        }
 //        vis[edge] = true;
@@ -101,25 +101,20 @@ package class188;
 //
 //bool compress() {
 //    for (int i = 1; i <= m; i++) {
-//        if (start[i]) {
-//            int x = u[i];
-//            int y = v[i];
+//        if (isHead[i]) {
+//            int x = a[i];
+//            int y = b[i];
 //            if (etoe[i] != 0) {
-//                int end = getChainEnd(i);
+//                int end = getLinkEnd(i);
 //                if (end == -1) {
 //                    return false;
 //                }
-//                y = v[end];
-//                auto it = chainHead.find({x, y});
-//                if (it != chainHead.end()) {
-//                    lastChain[i] = it->second;
-//                }
-//                chainHead[{x, y}] = i;
+//                y = b[end];
 //            }
-//            addEdge(x, y);
 //            outDeg[x]++;
 //            inDeg[y]++;
 //            edgeCnt++;
+//            addEdge(x, y, i);
 //        }
 //    }
 //    for (int i = 1; i <= n; i++) {
@@ -128,41 +123,26 @@ package class188;
 //        }
 //    }
 //    for (int i = 1; i <= n; i++) {
-//        curv[i] = headg[i];
+//        cur[i] = headg[i];
 //    }
 //    return true;
 //}
 //
-//void euler(int u) {
-//    for (int e = curv[u]; e > 0; e = curv[u]) {
-//        curv[u] = nextg[e];
-//        euler(tog[e]);
+//void euler(int u, int h) {
+//    for (int e = cur[u]; e > 0; e = cur[u]) {
+//        cur[u] = nextg[e];
+//        euler(tog[e], chainHead[e]);
 //    }
-//    path[++cntp] = u;
+//    path[++cntp] = h;
 //}
 //
 //void decompress() {
-//    for (int i = cntp; i >= 1; i--) {
-//        int y = path[i];
-//        if (cnta == 0) {
-//            ans[++cnta] = y;
-//        } else {
-//            int x = ans[cnta];
-//            auto it = chainHead.find({x, y});
-//            if (it == chainHead.end()) {
-//                ans[++cnta] = y;
-//            } else {
-//                int cur = it->second;
-//                if (lastChain[cur] != 0) {
-//                    chainHead[{x, y}] = lastChain[cur];
-//                } else {
-//                    chainHead.erase(it);
-//                }
-//                while (cur > 0) {
-//                    ans[++cnta] = v[cur];
-//                    cur = etoe[cur];
-//                }
-//            }
+//    ans[++cnta] = 1;
+//    for (int i = cntp - 1; i >= 1; i--) {
+//        int e = path[i];
+//        while (e > 0) {
+//            ans[++cnta] = b[e];
+//            e = etoe[e];
 //        }
 //    }
 //}
@@ -174,7 +154,7 @@ package class188;
 //    if (!compress()) {
 //        return false;
 //    }
-//    euler(1);
+//    euler(1, -1);
 //    if (cntp != edgeCnt + 1) {
 //        return false;
 //    }
@@ -187,14 +167,14 @@ package class188;
 //    cin.tie(nullptr);
 //    cin >> n >> m;
 //    for (int i = 1; i <= m; i++) {
-//        cin >> u[i] >> v[i];
+//        cin >> a[i] >> b[i];
 //    }
 //    cin >> t;
 //    for (int i = 1, siz, idx = 0; i <= t; i++) {
 //        cin >> siz;
-//        chain[++idx] = siz;
+//        seq[++idx] = siz;
 //        for (int j = 1; j <= siz; j++) {
-//            cin >> chain[++idx];
+//            cin >> seq[++idx];
 //        }
 //    }
 //    bool check = compute();

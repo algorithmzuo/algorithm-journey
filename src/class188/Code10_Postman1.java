@@ -56,30 +56,26 @@ public class Code10_Postman1 {
 	public static int MAXM = 200005;
 	public static int MAXC = 2000005;
 	public static int n, m, t;
-	public static int[] u = new int[MAXM];
-	public static int[] v = new int[MAXM];
-	public static int[] chain = new int[MAXC];
+	public static int[] a = new int[MAXM];
+	public static int[] b = new int[MAXM];
+	public static int[] seq = new int[MAXC];
+
+	public static PairMap pairEdge = new PairMap();
 
 	public static int[] headg = new int[MAXN];
 	public static int[] nextg = new int[MAXM];
 	public static int[] tog = new int[MAXM];
+	public static int[] chainHead = new int[MAXM];
 	public static int cntg;
 	public static int edgeCnt;
 
-	public static PairMap pairEdge = new PairMap();
-	public static PairMap chainHead = new PairMap();
-	public static int[] lastChain = new int[MAXM];
-
-	public static int[] curv = new int[MAXN];
+	public static int[] cur = new int[MAXN];
 	public static int[] inDeg = new int[MAXN];
 	public static int[] outDeg = new int[MAXN];
 
-	public static boolean[] start = new boolean[MAXM];
+	public static boolean[] isHead = new boolean[MAXM];
 	public static int[] etoe = new int[MAXM];
 	public static boolean[] vis = new boolean[MAXM];
-
-	public static int[] sta = new int[MAXM];
-	public static int top;
 
 	public static int[] path = new int[MAXM];
 	public static int cntp;
@@ -87,24 +83,41 @@ public class Code10_Postman1 {
 	public static int[] ans = new int[MAXM];
 	public static int cnta;
 
-	public static void addEdge(int x, int y) {
+	public static int[][] sta = new int[MAXM][2];
+	public static int u, h;
+	public static int stacksize;
+
+	public static void push(int u, int c) {
+		sta[stacksize][0] = u;
+		sta[stacksize][1] = c;
+		stacksize++;
+	}
+
+	public static void pop() {
+		stacksize--;
+		u = sta[stacksize][0];
+		h = sta[stacksize][1];
+	}
+
+	public static void addEdge(int x, int y, int h) {
 		nextg[++cntg] = headg[x];
 		tog[cntg] = y;
+		chainHead[cntg] = h;
 		headg[x] = cntg;
 	}
 
 	public static boolean linkEdge() {
 		for (int i = 1; i <= m; i++) {
-			pairEdge.put(u[i], v[i], i);
-			start[i] = true;
+			pairEdge.put(a[i], b[i], i);
+			isHead[i] = true;
 		}
-		int siz = chain[1], l = 2, r = l + siz - 1;
+		int siz = seq[1], l = 2, r = l + siz - 1;
 		int a, b, ledge, redge;
 		while (siz > 0) {
 			ledge = 0;
 			for (int i = l; i < r; i++) {
-				a = chain[i];
-				b = chain[i + 1];
+				a = seq[i];
+				b = seq[i + 1];
 				if (!pairEdge.contains(a, b)) {
 					return false;
 				}
@@ -114,18 +127,18 @@ public class Code10_Postman1 {
 						return false;
 					}
 					etoe[ledge] = redge;
-					start[redge] = false;
+					isHead[redge] = false;
 				}
 				ledge = redge;
 			}
-			siz = chain[r + 1];
+			siz = seq[r + 1];
 			l = r + 2;
 			r = l + siz - 1;
 		}
 		return true;
 	}
 
-	public static int getChainEnd(int edge) {
+	public static int getLinkEnd(int edge) {
 		while (etoe[edge] != 0) {
 			if (vis[edge] == true) {
 				return -1;
@@ -138,24 +151,20 @@ public class Code10_Postman1 {
 
 	public static boolean compress() {
 		for (int i = 1; i <= m; i++) {
-			if (start[i]) {
-				int x = u[i];
-				int y = v[i];
+			if (isHead[i]) {
+				int x = a[i];
+				int y = b[i];
 				if (etoe[i] != 0) {
-					int end = getChainEnd(i);
+					int end = getLinkEnd(i);
 					if (end == -1) {
 						return false;
 					}
-					y = v[end];
-					if (chainHead.contains(x, y)) {
-						lastChain[i] = chainHead.get(x, y);
-					}
-					chainHead.put(x, y, i);
+					y = b[end];
 				}
-				addEdge(x, y);
 				outDeg[x]++;
 				inDeg[y]++;
 				edgeCnt++;
+				addEdge(x, y, i);
 			}
 		}
 		for (int i = 1; i <= n; i++) {
@@ -164,55 +173,44 @@ public class Code10_Postman1 {
 			}
 		}
 		for (int i = 1; i <= n; i++) {
-			curv[i] = headg[i];
+			cur[i] = headg[i];
 		}
 		return true;
 	}
 
-	public static void euler1(int u) {
-		for (int e = curv[u]; e > 0; e = curv[u]) {
-			curv[u] = nextg[e];
-			euler1(tog[e]);
+	// 递归版，u表示当前节点，h表示来到当前节点的链，链头是什么边的序号
+	public static void euler1(int u, int h) {
+		for (int e = cur[u]; e > 0; e = cur[u]) {
+			cur[u] = nextg[e];
+			euler1(tog[e], chainHead[e]);
 		}
-		path[++cntp] = u;
+		path[++cntp] = h;
 	}
 
-	public static void euler2(int start) {
-		sta[++top] = start;
-		while (top > 0) {
-			int u = sta[top--];
-			int e = curv[u];
+	// 迭代版
+	public static void euler2(int node, int chainh) {
+		stacksize = 0;
+		push(node, chainh);
+		while (stacksize > 0) {
+			pop();
+			int e = cur[u];
 			if (e > 0) {
-				curv[u] = nextg[e];
-				sta[++top] = u;
-				sta[++top] = tog[e];
+				cur[u] = nextg[e];
+				push(u, h);
+				push(tog[e], chainHead[e]);
 			} else {
-				path[++cntp] = u;
+				path[++cntp] = h;
 			}
 		}
 	}
 
 	public static void decompress() {
-		for (int i = cntp; i >= 1; i--) {
-			int y = path[i];
-			if (cnta == 0) {
-				ans[++cnta] = y;
-			} else {
-				int x = ans[cnta];
-				if (!chainHead.contains(x, y)) {
-					ans[++cnta] = y;
-				} else {
-					int cur = chainHead.get(x, y);
-					if (lastChain[cur] != 0) {
-						chainHead.put(x, y, lastChain[cur]);
-					} else {
-						chainHead.remove(x, y);
-					}
-					while (cur > 0) {
-						ans[++cnta] = v[cur];
-						cur = etoe[cur];
-					}
-				}
+		ans[++cnta] = 1;
+		for (int i = cntp - 1; i >= 1; i--) {
+			int e = path[i];
+			while (e > 0) {
+				ans[++cnta] = b[e];
+				e = etoe[e];
 			}
 		}
 	}
@@ -224,8 +222,8 @@ public class Code10_Postman1 {
 		if (!compress()) {
 			return false;
 		}
-		// euler1(1);
-		euler2(1);
+		// euler1(1, -1);
+		euler2(1, -1);
 		if (cntp != edgeCnt + 1) {
 			return false;
 		}
@@ -239,15 +237,15 @@ public class Code10_Postman1 {
 		n = in.nextInt();
 		m = in.nextInt();
 		for (int i = 1; i <= m; i++) {
-			u[i] = in.nextInt();
-			v[i] = in.nextInt();
+			a[i] = in.nextInt();
+			b[i] = in.nextInt();
 		}
 		t = in.nextInt();
 		for (int i = 1, siz, idx = 0; i <= t; i++) {
 			siz = in.nextInt();
-			chain[++idx] = siz;
+			seq[++idx] = siz;
 			for (int j = 1; j <= siz; j++) {
-				chain[++idx] = in.nextInt();
+				seq[++idx] = in.nextInt();
 			}
 		}
 		boolean check = compute();
