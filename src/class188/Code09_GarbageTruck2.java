@@ -59,9 +59,9 @@ package class188;
 //        inpath[pop] = false;
 //        ansArr[++idx] = pop;
 //    }
+//    inpath[u] = false;
 //    ansArr[++idx] = u;
 //    ansr[cnta] = idx;
-//    inpath[u] = false;
 //}
 //
 //void euler(int u) {
