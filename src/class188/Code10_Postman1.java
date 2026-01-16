@@ -192,7 +192,7 @@ public class Code10_Postman1 {
 		}
 	}
 
-	public static boolean decompress() {
+	public static void decompress() {
 		for (int i = cntp; i >= 1; i--) {
 			int y = path[i];
 			if (cnta == 0) {
@@ -215,10 +215,6 @@ public class Code10_Postman1 {
 				}
 			}
 		}
-		if (!chainHead.isEmpty() || cnta != m + 1) {
-			return false;
-		}
-		return true;
 	}
 
 	public static boolean compute() {
@@ -233,7 +229,8 @@ public class Code10_Postman1 {
 		if (cntp != edgeCnt + 1) {
 			return false;
 		}
-		return decompress();
+		decompress();
+		return cnta == m + 1;
 	}
 
 	public static void main(String[] args) throws Exception {

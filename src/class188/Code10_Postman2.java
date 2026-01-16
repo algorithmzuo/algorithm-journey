@@ -141,7 +141,7 @@ package class188;
 //    path[++cntp] = u;
 //}
 //
-//bool decompress() {
+//void decompress() {
 //    for (int i = cntp; i >= 1; i--) {
 //        int y = path[i];
 //        if (cnta == 0) {
@@ -165,10 +165,6 @@ package class188;
 //            }
 //        }
 //    }
-//    if (!chainHead.empty() || cnta != m + 1) {
-//        return false;
-//    }
-//    return true;
 //}
 //
 //bool compute() {
@@ -182,7 +178,8 @@ package class188;
 //    if (cntp != edgeCnt + 1) {
 //        return false;
 //    }
-//    return decompress();
+//    decompress();
+//    return cnta == m + 1;
 //}
 //
 //int main() {
