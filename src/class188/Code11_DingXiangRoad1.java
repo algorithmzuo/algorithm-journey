@@ -103,17 +103,16 @@ public class Code11_DingXiangRoad1 {
 		deg2[start]++;
 		deg2[end]++;
 		union(fa2, start, end);
-		for (int i = 1, pre = 0, cur; i <= cnt; i++) {
-			cur = nodeArr[i];
-			if ((deg2[cur] & 1) == 1) {
-				if (pre == 0) {
-					pre = i;
+		for (int i = 1, p = 0; i <= cnt; i++) {
+			if ((deg2[nodeArr[i]] & 1) == 1) {
+				if (p == 0) {
+					p = i;
 				} else {
-					ans += dist(nodeArr[pre], cur);
-					for (int k = pre; k <= i; k++) {
-						union(fa2, nodeArr[k], cur);
+					ans += dist(nodeArr[p], nodeArr[i]);
+					while (p < i) {
+						union(fa2, nodeArr[p++], nodeArr[i]);
 					}
-					pre = 0;
+					p = 0;
 				}
 			}
 		}
