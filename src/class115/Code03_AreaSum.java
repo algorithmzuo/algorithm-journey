@@ -75,8 +75,7 @@ public class Code03_AreaSum {
 		if (times[i] > 0) {
 			cover[i] = length[i];
 		} else if (l == r) {
-			// 叶节点可以直接确定cover
-			// 不需要下层信息了
+			// 叶节点直接设置cover不需要下层信息
 			cover[i] = 0;
 		} else {
 			cover[i] = cover[i << 1] + cover[i << 1 | 1];
@@ -113,15 +112,11 @@ public class Code03_AreaSum {
 		int n = (int) in.nval;
 		for (int i = 1; i <= n; i++) {
 			// 左下角下标
-			in.nextToken();
-			rec[i][0] = (int) in.nval;
-			in.nextToken();
-			rec[i][1] = (int) in.nval;
+			in.nextToken(); rec[i][0] = (int) in.nval;
+			in.nextToken(); rec[i][1] = (int) in.nval;
 			// 右上角下标
-			in.nextToken();
-			rec[i][2] = (int) in.nval;
-			in.nextToken();
-			rec[i][3] = (int) in.nval;
+			in.nextToken(); rec[i][2] = (int) in.nval;
+			in.nextToken(); rec[i][3] = (int) in.nval;
 		}
 		out.println(compute(n));
 		out.flush();
@@ -131,20 +126,10 @@ public class Code03_AreaSum {
 
 	public static long compute(int n) {
 		for (int i = 1, j = 1 + n, x1, y1, x2, y2; i <= n; i++, j++) {
-			x1 = rec[i][0];
-			y1 = rec[i][1];
-			x2 = rec[i][2];
-			y2 = rec[i][3];
-			ysort[i] = y1;
-			ysort[j] = y2;
-			line[i][0] = x1;
-			line[i][1] = y1;
-			line[i][2] = y2;
-			line[i][3] = 1;
-			line[j][0] = x2;
-			line[j][1] = y1;
-			line[j][2] = y2;
-			line[j][3] = -1;
+			x1 = rec[i][0]; y1 = rec[i][1]; x2 = rec[i][2]; y2 = rec[i][3];
+			ysort[i] = y1; ysort[j] = y2;
+			line[i][0] = x1; line[i][1] = y1; line[i][2] = y2; line[i][3] = 1;
+			line[j][0] = x2; line[j][1] = y1; line[j][2] = y2; line[j][3] = -1;
 		}
 		n <<= 1;
 		int m = prepare(n);

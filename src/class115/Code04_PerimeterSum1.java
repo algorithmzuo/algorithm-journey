@@ -16,7 +16,7 @@ import java.util.Arrays;
 
 public class Code04_PerimeterSum1 {
 
-	public static int MAXN = 20001;
+	public static int MAXN = 10001;
 
 	public static int[][] rec = new int[MAXN][4];
 
@@ -71,9 +71,12 @@ public class Code04_PerimeterSum1 {
 		cover[i] = 0;
 	}
 
-	public static void up(int i) {
+	public static void up(int l, int r, int i) {
 		if (times[i] > 0) {
 			cover[i] = length[i];
+		} else if (l == r) {
+			// 叶节点直接设置cover不需要下层信息
+			cover[i] = 0;
 		} else {
 			cover[i] = cover[i << 1] + cover[i << 1 | 1];
 		}
@@ -91,7 +94,7 @@ public class Code04_PerimeterSum1 {
 				add(jobl, jobr, jobv, mid + 1, r, i << 1 | 1);
 			}
 		}
-		up(i);
+		up(l, r, i);
 	}
 
 	public static void main(String[] args) throws IOException {
