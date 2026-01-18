@@ -44,14 +44,15 @@ public class Code01_Scc1 {
 		head[u] = cntg;
 	}
 
-	public static void tarjan(int u) {
+	// 递归版
+	public static void tarjan1(int u) {
 		dfn[u] = low[u] = ++cntd;
 		sta[++top] = u;
 		ins[u] = true;
 		for (int e = head[u]; e > 0; e = nxt[e]) {
 			int v = to[e];
 			if (dfn[v] == 0) {
-				tarjan(v);
+				tarjan1(v);
 				low[u] = Math.min(low[u], low[v]);
 			} else {
 				if (ins[v]) {
@@ -72,6 +73,69 @@ public class Code01_Scc1 {
 		}
 	}
 
+	// 迭代版需要的栈，讲解118讲了递归改迭代的技巧
+	public static int[][] stack = new int[MAXN][3];
+	public static int u, p, e;
+	public static int stacksize;
+
+	public static void push(int u, int p, int e) {
+		stack[stacksize][0] = u;
+		stack[stacksize][1] = p;
+		stack[stacksize][2] = e;
+		stacksize++;
+	}
+
+	public static void pop() {
+		stacksize--;
+		u = stack[stacksize][0];
+		p = stack[stacksize][1];
+		e = stack[stacksize][2];
+	}
+
+	// tarjan1的迭代版
+	public static void tarjan2(int node) {
+		stacksize = 0;
+		push(node, -1, -1);
+		while (stacksize > 0) {
+			pop();
+			if (e == -1) {
+				dfn[u] = low[u] = ++cntd;
+				sta[++top] = u;
+				ins[u] = true;
+				e = head[u];
+			} else {
+				if (p == 0) {
+					low[u] = Math.min(low[u], low[to[e]]);
+				}
+				e = nxt[e];
+			}
+			if (e != 0) {
+				int v = to[e];
+				if (dfn[v] == 0) {
+					push(u, 0, e);
+					push(v, -1, -1);
+				} else {
+					if (ins[v]) {
+						low[u] = Math.min(low[u], dfn[v]);
+					}
+					push(u, 1, e);
+				}
+			} else {
+				if (dfn[u] == low[u]) {
+					sccl[++cntScc] = idx + 1;
+					int pop;
+					do {
+						pop = sta[top--];
+						belong[pop] = cntScc;
+						sccArr[++idx] = pop;
+						ins[pop] = false;
+					} while (pop != u);
+					sccr[cntScc] = idx;
+				}
+			}
+		}
+	}
+
 	public static void main(String[] args) throws Exception {
 		FastReader in = new FastReader(System.in);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
@@ -84,7 +148,8 @@ public class Code01_Scc1 {
 		}
 		for (int i = 1; i <= n; i++) {
 			if (dfn[i] == 0) {
-				tarjan(i);
+				tarjan1(i);
+				// tarjan2(i);
 			}
 		}
 		out.println(cntScc);
