@@ -1,7 +1,7 @@
 package class189;
 
-// 强连通分量模版题1，java版
-// 测试链接 : https://www.luogu.com.cn/problem/B3609
+// 强连通分量模版题2，java版
+// 测试链接 : https://www.luogu.com.cn/problem/U224391
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
 import java.io.IOException;
@@ -10,9 +10,9 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.util.Arrays;
 
-public class Code01_Scc1 {
+public class Code02_SccSecond1 {
 
-	public static int MAXN = 10001;
+	public static int MAXN = 50001;
 	public static int MAXM = 100001;
 	public static int n, m;
 
@@ -29,14 +29,12 @@ public class Code01_Scc1 {
 	public static int[] sta = new int[MAXN];
 	public static int top;
 
-	public static int[] belong = new int[MAXN];
 	public static int[] sccArr = new int[MAXN];
+	public static int[] sccSiz = new int[MAXN];
 	public static int[] sccl = new int[MAXN];
 	public static int[] sccr = new int[MAXN];
 	public static int idx;
 	public static int cntScc;
-
-	public static boolean[] printScc = new boolean[MAXN];
 
 	public static void addEdge(int u, int v) {
 		nxt[++cntg] = head[u];
@@ -61,12 +59,13 @@ public class Code01_Scc1 {
 			}
 		}
 		if (dfn[u] == low[u]) {
-			sccl[++cntScc] = idx + 1;
+			sccSiz[++cntScc] = 0;
+			sccl[cntScc] = idx + 1;
 			int pop;
 			do {
 				pop = sta[top--];
-				belong[pop] = cntScc;
 				sccArr[++idx] = pop;
+				sccSiz[cntScc]++;
 				ins[pop] = false;
 			} while (pop != u);
 			sccr[cntScc] = idx;
@@ -122,12 +121,13 @@ public class Code01_Scc1 {
 				}
 			} else {
 				if (dfn[u] == low[u]) {
-					sccl[++cntScc] = idx + 1;
+					sccSiz[++cntScc] = 0;
+					sccl[cntScc] = idx + 1;
 					int pop;
 					do {
 						pop = sta[top--];
-						belong[pop] = cntScc;
 						sccArr[++idx] = pop;
+						sccSiz[cntScc]++;
 						ins[pop] = false;
 					} while (pop != u);
 					sccr[cntScc] = idx;
@@ -148,23 +148,18 @@ public class Code01_Scc1 {
 		}
 		for (int i = 1; i <= n; i++) {
 			if (dfn[i] == 0) {
-				tarjan1(i);
-				// tarjan2(i);
+				// tarjan1(i);
+				tarjan2(i);
 			}
 		}
 		out.println(cntScc);
 		for (int i = 1; i <= cntScc; i++) {
 			Arrays.sort(sccArr, sccl[i], sccr[i] + 1);
-		}
-		for (int i = 1; i <= n; i++) {
-			int scc = belong[i];
-			if (!printScc[scc]) {
-				printScc[scc] = true;
-				for (int j = sccl[scc]; j <= sccr[scc]; j++) {
-					out.print(sccArr[j] + " ");
-				}
-				out.println();
+			out.print(sccSiz[i] + " ");
+			for (int j = sccl[i]; j <= sccr[i]; j++) {
+				out.print(sccArr[j] + " ");
 			}
+			out.println();
 		}
 		out.flush();
 		out.close();
