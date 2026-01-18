@@ -1,19 +1,18 @@
 package class189;
 
-// 强连通分量模版题1，java版
-// 测试链接 : https://www.luogu.com.cn/problem/B3609
+// 强连通分量模版题3，java版
+// 测试链接 : https://www.luogu.com.cn/problem/P1726
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
-import java.util.Arrays;
 
-public class Code01_Scc1 {
+public class Code03_Scc1 {
 
-	public static int MAXN = 10001;
-	public static int MAXM = 100001;
+	public static int MAXN = 5001;
+	public static int MAXM = 200001;
 	public static int n, m;
 
 	public static int[] head = new int[MAXN];
@@ -30,13 +29,8 @@ public class Code01_Scc1 {
 	public static int top;
 
 	public static int[] belong = new int[MAXN];
-	public static int[] sccArr = new int[MAXN];
-	public static int[] sccl = new int[MAXN];
-	public static int[] sccr = new int[MAXN];
-	public static int idx;
+	public static int[] sccSiz = new int[MAXN];
 	public static int cntScc;
-
-	public static boolean[] printScc = new boolean[MAXN];
 
 	public static void addEdge(int u, int v) {
 		nxt[++cntg] = head[u];
@@ -44,15 +38,14 @@ public class Code01_Scc1 {
 		head[u] = cntg;
 	}
 
-	// 递归版
-	public static void tarjan1(int u) {
+	public static void tarjan(int u) {
 		dfn[u] = low[u] = ++cntd;
 		sta[++top] = u;
 		ins[u] = true;
 		for (int e = head[u]; e > 0; e = nxt[e]) {
 			int v = to[e];
 			if (dfn[v] == 0) {
-				tarjan1(v);
+				tarjan(v);
 				low[u] = Math.min(low[u], low[v]);
 			} else {
 				if (ins[v]) {
@@ -61,78 +54,14 @@ public class Code01_Scc1 {
 			}
 		}
 		if (dfn[u] == low[u]) {
-			sccl[++cntScc] = idx + 1;
+			sccSiz[++cntScc] = 0;
 			int pop;
 			do {
 				pop = sta[top--];
 				belong[pop] = cntScc;
-				sccArr[++idx] = pop;
+				sccSiz[cntScc]++;
 				ins[pop] = false;
 			} while (pop != u);
-			sccr[cntScc] = idx;
-		}
-	}
-
-	// 迭代版需要的栈，讲解118讲了递归改迭代的技巧
-	public static int[][] stack = new int[MAXN][3];
-	public static int u, p, e;
-	public static int stacksize;
-
-	public static void push(int u, int p, int e) {
-		stack[stacksize][0] = u;
-		stack[stacksize][1] = p;
-		stack[stacksize][2] = e;
-		stacksize++;
-	}
-
-	public static void pop() {
-		stacksize--;
-		u = stack[stacksize][0];
-		p = stack[stacksize][1];
-		e = stack[stacksize][2];
-	}
-
-	// tarjan1的迭代版
-	public static void tarjan2(int node) {
-		stacksize = 0;
-		push(node, -1, -1);
-		while (stacksize > 0) {
-			pop();
-			if (e == -1) {
-				dfn[u] = low[u] = ++cntd;
-				sta[++top] = u;
-				ins[u] = true;
-				e = head[u];
-			} else {
-				if (p == 0) {
-					low[u] = Math.min(low[u], low[to[e]]);
-				}
-				e = nxt[e];
-			}
-			if (e != 0) {
-				int v = to[e];
-				if (dfn[v] == 0) {
-					push(u, 0, e);
-					push(v, -1, -1);
-				} else {
-					if (ins[v]) {
-						low[u] = Math.min(low[u], dfn[v]);
-					}
-					push(u, 1, e);
-				}
-			} else {
-				if (dfn[u] == low[u]) {
-					sccl[++cntScc] = idx + 1;
-					int pop;
-					do {
-						pop = sta[top--];
-						belong[pop] = cntScc;
-						sccArr[++idx] = pop;
-						ins[pop] = false;
-					} while (pop != u);
-					sccr[cntScc] = idx;
-				}
-			}
 		}
 	}
 
@@ -141,31 +70,39 @@ public class Code01_Scc1 {
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
 		n = in.nextInt();
 		m = in.nextInt();
-		for (int i = 1, u, v; i <= m; i++) {
+		for (int i = 1, u, v, op; i <= m; i++) {
 			u = in.nextInt();
 			v = in.nextInt();
-			addEdge(u, v);
+			op = in.nextInt();
+			if (op == 1) {
+				addEdge(u, v);
+			} else {
+				addEdge(u, v);
+				addEdge(v, u);
+			}
 		}
 		for (int i = 1; i <= n; i++) {
 			if (dfn[i] == 0) {
-				tarjan1(i);
-				// tarjan2(i);
+				tarjan(i);
 			}
 		}
-		out.println(cntScc);
+		int largest = 0;
 		for (int i = 1; i <= cntScc; i++) {
-			Arrays.sort(sccArr, sccl[i], sccr[i] + 1);
+			largest = Math.max(largest, sccSiz[i]);
 		}
+		out.println(largest);
 		for (int i = 1; i <= n; i++) {
-			int scc = belong[i];
-			if (!printScc[scc]) {
-				printScc[scc] = true;
-				for (int j = sccl[scc]; j <= sccr[scc]; j++) {
-					out.print(sccArr[j] + " ");
+			if (sccSiz[belong[i]] == largest) {
+				int scc = belong[i];
+				for (int j = i; j <= n; j++) {
+					if (belong[j] == scc) {
+						out.print(j + " ");
+					}
 				}
-				out.println();
+				break;
 			}
 		}
+		out.println();
 		out.flush();
 		out.close();
 	}
