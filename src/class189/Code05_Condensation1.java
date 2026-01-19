@@ -135,7 +135,8 @@ public class Code05_Condensation1 {
 				addEdge2(scc1, scc2);
 			}
 		}
-		out.println(topo());
+		int ans = topo();
+		out.println(ans);
 		out.flush();
 		out.close();
 	}
