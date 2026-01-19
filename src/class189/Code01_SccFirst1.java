@@ -38,20 +38,39 @@ public class Code01_SccFirst1 {
 
 	public static boolean[] printScc = new boolean[MAXN];
 
+	// 迭代版需要的栈，讲解118讲了递归改迭代的技巧
+	public static int[][] stack = new int[MAXN][3];
+	public static int u, status, e;
+	public static int stacksize;
+
+	public static void push(int u, int status, int e) {
+		stack[stacksize][0] = u;
+		stack[stacksize][1] = status;
+		stack[stacksize][2] = e;
+		stacksize++;
+	}
+
+	public static void pop() {
+		stacksize--;
+		u = stack[stacksize][0];
+		status = stack[stacksize][1];
+		e = stack[stacksize][2];
+	}
+
 	public static void addEdge(int u, int v) {
 		nxt[++cntg] = head[u];
 		to[cntg] = v;
 		head[u] = cntg;
 	}
 
-	public static void tarjan(int u) {
+	public static void tarjan1(int u) {
 		dfn[u] = low[u] = ++cntd;
 		sta[++top] = u;
 		ins[u] = true;
 		for (int e = head[u]; e > 0; e = nxt[e]) {
 			int v = to[e];
 			if (dfn[v] == 0) {
-				tarjan(v);
+				tarjan1(v);
 				low[u] = Math.min(low[u], low[v]);
 			} else {
 				if (ins[v]) {
@@ -72,6 +91,64 @@ public class Code01_SccFirst1 {
 		}
 	}
 
+	// tarjan1的迭代版
+	// u表示当前节点
+	// status的具体说明如下
+	//     如果status == -1，表示u没有遍历过任何儿子
+	//     如果status == 0，表示u遍历到儿子v，然后发现dfn[v] == 0
+	//         然后刚执行完tarjan(v)，对应递归版for循环中的第一个分支
+	//     如果status == 1，表示u遍历到儿子v，然后发现dfn[v] != 0
+	//         对应递归版for循环中的第二个分支
+	// e表示u当前处理的边，如果e == 0，说明所有边都处理完了
+	public static void tarjan2(int node) {
+		stacksize = 0;
+		push(node, -1, -1);
+		int v;
+		while (stacksize > 0) {
+			pop();
+			if (status == -1) {
+				dfn[u] = low[u] = ++cntd;
+				sta[++top] = u;
+				ins[u] = true;
+				e = head[u];
+			} else {
+				v = to[e];
+				if (status == 0) {
+					low[u] = Math.min(low[u], low[v]);
+				}
+				if (status == 1 && ins[v]) {
+					low[u] = Math.min(low[u], dfn[v]);
+				}
+				e = nxt[e];
+			}
+			if (e != 0) {
+				v = to[e];
+				if (dfn[v] == 0) {
+					// (当前节点, 状态, 边)先进入栈
+					// (儿子节点, 状态, 边)再进入栈
+					// 那么儿子节点的tarjan过程会先执行
+					// 等到处理当前节点时，low[儿子节点]信息就生成好了
+					push(u, 0, e);
+					push(v, -1, -1);
+				} else {
+					push(u, 1, e);
+				}
+			} else {
+				if (dfn[u] == low[u]) {
+					sccl[++cntScc] = idx + 1;
+					int pop;
+					do {
+						pop = sta[top--];
+						belong[pop] = cntScc;
+						sccArr[++idx] = pop;
+						ins[pop] = false;
+					} while (pop != u);
+					sccr[cntScc] = idx;
+				}
+			}
+		}
+	}
+
 	public static void main(String[] args) throws Exception {
 		FastReader in = new FastReader(System.in);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
@@ -84,7 +161,8 @@ public class Code01_SccFirst1 {
 		}
 		for (int i = 1; i <= n; i++) {
 			if (dfn[i] == 0) {
-				tarjan(i);
+				tarjan1(i);
+				// tarjan2(i);
 			}
 		}
 		out.println(cntScc);

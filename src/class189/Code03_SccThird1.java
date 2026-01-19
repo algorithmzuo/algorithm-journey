@@ -36,13 +36,30 @@ public class Code03_SccThird1 {
 	public static int idx;
 	public static int cntScc;
 
+	public static int[][] stack = new int[MAXN][3];
+	public static int u, status, e;
+	public static int stacksize;
+
+	public static void push(int u, int status, int e) {
+		stack[stacksize][0] = u;
+		stack[stacksize][1] = status;
+		stack[stacksize][2] = e;
+		stacksize++;
+	}
+
+	public static void pop() {
+		stacksize--;
+		u = stack[stacksize][0];
+		status = stack[stacksize][1];
+		e = stack[stacksize][2];
+	}
+
 	public static void addEdge(int u, int v) {
 		nxt[++cntg] = head[u];
 		to[cntg] = v;
 		head[u] = cntg;
 	}
 
-	// 递归版
 	public static void tarjan1(int u) {
 		dfn[u] = low[u] = ++cntd;
 		sta[++top] = u;
@@ -72,51 +89,33 @@ public class Code03_SccThird1 {
 		}
 	}
 
-	// 迭代版需要的栈，讲解118讲了递归改迭代的技巧
-	public static int[][] stack = new int[MAXN][3];
-	public static int u, p, e;
-	public static int stacksize;
-
-	public static void push(int u, int p, int e) {
-		stack[stacksize][0] = u;
-		stack[stacksize][1] = p;
-		stack[stacksize][2] = e;
-		stacksize++;
-	}
-
-	public static void pop() {
-		stacksize--;
-		u = stack[stacksize][0];
-		p = stack[stacksize][1];
-		e = stack[stacksize][2];
-	}
-
-	// tarjan1的迭代版
 	public static void tarjan2(int node) {
 		stacksize = 0;
 		push(node, -1, -1);
+		int v;
 		while (stacksize > 0) {
 			pop();
-			if (e == -1) {
+			if (status == -1) {
 				dfn[u] = low[u] = ++cntd;
 				sta[++top] = u;
 				ins[u] = true;
 				e = head[u];
 			} else {
-				if (p == 0) {
-					low[u] = Math.min(low[u], low[to[e]]);
+				v = to[e];
+				if (status == 0) {
+					low[u] = Math.min(low[u], low[v]);
+				}
+				if (status == 1 && ins[v]) {
+					low[u] = Math.min(low[u], dfn[v]);
 				}
 				e = nxt[e];
 			}
 			if (e != 0) {
-				int v = to[e];
+				v = to[e];
 				if (dfn[v] == 0) {
 					push(u, 0, e);
 					push(v, -1, -1);
 				} else {
-					if (ins[v]) {
-						low[u] = Math.min(low[u], dfn[v]);
-					}
 					push(u, 1, e);
 				}
 			} else {
