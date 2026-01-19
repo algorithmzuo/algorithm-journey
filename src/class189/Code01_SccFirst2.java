@@ -31,9 +31,9 @@ package class189;
 //int sccl[MAXN];
 //int sccr[MAXN];
 //int idx;
-//int cntScc;
+//int sccCnt;
 //
-//bool printScc[MAXN];
+//bool sccPrint[MAXN];
 //
 //void addEdge(int u, int v) {
 //    nxt[++cntg] = head[u];
@@ -57,15 +57,15 @@ package class189;
 //        }
 //    }
 //    if (dfn[u] == low[u]) {
-//        sccl[++cntScc] = idx + 1;
+//        sccl[++sccCnt] = idx + 1;
 //        int pop;
 //        do {
 //            pop = sta[top--];
-//            belong[pop] = cntScc;
+//            belong[pop] = sccCnt;
 //            sccArr[++idx] = pop;
 //            ins[pop] = false;
 //        } while (pop != u);
-//        sccr[cntScc] = idx;
+//        sccr[sccCnt] = idx;
 //    }
 //}
 //
@@ -82,14 +82,14 @@ package class189;
 //            tarjan(i);
 //        }
 //    }
-//    cout << cntScc << "\n";
-//    for (int i = 1; i <= cntScc; i++) {
+//    cout << sccCnt << "\n";
+//    for (int i = 1; i <= sccCnt; i++) {
 //        sort(sccArr + sccl[i], sccArr + sccr[i] + 1);
 //    }
 //    for (int i = 1; i <= n; i++) {
 //        int scc = belong[i];
-//        if (!printScc[scc]) {
-//            printScc[scc] = true;
+//        if (!sccPrint[scc]) {
+//            sccPrint[scc] = true;
 //            for (int j = sccl[scc]; j <= sccr[scc]; j++) {
 //                cout << sccArr[j] << " ";
 //            }

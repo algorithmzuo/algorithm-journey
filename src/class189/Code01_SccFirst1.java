@@ -34,9 +34,9 @@ public class Code01_SccFirst1 {
 	public static int[] sccl = new int[MAXN];
 	public static int[] sccr = new int[MAXN];
 	public static int idx;
-	public static int cntScc;
+	public static int sccCnt;
 
-	public static boolean[] printScc = new boolean[MAXN];
+	public static boolean[] sccPrint = new boolean[MAXN];
 
 	// 迭代版需要的栈，讲解118讲了递归改迭代的技巧
 	public static int[][] stack = new int[MAXN][3];
@@ -80,15 +80,15 @@ public class Code01_SccFirst1 {
 			}
 		}
 		if (dfn[u] == low[u]) {
-			sccl[++cntScc] = idx + 1;
+			sccl[++sccCnt] = idx + 1;
 			int pop;
 			do {
 				pop = sta[top--];
-				belong[pop] = cntScc;
+				belong[pop] = sccCnt;
 				sccArr[++idx] = pop;
 				ins[pop] = false;
 			} while (pop != u);
-			sccr[cntScc] = idx;
+			sccr[sccCnt] = idx;
 		}
 	}
 
@@ -136,15 +136,15 @@ public class Code01_SccFirst1 {
 				}
 			} else {
 				if (dfn[u] == low[u]) {
-					sccl[++cntScc] = idx + 1;
+					sccl[++sccCnt] = idx + 1;
 					int pop;
 					do {
 						pop = sta[top--];
-						belong[pop] = cntScc;
+						belong[pop] = sccCnt;
 						sccArr[++idx] = pop;
 						ins[pop] = false;
 					} while (pop != u);
-					sccr[cntScc] = idx;
+					sccr[sccCnt] = idx;
 				}
 			}
 		}
@@ -166,14 +166,14 @@ public class Code01_SccFirst1 {
 				tarjan2(i);
 			}
 		}
-		out.println(cntScc);
-		for (int i = 1; i <= cntScc; i++) {
+		out.println(sccCnt);
+		for (int i = 1; i <= sccCnt; i++) {
 			Arrays.sort(sccArr, sccl[i], sccr[i] + 1);
 		}
 		for (int i = 1; i <= n; i++) {
 			int scc = belong[i];
-			if (!printScc[scc]) {
-				printScc[scc] = true;
+			if (!sccPrint[scc]) {
+				sccPrint[scc] = true;
 				for (int j = sccl[scc]; j <= sccr[scc]; j++) {
 					out.print(sccArr[j] + " ");
 				}

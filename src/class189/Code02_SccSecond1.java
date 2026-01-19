@@ -34,7 +34,7 @@ public class Code02_SccSecond1 {
 	public static int[] sccl = new int[MAXN];
 	public static int[] sccr = new int[MAXN];
 	public static int idx;
-	public static int cntScc;
+	public static int sccCnt;
 
 	public static int[][] stack = new int[MAXN][3];
 	public static int u, status, e;
@@ -76,16 +76,16 @@ public class Code02_SccSecond1 {
 			}
 		}
 		if (dfn[u] == low[u]) {
-			sccSiz[++cntScc] = 0;
-			sccl[cntScc] = idx + 1;
+			sccSiz[++sccCnt] = 0;
+			sccl[sccCnt] = idx + 1;
 			int pop;
 			do {
 				pop = sta[top--];
 				sccArr[++idx] = pop;
-				sccSiz[cntScc]++;
+				sccSiz[sccCnt]++;
 				ins[pop] = false;
 			} while (pop != u);
-			sccr[cntScc] = idx;
+			sccr[sccCnt] = idx;
 		}
 	}
 
@@ -120,16 +120,16 @@ public class Code02_SccSecond1 {
 				}
 			} else {
 				if (dfn[u] == low[u]) {
-					sccSiz[++cntScc] = 0;
-					sccl[cntScc] = idx + 1;
+					sccSiz[++sccCnt] = 0;
+					sccl[sccCnt] = idx + 1;
 					int pop;
 					do {
 						pop = sta[top--];
 						sccArr[++idx] = pop;
-						sccSiz[cntScc]++;
+						sccSiz[sccCnt]++;
 						ins[pop] = false;
 					} while (pop != u);
-					sccr[cntScc] = idx;
+					sccr[sccCnt] = idx;
 				}
 			}
 		}
@@ -151,8 +151,8 @@ public class Code02_SccSecond1 {
 				tarjan2(i);
 			}
 		}
-		out.println(cntScc);
-		for (int i = 1; i <= cntScc; i++) {
+		out.println(sccCnt);
+		for (int i = 1; i <= sccCnt; i++) {
 			Arrays.sort(sccArr, sccl[i], sccr[i] + 1);
 			out.print(sccSiz[i] + " ");
 			for (int j = sccl[i]; j <= sccr[i]; j++) {

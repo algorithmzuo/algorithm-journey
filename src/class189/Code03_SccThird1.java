@@ -30,7 +30,7 @@ public class Code03_SccThird1 {
 
 	public static int[] belong = new int[MAXN];
 	public static int[] sccSiz = new int[MAXN];
-	public static int cntScc;
+	public static int sccCnt;
 
 	public static int[][] stack = new int[MAXN][3];
 	public static int u, status, e;
@@ -72,12 +72,12 @@ public class Code03_SccThird1 {
 			}
 		}
 		if (dfn[u] == low[u]) {
-			sccSiz[++cntScc] = 0;
+			sccSiz[++sccCnt] = 0;
 			int pop;
 			do {
 				pop = sta[top--];
-				belong[pop] = cntScc;
-				sccSiz[cntScc]++;
+				belong[pop] = sccCnt;
+				sccSiz[sccCnt]++;
 				ins[pop] = false;
 			} while (pop != u);
 		}
@@ -114,12 +114,12 @@ public class Code03_SccThird1 {
 				}
 			} else {
 				if (dfn[u] == low[u]) {
-					sccSiz[++cntScc] = 0;
+					sccSiz[++sccCnt] = 0;
 					int pop;
 					do {
 						pop = sta[top--];
-						belong[pop] = cntScc;
-						sccSiz[cntScc]++;
+						belong[pop] = sccCnt;
+						sccSiz[sccCnt]++;
 						ins[pop] = false;
 					} while (pop != u);
 				}
@@ -150,7 +150,7 @@ public class Code03_SccThird1 {
 			}
 		}
 		int largest = 0;
-		for (int i = 1; i <= cntScc; i++) {
+		for (int i = 1; i <= sccCnt; i++) {
 			largest = Math.max(largest, sccSiz[i]);
 		}
 		out.println(largest);
