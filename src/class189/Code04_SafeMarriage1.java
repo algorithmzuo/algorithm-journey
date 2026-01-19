@@ -147,6 +147,10 @@ public class Code04_SafeMarriage1 {
 			return neg ? -val : val;
 		}
 
+		boolean isLetter(int c) {
+			return (c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z');
+		}
+
 		String nextString() throws IOException {
 			int c;
 			do {
@@ -162,10 +166,6 @@ public class Code04_SafeMarriage1 {
 					break;
 			}
 			return sb.toString();
-		}
-
-		boolean isLetter(int c) {
-			return (c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z');
 		}
 
 	}
