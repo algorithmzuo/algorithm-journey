@@ -63,6 +63,7 @@ public class Code01_SccFirst1 {
 		head[u] = cntg;
 	}
 
+	// 递归版
 	public static void tarjan1(int u) {
 		dfn[u] = low[u] = ++cntd;
 		sta[++top] = u;
@@ -91,7 +92,7 @@ public class Code01_SccFirst1 {
 		}
 	}
 
-	// tarjan1的迭代版
+	// 迭代版
 	// u表示当前节点
 	// status的具体说明如下
 	//     如果status == -1，表示u没有遍历过任何儿子
@@ -161,8 +162,8 @@ public class Code01_SccFirst1 {
 		}
 		for (int i = 1; i <= n; i++) {
 			if (dfn[i] == 0) {
-				tarjan1(i);
-				// tarjan2(i);
+				// tarjan1(i);
+				tarjan2(i);
 			}
 		}
 		out.println(cntScc);

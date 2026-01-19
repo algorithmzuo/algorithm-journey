@@ -1,19 +1,18 @@
 package class189;
 
 // 强连通分量模版题3，java版
-// 测试链接 : https://www.luogu.com.cn/problem/U224391
+// 测试链接 : https://www.luogu.com.cn/problem/P1726
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
-import java.util.Arrays;
 
 public class Code03_SccThird1 {
 
-	public static int MAXN = 50001;
-	public static int MAXM = 100001;
+	public static int MAXN = 5001;
+	public static int MAXM = 200001;
 	public static int n, m;
 
 	public static int[] head = new int[MAXN];
@@ -29,11 +28,8 @@ public class Code03_SccThird1 {
 	public static int[] sta = new int[MAXN];
 	public static int top;
 
-	public static int[] sccArr = new int[MAXN];
+	public static int[] belong = new int[MAXN];
 	public static int[] sccSiz = new int[MAXN];
-	public static int[] sccl = new int[MAXN];
-	public static int[] sccr = new int[MAXN];
-	public static int idx;
 	public static int cntScc;
 
 	public static int[][] stack = new int[MAXN][3];
@@ -77,15 +73,13 @@ public class Code03_SccThird1 {
 		}
 		if (dfn[u] == low[u]) {
 			sccSiz[++cntScc] = 0;
-			sccl[cntScc] = idx + 1;
 			int pop;
 			do {
 				pop = sta[top--];
-				sccArr[++idx] = pop;
+				belong[pop] = cntScc;
 				sccSiz[cntScc]++;
 				ins[pop] = false;
 			} while (pop != u);
-			sccr[cntScc] = idx;
 		}
 	}
 
@@ -121,15 +115,13 @@ public class Code03_SccThird1 {
 			} else {
 				if (dfn[u] == low[u]) {
 					sccSiz[++cntScc] = 0;
-					sccl[cntScc] = idx + 1;
 					int pop;
 					do {
 						pop = sta[top--];
-						sccArr[++idx] = pop;
+						belong[pop] = cntScc;
 						sccSiz[cntScc]++;
 						ins[pop] = false;
 					} while (pop != u);
-					sccr[cntScc] = idx;
 				}
 			}
 		}
@@ -140,26 +132,40 @@ public class Code03_SccThird1 {
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
 		n = in.nextInt();
 		m = in.nextInt();
-		for (int i = 1, u, v; i <= m; i++) {
+		for (int i = 1, u, v, op; i <= m; i++) {
 			u = in.nextInt();
 			v = in.nextInt();
-			addEdge(u, v);
+			op = in.nextInt();
+			if (op == 1) {
+				addEdge(u, v);
+			} else {
+				addEdge(u, v);
+				addEdge(v, u);
+			}
 		}
 		for (int i = 1; i <= n; i++) {
 			if (dfn[i] == 0) {
-				// tarjan1(i);
-				tarjan2(i);
+				tarjan1(i);
+				// tarjan2(i);
 			}
 		}
-		out.println(cntScc);
+		int largest = 0;
 		for (int i = 1; i <= cntScc; i++) {
-			Arrays.sort(sccArr, sccl[i], sccr[i] + 1);
-			out.print(sccSiz[i] + " ");
-			for (int j = sccl[i]; j <= sccr[i]; j++) {
-				out.print(sccArr[j] + " ");
-			}
-			out.println();
+			largest = Math.max(largest, sccSiz[i]);
 		}
+		out.println(largest);
+		for (int i = 1; i <= n; i++) {
+			if (sccSiz[belong[i]] == largest) {
+				int scc = belong[i];
+				for (int j = i; j <= n; j++) {
+					if (belong[j] == scc) {
+						out.print(j + " ");
+					}
+				}
+				break;
+			}
+		}
+		out.println();
 		out.flush();
 		out.close();
 	}
