@@ -99,11 +99,7 @@ public class Code06_PopularCow1 {
 				siz = sccSiz[i];
 			}
 		}
-		if (num != 1) {
-			out.println(0);
-		} else {
-			out.println(siz);
-		}
+		out.println(num == 1 ? siz : 0);
 		out.flush();
 		out.close();
 	}
