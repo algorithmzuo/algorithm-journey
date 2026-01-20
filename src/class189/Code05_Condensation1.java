@@ -67,7 +67,8 @@ public class Code05_Condensation1 {
 			}
 		}
 		if (dfn[u] == low[u]) {
-			sum[++sccCnt] = 0;
+			sccCnt++;
+			sum[sccCnt] = 0;
 			int pop;
 			do {
 				pop = sta[top--];

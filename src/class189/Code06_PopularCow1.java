@@ -1,20 +1,21 @@
 package class189;
 
-// 强连通分量模版题2，java版
-// 测试链接 : https://www.luogu.com.cn/problem/U224391
+// 受欢迎的牛，java版
+// 测试链接 : https://www.luogu.com.cn/problem/P2341
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
-import java.util.Arrays;
 
-public class Code02_SccSecond1 {
+public class Code06_PopularCow1 {
 
-	public static int MAXN = 50001;
-	public static int MAXM = 100001;
+	public static int MAXN = 10001;
+	public static int MAXM = 50001;
 	public static int n, m;
+	public static int[] a = new int[MAXM];
+	public static int[] b = new int[MAXM];
 
 	public static int[] head = new int[MAXN];
 	public static int[] nxt = new int[MAXM];
@@ -29,30 +30,11 @@ public class Code02_SccSecond1 {
 	public static int[] sta = new int[MAXN];
 	public static int top;
 
-	public static int[] sccArr = new int[MAXN];
+	public static int[] belong = new int[MAXN];
 	public static int[] sccSiz = new int[MAXN];
-	public static int[] sccl = new int[MAXN];
-	public static int[] sccr = new int[MAXN];
-	public static int idx;
 	public static int sccCnt;
 
-	public static int[][] stack = new int[MAXN][3];
-	public static int u, status, e;
-	public static int stacksize;
-
-	public static void push(int u, int status, int e) {
-		stack[stacksize][0] = u;
-		stack[stacksize][1] = status;
-		stack[stacksize][2] = e;
-		stacksize++;
-	}
-
-	public static void pop() {
-		stacksize--;
-		u = stack[stacksize][0];
-		status = stack[stacksize][1];
-		e = stack[stacksize][2];
-	}
+	public static int[] outdegree = new int[MAXN];
 
 	public static void addEdge(int u, int v) {
 		nxt[++cntg] = head[u];
@@ -60,14 +42,14 @@ public class Code02_SccSecond1 {
 		head[u] = cntg;
 	}
 
-	public static void tarjan1(int u) {
+	public static void tarjan(int u) {
 		dfn[u] = low[u] = ++cntd;
 		sta[++top] = u;
 		ins[u] = true;
 		for (int e = head[u]; e > 0; e = nxt[e]) {
 			int v = to[e];
 			if (dfn[v] == 0) {
-				tarjan1(v);
+				tarjan(v);
 				low[u] = Math.min(low[u], low[v]);
 			} else {
 				if (ins[v]) {
@@ -78,62 +60,13 @@ public class Code02_SccSecond1 {
 		if (dfn[u] == low[u]) {
 			sccCnt++;
 			sccSiz[sccCnt] = 0;
-			sccl[sccCnt] = idx + 1;
 			int pop;
 			do {
 				pop = sta[top--];
-				sccArr[++idx] = pop;
+				belong[pop] = sccCnt;
 				sccSiz[sccCnt]++;
 				ins[pop] = false;
 			} while (pop != u);
-			sccr[sccCnt] = idx;
-		}
-	}
-
-	public static void tarjan2(int node) {
-		stacksize = 0;
-		push(node, -1, -1);
-		int v;
-		while (stacksize > 0) {
-			pop();
-			if (status == -1) {
-				dfn[u] = low[u] = ++cntd;
-				sta[++top] = u;
-				ins[u] = true;
-				e = head[u];
-			} else {
-				v = to[e];
-				if (status == 0) {
-					low[u] = Math.min(low[u], low[v]);
-				}
-				if (status == 1 && ins[v]) {
-					low[u] = Math.min(low[u], dfn[v]);
-				}
-				e = nxt[e];
-			}
-			if (e != 0) {
-				v = to[e];
-				if (dfn[v] == 0) {
-					push(u, 0, e);
-					push(v, -1, -1);
-				} else {
-					push(u, 1, e);
-				}
-			} else {
-				if (dfn[u] == low[u]) {
-					sccCnt++;
-					sccSiz[sccCnt] = 0;
-					sccl[sccCnt] = idx + 1;
-					int pop;
-					do {
-						pop = sta[top--];
-						sccArr[++idx] = pop;
-						sccSiz[sccCnt]++;
-						ins[pop] = false;
-					} while (pop != u);
-					sccr[sccCnt] = idx;
-				}
-			}
 		}
 	}
 
@@ -142,25 +75,34 @@ public class Code02_SccSecond1 {
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
 		n = in.nextInt();
 		m = in.nextInt();
-		for (int i = 1, u, v; i <= m; i++) {
-			u = in.nextInt();
-			v = in.nextInt();
-			addEdge(u, v);
+		for (int i = 1; i <= m; i++) {
+			a[i] = in.nextInt();
+			b[i] = in.nextInt();
+			addEdge(a[i], b[i]);
 		}
 		for (int i = 1; i <= n; i++) {
 			if (dfn[i] == 0) {
-				// tarjan1(i);
-				tarjan2(i);
+				tarjan(i);
 			}
 		}
-		out.println(sccCnt);
-		for (int i = 1; i <= sccCnt; i++) {
-			Arrays.sort(sccArr, sccl[i], sccr[i] + 1);
-			out.print(sccSiz[i] + " ");
-			for (int j = sccl[i]; j <= sccr[i]; j++) {
-				out.print(sccArr[j] + " ");
+		for (int i = 1; i <= m; i++) {
+			int scc1 = belong[a[i]];
+			int scc2 = belong[b[i]];
+			if (scc1 != scc2) {
+				outdegree[scc1]++;
 			}
-			out.println();
+		}
+		int num = 0, siz = 0;
+		for (int i = 1; i <= sccCnt; i++) {
+			if (outdegree[i] == 0) {
+				num++;
+				siz = sccSiz[i];
+			}
+		}
+		if (num != 1) {
+			out.println(0);
+		} else {
+			out.println(siz);
 		}
 		out.flush();
 		out.close();

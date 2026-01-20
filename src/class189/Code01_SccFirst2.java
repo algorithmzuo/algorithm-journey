@@ -57,7 +57,8 @@ package class189;
 //        }
 //    }
 //    if (dfn[u] == low[u]) {
-//        sccl[++sccCnt] = idx + 1;
+//        sccCnt++;
+//        sccl[sccCnt] = idx + 1;
 //        int pop;
 //        do {
 //            pop = sta[top--];

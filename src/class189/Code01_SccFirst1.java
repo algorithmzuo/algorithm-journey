@@ -80,7 +80,8 @@ public class Code01_SccFirst1 {
 			}
 		}
 		if (dfn[u] == low[u]) {
-			sccl[++sccCnt] = idx + 1;
+			sccCnt++;
+			sccl[sccCnt] = idx + 1;
 			int pop;
 			do {
 				pop = sta[top--];
@@ -136,7 +137,8 @@ public class Code01_SccFirst1 {
 				}
 			} else {
 				if (dfn[u] == low[u]) {
-					sccl[++sccCnt] = idx + 1;
+					sccCnt++;
+					sccl[sccCnt] = idx + 1;
 					int pop;
 					do {
 						pop = sta[top--];
