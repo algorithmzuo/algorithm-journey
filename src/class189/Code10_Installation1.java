@@ -106,7 +106,7 @@ public class Code10_Installation1 {
 
 	// 树上01背包最优解
 	// 讲解079，题目5，树上背包最优解，讲的非常清楚
-	public static int KnapsackOnTree() {
+	public static int knapsackOnTree() {
 		dfs(0);
 		for (int i = dfnCnt; i >= 2; i--) {
 			for (int j = 1; j <= knapsack; j++) {
@@ -156,7 +156,7 @@ public class Code10_Installation1 {
 				addEdge2(0, i);
 			}
 		}
-		int ans = KnapsackOnTree();
+		int ans = knapsackOnTree();
 		out.println(ans);
 		out.flush();
 		out.close();
