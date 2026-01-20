@@ -44,7 +44,7 @@ public class Code10_Installation1 {
 	public static int[] to2 = new int[MAXN << 1];
 	public static int cnt2;
 
-	// 树上背包最优解，来自讲解079
+	// 树上背包最优解，来自讲解079，题目5
 	public static int[] siz = new int[MAXN];
 	public static int[] wei = new int[MAXN];
 	public static int[] val = new int[MAXN];
