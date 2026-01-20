@@ -12,8 +12,8 @@ import java.io.PrintWriter;
 public class Code10_Installation1 {
 
 	public static int MAXN = 105;
-	public static int MAXM = 505;
-	public static int n, m;
+	public static int MAXW = 505;
+	public static int n, knapsack;
 	public static int[] w = new int[MAXN];
 	public static int[] v = new int[MAXN];
 	public static int[] depend = new int[MAXN];
@@ -38,9 +38,10 @@ public class Code10_Installation1 {
 
 	public static int[] indegree = new int[MAXN];
 
+	// 节点0作为虚点，可能向其他节点连边，所以边的数量开2倍
 	public static int[] head2 = new int[MAXN];
-	public static int[] nxt2 = new int[MAXN];
-	public static int[] to2 = new int[MAXN];
+	public static int[] nxt2 = new int[MAXN << 1];
+	public static int[] to2 = new int[MAXN << 1];
 	public static int cnt2;
 
 	// 树上背包最优解，来自讲解079
@@ -48,7 +49,7 @@ public class Code10_Installation1 {
 	public static int[] wei = new int[MAXN];
 	public static int[] val = new int[MAXN];
 	public static int dfnCnt;
-	public static int[][] dp = new int[MAXN][MAXM];
+	public static int[][] dp = new int[MAXN][MAXW];
 
 	public static void addEdge1(int a, int b) {
 		nxt1[++cnt1] = head1[a];
@@ -107,22 +108,22 @@ public class Code10_Installation1 {
 	// 讲解079，题目5，树上背包最优解，讲的非常清楚
 	public static int KnapsackOnTree() {
 		dfs(0);
-		for (int i = n + 1; i >= 2; i--) {
-			for (int j = 1; j <= m; j++) {
+		for (int i = dfnCnt; i >= 2; i--) {
+			for (int j = 1; j <= knapsack; j++) {
 				dp[i][j] = dp[i + siz[i]][j];
 				if (j - wei[i] >= 0) {
 					dp[i][j] = Math.max(dp[i][j], val[i] + dp[i + 1][j - wei[i]]);
 				}
 			}
 		}
-		return dp[2][m];
+		return dp[2][knapsack];
 	}
 
 	public static void main(String[] args) throws Exception {
 		FastReader in = new FastReader(System.in);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
 		n = in.nextInt();
-		m = in.nextInt();
+		knapsack = in.nextInt();
 		for (int i = 1; i <= n; i++) {
 			w[i] = in.nextInt();
 		}
@@ -141,11 +142,13 @@ public class Code10_Installation1 {
 			}
 		}
 		for (int i = 1; i <= n; i++) {
-			int scc1 = belong[depend[i]];
-			int scc2 = belong[i];
-			if (scc1 != scc2) {
-				addEdge2(scc1, scc2);
-				indegree[scc2]++;
+			if (depend[i] > 0) {
+				int scc1 = belong[depend[i]];
+				int scc2 = belong[i];
+				if (scc1 != scc2) {
+					addEdge2(scc1, scc2);
+					indegree[scc2]++;
+				}
 			}
 		}
 		for (int i = 1; i <= sccCnt; i++) {
