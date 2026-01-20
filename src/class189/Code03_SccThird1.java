@@ -73,7 +73,6 @@ public class Code03_SccThird1 {
 		}
 		if (dfn[u] == low[u]) {
 			sccCnt++;
-			sccSiz[sccCnt] = 0;
 			int pop;
 			do {
 				pop = sta[top--];
@@ -116,7 +115,6 @@ public class Code03_SccThird1 {
 			} else {
 				if (dfn[u] == low[u]) {
 					sccCnt++;
-					sccSiz[sccCnt] = 0;
 					int pop;
 					do {
 						pop = sta[top--];

@@ -1,7 +1,7 @@
 package class189;
 
-// 缩点模版题，java版
-// 测试链接 : https://www.luogu.com.cn/problem/P3387
+// 软件安装，java版
+// 测试链接 : https://www.luogu.com.cn/problem/P2515
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
 import java.io.IOException;
@@ -9,19 +9,18 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
-public class Code05_Condensation1 {
+public class Code10_Installation1 {
 
-	public static int MAXN = 10001;
-	public static int MAXM = 100001;
+	public static int MAXN = 105;
+	public static int MAXM = 505;
 	public static int n, m;
-
-	public static int[] arr = new int[MAXN];
-	public static int[] a = new int[MAXM];
-	public static int[] b = new int[MAXM];
+	public static int[] w = new int[MAXN];
+	public static int[] v = new int[MAXN];
+	public static int[] depend = new int[MAXN];
 
 	public static int[] head1 = new int[MAXN];
-	public static int[] nxt1 = new int[MAXM];
-	public static int[] to1 = new int[MAXM];
+	public static int[] nxt1 = new int[MAXN];
+	public static int[] to1 = new int[MAXN];
 	public static int cnt1;
 
 	public static int[] dfn = new int[MAXN];
@@ -33,22 +32,34 @@ public class Code05_Condensation1 {
 	public static int top;
 
 	public static int[] belong = new int[MAXN];
-	public static int[] sum = new int[MAXN];
+	public static int[] weight = new int[MAXN];
+	public static int[] value = new int[MAXN];
 	public static int sccCnt;
 
+	public static int[] indegree = new int[MAXN];
+
 	public static int[] head2 = new int[MAXN];
-	public static int[] nxt2 = new int[MAXM];
-	public static int[] to2 = new int[MAXM];
+	public static int[] nxt2 = new int[MAXN];
+	public static int[] to2 = new int[MAXN];
 	public static int cnt2;
 
-	public static int[] indegree = new int[MAXN];
-	public static int[] que = new int[MAXN];
-	public static int[] dp = new int[MAXN];
+	// 树上背包最优解，来自讲解079
+	public static int[] siz = new int[MAXN];
+	public static int[] wei = new int[MAXN];
+	public static int[] val = new int[MAXN];
+	public static int dfnCnt;
+	public static int[][] dp = new int[MAXN][MAXM];
 
-	public static void addEdge1(int u, int v) {
-		nxt1[++cnt1] = head1[u];
-		to1[cnt1] = v;
-		head1[u] = cnt1;
+	public static void addEdge1(int a, int b) {
+		nxt1[++cnt1] = head1[a];
+		to1[cnt1] = b;
+		head1[a] = cnt1;
+	}
+
+	public static void addEdge2(int a, int b) {
+		nxt2[++cnt2] = head2[a];
+		to2[cnt2] = b;
+		head2[a] = cnt2;
 	}
 
 	public static void tarjan(int u) {
@@ -72,41 +83,39 @@ public class Code05_Condensation1 {
 			do {
 				pop = sta[top--];
 				belong[pop] = sccCnt;
-				sum[sccCnt] += arr[pop];
+				weight[sccCnt] += w[pop];
+				value[sccCnt] += v[pop];
 				ins[pop] = false;
 			} while (pop != u);
 		}
 	}
 
-	public static void addEdge2(int u, int v) {
-		nxt2[++cnt2] = head2[u];
-		to2[cnt2] = v;
-		head2[u] = cnt2;
+	// 缩点后的树，每个节点重新分配dfn序号
+	public static int dfs(int u) {
+		int i = ++dfnCnt;
+		siz[i] = 1;
+		wei[i] = weight[u];
+		val[i] = value[u];
+		for (int e = head2[u]; e > 0; e = nxt2[e]) {
+			int v = to2[e];
+			siz[i] += dfs(v);
+		}
+		return siz[i];
 	}
 
-	public static int topo() {
-		int l = 1, r = 0;
-		for (int i = 1; i <= sccCnt; i++) {
-			if (indegree[i] == 0) {
-				que[++r] = i;
-			}
-		}
-		while (l <= r) {
-			int u = que[l++];
-			dp[u] += sum[u];
-			for (int e = head2[u]; e > 0; e = nxt2[e]) {
-				int v = to2[e];
-				dp[v] = Math.max(dp[v], dp[u]);
-				if (--indegree[v] == 0) {
-					que[++r] = v;
+	// 树上01背包最优解
+	// 讲解079，题目5，树上背包最优解，讲的非常清楚
+	public static int KnapsackOnTree() {
+		dfs(0);
+		for (int i = n + 1; i >= 2; i--) {
+			for (int j = 1; j <= m; j++) {
+				dp[i][j] = dp[i + siz[i]][j];
+				if (j - wei[i] >= 0) {
+					dp[i][j] = Math.max(dp[i][j], val[i] + dp[i + 1][j - wei[i]]);
 				}
 			}
 		}
-		int ans = 0;
-		for (int i = 1; i <= sccCnt; i++) {
-			ans = Math.max(ans, dp[i]);
-		}
-		return ans;
+		return dp[2][m];
 	}
 
 	public static void main(String[] args) throws Exception {
@@ -115,27 +124,36 @@ public class Code05_Condensation1 {
 		n = in.nextInt();
 		m = in.nextInt();
 		for (int i = 1; i <= n; i++) {
-			arr[i] = in.nextInt();
+			w[i] = in.nextInt();
 		}
-		for (int i = 1; i <= m; i++) {
-			a[i] = in.nextInt();
-			b[i] = in.nextInt();
-			addEdge1(a[i], b[i]);
+		for (int i = 1; i <= n; i++) {
+			v[i] = in.nextInt();
+		}
+		for (int i = 1; i <= n; i++) {
+			depend[i] = in.nextInt();
+			if (depend[i] > 0) {
+				addEdge1(depend[i], i);
+			}
 		}
 		for (int i = 1; i <= n; i++) {
 			if (dfn[i] == 0) {
 				tarjan(i);
 			}
 		}
-		for (int i = 1; i <= m; i++) {
-			int scc1 = belong[a[i]];
-			int scc2 = belong[b[i]];
+		for (int i = 1; i <= n; i++) {
+			int scc1 = belong[depend[i]];
+			int scc2 = belong[i];
 			if (scc1 != scc2) {
-				indegree[scc2]++;
 				addEdge2(scc1, scc2);
+				indegree[scc2]++;
 			}
 		}
-		int ans = topo();
+		for (int i = 1; i <= sccCnt; i++) {
+			if (indegree[i] == 0) {
+				addEdge2(0, i);
+			}
+		}
+		int ans = KnapsackOnTree();
 		out.println(ans);
 		out.flush();
 		out.close();

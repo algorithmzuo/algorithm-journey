@@ -59,7 +59,6 @@ public class Code06_PopularCow1 {
 		}
 		if (dfn[u] == low[u]) {
 			sccCnt++;
-			sccSiz[sccCnt] = 0;
 			int pop;
 			do {
 				pop = sta[top--];

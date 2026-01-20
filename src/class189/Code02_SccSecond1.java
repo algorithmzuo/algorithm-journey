@@ -77,7 +77,6 @@ public class Code02_SccSecond1 {
 		}
 		if (dfn[u] == low[u]) {
 			sccCnt++;
-			sccSiz[sccCnt] = 0;
 			sccl[sccCnt] = idx + 1;
 			int pop;
 			do {
@@ -122,7 +121,6 @@ public class Code02_SccSecond1 {
 			} else {
 				if (dfn[u] == low[u]) {
 					sccCnt++;
-					sccSiz[sccCnt] = 0;
 					sccl[sccCnt] = idx + 1;
 					int pop;
 					do {
