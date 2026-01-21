@@ -170,7 +170,7 @@ package class190;
 //        bfs();
 //        int ans = 0;
 //        for (int i = 1; i <= sccCnt; i++) {
-//            if (reachEnd[i] && dp[i] != INF) {
+//            if (dp[i] != INF && reachEnd[i]) {
 //                ans = max(ans, maxv[i] - dp[i]);
 //            }
 //        }
