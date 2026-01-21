@@ -9,7 +9,7 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
-public class Code09_Spy1 {
+public class Code11_Spy1 {
 
 	public static int MAXN = 3001;
 	public static int MAXM = 8001;

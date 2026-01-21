@@ -1,7 +1,7 @@
 package class189;
 
-// 受欢迎的牛，java版
-// 测试链接 : https://www.luogu.com.cn/problem/P2341
+// 消息扩散，java版
+// 测试链接 : https://www.luogu.com.cn/problem/P2002
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
 import java.io.IOException;
@@ -9,10 +9,10 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
-public class Code06_PopularCow1 {
+public class Code09_NewsSpread1 {
 
-	public static int MAXN = 10001;
-	public static int MAXM = 50001;
+	public static int MAXN = 100001;
+	public static int MAXM = 500001;
 	public static int n, m;
 	public static int[] a = new int[MAXM];
 	public static int[] b = new int[MAXM];
@@ -31,10 +31,28 @@ public class Code06_PopularCow1 {
 	public static int top;
 
 	public static int[] belong = new int[MAXN];
-	public static int[] sccSiz = new int[MAXN];
 	public static int sccCnt;
 
-	public static int[] outdegree = new int[MAXN];
+	public static int[] indegree = new int[MAXN];
+
+	// 迭代版需要的栈，讲解118讲了递归改迭代的技巧
+	public static int[][] stack = new int[MAXN][3];
+	public static int u, status, e;
+	public static int stacksize;
+
+	public static void push(int u, int status, int e) {
+		stack[stacksize][0] = u;
+		stack[stacksize][1] = status;
+		stack[stacksize][2] = e;
+		stacksize++;
+	}
+
+	public static void pop() {
+		stacksize--;
+		u = stack[stacksize][0];
+		status = stack[stacksize][1];
+		e = stack[stacksize][2];
+	}
 
 	public static void addEdge(int u, int v) {
 		nxt[++cntg] = head[u];
@@ -42,14 +60,15 @@ public class Code06_PopularCow1 {
 		head[u] = cntg;
 	}
 
-	public static void tarjan(int u) {
+	// 递归版，java会爆栈，C++可以通过
+	public static void tarjan1(int u) {
 		dfn[u] = low[u] = ++cntd;
 		sta[++top] = u;
 		ins[u] = true;
 		for (int e = head[u]; e > 0; e = nxt[e]) {
 			int v = to[e];
 			if (dfn[v] == 0) {
-				tarjan(v);
+				tarjan1(v);
 				low[u] = Math.min(low[u], low[v]);
 			} else {
 				if (ins[v]) {
@@ -63,9 +82,52 @@ public class Code06_PopularCow1 {
 			do {
 				pop = sta[top--];
 				belong[pop] = sccCnt;
-				sccSiz[sccCnt]++;
 				ins[pop] = false;
 			} while (pop != u);
+		}
+	}
+
+	// 迭代版
+	public static void tarjan2(int node) {
+		stacksize = 0;
+		push(node, -1, -1);
+		int v;
+		while (stacksize > 0) {
+			pop();
+			if (status == -1) {
+				dfn[u] = low[u] = ++cntd;
+				sta[++top] = u;
+				ins[u] = true;
+				e = head[u];
+			} else {
+				v = to[e];
+				if (status == 0) {
+					low[u] = Math.min(low[u], low[v]);
+				}
+				if (status == 1 && ins[v]) {
+					low[u] = Math.min(low[u], dfn[v]);
+				}
+				e = nxt[e];
+			}
+			if (e != 0) {
+				v = to[e];
+				if (dfn[v] == 0) {
+					push(u, 0, e);
+					push(v, -1, -1);
+				} else {
+					push(u, 1, e);
+				}
+			} else {
+				if (dfn[u] == low[u]) {
+					sccCnt++;
+					int pop;
+					do {
+						pop = sta[top--];
+						belong[pop] = sccCnt;
+						ins[pop] = false;
+					} while (pop != u);
+				}
+			}
 		}
 	}
 
@@ -81,24 +143,24 @@ public class Code06_PopularCow1 {
 		}
 		for (int i = 1; i <= n; i++) {
 			if (dfn[i] == 0) {
-				tarjan(i);
+				// tarjan1(i);
+				tarjan2(i);
 			}
 		}
 		for (int i = 1; i <= m; i++) {
 			int scc1 = belong[a[i]];
 			int scc2 = belong[b[i]];
 			if (scc1 != scc2) {
-				outdegree[scc1]++;
+				indegree[scc2]++;
 			}
 		}
-		int num = 0, siz = 0;
+		int ans = 0;
 		for (int i = 1; i <= sccCnt; i++) {
-			if (outdegree[i] == 0) {
-				num++;
-				siz = sccSiz[i];
+			if (indegree[i] == 0) {
+				ans++;
 			}
 		}
-		out.println(num == 1 ? siz : 0);
+		out.println(ans);
 		out.flush();
 		out.close();
 	}
