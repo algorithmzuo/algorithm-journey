@@ -32,8 +32,8 @@ public class Code10_SoftwareInstallation1 {
 	public static int top;
 
 	public static int[] belong = new int[MAXN];
-	public static int[] weight = new int[MAXN];
-	public static int[] value = new int[MAXN];
+	public static int[] wsum = new int[MAXN];
+	public static int[] vsum = new int[MAXN];
 	public static int sccCnt;
 
 	public static int[] indegree = new int[MAXN];
@@ -46,8 +46,8 @@ public class Code10_SoftwareInstallation1 {
 
 	// 树上背包最优解，来自讲解079，题目5
 	public static int[] siz = new int[MAXN];
-	public static int[] wei = new int[MAXN];
-	public static int[] val = new int[MAXN];
+	public static int[] weight = new int[MAXN];
+	public static int[] value = new int[MAXN];
 	public static int dfnCnt;
 	public static int[][] dp = new int[MAXN][MAXW];
 
@@ -84,8 +84,8 @@ public class Code10_SoftwareInstallation1 {
 			do {
 				pop = sta[top--];
 				belong[pop] = sccCnt;
-				weight[sccCnt] += w[pop];
-				value[sccCnt] += v[pop];
+				wsum[sccCnt] += w[pop];
+				vsum[sccCnt] += v[pop];
 				ins[pop] = false;
 			} while (pop != u);
 		}
@@ -95,8 +95,8 @@ public class Code10_SoftwareInstallation1 {
 	public static int dfs(int u) {
 		int i = ++dfnCnt;
 		siz[i] = 1;
-		wei[i] = weight[u];
-		val[i] = value[u];
+		weight[i] = wsum[u];
+		value[i] = vsum[u];
 		for (int e = head2[u]; e > 0; e = nxt2[e]) {
 			int v = to2[e];
 			siz[i] += dfs(v);
@@ -111,8 +111,8 @@ public class Code10_SoftwareInstallation1 {
 		for (int i = dfnCnt; i >= 2; i--) {
 			for (int j = 1; j <= knapsack; j++) {
 				dp[i][j] = dp[i + siz[i]][j];
-				if (j - wei[i] >= 0) {
-					dp[i][j] = Math.max(dp[i][j], val[i] + dp[i + 1][j - wei[i]]);
+				if (j - weight[i] >= 0) {
+					dp[i][j] = Math.max(dp[i][j], value[i] + dp[i + 1][j - weight[i]]);
 				}
 			}
 		}
