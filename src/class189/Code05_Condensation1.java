@@ -84,7 +84,7 @@ public class Code05_Condensation1 {
 		head2[u] = cnt2;
 	}
 
-	public static int topo() {
+	public static void topo() {
 		int l = 1, r = 0;
 		for (int i = 1; i <= sccCnt; i++) {
 			if (indegree[i] == 0) {
@@ -102,11 +102,6 @@ public class Code05_Condensation1 {
 				}
 			}
 		}
-		int ans = 0;
-		for (int i = 1; i <= sccCnt; i++) {
-			ans = Math.max(ans, dp[i]);
-		}
-		return ans;
 	}
 
 	public static void main(String[] args) throws Exception {
@@ -135,7 +130,11 @@ public class Code05_Condensation1 {
 				addEdge2(scc1, scc2);
 			}
 		}
-		int ans = topo();
+		topo();
+		int ans = 0;
+		for (int i = 1; i <= sccCnt; i++) {
+			ans = Math.max(ans, dp[i]);
+		}
 		out.println(ans);
 		out.flush();
 		out.close();

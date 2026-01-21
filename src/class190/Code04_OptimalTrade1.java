@@ -1,7 +1,7 @@
-package class189;
+package class190;
 
-// 采蘑菇，java版
-// 测试链接 : https://www.luogu.com.cn/problem/P2656
+// 最优贸易，java版
+// 测试链接 : https://www.luogu.com.cn/problem/P1073
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
 import java.io.IOException;
@@ -9,22 +9,30 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
-public class Code07_PickMushroom1 {
+public class Code04_OptimalTrade1 {
 
-	public static int MAXN = 80001;
-	public static int MAXM = 200001;
+	public static int MAXN = 100001;
+	public static int MAXM = 1000001;
 	public static int INF = 1000000001;
-	public static int n, m, s;
-
+	public static int n, m;
+	public static int[] val = new int[MAXN];
 	public static int[] a = new int[MAXM];
 	public static int[] b = new int[MAXM];
-	public static int[] init = new int[MAXM];
-	public static int[] recover = new int[MAXM];
 
 	public static int[] head1 = new int[MAXN];
 	public static int[] nxt1 = new int[MAXM];
 	public static int[] to1 = new int[MAXM];
 	public static int cnt1;
+
+	public static int[] head2 = new int[MAXN];
+	public static int[] nxt2 = new int[MAXM];
+	public static int[] to2 = new int[MAXM];
+	public static int cnt2;
+
+	public static int[] head3 = new int[MAXN];
+	public static int[] nxt3 = new int[MAXM];
+	public static int[] to3 = new int[MAXM];
+	public static int cnt3;
 
 	public static int[] dfn = new int[MAXN];
 	public static int[] low = new int[MAXN];
@@ -35,19 +43,14 @@ public class Code07_PickMushroom1 {
 	public static int top;
 
 	public static int[] belong = new int[MAXN];
+	public static int[] minv = new int[MAXN];
+	public static int[] maxv = new int[MAXN];
 	public static int sccCnt;
 
-	public static int[] head2 = new int[MAXN];
-	public static int[] nxt2 = new int[MAXM];
-	public static int[] to2 = new int[MAXM];
-	public static int[] weight2 = new int[MAXM];
-	public static int cnt2;
-
-	public static int[] sum = new int[MAXN];
 	public static int[] indegree = new int[MAXN];
-
 	public static int[] que = new int[MAXN];
 	public static int[] dp = new int[MAXN];
+	public static boolean[] reachEnd = new boolean[MAXN];
 
 	// 迭代版需要的栈，讲解118讲了递归改迭代的技巧
 	public static int[][] stack = new int[MAXN][3];
@@ -74,11 +77,16 @@ public class Code07_PickMushroom1 {
 		head1[u] = cnt1;
 	}
 
-	public static void addEdge2(int u, int v, int w) {
+	public static void addEdge2(int u, int v) {
 		nxt2[++cnt2] = head2[u];
 		to2[cnt2] = v;
-		weight2[cnt2] = w;
 		head2[u] = cnt2;
+	}
+
+	public static void addEdge3(int u, int v) {
+		nxt3[++cnt3] = head3[u];
+		to3[cnt3] = v;
+		head3[u] = cnt3;
 	}
 
 	// 递归版，java会爆栈，C++可以通过
@@ -99,10 +107,14 @@ public class Code07_PickMushroom1 {
 		}
 		if (dfn[u] == low[u]) {
 			sccCnt++;
+			minv[sccCnt] = INF;
+			maxv[sccCnt] = -INF;
 			int pop;
 			do {
 				pop = sta[top--];
 				belong[pop] = sccCnt;
+				minv[sccCnt] = Math.min(minv[sccCnt], val[pop]);
+				maxv[sccCnt] = Math.max(maxv[sccCnt], val[pop]);
 				ins[pop] = false;
 			} while (pop != u);
 		}
@@ -141,10 +153,14 @@ public class Code07_PickMushroom1 {
 			} else {
 				if (dfn[u] == low[u]) {
 					sccCnt++;
+					minv[sccCnt] = INF;
+					maxv[sccCnt] = -INF;
 					int pop;
 					do {
 						pop = sta[top--];
 						belong[pop] = sccCnt;
+						minv[sccCnt] = Math.min(minv[sccCnt], val[pop]);
+						maxv[sccCnt] = Math.max(maxv[sccCnt], val[pop]);
 						ins[pop] = false;
 					} while (pop != u);
 				}
@@ -152,42 +168,39 @@ public class Code07_PickMushroom1 {
 		}
 	}
 
-	public static void condense() {
-		for (int i = 1; i <= m; i++) {
-			int scc1 = belong[a[i]];
-			int scc2 = belong[b[i]];
-			int val = init[i];
-			int rec = recover[i];
-			if (scc1 == scc2) {
-				while (val > 0) {
-					sum[scc1] += val;
-					val = val * rec / 10;
-				}
-			} else {
-				indegree[scc2]++;
-				addEdge2(scc1, scc2, val);
-			}
-		}
-	}
-
 	public static void topo() {
 		int l = 1, r = 0;
 		for (int i = 1; i <= sccCnt; i++) {
-			dp[i] = -INF;
+			dp[i] = INF;
 			if (indegree[i] == 0) {
 				que[++r] = i;
 			}
 		}
-		dp[belong[s]] = sum[belong[s]];
+		dp[belong[1]] = minv[belong[1]];
 		while (l <= r) {
 			int u = que[l++];
 			for (int e = head2[u]; e > 0; e = nxt2[e]) {
 				int v = to2[e];
-				int w = weight2[e];
-				if (dp[u] != -INF) {
-					dp[v] = Math.max(dp[v], dp[u] + w + sum[v]);
+				if (dp[u] != INF) {
+					dp[v] = Math.min(dp[v], Math.min(dp[u], minv[v]));
 				}
 				if (--indegree[v] == 0) {
+					que[++r] = v;
+				}
+			}
+		}
+	}
+
+	public static void bfs() {
+		int l = 1, r = 0;
+		reachEnd[belong[n]] = true;
+		que[++r] = belong[n];
+		while (l <= r) {
+			int u = que[l++];
+			for (int e = head3[u]; e > 0; e = nxt3[e]) {
+				int v = to3[e];
+				if (!reachEnd[v]) {
+					reachEnd[v] = true;
 					que[++r] = v;
 				}
 			}
@@ -199,28 +212,44 @@ public class Code07_PickMushroom1 {
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
 		n = in.nextInt();
 		m = in.nextInt();
-		for (int i = 1; i <= m; i++) {
+		for (int i = 1; i <= n; i++) {
+			val[i] = in.nextInt();
+		}
+		for (int i = 1, op; i <= m; i++) {
 			a[i] = in.nextInt();
 			b[i] = in.nextInt();
-			init[i] = in.nextInt();
-			double rec = in.nextDouble();
-			recover[i] = (int) (rec * 10);
-			addEdge1(a[i], b[i]);
-		}
-		s = in.nextInt();
-		for (int i = 1; i <= n; i++) {
-			if (dfn[i] == 0) {
-				// tarjan1(i);
-				tarjan2(i);
+			op = in.nextInt();
+			if (op == 1) {
+				addEdge1(a[i], b[i]);
+			} else {
+				addEdge1(a[i], b[i]);
+				addEdge1(b[i], a[i]);
 			}
 		}
-		condense();
-		topo();
-		int ans = 0;
-		for (int i = 1; i <= sccCnt; i++) {
-			ans = Math.max(ans, dp[i]);
+		// tarjan1(1);
+		tarjan2(1);
+		if (belong[n] == 0) {
+			out.println(0);
+		} else {
+			for (int i = 1; i <= m; i++) {
+				int scc1 = belong[a[i]];
+				int scc2 = belong[b[i]];
+				if (scc1 > 0 && scc2 > 0 && scc1 != scc2) {
+					indegree[scc2]++;
+					addEdge2(scc1, scc2);
+					addEdge3(scc2, scc1);
+				}
+			}
+			topo();
+			bfs();
+			int ans = 0;
+			for (int i = 1; i <= sccCnt; i++) {
+				if (reachEnd[i] && dp[i] != INF) {
+					ans = Math.max(ans, maxv[i] - dp[i]);
+				}
+			}
+			out.println(ans);
 		}
-		out.println(ans);
 		out.flush();
 		out.close();
 	}
@@ -259,34 +288,6 @@ public class Code07_PickMushroom1 {
 			while (c > ' ' && c != -1) {
 				val = val * 10 + (c - '0');
 				c = readByte();
-			}
-			return neg ? -val : val;
-		}
-
-		double nextDouble() throws IOException {
-			int c;
-			do {
-				c = readByte();
-			} while (c <= ' ' && c != -1);
-			boolean neg = false;
-			if (c == '-') {
-				neg = true;
-				c = readByte();
-			}
-			long intPart = 0;
-			while (c > ' ' && c != -1 && c != '.') {
-				intPart = intPart * 10 + (c - '0');
-				c = readByte();
-			}
-			double val = (double) intPart;
-			if (c == '.') {
-				c = readByte();
-				double base = 0.1;
-				while (c > ' ' && c != -1) {
-					val += (c - '0') * base;
-					base *= 0.1;
-					c = readByte();
-				}
 			}
 			return neg ? -val : val;
 		}
