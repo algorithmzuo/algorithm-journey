@@ -1,4 +1,4 @@
-package class190;
+package class189;
 
 // 采蘑菇，java版
 // 测试链接 : https://www.luogu.com.cn/problem/P2656
@@ -9,7 +9,7 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
-public class Code01_PickMushroom1 {
+public class Code07_PickMushroom1 {
 
 	public static int MAXN = 80001;
 	public static int MAXM = 200001;

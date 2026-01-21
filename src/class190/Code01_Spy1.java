@@ -1,8 +1,7 @@
-package class189;
+package class190;
 
-// 检查站，java版
-// 测试链接 : https://www.luogu.com.cn/problem/CF427C
-// 测试链接 : https://codeforces.com/problemset/problem/427/C
+// 间谍网络，java版
+// 测试链接 : https://www.luogu.com.cn/problem/P1262
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
 import java.io.IOException;
@@ -10,13 +9,16 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
-public class Code12_Checkposts1 {
+public class Code01_Spy1 {
 
-	public static int MAXN = 100001;
-	public static int MAXM = 300001;
-	public static int MOD = 1000000007;
+	public static int MAXN = 3001;
+	public static int MAXM = 8001;
+	public static int INF = 1000000001;
 	public static int n, p, m;
+
 	public static int[] cost = new int[MAXN];
+	public static int[] a = new int[MAXM];
+	public static int[] b = new int[MAXM];
 
 	public static int[] head = new int[MAXN];
 	public static int[] nxt = new int[MAXM];
@@ -31,9 +33,11 @@ public class Code12_Checkposts1 {
 	public static int[] sta = new int[MAXN];
 	public static int top;
 
+	public static int[] belong = new int[MAXN];
 	public static int[] minVal = new int[MAXN];
-	public static int[] minCnt = new int[MAXN];
 	public static int sccCnt;
+
+	public static int[] indegree = new int[MAXN];
 
 	public static void addEdge(int u, int v) {
 		nxt[++cntg] = head[u];
@@ -58,17 +62,12 @@ public class Code12_Checkposts1 {
 		}
 		if (dfn[u] == low[u]) {
 			sccCnt++;
-			minVal[sccCnt] = 1000000001;
-			minCnt[sccCnt] = 0;
+			minVal[sccCnt] = INF;
 			int pop;
 			do {
 				pop = sta[top--];
-				if (minVal[sccCnt] > cost[pop]) {
-					minVal[sccCnt] = cost[pop];
-					minCnt[sccCnt] = 1;
-				} else if (minVal[sccCnt] == cost[pop]) {
-					minCnt[sccCnt]++;
-				}
+				belong[pop] = sccCnt;
+				minVal[sccCnt] = Math.min(minVal[sccCnt], cost[pop]);
 				ins[pop] = false;
 			} while (pop != u);
 		}
@@ -78,26 +77,54 @@ public class Code12_Checkposts1 {
 		FastReader in = new FastReader(System.in);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
 		n = in.nextInt();
+		p = in.nextInt();
 		for (int i = 1; i <= n; i++) {
-			cost[i] = in.nextInt();
+			cost[i] = INF;
+		}
+		for (int i = 1, u, c; i <= p; i++) {
+			u = in.nextInt();
+			c = in.nextInt();
+			cost[u] = c;
 		}
 		m = in.nextInt();
-		for (int i = 1, u, v; i <= m; i++) {
-			u = in.nextInt();
-			v = in.nextInt();
-			addEdge(u, v);
+		for (int i = 1; i <= m; i++) {
+			a[i] = in.nextInt();
+			b[i] = in.nextInt();
+			addEdge(a[i], b[i]);
 		}
 		for (int i = 1; i <= n; i++) {
-			if (dfn[i] == 0) {
+			if (cost[i] != INF && dfn[i] == 0) {
 				tarjan(i);
 			}
 		}
-		long ans1 = 0, ans2 = 1;
-		for (int i = 1; i <= sccCnt; i++) {
-			ans1 += minVal[i];
-			ans2 = (ans2 * minCnt[i]) % MOD;
+		boolean check = true;
+		int ans = 0;
+		for (int i = 1; i <= n; i++) {
+			if (belong[i] == 0) {
+				check = false;
+				ans = i;
+				break;
+			}
 		}
-		out.println(ans1 + " " + ans2);
+		if (!check) {
+			out.println("NO");
+			out.println(ans);
+		} else {
+			for (int i = 1; i <= m; i++) {
+				int scc1 = belong[a[i]];
+				int scc2 = belong[b[i]];
+				if (scc1 != scc2) {
+					indegree[scc2]++;
+				}
+			}
+			for (int i = 1; i <= sccCnt; i++) {
+				if (indegree[i] == 0) {
+					ans += minVal[i];
+				}
+			}
+			out.println("YES");
+			out.println(ans);
+		}
 		out.flush();
 		out.close();
 	}
