@@ -12,7 +12,7 @@ import java.io.PrintWriter;
 public class Code04_OptimalTrade1 {
 
 	public static int MAXN = 100001;
-	public static int MAXM = 1000001;
+	public static int MAXM = 500001;
 	public static int INF = 1000000001;
 	public static int n, m;
 	public static int[] val = new int[MAXN];
@@ -20,19 +20,14 @@ public class Code04_OptimalTrade1 {
 	public static int[] b = new int[MAXM];
 
 	public static int[] head1 = new int[MAXN];
-	public static int[] nxt1 = new int[MAXM];
-	public static int[] to1 = new int[MAXM];
+	public static int[] nxt1 = new int[MAXM << 1];
+	public static int[] to1 = new int[MAXM << 1];
 	public static int cnt1;
 
 	public static int[] head2 = new int[MAXN];
 	public static int[] nxt2 = new int[MAXM];
 	public static int[] to2 = new int[MAXM];
 	public static int cnt2;
-
-	public static int[] head3 = new int[MAXN];
-	public static int[] nxt3 = new int[MAXM];
-	public static int[] to3 = new int[MAXM];
-	public static int cnt3;
 
 	public static int[] dfn = new int[MAXN];
 	public static int[] low = new int[MAXN];
@@ -49,8 +44,8 @@ public class Code04_OptimalTrade1 {
 
 	public static int[] indegree = new int[MAXN];
 	public static int[] que = new int[MAXN];
-	public static int[] dp = new int[MAXN];
-	public static boolean[] reachEnd = new boolean[MAXN];
+	public static int[] premin = new int[MAXN];
+	public static int[] best = new int[MAXN];
 
 	// 迭代版需要的栈，讲解118讲了递归改迭代的技巧
 	public static int[][] stack = new int[MAXN][3];
@@ -81,12 +76,6 @@ public class Code04_OptimalTrade1 {
 		nxt2[++cnt2] = head2[u];
 		to2[cnt2] = v;
 		head2[u] = cnt2;
-	}
-
-	public static void addEdge3(int u, int v) {
-		nxt3[++cnt3] = head3[u];
-		to3[cnt3] = v;
-		head3[u] = cnt3;
 	}
 
 	// 递归版，java会爆栈，C++可以通过
@@ -168,43 +157,32 @@ public class Code04_OptimalTrade1 {
 		}
 	}
 
-	public static void topo() {
+	public static int topo() {
 		int l = 1, r = 0;
 		for (int i = 1; i <= sccCnt; i++) {
-			dp[i] = INF;
+			premin[i] = INF;
+			best[i] = -INF;
 			if (indegree[i] == 0) {
 				que[++r] = i;
 			}
 		}
-		dp[belong[1]] = minv[belong[1]];
+		int s = belong[1];
+		premin[s] = minv[s];
+		best[s] = maxv[s] - minv[s];
 		while (l <= r) {
 			int u = que[l++];
 			for (int e = head2[u]; e > 0; e = nxt2[e]) {
 				int v = to2[e];
-				if (dp[u] != INF) {
-					dp[v] = Math.min(dp[v], Math.min(dp[u], minv[v]));
+				if (premin[u] != INF) {
+					premin[v] = Math.min(premin[v], Math.min(premin[u], minv[v]));
+					best[v] = Math.max(best[v], Math.max(best[u], maxv[v] - premin[v]));
 				}
 				if (--indegree[v] == 0) {
 					que[++r] = v;
 				}
 			}
 		}
-	}
-
-	public static void bfs() {
-		int l = 1, r = 0;
-		reachEnd[belong[n]] = true;
-		que[++r] = belong[n];
-		while (l <= r) {
-			int u = que[l++];
-			for (int e = head3[u]; e > 0; e = nxt3[e]) {
-				int v = to3[e];
-				if (!reachEnd[v]) {
-					reachEnd[v] = true;
-					que[++r] = v;
-				}
-			}
-		}
+		return best[belong[n]];
 	}
 
 	public static void main(String[] args) throws Exception {
@@ -237,17 +215,9 @@ public class Code04_OptimalTrade1 {
 				if (scc1 > 0 && scc2 > 0 && scc1 != scc2) {
 					indegree[scc2]++;
 					addEdge2(scc1, scc2);
-					addEdge3(scc2, scc1);
 				}
 			}
-			topo();
-			bfs();
-			int ans = 0;
-			for (int i = 1; i <= sccCnt; i++) {
-				if (dp[i] != INF && reachEnd[i]) {
-					ans = Math.max(ans, maxv[i] - dp[i]);
-				}
-			}
+			int ans = topo();
 			out.println(ans);
 		}
 		out.flush();

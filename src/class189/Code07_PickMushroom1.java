@@ -170,7 +170,7 @@ public class Code07_PickMushroom1 {
 		}
 	}
 
-	public static void topo() {
+	public static int topo() {
 		int l = 1, r = 0;
 		for (int i = 1; i <= sccCnt; i++) {
 			dp[i] = -INF;
@@ -192,6 +192,11 @@ public class Code07_PickMushroom1 {
 				}
 			}
 		}
+		int ans = 0;
+		for (int i = 1; i <= sccCnt; i++) {
+			ans = Math.max(ans, dp[i]);
+		}
+		return ans;
 	}
 
 	public static void main(String[] args) throws Exception {
@@ -215,11 +220,7 @@ public class Code07_PickMushroom1 {
 			}
 		}
 		condense();
-		topo();
-		int ans = 0;
-		for (int i = 1; i <= sccCnt; i++) {
-			ans = Math.max(ans, dp[i]);
-		}
+		int ans = topo();
 		out.println(ans);
 		out.flush();
 		out.close();
