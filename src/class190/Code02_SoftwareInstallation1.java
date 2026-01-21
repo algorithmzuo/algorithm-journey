@@ -1,4 +1,4 @@
-package class189;
+package class190;
 
 // 软件安装，java版
 // 测试链接 : https://www.luogu.com.cn/problem/P2515
@@ -9,7 +9,7 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
-public class Code12_SoftwareInstallation1 {
+public class Code02_SoftwareInstallation1 {
 
 	public static int MAXN = 105;
 	public static int MAXW = 505;
