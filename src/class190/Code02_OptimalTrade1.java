@@ -9,7 +9,7 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
-public class Code03_OptimalTrade1 {
+public class Code02_OptimalTrade1 {
 
 	public static int MAXN = 100001;
 	public static int MAXM = 500001;
@@ -157,26 +157,33 @@ public class Code03_OptimalTrade1 {
 		}
 	}
 
+	public static void condense() {
+		for (int i = 1; i <= m; i++) {
+			int scc1 = belong[a[i]];
+			int scc2 = belong[b[i]];
+			if (scc1 > 0 && scc2 > 0 && scc1 != scc2) {
+				indegree[scc2]++;
+				addEdge2(scc1, scc2);
+			}
+		}
+	}
+
 	public static int topo() {
-		int l = 1, r = 0;
 		for (int i = 1; i <= sccCnt; i++) {
 			premin[i] = INF;
 			best[i] = -INF;
-			if (indegree[i] == 0) {
-				que[++r] = i;
-			}
 		}
 		int s = belong[1];
 		premin[s] = minv[s];
 		best[s] = maxv[s] - minv[s];
+		int l = 1, r = 0;
+		que[++r] = s;
 		while (l <= r) {
 			int u = que[l++];
 			for (int e = head2[u]; e > 0; e = nxt2[e]) {
 				int v = to2[e];
-				if (premin[u] != INF) {
-					premin[v] = Math.min(premin[v], Math.min(premin[u], minv[v]));
-					best[v] = Math.max(best[v], Math.max(best[u], maxv[v] - premin[v]));
-				}
+				premin[v] = Math.min(premin[v], Math.min(premin[u], minv[v]));
+				best[v] = Math.max(best[v], Math.max(best[u], maxv[v] - premin[v]));
 				if (--indegree[v] == 0) {
 					que[++r] = v;
 				}
@@ -209,14 +216,7 @@ public class Code03_OptimalTrade1 {
 		if (belong[n] == 0) {
 			out.println(0);
 		} else {
-			for (int i = 1; i <= m; i++) {
-				int scc1 = belong[a[i]];
-				int scc2 = belong[b[i]];
-				if (scc1 > 0 && scc2 > 0 && scc1 != scc2) {
-					indegree[scc2]++;
-					addEdge2(scc1, scc2);
-				}
-			}
+			condense();
 			int ans = topo();
 			out.println(ans);
 		}

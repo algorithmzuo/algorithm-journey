@@ -9,7 +9,7 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
-public class Code02_PickMushroom1 {
+public class Code01_PickMushroom1 {
 
 	public static int MAXN = 80001;
 	public static int MAXM = 200001;
@@ -156,37 +156,35 @@ public class Code02_PickMushroom1 {
 		for (int i = 1; i <= m; i++) {
 			int scc1 = belong[a[i]];
 			int scc2 = belong[b[i]];
-			int val = init[i];
-			int rec = recover[i];
-			if (scc1 == scc2) {
-				while (val > 0) {
-					sum[scc1] += val;
-					val = val * rec / 10;
+			if (scc1 > 0 && scc2 > 0) {
+				int val = init[i];
+				int rec = recover[i];
+				if (scc1 == scc2) {
+					while (val > 0) {
+						sum[scc1] += val;
+						val = val * rec / 10;
+					}
+				} else {
+					indegree[scc2]++;
+					addEdge2(scc1, scc2, val);
 				}
-			} else {
-				indegree[scc2]++;
-				addEdge2(scc1, scc2, val);
 			}
 		}
 	}
 
 	public static int topo() {
-		int l = 1, r = 0;
 		for (int i = 1; i <= sccCnt; i++) {
 			dp[i] = -INF;
-			if (indegree[i] == 0) {
-				que[++r] = i;
-			}
 		}
 		dp[belong[s]] = sum[belong[s]];
+		int l = 1, r = 0;
+		que[++r] = belong[s];
 		while (l <= r) {
 			int u = que[l++];
 			for (int e = head2[u]; e > 0; e = nxt2[e]) {
 				int v = to2[e];
 				int w = weight2[e];
-				if (dp[u] != -INF) {
-					dp[v] = Math.max(dp[v], dp[u] + w + sum[v]);
-				}
+				dp[v] = Math.max(dp[v], dp[u] + w + sum[v]);
 				if (--indegree[v] == 0) {
 					que[++r] = v;
 				}
@@ -194,7 +192,9 @@ public class Code02_PickMushroom1 {
 		}
 		int ans = 0;
 		for (int i = 1; i <= sccCnt; i++) {
-			ans = Math.max(ans, dp[i]);
+			if (dp[i] != -INF) {
+				ans = Math.max(ans, dp[i]);
+			}
 		}
 		return ans;
 	}
@@ -213,12 +213,8 @@ public class Code02_PickMushroom1 {
 			addEdge1(a[i], b[i]);
 		}
 		s = in.nextInt();
-		for (int i = 1; i <= n; i++) {
-			if (dfn[i] == 0) {
-				// tarjan1(i);
-				tarjan2(i);
-			}
-		}
+		// tarjan1(s);
+		tarjan2(s);
 		condense();
 		int ans = topo();
 		out.println(ans);

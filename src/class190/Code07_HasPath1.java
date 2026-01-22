@@ -9,7 +9,7 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
-public class Code01_HasPath1 {
+public class Code07_HasPath1 {
 
 	public static int MAXN = 1001;
 	public static int MAXM = 6001;
