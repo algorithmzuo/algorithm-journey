@@ -16,9 +16,10 @@ public class Code06_MinimumTime1 {
 	public static int MAXM = 1000001;
 	public static int INF = 1000000001;
 	public static int n, m;
-	public static int[] x = new int[MAXM];
-	public static int[] y = new int[MAXM];
-	public static int[] z = new int[MAXM];
+
+	public static int[] a = new int[MAXM];
+	public static int[] b = new int[MAXM];
+	public static int[] val = new int[MAXM];
 
 	public static int[] head = new int[MAXN];
 	public static int[] nxt = new int[MAXM];
@@ -39,7 +40,7 @@ public class Code06_MinimumTime1 {
 
 	public static int[] dist = new int[MAXN];
 	public static boolean[] vis = new boolean[MAXN];
-	public static PriorityQueue<int[]> heap = new PriorityQueue<>((a, b) -> a[1] - b[1]);
+	public static PriorityQueue<int[]> heap = new PriorityQueue<>((x, y) -> x[1] - y[1]);
 
 	// 迭代版需要的栈，讲解118讲了递归改迭代的技巧
 	public static int[][] stack = new int[MAXN][3];
@@ -170,26 +171,30 @@ public class Code06_MinimumTime1 {
 		n = in.nextInt();
 		m = in.nextInt();
 		for (int i = 1; i <= m; i++) {
-			x[i] = in.nextInt();
-			y[i] = in.nextInt();
-			z[i] = in.nextInt();
-			addEdge(x[i], y[i], z[i]);
+			a[i] = in.nextInt();
+			b[i] = in.nextInt();
+			val[i] = in.nextInt();
+			addEdge(a[i], b[i], val[i]);
 		}
 		// tarjan1(1);
 		tarjan2(1);
-		cntg = 0;
-		for (int i = 1; i <= sccCnt; i++) {
-			head[i] = 0;
-		}
-		for (int i = 1; i <= m; i++) {
-			int scc1 = belong[x[i]];
-			int scc2 = belong[y[i]];
-			if (scc1 > 0 && scc2 > 0 && scc1 != scc2) {
-				addEdge(scc1, scc2, z[i]);
+		if (belong[n] == 0) {
+			out.println(-1);
+		} else {
+			cntg = 0;
+			for (int i = 1; i <= sccCnt; i++) {
+				head[i] = 0;
 			}
+			for (int i = 1; i <= m; i++) {
+				int scc1 = belong[a[i]];
+				int scc2 = belong[b[i]];
+				if (scc1 > 0 && scc2 > 0 && scc1 != scc2) {
+					addEdge(scc1, scc2, val[i]);
+				}
+			}
+			int ans = dijkstra();
+			out.println(ans);
 		}
-		int ans = dijkstra();
-		out.println(ans);
 		out.flush();
 		out.close();
 	}
