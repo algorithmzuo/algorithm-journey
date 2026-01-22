@@ -157,17 +157,6 @@ public class Code02_OptimalTrade1 {
 		}
 	}
 
-	public static void condense() {
-		for (int i = 1; i <= m; i++) {
-			int scc1 = belong[a[i]];
-			int scc2 = belong[b[i]];
-			if (scc1 > 0 && scc2 > 0 && scc1 != scc2) {
-				indegree[scc2]++;
-				addEdge2(scc1, scc2);
-			}
-		}
-	}
-
 	public static int topo() {
 		for (int i = 1; i <= sccCnt; i++) {
 			premin[i] = INF;
@@ -216,7 +205,14 @@ public class Code02_OptimalTrade1 {
 		if (belong[n] == 0) {
 			out.println(0);
 		} else {
-			condense();
+			for (int i = 1; i <= m; i++) {
+				int scc1 = belong[a[i]];
+				int scc2 = belong[b[i]];
+				if (scc1 > 0 && scc2 > 0 && scc1 != scc2) {
+					indegree[scc2]++;
+					addEdge2(scc1, scc2);
+				}
+			}
 			int ans = topo();
 			out.println(ans);
 		}
