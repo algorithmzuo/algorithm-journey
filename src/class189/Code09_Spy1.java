@@ -1,7 +1,7 @@
 package class189;
 
-// 任意两点都有路，java版
-// 测试链接 : https://www.luogu.com.cn/problem/P10944
+// 间谍网络，java版
+// 测试链接 : https://www.luogu.com.cn/problem/P1262
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
 import java.io.IOException;
@@ -9,18 +9,21 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
-public class Code06_HasPath1 {
+public class Code09_Spy1 {
 
-	public static int MAXN = 1001;
-	public static int MAXM = 6001;
-	public static int t, n, m;
+	public static int MAXN = 3001;
+	public static int MAXM = 8001;
+	public static int INF = 1000000001;
+	public static int n, p, m;
+
+	public static int[] cost = new int[MAXN];
 	public static int[] a = new int[MAXM];
 	public static int[] b = new int[MAXM];
 
-	public static int[] head1 = new int[MAXN];
-	public static int[] nxt1 = new int[MAXM];
-	public static int[] to1 = new int[MAXM];
-	public static int cnt1;
+	public static int[] head = new int[MAXN];
+	public static int[] nxt = new int[MAXM];
+	public static int[] to = new int[MAXM];
+	public static int cntg;
 
 	public static int[] dfn = new int[MAXN];
 	public static int[] low = new int[MAXN];
@@ -31,41 +34,23 @@ public class Code06_HasPath1 {
 	public static int top;
 
 	public static int[] belong = new int[MAXN];
+	public static int[] minVal = new int[MAXN];
 	public static int sccCnt;
 
-	public static int[] head2 = new int[MAXN];
-	public static int[] nxt2 = new int[MAXM];
-	public static int[] to2 = new int[MAXM];
-	public static int cnt2;
-
 	public static int[] indegree = new int[MAXN];
-	public static int[] que = new int[MAXN];
 
-	public static void prepare() {
-		cnt1 = cnt2 = cntd = sccCnt = 0;
-		for (int i = 1; i <= n; i++) {
-			head1[i] = head2[i] = dfn[i] = indegree[i] = 0;
-		}
-	}
-
-	public static void addEdge1(int u, int v) {
-		nxt1[++cnt1] = head1[u];
-		to1[cnt1] = v;
-		head1[u] = cnt1;
-	}
-
-	public static void addEdge2(int u, int v) {
-		nxt2[++cnt2] = head2[u];
-		to2[cnt2] = v;
-		head2[u] = cnt2;
+	public static void addEdge(int u, int v) {
+		nxt[++cntg] = head[u];
+		to[cntg] = v;
+		head[u] = cntg;
 	}
 
 	public static void tarjan(int u) {
 		dfn[u] = low[u] = ++cntd;
 		sta[++top] = u;
 		ins[u] = true;
-		for (int e = head1[u]; e > 0; e = nxt1[e]) {
-			int v = to1[e];
+		for (int e = head[u]; e > 0; e = nxt[e]) {
+			int v = to[e];
 			if (dfn[v] == 0) {
 				tarjan(v);
 				low[u] = Math.min(low[u], low[v]);
@@ -77,66 +62,68 @@ public class Code06_HasPath1 {
 		}
 		if (dfn[u] == low[u]) {
 			sccCnt++;
+			minVal[sccCnt] = INF;
 			int pop;
 			do {
 				pop = sta[top--];
 				belong[pop] = sccCnt;
+				minVal[sccCnt] = Math.min(minVal[sccCnt], cost[pop]);
 				ins[pop] = false;
 			} while (pop != u);
 		}
 	}
 
-	public static boolean topo() {
-		int l = 1, r = 0;
-		for (int i = 1; i <= sccCnt; i++) {
-			if (indegree[i] == 0) {
-				que[++r] = i;
-			}
-		}
-		while (l <= r) {
-			int siz = r - l + 1;
-			if (siz != 1) {
-				return false;
-			}
-			int u = que[l++];
-			for (int e = head2[u]; e > 0; e = nxt2[e]) {
-				int v = to2[e];
-				if (--indegree[v] == 0) {
-					que[++r] = v;
-				}
-			}
-		}
-		return true;
-	}
-
 	public static void main(String[] args) throws Exception {
 		FastReader in = new FastReader(System.in);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
-		t = in.nextInt();
-		for (int c = 1; c <= t; c++) {
-			n = in.nextInt();
-			m = in.nextInt();
-			prepare();
-			for (int i = 1; i <= m; i++) {
-				a[i] = in.nextInt();
-				b[i] = in.nextInt();
-				addEdge1(a[i], b[i]);
+		n = in.nextInt();
+		p = in.nextInt();
+		for (int i = 1; i <= n; i++) {
+			cost[i] = INF;
+		}
+		for (int i = 1, u, c; i <= p; i++) {
+			u = in.nextInt();
+			c = in.nextInt();
+			cost[u] = c;
+		}
+		m = in.nextInt();
+		for (int i = 1; i <= m; i++) {
+			a[i] = in.nextInt();
+			b[i] = in.nextInt();
+			addEdge(a[i], b[i]);
+		}
+		for (int i = 1; i <= n; i++) {
+			if (cost[i] != INF && dfn[i] == 0) {
+				tarjan(i);
 			}
-			for (int i = 1; i <= n; i++) {
-				if (dfn[i] == 0) {
-					tarjan(i);
-				}
+		}
+		boolean check = true;
+		int ans = 0;
+		for (int i = 1; i <= n; i++) {
+			if (belong[i] == 0) {
+				check = false;
+				ans = i;
+				break;
 			}
+		}
+		if (!check) {
+			out.println("NO");
+			out.println(ans);
+		} else {
 			for (int i = 1; i <= m; i++) {
 				int scc1 = belong[a[i]];
 				int scc2 = belong[b[i]];
 				if (scc1 != scc2) {
 					indegree[scc2]++;
-					addEdge2(scc1, scc2);
 				}
 			}
-			boolean ans = topo();
-			out.println(ans ? "Yes" : "No");
+			for (int i = 1; i <= sccCnt; i++) {
+				if (indegree[i] == 0) {
+					ans += minVal[i];
+				}
+			}
+			out.println("YES");
+			out.println(ans);
 		}
 		out.flush();
 		out.close();

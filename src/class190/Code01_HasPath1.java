@@ -1,7 +1,7 @@
-package class189;
+package class190;
 
-// 校园网络，java版
-// 测试链接 : https://www.luogu.com.cn/problem/P2812
+// 任意两点都有路，java版
+// 测试链接 : https://www.luogu.com.cn/problem/P10944
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
 import java.io.IOException;
@@ -9,18 +9,18 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
-public class Code10_NetworkOfSchools1 {
+public class Code01_HasPath1 {
 
-	public static int MAXN = 100001;
-	public static int MAXM = 500001;
-	public static int n, m;
+	public static int MAXN = 1001;
+	public static int MAXM = 6001;
+	public static int t, n, m;
 	public static int[] a = new int[MAXM];
 	public static int[] b = new int[MAXM];
 
-	public static int[] head = new int[MAXN];
-	public static int[] nxt = new int[MAXM];
-	public static int[] to = new int[MAXM];
-	public static int cntg;
+	public static int[] head1 = new int[MAXN];
+	public static int[] nxt1 = new int[MAXM];
+	public static int[] to1 = new int[MAXM];
+	public static int cnt1;
 
 	public static int[] dfn = new int[MAXN];
 	public static int[] low = new int[MAXN];
@@ -33,21 +33,39 @@ public class Code10_NetworkOfSchools1 {
 	public static int[] belong = new int[MAXN];
 	public static int sccCnt;
 
-	public static int[] outdegree = new int[MAXN];
-	public static int[] indegree = new int[MAXN];
+	public static int[] head2 = new int[MAXN];
+	public static int[] nxt2 = new int[MAXM];
+	public static int[] to2 = new int[MAXM];
+	public static int cnt2;
 
-	public static void addEdge(int u, int v) {
-		nxt[++cntg] = head[u];
-		to[cntg] = v;
-		head[u] = cntg;
+	public static int[] indegree = new int[MAXN];
+	public static int[] que = new int[MAXN];
+
+	public static void prepare() {
+		cnt1 = cnt2 = cntd = sccCnt = 0;
+		for (int i = 1; i <= n; i++) {
+			head1[i] = head2[i] = dfn[i] = indegree[i] = 0;
+		}
+	}
+
+	public static void addEdge1(int u, int v) {
+		nxt1[++cnt1] = head1[u];
+		to1[cnt1] = v;
+		head1[u] = cnt1;
+	}
+
+	public static void addEdge2(int u, int v) {
+		nxt2[++cnt2] = head2[u];
+		to2[cnt2] = v;
+		head2[u] = cnt2;
 	}
 
 	public static void tarjan(int u) {
 		dfn[u] = low[u] = ++cntd;
 		sta[++top] = u;
 		ins[u] = true;
-		for (int e = head[u]; e > 0; e = nxt[e]) {
-			int v = to[e];
+		for (int e = head1[u]; e > 0; e = nxt1[e]) {
+			int v = to1[e];
 			if (dfn[v] == 0) {
 				tarjan(v);
 				low[u] = Math.min(low[u], low[v]);
@@ -68,50 +86,57 @@ public class Code10_NetworkOfSchools1 {
 		}
 	}
 
+	public static boolean topo() {
+		int l = 1, r = 0;
+		for (int i = 1; i <= sccCnt; i++) {
+			if (indegree[i] == 0) {
+				que[++r] = i;
+			}
+		}
+		while (l <= r) {
+			int siz = r - l + 1;
+			if (siz != 1) {
+				return false;
+			}
+			int u = que[l++];
+			for (int e = head2[u]; e > 0; e = nxt2[e]) {
+				int v = to2[e];
+				if (--indegree[v] == 0) {
+					que[++r] = v;
+				}
+			}
+		}
+		return true;
+	}
+
 	public static void main(String[] args) throws Exception {
 		FastReader in = new FastReader(System.in);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
-		n = in.nextInt();
-		m = 0;
-		for (int i = 1, x; i <= n; i++) {
-			x = in.nextInt();
-			while (x != 0) {
-				m++;
-				a[m] = i;
-				b[m] = x;
-				addEdge(a[m], b[m]);
-				x = in.nextInt();
+		t = in.nextInt();
+		for (int c = 1; c <= t; c++) {
+			n = in.nextInt();
+			m = in.nextInt();
+			prepare();
+			for (int i = 1; i <= m; i++) {
+				a[i] = in.nextInt();
+				b[i] = in.nextInt();
+				addEdge1(a[i], b[i]);
 			}
-		}
-		for (int i = 1; i <= n; i++) {
-			if (dfn[i] == 0) {
-				tarjan(i);
+			for (int i = 1; i <= n; i++) {
+				if (dfn[i] == 0) {
+					tarjan(i);
+				}
 			}
-		}
-		if (sccCnt == 1) {
-			out.println("1");
-			out.println("0");
-		} else {
 			for (int i = 1; i <= m; i++) {
 				int scc1 = belong[a[i]];
 				int scc2 = belong[b[i]];
 				if (scc1 != scc2) {
-					outdegree[scc1]++;
 					indegree[scc2]++;
+					addEdge2(scc1, scc2);
 				}
 			}
-			int outZero = 0;
-			int inZero = 0;
-			for (int i = 1; i <= sccCnt; i++) {
-				if (outdegree[i] == 0) {
-					outZero++;
-				}
-				if (indegree[i] == 0) {
-					inZero++;
-				}
-			}
-			out.println(inZero);
-			out.println(Math.max(outZero, inZero));
+			boolean ans = topo();
+			out.println(ans ? "Yes" : "No");
 		}
 		out.flush();
 		out.close();

@@ -1,7 +1,8 @@
 package class189;
 
-// 受欢迎的牛，java版
-// 测试链接 : https://www.luogu.com.cn/problem/P2341
+// 检查站，java版
+// 测试链接 : https://www.luogu.com.cn/problem/CF427C
+// 测试链接 : https://codeforces.com/problemset/problem/427/C
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
 import java.io.IOException;
@@ -9,13 +10,13 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
-public class Code08_PopularCow1 {
+public class Code10_Checkposts1 {
 
-	public static int MAXN = 10001;
-	public static int MAXM = 50001;
-	public static int n, m;
-	public static int[] a = new int[MAXM];
-	public static int[] b = new int[MAXM];
+	public static int MAXN = 100001;
+	public static int MAXM = 300001;
+	public static int MOD = 1000000007;
+	public static int n, p, m;
+	public static int[] cost = new int[MAXN];
 
 	public static int[] head = new int[MAXN];
 	public static int[] nxt = new int[MAXM];
@@ -30,11 +31,9 @@ public class Code08_PopularCow1 {
 	public static int[] sta = new int[MAXN];
 	public static int top;
 
-	public static int[] belong = new int[MAXN];
-	public static int[] sccSiz = new int[MAXN];
+	public static int[] minVal = new int[MAXN];
+	public static int[] minCnt = new int[MAXN];
 	public static int sccCnt;
-
-	public static int[] outdegree = new int[MAXN];
 
 	public static void addEdge(int u, int v) {
 		nxt[++cntg] = head[u];
@@ -59,11 +58,17 @@ public class Code08_PopularCow1 {
 		}
 		if (dfn[u] == low[u]) {
 			sccCnt++;
+			minVal[sccCnt] = 1000000001;
+			minCnt[sccCnt] = 0;
 			int pop;
 			do {
 				pop = sta[top--];
-				belong[pop] = sccCnt;
-				sccSiz[sccCnt]++;
+				if (minVal[sccCnt] > cost[pop]) {
+					minVal[sccCnt] = cost[pop];
+					minCnt[sccCnt] = 1;
+				} else if (minVal[sccCnt] == cost[pop]) {
+					minCnt[sccCnt]++;
+				}
 				ins[pop] = false;
 			} while (pop != u);
 		}
@@ -73,32 +78,26 @@ public class Code08_PopularCow1 {
 		FastReader in = new FastReader(System.in);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
 		n = in.nextInt();
+		for (int i = 1; i <= n; i++) {
+			cost[i] = in.nextInt();
+		}
 		m = in.nextInt();
-		for (int i = 1; i <= m; i++) {
-			a[i] = in.nextInt();
-			b[i] = in.nextInt();
-			addEdge(a[i], b[i]);
+		for (int i = 1, u, v; i <= m; i++) {
+			u = in.nextInt();
+			v = in.nextInt();
+			addEdge(u, v);
 		}
 		for (int i = 1; i <= n; i++) {
 			if (dfn[i] == 0) {
 				tarjan(i);
 			}
 		}
-		for (int i = 1; i <= m; i++) {
-			int scc1 = belong[a[i]];
-			int scc2 = belong[b[i]];
-			if (scc1 != scc2) {
-				outdegree[scc1]++;
-			}
-		}
-		int num = 0, siz = 0;
+		long ans1 = 0, ans2 = 1;
 		for (int i = 1; i <= sccCnt; i++) {
-			if (outdegree[i] == 0) {
-				num++;
-				siz = sccSiz[i];
-			}
+			ans1 += minVal[i];
+			ans2 = (ans2 * minCnt[i]) % MOD;
 		}
-		out.println(num == 1 ? siz : 0);
+		out.println(ans1 + " " + ans2);
 		out.flush();
 		out.close();
 	}
