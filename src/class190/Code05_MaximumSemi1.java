@@ -10,7 +10,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.util.Arrays;
 
-public class Code04_MaximumSemi1 {
+public class Code05_MaximumSemi1 {
 
 	public static int MAXN = 100001;
 	public static int MAXM = 1000001;
