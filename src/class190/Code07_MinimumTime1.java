@@ -10,7 +10,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.util.PriorityQueue;
 
-public class Code06_MinimumTime1 {
+public class Code07_MinimumTime1 {
 
 	public static int MAXN = 200001;
 	public static int MAXM = 1000001;
