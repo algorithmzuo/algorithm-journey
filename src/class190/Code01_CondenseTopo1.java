@@ -1,7 +1,7 @@
-package class189;
+package class190;
 
-// 任意两点都有路，java版
-// 测试链接 : https://www.luogu.com.cn/problem/P10944
+// 缩点之后拓扑排序模版题，java版
+// 测试链接 : https://www.luogu.com.cn/problem/P3387
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
 import java.io.IOException;
@@ -9,11 +9,13 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
-public class Code11_HasPath1 {
+public class Code01_CondenseTopo1 {
 
-	public static int MAXN = 1001;
-	public static int MAXM = 6001;
-	public static int t, n, m;
+	public static int MAXN = 10001;
+	public static int MAXM = 100001;
+	public static int n, m;
+
+	public static int[] arr = new int[MAXN];
 	public static int[] a = new int[MAXM];
 	public static int[] b = new int[MAXM];
 
@@ -31,10 +33,12 @@ public class Code11_HasPath1 {
 	public static int top;
 
 	public static int[] belong = new int[MAXN];
+	public static int[] sum = new int[MAXN];
 	public static int sccCnt;
 
 	public static int[] indegree = new int[MAXN];
 	public static int[] que = new int[MAXN];
+	public static int[] dp = new int[MAXN];
 
 	public static void addEdge(int u, int v) {
 		nxt[++cntg] = head[u];
@@ -63,6 +67,7 @@ public class Code11_HasPath1 {
 			do {
 				pop = sta[top--];
 				belong[pop] = sccCnt;
+				sum[sccCnt] += arr[pop];
 				ins[pop] = false;
 			} while (pop != u);
 		}
@@ -83,7 +88,7 @@ public class Code11_HasPath1 {
 		}
 	}
 
-	public static boolean topo() {
+	public static int topo() {
 		int l = 1, r = 0;
 		for (int i = 1; i <= sccCnt; i++) {
 			if (indegree[i] == 0) {
@@ -91,50 +96,44 @@ public class Code11_HasPath1 {
 			}
 		}
 		while (l <= r) {
-			int siz = r - l + 1;
-			if (siz != 1) {
-				return false;
-			}
 			int u = que[l++];
+			dp[u] += sum[u];
 			for (int e = head[u]; e > 0; e = nxt[e]) {
 				int v = to[e];
+				dp[v] = Math.max(dp[v], dp[u]);
 				if (--indegree[v] == 0) {
 					que[++r] = v;
 				}
 			}
 		}
-		return true;
-	}
-
-	public static void prepare() {
-		cntg = cntd = sccCnt = 0;
-		for (int i = 1; i <= n; i++) {
-			head[i] = dfn[i] = indegree[i] = 0;
+		int ans = 0;
+		for (int i = 1; i <= sccCnt; i++) {
+			ans = Math.max(ans, dp[i]);
 		}
+		return ans;
 	}
 
 	public static void main(String[] args) throws Exception {
 		FastReader in = new FastReader(System.in);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
-		t = in.nextInt();
-		for (int c = 1; c <= t; c++) {
-			n = in.nextInt();
-			m = in.nextInt();
-			prepare();
-			for (int i = 1; i <= m; i++) {
-				a[i] = in.nextInt();
-				b[i] = in.nextInt();
-				addEdge(a[i], b[i]);
-			}
-			for (int i = 1; i <= n; i++) {
-				if (dfn[i] == 0) {
-					tarjan(i);
-				}
-			}
-			condense();
-			boolean ans = topo();
-			out.println(ans ? "Yes" : "No");
+		n = in.nextInt();
+		m = in.nextInt();
+		for (int i = 1; i <= n; i++) {
+			arr[i] = in.nextInt();
 		}
+		for (int i = 1; i <= m; i++) {
+			a[i] = in.nextInt();
+			b[i] = in.nextInt();
+			addEdge(a[i], b[i]);
+		}
+		for (int i = 1; i <= n; i++) {
+			if (dfn[i] == 0) {
+				tarjan(i);
+			}
+		}
+		condense();
+		int ans = topo();
+		out.println(ans);
 		out.flush();
 		out.close();
 	}

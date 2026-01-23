@@ -9,7 +9,7 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
-public class Code01_PickMushroom1 {
+public class Code02_PickMushroom1 {
 
 	public static int MAXN = 80001;
 	public static int MAXM = 200001;

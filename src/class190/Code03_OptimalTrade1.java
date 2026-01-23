@@ -1,30 +1,27 @@
 package class190;
 
-// 最少传输时间，java版
-// 测试链接 : https://www.luogu.com.cn/problem/P2169
+// 最优贸易，java版
+// 测试链接 : https://www.luogu.com.cn/problem/P1073
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
-import java.util.PriorityQueue;
 
-public class Code06_MinimumTime1 {
+public class Code03_OptimalTrade1 {
 
-	public static int MAXN = 200001;
-	public static int MAXM = 1000001;
+	public static int MAXN = 100001;
+	public static int MAXM = 500001;
 	public static int INF = 1000000001;
 	public static int n, m;
-
+	public static int[] val = new int[MAXN];
 	public static int[] a = new int[MAXM];
 	public static int[] b = new int[MAXM];
-	public static int[] val = new int[MAXM];
 
 	public static int[] head = new int[MAXN];
-	public static int[] nxt = new int[MAXM];
-	public static int[] to = new int[MAXM];
-	public static int[] weight = new int[MAXM];
+	public static int[] nxt = new int[MAXM << 1];
+	public static int[] to = new int[MAXM << 1];
 	public static int cntg;
 
 	public static int[] dfn = new int[MAXN];
@@ -36,11 +33,14 @@ public class Code06_MinimumTime1 {
 	public static int top;
 
 	public static int[] belong = new int[MAXN];
+	public static int[] minv = new int[MAXN];
+	public static int[] maxv = new int[MAXN];
 	public static int sccCnt;
 
-	public static int[] dist = new int[MAXN];
-	public static boolean[] vis = new boolean[MAXN];
-	public static PriorityQueue<int[]> heap = new PriorityQueue<>((x, y) -> x[1] - y[1]);
+	public static int[] indegree = new int[MAXN];
+	public static int[] que = new int[MAXN];
+	public static int[] premin = new int[MAXN];
+	public static int[] best = new int[MAXN];
 
 	// 迭代版需要的栈，讲解118讲了递归改迭代的技巧
 	public static int[][] stack = new int[MAXN][3];
@@ -61,10 +61,9 @@ public class Code06_MinimumTime1 {
 		e = stack[stacksize][2];
 	}
 
-	public static void addEdge(int u, int v, int w) {
+	public static void addEdge(int u, int v) {
 		nxt[++cntg] = head[u];
 		to[cntg] = v;
-		weight[cntg] = w;
 		head[u] = cntg;
 	}
 
@@ -86,10 +85,14 @@ public class Code06_MinimumTime1 {
 		}
 		if (dfn[u] == low[u]) {
 			sccCnt++;
+			minv[sccCnt] = INF;
+			maxv[sccCnt] = -INF;
 			int pop;
 			do {
 				pop = sta[top--];
 				belong[pop] = sccCnt;
+				minv[sccCnt] = Math.min(minv[sccCnt], val[pop]);
+				maxv[sccCnt] = Math.max(maxv[sccCnt], val[pop]);
 				ins[pop] = false;
 			} while (pop != u);
 		}
@@ -128,10 +131,14 @@ public class Code06_MinimumTime1 {
 			} else {
 				if (dfn[u] == low[u]) {
 					sccCnt++;
+					minv[sccCnt] = INF;
+					maxv[sccCnt] = -INF;
 					int pop;
 					do {
 						pop = sta[top--];
 						belong[pop] = sccCnt;
+						minv[sccCnt] = Math.min(minv[sccCnt], val[pop]);
+						maxv[sccCnt] = Math.max(maxv[sccCnt], val[pop]);
 						ins[pop] = false;
 					} while (pop != u);
 				}
@@ -148,35 +155,34 @@ public class Code06_MinimumTime1 {
 			int scc1 = belong[a[i]];
 			int scc2 = belong[b[i]];
 			if (scc1 > 0 && scc2 > 0 && scc1 != scc2) {
-				addEdge(scc1, scc2, val[i]);
+				indegree[scc2]++;
+				addEdge(scc1, scc2);
 			}
 		}
 	}
 
-	public static int dijkstra() {
+	public static int topo() {
 		for (int i = 1; i <= sccCnt; i++) {
-			dist[i] = INF;
-			vis[i] = false;
+			premin[i] = INF;
+			best[i] = -INF;
 		}
-		dist[belong[1]] = 0;
-		heap.add(new int[] { belong[1], 0 });
-		while (!heap.isEmpty()) {
-			int[] cur = heap.poll();
-			int u = cur[0];
-			int d = cur[1];
-			if (!vis[u]) {
-				vis[u] = true;
-				for (int e = head[u]; e > 0; e = nxt[e]) {
-					int v = to[e];
-					int w = weight[e];
-					if (!vis[v] && dist[v] > d + w) {
-						dist[v] = d + w;
-						heap.add(new int[] { v, dist[v] });
-					}
+		int s = belong[1];
+		premin[s] = minv[s];
+		best[s] = maxv[s] - minv[s];
+		int l = 1, r = 0;
+		que[++r] = s;
+		while (l <= r) {
+			int u = que[l++];
+			for (int e = head[u]; e > 0; e = nxt[e]) {
+				int v = to[e];
+				premin[v] = Math.min(premin[v], Math.min(premin[u], minv[v]));
+				best[v] = Math.max(best[v], Math.max(best[u], maxv[v] - premin[v]));
+				if (--indegree[v] == 0) {
+					que[++r] = v;
 				}
 			}
 		}
-		return dist[belong[n]];
+		return best[belong[n]];
 	}
 
 	public static void main(String[] args) throws Exception {
@@ -184,19 +190,27 @@ public class Code06_MinimumTime1 {
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
 		n = in.nextInt();
 		m = in.nextInt();
-		for (int i = 1; i <= m; i++) {
+		for (int i = 1; i <= n; i++) {
+			val[i] = in.nextInt();
+		}
+		for (int i = 1, op; i <= m; i++) {
 			a[i] = in.nextInt();
 			b[i] = in.nextInt();
-			val[i] = in.nextInt();
-			addEdge(a[i], b[i], val[i]);
+			op = in.nextInt();
+			if (op == 1) {
+				addEdge(a[i], b[i]);
+			} else {
+				addEdge(a[i], b[i]);
+				addEdge(b[i], a[i]);
+			}
 		}
 		// tarjan1(1);
 		tarjan2(1);
 		if (belong[n] == 0) {
-			out.println(-1);
+			out.println(0);
 		} else {
 			condense();
-			int ans = dijkstra();
+			int ans = topo();
 			out.println(ans);
 		}
 		out.flush();

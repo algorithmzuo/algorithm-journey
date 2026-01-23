@@ -1,29 +1,30 @@
 package class190;
 
-// 劫掠计划，java版
-// 测试链接 : https://www.luogu.com.cn/problem/P3627
+// 最少传输时间，java版
+// 测试链接 : https://www.luogu.com.cn/problem/P2169
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.util.PriorityQueue;
 
-public class Code03_RobberyPlan1 {
+public class Code07_MinimumTime1 {
 
-	public static int MAXN = 500001;
-	public static int MAXM = 500001;
+	public static int MAXN = 200001;
+	public static int MAXM = 1000001;
 	public static int INF = 1000000001;
-	public static int n, m, s, p;
+	public static int n, m;
 
-	public static int[] money = new int[MAXN];
-	public static boolean[] isBar = new boolean[MAXN];
 	public static int[] a = new int[MAXM];
 	public static int[] b = new int[MAXM];
+	public static int[] val = new int[MAXM];
 
 	public static int[] head = new int[MAXN];
 	public static int[] nxt = new int[MAXM];
 	public static int[] to = new int[MAXM];
+	public static int[] weight = new int[MAXM];
 	public static int cntg;
 
 	public static int[] dfn = new int[MAXN];
@@ -35,13 +36,11 @@ public class Code03_RobberyPlan1 {
 	public static int top;
 
 	public static int[] belong = new int[MAXN];
-	public static int[] sum = new int[MAXN];
-	public static boolean[] hasBar = new boolean[MAXN];
 	public static int sccCnt;
 
-	public static int[] indegree = new int[MAXN];
-	public static int[] que = new int[MAXN];
-	public static int[] dp = new int[MAXN];
+	public static int[] dist = new int[MAXN];
+	public static boolean[] vis = new boolean[MAXN];
+	public static PriorityQueue<int[]> heap = new PriorityQueue<>((x, y) -> x[1] - y[1]);
 
 	// 迭代版需要的栈，讲解118讲了递归改迭代的技巧
 	public static int[][] stack = new int[MAXN][3];
@@ -62,9 +61,10 @@ public class Code03_RobberyPlan1 {
 		e = stack[stacksize][2];
 	}
 
-	public static void addEdge(int u, int v) {
+	public static void addEdge(int u, int v, int w) {
 		nxt[++cntg] = head[u];
 		to[cntg] = v;
+		weight[cntg] = w;
 		head[u] = cntg;
 	}
 
@@ -86,14 +86,10 @@ public class Code03_RobberyPlan1 {
 		}
 		if (dfn[u] == low[u]) {
 			sccCnt++;
-			sum[sccCnt] = 0;
-			hasBar[sccCnt] = false;
 			int pop;
 			do {
 				pop = sta[top--];
 				belong[pop] = sccCnt;
-				sum[sccCnt] += money[pop];
-				hasBar[sccCnt] |= isBar[pop];
 				ins[pop] = false;
 			} while (pop != u);
 		}
@@ -132,14 +128,10 @@ public class Code03_RobberyPlan1 {
 			} else {
 				if (dfn[u] == low[u]) {
 					sccCnt++;
-					sum[sccCnt] = 0;
-					hasBar[sccCnt] = false;
 					int pop;
 					do {
 						pop = sta[top--];
 						belong[pop] = sccCnt;
-						sum[sccCnt] += money[pop];
-						hasBar[sccCnt] |= isBar[pop];
 						ins[pop] = false;
 					} while (pop != u);
 				}
@@ -156,36 +148,35 @@ public class Code03_RobberyPlan1 {
 			int scc1 = belong[a[i]];
 			int scc2 = belong[b[i]];
 			if (scc1 > 0 && scc2 > 0 && scc1 != scc2) {
-				indegree[scc2]++;
-				addEdge(scc1, scc2);
+				addEdge(scc1, scc2, val[i]);
 			}
 		}
 	}
 
-	public static int topo() {
+	public static int dijkstra() {
 		for (int i = 1; i <= sccCnt; i++) {
-			dp[i] = -INF;
+			dist[i] = INF;
+			vis[i] = false;
 		}
-		dp[belong[s]] = sum[belong[s]];
-		int l = 1, r = 0;
-		que[++r] = belong[s];
-		while (l <= r) {
-			int u = que[l++];
-			for (int e = head[u]; e > 0; e = nxt[e]) {
-				int v = to[e];
-				dp[v] = Math.max(dp[v], dp[u] + sum[v]);
-				if (--indegree[v] == 0) {
-					que[++r] = v;
+		dist[belong[1]] = 0;
+		heap.add(new int[] { belong[1], 0 });
+		while (!heap.isEmpty()) {
+			int[] cur = heap.poll();
+			int u = cur[0];
+			int d = cur[1];
+			if (!vis[u]) {
+				vis[u] = true;
+				for (int e = head[u]; e > 0; e = nxt[e]) {
+					int v = to[e];
+					int w = weight[e];
+					if (!vis[v] && dist[v] > d + w) {
+						dist[v] = d + w;
+						heap.add(new int[] { v, dist[v] });
+					}
 				}
 			}
 		}
-		int ans = 0;
-		for (int i = 1; i <= sccCnt; i++) {
-			if (dp[i] != -INF && hasBar[i]) {
-				ans = Math.max(ans, dp[i]);
-			}
-		}
-		return ans;
+		return dist[belong[n]];
 	}
 
 	public static void main(String[] args) throws Exception {
@@ -196,22 +187,18 @@ public class Code03_RobberyPlan1 {
 		for (int i = 1; i <= m; i++) {
 			a[i] = in.nextInt();
 			b[i] = in.nextInt();
-			addEdge(a[i], b[i]);
+			val[i] = in.nextInt();
+			addEdge(a[i], b[i], val[i]);
 		}
-		for (int i = 1; i <= n; i++) {
-			money[i] = in.nextInt();
+		// tarjan1(1);
+		tarjan2(1);
+		if (belong[n] == 0) {
+			out.println(-1);
+		} else {
+			condense();
+			int ans = dijkstra();
+			out.println(ans);
 		}
-		s = in.nextInt();
-		p = in.nextInt();
-		for (int i = 1, x; i <= p; i++) {
-			x = in.nextInt();
-			isBar[x] = true;
-		}
-		// tarjan1(s);
-		tarjan2(s);
-		condense();
-		int ans = topo();
-		out.println(ans);
 		out.flush();
 		out.close();
 	}

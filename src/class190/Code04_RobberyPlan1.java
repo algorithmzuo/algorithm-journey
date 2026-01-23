@@ -1,7 +1,7 @@
 package class190;
 
-// 最优贸易，java版
-// 测试链接 : https://www.luogu.com.cn/problem/P1073
+// 劫掠计划，java版
+// 测试链接 : https://www.luogu.com.cn/problem/P3627
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
 import java.io.IOException;
@@ -9,19 +9,21 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
-public class Code02_OptimalTrade1 {
+public class Code04_RobberyPlan1 {
 
-	public static int MAXN = 100001;
+	public static int MAXN = 500001;
 	public static int MAXM = 500001;
 	public static int INF = 1000000001;
-	public static int n, m;
-	public static int[] val = new int[MAXN];
+	public static int n, m, s, p;
+
+	public static int[] money = new int[MAXN];
+	public static boolean[] isBar = new boolean[MAXN];
 	public static int[] a = new int[MAXM];
 	public static int[] b = new int[MAXM];
 
 	public static int[] head = new int[MAXN];
-	public static int[] nxt = new int[MAXM << 1];
-	public static int[] to = new int[MAXM << 1];
+	public static int[] nxt = new int[MAXM];
+	public static int[] to = new int[MAXM];
 	public static int cntg;
 
 	public static int[] dfn = new int[MAXN];
@@ -33,14 +35,13 @@ public class Code02_OptimalTrade1 {
 	public static int top;
 
 	public static int[] belong = new int[MAXN];
-	public static int[] minv = new int[MAXN];
-	public static int[] maxv = new int[MAXN];
+	public static int[] sum = new int[MAXN];
+	public static boolean[] hasBar = new boolean[MAXN];
 	public static int sccCnt;
 
 	public static int[] indegree = new int[MAXN];
 	public static int[] que = new int[MAXN];
-	public static int[] premin = new int[MAXN];
-	public static int[] best = new int[MAXN];
+	public static int[] dp = new int[MAXN];
 
 	// 迭代版需要的栈，讲解118讲了递归改迭代的技巧
 	public static int[][] stack = new int[MAXN][3];
@@ -85,14 +86,14 @@ public class Code02_OptimalTrade1 {
 		}
 		if (dfn[u] == low[u]) {
 			sccCnt++;
-			minv[sccCnt] = INF;
-			maxv[sccCnt] = -INF;
+			sum[sccCnt] = 0;
+			hasBar[sccCnt] = false;
 			int pop;
 			do {
 				pop = sta[top--];
 				belong[pop] = sccCnt;
-				minv[sccCnt] = Math.min(minv[sccCnt], val[pop]);
-				maxv[sccCnt] = Math.max(maxv[sccCnt], val[pop]);
+				sum[sccCnt] += money[pop];
+				hasBar[sccCnt] |= isBar[pop];
 				ins[pop] = false;
 			} while (pop != u);
 		}
@@ -131,14 +132,14 @@ public class Code02_OptimalTrade1 {
 			} else {
 				if (dfn[u] == low[u]) {
 					sccCnt++;
-					minv[sccCnt] = INF;
-					maxv[sccCnt] = -INF;
+					sum[sccCnt] = 0;
+					hasBar[sccCnt] = false;
 					int pop;
 					do {
 						pop = sta[top--];
 						belong[pop] = sccCnt;
-						minv[sccCnt] = Math.min(minv[sccCnt], val[pop]);
-						maxv[sccCnt] = Math.max(maxv[sccCnt], val[pop]);
+						sum[sccCnt] += money[pop];
+						hasBar[sccCnt] |= isBar[pop];
 						ins[pop] = false;
 					} while (pop != u);
 				}
@@ -163,26 +164,28 @@ public class Code02_OptimalTrade1 {
 
 	public static int topo() {
 		for (int i = 1; i <= sccCnt; i++) {
-			premin[i] = INF;
-			best[i] = -INF;
+			dp[i] = -INF;
 		}
-		int s = belong[1];
-		premin[s] = minv[s];
-		best[s] = maxv[s] - minv[s];
+		dp[belong[s]] = sum[belong[s]];
 		int l = 1, r = 0;
-		que[++r] = s;
+		que[++r] = belong[s];
 		while (l <= r) {
 			int u = que[l++];
 			for (int e = head[u]; e > 0; e = nxt[e]) {
 				int v = to[e];
-				premin[v] = Math.min(premin[v], Math.min(premin[u], minv[v]));
-				best[v] = Math.max(best[v], Math.max(best[u], maxv[v] - premin[v]));
+				dp[v] = Math.max(dp[v], dp[u] + sum[v]);
 				if (--indegree[v] == 0) {
 					que[++r] = v;
 				}
 			}
 		}
-		return best[belong[n]];
+		int ans = 0;
+		for (int i = 1; i <= sccCnt; i++) {
+			if (dp[i] != -INF && hasBar[i]) {
+				ans = Math.max(ans, dp[i]);
+			}
+		}
+		return ans;
 	}
 
 	public static void main(String[] args) throws Exception {
@@ -190,29 +193,25 @@ public class Code02_OptimalTrade1 {
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
 		n = in.nextInt();
 		m = in.nextInt();
-		for (int i = 1; i <= n; i++) {
-			val[i] = in.nextInt();
-		}
-		for (int i = 1, op; i <= m; i++) {
+		for (int i = 1; i <= m; i++) {
 			a[i] = in.nextInt();
 			b[i] = in.nextInt();
-			op = in.nextInt();
-			if (op == 1) {
-				addEdge(a[i], b[i]);
-			} else {
-				addEdge(a[i], b[i]);
-				addEdge(b[i], a[i]);
-			}
+			addEdge(a[i], b[i]);
 		}
-		// tarjan1(1);
-		tarjan2(1);
-		if (belong[n] == 0) {
-			out.println(0);
-		} else {
-			condense();
-			int ans = topo();
-			out.println(ans);
+		for (int i = 1; i <= n; i++) {
+			money[i] = in.nextInt();
 		}
+		s = in.nextInt();
+		p = in.nextInt();
+		for (int i = 1, x; i <= p; i++) {
+			x = in.nextInt();
+			isBar[x] = true;
+		}
+		// tarjan1(s);
+		tarjan2(s);
+		condense();
+		int ans = topo();
+		out.println(ans);
 		out.flush();
 		out.close();
 	}
