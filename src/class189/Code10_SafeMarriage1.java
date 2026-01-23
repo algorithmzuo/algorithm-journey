@@ -10,7 +10,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.util.HashMap;
 
-public class Code05_SafeMarriage1 {
+public class Code10_SafeMarriage1 {
 
 	public static int MAXN = 10001;
 	public static int MAXM = 30001;

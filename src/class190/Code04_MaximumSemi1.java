@@ -1,7 +1,7 @@
 package class190;
 
-// 杀人游戏，java版
-// 测试链接 : https://www.luogu.com.cn/problem/P4819
+// 最大半连通子图，java版
+// 测试链接 : https://www.luogu.com.cn/problem/P2272
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
 import java.io.IOException;
@@ -10,11 +10,11 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.util.Arrays;
 
-public class Code06_KillingGame1 {
+public class Code04_MaximumSemi1 {
 
 	public static int MAXN = 100001;
-	public static int MAXM = 300001;
-	public static int n, m;
+	public static int MAXM = 1000001;
+	public static int n, m, mod;
 	public static int[] a = new int[MAXM];
 	public static int[] b = new int[MAXM];
 
@@ -39,6 +39,11 @@ public class Code06_KillingGame1 {
 	public static int cnte;
 
 	public static int[] indegree = new int[MAXN];
+	public static int[] que = new int[MAXN];
+	public static int[] semiSiz = new int[MAXN];
+	public static int[] semiCnt = new int[MAXN];
+
+	public static int ans1, ans2;
 
 	// 迭代版需要的栈，讲解118讲了递归改迭代的技巧
 	public static int[][] stack = new int[MAXN][3];
@@ -166,30 +171,39 @@ public class Code06_KillingGame1 {
 		}
 	}
 
-	public static double compute() {
-		int inZero = 0;
+	public static void topo() {
+		int l = 1, r = 0;
 		for (int i = 1; i <= sccCnt; i++) {
 			if (indegree[i] == 0) {
-				inZero++;
+				semiSiz[i] = sccSiz[i];
+				semiCnt[i] = 1;
+				que[++r] = i;
 			}
 		}
+		while (l <= r) {
+			int u = que[l++];
+			for (int e = head[u]; e > 0; e = nxt[e]) {
+				int v = to[e];
+				if (semiSiz[v] < semiSiz[u] + sccSiz[v]) {
+					semiSiz[v] = semiSiz[u] + sccSiz[v];
+					semiCnt[v] = semiCnt[u];
+				} else if (semiSiz[v] == semiSiz[u] + sccSiz[v]) {
+					semiCnt[v] = (semiCnt[v] + semiCnt[u]) % mod;
+				}
+				if (--indegree[v] == 0) {
+					que[++r] = v;
+				}
+			}
+		}
+		ans1 = ans2 = 0;
 		for (int i = 1; i <= sccCnt; i++) {
-			if (sccSiz[i] == 1 && indegree[i] == 0) {
-				boolean unique = false;
-				for (int e = head[i]; e > 0; e = nxt[e]) {
-					int v = to[e];
-					if (indegree[v] == 1) {
-						unique = true;
-						break;
-					}
-				}
-				if (!unique) {
-					inZero--;
-					break;
-				}
+			if (semiSiz[i] > ans1) {
+				ans1 = semiSiz[i];
+				ans2 = semiCnt[i];
+			} else if (semiSiz[i] == ans1) {
+				ans2 = (ans2 + semiCnt[i]) % mod;
 			}
 		}
-		return 1.0 - (double) inZero / n;
 	}
 
 	public static void main(String[] args) throws Exception {
@@ -197,6 +211,7 @@ public class Code06_KillingGame1 {
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
 		n = in.nextInt();
 		m = in.nextInt();
+		mod = in.nextInt();
 		for (int i = 1; i <= m; i++) {
 			a[i] = in.nextInt();
 			b[i] = in.nextInt();
@@ -209,8 +224,9 @@ public class Code06_KillingGame1 {
 			}
 		}
 		condense();
-		double ans = compute();
-		out.printf("%.6f\n", ans);
+		topo();
+		out.println(ans1);
+		out.println(ans2);
 		out.flush();
 		out.close();
 	}

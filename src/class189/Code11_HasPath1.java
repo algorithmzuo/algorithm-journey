@@ -1,4 +1,4 @@
-package class190;
+package class189;
 
 // 任意两点都有路，java版
 // 测试链接 : https://www.luogu.com.cn/problem/P10944
@@ -9,7 +9,7 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
-public class Code01_HasPath1 {
+public class Code11_HasPath1 {
 
 	public static int MAXN = 1001;
 	public static int MAXM = 6001;

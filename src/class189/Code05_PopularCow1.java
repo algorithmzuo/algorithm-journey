@@ -1,7 +1,7 @@
 package class189;
 
-// 校园网络，java版
-// 测试链接 : https://www.luogu.com.cn/problem/P2812
+// 受欢迎的牛，java版
+// 测试链接 : https://www.luogu.com.cn/problem/P2341
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
 import java.io.IOException;
@@ -9,10 +9,10 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
-public class Code08_NetworkOfSchools1 {
+public class Code05_PopularCow1 {
 
-	public static int MAXN = 100001;
-	public static int MAXM = 500001;
+	public static int MAXN = 10001;
+	public static int MAXM = 50001;
 	public static int n, m;
 	public static int[] a = new int[MAXM];
 	public static int[] b = new int[MAXM];
@@ -31,10 +31,10 @@ public class Code08_NetworkOfSchools1 {
 	public static int top;
 
 	public static int[] belong = new int[MAXN];
+	public static int[] sccSiz = new int[MAXN];
 	public static int sccCnt;
 
 	public static int[] outdegree = new int[MAXN];
-	public static int[] indegree = new int[MAXN];
 
 	public static void addEdge(int u, int v) {
 		nxt[++cntg] = head[u];
@@ -63,6 +63,7 @@ public class Code08_NetworkOfSchools1 {
 			do {
 				pop = sta[top--];
 				belong[pop] = sccCnt;
+				sccSiz[sccCnt]++;
 				ins[pop] = false;
 			} while (pop != u);
 		}
@@ -72,47 +73,32 @@ public class Code08_NetworkOfSchools1 {
 		FastReader in = new FastReader(System.in);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
 		n = in.nextInt();
-		m = 0;
-		for (int i = 1, x; i <= n; i++) {
-			x = in.nextInt();
-			while (x != 0) {
-				m++;
-				a[m] = i;
-				b[m] = x;
-				addEdge(a[m], b[m]);
-				x = in.nextInt();
-			}
+		m = in.nextInt();
+		for (int i = 1; i <= m; i++) {
+			a[i] = in.nextInt();
+			b[i] = in.nextInt();
+			addEdge(a[i], b[i]);
 		}
 		for (int i = 1; i <= n; i++) {
 			if (dfn[i] == 0) {
 				tarjan(i);
 			}
 		}
-		if (sccCnt == 1) {
-			out.println("1");
-			out.println("0");
-		} else {
-			for (int i = 1; i <= m; i++) {
-				int scc1 = belong[a[i]];
-				int scc2 = belong[b[i]];
-				if (scc1 != scc2) {
-					outdegree[scc1]++;
-					indegree[scc2]++;
-				}
+		for (int i = 1; i <= m; i++) {
+			int scc1 = belong[a[i]];
+			int scc2 = belong[b[i]];
+			if (scc1 != scc2) {
+				outdegree[scc1]++;
 			}
-			int outZero = 0;
-			int inZero = 0;
-			for (int i = 1; i <= sccCnt; i++) {
-				if (outdegree[i] == 0) {
-					outZero++;
-				}
-				if (indegree[i] == 0) {
-					inZero++;
-				}
-			}
-			out.println(inZero);
-			out.println(Math.max(outZero, inZero));
 		}
+		int num = 0, siz = 0;
+		for (int i = 1; i <= sccCnt; i++) {
+			if (outdegree[i] == 0) {
+				num++;
+				siz = sccSiz[i];
+			}
+		}
+		out.println(num == 1 ? siz : 0);
 		out.flush();
 		out.close();
 	}

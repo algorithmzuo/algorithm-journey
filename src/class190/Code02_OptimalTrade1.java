@@ -9,7 +9,7 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
-public class Code03_OptimalTrade1 {
+public class Code02_OptimalTrade1 {
 
 	public static int MAXN = 100001;
 	public static int MAXM = 500001;
