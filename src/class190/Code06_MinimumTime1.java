@@ -139,6 +139,20 @@ public class Code06_MinimumTime1 {
 		}
 	}
 
+	public static void condense() {
+		cntg = 0;
+		for (int i = 1; i <= sccCnt; i++) {
+			head[i] = 0;
+		}
+		for (int i = 1; i <= m; i++) {
+			int scc1 = belong[a[i]];
+			int scc2 = belong[b[i]];
+			if (scc1 > 0 && scc2 > 0 && scc1 != scc2) {
+				addEdge(scc1, scc2, val[i]);
+			}
+		}
+	}
+
 	public static int dijkstra() {
 		for (int i = 1; i <= sccCnt; i++) {
 			dist[i] = INF;
@@ -181,17 +195,7 @@ public class Code06_MinimumTime1 {
 		if (belong[n] == 0) {
 			out.println(-1);
 		} else {
-			cntg = 0;
-			for (int i = 1; i <= sccCnt; i++) {
-				head[i] = 0;
-			}
-			for (int i = 1; i <= m; i++) {
-				int scc1 = belong[a[i]];
-				int scc2 = belong[b[i]];
-				if (scc1 > 0 && scc2 > 0 && scc1 != scc2) {
-					addEdge(scc1, scc2, val[i]);
-				}
-			}
+			condense();
 			int ans = dijkstra();
 			out.println(ans);
 		}

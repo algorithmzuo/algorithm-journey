@@ -11,17 +11,17 @@ import java.io.PrintWriter;
 
 public class Code08_SoftwareInstallation1 {
 
-	public static int MAXN = 105;
-	public static int MAXW = 505;
+	public static int MAXN = 301;
+	public static int MAXW = 601;
 	public static int n, knapsack;
 	public static int[] w = new int[MAXN];
 	public static int[] v = new int[MAXN];
 	public static int[] depend = new int[MAXN];
 
-	public static int[] head1 = new int[MAXN];
-	public static int[] nxt1 = new int[MAXN];
-	public static int[] to1 = new int[MAXN];
-	public static int cnt1;
+	public static int[] head = new int[MAXN];
+	public static int[] nxt = new int[MAXN];
+	public static int[] to = new int[MAXN];
+	public static int cntg;
 
 	public static int[] dfn = new int[MAXN];
 	public static int[] low = new int[MAXN];
@@ -38,12 +38,6 @@ public class Code08_SoftwareInstallation1 {
 
 	public static int[] indegree = new int[MAXN];
 
-	// 节点0作为虚点，可能向其他节点连边，所以边的数量开2倍
-	public static int[] head2 = new int[MAXN];
-	public static int[] nxt2 = new int[MAXN << 1];
-	public static int[] to2 = new int[MAXN << 1];
-	public static int cnt2;
-
 	// 树上背包最优解，来自讲解079，题目5
 	public static int[] siz = new int[MAXN];
 	public static int[] weight = new int[MAXN];
@@ -51,24 +45,18 @@ public class Code08_SoftwareInstallation1 {
 	public static int dfnCnt;
 	public static int[][] dp = new int[MAXN][MAXW];
 
-	public static void addEdge1(int a, int b) {
-		nxt1[++cnt1] = head1[a];
-		to1[cnt1] = b;
-		head1[a] = cnt1;
-	}
-
-	public static void addEdge2(int a, int b) {
-		nxt2[++cnt2] = head2[a];
-		to2[cnt2] = b;
-		head2[a] = cnt2;
+	public static void addEdge(int a, int b) {
+		nxt[++cntg] = head[a];
+		to[cntg] = b;
+		head[a] = cntg;
 	}
 
 	public static void tarjan(int u) {
 		dfn[u] = low[u] = ++cntd;
 		sta[++top] = u;
 		ins[u] = true;
-		for (int e = head1[u]; e > 0; e = nxt1[e]) {
-			int v = to1[e];
+		for (int e = head[u]; e > 0; e = nxt[e]) {
+			int v = to[e];
 			if (dfn[v] == 0) {
 				tarjan(v);
 				low[u] = Math.min(low[u], low[v]);
@@ -91,14 +79,36 @@ public class Code08_SoftwareInstallation1 {
 		}
 	}
 
+	public static void condense() {
+		cntg = 0;
+		for (int i = 1; i <= sccCnt; i++) {
+			head[i] = 0;
+		}
+		for (int i = 1; i <= n; i++) {
+			if (depend[i] > 0) {
+				int scc1 = belong[depend[i]];
+				int scc2 = belong[i];
+				if (scc1 != scc2) {
+					addEdge(scc1, scc2);
+					indegree[scc2]++;
+				}
+			}
+		}
+		for (int i = 1; i <= sccCnt; i++) {
+			if (indegree[i] == 0) {
+				addEdge(0, i);
+			}
+		}
+	}
+
 	// 缩点后的树，每个节点重新分配dfn序号
 	public static int dfs(int u) {
 		int i = ++dfnCnt;
 		siz[i] = 1;
 		weight[i] = wsum[u];
 		value[i] = vsum[u];
-		for (int e = head2[u]; e > 0; e = nxt2[e]) {
-			int v = to2[e];
+		for (int e = head[u]; e > 0; e = nxt[e]) {
+			int v = to[e];
 			siz[i] += dfs(v);
 		}
 		return siz[i];
@@ -133,7 +143,7 @@ public class Code08_SoftwareInstallation1 {
 		for (int i = 1; i <= n; i++) {
 			depend[i] = in.nextInt();
 			if (depend[i] > 0) {
-				addEdge1(depend[i], i);
+				addEdge(depend[i], i);
 			}
 		}
 		for (int i = 1; i <= n; i++) {
@@ -141,21 +151,7 @@ public class Code08_SoftwareInstallation1 {
 				tarjan(i);
 			}
 		}
-		for (int i = 1; i <= n; i++) {
-			if (depend[i] > 0) {
-				int scc1 = belong[depend[i]];
-				int scc2 = belong[i];
-				if (scc1 != scc2) {
-					addEdge2(scc1, scc2);
-					indegree[scc2]++;
-				}
-			}
-		}
-		for (int i = 1; i <= sccCnt; i++) {
-			if (indegree[i] == 0) {
-				addEdge2(0, i);
-			}
-		}
+		condense();
 		int ans = knapsackOnTree();
 		out.println(ans);
 		out.flush();
