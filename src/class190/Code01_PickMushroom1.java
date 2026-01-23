@@ -21,10 +21,11 @@ public class Code01_PickMushroom1 {
 	public static int[] init = new int[MAXM];
 	public static int[] recover = new int[MAXM];
 
-	public static int[] head1 = new int[MAXN];
-	public static int[] nxt1 = new int[MAXM];
-	public static int[] to1 = new int[MAXM];
-	public static int cnt1;
+	public static int[] head = new int[MAXN];
+	public static int[] nxt = new int[MAXM];
+	public static int[] to = new int[MAXM];
+	public static int[] weight = new int[MAXM];
+	public static int cntg;
 
 	public static int[] dfn = new int[MAXN];
 	public static int[] low = new int[MAXN];
@@ -36,12 +37,6 @@ public class Code01_PickMushroom1 {
 
 	public static int[] belong = new int[MAXN];
 	public static int sccCnt;
-
-	public static int[] head2 = new int[MAXN];
-	public static int[] nxt2 = new int[MAXM];
-	public static int[] to2 = new int[MAXM];
-	public static int[] weight2 = new int[MAXM];
-	public static int cnt2;
 
 	public static int[] sum = new int[MAXN];
 	public static int[] indegree = new int[MAXN];
@@ -68,17 +63,11 @@ public class Code01_PickMushroom1 {
 		e = stack[stacksize][2];
 	}
 
-	public static void addEdge1(int u, int v) {
-		nxt1[++cnt1] = head1[u];
-		to1[cnt1] = v;
-		head1[u] = cnt1;
-	}
-
-	public static void addEdge2(int u, int v, int w) {
-		nxt2[++cnt2] = head2[u];
-		to2[cnt2] = v;
-		weight2[cnt2] = w;
-		head2[u] = cnt2;
+	public static void addEdge(int u, int v, int w) {
+		nxt[++cntg] = head[u];
+		to[cntg] = v;
+		weight[cntg] = w;
+		head[u] = cntg;
 	}
 
 	// 递归版，java会爆栈，C++可以通过
@@ -86,8 +75,8 @@ public class Code01_PickMushroom1 {
 		dfn[u] = low[u] = ++cntd;
 		sta[++top] = u;
 		ins[u] = true;
-		for (int e = head1[u]; e > 0; e = nxt1[e]) {
-			int v = to1[e];
+		for (int e = head[u]; e > 0; e = nxt[e]) {
+			int v = to[e];
 			if (dfn[v] == 0) {
 				tarjan1(v);
 				low[u] = Math.min(low[u], low[v]);
@@ -119,19 +108,19 @@ public class Code01_PickMushroom1 {
 				dfn[u] = low[u] = ++cntd;
 				sta[++top] = u;
 				ins[u] = true;
-				e = head1[u];
+				e = head[u];
 			} else {
-				v = to1[e];
+				v = to[e];
 				if (status == 0) {
 					low[u] = Math.min(low[u], low[v]);
 				}
 				if (status == 1 && ins[v]) {
 					low[u] = Math.min(low[u], dfn[v]);
 				}
-				e = nxt1[e];
+				e = nxt[e];
 			}
 			if (e != 0) {
-				v = to1[e];
+				v = to[e];
 				if (dfn[v] == 0) {
 					push(u, 0, e);
 					push(v, -1, -1);
@@ -153,6 +142,10 @@ public class Code01_PickMushroom1 {
 	}
 
 	public static void condense() {
+		cntg = 0;
+		for (int i = 1; i <= sccCnt; i++) {
+			head[i] = 0;
+		}
 		for (int i = 1; i <= m; i++) {
 			int scc1 = belong[a[i]];
 			int scc2 = belong[b[i]];
@@ -166,7 +159,7 @@ public class Code01_PickMushroom1 {
 					}
 				} else {
 					indegree[scc2]++;
-					addEdge2(scc1, scc2, val);
+					addEdge(scc1, scc2, val);
 				}
 			}
 		}
@@ -181,9 +174,9 @@ public class Code01_PickMushroom1 {
 		que[++r] = belong[s];
 		while (l <= r) {
 			int u = que[l++];
-			for (int e = head2[u]; e > 0; e = nxt2[e]) {
-				int v = to2[e];
-				int w = weight2[e];
+			for (int e = head[u]; e > 0; e = nxt[e]) {
+				int v = to[e];
+				int w = weight[e];
 				dp[v] = Math.max(dp[v], dp[u] + w + sum[v]);
 				if (--indegree[v] == 0) {
 					que[++r] = v;
@@ -210,7 +203,7 @@ public class Code01_PickMushroom1 {
 			init[i] = in.nextInt();
 			double rec = in.nextDouble();
 			recover[i] = (int) (rec * 10);
-			addEdge1(a[i], b[i]);
+			addEdge(a[i], b[i], 0);
 		}
 		s = in.nextInt();
 		// tarjan1(s);
