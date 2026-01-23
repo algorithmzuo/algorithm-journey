@@ -92,15 +92,15 @@ public class Code01_CondenseTopo1 {
 		int l = 1, r = 0;
 		for (int i = 1; i <= sccCnt; i++) {
 			if (indegree[i] == 0) {
+				dp[i] = sum[i];
 				que[++r] = i;
 			}
 		}
 		while (l <= r) {
 			int u = que[l++];
-			dp[u] += sum[u];
 			for (int e = head[u]; e > 0; e = nxt[e]) {
 				int v = to[e];
-				dp[v] = Math.max(dp[v], dp[u]);
+				dp[v] = Math.max(dp[v], dp[u] + sum[v]);
 				if (--indegree[v] == 0) {
 					que[++r] = v;
 				}
