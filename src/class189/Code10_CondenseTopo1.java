@@ -1,25 +1,23 @@
 package class189;
 
-// 稳定婚姻，java版
-// 测试链接 : https://www.luogu.com.cn/problem/P1407
+// 缩点之后拓扑排序模版题，java版
+// 测试链接 : https://www.luogu.com.cn/problem/P3387
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
-import java.util.HashMap;
 
-public class Code10_SafeMarriage1 {
+public class Code10_CondenseTopo1 {
 
 	public static int MAXN = 10001;
-	public static int MAXM = 30001;
+	public static int MAXM = 100001;
 	public static int n, m;
 
-	public static int[] b = new int[MAXN];
-	public static int[] g = new int[MAXN];
-	public static int cntn;
-	public static HashMap<String, Integer> nameId = new HashMap<>();
+	public static int[] arr = new int[MAXN];
+	public static int[] a = new int[MAXM];
+	public static int[] b = new int[MAXM];
 
 	public static int[] head = new int[MAXN];
 	public static int[] nxt = new int[MAXM];
@@ -35,7 +33,12 @@ public class Code10_SafeMarriage1 {
 	public static int top;
 
 	public static int[] belong = new int[MAXN];
+	public static int[] sum = new int[MAXN];
 	public static int sccCnt;
+
+	public static int[] indegree = new int[MAXN];
+	public static int[] que = new int[MAXN];
+	public static int[] dp = new int[MAXN];
 
 	public static void addEdge(int u, int v) {
 		nxt[++cntg] = head[u];
@@ -64,43 +67,73 @@ public class Code10_SafeMarriage1 {
 			do {
 				pop = sta[top--];
 				belong[pop] = sccCnt;
+				sum[sccCnt] += arr[pop];
 				ins[pop] = false;
 			} while (pop != u);
 		}
+	}
+
+	public static void condense() {
+		cntg = 0;
+		for (int i = 1; i <= sccCnt; i++) {
+			head[i] = 0;
+		}
+		for (int i = 1; i <= m; i++) {
+			int scc1 = belong[a[i]];
+			int scc2 = belong[b[i]];
+			if (scc1 != scc2) {
+				indegree[scc2]++;
+				addEdge(scc1, scc2);
+			}
+		}
+	}
+
+	public static int topo() {
+		int l = 1, r = 0;
+		for (int i = 1; i <= sccCnt; i++) {
+			if (indegree[i] == 0) {
+				que[++r] = i;
+			}
+		}
+		while (l <= r) {
+			int u = que[l++];
+			dp[u] += sum[u];
+			for (int e = head[u]; e > 0; e = nxt[e]) {
+				int v = to[e];
+				dp[v] = Math.max(dp[v], dp[u]);
+				if (--indegree[v] == 0) {
+					que[++r] = v;
+				}
+			}
+		}
+		int ans = 0;
+		for (int i = 1; i <= sccCnt; i++) {
+			ans = Math.max(ans, dp[i]);
+		}
+		return ans;
 	}
 
 	public static void main(String[] args) throws Exception {
 		FastReader in = new FastReader(System.in);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
 		n = in.nextInt();
-		String boy, girl;
-		for (int i = 1; i <= n; i++) {
-			boy = in.nextString();
-			girl = in.nextString();
-			b[i] = ++cntn;
-			g[i] = ++cntn;
-			nameId.put(boy, b[i]);
-			nameId.put(girl, g[i]);
-			addEdge(b[i], g[i]);
-		}
 		m = in.nextInt();
-		for (int i = 1; i <= m; i++) {
-			boy = in.nextString();
-			girl = in.nextString();
-			addEdge(nameId.get(girl), nameId.get(boy));
+		for (int i = 1; i <= n; i++) {
+			arr[i] = in.nextInt();
 		}
-		for (int i = 1; i <= cntn; i++) {
+		for (int i = 1; i <= m; i++) {
+			a[i] = in.nextInt();
+			b[i] = in.nextInt();
+			addEdge(a[i], b[i]);
+		}
+		for (int i = 1; i <= n; i++) {
 			if (dfn[i] == 0) {
 				tarjan(i);
 			}
 		}
-		for (int i = 1; i <= n; i++) {
-			if (belong[b[i]] == belong[g[i]]) {
-				out.println("Unsafe");
-			} else {
-				out.println("Safe");
-			}
-		}
+		condense();
+		int ans = topo();
+		out.println(ans);
 		out.flush();
 		out.close();
 	}
@@ -142,28 +175,6 @@ public class Code10_SafeMarriage1 {
 			}
 			return neg ? -val : val;
 		}
-
-		boolean isLetter(int c) {
-			return (c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z');
-		}
-
-		String nextString() throws IOException {
-			int c;
-			do {
-				c = readByte();
-				if (c == -1)
-					return null;
-			} while (!isLetter(c));
-			StringBuilder sb = new StringBuilder();
-			while (isLetter(c)) {
-				sb.append((char) c);
-				c = readByte();
-				if (c == -1)
-					break;
-			}
-			return sb.toString();
-		}
-
 	}
 
 }
