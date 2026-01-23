@@ -9,7 +9,7 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
-public class Code09_SoftwareInstallation1 {
+public class Code08_SoftwareInstallation1 {
 
 	public static int MAXN = 301;
 	public static int MAXW = 601;
