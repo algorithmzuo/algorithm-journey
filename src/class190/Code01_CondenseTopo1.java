@@ -88,6 +88,7 @@ public class Code01_CondenseTopo1 {
 		}
 	}
 
+	// DAG上进行动态规划，拓扑排序的写法
 	public static int topo() {
 		int l = 1, r = 0;
 		for (int i = 1; i <= sccCnt; i++) {
@@ -113,6 +114,26 @@ public class Code01_CondenseTopo1 {
 		return ans;
 	}
 
+	// DAG上进行动态规划，直接转移的写法
+	public static int dpOnDAG() {
+		for (int u = 1; u <= sccCnt; u++) {
+			if (indegree[u] == 0) {
+				dp[u] = sum[u];
+			}
+		}
+		for (int u = sccCnt; u > 0; u--) {
+			for (int e = head[u]; e > 0; e = nxt[e]) {
+				int v = to[e];
+				dp[v] = Math.max(dp[v], dp[u] + sum[v]);
+			}
+		}
+		int ans = 0;
+		for (int u = 1; u <= sccCnt; u++) {
+			ans = Math.max(ans, dp[u]);
+		}
+		return ans;
+	}
+
 	public static void main(String[] args) throws Exception {
 		FastReader in = new FastReader(System.in);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
@@ -132,7 +153,8 @@ public class Code01_CondenseTopo1 {
 			}
 		}
 		condense();
-		int ans = topo();
+		// int ans = topo();
+		int ans = dpOnDAG();
 		out.println(ans);
 		out.flush();
 		out.close();

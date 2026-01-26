@@ -37,7 +37,6 @@ public class Code09_Candy1 {
 	public static int sccCnt;
 
 	public static int[] indegree = new int[MAXN];
-	public static int[] que = new int[MAXN];
 	public static long[] dp = new long[MAXN];
 
 	// 迭代版需要的栈，讲解118讲了递归改迭代的技巧
@@ -161,23 +160,17 @@ public class Code09_Candy1 {
 		return true;
 	}
 
-	public static long topo() {
-		int l = 1, r = 0;
-		for (int i = 1; i <= sccCnt; i++) {
-			if (indegree[i] == 0) {
-				dp[i] = 1;
-				que[++r] = i;
+	public static long dpOnDAG() {
+		for (int u = 1; u <= sccCnt; u++) {
+			if (indegree[u] == 0) {
+				dp[u] = 1;
 			}
 		}
-		while (l <= r) {
-			int u = que[l++];
+		for (int u = sccCnt; u > 0; u--) {
 			for (int e = head[u]; e > 0; e = nxt[e]) {
 				int v = to[e];
 				int w = weight[e];
 				dp[v] = Math.max(dp[v], dp[u] + w);
-				if (--indegree[v] == 0) {
-					que[++r] = v;
-				}
 			}
 		}
 		long ans = 0;
@@ -223,7 +216,7 @@ public class Code09_Candy1 {
 		if (!check) {
 			out.println(-1);
 		} else {
-			long ans = topo();
+			long ans = dpOnDAG();
 			out.println(ans);
 		}
 		out.flush();

@@ -39,9 +39,6 @@ public class Code02_PickMushroom1 {
 	public static int sccCnt;
 
 	public static int[] sum = new int[MAXN];
-	public static int[] indegree = new int[MAXN];
-
-	public static int[] que = new int[MAXN];
 	public static int[] dp = new int[MAXN];
 
 	// 迭代版需要的栈，讲解118讲了递归改迭代的技巧
@@ -158,35 +155,30 @@ public class Code02_PickMushroom1 {
 						val = val * rec / 10;
 					}
 				} else {
-					indegree[scc2]++;
 					addEdge(scc1, scc2, val);
 				}
 			}
 		}
 	}
 
-	public static int topo() {
-		for (int i = 1; i <= sccCnt; i++) {
-			dp[i] = -INF;
+	public static int dpOnDAG() {
+		for (int u = 1; u <= sccCnt; u++) {
+			dp[u] = -INF;
 		}
 		dp[belong[s]] = sum[belong[s]];
-		int l = 1, r = 0;
-		que[++r] = belong[s];
-		while (l <= r) {
-			int u = que[l++];
-			for (int e = head[u]; e > 0; e = nxt[e]) {
-				int v = to[e];
-				int w = weight[e];
-				dp[v] = Math.max(dp[v], dp[u] + w + sum[v]);
-				if (--indegree[v] == 0) {
-					que[++r] = v;
+		for (int u = sccCnt; u > 0; u--) {
+			if (dp[u] != -INF) {
+				for (int e = head[u]; e > 0; e = nxt[e]) {
+					int v = to[e];
+					int w = weight[e];
+					dp[v] = Math.max(dp[v], dp[u] + w + sum[v]);
 				}
 			}
 		}
 		int ans = 0;
-		for (int i = 1; i <= sccCnt; i++) {
-			if (dp[i] != -INF) {
-				ans = Math.max(ans, dp[i]);
+		for (int u = 1; u <= sccCnt; u++) {
+			if (dp[u] != -INF) {
+				ans = Math.max(ans, dp[u]);
 			}
 		}
 		return ans;
@@ -209,7 +201,7 @@ public class Code02_PickMushroom1 {
 		// tarjan1(s);
 		tarjan2(s);
 		condense();
-		int ans = topo();
+		int ans = dpOnDAG();
 		out.println(ans);
 		out.flush();
 		out.close();

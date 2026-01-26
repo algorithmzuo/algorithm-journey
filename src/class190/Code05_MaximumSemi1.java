@@ -39,7 +39,6 @@ public class Code05_MaximumSemi1 {
 	public static int cnte;
 
 	public static int[] indegree = new int[MAXN];
-	public static int[] que = new int[MAXN];
 	public static int[] semiSiz = new int[MAXN];
 	public static int[] semiCnt = new int[MAXN];
 
@@ -171,17 +170,14 @@ public class Code05_MaximumSemi1 {
 		}
 	}
 
-	public static void topo() {
-		int l = 1, r = 0;
-		for (int i = 1; i <= sccCnt; i++) {
-			if (indegree[i] == 0) {
-				semiSiz[i] = sccSiz[i];
-				semiCnt[i] = 1;
-				que[++r] = i;
+	public static void dpOnDAG() {
+		for (int u = 1; u <= sccCnt; u++) {
+			if (indegree[u] == 0) {
+				semiSiz[u] = sccSiz[u];
+				semiCnt[u] = 1;
 			}
 		}
-		while (l <= r) {
-			int u = que[l++];
+		for (int u = sccCnt; u > 0; u--) {
 			for (int e = head[u]; e > 0; e = nxt[e]) {
 				int v = to[e];
 				if (semiSiz[v] < semiSiz[u] + sccSiz[v]) {
@@ -189,9 +185,6 @@ public class Code05_MaximumSemi1 {
 					semiCnt[v] = semiCnt[u];
 				} else if (semiSiz[v] == semiSiz[u] + sccSiz[v]) {
 					semiCnt[v] = (semiCnt[v] + semiCnt[u]) % mod;
-				}
-				if (--indegree[v] == 0) {
-					que[++r] = v;
 				}
 			}
 		}
@@ -224,7 +217,7 @@ public class Code05_MaximumSemi1 {
 			}
 		}
 		condense();
-		topo();
+		dpOnDAG();
 		out.println(ans1);
 		out.println(ans2);
 		out.flush();
