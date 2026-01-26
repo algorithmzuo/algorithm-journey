@@ -167,19 +167,15 @@ public class Code02_PickMushroom1 {
 		}
 		dp[belong[s]] = sum[belong[s]];
 		for (int u = sccCnt; u > 0; u--) {
-			if (dp[u] != -INF) {
-				for (int e = head[u]; e > 0; e = nxt[e]) {
-					int v = to[e];
-					int w = weight[e];
-					dp[v] = Math.max(dp[v], dp[u] + w + sum[v]);
-				}
+			for (int e = head[u]; e > 0; e = nxt[e]) {
+				int v = to[e];
+				int w = weight[e];
+				dp[v] = Math.max(dp[v], dp[u] + w + sum[v]);
 			}
 		}
 		int ans = 0;
 		for (int u = 1; u <= sccCnt; u++) {
-			if (dp[u] != -INF) {
-				ans = Math.max(ans, dp[u]);
-			}
+			ans = Math.max(ans, dp[u]);
 		}
 		return ans;
 	}

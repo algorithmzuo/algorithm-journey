@@ -165,16 +165,14 @@ public class Code04_RobberyPlan1 {
 		}
 		dp[belong[s]] = sum[belong[s]];
 		for (int u = sccCnt; u > 0; u--) {
-			if (dp[u] != -INF) {
-				for (int e = head[u]; e > 0; e = nxt[e]) {
-					int v = to[e];
-					dp[v] = Math.max(dp[v], dp[u] + sum[v]);
-				}
+			for (int e = head[u]; e > 0; e = nxt[e]) {
+				int v = to[e];
+				dp[v] = Math.max(dp[v], dp[u] + sum[v]);
 			}
 		}
 		int ans = 0;
 		for (int u = 1; u <= sccCnt; u++) {
-			if (dp[u] != -INF && hasBar[u]) {
+			if (hasBar[u]) {
 				ans = Math.max(ans, dp[u]);
 			}
 		}

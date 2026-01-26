@@ -167,12 +167,10 @@ public class Code03_OptimalTrade1 {
 		premin[s] = minv[s];
 		best[s] = maxv[s] - minv[s];
 		for (int u = sccCnt; u > 0; u--) {
-			if (premin[u] != INF) {
-				for (int e = head[u]; e > 0; e = nxt[e]) {
-					int v = to[e];
-					premin[v] = Math.min(premin[v], Math.min(premin[u], minv[v]));
-					best[v] = Math.max(best[v], Math.max(best[u], maxv[v] - premin[v]));
-				}
+			for (int e = head[u]; e > 0; e = nxt[e]) {
+				int v = to[e];
+				premin[v] = Math.min(premin[v], Math.min(premin[u], minv[v]));
+				best[v] = Math.max(best[v], Math.max(best[u], maxv[v] - premin[v]));
 			}
 		}
 		return best[belong[n]];

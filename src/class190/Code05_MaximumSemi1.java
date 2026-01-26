@@ -171,13 +171,11 @@ public class Code05_MaximumSemi1 {
 	}
 
 	public static void dpOnDAG() {
-		for (int u = 1; u <= sccCnt; u++) {
+		for (int u = sccCnt; u > 0; u--) {
 			if (indegree[u] == 0) {
 				semiSiz[u] = sccSiz[u];
 				semiCnt[u] = 1;
 			}
-		}
-		for (int u = sccCnt; u > 0; u--) {
 			for (int e = head[u]; e > 0; e = nxt[e]) {
 				int v = to[e];
 				if (semiSiz[v] < semiSiz[u] + sccSiz[v]) {

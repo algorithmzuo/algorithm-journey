@@ -161,12 +161,10 @@ public class Code09_Candy1 {
 	}
 
 	public static long dpOnDAG() {
-		for (int u = 1; u <= sccCnt; u++) {
+		for (int u = sccCnt; u > 0; u--) {
 			if (indegree[u] == 0) {
 				dp[u] = 1;
 			}
-		}
-		for (int u = sccCnt; u > 0; u--) {
 			for (int e = head[u]; e > 0; e = nxt[e]) {
 				int v = to[e];
 				int w = weight[e];

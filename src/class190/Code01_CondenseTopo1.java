@@ -1,6 +1,6 @@
 package class190;
 
-// 缩点后DAG拓扑排序模版题，java版
+// 缩点结合拓扑排序的模版题，java版
 // 测试链接 : https://www.luogu.com.cn/problem/P3387
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
@@ -88,7 +88,7 @@ public class Code01_CondenseTopo1 {
 		}
 	}
 
-	// DAG上进行动态规划，拓扑排序的写法
+	// 经典的拓扑排序写法
 	public static int topo() {
 		int l = 1, r = 0;
 		for (int i = 1; i <= sccCnt; i++) {
@@ -114,14 +114,12 @@ public class Code01_CondenseTopo1 {
 		return ans;
 	}
 
-	// DAG上进行动态规划，直接转移的写法
+	// 高效转移的写法
 	public static int dpOnDAG() {
-		for (int u = 1; u <= sccCnt; u++) {
+		for (int u = sccCnt; u > 0; u--) {
 			if (indegree[u] == 0) {
 				dp[u] = sum[u];
 			}
-		}
-		for (int u = sccCnt; u > 0; u--) {
 			for (int e = head[u]; e > 0; e = nxt[e]) {
 				int v = to[e];
 				dp[v] = Math.max(dp[v], dp[u] + sum[v]);
