@@ -88,7 +88,7 @@ public class Code01_CondenseTopo1 {
 		}
 	}
 
-	// 经典的拓扑排序写法
+	// 经典拓扑排序的写法
 	public static int topo() {
 		int l = 1, r = 0;
 		for (int i = 1; i <= sccCnt; i++) {
@@ -114,7 +114,7 @@ public class Code01_CondenseTopo1 {
 		return ans;
 	}
 
-	// 高效转移的写法
+	// 直接转移的写法
 	public static int dpOnDAG() {
 		for (int u = sccCnt; u > 0; u--) {
 			if (indegree[u] == 0) {
