@@ -1,6 +1,6 @@
 package class189;
 
-// 是否有路，java版
+// 任意两点都有路，java版
 // 测试链接 : https://www.luogu.com.cn/problem/P10944
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
