@@ -1,25 +1,26 @@
 package class189;
 
-// 稳定婚姻，java版
-// 测试链接 : https://www.luogu.com.cn/problem/P1407
+// 任意两点都有路，java版
+// 给定一张n个点，m条边的有向图
+// 两点u、v，不管是从u出发能到达v，还是从v出发能到达u，都叫两点间有路
+// 判断这个有向图是否能做到，任意两点都有路，能打印"Yes"，不能打印"No"
+// 1 <= n <= 1000
+// 1 <= m <= 6000
+// 测试链接 : https://www.luogu.com.cn/problem/P10944
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
-import java.util.HashMap;
 
-public class Code09_SafeMarriage1 {
+public class Code09_HasPath1 {
 
-	public static int MAXN = 10001;
-	public static int MAXM = 30001;
-	public static int n, m;
-
-	public static int[] b = new int[MAXN];
-	public static int[] g = new int[MAXN];
-	public static int cntn;
-	public static HashMap<String, Integer> nameId = new HashMap<>();
+	public static int MAXN = 1001;
+	public static int MAXM = 6001;
+	public static int t, n, m;
+	public static int[] a = new int[MAXM];
+	public static int[] b = new int[MAXM];
 
 	public static int[] head = new int[MAXN];
 	public static int[] nxt = new int[MAXM];
@@ -36,6 +37,9 @@ public class Code09_SafeMarriage1 {
 
 	public static int[] belong = new int[MAXN];
 	public static int sccCnt;
+
+	public static int[] indegree = new int[MAXN];
+	public static int[] que = new int[MAXN];
 
 	public static void addEdge(int u, int v) {
 		nxt[++cntg] = head[u];
@@ -69,37 +73,68 @@ public class Code09_SafeMarriage1 {
 		}
 	}
 
+	public static void condense() {
+		cntg = 0;
+		for (int i = 1; i <= sccCnt; i++) {
+			head[i] = 0;
+		}
+		for (int i = 1; i <= m; i++) {
+			int scc1 = belong[a[i]];
+			int scc2 = belong[b[i]];
+			if (scc1 != scc2) {
+				indegree[scc2]++;
+				addEdge(scc1, scc2);
+			}
+		}
+	}
+
+	public static boolean topo() {
+		int l = 1, r = 0;
+		for (int i = 1; i <= sccCnt; i++) {
+			if (indegree[i] == 0) {
+				que[++r] = i;
+			}
+		}
+		while (l <= r) {
+			int siz = r - l + 1;
+			if (siz > 1) {
+				return false;
+			}
+			int u = que[l++];
+			for (int e = head[u]; e > 0; e = nxt[e]) {
+				int v = to[e];
+				if (--indegree[v] == 0) {
+					que[++r] = v;
+				}
+			}
+		}
+		return true;
+	}
+
 	public static void main(String[] args) throws Exception {
 		FastReader in = new FastReader(System.in);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
-		n = in.nextInt();
-		String boy, girl;
-		for (int i = 1; i <= n; i++) {
-			boy = in.nextString();
-			girl = in.nextString();
-			b[i] = ++cntn;
-			g[i] = ++cntn;
-			nameId.put(boy, b[i]);
-			nameId.put(girl, g[i]);
-			addEdge(b[i], g[i]);
-		}
-		m = in.nextInt();
-		for (int i = 1; i <= m; i++) {
-			boy = in.nextString();
-			girl = in.nextString();
-			addEdge(nameId.get(girl), nameId.get(boy));
-		}
-		for (int i = 1; i <= cntn; i++) {
-			if (dfn[i] == 0) {
-				tarjan(i);
+		t = in.nextInt();
+		for (int c = 1; c <= t; c++) {
+			n = in.nextInt();
+			m = in.nextInt();
+			cntg = cntd = sccCnt = 0;
+			for (int i = 1; i <= n; i++) {
+				head[i] = dfn[i] = indegree[i] = 0;
 			}
-		}
-		for (int i = 1; i <= n; i++) {
-			if (belong[b[i]] == belong[g[i]]) {
-				out.println("Unsafe");
-			} else {
-				out.println("Safe");
+			for (int i = 1; i <= m; i++) {
+				a[i] = in.nextInt();
+				b[i] = in.nextInt();
+				addEdge(a[i], b[i]);
 			}
+			for (int i = 1; i <= n; i++) {
+				if (dfn[i] == 0) {
+					tarjan(i);
+				}
+			}
+			condense();
+			boolean ans = topo();
+			out.println(ans ? "Yes" : "No");
 		}
 		out.flush();
 		out.close();
@@ -142,28 +177,6 @@ public class Code09_SafeMarriage1 {
 			}
 			return neg ? -val : val;
 		}
-
-		boolean isLetter(int c) {
-			return (c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z');
-		}
-
-		String nextString() throws IOException {
-			int c;
-			do {
-				c = readByte();
-				if (c == -1)
-					return null;
-			} while (!isLetter(c));
-			StringBuilder sb = new StringBuilder();
-			while (isLetter(c)) {
-				sb.append((char) c);
-				c = readByte();
-				if (c == -1)
-					break;
-			}
-			return sb.toString();
-		}
-
 	}
 
 }
