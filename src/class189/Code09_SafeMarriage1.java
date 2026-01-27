@@ -1,24 +1,25 @@
 package class189;
 
-// 间谍网络，java版
-// 测试链接 : https://www.luogu.com.cn/problem/P1262
+// 稳定婚姻，java版
+// 测试链接 : https://www.luogu.com.cn/problem/P1407
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.util.HashMap;
 
-public class Code08_Spy1 {
+public class Code09_SafeMarriage1 {
 
-	public static int MAXN = 3001;
-	public static int MAXM = 8001;
-	public static int INF = 1000000001;
-	public static int n, p, m;
+	public static int MAXN = 10001;
+	public static int MAXM = 30001;
+	public static int n, m;
 
-	public static int[] cost = new int[MAXN];
-	public static int[] a = new int[MAXM];
-	public static int[] b = new int[MAXM];
+	public static int[] b = new int[MAXN];
+	public static int[] g = new int[MAXN];
+	public static int cntn;
+	public static HashMap<String, Integer> nameId = new HashMap<>();
 
 	public static int[] head = new int[MAXN];
 	public static int[] nxt = new int[MAXM];
@@ -34,10 +35,7 @@ public class Code08_Spy1 {
 	public static int top;
 
 	public static int[] belong = new int[MAXN];
-	public static int[] minVal = new int[MAXN];
 	public static int sccCnt;
-
-	public static int[] indegree = new int[MAXN];
 
 	public static void addEdge(int u, int v) {
 		nxt[++cntg] = head[u];
@@ -62,12 +60,10 @@ public class Code08_Spy1 {
 		}
 		if (dfn[u] == low[u]) {
 			sccCnt++;
-			minVal[sccCnt] = INF;
 			int pop;
 			do {
 				pop = sta[top--];
 				belong[pop] = sccCnt;
-				minVal[sccCnt] = Math.min(minVal[sccCnt], cost[pop]);
 				ins[pop] = false;
 			} while (pop != u);
 		}
@@ -77,53 +73,33 @@ public class Code08_Spy1 {
 		FastReader in = new FastReader(System.in);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
 		n = in.nextInt();
-		p = in.nextInt();
+		String boy, girl;
 		for (int i = 1; i <= n; i++) {
-			cost[i] = INF;
-		}
-		for (int i = 1, u, c; i <= p; i++) {
-			u = in.nextInt();
-			c = in.nextInt();
-			cost[u] = c;
+			boy = in.nextString();
+			girl = in.nextString();
+			b[i] = ++cntn;
+			g[i] = ++cntn;
+			nameId.put(boy, b[i]);
+			nameId.put(girl, g[i]);
+			addEdge(b[i], g[i]);
 		}
 		m = in.nextInt();
 		for (int i = 1; i <= m; i++) {
-			a[i] = in.nextInt();
-			b[i] = in.nextInt();
-			addEdge(a[i], b[i]);
+			boy = in.nextString();
+			girl = in.nextString();
+			addEdge(nameId.get(girl), nameId.get(boy));
 		}
-		for (int i = 1; i <= n; i++) {
-			if (cost[i] != INF && dfn[i] == 0) {
+		for (int i = 1; i <= cntn; i++) {
+			if (dfn[i] == 0) {
 				tarjan(i);
 			}
 		}
-		boolean check = true;
-		int ans = 0;
 		for (int i = 1; i <= n; i++) {
-			if (belong[i] == 0) {
-				check = false;
-				ans = i;
-				break;
+			if (belong[b[i]] == belong[g[i]]) {
+				out.println("Unsafe");
+			} else {
+				out.println("Safe");
 			}
-		}
-		if (!check) {
-			out.println("NO");
-			out.println(ans);
-		} else {
-			for (int i = 1; i <= m; i++) {
-				int scc1 = belong[a[i]];
-				int scc2 = belong[b[i]];
-				if (scc1 != scc2) {
-					indegree[scc2]++;
-				}
-			}
-			for (int i = 1; i <= sccCnt; i++) {
-				if (indegree[i] == 0) {
-					ans += minVal[i];
-				}
-			}
-			out.println("YES");
-			out.println(ans);
 		}
 		out.flush();
 		out.close();
@@ -166,6 +142,28 @@ public class Code08_Spy1 {
 			}
 			return neg ? -val : val;
 		}
+
+		boolean isLetter(int c) {
+			return (c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z');
+		}
+
+		String nextString() throws IOException {
+			int c;
+			do {
+				c = readByte();
+				if (c == -1)
+					return null;
+			} while (!isLetter(c));
+			StringBuilder sb = new StringBuilder();
+			while (isLetter(c)) {
+				sb.append((char) c);
+				c = readByte();
+				if (c == -1)
+					break;
+			}
+			return sb.toString();
+		}
+
 	}
 
 }

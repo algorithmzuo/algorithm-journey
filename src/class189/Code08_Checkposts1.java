@@ -10,7 +10,7 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
-public class Code09_Checkposts1 {
+public class Code08_Checkposts1 {
 
 	public static int MAXN = 100001;
 	public static int MAXM = 300001;

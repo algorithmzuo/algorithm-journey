@@ -1,7 +1,7 @@
 package class189;
 
-// 消息扩散，java版
-// 测试链接 : https://www.luogu.com.cn/problem/P2002
+// 间谍网络，java版
+// 测试链接 : https://www.luogu.com.cn/problem/P1262
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
 import java.io.IOException;
@@ -9,11 +9,14 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
-public class Code06_NewsSpread1 {
+public class Code07_Spy1 {
 
-	public static int MAXN = 100001;
-	public static int MAXM = 500001;
-	public static int n, m;
+	public static int MAXN = 3001;
+	public static int MAXM = 8001;
+	public static int INF = 1000000001;
+	public static int n, p, m;
+
+	public static int[] cost = new int[MAXN];
 	public static int[] a = new int[MAXM];
 	public static int[] b = new int[MAXM];
 
@@ -31,28 +34,10 @@ public class Code06_NewsSpread1 {
 	public static int top;
 
 	public static int[] belong = new int[MAXN];
+	public static int[] minVal = new int[MAXN];
 	public static int sccCnt;
 
 	public static int[] indegree = new int[MAXN];
-
-	// 迭代版需要的栈，讲解118讲了递归改迭代的技巧
-	public static int[][] stack = new int[MAXN][3];
-	public static int u, status, e;
-	public static int stacksize;
-
-	public static void push(int u, int status, int e) {
-		stack[stacksize][0] = u;
-		stack[stacksize][1] = status;
-		stack[stacksize][2] = e;
-		stacksize++;
-	}
-
-	public static void pop() {
-		stacksize--;
-		u = stack[stacksize][0];
-		status = stack[stacksize][1];
-		e = stack[stacksize][2];
-	}
 
 	public static void addEdge(int u, int v) {
 		nxt[++cntg] = head[u];
@@ -60,15 +45,14 @@ public class Code06_NewsSpread1 {
 		head[u] = cntg;
 	}
 
-	// 递归版，java会爆栈，C++可以通过
-	public static void tarjan1(int u) {
+	public static void tarjan(int u) {
 		dfn[u] = low[u] = ++cntd;
 		sta[++top] = u;
 		ins[u] = true;
 		for (int e = head[u]; e > 0; e = nxt[e]) {
 			int v = to[e];
 			if (dfn[v] == 0) {
-				tarjan1(v);
+				tarjan(v);
 				low[u] = Math.min(low[u], low[v]);
 			} else {
 				if (ins[v]) {
@@ -78,56 +62,14 @@ public class Code06_NewsSpread1 {
 		}
 		if (dfn[u] == low[u]) {
 			sccCnt++;
+			minVal[sccCnt] = INF;
 			int pop;
 			do {
 				pop = sta[top--];
 				belong[pop] = sccCnt;
+				minVal[sccCnt] = Math.min(minVal[sccCnt], cost[pop]);
 				ins[pop] = false;
 			} while (pop != u);
-		}
-	}
-
-	// 迭代版
-	public static void tarjan2(int node) {
-		stacksize = 0;
-		push(node, -1, -1);
-		int v;
-		while (stacksize > 0) {
-			pop();
-			if (status == -1) {
-				dfn[u] = low[u] = ++cntd;
-				sta[++top] = u;
-				ins[u] = true;
-				e = head[u];
-			} else {
-				v = to[e];
-				if (status == 0) {
-					low[u] = Math.min(low[u], low[v]);
-				}
-				if (status == 1 && ins[v]) {
-					low[u] = Math.min(low[u], dfn[v]);
-				}
-				e = nxt[e];
-			}
-			if (e != 0) {
-				v = to[e];
-				if (dfn[v] == 0) {
-					push(u, 0, e);
-					push(v, -1, -1);
-				} else {
-					push(u, 1, e);
-				}
-			} else {
-				if (dfn[u] == low[u]) {
-					sccCnt++;
-					int pop;
-					do {
-						pop = sta[top--];
-						belong[pop] = sccCnt;
-						ins[pop] = false;
-					} while (pop != u);
-				}
-			}
 		}
 	}
 
@@ -135,6 +77,15 @@ public class Code06_NewsSpread1 {
 		FastReader in = new FastReader(System.in);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
 		n = in.nextInt();
+		p = in.nextInt();
+		for (int i = 1; i <= n; i++) {
+			cost[i] = INF;
+		}
+		for (int i = 1, u, c; i <= p; i++) {
+			u = in.nextInt();
+			c = in.nextInt();
+			cost[u] = c;
+		}
 		m = in.nextInt();
 		for (int i = 1; i <= m; i++) {
 			a[i] = in.nextInt();
@@ -142,25 +93,38 @@ public class Code06_NewsSpread1 {
 			addEdge(a[i], b[i]);
 		}
 		for (int i = 1; i <= n; i++) {
-			if (dfn[i] == 0) {
-				// tarjan1(i);
-				tarjan2(i);
+			if (cost[i] != INF && dfn[i] == 0) {
+				tarjan(i);
 			}
 		}
-		for (int i = 1; i <= m; i++) {
-			int scc1 = belong[a[i]];
-			int scc2 = belong[b[i]];
-			if (scc1 != scc2) {
-				indegree[scc2]++;
-			}
-		}
+		boolean check = true;
 		int ans = 0;
-		for (int i = 1; i <= sccCnt; i++) {
-			if (indegree[i] == 0) {
-				ans++;
+		for (int i = 1; i <= n; i++) {
+			if (belong[i] == 0) {
+				check = false;
+				ans = i;
+				break;
 			}
 		}
-		out.println(ans);
+		if (!check) {
+			out.println("NO");
+			out.println(ans);
+		} else {
+			for (int i = 1; i <= m; i++) {
+				int scc1 = belong[a[i]];
+				int scc2 = belong[b[i]];
+				if (scc1 != scc2) {
+					indegree[scc2]++;
+				}
+			}
+			for (int i = 1; i <= sccCnt; i++) {
+				if (indegree[i] == 0) {
+					ans += minVal[i];
+				}
+			}
+			out.println("YES");
+			out.println(ans);
+		}
 		out.flush();
 		out.close();
 	}
