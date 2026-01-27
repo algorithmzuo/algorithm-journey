@@ -65,7 +65,7 @@ public class Code01_SccFirst1 {
 				if (ins[v]) { // 回边
 					low[u] = Math.min(low[u], dfn[v]);
 				}
-				// 如果if没命中，就是遇到了弃边，什么也不做
+				// 如果 !ins[v] 就是遇到了弃边，什么也不做
 			}
 		}
 		if (dfn[u] == low[u]) {
