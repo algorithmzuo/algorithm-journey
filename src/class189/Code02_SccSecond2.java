@@ -1,14 +1,12 @@
 package class189;
 
-// 强连通分量模版题1，C++版
+// 强连通分量模版题2，C++版
 // 给定一张n个点，m条边的有向图，可能存在重边和自环
 // 求出所有强连通分量，先打印强连通分量的数量
-// 然后打印1号点所在强连通分量，然后打印2号点所在强连通分量
-// 如果当前强连通分量已经打印，改为打印3号点所在强连通分量，以此类推
-// 打印每个强连通分量时，按照节点编号从小到大打印
-// 1 <= n <= 10^4
+// 每个强连通分量先打印大小，然后打印节点编号，顺序随意
+// 1 <= n <= 5 * 10^4
 // 1 <= m <= 10^5
-// 测试链接 : https://www.luogu.com.cn/problem/B3609
+// 测试链接 : https://www.luogu.com.cn/problem/U224391
 // 如下实现是C++的版本，C++版本和java版本逻辑完全一样
 // 提交如下代码，可以通过所有测试用例
 
@@ -16,7 +14,7 @@ package class189;
 //
 //using namespace std;
 //
-//const int MAXN = 10001;
+//const int MAXN = 50001;
 //const int MAXM = 100001;
 //int n, m;
 //
@@ -33,14 +31,12 @@ package class189;
 //int sta[MAXN];
 //int top;
 //
-//int belong[MAXN];
 //int sccArr[MAXN];
+//int sccSiz[MAXN];
 //int sccl[MAXN];
 //int sccr[MAXN];
 //int idx;
 //int sccCnt;
-//
-//bool sccPrint[MAXN];
 //
 //void addEdge(int u, int v) {
 //    nxt[++cntg] = head[u];
@@ -69,8 +65,8 @@ package class189;
 //        int pop;
 //        do {
 //            pop = sta[top--];
-//            belong[pop] = sccCnt;
 //            sccArr[++idx] = pop;
+//            sccSiz[sccCnt]++;
 //            ins[pop] = false;
 //        } while (pop != u);
 //        sccr[sccCnt] = idx;
@@ -92,17 +88,11 @@ package class189;
 //    }
 //    cout << sccCnt << "\n";
 //    for (int i = 1; i <= sccCnt; i++) {
-//        sort(sccArr + sccl[i], sccArr + sccr[i] + 1);
-//    }
-//    for (int i = 1; i <= n; i++) {
-//        int scc = belong[i];
-//        if (!sccPrint[scc]) {
-//            sccPrint[scc] = true;
-//            for (int j = sccl[scc]; j <= sccr[scc]; j++) {
-//                cout << sccArr[j] << " ";
-//            }
-//            cout << "\n";
+//        cout << sccSiz[i] << " ";
+//        for (int j = sccl[i]; j <= sccr[i]; j++) {
+//            cout << sccArr[j] << " ";
 //        }
+//        cout << "\n";
 //    }
 //    return 0;
 //}

@@ -1,6 +1,11 @@
 package class189;
 
 // 强连通分量模版题2，java版
+// 给定一张n个点，m条边的有向图，可能存在重边和自环
+// 求出所有强连通分量，先打印强连通分量的数量
+// 每个强连通分量先打印大小，然后打印节点编号，顺序随意
+// 1 <= n <= 5 * 10^4
+// 1 <= m <= 10^5
 // 测试链接 : https://www.luogu.com.cn/problem/U224391
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
@@ -8,7 +13,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
-import java.util.Arrays;
 
 public class Code02_SccSecond1 {
 
@@ -153,7 +157,6 @@ public class Code02_SccSecond1 {
 		}
 		out.println(sccCnt);
 		for (int i = 1; i <= sccCnt; i++) {
-			Arrays.sort(sccArr, sccl[i], sccr[i] + 1);
 			out.print(sccSiz[i] + " ");
 			for (int j = sccl[i]; j <= sccr[i]; j++) {
 				out.print(sccArr[j] + " ");
