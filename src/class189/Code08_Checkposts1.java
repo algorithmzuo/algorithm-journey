@@ -1,6 +1,12 @@
 package class189;
 
 // 检查站，java版
+// 给定一张n个点，m条边的有向图，每个点有点权
+// 一个强连通分量内部，选点权最小的点，就能控制该连通分量里的所有点
+// 你的目的是选择若干点之后，图上所有的点都能控制，打印最小点权和
+// 打印选择点的方案数，方案数可能较大，对 1000000007 取余
+// 1 <= n <= 10^5
+// 1 <= m <= 3 * 10^5
 // 测试链接 : https://www.luogu.com.cn/problem/CF427C
 // 测试链接 : https://codeforces.com/problemset/problem/427/C
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
@@ -15,8 +21,8 @@ public class Code08_Checkposts1 {
 	public static int MAXN = 100001;
 	public static int MAXM = 300001;
 	public static int MOD = 1000000007;
-	public static int n, p, m;
-	public static int[] cost = new int[MAXN];
+	public static int n, m;
+	public static int[] val = new int[MAXN];
 
 	public static int[] head = new int[MAXN];
 	public static int[] nxt = new int[MAXM];
@@ -63,10 +69,10 @@ public class Code08_Checkposts1 {
 			int pop;
 			do {
 				pop = sta[top--];
-				if (minVal[sccCnt] > cost[pop]) {
-					minVal[sccCnt] = cost[pop];
+				if (minVal[sccCnt] > val[pop]) {
+					minVal[sccCnt] = val[pop];
 					minCnt[sccCnt] = 1;
-				} else if (minVal[sccCnt] == cost[pop]) {
+				} else if (minVal[sccCnt] == val[pop]) {
 					minCnt[sccCnt]++;
 				}
 				ins[pop] = false;
@@ -79,7 +85,7 @@ public class Code08_Checkposts1 {
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
 		n = in.nextInt();
 		for (int i = 1; i <= n; i++) {
-			cost[i] = in.nextInt();
+			val[i] = in.nextInt();
 		}
 		m = in.nextInt();
 		for (int i = 1, u, v; i <= m; i++) {
