@@ -1,6 +1,13 @@
 package class189;
 
 // 强连通分量模版题1，java版
+// 给定一张n个点，m条边的有向图，可能存在重边和自环
+// 求出所有强连通分量，先输出强连通分量的数量
+// 然后输出1号点所在强连通分量，然后输出2号点所在强连通分量
+// 如果已经打印，改为打印3号点所在强连通分量，以此类推
+// 打印每个强连通分量时，按照节点编号从小到大输出
+// 1 <= n <= 10^4
+// 1 <= m <= 10^5
 // 测试链接 : https://www.luogu.com.cn/problem/B3609
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
@@ -38,25 +45,6 @@ public class Code01_SccFirst1 {
 
 	public static boolean[] sccPrint = new boolean[MAXN];
 
-	// 迭代版需要的栈，讲解118讲了递归改迭代的技巧
-	public static int[][] stack = new int[MAXN][3];
-	public static int u, status, e;
-	public static int stacksize;
-
-	public static void push(int u, int status, int e) {
-		stack[stacksize][0] = u;
-		stack[stacksize][1] = status;
-		stack[stacksize][2] = e;
-		stacksize++;
-	}
-
-	public static void pop() {
-		stacksize--;
-		u = stack[stacksize][0];
-		status = stack[stacksize][1];
-		e = stack[stacksize][2];
-	}
-
 	public static void addEdge(int u, int v) {
 		nxt[++cntg] = head[u];
 		to[cntg] = v;
@@ -93,15 +81,34 @@ public class Code01_SccFirst1 {
 		}
 	}
 
+	// 迭代版需要的栈，讲解118讲了递归改迭代的技巧
+	public static int[][] stack = new int[MAXN][3];
+	public static int u, status, e;
+	public static int stacksize;
+
+	public static void push(int u, int status, int e) {
+		stack[stacksize][0] = u;
+		stack[stacksize][1] = status;
+		stack[stacksize][2] = e;
+		stacksize++;
+	}
+
+	public static void pop() {
+		stacksize--;
+		u = stack[stacksize][0];
+		status = stack[stacksize][1];
+		e = stack[stacksize][2];
+	}
+
 	// 迭代版
 	// u表示当前节点
+	// e表示u当前处理的边，如果e == 0，说明所有边都处理完了
 	// status的具体说明如下
 	//     如果status == -1，表示u没有遍历过任何儿子
 	//     如果status == 0，表示u遍历到儿子v，然后发现dfn[v] == 0
-	//         然后刚执行完tarjan(v)，对应递归版for循环中的第一个分支
+	//         并且执行完了tarjan(v)，对应递归版for循环中的第一个分支
 	//     如果status == 1，表示u遍历到儿子v，然后发现dfn[v] != 0
 	//         对应递归版for循环中的第二个分支
-	// e表示u当前处理的边，如果e == 0，说明所有边都处理完了
 	public static void tarjan2(int node) {
 		stacksize = 0;
 		push(node, -1, -1);
