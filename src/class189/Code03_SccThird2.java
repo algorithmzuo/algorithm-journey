@@ -1,12 +1,13 @@
 package class189;
 
-// 强连通分量模版题2，C++版
-// 给定一张n个点，m条边的有向图
-// 求出所有强连通分量，先打印强连通分量的数量
-// 每个强连通分量先打印大小，然后打印节点编号，顺序随意
-// 1 <= n <= 5 * 10^4
-// 1 <= m <= 10^5
-// 测试链接 : https://www.luogu.com.cn/problem/U224391
+// 强连通分量模版题3，C++版
+// 一共有n个节点，给定m条边，边的格式 a b t
+// 如果t为1，表示a到b的单向边，如果t为2，表示a到b的双向边
+// 找到图中最大的强连通分量，先打印大小，然后打印包含的节点，编号从小到大输出
+// 如果有多个最大的强连通分量，打印字典序最小的结果
+// 1 <= n <= 5 * 10^3
+// 0 <= m <= 5 * 10^4
+// 测试链接 : https://www.luogu.com.cn/problem/P1726
 // 如下实现是C++的版本，C++版本和java版本逻辑完全一样
 // 提交如下代码，可以通过所有测试用例
 
@@ -14,7 +15,7 @@ package class189;
 //
 //using namespace std;
 //
-//const int MAXN = 50001;
+//const int MAXN = 5001;
 //const int MAXM = 100001;
 //int n, m;
 //
@@ -31,11 +32,8 @@ package class189;
 //int sta[MAXN];
 //int top;
 //
-//int sccArr[MAXN];
+//int belong[MAXN];
 //int sccSiz[MAXN];
-//int sccl[MAXN];
-//int sccr[MAXN];
-//int idx;
 //int sccCnt;
 //
 //void addEdge(int u, int v) {
@@ -61,15 +59,13 @@ package class189;
 //    }
 //    if (dfn[u] == low[u]) {
 //        sccCnt++;
-//        sccl[sccCnt] = idx + 1;
 //        int pop;
 //        do {
 //            pop = sta[top--];
-//            sccArr[++idx] = pop;
+//            belong[pop] = sccCnt;
 //            sccSiz[sccCnt]++;
 //            ins[pop] = false;
 //        } while (pop != u);
-//        sccr[sccCnt] = idx;
 //    }
 //}
 //
@@ -77,22 +73,36 @@ package class189;
 //    ios::sync_with_stdio(false);
 //    cin.tie(nullptr);
 //    cin >> n >> m;
-//    for (int i = 1, u, v; i <= m; i++) {
-//        cin >> u >> v;
-//        addEdge(u, v);
+//    for (int i = 1, a, b, t; i <= m; i++) {
+//        cin >> a >> b >> t;
+//        if (t == 1) {
+//            addEdge(a, b);
+//        } else {
+//            addEdge(a, b);
+//            addEdge(b, a);
+//        }
 //    }
 //    for (int i = 1; i <= n; i++) {
 //        if (dfn[i] == 0) {
 //            tarjan(i);
 //        }
 //    }
-//    cout << sccCnt << "\n";
+//    int largest = 0;
 //    for (int i = 1; i <= sccCnt; i++) {
-//        cout << sccSiz[i] << " ";
-//        for (int j = sccl[i]; j <= sccr[i]; j++) {
-//            cout << sccArr[j] << " ";
-//        }
-//        cout << "\n";
+//        largest = max(largest, sccSiz[i]);
 //    }
+//    cout << largest << "\n";
+//    for (int i = 1; i <= n; i++) {
+//        if (sccSiz[belong[i]] == largest) {
+//            int scc = belong[i];
+//            for (int j = i; j <= n; j++) {
+//                if (belong[j] == scc) {
+//                    cout << j << " ";
+//                }
+//            }
+//            break;
+//        }
+//    }
+//    cout << "\n";
 //    return 0;
 //}

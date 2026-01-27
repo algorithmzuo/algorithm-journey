@@ -1,6 +1,12 @@
 package class189;
 
 // 强连通分量模版题3，java版
+// 一共有n个节点，给定m条边，边的格式 a b t
+// 如果t为1，表示a到b的单向边，如果t为2，表示a到b的双向边
+// 找到图中最大的强连通分量，先打印大小，然后打印包含的节点，编号从小到大输出
+// 如果有多个最大的强连通分量，打印字典序最小的结果
+// 1 <= n <= 5 * 10^3
+// 0 <= m <= 5 * 10^4
 // 测试链接 : https://www.luogu.com.cn/problem/P1726
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
@@ -12,7 +18,7 @@ import java.io.PrintWriter;
 public class Code03_SccThird1 {
 
 	public static int MAXN = 5001;
-	public static int MAXM = 200001;
+	public static int MAXM = 100001;
 	public static int n, m;
 
 	public static int[] head = new int[MAXN];
@@ -132,21 +138,21 @@ public class Code03_SccThird1 {
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
 		n = in.nextInt();
 		m = in.nextInt();
-		for (int i = 1, u, v, op; i <= m; i++) {
-			u = in.nextInt();
-			v = in.nextInt();
-			op = in.nextInt();
-			if (op == 1) {
-				addEdge(u, v);
+		for (int i = 1, a, b, t; i <= m; i++) {
+			a = in.nextInt();
+			b = in.nextInt();
+			t = in.nextInt();
+			if (t == 1) {
+				addEdge(a, b);
 			} else {
-				addEdge(u, v);
-				addEdge(v, u);
+				addEdge(a, b);
+				addEdge(b, a);
 			}
 		}
 		for (int i = 1; i <= n; i++) {
 			if (dfn[i] == 0) {
-				tarjan1(i);
-				// tarjan2(i);
+				// tarjan1(i);
+				tarjan2(i);
 			}
 		}
 		int largest = 0;
