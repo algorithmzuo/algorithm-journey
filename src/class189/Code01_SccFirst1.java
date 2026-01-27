@@ -58,13 +58,14 @@ public class Code01_SccFirst1 {
 		ins[u] = true;
 		for (int e = head[u]; e > 0; e = nxt[e]) {
 			int v = to[e];
-			if (dfn[v] == 0) {
+			if (dfn[v] == 0) { // 树边
 				tarjan1(v);
 				low[u] = Math.min(low[u], low[v]);
 			} else {
-				if (ins[v]) {
+				if (ins[v]) { // 回边
 					low[u] = Math.min(low[u], dfn[v]);
 				}
+				// 如果if没命中，就是遇到了弃边，什么也不做
 			}
 		}
 		if (dfn[u] == low[u]) {
