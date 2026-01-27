@@ -1,6 +1,12 @@
 package class189;
 
 // 受欢迎的牛，java版
+// 一共有n只牛，牛和牛之间存在喜欢关系，喜欢关系是有向的
+// 喜欢关系可以传递，如果a喜欢b，b喜欢c，那么a也喜欢c
+// 每只牛都喜欢自己，如果某只牛被所有牛喜欢，那么这只牛是明星
+// 给定m个喜欢关系，打印明星的数量
+// 1 <= n <= 10^4
+// 1 <= m <= 5 * 10^4
 // 测试链接 : https://www.luogu.com.cn/problem/P2341
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
@@ -97,8 +103,12 @@ public class Code04_PopularCow1 {
 				num++;
 				siz = sccSiz[i];
 			}
+			if (num > 1) {
+				siz = 0;
+				break;
+			}
 		}
-		out.println(num == 1 ? siz : 0);
+		out.println(siz);
 		out.flush();
 		out.close();
 	}
