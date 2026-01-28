@@ -33,10 +33,10 @@ public class Code08_Checkposts1 {
 	public static int[] low = new int[MAXN];
 	public static int cntd;
 
-	public static boolean[] ins = new boolean[MAXN];
 	public static int[] sta = new int[MAXN];
 	public static int top;
 
+	public static int[] belong = new int[MAXN];
 	public static int[] minVal = new int[MAXN];
 	public static int[] minCnt = new int[MAXN];
 	public static int sccCnt;
@@ -50,14 +50,13 @@ public class Code08_Checkposts1 {
 	public static void tarjan(int u) {
 		dfn[u] = low[u] = ++cntd;
 		sta[++top] = u;
-		ins[u] = true;
 		for (int e = head[u]; e > 0; e = nxt[e]) {
 			int v = to[e];
 			if (dfn[v] == 0) {
 				tarjan(v);
 				low[u] = Math.min(low[u], low[v]);
 			} else {
-				if (ins[v]) {
+				if (belong[v] == 0) {
 					low[u] = Math.min(low[u], dfn[v]);
 				}
 			}
@@ -69,13 +68,13 @@ public class Code08_Checkposts1 {
 			int pop;
 			do {
 				pop = sta[top--];
+				belong[pop] = sccCnt;
 				if (minVal[sccCnt] > val[pop]) {
 					minVal[sccCnt] = val[pop];
 					minCnt[sccCnt] = 1;
 				} else if (minVal[sccCnt] == val[pop]) {
 					minCnt[sccCnt]++;
 				}
-				ins[pop] = false;
 			} while (pop != u);
 		}
 	}

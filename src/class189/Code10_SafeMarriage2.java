@@ -36,7 +36,6 @@ package class189;
 //int low[MAXN];
 //int cntd;
 //
-//bool ins[MAXN];
 //int sta[MAXN];
 //int top;
 //
@@ -52,14 +51,13 @@ package class189;
 //void tarjan(int u) {
 //    dfn[u] = low[u] = ++cntd;
 //    sta[++top] = u;
-//    ins[u] = true;
 //    for (int e = head[u]; e > 0; e = nxt[e]) {
 //        int v = to[e];
 //        if (dfn[v] == 0) {
 //            tarjan(v);
 //            low[u] = min(low[u], low[v]);
 //        } else {
-//            if (ins[v]) {
+//            if (belong[v] == 0) {
 //                low[u] = min(low[u], dfn[v]);
 //            }
 //        }
@@ -70,7 +68,6 @@ package class189;
 //        do {
 //            pop = sta[top--];
 //            belong[pop] = sccCnt;
-//            ins[pop] = false;
 //        } while (pop != u);
 //    }
 //}

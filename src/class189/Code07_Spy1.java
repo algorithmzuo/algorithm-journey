@@ -36,7 +36,6 @@ public class Code07_Spy1 {
 	public static int[] low = new int[MAXN];
 	public static int cntd;
 
-	public static boolean[] ins = new boolean[MAXN];
 	public static int[] sta = new int[MAXN];
 	public static int top;
 
@@ -55,14 +54,13 @@ public class Code07_Spy1 {
 	public static void tarjan(int u) {
 		dfn[u] = low[u] = ++cntd;
 		sta[++top] = u;
-		ins[u] = true;
 		for (int e = head[u]; e > 0; e = nxt[e]) {
 			int v = to[e];
 			if (dfn[v] == 0) {
 				tarjan(v);
 				low[u] = Math.min(low[u], low[v]);
 			} else {
-				if (ins[v]) {
+				if (belong[v] == 0) {
 					low[u] = Math.min(low[u], dfn[v]);
 				}
 			}
@@ -75,7 +73,6 @@ public class Code07_Spy1 {
 				pop = sta[top--];
 				belong[pop] = sccCnt;
 				minVal[sccCnt] = Math.min(minVal[sccCnt], cost[pop]);
-				ins[pop] = false;
 			} while (pop != u);
 		}
 	}
