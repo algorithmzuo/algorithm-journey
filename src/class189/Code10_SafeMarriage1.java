@@ -1,13 +1,13 @@
 package class189;
 
 // 稳定婚姻，java版
-// 一共有n对婚姻关系，每对婚姻关系给定女方名、男方名，一共2n个名字
-// 一共有m对暧昧关系，每对暧昧关系给定女方名、男方名，没有新名字
-// 如果婚姻关系(A, B)破裂，那么男方或者女方，可能会找暧昧关系的对象私奔
-// 私奔会制造更多破裂婚姻，并且产生进一步的私奔，事情好像多米诺骨牌一样展开
-// 所有涉事男女都能重新搭配，如果存在这种可能性，那么婚姻关系(A, B)就是不稳定的
-// 比如婚姻关系(A, B)、(C, D)，同时有暧昧关系(B, C)、(A, D)
-// 如果A和B婚姻破裂，导致B和C私奔了，导致C和D婚姻破裂，导致D和A私奔了，这就是重新搭配的情况
+// 一共有n对婚姻关系，每对婚姻关系给定(女方名, 男方名)，一共2n个名字
+// 一共有m对暧昧关系，每对暧昧关系给定(女方名, 男方名)，不会出现新名字
+// 如果一对婚姻关系破裂，那么女方或者男方，可能会找暧昧关系的对象私奔
+// 私奔会制造更多的婚姻破裂，并且产生进一步的私奔，事情好像多米诺骨牌一样展开
+// 如果所有涉事男女都能重新搭配，只要存在这种可能性，那么这对婚姻关系就是不稳定的
+// 比如A为女，B为男，婚姻关系(A1, B1)、(A2, B2)，同时暧昧关系(A1, B2)、(A2, B1)
+// A1和B1婚姻破裂，导致B1和A2私奔了，导致A2和B2婚姻破裂，导致B2和A1私奔了，这就是重新搭配
 // 检查每对婚姻关系，如果不稳定打印"Unsafe"，如果稳定打印"Safe"
 // 1 <= n <= 4000    0 <= m <= 20000
 // 测试链接 : https://www.luogu.com.cn/problem/P1407
@@ -25,8 +25,8 @@ public class Code10_SafeMarriage1 {
 	public static int MAXM = 30001;
 	public static int n, m;
 
+	public static int[] a = new int[MAXN];
 	public static int[] b = new int[MAXN];
-	public static int[] g = new int[MAXN];
 	public static int cntn;
 	public static HashMap<String, Integer> nameId = new HashMap<>();
 
@@ -79,21 +79,21 @@ public class Code10_SafeMarriage1 {
 		FastReader in = new FastReader(System.in);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
 		n = in.nextInt();
-		String boy, girl;
+		String girl, boy;
 		for (int i = 1; i <= n; i++) {
-			boy = in.nextString();
 			girl = in.nextString();
+			boy = in.nextString();
+			a[i] = ++cntn;
 			b[i] = ++cntn;
-			g[i] = ++cntn;
+			nameId.put(girl, a[i]);
 			nameId.put(boy, b[i]);
-			nameId.put(girl, g[i]);
-			addEdge(b[i], g[i]);
+			addEdge(a[i], b[i]);
 		}
 		m = in.nextInt();
 		for (int i = 1; i <= m; i++) {
-			boy = in.nextString();
 			girl = in.nextString();
-			addEdge(nameId.get(girl), nameId.get(boy));
+			boy = in.nextString();
+			addEdge(nameId.get(boy), nameId.get(girl));
 		}
 		for (int i = 1; i <= cntn; i++) {
 			if (dfn[i] == 0) {
@@ -101,7 +101,7 @@ public class Code10_SafeMarriage1 {
 			}
 		}
 		for (int i = 1; i <= n; i++) {
-			if (belong[b[i]] == belong[g[i]]) {
+			if (belong[a[i]] == belong[b[i]]) {
 				out.println("Unsafe");
 			} else {
 				out.println("Safe");
