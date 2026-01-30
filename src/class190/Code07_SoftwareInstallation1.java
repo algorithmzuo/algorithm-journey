@@ -1,6 +1,13 @@
 package class190;
 
 // 软件安装，java版
+// 一共有n个物品，你的背包能容纳的总重量为m
+// 选择某个物品时，重量消耗为当前物品的w，获得收益为当前物品的v
+// 给定每个物品最多一件依赖物品，不拿依赖物品无法选择当前物品
+// 如果一批物品循环依赖，想选的话就只能都选，有的物品不存在依赖物品
+// 打印你能获得的最大收益
+// 1 <= n <= 100
+// 1 <= m <= 500
 // 测试链接 : https://www.luogu.com.cn/problem/P2515
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
@@ -12,8 +19,8 @@ import java.io.PrintWriter;
 public class Code07_SoftwareInstallation1 {
 
 	public static int MAXN = 301;
-	public static int MAXW = 601;
-	public static int n, knapsack;
+	public static int MAXM = 601;
+	public static int n, m;
 	public static int[] w = new int[MAXN];
 	public static int[] v = new int[MAXN];
 	public static int[] depend = new int[MAXN];
@@ -42,7 +49,7 @@ public class Code07_SoftwareInstallation1 {
 	public static int[] weight = new int[MAXN];
 	public static int[] value = new int[MAXN];
 	public static int dfnCnt;
-	public static int[][] dp = new int[MAXN][MAXW];
+	public static int[][] dp = new int[MAXN][MAXM];
 
 	public static void addEdge(int a, int b) {
 		nxt[++cntg] = head[a];
@@ -116,21 +123,21 @@ public class Code07_SoftwareInstallation1 {
 	public static int knapsackOnTree() {
 		dfs(0);
 		for (int i = dfnCnt; i >= 2; i--) {
-			for (int j = 1; j <= knapsack; j++) {
+			for (int j = 1; j <= m; j++) {
 				dp[i][j] = dp[i + siz[i]][j];
 				if (j - weight[i] >= 0) {
 					dp[i][j] = Math.max(dp[i][j], value[i] + dp[i + 1][j - weight[i]]);
 				}
 			}
 		}
-		return dp[2][knapsack];
+		return dp[2][m];
 	}
 
 	public static void main(String[] args) throws Exception {
 		FastReader in = new FastReader(System.in);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
 		n = in.nextInt();
-		knapsack = in.nextInt();
+		m = in.nextInt();
 		for (int i = 1; i <= n; i++) {
 			w[i] = in.nextInt();
 		}
