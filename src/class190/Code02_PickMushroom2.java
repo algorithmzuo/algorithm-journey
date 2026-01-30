@@ -89,7 +89,7 @@ package class190;
 //            int rec = recover[i];
 //            if (scc1 == scc2) {
 //                while (val > 0) {
-//                	sum[scc1] += val;
+//                    sum[scc1] += val;
 //                    val = val * rec / 10;
 //                }
 //            } else {
