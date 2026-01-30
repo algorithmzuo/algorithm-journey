@@ -1,6 +1,12 @@
 package class190;
 
 // 最优贸易，java版
+// 一共有n个城市，每个城市给定水晶球的销售价格，给定m条道路
+// 格式 a b op : op为1代表a到b的单向路，否则表示双向路
+// 你要从1号城市出发，可以任选道路，最终来到n号城市，沿途可以买卖一次水晶球
+// 在途中你可以任选一座城市买入，可以立即卖出，或者在之后的任何城市卖出
+// 如果从1号城市能到达n号城市，打印挣到的最大钱数，如果不能到达打印0
+// 1 <= n <= 10^5    1 <= m <= 5 * 10^5
 // 测试链接 : https://www.luogu.com.cn/problem/P1073
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
@@ -15,6 +21,7 @@ public class Code03_OptimalTrade1 {
 	public static int MAXM = 500001;
 	public static int INF = 1000000001;
 	public static int n, m;
+
 	public static int[] val = new int[MAXN];
 	public static int[] a = new int[MAXM];
 	public static int[] b = new int[MAXM];
@@ -32,12 +39,12 @@ public class Code03_OptimalTrade1 {
 	public static int top;
 
 	public static int[] belong = new int[MAXN];
-	public static int[] minv = new int[MAXN];
-	public static int[] maxv = new int[MAXN];
+	public static int[] sccMin = new int[MAXN];
+	public static int[] sccMax = new int[MAXN];
 	public static int sccCnt;
 
-	public static int[] premin = new int[MAXN];
-	public static int[] best = new int[MAXN];
+	public static int[] buy = new int[MAXN];
+	public static int[] sell = new int[MAXN];
 
 	// 迭代版需要的栈，讲解118讲了递归改迭代的技巧
 	public static int[][] stack = new int[MAXN][3];
@@ -81,14 +88,14 @@ public class Code03_OptimalTrade1 {
 		}
 		if (dfn[u] == low[u]) {
 			sccCnt++;
-			minv[sccCnt] = INF;
-			maxv[sccCnt] = -INF;
+			sccMin[sccCnt] = INF;
+			sccMax[sccCnt] = -INF;
 			int pop;
 			do {
 				pop = sta[top--];
 				belong[pop] = sccCnt;
-				minv[sccCnt] = Math.min(minv[sccCnt], val[pop]);
-				maxv[sccCnt] = Math.max(maxv[sccCnt], val[pop]);
+				sccMin[sccCnt] = Math.min(sccMin[sccCnt], val[pop]);
+				sccMax[sccCnt] = Math.max(sccMax[sccCnt], val[pop]);
 			} while (pop != u);
 		}
 	}
@@ -125,14 +132,14 @@ public class Code03_OptimalTrade1 {
 			} else {
 				if (dfn[u] == low[u]) {
 					sccCnt++;
-					minv[sccCnt] = INF;
-					maxv[sccCnt] = -INF;
+					sccMin[sccCnt] = INF;
+					sccMax[sccCnt] = -INF;
 					int pop;
 					do {
 						pop = sta[top--];
 						belong[pop] = sccCnt;
-						minv[sccCnt] = Math.min(minv[sccCnt], val[pop]);
-						maxv[sccCnt] = Math.max(maxv[sccCnt], val[pop]);
+						sccMin[sccCnt] = Math.min(sccMin[sccCnt], val[pop]);
+						sccMax[sccCnt] = Math.max(sccMax[sccCnt], val[pop]);
 					} while (pop != u);
 				}
 			}
@@ -155,20 +162,20 @@ public class Code03_OptimalTrade1 {
 
 	public static int dpOnDAG() {
 		for (int u = 1; u <= sccCnt; u++) {
-			premin[u] = INF;
-			best[u] = -INF;
+			buy[u] = INF;
+			sell[u] = -INF;
 		}
 		int s = belong[1];
-		premin[s] = minv[s];
-		best[s] = maxv[s] - minv[s];
+		buy[s] = sccMin[s];
+		sell[s] = sccMax[s] - sccMin[s];
 		for (int u = sccCnt; u > 0; u--) {
 			for (int e = head[u]; e > 0; e = nxt[e]) {
 				int v = to[e];
-				premin[v] = Math.min(premin[v], Math.min(premin[u], minv[v]));
-				best[v] = Math.max(best[v], Math.max(best[u], maxv[v] - premin[v]));
+				buy[v] = Math.min(buy[v], Math.min(buy[u], sccMin[v]));
+				sell[v] = Math.max(sell[v], Math.max(sell[u], sccMax[v] - buy[v]));
 			}
 		}
-		return best[belong[n]];
+		return sell[belong[n]];
 	}
 
 	public static void main(String[] args) throws Exception {
