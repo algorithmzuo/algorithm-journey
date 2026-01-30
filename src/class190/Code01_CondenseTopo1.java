@@ -90,7 +90,7 @@ public class Code01_CondenseTopo1 {
 		}
 	}
 
-	// 经典拓扑排序的写法
+	// 拓扑排序的写法
 	public static int topo() {
 		int l = 1, r = 0;
 		for (int i = 1; i <= sccCnt; i++) {
