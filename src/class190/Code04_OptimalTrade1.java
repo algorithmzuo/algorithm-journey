@@ -1,7 +1,13 @@
 package class190;
 
-// 劫掠计划，java版
-// 测试链接 : https://www.luogu.com.cn/problem/P3627
+// 最优贸易，java版
+// 一共有n个城市，每个城市给定水晶球的销售价格，给定m条道路
+// 格式 a b op : op为1代表a到b的单向路，否则表示双向路
+// 你要从1号城市出发，可以任选道路，最终来到n号城市，沿途可以买卖一次水晶球
+// 在途中你可以任选一座城市买入，可以立即卖出，或者在之后的任何城市卖出
+// 如果从1号城市能到达n号城市，打印挣到的最大钱数，如果不能到达打印0
+// 1 <= n <= 10^5    1 <= m <= 5 * 10^5
+// 测试链接 : https://www.luogu.com.cn/problem/P1073
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
 import java.io.IOException;
@@ -9,21 +15,20 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
-public class Code04_RobberyPlan1 {
+public class Code04_OptimalTrade1 {
 
-	public static int MAXN = 500001;
+	public static int MAXN = 100001;
 	public static int MAXM = 500001;
 	public static int INF = 1000000001;
-	public static int n, m, s, p;
+	public static int n, m;
 
-	public static int[] money = new int[MAXN];
-	public static boolean[] isBar = new boolean[MAXN];
+	public static int[] val = new int[MAXN];
 	public static int[] a = new int[MAXM];
 	public static int[] b = new int[MAXM];
 
 	public static int[] head = new int[MAXN];
-	public static int[] nxt = new int[MAXM];
-	public static int[] to = new int[MAXM];
+	public static int[] nxt = new int[MAXM << 1];
+	public static int[] to = new int[MAXM << 1];
 	public static int cntg;
 
 	public static int[] dfn = new int[MAXN];
@@ -34,11 +39,12 @@ public class Code04_RobberyPlan1 {
 	public static int top;
 
 	public static int[] belong = new int[MAXN];
-	public static int[] sum = new int[MAXN];
-	public static boolean[] hasBar = new boolean[MAXN];
+	public static int[] sccMin = new int[MAXN];
+	public static int[] sccMax = new int[MAXN];
 	public static int sccCnt;
 
-	public static int[] dp = new int[MAXN];
+	public static int[] buy = new int[MAXN];
+	public static int[] sell = new int[MAXN];
 
 	// 迭代版需要的栈，讲解118讲了递归改迭代的技巧
 	public static int[][] stack = new int[MAXN][3];
@@ -82,14 +88,14 @@ public class Code04_RobberyPlan1 {
 		}
 		if (dfn[u] == low[u]) {
 			sccCnt++;
-			sum[sccCnt] = 0;
-			hasBar[sccCnt] = false;
+			sccMin[sccCnt] = INF;
+			sccMax[sccCnt] = -INF;
 			int pop;
 			do {
 				pop = sta[top--];
 				belong[pop] = sccCnt;
-				sum[sccCnt] += money[pop];
-				hasBar[sccCnt] |= isBar[pop];
+				sccMin[sccCnt] = Math.min(sccMin[sccCnt], val[pop]);
+				sccMax[sccCnt] = Math.max(sccMax[sccCnt], val[pop]);
 			} while (pop != u);
 		}
 	}
@@ -126,14 +132,14 @@ public class Code04_RobberyPlan1 {
 			} else {
 				if (dfn[u] == low[u]) {
 					sccCnt++;
-					sum[sccCnt] = 0;
-					hasBar[sccCnt] = false;
+					sccMin[sccCnt] = INF;
+					sccMax[sccCnt] = -INF;
 					int pop;
 					do {
 						pop = sta[top--];
 						belong[pop] = sccCnt;
-						sum[sccCnt] += money[pop];
-						hasBar[sccCnt] |= isBar[pop];
+						sccMin[sccCnt] = Math.min(sccMin[sccCnt], val[pop]);
+						sccMax[sccCnt] = Math.max(sccMax[sccCnt], val[pop]);
 					} while (pop != u);
 				}
 			}
@@ -156,22 +162,20 @@ public class Code04_RobberyPlan1 {
 
 	public static int dpOnDAG() {
 		for (int u = 1; u <= sccCnt; u++) {
-			dp[u] = -INF;
+			buy[u] = INF;
+			sell[u] = -INF;
 		}
-		dp[belong[s]] = sum[belong[s]];
+		int s = belong[1];
+		buy[s] = sccMin[s];
+		sell[s] = sccMax[s] - sccMin[s];
 		for (int u = sccCnt; u > 0; u--) {
 			for (int e = head[u]; e > 0; e = nxt[e]) {
 				int v = to[e];
-				dp[v] = Math.max(dp[v], dp[u] + sum[v]);
+				buy[v] = Math.min(buy[v], Math.min(buy[u], sccMin[v]));
+				sell[v] = Math.max(sell[v], Math.max(sell[u], sccMax[v] - buy[v]));
 			}
 		}
-		int ans = 0;
-		for (int u = 1; u <= sccCnt; u++) {
-			if (hasBar[u]) {
-				ans = Math.max(ans, dp[u]);
-			}
-		}
-		return ans;
+		return sell[belong[n]];
 	}
 
 	public static void main(String[] args) throws Exception {
@@ -179,25 +183,29 @@ public class Code04_RobberyPlan1 {
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
 		n = in.nextInt();
 		m = in.nextInt();
-		for (int i = 1; i <= m; i++) {
+		for (int i = 1; i <= n; i++) {
+			val[i] = in.nextInt();
+		}
+		for (int i = 1, op; i <= m; i++) {
 			a[i] = in.nextInt();
 			b[i] = in.nextInt();
-			addEdge(a[i], b[i]);
+			op = in.nextInt();
+			if (op == 1) {
+				addEdge(a[i], b[i]);
+			} else {
+				addEdge(a[i], b[i]);
+				addEdge(b[i], a[i]);
+			}
 		}
-		for (int i = 1; i <= n; i++) {
-			money[i] = in.nextInt();
+		// tarjan1(1);
+		tarjan2(1);
+		if (belong[n] == 0) {
+			out.println(0);
+		} else {
+			condense();
+			int ans = dpOnDAG();
+			out.println(ans);
 		}
-		s = in.nextInt();
-		p = in.nextInt();
-		for (int i = 1, x; i <= p; i++) {
-			x = in.nextInt();
-			isBar[x] = true;
-		}
-		// tarjan1(s);
-		tarjan2(s);
-		condense();
-		int ans = dpOnDAG();
-		out.println(ans);
 		out.flush();
 		out.close();
 	}
