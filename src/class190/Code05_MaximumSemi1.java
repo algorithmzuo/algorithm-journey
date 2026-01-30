@@ -1,6 +1,12 @@
 package class190;
 
 // 最大半连通子图，java版
+// 有向图中节点u和v，只要其中一点能到达另一点，就说两点是半连通的
+// 如果一个有向图，任意两点都是半连通的，这样的有向图就是半连通图
+// 有向图中的子图，既是半连通图，又有节点数量最多，就是最大半连通子图
+// 给定一张n个点，m条边的有向图，打印最大半连通子图的大小
+// 可能存在多个最大半连通子图，打印这个数量，数量对给定的数字x取余
+// 1 <= n <= 10^5    1 <= m <= 10^6
 // 测试链接 : https://www.luogu.com.cn/problem/P2272
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
@@ -14,7 +20,7 @@ public class Code05_MaximumSemi1 {
 
 	public static int MAXN = 100001;
 	public static int MAXM = 1000001;
-	public static int n, m, mod;
+	public static int n, m, x;
 	public static int[] a = new int[MAXM];
 	public static int[] b = new int[MAXM];
 
@@ -177,7 +183,7 @@ public class Code05_MaximumSemi1 {
 					semiSiz[v] = semiSiz[u] + sccSiz[v];
 					semiCnt[v] = semiCnt[u];
 				} else if (semiSiz[v] == semiSiz[u] + sccSiz[v]) {
-					semiCnt[v] = (semiCnt[v] + semiCnt[u]) % mod;
+					semiCnt[v] = (semiCnt[v] + semiCnt[u]) % x;
 				}
 			}
 		}
@@ -187,7 +193,7 @@ public class Code05_MaximumSemi1 {
 				ans1 = semiSiz[i];
 				ans2 = semiCnt[i];
 			} else if (semiSiz[i] == ans1) {
-				ans2 = (ans2 + semiCnt[i]) % mod;
+				ans2 = (ans2 + semiCnt[i]) % x;
 			}
 		}
 	}
@@ -197,7 +203,7 @@ public class Code05_MaximumSemi1 {
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
 		n = in.nextInt();
 		m = in.nextInt();
-		mod = in.nextInt();
+		x = in.nextInt();
 		for (int i = 1; i <= m; i++) {
 			a[i] = in.nextInt();
 			b[i] = in.nextInt();
