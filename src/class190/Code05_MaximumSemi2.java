@@ -45,8 +45,8 @@ package class190;
 //int cnte;
 //
 //int indegree[MAXN];
-//int semiSiz[MAXN];
-//int semiCnt[MAXN];
+//int dpSiz[MAXN];
+//int dpCnt[MAXN];
 //
 //int ans1, ans2;
 //
@@ -111,26 +111,26 @@ package class190;
 //void dpOnDAG() {
 //    for (int u = sccCnt; u > 0; u--) {
 //        if (indegree[u] == 0) {
-//            semiSiz[u] = sccSiz[u];
-//            semiCnt[u] = 1;
+//            dpSiz[u] = sccSiz[u];
+//            dpCnt[u] = 1;
 //        }
 //        for (int e = head[u]; e > 0; e = nxt[e]) {
 //            int v = to[e];
-//            if (semiSiz[v] < semiSiz[u] + sccSiz[v]) {
-//                semiSiz[v] = semiSiz[u] + sccSiz[v];
-//                semiCnt[v] = semiCnt[u];
-//            } else if (semiSiz[v] == semiSiz[u] + sccSiz[v]) {
-//                semiCnt[v] = (semiCnt[v] + semiCnt[u]) % x;
+//            if (dpSiz[v] < dpSiz[u] + sccSiz[v]) {
+//                dpSiz[v] = dpSiz[u] + sccSiz[v];
+//                dpCnt[v] = dpCnt[u];
+//            } else if (dpSiz[v] == dpSiz[u] + sccSiz[v]) {
+//                dpCnt[v] = (dpCnt[v] + dpCnt[u]) % x;
 //            }
 //        }
 //    }
 //    ans1 = ans2 = 0;
 //    for (int i = 1; i <= sccCnt; i++) {
-//        if (semiSiz[i] > ans1) {
-//            ans1 = semiSiz[i];
-//            ans2 = semiCnt[i];
-//        } else if (semiSiz[i] == ans1) {
-//            ans2 = (ans2 + semiCnt[i]) % x;
+//        if (dpSiz[i] > ans1) {
+//            ans1 = dpSiz[i];
+//            ans2 = dpCnt[i];
+//        } else if (dpSiz[i] == ans1) {
+//            ans2 = (ans2 + dpCnt[i]) % x;
 //        }
 //    }
 //}
