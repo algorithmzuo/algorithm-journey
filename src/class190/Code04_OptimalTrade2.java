@@ -42,8 +42,8 @@ package class190;
 //int sccMax[MAXN];
 //int sccCnt;
 //
-//int buy[MAXN];
-//int sell[MAXN];
+//int premin[MAXN];
+//int dp[MAXN];
 //
 //void addEdge(int u, int v) {
 //    nxt[++cntg] = head[u];
@@ -95,20 +95,20 @@ package class190;
 //
 //int dpOnDAG() {
 //    for (int u = 1; u <= sccCnt; u++) {
-//        buy[u] = INF;
-//        sell[u] = -INF;
+//        premin[u] = INF;
+//        dp[u] = -INF;
 //    }
 //    int s = belong[1];
-//    buy[s] = sccMin[s];
-//    sell[s] = sccMax[s] - sccMin[s];
+//    premin[s] = sccMin[s];
+//    dp[s] = sccMax[s] - sccMin[s];
 //    for (int u = sccCnt; u > 0; u--) {
 //        for (int e = head[u]; e > 0; e = nxt[e]) {
 //            int v = to[e];
-//            buy[v] = min(buy[v], min(buy[u], sccMin[v]));
-//            sell[v] = max(sell[v], max(sell[u], sccMax[v] - buy[v]));
+//            premin[v] = min(premin[v], min(premin[u], sccMin[v]));
+//            dp[v] = max(dp[v], max(dp[u], sccMax[v] - premin[v]));
 //        }
 //    }
-//    return sell[belong[n]];
+//    return dp[belong[n]];
 //}
 //
 //int main() {

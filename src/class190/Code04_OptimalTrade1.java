@@ -44,8 +44,8 @@ public class Code04_OptimalTrade1 {
 	public static int[] sccMax = new int[MAXN];
 	public static int sccCnt;
 
-	public static int[] buy = new int[MAXN];
-	public static int[] sell = new int[MAXN];
+	public static int[] premin = new int[MAXN];
+	public static int[] dp = new int[MAXN];
 
 	// 迭代版需要的栈，讲解118讲了递归改迭代的技巧
 	public static int[][] stack = new int[MAXN][3];
@@ -163,20 +163,20 @@ public class Code04_OptimalTrade1 {
 
 	public static int dpOnDAG() {
 		for (int u = 1; u <= sccCnt; u++) {
-			buy[u] = INF;
-			sell[u] = -INF;
+			premin[u] = INF;
+			dp[u] = -INF;
 		}
 		int s = belong[1];
-		buy[s] = sccMin[s];
-		sell[s] = sccMax[s] - sccMin[s];
+		premin[s] = sccMin[s];
+		dp[s] = sccMax[s] - sccMin[s];
 		for (int u = sccCnt; u > 0; u--) {
 			for (int e = head[u]; e > 0; e = nxt[e]) {
 				int v = to[e];
-				buy[v] = Math.min(buy[v], Math.min(buy[u], sccMin[v]));
-				sell[v] = Math.max(sell[v], Math.max(sell[u], sccMax[v] - buy[v]));
+				premin[v] = Math.min(premin[v], Math.min(premin[u], sccMin[v]));
+				dp[v] = Math.max(dp[v], Math.max(dp[u], sccMax[v] - premin[v]));
 			}
 		}
-		return sell[belong[n]];
+		return dp[belong[n]];
 	}
 
 	public static void main(String[] args) throws Exception {
