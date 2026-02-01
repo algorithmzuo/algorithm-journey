@@ -170,6 +170,22 @@ public class Code09_KillingGame1 {
 		}
 	}
 
+	public static boolean isolated(int i) {
+		if (indegree[i] > 0 || sccSiz[i] > 1) {
+			return false;
+		}
+		if (head[i] == 0) {
+			return true;
+		}
+		for (int e = head[i]; e > 0; e = nxt[e]) {
+			int v = to[e];
+			if (indegree[v] == 1) {
+				return false;
+			}
+		}
+		return true;
+	}
+
 	public static double compute() {
 		int inZero = 0;
 		for (int i = 1; i <= sccCnt; i++) {
@@ -178,19 +194,9 @@ public class Code09_KillingGame1 {
 			}
 		}
 		for (int i = 1; i <= sccCnt; i++) {
-			if (sccSiz[i] == 1 && indegree[i] == 0) {
-				boolean unique = false;
-				for (int e = head[i]; e > 0; e = nxt[e]) {
-					int v = to[e];
-					if (indegree[v] == 1) {
-						unique = true;
-						break;
-					}
-				}
-				if (!unique) {
-					inZero--;
-					break;
-				}
+			if (isolated(i)) {
+				inZero--;
+				break;
 			}
 		}
 		return 1.0 - (double) inZero / n;
