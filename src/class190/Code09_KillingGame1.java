@@ -153,7 +153,7 @@ public class Code09_KillingGame1 {
 			int scc1 = belong[a[i]];
 			int scc2 = belong[b[i]];
 			if (scc1 != scc2) {
-				edgeArr[++cnte] = ((long) scc1 << 32) | (scc2 & 0xffffffffL);
+				edgeArr[++cnte] = ((long) scc1 << 32) | scc2;
 			}
 		}
 		Arrays.sort(edgeArr, 1, cnte + 1);
