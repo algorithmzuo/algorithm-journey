@@ -45,7 +45,7 @@ package class190;
 //int cnte;
 //
 //int indegree[MAXN];
-//int dpSiz[MAXN];
+//int dpSum[MAXN];
 //int dpCnt[MAXN];
 //
 //int ans1, ans2;
@@ -111,25 +111,25 @@ package class190;
 //void dpOnDAG() {
 //    for (int u = sccCnt; u > 0; u--) {
 //        if (indegree[u] == 0) {
-//            dpSiz[u] = sccSiz[u];
+//            dpSum[u] = sccSiz[u];
 //            dpCnt[u] = 1;
 //        }
 //        for (int e = head[u]; e > 0; e = nxt[e]) {
 //            int v = to[e];
-//            if (dpSiz[v] < dpSiz[u] + sccSiz[v]) {
-//                dpSiz[v] = dpSiz[u] + sccSiz[v];
+//            if (dpSum[v] < dpSum[u] + sccSiz[v]) {
+//                dpSum[v] = dpSum[u] + sccSiz[v];
 //                dpCnt[v] = dpCnt[u];
-//            } else if (dpSiz[v] == dpSiz[u] + sccSiz[v]) {
+//            } else if (dpSum[v] == dpSum[u] + sccSiz[v]) {
 //                dpCnt[v] = (dpCnt[v] + dpCnt[u]) % x;
 //            }
 //        }
 //    }
 //    ans1 = ans2 = 0;
 //    for (int i = 1; i <= sccCnt; i++) {
-//        if (dpSiz[i] > ans1) {
-//            ans1 = dpSiz[i];
+//        if (dpSum[i] > ans1) {
+//            ans1 = dpSum[i];
 //            ans2 = dpCnt[i];
-//        } else if (dpSiz[i] == ans1) {
+//        } else if (dpSum[i] == ans1) {
 //            ans2 = (ans2 + dpCnt[i]) % x;
 //        }
 //    }
