@@ -90,8 +90,8 @@ package class190;
 //            int scc1 = belong[depend[i]];
 //            int scc2 = belong[i];
 //            if (scc1 != scc2) {
-//                addEdge(scc1, scc2);
 //                indegree[scc2]++;
+//                addEdge(scc1, scc2);
 //            }
 //        }
 //    }
