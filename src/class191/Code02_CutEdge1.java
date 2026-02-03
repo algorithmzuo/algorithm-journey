@@ -1,7 +1,8 @@
 package class191;
 
-// 割点模版题，java版
-// 测试链接 : https://www.luogu.com.cn/problem/P3388
+// 割边模版题，java版
+// 请保证原图即使有重边，答案依然正确
+// 测试链接 : https://www.luogu.com.cn/problem/U582665
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
 import java.io.IOException;
@@ -9,10 +10,10 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
-public class Code01_CutVertex1 {
+public class Code02_CutEdge1 {
 
-	public static int MAXN = 20001;
-	public static int MAXM = 100001;
+	public static int MAXN = 500001;
+	public static int MAXM = 2000001;
 	public static int n, m;
 
 	public static int[] head = new int[MAXN];
@@ -24,29 +25,27 @@ public class Code01_CutVertex1 {
 	public static int[] low = new int[MAXN];
 	public static int cntd;
 
-	public static boolean[] cutVertex = new boolean[MAXN];
+	public static boolean[] cutEdge = new boolean[MAXM];
 
 	// 迭代版需要的栈，讲解118讲了递归改迭代的技巧
-	public static int[][] stack = new int[MAXN][5];
-	public static int u, root, son, status, e;
+	public static int[][] stack = new int[MAXN][4];
+	public static int u, preEdge, status, e;
 	public static int stacksize;
 
-	public static void push(int u, int root, int son, int status, int e) {
+	public static void push(int u, int preEdge, int status, int e) {
 		stack[stacksize][0] = u;
-		stack[stacksize][1] = root;
-		stack[stacksize][2] = son;
-		stack[stacksize][3] = status;
-		stack[stacksize][4] = e;
+		stack[stacksize][1] = preEdge;
+		stack[stacksize][2] = status;
+		stack[stacksize][3] = e;
 		stacksize++;
 	}
 
 	public static void pop() {
 		stacksize--;
 		u = stack[stacksize][0];
-		root = stack[stacksize][1];
-		son = stack[stacksize][2];
-		status = stack[stacksize][3];
-		e = stack[stacksize][4];
+		preEdge = stack[stacksize][1];
+		status = stack[stacksize][2];
+		e = stack[stacksize][3];
 	}
 
 	public static void addEdge(int u, int v) {
@@ -56,34 +55,28 @@ public class Code01_CutVertex1 {
 	}
 
 	// 递归版
-	public static void tarjan1(int u, boolean root) {
-		dfn[u] = low[u] = ++cntd;
-		int son = 0;
+	public static void tarjan1(int u, int preEdge) {
+		low[u] = dfn[u] = ++cntd;
 		for (int e = head[u]; e > 0; e = nxt[e]) {
 			int v = to[e];
 			if (dfn[v] == 0) {
-				tarjan1(v, false);
+				tarjan1(v, e);
 				low[u] = Math.min(low[u], low[v]);
-				if (root) {
-					son++;
-				} else {
-					if (low[v] >= dfn[u]) {
-						cutVertex[u] = true;
-					}
+				if (low[v] > dfn[u]) {
+					cutEdge[e >> 1] = true;
 				}
 			} else {
-				low[u] = Math.min(low[u], dfn[v]);
+				if ((e ^ 1) != preEdge) {
+					low[u] = Math.min(low[u], dfn[v]);
+				}
 			}
-		}
-		if (root && son >= 2) {
-			cutVertex[u] = true;
 		}
 	}
 
 	// 迭代版
-	public static void tarjan2(int node, boolean rt) {
+	public static void tarjan2(int node, int pree) {
 		stacksize = 0;
-		push(node, rt ? 1 : 0, 0, -1, -1);
+		push(node, pree, -1, -1);
 		int v;
 		while (stacksize > 0) {
 			pop();
@@ -94,29 +87,23 @@ public class Code01_CutVertex1 {
 				v = to[e];
 				if (status == 0) {
 					low[u] = Math.min(low[u], low[v]);
-					if (root == 1) {
-						son++;
-					} else {
-						if (low[v] >= dfn[u]) {
-							cutVertex[u] = true;
-						}
+					if (low[v] > dfn[u]) {
+						cutEdge[e >> 1] = true;
 					}
 				} else {
-					low[u] = Math.min(low[u], dfn[v]);
+					if ((e ^ 1) != preEdge) {
+						low[u] = Math.min(low[u], dfn[v]);
+					}
 				}
 				e = nxt[e];
 			}
 			if (e != 0) {
 				v = to[e];
 				if (dfn[v] == 0) {
-					push(u, root, son, 0, e);
-					push(v, 0, 0, -1, -1);
+					push(u, preEdge, 0, e);
+					push(v, e, -1, -1);
 				} else {
-					push(u, root, son, 1, e);
-				}
-			} else {
-				if (root == 1 && son >= 2) {
-					cutVertex[u] = true;
+					push(u, preEdge, 1, e);
 				}
 			}
 		}
@@ -127,6 +114,7 @@ public class Code01_CutVertex1 {
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
 		n = in.nextInt();
 		m = in.nextInt();
+		cntg = 1;
 		for (int i = 1, u, v; i <= m; i++) {
 			u = in.nextInt();
 			v = in.nextInt();
@@ -135,19 +123,19 @@ public class Code01_CutVertex1 {
 		}
 		for (int i = 1; i <= n; i++) {
 			if (dfn[i] == 0) {
-				// tarjan1(i, true);
-				tarjan2(i, true);
+				// tarjan1(i, 0);
+				tarjan2(i, 0);
 			}
 		}
 		int ansCnt = 0;
-		for (int i = 1; i <= n; i++) {
-			if (cutVertex[i]) {
+		for (int i = 1; i <= m; i++) {
+			if (cutEdge[i]) {
 				ansCnt++;
 			}
 		}
 		out.println(ansCnt);
-		for (int i = 1; i <= n; i++) {
-			if (cutVertex[i]) {
+		for (int i = 1; i <= m; i++) {
+			if (cutEdge[i]) {
 				out.print(i + " ");
 			}
 		}
