@@ -151,6 +151,7 @@ public class Code01_CutVertex1 {
 				out.print(i + " ");
 			}
 		}
+		out.println();
 		out.flush();
 		out.close();
 	}
