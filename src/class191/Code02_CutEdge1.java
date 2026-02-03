@@ -1,7 +1,7 @@
 package class191;
 
 // 割边模版题，java版
-// 请保证原图即使有重边，答案依然正确
+// 原图即使有重边，答案依然正确
 // 测试链接 : https://www.luogu.com.cn/problem/U582665
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
