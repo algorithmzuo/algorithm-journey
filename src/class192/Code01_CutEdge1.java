@@ -1,4 +1,4 @@
-package class191;
+package class192;
 
 // 割边模版题，java版
 // 原图即使有重边，答案依然正确
@@ -10,7 +10,7 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
-public class Code02_CutEdge1 {
+public class Code01_CutEdge1 {
 
 	public static int MAXN = 500001;
 	public static int MAXM = 2000001;

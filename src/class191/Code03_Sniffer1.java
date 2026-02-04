@@ -9,7 +9,7 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
-public class Code04_Sniffer1 {
+public class Code03_Sniffer1 {
 
 	public static int MAXN = 200001;
 	public static int MAXM = 500001;
