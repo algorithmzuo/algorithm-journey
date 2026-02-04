@@ -1,6 +1,6 @@
 package class191;
 
-// 点双连通分量模版题，java版
+// 无向图的块，java版
 // 测试链接 : https://www.luogu.com.cn/problem/P8435
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
@@ -8,11 +8,14 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 
-public class Code04_VBCC1 {
+public class Code05_Block1 {
 
-	public static int MAXN = 500001;
-	public static int MAXM = 2000001;
+	public static int MAXN = 50001;
+	public static int MAXM = 300001;
 	public static int n, m;
 
 	public static int[] head = new int[MAXN];
@@ -27,12 +30,7 @@ public class Code04_VBCC1 {
 	public static int[] sta = new int[MAXN];
 	public static int top;
 
-	public static int[] vbccSiz = new int[MAXN];
-	public static int[] vbccArr = new int[MAXN << 1];
-	public static int[] vbccl = new int[MAXN];
-	public static int[] vbccr = new int[MAXN];
-	public static int idx;
-	public static int vbccCnt;
+	public static List<List<Integer>> vbccArr = new ArrayList<>();
 
 	// 迭代版需要的栈，讲解118讲了递归改迭代的技巧
 	public static int[][] stack = new int[MAXN][4];
@@ -55,6 +53,21 @@ public class Code04_VBCC1 {
 		e = stack[stacksize][3];
 	}
 
+	public static class VbccCmp implements Comparator<List<Integer>> {
+
+		@Override
+		public int compare(List<Integer> o1, List<Integer> o2) {
+			int size = Math.min(o1.size(), o2.size());
+			for (int i = 0; i < size; i++) {
+				if (!o1.get(i).equals(o2.get(i))) {
+					return o1.get(i).compareTo(o2.get(i));
+				}
+			}
+			return o1.size() - o2.size();
+		}
+
+	}
+
 	public static void addEdge(int u, int v) {
 		nxt[++cntg] = head[u];
 		to[cntg] = v;
@@ -66,10 +79,9 @@ public class Code04_VBCC1 {
 		dfn[u] = low[u] = ++cntd;
 		sta[++top] = u;
 		if (root && head[u] == 0) {
-			vbccCnt++;
-			vbccSiz[vbccCnt] = 1;
-			vbccArr[++idx] = u;
-			vbccl[vbccCnt] = vbccr[vbccCnt] = idx;
+			ArrayList<Integer> list = new ArrayList<>();
+			list.add(u);
+			vbccArr.add(list);
 			return;
 		}
 		for (int e = head[u]; e > 0; e = nxt[e]) {
@@ -78,18 +90,14 @@ public class Code04_VBCC1 {
 				tarjan1(v, false);
 				low[u] = Math.min(low[u], low[v]);
 				if (low[v] >= dfn[u]) {
-					vbccCnt++;
-					vbccSiz[vbccCnt] = 0;
-					vbccl[vbccCnt] = idx + 1;
+					ArrayList<Integer> list = new ArrayList<>();
 					int pop;
 					do {
 						pop = sta[top--];
-						vbccSiz[vbccCnt]++;
-						vbccArr[++idx] = pop;
+						list.add(pop);
 					} while (pop != v);
-					vbccSiz[vbccCnt]++;
-					vbccArr[++idx] = u;
-					vbccr[vbccCnt] = idx;
+					list.add(u);
+					vbccArr.add(list);
 				}
 			} else {
 				low[u] = Math.min(low[u], dfn[v]);
@@ -108,10 +116,9 @@ public class Code04_VBCC1 {
 				dfn[u] = low[u] = ++cntd;
 				sta[++top] = u;
 				if (root == 1 && head[u] == 0) {
-					vbccCnt++;
-					vbccSiz[vbccCnt] = 1;
-					vbccArr[++idx] = u;
-					vbccl[vbccCnt] = vbccr[vbccCnt] = idx;
+					ArrayList<Integer> list = new ArrayList<>();
+					list.add(u);
+					vbccArr.add(list);
 					continue;
 				} else {
 					e = head[u];
@@ -121,18 +128,14 @@ public class Code04_VBCC1 {
 				if (status == 0) {
 					low[u] = Math.min(low[u], low[v]);
 					if (low[v] >= dfn[u]) {
-						vbccCnt++;
-						vbccSiz[vbccCnt] = 0;
-						vbccl[vbccCnt] = idx + 1;
+						ArrayList<Integer> list = new ArrayList<>();
 						int pop;
 						do {
 							pop = sta[top--];
-							vbccSiz[vbccCnt]++;
-							vbccArr[++idx] = pop;
+							list.add(pop);
 						} while (pop != v);
-						vbccSiz[vbccCnt]++;
-						vbccArr[++idx] = u;
-						vbccr[vbccCnt] = idx;
+						list.add(u);
+						vbccArr.add(list);
 					}
 				} else {
 					low[u] = Math.min(low[u], dfn[v]);
@@ -170,13 +173,22 @@ public class Code04_VBCC1 {
 				tarjan2(i, true);
 			}
 		}
-		out.println(vbccCnt);
-		for (int i = 1; i <= vbccCnt; i++) {
-			out.println(vbccSiz[i]);
-			for (int j = vbccl[i]; j <= vbccr[i]; j++) {
-				out.print(vbccArr[j] + " ");
+		int ansCnt = 0;
+		for (int i = 0; i < vbccArr.size(); i++) {
+			if (vbccArr.get(i).size() > 1) {
+				ansCnt++;
+				vbccArr.get(i).sort((a, b) -> a.compareTo(b));
 			}
-			out.println();
+		}
+		out.println(ansCnt);
+		vbccArr.sort(new VbccCmp());
+		for (int i = 0; i < vbccArr.size(); i++) {
+			if (vbccArr.get(i).size() > 1) {
+				for (int node : vbccArr.get(i)) {
+					out.print(node + " ");
+				}
+				out.println();
+			}
 		}
 		out.flush();
 		out.close();
