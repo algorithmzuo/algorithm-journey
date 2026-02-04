@@ -65,15 +65,14 @@ public class Code01_CutVertex1 {
 				son++;
 				tarjan1(v, false);
 				low[u] = Math.min(low[u], low[v]);
-				if (!root && low[v] >= dfn[u]) {
-					cutVertex[u] = true;
+				if (low[v] >= dfn[u]) {
+					if (!root || son >= 2) {
+						cutVertex[u] = true;
+					}
 				}
 			} else {
 				low[u] = Math.min(low[u], dfn[v]);
 			}
-		}
-		if (root && son >= 2) {
-			cutVertex[u] = true;
 		}
 	}
 
@@ -91,8 +90,10 @@ public class Code01_CutVertex1 {
 				v = to[e];
 				if (status == 0) {
 					low[u] = Math.min(low[u], low[v]);
-					if (root == 0 && low[v] >= dfn[u]) {
-						cutVertex[u] = true;
+					if (low[v] >= dfn[u]) {
+						if (root == 0 || son >= 2) {
+							cutVertex[u] = true;
+						}
 					}
 				} else {
 					low[u] = Math.min(low[u], dfn[v]);
@@ -107,10 +108,6 @@ public class Code01_CutVertex1 {
 					push(v, 0, 0, -1, -1);
 				} else {
 					push(u, root, son, 1, e);
-				}
-			} else {
-				if (root == 1 && son >= 2) {
-					cutVertex[u] = true;
 				}
 			}
 		}

@@ -63,29 +63,25 @@ public class Code03_Blockade1 {
 	// 递归版
 	public static void tarjan1(int u, boolean root) {
 		dfn[u] = low[u] = ++cntd;
-		int son = 0;
 		siz[u] = 1;
-		int sum = 0;
+		int son = 0, sum = 0;
 		for (int e = head[u]; e > 0; e = nxt[e]) {
 			int v = to[e];
 			if (dfn[v] == 0) {
 				son++;
 				tarjan1(v, false);
 				low[u] = Math.min(low[u], low[v]);
-				if (!root && low[v] >= dfn[u]) {
-					cutVertex[u] = true;
-				}
 				siz[u] += siz[v];
 				if (low[v] >= dfn[u]) {
+					if (!root || son >= 2) {
+						cutVertex[u] = true;
+					}
 					sum += siz[v];
 					ans[u] += (long) siz[v] * (n - siz[v]);
 				}
 			} else {
 				low[u] = Math.min(low[u], dfn[v]);
 			}
-		}
-		if (root && son >= 2) {
-			cutVertex[u] = true;
 		}
 		if (cutVertex[u]) {
 			ans[u] += (long) (n - sum - 1) * (sum + 1) + (n - 1);
@@ -109,11 +105,11 @@ public class Code03_Blockade1 {
 				v = to[e];
 				if (status == 0) {
 					low[u] = Math.min(low[u], low[v]);
-					if (root == 0 && low[v] >= dfn[u]) {
-						cutVertex[u] = true;
-					}
 					siz[u] += siz[v];
 					if (low[v] >= dfn[u]) {
+						if (root == 0 || son >= 2) {
+							cutVertex[u] = true;
+						}
 						sum += siz[v];
 						ans[u] += (long) siz[v] * (n - siz[v]);
 					}
@@ -132,9 +128,6 @@ public class Code03_Blockade1 {
 					push(u, root, son, sum, 1, e);
 				}
 			} else {
-				if (root == 1 && son >= 2) {
-					cutVertex[u] = true;
-				}
 				if (cutVertex[u]) {
 					ans[u] += (long) (n - sum - 1) * (sum + 1) + (n - 1);
 				} else {
