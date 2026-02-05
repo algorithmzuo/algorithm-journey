@@ -8,8 +8,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.List;
 
 public class Code07_MiningFarm1 {
 
@@ -30,17 +28,21 @@ public class Code07_MiningFarm1 {
 	public static int top;
 
 	public static boolean[] cutVertex = new boolean[MAXN];
-	public static List<List<Integer>> vbccArr = new ArrayList<>();
+	public static int[] vbccSiz = new int[MAXN];
+	public static int[] vbccArr = new int[MAXN << 1];
+	public static int[] vbccl = new int[MAXN];
+	public static int[] vbccr = new int[MAXN];
+	public static int idx;
+	public static int vbccCnt;
 
 	public static long ans1, ans2;
 
 	public static void prepare() {
-		cntg = cntd = top = 0;
-		for (int i = 1; i <= n; i++) {
+		cntg = cntd = top = idx = vbccCnt = 0;
+		for (int i = 1; i < MAXN; i++) {
 			head[i] = dfn[i] = low[i] = 0;
 			cutVertex[i] = false;
 		}
-		vbccArr.clear();
 		n = 0;
 		ans1 = 0;
 		ans2 = 1;
@@ -56,9 +58,10 @@ public class Code07_MiningFarm1 {
 		dfn[u] = low[u] = ++cntd;
 		sta[++top] = u;
 		if (root && head[u] == 0) {
-			ArrayList<Integer> list = new ArrayList<>();
-			list.add(u);
-			vbccArr.add(list);
+			vbccCnt++;
+			vbccSiz[vbccCnt] = 1;
+			vbccArr[++idx] = u;
+			vbccl[vbccCnt] = vbccr[vbccCnt] = idx;
 			return;
 		}
 		int son = 0;
@@ -72,14 +75,18 @@ public class Code07_MiningFarm1 {
 					if (!root || son >= 2) {
 						cutVertex[u] = true;
 					}
-					ArrayList<Integer> list = new ArrayList<>();
+					vbccCnt++;
+					vbccSiz[vbccCnt] = 0;
+					vbccl[vbccCnt] = idx + 1;
 					int pop;
 					do {
 						pop = sta[top--];
-						list.add(pop);
+						vbccSiz[vbccCnt]++;
+						vbccArr[++idx] = pop;
 					} while (pop != v);
-					list.add(u);
-					vbccArr.add(list);
+					vbccSiz[vbccCnt]++;
+					vbccArr[++idx] = u;
+					vbccr[vbccCnt] = idx;
 				}
 			} else {
 				low[u] = Math.min(low[u], dfn[v]);
@@ -88,10 +95,10 @@ public class Code07_MiningFarm1 {
 	}
 
 	public static void compute() {
-		for (int i = 0; i < vbccArr.size(); i++) {
-			int siz = vbccArr.get(i).size(), cut = 0;
-			for (int node : vbccArr.get(i)) {
-				if (cutVertex[node]) {
+		for (int i = 1; i <= vbccCnt; i++) {
+			int siz = vbccSiz[i], cut = 0;
+			for (int j = vbccl[i]; j <= vbccr[i]; j++) {
+				if (cutVertex[vbccArr[j]]) {
 					cut++;
 				}
 			}
