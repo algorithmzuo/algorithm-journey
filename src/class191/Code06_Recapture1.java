@@ -7,7 +7,7 @@ package class191;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Code06_Recapture2 {
+public class Code06_Recapture1 {
 
 	class Solution {
 
