@@ -1,6 +1,6 @@
 package class191;
 
-// 无向图的块，java版
+// 点双连通分量模版题2，java版
 // 测试链接 : https://www.luogu.com.cn/problem/P8435
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-public class Code05_Block1 {
+public class Code05_VbccSecond1 {
 
 	public static int MAXN = 50001;
 	public static int MAXM = 300001;
