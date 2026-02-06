@@ -1,18 +1,21 @@
-package class191;
+package class193;
 
-// 割点模版题，java版
-// 测试链接 : https://www.luogu.com.cn/problem/P3388
+// 点双连通分量模版题2，java版
+// 测试链接 : https://www.luogu.com.cn/problem/B3610
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 
-public class Code01_CutVertex1 {
+public class Code05_VbccSecond1 {
 
-	public static int MAXN = 20001;
-	public static int MAXM = 100001;
+	public static int MAXN = 50001;
+	public static int MAXM = 300001;
 	public static int n, m;
 
 	public static int[] head = new int[MAXN];
@@ -24,19 +27,21 @@ public class Code01_CutVertex1 {
 	public static int[] low = new int[MAXN];
 	public static int cntd;
 
-	public static boolean[] cutVertex = new boolean[MAXN];
+	public static int[] sta = new int[MAXN];
+	public static int top;
+
+	public static List<List<Integer>> vbccArr = new ArrayList<>();
 
 	// 迭代版需要的栈，讲解118讲了递归改迭代的技巧
-	public static int[][] stack = new int[MAXN][5];
-	public static int u, root, son, status, e;
+	public static int[][] stack = new int[MAXN][4];
+	public static int u, root, status, e;
 	public static int stacksize;
 
-	public static void push(int u, int root, int son, int status, int e) {
+	public static void push(int u, int root, int status, int e) {
 		stack[stacksize][0] = u;
 		stack[stacksize][1] = root;
-		stack[stacksize][2] = son;
-		stack[stacksize][3] = status;
-		stack[stacksize][4] = e;
+		stack[stacksize][2] = status;
+		stack[stacksize][3] = e;
 		stacksize++;
 	}
 
@@ -44,9 +49,23 @@ public class Code01_CutVertex1 {
 		stacksize--;
 		u = stack[stacksize][0];
 		root = stack[stacksize][1];
-		son = stack[stacksize][2];
-		status = stack[stacksize][3];
-		e = stack[stacksize][4];
+		status = stack[stacksize][2];
+		e = stack[stacksize][3];
+	}
+
+	public static class VbccCmp implements Comparator<List<Integer>> {
+
+		@Override
+		public int compare(List<Integer> o1, List<Integer> o2) {
+			int size = Math.min(o1.size(), o2.size());
+			for (int i = 0; i < size; i++) {
+				if (!o1.get(i).equals(o2.get(i))) {
+					return o1.get(i).compareTo(o2.get(i));
+				}
+			}
+			return o1.size() - o2.size();
+		}
+
 	}
 
 	public static void addEdge(int u, int v) {
@@ -58,17 +77,27 @@ public class Code01_CutVertex1 {
 	// 递归版
 	public static void tarjan1(int u, boolean root) {
 		dfn[u] = low[u] = ++cntd;
-		int son = 0;
+		sta[++top] = u;
+		if (root && head[u] == 0) {
+			ArrayList<Integer> list = new ArrayList<>();
+			list.add(u);
+			vbccArr.add(list);
+			return;
+		}
 		for (int e = head[u]; e > 0; e = nxt[e]) {
 			int v = to[e];
 			if (dfn[v] == 0) {
-				son++;
 				tarjan1(v, false);
 				low[u] = Math.min(low[u], low[v]);
 				if (low[v] >= dfn[u]) {
-					if (!root || son >= 2) {
-						cutVertex[u] = true;
-					}
+					ArrayList<Integer> list = new ArrayList<>();
+					int pop;
+					do {
+						pop = sta[top--];
+						list.add(pop);
+					} while (pop != v);
+					list.add(u);
+					vbccArr.add(list);
 				}
 			} else {
 				low[u] = Math.min(low[u], dfn[v]);
@@ -79,21 +108,34 @@ public class Code01_CutVertex1 {
 	// 迭代版
 	public static void tarjan2(int node, boolean rt) {
 		stacksize = 0;
-		push(node, rt ? 1 : 0, 0, -1, -1);
+		push(node, rt ? 1 : 0, -1, -1);
 		int v;
 		while (stacksize > 0) {
 			pop();
 			if (status == -1) {
 				dfn[u] = low[u] = ++cntd;
-				e = head[u];
+				sta[++top] = u;
+				if (root == 1 && head[u] == 0) {
+					ArrayList<Integer> list = new ArrayList<>();
+					list.add(u);
+					vbccArr.add(list);
+					continue;
+				} else {
+					e = head[u];
+				}
 			} else {
 				v = to[e];
 				if (status == 0) {
 					low[u] = Math.min(low[u], low[v]);
 					if (low[v] >= dfn[u]) {
-						if (root == 0 || son >= 2) {
-							cutVertex[u] = true;
-						}
+						ArrayList<Integer> list = new ArrayList<>();
+						int pop;
+						do {
+							pop = sta[top--];
+							list.add(pop);
+						} while (pop != v);
+						list.add(u);
+						vbccArr.add(list);
 					}
 				} else {
 					low[u] = Math.min(low[u], dfn[v]);
@@ -103,11 +145,10 @@ public class Code01_CutVertex1 {
 			if (e != 0) {
 				v = to[e];
 				if (dfn[v] == 0) {
-					son++;
-					push(u, root, son, 0, e);
-					push(v, 0, 0, -1, -1);
+					push(u, root, 0, e);
+					push(v, 0, -1, -1);
 				} else {
-					push(u, root, son, 1, e);
+					push(u, root, 1, e);
 				}
 			}
 		}
@@ -121,8 +162,10 @@ public class Code01_CutVertex1 {
 		for (int i = 1, u, v; i <= m; i++) {
 			u = in.nextInt();
 			v = in.nextInt();
-			addEdge(u, v);
-			addEdge(v, u);
+			if (u != v) {
+				addEdge(u, v);
+				addEdge(v, u);
+			}
 		}
 		for (int i = 1; i <= n; i++) {
 			if (dfn[i] == 0) {
@@ -131,18 +174,22 @@ public class Code01_CutVertex1 {
 			}
 		}
 		int ansCnt = 0;
-		for (int i = 1; i <= n; i++) {
-			if (cutVertex[i]) {
+		for (int i = 0; i < vbccArr.size(); i++) {
+			if (vbccArr.get(i).size() > 1) {
 				ansCnt++;
+				vbccArr.get(i).sort((a, b) -> a.compareTo(b));
 			}
 		}
 		out.println(ansCnt);
-		for (int i = 1; i <= n; i++) {
-			if (cutVertex[i]) {
-				out.print(i + " ");
+		vbccArr.sort(new VbccCmp());
+		for (int i = 0; i < vbccArr.size(); i++) {
+			if (vbccArr.get(i).size() > 1) {
+				for (int node : vbccArr.get(i)) {
+					out.print(node + " ");
+				}
+				out.println();
 			}
 		}
-		out.println();
 		out.flush();
 		out.close();
 	}

@@ -1,7 +1,8 @@
 package class191;
 
-// 嗅探器，java版
-// 测试链接 : https://www.luogu.com.cn/problem/P5058
+// 割边模版题，java版
+// 原图即使有重边，答案依然正确
+// 测试链接 : https://www.luogu.com.cn/problem/U582665
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
 import java.io.IOException;
@@ -9,11 +10,11 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
-public class Code02_Sniffer1 {
+public class Code01_CutEdge1 {
 
-	public static int MAXN = 200001;
-	public static int MAXM = 500001;
-	public static int n, a, b;
+	public static int MAXN = 500001;
+	public static int MAXM = 2000001;
+	public static int n, m;
 
 	public static int[] head = new int[MAXN];
 	public static int[] nxt = new int[MAXM << 1];
@@ -24,16 +25,16 @@ public class Code02_Sniffer1 {
 	public static int[] low = new int[MAXN];
 	public static int cntd;
 
-	public static boolean[] cutVertex = new boolean[MAXN];
+	public static boolean[] cutEdge = new boolean[MAXM];
 
 	// 迭代版需要的栈，讲解118讲了递归改迭代的技巧
 	public static int[][] stack = new int[MAXN][4];
-	public static int u, root, status, e;
+	public static int u, preEdge, status, e;
 	public static int stacksize;
 
-	public static void push(int u, int root, int status, int e) {
+	public static void push(int u, int preEdge, int status, int e) {
 		stack[stacksize][0] = u;
-		stack[stacksize][1] = root;
+		stack[stacksize][1] = preEdge;
 		stack[stacksize][2] = status;
 		stack[stacksize][3] = e;
 		stacksize++;
@@ -42,7 +43,7 @@ public class Code02_Sniffer1 {
 	public static void pop() {
 		stacksize--;
 		u = stack[stacksize][0];
-		root = stack[stacksize][1];
+		preEdge = stack[stacksize][1];
 		status = stack[stacksize][2];
 		e = stack[stacksize][3];
 	}
@@ -54,28 +55,28 @@ public class Code02_Sniffer1 {
 	}
 
 	// 递归版
-	public static void tarjan1(int u, boolean root) {
-		dfn[u] = low[u] = ++cntd;
+	public static void tarjan1(int u, int preEdge) {
+		low[u] = dfn[u] = ++cntd;
 		for (int e = head[u]; e > 0; e = nxt[e]) {
 			int v = to[e];
 			if (dfn[v] == 0) {
-				tarjan1(v, false);
+				tarjan1(v, e);
 				low[u] = Math.min(low[u], low[v]);
-				if (low[v] >= dfn[u]) {
-					if (!root && dfn[b] >= dfn[v]) {
-						cutVertex[u] = true;
-					}
+				if (low[v] > dfn[u]) {
+					cutEdge[e >> 1] = true;
 				}
 			} else {
-				low[u] = Math.min(low[u], dfn[v]);
+				if ((e ^ 1) != preEdge) {
+					low[u] = Math.min(low[u], dfn[v]);
+				}
 			}
 		}
 	}
 
 	// 迭代版
-	public static void tarjan2(int node, boolean rt) {
+	public static void tarjan2(int node, int pree) {
 		stacksize = 0;
-		push(node, rt ? 1 : 0, -1, -1);
+		push(node, pree, -1, -1);
 		int v;
 		while (stacksize > 0) {
 			pop();
@@ -86,23 +87,23 @@ public class Code02_Sniffer1 {
 				v = to[e];
 				if (status == 0) {
 					low[u] = Math.min(low[u], low[v]);
-					if (low[v] >= dfn[u]) {
-						if (root == 0 && dfn[b] >= dfn[v]) {
-							cutVertex[u] = true;
-						}
+					if (low[v] > dfn[u]) {
+						cutEdge[e >> 1] = true;
 					}
 				} else {
-					low[u] = Math.min(low[u], dfn[v]);
+					if ((e ^ 1) != preEdge) {
+						low[u] = Math.min(low[u], dfn[v]);
+					}
 				}
 				e = nxt[e];
 			}
 			if (e != 0) {
 				v = to[e];
 				if (dfn[v] == 0) {
-					push(u, root, 0, e);
-					push(v, 0, -1, -1);
+					push(u, preEdge, 0, e);
+					push(v, e, -1, -1);
 				} else {
-					push(u, root, 1, e);
+					push(u, preEdge, 1, e);
 				}
 			}
 		}
@@ -112,29 +113,33 @@ public class Code02_Sniffer1 {
 		FastReader in = new FastReader(System.in);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
 		n = in.nextInt();
-		a = in.nextInt();
-		b = in.nextInt();
-		while (a != 0 || b != 0) {
-			addEdge(a, b);
-			addEdge(b, a);
-			a = in.nextInt();
-			b = in.nextInt();
+		m = in.nextInt();
+		cntg = 1;
+		for (int i = 1, u, v; i <= m; i++) {
+			u = in.nextInt();
+			v = in.nextInt();
+			addEdge(u, v);
+			addEdge(v, u);
 		}
-		a = in.nextInt();
-		b = in.nextInt();
-		// tarjan1(a, true);
-		tarjan2(a, true);
-		boolean check = false;
 		for (int i = 1; i <= n; i++) {
-			if (cutVertex[i]) {
-				out.println(i);
-				check = true;
-				break;
+			if (dfn[i] == 0) {
+				// tarjan1(i, 0);
+				tarjan2(i, 0);
 			}
 		}
-		if (!check) {
-			out.println("No solution");
+		int ansCnt = 0;
+		for (int i = 1; i <= m; i++) {
+			if (cutEdge[i]) {
+				ansCnt++;
+			}
 		}
+		out.println(ansCnt);
+		for (int i = 1; i <= m; i++) {
+			if (cutEdge[i]) {
+				out.print(i + " ");
+			}
+		}
+		out.println();
 		out.flush();
 		out.close();
 	}

@@ -1,4 +1,4 @@
-package class191;
+package class193;
 
 // 矿场搭建，java版
 // 测试链接 : https://www.luogu.com.cn/problem/P3225
