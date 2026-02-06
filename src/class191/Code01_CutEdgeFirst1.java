@@ -1,8 +1,8 @@
 package class191;
 
-// 关键网络线路，java版
+// 割边模版题1，java版
 // 原图即使有重边，答案依然正确
-// 测试链接 : https://www.luogu.com.cn/problem/P7687
+// 测试链接 : https://www.luogu.com.cn/problem/U582665
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
 import java.io.IOException;
@@ -10,13 +10,11 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
-public class Code02_CriticalNetworkLines1 {
+public class Code01_CutEdgeFirst1 {
 
-	public static int MAXN = 100001;
-	public static int MAXM = 1000001;
-	public static int n, m, l, k;
-	public static int[] acnt = new int[MAXN];
-	public static int[] bcnt = new int[MAXN];
+	public static int MAXN = 500001;
+	public static int MAXM = 2000001;
+	public static int n, m;
 
 	public static int[] head = new int[MAXN];
 	public static int[] nxt = new int[MAXM << 1];
@@ -27,32 +25,27 @@ public class Code02_CriticalNetworkLines1 {
 	public static int[] low = new int[MAXN];
 	public static int cntd;
 
-	public static int[] a = new int[MAXN];
-	public static int[] b = new int[MAXN];
-	public static int cntAns;
+	public static boolean[] cutEdge = new boolean[MAXM];
 
 	// 迭代版需要的栈，讲解118讲了递归改迭代的技巧
-	public static int[] stau = new int[MAXN];
-	public static int[] stap = new int[MAXN];
-	public static int[] stas = new int[MAXN];
-	public static int[] stae = new int[MAXN];
+	public static int[][] stack = new int[MAXN][4];
 	public static int u, preEdge, status, e;
-	public static int stasiz;
+	public static int stacksize;
 
 	public static void push(int u, int preEdge, int status, int e) {
-		stau[stasiz] = u;
-		stap[stasiz] = preEdge;
-		stas[stasiz] = status;
-		stae[stasiz] = e;
-		stasiz++;
+		stack[stacksize][0] = u;
+		stack[stacksize][1] = preEdge;
+		stack[stacksize][2] = status;
+		stack[stacksize][3] = e;
+		stacksize++;
 	}
 
 	public static void pop() {
-		stasiz--;
-		u = stau[stasiz];
-		preEdge = stap[stasiz];
-		status = stas[stasiz];
-		e = stae[stasiz];
+		stacksize--;
+		u = stack[stacksize][0];
+		preEdge = stack[stacksize][1];
+		status = stack[stacksize][2];
+		e = stack[stacksize][3];
 	}
 
 	public static void addEdge(int u, int v) {
@@ -70,14 +63,8 @@ public class Code02_CriticalNetworkLines1 {
 				tarjan1(v, e);
 				low[u] = Math.min(low[u], low[v]);
 				if (low[v] > dfn[u]) {
-					if (acnt[v] == 0 || bcnt[v] == 0 || acnt[v] == l || bcnt[v] == k) {
-						cntAns++;
-						a[cntAns] = v;
-						b[cntAns] = u;
-					}
+					cutEdge[e >> 1] = true;
 				}
-				acnt[u] += acnt[v];
-				bcnt[u] += bcnt[v];
 			} else {
 				if ((e ^ 1) != preEdge) {
 					low[u] = Math.min(low[u], dfn[v]);
@@ -88,10 +75,10 @@ public class Code02_CriticalNetworkLines1 {
 
 	// 迭代版
 	public static void tarjan2(int node, int pree) {
-		stasiz = 0;
+		stacksize = 0;
 		push(node, pree, -1, -1);
 		int v;
-		while (stasiz > 0) {
+		while (stacksize > 0) {
 			pop();
 			if (status == -1) {
 				dfn[u] = low[u] = ++cntd;
@@ -101,14 +88,8 @@ public class Code02_CriticalNetworkLines1 {
 				if (status == 0) {
 					low[u] = Math.min(low[u], low[v]);
 					if (low[v] > dfn[u]) {
-						if (acnt[v] == 0 || bcnt[v] == 0 || acnt[v] == l || bcnt[v] == k) {
-							cntAns++;
-							a[cntAns] = v;
-							b[cntAns] = u;
-						}
+						cutEdge[e >> 1] = true;
 					}
-					acnt[u] += acnt[v];
-					bcnt[u] += bcnt[v];
 				} else {
 					if ((e ^ 1) != preEdge) {
 						low[u] = Math.min(low[u], dfn[v]);
@@ -134,28 +115,31 @@ public class Code02_CriticalNetworkLines1 {
 		cntg = 1;
 		n = in.nextInt();
 		m = in.nextInt();
-		l = in.nextInt();
-		k = in.nextInt();
-		for (int i = 1, x; i <= l; i++) {
-			x = in.nextInt();
-			acnt[x] = 1;
-		}
-		for (int i = 1, x; i <= k; i++) {
-			x = in.nextInt();
-			bcnt[x] = 1;
-		}
 		for (int i = 1, u, v; i <= m; i++) {
 			u = in.nextInt();
 			v = in.nextInt();
 			addEdge(u, v);
 			addEdge(v, u);
 		}
-		// tarjan1(1, 0);
-		tarjan2(1, 0);
-		out.println(cntAns);
-		for (int i = 1; i <= cntAns; i++) {
-			out.println(a[i] + " " + b[i]);
+		for (int i = 1; i <= n; i++) {
+			if (dfn[i] == 0) {
+				// tarjan1(i, 0);
+				tarjan2(i, 0);
+			}
 		}
+		int ansCnt = 0;
+		for (int i = 1; i <= m; i++) {
+			if (cutEdge[i]) {
+				ansCnt++;
+			}
+		}
+		out.println(ansCnt);
+		for (int i = 1; i <= m; i++) {
+			if (cutEdge[i]) {
+				out.print(i + " ");
+			}
+		}
+		out.println();
 		out.flush();
 		out.close();
 	}
