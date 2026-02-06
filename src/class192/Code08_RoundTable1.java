@@ -1,7 +1,8 @@
-package class193;
+package class192;
 
-// 矿场搭建，java版
-// 测试链接 : https://www.luogu.com.cn/problem/P3225
+// 圆桌骑士，java版
+// 测试链接 : https://www.luogu.com.cn/problem/SP2878
+// 测试链接 : https://www.spoj.com/problems/KNIGHTS/
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
 import java.io.IOException;
@@ -9,11 +10,12 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
-public class Code07_MiningFarm1 {
+public class Code08_RoundTable1 {
 
 	public static int MAXN = 1001;
-	public static int MAXM = 1001;
-	public static int t, n, m;
+	public static int MAXM = 1000001;
+	public static int n, m;
+	public static boolean[][] hate = new boolean[MAXN][MAXN];
 
 	public static int[] head = new int[MAXN];
 	public static int[] nxt = new int[MAXM << 1];
@@ -27,25 +29,25 @@ public class Code07_MiningFarm1 {
 	public static int[] sta = new int[MAXN];
 	public static int top;
 
-	public static boolean[] cutVertex = new boolean[MAXN];
-	public static int[] vbccSiz = new int[MAXN];
 	public static int[] vbccArr = new int[MAXN << 1];
 	public static int[] vbccl = new int[MAXN];
 	public static int[] vbccr = new int[MAXN];
 	public static int idx;
 	public static int vbccCnt;
 
-	public static long ans1, ans2;
+	public static int[] color = new int[MAXN];
+	public static boolean[] block = new boolean[MAXN];
+	public static boolean[] keep = new boolean[MAXN];
 
 	public static void prepare() {
 		cntg = cntd = top = idx = vbccCnt = 0;
-		for (int i = 1; i < MAXN; i++) {
+		for (int i = 1; i <= n; i++) {
 			head[i] = dfn[i] = low[i] = 0;
-			cutVertex[i] = false;
+			keep[i] = false;
+			for (int j = 1; j <= n; j++) {
+				hate[i][j] = false;
+			}
 		}
-		n = 0;
-		ans1 = 0;
-		ans2 = 1;
 	}
 
 	public static void addEdge(int u, int v) {
@@ -59,32 +61,23 @@ public class Code07_MiningFarm1 {
 		sta[++top] = u;
 		if (root && head[u] == 0) {
 			vbccCnt++;
-			vbccSiz[vbccCnt] = 1;
 			vbccArr[++idx] = u;
 			vbccl[vbccCnt] = vbccr[vbccCnt] = idx;
 			return;
 		}
-		int son = 0;
 		for (int e = head[u]; e > 0; e = nxt[e]) {
 			int v = to[e];
 			if (dfn[v] == 0) {
-				son++;
 				tarjan(v, false);
 				low[u] = Math.min(low[u], low[v]);
 				if (low[v] >= dfn[u]) {
-					if (!root || son >= 2) {
-						cutVertex[u] = true;
-					}
 					vbccCnt++;
-					vbccSiz[vbccCnt] = 0;
 					vbccl[vbccCnt] = idx + 1;
 					int pop;
 					do {
 						pop = sta[top--];
-						vbccSiz[vbccCnt]++;
 						vbccArr[++idx] = pop;
 					} while (pop != v);
-					vbccSiz[vbccCnt]++;
 					vbccArr[++idx] = u;
 					vbccr[vbccCnt] = idx;
 				}
@@ -94,42 +87,74 @@ public class Code07_MiningFarm1 {
 		}
 	}
 
-	public static void compute() {
-		for (int i = 1; i <= vbccCnt; i++) {
-			int siz = vbccSiz[i], cut = 0;
-			for (int j = vbccl[i]; j <= vbccr[i]; j++) {
-				if (cutVertex[vbccArr[j]]) {
-					cut++;
+	public static boolean dfs(int u, int c) {
+		color[u] = c;
+		for (int e = head[u]; e > 0; e = nxt[e]) {
+			int v = to[e];
+			if (block[v]) {
+				if (color[v] == 0) {
+					if (dfs(v, c == 1 ? 2 : 1)) {
+						return true;
+					}
+				}
+				if (color[v] == c) {
+					return true;
 				}
 			}
-			if (cut == 0) {
-				ans1 += 2;
-				ans2 = ans2 * siz * (siz - 1) / 2;
-			} else if (cut == 1) {
-				ans1 += 1;
-				ans2 = ans2 * (siz - 1);
+		}
+		return false;
+	}
+
+	public static int compute() {
+		for (int i = 1; i <= vbccCnt; i++) {
+			for (int j = vbccl[i]; j <= vbccr[i]; j++) {
+				color[vbccArr[j]] = 0;
+				block[vbccArr[j]] = true;
+			}
+			boolean odd = dfs(vbccArr[vbccr[i]], 1);
+			for (int j = vbccl[i]; j <= vbccr[i]; j++) {
+				keep[vbccArr[j]] |= odd;
+				block[vbccArr[j]] = false;
 			}
 		}
+		int ans = 0;
+		for (int i = 1; i <= n; i++) {
+			if (!keep[i]) {
+				ans++;
+			}
+		}
+		return ans;
 	}
 
 	public static void main(String[] args) throws Exception {
 		FastReader in = new FastReader(System.in);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
-		t = 0;
+		n = in.nextInt();
 		m = in.nextInt();
-		while (m != 0) {
+		while (n != 0 || m != 0) {
 			prepare();
 			for (int i = 1, u, v; i <= m; i++) {
 				u = in.nextInt();
 				v = in.nextInt();
-				addEdge(u, v);
-				addEdge(v, u);
-				n = Math.max(n, u);
-				n = Math.max(n, v);
+				hate[u][v] = true;
+				hate[v][u] = true;
 			}
-			tarjan(1, true);
-			compute();
-			out.println("Case " + (++t) + ": " + ans1 + " " + ans2);
+			for (int u = 1; u <= n; u++) {
+				for (int v = u + 1; v <= n; v++) {
+					if (!hate[u][v]) {
+						addEdge(u, v);
+						addEdge(v, u);
+					}
+				}
+			}
+			for (int i = 1; i <= n; i++) {
+				if (dfn[i] == 0) {
+					tarjan(i, true);
+				}
+			}
+			int ans = compute();
+			out.println(ans);
+			n = in.nextInt();
 			m = in.nextInt();
 		}
 		out.flush();
