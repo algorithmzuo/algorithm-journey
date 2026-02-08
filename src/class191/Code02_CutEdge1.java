@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class Code02_CutEdgeSecond1 {
+public class Code02_CutEdge1 {
 
 	class Solution {
 

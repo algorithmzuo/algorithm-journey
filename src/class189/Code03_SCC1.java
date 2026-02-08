@@ -15,7 +15,7 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
-public class Code03_SccThird1 {
+public class Code03_SCC1 {
 
 	public static int MAXN = 5001;
 	public static int MAXM = 100001;
