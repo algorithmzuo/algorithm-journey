@@ -72,13 +72,13 @@ public class Code08_RoundTable1 {
 				low[u] = Math.min(low[u], low[v]);
 				if (low[v] >= dfn[u]) {
 					vbccCnt++;
-					vbccl[vbccCnt] = idx + 1;
+					vbccArr[++idx] = u;
+					vbccl[vbccCnt] = idx;
 					int pop;
 					do {
 						pop = sta[top--];
 						vbccArr[++idx] = pop;
 					} while (pop != v);
-					vbccArr[++idx] = u;
 					vbccr[vbccCnt] = idx;
 				}
 			} else {
@@ -111,7 +111,7 @@ public class Code08_RoundTable1 {
 				color[vbccArr[j]] = 0;
 				block[vbccArr[j]] = true;
 			}
-			boolean odd = dfs(vbccArr[vbccr[i]], 1);
+			boolean odd = dfs(vbccArr[vbccl[i]], 1);
 			for (int j = vbccl[i]; j <= vbccr[i]; j++) {
 				keep[vbccArr[j]] |= odd;
 				block[vbccArr[j]] = false;

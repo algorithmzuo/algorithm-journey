@@ -70,13 +70,13 @@ package class192;
 //            low[u] = min(low[u], low[v]);
 //            if (low[v] >= dfn[u]) {
 //                vbccCnt++;
-//                vbccl[vbccCnt] = idx + 1;
+//                vbccArr[++idx] = u;
+//                vbccl[vbccCnt] = idx;
 //                int pop;
 //                do {
 //                    pop = sta[top--];
 //                    vbccArr[++idx] = pop;
 //                } while (pop != v);
-//                vbccArr[++idx] = u;
 //                vbccr[vbccCnt] = idx;
 //            }
 //        } else {
@@ -109,7 +109,7 @@ package class192;
 //            color[vbccArr[j]] = 0;
 //            block[vbccArr[j]] = true;
 //        }
-//        bool odd = dfs(vbccArr[vbccr[i]], 1);
+//        bool odd = dfs(vbccArr[vbccl[i]], 1);
 //        for (int j = vbccl[i]; j <= vbccr[i]; j++) {
 //            keep[vbccArr[j]] |= odd;
 //            block[vbccArr[j]] = false;

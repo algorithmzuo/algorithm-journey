@@ -76,16 +76,15 @@ public class Code07_MiningFarm1 {
 						cutVertex[u] = true;
 					}
 					vbccCnt++;
-					vbccSiz[vbccCnt] = 0;
-					vbccl[vbccCnt] = idx + 1;
+					vbccSiz[vbccCnt] = 1;
+					vbccArr[++idx] = u;
+					vbccl[vbccCnt] = idx;
 					int pop;
 					do {
 						pop = sta[top--];
 						vbccSiz[vbccCnt]++;
 						vbccArr[++idx] = pop;
 					} while (pop != v);
-					vbccSiz[vbccCnt]++;
-					vbccArr[++idx] = u;
 					vbccr[vbccCnt] = idx;
 				}
 			} else {
