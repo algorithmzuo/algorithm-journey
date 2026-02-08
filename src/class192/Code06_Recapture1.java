@@ -66,12 +66,12 @@ public class Code06_Recapture1 {
 							cutVertex[u] = true;
 						}
 						ArrayList<Integer> list = new ArrayList<>();
+						list.add(u);
 						int pop;
 						do {
 							pop = sta[top--];
 							list.add(pop);
 						} while (pop != v);
-						list.add(u);
 						vbccArr.add(list);
 					}
 				} else {

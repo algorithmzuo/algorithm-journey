@@ -79,16 +79,15 @@ public class Code04_VBCC1 {
 				low[u] = Math.min(low[u], low[v]);
 				if (low[v] >= dfn[u]) {
 					vbccCnt++;
-					vbccSiz[vbccCnt] = 0;
-					vbccl[vbccCnt] = idx + 1;
+					vbccSiz[vbccCnt] = 1;
+					vbccArr[++idx] = u;
+					vbccl[vbccCnt] = idx;
 					int pop;
 					do {
 						pop = sta[top--];
 						vbccSiz[vbccCnt]++;
 						vbccArr[++idx] = pop;
 					} while (pop != v);
-					vbccSiz[vbccCnt]++;
-					vbccArr[++idx] = u;
 					vbccr[vbccCnt] = idx;
 				}
 			} else {
@@ -122,16 +121,15 @@ public class Code04_VBCC1 {
 					low[u] = Math.min(low[u], low[v]);
 					if (low[v] >= dfn[u]) {
 						vbccCnt++;
-						vbccSiz[vbccCnt] = 0;
-						vbccl[vbccCnt] = idx + 1;
+						vbccSiz[vbccCnt] = 1;
+						vbccArr[++idx] = u;
+						vbccl[vbccCnt] = idx;
 						int pop;
 						do {
 							pop = sta[top--];
 							vbccSiz[vbccCnt]++;
 							vbccArr[++idx] = pop;
 						} while (pop != v);
-						vbccSiz[vbccCnt]++;
-						vbccArr[++idx] = u;
 						vbccr[vbccCnt] = idx;
 					}
 				} else {

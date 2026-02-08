@@ -91,12 +91,12 @@ public class Code05_VBCC1 {
 				low[u] = Math.min(low[u], low[v]);
 				if (low[v] >= dfn[u]) {
 					ArrayList<Integer> list = new ArrayList<>();
+					list.add(u);
 					int pop;
 					do {
 						pop = sta[top--];
 						list.add(pop);
 					} while (pop != v);
-					list.add(u);
 					vbccArr.add(list);
 				}
 			} else {
@@ -129,12 +129,12 @@ public class Code05_VBCC1 {
 					low[u] = Math.min(low[u], low[v]);
 					if (low[v] >= dfn[u]) {
 						ArrayList<Integer> list = new ArrayList<>();
+						list.add(u);
 						int pop;
 						do {
 							pop = sta[top--];
 							list.add(pop);
 						} while (pop != v);
-						list.add(u);
 						vbccArr.add(list);
 					}
 				} else {

@@ -59,12 +59,12 @@ package class192;
 //            low[u] = min(low[u], low[v]);
 //            if (low[v] >= dfn[u]) {
 //                vector<int> list;
+//                list.push_back(u);
 //                int pop;
 //                do {
 //                    pop = sta[top--];
 //                    list.push_back(pop);
 //                } while (pop != v);
-//                list.push_back(u);
 //                vbccArr.push_back(list);
 //            }
 //        } else {
