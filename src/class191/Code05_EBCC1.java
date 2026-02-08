@@ -14,8 +14,8 @@ public class Code05_EBCC1 {
 	public static int MAXN = 5001;
 	public static int MAXM = 10001;
 	public static int n, m;
-	public static int[] a = new int[MAXN];
-	public static int[] b = new int[MAXN];
+	public static int[] a = new int[MAXM];
+	public static int[] b = new int[MAXM];
 
 	public static int[] head = new int[MAXN];
 	public static int[] nxt = new int[MAXM << 1];
