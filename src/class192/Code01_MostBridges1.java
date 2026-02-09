@@ -86,11 +86,6 @@ public class Code01_MostBridges1 {
 			int v = to[e];
 			if (v != fa) {
 				dp(v, u);
-			}
-		}
-		for (int e = head[u]; e > 0; e = nxt[e]) {
-			int v = to[e];
-			if (v != fa) {
 				diameter = Math.max(diameter, dist[u] + dist[v] + 1);
 				dist[u] = Math.max(dist[u], dist[v] + 1);
 			}
