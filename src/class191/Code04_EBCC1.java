@@ -1,7 +1,7 @@
-package class193;
+package class191;
 
-// 城市阻断，java版
-// 测试链接 : https://www.luogu.com.cn/problem/P3469
+// 边双连通分量模版题1，java版
+// 测试链接 : https://www.luogu.com.cn/problem/P8436
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
 import java.io.IOException;
@@ -9,10 +9,10 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
-public class Code03_Blockade1 {
+public class Code04_EBCC1 {
 
-	public static int MAXN = 100001;
-	public static int MAXM = 500001;
+	public static int MAXN = 500001;
+	public static int MAXM = 2000001;
 	public static int n, m;
 
 	public static int[] head = new int[MAXN];
@@ -24,34 +24,35 @@ public class Code03_Blockade1 {
 	public static int[] low = new int[MAXN];
 	public static int cntd;
 
-	public static boolean[] cutVertex = new boolean[MAXN];
+	public static int[] sta = new int[MAXN];
+	public static int top;
 
-	public static int[] siz = new int[MAXN];
-	public static long[] ans = new long[MAXN];
+	public static int[] ebccSiz = new int[MAXN];
+	public static int[] ebccArr = new int[MAXN];
+	public static int[] ebccl = new int[MAXN];
+	public static int[] ebccr = new int[MAXN];
+	public static int idx;
+	public static int ebccCnt;
 
 	// 迭代版需要的栈，讲解118讲了递归改迭代的技巧
-	public static int[][] stack = new int[MAXN][6];
-	public static int u, root, son, sum, status, e;
+	public static int[][] stack = new int[MAXN][4];
+	public static int u, preEdge, status, e;
 	public static int stacksize;
 
-	public static void push(int u, int root, int son, int sum, int status, int e) {
+	public static void push(int u, int preEdge, int status, int e) {
 		stack[stacksize][0] = u;
-		stack[stacksize][1] = root;
-		stack[stacksize][2] = son;
-		stack[stacksize][3] = sum;
-		stack[stacksize][4] = status;
-		stack[stacksize][5] = e;
+		stack[stacksize][1] = preEdge;
+		stack[stacksize][2] = status;
+		stack[stacksize][3] = e;
 		stacksize++;
 	}
 
 	public static void pop() {
 		stacksize--;
 		u = stack[stacksize][0];
-		root = stack[stacksize][1];
-		son = stack[stacksize][2];
-		sum = stack[stacksize][3];
-		status = stack[stacksize][4];
-		e = stack[stacksize][5];
+		preEdge = stack[stacksize][1];
+		status = stack[stacksize][2];
+		e = stack[stacksize][3];
 	}
 
 	public static void addEdge(int u, int v) {
@@ -61,77 +62,76 @@ public class Code03_Blockade1 {
 	}
 
 	// 递归版
-	public static void tarjan1(int u, boolean root) {
+	public static void tarjan1(int u, int preEdge) {
 		dfn[u] = low[u] = ++cntd;
-		siz[u] = 1;
-		int son = 0, sum = 0;
+		sta[++top] = u;
 		for (int e = head[u]; e > 0; e = nxt[e]) {
 			int v = to[e];
 			if (dfn[v] == 0) {
-				son++;
-				tarjan1(v, false);
+				tarjan1(v, e);
 				low[u] = Math.min(low[u], low[v]);
-				siz[u] += siz[v];
-				if (low[v] >= dfn[u]) {
-					if (!root || son >= 2) {
-						cutVertex[u] = true;
-					}
-					sum += siz[v];
-					ans[u] += (long) siz[v] * (n - siz[v]);
-				}
 			} else {
-				low[u] = Math.min(low[u], dfn[v]);
+				if ((e ^ 1) != preEdge) {
+					low[u] = Math.min(low[u], dfn[v]);
+				}
 			}
 		}
-		if (cutVertex[u]) {
-			ans[u] += (long) (n - sum - 1) * (sum + 1) + (n - 1);
-		} else {
-			ans[u] = 2 * (n - 1);
+		if (dfn[u] == low[u]) {
+			ebccCnt++;
+			ebccSiz[ebccCnt] = 0;
+			ebccl[ebccCnt] = idx + 1;
+			int pop;
+			do {
+				pop = sta[top--];
+				ebccSiz[ebccCnt]++;
+				ebccArr[++idx] = pop;
+			} while (pop != u);
+			ebccr[ebccCnt] = idx;
 		}
 	}
 
 	// 迭代版
-	public static void tarjan2(int node, boolean rt) {
+	public static void tarjan2(int node, int pree) {
 		stacksize = 0;
-		push(node, rt ? 1 : 0, 0, 0, -1, -1);
+		push(node, pree, -1, -1);
 		int v;
 		while (stacksize > 0) {
 			pop();
 			if (status == -1) {
 				dfn[u] = low[u] = ++cntd;
-				siz[u] = 1;
+				sta[++top] = u;
 				e = head[u];
 			} else {
 				v = to[e];
 				if (status == 0) {
 					low[u] = Math.min(low[u], low[v]);
-					siz[u] += siz[v];
-					if (low[v] >= dfn[u]) {
-						if (root == 0 || son >= 2) {
-							cutVertex[u] = true;
-						}
-						sum += siz[v];
-						ans[u] += (long) siz[v] * (n - siz[v]);
-					}
 				} else {
-					low[u] = Math.min(low[u], dfn[v]);
+					if ((e ^ 1) != preEdge) {
+						low[u] = Math.min(low[u], dfn[v]);
+					}
 				}
 				e = nxt[e];
 			}
 			if (e != 0) {
 				v = to[e];
 				if (dfn[v] == 0) {
-					son++;
-					push(u, root, son, sum, 0, e);
-					push(v, 0, 0, 0, -1, -1);
+					push(u, preEdge, 0, e);
+					push(v, e, -1, -1);
 				} else {
-					push(u, root, son, sum, 1, e);
+					push(u, preEdge, 1, e);
 				}
 			} else {
-				if (cutVertex[u]) {
-					ans[u] += (long) (n - sum - 1) * (sum + 1) + (n - 1);
-				} else {
-					ans[u] = 2 * (n - 1);
+				if (dfn[u] == low[u]) {
+					ebccCnt++;
+					ebccSiz[ebccCnt] = 0;
+					ebccl[ebccCnt] = idx + 1;
+					int pop;
+					do {
+						pop = sta[top--];
+						ebccSiz[ebccCnt]++;
+						ebccArr[++idx] = pop;
+					} while (pop != u);
+					ebccr[ebccCnt] = idx;
 				}
 			}
 		}
@@ -140,6 +140,7 @@ public class Code03_Blockade1 {
 	public static void main(String[] args) throws Exception {
 		FastReader in = new FastReader(System.in);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
+		cntg = 1;
 		n = in.nextInt();
 		m = in.nextInt();
 		for (int i = 1, u, v; i <= m; i++) {
@@ -148,10 +149,19 @@ public class Code03_Blockade1 {
 			addEdge(u, v);
 			addEdge(v, u);
 		}
-		// tarjan1(1, true);
-		tarjan2(1, true);
 		for (int i = 1; i <= n; i++) {
-			out.println(ans[i]);
+			if (dfn[i] == 0) {
+				// tarjan1(i, 0);
+				tarjan2(i, 0);
+			}
+		}
+		out.println(ebccCnt);
+		for (int i = 1; i <= ebccCnt; i++) {
+			out.println(ebccSiz[i]);
+			for (int j = ebccl[i]; j <= ebccr[i]; j++) {
+				out.print(ebccArr[j] + " ");
+			}
+			out.println();
 		}
 		out.flush();
 		out.close();
