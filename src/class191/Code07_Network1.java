@@ -102,10 +102,6 @@ public class Code07_Network1 {
 		}
 	}
 
-	public static int father(int x, int y) {
-		return dep[x] < dep[y] ? x : y;
-	}
-
 	public static int find(int i) {
 		if (i != fa[i]) {
 			fa[i] = find(fa[i]);
@@ -117,7 +113,11 @@ public class Code07_Network1 {
 		x = find(x);
 		y = find(y);
 		if (x != y) {
-			fa[x] = fa[y] = father(x, y);
+			if (dep[x] < dep[y]) {
+				fa[y] = x;
+			} else {
+				fa[x] = y;
+			}
 		}
 	}
 
