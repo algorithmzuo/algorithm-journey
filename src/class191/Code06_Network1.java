@@ -1,22 +1,22 @@
 package class191;
 
-// 神会作弊，java版
-// 测试链接 : https://www.luogu.com.cn/problem/P2783
+// 网络，java版
+// 测试链接 : https://acm.hdu.edu.cn/showproblem.php?pid=2460
+// 测试链接 : http://poj.org/problem?id=3694
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
-import java.util.Arrays;
 
-public class Code06_GodCheat1 {
+public class Code06_Network1 {
 
-	public static int MAXN = 10001;
-	public static int MAXM = 50001;
-	public static int MAXP = 15;
-	public static int n, m, q;
-	public static int[][] edgeArr = new int[MAXM][2];
+	public static int MAXN = 100001;
+	public static int MAXM = 200001;
+	public static int t, n, m, q;
+	public static int[] a = new int[MAXM];
+	public static int[] b = new int[MAXM];
 
 	public static int[] head = new int[MAXN];
 	public static int[] nxt = new int[MAXM << 1];
@@ -33,29 +33,22 @@ public class Code06_GodCheat1 {
 	public static int[] belong = new int[MAXN];
 	public static int ebccCnt;
 
+	public static int[] up = new int[MAXN];
 	public static int[] dep = new int[MAXN];
-	public static int[][] stjump = new int[MAXN][MAXP];
+	public static int[] fa = new int[MAXN];
+
+	public static void prepare() {
+		cntg = 1;
+		cntd = top = ebccCnt = 0;
+		for (int i = 1; i <= n; i++) {
+			head[i] = dfn[i] = low[i] = 0;
+		}
+	}
 
 	public static void addEdge(int u, int v) {
 		nxt[++cntg] = head[u];
 		to[cntg] = v;
 		head[u] = cntg;
-	}
-
-	public static void buildGraph() {
-		Arrays.sort(edgeArr, 1, m + 1, (a, b) -> a[0] != b[0] ? (a[0] - b[0]) : (a[1] - b[1]));
-		int k = 1;
-		for (int i = 2; i <= m; i++) {
-			if (edgeArr[k][0] != edgeArr[i][0] || edgeArr[k][1] != edgeArr[i][1]) {
-				edgeArr[++k][0] = edgeArr[i][0];
-				edgeArr[k][1] = edgeArr[i][1];
-			}
-		}
-		for (int i = 1; i <= k; i++) {
-			addEdge(edgeArr[i][0], edgeArr[i][1]);
-			addEdge(edgeArr[i][1], edgeArr[i][0]);
-		}
-		m = k;
 	}
 
 	public static void tarjan(int u, int preEdge) {
@@ -88,8 +81,8 @@ public class Code06_GodCheat1 {
 			head[i] = 0;
 		}
 		for (int i = 1; i <= m; i++) {
-			int ebcc1 = belong[edgeArr[i][0]];
-			int ebcc2 = belong[edgeArr[i][1]];
+			int ebcc1 = belong[a[i]];
+			int ebcc2 = belong[b[i]];
 			if (ebcc1 != ebcc2) {
 				addEdge(ebcc1, ebcc2);
 				addEdge(ebcc2, ebcc1);
@@ -97,70 +90,80 @@ public class Code06_GodCheat1 {
 		}
 	}
 
-	public static void dfs(int u, int fa) {
-		dep[u] = dep[fa] + 1;
-		stjump[u][0] = fa;
-		for (int p = 1; p < MAXP; p++) {
-			stjump[u][p] = stjump[stjump[u][p - 1]][p - 1];
-		}
+	public static void dfs(int u, int f) {
+		dep[u] = dep[f] + 1;
+		up[u] = f;
+		fa[u] = u;
 		for (int e = head[u]; e > 0; e = nxt[e]) {
 			int v = to[e];
-			if (v != fa) {
+			if (v != f) {
 				dfs(v, u);
 			}
 		}
 	}
 
-	public static int getLca(int a, int b) {
-		if (dep[a] < dep[b]) {
-			int tmp = a;
-			a = b;
-			b = tmp;
+	public static int find(int i) {
+		if (i != fa[i]) {
+			fa[i] = find(fa[i]);
 		}
-		for (int p = MAXP - 1; p >= 0; p--) {
-			if (dep[stjump[a][p]] >= dep[b]) {
-				a = stjump[a][p];
-			}
-		}
-		if (a == b) {
-			return a;
-		}
-		for (int p = MAXP - 1; p >= 0; p--) {
-			if (stjump[a][p] != stjump[b][p]) {
-				a = stjump[a][p];
-				b = stjump[b][p];
-			}
-		}
-		return stjump[a][0];
+		return fa[i];
 	}
 
-	public static int getDist(int x, int y) {
-		return dep[x] + dep[y] - 2 * dep[getLca(x, y)] + 1;
+	public static void union(int x, int y) {
+		x = find(x);
+		y = find(y);
+		if (x != y) {
+			if (dep[x] < dep[y]) {
+				fa[y] = x;
+			} else {
+				fa[x] = y;
+			}
+		}
+	}
+
+	public static void link(int x, int y) {
+		x = find(belong[x]);
+		y = find(belong[y]);
+		while (x != y) {
+			if (dep[x] >= dep[y]) {
+				union(x, up[x]);
+				x = find(x);
+			} else {
+				union(y, up[y]);
+				y = find(y);
+			}
+			ebccCnt--;
+		}
 	}
 
 	public static void main(String[] args) throws Exception {
 		FastReader in = new FastReader(System.in);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
-		cntg = 1;
+		t = 0;
 		n = in.nextInt();
 		m = in.nextInt();
-		for (int i = 1, u, v; i <= m; i++) {
-			u = in.nextInt();
-			v = in.nextInt();
-			edgeArr[i][0] = Math.min(u, v);
-			edgeArr[i][1] = Math.max(u, v);
-		}
-		buildGraph();
-        tarjan(1, 0);
-		condense();
-		dfs(1, 0);
-		q = in.nextInt();
-		for (int i = 1, x, y; i <= q; i++) {
-			x = in.nextInt();
-			y = in.nextInt();
-			x = belong[x];
-			y = belong[y];
-			out.println(Integer.toBinaryString(getDist(x, y)));
+		while (n != 0 || m != 0) {
+			prepare();
+			for (int i = 1; i <= m; i++) {
+				a[i] = in.nextInt();
+				b[i] = in.nextInt();
+				addEdge(a[i], b[i]);
+				addEdge(b[i], a[i]);
+			}
+			tarjan(1, 0);
+			condense();
+			dfs(1, 0);
+			out.println("Case " + (++t) + ":");
+			q = in.nextInt();
+			for (int i = 1, x, y; i <= q; i++) {
+				x = in.nextInt();
+				y = in.nextInt();
+				link(x, y);
+				out.println(ebccCnt - 1);
+			}
+			out.println();
+			n = in.nextInt();
+			m = in.nextInt();
 		}
 		out.flush();
 		out.close();

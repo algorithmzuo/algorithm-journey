@@ -1,4 +1,4 @@
-package class192;
+package class193;
 
 // 圆桌骑士，C++版
 // 测试链接 : https://www.luogu.com.cn/problem/SP2878
