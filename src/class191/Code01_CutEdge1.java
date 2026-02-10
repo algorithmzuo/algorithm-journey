@@ -56,7 +56,7 @@ public class Code01_CutEdge1 {
 
 	// 递归版
 	public static void tarjan1(int u, int preEdge) {
-		low[u] = dfn[u] = ++cntd;
+		dfn[u] = low[u] = ++cntd;
 		for (int e = head[u]; e > 0; e = nxt[e]) {
 			int v = to[e];
 			if (dfn[v] == 0) {
