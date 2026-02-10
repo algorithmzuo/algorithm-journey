@@ -9,7 +9,7 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
-public class Code04_EBCC1 {
+public class Code05_EBCC1 {
 
 	public static int MAXN = 500001;
 	public static int MAXM = 2000001;
