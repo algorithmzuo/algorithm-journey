@@ -9,7 +9,7 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
-public class Code07_RedundantPaths1 {
+public class Code06_RedundantPaths1 {
 
 	public static int MAXN = 5001;
 	public static int MAXM = 10001;

@@ -1,6 +1,6 @@
-package class191;
+package class192;
 
-// 边双缩点模版题，java版
+// 神会作弊，java版
 // 测试链接 : https://www.luogu.com.cn/problem/P2783
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
@@ -10,7 +10,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.util.Arrays;
 
-public class Code05_EbccCondense1 {
+public class Code04_GodCheat1 {
 
 	public static int MAXN = 10001;
 	public static int MAXM = 50001;
