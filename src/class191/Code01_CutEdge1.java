@@ -58,15 +58,15 @@ public class Code01_CutEdge1 {
 	public static void tarjan1(int u, int preEdge) {
 		dfn[u] = low[u] = ++cntd;
 		for (int e = head[u]; e > 0; e = nxt[e]) {
-			int v = to[e];
-			if (dfn[v] == 0) {
-				tarjan1(v, e);
-				low[u] = Math.min(low[u], low[v]);
-				if (low[v] > dfn[u]) {
-					cutEdge[e >> 1] = true;
-				}
-			} else {
-				if ((e ^ 1) != preEdge) {
+			if ((e ^ 1) != preEdge) {
+				int v = to[e];
+				if (dfn[v] == 0) {
+					tarjan1(v, e);
+					low[u] = Math.min(low[u], low[v]);
+					if (low[v] > dfn[u]) {
+						cutEdge[e >> 1] = true;
+					}
+				} else if (dfn[v] < dfn[u]) {
 					low[u] = Math.min(low[u], dfn[v]);
 				}
 			}
@@ -90,11 +90,12 @@ public class Code01_CutEdge1 {
 					if (low[v] > dfn[u]) {
 						cutEdge[e >> 1] = true;
 					}
-				} else {
-					if ((e ^ 1) != preEdge) {
-						low[u] = Math.min(low[u], dfn[v]);
-					}
+				} else if (dfn[v] < dfn[u]) {
+					low[u] = Math.min(low[u], dfn[v]);
 				}
+				e = nxt[e];
+			}
+			if ((e ^ 1) == preEdge) {
 				e = nxt[e];
 			}
 			if (e != 0) {

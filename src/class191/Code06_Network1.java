@@ -55,12 +55,12 @@ public class Code06_Network1 {
 		dfn[u] = low[u] = ++cntd;
 		sta[++top] = u;
 		for (int e = head[u]; e > 0; e = nxt[e]) {
-			int v = to[e];
-			if (dfn[v] == 0) {
-				tarjan(v, e);
-				low[u] = Math.min(low[u], low[v]);
-			} else {
-				if ((e ^ 1) != preEdge) {
+			if ((e ^ 1) != preEdge) {
+				int v = to[e];
+				if (dfn[v] == 0) {
+					tarjan(v, e);
+					low[u] = Math.min(low[u], low[v]);
+				} else if (dfn[v] < dfn[u]) {
 					low[u] = Math.min(low[u], dfn[v]);
 				}
 			}

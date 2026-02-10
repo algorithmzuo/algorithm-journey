@@ -65,21 +65,21 @@ public class Code03_CriticalNetworkLines1 {
 	public static void tarjan1(int u, int preEdge) {
 		dfn[u] = low[u] = ++cntd;
 		for (int e = head[u]; e > 0; e = nxt[e]) {
-			int v = to[e];
-			if (dfn[v] == 0) {
-				tarjan1(v, e);
-				low[u] = Math.min(low[u], low[v]);
-				if (low[v] > dfn[u]) {
-					if (acnt[v] == 0 || bcnt[v] == 0 || acnt[v] == l || bcnt[v] == k) {
-						cntAns++;
-						a[cntAns] = v;
-						b[cntAns] = u;
+			if ((e ^ 1) != preEdge) {
+				int v = to[e];
+				if (dfn[v] == 0) {
+					tarjan1(v, e);
+					low[u] = Math.min(low[u], low[v]);
+					if (low[v] > dfn[u]) {
+						if (acnt[v] == 0 || bcnt[v] == 0 || acnt[v] == l || bcnt[v] == k) {
+							cntAns++;
+							a[cntAns] = v;
+							b[cntAns] = u;
+						}
 					}
-				}
-				acnt[u] += acnt[v];
-				bcnt[u] += bcnt[v];
-			} else {
-				if ((e ^ 1) != preEdge) {
+					acnt[u] += acnt[v];
+					bcnt[u] += bcnt[v];
+				} else if (dfn[v] < dfn[u]) {
 					low[u] = Math.min(low[u], dfn[v]);
 				}
 			}
@@ -109,11 +109,12 @@ public class Code03_CriticalNetworkLines1 {
 					}
 					acnt[u] += acnt[v];
 					bcnt[u] += bcnt[v];
-				} else {
-					if ((e ^ 1) != preEdge) {
-						low[u] = Math.min(low[u], dfn[v]);
-					}
+				} else if (dfn[v] < dfn[u]) {
+					low[u] = Math.min(low[u], dfn[v]);
 				}
+				e = nxt[e];
+			}
+			if ((e ^ 1) == preEdge) {
 				e = nxt[e];
 			}
 			if (e != 0) {
