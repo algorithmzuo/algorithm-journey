@@ -10,7 +10,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.util.Arrays;
 
-public class Code04_GodCheat1 {
+public class Code03_GodCheat1 {
 
 	public static int MAXN = 10001;
 	public static int MAXM = 50001;
