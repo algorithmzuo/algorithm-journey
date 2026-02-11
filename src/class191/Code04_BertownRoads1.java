@@ -39,21 +39,23 @@ public class Code04_BertownRoads1 {
 	public static void tarjan(int u, int preEdge) {
 		dfn[u] = low[u] = ++cntd;
 		for (int e = head[u]; e > 0; e = nxt[e]) {
-			if ((e ^ 1) != preEdge) {
-				int v = to[e];
-				if (dfn[v] == 0 || dfn[v] < dfn[u]) {
-					a[++cnta] = u;
-					b[cnta] = v;
+			if ((e ^ 1) == preEdge) {
+				continue;
+			}
+			int v = to[e];
+			// 树边和回边需要处理，弃边不要处理
+			if (dfn[v] == 0 || dfn[v] < dfn[u]) {
+				a[++cnta] = u;
+				b[cnta] = v;
+			}
+			if (dfn[v] == 0) {
+				tarjan(v, e);
+				low[u] = Math.min(low[u], low[v]);
+				if (low[v] > dfn[u]) {
+					check = false;
 				}
-				if (dfn[v] == 0) {
-					tarjan(v, e);
-					low[u] = Math.min(low[u], low[v]);
-					if (low[v] > dfn[u]) {
-						check = false;
-					}
-				} else if (dfn[v] < dfn[u]) {
-					low[u] = Math.min(low[u], dfn[v]);
-				}
+			} else {
+				low[u] = Math.min(low[u], dfn[v]);
 			}
 		}
 	}

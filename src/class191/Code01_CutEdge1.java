@@ -68,11 +68,8 @@ public class Code01_CutEdge1 {
 				if (low[v] > dfn[u]) {
 					cutEdge[e >> 1] = true;
 				}
-			} else {
-				if (dfn[v] < dfn[u]) { // 回边
-					low[u] = Math.min(low[u], dfn[v]);
-				}
-				// 弃边
+			} else { // 回边或弃边
+				low[u] = Math.min(low[u], dfn[v]);
 			}
 		}
 	}
@@ -105,9 +102,7 @@ public class Code01_CutEdge1 {
 						cutEdge[e >> 1] = true;
 					}
 				} else {
-					if (dfn[v] < dfn[u]) {
-						low[u] = Math.min(low[u], dfn[v]);
-					}
+					low[u] = Math.min(low[u], dfn[v]);
 				}
 				e = nxt[e];
 			}
