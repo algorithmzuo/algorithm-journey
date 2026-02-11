@@ -58,22 +58,36 @@ public class Code01_CutEdge1 {
 	public static void tarjan1(int u, int preEdge) {
 		dfn[u] = low[u] = ++cntd;
 		for (int e = head[u]; e > 0; e = nxt[e]) {
-			if ((e ^ 1) != preEdge) {
-				int v = to[e];
-				if (dfn[v] == 0) {
-					tarjan1(v, e);
-					low[u] = Math.min(low[u], low[v]);
-					if (low[v] > dfn[u]) {
-						cutEdge[e >> 1] = true;
-					}
-				} else if (dfn[v] < dfn[u]) {
+			if ((e ^ 1) == preEdge) { // 来边
+				continue;
+			}
+			int v = to[e];
+			if (dfn[v] == 0) { // 树边
+				tarjan1(v, e);
+				low[u] = Math.min(low[u], low[v]);
+				if (low[v] > dfn[u]) {
+					cutEdge[e >> 1] = true;
+				}
+			} else {
+				if (dfn[v] < dfn[u]) { // 回边
 					low[u] = Math.min(low[u], dfn[v]);
 				}
+				// 弃边
 			}
 		}
 	}
 
 	// 迭代版
+	// u表示当前节点，preEdge表示来边
+	// e表示u当前处理的边
+	//     如果(e ^ 1) == preEdge，跳过当前边，对应递归版中的第一个if
+	//     如果e == 0，说明所有边都处理完了
+	// status的具体说明如下
+	//     如果status == -1，表示u没有遍历过任何儿子
+	//     如果status == 0，表示u遍历到儿子v，然后发现dfn[v] == 0
+	//         并且执行完了tarjan(v, e)，对应递归版for循环的第二个if
+	//     如果status == 1，表示u遍历到儿子v，然后发现dfn[v] != 0
+	//         对应递归版for循环中的else分支
 	public static void tarjan2(int node, int pree) {
 		stacksize = 0;
 		push(node, pree, -1, -1);
@@ -90,8 +104,10 @@ public class Code01_CutEdge1 {
 					if (low[v] > dfn[u]) {
 						cutEdge[e >> 1] = true;
 					}
-				} else if (dfn[v] < dfn[u]) {
-					low[u] = Math.min(low[u], dfn[v]);
+				} else {
+					if (dfn[v] < dfn[u]) {
+						low[u] = Math.min(low[u], dfn[v]);
+					}
 				}
 				e = nxt[e];
 			}
