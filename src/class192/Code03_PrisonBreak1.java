@@ -1,8 +1,7 @@
 package class192;
 
-// 追寻文物，java版
-// 测试链接 : https://www.luogu.com.cn/problem/CF652E
-// 测试链接 : https://codeforces.com/problemset/problem/652/E
+// 越狱老虎桥，java版
+// 测试链接 : https://www.luogu.com.cn/problem/P5234
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
 import java.io.IOException;
@@ -10,11 +9,11 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
-public class Code02_PursuitArtifacts1 {
+public class Code03_PrisonBreak1 {
 
-	public static int MAXN = 300001;
-	public static int MAXM = 300001;
-	public static int n, m, s, t;
+	public static int MAXN = 500001;
+	public static int MAXM = 1000001;
+	public static int n, m, maxv;
 	public static int[] a = new int[MAXM];
 	public static int[] b = new int[MAXM];
 	public static int[] c = new int[MAXM];
@@ -33,8 +32,11 @@ public class Code02_PursuitArtifacts1 {
 	public static int top;
 
 	public static int[] belong = new int[MAXN];
-	public static int[] val = new int[MAXN];
 	public static int ebccCnt;
+
+	public static int[] dist = new int[MAXN];
+	public static int diameter;
+	public static int edgeCnt;
 
 	public static void addEdge(int u, int v, int w) {
 		nxt[++cntg] = head[u];
@@ -77,32 +79,48 @@ public class Code02_PursuitArtifacts1 {
 			int ebcc1 = belong[a[i]];
 			int ebcc2 = belong[b[i]];
 			int w = c[i];
-			if (ebcc1 == ebcc2) {
-				if (w == 1) {
-					val[ebcc1] = 1;
-				}
-			} else {
+			if (ebcc1 != ebcc2) {
 				addEdge(ebcc1, ebcc2, w);
 				addEdge(ebcc2, ebcc1, w);
+				maxv = Math.max(maxv, w);
 			}
 		}
 	}
 
-	public static boolean check(int u, int fa, boolean ok) {
-		ok |= val[u] > 0;
-		if (u == t) {
-			return ok;
-		}
+	public static void dpOnTree(int u, int fa, int limit) {
 		for (int e = head[u]; e > 0; e = nxt[e]) {
 			int v = to[e];
-			int w = weight[e];
 			if (v != fa) {
-				if (check(v, u, ok || (w > 0))) {
-					return true;
-				}
+				dpOnTree(v, u, limit);
+				int w = weight[e] < limit ? 1 : 0;
+				edgeCnt += w;
+				diameter = Math.max(diameter, dist[u] + dist[v] + w);
+				dist[u] = Math.max(dist[u], dist[v] + w);
 			}
 		}
-		return false;
+	}
+
+	public static boolean check(int limit) {
+		for (int i = 1; i <= ebccCnt; i++) {
+			dist[i] = 0;
+		}
+		diameter = edgeCnt = 0;
+		dpOnTree(1, 0, limit);
+		return diameter == edgeCnt;
+	}
+
+	public static int compute() {
+		int l = 1, r = maxv + 1, mid, ans = -1;
+		while (l <= r) {
+			mid = (l + r) / 2;
+			if (check(mid)) {
+				ans = mid;
+				l = mid + 1;
+			} else {
+				r = mid - 1;
+			}
+		}
+		return ans;
 	}
 
 	public static void main(String[] args) throws Exception {
@@ -119,15 +137,11 @@ public class Code02_PursuitArtifacts1 {
 			addEdge(b[i], a[i], 0);
 		}
 		tarjan(1, 0);
-		condense();
-		s = in.nextInt();
-		t = in.nextInt();
-		s = belong[s];
-		t = belong[t];
-		if (check(s, 0, false)) {
-			out.println("YES");
+		if (ebccCnt == 1) {
+			out.println(-1);
 		} else {
-			out.println("NO");
+			condense();
+			out.println(compute());
 		}
 		out.flush();
 		out.close();
