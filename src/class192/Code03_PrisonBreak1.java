@@ -13,7 +13,8 @@ public class Code03_PrisonBreak1 {
 
 	public static int MAXN = 500001;
 	public static int MAXM = 1000001;
-	public static int n, m, maxv;
+	public static int INF = 1000000001;
+	public static int n, m;
 	public static int[] a = new int[MAXM];
 	public static int[] b = new int[MAXM];
 	public static int[] c = new int[MAXM];
@@ -82,7 +83,6 @@ public class Code03_PrisonBreak1 {
 			if (ebcc1 != ebcc2) {
 				addEdge(ebcc1, ebcc2, w);
 				addEdge(ebcc2, ebcc1, w);
-				maxv = Math.max(maxv, w);
 			}
 		}
 	}
@@ -110,7 +110,7 @@ public class Code03_PrisonBreak1 {
 	}
 
 	public static int compute() {
-		int l = 1, r = maxv + 1, mid, ans = -1;
+		int l = 1, r = INF, mid, ans = -1;
 		while (l <= r) {
 			mid = (l + r) / 2;
 			if (check(mid)) {
@@ -120,7 +120,7 @@ public class Code03_PrisonBreak1 {
 				r = mid - 1;
 			}
 		}
-		return ans;
+		return ans == INF ? -1 : ans;
 	}
 
 	public static void main(String[] args) throws Exception {
@@ -137,12 +137,8 @@ public class Code03_PrisonBreak1 {
 			addEdge(b[i], a[i], 0);
 		}
 		tarjan(1, 0);
-		if (ebccCnt == 1) {
-			out.println(-1);
-		} else {
-			condense();
-			out.println(compute());
-		}
+		condense();
+		out.println(compute());
 		out.flush();
 		out.close();
 	}
