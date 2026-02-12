@@ -13,8 +13,7 @@ public class Code03_PrisonBreak1 {
 
 	public static int MAXN = 500001;
 	public static int MAXM = 1000001;
-	public static int MAXV = 100001;
-	public static int n, m;
+	public static int n, m, maxv;
 	public static int[] a = new int[MAXM];
 	public static int[] b = new int[MAXM];
 	public static int[] c = new int[MAXM];
@@ -92,7 +91,7 @@ public class Code03_PrisonBreak1 {
 			int v = to[e];
 			if (v != fa) {
 				dpOnTree(v, u, limit);
-				int w = weight[e] < limit ? 1 : 0;
+				int w = weight[e] <= limit ? 1 : 0;
 				edgeCnt += w;
 				diameter = Math.max(diameter, dist[u] + dist[v] + w);
 				dist[u] = Math.max(dist[u], dist[v] + w);
@@ -106,21 +105,21 @@ public class Code03_PrisonBreak1 {
 		}
 		diameter = edgeCnt = 0;
 		dpOnTree(1, 0, limit);
-		return diameter == edgeCnt;
+		return diameter < edgeCnt;
 	}
 
 	public static int compute() {
-		int l = 1, r = MAXV, mid, ans = -1;
+		int l = 1, r = maxv, mid, ans = -1;
 		while (l <= r) {
 			mid = (l + r) / 2;
 			if (check(mid)) {
 				ans = mid;
-				l = mid + 1;
-			} else {
 				r = mid - 1;
+			} else {
+				l = mid + 1;
 			}
 		}
-		return ans == MAXV ? -1 : ans;
+		return ans;
 	}
 
 	public static void main(String[] args) throws Exception {
@@ -129,12 +128,14 @@ public class Code03_PrisonBreak1 {
 		cntg = 1;
 		n = in.nextInt();
 		m = in.nextInt();
+		maxv = 0;
 		for (int i = 1; i <= m; i++) {
 			a[i] = in.nextInt();
 			b[i] = in.nextInt();
 			c[i] = in.nextInt();
 			addEdge(a[i], b[i], 0);
 			addEdge(b[i], a[i], 0);
+			maxv = Math.max(maxv, c[i]);
 		}
 		tarjan(1, 0);
 		condense();
