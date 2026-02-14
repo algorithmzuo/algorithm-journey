@@ -2,10 +2,7 @@ package class192;
 
 // 旅行者，java版
 // 测试链接 : https://www.luogu.com.cn/problem/P7924
-// 提交以下的code，提交时请把类名改成"Main"
-// 逻辑一定是正确的，但是本题卡常，并且很多递归函数需要改成迭代版，索性算了
-// 想通过用C++实现，本节课Code05_Traveler2文件就是C++的实现
-// 两个版本的逻辑完全一样，C++版本可以通过所有测试
+// 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -44,13 +41,35 @@ public class Code05_Traveler1 {
 	public static int[] pass = new int[MAXN];
 	public static int ans;
 
+	// 迭代版需要的栈，讲解118讲了递归改迭代的技巧
+	public static int[][] stack = new int[MAXN][4];
+	public static int u, preEdge, status, e;
+	public static int stacksize;
+
+	public static void push(int u, int preEdge, int status, int e) {
+		stack[stacksize][0] = u;
+		stack[stacksize][1] = preEdge;
+		stack[stacksize][2] = status;
+		stack[stacksize][3] = e;
+		stacksize++;
+	}
+
+	public static void pop() {
+		stacksize--;
+		u = stack[stacksize][0];
+		preEdge = stack[stacksize][1];
+		status = stack[stacksize][2];
+		e = stack[stacksize][3];
+	}
+
 	public static void addEdge(int u, int v) {
 		nxt[++cntg] = head[u];
 		to[cntg] = v;
 		head[u] = cntg;
 	}
 
-	public static void tarjan(int u, int preEdge) {
+	// 递归版
+	public static void tarjan1(int u, int preEdge) {
 		dfn[u] = low[u] = ++cntd;
 		sta[++top] = u;
 		for (int e = head[u]; e > 0; e = nxt[e]) {
@@ -59,7 +78,7 @@ public class Code05_Traveler1 {
 			}
 			int v = to[e];
 			if (dfn[v] == 0) {
-				tarjan(v, e);
+				tarjan1(v, e);
 				low[u] = Math.min(low[u], low[v]);
 			} else {
 				low[u] = Math.min(low[u], dfn[v]);
@@ -73,6 +92,51 @@ public class Code05_Traveler1 {
 				belong[pop] = ebccCnt;
 				val[ebccCnt] += arr[pop];
 			} while (pop != u);
+		}
+	}
+
+	// 迭代版
+	public static void tarjan2(int node, int pree) {
+		stacksize = 0;
+		push(node, pree, -1, -1);
+		int v;
+		while (stacksize > 0) {
+			pop();
+			if (status == -1) {
+				dfn[u] = low[u] = ++cntd;
+				sta[++top] = u;
+				e = head[u];
+			} else {
+				v = to[e];
+				if (status == 0) {
+					low[u] = Math.min(low[u], low[v]);
+				} else {
+					low[u] = Math.min(low[u], dfn[v]);
+				}
+				e = nxt[e];
+			}
+			if ((e ^ 1) == preEdge) {
+				e = nxt[e];
+			}
+			if (e != 0) {
+				v = to[e];
+				if (dfn[v] == 0) {
+					push(u, preEdge, 0, e);
+					push(v, e, -1, -1);
+				} else {
+					push(u, preEdge, 1, e);
+				}
+			} else {
+				if (dfn[u] == low[u]) {
+					ebccCnt++;
+					int pop;
+					do {
+						pop = sta[top--];
+						belong[pop] = ebccCnt;
+						val[ebccCnt] += arr[pop];
+					} while (pop != u);
+				}
+			}
 		}
 	}
 
@@ -130,9 +194,7 @@ public class Code05_Traveler1 {
 		x = dfn[x];
 		y = dfn[y];
 		if (x > y) {
-			int tmp = x;
-			x = y;
-			y = tmp;
+			int tmp = x; x = y; y = tmp;
 		}
 		x++;
 		int k = lg2[y - x + 1];
@@ -167,7 +229,8 @@ public class Code05_Traveler1 {
 			addEdge(a[i], b[i]);
 			addEdge(b[i], a[i]);
 		}
-		tarjan(1, 0);
+		// tarjan1(1, 0);
+		tarjan2(1, 0);
 		condense();
 		buildRmq();
 		q = in.nextInt();
