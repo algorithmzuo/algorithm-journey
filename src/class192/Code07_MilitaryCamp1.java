@@ -159,18 +159,13 @@ public class Code07_MilitaryCamp1 {
 
 	// 递归版
 	public static void dpOnTree1(int u, int fa) {
-		for (int e = head[u]; e > 0; e = nxt[e]) {
-			int v = to[e];
-			if (v != fa) {
-				dpOnTree1(v, u);
-			}
-		}
 		tsiz[u] = 1;
 		dp[u][0] = 1;
 		dp[u][1] = power2[ebccSiz[u]] - 1;
 		for (int e = head[u]; e > 0; e = nxt[e]) {
 			int v = to[e];
 			if (v != fa) {
+				dpOnTree1(v, u);
 				tsiz[u] += tsiz[v];
 				long dp0 = dp[u][0];
 				long dp1 = dp[u][1];
@@ -194,6 +189,9 @@ public class Code07_MilitaryCamp1 {
 		while (stacksize > 0) {
 			pop();
 			if (e == -1) {
+				tsiz[u] = 1;
+				dp[u][0] = 1;
+				dp[u][1] = power2[ebccSiz[u]] - 1;
 				e = head[u];
 			} else {
 				e = nxt[e];
@@ -205,11 +203,8 @@ public class Code07_MilitaryCamp1 {
 					push(v, 0, 0, u, -1);
 				}
 			} else {
-				tsiz[u] = 1;
-				dp[u][0] = 1;
-				dp[u][1] = power2[ebccSiz[u]] - 1;
-				for (int e = head[u]; e > 0; e = nxt[e]) {
-					int v = to[e];
+				for (int ei = head[u]; ei > 0; ei = nxt[ei]) {
+					int v = to[ei];
 					if (v != fa) {
 						tsiz[u] += tsiz[v];
 						long dp0 = dp[u][0];
