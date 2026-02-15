@@ -36,7 +36,7 @@ package class192;
 //int lg2[MAXN];
 //int rmq[MAXN][MAXP];
 //
-//int pass[MAXN];
+//int passCnt[MAXN];
 //int ans;
 //
 //void addEdge(int u, int v) {
@@ -137,10 +137,10 @@ package class192;
 //        int v = to[e];
 //        if (v != fa) {
 //            getAns(v, u);
-//            pass[u] += pass[v];
+//            passCnt[u] += passCnt[v];
 //        }
 //    }
-//    if (pass[u] > 0) {
+//    if (passCnt[u] > 0) {
 //        ans += val[u];
 //    }
 //}
@@ -168,10 +168,10 @@ package class192;
 //        y = belong[y];
 //        xylca = getLCA(x, y);
 //        lcafa = getFather(xylca);
-//        pass[x]++;
-//        pass[y]++;
-//        pass[xylca]--;
-//        pass[lcafa]--;
+//        passCnt[x]++;
+//        passCnt[y]++;
+//        passCnt[xylca]--;
+//        passCnt[lcafa]--;
 //    }
 //    getAns(1, 0);
 //    cout << ans << "\n";

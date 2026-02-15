@@ -38,7 +38,7 @@ public class Code05_Traveler1 {
 	public static int[] lg2 = new int[MAXN];
 	public static int[][] rmq = new int[MAXN][MAXP];
 
-	public static int[] pass = new int[MAXN];
+	public static int[] passCnt = new int[MAXN];
 	public static int ans;
 
 	// 迭代版需要的栈，讲解118讲了递归改迭代的技巧
@@ -206,10 +206,10 @@ public class Code05_Traveler1 {
 			int v = to[e];
 			if (v != fa) {
 				getAns(v, u);
-				pass[u] += pass[v];
+				passCnt[u] += passCnt[v];
 			}
 		}
-		if (pass[u] > 0) {
+		if (passCnt[u] > 0) {
 			ans += val[u];
 		}
 	}
@@ -241,10 +241,10 @@ public class Code05_Traveler1 {
 			y = belong[y];
 			xylca = getLCA(x, y);
 			lcafa = getFather(xylca);
-			pass[x]++;
-			pass[y]++;
-			pass[xylca]--;
-			pass[lcafa]--;
+			passCnt[x]++;
+			passCnt[y]++;
+			passCnt[xylca]--;
+			passCnt[lcafa]--;
 		}
 		getAns(1, 0);
 		out.println(ans);
