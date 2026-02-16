@@ -1,6 +1,10 @@
 package class191;
 
 // 网络，java版
+// 给定一张无向图，一共n个点、m条边，接下来有q条操作，格式如下
+// 操作 x y : 点x和点y之间新增一条无向边，打印此时割边的数量
+// 1 <= n <= 10^5
+// 1 <= m <= 2 * 10^5
 // 测试链接 : https://acm.hdu.edu.cn/showproblem.php?pid=2460
 // 测试链接 : http://poj.org/problem?id=3694
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
