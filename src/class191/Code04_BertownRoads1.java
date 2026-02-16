@@ -26,8 +26,8 @@ public class Code04_BertownRoads1 {
 	public static int cntd;
 
 	public static boolean check;
-	public static int[] a = new int[MAXM];
-	public static int[] b = new int[MAXM];
+	public static int[] ans1 = new int[MAXM];
+	public static int[] ans2 = new int[MAXM];
 	public static int cnta;
 
 	public static void addEdge(int u, int v) {
@@ -45,8 +45,9 @@ public class Code04_BertownRoads1 {
 			int v = to[e];
 			// 树边和回边需要处理，弃边不要处理
 			if (dfn[v] == 0 || dfn[v] < dfn[u]) {
-				a[++cnta] = u;
-				b[cnta] = v;
+				cnta++;
+				ans1[cnta] = u;
+				ans2[cnta] = v;
 			}
 			if (dfn[v] == 0) {
 				tarjan(v, e);
@@ -78,7 +79,7 @@ public class Code04_BertownRoads1 {
 			out.println(0);
 		} else {
 			for (int i = 1; i <= cnta; i++) {
-				out.println(a[i] + " " + b[i]);
+				out.println(ans1[i] + " " + ans2[i]);
 			}
 		}
 		out.flush();
