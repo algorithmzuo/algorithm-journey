@@ -1,6 +1,10 @@
 package class191;
 
 // 冗余路径，java版
+// 给定一张无向图，一共n个点、m条边，保证所有点连通
+// 打印至少添加几条边可以让整张图变成一个边双连通分量
+// 1 <= n <= 5000
+// 1 <= m <= 10000
 // 测试链接 : https://www.luogu.com.cn/problem/P2860
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
@@ -65,6 +69,24 @@ public class Code07_RedundantPaths1 {
 		}
 	}
 
+	public static int getLeaf() {
+		for (int i = 1; i <= m; i++) {
+			int ebcc1 = belong[a[i]];
+			int ebcc2 = belong[b[i]];
+			if (ebcc1 != ebcc2) {
+				degree[ebcc1]++;
+				degree[ebcc2]++;
+			}
+		}
+		int ans = 0;
+		for (int i = 1; i <= ebccCnt; i++) {
+			if (degree[i] == 1) {
+				ans++;
+			}
+		}
+		return ans;
+	}
+
 	public static void main(String[] args) throws Exception {
 		FastReader in = new FastReader(System.in);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
@@ -77,25 +99,8 @@ public class Code07_RedundantPaths1 {
 			addEdge(a[i], b[i]);
 			addEdge(b[i], a[i]);
 		}
-		for (int i = 1; i <= n; i++) {
-			if (dfn[i] == 0) {
-				tarjan(i, 0);
-			}
-		}
-		for (int i = 1; i <= m; i++) {
-			int ebcc1 = belong[a[i]];
-			int ebcc2 = belong[b[i]];
-			if (ebcc1 != ebcc2) {
-				degree[ebcc1]++;
-				degree[ebcc2]++;
-			}
-		}
-		int leafCnt = 0;
-		for (int i = 1; i <= ebccCnt; i++) {
-			if (degree[i] == 1) {
-				leafCnt++;
-			}
-		}
+		tarjan(1, 0);
+		int leafCnt = getLeaf();
 		out.println((leafCnt + 1) / 2);
 		out.flush();
 		out.close();
