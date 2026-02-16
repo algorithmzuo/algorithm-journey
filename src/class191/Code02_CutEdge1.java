@@ -1,6 +1,10 @@
 package class191;
 
 // 割边模版题2，java版
+// 给定一张无向图，一共n个点、m条边，点的编号0~n-1
+// 找出图中所有的割边，返回每条割边的两个端点
+// 请保证原图即使有重边，答案依然正确
+// 1 <= n、m <= 10^5
 // 测试链接 : https://leetcode.cn/problems/critical-connections-in-a-network/
 // 提交以下代码中的Solution类，可以通过所有测试用例
 
