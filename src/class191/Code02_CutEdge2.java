@@ -1,7 +1,8 @@
 package class191;
 
 // 割边模版题2，C++版
-// 给定一张无向图，一共n个点、m条边，点的编号0~n-1
+// 给定一张无向图，一共n个点、m条边
+// 点的编号0~n-1，保证所有点连通
 // 找出图中所有的割边，返回每条割边的两个端点
 // 请保证原图即使有重边，答案依然正确
 // 1 <= n、m <= 10^5
@@ -74,11 +75,7 @@ package class191;
 //            addEdge(a[i], b[i]);
 //            addEdge(b[i], a[i]);
 //        }
-//        for (int i = 1; i <= n; i++) {
-//            if (dfn[i] == 0) {
-//                tarjan(i, 0);
-//            }
-//        }
+//        tarjan(1, 0);
 //        vector<vector<int>> ans;
 //        for (int i = 1; i <= m; i++) {
 //            if (cutEdge[i]) {
