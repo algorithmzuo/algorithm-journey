@@ -2,7 +2,7 @@ package class191;
 
 // 关键网络线路，java版
 // 给定一张无向图，一共n个点、m条边，保证所有点连通
-// 给定l个提供A服务的节点，给定k个提供B服务的节点
+// 给定k个提供A服务的节点，给定l个提供B服务的节点
 // 一个节点可能不提供服务，也可能提供A服务或者B服务或者两种都有
 // 每个节点可以通过边，获得任何节点提供的服务，但是必须同时获得两种服务
 // 如果断开某一条边，使得某些节点无法同时获得两种服务，这样的边叫关键边
@@ -21,7 +21,7 @@ public class Code03_CriticalNetworkLines1 {
 
 	public static int MAXN = 100001;
 	public static int MAXM = 1000001;
-	public static int n, m, l, k;
+	public static int n, m, k, l;
 	public static int[] acnt = new int[MAXN];
 	public static int[] bcnt = new int[MAXN];
 
@@ -80,7 +80,7 @@ public class Code03_CriticalNetworkLines1 {
 				tarjan1(v, e);
 				low[u] = Math.min(low[u], low[v]);
 				if (low[v] > dfn[u]) {
-					if (acnt[v] == 0 || bcnt[v] == 0 || acnt[v] == l || bcnt[v] == k) {
+					if (acnt[v] == 0 || bcnt[v] == 0 || acnt[v] == k || bcnt[v] == l) {
 						cnta++;
 						ans1[cnta] = v;
 						ans2[cnta] = u;
@@ -109,7 +109,7 @@ public class Code03_CriticalNetworkLines1 {
 				if (status == 0) {
 					low[u] = Math.min(low[u], low[v]);
 					if (low[v] > dfn[u]) {
-						if (acnt[v] == 0 || bcnt[v] == 0 || acnt[v] == l || bcnt[v] == k) {
+						if (acnt[v] == 0 || bcnt[v] == 0 || acnt[v] == k || bcnt[v] == l) {
 							cnta++;
 							ans1[cnta] = v;
 							ans2[cnta] = u;
@@ -143,13 +143,13 @@ public class Code03_CriticalNetworkLines1 {
 		cntg = 1;
 		n = in.nextInt();
 		m = in.nextInt();
-		l = in.nextInt();
 		k = in.nextInt();
-		for (int i = 1, x; i <= l; i++) {
+		l = in.nextInt();
+		for (int i = 1, x; i <= k; i++) {
 			x = in.nextInt();
 			acnt[x] = 1;
 		}
-		for (int i = 1, x; i <= k; i++) {
+		for (int i = 1, x; i <= l; i++) {
 			x = in.nextInt();
 			bcnt[x] = 1;
 		}
