@@ -1,7 +1,6 @@
 package class191;
 
 // 关键网络线路，java版
-// 原图即使有重边，答案依然正确
 // 测试链接 : https://www.luogu.com.cn/problem/P7687
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 

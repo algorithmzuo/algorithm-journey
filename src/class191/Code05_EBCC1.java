@@ -1,6 +1,6 @@
 package class191;
 
-// 边双连通分量模版题1，java版
+// 边双连通分量模版题，java版
 // 测试链接 : https://www.luogu.com.cn/problem/P8436
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
