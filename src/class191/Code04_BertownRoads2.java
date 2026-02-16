@@ -1,15 +1,14 @@
 package class191;
 
-// 关键网络线路，C++版
+// 贝尔敦道路，C++版
 // 给定一张无向图，一共n个点、m条边，保证所有点连通
-// 给定l个提供A服务的节点，给定k个提供B服务的节点
-// 一个节点可能不提供服务，也可能提供A服务或者B服务或者两种都有
-// 每个节点可以通过边，获得任何节点提供的服务，但是必须同时获得两种服务
-// 如果断开某一条边，使得某些节点无法同时获得两种服务，这样的边叫关键边
-// 打印关键边的数量，打印每条关键边的两个端点
+// 每条无向边需要指定一个方向，变成有向边，还要保证任意两点的连通性
+// 如果不存在方案打印0，如果存在方案，打印m条有向边
+// 可以任意次序打印有向边，如果方案不只一种，打印其中一种即可
 // 1 <= n <= 10^5
-// 1 <= m <= 10^6
-// 测试链接 : https://www.luogu.com.cn/problem/P7687
+// 1 <= m <= 3 * 10^5
+// 测试链接 : https://www.luogu.com.cn/problem/CF118E
+// 测试链接 : https://codeforces.com/problemset/problem/118/E
 // 如下实现是C++的版本，C++版本和java版本逻辑完全一样
 // 提交如下代码，可以通过所有测试用例
 
@@ -18,10 +17,8 @@ package class191;
 //using namespace std;
 //
 //const int MAXN = 100001;
-//const int MAXM = 1000001;
-//int n, m, l, k;
-//int acnt[MAXN];
-//int bcnt[MAXN];
+//const int MAXM = 300001;
+//int n, m;
 //
 //int head[MAXN];
 //int nxt[MAXM << 1];
@@ -32,8 +29,9 @@ package class191;
 //int low[MAXN];
 //int cntd;
 //
-//int ans1[MAXN];
-//int ans2[MAXN];
+//bool check;
+//int ans1[MAXM];
+//int ans2[MAXM];
 //int cnta;
 //
 //void addEdge(int u, int v) {
@@ -49,18 +47,17 @@ package class191;
 //            continue;
 //        }
 //        int v = to[e];
+//        if (dfn[v] == 0 || dfn[v] < dfn[u]) {
+//            cnta++;
+//            ans1[cnta] = u;
+//            ans2[cnta] = v;
+//        }
 //        if (dfn[v] == 0) {
 //            tarjan(v, e);
 //            low[u] = min(low[u], low[v]);
 //            if (low[v] > dfn[u]) {
-//                if (acnt[v] == 0 || bcnt[v] == 0 || acnt[v] == l || bcnt[v] == k) {
-//                    cnta++;
-//                    ans1[cnta] = v;
-//                    ans2[cnta] = u;
-//                }
+//                check = false;
 //            }
-//            acnt[u] += acnt[v];
-//            bcnt[u] += bcnt[v];
 //        } else {
 //            low[u] = min(low[u], dfn[v]);
 //        }
@@ -71,24 +68,20 @@ package class191;
 //    ios::sync_with_stdio(false);
 //    cin.tie(nullptr);
 //    cntg = 1;
-//    cin >> n >> m >> l >> k;
-//    for (int i = 1, x; i <= l; i++) {
-//        cin >> x;
-//        acnt[x] = 1;
-//    }
-//    for (int i = 1, x; i <= k; i++) {
-//        cin >> x;
-//        bcnt[x] = 1;
-//    }
+//    cin >> n >> m;
 //    for (int i = 1, u, v; i <= m; i++) {
 //        cin >> u >> v;
 //        addEdge(u, v);
 //        addEdge(v, u);
 //    }
+//    check = true;
 //    tarjan(1, 0);
-//    cout << cnta << "\n";
-//    for (int i = 1; i <= cnta; i++) {
-//        cout << ans1[i] << " " << ans2[i] << "\n";
+//    if (!check) {
+//        cout << 0 << "\n";
+//    } else {
+//        for (int i = 1; i <= m; i++) {
+//            cout << ans1[i] << " " << ans2[i] << "\n";
+//        }
 //    }
 //    return 0;
 //}
