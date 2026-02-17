@@ -1,6 +1,9 @@
 package class192;
 
 // 最多的桥，java版
+// 给定一张无向图，一共n个点、m条边，保证所有点连通
+// 沿途的边只能经过一次，找到能通过最多割边的路径，打印割边的数量
+// 1 <= n、m <= 3 * 10^5
 // 测试链接 : https://www.luogu.com.cn/problem/CF1000E
 // 测试链接 : https://codeforces.com/problemset/problem/1000/E
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
