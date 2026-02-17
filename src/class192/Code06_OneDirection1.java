@@ -38,11 +38,9 @@ public class Code06_OneDirection1 {
 	public static int[] dep = new int[MAXN];
 	public static int[][] stjump = new int[MAXN][MAXP];
 
+	public static boolean[] vis = new boolean[MAXN];
 	public static int[] upCnt = new int[MAXN];
 	public static int[] downCnt = new int[MAXN];
-
-	public static boolean ans;
-	public static boolean[] vis = new boolean[MAXN];
 
 	public static void addEdge(int u, int v) {
 		nxt[++cntg] = head[u];
@@ -128,19 +126,19 @@ public class Code06_OneDirection1 {
 		return stjump[a][0];
 	}
 
-	public static void check(int u, int fa) {
+	public static boolean check(int u, int fa) {
 		vis[u] = true;
 		for (int e = head[u]; e > 0; e = nxt[e]) {
 			int v = to[e];
 			if (v != fa) {
-				check(v, u);
+				if (!check(v, u)) {
+					return false;
+				}
 				upCnt[u] += upCnt[v];
 				downCnt[u] += downCnt[v];
 			}
 		}
-		if (upCnt[u] > 0 && downCnt[u] > 0) {
-			ans = false;
-		}
+		return upCnt[u] == 0 || downCnt[u] == 0;
 	}
 
 	public static void main(String[] args) throws Exception {
@@ -167,7 +165,7 @@ public class Code06_OneDirection1 {
 				dfs(i, 0, ++b);
 			}
 		}
-		ans = true;
+		boolean ans = true;
 		for (int i = 1, x, y, xylca; i <= q; i++) {
 			x = in.nextInt();
 			y = in.nextInt();
@@ -185,11 +183,9 @@ public class Code06_OneDirection1 {
 		}
 		if (ans) {
 			for (int i = 1; i <= ebccCnt; i++) {
-				if (!vis[i]) {
-					check(i, 0);
-					if (!ans) {
-						break;
-					}
+				if (!vis[i] && !check(i, 0)) {
+					ans = false;
+					break;
 				}
 			}
 		}
