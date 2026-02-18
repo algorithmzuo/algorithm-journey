@@ -53,7 +53,7 @@ package class191;
 //            tarjan(v, e);
 //            low[u] = min(low[u], low[v]);
 //            if (low[v] > dfn[u]) {
-//                if (acnt[v] == 0 || bcnt[v] == 0 || acnt[v] == k || bcnt[v] == l) {
+//                if (acnt[v] == 0 || acnt[v] == k || bcnt[v] == 0 || bcnt[v] == l) {
 //                    cnta++;
 //                    ans1[cnta] = v;
 //                    ans2[cnta] = u;
