@@ -63,7 +63,7 @@ public class Code01_CutEdge1 {
 	public static void tarjan1(int u, int preEdge) {
 		dfn[u] = low[u] = ++cntd;
 		for (int e = head[u]; e > 0; e = nxt[e]) {
-			if ((e ^ 1) == preEdge) { // 来边
+			if ((e ^ 1) == preEdge) { // 从哪条边来的要忽略
 				continue;
 			}
 			int v = to[e];
@@ -74,6 +74,8 @@ public class Code01_CutEdge1 {
 					cutEdge[e >> 1] = true;
 				}
 			} else { // 回边或弃边
+				// 回边是dfn[v] < dfn[u]，弃边是dfn[v] > dfn[u]
+				// 因为low[u]初始值就是dfn[u]，所以弃边出现时，无法更新low[u]
 				low[u] = Math.min(low[u], dfn[v]);
 			}
 		}
