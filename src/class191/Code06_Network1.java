@@ -6,7 +6,6 @@ package class191;
 // 1 <= n <= 10^5
 // 1 <= m <= 2 * 10^5
 // 测试链接 : https://acm.hdu.edu.cn/showproblem.php?pid=2460
-// 测试链接 : http://poj.org/problem?id=3694
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
 import java.io.IOException;
