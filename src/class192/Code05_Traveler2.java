@@ -1,6 +1,15 @@
 package class192;
 
 // 旅行家，C++版
+// 给定一张无向图，一共n个点、m条边，每个点给定点权，保证所有点连通
+// 一条路径要求，点可以重复经过，边不能重复经过
+// 一共有q条操作，格式 x y : 从点x到点y所有可能的路径都走一遍
+// 一共q条操作，可能涉及非常多的路径，如果一条路径通过了某个点
+// 该点的点权就算入收益，但是以后再有其他路径通过该点，不重复获得收益
+// 打印总收益是多少
+// 1 <= n <= 5 * 10^5
+// 1 <= m <= 2 * 10^6
+// 1 <= q <= 10^6
 // 测试链接 : https://www.luogu.com.cn/problem/P7924
 // 如下实现是C++的版本，C++版本和java版本逻辑完全一样
 // 提交如下代码，可以通过所有测试用例
@@ -30,7 +39,7 @@ package class192;
 //int top;
 //
 //int belong[MAXN];
-//int val[MAXN];
+//int sum[MAXN];
 //int ebccCnt;
 //
 //int lg2[MAXN];
@@ -66,7 +75,7 @@ package class192;
 //        do {
 //            pop = sta[top--];
 //            belong[pop] = ebccCnt;
-//            val[ebccCnt] += arr[pop];
+//            sum[ebccCnt] += arr[pop];
 //        } while (pop != u);
 //    }
 //}
@@ -141,7 +150,7 @@ package class192;
 //        }
 //    }
 //    if (passCnt[u] > 0) {
-//        ans += val[u];
+//        ans += sum[u];
 //    }
 //}
 //
