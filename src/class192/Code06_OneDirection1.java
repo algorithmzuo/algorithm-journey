@@ -1,6 +1,11 @@
 package class192;
 
 // 只能一个方向，java版
+// 给定一张无向图，一共n个点、m条边，图上可能有多个连通区
+// 给定q条要求，格式 x y : 从点x出发，要求可以去往点y
+// 你必须把每条无向边变成有向边，也就是每条边确定唯一的方向
+// 如果改造后能满足所有要求，打印"Yes"，如果不存在方案，打印"No"
+// 1 <= n、m <= 2 * 10^5
 // 测试链接 : https://www.luogu.com.cn/problem/CF555E
 // 测试链接 : https://codeforces.com/problemset/problem/555/E
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
@@ -105,9 +110,7 @@ public class Code06_OneDirection1 {
 
 	public static int getLca(int a, int b) {
 		if (dep[a] < dep[b]) {
-			int tmp = a;
-			a = b;
-			b = tmp;
+			int tmp = a; a = b; b = tmp;
 		}
 		for (int p = MAXP - 1; p >= 0; p--) {
 			if (dep[stjump[a][p]] >= dep[b]) {
