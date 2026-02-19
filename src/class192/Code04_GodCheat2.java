@@ -147,7 +147,7 @@ package class192;
 //}
 //
 //int getDist(int x, int y) {
-//    return dep[x] + dep[y] - 2 * dep[getLca(x, y)] + 1;
+//    return dep[x] + dep[y] - 2 * dep[getLca(x, y)];
 //}
 //
 //string toBinaryString(int x) {
@@ -182,7 +182,7 @@ package class192;
 //        cin >> x >> y;
 //        x = belong[x];
 //        y = belong[y];
-//        cout << toBinaryString(getDist(x, y)) << "\n";
+//        cout << toBinaryString(getDist(x, y) + 1) << "\n";
 //    }
 //    return 0;
 //}

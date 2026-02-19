@@ -142,7 +142,7 @@ public class Code04_GodCheat1 {
 	}
 
 	public static int getDist(int x, int y) {
-		return dep[x] + dep[y] - 2 * dep[getLca(x, y)] + 1;
+		return dep[x] + dep[y] - 2 * dep[getLca(x, y)];
 	}
 
 	public static void main(String[] args) throws Exception {
@@ -167,7 +167,7 @@ public class Code04_GodCheat1 {
 			y = in.nextInt();
 			x = belong[x];
 			y = belong[y];
-			out.println(Integer.toBinaryString(getDist(x, y)));
+			out.println(Integer.toBinaryString(getDist(x, y) + 1));
 		}
 		out.flush();
 		out.close();
