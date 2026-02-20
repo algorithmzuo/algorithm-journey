@@ -46,7 +46,8 @@ public class Code07_MilitaryCamp1 {
 	// power2[i] = 2的i次方
 	public static long[] power2 = new long[MAXM];
 
-	// dp[u] : 子树u上至少修建一个军营，可以考虑的点集为原图的点，可以考虑的边集只有割边
+	// dp[u] : 子树u上至少修建一个军营
+	//         可以考虑的点集为原图的点，可以考虑的边集只有割边
 	//         从军营到点u的所有割边都派人把守的情况下，合法的方案数
 	public static long[] dp = new long[MAXN];
 
