@@ -44,8 +44,8 @@ package class192;
 //int ebccCnt;
 //
 //ll power2[MAXM];
-//int bridge[MAXN];
 //ll dp[MAXN];
+//int bridge[MAXN];
 //
 //void addEdge(int u, int v) {
 //    nxt[++cntg] = head[u];
@@ -96,8 +96,8 @@ package class192;
 //}
 //
 //void dpOnTree(int u, int fa) {
-//    bridge[u] = 0;
 //    dp[u] = power2[ebccSiz[u]] - 1;
+//    bridge[u] = 0;
 //    for (int e = head[u]; e > 0; e = nxt[e]) {
 //        int v = to[e];
 //        if (v != fa) {

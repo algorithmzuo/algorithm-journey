@@ -44,8 +44,8 @@ public class Code07_MilitaryCamp1 {
 	public static int ebccCnt;
 
 	public static long[] power2 = new long[MAXM];
-	public static int[] bridge = new int[MAXN];
 	public static long[] dp = new long[MAXN];
+	public static int[] bridge = new int[MAXN];
 
 	// 迭代版需要的栈，讲解118讲了递归改迭代的技巧
 	public static int[][] stack = new int[MAXN][5];
@@ -167,8 +167,8 @@ public class Code07_MilitaryCamp1 {
 
 	// 递归版
 	public static void dpOnTree1(int u, int fa) {
-		bridge[u] = 0;
 		dp[u] = power2[ebccSiz[u]] - 1;
+		bridge[u] = 0;
 		for (int e = head[u]; e > 0; e = nxt[e]) {
 			int v = to[e];
 			if (v != fa) {
@@ -189,8 +189,8 @@ public class Code07_MilitaryCamp1 {
 		while (stacksize > 0) {
 			pop();
 			if (e == -1) {
-				bridge[u] = 0;
 				dp[u] = power2[ebccSiz[u]] - 1;
+				bridge[u] = 0;
 				e = head[u];
 			} else {
 				e = nxt[e];
