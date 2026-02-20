@@ -110,6 +110,21 @@ package class192;
 //    }
 //}
 //
+//ll compute() {
+//    power2[0] = 1;
+//    for (int i = 1; i <= m; i++) {
+//        power2[i] = power2[i - 1] * 2 % MOD;
+//    }
+//    dpOnTree(1, 0);
+//    int total = bridge[1];
+//    ll ans = dp[1];
+//    for (int i = 2; i <= ebccCnt; i++) {
+//        ans = (ans + dp[i] * power2[total - bridge[i] - 1] % MOD) % MOD;
+//    }
+//    ans = ans * power2[m - total] % MOD;
+//    return ans;
+//}
+//
 //int main() {
 //    ios::sync_with_stdio(false);
 //    cin.tie(nullptr);
@@ -122,15 +137,7 @@ package class192;
 //    }
 //    tarjan(1, 0);
 //    condense();
-//    power2[0] = 1;
-//    for (int i = 1; i <= m; i++) {
-//        power2[i] = power2[i - 1] * 2 % MOD;
-//    }
-//    dpOnTree(1, 0);
-//    ll ans = dp[1] * power2[m - bridge[1]] % MOD;
-//    for (int i = 2; i <= ebccCnt; i++) {
-//        ans = (ans + dp[i] * power2[m - bridge[i] - 1] % MOD) % MOD;
-//    }
+//    ll ans = compute();
 //    cout << ans << "\n";
 //    return 0;
 //}

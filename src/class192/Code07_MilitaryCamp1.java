@@ -221,6 +221,22 @@ public class Code07_MilitaryCamp1 {
 		}
 	}
 
+	public static long compute() {
+		power2[0] = 1;
+		for (int i = 1; i <= m; i++) {
+			power2[i] = power2[i - 1] * 2 % MOD;
+		}
+		// dpOnTree1(1, 0);
+		dpOnTree2(1, 0);
+		int total = bridge[1];
+		long ans = dp[1];
+		for (int i = 2; i <= ebccCnt; i++) {
+			ans = (ans + dp[i] * power2[total - bridge[i] - 1] % MOD) % MOD;
+		}
+		ans = ans * power2[m - total] % MOD;
+		return ans;
+	}
+
 	public static void main(String[] args) throws Exception {
 		FastReader in = new FastReader(System.in);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
@@ -236,16 +252,7 @@ public class Code07_MilitaryCamp1 {
 		// tarjan1(1, 0);
 		tarjan2(1, 0);
 		condense();
-		power2[0] = 1;
-		for (int i = 1; i <= m; i++) {
-			power2[i] = power2[i - 1] * 2 % MOD;
-		}
-		// dpOnTree1(1, 0);
-		dpOnTree2(1, 0);
-		long ans = dp[1] * power2[m - bridge[1]] % MOD;
-		for (int i = 2; i <= ebccCnt; i++) {
-			ans = (ans + dp[i] * power2[m - bridge[i] - 1] % MOD) % MOD;
-		}
+		long ans = compute();
 		out.println(ans);
 		out.flush();
 		out.close();
