@@ -173,13 +173,17 @@ public class Code07_MilitaryCamp1 {
 
 	// 递归版
 	public static void dpOnTree1(int u, int fa) {
+		// 情况1，不考虑下方的节点，在u自己的边双连通分量里，选点造军营
 		dp[u] = power2[ebccSiz[u]] - 1;
 		bridge[u] = 0;
 		for (int e = head[u]; e > 0; e = nxt[e]) {
 			int v = to[e];
 			if (v != fa) {
 				dpOnTree1(v, u);
-				dp[u] = (dp[u] * power2[bridge[v] + 1] % MOD
+				// 情况2，之前部分的方案数 * 子树v完全不造军营时割边的自由发挥 * u到v的割边自由发挥
+				// 情况3，之前部分完全不造军营时割边的自由发挥 * 子树v的方案数
+				// 情况4，之前部分的方案数 * 子树v的方案数
+				dp[u] = (dp[u] * power2[bridge[v]] * 2 % MOD
 						+ power2[bridge[u]] * dp[v] % MOD
 						+ dp[u] * dp[v] % MOD)
 						% MOD;

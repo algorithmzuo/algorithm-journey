@@ -102,7 +102,7 @@ package class192;
 //        int v = to[e];
 //        if (v != fa) {
 //            dpOnTree(v, u);
-//            dp[u] = (dp[u] * power2[bridge[v] + 1] % MOD
+//            dp[u] = (dp[u] * power2[bridge[v]] * 2 % MOD
 //                    + power2[bridge[u]] * dp[v] % MOD
 //                    + dp[u] * dp[v] % MOD) % MOD;
 //            bridge[u] += bridge[v] + 1;
