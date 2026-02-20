@@ -45,8 +45,7 @@ package class192;
 //int lg2[MAXN];
 //int rmq[MAXN][MAXP];
 //
-//int passCnt[MAXN];
-//int ans;
+//int useCnt[MAXN];
 //
 //void addEdge(int u, int v) {
 //    nxt[++cntg] = head[u];
@@ -141,16 +140,13 @@ package class192;
 //    return getUp(rmq[x][k], rmq[y - (1 << k) + 1][k]);
 //}
 //
-//void getAns(int u, int fa) {
+//void dfsOnTree(int u, int fa) {
 //    for (int e = head[u]; e > 0; e = nxt[e]) {
 //        int v = to[e];
 //        if (v != fa) {
-//            getAns(v, u);
-//            passCnt[u] += passCnt[v];
+//            dfsOnTree(v, u);
+//            useCnt[u] += useCnt[v];
 //        }
-//    }
-//    if (passCnt[u] > 0) {
-//        ans += sum[u];
 //    }
 //}
 //
@@ -177,12 +173,18 @@ package class192;
 //        y = belong[y];
 //        xylca = getLCA(x, y);
 //        lcafa = getFather(xylca);
-//        passCnt[x]++;
-//        passCnt[y]++;
-//        passCnt[xylca]--;
-//        passCnt[lcafa]--;
+//        useCnt[x]++;
+//        useCnt[y]++;
+//        useCnt[xylca]--;
+//        useCnt[lcafa]--;
 //    }
-//    getAns(1, 0);
+//    dfsOnTree(1, 0);
+//    int ans = 0;
+//    for (int i = 1; i <= ebccCnt; i++) {
+//        if (useCnt[i] > 0) {
+//            ans += sum[i];
+//        }
+//    }
 //    cout << ans << "\n";
 //    return 0;
 //}

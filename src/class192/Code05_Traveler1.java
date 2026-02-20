@@ -47,8 +47,7 @@ public class Code05_Traveler1 {
 	public static int[] lg2 = new int[MAXN];
 	public static int[][] rmq = new int[MAXN][MAXP];
 
-	public static int[] passCnt = new int[MAXN];
-	public static int ans;
+	public static int[] useCnt = new int[MAXN];
 
 	// 迭代版需要的栈，讲解118讲了递归改迭代的技巧
 	public static int[][] stack = new int[MAXN][4];
@@ -210,16 +209,13 @@ public class Code05_Traveler1 {
 		return getUp(rmq[x][k], rmq[y - (1 << k) + 1][k]);
 	}
 
-	public static void getAns(int u, int fa) {
+	public static void dfsOnTree(int u, int fa) {
 		for (int e = head[u]; e > 0; e = nxt[e]) {
 			int v = to[e];
 			if (v != fa) {
-				getAns(v, u);
-				passCnt[u] += passCnt[v];
+				dfsOnTree(v, u);
+				useCnt[u] += useCnt[v];
 			}
-		}
-		if (passCnt[u] > 0) {
-			ans += sum[u];
 		}
 	}
 
@@ -250,12 +246,18 @@ public class Code05_Traveler1 {
 			y = belong[y];
 			xylca = getLCA(x, y);
 			lcafa = getFather(xylca);
-			passCnt[x]++;
-			passCnt[y]++;
-			passCnt[xylca]--;
-			passCnt[lcafa]--;
+			useCnt[x]++;
+			useCnt[y]++;
+			useCnt[xylca]--;
+			useCnt[lcafa]--;
 		}
-		getAns(1, 0);
+		dfsOnTree(1, 0);
+		int ans = 0;
+		for (int i = 1; i <= ebccCnt; i++) {
+			if (useCnt[i] > 0) {
+				ans += sum[i];
+			}
+		}
 		out.println(ans);
 		out.flush();
 		out.close();
