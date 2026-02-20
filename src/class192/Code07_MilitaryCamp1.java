@@ -44,9 +44,8 @@ public class Code07_MilitaryCamp1 {
 	public static int ebccCnt;
 
 	public static long[] power2 = new long[MAXM];
-	public static int[] tsiz = new int[MAXN];
-	public static long[][] dp = new long[MAXN][2];
-	public static long ans;
+	public static long[] dp = new long[MAXN];
+	public static int[] cut = new int[MAXN];
 
 	// 迭代版需要的栈，讲解118讲了递归改迭代的技巧
 	public static int[][] stack = new int[MAXN][5];
@@ -168,27 +167,16 @@ public class Code07_MilitaryCamp1 {
 
 	// 递归版
 	public static void dpOnTree1(int u, int fa) {
-		tsiz[u] = 1;
-		dp[u][0] = 1;
-		dp[u][1] = power2[ebccSiz[u]] - 1;
+		cut[u] = 0;
+		dp[u] = power2[ebccSiz[u]] - 1;
 		for (int e = head[u]; e > 0; e = nxt[e]) {
 			int v = to[e];
 			if (v != fa) {
 				dpOnTree1(v, u);
-				tsiz[u] += tsiz[v];
-				long dp0 = dp[u][0];
-				long dp1 = dp[u][1];
-				dp[u][0] = dp0 * 2 % MOD * dp[v][0] % MOD;
-				dp[u][1] = dp1 * 2 % MOD * dp[v][0] % MOD;
-				dp[u][1] = (dp[u][1] + dp0 * dp[v][1] % MOD) % MOD;
-				dp[u][1] = (dp[u][1] + dp1 * dp[v][1] % MOD) % MOD;
+				dp[u] = (dp[u] * power2[cut[v] + 1] % MOD + power2[cut[u]] * dp[v] % MOD + dp[u] * dp[v] % MOD) % MOD;
+				cut[u] += cut[v] + 1;
 			}
 		}
-		int p = tsiz[u];
-		if (u == 1) {
-			p--;
-		}
-		ans = (ans + dp[u][1] * power2[m - p] % MOD) % MOD;
 	}
 
 	// 迭代版
@@ -198,9 +186,8 @@ public class Code07_MilitaryCamp1 {
 		while (stacksize > 0) {
 			pop();
 			if (e == -1) {
-				tsiz[u] = 1;
-				dp[u][0] = 1;
-				dp[u][1] = power2[ebccSiz[u]] - 1;
+				cut[u] = 0;
+				dp[u] = power2[ebccSiz[u]] - 1;
 				e = head[u];
 			} else {
 				e = nxt[e];
@@ -215,20 +202,13 @@ public class Code07_MilitaryCamp1 {
 				for (int ei = head[u]; ei > 0; ei = nxt[ei]) {
 					int v = to[ei];
 					if (v != fa) {
-						tsiz[u] += tsiz[v];
-						long dp0 = dp[u][0];
-						long dp1 = dp[u][1];
-						dp[u][0] = dp0 * 2 % MOD * dp[v][0] % MOD;
-						dp[u][1] = dp1 * 2 % MOD * dp[v][0] % MOD;
-						dp[u][1] = (dp[u][1] + dp0 * dp[v][1] % MOD) % MOD;
-						dp[u][1] = (dp[u][1] + dp1 * dp[v][1] % MOD) % MOD;
+						dp[u] = (dp[u] * power2[cut[v] + 1] % MOD
+								+ power2[cut[u]] * dp[v] % MOD
+								+ dp[u] * dp[v] % MOD)
+								% MOD;
+						cut[u] += cut[v] + 1;
 					}
 				}
-				int p = tsiz[u];
-				if (u == 1) {
-					p--;
-				}
-				ans = (ans + dp[u][1] * power2[m - p] % MOD) % MOD;
 			}
 		}
 	}
@@ -254,6 +234,10 @@ public class Code07_MilitaryCamp1 {
 		}
 		// dpOnTree1(1, 0);
 		dpOnTree2(1, 0);
+		long ans = dp[1] * power2[m - cut[1]] % MOD;
+		for (int i = 2; i <= ebccCnt; i++) {
+			ans = (ans + dp[i] * power2[m - cut[i] - 1] % MOD) % MOD;
+		}
 		out.println(ans);
 		out.flush();
 		out.close();

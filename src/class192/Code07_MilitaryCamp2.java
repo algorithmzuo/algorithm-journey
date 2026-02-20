@@ -44,9 +44,8 @@ package class192;
 //int ebccCnt;
 //
 //ll power2[MAXM];
-//int tsiz[MAXN];
-//ll dp[MAXN][2];
-//ll ans;
+//ll dp[MAXN];
+//int cut[MAXN];
 //
 //void addEdge(int u, int v) {
 //    nxt[++cntg] = head[u];
@@ -97,27 +96,16 @@ package class192;
 //}
 //
 //void dpOnTree(int u, int fa) {
-//    tsiz[u] = 1;
-//    dp[u][0] = 1;
-//    dp[u][1] = power2[ebccSiz[u]] - 1;
+//    cut[u] = 0;
+//    dp[u] = power2[ebccSiz[u]] - 1;
 //    for (int e = head[u]; e > 0; e = nxt[e]) {
 //        int v = to[e];
 //        if (v != fa) {
 //            dpOnTree(v, u);
-//            tsiz[u] += tsiz[v];
-//            ll dp0 = dp[u][0];
-//            ll dp1 = dp[u][1];
-//            dp[u][0] = dp0 * 2 % MOD * dp[v][0] % MOD;
-//            dp[u][1] = dp1 * 2 % MOD * dp[v][0] % MOD;
-//            dp[u][1] = (dp[u][1] + dp0 * dp[v][1] % MOD) % MOD;
-//            dp[u][1] = (dp[u][1] + dp1 * dp[v][1] % MOD) % MOD;
+//            dp[u] = (dp[u] * power2[cut[v] + 1] % MOD + power2[cut[u]] * dp[v] % MOD + dp[u] * dp[v] % MOD) % MOD;
+//            cut[u] += cut[v] + 1;
 //        }
 //    }
-//    int p = tsiz[u];
-//    if (u == 1) {
-//        p--;
-//    }
-//    ans = (ans + dp[u][1] * power2[m - p] % MOD) % MOD;
 //}
 //
 //int main() {
@@ -137,6 +125,10 @@ package class192;
 //        power2[i] = power2[i - 1] * 2 % MOD;
 //    }
 //    dpOnTree(1, 0);
+//    ll ans = dp[1] * power2[m - cut[1]] % MOD;
+//    for (int i = 2; i <= ebccCnt; i++) {
+//        ans = (ans + dp[i] * power2[m - cut[i] - 1] % MOD) % MOD;
+//    }
 //    cout << ans << "\n";
 //    return 0;
 //}
