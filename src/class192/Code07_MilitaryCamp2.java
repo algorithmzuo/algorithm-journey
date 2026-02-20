@@ -44,8 +44,8 @@ package class192;
 //int ebccCnt;
 //
 //ll power2[MAXM];
-//ll dp[MAXN];
 //int bridge[MAXN];
+//ll dp[MAXN];
 //
 //void addEdge(int u, int v) {
 //    nxt[++cntg] = head[u];

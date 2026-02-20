@@ -44,8 +44,8 @@ public class Code07_MilitaryCamp1 {
 	public static int ebccCnt;
 
 	public static long[] power2 = new long[MAXM];
-	public static long[] dp = new long[MAXN];
 	public static int[] bridge = new int[MAXN];
+	public static long[] dp = new long[MAXN];
 
 	// 迭代版需要的栈，讲解118讲了递归改迭代的技巧
 	public static int[][] stack = new int[MAXN][5];
