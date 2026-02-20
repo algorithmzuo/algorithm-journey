@@ -45,7 +45,7 @@ public class Code07_MilitaryCamp1 {
 
 	public static long[] power2 = new long[MAXM];
 	public static long[] dp = new long[MAXN];
-	public static int[] cut = new int[MAXN];
+	public static int[] bridge = new int[MAXN];
 
 	// 迭代版需要的栈，讲解118讲了递归改迭代的技巧
 	public static int[][] stack = new int[MAXN][5];
@@ -167,14 +167,17 @@ public class Code07_MilitaryCamp1 {
 
 	// 递归版
 	public static void dpOnTree1(int u, int fa) {
-		cut[u] = 0;
+		bridge[u] = 0;
 		dp[u] = power2[ebccSiz[u]] - 1;
 		for (int e = head[u]; e > 0; e = nxt[e]) {
 			int v = to[e];
 			if (v != fa) {
 				dpOnTree1(v, u);
-				dp[u] = (dp[u] * power2[cut[v] + 1] % MOD + power2[cut[u]] * dp[v] % MOD + dp[u] * dp[v] % MOD) % MOD;
-				cut[u] += cut[v] + 1;
+				dp[u] = (dp[u] * power2[bridge[v] + 1] % MOD
+						+ power2[bridge[u]] * dp[v] % MOD
+						+ dp[u] * dp[v] % MOD)
+						% MOD;
+				bridge[u] += bridge[v] + 1;
 			}
 		}
 	}
@@ -186,7 +189,7 @@ public class Code07_MilitaryCamp1 {
 		while (stacksize > 0) {
 			pop();
 			if (e == -1) {
-				cut[u] = 0;
+				bridge[u] = 0;
 				dp[u] = power2[ebccSiz[u]] - 1;
 				e = head[u];
 			} else {
@@ -202,11 +205,10 @@ public class Code07_MilitaryCamp1 {
 				for (int ei = head[u]; ei > 0; ei = nxt[ei]) {
 					int v = to[ei];
 					if (v != fa) {
-						dp[u] = (dp[u] * power2[cut[v] + 1] % MOD
-								+ power2[cut[u]] * dp[v] % MOD
-								+ dp[u] * dp[v] % MOD)
-								% MOD;
-						cut[u] += cut[v] + 1;
+						dp[u] = (dp[u] * power2[bridge[v] + 1] % MOD
+								+ power2[bridge[u]] * dp[v] % MOD
+								+ dp[u] * dp[v] % MOD) % MOD;
+						bridge[u] += bridge[v] + 1;
 					}
 				}
 			}
@@ -234,9 +236,9 @@ public class Code07_MilitaryCamp1 {
 		}
 		// dpOnTree1(1, 0);
 		dpOnTree2(1, 0);
-		long ans = dp[1] * power2[m - cut[1]] % MOD;
+		long ans = dp[1] * power2[m - bridge[1]] % MOD;
 		for (int i = 2; i <= ebccCnt; i++) {
-			ans = (ans + dp[i] * power2[m - cut[i] - 1] % MOD) % MOD;
+			ans = (ans + dp[i] * power2[m - bridge[i] - 1] % MOD) % MOD;
 		}
 		out.println(ans);
 		out.flush();

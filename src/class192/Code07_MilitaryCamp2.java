@@ -45,7 +45,7 @@ package class192;
 //
 //ll power2[MAXM];
 //ll dp[MAXN];
-//int cut[MAXN];
+//int bridge[MAXN];
 //
 //void addEdge(int u, int v) {
 //    nxt[++cntg] = head[u];
@@ -96,14 +96,16 @@ package class192;
 //}
 //
 //void dpOnTree(int u, int fa) {
-//    cut[u] = 0;
+//    bridge[u] = 0;
 //    dp[u] = power2[ebccSiz[u]] - 1;
 //    for (int e = head[u]; e > 0; e = nxt[e]) {
 //        int v = to[e];
 //        if (v != fa) {
 //            dpOnTree(v, u);
-//            dp[u] = (dp[u] * power2[cut[v] + 1] % MOD + power2[cut[u]] * dp[v] % MOD + dp[u] * dp[v] % MOD) % MOD;
-//            cut[u] += cut[v] + 1;
+//            dp[u] = (dp[u] * power2[bridge[v] + 1] % MOD
+//                    + power2[bridge[u]] * dp[v] % MOD
+//                    + dp[u] * dp[v] % MOD) % MOD;
+//            bridge[u] += bridge[v] + 1;
 //        }
 //    }
 //}
@@ -125,9 +127,9 @@ package class192;
 //        power2[i] = power2[i - 1] * 2 % MOD;
 //    }
 //    dpOnTree(1, 0);
-//    ll ans = dp[1] * power2[m - cut[1]] % MOD;
+//    ll ans = dp[1] * power2[m - bridge[1]] % MOD;
 //    for (int i = 2; i <= ebccCnt; i++) {
-//        ans = (ans + dp[i] * power2[m - cut[i] - 1] % MOD) % MOD;
+//        ans = (ans + dp[i] * power2[m - bridge[i] - 1] % MOD) % MOD;
 //    }
 //    cout << ans << "\n";
 //    return 0;
