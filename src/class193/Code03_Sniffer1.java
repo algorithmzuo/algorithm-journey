@@ -1,7 +1,7 @@
 package class193;
 
-// 点双连通分量模版题1，java版
-// 测试链接 : https://www.luogu.com.cn/problem/P8435
+// 嗅探器，java版
+// 测试链接 : https://www.luogu.com.cn/problem/P5058
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
 import java.io.IOException;
@@ -9,11 +9,11 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
-public class Code04_VBCC1 {
+public class Code03_Sniffer1 {
 
-	public static int MAXN = 500001;
-	public static int MAXM = 2000001;
-	public static int n, m;
+	public static int MAXN = 200001;
+	public static int MAXM = 500001;
+	public static int n, a, b;
 
 	public static int[] head = new int[MAXN];
 	public static int[] nxt = new int[MAXM << 1];
@@ -24,15 +24,7 @@ public class Code04_VBCC1 {
 	public static int[] low = new int[MAXN];
 	public static int cntd;
 
-	public static int[] sta = new int[MAXN];
-	public static int top;
-
-	public static int[] vbccSiz = new int[MAXN];
-	public static int[] vbccArr = new int[MAXN << 1];
-	public static int[] vbccl = new int[MAXN];
-	public static int[] vbccr = new int[MAXN];
-	public static int idx;
-	public static int vbccCnt;
+	public static boolean[] cutVertex = new boolean[MAXN];
 
 	// 迭代版需要的栈，讲解118讲了递归改迭代的技巧
 	public static int[][] stack = new int[MAXN][4];
@@ -64,31 +56,15 @@ public class Code04_VBCC1 {
 	// 递归版
 	public static void tarjan1(int u, boolean root) {
 		dfn[u] = low[u] = ++cntd;
-		sta[++top] = u;
-		if (root && head[u] == 0) {
-			vbccCnt++;
-			vbccSiz[vbccCnt] = 1;
-			vbccArr[++idx] = u;
-			vbccl[vbccCnt] = vbccr[vbccCnt] = idx;
-			return;
-		}
 		for (int e = head[u]; e > 0; e = nxt[e]) {
 			int v = to[e];
 			if (dfn[v] == 0) {
 				tarjan1(v, false);
 				low[u] = Math.min(low[u], low[v]);
 				if (low[v] >= dfn[u]) {
-					vbccCnt++;
-					vbccSiz[vbccCnt] = 1;
-					vbccArr[++idx] = u;
-					vbccl[vbccCnt] = idx;
-					int pop;
-					do {
-						pop = sta[top--];
-						vbccSiz[vbccCnt]++;
-						vbccArr[++idx] = pop;
-					} while (pop != v);
-					vbccr[vbccCnt] = idx;
+					if (!root && dfn[b] >= dfn[v]) {
+						cutVertex[u] = true;
+					}
 				}
 			} else {
 				low[u] = Math.min(low[u], dfn[v]);
@@ -105,32 +81,15 @@ public class Code04_VBCC1 {
 			pop();
 			if (status == -1) {
 				dfn[u] = low[u] = ++cntd;
-				sta[++top] = u;
-				if (root == 1 && head[u] == 0) {
-					vbccCnt++;
-					vbccSiz[vbccCnt] = 1;
-					vbccArr[++idx] = u;
-					vbccl[vbccCnt] = vbccr[vbccCnt] = idx;
-					continue;
-				} else {
-					e = head[u];
-				}
+				e = head[u];
 			} else {
 				v = to[e];
 				if (status == 0) {
 					low[u] = Math.min(low[u], low[v]);
 					if (low[v] >= dfn[u]) {
-						vbccCnt++;
-						vbccSiz[vbccCnt] = 1;
-						vbccArr[++idx] = u;
-						vbccl[vbccCnt] = idx;
-						int pop;
-						do {
-							pop = sta[top--];
-							vbccSiz[vbccCnt]++;
-							vbccArr[++idx] = pop;
-						} while (pop != v);
-						vbccr[vbccCnt] = idx;
+						if (root == 0 && dfn[b] >= dfn[v]) {
+							cutVertex[u] = true;
+						}
 					}
 				} else {
 					low[u] = Math.min(low[u], dfn[v]);
@@ -153,28 +112,28 @@ public class Code04_VBCC1 {
 		FastReader in = new FastReader(System.in);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
 		n = in.nextInt();
-		m = in.nextInt();
-		for (int i = 1, u, v; i <= m; i++) {
-			u = in.nextInt();
-			v = in.nextInt();
-			if (u != v) {
-				addEdge(u, v);
-				addEdge(v, u);
-			}
+		a = in.nextInt();
+		b = in.nextInt();
+		while (a != 0 || b != 0) {
+			addEdge(a, b);
+			addEdge(b, a);
+			a = in.nextInt();
+			b = in.nextInt();
 		}
+		a = in.nextInt();
+		b = in.nextInt();
+		// tarjan1(a, true);
+		tarjan2(a, true);
+		boolean check = false;
 		for (int i = 1; i <= n; i++) {
-			if (dfn[i] == 0) {
-				// tarjan1(i, true);
-				tarjan2(i, true);
+			if (cutVertex[i]) {
+				out.println(i);
+				check = true;
+				break;
 			}
 		}
-		out.println(vbccCnt);
-		for (int i = 1; i <= vbccCnt; i++) {
-			out.println(vbccSiz[i]);
-			for (int j = vbccl[i]; j <= vbccr[i]; j++) {
-				out.print(vbccArr[j] + " ");
-			}
-			out.println();
+		if (!check) {
+			out.println("No solution");
 		}
 		out.flush();
 		out.close();
