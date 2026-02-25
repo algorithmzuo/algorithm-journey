@@ -14,12 +14,17 @@ public class Code02_NetworkDamage1 {
 	public static int MAXN = 20001;
 	public static int MAXM = 100001;
 	public static int MAXP = 16;
-	public static int n, m, q;
+	public static int n, m, q, cntn;
 
-	public static int[] head = new int[MAXN << 1];
-	public static int[] nxt = new int[MAXM << 2];
-	public static int[] to = new int[MAXM << 2];
-	public static int cntg;
+	public static int[] head1 = new int[MAXN];
+	public static int[] next1 = new int[MAXM << 1];
+	public static int[] to1 = new int[MAXM << 1];
+	public static int cnt1;
+
+	public static int[] head2 = new int[MAXN << 1];
+	public static int[] next2 = new int[MAXM << 2];
+	public static int[] to2 = new int[MAXM << 2];
+	public static int cnt2;
 
 	public static int[] dfn = new int[MAXN];
 	public static int[] low = new int[MAXN];
@@ -28,67 +33,59 @@ public class Code02_NetworkDamage1 {
 	public static int[] sta = new int[MAXN];
 	public static int top;
 
-	public static int[] vbccArr = new int[MAXN << 1];
-	public static int[] vbccl = new int[MAXN];
-	public static int[] vbccr = new int[MAXN];
-	public static int idx;
-	public static int vbccCnt;
-
 	public static int[] dep = new int[MAXN << 1];
 	public static int[][] stjump = new int[MAXN << 1][MAXP];
 
 	// 迭代版需要的栈，讲解118讲了递归改迭代的技巧
-	public static int[][] stack = new int[MAXN][4];
-	public static int u, root, status, e;
+	public static int[][] stack = new int[MAXN << 1][3];
+	public static int u, status, e;
 	public static int stacksize;
 
-	public static void push(int u, int root, int status, int e) {
+	public static void push(int u, int status, int e) {
 		stack[stacksize][0] = u;
-		stack[stacksize][1] = root;
-		stack[stacksize][2] = status;
-		stack[stacksize][3] = e;
+		stack[stacksize][1] = status;
+		stack[stacksize][2] = e;
 		stacksize++;
 	}
 
 	public static void pop() {
 		stacksize--;
 		u = stack[stacksize][0];
-		root = stack[stacksize][1];
-		status = stack[stacksize][2];
-		e = stack[stacksize][3];
+		status = stack[stacksize][1];
+		e = stack[stacksize][2];
 	}
 
-	public static void addEdge(int u, int v) {
-		nxt[++cntg] = head[u];
-		to[cntg] = v;
-		head[u] = cntg;
+	public static void addEdge1(int u, int v) {
+		next1[++cnt1] = head1[u];
+		to1[cnt1] = v;
+		head1[u] = cnt1;
 	}
 
-	// 递归版，每个点双连通分量收集拥有的节点
-	public static void tarjan1(int u, boolean root) {
+	public static void addEdge2(int u, int v) {
+		next2[++cnt2] = head2[u];
+		to2[cnt2] = v;
+		head2[u] = cnt2;
+	}
+
+	// 递归版
+	public static void tarjan1(int u) {
 		dfn[u] = low[u] = ++cntd;
 		sta[++top] = u;
-		if (root && head[u] == 0) {
-			vbccCnt++;
-			vbccArr[++idx] = u;
-			vbccl[vbccCnt] = vbccr[vbccCnt] = idx;
-			return;
-		}
-		for (int e = head[u]; e > 0; e = nxt[e]) {
-			int v = to[e];
+		for (int e = head1[u]; e > 0; e = next1[e]) {
+			int v = to1[e];
 			if (dfn[v] == 0) {
-				tarjan1(v, false);
+				tarjan1(v);
 				low[u] = Math.min(low[u], low[v]);
 				if (low[v] == dfn[u]) {
-					vbccCnt++;
-					vbccArr[++idx] = u;
-					vbccl[vbccCnt] = idx;
+					cntn++;
+					addEdge2(cntn, u);
+					addEdge2(u, cntn);
 					int pop;
 					do {
 						pop = sta[top--];
-						vbccArr[++idx] = pop;
+						addEdge2(cntn, pop);
+						addEdge2(pop, cntn);
 					} while (pop != v);
-					vbccr[vbccCnt] = idx;
 				}
 			} else {
 				low[u] = Math.min(low[u], dfn[v]);
@@ -96,66 +93,45 @@ public class Code02_NetworkDamage1 {
 		}
 	}
 
-	// 迭代版，每个点双连通分量收集拥有的节点
-	public static void tarjan2(int node, boolean rt) {
+	// 迭代版
+	public static void tarjan2(int node) {
 		stacksize = 0;
-		push(node, rt ? 1 : 0, -1, -1);
+		push(node, -1, -1);
 		int v;
 		while (stacksize > 0) {
 			pop();
 			if (status == -1) {
 				dfn[u] = low[u] = ++cntd;
 				sta[++top] = u;
-				if (root == 1 && head[u] == 0) {
-					vbccCnt++;
-					vbccArr[++idx] = u;
-					vbccl[vbccCnt] = vbccr[vbccCnt] = idx;
-					continue;
-				} else {
-					e = head[u];
-				}
+				e = head1[u];
 			} else {
-				v = to[e];
+				v = to1[e];
 				if (status == 0) {
 					low[u] = Math.min(low[u], low[v]);
 					if (low[v] == dfn[u]) {
-						vbccCnt++;
-						vbccArr[++idx] = u;
-						vbccl[vbccCnt] = idx;
+						cntn++;
+						addEdge2(cntn, u);
+						addEdge2(u, cntn);
 						int pop;
 						do {
 							pop = sta[top--];
-							vbccArr[++idx] = pop;
+							addEdge2(cntn, pop);
+							addEdge2(pop, cntn);
 						} while (pop != v);
-						vbccr[vbccCnt] = idx;
 					}
 				} else {
 					low[u] = Math.min(low[u], dfn[v]);
 				}
-				e = nxt[e];
+				e = next1[e];
 			}
 			if (e != 0) {
-				v = to[e];
+				v = to1[e];
 				if (dfn[v] == 0) {
-					push(u, root, 0, e);
-					push(v, 0, -1, -1);
+					push(u, 0, e);
+					push(v, -1, -1);
 				} else {
-					push(u, root, 1, e);
+					push(u, 1, e);
 				}
-			}
-		}
-	}
-
-	// 根据点双连通分量拥有的节点建立圆方树
-	public static void condense() {
-		cntg = 0;
-		for (int i = 1; i <= n; i++) {
-			head[i] = 0;
-		}
-		for (int i = 1, vbcc = 1 + n; i <= vbccCnt; i++, vbcc++) {
-			for (int j = vbccl[i]; j <= vbccr[i]; j++) {
-				addEdge(vbcc, vbccArr[j]);
-				addEdge(vbccArr[j], vbcc);
 			}
 		}
 	}
@@ -167,8 +143,8 @@ public class Code02_NetworkDamage1 {
 		for (int p = 1; p < MAXP; p++) {
 			stjump[u][p] = stjump[stjump[u][p - 1]][p - 1];
 		}
-		for (int e = head[u]; e > 0; e = nxt[e]) {
-			int v = to[e];
+		for (int e = head2[u]; e > 0; e = next2[e]) {
+			int v = to2[e];
 			if (v != fa) {
 				dfs(v, u);
 			}
@@ -209,15 +185,15 @@ public class Code02_NetworkDamage1 {
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
 		n = in.nextInt();
 		m = in.nextInt();
+		cntn = n;
 		for (int i = 1, u, v; i <= m; i++) {
 			u = in.nextInt();
 			v = in.nextInt();
-			addEdge(u, v);
-			addEdge(v, u);
+			addEdge1(u, v);
+			addEdge1(v, u);
 		}
-		// tarjan1(1, true);
-		tarjan2(1, true);
-		condense();
+		// tarjan1(1);
+		tarjan2(1);
 		dfs(1, 0);
 		q = in.nextInt();
 		for (int i = 1, x, y, z; i <= q; i++) {

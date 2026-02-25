@@ -1,7 +1,7 @@
 package class194;
 
-// 道路相遇，java版
-// 测试链接 : https://www.luogu.com.cn/problem/P4320
+// 铁人两项，java版
+// 测试链接 : https://www.luogu.com.cn/problem/P4630
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
 import java.io.IOException;
@@ -9,12 +9,11 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
-public class Code01_RoadsMeet1 {
+public class Code03_Duathlon1 {
 
-	public static int MAXN = 500001;
-	public static int MAXM = 1000001;
-	public static int MAXP = 20;
-	public static int n, m, q, cntn;
+	public static int MAXN = 100001;
+	public static int MAXM = 200001;
+	public static int n, m, cntn;
 
 	public static int[] head1 = new int[MAXN];
 	public static int[] next1 = new int[MAXM << 1];
@@ -33,8 +32,10 @@ public class Code01_RoadsMeet1 {
 	public static int[] sta = new int[MAXN];
 	public static int top;
 
-	public static int[] dep = new int[MAXN << 1];
-	public static int[][] stjump = new int[MAXN << 1][MAXP];
+	public static int[] val = new int[MAXN << 1];
+	public static int[] siz = new int[MAXN << 1];
+	public static int num;
+	public static long ans;
 
 	// 迭代版需要的栈，讲解118讲了递归改迭代的技巧
 	public static int[][] stack = new int[MAXN << 1][4];
@@ -73,6 +74,8 @@ public class Code01_RoadsMeet1 {
 	public static void tarjan1(int u) {
 		dfn[u] = low[u] = ++cntd;
 		sta[++top] = u;
+		num++;
+		val[u] = -1;
 		for (int e = head1[u]; e > 0; e = next1[e]) {
 			int v = to1[e];
 			if (dfn[v] == 0) {
@@ -82,11 +85,13 @@ public class Code01_RoadsMeet1 {
 					cntn++;
 					addEdge2(cntn, u);
 					addEdge2(u, cntn);
+					val[cntn]++;
 					int pop;
 					do {
 						pop = sta[top--];
 						addEdge2(cntn, pop);
 						addEdge2(pop, cntn);
+						val[cntn]++;
 					} while (pop != v);
 				}
 			} else {
@@ -105,6 +110,8 @@ public class Code01_RoadsMeet1 {
 			if (status == -1) {
 				dfn[u] = low[u] = ++cntd;
 				sta[++top] = u;
+				num++;
+				val[u] = -1;
 				e = head1[u];
 			} else {
 				v = to1[e];
@@ -114,11 +121,13 @@ public class Code01_RoadsMeet1 {
 						cntn++;
 						addEdge2(cntn, u);
 						addEdge2(u, cntn);
+						val[cntn]++;
 						int pop;
 						do {
 							pop = sta[top--];
 							addEdge2(cntn, pop);
 							addEdge2(pop, cntn);
+							val[cntn]++;
 						} while (pop != v);
 					}
 				} else {
@@ -138,32 +147,35 @@ public class Code01_RoadsMeet1 {
 		}
 	}
 
-	// 递归版，圆方树上建立深度和倍增表
+	// 递归版
 	public static void dfs1(int u, int fa) {
-		dep[u] = dep[fa] + 1;
-		stjump[u][0] = fa;
-		for (int p = 1; p < MAXP; p++) {
-			stjump[u][p] = stjump[stjump[u][p - 1]][p - 1];
+		if (u <= n) {
+			siz[u] = 1;
+		} else {
+			siz[u] = 0;
 		}
 		for (int e = head2[u]; e > 0; e = next2[e]) {
 			int v = to2[e];
 			if (v != fa) {
 				dfs1(v, u);
+				ans += 2L * siz[u] * siz[v] * val[u];
+				siz[u] += siz[v];
 			}
 		}
+		ans += 2L * siz[u] * (num - siz[u]) * val[u];
 	}
 
-	// 迭代版，圆方树上建立深度和倍增表
+	// 迭代版
 	public static void dfs2(int cur, int father) {
 		stacksize = 0;
-		push(cur, 0, father, -1);
+		push(cur, 0, fa, -1);
 		while (stacksize > 0) {
 			pop();
 			if (e == -1) {
-				dep[u] = dep[fa] + 1;
-				stjump[u][0] = fa;
-				for (int p = 1; p < MAXP; p++) {
-					stjump[u][p] = stjump[stjump[u][p - 1]][p - 1];
+				if (u <= n) {
+					siz[u] = 1;
+				} else {
+					siz[u] = 0;
 				}
 				e = head2[u];
 			} else {
@@ -174,37 +186,17 @@ public class Code01_RoadsMeet1 {
 				if (to2[e] != fa) {
 					push(to2[e], 0, u, -1);
 				}
+			} else {
+				for (int ei = head2[u]; ei > 0; ei = next2[ei]) {
+					int v = to2[ei];
+					if (v != fa) {
+						ans += 2L * siz[u] * siz[v] * val[u];
+						siz[u] += siz[v];
+					}
+				}
+				ans += 2L * siz[u] * (num - siz[u]) * val[u];
 			}
 		}
-	}
-
-	// 圆方树上任意两点的最低公共祖先
-	public static int getLca(int a, int b) {
-		if (dep[a] < dep[b]) {
-			int tmp = a;
-			a = b;
-			b = tmp;
-		}
-		for (int p = MAXP - 1; p >= 0; p--) {
-			if (dep[stjump[a][p]] >= dep[b]) {
-				a = stjump[a][p];
-			}
-		}
-		if (a == b) {
-			return a;
-		}
-		for (int p = MAXP - 1; p >= 0; p--) {
-			if (stjump[a][p] != stjump[b][p]) {
-				a = stjump[a][p];
-				b = stjump[b][p];
-			}
-		}
-		return stjump[a][0];
-	}
-
-	// 圆方树上任意两点间的距离
-	public static int getDist(int x, int y) {
-		return dep[x] + dep[y] - 2 * dep[getLca(x, y)];
 	}
 
 	public static void main(String[] args) throws Exception {
@@ -219,16 +211,16 @@ public class Code01_RoadsMeet1 {
 			addEdge1(u, v);
 			addEdge1(v, u);
 		}
-		// tarjan1(1);
-		tarjan2(1);
-		// dfs1(1, 0);
-		dfs2(1, 0);
-		q = in.nextInt();
-		for (int i = 1, x, y; i <= q; i++) {
-			x = in.nextInt();
-			y = in.nextInt();
-			out.println(getDist(x, y) / 2 + 1);
+		for (int i = 1; i <= n; i++) {
+			if (dfn[i] == 0) {
+				num = 0;
+				// tarjan1(i);
+				tarjan2(i);
+				// dfs1(i, 0);
+				dfs2(i, 0);
+			}
 		}
+		out.println(ans);
 		out.flush();
 		out.close();
 	}
