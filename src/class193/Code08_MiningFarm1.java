@@ -71,7 +71,7 @@ public class Code08_MiningFarm1 {
 				son++;
 				tarjan(v, false);
 				low[u] = Math.min(low[u], low[v]);
-				if (low[v] >= dfn[u]) {
+				if (low[v] == dfn[u]) {
 					if (!root || son >= 2) {
 						cutVertex[u] = true;
 					}

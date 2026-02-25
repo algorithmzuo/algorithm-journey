@@ -72,7 +72,7 @@ public class Code04_Blockade1 {
 				tarjan1(v, false);
 				low[u] = Math.min(low[u], low[v]);
 				siz[u] += siz[v];
-				if (low[v] >= dfn[u]) {
+				if (low[v] == dfn[u]) {
 					if (!root || son >= 2) {
 						cutVertex[u] = true;
 					}
@@ -106,7 +106,7 @@ public class Code04_Blockade1 {
 				if (status == 0) {
 					low[u] = Math.min(low[u], low[v]);
 					siz[u] += siz[v];
-					if (low[v] >= dfn[u]) {
+					if (low[v] == dfn[u]) {
 						if (root == 0 || son >= 2) {
 							cutVertex[u] = true;
 						}

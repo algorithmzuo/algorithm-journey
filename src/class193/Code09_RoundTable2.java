@@ -68,7 +68,7 @@ package class193;
 //        if (dfn[v] == 0) {
 //            tarjan(v, false);
 //            low[u] = min(low[u], low[v]);
-//            if (low[v] >= dfn[u]) {
+//            if (low[v] == dfn[u]) {
 //                vbccCnt++;
 //                vbccArr[++idx] = u;
 //                vbccl[vbccCnt] = idx;
