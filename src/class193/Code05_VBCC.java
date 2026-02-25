@@ -9,7 +9,7 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
-public class Code05_VBCC1 {
+public class Code05_VBCC {
 
 	public static int MAXN = 500001;
 	public static int MAXM = 2000001;
@@ -35,24 +35,22 @@ public class Code05_VBCC1 {
 	public static int vbccCnt;
 
 	// 迭代版需要的栈，讲解118讲了递归改迭代的技巧
-	public static int[][] stack = new int[MAXN][4];
-	public static int u, root, status, e;
+	public static int[][] stack = new int[MAXN][3];
+	public static int u, status, e;
 	public static int stacksize;
 
-	public static void push(int u, int root, int status, int e) {
+	public static void push(int u, int status, int e) {
 		stack[stacksize][0] = u;
-		stack[stacksize][1] = root;
-		stack[stacksize][2] = status;
-		stack[stacksize][3] = e;
+		stack[stacksize][1] = status;
+		stack[stacksize][2] = e;
 		stacksize++;
 	}
 
 	public static void pop() {
 		stacksize--;
 		u = stack[stacksize][0];
-		root = stack[stacksize][1];
-		status = stack[stacksize][2];
-		e = stack[stacksize][3];
+		status = stack[stacksize][1];
+		e = stack[stacksize][2];
 	}
 
 	public static void addEdge(int u, int v) {
@@ -62,20 +60,13 @@ public class Code05_VBCC1 {
 	}
 
 	// 递归版
-	public static void tarjan1(int u, boolean root) {
+	public static void tarjan1(int u) {
 		dfn[u] = low[u] = ++cntd;
 		sta[++top] = u;
-		if (root && head[u] == 0) {
-			vbccCnt++;
-			vbccSiz[vbccCnt] = 1;
-			vbccArr[++idx] = u;
-			vbccl[vbccCnt] = vbccr[vbccCnt] = idx;
-			return;
-		}
 		for (int e = head[u]; e > 0; e = nxt[e]) {
 			int v = to[e];
 			if (dfn[v] == 0) {
-				tarjan1(v, false);
+				tarjan1(v);
 				low[u] = Math.min(low[u], low[v]);
 				if (low[v] == dfn[u]) {
 					vbccCnt++;
@@ -97,24 +88,16 @@ public class Code05_VBCC1 {
 	}
 
 	// 迭代版
-	public static void tarjan2(int node, boolean rt) {
+	public static void tarjan2(int node) {
 		stacksize = 0;
-		push(node, rt ? 1 : 0, -1, -1);
+		push(node, -1, -1);
 		int v;
 		while (stacksize > 0) {
 			pop();
 			if (status == -1) {
 				dfn[u] = low[u] = ++cntd;
 				sta[++top] = u;
-				if (root == 1 && head[u] == 0) {
-					vbccCnt++;
-					vbccSiz[vbccCnt] = 1;
-					vbccArr[++idx] = u;
-					vbccl[vbccCnt] = vbccr[vbccCnt] = idx;
-					continue;
-				} else {
-					e = head[u];
-				}
+				e = head[u];
 			} else {
 				v = to[e];
 				if (status == 0) {
@@ -140,10 +123,10 @@ public class Code05_VBCC1 {
 			if (e != 0) {
 				v = to[e];
 				if (dfn[v] == 0) {
-					push(u, root, 0, e);
-					push(v, 0, -1, -1);
+					push(u, 0, e);
+					push(v, -1, -1);
 				} else {
-					push(u, root, 1, e);
+					push(u, 1, e);
 				}
 			}
 		}
@@ -164,8 +147,15 @@ public class Code05_VBCC1 {
 		}
 		for (int i = 1; i <= n; i++) {
 			if (dfn[i] == 0) {
-				// tarjan1(i, true);
-				tarjan2(i, true);
+				if (head[i] == 0) {
+					vbccCnt++;
+					vbccSiz[vbccCnt] = 1;
+					vbccArr[++idx] = i;
+					vbccl[vbccCnt] = vbccr[vbccCnt] = idx;
+				} else {
+					// tarjan1(i);
+					tarjan2(i);
+				}
 			}
 		}
 		out.println(vbccCnt);

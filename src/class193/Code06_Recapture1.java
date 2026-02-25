@@ -7,7 +7,7 @@ package class193;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Code07_Recapture1 {
+public class Code06_Recapture1 {
 
 	class Solution {
 
@@ -48,12 +48,6 @@ public class Code07_Recapture1 {
 		public static void tarjan(int u, boolean root) {
 			dfn[u] = low[u] = ++cntd;
 			sta[++top] = u;
-			if (root && head[u] == 0) {
-				ArrayList<Integer> list = new ArrayList<>();
-				list.add(u);
-				vbccArr.add(list);
-				return;
-			}
 			int son = 0;
 			for (int e = head[u]; e > 0; e = nxt[e]) {
 				int v = to[e];

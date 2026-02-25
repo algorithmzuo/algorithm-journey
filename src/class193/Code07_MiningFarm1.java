@@ -9,7 +9,7 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
-public class Code08_MiningFarm1 {
+public class Code07_MiningFarm1 {
 
 	public static int MAXN = 1001;
 	public static int MAXM = 1001;
@@ -57,13 +57,6 @@ public class Code08_MiningFarm1 {
 	public static void tarjan(int u, boolean root) {
 		dfn[u] = low[u] = ++cntd;
 		sta[++top] = u;
-		if (root && head[u] == 0) {
-			vbccCnt++;
-			vbccSiz[vbccCnt] = 1;
-			vbccArr[++idx] = u;
-			vbccl[vbccCnt] = vbccr[vbccCnt] = idx;
-			return;
-		}
 		int son = 0;
 		for (int e = head[u]; e > 0; e = nxt[e]) {
 			int v = to[e];

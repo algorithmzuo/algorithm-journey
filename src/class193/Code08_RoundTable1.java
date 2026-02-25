@@ -10,7 +10,7 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
-public class Code09_RoundTable1 {
+public class Code08_RoundTable1 {
 
 	public static int MAXN = 1001;
 	public static int MAXM = 1000001;
@@ -56,19 +56,13 @@ public class Code09_RoundTable1 {
 		head[u] = cntg;
 	}
 
-	public static void tarjan(int u, boolean root) {
+	public static void tarjan(int u) {
 		dfn[u] = low[u] = ++cntd;
 		sta[++top] = u;
-		if (root && head[u] == 0) {
-			vbccCnt++;
-			vbccArr[++idx] = u;
-			vbccl[vbccCnt] = vbccr[vbccCnt] = idx;
-			return;
-		}
 		for (int e = head[u]; e > 0; e = nxt[e]) {
 			int v = to[e];
 			if (dfn[v] == 0) {
-				tarjan(v, false);
+				tarjan(v);
 				low[u] = Math.min(low[u], low[v]);
 				if (low[v] == dfn[u]) {
 					vbccCnt++;
@@ -149,7 +143,7 @@ public class Code09_RoundTable1 {
 			}
 			for (int i = 1; i <= n; i++) {
 				if (dfn[i] == 0) {
-					tarjan(i, true);
+					tarjan(i);
 				}
 			}
 			int ans = compute();
