@@ -65,7 +65,7 @@ public class Code08_RoundTable1 {
 			if (dfn[v] == 0) {
 				tarjan(v);
 				low[u] = Math.min(low[u], low[v]);
-				if (low[v] == dfn[u]) {
+				if (low[v] >= dfn[u]) {
 					vbccCnt++;
 					vbccArr[++idx] = u;
 					vbccl[vbccCnt] = idx;

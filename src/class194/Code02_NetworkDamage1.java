@@ -76,7 +76,7 @@ public class Code02_NetworkDamage1 {
 			if (dfn[v] == 0) {
 				tarjan1(v);
 				low[u] = Math.min(low[u], low[v]);
-				if (low[v] == dfn[u]) {
+				if (low[v] >= dfn[u]) {
 					cntn++;
 					addEdge2(cntn, u);
 					addEdge2(u, cntn);
@@ -108,7 +108,7 @@ public class Code02_NetworkDamage1 {
 				v = to1[e];
 				if (status == 0) {
 					low[u] = Math.min(low[u], low[v]);
-					if (low[v] == dfn[u]) {
+					if (low[v] >= dfn[u]) {
 						cntn++;
 						addEdge2(cntn, u);
 						addEdge2(u, cntn);

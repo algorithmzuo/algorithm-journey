@@ -61,7 +61,7 @@ public class Code03_Sniffer1 {
 			if (dfn[v] == 0) {
 				tarjan1(v, false);
 				low[u] = Math.min(low[u], low[v]);
-				if (low[v] == dfn[u]) {
+				if (low[v] >= dfn[u]) {
 					if (!root && dfn[b] >= dfn[v]) {
 						cutVertex[u] = true;
 					}
@@ -86,7 +86,7 @@ public class Code03_Sniffer1 {
 				v = to[e];
 				if (status == 0) {
 					low[u] = Math.min(low[u], low[v]);
-					if (low[v] == dfn[u]) {
+					if (low[v] >= dfn[u]) {
 						if (root == 0 && dfn[b] >= dfn[v]) {
 							cutVertex[u] = true;
 						}
