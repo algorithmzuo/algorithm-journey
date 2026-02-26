@@ -6,10 +6,12 @@ package class191;
 // 1 <= n <= 10^5
 // 1 <= m <= 2 * 10^5
 // 测试链接 : https://acm.hdu.edu.cn/showproblem.php?pid=2460
+// 测试链接 : http://poj.org/problem?id=3694
 // 如下实现是C++的版本，C++版本和java版本逻辑完全一样
 // 提交如下代码，可以通过所有测试用例
 
-//#include <bits/stdc++.h>
+//#include <iostream>
+//#include <algorithm>
 //
 //using namespace std;
 //
@@ -140,7 +142,7 @@ package class191;
 //
 //int main() {
 //    ios::sync_with_stdio(false);
-//    cin.tie(nullptr);
+//    cin.tie(0);
 //    t = 0;
 //    cin >> n >> m;
 //    while (n != 0 || m != 0) {
