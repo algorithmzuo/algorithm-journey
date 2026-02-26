@@ -1,6 +1,7 @@
 package class193;
 
 // 点双连通分量模版题1，java版
+// 可能存在度数为0的孤立点
 // 测试链接 : https://www.luogu.com.cn/problem/P8435
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 

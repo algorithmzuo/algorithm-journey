@@ -1,6 +1,7 @@
 package class193;
 
 // 夺回据点，java版
+// 不存在度数为0的孤立点
 // 测试链接 : https://leetcode.cn/problems/s5kipK/
 // 提交以下代码中的Solution类，可以通过所有测试用例
 
