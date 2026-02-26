@@ -4,7 +4,7 @@ package class194;
 // 测试链接 : https://www.luogu.com.cn/problem/P4334
 // 提交以下的code，提交时请把类名改成"Main"
 // 本题卡常导致java的实现无法通过，索性很多递归函数也不改迭代了
-// 想通过用C++实现，本节课Code04_Policija2文件就是C++的实现
+// 想通过用C++实现，本节课Code05_Policija2文件就是C++的实现
 // 两个版本的逻辑完全一样，C++版本可以通过所有测试
 
 import java.io.IOException;
@@ -13,7 +13,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.util.HashMap;
 
-public class Code04_Policija1 {
+public class Code05_Policija1 {
 
 	public static int MAXN = 100001;
 	public static int MAXM = 500001;

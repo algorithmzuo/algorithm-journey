@@ -12,7 +12,7 @@ import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.TreeMap;
 
-public class Code05_Tourists1 {
+public class Code06_Tourists1 {
 
 	public static int MAXN = 100001;
 	public static int MAXM = 100001;
