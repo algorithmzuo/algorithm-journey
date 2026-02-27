@@ -38,8 +38,6 @@ public class Code03_EdgeQueries1 {
 
 	public static int[] dep = new int[MAXN << 1];
 	public static int[][] stjump = new int[MAXN << 1][MAXP];
-
-	public static int[] vbccSiz = new int[MAXN << 1];
 	public static int[] edgeCnt = new int[MAXN << 1];
 
 	public static void addEdge1(int u, int v) {
@@ -64,13 +62,11 @@ public class Code03_EdgeQueries1 {
 				low[u] = Math.min(low[u], low[v]);
 				if (low[v] >= dfn[u]) {
 					cntn++;
-					vbccSiz[cntn] = 1;
 					addEdge2(cntn, u);
 					addEdge2(u, cntn);
 					int pop;
 					do {
 						pop = sta[top--];
-						vbccSiz[cntn]++;
 						addEdge2(cntn, pop);
 						addEdge2(pop, cntn);
 					} while (pop != v);
@@ -118,12 +114,12 @@ public class Code03_EdgeQueries1 {
 		return stjump[a][0];
 	}
 
-	public static void dfsEdgeCnt(int u, int fa) {
+	public static void dfsCnt(int u, int fa) {
 		edgeCnt[u] += edgeCnt[fa];
 		for (int e = head2[u]; e > 0; e = next2[e]) {
 			int v = to2[e];
 			if (v != fa) {
-				dfsEdgeCnt(v, u);
+				dfsCnt(v, u);
 			}
 		}
 	}
@@ -133,16 +129,17 @@ public class Code03_EdgeQueries1 {
 			int fa = stjump[a[i]][0];
 			int fb = stjump[b[i]][0];
 			if (fa == fb || stjump[fa][0] == b[i]) {
-				if (vbccSiz[fa] > 2) {
-					edgeCnt[fa]++;
-				}
+				edgeCnt[fa]++;
 			} else {
-				if (vbccSiz[fb] > 2) {
-					edgeCnt[fb]++;
-				}
+				edgeCnt[fb]++;
 			}
 		}
-		dfsEdgeCnt(1, 0);
+		for (int i = n + 1; i <= cntn; i++) {
+			if (edgeCnt[i] == 1) {
+				edgeCnt[i] = 0;
+			}
+		}
+		dfsCnt(1, 0);
 	}
 
 	public static int query(int x, int y) {

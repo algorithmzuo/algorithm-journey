@@ -13,7 +13,7 @@ public class Code02_NetworkDamage1 {
 
 	public static int MAXN = 20001;
 	public static int MAXM = 100001;
-	public static int MAXP = 16;
+	public static int MAXP = 18;
 	public static int n, m, q, cntn;
 
 	public static int[] head1 = new int[MAXN];
