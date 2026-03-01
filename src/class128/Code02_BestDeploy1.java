@@ -12,7 +12,9 @@ package class128;
 // 1 <= n <= 10^5
 // 0 <= no[i]、one[i]、both[i]
 // 来自真实大厂笔试，对数器验证
-public class Code02_BestDeploy {
+// 注意查看Code02_BestDeploy2文件，找到了题目2的在线测试
+
+public class Code02_BestDeploy1 {
 
 	public static int MAXN = 1001;
 
