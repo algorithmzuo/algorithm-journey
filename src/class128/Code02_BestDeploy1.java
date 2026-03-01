@@ -1,5 +1,6 @@
 package class128;
 
+// 注意查看Code02_BestDeploy2文件，找到了题目2的在线测试
 // 最好的部署
 // 一共有n台机器，编号1 ~ n，所有机器排成一排
 // 你只能一台一台的部署机器，你可以决定部署的顺序，最终所有机器都要部署
@@ -12,7 +13,6 @@ package class128;
 // 1 <= n <= 10^5
 // 0 <= no[i]、one[i]、both[i]
 // 来自真实大厂笔试，对数器验证
-// 注意查看Code02_BestDeploy2文件，找到了题目2的在线测试
 
 public class Code02_BestDeploy1 {
 
