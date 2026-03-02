@@ -1,6 +1,10 @@
 package class193;
 
 // 电力，java版
+// 给定一张无向图，一共n个点、m条边，不保证所有点连通
+// 点的编号0 ~ n-1，只能删除一个点的话，连通块最多有多少
+// 1 <= n <= 10^4
+// 1 <= m <= 2 * 10^4
 // 测试链接 : https://loj.ac/p/10103
 // 测试链接 : http://poj.org/problem?id=2117
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
@@ -13,7 +17,7 @@ import java.io.PrintWriter;
 public class Code02_Electricity1 {
 
 	public static int MAXN = 10001;
-	public static int MAXM = 1000001;
+	public static int MAXM = 20001;
 	public static int n, m;
 
 	public static int[] head = new int[MAXN];
@@ -25,7 +29,7 @@ public class Code02_Electricity1 {
 	public static int[] low = new int[MAXN];
 	public static int cntd;
 
-	public static int sub, ans;
+	public static int block, ans;
 
 	// 迭代版需要的栈，讲解118讲了递归改迭代的技巧
 	public static int[][] stack = new int[MAXN][5];
@@ -51,7 +55,7 @@ public class Code02_Electricity1 {
 	}
 
 	public static void prepare() {
-		cntg = cntd = sub = ans = 0;
+		cntg = cntd = block = ans = 0;
 		for (int i = 1; i <= n; i++) {
 			head[i] = dfn[i] = low[i] = 0;
 		}
@@ -141,12 +145,12 @@ public class Code02_Electricity1 {
 			}
 			for (int i = 1; i <= n; i++) {
 				if (dfn[i] == 0) {
-					sub++;
+					block++;
 					// tarjan1(i, true);
 					tarjan2(i, true);
 				}
 			}
-			out.println(sub - 1 + ans);
+			out.println(block - 1 + ans);
 			n = in.nextInt();
 			m = in.nextInt();
 		}
