@@ -59,7 +59,7 @@ public class Code01_CutVertex1 {
 		head[u] = cntg;
 	}
 
-	// 递归版
+	// 递归版，Tarjan算法求解割点
 	public static void tarjan1(int u, boolean root) {
 		dfn[u] = low[u] = ++cntd;
 		int son = 0;
@@ -80,7 +80,7 @@ public class Code01_CutVertex1 {
 		}
 	}
 
-	// 迭代版
+	// 迭代版，Tarjan算法求解割点
 	public static void tarjan2(int node, boolean rt) {
 		stacksize = 0;
 		push(node, rt ? 1 : 0, 0, -1, -1);
