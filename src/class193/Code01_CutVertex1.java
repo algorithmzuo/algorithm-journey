@@ -1,6 +1,10 @@
 package class193;
 
 // 割点模版题，java版
+// 给定一张无向图，一共n个点、m条边，不保证所有点连通
+// 打印图中割点的数量，然后从小到大打印所有割点的编号
+// 1 <= n <= 2 * 10^4
+// 1 <= m <= 10^5
 // 测试链接 : https://www.luogu.com.cn/problem/P3388
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
@@ -130,13 +134,13 @@ public class Code01_CutVertex1 {
 				tarjan2(i, true);
 			}
 		}
-		int ansCnt = 0;
+		int cntCnt = 0;
 		for (int i = 1; i <= n; i++) {
 			if (cutVertex[i]) {
-				ansCnt++;
+				cntCnt++;
 			}
 		}
-		out.println(ansCnt);
+		out.println(cntCnt);
 		for (int i = 1; i <= n; i++) {
 			if (cutVertex[i]) {
 				out.print(i + " ");
