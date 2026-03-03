@@ -1,22 +1,20 @@
 package class194;
 
-// 国土规划，java版
-// 测试链接 : https://www.luogu.com.cn/problem/P10517
+// 战略游戏，java版
+// 测试链接 : https://www.luogu.com.cn/problem/P4606
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
-import java.util.TreeSet;
 
-public class Code08_LandPlanning1 {
+public class Code08_StrategyGame1 {
 
 	public static int MAXN = 100001;
 	public static int MAXM = 200001;
 	public static int MAXP = 20;
-	public static int n, m, q, cntn;
-	public static boolean[] arr = new boolean[MAXN];
+	public static int t, n, m, q, s, cntn;
 
 	public static int[] head1 = new int[MAXN];
 	public static int[] next1 = new int[MAXM << 1];
@@ -36,14 +34,12 @@ public class Code08_LandPlanning1 {
 	public static int top;
 
 	public static int[] nid = new int[MAXN << 1];
-	public static int[] seg = new int[MAXN << 1];
 	public static int[] dist = new int[MAXN << 1];
 	public static int[] dep = new int[MAXN << 1];
 	public static int[][] stjump = new int[MAXN << 1][MAXP];
 	public static int cnti;
 
-	public static TreeSet<Integer> set = new TreeSet<>();
-	public static int sumv;
+	public static int[] arr = new int[MAXN];
 
 	// 迭代版需要的栈，讲解118讲了递归改迭代的技巧
 	public static int[][] stack = new int[MAXN << 1][4];
@@ -150,7 +146,6 @@ public class Code08_LandPlanning1 {
 	// 递归版
 	public static void dfs1(int u, int fa) {
 		nid[u] = ++cnti;
-		seg[cnti] = u;
 		dist[u] = dist[fa] + (u <= n ? 1 : 0);
 		dep[u] = dep[fa] + 1;
 		stjump[u][0] = fa;
@@ -173,7 +168,6 @@ public class Code08_LandPlanning1 {
 			pop();
 			if (e == -1) {
 				nid[u] = ++cnti;
-				seg[cnti] = u;
 				dist[u] = dist[fa] + (u <= n ? 1 : 0);
 				dep[u] = dep[fa] + 1;
 				stjump[u][0] = fa;
@@ -195,9 +189,7 @@ public class Code08_LandPlanning1 {
 
 	public static int getLca(int a, int b) {
 		if (dep[a] < dep[b]) {
-			int tmp = a;
-			a = b;
-			b = tmp;
+			int tmp = a; a = b; b = tmp;
 		}
 		for (int p = MAXP - 1; p >= 0; p--) {
 			if (dep[stjump[a][p]] >= dep[b]) {
@@ -220,55 +212,71 @@ public class Code08_LandPlanning1 {
 		return dist[x] + dist[y] - 2 * dist[getLca(x, y)];
 	}
 
-	public static int compute(int u) {
-		int id = nid[u];
-		if (!arr[u]) {
-			arr[u] = true;
-			set.add(id);
-		} else {
-			arr[u] = false;
-			set.remove(id);
-		}
-		if (set.size() <= 1) {
-			sumv = 0;
-		} else {
-			int low = seg[set.lower(id) != null ? set.lower(id) : set.last()];
-			int high = seg[set.higher(id) != null ? set.higher(id) : set.first()];
-			int delta = getDist(u, low) + getDist(u, high) - getDist(low, high);
-			if (arr[u]) {
-				sumv += delta;
-			} else {
-				sumv -= delta;
+	public static void sort(int[] nums, int l, int r) {
+		if (l >= r) return;
+		int i = l, j = r;
+		int pivot = nums[(l + r) >> 1];
+		while (i <= j) {
+			while (nid[nums[i]] < nid[pivot]) i++;
+			while (nid[nums[j]] > nid[pivot]) j--;
+			if (i <= j) {
+				int tmp = nums[i]; nums[i] = nums[j]; nums[j] = tmp;
+				i++;
+				j--;
 			}
 		}
-		if (set.isEmpty()) {
-			return 0;
+		sort(nums, l, j);
+		sort(nums, i, r);
+	}
+
+	public static int compute() {
+		sort(arr, 1, s);
+		int ans = 0;
+		for (int i = 1; i < s; i++) {
+			ans += getDist(arr[i], arr[i + 1]);
 		}
-		int extra = getLca(seg[set.first()], seg[set.last()]) <= n ? 1 : 0;
-		return (int) (sumv / 2 + extra);
+		ans += getDist(arr[1], arr[s]);
+		ans /= 2;
+		ans += getLca(arr[1], arr[s]) <= n ? 1 : 0;
+		ans -= s;
+		return ans;
+	}
+
+	public static void prepare() {
+		cnt1 = cnt2 = cntd = top = cnti = 0;
+		for (int i = 1; i <= n; i++) {
+			head1[i] = head2[i] = dfn[i] = 0;
+			head2[i + n] = 0;
+		}
 	}
 
 	public static void main(String[] args) throws Exception {
 		FastReader in = new FastReader(System.in);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
-		n = in.nextInt();
-		m = in.nextInt();
-		q = in.nextInt();
-		cntn = n;
-		for (int i = 1, u, v; i <= m; i++) {
-			u = in.nextInt();
-			v = in.nextInt();
-			addEdge1(u, v);
-			addEdge1(v, u);
-		}
-		// tarjan1(1);
-		tarjan2(1);
-		// dfs1(1, 0);
-		dfs2(1, 0);
-		for (int i = 1, x; i <= q; i++) {
-			x = in.nextInt();
-			int ans = n - compute(x);
-			out.println(ans);
+		t = in.nextInt();
+		for (int c = 1; c <= t; c++) {
+			n = in.nextInt();
+			m = in.nextInt();
+			cntn = n;
+			prepare();
+			for (int i = 1, u, v; i <= m; i++) {
+				u = in.nextInt();
+				v = in.nextInt();
+				addEdge1(u, v);
+				addEdge1(v, u);
+			}
+			// tarjan1(1);
+			tarjan2(1);
+			// dfs1(1, 0);
+			dfs2(1, 0);
+			q = in.nextInt();
+			for (int i = 1; i <= q; i++) {
+				s = in.nextInt();
+				for (int j = 1; j <= s; j++) {
+					arr[j] = in.nextInt();
+				}
+				out.println(compute());
+			}
 		}
 		out.flush();
 		out.close();

@@ -1,19 +1,27 @@
 package class193;
 
-// 点双连通分量模版题，java版
-// 可能存在度数为0的孤立点
-// 测试链接 : https://www.luogu.com.cn/problem/P8435
+// 点双连通分量模版题2，java版
+// 给定一张无向图，一共n个点、m条边
+// 忽略所有度数为0的孤立点，打印点双连通分量的个数
+// 每个点双连通分量打印大小和节点编号，内部节点编号从小到大打印
+// 内部节点编号是一个序列，序列字典序小的点双连通分量先打印
+// 1 <= n <= 5 * 10^4
+// 1 <= m <= 3 * 10^5
+// 测试链接 : https://www.luogu.com.cn/problem/B3610
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 
 public class Code05_VBCC1 {
 
-	public static int MAXN = 500001;
-	public static int MAXM = 2000001;
+	public static int MAXN = 50001;
+	public static int MAXM = 300001;
 	public static int n, m;
 
 	public static int[] head = new int[MAXN];
@@ -28,12 +36,7 @@ public class Code05_VBCC1 {
 	public static int[] sta = new int[MAXN];
 	public static int top;
 
-	public static int[] vbccSiz = new int[MAXN];
-	public static int[] vbccArr = new int[MAXN << 1];
-	public static int[] vbccl = new int[MAXN];
-	public static int[] vbccr = new int[MAXN];
-	public static int idx;
-	public static int vbccCnt;
+	public static List<List<Integer>> vbccArr = new ArrayList<>();
 
 	// 迭代版需要的栈，讲解118讲了递归改迭代的技巧
 	public static int[][] stack = new int[MAXN][3];
@@ -54,6 +57,21 @@ public class Code05_VBCC1 {
 		e = stack[stacksize][2];
 	}
 
+	public static class VbccCmp implements Comparator<List<Integer>> {
+
+		@Override
+		public int compare(List<Integer> o1, List<Integer> o2) {
+			int size = Math.min(o1.size(), o2.size());
+			for (int i = 0; i < size; i++) {
+				if (!o1.get(i).equals(o2.get(i))) {
+					return o1.get(i).compareTo(o2.get(i));
+				}
+			}
+			return o1.size() - o2.size();
+		}
+
+	}
+
 	public static void addEdge(int u, int v) {
 		nxt[++cntg] = head[u];
 		to[cntg] = v;
@@ -69,18 +87,15 @@ public class Code05_VBCC1 {
 			if (dfn[v] == 0) {
 				tarjan1(v);
 				low[u] = Math.min(low[u], low[v]);
-				if (low[v] >= dfn[u]) {
-					vbccCnt++;
-					vbccSiz[vbccCnt] = 1;
-					vbccArr[++idx] = u;
-					vbccl[vbccCnt] = idx;
+				if (low[v] == dfn[u]) {
+					ArrayList<Integer> list = new ArrayList<>();
+					list.add(u);
 					int pop;
 					do {
 						pop = sta[top--];
-						vbccSiz[vbccCnt]++;
-						vbccArr[++idx] = pop;
+						list.add(pop);
 					} while (pop != v);
-					vbccr[vbccCnt] = idx;
+					vbccArr.add(list);
 				}
 			} else {
 				low[u] = Math.min(low[u], dfn[v]);
@@ -103,18 +118,15 @@ public class Code05_VBCC1 {
 				v = to[e];
 				if (status == 0) {
 					low[u] = Math.min(low[u], low[v]);
-					if (low[v] >= dfn[u]) {
-						vbccCnt++;
-						vbccSiz[vbccCnt] = 1;
-						vbccArr[++idx] = u;
-						vbccl[vbccCnt] = idx;
+					if (low[v] == dfn[u]) {
+						ArrayList<Integer> list = new ArrayList<>();
+						list.add(u);
 						int pop;
 						do {
 							pop = sta[top--];
-							vbccSiz[vbccCnt]++;
-							vbccArr[++idx] = pop;
+							list.add(pop);
 						} while (pop != v);
-						vbccr[vbccCnt] = idx;
+						vbccArr.add(list);
 					}
 				} else {
 					low[u] = Math.min(low[u], dfn[v]);
@@ -147,23 +159,19 @@ public class Code05_VBCC1 {
 			}
 		}
 		for (int i = 1; i <= n; i++) {
-			if (dfn[i] == 0) {
-				if (head[i] == 0) {
-					vbccCnt++;
-					vbccSiz[vbccCnt] = 1;
-					vbccArr[++idx] = i;
-					vbccl[vbccCnt] = vbccr[vbccCnt] = idx;
-				} else {
-					// tarjan1(i);
-					tarjan2(i);
-				}
+			if (dfn[i] == 0 && head[i] > 0) {
+				// tarjan1(i);
+				tarjan2(i);
 			}
 		}
-		out.println(vbccCnt);
-		for (int i = 1; i <= vbccCnt; i++) {
-			out.println(vbccSiz[i]);
-			for (int j = vbccl[i]; j <= vbccr[i]; j++) {
-				out.print(vbccArr[j] + " ");
+		out.println(vbccArr.size());
+		for (int i = 0; i < vbccArr.size(); i++) {
+			vbccArr.get(i).sort((a, b) -> a.compareTo(b));
+		}
+		vbccArr.sort(new VbccCmp());
+		for (int i = 0; i < vbccArr.size(); i++) {
+			for (int node : vbccArr.get(i)) {
+				out.print(node + " ");
 			}
 			out.println();
 		}

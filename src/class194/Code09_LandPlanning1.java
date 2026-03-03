@@ -1,19 +1,22 @@
 package class194;
 
-// 铁人两项，java版
-// 测试链接 : https://www.luogu.com.cn/problem/P4630
+// 国土规划，java版
+// 测试链接 : https://www.luogu.com.cn/problem/P10517
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.util.TreeSet;
 
-public class Code04_Duathlon1 {
+public class Code09_LandPlanning1 {
 
 	public static int MAXN = 100001;
 	public static int MAXM = 200001;
-	public static int n, m, cntn;
+	public static int MAXP = 20;
+	public static int n, m, q, cntn;
+	public static boolean[] arr = new boolean[MAXN];
 
 	public static int[] head1 = new int[MAXN];
 	public static int[] next1 = new int[MAXM << 1];
@@ -32,10 +35,15 @@ public class Code04_Duathlon1 {
 	public static int[] sta = new int[MAXN];
 	public static int top;
 
-	public static int[] val = new int[MAXN << 1];
-	public static int[] siz = new int[MAXN << 1];
-	public static int num;
-	public static long ans;
+	public static int[] nid = new int[MAXN << 1];
+	public static int[] seg = new int[MAXN << 1];
+	public static int[] dist = new int[MAXN << 1];
+	public static int[] dep = new int[MAXN << 1];
+	public static int[][] stjump = new int[MAXN << 1][MAXP];
+	public static int cnti;
+
+	public static TreeSet<Integer> set = new TreeSet<>();
+	public static int sumv;
 
 	// 迭代版需要的栈，讲解118讲了递归改迭代的技巧
 	public static int[][] stack = new int[MAXN << 1][4];
@@ -74,8 +82,6 @@ public class Code04_Duathlon1 {
 	public static void tarjan1(int u) {
 		dfn[u] = low[u] = ++cntd;
 		sta[++top] = u;
-		num++;
-		val[u] = -1;
 		for (int e = head1[u]; e > 0; e = next1[e]) {
 			int v = to1[e];
 			if (dfn[v] == 0) {
@@ -85,13 +91,11 @@ public class Code04_Duathlon1 {
 					cntn++;
 					addEdge2(cntn, u);
 					addEdge2(u, cntn);
-					val[cntn]++;
 					int pop;
 					do {
 						pop = sta[top--];
 						addEdge2(cntn, pop);
 						addEdge2(pop, cntn);
-						val[cntn]++;
 					} while (pop != v);
 				}
 			} else {
@@ -110,8 +114,6 @@ public class Code04_Duathlon1 {
 			if (status == -1) {
 				dfn[u] = low[u] = ++cntd;
 				sta[++top] = u;
-				num++;
-				val[u] = -1;
 				e = head1[u];
 			} else {
 				v = to1[e];
@@ -121,13 +123,11 @@ public class Code04_Duathlon1 {
 						cntn++;
 						addEdge2(cntn, u);
 						addEdge2(u, cntn);
-						val[cntn]++;
 						int pop;
 						do {
 							pop = sta[top--];
 							addEdge2(cntn, pop);
 							addEdge2(pop, cntn);
-							val[cntn]++;
 						} while (pop != v);
 					}
 				} else {
@@ -149,33 +149,36 @@ public class Code04_Duathlon1 {
 
 	// 递归版
 	public static void dfs1(int u, int fa) {
-		if (u <= n) {
-			siz[u] = 1;
-		} else {
-			siz[u] = 0;
+		nid[u] = ++cnti;
+		seg[cnti] = u;
+		dist[u] = dist[fa] + (u <= n ? 1 : 0);
+		dep[u] = dep[fa] + 1;
+		stjump[u][0] = fa;
+		for (int p = 1; p < MAXP; p++) {
+			stjump[u][p] = stjump[stjump[u][p - 1]][p - 1];
 		}
 		for (int e = head2[u]; e > 0; e = next2[e]) {
 			int v = to2[e];
 			if (v != fa) {
 				dfs1(v, u);
-				ans += 2L * siz[u] * siz[v] * val[u];
-				siz[u] += siz[v];
 			}
 		}
-		ans += 2L * siz[u] * (num - siz[u]) * val[u];
 	}
 
 	// 迭代版
 	public static void dfs2(int cur, int father) {
 		stacksize = 0;
-		push(cur, 0, fa, -1);
+		push(cur, 0, father, -1);
 		while (stacksize > 0) {
 			pop();
 			if (e == -1) {
-				if (u <= n) {
-					siz[u] = 1;
-				} else {
-					siz[u] = 0;
+				nid[u] = ++cnti;
+				seg[cnti] = u;
+				dist[u] = dist[fa] + (u <= n ? 1 : 0);
+				dep[u] = dep[fa] + 1;
+				stjump[u][0] = fa;
+				for (int p = 1; p < MAXP; p++) {
+					stjump[u][p] = stjump[stjump[u][p - 1]][p - 1];
 				}
 				e = head2[u];
 			} else {
@@ -186,17 +189,63 @@ public class Code04_Duathlon1 {
 				if (to2[e] != fa) {
 					push(to2[e], 0, u, -1);
 				}
-			} else {
-				for (int ei = head2[u]; ei > 0; ei = next2[ei]) {
-					int v = to2[ei];
-					if (v != fa) {
-						ans += 2L * siz[u] * siz[v] * val[u];
-						siz[u] += siz[v];
-					}
-				}
-				ans += 2L * siz[u] * (num - siz[u]) * val[u];
 			}
 		}
+	}
+
+	public static int getLca(int a, int b) {
+		if (dep[a] < dep[b]) {
+			int tmp = a;
+			a = b;
+			b = tmp;
+		}
+		for (int p = MAXP - 1; p >= 0; p--) {
+			if (dep[stjump[a][p]] >= dep[b]) {
+				a = stjump[a][p];
+			}
+		}
+		if (a == b) {
+			return a;
+		}
+		for (int p = MAXP - 1; p >= 0; p--) {
+			if (stjump[a][p] != stjump[b][p]) {
+				a = stjump[a][p];
+				b = stjump[b][p];
+			}
+		}
+		return stjump[a][0];
+	}
+
+	public static int getDist(int x, int y) {
+		return dist[x] + dist[y] - 2 * dist[getLca(x, y)];
+	}
+
+	public static int compute(int u) {
+		int id = nid[u];
+		if (!arr[u]) {
+			arr[u] = true;
+			set.add(id);
+		} else {
+			arr[u] = false;
+			set.remove(id);
+		}
+		if (set.size() <= 1) {
+			sumv = 0;
+		} else {
+			int low = seg[set.lower(id) != null ? set.lower(id) : set.last()];
+			int high = seg[set.higher(id) != null ? set.higher(id) : set.first()];
+			int delta = getDist(u, low) + getDist(u, high) - getDist(low, high);
+			if (arr[u]) {
+				sumv += delta;
+			} else {
+				sumv -= delta;
+			}
+		}
+		if (set.isEmpty()) {
+			return 0;
+		}
+		int extra = getLca(seg[set.first()], seg[set.last()]) <= n ? 1 : 0;
+		return (int) (sumv / 2 + extra);
 	}
 
 	public static void main(String[] args) throws Exception {
@@ -204,6 +253,7 @@ public class Code04_Duathlon1 {
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
 		n = in.nextInt();
 		m = in.nextInt();
+		q = in.nextInt();
 		cntn = n;
 		for (int i = 1, u, v; i <= m; i++) {
 			u = in.nextInt();
@@ -211,16 +261,15 @@ public class Code04_Duathlon1 {
 			addEdge1(u, v);
 			addEdge1(v, u);
 		}
-		for (int i = 1; i <= n; i++) {
-			if (dfn[i] == 0) {
-				num = 0;
-				// tarjan1(i);
-				tarjan2(i);
-				// dfs1(i, 0);
-				dfs2(i, 0);
-			}
+		// tarjan1(1);
+		tarjan2(1);
+		// dfs1(1, 0);
+		dfs2(1, 0);
+		for (int i = 1, x; i <= q; i++) {
+			x = in.nextInt();
+			int ans = n - compute(x);
+			out.println(ans);
 		}
-		out.println(ans);
 		out.flush();
 		out.close();
 	}
