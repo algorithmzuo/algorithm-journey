@@ -117,8 +117,7 @@ public class Code07_MiningFarm1 {
 				v = in.nextInt();
 				addEdge(u, v);
 				addEdge(v, u);
-				n = Math.max(n, u);
-				n = Math.max(n, v);
+				n = Math.max(n, Math.max(u, v));
 			}
 			tarjan(1, true);
 			compute();
