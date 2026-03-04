@@ -66,7 +66,7 @@ public class Code04_VBCC1 {
 		head[u] = cntg;
 	}
 
-	// 递归版
+	// 递归版，Tarjan算法求解点双连通分量
 	public static void tarjan1(int u) {
 		dfn[u] = low[u] = ++cntd;
 		sta[++top] = u;
@@ -94,7 +94,7 @@ public class Code04_VBCC1 {
 		}
 	}
 
-	// 迭代版
+	// 迭代版，Tarjan算法求解点双连通分量
 	public static void tarjan2(int node) {
 		stacksize = 0;
 		push(node, -1, -1);
