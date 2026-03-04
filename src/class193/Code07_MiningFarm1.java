@@ -5,7 +5,7 @@ package class193;
 // 地震会发生在任何一个地点，地震发生时，其他地点的人都要去往救援点
 // 你可以在任何地点设立救援点，但是发生地震的地点，道路和救援点都会失效
 // 打印至少需要几个救援点，打印设立救援点的方案总数，方案认为是无序集合
-// 1 <= n <= 500
+// 1 <= n <= 1000
 // 1 <= m <= 1000
 // 测试链接 : https://www.luogu.com.cn/problem/P3225
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
@@ -17,7 +17,7 @@ import java.io.PrintWriter;
 
 public class Code07_MiningFarm1 {
 
-	public static int MAXN = 501;
+	public static int MAXN = 1001;
 	public static int MAXM = 1001;
 	public static int t, n, m;
 
