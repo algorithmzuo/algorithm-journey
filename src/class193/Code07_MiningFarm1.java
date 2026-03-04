@@ -1,7 +1,12 @@
 package class193;
 
 // 矿场搭建，java版
-// 不存在度数为0的孤立点
+// 一共n个地点，地点至少2个，每个地点都有人，m条双向道路连通所有地点
+// 地震会发生在任何一个地点，地震发生时，其他地点的人都要去往救援点
+// 你可以在任何地点设立救援点，但是发生地震的地点，道路和救援点都会失效
+// 打印至少需要几个救援点，打印设立救援点的方案总数，方案认为是无序集合
+// 1 <= n <= 500
+// 1 <= m <= 1000
 // 测试链接 : https://www.luogu.com.cn/problem/P3225
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
@@ -12,7 +17,7 @@ import java.io.PrintWriter;
 
 public class Code07_MiningFarm1 {
 
-	public static int MAXN = 1001;
+	public static int MAXN = 501;
 	public static int MAXM = 1001;
 	public static int t, n, m;
 
@@ -45,8 +50,6 @@ public class Code07_MiningFarm1 {
 			cutVertex[i] = false;
 		}
 		n = 0;
-		ans1 = 0;
-		ans2 = 1;
 	}
 
 	public static void addEdge(int u, int v) {
@@ -88,19 +91,23 @@ public class Code07_MiningFarm1 {
 	}
 
 	public static void compute() {
-		for (int i = 1; i <= vbccCnt; i++) {
-			int siz = vbccSiz[i], cut = 0;
-			for (int j = vbccl[i]; j <= vbccr[i]; j++) {
-				if (cutVertex[vbccArr[j]]) {
-					cut++;
+		if (vbccCnt == 1) {
+			ans1 = 2;
+			ans2 = n * (n - 1) / 2;
+		} else {
+			ans1 = 0;
+			ans2 = 1;
+			for (int i = 1; i <= vbccCnt; i++) {
+				int siz = vbccSiz[i], cut = 0;
+				for (int j = vbccl[i]; j <= vbccr[i]; j++) {
+					if (cutVertex[vbccArr[j]]) {
+						cut++;
+					}
 				}
-			}
-			if (cut == 0) {
-				ans1 += 2;
-				ans2 = ans2 * siz * (siz - 1) / 2;
-			} else if (cut == 1) {
-				ans1 += 1;
-				ans2 = ans2 * (siz - 1);
+				if (cut == 1) {
+					ans1 += 1;
+					ans2 = ans2 * (siz - 1);
+				}
 			}
 		}
 	}
@@ -115,9 +122,10 @@ public class Code07_MiningFarm1 {
 			for (int i = 1, u, v; i <= m; i++) {
 				u = in.nextInt();
 				v = in.nextInt();
+				n = Math.max(n, u);
+				n = Math.max(n, v);
 				addEdge(u, v);
 				addEdge(v, u);
-				n = Math.max(n, Math.max(u, v));
 			}
 			tarjan(1, true);
 			compute();
