@@ -45,7 +45,7 @@ package class193;
 //
 //void tarjan(int u, bool root) {
 //    dfn[u] = low[u] = ++cntd;
-//    int curAns = 1;
+//    int curAns = root ? 0 : 1;
 //    for (int e = head[u]; e > 0; e = nxt[e]) {
 //        int v = to[e];
 //        if (dfn[v] == 0) {
@@ -57,9 +57,6 @@ package class193;
 //        } else {
 //            low[u] = min(low[u], dfn[v]);
 //        }
-//    }
-//    if (root) {
-//        curAns--;
 //    }
 //    ans = max(ans, curAns);
 //}

@@ -70,7 +70,7 @@ public class Code02_Electricity1 {
 	// 递归版
 	public static void tarjan1(int u, boolean root) {
 		dfn[u] = low[u] = ++cntd;
-		int curAns = 1;
+		int curAns = root ? 0 : 1;
 		for (int e = head[u]; e > 0; e = nxt[e]) {
 			int v = to[e];
 			if (dfn[v] == 0) {
@@ -83,16 +83,13 @@ public class Code02_Electricity1 {
 				low[u] = Math.min(low[u], dfn[v]);
 			}
 		}
-		if (root) {
-			curAns--;
-		}
 		ans = Math.max(ans, curAns);
 	}
 
 	// 迭代版
 	public static void tarjan2(int node, boolean rt) {
 		stacksize = 0;
-		push(node, rt ? 1 : 0, 1, -1, -1);
+		push(node, rt ? 1 : 0, rt ? 0 : 1, -1, -1);
 		int v;
 		while (stacksize > 0) {
 			pop();
@@ -120,9 +117,6 @@ public class Code02_Electricity1 {
 					push(u, root, curAns, 1, e);
 				}
 			} else {
-				if (root == 1) {
-					curAns--;
-				}
 				ans = Math.max(ans, curAns);
 			}
 		}
