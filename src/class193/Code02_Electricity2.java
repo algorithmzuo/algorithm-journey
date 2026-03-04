@@ -45,20 +45,25 @@ package class193;
 //
 //void tarjan(int u, bool root) {
 //    dfn[u] = low[u] = ++cntd;
-//    int curAns = root ? 0 : 1;
+//    int son = 0, cut = 0;
 //    for (int e = head[u]; e > 0; e = nxt[e]) {
 //        int v = to[e];
 //        if (dfn[v] == 0) {
+//            son++;
 //            tarjan(v, false);
 //            low[u] = min(low[u], low[v]);
-//            if (low[v] >= dfn[u]) {
-//                curAns++;
+//            if (low[v] >= dfn[u] && !root) {
+//                cut++;
 //            }
 //        } else {
 //            low[u] = min(low[u], dfn[v]);
 //        }
 //    }
-//    ans = max(ans, curAns);
+//    if (root) {
+//        ans = max(ans, son);
+//    } else {
+//        ans = max(ans, cut + 1);
+//    }
 //}
 //
 //int main() {
