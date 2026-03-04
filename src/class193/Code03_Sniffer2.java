@@ -42,10 +42,8 @@ package class193;
 //        if (dfn[v] == 0) {
 //            tarjan(v);
 //            low[u] = min(low[u], low[v]);
-//            if (low[v] >= dfn[u]) {
-//                if (u != a && u != b && dfn[b] >= dfn[v]) {
-//                    isKey[u] = true;
-//                }
+//            if (low[v] >= dfn[u] && u != a && u != b && dfn[b] >= dfn[v]) {
+//                isKey[u] = true;
 //            }
 //        } else {
 //            low[u] = min(low[u], dfn[v]);

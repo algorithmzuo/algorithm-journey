@@ -64,10 +64,8 @@ public class Code03_Sniffer1 {
 			if (dfn[v] == 0) {
 				tarjan1(v);
 				low[u] = Math.min(low[u], low[v]);
-				if (low[v] >= dfn[u]) {
-					if (u != a && u != b && dfn[b] >= dfn[v]) {
-						isKey[u] = true;
-					}
+				if (low[v] >= dfn[u] && u != a && u != b && dfn[b] >= dfn[v]) {
+					isKey[u] = true;
 				}
 			} else {
 				low[u] = Math.min(low[u], dfn[v]);
@@ -89,10 +87,8 @@ public class Code03_Sniffer1 {
 				v = to[e];
 				if (status == 0) {
 					low[u] = Math.min(low[u], low[v]);
-					if (low[v] >= dfn[u]) {
-						if (u != a && u != b && dfn[b] >= dfn[v]) {
-							isKey[u] = true;
-						}
+					if (low[v] >= dfn[u] && u != a && u != b && dfn[b] >= dfn[v]) {
+						isKey[u] = true;
 					}
 				} else {
 					low[u] = Math.min(low[u], dfn[v]);
