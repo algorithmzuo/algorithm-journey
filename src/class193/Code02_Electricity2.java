@@ -85,7 +85,7 @@ package class193;
 //                tarjan(i, true);
 //            }
 //        }
-//        cout << (block - 1 + ans) << "\n";
+//        cout << (block + (ans - 1)) << "\n";
 //        cin >> n >> m;
 //    }
 //    return 0;

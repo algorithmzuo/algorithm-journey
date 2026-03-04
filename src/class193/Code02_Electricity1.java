@@ -156,7 +156,7 @@ public class Code02_Electricity1 {
 					tarjan2(i, true);
 				}
 			}
-			out.println(block - 1 + ans);
+			out.println(block + (ans - 1));
 			n = in.nextInt();
 			m = in.nextInt();
 		}
