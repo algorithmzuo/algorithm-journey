@@ -1,7 +1,12 @@
 package class193;
 
 // 圆桌骑士，java版
-// 不存在度数为0的孤立点
+// 一共n个骑士，有m条厌恶关系，每条厌恶关系代表两个骑士相互讨厌对方
+// 你要组织圆桌会议，有厌恶关系的骑士无法在圆桌中相邻
+// 圆桌会议的骑士数量必须是大于1的奇数，以防止赞同票和反对票一样多
+// 也许有的骑士，不管怎么安排都无法参加任何一场圆桌会议，打印这个数量
+// 1 <= n <= 10^3
+// 1 <= m <= 10^6
 // 测试链接 : https://www.luogu.com.cn/problem/SP2878
 // 测试链接 : https://www.spoj.com/problems/KNIGHTS/
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
@@ -38,13 +43,13 @@ public class Code08_RoundTable1 {
 
 	public static int[] color = new int[MAXN];
 	public static boolean[] block = new boolean[MAXN];
-	public static boolean[] keep = new boolean[MAXN];
+	public static boolean[] ok = new boolean[MAXN];
 
 	public static void prepare() {
 		cntg = cntd = top = idx = vbccCnt = 0;
 		for (int i = 1; i <= n; i++) {
 			head[i] = dfn[i] = low[i] = 0;
-			keep[i] = false;
+			ok[i] = false;
 			for (int j = 1; j <= n; j++) {
 				hate[i][j] = false;
 			}
@@ -82,15 +87,13 @@ public class Code08_RoundTable1 {
 		}
 	}
 
-	public static boolean dfs(int u, int c) {
+	public static boolean oddLoop(int u, int c) {
 		color[u] = c;
 		for (int e = head[u]; e > 0; e = nxt[e]) {
 			int v = to[e];
 			if (block[v]) {
-				if (color[v] == 0) {
-					if (dfs(v, c == 1 ? 2 : 1)) {
-						return true;
-					}
+				if (color[v] == 0 && oddLoop(v, c == 1 ? 2 : 1)) {
+					return true;
 				}
 				if (color[v] == c) {
 					return true;
@@ -106,15 +109,15 @@ public class Code08_RoundTable1 {
 				color[vbccArr[j]] = 0;
 				block[vbccArr[j]] = true;
 			}
-			boolean odd = dfs(vbccArr[vbccl[i]], 1);
+			boolean check = oddLoop(vbccArr[vbccl[i]], 1);
 			for (int j = vbccl[i]; j <= vbccr[i]; j++) {
-				keep[vbccArr[j]] |= odd;
 				block[vbccArr[j]] = false;
+				ok[vbccArr[j]] |= check;
 			}
 		}
 		int ans = 0;
 		for (int i = 1; i <= n; i++) {
-			if (!keep[i]) {
+			if (!ok[i]) {
 				ans++;
 			}
 		}
