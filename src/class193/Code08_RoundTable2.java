@@ -2,9 +2,9 @@ package class193;
 
 // 圆桌骑士，C++版
 // 一共n个骑士，有m条厌恶关系，每条厌恶关系代表两个骑士互相讨厌对方
-// 你要组织圆桌会议，有厌恶关系的骑士无法在圆桌中相邻
+// 你可以任选骑士参加圆桌会议，但是厌恶关系的骑士无法在圆桌中相邻
 // 圆桌会议的骑士数量必须是大于1的奇数，以防止赞同票和反对票一样多
-// 也许有的骑士，不管怎么安排都无法参加任何一场圆桌会议，打印这个数量
+// 也许有的骑士，不管怎么安排都无法参加圆桌会议，打印这个数量
 // 1 <= n <= 10^3
 // 1 <= m <= 10^6
 // 测试链接 : https://www.luogu.com.cn/problem/SP2878
@@ -40,7 +40,7 @@ package class193;
 //int vbccCnt;
 //
 //int color[MAXN];
-//bool block[MAXN];
+//bool curVbcc[MAXN];
 //bool ok[MAXN];
 //
 //void prepare() {
@@ -89,11 +89,11 @@ package class193;
 //    color[u] = c;
 //    for (int e = head[u]; e > 0; e = nxt[e]) {
 //        int v = to[e];
-//        if (block[v]) {
-//            if (color[v] == 0 && oddLoop(v, c == 1 ? 2 : 1)) {
+//        if (curVbcc[v]) {
+//            if (color[v] == c) {
 //                return true;
 //            }
-//            if (color[v] == c) {
+//            if (color[v] == 0 && oddLoop(v, c == 1 ? 2 : 1)) {
 //                return true;
 //            }
 //        }
@@ -105,11 +105,11 @@ package class193;
 //    for (int i = 1; i <= vbccCnt; i++) {
 //        for (int j = vbccl[i]; j <= vbccr[i]; j++) {
 //            color[vbccArr[j]] = 0;
-//            block[vbccArr[j]] = true;
+//            curVbcc[vbccArr[j]] = true;
 //        }
 //        bool check = oddLoop(vbccArr[vbccl[i]], 1);
 //        for (int j = vbccl[i]; j <= vbccr[i]; j++) {
-//            block[vbccArr[j]] = false;
+//            curVbcc[vbccArr[j]] = false;
 //            ok[vbccArr[j]] = ok[vbccArr[j]] | check;
 //        }
 //    }
