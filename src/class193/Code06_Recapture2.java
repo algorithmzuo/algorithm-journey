@@ -87,11 +87,7 @@ package class193;
 //            addEdge(u, v);
 //            addEdge(v, u);
 //        }
-//        for (int i = 1; i <= n; i++) {
-//            if (dfn[i] == 0) {
-//                tarjan(i, true);
-//            }
-//        }
+//        tarjan(1, true);
 //        long long ans = 0;
 //        if (vbccArr.size() == 1) {
 //            ans = LLONG_MAX;
