@@ -41,8 +41,8 @@ public class Code08_RoundTable1 {
 	public static int idx;
 	public static int vbccCnt;
 
-	public static int[] color = new int[MAXN];
 	public static boolean[] curVbcc = new boolean[MAXN];
+	public static int[] color = new int[MAXN];
 	public static boolean[] ok = new boolean[MAXN];
 
 	public static void prepare() {
@@ -87,6 +87,8 @@ public class Code08_RoundTable1 {
 		}
 	}
 
+	// u表示当前节点，c表示当前分配给u节点的颜色，只有1和2两种颜色
+	// 返回是否发现了节点数量为奇数的环
 	public static boolean oddLoop(int u, int c) {
 		color[u] = c;
 		for (int e = head[u]; e > 0; e = nxt[e]) {
@@ -106,8 +108,8 @@ public class Code08_RoundTable1 {
 	public static int compute() {
 		for (int i = 1; i <= vbccCnt; i++) {
 			for (int j = vbccl[i]; j <= vbccr[i]; j++) {
-				color[vbccArr[j]] = 0;
 				curVbcc[vbccArr[j]] = true;
+				color[vbccArr[j]] = 0;
 			}
 			boolean check = oddLoop(vbccArr[vbccl[i]], 1);
 			for (int j = vbccl[i]; j <= vbccr[i]; j++) {

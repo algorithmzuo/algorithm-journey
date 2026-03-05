@@ -39,8 +39,8 @@ package class193;
 //int idx;
 //int vbccCnt;
 //
-//int color[MAXN];
 //bool curVbcc[MAXN];
+//int color[MAXN];
 //bool ok[MAXN];
 //
 //void prepare() {
@@ -104,8 +104,8 @@ package class193;
 //int compute() {
 //    for (int i = 1; i <= vbccCnt; i++) {
 //        for (int j = vbccl[i]; j <= vbccr[i]; j++) {
-//            color[vbccArr[j]] = 0;
 //            curVbcc[vbccArr[j]] = true;
+//            color[vbccArr[j]] = 0;
 //        }
 //        bool check = oddLoop(vbccArr[vbccl[i]], 1);
 //        for (int j = vbccl[i]; j <= vbccr[i]; j++) {
