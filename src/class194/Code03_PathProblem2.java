@@ -36,6 +36,7 @@ package class194;
 //
 //int dep[MAXN << 1];
 //int fa[MAXN << 1];
+//bool flag[MAXN << 1];
 //
 //void addEdge1(int u, int v) {
 //    next1[++cnt1] = head1[u];
@@ -86,18 +87,17 @@ package class194;
 //}
 //
 //bool check() {
+//    for (int e = head2[b]; e > 0; e = next2[e]) {
+//        int v = to2[e];
+//        flag[v] = true;
+//    }
 //    while (a != c) {
 //        if (dep[a] < dep[c]) {
 //            swap(a, c);
 //        }
 //        a = fa[a];
-//        if (a > n) {
-//            for (int e = head2[a]; e > 0; e = next2[e]) {
-//                int v = to2[e];
-//                if (v == b) {
-//                    return true;
-//                }
-//            }
+//        if (flag[a]) {
+//            return true;
 //        }
 //    }
 //    return false;

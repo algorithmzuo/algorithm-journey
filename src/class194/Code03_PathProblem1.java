@@ -38,6 +38,7 @@ public class Code03_PathProblem1 {
 
 	public static int[] dep = new int[MAXN << 1];
 	public static int[] fa = new int[MAXN << 1];
+	public static boolean[] flag = new boolean[MAXN << 1];
 
 	public static void addEdge1(int u, int v) {
 		next1[++cnt1] = head1[u];
@@ -88,6 +89,10 @@ public class Code03_PathProblem1 {
 	}
 
 	public static boolean check() {
+		for (int e = head2[b]; e > 0; e = next2[e]) {
+			int v = to2[e];
+			flag[v] = true;
+		}
 		while (a != c) {
 			if (dep[a] < dep[c]) {
 				int tmp = a;
@@ -95,13 +100,8 @@ public class Code03_PathProblem1 {
 				c = tmp;
 			}
 			a = fa[a];
-			if (a > n) {
-				for (int e = head2[a]; e > 0; e = next2[e]) {
-					int v = to2[e];
-					if (v == b) {
-						return true;
-					}
-				}
+			if (flag[a]) {
+				return true;
 			}
 		}
 		return false;
