@@ -23,23 +23,26 @@ public class Code01_RoadsMeet1 {
 	public static int MAXP = 20;
 	public static int n, m, q, cntn;
 
+	// 原图的链式前向星
 	public static int[] head1 = new int[MAXN];
 	public static int[] next1 = new int[MAXM << 1];
 	public static int[] to1 = new int[MAXM << 1];
 	public static int cnt1;
 
+	// 圆方树的链式前向星
 	public static int[] head2 = new int[MAXN << 1];
 	public static int[] next2 = new int[MAXM << 2];
 	public static int[] to2 = new int[MAXM << 2];
 	public static int cnt2;
 
+	// tarjan算法
 	public static int[] dfn = new int[MAXN];
 	public static int[] low = new int[MAXN];
 	public static int cntd;
-
 	public static int[] sta = new int[MAXN];
 	public static int top;
 
+	// 圆方树建立深度表和倍增表
 	public static int[] dep = new int[MAXN << 1];
 	public static int[][] stjump = new int[MAXN << 1][MAXP];
 
@@ -145,7 +148,7 @@ public class Code01_RoadsMeet1 {
 		}
 	}
 
-	// 递归版，圆方树上建立深度和倍增表
+	// 递归版，圆方树建立深度表和倍增表
 	public static void dfs1(int u, int fa) {
 		dep[u] = dep[fa] + 1;
 		stjump[u][0] = fa;
@@ -160,7 +163,7 @@ public class Code01_RoadsMeet1 {
 		}
 	}
 
-	// 迭代版，圆方树上建立深度和倍增表
+	// 迭代版，圆方树建立深度表和倍增表
 	public static void dfs2(int cur, int father) {
 		stacksize = 0;
 		push(cur, 0, father, -1);
