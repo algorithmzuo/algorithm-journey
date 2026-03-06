@@ -1,6 +1,13 @@
 package class194;
 
 // 道路相遇，java版
+// 给定一张无向图，一共n个点、m条边，所有点保证连通
+// 一共q条查询，每条查询格式 x y，含义如下
+// 点x到点y，不管选择什么路线，打印一定会经过的点有几个
+// 注意x和y也算做必经点
+// 1 <= n <= 5 * 10^5
+// 1 <= m <= 10^6
+// 1 <= q <= 5 * 10^5
 // 测试链接 : https://www.luogu.com.cn/problem/P4320
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
@@ -69,7 +76,7 @@ public class Code01_RoadsMeet1 {
 		head2[u] = cnt2;
 	}
 
-	// 递归版
+	// 递归版，tarjan算法建立圆方树
 	public static void tarjan1(int u) {
 		dfn[u] = low[u] = ++cntd;
 		sta[++top] = u;
@@ -95,7 +102,7 @@ public class Code01_RoadsMeet1 {
 		}
 	}
 
-	// 迭代版
+	// 迭代版，tarjan算法建立圆方树
 	public static void tarjan2(int node) {
 		stacksize = 0;
 		push(node, -1, 0, -1);
@@ -178,31 +185,31 @@ public class Code01_RoadsMeet1 {
 		}
 	}
 
-	// 圆方树上任意两点的最低公共祖先
-	public static int getLca(int a, int b) {
-		if (dep[a] < dep[b]) {
-			int tmp = a;
-			a = b;
-			b = tmp;
+	// 圆方树上，x和y的最低公共祖先
+	public static int getLca(int x, int y) {
+		if (dep[x] < dep[y]) {
+			int tmp = x;
+			x = y;
+			y = tmp;
 		}
 		for (int p = MAXP - 1; p >= 0; p--) {
-			if (dep[stjump[a][p]] >= dep[b]) {
-				a = stjump[a][p];
+			if (dep[stjump[x][p]] >= dep[y]) {
+				x = stjump[x][p];
 			}
 		}
-		if (a == b) {
-			return a;
+		if (x == y) {
+			return x;
 		}
 		for (int p = MAXP - 1; p >= 0; p--) {
-			if (stjump[a][p] != stjump[b][p]) {
-				a = stjump[a][p];
-				b = stjump[b][p];
+			if (stjump[x][p] != stjump[y][p]) {
+				x = stjump[x][p];
+				y = stjump[y][p];
 			}
 		}
-		return stjump[a][0];
+		return stjump[x][0];
 	}
 
-	// 圆方树上任意两点间的距离
+	// 圆方树上，x到y路径上的边数
 	public static int getDist(int x, int y) {
 		return dep[x] + dep[y] - 2 * dep[getLca(x, y)];
 	}
