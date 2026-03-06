@@ -1,6 +1,12 @@
 package class194;
 
 // 游客，java版
+// 一共n个城市、m条双向道路，所有城市都连通，商品只有一种
+// 每个城市给定商品报价，接下来有q条操作，操作类型有两种
+// 操作 C x y : 城市x的商品报价改成y
+// 操作 A x y : 从x到y可自由选路，但不能有重复城市，打印能遇到的最低报价
+// 1 <= n、m、q <= 10^5
+// 1 <= 商品报价 <= 10^9
 // 测试链接 : https://www.luogu.com.cn/problem/CF487E
 // 测试链接 : https://codeforces.com/problemset/problem/487/E
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
