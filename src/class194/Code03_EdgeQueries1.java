@@ -1,6 +1,11 @@
 package class194;
 
 // 边的查询，java版
+// 给定一张无向图，一共n个点、m条边，所有点保证连通
+// 一共q条查询，格式 x y，含义如下
+// 所有从x到y的简单路径上出现的边中，统计有多少条边满足
+// 如果移除该边，x和y仍然可以互相到达，打印这个数量
+// 1 <= n、m、q <= 2 * 10^5
 // 测试链接 : https://www.luogu.com.cn/problem/CF1763F
 // 测试链接 : https://codeforces.com/problemset/problem/1763/F
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
@@ -91,27 +96,27 @@ public class Code03_EdgeQueries1 {
 		}
 	}
 
-	public static int getLca(int a, int b) {
-		if (dep[a] < dep[b]) {
-			int tmp = a;
-			a = b;
-			b = tmp;
+	public static int getLca(int x, int y) {
+		if (dep[x] < dep[y]) {
+			int tmp = x;
+			x = y;
+			y = tmp;
 		}
 		for (int p = MAXP - 1; p >= 0; p--) {
-			if (dep[stjump[a][p]] >= dep[b]) {
-				a = stjump[a][p];
+			if (dep[stjump[x][p]] >= dep[y]) {
+				x = stjump[x][p];
 			}
 		}
-		if (a == b) {
-			return a;
+		if (x == y) {
+			return x;
 		}
 		for (int p = MAXP - 1; p >= 0; p--) {
-			if (stjump[a][p] != stjump[b][p]) {
-				a = stjump[a][p];
-				b = stjump[b][p];
+			if (stjump[x][p] != stjump[y][p]) {
+				x = stjump[x][p];
+				y = stjump[y][p];
 			}
 		}
-		return stjump[a][0];
+		return stjump[x][0];
 	}
 
 	public static void dfsCnt(int u, int fa) {
