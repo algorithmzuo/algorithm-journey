@@ -1,6 +1,12 @@
 package class194;
 
 // 城市阻断，java版
+// 给定一张无向图，一共n个点、m条边，所有点保证连通
+// 对每个点i，打印如下的答案
+// 节点i相连的边去掉以后，注意只是删掉边，节点i本身不删掉
+// 无向图有多少个有序点对(x, y)，点x和点y不连通
+// 1 <= n <= 10^5
+// 1 <= m <= 5 * 10^5
 // 测试链接 : https://www.luogu.com.cn/problem/P3469
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
@@ -138,11 +144,11 @@ public class Code04_Blockade1 {
 	}
 
 	// 递归版
-	public static void dfs1(int u, int fa) {
+	public static void dpOnTree1(int u, int fa) {
 		for (int e = head2[u]; e > 0; e = next2[e]) {
 			int v = to2[e];
 			if (v != fa) {
-				dfs1(v, u);
+				dpOnTree1(v, u);
 				ans[u] += 2L * siz[u] * siz[v];
 				siz[u] += siz[v];
 			}
@@ -154,7 +160,7 @@ public class Code04_Blockade1 {
 	}
 
 	// 迭代版
-	public static void dfs2(int cur, int father) {
+	public static void dpOnTree2(int cur, int father) {
 		stacksize = 0;
 		push(cur, 0, fa, -1);
 		while (stacksize > 0) {
@@ -199,8 +205,8 @@ public class Code04_Blockade1 {
 		}
 		// tarjan1(1);
 		tarjan2(1);
-		// dfs1(1, 0);
-		dfs2(1, 0);
+		// dpOnTree1(1, 0);
+		dpOnTree2(1, 0);
 		for (int i = 1; i <= n; i++) {
 			out.println(ans[i]);
 		}
