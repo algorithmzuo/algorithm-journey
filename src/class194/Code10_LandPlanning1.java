@@ -17,7 +17,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.util.TreeSet;
 
-public class Code09_LandPlanning1 {
+public class Code10_LandPlanning1 {
 
 	public static int MAXN = 100001;
 	public static int MAXM = 200001;

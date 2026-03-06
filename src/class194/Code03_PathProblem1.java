@@ -1,13 +1,12 @@
 package class194;
 
-// 边的查询，java版
-// 给定一张无向图，一共n个点、m条边，所有点保证连通
-// 一共q条查询，格式 x y，含义如下
-// 所有从x到y的简单路径上出现的边中，统计有多少条边满足
-// 如果移除该边，x和y仍然可以互相到达，打印这个数量
-// 1 <= n、m、q <= 2 * 10^5
-// 测试链接 : https://www.luogu.com.cn/problem/CF1763F
-// 测试链接 : https://codeforces.com/problemset/problem/1763/F
+// 路径问题，java版
+// 给定一张无向图，一共n个点、m条边，所有点保证连通，无重边和自环
+// 给定三个不同的点a、b、c，打印是否存在一条路径
+// 从a到达b，然后从b到达c，要求途中不能出现重复的点
+// 1 <= n、m <= 2 * 10^5
+// 测试链接 : https://www.luogu.com.cn/problem/AT_abc318_g
+// 测试链接 : https://atcoder.jp/contests/abc318/tasks/abc318_g
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
 import java.io.IOException;
@@ -15,14 +14,11 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
-public class Code03_EdgeQueries1 {
+public class Code03_PathProblem1 {
 
 	public static int MAXN = 200001;
 	public static int MAXM = 200001;
-	public static int MAXP = 20;
-	public static int n, m, q, cntn;
-	public static int[] a = new int[MAXM];
-	public static int[] b = new int[MAXM];
+	public static int n, m, a, b, c, cntn;
 
 	public static int[] head1 = new int[MAXN];
 	public static int[] next1 = new int[MAXM << 1];
@@ -37,13 +33,11 @@ public class Code03_EdgeQueries1 {
 	public static int[] dfn = new int[MAXN];
 	public static int[] low = new int[MAXN];
 	public static int cntd;
-
 	public static int[] sta = new int[MAXN];
 	public static int top;
 
 	public static int[] dep = new int[MAXN << 1];
-	public static int[][] stjump = new int[MAXN << 1][MAXP];
-	public static int[] edgeCnt = new int[MAXN << 1];
+	public static int[] fa = new int[MAXN << 1];
 
 	public static void addEdge1(int u, int v) {
 		next1[++cnt1] = head1[u];
@@ -82,75 +76,35 @@ public class Code03_EdgeQueries1 {
 		}
 	}
 
-	public static void dfs(int u, int fa) {
-		dep[u] = dep[fa] + 1;
-		stjump[u][0] = fa;
-		for (int p = 1; p < MAXP; p++) {
-			stjump[u][p] = stjump[stjump[u][p - 1]][p - 1];
-		}
+	public static void dfs(int u, int f) {
+		dep[u] = dep[f] + 1;
+		fa[u] = f;
 		for (int e = head2[u]; e > 0; e = next2[e]) {
 			int v = to2[e];
-			if (v != fa) {
+			if (v != f) {
 				dfs(v, u);
 			}
 		}
 	}
 
-	public static int getLca(int x, int y) {
-		if (dep[x] < dep[y]) {
-			int tmp = x;
-			x = y;
-			y = tmp;
-		}
-		for (int p = MAXP - 1; p >= 0; p--) {
-			if (dep[stjump[x][p]] >= dep[y]) {
-				x = stjump[x][p];
+	public static boolean check() {
+		while (a != c) {
+			if (dep[a] < dep[c]) {
+				int tmp = a;
+				a = c;
+				c = tmp;
+			}
+			a = fa[a];
+			if (a > n) {
+				for (int e = head2[a]; e > 0; e = next2[e]) {
+					int v = to2[e];
+					if (v == b) {
+						return true;
+					}
+				}
 			}
 		}
-		if (x == y) {
-			return x;
-		}
-		for (int p = MAXP - 1; p >= 0; p--) {
-			if (stjump[x][p] != stjump[y][p]) {
-				x = stjump[x][p];
-				y = stjump[y][p];
-			}
-		}
-		return stjump[x][0];
-	}
-
-	public static void dfsCnt(int u, int fa) {
-		edgeCnt[u] += edgeCnt[fa];
-		for (int e = head2[u]; e > 0; e = next2[e]) {
-			int v = to2[e];
-			if (v != fa) {
-				dfsCnt(v, u);
-			}
-		}
-	}
-
-	public static void buildEdgeCnt() {
-		for (int i = 1; i <= m; i++) {
-			int fa = stjump[a[i]][0];
-			int fb = stjump[b[i]][0];
-			if (fa == fb || stjump[fa][0] == b[i]) {
-				edgeCnt[fa]++;
-			} else {
-				edgeCnt[fb]++;
-			}
-		}
-		for (int i = n + 1; i <= cntn; i++) {
-			if (edgeCnt[i] == 1) {
-				edgeCnt[i] = 0;
-			}
-		}
-		dfsCnt(1, 0);
-	}
-
-	public static int query(int x, int y) {
-		int xylca = getLca(x, y);
-		int lcafa = stjump[xylca][0];
-		return edgeCnt[x] + edgeCnt[y] - edgeCnt[xylca] - edgeCnt[lcafa];
+		return false;
 	}
 
 	public static void main(String[] args) throws Exception {
@@ -158,22 +112,19 @@ public class Code03_EdgeQueries1 {
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
 		n = in.nextInt();
 		m = in.nextInt();
+		a = in.nextInt();
+		b = in.nextInt();
+		c = in.nextInt();
 		cntn = n;
-		for (int i = 1; i <= m; i++) {
-			a[i] = in.nextInt();
-			b[i] = in.nextInt();
-			addEdge1(a[i], b[i]);
-			addEdge1(b[i], a[i]);
+		for (int i = 1, u, v; i <= m; i++) {
+			u = in.nextInt();
+			v = in.nextInt();
+			addEdge1(u, v);
+			addEdge1(v, u);
 		}
 		tarjan(1);
 		dfs(1, 0);
-		buildEdgeCnt();
-		q = in.nextInt();
-		for (int i = 1, x, y; i <= q; i++) {
-			x = in.nextInt();
-			y = in.nextInt();
-			out.println(query(x, y));
-		}
+		out.println(check() ? "Yes" : "No");
 		out.flush();
 		out.close();
 	}
