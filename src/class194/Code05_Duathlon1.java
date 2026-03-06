@@ -1,6 +1,12 @@
 package class194;
 
 // 铁人两项，java版
+// 给定一张无向图，一共n个点、m条边，图中可能存在多个连通区
+// 有效的点对三元组(a, b, c)，首先要求a、b、c是不同的点
+// 其次要求存在一条从a出发，经过b，最终到达c的路径，沿途无重复节点
+// 打印有效的点对三元组的数量
+// 1 <= n <= 10^5
+// 1 <= m <= 2 * 10^5
 // 测试链接 : https://www.luogu.com.cn/problem/P4630
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
@@ -34,7 +40,7 @@ public class Code05_Duathlon1 {
 
 	public static int[] val = new int[MAXN << 1];
 	public static int[] siz = new int[MAXN << 1];
-	public static int num;
+	public static int nodeCnt;
 	public static long ans;
 
 	// 迭代版需要的栈，讲解118讲了递归改迭代的技巧
@@ -74,7 +80,7 @@ public class Code05_Duathlon1 {
 	public static void tarjan1(int u) {
 		dfn[u] = low[u] = ++cntd;
 		sta[++top] = u;
-		num++;
+		nodeCnt++;
 		val[u] = -1;
 		for (int e = head1[u]; e > 0; e = next1[e]) {
 			int v = to1[e];
@@ -110,7 +116,7 @@ public class Code05_Duathlon1 {
 			if (status == -1) {
 				dfn[u] = low[u] = ++cntd;
 				sta[++top] = u;
-				num++;
+				nodeCnt++;
 				val[u] = -1;
 				e = head1[u];
 			} else {
@@ -148,7 +154,7 @@ public class Code05_Duathlon1 {
 	}
 
 	// 递归版
-	public static void dfs1(int u, int fa) {
+	public static void dpOnTree1(int u, int fa) {
 		if (u <= n) {
 			siz[u] = 1;
 		} else {
@@ -157,16 +163,16 @@ public class Code05_Duathlon1 {
 		for (int e = head2[u]; e > 0; e = next2[e]) {
 			int v = to2[e];
 			if (v != fa) {
-				dfs1(v, u);
+				dpOnTree1(v, u);
 				ans += 2L * siz[u] * siz[v] * val[u];
 				siz[u] += siz[v];
 			}
 		}
-		ans += 2L * siz[u] * (num - siz[u]) * val[u];
+		ans += 2L * siz[u] * (nodeCnt - siz[u]) * val[u];
 	}
 
 	// 迭代版
-	public static void dfs2(int cur, int father) {
+	public static void dpOnTree2(int cur, int father) {
 		stacksize = 0;
 		push(cur, 0, fa, -1);
 		while (stacksize > 0) {
@@ -194,7 +200,7 @@ public class Code05_Duathlon1 {
 						siz[u] += siz[v];
 					}
 				}
-				ans += 2L * siz[u] * (num - siz[u]) * val[u];
+				ans += 2L * siz[u] * (nodeCnt - siz[u]) * val[u];
 			}
 		}
 	}
@@ -213,11 +219,11 @@ public class Code05_Duathlon1 {
 		}
 		for (int i = 1; i <= n; i++) {
 			if (dfn[i] == 0) {
-				num = 0;
+				nodeCnt = 0;
 				// tarjan1(i);
 				tarjan2(i);
-				// dfs1(i, 0);
-				dfs2(i, 0);
+				// dpOnTree1(i, 0);
+				dpOnTree2(i, 0);
 			}
 		}
 		out.println(ans);
