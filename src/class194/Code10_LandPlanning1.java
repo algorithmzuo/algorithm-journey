@@ -50,7 +50,7 @@ public class Code10_LandPlanning1 {
 	public static int cnti;
 
 	public static TreeSet<Integer> set = new TreeSet<>();
-	public static int sumv;
+	public static int sumDist;
 
 	// 迭代版需要的栈，讲解118讲了递归改迭代的技巧
 	public static int[][] stack = new int[MAXN << 1][4];
@@ -237,22 +237,22 @@ public class Code10_LandPlanning1 {
 			set.remove(id);
 		}
 		if (set.size() <= 1) {
-			sumv = 0;
+			sumDist = 0;
 		} else {
 			int low = seg[set.lower(id) != null ? set.lower(id) : set.last()];
 			int high = seg[set.higher(id) != null ? set.higher(id) : set.first()];
 			int delta = getDist(u, low) + getDist(u, high) - getDist(low, high);
 			if (arr[u]) {
-				sumv += delta;
+				sumDist += delta;
 			} else {
-				sumv -= delta;
+				sumDist -= delta;
 			}
 		}
 		if (set.isEmpty()) {
 			return 0;
 		}
 		int extra = getLca(seg[set.first()], seg[set.last()]) <= n ? 1 : 0;
-		return (int) (sumv / 2 + extra);
+		return (int) (sumDist / 2 + extra);
 	}
 
 	public static void main(String[] args) throws Exception {

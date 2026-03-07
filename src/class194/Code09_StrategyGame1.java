@@ -238,15 +238,13 @@ public class Code09_StrategyGame1 {
 
 	public static int compute() {
 		sort(arr, 1, s);
-		int ans = 0;
+		int sumDist = 0;
 		for (int i = 1; i < s; i++) {
-			ans += getDist(arr[i], arr[i + 1]);
+			sumDist += getDist(arr[i], arr[i + 1]);
 		}
-		ans += getDist(arr[1], arr[s]);
-		ans /= 2;
-		ans += getLca(arr[1], arr[s]) <= n ? 1 : 0;
-		ans -= s;
-		return ans;
+		sumDist += getDist(arr[1], arr[s]);
+		int extra = getLca(arr[1], arr[s]) <= n ? 1 : 0;
+		return sumDist / 2 + extra - s;
 	}
 
 	public static void prepare() {

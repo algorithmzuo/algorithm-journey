@@ -48,7 +48,7 @@ package class194;
 //
 //set<int> st;
 //set<int>::iterator it;
-//int sumv;
+//int sumDist;
 //
 //void addEdge1(int u, int v) {
 //    next1[++cnt1] = head1[u];
@@ -139,22 +139,22 @@ package class194;
 //        st.erase(id);
 //    }
 //    if (st.size() <= 1) {
-//        sumv = 0;
+//        sumDist = 0;
 //    } else {
 //        int low = seg[(it = st.lower_bound(id)) == st.begin() ? *--st.end() : *--it];
 //        int high = seg[(it = st.upper_bound(id)) == st.end() ? *st.begin() : *it];
 //        int delta = getDist(u, low) + getDist(u, high) - getDist(low, high);
 //        if (arr[u]) {
-//            sumv += delta;
+//            sumDist += delta;
 //        } else {
-//            sumv -= delta;
+//            sumDist -= delta;
 //        }
 //    }
 //    if (st.empty()) {
 //        return 0;
 //    }
 //    int extra = getLca(seg[*st.begin()], seg[*st.rbegin()]) <= n ? 1 : 0;
-//    return sumv / 2 + extra;
+//    return sumDist / 2 + extra;
 //}
 //
 //int main() {
