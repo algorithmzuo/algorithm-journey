@@ -154,11 +154,9 @@ public class Code04_Blockade1 {
 				siz[u] += siz[v];
 			}
 		}
-		if (u <= n) {
-			siz[u]++;
-			ans[u] += 2L * (siz[u] - 1) * (n - siz[u]);
-			ans[u] += 2L * (n - 1);
-		}
+		siz[u] += u <= n ? 1 : 0;
+		ans[u] += 2L * (siz[u] - 1) * (n - siz[u]);
+		ans[u] += 2L * (n - 1);
 	}
 
 	// 迭代版
@@ -185,11 +183,9 @@ public class Code04_Blockade1 {
 						siz[u] += siz[v];
 					}
 				}
-				if (u <= n) {
-					siz[u]++;
-					ans[u] += 2L * (siz[u] - 1) * (n - siz[u]);
-					ans[u] += 2L * (n - 1);
-				}
+				siz[u] += u <= n ? 1 : 0;
+				ans[u] += 2L * (siz[u] - 1) * (n - siz[u]);
+				ans[u] += 2L * (n - 1);
 			}
 		}
 	}

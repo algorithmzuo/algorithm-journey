@@ -88,11 +88,9 @@ package class194;
 //            siz[u] += siz[v];
 //        }
 //    }
-//    if (u <= n) {
-//        siz[u]++;
-//        ans[u] += 2LL * (siz[u] - 1) * (n - siz[u]);
-//        ans[u] += 2LL * (n - 1);
-//    }
+//    siz[u] += u <= n ? 1 : 0;
+//    ans[u] += 2LL * (siz[u] - 1) * (n - siz[u]);
+//    ans[u] += 2LL * (n - 1);
 //}
 //
 //int main() {
