@@ -155,11 +155,7 @@ public class Code05_Duathlon1 {
 
 	// 递归版
 	public static void dpOnTree1(int u, int fa) {
-		if (u <= n) {
-			siz[u] = 1;
-		} else {
-			siz[u] = 0;
-		}
+		siz[u] = u <= n ? 1 : 0;
 		for (int e = head2[u]; e > 0; e = next2[e]) {
 			int v = to2[e];
 			if (v != fa) {
@@ -178,11 +174,7 @@ public class Code05_Duathlon1 {
 		while (stacksize > 0) {
 			pop();
 			if (e == -1) {
-				if (u <= n) {
-					siz[u] = 1;
-				} else {
-					siz[u] = 0;
-				}
+				siz[u] = u <= n ? 1 : 0;
 				e = head2[u];
 			} else {
 				e = next2[e];

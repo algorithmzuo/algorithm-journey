@@ -85,11 +85,7 @@ package class194;
 //}
 //
 //void dpOnTree(int u, int fa) {
-//    if (u <= n) {
-//        siz[u] = 1;
-//    } else {
-//        siz[u] = 0;
-//    }
+//    siz[u] = u <= n ? 1 : 0;
 //    for (int e = head2[u]; e > 0; e = next2[e]) {
 //        int v = to2[e];
 //        if (v != fa) {
