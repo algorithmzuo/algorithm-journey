@@ -41,7 +41,7 @@ public class Code05_Duathlon1 {
 	// 方点才有deg，点双连通分量的节点数，也就是度
 	public static int[] deg = new int[MAXN << 1];
 
-	// dfs过程中，子树里的圆点数量
+	// dfs过程中，子树中的圆点数量
 	public static int[] siz = new int[MAXN << 1];
 
 	// 当前连通区的总节点数
