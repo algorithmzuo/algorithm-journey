@@ -38,9 +38,9 @@ package class194;
 //int sta[MAXN];
 //int top;
 //
-//int val[MAXN << 1];
+//int deg[MAXN << 1];
 //int siz[MAXN << 1];
-//int nodeCnt;
+//int total;
 //ll ans;
 //
 //void addEdge1(int u, int v) {
@@ -56,10 +56,9 @@ package class194;
 //}
 //
 //void tarjan(int u) {
+//    total++;
 //    dfn[u] = low[u] = ++cntd;
 //    sta[++top] = u;
-//    nodeCnt++;
-//    val[u] = -1;
 //    for (int e = head1[u]; e > 0; e = next1[e]) {
 //        int v = to1[e];
 //        if (dfn[v] == 0) {
@@ -69,13 +68,13 @@ package class194;
 //                cntn++;
 //                addEdge2(cntn, u);
 //                addEdge2(u, cntn);
-//                val[cntn]++;
+//                deg[cntn]++;
 //                int pop;
 //                do {
 //                    pop = sta[top--];
 //                    addEdge2(cntn, pop);
 //                    addEdge2(pop, cntn);
-//                    val[cntn]++;
+//                    deg[cntn]++;
 //                } while (pop != v);
 //            }
 //        } else {
@@ -85,16 +84,24 @@ package class194;
 //}
 //
 //void dpOnTree(int u, int fa) {
-//    siz[u] = u <= n ? 1 : 0;
 //    for (int e = head2[u]; e > 0; e = next2[e]) {
 //        int v = to2[e];
 //        if (v != fa) {
 //            dpOnTree(v, u);
-//            ans += 2LL * siz[u] * siz[v] * (ll)val[u];
+//            if (u <= n) {
+//                ans += 1LL * siz[v] * (total - siz[v] - 1);
+//            } else {
+//                ans += 1LL * siz[v] * (deg[u] - 2) * (total - siz[v]);
+//            }
 //            siz[u] += siz[v];
 //        }
 //    }
-//    ans += 2LL * siz[u] * (nodeCnt - siz[u]) * (ll)val[u];
+//    siz[u] += u <= n ? 1 : 0;
+//    if (u <= n) {
+//        ans += 1LL * (siz[u] - 1) * (total - siz[u]);
+//    } else {
+//        ans += 1LL * siz[u] * (deg[u] - 2) * (total - siz[u]);
+//    }
 //}
 //
 //int main() {
@@ -109,7 +116,7 @@ package class194;
 //    }
 //    for (int i = 1; i <= n; i++) {
 //        if (dfn[i] == 0) {
-//            nodeCnt = 0;
+//            total = 0;
 //            tarjan(i);
 //            dpOnTree(i, 0);
 //        }

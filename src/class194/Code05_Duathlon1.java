@@ -38,9 +38,9 @@ public class Code05_Duathlon1 {
 	public static int[] sta = new int[MAXN];
 	public static int top;
 
-	public static int[] val = new int[MAXN << 1];
+	public static int[] deg = new int[MAXN << 1];
 	public static int[] siz = new int[MAXN << 1];
-	public static int nodeCnt;
+	public static int total;
 	public static long ans;
 
 	// 迭代版需要的栈，讲解118讲了递归改迭代的技巧
@@ -78,10 +78,9 @@ public class Code05_Duathlon1 {
 
 	// 递归版
 	public static void tarjan1(int u) {
+		total++;
 		dfn[u] = low[u] = ++cntd;
 		sta[++top] = u;
-		nodeCnt++;
-		val[u] = -1;
 		for (int e = head1[u]; e > 0; e = next1[e]) {
 			int v = to1[e];
 			if (dfn[v] == 0) {
@@ -91,13 +90,13 @@ public class Code05_Duathlon1 {
 					cntn++;
 					addEdge2(cntn, u);
 					addEdge2(u, cntn);
-					val[cntn]++;
+					deg[cntn]++;
 					int pop;
 					do {
 						pop = sta[top--];
 						addEdge2(cntn, pop);
 						addEdge2(pop, cntn);
-						val[cntn]++;
+						deg[cntn]++;
 					} while (pop != v);
 				}
 			} else {
@@ -114,10 +113,9 @@ public class Code05_Duathlon1 {
 		while (stacksize > 0) {
 			pop();
 			if (status == -1) {
+				total++;
 				dfn[u] = low[u] = ++cntd;
 				sta[++top] = u;
-				nodeCnt++;
-				val[u] = -1;
 				e = head1[u];
 			} else {
 				v = to1[e];
@@ -127,13 +125,13 @@ public class Code05_Duathlon1 {
 						cntn++;
 						addEdge2(cntn, u);
 						addEdge2(u, cntn);
-						val[cntn]++;
+						deg[cntn]++;
 						int pop;
 						do {
 							pop = sta[top--];
 							addEdge2(cntn, pop);
 							addEdge2(pop, cntn);
-							val[cntn]++;
+							deg[cntn]++;
 						} while (pop != v);
 					}
 				} else {
@@ -155,16 +153,24 @@ public class Code05_Duathlon1 {
 
 	// 递归版
 	public static void dpOnTree1(int u, int fa) {
-		siz[u] = u <= n ? 1 : 0;
 		for (int e = head2[u]; e > 0; e = next2[e]) {
 			int v = to2[e];
 			if (v != fa) {
 				dpOnTree1(v, u);
-				ans += 2L * siz[u] * siz[v] * val[u];
+				if (u <= n) {
+					ans += 1L * siz[v] * (total - siz[v] - 1);
+				} else {
+					ans += 1L * siz[v] * (deg[u] - 2) * (total - siz[v]);
+				}
 				siz[u] += siz[v];
 			}
 		}
-		ans += 2L * siz[u] * (nodeCnt - siz[u]) * val[u];
+		siz[u] += u <= n ? 1 : 0;
+		if (u <= n) {
+			ans += 1L * (siz[u] - 1) * (total - siz[u]);
+		} else {
+			ans += 1L * siz[u] * (deg[u] - 2) * (total - siz[u]);
+		}
 	}
 
 	// 迭代版
@@ -174,7 +180,6 @@ public class Code05_Duathlon1 {
 		while (stacksize > 0) {
 			pop();
 			if (e == -1) {
-				siz[u] = u <= n ? 1 : 0;
 				e = head2[u];
 			} else {
 				e = next2[e];
@@ -188,11 +193,20 @@ public class Code05_Duathlon1 {
 				for (int ei = head2[u]; ei > 0; ei = next2[ei]) {
 					int v = to2[ei];
 					if (v != fa) {
-						ans += 2L * siz[u] * siz[v] * val[u];
+						if (u <= n) {
+							ans += 1L * siz[v] * (total - siz[v] - 1);
+						} else {
+							ans += 1L * siz[v] * (deg[u] - 2) * (total - siz[v]);
+						}
 						siz[u] += siz[v];
 					}
 				}
-				ans += 2L * siz[u] * (nodeCnt - siz[u]) * val[u];
+				siz[u] += u <= n ? 1 : 0;
+				if (u <= n) {
+					ans += 1L * (siz[u] - 1) * (total - siz[u]);
+				} else {
+					ans += 1L * siz[u] * (deg[u] - 2) * (total - siz[u]);
+				}
 			}
 		}
 	}
@@ -211,7 +225,7 @@ public class Code05_Duathlon1 {
 		}
 		for (int i = 1; i <= n; i++) {
 			if (dfn[i] == 0) {
-				nodeCnt = 0;
+				total = 0;
 				// tarjan1(i);
 				tarjan2(i);
 				// dpOnTree1(i, 0);
