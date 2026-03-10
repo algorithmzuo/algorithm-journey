@@ -42,8 +42,8 @@ public class Code04_Blockade1 {
 	// dfs过程中，子树中的圆点数量
 	public static int[] siz = new int[MAXN << 1];
 
-	// 每个点如果把相邻的边删掉，所统计的答案
-	public static long[] ans = new long[MAXN << 1];
+	// 每个原图中的点，如果把相邻的边删掉，所统计的答案
+	public static long[] ans = new long[MAXN];
 
 	// 迭代版需要的栈，讲解118讲了递归改迭代的技巧
 	public static int[][] stack = new int[MAXN << 1][4];

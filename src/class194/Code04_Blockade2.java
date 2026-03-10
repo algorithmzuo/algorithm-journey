@@ -40,7 +40,7 @@ package class194;
 //int top;
 //
 //int siz[MAXN << 1];
-//ll ans[MAXN << 1];
+//ll ans[MAXN];
 //
 //void addEdge1(int u, int v) {
 //    next1[++cnt1] = head1[u];
