@@ -38,9 +38,16 @@ public class Code05_Duathlon1 {
 	public static int[] sta = new int[MAXN];
 	public static int top;
 
+	// 方点才有deg信息，表示点双连通分量包含几个点
 	public static int[] deg = new int[MAXN << 1];
+
+	// dfs过程中，子树里的圆点数量
 	public static int[] siz = new int[MAXN << 1];
+
+	// 当前连通区的总节点数
 	public static int total;
+
+	// 答案
 	public static long ans;
 
 	// 迭代版需要的栈，讲解118讲了递归改迭代的技巧
