@@ -84,13 +84,17 @@ package class194;
 //        int v = to2[e];
 //        if (v != fa) {
 //            dpOnTree(v, u);
-//            ans[u] += 2LL * siz[u] * siz[v];
+//            if (u <= n) {
+//                ans[u] += 1LL * siz[v] * (n - siz[v] - 1);
+//            }
 //            siz[u] += siz[v];
 //        }
 //    }
 //    siz[u] += u <= n ? 1 : 0;
-//    ans[u] += 2LL * (siz[u] - 1) * (n - siz[u]);
-//    ans[u] += 2LL * (n - 1);
+//    if (u <= n) {
+//        ans[u] += 1LL * (n - siz[u]) * (siz[u] - 1);
+//        ans[u] += 2LL * (n - 1);
+//    }
 //}
 //
 //int main() {

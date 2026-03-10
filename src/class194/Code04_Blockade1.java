@@ -150,13 +150,17 @@ public class Code04_Blockade1 {
 			int v = to2[e];
 			if (v != fa) {
 				dpOnTree1(v, u);
-				ans[u] += 2L * siz[u] * siz[v];
+				if (u <= n) {
+					ans[u] += 1L * siz[v] * (n - siz[v] - 1);
+				}
 				siz[u] += siz[v];
 			}
 		}
 		siz[u] += u <= n ? 1 : 0;
-		ans[u] += 2L * (siz[u] - 1) * (n - siz[u]);
-		ans[u] += 2L * (n - 1);
+		if (u <= n) {
+			ans[u] += 1L * (n - siz[u]) * (siz[u] - 1);
+			ans[u] += 2L * (n - 1);
+		}
 	}
 
 	// 迭代版
@@ -179,13 +183,17 @@ public class Code04_Blockade1 {
 				for (int ei = head2[u]; ei > 0; ei = next2[ei]) {
 					int v = to2[ei];
 					if (v != fa) {
-						ans[u] += 2L * siz[u] * siz[v];
+						if (u <= n) {
+							ans[u] += 1L * siz[v] * (n - siz[v] - 1);
+						}
 						siz[u] += siz[v];
 					}
 				}
 				siz[u] += u <= n ? 1 : 0;
-				ans[u] += 2L * (siz[u] - 1) * (n - siz[u]);
-				ans[u] += 2L * (n - 1);
+				if (u <= n) {
+					ans[u] += 1L * (n - siz[u]) * (siz[u] - 1);
+					ans[u] += 2L * (n - 1);
+				}
 			}
 		}
 	}
