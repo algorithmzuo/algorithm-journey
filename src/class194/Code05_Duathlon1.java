@@ -38,7 +38,7 @@ public class Code05_Duathlon1 {
 	public static int[] sta = new int[MAXN];
 	public static int top;
 
-	// 方点才有deg信息，表示点双连通分量包含几个点
+	// 方点才有deg，点双连通分量的节点数，也就是度
 	public static int[] deg = new int[MAXN << 1];
 
 	// dfs过程中，子树里的圆点数量
