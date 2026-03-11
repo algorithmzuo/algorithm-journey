@@ -43,6 +43,8 @@ public class Code08_Tourists1 {
 	public static int[] sta = new int[MAXN];
 	public static int cnts;
 
+	// nid是圆方树的点获得的dfn序号
+	// cnti是圆方树的dfn序号计数
 	public static int[] fa = new int[MAXN << 1];
 	public static int[] dep = new int[MAXN << 1];
 	public static int[] siz = new int[MAXN << 1];

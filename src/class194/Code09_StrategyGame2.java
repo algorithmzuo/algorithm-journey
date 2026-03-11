@@ -38,10 +38,10 @@ package class194;
 //int sta[MAXN];
 //int top;
 //
-//int nid[MAXN << 1];
 //int dist[MAXN << 1];
 //int dep[MAXN << 1];
 //int stjump[MAXN << 1][MAXP];
+//int nid[MAXN << 1];
 //int cnti;
 //
 //int arr[MAXN];

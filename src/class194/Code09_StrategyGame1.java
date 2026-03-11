@@ -40,10 +40,12 @@ public class Code09_StrategyGame1 {
 	public static int[] sta = new int[MAXN];
 	public static int top;
 
-	public static int[] nid = new int[MAXN << 1];
+	// nid是圆方树的点获得的dfn序号
+	// cnti是圆方树的dfn序号计数
 	public static int[] dist = new int[MAXN << 1];
 	public static int[] dep = new int[MAXN << 1];
 	public static int[][] stjump = new int[MAXN << 1][MAXP];
+	public static int[] nid = new int[MAXN << 1];
 	public static int cnti;
 
 	public static int[] arr = new int[MAXN];
