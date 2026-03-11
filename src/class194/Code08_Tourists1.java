@@ -39,7 +39,6 @@ public class Code08_Tourists1 {
 	public static int[] dfn = new int[MAXN];
 	public static int[] low = new int[MAXN];
 	public static int cntd;
-
 	public static int[] sta = new int[MAXN];
 	public static int cnts;
 
@@ -53,8 +52,11 @@ public class Code08_Tourists1 {
 	public static int[] nid = new int[MAXN << 1];
 	public static int cnti;
 
+	// 每个方点分配有序表
 	public static HashMap<Integer, TreeMap<Integer, Integer>> maps = new HashMap<>();
+	// 圆方树中每个点的点权
 	public static int[] val = new int[MAXN << 1];
+	// 线段树
 	public static int[] minv = new int[MAXN << 3];
 
 	public static void addEdge1(int u, int v) {

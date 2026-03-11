@@ -35,7 +35,6 @@ package class194;
 //int dfn[MAXN];
 //int low[MAXN];
 //int cntd;
-//
 //int sta[MAXN];
 //int cnts;
 //
