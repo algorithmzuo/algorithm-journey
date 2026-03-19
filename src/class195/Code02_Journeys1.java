@@ -1,23 +1,22 @@
 package class195;
 
-// 遗产，java版
-// 测试链接 : https://www.luogu.com.cn/problem/CF786B
-// 测试链接 : https://codeforces.com/problemset/problem/786/B
+// 旅程，java版
+// 测试链接 : https://www.luogu.com.cn/problem/P6348
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
-import java.util.PriorityQueue;
+import java.util.ArrayDeque;
 
-public class Code01_Legacy1 {
+public class Code02_Journeys1 {
 
-	public static int MAXN = 100001;
+	public static int MAXN = 500001;
 	public static int MAXT = MAXN * 10;
-	public static int MAXE = MAXN * 30;
-	public static long INF = 1L << 60;
-	public static int n, q, s;
+	public static int MAXE = MAXN * 20;
+	public static int INF = 1 << 30;
+	public static int n, m, p;
 
 	public static int[] head = new int[MAXT];
 	public static int[] nxt = new int[MAXE];
@@ -33,9 +32,8 @@ public class Code01_Legacy1 {
 	public static int rootIn, rootOut;
 	public static int cntt;
 
-	public static long[] dist = new long[MAXT];
-	public static boolean[] vis = new boolean[MAXT];
-	public static PriorityQueue<long[]> heap = new PriorityQueue<>((x, y) -> Long.compare(x[1], y[1]));
+	public static int[] dist = new int[MAXT];
+	public static ArrayDeque<int[]> deque = new ArrayDeque<>();
 
 	public static void addEdge(int u, int v, int w) {
 		nxt[++cntg] = head[u];
@@ -72,53 +70,63 @@ public class Code01_Legacy1 {
 		return rt;
 	}
 
-	public static void xToRange(int jobx, int jobl, int jobr, int jobw, int l, int r, int i) {
+	public static void rangeToVirtual(int jobl, int jobr, int virtual, int jobw, int l, int r, int rt) {
 		if (jobl <= l && r <= jobr) {
-			addEdge(jobx, i, jobw);
+			addEdge(rt, virtual, jobw);
 		} else {
 			int mid = (l + r) >> 1;
 			if (jobl <= mid) {
-				xToRange(jobx, jobl, jobr, jobw, l, mid, ls[i]);
+				rangeToVirtual(jobl, jobr, virtual, jobw, l, mid, ls[rt]);
 			}
 			if (jobr > mid) {
-				xToRange(jobx, jobl, jobr, jobw, mid + 1, r, rs[i]);
+				rangeToVirtual(jobl, jobr, virtual, jobw, mid + 1, r, rs[rt]);
 			}
 		}
 	}
 
-	public static void rangeToX(int jobl, int jobr, int jobx, int jobw, int l, int r, int i) {
+	public static void virtualToRange(int virtual, int jobl, int jobr, int jobw, int l, int r, int rt) {
 		if (jobl <= l && r <= jobr) {
-			addEdge(i, jobx, jobw);
+			addEdge(virtual, rt, jobw);
 		} else {
 			int mid = (l + r) >> 1;
 			if (jobl <= mid) {
-				rangeToX(jobl, jobr, jobx, jobw, l, mid, ls[i]);
+				virtualToRange(virtual, jobl, jobr, jobw, l, mid, ls[rt]);
 			}
 			if (jobr > mid) {
-				rangeToX(jobl, jobr, jobx, jobw, mid + 1, r, rs[i]);
+				virtualToRange(virtual, jobl, jobr, jobw, mid + 1, r, rs[rt]);
 			}
 		}
 	}
 
-	public static void dijkstra() {
-		s = inArr[s];
+	public static void rangeToRange(int a, int b, int c, int d) {
+		int vab = ++cntt;
+		int vcd = ++cntt;
+		rangeToVirtual(a, b, vab, 1, 1, n, rootIn);
+		virtualToRange(vab, c, d, 0, 1, n, rootOut);
+		rangeToVirtual(c, d, vcd, 1, 1, n, rootIn);
+		virtualToRange(vcd, a, b, 0, 1, n, rootOut);
+	}
+
+	public static void bfs01() {
+		p = inArr[p];
 		for (int i = 1; i <= cntt; i++) {
 			dist[i] = INF;
 		}
-		dist[s] = 0;
-		heap.add(new long[] { s, 0 });
-		while (!heap.isEmpty()) {
-			long[] cur = heap.poll();
-			int u = (int) cur[0];
-			long d = cur[1];
-			if (!vis[u]) {
-				vis[u] = true;
-				for (int e = head[u]; e > 0; e = nxt[e]) {
-					int v = to[e];
-					int w = weight[e];
-					if (!vis[v] && dist[v] > d + w) {
-						dist[v] = d + w;
-						heap.add(new long[] { v, dist[v] });
+		dist[p] = 0;
+		deque.addFirst(new int[] { p, 0 });
+		while (!deque.isEmpty()) {
+			int[] cur = deque.pollFirst();
+			int u = cur[0];
+			int d = cur[1];
+			for (int e = head[u]; e > 0; e = nxt[e]) {
+				int v = to[e];
+				int w = weight[e];
+				if (dist[v] > d + w) {
+					dist[v] = d + w;
+					if (w == 0) {
+						deque.addFirst(new int[] { v, dist[v] });
+					} else {
+						deque.addLast(new int[] { v, dist[v] });
 					}
 				}
 			}
@@ -129,39 +137,24 @@ public class Code01_Legacy1 {
 		FastReader in = new FastReader(System.in);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
 		n = in.nextInt();
-		q = in.nextInt();
-		s = in.nextInt();
+		m = in.nextInt();
+		p = in.nextInt();
 		rootIn = buildIn(1, n);
 		rootOut = buildOut(1, n);
 		for (int i = 1; i <= n; i++) {
 			addEdge(inArr[i], outArr[i], 0);
 			addEdge(outArr[i], inArr[i], 0);
 		}
-		for (int i = 1, op, x, y, l, r, w; i <= q; i++) {
-			op = in.nextInt();
-			if (op == 1) {
-				x = in.nextInt();
-				y = in.nextInt();
-				w = in.nextInt();
-				addEdge(inArr[x], outArr[y], w);
-			} else if (op == 2) {
-				x = in.nextInt();
-				l = in.nextInt();
-				r = in.nextInt();
-				w = in.nextInt();
-				xToRange(inArr[x], l, r, w, 1, n, rootOut);
-			} else {
-				x = in.nextInt();
-				l = in.nextInt();
-				r = in.nextInt();
-				w = in.nextInt();
-				rangeToX(l, r, outArr[x], w, 1, n, rootIn);
-			}
+		for (int i = 1, a, b, c, d; i <= m; i++) {
+			a = in.nextInt();
+			b = in.nextInt();
+			c = in.nextInt();
+			d = in.nextInt();
+			rangeToRange(a, b, c, d);
 		}
-		dijkstra();
+		bfs01();
 		for (int i = 1; i <= n; i++) {
-			out.print(dist[outArr[i]] == INF ? -1 : dist[outArr[i]]);
-			out.print(" ");
+			out.println(dist[outArr[i]]);
 		}
 		out.flush();
 		out.close();
