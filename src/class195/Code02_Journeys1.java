@@ -33,7 +33,7 @@ public class Code02_Journeys1 {
 	public static int cntt;
 
 	public static int[] dist = new int[MAXT];
-	public static ArrayDeque<int[]> deque = new ArrayDeque<>();
+	public static ArrayDeque<Integer> deque = new ArrayDeque<>();
 
 	public static void addEdge(int u, int v, int w) {
 		nxt[++cntg] = head[u];
@@ -113,20 +113,18 @@ public class Code02_Journeys1 {
 			dist[i] = INF;
 		}
 		dist[p] = 0;
-		deque.addFirst(new int[] { p, 0 });
+		deque.addFirst(p);
 		while (!deque.isEmpty()) {
-			int[] cur = deque.pollFirst();
-			int u = cur[0];
-			int d = cur[1];
+			int u = deque.pollFirst();
 			for (int e = head[u]; e > 0; e = nxt[e]) {
 				int v = to[e];
 				int w = weight[e];
-				if (dist[v] > d + w) {
-					dist[v] = d + w;
+				if (dist[v] > dist[u] + w) {
+					dist[v] = dist[u] + w;
 					if (w == 0) {
-						deque.addFirst(new int[] { v, dist[v] });
+						deque.addFirst(v);
 					} else {
-						deque.addLast(new int[] { v, dist[v] });
+						deque.addLast(v);
 					}
 				}
 			}
