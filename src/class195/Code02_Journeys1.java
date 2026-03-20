@@ -13,7 +13,7 @@ import java.util.ArrayDeque;
 public class Code02_Journeys1 {
 
 	public static int MAXN = 500001;
-	public static int MAXT = MAXN * 10;
+	public static int MAXT = MAXN << 3;
 	public static int MAXE = MAXN * 20;
 	public static int INF = 1 << 30;
 	public static int n, m, p;
@@ -70,30 +70,30 @@ public class Code02_Journeys1 {
 		return rt;
 	}
 
-	public static void rangeToVirtual(int jobl, int jobr, int virtual, int jobw, int l, int r, int rt) {
+	public static void rangeToVirtual(int jobl, int jobr, int virtual, int jobw, int l, int r, int i) {
 		if (jobl <= l && r <= jobr) {
-			addEdge(rt, virtual, jobw);
+			addEdge(i, virtual, jobw);
 		} else {
 			int mid = (l + r) >> 1;
 			if (jobl <= mid) {
-				rangeToVirtual(jobl, jobr, virtual, jobw, l, mid, ls[rt]);
+				rangeToVirtual(jobl, jobr, virtual, jobw, l, mid, ls[i]);
 			}
 			if (jobr > mid) {
-				rangeToVirtual(jobl, jobr, virtual, jobw, mid + 1, r, rs[rt]);
+				rangeToVirtual(jobl, jobr, virtual, jobw, mid + 1, r, rs[i]);
 			}
 		}
 	}
 
-	public static void virtualToRange(int virtual, int jobl, int jobr, int jobw, int l, int r, int rt) {
+	public static void virtualToRange(int virtual, int jobl, int jobr, int jobw, int l, int r, int i) {
 		if (jobl <= l && r <= jobr) {
-			addEdge(virtual, rt, jobw);
+			addEdge(virtual, i, jobw);
 		} else {
 			int mid = (l + r) >> 1;
 			if (jobl <= mid) {
-				virtualToRange(virtual, jobl, jobr, jobw, l, mid, ls[rt]);
+				virtualToRange(virtual, jobl, jobr, jobw, l, mid, ls[i]);
 			}
 			if (jobr > mid) {
-				virtualToRange(virtual, jobl, jobr, jobw, mid + 1, r, rs[rt]);
+				virtualToRange(virtual, jobl, jobr, jobw, mid + 1, r, rs[i]);
 			}
 		}
 	}

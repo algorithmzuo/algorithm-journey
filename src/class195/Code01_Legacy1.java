@@ -14,7 +14,7 @@ import java.util.PriorityQueue;
 public class Code01_Legacy1 {
 
 	public static int MAXN = 100001;
-	public static int MAXT = MAXN * 10;
+	public static int MAXT = MAXN << 3;
 	public static int MAXE = MAXN * 30;
 	public static long INF = 1L << 60;
 	public static int n, q, s;
