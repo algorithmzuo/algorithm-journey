@@ -207,13 +207,16 @@ public class Code03_Bomb1 {
 			int scc1 = belong[a[i]];
 			int scc2 = belong[b[i]];
 			if (scc1 != scc2) {
-				// 建立反图
-				// 方便后续进行DAG的动态规划
+				// 求解每个出发点最大能覆盖的范围
+				// 所以从DAG的末端向源头更新，所以建立反图
 				addEdge(scc2, scc1);
 			}
 		}
 	}
 
+	// 讲解190，强连通分量缩点后的DAG，动态规划的直接转移写法
+	// 越靠近源头，强连通分量序号越大，越靠近末端，强连通分量序号越小
+	// 所以序号从小到大进行枚举，从末端向源头更新，也是建立反图的原因
 	public static void dpOnDAG() {
 		for (int u = 1; u <= sccCnt; u++) {
 			for (int e = head[u]; e > 0; e = nxt[e]) {
