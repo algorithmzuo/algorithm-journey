@@ -1,9 +1,12 @@
 package class042;
 
+// 买苹果使用最少袋子
+// 本题已经找到了在线测试，就是本节课Code01_AppleMinBags2文件
 // 有装下8个苹果的袋子、装下6个苹果的袋子，一定要保证买苹果时所有使用的袋子都装满
 // 对于无法装满所有袋子的方案不予考虑，给定n个苹果，返回至少要多少个袋子
 // 如果不存在每个袋子都装满的方案返回-1
-public class Code01_AppleMinBags {
+
+public class Code01_AppleMinBags1 {
 
 	public static int bags1(int apple) {
 		int ans = f(apple);
