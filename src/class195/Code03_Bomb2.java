@@ -60,6 +60,20 @@ package class195;
 //    b[cnte] = v;
 //}
 //
+//int lower(ll num) {
+//    int l = 1, r = n, mid, ans = n + 1;
+//    while (l <= r) {
+//        mid = (l + r) >> 1;
+//        if (location[mid] >= num) {
+//            ans = mid;
+//            r = mid - 1;
+//        } else {
+//            l = mid + 1;
+//        }
+//    }
+//    return ans;
+//}
+//
 //int buildOut(int l, int r) {
 //    int rt = ++cntt;
 //    rangel[rt] = l;
@@ -74,20 +88,6 @@ package class195;
 //        addSaveEdge(rt, rs[rt]);
 //    }
 //    return rt;
-//}
-//
-//int lower(ll num) {
-//    int l = 1, r = n, mid, ans = n + 1;
-//    while (l <= r) {
-//        mid = (l + r) >> 1;
-//        if (location[mid] >= num) {
-//            ans = mid;
-//            r = mid - 1;
-//        } else {
-//            l = mid + 1;
-//        }
-//    }
-//    return ans;
 //}
 //
 //void xToRange(int jobx, int jobl, int jobr, int l, int r, int i) {

@@ -79,6 +79,20 @@ public class Code03_Bomb1 {
 		b[cnte] = v;
 	}
 
+	public static int lower(long num) {
+		int l = 1, r = n, mid, ans = n + 1;
+		while (l <= r) {
+			mid = (l + r) >> 1;
+			if (location[mid] >= num) {
+				ans = mid;
+				r = mid - 1;
+			} else {
+				l = mid + 1;
+			}
+		}
+		return ans;
+	}
+
 	public static int buildOut(int l, int r) {
 		int rt = ++cntt;
 		rangel[rt] = l;
@@ -93,20 +107,6 @@ public class Code03_Bomb1 {
 			addSaveEdge(rt, rs[rt]);
 		}
 		return rt;
-	}
-
-	public static int lower(long num) {
-		int l = 1, r = n, mid, ans = n + 1;
-		while (l <= r) {
-			mid = (l + r) >> 1;
-			if (location[mid] >= num) {
-				ans = mid;
-				r = mid - 1;
-			} else {
-				l = mid + 1;
-			}
-		}
-		return ans;
 	}
 
 	public static void xToRange(int jobx, int jobl, int jobr, int l, int r, int i) {
