@@ -100,11 +100,8 @@ public class Code02_Journeys1 {
 
 	public static void rangeToRange(int a, int b, int c, int d) {
 		int vab = ++cntt;
-		int vcd = ++cntt;
 		rangeToVirtual(a, b, vab, 1, 1, n, rootIn);
 		virtualToRange(vab, c, d, 0, 1, n, rootOut);
-		rangeToVirtual(c, d, vcd, 1, 1, n, rootIn);
-		virtualToRange(vcd, a, b, 0, 1, n, rootOut);
 	}
 
 	public static void bfs01() {
@@ -149,6 +146,7 @@ public class Code02_Journeys1 {
 			c = in.nextInt();
 			d = in.nextInt();
 			rangeToRange(a, b, c, d);
+			rangeToRange(c, d, a, b);
 		}
 		bfs01();
 		for (int i = 1; i <= n; i++) {
