@@ -9,7 +9,7 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
-public class Code03_Bomb1 {
+public class Code04_Bomb1 {
 
 	public static int MAXN = 500001;
 	public static int MAXT = MAXN << 2;
