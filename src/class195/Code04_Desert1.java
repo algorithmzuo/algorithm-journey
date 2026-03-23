@@ -121,17 +121,17 @@ public class Code04_Desert1 {
 			int l = in.nextInt();
 			int r = in.nextInt();
 			int k = in.nextInt();
-			int virtual = ++cntt;
+			int vnode = ++cntt;
 			for (int j = 1; j <= k; j++) {
 				int x = in.nextInt();
-				addEdge(idArr[x], virtual, 0);
+				addEdge(idArr[x], vnode, 0);
 				if (l < x) {
-					xToRange(virtual, l, x - 1, -1, 1, n, root);
+					xToRange(vnode, l, x - 1, -1, 1, n, root);
 				}
 				l = x + 1;
 			}
 			if (l <= r) {
-				xToRange(virtual, l, r, -1, 1, n, root);
+				xToRange(vnode, l, r, -1, 1, n, root);
 			}
 		}
 		boolean check = topo();

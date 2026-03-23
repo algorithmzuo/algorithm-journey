@@ -99,9 +99,9 @@ public class Code02_Journeys1 {
 	}
 
 	public static void rangeToRange(int a, int b, int c, int d) {
-		int virtual = ++cntt;
-		rangeToX(a, b, virtual, 1, 1, n, rootIn);
-		xToRange(virtual, c, d, 0, 1, n, rootOut);
+		int vnode = ++cntt;
+		rangeToX(a, b, vnode, 1, 1, n, rootIn);
+		xToRange(vnode, c, d, 0, 1, n, rootOut);
 	}
 
 	public static void bfs01() {

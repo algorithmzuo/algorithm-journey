@@ -102,9 +102,9 @@ public class Code03_Road1 {
 	}
 
 	public static void rangeToRange(int a, int b, int c, int d, int w) {
-		int virtual = ++cntt;
-		rangeToX(a, b, virtual, w, 1, n, rootIn);
-		xToRange(virtual, c, d, 0, 1, n, rootOut);
+		int vnode = ++cntt;
+		rangeToX(a, b, vnode, w, 1, n, rootIn);
+		xToRange(vnode, c, d, 0, 1, n, rootOut);
 	}
 
 	public static int dijkstra(int start, int target) {
