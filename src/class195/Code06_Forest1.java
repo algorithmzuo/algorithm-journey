@@ -189,14 +189,14 @@ public class Code06_Forest1 {
 		for (int i = 1; i <= n; i++) {
 			father[i] = i;
 		}
-		for (int i = 1; i <= m; i++) {
-			int op = in.nextInt();
+		for (int i = 1, op, a, b, c, d, w, u, v; i <= m; i++) {
+			op = in.nextInt();
 			if (op == 1) {
-				int a = in.nextInt();
-				int b = in.nextInt();
-				int c = in.nextInt();
-				int d = in.nextInt();
-				int w = in.nextInt();
+				a = in.nextInt();
+				b = in.nextInt();
+				c = in.nextInt();
+				d = in.nextInt();
+				w = in.nextInt();
 				if (find(a) == find(b) && find(c) == find(d)) {
 					u1[++cntq] = a;
 					v1[cntq] = b;
@@ -205,9 +205,9 @@ public class Code06_Forest1 {
 					weight[cntq] = w;
 				}
 			} else {
-				int u = in.nextInt();
-				int v = in.nextInt();
-				int w = in.nextInt();
+				u = in.nextInt();
+				v = in.nextInt();
+				w = in.nextInt();
 				int ufa = find(u);
 				int vfa = find(v);
 				if (ufa != vfa) {
