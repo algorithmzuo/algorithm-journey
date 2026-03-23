@@ -70,38 +70,38 @@ public class Code02_Journeys1 {
 		return rt;
 	}
 
-	public static void rangeToVirtual(int jobl, int jobr, int virtual, int jobw, int l, int r, int i) {
+	public static void xToRange(int jobx, int jobl, int jobr, int jobw, int l, int r, int i) {
 		if (jobl <= l && r <= jobr) {
-			addEdge(i, virtual, jobw);
+			addEdge(jobx, i, jobw);
 		} else {
 			int mid = (l + r) >> 1;
 			if (jobl <= mid) {
-				rangeToVirtual(jobl, jobr, virtual, jobw, l, mid, ls[i]);
+				xToRange(jobx, jobl, jobr, jobw, l, mid, ls[i]);
 			}
 			if (jobr > mid) {
-				rangeToVirtual(jobl, jobr, virtual, jobw, mid + 1, r, rs[i]);
+				xToRange(jobx, jobl, jobr, jobw, mid + 1, r, rs[i]);
 			}
 		}
 	}
 
-	public static void virtualToRange(int virtual, int jobl, int jobr, int jobw, int l, int r, int i) {
+	public static void rangeToX(int jobl, int jobr, int jobx, int jobw, int l, int r, int i) {
 		if (jobl <= l && r <= jobr) {
-			addEdge(virtual, i, jobw);
+			addEdge(i, jobx, jobw);
 		} else {
 			int mid = (l + r) >> 1;
 			if (jobl <= mid) {
-				virtualToRange(virtual, jobl, jobr, jobw, l, mid, ls[i]);
+				rangeToX(jobl, jobr, jobx, jobw, l, mid, ls[i]);
 			}
 			if (jobr > mid) {
-				virtualToRange(virtual, jobl, jobr, jobw, mid + 1, r, rs[i]);
+				rangeToX(jobl, jobr, jobx, jobw, mid + 1, r, rs[i]);
 			}
 		}
 	}
 
 	public static void rangeToRange(int a, int b, int c, int d) {
-		int vab = ++cntt;
-		rangeToVirtual(a, b, vab, 1, 1, n, rootIn);
-		virtualToRange(vab, c, d, 0, 1, n, rootOut);
+		int virtual = ++cntt;
+		rangeToX(a, b, virtual, 1, 1, n, rootIn);
+		xToRange(virtual, c, d, 0, 1, n, rootOut);
 	}
 
 	public static void bfs01() {
