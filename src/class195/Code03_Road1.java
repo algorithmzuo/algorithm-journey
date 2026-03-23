@@ -13,7 +13,7 @@ import java.util.PriorityQueue;
 public class Code03_Road1 {
 
 	public static int MAXN = 50001;
-	public static int MAXT = MAXN << 3;
+	public static int MAXT = MAXN * 10;
 	public static int MAXE = MAXN * 20;
 	public static int MAXK = 11;
 	public static int INF = 1 << 30;

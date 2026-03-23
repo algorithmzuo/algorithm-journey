@@ -9,10 +9,10 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
-public class Code04_Bomb1 {
+public class Code05_Bomb1 {
 
 	public static int MAXN = 500001;
-	public static int MAXT = MAXN << 2;
+	public static int MAXT = MAXN * 5;
 	public static int MAXE = MAXN * 20;
 	public static int INF = 1 << 30;
 	public static int MOD = 1000000007;
@@ -29,12 +29,12 @@ public class Code04_Bomb1 {
 	public static int[] to = new int[MAXE];
 	public static int cntg;
 
-	public static int[] outArr = new int[MAXN];
+	public static int[] idArr = new int[MAXN];
 	public static int[] rangel = new int[MAXT];
 	public static int[] ranger = new int[MAXT];
 	public static int[] ls = new int[MAXT];
 	public static int[] rs = new int[MAXT];
-	public static int rootOut;
+	public static int root;
 	public static int cntt;
 
 	public static int[] dfn = new int[MAXT];
@@ -93,16 +93,16 @@ public class Code04_Bomb1 {
 		return ans;
 	}
 
-	public static int buildOut(int l, int r) {
+	public static int build(int l, int r) {
 		int rt = ++cntt;
 		rangel[rt] = l;
 		ranger[rt] = r;
 		if (l == r) {
-			outArr[l] = rt;
+			idArr[l] = rt;
 		} else {
 			int mid = (l + r) >> 1;
-			ls[rt] = buildOut(l, mid);
-			rs[rt] = buildOut(mid + 1, r);
+			ls[rt] = build(l, mid);
+			rs[rt] = build(mid + 1, r);
 			addSaveEdge(rt, ls[rt]);
 			addSaveEdge(rt, rs[rt]);
 		}
@@ -229,7 +229,7 @@ public class Code04_Bomb1 {
 	}
 
 	public static int query(int u) {
-		int scc = belong[outArr[u]];
+		int scc = belong[idArr[u]];
 		int num = mostr[scc] - mostl[scc] + 1;
 		return num;
 	}
@@ -242,14 +242,14 @@ public class Code04_Bomb1 {
 			location[i] = in.nextLong();
 			radius[i] = in.nextLong();
 		}
-		rootOut = buildOut(1, n);
+		root = build(1, n);
 		for (int i = 1; i <= n; i++) {
 			int l = lower(location[i] - radius[i]);
 			int r = lower(location[i] + radius[i] + 1) - 1;
-			xToRange(outArr[i], l, r, 1, n, rootOut);
+			xToRange(idArr[i], l, r, 1, n, root);
 		}
-		// tarjan1(rootOut);
-		tarjan2(rootOut);
+		// tarjan1(root);
+		tarjan2(root);
 		condense();
 		dpOnDAG();
 		long ans = 0;

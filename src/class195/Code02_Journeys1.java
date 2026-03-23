@@ -13,7 +13,7 @@ import java.util.ArrayDeque;
 public class Code02_Journeys1 {
 
 	public static int MAXN = 500001;
-	public static int MAXT = MAXN << 3;
+	public static int MAXT = MAXN * 10;
 	public static int MAXE = MAXN * 20;
 	public static int INF = 1 << 30;
 	public static int n, m, p;

@@ -12,7 +12,7 @@ package class195;
 //using ll = long long;
 //
 //const int MAXN = 500001;
-//const int MAXT = MAXN << 2;
+//const int MAXT = MAXN * 5;
 //const int MAXE = MAXN * 20;
 //const int INF = 1 << 30;
 //const int MOD = 1000000007;
@@ -29,12 +29,12 @@ package class195;
 //int to[MAXE];
 //int cntg;
 //
-//int outArr[MAXN];
+//int idArr[MAXN];
 //int rangel[MAXT];
 //int ranger[MAXT];
 //int ls[MAXT];
 //int rs[MAXT];
-//int rootOut;
+//int root;
 //int cntt;
 //
 //int dfn[MAXT];
@@ -74,16 +74,16 @@ package class195;
 //    return ans;
 //}
 //
-//int buildOut(int l, int r) {
+//int build(int l, int r) {
 //    int rt = ++cntt;
 //    rangel[rt] = l;
 //    ranger[rt] = r;
 //    if (l == r) {
-//        outArr[l] = rt;
+//        idArr[l] = rt;
 //    } else {
 //        int mid = (l + r) >> 1;
-//        ls[rt] = buildOut(l, mid);
-//        rs[rt] = buildOut(mid + 1, r);
+//        ls[rt] = build(l, mid);
+//        rs[rt] = build(mid + 1, r);
 //        addSaveEdge(rt, ls[rt]);
 //        addSaveEdge(rt, rs[rt]);
 //    }
@@ -157,7 +157,7 @@ package class195;
 //}
 //
 //int query(int u) {
-//    int scc = belong[outArr[u]];
+//    int scc = belong[idArr[u]];
 //    int num = mostr[scc] - mostl[scc] + 1;
 //    return num;
 //}
@@ -169,13 +169,13 @@ package class195;
 //    for (int i = 1; i <= n; i++) {
 //        cin >> location[i] >> radius[i];
 //    }
-//    rootOut = buildOut(1, n);
+//    root = build(1, n);
 //    for (int i = 1; i <= n; i++) {
 //        int l = lower(location[i] - radius[i]);
 //        int r = lower(location[i] + radius[i] + 1) - 1;
-//        xToRange(outArr[i], l, r, 1, n, rootOut);
+//        xToRange(idArr[i], l, r, 1, n, root);
 //    }
-//    tarjan(rootOut);
+//    tarjan(root);
 //    condense();
 //    dpOnDAG();
 //    ll ans = 0;
