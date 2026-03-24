@@ -26,13 +26,14 @@ public class Code02_InputLong {
 		// long类型的64位全用来表达整数部分
 		// 所以读入是long范围的数，如果用以下的写法
 		// in.nval会先变成double类型，如果再转成long类型，就可能有精度损耗
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StreamTokenizer in = new StreamTokenizer(br);
-		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
-		in.nextToken();
-		long num = (long) in.nval;
-		out.println(num);
-		out.flush();
+		try (BufferedReader br = new BufferedReader(new InputStreamReader(System.in))) {
+			StreamTokenizer in = new StreamTokenizer(br);
+			PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
+			in.nextToken();
+			long num = (long) in.nval;
+			out.println(num);
+			out.flush();
+		}
 	}
 
 	public static void f2() throws IOException {
