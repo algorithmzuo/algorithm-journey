@@ -50,8 +50,8 @@ public class Code01_Legacy1 {
 			int mid = (l + r) >> 1;
 			ls[rt] = buildIn(l, mid);
 			rs[rt] = buildIn(mid + 1, r);
-			addEdge(ls[rt], rt, 0);
-			addEdge(rs[rt], rt, 0);
+			addEdge(rt, ls[rt], 0);
+			addEdge(rt, rs[rt], 0);
 		}
 		return rt;
 	}
@@ -65,8 +65,8 @@ public class Code01_Legacy1 {
 			int mid = (l + r) >> 1;
 			ls[rt] = buildOut(l, mid);
 			rs[rt] = buildOut(mid + 1, r);
-			addEdge(rt, ls[rt], 0);
-			addEdge(rt, rs[rt], 0);
+			addEdge(ls[rt], rt, 0);
+			addEdge(rs[rt], rt, 0);
 		}
 		return rt;
 	}
@@ -144,13 +144,13 @@ public class Code01_Legacy1 {
 				l = in.nextInt();
 				r = in.nextInt();
 				w = in.nextInt();
-				xToRange(x, l, r, w, 1, n, rootOut);
+				xToRange(x, l, r, w, 1, n, rootIn);
 			} else {
 				x = in.nextInt();
 				l = in.nextInt();
 				r = in.nextInt();
 				w = in.nextInt();
-				rangeToX(l, r, x, w, 1, n, rootIn);
+				rangeToX(l, r, x, w, 1, n, rootOut);
 			}
 		}
 		dijkstra();

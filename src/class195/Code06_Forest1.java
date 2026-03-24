@@ -162,10 +162,9 @@ public class Code06_Forest1 {
 	}
 
 	public static void dijkstra() {
-		heap.clear();
-		for (int i = 0; i <= cntt; i++) {
+		dist[0] = INF;
+		for (int i = 1; i <= cntt; i++) {
 			dist[i] = INF;
-			vis[i] = false;
 		}
 		dist[s] = 0;
 		heap.add(new int[] { s, 0 });

@@ -51,8 +51,8 @@ public class Code03_Road1 {
 			int mid = (l + r) >> 1;
 			ls[rt] = buildIn(l, mid);
 			rs[rt] = buildIn(mid + 1, r);
-			addEdge(ls[rt], rt, 0);
-			addEdge(rs[rt], rt, 0);
+			addEdge(rt, ls[rt], 0);
+			addEdge(rt, rs[rt], 0);
 		}
 		return rt;
 	}
@@ -66,24 +66,10 @@ public class Code03_Road1 {
 			int mid = (l + r) >> 1;
 			ls[rt] = buildOut(l, mid);
 			rs[rt] = buildOut(mid + 1, r);
-			addEdge(rt, ls[rt], 0);
-			addEdge(rt, rs[rt], 0);
+			addEdge(ls[rt], rt, 0);
+			addEdge(rs[rt], rt, 0);
 		}
 		return rt;
-	}
-
-	public static void rangeToX(int jobl, int jobr, int jobx, int jobw, int l, int r, int i) {
-		if (jobl <= l && r <= jobr) {
-			addEdge(i, jobx, jobw);
-		} else {
-			int mid = (l + r) >> 1;
-			if (jobl <= mid) {
-				rangeToX(jobl, jobr, jobx, jobw, l, mid, ls[i]);
-			}
-			if (jobr > mid) {
-				rangeToX(jobl, jobr, jobx, jobw, mid + 1, r, rs[i]);
-			}
-		}
 	}
 
 	public static void xToRange(int jobx, int jobl, int jobr, int jobw, int l, int r, int i) {
@@ -100,10 +86,24 @@ public class Code03_Road1 {
 		}
 	}
 
+	public static void rangeToX(int jobl, int jobr, int jobx, int jobw, int l, int r, int i) {
+		if (jobl <= l && r <= jobr) {
+			addEdge(i, jobx, jobw);
+		} else {
+			int mid = (l + r) >> 1;
+			if (jobl <= mid) {
+				rangeToX(jobl, jobr, jobx, jobw, l, mid, ls[i]);
+			}
+			if (jobr > mid) {
+				rangeToX(jobl, jobr, jobx, jobw, mid + 1, r, rs[i]);
+			}
+		}
+	}
+
 	public static void rangeToRange(int a, int b, int c, int d, int w) {
 		int vnode = ++cntt;
-		rangeToX(a, b, vnode, w, 1, n, rootIn);
-		xToRange(vnode, c, d, 0, 1, n, rootOut);
+		rangeToX(a, b, vnode, w, 1, n, rootOut);
+		xToRange(vnode, c, d, 0, 1, n, rootIn);
 	}
 
 	public static int dijkstra(int start, int target) {

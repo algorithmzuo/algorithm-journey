@@ -48,8 +48,8 @@ public class Code02_Journeys1 {
 			int mid = (l + r) >> 1;
 			ls[rt] = buildIn(l, mid);
 			rs[rt] = buildIn(mid + 1, r);
-			addEdge(ls[rt], rt, 0);
-			addEdge(rs[rt], rt, 0);
+			addEdge(rt, ls[rt], 0);
+			addEdge(rt, rs[rt], 0);
 		}
 		return rt;
 	}
@@ -63,8 +63,8 @@ public class Code02_Journeys1 {
 			int mid = (l + r) >> 1;
 			ls[rt] = buildOut(l, mid);
 			rs[rt] = buildOut(mid + 1, r);
-			addEdge(rt, ls[rt], 0);
-			addEdge(rt, rs[rt], 0);
+			addEdge(ls[rt], rt, 0);
+			addEdge(rs[rt], rt, 0);
 		}
 		return rt;
 	}
@@ -99,8 +99,8 @@ public class Code02_Journeys1 {
 
 	public static void rangeToRange(int a, int b, int c, int d) {
 		int vnode = ++cntt;
-		rangeToX(a, b, vnode, 1, 1, n, rootIn);
-		xToRange(vnode, c, d, 0, 1, n, rootOut);
+		rangeToX(a, b, vnode, 1, 1, n, rootOut);
+		xToRange(vnode, c, d, 0, 1, n, rootIn);
 	}
 
 	public static void bfs01() {

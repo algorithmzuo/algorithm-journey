@@ -162,9 +162,9 @@ package class195;
 //}
 //
 //void dijkstra() {
-//    for (int i = 0; i <= cntt; i++) {
+//    dist[0] = INF;
+//    for (int i = 1; i <= cntt; i++) {
 //        dist[i] = INF;
-//        vis[i] = false;
 //    }
 //    dist[s] = 0;
 //    heap.push({s, 0});
