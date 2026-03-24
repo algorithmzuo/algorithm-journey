@@ -24,9 +24,6 @@ public class Code02_Journeys1 {
 	public static int[] weight = new int[MAXE];
 	public static int cntg;
 
-	public static int[] inArr = new int[MAXN];
-	public static int[] outArr = new int[MAXN];
-
 	public static int[] ls = new int[MAXT];
 	public static int[] rs = new int[MAXT];
 	public static int rootIn, rootOut;
@@ -43,10 +40,11 @@ public class Code02_Journeys1 {
 	}
 
 	public static int buildIn(int l, int r) {
-		int rt = ++cntt;
+		int rt;
 		if (l == r) {
-			inArr[l] = rt;
+			rt = l;
 		} else {
+			rt = ++cntt;
 			int mid = (l + r) >> 1;
 			ls[rt] = buildIn(l, mid);
 			rs[rt] = buildIn(mid + 1, r);
@@ -57,10 +55,11 @@ public class Code02_Journeys1 {
 	}
 
 	public static int buildOut(int l, int r) {
-		int rt = ++cntt;
+		int rt;
 		if (l == r) {
-			outArr[l] = rt;
+			rt = l;
 		} else {
+			rt = ++cntt;
 			int mid = (l + r) >> 1;
 			ls[rt] = buildOut(l, mid);
 			rs[rt] = buildOut(mid + 1, r);
@@ -105,7 +104,6 @@ public class Code02_Journeys1 {
 	}
 
 	public static void bfs01() {
-		p = inArr[p];
 		for (int i = 1; i <= cntt; i++) {
 			dist[i] = INF;
 		}
@@ -134,12 +132,9 @@ public class Code02_Journeys1 {
 		n = in.nextInt();
 		m = in.nextInt();
 		p = in.nextInt();
+		cntt = n;
 		rootIn = buildIn(1, n);
 		rootOut = buildOut(1, n);
-		for (int i = 1; i <= n; i++) {
-			addEdge(inArr[i], outArr[i], 0);
-			addEdge(outArr[i], inArr[i], 0);
-		}
 		for (int i = 1, a, b, c, d; i <= m; i++) {
 			a = in.nextInt();
 			b = in.nextInt();
@@ -150,7 +145,7 @@ public class Code02_Journeys1 {
 		}
 		bfs01();
 		for (int i = 1; i <= n; i++) {
-			out.println(dist[outArr[i]]);
+			out.println(dist[i]);
 		}
 		out.flush();
 		out.close();

@@ -29,7 +29,6 @@ package class195;
 //int to[MAXE];
 //int cntg;
 //
-//int idArr[MAXN];
 //int rangel[MAXT];
 //int ranger[MAXT];
 //int ls[MAXT];
@@ -75,18 +74,19 @@ package class195;
 //}
 //
 //int build(int l, int r) {
-//    int rt = ++cntt;
-//    rangel[rt] = l;
-//    ranger[rt] = r;
+//    int rt;
 //    if (l == r) {
-//        idArr[l] = rt;
+//        rt = l;
 //    } else {
+//        rt = ++cntt;
 //        int mid = (l + r) >> 1;
 //        ls[rt] = build(l, mid);
 //        rs[rt] = build(mid + 1, r);
 //        addSaveEdge(rt, ls[rt]);
 //        addSaveEdge(rt, rs[rt]);
 //    }
+//    rangel[rt] = l;
+//    ranger[rt] = r;
 //    return rt;
 //}
 //
@@ -157,7 +157,7 @@ package class195;
 //}
 //
 //int query(int u) {
-//    int scc = belong[idArr[u]];
+//    int scc = belong[u];
 //    int num = mostr[scc] - mostl[scc] + 1;
 //    return num;
 //}
@@ -166,6 +166,7 @@ package class195;
 //    ios::sync_with_stdio(false);
 //    cin.tie(nullptr);
 //    cin >> n;
+//    cntt = n;
 //    for (int i = 1; i <= n; i++) {
 //        cin >> location[i] >> radius[i];
 //    }
@@ -173,7 +174,7 @@ package class195;
 //    for (int i = 1; i <= n; i++) {
 //        int l = lower(location[i] - radius[i]);
 //        int r = lower(location[i] + radius[i] + 1) - 1;
-//        xToRange(idArr[i], l, r, 1, n, root);
+//        xToRange(i, l, r, 1, n, root);
 //    }
 //    tarjan(root);
 //    condense();

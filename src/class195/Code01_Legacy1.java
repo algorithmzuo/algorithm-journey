@@ -25,9 +25,6 @@ public class Code01_Legacy1 {
 	public static int[] weight = new int[MAXE];
 	public static int cntg;
 
-	public static int[] inArr = new int[MAXN];
-	public static int[] outArr = new int[MAXN];
-
 	public static int[] ls = new int[MAXT];
 	public static int[] rs = new int[MAXT];
 	public static int rootIn, rootOut;
@@ -45,10 +42,11 @@ public class Code01_Legacy1 {
 	}
 
 	public static int buildIn(int l, int r) {
-		int rt = ++cntt;
+		int rt;
 		if (l == r) {
-			inArr[l] = rt;
+			rt = l;
 		} else {
+			rt = ++cntt;
 			int mid = (l + r) >> 1;
 			ls[rt] = buildIn(l, mid);
 			rs[rt] = buildIn(mid + 1, r);
@@ -59,10 +57,11 @@ public class Code01_Legacy1 {
 	}
 
 	public static int buildOut(int l, int r) {
-		int rt = ++cntt;
+		int rt;
 		if (l == r) {
-			outArr[l] = rt;
+			rt = l;
 		} else {
+			rt = ++cntt;
 			int mid = (l + r) >> 1;
 			ls[rt] = buildOut(l, mid);
 			rs[rt] = buildOut(mid + 1, r);
@@ -101,7 +100,6 @@ public class Code01_Legacy1 {
 	}
 
 	public static void dijkstra() {
-		s = inArr[s];
 		for (int i = 1; i <= cntt; i++) {
 			dist[i] = INF;
 		}
@@ -131,36 +129,33 @@ public class Code01_Legacy1 {
 		n = in.nextInt();
 		q = in.nextInt();
 		s = in.nextInt();
+		cntt = n;
 		rootIn = buildIn(1, n);
 		rootOut = buildOut(1, n);
-		for (int i = 1; i <= n; i++) {
-			addEdge(inArr[i], outArr[i], 0);
-			addEdge(outArr[i], inArr[i], 0);
-		}
 		for (int i = 1, op, x, y, l, r, w; i <= q; i++) {
 			op = in.nextInt();
 			if (op == 1) {
 				x = in.nextInt();
 				y = in.nextInt();
 				w = in.nextInt();
-				addEdge(inArr[x], outArr[y], w);
+				addEdge(x, y, w);
 			} else if (op == 2) {
 				x = in.nextInt();
 				l = in.nextInt();
 				r = in.nextInt();
 				w = in.nextInt();
-				xToRange(inArr[x], l, r, w, 1, n, rootOut);
+				xToRange(x, l, r, w, 1, n, rootOut);
 			} else {
 				x = in.nextInt();
 				l = in.nextInt();
 				r = in.nextInt();
 				w = in.nextInt();
-				rangeToX(l, r, outArr[x], w, 1, n, rootIn);
+				rangeToX(l, r, x, w, 1, n, rootIn);
 			}
 		}
 		dijkstra();
 		for (int i = 1; i <= n; i++) {
-			out.print(dist[outArr[i]] == INF ? -1 : dist[outArr[i]]);
+			out.print(dist[i] == INF ? -1 : dist[i]);
 			out.print(" ");
 		}
 		out.flush();

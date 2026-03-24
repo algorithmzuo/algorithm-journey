@@ -23,7 +23,6 @@ public class Code04_Desert1 {
 	public static int[] weight = new int[MAXE];
 	public static int cntg;
 
-	public static int[] idArr = new int[MAXN];
 	public static int[] ls = new int[MAXT];
 	public static int[] rs = new int[MAXT];
 	public static int root;
@@ -43,10 +42,11 @@ public class Code04_Desert1 {
 	}
 
 	public static int build(int l, int r) {
-		int rt = ++cntt;
+		int rt;
 		if (l == r) {
-			idArr[l] = rt;
+			rt = l;
 		} else {
+			rt = ++cntt;
 			int mid = (l + r) >> 1;
 			ls[rt] = build(l, mid);
 			rs[rt] = build(mid + 1, r);
@@ -111,11 +111,12 @@ public class Code04_Desert1 {
 		n = in.nextInt();
 		s = in.nextInt();
 		m = in.nextInt();
+		cntt = n;
 		root = build(1, n);
 		for (int i = 1; i <= s; i++) {
 			int x = in.nextInt();
 			int v = in.nextInt();
-			val[idArr[x]] = v;
+			val[x] = v;
 		}
 		for (int i = 1; i <= m; i++) {
 			int l = in.nextInt();
@@ -124,7 +125,7 @@ public class Code04_Desert1 {
 			int vnode = ++cntt;
 			for (int j = 1; j <= k; j++) {
 				int x = in.nextInt();
-				addEdge(idArr[x], vnode, 0);
+				addEdge(x, vnode, 0);
 				if (l < x) {
 					xToRange(vnode, l, x - 1, -1, 1, n, root);
 				}
@@ -138,7 +139,7 @@ public class Code04_Desert1 {
 		if (check) {
 			out.println("TAK");
 			for (int i = 1; i <= n; i++) {
-				out.print(dist[idArr[i]] + " ");
+				out.print(dist[i] + " ");
 			}
 			out.println();
 		} else {

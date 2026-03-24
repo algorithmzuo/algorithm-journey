@@ -25,9 +25,6 @@ public class Code03_Road1 {
 	public static int[] weight = new int[MAXE];
 	public static int cntg;
 
-	public static int[] inArr = new int[MAXN];
-	public static int[] outArr = new int[MAXN];
-
 	public static int[] ls = new int[MAXT];
 	public static int[] rs = new int[MAXT];
 	public static int rootIn, rootOut;
@@ -46,10 +43,11 @@ public class Code03_Road1 {
 	}
 
 	public static int buildIn(int l, int r) {
-		int rt = ++cntt;
+		int rt;
 		if (l == r) {
-			inArr[l] = rt;
+			rt = l;
 		} else {
+			rt = ++cntt;
 			int mid = (l + r) >> 1;
 			ls[rt] = buildIn(l, mid);
 			rs[rt] = buildIn(mid + 1, r);
@@ -60,10 +58,11 @@ public class Code03_Road1 {
 	}
 
 	public static int buildOut(int l, int r) {
-		int rt = ++cntt;
+		int rt;
 		if (l == r) {
-			outArr[l] = rt;
+			rt = l;
 		} else {
+			rt = ++cntt;
 			int mid = (l + r) >> 1;
 			ls[rt] = buildOut(l, mid);
 			rs[rt] = buildOut(mid + 1, r);
@@ -108,8 +107,6 @@ public class Code03_Road1 {
 	}
 
 	public static int dijkstra(int start, int target) {
-		start = inArr[start];
-		target = outArr[target];
 		for (int i = 1; i <= cntt; i++) {
 			for (int j = 0; j <= k; j++) {
 				dist[i][j] = INF;
@@ -161,12 +158,9 @@ public class Code03_Road1 {
 			n = in.nextInt();
 			m = in.nextInt();
 			k = in.nextInt();
+			cntt = n;
 			rootIn = buildIn(1, n);
 			rootOut = buildOut(1, n);
-			for (int i = 1; i <= n; i++) {
-				addEdge(inArr[i], outArr[i], 0);
-				addEdge(outArr[i], inArr[i], 0);
-			}
 			for (int i = 1, a, b, c, d, w; i <= m; i++) {
 				a = in.nextInt();
 				b = in.nextInt();

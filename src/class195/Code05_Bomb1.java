@@ -29,7 +29,6 @@ public class Code05_Bomb1 {
 	public static int[] to = new int[MAXE];
 	public static int cntg;
 
-	public static int[] idArr = new int[MAXN];
 	public static int[] rangel = new int[MAXT];
 	public static int[] ranger = new int[MAXT];
 	public static int[] ls = new int[MAXT];
@@ -94,18 +93,19 @@ public class Code05_Bomb1 {
 	}
 
 	public static int build(int l, int r) {
-		int rt = ++cntt;
-		rangel[rt] = l;
-		ranger[rt] = r;
+		int rt;
 		if (l == r) {
-			idArr[l] = rt;
+			rt = l;
 		} else {
+			rt = ++cntt;
 			int mid = (l + r) >> 1;
 			ls[rt] = build(l, mid);
 			rs[rt] = build(mid + 1, r);
 			addSaveEdge(rt, ls[rt]);
 			addSaveEdge(rt, rs[rt]);
 		}
+		rangel[rt] = l;
+		ranger[rt] = r;
 		return rt;
 	}
 
@@ -229,7 +229,7 @@ public class Code05_Bomb1 {
 	}
 
 	public static int query(int u) {
-		int scc = belong[idArr[u]];
+		int scc = belong[u];
 		int num = mostr[scc] - mostl[scc] + 1;
 		return num;
 	}
@@ -238,6 +238,7 @@ public class Code05_Bomb1 {
 		FastReader in = new FastReader(System.in);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
 		n = in.nextInt();
+		cntt = n;
 		for (int i = 1; i <= n; i++) {
 			location[i] = in.nextLong();
 			radius[i] = in.nextLong();
@@ -246,7 +247,7 @@ public class Code05_Bomb1 {
 		for (int i = 1; i <= n; i++) {
 			int l = lower(location[i] - radius[i]);
 			int r = lower(location[i] + radius[i] + 1) - 1;
-			xToRange(idArr[i], l, r, 1, n, root);
+			xToRange(i, l, r, 1, n, root);
 		}
 		// tarjan1(root);
 		tarjan2(root);
