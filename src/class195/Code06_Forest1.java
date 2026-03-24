@@ -162,7 +162,6 @@ public class Code06_Forest1 {
 	}
 
 	public static void dijkstra() {
-		dist[0] = INF;
 		for (int i = 1; i <= cntt; i++) {
 			dist[i] = INF;
 		}
@@ -228,7 +227,7 @@ public class Code06_Forest1 {
 		}
 		for (int i = 1; i <= n; i++) {
 			if (dep[i] == 0) {
-				dfs(i, 0);
+				dfs(i, i);
 			}
 		}
 		for (int i = 1; i <= cntq; i++) {

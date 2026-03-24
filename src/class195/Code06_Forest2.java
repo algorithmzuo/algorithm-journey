@@ -162,7 +162,6 @@ package class195;
 //}
 //
 //void dijkstra() {
-//    dist[0] = INF;
 //    for (int i = 1; i <= cntt; i++) {
 //        dist[i] = INF;
 //    }
@@ -221,7 +220,7 @@ package class195;
 //    }
 //    for (int i = 1; i <= n; i++) {
 //        if (dep[i] == 0) {
-//            dfs(i, 0);
+//            dfs(i, i);
 //        }
 //    }
 //    for (int i = 1; i <= cntq; i++) {
