@@ -27,7 +27,7 @@ public class Code03_Road1 {
 
 	public static int[] ls = new int[MAXT];
 	public static int[] rs = new int[MAXT];
-	public static int rootIn, rootOut;
+	public static int rootOut, rootIn;
 	public static int cntt;
 
 	public static int[][] dist = new int[MAXT][MAXK];
@@ -42,21 +42,6 @@ public class Code03_Road1 {
 		head[u] = cntg;
 	}
 
-	public static int buildIn(int l, int r) {
-		int rt;
-		if (l == r) {
-			rt = l;
-		} else {
-			rt = ++cntt;
-			int mid = (l + r) >> 1;
-			ls[rt] = buildIn(l, mid);
-			rs[rt] = buildIn(mid + 1, r);
-			addEdge(rt, ls[rt], 0);
-			addEdge(rt, rs[rt], 0);
-		}
-		return rt;
-	}
-
 	public static int buildOut(int l, int r) {
 		int rt;
 		if (l == r) {
@@ -68,6 +53,21 @@ public class Code03_Road1 {
 			rs[rt] = buildOut(mid + 1, r);
 			addEdge(ls[rt], rt, 0);
 			addEdge(rs[rt], rt, 0);
+		}
+		return rt;
+	}
+
+	public static int buildIn(int l, int r) {
+		int rt;
+		if (l == r) {
+			rt = l;
+		} else {
+			rt = ++cntt;
+			int mid = (l + r) >> 1;
+			ls[rt] = buildIn(l, mid);
+			rs[rt] = buildIn(mid + 1, r);
+			addEdge(rt, ls[rt], 0);
+			addEdge(rt, rs[rt], 0);
 		}
 		return rt;
 	}
@@ -159,8 +159,8 @@ public class Code03_Road1 {
 			m = in.nextInt();
 			k = in.nextInt();
 			cntt = n;
-			rootIn = buildIn(1, n);
 			rootOut = buildOut(1, n);
+			rootIn = buildIn(1, n);
 			for (int i = 1, a, b, c, d, w; i <= m; i++) {
 				a = in.nextInt();
 				b = in.nextInt();
