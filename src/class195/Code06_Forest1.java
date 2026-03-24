@@ -17,7 +17,7 @@ public class Code06_Forest1 {
 
 	public static int MAXN = 50001;
 	public static int MAXM = 1000001;
-	public static int MAXT = 5000001;
+	public static int MAXT = 4000001;
 	public static int MAXE = 30000001;
 	public static int MAXP = 17;
 	public static int INF = 1 << 30;
@@ -153,6 +153,14 @@ public class Code06_Forest1 {
 		addEdge2(vnode, stout[x][0], 0);
 	}
 
+	public static void pathToPath(int a, int b, int c, int d, int w) {
+		int vin = ++cntt;
+		int vout = ++cntt;
+		lcaIn(a, b, vin);
+		lcaOut(c, d, vout);
+		addEdge2(vin, vout, w);
+	}
+
 	public static void dijkstra() {
 		heap.clear();
 		for (int i = 0; i <= cntt; i++) {
@@ -225,11 +233,7 @@ public class Code06_Forest1 {
 			}
 		}
 		for (int i = 1; i <= cntq; i++) {
-			int vin = ++cntt;
-			int vout = ++cntt;
-			lcaIn(u1[i], v1[i], vin);
-			lcaOut(u2[i], v2[i], vout);
-			addEdge2(vin, vout, weight[i]);
+			pathToPath(u1[i], v1[i], u2[i], v2[i], weight[i]);
 		}
 		dijkstra();
 		for (int i = 1; i <= n; i++) {
