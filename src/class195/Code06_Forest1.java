@@ -77,19 +77,19 @@ public class Code06_Forest1 {
 		dep[u] = dep[fa] + 1;
 		stfa[u][0] = fa;
 		stin[u][0] = ++cntt;
-		addEdge2(cntt, u, 0);
-		addEdge2(cntt, fa, 0);
-		stout[u][0] = ++cntt;
 		addEdge2(u, cntt, 0);
 		addEdge2(fa, cntt, 0);
+		stout[u][0] = ++cntt;
+		addEdge2(cntt, u, 0);
+		addEdge2(cntt, fa, 0);
 		for (int p = 1; p < MAXP; p++) {
 			stfa[u][p] = stfa[stfa[u][p - 1]][p - 1];
 			stin[u][p] = ++cntt;
-			addEdge2(cntt, stin[u][p - 1], 0);
-			addEdge2(cntt, stin[stfa[u][p - 1]][p - 1], 0);
+			addEdge2(stin[u][p - 1], cntt, 0);
+			addEdge2(stin[stfa[u][p - 1]][p - 1], cntt, 0);
 			stout[u][p] = ++cntt;
-			addEdge2(stout[u][p - 1], cntt, 0);
-			addEdge2(stout[stfa[u][p - 1]][p - 1], cntt, 0);
+			addEdge2(cntt, stout[u][p - 1], 0);
+			addEdge2(cntt, stout[stfa[u][p - 1]][p - 1], 0);
 		}
 		for (int e = head1[u]; e > 0; e = next1[e]) {
 			int v = to1[e];
@@ -105,10 +105,10 @@ public class Code06_Forest1 {
 			x = y;
 			y = tmp;
 		}
-		addEdge2(vnode, y, 0);
+		addEdge2(y, vnode, 0);
 		for (int p = MAXP - 1; p >= 0; p--) {
 			if (dep[stfa[x][p]] >= dep[y]) {
-				addEdge2(vnode, stin[x][p], 0);
+				addEdge2(stin[x][p], vnode, 0);
 				x = stfa[x][p];
 			}
 		}
@@ -117,13 +117,13 @@ public class Code06_Forest1 {
 		}
 		for (int p = MAXP - 1; p >= 0; p--) {
 			if (stfa[x][p] != stfa[y][p]) {
-				addEdge2(vnode, stin[x][p], 0);
-				addEdge2(vnode, stin[y][p], 0);
+				addEdge2(stin[x][p], vnode, 0);
+				addEdge2(stin[y][p], vnode, 0);
 				x = stfa[x][p];
 				y = stfa[y][p];
 			}
 		}
-		addEdge2(vnode, stin[x][0], 0);
+		addEdge2(stin[x][0], vnode, 0);
 	}
 
 	public static void lcaOut(int x, int y, int vnode) {
@@ -132,10 +132,10 @@ public class Code06_Forest1 {
 			x = y;
 			y = tmp;
 		}
-		addEdge2(y, vnode, 0);
+		addEdge2(vnode, y, 0);
 		for (int p = MAXP - 1; p >= 0; p--) {
 			if (dep[stfa[x][p]] >= dep[y]) {
-				addEdge2(stout[x][p], vnode, 0);
+				addEdge2(vnode, stout[x][p], 0);
 				x = stfa[x][p];
 			}
 		}
@@ -144,13 +144,13 @@ public class Code06_Forest1 {
 		}
 		for (int p = MAXP - 1; p >= 0; p--) {
 			if (stfa[x][p] != stfa[y][p]) {
-				addEdge2(stout[x][p], vnode, 0);
-				addEdge2(stout[y][p], vnode, 0);
+				addEdge2(vnode, stout[x][p], 0);
+				addEdge2(vnode, stout[y][p], 0);
 				x = stfa[x][p];
 				y = stfa[y][p];
 			}
 		}
-		addEdge2(stout[x][0], vnode, 0);
+		addEdge2(vnode, stout[x][0], 0);
 	}
 
 	public static void dijkstra() {
@@ -225,11 +225,11 @@ public class Code06_Forest1 {
 			}
 		}
 		for (int i = 1; i <= cntq; i++) {
-			int vout = ++cntt;
 			int vin = ++cntt;
-			lcaOut(u1[i], v1[i], vout);
-			lcaIn(u2[i], v2[i], vin);
-			addEdge2(vout, vin, weight[i]);
+			int vout = ++cntt;
+			lcaIn(u1[i], v1[i], vin);
+			lcaOut(u2[i], v2[i], vout);
+			addEdge2(vin, vout, weight[i]);
 		}
 		dijkstra();
 		for (int i = 1; i <= n; i++) {
