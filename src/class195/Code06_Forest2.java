@@ -77,7 +77,7 @@ package class195;
 //    return father[i];
 //}
 //
-//void dfs(int u, int fa) {
+//void build(int u, int fa) {
 //    dep[u] = dep[fa] + 1;
 //    stfa[u][0] = fa;
 //    stout[u][0] = ++cntt;
@@ -98,7 +98,7 @@ package class195;
 //    for (int e = head1[u]; e > 0; e = next1[e]) {
 //        int v = to1[e];
 //        if (v != fa) {
-//            dfs(v, u);
+//            build(v, u);
 //        }
 //    }
 //}
@@ -220,7 +220,7 @@ package class195;
 //    }
 //    for (int i = 1; i <= n; i++) {
 //        if (dep[i] == 0) {
-//            dfs(i, i);
+//            build(i, i);
 //        }
 //    }
 //    for (int i = 1; i <= cntq; i++) {

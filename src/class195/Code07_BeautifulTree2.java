@@ -49,7 +49,7 @@ package class195;
 //    head2[u] = cnt2;
 //}
 //
-//void dfs(int u, int fa) {
+//void build(int u, int fa) {
 //    dep[u] = dep[fa] + 1;
 //    stfa[u][0] = fa;
 //    stout[u][0] = ++cntt;
@@ -70,7 +70,7 @@ package class195;
 //    for (int e = head1[u]; e > 0; e = next1[e]) {
 //        int v = to1[e];
 //        if (v != fa) {
-//            dfs(v, u);
+//            build(v, u);
 //        }
 //    }
 //}
@@ -212,7 +212,7 @@ package class195;
 //        addEdge1(u, v);
 //        addEdge1(v, u);
 //    }
-//    dfs(1, 1);
+//    build(1, 1);
 //    for (int i = 1, op, a, b, c; i <= m; i++) {
 //        cin >> op >> a >> b >> c;
 //        if (op == 1) {

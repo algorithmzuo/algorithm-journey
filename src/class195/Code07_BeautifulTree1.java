@@ -56,7 +56,7 @@ public class Code07_BeautifulTree1 {
 		head2[u] = cnt2;
 	}
 
-	public static void dfs(int u, int fa) {
+	public static void build(int u, int fa) {
 		dep[u] = dep[fa] + 1;
 		stfa[idx(u, 0)] = fa;
 		stout[idx(u, 0)] = ++cntt;
@@ -77,7 +77,7 @@ public class Code07_BeautifulTree1 {
 		for (int e = head1[u]; e > 0; e = next1[e]) {
 			int v = to1[e];
 			if (v != fa) {
-				dfs(v, u);
+				build(v, u);
 			}
 		}
 	}
@@ -228,7 +228,7 @@ public class Code07_BeautifulTree1 {
 			addEdge1(u, v);
 			addEdge1(v, u);
 		}
-		dfs(1, 1);
+		build(1, 1);
 		for (int i = 1, op, a, b, c; i <= m; i++) {
 			op = in.nextInt();
 			a = in.nextInt();
