@@ -98,12 +98,12 @@ public class Code07_BeautifulTree1 {
 		return x;
 	}
 
-	// 返回x到c的路径上，离c最近的点
-	public static int nearest(int x, int c) {
-		if (isAncestor(c, x)) {
-			return kthAncestor(x, dep[x] - dep[c] - 1);
+	// 返回x到y的路径上，离y最近的点
+	public static int nearest(int x, int y) {
+		if (isAncestor(y, x)) {
+			return kthAncestor(x, dep[x] - dep[y] - 1);
 		} else {
-			return stjump[c][0];
+			return stjump[y][0];
 		}
 	}
 

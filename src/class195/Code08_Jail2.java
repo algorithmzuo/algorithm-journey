@@ -30,7 +30,11 @@ package class195;
 //int cnt2;
 //
 //int dep[MAXN];
+//int dfn[MAXN];
+//int siz[MAXN];
 //int stjump[MAXN][MAXP];
+//int cntd;
+//
 //int stout[MAXN][MAXP];
 //int stin[MAXN][MAXP];
 //int cntt;
@@ -52,6 +56,8 @@ package class195;
 //
 //void build(int u, int fa) {
 //    dep[u] = dep[fa] + 1;
+//    dfn[u] = ++cntd;
+//    siz[u] = 1;
 //    stjump[u][0] = fa;
 //    stout[u][0] = ++cntt;
 //    addEdge2(startArr[u], cntt);
@@ -72,33 +78,17 @@ package class195;
 //        int v = to1[e];
 //        if (v != fa) {
 //            build(v, u);
+//            siz[u] += siz[v];
 //        }
 //    }
 //}
 //
-//int getLca(int x, int y) {
-//    if (dep[x] < dep[y]) {
-//        swap(x, y);
-//    }
-//    for (int p = MAXP - 1; p >= 0; p--) {
-//        if (dep[stjump[x][p]] >= dep[y]) {
-//            x = stjump[x][p];
-//        }
-//    }
-//    if (x == y) {
-//        return x;
-//    }
-//    for (int p = MAXP - 1; p >= 0; p--) {
-//        if (stjump[x][p] != stjump[y][p]) {
-//            x = stjump[x][p];
-//            y = stjump[y][p];
-//        }
-//    }
-//    return stjump[x][0];
+//bool isAncestor(int a, int b) {
+//    return dfn[a] <= dfn[b] && dfn[b] < dfn[a] + siz[a];
 //}
 //
 //int kthAncestor(int x, int k) {
-//    for (int p = MAXP - 1; p >= 0; p--) {
+//    for (int p = 0; p < MAXP; p++) {
 //        if (((k >> p) & 1) != 0) {
 //            x = stjump[x][p];
 //        }
@@ -106,33 +96,68 @@ package class195;
 //    return x;
 //}
 //
-//void chainOut(int x, int y, int vnode) {
+//int nearest(int x, int y) {
+//    if (isAncestor(y, x)) {
+//        return kthAncestor(x, dep[x] - dep[y] - 1);
+//    } else {
+//        return stjump[y][0];
+//    }
+//}
+//
+//void pathOut(int x, int y, int vnode) {
+//    if (dep[x] < dep[y]) {
+//        swap(x, y);
+//    }
 //    addEdge2(startArr[y], vnode);
-//    for (int p = MAXP - 1; p >= 0; p--) {
-//        if (dep[stjump[x][p]] >= dep[y]) {
+//    for (int p = MAXP - 1, fx; p >= 0; p--) {
+//        fx = stjump[x][p];
+//        if (dep[fx] >= dep[y]) {
 //            addEdge2(stout[x][p], vnode);
-//            x = stjump[x][p];
+//            x = fx;
 //        }
 //    }
+//    if (x == y) {
+//        return;
+//    }
+//    for (int p = MAXP - 1, fx, fy; p >= 0; p--) {
+//        fx = stjump[x][p];
+//        fy = stjump[y][p];
+//        if (fx != fy) {
+//            addEdge2(stout[x][p], vnode);
+//            addEdge2(stout[y][p], vnode);
+//            x = fx;
+//            y = fy;
+//        }
+//    }
+//    addEdge2(stout[x][0], vnode);
 //}
 //
-//void chainIn(int x, int y, int vnode) {
+//void pathIn(int x, int y, int vnode) {
+//    if (dep[x] < dep[y]) {
+//        swap(x, y);
+//    }
 //    addEdge2(vnode, endArr[y]);
-//    for (int p = MAXP - 1; p >= 0; p--) {
-//        if (dep[stjump[x][p]] >= dep[y]) {
+//    for (int p = MAXP - 1, fx; p >= 0; p--) {
+//        fx = stjump[x][p];
+//        if (dep[fx] >= dep[y]) {
 //            addEdge2(vnode, stin[x][p]);
-//            x = stjump[x][p];
+//            x = fx;
 //        }
 //    }
-//}
-//
-//void chainLink(int x, int y, int vnode) {
-//    if (dep[x] - dep[y] >= 2) {
-//        int a = stjump[x][0];
-//        int b = kthAncestor(x, dep[x] - dep[y] - 1);
-//        chainOut(a, b, vnode);
-//        chainIn(a, b, vnode);
+//    if (x == y) {
+//        return;
 //    }
+//    for (int p = MAXP - 1, fx, fy; p >= 0; p--) {
+//        fx = stjump[x][p];
+//        fy = stjump[y][p];
+//        if (fx != fy) {
+//            addEdge2(vnode, stin[x][p]);
+//            addEdge2(vnode, stin[y][p]);
+//            x = fx;
+//            y = fy;
+//        }
+//    }
+//    addEdge2(vnode, stin[x][0]);
 //}
 //
 //void link(int x, int y) {
@@ -141,16 +166,11 @@ package class195;
 //    addEdge2(endArr[y], vnode);
 //    addEdge2(startArr[y], vnode);
 //    addEdge2(vnode, endArr[x]);
-//    int lca = getLca(x, y);
-//    if (lca == x) {
-//        chainLink(y, x, vnode);
-//    } else if (lca == y) {
-//        chainLink(x, y, vnode);
-//    } else {
-//        chainLink(x, lca, vnode);
-//        chainLink(y, lca, vnode);
-//        addEdge2(startArr[lca], vnode);
-//        addEdge2(vnode, endArr[lca]);
+//    if (stjump[x][0] != y && stjump[y][0] != x) {
+//        int a = nearest(x, y);
+//        int b = nearest(y, x);
+//        pathOut(a, b, vnode);
+//        pathIn(a, b, vnode);
 //    }
 //}
 //
@@ -180,7 +200,8 @@ package class195;
 //    for (int i = 1; i <= cntt; i++) {
 //        head2[i] = indegree[i] = 0;
 //    }
-//    cnt1 = cnt2 = cntt = 0;
+//    cnt1 = cnt2 = cntt = cntd = 0;
+//    dep[1] = 0;
 //}
 //
 //int main() {

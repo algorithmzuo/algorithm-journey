@@ -32,7 +32,11 @@ public class Code08_Jail1 {
 	public static int cnt2;
 
 	public static int[] dep = new int[MAXN];
+	public static int[] dfn = new int[MAXN];
+	public static int[] siz = new int[MAXN];
 	public static int[][] stjump = new int[MAXN][MAXP];
+	public static int cntd;
+
 	public static int[][] stout = new int[MAXN][MAXP];
 	public static int[][] stin = new int[MAXN][MAXP];
 	public static int cntt;
@@ -73,6 +77,8 @@ public class Code08_Jail1 {
 	// 递归版
 	public static void build1(int u, int fa) {
 		dep[u] = dep[fa] + 1;
+		dfn[u] = ++cntd;
+		siz[u] = 1;
 		stjump[u][0] = fa;
 		stout[u][0] = ++cntt;
 		addEdge2(startArr[u], cntt);
@@ -93,6 +99,7 @@ public class Code08_Jail1 {
 			int v = to1[e];
 			if (v != fa) {
 				build1(v, u);
+				siz[u] += siz[v];
 			}
 		}
 	}
@@ -105,6 +112,8 @@ public class Code08_Jail1 {
 			pop();
 			if (e == -1) {
 				dep[u] = dep[fa] + 1;
+				dfn[u] = ++cntd;
+				siz[u] = 1;
 				stjump[u][0] = fa;
 				stout[u][0] = ++cntt;
 				addEdge2(startArr[u], cntt);
@@ -130,35 +139,23 @@ public class Code08_Jail1 {
 				if (to1[e] != fa) {
 					push(to1[e], u, -1);
 				}
+			} else {
+				for (int ei = head1[u]; ei > 0; ei = next1[ei]) {
+					int v = to1[ei];
+					if (v != fa) {
+						siz[u] += siz[v];
+					}
+				}
 			}
 		}
 	}
 
-	public static int getLca(int x, int y) {
-		if (dep[x] < dep[y]) {
-			int tmp = x;
-			x = y;
-			y = tmp;
-		}
-		for (int p = MAXP - 1; p >= 0; p--) {
-			if (dep[stjump[x][p]] >= dep[y]) {
-				x = stjump[x][p];
-			}
-		}
-		if (x == y) {
-			return x;
-		}
-		for (int p = MAXP - 1; p >= 0; p--) {
-			if (stjump[x][p] != stjump[y][p]) {
-				x = stjump[x][p];
-				y = stjump[y][p];
-			}
-		}
-		return stjump[x][0];
+	public static boolean isAncestor(int a, int b) {
+		return dfn[a] <= dfn[b] && dfn[b] < dfn[a] + siz[a];
 	}
 
 	public static int kthAncestor(int x, int k) {
-		for (int p = MAXP - 1; p >= 0; p--) {
+		for (int p = 0; p < MAXP; p++) {
 			if (((k >> p) & 1) != 0) {
 				x = stjump[x][p];
 			}
@@ -166,33 +163,72 @@ public class Code08_Jail1 {
 		return x;
 	}
 
-	public static void chainOut(int x, int y, int vnode) {
+	public static int nearest(int x, int y) {
+		if (isAncestor(y, x)) {
+			return kthAncestor(x, dep[x] - dep[y] - 1);
+		} else {
+			return stjump[y][0];
+		}
+	}
+
+	public static void pathOut(int x, int y, int vnode) {
+		if (dep[x] < dep[y]) {
+			int tmp = x;
+			x = y;
+			y = tmp;
+		}
 		addEdge2(startArr[y], vnode);
-		for (int p = MAXP - 1; p >= 0; p--) {
-			if (dep[stjump[x][p]] >= dep[y]) {
+		for (int p = MAXP - 1, fx; p >= 0; p--) {
+			fx = stjump[x][p];
+			if (dep[fx] >= dep[y]) {
 				addEdge2(stout[x][p], vnode);
-				x = stjump[x][p];
+				x = fx;
 			}
 		}
+		if (x == y) {
+			return;
+		}
+		for (int p = MAXP - 1, fx, fy; p >= 0; p--) {
+			fx = stjump[x][p];
+			fy = stjump[y][p];
+			if (fx != fy) {
+				addEdge2(stout[x][p], vnode);
+				addEdge2(stout[y][p], vnode);
+				x = fx;
+				y = fy;
+			}
+		}
+		addEdge2(stout[x][0], vnode);
 	}
 
-	public static void chainIn(int x, int y, int vnode) {
+	public static void pathIn(int x, int y, int vnode) {
+		if (dep[x] < dep[y]) {
+			int tmp = x;
+			x = y;
+			y = tmp;
+		}
 		addEdge2(vnode, endArr[y]);
-		for (int p = MAXP - 1; p >= 0; p--) {
-			if (dep[stjump[x][p]] >= dep[y]) {
+		for (int p = MAXP - 1, fx; p >= 0; p--) {
+			fx = stjump[x][p];
+			if (dep[fx] >= dep[y]) {
 				addEdge2(vnode, stin[x][p]);
-				x = stjump[x][p];
+				x = fx;
 			}
 		}
-	}
-
-	public static void chainLink(int x, int y, int vnode) {
-		if (dep[x] - dep[y] >= 2) {
-			int a = stjump[x][0];
-			int b = kthAncestor(x, dep[x] - dep[y] - 1);
-			chainOut(a, b, vnode);
-			chainIn(a, b, vnode);
+		if (x == y) {
+			return;
 		}
+		for (int p = MAXP - 1, fx, fy; p >= 0; p--) {
+			fx = stjump[x][p];
+			fy = stjump[y][p];
+			if (fx != fy) {
+				addEdge2(vnode, stin[x][p]);
+				addEdge2(vnode, stin[y][p]);
+				x = fx;
+				y = fy;
+			}
+		}
+		addEdge2(vnode, stin[x][0]);
 	}
 
 	public static void link(int x, int y) {
@@ -201,16 +237,11 @@ public class Code08_Jail1 {
 		addEdge2(endArr[y], vnode);
 		addEdge2(startArr[y], vnode);
 		addEdge2(vnode, endArr[x]);
-		int lca = getLca(x, y);
-		if (lca == x) {
-			chainLink(y, x, vnode);
-		} else if (lca == y) {
-			chainLink(x, y, vnode);
-		} else {
-			chainLink(x, lca, vnode);
-			chainLink(y, lca, vnode);
-			addEdge2(startArr[lca], vnode);
-			addEdge2(vnode, endArr[lca]);
+		if (stjump[x][0] != y && stjump[y][0] != x) {
+			int a = nearest(x, y);
+			int b = nearest(y, x);
+			pathOut(a, b, vnode);
+			pathIn(a, b, vnode);
 		}
 	}
 
@@ -240,7 +271,8 @@ public class Code08_Jail1 {
 		for (int i = 1; i <= cntt; i++) {
 			head2[i] = indegree[i] = 0;
 		}
-		cnt1 = cnt2 = cntt = 0;
+		cnt1 = cnt2 = cntt = cntd = 0;
+		dep[1] = 0;
 	}
 
 	public static void main(String[] args) throws Exception {
