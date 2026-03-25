@@ -16,6 +16,7 @@ public class Code08_BeautifulTree1 {
 	public static int MAXT = MAXN * 41;
 	public static int MAXE = MAXN * 201;
 	public static int MAXP = 17;
+	public static int MAXK = MAXN * MAXP;
 	public static int n, m;
 
 	public static int[] head1 = new int[MAXN];
@@ -32,15 +33,19 @@ public class Code08_BeautifulTree1 {
 	public static int[] dep = new int[MAXN];
 	public static int[] dfn = new int[MAXN];
 	public static int[] siz = new int[MAXN];
-	public static int[][] stjump = new int[MAXN][MAXP];
+	public static int[] stjump = new int[MAXK];
 	public static int cntd;
 
-	public static int[][] stout = new int[MAXN][MAXP];
-	public static int[][] stin = new int[MAXN][MAXP];
+	public static int[] stout = new int[MAXK];
+	public static int[] stin = new int[MAXK];
 	public static int cntt;
 
 	public static int[] que = new int[MAXT];
 	public static int[] ans = new int[MAXN];
+
+	public static int idx(int u, int p) {
+		return u * MAXP + p;
+	}
 
 	public static void addEdge1(int u, int v) {
 		next1[++cnt1] = head1[u];
@@ -59,22 +64,21 @@ public class Code08_BeautifulTree1 {
 		dep[u] = dep[fa] + 1;
 		dfn[u] = ++cntd;
 		siz[u] = 1;
-		stjump[u][0] = fa;
-		stout[u][0] = ++cntt;
+		stjump[idx(u, 0)] = fa;
+		stout[idx(u, 0)] = ++cntt;
 		addEdge2(u, cntt);
 		addEdge2(fa, cntt);
-		stin[u][0] = ++cntt;
+		stin[idx(u, 0)] = ++cntt;
 		addEdge2(cntt, u);
 		addEdge2(cntt, fa);
-		for (int p = 1, tmp; p < MAXP; p++) {
-			tmp = stjump[u][p - 1];
-			stjump[u][p] = stjump[tmp][p - 1];
-			stout[u][p] = ++cntt;
-			addEdge2(stout[u][p - 1], cntt);
-			addEdge2(stout[tmp][p - 1], cntt);
-			stin[u][p] = ++cntt;
-			addEdge2(cntt, stin[u][p - 1]);
-			addEdge2(cntt, stin[tmp][p - 1]);
+		for (int p = 1; p < MAXP; p++) {
+			stjump[idx(u, p)] = stjump[idx(stjump[idx(u, p - 1)], p - 1)];
+			stout[idx(u, p)] = ++cntt;
+			addEdge2(stout[idx(u, p - 1)], cntt);
+			addEdge2(stout[idx(stjump[idx(u, p - 1)], p - 1)], cntt);
+			stin[idx(u, p)] = ++cntt;
+			addEdge2(cntt, stin[idx(u, p - 1)]);
+			addEdge2(cntt, stin[idx(stjump[idx(u, p - 1)], p - 1)]);
 		}
 		for (int e = head1[u]; e > 0; e = next1[e]) {
 			int v = to1[e];
@@ -92,18 +96,17 @@ public class Code08_BeautifulTree1 {
 	public static int kthAncestor(int x, int k) {
 		for (int p = 0; p < MAXP; p++) {
 			if (((k >> p) & 1) != 0) {
-				x = stjump[x][p];
+				x = stjump[idx(x, p)];
 			}
 		}
 		return x;
 	}
 
-	// 返回x到y的路径上，离y最近的点
 	public static int nearest(int x, int y) {
 		if (isAncestor(y, x)) {
 			return kthAncestor(x, dep[x] - dep[y] - 1);
 		} else {
-			return stjump[y][0];
+			return stjump[idx(y, 0)];
 		}
 	}
 
@@ -114,27 +117,24 @@ public class Code08_BeautifulTree1 {
 			y = tmp;
 		}
 		addEdge2(y, c);
-		for (int p = MAXP - 1, fx; p >= 0; p--) {
-			fx = stjump[x][p];
-			if (dep[fx] >= dep[y]) {
-				addEdge2(stout[x][p], c);
-				x = fx;
+		for (int p = MAXP - 1; p >= 0; p--) {
+			if (dep[stjump[idx(x, p)]] >= dep[y]) {
+				addEdge2(stout[idx(x, p)], c);
+				x = stjump[idx(x, p)];
 			}
 		}
 		if (x == y) {
 			return;
 		}
-		for (int p = MAXP - 1, fx, fy; p >= 0; p--) {
-			fx = stjump[x][p];
-			fy = stjump[y][p];
-			if (fx != fy) {
-				addEdge2(stout[x][p], c);
-				addEdge2(stout[y][p], c);
-				x = fx;
-				y = fy;
+		for (int p = MAXP - 1; p >= 0; p--) {
+			if (stjump[idx(x, p)] != stjump[idx(y, p)]) {
+				addEdge2(stout[idx(x, p)], c);
+				addEdge2(stout[idx(y, p)], c);
+				x = stjump[idx(x, p)];
+				y = stjump[idx(y, p)];
 			}
 		}
-		addEdge2(stout[x][0], c);
+		addEdge2(stout[idx(x, 0)], c);
 	}
 
 	public static void pathIn(int x, int y, int c) {
@@ -144,27 +144,24 @@ public class Code08_BeautifulTree1 {
 			y = tmp;
 		}
 		addEdge2(c, y);
-		for (int p = MAXP - 1, fx; p >= 0; p--) {
-			fx = stjump[x][p];
-			if (dep[fx] >= dep[y]) {
-				addEdge2(c, stin[x][p]);
-				x = fx;
+		for (int p = MAXP - 1; p >= 0; p--) {
+			if (dep[stjump[idx(x, p)]] >= dep[y]) {
+				addEdge2(c, stin[idx(x, p)]);
+				x = stjump[idx(x, p)];
 			}
 		}
 		if (x == y) {
 			return;
 		}
-		for (int p = MAXP - 1, fx, fy; p >= 0; p--) {
-			fx = stjump[x][p];
-			fy = stjump[y][p];
-			if (fx != fy) {
-				addEdge2(c, stin[x][p]);
-				addEdge2(c, stin[y][p]);
-				x = fx;
-				y = fy;
+		for (int p = MAXP - 1; p >= 0; p--) {
+			if (stjump[idx(x, p)] != stjump[idx(y, p)]) {
+				addEdge2(c, stin[idx(x, p)]);
+				addEdge2(c, stin[idx(y, p)]);
+				x = stjump[idx(x, p)];
+				y = stjump[idx(y, p)];
 			}
 		}
-		addEdge2(c, stin[x][0]);
+		addEdge2(c, stin[idx(x, 0)]);
 	}
 
 	public static void pathMin(int a, int b, int c) {

@@ -163,6 +163,7 @@ public class Code07_Jail1 {
 		return x;
 	}
 
+	// 返回x到y的路径上，离y最近的点
 	public static int nearest(int x, int y) {
 		if (isAncestor(y, x)) {
 			return kthAncestor(x, dep[x] - dep[y] - 1);
