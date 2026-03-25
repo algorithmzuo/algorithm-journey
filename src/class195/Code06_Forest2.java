@@ -38,7 +38,7 @@ package class195;
 //int father[MAXN];
 //
 //int dep[MAXN];
-//int stfa[MAXN][MAXP];
+//int stjump[MAXN][MAXP];
 //int stout[MAXN][MAXP];
 //int stin[MAXN][MAXP];
 //int cntt;
@@ -79,7 +79,7 @@ package class195;
 //
 //void build(int u, int fa) {
 //    dep[u] = dep[fa] + 1;
-//    stfa[u][0] = fa;
+//    stjump[u][0] = fa;
 //    stout[u][0] = ++cntt;
 //    addEdge2(u, cntt, 0);
 //    addEdge2(fa, cntt, 0);
@@ -87,13 +87,13 @@ package class195;
 //    addEdge2(cntt, u, 0);
 //    addEdge2(cntt, fa, 0);
 //    for (int p = 1; p < MAXP; p++) {
-//        stfa[u][p] = stfa[stfa[u][p - 1]][p - 1];
+//        stjump[u][p] = stjump[stjump[u][p - 1]][p - 1];
 //        stout[u][p] = ++cntt;
 //        addEdge2(stout[u][p - 1], cntt, 0);
-//        addEdge2(stout[stfa[u][p - 1]][p - 1], cntt, 0);
+//        addEdge2(stout[stjump[u][p - 1]][p - 1], cntt, 0);
 //        stin[u][p] = ++cntt;
 //        addEdge2(cntt, stin[u][p - 1], 0);
-//        addEdge2(cntt, stin[stfa[u][p - 1]][p - 1], 0);
+//        addEdge2(cntt, stin[stjump[u][p - 1]][p - 1], 0);
 //    }
 //    for (int e = head1[u]; e > 0; e = next1[e]) {
 //        int v = to1[e];
@@ -109,20 +109,20 @@ package class195;
 //    }
 //    addEdge2(y, vnode, 0);
 //    for (int p = MAXP - 1; p >= 0; p--) {
-//        if (dep[stfa[x][p]] >= dep[y]) {
+//        if (dep[stjump[x][p]] >= dep[y]) {
 //            addEdge2(stout[x][p], vnode, 0);
-//            x = stfa[x][p];
+//            x = stjump[x][p];
 //        }
 //    }
 //    if (x == y) {
 //        return;
 //    }
 //    for (int p = MAXP - 1; p >= 0; p--) {
-//        if (stfa[x][p] != stfa[y][p]) {
+//        if (stjump[x][p] != stjump[y][p]) {
 //            addEdge2(stout[x][p], vnode, 0);
 //            addEdge2(stout[y][p], vnode, 0);
-//            x = stfa[x][p];
-//            y = stfa[y][p];
+//            x = stjump[x][p];
+//            y = stjump[y][p];
 //        }
 //    }
 //    addEdge2(stout[x][0], vnode, 0);
@@ -134,20 +134,20 @@ package class195;
 //    }
 //    addEdge2(vnode, y, 0);
 //    for (int p = MAXP - 1; p >= 0; p--) {
-//        if (dep[stfa[x][p]] >= dep[y]) {
+//        if (dep[stjump[x][p]] >= dep[y]) {
 //            addEdge2(vnode, stin[x][p], 0);
-//            x = stfa[x][p];
+//            x = stjump[x][p];
 //        }
 //    }
 //    if (x == y) {
 //        return;
 //    }
 //    for (int p = MAXP - 1; p >= 0; p--) {
-//        if (stfa[x][p] != stfa[y][p]) {
+//        if (stjump[x][p] != stjump[y][p]) {
 //            addEdge2(vnode, stin[x][p], 0);
 //            addEdge2(vnode, stin[y][p], 0);
-//            x = stfa[x][p];
-//            y = stfa[y][p];
+//            x = stjump[x][p];
+//            y = stjump[y][p];
 //        }
 //    }
 //    addEdge2(vnode, stin[x][0], 0);
