@@ -10,7 +10,7 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
-public class Code07_BeautifulTree1 {
+public class Code08_BeautifulTree1 {
 
 	public static int MAXN = 200001;
 	public static int MAXT = MAXN * 41;
