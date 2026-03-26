@@ -80,6 +80,9 @@ public class Code04_Desert1 {
 		}
 		while (qi <= qsiz) {
 			int u = que[qi++];
+			if (dist[u] < 1) {
+				return false;
+			}
 			for (int e = head[u]; e > 0; e = nxt[e]) {
 				int v = to[e];
 				int w = weight[e];
@@ -94,15 +97,7 @@ public class Code04_Desert1 {
 				}
 			}
 		}
-		if (qsiz != cntt) {
-			return false;
-		}
-		for (int i = 1; i <= cntt; i++) {
-			if (dist[i] < 1) {
-				return false;
-			}
-		}
-		return true;
+		return qsiz == cntt;
 	}
 
 	public static void main(String[] args) throws Exception {
