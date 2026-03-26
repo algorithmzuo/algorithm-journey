@@ -15,8 +15,8 @@ package class195;
 //const int MAXP = 18;
 //int t, n, m;
 //
-//int startArr[MAXN];
-//int endArr[MAXN];
+//int source[MAXN];
+//int target[MAXN];
 //
 //int head1[MAXN];
 //int next1[MAXN << 1];
@@ -60,11 +60,11 @@ package class195;
 //    siz[u] = 1;
 //    stjump[u][0] = fa;
 //    stout[u][0] = ++cntt;
-//    addEdge2(startArr[u], cntt);
-//    addEdge2(startArr[fa], cntt);
+//    addEdge2(source[u], cntt);
+//    addEdge2(source[fa], cntt);
 //    stin[u][0] = ++cntt;
-//    addEdge2(cntt, endArr[u]);
-//    addEdge2(cntt, endArr[fa]);
+//    addEdge2(cntt, target[u]);
+//    addEdge2(cntt, target[fa]);
 //    for (int p = 1; p < MAXP; p++) {
 //        stjump[u][p] = stjump[stjump[u][p - 1]][p - 1];
 //        stout[u][p] = ++cntt;
@@ -108,7 +108,7 @@ package class195;
 //    if (dep[x] < dep[y]) {
 //        swap(x, y);
 //    }
-//    addEdge2(startArr[y], vnode);
+//    addEdge2(source[y], vnode);
 //    for (int p = MAXP - 1, fx; p >= 0; p--) {
 //        fx = stjump[x][p];
 //        if (dep[fx] >= dep[y]) {
@@ -136,7 +136,7 @@ package class195;
 //    if (dep[x] < dep[y]) {
 //        swap(x, y);
 //    }
-//    addEdge2(vnode, endArr[y]);
+//    addEdge2(vnode, target[y]);
 //    for (int p = MAXP - 1, fx; p >= 0; p--) {
 //        fx = stjump[x][p];
 //        if (dep[fx] >= dep[y]) {
@@ -162,16 +162,16 @@ package class195;
 //
 //void link(int x, int y) {
 //    int vnode = ++cntt;
-//    addEdge2(vnode, startArr[x]);
-//    addEdge2(endArr[y], vnode);
-//    addEdge2(startArr[y], vnode);
-//    addEdge2(vnode, endArr[x]);
 //    if (stjump[x][0] != y && stjump[y][0] != x) {
 //        int a = nearest(x, y);
 //        int b = nearest(y, x);
 //        pathOut(a, b, vnode);
 //        pathIn(a, b, vnode);
 //    }
+//    addEdge2(vnode, source[x]);
+//    addEdge2(vnode, target[x]);
+//    addEdge2(source[y], vnode);
+//    addEdge2(target[y], vnode);
 //}
 //
 //bool topo() {
@@ -212,8 +212,8 @@ package class195;
 //        cin >> n;
 //        cntt = n << 1;
 //        for (int i = 1; i <= n; i++) {
-//            startArr[i] = i;
-//            endArr[i] = i + n;
+//            source[i] = i;
+//            target[i] = i + n;
 //        }
 //        for (int i = 1, u, v; i < n; i++) {
 //            cin >> u >> v;
