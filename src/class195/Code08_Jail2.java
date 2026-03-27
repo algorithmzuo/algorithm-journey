@@ -104,14 +104,16 @@ package class195;
 //    }
 //}
 //
-//void pathOut(int x, int y, int move) {
+//void pathMove(int x, int y, int move) {
 //    if (dep[x] < dep[y]) {
 //        swap(x, y);
 //    }
 //    addEdge2(outArr[y], move);
+//    addEdge2(move, inArr[y]);
 //    for (int p = MAXP - 1; p >= 0; p--) {
 //        if (dep[stjump[x][p]] >= dep[y]) {
 //            addEdge2(stout[x][p], move);
+//            addEdge2(move, stin[x][p]);
 //            x = stjump[x][p];
 //        }
 //    }
@@ -122,44 +124,27 @@ package class195;
 //        if (stjump[x][p] != stjump[y][p]) {
 //            addEdge2(stout[x][p], move);
 //            addEdge2(stout[y][p], move);
-//            x = stjump[x][p];
-//            y = stjump[y][p];
-//        }
-//    }
-//    addEdge2(stout[x][0], move);
-//}
-//
-//void pathIn(int x, int y, int move) {
-//    if (dep[x] < dep[y]) {
-//        swap(x, y);
-//    }
-//    addEdge2(move, inArr[y]);
-//    for (int p = MAXP - 1; p >= 0; p--) {
-//        if (dep[stjump[x][p]] >= dep[y]) {
-//            addEdge2(move, stin[x][p]);
-//            x = stjump[x][p];
-//        }
-//    }
-//    if (x == y) {
-//        return;
-//    }
-//    for (int p = MAXP - 1; p >= 0; p--) {
-//        if (stjump[x][p] != stjump[y][p]) {
 //            addEdge2(move, stin[x][p]);
 //            addEdge2(move, stin[y][p]);
 //            x = stjump[x][p];
 //            y = stjump[y][p];
 //        }
 //    }
+//    addEdge2(stout[x][0], move);
 //    addEdge2(move, stin[x][0]);
 //}
 //
 //void link(int x, int y) {
 //    int move = ++cntt;
 //    addEdge2(move, outArr[x]);
+//    addEdge2(move, inArr[x]);
+//    addEdge2(outArr[y], move);
 //    addEdge2(inArr[y], move);
-//    pathOut(nearest(y, x), y, move);
-//    pathIn(x, nearest(x, y), move);
+//    if (stjump[x][0] != y && stjump[y][0] != x) {
+//        int a = nearest(y, x);
+//        int b = nearest(x, y);
+//        pathMove(a, b, move);
+//    }
 //}
 //
 //bool topo() {

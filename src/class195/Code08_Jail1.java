@@ -163,7 +163,6 @@ public class Code08_Jail1 {
 		return x;
 	}
 
-	// 返回x到y的路径上，离y最近的点
 	public static int nearest(int x, int y) {
 		if (isAncestor(y, x)) {
 			return kthAncestor(x, dep[x] - dep[y] - 1);
@@ -172,16 +171,18 @@ public class Code08_Jail1 {
 		}
 	}
 
-	public static void pathOut(int x, int y, int move) {
+	public static void pathMove(int x, int y, int move) {
 		if (dep[x] < dep[y]) {
 			int tmp = x;
 			x = y;
 			y = tmp;
 		}
 		addEdge2(outArr[y], move);
+		addEdge2(move, inArr[y]);
 		for (int p = MAXP - 1; p >= 0; p--) {
 			if (dep[stjump[x][p]] >= dep[y]) {
 				addEdge2(stout[x][p], move);
+				addEdge2(move, stin[x][p]);
 				x = stjump[x][p];
 			}
 		}
@@ -192,46 +193,27 @@ public class Code08_Jail1 {
 			if (stjump[x][p] != stjump[y][p]) {
 				addEdge2(stout[x][p], move);
 				addEdge2(stout[y][p], move);
-				x = stjump[x][p];
-				y = stjump[y][p];
-			}
-		}
-		addEdge2(stout[x][0], move);
-	}
-
-	public static void pathIn(int x, int y, int move) {
-		if (dep[x] < dep[y]) {
-			int tmp = x;
-			x = y;
-			y = tmp;
-		}
-		addEdge2(move, inArr[y]);
-		for (int p = MAXP - 1; p >= 0; p--) {
-			if (dep[stjump[x][p]] >= dep[y]) {
-				addEdge2(move, stin[x][p]);
-				x = stjump[x][p];
-			}
-		}
-		if (x == y) {
-			return;
-		}
-		for (int p = MAXP - 1; p >= 0; p--) {
-			if (stjump[x][p] != stjump[y][p]) {
 				addEdge2(move, stin[x][p]);
 				addEdge2(move, stin[y][p]);
 				x = stjump[x][p];
 				y = stjump[y][p];
 			}
 		}
+		addEdge2(stout[x][0], move);
 		addEdge2(move, stin[x][0]);
 	}
 
 	public static void link(int x, int y) {
 		int move = ++cntt;
 		addEdge2(move, outArr[x]);
+		addEdge2(move, inArr[x]);
+		addEdge2(outArr[y], move);
 		addEdge2(inArr[y], move);
-		pathOut(nearest(y, x), y, move);
-		pathIn(x, nearest(x, y), move);
+		if (stjump[x][0] != y && stjump[y][0] != x) {
+			int a = nearest(y, x);
+			int b = nearest(x, y);
+			pathMove(a, b, move);
+		}
 	}
 
 	public static boolean topo() {
