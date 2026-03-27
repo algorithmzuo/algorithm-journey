@@ -17,8 +17,8 @@ public class Code08_Jail1 {
 	public static int MAXP = 18;
 	public static int t, n, m;
 
-	public static int[] source = new int[MAXN];
-	public static int[] target = new int[MAXN];
+	public static int[] outArr = new int[MAXN];
+	public static int[] inArr = new int[MAXN];
 
 	public static int[] head1 = new int[MAXN];
 	public static int[] next1 = new int[MAXN << 1];
@@ -81,11 +81,11 @@ public class Code08_Jail1 {
 		siz[u] = 1;
 		stjump[u][0] = fa;
 		stout[u][0] = ++cntt;
-		addEdge2(source[u], cntt);
-		addEdge2(source[fa], cntt);
+		addEdge2(outArr[u], cntt);
+		addEdge2(outArr[fa], cntt);
 		stin[u][0] = ++cntt;
-		addEdge2(cntt, target[u]);
-		addEdge2(cntt, target[fa]);
+		addEdge2(cntt, inArr[u]);
+		addEdge2(cntt, inArr[fa]);
 		for (int p = 1; p < MAXP; p++) {
 			stjump[u][p] = stjump[stjump[u][p - 1]][p - 1];
 			stout[u][p] = ++cntt;
@@ -116,11 +116,11 @@ public class Code08_Jail1 {
 				siz[u] = 1;
 				stjump[u][0] = fa;
 				stout[u][0] = ++cntt;
-				addEdge2(source[u], cntt);
-				addEdge2(source[fa], cntt);
+				addEdge2(outArr[u], cntt);
+				addEdge2(outArr[fa], cntt);
 				stin[u][0] = ++cntt;
-				addEdge2(cntt, target[u]);
-				addEdge2(cntt, target[fa]);
+				addEdge2(cntt, inArr[u]);
+				addEdge2(cntt, inArr[fa]);
 				for (int p = 1; p < MAXP; p++) {
 					stjump[u][p] = stjump[stjump[u][p - 1]][p - 1];
 					stout[u][p] = ++cntt;
@@ -172,78 +172,66 @@ public class Code08_Jail1 {
 		}
 	}
 
-	public static void pathOut(int x, int y, int vnode) {
+	public static void pathOut(int x, int y, int move) {
 		if (dep[x] < dep[y]) {
 			int tmp = x;
 			x = y;
 			y = tmp;
 		}
-		addEdge2(source[y], vnode);
-		for (int p = MAXP - 1, fx; p >= 0; p--) {
-			fx = stjump[x][p];
-			if (dep[fx] >= dep[y]) {
-				addEdge2(stout[x][p], vnode);
-				x = fx;
+		addEdge2(outArr[y], move);
+		for (int p = MAXP - 1; p >= 0; p--) {
+			if (dep[stjump[x][p]] >= dep[y]) {
+				addEdge2(stout[x][p], move);
+				x = stjump[x][p];
 			}
 		}
 		if (x == y) {
 			return;
 		}
-		for (int p = MAXP - 1, fx, fy; p >= 0; p--) {
-			fx = stjump[x][p];
-			fy = stjump[y][p];
-			if (fx != fy) {
-				addEdge2(stout[x][p], vnode);
-				addEdge2(stout[y][p], vnode);
-				x = fx;
-				y = fy;
+		for (int p = MAXP - 1; p >= 0; p--) {
+			if (stjump[x][p] != stjump[y][p]) {
+				addEdge2(stout[x][p], move);
+				addEdge2(stout[y][p], move);
+				x = stjump[x][p];
+				y = stjump[y][p];
 			}
 		}
-		addEdge2(stout[x][0], vnode);
+		addEdge2(stout[x][0], move);
 	}
 
-	public static void pathIn(int x, int y, int vnode) {
+	public static void pathIn(int x, int y, int move) {
 		if (dep[x] < dep[y]) {
 			int tmp = x;
 			x = y;
 			y = tmp;
 		}
-		addEdge2(vnode, target[y]);
-		for (int p = MAXP - 1, fx; p >= 0; p--) {
-			fx = stjump[x][p];
-			if (dep[fx] >= dep[y]) {
-				addEdge2(vnode, stin[x][p]);
-				x = fx;
+		addEdge2(move, inArr[y]);
+		for (int p = MAXP - 1; p >= 0; p--) {
+			if (dep[stjump[x][p]] >= dep[y]) {
+				addEdge2(move, stin[x][p]);
+				x = stjump[x][p];
 			}
 		}
 		if (x == y) {
 			return;
 		}
-		for (int p = MAXP - 1, fx, fy; p >= 0; p--) {
-			fx = stjump[x][p];
-			fy = stjump[y][p];
-			if (fx != fy) {
-				addEdge2(vnode, stin[x][p]);
-				addEdge2(vnode, stin[y][p]);
-				x = fx;
-				y = fy;
+		for (int p = MAXP - 1; p >= 0; p--) {
+			if (stjump[x][p] != stjump[y][p]) {
+				addEdge2(move, stin[x][p]);
+				addEdge2(move, stin[y][p]);
+				x = stjump[x][p];
+				y = stjump[y][p];
 			}
 		}
-		addEdge2(vnode, stin[x][0]);
+		addEdge2(move, stin[x][0]);
 	}
 
 	public static void link(int x, int y) {
-		int vnode = ++cntt;
-		if (stjump[x][0] != y && stjump[y][0] != x) {
-			int a = nearest(x, y);
-			int b = nearest(y, x);
-			pathOut(a, b, vnode);
-			pathIn(a, b, vnode);
-		}
-		addEdge2(vnode, source[x]);
-		addEdge2(vnode, target[x]);
-		addEdge2(source[y], vnode);
-		addEdge2(target[y], vnode);
+		int move = ++cntt;
+		addEdge2(move, outArr[x]);
+		addEdge2(inArr[y], move);
+		pathOut(nearest(y, x), y, move);
+		pathIn(x, nearest(x, y), move);
 	}
 
 	public static boolean topo() {
@@ -284,8 +272,8 @@ public class Code08_Jail1 {
 			n = in.nextInt();
 			cntt = n << 1;
 			for (int i = 1; i <= n; i++) {
-				source[i] = i;
-				target[i] = i + n;
+				outArr[i] = i;
+				inArr[i] = i + n;
 			}
 			for (int i = 1, u, v; i < n; i++) {
 				u = in.nextInt();
