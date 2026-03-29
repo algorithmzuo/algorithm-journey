@@ -1,6 +1,13 @@
 package class195;
 
 // 遗产，java版
+// 一共n个点，给定起点s，一共q条操作，操作类型如下
+// 操作 1 x y w   : 从点x到点y增加有向边，边权是w
+// 操作 2 x l r w : 从点x到l~r范围的每个点增加有向边，边权都是w
+// 操作 3 x l r w : 从l~r范围的每个点到点x增加有向边，边权都是w
+// 所有操作完成后，计算起点s到每个点的最短距离并打印，如果不连通打印-1
+// 1 <= n、q <= 10^5
+// 1 <= w <= 10^9
 // 测试链接 : https://www.luogu.com.cn/problem/CF786B
 // 测试链接 : https://codeforces.com/problemset/problem/786/B
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
