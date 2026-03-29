@@ -1,6 +1,16 @@
 package class195;
 
 // 沙漠，C++版
+// 一共n个数字，所有数字都在 1 ~ 10^9 的范围，这是范围说明
+// 接下来给定s条设置说明，格式 x v ，表示第x个数的值确定是v
+// 接下来给定m条关系说明，格式 l r k x1 x2 ... xk 含义如下
+// 第l到第r个数字，其中有k个数字，分别是第x1、第x2 .. 第xk个数字
+// 这k个数字中的每一个，都比剩下的(r - l + 1 - k)个数字要大，严格大于
+// 根据上面的说明，找到没有矛盾的，给每个数字赋值的方案，任何一个方案即可
+// 如果存在方案打印"TAK"，然后打印每个数字，不存在方案打印"NIE"
+// 1 <= n、s <= 10^5
+// 1 <= m <= 2 * 10^5
+// 所有k的累加和 <= 3 * 10^5
 // 测试链接 : https://www.luogu.com.cn/problem/P3588
 // 如下实现是C++的版本，C++版本和java版本逻辑完全一样
 // 提交如下代码，可以通过所有测试用例
@@ -55,6 +65,9 @@ package class195;
 //}
 //
 //void xToRange(int jobx, int jobl, int jobr, int jobw, int l, int r, int i) {
+//    if (jobl > jobr) {
+//        return;
+//    }
 //    if (jobl <= l && r <= jobr) {
 //        addEdge(jobx, i, jobw);
 //    } else {
@@ -117,14 +130,10 @@ package class195;
 //            int x;
 //            cin >> x;
 //            addEdge(x, vnode, 0);
-//            if (l < x) {
-//                xToRange(vnode, l, x - 1, -1, 1, n, root);
-//            }
+//            xToRange(vnode, l, x - 1, -1, 1, n, root);
 //            l = x + 1;
 //        }
-//        if (l <= r) {
-//            xToRange(vnode, l, r, -1, 1, n, root);
-//        }
+//        xToRange(vnode, l, r, -1, 1, n, root);
 //    }
 //    bool check = topo();
 //    if (check) {
