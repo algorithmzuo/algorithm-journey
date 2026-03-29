@@ -4,7 +4,7 @@ package class195;
 // 测试链接 : https://www.luogu.com.cn/problem/P5344
 // 提交以下的code，提交时请把类名改成"Main"
 // 本题卡常java的实现无法通过
-// 想通过用C++实现，本节课Code06_Forest2文件就是C++的实现
+// 想通过用C++实现，本节课Code08_Forest2文件就是C++的实现
 // 两个版本的逻辑完全一样，C++版本可以通过所有测试
 
 import java.io.IOException;
@@ -13,7 +13,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.util.PriorityQueue;
 
-public class Code06_Forest1 {
+public class Code08_Forest1 {
 
 	public static int MAXN = 50001;
 	public static int MAXM = 1000001;

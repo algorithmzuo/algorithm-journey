@@ -1,6 +1,6 @@
 package class195;
 
-// 美丽的树，C++版
+// 美丽的树，倍增优化建图，C++版
 // 测试链接 : https://www.luogu.com.cn/problem/CF1904F
 // 测试链接 : https://codeforces.com/problemset/problem/1904/F
 // 如下实现是C++的版本，C++版本和java版本逻辑完全一样
