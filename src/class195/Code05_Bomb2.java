@@ -60,8 +60,7 @@ package class195;
 //    head[u] = cntg;
 //}
 //
-//void addSaveEdge(int u, int v) {
-//    addEdge(u, v);
+//void saveEdge(int u, int v) {
 //    a[++cnte] = u;
 //    b[cnte] = v;
 //}
@@ -89,24 +88,27 @@ package class195;
 //        int mid = (l + r) >> 1;
 //        ls[rt] = build(l, mid);
 //        rs[rt] = build(mid + 1, r);
-//        addSaveEdge(rt, ls[rt]);
-//        addSaveEdge(rt, rs[rt]);
+//        addEdge(ls[rt], rt);
+//        addEdge(rs[rt], rt);
+//        saveEdge(ls[rt], rt);
+//        saveEdge(rs[rt], rt);
 //    }
 //    rangel[rt] = l;
 //    ranger[rt] = r;
 //    return rt;
 //}
 //
-//void xToRange(int jobx, int jobl, int jobr, int l, int r, int i) {
+//void rangeToX(int jobl, int jobr, int jobx, int l, int r, int i) {
 //    if (jobl <= l && r <= jobr) {
-//        addSaveEdge(jobx, i);
+//        addEdge(i, jobx);
+//        saveEdge(i, jobx);
 //    } else {
 //        int mid = (l + r) >> 1;
 //        if (jobl <= mid) {
-//            xToRange(jobx, jobl, jobr, l, mid, ls[i]);
+//            rangeToX(jobl, jobr, jobx, l, mid, ls[i]);
 //        }
 //        if (jobr > mid) {
-//            xToRange(jobx, jobl, jobr, mid + 1, r, rs[i]);
+//            rangeToX(jobl, jobr, jobx, mid + 1, r, rs[i]);
 //        }
 //    }
 //}
@@ -148,13 +150,13 @@ package class195;
 //        int scc1 = belong[a[i]];
 //        int scc2 = belong[b[i]];
 //        if (scc1 != scc2) {
-//            addEdge(scc2, scc1);
+//            addEdge(scc1, scc2);
 //        }
 //    }
 //}
 //
 //void dpOnDAG() {
-//    for (int u = 1; u <= sccCnt; u++) {
+//    for (int u = sccCnt; u > 0; u--) {
 //        for (int e = head[u]; e > 0; e = nxt[e]) {
 //            int v = to[e];
 //            mostl[v] = min(mostl[v], mostl[u]);
@@ -181,9 +183,13 @@ package class195;
 //    for (int i = 1; i <= n; i++) {
 //        int l = lower(location[i] - radius[i]);
 //        int r = lower(location[i] + radius[i] + 1) - 1;
-//        xToRange(i, l, r, 1, n, root);
+//        rangeToX(l, r, i, 1, n, root);
 //    }
-//    tarjan(root);
+//    for (int i = 1; i <= cntt; i++) {
+//        if (dfn[i] == 0) {
+//            tarjan(i);
+//        }
+//    }
 //    condense();
 //    dpOnDAG();
 //    ll ans = 0;

@@ -79,8 +79,7 @@ public class Code05_Bomb1 {
 		head[u] = cntg;
 	}
 
-	public static void addSaveEdge(int u, int v) {
-		addEdge(u, v);
+	public static void saveEdge(int u, int v) {
 		a[++cnte] = u;
 		b[cnte] = v;
 	}
@@ -108,24 +107,27 @@ public class Code05_Bomb1 {
 			int mid = (l + r) >> 1;
 			ls[rt] = build(l, mid);
 			rs[rt] = build(mid + 1, r);
-			addSaveEdge(rt, ls[rt]);
-			addSaveEdge(rt, rs[rt]);
+			addEdge(ls[rt], rt);
+			addEdge(rs[rt], rt);
+			saveEdge(ls[rt], rt);
+			saveEdge(rs[rt], rt);
 		}
 		rangel[rt] = l;
 		ranger[rt] = r;
 		return rt;
 	}
 
-	public static void xToRange(int jobx, int jobl, int jobr, int l, int r, int i) {
+	public static void rangeToX(int jobl, int jobr, int jobx, int l, int r, int i) {
 		if (jobl <= l && r <= jobr) {
-			addSaveEdge(jobx, i);
+			addEdge(i, jobx);
+			saveEdge(i, jobx);
 		} else {
 			int mid = (l + r) >> 1;
 			if (jobl <= mid) {
-				xToRange(jobx, jobl, jobr, l, mid, ls[i]);
+				rangeToX(jobl, jobr, jobx, l, mid, ls[i]);
 			}
 			if (jobr > mid) {
-				xToRange(jobx, jobl, jobr, mid + 1, r, rs[i]);
+				rangeToX(jobl, jobr, jobx, mid + 1, r, rs[i]);
 			}
 		}
 	}
@@ -214,19 +216,13 @@ public class Code05_Bomb1 {
 			int scc1 = belong[a[i]];
 			int scc2 = belong[b[i]];
 			if (scc1 != scc2) {
-				// 缩点图中，scc1 -> scc2
-				// 但是本题求解每个点能覆盖的范围，所以需要把后继范围信息向前传递
-				// 因此这里建立反图，scc2 -> scc1
-				addEdge(scc2, scc1);
+				addEdge(scc1, scc2);
 			}
 		}
 	}
 
-	// 讲解190，强连通分量缩点后进行动态规划，直接转移的写法
-	// 缩点得到的DAG，越靠近源头，序号越大，越靠近末端，序号越小
-	// 所以序号从小到大进行枚举，实现了末端向源头更新，这也是建立反图的意义
 	public static void dpOnDAG() {
-		for (int u = 1; u <= sccCnt; u++) {
+		for (int u = sccCnt; u > 0; u--) {
 			for (int e = head[u]; e > 0; e = nxt[e]) {
 				int v = to[e];
 				mostl[v] = Math.min(mostl[v], mostl[u]);
@@ -254,10 +250,14 @@ public class Code05_Bomb1 {
 		for (int i = 1; i <= n; i++) {
 			int l = lower(location[i] - radius[i]);
 			int r = lower(location[i] + radius[i] + 1) - 1;
-			xToRange(i, l, r, 1, n, root);
+			rangeToX(l, r, i, 1, n, root);
 		}
-		// tarjan1(root);
-		tarjan2(root);
+		for (int i = 1; i <= cntt; i++) {
+			if (dfn[i] == 0) {
+				// tarjan1(i);
+				tarjan2(i);
+			}
+		}
 		condense();
 		dpOnDAG();
 		long ans = 0;
