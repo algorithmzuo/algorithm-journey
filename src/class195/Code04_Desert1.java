@@ -38,7 +38,7 @@ public class Code04_Desert1 {
 	public static int root;
 	public static int cntt;
 
-	public static int[] val = new int[MAXT];
+	public static int[] setv = new int[MAXT];
 	public static int[] indegree = new int[MAXT];
 	public static int[] dist = new int[MAXT];
 	public static int[] que = new int[MAXT];
@@ -89,7 +89,7 @@ public class Code04_Desert1 {
 			if (indegree[i] == 0) {
 				que[++qsiz] = i;
 			}
-			dist[i] = val[i] > 0 ? val[i] : LIMIT;
+			dist[i] = setv[i] > 0 ? setv[i] : LIMIT;
 		}
 		while (qi <= qsiz) {
 			int u = que[qi++];
@@ -101,7 +101,7 @@ public class Code04_Desert1 {
 				int w = weight[e];
 				if (dist[v] > dist[u] + w) {
 					dist[v] = dist[u] + w;
-					if (val[v] != 0 && dist[v] < val[v]) {
+					if (setv[v] != 0 && dist[v] < setv[v]) {
 						return false;
 					}
 				}
@@ -124,7 +124,7 @@ public class Code04_Desert1 {
 		for (int i = 1; i <= s; i++) {
 			int x = in.nextInt();
 			int v = in.nextInt();
-			val[x] = v;
+			setv[x] = v;
 		}
 		for (int i = 1; i <= m; i++) {
 			int l = in.nextInt();

@@ -36,7 +36,7 @@ package class195;
 //int root;
 //int cntt;
 //
-//int val[MAXT];
+//int setv[MAXT];
 //int indegree[MAXT];
 //int dist[MAXT];
 //int que[MAXT];
@@ -87,7 +87,7 @@ package class195;
 //        if (indegree[i] == 0) {
 //            que[++qsiz] = i;
 //        }
-//        dist[i] = val[i] > 0 ? val[i] : LIMIT;
+//        dist[i] = setv[i] > 0 ? setv[i] : LIMIT;
 //    }
 //    while (qi <= qsiz) {
 //        int u = que[qi++];
@@ -99,7 +99,7 @@ package class195;
 //            int w = weight[e];
 //            if (dist[v] > dist[u] + w) {
 //                dist[v] = dist[u] + w;
-//                if (val[v] != 0 && dist[v] < val[v]) {
+//                if (setv[v] != 0 && dist[v] < setv[v]) {
 //                    return false;
 //                }
 //            }
@@ -120,7 +120,7 @@ package class195;
 //    for (int i = 1; i <= s; i++) {
 //        int x, v;
 //        cin >> x >> v;
-//        val[x] = v;
+//        setv[x] = v;
 //    }
 //    for (int i = 1; i <= m; i++) {
 //        int l, r, k;
