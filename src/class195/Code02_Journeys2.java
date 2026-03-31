@@ -71,38 +71,40 @@ package class195;
 //    return rt;
 //}
 //
-//void xToRange(int jobx, int jobl, int jobr, int jobw, int l, int r, int i) {
+//void xToRange(int jobx, int jobl, int jobr, int l, int r, int i) {
 //    if (jobl <= l && r <= jobr) {
-//        addEdge(jobx, i, jobw);
+//        addEdge(jobx, i, 0);
 //    } else {
 //        int mid = (l + r) >> 1;
 //        if (jobl <= mid) {
-//            xToRange(jobx, jobl, jobr, jobw, l, mid, ls[i]);
+//            xToRange(jobx, jobl, jobr, l, mid, ls[i]);
 //        }
 //        if (jobr > mid) {
-//            xToRange(jobx, jobl, jobr, jobw, mid + 1, r, rs[i]);
+//            xToRange(jobx, jobl, jobr, mid + 1, r, rs[i]);
 //        }
 //    }
 //}
 //
-//void rangeToX(int jobl, int jobr, int jobx, int jobw, int l, int r, int i) {
+//void rangeToX(int jobl, int jobr, int jobx, int l, int r, int i) {
 //    if (jobl <= l && r <= jobr) {
-//        addEdge(i, jobx, jobw);
+//        addEdge(i, jobx, 0);
 //    } else {
 //        int mid = (l + r) >> 1;
 //        if (jobl <= mid) {
-//            rangeToX(jobl, jobr, jobx, jobw, l, mid, ls[i]);
+//            rangeToX(jobl, jobr, jobx, l, mid, ls[i]);
 //        }
 //        if (jobr > mid) {
-//            rangeToX(jobl, jobr, jobx, jobw, mid + 1, r, rs[i]);
+//            rangeToX(jobl, jobr, jobx, mid + 1, r, rs[i]);
 //        }
 //    }
 //}
 //
 //void rangeToRange(int a, int b, int c, int d) {
-//    int vnode = ++cntt;
-//    rangeToX(a, b, vnode, 1, 1, n, rootOut);
-//    xToRange(vnode, c, d, 0, 1, n, rootIn);
+//    int x = ++cntt;
+//    int y = ++cntt;
+//    rangeToX(a, b, x, 1, n, rootOut);
+//    xToRange(y, c, d, 1, n, rootIn);
+//    addEdge(x, y, 1);
 //}
 //
 //void bfs01() {
