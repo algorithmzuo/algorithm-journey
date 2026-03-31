@@ -38,9 +38,9 @@ public class Code04_Desert1 {
 	public static int root;
 	public static int cntt;
 
-	public static int[] setv = new int[MAXT];
+	public static int[] val = new int[MAXT];
+	public static int[] atMost = new int[MAXT];
 	public static int[] indegree = new int[MAXT];
-	public static int[] dist = new int[MAXT];
 	public static int[] que = new int[MAXT];
 
 	public static void addEdge(int u, int v, int w) {
@@ -89,16 +89,16 @@ public class Code04_Desert1 {
 			if (indegree[i] == 0) {
 				que[++qsiz] = i;
 			}
-			dist[i] = setv[i] == 0 ? LIMIT : setv[i];
+			atMost[i] = val[i] == 0 ? LIMIT : val[i];
 		}
 		while (qi <= qsiz) {
 			int u = que[qi++];
 			for (int e = head[u]; e > 0; e = nxt[e]) {
 				int v = to[e];
 				int w = weight[e];
-				if (dist[v] > dist[u] + w) {
-					dist[v] = dist[u] + w;
-					if ((setv[v] != 0 && dist[v] < setv[v]) || dist[v] < 1) {
+				if (atMost[v] > atMost[u] + w) {
+					atMost[v] = atMost[u] + w;
+					if ((val[v] != 0 && atMost[v] < val[v]) || atMost[v] < 1) {
 						return false;
 					}
 				}
@@ -121,7 +121,7 @@ public class Code04_Desert1 {
 		for (int i = 1; i <= s; i++) {
 			int x = in.nextInt();
 			int v = in.nextInt();
-			setv[x] = v;
+			val[x] = v;
 		}
 		for (int i = 1; i <= m; i++) {
 			int l = in.nextInt();
@@ -140,7 +140,7 @@ public class Code04_Desert1 {
 		if (check) {
 			out.println("TAK");
 			for (int i = 1; i <= n; i++) {
-				out.print(dist[i] + " ");
+				out.print(atMost[i] + " ");
 			}
 			out.println();
 		} else {

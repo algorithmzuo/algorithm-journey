@@ -36,9 +36,9 @@ package class195;
 //int root;
 //int cntt;
 //
-//int setv[MAXT];
+//int val[MAXT];
+//int atMost[MAXT];
 //int indegree[MAXT];
-//int dist[MAXT];
 //int que[MAXT];
 //
 //void addEdge(int u, int v, int w) {
@@ -87,19 +87,16 @@ package class195;
 //        if (indegree[i] == 0) {
 //            que[++qsiz] = i;
 //        }
-//        dist[i] = setv[i] == 0 ? LIMIT : setv[i];
+//        atMost[i] = val[i] == 0 ? LIMIT : val[i];
 //    }
 //    while (qi <= qsiz) {
 //        int u = que[qi++];
-//        if (dist[u] < 1) {
-//            return false;
-//        }
 //        for (int e = head[u]; e > 0; e = nxt[e]) {
 //            int v = to[e];
 //            int w = weight[e];
-//            if (dist[v] > dist[u] + w) {
-//                dist[v] = dist[u] + w;
-//                if ((setv[v] != 0 && dist[v] < setv[v]) || dist[v] < 1) {
+//            if (atMost[v] > atMost[u] + w) {
+//                atMost[v] = atMost[u] + w;
+//                if ((val[v] != 0 && atMost[v] < val[v]) || atMost[v] < 1) {
 //                    return false;
 //                }
 //            }
@@ -120,7 +117,7 @@ package class195;
 //    for (int i = 1; i <= s; i++) {
 //        int x, v;
 //        cin >> x >> v;
-//        setv[x] = v;
+//        val[x] = v;
 //    }
 //    for (int i = 1; i <= m; i++) {
 //        int l, r, k;
@@ -139,7 +136,7 @@ package class195;
 //    if (check) {
 //        cout << "TAK" << "\n";
 //        for (int i = 1; i <= n; i++) {
-//            cout << dist[i] << " ";
+//            cout << atMost[i] << " ";
 //        }
 //        cout << "\n";
 //    } else {
