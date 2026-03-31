@@ -93,15 +93,12 @@ public class Code04_Desert1 {
 		}
 		while (qi <= qsiz) {
 			int u = que[qi++];
-			if (dist[u] < 1) {
-				return false;
-			}
 			for (int e = head[u]; e > 0; e = nxt[e]) {
 				int v = to[e];
 				int w = weight[e];
 				if (dist[v] > dist[u] + w) {
 					dist[v] = dist[u] + w;
-					if (setv[v] != 0 && dist[v] < setv[v]) {
+					if ((setv[v] != 0 && dist[v] < setv[v]) || dist[v] < 1) {
 						return false;
 					}
 				}
