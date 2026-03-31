@@ -87,7 +87,7 @@ package class195;
 //        if (indegree[i] == 0) {
 //            que[++qsiz] = i;
 //        }
-//        dist[i] = setv[i] > 0 ? setv[i] : LIMIT;
+//        dist[i] = setv[i] == 0 ? LIMIT : setv[i];
 //    }
 //    while (qi <= qsiz) {
 //        int u = que[qi++];
