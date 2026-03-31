@@ -161,11 +161,11 @@ package class195;
 //}
 //
 //void pathToPath(int a, int b, int c, int d, int w) {
-//    int vout = ++cntt;
-//    int vin = ++cntt;
-//    pathOut(a, b, vout);
-//    pathIn(c, d, vin);
-//    addEdge2(vout, vin, w);
+//    int x = ++cntt;
+//    int y = ++cntt;
+//    pathOut(a, b, x);
+//    pathIn(c, d, y);
+//    addEdge2(x, y, w);
 //}
 //
 //void dijkstra() {
