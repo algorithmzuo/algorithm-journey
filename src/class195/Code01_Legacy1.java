@@ -32,6 +32,11 @@ public class Code01_Legacy1 {
 	public static int[] weight = new int[MAXE];
 	public static int cntg;
 
+	// 出树和入树共用ls和rs
+	// 出树的头节点编号rootOut
+	// 入树的头节点编号rootIn
+	// 空间利用cntt计数来分配
+	// 开点线段树 和 可持久化线段树 都是这种设计
 	public static int[] ls = new int[MAXT];
 	public static int[] rs = new int[MAXT];
 	public static int rootOut, rootIn;
@@ -39,6 +44,7 @@ public class Code01_Legacy1 {
 
 	public static long[] dist = new long[MAXT];
 	public static boolean[] vis = new boolean[MAXT];
+	// 当前点、代价
 	public static PriorityQueue<long[]> heap = new PriorityQueue<>((x, y) -> Long.compare(x[1], y[1]));
 
 	public static void addEdge(int u, int v, int w) {
