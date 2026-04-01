@@ -23,22 +23,26 @@ public class Code06_BeautifulTreeHLD1 {
 	public static int MAXE = MAXN * 50;
 	public static int n, m;
 
+	// 原始的树
 	public static int[] head1 = new int[MAXN];
 	public static int[] next1 = new int[MAXN << 1];
 	public static int[] to1 = new int[MAXN << 1];
 	public static int cnt1;
 
+	// 关系图，x -> y，x的值严格小于y
 	public static int[] indegree = new int[MAXT];
 	public static int[] head2 = new int[MAXT];
 	public static int[] next2 = new int[MAXE];
 	public static int[] to2 = new int[MAXE];
 	public static int cnt2;
 
+	// 线段树优化建图，出树和入树
 	public static int[] ls = new int[MAXT];
 	public static int[] rs = new int[MAXT];
 	public static int rootOut, rootIn;
 	public static int cntt;
 
+	// 树链剖分
 	public static int[] fa = new int[MAXN];
 	public static int[] dep = new int[MAXN];
 	public static int[] siz = new int[MAXN];
@@ -48,6 +52,7 @@ public class Code06_BeautifulTreeHLD1 {
 	public static int[] seg = new int[MAXN];
 	public static int cntd;
 
+	// 拓扑排序
 	public static int[] que = new int[MAXT];
 	public static int[] ans = new int[MAXN];
 
