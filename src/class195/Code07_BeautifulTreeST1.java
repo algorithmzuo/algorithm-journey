@@ -25,27 +25,32 @@ public class Code07_BeautifulTreeST1 {
 	public static int MAXK = MAXN * MAXP;
 	public static int n, m;
 
+	// 原树
 	public static int[] head1 = new int[MAXN];
 	public static int[] next1 = new int[MAXN << 1];
 	public static int[] to1 = new int[MAXN << 1];
 	public static int cnt1;
 
+	// 关系图
 	public static int[] indegree = new int[MAXT];
 	public static int[] head2 = new int[MAXT];
 	public static int[] next2 = new int[MAXE];
 	public static int[] to2 = new int[MAXE];
 	public static int cnt2;
 
+	// 树上倍增
 	public static int[] dep = new int[MAXN];
 	public static int[] dfn = new int[MAXN];
 	public static int[] siz = new int[MAXN];
 	public static int[] stjump = new int[MAXK];
 	public static int cntd;
 
+	// 倍增优化建图，出表和入表
 	public static int[] stout = new int[MAXK];
 	public static int[] stin = new int[MAXK];
 	public static int cntt;
 
+	// 拓扑排序
 	public static int[] que = new int[MAXT];
 	public static int[] ans = new int[MAXN];
 
