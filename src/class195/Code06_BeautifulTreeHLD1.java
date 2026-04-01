@@ -201,7 +201,7 @@ public class Code06_BeautifulTreeHLD1 {
 		int val = 0;
 		while (qi <= qsiz) {
 			int u = que[qi++];
-			if (u >= 1 && u <= n) {
+			if (u <= n) {
 				ans[seg[u]] = ++val;
 			}
 			for (int e = head2[u]; e > 0; e = next2[e]) {
