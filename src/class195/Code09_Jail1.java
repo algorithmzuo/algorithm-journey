@@ -25,30 +25,36 @@ public class Code09_Jail1 {
 	public static int MAXP = 18;
 	public static int t, n, m;
 
+	// 两个标签的编号
 	public static int[] startTag = new int[MAXN];
 	public static int[] endTag = new int[MAXN];
 
+	// 原始的树
 	public static int[] head1 = new int[MAXN];
 	public static int[] next1 = new int[MAXN << 1];
 	public static int[] to1 = new int[MAXN << 1];
 	public static int cnt1;
 
+	// 相对次序的关系图
 	public static int[] indegree = new int[MAXT];
 	public static int[] head2 = new int[MAXT];
 	public static int[] next2 = new int[MAXE];
 	public static int[] to2 = new int[MAXE];
 	public static int cnt2;
 
+	// 树上倍增
 	public static int[] dep = new int[MAXN];
 	public static int[] dfn = new int[MAXN];
 	public static int[] siz = new int[MAXN];
 	public static int[][] stjump = new int[MAXN][MAXP];
 	public static int cntd;
 
+	// 倍增优化建图
 	public static int[][] stout = new int[MAXN][MAXP];
 	public static int[][] stin = new int[MAXN][MAXP];
 	public static int cntt;
 
+	// 拓扑排序判环
 	public static int[] que = new int[MAXT];
 
 	// 讲解118，递归改迭代需要的栈
@@ -271,9 +277,9 @@ public class Code09_Jail1 {
 				addEdge1(u, v);
 				addEdge1(v, u);
 			}
-			m = in.nextInt();
 			// build1(1, 1);
 			build2(1, 1);
+			m = in.nextInt();
 			for (int i = 1, x, y; i <= m; i++) {
 				x = in.nextInt();
 				y = in.nextInt();
