@@ -30,6 +30,7 @@ public class Code08_Forest1 {
 	public static int INF = 1 << 30;
 	public static int n, m, s;
 
+	// 操作1记录一下，只记录应该发生的操作1
 	public static int[] u1 = new int[MAXM];
 	public static int[] v1 = new int[MAXM];
 	public static int[] u2 = new int[MAXM];
@@ -37,25 +38,30 @@ public class Code08_Forest1 {
 	public static int[] weight = new int[MAXM];
 	public static int cntq;
 
+	// 操作2建立的树
 	public static int[] head1 = new int[MAXN];
 	public static int[] next1 = new int[MAXN << 1];
 	public static int[] to1 = new int[MAXN << 1];
 	public static int cnt1;
 
+	// 操作1 + 操作2 建立的图
 	public static int[] head2 = new int[MAXT];
 	public static int[] next2 = new int[MAXE];
 	public static int[] to2 = new int[MAXE];
 	public static int[] weight2 = new int[MAXE];
 	public static int cnt2;
 
+	// 并查集
 	public static int[] father = new int[MAXN];
 
+	// 树上倍增
 	public static int[] dep = new int[MAXN];
 	public static int[][] stjump = new int[MAXN][MAXP];
 	public static int[][] stout = new int[MAXN][MAXP];
 	public static int[][] stin = new int[MAXN][MAXP];
 	public static int cntt;
 
+	// dijkstra算法
 	public static int[] dist = new int[MAXT];
 	public static boolean[] vis = new boolean[MAXT];
 	public static PriorityQueue<int[]> heap = new PriorityQueue<>((a, b) -> a[1] - b[1]);
