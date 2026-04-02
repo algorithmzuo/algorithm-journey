@@ -25,8 +25,8 @@ public class Code09_Jail1 {
 	public static int MAXP = 18;
 	public static int t, n, m;
 
-	public static int[] outArr = new int[MAXN];
-	public static int[] inArr = new int[MAXN];
+	public static int[] startTag = new int[MAXN];
+	public static int[] endTag = new int[MAXN];
 
 	public static int[] head1 = new int[MAXN];
 	public static int[] next1 = new int[MAXN << 1];
@@ -89,11 +89,11 @@ public class Code09_Jail1 {
 		siz[u] = 1;
 		stjump[u][0] = fa;
 		stout[u][0] = ++cntt;
-		addEdge2(outArr[u], cntt);
-		addEdge2(outArr[fa], cntt);
+		addEdge2(startTag[u], cntt);
+		addEdge2(startTag[fa], cntt);
 		stin[u][0] = ++cntt;
-		addEdge2(cntt, inArr[u]);
-		addEdge2(cntt, inArr[fa]);
+		addEdge2(cntt, endTag[u]);
+		addEdge2(cntt, endTag[fa]);
 		for (int p = 1; p < MAXP; p++) {
 			stjump[u][p] = stjump[stjump[u][p - 1]][p - 1];
 			stout[u][p] = ++cntt;
@@ -124,11 +124,11 @@ public class Code09_Jail1 {
 				siz[u] = 1;
 				stjump[u][0] = fa;
 				stout[u][0] = ++cntt;
-				addEdge2(outArr[u], cntt);
-				addEdge2(outArr[fa], cntt);
+				addEdge2(startTag[u], cntt);
+				addEdge2(startTag[fa], cntt);
 				stin[u][0] = ++cntt;
-				addEdge2(cntt, inArr[u]);
-				addEdge2(cntt, inArr[fa]);
+				addEdge2(cntt, endTag[u]);
+				addEdge2(cntt, endTag[fa]);
 				for (int p = 1; p < MAXP; p++) {
 					stjump[u][p] = stjump[stjump[u][p - 1]][p - 1];
 					stout[u][p] = ++cntt;
@@ -179,18 +179,18 @@ public class Code09_Jail1 {
 		}
 	}
 
-	public static void pathMove(int x, int y, int move) {
+	public static void pathSet(int x, int y, int prisoner) {
 		if (dep[x] < dep[y]) {
 			int tmp = x;
 			x = y;
 			y = tmp;
 		}
-		addEdge2(outArr[y], move);
-		addEdge2(move, inArr[y]);
+		addEdge2(startTag[y], prisoner);
+		addEdge2(prisoner, endTag[y]);
 		for (int p = MAXP - 1; p >= 0; p--) {
 			if (dep[stjump[x][p]] >= dep[y]) {
-				addEdge2(stout[x][p], move);
-				addEdge2(move, stin[x][p]);
+				addEdge2(stout[x][p], prisoner);
+				addEdge2(prisoner, stin[x][p]);
 				x = stjump[x][p];
 			}
 		}
@@ -199,28 +199,28 @@ public class Code09_Jail1 {
 		}
 		for (int p = MAXP - 1; p >= 0; p--) {
 			if (stjump[x][p] != stjump[y][p]) {
-				addEdge2(stout[x][p], move);
-				addEdge2(stout[y][p], move);
-				addEdge2(move, stin[x][p]);
-				addEdge2(move, stin[y][p]);
+				addEdge2(stout[x][p], prisoner);
+				addEdge2(stout[y][p], prisoner);
+				addEdge2(prisoner, stin[x][p]);
+				addEdge2(prisoner, stin[y][p]);
 				x = stjump[x][p];
 				y = stjump[y][p];
 			}
 		}
-		addEdge2(stout[x][0], move);
-		addEdge2(move, stin[x][0]);
+		addEdge2(stout[x][0], prisoner);
+		addEdge2(prisoner, stin[x][0]);
 	}
 
 	public static void link(int x, int y) {
-		int move = ++cntt;
-		addEdge2(move, outArr[x]);
-		addEdge2(move, inArr[x]);
-		addEdge2(outArr[y], move);
-		addEdge2(inArr[y], move);
+		int prisoner = ++cntt;
+		addEdge2(prisoner, startTag[x]);
+		addEdge2(prisoner, endTag[x]);
+		addEdge2(startTag[y], prisoner);
+		addEdge2(endTag[y], prisoner);
 		if (stjump[x][0] != y && stjump[y][0] != x) {
 			int a = nearest(y, x);
 			int b = nearest(x, y);
-			pathMove(a, b, move);
+			pathSet(a, b, prisoner);
 		}
 	}
 
@@ -262,8 +262,8 @@ public class Code09_Jail1 {
 			n = in.nextInt();
 			cntt = n << 1;
 			for (int i = 1; i <= n; i++) {
-				outArr[i] = i;
-				inArr[i] = i + n;
+				startTag[i] = i;
+				endTag[i] = i + n;
 			}
 			for (int i = 1, u, v; i < n; i++) {
 				u = in.nextInt();
