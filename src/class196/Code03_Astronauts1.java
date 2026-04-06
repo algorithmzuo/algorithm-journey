@@ -1,7 +1,8 @@
 package class196;
 
-// 和平委员会，java版
-// 测试链接 : https://www.luogu.com.cn/problem/P5782
+// 宇航员，java版
+// 测试链接 : https://www.luogu.com.cn/problem/UVA1391
+// 测试链接 : https://vjudge.net/problem/UVA-1391
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
 import java.io.IOException;
@@ -9,11 +10,13 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
-public class Code02_Committee1 {
+public class Code03_Astronauts1 {
 
-	public static int MAXN = 20001;
-	public static int MAXM = 50001;
+	public static int MAXN = 200001;
+	public static int MAXM = 500001;
 	public static int n, m;
+	public static int[] age = new int[MAXN];
+	public static int sumAge;
 
 	public static int[] head = new int[MAXN];
 	public static int[] nxt = new int[MAXM];
@@ -49,10 +52,21 @@ public class Code02_Committee1 {
 		e = stack[stacksize][2];
 	}
 
+	public static void prepare() {
+		sumAge = cntg = cntd = sccCnt = 0;
+		for (int i = 1; i <= n << 1; i++) {
+			head[i] = dfn[i] = low[i] = belong[i] = 0;
+		}
+	}
+
 	public static void addEdge(int u, int v) {
 		nxt[++cntg] = head[u];
 		to[cntg] = v;
 		head[u] = cntg;
+	}
+
+	public static boolean older(int x) {
+		return age[x] * n >= sumAge;
 	}
 
 	// 递归版
@@ -122,47 +136,57 @@ public class Code02_Committee1 {
 		}
 	}
 
-	public static int other(int x) {
-		return (x & 1) == 0 ? (x - 1) : (x + 1);
-	}
-
 	public static void main(String[] args) throws Exception {
 		FastReader in = new FastReader(System.in);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
 		n = in.nextInt();
 		m = in.nextInt();
-		for (int i = 1, u, v; i <= m; i++) {
-			u = in.nextInt();
-			v = in.nextInt();
-			addEdge(u, other(v));
-			addEdge(v, other(u));
-		}
-		for (int i = 1; i <= n << 1; i++) {
-			if (dfn[i] == 0) {
-				// tarjan1(i);
-				tarjan2(i);
+		while (n != 0 && m != 0) {
+			prepare();
+			for (int i = 1; i <= n; i++) {
+				age[i] = in.nextInt();
+				sumAge += age[i];
 			}
-		}
-		boolean check = true;
-		for (int i = 1, a, b; i <= n; i++) {
-			a = i << 1;
-			b = a - 1;
-			if (belong[a] == belong[b]) {
-				check = false;
-			}
-		}
-		if (check) {
-			for (int i = 1, a, b; i <= n; i++) {
-				a = i << 1;
-				b = a - 1;
-				if (belong[a] < belong[b]) {
-					out.println(a);
-				} else {
-					out.println(b);
+			for (int i = 1, x, y; i <= m; i++) {
+				x = in.nextInt();
+				y = in.nextInt();
+				addEdge(x + n, y);
+				addEdge(y + n, x);
+				if (older(x) == older(y)) {
+					addEdge(x, y + n);
+					addEdge(y, x + n);
 				}
 			}
-		} else {
-			out.println("NIE");
+			for (int i = 1; i <= n << 1; i++) {
+				if (dfn[i] == 0) {
+					// tarjan1(i);
+					tarjan2(i);
+				}
+			}
+			boolean check = true;
+			for (int i = 1; i <= n; i++) {
+				if (belong[i] == belong[i + n]) {
+					check = false;
+					break;
+				}
+			}
+			if (check) {
+				for (int i = 1; i <= n; i++) {
+					if (belong[i] < belong[i + n]) {
+						if (older(i)) {
+							out.println("A");
+						} else {
+							out.println("B");
+						}
+					} else {
+						out.println("C");
+					}
+				}
+			} else {
+				out.println("No solution");
+			}
+			n = in.nextInt();
+			m = in.nextInt();
 		}
 		out.flush();
 		out.close();
