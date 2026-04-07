@@ -133,7 +133,7 @@ package class196;
 //            }
 //        }
 //    }
-//    for (int i = 1; i <= (n << 1); i++) {
+//    for (int i = 1; i <= n << 1; i++) {
 //        if (dfn[i] == 0) {
 //            tarjan(i);
 //        }
