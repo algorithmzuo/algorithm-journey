@@ -30,9 +30,9 @@ package class196;
 //int belong[MAXS];
 //int sccCnt;
 //
-//int arr1[MAXN];
-//int arr2[MAXN];
-//bool set1[MAXN];
+//int set1[MAXN];
+//int set2[MAXN];
+//bool in1[MAXN];
 //int cnt1, cnt2;
 //
 //int conflict[MAXN];
@@ -76,17 +76,17 @@ package class196;
 //    }
 //    for (int i = 1; i <= n; i++) {
 //        if (belong[i] < belong[i + n]) {
-//            arr1[++cnt1] = i;
-//            set1[i] = true;
+//            set1[++cnt1] = i;
+//            in1[i] = true;
 //        } else {
-//            arr2[++cnt2] = i;
+//            set2[++cnt2] = i;
 //        }
 //    }
 //    int ans = cnt1 > 0 && cnt2 > 0 ? 1 : 0;
 //    for (int i = 1; i <= cnt1; i++) {
-//        int x = arr1[i];
+//        int x = set1[i];
 //        for (int j = 1; j <= cnt2; j++) {
-//            int y = arr2[j];
+//            int y = set2[j];
 //            if (know[x][y]) {
 //                conflict[x]++;
 //                other[x] = y;
@@ -98,7 +98,7 @@ package class196;
 //    }
 //    for (int i = 1; i <= n; i++) {
 //        if (conflict[i] == 0) {
-//            if ((set1[i] && cnt1 > 1) || (!set1[i] && cnt2 > 1)) {
+//            if ((in1[i] && cnt1 > 1) || (!in1[i] && cnt2 > 1)) {
 //                ans++;
 //            }
 //        }

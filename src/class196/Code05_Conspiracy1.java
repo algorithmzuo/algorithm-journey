@@ -35,9 +35,9 @@ public class Code05_Conspiracy1 {
 	public static int[] belong = new int[MAXS];
 	public static int sccCnt;
 
-	public static int[] arr1 = new int[MAXN];
-	public static int[] arr2 = new int[MAXN];
-	public static boolean[] set1 = new boolean[MAXN];
+	public static int[] set1 = new int[MAXN];
+	public static int[] set2 = new int[MAXN];
+	public static boolean[] in1 = new boolean[MAXN];
 	public static int cnt1, cnt2;
 
 	public static int[] conflict = new int[MAXN];
@@ -81,17 +81,17 @@ public class Code05_Conspiracy1 {
 		}
 		for (int i = 1; i <= n; i++) {
 			if (belong[i] < belong[i + n]) {
-				arr1[++cnt1] = i;
-				set1[i] = true;
+				set1[++cnt1] = i;
+				in1[i] = true;
 			} else {
-				arr2[++cnt2] = i;
+				set2[++cnt2] = i;
 			}
 		}
 		int ans = cnt1 > 0 && cnt2 > 0 ? 1 : 0;
 		for (int i = 1; i <= cnt1; i++) {
-			int x = arr1[i];
+			int x = set1[i];
 			for (int j = 1; j <= cnt2; j++) {
-				int y = arr2[j];
+				int y = set2[j];
 				if (know[x][y]) {
 					conflict[x]++;
 					other[x] = y;
@@ -103,7 +103,7 @@ public class Code05_Conspiracy1 {
 		}
 		for (int i = 1; i <= n; i++) {
 			if (conflict[i] == 0) {
-				if ((set1[i] && cnt1 > 1) || (!set1[i] && cnt2 > 1)) {
+				if ((in1[i] && cnt1 > 1) || (!in1[i] && cnt2 > 1)) {
 					ans++;
 				}
 			}
