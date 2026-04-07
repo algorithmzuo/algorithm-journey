@@ -10,8 +10,8 @@ package class196;
 //using namespace std;
 //
 //const int MAXN = 5001;
-//const int MAXM = 30000001;
 //const int MAXS = MAXN << 1;
+//const int MAXM = MAXN * MAXN;
 //int n, k, x;
 //bool know[MAXN][MAXN];
 //

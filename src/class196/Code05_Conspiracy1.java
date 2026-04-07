@@ -15,8 +15,8 @@ import java.io.PrintWriter;
 public class Code05_Conspiracy1 {
 
 	public static int MAXN = 5001;
-	public static int MAXM = 30000001;
 	public static int MAXS = MAXN << 1;
+	public static int MAXM = MAXN * MAXN;
 	public static int n, k, x;
 	public static boolean[][] know = new boolean[MAXN][MAXN];
 
