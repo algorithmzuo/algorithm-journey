@@ -35,7 +35,6 @@ public class Code08_RadioStations1 {
 	public static int[] belong = new int[MAXS];
 	public static int sccCnt;
 
-	// 频率不在前缀范围或者后缀范围
 	public static int[] pre = new int[MAXN];
 	public static int[] suf = new int[MAXN];
 
@@ -53,22 +52,22 @@ public class Code08_RadioStations1 {
 		pre[1] = ++cntt;
 		for (int i = 2; i <= x; i++) {
 			pre[i] = ++cntt;
-			addEdge(pre[i], pre[i - 1]);
+			addEdge(pre[i - 1], pre[i]);
 		}
 		suf[x] = ++cntt;
 		for (int i = x - 1; i >= 1; i--) {
 			suf[i] = ++cntt;
-			addEdge(suf[i], suf[i + 1]);
+			addEdge(suf[i + 1], suf[i]);
 		}
 		for (int i = 1; i <= p; i++) {
+			addEdge(i, pre[r[i]]);
+			addEdge(i, suf[l[i]]);
 			if (l[i] - 1 >= 1) {
-				addEdge(i, pre[l[i] - 1]);
+				addEdge(pre[l[i] - 1], i + p);
 			}
 			if (r[i] + 1 <= x) {
-				addEdge(i, suf[r[i] + 1]);
+				addEdge(suf[r[i] + 1], i + p);
 			}
-			addEdge(suf[l[i]], i + p);
-			addEdge(pre[r[i]], i + p);
 		}
 	}
 
