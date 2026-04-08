@@ -16,7 +16,7 @@ public class Code06_Coprime1 {
 	public static int MAXN = 1000001;
 	public static int MAXV = 2000001;
 	public static int MAXM = 3000001;
-	public static int n, maxv;
+	public static int n, cntt, maxv;
 	public static int[] ab = new int[MAXN];
 
 	public static int[] minp = new int[MAXV];
@@ -40,8 +40,6 @@ public class Code06_Coprime1 {
 
 	public static int[] belong = new int[MAXN];
 	public static int sccCnt;
-
-	public static int cntt;
 
 	public static void addEdge(int u, int v) {
 		nxt[++cntg] = head[u];
