@@ -35,13 +35,13 @@ public class Code08_RadioStations1 {
 	public static int[] belong = new int[MAXS];
 	public static int sccCnt;
 
-	// 注意含义，频率不在..
+	// 频率不在前缀范围或者后缀范围
 	public static int[] pre = new int[MAXN];
 	public static int[] suf = new int[MAXN];
 
-	public static int ans;
-	public static int[] arr = new int[MAXN];
-	public static int cnta;
+	public static int ansf;
+	public static int[] pick = new int[MAXN];
+	public static int siz;
 
 	public static void addEdge(int u, int v) {
 		nxt[++cntg] = head[u];
@@ -96,6 +96,20 @@ public class Code08_RadioStations1 {
 		}
 	}
 
+	public static boolean compute() {
+		boolean check = true;
+		for (int i = 1; i <= p; i++) {
+			if (belong[i] == belong[i + p]) {
+				check = false;
+				break;
+			} else if (belong[i] < belong[i + p]) {
+				ansf = Math.max(ansf, l[i]);
+				pick[++siz] = i;
+			}
+		}
+		return check;
+	}
+
 	public static void main(String[] args) throws Exception {
 		FastReader in = new FastReader(System.in);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
@@ -126,25 +140,12 @@ public class Code08_RadioStations1 {
 				tarjan(i);
 			}
 		}
-		boolean check = true;
-		for (int i = 1; i <= p; i++) {
-			if (belong[i] == belong[i + p]) {
-				check = false;
-				break;
-			}
-		}
+		boolean check = compute();
 		if (check) {
-			for (int i = 1; i <= p; i++) {
-				if (belong[i] < belong[i + p]) {
-					ans = Math.max(ans, l[i]);
-					arr[++cnta] = i;
-				}
+			out.println(siz + " " + ansf);
+			for (int i = 1; i <= siz; i++) {
+				out.print(pick[i] + " ");
 			}
-			out.println(cnta + " " + ans);
-			for (int i = 1; i <= cnta; i++) {
-				out.print(arr[i] + " ");
-			}
-			out.println();
 		} else {
 			out.println(-1);
 		}
