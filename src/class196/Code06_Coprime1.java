@@ -51,7 +51,7 @@ public class Code06_Coprime1 {
 		return x <= n ? (x + n) : (x - n);
 	}
 
-	// 讲解097，欧拉筛
+	// 欧拉筛，讲解097进行了详细讲述
 	public static void euler() {
 		for (int i = 2; i <= maxv; i++) {
 			if (minp[i] == 0) {
