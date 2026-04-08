@@ -83,7 +83,7 @@ public class Code07_Coprime1 {
 		}
 	}
 
-	// 优化建图
+	// 前后缀优化建图
 	public static void link() {
 		Arrays.sort(arr, 1, cnta + 1, (a, b) -> a[0] != b[0] ? (a[0] - b[0]) : (a[1] - b[1]));
 		for (int l = 1, r = 1; l <= cnta; l = ++r) {

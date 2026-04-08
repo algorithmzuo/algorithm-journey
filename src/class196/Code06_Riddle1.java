@@ -56,6 +56,7 @@ public class Code06_Riddle1 {
 		head[u] = cntg;
 	}
 
+	// 前后缀优化建图
 	public static void link() {
 		cntt++;
 		addEdge(cntt, arr[1] + n);
