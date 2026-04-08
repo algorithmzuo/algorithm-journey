@@ -11,7 +11,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.util.Arrays;
 
-public class Code08_Coprime1 {
+public class Code07_Coprime1 {
 
 	public static int MAXN = 1000001;
 	public static int MAXV = 2000001;
