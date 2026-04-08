@@ -15,7 +15,7 @@ public class Code08_RadioStations1 {
 	public static int MAXN = 400001;
 	public static int MAXS = 2000001;
 	public static int MAXM = 4000001;
-	public static int n, p, x, m, cntt;
+	public static int n, p, f, m, cntt;
 
 	public static int[] l = new int[MAXN];
 	public static int[] r = new int[MAXN];
@@ -50,12 +50,12 @@ public class Code08_RadioStations1 {
 
 	public static void link() {
 		pre[1] = ++cntt;
-		for (int i = 2; i <= x; i++) {
+		for (int i = 2; i <= f; i++) {
 			pre[i] = ++cntt;
 			addEdge(pre[i - 1], pre[i]);
 		}
-		suf[x] = ++cntt;
-		for (int i = x - 1; i >= 1; i--) {
+		suf[f] = ++cntt;
+		for (int i = f - 1; i >= 1; i--) {
 			suf[i] = ++cntt;
 			addEdge(suf[i + 1], suf[i]);
 		}
@@ -65,7 +65,7 @@ public class Code08_RadioStations1 {
 			if (l[i] - 1 >= 1) {
 				addEdge(pre[l[i] - 1], i + p);
 			}
-			if (r[i] + 1 <= x) {
+			if (r[i] + 1 <= f) {
 				addEdge(suf[r[i] + 1], i + p);
 			}
 		}
@@ -114,7 +114,7 @@ public class Code08_RadioStations1 {
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
 		n = in.nextInt();
 		p = in.nextInt();
-		x = in.nextInt();
+		f = in.nextInt();
 		m = in.nextInt();
 		cntt = p << 1;
 		for (int i = 1, u, v; i <= n; i++) {
@@ -127,13 +127,13 @@ public class Code08_RadioStations1 {
 			l[i] = in.nextInt();
 			r[i] = in.nextInt();
 		}
+		link();
 		for (int i = 1, u, v; i <= m; i++) {
 			u = in.nextInt();
 			v = in.nextInt();
 			addEdge(u, v + p);
 			addEdge(v, u + p);
 		}
-		link();
 		for (int i = 1; i <= cntt; i++) {
 			if (dfn[i] == 0) {
 				tarjan(i);
