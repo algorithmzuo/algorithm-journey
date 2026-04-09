@@ -1,6 +1,11 @@
 package class196;
 
 // 互质，java版
+// 一共n张卡片，每张卡片给定两个待选数字，每张卡片都要选择其中一个数字
+// 确定每张卡片的数字之后，如果能让任意两张卡片的数字互质，那么算做成功
+// 有成功的方案打印"Yes"，无方案打印"No"
+// 1 <= n <= 3 * 10^4
+// 1 <= 待选数字 <= 2 * 10^6
 // 测试链接 : https://www.luogu.com.cn/problem/AT_abc210_f
 // 测试链接 : https://atcoder.jp/contests/abc210/tasks/abc210_f
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
