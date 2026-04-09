@@ -67,18 +67,18 @@ public class Code06_Riddle1 {
 		cntt++;
 		addEdge(cntt, arr[1] + n);
 		for (int i = 2; i <= w; i++) {
-			addEdge(arr[i], cntt);
 			cntt++;
-			addEdge(cntt, cntt - 1);
 			addEdge(cntt, arr[i] + n);
+			addEdge(arr[i], cntt - 1);
+			addEdge(cntt, cntt - 1);
 		}
 		cntt++;
 		addEdge(cntt, arr[w] + n);
 		for (int i = w - 1; i >= 1; i--) {
-			addEdge(arr[i], cntt);
 			cntt++;
-			addEdge(cntt, cntt - 1);
 			addEdge(cntt, arr[i] + n);
+			addEdge(arr[i], cntt - 1);
+			addEdge(cntt, cntt - 1);
 		}
 	}
 

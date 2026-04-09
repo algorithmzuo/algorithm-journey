@@ -93,18 +93,18 @@ public class Code07_Coprime1 {
 			cntt++;
 			addEdge(cntt, other(arr[l][1]));
 			for (int i = l + 1; i <= r; i++) {
-				addEdge(arr[i][1], cntt);
 				cntt++;
-				addEdge(cntt, cntt - 1);
 				addEdge(cntt, other(arr[i][1]));
+				addEdge(arr[i][1], cntt - 1);
+				addEdge(cntt, cntt - 1);
 			}
 			cntt++;
 			addEdge(cntt, other(arr[r][1]));
 			for (int i = r - 1; i >= l; i--) {
-				addEdge(arr[i][1], cntt);
 				cntt++;
-				addEdge(cntt, cntt - 1);
 				addEdge(cntt, other(arr[i][1]));
+				addEdge(arr[i][1], cntt - 1);
+				addEdge(cntt, cntt - 1);
 			}
 		}
 	}

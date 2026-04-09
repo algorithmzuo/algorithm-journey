@@ -98,18 +98,18 @@ package class196;
 //        cntt++;
 //        addEdge(cntt, other(arr[l].i));
 //        for (int i = l + 1; i <= r; i++) {
-//            addEdge(arr[i].i, cntt);
 //            cntt++;
-//            addEdge(cntt, cntt - 1);
 //            addEdge(cntt, other(arr[i].i));
+//            addEdge(arr[i].i, cntt - 1);
+//            addEdge(cntt, cntt - 1);
 //        }
 //        cntt++;
 //        addEdge(cntt, other(arr[r].i));
 //        for (int i = r - 1; i >= l; i--) {
-//            addEdge(arr[i].i, cntt);
 //            cntt++;
-//            addEdge(cntt, cntt - 1);
 //            addEdge(cntt, other(arr[i].i));
+//            addEdge(arr[i].i, cntt - 1);
+//            addEdge(cntt, cntt - 1);
 //        }
 //    }
 //}
