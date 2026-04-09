@@ -1,6 +1,15 @@
 package class196;
 
 // 约束条件，java版
+// 你需要构造长度为n的数组arr，每个元素的值在1~k之间，数组是非递减的
+// 接下来给定m个限制，格式如下
+// 限制 1 i x   : arr[i] != x
+// 限制 2 i j x : arr[i] + arr[j] <= x
+// 限制 3 i j x : arr[i] + arr[j] >= x
+// 如果不存在构造方案打印-1，存在方案就打印arr，任何一种方案都可以
+// 2 <= n <= 2 * 10^4
+// 0 <= m <= 2 * 10^4
+// 2 <= k <= 10
 // 测试链接 : https://www.luogu.com.cn/problem/CF1697F
 // 测试链接 : https://codeforces.com/problemset/problem/1697/F
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
@@ -15,25 +24,25 @@ public class Code04_Constraints1 {
 	public static int MAXN = 20001;
 	public static int MAXM = 2000001;
 	public static int MAXK = 12;
-	public static int MAXI = MAXN * MAXK * 2;
+	public static int MAXS = MAXN * MAXK * 2;
 	public static int t, n, m, k;
 
 	public static int[][][] id = new int[MAXN][MAXK][2];
 	public static int cnti;
 
-	public static int[] head = new int[MAXI];
+	public static int[] head = new int[MAXS];
 	public static int[] nxt = new int[MAXM];
 	public static int[] to = new int[MAXM];
 	public static int cntg;
 
-	public static int[] dfn = new int[MAXI];
-	public static int[] low = new int[MAXI];
+	public static int[] dfn = new int[MAXS];
+	public static int[] low = new int[MAXS];
 	public static int cntd;
 
-	public static int[] sta = new int[MAXI];
+	public static int[] sta = new int[MAXS];
 	public static int top;
 
-	public static int[] belong = new int[MAXI];
+	public static int[] belong = new int[MAXS];
 	public static int sccCnt;
 
 	public static void addEdge(int u, int v) {
