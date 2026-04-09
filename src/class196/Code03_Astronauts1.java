@@ -1,6 +1,15 @@
 package class196;
 
 // 宇航员，java版
+// 一共n个宇航员，给定每个宇航员的年龄，假设平均年龄为x
+// 任务有三个，A任务、B任务、C任务，所有宇航员都可以执行C任务
+// 年龄 >= x 的宇航员可以执行A任务，年龄 < x 的宇航员可以执行B任务
+// 给定m个厌恶关系，格式 x y，代表x和y两个编号的宇航员相互讨厌
+// 允许某个任务无人执行，但是每个宇航员必须选择一个任务
+// 相互讨厌的宇航员不能分配相同的任务，请问是否存在分配方案
+// 如果不存在分配方案，打印"No solution."
+// 如果存在，打印每个宇航员分配了什么任务，任何一种方案都可以
+// 1 <= n、m <= 10^5
 // 测试链接 : https://www.luogu.com.cn/problem/UVA1391
 // 测试链接 : https://vjudge.net/problem/UVA-1391
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
@@ -183,7 +192,7 @@ public class Code03_Astronauts1 {
 					}
 				}
 			} else {
-				out.println("No solution");
+				out.println("No solution.");
 			}
 			n = in.nextInt();
 			m = in.nextInt();

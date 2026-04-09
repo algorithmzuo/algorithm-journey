@@ -79,7 +79,7 @@ package class196;
 //        addEdge(u, other(v));
 //        addEdge(v, other(u));
 //    }
-//    for (int i = 1; i <= (n << 1); i++) {
+//    for (int i = 1; i <= n << 1; i++) {
 //        if (dfn[i] == 0) {
 //            tarjan(i);
 //        }
