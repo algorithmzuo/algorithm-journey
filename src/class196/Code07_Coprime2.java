@@ -68,8 +68,8 @@ package class196;
 //void euler() {
 //    for (int i = 2; i <= maxv; i++) {
 //        if (!vis[i]) {
-//            minp[i] = i;
 //            prime[++cntp] = i;
+//            minp[i] = i;
 //        }
 //        for (int j = 1, p, v; j <= cntp; j++) {
 //            p = prime[j];
