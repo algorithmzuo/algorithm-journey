@@ -1,0 +1,153 @@
+package class196;
+
+// 电台，C++版
+// 一共有p个电台，编号1~p，每个电台给定自己的频率范围[l, r]
+// 你要选择若干电台并且确定一个频率，选择电台要满足如下的要求和限制
+// 给定n个要求，要求格式 u v，必须包含电台u或者电台v
+// 给定m个限制，限制格式 u v，电台u和电台v不能共存
+// 然后确定一个频率，给定数值f，范围[1, f]中选一个数字ansx作为频率
+// 你选择的每个电台的频率范围，都要包含ansx这个数字
+// 如果存在方案，找到任何一种方案都可以，依次打印如下信息
+// 选择电台的数量、ansx、所有选择电台的编号，如果不存在方案打印-1
+// 1 <= n、p、f、m <= 4 * 10^5
+// 测试链接 : https://www.luogu.com.cn/problem/CF1215F
+// 测试链接 : https://codeforces.com/problemset/problem/1215/F
+// 如下实现是C++的版本，C++版本和java版本逻辑完全一样
+// 提交如下代码，可以通过所有测试用例
+
+//#include <bits/stdc++.h>
+//
+//using namespace std;
+//
+//const int MAXN = 400001;
+//const int MAXS = 2000001;
+//const int MAXM = 4000001;
+//int n, p, f, m, cntt;
+//
+//int l[MAXN];
+//int r[MAXN];
+//
+//int head[MAXS];
+//int nxt[MAXM];
+//int to[MAXM];
+//int cntg;
+//
+//int dfn[MAXS];
+//int low[MAXS];
+//int cntd;
+//
+//int sta[MAXS];
+//int top;
+//
+//int belong[MAXS];
+//int sccCnt;
+//
+//int pre[MAXN];
+//int suf[MAXN];
+//
+//int ansx;
+//int pick[MAXN];
+//int siz;
+//
+//void addEdge(int u, int v) {
+//    nxt[++cntg] = head[u];
+//    to[cntg] = v;
+//    head[u] = cntg;
+//}
+//
+//void link() {
+//    pre[1] = ++cntt;
+//    for (int i = 2; i <= f; i++) {
+//        pre[i] = ++cntt;
+//        addEdge(pre[i - 1], pre[i]);
+//    }
+//    suf[f] = ++cntt;
+//    for (int i = f - 1; i >= 1; i--) {
+//        suf[i] = ++cntt;
+//        addEdge(suf[i + 1], suf[i]);
+//    }
+//    for (int i = 1; i <= p; i++) {
+//        addEdge(i, pre[r[i]]);
+//        addEdge(i, suf[l[i]]);
+//        if (l[i] - 1 >= 1) {
+//            addEdge(pre[l[i] - 1], i + p);
+//        }
+//        if (r[i] + 1 <= f) {
+//            addEdge(suf[r[i] + 1], i + p);
+//        }
+//    }
+//}
+//
+//void tarjan(int u) {
+//    dfn[u] = low[u] = ++cntd;
+//    sta[++top] = u;
+//    for (int e = head[u]; e > 0; e = nxt[e]) {
+//        int v = to[e];
+//        if (dfn[v] == 0) {
+//            tarjan(v);
+//            low[u] = min(low[u], low[v]);
+//        } else {
+//            if (belong[v] == 0) {
+//                low[u] = min(low[u], dfn[v]);
+//            }
+//        }
+//    }
+//    if (dfn[u] == low[u]) {
+//        sccCnt++;
+//        int pop;
+//        do {
+//            pop = sta[top--];
+//            belong[pop] = sccCnt;
+//        } while (pop != u);
+//    }
+//}
+//
+//bool compute() {
+//    bool check = true;
+//    for (int i = 1; i <= p; i++) {
+//        if (belong[i] == belong[i + p]) {
+//            check = false;
+//            break;
+//        } else if (belong[i] < belong[i + p]) {
+//            ansx = max(ansx, l[i]);
+//            pick[++siz] = i;
+//        }
+//    }
+//    return check;
+//}
+//
+//int main() {
+//    ios::sync_with_stdio(false);
+//    cin.tie(nullptr);
+//    cin >> n >> p >> f >> m;
+//    cntt = p << 1;
+//    for (int i = 1, u, v; i <= n; i++) {
+//        cin >> u >> v;
+//        addEdge(u + p, v);
+//        addEdge(v + p, u);
+//    }
+//    for (int i = 1; i <= p; i++) {
+//        cin >> l[i] >> r[i];
+//    }
+//    link();
+//    for (int i = 1, u, v; i <= m; i++) {
+//        cin >> u >> v;
+//        addEdge(u, v + p);
+//        addEdge(v, u + p);
+//    }
+//    for (int i = 1; i <= cntt; i++) {
+//        if (dfn[i] == 0) {
+//            tarjan(i);
+//        }
+//    }
+//    bool check = compute();
+//    if (check) {
+//        cout << siz << " " << ansx << "\n";
+//        for (int i = 1; i <= siz; i++) {
+//            cout << pick[i] << " ";
+//        }
+//    } else {
+//        cout << -1 << "\n";
+//    }
+//    return 0;
+//}

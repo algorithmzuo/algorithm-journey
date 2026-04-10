@@ -1,6 +1,15 @@
 package class196;
 
 // 电台，java版
+// 一共有p个电台，编号1~p，每个电台给定自己的频率范围[l, r]
+// 你要选择若干电台并且确定一个频率，选择电台要满足如下的要求和限制
+// 给定n个要求，要求格式 u v，必须包含电台u或者电台v
+// 给定m个限制，限制格式 u v，电台u和电台v不能共存
+// 然后确定一个频率，给定数值f，范围[1, f]中选一个数字ansx作为频率
+// 你选择的每个电台的频率范围，都要包含ansx这个数字
+// 如果存在方案，找到任何一种方案都可以，依次打印如下信息
+// 选择电台的数量、ansx、所有选择电台的编号，如果不存在方案打印-1
+// 1 <= n、p、f、m <= 4 * 10^5
 // 测试链接 : https://www.luogu.com.cn/problem/CF1215F
 // 测试链接 : https://codeforces.com/problemset/problem/1215/F
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
@@ -38,7 +47,7 @@ public class Code08_RadioStations1 {
 	public static int[] pre = new int[MAXN];
 	public static int[] suf = new int[MAXN];
 
-	public static int ansf;
+	public static int ansx;
 	public static int[] pick = new int[MAXN];
 	public static int siz;
 
@@ -102,7 +111,7 @@ public class Code08_RadioStations1 {
 				check = false;
 				break;
 			} else if (belong[i] < belong[i + p]) {
-				ansf = Math.max(ansf, l[i]);
+				ansx = Math.max(ansx, l[i]);
 				pick[++siz] = i;
 			}
 		}
@@ -141,7 +150,7 @@ public class Code08_RadioStations1 {
 		}
 		boolean check = compute();
 		if (check) {
-			out.println(siz + " " + ansf);
+			out.println(siz + " " + ansx);
 			for (int i = 1; i <= siz; i++) {
 				out.print(pick[i] + " ");
 			}
