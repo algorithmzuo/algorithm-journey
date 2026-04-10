@@ -24,12 +24,14 @@ public class Code07_Coprime1 {
 	public static int n, cntt, maxv;
 	public static int[] ab = new int[MAXN];
 
-	// 欧拉筛生成最小质因子表minp
+	// 利用欧拉筛生成最小质因子表
 	public static boolean[] vis = new boolean[MAXV];
 	public static int[] prime = new int[MAXV];
 	public static int[] minp = new int[MAXV];
 	public static int cntp;
 
+	// 质因子、拥有这个质因子的数字编号
+	// 排序后得到每个质因子的数字编号集合
 	public static int[][] arr = new int[MAXN][2];
 	public static int cnta;
 
