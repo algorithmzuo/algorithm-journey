@@ -7,8 +7,7 @@ package class196;
 // 约束 2 i j x : arr[i] + arr[j] <= x
 // 约束 3 i j x : arr[i] + arr[j] >= x
 // 如果不存在构造方案打印-1，存在方案就打印arr，任何一种方案都可以
-// 2 <= n <= 2 * 10^4
-// 0 <= m <= 2 * 10^4
+// n、m <= 2 * 10^4
 // 2 <= k <= 10
 // 测试链接 : https://www.luogu.com.cn/problem/CF1697F
 // 测试链接 : https://codeforces.com/problemset/problem/1697/F
