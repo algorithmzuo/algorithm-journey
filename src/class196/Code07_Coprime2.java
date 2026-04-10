@@ -32,8 +32,9 @@ package class196;
 //int n, cntt, maxv;
 //int ab[MAXN];
 //
+//bool vis[MAXV];
+//int prime[MAXV];
 //int minp[MAXV];
-//int pval[MAXV];
 //int cntp;
 //
 //Node arr[MAXN];
@@ -66,16 +67,19 @@ package class196;
 //
 //void euler() {
 //    for (int i = 2; i <= maxv; i++) {
-//        if (minp[i] == 0) {
+//        if (!vis[i]) {
 //            minp[i] = i;
-//            pval[++cntp] = i;
+//            prime[++cntp] = i;
 //        }
-//        for (int j = 1; j <= cntp; j++) {
-//            if (i * pval[j] > maxv) {
+//        for (int j = 1, p, v; j <= cntp; j++) {
+//            p = prime[j];
+//            v = i * p;
+//            if (v > maxv) {
 //                break;
 //            }
-//            minp[i * pval[j]] = pval[j];
-//            if (i % pval[j] == 0) {
+//            vis[v] = true;
+//            minp[v] = p;
+//            if (i % p == 0) {
 //                break;
 //            }
 //        }

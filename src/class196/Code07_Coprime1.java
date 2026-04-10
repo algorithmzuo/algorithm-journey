@@ -24,8 +24,10 @@ public class Code07_Coprime1 {
 	public static int n, cntt, maxv;
 	public static int[] ab = new int[MAXN];
 
+	// 欧拉筛生成最小质因子表minp
+	public static boolean[] vis = new boolean[MAXV];
+	public static int[] prime = new int[MAXV];
 	public static int[] minp = new int[MAXV];
-	public static int[] pval = new int[MAXV];
 	public static int cntp;
 
 	public static int[][] arr = new int[MAXN][2];
@@ -56,19 +58,23 @@ public class Code07_Coprime1 {
 		return x <= n ? (x + n) : (x - n);
 	}
 
-	// 欧拉筛，讲解097进行了详细讲述
+	// 欧拉筛，讲解097
+	// 利用欧拉筛的过程，生成最小质因子表
 	public static void euler() {
 		for (int i = 2; i <= maxv; i++) {
-			if (minp[i] == 0) {
+			if (!vis[i]) {
 				minp[i] = i;
-				pval[++cntp] = i;
+				prime[++cntp] = i;
 			}
-			for (int j = 1; j <= cntp; j++) {
-				if (i * pval[j] > maxv) {
+			for (int j = 1, p, v; j <= cntp; j++) {
+				p = prime[j];
+				v = i * p;
+				if (v > maxv) {
 					break;
 				}
-				minp[i * pval[j]] = pval[j];
-				if (i % pval[j] == 0) {
+				vis[v] = true;
+				minp[v] = p;
+				if (i % p == 0) {
 					break;
 				}
 			}
