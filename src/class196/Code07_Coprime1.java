@@ -31,7 +31,7 @@ public class Code07_Coprime1 {
 	public static int cntp;
 
 	// 质因子、拥有这个质因子的数字编号
-	// 排序后得到每个质因子的数字编号集合
+	// 排序后得到每个质因子的数字编号列表
 	public static int[][] arr = new int[MAXN][2];
 	public static int cnta;
 
