@@ -44,8 +44,7 @@ public class Code05_Conspiracy1 {
 
 	public static int[] team1 = new int[MAXN];
 	public static int[] team2 = new int[MAXN];
-	public static int[] conflict1 = new int[MAXN];
-	public static int[] conflict2 = new int[MAXN];
+	public static int[] other = new int[MAXN];
 	public static int cnt1, cnt2;
 
 	public static void addEdge(int u, int v) {
@@ -92,33 +91,44 @@ public class Code05_Conspiracy1 {
 			}
 		}
 		int ans = cnt1 > 0 && cnt2 > 0 ? 1 : 0;
-		for (int i = 1; i <= cnt1; i++) {
-			int a = team1[i];
+		for (int i = 1, a, b; i <= cnt1; i++) {
+			a = team1[i];
 			for (int j = 1; j <= cnt2; j++) {
-				int b = team2[j];
+				b = team2[j];
 				if (know[a][b]) {
-					conflict1[a] = conflict1[a] == 0 ? b : -1;
+					other[a] = other[a] == 0 ? b : -1;
 				} else {
-					conflict2[b] = conflict2[b] == 0 ? a : -1;
+					other[b] = other[b] == 0 ? a : -1;
 				}
 			}
 		}
-		for (int i = 1; i <= cnt1; i++) {
-			int a = team1[i];
-			if (conflict1[a] == 0 && cnt1 > 1) {
-				ans++;
-			}
-			if (conflict1[a] >= 1 && conflict2[conflict1[a]] == 0) {
-				ans++;
+		if (cnt1 > 1) {
+			for (int i = 1; i <= cnt1; i++) {
+				if (other[team1[i]] == 0) {
+					ans++;
+				}
 			}
 		}
-		for (int i = 1; i <= cnt2; i++) {
-			int b = team2[i];
-			if (conflict2[b] == 0 && cnt2 > 1) {
-				ans++;
+		if (cnt2 > 1) {
+			for (int i = 1; i <= cnt2; i++) {
+				if (other[team2[i]] == 0) {
+					ans++;
+				}
 			}
-			if (conflict2[b] >= 1 && conflict1[conflict2[b]] == 0) {
-				ans++;
+		}
+		for (int i = 1, a, b; i <= cnt1; i++) {
+			a = team1[i];
+			for (int j = 1; j <= cnt2; j++) {
+				b = team2[j];
+				if (know[a][b]) {
+					if (other[a] == b && other[b] == 0) {
+						ans++;
+					}
+				} else {
+					if (other[b] == a && other[a] == 0) {
+						ans++;
+					}
+				}
 			}
 		}
 		return ans;
