@@ -37,12 +37,11 @@ package class196;
 //int belong[MAXS];
 //int sccCnt;
 //
-//int set1[MAXN];
-//int set2[MAXN];
-//bool in1[MAXN];
+//int team1[MAXN];
+//int team2[MAXN];
+//int conflict1[MAXN];
+//int conflict2[MAXN];
 //int cnt1, cnt2;
-//
-//int conflict[MAXN];
 //
 //void addEdge(int u, int v) {
 //    nxt[++cntg] = head[u];
@@ -82,34 +81,39 @@ package class196;
 //    }
 //    for (int i = 1; i <= n; i++) {
 //        if (belong[i] < belong[i + n]) {
-//            set1[++cnt1] = i;
-//            in1[i] = true;
+//            team1[++cnt1] = i;
 //        } else {
-//            set2[++cnt2] = i;
+//            team2[++cnt2] = i;
 //        }
 //    }
 //    int ans = cnt1 > 0 && cnt2 > 0 ? 1 : 0;
 //    for (int i = 1; i <= cnt1; i++) {
-//        int x = set1[i];
+//        int a = team1[i];
 //        for (int j = 1; j <= cnt2; j++) {
-//            int y = set2[j];
-//            if (know[x][y]) {
-//                conflict[x] = conflict[x] == 0 ? y : -1;
+//            int b = team2[j];
+//            if (know[a][b]) {
+//                conflict1[a] = conflict1[a] == 0 ? b : -1;
 //            } else {
-//                conflict[y] = conflict[y] == 0 ? x : -1;
+//                conflict2[b] = conflict2[b] == 0 ? a : -1;
 //            }
 //        }
 //    }
-//    for (int i = 1; i <= n; i++) {
-//        if (conflict[i] == 0) {
-//            if ((in1[i] && cnt1 > 1) || (!in1[i] && cnt2 > 1)) {
-//                ans++;
-//            }
-//        } else if (conflict[i] >= 1) {
-//            int replace = conflict[i];
-//            if (conflict[replace] == 0) {
-//                ans++;
-//            }
+//    for (int i = 1; i <= cnt1; i++) {
+//        int a = team1[i];
+//        if (conflict1[a] == 0 && cnt1 > 1) {
+//            ans++;
+//        }
+//        if (conflict1[a] >= 1 && conflict2[conflict1[a]] == 0) {
+//            ans++;
+//        }
+//    }
+//    for (int i = 1; i <= cnt2; i++) {
+//        int b = team2[i];
+//        if (conflict2[b] == 0 && cnt2 > 1) {
+//            ans++;
+//        }
+//        if (conflict2[b] >= 1 && conflict1[conflict2[b]] == 0) {
+//            ans++;
 //        }
 //    }
 //    return ans;

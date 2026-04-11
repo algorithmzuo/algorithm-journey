@@ -42,16 +42,11 @@ public class Code05_Conspiracy1 {
 	public static int[] belong = new int[MAXS];
 	public static int sccCnt;
 
-	public static int[] set1 = new int[MAXN];
-	public static int[] set2 = new int[MAXN];
-	public static boolean[] in1 = new boolean[MAXN];
+	public static int[] team1 = new int[MAXN];
+	public static int[] team2 = new int[MAXN];
+	public static int[] conflict1 = new int[MAXN];
+	public static int[] conflict2 = new int[MAXN];
 	public static int cnt1, cnt2;
-
-	// conflict[i] == v
-	// 如果v == 0，表示冲突的人数是0
-	// 如果v >= 1，表示冲突的人数是1，该人编号为v
-	// 如果v == -1，表示冲突的人数多于1个
-	public static int[] conflict = new int[MAXN];
 
 	public static void addEdge(int u, int v) {
 		nxt[++cntg] = head[u];
@@ -91,34 +86,39 @@ public class Code05_Conspiracy1 {
 		}
 		for (int i = 1; i <= n; i++) {
 			if (belong[i] < belong[i + n]) {
-				set1[++cnt1] = i;
-				in1[i] = true;
+				team1[++cnt1] = i;
 			} else {
-				set2[++cnt2] = i;
+				team2[++cnt2] = i;
 			}
 		}
 		int ans = cnt1 > 0 && cnt2 > 0 ? 1 : 0;
 		for (int i = 1; i <= cnt1; i++) {
-			int x = set1[i];
+			int a = team1[i];
 			for (int j = 1; j <= cnt2; j++) {
-				int y = set2[j];
-				if (know[x][y]) {
-					conflict[x] = conflict[x] == 0 ? y : -1;
+				int b = team2[j];
+				if (know[a][b]) {
+					conflict1[a] = conflict1[a] == 0 ? b : -1;
 				} else {
-					conflict[y] = conflict[y] == 0 ? x : -1;
+					conflict2[b] = conflict2[b] == 0 ? a : -1;
 				}
 			}
 		}
-		for (int i = 1; i <= n; i++) {
-			if (conflict[i] == 0) {
-				if ((in1[i] && cnt1 > 1) || (!in1[i] && cnt2 > 1)) {
-					ans++;
-				}
-			} else if (conflict[i] >= 1) {
-				int replace = conflict[i];
-				if (conflict[replace] == 0) {
-					ans++;
-				}
+		for (int i = 1; i <= cnt1; i++) {
+			int a = team1[i];
+			if (conflict1[a] == 0 && cnt1 > 1) {
+				ans++;
+			}
+			if (conflict1[a] >= 1 && conflict2[conflict1[a]] == 0) {
+				ans++;
+			}
+		}
+		for (int i = 1; i <= cnt2; i++) {
+			int b = team2[i];
+			if (conflict2[b] == 0 && cnt2 > 1) {
+				ans++;
+			}
+			if (conflict2[b] >= 1 && conflict1[conflict2[b]] == 0) {
+				ans++;
 			}
 		}
 		return ans;
