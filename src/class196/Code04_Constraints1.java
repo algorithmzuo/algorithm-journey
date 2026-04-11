@@ -23,25 +23,25 @@ public class Code04_Constraints1 {
 	public static int MAXN = 20001;
 	public static int MAXM = 2000001;
 	public static int MAXK = 12;
-	public static int MAXS = MAXN * MAXK * 2;
+	public static int MAXT = MAXN * MAXK * 2;
 	public static int t, n, m, k;
 
 	public static int[][][] id = new int[MAXN][MAXK][2];
-	public static int cnti;
+	public static int cntt;
 
-	public static int[] head = new int[MAXS];
+	public static int[] head = new int[MAXT];
 	public static int[] nxt = new int[MAXM];
 	public static int[] to = new int[MAXM];
 	public static int cntg;
 
-	public static int[] dfn = new int[MAXS];
-	public static int[] low = new int[MAXS];
+	public static int[] dfn = new int[MAXT];
+	public static int[] low = new int[MAXT];
 	public static int cntd;
 
-	public static int[] sta = new int[MAXS];
+	public static int[] sta = new int[MAXT];
 	public static int top;
 
-	public static int[] belong = new int[MAXS];
+	public static int[] belong = new int[MAXT];
 	public static int sccCnt;
 
 	public static void addEdge(int u, int v) {
@@ -75,15 +75,15 @@ public class Code04_Constraints1 {
 	}
 
 	public static void prepare() {
-		cnti = 0;
+		cntt = 0;
 		for (int i = 1; i <= n; i++) {
 			for (int v = 1; v <= k + 1; v++) {
-				id[i][v][0] = ++cnti;
-				id[i][v][1] = ++cnti;
+				id[i][v][0] = ++cntt;
+				id[i][v][1] = ++cntt;
 			}
 		}
 		cntg = cntd = sccCnt = 0;
-		for (int i = 1; i <= cnti; i++) {
+		for (int i = 1; i <= cntt; i++) {
 			head[i] = dfn[i] = low[i] = belong[i] = 0;
 		}
 		for (int i = 1; i <= n; i++) {
@@ -171,7 +171,7 @@ public class Code04_Constraints1 {
 					moreEqual(x, y, v);
 				}
 			}
-			for (int i = 1; i <= cnti; i++) {
+			for (int i = 1; i <= cntt; i++) {
 				if (dfn[i] == 0) {
 					tarjan(i);
 				}

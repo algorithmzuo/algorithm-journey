@@ -19,26 +19,26 @@ package class196;
 //using namespace std;
 //
 //const int MAXN = 400001;
-//const int MAXS = 2000001;
+//const int MAXT = 2000001;
 //const int MAXM = 4000001;
 //int n, p, f, m, cntt;
 //
 //int l[MAXN];
 //int r[MAXN];
 //
-//int head[MAXS];
+//int head[MAXT];
 //int nxt[MAXM];
 //int to[MAXM];
 //int cntg;
 //
-//int dfn[MAXS];
-//int low[MAXS];
+//int dfn[MAXT];
+//int low[MAXT];
 //int cntd;
 //
-//int sta[MAXS];
+//int sta[MAXT];
 //int top;
 //
-//int belong[MAXS];
+//int belong[MAXT];
 //int sccCnt;
 //
 //int pre[MAXN];

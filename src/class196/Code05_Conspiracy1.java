@@ -22,24 +22,24 @@ import java.io.PrintWriter;
 public class Code05_Conspiracy1 {
 
 	public static int MAXN = 5001;
-	public static int MAXS = MAXN << 1;
+	public static int MAXT = MAXN << 1;
 	public static int MAXM = MAXN * MAXN;
 	public static int n, k, x;
 	public static boolean[][] know = new boolean[MAXN][MAXN];
 
-	public static int[] head = new int[MAXS];
+	public static int[] head = new int[MAXT];
 	public static int[] nxt = new int[MAXM];
 	public static int[] to = new int[MAXM];
 	public static int cntg;
 
-	public static int[] dfn = new int[MAXS];
-	public static int[] low = new int[MAXS];
+	public static int[] dfn = new int[MAXT];
+	public static int[] low = new int[MAXT];
 	public static int cntd;
 
-	public static int[] sta = new int[MAXS];
+	public static int[] sta = new int[MAXT];
 	public static int top;
 
-	public static int[] belong = new int[MAXS];
+	public static int[] belong = new int[MAXT];
 	public static int sccCnt;
 
 	public static int[] team1 = new int[MAXN];

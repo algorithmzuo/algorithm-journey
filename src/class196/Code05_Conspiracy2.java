@@ -17,24 +17,24 @@ package class196;
 //using namespace std;
 //
 //const int MAXN = 5001;
-//const int MAXS = MAXN << 1;
+//const int MAXT = MAXN << 1;
 //const int MAXM = MAXN * MAXN;
 //int n, k, x;
 //bool know[MAXN][MAXN];
 //
-//int head[MAXS];
+//int head[MAXT];
 //int nxt[MAXM];
 //int to[MAXM];
 //int cntg;
 //
-//int dfn[MAXS];
-//int low[MAXS];
+//int dfn[MAXT];
+//int low[MAXT];
 //int cntd;
 //
-//int sta[MAXS];
+//int sta[MAXT];
 //int top;
 //
-//int belong[MAXS];
+//int belong[MAXT];
 //int sccCnt;
 //
 //int team1[MAXN];

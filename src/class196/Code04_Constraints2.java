@@ -21,25 +21,25 @@ package class196;
 //const int MAXN = 20001;
 //const int MAXM = 2000001;
 //const int MAXK = 12;
-//const int MAXS = MAXN * MAXK * 2;
+//const int MAXT = MAXN * MAXK * 2;
 //int t, n, m, k;
 //
 //int id[MAXN][MAXK][2];
-//int cnti;
+//int cntt;
 //
-//int head[MAXS];
+//int head[MAXT];
 //int nxt[MAXM];
 //int to[MAXM];
 //int cntg;
 //
-//int dfn[MAXS];
-//int low[MAXS];
+//int dfn[MAXT];
+//int low[MAXT];
 //int cntd;
 //
-//int sta[MAXS];
+//int sta[MAXT];
 //int top;
 //
-//int belong[MAXS];
+//int belong[MAXT];
 //int sccCnt;
 //
 //void addEdge(int u, int v) {
@@ -73,15 +73,15 @@ package class196;
 //}
 //
 //void prepare() {
-//    cnti = 0;
+//    cntt = 0;
 //    for (int i = 1; i <= n; i++) {
 //        for (int v = 1; v <= k + 1; v++) {
-//            id[i][v][0] = ++cnti;
-//            id[i][v][1] = ++cnti;
+//            id[i][v][0] = ++cntt;
+//            id[i][v][1] = ++cntt;
 //        }
 //    }
 //    cntg = cntd = sccCnt = 0;
-//    for (int i = 1; i <= cnti; i++) {
+//    for (int i = 1; i <= cntt; i++) {
 //        head[i] = dfn[i] = low[i] = belong[i] = 0;
 //    }
 //    for (int i = 1; i <= n; i++) {
@@ -155,7 +155,7 @@ package class196;
 //                moreEqual(x, y, v);
 //            }
 //        }
-//        for (int i = 1; i <= cnti; i++) {
+//        for (int i = 1; i <= cntt; i++) {
 //            if (dfn[i] == 0) {
 //                tarjan(i);
 //            }

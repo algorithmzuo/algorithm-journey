@@ -21,26 +21,26 @@ import java.io.PrintWriter;
 public class Code08_RadioStations1 {
 
 	public static int MAXN = 400001;
-	public static int MAXS = 2000001;
+	public static int MAXT = 2000001;
 	public static int MAXM = 4000001;
 	public static int n, p, f, m, cntt;
 
 	public static int[] l = new int[MAXN];
 	public static int[] r = new int[MAXN];
 
-	public static int[] head = new int[MAXS];
+	public static int[] head = new int[MAXT];
 	public static int[] nxt = new int[MAXM];
 	public static int[] to = new int[MAXM];
 	public static int cntg;
 
-	public static int[] dfn = new int[MAXS];
-	public static int[] low = new int[MAXS];
+	public static int[] dfn = new int[MAXT];
+	public static int[] low = new int[MAXT];
 	public static int cntd;
 
-	public static int[] sta = new int[MAXS];
+	public static int[] sta = new int[MAXT];
 	public static int top;
 
-	public static int[] belong = new int[MAXS];
+	public static int[] belong = new int[MAXT];
 	public static int sccCnt;
 
 	public static int[] pre = new int[MAXN];
