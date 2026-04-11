@@ -43,7 +43,6 @@ package class196;
 //int cnt1, cnt2;
 //
 //int conflict[MAXN];
-//int other[MAXN];
 //
 //void addEdge(int u, int v) {
 //    nxt[++cntg] = head[u];
@@ -95,11 +94,9 @@ package class196;
 //        for (int j = 1; j <= cnt2; j++) {
 //            int y = set2[j];
 //            if (know[x][y]) {
-//                conflict[x]++;
-//                other[x] = y;
+//                conflict[x] = conflict[x] == 0 ? y : -1;
 //            } else {
-//                conflict[y]++;
-//                other[y] = x;
+//                conflict[y] = conflict[y] == 0 ? x : -1;
 //            }
 //        }
 //    }
@@ -108,9 +105,9 @@ package class196;
 //            if ((in1[i] && cnt1 > 1) || (!in1[i] && cnt2 > 1)) {
 //                ans++;
 //            }
-//        }
-//        if (conflict[i] == 1) {
-//            if (conflict[other[i]] == 0) {
+//        } else if (conflict[i] >= 1) {
+//            int replace = conflict[i];
+//            if (conflict[replace] == 0) {
 //                ans++;
 //            }
 //        }
