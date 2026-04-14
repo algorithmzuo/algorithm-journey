@@ -89,14 +89,16 @@ package class196;
 //            addEdge(id[i][v][0], id[i][v + 1][0]);
 //            addEdge(id[i][v + 1][1], id[i][v][1]);
 //        }
-//        addEdge(id[i][1][0], id[i][1][1]);
-//        addEdge(id[i][k + 1][1], id[i][k + 1][0]);
 //    }
-//    for (int i = 1; i < n; ++i) {
-//        for (int v = 1; v <= k; ++v) {
+//    for (int i = 1; i < n; i++) {
+//        for (int v = 1; v <= k; v++) {
 //            addEdge(id[i + 1][v][0], id[i][v][0]);
 //            addEdge(id[i][v][1], id[i + 1][v][1]);
 //        }
+//    }
+//    for (int i = 1; i <= n; i++) {
+//        addEdge(id[i][1][0], id[i][1][1]);
+//        addEdge(id[i][k + 1][1], id[i][k + 1][0]);
 //    }
 //}
 //
