@@ -73,16 +73,16 @@ package class196;
 //}
 //
 //void prepare() {
+//    cntg = cntd = sccCnt = 0;
+//    for (int i = 1; i <= cntt; i++) {
+//        head[i] = dfn[i] = low[i] = belong[i] = 0;
+//    }
 //    cntt = 0;
 //    for (int i = 1; i <= n; i++) {
 //        for (int v = 1; v <= k + 1; v++) {
 //            id[i][v][0] = ++cntt;
 //            id[i][v][1] = ++cntt;
 //        }
-//    }
-//    cntg = cntd = sccCnt = 0;
-//    for (int i = 1; i <= cntt; i++) {
-//        head[i] = dfn[i] = low[i] = belong[i] = 0;
 //    }
 //    for (int i = 1; i <= n; i++) {
 //        for (int v = 1; v <= k; v++) {

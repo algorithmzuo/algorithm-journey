@@ -75,6 +75,11 @@ public class Code04_Constraints1 {
 	}
 
 	public static void prepare() {
+		cntg = cntd = sccCnt = 0;
+		for (int i = 1; i <= cntt; i++) {
+			head[i] = dfn[i] = low[i] = belong[i] = 0;
+		}
+		// 每个假设分配节点编号
 		cntt = 0;
 		for (int i = 1; i <= n; i++) {
 			for (int v = 1; v <= k + 1; v++) {
@@ -82,16 +87,14 @@ public class Code04_Constraints1 {
 				id[i][v][1] = ++cntt;
 			}
 		}
-		cntg = cntd = sccCnt = 0;
-		for (int i = 1; i <= cntt; i++) {
-			head[i] = dfn[i] = low[i] = belong[i] = 0;
-		}
+		// 天然成立
 		for (int i = 1; i <= n; i++) {
 			for (int v = 1; v <= k; v++) {
 				addEdge(id[i][v][0], id[i][v + 1][0]);
 				addEdge(id[i][v + 1][1], id[i][v][1]);
 			}
 		}
+		// 数组非递减
 		for (int i = 1; i < n; i++) {
 			for (int v = 1; v <= k; v++) {
 				addEdge(id[i + 1][v][0], id[i][v][0]);
