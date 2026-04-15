@@ -122,7 +122,7 @@ package class196;
 //
 //void moreEqual(int i, int j, int x) {
 //    for (int w = 1; w <= k; w++) {
-//        if (w < x - k) {
+//        if (w <= x - k - 1) {
 //            notEqual(i, w);
 //        } else {
 //            if (x - w > 1) {
