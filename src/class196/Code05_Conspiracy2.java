@@ -40,8 +40,9 @@ package class196;
 //
 //int team1[MAXN];
 //int team2[MAXN];
-//int other[MAXN];
 //int cnt1, cnt2;
+//
+//int other[MAXN];
 //
 //void addEdge(int u, int v) {
 //    nxt[++cntg] = head[u];

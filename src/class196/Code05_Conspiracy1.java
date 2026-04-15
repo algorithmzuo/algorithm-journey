@@ -45,8 +45,13 @@ public class Code05_Conspiracy1 {
 
 	public static int[] team1 = new int[MAXN];
 	public static int[] team2 = new int[MAXN];
-	public static int[] other = new int[MAXN];
 	public static int cnt1, cnt2;
+
+	// 如果i在交流队，other[i]表示i号人在保密队认识的人
+	// 等于0表示认识0个人，等于-1表示认识的人多于1个
+	// 如果i在保密队，other[i]表示i号人在交流队不认识的人
+	// 等于0表示不认识0个人，等于-1表示不认识的人多于1个
+	public static int[] other = new int[MAXN];
 
 	public static void addEdge(int u, int v) {
 		nxt[++cntg] = head[u];
