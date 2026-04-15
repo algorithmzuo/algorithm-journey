@@ -111,32 +111,32 @@ public class Code04_Constraints1 {
 		}
 	}
 
-	public static void notEqual(int i, int v) {
-		addEdge(id[i][v][1], id[i][v + 1][1]);
-		addEdge(id[i][v + 1][0], id[i][v][0]);
+	public static void notEqual(int i, int x) {
+		addEdge(id[i][x][1], id[i][x + 1][1]);
+		addEdge(id[i][x + 1][0], id[i][x][0]);
 	}
 
-	public static void lessEqual(int i, int j, int v) {
+	public static void lessEqual(int i, int j, int x) {
 		for (int w = 1; w <= k; w++) {
-			if (w >= v) {
+			if (w >= x) {
 				notEqual(i, w);
 			} else {
-				if (v - w + 1 <= k) {
-					addEdge(id[i][w][1], id[j][v - w + 1][0]);
-					addEdge(id[j][v - w + 1][1], id[i][w][0]);
+				if (x - w + 1 <= k) {
+					addEdge(id[i][w][1], id[j][x - w + 1][0]);
+					addEdge(id[j][x - w + 1][1], id[i][w][0]);
 				}
 			}
 		}
 	}
 
-	public static void moreEqual(int i, int j, int v) {
+	public static void moreEqual(int i, int j, int x) {
 		for (int w = 1; w <= k; w++) {
-			if (w + k < v) {
+			if (w < x - k) {
 				notEqual(i, w);
 			} else {
-				if (v - w > 1) {
-					addEdge(id[i][w + 1][0], id[j][v - w][1]);
-					addEdge(id[j][v - w][0], id[i][w + 1][1]);
+				if (x - w > 1) {
+					addEdge(id[i][w + 1][0], id[j][x - w][1]);
+					addEdge(id[j][x - w][0], id[i][w + 1][1]);
 				}
 			}
 		}
