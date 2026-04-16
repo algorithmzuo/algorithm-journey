@@ -67,12 +67,12 @@ package class196;
 //    }
 //    for (int i = 1; i <= p; i++) {
 //        addEdge(i, pre[r[i]]);
-//        if (r[i] + 1 <= f) {
-//            addEdge(suf[r[i] + 1], i + p);
-//        }
 //        addEdge(i, suf[l[i]]);
 //        if (l[i] - 1 >= 1) {
 //            addEdge(pre[l[i] - 1], i + p);
+//        }
+//        if (r[i] + 1 <= f) {
+//            addEdge(suf[r[i] + 1], i + p);
 //        }
 //    }
 //}
