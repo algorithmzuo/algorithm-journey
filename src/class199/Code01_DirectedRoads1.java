@@ -10,7 +10,7 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
-public class Code01_DirectedRoads2 {
+public class Code01_DirectedRoads1 {
 
 	public static int MAXN = 200001;
 	public static int MOD = 1000000007;
