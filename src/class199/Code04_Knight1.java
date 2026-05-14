@@ -31,13 +31,13 @@ public class Code04_Knight1 {
 		head[u] = cntg;
 	}
 
-	public static void findCircle(int u, int preEdge) {
+	public static void dfs(int u, int preEdge) {
 		status[u] = 1;
 		for (int e = head[u]; e > 0; e = nxt[e]) {
 			if (e != (preEdge ^ 1)) {
 				int v = to[e];
 				if (status[v] == 0) {
-					findCircle(v, e);
+					dfs(v, e);
 				} else if (status[v] == 1) {
 					root1 = u;
 					root2 = v;
@@ -75,7 +75,7 @@ public class Code04_Knight1 {
 		long ans = 0;
 		for (int i = 1; i <= n; i++) {
 			if (status[i] == 0) {
-				findCircle(i, 0);
+				dfs(i, 0);
 				dpOnTree(root1, 0);
 				long cur = dp[root1][0];
 				dpOnTree(root2, 0);

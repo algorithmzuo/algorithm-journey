@@ -1,6 +1,6 @@
 package class199;
 
-// 定向道路，java版
+// 定向道路，dfs找环，java版
 // 测试链接 : https://www.luogu.com.cn/problem/CF711D
 // 测试链接 : https://codeforces.com/problemset/problem/711/D
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
