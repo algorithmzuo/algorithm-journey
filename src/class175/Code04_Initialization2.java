@@ -74,7 +74,7 @@ package class175;
 //        if (lth == rth) {
 //            ans = ans + pre[x][(r - 1) % x + 1] - pre[x][(l - 1) % x];
 //        } else {
-//            ans = ans + suf[x][(l - 1) % x + 1] + pre[x][x] * num + pre[x][(r - 1) % x + 1];
+//            ans = ans + suf[x][(l - 1) % x + 1] + pre[x][x] % MOD * num + pre[x][(r - 1) % x + 1];
 //        }
 //    }
 //    return ans % MOD;
