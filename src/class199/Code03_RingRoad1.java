@@ -26,12 +26,10 @@ public class Code03_RingRoad1 {
 	public static int[][] dp = new int[MAXN][2];
 	public static int root1, root2;
 
-	// 并查集find方法，改成迭代版需要的栈
-	// 递归版java实现会爆栈，C++不会
-	public static int[] stack = new int[MAXN];
+	// 并查集find改成迭代版需要的栈，递归版java会爆栈，C++不会
+	public static int[] sta = new int[MAXN];
 
-	// 树上动态规划，改成迭代版需要的栈，讲解118，详解了递归改迭代
-	// 递归版java实现会爆栈，C++不会
+	// 树上动态规划改成迭代版需要的栈，讲解118，详解了改法，递归版java会爆栈，C++不会
 	public static int[][] ufe = new int[MAXN][3];
 	public static int stacksize, u, f, e;
 
@@ -59,12 +57,12 @@ public class Code03_RingRoad1 {
 	public static int find(int i) {
 		int si = 0;
 		while (i != fa[i]) {
-			stack[++si] = i;
+			sta[++si] = i;
 			i = fa[i];
 		}
-		stack[si + 1] = i;
+		sta[si + 1] = i;
 		for (int j = si; j >= 1; j--) {
-			fa[stack[j]] = i;
+			fa[sta[j]] = i;
 		}
 		return i;
 	}
