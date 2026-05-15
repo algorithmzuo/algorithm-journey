@@ -23,8 +23,8 @@ public class Code01_DirectedRoads1 {
 
 	public static int[] status = new int[MAXN];
 	public static int[] depth = new int[MAXN];
-	public static int[] all = new int[MAXN];
-	public static int[] circle = new int[MAXN];
+	public static int[] allEdge = new int[MAXN];
+	public static int[] cycleEdge = new int[MAXN];
 	public static int cntb;
 
 	public static void addEdge(int u, int v) {
@@ -48,14 +48,14 @@ public class Code01_DirectedRoads1 {
 	public static void dfs(int u, int preEdge, int dep) {
 		status[u] = 1;
 		depth[u] = dep;
-		all[cntb]++;
+		allEdge[cntb]++;
 		for (int e = head[u]; e > 0; e = nxt[e]) {
 			if (e != (preEdge ^ 1)) {
 				int v = to[e];
 				if (status[v] == 0) {
 					dfs(v, e, dep + 1);
 				} else if (status[v] == 1) {
-					circle[cntb] = depth[u] - depth[v] + 1;
+					cycleEdge[cntb] = depth[u] - depth[v] + 1;
 				}
 			}
 		}
@@ -68,8 +68,8 @@ public class Code01_DirectedRoads1 {
 			if (status[i] == 0) {
 				cntb++;
 				dfs(i, 0, 1);
-				long a = power(2, all[cntb]);
-				long b = power(2, all[cntb] - circle[cntb] + 1);
+				long a = power(2, allEdge[cntb]);
+				long b = power(2, allEdge[cntb] - cycleEdge[cntb] + 1);
 				ans = ans * ((a - b + MOD) % MOD) % MOD;
 			}
 		}

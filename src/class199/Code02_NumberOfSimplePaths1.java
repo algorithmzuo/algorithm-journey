@@ -22,7 +22,7 @@ public class Code02_NumberOfSimplePaths1 {
 
 	public static int[] degree = new int[MAXN];
 	public static int[] que = new int[MAXN];
-	public static boolean[] inCircle = new boolean[MAXN];
+	public static boolean[] inCycle = new boolean[MAXN];
 
 	public static boolean[] vis = new boolean[MAXN];
 	public static long[] siz = new long[MAXN];
@@ -39,11 +39,11 @@ public class Code02_NumberOfSimplePaths1 {
 			if (degree[i] == 1) {
 				que[++qr] = i;
 			}
-			inCircle[i] = true;
+			inCycle[i] = true;
 		}
 		while (ql <= qr) {
 			int u = que[ql++];
-			inCircle[u] = false;
+			inCycle[u] = false;
 			for (int e = head[u]; e > 0; e = nxt[e]) {
 				int v = to[e];
 				if (--degree[v] == 1) {
@@ -58,7 +58,7 @@ public class Code02_NumberOfSimplePaths1 {
 		siz[u] = 1;
 		for (int e = head[u]; e > 0; e = nxt[e]) {
 			int v = to[e];
-			if (!vis[v] && !inCircle[v]) {
+			if (!vis[v] && !inCycle[v]) {
 				dfs(v);
 				siz[u] += siz[v];
 			}
@@ -69,7 +69,7 @@ public class Code02_NumberOfSimplePaths1 {
 		topo();
 		long ans = 0;
 		for (int i = 1; i <= n; i++) {
-			if (inCircle[i]) {
+			if (inCycle[i]) {
 				dfs(i);
 				ans += siz[i] * (siz[i] - 1) + siz[i] * 2 * (n - siz[i]);
 			}
