@@ -45,7 +45,6 @@ package class199;
 //        start = u;
 //        cycle[u] = true;
 //        arr[++cnta] = u;
-//        sum[cnta] = 0;
 //        return true;
 //    }
 //    vis[u] = true;
@@ -53,12 +52,12 @@ package class199;
 //        int v = to[e];
 //        int w = weight[e];
 //        if (e != (preEdge ^ 1) && dfs(v, e)) {
-//            sum[cnta + 1] = w;
 //            if (u == start) {
 //                return false;
 //            }
 //            cycle[u] = true;
 //            arr[++cnta] = u;
+//            sum[cnta] = w;
 //            return true;
 //        }
 //    }
@@ -85,6 +84,14 @@ package class199;
 //        diameter = 0;
 //        dp(root);
 //        return diameter;
+//    }
+//    for (int e = head[arr[1]]; e > 0; e = nxt[e]) {
+//        int v = to[e];
+//        int w = weight[e];
+//        if (v == arr[cnta]) {
+//            sum[cnta + 1] = w;
+//            break;
+//        }
 //    }
 //    for (int i = cnta + 2; i <= cnta * 2; i++) {
 //        sum[i] = sum[i - cnta];

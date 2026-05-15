@@ -42,26 +42,26 @@ public class Code05_Island1 {
 		head[u] = cntg;
 	}
 
-	// 已知图上只有一个环，收集环上的节点，建立前缀和
-	public static boolean dfs(int u, int preEdge) {
+	// 递归版
+	// 已知图上只有一个环，收集环上的节点
+	public static boolean dfs1(int u, int preEdge) {
 		if (vis[u] == true) {
 			start = u;
 			cycle[u] = true;
 			arr[++cnta] = u;
-			sum[cnta] = 0;
 			return true;
 		}
 		vis[u] = true;
 		for (int e = head[u]; e > 0; e = nxt[e]) {
 			int v = to[e];
 			int w = weight[e];
-			if (e != (preEdge ^ 1) && dfs(v, e)) {
-				sum[cnta + 1] = w;
+			if (e != (preEdge ^ 1) && dfs1(v, e)) {
 				if (u == start) {
 					return false;
 				}
 				cycle[u] = true;
 				arr[++cnta] = u;
+				sum[cnta] = w;
 				return true;
 			}
 		}
@@ -69,16 +69,16 @@ public class Code05_Island1 {
 	}
 
 	public static int[] sta = new int[MAXN];
-	public static int[] parent = new int[MAXN];
-	public static int[] parentEdge = new int[MAXN];
+	public static int[] fa = new int[MAXN];
+	public static int[] pree = new int[MAXN];
 	public static int[] iter = new int[MAXN];
 
-	// dfs的迭代版
+	// dfs1的迭代版
 	public static boolean dfs2(int root, int preEdge) {
 		int top = 0;
 		sta[++top] = root;
-		parent[root] = 0;
-		parentEdge[root] = preEdge;
+		fa[root] = 0;
+		pree[root] = preEdge;
 		iter[root] = head[root];
 		vis[root] = true;
 		while (top > 0) {
@@ -89,32 +89,30 @@ public class Code05_Island1 {
 				continue;
 			}
 			iter[u] = nxt[e];
-			if (e == (parentEdge[u] ^ 1)) {
+			if (e == (pree[u] ^ 1)) {
 				continue;
 			}
 			int v = to[e];
 			if (!vis[v]) {
 				vis[v] = true;
-				parent[v] = u;
-				parentEdge[v] = e;
+				fa[v] = u;
+				pree[v] = e;
 				iter[v] = head[v];
 				sta[++top] = v;
 			} else {
 				start = v;
 				cycle[v] = true;
 				arr[++cnta] = v;
-				sum[cnta] = 0;
-				long w = weight[e];
 				int cur = u;
-				while (cur != v) {
+				int edge = e;
+				while (cur != start) {
 					cycle[cur] = true;
 					arr[++cnta] = cur;
-					sum[cnta] = w;
-					w = weight[parentEdge[cur]];
-					cur = parent[cur];
+					sum[cnta] = weight[edge];
+					edge = pree[cur];
+					cur = fa[cur];
 				}
-				sum[cnta + 1] = w;
-				return true;
+				return false;
 			}
 		}
 		return false;
@@ -136,12 +134,20 @@ public class Code05_Island1 {
 
 	public static long compute(int root) {
 		cnta = 0;
-		// dfs(root, 0);
+		// dfs1(root, 0);
 		dfs2(root, 0);
 		if (cnta == 0) {
 			diameter = 0;
 			dp(root);
 			return diameter;
+		}
+		for (int e = head[arr[1]]; e > 0; e = nxt[e]) {
+			int v = to[e];
+			int w = weight[e];
+			if (v == arr[cnta]) {
+				sum[cnta + 1] = w;
+				break;
+			}
 		}
 		for (int i = cnta + 2; i <= cnta * 2; i++) {
 			sum[i] = sum[i - cnta];
