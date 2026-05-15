@@ -68,7 +68,59 @@ public class Code05_Island1 {
 		return false;
 	}
 
-	// 忽略环的情况下，得到子树的直径
+	public static int[] sta = new int[MAXN];
+	public static int[] parent = new int[MAXN];
+	public static int[] parentEdge = new int[MAXN];
+	public static int[] iter = new int[MAXN];
+
+	// dfs的迭代版
+	public static boolean dfs2(int root, int preEdge) {
+		int top = 0;
+		sta[++top] = root;
+		parent[root] = 0;
+		parentEdge[root] = preEdge;
+		iter[root] = head[root];
+		vis[root] = true;
+		while (top > 0) {
+			int u = sta[top];
+			int e = iter[u];
+			if (e == 0) {
+				top--;
+				continue;
+			}
+			iter[u] = nxt[e];
+			if (e == (parentEdge[u] ^ 1)) {
+				continue;
+			}
+			int v = to[e];
+			if (!vis[v]) {
+				vis[v] = true;
+				parent[v] = u;
+				parentEdge[v] = e;
+				iter[v] = head[v];
+				sta[++top] = v;
+			} else {
+				start = v;
+				cycle[v] = true;
+				arr[++cnta] = v;
+				sum[cnta] = 0;
+				long w = weight[e];
+				int cur = u;
+				while (cur != v) {
+					cycle[cur] = true;
+					arr[++cnta] = cur;
+					sum[cnta] = w;
+					w = weight[parentEdge[cur]];
+					cur = parent[cur];
+				}
+				sum[cnta + 1] = w;
+				return true;
+			}
+		}
+		return false;
+	}
+
+	// 忽略环计算子树的直径
 	public static void dp(int u) {
 		flag[u] = true;
 		for (int e = head[u]; e > 0; e = nxt[e]) {
@@ -84,7 +136,8 @@ public class Code05_Island1 {
 
 	public static long compute(int root) {
 		cnta = 0;
-		dfs(root, 0);
+		// dfs(root, 0);
+		dfs2(root, 0);
 		if (cnta == 0) {
 			diameter = 0;
 			dp(root);
