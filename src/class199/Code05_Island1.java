@@ -27,7 +27,6 @@ public class Code05_Island1 {
 	public static int[] arr = new int[MAXN];
 	public static int cnta;
 
-	public static boolean[] flag = new boolean[MAXN];
 	public static long[] dist = new long[MAXN];
 	public static long diameter;
 
@@ -44,88 +43,41 @@ public class Code05_Island1 {
 
 	// 递归版
 	// 已知图上只有一个环，收集环上的节点
-	public static boolean dfs1(int u, int preEdge) {
-		if (vis[u] == true) {
-			start = u;
-			cycle[u] = true;
-			arr[++cnta] = u;
-			return true;
-		}
+	public static boolean dfs(int u, int preEdge) {
 		vis[u] = true;
+		boolean ans = false;
 		for (int e = head[u]; e > 0; e = nxt[e]) {
-			int v = to[e];
-			int w = weight[e];
-			if (e != (preEdge ^ 1) && dfs1(v, e)) {
-				if (u == start) {
-					return false;
+			if (e != (preEdge ^ 1)) {
+				int v = to[e];
+				int w = weight[e];
+				if (vis[v] && cnta == 0) {
+					start = v;
+					cycle[v] = true;
+					arr[++cnta] = v;
+					sum[cnta] = 0;
+					cycle[u] = true;
+					arr[++cnta] = u;
+					sum[cnta] = w;
+					ans = true;
 				}
-				cycle[u] = true;
-				arr[++cnta] = u;
-				sum[cnta] = w;
-				return true;
+				if (!vis[v] && dfs(v, e) && u != start) {
+					cycle[u] = true;
+					arr[++cnta] = u;
+					sum[cnta] = w;
+					ans = true;
+				}
 			}
 		}
-		return false;
-	}
-
-	public static int[] sta = new int[MAXN];
-	public static int[] fa = new int[MAXN];
-	public static int[] pree = new int[MAXN];
-	public static int[] iter = new int[MAXN];
-
-	// dfs1的迭代版
-	public static boolean dfs2(int root, int preEdge) {
-		int top = 0;
-		sta[++top] = root;
-		fa[root] = 0;
-		pree[root] = preEdge;
-		iter[root] = head[root];
-		vis[root] = true;
-		while (top > 0) {
-			int u = sta[top];
-			int e = iter[u];
-			if (e == 0) {
-				top--;
-				continue;
-			}
-			iter[u] = nxt[e];
-			if (e == (pree[u] ^ 1)) {
-				continue;
-			}
-			int v = to[e];
-			if (!vis[v]) {
-				vis[v] = true;
-				fa[v] = u;
-				pree[v] = e;
-				iter[v] = head[v];
-				sta[++top] = v;
-			} else {
-				start = v;
-				cycle[v] = true;
-				arr[++cnta] = v;
-				int cur = u;
-				int edge = e;
-				while (cur != start) {
-					cycle[cur] = true;
-					arr[++cnta] = cur;
-					sum[cnta] = weight[edge];
-					edge = pree[cur];
-					cur = fa[cur];
-				}
-				return false;
-			}
-		}
-		return false;
+		return ans;
 	}
 
 	// 忽略环计算子树的直径
-	public static void dp(int u) {
-		flag[u] = true;
+	public static void dp(int u, int fa) {
 		for (int e = head[u]; e > 0; e = nxt[e]) {
 			int v = to[e];
 			int w = weight[e];
-			if (!flag[v] && !cycle[v]) {
-				dp(v);
+			if (v != fa && !cycle[v]) {
+				dp(v, u);
 				diameter = Math.max(diameter, dist[u] + dist[v] + w);
 				dist[u] = Math.max(dist[u], dist[v] + w);
 			}
@@ -134,11 +86,10 @@ public class Code05_Island1 {
 
 	public static long compute(int root) {
 		cnta = 0;
-		// dfs1(root, 0);
-		dfs2(root, 0);
+		dfs(root, 0);
 		if (cnta == 0) {
 			diameter = 0;
-			dp(root);
+			dp(root, 0);
 			return diameter;
 		}
 		for (int e = head[arr[1]]; e > 0; e = nxt[e]) {
@@ -158,7 +109,7 @@ public class Code05_Island1 {
 		long ans1 = 0;
 		for (int i = 1; i <= cnta; i++) {
 			diameter = 0;
-			dp(arr[i]);
+			dp(arr[i], 0);
 			ans1 = Math.max(ans1, diameter);
 			height[i] = dist[arr[i]];
 			height[i + cnta] = height[i];
@@ -193,7 +144,7 @@ public class Code05_Island1 {
 		}
 		long ans = 0;
 		for (int i = 1; i <= n; i++) {
-			if (!flag[i]) {
+			if (!vis[i]) {
 				ans += compute(i);
 			}
 		}
