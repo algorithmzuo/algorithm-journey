@@ -1,7 +1,7 @@
 package class199;
 
-// 骑士，java版
-// 测试链接 : https://www.luogu.com.cn/problem/P2607
+// 城市环路，java版
+// 测试链接 : https://www.luogu.com.cn/problem/P1453
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
 import java.io.IOException;
@@ -9,10 +9,11 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
-public class Code04_Knight1 {
+public class Code04_RingRoad1 {
 
-	public static int MAXN = 1000001;
+	public static int MAXN = 100001;
 	public static int n;
+	public static double k;
 	public static int[] arr = new int[MAXN];
 
 	public static int[] head = new int[MAXN];
@@ -23,7 +24,7 @@ public class Code04_Knight1 {
 	public static boolean[] vis = new boolean[MAXN];
 	public static int start1, start2, skipEdge;
 
-	public static long[][] dp = new long[MAXN][2];
+	public static int[][] dp = new int[MAXN][2];
 
 	public static void addEdge(int u, int v) {
 		nxt[++cntg] = head[u];
@@ -69,25 +70,25 @@ public class Code04_Knight1 {
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
 		n = in.nextInt();
 		cntg = 1;
-		for (int x = 1, y; x <= n; x++) {
-			arr[x] = in.nextInt();
-			y = in.nextInt();
-			addEdge(x, y);
-			addEdge(y, x);
-		}
-		long ans = 0;
 		for (int i = 1; i <= n; i++) {
-			if (!vis[i]) {
-				start1 = start2 = 0;
-				dfs(i, 0);
-				dpOnTree(start1, 0);
-				long cur = dp[start1][0];
-				dpOnTree(start2, 0);
-				cur = Math.max(cur, dp[start2][0]);
-				ans += cur;
-			}
+			arr[i] = in.nextInt();
 		}
-		out.println(ans);
+		for (int i = 1, u, v; i <= n; i++) {
+			u = in.nextInt();
+			v = in.nextInt();
+			u++;
+			v++;
+			addEdge(u, v);
+			addEdge(v, u);
+		}
+		k = in.nextDouble();
+		start1 = start2 = 0;
+		dfs(1, 0);
+		dpOnTree(start1, 0);
+		int ans = dp[start1][0];
+		dpOnTree(start2, 0);
+		ans = Math.max(ans, dp[start2][0]);
+		out.printf("%.1f\n", k * ans);
 		out.flush();
 		out.close();
 	}
@@ -130,6 +131,35 @@ public class Code04_Knight1 {
 			}
 			return neg ? -val : val;
 		}
+
+		double nextDouble() throws IOException {
+			int c;
+			do {
+				c = readByte();
+			} while (c <= ' ' && c != -1);
+			boolean neg = false;
+			if (c == '-') {
+				neg = true;
+				c = readByte();
+			}
+			long intPart = 0;
+			while (c > ' ' && c != -1 && c != '.') {
+				intPart = intPart * 10 + (c - '0');
+				c = readByte();
+			}
+			double val = (double) intPart;
+			if (c == '.') {
+				c = readByte();
+				double base = 0.1;
+				while (c > ' ' && c != -1) {
+					val += (c - '0') * base;
+					base *= 0.1;
+					c = readByte();
+				}
+			}
+			return neg ? -val : val;
+		}
+
 	}
 
 }
