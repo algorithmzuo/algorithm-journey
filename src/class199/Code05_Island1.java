@@ -41,7 +41,8 @@ public class Code05_Island1 {
 		head[u] = cntg;
 	}
 
-	public static boolean dfs(int u, int preEdge) {
+	// 递归版
+	public static boolean dfs1(int u, int preEdge) {
 		vis[u] = true;
 		boolean ans = false;
 		for (int e = head[u]; e > 0; e = nxt[e]) {
@@ -58,11 +59,69 @@ public class Code05_Island1 {
 					sum[cnta] = w;
 					ans = true;
 				}
-				if (!vis[v] && dfs(v, e) && u != start) {
+				if (!vis[v] && dfs1(v, e) && u != start) {
 					cycle[u] = true;
 					arr[++cnta] = u;
 					sum[cnta] = w;
 					ans = true;
+				}
+			}
+		}
+		return ans;
+	}
+
+	public static int[] sta = new int[MAXN];
+	public static int[] pree = new int[MAXN];
+	public static int[] iter = new int[MAXN];
+	public static boolean[] staAns = new boolean[MAXN];
+
+	// dfs1的迭代版
+	public static boolean dfs2(int root, int preEdge) {
+		int top = 0;
+		sta[++top] = root;
+		pree[root] = preEdge;
+		iter[root] = head[root];
+		staAns[top] = false;
+		vis[root] = true;
+		boolean ans = false;
+		while (top > 0) {
+			int u = sta[top];
+			int e = iter[u];
+			if (e == 0) {
+				ans = staAns[top];
+				top--;
+				if (top > 0) {
+					int father = sta[top];
+					int w = weight[pree[u]];
+					if (ans && father != start) {
+						cycle[father] = true;
+						arr[++cnta] = father;
+						sum[cnta] = w;
+						staAns[top] = true;
+					}
+				}
+			} else {
+				iter[u] = nxt[e];
+				if (e != (pree[u] ^ 1)) {
+					int v = to[e];
+					int w = weight[e];
+					if (vis[v] && start == 0) {
+						start = v;
+						cycle[v] = true;
+						arr[++cnta] = v;
+						sum[cnta] = 0;
+						cycle[u] = true;
+						arr[++cnta] = u;
+						sum[cnta] = w;
+						staAns[top] = true;
+					}
+					if (!vis[v]) {
+						vis[v] = true;
+						sta[++top] = v;
+						pree[v] = e;
+						iter[v] = head[v];
+						staAns[top] = false;
+					}
 				}
 			}
 		}
@@ -84,7 +143,8 @@ public class Code05_Island1 {
 	public static long compute(int root) {
 		start = 0;
 		cnta = 0;
-		dfs(root, 0);
+		// dfs1(root, 0);
+		dfs2(root, 0);
 		if (start == 0) {
 			diameter = 0;
 			dp(root, 0);
