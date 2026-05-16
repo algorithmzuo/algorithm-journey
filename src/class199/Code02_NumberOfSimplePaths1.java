@@ -1,6 +1,6 @@
 package class199;
 
-// 路径数量，拓扑排序找环，java版
+// 简单路径数量，java版
 // 测试链接 : https://www.luogu.com.cn/problem/CF1454E
 // 测试链接 : https://codeforces.com/problemset/problem/1454/E
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
@@ -20,11 +20,10 @@ public class Code02_NumberOfSimplePaths1 {
 	public static int[] to = new int[MAXN << 1];
 	public static int cntg;
 
-	public static int[] degree = new int[MAXN];
-	public static int[] que = new int[MAXN];
-	public static boolean[] inCycle = new boolean[MAXN];
-
 	public static boolean[] vis = new boolean[MAXN];
+	public static boolean[] cycle = new boolean[MAXN];
+	public static int start;
+
 	public static long[] siz = new long[MAXN];
 
 	public static void addEdge(int u, int v) {
@@ -33,44 +32,44 @@ public class Code02_NumberOfSimplePaths1 {
 		head[u] = cntg;
 	}
 
-	public static void topo() {
-		int ql = 1, qr = 0;
-		for (int i = 1; i <= n; i++) {
-			if (degree[i] == 1) {
-				que[++qr] = i;
-			}
-			inCycle[i] = true;
-		}
-		while (ql <= qr) {
-			int u = que[ql++];
-			inCycle[u] = false;
-			for (int e = head[u]; e > 0; e = nxt[e]) {
+	public static boolean dfs(int u, int preEdge) {
+		vis[u] = true;
+		boolean ans = false;
+		for (int e = head[u]; e > 0; e = nxt[e]) {
+			if (e != (preEdge ^ 1)) {
 				int v = to[e];
-				if (--degree[v] == 1) {
-					que[++qr] = v;
+				if (vis[v] && start == 0) {
+					start = v;
+					cycle[v] = true;
+					cycle[u] = true;
+					ans = true;
+				}
+				if (!vis[v] && dfs(v, e) && u != start) {
+					cycle[u] = true;
+					ans = true;
 				}
 			}
 		}
+		return ans;
 	}
 
-	public static void dfs(int u) {
-		vis[u] = true;
+	public static void dp(int u, int fa) {
 		siz[u] = 1;
 		for (int e = head[u]; e > 0; e = nxt[e]) {
 			int v = to[e];
-			if (!vis[v] && !inCycle[v]) {
-				dfs(v);
+			if (v != fa && !cycle[v]) {
+				dp(v, u);
 				siz[u] += siz[v];
 			}
 		}
 	}
 
 	public static long compute() {
-		topo();
+		dfs(1, 0);
 		long ans = 0;
 		for (int i = 1; i <= n; i++) {
-			if (inCycle[i]) {
-				dfs(i);
+			if (cycle[i]) {
+				dp(i, 0);
 				ans += siz[i] * (siz[i] - 1) + siz[i] * 2 * (n - siz[i]);
 			}
 		}
@@ -78,10 +77,12 @@ public class Code02_NumberOfSimplePaths1 {
 	}
 
 	public static void prepare() {
-		cntg = 0;
+		cntg = 1;
+		start = 0;
 		for (int i = 1; i <= n; i++) {
-			head[i] = degree[i] = 0;
+			head[i] = 0;
 			vis[i] = false;
+			cycle[i] = false;
 		}
 	}
 
@@ -97,8 +98,6 @@ public class Code02_NumberOfSimplePaths1 {
 				v = in.nextInt();
 				addEdge(u, v);
 				addEdge(v, u);
-				degree[u]++;
-				degree[v]++;
 			}
 			long ans = compute();
 			out.println(ans);

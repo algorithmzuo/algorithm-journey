@@ -1,6 +1,6 @@
 package class199;
 
-// 骑士，dfs找环，java版
+// 骑士，java版
 // 测试链接 : https://www.luogu.com.cn/problem/P2607
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
@@ -20,8 +20,8 @@ public class Code04_Knight1 {
 	public static int[] to = new int[MAXN << 1];
 	public static int cntg;
 
-	public static int[] status = new int[MAXN];
-	public static int root1, root2, skipEdge;
+	public static boolean[] vis = new boolean[MAXN];
+	public static int start1, start2, skipEdge;
 
 	public static long[][] dp = new long[MAXN][2];
 
@@ -31,21 +31,24 @@ public class Code04_Knight1 {
 		head[u] = cntg;
 	}
 
-	public static void dfs(int u, int preEdge) {
-		status[u] = 1;
+	public static boolean dfs(int u, int preEdge) {
+		vis[u] = true;
+		boolean ans = false;
 		for (int e = head[u]; e > 0; e = nxt[e]) {
 			if (e != (preEdge ^ 1)) {
 				int v = to[e];
-				if (status[v] == 0) {
-					dfs(v, e);
-				} else if (status[v] == 1) {
-					root1 = u;
-					root2 = v;
+				if (vis[v] && start1 == 0) {
+					start1 = v;
+					start2 = u;
 					skipEdge = e >> 1;
+					ans = true;
+				}
+				if (!vis[v] && dfs(v, e) && u != start1) {
+					ans = true;
 				}
 			}
 		}
-		status[u] = 2;
+		return ans;
 	}
 
 	public static void dpOnTree(int u, int fa) {
@@ -74,12 +77,13 @@ public class Code04_Knight1 {
 		}
 		long ans = 0;
 		for (int i = 1; i <= n; i++) {
-			if (status[i] == 0) {
+			if (!vis[i]) {
+				start1 = start2 = 0;
 				dfs(i, 0);
-				dpOnTree(root1, 0);
-				long cur = dp[root1][0];
-				dpOnTree(root2, 0);
-				cur = Math.max(cur, dp[root2][0]);
+				dpOnTree(start1, 0);
+				long cur = dp[start1][0];
+				dpOnTree(start2, 0);
+				cur = Math.max(cur, dp[start2][0]);
 				ans += cur;
 			}
 		}

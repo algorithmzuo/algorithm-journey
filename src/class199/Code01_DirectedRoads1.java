@@ -1,6 +1,6 @@
 package class199;
 
-// 定向道路，dfs找环，java版
+// 定向道路，java版
 // 测试链接 : https://www.luogu.com.cn/problem/CF711D
 // 测试链接 : https://codeforces.com/problemset/problem/711/D
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
@@ -14,18 +14,18 @@ public class Code01_DirectedRoads1 {
 
 	public static int MAXN = 200001;
 	public static int MOD = 1000000007;
-	public static int n;
+	public static int n, cntb;
 
 	public static int[] head = new int[MAXN];
 	public static int[] nxt = new int[MAXN << 1];
 	public static int[] to = new int[MAXN << 1];
 	public static int cntg;
 
-	public static int[] status = new int[MAXN];
+	public static boolean[] vis = new boolean[MAXN];
 	public static int[] depth = new int[MAXN];
 	public static int[] allEdge = new int[MAXN];
 	public static int[] cycleEdge = new int[MAXN];
-	public static int cntb;
+	public static int start;
 
 	public static void addEdge(int u, int v) {
 		nxt[++cntg] = head[u];
@@ -45,28 +45,33 @@ public class Code01_DirectedRoads1 {
 		return ans;
 	}
 
-	public static void dfs(int u, int preEdge, int dep) {
-		status[u] = 1;
+	public static boolean dfs(int u, int preEdge, int dep) {
+		vis[u] = true;
 		depth[u] = dep;
 		allEdge[cntb]++;
+		boolean ans = false;
 		for (int e = head[u]; e > 0; e = nxt[e]) {
 			if (e != (preEdge ^ 1)) {
 				int v = to[e];
-				if (status[v] == 0) {
-					dfs(v, e, dep + 1);
-				} else if (status[v] == 1) {
+				if (vis[v] && start == 0) {
+					start = v;
 					cycleEdge[cntb] = depth[u] - depth[v] + 1;
+					ans = true;
+				}
+				if (!vis[v] && dfs(v, e, dep + 1) && u != start) {
+					ans = true;
 				}
 			}
 		}
-		status[u] = 2;
+		return ans;
 	}
 
 	public static long compute() {
 		long ans = 1;
 		for (int i = 1; i <= n; i++) {
-			if (status[i] == 0) {
+			if (!vis[i]) {
 				cntb++;
+				start = 0;
 				dfs(i, 0, 1);
 				long a = power(2, allEdge[cntb]);
 				long b = power(2, allEdge[cntb] - cycleEdge[cntb] + 1);

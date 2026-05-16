@@ -41,8 +41,6 @@ public class Code05_Island1 {
 		head[u] = cntg;
 	}
 
-	// 递归版
-	// 已知图上只有一个环，收集环上的节点
 	public static boolean dfs(int u, int preEdge) {
 		vis[u] = true;
 		boolean ans = false;
@@ -50,7 +48,7 @@ public class Code05_Island1 {
 			if (e != (preEdge ^ 1)) {
 				int v = to[e];
 				int w = weight[e];
-				if (vis[v] && cnta == 0) {
+				if (vis[v] && start == 0) {
 					start = v;
 					cycle[v] = true;
 					arr[++cnta] = v;
@@ -71,7 +69,6 @@ public class Code05_Island1 {
 		return ans;
 	}
 
-	// 忽略环计算子树的直径
 	public static void dp(int u, int fa) {
 		for (int e = head[u]; e > 0; e = nxt[e]) {
 			int v = to[e];
@@ -85,9 +82,10 @@ public class Code05_Island1 {
 	}
 
 	public static long compute(int root) {
+		start = 0;
 		cnta = 0;
 		dfs(root, 0);
-		if (cnta == 0) {
+		if (start == 0) {
 			diameter = 0;
 			dp(root, 0);
 			return diameter;
