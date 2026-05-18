@@ -92,26 +92,26 @@ package class199;
 //            notCycle++;
 //        }
 //    }
-//    for (int e = head[u], ne; e > 0; e = ne) {
-//        ne = nxt[e];
-//        int v = to[e];
-//        if (!vis[v]) {
-//            if (!cut && notCycle == 0 && v > back && back <= n && !vis[back]) {
+//    for (int e = head[u], nexte; e > 0; e = nexte) {
+//        nexte = nxt[e];
+//        int curv = to[e];
+//        if (!vis[curv]) {
+//            if (!cut && notCycle == 0 && curv > back && back <= n && !vis[back]) {
 //                cut = true;
 //                return;
 //            }
-//            if (!cycle[v]) {
+//            if (!cycle[curv]) {
 //                notCycle--;
 //            }
-//            int next = n + 1;
-//            for (; ne > 0; ne = nxt[ne]) {
-//                int nv = to[ne];
+//            int nextv = n + 1;
+//            for (; nexte > 0; nexte = nxt[nexte]) {
+//                int nv = to[nexte];
 //                if (!vis[nv]) {
-//                    next = nv;
+//                    nextv = nv;
 //                    break;
 //                }
 //            }
-//            path(v, next == n + 1 || !cycle[u] ? back : next);
+//            path(curv, nextv == n + 1 || !cycle[u] ? back : nextv);
 //        }
 //    }
 //}
