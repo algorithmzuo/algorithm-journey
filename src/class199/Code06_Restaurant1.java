@@ -1,6 +1,7 @@
 package class199;
 
 // 快餐店，java版
+// 可以删掉环上的一条边，使剩下树的直径最小
 // 测试链接 : https://www.luogu.com.cn/problem/P1399
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
@@ -146,7 +147,7 @@ public class Code06_Restaurant1 {
 		}
 	}
 
-	public static long computeCycle() {
+	public static long dpOnCycle() {
 		long sum = 0;
 		long best = 0;
 		for (int i = 1; i <= cnta; i++) {
@@ -182,7 +183,7 @@ public class Code06_Restaurant1 {
 			ans1 = Math.max(ans1, diameter);
 			height[i] = dist[arr[i]];
 		}
-		long ans2 = computeCycle();
+		long ans2 = dpOnCycle();
 		return Math.max(ans1, ans2);
 	}
 
