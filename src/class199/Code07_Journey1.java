@@ -1,0 +1,180 @@
+package class199;
+
+// 旅行，java版
+// 普通版测试 : https://www.luogu.com.cn/problem/P5022
+// 加强版测试 : https://www.luogu.com.cn/problem/P5049
+// 提交以下的code，提交时请把类名改成"Main"
+// 普通版测试可以通过所有测试用例
+// 加强版测试卡常，java实现无法通过，索性递归也不改迭代了
+// 想通过用C++实现，本节课Code07_Journey2文件就是C++的实现
+// 两个版本的逻辑完全一样，C++版本可以通过所有测试
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.util.Arrays;
+
+public class Code07_Journey1 {
+
+	public static int MAXN = 500001;
+	public static int n, m;
+
+	public static int[][] arr = new int[MAXN << 1][3];
+	public static int cnte;
+
+	public static int[] head = new int[MAXN];
+	public static int[] nxt = new int[MAXN << 1];
+	public static int[] to = new int[MAXN << 1];
+	public static int[] eid = new int[MAXN << 1];
+	public static int cntg;
+
+	public static int[] dfn = new int[MAXN];
+	public static int cntd;
+
+	public static int[] from = new int[MAXN];
+	public static boolean[] cycle = new boolean[MAXN];
+
+	public static boolean cut;
+	public static boolean[] vis = new boolean[MAXN];
+	public static int[] ans = new int[MAXN];
+	public static int cnta;
+
+	public static void addEdge(int u, int v, int id) {
+		nxt[++cntg] = head[u];
+		to[cntg] = v;
+		eid[cntg] = id;
+		head[u] = cntg;
+	}
+
+	public static void prepare() {
+		Arrays.sort(arr, 1, cnte + 1, (a, b) -> a[0] != b[0] ? a[0] - b[0] : b[1] - a[1]);
+		for (int l = 1, r = 1; l <= cnte; l = ++r) {
+			int u = arr[l][0];
+			while (r + 1 <= cnte && u == arr[r + 1][0]) {
+				r++;
+			}
+			for (int i = l; i <= r; i++) {
+				addEdge(u, arr[i][1], arr[i][2]);
+			}
+		}
+	}
+
+	public static void dfs(int u, int preEdge) {
+		dfn[u] = ++cntd;
+		for (int e = head[u]; e > 0; e = nxt[e]) {
+			int v = to[e];
+			if (eid[e] != eid[preEdge]) {
+				if (dfn[v] == 0) {
+					from[v] = u;
+					dfs(v, e);
+				} else if (dfn[u] < dfn[v]) {
+					cycle[u] = true;
+					for (int i = v; i != u; i = from[i]) {
+						cycle[i] = true;
+					}
+				}
+			}
+		}
+	}
+
+	public static void path(int u, int back) {
+		vis[u] = true;
+		ans[++cnta] = u;
+		int notCycle = 0;
+		for (int e = head[u]; e > 0; e = nxt[e]) {
+			int v = to[e];
+			if (!vis[v] && !cycle[v]) {
+				notCycle++;
+			}
+		}
+		for (int e = head[u], ne; e > 0; e = ne) {
+			ne = nxt[e];
+			int v = to[e];
+			if (!vis[v]) {
+				if (!cut && notCycle == 0 && v > back && back <= n && !vis[back]) {
+					cut = true;
+					return;
+				}
+				if (!cycle[v]) {
+					notCycle--;
+				}
+				int next = n + 1;
+				for (; ne > 0; ne = nxt[ne]) {
+					int nv = to[ne];
+					if (!vis[nv]) {
+						next = nv;
+						break;
+					}
+				}
+				path(v, next == n + 1 || !cycle[u] ? back : next);
+			}
+		}
+	}
+
+	public static void main(String[] args) throws Exception {
+		FastReader in = new FastReader(System.in);
+		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
+		n = in.nextInt();
+		m = in.nextInt();
+		for (int i = 1, u, v; i <= m; i++) {
+			u = in.nextInt();
+			v = in.nextInt();
+			arr[++cnte][0] = u;
+			arr[cnte][1] = v;
+			arr[cnte][2] = i;
+			arr[++cnte][0] = v;
+			arr[cnte][1] = u;
+			arr[cnte][2] = i;
+		}
+		prepare();
+		dfs(1, 0);
+		path(1, n + 1);
+		for (int i = 1; i <= n; i++) {
+			out.print(ans[i] + " ");
+		}
+		out.flush();
+		out.close();
+	}
+
+	// 读写工具类
+	static class FastReader {
+
+		private final byte[] buffer = new byte[1 << 16];
+		private int ptr = 0, len = 0;
+		private final InputStream in;
+
+		FastReader(InputStream in) {
+			this.in = in;
+		}
+
+		private int readByte() throws IOException {
+			if (ptr >= len) {
+				len = in.read(buffer);
+				ptr = 0;
+				if (len <= 0)
+					return -1;
+			}
+			return buffer[ptr++];
+		}
+
+		int nextInt() throws IOException {
+			int c;
+			do {
+				c = readByte();
+			} while (c <= ' ' && c != -1);
+			boolean neg = false;
+			if (c == '-') {
+				neg = true;
+				c = readByte();
+			}
+			int val = 0;
+			while (c > ' ' && c != -1) {
+				val = val * 10 + (c - '0');
+				c = readByte();
+			}
+			return neg ? -val : val;
+		}
+	}
+
+}
