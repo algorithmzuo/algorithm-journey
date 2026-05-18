@@ -21,11 +21,12 @@ public class Code01_DirectedRoads1 {
 	public static int[] to = new int[MAXN << 1];
 	public static int cntg;
 
-	public static boolean[] vis = new boolean[MAXN];
+	public static int[] dfn = new int[MAXN];
+	public static int cntd;
+
 	public static int[] depth = new int[MAXN];
 	public static int[] allEdge = new int[MAXN];
 	public static int[] cycleEdge = new int[MAXN];
-	public static int start;
 
 	public static void addEdge(int u, int v) {
 		nxt[++cntg] = head[u];
@@ -45,33 +46,27 @@ public class Code01_DirectedRoads1 {
 		return ans;
 	}
 
-	public static boolean dfs(int u, int preEdge, int dep) {
-		vis[u] = true;
+	public static void dfs(int u, int preEdge, int dep) {
+		dfn[u] = ++cntd;
 		depth[u] = dep;
 		allEdge[cntb]++;
-		boolean ans = false;
 		for (int e = head[u]; e > 0; e = nxt[e]) {
+			int v = to[e];
 			if (e != (preEdge ^ 1)) {
-				int v = to[e];
-				if (vis[v] && start == 0) {
-					start = v;
-					cycleEdge[cntb] = depth[u] - depth[v] + 1;
-					ans = true;
-				}
-				if (!vis[v] && dfs(v, e, dep + 1) && u != start) {
-					ans = true;
+				if (dfn[v] == 0) {
+					dfs(v, e, dep + 1);
+				} else if (dfn[u] < dfn[v]) {
+					cycleEdge[cntb] = depth[v] - depth[u] + 1;
 				}
 			}
 		}
-		return ans;
 	}
 
 	public static long compute() {
 		long ans = 1;
 		for (int i = 1; i <= n; i++) {
-			if (!vis[i]) {
+			if (dfn[i] == 0) {
 				cntb++;
-				start = 0;
 				dfs(i, 0, 1);
 				long a = power(2, allEdge[cntb]);
 				long b = power(2, allEdge[cntb] - cycleEdge[cntb] + 1);

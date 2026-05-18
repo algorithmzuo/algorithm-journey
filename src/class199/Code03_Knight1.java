@@ -20,8 +20,10 @@ public class Code03_Knight1 {
 	public static int[] to = new int[MAXN << 1];
 	public static int cntg;
 
-	public static boolean[] vis = new boolean[MAXN];
-	public static int start1, start2, skipEdge;
+	public static int[] dfn = new int[MAXN];
+	public static int cntd;
+
+	public static int x, y, skip;
 
 	public static long[][] dp = new long[MAXN][2];
 
@@ -31,24 +33,20 @@ public class Code03_Knight1 {
 		head[u] = cntg;
 	}
 
-	public static boolean dfs(int u, int preEdge) {
-		vis[u] = true;
-		boolean ans = false;
+	public static void dfs(int u, int preEdge) {
+		dfn[u] = ++cntd;
 		for (int e = head[u]; e > 0; e = nxt[e]) {
+			int v = to[e];
 			if (e != (preEdge ^ 1)) {
-				int v = to[e];
-				if (vis[v] && start1 == 0) {
-					start1 = v;
-					start2 = u;
-					skipEdge = e >> 1;
-					ans = true;
-				}
-				if (!vis[v] && dfs(v, e) && u != start1) {
-					ans = true;
+				if (dfn[v] == 0) {
+					dfs(v, e);
+				} else if (dfn[u] < dfn[v]) {
+					x = u;
+					y = v;
+					skip = e >> 1;
 				}
 			}
 		}
-		return ans;
 	}
 
 	public static void dpOnTree(int u, int fa) {
@@ -56,7 +54,7 @@ public class Code03_Knight1 {
 		dp[u][1] = arr[u];
 		for (int e = head[u]; e > 0; e = nxt[e]) {
 			int v = to[e];
-			if (v != fa && (e >> 1) != skipEdge) {
+			if (v != fa && (e >> 1) != skip) {
 				dpOnTree(v, u);
 				dp[u][0] += Math.max(dp[v][0], dp[v][1]);
 				dp[u][1] += dp[v][0];
@@ -77,13 +75,13 @@ public class Code03_Knight1 {
 		}
 		long ans = 0;
 		for (int i = 1; i <= n; i++) {
-			if (!vis[i]) {
-				start1 = start2 = 0;
+			if (dfn[i] == 0) {
+				x = y = 0;
 				dfs(i, 0);
-				dpOnTree(start1, 0);
-				long cur = dp[start1][0];
-				dpOnTree(start2, 0);
-				cur = Math.max(cur, dp[start2][0]);
+				dpOnTree(x, 0);
+				long cur = dp[x][0];
+				dpOnTree(y, 0);
+				cur = Math.max(cur, dp[y][0]);
 				ans += cur;
 			}
 		}

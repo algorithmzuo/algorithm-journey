@@ -20,11 +20,14 @@ public class Code05_Island1 {
 	public static int[] weight = new int[MAXN << 1];
 	public static int cntg;
 
-	public static boolean[] vis = new boolean[MAXN];
-	public static boolean[] cycle = new boolean[MAXN];
-	public static int start;
+	public static int[] dfn = new int[MAXN];
+	public static int cntd;
 
+	public static int[] fromNode = new int[MAXN];
+	public static int[] fromWeight = new int[MAXN];
+	public static boolean[] cycle = new boolean[MAXN];
 	public static int[] arr = new int[MAXN];
+	public static int[] val = new int[MAXN];
 	public static int cnta;
 
 	public static long[] dist = new long[MAXN];
@@ -34,6 +37,29 @@ public class Code05_Island1 {
 	public static long[] height = new long[MAXN << 1];
 	public static int[] que = new int[MAXN << 1];
 
+	// 递归改迭代需要的栈
+	public static int[] stau = new int[MAXN];
+	public static int[] stap = new int[MAXN];
+	public static int[] stas = new int[MAXN];
+	public static int[] stae = new int[MAXN];
+	public static int stacksize, u, preEdge, status, e;
+
+	public static void push(int u, int preEdge, int status, int e) {
+		stau[stacksize] = u;
+		stap[stacksize] = preEdge;
+		stas[stacksize] = status;
+		stae[stacksize] = e;
+		stacksize++;
+	}
+
+	public static void pop() {
+		--stacksize;
+		u = stau[stacksize];
+		preEdge = stap[stacksize];
+		status = stas[stacksize];
+		e = stae[stacksize];
+	}
+
 	public static void addEdge(int u, int v, int w) {
 		nxt[++cntg] = head[u];
 		to[cntg] = v;
@@ -42,90 +68,68 @@ public class Code05_Island1 {
 	}
 
 	// 递归版
-	public static boolean dfs1(int u, int preEdge) {
-		vis[u] = true;
-		boolean ans = false;
+	public static void dfs1(int u, int preEdge) {
+		dfn[u] = ++cntd;
 		for (int e = head[u]; e > 0; e = nxt[e]) {
+			int v = to[e];
 			if (e != (preEdge ^ 1)) {
-				int v = to[e];
-				int w = weight[e];
-				if (vis[v] && start == 0) {
-					start = v;
-					cycle[v] = true;
-					arr[++cnta] = v;
-					sum[cnta] = 0;
+				if (dfn[v] == 0) {
+					fromNode[v] = u;
+					fromWeight[v] = weight[e];
+					dfs1(v, e);
+				} else if (dfn[u] < dfn[v]) {
 					cycle[u] = true;
 					arr[++cnta] = u;
-					sum[cnta] = w;
-					ans = true;
-				}
-				if (!vis[v] && dfs1(v, e) && u != start) {
-					cycle[u] = true;
-					arr[++cnta] = u;
-					sum[cnta] = w;
-					ans = true;
+					val[cnta] = weight[e];
+					for (int i = v; i != u; i = fromNode[i]) {
+						cycle[i] = true;
+						arr[++cnta] = i;
+						val[cnta] = fromWeight[i];
+					}
 				}
 			}
 		}
-		return ans;
 	}
 
-	public static int[] sta = new int[MAXN];
-	public static int[] pree = new int[MAXN];
-	public static int[] iter = new int[MAXN];
-	public static boolean[] staAns = new boolean[MAXN];
-
-	// dfs1的迭代版
-	public static boolean dfs2(int root, int preEdge) {
-		int top = 0;
-		sta[++top] = root;
-		pree[root] = preEdge;
-		iter[root] = head[root];
-		staAns[top] = false;
-		vis[root] = true;
-		boolean ans = false;
-		while (top > 0) {
-			int u = sta[top];
-			int e = iter[u];
-			if (e == 0) {
-				ans = staAns[top];
-				top--;
-				if (top > 0) {
-					int father = sta[top];
-					int w = weight[pree[u]];
-					if (ans && father != start) {
-						cycle[father] = true;
-						arr[++cnta] = father;
-						sum[cnta] = w;
-						staAns[top] = true;
+	// 迭代版
+	public static void dfs2(int cur, int edge) {
+		stacksize = 0;
+		push(cur, edge, -1, -1);
+		int v;
+		while (stacksize > 0) {
+			pop();
+			if (status == -1) {
+				dfn[u] = ++cntd;
+				e = head[u];
+			} else {
+				v = to[e];
+				if (status == 1 && dfn[u] < dfn[v]) {
+					cycle[u] = true;
+					arr[++cnta] = u;
+					val[cnta] = weight[e];
+					for (int i = v; i != u; i = fromNode[i]) {
+						cycle[i] = true;
+						arr[++cnta] = i;
+						val[cnta] = fromWeight[i];
 					}
 				}
-			} else {
-				iter[u] = nxt[e];
-				if (e != (pree[u] ^ 1)) {
-					int v = to[e];
-					int w = weight[e];
-					if (vis[v] && start == 0) {
-						start = v;
-						cycle[v] = true;
-						arr[++cnta] = v;
-						sum[cnta] = 0;
-						cycle[u] = true;
-						arr[++cnta] = u;
-						sum[cnta] = w;
-						staAns[top] = true;
-					}
-					if (!vis[v]) {
-						vis[v] = true;
-						sta[++top] = v;
-						pree[v] = e;
-						iter[v] = head[v];
-						staAns[top] = false;
-					}
+				e = nxt[e];
+			}
+			if (e == (preEdge ^ 1)) {
+				e = nxt[e];
+			}
+			if (e != 0) {
+				v = to[e];
+				if (dfn[v] == 0) {
+					push(u, preEdge, 0, e);
+					fromNode[v] = u;
+					fromWeight[v] = weight[e];
+					push(v, e, -1, -1);
+				} else {
+					push(u, preEdge, 1, e);
 				}
 			}
 		}
-		return ans;
 	}
 
 	public static void dp(int u, int fa) {
@@ -141,22 +145,17 @@ public class Code05_Island1 {
 	}
 
 	public static long compute(int root) {
-		start = 0;
 		cnta = 0;
 		// dfs1(root, 0);
 		dfs2(root, 0);
-		if (start == 0) {
+		if (cnta == 0) {
 			diameter = 0;
 			dp(root, 0);
 			return diameter;
 		}
-		for (int e = head[arr[1]]; e > 0; e = nxt[e]) {
-			int v = to[e];
-			int w = weight[e];
-			if (v == arr[cnta]) {
-				sum[cnta + 1] = w;
-				break;
-			}
+		sum[1] = 0;
+		for (int i = 2, j = 1; j <= cnta; i++, j++) {
+			sum[i] = val[j];
 		}
 		for (int i = cnta + 2; i <= cnta * 2; i++) {
 			sum[i] = sum[i - cnta];
@@ -202,7 +201,7 @@ public class Code05_Island1 {
 		}
 		long ans = 0;
 		for (int i = 1; i <= n; i++) {
-			if (!vis[i]) {
+			if (dfn[i] == 0) {
 				ans += compute(i);
 			}
 		}

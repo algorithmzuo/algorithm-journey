@@ -21,10 +21,38 @@ public class Code04_RingRoad1 {
 	public static int[] to = new int[MAXN << 1];
 	public static int cntg;
 
-	public static boolean[] vis = new boolean[MAXN];
-	public static int start1, start2, skipEdge;
+	public static int[] dfn = new int[MAXN];
+	public static int cntd;
+
+	public static int x, y, skip;
 
 	public static int[][] dp = new int[MAXN][2];
+
+	// 递归改迭代需要的栈
+	public static int[] stau = new int[MAXN];
+	public static int[] stap = new int[MAXN];
+	public static int[] stas = new int[MAXN];
+	public static int[] staf = new int[MAXN];
+	public static int[] stae = new int[MAXN];
+	public static int stacksize, u, preEdge, status, fa, e;
+
+	public static void push(int u, int preEdge, int status, int fa, int e) {
+		stau[stacksize] = u;
+		stap[stacksize] = preEdge;
+		stas[stacksize] = status;
+		staf[stacksize] = fa;
+		stae[stacksize] = e;
+		stacksize++;
+	}
+
+	public static void pop() {
+		--stacksize;
+		u = stau[stacksize];
+		preEdge = stap[stacksize];
+		status = stas[stacksize];
+		fa = staf[stacksize];
+		e = stae[stacksize];
+	}
 
 	public static void addEdge(int u, int v) {
 		nxt[++cntg] = head[u];
@@ -33,24 +61,54 @@ public class Code04_RingRoad1 {
 	}
 
 	// 递归版
-	public static boolean dfs1(int u, int preEdge) {
-		vis[u] = true;
-		boolean ans = false;
+	public static void dfs1(int u, int preEdge) {
+		dfn[u] = ++cntd;
 		for (int e = head[u]; e > 0; e = nxt[e]) {
+			int v = to[e];
 			if (e != (preEdge ^ 1)) {
-				int v = to[e];
-				if (vis[v] && start1 == 0) {
-					start1 = v;
-					start2 = u;
-					skipEdge = e >> 1;
-					ans = true;
-				}
-				if (!vis[v] && dfs1(v, e) && u != start1) {
-					ans = true;
+				if (dfn[v] == 0) {
+					dfs1(v, e);
+				} else if (dfn[u] < dfn[v]) {
+					x = u;
+					y = v;
+					skip = e >> 1;
 				}
 			}
 		}
-		return ans;
+	}
+
+	// 迭代版
+	public static void dfs2(int cur, int edge) {
+		stacksize = 0;
+		push(cur, edge, -1, 0, -1);
+		int v;
+		while (stacksize > 0) {
+			pop();
+			if (status == -1) {
+				dfn[u] = ++cntd;
+				e = head[u];
+			} else {
+				v = to[e];
+				if (status == 1 && dfn[u] < dfn[v]) {
+					x = u;
+					y = v;
+					skip = e >> 1;
+				}
+				e = nxt[e];
+			}
+			if (e == (preEdge ^ 1)) {
+				e = nxt[e];
+			}
+			if (e != 0) {
+				v = to[e];
+				if (dfn[v] == 0) {
+					push(u, preEdge, 0, 0, e);
+					push(v, e, -1, 0, -1);
+				} else {
+					push(u, preEdge, 1, 0, e);
+				}
+			}
+		}
 	}
 
 	// 递归版
@@ -59,7 +117,7 @@ public class Code04_RingRoad1 {
 		dp[u][1] = arr[u];
 		for (int e = head[u]; e > 0; e = nxt[e]) {
 			int v = to[e];
-			if (v != fa && (e >> 1) != skipEdge) {
+			if (v != fa && (e >> 1) != skip) {
 				dpOnTree1(v, u);
 				dp[u][0] += Math.max(dp[v][0], dp[v][1]);
 				dp[u][1] += dp[v][0];
@@ -67,76 +125,10 @@ public class Code04_RingRoad1 {
 		}
 	}
 
-	public static int[] sta = new int[MAXN];
-	public static int[] pree = new int[MAXN];
-	public static int[] iter = new int[MAXN];
-	public static boolean[] staAns = new boolean[MAXN];
-
-	// dfs1的迭代版
-	public static boolean dfs2(int root, int preEdge) {
-		int top = 0;
-		sta[++top] = root;
-		pree[root] = preEdge;
-		iter[root] = head[root];
-		staAns[top] = false;
-		vis[root] = true;
-		boolean ans = false;
-		while (top > 0) {
-			int u = sta[top];
-			int e = iter[u];
-			if (e == 0) {
-				ans = staAns[top];
-				top--;
-				if (top > 0) {
-					int father = sta[top];
-					if (ans && father != start1) {
-						staAns[top] = true;
-					}
-				}
-			} else {
-				iter[u] = nxt[e];
-				if (e != (pree[u] ^ 1)) {
-					int v = to[e];
-					if (vis[v] && start1 == 0) {
-						start1 = v;
-						start2 = u;
-						skipEdge = e >> 1;
-						staAns[top] = true;
-					}
-					if (!vis[v]) {
-						vis[v] = true;
-						pree[v] = e;
-						iter[v] = head[v];
-						sta[++top] = v;
-						staAns[top] = false;
-					}
-				}
-			}
-		}
-		return ans;
-	}
-
-	public static int[][] ufe = new int[MAXN][3];
-	public static int stacksize, u, f, e;
-
-	public static void push(int u, int f, int e) {
-		ufe[stacksize][0] = u;
-		ufe[stacksize][1] = f;
-		ufe[stacksize][2] = e;
-		stacksize++;
-	}
-
-	public static void pop() {
-		--stacksize;
-		u = ufe[stacksize][0];
-		f = ufe[stacksize][1];
-		e = ufe[stacksize][2];
-	}
-
-	// dpOnTree1的迭代版
+	// 迭代版
 	public static void dpOnTree2(int cur, int father) {
 		stacksize = 0;
-		push(cur, father, -1);
+		push(cur, 0, 0, father, -1);
 		while (stacksize > 0) {
 			pop();
 			if (e == -1) {
@@ -147,14 +139,14 @@ public class Code04_RingRoad1 {
 				e = nxt[e];
 			}
 			if (e != 0) {
-				push(u, f, e);
-				if (to[e] != f && (e >> 1) != skipEdge) {
-					push(to[e], u, -1);
+				push(u, 0, 0, fa, e);
+				if (to[e] != fa && (e >> 1) != skip) {
+					push(to[e], 0, 0, u, -1);
 				}
 			} else {
 				for (int ei = head[u]; ei > 0; ei = nxt[ei]) {
 					int v = to[ei];
-					if (v != f && (ei >> 1) != skipEdge) {
+					if (v != fa && (ei >> 1) != skip) {
 						dp[u][0] += Math.max(dp[v][0], dp[v][1]);
 						dp[u][1] += dp[v][0];
 					}
@@ -180,15 +172,15 @@ public class Code04_RingRoad1 {
 			addEdge(v, u);
 		}
 		k = in.nextDouble();
-		start1 = start2 = 0;
+		x = y = 0;
 		// dfs1(1, 0);
 		dfs2(1, 0);
-		// dpOnTree1(start1, 0);
-		dpOnTree2(start1, 0);
-		int ans = dp[start1][0];
-		// dpOnTree1(start2, 0);
-		dpOnTree2(start2, 0);
-		ans = Math.max(ans, dp[start2][0]);
+		// dpOnTree1(x, 0);
+		dpOnTree2(x, 0);
+		int ans = dp[x][0];
+		// dpOnTree1(y, 0);
+		dpOnTree2(y, 0);
+		ans = Math.max(ans, dp[y][0]);
 		out.printf("%.1f\n", k * ans);
 		out.flush();
 		out.close();

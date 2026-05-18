@@ -20,9 +20,11 @@ public class Code02_NumberOfSimplePaths1 {
 	public static int[] to = new int[MAXN << 1];
 	public static int cntg;
 
-	public static boolean[] vis = new boolean[MAXN];
+	public static int[] dfn = new int[MAXN];
+	public static int cntd;
+
+	public static int[] from = new int[MAXN];
 	public static boolean[] cycle = new boolean[MAXN];
-	public static int start;
 
 	public static long[] siz = new long[MAXN];
 
@@ -32,25 +34,22 @@ public class Code02_NumberOfSimplePaths1 {
 		head[u] = cntg;
 	}
 
-	public static boolean dfs(int u, int preEdge) {
-		vis[u] = true;
-		boolean ans = false;
+	public static void dfs(int u, int preEdge) {
+		dfn[u] = ++cntd;
 		for (int e = head[u]; e > 0; e = nxt[e]) {
+			int v = to[e];
 			if (e != (preEdge ^ 1)) {
-				int v = to[e];
-				if (vis[v] && start == 0) {
-					start = v;
-					cycle[v] = true;
+				if (dfn[v] == 0) {
+					from[v] = u;
+					dfs(v, e);
+				} else if (dfn[u] < dfn[v]) {
 					cycle[u] = true;
-					ans = true;
-				}
-				if (!vis[v] && dfs(v, e) && u != start) {
-					cycle[u] = true;
-					ans = true;
+					for (int i = v; i != u; i = from[i]) {
+						cycle[i] = true;
+					}
 				}
 			}
 		}
-		return ans;
 	}
 
 	public static void dp(int u, int fa) {
@@ -78,10 +77,9 @@ public class Code02_NumberOfSimplePaths1 {
 
 	public static void prepare() {
 		cntg = 1;
-		start = 0;
+		cntd = 0;
 		for (int i = 1; i <= n; i++) {
-			head[i] = 0;
-			vis[i] = false;
+			head[i] = dfn[i] = 0;
 			cycle[i] = false;
 		}
 	}
