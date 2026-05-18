@@ -158,16 +158,14 @@ public class Code06_Restaurant1 {
 		}
 		sum = val[cnta];
 		best = -val[cnta];
-		sufMax[cnta + 1] = sum;
-		sufDiameter[cnta + 1] = sum + best;
 		for (int i = cnta; i >= 1; i--) {
 			sufMax[i] = Math.max(sufMax[i + 1], height[i] + sum);
 			sufDiameter[i] = Math.max(sufDiameter[i + 1], sum + height[i] + best);
 			best = Math.max(best, height[i] - sum);
 			sum += val[i - 1];
 		}
-		long ans = Long.MAX_VALUE;
-		for (int i = 1; i <= cnta; i++) {
+		long ans = preDiameter[cnta];
+		for (int i = 1; i < cnta; i++) {
 			ans = Math.min(ans, Math.max(preMax[i] + sufMax[i + 1], Math.max(preDiameter[i], sufDiameter[i + 1])));
 		}
 		return ans;
