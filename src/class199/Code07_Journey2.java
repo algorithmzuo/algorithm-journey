@@ -51,19 +51,6 @@ package class199;
 //    head[u] = cntg;
 //}
 //
-//void prepare() {
-//    sort(arr + 1, arr + cnte + 1, EdgeCmp);
-//    for (int l = 1, r = 1; l <= cnte; l = ++r) {
-//        int u = arr[l].u;
-//        while (r + 1 <= cnte && u == arr[r + 1].u) {
-//            r++;
-//        }
-//        for (int i = l; i <= r; i++) {
-//            addEdge(u, arr[i].v, arr[i].id);
-//        }
-//    }
-//}
-//
 //void dfs(int u, int preEdge) {
 //    dfn[u] = ++cntd;
 //    for (int e = head[u]; e > 0; e = nxt[e]) {
@@ -125,7 +112,10 @@ package class199;
 //        arr[++cnte] = {u, v, i};
 //        arr[++cnte] = {v, u, i};
 //    }
-//    prepare();
+//    sort(arr + 1, arr + cnte + 1, EdgeCmp);
+//    for (int i = 1; i <= cnte; i++) {
+//        addEdge(arr[i].u, arr[i].v, arr[i].id);
+//    }
 //    dfs(1, 0);
 //    path(1, n + 1);
 //    for (int i = 1; i <= n; i++) {

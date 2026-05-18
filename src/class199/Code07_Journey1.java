@@ -47,19 +47,6 @@ public class Code07_Journey1 {
 		head[u] = cntg;
 	}
 
-	public static void prepare() {
-		Arrays.sort(arr, 1, cnte + 1, (a, b) -> a[0] != b[0] ? a[0] - b[0] : b[1] - a[1]);
-		for (int l = 1, r = 1; l <= cnte; l = ++r) {
-			int u = arr[l][0];
-			while (r + 1 <= cnte && u == arr[r + 1][0]) {
-				r++;
-			}
-			for (int i = l; i <= r; i++) {
-				addEdge(u, arr[i][1], arr[i][2]);
-			}
-		}
-	}
-
 	public static void dfs(int u, int preEdge) {
 		dfn[u] = ++cntd;
 		for (int e = head[u]; e > 0; e = nxt[e]) {
@@ -127,7 +114,10 @@ public class Code07_Journey1 {
 			arr[cnte][1] = u;
 			arr[cnte][2] = i;
 		}
-		prepare();
+		Arrays.sort(arr, 1, cnte + 1, (a, b) -> a[0] != b[0] ? a[0] - b[0] : b[1] - a[1]);
+		for (int i = 1; i <= cnte; i++) {
+			addEdge(arr[i][0], arr[i][1], arr[i][2]);
+		}
 		dfs(1, 0);
 		path(1, n + 1);
 		for (int i = 1; i <= n; i++) {
