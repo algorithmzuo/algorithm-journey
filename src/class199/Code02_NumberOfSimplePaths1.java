@@ -52,12 +52,12 @@ public class Code02_NumberOfSimplePaths1 {
 		}
 	}
 
-	public static void dp(int u, int fa) {
+	public static void dpOnTree(int u, int fa) {
 		siz[u] = 1;
 		for (int e = head[u]; e > 0; e = nxt[e]) {
 			int v = to[e];
 			if (v != fa && !cycle[v]) {
-				dp(v, u);
+				dpOnTree(v, u);
 				siz[u] += siz[v];
 			}
 		}
@@ -68,7 +68,7 @@ public class Code02_NumberOfSimplePaths1 {
 		long ans = 0;
 		for (int i = 1; i <= n; i++) {
 			if (cycle[i]) {
-				dp(i, 0);
+				dpOnTree(i, 0);
 				ans += siz[i] * (siz[i] - 1) + siz[i] * 2 * (n - siz[i]);
 			}
 		}
