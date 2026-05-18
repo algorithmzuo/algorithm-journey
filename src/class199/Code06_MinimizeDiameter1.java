@@ -1,7 +1,8 @@
 package class199;
 
-// 快餐店，java版
+// 最小化直径，java版
 // 可以删掉环上的一条边，使剩下树的直径最小
+// 测试链接 : https://codeforces.com/problemset/problem/835/F
 // 测试链接 : https://www.luogu.com.cn/problem/P1399
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
@@ -10,9 +11,9 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
-public class Code06_Restaurant1 {
+public class Code06_MinimizeDiameter1 {
 
-	public static int MAXN = 100001;
+	public static int MAXN = 200001;
 	public static int n;
 
 	public static int[] head = new int[MAXN];
@@ -198,7 +199,13 @@ public class Code06_Restaurant1 {
 			addEdge(v, u, w);
 		}
 		long ans = compute();
-		out.printf("%.1f\n", (double) ans / 2.0);
+
+		// 王国道路，CF835F，使用如下打印
+		out.println(ans);
+
+		// 快餐店，洛谷P1399，使用如下打印
+		// out.printf("%.1f\n", (double) ans / 2.0);
+
 		out.flush();
 		out.close();
 	}
