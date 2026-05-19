@@ -68,33 +68,32 @@ public class Code07_Journey1 {
 	public static void path(int u, int back) {
 		vis[u] = true;
 		ans[++cnta] = u;
-		int notCycle = 0;
-		for (int e = head[u]; e > 0; e = nxt[e]) {
-			int v = to[e];
-			if (!vis[v] && !cycle[v]) {
-				notCycle++;
+		int cutNode = 0;
+		if (!cut) {
+			for (int e = head[u]; e > 0; e = nxt[e]) {
+				int v = to[e];
+				if (!vis[v]) {
+					cutNode = cycle[v] && v > back ? v : 0;
+				}
 			}
 		}
-		for (int e = head[u], nexte; e > 0; e = nexte) {
-			nexte = nxt[e];
-			int curv = to[e];
-			if (!vis[curv]) {
-				if (!cut && notCycle == 0 && curv > back && back <= n && !vis[back]) {
+		for (int e = head[u], ne; e > 0; e = ne) {
+			ne = nxt[e];
+			int v = to[e];
+			if (!vis[v]) {
+				if (v == cutNode) {
 					cut = true;
 					return;
 				}
-				if (!cycle[curv]) {
-					notCycle--;
-				}
-				int nextv = n + 1;
-				for (; nexte > 0; nexte = nxt[nexte]) {
-					int nv = to[nexte];
+				int next = 0;
+				for (; ne > 0; ne = nxt[ne]) {
+					int nv = to[ne];
 					if (!vis[nv]) {
-						nextv = nv;
+						next = nv;
 						break;
 					}
 				}
-				path(curv, nextv == n + 1 || !cycle[u] ? back : nextv);
+				path(v, next > 0 && cycle[u] ? next : back);
 			}
 		}
 	}
