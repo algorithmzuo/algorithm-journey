@@ -196,11 +196,13 @@ public class Code07_LostPark1 {
 			addEdge(u, v, w);
 			addEdge(v, u, w);
 		}
+		double ans;
 		if (m == n - 1) {
-			out.printf("%.5f\n", dpOnTree());
+			ans = dpOnTree();
 		} else {
-			out.printf("%.5f\n", dpOnGraph());
+			ans = dpOnGraph();
 		}
+		out.printf("%.5f\n", ans);
 		out.flush();
 		out.close();
 	}

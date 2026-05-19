@@ -148,7 +148,7 @@ public class Code06_MinimizeDiameter1 {
 		}
 	}
 
-	public static long dpOnCycle() {
+	public static long computeCycle() {
 		long sum = 0;
 		long best = 0;
 		for (int i = 1; i <= cnta; i++) {
@@ -182,7 +182,7 @@ public class Code06_MinimizeDiameter1 {
 			ans1 = Math.max(ans1, diameter);
 			height[i] = dist[arr[i]];
 		}
-		long ans2 = dpOnCycle();
+		long ans2 = computeCycle();
 		return Math.max(ans1, ans2);
 	}
 

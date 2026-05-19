@@ -1,6 +1,10 @@
 package class199;
 
 // 简单路径数量，java版
+// 图中有n个点、n条无向边，没有自环和重边
+// 路径的长度为边的数量，计算长度>=1，不同简单路径的数量
+// 简单路径a、b、c和c、b、a，认为是同一条，不要重复计算
+// 3 <= n <= 2 * 10^5
 // 测试链接 : https://www.luogu.com.cn/problem/CF1454E
 // 测试链接 : https://codeforces.com/problemset/problem/1454/E
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
