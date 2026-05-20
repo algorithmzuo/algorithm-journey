@@ -26,7 +26,7 @@ package class199;
 //int dfn[MAXN];
 //int cntd;
 //
-//int depth[MAXN];
+//int dep[MAXN];
 //int allEdge[MAXN];
 //int cycleEdge[MAXN];
 //
@@ -48,17 +48,17 @@ package class199;
 //    return ans;
 //}
 //
-//void dfs(int u, int preEdge, int dep) {
+//void dfs(int u, int preEdge) {
 //    dfn[u] = ++cntd;
-//    depth[u] = dep;
 //    allEdge[cntb]++;
 //    for (int e = head[u]; e > 0; e = nxt[e]) {
 //        int v = to[e];
 //        if (e != (preEdge ^ 1)) {
 //            if (dfn[v] == 0) {
-//                dfs(v, e, dep + 1);
+//                dep[v] = dep[u] + 1;
+//                dfs(v, e);
 //            } else if (dfn[u] < dfn[v]) {
-//                cycleEdge[cntb] = depth[v] - depth[u] + 1;
+//                cycleEdge[cntb] = dep[v] - dep[u] + 1;
 //            }
 //        }
 //    }
@@ -69,7 +69,8 @@ package class199;
 //    for (int i = 1; i <= n; i++) {
 //        if (dfn[i] == 0) {
 //            cntb++;
-//            dfs(i, 0, 1);
+//            dep[i] = 1;
+//            dfs(i, 0);
 //            ll a = power(2, allEdge[cntb]);
 //            ll b = power(2, allEdge[cntb] - cycleEdge[cntb] + 1);
 //            ans = ans * ((a - b + MOD) % MOD) % MOD;

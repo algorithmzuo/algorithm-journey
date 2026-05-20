@@ -28,7 +28,7 @@ public class Code01_DirectedRoads1 {
 	public static int[] dfn = new int[MAXN];
 	public static int cntd;
 
-	public static int[] depth = new int[MAXN];
+	public static int[] dep = new int[MAXN];
 	public static int[] allEdge = new int[MAXN];
 	public static int[] cycleEdge = new int[MAXN];
 
@@ -50,17 +50,17 @@ public class Code01_DirectedRoads1 {
 		return ans;
 	}
 
-	public static void dfs(int u, int preEdge, int dep) {
+	public static void dfs(int u, int preEdge) {
 		dfn[u] = ++cntd;
-		depth[u] = dep;
 		allEdge[cntb]++;
 		for (int e = head[u]; e > 0; e = nxt[e]) {
 			int v = to[e];
 			if (e != (preEdge ^ 1)) {
 				if (dfn[v] == 0) {
-					dfs(v, e, dep + 1);
+					dep[v] = dep[u] + 1;
+					dfs(v, e);
 				} else if (dfn[u] < dfn[v]) {
-					cycleEdge[cntb] = depth[v] - depth[u] + 1;
+					cycleEdge[cntb] = dep[v] - dep[u] + 1;
 				}
 			}
 		}
@@ -71,7 +71,8 @@ public class Code01_DirectedRoads1 {
 		for (int i = 1; i <= n; i++) {
 			if (dfn[i] == 0) {
 				cntb++;
-				dfs(i, 0, 1);
+				dep[i] = 1;
+				dfs(i, 0);
 				long a = power(2, allEdge[cntb]);
 				long b = power(2, allEdge[cntb] - cycleEdge[cntb] + 1);
 				ans = ans * ((a - b + MOD) % MOD) % MOD;
