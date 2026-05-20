@@ -8,7 +8,7 @@ package class199;
 // 1 <= n <= 5 * 10^5
 // 普通版测试 : https://www.luogu.com.cn/problem/P5022
 // 加强版测试 : https://www.luogu.com.cn/problem/P5049
-// 提交以下的code，提交时请把类名改成"Main"，普通版测试可以通过
+// 提交以下的code，提交时请把类名改成"Main"，可以通过普通版测试
 // 加强版测试卡常，java实现无法通过，索性递归函数也不改迭代了
 // 想通过用C++实现，本节课Code08_Journey2文件就是C++的实现
 // 两个版本的逻辑完全一样，C++版本可以通过所有测试

@@ -151,7 +151,7 @@ public class Code07_LostPark1 {
 		return 0;
 	}
 
-	public static void compute(int u) {
+	public static void walk(int u) {
 		for (int e = head[u]; e > 0; e = nxt[e]) {
 			int v = to[e];
 			int w = weight[e];
@@ -169,10 +169,11 @@ public class Code07_LostPark1 {
 				dfs3(i, 0);
 			}
 		}
-		for (int i = 1; i <= n; i++)
+		for (int i = 1; i <= n; i++) {
 			if (cycle[i]) {
-				compute(i);
+				walk(i);
 			}
+		}
 		for (int i = 1; i <= n; i++) {
 			if (cycle[i]) {
 				dfs4(i, 0);
