@@ -154,11 +154,6 @@ public class Code05_Island1 {
 		cnta = 0;
 		// dfs1(root, 0);
 		dfs2(root, 0);
-		if (cnta == 0) {
-			diameter = 0;
-			dpOnTree(root, 0);
-			return diameter;
-		}
 		sum[1] = 0;
 		for (int i = 2, j = 1; j <= cnta; i++, j++) {
 			sum[i] = val[j];
