@@ -1,6 +1,10 @@
 package class199;
 
 // 城市环路，java版
+// 图中有n个点、n条无向边，每个点有点权，图连通并且有一个环
+// 图中任意相邻两点不能同时选择，先得到最大的点权累加和
+// 然后乘以题目给定的系数k，打印结果
+// 1 <= n <= 10^5
 // 测试链接 : https://www.luogu.com.cn/problem/P1453
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
@@ -155,6 +159,16 @@ public class Code04_RingRoad1 {
 		}
 	}
 
+	public static long compute() {
+		x = y = 0;
+		dfs2(1, 0);
+		dpOnTree2(x, 0);
+		long ans = dp[x][0];
+		dpOnTree2(y, 0);
+		ans = Math.max(ans, dp[y][0]);
+		return ans;
+	}
+
 	public static void main(String[] args) throws Exception {
 		FastReader in = new FastReader(System.in);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
@@ -172,15 +186,7 @@ public class Code04_RingRoad1 {
 			addEdge(v, u);
 		}
 		k = in.nextDouble();
-		x = y = 0;
-		// dfs1(1, 0);
-		dfs2(1, 0);
-		// dpOnTree1(x, 0);
-		dpOnTree2(x, 0);
-		int ans = dp[x][0];
-		// dpOnTree1(y, 0);
-		dpOnTree2(y, 0);
-		ans = Math.max(ans, dp[y][0]);
+		long ans = compute();
 		out.printf("%.1f\n", k * ans);
 		out.flush();
 		out.close();

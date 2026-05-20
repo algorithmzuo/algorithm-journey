@@ -1,9 +1,9 @@
 package class199;
 
 // 骑士，java版
-// 图中有n个点、n条无向边，每个点有点权，可能有重边，但无自环
-// 保证每个连通块恰好有一个环，图中任意相邻两点不能同时选择
-// 希望选择节点的点权累加和尽量大，计算这个结果
+// 图中有n个点、n条无向边，每个点有点权
+// 图中如果有多个连通区，会保证每个连通块恰好有一个环
+// 图中任意相邻两点不能同时选择，计算能得到的最大点权累加和
 // 1 <= n、点权 <= 10^6
 // 测试链接 : https://www.luogu.com.cn/problem/P2607
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
@@ -66,17 +66,7 @@ public class Code03_Knight1 {
 		}
 	}
 
-	public static void main(String[] args) throws Exception {
-		FastReader in = new FastReader(System.in);
-		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
-		n = in.nextInt();
-		cntg = 1;
-		for (int x = 1, y; x <= n; x++) {
-			arr[x] = in.nextInt();
-			y = in.nextInt();
-			addEdge(x, y);
-			addEdge(y, x);
-		}
+	public static long compute() {
 		long ans = 0;
 		for (int i = 1; i <= n; i++) {
 			if (dfn[i] == 0) {
@@ -89,6 +79,21 @@ public class Code03_Knight1 {
 				ans += cur;
 			}
 		}
+		return ans;
+	}
+
+	public static void main(String[] args) throws Exception {
+		FastReader in = new FastReader(System.in);
+		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
+		n = in.nextInt();
+		cntg = 1;
+		for (int x = 1, y; x <= n; x++) {
+			arr[x] = in.nextInt();
+			y = in.nextInt();
+			addEdge(x, y);
+			addEdge(y, x);
+		}
+		long ans = compute();
 		out.println(ans);
 		out.flush();
 		out.close();
