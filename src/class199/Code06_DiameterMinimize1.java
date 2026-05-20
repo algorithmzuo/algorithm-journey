@@ -1,6 +1,6 @@
 package class199;
 
-// 树的直径最小化，java版
+// 树直径最小化，java版
 // 图中有n个点、n条无向边，每条边有边权，图是一棵基环树
 // 可以任意删掉环上的一条边，让图变成树，希望让树的直径最小
 // 第一个测试链接，计算树的直径最小值
@@ -16,7 +16,7 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
-public class Code06_TreeDiameter1 {
+public class Code06_DiameterMinimize1 {
 
 	public static int MAXN = 200001;
 	public static int n;
