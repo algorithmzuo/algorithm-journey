@@ -1,7 +1,12 @@
 package class199;
 
-// 最小化直径，java版
-// 可以删掉环上的一条边，使剩下树的直径最小
+// 树的直径最小化，java版
+// 图中有n个点、n条无向边，每条边有边权，图是一棵基环树
+// 可以任意删掉环上的一条边，让图变成树，希望让树的直径最小
+// 第一个测试链接，计算树的直径最小值
+// 第二个测试链接，计算树的直径最小值 / 2，结果保留一位小数
+// 1 <= n <= 2 * 10^5
+// 1 <= 边权 <= 10^9
 // 测试链接 : https://codeforces.com/problemset/problem/835/F
 // 测试链接 : https://www.luogu.com.cn/problem/P1399
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
@@ -11,7 +16,7 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
-public class Code06_MinimizeDiameter1 {
+public class Code06_TreeDiameter1 {
 
 	public static int MAXN = 200001;
 	public static int n;
@@ -36,8 +41,10 @@ public class Code06_MinimizeDiameter1 {
 	public static long diameter;
 
 	public static long[] height = new long[MAXN];
+
 	public static long[] preMax = new long[MAXN];
 	public static long[] preDiameter = new long[MAXN];
+
 	public static long[] sufMax = new long[MAXN + 1];
 	public static long[] sufDiameter = new long[MAXN + 1];
 
@@ -148,7 +155,7 @@ public class Code06_MinimizeDiameter1 {
 		}
 	}
 
-	public static long computeCycle() {
+	public static long dpOnCycle() {
 		long sum = 0;
 		long best = 0;
 		for (int i = 1; i <= cnta; i++) {
@@ -182,7 +189,7 @@ public class Code06_MinimizeDiameter1 {
 			ans1 = Math.max(ans1, diameter);
 			height[i] = dist[arr[i]];
 		}
-		long ans2 = computeCycle();
+		long ans2 = dpOnCycle();
 		return Math.max(ans1, ans2);
 	}
 
