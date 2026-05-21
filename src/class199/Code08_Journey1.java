@@ -9,7 +9,7 @@ package class199;
 // 普通版测试 : https://www.luogu.com.cn/problem/P5022
 // 加强版测试 : https://www.luogu.com.cn/problem/P5049
 // 提交以下的code，提交时请把类名改成"Main"，可以通过普通版测试
-// 加强版测试卡常，java实现无法通过，索性递归函数也不改迭代了
+// 加强版测试卡常数时间，java实现无法通过，索性递归函数也不改迭代了
 // 想通过用C++实现，本节课Code08_Journey2文件就是C++的实现
 // 两个版本的逻辑完全一样，C++版本可以通过所有测试
 
@@ -72,32 +72,66 @@ public class Code08_Journey1 {
 	public static void path(int u, int back) {
 		vis[u] = true;
 		ans[++cnta] = u;
-		int cutNode = 0;
-		if (!cut) {
+		if (!cycle[u] || cut) {
+			// u不在环上 或者 剪过边了
+			// 那么像在树上遍历即可
 			for (int e = head[u]; e > 0; e = nxt[e]) {
 				int v = to[e];
 				if (!vis[v]) {
-					cutNode = cycle[v] && v > back ? v : 0;
+					path(v, back);
 				}
 			}
+			return;
 		}
-		for (int e = head[u], ne; e > 0; e = ne) {
-			ne = nxt[e];
+		// u在环上 并且 还没剪边
+		// 考察最后一个儿子是否符合剪边要求
+		int end = 0;
+		for (int e = head[u]; e > 0; e = nxt[e]) {
 			int v = to[e];
 			if (!vis[v]) {
-				if (v == cutNode) {
-					cut = true;
-					return;
+				end = v;
+			}
+		}
+		cut = cycle[end] && end > back;
+		if (cut) {
+			// 剪边成功
+			// 无视最后一个儿子
+			// 因为会从环的另一侧到达
+			// 其他儿子像在树上遍历即可
+			for (int e = head[u]; e > 0; e = nxt[e]) {
+				int v = to[e];
+				if (!vis[v] && v != end) {
+					path(v, back);
 				}
-				int next = 0;
-				for (; ne > 0; ne = nxt[ne]) {
-					int nv = to[ne];
-					if (!vis[nv]) {
-						next = nv;
-						break;
+			}
+			return;
+		}
+		// 剪边不成功
+		for (int e = head[u]; e > 0; e = nxt[e]) {
+			int v = to[e];
+			if (!vis[v]) {
+				if (!cycle[v]) {
+					// 当前儿子v不在环上
+					// 像在树上遍历即可
+					path(v, back);
+				} else {
+					// 当前儿子v在环上
+					// 设置好后续的back
+					// 剪边可能发生在后续的环上
+					// 课上重点分析了这里
+					// 因为节点u最多两个环上的孩子
+					// 所以如下for循环最多发生两次
+					// 所以时间复杂度不会变高
+					int next = back;
+					for (int ne = nxt[e]; ne > 0; ne = nxt[ne]) {
+						int nv = to[ne];
+						if (!vis[nv]) {
+							next = nv;
+							break;
+						}
 					}
+					path(v, next);
 				}
-				path(v, next > 0 && cycle[u] ? next : back);
 			}
 		}
 	}

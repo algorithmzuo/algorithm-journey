@@ -77,32 +77,48 @@ package class199;
 //void path(int u, int back) {
 //    vis[u] = true;
 //    ans[++cnta] = u;
-//    int cutNode = 0;
-//    if (!cut) {
+//    if (!cycle[u] || cut) {
 //        for (int e = head[u]; e > 0; e = nxt[e]) {
 //            int v = to[e];
 //            if (!vis[v]) {
-//                cutNode = cycle[v] && v > back ? v : 0;
+//                path(v, back);
 //            }
 //        }
+//        return;
 //    }
-//    for (int e = head[u], ne; e > 0; e = ne) {
-//        ne = nxt[e];
+//    int end = 0;
+//    for (int e = head[u]; e > 0; e = nxt[e]) {
 //        int v = to[e];
 //        if (!vis[v]) {
-//            if (v == cutNode) {
-//                cut = true;
-//                return;
+//            end = v;
+//        }
+//    }
+//    cut = cycle[end] && end > back;
+//    if (cut) {
+//        for (int e = head[u]; e > 0; e = nxt[e]) {
+//            int v = to[e];
+//            if (!vis[v] && v != end) {
+//                path(v, back);
 //            }
-//            int next = 0;
-//            for (; ne > 0; ne = nxt[ne]) {
-//                int nv = to[ne];
-//                if (!vis[nv]) {
-//                    next = nv;
-//                    break;
+//        }
+//        return;
+//    }
+//    for (int e = head[u]; e > 0; e = nxt[e]) {
+//        int v = to[e];
+//        if (!vis[v]) {
+//            if (!cycle[v]) {
+//                path(v, back);
+//            } else {
+//                int next = back;
+//                for (int ne = nxt[e]; ne > 0; ne = nxt[ne]) {
+//                    int nv = to[ne];
+//                    if (!vis[nv]) {
+//                        next = nv;
+//                        break;
+//                    }
 //                }
+//                path(v, next);
 //            }
-//            path(v, next > 0 && cycle[u] ? next : back);
 //        }
 //    }
 //}
