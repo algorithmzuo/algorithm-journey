@@ -16,7 +16,7 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
-public class Code05_DiameterMinimize1 {
+public class Code07_DiameterMinimize1 {
 
 	public static int MAXN = 200001;
 	public static int n;
