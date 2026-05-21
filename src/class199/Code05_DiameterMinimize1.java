@@ -1,13 +1,14 @@
 package class199;
 
-// 岛屿，java版
-// 图中有n个点、n条无向边，每条边有边权
-// 图中可能有多个连通块，保证每个连通块都是一棵基环树
-// 对每个连通块，计算点不重复的路径能得到的最大边权和，即基环树直径
-// 图中每棵基环树的直径累加起来，打印这个结果
-// 2 <= n <= 10^6
-// 1 <= 边权 <= 10^8
-// 测试链接 : https://www.luogu.com.cn/problem/P4381
+// 树直径最小化，java版
+// 图中有n个点、n条无向边，每条边有边权，图是一棵基环树
+// 可以任意删掉环上的一条边，让图变成树，希望让树的直径最小
+// 第一个测试链接，计算树的直径最小值
+// 第二个测试链接，等价于计算树的直径最小值 / 2，结果保留一位小数
+// 1 <= n <= 2 * 10^5
+// 1 <= 边权 <= 10^9
+// 测试链接 : https://codeforces.com/problemset/problem/835/F
+// 测试链接 : https://www.luogu.com.cn/problem/P1399
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
 import java.io.IOException;
@@ -15,9 +16,9 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
-public class Code05_Island1 {
+public class Code05_DiameterMinimize1 {
 
-	public static int MAXN = 1000001;
+	public static int MAXN = 200001;
 	public static int n;
 
 	public static int[] head = new int[MAXN];
@@ -39,9 +40,13 @@ public class Code05_Island1 {
 	public static long[] dist = new long[MAXN];
 	public static long diameter;
 
-	public static long[] sum = new long[MAXN << 1];
-	public static long[] height = new long[MAXN << 1];
-	public static int[] que = new int[MAXN << 1];
+	public static long[] height = new long[MAXN];
+
+	public static long[] preMax = new long[MAXN];
+	public static long[] preDiameter = new long[MAXN];
+
+	public static long[] sufMax = new long[MAXN + 1];
+	public static long[] sufDiameter = new long[MAXN + 1];
 
 	// 递归改迭代需要的栈
 	public static int[] stau = new int[MAXN];
@@ -150,42 +155,41 @@ public class Code05_Island1 {
 		}
 	}
 
-	public static long compute(int root) {
-		cnta = 0;
-		// dfs1(root, 0);
-		dfs2(root, 0);
-		sum[1] = 0;
-		for (int i = 2, j = 1; j <= cnta; i++, j++) {
-			sum[i] = val[j];
+	public static long dpOnCycle() {
+		long sum = 0;
+		long best = 0;
+		for (int i = 1; i <= cnta; i++) {
+			preMax[i] = Math.max(preMax[i - 1], height[i] + sum);
+			preDiameter[i] = Math.max(preDiameter[i - 1], sum + height[i] + best);
+			best = Math.max(best, height[i] - sum);
+			sum += val[i];
 		}
-		for (int i = cnta + 2; i <= cnta * 2; i++) {
-			sum[i] = sum[i - cnta];
+		sum = val[cnta];
+		best = -val[cnta];
+		for (int i = cnta; i >= 1; i--) {
+			sufMax[i] = Math.max(sufMax[i + 1], height[i] + sum);
+			sufDiameter[i] = Math.max(sufDiameter[i + 1], sum + height[i] + best);
+			best = Math.max(best, height[i] - sum);
+			sum += val[i - 1];
 		}
-		for (int i = 1; i <= cnta * 2; i++) {
-			sum[i] += sum[i - 1];
+		long ans = preDiameter[cnta];
+		for (int i = 1; i < cnta; i++) {
+			ans = Math.min(ans, Math.max(preMax[i] + sufMax[i + 1], Math.max(preDiameter[i], sufDiameter[i + 1])));
 		}
+		return ans;
+	}
+
+	public static long compute() {
+		// dfs1(1, 0);
+		dfs2(1, 0);
 		long ans1 = 0;
 		for (int i = 1; i <= cnta; i++) {
 			diameter = 0;
 			dpOnTree(arr[i], 0);
 			ans1 = Math.max(ans1, diameter);
 			height[i] = dist[arr[i]];
-			height[i + cnta] = height[i];
 		}
-		long ans2 = 0;
-		int ql = 1, qr = 0;
-		for (int i = 1; i <= cnta * 2; i++) {
-			while (ql <= qr && que[ql] <= i - cnta) {
-				ql++;
-			}
-			if (ql <= qr) {
-				ans2 = Math.max(ans2, height[i] + height[que[ql]] + sum[i] - sum[que[ql]]);
-			}
-			while (ql <= qr && height[que[qr]] - sum[que[qr]] <= height[i] - sum[i]) {
-				qr--;
-			}
-			que[++qr] = i;
-		}
+		long ans2 = dpOnCycle();
 		return Math.max(ans1, ans2);
 	}
 
@@ -194,19 +198,21 @@ public class Code05_Island1 {
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
 		n = in.nextInt();
 		cntg = 1;
-		for (int u = 1, v, w; u <= n; u++) {
+		for (int i = 1, u, v, w; i <= n; i++) {
+			u = in.nextInt();
 			v = in.nextInt();
 			w = in.nextInt();
 			addEdge(u, v, w);
 			addEdge(v, u, w);
 		}
-		long ans = 0;
-		for (int i = 1; i <= n; i++) {
-			if (dfn[i] == 0) {
-				ans += compute(i);
-			}
-		}
+		long ans = compute();
+
+		// 王国道路，CF835F，使用如下打印
 		out.println(ans);
+
+		// 快餐店，洛谷P1399，使用如下打印
+		// out.printf("%.1f\n", (double) ans / 2.0);
+
 		out.flush();
 		out.close();
 	}
