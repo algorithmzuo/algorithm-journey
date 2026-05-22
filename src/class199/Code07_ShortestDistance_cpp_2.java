@@ -1,6 +1,6 @@
 package class199;
 
-// 最短距离，C++版
+// 最短距离，好想的解法，C++版
 // 图中有n个点、n条无向边，每条边有边权，图是一棵基环树
 // 一共有m条操作，每条操作是如下两种类型中的一种
 // 操作 1 x y : 第x号边的边权修改为y
@@ -30,15 +30,23 @@ package class199;
 //int dfn[MAXN];
 //int cntd;
 //
-//int node1, node2, skipEdge;
+//int from[MAXN];
+//bool cycle[MAXN];
+//int arr[MAXN];
+//int cnta;
 //
+//int edgeTo[MAXN];
+//int cycleId[MAXN];
+//
+//int belong[MAXN];
 //int fa[MAXN];
 //int dep[MAXN];
 //int siz[MAXN];
 //int son[MAXN];
 //int top[MAXN];
 //
-//int tree[MAXN];
+//int tree[MAXN << 1];
+//int len;
 //
 //void addEdge(int u, int v) {
 //    nxt[++cntg] = head[u];
@@ -52,24 +60,32 @@ package class199;
 //        int v = to[e];
 //        if (e != (preEdge ^ 1)) {
 //            if (dfn[v] == 0) {
+//                from[v] = u;
+//                edgeTo[e >> 1] = v;
 //                dfs1(v, e);
 //            } else if (dfn[u] < dfn[v]) {
-//                node1 = u;
-//                node2 = v;
-//                skipEdge = e >> 1;
+//                cycle[u] = true;
+//                arr[++cnta] = u;
+//                edgeTo[e >> 1] = u;
+//                for (int i = v; i != u; i = from[i]) {
+//                    cycle[i] = true;
+//                    arr[++cnta] = i;
+//                }
 //            }
 //        }
 //    }
 //}
 //
-//void dfs2(int u, int f) {
+//void dfs2(int u, int f, int h) {
+//    belong[u] = h;
 //    fa[u] = f;
 //    dep[u] = dep[f] + 1;
 //    siz[u] = 1;
 //    for (int e = head[u], v; e > 0; e = nxt[e]) {
 //        v = to[e];
-//        if ((e >> 1) != skipEdge && v != f) {
-//            dfs2(v, u);
+//        if (!cycle[v] && v != f) {
+//            edgeTo[e >> 1] = v;
+//            dfs2(v, u, h);
 //            siz[u] += siz[v];
 //            if (son[u] == 0 || siz[son[u]] < siz[v]) {
 //                son[u] = v;
@@ -86,7 +102,7 @@ package class199;
 //    }
 //    for (int e = head[u]; e > 0; e = nxt[e]) {
 //        int v = to[e];
-//        if ((e >> 1) != skipEdge && v != fa[u] && v != son[u]) {
+//        if (!cycle[v] && v != fa[u] && v != son[u]) {
 //            dfs3(v, v);
 //        }
 //    }
@@ -97,7 +113,7 @@ package class199;
 //}
 //
 //void add(int i, int v) {
-//    while (i <= n) {
+//    while (i <= len) {
 //        tree[i] += v;
 //        i += lowbit(i);
 //    }
@@ -119,17 +135,33 @@ package class199;
 //    return query(r) - query(l - 1);
 //}
 //
-//void init(int eid) {
-//    if (eid != skipEdge) {
-//        add(fa[u[eid]] == v[eid] ? dfn[u[eid]] : dfn[v[eid]], w[eid]);
+//int edgeToNode(int i) {
+//    if (cycle[u[i]] && cycle[v[i]]) {
+//        return cycleId[edgeTo[i]];
+//    } else {
+//        return dfn[edgeTo[i]];
 //    }
 //}
 //
-//void setEdge(int eid, int val) {
-//    if (eid != skipEdge) {
-//        add(fa[u[eid]] == v[eid] ? dfn[u[eid]] : dfn[v[eid]], val - w[eid]);
+//void prepare() {
+//    dfs1(1, 0);
+//    cntd = 0;
+//    for (int i = 1; i <= cnta; i++) {
+//        dfs2(arr[i], 0, arr[i]);
+//        dfs3(arr[i], arr[i]);
 //    }
-//    w[eid] = val;
+//    for (int i = 1, id = n + 1; i <= cnta; i++, id++) {
+//        cycleId[arr[i]] = id;
+//    }
+//    len = n + cnta;
+//    for (int i = 1; i <= n; i++) {
+//        add(edgeToNode(i), w[i]);
+//    }
+//}
+//
+//void setEdge(int edge, int val) {
+//    add(edgeToNode(edge), val - w[edge]);
+//    w[edge] = val;
 //}
 //
 //int jump(int x, int y) {
@@ -152,10 +184,20 @@ package class199;
 //}
 //
 //int getDistance(int x, int y) {
-//    int p1 = jump(x, y);
-//    int p2 = jump(x, node1) + w[skipEdge] + jump(node2, y);
-//    int p3 = jump(x, node2) + w[skipEdge] + jump(node1, y);
-//    return min(p1, min(p2, p3));
+//    if (belong[x] == belong[y]) {
+//        return jump(x, y);
+//    } else {
+//        int bx = cycleId[belong[x]];
+//        int by = cycleId[belong[y]];
+//        if (bx > by) {
+//            int tmp = bx;
+//            bx = by;
+//            by = tmp;
+//        }
+//        int p1 = sum(bx, by - 1);
+//        int p2 = sum(n + 1, len) - p1;
+//        return jump(x, belong[x]) + jump(y, belong[y]) + min(p1, p2);
+//    }
 //}
 //
 //int main() {
@@ -168,13 +210,7 @@ package class199;
 //        addEdge(u[i], v[i]);
 //        addEdge(v[i], u[i]);
 //    }
-//    dfs1(1, 0);
-//    cntd = 0;
-//    dfs2(1, 0);
-//    dfs3(1, 1);
-//    for (int i = 1; i <= n; i++) {
-//        init(i);
-//    }
+//    prepare();
 //    for (int i = 1, op, x, y; i <= m; i++) {
 //        cin >> op >> x >> y;
 //        if (op == 1) {

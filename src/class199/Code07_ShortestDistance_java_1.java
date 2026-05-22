@@ -1,6 +1,6 @@
 package class199;
 
-// 最短距离，java版
+// 最短距离，巧妙的解法，java版
 // 图中有n个点、n条无向边，每条边有边权，图是一棵基环树
 // 一共有m条操作，每条操作是如下两种类型中的一种
 // 操作 1 x y : 第x号边的边权修改为y
@@ -16,7 +16,7 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
-public class Code07_ShortestDistance1 {
+public class Code07_ShortestDistance_java_1 {
 
 	public static int MAXN = 100007;
 	public static int n, m;
@@ -121,17 +121,23 @@ public class Code07_ShortestDistance1 {
 		return query(r) - query(l - 1);
 	}
 
-	public static void init(int eid) {
-		if (eid != skipEdge) {
-			add(fa[u[eid]] == v[eid] ? dfn[u[eid]] : dfn[v[eid]], w[eid]);
+	public static void prepare() {
+		dfs1(1, 0);
+		cntd = 0;
+		dfs2(1, 0);
+		dfs3(1, 1);
+		for (int i = 1; i <= n; i++) {
+			if (i != skipEdge) {
+				add(fa[u[i]] == v[i] ? dfn[u[i]] : dfn[v[i]], w[i]);
+			}
 		}
 	}
 
-	public static void setEdge(int eid, int val) {
-		if (eid != skipEdge) {
-			add(fa[u[eid]] == v[eid] ? dfn[u[eid]] : dfn[v[eid]], val - w[eid]);
+	public static void setEdge(int edge, int val) {
+		if (edge != skipEdge) {
+			add(fa[u[edge]] == v[edge] ? dfn[u[edge]] : dfn[v[edge]], val - w[edge]);
 		}
-		w[eid] = val;
+		w[edge] = val;
 	}
 
 	public static int jump(int x, int y) {
@@ -173,13 +179,7 @@ public class Code07_ShortestDistance1 {
 			addEdge(u[i], v[i]);
 			addEdge(v[i], u[i]);
 		}
-		dfs1(1, 0);
-		cntd = 0;
-		dfs2(1, 0);
-		dfs3(1, 1);
-		for (int i = 1; i <= n; i++) {
-			init(i);
-		}
+		prepare();
 		for (int i = 1, op, x, y; i <= m; i++) {
 			op = in.nextInt();
 			x = in.nextInt();
@@ -194,6 +194,7 @@ public class Code07_ShortestDistance1 {
 		out.close();
 	}
 
+	// 读写工具类
 	static class FastReader {
 
 		private final byte[] buffer = new byte[1 << 16];
@@ -208,9 +209,8 @@ public class Code07_ShortestDistance1 {
 			if (ptr >= len) {
 				len = in.read(buffer);
 				ptr = 0;
-				if (len <= 0) {
+				if (len <= 0)
 					return -1;
-				}
 			}
 			return buffer[ptr++];
 		}
@@ -232,6 +232,7 @@ public class Code07_ShortestDistance1 {
 			}
 			return neg ? -val : val;
 		}
+
 	}
 
 }
