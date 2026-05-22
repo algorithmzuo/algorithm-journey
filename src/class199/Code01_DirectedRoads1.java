@@ -29,9 +29,12 @@ public class Code01_DirectedRoads1 {
 	public static int[] dfn = new int[MAXN];
 	public static int cntd;
 
+	// 深度
 	public static int[] dep = new int[MAXN];
-	public static int[] allEdge = new int[MAXN];
-	public static int[] cycleEdge = new int[MAXN];
+	// 基环树的节点总数，也就是边的总数
+	public static int[] all = new int[MAXN];
+	// 基环树的环上节点数，也就是环上边数
+	public static int[] cycle = new int[MAXN];
 
 	public static void addEdge(int u, int v) {
 		nxt[++cntg] = head[u];
@@ -53,7 +56,7 @@ public class Code01_DirectedRoads1 {
 
 	public static void dfs(int u, int preEdge) {
 		dfn[u] = ++cntd;
-		allEdge[cntb]++;
+		all[cntb]++;
 		for (int e = head[u]; e > 0; e = nxt[e]) {
 			int v = to[e];
 			if (e != (preEdge ^ 1)) {
@@ -61,7 +64,7 @@ public class Code01_DirectedRoads1 {
 					dep[v] = dep[u] + 1;
 					dfs(v, e);
 				} else if (dfn[u] < dfn[v]) {
-					cycleEdge[cntb] = dep[v] - dep[u] + 1;
+					cycle[cntb] = dep[v] - dep[u] + 1;
 				}
 			}
 		}
@@ -74,8 +77,8 @@ public class Code01_DirectedRoads1 {
 				cntb++;
 				dep[i] = 1;
 				dfs(i, 0);
-				long a = power(2, allEdge[cntb]);
-				long b = power(2, allEdge[cntb] - cycleEdge[cntb] + 1);
+				long a = power(2, all[cntb]);
+				long b = power(2, all[cntb] - cycle[cntb] + 1);
 				ans = ans * ((a - b + MOD) % MOD) % MOD;
 			}
 		}
