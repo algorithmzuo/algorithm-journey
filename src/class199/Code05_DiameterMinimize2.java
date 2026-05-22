@@ -107,8 +107,8 @@ package class199;
 //        best = max(best, height[i] - sum);
 //        sum += val[i - 1];
 //    }
-//    ll ans = preDiameter[cnta];
-//    for (int i = 1; i < cnta; i++) {
+//    ll ans = LLONG_MAX;
+//    for (int i = 1; i <= cnta; i++) {
 //        ans = min(ans, max(preMax[i] + sufMax[i + 1], max(preDiameter[i], sufDiameter[i + 1])));
 //    }
 //    return ans;

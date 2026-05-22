@@ -16,7 +16,7 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
-public class Code07_DiameterMinimize1 {
+public class Code05_DiameterMinimize1 {
 
 	public static int MAXN = 200001;
 	public static int n;
@@ -172,8 +172,8 @@ public class Code07_DiameterMinimize1 {
 			best = Math.max(best, height[i] - sum);
 			sum += val[i - 1];
 		}
-		long ans = preDiameter[cnta];
-		for (int i = 1; i < cnta; i++) {
+		long ans = Long.MAX_VALUE;
+		for (int i = 1; i <= cnta; i++) {
 			ans = Math.min(ans, Math.max(preMax[i] + sufMax[i + 1], Math.max(preDiameter[i], sufDiameter[i + 1])));
 		}
 		return ans;
