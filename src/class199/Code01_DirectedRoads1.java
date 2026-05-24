@@ -30,9 +30,9 @@ public class Code01_DirectedRoads1 {
 	public static int cntd;
 
 	public static int[] from = new int[MAXN];
-	// 基环树的节点总数，也就是边的总数
+	// all[x] = 第x棵基环树的节点总数 = 第x棵基环树的边总数
 	public static int[] all = new int[MAXN];
-	// 基环树的环上节点数，也就是环上边数
+	// cycle[x] = 第x棵基环树的环上节点数 = 第x棵基环树的环上边数
 	public static int[] cycle = new int[MAXN];
 
 	public static void addEdge(int u, int v) {
