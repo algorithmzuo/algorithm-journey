@@ -71,10 +71,10 @@ package class199;
 //    for (int i = 1; i <= n; i++) {
 //        if (cycle[i]) {
 //            dpOnTree(i, 0);
-//            ans += siz[i] * (siz[i] - 1) + siz[i] * 2 * (n - siz[i]);
+//            ans += siz[i] * (siz[i] - 1) / 2 + siz[i] * (n - siz[i]);
 //        }
 //    }
-//    return ans / 2;
+//    return ans;
 //}
 //
 //void prepare() {
