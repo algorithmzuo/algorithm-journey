@@ -55,24 +55,22 @@ package class199;
 //    head[u] = cntg;
 //}
 //
-//void dfs(int u, int preEdge) {
+//void dfs(int u) {
 //    dfn[u] = ++cntd;
 //    for (int e = head[u]; e > 0; e = nxt[e]) {
 //        int v = to[e];
-//        if (e != (preEdge ^ 1)) {
-//            if (dfn[v] == 0) {
-//                fromNode[v] = u;
-//                fromWeight[v] = weight[e];
-//                dfs(v, e);
-//            } else if (dfn[u] < dfn[v]) {
-//                cycle[u] = true;
-//                arr[++cnta] = u;
-//                val[cnta] = weight[e];
-//                for (int i = v; i != u; i = fromNode[i]) {
-//                    cycle[i] = true;
-//                    arr[++cnta] = i;
-//                    val[cnta] = fromWeight[i];
-//                }
+//        if (dfn[v] == 0) {
+//            fromNode[v] = u;
+//            fromWeight[v] = weight[e];
+//            dfs(v);
+//        } else if (dfn[u] < dfn[v]) {
+//            cycle[u] = true;
+//            arr[++cnta] = u;
+//            val[cnta] = weight[e];
+//            for (int i = v; i != u; i = fromNode[i]) {
+//                cycle[i] = true;
+//                arr[++cnta] = i;
+//                val[cnta] = fromWeight[i];
 //            }
 //        }
 //    }
@@ -115,7 +113,7 @@ package class199;
 //}
 //
 //ll compute() {
-//    dfs(1, 0);
+//    dfs(1);
 //    ll ans1 = 0;
 //    for (int i = 1; i <= cnta; i++) {
 //        diameter = 0;
@@ -129,7 +127,6 @@ package class199;
 //
 //int main() {
 //    scanf("%d", &n);
-//    cntg = 1;
 //    for (int i = 1, u, v, w; i <= n; i++) {
 //        scanf("%d%d%d", &u, &v, &w);
 //        addEdge(u, v, w);
