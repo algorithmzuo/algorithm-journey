@@ -29,7 +29,7 @@ package class199;
 //int dfn[MAXN];
 //int cntd;
 //
-//int dep[MAXN];
+//int from[MAXN];
 //int all[MAXN];
 //int cycle[MAXN];
 //
@@ -57,10 +57,13 @@ package class199;
 //    for (int e = head[u]; e > 0; e = nxt[e]) {
 //        int v = to[e];
 //        if (dfn[v] == 0) {
-//            dep[v] = dep[u] + 1;
+//            from[v] = u;
 //            dfs(v);
 //        } else if (dfn[u] < dfn[v]) {
-//            cycle[cntb] = dep[v] - dep[u] + 1;
+//            cycle[cntb]++;
+//            for (int i = v; i != u; i = from[i]) {
+//                cycle[cntb]++;
+//            }
 //        }
 //    }
 //}
@@ -70,7 +73,6 @@ package class199;
 //    for (int i = 1; i <= n; i++) {
 //        if (dfn[i] == 0) {
 //            cntb++;
-//            dep[i] = 1;
 //            dfs(i);
 //            ll a = power(2, all[cntb]);
 //            ll b = power(2, all[cntb] - cycle[cntb] + 1);

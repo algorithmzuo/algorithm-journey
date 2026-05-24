@@ -29,8 +29,7 @@ public class Code01_DirectedRoads1 {
 	public static int[] dfn = new int[MAXN];
 	public static int cntd;
 
-	// 深度
-	public static int[] dep = new int[MAXN];
+	public static int[] from = new int[MAXN];
 	// 基环树的节点总数，也就是边的总数
 	public static int[] all = new int[MAXN];
 	// 基环树的环上节点数，也就是环上边数
@@ -60,10 +59,13 @@ public class Code01_DirectedRoads1 {
 		for (int e = head[u]; e > 0; e = nxt[e]) {
 			int v = to[e];
 			if (dfn[v] == 0) {
-				dep[v] = dep[u] + 1;
+				from[v] = u;
 				dfs(v);
 			} else if (dfn[u] < dfn[v]) {
-				cycle[cntb] = dep[v] - dep[u] + 1;
+				cycle[cntb]++;
+				for (int i = v; i != u; i = from[i]) {
+					cycle[cntb]++;
+				}
 			}
 		}
 	}
@@ -73,7 +75,6 @@ public class Code01_DirectedRoads1 {
 		for (int i = 1; i <= n; i++) {
 			if (dfn[i] == 0) {
 				cntb++;
-				dep[i] = 1;
 				dfs(i);
 				long a = power(2, all[cntb]);
 				long b = power(2, all[cntb] - cycle[cntb] + 1);
