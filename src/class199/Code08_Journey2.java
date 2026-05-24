@@ -18,7 +18,7 @@ package class199;
 //using namespace std;
 //
 //struct Edge {
-//    int u, v, id;
+//    int u, v;
 //};
 //
 //bool EdgeCmp(Edge a, Edge b) {
@@ -32,12 +32,10 @@ package class199;
 //int n, m;
 //
 //Edge arr[MAXN << 1];
-//int cnte;
 //
 //int head[MAXN];
 //int nxt[MAXN << 1];
 //int to[MAXN << 1];
-//int eid[MAXN << 1];
 //int cntg;
 //
 //int dfn[MAXN];
@@ -51,26 +49,23 @@ package class199;
 //int ans[MAXN];
 //int cnta;
 //
-//void addEdge(int u, int v, int id) {
+//void addEdge(int u, int v) {
 //    nxt[++cntg] = head[u];
 //    to[cntg] = v;
-//    eid[cntg] = id;
 //    head[u] = cntg;
 //}
 //
-//void dfs(int u, int preEdge) {
+//void dfs(int u) {
 //    dfn[u] = ++cntd;
 //    for (int e = head[u]; e > 0; e = nxt[e]) {
 //        int v = to[e];
-//        if (eid[e] != eid[preEdge]) {
-//            if (dfn[v] == 0) {
-//                from[v] = u;
-//                dfs(v, e);
-//            } else if (dfn[u] < dfn[v]) {
-//                cycle[u] = true;
-//                for (int i = v; i != u; i = from[i]) {
-//                    cycle[i] = true;
-//                }
+//        if (dfn[v] == 0) {
+//            from[v] = u;
+//            dfs(v);
+//        } else if (dfn[u] < dfn[v]) {
+//            cycle[u] = true;
+//            for (int i = v; i != u; i = from[i]) {
+//                cycle[i] = true;
 //            }
 //        }
 //    }
@@ -131,14 +126,14 @@ package class199;
 //    cin >> n >> m;
 //    for (int i = 1, u, v; i <= m; i++) {
 //        cin >> u >> v;
-//        arr[++cnte] = {u, v, i};
-//        arr[++cnte] = {v, u, i};
+//        arr[i] = {u, v};
+//        arr[i + m] = {v, u};
 //    }
-//    sort(arr + 1, arr + cnte + 1, EdgeCmp);
-//    for (int i = 1; i <= cnte; i++) {
-//        addEdge(arr[i].u, arr[i].v, arr[i].id);
+//    sort(arr + 1, arr + m * 2 + 1, EdgeCmp);
+//    for (int i = 1; i <= m * 2; i++) {
+//        addEdge(arr[i].u, arr[i].v);
 //    }
-//    dfs(1, 0);
+//    dfs(1);
 //    path(1, n + 1);
 //    for (int i = 1; i <= n; i++) {
 //        cout << ans[i] << " ";

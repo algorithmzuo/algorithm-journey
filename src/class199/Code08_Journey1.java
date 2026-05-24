@@ -25,14 +25,11 @@ public class Code08_Journey1 {
 
 	public static int MAXN = 500001;
 	public static int n, m;
-
-	public static int[][] arr = new int[MAXN << 1][3];
-	public static int cnte;
+	public static int[][] arr = new int[MAXN << 1][2];
 
 	public static int[] head = new int[MAXN];
 	public static int[] nxt = new int[MAXN << 1];
 	public static int[] to = new int[MAXN << 1];
-	public static int[] eid = new int[MAXN << 1];
 	public static int cntg;
 
 	public static int[] dfn = new int[MAXN];
@@ -46,26 +43,23 @@ public class Code08_Journey1 {
 	public static int[] ans = new int[MAXN];
 	public static int cnta;
 
-	public static void addEdge(int u, int v, int id) {
+	public static void addEdge(int u, int v) {
 		nxt[++cntg] = head[u];
 		to[cntg] = v;
-		eid[cntg] = id;
 		head[u] = cntg;
 	}
 
-	public static void dfs(int u, int preEdge) {
+	public static void dfs(int u) {
 		dfn[u] = ++cntd;
 		for (int e = head[u]; e > 0; e = nxt[e]) {
 			int v = to[e];
-			if (eid[e] != eid[preEdge]) {
-				if (dfn[v] == 0) {
-					from[v] = u;
-					dfs(v, e);
-				} else if (dfn[u] < dfn[v]) {
-					cycle[u] = true;
-					for (int i = v; i != u; i = from[i]) {
-						cycle[i] = true;
-					}
+			if (dfn[v] == 0) {
+				from[v] = u;
+				dfs(v);
+			} else if (dfn[u] < dfn[v]) {
+				cycle[u] = true;
+				for (int i = v; i != u; i = from[i]) {
+					cycle[i] = true;
 				}
 			}
 		}
@@ -146,18 +140,16 @@ public class Code08_Journey1 {
 		for (int i = 1, u, v; i <= m; i++) {
 			u = in.nextInt();
 			v = in.nextInt();
-			arr[++cnte][0] = u;
-			arr[cnte][1] = v;
-			arr[cnte][2] = i;
-			arr[++cnte][0] = v;
-			arr[cnte][1] = u;
-			arr[cnte][2] = i;
+			arr[i][0] = u;
+			arr[i][1] = v;
+			arr[i + m][0] = v;
+			arr[i + m][1] = u;
 		}
-		Arrays.sort(arr, 1, cnte + 1, (a, b) -> a[0] != b[0] ? a[0] - b[0] : b[1] - a[1]);
-		for (int i = 1; i <= cnte; i++) {
-			addEdge(arr[i][0], arr[i][1], arr[i][2]);
+		Arrays.sort(arr, 1, m * 2 + 1, (a, b) -> a[0] != b[0] ? a[0] - b[0] : b[1] - a[1]);
+		for (int i = 1; i <= m * 2; i++) {
+			addEdge(arr[i][0], arr[i][1]);
 		}
-		dfs(1, 0);
+		dfs(1);
 		path(1, n + 1);
 		for (int i = 1; i <= n; i++) {
 			out.print(ans[i] + " ");
