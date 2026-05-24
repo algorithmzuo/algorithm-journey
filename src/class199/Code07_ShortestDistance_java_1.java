@@ -48,18 +48,16 @@ public class Code07_ShortestDistance_java_1 {
 		head[u] = cntg;
 	}
 
-	public static void dfs1(int u, int preEdge) {
+	public static void dfs1(int u) {
 		dfn[u] = ++cntd;
 		for (int e = head[u]; e > 0; e = nxt[e]) {
 			int v = to[e];
-			if (e != (preEdge ^ 1)) {
-				if (dfn[v] == 0) {
-					dfs1(v, e);
-				} else if (dfn[u] < dfn[v]) {
-					node1 = u;
-					node2 = v;
-					skipEdge = e >> 1;
-				}
+			if (dfn[v] == 0) {
+				dfs1(v);
+			} else if (dfn[u] < dfn[v]) {
+				node1 = u;
+				node2 = v;
+				skipEdge = (e + 1) >> 1;
 			}
 		}
 	}
@@ -70,7 +68,7 @@ public class Code07_ShortestDistance_java_1 {
 		siz[u] = 1;
 		for (int e = head[u], v; e > 0; e = nxt[e]) {
 			v = to[e];
-			if ((e >> 1) != skipEdge && v != f) {
+			if ((e + 1) >> 1 != skipEdge && v != f) {
 				dfs2(v, u);
 				siz[u] += siz[v];
 				if (son[u] == 0 || siz[son[u]] < siz[v]) {
@@ -88,7 +86,7 @@ public class Code07_ShortestDistance_java_1 {
 		}
 		for (int e = head[u]; e > 0; e = nxt[e]) {
 			int v = to[e];
-			if ((e >> 1) != skipEdge && v != fa[u] && v != son[u]) {
+			if ((e + 1) >> 1 != skipEdge && v != fa[u] && v != son[u]) {
 				dfs3(v, v);
 			}
 		}
@@ -122,7 +120,7 @@ public class Code07_ShortestDistance_java_1 {
 	}
 
 	public static void prepare() {
-		dfs1(1, 0);
+		dfs1(1);
 		cntd = 0;
 		dfs2(1, 0);
 		dfs3(1, 1);
@@ -171,7 +169,6 @@ public class Code07_ShortestDistance_java_1 {
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
 		n = in.nextInt();
 		m = in.nextInt();
-		cntg = 1;
 		for (int i = 1; i <= n; i++) {
 			u[i] = in.nextInt();
 			v[i] = in.nextInt();

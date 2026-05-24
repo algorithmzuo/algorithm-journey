@@ -46,18 +46,16 @@ package class199;
 //    head[u] = cntg;
 //}
 //
-//void dfs1(int u, int preEdge) {
+//void dfs1(int u) {
 //    dfn[u] = ++cntd;
 //    for (int e = head[u]; e > 0; e = nxt[e]) {
 //        int v = to[e];
-//        if (e != (preEdge ^ 1)) {
-//            if (dfn[v] == 0) {
-//                dfs1(v, e);
-//            } else if (dfn[u] < dfn[v]) {
-//                node1 = u;
-//                node2 = v;
-//                skipEdge = e >> 1;
-//            }
+//        if (dfn[v] == 0) {
+//            dfs1(v);
+//        } else if (dfn[u] < dfn[v]) {
+//            node1 = u;
+//            node2 = v;
+//            skipEdge = (e + 1) >> 1;
 //        }
 //    }
 //}
@@ -68,7 +66,7 @@ package class199;
 //    siz[u] = 1;
 //    for (int e = head[u], v; e > 0; e = nxt[e]) {
 //        v = to[e];
-//        if ((e >> 1) != skipEdge && v != f) {
+//        if ((e + 1) >> 1 != skipEdge && v != f) {
 //            dfs2(v, u);
 //            siz[u] += siz[v];
 //            if (son[u] == 0 || siz[son[u]] < siz[v]) {
@@ -86,7 +84,7 @@ package class199;
 //    }
 //    for (int e = head[u]; e > 0; e = nxt[e]) {
 //        int v = to[e];
-//        if ((e >> 1) != skipEdge && v != fa[u] && v != son[u]) {
+//        if ((e + 1) >> 1 != skipEdge && v != fa[u] && v != son[u]) {
 //            dfs3(v, v);
 //        }
 //    }
@@ -120,7 +118,7 @@ package class199;
 //}
 //
 //void prepare() {
-//    dfs1(1, 0);
+//    dfs1(1);
 //    cntd = 0;
 //    dfs2(1, 0);
 //    dfs3(1, 1);
@@ -168,7 +166,6 @@ package class199;
 //    ios::sync_with_stdio(false);
 //    cin.tie(nullptr);
 //    cin >> n >> m;
-//    cntg = 1;
 //    for (int i = 1; i <= n; i++) {
 //        cin >> u[i] >> v[i] >> w[i];
 //        addEdge(u[i], v[i]);

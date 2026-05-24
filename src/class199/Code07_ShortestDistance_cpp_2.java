@@ -54,23 +54,21 @@ package class199;
 //    head[u] = cntg;
 //}
 //
-//void dfs1(int u, int preEdge) {
+//void dfs1(int u) {
 //    dfn[u] = ++cntd;
 //    for (int e = head[u]; e > 0; e = nxt[e]) {
 //        int v = to[e];
-//        if (e != (preEdge ^ 1)) {
-//            if (dfn[v] == 0) {
-//                from[v] = u;
-//                edgeTo[e >> 1] = v;
-//                dfs1(v, e);
-//            } else if (dfn[u] < dfn[v]) {
-//                cycle[u] = true;
-//                arr[++cnta] = u;
-//                edgeTo[e >> 1] = u;
-//                for (int i = v; i != u; i = from[i]) {
-//                    cycle[i] = true;
-//                    arr[++cnta] = i;
-//                }
+//        if (dfn[v] == 0) {
+//            from[v] = u;
+//            edgeTo[(e + 1) >> 1] = v;
+//            dfs1(v);
+//        } else if (dfn[u] < dfn[v]) {
+//            cycle[u] = true;
+//            arr[++cnta] = u;
+//            edgeTo[(e + 1) >> 1] = u;
+//            for (int i = v; i != u; i = from[i]) {
+//                cycle[i] = true;
+//                arr[++cnta] = i;
 //            }
 //        }
 //    }
@@ -84,7 +82,7 @@ package class199;
 //    for (int e = head[u], v; e > 0; e = nxt[e]) {
 //        v = to[e];
 //        if (!cycle[v] && v != f) {
-//            edgeTo[e >> 1] = v;
+//            edgeTo[(e + 1) >> 1] = v;
 //            dfs2(v, u, h);
 //            siz[u] += siz[v];
 //            if (son[u] == 0 || siz[son[u]] < siz[v]) {
@@ -144,7 +142,7 @@ package class199;
 //}
 //
 //void prepare() {
-//    dfs1(1, 0);
+//    dfs1(1);
 //    cntd = 0;
 //    for (int i = 1; i <= cnta; i++) {
 //        dfs2(arr[i], 0, arr[i]);
@@ -204,7 +202,6 @@ package class199;
 //    ios::sync_with_stdio(false);
 //    cin.tie(nullptr);
 //    cin >> n >> m;
-//    cntg = 1;
 //    for (int i = 1; i <= n; i++) {
 //        cin >> u[i] >> v[i] >> w[i];
 //        addEdge(u[i], v[i]);
