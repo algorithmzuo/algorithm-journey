@@ -54,18 +54,16 @@ public class Code01_DirectedRoads1 {
 		return ans;
 	}
 
-	public static void dfs(int u, int preEdge) {
+	public static void dfs(int u) {
 		dfn[u] = ++cntd;
 		all[cntb]++;
 		for (int e = head[u]; e > 0; e = nxt[e]) {
 			int v = to[e];
-			if (e != (preEdge ^ 1)) {
-				if (dfn[v] == 0) {
-					dep[v] = dep[u] + 1;
-					dfs(v, e);
-				} else if (dfn[u] < dfn[v]) {
-					cycle[cntb] = dep[v] - dep[u] + 1;
-				}
+			if (dfn[v] == 0) {
+				dep[v] = dep[u] + 1;
+				dfs(v);
+			} else if (dfn[u] < dfn[v]) {
+				cycle[cntb] = dep[v] - dep[u] + 1;
 			}
 		}
 	}
@@ -76,7 +74,7 @@ public class Code01_DirectedRoads1 {
 			if (dfn[i] == 0) {
 				cntb++;
 				dep[i] = 1;
-				dfs(i, 0);
+				dfs(i);
 				long a = power(2, all[cntb]);
 				long b = power(2, all[cntb] - cycle[cntb] + 1);
 				ans = ans * ((a - b + MOD) % MOD) % MOD;
@@ -89,7 +87,6 @@ public class Code01_DirectedRoads1 {
 		FastReader in = new FastReader(System.in);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
 		n = in.nextInt();
-		cntg = 1;
 		for (int i = 1, x; i <= n; i++) {
 			x = in.nextInt();
 			addEdge(i, x);

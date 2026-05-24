@@ -51,18 +51,16 @@ package class199;
 //    return ans;
 //}
 //
-//void dfs(int u, int preEdge) {
+//void dfs(int u) {
 //    dfn[u] = ++cntd;
 //    all[cntb]++;
 //    for (int e = head[u]; e > 0; e = nxt[e]) {
 //        int v = to[e];
-//        if (e != (preEdge ^ 1)) {
-//            if (dfn[v] == 0) {
-//                dep[v] = dep[u] + 1;
-//                dfs(v, e);
-//            } else if (dfn[u] < dfn[v]) {
-//                cycle[cntb] = dep[v] - dep[u] + 1;
-//            }
+//        if (dfn[v] == 0) {
+//            dep[v] = dep[u] + 1;
+//            dfs(v);
+//        } else if (dfn[u] < dfn[v]) {
+//            cycle[cntb] = dep[v] - dep[u] + 1;
 //        }
 //    }
 //}
@@ -73,7 +71,7 @@ package class199;
 //        if (dfn[i] == 0) {
 //            cntb++;
 //            dep[i] = 1;
-//            dfs(i, 0);
+//            dfs(i);
 //            ll a = power(2, all[cntb]);
 //            ll b = power(2, all[cntb] - cycle[cntb] + 1);
 //            ans = ans * ((a - b + MOD) % MOD) % MOD;
@@ -86,7 +84,6 @@ package class199;
 //    ios::sync_with_stdio(false);
 //    cin.tie(nullptr);
 //    cin >> n;
-//    cntg = 1;
 //    for (int i = 1, x; i <= n; i++) {
 //        cin >> x;
 //        addEdge(i, x);

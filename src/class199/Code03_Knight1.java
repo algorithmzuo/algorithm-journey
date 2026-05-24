@@ -37,18 +37,16 @@ public class Code03_Knight1 {
 		head[u] = cntg;
 	}
 
-	public static void dfs(int u, int preEdge) {
+	public static void dfs(int u) {
 		dfn[u] = ++cntd;
 		for (int e = head[u]; e > 0; e = nxt[e]) {
 			int v = to[e];
-			if (e != (preEdge ^ 1)) {
-				if (dfn[v] == 0) {
-					dfs(v, e);
-				} else if (dfn[u] < dfn[v]) {
-					x = u;
-					y = v;
-					skip = e >> 1;
-				}
+			if (dfn[v] == 0) {
+				dfs(v);
+			} else if (dfn[u] < dfn[v]) {
+				x = u;
+				y = v;
+				skip = (e + 1) >> 1;
 			}
 		}
 	}
@@ -58,7 +56,7 @@ public class Code03_Knight1 {
 		dp[u][1] = arr[u];
 		for (int e = head[u]; e > 0; e = nxt[e]) {
 			int v = to[e];
-			if (v != fa && (e >> 1) != skip) {
+			if (v != fa && (e + 1) >> 1 != skip) {
 				dpOnTree(v, u);
 				dp[u][0] += Math.max(dp[v][0], dp[v][1]);
 				dp[u][1] += dp[v][0];
@@ -71,7 +69,7 @@ public class Code03_Knight1 {
 		for (int i = 1; i <= n; i++) {
 			if (dfn[i] == 0) {
 				x = y = 0;
-				dfs(i, 0);
+				dfs(i);
 				dpOnTree(x, 0);
 				long cur = dp[x][0];
 				dpOnTree(y, 0);
@@ -86,7 +84,6 @@ public class Code03_Knight1 {
 		FastReader in = new FastReader(System.in);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
 		n = in.nextInt();
-		cntg = 1;
 		for (int x = 1, y; x <= n; x++) {
 			arr[x] = in.nextInt();
 			y = in.nextInt();

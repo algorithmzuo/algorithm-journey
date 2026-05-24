@@ -38,19 +38,17 @@ public class Code02_NumberOfSimplePaths1 {
 		head[u] = cntg;
 	}
 
-	public static void dfs(int u, int preEdge) {
+	public static void dfs(int u) {
 		dfn[u] = ++cntd;
 		for (int e = head[u]; e > 0; e = nxt[e]) {
 			int v = to[e];
-			if (e != (preEdge ^ 1)) {
-				if (dfn[v] == 0) {
-					from[v] = u;
-					dfs(v, e);
-				} else if (dfn[u] < dfn[v]) {
-					cycle[u] = true;
-					for (int i = v; i != u; i = from[i]) {
-						cycle[i] = true;
-					}
+			if (dfn[v] == 0) {
+				from[v] = u;
+				dfs(v);
+			} else if (dfn[u] < dfn[v]) {
+				cycle[u] = true;
+				for (int i = v; i != u; i = from[i]) {
+					cycle[i] = true;
 				}
 			}
 		}
@@ -68,7 +66,7 @@ public class Code02_NumberOfSimplePaths1 {
 	}
 
 	public static long compute() {
-		dfs(1, 0);
+		dfs(1);
 		long ans = 0;
 		for (int i = 1; i <= n; i++) {
 			if (cycle[i]) {
@@ -80,8 +78,7 @@ public class Code02_NumberOfSimplePaths1 {
 	}
 
 	public static void prepare() {
-		cntg = 1;
-		cntd = 0;
+		cntg = cntd = 0;
 		for (int i = 1; i <= n; i++) {
 			head[i] = dfn[i] = 0;
 			cycle[i] = false;

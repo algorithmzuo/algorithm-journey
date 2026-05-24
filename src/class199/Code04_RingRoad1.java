@@ -34,15 +34,13 @@ public class Code04_RingRoad1 {
 
 	// 递归改迭代需要的栈
 	public static int[] stau = new int[MAXN];
-	public static int[] stap = new int[MAXN];
 	public static int[] stas = new int[MAXN];
 	public static int[] staf = new int[MAXN];
 	public static int[] stae = new int[MAXN];
-	public static int stacksize, u, preEdge, status, fa, e;
+	public static int stacksize, u, status, fa, e;
 
-	public static void push(int u, int preEdge, int status, int fa, int e) {
+	public static void push(int u, int status, int fa, int e) {
 		stau[stacksize] = u;
-		stap[stacksize] = preEdge;
 		stas[stacksize] = status;
 		staf[stacksize] = fa;
 		stae[stacksize] = e;
@@ -52,7 +50,6 @@ public class Code04_RingRoad1 {
 	public static void pop() {
 		--stacksize;
 		u = stau[stacksize];
-		preEdge = stap[stacksize];
 		status = stas[stacksize];
 		fa = staf[stacksize];
 		e = stae[stacksize];
@@ -65,26 +62,24 @@ public class Code04_RingRoad1 {
 	}
 
 	// 递归版
-	public static void dfs1(int u, int preEdge) {
+	public static void dfs1(int u) {
 		dfn[u] = ++cntd;
 		for (int e = head[u]; e > 0; e = nxt[e]) {
 			int v = to[e];
-			if (e != (preEdge ^ 1)) {
-				if (dfn[v] == 0) {
-					dfs1(v, e);
-				} else if (dfn[u] < dfn[v]) {
-					x = u;
-					y = v;
-					skip = e >> 1;
-				}
+			if (dfn[v] == 0) {
+				dfs1(v);
+			} else if (dfn[u] < dfn[v]) {
+				x = u;
+				y = v;
+				skip = (e + 1) >> 1;
 			}
 		}
 	}
 
 	// 迭代版
-	public static void dfs2(int cur, int edge) {
+	public static void dfs2(int cur) {
 		stacksize = 0;
-		push(cur, edge, -1, 0, -1);
+		push(cur, -1, 0, -1);
 		int v;
 		while (stacksize > 0) {
 			pop();
@@ -96,20 +91,17 @@ public class Code04_RingRoad1 {
 				if (status == 1 && dfn[u] < dfn[v]) {
 					x = u;
 					y = v;
-					skip = e >> 1;
+					skip = (e + 1) >> 1;
 				}
-				e = nxt[e];
-			}
-			if (e == (preEdge ^ 1)) {
 				e = nxt[e];
 			}
 			if (e != 0) {
 				v = to[e];
 				if (dfn[v] == 0) {
-					push(u, preEdge, 0, 0, e);
-					push(v, e, -1, 0, -1);
+					push(u, 0, 0, e);
+					push(v, -1, 0, -1);
 				} else {
-					push(u, preEdge, 1, 0, e);
+					push(u, 1, 0, e);
 				}
 			}
 		}
@@ -121,7 +113,7 @@ public class Code04_RingRoad1 {
 		dp[u][1] = arr[u];
 		for (int e = head[u]; e > 0; e = nxt[e]) {
 			int v = to[e];
-			if (v != fa && (e >> 1) != skip) {
+			if (v != fa && (e + 1) >> 1 != skip) {
 				dpOnTree1(v, u);
 				dp[u][0] += Math.max(dp[v][0], dp[v][1]);
 				dp[u][1] += dp[v][0];
@@ -132,7 +124,7 @@ public class Code04_RingRoad1 {
 	// 迭代版
 	public static void dpOnTree2(int cur, int father) {
 		stacksize = 0;
-		push(cur, 0, 0, father, -1);
+		push(cur, 0, father, -1);
 		while (stacksize > 0) {
 			pop();
 			if (e == -1) {
@@ -143,14 +135,14 @@ public class Code04_RingRoad1 {
 				e = nxt[e];
 			}
 			if (e != 0) {
-				push(u, 0, 0, fa, e);
-				if (to[e] != fa && (e >> 1) != skip) {
-					push(to[e], 0, 0, u, -1);
+				push(u, 0, fa, e);
+				if (to[e] != fa && (e + 1) >> 1 != skip) {
+					push(to[e], 0, u, -1);
 				}
 			} else {
 				for (int ei = head[u]; ei > 0; ei = nxt[ei]) {
 					int v = to[ei];
-					if (v != fa && (ei >> 1) != skip) {
+					if (v != fa && (ei + 1) >> 1 != skip) {
 						dp[u][0] += Math.max(dp[v][0], dp[v][1]);
 						dp[u][1] += dp[v][0];
 					}
@@ -162,7 +154,7 @@ public class Code04_RingRoad1 {
 	public static long compute() {
 		x = y = 0;
 		// dfs1(1, 0);
-		dfs2(1, 0);
+		dfs2(1);
 		// dpOnTree1(x, 0);
 		dpOnTree2(x, 0);
 		long ans = dp[x][0];
@@ -176,7 +168,6 @@ public class Code04_RingRoad1 {
 		FastReader in = new FastReader(System.in);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
 		n = in.nextInt();
-		cntg = 1;
 		for (int i = 1; i <= n; i++) {
 			arr[i] = in.nextInt();
 		}

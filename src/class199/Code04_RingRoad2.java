@@ -38,18 +38,16 @@ package class199;
 //    head[u] = cntg;
 //}
 //
-//void dfs(int u, int preEdge) {
+//void dfs(int u) {
 //    dfn[u] = ++cntd;
 //    for (int e = head[u]; e > 0; e = nxt[e]) {
 //        int v = to[e];
-//        if (e != (preEdge ^ 1)) {
-//            if (dfn[v] == 0) {
-//                dfs(v, e);
-//            } else if (dfn[u] < dfn[v]) {
-//                x = u;
-//                y = v;
-//                skip = e >> 1;
-//            }
+//        if (dfn[v] == 0) {
+//            dfs(v);
+//        } else if (dfn[u] < dfn[v]) {
+//            x = u;
+//            y = v;
+//            skip = (e + 1) >> 1;
 //        }
 //    }
 //}
@@ -59,7 +57,7 @@ package class199;
 //    dp[u][1] = arr[u];
 //    for (int e = head[u]; e > 0; e = nxt[e]) {
 //        int v = to[e];
-//        if (v != fa && (e >> 1) != skip) {
+//        if (v != fa && (e + 1) >> 1 != skip) {
 //            dpOnTree(v, u);
 //            dp[u][0] += max(dp[v][0], dp[v][1]);
 //            dp[u][1] += dp[v][0];
@@ -69,7 +67,7 @@ package class199;
 //
 //ll compute() {
 //    x = y = 0;
-//    dfs(1, 0);
+//    dfs(1);
 //    dpOnTree(x, 0);
 //    ll ans = dp[x][0];
 //    dpOnTree(y, 0);
@@ -79,7 +77,6 @@ package class199;
 //
 //int main() {
 //    scanf("%d", &n);
-//    cntg = 1;
 //    for (int i = 1; i <= n; i++) {
 //        scanf("%d", &arr[i]);
 //    }
