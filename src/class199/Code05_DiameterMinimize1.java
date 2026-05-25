@@ -45,8 +45,8 @@ public class Code05_DiameterMinimize1 {
 	public static long[] preMax = new long[MAXN];
 	public static long[] preDiameter = new long[MAXN];
 
-	public static long[] sufMax = new long[MAXN + 1];
-	public static long[] sufDiameter = new long[MAXN + 1];
+	public static long[] sufMax = new long[MAXN];
+	public static long[] sufDiameter = new long[MAXN];
 
 	// 递归改迭代需要的栈
 	public static int[] stau = new int[MAXN];
@@ -148,26 +148,29 @@ public class Code05_DiameterMinimize1 {
 	}
 
 	public static long dpOnCycle() {
-		long sum = 0;
 		long best = 0;
+		long sum = 0;
 		for (int i = 1; i <= cnta; i++) {
 			preMax[i] = Math.max(preMax[i - 1], height[i] + sum);
 			preDiameter[i] = Math.max(preDiameter[i - 1], sum + height[i] + best);
 			best = Math.max(best, height[i] - sum);
 			sum += val[i];
 		}
-		sum = val[cnta];
-		best = -val[cnta];
-		for (int i = cnta; i >= 1; i--) {
+		sufMax[cnta] = height[cnta] + val[cnta];
+		sufDiameter[cnta] = height[cnta];
+		best = height[cnta] - val[cnta];
+		sum = val[cnta] + val[cnta - 1];
+		for (int i = cnta - 1; i >= 1; i--) {
 			sufMax[i] = Math.max(sufMax[i + 1], height[i] + sum);
 			sufDiameter[i] = Math.max(sufDiameter[i + 1], sum + height[i] + best);
 			best = Math.max(best, height[i] - sum);
 			sum += val[i - 1];
 		}
 		long ans = Long.MAX_VALUE;
-		for (int i = 1; i <= cnta; i++) {
+		for (int i = 1; i < cnta; i++) {
 			ans = Math.min(ans, Math.max(preMax[i] + sufMax[i + 1], Math.max(preDiameter[i], sufDiameter[i + 1])));
 		}
+		ans = Math.min(ans, preDiameter[cnta]);
 		return ans;
 	}
 

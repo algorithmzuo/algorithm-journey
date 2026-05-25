@@ -45,8 +45,8 @@ package class199;
 //ll preMax[MAXN];
 //ll preDiameter[MAXN];
 //
-//ll sufMax[MAXN + 1];
-//ll sufDiameter[MAXN + 1];
+//ll sufMax[MAXN];
+//ll sufDiameter[MAXN];
 //
 //void addEdge(int u, int v, int w) {
 //    nxt[++cntg] = head[u];
@@ -89,26 +89,29 @@ package class199;
 //}
 //
 //ll dpOnCycle() {
-//    ll sum = 0;
 //    ll best = 0;
+//    ll sum = 0;
 //    for (int i = 1; i <= cnta; i++) {
 //        preMax[i] = max(preMax[i - 1], height[i] + sum);
 //        preDiameter[i] = max(preDiameter[i - 1], sum + height[i] + best);
 //        best = max(best, height[i] - sum);
 //        sum += val[i];
 //    }
-//    sum = val[cnta];
-//    best = -val[cnta];
-//    for (int i = cnta; i >= 1; i--) {
+//    sufMax[cnta] = height[cnta] + val[cnta];
+//    sufDiameter[cnta] = height[cnta];
+//    best = height[cnta] - val[cnta];
+//    sum = val[cnta] + val[cnta - 1];
+//    for (int i = cnta - 1; i >= 1; i--) {
 //        sufMax[i] = max(sufMax[i + 1], height[i] + sum);
 //        sufDiameter[i] = max(sufDiameter[i + 1], sum + height[i] + best);
 //        best = max(best, height[i] - sum);
 //        sum += val[i - 1];
 //    }
 //    ll ans = LLONG_MAX;
-//    for (int i = 1; i <= cnta; i++) {
+//    for (int i = 1; i < cnta; i++) {
 //        ans = min(ans, max(preMax[i] + sufMax[i + 1], max(preDiameter[i], sufDiameter[i + 1])));
 //    }
+//    ans = min(ans, preDiameter[cnta]);
 //    return ans;
 //}
 //
