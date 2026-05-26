@@ -44,7 +44,7 @@ package class199;
 //int from[MAXN];
 //bool cycle[MAXN];
 //
-//bool cut;
+//bool turn;
 //bool vis[MAXN];
 //int ans[MAXN];
 //int cnta;
@@ -74,11 +74,11 @@ package class199;
 //void path(int u, int back) {
 //    vis[u] = true;
 //    ans[++cnta] = u;
-//    if (!cycle[u] || cut) {
+//    if (!cycle[u] || turn) {
 //        for (int e = head[u]; e > 0; e = nxt[e]) {
 //            int v = to[e];
 //            if (!vis[v]) {
-//                path(v, back);
+//                path(v, n + 1);
 //            }
 //        }
 //        return;
@@ -90,12 +90,12 @@ package class199;
 //            end = v;
 //        }
 //    }
-//    cut = cycle[end] && end > back;
-//    if (cut) {
+//    turn = cycle[end] && end > back;
+//    if (turn) {
 //        for (int e = head[u]; e > 0; e = nxt[e]) {
 //            int v = to[e];
 //            if (!vis[v] && v != end) {
-//                path(v, back);
+//                path(v, n + 1);
 //            }
 //        }
 //        return;
@@ -104,7 +104,7 @@ package class199;
 //        int v = to[e];
 //        if (!vis[v]) {
 //            if (!cycle[v]) {
-//                path(v, back);
+//                path(v, n + 1);
 //            } else {
 //                int next = back;
 //                for (int ne = nxt[e]; ne > 0; ne = nxt[ne]) {

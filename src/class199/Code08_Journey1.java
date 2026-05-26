@@ -38,7 +38,7 @@ public class Code08_Journey1 {
 	public static int[] from = new int[MAXN];
 	public static boolean[] cycle = new boolean[MAXN];
 
-	public static boolean cut;
+	public static boolean turn;
 	public static boolean[] vis = new boolean[MAXN];
 	public static int[] ans = new int[MAXN];
 	public static int cnta;
@@ -68,19 +68,19 @@ public class Code08_Journey1 {
 	public static void path(int u, int back) {
 		vis[u] = true;
 		ans[++cnta] = u;
-		if (!cycle[u] || cut) {
-			// u不在环上 或者 剪过边了
+		if (!cycle[u] || turn) {
+			// u不在环上 或者 已经回过头了
 			// 那么像在树上遍历即可
 			for (int e = head[u]; e > 0; e = nxt[e]) {
 				int v = to[e];
 				if (!vis[v]) {
-					path(v, back);
+					path(v, n + 1);
 				}
 			}
 			return;
 		}
-		// u在环上 并且 还没剪边
-		// 考察最后一个儿子是否符合剪边要求
+		// u在环上 并且 还没回过头
+		// 考察最后一个儿子是否符合回头需要
 		int end = 0;
 		for (int e = head[u]; e > 0; e = nxt[e]) {
 			int v = to[e];
@@ -88,33 +88,32 @@ public class Code08_Journey1 {
 				end = v;
 			}
 		}
-		cut = cycle[end] && end > back;
-		if (cut) {
-			// 剪边成功
+		turn = cycle[end] && end > back;
+		if (turn) {
+			// 回头成功
 			// 无视最后一个儿子
 			// 因为会从环的另一侧到达
 			// 其他儿子像在树上遍历即可
 			for (int e = head[u]; e > 0; e = nxt[e]) {
 				int v = to[e];
 				if (!vis[v] && v != end) {
-					path(v, back);
+					path(v, n + 1);
 				}
 			}
 			return;
 		}
-		// 剪边不成功
+		// 回头不成功
 		for (int e = head[u]; e > 0; e = nxt[e]) {
 			int v = to[e];
 			if (!vis[v]) {
 				if (!cycle[v]) {
 					// 当前儿子v不在环上
 					// 像在树上遍历即可
-					path(v, back);
+					path(v, n + 1);
 				} else {
 					// 当前儿子v在环上
 					// 设置好后续的back
-					// 剪边可能发生在后续的环上
-					// 课上重点分析了这里
+					// 回头可能发生在后续的环上
 					// 因为节点u最多两个环上的孩子
 					// 所以如下for循环最多发生两次
 					// 所以时间复杂度不会变高
