@@ -20,13 +20,10 @@ public class Code07_ShortestDistance_java_2 {
 
 	public static int MAXN = 100007;
 	public static int n, m;
-
-	// 每条边的端点和边权
 	public static int[] u = new int[MAXN];
 	public static int[] v = new int[MAXN];
 	public static int[] w = new int[MAXN];
 
-	// 建图
 	public static int[] head = new int[MAXN];
 	public static int[] nxt = new int[MAXN << 1];
 	public static int[] to = new int[MAXN << 1];

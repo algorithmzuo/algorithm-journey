@@ -18,7 +18,6 @@ package class199;
 //
 //const int MAXN = 100007;
 //int n, m;
-//
 //int u[MAXN];
 //int v[MAXN];
 //int w[MAXN];

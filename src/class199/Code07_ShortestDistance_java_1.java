@@ -31,7 +31,6 @@ public class Code07_ShortestDistance_java_1 {
 
 	public static int[] dfn = new int[MAXN];
 	public static int cntd;
-
 	public static int node1, node2, skipEdge;
 
 	public static int[] fa = new int[MAXN];

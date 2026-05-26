@@ -29,7 +29,6 @@ package class199;
 //
 //int dfn[MAXN];
 //int cntd;
-//
 //int node1, node2, skipEdge;
 //
 //int fa[MAXN];
