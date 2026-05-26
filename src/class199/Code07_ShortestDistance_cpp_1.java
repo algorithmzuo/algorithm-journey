@@ -124,14 +124,14 @@ package class199;
 //    dfs3(1, 1);
 //    for (int i = 1; i <= n; i++) {
 //        if (i != skipEdge) {
-//            add(fa[u[i]] == v[i] ? dfn[u[i]] : dfn[v[i]], w[i]);
+//            add(max(dfn[u[i]], dfn[v[i]]), w[i]);
 //        }
 //    }
 //}
 //
 //void setEdge(int edge, int val) {
 //    if (edge != skipEdge) {
-//        add(fa[u[edge]] == v[edge] ? dfn[u[edge]] : dfn[v[edge]], val - w[edge]);
+//        add(max(dfn[u[edge]], dfn[v[edge]]), val - w[edge]);
 //    }
 //    w[edge] = val;
 //}
