@@ -18,6 +18,7 @@ package class199;
 //
 //const int MAXN = 100007;
 //int n, m;
+//
 //int u[MAXN];
 //int v[MAXN];
 //int w[MAXN];
@@ -29,16 +30,14 @@ package class199;
 //
 //int dfn[MAXN];
 //int cntd;
-//
 //int from[MAXN];
 //bool cycle[MAXN];
 //int arr[MAXN];
 //int cnta;
 //
+//int cycleEdgeTo[MAXN];
 //int cycleId[MAXN];
-//
-//int nodeBelong[MAXN];
-//int edgeBelong[MAXN];
+//int belong[MAXN];
 //
 //int fa[MAXN];
 //int dep[MAXN];
@@ -47,7 +46,6 @@ package class199;
 //int top[MAXN];
 //
 //int tree[MAXN << 1];
-//int len;
 //
 //void addEdge(int u, int v) {
 //    nxt[++cntg] = head[u];
@@ -61,12 +59,12 @@ package class199;
 //        int v = to[e];
 //        if (dfn[v] == 0) {
 //            from[v] = u;
-//            edgeBelong[(e + 1) >> 1] = v;
+//            cycleEdgeTo[(e + 1) >> 1] = v;
 //            dfs1(v);
 //        } else if (dfn[u] < dfn[v]) {
+//            cycleEdgeTo[(e + 1) >> 1] = u;
 //            cycle[u] = true;
 //            arr[++cnta] = u;
-//            edgeBelong[(e + 1) >> 1] = u;
 //            for (int i = v; i != u; i = from[i]) {
 //                cycle[i] = true;
 //                arr[++cnta] = i;
@@ -76,14 +74,13 @@ package class199;
 //}
 //
 //void dfs2(int u, int f, int h) {
-//    nodeBelong[u] = h;
+//    belong[u] = h;
 //    fa[u] = f;
 //    dep[u] = dep[f] + 1;
 //    siz[u] = 1;
 //    for (int e = head[u], v; e > 0; e = nxt[e]) {
 //        v = to[e];
 //        if (!cycle[v] && v != f) {
-//            edgeBelong[(e + 1) >> 1] = v;
 //            dfs2(v, u, h);
 //            siz[u] += siz[v];
 //            if (son[u] == 0 || siz[son[u]] < siz[v]) {
@@ -112,7 +109,7 @@ package class199;
 //}
 //
 //void add(int i, int v) {
-//    while (i <= len) {
+//    while (i <= cntd) {
 //        tree[i] += v;
 //        i += lowbit(i);
 //    }
@@ -136,9 +133,9 @@ package class199;
 //
 //int edgeToNode(int i) {
 //    if (cycle[u[i]] && cycle[v[i]]) {
-//        return cycleId[edgeBelong[i]];
+//        return cycleId[cycleEdgeTo[i]];
 //    } else {
-//        return dfn[edgeBelong[i]];
+//        return max(dfn[u[i]], dfn[v[i]]);
 //    }
 //}
 //
@@ -149,10 +146,9 @@ package class199;
 //        dfs2(arr[i], 0, arr[i]);
 //        dfs3(arr[i], arr[i]);
 //    }
-//    for (int i = 1, id = n + 1; i <= cnta; i++, id++) {
-//        cycleId[arr[i]] = id;
+//    for (int i = 1; i <= cnta; i++) {
+//        cycleId[arr[i]] = ++cntd;
 //    }
-//    len = n + cnta;
 //    for (int i = 1; i <= n; i++) {
 //        add(edgeToNode(i), w[i]);
 //    }
@@ -183,19 +179,14 @@ package class199;
 //}
 //
 //int getDistance(int x, int y) {
-//    if (nodeBelong[x] == nodeBelong[y]) {
+//    if (belong[x] == belong[y]) {
 //        return jump(x, y);
 //    } else {
-//        int bx = cycleId[nodeBelong[x]];
-//        int by = cycleId[nodeBelong[y]];
-//        if (bx > by) {
-//            int tmp = bx;
-//            bx = by;
-//            by = tmp;
-//        }
-//        int p1 = sum(bx, by - 1);
-//        int p2 = sum(n + 1, len) - p1;
-//        return jump(x, nodeBelong[x]) + jump(y, nodeBelong[y]) + min(p1, p2);
+//        int a = min(cycleId[belong[x]], cycleId[belong[y]]);
+//        int b = max(cycleId[belong[x]], cycleId[belong[y]]);
+//        int p1 = sum(a, b - 1);
+//        int p2 = sum(n + 1, cntd) - p1;
+//        return jump(x, belong[x]) + jump(y, belong[y]) + min(p1, p2);
 //    }
 //}
 //
