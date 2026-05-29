@@ -23,7 +23,7 @@ public class Code01_CactusShortestPaths1 {
 	public static int[] weight1 = new int[MAXM << 1];
 	public static int cnt1;
 
-	// 圆方树的链式前向星
+	// 圆方树的链式前向星，连接单向边即可
 	public static int[] head2 = new int[MAXT];
 	public static int[] next2 = new int[MAXT];
 	public static int[] to2 = new int[MAXT];
@@ -37,7 +37,7 @@ public class Code01_CactusShortestPaths1 {
 	public static int[] sta = new int[MAXN];
 	public static int stasiz;
 
-	// 环的信息
+	// 每个环的信息
 	public static int[] fromWeight = new int[MAXN];
 	public static int[] cycleDist = new int[MAXN];
 	public static int[] cycleSum = new int[MAXT];
