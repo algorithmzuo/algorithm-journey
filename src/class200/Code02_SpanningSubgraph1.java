@@ -1,6 +1,6 @@
 package class200;
 
-// 仙人掌的支撑子图数量，java版
+// 仙人掌支撑子图数量，java版
 // 测试链接 : https://www.luogu.com.cn/problem/P4129
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
@@ -12,7 +12,7 @@ import java.math.BigInteger;
 
 public class Code02_SpanningSubgraph1 {
 
-	public static int MAXN = 200001;
+	public static int MAXN = 20001;
 	public static int MAXM = 1000001;
 	public static int n, m;
 
@@ -24,8 +24,12 @@ public class Code02_SpanningSubgraph1 {
 	public static int[] dfn = new int[MAXN];
 	public static int[] low = new int[MAXN];
 	public static int cntd;
+	public static int[] sta = new int[MAXN];
+	public static int top;
 
-	public static int[] dep = new int[MAXN];
+	public static int[] edgeCnt = new int[MAXN];
+	public static int cntc;
+
 	public static int[] cycleCnt = new int[MAXN];
 
 	// 本题需要高精度乘法
@@ -64,21 +68,30 @@ public class Code02_SpanningSubgraph1 {
 	// 递归版
 	public static void tarjan1(int u, int preEdge) {
 		dfn[u] = low[u] = ++cntd;
+		sta[++top] = u;
 		for (int e = head[u]; e > 0; e = nxt[e]) {
 			if ((e ^ 1) == preEdge) {
 				continue;
 			}
 			int v = to[e];
 			if (dfn[v] == 0) {
-				dep[v] = dep[u] + 1;
 				tarjan1(v, e);
 				low[u] = Math.min(low[u], low[v]);
-				if (low[v] < dfn[u]) {
+				if (low[v] == dfn[u]) {
+					cntc++;
+					edgeCnt[cntc] = 1;
+					int pop;
+					do {
+						pop = sta[top--];
+						edgeCnt[cntc]++;
+					} while (pop != v);
+				} else if (low[v] > dfn[u]) {
+					top--;
+				} else {
 					cycleCnt[u]++;
 				}
 			} else if (dfn[v] < dfn[u]) {
 				low[u] = Math.min(low[u], dfn[v]);
-				ans = ans.multiply(BigInteger.valueOf(dep[u] - dep[v] + 2));
 				cycleCnt[u]++;
 			}
 		}
@@ -93,18 +106,28 @@ public class Code02_SpanningSubgraph1 {
 			pop();
 			if (status == -1) {
 				dfn[u] = low[u] = ++cntd;
+				sta[++top] = u;
 				e = head[u];
 			} else {
 				v = to[e];
 				if (status == 0) {
 					low[u] = Math.min(low[u], low[v]);
-					if (low[v] < dfn[u]) {
+					if (low[v] == dfn[u]) {
+						cntc++;
+						edgeCnt[cntc] = 1;
+						int pop;
+						do {
+							pop = sta[top--];
+							edgeCnt[cntc]++;
+						} while (pop != v);
+					} else if (low[v] > dfn[u]) {
+						top--;
+					} else {
 						cycleCnt[u]++;
 					}
 				} else {
 					if (dfn[v] < dfn[u]) {
 						low[u] = Math.min(low[u], dfn[v]);
-						ans = ans.multiply(BigInteger.valueOf(dep[u] - dep[v] + 2));
 						cycleCnt[u]++;
 					}
 				}
@@ -117,7 +140,6 @@ public class Code02_SpanningSubgraph1 {
 				v = to[e];
 				if (dfn[v] == 0) {
 					push(u, preEdge, 0, e);
-					dep[v] = dep[u] + 1;
 					push(v, e, -1, -1);
 				} else {
 					push(u, preEdge, 1, e);
@@ -142,8 +164,6 @@ public class Code02_SpanningSubgraph1 {
 				x = y;
 			}
 		}
-		dep[1] = 1;
-		ans = BigInteger.ONE;
 		// tarjan1(1, 0);
 		tarjan2(1, 0);
 		boolean check = true;
@@ -154,6 +174,10 @@ public class Code02_SpanningSubgraph1 {
 			}
 		}
 		if (check) {
+			ans = BigInteger.ONE;
+			for (int i = 1; i <= cntc; i++) {
+				ans = ans.multiply(BigInteger.valueOf(edgeCnt[i] + 1));
+			}
 			out.println(ans);
 		} else {
 			out.println(0);
