@@ -26,7 +26,7 @@ public class Code02_SpanningSubgraph1 {
 	public static int cntd;
 
 	public static int[] dep = new int[MAXN];
-	public static int[] cycle = new int[MAXN];
+	public static int[] cycleCnt = new int[MAXN];
 
 	// 本题需要高精度乘法
 	public static BigInteger ans;
@@ -74,12 +74,12 @@ public class Code02_SpanningSubgraph1 {
 				tarjan1(v, e);
 				low[u] = Math.min(low[u], low[v]);
 				if (low[v] < dfn[u]) {
-					cycle[u]++;
+					cycleCnt[u]++;
 				}
 			} else if (dfn[v] < dfn[u]) {
 				low[u] = Math.min(low[u], dfn[v]);
 				ans = ans.multiply(BigInteger.valueOf(dep[u] - dep[v] + 2));
-				cycle[u]++;
+				cycleCnt[u]++;
 			}
 		}
 	}
@@ -99,13 +99,13 @@ public class Code02_SpanningSubgraph1 {
 				if (status == 0) {
 					low[u] = Math.min(low[u], low[v]);
 					if (low[v] < dfn[u]) {
-						cycle[u]++;
+						cycleCnt[u]++;
 					}
 				} else {
 					if (dfn[v] < dfn[u]) {
 						low[u] = Math.min(low[u], dfn[v]);
 						ans = ans.multiply(BigInteger.valueOf(dep[u] - dep[v] + 2));
-						cycle[u]++;
+						cycleCnt[u]++;
 					}
 				}
 				e = nxt[e];
@@ -148,7 +148,7 @@ public class Code02_SpanningSubgraph1 {
 		tarjan2(1, 0);
 		boolean check = true;
 		for (int i = 1; i <= n; i++) {
-			if (dfn[i] == 0 || cycle[i] >= 2) {
+			if (dfn[i] == 0 || cycleCnt[i] >= 2) {
 				check = false;
 				break;
 			}
