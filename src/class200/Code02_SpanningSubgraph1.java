@@ -77,7 +77,7 @@ public class Code02_SpanningSubgraph1 {
 			if (dfn[v] == 0) {
 				tarjan1(v, e);
 				low[u] = Math.min(low[u], low[v]);
-				if (low[v] == dfn[u]) {
+				if (low[v] == dfn[u]) { // 形成回路的点双
 					cntc++;
 					edgeCnt[cntc] = 1;
 					int pop;
@@ -85,12 +85,12 @@ public class Code02_SpanningSubgraph1 {
 						pop = sta[top--];
 						edgeCnt[cntc]++;
 					} while (pop != v);
-				} else if (low[v] > dfn[u]) {
+				} else if (low[v] > dfn[u]) { // 没有形成回路的两个点，内部唯一的边是桥
 					top--;
-				} else {
+				} else { // 没有扎起口袋，能到达更上方，增加向上环路的计数
 					cycleCnt[u]++;
 				}
-			} else if (dfn[v] < dfn[u]) {
+			} else if (dfn[v] < dfn[u]) { // 发现回边，增加向上环路的计数
 				low[u] = Math.min(low[u], dfn[v]);
 				cycleCnt[u]++;
 			}
