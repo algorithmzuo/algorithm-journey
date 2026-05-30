@@ -76,8 +76,12 @@ public class Code02_SpanningSubgraph1 {
 			int v = to[e];
 			if (dfn[v] == 0) {
 				tarjan1(v, e);
-				low[u] = Math.min(low[u], low[v]);
-				if (low[v] == dfn[u]) { // 形成回路的点双
+				if (low[v] < dfn[u]) {
+					low[u] = Math.min(low[u], low[v]);
+					cycleCnt[u]++;
+				} else if (low[v] > dfn[u]) {
+					top--;
+				} else {
 					cntc++;
 					edgeCnt[cntc] = 1;
 					int pop;
@@ -85,12 +89,8 @@ public class Code02_SpanningSubgraph1 {
 						pop = sta[top--];
 						edgeCnt[cntc]++;
 					} while (pop != v);
-				} else if (low[v] > dfn[u]) { // 没有形成回路的两个点，内部唯一的边是桥
-					top--;
-				} else { // 没有扎起口袋，能到达更上方，增加向上环路的计数
-					cycleCnt[u]++;
 				}
-			} else if (dfn[v] < dfn[u]) { // 发现回边，增加向上环路的计数
+			} else if (dfn[v] < dfn[u]) {
 				low[u] = Math.min(low[u], dfn[v]);
 				cycleCnt[u]++;
 			}
@@ -111,8 +111,12 @@ public class Code02_SpanningSubgraph1 {
 			} else {
 				v = to[e];
 				if (status == 0) {
-					low[u] = Math.min(low[u], low[v]);
-					if (low[v] == dfn[u]) {
+					if (low[v] < dfn[u]) {
+						low[u] = Math.min(low[u], low[v]);
+						cycleCnt[u]++;
+					} else if (low[v] > dfn[u]) {
+						top--;
+					} else {
 						cntc++;
 						edgeCnt[cntc] = 1;
 						int pop;
@@ -120,10 +124,6 @@ public class Code02_SpanningSubgraph1 {
 							pop = sta[top--];
 							edgeCnt[cntc]++;
 						} while (pop != v);
-					} else if (low[v] > dfn[u]) {
-						top--;
-					} else {
-						cycleCnt[u]++;
 					}
 				} else {
 					if (dfn[v] < dfn[u]) {

@@ -75,17 +75,18 @@ public class Code01_CactusShortestPaths1 {
 			int w = weight1[e];
 			if (dfn[v] == 0) {
 				tarjan(v, e);
-				low[u] = Math.min(low[u], low[v]);
 				fromWeight[v] = w;
-				if (low[v] == dfn[u]) {
-					cycleLink(u, v);
+				if (low[v] < dfn[u]) {
+					low[u] = Math.min(low[u], low[v]);
 				} else if (low[v] > dfn[u]) {
 					stasiz--;
 					addEdge2(u, v, w);
+				} else {
+					cycleLink(u, v);
 				}
 			} else if (dfn[v] < dfn[u]) {
-				low[u] = Math.min(low[u], dfn[v]);
 				fromWeight[v] = w;
+				low[u] = Math.min(low[u], dfn[v]);
 			}
 		}
 	}
