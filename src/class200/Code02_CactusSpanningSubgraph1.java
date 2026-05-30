@@ -10,7 +10,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.math.BigInteger;
 
-public class Code02_SpanningSubgraph1 {
+public class Code02_CactusSpanningSubgraph1 {
 
 	public static int MAXN = 20001;
 	public static int MAXM = 1000001;
