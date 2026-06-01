@@ -25,7 +25,6 @@ public class Code04_CactusAddEdge1 {
 	public static int[] dfn = new int[MAXN];
 	public static int[] low = new int[MAXN];
 	public static int cntd;
-
 	public static int[] sta = new int[MAXN];
 	public static int top;
 
@@ -33,8 +32,9 @@ public class Code04_CactusAddEdge1 {
 	public static int[] cycleCnt = new int[MAXN];
 
 	public static boolean check;
-	public static boolean[] vis = new boolean[MAXN];
 	public static long[] f = new long[MAXN];
+
+	public static boolean[] vis = new boolean[MAXN];
 	public static long[] dp = new long[MAXN];
 
 	// 递归改迭代需要的栈
