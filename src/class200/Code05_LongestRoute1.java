@@ -28,10 +28,10 @@ public class Code05_LongestRoute1 {
 
 	public static int[] cycle = new int[MAXN];
 
-	// f[u] : u的子结构中，所有已经处理的桥/环都作为闭合贡献并入u
+	// f[u] : u向下的结构中，从u出发最后回到u的最大长度
 	public static int[] f = new int[MAXN];
 
-	// g[u] : 在f[u]基础上，额外选择一条从u出发的不闭合最长路线
+	// g[u] : u向下的结构中，从u出发最后可以不回到u的最大长度
 	public static int[] g = new int[MAXN];
 
 	public static void addEdge(int u, int v) {
@@ -47,19 +47,17 @@ public class Code05_LongestRoute1 {
 			pop = sta[top--];
 			cycle[++siz] = pop;
 		} while (pop != v);
-		int sum = 1;
 		int best = 0;
+		int sum = 1;
 		for (int i = 1; i <= siz; i++) {
-			int x = cycle[i];
-			best = Math.max(best, sum + g[x]);
-			sum += f[x] + 1;
+			best = Math.max(best, sum + g[cycle[i]]);
+			sum += f[cycle[i]] + 1;
 		}
 		f[u] += sum;
 		int rest = sum;
 		for (int i = 1; i <= siz; i++) {
-			int x = cycle[i];
-			rest -= f[x] + 1;
-			best = Math.max(best, rest + g[x]);
+			rest -= f[cycle[i]] + 1;
+			best = Math.max(best, rest + g[cycle[i]]);
 		}
 		return best - sum;
 	}
@@ -67,7 +65,7 @@ public class Code05_LongestRoute1 {
 	public static void tarjan(int u, int preEdge) {
 		dfn[u] = low[u] = ++cntd;
 		sta[++top] = u;
-		int w = 0;
+		int bestOut = 0;
 		for (int e = head[u]; e > 0; e = nxt[e]) {
 			if ((e ^ 1) == preEdge) {
 				continue;
@@ -79,15 +77,15 @@ public class Code05_LongestRoute1 {
 					low[u] = Math.min(low[u], low[v]);
 				} else if (low[v] > dfn[u]) {
 					top--;
-					w = Math.max(w, g[v] + 1);
+					bestOut = Math.max(bestOut, g[v] + 1);
 				} else {
-					w = Math.max(w, dpOnCycle(u, v));
+					bestOut = Math.max(bestOut, dpOnCycle(u, v));
 				}
 			} else if (dfn[v] < dfn[u]) {
 				low[u] = Math.min(low[u], dfn[v]);
 			}
 		}
-		g[u] = f[u] + w;
+		g[u] = f[u] + bestOut;
 	}
 
 	public static void main(String[] args) throws Exception {
