@@ -1,6 +1,6 @@
 package class200;
 
-// 边不重复的最长路线，java版
+// 仙人掌最长路线，java版
 // 测试链接 : https://www.luogu.com.cn/problem/P6335
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
@@ -9,7 +9,7 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
-public class Code03_LongestRoute1 {
+public class Code03_CactusLongestRoute1 {
 
 	public static int MAXN = 10001;
 	public static int MAXM = 20001;
