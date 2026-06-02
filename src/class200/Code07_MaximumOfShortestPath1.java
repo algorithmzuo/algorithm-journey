@@ -313,8 +313,8 @@ public class Code07_MaximumOfShortestPath1 {
 				arr[j] = in.nextInt();
 			}
 			ans = 0;
-			int root = buildVirtualTree();
-			dpOnTree(root);
+			int tree = buildVirtualTree();
+			dpOnTree(tree);
 			out.println(ans);
 		}
 		out.flush();
