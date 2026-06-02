@@ -9,7 +9,7 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
-public class Code05_LongestRoute1 {
+public class Code03_LongestRoute1 {
 
 	public static int MAXN = 10001;
 	public static int MAXM = 20001;
