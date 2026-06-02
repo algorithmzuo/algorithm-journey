@@ -41,7 +41,7 @@ public class Code07_MaximumOfShortestPath1 {
 	public static int[] sta = new int[MAXN];
 	public static int stasiz;
 
-	// 环上信息
+	// 环的信息
 	public static long[] fromWeight = new long[MAXN];
 	public static long[] cycleDist = new long[MAXN];
 	public static long[] cycleSum = new long[MAXN];

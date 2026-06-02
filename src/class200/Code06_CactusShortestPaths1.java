@@ -16,14 +16,14 @@ public class Code06_CactusShortestPaths1 {
 	public static int MAXT = MAXN << 1;
 	public static int n, m, q, cntn;
 
-	// 原图的链式前向星
+	// 原图
 	public static int[] head1 = new int[MAXN];
 	public static int[] next1 = new int[MAXM << 1];
 	public static int[] to1 = new int[MAXM << 1];
 	public static int[] weight1 = new int[MAXM << 1];
 	public static int cnt1;
 
-	// 圆方树的链式前向星，连接单向边即可
+	// 圆方树，单向边
 	public static int[] head2 = new int[MAXT];
 	public static int[] next2 = new int[MAXT];
 	public static int[] to2 = new int[MAXT];
@@ -37,12 +37,12 @@ public class Code06_CactusShortestPaths1 {
 	public static int[] sta = new int[MAXN];
 	public static int stasiz;
 
-	// 每个环的信息
+	// 环的信息
 	public static int[] fromWeight = new int[MAXN];
 	public static int[] cycleDist = new int[MAXN];
 	public static int[] cycleSum = new int[MAXT];
 
-	// 圆方树的树链剖分
+	// 树链剖分
 	public static int[] fa = new int[MAXT];
 	public static int[] dep = new int[MAXT];
 	public static int[] siz = new int[MAXT];
