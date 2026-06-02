@@ -77,7 +77,7 @@ public class Code05_CactusDiameter1 {
 		int l = 1, r = 0;
 		que[++r] = 1;
 		for (int i = 2; i <= siz << 1; i++) {
-			while (l <= r && i - que[l] > siz / 2) {
+			while (l <= r && (i - que[l]) * 2 > siz) {
 				l++;
 			}
 			diameter = Math.max(diameter, arr[i] + i + arr[que[l]] - que[l]);

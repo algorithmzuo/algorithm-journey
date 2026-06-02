@@ -11,33 +11,31 @@ import java.io.PrintWriter;
 
 public class Code07_MaximumOfShortestPath1 {
 
-	public static int MAXN = 300001;
-	public static int MAXM = 600001;
-	public static int MAXT = MAXN << 1;
+	public static int MAXN = 600001;
 	public static int n, m, q, k, cntn;
 
 	// 原图
 	public static int[] head1 = new int[MAXN];
-	public static int[] next1 = new int[MAXM << 1];
-	public static int[] to1 = new int[MAXM << 1];
-	public static long[] weight1 = new long[MAXM << 1];
+	public static int[] next1 = new int[MAXN << 1];
+	public static int[] to1 = new int[MAXN << 1];
+	public static long[] weight1 = new long[MAXN << 1];
 	public static int cnt1;
 
 	// 圆方树
-	public static int[] head2 = new int[MAXT];
-	public static int[] next2 = new int[MAXM << 1];
-	public static int[] to2 = new int[MAXM << 1];
-	public static long[] weight2 = new long[MAXM << 1];
+	public static int[] head2 = new int[MAXN];
+	public static int[] next2 = new int[MAXN];
+	public static int[] to2 = new int[MAXN];
+	public static long[] weight2 = new long[MAXN];
 	public static int cnt2;
 
 	// 虚树
-	public static int[] head3 = new int[MAXT];
-	public static int[] next3 = new int[MAXT];
-	public static int[] to3 = new int[MAXT];
+	public static int[] head3 = new int[MAXN];
+	public static int[] next3 = new int[MAXN];
+	public static int[] to3 = new int[MAXN];
 	public static int cnt3;
 
-	// dfn空间开大一点，不仅tarjan算法使用，圆方树的点建虚树也要使用
-	public static int[] dfn = new int[MAXT];
+	// dfn数组，tarjan算法和树剖都要使用
+	public static int[] dfn = new int[MAXN];
 	public static int[] low = new int[MAXN];
 	public static int cntd;
 	public static int[] sta = new int[MAXN];
@@ -45,27 +43,26 @@ public class Code07_MaximumOfShortestPath1 {
 
 	public static long[] fromWeight = new long[MAXN];
 	public static long[] cycleDist = new long[MAXN];
-	public static long[] cycleSum = new long[MAXT];
+	public static long[] cycleSum = new long[MAXN];
 
 	// 树链剖分
-	public static int[] fa = new int[MAXT];
-	public static int[] dep = new int[MAXT];
-	public static int[] siz = new int[MAXT];
-	public static long[] dist = new long[MAXT];
-	public static int[] son = new int[MAXT];
-	public static int[] top = new int[MAXT];
+	public static int[] fa = new int[MAXN];
+	public static int[] dep = new int[MAXN];
+	public static int[] siz = new int[MAXN];
+	public static long[] dist = new long[MAXN];
+	public static int[] son = new int[MAXN];
+	public static int[] top = new int[MAXN];
 
-	// 虚树dp
 	public static int[] arr = new int[MAXN];
-	public static int[] tmp = new int[MAXT];
-	public static long[] dp = new long[MAXT];
-	public static long ans;
+	public static int[] tmp = new int[MAXN];
 
-	// 方点单调队列
-	public static int[] ringNode = new int[MAXT];
-	public static long[] ringPos = new long[MAXT];
-	public static long[] ringVal = new long[MAXT];
-	public static int[] que = new int[MAXT];
+	public static int[] idx = new int[MAXN];
+	public static long[] pos = new long[MAXN];
+	public static long[] val = new long[MAXN];
+	public static int[] que = new int[MAXN];
+
+	public static long[] dp = new long[MAXN];
+	public static long ans;
 
 	public static void addEdge1(int u, int v, long w) {
 		next1[++cnt1] = head1[u];
@@ -88,21 +85,15 @@ public class Code07_MaximumOfShortestPath1 {
 	}
 
 	public static void sortByDfn(int[] nums, int l, int r) {
-		if (l >= r)
-			return;
+		if (l >= r) return;
 		int i = l, j = r;
 		int pivot = nums[(l + r) >> 1];
 		while (i <= j) {
-			while (dfn[nums[i]] < dfn[pivot])
-				i++;
-			while (dfn[nums[j]] > dfn[pivot])
-				j--;
+			while (dfn[nums[i]] < dfn[pivot]) i++;
+			while (dfn[nums[j]] > dfn[pivot]) j--;
 			if (i <= j) {
-				int tmp = nums[i];
-				nums[i] = nums[j];
-				nums[j] = tmp;
-				i++;
-				j--;
+				int tmp = nums[i]; nums[i] = nums[j]; nums[j] = tmp;
+				i++; j--;
 			}
 		}
 		sortByDfn(nums, l, j);
@@ -110,21 +101,15 @@ public class Code07_MaximumOfShortestPath1 {
 	}
 
 	public static void sortByDist(int[] nums, int l, int r) {
-		if (l >= r)
-			return;
+		if (l >= r) return;
 		int i = l, j = r;
 		int pivot = nums[(l + r) >> 1];
 		while (i <= j) {
-			while (cycleDist[nums[i]] < cycleDist[pivot])
-				i++;
-			while (cycleDist[nums[j]] > cycleDist[pivot])
-				j--;
+			while (cycleDist[nums[i]] < cycleDist[pivot]) i++;
+			while (cycleDist[nums[j]] > cycleDist[pivot]) j--;
 			if (i <= j) {
-				int tmp = nums[i];
-				nums[i] = nums[j];
-				nums[j] = tmp;
-				i++;
-				j--;
+				int tmp = nums[i]; nums[i] = nums[j]; nums[j] = tmp;
+				i++; j--;
 			}
 		}
 		sortByDist(nums, l, j);
@@ -255,23 +240,23 @@ public class Code07_MaximumOfShortestPath1 {
 	public static long query(int u, int siz) {
 		long ans = 0;
 		if (siz >= 2) {
-			sortByDist(ringNode, 1, siz);
+			sortByDist(idx, 1, siz);
 			for (int i = 1; i <= siz; i++) {
-				ringPos[i] = cycleDist[ringNode[i]];
-				ringPos[siz + i] = ringPos[i] + cycleSum[u];
-				ringVal[i] = dp[ringNode[i]];
-				ringVal[siz + i] = ringVal[i];
+				pos[i] = cycleDist[idx[i]];
+				pos[i + siz] = pos[i] + cycleSum[u];
+				val[i] = dp[idx[i]];
+				val[i + siz] = val[i];
 			}
 			int l = 1;
 			int r = 0;
-			for (int i = 1; i <= siz << 1; i++) {
-				while (l <= r && (ringPos[i] - ringPos[que[l]]) * 2 > cycleSum[u]) {
+			for (int i = 1; i <= siz * 2; i++) {
+				while (l <= r && (pos[i] - pos[que[l]]) * 2 > cycleSum[u]) {
 					l++;
 				}
 				if (l <= r) {
-					ans = Math.max(ans, ringVal[que[l]] - ringPos[que[l]] + ringVal[i] + ringPos[i]);
+					ans = Math.max(ans, val[que[l]] - pos[que[l]] + val[i] + pos[i]);
 				}
-				while (l <= r && ringVal[que[r]] - ringPos[que[r]] <= ringVal[i] - ringPos[i]) {
+				while (l <= r && val[que[r]] - pos[que[r]] <= val[i] - pos[i]) {
 					r--;
 				}
 				que[++r] = i;
@@ -294,7 +279,7 @@ public class Code07_MaximumOfShortestPath1 {
 			} else {
 				int f = find(v, u);
 				dp[f] = dp[v] + dist[v] - dist[f];
-				ringNode[++siz] = f;
+				idx[++siz] = f;
 			}
 			dp[u] = Math.max(dp[u], dp[v] + dist[v] - dist[u]);
 		}
