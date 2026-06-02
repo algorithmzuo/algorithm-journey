@@ -64,6 +64,23 @@ public class Code06_CactusShortestPaths1 {
 		head2[u] = cnt2;
 	}
 
+	public static void cycleLink(int u, int v) {
+		cntn++;
+		cycleSum[cntn] = fromWeight[u];
+		addEdge2(u, cntn, 0);
+		int tmp = stasiz;
+		int pop;
+		do {
+			pop = sta[tmp--];
+			cycleDist[pop] = cycleSum[cntn];
+			cycleSum[cntn] += fromWeight[pop];
+		} while (pop != v);
+		do {
+			pop = sta[stasiz--];
+			addEdge2(cntn, pop, Math.min(cycleDist[pop], cycleSum[cntn] - cycleDist[pop]));
+		} while (pop != v);
+	}
+
 	public static void tarjan(int u, int preEdge) {
 		dfn[u] = low[u] = ++cntd;
 		sta[++stasiz] = u;
@@ -89,23 +106,6 @@ public class Code06_CactusShortestPaths1 {
 				low[u] = Math.min(low[u], dfn[v]);
 			}
 		}
-	}
-
-	public static void cycleLink(int u, int v) {
-		cntn++;
-		cycleSum[cntn] = fromWeight[u];
-		addEdge2(u, cntn, 0);
-		int tmp = stasiz;
-		int pop;
-		do {
-			pop = sta[tmp--];
-			cycleDist[pop] = cycleSum[cntn];
-			cycleSum[cntn] += fromWeight[pop];
-		} while (pop != v);
-		do {
-			pop = sta[stasiz--];
-			addEdge2(cntn, pop, Math.min(cycleDist[pop], cycleSum[cntn] - cycleDist[pop]));
-		} while (pop != v);
 	}
 
 	public static void dfs1(int u, int f, int dis) {
