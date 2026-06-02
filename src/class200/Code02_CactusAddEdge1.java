@@ -1,6 +1,6 @@
 package class200;
 
-// 仙人掌加边方法数，java版
+// 加边成为仙人掌的方法数，java版
 // 测试链接 : https://www.luogu.com.cn/problem/P3687
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
@@ -9,7 +9,7 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
-public class Code02_CactusAddEdgeWays1 {
+public class Code02_CactusAddEdge1 {
 
 	public static int MAXN = 500001;
 	public static int MAXM = 1000001;
