@@ -34,13 +34,14 @@ public class Code07_MaximumOfShortestPath1 {
 	public static int[] to3 = new int[MAXN];
 	public static int cnt3;
 
-	// dfn数组，tarjan算法和树剖都要使用
+	// dfn数组，tarjan和树剖都要使用
 	public static int[] dfn = new int[MAXN];
 	public static int[] low = new int[MAXN];
 	public static int cntd;
 	public static int[] sta = new int[MAXN];
 	public static int stasiz;
 
+	// 环上信息
 	public static long[] fromWeight = new long[MAXN];
 	public static long[] cycleDist = new long[MAXN];
 	public static long[] cycleSum = new long[MAXN];
@@ -53,16 +54,19 @@ public class Code07_MaximumOfShortestPath1 {
 	public static int[] son = new int[MAXN];
 	public static int[] top = new int[MAXN];
 
+	// 批量节点
 	public static int[] arr = new int[MAXN];
 	public static int[] tmp = new int[MAXN];
 
+	// 虚树dp
+	public static long[] dp = new long[MAXN];
+	public static long ans;
+
+	// 单调队列
 	public static int[] idx = new int[MAXN];
 	public static long[] pos = new long[MAXN];
 	public static long[] val = new long[MAXN];
 	public static int[] que = new int[MAXN];
-
-	public static long[] dp = new long[MAXN];
-	public static long ans;
 
 	public static void addEdge1(int u, int v, long w) {
 		next1[++cnt1] = head1[u];
@@ -211,7 +215,7 @@ public class Code07_MaximumOfShortestPath1 {
 		return dep[a] <= dep[b] ? a : b;
 	}
 
-	// 建虚树的方式，二次排序 + 相邻LCA连边
+	// 虚树的建立方式，二次排序 + 相邻LCA连边
 	public static int buildVirtualTree() {
 		sortByDfn(arr, 1, k);
 		int len = 0;
@@ -237,32 +241,28 @@ public class Code07_MaximumOfShortestPath1 {
 		return tmp[1];
 	}
 
-	public static long query(int u, int siz) {
-		long ans = 0;
-		if (siz >= 2) {
-			sortByDist(idx, 1, siz);
-			for (int i = 1; i <= siz; i++) {
-				pos[i] = cycleDist[idx[i]];
-				pos[i + siz] = pos[i] + cycleSum[u];
-				val[i] = dp[idx[i]];
-				val[i + siz] = val[i];
-			}
-			int l = 1;
-			int r = 0;
-			for (int i = 1; i <= siz * 2; i++) {
-				while (l <= r && (pos[i] - pos[que[l]]) * 2 > cycleSum[u]) {
-					l++;
-				}
-				if (l <= r) {
-					ans = Math.max(ans, val[que[l]] - pos[que[l]] + val[i] + pos[i]);
-				}
-				while (l <= r && val[que[r]] - pos[que[r]] <= val[i] - pos[i]) {
-					r--;
-				}
-				que[++r] = i;
-			}
+	public static void update(int u, int siz) {
+		sortByDist(idx, 1, siz);
+		for (int i = 1; i <= siz; i++) {
+			pos[i] = cycleDist[idx[i]];
+			pos[i + siz] = pos[i] + cycleSum[u];
+			val[i] = dp[idx[i]];
+			val[i + siz] = val[i];
 		}
-		return ans;
+		int l = 1;
+		int r = 0;
+		for (int i = 1; i <= siz * 2; i++) {
+			while (l <= r && (pos[i] - pos[que[l]]) * 2 > cycleSum[u]) {
+				l++;
+			}
+			if (l <= r) {
+				ans = Math.max(ans, val[que[l]] - pos[que[l]] + val[i] + pos[i]);
+			}
+			while (l <= r && val[que[r]] - pos[que[r]] <= val[i] - pos[i]) {
+				r--;
+			}
+			que[++r] = i;
+		}
 	}
 
 	public static void dpOnTree(int u) {
@@ -283,8 +283,8 @@ public class Code07_MaximumOfShortestPath1 {
 			}
 			dp[u] = Math.max(dp[u], dp[v] + dist[v] - dist[u]);
 		}
-		if (u > n) {
-			ans = Math.max(ans, query(u, siz));
+		if (siz >= 2) {
+			update(u, siz);
 		}
 	}
 
