@@ -1,18 +1,17 @@
 package class200;
 
-// 仙人掌支撑子图数量，java版
-// 测试链接 : https://www.luogu.com.cn/problem/P4129
+// 仙人掌直径，java版
+// 测试链接 : https://www.luogu.com.cn/problem/P4244
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
-import java.math.BigInteger;
 
-public class Code01_CactusSpanningSubgraph1 {
+public class Code05_CactusDiameter1 {
 
-	public static int MAXN = 20001;
+	public static int MAXN = 50001;
 	public static int MAXM = 1000001;
 	public static int n, m;
 
@@ -27,13 +26,11 @@ public class Code01_CactusSpanningSubgraph1 {
 	public static int[] sta = new int[MAXN];
 	public static int top;
 
-	public static int[] edgeCnt = new int[MAXN];
-	public static int cntc;
-
-	public static int[] cycleCnt = new int[MAXN];
-
-	// 本题需要高精度乘法
-	public static BigInteger ans;
+	public static int[] dist = new int[MAXN];
+	public static int[] cycle = new int[MAXN];
+	public static int[] arr = new int[MAXN << 1];
+	public static int[] que = new int[MAXN << 1];
+	public static int diameter;
 
 	// 递归改迭代需要的栈
 	public static int[] stau = new int[MAXN];
@@ -65,6 +62,35 @@ public class Code01_CactusSpanningSubgraph1 {
 		head[u] = cntg;
 	}
 
+	public static void dpOnCycle(int u, int v) {
+		int siz = 0;
+		int pop;
+		do {
+			pop = sta[top--];
+			cycle[++siz] = pop;
+		} while (pop != v);
+		cycle[++siz] = u;
+		for (int i = 1, j = siz; i <= siz; i++, j--) {
+			arr[i] = dist[cycle[j]];
+			arr[i + siz] = arr[i];
+		}
+		int l = 1, r = 0;
+		que[++r] = 1;
+		for (int i = 2; i <= siz << 1; i++) {
+			while (l <= r && i - que[l] > siz / 2) {
+				l++;
+			}
+			diameter = Math.max(diameter, arr[i] + i + arr[que[l]] - que[l]);
+			while (l <= r && arr[que[r]] - que[r] <= arr[i] - i) {
+				r--;
+			}
+			que[++r] = i;
+		}
+		for (int i = 2; i <= siz; i++) {
+			dist[u] = Math.max(dist[u], arr[i] + Math.min(i - 1, siz - (i - 1)));
+		}
+	}
+
 	// 递归版
 	public static void tarjan1(int u, int preEdge) {
 		dfn[u] = low[u] = ++cntd;
@@ -78,21 +104,15 @@ public class Code01_CactusSpanningSubgraph1 {
 				tarjan1(v, e);
 				if (low[v] < dfn[u]) {
 					low[u] = Math.min(low[u], low[v]);
-					cycleCnt[u]++;
 				} else if (low[v] > dfn[u]) {
 					top--;
+					diameter = Math.max(diameter, dist[u] + dist[v] + 1);
+					dist[u] = Math.max(dist[u], dist[v] + 1);
 				} else {
-					cntc++;
-					edgeCnt[cntc] = 1;
-					int pop;
-					do {
-						pop = sta[top--];
-						edgeCnt[cntc]++;
-					} while (pop != v);
+					dpOnCycle(u, v);
 				}
 			} else if (dfn[v] < dfn[u]) {
 				low[u] = Math.min(low[u], dfn[v]);
-				cycleCnt[u]++;
 			}
 		}
 	}
@@ -113,22 +133,16 @@ public class Code01_CactusSpanningSubgraph1 {
 				if (status == 0) {
 					if (low[v] < dfn[u]) {
 						low[u] = Math.min(low[u], low[v]);
-						cycleCnt[u]++;
 					} else if (low[v] > dfn[u]) {
 						top--;
+						diameter = Math.max(diameter, dist[u] + dist[v] + 1);
+						dist[u] = Math.max(dist[u], dist[v] + 1);
 					} else {
-						cntc++;
-						edgeCnt[cntc] = 1;
-						int pop;
-						do {
-							pop = sta[top--];
-							edgeCnt[cntc]++;
-						} while (pop != v);
+						dpOnCycle(u, v);
 					}
 				} else {
 					if (dfn[v] < dfn[u]) {
 						low[u] = Math.min(low[u], dfn[v]);
-						cycleCnt[u]++;
 					}
 				}
 				e = nxt[e];
@@ -166,22 +180,7 @@ public class Code01_CactusSpanningSubgraph1 {
 		}
 		// tarjan1(1, 0);
 		tarjan2(1, 0);
-		boolean check = true;
-		for (int i = 1; i <= n; i++) {
-			if (dfn[i] == 0 || cycleCnt[i] >= 2) {
-				check = false;
-				break;
-			}
-		}
-		if (check) {
-			ans = BigInteger.ONE;
-			for (int i = 1; i <= cntc; i++) {
-				ans = ans.multiply(BigInteger.valueOf(edgeCnt[i] + 1));
-			}
-			out.println(ans);
-		} else {
-			out.println(0);
-		}
+		out.println(diameter);
 		out.flush();
 		out.close();
 	}

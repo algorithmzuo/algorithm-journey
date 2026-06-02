@@ -1,7 +1,8 @@
 package class200;
 
-// 仙人掌直径，java版
-// 测试链接 : https://www.luogu.com.cn/problem/P4244
+// 仙人掌最大独立集，java版
+// 测试链接 : https://www.luogu.com.cn/problem/P4410
+// 测试链接 : https://www.luogu.com.cn/problem/P10779
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
 import java.io.IOException;
@@ -9,11 +10,13 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
-public class Code04_CactusDiameter1 {
+public class Code04_IndependentSet1 {
 
-	public static int MAXN = 50001;
-	public static int MAXM = 1000001;
+	public static int MAXN = 100001;
+	public static int MAXM = 200001;
+	public static int INF = 1000000000;
 	public static int n, m;
+	public static int[] arr = new int[MAXN];
 
 	public static int[] head = new int[MAXN];
 	public static int[] nxt = new int[MAXM << 1];
@@ -26,11 +29,9 @@ public class Code04_CactusDiameter1 {
 	public static int[] sta = new int[MAXN];
 	public static int top;
 
-	public static int[] dist = new int[MAXN];
 	public static int[] cycle = new int[MAXN];
-	public static int[] arr = new int[MAXN << 1];
-	public static int[] que = new int[MAXN << 1];
-	public static int diameter;
+	public static int[][] tmp = new int[MAXN][2];
+	public static int[][] dp = new int[MAXN][2];
 
 	// 递归改迭代需要的栈
 	public static int[] stau = new int[MAXN];
@@ -69,32 +70,29 @@ public class Code04_CactusDiameter1 {
 			pop = sta[top--];
 			cycle[++siz] = pop;
 		} while (pop != v);
-		cycle[++siz] = u;
-		for (int i = 1, j = siz; i <= siz; i++, j--) {
-			arr[i] = dist[cycle[j]];
-			arr[i + siz] = arr[i];
+		for (int i = 1; i <= siz; i++) {
+			int x = cycle[i];
+			int fa = i == siz ? u : cycle[i + 1];
+			tmp[fa][0] = dp[fa][0] - Math.max(dp[x][0], dp[x][1]);
+			tmp[fa][1] = dp[fa][1] - dp[x][0];
 		}
-		int l = 1, r = 0;
-		que[++r] = 1;
-		for (int i = 2; i <= siz << 1; i++) {
-			while (l <= r && i - que[l] > siz / 2) {
-				l++;
-			}
-			diameter = Math.max(diameter, arr[i] + i + arr[que[l]] - que[l]);
-			while (l <= r && arr[que[r]] - que[r] <= arr[i] - i) {
-				r--;
-			}
-			que[++r] = i;
+		tmp[cycle[1]][0] = dp[cycle[1]][0];
+		tmp[cycle[1]][1] = -INF;
+		for (int i = 1; i <= siz; i++) {
+			int x = cycle[i];
+			int fa = i == siz ? u : cycle[i + 1];
+			tmp[fa][0] += Math.max(tmp[x][0], tmp[x][1]);
+			tmp[fa][1] += tmp[x][0];
 		}
-		for (int i = 2; i <= siz; i++) {
-			dist[u] = Math.max(dist[u], arr[i] + Math.min(i - 1, siz - (i - 1)));
-		}
+		dp[u][1] = tmp[u][1];
 	}
 
 	// 递归版
 	public static void tarjan1(int u, int preEdge) {
 		dfn[u] = low[u] = ++cntd;
 		sta[++top] = u;
+		dp[u][0] = 0;
+		dp[u][1] = arr[u];
 		for (int e = head[u]; e > 0; e = nxt[e]) {
 			if ((e ^ 1) == preEdge) {
 				continue;
@@ -102,12 +100,12 @@ public class Code04_CactusDiameter1 {
 			int v = to[e];
 			if (dfn[v] == 0) {
 				tarjan1(v, e);
+				dp[u][0] += Math.max(dp[v][0], dp[v][1]);
+				dp[u][1] += dp[v][0];
 				if (low[v] < dfn[u]) {
 					low[u] = Math.min(low[u], low[v]);
 				} else if (low[v] > dfn[u]) {
 					top--;
-					diameter = Math.max(diameter, dist[u] + dist[v] + 1);
-					dist[u] = Math.max(dist[u], dist[v] + 1);
 				} else {
 					dpOnCycle(u, v);
 				}
@@ -127,16 +125,18 @@ public class Code04_CactusDiameter1 {
 			if (status == -1) {
 				dfn[u] = low[u] = ++cntd;
 				sta[++top] = u;
+				dp[u][0] = 0;
+				dp[u][1] = arr[u];
 				e = head[u];
 			} else {
 				v = to[e];
 				if (status == 0) {
+					dp[u][0] += Math.max(dp[v][0], dp[v][1]);
+					dp[u][1] += dp[v][0];
 					if (low[v] < dfn[u]) {
 						low[u] = Math.min(low[u], low[v]);
 					} else if (low[v] > dfn[u]) {
 						top--;
-						diameter = Math.max(diameter, dist[u] + dist[v] + 1);
-						dist[u] = Math.max(dist[u], dist[v] + 1);
 					} else {
 						dpOnCycle(u, v);
 					}
@@ -168,19 +168,25 @@ public class Code04_CactusDiameter1 {
 		n = in.nextInt();
 		m = in.nextInt();
 		cntg = 1;
-		for (int i = 1, k, x, y; i <= m; i++) {
-			k = in.nextInt();
-			x = in.nextInt();
-			for (int j = 2; j <= k; j++) {
-				y = in.nextInt();
-				addEdge(x, y);
-				addEdge(y, x);
-				x = y;
-			}
+		for (int i = 1, u, v; i <= m; i++) {
+			u = in.nextInt();
+			v = in.nextInt();
+			addEdge(u, v);
+			addEdge(v, u);
 		}
-		// tarjan1(1, 0);
+
+		// 洛谷P4410，使用如下的点权设置
+		for (int i = 1; i <= n; i++) {
+			arr[i] = in.nextInt();
+		}
+
+		// 洛谷P10779，使用如下的点权设置
+//		for (int i = 1; i <= n; i++) {
+//			arr[i] = 1;
+//		}
+
 		tarjan2(1, 0);
-		out.println(diameter);
+		out.println(Math.max(dp[1][0], dp[1][1]));
 		out.flush();
 		out.close();
 	}

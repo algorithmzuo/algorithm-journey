@@ -1,22 +1,20 @@
 package class200;
 
-// 仙人掌最大独立集，java版
-// 测试链接 : https://www.luogu.com.cn/problem/P4410
-// 测试链接 : https://www.luogu.com.cn/problem/P10779
+// 支撑子图数量，java版
+// 测试链接 : https://www.luogu.com.cn/problem/P4129
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.math.BigInteger;
 
-public class Code05_IndependentSet1 {
+public class Code01_SpanningSubgraph1 {
 
-	public static int MAXN = 100001;
-	public static int MAXM = 200001;
-	public static int INF = 1000000000;
+	public static int MAXN = 20001;
+	public static int MAXM = 1000001;
 	public static int n, m;
-	public static int[] arr = new int[MAXN];
 
 	public static int[] head = new int[MAXN];
 	public static int[] nxt = new int[MAXM << 1];
@@ -29,9 +27,13 @@ public class Code05_IndependentSet1 {
 	public static int[] sta = new int[MAXN];
 	public static int top;
 
-	public static int[] cycle = new int[MAXN];
-	public static int[][] tmp = new int[MAXN][2];
-	public static int[][] dp = new int[MAXN][2];
+	public static int[] edgeCnt = new int[MAXN];
+	public static int cntc;
+
+	public static int[] cycleCnt = new int[MAXN];
+
+	// 本题需要高精度乘法
+	public static BigInteger ans;
 
 	// 递归改迭代需要的栈
 	public static int[] stau = new int[MAXN];
@@ -63,36 +65,10 @@ public class Code05_IndependentSet1 {
 		head[u] = cntg;
 	}
 
-	public static void dpOnCycle(int u, int v) {
-		int siz = 0;
-		int pop;
-		do {
-			pop = sta[top--];
-			cycle[++siz] = pop;
-		} while (pop != v);
-		for (int i = 1; i <= siz; i++) {
-			int x = cycle[i];
-			int fa = i == siz ? u : cycle[i + 1];
-			tmp[fa][0] = dp[fa][0] - Math.max(dp[x][0], dp[x][1]);
-			tmp[fa][1] = dp[fa][1] - dp[x][0];
-		}
-		tmp[cycle[1]][0] = dp[cycle[1]][0];
-		tmp[cycle[1]][1] = -INF;
-		for (int i = 1; i <= siz; i++) {
-			int x = cycle[i];
-			int fa = i == siz ? u : cycle[i + 1];
-			tmp[fa][0] += Math.max(tmp[x][0], tmp[x][1]);
-			tmp[fa][1] += tmp[x][0];
-		}
-		dp[u][1] = tmp[u][1];
-	}
-
 	// 递归版
 	public static void tarjan1(int u, int preEdge) {
 		dfn[u] = low[u] = ++cntd;
 		sta[++top] = u;
-		dp[u][0] = 0;
-		dp[u][1] = arr[u];
 		for (int e = head[u]; e > 0; e = nxt[e]) {
 			if ((e ^ 1) == preEdge) {
 				continue;
@@ -100,17 +76,23 @@ public class Code05_IndependentSet1 {
 			int v = to[e];
 			if (dfn[v] == 0) {
 				tarjan1(v, e);
-				dp[u][0] += Math.max(dp[v][0], dp[v][1]);
-				dp[u][1] += dp[v][0];
 				if (low[v] < dfn[u]) {
 					low[u] = Math.min(low[u], low[v]);
+					cycleCnt[u]++;
 				} else if (low[v] > dfn[u]) {
 					top--;
 				} else {
-					dpOnCycle(u, v);
+					cntc++;
+					edgeCnt[cntc] = 1;
+					int pop;
+					do {
+						pop = sta[top--];
+						edgeCnt[cntc]++;
+					} while (pop != v);
 				}
 			} else if (dfn[v] < dfn[u]) {
 				low[u] = Math.min(low[u], dfn[v]);
+				cycleCnt[u]++;
 			}
 		}
 	}
@@ -125,24 +107,28 @@ public class Code05_IndependentSet1 {
 			if (status == -1) {
 				dfn[u] = low[u] = ++cntd;
 				sta[++top] = u;
-				dp[u][0] = 0;
-				dp[u][1] = arr[u];
 				e = head[u];
 			} else {
 				v = to[e];
 				if (status == 0) {
-					dp[u][0] += Math.max(dp[v][0], dp[v][1]);
-					dp[u][1] += dp[v][0];
 					if (low[v] < dfn[u]) {
 						low[u] = Math.min(low[u], low[v]);
+						cycleCnt[u]++;
 					} else if (low[v] > dfn[u]) {
 						top--;
 					} else {
-						dpOnCycle(u, v);
+						cntc++;
+						edgeCnt[cntc] = 1;
+						int pop;
+						do {
+							pop = sta[top--];
+							edgeCnt[cntc]++;
+						} while (pop != v);
 					}
 				} else {
 					if (dfn[v] < dfn[u]) {
 						low[u] = Math.min(low[u], dfn[v]);
+						cycleCnt[u]++;
 					}
 				}
 				e = nxt[e];
@@ -168,25 +154,34 @@ public class Code05_IndependentSet1 {
 		n = in.nextInt();
 		m = in.nextInt();
 		cntg = 1;
-		for (int i = 1, u, v; i <= m; i++) {
-			u = in.nextInt();
-			v = in.nextInt();
-			addEdge(u, v);
-			addEdge(v, u);
+		for (int i = 1, k, x, y; i <= m; i++) {
+			k = in.nextInt();
+			x = in.nextInt();
+			for (int j = 2; j <= k; j++) {
+				y = in.nextInt();
+				addEdge(x, y);
+				addEdge(y, x);
+				x = y;
+			}
 		}
-
-		// 洛谷P4410，使用如下的点权设置
-		for (int i = 1; i <= n; i++) {
-			arr[i] = in.nextInt();
-		}
-
-		// 洛谷P10779，使用如下的点权设置
-//		for (int i = 1; i <= n; i++) {
-//			arr[i] = 1;
-//		}
-
+		// tarjan1(1, 0);
 		tarjan2(1, 0);
-		out.println(Math.max(dp[1][0], dp[1][1]));
+		boolean check = true;
+		for (int i = 1; i <= n; i++) {
+			if (dfn[i] == 0 || cycleCnt[i] >= 2) {
+				check = false;
+				break;
+			}
+		}
+		if (check) {
+			ans = BigInteger.ONE;
+			for (int i = 1; i <= cntc; i++) {
+				ans = ans.multiply(BigInteger.valueOf(edgeCnt[i] + 1));
+			}
+			out.println(ans);
+		} else {
+			out.println(0);
+		}
 		out.flush();
 		out.close();
 	}
