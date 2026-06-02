@@ -36,9 +36,6 @@ public class Code07_MaximumOfShortestPath1 {
 	public static int[] to3 = new int[MAXT];
 	public static int cnt3;
 
-	public static int[] arr = new int[MAXN];
-	public static int[] tmp = new int[MAXT];
-
 	// tarjan算法
 	public static int[] dfn = new int[MAXT];
 	public static int[] low = new int[MAXN];
@@ -58,8 +55,11 @@ public class Code07_MaximumOfShortestPath1 {
 	public static int[] top = new int[MAXT];
 	public static long[] dist = new long[MAXT];
 
+	public static int[] arr = new int[MAXN];
+	public static int[] tmp = new int[MAXT];
+
 	// 虚树dp
-	public static long[] best = new long[MAXT];
+	public static long[] dp = new long[MAXT];
 	public static long ans;
 
 	// 方点单调队列
@@ -217,6 +217,15 @@ public class Code07_MaximumOfShortestPath1 {
 		}
 	}
 
+	public static int find(int cur, int lca) {
+		int ans = 0;
+		while (top[cur] != top[lca]) {
+			ans = top[cur];
+			cur = fa[top[cur]];
+		}
+		return cur == lca ? ans : son[lca];
+	}
+
 	public static int lca(int a, int b) {
 		while (top[a] != top[b]) {
 			if (dep[top[a]] <= dep[top[b]]) {
@@ -226,15 +235,6 @@ public class Code07_MaximumOfShortestPath1 {
 			}
 		}
 		return dep[a] <= dep[b] ? a : b;
-	}
-
-	public static int find(int cur, int lca) {
-		int ans = 0;
-		while (top[cur] != top[lca]) {
-			ans = top[cur];
-			cur = fa[top[cur]];
-		}
-		return cur == lca ? ans : son[lca];
 	}
 
 	// 建虚树的方式，二次排序 + 相邻LCA连边
@@ -263,55 +263,55 @@ public class Code07_MaximumOfShortestPath1 {
 		return tmp[1];
 	}
 
-	public static void updateSquare(int square, int num) {
-		if (num <= 1) {
-			return;
-		}
-		sortByTreeDist(ringNode, 1, num);
-		for (int i = 1; i <= num; i++) {
-			ringPos[i] = treeDist[ringNode[i]];
-			ringPos[num + i] = ringPos[i] + cycleSum[square];
-			ringVal[i] = best[ringNode[i]];
-			ringVal[num + i] = ringVal[i];
-		}
-		int l = 1;
-		int r = 0;
-		for (int i = 1; i <= (num << 1); i++) {
-			while (l <= r && (ringPos[i] - ringPos[que[l]]) * 2 > cycleSum[square]) {
-				l++;
+	public static long query(int u, int siz) {
+		long ans = 0;
+		if (siz >= 2) {
+			sortByTreeDist(ringNode, 1, siz);
+			for (int i = 1; i <= siz; i++) {
+				ringPos[i] = treeDist[ringNode[i]];
+				ringPos[siz + i] = ringPos[i] + cycleSum[u];
+				ringVal[i] = dp[ringNode[i]];
+				ringVal[siz + i] = ringVal[i];
 			}
-			if (l <= r) {
-				ans = Math.max(ans, ringVal[que[l]] - ringPos[que[l]] + ringVal[i] + ringPos[i]);
+			int l = 1;
+			int r = 0;
+			for (int i = 1; i <= siz << 1; i++) {
+				while (l <= r && (ringPos[i] - ringPos[que[l]]) * 2 > cycleSum[u]) {
+					l++;
+				}
+				if (l <= r) {
+					ans = Math.max(ans, ringVal[que[l]] - ringPos[que[l]] + ringVal[i] + ringPos[i]);
+				}
+				while (l <= r && ringVal[que[r]] - ringPos[que[r]] <= ringVal[i] - ringPos[i]) {
+					r--;
+				}
+				que[++r] = i;
 			}
-			while (l <= r && ringVal[que[r]] - ringPos[que[r]] <= ringVal[i] - ringPos[i]) {
-				r--;
-			}
-			que[++r] = i;
 		}
+		return ans;
 	}
 
-	public static void dpVirtualTree(int u) {
-		best[u] = 0;
-		int ringSize = 0;
+	public static void dpOnTree(int u) {
+		dp[u] = 0;
 		for (int e = head3[u]; e > 0; e = next3[e]) {
 			int v = to3[e];
-			dpVirtualTree(v);
+			dpOnTree(v);
 		}
+		int siz = 0;
 		for (int e = head3[u]; e > 0; e = next3[e]) {
 			int v = to3[e];
 			if (u <= n) {
-				ans = Math.max(ans, best[u] + best[v] + dist[v] - dist[u]);
+				ans = Math.max(ans, dp[u] + dp[v] + dist[v] - dist[u]);
 			} else {
-				int s = find(v, u);
-				best[s] = best[v] + dist[v] - dist[s];
-				ringNode[++ringSize] = s;
+				int f = find(v, u);
+				dp[f] = dp[v] + dist[v] - dist[f];
+				ringNode[++siz] = f;
 			}
-			best[u] = Math.max(best[u], best[v] + dist[v] - dist[u]);
+			dp[u] = Math.max(dp[u], dp[v] + dist[v] - dist[u]);
 		}
 		if (u > n) {
-			updateSquare(u, ringSize);
+			ans = Math.max(ans, query(u, siz));
 		}
-		head3[u] = 0;
 	}
 
 	public static void main(String[] args) throws Exception {
@@ -338,9 +338,9 @@ public class Code07_MaximumOfShortestPath1 {
 			for (int j = 1; j <= k; j++) {
 				arr[j] = in.nextInt();
 			}
-			int root = buildVirtualTree();
 			ans = 0;
-			dpVirtualTree(root);
+			int root = buildVirtualTree();
+			dpOnTree(root);
 			out.println(ans);
 		}
 		out.flush();
