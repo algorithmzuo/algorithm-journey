@@ -169,7 +169,6 @@ public class Code07_MaximumOfShortestPath1 {
 		dep[u] = dep[f] + 1;
 		siz[u] = 1;
 		dist[u] = dis;
-		dfn[u] = ++cntd;
 		for (int e = head2[u], v; e > 0; e = next2[e]) {
 			v = to2[e];
 			if (v != f) {
@@ -184,6 +183,7 @@ public class Code07_MaximumOfShortestPath1 {
 
 	public static void dfs2(int u, int t) {
 		top[u] = t;
+		dfn[u] = ++cntd;
 		if (son[u] != 0) {
 			dfs2(son[u], t);
 		}
