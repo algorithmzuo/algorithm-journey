@@ -11,23 +11,21 @@ import java.io.PrintWriter;
 
 public class Code06_CactusShortestPaths1 {
 
-	public static int MAXN = 10001;
-	public static int MAXM = 20001;
-	public static int MAXT = MAXN << 1;
+	public static int MAXN = 50001;
 	public static int n, m, q, cntn;
 
 	// 原图
 	public static int[] head1 = new int[MAXN];
-	public static int[] next1 = new int[MAXM << 1];
-	public static int[] to1 = new int[MAXM << 1];
-	public static int[] weight1 = new int[MAXM << 1];
+	public static int[] next1 = new int[MAXN];
+	public static int[] to1 = new int[MAXN];
+	public static int[] weight1 = new int[MAXN];
 	public static int cnt1;
 
 	// 圆方树，单向边
-	public static int[] head2 = new int[MAXT];
-	public static int[] next2 = new int[MAXT];
-	public static int[] to2 = new int[MAXT];
-	public static int[] weight2 = new int[MAXT];
+	public static int[] head2 = new int[MAXN];
+	public static int[] next2 = new int[MAXN];
+	public static int[] to2 = new int[MAXN];
+	public static int[] weight2 = new int[MAXN];
 	public static int cnt2;
 
 	// tarjan算法求圆方树
@@ -40,15 +38,15 @@ public class Code06_CactusShortestPaths1 {
 	// 环的信息
 	public static int[] fromWeight = new int[MAXN];
 	public static int[] cycleDist = new int[MAXN];
-	public static int[] cycleSum = new int[MAXT];
+	public static int[] cycleSum = new int[MAXN];
 
 	// 树链剖分
-	public static int[] fa = new int[MAXT];
-	public static int[] dep = new int[MAXT];
-	public static int[] siz = new int[MAXT];
-	public static int[] dist = new int[MAXT];
-	public static int[] son = new int[MAXT];
-	public static int[] top = new int[MAXT];
+	public static int[] fa = new int[MAXN];
+	public static int[] dep = new int[MAXN];
+	public static int[] siz = new int[MAXN];
+	public static int[] dist = new int[MAXN];
+	public static int[] son = new int[MAXN];
+	public static int[] top = new int[MAXN];
 
 	public static void addEdge1(int u, int v, int w) {
 		next1[++cnt1] = head1[u];
