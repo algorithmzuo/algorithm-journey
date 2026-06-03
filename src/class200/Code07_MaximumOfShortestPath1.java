@@ -18,7 +18,7 @@ public class Code07_MaximumOfShortestPath1 {
 	public static int[] head1 = new int[MAXN];
 	public static int[] next1 = new int[MAXN << 1];
 	public static int[] to1 = new int[MAXN << 1];
-	public static long[] weight1 = new long[MAXN << 1];
+	public static int[] weight1 = new int[MAXN << 1];
 	public static int cnt1;
 
 	// 圆方树
@@ -68,7 +68,7 @@ public class Code07_MaximumOfShortestPath1 {
 	public static long[] val = new long[MAXN];
 	public static int[] que = new int[MAXN];
 
-	public static void addEdge1(int u, int v, long w) {
+	public static void addEdge1(int u, int v, int w) {
 		next1[++cnt1] = head1[u];
 		to1[cnt1] = v;
 		weight1[cnt1] = w;
