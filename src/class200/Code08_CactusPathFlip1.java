@@ -26,12 +26,20 @@ public class Code08_CactusPathFlip1 {
 	public static int[] to2 = new int[MAXN];
 	public static int cnt2;
 
-	// dfn数组，tarjan和树剖都要使用
+	// tarjan算法
 	public static int[] dfn = new int[MAXN];
 	public static int[] low = new int[MAXN];
 	public static int cntd;
 	public static int[] sta = new int[MAXN];
 	public static int stasiz;
+
+	// 树链剖分
+	public static int[] fa = new int[MAXN];
+	public static int[] dep = new int[MAXN];
+	public static int[] siz = new int[MAXN];
+	public static int[] son = new int[MAXN];
+	public static int[] top = new int[MAXN];
+	public static int[] seg = new int[MAXN];
 
 	// 仙人掌中，一个节点可能是多个环的环顶，但不做环顶的话，最多参与一个环
 	// belong[x] == 0，表示圆点x要么是某环的环顶，要么不参与任何环了
@@ -43,25 +51,16 @@ public class Code08_CactusPathFlip1 {
 
 	// 环顶节点，只对方点有意义
 	public static int[] cycleRoot = new int[MAXN];
-
 	// 除去环顶节点，环中其他节点的数量，只对方点有意义
 	public static int[] cycleOther = new int[MAXN];
 
-	// 树链剖分
-	public static int[] fa = new int[MAXN];
-	public static int[] dep = new int[MAXN];
-	public static int[] siz = new int[MAXN];
-	public static int[] son = new int[MAXN];
-	public static int[] top = new int[MAXN];
-	public static int[] seg = new int[MAXN];
-
-	// 圆点的节点类型
+	// 节点类型，只对圆点有意义
 	// 0 : 节点是割点、环顶点、环中重儿子，两种翻转都参与
 	// 1 : 节点在环顶点到重儿子的短路径侧
 	// 2 : 节点在环顶点到重儿子的长路径侧
 	public static int[] nodeType = new int[MAXN];
 
-	// 如果u是方点，也就是代表环时，才有用
+	// 如果u是方点，也就是代表环时，才有意义
 	// 除了环顶点和重儿子之外，环中圆点的dfn编号范围
 	public static int[] cyclel = new int[MAXN];
 	public static int[] cycler = new int[MAXN];
