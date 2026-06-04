@@ -136,46 +136,46 @@ public class Code08_CactusPathFlip1 {
 		siz[u] = 1;
 		for (int e = head2[u]; e > 0; e = next2[e]) {
 			int v = to2[e];
-			dfs1(v, u);
-			siz[u] += siz[v];
-			if (son[u] == 0 || siz[son[u]] < siz[v]) {
-				son[u] = v;
+			if (v != f) {
+				dfs1(v, u);
+				siz[u] += siz[v];
+				if (son[u] == 0 || siz[son[u]] < siz[v]) {
+					son[u] = v;
+				}
 			}
 		}
 	}
 
 	public static void setDfn(int u) {
-		dfn[u] = ++cntd;
-		seg[cntd] = u;
-	}
-
-	public static void cycleDfn(int u) {
-		int hson = son[u];
-		boolean near = pos[hson] * 2 <= cycleOther[u];
-		cyclel[u] = cntd + 1;
-		for (int e = head2[u]; e > 0; e = next2[e]) {
-			int v = to2[e];
-			if (v != hson) {
-				if ((near && pos[v] < pos[hson]) || (!near && pos[v] > pos[hson])) {
-					nodeType[v] = 1;
-				} else {
-					nodeType[v] = 2;
-				}
-				setDfn(v);
-			}
+		if (dfn[u] == 0) {
+			dfn[u] = ++cntd;
+			seg[cntd] = u;
 		}
-		cycler[u] = cntd;
-		setDfn(hson);
+		if (u > n) {
+			int h = son[u];
+			boolean near = pos[h] * 2 <= cycleOther[u];
+			cyclel[u] = cntd + 1;
+			for (int e = head2[u]; e > 0; e = next2[e]) {
+				int v = to2[e];
+				if (v != fa[u] && v != h) {
+					if ((near && pos[v] < pos[h]) || (!near && pos[v] > pos[h])) {
+						nodeType[v] = 1;
+					} else {
+						nodeType[v] = 2;
+					}
+					dfn[v] = ++cntd;
+					seg[cntd] = v;
+				}
+			}
+			cycler[u] = cntd;
+			dfn[h] = ++cntd;
+			seg[cntd] = h;
+		}
 	}
 
 	public static void dfs2(int u, int t) {
 		top[u] = t;
-		if (dfn[u] == 0) {
-			setDfn(u);
-		}
-		if (u > n) {
-			cycleDfn(u);
-		}
+		setDfn(u);
 		treel[u] = cntd + 1;
 		if (son[u] != 0) {
 			dfs2(son[u], t);
@@ -254,16 +254,17 @@ public class Code08_CactusPathFlip1 {
 	}
 
 	public static void flipCycle(int u, int x, int op) {
+		int h = son[u];
 		boolean near = pos[x] * 2 <= cycleOther[u];
 		if ((near && op == 1) || (!near && op == 2)) {
 			reverse(cyclel[u], dfn[x], 0, 1, cntn, 1);
-			if (pos[son[u]] < pos[x]) {
-				reverse(dfn[son[u]], dfn[son[u]], 0, 1, cntn, 1);
+			if (pos[h] < pos[x]) {
+				reverse(dfn[h], dfn[h], 0, 1, cntn, 1);
 			}
 		} else {
 			reverse(dfn[x], cycler[u], 0, 1, cntn, 1);
-			if (pos[son[u]] > pos[x]) {
-				reverse(dfn[son[u]], dfn[son[u]], 0, 1, cntn, 1);
+			if (pos[h] > pos[x]) {
+				reverse(dfn[h], dfn[h], 0, 1, cntn, 1);
 			}
 		}
 	}
