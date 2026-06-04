@@ -253,6 +253,25 @@ public class Code08_CactusPathFlip1 {
 		up(i);
 	}
 
+	public static int query(int jobl, int jobr, int l, int r, int i) {
+		if (jobl > jobr) {
+			return 0;
+		}
+		if (jobl <= l && r <= jobr) {
+			return black[0][i] + black[1][i] + black[2][i];
+		}
+		down(i);
+		int mid = (l + r) >> 1;
+		int ans = 0;
+		if (jobl <= mid) {
+			ans += query(jobl, jobr, l, mid, i << 1);
+		}
+		if (mid < jobr) {
+			ans += query(jobl, jobr, mid + 1, r, i << 1 | 1);
+		}
+		return ans;
+	}
+
 	public static void flipCycle(int u, int x, int op) {
 		int h = son[u];
 		boolean near = pos[x] * 2 <= cycleOther[u];
@@ -293,25 +312,6 @@ public class Code08_CactusPathFlip1 {
 				x = fa[xtop];
 			}
 		}
-	}
-
-	public static int query(int jobl, int jobr, int l, int r, int i) {
-		if (jobl > jobr) {
-			return 0;
-		}
-		if (jobl <= l && r <= jobr) {
-			return black[0][i] + black[1][i] + black[2][i];
-		}
-		down(i);
-		int mid = (l + r) >> 1;
-		int ans = 0;
-		if (jobl <= mid) {
-			ans += query(jobl, jobr, l, mid, i << 1);
-		}
-		if (mid < jobr) {
-			ans += query(jobl, jobr, mid + 1, r, i << 1 | 1);
-		}
-		return ans;
 	}
 
 	public static int query(int x) {
