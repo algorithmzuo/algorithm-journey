@@ -33,7 +33,7 @@ public class Code08_CactusPathFlip1 {
 	public static int[] sta = new int[MAXN];
 	public static int stasiz;
 
-	// 一个节点可能是多个环的环顶节点，如果不作为环顶节点，一个节点最多参与一个环的构成
+	// 仙人掌中，一个节点可能是多个环的环顶，但不做环顶的话，最多参与一个环
 	// belong[x] == 0，表示圆点x要么是某环的环顶，要么不参与任何环了
 	// belong[x] != 0，表示圆点x属于方点belong[x]，在环中x不是环顶
 	// pos[x] == 0，表示圆点x不做环顶节点的话，就不参与任何环了
