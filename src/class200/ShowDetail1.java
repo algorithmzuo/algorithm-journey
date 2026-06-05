@@ -2,7 +2,7 @@ package class200;
 
 // 仙人掌遍历和找环的过程
 
-public class ShowDetail {
+public class ShowDetail1 {
 
 	public static int MAXN = 100001;
 	public static int MAXM = 200001;
