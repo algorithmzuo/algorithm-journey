@@ -1,6 +1,6 @@
 package class200;
 
-// 仙人掌找到所有环
+// 仙人掌遍历和找环的过程
 
 public class ShowDetail {
 
