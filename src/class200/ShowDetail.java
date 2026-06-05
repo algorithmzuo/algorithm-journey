@@ -32,14 +32,14 @@ public class ShowDetail {
 			int w = weight[e];
 			if (dfn[v] == 0) {
 				tarjan(v, e);
-				fromWeight[v] = w;
+				fromWeight[v] = w; // 设置v的from信息
 				if (low[v] < dfn[u]) { // 发现向上的环路
 					low[u] = Math.min(low[u], low[v]);
 				} else if (low[v] > dfn[u]) { // 发现割边
 					top--;
-					// 这里实现有关割边的处理
+					// 实现有关割边的处理
 				} else { // 发现环
-					// 这里实现弹出环中节点的逻辑，生成环的相关信息
+					// 实现得到环信息的处理
 				}
 			} else {
 				if (dfn[v] < dfn[u]) { // 发现回边
