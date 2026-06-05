@@ -1,6 +1,12 @@
 package class200;
 
-// 仙人掌支撑子图数量，java版
+// 仙人掌删边方案数，java版
+// 给定n个点、m条路径表示无向图，每条路径的相邻两点之间都有边
+// 如果图不是仙人掌打印0，如果图是仙人掌，可以在图中删除一些边
+// 如果删除后剩下的图仍然连通，就叫有效的删边方案
+// 允许一条边也不删，打印有效删边的方案数，答案可能很大，需要高精度
+// 1 <= n <= 2 * 10^4
+// 1 <= 边总数 <= 10^6
 // 测试链接 : https://www.luogu.com.cn/problem/P4129
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
@@ -10,7 +16,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.math.BigInteger;
 
-public class Code01_CactusSpanningSubgraph1 {
+public class Code01_CactusDeleteEdge1 {
 
 	public static int MAXN = 20001;
 	public static int MAXM = 1000001;
