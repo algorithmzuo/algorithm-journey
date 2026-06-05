@@ -59,13 +59,15 @@ public class Code08_CactusPathFlip1 {
 
 	// 环顶节点，只对方点有意义
 	public static int[] cycleRoot = new int[MAXN];
+
 	// 除去环顶节点，环中其他节点的数量，只对方点有意义
 	public static int[] cycleOther = new int[MAXN];
 
-	// 节点类型，只对圆点有意义
-	// 0 : 节点是割点、环顶点、环中重儿子，两种翻转都参与
-	// 1 : 节点在环顶点到重儿子的短路径侧
-	// 2 : 节点在环顶点到重儿子的长路径侧
+	// 环上节点分类，只对圆点有意义
+	// 注意，一个节点可能是多个环的环顶，但不做环顶的话，最多参与一个环
+	// nodeType[x] == 0，表示x是环顶节点 或 环的重儿子 或 不参与任何环
+	// nodeType[x] == 1，表示x在某环中不是环顶和重儿子，在环顶点到重儿子的短路径侧
+	// nodeType[x] == 2，表示x在某环中不是环顶和重儿子，在环顶点到重儿子的长路径侧
 	public static int[] nodeType = new int[MAXN];
 
 	// 如果u是方点，也就是代表环时，才有意义
