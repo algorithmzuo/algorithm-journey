@@ -1,6 +1,14 @@
 package class200;
 
-// 仙人掌路径取反，java版
+// 仙人掌路径颜色翻转，java版
+// 给定n个点、m条边的仙人掌图，没有自环，没有重边，1号节点是仙人掌的根
+// 输入保证每个简单环的边数都为奇数，所以点x到根的最短路和最长路都是唯一的
+// 以点x为头的子仙人掌，是指删掉根到x路径上的边后，包含x的连通块
+// 每个节点只有黑白两种颜色，初始时所有节点为黑，一共有q条操作，类型如下
+// 操作 1 x : 点x到根的最短路上所有节点，颜色翻转
+// 操作 2 x : 点x到根的最长路上所有节点，颜色翻转
+// 操作 3 x : 查询以点x为头的子仙人掌中，黑色节点的数量
+// 1 <= n、m、q <= 5 * 10^4
 // 测试链接 : https://uoj.ac/problem/158
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
@@ -11,7 +19,7 @@ import java.io.PrintWriter;
 
 public class Code08_CactusPathFlip1 {
 
-	public static int MAXN = 200001;
+	public static int MAXN = 100001;
 	public static int n, m, q, cntn;
 
 	// 原图
