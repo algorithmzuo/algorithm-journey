@@ -1,6 +1,6 @@
 package class200;
 
-// 仙人掌遍历和找环的过程
+// 仙人掌遍历和找环的过程，java版
 
 public class ShowDetail1 {
 
