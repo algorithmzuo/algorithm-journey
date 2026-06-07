@@ -217,12 +217,10 @@ package class200;
 //    }
 //    if (jobl <= l && r <= jobr) {
 //        reverse(0, i);
-//        if (jobt == 0) {
+//        if (jobt == 0 || jobt == 1) {
 //            reverse(1, i);
-//            reverse(2, i);
-//        } else if (jobt == 1) {
-//            reverse(1, i);
-//        } else {
+//        }
+//        if (jobt == 0 || jobt == 2) {
 //            reverse(2, i);
 //        }
 //        return;
