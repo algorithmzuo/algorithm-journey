@@ -65,9 +65,9 @@ public class Code08_CactusPathFlip1 {
 
 	// 环上节点分类，只对圆点有意义
 	// 注意，一个节点可能是多个环的环顶，但不做环顶的话，最多参与一个环
-	// nodeType[x] == 0，表示x是环顶节点 或 环的重儿子 或 不参与任何环
 	// nodeType[x] == 1，表示x在某环中不是环顶和重儿子，在环顶点到重儿子的短路径侧
 	// nodeType[x] == 2，表示x在某环中不是环顶和重儿子，在环顶点到重儿子的长路径侧
+	// nodeType[x] == 3，表示x是环顶节点 或 环的重儿子 或 不参与任何环
 	public static int[] nodeType = new int[MAXN];
 
 	// 如果u是方点，也就是代表环时，才有意义
@@ -79,10 +79,20 @@ public class Code08_CactusPathFlip1 {
 	public static int[] treel = new int[MAXN];
 	public static int[] treer = new int[MAXN];
 
-	// 线段树
-	public static int[][] all = new int[3][MAXN << 2];
-	public static int[][] black = new int[3][MAXN << 2];
-	public static boolean[][] lazy = new boolean[3][MAXN << 2];
+	// 短路径线段树
+	public static int[] all1 = new int[MAXN << 2];
+	public static int[] black1 = new int[MAXN << 2];
+	public static boolean[] lazy1 = new boolean[MAXN << 2];
+
+	// 长路径线段树
+	public static int[] all2 = new int[MAXN << 2];
+	public static int[] black2 = new int[MAXN << 2];
+	public static boolean[] lazy2 = new boolean[MAXN << 2];
+
+	// 必经点线段树
+	public static int[] all3 = new int[MAXN << 2];
+	public static int[] black3 = new int[MAXN << 2];
+	public static boolean[] lazy3 = new boolean[MAXN << 2];
 
 	public static void addEdge1(int u, int v) {
 		next1[++cnt1] = head1[u];
@@ -102,16 +112,16 @@ public class Code08_CactusPathFlip1 {
 		addEdge2(u, cntn);
 		int tmp = stasiz;
 		int pop;
-		int siz = 0;
+		int cnt = 0;
 		do {
 			pop = sta[tmp--];
-			siz++;
+			cnt++;
 		} while (pop != v);
-		cycleOther[cntn] = siz;
+		cycleOther[cntn] = cnt;
 		do {
 			pop = sta[stasiz--];
 			belong[pop] = cntn;
-			pos[pop] = siz--;
+			pos[pop] = cnt--;
 			addEdge2(cntn, pop);
 		} while (pop != v);
 	}
@@ -156,36 +166,36 @@ public class Code08_CactusPathFlip1 {
 		}
 	}
 
-	public static void setDfn(int u) {
+	public static void cycleDfn(int u) {
+		int h = son[u];
+		boolean near = pos[h] * 2 <= cycleOther[u];
+		cyclel[u] = cntd + 1;
+		for (int e = head2[u]; e > 0; e = next2[e]) {
+			int v = to2[e];
+			if (v != fa[u] && v != h) {
+				if ((near && pos[v] < pos[h]) || (!near && pos[v] > pos[h])) {
+					nodeType[v] = 1;
+				} else {
+					nodeType[v] = 2;
+				}
+				dfn[v] = ++cntd;
+				seg[cntd] = v;
+			}
+		}
+		cycler[u] = cntd;
+		dfn[h] = ++cntd;
+		seg[cntd] = h;
+	}
+
+	public static void dfs2(int u, int t) {
+		top[u] = t;
 		if (dfn[u] == 0) {
 			dfn[u] = ++cntd;
 			seg[cntd] = u;
 		}
 		if (u > n) {
-			int h = son[u];
-			boolean near = pos[h] * 2 <= cycleOther[u];
-			cyclel[u] = cntd + 1;
-			for (int e = head2[u]; e > 0; e = next2[e]) {
-				int v = to2[e];
-				if (v != fa[u] && v != h) {
-					if ((near && pos[v] < pos[h]) || (!near && pos[v] > pos[h])) {
-						nodeType[v] = 1;
-					} else {
-						nodeType[v] = 2;
-					}
-					dfn[v] = ++cntd;
-					seg[cntd] = v;
-				}
-			}
-			cycler[u] = cntd;
-			dfn[h] = ++cntd;
-			seg[cntd] = h;
+			cycleDfn(u);
 		}
-	}
-
-	public static void dfs2(int u, int t) {
-		top[u] = t;
-		setDfn(u);
 		treel[u] = cntd + 1;
 		if (son[u] != 0) {
 			dfs2(son[u], t);
@@ -200,25 +210,45 @@ public class Code08_CactusPathFlip1 {
 	}
 
 	public static void up(int i) {
-		for (int t = 0; t <= 2; t++) {
-			all[t][i] = all[t][i << 1] + all[t][i << 1 | 1];
-			black[t][i] = black[t][i << 1] + black[t][i << 1 | 1];
-		}
+		all1[i] = all1[i << 1] + all1[i << 1 | 1];
+		all2[i] = all2[i << 1] + all2[i << 1 | 1];
+		all3[i] = all3[i << 1] + all3[i << 1 | 1];
+		black1[i] = black1[i << 1] + black1[i << 1 | 1];
+		black2[i] = black2[i << 1] + black2[i << 1 | 1];
+		black3[i] = black3[i << 1] + black3[i << 1 | 1];
+	}
+
+	public static void reverse1(int i) {
+		black1[i] = all1[i] - black1[i];
+		lazy1[i] = !lazy1[i];
+	}
+
+	public static void reverse2(int i) {
+		black2[i] = all2[i] - black2[i];
+		lazy2[i] = !lazy2[i];
+	}
+
+	public static void reverse3(int i) {
+		black3[i] = all3[i] - black3[i];
+		lazy3[i] = !lazy3[i];
 	}
 
 	public static void down(int i) {
-		for (int t = 0; t <= 2; t++) {
-			if (lazy[t][i]) {
-				reverse(t, i << 1);
-				reverse(t, i << 1 | 1);
-				lazy[t][i] = false;
-			}
+		if (lazy1[i]) {
+			reverse1(i << 1);
+			reverse1(i << 1 | 1);
+			lazy1[i] = false;
 		}
-	}
-
-	public static void reverse(int t, int i) {
-		lazy[t][i] = !lazy[t][i];
-		black[t][i] = all[t][i] - black[t][i];
+		if (lazy2[i]) {
+			reverse2(i << 1);
+			reverse2(i << 1 | 1);
+			lazy2[i] = false;
+		}
+		if (lazy3[i]) {
+			reverse3(i << 1);
+			reverse3(i << 1 | 1);
+			lazy3[i] = false;
+		}
 	}
 
 	public static void build(int l, int r, int i) {
@@ -226,7 +256,15 @@ public class Code08_CactusPathFlip1 {
 			int u = seg[l];
 			int t = nodeType[u];
 			if (u <= n) {
-				all[t][i] = black[t][i] = 1;
+				if (t == 1) {
+					all1[i] = black1[i] = 1;
+				}
+				if (t == 2) {
+					all2[i] = black2[i] = 1;
+				}
+				if (t == 3) {
+					all3[i] = black3[i] = 1;
+				}
 			}
 		} else {
 			int mid = (l + r) >> 1;
@@ -241,13 +279,13 @@ public class Code08_CactusPathFlip1 {
 			return;
 		}
 		if (jobl <= l && r <= jobr) {
-			reverse(0, i);
-			if (jobt == 0 || jobt == 1) {
-				reverse(1, i);
+			if (jobt == 1 || jobt == 3) {
+				reverse1(i);
 			}
-			if (jobt == 0 || jobt == 2) {
-				reverse(2, i);
+			if (jobt == 2 || jobt == 3) {
+				reverse2(i);
 			}
+			reverse3(i);
 			return;
 		}
 		down(i);
@@ -266,7 +304,7 @@ public class Code08_CactusPathFlip1 {
 			return 0;
 		}
 		if (jobl <= l && r <= jobr) {
-			return black[0][i] + black[1][i] + black[2][i];
+			return black1[i] + black2[i] + black3[i];
 		}
 		down(i);
 		int mid = (l + r) >> 1;
@@ -284,14 +322,14 @@ public class Code08_CactusPathFlip1 {
 		int h = son[u];
 		boolean near = pos[x] * 2 <= cycleOther[u];
 		if ((near && op == 1) || (!near && op == 2)) {
-			reverse(cyclel[u], dfn[x], 0, 1, cntn, 1);
+			reverse(cyclel[u], dfn[x], 3, 1, cntn, 1);
 			if (pos[h] < pos[x]) {
-				reverse(dfn[h], dfn[h], 0, 1, cntn, 1);
+				reverse(dfn[h], dfn[h], 3, 1, cntn, 1);
 			}
 		} else {
-			reverse(dfn[x], cycler[u], 0, 1, cntn, 1);
+			reverse(dfn[x], cycler[u], 3, 1, cntn, 1);
 			if (pos[h] > pos[x]) {
-				reverse(dfn[h], dfn[h], 0, 1, cntn, 1);
+				reverse(dfn[h], dfn[h], 3, 1, cntn, 1);
 			}
 		}
 	}
@@ -330,6 +368,22 @@ public class Code08_CactusPathFlip1 {
 		}
 	}
 
+	public static void prepare() {
+		tarjan(1, 0);
+		cntd = 0;
+		for (int i = 1; i <= n; i++) {
+			dfn[i] = 0;
+		}
+		dfs1(1, 0);
+		dfs2(1, 1);
+		for (int i = 1; i <= n; i++) {
+			if (nodeType[i] == 0) {
+				nodeType[i] = 3;
+			}
+		}
+		build(1, cntn, 1);
+	}
+
 	public static void main(String[] args) throws Exception {
 		FastReader in = new FastReader(System.in);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
@@ -344,14 +398,7 @@ public class Code08_CactusPathFlip1 {
 			addEdge1(u, v);
 			addEdge1(v, u);
 		}
-		tarjan(1, 0);
-		cntd = 0;
-		for (int i = 1; i <= n; i++) {
-			dfn[i] = 0;
-		}
-		dfs1(1, 0);
-		dfs2(1, 1);
-		build(1, cntn, 1);
+		prepare();
 		for (int i = 1, op, x; i <= q; i++) {
 			op = in.nextInt();
 			x = in.nextInt();
