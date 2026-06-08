@@ -64,10 +64,9 @@ public class Code08_CactusPathFlip1 {
 	public static int[] cycleOther = new int[MAXN];
 
 	// 环上节点分类，只对圆点有意义
-	// 注意，一个节点可能是多个环的环顶，但不做环顶的话，最多参与一个环
-	// nodeType[x] == 1，表示x在某环中不是环顶和重儿子，在环顶点到重儿子的短路径侧
-	// nodeType[x] == 2，表示x在某环中不是环顶和重儿子，在环顶点到重儿子的长路径侧
-	// nodeType[x] == 3，表示x是环顶节点 或 环的重儿子 或 不参与任何环
+	// nodeType[x] == 1，表示x在环顶点到重儿子的短路径
+	// nodeType[x] == 2，表示x在环顶点到重儿子的长路径
+	// nodeType[x] == 3，表示x是沿着重链往上跳的必经点
 	public static int[] nodeType = new int[MAXN];
 
 	// 如果u是方点，也就是代表环时，才有意义
