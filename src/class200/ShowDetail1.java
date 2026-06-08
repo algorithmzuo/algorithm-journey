@@ -39,7 +39,8 @@ public class ShowDetail1 {
 					top--;
 					// 实现有关割边的处理
 				} else { // 发现环
-					// 实现得到环信息的处理
+					// 实现环信息的统计和生成
+					// 或者建立圆方树
 				}
 			} else {
 				if (dfn[v] < dfn[u]) { // 发现回边
