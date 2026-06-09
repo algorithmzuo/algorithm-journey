@@ -25,29 +25,25 @@ public class ShowDetail1 {
 		dfn[u] = low[u] = ++cntd;
 		sta[++top] = u;
 		for (int e = head[u]; e > 0; e = nxt[e]) {
-			if ((e ^ 1) == preEdge) { // 利用边的编号，标记回头路
-				continue;
-			}
-			int v = to[e];
-			int w = weight[e];
+			if ((e ^ 1) == preEdge) continue;
+			int v = to[e], w = weight[e];
 			if (dfn[v] == 0) {
 				tarjan(v, e);
 				fromWeight[v] = w; // 设置v的from信息
 				if (low[v] < dfn[u]) { // 没有扎起口袋
 					low[u] = Math.min(low[u], low[v]);
-				} else if (low[v] > dfn[u]) { // 发现割边
+				} else if (low[v] > dfn[u]) {
+					// 发现割边，实现有关割边的处理
 					top--;
-					// 实现有关割边的处理
-				} else { // 发现了点双连通分量，即发现了环
-					// 实现有关环的处理
+				} else {
+					// 发现了环，实现有关环的处理
 				}
 			} else {
 				if (dfn[v] < dfn[u]) { // 发现回边
 					fromWeight[v] = w; // 闭合边的信息给入环节点
 					low[u] = Math.min(low[u], dfn[v]);
-				} else { // 发现弃边
-					// 一般什么也不做
 				}
+				// 如果发现弃边，一般什么也不做
 			}
 		}
 	}
