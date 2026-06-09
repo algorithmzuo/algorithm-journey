@@ -35,7 +35,7 @@ package class200;
 //        if (dfn[v] == 0) {
 //            tarjan(v, e);
 //            fromWeight[v] = w; // 设置v的from信息
-//            if (low[v] < dfn[u]) { // 发现向上的环路
+//            if (low[v] < dfn[u]) { // 没有扎起口袋
 //                low[u] = min(low[u], low[v]);
 //            } else if (low[v] > dfn[u]) { // 发现割边
 //                top--;
