@@ -37,7 +37,7 @@ public class Code01_CactusDeleteEdge1 {
 	public static int[] edgeCnt = new int[MAXN];
 	public static int cntc;
 
-	// cycleCnt[x]，表示x不是环顶节点的话，参与了几个环
+	// cycleCnt[x]，表示x不是环顶节点的话，至少参与几个环
 	public static int[] cycleCnt = new int[MAXN];
 
 	// 本题需要高精度乘法
