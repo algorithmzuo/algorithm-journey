@@ -38,7 +38,7 @@ public class ShowDetail1 {
 				} else if (low[v] > dfn[u]) { // 发现割边
 					top--;
 					// 实现有关割边的处理
-				} else { // 发现环
+				} else { // 发现了点双连通分量，即发现了环
 					// 实现有关环的处理
 				}
 			} else {
