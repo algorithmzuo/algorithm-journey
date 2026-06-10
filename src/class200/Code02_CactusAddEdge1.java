@@ -39,14 +39,12 @@ public class Code02_CactusAddEdge1 {
 
 	public static boolean[] vis = new boolean[MAXN];
 
-	// f[i] : 一个点周围有i条可用方向时，这些方向两两配对或不配对的方案数
-	// 每条方向最多参与一次配对
+	// f[i] : 点周围有i个方向，一旦两个方向配对，不可再用
+	// 方向也可不配对，总的配对方法数
 	public static long[] f = new long[MAXN];
 
-	// dp[u] : u为头的子树内每个节点
-	// 对自己周围的可用方向配对后，形成的总方案数
-	// 如果u是连通块的根，dp[u]表示这个连通块完整的合法加边方案数
-	// 如果u不是连通块的根，u到父亲也算一个方向，该方向上的节点数是1
+	// dp[u] : 如果u是根，表示整棵子树的加边方案数
+	// 如果u不是根，表示向上也算一个可用方向，子树内的加边方案数
 	public static long[] dp = new long[MAXN];
 
 	// 递归改迭代需要的栈
