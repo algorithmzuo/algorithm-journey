@@ -25,7 +25,7 @@ package class200;
 //int head[MAXN];
 //int nxt[MAXM << 1];
 //int to[MAXM << 1];
-//bool ban[MAXM << 1];
+//bool cycleEdge[MAXM << 1];
 //int cntg;
 //
 //int dfn[MAXN];
@@ -37,25 +37,15 @@ package class200;
 //int fromEdge[MAXN];
 //int cycleCnt[MAXN];
 //
-//bool check;
 //ll f[MAXN];
-//
 //bool vis[MAXN];
 //ll dp[MAXN];
 //
 //void addEdge(int u, int v) {
 //    nxt[++cntg] = head[u];
 //    to[cntg] = v;
-//    ban[cntg] = false;
+//    cycleEdge[cntg] = false;
 //    head[u] = cntg;
-//}
-//
-//void banEdge(int e) {
-//    if (ban[e] || ban[e ^ 1]) {
-//        check = false;
-//    } else {
-//        ban[e] = ban[e ^ 1] = true;
-//    }
 //}
 //
 //void tarjan(int u, int preEdge) {
@@ -75,11 +65,13 @@ package class200;
 //            } else if (low[v] > dfn[u]) {
 //                top--;
 //            } else {
-//                banEdge(fromEdge[u]);
 //                int pop;
+//                int edge = fromEdge[u];
+//                cycleEdge[edge] = cycleEdge[edge ^ 1] = true;
 //                do {
 //                    pop = sta[top--];
-//                    banEdge(fromEdge[pop]);
+//                    edge = fromEdge[pop];
+//                    cycleEdge[edge] = cycleEdge[edge ^ 1] = true;
 //                } while (pop != v);
 //            }
 //        } else if (dfn[v] < dfn[u]) {
@@ -96,7 +88,7 @@ package class200;
 //    int son = fa == 0 ? 0 : 1;
 //    for (int e = head[u]; e > 0; e = nxt[e]) {
 //        int v = to[e];
-//        if (v != fa && !ban[e]) {
+//        if (v != fa && !cycleEdge[e]) {
 //            dpOnTree(v, u);
 //            ans = ans * dp[v] % MOD;
 //            son++;
@@ -117,7 +109,6 @@ package class200;
 //    }
 //    cntg = 1;
 //    cntd = top = 0;
-//    check = true;
 //}
 //
 //int main() {
@@ -133,12 +124,11 @@ package class200;
 //            addEdge(v, u);
 //        }
 //        tarjan(1, 0);
-//        if (check) {
-//            for (int i = 1; i <= n; i++) {
-//                if (dfn[i] == 0 || cycleCnt[i] >= 2) {
-//                    check = false;
-//                    break;
-//                }
+//        bool check = true;
+//        for (int i = 1; i <= n; i++) {
+//            if (dfn[i] == 0 || cycleCnt[i] >= 2) {
+//                check = false;
+//                break;
 //            }
 //        }
 //        if (check) {

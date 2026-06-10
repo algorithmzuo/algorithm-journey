@@ -25,7 +25,7 @@ public class Code02_CactusAddEdge1 {
 	public static int[] head = new int[MAXN];
 	public static int[] nxt = new int[MAXM << 1];
 	public static int[] to = new int[MAXM << 1];
-	public static boolean[] ban = new boolean[MAXM << 1];
+	public static boolean[] cycleEdge = new boolean[MAXM << 1];
 	public static int cntg;
 
 	public static int[] dfn = new int[MAXN];
@@ -37,9 +37,7 @@ public class Code02_CactusAddEdge1 {
 	public static int[] fromEdge = new int[MAXN];
 	public static int[] cycleCnt = new int[MAXN];
 
-	public static boolean check;
 	public static long[] f = new long[MAXN];
-
 	public static boolean[] vis = new boolean[MAXN];
 	public static long[] dp = new long[MAXN];
 
@@ -73,16 +71,8 @@ public class Code02_CactusAddEdge1 {
 	public static void addEdge(int u, int v) {
 		nxt[++cntg] = head[u];
 		to[cntg] = v;
-		ban[cntg] = false;
+		cycleEdge[cntg] = false;
 		head[u] = cntg;
-	}
-
-	public static void banEdge(int e) {
-		if (ban[e] || ban[e ^ 1]) {
-			check = false;
-		} else {
-			ban[e] = ban[e ^ 1] = true;
-		}
 	}
 
 	// 递归版
@@ -103,11 +93,13 @@ public class Code02_CactusAddEdge1 {
 				} else if (low[v] > dfn[u]) {
 					top--;
 				} else {
-					banEdge(fromEdge[u]);
 					int pop;
+					int edge = fromEdge[u];
+					cycleEdge[edge] = cycleEdge[edge ^ 1] = true;
 					do {
 						pop = sta[top--];
-						banEdge(fromEdge[pop]);
+						edge = fromEdge[pop];
+						cycleEdge[edge] = cycleEdge[edge ^ 1] = true;
 					} while (pop != v);
 				}
 			} else if (dfn[v] < dfn[u]) {
@@ -139,11 +131,13 @@ public class Code02_CactusAddEdge1 {
 					} else if (low[v] > dfn[u]) {
 						top--;
 					} else {
-						banEdge(fromEdge[u]);
 						int pop;
+						int edge = fromEdge[u];
+						cycleEdge[edge] = cycleEdge[edge ^ 1] = true;
 						do {
 							pop = sta[top--];
-							banEdge(fromEdge[pop]);
+							edge = fromEdge[pop];
+							cycleEdge[edge] = cycleEdge[edge ^ 1] = true;
 						} while (pop != v);
 					}
 				} else {
@@ -177,7 +171,7 @@ public class Code02_CactusAddEdge1 {
 		int son = fa == 0 ? 0 : 1;
 		for (int e = head[u]; e > 0; e = nxt[e]) {
 			int v = to[e];
-			if (v != fa && !ban[e]) {
+			if (v != fa && !cycleEdge[e]) {
 				dpOnTree1(v, u);
 				ans = ans * dp[v] % MOD;
 				son++;
@@ -201,7 +195,7 @@ public class Code02_CactusAddEdge1 {
 			if (e != 0) {
 				push(u, 0, 0, fa, e);
 				int v = to[e];
-				if (v != fa && !ban[e]) {
+				if (v != fa && !cycleEdge[e]) {
 					push(v, 0, 0, u, -1);
 				}
 			} else {
@@ -209,7 +203,7 @@ public class Code02_CactusAddEdge1 {
 				int son = fa == 0 ? 0 : 1;
 				for (int e = head[u]; e > 0; e = nxt[e]) {
 					int v = to[e];
-					if (v != fa && !ban[e]) {
+					if (v != fa && !cycleEdge[e]) {
 						ans = ans * dp[v] % MOD;
 						son++;
 					}
@@ -231,7 +225,6 @@ public class Code02_CactusAddEdge1 {
 		}
 		cntg = 1;
 		cntd = top = 0;
-		check = true;
 	}
 
 	public static void main(String[] args) throws Exception {
@@ -250,12 +243,11 @@ public class Code02_CactusAddEdge1 {
 			}
 			// tarjan1(1, 0);
 			tarjan2(1, 0);
-			if (check) {
-				for (int i = 1; i <= n; i++) {
-					if (dfn[i] == 0 || cycleCnt[i] >= 2) {
-						check = false;
-						break;
-					}
+			boolean check = true;
+			for (int i = 1; i <= n; i++) {
+				if (dfn[i] == 0 || cycleCnt[i] >= 2) {
+					check = false;
+					break;
 				}
 			}
 			if (check) {
