@@ -65,7 +65,7 @@ package class200;
 //void tarjan(int u, int preEdge) {
 //    dfn[u] = low[u] = ++cntd;
 //    sta[++top] = u;
-//    int bestOut = 0;
+//    int delta = 0;
 //    for (int e = head[u]; e > 0; e = nxt[e]) {
 //        if ((e ^ 1) == preEdge) {
 //            continue;
@@ -77,15 +77,15 @@ package class200;
 //                low[u] = min(low[u], low[v]);
 //            } else if (low[v] > dfn[u]) {
 //                top--;
-//                bestOut = max(bestOut, g[v] + 1);
+//                delta = max(delta, g[v] + 1);
 //            } else {
-//                bestOut = max(bestOut, dpOnCycle(u, v));
+//                delta = max(delta, dpOnCycle(u, v));
 //            }
 //        } else if (dfn[v] < dfn[u]) {
 //            low[u] = min(low[u], dfn[v]);
 //        }
 //    }
-//    g[u] = f[u] + bestOut;
+//    g[u] = f[u] + delta;
 //}
 //
 //int main() {

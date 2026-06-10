@@ -74,10 +74,10 @@ public class Code03_CactusLongestRoute1 {
 	public static void tarjan(int u, int preEdge) {
 		dfn[u] = low[u] = ++cntd;
 		sta[++top] = u;
-		// bestOut用来计算 g[u] = f[u] + bestOut
+		// delta用来计算 g[u] = f[u] + delta
 		// f[u]表示从u出发并最终回到u的最大边数
-		// bestOut表示额外选择一条最后不回到u的出口路线，能带来的最大增量
-		int bestOut = 0;
+		// delta表示额外选择一条最后不回到u的出口路线，能带来的最大增量
+		int delta = 0;
 		for (int e = head[u]; e > 0; e = nxt[e]) {
 			if ((e ^ 1) == preEdge) {
 				continue;
@@ -89,15 +89,15 @@ public class Code03_CactusLongestRoute1 {
 					low[u] = Math.min(low[u], low[v]);
 				} else if (low[v] > dfn[u]) {
 					top--;
-					bestOut = Math.max(bestOut, g[v] + 1);
+					delta = Math.max(delta, g[v] + 1);
 				} else {
-					bestOut = Math.max(bestOut, dpOnCycle(u, v));
+					delta = Math.max(delta, dpOnCycle(u, v));
 				}
 			} else if (dfn[v] < dfn[u]) {
 				low[u] = Math.min(low[u], dfn[v]);
 			}
 		}
-		g[u] = f[u] + bestOut;
+		g[u] = f[u] + delta;
 	}
 
 	public static void main(String[] args) throws Exception {
