@@ -54,10 +54,10 @@ package class200;
 //        sum += f[cycle[i]] + 1;
 //    }
 //    f[u] += sum;
-//    int rest = sum;
+//    int otherSide = sum;
 //    for (int i = 1; i <= siz; i++) {
-//        rest -= f[cycle[i]] + 1;
-//        best = max(best, rest + g[cycle[i]]);
+//        otherSide -= f[cycle[i]] + 1;
+//        best = max(best, otherSide + g[cycle[i]]);
 //    }
 //    return best - sum;
 //}
