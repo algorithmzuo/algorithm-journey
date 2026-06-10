@@ -245,7 +245,7 @@ public class Code02_CactusAddEdge1 {
 			tarjan2(1, 0);
 			boolean check = true;
 			for (int i = 1; i <= n; i++) {
-				if (dfn[i] == 0 || cycleCnt[i] >= 2) {
+				if (cycleCnt[i] >= 2) {
 					check = false;
 					break;
 				}

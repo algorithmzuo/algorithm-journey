@@ -126,7 +126,7 @@ package class200;
 //        tarjan(1, 0);
 //        bool check = true;
 //        for (int i = 1; i <= n; i++) {
-//            if (dfn[i] == 0 || cycleCnt[i] >= 2) {
+//            if (cycleCnt[i] >= 2) {
 //                check = false;
 //                break;
 //            }
