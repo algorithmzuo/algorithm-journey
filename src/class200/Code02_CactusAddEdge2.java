@@ -37,8 +37,8 @@ package class200;
 //int fromEdge[MAXN];
 //int cycleCnt[MAXN];
 //
-//ll f[MAXN];
 //bool vis[MAXN];
+//ll f[MAXN];
 //ll dp[MAXN];
 //
 //void addEdge(int u, int v) {
