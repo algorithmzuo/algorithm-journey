@@ -176,16 +176,16 @@ public class Code02_CactusAddEdge1 {
 	public static void dpOnTree1(int u, int fa) {
 		vis[u] = true;
 		long ans = 1;
-		int son = fa == 0 ? 0 : 1;
+		int direction = fa == 0 ? 0 : 1;
 		for (int e = head[u]; e > 0; e = nxt[e]) {
 			int v = to[e];
 			if (v != fa && !cycleEdge[e]) {
 				dpOnTree1(v, u);
 				ans = ans * dp[v] % MOD;
-				son++;
+				direction++;
 			}
 		}
-		dp[u] = ans * f[son] % MOD;
+		dp[u] = ans * f[direction] % MOD;
 	}
 
 	// 迭代版
@@ -208,15 +208,15 @@ public class Code02_CactusAddEdge1 {
 				}
 			} else {
 				long ans = 1;
-				int son = fa == 0 ? 0 : 1;
+				int direction = fa == 0 ? 0 : 1;
 				for (int e = head[u]; e > 0; e = nxt[e]) {
 					int v = to[e];
 					if (v != fa && !cycleEdge[e]) {
 						ans = ans * dp[v] % MOD;
-						son++;
+						direction++;
 					}
 				}
-				dp[u] = ans * f[son] % MOD;
+				dp[u] = ans * f[direction] % MOD;
 			}
 		}
 	}
