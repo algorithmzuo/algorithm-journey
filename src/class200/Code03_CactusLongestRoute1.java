@@ -53,6 +53,8 @@ public class Code03_CactusLongestRoute1 {
 			pop = sta[top--];
 			cycle[++siz] = pop;
 		} while (pop != v);
+		// best表示，这个环上任选一个点作为最后出去的位置
+		// 从u沿两侧之一走到它，能够得到的不回到u的最大边数
 		int best = 0;
 		int sum = 1;
 		for (int i = 1; i <= siz; i++) {
@@ -66,16 +68,15 @@ public class Code03_CactusLongestRoute1 {
 			otherSide -= f[cycle[i]] + 1;
 			best = Math.max(best, otherSide + g[cycle[i]]);
 		}
-		// best : 这个环上任选一个点作为最后出去的位置
-		// 从u沿两侧之一走到它，能够得到的最大的、不回到u的路线长度
 		return best - sum;
 	}
 
 	public static void tarjan(int u, int preEdge) {
 		dfn[u] = low[u] = ++cntd;
 		sta[++top] = u;
-		// bestOut含义 : 从u出发最后回到u的基础上
-		// 再选一条最后不回到u的出口路线，能带来的最大增量
+		// bestOut用来计算 g[u] = f[u] + bestOut
+		// f[u]表示从u出发并最终回到u的最大边数
+		// bestOut表示额外选择一条最后不回到u的出口路线，能带来的最大增量
 		int bestOut = 0;
 		for (int e = head[u]; e > 0; e = nxt[e]) {
 			if ((e ^ 1) == preEdge) {
