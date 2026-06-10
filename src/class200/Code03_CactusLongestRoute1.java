@@ -74,9 +74,9 @@ public class Code03_CactusLongestRoute1 {
 	public static void tarjan(int u, int preEdge) {
 		dfn[u] = low[u] = ++cntd;
 		sta[++top] = u;
-		// delta用来计算 g[u] = f[u] + delta
 		// f[u]表示从u出发并最终回到u的最大边数
-		// delta表示额外选择一条最后不回到u的出口路线，能带来的最大增量
+		// delta为了计算，g[u] = f[u] + delta
+		// 表示额外选择一条最后不回到u的出口路线，能带来的最大增量
 		int delta = 0;
 		for (int e = head[u]; e > 0; e = nxt[e]) {
 			if ((e ^ 1) == preEdge) {
