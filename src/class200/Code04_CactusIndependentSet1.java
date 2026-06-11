@@ -38,6 +38,7 @@ public class Code04_CactusIndependentSet1 {
 
 	// 收集环上的节点，不包含环顶
 	public static int[] cycle = new int[MAXN];
+
 	// dp[u][0] : 以u为头的子仙人掌中，不选u的情况下，获得的最大收益
 	// dp[u][1] : 以u为头的子仙人掌中，选u的情况下，获得的最大收益
 	public static int[][] dp = new int[MAXN][2];
@@ -79,7 +80,9 @@ public class Code04_CactusIndependentSet1 {
 			pop = sta[top--];
 			cycle[++siz] = pop;
 		} while (pop != v);
-		int pre0 = dp[cycle[1]][0], pre1 = dp[cycle[1]][1];
+		// 不选u
+		int pre0 = dp[cycle[1]][0];
+		int pre1 = dp[cycle[1]][1];
 		int cur0, cur1;
 		for (int i = 2; i <= siz; i++) {
 			int x = cycle[i];
@@ -89,6 +92,7 @@ public class Code04_CactusIndependentSet1 {
 			pre1 = cur1;
 		}
 		dp[u][0] += Math.max(pre0, pre1);
+		// 选u
 		pre0 = dp[cycle[1]][0];
 		pre1 = -INF;
 		for (int i = 2; i <= siz; i++) {
