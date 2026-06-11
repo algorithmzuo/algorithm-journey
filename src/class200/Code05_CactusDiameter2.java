@@ -51,8 +51,7 @@ package class200;
 //    } while (pop != v);
 //    cycle[++siz] = u;
 //    for (int i = 1, j = siz; i <= siz; i++, j--) {
-//        arr[i] = dist[cycle[j]];
-//        arr[i + siz] = arr[i];
+//        arr[i] = arr[i + siz] = dist[cycle[j]];
 //    }
 //    int l = 1, r = 0;
 //    que[++r] = 1;
