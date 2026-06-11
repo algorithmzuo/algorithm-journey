@@ -43,8 +43,10 @@ public class Code02_CactusAddEdge1 {
 	// 方向也可不配对，总的配对方法数
 	public static long[] f = new long[MAXN];
 
-	// dp[u] : 如果u是根，表示整棵子树的加边方案数
-	// 如果u不是根，表示向上也算一个可用方向，子树内的加边方案数
+	// 两个支路配对是指，各自选出一个端点进行加边
+	// dp[u] : 如果u是根，认为上方没有支路
+	// 如果u不是根，认为上方有一条支路，该支路里有一个点
+	// u周围的每个支路配对或者不配对，形成的总方案数
 	public static long[] dp = new long[MAXN];
 
 	// 递归改迭代需要的栈
