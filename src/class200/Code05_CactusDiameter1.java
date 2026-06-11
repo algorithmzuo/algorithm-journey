@@ -34,9 +34,7 @@ public class Code05_CactusDiameter1 {
 
 	// dist[u] : 以u为头的子仙人掌中，u到任意点的最短路距离的最大值
 	public static int[] dist = new int[MAXN];
-	// 收集环中的节点，包括环顶节点
-	public static int[] cycle = new int[MAXN];
-	// 收集每个点的dist
+	// 收集环中每个点的dist，然后复制一份
 	public static int[] arr = new int[MAXN << 1];
 	// 单调队列
 	public static int[] que = new int[MAXN << 1];
@@ -75,14 +73,14 @@ public class Code05_CactusDiameter1 {
 
 	public static void dpOnCycle(int u, int v) {
 		int siz = 0;
+		arr[++siz] = dist[u];
 		int pop;
 		do {
 			pop = sta[top--];
-			cycle[++siz] = pop;
+			arr[++siz] = dist[pop];
 		} while (pop != v);
-		cycle[++siz] = u;
-		for (int i = 1, j = siz; i <= siz; i++, j--) {
-			arr[i] = arr[i + siz] = dist[cycle[j]];
+		for (int i = 1; i <= siz; i++) {
+			arr[i + siz] = arr[i];
 		}
 		int l = 1, r = 0;
 		que[++r] = 1;

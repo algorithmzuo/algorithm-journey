@@ -31,7 +31,6 @@ package class200;
 //int top;
 //
 //int dist[MAXN];
-//int cycle[MAXN];
 //int arr[MAXN << 1];
 //int que[MAXN << 1];
 //int diameter;
@@ -44,18 +43,18 @@ package class200;
 //
 //void dpOnCycle(int u, int v) {
 //    int siz = 0;
+//    arr[++siz] = dist[u];
 //    int pop;
 //    do {
 //        pop = sta[top--];
-//        cycle[++siz] = pop;
+//        arr[++siz] = dist[pop];
 //    } while (pop != v);
-//    cycle[++siz] = u;
-//    for (int i = 1, j = siz; i <= siz; i++, j--) {
-//        arr[i] = arr[i + siz] = dist[cycle[j]];
+//    for (int i = 1; i <= siz; i++) {
+//        arr[i + siz] = arr[i];
 //    }
 //    int l = 1, r = 0;
 //    que[++r] = 1;
-//    for (int i = 2; i <= (siz << 1); i++) {
+//    for (int i = 2; i <= siz << 1; i++) {
 //        while (l <= r && (i - que[l]) * 2 > siz) {
 //            l++;
 //        }
