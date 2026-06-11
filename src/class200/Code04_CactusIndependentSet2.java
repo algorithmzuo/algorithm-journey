@@ -35,7 +35,6 @@ package class200;
 //int top;
 //
 //int cycle[MAXN];
-//int tmp[MAXN][2];
 //int dp[MAXN][2];
 //
 //void addEdge(int u, int v) {
@@ -51,21 +50,26 @@ package class200;
 //        pop = sta[top--];
 //        cycle[++siz] = pop;
 //    } while (pop != v);
-//    for (int i = 1; i <= siz; i++) {
+//    int pre0 = dp[cycle[1]][0], pre1 = dp[cycle[1]][1];
+//    int cur0, cur1;
+//    for (int i = 2; i <= siz; i++) {
 //        int x = cycle[i];
-//        int fa = i == siz ? u : cycle[i + 1];
-//        tmp[fa][0] = dp[fa][0] - max(dp[x][0], dp[x][1]);
-//        tmp[fa][1] = dp[fa][1] - dp[x][0];
+//        cur0 = max(pre0, pre1) + dp[x][0];
+//        cur1 = pre0 + dp[x][1];
+//        pre0 = cur0;
+//        pre1 = cur1;
 //    }
-//    tmp[cycle[1]][0] = dp[cycle[1]][0];
-//    tmp[cycle[1]][1] = -INF;
-//    for (int i = 1; i <= siz; i++) {
+//    dp[u][0] += max(pre0, pre1);
+//    pre0 = dp[cycle[1]][0];
+//    pre1 = -INF;
+//    for (int i = 2; i <= siz; i++) {
 //        int x = cycle[i];
-//        int fa = i == siz ? u : cycle[i + 1];
-//        tmp[fa][0] += max(tmp[x][0], tmp[x][1]);
-//        tmp[fa][1] += tmp[x][0];
+//        cur0 = max(pre0, pre1) + dp[x][0];
+//        cur1 = pre0 + dp[x][1];
+//        pre0 = cur0;
+//        pre1 = cur1;
 //    }
-//    dp[u][1] = tmp[u][1];
+//    dp[u][1] += pre0;
 //}
 //
 //void tarjan(int u, int preEdge) {
@@ -80,11 +84,11 @@ package class200;
 //        int v = to[e];
 //        if (dfn[v] == 0) {
 //            tarjan(v, e);
-//            dp[u][0] += max(dp[v][0], dp[v][1]);
-//            dp[u][1] += dp[v][0];
 //            if (low[v] < dfn[u]) {
 //                low[u] = min(low[u], low[v]);
 //            } else if (low[v] > dfn[u]) {
+//                dp[u][0] += max(dp[v][0], dp[v][1]);
+//                dp[u][1] += dp[v][0];
 //                top--;
 //            } else {
 //                dpOnCycle(u, v);

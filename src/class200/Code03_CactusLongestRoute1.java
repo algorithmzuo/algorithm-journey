@@ -34,10 +34,10 @@ public class Code03_CactusLongestRoute1 {
 
 	public static int[] cycle = new int[MAXN];
 
-	// f[u] : 在u向下的结构中，从u出发并最终回到u，能走过的最大边数
+	// f[u] : 在u向下的结构中（以u为头的子仙人掌），从u出发并最终回到u，能走过的最大边数
 	public static int[] f = new int[MAXN];
 
-	// g[u] : 在u向下的结构中，从u出发，终点任意，能走过的最大边数
+	// g[u] : 在u向下的结构中（以u为头的子仙人掌），从u出发，终点任意，能走过的最大边数
 	public static int[] g = new int[MAXN];
 
 	public static void addEdge(int u, int v) {
