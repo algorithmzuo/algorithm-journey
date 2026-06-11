@@ -32,10 +32,15 @@ public class Code05_CactusDiameter1 {
 	public static int[] sta = new int[MAXN];
 	public static int top;
 
+	// dist[u] : 以u为头的子仙人掌中，u到任意点的最短路距离的最大值
 	public static int[] dist = new int[MAXN];
+	// 收集环中的节点，包括环顶节点
 	public static int[] cycle = new int[MAXN];
+	// 收集每个点的dist
 	public static int[] arr = new int[MAXN << 1];
+	// 单调队列
 	public static int[] que = new int[MAXN << 1];
+	// 答案
 	public static int diameter;
 
 	// 递归改迭代需要的栈
