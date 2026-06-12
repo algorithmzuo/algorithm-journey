@@ -63,7 +63,6 @@ public class Code07_MaximumOfShortestPath1 {
 	public static int[] arr = new int[MAXN];
 	public static int[] tmp = new int[MAXN];
 
-	// dist[u] : 以u为头的子仙人掌中，u到任意点的最短路距离的最大值
 	public static long[] dist = new long[MAXN];
 	public static long diameter;
 
