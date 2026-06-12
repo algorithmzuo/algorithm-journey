@@ -171,12 +171,12 @@ package class200;
 //}
 //
 //int find(int x, int square) {
-//    int ans = 0;
+//    int pre = 0;
 //    while (top[x] != top[square]) {
-//        ans = top[x];
-//        x = fa[top[x]];
+//        pre = top[x];
+//        x = fa[pre];
 //    }
-//    return x == square ? ans : son[square];
+//    return x == square ? pre : son[square];
 //}
 //
 //int buildVirtualTree() {

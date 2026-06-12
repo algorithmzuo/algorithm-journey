@@ -212,12 +212,12 @@ public class Code07_MaximumOfShortestPath1 {
 	}
 
 	public static int find(int x, int square) {
-		int ans = 0;
+		int pre = 0;
 		while (top[x] != top[square]) {
-			ans = top[x];
-			x = fa[top[x]];
+			pre = top[x];
+			x = fa[pre];
 		}
-		return x == square ? ans : son[square];
+		return x == square ? pre : son[square];
 	}
 
 	// 虚树的建立方式，二次排序 + 相邻LCA连边
