@@ -50,11 +50,9 @@ public class Code08_CactusPathFlip1 {
 	public static int[] seg = new int[MAXN];
 
 	// 仙人掌中，一个节点可能是多个环的环顶，但不做环顶的话，最多参与一个环
-	// belong[x] == 0，表示圆点x要么是某环的环顶，要么不参与任何环了
-	// belong[x] != 0，表示圆点x属于方点belong[x]，在环中x不是环顶
-	// pos[x] == 0，表示圆点x不做环顶节点的话，就不参与任何环了
-	// pos[x] != 0，表示圆点x不做环顶节点，还参与一个环，在环中编号pos[x]
-	public static int[] belong = new int[MAXN];
+	// belongCycle[x]，表示节点x归属的环，x不是环顶节点
+	public static int[] belongCycle = new int[MAXN];
+	// pos[x]，表示节点x在归属环中的位置，x不是环顶节点
 	public static int[] pos = new int[MAXN];
 
 	// 环顶节点，只对方点有意义
@@ -119,7 +117,7 @@ public class Code08_CactusPathFlip1 {
 		cycleOther[cntn] = cnt;
 		do {
 			pop = sta[stasiz--];
-			belong[pop] = cntn;
+			belongCycle[pop] = cntn;
 			pos[pop] = cnt--;
 			addEdge2(cntn, pop);
 		} while (pop != v);
@@ -337,15 +335,15 @@ public class Code08_CactusPathFlip1 {
 		while (x != 0) {
 			int xtop = top[x];
 			if (x == xtop) {
-				if (belong[x] != 0) {
-					flipCycle(belong[x], x, op);
-					x = cycleRoot[belong[x]];
+				if (belongCycle[x] != 0) {
+					flipCycle(belongCycle[x], x, op);
+					x = cycleRoot[belongCycle[x]];
 				} else {
 					reverse(dfn[x], dfn[x], op, 1, cntn, 1);
 					x = fa[x];
 				}
 			} else if (xtop <= n) {
-				if (belong[xtop] != 0) {
+				if (belongCycle[xtop] != 0) {
 					reverse(dfn[son[xtop]], dfn[x], op, 1, cntn, 1);
 					x = xtop;
 				} else {
@@ -360,7 +358,7 @@ public class Code08_CactusPathFlip1 {
 	}
 
 	public static int query(int x) {
-		if (belong[x] == 0 || x == son[belong[x]]) {
+		if (belongCycle[x] == 0 || x == son[belongCycle[x]]) {
 			return query(dfn[x], treer[x], 1, cntn, 1);
 		} else {
 			return query(dfn[x], dfn[x], 1, cntn, 1) + query(treel[x], treer[x], 1, cntn, 1);

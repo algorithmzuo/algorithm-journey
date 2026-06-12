@@ -43,7 +43,7 @@ package class200;
 //int top[MAXN];
 //int seg[MAXN];
 //
-//int belong[MAXN];
+//int belongCycle[MAXN];
 //int pos[MAXN];
 //int cycleRoot[MAXN];
 //int cycleOther[MAXN];
@@ -94,7 +94,7 @@ package class200;
 //    cycleOther[cntn] = cnt;
 //    do {
 //        pop = sta[stasiz--];
-//        belong[pop] = cntn;
+//        belongCycle[pop] = cntn;
 //        pos[pop] = cnt--;
 //        addEdge2(cntn, pop);
 //    } while (pop != v);
@@ -312,15 +312,15 @@ package class200;
 //    while (x != 0) {
 //        int xtop = top[x];
 //        if (x == xtop) {
-//            if (belong[x] != 0) {
-//                flipCycle(belong[x], x, op);
-//                x = cycleRoot[belong[x]];
+//            if (belongCycle[x] != 0) {
+//                flipCycle(belongCycle[x], x, op);
+//                x = cycleRoot[belongCycle[x]];
 //            } else {
 //                reverse(dfn[x], dfn[x], op, 1, cntn, 1);
 //                x = fa[x];
 //            }
 //        } else if (xtop <= n) {
-//            if (belong[xtop] != 0) {
+//            if (belongCycle[xtop] != 0) {
 //                reverse(dfn[son[xtop]], dfn[x], op, 1, cntn, 1);
 //                x = xtop;
 //            } else {
@@ -335,7 +335,7 @@ package class200;
 //}
 //
 //int query(int x) {
-//    if (belong[x] == 0 || x == son[belong[x]]) {
+//    if (belongCycle[x] == 0 || x == son[belongCycle[x]]) {
 //        return query(dfn[x], treer[x], 1, cntn, 1);
 //    } else {
 //        return query(dfn[x], dfn[x], 1, cntn, 1) + query(treel[x], treer[x], 1, cntn, 1);
