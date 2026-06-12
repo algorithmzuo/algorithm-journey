@@ -46,6 +46,7 @@ public class Code06_CactusShortestPaths1 {
 	public static int[] cycleSum = new int[MAXN];
 
 	// 树链剖分
+	// len[u] : 圆方树上从头节点到u的长度
 	public static int[] fa = new int[MAXN];
 	public static int[] dep = new int[MAXN];
 	public static int[] siz = new int[MAXN];
