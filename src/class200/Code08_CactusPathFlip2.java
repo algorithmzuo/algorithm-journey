@@ -338,14 +338,6 @@ package class200;
 //    }
 //}
 //
-//int query(int x) {
-//    if (belongCycle[x] == 0 || x == son[belongCycle[x]]) {
-//        return query(dfn[x], treer[x], 1, cntn, 1);
-//    } else {
-//        return query(dfn[x], dfn[x], 1, cntn, 1) + query(treel[x], treer[x], 1, cntn, 1);
-//    }
-//}
-//
 //void prepare() {
 //    tarjan(1, 0);
 //    cntd = 0;
@@ -379,7 +371,9 @@ package class200;
 //        if (op == 1 || op == 2) {
 //            flip(x, op);
 //        } else {
-//            cout << query(x) << "\n";
+//            int ans = query(dfn[x], dfn[x], 1, cntn, 1);
+//            ans += query(treel[x], treer[x], 1, cntn, 1);
+//            cout << ans << "\n";
 //        }
 //    }
 //    return 0;

@@ -360,14 +360,6 @@ public class Code08_CactusPathFlip1 {
 		}
 	}
 
-	public static int query(int x) {
-		if (belongCycle[x] == 0 || x == son[belongCycle[x]]) {
-			return query(dfn[x], treer[x], 1, cntn, 1);
-		} else {
-			return query(dfn[x], dfn[x], 1, cntn, 1) + query(treel[x], treer[x], 1, cntn, 1);
-		}
-	}
-
 	public static void prepare() {
 		tarjan(1, 0);
 		cntd = 0;
@@ -405,7 +397,9 @@ public class Code08_CactusPathFlip1 {
 			if (op == 1 || op == 2) {
 				flip(x, op);
 			} else {
-				out.println(query(x));
+				int ans = query(dfn[x], dfn[x], 1, cntn, 1);
+				ans += query(treel[x], treer[x], 1, cntn, 1);
+				out.println(ans);
 			}
 		}
 		out.flush();
