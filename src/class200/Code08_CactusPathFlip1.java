@@ -67,12 +67,11 @@ public class Code08_CactusPathFlip1 {
 	// nodeType[x] == 3，表示x是沿着重链往上跳的必经点
 	public static int[] nodeType = new int[MAXN];
 
-	// 如果u是方点，也就是代表环时，才有意义
-	// 除了环顶点和重儿子之外，环中圆点的dfn编号范围
+	// 除了环顶和重儿子之外，环中圆点的dfn编号范围，只对方点有意义
 	public static int[] cyclel = new int[MAXN];
 	public static int[] cycler = new int[MAXN];
 
-	// 子树上后续节点的dfn编号范围
+	// 子树上，所有后代节点的dfn编号范围，只对圆点有意义
 	public static int[] treel = new int[MAXN];
 	public static int[] treer = new int[MAXN];
 
@@ -193,7 +192,9 @@ public class Code08_CactusPathFlip1 {
 		if (u > n) {
 			cycleDfn(u);
 		}
-		treel[u] = cntd + 1;
+		if (u <= n) {
+			treel[u] = cntd + 1;
+		}
 		if (son[u] != 0) {
 			dfs2(son[u], t);
 		}
@@ -203,7 +204,9 @@ public class Code08_CactusPathFlip1 {
 				dfs2(v, v);
 			}
 		}
-		treer[u] = cntd;
+		if (u <= n) {
+			treer[u] = cntd;
+		}
 	}
 
 	public static void up(int i) {

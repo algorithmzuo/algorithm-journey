@@ -170,7 +170,9 @@ package class200;
 //    if (u > n) {
 //        cycleDfn(u);
 //    }
-//    treel[u] = cntd + 1;
+//    if (u <= n) {
+//        treel[u] = cntd + 1;
+//    }
 //    if (son[u] != 0) {
 //        dfs2(son[u], t);
 //    }
@@ -180,7 +182,9 @@ package class200;
 //            dfs2(v, v);
 //        }
 //    }
-//    treer[u] = cntd;
+//    if (u <= n) {
+//        treer[u] = cntd;
+//    }
 //}
 //
 //void up(int i) {
