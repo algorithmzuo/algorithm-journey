@@ -337,25 +337,27 @@ public class Code08_CactusPathFlip1 {
 	public static void flip(int x, int op) {
 		while (x != 0) {
 			int xtop = top[x];
-			if (x == xtop) {
-				if (belongCycle[x] != 0) {
-					flipCycle(belongCycle[x], x, op);
-					x = cycleRoot[belongCycle[x]];
+			if (x != xtop) {
+				if (xtop <= n) {
+					if (belongCycle[xtop] != 0) {
+						reverse(dfn[son[xtop]], dfn[x], op, 1, cntn, 1);
+						x = xtop;
+					} else {
+						reverse(dfn[xtop], dfn[x], op, 1, cntn, 1);
+						x = fa[xtop];
+					}
 				} else {
-					reverse(dfn[x], dfn[x], op, 1, cntn, 1);
-					x = fa[x];
-				}
-			} else if (xtop <= n) {
-				if (belongCycle[xtop] != 0) {
-					reverse(dfn[son[xtop]], dfn[x], op, 1, cntn, 1);
-					x = xtop;
-				} else {
-					reverse(dfn[xtop], dfn[x], op, 1, cntn, 1);
+					reverse(cyclel[xtop], dfn[x], op, 1, cntn, 1);
 					x = fa[xtop];
 				}
 			} else {
-				reverse(cyclel[xtop], dfn[x], op, 1, cntn, 1);
-				x = fa[xtop];
+				if (belongCycle[x] == 0) {
+					reverse(dfn[x], dfn[x], op, 1, cntn, 1);
+					x = fa[x];
+				} else {
+					flipCycle(belongCycle[x], x, op);
+					x = cycleRoot[belongCycle[x]];
+				}
 			}
 		}
 	}
