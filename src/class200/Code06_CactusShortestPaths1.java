@@ -118,6 +118,7 @@ public class Code06_CactusShortestPaths1 {
 		len[u] = l;
 		for (int e = head2[u], v; e > 0; e = next2[e]) {
 			v = to2[e];
+			// 其实无需判断 v != f，因为是单向边，但保留模版的写法
 			if (v != f) {
 				dfs1(v, u, len[u] + weight2[e]);
 				siz[u] += siz[v];
@@ -135,6 +136,7 @@ public class Code06_CactusShortestPaths1 {
 		}
 		for (int e = head2[u]; e > 0; e = next2[e]) {
 			int v = to2[e];
+			// 其实无需判断 v != fa[u]，因为是单向边，但保留模版的写法
 			if (v != fa[u] && v != son[u]) {
 				dfs2(v, v);
 			}
