@@ -145,13 +145,13 @@ package class200;
 //    return dep[a] <= dep[b] ? a : b;
 //}
 //
-//int find(int cur, int lca) {
+//int find(int x, int square) {
 //    int ans = 0;
-//    while (top[cur] != top[lca]) {
-//        ans = top[cur];
-//        cur = fa[top[cur]];
+//    while (top[x] != top[square]) {
+//        ans = top[x];
+//        x = fa[top[x]];
 //    }
-//    return cur == lca ? ans : son[lca];
+//    return x == square ? ans : son[square];
 //}
 //
 //int query(int x, int y) {

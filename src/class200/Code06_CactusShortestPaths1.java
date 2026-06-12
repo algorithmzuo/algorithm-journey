@@ -154,13 +154,13 @@ public class Code06_CactusShortestPaths1 {
 		return dep[a] <= dep[b] ? a : b;
 	}
 
-	public static int find(int cur, int lca) {
+	public static int find(int x, int square) {
 		int ans = 0;
-		while (top[cur] != top[lca]) {
-			ans = top[cur];
-			cur = fa[top[cur]];
+		while (top[x] != top[square]) {
+			ans = top[x];
+			x = fa[top[x]];
 		}
-		return cur == lca ? ans : son[lca];
+		return x == square ? ans : son[square];
 	}
 
 	public static int query(int x, int y) {
