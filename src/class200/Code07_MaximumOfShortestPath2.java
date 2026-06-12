@@ -236,23 +236,26 @@ package class200;
 //
 //void dpOnTree(int u) {
 //    dist[u] = 0;
-//    for (int e = head3[u]; e > 0; e = next3[e]) {
-//        int v = to3[e];
-//        dpOnTree(v);
-//    }
-//    int siz = 0;
-//    for (int e = head3[u]; e > 0; e = next3[e]) {
-//        int v = to3[e];
-//        if (u <= n) {
+//    if (u <= n) {
+//        for (int e = head3[u]; e > 0; e = next3[e]) {
+//            int v = to3[e];
+//            dpOnTree(v);
 //            diameter = max(diameter, dist[u] + dist[v] + len[v] - len[u]);
-//        } else {
+//            dist[u] = max(dist[u], dist[v] + len[v] - len[u]);
+//        }
+//    } else {
+//        for (int e = head3[u]; e > 0; e = next3[e]) {
+//            int v = to3[e];
+//            dpOnTree(v);
+//        }
+//        int siz = 0;
+//        for (int e = head3[u]; e > 0; e = next3[e]) {
+//            int v = to3[e];
 //            int f = find(v, u);
 //            dist[f] = dist[v] + len[v] - len[f];
 //            idx[++siz] = f;
+//            dist[u] = max(dist[u], dist[v] + len[v] - len[u]);
 //        }
-//        dist[u] = max(dist[u], dist[v] + len[v] - len[u]);
-//    }
-//    if (siz >= 2) {
 //        computeOnCycle(u, siz);
 //    }
 //}

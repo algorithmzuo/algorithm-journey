@@ -63,6 +63,7 @@ public class Code07_MaximumOfShortestPath1 {
 	public static int[] arr = new int[MAXN];
 	public static int[] tmp = new int[MAXN];
 
+	// dist[u] : 以u为头的树，u到任意点的最短路距离的最大值
 	public static long[] dist = new long[MAXN];
 	public static long diameter;
 
@@ -271,29 +272,31 @@ public class Code07_MaximumOfShortestPath1 {
 
 	public static void dpOnTree(int u) {
 		dist[u] = 0;
-		for (int e = head3[u]; e > 0; e = next3[e]) {
-			int v = to3[e];
-			dpOnTree(v);
-		}
-		// 注意
-		// 下面的for循环，不能和上面的for循环合并
-		// 因为idx是全局数组，用来收集当前方点u，环上的相关节点
-		// 如果边递归边收集idx，那么当前层已经写入的idx[1..siz]
-		// 可能会被孩子的递归过程，覆盖掉idx，导致收集脏数据
-		// 所以先递归完所有孩子，再收集环上的相关节点，写入idx
-		int siz = 0;
-		for (int e = head3[u]; e > 0; e = next3[e]) {
-			int v = to3[e];
-			if (u <= n) {
+		if (u <= n) {
+			for (int e = head3[u]; e > 0; e = next3[e]) {
+				int v = to3[e];
+				dpOnTree(v);
 				diameter = Math.max(diameter, dist[u] + dist[v] + len[v] - len[u]);
-			} else {
+				dist[u] = Math.max(dist[u], dist[v] + len[v] - len[u]);
+			}
+		} else {
+			for (int e = head3[u]; e > 0; e = next3[e]) {
+				int v = to3[e];
+				dpOnTree(v);
+			}
+			// 注意，下面的for循环，不能和上面的for循环合并处理
+			// 因为idx是全局数组，此时u是方点，会收集环上的相关节点
+			// 如果边递归边收集idx，那么当前已经写入的idx[1..siz]
+			// 可能会被孩子的递归过程覆盖掉，导致idx收集脏数据
+			// 所以先执行所有孩子的递归，再收集环上节点
+			int siz = 0;
+			for (int e = head3[u]; e > 0; e = next3[e]) {
+				int v = to3[e];
 				int f = find(v, u);
 				dist[f] = dist[v] + len[v] - len[f];
 				idx[++siz] = f;
+				dist[u] = Math.max(dist[u], dist[v] + len[v] - len[u]);
 			}
-			dist[u] = Math.max(dist[u], dist[v] + len[v] - len[u]);
-		}
-		if (siz >= 2) {
 			computeOnCycle(u, siz);
 		}
 	}
