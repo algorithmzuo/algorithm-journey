@@ -317,12 +317,12 @@ package class200;
 //        int xtop = top[x];
 //        if (x != xtop) {
 //            if (xtop <= n) {
-//                if (belongCycle[xtop] != 0) {
-//                    reverse(dfn[son[xtop]], dfn[x], op, 1, cntn, 1);
-//                    x = xtop;
-//                } else {
+//                if (belongCycle[xtop] == 0) {
 //                    reverse(dfn[xtop], dfn[x], op, 1, cntn, 1);
 //                    x = fa[xtop];
+//                } else {
+//                    reverse(dfn[son[xtop]], dfn[x], op, 1, cntn, 1);
+//                    x = xtop;
 //                }
 //            } else {
 //                reverse(cyclel[xtop], dfn[x], op, 1, cntn, 1);
