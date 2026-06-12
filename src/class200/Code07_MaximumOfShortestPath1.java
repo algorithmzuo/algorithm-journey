@@ -200,15 +200,6 @@ public class Code07_MaximumOfShortestPath1 {
 		}
 	}
 
-	public static int find(int cur, int lca) {
-		int ans = 0;
-		while (top[cur] != top[lca]) {
-			ans = top[cur];
-			cur = fa[top[cur]];
-		}
-		return cur == lca ? ans : son[lca];
-	}
-
 	public static int lca(int a, int b) {
 		while (top[a] != top[b]) {
 			if (dep[top[a]] <= dep[top[b]]) {
@@ -218,6 +209,15 @@ public class Code07_MaximumOfShortestPath1 {
 			}
 		}
 		return dep[a] <= dep[b] ? a : b;
+	}
+
+	public static int find(int cur, int lca) {
+		int ans = 0;
+		while (top[cur] != top[lca]) {
+			ans = top[cur];
+			cur = fa[top[cur]];
+		}
+		return cur == lca ? ans : son[lca];
 	}
 
 	// 虚树的建立方式，二次排序 + 相邻LCA连边

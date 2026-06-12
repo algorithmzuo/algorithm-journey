@@ -159,15 +159,6 @@ package class200;
 //    }
 //}
 //
-//int find(int cur, int lca) {
-//    int ans = 0;
-//    while (top[cur] != top[lca]) {
-//        ans = top[cur];
-//        cur = fa[top[cur]];
-//    }
-//    return cur == lca ? ans : son[lca];
-//}
-//
 //int lca(int a, int b) {
 //    while (top[a] != top[b]) {
 //        if (dep[top[a]] <= dep[top[b]]) {
@@ -177,6 +168,15 @@ package class200;
 //        }
 //    }
 //    return dep[a] <= dep[b] ? a : b;
+//}
+//
+//int find(int cur, int lca) {
+//    int ans = 0;
+//    while (top[cur] != top[lca]) {
+//        ans = top[cur];
+//        cur = fa[top[cur]];
+//    }
+//    return cur == lca ? ans : son[lca];
 //}
 //
 //int buildVirtualTree() {
