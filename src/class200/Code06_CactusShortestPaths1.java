@@ -172,7 +172,7 @@ public class Code06_CactusShortestPaths1 {
 			ans = len[x] + len[y] - len[fx] - len[fy];
 			int small = Math.min(cycleLen[fx], cycleLen[fy]);
 			int big = Math.max(cycleLen[fx], cycleLen[fy]);
-			ans += Math.min(big - small, cycleSum[xylca] + small - big);
+			ans += Math.min(big - small, cycleSum[xylca] - (big - small));
 		}
 		return ans;
 	}
