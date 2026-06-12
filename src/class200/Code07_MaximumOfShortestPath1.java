@@ -48,14 +48,14 @@ public class Code07_MaximumOfShortestPath1 {
 
 	// 环的信息
 	public static long[] fromWeight = new long[MAXN];
-	public static long[] cycleDist = new long[MAXN];
+	public static long[] cycleLen = new long[MAXN];
 	public static long[] cycleSum = new long[MAXN];
 
 	// 树链剖分
 	public static int[] fa = new int[MAXN];
 	public static int[] dep = new int[MAXN];
 	public static int[] siz = new int[MAXN];
-	public static long[] dist = new long[MAXN];
+	public static long[] len = new long[MAXN];
 	public static int[] son = new int[MAXN];
 	public static int[] top = new int[MAXN];
 
@@ -63,9 +63,9 @@ public class Code07_MaximumOfShortestPath1 {
 	public static int[] arr = new int[MAXN];
 	public static int[] tmp = new int[MAXN];
 
-	// 虚树dp
-	public static long[] dp = new long[MAXN];
-	public static long ans;
+	// dist[u] : 以u为头的子仙人掌中，u到任意点的最短路距离的最大值
+	public static long[] dist = new long[MAXN];
+	public static long diameter;
 
 	// 单调队列
 	public static int[] idx = new int[MAXN];
@@ -109,20 +109,20 @@ public class Code07_MaximumOfShortestPath1 {
 		sortByDfn(nums, i, r);
 	}
 
-	public static void sortByDist(int[] nums, int l, int r) {
+	public static void sortByLen(int[] nums, int l, int r) {
 		if (l >= r) return;
 		int i = l, j = r;
 		int pivot = nums[(l + r) >> 1];
 		while (i <= j) {
-			while (cycleDist[nums[i]] < cycleDist[pivot]) i++;
-			while (cycleDist[nums[j]] > cycleDist[pivot]) j--;
+			while (cycleLen[nums[i]] < cycleLen[pivot]) i++;
+			while (cycleLen[nums[j]] > cycleLen[pivot]) j--;
 			if (i <= j) {
 				int tmp = nums[i]; nums[i] = nums[j]; nums[j] = tmp;
 				i++; j--;
 			}
 		}
-		sortByDist(nums, l, j);
-		sortByDist(nums, i, r);
+		sortByLen(nums, l, j);
+		sortByLen(nums, i, r);
 	}
 
 	public static void cycleLink(int u, int v) {
@@ -133,12 +133,12 @@ public class Code07_MaximumOfShortestPath1 {
 		int pop;
 		do {
 			pop = sta[tmp--];
-			cycleDist[pop] = cycleSum[cntn];
+			cycleLen[pop] = cycleSum[cntn];
 			cycleSum[cntn] += fromWeight[pop];
 		} while (pop != v);
 		do {
 			pop = sta[stasiz--];
-			addEdge2(cntn, pop, Math.min(cycleDist[pop], cycleSum[cntn] - cycleDist[pop]));
+			addEdge2(cntn, pop, Math.min(cycleLen[pop], cycleSum[cntn] - cycleLen[pop]));
 		} while (pop != v);
 	}
 
@@ -169,15 +169,15 @@ public class Code07_MaximumOfShortestPath1 {
 		}
 	}
 
-	public static void dfs1(int u, int f, long dis) {
+	public static void dfs1(int u, int f, long l) {
 		fa[u] = f;
 		dep[u] = dep[f] + 1;
 		siz[u] = 1;
-		dist[u] = dis;
+		len[u] = l;
 		for (int e = head2[u], v; e > 0; e = next2[e]) {
 			v = to2[e];
 			if (v != f) {
-				dfs1(v, u, dist[u] + weight2[e]);
+				dfs1(v, u, len[u] + weight2[e]);
 				siz[u] += siz[v];
 				if (son[u] == 0 || siz[son[u]] < siz[v]) {
 					son[u] = v;
@@ -246,12 +246,12 @@ public class Code07_MaximumOfShortestPath1 {
 		return tmp[1];
 	}
 
-	public static void update(int u, int siz) {
-		sortByDist(idx, 1, siz);
+	public static void computeOnCycle(int u, int siz) {
+		sortByLen(idx, 1, siz);
 		for (int i = 1; i <= siz; i++) {
-			pos[i] = cycleDist[idx[i]];
+			pos[i] = cycleLen[idx[i]];
 			pos[i + siz] = pos[i] + cycleSum[u];
-			val[i] = dp[idx[i]];
+			val[i] = dist[idx[i]];
 			val[i + siz] = val[i];
 		}
 		int l = 1;
@@ -261,7 +261,7 @@ public class Code07_MaximumOfShortestPath1 {
 				l++;
 			}
 			if (l <= r) {
-				ans = Math.max(ans, val[que[l]] - pos[que[l]] + val[i] + pos[i]);
+				diameter = Math.max(diameter, val[que[l]] - pos[que[l]] + val[i] + pos[i]);
 			}
 			while (l <= r && val[que[r]] - pos[que[r]] <= val[i] - pos[i]) {
 				r--;
@@ -271,25 +271,31 @@ public class Code07_MaximumOfShortestPath1 {
 	}
 
 	public static void dpOnTree(int u) {
-		dp[u] = 0;
+		dist[u] = 0;
 		for (int e = head3[u]; e > 0; e = next3[e]) {
 			int v = to3[e];
 			dpOnTree(v);
 		}
+		// 注意
+		// 下面的for循环，不能和上面的for循环合并
+		// 因为idx是全局数组，用来收集当前方点u，环上的相关节点
+		// 如果边递归边收集idx，那么当前层已经写入的idx[1..siz]
+		// 可能会被孩子的递归过程，覆盖掉idx，导致收集脏数据
+		// 所以先递归完所有孩子，再收集环上的相关节点，写入idx
 		int siz = 0;
 		for (int e = head3[u]; e > 0; e = next3[e]) {
 			int v = to3[e];
 			if (u <= n) {
-				ans = Math.max(ans, dp[u] + dp[v] + dist[v] - dist[u]);
+				diameter = Math.max(diameter, dist[u] + dist[v] + len[v] - len[u]);
 			} else {
 				int f = find(v, u);
-				dp[f] = dp[v] + dist[v] - dist[f];
+				dist[f] = dist[v] + len[v] - len[f];
 				idx[++siz] = f;
 			}
-			dp[u] = Math.max(dp[u], dp[v] + dist[v] - dist[u]);
+			dist[u] = Math.max(dist[u], dist[v] + len[v] - len[u]);
 		}
 		if (siz >= 2) {
-			update(u, siz);
+			computeOnCycle(u, siz);
 		}
 	}
 
@@ -317,10 +323,10 @@ public class Code07_MaximumOfShortestPath1 {
 			for (int j = 1; j <= k; j++) {
 				arr[j] = in.nextInt();
 			}
-			ans = 0;
+			diameter = 0;
 			int tree = buildVirtualTree();
 			dpOnTree(tree);
-			out.println(ans);
+			out.println(diameter);
 		}
 		out.flush();
 		out.close();

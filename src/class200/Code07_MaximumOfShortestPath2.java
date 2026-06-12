@@ -43,21 +43,21 @@ package class200;
 //int stasiz;
 //
 //ll fromWeight[MAXN];
-//ll cycleDist[MAXN];
+//ll cycleLen[MAXN];
 //ll cycleSum[MAXN];
 //
 //int fa[MAXN];
 //int dep[MAXN];
 //int siz[MAXN];
-//ll dist[MAXN];
+//ll len[MAXN];
 //int son[MAXN];
 //int top[MAXN];
 //
 //int arr[MAXN];
 //int tmp[MAXN];
 //
-//ll dp[MAXN];
-//ll ans;
+//ll dist[MAXN];
+//ll diameter;
 //
 //int idx[MAXN];
 //ll pos[MAXN];
@@ -92,12 +92,12 @@ package class200;
 //    int pop;
 //    do {
 //        pop = sta[tmp--];
-//        cycleDist[pop] = cycleSum[cntn];
+//        cycleLen[pop] = cycleSum[cntn];
 //        cycleSum[cntn] += fromWeight[pop];
 //    } while (pop != v);
 //    do {
 //        pop = sta[stasiz--];
-//        addEdge2(cntn, pop, min(cycleDist[pop], cycleSum[cntn] - cycleDist[pop]));
+//        addEdge2(cntn, pop, min(cycleLen[pop], cycleSum[cntn] - cycleLen[pop]));
 //    } while (pop != v);
 //}
 //
@@ -128,15 +128,15 @@ package class200;
 //    }
 //}
 //
-//void dfs1(int u, int f, ll dis) {
+//void dfs1(int u, int f, ll l) {
 //    fa[u] = f;
 //    dep[u] = dep[f] + 1;
 //    siz[u] = 1;
-//    dist[u] = dis;
+//    len[u] = l;
 //    for (int e = head2[u], v; e > 0; e = next2[e]) {
 //        v = to2[e];
 //        if (v != f) {
-//            dfs1(v, u, dist[u] + weight2[e]);
+//            dfs1(v, u, len[u] + weight2[e]);
 //            siz[u] += siz[v];
 //            if (son[u] == 0 || siz[son[u]] < siz[v]) {
 //                son[u] = v;
@@ -208,14 +208,14 @@ package class200;
 //    return tmp[1];
 //}
 //
-//void update(int u, int siz) {
+//void computeOnCycle(int u, int siz) {
 //    sort(idx + 1, idx + siz + 1, [](int a, int b) {
-//        return cycleDist[a] < cycleDist[b];
+//        return cycleLen[a] < cycleLen[b];
 //    });
 //    for (int i = 1; i <= siz; i++) {
-//        pos[i] = cycleDist[idx[i]];
+//        pos[i] = cycleLen[idx[i]];
 //        pos[i + siz] = pos[i] + cycleSum[u];
-//        val[i] = dp[idx[i]];
+//        val[i] = dist[idx[i]];
 //        val[i + siz] = val[i];
 //    }
 //    int l = 1;
@@ -225,7 +225,7 @@ package class200;
 //            l++;
 //        }
 //        if (l <= r) {
-//            ans = max(ans, val[que[l]] - pos[que[l]] + val[i] + pos[i]);
+//            diameter = max(diameter, val[que[l]] - pos[que[l]] + val[i] + pos[i]);
 //        }
 //        while (l <= r && val[que[r]] - pos[que[r]] <= val[i] - pos[i]) {
 //            r--;
@@ -235,7 +235,7 @@ package class200;
 //}
 //
 //void dpOnTree(int u) {
-//    dp[u] = 0;
+//    dist[u] = 0;
 //    for (int e = head3[u]; e > 0; e = next3[e]) {
 //        int v = to3[e];
 //        dpOnTree(v);
@@ -244,16 +244,16 @@ package class200;
 //    for (int e = head3[u]; e > 0; e = next3[e]) {
 //        int v = to3[e];
 //        if (u <= n) {
-//            ans = max(ans, dp[u] + dp[v] + dist[v] - dist[u]);
+//            diameter = max(diameter, dist[u] + dist[v] + len[v] - len[u]);
 //        } else {
 //            int f = find(v, u);
-//            dp[f] = dp[v] + dist[v] - dist[f];
+//            dist[f] = dist[v] + len[v] - len[f];
 //            idx[++siz] = f;
 //        }
-//        dp[u] = max(dp[u], dp[v] + dist[v] - dist[u]);
+//        dist[u] = max(dist[u], dist[v] + len[v] - len[u]);
 //    }
 //    if (siz >= 2) {
-//        update(u, siz);
+//        computeOnCycle(u, siz);
 //    }
 //}
 //
@@ -278,10 +278,10 @@ package class200;
 //        for (int j = 1; j <= k; j++) {
 //            cin >> arr[j];
 //        }
-//        ans = 0;
+//        diameter = 0;
 //        int tree = buildVirtualTree();
 //        dpOnTree(tree);
-//        cout << ans << "\n";
+//        cout << diameter << "\n";
 //    }
 //    return 0;
 //}
