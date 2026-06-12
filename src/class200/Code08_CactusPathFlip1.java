@@ -343,7 +343,6 @@ public class Code08_CactusPathFlip1 {
 						reverse(dfn[xtop], dfn[x], op, 1, cntn, 1);
 						x = fa[xtop];
 					} else {
-						// 如果xtop上方有环，此时xtop必是圆点
 						reverse(dfn[son[xtop]], dfn[x], op, 1, cntn, 1);
 						x = xtop;
 					}
