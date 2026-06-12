@@ -36,13 +36,13 @@ package class200;
 //int stasiz;
 //
 //int fromWeight[MAXN];
-//int cycleDist[MAXN];
+//int cycleLen[MAXN];
 //int cycleSum[MAXN];
 //
 //int fa[MAXN];
 //int dep[MAXN];
 //int siz[MAXN];
-//int dist[MAXN];
+//int len[MAXN];
 //int son[MAXN];
 //int top[MAXN];
 //
@@ -68,12 +68,12 @@ package class200;
 //    int pop;
 //    do {
 //        pop = sta[tmp--];
-//        cycleDist[pop] = cycleSum[cntn];
+//        cycleLen[pop] = cycleSum[cntn];
 //        cycleSum[cntn] += fromWeight[pop];
 //    } while (pop != v);
 //    do {
 //        pop = sta[stasiz--];
-//        addEdge2(cntn, pop, min(cycleDist[pop], cycleSum[cntn] - cycleDist[pop]));
+//        addEdge2(cntn, pop, min(cycleLen[pop], cycleSum[cntn] - cycleLen[pop]));
 //    } while (pop != v);
 //}
 //
@@ -104,15 +104,15 @@ package class200;
 //    }
 //}
 //
-//void dfs1(int u, int f, int dis) {
+//void dfs1(int u, int f, int l) {
 //    fa[u] = f;
 //    dep[u] = dep[f] + 1;
 //    siz[u] = 1;
-//    dist[u] = dis;
+//    len[u] = l;
 //    for (int e = head2[u], v; e > 0; e = next2[e]) {
 //        v = to2[e];
 //        if (v != f) {
-//            dfs1(v, u, dist[u] + weight2[e]);
+//            dfs1(v, u, len[u] + weight2[e]);
 //            siz[u] += siz[v];
 //            if (son[u] == 0 || siz[son[u]] < siz[v]) {
 //                son[u] = v;
@@ -158,13 +158,13 @@ package class200;
 //    int ans = 0;
 //    int xylca = lca(x, y);
 //    if (xylca <= n) {
-//        ans = dist[x] + dist[y] - (dist[xylca] << 1);
+//        ans = len[x] + len[y] - (len[xylca] << 1);
 //    } else {
 //        int fx = find(x, xylca);
 //        int fy = find(y, xylca);
-//        ans = dist[x] + dist[y] - dist[fx] - dist[fy];
-//        int small = min(cycleDist[fx], cycleDist[fy]);
-//        int big = max(cycleDist[fx], cycleDist[fy]);
+//        ans = len[x] + len[y] - len[fx] - len[fy];
+//        int small = min(cycleLen[fx], cycleLen[fy]);
+//        int big = max(cycleLen[fx], cycleLen[fy]);
 //        ans += min(big - small, cycleSum[xylca] + small - big);
 //    }
 //    return ans;

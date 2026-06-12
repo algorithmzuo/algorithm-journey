@@ -42,14 +42,14 @@ public class Code06_CactusShortestPaths1 {
 
 	// 环的信息
 	public static int[] fromWeight = new int[MAXN];
-	public static int[] cycleDist = new int[MAXN];
+	public static int[] cycleLen = new int[MAXN];
 	public static int[] cycleSum = new int[MAXN];
 
 	// 树链剖分
 	public static int[] fa = new int[MAXN];
 	public static int[] dep = new int[MAXN];
 	public static int[] siz = new int[MAXN];
-	public static int[] dist = new int[MAXN];
+	public static int[] len = new int[MAXN];
 	public static int[] son = new int[MAXN];
 	public static int[] top = new int[MAXN];
 
@@ -75,12 +75,12 @@ public class Code06_CactusShortestPaths1 {
 		int pop;
 		do {
 			pop = sta[tmp--];
-			cycleDist[pop] = cycleSum[cntn];
+			cycleLen[pop] = cycleSum[cntn];
 			cycleSum[cntn] += fromWeight[pop];
 		} while (pop != v);
 		do {
 			pop = sta[stasiz--];
-			addEdge2(cntn, pop, Math.min(cycleDist[pop], cycleSum[cntn] - cycleDist[pop]));
+			addEdge2(cntn, pop, Math.min(cycleLen[pop], cycleSum[cntn] - cycleLen[pop]));
 		} while (pop != v);
 	}
 
@@ -111,15 +111,15 @@ public class Code06_CactusShortestPaths1 {
 		}
 	}
 
-	public static void dfs1(int u, int f, int dis) {
+	public static void dfs1(int u, int f, int l) {
 		fa[u] = f;
 		dep[u] = dep[f] + 1;
 		siz[u] = 1;
-		dist[u] = dis;
+		len[u] = l;
 		for (int e = head2[u], v; e > 0; e = next2[e]) {
 			v = to2[e];
 			if (v != f) {
-				dfs1(v, u, dist[u] + weight2[e]);
+				dfs1(v, u, len[u] + weight2[e]);
 				siz[u] += siz[v];
 				if (son[u] == 0 || siz[son[u]] < siz[v]) {
 					son[u] = v;
@@ -165,13 +165,13 @@ public class Code06_CactusShortestPaths1 {
 		int ans = 0;
 		int xylca = lca(x, y);
 		if (xylca <= n) {
-			ans = dist[x] + dist[y] - (dist[xylca] << 1);
+			ans = len[x] + len[y] - (len[xylca] << 1);
 		} else {
 			int fx = find(x, xylca);
 			int fy = find(y, xylca);
-			ans = dist[x] + dist[y] - dist[fx] - dist[fy];
-			int small = Math.min(cycleDist[fx], cycleDist[fy]);
-			int big = Math.max(cycleDist[fx], cycleDist[fy]);
+			ans = len[x] + len[y] - len[fx] - len[fy];
+			int small = Math.min(cycleLen[fx], cycleLen[fy]);
+			int big = Math.max(cycleLen[fx], cycleLen[fy]);
 			ans += Math.min(big - small, cycleSum[xylca] + small - big);
 		}
 		return ans;
