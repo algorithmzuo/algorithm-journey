@@ -56,16 +56,8 @@ public class Code08_CactusPathFlip1 {
 
 	// 环顶节点，只对方点有意义
 	public static int[] cycleRoot = new int[MAXN];
-
 	// 环的边数，只对方点有意义
 	public static int[] cycleLen = new int[MAXN];
-
-	// dfnType[x] = 0，dfn序号为x的节点是方点
-	// dfnType[x] = 1，dfn序号为x的节点是圆点，位于环顶到环中重儿子的短路径侧
-	// dfnType[x] = 2，dfn序号为x的节点是圆点，位于环顶到环中重儿子的长路径侧
-	// dfnType[x] = 3，dfn序号为x的节点是圆点，是必经点
-	// 必经点的情况比较多，可能是环中重儿子 或者 只做环顶 或者 不参与任何环
-	public static int[] dfnType = new int[MAXN];
 
 	// 除了环顶和重儿子之外，环中圆点的dfn编号范围，只对方点有意义
 	public static int[] cyclel = new int[MAXN];
@@ -74,6 +66,13 @@ public class Code08_CactusPathFlip1 {
 	// 子树上，所有后代节点的dfn编号范围，只对圆点有意义
 	public static int[] treel = new int[MAXN];
 	public static int[] treer = new int[MAXN];
+
+	// dfnType[x] = 0，dfn序号为x的节点是方点
+	// dfnType[x] = 1，dfn序号为x的节点是圆点，位于环顶到环中重儿子的短路径侧
+	// dfnType[x] = 2，dfn序号为x的节点是圆点，位于环顶到环中重儿子的长路径侧
+	// dfnType[x] = 3，dfn序号为x的节点是圆点，是必经点
+	// 必经点的情况比较多，可能是环中重儿子 或者 只做环顶 或者 不参与任何环
+	public static int[] dfnType = new int[MAXN];
 
 	// 短路径线段树
 	public static int[] all1 = new int[MAXN << 2];

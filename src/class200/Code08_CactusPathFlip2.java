@@ -44,16 +44,17 @@ package class200;
 //
 //int belongCycle[MAXN];
 //int pos[MAXN];
+//
 //int cycleRoot[MAXN];
 //int cycleLen[MAXN];
-//
-//int dfnType[MAXN];
 //
 //int cyclel[MAXN];
 //int cycler[MAXN];
 //
 //int treel[MAXN];
 //int treer[MAXN];
+//
+//int dfnType[MAXN];
 //
 //int all1[MAXN << 2];
 //int black1[MAXN << 2];
