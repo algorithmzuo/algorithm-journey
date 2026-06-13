@@ -70,8 +70,9 @@ public class Code08_CactusPathFlip1 {
 	// dfnType[x] = 0，dfn序号为x的节点是方点
 	// dfnType[x] = 1，dfn序号为x的节点是圆点，位于环顶到环中重儿子的短路径侧
 	// dfnType[x] = 2，dfn序号为x的节点是圆点，位于环顶到环中重儿子的长路径侧
-	// dfnType[x] = 3，dfn序号为x的节点是圆点，是必经点
+	// dfnType[x] = 3，dfn序号为x的节点是圆点，如果不是1或2类型，那就是3类型，表示必经点
 	// 必经点的情况比较多，可能是环中重儿子 或者 只做环顶 或者 不参与任何环
+	// 总之无论短路径还是长路径，通过重链向上，一定会必经的点
 	public static int[] dfnType = new int[MAXN];
 
 	// 短路径线段树
