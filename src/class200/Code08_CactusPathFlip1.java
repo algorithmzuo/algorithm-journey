@@ -47,7 +47,6 @@ public class Code08_CactusPathFlip1 {
 	public static int[] siz = new int[MAXN];
 	public static int[] son = new int[MAXN];
 	public static int[] top = new int[MAXN];
-	public static int[] seg = new int[MAXN];
 
 	// 仙人掌中，一个节点可能是多个环的环顶，但不做环顶的话，最多参与一个环
 	// belongCycle[x]，表示节点x归属的环，x不是环顶节点
@@ -61,11 +60,11 @@ public class Code08_CactusPathFlip1 {
 	// 环的边数，只对方点有意义
 	public static int[] cycleLen = new int[MAXN];
 
-	// 环上节点分类，只对圆点有意义
-	// nodeType[x] == 1，表示x在环顶点到重儿子的短路径
-	// nodeType[x] == 2，表示x在环顶点到重儿子的长路径
-	// nodeType[x] == 3，表示x是沿着重链往上跳的必经点
-	public static int[] nodeType = new int[MAXN];
+	// dfnType[x] = 0，代表dfn序号为x的节点是方点
+	// dfnType[x] = 1，代表dfn序号为x的节点是圆点，在环中位于短路径侧
+	// dfnType[x] = 2，代表dfn序号为x的节点是圆点，在环中位于长路径侧
+	// dfnType[x] = 3，代表dfn序号为x的节点是圆点，在环中是重儿子，是必经点
+	public static int[] dfnType = new int[MAXN];
 
 	// 除了环顶和重儿子之外，环中圆点的dfn编号范围，只对方点有意义
 	public static int[] cyclel = new int[MAXN];
@@ -108,12 +107,12 @@ public class Code08_CactusPathFlip1 {
 		addEdge2(u, cntn);
 		int tmp = stasiz;
 		int pop;
-		int cnt = 1;
+		int cnt = 0;
 		do {
 			pop = sta[tmp--];
 			cnt++;
 		} while (pop != v);
-		cycleLen[cntn] = cnt;
+		cycleLen[cntn] = cnt + 1;
 		do {
 			pop = sta[stasiz--];
 			belongCycle[pop] = cntn;
@@ -169,25 +168,22 @@ public class Code08_CactusPathFlip1 {
 		for (int e = head2[u]; e > 0; e = next2[e]) {
 			int v = to2[e];
 			if (v != fa[u] && v != h) {
-				if ((near && pos[v] < pos[h]) || (!near && pos[v] > pos[h])) {
-					nodeType[v] = 1;
-				} else {
-					nodeType[v] = 2;
-				}
 				dfn[v] = ++cntd;
-				seg[cntd] = v;
+				if ((near && pos[v] < pos[h]) || (!near && pos[v] > pos[h])) {
+					dfnType[cntd] = 1;
+				} else {
+					dfnType[cntd] = 2;
+				}
 			}
 		}
 		cycler[u] = cntd;
 		dfn[h] = ++cntd;
-		seg[cntd] = h;
 	}
 
 	public static void dfs2(int u, int t) {
 		top[u] = t;
 		if (dfn[u] == 0) {
 			dfn[u] = ++cntd;
-			seg[cntd] = u;
 		}
 		if (u > n) {
 			cycleDfn(u);
@@ -253,18 +249,14 @@ public class Code08_CactusPathFlip1 {
 
 	public static void build(int l, int r, int i) {
 		if (l == r) {
-			int u = seg[l];
-			int t = nodeType[u];
-			if (u <= n) {
-				if (t == 1) {
-					all1[i] = black1[i] = 1;
-				}
-				if (t == 2) {
-					all2[i] = black2[i] = 1;
-				}
-				if (t == 3) {
-					all3[i] = black3[i] = 1;
-				}
+			if (dfnType[l] == 1) {
+				all1[i] = black1[i] = 1;
+			}
+			if (dfnType[l] == 2) {
+				all2[i] = black2[i] = 1;
+			}
+			if (dfnType[l] == 3) {
+				all3[i] = black3[i] = 1;
 			}
 		} else {
 			int mid = (l + r) >> 1;
@@ -371,8 +363,8 @@ public class Code08_CactusPathFlip1 {
 		dfs1(1, 0);
 		dfs2(1, 1);
 		for (int i = 1; i <= n; i++) {
-			if (nodeType[i] == 0) {
-				nodeType[i] = 3;
+			if (dfnType[dfn[i]] == 0) {
+				dfnType[dfn[i]] = 3;
 			}
 		}
 		build(1, cntn, 1);

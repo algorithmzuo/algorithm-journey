@@ -41,14 +41,13 @@ package class200;
 //int siz[MAXN];
 //int son[MAXN];
 //int top[MAXN];
-//int seg[MAXN];
 //
 //int belongCycle[MAXN];
 //int pos[MAXN];
 //int cycleRoot[MAXN];
 //int cycleLen[MAXN];
 //
-//int nodeType[MAXN];
+//int dfnType[MAXN];
 //
 //int cyclel[MAXN];
 //int cycler[MAXN];
@@ -86,12 +85,12 @@ package class200;
 //    addEdge2(u, cntn);
 //    int tmp = stasiz;
 //    int pop;
-//    int cnt = 1;
+//    int cnt = 0;
 //    do {
 //        pop = sta[tmp--];
 //        cnt++;
 //    } while (pop != v);
-//    cycleLen[cntn] = cnt;
+//    cycleLen[cntn] = cnt + 1;
 //    do {
 //        pop = sta[stasiz--];
 //        belongCycle[pop] = cntn;
@@ -147,25 +146,22 @@ package class200;
 //    for (int e = head2[u]; e > 0; e = next2[e]) {
 //        int v = to2[e];
 //        if (v != fa[u] && v != h) {
-//            if ((near && pos[v] < pos[h]) || (!near && pos[v] > pos[h])) {
-//                nodeType[v] = 1;
-//            } else {
-//                nodeType[v] = 2;
-//            }
 //            dfn[v] = ++cntd;
-//            seg[cntd] = v;
+//            if ((near && pos[v] < pos[h]) || (!near && pos[v] > pos[h])) {
+//                dfnType[cntd] = 1;
+//            } else {
+//                dfnType[cntd] = 2;
+//            }
 //        }
 //    }
 //    cycler[u] = cntd;
 //    dfn[h] = ++cntd;
-//    seg[cntd] = h;
 //}
 //
 //void dfs2(int u, int t) {
 //    top[u] = t;
 //    if (dfn[u] == 0) {
 //        dfn[u] = ++cntd;
-//        seg[cntd] = u;
 //    }
 //    if (u > n) {
 //        cycleDfn(u);
@@ -231,18 +227,14 @@ package class200;
 //
 //void build(int l, int r, int i) {
 //    if (l == r) {
-//        int u = seg[l];
-//        int t = nodeType[u];
-//        if (u <= n) {
-//            if (t == 1) {
-//                all1[i] = black1[i] = 1;
-//            }
-//            if (t == 2) {
-//                all2[i] = black2[i] = 1;
-//            }
-//            if (t == 3) {
-//                all3[i] = black3[i] = 1;
-//            }
+//        if (dfnType[l] == 1) {
+//            all1[i] = black1[i] = 1;
+//        }
+//        if (dfnType[l] == 2) {
+//            all2[i] = black2[i] = 1;
+//        }
+//        if (dfnType[l] == 3) {
+//            all3[i] = black3[i] = 1;
 //        }
 //    } else {
 //        int mid = (l + r) >> 1;
@@ -349,8 +341,8 @@ package class200;
 //    dfs1(1, 0);
 //    dfs2(1, 1);
 //    for (int i = 1; i <= n; i++) {
-//        if (nodeType[i] == 0) {
-//            nodeType[i] = 3;
+//        if (dfnType[dfn[i]] == 0) {
+//            dfnType[dfn[i]] = 3;
 //        }
 //    }
 //    build(1, cntn, 1);
