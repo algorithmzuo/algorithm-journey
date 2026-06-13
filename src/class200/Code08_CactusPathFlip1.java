@@ -58,8 +58,8 @@ public class Code08_CactusPathFlip1 {
 	// 环顶节点，只对方点有意义
 	public static int[] cycleRoot = new int[MAXN];
 
-	// 除去环顶节点，环中其他节点的数量，只对方点有意义
-	public static int[] cycleOther = new int[MAXN];
+	// 环的边数，只对方点有意义
+	public static int[] cycleLen = new int[MAXN];
 
 	// 环上节点分类，只对圆点有意义
 	// nodeType[x] == 1，表示x在环顶点到重儿子的短路径
@@ -108,12 +108,12 @@ public class Code08_CactusPathFlip1 {
 		addEdge2(u, cntn);
 		int tmp = stasiz;
 		int pop;
-		int cnt = 0;
+		int cnt = 1;
 		do {
 			pop = sta[tmp--];
 			cnt++;
 		} while (pop != v);
-		cycleOther[cntn] = cnt;
+		cycleLen[cntn] = cnt;
 		do {
 			pop = sta[stasiz--];
 			belongCycle[pop] = cntn;
@@ -164,7 +164,7 @@ public class Code08_CactusPathFlip1 {
 
 	public static void cycleDfn(int u) {
 		int h = son[u];
-		boolean near = pos[h] * 2 <= cycleOther[u];
+		boolean near = pos[h] * 2 < cycleLen[u];
 		cyclel[u] = cntd + 1;
 		for (int e = head2[u]; e > 0; e = next2[e]) {
 			int v = to2[e];
@@ -320,7 +320,7 @@ public class Code08_CactusPathFlip1 {
 
 	public static void flipCycle(int u, int x, int op) {
 		int h = son[u];
-		boolean near = pos[x] * 2 <= cycleOther[u];
+		boolean near = pos[x] * 2 < cycleLen[u];
 		if ((near && op == 1) || (!near && op == 2)) {
 			reverse(cyclel[u], dfn[x], 3, 1, cntn, 1);
 			if (pos[h] < pos[x]) {
