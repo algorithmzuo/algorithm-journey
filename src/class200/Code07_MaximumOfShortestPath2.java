@@ -60,7 +60,7 @@ package class200;
 //ll diameter;
 //
 //int idx[MAXN];
-//ll pos[MAXN];
+//ll pre[MAXN];
 //ll val[MAXN];
 //int que[MAXN];
 //
@@ -213,21 +213,21 @@ package class200;
 //        return cycleLen[a] < cycleLen[b];
 //    });
 //    for (int i = 1; i <= siz; i++) {
-//        pos[i] = cycleLen[idx[i]];
-//        pos[i + siz] = pos[i] + cycleSum[u];
+//        pre[i] = cycleLen[idx[i]];
+//        pre[i + siz] = pre[i] + cycleSum[u];
 //        val[i] = dist[idx[i]];
 //        val[i + siz] = val[i];
 //    }
 //    int l = 1;
 //    int r = 0;
 //    for (int i = 1; i <= siz * 2; i++) {
-//        while (l <= r && (pos[i] - pos[que[l]]) * 2 > cycleSum[u]) {
+//        while (l <= r && (pre[i] - pre[que[l]]) * 2 > cycleSum[u]) {
 //            l++;
 //        }
 //        if (l <= r) {
-//            diameter = max(diameter, val[que[l]] - pos[que[l]] + val[i] + pos[i]);
+//            diameter = max(diameter, val[que[l]] - pre[que[l]] + val[i] + pre[i]);
 //        }
-//        while (l <= r && val[que[r]] - pos[que[r]] <= val[i] - pos[i]) {
+//        while (l <= r && val[que[r]] - pre[que[r]] <= val[i] - pre[i]) {
 //            r--;
 //        }
 //        que[++r] = i;

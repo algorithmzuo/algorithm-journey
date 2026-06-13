@@ -69,7 +69,7 @@ public class Code07_MaximumOfShortestPath1 {
 
 	// 单调队列
 	public static int[] idx = new int[MAXN];
-	public static long[] pos = new long[MAXN];
+	public static long[] pre = new long[MAXN];
 	public static long[] val = new long[MAXN];
 	public static int[] que = new int[MAXN];
 
@@ -249,21 +249,21 @@ public class Code07_MaximumOfShortestPath1 {
 	public static void computeOnCycle(int u, int siz) {
 		sortByLen(idx, 1, siz);
 		for (int i = 1; i <= siz; i++) {
-			pos[i] = cycleLen[idx[i]];
-			pos[i + siz] = pos[i] + cycleSum[u];
+			pre[i] = cycleLen[idx[i]];
+			pre[i + siz] = pre[i] + cycleSum[u];
 			val[i] = dist[idx[i]];
 			val[i + siz] = val[i];
 		}
 		int l = 1;
 		int r = 0;
 		for (int i = 1; i <= siz * 2; i++) {
-			while (l <= r && (pos[i] - pos[que[l]]) * 2 > cycleSum[u]) {
+			while (l <= r && (pre[i] - pre[que[l]]) * 2 > cycleSum[u]) {
 				l++;
 			}
 			if (l <= r) {
-				diameter = Math.max(diameter, val[que[l]] - pos[que[l]] + val[i] + pos[i]);
+				diameter = Math.max(diameter, val[que[l]] - pre[que[l]] + val[i] + pre[i]);
 			}
-			while (l <= r && val[que[r]] - pos[que[r]] <= val[i] - pos[i]) {
+			while (l <= r && val[que[r]] - pre[que[r]] <= val[i] - pre[i]) {
 				r--;
 			}
 			que[++r] = i;
