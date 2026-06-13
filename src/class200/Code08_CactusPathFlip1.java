@@ -108,11 +108,13 @@ public class Code08_CactusPathFlip1 {
 		addEdge2(u, cntn);
 		int tmp = stasiz;
 		int pop;
+		// 除了环顶，其他节点的数量
 		int cnt = 0;
 		do {
 			pop = sta[tmp--];
 			cnt++;
 		} while (pop != v);
+		// 环上总边数
 		cycleLen[cntn] = cnt + 1;
 		do {
 			pop = sta[stasiz--];
