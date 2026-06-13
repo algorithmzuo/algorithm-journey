@@ -308,27 +308,16 @@ package class200;
 //void flip(int x, int op) {
 //    while (x != 0) {
 //        int xtop = top[x];
-//        if (x != xtop) {
-//            if (xtop <= n) {
-//                if (belongCycle[xtop] == 0) {
-//                    reverse(dfn[xtop], dfn[x], op, 1, cntn, 1);
-//                    x = fa[xtop];
-//                } else {
-//                    reverse(dfn[son[xtop]], dfn[x], op, 1, cntn, 1);
-//                    x = xtop;
-//                }
-//            } else {
-//                reverse(cyclel[xtop], dfn[x], op, 1, cntn, 1);
-//                x = fa[xtop];
-//            }
+//        if (xtop > n || belongCycle[xtop] == 0) {
+//            reverse(dfn[xtop], dfn[x], op, 1, cntn, 1);
+//            x = fa[xtop];
 //        } else {
-//            if (belongCycle[x] == 0) {
-//                reverse(dfn[x], dfn[x], op, 1, cntn, 1);
-//                x = fa[x];
-//            } else {
-//                flipCycle(belongCycle[x], x, op);
-//                x = cycleRoot[belongCycle[x]];
+//            if (x != xtop) {
+//                reverse(dfn[son[xtop]], dfn[x], op, 1, cntn, 1);
+//                x = xtop;
 //            }
+//            flipCycle(belongCycle[x], x, op);
+//            x = cycleRoot[belongCycle[x]];
 //        }
 //    }
 //}
