@@ -102,19 +102,23 @@ public class Code08_CactusPathFlip1 {
 		head2[u] = cnt2;
 	}
 
+	// 注意先统计cnt，然后pos的赋值要从大到小
+	// 因为当前弹栈顺序是，环上最深的点 -> ... -> v
+	// 链式前向星是头插法，先插入的节点，后遍历
+	// 所以后续cycleDfn时，环上分配dfn的顺序是，v -> ... -> 环上最深的点
+	// 于是让pos从大到小赋值，为了匹配环上每个点的dfn分配顺序
+	// 后续才能用pos正确的判断短路径/长路径
 	public static void cycleLink(int u, int v) {
 		cntn++;
 		cycleRoot[cntn] = u;
 		addEdge2(u, cntn);
 		int tmp = stasiz;
 		int pop;
-		// 除了环顶，其他节点的数量
 		int cnt = 0;
 		do {
 			pop = sta[tmp--];
 			cnt++;
 		} while (pop != v);
-		// 环上总边数
 		cycleLen[cntn] = cnt + 1;
 		do {
 			pop = sta[stasiz--];
