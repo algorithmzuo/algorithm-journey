@@ -60,10 +60,11 @@ public class Code08_CactusPathFlip1 {
 	// 环的边数，只对方点有意义
 	public static int[] cycleLen = new int[MAXN];
 
-	// dfnType[x] = 0，代表dfn序号为x的节点是方点
-	// dfnType[x] = 1，代表dfn序号为x的节点是圆点，在环中位于短路径侧
-	// dfnType[x] = 2，代表dfn序号为x的节点是圆点，在环中位于长路径侧
-	// dfnType[x] = 3，代表dfn序号为x的节点是圆点，在环中是重儿子，是必经点
+	// dfnType[x] = 0，dfn序号为x的节点是方点
+	// dfnType[x] = 1，dfn序号为x的节点是圆点，位于环顶到环中重儿子的短路径侧
+	// dfnType[x] = 2，dfn序号为x的节点是圆点，位于环顶到环中重儿子的长路径侧
+	// dfnType[x] = 3，dfn序号为x的节点是圆点，是必经点
+	// 必经点的情况比较多，可能是环中重儿子 或者 只做环顶 或者 不参与任何环
 	public static int[] dfnType = new int[MAXN];
 
 	// 除了环顶和重儿子之外，环中圆点的dfn编号范围，只对方点有意义
