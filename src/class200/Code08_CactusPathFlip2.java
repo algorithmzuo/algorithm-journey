@@ -43,10 +43,10 @@ package class200;
 //int top[MAXN];
 //
 //int belongCycle[MAXN];
-//int pos[MAXN];
-//
 //int cycleRoot[MAXN];
-//int cycleLen[MAXN];
+//
+//int pos[MAXN];
+//int cycleSum[MAXN];
 //
 //int cyclel[MAXN];
 //int cycler[MAXN];
@@ -91,7 +91,7 @@ package class200;
 //        pop = sta[tmp--];
 //        cnt++;
 //    } while (pop != v);
-//    cycleLen[cntn] = cnt + 1;
+//    cycleSum[cntn] = cnt + 1;
 //    do {
 //        pop = sta[stasiz--];
 //        belongCycle[pop] = cntn;
@@ -142,7 +142,7 @@ package class200;
 //
 //void cycleDfn(int u) {
 //    int h = son[u];
-//    bool near = pos[h] * 2 < cycleLen[u];
+//    bool near = pos[h] * 2 < cycleSum[u];
 //    cyclel[u] = cntd + 1;
 //    for (int e = head2[u]; e > 0; e = next2[e]) {
 //        int v = to2[e];
@@ -291,7 +291,7 @@ package class200;
 //
 //void flipCycle(int u, int x, int op) {
 //    int h = son[u];
-//    bool near = pos[x] * 2 < cycleLen[u];
+//    bool near = pos[x] * 2 < cycleSum[u];
 //    if ((near && op == 1) || (!near && op == 2)) {
 //        reverse(cyclel[u], dfn[x], 3, 1, cntn, 1);
 //        if (pos[h] < pos[x]) {

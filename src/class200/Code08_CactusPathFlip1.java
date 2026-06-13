@@ -51,13 +51,13 @@ public class Code08_CactusPathFlip1 {
 	// 仙人掌中，一个节点可能是多个环的环顶，但不做环顶的话，最多参与一个环
 	// belongCycle[x]，表示节点x归属的环，x不是环顶节点
 	public static int[] belongCycle = new int[MAXN];
-	// pos[x]，表示节点x在归属环中的位置，x不是环顶节点
-	public static int[] pos = new int[MAXN];
-
 	// 环顶节点，只对方点有意义
 	public static int[] cycleRoot = new int[MAXN];
-	// 环的边数，只对方点有意义
-	public static int[] cycleLen = new int[MAXN];
+
+	// 圆点在环中的位置
+	public static int[] pos = new int[MAXN];
+	// 环的边数
+	public static int[] cycleSum = new int[MAXN];
 
 	// 除了环顶和重儿子之外，环中圆点的dfn编号范围，只对方点有意义
 	public static int[] cyclel = new int[MAXN];
@@ -102,12 +102,6 @@ public class Code08_CactusPathFlip1 {
 		head2[u] = cnt2;
 	}
 
-	// 注意先统计cnt，然后pos的赋值要从大到小
-	// 因为当前弹栈顺序是，环上最深的点 -> ... -> v
-	// 链式前向星是头插法，先插入的节点，后遍历
-	// 所以后续cycleDfn时，环上分配dfn的顺序是，v -> ... -> 环上最深的点
-	// 于是让pos从大到小赋值，为了匹配环上每个点的dfn分配顺序
-	// 后续才能用pos正确的判断短路径/长路径
 	public static void cycleLink(int u, int v) {
 		cntn++;
 		cycleRoot[cntn] = u;
@@ -119,7 +113,7 @@ public class Code08_CactusPathFlip1 {
 			pop = sta[tmp--];
 			cnt++;
 		} while (pop != v);
-		cycleLen[cntn] = cnt + 1;
+		cycleSum[cntn] = cnt + 1;
 		do {
 			pop = sta[stasiz--];
 			belongCycle[pop] = cntn;
@@ -170,7 +164,7 @@ public class Code08_CactusPathFlip1 {
 
 	public static void cycleDfn(int u) {
 		int h = son[u];
-		boolean near = pos[h] * 2 < cycleLen[u];
+		boolean near = pos[h] * 2 < cycleSum[u];
 		cyclel[u] = cntd + 1;
 		for (int e = head2[u]; e > 0; e = next2[e]) {
 			int v = to2[e];
@@ -319,7 +313,7 @@ public class Code08_CactusPathFlip1 {
 
 	public static void flipCycle(int u, int x, int op) {
 		int h = son[u];
-		boolean near = pos[x] * 2 < cycleLen[u];
+		boolean near = pos[x] * 2 < cycleSum[u];
 		if ((near && op == 1) || (!near && op == 2)) {
 			reverse(cyclel[u], dfn[x], 3, 1, cntn, 1);
 			if (pos[h] < pos[x]) {
