@@ -15,8 +15,8 @@ public class Code01_LctFirst1 {
 	public static int n, m;
 	public static int[] arr = new int[MAXN];
 
-	// 既表示辅助splay内，每个节点的父节点
-	// 也表示辅助splay顶部节点，沿虚边向上跳到的原树节点
+	// 既保存辅助splay内，每个节点的父节点
+	// 也保存辅助splay顶部节点，沿虚边向上跳到的原树节点
 	public static int[] fa = new int[MAXN];
 	public static int[] ls = new int[MAXN];
 	public static int[] rs = new int[MAXN];
