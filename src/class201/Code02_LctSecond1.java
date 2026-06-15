@@ -161,7 +161,8 @@ public class Code02_LctSecond1 {
 		}
 		m = in.nextInt();
 		String op;
-		for (int i = 1, x, y; i <= m; i++) {
+		int x, y;
+		for (int i = 1; i <= m; i++) {
 			op = in.nextString();
 			x = in.nextInt();
 			y = in.nextInt();
