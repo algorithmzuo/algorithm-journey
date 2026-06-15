@@ -17,7 +17,7 @@ public class Code01_LctFirst1 {
 
 	// lct使用splay的特殊之处
 	// fa既表示辅助splay中，每个节点的父节点
-	// fa也表示辅助splay中，顶部节点的虚边父亲，也可能为0
+	// fa也表示辅助splay中，顶部节点的虚边父亲
 	public static int[] fa = new int[MAXN];
 	public static int[] ls = new int[MAXN];
 	public static int[] rs = new int[MAXN];
