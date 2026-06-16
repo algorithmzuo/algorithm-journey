@@ -16,7 +16,7 @@ public class Code01_LctFirst1 {
 	public static int[] arr = new int[MAXN];
 
 	// 既保存辅助splay内，每个节点的父节点
-	// 也保存辅助splay顶部节点，沿虚边向上跳到的原树节点
+	// 也保存沿虚边向上跳到的原树父节点，认父不认子
 	public static int[] fa = new int[MAXN];
 	public static int[] ls = new int[MAXN];
 	public static int[] rs = new int[MAXN];
@@ -41,7 +41,7 @@ public class Code01_LctFirst1 {
 		return ls[fa[x]] == x ? 0 : 1;
 	}
 
-	// 交换左右儿子
+	// 翻转以x为根的辅助splay，交换左右儿子，打上翻转标记
 	public static void reverse(int x) {
 		int tmp = ls[x];
 		ls[x] = rs[x];
@@ -87,6 +87,7 @@ public class Code01_LctFirst1 {
 		up(x);
 	}
 
+	// x提到辅助splay的顶部
 	public static void splay(int x) {
 		int siz = 0;
 		sta[++siz] = x;
@@ -109,6 +110,7 @@ public class Code01_LctFirst1 {
 		}
 	}
 
+	// 打通当前原树根到x的路径，使其成为一条实链
 	public static void access(int x) {
 		for (int y = 0; x != 0; y = x, x = fa[x]) {
 			splay(x);
@@ -117,12 +119,14 @@ public class Code01_LctFirst1 {
 		}
 	}
 
+	// 把x变成所在原树的根，但是不改变连通结构和边集合
 	public static void makeroot(int x) {
 		access(x);
 		splay(x);
 		reverse(x);
 	}
 
+	// 找到节点x所在原树的根，并把根提到当前辅助splay的顶部
 	public static int findroot(int x) {
 		access(x);
 		splay(x);
@@ -135,12 +139,14 @@ public class Code01_LctFirst1 {
 		return x;
 	}
 
+	// 先让x变成原树的根，然后让x到y的路径变成实链，最后让y提到当前辅助splay的顶部
 	public static void split(int x, int y) {
 		makeroot(x);
 		access(y);
 		splay(y);
 	}
 
+	// 原树中连接x和y，如果原本连通则忽略
 	public static void link(int x, int y) {
 		makeroot(x);
 		if (findroot(y) != x) {
@@ -148,6 +154,7 @@ public class Code01_LctFirst1 {
 		}
 	}
 
+	// 原树中切断x和y之间的直接边，如果不连通或没有直接边则忽略
 	public static void cut(int x, int y) {
 		makeroot(x);
 		if (findroot(y) == x && fa[y] == x && rs[x] == y && ls[y] == 0) {
