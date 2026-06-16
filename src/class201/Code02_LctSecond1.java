@@ -37,19 +37,17 @@ public class Code02_LctSecond1 {
 		return ls[fa[x]] == x ? 0 : 1;
 	}
 
-	public static void swaplr(int x) {
-		if (x != 0) {
-			int tmp = ls[x];
-			ls[x] = rs[x];
-			rs[x] = tmp;
-			rev[x] = !rev[x];
-		}
+	public static void reverse(int x) {
+		int tmp = ls[x];
+		ls[x] = rs[x];
+		rs[x] = tmp;
+		rev[x] = !rev[x];
 	}
 
 	public static void down(int x) {
 		if (rev[x]) {
-			swaplr(ls[x]);
-			swaplr(rs[x]);
+			reverse(ls[x]);
+			reverse(rs[x]);
 			rev[x] = false;
 		}
 	}
@@ -115,7 +113,7 @@ public class Code02_LctSecond1 {
 	public static void makeroot(int x) {
 		access(x);
 		splay(x);
-		swaplr(x);
+		reverse(x);
 	}
 
 	public static int findroot(int x) {
