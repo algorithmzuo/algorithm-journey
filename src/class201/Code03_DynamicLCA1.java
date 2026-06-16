@@ -19,7 +19,7 @@ public class Code03_DynamicLCA1 {
 	public static int[] ls = new int[MAXN];
 	public static int[] rs = new int[MAXN];
 
-	public static boolean isTop(int x) {
+	public static boolean isroot(int x) {
 		return ls[fa[x]] != x && rs[fa[x]] != x;
 	}
 
@@ -42,7 +42,7 @@ public class Code03_DynamicLCA1 {
 			}
 			ls[x] = f;
 		}
-		if (!isTop(f)) {
+		if (!isroot(f)) {
 			if (lr(f) == 0) {
 				ls[g] = x;
 			} else {
@@ -54,9 +54,9 @@ public class Code03_DynamicLCA1 {
 	}
 
 	public static void splay(int x) {
-		while (!isTop(x)) {
+		while (!isroot(x)) {
 			int f = fa[x];
-			if (!isTop(f)) {
+			if (!isroot(f)) {
 				if (lr(x) == lr(f)) {
 					rotate(f);
 				} else {

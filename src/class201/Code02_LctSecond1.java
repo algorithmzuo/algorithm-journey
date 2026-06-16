@@ -29,7 +29,7 @@ public class Code02_LctSecond1 {
 		sum[x] = sum[ls[x]] + sum[rs[x]] + arr[x];
 	}
 
-	public static boolean isTop(int x) {
+	public static boolean isroot(int x) {
 		return ls[fa[x]] != x && rs[fa[x]] != x;
 	}
 
@@ -67,7 +67,7 @@ public class Code02_LctSecond1 {
 			}
 			ls[x] = f;
 		}
-		if (!isTop(f)) {
+		if (!isroot(f)) {
 			if (lr(f) == 0) {
 				ls[g] = x;
 			} else {
@@ -83,15 +83,15 @@ public class Code02_LctSecond1 {
 	public static void splay(int x) {
 		int siz = 0;
 		sta[++siz] = x;
-		for (int y = x; !isTop(y); y = fa[y]) {
+		for (int y = x; !isroot(y); y = fa[y]) {
 			sta[++siz] = fa[y];
 		}
 		while (siz != 0) {
 			down(sta[siz--]);
 		}
-		while (!isTop(x)) {
+		while (!isroot(x)) {
 			int f = fa[x];
-			if (!isTop(f)) {
+			if (!isroot(f)) {
 				if (lr(x) == lr(f)) {
 					rotate(f);
 				} else {
