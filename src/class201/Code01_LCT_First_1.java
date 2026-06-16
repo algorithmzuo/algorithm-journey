@@ -1,6 +1,6 @@
 package class201;
 
-// lct模版题1，java版
+// LCT模版题1，java版
 // 测试链接 : https://www.luogu.com.cn/problem/P3690
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
@@ -9,7 +9,7 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
-public class Code01_LctFirst1 {
+public class Code01_LCT_First_1 {
 
 	public static int MAXN = 100001;
 	public static int n, m;

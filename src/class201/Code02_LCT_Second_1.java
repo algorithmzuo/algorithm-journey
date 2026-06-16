@@ -1,7 +1,7 @@
 package class201;
 
-// lct模版题3，java版
-// 测试链接 : https://www.luogu.com.cn/problem/P4312
+// LCT模版题2，java版
+// 测试链接 : https://www.luogu.com.cn/problem/P2147
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
 import java.io.IOException;
@@ -9,25 +9,16 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
-public class Code03_LctThird1 {
+public class Code02_LCT_Second_1 {
 
-	public static int MAXN = 30001;
+	public static int MAXN = 10001;
 	public static int n, m;
-	public static int[] arr = new int[MAXN];
 
 	public static int[] fa = new int[MAXN];
 	public static int[] ls = new int[MAXN];
 	public static int[] rs = new int[MAXN];
 	public static int[] sta = new int[MAXN];
 	public static boolean[] rev = new boolean[MAXN];
-
-	// 点权和
-	public static int[] sum = new int[MAXN];
-
-	// 汇总点权和
-	public static void up(int x) {
-		sum[x] = sum[ls[x]] + sum[rs[x]] + arr[x];
-	}
 
 	public static boolean isroot(int x) {
 		return ls[fa[x]] != x && rs[fa[x]] != x;
@@ -76,8 +67,6 @@ public class Code03_LctThird1 {
 		}
 		fa[f] = x;
 		fa[x] = g;
-		up(f);
-		up(x);
 	}
 
 	public static void splay(int x) {
@@ -106,7 +95,6 @@ public class Code03_LctThird1 {
 		for (int y = 0; x != 0; y = x, x = fa[x]) {
 			splay(x);
 			rs[x] = y;
-			up(x);
 		}
 	}
 
@@ -128,12 +116,6 @@ public class Code03_LctThird1 {
 		return x;
 	}
 
-	public static void split(int x, int y) {
-		makeroot(x);
-		access(y);
-		splay(y);
-	}
-
 	public static void link(int x, int y) {
 		makeroot(x);
 		if (findroot(y) != x) {
@@ -145,7 +127,6 @@ public class Code03_LctThird1 {
 		makeroot(x);
 		if (findroot(y) == x && fa[y] == x && rs[x] == y && ls[y] == 0) {
 			fa[y] = rs[x] = 0;
-			up(x);
 		}
 	}
 
@@ -153,34 +134,20 @@ public class Code03_LctThird1 {
 		FastReader in = new FastReader(System.in);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
 		n = in.nextInt();
-		for (int i = 1; i <= n; i++) {
-			arr[i] = in.nextInt();
-			sum[i] = arr[i];
-		}
 		m = in.nextInt();
-		String op;
-		int x, y;
-		for (int i = 1; i <= m; i++) {
-			op = in.nextString();
+		for (int i = 1, x, y; i <= m; i++) {
+			String op = in.nextString();
 			x = in.nextInt();
 			y = in.nextInt();
-			if (op.equals("bridge")) {
-				if (findroot(x) == findroot(y)) {
-					out.println("no");
-				} else {
-					out.println("yes");
-					link(x, y);
-				}
-			} else if (op.equals("penguins")) {
-				splay(x);
-				arr[x] = y;
-				up(x);
+			if (op.equals("Connect")) {
+				link(x, y);
+			} else if (op.equals("Destroy")) {
+				cut(x, y);
 			} else {
-				if (findroot(x) != findroot(y)) {
-					out.println("impossible");
+				if (findroot(x) == findroot(y)) {
+					out.println("Yes");
 				} else {
-					split(x, y);
-					out.println(sum[y]);
+					out.println("No");
 				}
 			}
 		}
