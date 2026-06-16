@@ -1,7 +1,7 @@
 package class201;
 
 // 染色，java版
-// 本题在讲解161讲过树链剖分的解法，也可以用lct解决
+// 本题在讲解161，讲述了树链剖分的解法，这里用lct的解法
 // 测试链接 : https://www.luogu.com.cn/problem/P2486
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
@@ -189,13 +189,16 @@ public class Code07_Dyeing1 {
 		}
 		for (int i = 1, x, y, c; i <= m; i++) {
 			String op = in.nextString();
-			x = in.nextInt();
-			y = in.nextInt();
-			split(x, y);
 			if (op.equals("C")) {
+				x = in.nextInt();
+				y = in.nextInt();
 				c = in.nextInt();
+				split(x, y);
 				effect(y, c);
 			} else {
+				x = in.nextInt();
+				y = in.nextInt();
+				split(x, y);
 				out.println(cnt[y]);
 			}
 		}
