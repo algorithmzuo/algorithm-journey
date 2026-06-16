@@ -21,10 +21,10 @@ public class Code02_LctSecond1 {
 	public static int[] sta = new int[MAXN];
 	public static boolean[] rev = new boolean[MAXN];
 
-	// 本题需要点权和
+	// 点权和
 	public static int[] sum = new int[MAXN];
 
-	// 不同题目实现不同的up方法
+	// 汇总点权和
 	public static void up(int x) {
 		sum[x] = sum[ls[x]] + sum[rs[x]] + arr[x];
 	}
