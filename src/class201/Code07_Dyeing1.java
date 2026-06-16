@@ -1,7 +1,8 @@
 package class201;
 
-// 弹飞绵羊，java版
-// 测试链接 : https://www.luogu.com.cn/problem/P3203
+// 染色，java版
+// 本题在讲解161讲过树链剖分的解法，也可以用lct解决
+// 测试链接 : https://www.luogu.com.cn/problem/P2486
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
 import java.io.IOException;
@@ -9,12 +10,10 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
-public class Code05_Bounce1 {
+public class Code07_Dyeing1 {
 
-	public static int MAXN = 200002;
+	public static int MAXN = 100001;
 	public static int n, m;
-	public static int[] force = new int[MAXN];
-	public static int[] target = new int[MAXN];
 
 	public static int[] fa = new int[MAXN];
 	public static int[] ls = new int[MAXN];
@@ -22,10 +21,22 @@ public class Code05_Bounce1 {
 	public static int[] sta = new int[MAXN];
 	public static boolean[] rev = new boolean[MAXN];
 
-	public static int[] siz = new int[MAXN];
+	public static int[] arr = new int[MAXN];
+	public static int[] lcol = new int[MAXN];
+	public static int[] rcol = new int[MAXN];
+	public static int[] cnt = new int[MAXN];
+	public static int[] tag = new int[MAXN];
 
 	public static void up(int x) {
-		siz[x] = siz[ls[x]] + siz[rs[x]] + 1;
+		lcol[x] = ls[x] == 0 ? arr[x] : lcol[ls[x]];
+		rcol[x] = rs[x] == 0 ? arr[x] : rcol[rs[x]];
+		cnt[x] = cnt[ls[x]] + cnt[rs[x]] + 1;
+		if (ls[x] != 0 && rcol[ls[x]] == arr[x]) {
+			cnt[x]--;
+		}
+		if (rs[x] != 0 && arr[x] == lcol[rs[x]]) {
+			cnt[x]--;
+		}
 	}
 
 	public static boolean isroot(int x) {
@@ -41,7 +52,20 @@ public class Code05_Bounce1 {
 			int tmp = ls[x];
 			ls[x] = rs[x];
 			rs[x] = tmp;
+			tmp = lcol[x];
+			lcol[x] = rcol[x];
+			rcol[x] = tmp;
 			rev[x] = !rev[x];
+		}
+	}
+
+	public static void effect(int x, int c) {
+		if (x != 0) {
+			arr[x] = c;
+			lcol[x] = c;
+			rcol[x] = c;
+			cnt[x] = 1;
+			tag[x] = c;
 		}
 	}
 
@@ -50,6 +74,11 @@ public class Code05_Bounce1 {
 			reverse(ls[x]);
 			reverse(rs[x]);
 			rev[x] = false;
+		}
+		if (tag[x] != 0) {
+			effect(ls[x], tag[x]);
+			effect(rs[x], tag[x]);
+			tag[x] = 0;
 		}
 	}
 
@@ -142,40 +171,32 @@ public class Code05_Bounce1 {
 		}
 	}
 
-	public static void cut(int x, int y) {
-		makeroot(x);
-		if (findroot(y) == x && fa[y] == x && rs[x] == y && ls[y] == 0) {
-			fa[y] = rs[x] = 0;
-			up(x);
-		}
-	}
-
 	public static void main(String[] args) throws Exception {
 		FastReader in = new FastReader(System.in);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
 		n = in.nextInt();
-		for (int x = 1; x <= n + 1; x++) {
-			siz[x] = 1;
-		}
-		for (int x = 1; x <= n; x++) {
-			force[x] = in.nextInt();
-			target[x] = Math.min(x + force[x], n + 1);
-			link(x, target[x]);
-		}
 		m = in.nextInt();
-		for (int i = 1, op, x, y; i <= m; i++) {
-			op = in.nextInt();
+		for (int i = 1; i <= n; i++) {
+			arr[i] = in.nextInt();
+			lcol[i] = arr[i];
+			rcol[i] = arr[i];
+			cnt[i] = 1;
+		}
+		for (int i = 1, x, y; i < n; i++) {
 			x = in.nextInt();
-			x++;
-			if (op == 1) {
-				split(x, n + 1);
-				out.println(siz[n + 1] - 1);
+			y = in.nextInt();
+			link(x, y);
+		}
+		for (int i = 1, x, y, c; i <= m; i++) {
+			String op = in.nextString();
+			x = in.nextInt();
+			y = in.nextInt();
+			split(x, y);
+			if (op.equals("C")) {
+				c = in.nextInt();
+				effect(y, c);
 			} else {
-				y = in.nextInt();
-				cut(x, target[x]);
-				force[x] = y;
-				target[x] = Math.min(x + force[x], n + 1);
-				link(x, target[x]);
+				out.println(cnt[y]);
 			}
 		}
 		out.flush();
@@ -219,6 +240,22 @@ public class Code05_Bounce1 {
 				c = readByte();
 			}
 			return neg ? -val : val;
+		}
+
+		String nextString() throws IOException {
+			int c;
+			do {
+				c = readByte();
+			} while (c <= ' ' && c != -1);
+			if (c == -1) {
+				return null;
+			}
+			StringBuilder sb = new StringBuilder();
+			while (c > ' ' && c != -1) {
+				sb.append((char) c);
+				c = readByte();
+			}
+			return sb.toString();
 		}
 
 	}

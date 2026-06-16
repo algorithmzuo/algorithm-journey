@@ -41,17 +41,21 @@ public class Code06_DynamicPath1 {
 	}
 
 	public static void reverse(int x) {
-		int tmp = ls[x];
-		ls[x] = rs[x];
-		rs[x] = tmp;
-		rev[x] = !rev[x];
+		if (x != 0) {
+			int tmp = ls[x];
+			ls[x] = rs[x];
+			rs[x] = tmp;
+			rev[x] = !rev[x];
+		}
 	}
 
 	public static void effect(int x, long mul, long add) {
-		val[x] = (val[x] * mul + add) % MOD;
-		sum[x] = (sum[x] * mul + siz[x] * add) % MOD;
-		mulTag[x] = mulTag[x] * mul % MOD;
-		addTag[x] = (addTag[x] * mul + add) % MOD;
+		if (x != 0) {
+			val[x] = (val[x] * mul + add) % MOD;
+			sum[x] = (sum[x] * mul + siz[x] * add) % MOD;
+			mulTag[x] = mulTag[x] * mul % MOD;
+			addTag[x] = (addTag[x] * mul + add) % MOD;
+		}
 	}
 
 	public static void down(int x) {
@@ -270,6 +274,7 @@ public class Code06_DynamicPath1 {
 			}
 			return sb.toString();
 		}
+
 	}
 
 }

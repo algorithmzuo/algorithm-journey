@@ -43,10 +43,12 @@ public class Code01_LCT_First_1 {
 
 	// 翻转以x为根的辅助splay，交换左右儿子，打上翻转标记
 	public static void reverse(int x) {
-		int tmp = ls[x];
-		ls[x] = rs[x];
-		rs[x] = tmp;
-		rev[x] = !rev[x];
+		if (x != 0) {
+			int tmp = ls[x];
+			ls[x] = rs[x];
+			rs[x] = tmp;
+			rev[x] = !rev[x];
+		}
 	}
 
 	// 处理翻转懒更新

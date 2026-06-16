@@ -38,10 +38,12 @@ public class Code03_LCT_Third_1 {
 	}
 
 	public static void reverse(int x) {
-		int tmp = ls[x];
-		ls[x] = rs[x];
-		rs[x] = tmp;
-		rev[x] = !rev[x];
+		if (x != 0) {
+			int tmp = ls[x];
+			ls[x] = rs[x];
+			rs[x] = tmp;
+			rev[x] = !rev[x];
+		}
 	}
 
 	public static void down(int x) {
