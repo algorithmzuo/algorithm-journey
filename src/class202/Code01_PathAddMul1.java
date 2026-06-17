@@ -22,14 +22,14 @@ public class Code01_PathAddMul1 {
 	public static boolean[] rev = new boolean[MAXN];
 
 	public static int[] siz = new int[MAXN];
-	public static long[] val = new long[MAXN];
+	public static long[] arr = new long[MAXN];
 	public static long[] sum = new long[MAXN];
 	public static long[] mulTag = new long[MAXN];
 	public static long[] addTag = new long[MAXN];
 
 	public static void up(int x) {
 		siz[x] = siz[ls[x]] + siz[rs[x]] + 1;
-		sum[x] = (sum[ls[x]] + sum[rs[x]] + val[x]) % MOD;
+		sum[x] = (sum[ls[x]] + sum[rs[x]] + arr[x]) % MOD;
 	}
 
 	public static boolean isroot(int x) {
@@ -51,7 +51,7 @@ public class Code01_PathAddMul1 {
 
 	public static void effect(int x, long mul, long add) {
 		if (x != 0) {
-			val[x] = (val[x] * mul + add) % MOD;
+			arr[x] = (arr[x] * mul + add) % MOD;
 			sum[x] = (sum[x] * mul + siz[x] * add) % MOD;
 			mulTag[x] = mulTag[x] * mul % MOD;
 			addTag[x] = (addTag[x] * mul + add) % MOD;
@@ -176,7 +176,7 @@ public class Code01_PathAddMul1 {
 		q = in.nextInt();
 		for (int i = 1; i <= n; i++) {
 			siz[i] = 1;
-			val[i] = 1;
+			arr[i] = 1;
 			sum[i] = 1;
 			mulTag[i] = 1;
 			addTag[i] = 0;
