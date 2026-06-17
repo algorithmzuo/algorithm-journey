@@ -164,8 +164,8 @@ public class Code07_Network1 {
 	}
 
 	public static void updateNode(int x, int v) {
-		for (int i = 0; i < c; i++) {
-			int cur = node(i, x);
+		for (int color = 0; color < c; color++) {
+			int cur = node(color, x);
 			splay(cur);
 			val[cur] = v;
 			up(cur);
