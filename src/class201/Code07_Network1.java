@@ -27,16 +27,6 @@ public class Code07_Network1 {
 	public static int[] nodeDegree = new int[MAXN];
 	public static HashMap<Long, Integer> edgeColor = new HashMap<>();
 
-	public static int node(int c, int x) {
-		return c * n + x;
-	}
-
-	public static long edge(int x, int y) {
-		int a = Math.min(x, y);
-		int b = Math.max(x, y);
-		return (1L * a) << 32 | b;
-	}
-
 	public static void up(int x) {
 		maxv[x] = Math.max(val[x], Math.max(maxv[ls[x]], maxv[rs[x]]));
 	}
@@ -163,6 +153,34 @@ public class Code07_Network1 {
 		}
 	}
 
+	public static int node(int c, int x) {
+		return c * n + x;
+	}
+
+	public static long edge(int x, int y) {
+		int a = Math.min(x, y);
+		int b = Math.max(x, y);
+		return (1L * a) << 32 | b;
+	}
+
+	public static void disconnect(int c, int x, int y) {
+		int u = node(c, x);
+		int v = node(c, y);
+		nodeDegree[u]--;
+		nodeDegree[v]--;
+		cut(u, v);
+		edgeColor.remove(edge(x, y), c);
+	}
+
+	public static void connect(int c, int x, int y) {
+		int u = node(c, x);
+		int v = node(c, y);
+		nodeDegree[u]++;
+		nodeDegree[v]++;
+		link(u, v);
+		edgeColor.put(edge(x, y), c);
+	}
+
 	public static void updateNode(int x, int v) {
 		for (int color = 0; color < c; color++) {
 			int cur = node(color, x);
@@ -187,13 +205,8 @@ public class Code07_Network1 {
 		if (findroot(node(c, x)) == findroot(node(c, y))) {
 			return 3;
 		}
-		cut(node(p, x), node(p, y));
-		nodeDegree[node(p, x)]--;
-		nodeDegree[node(p, y)]--;
-		link(node(c, x), node(c, y));
-		nodeDegree[node(c, x)]++;
-		nodeDegree[node(c, y)]++;
-		edgeColor.put(edge(x, y), c);
+		disconnect(p, x, y);
+		connect(c, x, y);
 		return 4;
 	}
 
@@ -226,10 +239,7 @@ public class Code07_Network1 {
 			x = in.nextInt();
 			y = in.nextInt();
 			c = in.nextInt();
-			link(node(c, x), node(c, y));
-			nodeDegree[node(c, x)]++;
-			nodeDegree[node(c, y)]++;
-			edgeColor.put(edge(x, y), c);
+			connect(c, x, y);
 		}
 		for (int i = 1, op, x, y, c; i <= q; i++) {
 			op = in.nextInt();
