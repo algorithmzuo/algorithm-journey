@@ -163,15 +163,6 @@ public class Code07_Network1 {
 		return (1L * a) << 32 | b;
 	}
 
-	public static void disconnect(int c, int x, int y) {
-		int u = node(c, x);
-		int v = node(c, y);
-		nodeDegree[u]--;
-		nodeDegree[v]--;
-		cut(u, v);
-		edgeColor.remove(edge(x, y), c);
-	}
-
 	public static void connect(int c, int x, int y) {
 		int u = node(c, x);
 		int v = node(c, y);
@@ -179,6 +170,15 @@ public class Code07_Network1 {
 		nodeDegree[v]++;
 		link(u, v);
 		edgeColor.put(edge(x, y), c);
+	}
+
+	public static void disconnect(int c, int x, int y) {
+		int u = node(c, x);
+		int v = node(c, y);
+		nodeDegree[u]--;
+		nodeDegree[v]--;
+		cut(u, v);
+		edgeColor.remove(edge(x, y), c);
 	}
 
 	public static void updateNode(int x, int v) {
