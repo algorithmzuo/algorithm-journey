@@ -12,7 +12,6 @@ import java.util.HashMap;
 
 public class Code07_Network1 {
 
-	public static int MAXC = 10;
 	public static int MAXN = 100001;
 	public static int n, m, c, q;
 
@@ -25,7 +24,7 @@ public class Code07_Network1 {
 	public static int[] val = new int[MAXN];
 	public static int[] maxv = new int[MAXN];
 
-	public static int[][] degree = new int[MAXC][MAXN];
+	public static int[] nodeDegree = new int[MAXN];
 	public static HashMap<Long, Integer> edgeColor = new HashMap<>();
 
 	public static int node(int c, int x) {
@@ -182,18 +181,18 @@ public class Code07_Network1 {
 		if (p == c) {
 			return 4;
 		}
-		if (degree[c][x] >= 2 || degree[c][y] >= 2) {
+		if (nodeDegree[node(c, x)] >= 2 || nodeDegree[node(c, y)] >= 2) {
 			return 2;
 		}
 		if (findroot(node(c, x)) == findroot(node(c, y))) {
 			return 3;
 		}
 		cut(node(p, x), node(p, y));
-		degree[p][x]--;
-		degree[p][y]--;
+		nodeDegree[node(p, x)]--;
+		nodeDegree[node(p, y)]--;
 		link(node(c, x), node(c, y));
-		degree[c][x]++;
-		degree[c][y]++;
+		nodeDegree[node(c, x)]++;
+		nodeDegree[node(c, y)]++;
 		edgeColor.put(edge(x, y), c);
 		return 4;
 	}
@@ -227,10 +226,10 @@ public class Code07_Network1 {
 			x = in.nextInt();
 			y = in.nextInt();
 			c = in.nextInt();
-			degree[c][x]++;
-			degree[c][y]++;
-			edgeColor.put(edge(x, y), c);
 			link(node(c, x), node(c, y));
+			nodeDegree[node(c, x)]++;
+			nodeDegree[node(c, y)]++;
+			edgeColor.put(edge(x, y), c);
 		}
 		for (int i = 1, op, x, y, c; i <= q; i++) {
 			op = in.nextInt();
