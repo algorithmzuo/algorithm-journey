@@ -163,7 +163,7 @@ public class Code07_Network1 {
 		}
 	}
 
-	public static void changeNode(int x, int v) {
+	public static void updateNode(int x, int v) {
 		for (int i = 0; i < c; i++) {
 			int cur = node(i, x);
 			splay(cur);
@@ -172,7 +172,7 @@ public class Code07_Network1 {
 		}
 	}
 
-	public static int changeEdge(int x, int y, int c) {
+	public static int updateEdge(int x, int y, int c) {
 		Integer color = edgeColor.get(edge(x, y));
 		if (color == null) {
 			return 1;
@@ -236,12 +236,12 @@ public class Code07_Network1 {
 			if (op == 0) {
 				x = in.nextInt();
 				y = in.nextInt();
-				changeNode(x, y);
+				updateNode(x, y);
 			} else if (op == 1) {
 				x = in.nextInt();
 				y = in.nextInt();
 				c = in.nextInt();
-				int ans = changeEdge(x, y, c);
+				int ans = updateEdge(x, y, c);
 				if (ans == 1) {
 					out.println("No such edge.");
 				}
