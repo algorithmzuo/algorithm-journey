@@ -24,18 +24,18 @@ public class Code02_Coloring1 {
 	public static int[] arr = new int[MAXN];
 	public static int[] lcol = new int[MAXN];
 	public static int[] rcol = new int[MAXN];
-	public static int[] cnt = new int[MAXN];
+	public static int[] sum = new int[MAXN];
 	public static int[] tag = new int[MAXN];
 
 	public static void up(int x) {
 		lcol[x] = ls[x] == 0 ? arr[x] : lcol[ls[x]];
 		rcol[x] = rs[x] == 0 ? arr[x] : rcol[rs[x]];
-		cnt[x] = cnt[ls[x]] + cnt[rs[x]] + 1;
+		sum[x] = sum[ls[x]] + sum[rs[x]] + 1;
 		if (ls[x] != 0 && rcol[ls[x]] == arr[x]) {
-			cnt[x]--;
+			sum[x]--;
 		}
 		if (rs[x] != 0 && arr[x] == lcol[rs[x]]) {
-			cnt[x]--;
+			sum[x]--;
 		}
 	}
 
@@ -64,7 +64,7 @@ public class Code02_Coloring1 {
 			arr[x] = c;
 			lcol[x] = c;
 			rcol[x] = c;
-			cnt[x] = 1;
+			sum[x] = 1;
 			tag[x] = c;
 		}
 	}
@@ -180,7 +180,7 @@ public class Code02_Coloring1 {
 			arr[i] = in.nextInt();
 			lcol[i] = arr[i];
 			rcol[i] = arr[i];
-			cnt[i] = 1;
+			sum[i] = 1;
 		}
 		for (int i = 1, x, y; i < n; i++) {
 			x = in.nextInt();
@@ -199,7 +199,7 @@ public class Code02_Coloring1 {
 				x = in.nextInt();
 				y = in.nextInt();
 				split(x, y);
-				out.println(cnt[y]);
+				out.println(sum[y]);
 			}
 		}
 		out.flush();
