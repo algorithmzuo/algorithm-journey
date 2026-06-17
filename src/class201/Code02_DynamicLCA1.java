@@ -1,6 +1,6 @@
 package class201;
 
-// 动态树求LCA，java版
+// 动态树LCA，java版
 // 测试链接 : https://www.luogu.com.cn/problem/SP8791
 // 测试链接 : https://www.spoj.com/problems/DYNALCA/
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
@@ -10,7 +10,7 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
-public class Code04_DynamicLCA1 {
+public class Code02_DynamicLCA1 {
 
 	public static int MAXN = 100001;
 	public static int n, m;

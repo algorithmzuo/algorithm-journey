@@ -1,7 +1,7 @@
 package class201;
 
-// LCT模版题3，java版
-// 测试链接 : https://www.luogu.com.cn/problem/P4312
+// 弹飞绵羊，java版
+// 测试链接 : https://www.luogu.com.cn/problem/P3203
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
 import java.io.IOException;
@@ -9,11 +9,12 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
-public class Code03_LCT_Third_1 {
+public class Code06_Bounce1 {
 
-	public static int MAXN = 30001;
+	public static int MAXN = 200002;
 	public static int n, m;
-	public static int[] arr = new int[MAXN];
+	public static int[] force = new int[MAXN];
+	public static int[] target = new int[MAXN];
 
 	public static int[] fa = new int[MAXN];
 	public static int[] ls = new int[MAXN];
@@ -21,12 +22,10 @@ public class Code03_LCT_Third_1 {
 	public static int[] sta = new int[MAXN];
 	public static boolean[] rev = new boolean[MAXN];
 
-	// 点权和
-	public static int[] sum = new int[MAXN];
+	public static int[] siz = new int[MAXN];
 
-	// 汇总点权和
 	public static void up(int x) {
-		sum[x] = sum[ls[x]] + sum[rs[x]] + arr[x];
+		siz[x] = siz[ls[x]] + siz[rs[x]] + 1;
 	}
 
 	public static boolean isroot(int x) {
@@ -155,35 +154,28 @@ public class Code03_LCT_Third_1 {
 		FastReader in = new FastReader(System.in);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
 		n = in.nextInt();
-		for (int i = 1; i <= n; i++) {
-			arr[i] = in.nextInt();
-			sum[i] = arr[i];
+		for (int x = 1; x <= n + 1; x++) {
+			siz[x] = 1;
+		}
+		for (int x = 1; x <= n; x++) {
+			force[x] = in.nextInt();
+			target[x] = Math.min(x + force[x], n + 1);
+			link(x, target[x]);
 		}
 		m = in.nextInt();
-		String op;
-		int x, y;
-		for (int i = 1; i <= m; i++) {
-			op = in.nextString();
+		for (int i = 1, op, x, y; i <= m; i++) {
+			op = in.nextInt();
 			x = in.nextInt();
-			y = in.nextInt();
-			if (op.equals("bridge")) {
-				if (findroot(x) == findroot(y)) {
-					out.println("no");
-				} else {
-					out.println("yes");
-					link(x, y);
-				}
-			} else if (op.equals("penguins")) {
-				splay(x);
-				arr[x] = y;
-				up(x);
+			x++;
+			if (op == 1) {
+				split(x, n + 1);
+				out.println(siz[n + 1] - 1);
 			} else {
-				if (findroot(x) != findroot(y)) {
-					out.println("impossible");
-				} else {
-					split(x, y);
-					out.println(sum[y]);
-				}
+				y = in.nextInt();
+				cut(x, target[x]);
+				force[x] = y;
+				target[x] = Math.min(x + force[x], n + 1);
+				link(x, target[x]);
 			}
 		}
 		out.flush();
@@ -229,21 +221,6 @@ public class Code03_LCT_Third_1 {
 			return neg ? -val : val;
 		}
 
-		String nextString() throws IOException {
-			int c;
-			do {
-				c = readByte();
-			} while (c <= ' ' && c != -1);
-			if (c == -1) {
-				return null;
-			}
-			StringBuilder sb = new StringBuilder();
-			while (c > ' ' && c != -1) {
-				sb.append((char) c);
-				c = readByte();
-			}
-			return sb.toString();
-		}
 	}
 
 }

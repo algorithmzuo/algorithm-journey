@@ -1,7 +1,7 @@
-package class201;
+package class202;
 
-// LCT模版题2，java版
-// 测试链接 : https://www.luogu.com.cn/problem/P2147
+// 动态路径的加和乘，java版
+// 测试链接 : https://www.luogu.com.cn/problem/P1501
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
 import java.io.IOException;
@@ -9,16 +9,28 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
-public class Code02_LCT_Second_1 {
+public class Code01_DynamicPath1 {
 
-	public static int MAXN = 10001;
-	public static int n, m;
+	public static int MAXN = 100001;
+	public static int MOD = 51061;
+	public static int n, q;
 
 	public static int[] fa = new int[MAXN];
 	public static int[] ls = new int[MAXN];
 	public static int[] rs = new int[MAXN];
 	public static int[] sta = new int[MAXN];
 	public static boolean[] rev = new boolean[MAXN];
+
+	public static int[] siz = new int[MAXN];
+	public static long[] val = new long[MAXN];
+	public static long[] sum = new long[MAXN];
+	public static long[] mulTag = new long[MAXN];
+	public static long[] addTag = new long[MAXN];
+
+	public static void up(int x) {
+		siz[x] = siz[ls[x]] + siz[rs[x]] + 1;
+		sum[x] = (sum[ls[x]] + sum[rs[x]] + val[x]) % MOD;
+	}
 
 	public static boolean isroot(int x) {
 		return ls[fa[x]] != x && rs[fa[x]] != x;
@@ -37,11 +49,26 @@ public class Code02_LCT_Second_1 {
 		}
 	}
 
+	public static void effect(int x, long mul, long add) {
+		if (x != 0) {
+			val[x] = (val[x] * mul + add) % MOD;
+			sum[x] = (sum[x] * mul + siz[x] * add) % MOD;
+			mulTag[x] = mulTag[x] * mul % MOD;
+			addTag[x] = (addTag[x] * mul + add) % MOD;
+		}
+	}
+
 	public static void down(int x) {
 		if (rev[x]) {
 			reverse(ls[x]);
 			reverse(rs[x]);
 			rev[x] = false;
+		}
+		if (mulTag[x] != 1 || addTag[x] != 0) {
+			effect(ls[x], mulTag[x], addTag[x]);
+			effect(rs[x], mulTag[x], addTag[x]);
+			mulTag[x] = 1;
+			addTag[x] = 0;
 		}
 	}
 
@@ -69,6 +96,8 @@ public class Code02_LCT_Second_1 {
 		}
 		fa[f] = x;
 		fa[x] = g;
+		up(f);
+		up(x);
 	}
 
 	public static void splay(int x) {
@@ -97,6 +126,7 @@ public class Code02_LCT_Second_1 {
 		for (int y = 0; x != 0; y = x, x = fa[x]) {
 			splay(x);
 			rs[x] = y;
+			up(x);
 		}
 	}
 
@@ -118,6 +148,12 @@ public class Code02_LCT_Second_1 {
 		return x;
 	}
 
+	public static void split(int x, int y) {
+		makeroot(x);
+		access(y);
+		splay(y);
+	}
+
 	public static void link(int x, int y) {
 		makeroot(x);
 		if (findroot(y) != x) {
@@ -129,6 +165,7 @@ public class Code02_LCT_Second_1 {
 		makeroot(x);
 		if (findroot(y) == x && fa[y] == x && rs[x] == y && ls[y] == 0) {
 			fa[y] = rs[x] = 0;
+			up(x);
 		}
 	}
 
@@ -136,21 +173,47 @@ public class Code02_LCT_Second_1 {
 		FastReader in = new FastReader(System.in);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
 		n = in.nextInt();
-		m = in.nextInt();
-		for (int i = 1, x, y; i <= m; i++) {
-			String op = in.nextString();
+		q = in.nextInt();
+		for (int i = 1; i <= n; i++) {
+			siz[i] = 1;
+			val[i] = 1;
+			sum[i] = 1;
+			mulTag[i] = 1;
+			addTag[i] = 0;
+		}
+		for (int i = 1, x, y; i < n; i++) {
 			x = in.nextInt();
 			y = in.nextInt();
-			if (op.equals("Connect")) {
-				link(x, y);
-			} else if (op.equals("Destroy")) {
-				cut(x, y);
+			link(x, y);
+		}
+		String op;
+		int x, y, z, a, b;
+		for (int i = 1; i <= q; i++) {
+			op = in.nextString();
+			if (op.equals("+")) {
+				x = in.nextInt();
+				y = in.nextInt();
+				z = in.nextInt() % MOD;
+				split(x, y);
+				effect(y, 1, z);
+			} else if (op.equals("*")) {
+				x = in.nextInt();
+				y = in.nextInt();
+				z = in.nextInt() % MOD;
+				split(x, y);
+				effect(y, z, 0);
+			} else if (op.equals("/")) {
+				x = in.nextInt();
+				y = in.nextInt();
+				split(x, y);
+				out.println(sum[y]);
 			} else {
-				if (findroot(x) == findroot(y)) {
-					out.println("Yes");
-				} else {
-					out.println("No");
-				}
+				x = in.nextInt();
+				y = in.nextInt();
+				a = in.nextInt();
+				b = in.nextInt();
+				cut(x, y);
+				link(a, b);
 			}
 		}
 		out.flush();
@@ -211,6 +274,7 @@ public class Code02_LCT_Second_1 {
 			}
 			return sb.toString();
 		}
+
 	}
 
 }

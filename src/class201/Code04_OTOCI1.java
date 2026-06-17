@@ -1,7 +1,7 @@
 package class201;
 
-// 动态路径的加和乘，java版
-// 测试链接 : https://www.luogu.com.cn/problem/P1501
+// 群岛，java版
+// 测试链接 : https://www.luogu.com.cn/problem/P4312
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
 import java.io.IOException;
@@ -9,11 +9,11 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
-public class Code06_DynamicPath1 {
+public class Code04_OTOCI1 {
 
-	public static int MAXN = 100001;
-	public static int MOD = 51061;
-	public static int n, q;
+	public static int MAXN = 30001;
+	public static int n, m;
+	public static int[] arr = new int[MAXN];
 
 	public static int[] fa = new int[MAXN];
 	public static int[] ls = new int[MAXN];
@@ -21,15 +21,12 @@ public class Code06_DynamicPath1 {
 	public static int[] sta = new int[MAXN];
 	public static boolean[] rev = new boolean[MAXN];
 
-	public static int[] siz = new int[MAXN];
-	public static long[] val = new long[MAXN];
-	public static long[] sum = new long[MAXN];
-	public static long[] mulTag = new long[MAXN];
-	public static long[] addTag = new long[MAXN];
+	// 点权和
+	public static int[] sum = new int[MAXN];
 
+	// 汇总点权和
 	public static void up(int x) {
-		siz[x] = siz[ls[x]] + siz[rs[x]] + 1;
-		sum[x] = (sum[ls[x]] + sum[rs[x]] + val[x]) % MOD;
+		sum[x] = sum[ls[x]] + sum[rs[x]] + arr[x];
 	}
 
 	public static boolean isroot(int x) {
@@ -49,26 +46,11 @@ public class Code06_DynamicPath1 {
 		}
 	}
 
-	public static void effect(int x, long mul, long add) {
-		if (x != 0) {
-			val[x] = (val[x] * mul + add) % MOD;
-			sum[x] = (sum[x] * mul + siz[x] * add) % MOD;
-			mulTag[x] = mulTag[x] * mul % MOD;
-			addTag[x] = (addTag[x] * mul + add) % MOD;
-		}
-	}
-
 	public static void down(int x) {
 		if (rev[x]) {
 			reverse(ls[x]);
 			reverse(rs[x]);
 			rev[x] = false;
-		}
-		if (mulTag[x] != 1 || addTag[x] != 0) {
-			effect(ls[x], mulTag[x], addTag[x]);
-			effect(rs[x], mulTag[x], addTag[x]);
-			mulTag[x] = 1;
-			addTag[x] = 0;
 		}
 	}
 
@@ -173,47 +155,35 @@ public class Code06_DynamicPath1 {
 		FastReader in = new FastReader(System.in);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
 		n = in.nextInt();
-		q = in.nextInt();
 		for (int i = 1; i <= n; i++) {
-			siz[i] = 1;
-			val[i] = 1;
-			sum[i] = 1;
-			mulTag[i] = 1;
-			addTag[i] = 0;
+			arr[i] = in.nextInt();
+			sum[i] = arr[i];
 		}
-		for (int i = 1, x, y; i < n; i++) {
+		m = in.nextInt();
+		String op;
+		int x, y;
+		for (int i = 1; i <= m; i++) {
+			op = in.nextString();
 			x = in.nextInt();
 			y = in.nextInt();
-			link(x, y);
-		}
-		String op;
-		int x, y, z, a, b;
-		for (int i = 1; i <= q; i++) {
-			op = in.nextString();
-			if (op.equals("+")) {
-				x = in.nextInt();
-				y = in.nextInt();
-				z = in.nextInt() % MOD;
-				split(x, y);
-				effect(y, 1, z);
-			} else if (op.equals("*")) {
-				x = in.nextInt();
-				y = in.nextInt();
-				z = in.nextInt() % MOD;
-				split(x, y);
-				effect(y, z, 0);
-			} else if (op.equals("/")) {
-				x = in.nextInt();
-				y = in.nextInt();
-				split(x, y);
-				out.println(sum[y]);
+			if (op.equals("bridge")) {
+				if (findroot(x) == findroot(y)) {
+					out.println("no");
+				} else {
+					out.println("yes");
+					link(x, y);
+				}
+			} else if (op.equals("penguins")) {
+				splay(x);
+				arr[x] = y;
+				up(x);
 			} else {
-				x = in.nextInt();
-				y = in.nextInt();
-				a = in.nextInt();
-				b = in.nextInt();
-				cut(x, y);
-				link(a, b);
+				if (findroot(x) != findroot(y)) {
+					out.println("impossible");
+				} else {
+					split(x, y);
+					out.println(sum[y]);
+				}
 			}
 		}
 		out.flush();
@@ -274,7 +244,6 @@ public class Code06_DynamicPath1 {
 			}
 			return sb.toString();
 		}
-
 	}
 
 }

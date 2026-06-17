@@ -1,4 +1,4 @@
-package class201;
+package class202;
 
 // 染色，java版
 // 本题就是讲解161，题目5，讲了树链剖分的解法，这里用lct的解法
@@ -10,7 +10,7 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
-public class Code07_Coloring1 {
+public class Code02_Coloring1 {
 
 	public static int MAXN = 100001;
 	public static int n, m;

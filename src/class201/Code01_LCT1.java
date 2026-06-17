@@ -1,7 +1,7 @@
 package class201;
 
-// 弹飞绵羊，java版
-// 测试链接 : https://www.luogu.com.cn/problem/P3203
+// LCT模版题，java版
+// 测试链接 : https://www.luogu.com.cn/problem/P3690
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
 import java.io.IOException;
@@ -9,33 +9,39 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
-public class Code05_Bounce1 {
+public class Code01_LCT1 {
 
-	public static int MAXN = 200002;
+	public static int MAXN = 100001;
 	public static int n, m;
-	public static int[] force = new int[MAXN];
-	public static int[] target = new int[MAXN];
+	public static int[] arr = new int[MAXN];
 
+	// 既保存辅助splay内，每个节点的父节点
+	// 也保存沿虚边向上跳到的原树父节点，认父不认子
 	public static int[] fa = new int[MAXN];
 	public static int[] ls = new int[MAXN];
 	public static int[] rs = new int[MAXN];
 	public static int[] sta = new int[MAXN];
 	public static boolean[] rev = new boolean[MAXN];
 
-	public static int[] siz = new int[MAXN];
+	// 本题需要异或和
+	public static int[] xor = new int[MAXN];
 
+	// 不同题目实现不同的up方法
 	public static void up(int x) {
-		siz[x] = siz[ls[x]] + siz[rs[x]] + 1;
+		xor[x] = xor[ls[x]] ^ xor[rs[x]] ^ arr[x];
 	}
 
+	// 判断节点x是不是辅助splay的顶部节点
 	public static boolean isroot(int x) {
 		return ls[fa[x]] != x && rs[fa[x]] != x;
 	}
 
+	// x不是辅助splay的顶部节点才能调用，x是父节点的哪侧儿子
 	public static int lr(int x) {
 		return ls[fa[x]] == x ? 0 : 1;
 	}
 
+	// 翻转以x为根的辅助splay，交换左右儿子，打上翻转标记
 	public static void reverse(int x) {
 		if (x != 0) {
 			int tmp = ls[x];
@@ -45,6 +51,7 @@ public class Code05_Bounce1 {
 		}
 	}
 
+	// 处理翻转懒更新
 	public static void down(int x) {
 		if (rev[x]) {
 			reverse(ls[x]);
@@ -53,6 +60,7 @@ public class Code05_Bounce1 {
 		}
 	}
 
+	// x向上旋转
 	public static void rotate(int x) {
 		int f = fa[x], g = fa[f];
 		if (lr(x) == 0) {
@@ -81,6 +89,7 @@ public class Code05_Bounce1 {
 		up(x);
 	}
 
+	// x提到辅助splay的顶部
 	public static void splay(int x) {
 		int siz = 0;
 		sta[++siz] = x;
@@ -103,6 +112,7 @@ public class Code05_Bounce1 {
 		}
 	}
 
+	// 打通当前原树根到x的路径，使其成为一条实链
 	public static void access(int x) {
 		for (int y = 0; x != 0; y = x, x = fa[x]) {
 			splay(x);
@@ -111,12 +121,14 @@ public class Code05_Bounce1 {
 		}
 	}
 
+	// 把x变成所在原树的根，但是不改变连通结构和边集合
 	public static void makeroot(int x) {
 		access(x);
 		splay(x);
 		reverse(x);
 	}
 
+	// 找到节点x所在原树的根，并把根提到当前辅助splay的顶部
 	public static int findroot(int x) {
 		access(x);
 		splay(x);
@@ -129,12 +141,14 @@ public class Code05_Bounce1 {
 		return x;
 	}
 
+	// 先让x变成原树的根，然后让x到y的路径变成实链，最后让y提到当前辅助splay的顶部
 	public static void split(int x, int y) {
 		makeroot(x);
 		access(y);
 		splay(y);
 	}
 
+	// 原树中连接x和y，如果原本连通则忽略
 	public static void link(int x, int y) {
 		makeroot(x);
 		if (findroot(y) != x) {
@@ -142,6 +156,7 @@ public class Code05_Bounce1 {
 		}
 	}
 
+	// 原树中切断x和y之间的直接边，如果不连通或没有直接边则忽略
 	public static void cut(int x, int y) {
 		makeroot(x);
 		if (findroot(y) == x && fa[y] == x && rs[x] == y && ls[y] == 0) {
@@ -154,28 +169,26 @@ public class Code05_Bounce1 {
 		FastReader in = new FastReader(System.in);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
 		n = in.nextInt();
-		for (int x = 1; x <= n + 1; x++) {
-			siz[x] = 1;
-		}
-		for (int x = 1; x <= n; x++) {
-			force[x] = in.nextInt();
-			target[x] = Math.min(x + force[x], n + 1);
-			link(x, target[x]);
-		}
 		m = in.nextInt();
+		for (int i = 1; i <= n; i++) {
+			arr[i] = in.nextInt();
+			xor[i] = arr[i];
+		}
 		for (int i = 1, op, x, y; i <= m; i++) {
 			op = in.nextInt();
 			x = in.nextInt();
-			x++;
-			if (op == 1) {
-				split(x, n + 1);
-				out.println(siz[n + 1] - 1);
+			y = in.nextInt();
+			if (op == 0) {
+				split(x, y);
+				out.println(xor[y]);
+			} else if (op == 1) {
+				link(x, y);
+			} else if (op == 2) {
+				cut(x, y);
 			} else {
-				y = in.nextInt();
-				cut(x, target[x]);
-				force[x] = y;
-				target[x] = Math.min(x + force[x], n + 1);
-				link(x, target[x]);
+				splay(x);
+				arr[x] = y;
+				up(x);
 			}
 		}
 		out.flush();

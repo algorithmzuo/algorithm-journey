@@ -1,7 +1,7 @@
 package class201;
 
-// LCT模版题1，java版
-// 测试链接 : https://www.luogu.com.cn/problem/P3690
+// 洞穴勘测，java版
+// 测试链接 : https://www.luogu.com.cn/problem/P2147
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
 import java.io.IOException;
@@ -9,39 +9,25 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
-public class Code01_LCT_First_1 {
+public class Code03_CaveSurvey1 {
 
-	public static int MAXN = 100001;
+	public static int MAXN = 10001;
 	public static int n, m;
-	public static int[] arr = new int[MAXN];
 
-	// 既保存辅助splay内，每个节点的父节点
-	// 也保存沿虚边向上跳到的原树父节点，认父不认子
 	public static int[] fa = new int[MAXN];
 	public static int[] ls = new int[MAXN];
 	public static int[] rs = new int[MAXN];
 	public static int[] sta = new int[MAXN];
 	public static boolean[] rev = new boolean[MAXN];
 
-	// 本题需要异或和
-	public static int[] xor = new int[MAXN];
-
-	// 不同题目实现不同的up方法
-	public static void up(int x) {
-		xor[x] = xor[ls[x]] ^ xor[rs[x]] ^ arr[x];
-	}
-
-	// 判断节点x是不是辅助splay的顶部节点
 	public static boolean isroot(int x) {
 		return ls[fa[x]] != x && rs[fa[x]] != x;
 	}
 
-	// x不是辅助splay的顶部节点才能调用，x是父节点的哪侧儿子
 	public static int lr(int x) {
 		return ls[fa[x]] == x ? 0 : 1;
 	}
 
-	// 翻转以x为根的辅助splay，交换左右儿子，打上翻转标记
 	public static void reverse(int x) {
 		if (x != 0) {
 			int tmp = ls[x];
@@ -51,7 +37,6 @@ public class Code01_LCT_First_1 {
 		}
 	}
 
-	// 处理翻转懒更新
 	public static void down(int x) {
 		if (rev[x]) {
 			reverse(ls[x]);
@@ -60,7 +45,6 @@ public class Code01_LCT_First_1 {
 		}
 	}
 
-	// x向上旋转
 	public static void rotate(int x) {
 		int f = fa[x], g = fa[f];
 		if (lr(x) == 0) {
@@ -85,11 +69,8 @@ public class Code01_LCT_First_1 {
 		}
 		fa[f] = x;
 		fa[x] = g;
-		up(f);
-		up(x);
 	}
 
-	// x提到辅助splay的顶部
 	public static void splay(int x) {
 		int siz = 0;
 		sta[++siz] = x;
@@ -112,23 +93,19 @@ public class Code01_LCT_First_1 {
 		}
 	}
 
-	// 打通当前原树根到x的路径，使其成为一条实链
 	public static void access(int x) {
 		for (int y = 0; x != 0; y = x, x = fa[x]) {
 			splay(x);
 			rs[x] = y;
-			up(x);
 		}
 	}
 
-	// 把x变成所在原树的根，但是不改变连通结构和边集合
 	public static void makeroot(int x) {
 		access(x);
 		splay(x);
 		reverse(x);
 	}
 
-	// 找到节点x所在原树的根，并把根提到当前辅助splay的顶部
 	public static int findroot(int x) {
 		access(x);
 		splay(x);
@@ -141,14 +118,6 @@ public class Code01_LCT_First_1 {
 		return x;
 	}
 
-	// 先让x变成原树的根，然后让x到y的路径变成实链，最后让y提到当前辅助splay的顶部
-	public static void split(int x, int y) {
-		makeroot(x);
-		access(y);
-		splay(y);
-	}
-
-	// 原树中连接x和y，如果原本连通则忽略
 	public static void link(int x, int y) {
 		makeroot(x);
 		if (findroot(y) != x) {
@@ -156,12 +125,10 @@ public class Code01_LCT_First_1 {
 		}
 	}
 
-	// 原树中切断x和y之间的直接边，如果不连通或没有直接边则忽略
 	public static void cut(int x, int y) {
 		makeroot(x);
 		if (findroot(y) == x && fa[y] == x && rs[x] == y && ls[y] == 0) {
 			fa[y] = rs[x] = 0;
-			up(x);
 		}
 	}
 
@@ -170,25 +137,20 @@ public class Code01_LCT_First_1 {
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
 		n = in.nextInt();
 		m = in.nextInt();
-		for (int i = 1; i <= n; i++) {
-			arr[i] = in.nextInt();
-			xor[i] = arr[i];
-		}
-		for (int i = 1, op, x, y; i <= m; i++) {
-			op = in.nextInt();
+		for (int i = 1, x, y; i <= m; i++) {
+			String op = in.nextString();
 			x = in.nextInt();
 			y = in.nextInt();
-			if (op == 0) {
-				split(x, y);
-				out.println(xor[y]);
-			} else if (op == 1) {
+			if (op.equals("Connect")) {
 				link(x, y);
-			} else if (op == 2) {
+			} else if (op.equals("Destroy")) {
 				cut(x, y);
 			} else {
-				splay(x);
-				arr[x] = y;
-				up(x);
+				if (findroot(x) == findroot(y)) {
+					out.println("Yes");
+				} else {
+					out.println("No");
+				}
 			}
 		}
 		out.flush();
@@ -234,6 +196,21 @@ public class Code01_LCT_First_1 {
 			return neg ? -val : val;
 		}
 
+		String nextString() throws IOException {
+			int c;
+			do {
+				c = readByte();
+			} while (c <= ' ' && c != -1);
+			if (c == -1) {
+				return null;
+			}
+			StringBuilder sb = new StringBuilder();
+			while (c > ' ' && c != -1) {
+				sb.append((char) c);
+				c = readByte();
+			}
+			return sb.toString();
+		}
 	}
 
 }
