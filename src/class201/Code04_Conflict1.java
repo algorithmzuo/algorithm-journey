@@ -1,8 +1,7 @@
 package class201;
 
-// 动态树LCA，java版
-// 测试链接 : https://www.luogu.com.cn/problem/SP8791
-// 测试链接 : https://www.spoj.com/problems/DYNALCA/
+// 部落冲突，java版
+// 测试链接 : https://www.luogu.com.cn/problem/P3950
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
 import java.io.IOException;
@@ -10,14 +9,20 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
-public class Code02_DynamicLCA1 {
+public class Code04_Conflict1 {
 
-	public static int MAXN = 100001;
+	public static int MAXN = 300001;
 	public static int n, m;
 
 	public static int[] fa = new int[MAXN];
 	public static int[] ls = new int[MAXN];
 	public static int[] rs = new int[MAXN];
+	public static int[] sta = new int[MAXN];
+	public static boolean[] rev = new boolean[MAXN];
+
+	public static int[] cutx = new int[MAXN];
+	public static int[] cuty = new int[MAXN];
+	public static int cutc;
 
 	public static boolean isroot(int x) {
 		return ls[fa[x]] != x && rs[fa[x]] != x;
@@ -25,6 +30,23 @@ public class Code02_DynamicLCA1 {
 
 	public static int lr(int x) {
 		return ls[fa[x]] == x ? 0 : 1;
+	}
+
+	public static void reverse(int x) {
+		if (x != 0) {
+			int tmp = ls[x];
+			ls[x] = rs[x];
+			rs[x] = tmp;
+			rev[x] = !rev[x];
+		}
+	}
+
+	public static void down(int x) {
+		if (rev[x]) {
+			reverse(ls[x]);
+			reverse(rs[x]);
+			rev[x] = false;
+		}
 	}
 
 	public static void rotate(int x) {
@@ -54,6 +76,14 @@ public class Code02_DynamicLCA1 {
 	}
 
 	public static void splay(int x) {
+		int siz = 0;
+		sta[++siz] = x;
+		for (int y = x; !isroot(y); y = fa[y]) {
+			sta[++siz] = fa[y];
+		}
+		while (siz != 0) {
+			down(sta[siz--]);
+		}
 		while (!isroot(x)) {
 			int f = fa[x];
 			if (!isroot(f)) {
@@ -67,39 +97,43 @@ public class Code02_DynamicLCA1 {
 		}
 	}
 
-	// 返回最后一次接上的点
-	public static int access(int x) {
-		int ans = 0;
+	public static void access(int x) {
 		for (int y = 0; x != 0; y = x, x = fa[x]) {
 			splay(x);
 			rs[x] = y;
-			ans = x;
 		}
-		return ans;
 	}
 
-	// 让x成为y的孩子
-	public static void makeson(int x, int y) {
+	public static void makeroot(int x) {
 		access(x);
 		splay(x);
-		fa[x] = y;
+		reverse(x);
 	}
 
-	// 切断x和它原树父亲之间的边
-	public static void cutson(int x) {
+	public static int findroot(int x) {
 		access(x);
 		splay(x);
-		fa[ls[x]] = 0;
-		ls[x] = 0;
+		down(x);
+		while (ls[x] != 0) {
+			x = ls[x];
+			down(x);
+		}
+		splay(x);
+		return x;
 	}
 
-	// 第二次的返回值就是lca
-	public static int lca(int x, int y) {
-		if (x == y) {
-			return x;
+	public static void link(int x, int y) {
+		makeroot(x);
+		if (findroot(y) != x) {
+			fa[x] = y;
 		}
-		access(x);
-		return access(y);
+	}
+
+	public static void cut(int x, int y) {
+		makeroot(x);
+		if (findroot(y) == x && fa[y] == x && rs[x] == y && ls[y] == 0) {
+			fa[y] = rs[x] = 0;
+		}
 	}
 
 	public static void main(String[] args) throws Exception {
@@ -107,19 +141,30 @@ public class Code02_DynamicLCA1 {
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
 		n = in.nextInt();
 		m = in.nextInt();
+		for (int i = 1, x, y; i < n; i++) {
+			x = in.nextInt();
+			y = in.nextInt();
+			link(x, y);
+		}
 		for (int i = 1, x, y; i <= m; i++) {
 			String op = in.nextString();
-			if (op.equals("link")) {
+			if (op.equals("C")) {
 				x = in.nextInt();
 				y = in.nextInt();
-				makeson(x, y);
-			} else if (op.equals("cut")) {
+				cut(x, y);
+				cutx[++cutc] = x;
+				cuty[cutc] = y;
+			} else if (op.equals("U")) {
 				x = in.nextInt();
-				cutson(x);
+				link(cutx[x], cuty[x]);
 			} else {
 				x = in.nextInt();
 				y = in.nextInt();
-				out.println(lca(x, y));
+				if (findroot(x) == findroot(y)) {
+					out.println("Yes");
+				} else {
+					out.println("No");
+				}
 			}
 		}
 		out.flush();

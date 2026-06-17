@@ -9,7 +9,7 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
-public class Code04_OTOCI1 {
+public class Code05_OTOCI1 {
 
 	public static int MAXN = 30001;
 	public static int n, m;
@@ -244,6 +244,7 @@ public class Code04_OTOCI1 {
 			}
 			return sb.toString();
 		}
+
 	}
 
 }
