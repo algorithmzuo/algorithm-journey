@@ -11,16 +11,12 @@ package class114;
 // 操作 5 l r   : 返回B[l..r]范围上的最大值
 // 1 <= n、m <= 5 * 10^5
 // 测试链接 : https://www.luogu.com.cn/problem/P6242
-// 请同学们务必参考如下代码中关于输入、输出的处理
-// 这是输入输出处理效率很高的写法
-// 提交以下的code，提交时请把类名改成"Main"，可以直接通过
+// 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
-import java.io.StreamTokenizer;
 
 public class Code05_MaximumMinimumHistory {
 
@@ -202,33 +198,24 @@ public class Code05_MaximumMinimumHistory {
 	}
 
 	public static void main(String[] args) throws IOException {
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StreamTokenizer in = new StreamTokenizer(br);
+		FastReader in = new FastReader(System.in);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
-		in.nextToken();
-		int n = (int) in.nval;
-		in.nextToken();
-		int m = (int) in.nval;
+		int n = in.nextInt();
+		int m = in.nextInt();
 		for (int i = 1; i <= n; i++) {
-			in.nextToken();
-			arr[i] = (int) in.nval;
+			arr[i] = in.nextInt();
 		}
 		build(1, n, 1);
 		long jobv;
 		for (int i = 1, op, jobl, jobr; i <= m; i++) {
-			in.nextToken();
-			op = (int) in.nval;
-			in.nextToken();
-			jobl = (int) in.nval;
-			in.nextToken();
-			jobr = (int) in.nval;
+			op = in.nextInt();
+			jobl = in.nextInt();
+			jobr = in.nextInt();
 			if (op == 1) {
-				in.nextToken();
-				jobv = (long) in.nval;
+				jobv = in.nextInt();
 				add(jobl, jobr, jobv, 1, n, 1);
 			} else if (op == 2) {
-				in.nextToken();
-				jobv = (long) in.nval;
+				jobv = in.nextInt();
 				setMin(jobl, jobr, jobv, 1, n, 1);
 			} else if (op == 3) {
 				out.println(querySum(jobl, jobr, 1, n, 1));
@@ -240,7 +227,47 @@ public class Code05_MaximumMinimumHistory {
 		}
 		out.flush();
 		out.close();
-		br.close();
+	}
+
+	// 读写工具类
+	static class FastReader {
+
+		private final byte[] buffer = new byte[1 << 16];
+		private int ptr = 0, len = 0;
+		private final InputStream in;
+
+		FastReader(InputStream in) {
+			this.in = in;
+		}
+
+		private int readByte() throws IOException {
+			if (ptr >= len) {
+				len = in.read(buffer);
+				ptr = 0;
+				if (len <= 0)
+					return -1;
+			}
+			return buffer[ptr++];
+		}
+
+		int nextInt() throws IOException {
+			int c;
+			do {
+				c = readByte();
+			} while (c <= ' ' && c != -1);
+			boolean neg = false;
+			if (c == '-') {
+				neg = true;
+				c = readByte();
+			}
+			int val = 0;
+			while (c > ' ' && c != -1) {
+				val = val * 10 + (c - '0');
+				c = readByte();
+			}
+			return neg ? -val : val;
+		}
+
 	}
 
 }
