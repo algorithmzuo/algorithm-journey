@@ -7,10 +7,14 @@ package class160;
 // 操作 3 x y   : arr中x位置的数字改成y
 // 操作 4 x y z : 查询数字z在arr[x..y]中的前驱，不存在返回-2147483647
 // 操作 5 x y z : 查询数字z在arr[x..y]中的后继，不存在返回+2147483647
-// 1 <= n、m <= 5 * 10^4
+// 1 <= n、m <= 2 * 10^5
 // 数组中的值永远在[0, 10^8]范围内
 // 测试链接 : https://www.luogu.com.cn/problem/P3380
-// 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
+// 提交以下的code，提交时请把类名改成"Main"
+// 本题之后增加了测试用例，数据范围放大到 2 * 10^5
+// 线段树套平衡树，常数时间大，加上是java实现，导致卡常无法通过
+// 想通过用C++实现，本节课Code03_SegmentWithBalanced2文件就是C++的实现
+// 两个版本的逻辑完全一样，C++版本可以通过所有测试
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -21,7 +25,7 @@ import java.io.StreamTokenizer;
 
 public class Code03_SegmentWithBalanced1 {
 
-	public static int MAXN = 50001;
+	public static int MAXN = 200001;
 
 	public static int MAXT = MAXN * 40;
 

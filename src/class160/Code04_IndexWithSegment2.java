@@ -7,7 +7,7 @@ package class160;
 // 操作 3 x y   : arr中x位置的数字改成y
 // 操作 4 x y z : 查询数字z在arr[x..y]中的前驱，不存在返回-2147483647
 // 操作 5 x y z : 查询数字z在arr[x..y]中的后继，不存在返回+2147483647
-// 1 <= n、m <= 5 * 10^4
+// 1 <= n、m <= 2 * 10^5
 // 数组中的值永远在[0, 10^8]范围内
 // 测试链接 : https://www.luogu.com.cn/problem/P3380
 // 如下实现是C++的版本，C++版本和java版本逻辑完全一样
@@ -17,7 +17,7 @@ package class160;
 //
 //using namespace std;
 //
-//const int MAXN = 50001;
+//const int MAXN = 200001;
 //const int MAXT = MAXN * 160;
 //const int INF = INT_MAX;
 //int n, m, s;

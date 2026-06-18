@@ -7,10 +7,12 @@ package class160;
 // 操作 3 x y   : arr中x位置的数字改成y
 // 操作 4 x y z : 查询数字z在arr[x..y]中的前驱，不存在返回-2147483647
 // 操作 5 x y z : 查询数字z在arr[x..y]中的后继，不存在返回+2147483647
-// 1 <= n、m <= 5 * 10^4
+// 1 <= n、m <= 2 * 10^5
 // 数组中的值永远在[0, 10^8]范围内
 // 测试链接 : https://www.luogu.com.cn/problem/P3380
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
+// 本题之后增加了测试用例，数据范围放大到 2 * 10^5
+// 树状数组套线段树的java实现和C++实现都能通过
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -22,7 +24,7 @@ import java.util.Arrays;
 
 public class Code04_IndexWithSegment1 {
 
-	public static int MAXN = 50001;
+	public static int MAXN = 200001;
 
 	public static int MAXT = MAXN * 160;
 
