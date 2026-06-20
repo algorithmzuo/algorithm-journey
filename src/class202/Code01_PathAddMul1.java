@@ -163,7 +163,7 @@ public class Code01_PathAddMul1 {
 
 	public static void cut(int x, int y) {
 		makeroot(x);
-		if (findroot(y) == x && fa[y] == x && rs[x] == y && ls[y] == 0) {
+		if (findroot(y) == x && fa[y] == x && ls[y] == 0 && rs[x] == y) {
 			fa[y] = rs[x] = 0;
 			up(x);
 		}

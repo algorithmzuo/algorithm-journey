@@ -121,14 +121,14 @@ public class Code01_LCT1 {
 		}
 	}
 
-	// 把x变成所在原树的根，但是不改变连通结构和边集合
+	// 把x变成所在原树的根，不改变连通方式
 	public static void makeroot(int x) {
 		access(x);
 		splay(x);
 		reverse(x);
 	}
 
-	// 找到节点x所在原树的根，并把根提到当前辅助splay的顶部
+	// 从x所在原树的根，一直到x，建立实链，然后根成为splay顶部
 	public static int findroot(int x) {
 		access(x);
 		splay(x);
@@ -141,7 +141,7 @@ public class Code01_LCT1 {
 		return x;
 	}
 
-	// 先让x变成原树的根，然后让x到y的路径变成实链，最后让y提到当前辅助splay的顶部
+	// 先让x变成原树的根，然后让x到y的路径变成实链，最后y成为splay顶部
 	public static void split(int x, int y) {
 		makeroot(x);
 		access(y);
@@ -156,10 +156,10 @@ public class Code01_LCT1 {
 		}
 	}
 
-	// 原树中切断x和y之间的直接边，如果不连通或没有直接边则忽略
+	// 原树中切断x和y之间的直接边，没有直接边则忽略
 	public static void cut(int x, int y) {
 		makeroot(x);
-		if (findroot(y) == x && fa[y] == x && rs[x] == y && ls[y] == 0) {
+		if (findroot(y) == x && fa[y] == x && ls[y] == 0 && rs[x] == y) {
 			fa[y] = rs[x] = 0;
 			up(x);
 		}
