@@ -29,7 +29,7 @@ import java.util.HashMap;
 public class Code07_Network1 {
 
 	public static int MAXN = 100001;
-	public static int n, m, c, q;
+	public static int n, m, C, q;
 
 	public static int[] fa = new int[MAXN];
 	public static int[] ls = new int[MAXN];
@@ -194,12 +194,12 @@ public class Code07_Network1 {
 		nodeDegree[u]--;
 		nodeDegree[v]--;
 		cut(u, v);
-		edgeColor.remove(edge(x, y), c);
+		edgeColor.remove(edge(x, y));
 	}
 
 	public static void updateNode(int x, int v) {
-		for (int color = 0; color < c; color++) {
-			int cur = node(color, x);
+		for (int c = 0; c < C; c++) {
+			int cur = node(c, x);
 			splay(cur);
 			val[cur] = v;
 			up(cur);
@@ -207,11 +207,11 @@ public class Code07_Network1 {
 	}
 
 	public static int updateEdge(int x, int y, int c) {
-		Integer color = edgeColor.get(edge(x, y));
-		if (color == null) {
+		Integer pre = edgeColor.get(edge(x, y));
+		if (pre == null) {
 			return 1;
 		}
-		int p = color;
+		int p = pre;
 		if (p == c) {
 			return 4;
 		}
@@ -241,12 +241,12 @@ public class Code07_Network1 {
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
 		n = in.nextInt();
 		m = in.nextInt();
-		c = in.nextInt();
+		C = in.nextInt();
 		q = in.nextInt();
 		for (int i = 1, v; i <= n; i++) {
 			v = in.nextInt();
-			for (int color = 0; color < c; color++) {
-				int cur = node(color, i);
+			for (int c = 0; c < C; c++) {
+				int cur = node(c, i);
 				val[cur] = v;
 				maxv[cur] = v;
 			}
