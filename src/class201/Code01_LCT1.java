@@ -31,11 +31,11 @@ public class Code01_LCT1 {
 	public static boolean[] rev = new boolean[MAXN];
 
 	// 本题需要异或和
-	public static int[] xor = new int[MAXN];
+	public static int[] xorsum = new int[MAXN];
 
 	// 不同题目实现不同的up方法
 	public static void up(int x) {
-		xor[x] = xor[ls[x]] ^ xor[rs[x]] ^ arr[x];
+		xorsum[x] = xorsum[ls[x]] ^ xorsum[rs[x]] ^ arr[x];
 	}
 
 	// 判断节点x是不是辅助splay的顶部节点
@@ -179,7 +179,7 @@ public class Code01_LCT1 {
 		m = in.nextInt();
 		for (int i = 1; i <= n; i++) {
 			arr[i] = in.nextInt();
-			xor[i] = arr[i];
+			xorsum[i] = arr[i];
 		}
 		for (int i = 1, op, x, y; i <= m; i++) {
 			op = in.nextInt();
@@ -187,7 +187,7 @@ public class Code01_LCT1 {
 			y = in.nextInt();
 			if (op == 0) {
 				split(x, y);
-				out.println(xor[y]);
+				out.println(xorsum[y]);
 			} else if (op == 1) {
 				link(x, y);
 			} else if (op == 2) {
