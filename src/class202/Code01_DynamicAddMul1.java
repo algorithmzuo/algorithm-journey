@@ -9,7 +9,7 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
-public class Code01_PathAddMul1 {
+public class Code01_DynamicAddMul1 {
 
 	public static int MAXN = 100001;
 	public static int MOD = 51061;
