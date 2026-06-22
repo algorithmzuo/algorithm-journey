@@ -1,6 +1,11 @@
 package class201;
 
 // 动态树LCA，java版
+// 一共n个点，初始时每个点各自是一棵单点有根树，一共m条操作，操作类型如下
+// 操作 link x y : 让点x成为点y的儿子，保证x是所在树的根，并且x和y不连通
+// 操作 cut x    : 删除点x和它父亲节点之间的直接边，保证x不是根
+// 操作 lca x y  : 查询点x和点y的最低公共祖先，保证x和y在同一棵树中
+// 1 <= n、m <= 10^5
 // 测试链接 : https://www.luogu.com.cn/problem/SP8791
 // 测试链接 : https://www.spoj.com/problems/DYNALCA/
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
@@ -85,8 +90,8 @@ public class Code02_DynamicLCA1 {
 		fa[x] = y;
 	}
 
-	// 切断x和它原树父亲之间的边
-	public static void cutson(int x) {
+	// 切断x和原树父亲之间的边
+	public static void cutfa(int x) {
 		access(x);
 		splay(x);
 		fa[ls[x]] = 0;
@@ -115,7 +120,7 @@ public class Code02_DynamicLCA1 {
 				makeson(x, y);
 			} else if (op.equals("cut")) {
 				x = in.nextInt();
-				cutson(x);
+				cutfa(x);
 			} else {
 				x = in.nextInt();
 				y = in.nextInt();

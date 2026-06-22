@@ -1,6 +1,14 @@
 package class201;
 
 // 群岛，java版
+// 一共n个点，每个点有点权，初始时没有边，一共m条操作，类型如下
+// 操作 bridge x y    : 如果x和y已经连通，打印no，表示不需要连边
+//                      如果x和y不连通，打印yes，然后增加无向边
+// 操作 penguins x y  : x的点权变成y
+// 操作 excursion x y : 如果x和y不连通，打印impossible
+//                      如果x和y连通，打印路径的点权累加和
+// 1 <= n <= 3 * 10^4
+// 1 <= m <= 3 * 10^5
 // 测试链接 : https://www.luogu.com.cn/problem/P4312
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
