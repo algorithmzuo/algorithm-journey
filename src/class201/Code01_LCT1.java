@@ -28,7 +28,7 @@ public class Code01_LCT1 {
 	public static int[] ls = new int[MAXN];
 	public static int[] rs = new int[MAXN];
 
-	// 翻转标记
+	// 翻转操作的懒更新标记
 	public static boolean[] rev = new boolean[MAXN];
 
 	// 提根之前，先处理沿途的翻转标记，准备一个栈记录沿途节点
