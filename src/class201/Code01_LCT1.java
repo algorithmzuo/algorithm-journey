@@ -47,7 +47,7 @@ public class Code01_LCT1 {
 		return ls[fa[x]] != x && rs[fa[x]] != x;
 	}
 
-	// x不是辅助splay的顶部节点才能调用，x是父节点的哪侧儿子
+	// x不是辅助splay的顶部节点才能调用，返回x是其父的哪侧儿子
 	public static int lr(int x) {
 		return ls[fa[x]] == x ? 0 : 1;
 	}
