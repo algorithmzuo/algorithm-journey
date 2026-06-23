@@ -23,8 +23,9 @@ package class201;
 //int fa[MAXN];
 //int ls[MAXN];
 //int rs[MAXN];
-//int sta[MAXN];
+//
 //bool rev[MAXN];
+//int sta[MAXN];
 //
 //int xorsum[MAXN];
 //

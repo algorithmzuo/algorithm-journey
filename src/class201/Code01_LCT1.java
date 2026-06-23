@@ -27,8 +27,12 @@ public class Code01_LCT1 {
 	public static int[] fa = new int[MAXN];
 	public static int[] ls = new int[MAXN];
 	public static int[] rs = new int[MAXN];
-	public static int[] sta = new int[MAXN];
+
+	// 翻转标记
 	public static boolean[] rev = new boolean[MAXN];
+
+	// 提根之前，先处理沿途的翻转标记，准备一个栈记录沿途节点
+	public static int[] sta = new int[MAXN];
 
 	// 本题需要异或和
 	public static int[] xorsum = new int[MAXN];
@@ -128,7 +132,7 @@ public class Code01_LCT1 {
 		}
 	}
 
-	// 把x变成所在原树的根，不改变连通方式
+	// 让x变成原树的根，不改变连通方式
 	public static void makeroot(int x) {
 		access(x);
 		splay(x);
