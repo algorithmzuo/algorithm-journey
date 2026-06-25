@@ -139,7 +139,7 @@ public class Code01_LCT1 {
 		reverse(x);
 	}
 
-	// 从x所在原树的根，一直到x，建立实链，然后根成为splay顶部
+	// 从x所在原树的根，一直到x，建立实链，然让根成为splay的顶部
 	public static int findroot(int x) {
 		access(x);
 		splay(x);
