@@ -22,7 +22,6 @@ public class Code06_Bounce1 {
 	public static int MAXN = 200002;
 	public static int n, m;
 	public static int[] force = new int[MAXN];
-	public static int[] target = new int[MAXN];
 
 	public static int[] fa = new int[MAXN];
 	public static int[] ls = new int[MAXN];
@@ -168,8 +167,7 @@ public class Code06_Bounce1 {
 		}
 		for (int x = 1; x <= n; x++) {
 			force[x] = in.nextInt();
-			target[x] = Math.min(x + force[x], n + 1);
-			link(x, target[x]);
+			link(x, Math.min(x + force[x], n + 1));
 		}
 		m = in.nextInt();
 		for (int i = 1, op, x, y; i <= m; i++) {
@@ -181,10 +179,9 @@ public class Code06_Bounce1 {
 				out.println(siz[n + 1] - 1);
 			} else {
 				y = in.nextInt();
-				cut(x, target[x]);
+				cut(x, Math.min(x + force[x], n + 1));
 				force[x] = y;
-				target[x] = Math.min(x + force[x], n + 1);
-				link(x, target[x]);
+				link(x, Math.min(x + force[x], n + 1));
 			}
 		}
 		out.flush();

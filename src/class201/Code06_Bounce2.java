@@ -20,7 +20,6 @@ package class201;
 //const int MAXN = 200002;
 //int n, m;
 //int force[MAXN];
-//int target[MAXN];
 //
 //int fa[MAXN];
 //int ls[MAXN];
@@ -163,8 +162,7 @@ package class201;
 //    }
 //    for (int x = 1; x <= n; x++) {
 //        cin >> force[x];
-//        target[x] = min(x + force[x], n + 1);
-//        link(x, target[x]);
+//        link(x, min(x + force[x], n + 1));
 //    }
 //    cin >> m;
 //    for (int i = 1, op, x, y; i <= m; i++) {
@@ -176,10 +174,9 @@ package class201;
 //            cout << siz[n + 1] - 1 << "\n";
 //        } else {
 //            cin >> y;
-//            cut(x, target[x]);
+//            cut(x, min(x + force[x], n + 1));
 //            force[x] = y;
-//            target[x] = min(x + force[x], n + 1);
-//            link(x, target[x]);
+//            link(x, min(x + force[x], n + 1));
 //        }
 //    }
 //    return 0;
