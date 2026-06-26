@@ -34,14 +34,14 @@ package class201;
 //int sta[MAXN];
 //bool rev[MAXN];
 //
-//int val[MAXN];
+//int arr[MAXN];
 //int maxv[MAXN];
 //
 //int nodeDegree[MAXN];
 //map<pair<int, int>, int> edgeColor;
 //
 //void up(int x) {
-//    maxv[x] = max(val[x], max(maxv[ls[x]], maxv[rs[x]]));
+//    maxv[x] = max(max(maxv[ls[x]], maxv[rs[x]]), arr[x]);
 //}
 //
 //bool isroot(int x) {
@@ -196,7 +196,7 @@ package class201;
 //    for (int c = 0; c < C; c++) {
 //        int cur = node(c, x);
 //        splay(cur);
-//        val[cur] = v;
+//        arr[cur] = v;
 //        up(cur);
 //    }
 //}
@@ -239,7 +239,7 @@ package class201;
 //        cin >> v;
 //        for (int c = 0; c < C; c++) {
 //            int cur = node(c, i);
-//            val[cur] = v;
+//            arr[cur] = v;
 //            maxv[cur] = v;
 //        }
 //    }

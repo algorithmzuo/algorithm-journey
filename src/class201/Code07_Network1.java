@@ -37,14 +37,14 @@ public class Code07_Network1 {
 	public static int[] sta = new int[MAXN];
 	public static boolean[] rev = new boolean[MAXN];
 
-	public static int[] val = new int[MAXN];
+	public static int[] arr = new int[MAXN];
 	public static int[] maxv = new int[MAXN];
 
 	public static int[] nodeDegree = new int[MAXN];
 	public static HashMap<Long, Integer> edgeColor = new HashMap<>();
 
 	public static void up(int x) {
-		maxv[x] = Math.max(val[x], Math.max(maxv[ls[x]], maxv[rs[x]]));
+		maxv[x] = Math.max(Math.max(maxv[ls[x]], maxv[rs[x]]), arr[x]);
 	}
 
 	public static boolean isroot(int x) {
@@ -201,7 +201,7 @@ public class Code07_Network1 {
 		for (int c = 0; c < C; c++) {
 			int cur = node(c, x);
 			splay(cur);
-			val[cur] = v;
+			arr[cur] = v;
 			up(cur);
 		}
 	}
@@ -247,7 +247,7 @@ public class Code07_Network1 {
 			v = in.nextInt();
 			for (int c = 0; c < C; c++) {
 				int cur = node(c, i);
-				val[cur] = v;
+				arr[cur] = v;
 				maxv[cur] = v;
 			}
 		}
