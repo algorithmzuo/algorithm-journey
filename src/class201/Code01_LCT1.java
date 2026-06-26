@@ -152,6 +152,7 @@ public class Code01_LCT1 {
 		return x;
 	}
 
+	// 点x到点y的路径，分离出来，组成一棵辅助splay树
 	// 先让x变成原树的根，然后让x到y的路径变成实链，最后y成为splay顶部
 	public static void split(int x, int y) {
 		makeroot(x);
