@@ -9,10 +9,10 @@ package class201;
 // 操作 0 x y   : 点x的点权变成y
 // 操作 2 c x y : 颜色c的边构成的图中，打印x到y路径上的点权最大值，不连通打印-1
 // 操作 1 x y c : 点x到点y的直接边，颜色改成c，下面是具体说明
-// 若不存在直接边，不修改边的颜色，打印 "No such edge."
 // 若修改后不满足性质1，不修改边的颜色，打印 "Error 1.”
 // 若修改后不满足性质2，不修改边的颜色，打印 "Error 2."
 // 若同时不满足性质1和性质2，优先打印 "Error 1."
+// 若不存在直接边，不修改边的颜色，打印 "No such edge."
 // 若上述情况都没出现，那么修改边的颜色，打印 "Success."
 // 1 <= n <= 10^4
 // C <= 10
@@ -209,17 +209,17 @@ public class Code07_Network1 {
 	public static int updateEdge(int x, int y, int c) {
 		Integer pre = edgeColor.get(edge(x, y));
 		if (pre == null) {
-			return 1;
+			return 3;
 		}
 		int p = pre;
 		if (p == c) {
 			return 4;
 		}
 		if (nodeDegree[node(c, x)] >= 2 || nodeDegree[node(c, y)] >= 2) {
-			return 2;
+			return 1;
 		}
 		if (findroot(node(c, x)) == findroot(node(c, y))) {
-			return 3;
+			return 2;
 		}
 		disconnect(p, x, y);
 		connect(c, x, y);
@@ -269,13 +269,13 @@ public class Code07_Network1 {
 				c = in.nextInt();
 				int ans = updateEdge(x, y, c);
 				if (ans == 1) {
-					out.println("No such edge.");
-				}
-				if (ans == 2) {
 					out.println("Error 1.");
 				}
-				if (ans == 3) {
+				if (ans == 2) {
 					out.println("Error 2.");
+				}
+				if (ans == 3) {
+					out.println("No such edge.");
 				}
 				if (ans == 4) {
 					out.println("Success.");
