@@ -30,6 +30,7 @@ public class Code06_Bounce1 {
 	public static int[] sta = new int[MAXN];
 	public static boolean[] rev = new boolean[MAXN];
 
+	// 节点数量
 	public static int[] siz = new int[MAXN];
 
 	public static void up(int x) {
