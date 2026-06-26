@@ -83,14 +83,14 @@ public class Code02_DynamicLCA1 {
 		return ans;
 	}
 
-	// 让x成为y的孩子
+	// 让x成为y的孩子，保证x和y不连通
 	public static void makeson(int x, int y) {
 		access(x);
 		splay(x);
 		fa[x] = y;
 	}
 
-	// 切断x和原树父亲之间的边
+	// 切断x和原树父亲之间的边，保证x不是根
 	public static void cutfa(int x) {
 		access(x);
 		splay(x);
