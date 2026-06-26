@@ -83,7 +83,7 @@ public class Code02_DynamicLCA1 {
 		return ans;
 	}
 
-	// 让x成为y的孩子，保证x和y不连通
+	// 让x成为y的孩子，保证x是所在树的根，并且x和y不连通
 	public static void makeson(int x, int y) {
 		access(x);
 		splay(x);
