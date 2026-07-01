@@ -11,6 +11,7 @@ package class114;
 // 操作 5 l r   : 查询arr[l..r]最大值
 // 操作 6 l r   : 查询arr[l..r]最小值
 // 1 <= n、m <= 5 * 10^5    累加和需要long类型
+// 测试链接 : https://loj.ac/p/6565
 // 测试链接 : https://www.luogu.com.cn/problem/P10639
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
