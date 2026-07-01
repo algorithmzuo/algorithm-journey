@@ -1,6 +1,6 @@
 package class114;
 
-// 区间最值和历史最值
+// 区间最值和历史最值，java版
 // 给定两个长度都为n的数组A和B，一开始两个数组完全一样
 // 任何操作做完，都更新B数组，B[i] = max(B[i],A[i])
 // 实现以下五种操作，一共会调用m次
@@ -18,24 +18,18 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
-public class Code05_MaximumMinimumHistory {
+public class Code05_MaximumMinimumHistory1 {
 
 	public static int MAXN = 500001;
-
 	public static long LOWEST = Long.MIN_VALUE;
+	public static int n, m;
 
 	public static int[] arr = new int[MAXN];
-
 	public static long[] sum = new long[MAXN << 2];
-
 	public static long[] max = new long[MAXN << 2];
-
 	public static int[] cnt = new int[MAXN << 2];
-
 	public static long[] sem = new long[MAXN << 2];
-
 	public static long[] maxAdd = new long[MAXN << 2];
-
 	public static long[] otherAdd = new long[MAXN << 2];
 
 	// 历史最大值
@@ -169,7 +163,7 @@ public class Code05_MaximumMinimumHistory {
 		} else {
 			int mid = (l + r) >> 1;
 			down(i, mid - l + 1, r - mid);
-			Long ans = Long.MIN_VALUE;
+			Long ans = LOWEST;
 			if (jobl <= mid) {
 				ans = Math.max(ans, queryMax(jobl, jobr, l, mid, i << 1));
 			}
@@ -186,7 +180,7 @@ public class Code05_MaximumMinimumHistory {
 		} else {
 			int mid = (l + r) >> 1;
 			down(i, mid - l + 1, r - mid);
-			Long ans = Long.MIN_VALUE;
+			Long ans = LOWEST;
 			if (jobl <= mid) {
 				ans = Math.max(ans, queryHistoryMax(jobl, jobr, l, mid, i << 1));
 			}
@@ -200,14 +194,15 @@ public class Code05_MaximumMinimumHistory {
 	public static void main(String[] args) throws IOException {
 		FastReader in = new FastReader(System.in);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
-		int n = in.nextInt();
-		int m = in.nextInt();
+		n = in.nextInt();
+		m = in.nextInt();
 		for (int i = 1; i <= n; i++) {
 			arr[i] = in.nextInt();
 		}
 		build(1, n, 1);
+		int op, jobl, jobr;
 		long jobv;
-		for (int i = 1, op, jobl, jobr; i <= m; i++) {
+		for (int i = 1; i <= m; i++) {
 			op = in.nextInt();
 			jobl = in.nextInt();
 			jobr = in.nextInt();
