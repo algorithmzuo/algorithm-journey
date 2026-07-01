@@ -293,7 +293,7 @@ public class Code04_TreeDyeing1 {
 		add(dfn[x], dfn[x] + siz[x] - 1, v, 1, n, 1);
 	}
 
-	// 从根节点到x染上新颜色，改写access方法
+	// 根节点到x的路径，涂新颜色，改写access方法
 	public static void access(int x) {
 		for (int y = 0; x != 0; y = x, x = fa[x]) {
 			splay(x);
