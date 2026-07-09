@@ -1,47 +1,35 @@
 package class202;
 
-// 航线规划，java版
-// 测试链接 : https://www.luogu.com.cn/problem/P2542
+// 长跑，java版
+// 测试链接 : https://www.luogu.com.cn/problem/P10658
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
-import java.util.HashMap;
 
-public class Code05_Flight1 {
+public class Code07_Running1 {
 
-	public static int MAXN = 30001;
-	public static int MAXM = 100001;
-	public static int MAXQ = 40001;
-	public static int n, m, q;
+	public static int MAXN = 200001;
+	public static int n, m;
 
-	public static int[] ex = new int[MAXM];
-	public static int[] ey = new int[MAXM];
-
-	public static int[] qop = new int[MAXQ];
-	public static int[] qx = new int[MAXQ];
-	public static int[] qy = new int[MAXQ];
-
-	public static int[] queryAns = new int[MAXQ];
-	public static int queryCnt;
-
-	public static boolean[] deleted = new boolean[MAXM];
-	public static HashMap<Long, Integer> edgeMap = new HashMap<>();
-
-	// 并查集，维护每个点归属的边双连通分量
 	public static int[] father = new int[MAXN];
 
-	// 辅助splay
 	public static int[] fa = new int[MAXN];
 	public static int[] ls = new int[MAXN];
 	public static int[] rs = new int[MAXN];
 	public static boolean[] rev = new boolean[MAXN];
 	public static int[] sta = new int[MAXN];
 
-	// ebccSiz[x]表示以x为根的辅助splay，有多少个边双连通分量
-	public static int[] ebccSiz = new int[MAXN];
+	// arr[x]表示原始点x当前的刷卡机数量
+	public static long[] arr = new long[MAXN];
+
+	// card[x]表示x代表的边双连通分量中，机器的数量
+	public static long[] machine = new long[MAXN];
+
+	// sum[x]表示以x为根的辅助splay中，所有machine之和
+	public static long[] sum = new long[MAXN];
 
 	public static int find(int x) {
 		if (x != father[x]) {
@@ -51,7 +39,7 @@ public class Code05_Flight1 {
 	}
 
 	public static void up(int x) {
-		ebccSiz[x] = ebccSiz[ls[x]] + ebccSiz[rs[x]] + 1;
+		sum[x] = sum[ls[x]] + sum[rs[x]] + machine[x];
 	}
 
 	public static boolean isroot(int x) {
@@ -129,10 +117,6 @@ public class Code05_Flight1 {
 		}
 	}
 
-	// access方法，每次向上跳，要把fa[x]更新为当前边双连通分量的代表节点
-	// 一旦缩点，被缩掉节点的fa可能还残留旧的LCT关系，但这些节点已经不是缩点树上的有效代表元
-	// 因此沿fa往上跳时，用并查集把fa[x]修正到当前边双连通分量代表元
-	// 也就是 fa[x] = find(fa[x]) 这一句要注意
 	public static void access(int x) {
 		for (int y = 0; x != 0; y = x, x = fa[x]) {
 			splay(x);
@@ -166,16 +150,16 @@ public class Code05_Flight1 {
 		splay(y);
 	}
 
-	// 以x为根的辅助splay子树，合并成一个边双
 	public static void condense(int x, int root) {
 		if (x != 0) {
 			father[x] = root;
+			machine[root] += machine[x];
 			condense(ls[x], root);
 			condense(rs[x], root);
 		}
 	}
 
-	// 倒序加边，如果两点不连通就连接，如果连通，说明形成环，缩成一个边双
+	// 加边
 	public static void link(int x, int y) {
 		x = find(x);
 		y = find(y);
@@ -192,32 +176,25 @@ public class Code05_Flight1 {
 		}
 	}
 
-	public static long key(int x, int y) {
-		int a = Math.min(x, y);
-		int b = Math.max(x, y);
-		return ((long) a << 32) | b;
+	// 修改点权
+	public static void update(int x, int y) {
+		long delta = y - arr[x];
+		arr[x] = y;
+		x = find(x);
+		makeroot(x);
+		machine[x] += delta;
+		up(x);
 	}
 
-	public static void prepare() {
-		for (int i = 1; i <= n; i++) {
-			father[i] = i;
-			ebccSiz[i] = 1;
+	// 查询两点路径上，所有边双连通分量的权值和
+	public static long query(int x, int y) {
+		x = find(x);
+		y = find(y);
+		if (findroot(x) != findroot(y)) {
+			return -1;
 		}
-		for (int i = 1; i <= m; i++) {
-			edgeMap.put(key(ex[i], ey[i]), i);
-		}
-		for (int i = 1; i <= q; i++) {
-			if (qop[i] == 0) {
-				deleted[edgeMap.get(key(qx[i], qy[i]))] = true;
-			} else {
-				queryCnt++;
-			}
-		}
-		for (int i = 1; i <= m; i++) {
-			if (!deleted[i]) {
-				link(ex[i], ey[i]);
-			}
-		}
+		split(x, y);
+		return sum[y];
 	}
 
 	public static void main(String[] args) throws Exception {
@@ -225,34 +202,23 @@ public class Code05_Flight1 {
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
 		n = in.nextInt();
 		m = in.nextInt();
-		for (int i = 1; i <= m; i++) {
-			ex[i] = in.nextInt();
-			ey[i] = in.nextInt();
+		for (int i = 1; i <= n; i++) {
+			father[i] = i;
+			arr[i] = in.nextInt();
+			machine[i] = arr[i];
+			sum[i] = arr[i];
 		}
-		int op = in.nextInt();
-		while (op != -1) {
-			qop[++q] = op;
-			qx[q] = in.nextInt();
-			qy[q] = in.nextInt();
+		for (int i = 1, op, x, y; i <= m; i++) {
 			op = in.nextInt();
-		}
-		prepare();
-		for (int i = q, j = queryCnt; i >= 1; i--) {
-			int x = find(qx[i]);
-			int y = find(qy[i]);
-			if (qop[i] == 0) {
+			x = in.nextInt();
+			y = in.nextInt();
+			if (op == 1) {
 				link(x, y);
+			} else if (op == 2) {
+				update(x, y);
 			} else {
-				if (x == y) {
-					queryAns[j--] = 0;
-				} else {
-					split(x, y);
-					queryAns[j--] = ebccSiz[y] - 1;
-				}
+				out.println(query(x, y));
 			}
-		}
-		for (int i = 1; i <= queryCnt; i++) {
-			out.println(queryAns[i]);
 		}
 		out.flush();
 		out.close();

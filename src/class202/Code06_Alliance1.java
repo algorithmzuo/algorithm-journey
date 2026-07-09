@@ -131,28 +131,18 @@ public class Code06_Alliance1 {
 		return x;
 	}
 
-	// 缩点，并且更新边双的节点数量
 	public static void condense(int x, int root) {
 		if (x != 0) {
-			int size = 0;
-			sta[++size] = x;
-			while (size != 0) {
-				x = sta[size--];
-				father[x] = root;
-				nodeCnt[root] += nodeCnt[x];
-				if (ls[x] != 0) {
-					sta[++size] = ls[x];
-				}
-				if (rs[x] != 0) {
-					sta[++size] = rs[x];
-				}
-			}
+			father[x] = root;
+			nodeCnt[root] += nodeCnt[x];
+			condense(ls[x], root);
+			condense(rs[x], root);
 		}
 	}
 
 	// 如果x和y不属于一个边双，返回-1
 	// 如果属于一个边双，返回边双的节点数量
-	public static int merge(int x, int y) {
+	public static int link(int x, int y) {
 		x = find(x);
 		y = find(y);
 		if (x == y) {
@@ -182,12 +172,12 @@ public class Code06_Alliance1 {
 		for (int i = 1, x, y; i <= m; i++) {
 			x = in.nextInt();
 			y = in.nextInt();
-			merge(x, y);
+			link(x, y);
 		}
 		for (int i = 1, x, y; i <= p; i++) {
 			x = in.nextInt();
 			y = in.nextInt();
-			int ans = merge(x, y);
+			int ans = link(x, y);
 			if (ans == -1) {
 				out.println("No");
 			} else {
