@@ -17,14 +17,15 @@ public class Code05_Flight1 {
 	public static int MAXQ = 40001;
 	public static int n, m, q;
 
-	public static int[] edgex = new int[MAXM];
-	public static int[] edgey = new int[MAXM];
+	public static int[] ex = new int[MAXM];
+	public static int[] ey = new int[MAXM];
 
 	public static int[] qop = new int[MAXQ];
 	public static int[] qx = new int[MAXQ];
 	public static int[] qy = new int[MAXQ];
 
-	public static int[] ans = new int[MAXQ];
+	public static int[] queryAns = new int[MAXQ];
+	public static int queryCnt;
 
 	public static boolean[] deleted = new boolean[MAXM];
 	public static HashMap<Long, Integer> edgeMap = new HashMap<>();
@@ -170,8 +171,7 @@ public class Code05_Flight1 {
 		}
 	}
 
-	// 倒序加边，如果两点不连通就连接
-	// 如果已经连通，说明形成环，要缩成一个边双
+	// 倒序加边，如果两点不连通就连接，如果连通，说明形成环，缩成一个边双
 	public static void merge(int x, int y) {
 		x = find(x);
 		y = find(y);
@@ -200,16 +200,18 @@ public class Code05_Flight1 {
 			ebccSiz[i] = 1;
 		}
 		for (int i = 1; i <= m; i++) {
-			edgeMap.put(key(edgex[i], edgey[i]), i);
+			edgeMap.put(key(ex[i], ey[i]), i);
 		}
 		for (int i = 1; i <= q; i++) {
 			if (qop[i] == 0) {
 				deleted[edgeMap.get(key(qx[i], qy[i]))] = true;
+			} else {
+				queryCnt++;
 			}
 		}
 		for (int i = 1; i <= m; i++) {
 			if (!deleted[i]) {
-				merge(edgex[i], edgey[i]);
+				merge(ex[i], ey[i]);
 			}
 		}
 	}
@@ -220,8 +222,8 @@ public class Code05_Flight1 {
 		n = in.nextInt();
 		m = in.nextInt();
 		for (int i = 1; i <= m; i++) {
-			edgex[i] = in.nextInt();
-			edgey[i] = in.nextInt();
+			ex[i] = in.nextInt();
+			ey[i] = in.nextInt();
 		}
 		int op = in.nextInt();
 		while (op != -1) {
@@ -231,23 +233,22 @@ public class Code05_Flight1 {
 			op = in.nextInt();
 		}
 		prepare();
-		int cnt = 0;
-		for (int i = q, x, y; i >= 1; i--) {
-			x = find(qx[i]);
-			y = find(qy[i]);
+		for (int i = q, j = queryCnt; i >= 1; i--) {
+			int x = find(qx[i]);
+			int y = find(qy[i]);
 			if (qop[i] == 0) {
 				merge(x, y);
 			} else {
 				if (x == y) {
-					ans[++cnt] = 0;
+					queryAns[j--] = 0;
 				} else {
 					split(x, y);
-					ans[++cnt] = ebccSiz[y] - 1;
+					queryAns[j--] = ebccSiz[y] - 1;
 				}
 			}
 		}
-		for (int i = cnt; i >= 1; i--) {
-			out.println(ans[i]);
+		for (int i = 1; i <= queryCnt; i++) {
+			out.println(queryAns[i]);
 		}
 		out.flush();
 		out.close();
