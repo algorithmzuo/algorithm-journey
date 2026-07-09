@@ -130,6 +130,9 @@ public class Code05_Flight1 {
 	}
 
 	// access方法，每次向上跳，要把fa[x]更新为当前边双连通分量的代表节点
+	// 一旦缩点，被缩掉节点的fa可能还残留旧的LCT关系，但这些节点已经不是缩点树上的有效代表元
+	// 因此沿fa往上跳时，用并查集把fa[x]修正到当前边双连通分量代表元
+	// 也就是 fa[x] = find(fa[x]) 这一句要注意
 	public static void access(int x) {
 		for (int y = 0; x != 0; y = x, x = fa[x]) {
 			splay(x);
