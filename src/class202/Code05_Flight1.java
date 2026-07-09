@@ -175,7 +175,7 @@ public class Code05_Flight1 {
 		}
 	}
 
-	// 倒序加边，如果两点不连通就连接，如果连通，说明形成环，缩成一个边双
+	// 如果两点不连通就连接，如果连通，说明形成环，缩成一个边双
 	public static void link(int x, int y) {
 		x = find(x);
 		y = find(y);

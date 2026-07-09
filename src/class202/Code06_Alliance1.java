@@ -140,8 +140,8 @@ public class Code06_Alliance1 {
 		}
 	}
 
-	// 如果x和y不属于一个边双，返回-1
-	// 如果属于一个边双，返回边双的节点数量
+	// 如果两点不连通就连接，如果连通，说明形成环，缩成一个边双
+	// 如果不连通就返回-1，否则返回边双的节点数量
 	public static int link(int x, int y) {
 		x = find(x);
 		y = find(y);
