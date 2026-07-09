@@ -24,6 +24,8 @@ public class Code05_Flight1 {
 	public static int[] qx = new int[MAXQ];
 	public static int[] qy = new int[MAXQ];
 
+	public static int[] ans = new int[MAXQ];
+
 	public static boolean[] deleted = new boolean[MAXM];
 	public static HashMap<Long, Integer> edgeMap = new HashMap<>();
 
@@ -37,11 +39,8 @@ public class Code05_Flight1 {
 	public static boolean[] rev = new boolean[MAXN];
 	public static int[] sta = new int[MAXN];
 
-	// ebccSiz[x]表示以x为根的辅助splay中，有多少个当前边双连通分量代表元
+	// ebccSiz[x]表示以x为根的辅助splay，有多少边双连通分量
 	public static int[] ebccSiz = new int[MAXN];
-
-	public static int[] ans = new int[MAXQ];
-	public static int cnta;
 
 	public static int find(int x) {
 		if (x != father[x]) {
@@ -232,6 +231,7 @@ public class Code05_Flight1 {
 			op = in.nextInt();
 		}
 		prepare();
+		int cnt = 0;
 		for (int i = q, x, y; i >= 1; i--) {
 			x = find(qx[i]);
 			y = find(qy[i]);
@@ -239,14 +239,14 @@ public class Code05_Flight1 {
 				merge(x, y);
 			} else {
 				if (x == y) {
-					ans[++cnta] = 0;
+					ans[++cnt] = 0;
 				} else {
 					split(x, y);
-					ans[++cnta] = ebccSiz[y] - 1;
+					ans[++cnt] = ebccSiz[y] - 1;
 				}
 			}
 		}
-		for (int i = cnta; i >= 1; i--) {
+		for (int i = cnt; i >= 1; i--) {
 			out.println(ans[i]);
 		}
 		out.flush();
