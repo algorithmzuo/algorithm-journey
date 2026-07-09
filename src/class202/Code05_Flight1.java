@@ -129,12 +129,13 @@ public class Code05_Flight1 {
 		}
 	}
 
-	// access方法，注意for循环的改写
+	// access方法，每次向上跳，要把fa[x]更新为当前边双连通分量的代表节点
 	public static void access(int x) {
-		for (int y = 0; x != 0; y = x, x = fa[y] = find(fa[y])) {
+		for (int y = 0; x != 0; y = x, x = fa[x]) {
 			splay(x);
 			rs[x] = y;
 			up(x);
+			fa[x] = find(fa[x]);
 		}
 	}
 
@@ -162,12 +163,21 @@ public class Code05_Flight1 {
 		splay(y);
 	}
 
-	// 以x为根的辅助splay子树，合并成一个边双
+	// 以x为根的辅助splay子树，合并成一个边双，迭代的实现方式
 	public static void condense(int x, int root) {
 		if (x != 0) {
-			father[x] = root;
-			condense(ls[x], root);
-			condense(rs[x], root);
+			int size = 0;
+			sta[++size] = x;
+			while (size != 0) {
+				x = sta[size--];
+				father[x] = root;
+				if (ls[x] != 0) {
+					sta[++size] = ls[x];
+				}
+				if (rs[x] != 0) {
+					sta[++size] = rs[x];
+				}
+			}
 		}
 	}
 
