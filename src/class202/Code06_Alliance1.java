@@ -1,57 +1,35 @@
 package class202;
 
-// 航线规划，java版
-// 测试链接 : https://www.luogu.com.cn/problem/P2542
+// 星球联盟，java版
+// 测试链接 : https://www.luogu.com.cn/problem/P10657
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
-import java.util.HashMap;
 
-public class Code05_Flight1 {
+public class Code06_Alliance1 {
 
-	public static int MAXN = 30001;
-	public static int MAXM = 100001;
-	public static int MAXQ = 40001;
-	public static int n, m, q;
+	public static int MAXN = 200001;
+	public static int n, m, p;
 
-	public static int[] ex = new int[MAXM];
-	public static int[] ey = new int[MAXM];
-
-	public static int[] qop = new int[MAXQ];
-	public static int[] qx = new int[MAXQ];
-	public static int[] qy = new int[MAXQ];
-
-	public static int[] queryAns = new int[MAXQ];
-	public static int queryCnt;
-
-	public static boolean[] deleted = new boolean[MAXM];
-	public static HashMap<Long, Integer> edgeMap = new HashMap<>();
-
-	// 并查集，维护每个点归属的边双连通分量
 	public static int[] father = new int[MAXN];
 
-	// 辅助splay
 	public static int[] fa = new int[MAXN];
 	public static int[] ls = new int[MAXN];
 	public static int[] rs = new int[MAXN];
 	public static boolean[] rev = new boolean[MAXN];
 	public static int[] sta = new int[MAXN];
 
-	// ebccSiz[x]表示以x为根的辅助splay，有多少个边双连通分量
-	public static int[] ebccSiz = new int[MAXN];
+	// nodeCnt[x]表示x代表的边双连通分量中，有多少个节点
+	public static int[] nodeCnt = new int[MAXN];
 
 	public static int find(int x) {
 		if (x != father[x]) {
 			father[x] = find(father[x]);
 		}
 		return father[x];
-	}
-
-	public static void up(int x) {
-		ebccSiz[x] = ebccSiz[ls[x]] + ebccSiz[rs[x]] + 1;
 	}
 
 	public static boolean isroot(int x) {
@@ -103,8 +81,6 @@ public class Code05_Flight1 {
 		}
 		fa[f] = x;
 		fa[x] = g;
-		up(f);
-		up(x);
 	}
 
 	public static void splay(int x) {
@@ -129,15 +105,10 @@ public class Code05_Flight1 {
 		}
 	}
 
-	// access方法，每次向上跳，要把fa[x]更新为当前边双连通分量的代表节点
-	// 一旦缩点，被缩掉节点的fa可能还残留旧的LCT关系，但这些节点已经不是缩点树上的有效代表元
-	// 因此沿fa往上跳时，用并查集把fa[x]修正到当前边双连通分量代表元
-	// 也就是 fa[x] = find(fa[x]) 这一句要注意
 	public static void access(int x) {
 		for (int y = 0; x != 0; y = x, x = fa[x]) {
 			splay(x);
 			rs[x] = y;
-			up(x);
 			fa[x] = find(fa[x]);
 		}
 	}
@@ -160,13 +131,7 @@ public class Code05_Flight1 {
 		return x;
 	}
 
-	public static void split(int x, int y) {
-		makeroot(x);
-		access(y);
-		splay(y);
-	}
-
-	// 以x为根的辅助splay子树，合并成一个边双，迭代的实现方式
+	// 缩点，并且更新边双的节点数量
 	public static void condense(int x, int root) {
 		if (x != 0) {
 			int size = 0;
@@ -174,6 +139,7 @@ public class Code05_Flight1 {
 			while (size != 0) {
 				x = sta[size--];
 				father[x] = root;
+				nodeCnt[root] += nodeCnt[x];
 				if (ls[x] != 0) {
 					sta[++size] = ls[x];
 				}
@@ -184,48 +150,22 @@ public class Code05_Flight1 {
 		}
 	}
 
-	// 倒序加边，如果两点不连通就连接，如果连通，说明形成环，缩成一个边双
-	public static void merge(int x, int y) {
+	// 如果x和y不属于一个边双，返回-1
+	// 如果属于一个边双，返回边双的节点数量
+	public static int merge(int x, int y) {
 		x = find(x);
 		y = find(y);
 		if (x == y) {
-			return;
+			return nodeCnt[x];
 		}
 		makeroot(x);
 		if (findroot(y) != x) {
 			fa[x] = y;
+			return -1;
 		} else {
 			condense(rs[x], x);
 			rs[x] = 0;
-			up(x);
-		}
-	}
-
-	public static long key(int x, int y) {
-		int a = Math.min(x, y);
-		int b = Math.max(x, y);
-		return ((long) a << 32) | b;
-	}
-
-	public static void prepare() {
-		for (int i = 1; i <= n; i++) {
-			father[i] = i;
-			ebccSiz[i] = 1;
-		}
-		for (int i = 1; i <= m; i++) {
-			edgeMap.put(key(ex[i], ey[i]), i);
-		}
-		for (int i = 1; i <= q; i++) {
-			if (qop[i] == 0) {
-				deleted[edgeMap.get(key(qx[i], qy[i]))] = true;
-			} else {
-				queryCnt++;
-			}
-		}
-		for (int i = 1; i <= m; i++) {
-			if (!deleted[i]) {
-				merge(ex[i], ey[i]);
-			}
+			return nodeCnt[x];
 		}
 	}
 
@@ -234,34 +174,25 @@ public class Code05_Flight1 {
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
 		n = in.nextInt();
 		m = in.nextInt();
-		for (int i = 1; i <= m; i++) {
-			ex[i] = in.nextInt();
-			ey[i] = in.nextInt();
+		p = in.nextInt();
+		for (int i = 1; i <= n; i++) {
+			father[i] = i;
+			nodeCnt[i] = 1;
 		}
-		int op = in.nextInt();
-		while (op != -1) {
-			qop[++q] = op;
-			qx[q] = in.nextInt();
-			qy[q] = in.nextInt();
-			op = in.nextInt();
+		for (int i = 1, x, y; i <= m; i++) {
+			x = in.nextInt();
+			y = in.nextInt();
+			merge(x, y);
 		}
-		prepare();
-		for (int i = q, j = queryCnt; i >= 1; i--) {
-			int x = find(qx[i]);
-			int y = find(qy[i]);
-			if (qop[i] == 0) {
-				merge(x, y);
+		for (int i = 1, x, y; i <= p; i++) {
+			x = in.nextInt();
+			y = in.nextInt();
+			int ans = merge(x, y);
+			if (ans == -1) {
+				out.println("No");
 			} else {
-				if (x == y) {
-					queryAns[j--] = 0;
-				} else {
-					split(x, y);
-					queryAns[j--] = ebccSiz[y] - 1;
-				}
+				out.println(ans);
 			}
-		}
-		for (int i = 1; i <= queryCnt; i++) {
-			out.println(queryAns[i]);
 		}
 		out.flush();
 		out.close();
