@@ -1,6 +1,13 @@
 package class202;
 
-// 动态路径的加和乘，java版
+// 动态树的加和乘，java版
+// 一共有n个点、n-1条边，每个点的初始点权都是1，所有节点组成一棵树
+// 接下来有q条操作，操作类型有四种，格式如下
+// 操作 + x y z   : x到y的路径上，点的权值都加上z，z是非负整数
+// 操作 * x y z   : x到y的路径上，点的权值都乘上z，z是非负整数
+// 操作 - x y a b : 删除原边(x,y)，加入新边(a,b)，操作后仍然是一棵树
+// 操作 / x y     : x到y的路径上，查询点权累加和，对 51061 取模
+// 1 <= n、q <= 10^5
 // 测试链接 : https://www.luogu.com.cn/problem/P1501
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
@@ -193,27 +200,29 @@ public class Code01_DynamicAddMul1 {
 			if (op.equals("+")) {
 				x = in.nextInt();
 				y = in.nextInt();
-				z = in.nextInt() % MOD;
+				z = in.nextInt();
+				z %= MOD;
 				split(x, y);
 				effect(y, 1, z);
 			} else if (op.equals("*")) {
 				x = in.nextInt();
 				y = in.nextInt();
-				z = in.nextInt() % MOD;
+				z = in.nextInt();
+				z %= MOD;
 				split(x, y);
 				effect(y, z, 0);
-			} else if (op.equals("/")) {
-				x = in.nextInt();
-				y = in.nextInt();
-				split(x, y);
-				out.println(sum[y]);
-			} else {
+			} else if (op.equals("-")) {
 				x = in.nextInt();
 				y = in.nextInt();
 				a = in.nextInt();
 				b = in.nextInt();
 				cut(x, y);
 				link(a, b);
+			} else {
+				x = in.nextInt();
+				y = in.nextInt();
+				split(x, y);
+				out.println(sum[y]);
 			}
 		}
 		out.flush();
