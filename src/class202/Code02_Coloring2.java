@@ -55,12 +55,8 @@ package class202;
 //
 //void reverse(int x) {
 //    if (x != 0) {
-//        int tmp = ls[x];
-//        ls[x] = rs[x];
-//        rs[x] = tmp;
-//        tmp = lcolor[x];
-//        lcolor[x] = rcolor[x];
-//        rcolor[x] = tmp;
+//        swap(ls[x], rs[x]);
+//        swap(lcolor[x], rcolor[x]);
 //        rev[x] = !rev[x];
 //    }
 //}
