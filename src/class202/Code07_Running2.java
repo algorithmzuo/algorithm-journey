@@ -1,14 +1,16 @@
 package class202;
 
-// 星球联盟，C++版
-// 一共有n个点、m条无向边，接下来依次加入p条无向边
-// 如果两个点属于同一个联盟，必须存在一条环形线路经过这两个点
-// 等价地说，两个点之间存在两条没有公共边的路径，也就是在同一个边双连通分量中
-// 每次加入一条新边(x,y)，加入之后判断点x和点y是否属于同一个联盟
-// 如果不属于同一个联盟，打印"No"
-// 如果属于同一个联盟，打印这个联盟里的节点数
-// 1 <= n、m、p <= 2 * 10^5
-// 测试链接 : https://www.luogu.com.cn/problem/P10657
+// 长跑，C++版
+// 一共n个点，每个点有点权，初始没有边，接下来有m条操作，格式如下
+// 操作 1 x y : 点x和点y之间增加无向边，已经连通则忽略
+// 操作 2 x y : 点x的点权变成y
+// 操作 3 x y : 每条边需要指定方向变成单向边，希望点x到点y的过程中
+//              获得最多的点权累加和，重复经过某点只获得一次点权
+//              打印能获得的点权累加和最大值，如果不连通打印-1
+//              指定边的方向仅影响本次操作，不会影响后续操作
+// 1 <= n <= 1.5 * 10^5
+// 1 <= m <= 5 * n
+// 测试链接 : https://www.luogu.com.cn/problem/P10658
 // 如下实现是C++的版本，C++版本和java版本逻辑完全一样
 // 提交如下代码，可以通过所有测试用例
 
@@ -16,8 +18,10 @@ package class202;
 //
 //using namespace std;
 //
+//using ll = long long;
+//
 //const int MAXN = 200001;
-//int n, m, p;
+//int n, m;
 //
 //int father[MAXN];
 //
@@ -27,13 +31,19 @@ package class202;
 //bool rev[MAXN];
 //int sta[MAXN];
 //
-//int nodeCnt[MAXN];
+//ll arr[MAXN];
+//ll sum[MAXN];
+//ll sumOfSum[MAXN];
 //
 //int find(int x) {
 //    if (x != father[x]) {
 //        father[x] = find(father[x]);
 //    }
 //    return father[x];
+//}
+//
+//void up(int x) {
+//    sumOfSum[x] = sumOfSum[ls[x]] + sumOfSum[rs[x]] + sum[x];
 //}
 //
 //bool isroot(int x) {
@@ -83,6 +93,8 @@ package class202;
 //    }
 //    fa[f] = x;
 //    fa[x] = g;
+//    up(f);
+//    up(x);
 //}
 //
 //void splay(int x) {
@@ -112,6 +124,7 @@ package class202;
 //    for (int y = 0; x != 0; y = x, x = fa[x]) {
 //        splay(x);
 //        rs[x] = y;
+//        up(x);
 //        fa[x] = find(fa[x]);
 //    }
 //}
@@ -134,51 +147,74 @@ package class202;
 //    return x;
 //}
 //
+//void split(int x, int y) {
+//    makeroot(x);
+//    access(y);
+//    splay(y);
+//}
+//
 //void condense(int x, int root) {
 //    if (x != 0) {
 //        father[x] = root;
-//        nodeCnt[root] += nodeCnt[x];
+//        sum[root] += sum[x];
 //        condense(ls[x], root);
 //        condense(rs[x], root);
 //    }
 //}
 //
-//int link(int x, int y) {
+//void link(int x, int y) {
 //    x = find(x);
 //    y = find(y);
 //    if (x == y) {
-//        return nodeCnt[x];
+//        return;
 //    }
 //    makeroot(x);
 //    if (findroot(y) != x) {
 //        fa[x] = y;
-//        return -1;
 //    } else {
 //        condense(rs[x], x);
 //        rs[x] = 0;
-//        return nodeCnt[x];
+//        up(x);
 //    }
+//}
+//
+//void update(int x, int y) {
+//    ll delta = y - arr[x];
+//    arr[x] = y;
+//    x = find(x);
+//    makeroot(x);
+//    sum[x] += delta;
+//    up(x);
+//}
+//
+//ll query(int x, int y) {
+//    x = find(x);
+//    y = find(y);
+//    if (findroot(x) != findroot(y)) {
+//        return -1;
+//    }
+//    split(x, y);
+//    return sumOfSum[y];
 //}
 //
 //int main() {
 //    ios::sync_with_stdio(false);
 //    cin.tie(nullptr);
-//    cin >> n >> m >> p;
+//    cin >> n >> m;
 //    for (int i = 1; i <= n; i++) {
 //        father[i] = i;
-//        nodeCnt[i] = 1;
+//        cin >> arr[i];
+//        sum[i] = arr[i];
+//        sumOfSum[i] = arr[i];
 //    }
-//    for (int i = 1, x, y; i <= m; i++) {
-//        cin >> x >> y;
-//        link(x, y);
-//    }
-//    for (int i = 1, x, y; i <= p; i++) {
-//        cin >> x >> y;
-//        int ans = link(x, y);
-//        if (ans == -1) {
-//            cout << "No\n";
+//    for (int i = 1, op, x, y; i <= m; i++) {
+//        cin >> op >> x >> y;
+//        if (op == 1) {
+//            link(x, y);
+//        } else if (op == 2) {
+//            update(x, y);
 //        } else {
-//            cout << ans << "\n";
+//            cout << query(x, y) << "\n";
 //        }
 //    }
 //    return 0;

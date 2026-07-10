@@ -1,6 +1,15 @@
 package class202;
 
 // 长跑，java版
+// 一共n个点，每个点有点权，初始没有边，接下来有m条操作，格式如下
+// 操作 1 x y : 点x和点y之间增加无向边，已经连通则忽略
+// 操作 2 x y : 点x的点权变成y
+// 操作 3 x y : 每条边需要指定方向变成单向边，希望点x到点y的过程中
+//              获得最多的点权累加和，重复经过某点只获得一次点权
+//              打印能获得的点权累加和最大值，如果不连通打印-1
+//              指定边的方向仅影响本次操作，不会影响后续操作
+// 1 <= n <= 1.5 * 10^5
+// 1 <= m <= 5 * n
 // 测试链接 : https://www.luogu.com.cn/problem/P10658
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
@@ -22,14 +31,14 @@ public class Code07_Running1 {
 	public static boolean[] rev = new boolean[MAXN];
 	public static int[] sta = new int[MAXN];
 
-	// arr[x]表示原始点x当前的刷卡机数量
+	// 点权
 	public static long[] arr = new long[MAXN];
 
-	// card[x]表示x代表的边双连通分量中，机器的数量
-	public static long[] machine = new long[MAXN];
-
-	// sum[x]表示以x为根的辅助splay中，所有machine之和
+	// sum[x]表示x代表的边双连通分量中，点权累加和
 	public static long[] sum = new long[MAXN];
+
+	// sumOfSum[x]表示以x为根的辅助splay中，点权累加和
+	public static long[] sumOfSum = new long[MAXN];
 
 	public static int find(int x) {
 		if (x != father[x]) {
@@ -39,7 +48,7 @@ public class Code07_Running1 {
 	}
 
 	public static void up(int x) {
-		sum[x] = sum[ls[x]] + sum[rs[x]] + machine[x];
+		sumOfSum[x] = sumOfSum[ls[x]] + sumOfSum[rs[x]] + sum[x];
 	}
 
 	public static boolean isroot(int x) {
@@ -154,7 +163,7 @@ public class Code07_Running1 {
 	public static void condense(int x, int root) {
 		if (x != 0) {
 			father[x] = root;
-			machine[root] += machine[x];
+			sum[root] += sum[x];
 			condense(ls[x], root);
 			condense(rs[x], root);
 		}
@@ -183,7 +192,7 @@ public class Code07_Running1 {
 		arr[x] = y;
 		x = find(x);
 		makeroot(x);
-		machine[x] += delta;
+		sum[x] += delta;
 		up(x);
 	}
 
@@ -195,7 +204,7 @@ public class Code07_Running1 {
 			return -1;
 		}
 		split(x, y);
-		return sum[y];
+		return sumOfSum[y];
 	}
 
 	public static void main(String[] args) throws Exception {
@@ -206,8 +215,8 @@ public class Code07_Running1 {
 		for (int i = 1; i <= n; i++) {
 			father[i] = i;
 			arr[i] = in.nextInt();
-			machine[i] = arr[i];
 			sum[i] = arr[i];
+			sumOfSum[i] = arr[i];
 		}
 		for (int i = 1, op, x, y; i <= m; i++) {
 			op = in.nextInt();
