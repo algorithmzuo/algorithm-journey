@@ -118,6 +118,7 @@ public class Code07_Running1 {
 	}
 
 	public static void access(int x) {
+		x = find(x);
 		for (int y = 0; x != 0; y = x, x = fa[x]) {
 			splay(x);
 			rs[x] = y;

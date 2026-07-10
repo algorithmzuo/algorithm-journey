@@ -106,6 +106,7 @@ public class Code06_Alliance1 {
 	}
 
 	public static void access(int x) {
+		x = find(x);
 		for (int y = 0; x != 0; y = x, x = fa[x]) {
 			splay(x);
 			rs[x] = y;
