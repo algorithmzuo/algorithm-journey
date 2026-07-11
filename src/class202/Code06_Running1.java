@@ -17,7 +17,7 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
-public class Code07_Running1 {
+public class Code06_Running1 {
 
 	public static int MAXN = 200001;
 	public static int n, m;

@@ -17,7 +17,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.util.HashMap;
 
-public class Code05_Flight1 {
+public class Code07_Flight1 {
 
 	public static int MAXN = 30001;
 	public static int MAXM = 100001;

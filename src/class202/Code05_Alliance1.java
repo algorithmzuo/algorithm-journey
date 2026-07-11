@@ -16,7 +16,7 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
-public class Code06_Alliance1 {
+public class Code05_Alliance1 {
 
 	public static int MAXN = 200001;
 	public static int n, m, p;
