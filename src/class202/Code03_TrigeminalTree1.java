@@ -40,7 +40,7 @@ public class Code03_TrigeminalTree1 {
 	public static boolean[] tag = new boolean[MAXN];
 	public static int[] sta = new int[MAXN];
 
-	// cnt[i]，细胞节点i，有几个1，范围0~3
+	// cnt[i]，细胞节点i，输入有几个1，范围0~3
 	public static int[] cnt = new int[MAXN];
 	// sig[i]，信号节点i，自身的值，范围0~1
 	public static int[] sig = new int[MAXT];
@@ -56,7 +56,6 @@ public class Code03_TrigeminalTree1 {
 	// 根节点的输出值
 	public static int ans;
 
-	// 维护实链的end1和end2
 	public static void up(int x) {
 		end1[x] = end1[rs[x]];
 		if (end1[x] == 0 && cnt[x] != 1) {
