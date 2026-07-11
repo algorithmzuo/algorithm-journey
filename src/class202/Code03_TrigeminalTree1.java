@@ -27,6 +27,10 @@ public class Code03_TrigeminalTree1 {
 	// 原树的父节点
 	public static int[] parent = new int[MAXT];
 
+	// 拓扑排序，设置节点的初始输出
+	public static int[] que = new int[MAXT];
+	public static int[] degree = new int[MAXN];
+
 	// 辅助splay
 	public static int[] fa = new int[MAXN];
 	public static int[] ls = new int[MAXN];
@@ -36,36 +40,33 @@ public class Code03_TrigeminalTree1 {
 	public static boolean[] tag = new boolean[MAXN];
 	public static int[] sta = new int[MAXN];
 
-	// cell[i]，细胞节点i有几个1，范围0~3
-	public static int[] cell = new int[MAXN];
-	// sign[i]，信号节点i的值，范围0~1
-	public static int[] sign = new int[MAXT];
+	// cnt[i]，细胞节点i，有几个1，范围0~3
+	public static int[] cnt = new int[MAXN];
+	// sig[i]，信号节点i，自身的值，范围0~1
+	public static int[] sig = new int[MAXT];
 
-	// x所在的实链中，从下往上第一个cell != 1的节点，当外部输入从0变1时
-	// 从下往上一路连续的cell == 1的节点都改变输出，最终停在end1[x]
+	// x所在的实链中，从下往上第一个cnt != 1的节点，当外部输入从0变1时
+	// 从下往上一路连续的cnt == 1的节点都改变输出，最终停在end1[x]
 	public static int[] end1 = new int[MAXN];
 
-	// x所在的实链中，从下往上第一个cell != 2的节点，当外部输入从1变0时
-	// 从下往上一路连续的cell == 2的节点都改变输出，最终停在end2[x]
+	// x所在的实链中，从下往上第一个cnt != 2的节点，当外部输入从1变0时
+	// 从下往上一路连续的cnt == 2的节点都改变输出，最终停在end2[x]
 	public static int[] end2 = new int[MAXN];
 
-	// 拓扑排序
-	public static int[] que = new int[MAXT];
-	public static int[] degree = new int[MAXN];
-
+	// 根节点的输出值
 	public static int ans;
 
 	// 维护实链的end1和end2
 	public static void up(int x) {
 		end1[x] = end1[rs[x]];
-		if (end1[x] == 0 && cell[x] != 1) {
+		if (end1[x] == 0 && cnt[x] != 1) {
 			end1[x] = x;
 		}
 		if (end1[x] == 0) {
 			end1[x] = end1[ls[x]];
 		}
 		end2[x] = end2[rs[x]];
-		if (end2[x] == 0 && cell[x] != 2) {
+		if (end2[x] == 0 && cnt[x] != 2) {
 			end2[x] = x;
 		}
 		if (end2[x] == 0) {
@@ -74,12 +75,12 @@ public class Code03_TrigeminalTree1 {
 	}
 
 	// 传导状态翻转，只作用在连续传导段上
-	// 要么连续一段，全是cell == 1，变成cell == 2
-	// 要么连续一段，全是cell == 2，变成cell == 1
-	// 只涉及这两种场景，不会有其他的cell值
+	// 要么连续一段，全是cnt == 1，变成cnt == 2
+	// 要么连续一段，全是cnt == 2，变成cnt == 1
+	// 只涉及这两种场景，不会有其他的cnt值
 	public static void effect(int x) {
 		if (x != 0) {
-			cell[x] ^= 3;
+			cnt[x] ^= 3;
 			int tmp = end1[x];
 			end1[x] = end2[x];
 			end2[x] = tmp;
@@ -162,8 +163,8 @@ public class Code03_TrigeminalTree1 {
 	}
 
 	public static void change(int x) {
-		sign[x] ^= 1;
-		int delta = sign[x] == 1 ? 1 : -1;
+		sig[x] ^= 1;
+		int delta = sig[x] == 1 ? 1 : -1;
 		x = parent[x];
 		access(x);
 		splay(x);
@@ -171,7 +172,7 @@ public class Code03_TrigeminalTree1 {
 		if (stop != 0) {
 			splay(stop);
 			effect(rs[stop]);
-			cell[stop] += delta;
+			cnt[stop] += delta;
 			up(stop);
 		} else {
 			effect(x);
@@ -181,9 +182,9 @@ public class Code03_TrigeminalTree1 {
 
 	public static int get01(int x) {
 		if (x <= n) {
-			return cell[x] <= 1 ? 0 : 1;
+			return cnt[x] <= 1 ? 0 : 1;
 		} else {
-			return sign[x];
+			return sig[x];
 		}
 	}
 
@@ -202,7 +203,7 @@ public class Code03_TrigeminalTree1 {
 			}
 			int p = parent[x];
 			if (p != 0) {
-				cell[p] += get01(x);
+				cnt[p] += get01(x);
 				if (--degree[p] == 0) {
 					que[++r] = p;
 				}
@@ -224,7 +225,7 @@ public class Code03_TrigeminalTree1 {
 			}
 		}
 		for (int i = n + 1; i <= 3 * n + 1; i++) {
-			sign[i] = in.nextInt();
+			sig[i] = in.nextInt();
 		}
 		topo();
 		ans = get01(1);

@@ -24,6 +24,9 @@ package class202;
 //
 //int parent[MAXT];
 //
+//int que[MAXT];
+//int degree[MAXN];
+//
 //int fa[MAXN];
 //int ls[MAXN];
 //int rs[MAXN];
@@ -31,27 +34,24 @@ package class202;
 //bool tag[MAXN];
 //int sta[MAXN];
 //
-//int cell[MAXN];
-//int sign[MAXT];
+//int cnt[MAXN];
+//int sig[MAXT];
 //
 //int end1[MAXN];
 //int end2[MAXN];
-//
-//int que[MAXT];
-//int degree[MAXN];
 //
 //int ans;
 //
 //void up(int x) {
 //    end1[x] = end1[rs[x]];
-//    if (end1[x] == 0 && cell[x] != 1) {
+//    if (end1[x] == 0 && cnt[x] != 1) {
 //        end1[x] = x;
 //    }
 //    if (end1[x] == 0) {
 //        end1[x] = end1[ls[x]];
 //    }
 //    end2[x] = end2[rs[x]];
-//    if (end2[x] == 0 && cell[x] != 2) {
+//    if (end2[x] == 0 && cnt[x] != 2) {
 //        end2[x] = x;
 //    }
 //    if (end2[x] == 0) {
@@ -61,7 +61,7 @@ package class202;
 //
 //void effect(int x) {
 //    if (x != 0) {
-//        cell[x] ^= 3;
+//        cnt[x] ^= 3;
 //        swap(end1[x], end2[x]);
 //        tag[x] = !tag[x];
 //    }
@@ -142,8 +142,8 @@ package class202;
 //}
 //
 //void change(int x) {
-//    sign[x] ^= 1;
-//    int delta = sign[x] == 1 ? 1 : -1;
+//    sig[x] ^= 1;
+//    int delta = sig[x] == 1 ? 1 : -1;
 //    x = parent[x];
 //    access(x);
 //    splay(x);
@@ -151,7 +151,7 @@ package class202;
 //    if (stop != 0) {
 //        splay(stop);
 //        effect(rs[stop]);
-//        cell[stop] += delta;
+//        cnt[stop] += delta;
 //        up(stop);
 //    } else {
 //        effect(x);
@@ -161,9 +161,9 @@ package class202;
 //
 //int get01(int x) {
 //    if (x <= n) {
-//        return cell[x] <= 1 ? 0 : 1;
+//        return cnt[x] <= 1 ? 0 : 1;
 //    } else {
-//        return sign[x];
+//        return sig[x];
 //    }
 //}
 //
@@ -182,7 +182,7 @@ package class202;
 //        }
 //        int p = parent[x];
 //        if (p != 0) {
-//            cell[p] += get01(x);
+//            cnt[p] += get01(x);
 //            if (--degree[p] == 0) {
 //                que[++r] = p;
 //            }
@@ -204,7 +204,7 @@ package class202;
 //        }
 //    }
 //    for (int i = n + 1; i <= 3 * n + 1; i++) {
-//        cin >> sign[i];
+//        cin >> sig[i];
 //    }
 //    topo();
 //    ans = get01(1);
