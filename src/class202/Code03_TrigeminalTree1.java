@@ -53,7 +53,7 @@ public class Code03_TrigeminalTree1 {
 	// 从下往上一路连续的cnt == 2的节点都改变输出，最终停在end2[x]
 	public static int[] end2 = new int[MAXN];
 
-	// 根节点的输出值
+	// 1号节点的输出
 	public static int ans;
 
 	public static void up(int x) {
