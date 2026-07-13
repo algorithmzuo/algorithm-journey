@@ -30,7 +30,7 @@ public class Code02_Coloring1 {
 	public static boolean[] rev = new boolean[MAXN];
 
 	public static int[] arr = new int[MAXN];
-	public static int[] sum = new int[MAXN];
+	public static int[] colorAns = new int[MAXN];
 	public static int[] lcolor = new int[MAXN];
 	public static int[] rcolor = new int[MAXN];
 
@@ -40,12 +40,12 @@ public class Code02_Coloring1 {
 	public static void up(int x) {
 		lcolor[x] = ls[x] == 0 ? arr[x] : lcolor[ls[x]];
 		rcolor[x] = rs[x] == 0 ? arr[x] : rcolor[rs[x]];
-		sum[x] = sum[ls[x]] + sum[rs[x]] + 1;
+		colorAns[x] = colorAns[ls[x]] + colorAns[rs[x]] + 1;
 		if (ls[x] != 0 && rcolor[ls[x]] == arr[x]) {
-			sum[x]--;
+			colorAns[x]--;
 		}
 		if (rs[x] != 0 && arr[x] == lcolor[rs[x]]) {
-			sum[x]--;
+			colorAns[x]--;
 		}
 	}
 
@@ -74,7 +74,7 @@ public class Code02_Coloring1 {
 			arr[x] = c;
 			lcolor[x] = c;
 			rcolor[x] = c;
-			sum[x] = 1;
+			colorAns[x] = 1;
 			colorTag[x] = c;
 		}
 	}
@@ -190,7 +190,7 @@ public class Code02_Coloring1 {
 			arr[i] = in.nextInt();
 			lcolor[i] = arr[i];
 			rcolor[i] = arr[i];
-			sum[i] = 1;
+			colorAns[i] = 1;
 		}
 		for (int i = 1, x, y; i < n; i++) {
 			x = in.nextInt();
@@ -209,7 +209,7 @@ public class Code02_Coloring1 {
 				x = in.nextInt();
 				y = in.nextInt();
 				split(x, y);
-				out.println(sum[y]);
+				out.println(colorAns[y]);
 			}
 		}
 		out.flush();

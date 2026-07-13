@@ -28,7 +28,7 @@ package class202;
 //bool rev[MAXN];
 //
 //int arr[MAXN];
-//int sum[MAXN];
+//int colorAns[MAXN];
 //int lcolor[MAXN];
 //int rcolor[MAXN];
 //
@@ -37,12 +37,12 @@ package class202;
 //void up(int x) {
 //    lcolor[x] = ls[x] == 0 ? arr[x] : lcolor[ls[x]];
 //    rcolor[x] = rs[x] == 0 ? arr[x] : rcolor[rs[x]];
-//    sum[x] = sum[ls[x]] + sum[rs[x]] + 1;
+//    colorAns[x] = colorAns[ls[x]] + colorAns[rs[x]] + 1;
 //    if (ls[x] != 0 && rcolor[ls[x]] == arr[x]) {
-//        sum[x]--;
+//        colorAns[x]--;
 //    }
 //    if (rs[x] != 0 && arr[x] == lcolor[rs[x]]) {
-//        sum[x]--;
+//        colorAns[x]--;
 //    }
 //}
 //
@@ -67,7 +67,7 @@ package class202;
 //        arr[x] = c;
 //        lcolor[x] = c;
 //        rcolor[x] = c;
-//        sum[x] = 1;
+//        colorAns[x] = 1;
 //        colorTag[x] = c;
 //    }
 //}
@@ -182,7 +182,7 @@ package class202;
 //        cin >> arr[i];
 //        lcolor[i] = arr[i];
 //        rcolor[i] = arr[i];
-//        sum[i] = 1;
+//        colorAns[i] = 1;
 //    }
 //    for (int i = 1, x, y; i < n; i++) {
 //        cin >> x >> y;
@@ -198,7 +198,7 @@ package class202;
 //        } else {
 //            cin >> x >> y;
 //            split(x, y);
-//            cout << sum[y] << "\n";
+//            cout << colorAns[y] << "\n";
 //        }
 //    }
 //    return 0;
