@@ -47,8 +47,8 @@ public class Code07_Flight1 {
 	public static boolean[] rev = new boolean[MAXN];
 	public static int[] sta = new int[MAXN];
 
-	// ebccSiz[x]表示以x为根的辅助splay，有多少个边双连通分量
-	public static int[] ebccSiz = new int[MAXN];
+	// ebcc[x]表示以x为根的辅助splay，有多少个边双连通分量
+	public static int[] ebcc = new int[MAXN];
 
 	public static int find(int x) {
 		if (x != father[x]) {
@@ -58,7 +58,7 @@ public class Code07_Flight1 {
 	}
 
 	public static void up(int x) {
-		ebccSiz[x] = ebccSiz[ls[x]] + ebccSiz[rs[x]] + 1;
+		ebcc[x] = ebcc[ls[x]] + ebcc[rs[x]] + 1;
 	}
 
 	public static boolean isroot(int x) {
@@ -206,7 +206,7 @@ public class Code07_Flight1 {
 	public static void prepare() {
 		for (int i = 1; i <= n; i++) {
 			father[i] = i;
-			ebccSiz[i] = 1;
+			ebcc[i] = 1;
 		}
 		for (int i = 1; i <= m; i++) {
 			edgeMap.put(key(ex[i], ey[i]), i);
@@ -252,7 +252,7 @@ public class Code07_Flight1 {
 					queryAns[j--] = 0;
 				} else {
 					split(x, y);
-					queryAns[j--] = ebccSiz[y] - 1;
+					queryAns[j--] = ebcc[y] - 1;
 				}
 			}
 		}

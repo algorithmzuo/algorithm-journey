@@ -44,7 +44,7 @@ package class202;
 //bool rev[MAXN];
 //int sta[MAXN];
 //
-//int ebccSiz[MAXN];
+//int ebcc[MAXN];
 //
 //int find(int x) {
 //    if (x != father[x]) {
@@ -54,7 +54,7 @@ package class202;
 //}
 //
 //void up(int x) {
-//    ebccSiz[x] = ebccSiz[ls[x]] + ebccSiz[rs[x]] + 1;
+//    ebcc[x] = ebcc[ls[x]] + ebcc[rs[x]] + 1;
 //}
 //
 //bool isroot(int x) {
@@ -197,7 +197,7 @@ package class202;
 //void prepare() {
 //    for (int i = 1; i <= n; i++) {
 //        father[i] = i;
-//        ebccSiz[i] = 1;
+//        ebcc[i] = 1;
 //    }
 //    for (int i = 1; i <= m; i++) {
 //        edgeMap[key(ex[i], ey[i])] = i;
@@ -241,7 +241,7 @@ package class202;
 //                queryAns[j--] = 0;
 //            } else {
 //                split(x, y);
-//                queryAns[j--] = ebccSiz[y] - 1;
+//                queryAns[j--] = ebcc[y] - 1;
 //            }
 //        }
 //    }

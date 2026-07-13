@@ -29,7 +29,7 @@ public class Code05_Alliance1 {
 	public static boolean[] rev = new boolean[MAXN];
 	public static int[] sta = new int[MAXN];
 
-	// nodeCnt[x]表示x代表的边双连通分量中，有多少个节点
+	// nodeCnt[x]表示x代表的边双连通分量中，有多少个原图节点
 	public static int[] nodeCnt = new int[MAXN];
 
 	public static int find(int x) {
