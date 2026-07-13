@@ -31,14 +31,14 @@ package class202;
 //int ls[MAXN];
 //int rs[MAXN];
 //
-//bool tag[MAXN];
-//int sta[MAXN];
-//
 //int cnt[MAXN];
 //int sig[MAXT];
 //
 //int stop1[MAXN];
 //int stop2[MAXN];
+//
+//bool tag[MAXN];
+//int sta[MAXN];
 //
 //int ans;
 //

@@ -33,7 +33,9 @@ public class Code02_Coloring1 {
 	public static int[] sum = new int[MAXN];
 	public static int[] lcolor = new int[MAXN];
 	public static int[] rcolor = new int[MAXN];
-	public static int[] change = new int[MAXN];
+
+	// 修改颜色的懒更新信息
+	public static int[] colorTag = new int[MAXN];
 
 	public static void up(int x) {
 		lcolor[x] = ls[x] == 0 ? arr[x] : lcolor[ls[x]];
@@ -73,7 +75,7 @@ public class Code02_Coloring1 {
 			lcolor[x] = c;
 			rcolor[x] = c;
 			sum[x] = 1;
-			change[x] = c;
+			colorTag[x] = c;
 		}
 	}
 
@@ -83,10 +85,10 @@ public class Code02_Coloring1 {
 			reverse(rs[x]);
 			rev[x] = false;
 		}
-		if (change[x] != 0) {
-			effect(ls[x], change[x]);
-			effect(rs[x], change[x]);
-			change[x] = 0;
+		if (colorTag[x] != 0) {
+			effect(ls[x], colorTag[x]);
+			effect(rs[x], colorTag[x]);
+			colorTag[x] = 0;
 		}
 	}
 

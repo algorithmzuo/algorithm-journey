@@ -36,10 +36,6 @@ public class Code03_TrigeminalTree1 {
 	public static int[] ls = new int[MAXN];
 	public static int[] rs = new int[MAXN];
 
-	// 不是左右孩子翻转，而是本题的传导状态翻转
-	public static boolean[] tag = new boolean[MAXN];
-	public static int[] sta = new int[MAXN];
-
 	// cnt[i]，细胞节点i的输入有几个1，范围0~3
 	public static int[] cnt = new int[MAXN];
 	// sig[i]，信号节点i的值，范围0~1
@@ -52,6 +48,10 @@ public class Code03_TrigeminalTree1 {
 	// x所在的实链中，从下往上第一个cnt != 2的节点，当外部输入从1变0时
 	// 从下往上一路连续的cnt == 2的节点都改变输出，最终停在stop2[x]
 	public static int[] stop2 = new int[MAXN];
+
+	// 本题没有左右孩子的翻转，但是有传导状态的翻转，tag就表示这个
+	public static boolean[] tag = new boolean[MAXN];
+	public static int[] sta = new int[MAXN];
 
 	// 1号节点的输出
 	public static int ans;

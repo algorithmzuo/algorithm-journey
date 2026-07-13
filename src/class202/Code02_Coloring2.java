@@ -31,7 +31,8 @@ package class202;
 //int sum[MAXN];
 //int lcolor[MAXN];
 //int rcolor[MAXN];
-//int change[MAXN];
+//
+//int colorTag[MAXN];
 //
 //void up(int x) {
 //    lcolor[x] = ls[x] == 0 ? arr[x] : lcolor[ls[x]];
@@ -67,7 +68,7 @@ package class202;
 //        lcolor[x] = c;
 //        rcolor[x] = c;
 //        sum[x] = 1;
-//        change[x] = c;
+//        colorTag[x] = c;
 //    }
 //}
 //
@@ -77,10 +78,10 @@ package class202;
 //        reverse(rs[x]);
 //        rev[x] = false;
 //    }
-//    if (change[x] != 0) {
-//        effect(ls[x], change[x]);
-//        effect(rs[x], change[x]);
-//        change[x] = 0;
+//    if (colorTag[x] != 0) {
+//        effect(ls[x], colorTag[x]);
+//        effect(rs[x], colorTag[x]);
+//        colorTag[x] = 0;
 //    }
 //}
 //
