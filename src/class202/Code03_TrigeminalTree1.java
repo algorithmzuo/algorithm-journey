@@ -36,7 +36,7 @@ public class Code03_TrigeminalTree1 {
 	public static int[] ls = new int[MAXN];
 	public static int[] rs = new int[MAXN];
 
-	// cnt[i]，细胞节点i的输入有几个1，范围0~3
+	// cnt[i]，细胞节点i的儿子中，输出为1的儿子数量，范围0~3
 	public static int[] cnt = new int[MAXN];
 	// sig[i]，信号节点i的值，范围0~1
 	public static int[] sig = new int[MAXT];
