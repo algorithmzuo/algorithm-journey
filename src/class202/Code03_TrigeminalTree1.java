@@ -40,36 +40,36 @@ public class Code03_TrigeminalTree1 {
 	public static boolean[] tag = new boolean[MAXN];
 	public static int[] sta = new int[MAXN];
 
-	// cnt[i]，细胞节点i，输入有几个1，范围0~3
+	// cnt[i]，细胞节点i的输入有几个1，范围0~3
 	public static int[] cnt = new int[MAXN];
-	// sig[i]，信号节点i，自身的值，范围0~1
+	// sig[i]，信号节点i的值，范围0~1
 	public static int[] sig = new int[MAXT];
 
 	// x所在的实链中，从下往上第一个cnt != 1的节点，当外部输入从0变1时
-	// 从下往上一路连续的cnt == 1的节点都改变输出，最终停在end1[x]
-	public static int[] end1 = new int[MAXN];
+	// 从下往上一路连续的cnt == 1的节点都改变输出，最终停在stop1[x]
+	public static int[] stop1 = new int[MAXN];
 
 	// x所在的实链中，从下往上第一个cnt != 2的节点，当外部输入从1变0时
-	// 从下往上一路连续的cnt == 2的节点都改变输出，最终停在end2[x]
-	public static int[] end2 = new int[MAXN];
+	// 从下往上一路连续的cnt == 2的节点都改变输出，最终停在stop2[x]
+	public static int[] stop2 = new int[MAXN];
 
 	// 1号节点的输出
 	public static int ans;
 
 	public static void up(int x) {
-		end1[x] = end1[rs[x]];
-		if (end1[x] == 0 && cnt[x] != 1) {
-			end1[x] = x;
+		stop1[x] = stop1[rs[x]];
+		if (stop1[x] == 0 && cnt[x] != 1) {
+			stop1[x] = x;
 		}
-		if (end1[x] == 0) {
-			end1[x] = end1[ls[x]];
+		if (stop1[x] == 0) {
+			stop1[x] = stop1[ls[x]];
 		}
-		end2[x] = end2[rs[x]];
-		if (end2[x] == 0 && cnt[x] != 2) {
-			end2[x] = x;
+		stop2[x] = stop2[rs[x]];
+		if (stop2[x] == 0 && cnt[x] != 2) {
+			stop2[x] = x;
 		}
-		if (end2[x] == 0) {
-			end2[x] = end2[ls[x]];
+		if (stop2[x] == 0) {
+			stop2[x] = stop2[ls[x]];
 		}
 	}
 
@@ -80,9 +80,9 @@ public class Code03_TrigeminalTree1 {
 	public static void effect(int x) {
 		if (x != 0) {
 			cnt[x] ^= 3;
-			int tmp = end1[x];
-			end1[x] = end2[x];
-			end2[x] = tmp;
+			int tmp = stop1[x];
+			stop1[x] = stop2[x];
+			stop2[x] = tmp;
 			tag[x] = !tag[x];
 		}
 	}
@@ -167,7 +167,7 @@ public class Code03_TrigeminalTree1 {
 		x = parent[x];
 		access(x);
 		splay(x);
-		int stop = delta == 1 ? end1[x] : end2[x];
+		int stop = delta == 1 ? stop1[x] : stop2[x];
 		if (stop != 0) {
 			splay(stop);
 			effect(rs[stop]);
