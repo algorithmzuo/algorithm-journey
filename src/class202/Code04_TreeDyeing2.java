@@ -38,7 +38,7 @@ package class202;
 //int rs[MAXN];
 //int mostl[MAXN];
 //
-//int maxCnt[MAXN << 2];
+//int maxVal[MAXN << 2];
 //int addTag[MAXN << 2];
 //
 //void addEdge(int u, int v) {
@@ -144,12 +144,12 @@ package class202;
 //}
 //
 //void upSeg(int i) {
-//    maxCnt[i] = max(maxCnt[i << 1], maxCnt[i << 1 | 1]);
+//    maxVal[i] = max(maxVal[i << 1], maxVal[i << 1 | 1]);
 //}
 //
 //void build(int l, int r, int i) {
 //    if (l == r) {
-//        maxCnt[i] = dep[seg[l]];
+//        maxVal[i] = dep[seg[l]];
 //    } else {
 //        int mid = (l + r) >> 1;
 //        build(l, mid, i << 1);
@@ -159,7 +159,7 @@ package class202;
 //}
 //
 //void lazy(int i, int v) {
-//    maxCnt[i] += v;
+//    maxVal[i] += v;
 //    addTag[i] += v;
 //}
 //
@@ -189,7 +189,7 @@ package class202;
 //
 //int query(int jobl, int jobr, int l, int r, int i) {
 //    if (jobl <= l && r <= jobr) {
-//        return maxCnt[i];
+//        return maxVal[i];
 //    }
 //    down(i);
 //    int mid = (l + r) >> 1;

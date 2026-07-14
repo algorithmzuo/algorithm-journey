@@ -43,7 +43,7 @@ public class Code04_TreeDyeing1 {
 	public static int[] mostl = new int[MAXN];
 
 	// 线段树
-	public static int[] maxCnt = new int[MAXN << 2];
+	public static int[] maxVal = new int[MAXN << 2];
 	public static int[] addTag = new int[MAXN << 2];
 
 	// 递归改迭代需要的栈
@@ -237,7 +237,7 @@ public class Code04_TreeDyeing1 {
 
 	public static void build(int l, int r, int i) {
 		if (l == r) {
-			maxCnt[i] = dep[seg[l]];
+			maxVal[i] = dep[seg[l]];
 		} else {
 			int mid = (l + r) >> 1;
 			build(l, mid, i << 1);
@@ -247,11 +247,11 @@ public class Code04_TreeDyeing1 {
 	}
 
 	public static void upSeg(int i) {
-		maxCnt[i] = Math.max(maxCnt[i << 1], maxCnt[i << 1 | 1]);
+		maxVal[i] = Math.max(maxVal[i << 1], maxVal[i << 1 | 1]);
 	}
 
 	public static void lazy(int i, int v) {
-		maxCnt[i] += v;
+		maxVal[i] += v;
 		addTag[i] += v;
 	}
 
@@ -281,7 +281,7 @@ public class Code04_TreeDyeing1 {
 
 	public static int query(int jobl, int jobr, int l, int r, int i) {
 		if (jobl <= l && r <= jobr) {
-			return maxCnt[i];
+			return maxVal[i];
 		}
 		down(i);
 		int mid = (l + r) >> 1;
