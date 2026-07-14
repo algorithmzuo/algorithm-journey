@@ -295,7 +295,7 @@ public class Code04_TreeDyeing1 {
 		return ans;
 	}
 
-	// 以x为根的原树子树中，所有点到根的颜色数量整体加v
+	// 以x为根的原树子树中，所有点的点权加上v
 	public static void add(int x, int v) {
 		add(dfn[x], dfn[x] + siz[x] - 1, v, 1, n, 1);
 	}
