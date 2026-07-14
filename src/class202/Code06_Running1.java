@@ -2,7 +2,7 @@ package class202;
 
 // 长跑，java版
 // 一共n个点，每个点有点权，初始没有边，接下来有m条操作，格式如下
-// 操作 1 x y : 点x和点y之间增加无向边，已经连通则忽略
+// 操作 1 x y : 点x和点y之间增加无向边
 // 操作 2 x y : 点x的点权变成y
 // 操作 3 x y : 每条边需要指定方向变成单向边，希望点x到点y的过程中
 //              获得最多的点权累加和，重复经过某点只获得一次点权
@@ -30,13 +30,14 @@ public class Code06_Running1 {
 	public static boolean[] rev = new boolean[MAXN];
 	public static int[] sta = new int[MAXN];
 
-	// 点权
+	// 单点的点权
 	public static long[] arr = new long[MAXN];
 
 	// sum[x]表示x代表的边双连通分量中，点权累加和
 	public static long[] sum = new long[MAXN];
 
 	// sumOfSum[x]表示以x为根的辅助splay中，点权累加和
+	// 也就是整条实链的点权累加和，实链上的每个点，可能是代表点
 	public static long[] sumOfSum = new long[MAXN];
 
 	public static int find(int x) {
