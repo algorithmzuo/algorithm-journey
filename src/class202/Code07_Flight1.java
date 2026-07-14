@@ -136,7 +136,6 @@ public class Code07_Flight1 {
 		}
 	}
 
-	// access方法，每次使用缩点后的点，向上跳的过程更新fa[x]
 	public static void access(int x) {
 		x = find(x);
 		for (int y = 0; x != 0; y = x, x = fa[x]) {
@@ -171,7 +170,6 @@ public class Code07_Flight1 {
 		splay(y);
 	}
 
-	// 以x为根的辅助splay子树，合并成一个边双
 	public static void condense(int x, int root) {
 		if (x != 0) {
 			father[x] = root;
@@ -180,7 +178,6 @@ public class Code07_Flight1 {
 		}
 	}
 
-	// 如果两点不连通就连接，如果连通，说明形成环，缩成一个边双
 	public static void link(int x, int y) {
 		x = find(x);
 		y = find(y);
