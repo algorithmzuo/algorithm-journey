@@ -28,22 +28,22 @@ public class Code03_Warmth1 {
 	public static boolean[] rev = new boolean[MAXN];
 	public static int[] sta = new int[MAXN];
 
-	// minEdge[x]表示以x为根的辅助splay中，温度最低的边的编号
-	public static int[] minEdge = new int[MAXN];
-
 	// sumLen[x]表示以x为根的辅助splay中，边长累加和
 	public static int[] sum = new int[MAXN];
 
+	// minEdge[x]表示以x为根的辅助splay中，温度最低的边的编号
+	public static int[] minEdge = new int[MAXN];
+
 	public static void up(int x) {
-		int edge = x <= n ? 0 : x - n;
-		minEdge[x] = edge;
+		int e = x <= n ? 0 : x - n;
+		sum[x] = sum[ls[x]] + sum[rs[x]] + el[e];
+		minEdge[x] = e;
 		if (et[minEdge[ls[x]]] < et[minEdge[x]]) {
 			minEdge[x] = minEdge[ls[x]];
 		}
 		if (et[minEdge[rs[x]]] < et[minEdge[x]]) {
 			minEdge[x] = minEdge[rs[x]];
 		}
-		sum[x] = sum[ls[x]] + sum[rs[x]] + el[edge];
 	}
 
 	public static boolean isroot(int x) {
