@@ -11,7 +11,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.util.HashMap;
 
-public class Code08_WaterManager1 {
+public class Code01_WaterManager1 {
 
 	public static int MAXN = 200001;
 	public static int n, m, q;
