@@ -57,3 +57,33 @@ public class Code02_GetMaxWithoutJudge {
 	}
 
 }
+
+// 以下代码是C++版本，去掉注释之后，提交可以通过
+// 测试链接 : https://www.nowcoder.com/practice/d2707eaf98124f1e8f1d9c18ad487f76
+
+//#include <bits/stdc++.h>
+//
+//using namespace std;
+//
+//class Solution {
+//public:
+//    static int flip(int n) {
+//        return n ^ 1;
+//    }
+//
+//    static int sign(int n) {
+//        return flip((uint32_t) n >> 31);
+//    }
+//
+//    static int getMax(int a, int b) {
+//        uint32_t c = (uint32_t) a - (uint32_t) b;
+//        int sa = sign(a);
+//        int sb = sign(b);
+//        int sc = flip(c >> 31);
+//        int diffAB = sa ^ sb;
+//        int sameAB = flip(diffAB);
+//        int returnA = diffAB * sa + sameAB * sc;
+//        int returnB = flip(returnA);
+//        return a * returnA + b * returnB;
+//    }
+//};
