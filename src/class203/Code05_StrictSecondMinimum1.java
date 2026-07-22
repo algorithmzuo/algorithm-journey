@@ -10,7 +10,7 @@ package class203;
 // 题目保证严格次小生成树一定存在
 // 测试链接 : https://www.luogu.com.cn/problem/P4180
 // 提交以下的code，提交时请把类名改成"Main"
-// 本题稍微有点卡常，java实现多提交几次可以通过，C++实现稳定通过
+// 本题有点卡常，java实现多提交几次可以通过，C++实现稳定通过
 
 import java.io.IOException;
 import java.io.InputStream;
