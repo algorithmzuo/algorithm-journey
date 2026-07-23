@@ -1,13 +1,11 @@
 package class203;
 
 // 严格次小生成树，C++版
-// 给定一个无向图，图中可能存在自环
-// 严格次小生成树的边权和，必须严格大于最小生成树的边权和
-// 在所有满足要求的生成树中，打印边权和的最小值
+// 一共n个点、m条无向边，图中可能存在自环
+// 题目保证严格次小生成树一定存在，打印边权和
 // 1 <= n <= 10^5
 // 1 <= m <= 3 * 10^5
 // 0 <= 边权 <= 10^9
-// 题目保证严格次小生成树一定存在
 // 测试链接 : https://www.luogu.com.cn/problem/P4180
 // 如下实现是C++的版本，C++版本和java版本逻辑完全一样
 // 提交如下代码，可以通过所有测试用例
@@ -174,7 +172,7 @@ package class203;
 //ll compute() {
 //    sort(arr + 1, arr + m + 1, EdgeCmp);
 //    ll sum = 0;
-//    int minDelta = INF;
+//    int minAdd = INF;
 //    for (int i = 1; i <= m; i++) {
 //        int x = arr[i].x;
 //        int y = arr[i].y;
@@ -195,14 +193,14 @@ package class203;
 //                int v1 = max1[y];
 //                int v2 = max2[y];
 //                if (w > v1) {
-//                    minDelta = min(minDelta, w - v1);
+//                    minAdd = min(minAdd, w - v1);
 //                } else if (w == v1 && v2 != -INF) {
-//                    minDelta = min(minDelta, w - v2);
+//                    minAdd = min(minAdd, w - v2);
 //                }
 //            }
 //        }
 //    }
-//    return sum + minDelta;
+//    return sum + minAdd;
 //}
 //
 //int main() {

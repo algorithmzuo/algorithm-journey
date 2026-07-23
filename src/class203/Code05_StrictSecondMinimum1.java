@@ -1,16 +1,13 @@
 package class203;
 
 // 严格次小生成树，java版
-// 给定一个无向图，图中可能存在自环
-// 严格次小生成树的边权和，必须严格大于最小生成树的边权和
-// 在所有满足要求的生成树中，打印边权和的最小值
+// 一共n个点、m条无向边，图中可能存在自环
+// 题目保证严格次小生成树一定存在，打印边权和
 // 1 <= n <= 10^5
 // 1 <= m <= 3 * 10^5
 // 0 <= 边权 <= 10^9
-// 题目保证严格次小生成树一定存在
 // 测试链接 : https://www.luogu.com.cn/problem/P4180
-// 提交以下的code，提交时请把类名改成"Main"
-// 本题有点卡常，java实现多提交几次可以通过，C++实现稳定通过
+// 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -191,7 +188,7 @@ public class Code05_StrictSecondMinimum1 {
 	public static long compute() {
 		sort(1, m);
 		long sum = 0;
-		int minDelta = INF;
+		int minAdd = INF;
 		for (int i = 1; i <= m; i++) {
 			int x = ex[i];
 			int y = ey[i];
@@ -212,14 +209,14 @@ public class Code05_StrictSecondMinimum1 {
 					int v1 = max1[y];
 					int v2 = max2[y];
 					if (w > v1) {
-						minDelta = Math.min(minDelta, w - v1);
+						minAdd = Math.min(minAdd, w - v1);
 					} else if (w == v1 && v2 != -INF) {
-						minDelta = Math.min(minDelta, w - v2);
+						minAdd = Math.min(minAdd, w - v2);
 					}
 				}
 			}
 		}
-		return sum + minDelta;
+		return sum + minAdd;
 	}
 
 	public static void main(String[] args) throws Exception {
