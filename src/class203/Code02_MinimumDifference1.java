@@ -238,8 +238,7 @@ public class Code02_MinimumDifference1 {
 			ey[i] = in.nextInt();
 			ew[i] = in.nextInt();
 		}
-		int ans = compute();
-		out.println(ans);
+		out.println(compute());
 		out.flush();
 		out.close();
 	}

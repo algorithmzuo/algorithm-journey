@@ -213,6 +213,7 @@ public class Code07_CityConstruction1 {
 	public static void addEdge(int e) {
 		int x = ex[e];
 		int y = ey[e];
+		up(n + e);
 		makeroot(x);
 		if (findroot(y) != x) {
 			link(x, n + e);

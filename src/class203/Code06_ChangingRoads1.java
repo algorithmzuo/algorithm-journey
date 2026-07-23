@@ -220,6 +220,7 @@ public class Code06_ChangingRoads1 {
 	public static void addEdge(int e) {
 		int x = ex[e];
 		int y = ey[e];
+		up(n + e);
 		makeroot(x);
 		if (findroot(y) != x) {
 			// 两端不连通，直接加入最小生成树
