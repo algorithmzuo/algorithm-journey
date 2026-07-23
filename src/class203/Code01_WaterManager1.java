@@ -40,9 +40,7 @@ public class Code01_WaterManager1 {
 
 	// maxEdge[x]表示以x为根的辅助splay中，权值最大的边的编号
 	public static int[] maxEdge = new int[MAXN];
-
-	// 查询的答案
-	public static int[] queryAns = new int[MAXN];
+	public static int[] ans = new int[MAXN];
 
 	public static int find(int x) {
 		if (x != father[x]) {
@@ -273,14 +271,14 @@ public class Code01_WaterManager1 {
 		for (int i = q; i >= 1; i--) {
 			if (qop[i] == 1) {
 				split(qx[i], qy[i]);
-				queryAns[i] = ew[maxEdge[qy[i]]];
+				ans[i] = ew[maxEdge[qy[i]]];
 			} else {
 				restore(edgeMap.get(key(qx[i], qy[i])));
 			}
 		}
 		for (int i = 1; i <= q; i++) {
 			if (qop[i] == 1) {
-				out.println(queryAns[i]);
+				out.println(ans[i]);
 			}
 		}
 		out.flush();
