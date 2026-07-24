@@ -64,7 +64,7 @@ public class Code02_XOR {
 		if (zero) {
 			k--;
 		}
-		if (k >= (1L << len)) {
+		if (k >= 1L << len) {
 			return -1;
 		}
 		long ans = 0;
