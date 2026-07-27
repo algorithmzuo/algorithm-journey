@@ -34,8 +34,8 @@ public class Code05_StrictSecondMinimum1 {
 	public static boolean[] rev = new boolean[MAXN];
 	public static int[] sta = new int[MAXN];
 
-	// max1[x]表示以x为根的辅助splay中，最大边权的值
-	// max2[x]表示以x为根的辅助splay中，严格次大边权
+	// max1[x]表示以x为根的辅助splay中，最大边权的值，不是边的编号
+	// max2[x]表示以x为根的辅助splay中，严格次大边权的值，不是边的编号
 	public static int[] max1 = new int[MAXN];
 	public static int[] max2 = new int[MAXN];
 
