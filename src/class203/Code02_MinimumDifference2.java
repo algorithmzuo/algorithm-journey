@@ -37,15 +37,16 @@ package class203;
 //int minEdge[MAXN];
 //
 //void up(int x) {
-//    minEdge[x] = x <= n ? 0 : x - n;
-//    int le = minEdge[ls[x]];
-//    int re = minEdge[rs[x]];
-//    if (le != 0 && (minEdge[x] == 0 || le < minEdge[x])) {
-//        minEdge[x] = le;
+//    int cur = x <= n ? 0 : x - n;
+//    int l = minEdge[ls[x]];
+//    int r = minEdge[rs[x]];
+//    if (cur == 0 || (l != 0 && l < cur)) {
+//        cur = l;
 //    }
-//    if (re != 0 && (minEdge[x] == 0 || re < minEdge[x])) {
-//        minEdge[x] = re;
+//    if (cur == 0 || (r != 0 && r < cur)) {
+//        cur = r;
 //    }
+//    minEdge[x] = cur;
 //}
 //
 //bool isroot(int x) {

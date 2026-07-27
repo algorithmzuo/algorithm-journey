@@ -34,7 +34,7 @@ public class Code02_MinimumDifference1 {
 	public static int[] sta = new int[MAXN];
 
 	// minEdge[x]表示以x为根的辅助splay中，编号最小的边
-	// 按照权值从小到大排序，所以编号最小就是边权最小
+	// 因为按照权值从小到大排序，所以编号最小就是边权最小
 	public static int[] minEdge = new int[MAXN];
 
 	// 手撸双指针快排，根据边权从小到大排序
@@ -56,15 +56,16 @@ public class Code02_MinimumDifference1 {
 	}
 
 	public static void up(int x) {
-		minEdge[x] = x <= n ? 0 : x - n;
-		int le = minEdge[ls[x]];
-		int re = minEdge[rs[x]];
-		if (le != 0 && (minEdge[x] == 0 || le < minEdge[x])) {
-			minEdge[x] = le;
+		int cur = x <= n ? 0 : x - n;
+		int l = minEdge[ls[x]];
+		int r = minEdge[rs[x]];
+		if (cur == 0 || (l != 0 && l < cur)) {
+			cur = l;
 		}
-		if (re != 0 && (minEdge[x] == 0 || re < minEdge[x])) {
-			minEdge[x] = re;
+		if (cur == 0 || (r != 0 && r < cur)) {
+			cur = r;
 		}
+		minEdge[x] = cur;
 	}
 
 	public static boolean isroot(int x) {
