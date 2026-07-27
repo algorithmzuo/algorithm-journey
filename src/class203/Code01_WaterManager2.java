@@ -53,16 +53,6 @@ package class203;
 //    return father[x];
 //}
 //
-//bool Union(int x, int y) {
-//    x = find(x);
-//    y = find(y);
-//    if (x == y) {
-//        return false;
-//    }
-//    father[x] = y;
-//    return true;
-//}
-//
 //void up(int x) {
 //    maxEdge[x] = x <= n ? 0 : x - n;
 //    if (arr[maxEdge[ls[x]]].w > arr[maxEdge[x]].w) {
@@ -214,10 +204,14 @@ package class203;
 //    }
 //    int edgeCnt = 0;
 //    for (int i = 1; i <= m && edgeCnt != n - 1; i++) {
-//        if (!deleted[i] && Union(arr[i].x, arr[i].y)) {
-//            link(arr[i].x, n + i);
-//            link(arr[i].y, n + i);
-//            edgeCnt++;
+//        if (!deleted[i]) {
+//            int x = arr[i].x, y = arr[i].y, fx = find(x), fy = find(y);
+//            if (fx != fy) {
+//                father[fx] = fy;
+//                link(x, n + i);
+//                link(y, n + i);
+//                edgeCnt++;
+//            }
 //        }
 //    }
 //}

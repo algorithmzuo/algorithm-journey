@@ -55,16 +55,6 @@ public class Code01_WaterManager1 {
 		return father[x];
 	}
 
-	public static boolean union(int x, int y) {
-		x = find(x);
-		y = find(y);
-		if (x == y) {
-			return false;
-		}
-		father[x] = y;
-		return true;
-	}
-
 	// 手撸双指针快排，根据边权从小到大排序
 	public static void sort(int l, int r) {
 		if (l >= r) return;
@@ -236,10 +226,14 @@ public class Code01_WaterManager1 {
 		}
 		int edgeCnt = 0;
 		for (int i = 1; i <= m && edgeCnt != n - 1; i++) {
-			if (!deleted[i] && union(ex[i], ey[i])) {
-				link(ex[i], n + i);
-				link(ey[i], n + i);
-				edgeCnt++;
+			if (!deleted[i]) {
+				int x = ex[i], y = ey[i], fx = find(x), fy = find(y);
+				if (fx != fy) {
+					father[fx] = fy;
+					link(x, n + i);
+					link(y, n + i);
+					edgeCnt++;
+				}
 			}
 		}
 	}
