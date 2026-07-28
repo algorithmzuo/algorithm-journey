@@ -238,16 +238,14 @@ public class Code01_WaterManager1 {
 		}
 	}
 
-	// 恢复cur这条边
-	public static void restore(int cur) {
-		int curx = ex[cur], cury = ey[cur];
-		split(curx, cury);
-		int pre = maxEdge[cury], prex = ex[pre], prey = ey[pre];
-		if (ew[cur] < ew[pre]) {
-			cut(prex, n + pre);
-			cut(prey, n + pre);
-			link(curx, n + cur);
-			link(cury, n + cur);
+	public static void addEdge(int e) {
+		split(ex[e], ey[e]);
+		int maxe = maxEdge[ey[e]];
+		if (ew[e] < ew[maxe]) {
+			cut(ex[maxe], n + maxe);
+			cut(ey[maxe], n + maxe);
+			link(ex[e], n + e);
+			link(ey[e], n + e);
 		}
 	}
 
@@ -273,7 +271,7 @@ public class Code01_WaterManager1 {
 				split(qx[i], qy[i]);
 				ans[i] = ew[maxEdge[qy[i]]];
 			} else {
-				restore(edgeMap.get(key(qx[i], qy[i])));
+				addEdge(edgeMap.get(key(qx[i], qy[i])));
 			}
 		}
 		for (int i = 1; i <= q; i++) {

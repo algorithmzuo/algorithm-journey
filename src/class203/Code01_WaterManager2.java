@@ -216,15 +216,14 @@ package class203;
 //    }
 //}
 //
-//void restore(int cur) {
-//    int curx = arr[cur].x, cury = arr[cur].y;
-//    split(curx, cury);
-//    int pre = maxEdge[cury], prex = arr[pre].x, prey = arr[pre].y;
-//    if (arr[cur].w < arr[pre].w) {
-//        cut(prex, n + pre);
-//        cut(prey, n + pre);
-//        link(curx, n + cur);
-//        link(cury, n + cur);
+//void addEdge(int e) {
+//    split(arr[e].x, arr[e].y);
+//    int maxe = maxEdge[arr[e].y];
+//    if (arr[e].w < arr[maxe].w) {
+//        cut(arr[maxe].x, n + maxe);
+//        cut(arr[maxe].y, n + maxe);
+//        link(arr[e].x, n + e);
+//        link(arr[e].y, n + e);
 //    }
 //}
 //
@@ -244,7 +243,7 @@ package class203;
 //            split(qx[i], qy[i]);
 //            ans[i] = arr[maxEdge[qy[i]]].w;
 //        } else {
-//            restore(edgeMap[key(qx[i], qy[i])]);
+//            addEdge(edgeMap[key(qx[i], qy[i])]);
 //        }
 //    }
 //    for (int i = 1; i <= q; i++) {
