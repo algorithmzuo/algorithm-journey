@@ -191,9 +191,6 @@ public class Code02_MinimumDifference1 {
 	}
 
 	public static int compute() {
-		if (n <= 1) {
-			return 0;
-		}
 		sort(1, m);
 		int edgeCnt = 0;
 		int first = 1;

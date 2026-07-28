@@ -170,9 +170,6 @@ package class203;
 //}
 //
 //int compute() {
-//    if (n <= 1) {
-//        return 0;
-//    }
 //    sort(arr + 1, arr + m + 1, EdgeCmp);
 //    int edgeCnt = 0;
 //    int first = 1;
