@@ -36,17 +36,17 @@ package class203;
 //
 //int sum[MAXN];
 //
-//int minEdge[MAXN];
+//int mintEdge[MAXN];
 //
 //void up(int x) {
 //    int e = x <= n ? 0 : x - n;
 //    sum[x] = sum[ls[x]] + sum[rs[x]] + el[e];
-//    minEdge[x] = e;
-//    if (et[minEdge[ls[x]]] < et[minEdge[x]]) {
-//        minEdge[x] = minEdge[ls[x]];
+//    mintEdge[x] = e;
+//    if (et[mintEdge[ls[x]]] < et[mintEdge[x]]) {
+//        mintEdge[x] = mintEdge[ls[x]];
 //    }
-//    if (et[minEdge[rs[x]]] < et[minEdge[x]]) {
-//        minEdge[x] = minEdge[rs[x]];
+//    if (et[mintEdge[rs[x]]] < et[mintEdge[x]]) {
+//        mintEdge[x] = mintEdge[rs[x]];
 //    }
 //}
 //
@@ -179,7 +179,7 @@ package class203;
 //        link(y, n + e);
 //    } else {
 //        split(x, y);
-//        int p = minEdge[y];
+//        int p = mintEdge[y];
 //        if (et[e] > et[p]) {
 //            cut(ex[p], n + p);
 //            cut(ey[p], n + p);
