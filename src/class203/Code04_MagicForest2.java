@@ -27,7 +27,6 @@ package class203;
 //int n, m;
 //Edge arr[MAXN];
 //
-//int father[MAXN];
 //int fa[MAXN];
 //int ls[MAXN];
 //int rs[MAXN];
@@ -35,13 +34,6 @@ package class203;
 //int sta[MAXN];
 //
 //int maxbEdge[MAXN];
-//
-//int find(int x) {
-//    if (x != father[x]) {
-//        father[x] = find(father[x]);
-//    }
-//    return father[x];
-//}
 //
 //void up(int x) {
 //    maxbEdge[x] = x <= n ? 0 : x - n;
@@ -175,17 +167,13 @@ package class203;
 //
 //int compute() {
 //    sort(arr + 1, arr + m + 1, EdgeCmp);
-//    for (int i = 1; i <= n; i++) {
-//        father[i] = i;
-//    }
 //    int ans = INF;
 //    for (int i = 1; i <= m; i++) {
 //        int x = arr[i].x;
 //        int y = arr[i].y;
 //        if (x != y) {
-//            up(n + i);
-//            if (find(x) != find(y)) {
-//                father[find(x)] = find(y);
+//            makeroot(x);
+//            if (findroot(y) != x) {
 //                link(x, n + i);
 //                link(y, n + i);
 //            } else {
@@ -199,7 +187,8 @@ package class203;
 //                }
 //            }
 //        }
-//        if (find(1) == find(n)) {
+//        makeroot(1);
+//        if (findroot(n) == 1) {
 //            split(1, n);
 //            ans = min(ans, arr[i].a + arr[maxbEdge[n]].b);
 //        }

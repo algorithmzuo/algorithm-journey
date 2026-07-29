@@ -25,7 +25,6 @@ public class Code04_MagicForest1 {
 	public static int[] ea = new int[MAXN];
 	public static int[] eb = new int[MAXN];
 
-	public static int[] father = new int[MAXN];
 	public static int[] fa = new int[MAXN];
 	public static int[] ls = new int[MAXN];
 	public static int[] rs = new int[MAXN];
@@ -34,13 +33,6 @@ public class Code04_MagicForest1 {
 
 	// maxbEdge[x]表示以x为根的辅助splay中，最大b权值的边的编号
 	public static int[] maxbEdge = new int[MAXN];
-
-	public static int find(int x) {
-		if (x != father[x]) {
-			father[x] = find(father[x]);
-		}
-		return father[x];
-	}
 
 	// 手撸双指针快排，根据a权值从小到大排序
 	public static void sort(int l, int r) {
@@ -195,17 +187,13 @@ public class Code04_MagicForest1 {
 
 	public static int compute() {
 		sort(1, m);
-		for (int i = 1; i <= n; i++) {
-			father[i] = i;
-		}
 		int ans = INF;
 		for (int i = 1; i <= m; i++) {
 			int x = ex[i];
 			int y = ey[i];
 			if (x != y) {
-				up(n + i);
-				if (find(x) != find(y)) {
-					father[find(x)] = find(y);
+				makeroot(x);
+				if (findroot(y) != x) {
 					link(x, n + i);
 					link(y, n + i);
 				} else {
@@ -219,7 +207,8 @@ public class Code04_MagicForest1 {
 					}
 				}
 			}
-			if (find(1) == find(n)) {
+			makeroot(1);
+			if (findroot(n) == 1) {
 				split(1, n);
 				ans = Math.min(ans, ea[i] + eb[maxbEdge[n]]);
 			}
