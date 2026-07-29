@@ -8,7 +8,7 @@ package class203;
 // 1 <= m <= 3 * 10^5
 // 0 <= 边权 <= 10^9
 // 测试链接 : https://www.luogu.com.cn/problem/P4180
-// 如下实现是C++的版本，C++版本和java版本逻辑完全一样
+// 如下实现是C++的版本，使用lct判断的连通性，而没有使用并查集
 // 提交如下代码，可以通过所有测试用例
 
 //#include <bits/stdc++.h>
@@ -174,9 +174,6 @@ package class203;
 //}
 //
 //ll compute() {
-//    for (int i = 0; i <= n; i++) {
-//        max1[i] = max2[i] = -INF;
-//    }
 //    sort(arr + 1, arr + m + 1, EdgeCmp);
 //    ll sum = 0;
 //    int minAdd = INF;
@@ -213,6 +210,9 @@ package class203;
 //    cin >> n >> m;
 //    for (int i = 1; i <= m; i++) {
 //        cin >> arr[i].x >> arr[i].y >> arr[i].w;
+//    }
+//    for (int i = 0; i <= n; i++) {
+//        max1[i] = max2[i] = -INF;
 //    }
 //    cout << compute() << "\n";
 //    return 0;

@@ -9,6 +9,9 @@ package class203;
 // 0 <= 边权 <= 10^9
 // 测试链接 : https://www.luogu.com.cn/problem/P4180
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
+// java的实现，使用并查集判断连通性，不然会有测试用例无法通过
+// C++的实现，使用lct判断连通性，可以通过所有测试用例
+// C++的实现就是本节课Code05_StrictSecondMinimum2文件
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -26,6 +29,9 @@ public class Code05_StrictSecondMinimum1 {
 	public static int[] ey = new int[MAXM];
 	public static int[] ew = new int[MAXM];
 
+	// 并查集检查连通性，优化常数时间，否则java的实现会被卡常
+	public static int[] father = new int[MAXN];
+
 	public static int[] fa = new int[MAXN];
 	public static int[] ls = new int[MAXN];
 	public static int[] rs = new int[MAXN];
@@ -36,6 +42,13 @@ public class Code05_StrictSecondMinimum1 {
 	// max2[x]表示以x为根的辅助splay中，严格次大边权的值，不是边的编号
 	public static int[] max1 = new int[MAXN];
 	public static int[] max2 = new int[MAXN];
+
+	public static int find(int x) {
+		if (x != father[x]) {
+			father[x] = find(father[x]);
+		}
+		return father[x];
+	}
 
 	public static void sort(int l, int r) {
 		if (l >= r) return;
@@ -165,34 +178,19 @@ public class Code05_StrictSecondMinimum1 {
 		reverse(x);
 	}
 
-	public static int findroot(int x) {
-		access(x);
-		splay(x);
-		down(x);
-		while (ls[x] != 0) {
-			x = ls[x];
-			down(x);
-		}
-		splay(x);
-		return x;
-	}
-
 	public static void split(int x, int y) {
 		makeroot(x);
 		access(y);
 		splay(y);
 	}
 
-	// 保证了x和y不连通，所以逻辑化简了
+	// 保证x和y不连通，所以逻辑化简了
 	public static void link(int x, int y) {
 		makeroot(x);
 		fa[x] = y;
 	}
 
 	public static long compute() {
-		for (int i = 0; i <= n; i++) {
-			max1[i] = max2[i] = -INF;
-		}
 		sort(1, m);
 		long sum = 0;
 		int minAdd = INF;
@@ -201,8 +199,11 @@ public class Code05_StrictSecondMinimum1 {
 			int y = ey[i];
 			int w = ew[i];
 			if (x != y) {
-				makeroot(x);
-				if (findroot(y) != x) {
+				// 并查集判断连通性，注意C++实现的写法，没有使用并查集，而是使用的lct
+				int fx = find(x);
+				int fy = find(y);
+				if (fx != fy) {
+					father[fx] = fy;
 					max1[n + i] = w;
 					max2[n + i] = -INF;
 					link(x, n + i);
@@ -232,6 +233,12 @@ public class Code05_StrictSecondMinimum1 {
 			ex[i] = in.nextInt();
 			ey[i] = in.nextInt();
 			ew[i] = in.nextInt();
+		}
+		for (int i = 1; i <= n; i++) {
+			father[i] = i;
+		}
+		for (int i = 0; i <= n; i++) {
+			max1[i] = max2[i] = -INF;
 		}
 		out.println(compute());
 		out.flush();
