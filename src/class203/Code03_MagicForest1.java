@@ -1,17 +1,12 @@
 package class203;
 
-// 温暖会指引我们前行，java版
-// 一共n个地点，地点之间的道路是无向边，每条道路有温度和长度两种权值
-// 初始时没有任何道路，之后出现的所有道路，温度互不相同
-// 对于点x到点y的每一条路径，将路径上的道路按温度升序排列，形成该路径的温度序列
-// 温度序列字典序最大的路径叫做最佳路径，因为道路温度互不相同，所以最佳路径唯一
-// 接下来有m条操作，操作类型有三种，具体格式如下
-// find e x y t l : 建立编号为e的边，端点x和y、温度t、长度l，编号保证唯一
-// move x y       : 打印点x到点y最佳路径的长度总和，如果不连通打印-1
-// change e l     : 编号为e的道路长度修改为l，该道路保证已经建立
-// 1 <= n <= 10^5    1 <= m <= 3 * 10^5
-// 测试链接 : https://www.luogu.com.cn/problem/P6664
-// 测试链接 : https://uoj.ac/problem/274
+// 魔法森林，java版
+// 无向图有n个点、m条边，每条边有a、b两种权值，可能存在重边和自环
+// 定义路径的代价为，路径上最大的a + 路径上最大的b
+// 选择1号点到n号点的路径，打印路径代价的最小值，无法到达打印-1
+// 2 <= n <= 5 * 10^4
+// 0 <= m <= 10^5
+// 测试链接 : https://www.luogu.com.cn/problem/P2387
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
 import java.io.IOException;
@@ -19,39 +14,52 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
-public class Code03_Warmth1 {
+public class Code03_MagicForest1 {
 
-	public static int MAXN = 400001;
+	public static int MAXN = 200001;
 	public static int INF = 1000000001;
 	public static int n, m;
 
 	public static int[] ex = new int[MAXN];
 	public static int[] ey = new int[MAXN];
-	public static int[] et = new int[MAXN];
-	public static int[] el = new int[MAXN];
+	public static int[] ea = new int[MAXN];
+	public static int[] eb = new int[MAXN];
 
-	// 辅助splay
 	public static int[] fa = new int[MAXN];
 	public static int[] ls = new int[MAXN];
 	public static int[] rs = new int[MAXN];
 	public static boolean[] rev = new boolean[MAXN];
 	public static int[] sta = new int[MAXN];
 
-	// sumLen[x]表示以x为根的辅助splay中，边长累加和
-	public static int[] sum = new int[MAXN];
+	// maxbEdge[x]表示以x为根的辅助splay中，最大b权值的边的编号
+	public static int[] maxbEdge = new int[MAXN];
 
-	// minEdge[x]表示以x为根的辅助splay中，温度最低的边的编号
-	public static int[] minEdge = new int[MAXN];
+	// 手撸双指针快排，根据a权值从小到大排序
+	public static void sort(int l, int r) {
+		if (l >= r) return;
+		int i = l, j = r, pivot = ea[(l + r) >> 1], tmp;
+		while (i <= j) {
+			while (ea[i] < pivot) i++;
+			while (ea[j] > pivot) j--;
+			if (i <= j) {
+				tmp = ex[i]; ex[i] = ex[j]; ex[j] = tmp;
+				tmp = ey[i]; ey[i] = ey[j]; ey[j] = tmp;
+				tmp = ea[i]; ea[i] = ea[j]; ea[j] = tmp;
+				tmp = eb[i]; eb[i] = eb[j]; eb[j] = tmp;
+				i++; j--;
+			}
+		}
+		sort(l, j);
+		sort(i, r);
+	}
 
 	public static void up(int x) {
-		int e = x <= n ? 0 : x - n;
-		sum[x] = sum[ls[x]] + sum[rs[x]] + el[e];
-		minEdge[x] = e;
-		if (et[minEdge[ls[x]]] < et[minEdge[x]]) {
-			minEdge[x] = minEdge[ls[x]];
+		maxbEdge[x] = x <= n ? 0 : x - n;
+		if (eb[maxbEdge[ls[x]]] > eb[maxbEdge[x]]) {
+			maxbEdge[x] = maxbEdge[ls[x]];
 		}
-		if (et[minEdge[rs[x]]] < et[minEdge[x]]) {
-			minEdge[x] = minEdge[rs[x]];
+		if (eb[maxbEdge[rs[x]]] > eb[maxbEdge[x]]) {
+			maxbEdge[x] = maxbEdge[rs[x]];
 		}
 	}
 
@@ -177,38 +185,40 @@ public class Code03_Warmth1 {
 		}
 	}
 
-	public static void addEdge(int e) {
-		int x = ex[e];
-		int y = ey[e];
-		makeroot(x);
-		if (findroot(y) != x) {
-			link(x, n + e);
-			link(y, n + e);
-		} else {
-			split(x, y);
-			int p = minEdge[y];
-			if (et[e] > et[p]) {
-				cut(ex[p], n + p);
-				cut(ey[p], n + p);
-				link(x, n + e);
-				link(y, n + e);
+	public static int compute() {
+		sort(1, m);
+		int ans = INF;
+		for (int i = 1; i <= m; i++) {
+			int x = ex[i];
+			int y = ey[i];
+			boolean add = false;
+			if (x != y) {
+				makeroot(x);
+				if (findroot(y) != x) {
+					link(x, n + i);
+					link(y, n + i);
+					add = true;
+				} else {
+					split(x, y);
+					int pre = maxbEdge[y];
+					if (eb[i] < eb[pre]) {
+						cut(ex[pre], n + pre);
+						cut(ey[pre], n + pre);
+						link(x, n + i);
+						link(y, n + i);
+						add = true;
+					}
+				}
+			}
+			if (add) {
+				makeroot(1);
+				if (findroot(n) == 1) {
+					split(1, n);
+					ans = Math.min(ans, ea[i] + eb[maxbEdge[n]]);
+				}
 			}
 		}
-	}
-
-	public static void change(int e, int l) {
-		splay(n + e);
-		el[e] = l;
-		up(n + e);
-	}
-
-	public static int query(int x, int y) {
-		makeroot(x);
-		if (findroot(y) != x) {
-			return -1;
-		}
-		split(x, y);
-		return sum[y];
+		return ans == INF ? -1 : ans;
 	}
 
 	public static void main(String[] args) throws Exception {
@@ -216,38 +226,14 @@ public class Code03_Warmth1 {
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
 		n = in.nextInt();
 		m = in.nextInt();
-		et[0] = INF;
-		String op;
-		int e, x, y, t, l;
 		for (int i = 1; i <= m; i++) {
-			op = in.nextString();
-			if (op.equals("find")) {
-				e = in.nextInt();
-				x = in.nextInt();
-				y = in.nextInt();
-				t = in.nextInt();
-				l = in.nextInt();
-				e++;
-				x++;
-				y++;
-				ex[e] = x;
-				ey[e] = y;
-				et[e] = t;
-				el[e] = l;
-				addEdge(e);
-			} else if (op.equals("move")) {
-				x = in.nextInt();
-				y = in.nextInt();
-				x++;
-				y++;
-				out.println(query(x, y));
-			} else {
-				e = in.nextInt();
-				l = in.nextInt();
-				e++;
-				change(e, l);
-			}
+			ex[i] = in.nextInt();
+			ey[i] = in.nextInt();
+			ea[i] = in.nextInt();
+			eb[i] = in.nextInt();
 		}
+		int ans = compute();
+		out.println(ans);
 		out.flush();
 		out.close();
 	}
@@ -290,22 +276,6 @@ public class Code03_Warmth1 {
 				c = readByte();
 			}
 			return neg ? -val : val;
-		}
-
-		String nextString() throws IOException {
-			int c;
-			do {
-				c = readByte();
-			} while (c <= ' ' && c != -1);
-			if (c == -1) {
-				return null;
-			}
-			StringBuilder sb = new StringBuilder();
-			while (c > ' ' && c != -1) {
-				sb.append((char) c);
-				c = readByte();
-			}
-			return sb.toString();
 		}
 
 	}

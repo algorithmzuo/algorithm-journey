@@ -171,11 +171,13 @@ package class203;
 //    for (int i = 1; i <= m; i++) {
 //        int x = arr[i].x;
 //        int y = arr[i].y;
+//        bool add = false;
 //        if (x != y) {
 //            makeroot(x);
 //            if (findroot(y) != x) {
 //                link(x, n + i);
 //                link(y, n + i);
+//                add = true;
 //            } else {
 //                split(x, y);
 //                int pre = maxbEdge[y];
@@ -184,13 +186,16 @@ package class203;
 //                    cut(arr[pre].y, n + pre);
 //                    link(x, n + i);
 //                    link(y, n + i);
+//                    add = true;
 //                }
 //            }
 //        }
-//        makeroot(1);
-//        if (findroot(n) == 1) {
-//            split(1, n);
-//            ans = min(ans, arr[i].a + arr[maxbEdge[n]].b);
+//        if (add) {
+//            makeroot(1);
+//            if (findroot(n) == 1) {
+//                split(1, n);
+//                ans = min(ans, arr[i].a + arr[maxbEdge[n]].b);
+//            }
 //        }
 //    }
 //    return ans == INF ? -1 : ans;
