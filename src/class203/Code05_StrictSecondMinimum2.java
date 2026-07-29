@@ -32,8 +32,6 @@ package class203;
 //
 //Edge arr[MAXM];
 //
-//int father[MAXN];
-//
 //int fa[MAXN];
 //int ls[MAXN];
 //int rs[MAXN];
@@ -42,13 +40,6 @@ package class203;
 //
 //int max1[MAXN];
 //int max2[MAXN];
-//
-//int find(int x) {
-//    if (x != father[x]) {
-//        father[x] = find(father[x]);
-//    }
-//    return father[x];
-//}
 //
 //void up(int x) {
 //    int l = ls[x], lmax1 = max1[l], lmax2 = max2[l];
@@ -159,6 +150,18 @@ package class203;
 //    reverse(x);
 //}
 //
+//int findroot(int x) {
+//    access(x);
+//    splay(x);
+//    down(x);
+//    while (ls[x] != 0) {
+//        x = ls[x];
+//        down(x);
+//    }
+//    splay(x);
+//    return x;
+//}
+//
 //void split(int x, int y) {
 //    makeroot(x);
 //    access(y);
@@ -171,6 +174,9 @@ package class203;
 //}
 //
 //ll compute() {
+//    for (int i = 0; i <= n; i++) {
+//        max1[i] = max2[i] = -INF;
+//    }
 //    sort(arr + 1, arr + m + 1, EdgeCmp);
 //    ll sum = 0;
 //    int minAdd = INF;
@@ -179,15 +185,12 @@ package class203;
 //        int y = arr[i].y;
 //        int w = arr[i].w;
 //        if (x != y) {
-//            int fx = find(x);
-//            int fy = find(y);
-//            if (fx != fy) {
-//                father[fx] = fy;
-//                int e = n + i;
-//                max1[e] = w;
-//                max2[e] = -INF;
-//                link(x, e);
-//                link(y, e);
+//            makeroot(x);
+//            if (findroot(y) != x) {
+//                max1[n + i] = w;
+//                max2[n + i] = -INF;
+//                link(x, n + i);
+//                link(y, n + i);
 //                sum += w;
 //            } else {
 //                split(x, y);
@@ -210,12 +213,6 @@ package class203;
 //    cin >> n >> m;
 //    for (int i = 1; i <= m; i++) {
 //        cin >> arr[i].x >> arr[i].y >> arr[i].w;
-//    }
-//    for (int i = 1; i <= n; i++) {
-//        father[i] = i;
-//    }
-//    for (int i = 0; i <= n; i++) {
-//        max1[i] = max2[i] = -INF;
 //    }
 //    cout << compute() << "\n";
 //    return 0;
