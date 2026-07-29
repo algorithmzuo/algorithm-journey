@@ -33,9 +33,17 @@ package class203;
 //bool rev[MAXN];
 //int sta[MAXN];
 //
+//int maxaEdge[MAXN];
 //int maxbEdge[MAXN];
 //
 //void up(int x) {
+//    maxaEdge[x] = x <= n ? 0 : x - n;
+//    if (arr[maxaEdge[ls[x]]].a > arr[maxaEdge[x]].a) {
+//        maxaEdge[x] = maxaEdge[ls[x]];
+//    }
+//    if (arr[maxaEdge[rs[x]]].a > arr[maxaEdge[x]].a) {
+//        maxaEdge[x] = maxaEdge[rs[x]];
+//    }
 //    maxbEdge[x] = x <= n ? 0 : x - n;
 //    if (arr[maxbEdge[ls[x]]].b > arr[maxbEdge[x]].b) {
 //        maxbEdge[x] = maxbEdge[ls[x]];
@@ -171,13 +179,11 @@ package class203;
 //    for (int i = 1; i <= m; i++) {
 //        int x = arr[i].x;
 //        int y = arr[i].y;
-//        bool add = false;
 //        if (x != y) {
 //            makeroot(x);
 //            if (findroot(y) != x) {
 //                link(x, n + i);
 //                link(y, n + i);
-//                add = true;
 //            } else {
 //                split(x, y);
 //                int pre = maxbEdge[y];
@@ -186,16 +192,13 @@ package class203;
 //                    cut(arr[pre].y, n + pre);
 //                    link(x, n + i);
 //                    link(y, n + i);
-//                    add = true;
 //                }
 //            }
 //        }
-//        if (add) {
-//            makeroot(1);
-//            if (findroot(n) == 1) {
-//                split(1, n);
-//                ans = min(ans, arr[i].a + arr[maxbEdge[n]].b);
-//            }
+//        makeroot(1);
+//        if (findroot(n) == 1) {
+//            split(1, n);
+//            ans = min(ans, arr[maxaEdge[n]].a + arr[maxbEdge[n]].b);
 //        }
 //    }
 //    return ans == INF ? -1 : ans;

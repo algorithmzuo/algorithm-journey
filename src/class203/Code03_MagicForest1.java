@@ -31,6 +31,9 @@ public class Code03_MagicForest1 {
 	public static boolean[] rev = new boolean[MAXN];
 	public static int[] sta = new int[MAXN];
 
+	// maxaEdge[x]表示以x为根的辅助splay中，最大a权值的边的编号
+	public static int[] maxaEdge = new int[MAXN];
+
 	// maxbEdge[x]表示以x为根的辅助splay中，最大b权值的边的编号
 	public static int[] maxbEdge = new int[MAXN];
 
@@ -54,6 +57,13 @@ public class Code03_MagicForest1 {
 	}
 
 	public static void up(int x) {
+		maxaEdge[x] = x <= n ? 0 : x - n;
+		if (ea[maxaEdge[ls[x]]] > ea[maxaEdge[x]]) {
+			maxaEdge[x] = maxaEdge[ls[x]];
+		}
+		if (ea[maxaEdge[rs[x]]] > ea[maxaEdge[x]]) {
+			maxaEdge[x] = maxaEdge[rs[x]];
+		}
 		maxbEdge[x] = x <= n ? 0 : x - n;
 		if (eb[maxbEdge[ls[x]]] > eb[maxbEdge[x]]) {
 			maxbEdge[x] = maxbEdge[ls[x]];
@@ -191,13 +201,11 @@ public class Code03_MagicForest1 {
 		for (int i = 1; i <= m; i++) {
 			int x = ex[i];
 			int y = ey[i];
-			boolean add = false;
 			if (x != y) {
 				makeroot(x);
 				if (findroot(y) != x) {
 					link(x, n + i);
 					link(y, n + i);
-					add = true;
 				} else {
 					split(x, y);
 					int pre = maxbEdge[y];
@@ -206,16 +214,13 @@ public class Code03_MagicForest1 {
 						cut(ey[pre], n + pre);
 						link(x, n + i);
 						link(y, n + i);
-						add = true;
 					}
 				}
 			}
-			if (add) {
-				makeroot(1);
-				if (findroot(n) == 1) {
-					split(1, n);
-					ans = Math.min(ans, ea[i] + eb[maxbEdge[n]]);
-				}
+			makeroot(1);
+			if (findroot(n) == 1) {
+				split(1, n);
+				ans = Math.min(ans, ea[maxaEdge[n]] + eb[maxbEdge[n]]);
 			}
 		}
 		return ans == INF ? -1 : ans;
