@@ -1,6 +1,6 @@
 package class203;
 
-// 严格次小生成树，lct判断连通性，C++版
+// 严格次小生成树，并查集判断连通性，C++版
 // 一共n个点、m条无向边，每条边有边权，图中可能存在自环
 // 严格次小生成树的边权和，必须严格大于最小生成树的边权和
 // 题目保证严格次小生成树一定存在，打印其边权和
@@ -31,6 +31,7 @@ package class203;
 //int n, m;
 //
 //Edge arr[MAXM];
+//int father[MAXN];
 //
 //int fa[MAXN];
 //int ls[MAXN];
@@ -40,6 +41,13 @@ package class203;
 //
 //int max1[MAXN];
 //int max2[MAXN];
+//
+//int find(int x) {
+//    if (x != father[x]) {
+//        father[x] = find(father[x]);
+//    }
+//    return father[x];
+//}
 //
 //void up(int x) {
 //    int l = ls[x], lmax1 = max1[l], lmax2 = max2[l];
@@ -150,18 +158,6 @@ package class203;
 //    reverse(x);
 //}
 //
-//int findroot(int x) {
-//    access(x);
-//    splay(x);
-//    down(x);
-//    while (ls[x] != 0) {
-//        x = ls[x];
-//        down(x);
-//    }
-//    splay(x);
-//    return x;
-//}
-//
 //void split(int x, int y) {
 //    makeroot(x);
 //    access(y);
@@ -182,8 +178,10 @@ package class203;
 //        int y = arr[i].y;
 //        int w = arr[i].w;
 //        if (x != y) {
-//            makeroot(x);
-//            if (findroot(y) != x) {
+//            int fx = find(x);
+//            int fy = find(y);
+//            if (fx != fy) {
+//                father[fx] = fy;
 //                max1[n + i] = w;
 //                max2[n + i] = -INF;
 //                link(x, n + i);
@@ -210,6 +208,9 @@ package class203;
 //    cin >> n >> m;
 //    for (int i = 1; i <= m; i++) {
 //        cin >> arr[i].x >> arr[i].y >> arr[i].w;
+//    }
+//    for (int i = 1; i <= n; i++) {
+//        father[i] = i;
 //    }
 //    for (int i = 0; i <= n; i++) {
 //        max1[i] = max2[i] = -INF;
