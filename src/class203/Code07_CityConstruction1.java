@@ -28,15 +28,15 @@ public class Code07_CityConstruction1 {
 	public static int[] ex = new int[MAXN];
 	public static int[] ey = new int[MAXN];
 	public static int[] ew = new int[MAXN];
-	public static int edgeCnt;
+	public static int cnte;
 
 	public static int[] changeEdge = new int[MAXQ];
 	public static int[] endTime = new int[MAXN];
 
 	public static int[] head = new int[MAXQ << 2];
 	public static int[] nxt = new int[MAXT];
-	public static int[] toEdge = new int[MAXT];
-	public static int taskCnt;
+	public static int[] to = new int[MAXT];
+	public static int cntg;
 
 	public static int[] fa = new int[MAXN];
 	public static int[] ls = new int[MAXN];
@@ -53,15 +53,15 @@ public class Code07_CityConstruction1 {
 	public static long mstSum;
 	public static long[] ans = new long[MAXQ];
 
-	public static void addTask(int i, int e) {
-		nxt[++taskCnt] = head[i];
-		toEdge[taskCnt] = e;
-		head[i] = taskCnt;
+	public static void rangeAddEdge(int i, int e) {
+		nxt[++cntg] = head[i];
+		to[cntg] = e;
+		head[i] = cntg;
 	}
 
 	public static void add(int jobl, int jobr, int jobe, int l, int r, int i) {
 		if (jobl <= l && r <= jobr) {
-			addTask(i, jobe);
+			rangeAddEdge(i, jobe);
 		} else {
 			int mid = (l + r) >> 1;
 			if (jobl <= mid) {
@@ -252,7 +252,7 @@ public class Code07_CityConstruction1 {
 	public static void dfs(int l, int r, int i) {
 		int tmp = opsize;
 		for (int k = head[i]; k != 0; k = nxt[k]) {
-			addEdge(toEdge[k]);
+			addEdge(to[k]);
 		}
 		if (l == r) {
 			ans[l] = mstSum;
@@ -280,9 +280,6 @@ public class Code07_CityConstruction1 {
 				add(1, endTime[i] - 1, i, 1, q, 1);
 			}
 		}
-		for (int e = 1; e <= edgeCnt; e++) {
-			maxEdge[n + e] = e;
-		}
 	}
 
 	public static void main(String[] args) throws Exception {
@@ -291,7 +288,7 @@ public class Code07_CityConstruction1 {
 		n = in.nextInt();
 		m = in.nextInt();
 		q = in.nextInt();
-		edgeCnt = m;
+		cnte = m;
 		for (int i = 1; i <= m; i++) {
 			ex[i] = in.nextInt();
 			ey[i] = in.nextInt();
@@ -301,9 +298,9 @@ public class Code07_CityConstruction1 {
 			int e = in.nextInt();
 			int w = in.nextInt();
 			changeEdge[i] = e;
-			ex[++edgeCnt] = ex[e];
-			ey[edgeCnt] = ey[e];
-			ew[edgeCnt] = w;
+			ex[++cnte] = ex[e];
+			ey[cnte] = ey[e];
+			ew[cnte] = w;
 		}
 		prepare();
 		dfs(1, q, 1);

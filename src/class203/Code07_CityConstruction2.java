@@ -25,15 +25,15 @@ package class203;
 //int ex[MAXN];
 //int ey[MAXN];
 //int ew[MAXN];
-//int edgeCnt;
+//int cnte;
 //
 //int changeEdge[MAXQ];
 //int endTime[MAXN];
 //
 //int head[MAXQ << 2];
 //int nxt[MAXT];
-//int toEdge[MAXT];
-//int taskCnt;
+//int to[MAXT];
+//int cntg;
 //
 //int fa[MAXN];
 //int ls[MAXN];
@@ -50,15 +50,15 @@ package class203;
 //ll mstSum;
 //ll ans[MAXQ];
 //
-//void addTask(int i, int e) {
-//    nxt[++taskCnt] = head[i];
-//    toEdge[taskCnt] = e;
-//    head[i] = taskCnt;
+//void rangeAddEdge(int i, int e) {
+//    nxt[++cntg] = head[i];
+//    to[cntg] = e;
+//    head[i] = cntg;
 //}
 //
 //void add(int jobl, int jobr, int jobe, int l, int r, int i) {
 //    if (jobl <= l && r <= jobr) {
-//        addTask(i, jobe);
+//        rangeAddEdge(i, jobe);
 //    } else {
 //        int mid = (l + r) >> 1;
 //        if (jobl <= mid) {
@@ -247,7 +247,7 @@ package class203;
 //void dfs(int l, int r, int i) {
 //    int tmp = opsize;
 //    for (int k = head[i]; k != 0; k = nxt[k]) {
-//        addEdge(toEdge[k]);
+//        addEdge(to[k]);
 //    }
 //    if (l == r) {
 //        ans[l] = mstSum;
@@ -275,26 +275,22 @@ package class203;
 //            add(1, endTime[i] - 1, i, 1, q, 1);
 //        }
 //    }
-//    for (int e = 1; e <= edgeCnt; e++) {
-//        maxEdge[n + e] = e;
-//    }
 //}
 //
 //int main() {
 //    ios::sync_with_stdio(false);
 //    cin.tie(nullptr);
 //    cin >> n >> m >> q;
-//    edgeCnt = m;
+//    cnte = m;
 //    for (int i = 1; i <= m; i++) {
 //        cin >> ex[i] >> ey[i] >> ew[i];
 //    }
-//    for (int i = 1; i <= q; i++) {
-//        int e, w;
+//    for (int i = 1, e, w; i <= q; i++) {
 //        cin >> e >> w;
 //        changeEdge[i] = e;
-//        ex[++edgeCnt] = ex[e];
-//        ey[edgeCnt] = ey[e];
-//        ew[edgeCnt] = w;
+//        ex[++cnte] = ex[e];
+//        ey[cnte] = ey[e];
+//        ew[cnte] = w;
 //    }
 //    prepare();
 //    dfs(1, q, 1);
