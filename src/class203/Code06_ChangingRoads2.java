@@ -22,18 +22,17 @@ package class203;
 //const int MAXN = 200001;
 //const int MAXD = 32767;
 //const int MAXT = 4000001;
-//const int DAY = 32766;
 //int n, m;
 //
 //int ex[MAXN];
 //int ey[MAXN];
 //int ew[MAXN];
-//int edgeCnt;
+//int cnte;
 //
 //int head[MAXD << 2];
 //int nxt[MAXT];
-//int toEdge[MAXT];
-//int taskCnt;
+//int to[MAXT];
+//int cntg;
 //
 //int fa[MAXN];
 //int ls[MAXN];
@@ -50,15 +49,15 @@ package class203;
 //ll mstSum = 1;
 //ll ans[MAXD];
 //
-//void addTask(int i, int e) {
-//    nxt[++taskCnt] = head[i];
-//    toEdge[taskCnt] = e;
-//    head[i] = taskCnt;
+//void rangeAddEdge(int i, int e) {
+//    nxt[++cntg] = head[i];
+//    to[cntg] = e;
+//    head[i] = cntg;
 //}
 //
 //void add(int jobl, int jobr, int jobe, int l, int r, int i) {
 //    if (jobl <= l && r <= jobr) {
-//        addTask(i, jobe);
+//        rangeAddEdge(i, jobe);
 //    } else {
 //        int mid = (l + r) >> 1;
 //        if (jobl <= mid) {
@@ -247,7 +246,7 @@ package class203;
 //void dfs(int l, int r, int i) {
 //    int tmp = opsize;
 //    for (int k = head[i]; k != 0; k = nxt[k]) {
-//        addEdge(toEdge[k]);
+//        addEdge(to[k]);
 //    }
 //    if (l == r) {
 //        ans[l] = mstSum;
@@ -265,23 +264,24 @@ package class203;
 //    ios::sync_with_stdio(false);
 //    cin.tie(nullptr);
 //    cin >> n;
+//    int day = MAXD - 1;
 //    for (int i = 1; i < n; i++) {
-//        cin >> ex[++edgeCnt];
-//        cin >> ey[edgeCnt];
-//        cin >> ew[edgeCnt];
-//        add(1, DAY, edgeCnt, 1, DAY, 1);
+//        cin >> ex[++cnte];
+//        cin >> ey[cnte];
+//        cin >> ew[cnte];
+//        add(1, day, cnte, 1, day, 1);
 //    }
 //    cin >> m;
 //    for (int i = 1, l, r; i <= m; i++) {
-//        cin >> ex[++edgeCnt];
-//        cin >> ey[edgeCnt];
-//        cin >> ew[edgeCnt];
+//        cin >> ex[++cnte];
+//        cin >> ey[cnte];
+//        cin >> ew[cnte];
 //        cin >> l;
 //        cin >> r;
-//        add(l, r, edgeCnt, 1, DAY, 1);
+//        add(l, r, cnte, 1, day, 1);
 //    }
-//    dfs(1, DAY, 1);
-//    for (int i = 1; i <= DAY; i++) {
+//    dfs(1, day, 1);
+//    for (int i = 1; i <= day; i++) {
 //        cout << ans[i] << "\n";
 //    }
 //    return 0;

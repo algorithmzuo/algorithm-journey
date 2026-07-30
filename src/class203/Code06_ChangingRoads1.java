@@ -22,21 +22,19 @@ public class Code06_ChangingRoads1 {
 	public static int MAXN = 200001;
 	public static int MAXD = 32767;
 	public static int MAXT = 4000001;
-	public static int DAY = 32766;
 	public static int n, m;
 
-	// 所有道路的信息
-	// 初始道路和变化道路统一编号
+	// 道路信息，包括初始道路和变化道路
 	public static int[] ex = new int[MAXN];
 	public static int[] ey = new int[MAXN];
 	public static int[] ew = new int[MAXN];
-	public static int edgeCnt;
+	public static int cnte;
 
-	// 时间轴线段树，线段树节点拥有哪些道路任务，链式前向星表示
+	// 时间轴线段树，线段树区间拥有哪些道路的列表
 	public static int[] head = new int[MAXD << 2];
 	public static int[] nxt = new int[MAXT];
-	public static int[] toEdge = new int[MAXT];
-	public static int taskCnt;
+	public static int[] to = new int[MAXT];
+	public static int cntg;
 
 	// 辅助splay
 	public static int[] fa = new int[MAXN];
@@ -48,7 +46,7 @@ public class Code06_ChangingRoads1 {
 	// maxEdge[x]表示以x为根的辅助splay中，权值最大的边的编号
 	public static int[] maxEdge = new int[MAXN];
 
-	// LCT最小生成树修改的回滚栈
+	// LCT最小生成树修改的回滚信息，用回滚栈记录
 	// type == 1 : 这条边加入
 	// type == 2 : 这条边删除
 	public static int[] rollbackEdge = new int[MAXN << 1];
@@ -59,15 +57,15 @@ public class Code06_ChangingRoads1 {
 	public static long mstSum = 1;
 	public static long[] ans = new long[MAXD];
 
-	public static void addTask(int i, int e) {
-		nxt[++taskCnt] = head[i];
-		toEdge[taskCnt] = e;
-		head[i] = taskCnt;
+	public static void rangeAddEdge(int i, int e) {
+		nxt[++cntg] = head[i];
+		to[cntg] = e;
+		head[i] = cntg;
 	}
 
 	public static void add(int jobl, int jobr, int jobe, int l, int r, int i) {
 		if (jobl <= l && r <= jobr) {
-			addTask(i, jobe);
+			rangeAddEdge(i, jobe);
 		} else {
 			int mid = (l + r) >> 1;
 			if (jobl <= mid) {
@@ -232,12 +230,12 @@ public class Code06_ChangingRoads1 {
 			split(x, y);
 			int pre = maxEdge[y];
 			if (ew[pre] > ew[e]) {
-				// 先删除旧边
+				// 删除旧边
 				cut(ex[pre], n + pre);
 				cut(ey[pre], n + pre);
 				backup(pre, 2);
 				mstSum -= ew[pre];
-				// 再加入新边
+				// 加入新边
 				link(x, n + e);
 				link(y, n + e);
 				backup(e, 1);
@@ -263,7 +261,7 @@ public class Code06_ChangingRoads1 {
 	public static void dfs(int l, int r, int i) {
 		int tmp = opsize;
 		for (int k = head[i]; k != 0; k = nxt[k]) {
-			addEdge(toEdge[k]);
+			addEdge(to[k]);
 		}
 		if (l == r) {
 			ans[l] = mstSum;
@@ -281,23 +279,24 @@ public class Code06_ChangingRoads1 {
 		FastReader in = new FastReader(System.in);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
 		n = in.nextInt();
+		int day = MAXD - 1;
 		for (int i = 1; i < n; i++) {
-			ex[++edgeCnt] = in.nextInt();
-			ey[edgeCnt] = in.nextInt();
-			ew[edgeCnt] = in.nextInt();
-			add(1, DAY, edgeCnt, 1, DAY, 1);
+			ex[++cnte] = in.nextInt();
+			ey[cnte] = in.nextInt();
+			ew[cnte] = in.nextInt();
+			add(1, day, cnte, 1, day, 1);
 		}
 		m = in.nextInt();
 		for (int i = 1, l, r; i <= m; i++) {
-			ex[++edgeCnt] = in.nextInt();
-			ey[edgeCnt] = in.nextInt();
-			ew[edgeCnt] = in.nextInt();
+			ex[++cnte] = in.nextInt();
+			ey[cnte] = in.nextInt();
+			ew[cnte] = in.nextInt();
 			l = in.nextInt();
 			r = in.nextInt();
-			add(l, r, edgeCnt, 1, DAY, 1);
+			add(l, r, cnte, 1, day, 1);
 		}
-		dfs(1, DAY, 1);
-		for (int i = 1; i <= DAY; i++) {
+		dfs(1, day, 1);
+		for (int i = 1; i <= day; i++) {
 			out.println(ans[i]);
 		}
 		out.flush();
