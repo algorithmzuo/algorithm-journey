@@ -1,0 +1,259 @@
+package class204;
+
+// QTREE6，java版
+// 给定一棵n个节点的树，每个节点有黑白两种颜色，初始所有节点都是黑色
+// 接下来有q条操作，操作类型如下
+// 操作 0 x : 打印节点x所在的同色连通块大小
+// 操作 1 x : 翻转节点x的颜色
+// 1 <= n、q <= 10^5
+// 测试链接 : https://www.luogu.com.cn/problem/SP16549
+// 测试链接 : https://www.spoj.com/problems/QTREE6/
+// 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+
+public class Code04_QTREE6_1 {
+
+	public static int MAXN = 100001;
+	public static int n, q;
+
+	public static int[] head = new int[MAXN];
+	public static int[] nxt = new int[MAXN << 1];
+	public static int[] to = new int[MAXN << 1];
+	public static int cntg;
+
+	// 分别维护黑色和白色两棵LCT，第一维表示颜色
+	public static int[][] fa = new int[2][MAXN];
+	public static int[][] ls = new int[2][MAXN];
+	public static int[][] rs = new int[2][MAXN];
+
+	// 原树固定以1为根，颜色翻转只需要处理节点和固定父亲之间的边
+	// 防止菊花图使得复杂度爆炸
+	public static int[] parent = new int[MAXN];
+
+	// 黑色是0，白色是1
+	public static int[] color = new int[MAXN];
+
+	// val[c][x]表示节点x在颜色c的LCT中的贡献，x的颜色为c则贡献是1，否则是0
+	public static int[][] val = new int[2][MAXN];
+
+	// vir[c][x]表示颜色c的LCT中，x所有直接虚儿子的完整子树中，有效节点总量
+	public static int[][] vir = new int[2][MAXN];
+
+	// sum[c][x]表示颜色c的LCT中，以x为根的辅助Splay汇总的有效节点总量
+	// 包括左右儿子、所有虚子树以及x自身的贡献
+	public static int[][] sum = new int[2][MAXN];
+
+	public static void addEdge(int u, int v) {
+		nxt[++cntg] = head[u];
+		to[cntg] = v;
+		head[u] = cntg;
+	}
+
+	public static void up(int c, int x) {
+		sum[c][x] = sum[c][ls[c][x]] + sum[c][rs[c][x]] + vir[c][x] + val[c][x];
+	}
+
+	public static boolean isroot(int c, int x) {
+		return ls[c][fa[c][x]] != x && rs[c][fa[c][x]] != x;
+	}
+
+	public static int lr(int c, int x) {
+		return ls[c][fa[c][x]] == x ? 0 : 1;
+	}
+
+	public static void rotate(int c, int x) {
+		int f = fa[c][x], g = fa[c][f];
+		if (lr(c, x) == 0) {
+			ls[c][f] = rs[c][x];
+			if (ls[c][f] != 0) {
+				fa[c][ls[c][f]] = f;
+			}
+			rs[c][x] = f;
+		} else {
+			rs[c][f] = ls[c][x];
+			if (rs[c][f] != 0) {
+				fa[c][rs[c][f]] = f;
+			}
+			ls[c][x] = f;
+		}
+		if (!isroot(c, f)) {
+			if (lr(c, f) == 0) {
+				ls[c][g] = x;
+			} else {
+				rs[c][g] = x;
+			}
+		}
+		fa[c][f] = x;
+		fa[c][x] = g;
+		up(c, f);
+		up(c, x);
+	}
+
+	public static void splay(int c, int x) {
+		while (!isroot(c, x)) {
+			int f = fa[c][x];
+			if (!isroot(c, f)) {
+				if (lr(c, x) == lr(c, f)) {
+					rotate(c, f);
+				} else {
+					rotate(c, x);
+				}
+			}
+			rotate(c, x);
+		}
+		up(c, x);
+	}
+
+	public static void access(int c, int x) {
+		for (int y = 0; x != 0; y = x, x = fa[c][x]) {
+			splay(c, x);
+			vir[c][x] += sum[c][rs[c][x]];
+			vir[c][x] -= sum[c][y];
+			rs[c][x] = y;
+			up(c, x);
+		}
+	}
+
+	public static int findroot(int c, int x) {
+		access(c, x);
+		splay(c, x);
+		while (ls[c][x] != 0) {
+			x = ls[c][x];
+		}
+		splay(c, x);
+		return x;
+	}
+
+	// 连接固定父边(x, y)，x是子，y是父，连接后x作为y的虚儿子
+	public static void link(int c, int x, int y) {
+		if (y == 0) {
+			return;
+		}
+		access(c, y);
+		splay(c, y);
+		splay(c, x);
+		fa[c][x] = y;
+		vir[c][y] += sum[c][x];
+		up(c, y);
+	}
+
+	// 删除固定父边(x, y)，x是子，y是父
+	public static void cut(int c, int x, int y) {
+		access(c, x);
+		splay(c, x);
+		if (y != 0) {
+			int left = ls[c][x];
+			fa[c][left] = 0;
+			ls[c][x] = 0;
+			up(c, x);
+		}
+	}
+
+	public static int query(int x) {
+		int c = color[x];
+		int top = findroot(c, x);
+		if (val[c][top] == 1) {
+			return sum[c][top];
+		} else {
+			return sum[c][rs[c][top]];
+		}
+	}
+
+	public static void reverse(int x) {
+		int pre = color[x];
+		int cur = pre ^ 1;
+		int f = parent[x];
+		// 只删除旧颜色LCT中的固定父边，不遍历u的所有邻边
+		cut(pre, x, f);
+		val[pre][x] = 0;
+		up(pre, x);
+		access(cur, x);
+		splay(cur, x);
+		val[cur][x] = 1;
+		up(cur, x);
+		color[x] = cur;
+		// 只向新颜色LCT加入固定父边
+		link(cur, x, f);
+	}
+
+	public static void dfs(int u, int f) {
+		parent[u] = f;
+		val[0][u] = 1;
+		sum[0][u] = 1;
+		for (int e = head[u]; e != 0; e = nxt[e]) {
+			int v = to[e];
+			if (v != f) {
+				dfs(v, u);
+				link(0, v, u);
+			}
+		}
+	}
+
+	public static void main(String[] args) throws Exception {
+		FastReader in = new FastReader(System.in);
+		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
+		n = in.nextInt();
+		for (int i = 1; i < n; i++) {
+			int u = in.nextInt();
+			int v = in.nextInt();
+			addEdge(u, v);
+			addEdge(v, u);
+		}
+		dfs(1, 0);
+		q = in.nextInt();
+		for (int i = 1, op, x; i <= q; i++) {
+			op = in.nextInt();
+			x = in.nextInt();
+			if (op == 0) {
+				out.println(query(x));
+			} else {
+				reverse(x);
+			}
+		}
+		out.flush();
+		out.close();
+	}
+
+	// 读写工具类
+	static class FastReader {
+
+		private final byte[] buffer = new byte[1 << 16];
+		private int ptr = 0, len = 0;
+		private final InputStream in;
+
+		FastReader(InputStream in) {
+			this.in = in;
+		}
+
+		private int readByte() throws IOException {
+			if (ptr >= len) {
+				len = in.read(buffer);
+				ptr = 0;
+				if (len <= 0) {
+					return -1;
+				}
+			}
+			return buffer[ptr++];
+		}
+
+		int nextInt() throws IOException {
+			int c;
+			do {
+				c = readByte();
+			} while (c <= ' ' && c != -1);
+
+			int val = 0;
+			while (c > ' ' && c != -1) {
+				val = val * 10 + c - '0';
+				c = readByte();
+			}
+			return val;
+		}
+
+	}
+
+}
