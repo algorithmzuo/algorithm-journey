@@ -152,8 +152,7 @@ package class204;
 //    cin.tie(nullptr);
 //    cin >> n;
 //    lm[0] = rm[0] = INF;
-//    for (int i = 1; i < n; i++) {
-//        int u, v;
+//    for (int i = 1, u, v; i < n; i++) {
 //        cin >> u >> v;
 //        addEdge(u, v);
 //        addEdge(v, u);
