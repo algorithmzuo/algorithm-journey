@@ -37,6 +37,14 @@ public class Code02_Capital1 {
 
 	public static int xor;
 
+	// 查询x所在连通块当前的重心
+	public static int find(int x) {
+		if (x != center[x]) {
+			center[x] = find(center[x]);
+		}
+		return center[x];
+	}
+
 	public static void up(int x) {
 		sum[x] = sum[ls[x]] + sum[rs[x]] + vir[x] + 1;
 	}
@@ -159,14 +167,6 @@ public class Code02_Capital1 {
 			vir[y] += sum[x];
 			up(y);
 		}
-	}
-
-	// 查询x所在连通块当前的重心
-	public static int find(int x) {
-		if (x != center[x]) {
-			center[x] = find(center[x]);
-		}
-		return center[x];
 	}
 
 	// 调用前，已经把两个旧重心之间的路径split出来
