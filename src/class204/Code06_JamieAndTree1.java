@@ -1,13 +1,12 @@
 package class204;
 
-// Jamie and Tree，java版
+// 杰米与树，java版
 // 一共n个节点、n-1条边，所有节点组成一棵树，点有点权，初始的根为1号节点
 // 接下来有q条操作，操作类型有三种，具体格式如下
 // 操作 1 x     : 整棵树的根修改为x
 // 操作 2 x y v : 当前根的情况下，lca(x, y)的子树中所有点权增加v
 // 操作 3 x     : 当前根的情况下，打印x的子树点权和
 // 1 <= n、q <= 10^5
-// -10^8 <= 点权、修改值 <= 10^8
 // 测试链接 : https://www.luogu.com.cn/problem/CF916E
 // 测试链接 : https://codeforces.com/problemset/problem/916/E
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
