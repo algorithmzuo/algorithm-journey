@@ -1,27 +1,23 @@
 package class204;
 
-// QTREE7，java版
-// 给定一棵n个节点的树，每个节点有黑白两种颜色，给定初始颜色和点权
+// QTREE6，java版
+// 给定一棵n个节点的树，每个节点有黑白两种颜色，初始所有节点都是黑色
 // 接下来有q条操作，操作类型如下
-// 操作 0 x   : 打印节点x所在的同色连通块中的最大点权
-// 操作 1 x   : 翻转节点x的颜色
-// 操作 2 x w : 节点x的点权修改为w
+// 操作 0 x : 打印节点x所在的同色连通块大小
+// 操作 1 x : 翻转节点x的颜色
 // 1 <= n、q <= 10^5
-// 测试链接 : https://www.luogu.com.cn/problem/SP16580
-// 测试链接 : https://www.spoj.com/problems/QTREE7/
+// 测试链接 : https://www.luogu.com.cn/problem/SP16549
+// 测试链接 : https://www.spoj.com/problems/QTREE6/
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
-import java.util.HashMap;
-import java.util.TreeMap;
 
-public class Code05_QTREE7_1 {
+public class Code03_QTREE6_1 {
 
 	public static int MAXN = 100001;
-	public static int INF = 1000000001;
 	public static int n, q;
 
 	public static int[] head = new int[MAXN];
@@ -29,25 +25,27 @@ public class Code05_QTREE7_1 {
 	public static int[] to = new int[MAXN << 1];
 	public static int cntg;
 
+	// 分别维护黑色和白色两棵LCT，第一维表示颜色
 	public static int[][] fa = new int[2][MAXN];
 	public static int[][] ls = new int[2][MAXN];
 	public static int[][] rs = new int[2][MAXN];
 
+	// 原树固定以1为根，颜色翻转只需要处理节点和固定父亲之间的边
+	// 防止菊花图使得复杂度爆炸
 	public static int[] parent = new int[MAXN];
+
+	// 黑色是0，白色是1
 	public static int[] color = new int[MAXN];
+
+	// val[c][x]表示节点x在颜色c的LCT中的贡献，x的颜色为c则贡献是1，否则是0
 	public static int[][] val = new int[2][MAXN];
 
-	// black.get(x)表示黑色LCT中节点x维护的multiset
-	// 保存x每个直接虚儿子的完整子树最大值，以及该最大值的出现次数
-	public static HashMap<Integer, TreeMap<Integer, Integer>> black = new HashMap<>();
+	// vir[c][x]表示颜色c的LCT中，x所有直接虚儿子的完整子树中，有效节点总量
+	public static int[][] vir = new int[2][MAXN];
 
-	// white.get(x)表示白色LCT中节点x维护的multiset
-	// 保存x每个直接虚儿子的完整子树最大值，以及该最大值的出现次数
-	public static HashMap<Integer, TreeMap<Integer, Integer>> white = new HashMap<>();
-
-	// maxv[c][x]表示颜色c的LCT中，以x为根的辅助Splay汇总的最大点权
-	// 包括左右儿子、所有虚子树以及x自身
-	public static int[][] maxv = new int[2][MAXN];
+	// sum[c][x]表示颜色c的LCT中，以x为根的辅助Splay汇总的有效节点总量
+	// 包括左右儿子、所有虚子树以及x自身的贡献
+	public static int[][] sum = new int[2][MAXN];
 
 	public static void addEdge(int u, int v) {
 		nxt[++cntg] = head[u];
@@ -55,54 +53,8 @@ public class Code05_QTREE7_1 {
 		head[u] = cntg;
 	}
 
-	public static void insert(int c, int x, int v) {
-		if (c == 0) {
-			if (!black.containsKey(x)) {
-				black.put(x, new TreeMap<>());
-			}
-			black.get(x).put(v, black.get(x).getOrDefault(v, 0) + 1);
-		} else {
-			if (!white.containsKey(x)) {
-				white.put(x, new TreeMap<>());
-			}
-			white.get(x).put(v, white.get(x).getOrDefault(v, 0) + 1);
-		}
-	}
-
-	public static void delete(int c, int x, int v) {
-		if (c == 0) {
-			int cnt = black.get(x).get(v);
-			if (cnt == 1) {
-				black.get(x).remove(v);
-			} else {
-				black.get(x).put(v, cnt - 1);
-			}
-		} else {
-			int cnt = white.get(x).get(v);
-			if (cnt == 1) {
-				white.get(x).remove(v);
-			} else {
-				white.get(x).put(v, cnt - 1);
-			}
-		}
-	}
-
-	public static int getmax(int c, int x) {
-		if (c == 0) {
-			if (!black.containsKey(x) || black.get(x).isEmpty()) {
-				return -INF;
-			}
-			return black.get(x).lastKey();
-		} else {
-			if (!white.containsKey(x) || white.get(x).isEmpty()) {
-				return -INF;
-			}
-			return white.get(x).lastKey();
-		}
-	}
-
 	public static void up(int c, int x) {
-		maxv[c][x] = Math.max(val[c][x], Math.max(getmax(c, x), Math.max(maxv[c][ls[c][x]], maxv[c][rs[c][x]])));
+		sum[c][x] = sum[c][ls[c][x]] + sum[c][rs[c][x]] + vir[c][x] + val[c][x];
 	}
 
 	public static boolean isroot(int c, int x) {
@@ -159,14 +111,8 @@ public class Code05_QTREE7_1 {
 	public static void access(int c, int x) {
 		for (int y = 0; x != 0; y = x, x = fa[c][x]) {
 			splay(c, x);
-			// 实儿子变成虚儿子，将它的子树最大值插入
-			// 虚儿子变成实儿子，将它的子树最大值删除
-			if (rs[c][x] != 0) {
-				insert(c, x, maxv[c][rs[c][x]]);
-			}
-			if (y != 0) {
-				delete(c, x, maxv[c][y]);
-			}
+			vir[c][x] += sum[c][rs[c][x]];
+			vir[c][x] -= sum[c][y];
 			rs[c][x] = y;
 			up(c, x);
 		}
@@ -182,6 +128,7 @@ public class Code05_QTREE7_1 {
 		return x;
 	}
 
+	// 连接固定父边(x, y)，x是子，y是父，连接后x作为y的虚儿子
 	public static void link(int c, int x, int y) {
 		if (y == 0) {
 			return;
@@ -190,10 +137,11 @@ public class Code05_QTREE7_1 {
 		splay(c, y);
 		splay(c, x);
 		fa[c][x] = y;
-		insert(c, y, maxv[c][x]);
+		vir[c][y] += sum[c][x];
 		up(c, y);
 	}
 
+	// 删除固定父边(x, y)，x是子，y是父
 	public static void cut(int c, int x, int y) {
 		access(c, x);
 		splay(c, x);
@@ -208,10 +156,10 @@ public class Code05_QTREE7_1 {
 	public static int query(int x) {
 		int c = color[x];
 		int top = findroot(c, x);
-		if (color[top] == c) {
-			return maxv[c][top];
+		if (val[c][top] == 1) {
+			return sum[c][top];
 		} else {
-			return maxv[c][rs[c][top]];
+			return sum[c][rs[c][top]];
 		}
 	}
 
@@ -219,29 +167,28 @@ public class Code05_QTREE7_1 {
 		int pre = color[x];
 		int cur = pre ^ 1;
 		int f = parent[x];
+		// 只删除旧颜色LCT中的固定父边，不遍历u的所有邻边
 		cut(pre, x, f);
+		val[pre][x] = 0;
+		up(pre, x);
+		access(cur, x);
+		splay(cur, x);
+		val[cur][x] = 1;
+		up(cur, x);
 		color[x] = cur;
+		// 只向新颜色LCT加入固定父边
 		link(cur, x, f);
-	}
-
-	public static void update(int x, int w) {
-		access(0, x);
-		splay(0, x);
-		val[0][x] = w;
-		up(0, x);
-		access(1, x);
-		splay(1, x);
-		val[1][x] = w;
-		up(1, x);
 	}
 
 	public static void dfs(int u, int f) {
 		parent[u] = f;
+		val[0][u] = 1;
+		sum[0][u] = 1;
 		for (int e = head[u]; e != 0; e = nxt[e]) {
 			int v = to[e];
 			if (v != f) {
 				dfs(v, u);
-				link(color[v], v, u);
+				link(0, v, u);
 			}
 		}
 	}
@@ -256,15 +203,6 @@ public class Code05_QTREE7_1 {
 			addEdge(u, v);
 			addEdge(v, u);
 		}
-		for (int i = 1; i <= n; i++) {
-			color[i] = in.nextInt();
-		}
-		maxv[0][0] = maxv[1][0] = -INF;
-		for (int i = 1, w; i <= n; i++) {
-			w = in.nextInt();
-			val[0][i] = val[1][i] = w;
-			maxv[0][i] = maxv[1][i] = w;
-		}
 		dfs(1, 0);
 		q = in.nextInt();
 		for (int i = 1, op, x; i <= q; i++) {
@@ -272,11 +210,8 @@ public class Code05_QTREE7_1 {
 			x = in.nextInt();
 			if (op == 0) {
 				out.println(query(x));
-			} else if (op == 1) {
-				reverse(x);
 			} else {
-				int w = in.nextInt();
-				update(x, w);
+				reverse(x);
 			}
 		}
 		out.flush();
@@ -311,18 +246,12 @@ public class Code05_QTREE7_1 {
 				c = readByte();
 			} while (c <= ' ' && c != -1);
 
-			boolean neg = false;
-			if (c == '-') {
-				neg = true;
-				c = readByte();
-			}
-
 			int val = 0;
 			while (c > ' ' && c != -1) {
 				val = val * 10 + c - '0';
 				c = readByte();
 			}
-			return neg ? -val : val;
+			return val;
 		}
 
 	}
