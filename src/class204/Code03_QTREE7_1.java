@@ -18,7 +18,7 @@ import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.TreeMap;
 
-public class Code04_QTREE7_1 {
+public class Code03_QTREE7_1 {
 
 	public static int MAXN = 100001;
 	public static int INF = 1000000001;
