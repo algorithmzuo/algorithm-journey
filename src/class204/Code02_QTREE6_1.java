@@ -34,11 +34,8 @@ public class Code02_QTREE6_1 {
 	// 防止菊花图使得复杂度爆炸
 	public static int[] parent = new int[MAXN];
 
-	// 黑色是0，白色是1
+	// 点的颜色，黑色是0，白色是1
 	public static int[] color = new int[MAXN];
-
-	// val[c][x]表示节点x在颜色c的LCT中的贡献，x的颜色为c则贡献是1，否则是0
-	public static int[][] val = new int[2][MAXN];
 
 	// vir[c][x]表示颜色c的LCT中，x所有直接虚儿子的完整子树中，有效节点总量
 	public static int[][] vir = new int[2][MAXN];
@@ -54,7 +51,7 @@ public class Code02_QTREE6_1 {
 	}
 
 	public static void up(int c, int x) {
-		sum[c][x] = sum[c][ls[c][x]] + sum[c][rs[c][x]] + vir[c][x] + val[c][x];
+		sum[c][x] = sum[c][ls[c][x]] + sum[c][rs[c][x]] + vir[c][x] + (color[x] == c ? 1 : 0);
 	}
 
 	public static boolean isroot(int c, int x) {
@@ -156,7 +153,7 @@ public class Code02_QTREE6_1 {
 	public static int query(int x) {
 		int c = color[x];
 		int top = findroot(c, x);
-		if (val[c][top] == 1) {
+		if (color[top] == c) {
 			return sum[c][top];
 		} else {
 			return sum[c][rs[c][top]];
@@ -167,22 +164,22 @@ public class Code02_QTREE6_1 {
 		int pre = color[x];
 		int cur = pre ^ 1;
 		int f = parent[x];
-		// 只删除旧颜色LCT中的固定父边，不遍历u的所有邻边
+		// 此时color[x]还没有改变，在旧颜色LCT中删除固定父边
 		cut(pre, x, f);
-		val[pre][x] = 0;
-		up(pre, x);
+		// 此时color[x]还没有改变，在新颜色LCT中把x暴露出来
 		access(cur, x);
 		splay(cur, x);
-		val[cur][x] = 1;
-		up(cur, x);
+		// 两棵LCT完成结构调整，再修改颜色
 		color[x] = cur;
-		// 只向新颜色LCT加入固定父边
+		// 修改颜色后，x在旧颜色LCT中的贡献从1变0，新颜色中从0变成1
+		up(pre, x);
+		up(cur, x);
+		// 新颜色LCT中加入固定父边
 		link(cur, x, f);
 	}
 
 	public static void dfs(int u, int f) {
 		parent[u] = f;
-		val[0][u] = 1;
 		sum[0][u] = 1;
 		for (int e = head[u]; e != 0; e = nxt[e]) {
 			int v = to[e];
@@ -197,9 +194,9 @@ public class Code02_QTREE6_1 {
 		FastReader in = new FastReader(System.in);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
 		n = in.nextInt();
-		for (int i = 1; i < n; i++) {
-			int u = in.nextInt();
-			int v = in.nextInt();
+		for (int i = 1, u, v; i < n; i++) {
+			u = in.nextInt();
+			v = in.nextInt();
 			addEdge(u, v);
 			addEdge(v, u);
 		}
