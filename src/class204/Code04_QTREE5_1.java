@@ -9,7 +9,7 @@ package class204;
 // 测试链接 : https://www.luogu.com.cn/problem/SP2939
 // 测试链接 : https://www.spoj.com/problems/QTREE5/
 // 提交以下的code，提交时请把类名改成"Main"
-// 本题卡常数时间，我尝试用FHQ-Treap实现有序表，java的实现依然无法通过
+// 本题卡常数时间，java的实现无法通过，手撸有序表也会超时
 // 想通过用C++实现，本节课Code04_QTREE5_2文件就是C++的实现
 // 两个版本的逻辑完全一样，C++版本可以通过所有测试
 
