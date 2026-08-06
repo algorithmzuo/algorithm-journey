@@ -164,17 +164,17 @@ public class Code02_QTREE6_1 {
 		int pre = color[x];
 		int cur = pre ^ 1;
 		int f = parent[x];
-		// 此时color[x]还没有改变，在旧颜色LCT中删除固定父边
+		// color[x]还没改变，在旧颜色LCT中，删除固定父边
 		cut(pre, x, f);
-		// 此时color[x]还没有改变，在新颜色LCT中把x暴露出来
+		// color[x]即将改变，在新颜色LCT中，把x暴露出来
 		access(cur, x);
 		splay(cur, x);
-		// 两棵LCT完成结构调整，再修改颜色
+		// 修改颜色
 		color[x] = cur;
-		// 修改颜色后，x在旧颜色LCT中的贡献从1变0，新颜色中从0变成1
+		// 修改颜色后，旧颜色LCT中的贡献从1变0，新颜色中从0变成1
 		up(pre, x);
 		up(cur, x);
-		// 新颜色LCT中加入固定父边
+		// 在新颜色LCT中，加入固定父边
 		link(cur, x, f);
 	}
 
