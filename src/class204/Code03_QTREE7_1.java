@@ -214,7 +214,7 @@ public class Code03_QTREE7_1 {
 		return maxv[c][rs[c][top]];
 	}
 
-	public static void reverse(int x) {
+	public static void changeColor(int x) {
 		int pre = color[x];
 		int cur = pre ^ 1;
 		int f = parent[x];
@@ -223,7 +223,7 @@ public class Code03_QTREE7_1 {
 		link(cur, x, f);
 	}
 
-	public static void update(int x, int w) {
+	public static void updateValue(int x, int w) {
 		access(0, x);
 		splay(0, x);
 		access(1, x);
@@ -270,10 +270,10 @@ public class Code03_QTREE7_1 {
 			if (op == 0) {
 				out.println(query(x));
 			} else if (op == 1) {
-				reverse(x);
+				changeColor(x);
 			} else {
 				w = in.nextInt();
-				update(x, w);
+				updateValue(x, w);
 			}
 		}
 		out.flush();

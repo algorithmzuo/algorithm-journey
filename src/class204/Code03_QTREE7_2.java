@@ -160,7 +160,7 @@ package class204;
 //    return maxv[c][rs[c][top]];
 //}
 //
-//void reverse(int x) {
+//void changeColor(int x) {
 //    int pre = color[x];
 //    int cur = pre ^ 1;
 //    int f = parent[x];
@@ -169,7 +169,7 @@ package class204;
 //    link(cur, x, f);
 //}
 //
-//void update(int x, int w) {
+//void updateValue(int x, int w) {
 //    access(0, x);
 //    splay(0, x);
 //    access(1, x);
@@ -215,10 +215,10 @@ package class204;
 //        if (op == 0) {
 //            cout << query(x) << "\n";
 //        } else if (op == 1) {
-//            reverse(x);
+//            changeColor(x);
 //        } else {
 //            cin >> w;
-//            update(x, w);
+//            updateValue(x, w);
 //        }
 //    }
 //    return 0;

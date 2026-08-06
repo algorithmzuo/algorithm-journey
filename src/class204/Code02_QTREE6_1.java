@@ -160,7 +160,7 @@ public class Code02_QTREE6_1 {
 		}
 	}
 
-	public static void reverse(int x) {
+	public static void changeColor(int x) {
 		int pre = color[x];
 		int cur = pre ^ 1;
 		int f = parent[x];
@@ -208,7 +208,7 @@ public class Code02_QTREE6_1 {
 			if (op == 0) {
 				out.println(query(x));
 			} else {
-				reverse(x);
+				changeColor(x);
 			}
 		}
 		out.flush();

@@ -18,13 +18,12 @@ import java.io.PrintWriter;
 public class Code08_Fairyland1 {
 
 	public static int MAXN = 300001;
-	public static int MAXM = 200001;
 	public static int MAXT = 10000001;
 	public static int INF = 1000000001;
 	public static int n, m, q, t;
 
-	public static int[] eu = new int[MAXM];
-	public static int[] ev = new int[MAXM];
+	public static int[] eu = new int[MAXN];
+	public static int[] ev = new int[MAXN];
 
 	public static int[] fa = new int[MAXN];
 	public static int[] ls = new int[MAXN];
@@ -39,7 +38,7 @@ public class Code08_Fairyland1 {
 	public static int[] minv = new int[MAXN];
 
 	// 可持久化线段树，记录每个生成的森林中，每条边是否存在
-	public static int[] root = new int[MAXM];
+	public static int[] root = new int[MAXN];
 	public static int[] tl = new int[MAXT];
 	public static int[] tr = new int[MAXT];
 	public static int[] num = new int[MAXT];
@@ -213,8 +212,7 @@ public class Code08_Fairyland1 {
 	}
 
 	public static void prepare() {
-		minv[0] = val[0] = INF;
-		for (int i = 1; i <= n; i++) {
+		for (int i = 0; i <= n; i++) {
 			val[i] = minv[i] = INF;
 		}
 		for (int i = 1; i <= m; i++) {
@@ -254,7 +252,7 @@ public class Code08_Fairyland1 {
 		for (int i = 1, lastAns = 0, l, r; i <= q; i++) {
 			l = in.nextInt();
 			r = in.nextInt();
-			if (t != 0) {
+			if (t > 0) {
 				l = (l + t * lastAns) % m + 1;
 				r = (r + t * lastAns) % m + 1;
 			}
