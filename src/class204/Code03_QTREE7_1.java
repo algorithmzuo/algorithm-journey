@@ -210,9 +210,8 @@ public class Code03_QTREE7_1 {
 		int top = findroot(c, x);
 		if (color[top] == c) {
 			return maxv[c][top];
-		} else {
-			return maxv[c][rs[c][top]];
 		}
+		return maxv[c][rs[c][top]];
 	}
 
 	public static void reverse(int x) {
@@ -265,7 +264,7 @@ public class Code03_QTREE7_1 {
 		}
 		dfs(1, 0);
 		q = in.nextInt();
-		for (int i = 1, op, x; i <= q; i++) {
+		for (int i = 1, op, x, w; i <= q; i++) {
 			op = in.nextInt();
 			x = in.nextInt();
 			if (op == 0) {
@@ -273,7 +272,7 @@ public class Code03_QTREE7_1 {
 			} else if (op == 1) {
 				reverse(x);
 			} else {
-				int w = in.nextInt();
+				w = in.nextInt();
 				update(x, w);
 			}
 		}

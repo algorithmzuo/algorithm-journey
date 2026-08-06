@@ -33,8 +33,7 @@ package class204;
 //int color[MAXN];
 //int val[MAXN];
 //
-//multiset<int> black[MAXN];
-//multiset<int> white[MAXN];
+//multiset<int> vset[2][MAXN];
 //int maxv[2][MAXN];
 //
 //void addEdge(int u, int v) {
@@ -43,34 +42,11 @@ package class204;
 //    head[u] = cntg;
 //}
 //
-//void insert(int c, int x, int v) {
-//    if (c == 0) {
-//        black[x].insert(v);
-//    } else {
-//        white[x].insert(v);
-//    }
-//}
-//
-//void remove(int c, int x, int v) {
-//    if (c == 0) {
-//        black[x].erase(black[x].find(v));
-//    } else {
-//        white[x].erase(white[x].find(v));
-//    }
-//}
-//
 //int getmax(int c, int x) {
-//    if (c == 0) {
-//        if (black[x].empty()) {
-//            return -INF;
-//        }
-//        return *black[x].rbegin();
-//    } else {
-//        if (white[x].empty()) {
-//            return -INF;
-//        }
-//        return *white[x].rbegin();
+//    if (vset[c][x].empty()) {
+//        return -INF;
 //    }
+//    return *vset[c][x].rbegin();
 //}
 //
 //void up(int c, int x) {
@@ -132,10 +108,10 @@ package class204;
 //    for (int y = 0; x != 0; y = x, x = fa[c][x]) {
 //        splay(c, x);
 //        if (rs[c][x] != 0) {
-//            insert(c, x, maxv[c][rs[c][x]]);
+//            vset[c][x].insert(maxv[c][rs[c][x]]);
 //        }
 //        if (y != 0) {
-//            remove(c, x, maxv[c][y]);
+//            vset[c][x].erase(vset[c][x].find(maxv[c][y]));
 //        }
 //        rs[c][x] = y;
 //        up(c, x);
@@ -160,7 +136,7 @@ package class204;
 //    splay(c, y);
 //    splay(c, x);
 //    fa[c][x] = y;
-//    insert(c, y, maxv[c][x]);
+//    vset[c][y].insert(maxv[c][x]);
 //    up(c, y);
 //}
 //
@@ -180,9 +156,8 @@ package class204;
 //    int top = findroot(c, x);
 //    if (color[top] == c) {
 //        return maxv[c][top];
-//    } else {
-//        return maxv[c][rs[c][top]];
 //    }
+//    return maxv[c][rs[c][top]];
 //}
 //
 //void reverse(int x) {
@@ -236,15 +211,13 @@ package class204;
 //    dfs(1, 0);
 //    cin >> q;
 //    for (int i = 1, op, x, w; i <= q; i++) {
-//        cin >> op;
+//        cin >> op >> x;
 //        if (op == 0) {
-//        	cin >> x;
 //            cout << query(x) << "\n";
 //        } else if (op == 1) {
-//        	cin >> x;
 //            reverse(x);
 //        } else {
-//            cin >> x >> w;
+//            cin >> w;
 //            update(x, w);
 //        }
 //    }
