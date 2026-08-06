@@ -35,7 +35,7 @@ public class Code03_QTREE7_1 {
 
 	public static int[] parent = new int[MAXN];
 	public static int[] color = new int[MAXN];
-	public static int[][] val = new int[2][MAXN];
+	public static int[] val = new int[MAXN];
 
 	// black.get(x)表示黑色LCT中节点x维护的multiset
 	// 保存x每个直接虚儿子的完整子树最大值，以及该最大值的出现次数
@@ -69,7 +69,7 @@ public class Code03_QTREE7_1 {
 		}
 	}
 
-	public static void delete(int c, int x, int v) {
+	public static void remove(int c, int x, int v) {
 		if (c == 0) {
 			int cnt = black.get(x).get(v);
 			if (cnt == 1) {
@@ -102,7 +102,7 @@ public class Code03_QTREE7_1 {
 	}
 
 	public static void up(int c, int x) {
-		maxv[c][x] = Math.max(val[c][x], Math.max(getmax(c, x), Math.max(maxv[c][ls[c][x]], maxv[c][rs[c][x]])));
+		maxv[c][x] = Math.max(val[x], Math.max(getmax(c, x), Math.max(maxv[c][ls[c][x]], maxv[c][rs[c][x]])));
 	}
 
 	public static boolean isroot(int c, int x) {
@@ -165,7 +165,7 @@ public class Code03_QTREE7_1 {
 				insert(c, x, maxv[c][rs[c][x]]);
 			}
 			if (y != 0) {
-				delete(c, x, maxv[c][y]);
+				remove(c, x, maxv[c][y]);
 			}
 			rs[c][x] = y;
 			up(c, x);
@@ -227,11 +227,10 @@ public class Code03_QTREE7_1 {
 	public static void update(int x, int w) {
 		access(0, x);
 		splay(0, x);
-		val[0][x] = w;
-		up(0, x);
 		access(1, x);
 		splay(1, x);
-		val[1][x] = w;
+		val[x] = w;
+		up(0, x);
 		up(1, x);
 	}
 
@@ -262,8 +261,7 @@ public class Code03_QTREE7_1 {
 		maxv[0][0] = maxv[1][0] = -INF;
 		for (int i = 1, w; i <= n; i++) {
 			w = in.nextInt();
-			val[0][i] = val[1][i] = w;
-			maxv[0][i] = maxv[1][i] = w;
+			val[i] = maxv[0][i] = maxv[1][i] = w;
 		}
 		dfs(1, 0);
 		q = in.nextInt();

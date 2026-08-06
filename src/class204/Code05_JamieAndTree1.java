@@ -194,7 +194,7 @@ public class Code05_JamieAndTree1 {
 	// y原来是x的虚儿子，现在变成x的实儿子
 	// 先从x的虚子树信息中删除y
 	// 再把virAdd[x]真正作用到y的整棵原树上
-	public static void deleteVirtual(int x, int y) {
+	public static void removeVirtual(int x, int y) {
 		if (y != 0) {
 			virSize[x] -= treeSize[y];
 			virSum[x] -= treeSum[y];
@@ -211,7 +211,7 @@ public class Code05_JamieAndTree1 {
 			// 原右儿子由实儿子变成虚儿子
 			insertVirtual(x, rs[x]);
 			// 新右儿子由虚儿子变成实儿子
-			deleteVirtual(x, y);
+			removeVirtual(x, y);
 			rs[x] = y;
 			up(x);
 			ans = x;

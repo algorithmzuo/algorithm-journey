@@ -63,7 +63,7 @@ public class Code04_QTREE5_1 {
 		vir.get(x).put(v, vir.get(x).getOrDefault(v, 0) + 1);
 	}
 
-	public static void delete(int x, int v) {
+	public static void remove(int x, int v) {
 		int cnt = vir.get(x).get(v);
 		if (cnt == 1) {
 			vir.get(x).remove(v);
@@ -150,7 +150,7 @@ public class Code04_QTREE5_1 {
 				insert(x, lm[rs[x]] + 1);
 			}
 			if (y != 0) {
-				delete(x, lm[y] + 1);
+				remove(x, lm[y] + 1);
 			}
 			rs[x] = y;
 			up(x);
