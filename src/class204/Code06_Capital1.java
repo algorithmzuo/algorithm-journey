@@ -169,10 +169,10 @@ public class Code06_Capital1 {
 		}
 	}
 
-	// 调用前，已经把两个旧重心之间的路径split出来
-	// x是这棵辅助splay的根，同时也是路径的右端点
-	// 新树的重心一定在这条路径上，在辅助splay中向较重的一侧搜索
-	public static int updateCenter(int x) {
+	// 两个旧重心的路径已经split出来
+	// x是辅助splay的根，也是实链最下方的节点
+	// 新重心在这条路径上，在辅助splay中，向较重的一侧搜索
+	public static int findCenter(int x) {
 		// 总节点数为奇数时只有一个重心
 		// 总节点数为偶数时可能有两个重心，需要选择编号较小的
 		int odd = sum[x] & 1;
@@ -183,7 +183,7 @@ public class Code06_Capital1 {
 		int rightOutside = 0;
 		int ans = INF;
 		while (x != 0) {
-			// 搜索过程中会根据左右儿子移动，必须及时下传翻转标记
+			// 搜索过程中，需要根据左右儿子移动，必须先处理翻转标记
 			down(x);
 			int l = ls[x];
 			int r = rs[x];
@@ -213,21 +213,20 @@ public class Code06_Capital1 {
 				x = l;
 			}
 		}
-		// 将找到的重心旋到辅助splay根，保证搜索过程的均摊复杂度
+		// 找到了新重心，旋转上去，保证平衡性
 		splay(ans);
 		return ans;
 	}
 
-	public static void buildRoad(int x, int y) {
+	public static void road(int x, int y) {
 		int fx = find(x);
 		int fy = find(y);
 		link(x, y);
-		// 新重心一定在两个旧重心之间的路径上
-		// 原来异或和中有两个旧重心
-		// 合并后删除两个旧重心，加入一个新重心
-		// 合并集合，新重心作为代表
+		// 新重心一定在两个旧重心的路径上
+		// 合并两个集合，新重心作为代表节点
+		// 异或和去掉两个旧重心，加入新重心
 		split(fx, fy);
-		int cur = updateCenter(fy);
+		int cur = findCenter(fy);
 		center[cur] = center[fx] = center[fy] = cur;
 		xorsum ^= fx ^ fy ^ cur;
 	}
@@ -249,7 +248,7 @@ public class Code06_Capital1 {
 			if (op.equals("A")) {
 				x = in.nextInt();
 				y = in.nextInt();
-				buildRoad(x, y);
+				road(x, y);
 			} else if (op.equals("Q")) {
 				x = in.nextInt();
 				out.println(find(x));
