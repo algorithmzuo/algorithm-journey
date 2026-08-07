@@ -29,8 +29,8 @@ public class Code01_GreatIntegration1 {
 	// vir[x]表示x所有虚儿子的子树大小总和
 	public static int[] vir = new int[MAXN];
 
-	// sum[x]表示以x为根的辅助splay汇总的节点总数
-	// 除了左右儿子的贡献，还包括x自己的所有虚子树贡献
+	// sum[x]表示以x为根的辅助splay中，汇总的节点总数
+	// 包括左右儿子的贡献，还包括x自己的所有虚子树贡献
 	public static int[] sum = new int[MAXN];
 
 	public static void up(int x) {
@@ -148,11 +148,7 @@ public class Code01_GreatIntegration1 {
 		splay(y);
 	}
 
-	// 将x作为所在原树的根
-	// 只有x和y不连通时才能连接，避免产生环
-	// findroot(y)结束后，y不一定是辅助splay的根
-	// 将y重新暴露并旋到辅助splay的根，方便修改y的信息
-	// 连接后，x整棵原树首先作为y的一棵虚子树
+	// 连接x和y，x和y成为各自树的头，然后x作为y的虚儿子
 	public static void link(int x, int y) {
 		makeroot(x);
 		if (findroot(y) != x) {
@@ -164,7 +160,7 @@ public class Code01_GreatIntegration1 {
 		}
 	}
 
-	// cut方法和lct模版代码完全一样，但是要注意
+	// cut方法和lct模版代码完全一样，但是注意
 	// 判断x和y之间是否存在直接边，如果判定成立
 	// 此时x和y之间的边已经是实边，所以删除该边不需要修改vir
 	public static void cut(int x, int y) {
@@ -176,8 +172,8 @@ public class Code01_GreatIntegration1 {
 	}
 
 	// 临时删除询问边
-	// 将两个端点分别作为各自原树的根，此时sum就是完整连通块大小
-	// 恢复询问边
+	// 将两个端点分别作为各自原树的根，得到各自连通块的大小
+	// 然后恢复询问边
 	public static long query(int x, int y) {
 		cut(x, y);
 		makeroot(x);
