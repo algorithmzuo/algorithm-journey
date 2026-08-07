@@ -2,10 +2,10 @@ package class204;
 
 // 杰米与树，java版
 // 一共n个节点、n-1条边，所有节点组成一棵树，点有点权，初始的根为1号节点
-// 接下来有q条操作，操作类型有三种，具体格式如下
+// 接下来有q条操作，操作类型如下
 // 操作 1 x     : 整棵树的根修改为x
 // 操作 2 x y v : 当前根的情况下，lca(x, y)的子树中所有点权增加v
-// 操作 3 x     : 当前根的情况下，打印x的子树点权和
+// 操作 3 x     : 当前根的情况下，打印x的子树点权累加和
 // 1 <= n、q <= 10^5
 // 测试链接 : https://www.luogu.com.cn/problem/CF916E
 // 测试链接 : https://codeforces.com/problemset/problem/916/E
@@ -30,45 +30,47 @@ public class Code05_JamieAndTree1 {
 	// val[x]表示节点x当前的点权，已经包含作用到x自身的所有增量
 	public static long[] val = new long[MAXN];
 
-	// treeSize[x]表示以x为根的辅助Splay所汇总的完整原树节点数
-	// 包括辅助Splay中的所有节点，以及这些节点挂着的所有虚子树
-	public static int[] treeSize = new int[MAXN];
-
-	// virSize[x]表示x的所有直接虚儿子对应的完整原树子树大小总和
-	public static int[] virSize = new int[MAXN];
-
-	// allVirSize[x]表示以x为根的辅助Splay中
-	// 每个节点的virSize之和，也就是该辅助Splay挂着的所有虚子树大小总和
-	public static int[] allVirSize = new int[MAXN];
-
-	// splaySize[x]表示以x为根的辅助Splay节点数
-	// 只统计辅助Splay中的实链节点，不统计这些节点挂着的虚子树
+	// splaySize[x]表示以x为根的辅助splay中，汇总实链的节点总量
+	// 只算实链的节点，不统计这些节点下方的虚子树
 	public static int[] splaySize = new int[MAXN];
 
-	// treeSum[x]表示以x为根的辅助Splay所汇总的完整点权和
-	// 包括辅助Splay中所有节点自身的点权，以及这些节点挂着的所有虚子树点权和
+	// treeSize[x]表示以x为根的辅助splay中，汇总原树的节点总量
+	// 包括辅助splay中，实链所有节点，以及这些节点下方的所有虚子树
+	public static int[] treeSize = new int[MAXN];
+
+	// treeSum[x]表示以x为根的辅助splay中，汇总原树的节点点权累加和
+	// 包括辅助splay中，实链所有节点点权，以及这些节点下方的所有虚子树点权
 	public static long[] treeSum = new long[MAXN];
 
-	// virSum[x]表示x的所有直接虚儿子对应的完整原树子树权值和
-	// 只算基础贡献，不包含virAdd[x]对这些虚子树产生的统一增量
+	// virSize[x]表示x的所有直接虚儿子所代表的完整原树子树，节点总量
+	public static int[] virSize = new int[MAXN];
+
+	// virSum[x]表示x的所有直接虚儿子所代表的完整原树子树，基础点权累加和
+	// 不包含virAdd[x]统一作用在这些虚子树上的增量
+	// x的所有虚子树当前真实点权和 = virSum[x] + virSize[x] * virAdd[x]
 	public static long[] virSum = new long[MAXN];
 
-	// virAdd[x]表示x当前所有直接虚子树已经累计的统一增量
-	// 这是节点x自身维护的持久状态，即使virTag[x]下传后也不能清零
+	// allVirSize[x]表示以x为根的辅助splay中，每个节点的virSize之和
+	// 也就是，不统计辅助splay中的实链节点本身，只统计它们挂着的全部虚子树节点总量
+	// 也就是，allVirSize[x] = treeSize[x] - splaySize[x]
+	// 单独用一个数组维护而已，其实可以通过treeSize和splaySize加工得到
+	public static int[] allVirSize = new int[MAXN];
+
+	// virAdd[x]表示x的所有直接虚子树已经累计获得的统一增量
+	// 这是节点x维护的持久状态，即使virTag[x]下传后也不能清零
 	public static long[] virAdd = new long[MAXN];
 
-	// virTag[x]表示以x为根的辅助Splay中
-	// 尚未向左右儿子下传的虚子树统一增量标记，不是x自身虚子树已经累计的增量
+	// virTag[x]表示作用于以x为根的辅助splay中，所有节点虚子树的统一增量
+	// 该增量已经统计进x的信息，但还没有向x的左右辅助splay儿子下传
 	public static long[] virTag = new long[MAXN];
 
-	// splayTag[x]表示以x为根的辅助Splay中
-	// 尚未向左右儿子下传的实链节点的点权增量标记
-	// val[x]已经得到该增量，左右儿子等待通过down继续获得
+	// splayTag[x]表示作用于以x为根的辅助splay中，所有实链节点自身点权的统一增量
+	// 该增量已经统计进x的信息，但还没有向x的左右辅助splay儿子下传
 	public static long[] splayTag = new long[MAXN];
 
 	public static void up(int x) {
-		treeSize[x] = treeSize[ls[x]] + treeSize[rs[x]] + virSize[x] + 1;
 		splaySize[x] = splaySize[ls[x]] + splaySize[rs[x]] + 1;
+		treeSize[x] = treeSize[ls[x]] + treeSize[rs[x]] + virSize[x] + 1;
 		allVirSize[x] = allVirSize[ls[x]] + allVirSize[rs[x]] + virSize[x];
 		treeSum[x] = treeSum[ls[x]] + treeSum[rs[x]] + val[x] + virSum[x] + virSize[x] * virAdd[x];
 	}
@@ -90,8 +92,7 @@ public class Code05_JamieAndTree1 {
 		}
 	}
 
-	// 给辅助splay中的所有节点自身增加v
-	// 不修改这些节点挂着的虚子树
+	// 给辅助splay中的所有节点自身增加v，不修改这些节点的虚子树
 	public static void addSplay(int x, long v) {
 		if (x != 0) {
 			splayTag[x] += v;
@@ -100,8 +101,7 @@ public class Code05_JamieAndTree1 {
 		}
 	}
 
-	// 给辅助splay中所有节点挂着的虚子树增加v
-	// 不修改辅助splay节点自身
+	// 给辅助splay中所有节点的虚子树增加v，不修改辅助splay节点自身
 	public static void addVirtual(int x, long v) {
 		if (x != 0) {
 			virAdd[x] += v;
@@ -179,27 +179,23 @@ public class Code05_JamieAndTree1 {
 		up(x);
 	}
 
-	// y原来是x的实儿子，现在变成x的虚儿子
-	// y处于实链期间已经受到过virAdd[x]的影响
-	// 加入virSum[x]之前，先删除这部分影响，使其恢复为基础贡献
-	public static void insertVirtual(int x, int y) {
-		if (y != 0) {
-			addSplay(y, -virAdd[x]);
-			addVirtual(y, -virAdd[x]);
-			virSize[x] += treeSize[y];
-			virSum[x] += treeSum[y];
+	// 原来f的实儿子是x，现在x变成虚儿子
+	public static void insertVirtual(int f, int x) {
+		if (x != 0) {
+			addSplay(x, -virAdd[f]);
+			addVirtual(x, -virAdd[f]);
+			virSize[f] += treeSize[x];
+			virSum[f] += treeSum[x];
 		}
 	}
 
-	// y原来是x的虚儿子，现在变成x的实儿子
-	// 先从x的虚子树信息中删除y
-	// 再把virAdd[x]真正作用到y的整棵原树上
-	public static void removeVirtual(int x, int y) {
-		if (y != 0) {
-			virSize[x] -= treeSize[y];
-			virSum[x] -= treeSum[y];
-			addSplay(y, virAdd[x]);
-			addVirtual(y, virAdd[x]);
+	// 原来f的虚儿子是x，现在x变成实儿子
+	public static void removeVirtual(int f, int x) {
+		if (x != 0) {
+			virSize[f] -= treeSize[x];
+			virSum[f] -= treeSum[x];
+			addSplay(x, virAdd[f]);
+			addVirtual(x, virAdd[f]);
 		}
 	}
 
@@ -254,23 +250,24 @@ public class Code05_JamieAndTree1 {
 		}
 	}
 
-	public static void addLcaTree(int x, int y, long v) {
-		// 先将当前根设为原树根，连续两次access求lca
+	public static void addLcaTree(int x, int y, int v) {
+		// 先将当前根设为原树根
 		makeroot(root);
+		// 连续两次access求lca
 		access(x);
 		int xylca = access(y);
 		split(root, xylca);
-		// 此时ls[x]是root到x的祖先链，rs[x]为空
-		// x的所有后代都在x的虚子树中
+		// 此时root到lca的祖先链都在ls[lca]上，rs[lca]为空
+		// lca子树的所有节点都在lca的虚子树上
 		virAdd[xylca] += v;
 		val[xylca] += v;
 		treeSum[xylca] += (virSize[xylca] + 1L) * v;
 	}
 
 	public static long query(int x) {
-		// ls[x]是祖先链，不能计入答案
-		// 答案只包括x自身以及x的所有虚子树
 		split(root, x);
+		// ls[x]是祖先链，不计入答案
+		// 答案包括x自身，以及x的所有虚子树，还有增量
 		return val[x] + virSum[x] + virSize[x] * virAdd[x];
 	}
 
@@ -281,27 +278,27 @@ public class Code05_JamieAndTree1 {
 		q = in.nextInt();
 		root = 1;
 		for (int i = 1; i <= n; i++) {
-			val[i] = in.nextLong();
-			treeSize[i] = 1;
+			val[i] = in.nextInt();
 			splaySize[i] = 1;
+			treeSize[i] = 1;
 			treeSum[i] = val[i];
 		}
-		for (int i = 1; i < n; i++) {
-			int x = in.nextInt();
-			int y = in.nextInt();
+		for (int i = 1, x, y; i < n; i++) {
+			x = in.nextInt();
+			y = in.nextInt();
 			link(x, y);
 		}
-		for (int i = 1; i <= q; i++) {
-			int op = in.nextInt();
+		for (int i = 1, op, x, y, v; i <= q; i++) {
+			op = in.nextInt();
 			if (op == 1) {
 				root = in.nextInt();
 			} else if (op == 2) {
-				int x = in.nextInt();
-				int y = in.nextInt();
-				long v = in.nextLong();
+				x = in.nextInt();
+				y = in.nextInt();
+				v = in.nextInt();
 				addLcaTree(x, y, v);
 			} else {
-				int x = in.nextInt();
+				x = in.nextInt();
 				out.println(query(x));
 			}
 		}
@@ -332,22 +329,16 @@ public class Code05_JamieAndTree1 {
 		}
 
 		int nextInt() throws IOException {
-			return (int) nextLong();
-		}
-
-		long nextLong() throws IOException {
 			int c;
 			do {
 				c = readByte();
 			} while (c <= ' ' && c != -1);
-
 			boolean neg = false;
 			if (c == '-') {
 				neg = true;
 				c = readByte();
 			}
-
-			long val = 0;
+			int val = 0;
 			while (c > ' ' && c != -1) {
 				val = val * 10 + c - '0';
 				c = readByte();

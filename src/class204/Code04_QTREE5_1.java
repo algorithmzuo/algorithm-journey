@@ -241,13 +241,17 @@ public class Code04_QTREE5_1 {
 			do {
 				c = readByte();
 			} while (c <= ' ' && c != -1);
-
+			boolean neg = false;
+			if (c == '-') {
+				neg = true;
+				c = readByte();
+			}
 			int val = 0;
 			while (c > ' ' && c != -1) {
 				val = val * 10 + c - '0';
 				c = readByte();
 			}
-			return val;
+			return neg ? -val : val;
 		}
 
 	}
