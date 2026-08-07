@@ -26,22 +26,26 @@ public class Code02_QTREE6_1 {
 	public static int cntg;
 
 	// 分别维护黑色和白色两棵LCT，第一维表示颜色
+	// 固定父边(x, parent[x])属于color[x]对应的LCT
 	public static int[][] fa = new int[2][MAXN];
 	public static int[][] ls = new int[2][MAXN];
 	public static int[][] rs = new int[2][MAXN];
 
-	// 原树固定以1为根，颜色翻转只需要处理节点和固定父亲之间的边
-	// 防止菊花图使得复杂度爆炸
+	// 原树固定以1为根，每条父边(x, parent[x])按照儿子x的颜色归属某棵LCT
+	// 节点x翻色时只需移动它和固定父亲之间的边，不需要遍历所有儿子
+	// 从而避免菊花图中单次修改退化为O(n)
 	public static int[] parent = new int[MAXN];
 
-	// 点的颜色，黑色是0，白色是1
+	// 节点颜色，黑色为0，白色为1
 	public static int[] color = new int[MAXN];
 
-	// vir[c][x]表示颜色c的LCT中，x所有直接虚儿子的完整子树中，有效节点总量
+	// vir[c][x]表示颜色c的LCT中，x的所有直接虚儿子所代表的完整子树里
+	// 颜色为c的节点总量
 	public static int[][] vir = new int[2][MAXN];
 
-	// sum[c][x]表示颜色c的LCT中，以x为根的辅助Splay汇总的有效节点总量
-	// 包括左右儿子、所有虚子树以及x自身的贡献
+	// sum[c][x]表示颜色c的LCT中，以x为根的辅助Splay及其挂载虚子树中
+	// 颜色为c的节点总量
+	// 包括左右儿子的sum、x的虚子树贡献，以及x自身是否为颜色c的贡献
 	public static int[][] sum = new int[2][MAXN];
 
 	public static void addEdge(int u, int v) {
