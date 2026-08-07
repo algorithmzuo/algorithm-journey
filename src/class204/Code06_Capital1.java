@@ -29,13 +29,13 @@ public class Code06_Capital1 {
 	public static boolean[] rev = new boolean[MAXN];
 	public static int[] sta = new int[MAXN];
 
-	public static int[] vir = new int[MAXN];
-	public static int[] sum = new int[MAXN];
-
 	// center[]表示并查集，每个连通块是集合，代表节点就是该连通块的重心
 	public static int[] center = new int[MAXN];
 
-	public static int xor;
+	public static int[] vir = new int[MAXN];
+	public static int[] sum = new int[MAXN];
+
+	public static int xorsum;
 
 	// 查询x所在连通块当前的重心
 	public static int find(int x) {
@@ -225,11 +225,11 @@ public class Code06_Capital1 {
 		// 新重心一定在两个旧重心之间的路径上
 		// 原来异或和中有两个旧重心
 		// 合并后删除两个旧重心，加入一个新重心
-		// 合并并查集，并把新重心作为新连通块的代表
+		// 合并集合，新重心作为代表
 		split(fx, fy);
 		int cur = updateCenter(fy);
 		center[cur] = center[fx] = center[fy] = cur;
-		xor ^= fx ^ fy ^ cur;
+		xorsum ^= fx ^ fy ^ cur;
 	}
 
 	public static void main(String[] args) throws Exception {
@@ -240,19 +240,21 @@ public class Code06_Capital1 {
 		for (int i = 1; i <= n; i++) {
 			sum[i] = 1;
 			center[i] = i;
-			xor ^= i;
+			xorsum ^= i;
 		}
+		String op;
+		int x, y;
 		for (int i = 1; i <= m; i++) {
-			String op = in.nextString();
+			op = in.nextString();
 			if (op.equals("A")) {
-				int x = in.nextInt();
-				int y = in.nextInt();
+				x = in.nextInt();
+				y = in.nextInt();
 				buildRoad(x, y);
 			} else if (op.equals("Q")) {
-				int x = in.nextInt();
+				x = in.nextInt();
 				out.println(find(x));
 			} else {
-				out.println(xor);
+				out.println(xorsum);
 			}
 		}
 		out.flush();
