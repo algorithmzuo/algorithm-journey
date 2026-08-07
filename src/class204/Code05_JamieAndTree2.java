@@ -28,17 +28,16 @@ package class204;
 //int sta[MAXN];
 //
 //ll val[MAXN];
+//
 //int splaySize[MAXN];
-//
 //int treeSize[MAXN];
-//ll treeSum[MAXN];
-//
 //int virSize[MAXN];
-//ll virSum[MAXN];
-//
 //int allVirSize[MAXN];
 //
+//ll treeSum[MAXN];
+//ll virSum[MAXN];
 //ll virAdd[MAXN];
+//
 //ll virTag[MAXN];
 //ll splayTag[MAXN];
 //

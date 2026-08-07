@@ -38,23 +38,23 @@ public class Code05_JamieAndTree1 {
 	// 包括辅助splay中，实链所有节点，以及这些节点下方的所有虚子树
 	public static int[] treeSize = new int[MAXN];
 
-	// treeSum[x]表示以x为根的辅助splay中，汇总原树的节点点权累加和
-	// 包括辅助splay中，实链所有节点点权，以及这些节点下方的所有虚子树点权
-	public static long[] treeSum = new long[MAXN];
-
 	// virSize[x]表示x的所有直接虚儿子所代表的完整原树子树，节点总量
 	public static int[] virSize = new int[MAXN];
-
-	// virSum[x]表示x的所有直接虚儿子所代表的完整原树子树，基础点权累加和
-	// 不包含virAdd[x]统一作用在这些虚子树上的增量
-	// x的所有虚子树当前真实点权和 = virSum[x] + virSize[x] * virAdd[x]
-	public static long[] virSum = new long[MAXN];
 
 	// allVirSize[x]表示以x为根的辅助splay中，每个节点的virSize之和
 	// 也就是，不统计辅助splay中的实链节点本身，只统计它们挂着的全部虚子树节点总量
 	// 也就是，allVirSize[x] = treeSize[x] - splaySize[x]
 	// 单独用一个数组维护而已，其实可以通过treeSize和splaySize加工得到
 	public static int[] allVirSize = new int[MAXN];
+
+	// treeSum[x]表示以x为根的辅助splay中，汇总原树的节点点权累加和
+	// 包括辅助splay中，实链所有节点点权，以及这些节点下方的所有虚子树点权
+	public static long[] treeSum = new long[MAXN];
+
+	// virSum[x]表示x的所有直接虚儿子所代表的完整原树子树，基础点权累加和
+	// 不包含virAdd[x]统一作用在这些虚子树上的增量
+	// x的所有虚子树当前真实点权和 = virSum[x] + virSize[x] * virAdd[x]
+	public static long[] virSum = new long[MAXN];
 
 	// virAdd[x]表示x的所有直接虚子树已经累计获得的统一增量
 	// 这是节点x维护的持久状态，即使virTag[x]下传后也不能清零
