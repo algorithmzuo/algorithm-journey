@@ -20,7 +20,6 @@ import java.io.PrintWriter;
 public class Code06_Capital1 {
 
 	public static int MAXN = 100001;
-	public static int INF = 1000000001;
 	public static int n, m;
 
 	public static int[] fa = new int[MAXN];
@@ -172,45 +171,31 @@ public class Code06_Capital1 {
 	// 两个旧重心的路径已经split出来
 	// x是辅助splay的根，也是实链最下方的节点
 	// 新重心在这条路径上，在辅助splay中，向较重的一侧搜索
-	public static int findCenter(int x) {
-		// 总节点数为奇数时只有一个重心
-		// 总节点数为偶数时可能有两个重心，需要选择编号较小的
-		int odd = sum[x] & 1;
+	public static int getCenter(int x) {
 		int half = sum[x] >> 1;
-		// leftOutside表示当前搜索区间左侧、已经被排除部分的节点数
-		// rightOutside表示当前搜索区间右侧、已经被排除部分的节点数
-		int leftOutside = 0;
-		int rightOutside = 0;
-		int ans = INF;
+		int lout = 0;
+		int rout = 0;
+		int ans = n + 1;
 		while (x != 0) {
-			// 搜索过程中，需要根据左右儿子移动，必须先处理翻转标记
+			// 搜索过程向左或者向右移动，所以先要处理翻转标记
 			down(x);
-			int l = ls[x];
-			int r = rs[x];
-			// 删除候选节点x后，路径左侧和右侧两个连通部分的大小
-			int leftSize = sum[l] + leftOutside;
-			int rightSize = sum[r] + rightOutside;
-			// 两侧大小都不超过总大小的一半，x就是重心
-			if (leftSize <= half && rightSize <= half) {
-				if (odd == 1) {
-					// 总大小为奇数，重心唯一，可以直接结束
-					ans = x;
-					break;
-				} else if (x < ans) {
-					// 总大小为偶数时可能存在两个重心，选择编号较小的
-					ans = x;
-				}
+			int lsiz = sum[ls[x]] + lout;
+			int rsiz = sum[rs[x]] + rout;
+			// 两侧大小都不超过总大小的一半，那么x就是重心
+			// 偶数大小的树可能有两个重心，所以取编号更小的
+			if (lsiz <= half && rsiz <= half) {
+				ans = Math.min(ans, x);
 			}
-			if (leftSize < rightSize) {
-				// 右侧更大，重心只能继续向右寻找
-				// 左儿子、x自身和x的虚子树都进入搜索区间左侧
-				leftOutside += sum[l] + vir[x] + 1;
-				x = r;
+			if (lsiz < rsiz) {
+				// 右侧更大，向右寻找重心
+				// 左儿子、x自身、x的虚子树都进入左侧
+				lout += sum[ls[x]] + vir[x] + 1;
+				x = rs[x];
 			} else {
-				// 左侧更大或两侧相等，继续向左寻找
-				// 右儿子、x自身和x的虚子树都进入搜索区间右侧
-				rightOutside += sum[r] + vir[x] + 1;
-				x = l;
+				// 左侧更大，向左寻找重心
+				// 右儿子、x自身、x的虚子树都进入右侧
+				rout += sum[rs[x]] + vir[x] + 1;
+				x = ls[x];
 			}
 		}
 		// 找到了新重心，旋转上去，保证平衡性
@@ -226,7 +211,7 @@ public class Code06_Capital1 {
 		// 合并两个集合，新重心作为代表节点
 		// 异或和去掉两个旧重心，加入新重心
 		split(fx, fy);
-		int cur = findCenter(fy);
+		int cur = getCenter(fy);
 		center[cur] = center[fx] = center[fy] = cur;
 		xorsum ^= fx ^ fy ^ cur;
 	}
