@@ -13,7 +13,7 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
-public class Code07_NewBarns1 {
+public class Code06_NewBarns1 {
 
 	public static int MAXN = 100001;
 	public static int q, cntn;

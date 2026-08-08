@@ -12,7 +12,7 @@ package class204;
 // 测试链接 : https://www.luogu.com.cn/problem/P5489
 // 提交以下的code，提交时请把类名改成"Main"
 // 本题卡常数时间，java的实现无法通过
-// 想通过用C++实现，本节课Code09_DynamicGraph2文件就是C++的实现
+// 想通过用C++实现，本节课Code08_DynamicGraph2文件就是C++的实现
 // 两个版本的逻辑完全一样，C++版本可以通过所有测试
 
 import java.io.IOException;
@@ -20,7 +20,7 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
-public class Code09_DynamicGraph1 {
+public class Code08_DynamicGraph1 {
 
 	public static int MAXN = 100001;
 	public static int MAXV = 400001;

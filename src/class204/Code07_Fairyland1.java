@@ -15,7 +15,7 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
-public class Code08_Fairyland1 {
+public class Code07_Fairyland1 {
 
 	public static int MAXN = 300001;
 	public static int MAXT = 10000001;
