@@ -185,7 +185,6 @@ public class Code04_QTREE5_1 {
 				insert(u, lm[v] + 1);
 			}
 		}
-		up(u);
 	}
 
 	public static void main(String[] args) throws Exception {
