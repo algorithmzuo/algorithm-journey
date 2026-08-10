@@ -60,9 +60,7 @@ package class204;
 //
 //void reverse(int c, int x) {
 //    if (x != 0) {
-//        int tmp = ls[c][x];
-//        ls[c][x] = rs[c][x];
-//        rs[c][x] = tmp;
+//        swap(ls[c][x], rs[c][x]);
 //        rev[c][x] = !rev[c][x];
 //    }
 //}

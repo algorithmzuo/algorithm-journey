@@ -163,45 +163,46 @@ public class Code06_NewBarns1 {
 		}
 	}
 
+	// 节点数量-1就是边的数量
 	public static int getDist(int x, int y) {
 		split(x, y);
 		return siz[y] - 1;
 	}
 
 	public static void build(int p) {
+		// 初始时，新节点是独立的连通块
 		int x = ++cntn;
-		// 新节点最初是一个独立连通块
 		siz[x] = 1;
 		father[x] = x;
 		lnode[x] = x;
 		rnode[x] = x;
 		diameter[x] = 0;
 		if (p != -1) {
+			// 得到原连通块的直径端点和直径长度
 			int root = find(p);
-			// 保存原连通块的直径端点
 			int a = lnode[root];
 			int b = rnode[root];
 			int best = diameter[root];
-			int ansLeft = a;
-			int ansRight = b;
+			int bestl = a;
+			int bestr = b;
 			link(x, p);
-			// 新节点是叶子，新直径只可能是旧直径
-			// 或者新节点x与旧直径某个端点组成的路径
+			// 新的直径可能就是老的直径
+			// 或者新节点x与旧直径的某个端点组成的路径
 			int dista = getDist(x, a);
-			int distb = getDist(x, b);
 			if (dista > best) {
 				best = dista;
-				ansLeft = x;
-				ansRight = a;
+				bestl = x;
+				bestr = a;
 			}
+			int distb = getDist(x, b);
 			if (distb > best) {
 				best = distb;
-				ansLeft = x;
-				ansRight = b;
+				bestl = x;
+				bestr = b;
 			}
 			father[x] = root;
-			lnode[root] = ansLeft;
-			rnode[root] = ansRight;
+			lnode[root] = bestl;
+			rnode[root] = bestr;
 			diameter[root] = best;
 		}
 	}
