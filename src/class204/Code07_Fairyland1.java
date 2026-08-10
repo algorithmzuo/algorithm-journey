@@ -34,7 +34,7 @@ public class Code07_Fairyland1 {
 	// 原图的点，点权为INF，原图第i号边，变成LCT的第n+i号点，点权为i
 	public static int[] val = new int[MAXN];
 
-	// minv[x]表示以x为根的辅助Splay汇总的最小点权
+	// minv[x]表示以x为根的辅助splay，汇总最小点权
 	public static int[] minv = new int[MAXN];
 
 	// 可持久化线段树，记录每个生成的森林中，每条边是否存在
