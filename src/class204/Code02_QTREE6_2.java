@@ -113,22 +113,22 @@ package class204;
 //    return x;
 //}
 //
-//void link(int c, int x, int y) {
-//    if (y == 0) {
+//void link(int c, int x, int f) {
+//    if (f == 0) {
 //        return;
 //    }
-//    access(c, y);
-//    splay(c, y);
+//    access(c, f);
+//    splay(c, f);
 //    splay(c, x);
-//    fa[c][x] = y;
-//    vir[c][y] += sum[c][x];
-//    up(c, y);
+//    fa[c][x] = f;
+//    vir[c][f] += sum[c][x];
+//    up(c, f);
 //}
 //
-//void cut(int c, int x, int y) {
+//void cut(int c, int x, int f) {
 //    access(c, x);
 //    splay(c, x);
-//    if (y != 0) {
+//    if (f != 0) {
 //        int left = ls[c][x];
 //        fa[c][left] = 0;
 //        ls[c][x] = 0;
@@ -151,11 +151,7 @@ package class204;
 //    int cur = pre ^ 1;
 //    int f = parent[x];
 //    cut(pre, x, f);
-//    access(cur, x);
-//    splay(cur, x);
 //    color[x] = cur;
-//    up(pre, x);
-//    up(cur, x);
 //    link(cur, x, f);
 //}
 //

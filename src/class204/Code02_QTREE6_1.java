@@ -129,24 +129,24 @@ public class Code02_QTREE6_1 {
 		return x;
 	}
 
-	// 连接固定父边(x, y)，x是子，y是父，连接后x作为y的虚儿子
-	public static void link(int c, int x, int y) {
-		if (y == 0) {
+	// 连接固定父边(x, f)，x是子，f是父，连接后x作为f的虚儿子
+	public static void link(int c, int x, int f) {
+		if (f == 0) {
 			return;
 		}
-		access(c, y);
-		splay(c, y);
+		access(c, f);
+		splay(c, f);
 		splay(c, x);
-		fa[c][x] = y;
-		vir[c][y] += sum[c][x];
-		up(c, y);
+		fa[c][x] = f;
+		vir[c][f] += sum[c][x];
+		up(c, f);
 	}
 
-	// 删除固定父边(x, y)，x是子，y是父
-	public static void cut(int c, int x, int y) {
+	// 删除固定父边(x, f)，x是子，f是父
+	public static void cut(int c, int x, int f) {
 		access(c, x);
 		splay(c, x);
-		if (y != 0) {
+		if (f != 0) {
 			int left = ls[c][x];
 			fa[c][left] = 0;
 			ls[c][x] = 0;
@@ -168,17 +168,8 @@ public class Code02_QTREE6_1 {
 		int pre = color[x];
 		int cur = pre ^ 1;
 		int f = parent[x];
-		// color[x]还没改变，在旧颜色LCT中，删除固定父边
 		cut(pre, x, f);
-		// color[x]即将改变，在新颜色LCT中，把x暴露出来
-		access(cur, x);
-		splay(cur, x);
-		// 修改颜色
 		color[x] = cur;
-		// 修改颜色后，旧颜色LCT中的贡献从1变0，新颜色中从0变成1
-		up(pre, x);
-		up(cur, x);
-		// 在新颜色LCT中，加入固定父边
 		link(cur, x, f);
 	}
 

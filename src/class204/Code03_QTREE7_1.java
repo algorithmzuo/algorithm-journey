@@ -182,22 +182,22 @@ public class Code03_QTREE7_1 {
 		return x;
 	}
 
-	public static void link(int c, int x, int y) {
-		if (y == 0) {
+	public static void link(int c, int x, int f) {
+		if (f == 0) {
 			return;
 		}
-		access(c, y);
-		splay(c, y);
+		access(c, f);
+		splay(c, f);
 		splay(c, x);
-		fa[c][x] = y;
-		insert(c, y, maxv[c][x]);
-		up(c, y);
+		fa[c][x] = f;
+		insert(c, f, maxv[c][x]);
+		up(c, f);
 	}
 
-	public static void cut(int c, int x, int y) {
+	public static void cut(int c, int x, int f) {
 		access(c, x);
 		splay(c, x);
-		if (y != 0) {
+		if (f != 0) {
 			int left = ls[c][x];
 			fa[c][left] = 0;
 			ls[c][x] = 0;

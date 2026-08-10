@@ -128,22 +128,22 @@ package class204;
 //    return x;
 //}
 //
-//void link(int c, int x, int y) {
-//    if (y == 0) {
+//void link(int c, int x, int f) {
+//    if (f == 0) {
 //        return;
 //    }
-//    access(c, y);
-//    splay(c, y);
+//    access(c, f);
+//    splay(c, f);
 //    splay(c, x);
-//    fa[c][x] = y;
-//    vset[c][y].insert(maxv[c][x]);
-//    up(c, y);
+//    fa[c][x] = f;
+//    vset[c][f].insert(maxv[c][x]);
+//    up(c, f);
 //}
 //
-//void cut(int c, int x, int y) {
+//void cut(int c, int x, int f) {
 //    access(c, x);
 //    splay(c, x);
-//    if (y != 0) {
+//    if (f != 0) {
 //        int left = ls[c][x];
 //        fa[c][left] = 0;
 //        ls[c][x] = 0;
