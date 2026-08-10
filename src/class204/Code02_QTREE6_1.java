@@ -43,7 +43,7 @@ public class Code02_QTREE6_1 {
 	// 颜色为c的节点总量
 	public static int[][] vir = new int[2][MAXN];
 
-	// sum[c][x]表示颜色c的LCT中，以x为根的辅助Splay及其挂载虚子树中
+	// sum[c][x]表示颜色c的LCT中，以x为根的辅助splay及其挂载虚子树中
 	// 颜色为c的节点总量
 	// 包括左右儿子的sum、x的虚子树贡献，以及x自身是否为颜色c的贡献
 	public static int[][] sum = new int[2][MAXN];

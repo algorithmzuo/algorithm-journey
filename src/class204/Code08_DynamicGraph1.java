@@ -39,7 +39,7 @@ public class Code08_DynamicGraph1 {
 	public static int[][] val = new int[2][MAXV];
 	public static int[][] sum = new int[2][MAXV];
 
-	// 只给割边LCT使用，zeroTag[x]表示以x为根的辅助Splay中，所有边节点的贡献变成0
+	// 只给割边LCT使用，zeroTag[x]表示以x为根的辅助splay中，所有边节点的贡献变成0
 	public static boolean[] zeroTag = new boolean[MAXV];
 
 	// 展开圆方树上的路径
@@ -78,7 +78,7 @@ public class Code08_DynamicGraph1 {
 		}
 	}
 
-	// 割边LCT中，将整棵辅助Splay的贡献全部变成0
+	// 割边LCT中，将整棵辅助splay的贡献全部变成0
 	public static void setZero(int x) {
 		if (x != 0) {
 			val[0][x] = 0;

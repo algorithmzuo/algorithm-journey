@@ -24,16 +24,14 @@ public class Code06_NewBarns1 {
 	public static boolean[] rev = new boolean[MAXN];
 	public static int[] sta = new int[MAXN];
 
-	// siz[x]表示以x为根的辅助Splay节点总量
+	// siz[x]表示以x为根的辅助splay中，节点总量
 	public static int[] siz = new int[MAXN];
 
 	// 并查集维护每个连通块
 	public static int[] father = new int[MAXN];
 
-	// diameter[root]表示连通块的直径长度
+	// 连通块的直径长度、直径端点
 	public static int[] diameter = new int[MAXN];
-
-	// lnode[root]和rnode[root]表示连通块直径的两个端点
 	public static int[] lnode = new int[MAXN];
 	public static int[] rnode = new int[MAXN];
 

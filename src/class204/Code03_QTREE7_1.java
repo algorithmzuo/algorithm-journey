@@ -45,7 +45,7 @@ public class Code03_QTREE7_1 {
 	// 保存x每个直接虚儿子的完整子树最大值，以及该最大值的出现次数
 	public static HashMap<Integer, TreeMap<Integer, Integer>> white = new HashMap<>();
 
-	// maxv[c][x]表示颜色c的LCT中，以x为根的辅助Splay汇总的最大点权
+	// maxv[c][x]表示颜色c的LCT中，以x为根的辅助splay汇总的最大点权
 	// 包括左右儿子、所有虚子树以及x自身
 	public static int[][] maxv = new int[2][MAXN];
 
