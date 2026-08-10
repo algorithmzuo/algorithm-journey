@@ -40,10 +40,10 @@ public class Code04_QTREE5_1 {
 	// siz[x]表示以x为根的辅助splay节点总量，不包括虚子树中的节点
 	public static int[] siz = new int[MAXN];
 
-	// lm[x]表示以x为根的辅助splay中，从深度最浅的节点出发，到最近白色节点的距离
+	// lm[x]表示以x为根的辅助splay中，从深度最小的节点出发，到最近白色节点的距离
 	public static int[] lm = new int[MAXN];
 
-	// rm[x]表示以x为根的辅助splay中，从深度最深的节点出发，到最近白色节点的距离
+	// rm[x]表示以x为根的辅助splay中，从深度最大的节点出发，到最近白色节点的距离
 	public static int[] rm = new int[MAXN];
 
 	// vir.get(x)表示节点x维护的multiset
@@ -82,9 +82,9 @@ public class Code04_QTREE5_1 {
 	public static void up(int x) {
 		siz[x] = siz[ls[x]] + siz[rs[x]] + 1;
 		int cur = color[x] == 1 ? 0 : INF;
-		// 从辅助splay中，深度最浅的节点出发，最近白点可能在左子树中，也可能经过x到达其他方向
+		// 从深度最小的节点出发，最近白点可能在左子树中，也可能经过x到达其他方向
 		lm[x] = Math.min(lm[ls[x]], siz[ls[x]] + Math.min(cur, Math.min(getmin(x), lm[rs[x]] + 1)));
-		// 从辅助splay中，深度最深的节点出发，最近白点可能在右子树中，也可能经过x到达其他方向
+		// 从深度最大的节点出发，最近白点可能在右子树中，也可能经过x到达其他方向
 		rm[x] = Math.min(rm[rs[x]], siz[rs[x]] + Math.min(cur, Math.min(getmin(x), rm[ls[x]] + 1)));
 	}
 
@@ -167,7 +167,7 @@ public class Code04_QTREE5_1 {
 	public static int query(int x) {
 		access(x);
 		splay(x);
-		// access(x)之后，x是当前辅助splay中，深度最深的节点
+		// access(x)之后，x是当前辅助splay中，深度最大的节点
 		// 所以rm[x]就是x到最近白点的距离
 		return rm[x] == INF ? -1 : rm[x];
 	}
