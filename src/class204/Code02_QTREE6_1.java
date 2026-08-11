@@ -40,12 +40,11 @@ public class Code02_QTREE6_1 {
 	// 节点x有黑白两个状态，分别是x和x+n，有效状态只有一个
 	public static int[] val = new int[MAXN];
 
-	// vir[x]表示状态节点x的所有直接虚儿子所代表的完整子树中
-	// 有效状态节点的总量
+	// vir[x]表示状态节点x的虚子树贡献，点权累加和
 	public static int[] vir = new int[MAXN];
 
-	// sum[x]表示以状态节点x为根的辅助splay及其挂载虚子树中
-	// 有效状态节点的总量
+	// sum[x]表示以x为根的辅助splay中，汇总所有点权累加和
+	// 包括x自己的贡献、x的所有虚子树的贡献、左右儿子的贡献
 	public static int[] sum = new int[MAXN];
 
 	public static void addEdge(int u, int v) {
