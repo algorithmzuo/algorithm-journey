@@ -167,7 +167,7 @@ public class Code02_QTREE6_1 {
 		return val[top] == 1 ? sum[top] : sum[rs[top]];
 	}
 
-	public static void changeColor(int x) {
+	public static void reverseColor(int x) {
 		int pre = val[x] == 1 ? x : x + n;
 		int cur = pre <= n ? pre + n : pre - n;
 		// 老颜色先断边，先不修改老颜色的贡献，断边时会去掉影响
@@ -214,7 +214,7 @@ public class Code02_QTREE6_1 {
 			if (op == 0) {
 				out.println(query(x));
 			} else {
-				changeColor(x);
+				reverseColor(x);
 			}
 		}
 		out.flush();

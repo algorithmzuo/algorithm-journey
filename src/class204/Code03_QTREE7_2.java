@@ -158,7 +158,7 @@ package class204;
 //    return val[top] != -INF ? maxv[top] : maxv[rs[top]];
 //}
 //
-//void changeColor(int x) {
+//void reverseColor(int x) {
 //    int pre = val[x] != -INF ? x : x + n;
 //    int cur = pre <= n ? pre + n : pre - n;
 //    cut(pre, parent[pre]);
@@ -226,7 +226,7 @@ package class204;
 //        if (op == 0) {
 //            cout << query(x) << "\n";
 //        } else if (op == 1) {
-//            changeColor(x);
+//            reverseColor(x);
 //        } else {
 //            cin >> w;
 //            updateValue(x, w);

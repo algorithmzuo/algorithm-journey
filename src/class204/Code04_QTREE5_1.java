@@ -157,7 +157,7 @@ public class Code04_QTREE5_1 {
 		}
 	}
 
-	public static void changeColor(int x) {
+	public static void reverseColor(int x) {
 		access(x);
 		splay(x);
 		color[x] ^= 1;
@@ -204,7 +204,7 @@ public class Code04_QTREE5_1 {
 			op = in.nextInt();
 			x = in.nextInt();
 			if (op == 0) {
-				changeColor(x);
+				reverseColor(x);
 			} else {
 				out.println(query(x));
 			}

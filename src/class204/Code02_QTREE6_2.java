@@ -142,7 +142,7 @@ package class204;
 //    return val[top] == 1 ? sum[top] : sum[rs[top]];
 //}
 //
-//void changeColor(int x) {
+//void reverseColor(int x) {
 //    int pre = val[x] == 1 ? x : x + n;
 //    int cur = pre <= n ? pre + n : pre - n;
 //    cut(pre, parent[pre]);
@@ -182,7 +182,7 @@ package class204;
 //        if (op == 0) {
 //            cout << query(x) << "\n";
 //        } else {
-//            changeColor(x);
+//            reverseColor(x);
 //        }
 //    }
 //    return 0;

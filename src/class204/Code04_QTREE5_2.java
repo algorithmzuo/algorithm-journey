@@ -120,7 +120,7 @@ package class204;
 //    }
 //}
 //
-//void changeColor(int x) {
+//void reverseColor(int x) {
 //    access(x);
 //    splay(x);
 //    color[x] ^= 1;
@@ -161,7 +161,7 @@ package class204;
 //    for (int i = 1, op, x; i <= q; i++) {
 //        cin >> op >> x;
 //        if (op == 0) {
-//            changeColor(x);
+//            reverseColor(x);
 //        } else {
 //            cout << query(x) << "\n";
 //        }

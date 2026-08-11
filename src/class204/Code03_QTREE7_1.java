@@ -194,7 +194,7 @@ public class Code03_QTREE7_1 {
 		return val[top] != -INF ? maxv[top] : maxv[rs[top]];
 	}
 
-	public static void changeColor(int x) {
+	public static void reverseColor(int x) {
 		int pre = val[x] != -INF ? x : x + n;
 		int cur = pre <= n ? pre + n : pre - n;
 		cut(pre, parent[pre]);
@@ -265,7 +265,7 @@ public class Code03_QTREE7_1 {
 			if (op == 0) {
 				out.println(query(x));
 			} else if (op == 1) {
-				changeColor(x);
+				reverseColor(x);
 			} else {
 				w = in.nextInt();
 				updateValue(x, w);
