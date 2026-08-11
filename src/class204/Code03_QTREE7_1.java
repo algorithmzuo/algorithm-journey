@@ -20,34 +20,34 @@ import java.util.TreeMap;
 
 public class Code03_QTREE7_1 {
 
-	public static int MAXN = 100001;
+	public static int MAXN = 200001;
 	public static int INF = 1000000001;
 	public static int n, q;
 
+	// 节点的初始颜色、初始点权
+	public static int[] color = new int[MAXN];
+	public static int[] weight = new int[MAXN];
+
 	public static int[] head = new int[MAXN];
-	public static int[] nxt = new int[MAXN << 1];
-	public static int[] to = new int[MAXN << 1];
+	public static int[] nxt = new int[MAXN];
+	public static int[] to = new int[MAXN];
 	public static int cntg;
 
-	public static int[][] fa = new int[2][MAXN];
-	public static int[][] ls = new int[2][MAXN];
-	public static int[][] rs = new int[2][MAXN];
+	public static int[] fa = new int[MAXN];
+	public static int[] ls = new int[MAXN];
+	public static int[] rs = new int[MAXN];
 
 	public static int[] parent = new int[MAXN];
-	public static int[] color = new int[MAXN];
+
+	// 有效状态的val是原图的点权，无效状态的val是-INF
 	public static int[] val = new int[MAXN];
 
-	// black.get(x)表示黑色LCT中节点x维护的multiset
-	// 保存x每个直接虚儿子的完整子树最大值，以及该最大值的出现次数
-	public static HashMap<Integer, TreeMap<Integer, Integer>> black = new HashMap<>();
+	// 保存状态x每个直接虚儿子的完整子树最大值，以及出现次数
+	public static HashMap<Integer, TreeMap<Integer, Integer>> vir = new HashMap<>();
 
-	// white.get(x)表示白色LCT中节点x维护的multiset
-	// 保存x每个直接虚儿子的完整子树最大值，以及该最大值的出现次数
-	public static HashMap<Integer, TreeMap<Integer, Integer>> white = new HashMap<>();
-
-	// maxv[c][x]表示颜色c的LCT中，以x为根的辅助splay汇总的最大点权
-	// 包括左右儿子、所有虚子树以及x自身
-	public static int[][] maxv = new int[2][MAXN];
+	// maxv[x]表示以状态节点x为根的辅助splay汇总的最大点权
+	// 包括x自身、x的虚子树、splay中的左右儿子
+	public static int[] maxv = new int[MAXN];
 
 	public static void addEdge(int u, int v) {
 		nxt[++cntg] = head[u];
@@ -55,214 +55,206 @@ public class Code03_QTREE7_1 {
 		head[u] = cntg;
 	}
 
-	public static void insert(int c, int x, int v) {
-		if (c == 0) {
-			if (!black.containsKey(x)) {
-				black.put(x, new TreeMap<>());
-			}
-			black.get(x).put(v, black.get(x).getOrDefault(v, 0) + 1);
+	public static void insert(int x, int v) {
+		if (!vir.containsKey(x)) {
+			vir.put(x, new TreeMap<>());
+		}
+		TreeMap<Integer, Integer> map = vir.get(x);
+		map.put(v, map.getOrDefault(v, 0) + 1);
+	}
+
+	public static void remove(int x, int v) {
+		TreeMap<Integer, Integer> map = vir.get(x);
+		int cnt = map.get(v);
+		if (cnt == 1) {
+			map.remove(v);
 		} else {
-			if (!white.containsKey(x)) {
-				white.put(x, new TreeMap<>());
-			}
-			white.get(x).put(v, white.get(x).getOrDefault(v, 0) + 1);
+			map.put(v, cnt - 1);
 		}
 	}
 
-	public static void remove(int c, int x, int v) {
-		if (c == 0) {
-			int cnt = black.get(x).get(v);
-			if (cnt == 1) {
-				black.get(x).remove(v);
+	public static int getmax(int x) {
+		if (!vir.containsKey(x) || vir.get(x).isEmpty()) {
+			return -INF;
+		}
+		return vir.get(x).lastKey();
+	}
+
+	public static void up(int x) {
+		maxv[x] = Math.max(val[x], Math.max(getmax(x), Math.max(maxv[ls[x]], maxv[rs[x]])));
+	}
+
+	public static boolean isroot(int x) {
+		return ls[fa[x]] != x && rs[fa[x]] != x;
+	}
+
+	public static int lr(int x) {
+		return ls[fa[x]] == x ? 0 : 1;
+	}
+
+	public static void rotate(int x) {
+		int f = fa[x], g = fa[f];
+		if (lr(x) == 0) {
+			ls[f] = rs[x];
+			if (ls[f] != 0) {
+				fa[ls[f]] = f;
+			}
+			rs[x] = f;
+		} else {
+			rs[f] = ls[x];
+			if (rs[f] != 0) {
+				fa[rs[f]] = f;
+			}
+			ls[x] = f;
+		}
+		if (!isroot(f)) {
+			if (lr(f) == 0) {
+				ls[g] = x;
 			} else {
-				black.get(x).put(v, cnt - 1);
-			}
-		} else {
-			int cnt = white.get(x).get(v);
-			if (cnt == 1) {
-				white.get(x).remove(v);
-			} else {
-				white.get(x).put(v, cnt - 1);
+				rs[g] = x;
 			}
 		}
+		fa[f] = x;
+		fa[x] = g;
+		up(f);
+		up(x);
 	}
 
-	public static int getmax(int c, int x) {
-		if (c == 0) {
-			if (!black.containsKey(x) || black.get(x).isEmpty()) {
-				return -INF;
-			}
-			return black.get(x).lastKey();
-		} else {
-			if (!white.containsKey(x) || white.get(x).isEmpty()) {
-				return -INF;
-			}
-			return white.get(x).lastKey();
-		}
-	}
-
-	public static void up(int c, int x) {
-		maxv[c][x] = Math.max(val[x], Math.max(getmax(c, x), Math.max(maxv[c][ls[c][x]], maxv[c][rs[c][x]])));
-	}
-
-	public static boolean isroot(int c, int x) {
-		return ls[c][fa[c][x]] != x && rs[c][fa[c][x]] != x;
-	}
-
-	public static int lr(int c, int x) {
-		return ls[c][fa[c][x]] == x ? 0 : 1;
-	}
-
-	public static void rotate(int c, int x) {
-		int f = fa[c][x], g = fa[c][f];
-		if (lr(c, x) == 0) {
-			ls[c][f] = rs[c][x];
-			if (ls[c][f] != 0) {
-				fa[c][ls[c][f]] = f;
-			}
-			rs[c][x] = f;
-		} else {
-			rs[c][f] = ls[c][x];
-			if (rs[c][f] != 0) {
-				fa[c][rs[c][f]] = f;
-			}
-			ls[c][x] = f;
-		}
-		if (!isroot(c, f)) {
-			if (lr(c, f) == 0) {
-				ls[c][g] = x;
-			} else {
-				rs[c][g] = x;
-			}
-		}
-		fa[c][f] = x;
-		fa[c][x] = g;
-		up(c, f);
-		up(c, x);
-	}
-
-	public static void splay(int c, int x) {
-		while (!isroot(c, x)) {
-			int f = fa[c][x];
-			if (!isroot(c, f)) {
-				if (lr(c, x) == lr(c, f)) {
-					rotate(c, f);
+	public static void splay(int x) {
+		while (!isroot(x)) {
+			int f = fa[x];
+			if (!isroot(f)) {
+				if (lr(x) == lr(f)) {
+					rotate(f);
 				} else {
-					rotate(c, x);
+					rotate(x);
 				}
 			}
-			rotate(c, x);
+			rotate(x);
 		}
-		up(c, x);
+		up(x);
 	}
 
-	public static void access(int c, int x) {
-		for (int y = 0; x != 0; y = x, x = fa[c][x]) {
-			splay(c, x);
-			// 实儿子变成虚儿子，将它的子树最大值插入
-			// 虚儿子变成实儿子，将它的子树最大值删除
-			if (rs[c][x] != 0) {
-				insert(c, x, maxv[c][rs[c][x]]);
+	// 注意修正虚子树贡献
+	public static void access(int x) {
+		for (int y = 0; x != 0; y = x, x = fa[x]) {
+			splay(x);
+			if (rs[x] != 0) {
+				insert(x, maxv[rs[x]]);
 			}
 			if (y != 0) {
-				remove(c, x, maxv[c][y]);
+				remove(x, maxv[y]);
 			}
-			rs[c][x] = y;
-			up(c, x);
+			rs[x] = y;
+			up(x);
 		}
 	}
 
-	public static int findroot(int c, int x) {
-		access(c, x);
-		splay(c, x);
-		while (ls[c][x] != 0) {
-			x = ls[c][x];
+	public static int findroot(int x) {
+		access(x);
+		splay(x);
+		while (ls[x] != 0) {
+			x = ls[x];
 		}
-		splay(c, x);
+		splay(x);
 		return x;
 	}
 
-	public static void link(int c, int x, int f) {
+	// 连接固定父边(x, f)，x是子，f是父，连接后x作为f的虚儿子
+	public static void link(int x, int f) {
 		if (f == 0) {
 			return;
 		}
-		access(c, f);
-		splay(c, f);
-		splay(c, x);
-		fa[c][x] = f;
-		insert(c, f, maxv[c][x]);
-		up(c, f);
+		access(f);
+		splay(f);
+		splay(x);
+		fa[x] = f;
+		insert(f, maxv[x]);
+		up(f);
 	}
 
-	public static void cut(int c, int x, int f) {
-		access(c, x);
-		splay(c, x);
+	// 删除固定父边(x, f)，x是子，f是父
+	public static void cut(int x, int f) {
+		access(x);
+		splay(x);
 		if (f != 0) {
-			int left = ls[c][x];
-			fa[c][left] = 0;
-			ls[c][x] = 0;
-			up(c, x);
+			int left = ls[x];
+			fa[left] = 0;
+			ls[x] = 0;
+			up(x);
 		}
 	}
 
 	public static int query(int x) {
-		int c = color[x];
-		int top = findroot(c, x);
-		if (color[top] == c) {
-			return maxv[c][top];
-		}
-		return maxv[c][rs[c][top]];
+		int cur = val[x] != -INF ? x : x + n;
+		int top = findroot(cur);
+		return val[top] != -INF ? maxv[top] : maxv[rs[top]];
 	}
 
 	public static void changeColor(int x) {
-		int pre = color[x];
-		int cur = pre ^ 1;
-		int f = parent[x];
-		cut(pre, x, f);
-		color[x] = cur;
-		link(cur, x, f);
+		int pre = val[x] != -INF ? x : x + n;
+		int cur = pre <= n ? pre + n : pre - n;
+		cut(pre, parent[pre]);
+		val[cur] = val[pre];
+		val[pre] = -INF;
+		link(cur, parent[cur]);
 	}
 
 	public static void updateValue(int x, int w) {
-		access(0, x);
-		splay(0, x);
-		access(1, x);
-		splay(1, x);
-		val[x] = w;
-		up(0, x);
-		up(1, x);
+		int cur = val[x] != -INF ? x : x + n;
+		access(cur);
+		splay(cur);
+		val[cur] = w;
+		up(cur);
 	}
 
 	public static void dfs(int u, int f) {
-		parent[u] = f;
+		if (f != 0) {
+			parent[u] = f;
+			parent[u + n] = f + n;
+		}
 		for (int e = head[u]; e != 0; e = nxt[e]) {
 			int v = to[e];
 			if (v != f) {
 				dfs(v, u);
-				link(color[v], v, u);
+				int cur = color[v] == 0 ? v : v + n;
+				link(cur, parent[cur]);
 			}
 		}
+	}
+
+	public static void prepare() {
+		maxv[0] = -INF;
+		// 根据初始颜色，设置黑白状态的贡献和最大值
+		for (int i = 1; i <= n; i++) {
+			if (color[i] == 0) {
+				val[i] = maxv[i] = weight[i];
+				val[i + n] = maxv[i + n] = -INF;
+			} else {
+				val[i] = maxv[i] = -INF;
+				val[i + n] = maxv[i + n] = weight[i];
+			}
+		}
+		dfs(1, 0);
 	}
 
 	public static void main(String[] args) throws Exception {
 		FastReader in = new FastReader(System.in);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
 		n = in.nextInt();
-		for (int i = 1; i < n; i++) {
-			int u = in.nextInt();
-			int v = in.nextInt();
+		for (int i = 1, u, v; i < n; i++) {
+			u = in.nextInt();
+			v = in.nextInt();
 			addEdge(u, v);
 			addEdge(v, u);
 		}
 		for (int i = 1; i <= n; i++) {
 			color[i] = in.nextInt();
 		}
-		maxv[0][0] = maxv[1][0] = -INF;
-		for (int i = 1, w; i <= n; i++) {
-			w = in.nextInt();
-			val[i] = maxv[0][i] = maxv[1][i] = w;
+		for (int i = 1; i <= n; i++) {
+			weight[i] = in.nextInt();
 		}
-		dfs(1, 0);
+		prepare();
 		q = in.nextInt();
 		for (int i = 1, op, x, w; i <= q; i++) {
 			op = in.nextInt();
