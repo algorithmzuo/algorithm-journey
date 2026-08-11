@@ -39,7 +39,10 @@ public class Code03_QTREE7_1 {
 
 	public static int[] parent = new int[MAXN];
 
-	// 有效状态的val是原图的点权，无效状态的val是-INF
+	// 节点x有两个状态
+	// val[x] != -INF，说明节点x为黑，此时黑色状态的权值就是点权
+	// val[x + n] != -INF，说明节点x为白，此时白色状态的权值就是点权
+	// 一定有一个状态是节点点权，另一个状态是-INF
 	public static int[] val = new int[MAXN];
 
 	// 保存状态x每个直接虚儿子的完整子树最大值，以及出现次数
