@@ -137,9 +137,9 @@ package class204;
 //}
 //
 //int query(int x) {
-//    x = val[x] == 1 ? x : x + n;
-//    int y = findroot(x);
-//    return val[y] == 1 ? sum[y] : sum[rs[y]];
+//    int xs = val[x] == 1 ? x : x + n;
+//    int ys = findroot(xs);
+//    return val[ys] == 1 ? sum[ys] : sum[rs[ys]];
 //}
 //
 //void reverseColor(int x) {

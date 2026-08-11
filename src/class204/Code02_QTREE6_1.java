@@ -156,22 +156,20 @@ public class Code02_QTREE6_1 {
 	}
 
 	public static int query(int x) {
-		// 找到状态节点
-		x = val[x] == 1 ? x : x + n;
-		int y = findroot(x);
-		// y和x同色，返回y的sum，如果不同色，返回y的右儿子的sum
-		return val[y] == 1 ? sum[y] : sum[rs[y]];
+		// 得到x的状态xs，顶部节点的状态ys
+		int xs = val[x] == 1 ? x : x + n;
+		int ys = findroot(xs);
+		// 如果顶部节点和x同色，返回整体sum，如果不同色，返回右儿子sum
+		return val[ys] == 1 ? sum[ys] : sum[rs[ys]];
 	}
 
 	public static void reverseColor(int x) {
 		int pre = val[x] == 1 ? x : x + n;
 		int cur = pre <= n ? pre + n : pre - n;
-		// 老颜色先断边，先不修改老颜色的贡献，断边时会去掉影响
+		// 老颜色的lct中要断边，新颜色的lct中要连边
 		cut(pre, parent[pre]);
-		// 然后修改老颜色和新颜色的贡献
 		val[pre] = 0;
 		val[cur] = 1;
-		// 最后新颜色连边，已经修改了新颜色的贡献，影响会加上
 		link(cur, parent[cur]);
 	}
 
