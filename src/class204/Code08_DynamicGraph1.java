@@ -10,10 +10,7 @@ package class204;
 // 1 <= n <= 10^5
 // 1 <= q <= 3 * 10^5
 // 测试链接 : https://www.luogu.com.cn/problem/P5489
-// 提交以下的code，提交时请把类名改成"Main"
-// 本题卡常数时间，java的实现无法通过
-// 想通过用C++实现，本节课Code08_DynamicGraph2文件就是C++的实现
-// 两个版本的逻辑完全一样，C++版本可以通过所有测试
+// 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -23,32 +20,33 @@ import java.io.PrintWriter;
 public class Code08_DynamicGraph1 {
 
 	public static int MAXN = 100001;
-	public static int MAXV = 400001;
+	public static int MAXT = 400001;
 	public static int n, q;
 
 	// 原图的连通性只增不减，使用并查集维护
 	public static int[] father = new int[MAXN];
 
-	// 0号LCT维护割边，1号LCT维护圆方树上的割点
-	public static int[][] fa = new int[2][MAXV];
-	public static int[][] ls = new int[2][MAXV];
-	public static int[][] rs = new int[2][MAXV];
-	public static boolean[][] rev = new boolean[2][MAXV];
-	public static int[] sta = new int[MAXV];
+	// 节点x，有割边和割点两个状态，x表示割边状态，x+n表示割点状态
+	// 两套系统共用一套LCT数组
+	public static int[] fa = new int[MAXT];
+	public static int[] ls = new int[MAXT];
+	public static int[] rs = new int[MAXT];
+	public static boolean[] rev = new boolean[MAXT];
+	public static int[] sta = new int[MAXT];
 
-	public static int[][] val = new int[2][MAXV];
-	public static int[][] sum = new int[2][MAXV];
+	// 两套系统都需要产生的新节点，都用cntev进行编号分配
+	// cntev初始是2 * n，然后根据++cntev产生新的编号
+	public static int cntev;
+
+	public static int[] val = new int[MAXT];
+	public static int[] sum = new int[MAXT];
 
 	// 只给割边LCT使用，zeroTag[x]表示以x为根的辅助splay中，所有边节点的贡献变成0
-	public static boolean[] zeroTag = new boolean[MAXV];
+	public static boolean[] zeroTag = new boolean[MAXT];
 
-	// 展开圆方树上的路径
-	public static int[] road = new int[MAXV];
-	public static int cntr;
-
-	// 两棵LCT分配节点的计数，割边LCT增加边节点，割点LCT增加方点
-	public static int cnte;
-	public static int cntv;
+	// 展开割点LCT中的圆方树路径
+	public static int[] road = new int[MAXT];
+	public static int roadLen;
 
 	public static int find(int x) {
 		if (father[x] != x) {
@@ -57,140 +55,141 @@ public class Code08_DynamicGraph1 {
 		return father[x];
 	}
 
-	public static void up(int c, int x) {
-		sum[c][x] = sum[c][ls[c][x]] + sum[c][rs[c][x]] + val[c][x];
+	public static void up(int x) {
+		sum[x] = sum[ls[x]] + sum[rs[x]] + val[x];
 	}
 
-	public static boolean isroot(int c, int x) {
-		return ls[c][fa[c][x]] != x && rs[c][fa[c][x]] != x;
+	public static boolean isroot(int x) {
+		return ls[fa[x]] != x && rs[fa[x]] != x;
 	}
 
-	public static int lr(int c, int x) {
-		return ls[c][fa[c][x]] == x ? 0 : 1;
+	public static int lr(int x) {
+		return ls[fa[x]] == x ? 0 : 1;
 	}
 
-	public static void reverse(int c, int x) {
+	public static void reverse(int x) {
 		if (x != 0) {
-			int tmp = ls[c][x];
-			ls[c][x] = rs[c][x];
-			rs[c][x] = tmp;
-			rev[c][x] = !rev[c][x];
+			int tmp = ls[x];
+			ls[x] = rs[x];
+			rs[x] = tmp;
+			rev[x] = !rev[x];
 		}
 	}
 
-	// 割边LCT中，将整棵辅助splay的贡献全部变成0
+	// 只对割边LCT生效，整棵辅助splay的贡献变成0
 	public static void setZero(int x) {
 		if (x != 0) {
-			val[0][x] = 0;
-			sum[0][x] = 0;
+			val[x] = 0;
+			sum[x] = 0;
 			zeroTag[x] = true;
 		}
 	}
 
-	public static void down(int c, int x) {
-		if (rev[c][x]) {
-			reverse(c, ls[c][x]);
-			reverse(c, rs[c][x]);
-			rev[c][x] = false;
+	public static void down(int x) {
+		if (rev[x]) {
+			reverse(ls[x]);
+			reverse(rs[x]);
+			rev[x] = false;
 		}
-		if (c == 0 && zeroTag[x]) {
-			setZero(ls[c][x]);
-			setZero(rs[c][x]);
+		// zeroTag只对割边LCT生效
+		if (zeroTag[x]) {
+			setZero(ls[x]);
+			setZero(rs[x]);
 			zeroTag[x] = false;
 		}
 	}
 
-	public static void rotate(int c, int x) {
-		int f = fa[c][x], g = fa[c][f];
-		if (lr(c, x) == 0) {
-			ls[c][f] = rs[c][x];
-			if (ls[c][f] != 0) {
-				fa[c][ls[c][f]] = f;
+	public static void rotate(int x) {
+		int f = fa[x], g = fa[f];
+		if (lr(x) == 0) {
+			ls[f] = rs[x];
+			if (ls[f] != 0) {
+				fa[ls[f]] = f;
 			}
-			rs[c][x] = f;
+			rs[x] = f;
 		} else {
-			rs[c][f] = ls[c][x];
-			if (rs[c][f] != 0) {
-				fa[c][rs[c][f]] = f;
+			rs[f] = ls[x];
+			if (rs[f] != 0) {
+				fa[rs[f]] = f;
 			}
-			ls[c][x] = f;
+			ls[x] = f;
 		}
-		if (!isroot(c, f)) {
-			if (lr(c, f) == 0) {
-				ls[c][g] = x;
+		if (!isroot(f)) {
+			if (lr(f) == 0) {
+				ls[g] = x;
 			} else {
-				rs[c][g] = x;
+				rs[g] = x;
 			}
 		}
-		fa[c][f] = x;
-		fa[c][x] = g;
-		up(c, f);
-		up(c, x);
+		fa[f] = x;
+		fa[x] = g;
+		up(f);
+		up(x);
 	}
 
-	public static void splay(int c, int x) {
+	public static void splay(int x) {
 		int size = 0;
 		sta[++size] = x;
-		for (int y = x; !isroot(c, y); y = fa[c][y]) {
-			sta[++size] = fa[c][y];
+		for (int y = x; !isroot(y); y = fa[y]) {
+			sta[++size] = fa[y];
 		}
 		while (size != 0) {
-			down(c, sta[size--]);
+			down(sta[size--]);
 		}
-		while (!isroot(c, x)) {
-			int f = fa[c][x];
-			if (!isroot(c, f)) {
-				if (lr(c, x) == lr(c, f)) {
-					rotate(c, f);
+		while (!isroot(x)) {
+			int f = fa[x];
+			if (!isroot(f)) {
+				if (lr(x) == lr(f)) {
+					rotate(f);
 				} else {
-					rotate(c, x);
+					rotate(x);
 				}
 			}
-			rotate(c, x);
+			rotate(x);
 		}
-		up(c, x);
+		up(x);
 	}
 
-	public static void access(int c, int x) {
-		for (int y = 0; x != 0; y = x, x = fa[c][x]) {
-			splay(c, x);
-			rs[c][x] = y;
-			up(c, x);
+	public static void access(int x) {
+		for (int y = 0; x != 0; y = x, x = fa[x]) {
+			splay(x);
+			rs[x] = y;
+			up(x);
 		}
 	}
 
-	public static void makeroot(int c, int x) {
-		access(c, x);
-		splay(c, x);
-		reverse(c, x);
+	public static void makeroot(int x) {
+		access(x);
+		splay(x);
+		reverse(x);
 	}
 
-	public static void split(int c, int x, int y) {
-		makeroot(c, x);
-		access(c, y);
-		splay(c, y);
+	public static void split(int x, int y) {
+		makeroot(x);
+		access(y);
+		splay(y);
 	}
 
 	// 保证x和y当前不连通，所以化简了写法
-	public static void link(int c, int x, int y) {
-		makeroot(c, x);
-		fa[c][x] = y;
+	public static void link(int x, int y) {
+		makeroot(x);
+		fa[x] = y;
 	}
 
 	// 保证x和y之间存在直接边，所以化简了写法
-	public static void cut(int c, int x, int y) {
-		split(c, x, y);
-		fa[c][x] = 0;
-		ls[c][y] = 0;
-		up(c, y);
+	public static void cut(int x, int y) {
+		split(x, y);
+		fa[x] = 0;
+		ls[y] = 0;
+		up(y);
 	}
 
 	public static void dfsRoad(int x) {
 		if (x != 0) {
-			down(1, x);
-			dfsRoad(ls[1][x]);
-			road[++cntr] = x;
-			dfsRoad(rs[1][x]);
+			down(x);
+			dfsRoad(ls[x]);
+			road[++roadLen] = x;
+			dfsRoad(rs[x]);
 		}
 	}
 
@@ -199,34 +198,40 @@ public class Code08_DynamicGraph1 {
 		int fy = find(y);
 		if (fx != fy) {
 			father[fy] = fx;
-			// 割边LCT采用边转点，新建的边当前一定是割边，贡献为1
-			int edge = ++cnte;
-			val[0][edge] = 1;
-			sum[0][edge] = 1;
-			link(0, x, edge);
-			link(0, edge, y);
-			// 动态圆方树中，两个连通块之间直接连接两个圆点
-			link(1, x, y);
+			// 割边LCT采用边转点
+			// 新建的边当前一定是割边，贡献为1
+			int edge = ++cntev;
+			val[edge] = 1;
+			sum[edge] = 1;
+			link(x, edge);
+			link(edge, y);
+			// 割点LCT中，原节点x的状态节点是x+n
+			// 两个连通块之间直接连接两个圆点
+			link(x + n, y + n);
 		} else {
 			// x、y原本已经连通，新边形成环
-			// 割边LCT中，x到y路径上的所有边都进入环，从此不再是割边
-			split(0, x, y);
+			// 割边LCT中，x到y路径上的所有边都进入环
+			// 从此不再是割边
+			split(x, y);
 			setZero(y);
+			// 切换到割点LCT中对应的两个状态节点
+			x = x + n;
+			y = y + n;
 			// 暴露当前动态圆方树中x到y的路径
-			split(1, x, y);
-			if (sum[1][y] > 2) {
+			split(x, y);
+			if (sum[y] > 2) {
 				// 按照x到y的顺序，取出路径上的所有圆点和方点
-				cntr = 0;
+				roadLen = 0;
 				dfsRoad(y);
 				// 删除原路径上的所有树边
-				for (int i = 2; i <= cntr; i++) {
-					cut(1, road[i - 1], road[i]);
+				for (int i = 2; i <= roadLen; i++) {
+					cut(road[i - 1], road[i]);
 				}
 				// 新建方点，表示新形成的、更大的点双连通分量
-				int square = ++cntv;
+				int square = ++cntev;
 				// 将原路径上的所有圆点和旧方点连接到新方点
-				for (int i = 1; i <= cntr; i++) {
-					link(1, road[i], square);
+				for (int i = 1; i <= roadLen; i++) {
+					link(road[i], square);
 				}
 			}
 		}
@@ -236,16 +241,18 @@ public class Code08_DynamicGraph1 {
 		if (find(x) != find(y)) {
 			return -1;
 		}
-		split(0, x, y);
-		return sum[0][y];
+		split(x, y);
+		return sum[y];
 	}
 
 	public static int queryCutv(int x, int y) {
 		if (find(x) != find(y)) {
 			return -1;
 		}
-		split(1, x, y);
-		return sum[1][y];
+		x = x + n;
+		y = y + n;
+		split(x, y);
+		return sum[y];
 	}
 
 	public static void main(String[] args) throws Exception {
@@ -253,12 +260,14 @@ public class Code08_DynamicGraph1 {
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
 		n = in.nextInt();
 		q = in.nextInt();
-		cnte = n;
-		cntv = n;
+		cntev = n << 1;
+		// 并查集初始化
+		// 割边LCT中的原节点贡献为0，无需设置
+		// 割点LCT中的原节点是圆点，设置贡献是1
 		for (int i = 1; i <= n; i++) {
 			father[i] = i;
-			val[1][i] = 1;
-			sum[1][i] = 1;
+			val[i + n] = 1;
+			sum[i + n] = 1;
 		}
 		for (int i = 1, lastAns = 0, curAns, op, x, y; i <= q; i++) {
 			op = in.nextInt();

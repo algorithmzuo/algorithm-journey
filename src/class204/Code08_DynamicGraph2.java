@@ -18,26 +18,25 @@ package class204;
 //using namespace std;
 //
 //const int MAXN = 100001;
-//const int MAXV = 400001;
+//const int MAXT = 400001;
 //int n, q;
 //
 //int father[MAXN];
 //
-//int fa[2][MAXV];
-//int ls[2][MAXV];
-//int rs[2][MAXV];
-//bool rev[2][MAXV];
-//int sta[MAXV];
+//int fa[MAXT];
+//int ls[MAXT];
+//int rs[MAXT];
+//bool rev[MAXT];
+//int sta[MAXT];
 //
-//int val[2][MAXV];
-//int sum[2][MAXV];
+//int cntev;
 //
-//bool zeroTag[MAXV];
-//int road[MAXV];
-//int cntr;
+//int val[MAXT];
+//int sum[MAXT];
+//bool zeroTag[MAXT];
 //
-//int cnte;
-//int cntv;
+//int road[MAXT];
+//int roadLen;
 //
 //int find(int x) {
 //    if (father[x] != x) {
@@ -46,135 +45,135 @@ package class204;
 //    return father[x];
 //}
 //
-//void up(int c, int x) {
-//    sum[c][x] = sum[c][ls[c][x]] + sum[c][rs[c][x]] + val[c][x];
+//void up(int x) {
+//    sum[x] = sum[ls[x]] + sum[rs[x]] + val[x];
 //}
 //
-//bool isroot(int c, int x) {
-//    return ls[c][fa[c][x]] != x && rs[c][fa[c][x]] != x;
+//bool isroot(int x) {
+//    return ls[fa[x]] != x && rs[fa[x]] != x;
 //}
 //
-//int lr(int c, int x) {
-//    return ls[c][fa[c][x]] == x ? 0 : 1;
+//int lr(int x) {
+//    return ls[fa[x]] == x ? 0 : 1;
 //}
 //
-//void reverse(int c, int x) {
+//void reverse(int x) {
 //    if (x != 0) {
-//        swap(ls[c][x], rs[c][x]);
-//        rev[c][x] = !rev[c][x];
+//        swap(ls[x], rs[x]);
+//        rev[x] = !rev[x];
 //    }
 //}
 //
 //void setZero(int x) {
 //    if (x != 0) {
-//        val[0][x] = 0;
-//        sum[0][x] = 0;
+//        val[x] = 0;
+//        sum[x] = 0;
 //        zeroTag[x] = true;
 //    }
 //}
 //
-//void down(int c, int x) {
-//    if (rev[c][x]) {
-//        reverse(c, ls[c][x]);
-//        reverse(c, rs[c][x]);
-//        rev[c][x] = false;
+//void down(int x) {
+//    if (rev[x]) {
+//        reverse(ls[x]);
+//        reverse(rs[x]);
+//        rev[x] = false;
 //    }
-//    if (c == 0 && zeroTag[x]) {
-//        setZero(ls[c][x]);
-//        setZero(rs[c][x]);
+//    if (zeroTag[x]) {
+//        setZero(ls[x]);
+//        setZero(rs[x]);
 //        zeroTag[x] = false;
 //    }
 //}
 //
-//void rotate(int c, int x) {
-//    int f = fa[c][x], g = fa[c][f];
-//    if (lr(c, x) == 0) {
-//        ls[c][f] = rs[c][x];
-//        if (ls[c][f] != 0) {
-//            fa[c][ls[c][f]] = f;
+//void rotate(int x) {
+//    int f = fa[x], g = fa[f];
+//    if (lr(x) == 0) {
+//        ls[f] = rs[x];
+//        if (ls[f] != 0) {
+//            fa[ls[f]] = f;
 //        }
-//        rs[c][x] = f;
+//        rs[x] = f;
 //    } else {
-//        rs[c][f] = ls[c][x];
-//        if (rs[c][f] != 0) {
-//            fa[c][rs[c][f]] = f;
+//        rs[f] = ls[x];
+//        if (rs[f] != 0) {
+//            fa[rs[f]] = f;
 //        }
-//        ls[c][x] = f;
+//        ls[x] = f;
 //    }
-//    if (!isroot(c, f)) {
-//        if (lr(c, f) == 0) {
-//            ls[c][g] = x;
+//    if (!isroot(f)) {
+//        if (lr(f) == 0) {
+//            ls[g] = x;
 //        } else {
-//            rs[c][g] = x;
+//            rs[g] = x;
 //        }
 //    }
-//    fa[c][f] = x;
-//    fa[c][x] = g;
-//    up(c, f);
-//    up(c, x);
+//    fa[f] = x;
+//    fa[x] = g;
+//    up(f);
+//    up(x);
 //}
 //
-//void splay(int c, int x) {
+//void splay(int x) {
 //    int size = 0;
 //    sta[++size] = x;
-//    for (int y = x; !isroot(c, y); y = fa[c][y]) {
-//        sta[++size] = fa[c][y];
+//    for (int y = x; !isroot(y); y = fa[y]) {
+//        sta[++size] = fa[y];
 //    }
 //    while (size != 0) {
-//        down(c, sta[size--]);
+//        down(sta[size--]);
 //    }
-//    while (!isroot(c, x)) {
-//        int f = fa[c][x];
-//        if (!isroot(c, f)) {
-//            if (lr(c, x) == lr(c, f)) {
-//                rotate(c, f);
+//    while (!isroot(x)) {
+//        int f = fa[x];
+//        if (!isroot(f)) {
+//            if (lr(x) == lr(f)) {
+//                rotate(f);
 //            } else {
-//                rotate(c, x);
+//                rotate(x);
 //            }
 //        }
-//        rotate(c, x);
+//        rotate(x);
 //    }
-//    up(c, x);
+//    up(x);
 //}
 //
-//void access(int c, int x) {
-//    for (int y = 0; x != 0; y = x, x = fa[c][x]) {
-//        splay(c, x);
-//        rs[c][x] = y;
-//        up(c, x);
+//void access(int x) {
+//    for (int y = 0; x != 0; y = x, x = fa[x]) {
+//        splay(x);
+//        rs[x] = y;
+//        up(x);
 //    }
 //}
 //
-//void makeroot(int c, int x) {
-//    access(c, x);
-//    splay(c, x);
-//    reverse(c, x);
+//void makeroot(int x) {
+//    access(x);
+//    splay(x);
+//    reverse(x);
 //}
 //
-//void split(int c, int x, int y) {
-//    makeroot(c, x);
-//    access(c, y);
-//    splay(c, y);
+//void split(int x, int y) {
+//    makeroot(x);
+//    access(y);
+//    splay(y);
 //}
 //
-//void link(int c, int x, int y) {
-//    makeroot(c, x);
-//    fa[c][x] = y;
+//void link(int x, int y) {
+//    makeroot(x);
+//    fa[x] = y;
 //}
 //
-//void cut(int c, int x, int y) {
-//    split(c, x, y);
-//    fa[c][x] = 0;
-//    ls[c][y] = 0;
-//    up(c, y);
+//void cut(int x, int y) {
+//    split(x, y);
+//    fa[x] = 0;
+//    ls[y] = 0;
+//    up(y);
 //}
 //
 //void dfsRoad(int x) {
 //    if (x != 0) {
-//        down(1, x);
-//        dfsRoad(ls[1][x]);
-//        road[++cntr] = x;
-//        dfsRoad(rs[1][x]);
+//        down(x);
+//        dfsRoad(ls[x]);
+//        road[++roadLen] = x;
+//        dfsRoad(rs[x]);
 //    }
 //}
 //
@@ -183,25 +182,27 @@ package class204;
 //    int fy = find(y);
 //    if (fx != fy) {
 //        father[fy] = fx;
-//        int edge = ++cnte;
-//        val[0][edge] = 1;
-//        sum[0][edge] = 1;
-//        link(0, x, edge);
-//        link(0, edge, y);
-//        link(1, x, y);
+//        int edge = ++cntev;
+//        val[edge] = 1;
+//        sum[edge] = 1;
+//        link(x, edge);
+//        link(edge, y);
+//        link(x + n, y + n);
 //    } else {
-//        split(0, x, y);
+//        split(x, y);
 //        setZero(y);
-//        split(1, x, y);
-//        if (sum[1][y] > 2) {
-//            cntr = 0;
+//        x = x + n;
+//        y = y + n;
+//        split(x, y);
+//        if (sum[y] > 2) {
+//            roadLen = 0;
 //            dfsRoad(y);
-//            for (int i = 2; i <= cntr; i++) {
-//                cut(1, road[i - 1], road[i]);
+//            for (int i = 2; i <= roadLen; i++) {
+//                cut(road[i - 1], road[i]);
 //            }
-//            int square = ++cntv;
-//            for (int i = 1; i <= cntr; i++) {
-//                link(1, road[i], square);
+//            int square = ++cntev;
+//            for (int i = 1; i <= roadLen; i++) {
+//                link(road[i], square);
 //            }
 //        }
 //    }
@@ -211,28 +212,29 @@ package class204;
 //    if (find(x) != find(y)) {
 //        return -1;
 //    }
-//    split(0, x, y);
-//    return sum[0][y];
+//    split(x, y);
+//    return sum[y];
 //}
 //
 //int queryCutv(int x, int y) {
 //    if (find(x) != find(y)) {
 //        return -1;
 //    }
-//    split(1, x, y);
-//    return sum[1][y];
+//    x = x + n;
+//    y = y + n;
+//    split(x, y);
+//    return sum[y];
 //}
 //
 //int main() {
 //    ios::sync_with_stdio(false);
 //    cin.tie(nullptr);
 //    cin >> n >> q;
-//    cnte = n;
-//    cntv = n;
+//    cntev = n << 1;
 //    for (int i = 1; i <= n; i++) {
 //        father[i] = i;
-//        val[1][i] = 1;
-//        sum[1][i] = 1;
+//        val[i + n] = 1;
+//        sum[i + n] = 1;
 //    }
 //    for (int i = 1, lastAns = 0, curAns, op, x, y; i <= q; i++) {
 //        cin >> op;
