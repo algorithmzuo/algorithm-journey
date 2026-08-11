@@ -26,13 +26,14 @@ public class Code01_GreatIntegration1 {
 	public static boolean[] rev = new boolean[MAXN];
 	public static int[] sta = new int[MAXN];
 
-	// vir[x]表示x所有虚儿子的子树大小总和
+	// vir[x]表示x所有虚子树的大小总和
 	public static int[] vir = new int[MAXN];
 
-	// sum[x]表示以x为根的辅助splay中，汇总的节点总数
-	// 包括左右儿子的贡献，还包括x自己的所有虚子树贡献
+	// sum[x]表示以x为根的辅助splay中，汇总所有节点的数量
+	// 包括x自己、x的所有虚子树大小、左右儿子的贡献
 	public static int[] sum = new int[MAXN];
 
+	// 汇总贡献
 	public static void up(int x) {
 		sum[x] = sum[ls[x]] + sum[rs[x]] + vir[x] + 1;
 	}
