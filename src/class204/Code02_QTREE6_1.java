@@ -40,7 +40,7 @@ public class Code02_QTREE6_1 {
 	// 节点x有黑白两个状态，分别是x和x+n，有效状态只有一个
 	public static int[] val = new int[MAXN];
 
-	// vir[x]表示状态节点x的虚子树贡献，点权累加和
+	// vir[x]表示状态节点x的虚子树的点权累加和
 	public static int[] vir = new int[MAXN];
 
 	// sum[x]表示以x为根的辅助splay中，汇总所有点权累加和
