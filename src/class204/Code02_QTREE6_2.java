@@ -15,22 +15,22 @@ package class204;
 //
 //using namespace std;
 //
-//const int MAXN = 100001;
+//const int MAXN = 200001;
 //int n, q;
 //
 //int head[MAXN];
-//int nxt[MAXN << 1];
-//int to[MAXN << 1];
+//int nxt[MAXN];
+//int to[MAXN];
 //int cntg;
 //
-//int fa[2][MAXN];
-//int ls[2][MAXN];
-//int rs[2][MAXN];
+//int fa[MAXN];
+//int ls[MAXN];
+//int rs[MAXN];
 //
 //int parent[MAXN];
-//int color[MAXN];
-//int vir[2][MAXN];
-//int sum[2][MAXN];
+//int val[MAXN];
+//int vir[MAXN];
+//int sum[MAXN];
 //
 //void addEdge(int u, int v) {
 //    nxt[++cntg] = head[u];
@@ -38,131 +38,130 @@ package class204;
 //    head[u] = cntg;
 //}
 //
-//void up(int c, int x) {
-//    sum[c][x] = sum[c][ls[c][x]] + sum[c][rs[c][x]] + vir[c][x] + (color[x] == c ? 1 : 0);
+//void up(int x) {
+//    sum[x] = sum[ls[x]] + sum[rs[x]] + vir[x] + val[x];
 //}
 //
-//bool isroot(int c, int x) {
-//    return ls[c][fa[c][x]] != x && rs[c][fa[c][x]] != x;
+//bool isroot(int x) {
+//    return ls[fa[x]] != x && rs[fa[x]] != x;
 //}
 //
-//int lr(int c, int x) {
-//    return ls[c][fa[c][x]] == x ? 0 : 1;
+//int lr(int x) {
+//    return ls[fa[x]] == x ? 0 : 1;
 //}
 //
-//void rotate(int c, int x) {
-//    int f = fa[c][x], g = fa[c][f];
-//    if (lr(c, x) == 0) {
-//        ls[c][f] = rs[c][x];
-//        if (ls[c][f] != 0) {
-//            fa[c][ls[c][f]] = f;
+//void rotate(int x) {
+//    int f = fa[x], g = fa[f];
+//    if (lr(x) == 0) {
+//        ls[f] = rs[x];
+//        if (ls[f] != 0) {
+//            fa[ls[f]] = f;
 //        }
-//        rs[c][x] = f;
+//        rs[x] = f;
 //    } else {
-//        rs[c][f] = ls[c][x];
-//        if (rs[c][f] != 0) {
-//            fa[c][rs[c][f]] = f;
+//        rs[f] = ls[x];
+//        if (rs[f] != 0) {
+//            fa[rs[f]] = f;
 //        }
-//        ls[c][x] = f;
+//        ls[x] = f;
 //    }
-//    if (!isroot(c, f)) {
-//        if (lr(c, f) == 0) {
-//            ls[c][g] = x;
+//    if (!isroot(f)) {
+//        if (lr(f) == 0) {
+//            ls[g] = x;
 //        } else {
-//            rs[c][g] = x;
+//            rs[g] = x;
 //        }
 //    }
-//    fa[c][f] = x;
-//    fa[c][x] = g;
-//    up(c, f);
-//    up(c, x);
+//    fa[f] = x;
+//    fa[x] = g;
+//    up(f);
+//    up(x);
 //}
 //
-//void splay(int c, int x) {
-//    while (!isroot(c, x)) {
-//        int f = fa[c][x];
-//        if (!isroot(c, f)) {
-//            if (lr(c, x) == lr(c, f)) {
-//                rotate(c, f);
+//void splay(int x) {
+//    while (!isroot(x)) {
+//        int f = fa[x];
+//        if (!isroot(f)) {
+//            if (lr(x) == lr(f)) {
+//                rotate(f);
 //            } else {
-//                rotate(c, x);
+//                rotate(x);
 //            }
 //        }
-//        rotate(c, x);
+//        rotate(x);
 //    }
-//    up(c, x);
+//    up(x);
 //}
 //
-//void access(int c, int x) {
-//    for (int y = 0; x != 0; y = x, x = fa[c][x]) {
-//        splay(c, x);
-//        vir[c][x] += sum[c][rs[c][x]];
-//        vir[c][x] -= sum[c][y];
-//        rs[c][x] = y;
-//        up(c, x);
+//void access(int x) {
+//    for (int y = 0; x != 0; y = x, x = fa[x]) {
+//        splay(x);
+//        vir[x] += sum[rs[x]];
+//        vir[x] -= sum[y];
+//        rs[x] = y;
+//        up(x);
 //    }
 //}
 //
-//int findroot(int c, int x) {
-//    access(c, x);
-//    splay(c, x);
-//    while (ls[c][x] != 0) {
-//        x = ls[c][x];
+//int findroot(int x) {
+//    access(x);
+//    splay(x);
+//    while (ls[x] != 0) {
+//        x = ls[x];
 //    }
-//    splay(c, x);
+//    splay(x);
 //    return x;
 //}
 //
-//void link(int c, int x, int f) {
+//void link(int x, int f) {
 //    if (f == 0) {
 //        return;
 //    }
-//    access(c, f);
-//    splay(c, f);
-//    splay(c, x);
-//    fa[c][x] = f;
-//    vir[c][f] += sum[c][x];
-//    up(c, f);
+//    access(f);
+//    splay(f);
+//    splay(x);
+//    fa[x] = f;
+//    vir[f] += sum[x];
+//    up(f);
 //}
 //
-//void cut(int c, int x, int f) {
-//    access(c, x);
-//    splay(c, x);
+//void cut(int x, int f) {
+//    access(x);
+//    splay(x);
 //    if (f != 0) {
-//        int left = ls[c][x];
-//        fa[c][left] = 0;
-//        ls[c][x] = 0;
-//        up(c, x);
+//        int left = ls[x];
+//        fa[left] = 0;
+//        ls[x] = 0;
+//        up(x);
 //    }
 //}
 //
 //int query(int x) {
-//    int c = color[x];
-//    int top = findroot(c, x);
-//    if (color[top] == c) {
-//        return sum[c][top];
-//    } else {
-//        return sum[c][rs[c][top]];
-//    }
+//    int cur = val[x] == 1 ? x : x + n;
+//    int top = findroot(cur);
+//    return val[top] == 1 ? sum[top] : sum[rs[top]];
 //}
 //
 //void changeColor(int x) {
-//    int pre = color[x];
-//    int cur = pre ^ 1;
-//    int f = parent[x];
-//    cut(pre, x, f);
-//    color[x] = cur;
-//    link(cur, x, f);
+//    int pre = val[x] == 1 ? x : x + n;
+//    int cur = pre <= n ? pre + n : pre - n;
+//    cut(pre, parent[pre]);
+//    val[pre] = 0;
+//    val[cur] = 1;
+//    link(cur, parent[cur]);
 //}
 //
 //void dfs(int u, int f) {
-//    parent[u] = f;
-//    sum[0][u] = 1;
+//    if (f != 0) {
+//        parent[u] = f;
+//        parent[u + n] = f + n;
+//    }
+//    val[u] = sum[u] = 1;
 //    for (int e = head[u]; e != 0; e = nxt[e]) {
 //        int v = to[e];
 //        if (v != f) {
 //            dfs(v, u);
-//            link(0, v, u);
+//            link(v, u);
 //        }
 //    }
 //}

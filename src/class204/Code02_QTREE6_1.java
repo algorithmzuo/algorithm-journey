@@ -17,36 +17,37 @@ import java.io.PrintWriter;
 
 public class Code02_QTREE6_1 {
 
-	public static int MAXN = 100001;
+	public static int MAXN = 200001;
 	public static int n, q;
 
+	// 原树
 	public static int[] head = new int[MAXN];
-	public static int[] nxt = new int[MAXN << 1];
-	public static int[] to = new int[MAXN << 1];
+	public static int[] nxt = new int[MAXN];
+	public static int[] to = new int[MAXN];
 	public static int cntg;
 
-	// 分别维护黑色和白色两棵LCT，第一维表示颜色
-	// 固定父边(x, parent[x])属于color[x]对应的LCT
-	public static int[][] fa = new int[2][MAXN];
-	public static int[][] ls = new int[2][MAXN];
-	public static int[][] rs = new int[2][MAXN];
+	// 节点x有黑白两个状态，x是黑状态，x+n是白状态
+	// 两套颜色的森林共用一套LCT，彼此独立
+	public static int[] fa = new int[MAXN];
+	public static int[] ls = new int[MAXN];
+	public static int[] rs = new int[MAXN];
 
-	// 原树固定以1为根，每条父边(x, parent[x])按照儿子x的颜色归属某棵LCT
-	// 节点x翻色时只需移动它和固定父亲之间的边，不需要遍历所有儿子
-	// 从而避免菊花图中单次修改退化为O(n)
+	// 原树固定以1为根，每个状态节点都有同一颜色系统中的固定父亲
+	// parent[x]表示黑色状态节点x的固定父亲
+	// parent[x+n]表示白色状态节点x+n的固定父亲
 	public static int[] parent = new int[MAXN];
 
-	// 节点颜色，黑色为0，白色为1
-	public static int[] color = new int[MAXN];
+	// val[x]表示状态节点x是否有效
+	// 每个节点有黑白两个状态，始终只有一个有效
+	public static int[] val = new int[MAXN];
 
-	// vir[c][x]表示颜色c的LCT中，x的所有直接虚儿子所代表的完整子树里
-	// 颜色为c的节点总量
-	public static int[][] vir = new int[2][MAXN];
+	// vir[x]表示状态节点x的所有直接虚儿子所代表的完整子树中
+	// 有效状态节点的总量
+	public static int[] vir = new int[MAXN];
 
-	// sum[c][x]表示颜色c的LCT中，以x为根的辅助splay及其挂载虚子树中
-	// 颜色为c的节点总量
-	// 包括左右儿子的sum、x的虚子树贡献，以及x自身是否为颜色c的贡献
-	public static int[][] sum = new int[2][MAXN];
+	// sum[x]表示以状态节点x为根的辅助splay及其挂载虚子树中
+	// 有效状态节点的总量
+	public static int[] sum = new int[MAXN];
 
 	public static void addEdge(int u, int v) {
 		nxt[++cntg] = head[u];
@@ -54,133 +55,143 @@ public class Code02_QTREE6_1 {
 		head[u] = cntg;
 	}
 
-	public static void up(int c, int x) {
-		sum[c][x] = sum[c][ls[c][x]] + sum[c][rs[c][x]] + vir[c][x] + (color[x] == c ? 1 : 0);
+	public static void up(int x) {
+		sum[x] = sum[ls[x]] + sum[rs[x]] + vir[x] + val[x];
 	}
 
-	public static boolean isroot(int c, int x) {
-		return ls[c][fa[c][x]] != x && rs[c][fa[c][x]] != x;
+	public static boolean isroot(int x) {
+		return ls[fa[x]] != x && rs[fa[x]] != x;
 	}
 
-	public static int lr(int c, int x) {
-		return ls[c][fa[c][x]] == x ? 0 : 1;
+	public static int lr(int x) {
+		return ls[fa[x]] == x ? 0 : 1;
 	}
 
-	public static void rotate(int c, int x) {
-		int f = fa[c][x], g = fa[c][f];
-		if (lr(c, x) == 0) {
-			ls[c][f] = rs[c][x];
-			if (ls[c][f] != 0) {
-				fa[c][ls[c][f]] = f;
+	public static void rotate(int x) {
+		int f = fa[x], g = fa[f];
+		if (lr(x) == 0) {
+			ls[f] = rs[x];
+			if (ls[f] != 0) {
+				fa[ls[f]] = f;
 			}
-			rs[c][x] = f;
+			rs[x] = f;
 		} else {
-			rs[c][f] = ls[c][x];
-			if (rs[c][f] != 0) {
-				fa[c][rs[c][f]] = f;
+			rs[f] = ls[x];
+			if (rs[f] != 0) {
+				fa[rs[f]] = f;
 			}
-			ls[c][x] = f;
+			ls[x] = f;
 		}
-		if (!isroot(c, f)) {
-			if (lr(c, f) == 0) {
-				ls[c][g] = x;
+		if (!isroot(f)) {
+			if (lr(f) == 0) {
+				ls[g] = x;
 			} else {
-				rs[c][g] = x;
+				rs[g] = x;
 			}
 		}
-		fa[c][f] = x;
-		fa[c][x] = g;
-		up(c, f);
-		up(c, x);
+		fa[f] = x;
+		fa[x] = g;
+		up(f);
+		up(x);
 	}
 
-	public static void splay(int c, int x) {
-		while (!isroot(c, x)) {
-			int f = fa[c][x];
-			if (!isroot(c, f)) {
-				if (lr(c, x) == lr(c, f)) {
-					rotate(c, f);
+	public static void splay(int x) {
+		while (!isroot(x)) {
+			int f = fa[x];
+			if (!isroot(f)) {
+				if (lr(x) == lr(f)) {
+					rotate(f);
 				} else {
-					rotate(c, x);
+					rotate(x);
 				}
 			}
-			rotate(c, x);
+			rotate(x);
 		}
-		up(c, x);
+		up(x);
 	}
 
-	public static void access(int c, int x) {
-		for (int y = 0; x != 0; y = x, x = fa[c][x]) {
-			splay(c, x);
-			vir[c][x] += sum[c][rs[c][x]];
-			vir[c][x] -= sum[c][y];
-			rs[c][x] = y;
-			up(c, x);
+	// 注意修正虚子树贡献
+	public static void access(int x) {
+		for (int y = 0; x != 0; y = x, x = fa[x]) {
+			splay(x);
+			vir[x] += sum[rs[x]];
+			vir[x] -= sum[y];
+			rs[x] = y;
+			up(x);
 		}
 	}
 
-	public static int findroot(int c, int x) {
-		access(c, x);
-		splay(c, x);
-		while (ls[c][x] != 0) {
-			x = ls[c][x];
+	public static int findroot(int x) {
+		access(x);
+		splay(x);
+		while (ls[x] != 0) {
+			x = ls[x];
 		}
-		splay(c, x);
+		splay(x);
 		return x;
 	}
 
 	// 连接固定父边(x, f)，x是子，f是父，连接后x作为f的虚儿子
-	public static void link(int c, int x, int f) {
+	public static void link(int x, int f) {
 		if (f == 0) {
 			return;
 		}
-		access(c, f);
-		splay(c, f);
-		splay(c, x);
-		fa[c][x] = f;
-		vir[c][f] += sum[c][x];
-		up(c, f);
+		access(f);
+		splay(f);
+		splay(x);
+		fa[x] = f;
+		vir[f] += sum[x];
+		up(f);
 	}
 
 	// 删除固定父边(x, f)，x是子，f是父
-	public static void cut(int c, int x, int f) {
-		access(c, x);
-		splay(c, x);
+	public static void cut(int x, int f) {
+		access(x);
+		splay(x);
 		if (f != 0) {
-			int left = ls[c][x];
-			fa[c][left] = 0;
-			ls[c][x] = 0;
-			up(c, x);
+			int left = ls[x];
+			fa[left] = 0;
+			ls[x] = 0;
+			up(x);
 		}
 	}
 
 	public static int query(int x) {
-		int c = color[x];
-		int top = findroot(c, x);
-		if (color[top] == c) {
-			return sum[c][top];
-		} else {
-			return sum[c][rs[c][top]];
-		}
+		// 得到原节点x当前颜色对应的状态节点
+		int cur = val[x] == 1 ? x : x + n;
+		int top = findroot(cur);
+		// top有效时，整棵树都是x所在的同色连通块
+		// top无效时，top本身是异色点，它不仅隔断了向上的方向
+		// 也隔断top下方，其他同色分支与x的连通
+		// 所以只能取sum[rs[top]]
+		return val[top] == 1 ? sum[top] : sum[rs[top]];
 	}
 
 	public static void changeColor(int x) {
-		int pre = color[x];
-		int cur = pre ^ 1;
-		int f = parent[x];
-		cut(pre, x, f);
-		color[x] = cur;
-		link(cur, x, f);
+		int pre = val[x] == 1 ? x : x + n;
+		int cur = pre <= n ? pre + n : pre - n;
+		// 老颜色先断边，先不修改老颜色的贡献，断边时会去掉影响
+		cut(pre, parent[pre]);
+		// 然后修改老颜色和新颜色的贡献
+		val[pre] = 0;
+		val[cur] = 1;
+		// 最后新颜色连边，已经修改了新颜色的贡献，影响会加上
+		link(cur, parent[cur]);
 	}
 
 	public static void dfs(int u, int f) {
-		parent[u] = f;
-		sum[0][u] = 1;
+		// 黑白的状态节点，各自记录父亲
+		if (f != 0) {
+			parent[u] = f;
+			parent[u + n] = f + n;
+		}
+		// 节点初始都是黑色，黑色状态点才有贡献
+		val[u] = sum[u] = 1;
 		for (int e = head[u]; e != 0; e = nxt[e]) {
 			int v = to[e];
 			if (v != f) {
 				dfs(v, u);
-				link(0, v, u);
+				link(v, u);
 			}
 		}
 	}
