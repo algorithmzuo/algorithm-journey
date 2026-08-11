@@ -37,8 +37,7 @@ public class Code02_QTREE6_1 {
 	// parent[x+n]表示白色状态节点x+n的固定父亲
 	public static int[] parent = new int[MAXN];
 
-	// val[x]表示状态节点x是否有效
-	// 每个节点有黑白两个状态，始终只有一个有效
+	// 节点x有黑白两个状态，分别是x和x+n，有效状态只有一个
 	public static int[] val = new int[MAXN];
 
 	// vir[x]表示状态节点x的所有直接虚儿子所代表的完整子树中
@@ -131,7 +130,8 @@ public class Code02_QTREE6_1 {
 		return x;
 	}
 
-	// 连接固定父边(x, f)，x是子，f是父，连接后x作为f的虚儿子
+	// 原树形态固定，连接父边(x, f)，x是子，f是父
+	// 连接后x作为f的虚儿子
 	public static void link(int x, int f) {
 		if (f == 0) {
 			return;
@@ -144,7 +144,7 @@ public class Code02_QTREE6_1 {
 		up(f);
 	}
 
-	// 删除固定父边(x, f)，x是子，f是父
+	// 原树形态固定，删除父边(x, f)，x是子，f是父
 	public static void cut(int x, int f) {
 		access(x);
 		splay(x);
@@ -157,14 +157,11 @@ public class Code02_QTREE6_1 {
 	}
 
 	public static int query(int x) {
-		// 得到原节点x当前颜色对应的状态节点
-		int cur = val[x] == 1 ? x : x + n;
-		int top = findroot(cur);
-		// top有效时，整棵树都是x所在的同色连通块
-		// top无效时，top本身是异色点，它不仅隔断了向上的方向
-		// 也隔断top下方，其他同色分支与x的连通
-		// 所以只能取sum[rs[top]]
-		return val[top] == 1 ? sum[top] : sum[rs[top]];
+		// 找到状态节点
+		x = val[x] == 1 ? x : x + n;
+		int y = findroot(x);
+		// y和x同色，返回y的sum，如果不同色，返回y的右儿子的sum
+		return val[y] == 1 ? sum[y] : sum[rs[y]];
 	}
 
 	public static void reverseColor(int x) {

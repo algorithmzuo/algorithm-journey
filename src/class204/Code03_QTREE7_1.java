@@ -189,9 +189,9 @@ public class Code03_QTREE7_1 {
 	}
 
 	public static int query(int x) {
-		int cur = val[x] != -INF ? x : x + n;
-		int top = findroot(cur);
-		return val[top] != -INF ? maxv[top] : maxv[rs[top]];
+		x = val[x] != -INF ? x : x + n;
+		int y = findroot(x);
+		return val[y] != -INF ? maxv[y] : maxv[rs[y]];
 	}
 
 	public static void reverseColor(int x) {

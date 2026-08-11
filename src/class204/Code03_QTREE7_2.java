@@ -153,9 +153,9 @@ package class204;
 //}
 //
 //int query(int x) {
-//    int cur = val[x] != -INF ? x : x + n;
-//    int top = findroot(cur);
-//    return val[top] != -INF ? maxv[top] : maxv[rs[top]];
+//    x = val[x] != -INF ? x : x + n;
+//    int y = findroot(x);
+//    return val[y] != -INF ? maxv[y] : maxv[rs[y]];
 //}
 //
 //void reverseColor(int x) {
