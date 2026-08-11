@@ -168,12 +168,12 @@ package class204;
 //    up(y);
 //}
 //
-//void dfsRoad(int x) {
+//void inOrder(int x) {
 //    if (x != 0) {
 //        down(x);
-//        dfsRoad(ls[x]);
+//        inOrder(ls[x]);
 //        road[++roadLen] = x;
-//        dfsRoad(rs[x]);
+//        inOrder(rs[x]);
 //    }
 //}
 //
@@ -196,7 +196,7 @@ package class204;
 //        split(x, y);
 //        if (sum[y] > 2) {
 //            roadLen = 0;
-//            dfsRoad(y);
+//            inOrder(y);
 //            for (int i = 2; i <= roadLen; i++) {
 //                cut(road[i - 1], road[i]);
 //            }

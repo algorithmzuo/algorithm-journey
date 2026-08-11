@@ -184,12 +184,14 @@ public class Code08_DynamicGraph1 {
 		up(y);
 	}
 
-	public static void dfsRoad(int x) {
+	// 中序遍历收集节点，相当于实链中，从上到下依次收集节点
+	public static void inOrder(int x) {
 		if (x != 0) {
+			// 先处理翻转的懒更新，左右儿子确保更新正确
 			down(x);
-			dfsRoad(ls[x]);
+			inOrder(ls[x]);
 			road[++roadLen] = x;
-			dfsRoad(rs[x]);
+			inOrder(rs[x]);
 		}
 	}
 
@@ -220,16 +222,17 @@ public class Code08_DynamicGraph1 {
 			// 暴露当前动态圆方树中x到y的路径
 			split(x, y);
 			if (sum[y] > 2) {
-				// 按照x到y的顺序，取出路径上的所有圆点和方点
+				// 辅助splay中，按照中序遍历收集节点
+				// 等同于按照当前实链从x到y的顺序收集所有节点
 				roadLen = 0;
-				dfsRoad(y);
-				// 删除原路径上的所有树边
+				inOrder(y);
+				// 删除原来路径中所有的树边
 				for (int i = 2; i <= roadLen; i++) {
 					cut(road[i - 1], road[i]);
 				}
 				// 新建方点，表示新形成的、更大的点双连通分量
 				int square = ++cntev;
-				// 将原路径上的所有圆点和旧方点连接到新方点
+				// 将原路径上的所有圆点和旧方点，此时连接到新方点
 				for (int i = 1; i <= roadLen; i++) {
 					link(road[i], square);
 				}
