@@ -30,10 +30,10 @@ public class Code06_NewBarns1 {
 	// 并查集维护每个连通块
 	public static int[] father = new int[MAXN];
 
-	// 连通块的直径长度、直径端点
+	// 连通块的直径长度、直径的两个端点
 	public static int[] diameter = new int[MAXN];
-	public static int[] lnode = new int[MAXN];
-	public static int[] rnode = new int[MAXN];
+	public static int[] dl = new int[MAXN];
+	public static int[] dr = new int[MAXN];
 
 	public static int find(int x) {
 		if (father[x] != x) {
@@ -172,14 +172,14 @@ public class Code06_NewBarns1 {
 		int x = ++cntn;
 		siz[x] = 1;
 		father[x] = x;
-		lnode[x] = x;
-		rnode[x] = x;
+		dl[x] = x;
+		dr[x] = x;
 		diameter[x] = 0;
 		if (p != -1) {
 			// 得到原连通块的直径端点和直径长度
 			int root = find(p);
-			int a = lnode[root];
-			int b = rnode[root];
+			int a = dl[root];
+			int b = dr[root];
 			int best = diameter[root];
 			int bestl = a;
 			int bestr = b;
@@ -199,8 +199,8 @@ public class Code06_NewBarns1 {
 				bestr = b;
 			}
 			father[x] = root;
-			lnode[root] = bestl;
-			rnode[root] = bestr;
+			dl[root] = bestl;
+			dr[root] = bestr;
 			diameter[root] = best;
 		}
 	}
@@ -208,7 +208,7 @@ public class Code06_NewBarns1 {
 	// 某点在树中的最远点，一定是直径的两个端点的其中之一
 	public static int query(int x) {
 		int fx = find(x);
-		return Math.max(getDist(x, lnode[fx]), getDist(x, rnode[fx]));
+		return Math.max(getDist(x, dl[fx]), getDist(x, dr[fx]));
 	}
 
 	public static void main(String[] args) throws Exception {

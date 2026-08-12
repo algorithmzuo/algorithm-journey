@@ -27,8 +27,8 @@ package class204;
 //int father[MAXN];
 //
 //int diameter[MAXN];
-//int lnode[MAXN];
-//int rnode[MAXN];
+//int dl[MAXN];
+//int dr[MAXN];
 //
 //int find(int x) {
 //    if (father[x] != x) {
@@ -163,13 +163,13 @@ package class204;
 //    int x = ++cntn;
 //    siz[x] = 1;
 //    father[x] = x;
-//    lnode[x] = x;
-//    rnode[x] = x;
+//    dl[x] = x;
+//    dr[x] = x;
 //    diameter[x] = 0;
 //    if (p != -1) {
 //        int root = find(p);
-//        int a = lnode[root];
-//        int b = rnode[root];
+//        int a = dl[root];
+//        int b = dr[root];
 //        int best = diameter[root];
 //        int bestl = a;
 //        int bestr = b;
@@ -187,15 +187,15 @@ package class204;
 //            bestr = b;
 //        }
 //        father[x] = root;
-//        lnode[root] = bestl;
-//        rnode[root] = bestr;
+//        dl[root] = bestl;
+//        dr[root] = bestr;
 //        diameter[root] = best;
 //    }
 //}
 //
 //int query(int x) {
 //    int fx = find(x);
-//    return max(getDist(x, lnode[fx]), getDist(x, rnode[fx]));
+//    return max(getDist(x, dl[fx]), getDist(x, dr[fx]));
 //}
 //
 //int main() {
