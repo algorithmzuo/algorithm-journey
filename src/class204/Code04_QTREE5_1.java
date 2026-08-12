@@ -35,6 +35,7 @@ public class Code04_QTREE5_1 {
 	public static int[] ls = new int[MAXN];
 	public static int[] rs = new int[MAXN];
 
+	// 节点颜色
 	public static int[] color = new int[MAXN];
 
 	// siz[x]表示以x为根的辅助splay节点数量，也就是实链长度，不包括虚子树节点
