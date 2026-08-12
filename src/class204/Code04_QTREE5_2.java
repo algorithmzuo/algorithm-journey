@@ -50,9 +50,9 @@ package class204;
 //
 //void up(int x) {
 //    siz[x] = siz[ls[x]] + siz[rs[x]] + 1;
-//    int cur = color[x] == 1 ? 0 : INF;
-//    lm[x] = min(lm[ls[x]], siz[ls[x]] + min(cur, min(getmin(x), lm[rs[x]] + 1)));
-//    rm[x] = min(rm[rs[x]], siz[rs[x]] + min(cur, min(getmin(x), rm[ls[x]] + 1)));
+//    int fromx = min(color[x] == 1 ? 0 : INF, getmin(x) + 1);
+//    lm[x] = min(lm[ls[x]], siz[ls[x]] + min(fromx, lm[rs[x]] + 1));
+//    rm[x] = min(rm[rs[x]], siz[rs[x]] + min(fromx, rm[ls[x]] + 1));
 //}
 //
 //bool isroot(int x) {
@@ -110,10 +110,10 @@ package class204;
 //    for (int y = 0; x != 0; y = x, x = fa[x]) {
 //        splay(x);
 //        if (rs[x] != 0) {
-//            vir[x].insert(lm[rs[x]] + 1);
+//            vir[x].insert(lm[rs[x]]);
 //        }
 //        if (y != 0) {
-//            vir[x].erase(vir[x].find(lm[y] + 1));
+//            vir[x].erase(vir[x].find(lm[y]));
 //        }
 //        rs[x] = y;
 //        up(x);
@@ -141,7 +141,7 @@ package class204;
 //        int v = to[e];
 //        if (v != f) {
 //            dfs(v, u);
-//            vir[u].insert(lm[v] + 1);
+//            vir[u].insert(lm[v]);
 //        }
 //    }
 //}
