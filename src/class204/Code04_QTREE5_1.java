@@ -175,7 +175,7 @@ public class Code04_QTREE5_1 {
 			int v = to[e];
 			if (v != f) {
 				dfs(v, u);
-				// 初始时不存在实链，每个孩子都是u的虚儿子
+				// 初始认为不存在实链，每个v都是u的虚儿子
 				insert(u, lm[v]);
 			}
 		}
@@ -186,9 +186,9 @@ public class Code04_QTREE5_1 {
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
 		n = in.nextInt();
 		lm[0] = rm[0] = INF;
-		for (int i = 1; i < n; i++) {
-			int u = in.nextInt();
-			int v = in.nextInt();
+		for (int i = 1, u, v; i < n; i++) {
+			u = in.nextInt();
+			v = in.nextInt();
 			addEdge(u, v);
 			addEdge(v, u);
 		}
