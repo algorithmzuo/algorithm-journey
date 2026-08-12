@@ -50,9 +50,14 @@ package class204;
 //
 //void up(int x) {
 //    siz[x] = siz[ls[x]] + siz[rs[x]] + 1;
-//    int fromx = min(color[x] == 1 ? 0 : INF, getmin(x) + 1);
-//    lm[x] = min(lm[ls[x]], siz[ls[x]] + min(fromx, lm[rs[x]] + 1));
-//    rm[x] = min(rm[rs[x]], siz[rs[x]] + min(fromx, rm[ls[x]] + 1));
+//    int l1 = lm[ls[x]];
+//    int l2 = siz[ls[x]] + (color[x] == 1 ? 0 : getmin(x) + 1);
+//    int l3 = siz[ls[x]] + 1 + lm[rs[x]];
+//    lm[x] = min(l1, min(l2, l3));
+//    int r1 = rm[rs[x]];
+//    int r2 = siz[rs[x]] + (color[x] == 1 ? 0 : getmin(x) + 1);
+//    int r3 = siz[rs[x]] + 1 + rm[ls[x]];
+//    rm[x] = min(r1, min(r2, r3));
 //}
 //
 //bool isroot(int x) {

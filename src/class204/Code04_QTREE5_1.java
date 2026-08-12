@@ -38,7 +38,7 @@ public class Code04_QTREE5_1 {
 	// 节点颜色
 	public static int[] color = new int[MAXN];
 
-	// siz[x]表示以x为根的辅助splay节点数量，也就是实链长度，不包括虚子树节点
+	// siz[x]表示以x为根的辅助splay节点数量，也就是实链节点数，不包括虚子树节点
 	public static int[] siz = new int[MAXN];
 
 	// lm[x]表示以x为根的辅助splay中，从深度最小的节点出发，也就是实链顶点，到最近白色节点的距离
@@ -47,7 +47,7 @@ public class Code04_QTREE5_1 {
 	// rm[x]表示以x为根的辅助splay中，从深度最大的节点出发，也就是实链底点，到最近白色节点的距离
 	public static int[] rm = new int[MAXN];
 
-	// 每个节点x有一张表，记录每个虚儿子，各自去下方，最近白点的距离和次数
+	// 节点x的有序表，记录每个虚儿子，各自去往下方，最近白点的距离和次数
 	// 表中最小值+1，就是从x进入虚子树后，到最近白点的距离
 	public static HashMap<Integer, TreeMap<Integer, Integer>> vir = new HashMap<>();
 
@@ -83,9 +83,14 @@ public class Code04_QTREE5_1 {
 	// 课上重点图解了决策
 	public static void up(int x) {
 		siz[x] = siz[ls[x]] + siz[rs[x]] + 1;
-		int fromx = Math.min(color[x] == 1 ? 0 : INF, getmin(x) + 1);
-		lm[x] = Math.min(lm[ls[x]], siz[ls[x]] + Math.min(fromx, lm[rs[x]] + 1));
-		rm[x] = Math.min(rm[rs[x]], siz[rs[x]] + Math.min(fromx, rm[ls[x]] + 1));
+		int l1 = lm[ls[x]];
+		int l2 = siz[ls[x]] + (color[x] == 1 ? 0 : getmin(x) + 1);
+		int l3 = siz[ls[x]] + 1 + lm[rs[x]];
+		lm[x] = Math.min(l1, Math.min(l2, l3));
+		int r1 = rm[rs[x]];
+		int r2 = siz[rs[x]] + (color[x] == 1 ? 0 : getmin(x) + 1);
+		int r3 = siz[rs[x]] + 1 + rm[ls[x]];
+		rm[x] = Math.min(r1, Math.min(r2, r3));
 	}
 
 	public static boolean isroot(int x) {
