@@ -80,7 +80,7 @@ public class Code04_QTREE5_1 {
 		return vir.get(x).firstKey();
 	}
 
-	// 课上重点图解了决策
+	// 课上重点图解了决策过程
 	public static void up(int x) {
 		siz[x] = siz[ls[x]] + siz[rs[x]] + 1;
 		int l1 = lm[ls[x]];
