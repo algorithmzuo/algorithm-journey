@@ -23,28 +23,29 @@ public class Code08_DynamicGraph1 {
 	public static int MAXT = 400001;
 	public static int n, q;
 
-	// 原图的连通性只增不减，使用并查集维护
+	// 并查集维护连通性
 	public static int[] father = new int[MAXN];
 
 	// 节点x，有割边和割点两个状态，x表示割边状态，x+n表示割点状态
-	// 两套系统共用一套LCT数组
+	// 割边LCT和割点LCT彼此独立，共用一套数组
 	public static int[] fa = new int[MAXT];
 	public static int[] ls = new int[MAXT];
 	public static int[] rs = new int[MAXT];
 	public static boolean[] rev = new boolean[MAXT];
 	public static int[] sta = new int[MAXT];
 
-	// 两套系统都需要产生的新节点，都用cntev进行编号分配
+	// 两套LCT都需要产生的新节点，都用cntev进行编号分配
 	// cntev初始是2 * n，然后根据++cntev产生新的编号
 	public static int cntev;
 
+	// 两套LCT都有单点贡献和汇总贡献，并且汇总函数up是一样的
 	public static int[] val = new int[MAXT];
 	public static int[] sum = new int[MAXT];
 
 	// 只给割边LCT使用，zeroTag[x]表示以x为根的辅助splay中，所有边节点的贡献变成0
 	public static boolean[] zeroTag = new boolean[MAXT];
 
-	// 展开割点LCT中的圆方树路径
+	// 收集割点LCT中的圆方树路径
 	public static int[] road = new int[MAXT];
 	public static int roadLen;
 
@@ -200,8 +201,8 @@ public class Code08_DynamicGraph1 {
 		int fy = find(y);
 		if (fx != fy) {
 			father[fy] = fx;
-			// 割边LCT采用边转点
-			// 新建的边当前一定是割边，贡献为1
+			// 割边LCT中，新建的边变成LCT中的点
+			// 当前新建的边一定是割边，贡献为1
 			int edge = ++cntev;
 			val[edge] = 1;
 			sum[edge] = 1;
@@ -211,9 +212,9 @@ public class Code08_DynamicGraph1 {
 			// 两个连通块之间直接连接两个圆点
 			link(x + n, y + n);
 		} else {
-			// x、y原本已经连通，新边形成环
+			// 如果x和y已经连通，那么此时形成环
 			// 割边LCT中，x到y路径上的所有边都进入环
-			// 从此不再是割边
+			// 从此不再是割边，贡献都变成0
 			split(x, y);
 			setZero(y);
 			// 切换到割点LCT中对应的两个状态节点
@@ -222,7 +223,7 @@ public class Code08_DynamicGraph1 {
 			// 暴露当前动态圆方树中x到y的路径
 			split(x, y);
 			if (sum[y] > 2) {
-				// 辅助splay中，按照中序遍历收集节点
+				// 辅助splay中，按照中序遍历收集节点，核心是中序
 				// 等同于按照当前实链从x到y的顺序收集所有节点
 				roadLen = 0;
 				inOrder(y);
