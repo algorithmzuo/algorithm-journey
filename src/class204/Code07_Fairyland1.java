@@ -222,10 +222,8 @@ public class Code07_Fairyland1 {
 		for (int i = 1; i <= m; i++) {
 			int x = eu[i];
 			int y = ev[i];
-			if (x == y) {
-				root[i] = root[i - 1];
-			} else {
-				root[i] = add(i, 1, 1, m, root[i - 1]);
+			root[i] = root[i - 1];
+			if (x != y) {
 				if (findroot(x) == findroot(y)) {
 					int e = pathMin(x, y);
 					cut(eu[e], n + e);
@@ -234,6 +232,7 @@ public class Code07_Fairyland1 {
 				}
 				link(x, n + i);
 				link(y, n + i);
+				root[i] = add(i, 1, 1, m, root[i]);
 			}
 		}
 	}
