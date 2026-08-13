@@ -163,24 +163,24 @@ package class204;
 //
 //int newCenter(int a, int b) {
 //    split(a, b);
-//    int x = b;
-//    int half = sum[x] >> 1;
+//    int half = sum[b] >> 1;
 //    int lpass = 0;
 //    int rpass = 0;
 //    int ans = n + 1;
-//    while (x != 0) {
-//        down(x);
-//        int lsiz = sum[ls[x]] + lpass;
-//        int rsiz = sum[rs[x]] + rpass;
+//    int cur = b;
+//    while (cur != 0) {
+//        down(cur);
+//        int lsiz = sum[ls[cur]] + lpass;
+//        int rsiz = sum[rs[cur]] + rpass;
 //        if (lsiz <= half && rsiz <= half) {
-//            ans = min(ans, x);
+//            ans = min(ans, cur);
 //        }
 //        if (lsiz < rsiz) {
-//            lpass += sum[ls[x]] + vir[x] + 1;
-//            x = rs[x];
+//            lpass += sum[ls[cur]] + vir[cur] + 1;
+//            cur = rs[cur];
 //        } else {
-//            rpass += sum[rs[x]] + vir[x] + 1;
-//            x = ls[x];
+//            rpass += sum[rs[cur]] + vir[cur] + 1;
+//            cur = ls[cur];
 //        }
 //    }
 //    splay(ans);

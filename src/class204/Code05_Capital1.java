@@ -172,27 +172,27 @@ public class Code05_Capital1 {
 	public static int newCenter(int a, int b) {
 		// 打通两个旧重心的路径，新重心一定在这条路径上
 		split(a, b);
-		int x = b;
-		int half = sum[x] >> 1;
+		int half = sum[b] >> 1;
 		int lpass = 0;
 		int rpass = 0;
 		int ans = n + 1;
-		while (x != 0) {
+		int cur = b;
+		while (cur != 0) {
 			// 先要处理翻转标记，才能正确的向左或者向右移动
-			down(x);
-			int lsiz = sum[ls[x]] + lpass;
-			int rsiz = sum[rs[x]] + rpass;
+			down(cur);
+			int lsiz = sum[ls[cur]] + lpass;
+			int rsiz = sum[rs[cur]] + rpass;
 			// 课上重点讲解了，只需要检查路径的两个方向的子树即可
 			if (lsiz <= half && rsiz <= half) {
-				ans = Math.min(ans, x);
+				ans = Math.min(ans, cur);
 			}
 			// 向节点数量较多的一侧移动
 			if (lsiz < rsiz) {
-				lpass += sum[ls[x]] + vir[x] + 1;
-				x = rs[x];
+				lpass += sum[ls[cur]] + vir[cur] + 1;
+				cur = rs[cur];
 			} else {
-				rpass += sum[rs[x]] + vir[x] + 1;
-				x = ls[x];
+				rpass += sum[rs[cur]] + vir[cur] + 1;
+				cur = ls[cur];
 			}
 		}
 		// 新重心旋转上去，保证平衡性
