@@ -25,7 +25,6 @@ package class204;
 //int siz[MAXN];
 //
 //int father[MAXN];
-//
 //int diameter[MAXN];
 //int dl[MAXN];
 //int dr[MAXN];
