@@ -26,17 +26,17 @@ package class204;
 //bool rev[MAXN];
 //int sta[MAXN];
 //
-//int center[MAXN];
+//int father[MAXN];
 //int vir[MAXN];
 //int sum[MAXN];
 //
 //int xorsum;
 //
 //int find(int x) {
-//    if (x != center[x]) {
-//        center[x] = find(center[x]);
+//    if (x != father[x]) {
+//        father[x] = find(father[x]);
 //    }
-//    return center[x];
+//    return father[x];
 //}
 //
 //void up(int x) {
@@ -161,23 +161,25 @@ package class204;
 //    }
 //}
 //
-//int getCenter(int x) {
+//int newCenter(int a, int b) {
+//    split(a, b);
+//    int x = b;
 //    int half = sum[x] >> 1;
-//    int lout = 0;
-//    int rout = 0;
+//    int lpass = 0;
+//    int rpass = 0;
 //    int ans = n + 1;
 //    while (x != 0) {
 //        down(x);
-//        int lsiz = sum[ls[x]] + lout;
-//        int rsiz = sum[rs[x]] + rout;
+//        int lsiz = sum[ls[x]] + lpass;
+//        int rsiz = sum[rs[x]] + rpass;
 //        if (lsiz <= half && rsiz <= half) {
 //            ans = min(ans, x);
 //        }
 //        if (lsiz < rsiz) {
-//            lout += sum[ls[x]] + vir[x] + 1;
+//            lpass += sum[ls[x]] + vir[x] + 1;
 //            x = rs[x];
 //        } else {
-//            rout += sum[rs[x]] + vir[x] + 1;
+//            rpass += sum[rs[x]] + vir[x] + 1;
 //            x = ls[x];
 //        }
 //    }
@@ -186,13 +188,12 @@ package class204;
 //}
 //
 //void road(int x, int y) {
-//    int fx = find(x);
-//    int fy = find(y);
+//    int a = find(x);
+//    int b = find(y);
 //    link(x, y);
-//    split(fx, fy);
-//    int cur = getCenter(fy);
-//    center[cur] = center[fx] = center[fy] = cur;
-//    xorsum ^= fx ^ fy ^ cur;
+//    int cur = newCenter(a, b);
+//    father[cur] = father[a] = father[b] = cur;
+//    xorsum ^= a ^ b ^ cur;
 //}
 //
 //int main() {
@@ -201,7 +202,7 @@ package class204;
 //    cin >> n >> m;
 //    for (int i = 1; i <= n; i++) {
 //        sum[i] = 1;
-//        center[i] = i;
+//        father[i] = i;
 //        xorsum ^= i;
 //    }
 //    string op;

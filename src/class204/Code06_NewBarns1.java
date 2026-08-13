@@ -27,7 +27,7 @@ public class Code06_NewBarns1 {
 	// siz[x]表示以x为根的辅助splay中，节点总量
 	public static int[] siz = new int[MAXN];
 
-	// 并查集维护每个连通块
+	// 并查集维护连通性
 	public static int[] father = new int[MAXN];
 
 	// 连通块的直径长度、直径的两个端点

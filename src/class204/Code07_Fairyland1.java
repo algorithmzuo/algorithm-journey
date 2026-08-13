@@ -31,7 +31,8 @@ public class Code07_Fairyland1 {
 	public static boolean[] rev = new boolean[MAXN];
 	public static int[] sta = new int[MAXN];
 
-	// 原图的点，点权为INF，原图第i号边，变成LCT的第n+i号点，点权为i
+	// 原图的点x，在LCT中编号x，点权为INF
+	// 原图的边i，在LCT中编号n+i，点权为i
 	public static int[] val = new int[MAXN];
 
 	// minv[x]表示以x为根的辅助splay，汇总最小点权

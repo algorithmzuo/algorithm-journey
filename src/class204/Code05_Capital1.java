@@ -28,8 +28,8 @@ public class Code05_Capital1 {
 	public static boolean[] rev = new boolean[MAXN];
 	public static int[] sta = new int[MAXN];
 
-	// center[]表示并查集，每个连通块是集合，代表节点就是该连通块的重心
-	public static int[] center = new int[MAXN];
+	// 并查集维护连通性，连通块的代表节点就是连通块的重心
+	public static int[] father = new int[MAXN];
 
 	public static int[] vir = new int[MAXN];
 	public static int[] sum = new int[MAXN];
@@ -38,10 +38,10 @@ public class Code05_Capital1 {
 
 	// 查询x所在连通块当前的重心
 	public static int find(int x) {
-		if (x != center[x]) {
-			center[x] = find(center[x]);
+		if (x != father[x]) {
+			father[x] = find(father[x]);
 		}
-		return center[x];
+		return father[x];
 	}
 
 	public static void up(int x) {
@@ -168,52 +168,45 @@ public class Code05_Capital1 {
 		}
 	}
 
-	// 两个旧重心的路径已经split出来
-	// x是辅助splay的根，也是实链最下方的节点
-	// 新重心在这条路径上，在辅助splay中，向较重的一侧搜索
-	public static int getCenter(int x) {
+	// 根据两个旧重心a和b，寻找并返回新重心
+	public static int newCenter(int a, int b) {
+		// 打通两个旧重心的路径，新重心一定在这条路径上
+		split(a, b);
+		int x = b;
 		int half = sum[x] >> 1;
-		int lout = 0;
-		int rout = 0;
+		int lpass = 0;
+		int rpass = 0;
 		int ans = n + 1;
 		while (x != 0) {
-			// 搜索过程向左或者向右移动，所以先要处理翻转标记
+			// 先要处理翻转标记，才能正确的向左或者向右移动
 			down(x);
-			int lsiz = sum[ls[x]] + lout;
-			int rsiz = sum[rs[x]] + rout;
-			// 两侧大小都不超过总大小的一半，那么x就是重心
-			// 偶数大小的树可能有两个重心，所以取编号更小的
+			int lsiz = sum[ls[x]] + lpass;
+			int rsiz = sum[rs[x]] + rpass;
+			// 课上重点讲解了，只需要检查路径的两个方向的子树即可
 			if (lsiz <= half && rsiz <= half) {
 				ans = Math.min(ans, x);
 			}
+			// 向节点数量较多的一侧移动
 			if (lsiz < rsiz) {
-				// 右侧更大，向右寻找重心
-				// 左儿子、x自身、x的虚子树都进入左侧
-				lout += sum[ls[x]] + vir[x] + 1;
+				lpass += sum[ls[x]] + vir[x] + 1;
 				x = rs[x];
 			} else {
-				// 左侧更大，向左寻找重心
-				// 右儿子、x自身、x的虚子树都进入右侧
-				rout += sum[rs[x]] + vir[x] + 1;
+				rpass += sum[rs[x]] + vir[x] + 1;
 				x = ls[x];
 			}
 		}
-		// 找到了新重心，旋转上去，保证平衡性
+		// 新重心旋转上去，保证平衡性
 		splay(ans);
 		return ans;
 	}
 
 	public static void road(int x, int y) {
-		int fx = find(x);
-		int fy = find(y);
+		int a = find(x);
+		int b = find(y);
 		link(x, y);
-		// 新重心一定在两个旧重心的路径上
-		// 合并两个集合，新重心作为代表节点
-		// 异或和去掉两个旧重心，加入新重心
-		split(fx, fy);
-		int cur = getCenter(fy);
-		center[cur] = center[fx] = center[fy] = cur;
-		xorsum ^= fx ^ fy ^ cur;
+		int cur = newCenter(a, b);
+		father[cur] = father[a] = father[b] = cur;
+		xorsum ^= a ^ b ^ cur;
 	}
 
 	public static void main(String[] args) throws Exception {
@@ -223,7 +216,7 @@ public class Code05_Capital1 {
 		m = in.nextInt();
 		for (int i = 1; i <= n; i++) {
 			sum[i] = 1;
-			center[i] = i;
+			father[i] = i;
 			xorsum ^= i;
 		}
 		String op;
