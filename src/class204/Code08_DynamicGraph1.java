@@ -2,10 +2,10 @@ package class204;
 
 // LCT与动态图，java版
 // 初始有n个孤立节点，接下来有q条操作，操作类型如下
-// 操作 1 x y : 在节点x和节点y之间增加一条无向边
-// 操作 2 x y : 打印节点x和节点y之间的割边数量，不连通打印-1
-// 操作 3 x y : 打印节点x和节点y之间的割点数量，不连通打印-1
-// 割点数量包括节点x和节点y本身
+// 操作 1 x y : 点x和点y之间增加一条无向边，两点之前可能连通
+// 操作 2 x y : 打印点x到点y的路径中，必经边的数量，不连通打印-1
+// 操作 3 x y : 打印点x到点y的路径中，必经点的数量，不连通打印-1
+// 必经点包括节点x和节点y本身
 // 本题要求强制在线，得到操作参数的规则，打开测试链接查看
 // 1 <= n <= 10^5
 // 1 <= q <= 3 * 10^5
@@ -23,22 +23,22 @@ public class Code08_DynamicGraph1 {
 	public static int MAXT = 400001;
 	public static int n, q;
 
-	// 并查集维护连通性
+	// 并查集维护连通性，因为本题卡常，用LCT判断连通性会超时
 	public static int[] father = new int[MAXN];
 
-	// 节点x，有割边和割点两个状态，x表示割边状态，x+n表示割点状态
-	// 割边LCT和割点LCT彼此独立，共用一套数组
+	// 节点x参与割边LCT和割点LCT，两套LCT共用一套数组，但彼此独立
+	// x表示割边LCT中的点，x+n表示割点LCT中的点
 	public static int[] fa = new int[MAXT];
 	public static int[] ls = new int[MAXT];
 	public static int[] rs = new int[MAXT];
 	public static boolean[] rev = new boolean[MAXT];
 	public static int[] sta = new int[MAXT];
 
-	// 两套LCT都需要产生的新节点，都用cntev进行编号分配
-	// cntev初始是2 * n，然后根据++cntev产生新的编号
+	// 两套LCT都会产生的新节点，都用cntev进行编号分配
+	// cntev初始是2 * n，然后(++cntev)产生新编号
 	public static int cntev;
 
-	// 两套LCT都有单点贡献和汇总贡献，并且汇总函数up是一样的
+	// 两套LCT都有单点贡献和贡献汇总，并且汇总函数up都是一样的
 	public static int[] val = new int[MAXT];
 	public static int[] sum = new int[MAXT];
 
