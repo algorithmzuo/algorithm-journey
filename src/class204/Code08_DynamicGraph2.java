@@ -29,7 +29,7 @@ package class204;
 //bool rev[MAXT];
 //int sta[MAXT];
 //
-//int cntev;
+//int cnt;
 //
 //int val[MAXT];
 //int sum[MAXT];
@@ -182,7 +182,7 @@ package class204;
 //    int fy = find(y);
 //    if (fx != fy) {
 //        father[fy] = fx;
-//        int edge = ++cntev;
+//        int edge = ++cnt;
 //        val[edge] = 1;
 //        sum[edge] = 1;
 //        link(x, edge);
@@ -200,7 +200,7 @@ package class204;
 //            for (int i = 2; i <= roadLen; i++) {
 //                cut(road[i - 1], road[i]);
 //            }
-//            int square = ++cntev;
+//            int square = ++cnt;
 //            for (int i = 1; i <= roadLen; i++) {
 //                link(road[i], square);
 //            }
@@ -230,7 +230,7 @@ package class204;
 //    ios::sync_with_stdio(false);
 //    cin.tie(nullptr);
 //    cin >> n >> q;
-//    cntev = n << 1;
+//    cnt = n << 1;
 //    for (int i = 1; i <= n; i++) {
 //        father[i] = i;
 //        val[i + n] = 1;

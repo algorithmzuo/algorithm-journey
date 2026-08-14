@@ -34,9 +34,9 @@ public class Code08_DynamicGraph1 {
 	public static boolean[] rev = new boolean[MAXT];
 	public static int[] sta = new int[MAXT];
 
-	// 两套LCT都会产生的新节点，都用cntev进行编号分配
-	// cntev初始是2 * n，然后(++cntev)产生新编号
-	public static int cntev;
+	// 割边LCT需要给边分配编号，割点LCT需要给方点分配编号
+	// 都用cnt进行分配，初始值2*n，然后(++cnt)产生新编号
+	public static int cnt;
 
 	// 两套LCT都有单点贡献和贡献汇总，并且汇总函数up都是一样的
 	public static int[] val = new int[MAXT];
@@ -202,7 +202,7 @@ public class Code08_DynamicGraph1 {
 		if (fx != fy) {
 			father[fy] = fx;
 			// 割边LCT中，新边变成LCT中的点，新边是割边，贡献是1
-			int edge = ++cntev;
+			int edge = ++cnt;
 			val[edge] = 1;
 			sum[edge] = 1;
 			link(x, edge);
@@ -230,7 +230,7 @@ public class Code08_DynamicGraph1 {
 					cut(road[i - 1], road[i]);
 				}
 				// 新建方点，形成更大的点双连通分量
-				int square = ++cntev;
+				int square = ++cnt;
 				// 原路径上的所有圆点和旧方点，连接到新方点
 				for (int i = 1; i <= roadLen; i++) {
 					link(road[i], square);
@@ -262,7 +262,7 @@ public class Code08_DynamicGraph1 {
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
 		n = in.nextInt();
 		q = in.nextInt();
-		cntev = n << 1;
+		cnt = n << 1;
 		// 并查集初始化
 		// 割边LCT中的原节点贡献为0，无需设置
 		// 割点LCT中的原节点是圆点，设置贡献是1
