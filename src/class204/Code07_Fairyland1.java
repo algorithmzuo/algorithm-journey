@@ -31,11 +31,11 @@ public class Code07_Fairyland1 {
 	public static boolean[] rev = new boolean[MAXN];
 	public static int[] sta = new int[MAXN];
 
-	// 原图的点x，在LCT中编号x，点权为INF
-	// 原图的边i，在LCT中编号n+i，点权为i
+	// 原图的点x，在LCT中编号x，权值为INF，是无效值
+	// 原图的边i，在LCT中编号n+i，权值为i，是边序号
 	public static int[] val = new int[MAXN];
 
-	// minv[x]表示以x为根的辅助splay，汇总最小点权
+	// minv[x]表示以x为根的辅助splay，汇总最小的边序号
 	public static int[] minv = new int[MAXN];
 
 	// 可持久化线段树，记录每个生成的森林中，每条边是否存在
