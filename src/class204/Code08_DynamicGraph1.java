@@ -45,7 +45,7 @@ public class Code08_DynamicGraph1 {
 	// 只给割边LCT使用，zeroTag[x]表示以x为根的辅助splay中，所有边节点的贡献变成0
 	public static boolean[] zeroTag = new boolean[MAXT];
 
-	// 收集割点LCT中的圆方树路径
+	// 收集割点LCT中的路径
 	public static int[] road = new int[MAXT];
 	public static int roadLen;
 
@@ -201,15 +201,13 @@ public class Code08_DynamicGraph1 {
 		int fy = find(y);
 		if (fx != fy) {
 			father[fy] = fx;
-			// 割边LCT中，新建的边变成LCT中的点
-			// 当前新建的边一定是割边，贡献为1
+			// 割边LCT中，新边变成LCT中的点，新边是割边，贡献是1
 			int edge = ++cntev;
 			val[edge] = 1;
 			sum[edge] = 1;
 			link(x, edge);
-			link(edge, y);
-			// 割点LCT中，原节点x的状态节点是x+n
-			// 两个连通块之间直接连接两个圆点
+			link(y, edge);
+			// 割点LCT中，此时是割边，两个圆点直接连接，不建立方点
 			link(x + n, y + n);
 		} else {
 			// 如果x和y已经连通，那么此时形成环
@@ -227,13 +225,13 @@ public class Code08_DynamicGraph1 {
 				// 等同于按照当前实链从x到y的顺序收集所有节点
 				roadLen = 0;
 				inOrder(y);
-				// 删除原来路径中所有的树边
+				// 删除原来路径中的边
 				for (int i = 2; i <= roadLen; i++) {
 					cut(road[i - 1], road[i]);
 				}
-				// 新建方点，表示新形成的、更大的点双连通分量
+				// 新建方点，形成更大的点双连通分量
 				int square = ++cntev;
-				// 将原路径上的所有圆点和旧方点，此时连接到新方点
+				// 原路径上的所有圆点和旧方点，连接到新方点
 				for (int i = 1; i <= roadLen; i++) {
 					link(road[i], square);
 				}

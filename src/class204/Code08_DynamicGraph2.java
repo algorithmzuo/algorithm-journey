@@ -186,7 +186,7 @@ package class204;
 //        val[edge] = 1;
 //        sum[edge] = 1;
 //        link(x, edge);
-//        link(edge, y);
+//        link(y, edge);
 //        link(x + n, y + n);
 //    } else {
 //        split(x, y);
