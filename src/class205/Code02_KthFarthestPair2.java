@@ -73,7 +73,7 @@ package class205;
 //    ymax[i] = max(arr[i][1], max(ymax[ls[i]], ymax[rs[i]]));
 //}
 //
-//int build1(int l, int r, int dep) {
+//int build1(int l, int r, int dimension) {
 //    if (l > r) {
 //        return 0;
 //    }
@@ -82,10 +82,9 @@ package class205;
 //        ls[mid] = 0;
 //        rs[mid] = 0;
 //    } else {
-//        int dimension = dep & 1;
 //        randSelect(l, r, mid, dimension);
-//        ls[mid] = build1(l, mid - 1, dep + 1);
-//        rs[mid] = build1(mid + 1, r, dep + 1);
+//        ls[mid] = build1(l, mid - 1, dimension ^ 1);
+//        rs[mid] = build1(mid + 1, r, dimension ^ 1);
 //    }
 //    maintain(mid);
 //    return mid;

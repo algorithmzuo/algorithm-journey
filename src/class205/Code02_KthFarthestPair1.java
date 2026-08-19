@@ -74,7 +74,7 @@ public class Code02_KthFarthestPair1 {
 	}
 
 	// 交替选维度
-	public static int build1(int l, int r, int dep) {
+	public static int build1(int l, int r, int dimension) {
 		if (l > r) {
 			return 0;
 		}
@@ -83,10 +83,9 @@ public class Code02_KthFarthestPair1 {
 			ls[mid] = 0;
 			rs[mid] = 0;
 		} else {
-			int dimension = dep & 1;
 			randSelect(l, r, mid, dimension);
-			ls[mid] = build1(l, mid - 1, dep + 1);
-			rs[mid] = build1(mid + 1, r, dep + 1);
+			ls[mid] = build1(l, mid - 1, dimension ^ 1);
+			rs[mid] = build1(mid + 1, r, dimension ^ 1);
 		}
 		maintain(mid);
 		return mid;
