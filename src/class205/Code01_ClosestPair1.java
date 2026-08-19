@@ -81,7 +81,8 @@ public class Code01_ClosestPair1 {
 			ls[mid] = 0;
 			rs[mid] = 0;
 		} else {
-			randSelect(l, r, mid, dep & 1);
+			int dimension = dep & 1;
+			randSelect(l, r, mid, dimension);
 			ls[mid] = build1(l, mid - 1, dep + 1);
 			rs[mid] = build1(mid + 1, r, dep + 1);
 		}
@@ -114,9 +115,8 @@ public class Code01_ClosestPair1 {
 			ls[mid] = 0;
 			rs[mid] = 0;
 		} else {
-			double xv = variance(l, r, 0);
-			double yv = variance(l, r, 1);
-			randSelect(l, r, mid, xv >= yv ? 0 : 1);
+			int dimension = variance(l, r, 0) >= variance(l, r, 1) ? 0 : 1;
+			randSelect(l, r, mid, dimension);
 			ls[mid] = build2(l, mid - 1);
 			rs[mid] = build2(mid + 1, r);
 		}
