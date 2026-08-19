@@ -35,14 +35,14 @@ public class Code01_ClosestPair1 {
 		tmp = arr[i][1]; arr[i][1] = arr[j][1]; arr[j][1] = tmp;
 	}
 
-	public static void partition(int l, int r, long x, int dim) {
+	public static void partition(int l, int r, long pivot, int dimension) {
 		first = l;
 		last = r;
 		int i = l;
 		while (i <= last) {
-			if (arr[i][dim] == x) {
+			if (arr[i][dimension] == pivot) {
 				i++;
-			} else if (arr[i][dim] < x) {
+			} else if (arr[i][dimension] < pivot) {
 				swap(first++, i++);
 			} else {
 				swap(i, last--);
@@ -50,10 +50,10 @@ public class Code01_ClosestPair1 {
 		}
 	}
 
-	public static void randSelect(int l, int r, int i, int dim) {
+	public static void randSelect(int l, int r, int i, int dimension) {
 		while (l <= r) {
-			long x = arr[l + (int) (Math.random() * (r - l + 1))][dim];
-			partition(l, r, x, dim);
+			long pivot = arr[l + (int) (Math.random() * (r - l + 1))][dimension];
+			partition(l, r, pivot, dimension);
 			if (i < first) {
 				r = first - 1;
 			} else if (i > last) {
@@ -89,16 +89,16 @@ public class Code01_ClosestPair1 {
 		return mid;
 	}
 
-	// 返回arr[l..r][dim]的方差
-	public static double variance(int l, int r, int dim) {
+	// 返回arr[l..r][dimension]的方差
+	public static double variance(int l, int r, int dimension) {
 		double siz = r - l + 1, sum = 0, avg = 0, dif = 0;
 		for (int i = l; i <= r; i++) {
-			sum += arr[i][dim];
+			sum += arr[i][dimension];
 		}
 		avg = sum / siz;
 		sum = 0;
 		for (int i = l; i <= r; i++) {
-			dif = arr[i][dim] - avg;
+			dif = arr[i][dimension] - avg;
 			sum += dif * dif;
 		}
 		return sum / siz;
