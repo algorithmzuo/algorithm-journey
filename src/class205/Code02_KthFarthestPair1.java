@@ -1,23 +1,23 @@
 package class205;
 
-// 平面最近点对，java版
-// 课上讲述K-D Tree的方法，java实现大量测试点超时，C++实现可以完全通过
-// 本题正解是归并分治，计算几何专题时，会讲述正解，这个题会重新讲述
-// 测试链接 : https://www.luogu.com.cn/problem/P7883
-// 提交以下的code，提交时请把类名改成"Main"
-// 想通过用C++实现，本节课Code01_ClosestPair2文件就是C++的实现
-// 两个版本的逻辑完全一样，C++版本可以通过所有测试
+// K远点对，java版
+// 课上讲述K-D Tree的方法，java实现和C++实现，都有一个测试点超时
+// 本题正解是旋转卡壳，计算几何专题时，会讲述正解，这个题会重新讲述
+// 测试链接 : https://www.luogu.com.cn/problem/P4357
+// 提交以下的code，提交时请把类名改成"Main"，不是正解，无法通过全部测试
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
-public class Code01_ClosestPair1 {
+public class Code02_KthFarthestPair1 {
 
-	public static int MAXN = 400001;
+	public static int MAXN = 100001;
+	public static int MAXK = 201;
 	public static long INF = 1L << 60;
-	public static int n;
+	public static int n, k;
+
 	public static long[][] arr = new long[MAXN][2];
 
 	public static int[] ls = new int[MAXN];
@@ -28,7 +28,7 @@ public class Code01_ClosestPair1 {
 	public static long[] ymin = new long[MAXN];
 	public static long[] ymax = new long[MAXN];
 
-	public static long ans;
+	public static long[] heap = new long[MAXK];
 
 	public static int first, last;
 
@@ -126,21 +126,45 @@ public class Code01_ClosestPair1 {
 		return mid;
 	}
 
-	// 估计函数，点i到rt所有点的最小距离的平方，返回估计值
-	public static long guess(int i, int rt) {
-		if (rt == 0) {
-			return INF;
-		}
-		long x = arr[i][0];
-		long y = arr[i][1];
-		long dx = x < xmin[rt] ? (xmin[rt] - x) : (x > xmax[rt] ? (x - xmax[rt]) : 0);
-		long dy = y < ymin[rt] ? (ymin[rt] - y) : (y > ymax[rt] ? (y - ymax[rt]) : 0);
-		return dx * dx + dy * dy;
-	}
-
 	public static long dist(int a, int b) {
 		long dx = arr[a][0] - arr[b][0];
 		long dy = arr[a][1] - arr[b][1];
+		return dx * dx + dy * dy;
+	}
+
+	// 堆顶在1位置，考察新来的v值，判断能否更新堆
+	public static void updateHeap(long v) {
+		if (v <= heap[1]) {
+			return;
+		}
+		heap[1] = v;
+		int i = 1;
+		int l = i * 2;
+		while (l <= k) {
+			int best = l + 1 <= k && heap[l + 1] < heap[l] ? l + 1 : l;
+			best = heap[best] < heap[i] ? best : i;
+			if (best == i) {
+				break;
+			}
+			long tmp = heap[i]; heap[i] = heap[best]; heap[best] = tmp;
+			i = best;
+			l = i * 2;
+		}
+	}
+
+	// 估计函数
+	// 估计点i到rt子树中所有点的最大距离平方
+	// 返回的是一个上界，只要这个上界都不超过当前第k远，就可以剪枝
+	public static long guess(int i, int rt) {
+		if (rt == 0) {
+			return 0;
+		}
+		long x = arr[i][0];
+		long y = arr[i][1];
+		// x方向更远的一端
+		long dx = Math.max(Math.abs(x - xmin[rt]), Math.abs(x - xmax[rt]));
+		// y方向更远的一端
+		long dy = Math.max(Math.abs(y - ymin[rt]), Math.abs(y - ymax[rt]));
 		return dx * dx + dy * dy;
 	}
 
@@ -149,25 +173,24 @@ public class Code01_ClosestPair1 {
 			return;
 		}
 		int mid = (l + r) >> 1;
-		// 不能算自己到自己的距离
 		if (mid != i) {
-			ans = Math.min(ans, dist(i, mid));
+			updateHeap(dist(i, mid));
 		}
 		if (l < r) {
 			long gl = guess(i, ls[mid]);
 			long gr = guess(i, rs[mid]);
-			if (gl < gr) {
-				if (gl < ans) {
+			if (gl > gr) {
+				if (gl > heap[1]) {
 					updateAns(i, l, mid - 1);
 				}
-				if (gr < ans) {
+				if (gr > heap[1]) {
 					updateAns(i, mid + 1, r);
 				}
 			} else {
-				if (gr < ans) {
+				if (gr > heap[1]) {
 					updateAns(i, mid + 1, r);
 				}
-				if (gl < ans) {
+				if (gl > heap[1]) {
 					updateAns(i, l, mid - 1);
 				}
 			}
@@ -178,6 +201,9 @@ public class Code01_ClosestPair1 {
 		FastReader in = new FastReader(System.in);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
 		n = in.nextInt();
+		k = in.nextInt();
+		// 无序点被计算两次，(a, b)和(b, a)，所以让k翻倍
+		k <<= 1;
 		for (int i = 1; i <= n; i++) {
 			arr[i][0] = in.nextLong();
 			arr[i][1] = in.nextLong();
@@ -186,14 +212,10 @@ public class Code01_ClosestPair1 {
 		xmax[0] = ymax[0] = -INF;
 		// build1(1, n, 0);
 		build2(1, n);
-		ans = dist(1, 2);
 		for (int i = 1; i <= n; i++) {
 			updateAns(i, 1, n);
-			if (ans == 0) {
-				break;
-			}
 		}
-		out.println(ans);
+		out.println(heap[1]);
 		out.flush();
 		out.close();
 	}
