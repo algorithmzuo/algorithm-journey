@@ -14,7 +14,7 @@ import java.io.PrintWriter;
 public class Code01_ClosestPair1 {
 
 	public static int MAXN = 200001;
-	public static long INF = 1L << 62;
+	public static long INF = 1L << 60;
 	public static int n;
 	public static long[][] arr = new long[MAXN][2];
 
@@ -91,16 +91,17 @@ public class Code01_ClosestPair1 {
 
 	// 返回arr[l..r][dim]的方差
 	public static double variance(int l, int r, int dim) {
-		double siz = r - l + 1, sum = 0, avg = 0, dif = 0, ans = 0;
+		double siz = r - l + 1, sum = 0, avg = 0, dif = 0;
 		for (int i = l; i <= r; i++) {
 			sum += arr[i][dim];
 		}
 		avg = sum / siz;
+		sum = 0;
 		for (int i = l; i <= r; i++) {
 			dif = arr[i][dim] - avg;
-			ans += dif * dif;
+			sum += dif * dif;
 		}
-		return ans / siz;
+		return sum / siz;
 	}
 
 	// 方差选维度
@@ -115,8 +116,7 @@ public class Code01_ClosestPair1 {
 		} else {
 			double xv = variance(l, r, 0);
 			double yv = variance(l, r, 1);
-			int dim = xv >= yv ? 0 : 1;
-			randSelect(l, r, mid, dim);
+			randSelect(l, r, mid, xv >= yv ? 0 : 1);
 			ls[mid] = build2(l, mid - 1);
 			rs[mid] = build2(mid + 1, r);
 		}
