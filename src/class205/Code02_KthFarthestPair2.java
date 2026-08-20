@@ -179,6 +179,7 @@ package class205;
 //int main() {
 //    ios::sync_with_stdio(false);
 //    cin.tie(nullptr);
+//    srand((unsigned)time(nullptr));
 //    cin >> n >> k;
 //    k <<= 1;
 //    for (int i = 1; i <= n; i++) {
