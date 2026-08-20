@@ -32,7 +32,6 @@ package class205;
 //int rs[MAXN];
 //
 //ll sum[MAXN];
-//
 //ll xmin[MAXN];
 //ll xmax[MAXN];
 //ll ymin[MAXN];

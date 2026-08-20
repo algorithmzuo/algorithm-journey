@@ -28,7 +28,6 @@ public class Code03_ChocolateKingdom1 {
 
 	// sum[i]表示以i为根的K-D Tree子树，所有点的权值和
 	public static long[] sum = new long[MAXN];
-
 	public static long[] xmin = new long[MAXN];
 	public static long[] xmax = new long[MAXN];
 	public static long[] ymin = new long[MAXN];
