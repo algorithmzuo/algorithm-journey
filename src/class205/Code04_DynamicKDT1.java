@@ -34,15 +34,9 @@ public class Code04_DynamicKDT1 {
 	public static int first, last;
 
 	public static void swap(int i, int j) {
-		int tmp = arr[i][0];
-		arr[i][0] = arr[j][0];
-		arr[j][0] = tmp;
-		tmp = arr[i][1];
-		arr[i][1] = arr[j][1];
-		arr[j][1] = tmp;
-		tmp = arr[i][2];
-		arr[i][2] = arr[j][2];
-		arr[j][2] = tmp;
+		int tmp = arr[i][0]; arr[i][0] = arr[j][0]; arr[j][0] = tmp;
+		tmp = arr[i][1]; arr[i][1] = arr[j][1]; arr[j][1] = tmp;
+		tmp = arr[i][2]; arr[i][2] = arr[j][2]; arr[j][2] = tmp;
 	}
 
 	public static void partition(int l, int r, int pivot, int dimension) {
