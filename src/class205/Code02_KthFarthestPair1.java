@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.util.PriorityQueue;
 
 public class Code02_KthFarthestPair1 {
 
@@ -28,7 +29,7 @@ public class Code02_KthFarthestPair1 {
 	public static long[] ymin = new long[MAXN];
 	public static long[] ymax = new long[MAXN];
 
-	public static long[] heap = new long[MAXK];
+	public static PriorityQueue<Long> heap = new PriorityQueue<>((a, b) -> a.compareTo(b));
 
 	public static int first, last;
 
@@ -131,26 +132,6 @@ public class Code02_KthFarthestPair1 {
 		return dx * dx + dy * dy;
 	}
 
-	// 堆顶在1位置，考察新来的v值，判断能否更新堆
-	public static void updateHeap(long v) {
-		if (v <= heap[1]) {
-			return;
-		}
-		heap[1] = v;
-		int i = 1;
-		int l = i * 2;
-		while (l <= k) {
-			int best = l + 1 <= k && heap[l + 1] < heap[l] ? l + 1 : l;
-			best = heap[best] < heap[i] ? best : i;
-			if (best == i) {
-				break;
-			}
-			long tmp = heap[i]; heap[i] = heap[best]; heap[best] = tmp;
-			i = best;
-			l = i * 2;
-		}
-	}
-
 	// 估计函数
 	// 估计点i到rt子树中所有点的最大距离平方
 	// 返回的是一个上界，只要这个上界都不超过当前第k远，就可以剪枝
@@ -173,23 +154,29 @@ public class Code02_KthFarthestPair1 {
 		}
 		int mid = (l + r) >> 1;
 		if (mid != i) {
-			updateHeap(dist(i, mid));
+			long cur = dist(i, mid);
+			if (heap.size() < k) {
+				heap.add(cur);
+			} else if (cur > heap.peek()) {
+				heap.poll();
+				heap.add(cur);
+			}
 		}
 		if (l < r) {
 			long gl = guess(i, ls[mid]);
 			long gr = guess(i, rs[mid]);
 			if (gl > gr) {
-				if (gl > heap[1]) {
+				if (gl > heap.peek()) {
 					updateAns(i, l, mid - 1);
 				}
-				if (gr > heap[1]) {
+				if (gr > heap.peek()) {
 					updateAns(i, mid + 1, r);
 				}
 			} else {
-				if (gr > heap[1]) {
+				if (gr > heap.peek()) {
 					updateAns(i, mid + 1, r);
 				}
-				if (gl > heap[1]) {
+				if (gl > heap.peek()) {
 					updateAns(i, l, mid - 1);
 				}
 			}
@@ -214,7 +201,7 @@ public class Code02_KthFarthestPair1 {
 		for (int i = 1; i <= n; i++) {
 			updateAns(i, 1, n);
 		}
-		out.println(heap[1]);
+		out.println(heap.peek());
 		out.flush();
 		out.close();
 	}

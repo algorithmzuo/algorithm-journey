@@ -28,7 +28,7 @@ package class205;
 //ll ymin[MAXN];
 //ll ymax[MAXN];
 //
-//ll heap[MAXK];
+//priority_queue<ll, vector<ll>, greater<ll> > heap;
 //
 //int first, last;
 //
@@ -128,25 +128,6 @@ package class205;
 //    return dx * dx + dy * dy;
 //}
 //
-//void updateHeap(ll v) {
-//    if (v <= heap[1]) {
-//        return;
-//    }
-//    heap[1] = v;
-//    int i = 1;
-//    int l = i * 2;
-//    while (l <= k) {
-//        int best = l + 1 <= k && heap[l + 1] < heap[l] ? l + 1 : l;
-//        best = heap[best] < heap[i] ? best : i;
-//        if (best == i) {
-//            break;
-//        }
-//        ll tmp = heap[i]; heap[i] = heap[best]; heap[best] = tmp;
-//        i = best;
-//        l = i * 2;
-//    }
-//}
-//
 //ll guess(int i, int rt) {
 //    if (rt == 0) {
 //        return 0;
@@ -164,23 +145,29 @@ package class205;
 //    }
 //    int mid = (l + r) >> 1;
 //    if (mid != i) {
-//        updateHeap(dist(i, mid));
+//        ll cur = dist(i, mid);
+//        if ((int) heap.size() < k) {
+//            heap.push(cur);
+//        } else if (cur > heap.top()) {
+//            heap.pop();
+//            heap.push(cur);
+//        }
 //    }
 //    if (l < r) {
 //        ll gl = guess(i, ls[mid]);
 //        ll gr = guess(i, rs[mid]);
 //        if (gl > gr) {
-//            if (gl > heap[1]) {
+//            if (gl > heap.top()) {
 //                updateAns(i, l, mid - 1);
 //            }
-//            if (gr > heap[1]) {
+//            if (gr > heap.top()) {
 //                updateAns(i, mid + 1, r);
 //            }
 //        } else {
-//            if (gr > heap[1]) {
+//            if (gr > heap.top()) {
 //                updateAns(i, mid + 1, r);
 //            }
-//            if (gl > heap[1]) {
+//            if (gl > heap.top()) {
 //                updateAns(i, l, mid - 1);
 //            }
 //        }
@@ -203,6 +190,6 @@ package class205;
 //    for (int i = 1; i <= n; i++) {
 //        updateAns(i, 1, n);
 //    }
-//    cout << heap[1] << "\n";
+//    cout << heap.top() << "\n";
 //    return 0;
 //}

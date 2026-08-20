@@ -18,6 +18,7 @@ public class Code01_ClosestPair1 {
 	public static int MAXN = 400001;
 	public static long INF = 1L << 60;
 	public static int n;
+
 	public static long[][] arr = new long[MAXN][2];
 
 	public static int[] ls = new int[MAXN];
