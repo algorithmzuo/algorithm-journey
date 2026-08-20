@@ -5,6 +5,7 @@ package class205;
 // 一共m条查询，格式 a b c，含义如下
 // 满足 a * x + b * y < c 的所有点，打印点权累加和
 // 1 <= n、m <= 5 * 10^4
+// -10^9 <= a、b、x、y <= +10^9
 // 测试链接 : https://www.luogu.com.cn/problem/P4475
 // 如下实现是C++的版本，C++版本和java版本逻辑完全一样
 // 提交如下代码，可以通过所有测试用例
@@ -100,12 +101,12 @@ package class205;
 //        return 0;
 //    }
 //    int mid = (l + r) >> 1;
-//    ll axmin = a * xmin[mid];
-//    ll axmax = a * xmax[mid];
-//    ll bymin = b * ymin[mid];
-//    ll bymax = b * ymax[mid];
-//    ll minv = min(axmin, axmax) + min(bymin, bymax);
-//    ll maxv = max(axmin, axmax) + max(bymin, bymax);
+//    ll ax1 = xmin[mid] * a;
+//    ll ax2 = xmax[mid] * a;
+//    ll by1 = ymin[mid] * b;
+//    ll by2 = ymax[mid] * b;
+//    ll minv = min(ax1, ax2) + min(by1, by2);
+//    ll maxv = max(ax1, ax2) + max(by1, by2);
 //    if (minv >= c) {
 //        return 0;
 //    } else if (maxv < c) {

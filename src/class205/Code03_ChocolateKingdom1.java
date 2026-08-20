@@ -5,6 +5,7 @@ package class205;
 // 一共m条查询，格式 a b c，含义如下
 // 满足 a * x + b * y < c 的所有点，打印点权累加和
 // 1 <= n、m <= 5 * 10^4
+// -10^9 <= a、b、x、y <= +10^9
 // 测试链接 : https://www.luogu.com.cn/problem/P4475
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
@@ -100,12 +101,13 @@ public class Code03_ChocolateKingdom1 {
 			return 0;
 		}
 		int mid = (l + r) >> 1;
-		long axmin = a * xmin[mid];
-		long axmax = a * xmax[mid];
-		long bymin = b * ymin[mid];
-		long bymax = b * ymax[mid];
-		long minv = Math.min(axmin, axmax) + Math.min(bymin, bymax);
-		long maxv = Math.max(axmin, axmax) + Math.max(bymin, bymax);
+	    // a、b、x、y，可能是正或者负
+		long ax1 = xmin[mid] * a;
+		long ax2 = xmax[mid] * a;
+		long by1 = ymin[mid] * b;
+		long by2 = ymax[mid] * b;
+		long minv = Math.min(ax1, ax2) + Math.min(by1, by2);
+		long maxv = Math.max(ax1, ax2) + Math.max(by1, by2);
 		if (minv >= c) {
 			return 0;
 		} else if (maxv < c) {
