@@ -1,6 +1,6 @@
 package class205;
 
-// 动态KDT模版题1，C++版
+// 动态kd树，C++版
 // 测试链接 : https://www.luogu.com.cn/problem/P4148
 // 如下实现是C++的版本，C++版本和java版本逻辑完全一样
 // 提交如下代码，可以通过所有测试用例
