@@ -13,11 +13,16 @@ package class205;
 //
 //using ll = long long;
 //
+//struct Node {
+//    ll x;
+//    ll y;
+//};
+//
 //const int MAXN = 400001;
 //const ll INF = 1LL << 60;
 //int n;
 //
-//ll arr[MAXN][2];
+//Node arr[MAXN];
 //
 //int ls[MAXN];
 //int rs[MAXN];
@@ -31,29 +36,26 @@ package class205;
 //
 //int first, last;
 //
-//void swap(int i, int j) {
-//    ll tmp = arr[i][0]; arr[i][0] = arr[j][0]; arr[j][0] = tmp;
-//    tmp = arr[i][1]; arr[i][1] = arr[j][1]; arr[j][1] = tmp;
-//}
-//
 //void partition(int l, int r, ll pivot, int dimension) {
 //    first = l;
 //    last = r;
 //    int i = l;
 //    while (i <= last) {
-//        if (arr[i][dimension] == pivot) {
+//        ll cur = dimension == 0 ? arr[i].x : arr[i].y;
+//        if (cur == pivot) {
 //            i++;
-//        } else if (arr[i][dimension] < pivot) {
-//            swap(first++, i++);
+//        } else if (cur < pivot) {
+//            swap(arr[first++], arr[i++]);
 //        } else {
-//            swap(i, last--);
+//            swap(arr[i], arr[last--]);
 //        }
 //    }
 //}
 //
 //void randSelect(int l, int r, int i, int dimension) {
 //    while (l <= r) {
-//        ll pivot = arr[l + rand() % (r - l + 1)][dimension];
+//        int idx = l + rand() % (r - l + 1);
+//        ll pivot = dimension == 0 ? arr[idx].x : arr[idx].y;
 //        partition(l, r, pivot, dimension);
 //        if (i < first) {
 //            r = first - 1;
@@ -66,10 +68,10 @@ package class205;
 //}
 //
 //void maintain(int i) {
-//    xmin[i] = min(arr[i][0], min(xmin[ls[i]], xmin[rs[i]]));
-//    xmax[i] = max(arr[i][0], max(xmax[ls[i]], xmax[rs[i]]));
-//    ymin[i] = min(arr[i][1], min(ymin[ls[i]], ymin[rs[i]]));
-//    ymax[i] = max(arr[i][1], max(ymax[ls[i]], ymax[rs[i]]));
+//    xmin[i] = min(arr[i].x, min(xmin[ls[i]], xmin[rs[i]]));
+//    xmax[i] = max(arr[i].x, max(xmax[ls[i]], xmax[rs[i]]));
+//    ymin[i] = min(arr[i].y, min(ymin[ls[i]], ymin[rs[i]]));
+//    ymax[i] = max(arr[i].y, max(ymax[ls[i]], ymax[rs[i]]));
 //}
 //
 //int build1(int l, int r, int dimension) {
@@ -92,12 +94,12 @@ package class205;
 //double variance(int l, int r, int dimension) {
 //    double siz = r - l + 1, sum = 0, avg = 0, dif = 0;
 //    for (int i = l; i <= r; i++) {
-//        sum += arr[i][dimension];
+//        sum += dimension == 0 ? arr[i].x : arr[i].y;
 //    }
 //    avg = sum / siz;
 //    sum = 0;
 //    for (int i = l; i <= r; i++) {
-//        dif = arr[i][dimension] - avg;
+//        dif = (dimension == 0 ? arr[i].x : arr[i].y) - avg;
 //        sum += dif * dif;
 //    }
 //    return sum / siz;
@@ -121,20 +123,20 @@ package class205;
 //    return mid;
 //}
 //
+//ll dist(int a, int b) {
+//    ll dx = arr[a].x - arr[b].x;
+//    ll dy = arr[a].y - arr[b].y;
+//    return dx * dx + dy * dy;
+//}
+//
 //ll guess(int i, int rt) {
 //    if (rt == 0) {
 //        return INF;
 //    }
-//    ll x = arr[i][0];
-//    ll y = arr[i][1];
+//    ll x = arr[i].x;
+//    ll y = arr[i].y;
 //    ll dx = x < xmin[rt] ? (xmin[rt] - x) : (x > xmax[rt] ? (x - xmax[rt]) : 0);
 //    ll dy = y < ymin[rt] ? (ymin[rt] - y) : (y > ymax[rt] ? (y - ymax[rt]) : 0);
-//    return dx * dx + dy * dy;
-//}
-//
-//ll dist(int a, int b) {
-//    ll dx = arr[a][0] - arr[b][0];
-//    ll dy = arr[a][1] - arr[b][1];
 //    return dx * dx + dy * dy;
 //}
 //
@@ -172,7 +174,7 @@ package class205;
 //    cin.tie(nullptr);
 //    cin >> n;
 //    for (int i = 1; i <= n; i++) {
-//        cin >> arr[i][0] >> arr[i][1];
+//        cin >> arr[i].x >> arr[i].y;
 //    }
 //    xmin[0] = ymin[0] = INF;
 //    xmax[0] = ymax[0] = -INF;

@@ -127,6 +127,12 @@ public class Code01_ClosestPair1 {
 		return mid;
 	}
 
+	public static long dist(int a, int b) {
+		long dx = arr[a][0] - arr[b][0];
+		long dy = arr[a][1] - arr[b][1];
+		return dx * dx + dy * dy;
+	}
+
 	// 估计函数，点i到rt所有点的最小距离的平方，返回估计值
 	public static long guess(int i, int rt) {
 		if (rt == 0) {
@@ -136,12 +142,6 @@ public class Code01_ClosestPair1 {
 		long y = arr[i][1];
 		long dx = x < xmin[rt] ? (xmin[rt] - x) : (x > xmax[rt] ? (x - xmax[rt]) : 0);
 		long dy = y < ymin[rt] ? (ymin[rt] - y) : (y > ymax[rt] ? (y - ymax[rt]) : 0);
-		return dx * dx + dy * dy;
-	}
-
-	public static long dist(int a, int b) {
-		long dx = arr[a][0] - arr[b][0];
-		long dy = arr[a][1] - arr[b][1];
 		return dx * dx + dy * dy;
 	}
 
