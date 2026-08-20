@@ -98,13 +98,11 @@ public class Code04_DynamicKDT1 {
 		arr[cntn][0] = x;
 		arr[cntn][1] = y;
 		arr[cntn][2] = v;
-		int p = 0, siz = 1;
+		int p = 0;
 		while (root[p] != 0) {
-			root[p] = 0;
-			p++;
-			siz <<= 1;
+			root[p++] = 0;
 		}
-		root[p] = build(cntn - siz + 1, cntn, 0);
+		root[p] = build(cntn - (1 << p) + 1, cntn, 0);
 	}
 
 	public static int query(int x1, int y1, int x2, int y2, int i) {
