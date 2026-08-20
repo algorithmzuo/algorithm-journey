@@ -104,29 +104,29 @@ package class205;
 //    root[p] = build(cntn - siz + 1, cntn, 0);
 //}
 //
-//int query(int p, int x1, int y1, int x2, int y2) {
-//    if (p == 0) {
+//int query(int x1, int y1, int x2, int y2, int i) {
+//    if (i == 0) {
 //        return 0;
 //    }
-//    if (xmax[p] < x1 || x2 < xmin[p] || ymax[p] < y1 || y2 < ymin[p]) {
+//    if (xmax[i] < x1 || x2 < xmin[i] || ymax[i] < y1 || y2 < ymin[i]) {
 //        return 0;
 //    }
-//    if (x1 <= xmin[p] && xmax[p] <= x2 && y1 <= ymin[p] && ymax[p] <= y2) {
-//        return sum[p];
+//    if (x1 <= xmin[i] && xmax[i] <= x2 && y1 <= ymin[i] && ymax[i] <= y2) {
+//        return sum[i];
 //    }
 //    int ans = 0;
-//    if (x1 <= arr[p].x && arr[p].x <= x2 && y1 <= arr[p].y && arr[p].y <= y2) {
-//        ans += arr[p].v;
+//    if (x1 <= arr[i].x && arr[i].x <= x2 && y1 <= arr[i].y && arr[i].y <= y2) {
+//        ans += arr[i].v;
 //    }
-//    ans += query(ls[p], x1, y1, x2, y2);
-//    ans += query(rs[p], x1, y1, x2, y2);
+//    ans += query(x1, y1, x2, y2, ls[i]);
+//    ans += query(x1, y1, x2, y2, rs[i]);
 //    return ans;
 //}
 //
 //int query(int x1, int y1, int x2, int y2) {
 //    int ans = 0;
-//    for (int i = 0; i < MAXP; i++) {
-//        ans += query(root[i], x1, y1, x2, y2);
+//    for (int p = 0; p < MAXP; p++) {
+//        ans += query(x1, y1, x2, y2, root[p]);
 //    }
 //    return ans;
 //}

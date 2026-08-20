@@ -28,7 +28,7 @@ public class Code04_DynamicKDT1 {
 	public static int[] ymin = new int[MAXN];
 	public static int[] ymax = new int[MAXN];
 
-	// root[i]表示大小为2的i次方的KDT的根节点编号
+	// root[p]表示大小为2的p次方的KDT，根节点编号
 	public static int[] root = new int[MAXP];
 
 	public static int first, last;
@@ -107,29 +107,29 @@ public class Code04_DynamicKDT1 {
 		root[p] = build(cntn - siz + 1, cntn, 0);
 	}
 
-	public static int query(int p, int x1, int y1, int x2, int y2) {
-		if (p == 0) {
+	public static int query(int x1, int y1, int x2, int y2, int i) {
+		if (i == 0) {
 			return 0;
 		}
-		if (xmax[p] < x1 || x2 < xmin[p] || ymax[p] < y1 || y2 < ymin[p]) {
+		if (xmax[i] < x1 || x2 < xmin[i] || ymax[i] < y1 || y2 < ymin[i]) {
 			return 0;
 		}
-		if (x1 <= xmin[p] && xmax[p] <= x2 && y1 <= ymin[p] && ymax[p] <= y2) {
-			return sum[p];
+		if (x1 <= xmin[i] && xmax[i] <= x2 && y1 <= ymin[i] && ymax[i] <= y2) {
+			return sum[i];
 		}
 		int ans = 0;
-		if (x1 <= arr[p][0] && arr[p][0] <= x2 && y1 <= arr[p][1] && arr[p][1] <= y2) {
-			ans += arr[p][2];
+		if (x1 <= arr[i][0] && arr[i][0] <= x2 && y1 <= arr[i][1] && arr[i][1] <= y2) {
+			ans += arr[i][2];
 		}
-		ans += query(ls[p], x1, y1, x2, y2);
-		ans += query(rs[p], x1, y1, x2, y2);
+		ans += query(x1, y1, x2, y2, ls[i]);
+		ans += query(x1, y1, x2, y2, rs[i]);
 		return ans;
 	}
 
 	public static int query(int x1, int y1, int x2, int y2) {
 		int ans = 0;
-		for (int i = 0; i < MAXP; i++) {
-			ans += query(root[i], x1, y1, x2, y2);
+		for (int p = 0; p < MAXP; p++) {
+			ans += query(x1, y1, x2, y2, root[p]);
 		}
 		return ans;
 	}
