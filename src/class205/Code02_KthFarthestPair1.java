@@ -74,8 +74,7 @@ public class Code02_KthFarthestPair1 {
 		ymax[i] = Math.max(arr[i][1], Math.max(ymax[ls[i]], ymax[rs[i]]));
 	}
 
-	// 交替选维度
-	public static int build1(int l, int r, int dimension) {
+	public static int build(int l, int r, int dimension) {
 		if (l > r) {
 			return 0;
 		}
@@ -85,42 +84,8 @@ public class Code02_KthFarthestPair1 {
 			rs[mid] = 0;
 		} else {
 			randSelect(l, r, mid, dimension);
-			ls[mid] = build1(l, mid - 1, dimension ^ 1);
-			rs[mid] = build1(mid + 1, r, dimension ^ 1);
-		}
-		maintain(mid);
-		return mid;
-	}
-
-	// 返回arr[l..r][dimension]的方差
-	public static double variance(int l, int r, int dimension) {
-		double siz = r - l + 1, sum = 0, avg = 0, dif = 0;
-		for (int i = l; i <= r; i++) {
-			sum += arr[i][dimension];
-		}
-		avg = sum / siz;
-		sum = 0;
-		for (int i = l; i <= r; i++) {
-			dif = arr[i][dimension] - avg;
-			sum += dif * dif;
-		}
-		return sum / siz;
-	}
-
-	// 方差选维度
-	public static int build2(int l, int r) {
-		if (l > r) {
-			return 0;
-		}
-		int mid = (l + r) >> 1;
-		if (l == r) {
-			ls[mid] = 0;
-			rs[mid] = 0;
-		} else {
-			int dimension = variance(l, r, 0) >= variance(l, r, 1) ? 0 : 1;
-			randSelect(l, r, mid, dimension);
-			ls[mid] = build2(l, mid - 1);
-			rs[mid] = build2(mid + 1, r);
+			ls[mid] = build(l, mid - 1, dimension ^ 1);
+			rs[mid] = build(mid + 1, r, dimension ^ 1);
 		}
 		maintain(mid);
 		return mid;
@@ -196,8 +161,7 @@ public class Code02_KthFarthestPair1 {
 		}
 		xmin[0] = ymin[0] = INF;
 		xmax[0] = ymax[0] = -INF;
-		// build1(1, n, 0);
-		build2(1, n);
+		build(1, n, 0);
 		for (int i = 1; i <= n; i++) {
 			updateAns(i, 1, n);
 		}
