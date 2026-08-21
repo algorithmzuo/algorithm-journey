@@ -142,13 +142,13 @@ public class Code03_QueryKthFarthest1 {
 		}
 	}
 
-	public static long query() {
+	public static int query() {
 		heap.clear();
 		for (int i = 1; i <= qk; i++) {
 			heap.add(new long[] { -1, 0 });
 		}
 		updateAns(1, n);
-		return heap.peek()[1];
+		return (int) heap.peek()[1];
 	}
 
 	public static void main(String[] args) throws Exception {

@@ -150,7 +150,7 @@ package class205;
 //    }
 //}
 //
-//ll query() {
+//int query() {
 //    while (!heap.empty()) {
 //        heap.pop();
 //    }
