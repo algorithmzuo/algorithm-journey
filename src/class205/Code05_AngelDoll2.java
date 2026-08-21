@@ -171,7 +171,7 @@ package class205;
 //int main() {
 //    ios::sync_with_stdio(false);
 //    cin.tie(nullptr);
-//    srand((unsigned) time(nullptr));
+//    srand((unsigned)time(nullptr));
 //    cin >> n >> m;
 //    cntn = n;
 //    xmin[0] = ymin[0] = INF;

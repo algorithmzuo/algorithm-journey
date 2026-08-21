@@ -1,11 +1,9 @@
 package class205;
 
-// K远点对，C++版
-// 课上讲述K-D Tree的方法，java实现和C++实现，都有一个测试点超时
-// 本题正解是旋转卡壳，计算几何专题时，会讲述正解，这个题会重新讲述
-// 测试链接 : https://www.luogu.com.cn/problem/P4357
+// 查询第k远，C++版
+// 测试链接 : https://www.luogu.com.cn/problem/P2093
 // 如下实现是C++的版本，C++版本和java版本逻辑完全一样
-// 提交如下代码，不是正解，无法通过全部测试
+// 提交如下代码，可以通过所有测试用例
 
 //#include <bits/stdc++.h>
 //
@@ -13,27 +11,41 @@ package class205;
 //
 //using ll = long long;
 //
-//struct Node {
+//struct PointNode {
 //    ll x;
 //    ll y;
+//    int id;
 //};
 //
-//const int MAXN = 100001;
-//const int MAXK = 201;
-//const ll INF = 1LL << 60;
-//int n, k;
+//struct HeapNode {
+//    ll dist;
+//    int id;
 //
-//Node arr[MAXN];
+//    bool operator <(const HeapNode &other) const {
+//        if (dist != other.dist) {
+//            return dist > other.dist;
+//        }
+//        return id < other.id;
+//    }
+//};
+//
+//
+//const int MAXN = 100001;
+//const ll INF = 1LL << 60;
+//int n, m;
+//ll qx, qy;
+//int qk;
+//
+//PointNode arr[MAXN];
 //
 //int ls[MAXN];
 //int rs[MAXN];
-//
 //ll xmin[MAXN];
 //ll xmax[MAXN];
 //ll ymin[MAXN];
 //ll ymax[MAXN];
 //
-//priority_queue<ll, vector<ll>, greater<ll> > heap;
+//priority_queue<HeapNode> heap;
 //
 //int first, last;
 //
@@ -98,68 +110,73 @@ package class205;
 //    return dx * dx + dy * dy;
 //}
 //
-//ll guess(int i, int rt) {
+//ll guess(int rt) {
 //    if (rt == 0) {
 //        return 0;
 //    }
-//    ll x = arr[i].x;
-//    ll y = arr[i].y;
-//    ll dx = max(abs(x - xmin[rt]), abs(x - xmax[rt]));
-//    ll dy = max(abs(y - ymin[rt]), abs(y - ymax[rt]));
+//    ll dx = max(abs(qx - xmin[rt]), abs(qx - xmax[rt]));
+//    ll dy = max(abs(qy - ymin[rt]), abs(qy - ymax[rt]));
 //    return dx * dx + dy * dy;
 //}
 //
-//void updateAns(int i, int l, int r) {
+//void updateAns(int l, int r) {
 //    if (l > r) {
 //        return;
 //    }
 //    int mid = (l + r) >> 1;
-//    if (mid != i) {
-//        ll d = dist(arr[i].x, arr[i].y, arr[mid].x, arr[mid].y);
-//        if (d > heap.top()) {
-//            heap.pop();
-//            heap.push(d);
-//        }
+//    ll d = dist(qx, qy, arr[mid].x, arr[mid].y);
+//    if (d > heap.top().dist || (d == heap.top().dist && arr[mid].id < heap.top().id)) {
+//        heap.pop();
+//        heap.push({d, arr[mid].id});
 //    }
 //    if (l < r) {
-//        ll gl = guess(i, ls[mid]);
-//        ll gr = guess(i, rs[mid]);
+//        ll gl = guess(ls[mid]);
+//        ll gr = guess(rs[mid]);
 //        if (gl > gr) {
-//            if (gl > heap.top()) {
-//                updateAns(i, l, mid - 1);
+//            if (gl >= heap.top().dist) {
+//                updateAns(l, mid - 1);
 //            }
-//            if (gr > heap.top()) {
-//                updateAns(i, mid + 1, r);
+//            if (gr >= heap.top().dist) {
+//                updateAns(mid + 1, r);
 //            }
 //        } else {
-//            if (gr > heap.top()) {
-//                updateAns(i, mid + 1, r);
+//            if (gr >= heap.top().dist) {
+//                updateAns(mid + 1, r);
 //            }
-//            if (gl > heap.top()) {
-//                updateAns(i, l, mid - 1);
+//            if (gl >= heap.top().dist) {
+//                updateAns(l, mid - 1);
 //            }
 //        }
 //    }
+//}
+//
+//ll query() {
+//    while (!heap.empty()) {
+//        heap.pop();
+//    }
+//    for (int i = 1; i <= qk; i++) {
+//        heap.push({-1, 0});
+//    }
+//    updateAns(1, n);
+//    return heap.top().id;
 //}
 //
 //int main() {
 //    ios::sync_with_stdio(false);
 //    cin.tie(nullptr);
 //    srand((unsigned)time(nullptr));
-//    cin >> n >> k;
-//    k <<= 1;
+//    cin >> n;
 //    for (int i = 1; i <= n; i++) {
 //        cin >> arr[i].x >> arr[i].y;
+//        arr[i].id = i;
 //    }
 //    xmin[0] = ymin[0] = INF;
 //    xmax[0] = ymax[0] = -INF;
 //    build(1, n, 0);
-//    for (int i = 1; i <= k; i++) {
-//        heap.push(-1LL);
+//    cin >> m;
+//    for (int i = 1; i <= m; i++) {
+//        cin >> qx >> qy >> qk;
+//        cout << query() << "\n";
 //    }
-//    for (int i = 1; i <= n; i++) {
-//        updateAns(i, 1, n);
-//    }
-//    cout << heap.top() << "\n";
 //    return 0;
 //}
