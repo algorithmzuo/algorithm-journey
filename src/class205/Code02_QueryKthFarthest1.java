@@ -1,6 +1,6 @@
 package class205;
 
-// 查询第k远，java版
+// 查询第k远的点，java版
 // 测试链接 : https://www.luogu.com.cn/problem/P2093
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
@@ -10,7 +10,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.util.PriorityQueue;
 
-public class Code03_QueryKthFarthest1 {
+public class Code02_QueryKthFarthest1 {
 
 	public static int MAXN = 100001;
 	public static long INF = 1L << 60;

@@ -10,7 +10,7 @@ package class205;
 // 1 <= k <= 2 * 10^5
 // 测试链接 : https://www.luogu.com.cn/problem/P3810
 // 提交以下的code，提交时请把类名改成"Main"，kdt不是最优解，java实现超时
-// 想通过用C++实现，本节课Code08_3DPartialOrder2文件就是C++的实现
+// 想通过用C++实现，本节课Code07_3DPartialOrder2文件就是C++的实现
 // 两个版本的逻辑完全一样，C++版本可以通过所有测试
 
 import java.io.IOException;
@@ -19,7 +19,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.util.Arrays;
 
-public class Code08_3DPartialOrder1 {
+public class Code07_3DPartialOrder1 {
 
 	public static int MAXN = 100001;
 	public static int MAXP = 18;
