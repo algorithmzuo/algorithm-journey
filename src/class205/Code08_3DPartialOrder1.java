@@ -27,9 +27,9 @@ public class Code08_3DPartialOrder1 {
 	public static int n, k, cntn;
 
 	// a、b、c
-	public static int[][] abcArr = new int[MAXN][3];
+	public static int[][] abc = new int[MAXN][3];
 	// b、c
-	public static int[][] bcArr = new int[MAXN][2];
+	public static int[][] bc = new int[MAXN][2];
 
 	// siz[i]表示子树i的节点个数
 	public static int[] siz = new int[MAXN];
@@ -47,8 +47,8 @@ public class Code08_3DPartialOrder1 {
 	public static int first, last;
 
 	public static void swap(int i, int j) {
-		int tmp = bcArr[i][0]; bcArr[i][0] = bcArr[j][0]; bcArr[j][0] = tmp;
-		tmp = bcArr[i][1]; bcArr[i][1] = bcArr[j][1]; bcArr[j][1] = tmp;
+		int tmp = bc[i][0]; bc[i][0] = bc[j][0]; bc[j][0] = tmp;
+		tmp = bc[i][1]; bc[i][1] = bc[j][1]; bc[j][1] = tmp;
 	}
 
 	public static void partition(int l, int r, int pivot, int dimension) {
@@ -56,9 +56,9 @@ public class Code08_3DPartialOrder1 {
 		last = r;
 		int i = l;
 		while (i <= last) {
-			if (bcArr[i][dimension] == pivot) {
+			if (bc[i][dimension] == pivot) {
 				i++;
-			} else if (bcArr[i][dimension] < pivot) {
+			} else if (bc[i][dimension] < pivot) {
 				swap(first++, i++);
 			} else {
 				swap(i, last--);
@@ -68,7 +68,7 @@ public class Code08_3DPartialOrder1 {
 
 	public static void randSelect(int l, int r, int i, int dimension) {
 		while (l <= r) {
-			int pivot = bcArr[l + (int) (Math.random() * (r - l + 1))][dimension];
+			int pivot = bc[l + (int) (Math.random() * (r - l + 1))][dimension];
 			partition(l, r, pivot, dimension);
 			if (i < first) {
 				r = first - 1;
@@ -82,10 +82,10 @@ public class Code08_3DPartialOrder1 {
 
 	public static void maintain(int i) {
 		siz[i] = siz[ls[i]] + siz[rs[i]] + 1;
-		bmin[i] = Math.min(bcArr[i][0], Math.min(bmin[ls[i]], bmin[rs[i]]));
-		bmax[i] = Math.max(bcArr[i][0], Math.max(bmax[ls[i]], bmax[rs[i]]));
-		cmin[i] = Math.min(bcArr[i][1], Math.min(cmin[ls[i]], cmin[rs[i]]));
-		cmax[i] = Math.max(bcArr[i][1], Math.max(cmax[ls[i]], cmax[rs[i]]));
+		bmin[i] = Math.min(bc[i][0], Math.min(bmin[ls[i]], bmin[rs[i]]));
+		bmax[i] = Math.max(bc[i][0], Math.max(bmax[ls[i]], bmax[rs[i]]));
+		cmin[i] = Math.min(bc[i][1], Math.min(cmin[ls[i]], cmin[rs[i]]));
+		cmax[i] = Math.max(bc[i][1], Math.max(cmax[ls[i]], cmax[rs[i]]));
 	}
 
 	public static int build(int l, int r, int dimension) {
@@ -107,8 +107,8 @@ public class Code08_3DPartialOrder1 {
 
 	public static void add(int b, int c) {
 		cntn++;
-		bcArr[cntn][0] = b;
-		bcArr[cntn][1] = c;
+		bc[cntn][0] = b;
+		bc[cntn][1] = c;
 		int p = 0;
 		while (root[p] != 0) {
 			root[p++] = 0;
@@ -131,7 +131,7 @@ public class Code08_3DPartialOrder1 {
 		}
 		int ans = 0;
 		// 当前点满足要求
-		if (bcArr[i][0] <= b && bcArr[i][1] <= c) {
+		if (bc[i][0] <= b && bc[i][1] <= c) {
 			ans++;
 		}
 		ans += query(b, c, ls[i]);
@@ -153,24 +153,24 @@ public class Code08_3DPartialOrder1 {
 		n = in.nextInt();
 		k = in.nextInt();
 		for (int i = 1; i <= n; i++) {
-			abcArr[i][0] = in.nextInt();
-			abcArr[i][1] = in.nextInt();
-			abcArr[i][2] = in.nextInt();
+			abc[i][0] = in.nextInt();
+			abc[i][1] = in.nextInt();
+			abc[i][2] = in.nextInt();
 		}
 		// 根据a排序，三维偏序变成二维偏序
-		Arrays.sort(abcArr, 1, n + 1, (x, y) -> x[0] - y[0]);
+		Arrays.sort(abc, 1, n + 1, (x, y) -> x[0] - y[0]);
 		bmin[0] = cmin[0] = INF;
 		bmax[0] = cmax[0] = -INF;
 		for (int l = 1, r = 1; l <= n; l = ++r) {
-			while (r + 1 <= n && abcArr[r + 1][0] == abcArr[l][0]) {
+			while (r + 1 <= n && abc[r + 1][0] == abc[l][0]) {
 				r++;
 			}
 			// 同组都加入
 			for (int i = l; i <= r; i++) {
-				add(abcArr[i][1], abcArr[i][2]);
+				add(abc[i][1], abc[i][2]);
 			}
 			for (int i = l; i <= r; i++) {
-				int cur = query(abcArr[i][1], abcArr[i][2]);
+				int cur = query(abc[i][1], abc[i][2]);
 				// 不能把自己统计进去
 				ans[cur - 1]++;
 			}

@@ -36,8 +36,8 @@ package class205;
 //const int INF = 1 << 30;
 //int n, k, cntn;
 //
-//ABC abcArr[MAXN];
-//BC bcArr[MAXN];
+//ABC abc[MAXN];
+//BC bc[MAXN];
 //
 //int siz[MAXN];
 //int ls[MAXN];
@@ -58,13 +58,13 @@ package class205;
 //    last = r;
 //    int i = l;
 //    while (i <= last) {
-//        int cur = dimension == 0 ? bcArr[i].b : bcArr[i].c;
+//        int cur = dimension == 0 ? bc[i].b : bc[i].c;
 //        if (cur == pivot) {
 //            i++;
 //        } else if (cur < pivot) {
-//            swap(bcArr[first++], bcArr[i++]);
+//            swap(bc[first++], bc[i++]);
 //        } else {
-//            swap(bcArr[i], bcArr[last--]);
+//            swap(bc[i], bc[last--]);
 //        }
 //    }
 //}
@@ -72,7 +72,7 @@ package class205;
 //void randSelect(int l, int r, int i, int dimension) {
 //    while (l <= r) {
 //        int idx = l + rand() % (r - l + 1);
-//        int pivot = dimension == 0 ? bcArr[idx].b : bcArr[idx].c;
+//        int pivot = dimension == 0 ? bc[idx].b : bc[idx].c;
 //        partition(l, r, pivot, dimension);
 //        if (i < first) {
 //            r = first - 1;
@@ -86,10 +86,10 @@ package class205;
 //
 //void maintain(int i) {
 //    siz[i] = siz[ls[i]] + siz[rs[i]] + 1;
-//    bmin[i] = min(bcArr[i].b, min(bmin[ls[i]], bmin[rs[i]]));
-//    bmax[i] = max(bcArr[i].b, max(bmax[ls[i]], bmax[rs[i]]));
-//    cmin[i] = min(bcArr[i].c, min(cmin[ls[i]], cmin[rs[i]]));
-//    cmax[i] = max(bcArr[i].c, max(cmax[ls[i]], cmax[rs[i]]));
+//    bmin[i] = min(bc[i].b, min(bmin[ls[i]], bmin[rs[i]]));
+//    bmax[i] = max(bc[i].b, max(bmax[ls[i]], bmax[rs[i]]));
+//    cmin[i] = min(bc[i].c, min(cmin[ls[i]], cmin[rs[i]]));
+//    cmax[i] = max(bc[i].c, max(cmax[ls[i]], cmax[rs[i]]));
 //}
 //
 //int build(int l, int r, int dimension) {
@@ -111,8 +111,8 @@ package class205;
 //
 //void add(int b, int c) {
 //    cntn++;
-//    bcArr[cntn].b = b;
-//    bcArr[cntn].c = c;
+//    bc[cntn].b = b;
+//    bc[cntn].c = c;
 //    int p = 0;
 //    while (root[p] != 0) {
 //        root[p++] = 0;
@@ -131,7 +131,7 @@ package class205;
 //        return siz[i];
 //    }
 //    int ans = 0;
-//    if (bcArr[i].b <= b && bcArr[i].c <= c) {
+//    if (bc[i].b <= b && bc[i].c <= c) {
 //        ans++;
 //    }
 //    ans += query(b, c, ls[i]);
@@ -153,20 +153,20 @@ package class205;
 //    srand((unsigned)time(nullptr));
 //    cin >> n >> k;
 //    for (int i = 1; i <= n; i++) {
-//        cin >> abcArr[i].a >> abcArr[i].b >> abcArr[i].c;
+//        cin >> abc[i].a >> abc[i].b >> abc[i].c;
 //    }
-//    sort(abcArr + 1, abcArr + n + 1, ABCCmp);
+//    sort(abc + 1, abc + n + 1, ABCCmp);
 //    bmin[0] = cmin[0] = INF;
 //    bmax[0] = cmax[0] = -INF;
 //    for (int l = 1, r = 1; l <= n; l = ++r) {
-//        while (r + 1 <= n && abcArr[r + 1].a == abcArr[l].a) {
+//        while (r + 1 <= n && abc[r + 1].a == abc[l].a) {
 //            r++;
 //        }
 //        for (int i = l; i <= r; i++) {
-//            add(abcArr[i].b, abcArr[i].c);
+//            add(abc[i].b, abc[i].c);
 //        }
 //        for (int i = l; i <= r; i++) {
-//            int cur = query(abcArr[i].b, abcArr[i].c);
+//            int cur = query(abc[i].b, abc[i].c);
 //            ans[cur - 1]++;
 //        }
 //    }
