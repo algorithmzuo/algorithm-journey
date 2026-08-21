@@ -92,9 +92,9 @@ package class205;
 //    return mid;
 //}
 //
-//ll dist(int a, int b) {
-//    ll dx = arr[a].x - arr[b].x;
-//    ll dy = arr[a].y - arr[b].y;
+//ll dist(ll x1, ll y1, ll x2, ll y2) {
+//    ll dx = x1 - x2;
+//    ll dy = y1 - y2;
 //    return dx * dx + dy * dy;
 //}
 //
@@ -115,12 +115,10 @@ package class205;
 //    }
 //    int mid = (l + r) >> 1;
 //    if (mid != i) {
-//        ll cur = dist(i, mid);
-//        if ((int) heap.size() < k) {
-//            heap.push(cur);
-//        } else if (cur > heap.top()) {
+//        ll d = dist(arr[i].x, arr[i].y, arr[mid].x, arr[mid].y);
+//        if (d > heap.top()) {
 //            heap.pop();
-//            heap.push(cur);
+//            heap.push(d);
 //        }
 //    }
 //    if (l < r) {
@@ -147,7 +145,7 @@ package class205;
 //int main() {
 //    ios::sync_with_stdio(false);
 //    cin.tie(nullptr);
-//    srand((unsigned)time(nullptr));
+//    srand((unsigned) time(nullptr));
 //    cin >> n >> k;
 //    k <<= 1;
 //    for (int i = 1; i <= n; i++) {
@@ -156,6 +154,9 @@ package class205;
 //    xmin[0] = ymin[0] = INF;
 //    xmax[0] = ymax[0] = -INF;
 //    build(1, n, 0);
+//    for (int i = 1; i <= k; i++) {
+//        heap.push(-1LL);
+//    }
 //    for (int i = 1; i <= n; i++) {
 //        updateAns(i, 1, n);
 //    }

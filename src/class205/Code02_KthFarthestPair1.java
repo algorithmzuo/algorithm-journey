@@ -91,9 +91,9 @@ public class Code02_KthFarthestPair1 {
 		return mid;
 	}
 
-	public static long dist(int a, int b) {
-		long dx = arr[a][0] - arr[b][0];
-		long dy = arr[a][1] - arr[b][1];
+	public static long dist(long x1, long y1, long x2, long y2) {
+		long dx = x1 - x2;
+		long dy = y1 - y2;
 		return dx * dx + dy * dy;
 	}
 
@@ -119,12 +119,10 @@ public class Code02_KthFarthestPair1 {
 		}
 		int mid = (l + r) >> 1;
 		if (mid != i) {
-			long cur = dist(i, mid);
-			if (heap.size() < k) {
-				heap.add(cur);
-			} else if (cur > heap.peek()) {
+			long d = dist(arr[i][0], arr[i][1], arr[mid][0], arr[mid][1]);
+			if (d > heap.peek()) {
 				heap.poll();
-				heap.add(cur);
+				heap.add(d);
 			}
 		}
 		if (l < r) {
@@ -162,6 +160,9 @@ public class Code02_KthFarthestPair1 {
 		xmin[0] = ymin[0] = INF;
 		xmax[0] = ymax[0] = -INF;
 		build(1, n, 0);
+		for (int i = 1; i <= k; i++) {
+			heap.add(-1L);
+		}
 		for (int i = 1; i <= n; i++) {
 			updateAns(i, 1, n);
 		}
