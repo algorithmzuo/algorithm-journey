@@ -159,10 +159,11 @@ package class205;
 //    updateAns(c, d, rs[i]);
 //}
 //
-//int query(int rank, int c, int d) {
+//int query(int i, int c, int d) {
 //    queryAns = 0;
-//    for (int i = rank; i > 0; i -= lowbit(i)) {
+//    while (i > 0) {
 //        updateAns(c, d, root[i]);
+//        i -= lowbit(i);
 //    }
 //    return queryAns;
 //}
@@ -187,9 +188,10 @@ package class205;
 //    maxdp[i] = max(dp[i], max(maxdp[ls[i]], maxdp[rs[i]]));
 //}
 //
-//void add(int rank, int c, int d, int v) {
-//    for (int i = rank; i <= n; i += lowbit(i)) {
+//void add(int i, int c, int d, int v) {
+//    while (i <= n) {
 //        update(c, d, v, root[i]);
+//        i += lowbit(i);
 //    }
 //}
 //
