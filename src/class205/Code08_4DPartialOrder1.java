@@ -18,7 +18,6 @@ public class Code08_4DPartialOrder1 {
 	public static int n, cntn;
 
 	public static int[][] abcd = new int[MAXN][4];
-
 	public static int[][] bi = new int[MAXN][2];
 	public static int[] ranking = new int[MAXN];
 

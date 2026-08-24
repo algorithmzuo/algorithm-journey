@@ -39,7 +39,6 @@ package class205;
 //int n, cntn;
 //
 //ABCD abcd[MAXN];
-//
 //BI bi[MAXN];
 //int ranking[MAXN];
 //
