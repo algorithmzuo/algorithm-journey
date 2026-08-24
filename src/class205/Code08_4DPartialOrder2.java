@@ -206,8 +206,7 @@ package class205;
 //    cmax[0] = dmax[0] = -INF;
 //    for (int i = 1; i <= n; i++) {
 //        int siz = lowbit(i);
-//        int l = i - siz + 1;
-//        for (int j = 1; j <= siz; l++, j++) {
+//        for (int l = i - siz + 1, j = 1; l <= i; l++, j++) {
 //            int idx = bi[l].i;
 //            cd[j].c = abcd[idx].c;
 //            cd[j].d = abcd[idx].d;

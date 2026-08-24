@@ -196,8 +196,7 @@ public class Code08_4DPartialOrder1 {
 		cmax[0] = dmax[0] = -INF;
 		for (int i = 1; i <= n; i++) {
 			int siz = lowbit(i);
-			int l = i - siz + 1;
-			for (int j = 1; j <= siz; l++, j++) {
+			for (int l = i - siz + 1, j = 1; l <= i; l++, j++) {
 				int idx = bi[l][1];
 				cd[j][0] = abcd[idx][2];
 				cd[j][1] = abcd[idx][3];
