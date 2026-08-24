@@ -208,8 +208,8 @@ package class205;
 //    for (int i = 1; i <= n; i++) {
 //        int siz = lowbit(i);
 //        int l = i - siz + 1;
-//        for (int j = 1; j <= siz; j++) {
-//            int idx = bi[l + j - 1].i;
+//        for (int j = 1; j <= siz; l++, j++) {
+//            int idx = bi[l].i;
 //            cd[j].c = abcd[idx].c;
 //            cd[j].d = abcd[idx].d;
 //        }

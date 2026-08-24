@@ -198,8 +198,8 @@ public class Code08_4DPartialOrder1 {
 		for (int i = 1; i <= n; i++) {
 			int siz = lowbit(i);
 			int l = i - siz + 1;
-			for (int j = 1; j <= siz; j++) {
-				int idx = bi[l + j - 1][1];
+			for (int j = 1; j <= siz; l++, j++) {
+				int idx = bi[l][1];
 				cd[j][0] = abcd[idx][2];
 				cd[j][1] = abcd[idx][3];
 			}
