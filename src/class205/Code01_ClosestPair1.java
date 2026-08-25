@@ -31,12 +31,13 @@ public class Code01_ClosestPair1 {
 
 	public static long ans;
 
-	public static int first, last;
-
 	public static void swap(int i, int j) {
-		long tmp = arr[i][0]; arr[i][0] = arr[j][0]; arr[j][0] = tmp;
-		tmp = arr[i][1]; arr[i][1] = arr[j][1]; arr[j][1] = tmp;
+		long[] tmp = arr[i];
+		arr[i] = arr[j];
+		arr[j] = tmp;
 	}
+
+	public static int first, last;
 
 	public static void partition(int l, int r, long pivot, int dimension) {
 		first = l;
