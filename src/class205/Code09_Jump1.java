@@ -47,7 +47,7 @@ public class Code09_Jump1 {
 	// dijkstra
 	public static int[] dist = new int[MAXN];
 	public static boolean[] vis = new boolean[MAXN];
-	// dist、u
+	// dist、i
 	public static PriorityQueue<int[]> heap = new PriorityQueue<>((a, b) -> a[0] - b[0]);
 
 	public static void addEdge(int u, int v) {
@@ -128,10 +128,10 @@ public class Code09_Jump1 {
 		return mid;
 	}
 
-	public static void update(int d, int u) {
-		if (!vis[u] && dist[u] > d) {
-			dist[u] = d;
-			heap.add(new int[] { d, u });
+	public static void update(int d, int i) {
+		if (!vis[i] && dist[i] > d) {
+			dist[i] = d;
+			heap.add(new int[] { d, i });
 		}
 	}
 
@@ -166,14 +166,14 @@ public class Code09_Jump1 {
 		while (!heap.isEmpty()) {
 			int[] cur = heap.poll();
 			int d = cur[0];
-			int u = cur[1];
-			if (!vis[u]) {
-				vis[u] = true;
-				for (int e = headg[u]; e > 0; e = nextg[e]) {
+			int i = cur[1];
+			if (!vis[i]) {
+				vis[i] = true;
+				for (int e = headg[i]; e > 0; e = nextg[e]) {
 					update(d, tog[e]);
 				}
-				if (u <= n) {
-					for (int e = headj[u]; e > 0; e = nextj[e]) {
+				if (i <= n) {
+					for (int e = headj[i]; e > 0; e = nextj[e]) {
 						int j = toj[e];
 						int jt = jump[j][0];
 						int jl = jump[j][1];
