@@ -44,12 +44,13 @@ public class Code07_3DPartialOrder1 {
 	public static int[] root = new int[MAXP];
 	public static int[] ans = new int[MAXN];
 
-	public static int first, last;
-
 	public static void swap(int i, int j) {
-		int tmp = bc[i][0]; bc[i][0] = bc[j][0]; bc[j][0] = tmp;
-		tmp = bc[i][1]; bc[i][1] = bc[j][1]; bc[j][1] = tmp;
+		int[] tmp = bc[i];
+		bc[i] = bc[j];
+		bc[j] = tmp;
 	}
+
+	public static int first, last;
 
 	public static void partition(int l, int r, int pivot, int dimension) {
 		first = l;

@@ -38,12 +38,13 @@ public class Code08_4DPartialOrder1 {
 
 	public static int[] root = new int[MAXN];
 
-	public static int first, last;
-
 	public static void swap(int i, int j) {
-		int tmp = cd[i][0]; cd[i][0] = cd[j][0]; cd[j][0] = tmp;
-		tmp = cd[i][1]; cd[i][1] = cd[j][1]; cd[j][1] = tmp;
+		int[] tmp = cd[i];
+		cd[i] = cd[j];
+		cd[j] = tmp;
 	}
+
+	public static int first, last;
 
 	public static void partition(int l, int r, int pivot, int dimension) {
 		first = l;
