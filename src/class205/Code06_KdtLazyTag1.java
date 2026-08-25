@@ -41,16 +41,13 @@ public class Code06_KdtLazyTag1 {
 
 	public static int[] root = new int[MAXP];
 
-	public static int first, last;
-
 	public static void swap(int i, int j) {
-		long tmp;
-		for (int d = 0; d <= k; d++) {
-			tmp = arr[i][d];
-			arr[i][d] = arr[j][d];
-			arr[j][d] = tmp;
-		}
+		long[] tmp = arr[i];
+		arr[i] = arr[j];
+		arr[j] = tmp;
 	}
+
+	public static int first, last;
 
 	public static void partition(int l, int r, long pivot, int dimension) {
 		first = l;

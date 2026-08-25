@@ -33,13 +33,13 @@ public class Code03_ChocolateKingdom1 {
 	public static long[] ymin = new long[MAXN];
 	public static long[] ymax = new long[MAXN];
 
-	public static int first, last;
-
 	public static void swap(int i, int j) {
-		long tmp = arr[i][0]; arr[i][0] = arr[j][0]; arr[j][0] = tmp;
-		tmp = arr[i][1]; arr[i][1] = arr[j][1]; arr[j][1] = tmp;
-		tmp = arr[i][2]; arr[i][2] = arr[j][2]; arr[j][2] = tmp;
+		long[] tmp = arr[i];
+		arr[i] = arr[j];
+		arr[j] = tmp;
 	}
+
+	public static int first, last;
 
 	public static void partition(int l, int r, long pivot, int dimension) {
 		first = l;
@@ -100,7 +100,7 @@ public class Code03_ChocolateKingdom1 {
 			return 0;
 		}
 		int mid = (l + r) >> 1;
-	    // a、b、x、y，可能是正或者负
+		// a、b、x、y，可能是正或者负
 		long ax1 = xmin[mid] * a;
 		long ax2 = xmax[mid] * a;
 		long by1 = ymin[mid] * b;

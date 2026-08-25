@@ -37,15 +37,6 @@ package class205;
 //
 //int first, last;
 //
-//void swap(int i, int j) {
-//    ll tmp;
-//    for (int d = 0; d <= k; d++) {
-//        tmp = arr[i][d];
-//        arr[i][d] = arr[j][d];
-//        arr[j][d] = tmp;
-//    }
-//}
-//
 //void partition(int l, int r, ll pivot, int dimension) {
 //    first = l;
 //    last = r;
@@ -54,9 +45,9 @@ package class205;
 //        if (arr[i][dimension] == pivot) {
 //            i++;
 //        } else if (arr[i][dimension] < pivot) {
-//            swap(first++, i++);
+//            swap(arr[first++], arr[i++]);
 //        } else {
-//            swap(i, last--);
+//            swap(arr[i], arr[last--]);
 //        }
 //    }
 //}

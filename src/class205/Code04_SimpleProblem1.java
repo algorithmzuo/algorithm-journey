@@ -31,13 +31,13 @@ public class Code04_SimpleProblem1 {
 	// root[p]表示大小为2的p次方的KDT，根节点编号
 	public static int[] root = new int[MAXP];
 
-	public static int first, last;
-
 	public static void swap(int i, int j) {
-		int tmp = arr[i][0]; arr[i][0] = arr[j][0]; arr[j][0] = tmp;
-		tmp = arr[i][1]; arr[i][1] = arr[j][1]; arr[j][1] = tmp;
-		tmp = arr[i][2]; arr[i][2] = arr[j][2]; arr[j][2] = tmp;
+		int[] tmp = arr[i];
+		arr[i] = arr[j];
+		arr[j] = tmp;
 	}
+
+	public static int first, last;
 
 	public static void partition(int l, int r, int pivot, int dimension) {
 		first = l;
