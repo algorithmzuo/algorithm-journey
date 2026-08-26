@@ -3,7 +3,7 @@ package class205;
 // kd树结合懒更新，java版
 // 测试链接 : https://www.luogu.com.cn/problem/P14312
 // 提交以下的code，提交时请把类名改成"Main"，本题卡空间，java实现无法通过
-// 想通过用C++实现，本节课Code06_KdtLazyTag2文件就是C++的实现
+// 想通过用C++实现，本节课Code04_KdtLazyTag2文件就是C++的实现
 // 两个版本的逻辑完全一样，C++版本可以通过所有测试
 
 import java.io.IOException;
@@ -11,7 +11,7 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
-public class Code06_KdtLazyTag1 {
+public class Code04_KdtLazyTag1 {
 
 	public static int MAXN = 200001;
 	public static int MAXP = 19;

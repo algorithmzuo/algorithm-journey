@@ -1,9 +1,15 @@
 package class205;
 
 // 简单题，java版
+// 有一个n * n的棋盘，每个格子里的数字都是0，有若干条操作，类型如下
+// 操作 1 a b c   : 格子(a, b)里的数字增加c
+// 操作 2 a b c d : 以(a, b)为左下角、(c, d)为右上角的矩形，打印内部的数字和
+// 操作 3         : 终止，以后没有操作了
+// 本题要求强制在线，得到操作参数的规则，打开测试链接查看
+// 1 <= n <= 5 * 10^5
 // 测试链接 : https://www.luogu.com.cn/problem/P4148
 // 提交以下的code，提交时请把类名改成"Main"，本题卡空间，java实现无法通过
-// 想通过用C++实现，本节课Code04_SimpleProblem2文件就是C++的实现
+// 想通过用C++实现，本节课Code03_SimpleProblem2文件就是C++的实现
 // 两个版本的逻辑完全一样，C++版本可以通过所有测试
 
 import java.io.IOException;
@@ -11,7 +17,7 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
-public class Code04_SimpleProblem1 {
+public class Code03_SimpleProblem1 {
 
 	public static int MAXN = 200001;
 	public static int MAXP = 19;
@@ -135,6 +141,7 @@ public class Code04_SimpleProblem1 {
 	public static void main(String[] args) throws Exception {
 		FastReader in = new FastReader(System.in);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
+		// 读入的n其实没用
 		n = in.nextInt();
 		xmin[0] = ymin[0] = INF;
 		xmax[0] = ymax[0] = -INF;

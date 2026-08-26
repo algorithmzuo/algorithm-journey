@@ -15,7 +15,7 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
-public class Code03_ChocolateKingdom1 {
+public class Code05_ChocolateKingdom1 {
 
 	public static int MAXN = 50001;
 	public static long INF = 1L << 60;
