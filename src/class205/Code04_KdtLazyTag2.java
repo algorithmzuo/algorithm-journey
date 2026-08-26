@@ -3,9 +3,9 @@ package class205;
 // kd树结合懒更新，C++版
 // 点的坐标有k维，点还有点权，k维空间中的轴对齐区域，可以用两个对角点表示
 // 一共有m条操作，类型如下
-// 操作 1 qpos qv  : 空间里增加一个点，qpos是k个值表示点的坐标，qv表示点权
-// 操作 2 ql qr qv : 区域的两个对角点ql和qr，各自有k个值的坐标，该区域所有点的点权增加qv
-// 操作 3 ql qr    : 区域的两个对角点ql和qr，各自有k个值的坐标，打印该区域所有点的点权和
+// 操作 1 qx qv    : 空间里增加一个点，qx是k个值表示点的坐标，qv表示点权
+// 操作 2 qx qy qv : 区域的两个对角点qx和qy，各自有k个值的坐标，该区域所有点的点权增加qv
+// 操作 3 qx qy    : 区域的两个对角点qx和qy，各自有k个值的坐标，打印该区域所有点的点权和
 // 本题要求强制在线，得到操作参数的规则，打开测试链接查看
 // 2 <= k <= 3
 // 1 <= m <= 10^5
@@ -26,9 +26,8 @@ package class205;
 //const ll INF = 1LL << 60;
 //int k, m, cntn;
 //
-//ll qpos[MAXK];
-//ll ql[MAXK];
-//ll qr[MAXK];
+//ll qx[MAXK];
+//ll qy[MAXK];
 //ll qv;
 //
 //ll pos[MAXN][MAXK];
@@ -133,7 +132,7 @@ package class205;
 //void insert() {
 //    cntn++;
 //    for (int d = 0; d < k; d++) {
-//        pos[cntn][d] = qpos[d];
+//        pos[cntn][d] = qx[d];
 //    }
 //    val[cntn] = qv;
 //    int p = 0;
@@ -146,7 +145,7 @@ package class205;
 //
 //bool outside(int i) {
 //    for (int d = 0; d < k; d++) {
-//        if (maxv[i][d] < ql[d] || qr[d] < minv[i][d]) {
+//        if (maxv[i][d] < qx[d] || qy[d] < minv[i][d]) {
 //            return true;
 //        }
 //    }
@@ -155,7 +154,7 @@ package class205;
 //
 //bool covered(int i) {
 //    for (int d = 0; d < k; d++) {
-//        if (ql[d] > minv[i][d] || qr[d] < maxv[i][d]) {
+//        if (qx[d] > minv[i][d] || qy[d] < maxv[i][d]) {
 //            return false;
 //        }
 //    }
@@ -164,7 +163,7 @@ package class205;
 //
 //bool pointIn(int i) {
 //    for (int d = 0; d < k; d++) {
-//        if (ql[d] > pos[i][d] || qr[d] < pos[i][d]) {
+//        if (qx[d] > pos[i][d] || qy[d] < pos[i][d]) {
 //            return false;
 //        }
 //    }
@@ -239,20 +238,20 @@ package class205;
 //        cin >> op;
 //        if (op == 1) {
 //            for (int d = 0; d < k; d++) {
-//                cin >> qpos[d];
-//                qpos[d] ^= lastAns;
+//                cin >> qx[d];
+//                qx[d] ^= lastAns;
 //            }
 //            cin >> qv;
 //            qv ^= lastAns;
 //            insert();
 //        } else {
 //            for (int d = 0; d < k; d++) {
-//                cin >> ql[d];
-//                ql[d] ^= lastAns;
+//                cin >> qx[d];
+//                qx[d] ^= lastAns;
 //            }
 //            for (int d = 0; d < k; d++) {
-//                cin >> qr[d];
-//                qr[d] ^= lastAns;
+//                cin >> qy[d];
+//                qy[d] ^= lastAns;
 //            }
 //            if (op == 2) {
 //                cin >> qv;

@@ -3,9 +3,9 @@ package class205;
 // kd树结合懒更新，java版
 // 点的坐标有k维，点还有点权，k维空间中的轴对齐区域，可以用两个对角点表示
 // 一共有m条操作，类型如下
-// 操作 1 qpos qv  : 空间里增加一个点，qpos是k个值表示点的坐标，qv表示点权
-// 操作 2 ql qr qv : 区域的两个对角点ql和qr，各自有k个值的坐标，该区域所有点的点权增加qv
-// 操作 3 ql qr    : 区域的两个对角点ql和qr，各自有k个值的坐标，打印该区域所有点的点权和
+// 操作 1 qx qv    : 空间里增加一个点，qx是k个值表示点的坐标，qv表示点权
+// 操作 2 qx qy qv : 区域的两个对角点qx和qy，各自有k个值的坐标，该区域所有点的点权增加qv
+// 操作 3 qx qy    : 区域的两个对角点qx和qy，各自有k个值的坐标，打印该区域所有点的点权和
 // 本题要求强制在线，得到操作参数的规则，打开测试链接查看
 // 2 <= k <= 3
 // 1 <= m <= 10^5
@@ -28,9 +28,8 @@ public class Code04_KdtLazyTag1 {
 	public static long INF = 1L << 60;
 	public static int k, m, cntn;
 
-	public static long[] qpos = new long[MAXK];
-	public static long[] ql = new long[MAXK];
-	public static long[] qr = new long[MAXK];
+	public static long[] qx = new long[MAXK];
+	public static long[] qy = new long[MAXK];
 	public static long qv;
 
 	public static long[][] pos = new long[MAXN][MAXK];
@@ -144,7 +143,7 @@ public class Code04_KdtLazyTag1 {
 	public static void insert() {
 		cntn++;
 		for (int d = 0; d < k; d++) {
-			pos[cntn][d] = qpos[d];
+			pos[cntn][d] = qx[d];
 		}
 		val[cntn] = qv;
 		int p = 0;
@@ -157,7 +156,7 @@ public class Code04_KdtLazyTag1 {
 
 	public static boolean outside(int i) {
 		for (int d = 0; d < k; d++) {
-			if (maxv[i][d] < ql[d] || qr[d] < minv[i][d]) {
+			if (maxv[i][d] < qx[d] || qy[d] < minv[i][d]) {
 				return true;
 			}
 		}
@@ -166,7 +165,7 @@ public class Code04_KdtLazyTag1 {
 
 	public static boolean covered(int i) {
 		for (int d = 0; d < k; d++) {
-			if (ql[d] > minv[i][d] || qr[d] < maxv[i][d]) {
+			if (qx[d] > minv[i][d] || qy[d] < maxv[i][d]) {
 				return false;
 			}
 		}
@@ -175,7 +174,7 @@ public class Code04_KdtLazyTag1 {
 
 	public static boolean pointIn(int i) {
 		for (int d = 0; d < k; d++) {
-			if (ql[d] > pos[i][d] || qr[d] < pos[i][d]) {
+			if (qx[d] > pos[i][d] || qy[d] < pos[i][d]) {
 				return false;
 			}
 		}
@@ -250,20 +249,20 @@ public class Code04_KdtLazyTag1 {
 			op = in.nextInt();
 			if (op == 1) {
 				for (int d = 0; d < k; d++) {
-					qpos[d] = in.nextLong();
-					qpos[d] ^= lastAns;
+					qx[d] = in.nextLong();
+					qx[d] ^= lastAns;
 				}
 				qv = in.nextLong();
 				qv ^= lastAns;
 				insert();
 			} else {
 				for (int d = 0; d < k; d++) {
-					ql[d] = in.nextLong();
-					ql[d] ^= lastAns;
+					qx[d] = in.nextLong();
+					qx[d] ^= lastAns;
 				}
 				for (int d = 0; d < k; d++) {
-					qr[d] = in.nextLong();
-					qr[d] ^= lastAns;
+					qy[d] = in.nextLong();
+					qy[d] ^= lastAns;
 				}
 				if (op == 2) {
 					qv = in.nextLong();
