@@ -17,15 +17,15 @@ package class205;
 //const ll INF = 1LL << 60;
 //int k, m, cntn;
 //
-//ll coordinate[MAXK];
-//ll low[MAXK];
-//ll high[MAXK];
-//ll val;
+//ll qpos[MAXK];
+//ll ql[MAXK];
+//ll qr[MAXK];
+//ll qv;
 //
-//ll arr[MAXN][MAXK + 1];
+//ll pos[MAXN][MAXK];
+//ll val[MAXN];
 //int ls[MAXN];
 //int rs[MAXN];
-//
 //int siz[MAXN];
 //ll sum[MAXN];
 //ll tag[MAXN];
@@ -35,6 +35,11 @@ package class205;
 //
 //int root[MAXP];
 //
+//void swap(int i, int j) {
+//    swap(pos[i], pos[j]);
+//    swap(val[i], val[j]);
+//}
+//
 //int first, last;
 //
 //void partition(int l, int r, ll pivot, int dimension) {
@@ -42,19 +47,19 @@ package class205;
 //    last = r;
 //    int i = l;
 //    while (i <= last) {
-//        if (arr[i][dimension] == pivot) {
+//        if (pos[i][dimension] == pivot) {
 //            i++;
-//        } else if (arr[i][dimension] < pivot) {
-//            swap(arr[first++], arr[i++]);
+//        } else if (pos[i][dimension] < pivot) {
+//            swap(first++, i++);
 //        } else {
-//            swap(arr[i], arr[last--]);
+//            swap(i, last--);
 //        }
 //    }
 //}
 //
 //void randSelect(int l, int r, int i, int dimension) {
 //    while (l <= r) {
-//        ll pivot = arr[l + rand() % (r - l + 1)][dimension];
+//        ll pivot = pos[l + rand() % (r - l + 1)][dimension];
 //        partition(l, r, pivot, dimension);
 //        if (i < first) {
 //            r = first - 1;
@@ -68,10 +73,10 @@ package class205;
 //
 //void maintain(int i) {
 //    siz[i] = 1 + siz[ls[i]] + siz[rs[i]];
-//    sum[i] = arr[i][k] + sum[ls[i]] + sum[rs[i]];
+//    sum[i] = val[i] + sum[ls[i]] + sum[rs[i]];
 //    for (int d = 0; d < k; d++) {
-//        minv[i][d] = min(arr[i][d], min(minv[ls[i]][d], minv[rs[i]][d]));
-//        maxv[i][d] = max(arr[i][d], max(maxv[ls[i]][d], maxv[rs[i]][d]));
+//        minv[i][d] = min(pos[i][d], min(minv[ls[i]][d], minv[rs[i]][d]));
+//        maxv[i][d] = max(pos[i][d], max(maxv[ls[i]][d], maxv[rs[i]][d]));
 //    }
 //}
 //
@@ -94,7 +99,7 @@ package class205;
 //
 //void lazy(int i, ll v) {
 //    if (i != 0) {
-//        arr[i][k] += v;
+//        val[i] += v;
 //        sum[i] += v * siz[i];
 //        tag[i] += v;
 //    }
@@ -119,9 +124,9 @@ package class205;
 //void insert() {
 //    cntn++;
 //    for (int d = 0; d < k; d++) {
-//        arr[cntn][d] = coordinate[d];
+//        pos[cntn][d] = qpos[d];
 //    }
-//    arr[cntn][k] = val;
+//    val[cntn] = qv;
 //    int p = 0;
 //    while (root[p] != 0) {
 //        dfs(root[p]);
@@ -132,7 +137,7 @@ package class205;
 //
 //bool outside(int i) {
 //    for (int d = 0; d < k; d++) {
-//        if (maxv[i][d] < low[d] || high[d] < minv[i][d]) {
+//        if (maxv[i][d] < ql[d] || qr[d] < minv[i][d]) {
 //            return true;
 //        }
 //    }
@@ -141,7 +146,7 @@ package class205;
 //
 //bool covered(int i) {
 //    for (int d = 0; d < k; d++) {
-//        if (low[d] > minv[i][d] || high[d] < maxv[i][d]) {
+//        if (ql[d] > minv[i][d] || qr[d] < maxv[i][d]) {
 //            return false;
 //        }
 //    }
@@ -150,7 +155,7 @@ package class205;
 //
 //bool pointIn(int i) {
 //    for (int d = 0; d < k; d++) {
-//        if (low[d] > arr[i][d] || high[d] < arr[i][d]) {
+//        if (ql[d] > pos[i][d] || qr[d] < pos[i][d]) {
 //            return false;
 //        }
 //    }
@@ -165,11 +170,11 @@ package class205;
 //        return;
 //    }
 //    if (covered(i)) {
-//        lazy(i, val);
+//        lazy(i, qv);
 //        return;
 //    }
 //    if (pointIn(i)) {
-//        arr[i][k] += val;
+//        val[i] += qv;
 //    }
 //    down(i);
 //    addValue(ls[i]);
@@ -195,7 +200,7 @@ package class205;
 //    }
 //    ll ans = 0;
 //    if (pointIn(i)) {
-//        ans += arr[i][k];
+//        ans += val[i];
 //    }
 //    down(i);
 //    ans += querySum(ls[i]);
@@ -225,24 +230,24 @@ package class205;
 //        cin >> op;
 //        if (op == 1) {
 //            for (int d = 0; d < k; d++) {
-//                cin >> coordinate[d];
-//                coordinate[d] ^= lastAns;
+//                cin >> qpos[d];
+//                qpos[d] ^= lastAns;
 //            }
-//            cin >> val;
-//            val ^= lastAns;
+//            cin >> qv;
+//            qv ^= lastAns;
 //            insert();
 //        } else {
 //            for (int d = 0; d < k; d++) {
-//                cin >> low[d];
-//                low[d] ^= lastAns;
+//                cin >> ql[d];
+//                ql[d] ^= lastAns;
 //            }
 //            for (int d = 0; d < k; d++) {
-//                cin >> high[d];
-//                high[d] ^= lastAns;
+//                cin >> qr[d];
+//                qr[d] ^= lastAns;
 //            }
 //            if (op == 2) {
-//                cin >> val;
-//                val ^= lastAns;
+//                cin >> qv;
+//                qv ^= lastAns;
 //                addValue();
 //            } else {
 //                lastAns = querySum();

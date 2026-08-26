@@ -27,7 +27,6 @@ package class205;
 //int n, cntn;
 //
 //Node arr[MAXN];
-//
 //int ls[MAXN];
 //int rs[MAXN];
 //int sum[MAXN];

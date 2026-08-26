@@ -19,12 +19,13 @@ public class Code04_KdtLazyTag1 {
 	public static long INF = 1L << 60;
 	public static int k, m, cntn;
 
-	public static long[] coordinate = new long[MAXK];
-	public static long[] low = new long[MAXK];
-	public static long[] high = new long[MAXK];
-	public static long val;
+	public static long[] qpos = new long[MAXK];
+	public static long[] ql = new long[MAXK];
+	public static long[] qr = new long[MAXK];
+	public static long qv;
 
-	public static long[][] arr = new long[MAXN][MAXK + 1];
+	public static long[][] pos = new long[MAXN][MAXK];
+	public static long[] val = new long[MAXN];
 	public static int[] ls = new int[MAXN];
 	public static int[] rs = new int[MAXN];
 
@@ -42,9 +43,12 @@ public class Code04_KdtLazyTag1 {
 	public static int[] root = new int[MAXP];
 
 	public static void swap(int i, int j) {
-		long[] tmp = arr[i];
-		arr[i] = arr[j];
-		arr[j] = tmp;
+		long[] a = pos[i];
+		pos[i] = pos[j];
+		pos[j] = a;
+		long b = val[i];
+		val[i] = val[j];
+		val[j] = b;
 	}
 
 	public static int first, last;
@@ -54,9 +58,9 @@ public class Code04_KdtLazyTag1 {
 		last = r;
 		int i = l;
 		while (i <= last) {
-			if (arr[i][dimension] == pivot) {
+			if (pos[i][dimension] == pivot) {
 				i++;
-			} else if (arr[i][dimension] < pivot) {
+			} else if (pos[i][dimension] < pivot) {
 				swap(first++, i++);
 			} else {
 				swap(i, last--);
@@ -66,7 +70,7 @@ public class Code04_KdtLazyTag1 {
 
 	public static void randSelect(int l, int r, int i, int dimension) {
 		while (l <= r) {
-			long pivot = arr[l + (int) (Math.random() * (r - l + 1))][dimension];
+			long pivot = pos[l + (int) (Math.random() * (r - l + 1))][dimension];
 			partition(l, r, pivot, dimension);
 			if (i < first) {
 				r = first - 1;
@@ -80,10 +84,10 @@ public class Code04_KdtLazyTag1 {
 
 	public static void maintain(int i) {
 		siz[i] = 1 + siz[ls[i]] + siz[rs[i]];
-		sum[i] = arr[i][k] + sum[ls[i]] + sum[rs[i]];
+		sum[i] = val[i] + sum[ls[i]] + sum[rs[i]];
 		for (int d = 0; d < k; d++) {
-			minv[i][d] = Math.min(arr[i][d], Math.min(minv[ls[i]][d], minv[rs[i]][d]));
-			maxv[i][d] = Math.max(arr[i][d], Math.max(maxv[ls[i]][d], maxv[rs[i]][d]));
+			minv[i][d] = Math.min(pos[i][d], Math.min(minv[ls[i]][d], minv[rs[i]][d]));
+			maxv[i][d] = Math.max(pos[i][d], Math.max(maxv[ls[i]][d], maxv[rs[i]][d]));
 		}
 	}
 
@@ -106,7 +110,7 @@ public class Code04_KdtLazyTag1 {
 
 	public static void lazy(int i, long v) {
 		if (i != 0) {
-			arr[i][k] += v;
+			val[i] += v;
 			sum[i] += v * siz[i];
 			tag[i] += v;
 		}
@@ -131,9 +135,9 @@ public class Code04_KdtLazyTag1 {
 	public static void insert() {
 		cntn++;
 		for (int d = 0; d < k; d++) {
-			arr[cntn][d] = coordinate[d];
+			pos[cntn][d] = qpos[d];
 		}
-		arr[cntn][k] = val;
+		val[cntn] = qv;
 		int p = 0;
 		while (root[p] != 0) {
 			dfs(root[p]);
@@ -144,7 +148,7 @@ public class Code04_KdtLazyTag1 {
 
 	public static boolean outside(int i) {
 		for (int d = 0; d < k; d++) {
-			if (maxv[i][d] < low[d] || high[d] < minv[i][d]) {
+			if (maxv[i][d] < ql[d] || qr[d] < minv[i][d]) {
 				return true;
 			}
 		}
@@ -153,7 +157,7 @@ public class Code04_KdtLazyTag1 {
 
 	public static boolean covered(int i) {
 		for (int d = 0; d < k; d++) {
-			if (low[d] > minv[i][d] || high[d] < maxv[i][d]) {
+			if (ql[d] > minv[i][d] || qr[d] < maxv[i][d]) {
 				return false;
 			}
 		}
@@ -162,7 +166,7 @@ public class Code04_KdtLazyTag1 {
 
 	public static boolean pointIn(int i) {
 		for (int d = 0; d < k; d++) {
-			if (low[d] > arr[i][d] || high[d] < arr[i][d]) {
+			if (ql[d] > pos[i][d] || qr[d] < pos[i][d]) {
 				return false;
 			}
 		}
@@ -177,11 +181,11 @@ public class Code04_KdtLazyTag1 {
 			return;
 		}
 		if (covered(i)) {
-			lazy(i, val);
+			lazy(i, qv);
 			return;
 		}
 		if (pointIn(i)) {
-			arr[i][k] += val;
+			val[i] += qv;
 		}
 		down(i);
 		addValue(ls[i]);
@@ -207,7 +211,7 @@ public class Code04_KdtLazyTag1 {
 		}
 		long ans = 0;
 		if (pointIn(i)) {
-			ans += arr[i][k];
+			ans += val[i];
 		}
 		down(i);
 		ans += querySum(ls[i]);
@@ -237,24 +241,24 @@ public class Code04_KdtLazyTag1 {
 			op = in.nextInt();
 			if (op == 1) {
 				for (int d = 0; d < k; d++) {
-					coordinate[d] = in.nextLong();
-					coordinate[d] ^= lastAns;
+					qpos[d] = in.nextLong();
+					qpos[d] ^= lastAns;
 				}
-				val = in.nextLong();
-				val ^= lastAns;
+				qv = in.nextLong();
+				qv ^= lastAns;
 				insert();
 			} else {
 				for (int d = 0; d < k; d++) {
-					low[d] = in.nextLong();
-					low[d] ^= lastAns;
+					ql[d] = in.nextLong();
+					ql[d] ^= lastAns;
 				}
 				for (int d = 0; d < k; d++) {
-					high[d] = in.nextLong();
-					high[d] ^= lastAns;
+					qr[d] = in.nextLong();
+					qr[d] ^= lastAns;
 				}
 				if (op == 2) {
-					val = in.nextLong();
-					val ^= lastAns;
+					qv = in.nextLong();
+					qv ^= lastAns;
 					addValue();
 				} else {
 					lastAns = querySum();
