@@ -67,10 +67,10 @@ package class205;
 //    headg[u] = cntg;
 //}
 //
-//void addJump(int u, int j) {
-//    nextj[++cntj] = headj[u];
+//void addJump(int p, int j) {
+//    nextj[++cntj] = headj[p];
 //    toj[cntj] = j;
-//    headj[u] = cntj;
+//    headj[p] = cntj;
 //}
 //
 //int first, last;
@@ -192,15 +192,15 @@ package class205;
 //int main() {
 //    ios::sync_with_stdio(false);
 //    cin.tie(nullptr);
-//    srand((unsigned) time(nullptr));
+//    srand((unsigned)time(nullptr));
 //    cin >> n >> m >> w >> h;
 //    for (int i = 1; i <= n; i++) {
 //        cin >> arr[i].x >> arr[i].y;
 //        arr[i].i = i;
 //    }
-//    for (int i = 1, u; i <= m; i++) {
-//        cin >> u >> jump[i].t >> jump[i].l >> jump[i].r >> jump[i].d >> jump[i].u;
-//        addJump(u, i);
+//    for (int j = 1, p; j <= m; j++) {
+//        cin >> p >> jump[j].t >> jump[j].l >> jump[j].r >> jump[j].d >> jump[j].u;
+//        addJump(p, j);
 //    }
 //    xmin[0] = ymin[0] = INF;
 //    xmax[0] = ymax[0] = -INF;

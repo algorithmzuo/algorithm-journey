@@ -63,10 +63,10 @@ public class Code09_Jump1 {
 		headg[u] = cntg;
 	}
 
-	public static void addJump(int u, int j) {
-		nextj[++cntj] = headj[u];
+	public static void addJump(int p, int j) {
+		nextj[++cntj] = headj[p];
 		toj[cntj] = j;
-		headj[u] = cntj;
+		headj[p] = cntj;
 	}
 
 	public static void swap(int i, int j) {
@@ -206,14 +206,14 @@ public class Code09_Jump1 {
 			arr[i][1] = in.nextInt();
 			arr[i][2] = i;
 		}
-		for (int i = 1, u; i <= m; i++) {
-			u = in.nextInt();
-			jump[i][0] = in.nextInt();
-			jump[i][1] = in.nextInt();
-			jump[i][2] = in.nextInt();
-			jump[i][3] = in.nextInt();
-			jump[i][4] = in.nextInt();
-			addJump(u, i);
+		for (int j = 1, p; j <= m; j++) {
+			p = in.nextInt();
+			jump[j][0] = in.nextInt();
+			jump[j][1] = in.nextInt();
+			jump[j][2] = in.nextInt();
+			jump[j][3] = in.nextInt();
+			jump[j][4] = in.nextInt();
+			addJump(p, j);
 		}
 		xmin[0] = ymin[0] = INF;
 		xmax[0] = ymax[0] = -INF;
