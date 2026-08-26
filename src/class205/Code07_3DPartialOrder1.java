@@ -9,7 +9,7 @@ package class205;
 // 1 <= n <= 10^5
 // 1 <= k <= 2 * 10^5
 // 测试链接 : https://www.luogu.com.cn/problem/P3810
-// 提交以下的code，提交时请把类名改成"Main"，kdt不是最优解，java实现超时
+// 提交以下的code，提交时请把类名改成"Main"，因为不是正解，java实现无法通过
 // 想通过用C++实现，本节课Code07_3DPartialOrder2文件就是C++的实现
 // 两个版本的逻辑完全一样，C++版本可以通过所有测试
 
