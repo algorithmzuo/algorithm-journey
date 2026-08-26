@@ -6,6 +6,7 @@ package class205;
 // 满足 a * x + b * y < c 的所有点，打印点权累加和
 // 1 <= n、m <= 5 * 10^4
 // -10^9 <= a、b、x、y <= +10^9
+// 保证数据随机生成
 // 测试链接 : https://www.luogu.com.cn/problem/P4475
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
