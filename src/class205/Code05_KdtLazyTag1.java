@@ -1,6 +1,6 @@
 package class205;
 
-// kd树结合懒更新，java版
+// kd树结合懒更新，二进制分组的方式重构，java版
 // 点的坐标有k维，点还有点权，k维空间中的轴对齐区域，可以用两个对角点表示
 // 一共有m条操作，类型如下
 // 操作 1 qx qv    : 空间里增加一个点，qx是k个值表示点的坐标，qv表示点权
@@ -12,7 +12,7 @@ package class205;
 // 坐标、点权、答案都需要long类型
 // 测试链接 : https://www.luogu.com.cn/problem/P14312
 // 提交以下的code，提交时请把类名改成"Main"，本题卡空间，java实现无法通过
-// 想通过用C++实现，本节课Code04_KdtLazyTag2文件就是C++的实现
+// 想通过用C++实现，本节课Code05_KdtLazyTag2文件就是C++的实现
 // 两个版本的逻辑完全一样，C++版本可以通过所有测试
 
 import java.io.IOException;
@@ -20,7 +20,7 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
-public class Code04_KdtLazyTag1 {
+public class Code05_KdtLazyTag1 {
 
 	public static int MAXN = 200001;
 	public static int MAXP = 19;

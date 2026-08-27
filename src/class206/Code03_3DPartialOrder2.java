@@ -1,4 +1,4 @@
-package class205;
+package class206;
 
 // 三维偏序，C++版
 // 本题就是讲解170，题目1，讲了CDQ分治的解法，这里用kdt的解法

@@ -1,4 +1,4 @@
-package class205;
+package class206;
 
 // 天使玩偶，java版
 // 本题就是讲解170，题目6，讲了CDQ分治的解法，这里用kdt的解法
@@ -16,7 +16,7 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
-public class Code06_AngelDoll1 {
+public class Code02_AngelDoll1 {
 
 	public static int MAXN = 600001;
 	public static int MAXP = 20;

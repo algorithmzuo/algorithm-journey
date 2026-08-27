@@ -1,4 +1,4 @@
-package class205;
+package class206;
 
 // 巧克力王国，java版
 // 一共n个点，每个点有坐标(x, y)，还有点权v
@@ -15,7 +15,7 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
-public class Code05_ChocolateKingdom1 {
+public class Code01_ChocolateKingdom1 {
 
 	public static int MAXN = 50001;
 	public static long INF = 1L << 60;
