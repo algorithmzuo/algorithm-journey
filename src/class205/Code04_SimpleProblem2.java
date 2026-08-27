@@ -52,12 +52,12 @@ package class205;
 //}
 //
 //void maintain(int i) {
+//    siz[i] = 1 + siz[ls[i]] + siz[rs[i]];
 //    sum[i] = arr[i][2] + sum[ls[i]] + sum[rs[i]];
 //    xmin[i] = min(arr[i][0], min(xmin[ls[i]], xmin[rs[i]]));
 //    xmax[i] = max(arr[i][0], max(xmax[ls[i]], xmax[rs[i]]));
 //    ymin[i] = min(arr[i][1], min(ymin[ls[i]], ymin[rs[i]]));
 //    ymax[i] = max(arr[i][1], max(ymax[ls[i]], ymax[rs[i]]));
-//    siz[i] = 1 + siz[ls[i]] + siz[rs[i]];
 //}
 //
 //void dfs(int i) {

@@ -65,12 +65,12 @@ public class Code04_SimpleProblem1 {
 	}
 
 	public static void maintain(int i) {
+		siz[i] = 1 + siz[ls[i]] + siz[rs[i]];
 		sum[i] = arr[i][2] + sum[ls[i]] + sum[rs[i]];
 		xmin[i] = Math.min(arr[i][0], Math.min(xmin[ls[i]], xmin[rs[i]]));
 		xmax[i] = Math.max(arr[i][0], Math.max(xmax[ls[i]], xmax[rs[i]]));
 		ymin[i] = Math.min(arr[i][1], Math.min(ymin[ls[i]], ymin[rs[i]]));
 		ymax[i] = Math.max(arr[i][1], Math.max(ymax[ls[i]], ymax[rs[i]]));
-		siz[i] = 1 + siz[ls[i]] + siz[rs[i]];
 	}
 
 	// 收集子树中的所有节点编号
