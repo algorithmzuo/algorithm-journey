@@ -36,7 +36,7 @@ public class Code04_SimpleProblem1 {
 
 	// 平衡因子
 	public static double ALPHA = 0.7;
-	// 收集子树大小用来判断平衡性
+	// 子树节点数量用来判断平衡性
 	public static int[] siz = new int[MAXN];
 	// 不平衡时收集节点编号
 	public static int[] collect = new int[MAXN];
