@@ -21,7 +21,7 @@ public class Code04_4DPartialOrder1 {
 	public static int MAXN = 50001;
 	public static int MAXT = 500001;
 	public static int INF = 1 << 30;
-	public static int n, cntn;
+	public static int n;
 
 	public static int[][] abcd = new int[MAXN][4];
 
@@ -31,6 +31,7 @@ public class Code04_4DPartialOrder1 {
 	// b值排名
 	public static int[] ranking = new int[MAXN];
 
+	public static int cntkdt;
 	// 每个树状数组下标，维护一棵动态kdt
 	public static int[] root = new int[MAXN];
 
@@ -58,15 +59,15 @@ public class Code04_4DPartialOrder1 {
 	public static int[] maxdp = new int[MAXT];
 
 	public static int init(int qc, int qd, int qv) {
-		cntn++;
-		c[cntn] = qc;
-		d[cntn] = qd;
-		ls[cntn] = rs[cntn] = 0;
-		siz[cntn] = 1;
-		cmin[cntn] = cmax[cntn] = qc;
-		dmin[cntn] = dmax[cntn] = qd;
-		dp[cntn] = maxdp[cntn] = qv;
-		return cntn;
+		cntkdt++;
+		c[cntkdt] = qc;
+		d[cntkdt] = qd;
+		ls[cntkdt] = rs[cntkdt] = 0;
+		siz[cntkdt] = 1;
+		cmin[cntkdt] = cmax[cntkdt] = qc;
+		dmin[cntkdt] = dmax[cntkdt] = qd;
+		dp[cntkdt] = maxdp[cntkdt] = qv;
+		return cntkdt;
 	}
 
 	public static void maintain(int i) {

@@ -23,12 +23,13 @@ package class205;
 //const int MAXN = 200001;
 //const int MAXK = 3;
 //const ll INF = 1LL << 60;
-//int k, m, cntn;
+//int k, m;
 //
 //ll qx[MAXK];
 //ll qy[MAXK];
 //ll qv;
 //
+//int cntkdt;
 //int root;
 //ll pos[MAXN][MAXK];
 //ll val[MAXN];
@@ -59,17 +60,17 @@ package class205;
 //};
 //
 //int init() {
-//    cntn++;
+//    cntkdt++;
 //    for (int d = 0; d < k; d++) {
-//        pos[cntn][d] = qx[d];
-//        minv[cntn][d] = maxv[cntn][d] = qx[d];
+//        pos[cntkdt][d] = qx[d];
+//        minv[cntkdt][d] = maxv[cntkdt][d] = qx[d];
 //    }
-//    val[cntn] = qv;
-//    ls[cntn] = rs[cntn] = 0;
-//    siz[cntn] = 1;
-//    sum[cntn] = qv;
-//    tag[cntn] = 0;
-//    return cntn;
+//    val[cntkdt] = qv;
+//    ls[cntkdt] = rs[cntkdt] = 0;
+//    siz[cntkdt] = 1;
+//    sum[cntkdt] = qv;
+//    tag[cntkdt] = 0;
+//    return cntkdt;
 //}
 //
 //void maintain(int i) {

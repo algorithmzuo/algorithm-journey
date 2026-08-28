@@ -24,11 +24,12 @@ public class Code03_3DPartialOrder1 {
 	public static int MAXN = 100001;
 	public static int MAXP = 18;
 	public static int INF = 1 << 30;
-	public static int n, k, cntn;
+	public static int n, k;
 
 	// a、b、c
 	public static int[][] abc = new int[MAXN][3];
 
+	public static int cntkdt;
 	public static int[] root = new int[MAXP];
 	// b、c
 	public static int[][] bc = new int[MAXN][2];
@@ -102,14 +103,14 @@ public class Code03_3DPartialOrder1 {
 	}
 
 	public static void add(int b, int c) {
-		cntn++;
-		bc[cntn][0] = b;
-		bc[cntn][1] = c;
+		cntkdt++;
+		bc[cntkdt][0] = b;
+		bc[cntkdt][1] = c;
 		int p = 0;
 		while (root[p] != 0) {
 			root[p++] = 0;
 		}
-		root[p] = build(cntn - (1 << p) + 1, cntn, 0);
+		root[p] = build(cntkdt - (1 << p) + 1, cntkdt, 0);
 	}
 
 	// 查询i的子树中，有多少点满足 b' <= b && c' <= c

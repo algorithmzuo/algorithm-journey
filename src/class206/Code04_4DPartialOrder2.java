@@ -42,7 +42,7 @@ package class206;
 //const int MAXN = 50001;
 //const int MAXT = 500001;
 //const int INF = 1 << 30;
-//int n, cntn;
+//int n;
 //
 //ABCD abcd[MAXN];
 //
@@ -50,6 +50,7 @@ package class206;
 //
 //int ranking[MAXN];
 //
+//int cntkdt;
 //int root[MAXN];
 //CD arr[MAXT];
 //int ls[MAXT];
@@ -80,15 +81,15 @@ package class206;
 //}
 //
 //int init(int qc, int qd, int qv) {
-//    cntn++;
-//    arr[cntn].c = qc;
-//    arr[cntn].d = qd;
-//    ls[cntn] = rs[cntn] = 0;
-//    siz[cntn] = 1;
-//    cmin[cntn] = cmax[cntn] = qc;
-//    dmin[cntn] = dmax[cntn] = qd;
-//    dp[cntn] = maxdp[cntn] = qv;
-//    return cntn;
+//    cntkdt++;
+//    arr[cntkdt].c = qc;
+//    arr[cntkdt].d = qd;
+//    ls[cntkdt] = rs[cntkdt] = 0;
+//    siz[cntkdt] = 1;
+//    cmin[cntkdt] = cmax[cntkdt] = qc;
+//    dmin[cntkdt] = dmax[cntkdt] = qd;
+//    dp[cntkdt] = maxdp[cntkdt] = qv;
+//    return cntkdt;
 //}
 //
 //void maintain(int i) {

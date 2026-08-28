@@ -24,7 +24,7 @@ package class205;
 //const int MAXP = 19;
 //const int MAXK = 3;
 //const ll INF = 1LL << 60;
-//int k, m, cntn;
+//int k, m;
 //
 //ll qx[MAXK];
 //ll qy[MAXK];
@@ -43,6 +43,8 @@ package class205;
 //    }
 //};
 //
+//int cntkdt;
+//int root[MAXP];
 //Node arr[MAXN];
 //int ls[MAXN];
 //int rs[MAXN];
@@ -52,8 +54,6 @@ package class205;
 //ll tag[MAXN];
 //ll minv[MAXN][MAXK];
 //ll maxv[MAXN][MAXK];
-//
-//int root[MAXP];
 //
 //void maintain(int i) {
 //    siz[i] = 1 + siz[ls[i]] + siz[rs[i]];
@@ -101,17 +101,17 @@ package class205;
 //}
 //
 //void insert() {
-//    cntn++;
+//    cntkdt++;
 //    for (int d = 0; d < k; d++) {
-//        arr[cntn].pos[d] = qx[d];
+//        arr[cntkdt].pos[d] = qx[d];
 //    }
-//    arr[cntn].val = qv;
+//    arr[cntkdt].val = qv;
 //    int p = 0;
 //    while (root[p] != 0) {
 //        dfs(root[p]);
 //        root[p++] = 0;
 //    }
-//    root[p] = build(cntn - (1 << p) + 1, cntn, 0);
+//    root[p] = build(cntkdt - (1 << p) + 1, cntkdt, 0);
 //}
 //
 //bool outside(int i) {

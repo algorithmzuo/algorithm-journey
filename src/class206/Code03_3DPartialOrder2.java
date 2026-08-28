@@ -42,10 +42,11 @@ package class206;
 //const int MAXN = 100001;
 //const int MAXP = 18;
 //const int INF = 1 << 30;
-//int n, k, cntn;
+//int n, k;
 //
 //ABC abc[MAXN];
 //
+//int cntkdt;
 //int root[MAXP];
 //BC bc[MAXN];
 //int siz[MAXN];
@@ -84,14 +85,14 @@ package class206;
 //}
 //
 //void add(int b, int c) {
-//    cntn++;
-//    bc[cntn].b = b;
-//    bc[cntn].c = c;
+//    cntkdt++;
+//    bc[cntkdt].b = b;
+//    bc[cntkdt].c = c;
 //    int p = 0;
 //    while (root[p] != 0) {
 //        root[p++] = 0;
 //    }
-//    root[p] = build(cntn - (1 << p) + 1, cntn, 0);
+//    root[p] = build(cntkdt - (1 << p) + 1, cntkdt, 0);
 //}
 //
 //int query(int b, int c, int i) {

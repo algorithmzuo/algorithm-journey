@@ -32,8 +32,9 @@ package class205;
 //const int MAXN = 200001;
 //const int MAXP = 19;
 //const int INF = 1 << 30;
-//int n, cntn;
+//int n;
 //
+//int cntkdt;
 //int root[MAXP];
 //Node arr[MAXN];
 //int ls[MAXN];
@@ -69,15 +70,15 @@ package class205;
 //}
 //
 //void add(int x, int y, int v) {
-//    cntn++;
-//    arr[cntn].x = x;
-//    arr[cntn].y = y;
-//    arr[cntn].v = v;
+//    cntkdt++;
+//    arr[cntkdt].x = x;
+//    arr[cntkdt].y = y;
+//    arr[cntkdt].v = v;
 //    int p = 0;
 //    while (root[p] != 0) {
 //        root[p++] = 0;
 //    }
-//    root[p] = build(cntn - (1 << p) + 1, cntn, 0);
+//    root[p] = build(cntkdt - (1 << p) + 1, cntkdt, 0);
 //}
 //
 //int query(int x1, int y1, int x2, int y2, int i) {

@@ -23,8 +23,9 @@ package class205;
 //
 //const int MAXN = 200001;
 //const int INF = 1 << 30;
-//int n, cntn;
+//int n;
 //
+//int cntkdt
 //int root;
 //Node arr[MAXN];
 //int ls[MAXN];
@@ -54,16 +55,16 @@ package class205;
 //}
 //
 //int init(int x, int y, int v) {
-//    cntn++;
-//    arr[cntn].x = x;
-//    arr[cntn].y = y;
-//    arr[cntn].v = v;
-//    ls[cntn] = rs[cntn] = 0;
-//    siz[cntn] = 1;
-//    sum[cntn] = v;
-//    xmin[cntn] = xmax[cntn] = x;
-//    ymin[cntn] = ymax[cntn] = y;
-//    return cntn;
+//    cntkdt++;
+//    arr[cntkdt].x = x;
+//    arr[cntkdt].y = y;
+//    arr[cntkdt].v = v;
+//    ls[cntkdt] = rs[cntkdt] = 0;
+//    siz[cntkdt] = 1;
+//    sum[cntkdt] = v;
+//    xmin[cntkdt] = xmax[cntkdt] = x;
+//    ymin[cntkdt] = ymax[cntkdt] = y;
+//    return cntkdt;
 //}
 //
 //void maintain(int i) {

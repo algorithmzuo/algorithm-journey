@@ -22,8 +22,10 @@ public class Code03_SimpleProblem1 {
 	public static int MAXN = 200001;
 	public static int MAXP = 19;
 	public static int INF = 1 << 30;
-	public static int n, cntn;
+	public static int n;
 
+	// kdt节点的计数
+	public static int cntkdt;
 	// root[p]表示大小为2的p次方的KDT，根节点编号
 	public static int[] root = new int[MAXP];
 	// x、y、v
@@ -94,15 +96,15 @@ public class Code03_SimpleProblem1 {
 	}
 
 	public static void add(int x, int y, int v) {
-		cntn++;
-		arr[cntn][0] = x;
-		arr[cntn][1] = y;
-		arr[cntn][2] = v;
+		cntkdt++;
+		arr[cntkdt][0] = x;
+		arr[cntkdt][1] = y;
+		arr[cntkdt][2] = v;
 		int p = 0;
 		while (root[p] != 0) {
 			root[p++] = 0;
 		}
-		root[p] = build(cntn - (1 << p) + 1, cntn, 0);
+		root[p] = build(cntkdt - (1 << p) + 1, cntkdt, 0);
 	}
 
 	public static int query(int x1, int y1, int x2, int y2, int i) {

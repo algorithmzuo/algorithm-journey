@@ -26,12 +26,14 @@ public class Code04_KdtLazyTag1 {
 	public static int MAXP = 19;
 	public static int MAXK = 3;
 	public static long INF = 1L << 60;
-	public static int k, m, cntn;
+	public static int k, m;
 
 	public static long[] qx = new long[MAXK];
 	public static long[] qy = new long[MAXK];
 	public static long qv;
 
+	public static int cntkdt;
+	public static int[] root = new int[MAXP];
 	public static long[][] pos = new long[MAXN][MAXK];
 	public static long[] val = new long[MAXN];
 	public static int[] ls = new int[MAXN];
@@ -47,8 +49,6 @@ public class Code04_KdtLazyTag1 {
 	// 每个维度的最小值、最大值
 	public static long[][] minv = new long[MAXN][MAXK];
 	public static long[][] maxv = new long[MAXN][MAXK];
-
-	public static int[] root = new int[MAXP];
 
 	public static void swap(int i, int j) {
 		long[] a = pos[i]; pos[i] = pos[j]; pos[j] = a;
@@ -132,17 +132,17 @@ public class Code04_KdtLazyTag1 {
 	}
 
 	public static void insert() {
-		cntn++;
+		cntkdt++;
 		for (int d = 0; d < k; d++) {
-			pos[cntn][d] = qx[d];
+			pos[cntkdt][d] = qx[d];
 		}
-		val[cntn] = qv;
+		val[cntkdt] = qv;
 		int p = 0;
 		while (root[p] != 0) {
 			dfs(root[p]);
 			root[p++] = 0;
 		}
-		root[p] = build(cntn - (1 << p) + 1, cntn, 0);
+		root[p] = build(cntkdt - (1 << p) + 1, cntkdt, 0);
 	}
 
 	public static boolean outside(int i) {

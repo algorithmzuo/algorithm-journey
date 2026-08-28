@@ -25,12 +25,13 @@ public class Code04_KdtLazyTag3 {
 	public static int MAXN = 200001;
 	public static int MAXK = 3;
 	public static long INF = 1L << 60;
-	public static int k, m, cntn;
+	public static int k, m;
 
 	public static long[] qx = new long[MAXK];
 	public static long[] qy = new long[MAXK];
 	public static long qv;
 
+	public static int cntkdt;
 	public static int root;
 	public static long[][] pos = new long[MAXN][MAXK];
 	public static long[] val = new long[MAXN];
@@ -53,17 +54,17 @@ public class Code04_KdtLazyTag3 {
 	public static int topDimension;
 
 	public static int init() {
-		cntn++;
+		cntkdt++;
 		for (int d = 0; d < k; d++) {
-			pos[cntn][d] = qx[d];
-			minv[cntn][d] = maxv[cntn][d] = qx[d];
+			pos[cntkdt][d] = qx[d];
+			minv[cntkdt][d] = maxv[cntkdt][d] = qx[d];
 		}
-		val[cntn] = qv;
-		ls[cntn] = rs[cntn] = 0;
-		siz[cntn] = 1;
-		sum[cntn] = qv;
-		tag[cntn] = 0;
-		return cntn;
+		val[cntkdt] = qv;
+		ls[cntkdt] = rs[cntkdt] = 0;
+		siz[cntkdt] = 1;
+		sum[cntkdt] = qv;
+		tag[cntkdt] = 0;
+		return cntkdt;
 	}
 
 	public static void maintain(int i) {

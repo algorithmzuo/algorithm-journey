@@ -21,8 +21,9 @@ public class Code03_SimpleProblem3 {
 
 	public static int MAXN = 200001;
 	public static int INF = 1 << 30;
-	public static int n, cntn;
+	public static int n;
 
+	public static int cntkdt;
 	// KDT的根
 	public static int root;
 	public static int[][] arr = new int[MAXN][3];
@@ -52,16 +53,16 @@ public class Code03_SimpleProblem3 {
 	public static int topDimension;
 
 	public static int init(int x, int y, int v) {
-		cntn++;
-		arr[cntn][0] = x;
-		arr[cntn][1] = y;
-		arr[cntn][2] = v;
-		ls[cntn] = rs[cntn] = 0;
-		siz[cntn] = 1;
-		sum[cntn] = v;
-		xmin[cntn] = xmax[cntn] = x;
-		ymin[cntn] = ymax[cntn] = y;
-		return cntn;
+		cntkdt++;
+		arr[cntkdt][0] = x;
+		arr[cntkdt][1] = y;
+		arr[cntkdt][2] = v;
+		ls[cntkdt] = rs[cntkdt] = 0;
+		siz[cntkdt] = 1;
+		sum[cntkdt] = v;
+		xmin[cntkdt] = xmax[cntkdt] = x;
+		ymin[cntkdt] = ymax[cntkdt] = y;
+		return cntkdt;
 	}
 
 	public static void maintain(int i) {
