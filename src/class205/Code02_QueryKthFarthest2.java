@@ -47,9 +47,8 @@ package class205;
 //const int MAXN = 100001;
 //const ll INF = 1LL << 60;
 //int n, m;
-//ll qx, qy;
-//int qk;
 //
+//int root;
 //PointNode arr[MAXN];
 //int ls[MAXN];
 //int rs[MAXN];
@@ -72,18 +71,13 @@ package class205;
 //        return 0;
 //    }
 //    int mid = (l + r) >> 1;
-//    if (l == r) {
-//        ls[mid] = 0;
-//        rs[mid] = 0;
+//    if (dimension == 0) {
+//        nth_element(arr + l, arr + mid, arr + r + 1, XCmp);
 //    } else {
-//        if (dimension == 0) {
-//            nth_element(arr + l, arr + mid, arr + r + 1, XCmp);
-//        } else {
-//            nth_element(arr + l, arr + mid, arr + r + 1, YCmp);
-//        }
-//        ls[mid] = build(l, mid - 1, dimension ^ 1);
-//        rs[mid] = build(mid + 1, r, dimension ^ 1);
+//        nth_element(arr + l, arr + mid, arr + r + 1, YCmp);
 //    }
+//    ls[mid] = build(l, mid - 1, dimension ^ 1);
+//    rs[mid] = build(mid + 1, r, dimension ^ 1);
 //    maintain(mid);
 //    return mid;
 //}
@@ -94,54 +88,51 @@ package class205;
 //    return dx * dx + dy * dy;
 //}
 //
-//ll guess(int rt) {
-//    if (rt == 0) {
+//ll guess(int qx, int qy, int i) {
+//    if (i == 0) {
 //        return 0;
 //    }
-//    ll dx = max(abs(qx - xmin[rt]), abs(qx - xmax[rt]));
-//    ll dy = max(abs(qy - ymin[rt]), abs(qy - ymax[rt]));
+//    ll dx = max(abs(qx - xmin[i]), abs(qx - xmax[i]));
+//    ll dy = max(abs(qy - ymin[i]), abs(qy - ymax[i]));
 //    return dx * dx + dy * dy;
 //}
 //
-//void updateAns(int l, int r) {
-//    if (l > r) {
+//void updateAns(int qx, int qy, int i) {
+//    if (i == 0) {
 //        return;
 //    }
-//    int mid = (l + r) >> 1;
-//    ll d = dist(qx, qy, arr[mid].x, arr[mid].y);
-//    if (d > heap.top().dist || (d == heap.top().dist && arr[mid].id < heap.top().id)) {
+//    ll d = dist(qx, qy, arr[i].x, arr[i].y);
+//    if (d > heap.top().dist || (d == heap.top().dist && arr[i].id < heap.top().id)) {
 //        heap.pop();
-//        heap.push({d, arr[mid].id});
+//        heap.push({d, arr[i].id});
 //    }
-//    if (l < r) {
-//        ll gl = guess(ls[mid]);
-//        ll gr = guess(rs[mid]);
-//        if (gl > gr) {
-//            if (gl >= heap.top().dist) {
-//                updateAns(l, mid - 1);
-//            }
-//            if (gr >= heap.top().dist) {
-//                updateAns(mid + 1, r);
-//            }
-//        } else {
-//            if (gr >= heap.top().dist) {
-//                updateAns(mid + 1, r);
-//            }
-//            if (gl >= heap.top().dist) {
-//                updateAns(l, mid - 1);
-//            }
+//    ll gl = guess(qx, qy, ls[i]);
+//    ll gr = guess(qx, qy, rs[i]);
+//    if (gl > gr) {
+//        if (gl >= heap.top().dist) {
+//            updateAns(qx, qy, ls[i]);
+//        }
+//        if (gr >= heap.top().dist) {
+//            updateAns(qx, qy, rs[i]);
+//        }
+//    } else {
+//        if (gr >= heap.top().dist) {
+//            updateAns(qx, qy, rs[i]);
+//        }
+//        if (gl >= heap.top().dist) {
+//            updateAns(qx, qy, ls[i]);
 //        }
 //    }
 //}
 //
-//int query() {
+//int query(int qx, int qy, int qk) {
 //    while (!heap.empty()) {
 //        heap.pop();
 //    }
 //    for (int i = 1; i <= qk; i++) {
 //        heap.push({-1, 0});
 //    }
-//    updateAns(1, n);
+//    updateAns(qx, qy, root);
 //    return heap.top().id;
 //}
 //
@@ -155,11 +146,11 @@ package class205;
 //    }
 //    xmin[0] = ymin[0] = INF;
 //    xmax[0] = ymax[0] = -INF;
-//    build(1, n, 0);
+//    root = build(1, n, 0);
 //    cin >> m;
-//    for (int i = 1; i <= m; i++) {
+//    for (int i = 1, qx, qy, qk; i <= m; i++) {
 //        cin >> qx >> qy >> qk;
-//        cout << query() << "\n";
+//        cout << query(qx, qy, qk) << "\n";
 //    }
 //    return 0;
 //}
