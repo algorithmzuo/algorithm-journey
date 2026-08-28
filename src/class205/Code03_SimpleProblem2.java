@@ -34,6 +34,7 @@ package class205;
 //const int INF = 1 << 30;
 //int n, cntn;
 //
+//int root[MAXP];
 //Node arr[MAXN];
 //int ls[MAXN];
 //int rs[MAXN];
@@ -42,8 +43,6 @@ package class205;
 //int xmax[MAXN];
 //int ymin[MAXN];
 //int ymax[MAXN];
-//
-//int root[MAXP];
 //
 //void maintain(int i) {
 //    sum[i] = arr[i].v + sum[ls[i]] + sum[rs[i]];
@@ -58,18 +57,13 @@ package class205;
 //        return 0;
 //    }
 //    int mid = (l + r) >> 1;
-//    if (l == r) {
-//        ls[mid] = 0;
-//        rs[mid] = 0;
+//    if (dimension == 0) {
+//        nth_element(arr + l, arr + mid, arr + r + 1, XCmp);
 //    } else {
-//        if (dimension == 0) {
-//            nth_element(arr + l, arr + mid, arr + r + 1, XCmp);
-//        } else {
-//            nth_element(arr + l, arr + mid, arr + r + 1, YCmp);
-//        }
-//        ls[mid] = build(l, mid - 1, dimension ^ 1);
-//        rs[mid] = build(mid + 1, r, dimension ^ 1);
+//        nth_element(arr + l, arr + mid, arr + r + 1, YCmp);
 //    }
+//    ls[mid] = build(l, mid - 1, dimension ^ 1);
+//    rs[mid] = build(mid + 1, r, dimension ^ 1);
 //    maintain(mid);
 //    return mid;
 //}

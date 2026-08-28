@@ -51,12 +51,8 @@ public class Code05_KdtLazyTag1 {
 	public static int[] root = new int[MAXP];
 
 	public static void swap(int i, int j) {
-		long[] a = pos[i];
-		pos[i] = pos[j];
-		pos[j] = a;
-		long b = val[i];
-		val[i] = val[j];
-		val[j] = b;
+		long[] a = pos[i]; pos[i] = pos[j]; pos[j] = a;
+		long b = val[i]; val[i] = val[j]; val[j] = b;
 	}
 
 	public static int first, last;
@@ -104,14 +100,9 @@ public class Code05_KdtLazyTag1 {
 			return 0;
 		}
 		int mid = (l + r) >> 1;
-		if (l == r) {
-			ls[mid] = 0;
-			rs[mid] = 0;
-		} else {
-			randSelect(l, r, mid, dimension);
-			ls[mid] = build(l, mid - 1, (dimension + 1) % k);
-			rs[mid] = build(mid + 1, r, (dimension + 1) % k);
-		}
+		randSelect(l, r, mid, dimension);
+		ls[mid] = build(l, mid - 1, (dimension + 1) % k);
+		rs[mid] = build(mid + 1, r, (dimension + 1) % k);
 		maintain(mid);
 		return mid;
 	}

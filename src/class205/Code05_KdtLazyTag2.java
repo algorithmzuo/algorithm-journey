@@ -69,14 +69,9 @@ package class205;
 //        return 0;
 //    }
 //    int mid = (l + r) >> 1;
-//    if (l == r) {
-//        ls[mid] = 0;
-//        rs[mid] = 0;
-//    } else {
-//        nth_element(arr + l, arr + mid, arr + r + 1, Cmp{dimension});
-//        ls[mid] = build(l, mid - 1, (dimension + 1) % k);
-//        rs[mid] = build(mid + 1, r, (dimension + 1) % k);
-//    }
+//    nth_element(arr + l, arr + mid, arr + r + 1, Cmp{dimension});
+//    ls[mid] = build(l, mid - 1, (dimension + 1) % k);
+//    rs[mid] = build(mid + 1, r, (dimension + 1) % k);
 //    maintain(mid);
 //    return mid;
 //}

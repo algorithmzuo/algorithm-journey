@@ -24,6 +24,8 @@ public class Code03_SimpleProblem1 {
 	public static int INF = 1 << 30;
 	public static int n, cntn;
 
+	// root[p]表示大小为2的p次方的KDT，根节点编号
+	public static int[] root = new int[MAXP];
 	// x、y、v
 	public static int[][] arr = new int[MAXN][3];
 	public static int[] ls = new int[MAXN];
@@ -33,9 +35,6 @@ public class Code03_SimpleProblem1 {
 	public static int[] xmax = new int[MAXN];
 	public static int[] ymin = new int[MAXN];
 	public static int[] ymax = new int[MAXN];
-
-	// root[p]表示大小为2的p次方的KDT，根节点编号
-	public static int[] root = new int[MAXP];
 
 	public static void swap(int i, int j) {
 		int[] tmp = arr[i];
@@ -87,14 +86,9 @@ public class Code03_SimpleProblem1 {
 			return 0;
 		}
 		int mid = (l + r) >> 1;
-		if (l == r) {
-			ls[mid] = 0;
-			rs[mid] = 0;
-		} else {
-			randSelect(l, r, mid, dimension);
-			ls[mid] = build(l, mid - 1, dimension ^ 1);
-			rs[mid] = build(mid + 1, r, dimension ^ 1);
-		}
+		randSelect(l, r, mid, dimension);
+		ls[mid] = build(l, mid - 1, dimension ^ 1);
+		rs[mid] = build(mid + 1, r, dimension ^ 1);
 		maintain(mid);
 		return mid;
 	}
