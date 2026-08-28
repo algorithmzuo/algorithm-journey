@@ -21,8 +21,9 @@ public class Code02_AngelDoll1 {
 	public static int MAXN = 600001;
 	public static int MAXP = 20;
 	public static int INF = 1 << 30;
-	public static int n, m, cntn;
+	public static int n, m;
 
+	public static int cntkdt;
 	public static int[] root = new int[MAXP];
 	public static int[] x = new int[MAXN];
 	public static int[] y = new int[MAXN];
@@ -92,14 +93,14 @@ public class Code02_AngelDoll1 {
 	}
 
 	public static void add(int qx, int qy) {
-		cntn++;
-		x[cntn] = qx;
-		y[cntn] = qy;
+		cntkdt++;
+		x[cntkdt] = qx;
+		y[cntkdt] = qy;
 		int p = 0;
 		while (root[p] != 0) {
 			root[p++] = 0;
 		}
-		root[p] = build(cntn - (1 << p) + 1, cntn, 0);
+		root[p] = build(cntkdt - (1 << p) + 1, cntkdt, 0);
 	}
 
 	// 估计查询点到i子树中的所有点，最小曼哈顿距离
@@ -173,7 +174,7 @@ public class Code02_AngelDoll1 {
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
 		n = in.nextInt();
 		m = in.nextInt();
-		cntn = n;
+		cntkdt = n;
 		xmin[0] = ymin[0] = INF;
 		xmax[0] = ymax[0] = -INF;
 		for (int i = 1; i <= n; i++) {

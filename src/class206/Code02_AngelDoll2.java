@@ -32,8 +32,9 @@ package class206;
 //const int MAXN = 600001;
 //const int MAXP = 20;
 //const int INF = 1 << 30;
-//int n, m, cntn;
+//int n, m;
 //
+//int cntkdt;
 //int root[MAXP];
 //Node arr[MAXN];
 //int ls[MAXN];
@@ -68,14 +69,14 @@ package class206;
 //}
 //
 //void add(int qx, int qy) {
-//    cntn++;
-//    arr[cntn].x = qx;
-//    arr[cntn].y = qy;
+//    cntkdt++;
+//    arr[cntkdt].x = qx;
+//    arr[cntkdt].y = qy;
 //    int p = 0;
 //    while (root[p] != 0) {
 //        root[p++] = 0;
 //    }
-//    root[p] = build(cntn - (1 << p) + 1, cntn, 0);
+//    root[p] = build(cntkdt - (1 << p) + 1, cntkdt, 0);
 //}
 //
 //int guess(int qx, int qy, int i) {
@@ -145,7 +146,7 @@ package class206;
 //    ios::sync_with_stdio(false);
 //    cin.tie(nullptr);
 //    cin >> n >> m;
-//    cntn = n;
+//    cntkdt = n;
 //    xmin[0] = ymin[0] = INF;
 //    xmax[0] = ymax[0] = -INF;
 //    for (int i = 1; i <= n; i++) {
