@@ -21,6 +21,7 @@ public class Code01_ClosestPair1 {
 	public static long INF = 1L << 60;
 	public static int n;
 
+	public static int root;
 	public static long[] x = new long[MAXN];
 	public static long[] y = new long[MAXN];
 	public static int[] ls = new int[MAXN];
@@ -85,14 +86,9 @@ public class Code01_ClosestPair1 {
 			return 0;
 		}
 		int mid = (l + r) >> 1;
-		if (l == r) {
-			ls[mid] = 0;
-			rs[mid] = 0;
-		} else {
-			randSelect(l, r, mid, dimension);
-			ls[mid] = build1(l, mid - 1, dimension ^ 1);
-			rs[mid] = build1(mid + 1, r, dimension ^ 1);
-		}
+		randSelect(l, r, mid, dimension);
+		ls[mid] = build1(l, mid - 1, dimension ^ 1);
+		rs[mid] = build1(mid + 1, r, dimension ^ 1);
 		maintain(mid);
 		return mid;
 	}
@@ -118,63 +114,55 @@ public class Code01_ClosestPair1 {
 			return 0;
 		}
 		int mid = (l + r) >> 1;
-		if (l == r) {
-			ls[mid] = 0;
-			rs[mid] = 0;
-		} else {
-			int dimension = variance(l, r, 0) >= variance(l, r, 1) ? 0 : 1;
-			randSelect(l, r, mid, dimension);
-			ls[mid] = build2(l, mid - 1);
-			rs[mid] = build2(mid + 1, r);
-		}
+		int dimension = variance(l, r, 0) >= variance(l, r, 1) ? 0 : 1;
+		randSelect(l, r, mid, dimension);
+		ls[mid] = build2(l, mid - 1);
+		rs[mid] = build2(mid + 1, r);
 		maintain(mid);
 		return mid;
 	}
 
-	public static long dist(int a, int b) {
-		long dx = x[a] - x[b];
-		long dy = y[a] - y[b];
+	public static long dist(int qi, int i) {
+		long dx = x[qi] - x[i];
+		long dy = y[qi] - y[i];
 		return dx * dx + dy * dy;
 	}
 
-	// 估计函数，估计查询点到rt子树中所有点的最小距离平方
-	public static long guess(int i, int rt) {
-		if (rt == 0) {
+	// 估计函数，估计查询点qi到i子树中所有点的最小距离平方
+	public static long guess(int qi, int i) {
+		if (i == 0) {
 			return INF;
 		}
-		long ix = x[i];
-		long iy = y[i];
-		long dx = ix < xmin[rt] ? (xmin[rt] - ix) : (ix > xmax[rt] ? (ix - xmax[rt]) : 0);
-		long dy = iy < ymin[rt] ? (ymin[rt] - iy) : (iy > ymax[rt] ? (iy - ymax[rt]) : 0);
+		long qx = x[qi];
+		long qy = y[qi];
+		long dx = qx < xmin[i] ? (xmin[i] - qx) : (qx > xmax[i] ? (qx - xmax[i]) : 0);
+		long dy = qy < ymin[i] ? (ymin[i] - qy) : (qy > ymax[i] ? (qy - ymax[i]) : 0);
 		return dx * dx + dy * dy;
 	}
 
-	public static void updateAns(int i, int l, int r) {
-		if (l > r) {
+	public static void updateAns(int qi, int i) {
+		if (i == 0) {
 			return;
 		}
-		int mid = (l + r) >> 1;
 		// 不能算自己到自己的距离
-		if (mid != i) {
-			ans = Math.min(ans, dist(i, mid));
+		if (qi != i) {
+			ans = Math.min(ans, dist(qi, i));
 		}
-		if (l < r) {
-			long gl = guess(i, ls[mid]);
-			long gr = guess(i, rs[mid]);
-			if (gl < gr) {
-				if (gl < ans) {
-					updateAns(i, l, mid - 1);
-				}
-				if (gr < ans) {
-					updateAns(i, mid + 1, r);
-				}
-			} else {
-				if (gr < ans) {
-					updateAns(i, mid + 1, r);
-				}
-				if (gl < ans) {
-					updateAns(i, l, mid - 1);
-				}
+		long gl = guess(qi, ls[i]);
+		long gr = guess(qi, rs[i]);
+		if (gl < gr) {
+			if (gl < ans) {
+				updateAns(qi, ls[i]);
+			}
+			if (gr < ans) {
+				updateAns(qi, rs[i]);
+			}
+		} else {
+			if (gr < ans) {
+				updateAns(qi, rs[i]);
+			}
+			if (gl < ans) {
+				updateAns(qi, ls[i]);
 			}
 		}
 	}
@@ -189,11 +177,11 @@ public class Code01_ClosestPair1 {
 		}
 		xmin[0] = ymin[0] = INF;
 		xmax[0] = ymax[0] = -INF;
-		// build1(1, n, 0);
-		build2(1, n);
+		// root = build1(1, n, 0);
+		root = build2(1, n);
 		ans = dist(1, 2);
 		for (int i = 1; i <= n; i++) {
-			updateAns(i, 1, n);
+			updateAns(i, root);
 			if (ans == 0) {
 				break;
 			}

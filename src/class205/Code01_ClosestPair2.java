@@ -32,6 +32,7 @@ package class205;
 //const ll INF = 1LL << 60;
 //int n;
 //
+//int root;
 //Node arr[MAXN];
 //int ls[MAXN];
 //int rs[MAXN];
@@ -54,18 +55,13 @@ package class205;
 //        return 0;
 //    }
 //    int mid = (l + r) >> 1;
-//    if (l == r) {
-//        ls[mid] = 0;
-//        rs[mid] = 0;
+//    if (dimension == 0) {
+//        nth_element(arr + l, arr + mid, arr + r + 1, XCmp);
 //    } else {
-//        if (dimension == 0) {
-//            nth_element(arr + l, arr + mid, arr + r + 1, XCmp);
-//        } else {
-//            nth_element(arr + l, arr + mid, arr + r + 1, YCmp);
-//        }
-//        ls[mid] = build1(l, mid - 1, dimension ^ 1);
-//        rs[mid] = build1(mid + 1, r, dimension ^ 1);
+//        nth_element(arr + l, arr + mid, arr + r + 1, YCmp);
 //    }
+//    ls[mid] = build1(l, mid - 1, dimension ^ 1);
+//    rs[mid] = build1(mid + 1, r, dimension ^ 1);
 //    maintain(mid);
 //    return mid;
 //}
@@ -89,65 +85,57 @@ package class205;
 //        return 0;
 //    }
 //    int mid = (l + r) >> 1;
-//    if (l == r) {
-//        ls[mid] = 0;
-//        rs[mid] = 0;
+//    int dimension = variance(l, r, 0) >= variance(l, r, 1) ? 0 : 1;
+//    if (dimension == 0) {
+//        nth_element(arr + l, arr + mid, arr + r + 1, XCmp);
 //    } else {
-//        int dimension = variance(l, r, 0) >= variance(l, r, 1) ? 0 : 1;
-//        if (dimension == 0) {
-//            nth_element(arr + l, arr + mid, arr + r + 1, XCmp);
-//        } else {
-//            nth_element(arr + l, arr + mid, arr + r + 1, YCmp);
-//        }
-//        ls[mid] = build2(l, mid - 1);
-//        rs[mid] = build2(mid + 1, r);
+//        nth_element(arr + l, arr + mid, arr + r + 1, YCmp);
 //    }
+//    ls[mid] = build2(l, mid - 1);
+//    rs[mid] = build2(mid + 1, r);
 //    maintain(mid);
 //    return mid;
 //}
 //
-//ll dist(int a, int b) {
-//    ll dx = arr[a].x - arr[b].x;
-//    ll dy = arr[a].y - arr[b].y;
+//ll dist(int qi, int i) {
+//    ll dx = arr[qi].x - arr[i].x;
+//    ll dy = arr[qi].y - arr[i].y;
 //    return dx * dx + dy * dy;
 //}
 //
-//ll guess(int i, int rt) {
-//    if (rt == 0) {
+//ll guess(int qi, int i) {
+//    if (i == 0) {
 //        return INF;
 //    }
-//    ll x = arr[i].x;
-//    ll y = arr[i].y;
-//    ll dx = x < xmin[rt] ? (xmin[rt] - x) : (x > xmax[rt] ? (x - xmax[rt]) : 0);
-//    ll dy = y < ymin[rt] ? (ymin[rt] - y) : (y > ymax[rt] ? (y - ymax[rt]) : 0);
+//    ll qx = arr[qi].x;
+//    ll qy = arr[qi].y;
+//    ll dx = qx < xmin[i] ? (xmin[i] - qx) : (qx > xmax[i] ? (qx - xmax[i]) : 0);
+//    ll dy = qy < ymin[i] ? (ymin[i] - qy) : (qy > ymax[i] ? (qy - ymax[i]) : 0);
 //    return dx * dx + dy * dy;
 //}
 //
-//void updateAns(int i, int l, int r) {
-//    if (l > r) {
+//void updateAns(int qi, int i) {
+//    if (i == 0) {
 //        return;
 //    }
-//    int mid = (l + r) >> 1;
-//    if (mid != i) {
-//        ans = min(ans, dist(i, mid));
+//    if (qi != i) {
+//        ans = min(ans, dist(qi, i));
 //    }
-//    if (l < r) {
-//        ll gl = guess(i, ls[mid]);
-//        ll gr = guess(i, rs[mid]);
-//        if (gl < gr) {
-//            if (gl < ans) {
-//                updateAns(i, l, mid - 1);
-//            }
-//            if (gr < ans) {
-//                updateAns(i, mid + 1, r);
-//            }
-//        } else {
-//            if (gr < ans) {
-//                updateAns(i, mid + 1, r);
-//            }
-//            if (gl < ans) {
-//                updateAns(i, l, mid - 1);
-//            }
+//    ll gl = guess(qi, ls[i]);
+//    ll gr = guess(qi, rs[i]);
+//    if (gl < gr) {
+//        if (gl < ans) {
+//            updateAns(qi, ls[i]);
+//        }
+//        if (gr < ans) {
+//            updateAns(qi, rs[i]);
+//        }
+//    } else {
+//        if (gr < ans) {
+//            updateAns(qi, rs[i]);
+//        }
+//        if (gl < ans) {
+//            updateAns(qi, ls[i]);
 //        }
 //    }
 //}
@@ -161,11 +149,11 @@ package class205;
 //    }
 //    xmin[0] = ymin[0] = INF;
 //    xmax[0] = ymax[0] = -INF;
-//    // build1(1, n, 0);
-//    build2(1, n);
+//    // root = build1(1, n, 0);
+//    root = build2(1, n);
 //    ans = dist(1, 2);
 //    for (int i = 1; i <= n; i++) {
-//        updateAns(i, 1, n);
+//        updateAns(i, root);
 //        if (ans == 0) {
 //            break;
 //        }
