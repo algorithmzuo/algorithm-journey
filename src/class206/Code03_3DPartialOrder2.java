@@ -31,14 +31,22 @@ package class206;
 //    int c;
 //};
 //
+//bool BCmp(BC x, BC y) {
+//    return x.b < y.b;
+//}
+//
+//bool CCmp(BC x, BC y) {
+//    return x.c < y.c;
+//}
+//
 //const int MAXN = 100001;
 //const int MAXP = 18;
 //const int INF = 1 << 30;
 //int n, k, cntn;
 //
 //ABC abc[MAXN];
-//BC bc[MAXN];
 //
+//BC bc[MAXN];
 //int siz[MAXN];
 //int ls[MAXN];
 //int rs[MAXN];
@@ -49,40 +57,8 @@ package class206;
 //int cmax[MAXN];
 //
 //int root[MAXP];
+//
 //int ans[MAXN];
-//
-//int first, last;
-//
-//void partition(int l, int r, int pivot, int dimension) {
-//    first = l;
-//    last = r;
-//    int i = l;
-//    while (i <= last) {
-//        int cur = dimension == 0 ? bc[i].b : bc[i].c;
-//        if (cur == pivot) {
-//            i++;
-//        } else if (cur < pivot) {
-//            swap(bc[first++], bc[i++]);
-//        } else {
-//            swap(bc[i], bc[last--]);
-//        }
-//    }
-//}
-//
-//void randSelect(int l, int r, int i, int dimension) {
-//    while (l <= r) {
-//        int idx = l + rand() % (r - l + 1);
-//        int pivot = dimension == 0 ? bc[idx].b : bc[idx].c;
-//        partition(l, r, pivot, dimension);
-//        if (i < first) {
-//            r = first - 1;
-//        } else if (i > last) {
-//            l = last + 1;
-//        } else {
-//            break;
-//        }
-//    }
-//}
 //
 //void maintain(int i) {
 //    siz[i] = siz[ls[i]] + siz[rs[i]] + 1;
@@ -101,7 +77,11 @@ package class206;
 //        ls[mid] = 0;
 //        rs[mid] = 0;
 //    } else {
-//        randSelect(l, r, mid, dimension);
+//        if (dimension == 0) {
+//            nth_element(bc + l, bc + mid, bc + r + 1, BCmp);
+//        } else {
+//            nth_element(bc + l, bc + mid, bc + r + 1, CCmp);
+//        }
 //        ls[mid] = build(l, mid - 1, dimension ^ 1);
 //        rs[mid] = build(mid + 1, r, dimension ^ 1);
 //    }
@@ -150,7 +130,6 @@ package class206;
 //int main() {
 //    ios::sync_with_stdio(false);
 //    cin.tie(nullptr);
-//    srand((unsigned)time(nullptr));
 //    cin >> n >> k;
 //    for (int i = 1; i <= n; i++) {
 //        cin >> abc[i].a >> abc[i].b >> abc[i].c;

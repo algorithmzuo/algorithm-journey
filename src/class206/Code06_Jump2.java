@@ -32,13 +32,20 @@ package class206;
 //    }
 //};
 //
+//bool XCmp(Node a, Node b) {
+//    return a.x < b.x;
+//}
+//
+//bool YCmp(Node a, Node b) {
+//    return a.y < b.y;
+//}
+//
 //const int MAXN = 200001;
 //const int INF = 1 << 30;
 //int n, m, w, h;
 //
 //Node arr[MAXN];
 //Jump jump[MAXN];
-//
 //int ls[MAXN];
 //int rs[MAXN];
 //int xmin[MAXN];
@@ -73,39 +80,6 @@ package class206;
 //    headj[p] = cntj;
 //}
 //
-//int first, last;
-//
-//void partition(int l, int r, int pivot, int dimension) {
-//    first = l;
-//    last = r;
-//    int i = l;
-//    while (i <= last) {
-//        int cur = dimension == 0 ? arr[i].x : arr[i].y;
-//        if (cur == pivot) {
-//            i++;
-//        } else if (cur < pivot) {
-//            swap(arr[first++], arr[i++]);
-//        } else {
-//            swap(arr[i], arr[last--]);
-//        }
-//    }
-//}
-//
-//void randSelect(int l, int r, int i, int dimension) {
-//    while (l <= r) {
-//        int idx = l + rand() % (r - l + 1);
-//        int pivot = dimension == 0 ? arr[idx].x : arr[idx].y;
-//        partition(l, r, pivot, dimension);
-//        if (i < first) {
-//            r = first - 1;
-//        } else if (i > last) {
-//            l = last + 1;
-//        } else {
-//            break;
-//        }
-//    }
-//}
-//
 //void maintain(int i) {
 //    xmin[i] = min(arr[i].x, min(xmin[ls[i]], xmin[rs[i]]));
 //    xmax[i] = max(arr[i].x, max(xmax[ls[i]], xmax[rs[i]]));
@@ -118,7 +92,11 @@ package class206;
 //        return 0;
 //    }
 //    int mid = (l + r) >> 1;
-//    randSelect(l, r, mid, dimension);
+//    if (dimension == 0) {
+//        nth_element(arr + l, arr + mid, arr + r + 1, XCmp);
+//    } else {
+//        nth_element(arr + l, arr + mid, arr + r + 1, YCmp);
+//    }
 //    ls[mid] = build(l, mid - 1, dimension ^ 1);
 //    rs[mid] = build(mid + 1, r, dimension ^ 1);
 //    maintain(mid);
@@ -192,7 +170,6 @@ package class206;
 //int main() {
 //    ios::sync_with_stdio(false);
 //    cin.tie(nullptr);
-//    srand((unsigned)time(nullptr));
 //    cin >> n >> m >> w >> h;
 //    for (int i = 1; i <= n; i++) {
 //        cin >> arr[i].x >> arr[i].y;

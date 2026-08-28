@@ -28,9 +28,9 @@ public class Code03_3DPartialOrder1 {
 
 	// a、b、c
 	public static int[][] abc = new int[MAXN][3];
+
 	// b、c
 	public static int[][] bc = new int[MAXN][2];
-
 	// siz[i]表示子树i的节点个数
 	public static int[] siz = new int[MAXN];
 	public static int[] ls = new int[MAXN];

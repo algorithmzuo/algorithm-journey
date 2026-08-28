@@ -21,54 +21,29 @@ package class206;
 //    int y;
 //};
 //
+//bool XCmp(Node a, Node b) {
+//    return a.x < b.x;
+//}
+//
+//bool YCmp(Node a, Node b) {
+//    return a.y < b.y;
+//}
+//
 //const int MAXN = 600001;
 //const int MAXP = 20;
 //const int INF = 1 << 30;
 //int n, m, cntn;
 //
 //Node arr[MAXN];
-//
 //int ls[MAXN];
 //int rs[MAXN];
+//
 //int xmin[MAXN];
 //int xmax[MAXN];
 //int ymin[MAXN];
 //int ymax[MAXN];
 //
 //int root[MAXP];
-//
-//int first, last;
-//
-//void partition(int l, int r, int pivot, int dimension) {
-//    first = l;
-//    last = r;
-//    int i = l;
-//    while (i <= last) {
-//        int cur = dimension == 0 ? arr[i].x : arr[i].y;
-//        if (cur == pivot) {
-//            i++;
-//        } else if (cur < pivot) {
-//            swap(arr[first++], arr[i++]);
-//        } else {
-//            swap(arr[i], arr[last--]);
-//        }
-//    }
-//}
-//
-//void randSelect(int l, int r, int i, int dimension) {
-//    while (l <= r) {
-//        int idx = l + rand() % (r - l + 1);
-//        int pivot = dimension == 0 ? arr[idx].x : arr[idx].y;
-//        partition(l, r, pivot, dimension);
-//        if (i < first) {
-//            r = first - 1;
-//        } else if (i > last) {
-//            l = last + 1;
-//        } else {
-//            break;
-//        }
-//    }
-//}
 //
 //void maintain(int i) {
 //    xmin[i] = min(arr[i].x, min(xmin[ls[i]], xmin[rs[i]]));
@@ -86,7 +61,11 @@ package class206;
 //        ls[mid] = 0;
 //        rs[mid] = 0;
 //    } else {
-//        randSelect(l, r, mid, dimension);
+//        if (dimension == 0) {
+//            nth_element(arr + l, arr + mid, arr + r + 1, XCmp);
+//        } else {
+//            nth_element(arr + l, arr + mid, arr + r + 1, YCmp);
+//        }
 //        ls[mid] = build(l, mid - 1, dimension ^ 1);
 //        rs[mid] = build(mid + 1, r, dimension ^ 1);
 //    }
@@ -94,10 +73,10 @@ package class206;
 //    return mid;
 //}
 //
-//void add(int x, int y) {
+//void add(int qx, int qy) {
 //    cntn++;
-//    arr[cntn].x = x;
-//    arr[cntn].y = y;
+//    arr[cntn].x = qx;
+//    arr[cntn].y = qy;
 //    int p = 0;
 //    while (root[p] != 0) {
 //        root[p++] = 0;
@@ -105,55 +84,55 @@ package class206;
 //    root[p] = build(cntn - (1 << p) + 1, cntn, 0);
 //}
 //
-//int guess(int x, int y, int i) {
+//int guess(int qx, int qy, int i) {
 //    if (i == 0) {
 //        return INF;
 //    }
 //    int ans = 0;
-//    if (x < xmin[i]) {
-//        ans += xmin[i] - x;
-//    } else if (x > xmax[i]) {
-//        ans += x - xmax[i];
+//    if (qx < xmin[i]) {
+//        ans += xmin[i] - qx;
+//    } else if (qx > xmax[i]) {
+//        ans += qx - xmax[i];
 //    }
-//    if (y < ymin[i]) {
-//        ans += ymin[i] - y;
-//    } else if (y > ymax[i]) {
-//        ans += y - ymax[i];
+//    if (qy < ymin[i]) {
+//        ans += ymin[i] - qy;
+//    } else if (qy > ymax[i]) {
+//        ans += qy - ymax[i];
 //    }
 //    return ans;
 //}
 //
 //int queryAns;
 //
-//void updateAns(int x, int y, int i) {
+//void updateAns(int qx, int qy, int i) {
 //    if (i == 0) {
 //        return;
 //    }
-//    queryAns = min(queryAns, abs(x - arr[i].x) + abs(y - arr[i].y));
-//    int gl = guess(x, y, ls[i]);
-//    int gr = guess(x, y, rs[i]);
+//    queryAns = min(queryAns, abs(qx - arr[i].x) + abs(qy - arr[i].y));
+//    int gl = guess(qx, qy, ls[i]);
+//    int gr = guess(qx, qy, rs[i]);
 //    if (gl < gr) {
 //        if (gl < queryAns) {
-//            updateAns(x, y, ls[i]);
+//            updateAns(qx, qy, ls[i]);
 //        }
 //        if (gr < queryAns) {
-//            updateAns(x, y, rs[i]);
+//            updateAns(qx, qy, rs[i]);
 //        }
 //    } else {
 //        if (gr < queryAns) {
-//            updateAns(x, y, rs[i]);
+//            updateAns(qx, qy, rs[i]);
 //        }
 //        if (gl < queryAns) {
-//            updateAns(x, y, ls[i]);
+//            updateAns(qx, qy, ls[i]);
 //        }
 //    }
 //}
 //
-//int query(int x, int y) {
+//int query(int qx, int qy) {
 //    queryAns = INF;
 //    for (int p = 0; p < MAXP; p++) {
 //        if (root[p] != 0) {
-//            updateAns(x, y, root[p]);
+//            updateAns(qx, qy, root[p]);
 //        }
 //    }
 //    return queryAns;
@@ -171,7 +150,6 @@ package class206;
 //int main() {
 //    ios::sync_with_stdio(false);
 //    cin.tie(nullptr);
-//    srand((unsigned)time(nullptr));
 //    cin >> n >> m;
 //    cntn = n;
 //    xmin[0] = ymin[0] = INF;
@@ -180,12 +158,12 @@ package class206;
 //        cin >> arr[i].x >> arr[i].y;
 //    }
 //    prepare();
-//    for (int i = 1, op, x, y; i <= m; i++) {
-//        cin >> op >> x >> y;
+//    for (int i = 1, op, qx, qy; i <= m; i++) {
+//        cin >> op >> qx >> qy;
 //        if (op == 1) {
-//            add(x, y);
+//            add(qx, qy);
 //        } else {
-//            cout << query(x, y) << "\n";
+//            cout << query(qx, qy) << "\n";
 //        }
 //    }
 //    return 0;

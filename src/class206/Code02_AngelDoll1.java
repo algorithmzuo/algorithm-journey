@@ -108,21 +108,21 @@ public class Code02_AngelDoll1 {
 		root[p] = build(cntn - (1 << p) + 1, cntn, 0);
 	}
 
-	// 估计查询点到rt子树中的所有点，最小曼哈顿距离
-	public static int guess(int qx, int qy, int rt) {
-		if (rt == 0) {
+	// 估计查询点到i子树中的所有点，最小曼哈顿距离
+	public static int guess(int qx, int qy, int i) {
+		if (i == 0) {
 			return INF;
 		}
 		int ans = 0;
-		if (qx < xmin[rt]) {
-			ans += xmin[rt] - qx;
-		} else if (qx > xmax[rt]) {
-			ans += qx - xmax[rt];
+		if (qx < xmin[i]) {
+			ans += xmin[i] - qx;
+		} else if (qx > xmax[i]) {
+			ans += qx - xmax[i];
 		}
-		if (qy < ymin[rt]) {
-			ans += ymin[rt] - qy;
-		} else if (qy > ymax[rt]) {
-			ans += qy - ymax[rt];
+		if (qy < ymin[i]) {
+			ans += ymin[i] - qy;
+		} else if (qy > ymax[i]) {
+			ans += qy - ymax[i];
 		}
 		return ans;
 	}
