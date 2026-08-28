@@ -5,7 +5,7 @@ package class205;
 // 一共n个点，每个点给定坐标(x, y)，输出距离最近的两个点的距离平方
 // 2 <= n <= 4 * 10^5
 // -10^7 <= x、y <= +10^7
-//测试链接 : https://www.luogu.com.cn/problem/P7883
+// 测试链接 : https://www.luogu.com.cn/problem/P7883
 // 如下实现是C++的版本，C++版本和java版本逻辑完全一样
 // 提交如下代码，可以通过所有测试用例
 
@@ -20,54 +20,27 @@ package class205;
 //    ll y;
 //};
 //
+//bool XCmp(Node a, Node b) {
+//    return a.x < b.x;
+//}
+//
+//bool YCmp(Node a, Node b) {
+//    return a.y < b.y;
+//}
+//
 //const int MAXN = 400001;
 //const ll INF = 1LL << 60;
 //int n;
 //
 //Node arr[MAXN];
-//
 //int ls[MAXN];
 //int rs[MAXN];
-//
 //ll xmin[MAXN];
 //ll xmax[MAXN];
 //ll ymin[MAXN];
 //ll ymax[MAXN];
 //
 //ll ans;
-//
-//int first, last;
-//
-//void partition(int l, int r, ll pivot, int dimension) {
-//    first = l;
-//    last = r;
-//    int i = l;
-//    while (i <= last) {
-//        ll cur = dimension == 0 ? arr[i].x : arr[i].y;
-//        if (cur == pivot) {
-//            i++;
-//        } else if (cur < pivot) {
-//            swap(arr[first++], arr[i++]);
-//        } else {
-//            swap(arr[i], arr[last--]);
-//        }
-//    }
-//}
-//
-//void randSelect(int l, int r, int i, int dimension) {
-//    while (l <= r) {
-//        int idx = l + rand() % (r - l + 1);
-//        ll pivot = dimension == 0 ? arr[idx].x : arr[idx].y;
-//        partition(l, r, pivot, dimension);
-//        if (i < first) {
-//            r = first - 1;
-//        } else if (i > last) {
-//            l = last + 1;
-//        } else {
-//            break;
-//        }
-//    }
-//}
 //
 //void maintain(int i) {
 //    xmin[i] = min(arr[i].x, min(xmin[ls[i]], xmin[rs[i]]));
@@ -85,7 +58,11 @@ package class205;
 //        ls[mid] = 0;
 //        rs[mid] = 0;
 //    } else {
-//        randSelect(l, r, mid, dimension);
+//        if (dimension == 0) {
+//            nth_element(arr + l, arr + mid, arr + r + 1, XCmp);
+//        } else {
+//            nth_element(arr + l, arr + mid, arr + r + 1, YCmp);
+//        }
 //        ls[mid] = build1(l, mid - 1, dimension ^ 1);
 //        rs[mid] = build1(mid + 1, r, dimension ^ 1);
 //    }
@@ -117,7 +94,11 @@ package class205;
 //        rs[mid] = 0;
 //    } else {
 //        int dimension = variance(l, r, 0) >= variance(l, r, 1) ? 0 : 1;
-//        randSelect(l, r, mid, dimension);
+//        if (dimension == 0) {
+//            nth_element(arr + l, arr + mid, arr + r + 1, XCmp);
+//        } else {
+//            nth_element(arr + l, arr + mid, arr + r + 1, YCmp);
+//        }
 //        ls[mid] = build2(l, mid - 1);
 //        rs[mid] = build2(mid + 1, r);
 //    }
@@ -174,7 +155,6 @@ package class205;
 //int main() {
 //    ios::sync_with_stdio(false);
 //    cin.tie(nullptr);
-//    srand((unsigned)time(nullptr));
 //    cin >> n;
 //    for (int i = 1; i <= n; i++) {
 //        cin >> arr[i].x >> arr[i].y;

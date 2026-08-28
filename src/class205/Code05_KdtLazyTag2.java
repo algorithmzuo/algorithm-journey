@@ -30,61 +30,37 @@ package class205;
 //ll qy[MAXK];
 //ll qv;
 //
-//ll pos[MAXN][MAXK];
-//ll val[MAXN];
+//struct Node {
+//    ll pos[MAXK];
+//    ll val;
+//};
+//
+//struct Cmp {
+//    int dimension;
+//
+//    bool operator()(const Node &a, const Node &b) const {
+//        return a.pos[dimension] < b.pos[dimension];
+//    }
+//};
+//
+//Node arr[MAXN];
 //int ls[MAXN];
 //int rs[MAXN];
 //int siz[MAXN];
+//
 //ll sum[MAXN];
 //ll tag[MAXN];
-//
 //ll minv[MAXN][MAXK];
 //ll maxv[MAXN][MAXK];
 //
 //int root[MAXP];
 //
-//void swap(int i, int j) {
-//    swap(pos[i], pos[j]);
-//    swap(val[i], val[j]);
-//}
-//
-//int first, last;
-//
-//void partition(int l, int r, ll pivot, int dimension) {
-//    first = l;
-//    last = r;
-//    int i = l;
-//    while (i <= last) {
-//        if (pos[i][dimension] == pivot) {
-//            i++;
-//        } else if (pos[i][dimension] < pivot) {
-//            swap(first++, i++);
-//        } else {
-//            swap(i, last--);
-//        }
-//    }
-//}
-//
-//void randSelect(int l, int r, int i, int dimension) {
-//    while (l <= r) {
-//        ll pivot = pos[l + rand() % (r - l + 1)][dimension];
-//        partition(l, r, pivot, dimension);
-//        if (i < first) {
-//            r = first - 1;
-//        } else if (i > last) {
-//            l = last + 1;
-//        } else {
-//            break;
-//        }
-//    }
-//}
-//
 //void maintain(int i) {
 //    siz[i] = 1 + siz[ls[i]] + siz[rs[i]];
-//    sum[i] = val[i] + sum[ls[i]] + sum[rs[i]];
+//    sum[i] = arr[i].val + sum[ls[i]] + sum[rs[i]];
 //    for (int d = 0; d < k; d++) {
-//        minv[i][d] = min(pos[i][d], min(minv[ls[i]][d], minv[rs[i]][d]));
-//        maxv[i][d] = max(pos[i][d], max(maxv[ls[i]][d], maxv[rs[i]][d]));
+//        minv[i][d] = min(arr[i].pos[d], min(minv[ls[i]][d], minv[rs[i]][d]));
+//        maxv[i][d] = max(arr[i].pos[d], max(maxv[ls[i]][d], maxv[rs[i]][d]));
 //    }
 //}
 //
@@ -97,7 +73,7 @@ package class205;
 //        ls[mid] = 0;
 //        rs[mid] = 0;
 //    } else {
-//        randSelect(l, r, mid, dimension);
+//        nth_element(arr + l, arr + mid, arr + r + 1, Cmp{dimension});
 //        ls[mid] = build(l, mid - 1, (dimension + 1) % k);
 //        rs[mid] = build(mid + 1, r, (dimension + 1) % k);
 //    }
@@ -107,7 +83,7 @@ package class205;
 //
 //void lazy(int i, ll v) {
 //    if (i != 0) {
-//        val[i] += v;
+//        arr[i].val += v;
 //        sum[i] += v * siz[i];
 //        tag[i] += v;
 //    }
@@ -132,9 +108,9 @@ package class205;
 //void insert() {
 //    cntn++;
 //    for (int d = 0; d < k; d++) {
-//        pos[cntn][d] = qx[d];
+//        arr[cntn].pos[d] = qx[d];
 //    }
-//    val[cntn] = qv;
+//    arr[cntn].val = qv;
 //    int p = 0;
 //    while (root[p] != 0) {
 //        dfs(root[p]);
@@ -163,7 +139,7 @@ package class205;
 //
 //bool pointIn(int i) {
 //    for (int d = 0; d < k; d++) {
-//        if (qx[d] > pos[i][d] || qy[d] < pos[i][d]) {
+//        if (qx[d] > arr[i].pos[d] || qy[d] < arr[i].pos[d]) {
 //            return false;
 //        }
 //    }
@@ -182,7 +158,7 @@ package class205;
 //        return;
 //    }
 //    if (pointIn(i)) {
-//        val[i] += qv;
+//        arr[i].val += qv;
 //    }
 //    down(i);
 //    addValue(ls[i]);
@@ -208,7 +184,7 @@ package class205;
 //    }
 //    ll ans = 0;
 //    if (pointIn(i)) {
-//        ans += val[i];
+//        ans += arr[i].val;
 //    }
 //    down(i);
 //    ans += querySum(ls[i]);
@@ -227,7 +203,6 @@ package class205;
 //int main() {
 //    ios::sync_with_stdio(false);
 //    cin.tie(nullptr);
-//    srand((unsigned)time(nullptr));
 //    cin >> k >> m;
 //    for (int d = 0; d < k; d++) {
 //        minv[0][d] = INF;

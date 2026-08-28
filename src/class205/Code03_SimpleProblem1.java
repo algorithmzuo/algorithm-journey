@@ -24,6 +24,7 @@ public class Code03_SimpleProblem1 {
 	public static int INF = 1 << 30;
 	public static int n, cntn;
 
+	// x、y、v
 	public static int[][] arr = new int[MAXN][3];
 	public static int[] ls = new int[MAXN];
 	public static int[] rs = new int[MAXN];

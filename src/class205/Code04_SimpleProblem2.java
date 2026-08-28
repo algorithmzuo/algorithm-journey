@@ -45,6 +45,14 @@ package class205;
 //int topSide;
 //int topDimension;
 //
+//bool XCmp(int a, int b) {
+//    return arr[a].x < arr[b].x;
+//}
+//
+//bool YCmp(int a, int b) {
+//    return arr[a].y < arr[b].y;
+//}
+//
 //int init(int x, int y, int v) {
 //    cntn++;
 //    arr[cntn].x = x;
@@ -75,46 +83,16 @@ package class205;
 //    }
 //}
 //
-//int first, last;
-//
-//void partition(int l, int r, int pivot, int dimension) {
-//    first = l;
-//    last = r;
-//    int i = l;
-//    while (i <= last) {
-//        int idx = collect[i];
-//        int cur = dimension == 0 ? arr[idx].x : arr[idx].y;
-//        if (cur == pivot) {
-//            i++;
-//        } else if (cur < pivot) {
-//            swap(collect[first++], collect[i++]);
-//        } else {
-//            swap(collect[i], collect[last--]);
-//        }
-//    }
-//}
-//
-//void randSelect(int l, int r, int i, int dimension) {
-//    while (l <= r) {
-//        int idx = collect[l + rand() % (r - l + 1)];
-//        int pivot = dimension == 0 ? arr[idx].x : arr[idx].y;
-//        partition(l, r, pivot, dimension);
-//        if (i < first) {
-//            r = first - 1;
-//        } else if (i > last) {
-//            l = last + 1;
-//        } else {
-//            break;
-//        }
-//    }
-//}
-//
 //int build(int l, int r, int dimension) {
 //    if (l > r) {
 //        return 0;
 //    }
 //    int mid = (l + r) >> 1;
-//    randSelect(l, r, mid, dimension);
+//    if (dimension == 0) {
+//        nth_element(collect + l, collect + mid, collect + r + 1, XCmp);
+//    } else {
+//        nth_element(collect + l, collect + mid, collect + r + 1, YCmp);
+//    }
 //    int rt = collect[mid];
 //    ls[rt] = build(l, mid - 1, dimension ^ 1);
 //    rs[rt] = build(mid + 1, r, dimension ^ 1);
@@ -201,7 +179,6 @@ package class205;
 //int main() {
 //    ios::sync_with_stdio(false);
 //    cin.tie(nullptr);
-//    srand((unsigned)time(nullptr));
 //    cin >> n;
 //    xmin[0] = ymin[0] = INF;
 //    xmax[0] = ymax[0] = -INF;

@@ -26,10 +26,8 @@ public class Code02_QueryKthFarthest1 {
 
 	// x、y、id
 	public static long[][] arr = new long[MAXN][3];
-
 	public static int[] ls = new int[MAXN];
 	public static int[] rs = new int[MAXN];
-
 	public static long[] xmin = new long[MAXN];
 	public static long[] xmax = new long[MAXN];
 	public static long[] ymin = new long[MAXN];
@@ -106,6 +104,7 @@ public class Code02_QueryKthFarthest1 {
 		return dx * dx + dy * dy;
 	}
 
+	// 估计函数，估计查询点到rt子树中所有点的最大距离平方
 	public static long guess(int rt) {
 		if (rt == 0) {
 			return 0;

@@ -50,6 +50,14 @@ package class205;
 //int topSide;
 //int topDimension;
 //
+//struct Cmp {
+//    int dimension;
+//
+//    bool operator()(int a, int b) const {
+//        return pos[a][dimension] < pos[b][dimension];
+//    }
+//};
+//
 //int init() {
 //    cntn++;
 //    for (int d = 0; d < k; d++) {
@@ -98,45 +106,12 @@ package class205;
 //    }
 //}
 //
-//int first, last;
-//
-//void partition(int l, int r, ll pivot, int dimension) {
-//    first = l;
-//    last = r;
-//    int i = l;
-//    while (i <= last) {
-//        ll cur = pos[collect[i]][dimension];
-//        if (cur == pivot) {
-//            i++;
-//        } else if (cur < pivot) {
-//            swap(collect[first++], collect[i++]);
-//        } else {
-//            swap(collect[i], collect[last--]);
-//        }
-//    }
-//}
-//
-//void randSelect(int l, int r, int i, int dimension) {
-//    while (l <= r) {
-//        int idx = collect[l + rand() % (r - l + 1)];
-//        ll pivot = pos[idx][dimension];
-//        partition(l, r, pivot, dimension);
-//        if (i < first) {
-//            r = first - 1;
-//        } else if (i > last) {
-//            l = last + 1;
-//        } else {
-//            break;
-//        }
-//    }
-//}
-//
 //int build(int l, int r, int dimension) {
 //    if (l > r) {
 //        return 0;
 //    }
 //    int mid = (l + r) >> 1;
-//    randSelect(l, r, mid, dimension);
+//    nth_element(collect + l, collect + mid, collect + r + 1, Cmp{dimension});
 //    int rt = collect[mid];
 //    ls[rt] = build(l, mid - 1, (dimension + 1) % k);
 //    rs[rt] = build(mid + 1, r, (dimension + 1) % k);
@@ -266,7 +241,6 @@ package class205;
 //int main() {
 //    ios::sync_with_stdio(false);
 //    cin.tie(nullptr);
-//    srand((unsigned)time(nullptr));
 //    cin >> k >> m;
 //    for (int d = 0; d < k; d++) {
 //        minv[0][d] = INF;

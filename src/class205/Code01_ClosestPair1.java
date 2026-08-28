@@ -21,8 +21,8 @@ public class Code01_ClosestPair1 {
 	public static long INF = 1L << 60;
 	public static int n;
 
-	public static long[][] arr = new long[MAXN][2];
-
+	public static long[] x = new long[MAXN];
+	public static long[] y = new long[MAXN];
 	public static int[] ls = new int[MAXN];
 	public static int[] rs = new int[MAXN];
 
@@ -34,9 +34,8 @@ public class Code01_ClosestPair1 {
 	public static long ans;
 
 	public static void swap(int i, int j) {
-		long[] tmp = arr[i];
-		arr[i] = arr[j];
-		arr[j] = tmp;
+		long tmp = x[i]; x[i] = x[j]; x[j] = tmp;
+		tmp = y[i]; y[i] = y[j]; y[j] = tmp;
 	}
 
 	public static int first, last;
@@ -46,9 +45,10 @@ public class Code01_ClosestPair1 {
 		last = r;
 		int i = l;
 		while (i <= last) {
-			if (arr[i][dimension] == pivot) {
+			long cur = dimension == 0 ? x[i] : y[i];
+			if (cur == pivot) {
 				i++;
-			} else if (arr[i][dimension] < pivot) {
+			} else if (cur < pivot) {
 				swap(first++, i++);
 			} else {
 				swap(i, last--);
@@ -59,7 +59,8 @@ public class Code01_ClosestPair1 {
 	// 随机选择算法，无序数组中找到第k小的数，时间复杂度O(n)，讲解024讲述了
 	public static void randSelect(int l, int r, int i, int dimension) {
 		while (l <= r) {
-			long pivot = arr[l + (int) (Math.random() * (r - l + 1))][dimension];
+			int idx = l + (int) (Math.random() * (r - l + 1));
+			long pivot = dimension == 0 ? x[idx] : y[idx];
 			partition(l, r, pivot, dimension);
 			if (i < first) {
 				r = first - 1;
@@ -72,10 +73,10 @@ public class Code01_ClosestPair1 {
 	}
 
 	public static void maintain(int i) {
-		xmin[i] = Math.min(arr[i][0], Math.min(xmin[ls[i]], xmin[rs[i]]));
-		xmax[i] = Math.max(arr[i][0], Math.max(xmax[ls[i]], xmax[rs[i]]));
-		ymin[i] = Math.min(arr[i][1], Math.min(ymin[ls[i]], ymin[rs[i]]));
-		ymax[i] = Math.max(arr[i][1], Math.max(ymax[ls[i]], ymax[rs[i]]));
+		xmin[i] = Math.min(x[i], Math.min(xmin[ls[i]], xmin[rs[i]]));
+		xmax[i] = Math.max(x[i], Math.max(xmax[ls[i]], xmax[rs[i]]));
+		ymin[i] = Math.min(y[i], Math.min(ymin[ls[i]], ymin[rs[i]]));
+		ymax[i] = Math.max(y[i], Math.max(ymax[ls[i]], ymax[rs[i]]));
 	}
 
 	// 交替选维度
@@ -100,12 +101,12 @@ public class Code01_ClosestPair1 {
 	public static double variance(int l, int r, int dimension) {
 		double siz = r - l + 1, sum = 0, avg = 0, dif = 0;
 		for (int i = l; i <= r; i++) {
-			sum += arr[i][dimension];
+			sum += dimension == 0 ? x[i] : y[i];
 		}
 		avg = sum / siz;
 		sum = 0;
 		for (int i = l; i <= r; i++) {
-			dif = arr[i][dimension] - avg;
+			dif = (dimension == 0 ? x[i] : y[i]) - avg;
 			sum += dif * dif;
 		}
 		return sum / siz;
@@ -131,20 +132,20 @@ public class Code01_ClosestPair1 {
 	}
 
 	public static long dist(int a, int b) {
-		long dx = arr[a][0] - arr[b][0];
-		long dy = arr[a][1] - arr[b][1];
+		long dx = x[a] - x[b];
+		long dy = y[a] - y[b];
 		return dx * dx + dy * dy;
 	}
 
-	// 估计函数，点i到rt所有点的最小距离的平方，返回估计值
+	// 估计函数，估计查询点到rt子树中所有点的最小距离平方
 	public static long guess(int i, int rt) {
 		if (rt == 0) {
 			return INF;
 		}
-		long x = arr[i][0];
-		long y = arr[i][1];
-		long dx = x < xmin[rt] ? (xmin[rt] - x) : (x > xmax[rt] ? (x - xmax[rt]) : 0);
-		long dy = y < ymin[rt] ? (ymin[rt] - y) : (y > ymax[rt] ? (y - ymax[rt]) : 0);
+		long ix = x[i];
+		long iy = y[i];
+		long dx = ix < xmin[rt] ? (xmin[rt] - ix) : (ix > xmax[rt] ? (ix - xmax[rt]) : 0);
+		long dy = iy < ymin[rt] ? (ymin[rt] - iy) : (iy > ymax[rt] ? (iy - ymax[rt]) : 0);
 		return dx * dx + dy * dy;
 	}
 
@@ -183,8 +184,8 @@ public class Code01_ClosestPair1 {
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
 		n = in.nextInt();
 		for (int i = 1; i <= n; i++) {
-			arr[i][0] = in.nextLong();
-			arr[i][1] = in.nextLong();
+			x[i] = in.nextLong();
+			y[i] = in.nextLong();
 		}
 		xmin[0] = ymin[0] = INF;
 		xmax[0] = ymax[0] = -INF;
