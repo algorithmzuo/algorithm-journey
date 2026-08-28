@@ -24,30 +24,64 @@ public class Code04_4DPartialOrder1 {
 	public static int n, cntn;
 
 	public static int[][] abcd = new int[MAXN][4];
+
+	// b值、数据下标
 	public static int[][] bi = new int[MAXN][2];
+
+	// b值排名
 	public static int[] ranking = new int[MAXN];
 
-	public static int[][] cd = new int[MAXN][2];
+	// 每个树状数组下标，维护一棵动态kdt
+	public static int[] root = new int[MAXN];
 
-	public static int[][] kdtcd = new int[MAXT][2];
+	// kdt
+	public static int[] c = new int[MAXT];
+	public static int[] d = new int[MAXT];
 	public static int[] ls = new int[MAXT];
 	public static int[] rs = new int[MAXT];
-
+	public static int[] siz = new int[MAXT];
 	public static int[] cmin = new int[MAXT];
 	public static int[] cmax = new int[MAXT];
 	public static int[] dmin = new int[MAXT];
 	public static int[] dmax = new int[MAXT];
 
+	// 替罪羊树的方式重构
+	public static double ALPHA = 0.7;
+	public static int[] collect = new int[MAXN];
+	public static int collectSiz;
+	public static int top;
+	public static int topFather;
+	public static int topSide;
+	public static int topDimension;
+
 	public static int[] dp = new int[MAXT];
 	public static int[] maxdp = new int[MAXT];
-	public static int[] tag = new int[MAXT];
 
-	public static int[] root = new int[MAXN];
+	public static int init(int qc, int qd, int qv) {
+		cntn++;
+		c[cntn] = qc;
+		d[cntn] = qd;
+		ls[cntn] = rs[cntn] = 0;
+		siz[cntn] = 1;
+		cmin[cntn] = cmax[cntn] = qc;
+		dmin[cntn] = dmax[cntn] = qd;
+		dp[cntn] = maxdp[cntn] = qv;
+		return cntn;
+	}
+
+	public static void maintain(int i) {
+		siz[i] = 1 + siz[ls[i]] + siz[rs[i]];
+		maxdp[i] = Math.max(dp[i], Math.max(maxdp[ls[i]], maxdp[rs[i]]));
+		cmin[i] = Math.min(c[i], Math.min(cmin[ls[i]], cmin[rs[i]]));
+		cmax[i] = Math.max(c[i], Math.max(cmax[ls[i]], cmax[rs[i]]));
+		dmin[i] = Math.min(d[i], Math.min(dmin[ls[i]], dmin[rs[i]]));
+		dmax[i] = Math.max(d[i], Math.max(dmax[ls[i]], dmax[rs[i]]));
+	}
 
 	public static void swap(int i, int j) {
-		int[] tmp = cd[i];
-		cd[i] = cd[j];
-		cd[j] = tmp;
+		int tmp = collect[i];
+		collect[i] = collect[j];
+		collect[j] = tmp;
 	}
 
 	public static int first, last;
@@ -57,9 +91,11 @@ public class Code04_4DPartialOrder1 {
 		last = r;
 		int i = l;
 		while (i <= last) {
-			if (cd[i][dimension] == pivot) {
+			int idx = collect[i];
+			int cur = dimension == 0 ? c[idx] : d[idx];
+			if (cur == pivot) {
 				i++;
-			} else if (cd[i][dimension] < pivot) {
+			} else if (cur < pivot) {
 				swap(first++, i++);
 			} else {
 				swap(i, last--);
@@ -69,7 +105,8 @@ public class Code04_4DPartialOrder1 {
 
 	public static void randSelect(int l, int r, int i, int dimension) {
 		while (l <= r) {
-			int pivot = cd[l + (int) (Math.random() * (r - l + 1))][dimension];
+			int idx = collect[l + (int) (Math.random() * (r - l + 1))];
+			int pivot = dimension == 0 ? c[idx] : d[idx];
 			partition(l, r, pivot, dimension);
 			if (i < first) {
 				r = first - 1;
@@ -81,43 +118,78 @@ public class Code04_4DPartialOrder1 {
 		}
 	}
 
-	public static void maintain(int i) {
-		maxdp[i] = Math.max(dp[i], Math.max(maxdp[ls[i]], maxdp[rs[i]]));
-		cmin[i] = Math.min(kdtcd[i][0], Math.min(cmin[ls[i]], cmin[rs[i]]));
-		cmax[i] = Math.max(kdtcd[i][0], Math.max(cmax[ls[i]], cmax[rs[i]]));
-		dmin[i] = Math.min(kdtcd[i][1], Math.min(dmin[ls[i]], dmin[rs[i]]));
-		dmax[i] = Math.max(kdtcd[i][1], Math.max(dmax[ls[i]], dmax[rs[i]]));
-	}
-
 	public static int build(int l, int r, int dimension) {
 		if (l > r) {
 			return 0;
 		}
 		int mid = (l + r) >> 1;
-		int rt = ++cntn;
 		randSelect(l, r, mid, dimension);
-		kdtcd[rt][0] = cd[mid][0];
-		kdtcd[rt][1] = cd[mid][1];
+		int rt = collect[mid];
 		ls[rt] = build(l, mid - 1, dimension ^ 1);
 		rs[rt] = build(mid + 1, r, dimension ^ 1);
 		maintain(rt);
 		return rt;
 	}
 
-	public static void lazy(int i, int v) {
+	public static boolean balance(int i) {
+		return ALPHA * siz[i] >= Math.max(siz[ls[i]], siz[rs[i]]);
+	}
+
+	public static void dfs(int i) {
 		if (i != 0) {
-			dp[i] = Math.max(dp[i], v);
-			maxdp[i] = Math.max(maxdp[i], v);
-			tag[i] = Math.max(tag[i], v);
+			collect[++collectSiz] = i;
+			dfs(ls[i]);
+			dfs(rs[i]);
 		}
 	}
 
-	public static void down(int i) {
-		if (tag[i] != 0) {
-			lazy(ls[i], tag[i]);
-			lazy(rs[i], tag[i]);
-			tag[i] = 0;
+	public static void rebuild(int version) {
+		if (top != 0) {
+			collectSiz = 0;
+			dfs(top);
+			int rt = build(1, collectSiz, topDimension);
+			if (topFather == 0) {
+				root[version] = rt;
+			} else if (topSide == 1) {
+				ls[topFather] = rt;
+			} else {
+				rs[topFather] = rt;
+			}
 		}
+	}
+
+	public static void add(int insertNode, int version, int u, int fa, int side, int dimension) {
+		if (u == 0) {
+			if (fa == 0) {
+				root[version] = insertNode;
+			} else if (side == 1) {
+				ls[fa] = insertNode;
+			} else {
+				rs[fa] = insertNode;
+			}
+		} else {
+			int insertd = dimension == 0 ? c[insertNode] : d[insertNode];
+			int ud = dimension == 0 ? c[u] : d[u];
+			if (insertd <= ud) {
+				add(insertNode, version, ls[u], u, 1, dimension ^ 1);
+			} else {
+				add(insertNode, version, rs[u], u, 2, dimension ^ 1);
+			}
+			maintain(u);
+			if (!balance(u)) {
+				top = u;
+				topFather = fa;
+				topSide = side;
+				topDimension = dimension;
+			}
+		}
+	}
+
+	public static void insertKdt(int version, int qc, int qd, int qv) {
+		top = topFather = topSide = topDimension = 0;
+		int insertNode = init(qc, qd, qv);
+		add(insertNode, version, root[version], 0, 0, 0);
+		rebuild(version);
 	}
 
 	public static int lowbit(int i) {
@@ -126,59 +198,41 @@ public class Code04_4DPartialOrder1 {
 
 	public static int queryAns;
 
-	public static void updateAns(int c, int d, int i) {
+	// 一棵KDT中查询，c坐标 <= qc，d坐标 <= qd 的所有点中，最大的dp值
+	public static void updateAns(int qc, int qd, int i) {
 		if (i == 0) {
 			return;
 		}
-		if (cmin[i] > c || dmin[i] > d) {
+		if (cmin[i] > qc || dmin[i] > qd) {
 			return;
 		}
 		if (maxdp[i] <= queryAns) {
 			return;
 		}
-		if (cmax[i] <= c && dmax[i] <= d) {
+		if (cmax[i] <= qc && dmax[i] <= qd) {
 			queryAns = Math.max(queryAns, maxdp[i]);
 			return;
 		}
-		down(i);
-		if (kdtcd[i][0] <= c && kdtcd[i][1] <= d) {
+		if (c[i] <= qc && d[i] <= qd) {
 			queryAns = Math.max(queryAns, dp[i]);
 		}
-		updateAns(c, d, ls[i]);
-		updateAns(c, d, rs[i]);
+		updateAns(qc, qd, ls[i]);
+		updateAns(qc, qd, rs[i]);
 	}
 
-	public static int query(int rank, int c, int d) {
+	// 查询b排名 <= rank，c坐标 <= qc，d坐标 <= qd，所有历史中的最大dp值
+	public static int query(int rank, int qc, int qd) {
 		queryAns = 0;
 		for (int i = rank; i > 0; i -= lowbit(i)) {
-			updateAns(c, d, root[i]);
+			updateAns(qc, qd, root[i]);
 		}
 		return queryAns;
 	}
 
-	public static void update(int c, int d, int v, int i) {
-		if (i == 0) {
-			return;
-		}
-		if (c < cmin[i] || c > cmax[i] || d < dmin[i] || d > dmax[i]) {
-			return;
-		}
-		if (cmin[i] == c && cmax[i] == c && dmin[i] == d && dmax[i] == d) {
-			lazy(i, v);
-			return;
-		}
-		down(i);
-		if (kdtcd[i][0] == c && kdtcd[i][1] == d) {
-			dp[i] = Math.max(dp[i], v);
-		}
-		update(c, d, v, ls[i]);
-		update(c, d, v, rs[i]);
-		maxdp[i] = Math.max(dp[i], Math.max(maxdp[ls[i]], maxdp[rs[i]]));
-	}
-
-	public static void add(int rank, int c, int d, int v) {
+	// 新增一个状态，b排名为rank，二维坐标为(qc, qd)，dp值为qv
+	public static void add(int rank, int qc, int qd, int qv) {
 		for (int i = rank; i <= n; i += lowbit(i)) {
-			update(c, d, v, root[i]);
+			insertKdt(i, qc, qd, qv);
 		}
 	}
 
@@ -201,15 +255,6 @@ public class Code04_4DPartialOrder1 {
 		}
 		cmin[0] = dmin[0] = INF;
 		cmax[0] = dmax[0] = -INF;
-		for (int i = 1; i <= n; i++) {
-			int siz = lowbit(i);
-			for (int l = i - siz + 1, j = 1; l <= i; l++, j++) {
-				int idx = bi[l][1];
-				cd[j][0] = abcd[idx][2];
-				cd[j][1] = abcd[idx][3];
-			}
-			root[i] = build(1, siz, 0);
-		}
 	}
 
 	public static void main(String[] args) throws Exception {

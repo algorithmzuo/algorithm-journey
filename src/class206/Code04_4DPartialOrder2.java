@@ -45,64 +45,59 @@ package class206;
 //int n, cntn;
 //
 //ABCD abcd[MAXN];
+//
 //BI bi[MAXN];
+//
 //int ranking[MAXN];
 //
-//CD cd[MAXN];
-//
-//CD kdtcd[MAXT];
+//int root[MAXN];
+//CD arr[MAXT];
 //int ls[MAXT];
 //int rs[MAXT];
+//int siz[MAXT];
 //int cmin[MAXT];
 //int cmax[MAXT];
 //int dmin[MAXT];
 //int dmax[MAXT];
 //
+//double ALPHA = 0.7;
+//int collect[MAXN];
+//int collectSiz;
+//int top;
+//int topFather;
+//int topSide;
+//int topDimension;
+//
 //int dp[MAXT];
 //int maxdp[MAXT];
-//int tag[MAXT];
 //
-//int root[MAXN];
-//
-//int first, last;
-//
-//void partition(int l, int r, int pivot, int dimension) {
-//    first = l;
-//    last = r;
-//    int i = l;
-//    while (i <= last) {
-//        int cur = dimension == 0 ? cd[i].c : cd[i].d;
-//        if (cur == pivot) {
-//            i++;
-//        } else if (cur < pivot) {
-//            swap(cd[first++], cd[i++]);
-//        } else {
-//            swap(cd[i], cd[last--]);
-//        }
-//    }
+//bool CCmp(int a, int b) {
+//    return arr[a].c < arr[b].c;
 //}
 //
-//void randSelect(int l, int r, int i, int dimension) {
-//    while (l <= r) {
-//        int idx = l + rand() % (r - l + 1);
-//        int pivot = dimension == 0 ? cd[idx].c : cd[idx].d;
-//        partition(l, r, pivot, dimension);
-//        if (i < first) {
-//            r = first - 1;
-//        } else if (i > last) {
-//            l = last + 1;
-//        } else {
-//            break;
-//        }
-//    }
+//bool DCmp(int a, int b) {
+//    return arr[a].d < arr[b].d;
+//}
+//
+//int init(int qc, int qd, int qv) {
+//    cntn++;
+//    arr[cntn].c = qc;
+//    arr[cntn].d = qd;
+//    ls[cntn] = rs[cntn] = 0;
+//    siz[cntn] = 1;
+//    cmin[cntn] = cmax[cntn] = qc;
+//    dmin[cntn] = dmax[cntn] = qd;
+//    dp[cntn] = maxdp[cntn] = qv;
+//    return cntn;
 //}
 //
 //void maintain(int i) {
+//    siz[i] = 1 + siz[ls[i]] + siz[rs[i]];
 //    maxdp[i] = max(dp[i], max(maxdp[ls[i]], maxdp[rs[i]]));
-//    cmin[i] = min(kdtcd[i].c, min(cmin[ls[i]], cmin[rs[i]]));
-//    cmax[i] = max(kdtcd[i].c, max(cmax[ls[i]], cmax[rs[i]]));
-//    dmin[i] = min(kdtcd[i].d, min(dmin[ls[i]], dmin[rs[i]]));
-//    dmax[i] = max(kdtcd[i].d, max(dmax[ls[i]], dmax[rs[i]]));
+//    cmin[i] = min(arr[i].c, min(cmin[ls[i]], cmin[rs[i]]));
+//    cmax[i] = max(arr[i].c, max(cmax[ls[i]], cmax[rs[i]]));
+//    dmin[i] = min(arr[i].d, min(dmin[ls[i]], dmin[rs[i]]));
+//    dmax[i] = max(arr[i].d, max(dmax[ls[i]], dmax[rs[i]]));
 //}
 //
 //int build(int l, int r, int dimension) {
@@ -110,30 +105,78 @@ package class206;
 //        return 0;
 //    }
 //    int mid = (l + r) >> 1;
-//    int rt = ++cntn;
-//    randSelect(l, r, mid, dimension);
-//    kdtcd[rt].c = cd[mid].c;
-//    kdtcd[rt].d = cd[mid].d;
+//    if (dimension == 0) {
+//        nth_element(collect + l, collect + mid, collect + r + 1, CCmp);
+//    } else {
+//        nth_element(collect + l, collect + mid, collect + r + 1, DCmp);
+//    }
+//    int rt = collect[mid];
 //    ls[rt] = build(l, mid - 1, dimension ^ 1);
 //    rs[rt] = build(mid + 1, r, dimension ^ 1);
 //    maintain(rt);
 //    return rt;
 //}
 //
-//void lazy(int i, int v) {
-//    if (i != 0) {
-//        dp[i] = max(dp[i], v);
-//        maxdp[i] = max(maxdp[i], v);
-//        tag[i] = max(tag[i], v);
+//bool balance(int i) {
+//    return ALPHA * siz[i] >= max(siz[ls[i]], siz[rs[i]]);
+//}
+//
+//void add(int insertNode, int version, int u, int fa, int side, int dimension) {
+//    if (u == 0) {
+//        if (fa == 0) {
+//            root[version] = insertNode;
+//        } else if (side == 1) {
+//            ls[fa] = insertNode;
+//        } else {
+//            rs[fa] = insertNode;
+//        }
+//    } else {
+//        int insertd = dimension == 0 ? arr[insertNode].c : arr[insertNode].d;
+//        int ud = dimension == 0 ? arr[u].c : arr[u].d;
+//        if (insertd <= ud) {
+//            add(insertNode, version, ls[u], u, 1, dimension ^ 1);
+//        } else {
+//            add(insertNode, version, rs[u], u, 2, dimension ^ 1);
+//        }
+//        maintain(u);
+//        if (!balance(u)) {
+//            top = u;
+//            topFather = fa;
+//            topSide = side;
+//            topDimension = dimension;
+//        }
 //    }
 //}
 //
-//void down(int i) {
-//    if (tag[i] != 0) {
-//        lazy(ls[i], tag[i]);
-//        lazy(rs[i], tag[i]);
-//        tag[i] = 0;
+//void dfs(int i) {
+//    if (i != 0) {
+//        collect[++collectSiz] = i;
+//        dfs(ls[i]);
+//        dfs(rs[i]);
 //    }
+//}
+//
+//void rebuild(int version) {
+//    if (top != 0) {
+//        collectSiz = 0;
+//        dfs(top);
+//        int rt = build(1, collectSiz, topDimension);
+//        if (topFather == 0) {
+//            root[version] = rt;
+//        } else if (topSide == 1) {
+//            ls[topFather] = rt;
+//        } else {
+//            rs[topFather] = rt;
+//        }
+//    }
+//}
+//
+//
+//void insertKdt(int version, int qc, int qd, int qv) {
+//    top = topFather = topSide = topDimension = 0;
+//    int insertNode = init(qc, qd, qv);
+//    add(insertNode, version, root[version], 0, 0, 0);
+//    rebuild(version);
 //}
 //
 //int lowbit(int i) {
@@ -142,59 +185,38 @@ package class206;
 //
 //int queryAns;
 //
-//void updateAns(int c, int d, int i) {
+//void updateAns(int qc, int qd, int i) {
 //    if (i == 0) {
 //        return;
 //    }
-//    if (cmin[i] > c || dmin[i] > d) {
+//    if (cmin[i] > qc || dmin[i] > qd) {
 //        return;
 //    }
 //    if (maxdp[i] <= queryAns) {
 //        return;
 //    }
-//    if (cmax[i] <= c && dmax[i] <= d) {
+//    if (cmax[i] <= qc && dmax[i] <= qd) {
 //        queryAns = max(queryAns, maxdp[i]);
 //        return;
 //    }
-//    down(i);
-//    if (kdtcd[i].c <= c && kdtcd[i].d <= d) {
+//    if (arr[i].c <= qc && arr[i].d <= qd) {
 //        queryAns = max(queryAns, dp[i]);
 //    }
-//    updateAns(c, d, ls[i]);
-//    updateAns(c, d, rs[i]);
+//    updateAns(qc, qd, ls[i]);
+//    updateAns(qc, qd, rs[i]);
 //}
 //
-//int query(int rank, int c, int d) {
+//int query(int rank, int qc, int qd) {
 //    queryAns = 0;
 //    for (int i = rank; i > 0; i -= lowbit(i)) {
-//        updateAns(c, d, root[i]);
+//        updateAns(qc, qd, root[i]);
 //    }
 //    return queryAns;
 //}
 //
-//void update(int c, int d, int v, int i) {
-//    if (i == 0) {
-//        return;
-//    }
-//    if (c < cmin[i] || c > cmax[i] || d < dmin[i] || d > dmax[i]) {
-//        return;
-//    }
-//    if (cmin[i] == c && cmax[i] == c && dmin[i] == d && dmax[i] == d) {
-//        lazy(i, v);
-//        return;
-//    }
-//    down(i);
-//    if (kdtcd[i].c == c && kdtcd[i].d == d) {
-//        dp[i] = max(dp[i], v);
-//    }
-//    update(c, d, v, ls[i]);
-//    update(c, d, v, rs[i]);
-//    maxdp[i] = max(dp[i], max(maxdp[ls[i]], maxdp[rs[i]]));
-//}
-//
-//void add(int rank, int c, int d, int v) {
+//void add(int rank, int qc, int qd, int qv) {
 //    for (int i = rank; i <= n; i += lowbit(i)) {
-//        update(c, d, v, root[i]);
+//        insertKdt(i, qc, qd, qv);
 //    }
 //}
 //
@@ -210,21 +232,11 @@ package class206;
 //    }
 //    cmin[0] = dmin[0] = INF;
 //    cmax[0] = dmax[0] = -INF;
-//    for (int i = 1; i <= n; i++) {
-//        int siz = lowbit(i);
-//        for (int l = i - siz + 1, j = 1; l <= i; l++, j++) {
-//            int idx = bi[l].i;
-//            cd[j].c = abcd[idx].c;
-//            cd[j].d = abcd[idx].d;
-//        }
-//        root[i] = build(1, siz, 0);
-//    }
 //}
 //
 //int main() {
 //    ios::sync_with_stdio(false);
 //    cin.tie(nullptr);
-//    srand((unsigned)time(nullptr));
 //    cin >> n;
 //    for (int i = 1; i <= n; i++) {
 //        cin >> abcd[i].a >> abcd[i].b >> abcd[i].c >> abcd[i].d;
