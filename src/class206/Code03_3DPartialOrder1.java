@@ -29,6 +29,7 @@ public class Code03_3DPartialOrder1 {
 	// a、b、c
 	public static int[][] abc = new int[MAXN][3];
 
+	public static int[] root = new int[MAXP];
 	// b、c
 	public static int[][] bc = new int[MAXN][2];
 	// siz[i]表示子树i的节点个数
@@ -41,7 +42,6 @@ public class Code03_3DPartialOrder1 {
 	public static int[] cmin = new int[MAXN];
 	public static int[] cmax = new int[MAXN];
 
-	public static int[] root = new int[MAXP];
 	public static int[] ans = new int[MAXN];
 
 	public static void swap(int i, int j) {
@@ -94,14 +94,9 @@ public class Code03_3DPartialOrder1 {
 			return 0;
 		}
 		int mid = (l + r) >> 1;
-		if (l == r) {
-			ls[mid] = 0;
-			rs[mid] = 0;
-		} else {
-			randSelect(l, r, mid, dimension);
-			ls[mid] = build(l, mid - 1, dimension ^ 1);
-			rs[mid] = build(mid + 1, r, dimension ^ 1);
-		}
+		randSelect(l, r, mid, dimension);
+		ls[mid] = build(l, mid - 1, dimension ^ 1);
+		rs[mid] = build(mid + 1, r, dimension ^ 1);
 		maintain(mid);
 		return mid;
 	}

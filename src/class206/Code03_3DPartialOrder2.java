@@ -46,6 +46,7 @@ package class206;
 //
 //ABC abc[MAXN];
 //
+//int root[MAXP];
 //BC bc[MAXN];
 //int siz[MAXN];
 //int ls[MAXN];
@@ -55,8 +56,6 @@ package class206;
 //int bmax[MAXN];
 //int cmin[MAXN];
 //int cmax[MAXN];
-//
-//int root[MAXP];
 //
 //int ans[MAXN];
 //
@@ -73,18 +72,13 @@ package class206;
 //        return 0;
 //    }
 //    int mid = (l + r) >> 1;
-//    if (l == r) {
-//        ls[mid] = 0;
-//        rs[mid] = 0;
+//    if (dimension == 0) {
+//        nth_element(bc + l, bc + mid, bc + r + 1, BCmp);
 //    } else {
-//        if (dimension == 0) {
-//            nth_element(bc + l, bc + mid, bc + r + 1, BCmp);
-//        } else {
-//            nth_element(bc + l, bc + mid, bc + r + 1, CCmp);
-//        }
-//        ls[mid] = build(l, mid - 1, dimension ^ 1);
-//        rs[mid] = build(mid + 1, r, dimension ^ 1);
+//        nth_element(bc + l, bc + mid, bc + r + 1, CCmp);
 //    }
+//    ls[mid] = build(l, mid - 1, dimension ^ 1);
+//    rs[mid] = build(mid + 1, r, dimension ^ 1);
 //    maintain(mid);
 //    return mid;
 //}
