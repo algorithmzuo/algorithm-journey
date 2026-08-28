@@ -23,6 +23,7 @@ public class Code02_AngelDoll1 {
 	public static int INF = 1 << 30;
 	public static int n, m, cntn;
 
+	public static int[] root = new int[MAXP];
 	public static int[] x = new int[MAXN];
 	public static int[] y = new int[MAXN];
 	public static int[] ls = new int[MAXN];
@@ -32,8 +33,6 @@ public class Code02_AngelDoll1 {
 	public static int[] xmax = new int[MAXN];
 	public static int[] ymin = new int[MAXN];
 	public static int[] ymax = new int[MAXN];
-
-	public static int[] root = new int[MAXP];
 
 	public static void swap(int i, int j) {
 		int tmp = x[i]; x[i] = x[j]; x[j] = tmp;
@@ -85,14 +84,9 @@ public class Code02_AngelDoll1 {
 			return 0;
 		}
 		int mid = (l + r) >> 1;
-		if (l == r) {
-			ls[mid] = 0;
-			rs[mid] = 0;
-		} else {
-			randSelect(l, r, mid, dimension);
-			ls[mid] = build(l, mid - 1, dimension ^ 1);
-			rs[mid] = build(mid + 1, r, dimension ^ 1);
-		}
+		randSelect(l, r, mid, dimension);
+		ls[mid] = build(l, mid - 1, dimension ^ 1);
+		rs[mid] = build(mid + 1, r, dimension ^ 1);
 		maintain(mid);
 		return mid;
 	}
