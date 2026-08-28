@@ -15,14 +15,22 @@ package class205;
 //
 //using namespace std;
 //
+//struct Node {
+//    int x;
+//    int y;
+//    int v;
+//};
+//
 //const int MAXN = 200001;
 //const int INF = 1 << 30;
 //int n, cntn;
 //
 //int root;
-//int arr[MAXN][3];
+//Node arr[MAXN];
 //int ls[MAXN];
 //int rs[MAXN];
+//
+//int siz[MAXN];
 //int sum[MAXN];
 //int xmin[MAXN];
 //int xmax[MAXN];
@@ -30,7 +38,6 @@ package class205;
 //int ymax[MAXN];
 //
 //double ALPHA = 0.7;
-//int siz[MAXN];
 //int collect[MAXN];
 //int collectSiz;
 //int top;
@@ -40,9 +47,9 @@ package class205;
 //
 //int init(int x, int y, int v) {
 //    cntn++;
-//    arr[cntn][0] = x;
-//    arr[cntn][1] = y;
-//    arr[cntn][2] = v;
+//    arr[cntn].x = x;
+//    arr[cntn].y = y;
+//    arr[cntn].v = v;
 //    ls[cntn] = rs[cntn] = 0;
 //    siz[cntn] = 1;
 //    sum[cntn] = v;
@@ -53,11 +60,11 @@ package class205;
 //
 //void maintain(int i) {
 //    siz[i] = 1 + siz[ls[i]] + siz[rs[i]];
-//    sum[i] = arr[i][2] + sum[ls[i]] + sum[rs[i]];
-//    xmin[i] = min(arr[i][0], min(xmin[ls[i]], xmin[rs[i]]));
-//    xmax[i] = max(arr[i][0], max(xmax[ls[i]], xmax[rs[i]]));
-//    ymin[i] = min(arr[i][1], min(ymin[ls[i]], ymin[rs[i]]));
-//    ymax[i] = max(arr[i][1], max(ymax[ls[i]], ymax[rs[i]]));
+//    sum[i] = arr[i].v + sum[ls[i]] + sum[rs[i]];
+//    xmin[i] = min(arr[i].x, min(xmin[ls[i]], xmin[rs[i]]));
+//    xmax[i] = max(arr[i].x, max(xmax[ls[i]], xmax[rs[i]]));
+//    ymin[i] = min(arr[i].y, min(ymin[ls[i]], ymin[rs[i]]));
+//    ymax[i] = max(arr[i].y, max(ymax[ls[i]], ymax[rs[i]]));
 //}
 //
 //void dfs(int i) {
@@ -75,7 +82,8 @@ package class205;
 //    last = r;
 //    int i = l;
 //    while (i <= last) {
-//        int cur = arr[collect[i]][dimension];
+//        int idx = collect[i];
+//        int cur = dimension == 0 ? arr[idx].x : arr[idx].y;
 //        if (cur == pivot) {
 //            i++;
 //        } else if (cur < pivot) {
@@ -89,7 +97,7 @@ package class205;
 //void randSelect(int l, int r, int i, int dimension) {
 //    while (l <= r) {
 //        int idx = collect[l + rand() % (r - l + 1)];
-//        int pivot = arr[idx][dimension];
+//        int pivot = dimension == 0 ? arr[idx].x : arr[idx].y;
 //        partition(l, r, pivot, dimension);
 //        if (i < first) {
 //            r = first - 1;
@@ -143,7 +151,9 @@ package class205;
 //            rs[fa] = insertNode;
 //        }
 //    } else {
-//        if (arr[insertNode][dimension] <= arr[u][dimension]) {
+//        int a = dimension == 0 ? arr[insertNode].x : arr[insertNode].y;
+//        int b = dimension == 0 ? arr[u].x : arr[u].y;
+//        if (a <= b) {
 //            add(insertNode, ls[u], u, 1, dimension ^ 1);
 //        } else {
 //            add(insertNode, rs[u], u, 2, dimension ^ 1);
@@ -176,8 +186,8 @@ package class205;
 //        return sum[i];
 //    }
 //    int ans = 0;
-//    if (x1 <= arr[i][0] && arr[i][0] <= x2 && y1 <= arr[i][1] && arr[i][1] <= y2) {
-//        ans += arr[i][2];
+//    if (x1 <= arr[i].x && arr[i].x <= x2 && y1 <= arr[i].y && arr[i].y <= y2) {
+//        ans += arr[i].v;
 //    }
 //    ans += query(x1, y1, x2, y2, ls[i]);
 //    ans += query(x1, y1, x2, y2, rs[i]);

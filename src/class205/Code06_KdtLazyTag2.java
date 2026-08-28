@@ -34,6 +34,7 @@ package class205;
 //ll val[MAXN];
 //int ls[MAXN];
 //int rs[MAXN];
+//
 //int siz[MAXN];
 //ll sum[MAXN];
 //ll tag[MAXN];

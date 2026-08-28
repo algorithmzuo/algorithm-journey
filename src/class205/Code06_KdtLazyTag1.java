@@ -36,6 +36,7 @@ public class Code06_KdtLazyTag1 {
 	public static long[] val = new long[MAXN];
 	public static int[] ls = new int[MAXN];
 	public static int[] rs = new int[MAXN];
+
 	public static int[] siz = new int[MAXN];
 	public static long[] sum = new long[MAXN];
 	public static long[] tag = new long[MAXN];

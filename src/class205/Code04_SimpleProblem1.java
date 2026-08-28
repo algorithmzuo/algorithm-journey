@@ -28,6 +28,8 @@ public class Code04_SimpleProblem1 {
 	public static int[][] arr = new int[MAXN][3];
 	public static int[] ls = new int[MAXN];
 	public static int[] rs = new int[MAXN];
+
+	public static int[] siz = new int[MAXN];
 	public static int[] sum = new int[MAXN];
 	public static int[] xmin = new int[MAXN];
 	public static int[] xmax = new int[MAXN];
@@ -36,8 +38,6 @@ public class Code04_SimpleProblem1 {
 
 	// 平衡因子
 	public static double ALPHA = 0.7;
-	// 子树节点数量用来判断平衡性
-	public static int[] siz = new int[MAXN];
 	// 不平衡时收集节点编号
 	public static int[] collect = new int[MAXN];
 	// 收集的节点数量
