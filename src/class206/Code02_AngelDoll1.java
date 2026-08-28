@@ -23,10 +23,11 @@ public class Code02_AngelDoll1 {
 	public static int INF = 1 << 30;
 	public static int n, m, cntn;
 
-	public static int[][] arr = new int[MAXN][2];
-
+	public static int[] x = new int[MAXN];
+	public static int[] y = new int[MAXN];
 	public static int[] ls = new int[MAXN];
 	public static int[] rs = new int[MAXN];
+
 	public static int[] xmin = new int[MAXN];
 	public static int[] xmax = new int[MAXN];
 	public static int[] ymin = new int[MAXN];
@@ -35,9 +36,8 @@ public class Code02_AngelDoll1 {
 	public static int[] root = new int[MAXP];
 
 	public static void swap(int i, int j) {
-		int[] tmp = arr[i];
-		arr[i] = arr[j];
-		arr[j] = tmp;
+		int tmp = x[i]; x[i] = x[j]; x[j] = tmp;
+		tmp = y[i]; y[i] = y[j]; y[j] = tmp;
 	}
 
 	public static int first, last;
@@ -47,9 +47,10 @@ public class Code02_AngelDoll1 {
 		last = r;
 		int i = l;
 		while (i <= last) {
-			if (arr[i][dimension] == pivot) {
+			int cur = dimension == 0 ? x[i] : y[i];
+			if (cur == pivot) {
 				i++;
-			} else if (arr[i][dimension] < pivot) {
+			} else if (cur < pivot) {
 				swap(first++, i++);
 			} else {
 				swap(i, last--);
@@ -59,7 +60,8 @@ public class Code02_AngelDoll1 {
 
 	public static void randSelect(int l, int r, int i, int dimension) {
 		while (l <= r) {
-			int pivot = arr[l + (int) (Math.random() * (r - l + 1))][dimension];
+			int idx = l + (int) (Math.random() * (r - l + 1));
+			int pivot = dimension == 0 ? x[idx] : y[idx];
 			partition(l, r, pivot, dimension);
 			if (i < first) {
 				r = first - 1;
@@ -72,10 +74,10 @@ public class Code02_AngelDoll1 {
 	}
 
 	public static void maintain(int i) {
-		xmin[i] = Math.min(arr[i][0], Math.min(xmin[ls[i]], xmin[rs[i]]));
-		xmax[i] = Math.max(arr[i][0], Math.max(xmax[ls[i]], xmax[rs[i]]));
-		ymin[i] = Math.min(arr[i][1], Math.min(ymin[ls[i]], ymin[rs[i]]));
-		ymax[i] = Math.max(arr[i][1], Math.max(ymax[ls[i]], ymax[rs[i]]));
+		xmin[i] = Math.min(x[i], Math.min(xmin[ls[i]], xmin[rs[i]]));
+		xmax[i] = Math.max(x[i], Math.max(xmax[ls[i]], xmax[rs[i]]));
+		ymin[i] = Math.min(y[i], Math.min(ymin[ls[i]], ymin[rs[i]]));
+		ymax[i] = Math.max(y[i], Math.max(ymax[ls[i]], ymax[rs[i]]));
 	}
 
 	public static int build(int l, int r, int dimension) {
@@ -95,10 +97,10 @@ public class Code02_AngelDoll1 {
 		return mid;
 	}
 
-	public static void add(int x, int y) {
+	public static void add(int qx, int qy) {
 		cntn++;
-		arr[cntn][0] = x;
-		arr[cntn][1] = y;
+		x[cntn] = qx;
+		y[cntn] = qy;
 		int p = 0;
 		while (root[p] != 0) {
 			root[p++] = 0;
@@ -106,57 +108,57 @@ public class Code02_AngelDoll1 {
 		root[p] = build(cntn - (1 << p) + 1, cntn, 0);
 	}
 
-	// 估计点(x,y)到i的子树中所有点的最小曼哈顿距离
-	public static int guess(int x, int y, int i) {
-		if (i == 0) {
+	// 估计查询点到rt子树中的所有点，最小曼哈顿距离
+	public static int guess(int qx, int qy, int rt) {
+		if (rt == 0) {
 			return INF;
 		}
 		int ans = 0;
-		if (x < xmin[i]) {
-			ans += xmin[i] - x;
-		} else if (x > xmax[i]) {
-			ans += x - xmax[i];
+		if (qx < xmin[rt]) {
+			ans += xmin[rt] - qx;
+		} else if (qx > xmax[rt]) {
+			ans += qx - xmax[rt];
 		}
-		if (y < ymin[i]) {
-			ans += ymin[i] - y;
-		} else if (y > ymax[i]) {
-			ans += y - ymax[i];
+		if (qy < ymin[rt]) {
+			ans += ymin[rt] - qy;
+		} else if (qy > ymax[rt]) {
+			ans += qy - ymax[rt];
 		}
 		return ans;
 	}
 
 	public static int queryAns;
 
-	public static void updateAns(int x, int y, int i) {
+	public static void updateAns(int qx, int qy, int i) {
 		if (i == 0) {
 			return;
 		}
-		// 点(x, y)到单点的曼哈顿距离
-		queryAns = Math.min(queryAns, Math.abs(x - arr[i][0]) + Math.abs(y - arr[i][1]));
-		int gl = guess(x, y, ls[i]);
-		int gr = guess(x, y, rs[i]);
+		// 查询点(qx, qy)到单点的曼哈顿距离
+		queryAns = Math.min(queryAns, Math.abs(qx - x[i]) + Math.abs(qy - y[i]));
+		int gl = guess(qx, qy, ls[i]);
+		int gr = guess(qx, qy, rs[i]);
 		if (gl < gr) {
 			if (gl < queryAns) {
-				updateAns(x, y, ls[i]);
+				updateAns(qx, qy, ls[i]);
 			}
 			if (gr < queryAns) {
-				updateAns(x, y, rs[i]);
+				updateAns(qx, qy, rs[i]);
 			}
 		} else {
 			if (gr < queryAns) {
-				updateAns(x, y, rs[i]);
+				updateAns(qx, qy, rs[i]);
 			}
 			if (gl < queryAns) {
-				updateAns(x, y, ls[i]);
+				updateAns(qx, qy, ls[i]);
 			}
 		}
 	}
 
-	public static int query(int x, int y) {
+	public static int query(int qx, int qy) {
 		queryAns = INF;
 		for (int p = 0; p < MAXP; p++) {
 			if (root[p] != 0) {
-				updateAns(x, y, root[p]);
+				updateAns(qx, qy, root[p]);
 			}
 		}
 		return queryAns;
@@ -181,18 +183,18 @@ public class Code02_AngelDoll1 {
 		xmin[0] = ymin[0] = INF;
 		xmax[0] = ymax[0] = -INF;
 		for (int i = 1; i <= n; i++) {
-			arr[i][0] = in.nextInt();
-			arr[i][1] = in.nextInt();
+			x[i] = in.nextInt();
+			y[i] = in.nextInt();
 		}
 		prepare();
-		for (int i = 1, op, x, y; i <= m; i++) {
+		for (int i = 1, op, qx, qy; i <= m; i++) {
 			op = in.nextInt();
-			x = in.nextInt();
-			y = in.nextInt();
+			qx = in.nextInt();
+			qy = in.nextInt();
 			if (op == 1) {
-				add(x, y);
+				add(qx, qy);
 			} else {
-				out.println(query(x, y));
+				out.println(query(qx, qy));
 			}
 		}
 		out.flush();
