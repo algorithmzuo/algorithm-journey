@@ -24,20 +24,19 @@ public class Code06_Jump1 {
 	public static int INF = 1 << 30;
 	public static int n, m, w, h;
 
-	// x、y、i
-	public static int[][] arr = new int[MAXN][3];
 	// t、l、r、d、u
 	public static int[][] jump = new int[MAXN][5];
 
 	// kdt
+	public static int root;
+	// x、y、i
+	public static int[][] arr = new int[MAXN][3];
 	public static int[] ls = new int[MAXN];
 	public static int[] rs = new int[MAXN];
 	public static int[] xmin = new int[MAXN];
 	public static int[] xmax = new int[MAXN];
 	public static int[] ymin = new int[MAXN];
 	public static int[] ymax = new int[MAXN];
-	// kdt的根
-	public static int root;
 
 	// 优化建图
 	public static int[] headg = new int[MAXN];

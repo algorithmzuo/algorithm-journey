@@ -44,15 +44,16 @@ package class206;
 //const int INF = 1 << 30;
 //int n, m, w, h;
 //
-//Node arr[MAXN];
 //Jump jump[MAXN];
+//
+//int root;
+//Node arr[MAXN];
 //int ls[MAXN];
 //int rs[MAXN];
 //int xmin[MAXN];
 //int xmax[MAXN];
 //int ymin[MAXN];
 //int ymax[MAXN];
-//int root;
 //
 //int headg[MAXN];
 //int nextg[MAXN];
