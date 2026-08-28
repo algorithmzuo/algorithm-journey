@@ -91,16 +91,6 @@ public class Code06_KdtLazyTag1 {
 		}
 	}
 
-	public static void dfs(int i) {
-		if (i != 0) {
-			// 懒更新信息下发
-			down(i);
-			collect[++collectSiz] = i;
-			dfs(ls[i]);
-			dfs(rs[i]);
-		}
-	}
-
 	public static void swap(int i, int j) {
 		int tmp = collect[i];
 		collect[i] = collect[j];
@@ -155,6 +145,16 @@ public class Code06_KdtLazyTag1 {
 
 	public static boolean balance(int i) {
 		return ALPHA * siz[i] >= Math.max(siz[ls[i]], siz[rs[i]]);
+	}
+
+	public static void dfs(int i) {
+		if (i != 0) {
+			// 懒更新信息下发
+			down(i);
+			collect[++collectSiz] = i;
+			dfs(ls[i]);
+			dfs(rs[i]);
+		}
 	}
 
 	public static void rebuild() {

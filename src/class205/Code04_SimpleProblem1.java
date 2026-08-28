@@ -73,17 +73,6 @@ public class Code04_SimpleProblem1 {
 		ymax[i] = Math.max(arr[i][1], Math.max(ymax[ls[i]], ymax[rs[i]]));
 	}
 
-	// 收集子树中的所有节点编号
-	// 先序、中序、后序哪种遍历都可以
-	// 因为重构时会重新选择中位点
-	public static void dfs(int i) {
-		if (i != 0) {
-			collect[++collectSiz] = i;
-			dfs(ls[i]);
-			dfs(rs[i]);
-		}
-	}
-
 	// collect数组保持的是节点编号，交换节点编号即可
 	public static void swap(int i, int j) {
 		int tmp = collect[i];
@@ -139,6 +128,17 @@ public class Code04_SimpleProblem1 {
 
 	public static boolean balance(int i) {
 		return ALPHA * siz[i] >= Math.max(siz[ls[i]], siz[rs[i]]);
+	}
+
+	// 收集子树中的所有节点编号
+	// 先序、中序、后序哪种遍历都可以
+	// 因为重构时会重新选择中位点
+	public static void dfs(int i) {
+		if (i != 0) {
+			collect[++collectSiz] = i;
+			dfs(ls[i]);
+			dfs(rs[i]);
+		}
 	}
 
 	public static void rebuild() {

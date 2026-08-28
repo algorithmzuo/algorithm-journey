@@ -75,14 +75,6 @@ package class205;
 //    ymax[i] = max(arr[i].y, max(ymax[ls[i]], ymax[rs[i]]));
 //}
 //
-//void dfs(int i) {
-//    if (i != 0) {
-//        collect[++collectSiz] = i;
-//        dfs(ls[i]);
-//        dfs(rs[i]);
-//    }
-//}
-//
 //int build(int l, int r, int dimension) {
 //    if (l > r) {
 //        return 0;
@@ -102,6 +94,14 @@ package class205;
 //
 //bool balance(int i) {
 //    return ALPHA * siz[i] >= max(siz[ls[i]], siz[rs[i]]);
+//}
+//
+//void dfs(int i) {
+//    if (i != 0) {
+//        collect[++collectSiz] = i;
+//        dfs(ls[i]);
+//        dfs(rs[i]);
+//    }
 //}
 //
 //void rebuild() {
