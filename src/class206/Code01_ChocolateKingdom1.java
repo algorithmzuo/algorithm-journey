@@ -20,9 +20,9 @@ public class Code01_ChocolateKingdom1 {
 	public static long INF = 1L << 60;
 	public static int n, m;
 
+	public static int root;
 	// x y v
 	public static long[][] arr = new long[MAXN][3];
-
 	public static int[] ls = new int[MAXN];
 	public static int[] rs = new int[MAXN];
 
@@ -83,41 +83,35 @@ public class Code01_ChocolateKingdom1 {
 			return 0;
 		}
 		int mid = (l + r) >> 1;
-		if (l == r) {
-			ls[mid] = 0;
-			rs[mid] = 0;
-		} else {
-			randSelect(l, r, mid, dimension);
-			ls[mid] = build(l, mid - 1, dimension ^ 1);
-			rs[mid] = build(mid + 1, r, dimension ^ 1);
-		}
+		randSelect(l, r, mid, dimension);
+		ls[mid] = build(l, mid - 1, dimension ^ 1);
+		rs[mid] = build(mid + 1, r, dimension ^ 1);
 		maintain(mid);
 		return mid;
 	}
 
-	public static long query(int a, int b, int c, int l, int r) {
-		if (l > r) {
+	public static long query(int a, int b, int c, int i) {
+		if (i == 0) {
 			return 0;
 		}
-		int mid = (l + r) >> 1;
 		// a、b、x、y，可能是正或者负
-		long ax1 = xmin[mid] * a;
-		long ax2 = xmax[mid] * a;
-		long by1 = ymin[mid] * b;
-		long by2 = ymax[mid] * b;
+		long ax1 = xmin[i] * a;
+		long ax2 = xmax[i] * a;
+		long by1 = ymin[i] * b;
+		long by2 = ymax[i] * b;
 		long minv = Math.min(ax1, ax2) + Math.min(by1, by2);
 		long maxv = Math.max(ax1, ax2) + Math.max(by1, by2);
 		if (minv >= c) {
 			return 0;
 		} else if (maxv < c) {
-			return sum[mid];
+			return sum[i];
 		} else {
 			long ans = 0;
-			if (a * arr[mid][0] + b * arr[mid][1] < c) {
-				ans += arr[mid][2];
+			if (a * arr[i][0] + b * arr[i][1] < c) {
+				ans += arr[i][2];
 			}
-			ans += query(a, b, c, l, mid - 1);
-			ans += query(a, b, c, mid + 1, r);
+			ans += query(a, b, c, ls[i]);
+			ans += query(a, b, c, rs[i]);
 			return ans;
 		}
 	}
@@ -134,12 +128,12 @@ public class Code01_ChocolateKingdom1 {
 		}
 		xmin[0] = ymin[0] = INF;
 		xmax[0] = ymax[0] = -INF;
-		build(1, n, 0);
+		root = build(1, n, 0);
 		for (int i = 1, a, b, c; i <= m; i++) {
 			a = in.nextInt();
 			b = in.nextInt();
 			c = in.nextInt();
-			out.println(query(a, b, c, 1, n));
+			out.println(query(a, b, c, root));
 		}
 		out.flush();
 		out.close();

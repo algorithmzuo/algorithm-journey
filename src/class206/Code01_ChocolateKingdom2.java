@@ -17,9 +17,7 @@ package class206;
 //using ll = long long;
 //
 //struct Node {
-//    ll x;
-//    ll y;
-//    ll v;
+//    ll x, y, v;
 //};
 //
 //bool XCmp(Node a, Node b) {
@@ -34,6 +32,7 @@ package class206;
 //const ll INF = 1LL << 60;
 //int n, m;
 //
+//int root;
 //Node arr[MAXN];
 //int ls[MAXN];
 //int rs[MAXN];
@@ -57,44 +56,38 @@ package class206;
 //        return 0;
 //    }
 //    int mid = (l + r) >> 1;
-//    if (l == r) {
-//        ls[mid] = 0;
-//        rs[mid] = 0;
+//    if (dimension == 0) {
+//        nth_element(arr + l, arr + mid, arr + r + 1, XCmp);
 //    } else {
-//        if (dimension == 0) {
-//            nth_element(arr + l, arr + mid, arr + r + 1, XCmp);
-//        } else {
-//            nth_element(arr + l, arr + mid, arr + r + 1, YCmp);
-//        }
-//        ls[mid] = build(l, mid - 1, dimension ^ 1);
-//        rs[mid] = build(mid + 1, r, dimension ^ 1);
+//        nth_element(arr + l, arr + mid, arr + r + 1, YCmp);
 //    }
+//    ls[mid] = build(l, mid - 1, dimension ^ 1);
+//    rs[mid] = build(mid + 1, r, dimension ^ 1);
 //    maintain(mid);
 //    return mid;
 //}
 //
-//ll query(int a, int b, int c, int l, int r) {
-//    if (l > r) {
+//ll query(int a, int b, int c, int i) {
+//    if (i == 0) {
 //        return 0;
 //    }
-//    int mid = (l + r) >> 1;
-//    ll ax1 = xmin[mid] * a;
-//    ll ax2 = xmax[mid] * a;
-//    ll by1 = ymin[mid] * b;
-//    ll by2 = ymax[mid] * b;
+//    ll ax1 = xmin[i] * a;
+//    ll ax2 = xmax[i] * a;
+//    ll by1 = ymin[i] * b;
+//    ll by2 = ymax[i] * b;
 //    ll minv = min(ax1, ax2) + min(by1, by2);
 //    ll maxv = max(ax1, ax2) + max(by1, by2);
 //    if (minv >= c) {
 //        return 0;
 //    } else if (maxv < c) {
-//        return sum[mid];
+//        return sum[i];
 //    } else {
 //        ll ans = 0;
-//        if (a * arr[mid].x + b * arr[mid].y < c) {
-//            ans += arr[mid].v;
+//        if (a * arr[i].x + b * arr[i].y < c) {
+//            ans += arr[i].v;
 //        }
-//        ans += query(a, b, c, l, mid - 1);
-//        ans += query(a, b, c, mid + 1, r);
+//        ans += query(a, b, c, ls[i]);
+//        ans += query(a, b, c, rs[i]);
 //        return ans;
 //    }
 //}
@@ -108,10 +101,10 @@ package class206;
 //    }
 //    xmin[0] = ymin[0] = INF;
 //    xmax[0] = ymax[0] = -INF;
-//    build(1, n, 0);
+//    root = build(1, n, 0);
 //    for (int i = 1, a, b, c; i <= m; i++) {
 //        cin >> a >> b >> c;
-//        cout << query(a, b, c, 1, n) << "\n";
+//        cout << query(a, b, c, root) << "\n";
 //    }
 //    return 0;
 //}
