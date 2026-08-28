@@ -29,7 +29,7 @@ package class205;
 //    return a.y < b.y;
 //}
 //
-//const int MAXN = 600001;
+//const int MAXN = 1000001;
 //const int MAXP = 20;
 //const int INF = 1 << 30;
 //int n, m;
@@ -133,15 +133,6 @@ package class205;
 //    return queryAns;
 //}
 //
-//void prepare() {
-//    for (int p = 0, siz = 1 << p, rest = n; p < MAXP; p++, siz <<= 1) {
-//        if ((n & (1 << p)) != 0) {
-//            root[p] = build(rest - siz + 1, rest, 0);
-//            rest -= siz;
-//        }
-//    }
-//}
-//
 //int main() {
 //    ios::sync_with_stdio(false);
 //    cin.tie(nullptr);
@@ -149,10 +140,10 @@ package class205;
 //    cntkdt = n;
 //    xmin[0] = ymin[0] = INF;
 //    xmax[0] = ymax[0] = -INF;
-//    for (int i = 1; i <= n; i++) {
-//        cin >> arr[i].x >> arr[i].y;
+//    for (int i = 1, qx, qy; i <= n; i++) {
+//        cin >> qx >> qy;
+//        add(qx, qy);
 //    }
-//    prepare();
 //    for (int i = 1, op, qx, qy; i <= m; i++) {
 //        cin >> op >> qx >> qy;
 //        if (op == 1) {

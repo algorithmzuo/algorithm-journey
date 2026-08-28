@@ -18,7 +18,7 @@ import java.io.PrintWriter;
 
 public class Code06_AngelDoll1 {
 
-	public static int MAXN = 600001;
+	public static int MAXN = 1000001;
 	public static int MAXP = 20;
 	public static int INF = 1 << 30;
 	public static int n, m;
@@ -159,16 +159,6 @@ public class Code06_AngelDoll1 {
 		return queryAns;
 	}
 
-	// 初始n个点，不再逐个调用add，直接按照二进制拆分建树
-	public static void prepare() {
-		for (int p = 0, siz = 1 << p, rest = n; p < MAXP; p++, siz <<= 1) {
-			if ((n & (1 << p)) != 0) {
-				root[p] = build(rest - siz + 1, rest, 0);
-				rest -= siz;
-			}
-		}
-	}
-
 	public static void main(String[] args) throws Exception {
 		FastReader in = new FastReader(System.in);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
@@ -177,11 +167,11 @@ public class Code06_AngelDoll1 {
 		cntkdt = n;
 		xmin[0] = ymin[0] = INF;
 		xmax[0] = ymax[0] = -INF;
-		for (int i = 1; i <= n; i++) {
-			x[i] = in.nextInt();
-			y[i] = in.nextInt();
+		for (int i = 1, qx, qy; i <= n; i++) {
+			qx = in.nextInt();
+			qy = in.nextInt();
+			add(qx, qy);
 		}
-		prepare();
 		for (int i = 1, op, qx, qy; i <= m; i++) {
 			op = in.nextInt();
 			qx = in.nextInt();
