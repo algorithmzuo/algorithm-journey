@@ -1,4 +1,4 @@
-package class206;
+package class205;
 
 // 弹跳，java版
 // 一共有n个点，编号1~n，给定每个点的坐标(x, y)
@@ -18,7 +18,7 @@ import java.io.PrintWriter;
 import java.util.Arrays;
 import java.util.PriorityQueue;
 
-public class Code06_Jump1 {
+public class Code10_Jump1 {
 
 	public static int MAXN = 200001;
 	public static int INF = 1 << 30;

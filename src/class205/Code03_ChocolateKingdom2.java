@@ -1,4 +1,4 @@
-package class206;
+package class205;
 
 // 巧克力王国，C++版
 // 一共n个点，每个点有坐标(x, y)，还有点权v

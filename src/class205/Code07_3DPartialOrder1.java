@@ -1,4 +1,4 @@
-package class206;
+package class205;
 
 // 三维偏序，java版
 // 本题就是讲解170，题目1，讲了CDQ分治的解法，这里用kdt的解法
@@ -10,7 +10,7 @@ package class206;
 // 1 <= k <= 2 * 10^5
 // 测试链接 : https://www.luogu.com.cn/problem/P3810
 // 提交以下的code，提交时请把类名改成"Main"，因为不是正解，java实现无法通过
-// 想通过用C++实现，本节课Code03_3DPartialOrder2文件就是C++的实现
+// 想通过用C++实现，本节课Code07_3DPartialOrder2文件就是C++的实现
 // 两个版本的逻辑完全一样，C++版本可以通过所有测试
 
 import java.io.IOException;
@@ -19,7 +19,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.util.Arrays;
 
-public class Code03_3DPartialOrder1 {
+public class Code07_3DPartialOrder1 {
 
 	public static int MAXN = 100001;
 	public static int MAXP = 18;

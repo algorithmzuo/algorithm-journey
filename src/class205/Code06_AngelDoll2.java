@@ -1,4 +1,4 @@
-package class206;
+package class205;
 
 // 天使玩偶，C++版
 // 本题就是讲解170，题目6，讲了CDQ分治的解法，这里用kdt的解法

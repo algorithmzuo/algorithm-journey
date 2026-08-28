@@ -1,4 +1,4 @@
-package class206;
+package class205;
 
 // 弹跳，C++版
 // 一共有n个点，编号1~n，给定每个点的坐标(x, y)
