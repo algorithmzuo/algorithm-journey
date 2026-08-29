@@ -1,6 +1,6 @@
 package class206;
 
-// 三维偏序，二进制分组的方式重构，C++版
+// 三维偏序，替罪羊树的方式重构，C++版
 // 本题就是讲解170，题目1，讲了CDQ分治的解法，这里用kdt的解法
 // 一共有n个对象，每个对象有a、b、c三个属性，每个属性值的范围都是[1, k]
 // f(i)表示，aj <= ai 且 bj <= bi 且 cj <= ci 且 j != i 的j的数量
@@ -31,34 +31,50 @@ package class206;
 //    int c;
 //};
 //
-//bool BCmp(BC x, BC y) {
-//    return x.b < y.b;
-//}
-//
-//bool CCmp(BC x, BC y) {
-//    return x.c < y.c;
-//}
-//
 //const int MAXN = 100001;
-//const int MAXP = 18;
 //const int INF = 1 << 30;
 //int n, k;
 //
 //ABC abc[MAXN];
 //
 //int cntkdt;
-//int root[MAXP];
+//int root;
 //BC arr[MAXN];
 //int siz[MAXN];
 //int ls[MAXN];
 //int rs[MAXN];
-//
 //int bmin[MAXN];
 //int bmax[MAXN];
 //int cmin[MAXN];
 //int cmax[MAXN];
 //
+//double ALPHA = 0.7;
+//int collect[MAXN];
+//int collectSiz;
+//int top;
+//int topFather;
+//int topSide;
+//int topDimension;
 //int ans[MAXN];
+//
+//bool BCmp(int x, int y) {
+//    return arr[x].b < arr[y].b;
+//}
+//
+//bool CCmp(int x, int y) {
+//    return arr[x].c < arr[y].c;
+//}
+//
+//int init(int qb, int qc) {
+//    cntkdt++;
+//    arr[cntkdt].b = qb;
+//    arr[cntkdt].c = qc;
+//    ls[cntkdt] = rs[cntkdt] = 0;
+//    siz[cntkdt] = 1;
+//    bmin[cntkdt] = bmax[cntkdt] = qb;
+//    cmin[cntkdt] = cmax[cntkdt] = qc;
+//    return cntkdt;
+//}
 //
 //void maintain(int i) {
 //    siz[i] = siz[ls[i]] + siz[rs[i]] + 1;
@@ -74,25 +90,76 @@ package class206;
 //    }
 //    int mid = (l + r) >> 1;
 //    if (dimension == 0) {
-//        nth_element(arr + l, arr + mid, arr + r + 1, BCmp);
+//        nth_element(collect + l, collect + mid, collect + r + 1, BCmp);
 //    } else {
-//        nth_element(arr + l, arr + mid, arr + r + 1, CCmp);
+//        nth_element(collect + l, collect + mid, collect + r + 1, CCmp);
 //    }
-//    ls[mid] = build(l, mid - 1, dimension ^ 1);
-//    rs[mid] = build(mid + 1, r, dimension ^ 1);
-//    maintain(mid);
-//    return mid;
+//    int rt = collect[mid];
+//    ls[rt] = build(l, mid - 1, dimension ^ 1);
+//    rs[rt] = build(mid + 1, r, dimension ^ 1);
+//    maintain(rt);
+//    return rt;
+//}
+//
+//bool balance(int i) {
+//    return ALPHA * siz[i] >= max(siz[ls[i]], siz[rs[i]]);
+//}
+//
+//void dfs(int i) {
+//    if (i != 0) {
+//        collect[++collectSiz] = i;
+//        dfs(ls[i]);
+//        dfs(rs[i]);
+//    }
+//}
+//
+//void rebuild() {
+//    if (top != 0) {
+//        collectSiz = 0;
+//        dfs(top);
+//        int rt = build(1, collectSiz, topDimension);
+//        if (topFather == 0) {
+//            root = rt;
+//        } else if (topSide == 1) {
+//            ls[topFather] = rt;
+//        } else {
+//            rs[topFather] = rt;
+//        }
+//    }
+//}
+//
+//void add(int insertNode, int u, int fa, int side, int dimension) {
+//    if (u == 0) {
+//        if (fa == 0) {
+//            root = insertNode;
+//        } else if (side == 1) {
+//            ls[fa] = insertNode;
+//        } else {
+//            rs[fa] = insertNode;
+//        }
+//    } else {
+//        int insertd = dimension == 0 ? arr[insertNode].b : arr[insertNode].c;
+//        int ud = dimension == 0 ? arr[u].b : arr[u].c;
+//        if (insertd <= ud) {
+//            add(insertNode, ls[u], u, 1, dimension ^ 1);
+//        } else {
+//            add(insertNode, rs[u], u, 2, dimension ^ 1);
+//        }
+//        maintain(u);
+//        if (!balance(u)) {
+//            top = u;
+//            topFather = fa;
+//            topSide = side;
+//            topDimension = dimension;
+//        }
+//    }
 //}
 //
 //void add(int qb, int qc) {
-//    cntkdt++;
-//    arr[cntkdt].b = qb;
-//    arr[cntkdt].c = qc;
-//    int p = 0;
-//    while (root[p] != 0) {
-//        root[p++] = 0;
-//    }
-//    root[p] = build(cntkdt - (1 << p) + 1, cntkdt, 0);
+//    top = topFather = topSide = topDimension = 0;
+//    int insertNode = init(qb, qc);
+//    add(insertNode, root, 0, 0, 0);
+//    rebuild();
 //}
 //
 //int query(int qb, int qc, int i) {
@@ -114,14 +181,6 @@ package class206;
 //    return ans;
 //}
 //
-//int query(int qb, int qc) {
-//    int ans = 0;
-//    for (int p = 0; p < MAXP; p++) {
-//        ans += query(qb, qc, root[p]);
-//    }
-//    return ans;
-//}
-//
 //int main() {
 //    ios::sync_with_stdio(false);
 //    cin.tie(nullptr);
@@ -140,7 +199,7 @@ package class206;
 //            add(abc[i].b, abc[i].c);
 //        }
 //        for (int i = l; i <= r; i++) {
-//            int cur = query(abc[i].b, abc[i].c);
+//            int cur = query(abc[i].b, abc[i].c, root);
 //            ans[cur - 1]++;
 //        }
 //    }
