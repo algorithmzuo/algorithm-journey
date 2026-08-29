@@ -18,7 +18,7 @@ import java.io.PrintWriter;
 
 public class Code02_AngelDoll3 {
 
-	public static int MAXN = 500001;
+	public static int MAXN = 1000001;
 	public static int INF = 1 << 30;
 	public static int n, m;
 
@@ -175,7 +175,6 @@ public class Code02_AngelDoll3 {
 		rebuild();
 	}
 
-	// 估计查询点到i子树中的所有点，最小曼哈顿距离
 	public static int guess(int qx, int qy, int i) {
 		if (i == 0) {
 			return INF;

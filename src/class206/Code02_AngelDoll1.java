@@ -18,7 +18,7 @@ import java.io.PrintWriter;
 
 public class Code02_AngelDoll1 {
 
-	public static int MAXN = 500001;
+	public static int MAXN = 1000001;
 	public static int MAXP = 20;
 	public static int INF = 1 << 30;
 	public static int n, m;

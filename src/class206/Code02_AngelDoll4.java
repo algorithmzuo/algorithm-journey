@@ -1,6 +1,6 @@
 package class206;
 
-// 天使玩偶，二进制分组的方式重构，C++版
+// 天使玩偶，替罪羊树的方式重构，C++版
 // 本题就是讲解170，题目6，讲了CDQ分治的解法，这里用kdt的解法
 // 规定(x1, y1)和(x2, y2)之间的距离 = | x1 - x2 | + | y1 - y2 |
 // 一开始先给定n个点的位置，接下来有m条操作，每种操作是如下两种类型中的一种
@@ -21,31 +21,50 @@ package class206;
 //    int y;
 //};
 //
-//bool XCmp(Node a, Node b) {
-//    return a.x < b.x;
-//}
-//
-//bool YCmp(Node a, Node b) {
-//    return a.y < b.y;
-//}
-//
 //const int MAXN = 1000001;
-//const int MAXP = 20;
 //const int INF = 1 << 30;
 //int n, m;
 //
 //int cntkdt;
-//int root[MAXP];
+//int root;
 //Node arr[MAXN];
 //int ls[MAXN];
 //int rs[MAXN];
-//
+//int siz[MAXN];
 //int xmin[MAXN];
 //int xmax[MAXN];
 //int ymin[MAXN];
 //int ymax[MAXN];
 //
+//double ALPHA = 0.7;
+//int collect[MAXN];
+//int collectSiz;
+//int top;
+//int topFather;
+//int topSide;
+//int topDimension;
+//
+//bool XCmp(int a, int b) {
+//    return arr[a].x < arr[b].x;
+//}
+//
+//bool YCmp(int a, int b) {
+//    return arr[a].y < arr[b].y;
+//}
+//
+//int init(int qx, int qy) {
+//    cntkdt++;
+//    arr[cntkdt].x = qx;
+//    arr[cntkdt].y = qy;
+//    ls[cntkdt] = rs[cntkdt] = 0;
+//    siz[cntkdt] = 1;
+//    xmin[cntkdt] = xmax[cntkdt] = qx;
+//    ymin[cntkdt] = ymax[cntkdt] = qy;
+//    return cntkdt;
+//}
+//
 //void maintain(int i) {
+//    siz[i] = 1 + siz[ls[i]] + siz[rs[i]];
 //    xmin[i] = min(arr[i].x, min(xmin[ls[i]], xmin[rs[i]]));
 //    xmax[i] = max(arr[i].x, max(xmax[ls[i]], xmax[rs[i]]));
 //    ymin[i] = min(arr[i].y, min(ymin[ls[i]], ymin[rs[i]]));
@@ -58,25 +77,76 @@ package class206;
 //    }
 //    int mid = (l + r) >> 1;
 //    if (dimension == 0) {
-//        nth_element(arr + l, arr + mid, arr + r + 1, XCmp);
+//        nth_element(collect + l, collect + mid, collect + r + 1, XCmp);
 //    } else {
-//        nth_element(arr + l, arr + mid, arr + r + 1, YCmp);
+//        nth_element(collect + l, collect + mid, collect + r + 1, YCmp);
 //    }
-//    ls[mid] = build(l, mid - 1, dimension ^ 1);
-//    rs[mid] = build(mid + 1, r, dimension ^ 1);
-//    maintain(mid);
-//    return mid;
+//    int rt = collect[mid];
+//    ls[rt] = build(l, mid - 1, dimension ^ 1);
+//    rs[rt] = build(mid + 1, r, dimension ^ 1);
+//    maintain(rt);
+//    return rt;
+//}
+//
+//bool balance(int i) {
+//    return ALPHA * siz[i] >= max(siz[ls[i]], siz[rs[i]]);
+//}
+//
+//void dfs(int i) {
+//    if (i != 0) {
+//        collect[++collectSiz] = i;
+//        dfs(ls[i]);
+//        dfs(rs[i]);
+//    }
+//}
+//
+//void rebuild() {
+//    if (top != 0) {
+//        collectSiz = 0;
+//        dfs(top);
+//        int rt = build(1, collectSiz, topDimension);
+//        if (topFather == 0) {
+//            root = rt;
+//        } else if (topSide == 1) {
+//            ls[topFather] = rt;
+//        } else {
+//            rs[topFather] = rt;
+//        }
+//    }
+//}
+//
+//void add(int insertNode, int u, int fa, int side, int dimension) {
+//    if (u == 0) {
+//        if (fa == 0) {
+//            root = insertNode;
+//        } else if (side == 1) {
+//            ls[fa] = insertNode;
+//        } else {
+//            rs[fa] = insertNode;
+//        }
+//    } else {
+//        int insertd = dimension == 0 ? arr[insertNode].x : arr[insertNode].y;
+//        int ud = dimension == 0 ? arr[u].x : arr[u].y;
+//        if (insertd <= ud) {
+//            add(insertNode, ls[u], u, 1, dimension ^ 1);
+//        } else {
+//            add(insertNode, rs[u], u, 2, dimension ^ 1);
+//        }
+//        maintain(u);
+//        if (!balance(u)) {
+//            top = u;
+//            topFather = fa;
+//            topSide = side;
+//            topDimension = dimension;
+//        }
+//    }
 //}
 //
 //void add(int qx, int qy) {
-//    cntkdt++;
-//    arr[cntkdt].x = qx;
-//    arr[cntkdt].y = qy;
-//    int p = 0;
-//    while (root[p] != 0) {
-//        root[p++] = 0;
-//    }
-//    root[p] = build(cntkdt - (1 << p) + 1, cntkdt, 0);
+//    top = topFather = topSide = topDimension = 0;
+//    int insertNode = init(qx, qy);
+//    add(insertNode, root, 0, 0, 0);
+//    rebuild();
 //}
 //
 //int guess(int qx, int qy, int i) {
@@ -125,11 +195,7 @@ package class206;
 //
 //int query(int qx, int qy) {
 //    queryAns = INF;
-//    for (int p = 0; p < MAXP; p++) {
-//        if (root[p] != 0) {
-//            updateAns(qx, qy, root[p]);
-//        }
-//    }
+//    updateAns(qx, qy, root);
 //    return queryAns;
 //}
 //
