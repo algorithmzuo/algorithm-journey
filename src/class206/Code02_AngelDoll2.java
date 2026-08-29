@@ -1,6 +1,6 @@
 package class206;
 
-// 天使玩偶，C++版
+// 天使玩偶，二进制分组的方式重构，C++版
 // 本题就是讲解170，题目6，讲了CDQ分治的解法，这里用kdt的解法
 // 规定(x1, y1)和(x2, y2)之间的距离 = | x1 - x2 | + | y1 - y2 |
 // 一开始先给定n个点的位置，接下来有m条操作，每种操作是如下两种类型中的一种
@@ -29,7 +29,7 @@ package class206;
 //    return a.y < b.y;
 //}
 //
-//const int MAXN = 1000001;
+//const int MAXN = 500001;
 //const int MAXP = 20;
 //const int INF = 1 << 30;
 //int n, m;
@@ -137,7 +137,6 @@ package class206;
 //    ios::sync_with_stdio(false);
 //    cin.tie(nullptr);
 //    cin >> n >> m;
-//    cntkdt = n;
 //    xmin[0] = ymin[0] = INF;
 //    xmax[0] = ymax[0] = -INF;
 //    for (int i = 1, qx, qy; i <= n; i++) {

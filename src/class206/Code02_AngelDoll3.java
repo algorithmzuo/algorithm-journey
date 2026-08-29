@@ -1,80 +1,66 @@
-package class205;
+package class206;
 
-// 简单题，替罪羊树的方式重构，java版
-// 有一个n * n的平面区域，初始时没有点，有若干条操作，类型如下
-// 操作 1 a b c   : 平面里增加一个点，坐标(a, b)，点权为c
-// 操作 2 a b c d : 查询(a, b)为左下角、(c, d)为右上角的区域中，所有点的点权和
-// 操作 3         : 终止，以后没有操作了
-// 本题要求强制在线，得到操作参数的规则，打开测试链接查看
-// 1 <= n <= 5 * 10^5
-// 测试链接 : https://www.luogu.com.cn/problem/P4148
-// 提交以下的code，提交时请把类名改成"Main"，本题卡空间，java实现无法通过
-// 想通过用C++实现，本节课Code03_SimpleProblem4文件就是C++的实现
-// 两个版本的逻辑完全一样，C++版本可以通过所有测试
+// 天使玩偶，替罪羊树的方式重构，java版
+// 本题就是讲解170，题目6，讲了CDQ分治的解法，这里用kdt的解法
+// 规定(x1, y1)和(x2, y2)之间的距离 = | x1 - x2 | + | y1 - y2 |
+// 一开始先给定n个点的位置，接下来有m条操作，每种操作是如下两种类型中的一种
+// 操作 1 x y : 在(x, y)位置添加一个点
+// 操作 2 x y : 打印已经添加的所有点中，距离(x, y)最近的点有多远
+// 1 <= n、m <= 3 * 10^5
+// 0 <= x、y <= 10^6
+// 测试链接 : https://www.luogu.com.cn/problem/P4169
+// 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
-public class Code03_SimpleProblem3 {
+public class Code02_AngelDoll3 {
 
-	public static int MAXN = 200001;
+	public static int MAXN = 500001;
 	public static int INF = 1 << 30;
-	public static int n;
+	public static int n, m;
 
 	public static int cntkdt;
-	// KDT的根
 	public static int root;
-	public static int[][] arr = new int[MAXN][3];
+	public static int[] x = new int[MAXN];
+	public static int[] y = new int[MAXN];
 	public static int[] ls = new int[MAXN];
 	public static int[] rs = new int[MAXN];
-
 	public static int[] siz = new int[MAXN];
-	public static int[] sum = new int[MAXN];
 	public static int[] xmin = new int[MAXN];
 	public static int[] xmax = new int[MAXN];
 	public static int[] ymin = new int[MAXN];
 	public static int[] ymax = new int[MAXN];
 
-	// 平衡因子
 	public static double ALPHA = 0.7;
-	// 不平衡时收集节点编号
 	public static int[] collect = new int[MAXN];
-	// 收集的节点数量
 	public static int collectSiz;
-	// 最顶部的不平衡点
 	public static int top;
-	// 最顶部的不平衡点的父亲
 	public static int topFather;
-	// 最顶部的不平衡点是其父亲的哪侧孩子
 	public static int topSide;
-	// 最顶部的不平衡点是按照什么维度划分的
 	public static int topDimension;
 
-	public static int init(int x, int y, int v) {
+	public static int init(int qx, int qy) {
 		cntkdt++;
-		arr[cntkdt][0] = x;
-		arr[cntkdt][1] = y;
-		arr[cntkdt][2] = v;
+		x[cntkdt] = qx;
+		y[cntkdt] = qy;
 		ls[cntkdt] = rs[cntkdt] = 0;
 		siz[cntkdt] = 1;
-		sum[cntkdt] = v;
-		xmin[cntkdt] = xmax[cntkdt] = x;
-		ymin[cntkdt] = ymax[cntkdt] = y;
+		xmin[cntkdt] = xmax[cntkdt] = qx;
+		ymin[cntkdt] = ymax[cntkdt] = qy;
 		return cntkdt;
 	}
 
 	public static void maintain(int i) {
 		siz[i] = 1 + siz[ls[i]] + siz[rs[i]];
-		sum[i] = arr[i][2] + sum[ls[i]] + sum[rs[i]];
-		xmin[i] = Math.min(arr[i][0], Math.min(xmin[ls[i]], xmin[rs[i]]));
-		xmax[i] = Math.max(arr[i][0], Math.max(xmax[ls[i]], xmax[rs[i]]));
-		ymin[i] = Math.min(arr[i][1], Math.min(ymin[ls[i]], ymin[rs[i]]));
-		ymax[i] = Math.max(arr[i][1], Math.max(ymax[ls[i]], ymax[rs[i]]));
+		xmin[i] = Math.min(x[i], Math.min(xmin[ls[i]], xmin[rs[i]]));
+		xmax[i] = Math.max(x[i], Math.max(xmax[ls[i]], xmax[rs[i]]));
+		ymin[i] = Math.min(y[i], Math.min(ymin[ls[i]], ymin[rs[i]]));
+		ymax[i] = Math.max(y[i], Math.max(ymax[ls[i]], ymax[rs[i]]));
 	}
 
-	// collect数组保持的是节点编号，交换节点编号即可
 	public static void swap(int i, int j) {
 		int tmp = collect[i];
 		collect[i] = collect[j];
@@ -88,7 +74,8 @@ public class Code03_SimpleProblem3 {
 		last = r;
 		int i = l;
 		while (i <= last) {
-			int cur = arr[collect[i]][dimension];
+			int idx = collect[i];
+			int cur = dimension == 0 ? x[idx] : y[idx];
 			if (cur == pivot) {
 				i++;
 			} else if (cur < pivot) {
@@ -102,7 +89,7 @@ public class Code03_SimpleProblem3 {
 	public static void randSelect(int l, int r, int i, int dimension) {
 		while (l <= r) {
 			int idx = collect[l + (int) (Math.random() * (r - l + 1))];
-			int pivot = arr[idx][dimension];
+			int pivot = dimension == 0 ? x[idx] : y[idx];
 			partition(l, r, pivot, dimension);
 			if (i < first) {
 				r = first - 1;
@@ -131,9 +118,6 @@ public class Code03_SimpleProblem3 {
 		return ALPHA * siz[i] >= Math.max(siz[ls[i]], siz[rs[i]]);
 	}
 
-	// 收集子树中的所有节点编号
-	// 先序、中序、后序哪种遍历都可以
-	// 因为重构时会重新选择中位点
 	public static void dfs(int i) {
 		if (i != 0) {
 			collect[++collectSiz] = i;
@@ -167,14 +151,14 @@ public class Code03_SimpleProblem3 {
 				rs[fa] = insertNode;
 			}
 		} else {
-			if (arr[insertNode][dimension] <= arr[u][dimension]) {
+			int insertd = dimension == 0 ? x[insertNode] : y[insertNode];
+			int ud = dimension == 0 ? x[u] : y[u];
+			if (insertd <= ud) {
 				add(insertNode, ls[u], u, 1, dimension ^ 1);
 			} else {
 				add(insertNode, rs[u], u, 2, dimension ^ 1);
 			}
 			maintain(u);
-			// 递归返回时会不断覆盖
-			// 最终记录最上方的不平衡节点
 			if (!balance(u)) {
 				top = u;
 				topFather = fa;
@@ -184,62 +168,85 @@ public class Code03_SimpleProblem3 {
 		}
 	}
 
-	public static void add(int x, int y, int v) {
+	public static void add(int qx, int qy) {
 		top = topFather = topSide = topDimension = 0;
-		int insertNode = init(x, y, v);
+		int insertNode = init(qx, qy);
 		add(insertNode, root, 0, 0, 0);
 		rebuild();
 	}
 
-	public static int query(int x1, int y1, int x2, int y2, int i) {
+	// 估计查询点到i子树中的所有点，最小曼哈顿距离
+	public static int guess(int qx, int qy, int i) {
 		if (i == 0) {
-			return 0;
-		}
-		if (xmax[i] < x1 || x2 < xmin[i] || ymax[i] < y1 || y2 < ymin[i]) {
-			return 0;
-		}
-		if (x1 <= xmin[i] && xmax[i] <= x2 && y1 <= ymin[i] && ymax[i] <= y2) {
-			return sum[i];
+			return INF;
 		}
 		int ans = 0;
-		if (x1 <= arr[i][0] && arr[i][0] <= x2 && y1 <= arr[i][1] && arr[i][1] <= y2) {
-			ans += arr[i][2];
+		if (qx < xmin[i]) {
+			ans += xmin[i] - qx;
+		} else if (qx > xmax[i]) {
+			ans += qx - xmax[i];
 		}
-		ans += query(x1, y1, x2, y2, ls[i]);
-		ans += query(x1, y1, x2, y2, rs[i]);
+		if (qy < ymin[i]) {
+			ans += ymin[i] - qy;
+		} else if (qy > ymax[i]) {
+			ans += qy - ymax[i];
+		}
 		return ans;
 	}
 
-	public static int query(int x1, int y1, int x2, int y2) {
-		return query(x1, y1, x2, y2, root);
+	public static int queryAns;
+
+	public static void updateAns(int qx, int qy, int i) {
+		if (i == 0) {
+			return;
+		}
+		queryAns = Math.min(queryAns, Math.abs(qx - x[i]) + Math.abs(qy - y[i]));
+		int gl = guess(qx, qy, ls[i]);
+		int gr = guess(qx, qy, rs[i]);
+		if (gl < gr) {
+			if (gl < queryAns) {
+				updateAns(qx, qy, ls[i]);
+			}
+			if (gr < queryAns) {
+				updateAns(qx, qy, rs[i]);
+			}
+		} else {
+			if (gr < queryAns) {
+				updateAns(qx, qy, rs[i]);
+			}
+			if (gl < queryAns) {
+				updateAns(qx, qy, ls[i]);
+			}
+		}
+	}
+
+	public static int query(int qx, int qy) {
+		queryAns = INF;
+		updateAns(qx, qy, root);
+		return queryAns;
 	}
 
 	public static void main(String[] args) throws Exception {
 		FastReader in = new FastReader(System.in);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
-		// 读入的n其实没用
 		n = in.nextInt();
+		m = in.nextInt();
 		xmin[0] = ymin[0] = INF;
 		xmax[0] = ymax[0] = -INF;
-		int op, a, b, c, d, lastAns;
-		op = in.nextInt();
-		lastAns = 0;
-		while (op != 3) {
-			a = in.nextInt();
-			b = in.nextInt();
-			c = in.nextInt();
-			a ^= lastAns;
-			b ^= lastAns;
-			c ^= lastAns;
-			if (op == 1) {
-				add(a, b, c);
-			} else {
-				d = in.nextInt();
-				d ^= lastAns;
-				lastAns = query(a, b, c, d);
-				out.println(lastAns);
-			}
+		for (int i = 1, qx, qy; i <= n; i++) {
+			qx = in.nextInt();
+			qy = in.nextInt();
+			add(qx, qy);
+		}
+		for (int i = 1, op, qx, qy; i <= m; i++) {
 			op = in.nextInt();
+			qx = in.nextInt();
+			qy = in.nextInt();
+			if (op == 1) {
+				add(qx, qy);
+			} else {
+				out.println(query(qx, qy));
+			}
 		}
 		out.flush();
 		out.close();
