@@ -1,4 +1,4 @@
-package class205;
+package class206;
 
 // 崂山白花蛇草水，java版
 // 网格空间n * n，一共有q条操作，类型如下
@@ -19,7 +19,7 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
-public class Code09_LaoshanBaihua1 {
+public class Code05_LaoshanBaihua1 {
 
 	public static int MAXN = 100001;
 	public static int MAXT = 3000001;

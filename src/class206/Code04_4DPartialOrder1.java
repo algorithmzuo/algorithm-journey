@@ -1,4 +1,4 @@
-package class205;
+package class206;
 
 // 四维偏序最长链，java版
 // 一共n个点，每个点有四维坐标(a, b, c, d)
@@ -16,7 +16,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.util.Arrays;
 
-public class Code08_4DPartialOrder1 {
+public class Code04_4DPartialOrder1 {
 
 	public static int MAXN = 50001;
 	public static int MAXT = 500001;

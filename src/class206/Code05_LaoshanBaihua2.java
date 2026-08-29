@@ -1,4 +1,4 @@
-package class205;
+package class206;
 
 // 崂山白花蛇草水，C++版
 // 网格空间n * n，一共有q条操作，类型如下

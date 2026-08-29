@@ -1,4 +1,4 @@
-package class205;
+package class206;
 
 // 四维偏序最长链，C++版
 // 一共n个点，每个点有四维坐标(a, b, c, d)
