@@ -100,7 +100,7 @@ package class205;
 //    }
 //}
 //
-//void insert() {
+//void addNode() {
 //    cntkdt++;
 //    for (int d = 0; d < k; d++) {
 //        arr[cntkdt].pos[d] = qx[d];
@@ -213,7 +213,7 @@ package class205;
 //            }
 //            cin >> qv;
 //            qv ^= lastAns;
-//            insert();
+//            addNode();
 //        } else {
 //            for (int d = 0; d < k; d++) {
 //                cin >> qx[d];

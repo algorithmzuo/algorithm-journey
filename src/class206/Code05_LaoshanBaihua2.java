@@ -161,7 +161,7 @@ package class206;
 //    rebuild(version);
 //}
 //
-//int insert(int l, int r, int i) {
+//int add(int l, int r, int i) {
 //    if (i == 0) {
 //        i = ++cntseg;
 //    }
@@ -169,9 +169,9 @@ package class206;
 //    if (l < r) {
 //        int mid = (l + r) >> 1;
 //        if (v <= mid) {
-//            lseg[i] = insert(l, mid, lseg[i]);
+//            lseg[i] = add(l, mid, lseg[i]);
 //        } else {
-//            rseg[i] = insert(mid + 1, r, rseg[i]);
+//            rseg[i] = add(mid + 1, r, rseg[i]);
 //        }
 //    }
 //    return i;
@@ -231,7 +231,7 @@ package class206;
 //            a ^= lastAns;
 //            b ^= lastAns;
 //            v ^= lastAns;
-//            rootseg = insert(1, MAXV, rootseg);
+//            rootseg = add(1, MAXV, rootseg);
 //        } else {
 //            cin >> a >> b >> c >> d >> k;
 //            a ^= lastAns;

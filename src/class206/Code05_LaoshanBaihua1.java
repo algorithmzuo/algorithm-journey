@@ -194,8 +194,8 @@ public class Code05_LaoshanBaihua1 {
 		rebuild(version);
 	}
 
-	// 权值线段树上插入点
-	public static int insert(int l, int r, int i) {
+	// 权值线段树上增加点
+	public static int add(int l, int r, int i) {
 		if (i == 0) {
 			i = ++cntseg;
 		}
@@ -203,9 +203,9 @@ public class Code05_LaoshanBaihua1 {
 		if (l < r) {
 			int mid = (l + r) >> 1;
 			if (v <= mid) {
-				lseg[i] = insert(l, mid, lseg[i]);
+				lseg[i] = add(l, mid, lseg[i]);
 			} else {
-				rseg[i] = insert(mid + 1, r, rseg[i]);
+				rseg[i] = add(mid + 1, r, rseg[i]);
 			}
 		}
 		return i;
@@ -270,7 +270,7 @@ public class Code05_LaoshanBaihua1 {
 				a ^= lastAns;
 				b ^= lastAns;
 				v ^= lastAns;
-				rootseg = insert(1, MAXV, rootseg);
+				rootseg = add(1, MAXV, rootseg);
 			} else {
 				a = in.nextInt();
 				b = in.nextInt();

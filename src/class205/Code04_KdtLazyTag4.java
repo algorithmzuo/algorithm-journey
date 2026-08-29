@@ -165,7 +165,7 @@ package class205;
 //    }
 //}
 //
-//void insert() {
+//void addNode() {
 //    top = topFather = topSide = topDimension = 0;
 //    int insertNode = init();
 //    add(insertNode, root, 0, 0, 0);
@@ -257,7 +257,7 @@ package class205;
 //            }
 //            cin >> qv;
 //            qv ^= lastAns;
-//            insert();
+//            addNode();
 //        } else {
 //            for (int d = 0; d < k; d++) {
 //                cin >> qx[d];

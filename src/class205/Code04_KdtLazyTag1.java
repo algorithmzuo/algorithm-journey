@@ -131,7 +131,7 @@ public class Code04_KdtLazyTag1 {
 		}
 	}
 
-	public static void insert() {
+	public static void addNode() {
 		cntkdt++;
 		for (int d = 0; d < k; d++) {
 			pos[cntkdt][d] = qx[d];
@@ -245,7 +245,7 @@ public class Code04_KdtLazyTag1 {
 				}
 				qv = in.nextLong();
 				qv ^= lastAns;
-				insert();
+				addNode();
 			} else {
 				for (int d = 0; d < k; d++) {
 					qx[d] = in.nextLong();

@@ -200,7 +200,7 @@ public class Code04_KdtLazyTag3 {
 		}
 	}
 
-	public static void insert() {
+	public static void addNode() {
 		top = topFather = topSide = topDimension = 0;
 		int insertNode = init();
 		add(insertNode, root, 0, 0, 0);
@@ -295,7 +295,7 @@ public class Code04_KdtLazyTag3 {
 				}
 				qv = in.nextLong();
 				qv ^= lastAns;
-				insert();
+				addNode();
 			} else {
 				for (int d = 0; d < k; d++) {
 					qx[d] = in.nextLong();
