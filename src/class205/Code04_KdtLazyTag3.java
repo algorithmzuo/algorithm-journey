@@ -27,14 +27,15 @@ public class Code04_KdtLazyTag3 {
 	public static long INF = 1L << 60;
 	public static int k, m;
 
+	public static long[][] pos = new long[MAXN][MAXK];
+	public static long[] val = new long[MAXN];
+
 	public static long[] qx = new long[MAXK];
 	public static long[] qy = new long[MAXK];
 	public static long qv;
 
 	public static int cntkdt;
 	public static int root;
-	public static long[][] pos = new long[MAXN][MAXK];
-	public static long[] val = new long[MAXN];
 	public static int[] ls = new int[MAXN];
 	public static int[] rs = new int[MAXN];
 
@@ -46,12 +47,13 @@ public class Code04_KdtLazyTag3 {
 	public static long[][] maxv = new long[MAXN][MAXK];
 
 	public static double ALPHA = 0.7;
-	public static int[] collect = new int[MAXN];
-	public static int collectSiz;
 	public static int top;
 	public static int topFather;
 	public static int topSide;
 	public static int topDimension;
+
+	public static int[] arr = new int[MAXN];
+	public static int treeSiz;
 
 	public static int init() {
 		cntkdt++;
@@ -93,9 +95,9 @@ public class Code04_KdtLazyTag3 {
 	}
 
 	public static void swap(int i, int j) {
-		int tmp = collect[i];
-		collect[i] = collect[j];
-		collect[j] = tmp;
+		int tmp = arr[i];
+		arr[i] = arr[j];
+		arr[j] = tmp;
 	}
 
 	public static int first, last;
@@ -105,7 +107,8 @@ public class Code04_KdtLazyTag3 {
 		last = r;
 		int i = l;
 		while (i <= last) {
-			long cur = pos[collect[i]][dimension];
+			int idx = arr[i];
+			long cur = pos[idx][dimension];
 			if (cur == pivot) {
 				i++;
 			} else if (cur < pivot) {
@@ -118,7 +121,7 @@ public class Code04_KdtLazyTag3 {
 
 	public static void randSelect(int l, int r, int i, int dimension) {
 		while (l <= r) {
-			int idx = collect[l + (int) (Math.random() * (r - l + 1))];
+			int idx = arr[l + (int) (Math.random() * (r - l + 1))];
 			long pivot = pos[idx][dimension];
 			partition(l, r, pivot, dimension);
 			if (i < first) {
@@ -137,7 +140,7 @@ public class Code04_KdtLazyTag3 {
 		}
 		int mid = (l + r) >> 1;
 		randSelect(l, r, mid, dimension);
-		int rt = collect[mid];
+		int rt = arr[mid];
 		ls[rt] = build(l, mid - 1, (dimension + 1) % k);
 		rs[rt] = build(mid + 1, r, (dimension + 1) % k);
 		maintain(rt);
@@ -152,7 +155,7 @@ public class Code04_KdtLazyTag3 {
 		if (i != 0) {
 			// 懒更新信息下发
 			down(i);
-			collect[++collectSiz] = i;
+			arr[++treeSiz] = i;
 			dfs(ls[i]);
 			dfs(rs[i]);
 		}
@@ -160,9 +163,9 @@ public class Code04_KdtLazyTag3 {
 
 	public static void rebuild() {
 		if (top != 0) {
-			collectSiz = 0;
+			treeSiz = 0;
 			dfs(top);
-			int rt = build(1, collectSiz, topDimension);
+			int rt = build(1, treeSiz, topDimension);
 			if (topFather == 0) {
 				root = rt;
 			} else if (topSide == 1) {
