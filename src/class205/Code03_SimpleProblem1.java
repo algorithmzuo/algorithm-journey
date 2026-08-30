@@ -29,10 +29,10 @@ public class Code03_SimpleProblem1 {
 	public static int[] v = new int[MAXN];
 	public static int[] arr = new int[MAXN];
 
-	// kdt节点的计数
+	// K-D树的节点计数
 	public static int cntkdt;
 
-	// root[p]表示大小为2的p次方的KDT，根节点编号
+	// root[p]表示大小为2的p次方的K-D树，根节点编号
 	public static int[] root = new int[MAXP];
 
 	public static int[] ls = new int[MAXN];

@@ -28,31 +28,32 @@ public class Code04_KdtLazyTag1 {
 	public static long INF = 1L << 60;
 	public static int k, m;
 
+	public static long[][] pos = new long[MAXN][MAXK];
+	public static long[] val = new long[MAXN];
+	public static int[] arr = new int[MAXN];
+
 	public static long[] qx = new long[MAXK];
 	public static long[] qy = new long[MAXK];
 	public static long qv;
 
 	public static int cntkdt;
 	public static int[] root = new int[MAXP];
-	public static long[][] pos = new long[MAXN][MAXK];
-	public static long[] val = new long[MAXN];
 	public static int[] ls = new int[MAXN];
 	public static int[] rs = new int[MAXN];
 
-	// siz[i]表示i子树的节点个数
-	// sum[i]表示i子树的点权累加和
-	// tag[i]表示i子树的点权增加幅度，懒更新信息
+	// 子树节点数、子树点权和、懒更新标记
 	public static int[] siz = new int[MAXN];
 	public static long[] sum = new long[MAXN];
-	public static long[] tag = new long[MAXN];
+	public static long[] addTag = new long[MAXN];
 
 	// 每个维度的最小值、最大值
 	public static long[][] minv = new long[MAXN][MAXK];
 	public static long[][] maxv = new long[MAXN][MAXK];
 
 	public static void swap(int i, int j) {
-		long[] a = pos[i]; pos[i] = pos[j]; pos[j] = a;
-		long b = val[i]; val[i] = val[j]; val[j] = b;
+		int tmp = arr[i];
+		arr[i] = arr[j];
+		arr[j] = tmp;
 	}
 
 	public static int first, last;
@@ -62,9 +63,11 @@ public class Code04_KdtLazyTag1 {
 		last = r;
 		int i = l;
 		while (i <= last) {
-			if (pos[i][dimension] == pivot) {
+			int idx = arr[i];
+			long cur = pos[idx][dimension];
+			if (cur == pivot) {
 				i++;
-			} else if (pos[i][dimension] < pivot) {
+			} else if (cur < pivot) {
 				swap(first++, i++);
 			} else {
 				swap(i, last--);
@@ -74,7 +77,8 @@ public class Code04_KdtLazyTag1 {
 
 	public static void randSelect(int l, int r, int i, int dimension) {
 		while (l <= r) {
-			long pivot = pos[l + (int) (Math.random() * (r - l + 1))][dimension];
+			int idx = arr[l + (int) (Math.random() * (r - l + 1))];
+			long pivot = pos[idx][dimension];
 			partition(l, r, pivot, dimension);
 			if (i < first) {
 				r = first - 1;
@@ -101,25 +105,27 @@ public class Code04_KdtLazyTag1 {
 		}
 		int mid = (l + r) >> 1;
 		randSelect(l, r, mid, dimension);
-		ls[mid] = build(l, mid - 1, (dimension + 1) % k);
-		rs[mid] = build(mid + 1, r, (dimension + 1) % k);
-		maintain(mid);
-		return mid;
+		int rt = arr[mid];
+		// 注意本题可能不只两个维度，所以用取余做到维度的轮换
+		ls[rt] = build(l, mid - 1, (dimension + 1) % k);
+		rs[rt] = build(mid + 1, r, (dimension + 1) % k);
+		maintain(rt);
+		return rt;
 	}
 
 	public static void lazy(int i, long v) {
 		if (i != 0) {
 			val[i] += v;
 			sum[i] += v * siz[i];
-			tag[i] += v;
+			addTag[i] += v;
 		}
 	}
 
 	public static void down(int i) {
-		if (tag[i] != 0) {
-			lazy(ls[i], tag[i]);
-			lazy(rs[i], tag[i]);
-			tag[i] = 0;
+		if (addTag[i] != 0) {
+			lazy(ls[i], addTag[i]);
+			lazy(rs[i], addTag[i]);
+			addTag[i] = 0;
 		}
 	}
 
@@ -137,6 +143,7 @@ public class Code04_KdtLazyTag1 {
 			pos[cntkdt][d] = qx[d];
 		}
 		val[cntkdt] = qv;
+		arr[cntkdt] = cntkdt;
 		int p = 0;
 		while (root[p] != 0) {
 			dfs(root[p]);

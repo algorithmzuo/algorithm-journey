@@ -26,69 +26,69 @@ package class205;
 //const ll INF = 1LL << 60;
 //int k, m;
 //
+//ll pos[MAXN][MAXK];
+//ll val[MAXN];
+//int arr[MAXN];
+//
 //ll qx[MAXK];
 //ll qy[MAXK];
 //ll qv;
 //
-//struct Node {
-//    ll pos[MAXK];
-//    ll val;
-//};
-//
-//struct Cmp {
-//    int dimension;
-//
-//    bool operator()(const Node &a, const Node &b) const {
-//        return a.pos[dimension] < b.pos[dimension];
-//    }
-//};
-//
 //int cntkdt;
 //int root[MAXP];
-//Node arr[MAXN];
 //int ls[MAXN];
 //int rs[MAXN];
-//int siz[MAXN];
 //
+//int siz[MAXN];
 //ll sum[MAXN];
-//ll tag[MAXN];
+//ll addTag[MAXN];
+//
 //ll minv[MAXN][MAXK];
 //ll maxv[MAXN][MAXK];
 //
 //void maintain(int i) {
 //    siz[i] = 1 + siz[ls[i]] + siz[rs[i]];
-//    sum[i] = arr[i].val + sum[ls[i]] + sum[rs[i]];
+//    sum[i] = val[i] + sum[ls[i]] + sum[rs[i]];
 //    for (int d = 0; d < k; d++) {
-//        minv[i][d] = min(arr[i].pos[d], min(minv[ls[i]][d], minv[rs[i]][d]));
-//        maxv[i][d] = max(arr[i].pos[d], max(maxv[ls[i]][d], maxv[rs[i]][d]));
+//        minv[i][d] = min(pos[i][d], min(minv[ls[i]][d], minv[rs[i]][d]));
+//        maxv[i][d] = max(pos[i][d], max(maxv[ls[i]][d], maxv[rs[i]][d]));
 //    }
 //}
+//
+//struct PosCmp {
+//    int dimension;
+//
+//    bool operator()(int a, int b) const {
+//        return pos[a][dimension] < pos[b][dimension];
+//    }
+//};
 //
 //int build(int l, int r, int dimension) {
 //    if (l > r) {
 //        return 0;
 //    }
 //    int mid = (l + r) >> 1;
-//    nth_element(arr + l, arr + mid, arr + r + 1, Cmp{dimension});
-//    ls[mid] = build(l, mid - 1, (dimension + 1) % k);
-//    rs[mid] = build(mid + 1, r, (dimension + 1) % k);
-//    maintain(mid);
-//    return mid;
+//    nth_element(arr + l, arr + mid, arr + r + 1, PosCmp{dimension});
+//    int rt = arr[mid];
+//    ls[rt] = build(l, mid - 1, (dimension + 1) % k);
+//    rs[rt] = build(mid + 1, r, (dimension + 1) % k);
+//    maintain(rt);
+//    return rt;
 //}
 //
 //void lazy(int i, ll v) {
 //    if (i != 0) {
-//        arr[i].val += v;
+//        val[i] += v;
 //        sum[i] += v * siz[i];
-//        tag[i] += v;
+//        addTag[i] += v;
 //    }
 //}
 //
 //void down(int i) {
-//    if (tag[i] != 0) {
-//        lazy(ls[i], tag[i]);
-//        lazy(rs[i], tag[i]);
-//        tag[i] = 0;
+//    if (addTag[i] != 0) {
+//        lazy(ls[i], addTag[i]);
+//        lazy(rs[i], addTag[i]);
+//        addTag[i] = 0;
 //    }
 //}
 //
@@ -103,9 +103,10 @@ package class205;
 //void addNode() {
 //    cntkdt++;
 //    for (int d = 0; d < k; d++) {
-//        arr[cntkdt].pos[d] = qx[d];
+//        pos[cntkdt][d] = qx[d];
 //    }
-//    arr[cntkdt].val = qv;
+//    val[cntkdt] = qv;
+//    arr[cntkdt] = cntkdt;
 //    int p = 0;
 //    while (root[p] != 0) {
 //        dfs(root[p]);
@@ -134,7 +135,7 @@ package class205;
 //
 //bool pointIn(int i) {
 //    for (int d = 0; d < k; d++) {
-//        if (qx[d] > arr[i].pos[d] || qy[d] < arr[i].pos[d]) {
+//        if (qx[d] > pos[i][d] || qy[d] < pos[i][d]) {
 //            return false;
 //        }
 //    }
@@ -153,7 +154,7 @@ package class205;
 //        return;
 //    }
 //    if (pointIn(i)) {
-//        arr[i].val += qv;
+//        val[i] += qv;
 //    }
 //    down(i);
 //    addValue(ls[i]);
@@ -179,7 +180,7 @@ package class205;
 //    }
 //    ll ans = 0;
 //    if (pointIn(i)) {
-//        ans += arr[i].val;
+//        ans += val[i];
 //    }
 //    down(i);
 //    ans += querySum(ls[i]);
