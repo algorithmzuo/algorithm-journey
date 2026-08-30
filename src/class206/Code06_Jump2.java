@@ -16,38 +16,21 @@ package class206;
 //
 //using namespace std;
 //
-//struct Node {
-//    int x, y, i;
-//};
-//
 //struct Jump {
 //    int t, l, r, d, u;
 //};
-//
-//struct HeapNode {
-//    int dist, i;
-//
-//    bool operator <(const HeapNode &other) const {
-//        return dist > other.dist;
-//    }
-//};
-//
-//bool XCmp(Node a, Node b) {
-//    return a.x < b.x;
-//}
-//
-//bool YCmp(Node a, Node b) {
-//    return a.y < b.y;
-//}
 //
 //const int MAXN = 200001;
 //const int INF = 1 << 30;
 //int n, m, w, h;
 //
+//int x[MAXN];
+//int y[MAXN];
+//int arr[MAXN];
+//
 //Jump jump[MAXN];
 //
 //int root;
-//Node arr[MAXN];
 //int ls[MAXN];
 //int rs[MAXN];
 //int xmin[MAXN];
@@ -67,6 +50,16 @@ package class206;
 //
 //int dist[MAXN];
 //bool vis[MAXN];
+//
+//struct HeapNode {
+//    int dist;
+//    int id;
+//
+//    bool operator <(const HeapNode &other) const {
+//        return dist > other.dist;
+//    }
+//};
+//
 //priority_queue<HeapNode> heap;
 //
 //void addEdge(int u, int v) {
@@ -82,10 +75,18 @@ package class206;
 //}
 //
 //void maintain(int i) {
-//    xmin[i] = min(arr[i].x, min(xmin[ls[i]], xmin[rs[i]]));
-//    xmax[i] = max(arr[i].x, max(xmax[ls[i]], xmax[rs[i]]));
-//    ymin[i] = min(arr[i].y, min(ymin[ls[i]], ymin[rs[i]]));
-//    ymax[i] = max(arr[i].y, max(ymax[ls[i]], ymax[rs[i]]));
+//    xmin[i] = min(x[i], min(xmin[ls[i]], xmin[rs[i]]));
+//    xmax[i] = max(x[i], max(xmax[ls[i]], xmax[rs[i]]));
+//    ymin[i] = min(y[i], min(ymin[ls[i]], ymin[rs[i]]));
+//    ymax[i] = max(y[i], max(ymax[ls[i]], ymax[rs[i]]));
+//}
+//
+//bool XCmp(int i, int j) {
+//    return x[i] < x[j];
+//}
+//
+//bool YCmp(int i, int j) {
+//    return y[i] < y[j];
 //}
 //
 //int build(int l, int r, int dimension) {
@@ -98,17 +99,18 @@ package class206;
 //    } else {
 //        nth_element(arr + l, arr + mid, arr + r + 1, YCmp);
 //    }
-//    ls[mid] = build(l, mid - 1, dimension ^ 1);
-//    rs[mid] = build(mid + 1, r, dimension ^ 1);
-//    maintain(mid);
-//    addEdge(n + mid, arr[mid].i);
-//    if (ls[mid] != 0) {
-//        addEdge(n + mid, n + ls[mid]);
+//    int rt = arr[mid];
+//    ls[rt] = build(l, mid - 1, dimension ^ 1);
+//    rs[rt] = build(mid + 1, r, dimension ^ 1);
+//    maintain(rt);
+//    addEdge(n + rt, rt);
+//    if (ls[rt] != 0) {
+//        addEdge(n + rt, n + ls[rt]);
 //    }
-//    if (rs[mid] != 0) {
-//        addEdge(n + mid, n + rs[mid]);
+//    if (rs[rt] != 0) {
+//        addEdge(n + rt, n + rs[rt]);
 //    }
-//    return mid;
+//    return rt;
 //}
 //
 //void update(int d, int i) {
@@ -132,8 +134,8 @@ package class206;
 //        update(jdist, n + i);
 //        return;
 //    }
-//    if (jl <= arr[i].x && arr[i].x <= jr && jd <= arr[i].y && arr[i].y <= ju) {
-//        update(jdist, arr[i].i);
+//    if (jl <= x[i] && x[i] <= jr && jd <= y[i] && y[i] <= ju) {
+//        update(jdist, i);
 //    }
 //    xToRectangle(jl, jr, jd, ju, jdist, ls[i]);
 //    xToRectangle(jl, jr, jd, ju, jdist, rs[i]);
@@ -147,7 +149,7 @@ package class206;
 //        HeapNode cur = heap.top();
 //        heap.pop();
 //        int d = cur.dist;
-//        int i = cur.i;
+//        int i = cur.id;
 //        if (!vis[i]) {
 //            vis[i] = true;
 //            for (int e = headg[i]; e > 0; e = nextg[e]) {
@@ -173,11 +175,12 @@ package class206;
 //    cin.tie(nullptr);
 //    cin >> n >> m >> w >> h;
 //    for (int i = 1; i <= n; i++) {
-//        cin >> arr[i].x >> arr[i].y;
-//        arr[i].i = i;
+//        cin >> x[i] >> y[i];
+//        arr[i] = i;
 //    }
 //    for (int j = 1, p; j <= m; j++) {
-//        cin >> p >> jump[j].t >> jump[j].l >> jump[j].r >> jump[j].d >> jump[j].u;
+//        cin >> p;
+//        cin >> jump[j].t >> jump[j].l >> jump[j].r >> jump[j].d >> jump[j].u;
 //        addJump(p, j);
 //    }
 //    xmin[0] = ymin[0] = INF;

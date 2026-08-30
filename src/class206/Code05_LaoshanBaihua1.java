@@ -30,7 +30,7 @@ public class Code05_LaoshanBaihua1 {
 
 	// 权值线段树节点计数
 	public static int cntseg;
-	// kdt节点计数
+	// K-D树的节点计数
 	public static int cntkdt;
 
 	// 权值线段树
@@ -39,7 +39,7 @@ public class Code05_LaoshanBaihua1 {
 	public static int[] rseg = new int[MAXT];
 	public static int[] rootkdt = new int[MAXT];
 
-	// kdt
+	// K-D树
 	public static int[] x = new int[MAXT];
 	public static int[] y = new int[MAXT];
 	public static int[] ls = new int[MAXT];
@@ -50,14 +50,14 @@ public class Code05_LaoshanBaihua1 {
 	public static int[] ymin = new int[MAXT];
 	public static int[] ymax = new int[MAXT];
 
-	// 替罪羊树的方式重构
 	public static double ALPHA = 0.7;
-	public static int[] collect = new int[MAXN];
-	public static int collectSiz;
 	public static int top;
 	public static int topFather;
 	public static int topSide;
 	public static int topDimension;
+
+	public static int[] arr = new int[MAXN];
+	public static int treeSiz;
 
 	public static int init() {
 		cntkdt++;
@@ -79,9 +79,9 @@ public class Code05_LaoshanBaihua1 {
 	}
 
 	public static void swap(int i, int j) {
-		int tmp = collect[i];
-		collect[i] = collect[j];
-		collect[j] = tmp;
+		int tmp = arr[i];
+		arr[i] = arr[j];
+		arr[j] = tmp;
 	}
 
 	public static int first, last;
@@ -91,7 +91,7 @@ public class Code05_LaoshanBaihua1 {
 		last = r;
 		int i = l;
 		while (i <= last) {
-			int idx = collect[i];
+			int idx = arr[i];
 			int cur = dimension == 0 ? x[idx] : y[idx];
 			if (cur == pivot) {
 				i++;
@@ -105,7 +105,7 @@ public class Code05_LaoshanBaihua1 {
 
 	public static void randSelect(int l, int r, int i, int dimension) {
 		while (l <= r) {
-			int idx = collect[l + (int) (Math.random() * (r - l + 1))];
+			int idx = arr[l + (int) (Math.random() * (r - l + 1))];
 			int pivot = dimension == 0 ? x[idx] : y[idx];
 			partition(l, r, pivot, dimension);
 			if (i < first) {
@@ -124,7 +124,7 @@ public class Code05_LaoshanBaihua1 {
 		}
 		int mid = (l + r) >> 1;
 		randSelect(l, r, mid, dimension);
-		int rt = collect[mid];
+		int rt = arr[mid];
 		ls[rt] = build(l, mid - 1, dimension ^ 1);
 		rs[rt] = build(mid + 1, r, dimension ^ 1);
 		maintain(rt);
@@ -165,7 +165,7 @@ public class Code05_LaoshanBaihua1 {
 
 	public static void dfs(int i) {
 		if (i != 0) {
-			collect[++collectSiz] = i;
+			arr[++treeSiz] = i;
 			dfs(ls[i]);
 			dfs(rs[i]);
 		}
@@ -173,9 +173,9 @@ public class Code05_LaoshanBaihua1 {
 
 	public static void rebuild(int version) {
 		if (top != 0) {
-			collectSiz = 0;
+			treeSiz = 0;
 			dfs(top);
-			int rt = build(1, collectSiz, topDimension);
+			int rt = build(1, treeSiz, topDimension);
 			if (topFather == 0) {
 				rootkdt[version] = rt;
 			} else if (topSide == 1) {
