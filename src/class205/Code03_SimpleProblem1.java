@@ -24,12 +24,17 @@ public class Code03_SimpleProblem1 {
 	public static int INF = 1 << 30;
 	public static int n;
 
+	public static int[] x = new int[MAXN];
+	public static int[] y = new int[MAXN];
+	public static int[] v = new int[MAXN];
+	public static int[] arr = new int[MAXN];
+
 	// kdt节点的计数
 	public static int cntkdt;
+
 	// root[p]表示大小为2的p次方的KDT，根节点编号
 	public static int[] root = new int[MAXP];
-	// x、y、v
-	public static int[][] arr = new int[MAXN][3];
+
 	public static int[] ls = new int[MAXN];
 	public static int[] rs = new int[MAXN];
 	public static int[] sum = new int[MAXN];
@@ -39,7 +44,7 @@ public class Code03_SimpleProblem1 {
 	public static int[] ymax = new int[MAXN];
 
 	public static void swap(int i, int j) {
-		int[] tmp = arr[i];
+		int tmp = arr[i];
 		arr[i] = arr[j];
 		arr[j] = tmp;
 	}
@@ -51,9 +56,11 @@ public class Code03_SimpleProblem1 {
 		last = r;
 		int i = l;
 		while (i <= last) {
-			if (arr[i][dimension] == pivot) {
+			int idx = arr[i];
+			int cur = dimension == 0 ? x[idx] : y[idx];
+			if (cur == pivot) {
 				i++;
-			} else if (arr[i][dimension] < pivot) {
+			} else if (cur < pivot) {
 				swap(first++, i++);
 			} else {
 				swap(i, last--);
@@ -63,7 +70,8 @@ public class Code03_SimpleProblem1 {
 
 	public static void randSelect(int l, int r, int i, int dimension) {
 		while (l <= r) {
-			int pivot = arr[l + (int) (Math.random() * (r - l + 1))][dimension];
+			int idx = arr[l + (int) (Math.random() * (r - l + 1))];
+			int pivot = dimension == 0 ? x[idx] : y[idx];
 			partition(l, r, pivot, dimension);
 			if (i < first) {
 				r = first - 1;
@@ -76,11 +84,11 @@ public class Code03_SimpleProblem1 {
 	}
 
 	public static void maintain(int i) {
-		sum[i] = arr[i][2] + sum[ls[i]] + sum[rs[i]];
-		xmin[i] = Math.min(arr[i][0], Math.min(xmin[ls[i]], xmin[rs[i]]));
-		xmax[i] = Math.max(arr[i][0], Math.max(xmax[ls[i]], xmax[rs[i]]));
-		ymin[i] = Math.min(arr[i][1], Math.min(ymin[ls[i]], ymin[rs[i]]));
-		ymax[i] = Math.max(arr[i][1], Math.max(ymax[ls[i]], ymax[rs[i]]));
+		sum[i] = v[i] + sum[ls[i]] + sum[rs[i]];
+		xmin[i] = Math.min(x[i], Math.min(xmin[ls[i]], xmin[rs[i]]));
+		xmax[i] = Math.max(x[i], Math.max(xmax[ls[i]], xmax[rs[i]]));
+		ymin[i] = Math.min(y[i], Math.min(ymin[ls[i]], ymin[rs[i]]));
+		ymax[i] = Math.max(y[i], Math.max(ymax[ls[i]], ymax[rs[i]]));
 	}
 
 	public static int build(int l, int r, int dimension) {
@@ -89,17 +97,19 @@ public class Code03_SimpleProblem1 {
 		}
 		int mid = (l + r) >> 1;
 		randSelect(l, r, mid, dimension);
-		ls[mid] = build(l, mid - 1, dimension ^ 1);
-		rs[mid] = build(mid + 1, r, dimension ^ 1);
-		maintain(mid);
-		return mid;
+		int rt = arr[mid];
+		ls[rt] = build(l, mid - 1, dimension ^ 1);
+		rs[rt] = build(mid + 1, r, dimension ^ 1);
+		maintain(rt);
+		return rt;
 	}
 
-	public static void add(int x, int y, int v) {
+	public static void add(int qx, int qy, int qv) {
 		cntkdt++;
-		arr[cntkdt][0] = x;
-		arr[cntkdt][1] = y;
-		arr[cntkdt][2] = v;
+		x[cntkdt] = qx;
+		y[cntkdt] = qy;
+		v[cntkdt] = qv;
+		arr[cntkdt] = cntkdt;
 		int p = 0;
 		while (root[p] != 0) {
 			root[p++] = 0;
@@ -118,8 +128,8 @@ public class Code03_SimpleProblem1 {
 			return sum[i];
 		}
 		int ans = 0;
-		if (x1 <= arr[i][0] && arr[i][0] <= x2 && y1 <= arr[i][1] && arr[i][1] <= y2) {
-			ans += arr[i][2];
+		if (x1 <= x[i] && x[i] <= x2 && y1 <= y[i] && y[i] <= y2) {
+			ans += v[i];
 		}
 		ans += query(x1, y1, x2, y2, ls[i]);
 		ans += query(x1, y1, x2, y2, rs[i]);
@@ -137,7 +147,7 @@ public class Code03_SimpleProblem1 {
 	public static void main(String[] args) throws Exception {
 		FastReader in = new FastReader(System.in);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
-		// 读入的n其实没用
+		// 输入的n没用
 		n = in.nextInt();
 		xmin[0] = ymin[0] = INF;
 		xmax[0] = ymax[0] = -INF;
