@@ -18,19 +18,21 @@ package class205;
 //
 //using ll = long long;
 //
-//struct PointNode {
-//    ll x;
-//    ll y;
-//    int id;
-//};
+//const int MAXN = 100001;
+//const ll INF = 1LL << 60;
+//int n, m;
 //
-//bool XCmp(PointNode a, PointNode b) {
-//    return a.x < b.x;
-//}
+//ll x[MAXN];
+//ll y[MAXN];
+//int arr[MAXN];
 //
-//bool YCmp(PointNode a, PointNode b) {
-//    return a.y < b.y;
-//}
+//int root;
+//int ls[MAXN];
+//int rs[MAXN];
+//ll xmin[MAXN];
+//ll xmax[MAXN];
+//ll ymin[MAXN];
+//ll ymax[MAXN];
 //
 //struct HeapNode {
 //    ll dist;
@@ -44,26 +46,21 @@ package class205;
 //    }
 //};
 //
-//const int MAXN = 100001;
-//const ll INF = 1LL << 60;
-//int n, m;
-//
-//int root;
-//PointNode arr[MAXN];
-//int ls[MAXN];
-//int rs[MAXN];
-//ll xmin[MAXN];
-//ll xmax[MAXN];
-//ll ymin[MAXN];
-//ll ymax[MAXN];
-//
 //priority_queue<HeapNode> heap;
 //
 //void maintain(int i) {
-//    xmin[i] = min(arr[i].x, min(xmin[ls[i]], xmin[rs[i]]));
-//    xmax[i] = max(arr[i].x, max(xmax[ls[i]], xmax[rs[i]]));
-//    ymin[i] = min(arr[i].y, min(ymin[ls[i]], ymin[rs[i]]));
-//    ymax[i] = max(arr[i].y, max(ymax[ls[i]], ymax[rs[i]]));
+//    xmin[i] = min(x[i], min(xmin[ls[i]], xmin[rs[i]]));
+//    xmax[i] = max(x[i], max(xmax[ls[i]], xmax[rs[i]]));
+//    ymin[i] = min(y[i], min(ymin[ls[i]], ymin[rs[i]]));
+//    ymax[i] = max(y[i], max(ymax[ls[i]], ymax[rs[i]]));
+//}
+//
+//bool XCmp(int a, int b) {
+//    return x[a] < x[b];
+//}
+//
+//bool YCmp(int a, int b) {
+//    return y[a] < y[b];
 //}
 //
 //int build(int l, int r, int dimension) {
@@ -76,10 +73,11 @@ package class205;
 //    } else {
 //        nth_element(arr + l, arr + mid, arr + r + 1, YCmp);
 //    }
-//    ls[mid] = build(l, mid - 1, dimension ^ 1);
-//    rs[mid] = build(mid + 1, r, dimension ^ 1);
-//    maintain(mid);
-//    return mid;
+//    int rt = arr[mid];
+//    ls[rt] = build(l, mid - 1, dimension ^ 1);
+//    rs[rt] = build(mid + 1, r, dimension ^ 1);
+//    maintain(rt);
+//    return rt;
 //}
 //
 //ll dist(ll x1, ll y1, ll x2, ll y2) {
@@ -101,10 +99,10 @@ package class205;
 //    if (i == 0) {
 //        return;
 //    }
-//    ll d = dist(qx, qy, arr[i].x, arr[i].y);
-//    if (d > heap.top().dist || (d == heap.top().dist && arr[i].id < heap.top().id)) {
+//    ll d = dist(qx, qy, x[i], y[i]);
+//    if (d > heap.top().dist || (d == heap.top().dist && i < heap.top().id)) {
 //        heap.pop();
-//        heap.push({d, arr[i].id});
+//        heap.push({d, i});
 //    }
 //    ll gl = guess(qx, qy, ls[i]);
 //    ll gr = guess(qx, qy, rs[i]);
@@ -141,8 +139,8 @@ package class205;
 //    cin.tie(nullptr);
 //    cin >> n;
 //    for (int i = 1; i <= n; i++) {
-//        cin >> arr[i].x >> arr[i].y;
-//        arr[i].id = i;
+//        cin >> x[i] >> y[i];
+//        arr[i] = i;
 //    }
 //    xmin[0] = ymin[0] = INF;
 //    xmax[0] = ymax[0] = -INF;

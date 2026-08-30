@@ -23,9 +23,11 @@ public class Code02_QueryKthFarthest1 {
 	public static long INF = 1L << 60;
 	public static int n, m;
 
+	public static long[] x = new long[MAXN];
+	public static long[] y = new long[MAXN];
+	public static int[] arr = new int[MAXN];
+
 	public static int root;
-	// x、y、id
-	public static long[][] arr = new long[MAXN][3];
 	public static int[] ls = new int[MAXN];
 	public static int[] rs = new int[MAXN];
 	public static long[] xmin = new long[MAXN];
@@ -33,12 +35,12 @@ public class Code02_QueryKthFarthest1 {
 	public static long[] ymin = new long[MAXN];
 	public static long[] ymax = new long[MAXN];
 
-	// dist、id
+	// 距离、点的编号
 	public static PriorityQueue<long[]> heap = new PriorityQueue<>(
 			(a, b) -> a[0] != b[0] ? Long.compare(a[0], b[0]) : Long.compare(b[1], a[1]));
 
 	public static void swap(int i, int j) {
-		long[] tmp = arr[i];
+		int tmp = arr[i];
 		arr[i] = arr[j];
 		arr[j] = tmp;
 	}
@@ -50,9 +52,11 @@ public class Code02_QueryKthFarthest1 {
 		last = r;
 		int i = l;
 		while (i <= last) {
-			if (arr[i][dimension] == pivot) {
+			int idx = arr[i];
+			long cur = dimension == 0 ? x[idx] : y[idx];
+			if (cur == pivot) {
 				i++;
-			} else if (arr[i][dimension] < pivot) {
+			} else if (cur < pivot) {
 				swap(first++, i++);
 			} else {
 				swap(i, last--);
@@ -62,7 +66,8 @@ public class Code02_QueryKthFarthest1 {
 
 	public static void randSelect(int l, int r, int i, int dimension) {
 		while (l <= r) {
-			long pivot = arr[l + (int) (Math.random() * (r - l + 1))][dimension];
+			int idx = arr[l + (int) (Math.random() * (r - l + 1))];
+			long pivot = dimension == 0 ? x[idx] : y[idx];
 			partition(l, r, pivot, dimension);
 			if (i < first) {
 				r = first - 1;
@@ -75,10 +80,10 @@ public class Code02_QueryKthFarthest1 {
 	}
 
 	public static void maintain(int i) {
-		xmin[i] = Math.min(arr[i][0], Math.min(xmin[ls[i]], xmin[rs[i]]));
-		xmax[i] = Math.max(arr[i][0], Math.max(xmax[ls[i]], xmax[rs[i]]));
-		ymin[i] = Math.min(arr[i][1], Math.min(ymin[ls[i]], ymin[rs[i]]));
-		ymax[i] = Math.max(arr[i][1], Math.max(ymax[ls[i]], ymax[rs[i]]));
+		xmin[i] = Math.min(x[i], Math.min(xmin[ls[i]], xmin[rs[i]]));
+		xmax[i] = Math.max(x[i], Math.max(xmax[ls[i]], xmax[rs[i]]));
+		ymin[i] = Math.min(y[i], Math.min(ymin[ls[i]], ymin[rs[i]]));
+		ymax[i] = Math.max(y[i], Math.max(ymax[ls[i]], ymax[rs[i]]));
 	}
 
 	public static int build(int l, int r, int dimension) {
@@ -87,10 +92,11 @@ public class Code02_QueryKthFarthest1 {
 		}
 		int mid = (l + r) >> 1;
 		randSelect(l, r, mid, dimension);
-		ls[mid] = build(l, mid - 1, dimension ^ 1);
-		rs[mid] = build(mid + 1, r, dimension ^ 1);
-		maintain(mid);
-		return mid;
+		int rt = arr[mid];
+		ls[rt] = build(l, mid - 1, dimension ^ 1);
+		rs[rt] = build(mid + 1, r, dimension ^ 1);
+		maintain(rt);
+		return rt;
 	}
 
 	public static long dist(long x1, long y1, long x2, long y2) {
@@ -113,10 +119,10 @@ public class Code02_QueryKthFarthest1 {
 		if (i == 0) {
 			return;
 		}
-		long d = dist(qx, qy, arr[i][0], arr[i][1]);
-		if (d > heap.peek()[0] || (d == heap.peek()[0] && arr[i][2] < heap.peek()[1])) {
+		long d = dist(qx, qy, x[i], y[i]);
+		if (d > heap.peek()[0] || (d == heap.peek()[0] && i < heap.peek()[1])) {
 			heap.poll();
-			heap.add(new long[] { d, arr[i][2] });
+			heap.add(new long[] { d, i });
 		}
 		long gl = guess(qx, qy, ls[i]);
 		long gr = guess(qx, qy, rs[i]);
@@ -154,9 +160,9 @@ public class Code02_QueryKthFarthest1 {
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
 		n = in.nextInt();
 		for (int i = 1; i <= n; i++) {
-			arr[i][0] = in.nextInt();
-			arr[i][1] = in.nextInt();
-			arr[i][2] = i;
+			x[i] = in.nextLong();
+			y[i] = in.nextLong();
+			arr[i] = i;
 		}
 		xmin[0] = ymin[0] = INF;
 		xmax[0] = ymax[0] = -INF;
@@ -204,6 +210,24 @@ public class Code02_QueryKthFarthest1 {
 				c = readByte();
 			}
 			int val = 0;
+			while (c > ' ' && c != -1) {
+				val = val * 10 + (c - '0');
+				c = readByte();
+			}
+			return neg ? -val : val;
+		}
+
+		long nextLong() throws IOException {
+			int c;
+			do {
+				c = readByte();
+			} while (c <= ' ' && c != -1);
+			boolean neg = false;
+			if (c == '-') {
+				neg = true;
+				c = readByte();
+			}
+			long val = 0;
 			while (c > ' ' && c != -1) {
 				val = val * 10 + (c - '0');
 				c = readByte();

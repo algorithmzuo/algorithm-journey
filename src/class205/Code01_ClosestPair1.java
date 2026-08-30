@@ -1,14 +1,13 @@
 package class205;
 
 // 平面最近点对，java版
-// 课上讲述KDT的方法，本题正解是平面最近点对的分治算法，计算几何专题会讲述正解
-// 一共n个点，每个点给定坐标(x, y)，输出距离最近的两个点的距离平方
-// 2 <= n <= 4 * 10^5
-// -10^7 <= 坐标值 <= +10^7
-// 测试链接 : https://www.luogu.com.cn/problem/P7883
-// 提交以下的code，提交时请把类名改成"Main"，因为不是正解，java实现无法通过
-// 想通过用C++实现，本节课Code01_ClosestPair2文件就是C++的实现
-// 两个版本的逻辑完全一样，C++版本可以通过所有测试
+// 课上讲述K-D树的方法，但这不是正解，刻意设计测试是可以卡住的
+// 本题复杂度正确的正解，是平面最近点对的分治算法，计算几何专题会讲述
+// 一共n个点，每个点给定坐标(x, y)，输出最近两个点的距离，保留四位小数
+// 2 <= n <= 2 * 10^5
+// 0 <= x、y <= 10^9
+// 测试链接 : https://www.luogu.com.cn/problem/P1429
+// 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -17,16 +16,17 @@ import java.io.PrintWriter;
 
 public class Code01_ClosestPair1 {
 
-	public static int MAXN = 400001;
+	public static int MAXN = 200001;
 	public static long INF = 1L << 60;
 	public static int n;
 
-	public static int root;
 	public static long[] x = new long[MAXN];
 	public static long[] y = new long[MAXN];
+	public static int[] arr = new int[MAXN];
+
+	public static int root;
 	public static int[] ls = new int[MAXN];
 	public static int[] rs = new int[MAXN];
-
 	public static long[] xmin = new long[MAXN];
 	public static long[] xmax = new long[MAXN];
 	public static long[] ymin = new long[MAXN];
@@ -35,8 +35,9 @@ public class Code01_ClosestPair1 {
 	public static long ans;
 
 	public static void swap(int i, int j) {
-		long tmp = x[i]; x[i] = x[j]; x[j] = tmp;
-		tmp = y[i]; y[i] = y[j]; y[j] = tmp;
+		int tmp = arr[i];
+		arr[i] = arr[j];
+		arr[j] = tmp;
 	}
 
 	public static int first, last;
@@ -46,7 +47,8 @@ public class Code01_ClosestPair1 {
 		last = r;
 		int i = l;
 		while (i <= last) {
-			long cur = dimension == 0 ? x[i] : y[i];
+			int idx = arr[i];
+			long cur = dimension == 0 ? x[idx] : y[idx];
 			if (cur == pivot) {
 				i++;
 			} else if (cur < pivot) {
@@ -57,10 +59,10 @@ public class Code01_ClosestPair1 {
 		}
 	}
 
-	// 随机选择算法，无序数组中找到第k小的数，时间复杂度O(n)，讲解024讲述了
+	// 讲解024，随机选择算法，无序数组中找到第k小的数，时间复杂度O(n)
 	public static void randSelect(int l, int r, int i, int dimension) {
 		while (l <= r) {
-			int idx = l + (int) (Math.random() * (r - l + 1));
+			int idx = arr[l + (int) (Math.random() * (r - l + 1))];
 			long pivot = dimension == 0 ? x[idx] : y[idx];
 			partition(l, r, pivot, dimension);
 			if (i < first) {
@@ -87,22 +89,23 @@ public class Code01_ClosestPair1 {
 		}
 		int mid = (l + r) >> 1;
 		randSelect(l, r, mid, dimension);
-		ls[mid] = build1(l, mid - 1, dimension ^ 1);
-		rs[mid] = build1(mid + 1, r, dimension ^ 1);
-		maintain(mid);
-		return mid;
+		int rt = arr[mid];
+		ls[rt] = build1(l, mid - 1, dimension ^ 1);
+		rs[rt] = build1(mid + 1, r, dimension ^ 1);
+		maintain(rt);
+		return rt;
 	}
 
-	// 返回arr[l..r][dimension]的方差
+	// 返回dimension维度数据的方差
 	public static double variance(int l, int r, int dimension) {
 		double siz = r - l + 1, sum = 0, avg = 0, dif = 0;
 		for (int i = l; i <= r; i++) {
-			sum += dimension == 0 ? x[i] : y[i];
+			sum += dimension == 0 ? x[arr[i]] : y[arr[i]];
 		}
 		avg = sum / siz;
 		sum = 0;
 		for (int i = l; i <= r; i++) {
-			dif = (dimension == 0 ? x[i] : y[i]) - avg;
+			dif = (dimension == 0 ? x[arr[i]] : y[arr[i]]) - avg;
 			sum += dif * dif;
 		}
 		return sum / siz;
@@ -116,10 +119,11 @@ public class Code01_ClosestPair1 {
 		int mid = (l + r) >> 1;
 		int dimension = variance(l, r, 0) >= variance(l, r, 1) ? 0 : 1;
 		randSelect(l, r, mid, dimension);
-		ls[mid] = build2(l, mid - 1);
-		rs[mid] = build2(mid + 1, r);
-		maintain(mid);
-		return mid;
+		int rt = arr[mid];
+		ls[rt] = build2(l, mid - 1);
+		rs[rt] = build2(mid + 1, r);
+		maintain(rt);
+		return rt;
 	}
 
 	public static long dist(int qi, int i) {
@@ -174,11 +178,12 @@ public class Code01_ClosestPair1 {
 		for (int i = 1; i <= n; i++) {
 			x[i] = in.nextLong();
 			y[i] = in.nextLong();
+			arr[i] = i;
 		}
 		xmin[0] = ymin[0] = INF;
 		xmax[0] = ymax[0] = -INF;
-		// root = build1(1, n, 0);
-		root = build2(1, n);
+		root = build1(1, n, 0);
+		// root = build2(1, n);
 		ans = dist(1, 2);
 		for (int i = 1; i <= n; i++) {
 			updateAns(i, root);
@@ -186,7 +191,7 @@ public class Code01_ClosestPair1 {
 				break;
 			}
 		}
-		out.println(ans);
+		out.printf("%.4f\n", Math.sqrt(ans));
 		out.flush();
 		out.close();
 	}
