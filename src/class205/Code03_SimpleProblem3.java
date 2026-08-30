@@ -23,13 +23,16 @@ public class Code03_SimpleProblem3 {
 	public static int INF = 1 << 30;
 	public static int n;
 
+	public static int[] x = new int[MAXN];
+	public static int[] y = new int[MAXN];
+	public static int[] v = new int[MAXN];
+
 	public static int cntkdt;
-	// KDT的根
+
+	// K-D树采用替罪羊树的方式，只有一个头
 	public static int root;
-	public static int[][] arr = new int[MAXN][3];
 	public static int[] ls = new int[MAXN];
 	public static int[] rs = new int[MAXN];
-
 	public static int[] siz = new int[MAXN];
 	public static int[] sum = new int[MAXN];
 	public static int[] xmin = new int[MAXN];
@@ -39,10 +42,6 @@ public class Code03_SimpleProblem3 {
 
 	// 平衡因子
 	public static double ALPHA = 0.7;
-	// 不平衡时收集节点编号
-	public static int[] collect = new int[MAXN];
-	// 收集的节点数量
-	public static int collectSiz;
 	// 最顶部的不平衡点
 	public static int top;
 	// 最顶部的不平衡点的父亲
@@ -52,33 +51,37 @@ public class Code03_SimpleProblem3 {
 	// 最顶部的不平衡点是按照什么维度划分的
 	public static int topDimension;
 
-	public static int init(int x, int y, int v) {
+	// 不平衡时收集节点编号
+	public static int[] arr = new int[MAXN];
+	// 遍历不平衡子树收集的节点数量
+	public static int treeSiz;
+
+	public static int init(int qx, int qy, int qv) {
 		cntkdt++;
-		arr[cntkdt][0] = x;
-		arr[cntkdt][1] = y;
-		arr[cntkdt][2] = v;
+		x[cntkdt] = qx;
+		y[cntkdt] = qy;
+		v[cntkdt] = qv;
 		ls[cntkdt] = rs[cntkdt] = 0;
 		siz[cntkdt] = 1;
-		sum[cntkdt] = v;
-		xmin[cntkdt] = xmax[cntkdt] = x;
-		ymin[cntkdt] = ymax[cntkdt] = y;
+		sum[cntkdt] = qv;
+		xmin[cntkdt] = xmax[cntkdt] = qx;
+		ymin[cntkdt] = ymax[cntkdt] = qy;
 		return cntkdt;
 	}
 
 	public static void maintain(int i) {
 		siz[i] = 1 + siz[ls[i]] + siz[rs[i]];
-		sum[i] = arr[i][2] + sum[ls[i]] + sum[rs[i]];
-		xmin[i] = Math.min(arr[i][0], Math.min(xmin[ls[i]], xmin[rs[i]]));
-		xmax[i] = Math.max(arr[i][0], Math.max(xmax[ls[i]], xmax[rs[i]]));
-		ymin[i] = Math.min(arr[i][1], Math.min(ymin[ls[i]], ymin[rs[i]]));
-		ymax[i] = Math.max(arr[i][1], Math.max(ymax[ls[i]], ymax[rs[i]]));
+		sum[i] = v[i] + sum[ls[i]] + sum[rs[i]];
+		xmin[i] = Math.min(x[i], Math.min(xmin[ls[i]], xmin[rs[i]]));
+		xmax[i] = Math.max(x[i], Math.max(xmax[ls[i]], xmax[rs[i]]));
+		ymin[i] = Math.min(y[i], Math.min(ymin[ls[i]], ymin[rs[i]]));
+		ymax[i] = Math.max(y[i], Math.max(ymax[ls[i]], ymax[rs[i]]));
 	}
 
-	// collect数组保持的是节点编号，交换节点编号即可
 	public static void swap(int i, int j) {
-		int tmp = collect[i];
-		collect[i] = collect[j];
-		collect[j] = tmp;
+		int tmp = arr[i];
+		arr[i] = arr[j];
+		arr[j] = tmp;
 	}
 
 	public static int first, last;
@@ -88,7 +91,8 @@ public class Code03_SimpleProblem3 {
 		last = r;
 		int i = l;
 		while (i <= last) {
-			int cur = arr[collect[i]][dimension];
+			int idx = arr[i];
+			int cur = dimension == 0 ? x[idx] : y[idx];
 			if (cur == pivot) {
 				i++;
 			} else if (cur < pivot) {
@@ -101,8 +105,8 @@ public class Code03_SimpleProblem3 {
 
 	public static void randSelect(int l, int r, int i, int dimension) {
 		while (l <= r) {
-			int idx = collect[l + (int) (Math.random() * (r - l + 1))];
-			int pivot = arr[idx][dimension];
+			int idx = arr[l + (int) (Math.random() * (r - l + 1))];
+			int pivot = dimension == 0 ? x[idx] : y[idx];
 			partition(l, r, pivot, dimension);
 			if (i < first) {
 				r = first - 1;
@@ -120,7 +124,7 @@ public class Code03_SimpleProblem3 {
 		}
 		int mid = (l + r) >> 1;
 		randSelect(l, r, mid, dimension);
-		int rt = collect[mid];
+		int rt = arr[mid];
 		ls[rt] = build(l, mid - 1, dimension ^ 1);
 		rs[rt] = build(mid + 1, r, dimension ^ 1);
 		maintain(rt);
@@ -136,7 +140,7 @@ public class Code03_SimpleProblem3 {
 	// 因为重构时会重新选择中位点
 	public static void dfs(int i) {
 		if (i != 0) {
-			collect[++collectSiz] = i;
+			arr[++treeSiz] = i;
 			dfs(ls[i]);
 			dfs(rs[i]);
 		}
@@ -144,9 +148,9 @@ public class Code03_SimpleProblem3 {
 
 	public static void rebuild() {
 		if (top != 0) {
-			collectSiz = 0;
+			treeSiz = 0;
 			dfs(top);
-			int rt = build(1, collectSiz, topDimension);
+			int rt = build(1, treeSiz, topDimension);
 			if (topFather == 0) {
 				root = rt;
 			} else if (topSide == 1) {
@@ -167,7 +171,9 @@ public class Code03_SimpleProblem3 {
 				rs[fa] = insertNode;
 			}
 		} else {
-			if (arr[insertNode][dimension] <= arr[u][dimension]) {
+			int insertd = dimension == 0 ? x[insertNode] : y[insertNode];
+			int ud = dimension == 0 ? x[u] : y[u];
+			if (insertd <= ud) {
 				add(insertNode, ls[u], u, 1, dimension ^ 1);
 			} else {
 				add(insertNode, rs[u], u, 2, dimension ^ 1);
@@ -184,9 +190,9 @@ public class Code03_SimpleProblem3 {
 		}
 	}
 
-	public static void add(int x, int y, int v) {
+	public static void add(int qx, int qy, int qv) {
 		top = topFather = topSide = topDimension = 0;
-		int insertNode = init(x, y, v);
+		int insertNode = init(qx, qy, qv);
 		add(insertNode, root, 0, 0, 0);
 		rebuild();
 	}
@@ -202,8 +208,8 @@ public class Code03_SimpleProblem3 {
 			return sum[i];
 		}
 		int ans = 0;
-		if (x1 <= arr[i][0] && arr[i][0] <= x2 && y1 <= arr[i][1] && arr[i][1] <= y2) {
-			ans += arr[i][2];
+		if (x1 <= x[i] && x[i] <= x2 && y1 <= y[i] && y[i] <= y2) {
+			ans += v[i];
 		}
 		ans += query(x1, y1, x2, y2, ls[i]);
 		ans += query(x1, y1, x2, y2, rs[i]);
@@ -217,7 +223,7 @@ public class Code03_SimpleProblem3 {
 	public static void main(String[] args) throws Exception {
 		FastReader in = new FastReader(System.in);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
-		// 读入的n其实没用
+		// 读入n其实没用
 		n = in.nextInt();
 		xmin[0] = ymin[0] = INF;
 		xmax[0] = ymax[0] = -INF;
