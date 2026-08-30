@@ -1,6 +1,6 @@
 package class205;
 
-// K-D树结合懒更新，替罪羊树的方式重构，C++版
+// K-D树结合懒更新，二进制分组的方式重构，C++版
 // 点的坐标有k维，点还有点权，k维空间中的轴对齐区域，可以用两个对角点表示
 // 一共有m条操作，类型如下
 // 操作 1 qx qv    : 空间里增加一个点，qx是k个值表示点的坐标，qv表示点权
@@ -21,51 +21,30 @@ package class205;
 //using ll = long long;
 //
 //const int MAXN = 200001;
+//const int MAXP = 19;
 //const int MAXK = 3;
 //const ll INF = 1LL << 60;
 //int k, m;
 //
 //ll pos[MAXN][MAXK];
 //ll val[MAXN];
+//int arr[MAXN];
 //
 //ll qx[MAXK];
 //ll qy[MAXK];
 //ll qv;
 //
 //int cntkdt;
-//int root;
+//int root[MAXP];
 //int ls[MAXN];
 //int rs[MAXN];
 //
 //int siz[MAXN];
 //ll sum[MAXN];
-//ll tag[MAXN];
+//ll addTag[MAXN];
 //
 //ll minv[MAXN][MAXK];
 //ll maxv[MAXN][MAXK];
-//
-//double ALPHA = 0.7;
-//int top;
-//int topFather;
-//int topSide;
-//int topDimension;
-//
-//int arr[MAXN];
-//int treeSiz;
-//
-//int init() {
-//    cntkdt++;
-//    for (int d = 0; d < k; d++) {
-//        pos[cntkdt][d] = qx[d];
-//        minv[cntkdt][d] = maxv[cntkdt][d] = qx[d];
-//    }
-//    val[cntkdt] = qv;
-//    ls[cntkdt] = rs[cntkdt] = 0;
-//    siz[cntkdt] = 1;
-//    sum[cntkdt] = qv;
-//    tag[cntkdt] = 0;
-//    return cntkdt;
-//}
 //
 //void maintain(int i) {
 //    siz[i] = 1 + siz[ls[i]] + siz[rs[i]];
@@ -73,22 +52,6 @@ package class205;
 //    for (int d = 0; d < k; d++) {
 //        minv[i][d] = min(pos[i][d], min(minv[ls[i]][d], minv[rs[i]][d]));
 //        maxv[i][d] = max(pos[i][d], max(maxv[ls[i]][d], maxv[rs[i]][d]));
-//    }
-//}
-//
-//void lazy(int i, ll v) {
-//    if (i != 0) {
-//        val[i] += v;
-//        sum[i] += v * siz[i];
-//        tag[i] += v;
-//    }
-//}
-//
-//void down(int i) {
-//    if (tag[i] != 0) {
-//        lazy(ls[i], tag[i]);
-//        lazy(rs[i], tag[i]);
-//        tag[i] = 0;
 //    }
 //}
 //
@@ -113,65 +76,43 @@ package class205;
 //    return rt;
 //}
 //
-//bool balance(int i) {
-//    return ALPHA * siz[i] >= max(siz[ls[i]], siz[rs[i]]);
+//void lazy(int i, ll v) {
+//    if (i != 0) {
+//        val[i] += v;
+//        sum[i] += v * siz[i];
+//        addTag[i] += v;
+//    }
+//}
+//
+//void down(int i) {
+//    if (addTag[i] != 0) {
+//        lazy(ls[i], addTag[i]);
+//        lazy(rs[i], addTag[i]);
+//        addTag[i] = 0;
+//    }
 //}
 //
 //void dfs(int i) {
 //    if (i != 0) {
 //        down(i);
-//        arr[++treeSiz] = i;
 //        dfs(ls[i]);
 //        dfs(rs[i]);
 //    }
 //}
 //
-//void rebuild() {
-//    if (top != 0) {
-//        treeSiz = 0;
-//        dfs(top);
-//        int rt = build(1, treeSiz, topDimension);
-//        if (topFather == 0) {
-//            root = rt;
-//        } else if (topSide == 1) {
-//            ls[topFather] = rt;
-//        } else {
-//            rs[topFather] = rt;
-//        }
-//    }
-//}
-//
-//void add(int insertNode, int u, int fa, int side, int dimension) {
-//    if (u == 0) {
-//        if (fa == 0) {
-//            root = insertNode;
-//        } else if (side == 1) {
-//            ls[fa] = insertNode;
-//        } else {
-//            rs[fa] = insertNode;
-//        }
-//    } else {
-//        down(u);
-//        if (pos[insertNode][dimension] <= pos[u][dimension]) {
-//            add(insertNode, ls[u], u, 1, (dimension + 1) % k);
-//        } else {
-//            add(insertNode, rs[u], u, 2, (dimension + 1) % k);
-//        }
-//        maintain(u);
-//        if (!balance(u)) {
-//            top = u;
-//            topFather = fa;
-//            topSide = side;
-//            topDimension = dimension;
-//        }
-//    }
-//}
-//
 //void addNode() {
-//    top = topFather = topSide = topDimension = 0;
-//    int insertNode = init();
-//    add(insertNode, root, 0, 0, 0);
-//    rebuild();
+//    cntkdt++;
+//    for (int d = 0; d < k; d++) {
+//        pos[cntkdt][d] = qx[d];
+//    }
+//    val[cntkdt] = qv;
+//    arr[cntkdt] = cntkdt;
+//    int p = 0;
+//    while (root[p] != 0) {
+//        dfs(root[p]);
+//        root[p++] = 0;
+//    }
+//    root[p] = build(cntkdt - (1 << p) + 1, cntkdt, 0);
 //}
 //
 //bool outside(int i) {
@@ -221,6 +162,12 @@ package class205;
 //    maintain(i);
 //}
 //
+//void addValue() {
+//    for (int p = 0; p < MAXP; p++) {
+//        addValue(root[p]);
+//    }
+//}
+//
 //ll querySum(int i) {
 //    if (i == 0) {
 //        return 0;
@@ -238,6 +185,14 @@ package class205;
 //    down(i);
 //    ans += querySum(ls[i]);
 //    ans += querySum(rs[i]);
+//    return ans;
+//}
+//
+//ll querySum() {
+//    ll ans = 0;
+//    for (int p = 0; p < MAXP; p++) {
+//        ans += querySum(root[p]);
+//    }
 //    return ans;
 //}
 //
@@ -272,9 +227,9 @@ package class205;
 //            if (op == 2) {
 //                cin >> qv;
 //                qv ^= lastAns;
-//                addValue(root);
+//                addValue();
 //            } else {
-//                lastAns = querySum(root);
+//                lastAns = querySum();
 //                cout << lastAns << "\n";
 //            }
 //        }

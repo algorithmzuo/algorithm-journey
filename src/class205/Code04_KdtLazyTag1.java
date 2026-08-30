@@ -1,6 +1,6 @@
 package class205;
 
-// K-D树结合懒更新，二进制分组的方式重构，java版
+// K-D树结合懒更新，替罪羊树的方式重构，java版
 // 点的坐标有k维，点还有点权，k维空间中的轴对齐区域，可以用两个对角点表示
 // 一共有m条操作，类型如下
 // 操作 1 qx qv    : 空间里增加一个点，qx是k个值表示点的坐标，qv表示点权
@@ -23,32 +23,76 @@ import java.io.PrintWriter;
 public class Code04_KdtLazyTag1 {
 
 	public static int MAXN = 200001;
-	public static int MAXP = 19;
 	public static int MAXK = 3;
 	public static long INF = 1L << 60;
 	public static int k, m;
 
 	public static long[][] pos = new long[MAXN][MAXK];
 	public static long[] val = new long[MAXN];
-	public static int[] arr = new int[MAXN];
 
 	public static long[] qx = new long[MAXK];
 	public static long[] qy = new long[MAXK];
 	public static long qv;
 
 	public static int cntkdt;
-	public static int[] root = new int[MAXP];
+	public static int root;
 	public static int[] ls = new int[MAXN];
 	public static int[] rs = new int[MAXN];
 
-	// 子树节点数、子树点权和、懒更新标记
 	public static int[] siz = new int[MAXN];
 	public static long[] sum = new long[MAXN];
-	public static long[] addTag = new long[MAXN];
+	public static long[] tag = new long[MAXN];
 
-	// 每个维度的最小值、最大值
 	public static long[][] minv = new long[MAXN][MAXK];
 	public static long[][] maxv = new long[MAXN][MAXK];
+
+	public static double ALPHA = 0.7;
+	public static int top;
+	public static int topFather;
+	public static int topSide;
+	public static int topDimension;
+
+	public static int[] arr = new int[MAXN];
+	public static int treeSiz;
+
+	public static int init() {
+		cntkdt++;
+		for (int d = 0; d < k; d++) {
+			pos[cntkdt][d] = qx[d];
+			minv[cntkdt][d] = maxv[cntkdt][d] = qx[d];
+		}
+		val[cntkdt] = qv;
+		ls[cntkdt] = rs[cntkdt] = 0;
+		siz[cntkdt] = 1;
+		sum[cntkdt] = qv;
+		tag[cntkdt] = 0;
+		return cntkdt;
+	}
+
+	public static void maintain(int i) {
+		siz[i] = 1 + siz[ls[i]] + siz[rs[i]];
+		sum[i] = val[i] + sum[ls[i]] + sum[rs[i]];
+		for (int d = 0; d < k; d++) {
+			minv[i][d] = Math.min(pos[i][d], Math.min(minv[ls[i]][d], minv[rs[i]][d]));
+			maxv[i][d] = Math.max(pos[i][d], Math.max(maxv[ls[i]][d], maxv[rs[i]][d]));
+		}
+	}
+
+	public static void lazy(int i, long v) {
+		if (i != 0) {
+			val[i] += v;
+			sum[i] += v * siz[i];
+			tag[i] += v;
+		}
+	}
+
+	public static void down(int i) {
+		if (tag[i] != 0) {
+			lazy(ls[i], tag[i]);
+			lazy(rs[i], tag[i]);
+			tag[i] = 0;
+		}
+	}
 
 	public static void swap(int i, int j) {
 		int tmp = arr[i];
@@ -90,15 +134,6 @@ public class Code04_KdtLazyTag1 {
 		}
 	}
 
-	public static void maintain(int i) {
-		siz[i] = 1 + siz[ls[i]] + siz[rs[i]];
-		sum[i] = val[i] + sum[ls[i]] + sum[rs[i]];
-		for (int d = 0; d < k; d++) {
-			minv[i][d] = Math.min(pos[i][d], Math.min(minv[ls[i]][d], minv[rs[i]][d]));
-			maxv[i][d] = Math.max(pos[i][d], Math.max(maxv[ls[i]][d], maxv[rs[i]][d]));
-		}
-	}
-
 	public static int build(int l, int r, int dimension) {
 		if (l > r) {
 			return 0;
@@ -106,50 +141,73 @@ public class Code04_KdtLazyTag1 {
 		int mid = (l + r) >> 1;
 		randSelect(l, r, mid, dimension);
 		int rt = arr[mid];
-		// 注意本题可能不只两个维度，所以用取余做到维度的轮换
 		ls[rt] = build(l, mid - 1, (dimension + 1) % k);
 		rs[rt] = build(mid + 1, r, (dimension + 1) % k);
 		maintain(rt);
 		return rt;
 	}
 
-	public static void lazy(int i, long v) {
-		if (i != 0) {
-			val[i] += v;
-			sum[i] += v * siz[i];
-			addTag[i] += v;
-		}
-	}
-
-	public static void down(int i) {
-		if (addTag[i] != 0) {
-			lazy(ls[i], addTag[i]);
-			lazy(rs[i], addTag[i]);
-			addTag[i] = 0;
-		}
+	public static boolean balance(int i) {
+		return ALPHA * siz[i] >= Math.max(siz[ls[i]], siz[rs[i]]);
 	}
 
 	public static void dfs(int i) {
 		if (i != 0) {
+			// 懒更新信息下发
 			down(i);
+			arr[++treeSiz] = i;
 			dfs(ls[i]);
 			dfs(rs[i]);
 		}
 	}
 
+	public static void rebuild() {
+		if (top != 0) {
+			treeSiz = 0;
+			dfs(top);
+			int rt = build(1, treeSiz, topDimension);
+			if (topFather == 0) {
+				root = rt;
+			} else if (topSide == 1) {
+				ls[topFather] = rt;
+			} else {
+				rs[topFather] = rt;
+			}
+		}
+	}
+
+	public static void add(int insertNode, int u, int fa, int side, int dimension) {
+		if (u == 0) {
+			if (fa == 0) {
+				root = insertNode;
+			} else if (side == 1) {
+				ls[fa] = insertNode;
+			} else {
+				rs[fa] = insertNode;
+			}
+		} else {
+			// 懒更新信息下发
+			down(u);
+			if (pos[insertNode][dimension] <= pos[u][dimension]) {
+				add(insertNode, ls[u], u, 1, (dimension + 1) % k);
+			} else {
+				add(insertNode, rs[u], u, 2, (dimension + 1) % k);
+			}
+			maintain(u);
+			if (!balance(u)) {
+				top = u;
+				topFather = fa;
+				topSide = side;
+				topDimension = dimension;
+			}
+		}
+	}
+
 	public static void addNode() {
-		cntkdt++;
-		for (int d = 0; d < k; d++) {
-			pos[cntkdt][d] = qx[d];
-		}
-		val[cntkdt] = qv;
-		arr[cntkdt] = cntkdt;
-		int p = 0;
-		while (root[p] != 0) {
-			dfs(root[p]);
-			root[p++] = 0;
-		}
-		root[p] = build(cntkdt - (1 << p) + 1, cntkdt, 0);
+		top = topFather = topSide = topDimension = 0;
+		int insertNode = init();
+		add(insertNode, root, 0, 0, 0);
+		rebuild();
 	}
 
 	public static boolean outside(int i) {
@@ -193,16 +251,11 @@ public class Code04_KdtLazyTag1 {
 		if (pointIn(i)) {
 			val[i] += qv;
 		}
+		// 懒更新信息下发
 		down(i);
 		addValue(ls[i]);
 		addValue(rs[i]);
 		maintain(i);
-	}
-
-	public static void addValue() {
-		for (int p = 0; p < MAXP; p++) {
-			addValue(root[p]);
-		}
 	}
 
 	public static long querySum(int i) {
@@ -219,17 +272,10 @@ public class Code04_KdtLazyTag1 {
 		if (pointIn(i)) {
 			ans += val[i];
 		}
+		// 懒更新信息下发
 		down(i);
 		ans += querySum(ls[i]);
 		ans += querySum(rs[i]);
-		return ans;
-	}
-
-	public static long querySum() {
-		long ans = 0;
-		for (int p = 0; p < MAXP; p++) {
-			ans += querySum(root[p]);
-		}
 		return ans;
 	}
 
@@ -265,9 +311,9 @@ public class Code04_KdtLazyTag1 {
 				if (op == 2) {
 					qv = in.nextLong();
 					qv ^= lastAns;
-					addValue();
+					addValue(root);
 				} else {
-					lastAns = querySum();
+					lastAns = querySum(root);
 					out.println(lastAns);
 				}
 			}

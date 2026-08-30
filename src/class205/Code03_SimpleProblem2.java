@@ -1,6 +1,6 @@
 package class205;
 
-// 简单题，二进制分组的方式重构，C++版
+// 简单题，替罪羊树的方式重构，C++版
 // 有一个n * n的平面区域，初始时没有点，有若干条操作，类型如下
 // 操作 1 a b c   : 平面里增加一个点，坐标(a, b)，点权为c
 // 操作 2 a b c d : 查询(a, b)为左下角、(c, d)为右上角的区域中，所有点的点权和
@@ -16,29 +16,50 @@ package class205;
 //using namespace std;
 //
 //const int MAXN = 200001;
-//const int MAXP = 19;
 //const int INF = 1 << 30;
 //int n;
 //
 //int x[MAXN];
 //int y[MAXN];
 //int v[MAXN];
-//int arr[MAXN];
 //
 //int cntkdt;
 //
-//int root[MAXP];
+//int root;
 //
 //int ls[MAXN];
 //int rs[MAXN];
+//int siz[MAXN];
 //int sum[MAXN];
 //int xmin[MAXN];
 //int xmax[MAXN];
 //int ymin[MAXN];
 //int ymax[MAXN];
 //
+//double ALPHA = 0.7;
+//int top;
+//int topFather;
+//int topSide;
+//int topDimension;
+//
+//int arr[MAXN];
+//int treeSiz;
+//
+//int init(int qx, int qy, int qv) {
+//    cntkdt++;
+//    x[cntkdt] = qx;
+//    y[cntkdt] = qy;
+//    v[cntkdt] = qv;
+//    ls[cntkdt] = rs[cntkdt] = 0;
+//    siz[cntkdt] = 1;
+//    sum[cntkdt] = qv;
+//    xmin[cntkdt] = xmax[cntkdt] = qx;
+//    ymin[cntkdt] = ymax[cntkdt] = qy;
+//    return cntkdt;
+//}
 //
 //void maintain(int i) {
+//    siz[i] = 1 + siz[ls[i]] + siz[rs[i]];
 //    sum[i] = v[i] + sum[ls[i]] + sum[rs[i]];
 //    xmin[i] = min(x[i], min(xmin[ls[i]], xmin[rs[i]]));
 //    xmax[i] = max(x[i], max(xmax[ls[i]], xmax[rs[i]]));
@@ -71,17 +92,65 @@ package class205;
 //    return rt;
 //}
 //
-//void add(int qx, int qy, int qv) {
-//    cntkdt++;
-//    x[cntkdt] = qx;
-//    y[cntkdt] = qy;
-//    v[cntkdt] = qv;
-//    arr[cntkdt] = cntkdt;
-//    int p = 0;
-//    while (root[p] != 0) {
-//        root[p++] = 0;
+//bool balance(int i) {
+//    return ALPHA * siz[i] >= max(siz[ls[i]], siz[rs[i]]);
+//}
+//
+//void dfs(int i) {
+//    if (i != 0) {
+//        arr[++treeSiz] = i;
+//        dfs(ls[i]);
+//        dfs(rs[i]);
 //    }
-//    root[p] = build(cntkdt - (1 << p) + 1, cntkdt, 0);
+//}
+//
+//void rebuild() {
+//    if (top != 0) {
+//        treeSiz = 0;
+//        dfs(top);
+//        int rt = build(1, treeSiz, topDimension);
+//        if (topFather == 0) {
+//            root = rt;
+//        } else if (topSide == 1) {
+//            ls[topFather] = rt;
+//        } else {
+//            rs[topFather] = rt;
+//        }
+//    }
+//}
+//
+//void add(int insertNode, int u, int fa, int side, int dimension) {
+//    if (u == 0) {
+//        if (fa == 0) {
+//            root = insertNode;
+//        } else if (side == 1) {
+//            ls[fa] = insertNode;
+//        } else {
+//            rs[fa] = insertNode;
+//        }
+//    } else {
+//        int insertd = dimension == 0 ? x[insertNode] : y[insertNode];
+//        int ud = dimension == 0 ? x[u] : y[u];
+//        if (insertd <= ud) {
+//            add(insertNode, ls[u], u, 1, dimension ^ 1);
+//        } else {
+//            add(insertNode, rs[u], u, 2, dimension ^ 1);
+//        }
+//        maintain(u);
+//        if (!balance(u)) {
+//            top = u;
+//            topFather = fa;
+//            topSide = side;
+//            topDimension = dimension;
+//        }
+//    }
+//}
+//
+//void add(int qx, int qy, int qv) {
+//    top = topFather = topSide = topDimension = 0;
+//    int insertNode = init(qx, qy, qv);
+//    add(insertNode, root, 0, 0, 0);
+//    rebuild();
 //}
 //
 //int query(int x1, int y1, int x2, int y2, int i) {
@@ -104,11 +173,7 @@ package class205;
 //}
 //
 //int query(int x1, int y1, int x2, int y2) {
-//    int ans = 0;
-//    for (int p = 0; p < MAXP; p++) {
-//        ans += query(x1, y1, x2, y2, root[p]);
-//    }
-//    return ans;
+//    return query(x1, y1, x2, y2, root);
 //}
 //
 //int main() {

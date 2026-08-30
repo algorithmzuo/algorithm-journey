@@ -1,6 +1,6 @@
 package class205;
 
-// 简单题，二进制分组的方式重构，java版
+// 简单题，替罪羊树的方式重构，java版
 // 有一个n * n的平面区域，初始时没有点，有若干条操作，类型如下
 // 操作 1 a b c   : 平面里增加一个点，坐标(a, b)，点权为c
 // 操作 2 a b c d : 查询(a, b)为左下角、(c, d)为右上角的区域中，所有点的点权和
@@ -20,28 +20,63 @@ import java.io.PrintWriter;
 public class Code03_SimpleProblem1 {
 
 	public static int MAXN = 200001;
-	public static int MAXP = 19;
 	public static int INF = 1 << 30;
 	public static int n;
 
 	public static int[] x = new int[MAXN];
 	public static int[] y = new int[MAXN];
 	public static int[] v = new int[MAXN];
-	public static int[] arr = new int[MAXN];
 
-	// K-D树的节点计数
 	public static int cntkdt;
 
-	// root[p]表示大小为2的p次方的K-D树，根节点编号
-	public static int[] root = new int[MAXP];
-
+	// K-D树采用替罪羊树的方式，只有一个头
+	public static int root;
 	public static int[] ls = new int[MAXN];
 	public static int[] rs = new int[MAXN];
+	public static int[] siz = new int[MAXN];
 	public static int[] sum = new int[MAXN];
 	public static int[] xmin = new int[MAXN];
 	public static int[] xmax = new int[MAXN];
 	public static int[] ymin = new int[MAXN];
 	public static int[] ymax = new int[MAXN];
+
+	// 平衡因子
+	public static double ALPHA = 0.7;
+	// 最顶部的不平衡点
+	public static int top;
+	// 最顶部的不平衡点的父亲
+	public static int topFather;
+	// 最顶部的不平衡点是其父亲的哪侧孩子
+	public static int topSide;
+	// 最顶部的不平衡点是按照什么维度划分的
+	public static int topDimension;
+
+	// 不平衡时收集节点编号
+	public static int[] arr = new int[MAXN];
+	// 遍历不平衡子树收集的节点数量
+	public static int treeSiz;
+
+	public static int init(int qx, int qy, int qv) {
+		cntkdt++;
+		x[cntkdt] = qx;
+		y[cntkdt] = qy;
+		v[cntkdt] = qv;
+		ls[cntkdt] = rs[cntkdt] = 0;
+		siz[cntkdt] = 1;
+		sum[cntkdt] = qv;
+		xmin[cntkdt] = xmax[cntkdt] = qx;
+		ymin[cntkdt] = ymax[cntkdt] = qy;
+		return cntkdt;
+	}
+
+	public static void maintain(int i) {
+		siz[i] = 1 + siz[ls[i]] + siz[rs[i]];
+		sum[i] = v[i] + sum[ls[i]] + sum[rs[i]];
+		xmin[i] = Math.min(x[i], Math.min(xmin[ls[i]], xmin[rs[i]]));
+		xmax[i] = Math.max(x[i], Math.max(xmax[ls[i]], xmax[rs[i]]));
+		ymin[i] = Math.min(y[i], Math.min(ymin[ls[i]], ymin[rs[i]]));
+		ymax[i] = Math.max(y[i], Math.max(ymax[ls[i]], ymax[rs[i]]));
+	}
 
 	public static void swap(int i, int j) {
 		int tmp = arr[i];
@@ -83,14 +118,6 @@ public class Code03_SimpleProblem1 {
 		}
 	}
 
-	public static void maintain(int i) {
-		sum[i] = v[i] + sum[ls[i]] + sum[rs[i]];
-		xmin[i] = Math.min(x[i], Math.min(xmin[ls[i]], xmin[rs[i]]));
-		xmax[i] = Math.max(x[i], Math.max(xmax[ls[i]], xmax[rs[i]]));
-		ymin[i] = Math.min(y[i], Math.min(ymin[ls[i]], ymin[rs[i]]));
-		ymax[i] = Math.max(y[i], Math.max(ymax[ls[i]], ymax[rs[i]]));
-	}
-
 	public static int build(int l, int r, int dimension) {
 		if (l > r) {
 			return 0;
@@ -104,17 +131,70 @@ public class Code03_SimpleProblem1 {
 		return rt;
 	}
 
-	public static void add(int qx, int qy, int qv) {
-		cntkdt++;
-		x[cntkdt] = qx;
-		y[cntkdt] = qy;
-		v[cntkdt] = qv;
-		arr[cntkdt] = cntkdt;
-		int p = 0;
-		while (root[p] != 0) {
-			root[p++] = 0;
+	public static boolean balance(int i) {
+		return ALPHA * siz[i] >= Math.max(siz[ls[i]], siz[rs[i]]);
+	}
+
+	// 收集子树中的所有节点编号
+	// 先序、中序、后序哪种遍历都可以
+	// 因为重构时会重新选择中位点
+	public static void dfs(int i) {
+		if (i != 0) {
+			arr[++treeSiz] = i;
+			dfs(ls[i]);
+			dfs(rs[i]);
 		}
-		root[p] = build(cntkdt - (1 << p) + 1, cntkdt, 0);
+	}
+
+	public static void rebuild() {
+		if (top != 0) {
+			treeSiz = 0;
+			dfs(top);
+			int rt = build(1, treeSiz, topDimension);
+			if (topFather == 0) {
+				root = rt;
+			} else if (topSide == 1) {
+				ls[topFather] = rt;
+			} else {
+				rs[topFather] = rt;
+			}
+		}
+	}
+
+	public static void add(int insertNode, int u, int fa, int side, int dimension) {
+		if (u == 0) {
+			if (fa == 0) {
+				root = insertNode;
+			} else if (side == 1) {
+				ls[fa] = insertNode;
+			} else {
+				rs[fa] = insertNode;
+			}
+		} else {
+			int insertd = dimension == 0 ? x[insertNode] : y[insertNode];
+			int ud = dimension == 0 ? x[u] : y[u];
+			if (insertd <= ud) {
+				add(insertNode, ls[u], u, 1, dimension ^ 1);
+			} else {
+				add(insertNode, rs[u], u, 2, dimension ^ 1);
+			}
+			maintain(u);
+			// 递归返回时会不断覆盖
+			// 最终记录最上方的不平衡节点
+			if (!balance(u)) {
+				top = u;
+				topFather = fa;
+				topSide = side;
+				topDimension = dimension;
+			}
+		}
+	}
+
+	public static void add(int qx, int qy, int qv) {
+		top = topFather = topSide = topDimension = 0;
+		int insertNode = init(qx, qy, qv);
+		add(insertNode, root, 0, 0, 0);
+		rebuild();
 	}
 
 	public static int query(int x1, int y1, int x2, int y2, int i) {
@@ -137,17 +217,13 @@ public class Code03_SimpleProblem1 {
 	}
 
 	public static int query(int x1, int y1, int x2, int y2) {
-		int ans = 0;
-		for (int p = 0; p < MAXP; p++) {
-			ans += query(x1, y1, x2, y2, root[p]);
-		}
-		return ans;
+		return query(x1, y1, x2, y2, root);
 	}
 
 	public static void main(String[] args) throws Exception {
 		FastReader in = new FastReader(System.in);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
-		// 输入的n没用
+		// 读入n其实没用
 		n = in.nextInt();
 		xmin[0] = ymin[0] = INF;
 		xmax[0] = ymax[0] = -INF;
