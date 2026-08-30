@@ -31,13 +31,12 @@ public class Code04_4DPartialOrder1 {
 	// b值排名
 	public static int[] ranking = new int[MAXN];
 
-	public static int cntkdt;
-	// 每个树状数组下标，维护一棵动态kdt
-	public static int[] root = new int[MAXN];
-
-	// kdt
 	public static int[] c = new int[MAXT];
 	public static int[] d = new int[MAXT];
+	public static int cntkdt;
+
+	// 每个树状数组下标，维护一棵动态kdt
+	public static int[] root = new int[MAXN];
 	public static int[] ls = new int[MAXT];
 	public static int[] rs = new int[MAXT];
 	public static int[] siz = new int[MAXT];
@@ -46,14 +45,14 @@ public class Code04_4DPartialOrder1 {
 	public static int[] dmin = new int[MAXT];
 	public static int[] dmax = new int[MAXT];
 
-	// 替罪羊树的方式重构
 	public static double ALPHA = 0.7;
-	public static int[] collect = new int[MAXN];
-	public static int collectSiz;
 	public static int top;
 	public static int topFather;
 	public static int topSide;
 	public static int topDimension;
+
+	public static int[] arr = new int[MAXN];
+	public static int treeSiz;
 
 	public static int[] dp = new int[MAXT];
 	public static int[] maxdp = new int[MAXT];
@@ -80,9 +79,9 @@ public class Code04_4DPartialOrder1 {
 	}
 
 	public static void swap(int i, int j) {
-		int tmp = collect[i];
-		collect[i] = collect[j];
-		collect[j] = tmp;
+		int tmp = arr[i];
+		arr[i] = arr[j];
+		arr[j] = tmp;
 	}
 
 	public static int first, last;
@@ -92,7 +91,7 @@ public class Code04_4DPartialOrder1 {
 		last = r;
 		int i = l;
 		while (i <= last) {
-			int idx = collect[i];
+			int idx = arr[i];
 			int cur = dimension == 0 ? c[idx] : d[idx];
 			if (cur == pivot) {
 				i++;
@@ -106,7 +105,7 @@ public class Code04_4DPartialOrder1 {
 
 	public static void randSelect(int l, int r, int i, int dimension) {
 		while (l <= r) {
-			int idx = collect[l + (int) (Math.random() * (r - l + 1))];
+			int idx = arr[l + (int) (Math.random() * (r - l + 1))];
 			int pivot = dimension == 0 ? c[idx] : d[idx];
 			partition(l, r, pivot, dimension);
 			if (i < first) {
@@ -125,7 +124,7 @@ public class Code04_4DPartialOrder1 {
 		}
 		int mid = (l + r) >> 1;
 		randSelect(l, r, mid, dimension);
-		int rt = collect[mid];
+		int rt = arr[mid];
 		ls[rt] = build(l, mid - 1, dimension ^ 1);
 		rs[rt] = build(mid + 1, r, dimension ^ 1);
 		maintain(rt);
@@ -138,7 +137,7 @@ public class Code04_4DPartialOrder1 {
 
 	public static void dfs(int i) {
 		if (i != 0) {
-			collect[++collectSiz] = i;
+			arr[++treeSiz] = i;
 			dfs(ls[i]);
 			dfs(rs[i]);
 		}
@@ -146,9 +145,9 @@ public class Code04_4DPartialOrder1 {
 
 	public static void rebuild(int version) {
 		if (top != 0) {
-			collectSiz = 0;
+			treeSiz = 0;
 			dfs(top);
-			int rt = build(1, collectSiz, topDimension);
+			int rt = build(1, treeSiz, topDimension);
 			if (topFather == 0) {
 				root[version] = rt;
 			} else if (topSide == 1) {

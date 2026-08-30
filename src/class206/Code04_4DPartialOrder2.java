@@ -35,10 +35,6 @@ package class206;
 //    return x.i < y.i;
 //}
 //
-//struct CD {
-//    int c, d;
-//};
-//
 //const int MAXN = 50001;
 //const int MAXT = 500001;
 //const int INF = 1 << 30;
@@ -50,9 +46,11 @@ package class206;
 //
 //int ranking[MAXN];
 //
+//int c[MAXT];
+//int d[MAXT];
 //int cntkdt;
+//
 //int root[MAXN];
-//CD arr[MAXT];
 //int ls[MAXT];
 //int rs[MAXT];
 //int siz[MAXT];
@@ -62,28 +60,22 @@ package class206;
 //int dmax[MAXT];
 //
 //double ALPHA = 0.7;
-//int collect[MAXN];
-//int collectSiz;
 //int top;
 //int topFather;
 //int topSide;
 //int topDimension;
 //
+//int arr[MAXN];
+//int treeSiz;
+//
 //int dp[MAXT];
 //int maxdp[MAXT];
 //
-//bool CCmp(int a, int b) {
-//    return arr[a].c < arr[b].c;
-//}
-//
-//bool DCmp(int a, int b) {
-//    return arr[a].d < arr[b].d;
-//}
 //
 //int init(int qc, int qd, int qv) {
 //    cntkdt++;
-//    arr[cntkdt].c = qc;
-//    arr[cntkdt].d = qd;
+//    c[cntkdt] = qc;
+//    d[cntkdt] = qd;
 //    ls[cntkdt] = rs[cntkdt] = 0;
 //    siz[cntkdt] = 1;
 //    cmin[cntkdt] = cmax[cntkdt] = qc;
@@ -95,11 +87,20 @@ package class206;
 //void maintain(int i) {
 //    siz[i] = 1 + siz[ls[i]] + siz[rs[i]];
 //    maxdp[i] = max(dp[i], max(maxdp[ls[i]], maxdp[rs[i]]));
-//    cmin[i] = min(arr[i].c, min(cmin[ls[i]], cmin[rs[i]]));
-//    cmax[i] = max(arr[i].c, max(cmax[ls[i]], cmax[rs[i]]));
-//    dmin[i] = min(arr[i].d, min(dmin[ls[i]], dmin[rs[i]]));
-//    dmax[i] = max(arr[i].d, max(dmax[ls[i]], dmax[rs[i]]));
+//    cmin[i] = min(c[i], min(cmin[ls[i]], cmin[rs[i]]));
+//    cmax[i] = max(c[i], max(cmax[ls[i]], cmax[rs[i]]));
+//    dmin[i] = min(d[i], min(dmin[ls[i]], dmin[rs[i]]));
+//    dmax[i] = max(d[i], max(dmax[ls[i]], dmax[rs[i]]));
 //}
+//
+//bool CCmp(int x, int y) {
+//    return c[x] < c[y];
+//}
+//
+//bool DCmp(int x, int y) {
+//    return d[x] < d[y];
+//}
+//
 //
 //int build(int l, int r, int dimension) {
 //    if (l > r) {
@@ -107,11 +108,11 @@ package class206;
 //    }
 //    int mid = (l + r) >> 1;
 //    if (dimension == 0) {
-//        nth_element(collect + l, collect + mid, collect + r + 1, CCmp);
+//        nth_element(arr + l, arr + mid, arr + r + 1, CCmp);
 //    } else {
-//        nth_element(collect + l, collect + mid, collect + r + 1, DCmp);
+//        nth_element(arr + l, arr + mid, arr + r + 1, DCmp);
 //    }
-//    int rt = collect[mid];
+//    int rt = arr[mid];
 //    ls[rt] = build(l, mid - 1, dimension ^ 1);
 //    rs[rt] = build(mid + 1, r, dimension ^ 1);
 //    maintain(rt);
@@ -132,8 +133,8 @@ package class206;
 //            rs[fa] = insertNode;
 //        }
 //    } else {
-//        int insertd = dimension == 0 ? arr[insertNode].c : arr[insertNode].d;
-//        int ud = dimension == 0 ? arr[u].c : arr[u].d;
+//        int insertd = dimension == 0 ? c[insertNode] : d[insertNode];
+//        int ud = dimension == 0 ? c[u] : d[u];
 //        if (insertd <= ud) {
 //            add(insertNode, version, ls[u], u, 1, dimension ^ 1);
 //        } else {
@@ -151,7 +152,7 @@ package class206;
 //
 //void dfs(int i) {
 //    if (i != 0) {
-//        collect[++collectSiz] = i;
+//        arr[++treeSiz] = i;
 //        dfs(ls[i]);
 //        dfs(rs[i]);
 //    }
@@ -159,9 +160,9 @@ package class206;
 //
 //void rebuild(int version) {
 //    if (top != 0) {
-//        collectSiz = 0;
+//        treeSiz = 0;
 //        dfs(top);
-//        int rt = build(1, collectSiz, topDimension);
+//        int rt = build(1, treeSiz, topDimension);
 //        if (topFather == 0) {
 //            root[version] = rt;
 //        } else if (topSide == 1) {
@@ -200,7 +201,7 @@ package class206;
 //        queryAns = max(queryAns, maxdp[i]);
 //        return;
 //    }
-//    if (arr[i].c <= qc && arr[i].d <= qd) {
+//    if (c[i] <= qc && d[i] <= qd) {
 //        queryAns = max(queryAns, dp[i]);
 //    }
 //    updateAns(qc, qd, ls[i]);
