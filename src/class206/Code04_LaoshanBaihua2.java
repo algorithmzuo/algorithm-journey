@@ -9,7 +9,7 @@ package class206;
 // 1 <= n <= 5 * 10^5
 // 1 <= q <= 10^5
 // 1 <= v <= 10^9
-// 本题推荐loj的测试，洛谷本题的新增用例让该题变成了卡常竞赛，实在没必要
+// 本题推荐loj的测试，洛谷的测试让该题变成了卡常竞赛，实在没必要
 // 测试链接 : https://loj.ac/p/6016
 // 测试链接 : https://www.luogu.com.cn/problem/P4848
 // 如下实现是C++的版本，C++版本和java版本逻辑完全一样
@@ -24,7 +24,6 @@ package class206;
 //const int MAXV = 1000000000;
 //const int INF = 1 << 30;
 //int n, q;
-//int a, b, c, d, v, k;
 //
 //int cntseg;
 //int cntkdt;
@@ -46,29 +45,17 @@ package class206;
 //
 //double ALPHA = 0.7;
 //int top;
-//int topFather;
-//int topSide;
-//int topDimension;
-//
 //int arr[MAXN];
 //int treeSiz;
 //
-//bool XCmp(int i, int j) {
-//    return x[i] < x[j];
-//}
-//
-//bool YCmp(int i, int j) {
-//    return y[i] < y[j];
-//}
-//
-//int init() {
+//int init(int qx, int qy) {
 //    cntkdt++;
-//    x[cntkdt] = a;
-//    y[cntkdt] = b;
+//    x[cntkdt] = qx;
+//    y[cntkdt] = qy;
 //    ls[cntkdt] = rs[cntkdt] = 0;
 //    siz[cntkdt] = 1;
-//    xmin[cntkdt] = xmax[cntkdt] = a;
-//    ymin[cntkdt] = ymax[cntkdt] = b;
+//    xmin[cntkdt] = xmax[cntkdt] = qx;
+//    ymin[cntkdt] = ymax[cntkdt] = qy;
 //    return cntkdt;
 //}
 //
@@ -80,16 +67,26 @@ package class206;
 //    ymax[i] = max(y[i], max(ymax[ls[i]], ymax[rs[i]]));
 //}
 //
+//int compareNode(int i, int j, int dimension) {
+//    int v1 = dimension == 0 ? x[i] : y[i];
+//    int v2 = dimension == 0 ? x[j] : y[j];
+//    return v1 != v2 ? (v1 - v2) : (i - j);
+//}
+//
+//struct Cmp {
+//    int dimension;
+//
+//    bool operator()(int a, int b) const {
+//        return compareNode(a, b, dimension) < 0;
+//    }
+//};
+//
 //int build(int l, int r, int dimension) {
 //    if (l > r) {
 //        return 0;
 //    }
 //    int mid = (l + r) >> 1;
-//    if (dimension == 0) {
-//        nth_element(arr + l, arr + mid, arr + r + 1, XCmp);
-//    } else {
-//        nth_element(arr + l, arr + mid, arr + r + 1, YCmp);
-//    }
+//    nth_element(arr + l, arr + mid, arr + r + 1, Cmp{dimension});
 //    int rt = arr[mid];
 //    ls[rt] = build(l, mid - 1, dimension ^ 1);
 //    rs[rt] = build(mid + 1, r, dimension ^ 1);
@@ -101,33 +98,6 @@ package class206;
 //    return ALPHA * siz[i] >= max(siz[ls[i]], siz[rs[i]]);
 //}
 //
-//void add(int insertNode, int version, int u, int fa, int side, int dimension) {
-//    if (u == 0) {
-//        if (fa == 0) {
-//            rootkdt[version] = insertNode;
-//        } else if (side == 1) {
-//            ls[fa] = insertNode;
-//        } else {
-//            rs[fa] = insertNode;
-//        }
-//    } else {
-//        int insertd = dimension == 0 ? x[insertNode] : y[insertNode];
-//        int ud = dimension == 0 ? x[u] : y[u];
-//        if (insertd <= ud) {
-//            add(insertNode, version, ls[u], u, 1, dimension ^ 1);
-//        } else {
-//            add(insertNode, version, rs[u], u, 2, dimension ^ 1);
-//        }
-//        maintain(u);
-//        if (!balance(u)) {
-//            top = u;
-//            topFather = fa;
-//            topSide = side;
-//            topDimension = dimension;
-//        }
-//    }
-//}
-//
 //void dfs(int i) {
 //    if (i != 0) {
 //        arr[++treeSiz] = i;
@@ -136,82 +106,95 @@ package class206;
 //    }
 //}
 //
+//int rebuild(int i, int dimension) {
+//    if (i == top) {
+//        treeSiz = 0;
+//        dfs(i);
+//        return build(1, treeSiz, dimension);
+//    }
+//    if (compareNode(top, i, dimension) < 0) {
+//        ls[i] = rebuild(ls[i], dimension ^ 1);
+//    } else {
+//        rs[i] = rebuild(rs[i], dimension ^ 1);
+//    }
+//    maintain(i);
+//    return i;
+//}
+//
 //void rebuild(int version) {
 //    if (top != 0) {
-//        treeSiz = 0;
-//        dfs(top);
-//        int rt = build(1, treeSiz, topDimension);
-//        if (topFather == 0) {
-//            rootkdt[version] = rt;
-//        } else if (topSide == 1) {
-//            ls[topFather] = rt;
-//        } else {
-//            rs[topFather] = rt;
-//        }
+//        rootkdt[version] = rebuild(rootkdt[version], 0);
 //    }
 //}
 //
-//void insertKdt(int version) {
-//    top = topFather = topSide = topDimension = 0;
-//    int insertNode = init();
-//    add(insertNode, version, rootkdt[version], 0, 0, 0);
+//int insert(int insertNode, int u, int dimension) {
+//    if (u == 0) {
+//        return insertNode;
+//    }
+//    if (compareNode(insertNode, u, dimension) < 0) {
+//        ls[u] = insert(insertNode, ls[u], dimension ^ 1);
+//    } else {
+//        rs[u] = insert(insertNode, rs[u], dimension ^ 1);
+//    }
+//    maintain(u);
+//    if (!balance(u)) {
+//        top = u;
+//    }
+//    return u;
+//}
+//
+//void insertKdt(int version, int qx, int qy) {
+//    top = 0;
+//    int insertNode = init(qx, qy);
+//    rootkdt[version] = insert(insertNode, rootkdt[version], 0);
 //    rebuild(version);
 //}
 //
-//int add(int l, int r, int i) {
+//int add(int qx, int qy, int qv, int l, int r, int i) {
 //    if (i == 0) {
 //        i = ++cntseg;
 //    }
-//    insertKdt(i);
+//    insertKdt(i, qx, qy);
 //    if (l < r) {
 //        int mid = (l + r) >> 1;
-//        if (v <= mid) {
-//            lseg[i] = add(l, mid, lseg[i]);
+//        if (qv <= mid) {
+//            lseg[i] = add(qx, qy, qv, l, mid, lseg[i]);
 //        } else {
-//            rseg[i] = add(mid + 1, r, rseg[i]);
+//            rseg[i] = add(qx, qy, qv, mid + 1, r, rseg[i]);
 //        }
 //    }
 //    return i;
 //}
 //
-//bool outside(int i) {
-//    return xmax[i] < a || c < xmin[i] || ymax[i] < b || d < ymin[i];
-//}
-//
-//bool covered(int i) {
-//    return a <= xmin[i] && xmax[i] <= c && b <= ymin[i] && ymax[i] <= d;
-//}
-//
-//bool pointIn(int i) {
-//    return a <= x[i] && x[i] <= c && b <= y[i] && y[i] <= d;
-//}
-//
-//int queryCount(int i) {
+//int queryCount(int a, int b, int c, int d, int i) {
 //    if (i == 0) {
 //        return 0;
 //    }
-//    if (outside(i)) {
+//    if (xmax[i] < a || c < xmin[i] || ymax[i] < b || d < ymin[i]) {
 //        return 0;
 //    }
-//    if (covered(i)) {
+//    if (a <= xmin[i] && xmax[i] <= c && b <= ymin[i] && ymax[i] <= d) {
 //        return siz[i];
 //    }
-//    int ans = pointIn(i) ? 1 : 0;
-//    ans += queryCount(ls[i]);
-//    ans += queryCount(rs[i]);
+//    int ans = 0;
+//    if (a <= x[i] && x[i] <= c && b <= y[i] && y[i] <= d) {
+//        ans = 1;
+//    }
+//    ans += queryCount(a, b, c, d, ls[i]);
+//    ans += queryCount(a, b, c, d, rs[i]);
 //    return ans;
 //}
 //
-//int query(int jobk, int l, int r, int i) {
+//int query(int a, int b, int c, int d, int k, int l, int r, int i) {
 //    if (l == r) {
 //        return l;
 //    }
 //    int mid = (l + r) >> 1;
-//    int cnt = queryCount(rootkdt[rseg[i]]);
-//    if (cnt >= jobk) {
-//        return query(jobk, mid + 1, r, rseg[i]);
+//    int cnt = queryCount(a, b, c, d, rootkdt[rseg[i]]);
+//    if (cnt >= k) {
+//        return query(a, b, c, d, k, mid + 1, r, rseg[i]);
 //    } else {
-//        return query(jobk - cnt, l, mid, lseg[i]);
+//        return query(a, b, c, d, k - cnt, l, mid, lseg[i]);
 //    }
 //}
 //
@@ -221,14 +204,15 @@ package class206;
 //    cin >> n >> q;
 //    xmin[0] = ymin[0] = INF;
 //    xmax[0] = ymax[0] = -INF;
-//    for (int i = 1, op, lastAns = 0; i <= q; i++) {
+//    int op, a, b, c, d, v, k, lastAns = 0;
+//    for (int i = 1; i <= q; i++) {
 //        cin >> op;
 //        if (op == 1) {
 //            cin >> a >> b >> v;
 //            a ^= lastAns;
 //            b ^= lastAns;
 //            v ^= lastAns;
-//            rootseg = add(1, MAXV, rootseg);
+//            rootseg = add(a, b, v, 1, MAXV, rootseg);
 //        } else {
 //            cin >> a >> b >> c >> d >> k;
 //            a ^= lastAns;
@@ -236,13 +220,13 @@ package class206;
 //            c ^= lastAns;
 //            d ^= lastAns;
 //            k ^= lastAns;
-//            if (queryCount(rootkdt[rootseg]) >= k) {
-//                lastAns = query(k, 1, MAXV, rootseg);
+//            if (queryCount(a, b, c, d, rootkdt[rootseg]) >= k) {
+//                lastAns = query(a, b, c, d, k, 1, MAXV, rootseg);
 //            } else {
 //                lastAns = 0;
 //            }
 //            if (lastAns == 0) {
-//                cout << "NAIVE!ORZzyz." << "\n";
+//                cout << "NAIVE!ORZzyz.\n";
 //            } else {
 //                cout << lastAns << "\n";
 //            }
