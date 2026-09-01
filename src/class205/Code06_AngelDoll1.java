@@ -1,4 +1,4 @@
-package class206;
+package class205;
 
 // 天使玩偶，java版
 // 本题就是讲解170，题目6，讲了CDQ分治的解法，这里用kdt的解法
@@ -16,7 +16,7 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
-public class Code02_AngelDoll1 {
+public class Code06_AngelDoll1 {
 
 	public static int MAXN = 1000001;
 	public static int INF = 1 << 30;
@@ -37,10 +37,6 @@ public class Code02_AngelDoll1 {
 
 	public static double ALPHA = 0.7;
 	public static int top;
-	public static int topFather;
-	public static int topSide;
-	public static int topDimension;
-
 	public static int[] arr = new int[MAXN];
 	public static int treeSiz;
 
@@ -65,6 +61,12 @@ public class Code02_AngelDoll1 {
 		ymax[i] = Math.max(y[i], Math.max(ymax[ls[i]], ymax[rs[i]]));
 	}
 
+	public static int compareNode(int i, int j, int dimension) {
+		int a = dimension == 0 ? x[i] : y[i];
+		int b = dimension == 0 ? x[j] : y[j];
+		return a != b ? (a - b) : (i - j);
+	}
+
 	public static void swap(int i, int j) {
 		int tmp = arr[i];
 		arr[i] = arr[j];
@@ -73,16 +75,15 @@ public class Code02_AngelDoll1 {
 
 	public static int first, last;
 
-	public static void partition(int l, int r, int pivot, int dimension) {
+	public static void partition(int l, int r, int pidx, int dimension) {
 		first = l;
 		last = r;
 		int i = l;
 		while (i <= last) {
-			int idx = arr[i];
-			int cur = dimension == 0 ? x[idx] : y[idx];
-			if (cur == pivot) {
+			int cmp = compareNode(arr[i], pidx, dimension);
+			if (cmp == 0) {
 				i++;
-			} else if (cur < pivot) {
+			} else if (cmp < 0) {
 				swap(first++, i++);
 			} else {
 				swap(i, last--);
@@ -92,9 +93,8 @@ public class Code02_AngelDoll1 {
 
 	public static void randSelect(int l, int r, int i, int dimension) {
 		while (l <= r) {
-			int idx = arr[l + (int) (Math.random() * (r - l + 1))];
-			int pivot = dimension == 0 ? x[idx] : y[idx];
-			partition(l, r, pivot, dimension);
+			int pidx = arr[l + (int) (Math.random() * (r - l + 1))];
+			partition(l, r, pidx, dimension);
 			if (i < first) {
 				r = first - 1;
 			} else if (i > last) {
@@ -130,52 +130,47 @@ public class Code02_AngelDoll1 {
 		}
 	}
 
+	public static int rebuild(int i, int dimension) {
+		if (i == top) {
+			treeSiz = 0;
+			dfs(i);
+			return build(1, treeSiz, dimension);
+		}
+		if (compareNode(top, i, dimension) < 0) {
+			ls[i] = rebuild(ls[i], dimension ^ 1);
+		} else {
+			rs[i] = rebuild(rs[i], dimension ^ 1);
+		}
+		maintain(i);
+		return i;
+	}
+
 	public static void rebuild() {
 		if (top != 0) {
-			treeSiz = 0;
-			dfs(top);
-			int rt = build(1, treeSiz, topDimension);
-			if (topFather == 0) {
-				root = rt;
-			} else if (topSide == 1) {
-				ls[topFather] = rt;
-			} else {
-				rs[topFather] = rt;
-			}
+			root = rebuild(root, 0);
 		}
 	}
 
-	public static void add(int insertNode, int u, int fa, int side, int dimension) {
+	public static int insert(int insertNode, int u, int dimension) {
 		if (u == 0) {
-			if (fa == 0) {
-				root = insertNode;
-			} else if (side == 1) {
-				ls[fa] = insertNode;
-			} else {
-				rs[fa] = insertNode;
-			}
-		} else {
-			int insertd = dimension == 0 ? x[insertNode] : y[insertNode];
-			int ud = dimension == 0 ? x[u] : y[u];
-			if (insertd <= ud) {
-				add(insertNode, ls[u], u, 1, dimension ^ 1);
-			} else {
-				add(insertNode, rs[u], u, 2, dimension ^ 1);
-			}
-			maintain(u);
-			if (!balance(u)) {
-				top = u;
-				topFather = fa;
-				topSide = side;
-				topDimension = dimension;
-			}
+			return insertNode;
 		}
+		if (compareNode(insertNode, u, dimension) < 0) {
+			ls[u] = insert(insertNode, ls[u], dimension ^ 1);
+		} else {
+			rs[u] = insert(insertNode, rs[u], dimension ^ 1);
+		}
+		maintain(u);
+		if (!balance(u)) {
+			top = u;
+		}
+		return u;
 	}
 
 	public static void add(int qx, int qy) {
-		top = topFather = topSide = topDimension = 0;
+		top = 0;
 		int insertNode = init(qx, qy);
-		add(insertNode, root, 0, 0, 0);
+		root = insert(insertNode, root, 0);
 		rebuild();
 	}
 
