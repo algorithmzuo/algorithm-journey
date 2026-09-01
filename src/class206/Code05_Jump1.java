@@ -18,7 +18,7 @@ import java.io.PrintWriter;
 import java.util.Arrays;
 import java.util.PriorityQueue;
 
-public class Code06_Jump1 {
+public class Code05_Jump1 {
 
 	public static int MAXN = 200001;
 	public static int INF = 1 << 30;
@@ -76,6 +76,12 @@ public class Code06_Jump1 {
 		ymax[i] = Math.max(y[i], Math.max(ymax[ls[i]], ymax[rs[i]]));
 	}
 
+	public static int compareNode(int i, int j, int dimension) {
+		long a = dimension == 0 ? x[i] : y[i];
+		long b = dimension == 0 ? x[j] : y[j];
+		return a != b ? Long.compare(a, b) : (i - j);
+	}
+
 	public static void swap(int i, int j) {
 		int tmp = arr[i];
 		arr[i] = arr[j];
@@ -84,16 +90,15 @@ public class Code06_Jump1 {
 
 	public static int first, last;
 
-	public static void partition(int l, int r, int pivot, int dimension) {
+	public static void partition(int l, int r, int pidx, int dimension) {
 		first = l;
 		last = r;
 		int i = l;
 		while (i <= last) {
-			int idx = arr[i];
-			int cur = dimension == 0 ? x[idx] : y[idx];
-			if (cur == pivot) {
+			int cmp = compareNode(arr[i], pidx, dimension);
+			if (cmp == 0) {
 				i++;
-			} else if (cur < pivot) {
+			} else if (cmp < 0) {
 				swap(first++, i++);
 			} else {
 				swap(i, last--);
@@ -103,9 +108,8 @@ public class Code06_Jump1 {
 
 	public static void randSelect(int l, int r, int i, int dimension) {
 		while (l <= r) {
-			int idx = arr[l + (int) (Math.random() * (r - l + 1))];
-			int pivot = dimension == 0 ? x[idx] : y[idx];
-			partition(l, r, pivot, dimension);
+			int pidx = arr[l + (int) (Math.random() * (r - l + 1))];
+			partition(l, r, pidx, dimension);
 			if (i < first) {
 				r = first - 1;
 			} else if (i > last) {
@@ -126,6 +130,7 @@ public class Code06_Jump1 {
 		ls[rt] = build(l, mid - 1, dimension ^ 1);
 		rs[rt] = build(mid + 1, r, dimension ^ 1);
 		maintain(rt);
+		// 优化建图
 		// n + rt是虚点，表示以rt为根的整棵子树
 		// 虚点可以到达子树中的所有真实点
 		addEdge(n + rt, rt);

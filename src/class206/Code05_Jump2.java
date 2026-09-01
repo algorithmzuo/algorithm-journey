@@ -16,6 +16,8 @@ package class206;
 //
 //using namespace std;
 //
+//using ll = long long;
+//
 //struct Jump {
 //    int t, l, r, d, u;
 //};
@@ -55,7 +57,7 @@ package class206;
 //    int dist;
 //    int id;
 //
-//    bool operator <(const HeapNode &other) const {
+//    bool operator<(const HeapNode &other) const {
 //        return dist > other.dist;
 //    }
 //};
@@ -81,24 +83,26 @@ package class206;
 //    ymax[i] = max(y[i], max(ymax[ls[i]], ymax[rs[i]]));
 //}
 //
-//bool XCmp(int i, int j) {
-//    return x[i] < x[j];
+//int compareNode(int i, int j, int dimension) {
+//    ll a = dimension == 0 ? x[i] : y[i];
+//    ll b = dimension == 0 ? x[j] : y[j];
+//    return a != b ? (a < b ? -1 : 1) : (i - j);
 //}
 //
-//bool YCmp(int i, int j) {
-//    return y[i] < y[j];
-//}
+//struct Cmp {
+//    int dimension;
+//
+//    bool operator()(int a, int b) const {
+//        return compareNode(a, b, dimension) < 0;
+//    }
+//};
 //
 //int build(int l, int r, int dimension) {
 //    if (l > r) {
 //        return 0;
 //    }
 //    int mid = (l + r) >> 1;
-//    if (dimension == 0) {
-//        nth_element(arr + l, arr + mid, arr + r + 1, XCmp);
-//    } else {
-//        nth_element(arr + l, arr + mid, arr + r + 1, YCmp);
-//    }
+//    nth_element(arr + l, arr + mid, arr + r + 1, Cmp{dimension});
 //    int rt = arr[mid];
 //    ls[rt] = build(l, mid - 1, dimension ^ 1);
 //    rs[rt] = build(mid + 1, r, dimension ^ 1);
