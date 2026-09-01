@@ -1,6 +1,6 @@
 package class205;
 
-// 简单题，二进制分组的方式重构，java版
+// 简单题，二进制分组的方式，java版
 // 有一个n * n的平面区域，初始时没有点，有若干条操作，类型如下
 // 操作 1 a b c   : 平面里增加一个点，坐标(a, b)，点权为c
 // 操作 2 a b c d : 查询(a, b)为左下角、(c, d)为右上角的区域中，所有点的点权和
@@ -43,6 +43,20 @@ public class Code03_SimpleProblem3 {
 	public static int[] ymin = new int[MAXN];
 	public static int[] ymax = new int[MAXN];
 
+	public static void maintain(int i) {
+		sum[i] = v[i] + sum[ls[i]] + sum[rs[i]];
+		xmin[i] = Math.min(x[i], Math.min(xmin[ls[i]], xmin[rs[i]]));
+		xmax[i] = Math.max(x[i], Math.max(xmax[ls[i]], xmax[rs[i]]));
+		ymin[i] = Math.min(y[i], Math.min(ymin[ls[i]], ymin[rs[i]]));
+		ymax[i] = Math.max(y[i], Math.max(ymax[ls[i]], ymax[rs[i]]));
+	}
+
+	public static int compareNode(int i, int j, int dimension) {
+		int a = dimension == 0 ? x[i] : y[i];
+		int b = dimension == 0 ? x[j] : y[j];
+		return a != b ? (a - b) : (i - j);
+	}
+
 	public static void swap(int i, int j) {
 		int tmp = arr[i];
 		arr[i] = arr[j];
@@ -51,16 +65,15 @@ public class Code03_SimpleProblem3 {
 
 	public static int first, last;
 
-	public static void partition(int l, int r, int pivot, int dimension) {
+	public static void partition(int l, int r, int pidx, int dimension) {
 		first = l;
 		last = r;
 		int i = l;
 		while (i <= last) {
-			int idx = arr[i];
-			int cur = dimension == 0 ? x[idx] : y[idx];
-			if (cur == pivot) {
+			int cmp = compareNode(arr[i], pidx, dimension);
+			if (cmp == 0) {
 				i++;
-			} else if (cur < pivot) {
+			} else if (cmp < 0) {
 				swap(first++, i++);
 			} else {
 				swap(i, last--);
@@ -70,9 +83,8 @@ public class Code03_SimpleProblem3 {
 
 	public static void randSelect(int l, int r, int i, int dimension) {
 		while (l <= r) {
-			int idx = arr[l + (int) (Math.random() * (r - l + 1))];
-			int pivot = dimension == 0 ? x[idx] : y[idx];
-			partition(l, r, pivot, dimension);
+			int pidx = arr[l + (int) (Math.random() * (r - l + 1))];
+			partition(l, r, pidx, dimension);
 			if (i < first) {
 				r = first - 1;
 			} else if (i > last) {
@@ -81,14 +93,6 @@ public class Code03_SimpleProblem3 {
 				break;
 			}
 		}
-	}
-
-	public static void maintain(int i) {
-		sum[i] = v[i] + sum[ls[i]] + sum[rs[i]];
-		xmin[i] = Math.min(x[i], Math.min(xmin[ls[i]], xmin[rs[i]]));
-		xmax[i] = Math.max(x[i], Math.max(xmax[ls[i]], xmax[rs[i]]));
-		ymin[i] = Math.min(y[i], Math.min(ymin[ls[i]], ymin[rs[i]]));
-		ymax[i] = Math.max(y[i], Math.max(ymax[ls[i]], ymax[rs[i]]));
 	}
 
 	public static int build(int l, int r, int dimension) {

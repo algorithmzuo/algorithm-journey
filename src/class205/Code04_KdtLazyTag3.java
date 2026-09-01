@@ -1,6 +1,6 @@
 package class205;
 
-// K-D树结合懒更新，二进制分组的方式重构，java版
+// K-D树结合懒更新，二进制分组的方式，java版
 // 点的坐标有k维，点还有点权，k维空间中的轴对齐区域，可以用两个对角点表示
 // 一共有m条操作，类型如下
 // 操作 1 qx qv    : 空间里增加一个点，qx是k个值表示点的坐标，qv表示点权
@@ -41,54 +41,12 @@ public class Code04_KdtLazyTag3 {
 	public static int[] ls = new int[MAXN];
 	public static int[] rs = new int[MAXN];
 
-	// 子树节点数、子树点权和、懒更新标记
 	public static int[] siz = new int[MAXN];
 	public static long[] sum = new long[MAXN];
 	public static long[] addTag = new long[MAXN];
 
-	// 每个维度的最小值、最大值
 	public static long[][] minv = new long[MAXN][MAXK];
 	public static long[][] maxv = new long[MAXN][MAXK];
-
-	public static void swap(int i, int j) {
-		int tmp = arr[i];
-		arr[i] = arr[j];
-		arr[j] = tmp;
-	}
-
-	public static int first, last;
-
-	public static void partition(int l, int r, long pivot, int dimension) {
-		first = l;
-		last = r;
-		int i = l;
-		while (i <= last) {
-			int idx = arr[i];
-			long cur = pos[idx][dimension];
-			if (cur == pivot) {
-				i++;
-			} else if (cur < pivot) {
-				swap(first++, i++);
-			} else {
-				swap(i, last--);
-			}
-		}
-	}
-
-	public static void randSelect(int l, int r, int i, int dimension) {
-		while (l <= r) {
-			int idx = arr[l + (int) (Math.random() * (r - l + 1))];
-			long pivot = pos[idx][dimension];
-			partition(l, r, pivot, dimension);
-			if (i < first) {
-				r = first - 1;
-			} else if (i > last) {
-				l = last + 1;
-			} else {
-				break;
-			}
-		}
-	}
 
 	public static void maintain(int i) {
 		siz[i] = 1 + siz[ls[i]] + siz[rs[i]];
@@ -97,20 +55,6 @@ public class Code04_KdtLazyTag3 {
 			minv[i][d] = Math.min(pos[i][d], Math.min(minv[ls[i]][d], minv[rs[i]][d]));
 			maxv[i][d] = Math.max(pos[i][d], Math.max(maxv[ls[i]][d], maxv[rs[i]][d]));
 		}
-	}
-
-	public static int build(int l, int r, int dimension) {
-		if (l > r) {
-			return 0;
-		}
-		int mid = (l + r) >> 1;
-		randSelect(l, r, mid, dimension);
-		int rt = arr[mid];
-		// 注意本题可能不只两个维度，所以用取余做到维度的轮换
-		ls[rt] = build(l, mid - 1, (dimension + 1) % k);
-		rs[rt] = build(mid + 1, r, (dimension + 1) % k);
-		maintain(rt);
-		return rt;
 	}
 
 	public static void lazy(int i, long v) {
@@ -127,6 +71,63 @@ public class Code04_KdtLazyTag3 {
 			lazy(rs[i], addTag[i]);
 			addTag[i] = 0;
 		}
+	}
+
+	public static int compareNode(int i, int j, int dimension) {
+		long a = pos[i][dimension];
+		long b = pos[j][dimension];
+		return a != b ? Long.compare(a, b) : (i - j);
+	}
+
+	public static void swap(int i, int j) {
+		int tmp = arr[i];
+		arr[i] = arr[j];
+		arr[j] = tmp;
+	}
+
+	public static int first, last;
+
+	public static void partition(int l, int r, int pidx, int dimension) {
+		first = l;
+		last = r;
+		int i = l;
+		while (i <= last) {
+			int cmp = compareNode(arr[i], pidx, dimension);
+			if (cmp == 0) {
+				i++;
+			} else if (cmp < 0) {
+				swap(first++, i++);
+			} else {
+				swap(i, last--);
+			}
+		}
+	}
+
+	public static void randSelect(int l, int r, int i, int dimension) {
+		while (l <= r) {
+			int pidx = arr[l + (int) (Math.random() * (r - l + 1))];
+			partition(l, r, pidx, dimension);
+			if (i < first) {
+				r = first - 1;
+			} else if (i > last) {
+				l = last + 1;
+			} else {
+				break;
+			}
+		}
+	}
+
+	public static int build(int l, int r, int dimension) {
+		if (l > r) {
+			return 0;
+		}
+		int mid = (l + r) >> 1;
+		randSelect(l, r, mid, dimension);
+		int rt = arr[mid];
+		ls[rt] = build(l, mid - 1, (dimension + 1) % k);
+		rs[rt] = build(mid + 1, r, (dimension + 1) % k);
+		maintain(rt);
+		return rt;
 	}
 
 	public static void dfs(int i) {

@@ -1,6 +1,6 @@
 package class205;
 
-// 简单题，二进制分组的方式重构，C++版
+// 简单题，二进制分组的方式，C++版
 // 有一个n * n的平面区域，初始时没有点，有若干条操作，类型如下
 // 操作 1 a b c   : 平面里增加一个点，坐标(a, b)，点权为c
 // 操作 2 a b c d : 查询(a, b)为左下角、(c, d)为右上角的区域中，所有点的点权和
@@ -26,9 +26,7 @@ package class205;
 //int arr[MAXN];
 //
 //int cntkdt;
-//
 //int root[MAXP];
-//
 //int ls[MAXN];
 //int rs[MAXN];
 //int sum[MAXN];
@@ -36,7 +34,6 @@ package class205;
 //int xmax[MAXN];
 //int ymin[MAXN];
 //int ymax[MAXN];
-//
 //
 //void maintain(int i) {
 //    sum[i] = v[i] + sum[ls[i]] + sum[rs[i]];
@@ -46,24 +43,26 @@ package class205;
 //    ymax[i] = max(y[i], max(ymax[ls[i]], ymax[rs[i]]));
 //}
 //
-//bool XCmp(int a, int b) {
-//    return x[a] < x[b];
+//int compareNode(int i, int j, int dimension) {
+//    int a = dimension == 0 ? x[i] : y[i];
+//    int b = dimension == 0 ? x[j] : y[j];
+//    return a != b ? (a - b) : (i - j);
 //}
 //
-//bool YCmp(int a, int b) {
-//    return y[a] < y[b];
-//}
+//struct Cmp {
+//    int dimension;
+//
+//    bool operator()(int a, int b) const {
+//        return compareNode(a, b, dimension) < 0;
+//    }
+//};
 //
 //int build(int l, int r, int dimension) {
 //    if (l > r) {
 //        return 0;
 //    }
 //    int mid = (l + r) >> 1;
-//    if (dimension == 0) {
-//        nth_element(arr + l, arr + mid, arr + r + 1, XCmp);
-//    } else {
-//        nth_element(arr + l, arr + mid, arr + r + 1, YCmp);
-//    }
+//    nth_element(arr + l, arr + mid, arr + r + 1, Cmp{dimension});
 //    int rt = arr[mid];
 //    ls[rt] = build(l, mid - 1, dimension ^ 1);
 //    rs[rt] = build(mid + 1, r, dimension ^ 1);

@@ -1,6 +1,6 @@
 package class205;
 
-// 简单题，替罪羊树的方式重构，C++版
+// 简单题，替罪羊树的方式，C++版
 // 有一个n * n的平面区域，初始时没有点，有若干条操作，类型如下
 // 操作 1 a b c   : 平面里增加一个点，坐标(a, b)，点权为c
 // 操作 2 a b c d : 查询(a, b)为左下角、(c, d)为右上角的区域中，所有点的点权和
@@ -24,9 +24,7 @@ package class205;
 //int v[MAXN];
 //
 //int cntkdt;
-//
 //int root;
-//
 //int ls[MAXN];
 //int rs[MAXN];
 //int siz[MAXN];
@@ -38,9 +36,6 @@ package class205;
 //
 //double ALPHA = 0.7;
 //int top;
-//int topFather;
-//int topSide;
-//int topDimension;
 //
 //int arr[MAXN];
 //int treeSiz;
@@ -67,24 +62,26 @@ package class205;
 //    ymax[i] = max(y[i], max(ymax[ls[i]], ymax[rs[i]]));
 //}
 //
-//bool XCmp(int a, int b) {
-//    return x[a] < x[b];
+//int compareNode(int i, int j, int dimension) {
+//    int a = dimension == 0 ? x[i] : y[i];
+//    int b = dimension == 0 ? x[j] : y[j];
+//    return a != b ? (a - b) : (i - j);
 //}
 //
-//bool YCmp(int a, int b) {
-//    return y[a] < y[b];
-//}
+//struct Cmp {
+//    int dimension;
+//
+//    bool operator()(int a, int b) const {
+//        return compareNode(a, b, dimension) < 0;
+//    }
+//};
 //
 //int build(int l, int r, int dimension) {
 //    if (l > r) {
 //        return 0;
 //    }
 //    int mid = (l + r) >> 1;
-//    if (dimension == 0) {
-//        nth_element(arr + l, arr + mid, arr + r + 1, XCmp);
-//    } else {
-//        nth_element(arr + l, arr + mid, arr + r + 1, YCmp);
-//    }
+//    nth_element(arr + l, arr + mid, arr + r + 1, Cmp{dimension});
 //    int rt = arr[mid];
 //    ls[rt] = build(l, mid - 1, dimension ^ 1);
 //    rs[rt] = build(mid + 1, r, dimension ^ 1);
@@ -104,52 +101,47 @@ package class205;
 //    }
 //}
 //
+//int rebuild(int i, int dimension) {
+//    if (i == top) {
+//        treeSiz = 0;
+//        dfs(i);
+//        return build(1, treeSiz, dimension);
+//    }
+//    if (compareNode(top, i, dimension) < 0) {
+//        ls[i] = rebuild(ls[i], dimension ^ 1);
+//    } else {
+//        rs[i] = rebuild(rs[i], dimension ^ 1);
+//    }
+//    maintain(i);
+//    return i;
+//}
+//
 //void rebuild() {
 //    if (top != 0) {
-//        treeSiz = 0;
-//        dfs(top);
-//        int rt = build(1, treeSiz, topDimension);
-//        if (topFather == 0) {
-//            root = rt;
-//        } else if (topSide == 1) {
-//            ls[topFather] = rt;
-//        } else {
-//            rs[topFather] = rt;
-//        }
+//        root = rebuild(root, 0);
 //    }
 //}
 //
-//void add(int insertNode, int u, int fa, int side, int dimension) {
+//int insert(int insertNode, int u, int dimension) {
 //    if (u == 0) {
-//        if (fa == 0) {
-//            root = insertNode;
-//        } else if (side == 1) {
-//            ls[fa] = insertNode;
-//        } else {
-//            rs[fa] = insertNode;
-//        }
-//    } else {
-//        int insertd = dimension == 0 ? x[insertNode] : y[insertNode];
-//        int ud = dimension == 0 ? x[u] : y[u];
-//        if (insertd <= ud) {
-//            add(insertNode, ls[u], u, 1, dimension ^ 1);
-//        } else {
-//            add(insertNode, rs[u], u, 2, dimension ^ 1);
-//        }
-//        maintain(u);
-//        if (!balance(u)) {
-//            top = u;
-//            topFather = fa;
-//            topSide = side;
-//            topDimension = dimension;
-//        }
+//        return insertNode;
 //    }
+//    if (compareNode(insertNode, u, dimension) < 0) {
+//        ls[u] = insert(insertNode, ls[u], dimension ^ 1);
+//    } else {
+//        rs[u] = insert(insertNode, rs[u], dimension ^ 1);
+//    }
+//    maintain(u);
+//    if (!balance(u)) {
+//        top = u;
+//    }
+//    return u;
 //}
 //
 //void add(int qx, int qy, int qv) {
-//    top = topFather = topSide = topDimension = 0;
+//    top = 0;
 //    int insertNode = init(qx, qy, qv);
-//    add(insertNode, root, 0, 0, 0);
+//    root = insert(insertNode, root, 0);
 //    rebuild();
 //}
 //

@@ -1,6 +1,6 @@
 package class205;
 
-// 简单题，替罪羊树的方式重构，java版
+// 简单题，替罪羊树的方式，java版
 // 有一个n * n的平面区域，初始时没有点，有若干条操作，类型如下
 // 操作 1 a b c   : 平面里增加一个点，坐标(a, b)，点权为c
 // 操作 2 a b c d : 查询(a, b)为左下角、(c, d)为右上角的区域中，所有点的点权和
@@ -44,13 +44,6 @@ public class Code03_SimpleProblem1 {
 	public static double ALPHA = 0.7;
 	// 最顶部的不平衡点
 	public static int top;
-	// 最顶部的不平衡点的父亲
-	public static int topFather;
-	// 最顶部的不平衡点是其父亲的哪侧孩子
-	public static int topSide;
-	// 最顶部的不平衡点是按照什么维度划分的
-	public static int topDimension;
-
 	// 不平衡时收集节点编号
 	public static int[] arr = new int[MAXN];
 	// 遍历不平衡子树收集的节点数量
@@ -78,6 +71,12 @@ public class Code03_SimpleProblem1 {
 		ymax[i] = Math.max(y[i], Math.max(ymax[ls[i]], ymax[rs[i]]));
 	}
 
+	public static int compareNode(int i, int j, int dimension) {
+		int a = dimension == 0 ? x[i] : y[i];
+		int b = dimension == 0 ? x[j] : y[j];
+		return a != b ? (a - b) : (i - j);
+	}
+
 	public static void swap(int i, int j) {
 		int tmp = arr[i];
 		arr[i] = arr[j];
@@ -86,16 +85,15 @@ public class Code03_SimpleProblem1 {
 
 	public static int first, last;
 
-	public static void partition(int l, int r, int pivot, int dimension) {
+	public static void partition(int l, int r, int pidx, int dimension) {
 		first = l;
 		last = r;
 		int i = l;
 		while (i <= last) {
-			int idx = arr[i];
-			int cur = dimension == 0 ? x[idx] : y[idx];
-			if (cur == pivot) {
+			int cmp = compareNode(arr[i], pidx, dimension);
+			if (cmp == 0) {
 				i++;
-			} else if (cur < pivot) {
+			} else if (cmp < 0) {
 				swap(first++, i++);
 			} else {
 				swap(i, last--);
@@ -105,9 +103,8 @@ public class Code03_SimpleProblem1 {
 
 	public static void randSelect(int l, int r, int i, int dimension) {
 		while (l <= r) {
-			int idx = arr[l + (int) (Math.random() * (r - l + 1))];
-			int pivot = dimension == 0 ? x[idx] : y[idx];
-			partition(l, r, pivot, dimension);
+			int pidx = arr[l + (int) (Math.random() * (r - l + 1))];
+			partition(l, r, pidx, dimension);
 			if (i < first) {
 				r = first - 1;
 			} else if (i > last) {
@@ -146,54 +143,48 @@ public class Code03_SimpleProblem1 {
 		}
 	}
 
+	public static int rebuild(int i, int dimension) {
+		if (i == top) {
+			treeSiz = 0;
+			dfs(i);
+			return build(1, treeSiz, dimension);
+		}
+		if (compareNode(top, i, dimension) < 0) {
+			ls[i] = rebuild(ls[i], dimension ^ 1);
+		} else {
+			rs[i] = rebuild(rs[i], dimension ^ 1);
+		}
+		maintain(i);
+		return i;
+	}
+
 	public static void rebuild() {
 		if (top != 0) {
-			treeSiz = 0;
-			dfs(top);
-			int rt = build(1, treeSiz, topDimension);
-			if (topFather == 0) {
-				root = rt;
-			} else if (topSide == 1) {
-				ls[topFather] = rt;
-			} else {
-				rs[topFather] = rt;
-			}
+			root = rebuild(root, 0);
 		}
 	}
 
-	public static void add(int insertNode, int u, int fa, int side, int dimension) {
+	public static int insert(int insertNode, int u, int dimension) {
 		if (u == 0) {
-			if (fa == 0) {
-				root = insertNode;
-			} else if (side == 1) {
-				ls[fa] = insertNode;
-			} else {
-				rs[fa] = insertNode;
-			}
-		} else {
-			int insertd = dimension == 0 ? x[insertNode] : y[insertNode];
-			int ud = dimension == 0 ? x[u] : y[u];
-			if (insertd <= ud) {
-				add(insertNode, ls[u], u, 1, dimension ^ 1);
-			} else {
-				add(insertNode, rs[u], u, 2, dimension ^ 1);
-			}
-			maintain(u);
-			// 递归返回时会不断覆盖
-			// 最终记录最上方的不平衡节点
-			if (!balance(u)) {
-				top = u;
-				topFather = fa;
-				topSide = side;
-				topDimension = dimension;
-			}
+			return insertNode;
 		}
+		if (compareNode(insertNode, u, dimension) < 0) {
+			ls[u] = insert(insertNode, ls[u], dimension ^ 1);
+		} else {
+			rs[u] = insert(insertNode, rs[u], dimension ^ 1);
+		}
+		maintain(u);
+		// 递归中不停覆盖，最终的top是最高的失衡节点
+		if (!balance(u)) {
+			top = u;
+		}
+		return u;
 	}
 
 	public static void add(int qx, int qy, int qv) {
-		top = topFather = topSide = topDimension = 0;
+		top = 0;
 		int insertNode = init(qx, qy, qv);
-		add(insertNode, root, 0, 0, 0);
+		root = insert(insertNode, root, 0);
 		rebuild();
 	}
 

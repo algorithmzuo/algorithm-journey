@@ -1,6 +1,6 @@
 package class205;
 
-// K-D树结合懒更新，二进制分组的方式重构，C++版
+// K-D树结合懒更新，二进制分组的方式，C++版
 // 点的坐标有k维，点还有点权，k维空间中的轴对齐区域，可以用两个对角点表示
 // 一共有m条操作，类型如下
 // 操作 1 qx qv    : 空间里增加一个点，qx是k个值表示点的坐标，qv表示点权
@@ -29,7 +29,6 @@ package class205;
 //ll pos[MAXN][MAXK];
 //ll val[MAXN];
 //int arr[MAXN];
-//
 //ll qx[MAXK];
 //ll qy[MAXK];
 //ll qv;
@@ -38,11 +37,9 @@ package class205;
 //int root[MAXP];
 //int ls[MAXN];
 //int rs[MAXN];
-//
 //int siz[MAXN];
 //ll sum[MAXN];
 //ll addTag[MAXN];
-//
 //ll minv[MAXN][MAXK];
 //ll maxv[MAXN][MAXK];
 //
@@ -53,27 +50,6 @@ package class205;
 //        minv[i][d] = min(pos[i][d], min(minv[ls[i]][d], minv[rs[i]][d]));
 //        maxv[i][d] = max(pos[i][d], max(maxv[ls[i]][d], maxv[rs[i]][d]));
 //    }
-//}
-//
-//struct PosCmp {
-//    int dimension;
-//
-//    bool operator()(int a, int b) const {
-//        return pos[a][dimension] < pos[b][dimension];
-//    }
-//};
-//
-//int build(int l, int r, int dimension) {
-//    if (l > r) {
-//        return 0;
-//    }
-//    int mid = (l + r) >> 1;
-//    nth_element(arr + l, arr + mid, arr + r + 1, PosCmp{dimension});
-//    int rt = arr[mid];
-//    ls[rt] = build(l, mid - 1, (dimension + 1) % k);
-//    rs[rt] = build(mid + 1, r, (dimension + 1) % k);
-//    maintain(rt);
-//    return rt;
 //}
 //
 //void lazy(int i, ll v) {
@@ -90,6 +66,33 @@ package class205;
 //        lazy(rs[i], addTag[i]);
 //        addTag[i] = 0;
 //    }
+//}
+//
+//int compareNode(int i, int j, int dimension) {
+//    ll a = pos[i][dimension];
+//    ll b = pos[j][dimension];
+//    return a != b ? (a < b ? -1 : 1) : (i - j);
+//}
+//
+//struct Cmp {
+//    int dimension;
+//
+//    bool operator()(int a, int b) const {
+//        return compareNode(a, b, dimension) < 0;
+//    }
+//};
+//
+//int build(int l, int r, int dimension) {
+//    if (l > r) {
+//        return 0;
+//    }
+//    int mid = (l + r) >> 1;
+//    nth_element(arr + l, arr + mid, arr + r + 1, Cmp{dimension});
+//    int rt = arr[mid];
+//    ls[rt] = build(l, mid - 1, (dimension + 1) % k);
+//    rs[rt] = build(mid + 1, r, (dimension + 1) % k);
+//    maintain(rt);
+//    return rt;
 //}
 //
 //void dfs(int i) {

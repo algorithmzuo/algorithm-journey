@@ -1,6 +1,6 @@
 package class205;
 
-// K-D树结合懒更新，替罪羊树的方式重构，C++版
+// K-D树结合懒更新，替罪羊树的方式，C++版
 // 点的坐标有k维，点还有点权，k维空间中的轴对齐区域，可以用两个对角点表示
 // 一共有m条操作，类型如下
 // 操作 1 qx qv    : 空间里增加一个点，qx是k个值表示点的坐标，qv表示点权
@@ -27,7 +27,6 @@ package class205;
 //
 //ll pos[MAXN][MAXK];
 //ll val[MAXN];
-//
 //ll qx[MAXK];
 //ll qy[MAXK];
 //ll qv;
@@ -36,20 +35,14 @@ package class205;
 //int root;
 //int ls[MAXN];
 //int rs[MAXN];
-//
 //int siz[MAXN];
 //ll sum[MAXN];
 //ll tag[MAXN];
-//
 //ll minv[MAXN][MAXK];
 //ll maxv[MAXN][MAXK];
 //
 //double ALPHA = 0.7;
 //int top;
-//int topFather;
-//int topSide;
-//int topDimension;
-//
 //int arr[MAXN];
 //int treeSiz;
 //
@@ -92,11 +85,17 @@ package class205;
 //    }
 //}
 //
-//struct PosCmp {
+//int compareNode(int i, int j, int dimension) {
+//    ll a = pos[i][dimension];
+//    ll b = pos[j][dimension];
+//    return a != b ? (a < b ? -1 : 1) : (i - j);
+//}
+//
+//struct Cmp {
 //    int dimension;
 //
 //    bool operator()(int a, int b) const {
-//        return pos[a][dimension] < pos[b][dimension];
+//        return compareNode(a, b, dimension) < 0;
 //    }
 //};
 //
@@ -105,7 +104,7 @@ package class205;
 //        return 0;
 //    }
 //    int mid = (l + r) >> 1;
-//    nth_element(arr + l, arr + mid, arr + r + 1, PosCmp{dimension});
+//    nth_element(arr + l, arr + mid, arr + r + 1, Cmp{dimension});
 //    int rt = arr[mid];
 //    ls[rt] = build(l, mid - 1, (dimension + 1) % k);
 //    rs[rt] = build(mid + 1, r, (dimension + 1) % k);
@@ -126,51 +125,49 @@ package class205;
 //    }
 //}
 //
+//int rebuild(int i, int dimension) {
+//    if (i == top) {
+//        treeSiz = 0;
+//        dfs(i);
+//        return build(1, treeSiz, dimension);
+//    }
+//    down(i);
+//    if (compareNode(top, i, dimension) < 0) {
+//        ls[i] = rebuild(ls[i], (dimension + 1) % k);
+//    } else {
+//        rs[i] = rebuild(rs[i], (dimension + 1) % k);
+//    }
+//    maintain(i);
+//    return i;
+//}
+//
 //void rebuild() {
 //    if (top != 0) {
-//        treeSiz = 0;
-//        dfs(top);
-//        int rt = build(1, treeSiz, topDimension);
-//        if (topFather == 0) {
-//            root = rt;
-//        } else if (topSide == 1) {
-//            ls[topFather] = rt;
-//        } else {
-//            rs[topFather] = rt;
-//        }
+//        root = rebuild(root, 0);
 //    }
 //}
 //
-//void add(int insertNode, int u, int fa, int side, int dimension) {
+//int insert(int insertNode, int u, int dimension) {
 //    if (u == 0) {
-//        if (fa == 0) {
-//            root = insertNode;
-//        } else if (side == 1) {
-//            ls[fa] = insertNode;
-//        } else {
-//            rs[fa] = insertNode;
-//        }
-//    } else {
-//        down(u);
-//        if (pos[insertNode][dimension] <= pos[u][dimension]) {
-//            add(insertNode, ls[u], u, 1, (dimension + 1) % k);
-//        } else {
-//            add(insertNode, rs[u], u, 2, (dimension + 1) % k);
-//        }
-//        maintain(u);
-//        if (!balance(u)) {
-//            top = u;
-//            topFather = fa;
-//            topSide = side;
-//            topDimension = dimension;
-//        }
+//        return insertNode;
 //    }
+//    down(u);
+//    if (compareNode(insertNode, u, dimension) < 0) {
+//        ls[u] = insert(insertNode, ls[u], (dimension + 1) % k);
+//    } else {
+//        rs[u] = insert(insertNode, rs[u], (dimension + 1) % k);
+//    }
+//    maintain(u);
+//    if (!balance(u)) {
+//        top = u;
+//    }
+//    return u;
 //}
 //
 //void addNode() {
-//    top = topFather = topSide = topDimension = 0;
+//    top = 0;
 //    int insertNode = init();
-//    add(insertNode, root, 0, 0, 0);
+//    root = insert(insertNode, root, 0);
 //    rebuild();
 //}
 //

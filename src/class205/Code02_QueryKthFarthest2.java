@@ -25,7 +25,6 @@ package class205;
 //ll x[MAXN];
 //ll y[MAXN];
 //int arr[MAXN];
-//
 //int root;
 //int ls[MAXN];
 //int rs[MAXN];
@@ -38,7 +37,7 @@ package class205;
 //    ll dist;
 //    int id;
 //
-//    bool operator <(const HeapNode &other) const {
+//    bool operator<(const HeapNode &other) const {
 //        if (dist != other.dist) {
 //            return dist > other.dist;
 //        }
@@ -48,6 +47,20 @@ package class205;
 //
 //priority_queue<HeapNode> heap;
 //
+//int compareNode(int i, int j, int dimension) {
+//    ll a = dimension == 0 ? x[i] : y[i];
+//    ll b = dimension == 0 ? x[j] : y[j];
+//    return a != b ? (a < b ? -1 : 1) : (i - j);
+//}
+//
+//struct Cmp {
+//    int dimension;
+//
+//    bool operator()(int a, int b) const {
+//        return compareNode(a, b, dimension) < 0;
+//    }
+//};
+//
 //void maintain(int i) {
 //    xmin[i] = min(x[i], min(xmin[ls[i]], xmin[rs[i]]));
 //    xmax[i] = max(x[i], max(xmax[ls[i]], xmax[rs[i]]));
@@ -55,24 +68,12 @@ package class205;
 //    ymax[i] = max(y[i], max(ymax[ls[i]], ymax[rs[i]]));
 //}
 //
-//bool XCmp(int a, int b) {
-//    return x[a] < x[b];
-//}
-//
-//bool YCmp(int a, int b) {
-//    return y[a] < y[b];
-//}
-//
 //int build(int l, int r, int dimension) {
 //    if (l > r) {
 //        return 0;
 //    }
 //    int mid = (l + r) >> 1;
-//    if (dimension == 0) {
-//        nth_element(arr + l, arr + mid, arr + r + 1, XCmp);
-//    } else {
-//        nth_element(arr + l, arr + mid, arr + r + 1, YCmp);
-//    }
+//    nth_element(arr + l, arr + mid, arr + r + 1, Cmp{dimension});
 //    int rt = arr[mid];
 //    ls[rt] = build(l, mid - 1, dimension ^ 1);
 //    rs[rt] = build(mid + 1, r, dimension ^ 1);

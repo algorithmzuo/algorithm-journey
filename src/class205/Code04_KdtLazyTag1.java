@@ -1,6 +1,6 @@
 package class205;
 
-// K-D树结合懒更新，替罪羊树的方式重构，java版
+// K-D树结合懒更新，替罪羊树的方式，java版
 // 点的坐标有k维，点还有点权，k维空间中的轴对齐区域，可以用两个对角点表示
 // 一共有m条操作，类型如下
 // 操作 1 qx qv    : 空间里增加一个点，qx是k个值表示点的坐标，qv表示点权
@@ -48,9 +48,6 @@ public class Code04_KdtLazyTag1 {
 
 	public static double ALPHA = 0.7;
 	public static int top;
-	public static int topFather;
-	public static int topSide;
-	public static int topDimension;
 
 	public static int[] arr = new int[MAXN];
 	public static int treeSiz;
@@ -94,6 +91,12 @@ public class Code04_KdtLazyTag1 {
 		}
 	}
 
+	public static int compareNode(int i, int j, int dimension) {
+		long a = pos[i][dimension];
+		long b = pos[j][dimension];
+		return a != b ? Long.compare(a, b) : (i - j);
+	}
+
 	public static void swap(int i, int j) {
 		int tmp = arr[i];
 		arr[i] = arr[j];
@@ -102,16 +105,15 @@ public class Code04_KdtLazyTag1 {
 
 	public static int first, last;
 
-	public static void partition(int l, int r, long pivot, int dimension) {
+	public static void partition(int l, int r, int pidx, int dimension) {
 		first = l;
 		last = r;
 		int i = l;
 		while (i <= last) {
-			int idx = arr[i];
-			long cur = pos[idx][dimension];
-			if (cur == pivot) {
+			int cmp = compareNode(arr[i], pidx, dimension);
+			if (cmp == 0) {
 				i++;
-			} else if (cur < pivot) {
+			} else if (cmp < 0) {
 				swap(first++, i++);
 			} else {
 				swap(i, last--);
@@ -121,9 +123,8 @@ public class Code04_KdtLazyTag1 {
 
 	public static void randSelect(int l, int r, int i, int dimension) {
 		while (l <= r) {
-			int idx = arr[l + (int) (Math.random() * (r - l + 1))];
-			long pivot = pos[idx][dimension];
-			partition(l, r, pivot, dimension);
+			int pidx = arr[l + (int) (Math.random() * (r - l + 1))];
+			partition(l, r, pidx, dimension);
 			if (i < first) {
 				r = first - 1;
 			} else if (i > last) {
@@ -161,52 +162,51 @@ public class Code04_KdtLazyTag1 {
 		}
 	}
 
+	public static int rebuild(int i, int dimension) {
+		if (i == top) {
+			treeSiz = 0;
+			dfs(i);
+			return build(1, treeSiz, dimension);
+		}
+		// 懒更新信息下发
+		down(i);
+		if (compareNode(top, i, dimension) < 0) {
+			ls[i] = rebuild(ls[i], (dimension + 1) % k);
+		} else {
+			rs[i] = rebuild(rs[i], (dimension + 1) % k);
+		}
+		maintain(i);
+		return i;
+	}
+
 	public static void rebuild() {
 		if (top != 0) {
-			treeSiz = 0;
-			dfs(top);
-			int rt = build(1, treeSiz, topDimension);
-			if (topFather == 0) {
-				root = rt;
-			} else if (topSide == 1) {
-				ls[topFather] = rt;
-			} else {
-				rs[topFather] = rt;
-			}
+			root = rebuild(root, 0);
 		}
 	}
 
-	public static void add(int insertNode, int u, int fa, int side, int dimension) {
+	public static int insert(int insertNode, int u, int dimension) {
 		if (u == 0) {
-			if (fa == 0) {
-				root = insertNode;
-			} else if (side == 1) {
-				ls[fa] = insertNode;
-			} else {
-				rs[fa] = insertNode;
-			}
-		} else {
-			// 懒更新信息下发
-			down(u);
-			if (pos[insertNode][dimension] <= pos[u][dimension]) {
-				add(insertNode, ls[u], u, 1, (dimension + 1) % k);
-			} else {
-				add(insertNode, rs[u], u, 2, (dimension + 1) % k);
-			}
-			maintain(u);
-			if (!balance(u)) {
-				top = u;
-				topFather = fa;
-				topSide = side;
-				topDimension = dimension;
-			}
+			return insertNode;
 		}
+		// 懒更新信息下发
+		down(u);
+		if (compareNode(insertNode, u, dimension) < 0) {
+			ls[u] = insert(insertNode, ls[u], (dimension + 1) % k);
+		} else {
+			rs[u] = insert(insertNode, rs[u], (dimension + 1) % k);
+		}
+		maintain(u);
+		if (!balance(u)) {
+			top = u;
+		}
+		return u;
 	}
 
 	public static void addNode() {
-		top = topFather = topSide = topDimension = 0;
+		top = 0;
 		int insertNode = init();
-		add(insertNode, root, 0, 0, 0);
+		root = insert(insertNode, root, 0);
 		rebuild();
 	}
 

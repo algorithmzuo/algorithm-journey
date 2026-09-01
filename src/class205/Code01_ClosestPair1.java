@@ -34,6 +34,12 @@ public class Code01_ClosestPair1 {
 
 	public static long ans;
 
+	public static int compareNode(int i, int j, int dimension) {
+		long a = dimension == 0 ? x[i] : y[i];
+		long b = dimension == 0 ? x[j] : y[j];
+		return a != b ? Long.compare(a, b) : (i - j);
+	}
+
 	public static void swap(int i, int j) {
 		int tmp = arr[i];
 		arr[i] = arr[j];
@@ -42,16 +48,15 @@ public class Code01_ClosestPair1 {
 
 	public static int first, last;
 
-	public static void partition(int l, int r, long pivot, int dimension) {
+	public static void partition(int l, int r, int pidx, int dimension) {
 		first = l;
 		last = r;
 		int i = l;
 		while (i <= last) {
-			int idx = arr[i];
-			long cur = dimension == 0 ? x[idx] : y[idx];
-			if (cur == pivot) {
+			int cmp = compareNode(arr[i], pidx, dimension);
+			if (cmp == 0) {
 				i++;
-			} else if (cur < pivot) {
+			} else if (cmp < 0) {
 				swap(first++, i++);
 			} else {
 				swap(i, last--);
@@ -62,9 +67,8 @@ public class Code01_ClosestPair1 {
 	// 讲解024，随机选择算法，无序数组中找到第k小的数，时间复杂度O(n)
 	public static void randSelect(int l, int r, int i, int dimension) {
 		while (l <= r) {
-			int idx = arr[l + (int) (Math.random() * (r - l + 1))];
-			long pivot = dimension == 0 ? x[idx] : y[idx];
-			partition(l, r, pivot, dimension);
+			int pidx = arr[l + (int) (Math.random() * (r - l + 1))];
+			partition(l, r, pidx, dimension);
 			if (i < first) {
 				r = first - 1;
 			} else if (i > last) {
