@@ -1,4 +1,4 @@
-package class206;
+package class205;
 
 // 巧克力王国，java版
 // 一共n个点，每个点有坐标(x, y)，还有点权v
@@ -14,7 +14,7 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
-public class Code01_ChocolateKingdom1 {
+public class Code03_ChocolateKingdom1 {
 
 	public static int MAXN = 50001;
 	public static long INF = 1L << 60;
@@ -34,6 +34,12 @@ public class Code01_ChocolateKingdom1 {
 	public static long[] ymin = new long[MAXN];
 	public static long[] ymax = new long[MAXN];
 
+	public static int compareNode(int i, int j, int dimension) {
+		long a = dimension == 0 ? x[i] : y[i];
+		long b = dimension == 0 ? x[j] : y[j];
+		return a != b ? Long.compare(a, b) : (i - j);
+	}
+
 	public static void swap(int i, int j) {
 		int tmp = arr[i];
 		arr[i] = arr[j];
@@ -42,16 +48,15 @@ public class Code01_ChocolateKingdom1 {
 
 	public static int first, last;
 
-	public static void partition(int l, int r, long pivot, int dimension) {
+	public static void partition(int l, int r, int pidx, int dimension) {
 		first = l;
 		last = r;
 		int i = l;
 		while (i <= last) {
-			int idx = arr[i];
-			long cur = dimension == 0 ? x[idx] : y[idx];
-			if (cur == pivot) {
+			int cmp = compareNode(arr[i], pidx, dimension);
+			if (cmp == 0) {
 				i++;
-			} else if (cur < pivot) {
+			} else if (cmp < 0) {
 				swap(first++, i++);
 			} else {
 				swap(i, last--);
@@ -61,9 +66,8 @@ public class Code01_ChocolateKingdom1 {
 
 	public static void randSelect(int l, int r, int i, int dimension) {
 		while (l <= r) {
-			int idx = arr[l + (int) (Math.random() * (r - l + 1))];
-			long pivot = dimension == 0 ? x[idx] : y[idx];
-			partition(l, r, pivot, dimension);
+			int pidx = arr[l + (int) (Math.random() * (r - l + 1))];
+			partition(l, r, pidx, dimension);
 			if (i < first) {
 				r = first - 1;
 			} else if (i > last) {
@@ -95,7 +99,7 @@ public class Code01_ChocolateKingdom1 {
 		return rt;
 	}
 
-	public static long query(int a, int b, int c, int i) {
+	public static long query(long a, long b, long c, int i) {
 		if (i == 0) {
 			return 0;
 		}
@@ -112,7 +116,7 @@ public class Code01_ChocolateKingdom1 {
 			return sum[i];
 		} else {
 			long ans = 0;
-			if (x[i] * a + y[i] * b < c) {
+			if (a * x[i] + b * y[i] < c) {
 				ans += v[i];
 			}
 			ans += query(a, b, c, ls[i]);
@@ -135,10 +139,11 @@ public class Code01_ChocolateKingdom1 {
 		xmin[0] = ymin[0] = INF;
 		xmax[0] = ymax[0] = -INF;
 		root = build(1, n, 0);
-		for (int i = 1, a, b, c; i <= m; i++) {
-			a = in.nextInt();
-			b = in.nextInt();
-			c = in.nextInt();
+		long a, b, c;
+		for (int i = 1; i <= m; i++) {
+			a = in.nextLong();
+			b = in.nextLong();
+			c = in.nextLong();
 			out.println(query(a, b, c, root));
 		}
 		out.flush();
