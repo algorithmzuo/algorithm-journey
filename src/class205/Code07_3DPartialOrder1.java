@@ -1,4 +1,4 @@
-package class206;
+package class205;
 
 // 三维偏序，java版
 // 本题就是讲解170，题目1，讲了CDQ分治的解法，这里用kdt的解法
@@ -10,7 +10,7 @@ package class206;
 // 1 <= k <= 2 * 10^5
 // 测试链接 : https://www.luogu.com.cn/problem/P3810
 // 提交以下的code，提交时请把类名改成"Main"，因为不是正解，java实现无法通过
-// 想通过用C++实现，本节课Code03_3DPartialOrder2文件就是C++的实现
+// 想通过用C++实现，本节课Code07_3DPartialOrder2文件就是C++的实现
 // 两个版本的逻辑完全一样，C++版本可以通过所有测试
 
 import java.io.IOException;
@@ -19,7 +19,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.util.Arrays;
 
-public class Code03_3DPartialOrder1 {
+public class Code07_3DPartialOrder1 {
 
 	public static int MAXN = 100001;
 	public static int INF = 1 << 30;
@@ -42,10 +42,6 @@ public class Code03_3DPartialOrder1 {
 
 	public static double ALPHA = 0.7;
 	public static int top;
-	public static int topFather;
-	public static int topSide;
-	public static int topDimension;
-
 	public static int[] arr = new int[MAXN];
 	public static int treeSiz;
 
@@ -70,6 +66,12 @@ public class Code03_3DPartialOrder1 {
 		cmax[i] = Math.max(c[i], Math.max(cmax[ls[i]], cmax[rs[i]]));
 	}
 
+	public static int compareNode(int i, int j, int dimension) {
+		int v1 = dimension == 0 ? b[i] : c[i];
+		int v2 = dimension == 0 ? b[j] : c[j];
+		return v1 != v2 ? (v1 - v2) : (i - j);
+	}
+
 	public static void swap(int i, int j) {
 		int tmp = arr[i];
 		arr[i] = arr[j];
@@ -78,16 +80,15 @@ public class Code03_3DPartialOrder1 {
 
 	public static int first, last;
 
-	public static void partition(int l, int r, int pivot, int dimension) {
+	public static void partition(int l, int r, int pidx, int dimension) {
 		first = l;
 		last = r;
 		int i = l;
 		while (i <= last) {
-			int idx = arr[i];
-			int cur = dimension == 0 ? b[idx] : c[idx];
-			if (cur == pivot) {
+			int cmp = compareNode(arr[i], pidx, dimension);
+			if (cmp == 0) {
 				i++;
-			} else if (cur < pivot) {
+			} else if (cmp < 0) {
 				swap(first++, i++);
 			} else {
 				swap(i, last--);
@@ -97,9 +98,8 @@ public class Code03_3DPartialOrder1 {
 
 	public static void randSelect(int l, int r, int i, int dimension) {
 		while (l <= r) {
-			int idx = arr[l + (int) (Math.random() * (r - l + 1))];
-			int pivot = dimension == 0 ? b[idx] : c[idx];
-			partition(l, r, pivot, dimension);
+			int pidx = arr[l + (int) (Math.random() * (r - l + 1))];
+			partition(l, r, pidx, dimension);
 			if (i < first) {
 				r = first - 1;
 			} else if (i > last) {
@@ -135,52 +135,47 @@ public class Code03_3DPartialOrder1 {
 		}
 	}
 
+	public static int rebuild(int i, int dimension) {
+		if (i == top) {
+			treeSiz = 0;
+			dfs(i);
+			return build(1, treeSiz, dimension);
+		}
+		if (compareNode(top, i, dimension) < 0) {
+			ls[i] = rebuild(ls[i], dimension ^ 1);
+		} else {
+			rs[i] = rebuild(rs[i], dimension ^ 1);
+		}
+		maintain(i);
+		return i;
+	}
+
 	public static void rebuild() {
 		if (top != 0) {
-			treeSiz = 0;
-			dfs(top);
-			int rt = build(1, treeSiz, topDimension);
-			if (topFather == 0) {
-				root = rt;
-			} else if (topSide == 1) {
-				ls[topFather] = rt;
-			} else {
-				rs[topFather] = rt;
-			}
+			root = rebuild(root, 0);
 		}
 	}
 
-	public static void add(int insertNode, int u, int fa, int side, int dimension) {
+	public static int insert(int insertNode, int u, int dimension) {
 		if (u == 0) {
-			if (fa == 0) {
-				root = insertNode;
-			} else if (side == 1) {
-				ls[fa] = insertNode;
-			} else {
-				rs[fa] = insertNode;
-			}
-		} else {
-			int insertd = dimension == 0 ? b[insertNode] : c[insertNode];
-			int ud = dimension == 0 ? b[u] : c[u];
-			if (insertd <= ud) {
-				add(insertNode, ls[u], u, 1, dimension ^ 1);
-			} else {
-				add(insertNode, rs[u], u, 2, dimension ^ 1);
-			}
-			maintain(u);
-			if (!balance(u)) {
-				top = u;
-				topFather = fa;
-				topSide = side;
-				topDimension = dimension;
-			}
+			return insertNode;
 		}
+		if (compareNode(insertNode, u, dimension) < 0) {
+			ls[u] = insert(insertNode, ls[u], dimension ^ 1);
+		} else {
+			rs[u] = insert(insertNode, rs[u], dimension ^ 1);
+		}
+		maintain(u);
+		if (!balance(u)) {
+			top = u;
+		}
+		return u;
 	}
 
-	public static void add(int qb, int qc) {
-		top = topFather = topSide = topDimension = 0;
-		int insertNode = init(qb, qc);
-		add(insertNode, root, 0, 0, 0);
+	public static void add(int qx, int qy) {
+		top = 0;
+		int insertNode = init(qx, qy);
+		root = insert(insertNode, root, 0);
 		rebuild();
 	}
 

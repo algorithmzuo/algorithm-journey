@@ -1,4 +1,4 @@
-package class206;
+package class205;
 
 // 三维偏序，C++版
 // 本题就是讲解170，题目1，讲了CDQ分治的解法，这里用kdt的解法
@@ -32,7 +32,6 @@ package class206;
 //
 //int b[MAXN];
 //int c[MAXN];
-//
 //int cntkdt;
 //int root;
 //int siz[MAXN];
@@ -45,10 +44,6 @@ package class206;
 //
 //double ALPHA = 0.7;
 //int top;
-//int topFather;
-//int topSide;
-//int topDimension;
-//
 //int arr[MAXN];
 //int treeSiz;
 //
@@ -73,24 +68,26 @@ package class206;
 //    cmax[i] = max(c[i], max(cmax[ls[i]], cmax[rs[i]]));
 //}
 //
-//bool BCmp(int x, int y) {
-//    return b[x] < b[y];
+//int compareNode(int i, int j, int dimension) {
+//    int v1 = dimension == 0 ? b[i] : c[i];
+//    int v2 = dimension == 0 ? b[j] : c[j];
+//    return v1 != v2 ? (v1 - v2) : (i - j);
 //}
 //
-//bool CCmp(int x, int y) {
-//    return c[x] < c[y];
-//}
+//struct Cmp {
+//    int dimension;
+//
+//    bool operator()(int i, int j) const {
+//        return compareNode(i, j, dimension) < 0;
+//    }
+//};
 //
 //int build(int l, int r, int dimension) {
 //    if (l > r) {
 //        return 0;
 //    }
 //    int mid = (l + r) >> 1;
-//    if (dimension == 0) {
-//        nth_element(arr + l, arr + mid, arr + r + 1, BCmp);
-//    } else {
-//        nth_element(arr + l, arr + mid, arr + r + 1, CCmp);
-//    }
+//    nth_element(arr + l, arr + mid, arr + r + 1, Cmp{dimension});
 //    int rt = arr[mid];
 //    ls[rt] = build(l, mid - 1, dimension ^ 1);
 //    rs[rt] = build(mid + 1, r, dimension ^ 1);
@@ -110,52 +107,47 @@ package class206;
 //    }
 //}
 //
+//int rebuild(int i, int dimension) {
+//    if (i == top) {
+//        treeSiz = 0;
+//        dfs(i);
+//        return build(1, treeSiz, dimension);
+//    }
+//    if (compareNode(top, i, dimension) < 0) {
+//        ls[i] = rebuild(ls[i], dimension ^ 1);
+//    } else {
+//        rs[i] = rebuild(rs[i], dimension ^ 1);
+//    }
+//    maintain(i);
+//    return i;
+//}
+//
 //void rebuild() {
 //    if (top != 0) {
-//        treeSiz = 0;
-//        dfs(top);
-//        int rt = build(1, treeSiz, topDimension);
-//        if (topFather == 0) {
-//            root = rt;
-//        } else if (topSide == 1) {
-//            ls[topFather] = rt;
-//        } else {
-//            rs[topFather] = rt;
-//        }
+//        root = rebuild(root, 0);
 //    }
 //}
 //
-//void add(int insertNode, int u, int fa, int side, int dimension) {
+//int insert(int insertNode, int u, int dimension) {
 //    if (u == 0) {
-//        if (fa == 0) {
-//            root = insertNode;
-//        } else if (side == 1) {
-//            ls[fa] = insertNode;
-//        } else {
-//            rs[fa] = insertNode;
-//        }
-//    } else {
-//        int insertd = dimension == 0 ? b[insertNode] : c[insertNode];
-//        int ud = dimension == 0 ? b[u] : c[u];
-//        if (insertd <= ud) {
-//            add(insertNode, ls[u], u, 1, dimension ^ 1);
-//        } else {
-//            add(insertNode, rs[u], u, 2, dimension ^ 1);
-//        }
-//        maintain(u);
-//        if (!balance(u)) {
-//            top = u;
-//            topFather = fa;
-//            topSide = side;
-//            topDimension = dimension;
-//        }
+//        return insertNode;
 //    }
+//    if (compareNode(insertNode, u, dimension) < 0) {
+//        ls[u] = insert(insertNode, ls[u], dimension ^ 1);
+//    } else {
+//        rs[u] = insert(insertNode, rs[u], dimension ^ 1);
+//    }
+//    maintain(u);
+//    if (!balance(u)) {
+//        top = u;
+//    }
+//    return u;
 //}
 //
-//void add(int qb, int qc) {
-//    top = topFather = topSide = topDimension = 0;
-//    int insertNode = init(qb, qc);
-//    add(insertNode, root, 0, 0, 0);
+//void add(int qx, int qy) {
+//    top = 0;
+//    int insertNode = init(qx, qy);
+//    root = insert(insertNode, root, 0);
 //    rebuild();
 //}
 //
@@ -185,7 +177,7 @@ package class206;
 //    for (int i = 1; i <= n; i++) {
 //        cin >> abc[i].a >> abc[i].b >> abc[i].c;
 //    }
-//    sort(abc + 1, abc + n + 1, ACmp);
+//    stable_sort(abc + 1, abc + n + 1, ACmp);
 //    bmin[0] = cmin[0] = INF;
 //    bmax[0] = cmax[0] = -INF;
 //    for (int l = 1, r = 1; l <= n; l = ++r) {
