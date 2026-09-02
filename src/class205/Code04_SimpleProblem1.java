@@ -33,7 +33,9 @@ public class Code04_SimpleProblem1 {
 	public static int root;
 	public static int[] ls = new int[MAXN];
 	public static int[] rs = new int[MAXN];
+	// 子树节点数量
 	public static int[] siz = new int[MAXN];
+	// 子树点权累加和
 	public static int[] sum = new int[MAXN];
 	public static int[] xmin = new int[MAXN];
 	public static int[] xmax = new int[MAXN];
@@ -42,8 +44,15 @@ public class Code04_SimpleProblem1 {
 
 	// 平衡因子
 	public static double ALPHA = 0.7;
-	// 最顶部的不平衡点
+	// 最顶部不平衡点
 	public static int top;
+	// 最顶部不平衡点的父亲
+	public static int topFather;
+	// 最顶部不平衡点是其父亲的哪侧儿子
+	public static int topSide;
+	// 最顶部不平衡点用什么维度进行的划分
+	public static int topDimension;
+
 	// 不平衡时收集节点编号
 	public static int[] arr = new int[MAXN];
 	// 遍历不平衡子树收集的节点数量
@@ -128,6 +137,7 @@ public class Code04_SimpleProblem1 {
 		return rt;
 	}
 
+	// 评估子树是否平衡
 	public static boolean balance(int i) {
 		return ALPHA * siz[i] >= Math.max(siz[ls[i]], siz[rs[i]]);
 	}
@@ -143,48 +153,45 @@ public class Code04_SimpleProblem1 {
 		}
 	}
 
-	public static int rebuild(int i, int dimension) {
-		if (i == top) {
-			treeSiz = 0;
-			dfs(i);
-			return build(1, treeSiz, dimension);
-		}
-		if (compareNode(top, i, dimension) < 0) {
-			ls[i] = rebuild(ls[i], dimension ^ 1);
-		} else {
-			rs[i] = rebuild(rs[i], dimension ^ 1);
-		}
-		maintain(i);
-		return i;
-	}
-
 	public static void rebuild() {
 		if (top != 0) {
-			root = rebuild(root, 0);
+			treeSiz = 0;
+			dfs(top);
+			int newRoot = build(1, treeSiz, topDimension);
+			if (topFather == 0) {
+				root = newRoot;
+			} else if (topSide == 1) {
+				ls[topFather] = newRoot;
+			} else {
+				rs[topFather] = newRoot;
+			}
 		}
 	}
 
-	public static int insert(int insertNode, int u, int dimension) {
+	public static int add(int insertNode, int u, int fa, int side, int dimension) {
 		if (u == 0) {
 			return insertNode;
 		}
 		if (compareNode(insertNode, u, dimension) < 0) {
-			ls[u] = insert(insertNode, ls[u], dimension ^ 1);
+			ls[u] = add(insertNode, ls[u], u, 1, dimension ^ 1);
 		} else {
-			rs[u] = insert(insertNode, rs[u], dimension ^ 1);
+			rs[u] = add(insertNode, rs[u], u, 2, dimension ^ 1);
 		}
 		maintain(u);
-		// 递归中不停覆盖，最终的top是最高的失衡节点
+		// 递归返回时不停覆盖，最终的top是最上方的不平衡点
 		if (!balance(u)) {
 			top = u;
+			topFather = fa;
+			topSide = side;
+			topDimension = dimension;
 		}
 		return u;
 	}
 
 	public static void add(int qx, int qy, int qv) {
-		top = 0;
+		top = topFather = topSide = topDimension = 0;
 		int insertNode = init(qx, qy, qv);
-		root = insert(insertNode, root, 0);
+		root = add(insertNode, root, 0, 0, 0);
 		rebuild();
 	}
 
