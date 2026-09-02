@@ -36,6 +36,7 @@ public class Code01_ShootingGallery1 {
 
 	// 节点是否存活，删掉就是不存活，没删掉就是存活
 	public static boolean[] alive = new boolean[MAXN];
+
 	// 存活节点的数量，加节点增加，删节点减少，平衡性也只用aliveSiz评价
 	public static int[] aliveSiz = new int[MAXN];
 
@@ -158,6 +159,21 @@ public class Code01_ShootingGallery1 {
 		return rt;
 	}
 
+	// 通常带惰性删除的替罪羊树，会同时维护子树总节点数和存活节点数
+	// 总节点数用于判断树形是否失衡，存活比例过低时重构并清除死亡节点
+	// 本实现只用aliveSiz作为子树重量，插入和成功删除后都检查重量平衡
+	// ALPHA * aliveSiz[i] >= max(aliveSiz[ls[i]], aliveSiz[rs[i]])
+	// 如果出现失衡，就重构路径上最高的不平衡子树，只保留其中的存活节点
+	// 即使节点删除得非常均匀，某些子树一直没有触发重构，也不会影响复杂度
+	// 因为每次操作结束后，所有包含存活节点的子树都满足上述重量平衡条件
+	// 沿一条有效路径向下，存活节点数每层至多变为上一层的ALPHA倍
+	// 所以有效访问高度始终是O(log n)，其中n是当前存活节点数
+	// aliveSiz[i]为0的子树直接视为空树，插入和查询都不会进入其内部
+	// 已死但aliveSiz不为0的节点如果只有一个非空儿子，就一定会失衡
+	// 所以这种仍在有效结构中的死亡节点必须有两个非空儿子，数量不会超过n-1
+	// 因此重构访问的节点数量，仍然与重构范围内的存活节点数量同阶
+	// 一棵大小为k的子树重构后，需要经过差不多k次修改才可能再次失衡
+	// 所以查询最坏O(log n)，插入和删除均摊O(log n)
 	public static boolean balance(int i) {
 		return ALPHA * aliveSiz[i] >= Math.max(aliveSiz[ls[i]], aliveSiz[rs[i]]);
 	}
