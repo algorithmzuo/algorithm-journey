@@ -22,7 +22,7 @@ import java.io.PrintWriter;
 public class Code04_LaoshanBaihua1 {
 
 	public static int MAXN = 100001;
-	public static int MAXT = 3000001;
+	public static int MAXT = 3100001;
 	public static int MAXV = 1000000000;
 	public static int INF = 1 << 30;
 	public static int n, q;
@@ -32,13 +32,14 @@ public class Code04_LaoshanBaihua1 {
 	// K-D树的节点计数
 	public static int cntkdt;
 
-	// 权值线段树
+	// 外层是权值线段树
 	public static int rootseg;
 	public static int[] lseg = new int[MAXT];
 	public static int[] rseg = new int[MAXT];
+
+	// 每个权值线段树的节点，背后是一棵动态kdt
 	public static int[] rootkdt = new int[MAXT];
 
-	// 动态kdt
 	public static int[] x = new int[MAXT];
 	public static int[] y = new int[MAXT];
 	public static int[] ls = new int[MAXT];
@@ -51,6 +52,10 @@ public class Code04_LaoshanBaihua1 {
 
 	public static double ALPHA = 0.7;
 	public static int top;
+	public static int topFather;
+	public static int topSide;
+	public static int topDimension;
+
 	public static int[] arr = new int[MAXN];
 	public static int treeSiz;
 
@@ -142,47 +147,44 @@ public class Code04_LaoshanBaihua1 {
 		}
 	}
 
-	public static int rebuild(int i, int dimension) {
-		if (i == top) {
-			treeSiz = 0;
-			dfs(i);
-			return build(1, treeSiz, dimension);
-		}
-		if (compareNode(top, i, dimension) < 0) {
-			ls[i] = rebuild(ls[i], dimension ^ 1);
-		} else {
-			rs[i] = rebuild(rs[i], dimension ^ 1);
-		}
-		maintain(i);
-		return i;
-	}
-
 	public static void rebuild(int version) {
 		if (top != 0) {
-			rootkdt[version] = rebuild(rootkdt[version], 0);
+			treeSiz = 0;
+			dfs(top);
+			int newRoot = build(1, treeSiz, topDimension);
+			if (topFather == 0) {
+				rootkdt[version] = newRoot;
+			} else if (topSide == 1) {
+				ls[topFather] = newRoot;
+			} else {
+				rs[topFather] = newRoot;
+			}
 		}
 	}
 
-	public static int insert(int insertNode, int u, int dimension) {
+	public static int addKdt(int insertNode, int u, int fa, int side, int dimension) {
 		if (u == 0) {
 			return insertNode;
 		}
 		if (compareNode(insertNode, u, dimension) < 0) {
-			ls[u] = insert(insertNode, ls[u], dimension ^ 1);
+			ls[u] = addKdt(insertNode, ls[u], u, 1, dimension ^ 1);
 		} else {
-			rs[u] = insert(insertNode, rs[u], dimension ^ 1);
+			rs[u] = addKdt(insertNode, rs[u], u, 2, dimension ^ 1);
 		}
 		maintain(u);
 		if (!balance(u)) {
 			top = u;
+			topFather = fa;
+			topSide = side;
+			topDimension = dimension;
 		}
 		return u;
 	}
 
-	public static void insertKdt(int version, int qx, int qy) {
-		top = 0;
+	public static void addKdt(int version, int qx, int qy) {
+		top = topFather = topSide = topDimension = 0;
 		int insertNode = init(qx, qy);
-		rootkdt[version] = insert(insertNode, rootkdt[version], 0);
+		rootkdt[version] = addKdt(insertNode, rootkdt[version], 0, 0, 0);
 		rebuild(version);
 	}
 
@@ -191,7 +193,7 @@ public class Code04_LaoshanBaihua1 {
 		if (i == 0) {
 			i = ++cntseg;
 		}
-		insertKdt(i, qx, qy);
+		addKdt(i, qx, qy);
 		if (l < r) {
 			int mid = (l + r) >> 1;
 			if (qv <= mid) {

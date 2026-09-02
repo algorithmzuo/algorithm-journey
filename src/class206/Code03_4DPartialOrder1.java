@@ -35,8 +35,8 @@ public class Code03_4DPartialOrder1 {
 	public static int[] d = new int[MAXT];
 	public static int cntkdt;
 
-	// 每个树状数组的下标，维护一棵动态kdt
-	public static int[] root = new int[MAXN];
+	// 每个树状数组的下标，背后是一棵动态kdt
+	public static int[] rootkdt = new int[MAXN];
 	public static int[] ls = new int[MAXT];
 	public static int[] rs = new int[MAXT];
 	public static int[] siz = new int[MAXT];
@@ -153,7 +153,7 @@ public class Code03_4DPartialOrder1 {
 			dfs(top);
 			int newRoot = build(1, treeSiz, topDimension);
 			if (topFather == 0) {
-				root[version] = newRoot;
+				rootkdt[version] = newRoot;
 			} else if (topSide == 1) {
 				ls[topFather] = newRoot;
 			} else {
@@ -184,7 +184,7 @@ public class Code03_4DPartialOrder1 {
 	public static void addKdt(int version, int qx, int qy, int qv) {
 		top = topFather = topSide = topDimension = 0;
 		int insertNode = init(qx, qy, qv);
-		root[version] = addKdt(insertNode, root[version], 0, 0, 0);
+		rootkdt[version] = addKdt(insertNode, rootkdt[version], 0, 0, 0);
 		rebuild(version);
 	}
 
@@ -227,7 +227,7 @@ public class Code03_4DPartialOrder1 {
 	public static int query(int rank, int qc, int qd) {
 		queryAns = 0;
 		for (int i = rank; i > 0; i -= lowbit(i)) {
-			updateAns(qc, qd, root[i]);
+			updateAns(qc, qd, rootkdt[i]);
 		}
 		return queryAns;
 	}

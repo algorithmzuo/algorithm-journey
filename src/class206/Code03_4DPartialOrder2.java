@@ -49,7 +49,8 @@ package class206;
 //int c[MAXT];
 //int d[MAXT];
 //int cntkdt;
-//int root[MAXN];
+//
+//int rootkdt[MAXN];
 //int ls[MAXT];
 //int rs[MAXT];
 //int siz[MAXT];
@@ -135,7 +136,7 @@ package class206;
 //        dfs(top);
 //        int newRoot = build(1, treeSiz, topDimension);
 //        if (topFather == 0) {
-//            root[version] = newRoot;
+//            rootkdt[version] = newRoot;
 //        } else if (topSide == 1) {
 //            ls[topFather] = newRoot;
 //        } else {
@@ -166,7 +167,7 @@ package class206;
 //void addKdt(int version, int qx, int qy, int qv) {
 //    top = topFather = topSide = topDimension = 0;
 //    int insertNode = init(qx, qy, qv);
-//    root[version] = addKdt(insertNode, root[version], 0, 0, 0);
+//    rootkdt[version] = addKdt(insertNode, rootkdt[version], 0, 0, 0);
 //    rebuild(version);
 //}
 //
@@ -206,7 +207,7 @@ package class206;
 //int query(int rank, int qc, int qd) {
 //    queryAns = 0;
 //    for (int i = rank; i > 0; i -= lowbit(i)) {
-//        updateAns(qc, qd, root[i]);
+//        updateAns(qc, qd, rootkdt[i]);
 //    }
 //    return queryAns;
 //}
