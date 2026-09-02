@@ -31,7 +31,7 @@ package class160;
 //int ls[MAXT];
 //int rs[MAXT];
 //bool alive[MAXT];
-//int aliveSize[MAXT];
+//int aliveSiz[MAXT];
 //
 //double ALPHA = 0.7;
 //int top;
@@ -45,20 +45,20 @@ package class160;
 //    key[++cntn] = num;
 //    ls[cntn] = rs[cntn] = 0;
 //    alive[cntn] = true;
-//    aliveSize[cntn] = 1;
+//    aliveSiz[cntn] = 1;
 //    return cntn;
 //}
 //
 //void up(int i) {
-//    aliveSize[i] = (alive[i] ? 1 : 0) + aliveSize[ls[i]] + aliveSize[rs[i]];
+//    aliveSiz[i] = (alive[i] ? 1 : 0) + aliveSiz[ls[i]] + aliveSiz[rs[i]];
 //}
 //
 //bool balance(int i) {
-//    return ALPHA * aliveSize[i] >= max(aliveSize[ls[i]], aliveSize[rs[i]]);
+//    return ALPHA * aliveSiz[i] >= max(aliveSiz[ls[i]], aliveSiz[rs[i]]);
 //}
 //
 //void inorder(int i) {
-//    if (i != 0 && aliveSize[i] != 0) {
+//    if (i != 0 && aliveSiz[i] != 0) {
 //        inorder(ls[i]);
 //        if (alive[i]) {
 //            collect[++collectSiz] = i;
@@ -96,7 +96,7 @@ package class160;
 //}
 //
 //int innerInsert(int num, int i, int f, int s) {
-//    if (i == 0 || aliveSize[i] == 0) {
+//    if (i == 0 || aliveSiz[i] == 0) {
 //        return init(num);
 //    }
 //    if (num <= key[i]) {
@@ -121,18 +121,18 @@ package class160;
 //}
 //
 //int innerSmall(int num, int i) {
-//    if (i == 0 || aliveSize[i] == 0) {
+//    if (i == 0 || aliveSiz[i] == 0) {
 //        return 0;
 //    }
 //    if (num <= key[i]) {
 //        return innerSmall(num, ls[i]);
 //    } else {
-//        return aliveSize[ls[i]] + (alive[i] ? 1 : 0) + innerSmall(num, rs[i]);
+//        return aliveSiz[ls[i]] + (alive[i] ? 1 : 0) + innerSmall(num, rs[i]);
 //    }
 //}
 //
 //int innerIndex(int index, int i) {
-//    int lsiz = aliveSize[ls[i]];
+//    int lsiz = aliveSiz[ls[i]];
 //    if (index <= lsiz) {
 //        return innerIndex(index, ls[i]);
 //    }
@@ -154,7 +154,7 @@ package class160;
 //
 //int innerPost(int num, int i) {
 //    int k = innerSmall(num + 1, i);
-//    if (k == aliveSize[i]) {
+//    if (k == aliveSiz[i]) {
 //        return INF;
 //    } else {
 //        return innerIndex(k + 1, i);
@@ -162,7 +162,7 @@ package class160;
 //}
 //
 //void innerRemove(int i, int f, int s, int rank) {
-//    int leftSize = aliveSize[ls[i]];
+//    int leftSize = aliveSiz[ls[i]];
 //    if (rank <= leftSize) {
 //        innerRemove(ls[i], i, 1, rank);
 //    } else {

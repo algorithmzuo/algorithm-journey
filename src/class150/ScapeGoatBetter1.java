@@ -36,7 +36,7 @@ public class ScapeGoatBetter1 {
 	public static boolean[] alive = new boolean[MAXN];
 
 	// 子树上存活的节点数量
-	public static int[] aliveSize = new int[MAXN];
+	public static int[] aliveSiz = new int[MAXN];
 
 	// 替罪羊树的平衡因子
 	public static double ALPHA = 0.7;
@@ -50,7 +50,7 @@ public class ScapeGoatBetter1 {
 	// 最上方不平衡点是其父亲的哪侧儿子
 	public static int side;
 
-	// 收集重构子树的所有节点
+	// 收集重构子树的所有存活节点
 	public static int[] collect = new int[MAXN];
 	public static int collectSiz;
 
@@ -58,18 +58,18 @@ public class ScapeGoatBetter1 {
 		key[++cntn] = num;
 		ls[cntn] = rs[cntn] = 0;
 		alive[cntn] = true;
-		aliveSize[cntn] = 1;
+		aliveSiz[cntn] = 1;
 		return cntn;
 	}
 
 	// 存活的节点的信息汇总
 	public static void up(int i) {
-		aliveSize[i] = (alive[i] ? 1 : 0) + aliveSize[ls[i]] + aliveSize[rs[i]];
+		aliveSiz[i] = (alive[i] ? 1 : 0) + aliveSiz[ls[i]] + aliveSiz[rs[i]];
 	}
 
 	public static void inorder(int i) {
 		// 整棵树上没有存活节点也跳过
-		if (i != 0 && aliveSize[i] != 0) {
+		if (i != 0 && aliveSiz[i] != 0) {
 			inorder(ls[i]);
 			if (alive[i]) {
 				collect[++collectSiz] = i;
@@ -107,50 +107,44 @@ public class ScapeGoatBetter1 {
 
 	// 存活节点的多少来判断是否平衡
 	public static boolean balance(int i) {
-		return ALPHA * aliveSize[i] >= Math.max(aliveSize[ls[i]], aliveSize[rs[i]]);
+		return ALPHA * aliveSiz[i] >= Math.max(aliveSiz[ls[i]], aliveSiz[rs[i]]);
 	}
 
-	public static void add(int i, int f, int s, int num) {
+	// 返回头节点编号
+	public static int add(int i, int f, int s, int num) {
 		// 整棵树上没有存活节点，就算空树
-		if (i == 0 || aliveSize[i] == 0) {
-			int newNode = init(num);
-			if (f == 0) {
-				root = newNode;
-			} else if (s == 1) {
-				ls[f] = newNode;
-			} else {
-				rs[f] = newNode;
-			}
-		} else {
-			if (num <= key[i]) {
-				add(ls[i], i, 1, num);
-			} else {
-				add(rs[i], i, 2, num);
-			}
-			up(i);
-			if (!balance(i)) {
-				top = i;
-				father = f;
-				side = s;
-			}
+		if (i == 0 || aliveSiz[i] == 0) {
+			return init(num);
 		}
+		if (num <= key[i]) {
+			ls[i] = add(ls[i], i, 1, num);
+		} else {
+			rs[i] = add(rs[i], i, 2, num);
+		}
+		up(i);
+		if (!balance(i)) {
+			top = i;
+			father = f;
+			side = s;
+		}
+		return i;
 	}
 
 	public static void add(int num) {
 		top = father = side = 0;
-		add(root, 0, 0, num);
+		root = add(root, 0, 0, num);
 		rebuild();
 	}
 
 	public static int small(int i, int num) {
 		// 整棵树上没有存活节点，就算空树
-		if (i == 0 || aliveSize[i] == 0) {
+		if (i == 0 || aliveSiz[i] == 0) {
 			return 0;
 		}
 		if (num <= key[i]) {
 			return small(ls[i], num);
 		} else {
-			return aliveSize[ls[i]] + (alive[i] ? 1 : 0) + small(rs[i], num);
+			return aliveSiz[ls[i]] + (alive[i] ? 1 : 0) + small(rs[i], num);
 		}
 	}
 
@@ -159,10 +153,10 @@ public class ScapeGoatBetter1 {
 	}
 
 	public static int index(int i, int x) {
-		if (x <= aliveSize[ls[i]]) {
+		if (x <= aliveSiz[ls[i]]) {
 			return index(ls[i], x);
 		} else {
-			int less = aliveSize[ls[i]] + (alive[i] ? 1 : 0);
+			int less = aliveSiz[ls[i]] + (alive[i] ? 1 : 0);
 			if (less < x) {
 				return index(rs[i], x - less);
 			}
@@ -185,7 +179,7 @@ public class ScapeGoatBetter1 {
 
 	public static int post(int num) {
 		int kth = rank(num + 1);
-		if (kth == aliveSize[root] + 1) {
+		if (kth == aliveSiz[root] + 1) {
 			return Integer.MAX_VALUE;
 		} else {
 			return index(kth);
@@ -199,7 +193,7 @@ public class ScapeGoatBetter1 {
 	// 此时只根据key值的大小关系，方向无法确定是左还是右
 	// 所以先求出目标的排名，再按排名删除，这样移动方向是确定的
 	public static void remove(int i, int f, int s, int rank) {
-		int lsiz = aliveSize[ls[i]];
+		int lsiz = aliveSiz[ls[i]];
 		if (rank <= lsiz) {
 			remove(ls[i], i, 1, rank);
 		} else {

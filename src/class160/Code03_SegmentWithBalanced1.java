@@ -50,7 +50,7 @@ public class Code03_SegmentWithBalanced1 {
 	public static boolean[] alive = new boolean[MAXT];
 
 	// 子树上存活的节点数量
-	public static int[] aliveSize = new int[MAXT];
+	public static int[] aliveSiz = new int[MAXT];
 
 	// 替罪羊树的平衡因子
 	public static double ALPHA = 0.7;
@@ -72,23 +72,23 @@ public class Code03_SegmentWithBalanced1 {
 		key[++cntn] = num;
 		ls[cntn] = rs[cntn] = 0;
 		alive[cntn] = true;
-		aliveSize[cntn] = 1;
+		aliveSiz[cntn] = 1;
 		return cntn;
 	}
 
 	// 存活的节点的信息汇总
 	public static void up(int i) {
-		aliveSize[i] = (alive[i] ? 1 : 0) + aliveSize[ls[i]] + aliveSize[rs[i]];
+		aliveSiz[i] = (alive[i] ? 1 : 0) + aliveSiz[ls[i]] + aliveSiz[rs[i]];
 	}
 
 	// 存活节点的多少来判断是否平衡
 	public static boolean balance(int i) {
-		return ALPHA * aliveSize[i] >= Math.max(aliveSize[ls[i]], aliveSize[rs[i]]);
+		return ALPHA * aliveSiz[i] >= Math.max(aliveSiz[ls[i]], aliveSiz[rs[i]]);
 	}
 
 	public static void inorder(int i) {
 		// 整棵树上没有存活节点也跳过
-		if (i != 0 && aliveSize[i] != 0) {
+		if (i != 0 && aliveSiz[i] != 0) {
 			inorder(ls[i]);
 			if (alive[i]) {
 				collect[++collectSiz] = i;
@@ -127,7 +127,7 @@ public class Code03_SegmentWithBalanced1 {
 
 	public static int innerInsert(int num, int i, int f, int s) {
 		// 整棵树上没有存活节点，就算空树
-		if (i == 0 || aliveSize[i] == 0) {
+		if (i == 0 || aliveSiz[i] == 0) {
 			return init(num);
 		}
 		if (num <= key[i]) {
@@ -156,19 +156,19 @@ public class Code03_SegmentWithBalanced1 {
 	// 平衡树当前来到i号节点，返回<num的数字个数
 	public static int innerSmall(int num, int i) {
 		// 整棵树上没有存活节点，就算空树
-		if (i == 0 || aliveSize[i] == 0) {
+		if (i == 0 || aliveSiz[i] == 0) {
 			return 0;
 		}
 		if (num <= key[i]) {
 			return innerSmall(num, ls[i]);
 		} else {
-			return aliveSize[ls[i]] + (alive[i] ? 1 : 0) + innerSmall(num, rs[i]);
+			return aliveSiz[ls[i]] + (alive[i] ? 1 : 0) + innerSmall(num, rs[i]);
 		}
 	}
 
 	// 平衡树当前来到i号节点，返回第index小的数字
 	public static int innerIndex(int index, int i) {
-		int lsiz = aliveSize[ls[i]];
+		int lsiz = aliveSiz[ls[i]];
 		if (index <= lsiz) {
 			return innerIndex(index, ls[i]);
 		}
@@ -192,7 +192,7 @@ public class Code03_SegmentWithBalanced1 {
 	// 平衡树当前来到i号节点，返回num的后继
 	public static int innerPost(int num, int i) {
 		int k = innerSmall(num + 1, i);
-		if (k == aliveSize[i]) {
+		if (k == aliveSiz[i]) {
 			return INF;
 		} else {
 			return innerIndex(k + 1, i);
@@ -206,7 +206,7 @@ public class Code03_SegmentWithBalanced1 {
 	// 此时只根据key值的大小关系，方向无法确定是左还是右
 	// 所以先求出目标的排名，再按排名删除，这样移动方向是确定的
 	public static void innerRemove(int i, int f, int s, int rank) {
-		int leftSize = aliveSize[ls[i]];
+		int leftSize = aliveSiz[ls[i]];
 		if (rank <= leftSize) {
 			innerRemove(ls[i], i, 1, rank);
 		} else {

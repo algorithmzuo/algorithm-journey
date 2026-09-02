@@ -21,7 +21,7 @@ package class150;
 //int ls[MAXN];
 //int rs[MAXN];
 //bool alive[MAXN];
-//int aliveSize[MAXN];
+//int aliveSiz[MAXN];
 //
 //double ALPHA = 0.7;
 //int top;
@@ -35,16 +35,16 @@ package class150;
 //    key[++cntn] = num;
 //    ls[cntn] = rs[cntn] = 0;
 //    alive[cntn] = true;
-//    aliveSize[cntn] = 1;
+//    aliveSiz[cntn] = 1;
 //    return cntn;
 //}
 //
 //void up(int i) {
-//    aliveSize[i] = (alive[i] ? 1 : 0) + aliveSize[ls[i]] + aliveSize[rs[i]];
+//    aliveSiz[i] = (alive[i] ? 1 : 0) + aliveSiz[ls[i]] + aliveSiz[rs[i]];
 //}
 //
 //void inorder(int i) {
-//    if (i != 0 && aliveSize[i] != 0) {
+//    if (i != 0 && aliveSiz[i] != 0) {
 //        inorder(ls[i]);
 //        if (alive[i]) {
 //            collect[++collectSiz] = i;
@@ -81,48 +81,41 @@ package class150;
 //}
 //
 //bool balance(int i) {
-//    return ALPHA * aliveSize[i] >= max(aliveSize[ls[i]], aliveSize[rs[i]]);
+//    return ALPHA * aliveSiz[i] >= max(aliveSiz[ls[i]], aliveSiz[rs[i]]);
 //}
 //
-//void add(int i, int f, int s, int num) {
-//    if (i == 0 || aliveSize[i] == 0) {
-//        int newNode = init(num);
-//        if (f == 0) {
-//            root = newNode;
-//        } else if (s == 1) {
-//            ls[f] = newNode;
-//        } else {
-//            rs[f] = newNode;
-//        }
-//    } else {
-//        if (num <= key[i]) {
-//            add(ls[i], i, 1, num);
-//        } else {
-//            add(rs[i], i, 2, num);
-//        }
-//        up(i);
-//        if (!balance(i)) {
-//            top = i;
-//            father = f;
-//            side = s;
-//        }
+//int add(int i, int f, int s, int num) {
+//    if (i == 0 || aliveSiz[i] == 0) {
+//        return init(num);
 //    }
+//    if (num <= key[i]) {
+//        ls[i] = add(ls[i], i, 1, num);
+//    } else {
+//        rs[i] = add(rs[i], i, 2, num);
+//    }
+//    up(i);
+//    if (!balance(i)) {
+//        top = i;
+//        father = f;
+//        side = s;
+//    }
+//    return i;
 //}
 //
 //void add(int num) {
 //    top = father = side = 0;
-//    add(root, 0, 0, num);
+//    root = add(root, 0, 0, num);
 //    rebuild();
 //}
 //
 //int small(int i, int num) {
-//    if (i == 0 || aliveSize[i] == 0) {
+//    if (i == 0 || aliveSiz[i] == 0) {
 //        return 0;
 //    }
 //    if (num <= key[i]) {
 //        return small(ls[i], num);
 //    } else {
-//        return aliveSize[ls[i]] + (alive[i] ? 1 : 0) + small(rs[i], num);
+//        return aliveSiz[ls[i]] + (alive[i] ? 1 : 0) + small(rs[i], num);
 //    }
 //}
 //
@@ -131,10 +124,10 @@ package class150;
 //}
 //
 //int index(int i, int x) {
-//    if (x <= aliveSize[ls[i]]) {
+//    if (x <= aliveSiz[ls[i]]) {
 //        return index(ls[i], x);
 //    } else {
-//        int less = aliveSize[ls[i]] + (alive[i] ? 1 : 0);
+//        int less = aliveSiz[ls[i]] + (alive[i] ? 1 : 0);
 //        if (less < x) {
 //            return index(rs[i], x - less);
 //        }
@@ -157,7 +150,7 @@ package class150;
 //
 //int post(int num) {
 //    int kth = getRank(num + 1);
-//    if (kth == aliveSize[root] + 1) {
+//    if (kth == aliveSiz[root] + 1) {
 //        return INT_MAX;
 //    } else {
 //        return index(kth);
@@ -165,7 +158,7 @@ package class150;
 //}
 //
 //void remove(int i, int f, int s, int rank) {
-//    int lsiz = aliveSize[ls[i]];
+//    int lsiz = aliveSiz[ls[i]];
 //    if (rank <= lsiz) {
 //        remove(ls[i], i, 1, rank);
 //    } else {
