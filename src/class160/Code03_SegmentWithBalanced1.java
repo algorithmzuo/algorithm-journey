@@ -11,28 +11,21 @@ package class160;
 // 数组中的值永远在[0, 10^8]范围内
 // 测试链接 : https://www.luogu.com.cn/problem/P3380
 // 提交以下的code，提交时请把类名改成"Main"
-// 本题之后增加了测试用例，数据范围放大到 2 * 10^5
+// 本题后来增加了测试用例，数据范围放大到 2 * 10^5
 // 线段树套平衡树，常数时间大，加上是java实现，导致卡常无法通过
 // 想通过用C++实现，本节课Code03_SegmentWithBalanced2文件就是C++的实现
 // 两个版本的逻辑完全一样，C++版本可以通过所有测试
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
-import java.io.StreamTokenizer;
 
 public class Code03_SegmentWithBalanced1 {
 
 	public static int MAXN = 200001;
-
 	public static int MAXT = MAXN * 40;
-
 	public static int INF = Integer.MAX_VALUE;
-
-	public static double ALPHA = 0.7;
-
 	public static int n, m;
 
 	// 原始数组
@@ -41,52 +34,66 @@ public class Code03_SegmentWithBalanced1 {
 	// 线段树维护的替罪羊树根节点编号
 	public static int[] root = new int[MAXN << 2];
 
-	// 替罪羊树需要
+	// 替罪羊树的节点计数
+	public static int cntn;
+
+	// 替罪羊树节点的key值
 	public static int[] key = new int[MAXT];
 
-	public static int[] cnts = new int[MAXT];
+	// 替罪羊树节点的左儿子
+	public static int[] ls = new int[MAXT];
 
-	public static int[] left = new int[MAXT];
+	// 替罪羊树节点的右儿子
+	public static int[] rs = new int[MAXT];
 
-	public static int[] right = new int[MAXT];
+	// 替罪羊树节点是否存活，删掉就是不存活，否则就是存活
+	public static boolean[] alive = new boolean[MAXT];
 
-	public static int[] size = new int[MAXT];
+	// 子树上存活的节点数量
+	public static int[] aliveSize = new int[MAXT];
 
-	public static int[] diff = new int[MAXT];
+	// 替罪羊树的平衡因子
+	public static double ALPHA = 0.7;
 
-	public static int cnt = 0;
+	// 最上方不平衡点
+	public static int top;
 
-	// rebuild用到的中序收集数组
-	public static int[] collect = new int[MAXT];
+	// 最上方不平衡点的父亲
+	public static int father;
 
-	public static int ci;
+	// 最上方不平衡点是其父亲的哪侧儿子
+	public static int side;
 
-	// 最上方的失衡点、失衡点的父节点、失衡点的方向
-	public static int top, father, side;
+	// 收集重构子树的所有存活节点
+	public static int[] collect = new int[MAXN];
+	public static int collectSiz;
 
 	public static int init(int num) {
-		key[++cnt] = num;
-		left[cnt] = right[cnt] = 0;
-		cnts[cnt] = size[cnt] = diff[cnt] = 1;
-		return cnt;
+		key[++cntn] = num;
+		ls[cntn] = rs[cntn] = 0;
+		alive[cntn] = true;
+		aliveSize[cntn] = 1;
+		return cntn;
 	}
 
+	// 存活的节点的信息汇总
 	public static void up(int i) {
-		size[i] = size[left[i]] + size[right[i]] + cnts[i];
-		diff[i] = diff[left[i]] + diff[right[i]] + (cnts[i] > 0 ? 1 : 0);
+		aliveSize[i] = (alive[i] ? 1 : 0) + aliveSize[ls[i]] + aliveSize[rs[i]];
 	}
 
+	// 存活节点的多少来判断是否平衡
 	public static boolean balance(int i) {
-		return i == 0 || ALPHA * diff[i] >= Math.max(diff[left[i]], diff[right[i]]);
+		return ALPHA * aliveSize[i] >= Math.max(aliveSize[ls[i]], aliveSize[rs[i]]);
 	}
 
 	public static void inorder(int i) {
-		if (i != 0) {
-			inorder(left[i]);
-			if (cnts[i] > 0) {
-				collect[++ci] = i;
+		// 整棵树上没有存活节点也跳过
+		if (i != 0 && aliveSize[i] != 0) {
+			inorder(ls[i]);
+			if (alive[i]) {
+				collect[++collectSiz] = i;
 			}
-			inorder(right[i]);
+			inorder(rs[i]);
 		}
 	}
 
@@ -94,48 +101,45 @@ public class Code03_SegmentWithBalanced1 {
 		if (l > r) {
 			return 0;
 		}
-		int m = (l + r) >> 1;
-		int h = collect[m];
-		left[h] = innerBuild(l, m - 1);
-		right[h] = innerBuild(m + 1, r);
+		int mid = (l + r) >> 1;
+		int h = collect[mid];
+		ls[h] = innerBuild(l, mid - 1);
+		rs[h] = innerBuild(mid + 1, r);
 		up(h);
 		return h;
 	}
 
 	public static int innerRebuild(int h) {
 		if (top != 0) {
-			ci = 0;
+			collectSiz = 0;
 			inorder(top);
-			if (ci > 0) {
-				if (father == 0) {
-					h = innerBuild(1, ci);
-				} else if (side == 1) {
-					left[father] = innerBuild(1, ci);
-				} else {
-					right[father] = innerBuild(1, ci);
-				}
+			int newRoot = innerBuild(1, collectSiz);
+			if (father == 0) {
+				h = newRoot;
+			} else if (side == 1) {
+				ls[father] = newRoot;
+			} else {
+				rs[father] = newRoot;
 			}
 		}
 		return h;
 	}
 
 	public static int innerInsert(int num, int i, int f, int s) {
-		if (i == 0) {
-			i = init(num);
+		// 整棵树上没有存活节点，就算空树
+		if (i == 0 || aliveSize[i] == 0) {
+			return init(num);
+		}
+		if (num <= key[i]) {
+			ls[i] = innerInsert(num, ls[i], i, 1);
 		} else {
-			if (key[i] == num) {
-				cnts[i]++;
-			} else if (key[i] > num) {
-				left[i] = innerInsert(num, left[i], i, 1);
-			} else {
-				right[i] = innerInsert(num, right[i], i, 2);
-			}
-			up(i);
-			if (!balance(i)) {
-				top = i;
-				father = f;
-				side = s;
-			}
+			rs[i] = innerInsert(num, rs[i], i, 2);
+		}
+		up(i);
+		if (!balance(i)) {
+			top = i;
+			father = f;
+			side = s;
 		}
 		return i;
 	}
@@ -151,26 +155,28 @@ public class Code03_SegmentWithBalanced1 {
 
 	// 平衡树当前来到i号节点，返回<num的数字个数
 	public static int innerSmall(int num, int i) {
-		if (i == 0) {
+		// 整棵树上没有存活节点，就算空树
+		if (i == 0 || aliveSize[i] == 0) {
 			return 0;
 		}
-		if (key[i] >= num) {
-			return innerSmall(num, left[i]);
+		if (num <= key[i]) {
+			return innerSmall(num, ls[i]);
 		} else {
-			return size[left[i]] + cnts[i] + innerSmall(num, right[i]);
+			return aliveSize[ls[i]] + (alive[i] ? 1 : 0) + innerSmall(num, rs[i]);
 		}
 	}
 
 	// 平衡树当前来到i号节点，返回第index小的数字
 	public static int innerIndex(int index, int i) {
-		int leftsize = size[left[i]];
-		if (leftsize >= index) {
-			return innerIndex(index, left[i]);
-		} else if (leftsize + cnts[i] < index) {
-			return innerIndex(index - leftsize - cnts[i], right[i]);
-		} else {
-			return key[i];
+		int lsiz = aliveSize[ls[i]];
+		if (index <= lsiz) {
+			return innerIndex(index, ls[i]);
 		}
+		int cur = alive[i] ? 1 : 0;
+		if (lsiz + cur < index) {
+			return innerIndex(index - lsiz - cur, rs[i]);
+		}
+		return key[i];
 	}
 
 	// 平衡树当前来到i号节点，返回num的前驱
@@ -186,20 +192,30 @@ public class Code03_SegmentWithBalanced1 {
 	// 平衡树当前来到i号节点，返回num的后继
 	public static int innerPost(int num, int i) {
 		int k = innerSmall(num + 1, i);
-		if (k == size[i]) {
+		if (k == aliveSize[i]) {
 			return INF;
 		} else {
 			return innerIndex(k + 1, i);
 		}
 	}
 
-	public static void innerRemove(int num, int i, int f, int s) {
-		if (key[i] == num) {
-			cnts[i]--;
-		} else if (key[i] > num) {
-			innerRemove(num, left[i], i, 1);
+	// 注意innerRemove方法
+	// 因为替罪羊树会重构，所以值相同的一批节点，重构时假设选出的头为h
+	// 那么这批节点，有可能在h的左侧，也有可能在h的右侧
+	// 所以删除时，如果h已经被删，还要继续寻找其他key值相同的节点
+	// 此时只根据key值的大小关系，方向无法确定是左还是右
+	// 所以先求出目标的排名，再按排名删除，这样移动方向是确定的
+	public static void innerRemove(int i, int f, int s, int rank) {
+		int leftSize = aliveSize[ls[i]];
+		if (rank <= leftSize) {
+			innerRemove(ls[i], i, 1, rank);
 		} else {
-			innerRemove(num, right[i], i, 2);
+			int cur = alive[i] ? 1 : 0;
+			if (alive[i] && rank == leftSize + cur) {
+				alive[i] = false;
+			} else {
+				innerRemove(rs[i], i, 2, rank - leftSize - cur);
+			}
 		}
 		up(i);
 		if (!balance(i)) {
@@ -210,9 +226,11 @@ public class Code03_SegmentWithBalanced1 {
 	}
 
 	public static int innerRemove(int num, int i) {
-		if (innerSmall(num, i) != innerSmall(num + 1, i)) {
+		int rank1 = innerSmall(num, i) + 1;
+		int rank2 = innerSmall(num + 1, i) + 1;
+		if (rank1 != rank2) {
 			top = father = side = 0;
-			innerRemove(num, i, 0, 0);
+			innerRemove(i, 0, 0, rank1);
 			i = innerRebuild(i);
 		}
 		return i;
@@ -261,8 +279,7 @@ public class Code03_SegmentWithBalanced1 {
 	public static int number(int jobl, int jobr, int jobk) {
 		int l = 0, r = 100000000, mid, ans = 0;
 		while (l <= r) {
-			mid = (l + r) >> 1; 
-		    // mid + 1 名次 > jobk
+			mid = (l + r) >> 1;
 			if (small(jobl, jobr, mid + 1, 1, n, 1) + 1 > jobk) {
 				ans = mid;
 				r = mid - 1;
@@ -304,33 +321,25 @@ public class Code03_SegmentWithBalanced1 {
 	}
 
 	public static void main(String[] args) throws IOException {
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StreamTokenizer in = new StreamTokenizer(br);
+		FastReader in = new FastReader(System.in);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
-		in.nextToken();
-		n = (int) in.nval;
-		in.nextToken();
-		m = (int) in.nval;
+		n = in.nextInt();
+		m = in.nextInt();
 		for (int i = 1; i <= n; i++) {
-			in.nextToken();
-			arr[i] = (int) in.nval;
+			arr[i] = in.nextInt();
 		}
 		for (int i = 1; i <= n; i++) {
 			add(i, arr[i], 1, n, 1);
 		}
 		for (int i = 1, op, x, y, z; i <= m; i++) {
-			in.nextToken();
-			op = (int) in.nval;
-			in.nextToken();
-			x = (int) in.nval;
-			in.nextToken();
-			y = (int) in.nval;
+			op = in.nextInt();
+			x = in.nextInt();
+			y = in.nextInt();
 			if (op == 3) {
 				update(x, y, 1, n, 1);
 				arr[x] = y;
 			} else {
-				in.nextToken();
-				z = (int) in.nval;
+				z = in.nextInt();
 				if (op == 1) {
 					out.println(small(x, y, z, 1, n, 1) + 1);
 				} else if (op == 2) {
@@ -344,6 +353,47 @@ public class Code03_SegmentWithBalanced1 {
 		}
 		out.flush();
 		out.close();
-		br.close();
 	}
+
+	// 读写工具类
+	static class FastReader {
+
+		private final byte[] buffer = new byte[1 << 16];
+		private int ptr = 0, len = 0;
+		private final InputStream in;
+
+		FastReader(InputStream in) {
+			this.in = in;
+		}
+
+		private int readByte() throws IOException {
+			if (ptr >= len) {
+				len = in.read(buffer);
+				ptr = 0;
+				if (len <= 0)
+					return -1;
+			}
+			return buffer[ptr++];
+		}
+
+		int nextInt() throws IOException {
+			int c;
+			do {
+				c = readByte();
+			} while (c <= ' ' && c != -1);
+			boolean neg = false;
+			if (c == '-') {
+				neg = true;
+				c = readByte();
+			}
+			int val = 0;
+			while (c > ' ' && c != -1) {
+				val = val * 10 + (c - '0');
+				c = readByte();
+			}
+			return neg ? -val : val;
+		}
+
+	}
+
 }

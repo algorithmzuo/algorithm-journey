@@ -20,47 +20,57 @@ package class160;
 //const int MAXN = 200001;
 //const int MAXT = MAXN * 40;
 //const int INF = INT_MAX;
-//double ALPHA = 0.7;
 //int n, m;
+//
 //int arr[MAXN];
+//
 //int root[MAXN << 2];
+//
+//int cntn;
 //int key[MAXT];
-//int cnts[MAXT];
 //int ls[MAXT];
 //int rs[MAXT];
-//int siz[MAXT];
-//int diff[MAXT];
-//int cnt;
-//int collect[MAXT];
-//int ci;
-//int top, father, side;
+//bool alive[MAXT];
+//int aliveSize[MAXT];
+//
+//double ALPHA = 0.7;
+//int top;
+//int father;
+//int side;
+//
+//int collect[MAXN];
+//int collectSiz;
 //
 //int init(int num) {
-//    key[++cnt] = num;
-//    ls[cnt] = rs[cnt] = 0;
-//    cnts[cnt] = siz[cnt] = diff[cnt] = 1;
-//    return cnt;
+//    key[++cntn] = num;
+//    ls[cntn] = rs[cntn] = 0;
+//    alive[cntn] = true;
+//    aliveSize[cntn] = 1;
+//    return cntn;
 //}
 //
 //void up(int i) {
-//	siz[i] = siz[ls[i]] + siz[rs[i]] + cnts[i];
-//	diff[i] = diff[ls[i]] + diff[rs[i]] + (cnts[i] > 0 ? 1 : 0);
+//    aliveSize[i] = (alive[i] ? 1 : 0) + aliveSize[ls[i]] + aliveSize[rs[i]];
 //}
 //
 //bool balance(int i) {
-//    return i == 0 || ALPHA * diff[i] >= max(diff[ls[i]], diff[rs[i]]);
+//    return ALPHA * aliveSize[i] >= max(aliveSize[ls[i]], aliveSize[rs[i]]);
 //}
 //
 //void inorder(int i) {
-//    if (i) {
+//    if (i != 0 && aliveSize[i] != 0) {
 //        inorder(ls[i]);
-//        if (cnts[i] > 0) collect[++ci] = i;
+//        if (alive[i]) {
+//            collect[++collectSiz] = i;
+//        }
 //        inorder(rs[i]);
 //    }
 //}
 //
 //int innerBuild(int l, int r) {
-//    if (l > r) return 0;
+//    if (l > r) {
+//        return 0;
+//    }
 //    int mid = (l + r) >> 1;
 //    int h = collect[mid];
 //    ls[h] = innerBuild(l, mid - 1);
@@ -70,39 +80,35 @@ package class160;
 //}
 //
 //int innerRebuild(int h) {
-//    if (top) {
-//        ci = 0;
+//    if (top != 0) {
+//        collectSiz = 0;
 //        inorder(top);
-//        if (ci > 0) {
-//            if (father == 0) {
-//                h = innerBuild(1, ci);
-//            } else if (side == 1) {
-//            	ls[father] = innerBuild(1, ci);
-//            } else {
-//            	rs[father] = innerBuild(1, ci);
-//            }
+//        int newRoot = innerBuild(1, collectSiz);
+//        if (father == 0) {
+//            h = newRoot;
+//        } else if (side == 1) {
+//            ls[father] = newRoot;
+//        } else {
+//            rs[father] = newRoot;
 //        }
 //    }
 //    return h;
 //}
 //
 //int innerInsert(int num, int i, int f, int s) {
-//    if (!i) {
-//        i = init(num);
+//    if (i == 0 || aliveSize[i] == 0) {
+//        return init(num);
+//    }
+//    if (num <= key[i]) {
+//        ls[i] = innerInsert(num, ls[i], i, 1);
 //    } else {
-//        if (key[i] == num) {
-//        	cnts[i]++;
-//        } else if (key[i] > num) {
-//        	ls[i] = innerInsert(num, ls[i], i, 1);
-//        } else {
-//        	rs[i] = innerInsert(num, rs[i], i, 2);
-//        }
-//        up(i);
-//        if (!balance(i)) {
-//            top = i;
-//            father = f;
-//            side = s;
-//        }
+//        rs[i] = innerInsert(num, rs[i], i, 2);
+//    }
+//    up(i);
+//    if (!balance(i)) {
+//        top = i;
+//        father = f;
+//        side = s;
 //    }
 //    return i;
 //}
@@ -115,40 +121,57 @@ package class160;
 //}
 //
 //int innerSmall(int num, int i) {
-//    if (!i) return 0;
-//    if (key[i] >= num) return innerSmall(num, ls[i]);
-//    return siz[ls[i]] + cnts[i] + innerSmall(num, rs[i]);
+//    if (i == 0 || aliveSize[i] == 0) {
+//        return 0;
+//    }
+//    if (num <= key[i]) {
+//        return innerSmall(num, ls[i]);
+//    } else {
+//        return aliveSize[ls[i]] + (alive[i] ? 1 : 0) + innerSmall(num, rs[i]);
+//    }
 //}
 //
 //int innerIndex(int index, int i) {
-//    int leftsize = siz[ls[i]];
-//    if (leftsize >= index) {
+//    int lsiz = aliveSize[ls[i]];
+//    if (index <= lsiz) {
 //        return innerIndex(index, ls[i]);
-//    } else if (leftsize + cnts[i] < index) {
-//        return innerIndex(index - leftsize - cnts[i], rs[i]);
+//    }
+//    int cur = alive[i] ? 1 : 0;
+//    if (lsiz + cur < index) {
+//        return innerIndex(index - lsiz - cur, rs[i]);
 //    }
 //    return key[i];
 //}
 //
 //int innerPre(int num, int i) {
 //    int kth = innerSmall(num, i) + 1;
-//    if (kth == 1) return -INF;
-//    return innerIndex(kth - 1, i);
+//    if (kth == 1) {
+//        return -INF;
+//    } else {
+//        return innerIndex(kth - 1, i);
+//    }
 //}
 //
 //int innerPost(int num, int i) {
 //    int k = innerSmall(num + 1, i);
-//    if (k == siz[i]) return INF;
-//    return innerIndex(k + 1, i);
+//    if (k == aliveSize[i]) {
+//        return INF;
+//    } else {
+//        return innerIndex(k + 1, i);
+//    }
 //}
 //
-//void innerRemove(int num, int i, int f, int s) {
-//    if (key[i] == num) {
-//    	cnts[i]--;
-//    } else if (key[i] > num) {
-//    	innerRemove(num, ls[i], i, 1);
+//void innerRemove(int i, int f, int s, int rank) {
+//    int leftSize = aliveSize[ls[i]];
+//    if (rank <= leftSize) {
+//        innerRemove(ls[i], i, 1, rank);
 //    } else {
-//    	innerRemove(num, rs[i], i, 2);
+//        int cur = alive[i] ? 1 : 0;
+//        if (alive[i] && rank == leftSize + cur) {
+//            alive[i] = false;
+//        } else {
+//            innerRemove(rs[i], i, 2, rank - leftSize - cur);
+//        }
 //    }
 //    up(i);
 //    if (!balance(i)) {
@@ -159,20 +182,25 @@ package class160;
 //}
 //
 //int innerRemove(int num, int i) {
-//    if (innerSmall(num, i) != innerSmall(num + 1, i)) {
+//    int rank1 = innerSmall(num, i) + 1;
+//    int rank2 = innerSmall(num + 1, i) + 1;
+//    if (rank1 != rank2) {
 //        top = father = side = 0;
-//        innerRemove(num, i, 0, 0);
+//        innerRemove(i, 0, 0, rank1);
 //        i = innerRebuild(i);
 //    }
 //    return i;
 //}
 //
 //void add(int jobi, int jobv, int l, int r, int i) {
-//	root[i] = innerInsert(jobv, root[i]);
+//    root[i] = innerInsert(jobv, root[i]);
 //    if (l < r) {
 //        int mid = (l + r) >> 1;
-//        if (jobi <= mid) add(jobi, jobv, l, mid, i << 1);
-//        else add(jobi, jobv, mid + 1, r, i << 1 | 1);
+//        if (jobi <= mid) {
+//            add(jobi, jobv, l, mid, i << 1);
+//        } else {
+//            add(jobi, jobv, mid + 1, r, i << 1 | 1);
+//        }
 //    }
 //}
 //
@@ -181,16 +209,26 @@ package class160;
 //    root[i] = innerInsert(jobv, root[i]);
 //    if (l < r) {
 //        int mid = (l + r) >> 1;
-//        if (jobi <= mid) update(jobi, jobv, l, mid, i << 1);
-//        else update(jobi, jobv, mid + 1, r, i << 1 | 1);
+//        if (jobi <= mid) {
+//            update(jobi, jobv, l, mid, i << 1);
+//        } else {
+//            update(jobi, jobv, mid + 1, r, i << 1 | 1);
+//        }
 //    }
 //}
 //
 //int small(int jobl, int jobr, int jobv, int l, int r, int i) {
-//    if (jobl <= l && r <= jobr) return innerSmall(jobv, root[i]);
-//    int mid = (l + r) >> 1, ans = 0;
-//    if (jobl <= mid) ans += small(jobl, jobr, jobv, l, mid, i << 1);
-//    if (jobr > mid) ans += small(jobl, jobr, jobv, mid + 1, r, i << 1 | 1);
+//    if (jobl <= l && r <= jobr) {
+//        return innerSmall(jobv, root[i]);
+//    }
+//    int mid = (l + r) >> 1;
+//    int ans = 0;
+//    if (jobl <= mid) {
+//        ans += small(jobl, jobr, jobv, l, mid, i << 1);
+//    }
+//    if (jobr > mid) {
+//        ans += small(jobl, jobr, jobv, mid + 1, r, i << 1 | 1);
+//    }
 //    return ans;
 //}
 //
@@ -209,38 +247,61 @@ package class160;
 //}
 //
 //int pre(int jobl, int jobr, int jobv, int l, int r, int i) {
-//    if (jobl <= l && r <= jobr) return innerPre(jobv, root[i]);
-//    int mid = (l + r) >> 1, ans = -INF;
-//    if (jobl <= mid) ans = max(ans, pre(jobl, jobr, jobv, l, mid, i << 1));
-//    if (jobr > mid) ans = max(ans, pre(jobl, jobr, jobv, mid + 1, r, i << 1 | 1));
+//    if (jobl <= l && r <= jobr) {
+//        return innerPre(jobv, root[i]);
+//    }
+//    int mid = (l + r) >> 1;
+//    int ans = -INF;
+//    if (jobl <= mid) {
+//        ans = max(ans, pre(jobl, jobr, jobv, l, mid, i << 1));
+//    }
+//    if (jobr > mid) {
+//        ans = max(ans, pre(jobl, jobr, jobv, mid + 1, r, i << 1 | 1));
+//    }
 //    return ans;
 //}
 //
 //int post(int jobl, int jobr, int jobv, int l, int r, int i) {
-//    if (jobl <= l && r <= jobr) return innerPost(jobv, root[i]);
-//    int mid = (l + r) >> 1, ans = INF;
-//    if (jobl <= mid) ans = min(ans, post(jobl, jobr, jobv, l, mid, i << 1));
-//    if (jobr > mid) ans = min(ans, post(jobl, jobr, jobv, mid + 1, r, i << 1 | 1));
+//    if (jobl <= l && r <= jobr) {
+//        return innerPost(jobv, root[i]);
+//    }
+//    int mid = (l + r) >> 1;
+//    int ans = INF;
+//    if (jobl <= mid) {
+//        ans = min(ans, post(jobl, jobr, jobv, l, mid, i << 1));
+//    }
+//    if (jobr > mid) {
+//        ans = min(ans, post(jobl, jobr, jobv, mid + 1, r, i << 1 | 1));
+//    }
 //    return ans;
 //}
 //
-//int main(){
+//int main() {
 //    ios::sync_with_stdio(false);
 //    cin.tie(nullptr);
 //    cin >> n >> m;
-//    for(int i = 1; i <= n; i++) cin >> arr[i];
-//    for(int i = 1; i <= n; i++) add(i, arr[i], 1, n, 1);
-//    for(int i = 1, op, x, y, z; i <= m; i++) {
+//    for (int i = 1; i <= n; i++) {
+//        cin >> arr[i];
+//    }
+//    for (int i = 1; i <= n; i++) {
+//        add(i, arr[i], 1, n, 1);
+//    }
+//    for (int i = 1, op, x, y, z; i <= m; i++) {
 //        cin >> op >> x >> y;
-//        if(op == 3) {
+//        if (op == 3) {
 //            update(x, y, 1, n, 1);
 //            arr[x] = y;
 //        } else {
 //            cin >> z;
-//            if(op == 1) cout << small(x, y, z, 1, n, 1) + 1 << "\n";
-//            else if(op == 2) cout << number(x, y, z) << "\n";
-//            else if(op == 4) cout << pre(x, y, z, 1, n, 1) << "\n";
-//            else cout << post(x, y, z, 1, n, 1) << "\n";
+//            if (op == 1) {
+//                cout << small(x, y, z, 1, n, 1) + 1 << "\n";
+//            } else if (op == 2) {
+//                cout << number(x, y, z) << "\n";
+//            } else if (op == 4) {
+//                cout << pre(x, y, z, 1, n, 1) << "\n";
+//            } else {
+//                cout << post(x, y, z, 1, n, 1) << "\n";
+//            }
 //        }
 //    }
 //    return 0;

@@ -195,8 +195,9 @@ public class FollowUp1 {
 	// 注意remove方法
 	// 因为替罪羊树会重构，所以值相同的一批节点，重构时假设选出的头为h
 	// 那么这批节点，有可能在h的左侧，也有可能在h的右侧
-	// 所以利用大小关系判断走哪一侧并不方便，可以利用rank来进行删除
-	// 因为有了排名，在树上移动的方向是确定的
+	// 所以删除时，如果h已经被删，还要继续寻找其他key值相同的节点
+	// 此时只根据key值的大小关系，方向无法确定是左还是右
+	// 所以先求出目标的排名，再按排名删除，这样移动方向是确定的
 	public static void remove(int i, int f, int s, int rank) {
 		int lsiz = aliveSize[ls[i]];
 		if (rank <= lsiz) {
