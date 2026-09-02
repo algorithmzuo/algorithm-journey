@@ -29,7 +29,6 @@ package class205;
 //int n, k;
 //
 //ABC abc[MAXN];
-//
 //int b[MAXN];
 //int c[MAXN];
 //int cntkdt;
@@ -44,6 +43,9 @@ package class205;
 //
 //double ALPHA = 0.7;
 //int top;
+//int topFather;
+//int topSide;
+//int topDimension;
 //int arr[MAXN];
 //int treeSiz;
 //
@@ -107,47 +109,44 @@ package class205;
 //    }
 //}
 //
-//int rebuild(int i, int dimension) {
-//    if (i == top) {
-//        treeSiz = 0;
-//        dfs(i);
-//        return build(1, treeSiz, dimension);
-//    }
-//    if (compareNode(top, i, dimension) < 0) {
-//        ls[i] = rebuild(ls[i], dimension ^ 1);
-//    } else {
-//        rs[i] = rebuild(rs[i], dimension ^ 1);
-//    }
-//    maintain(i);
-//    return i;
-//}
-//
 //void rebuild() {
 //    if (top != 0) {
-//        root = rebuild(root, 0);
+//        treeSiz = 0;
+//        dfs(top);
+//        int newRoot = build(1, treeSiz, topDimension);
+//        if (topFather == 0) {
+//            root = newRoot;
+//        } else if (topSide == 1) {
+//            ls[topFather] = newRoot;
+//        } else {
+//            rs[topFather] = newRoot;
+//        }
 //    }
 //}
 //
-//int insert(int insertNode, int u, int dimension) {
+//int add(int insertNode, int u, int fa, int side, int dimension) {
 //    if (u == 0) {
 //        return insertNode;
 //    }
 //    if (compareNode(insertNode, u, dimension) < 0) {
-//        ls[u] = insert(insertNode, ls[u], dimension ^ 1);
+//        ls[u] = add(insertNode, ls[u], u, 1, dimension ^ 1);
 //    } else {
-//        rs[u] = insert(insertNode, rs[u], dimension ^ 1);
+//        rs[u] = add(insertNode, rs[u], u, 2, dimension ^ 1);
 //    }
 //    maintain(u);
 //    if (!balance(u)) {
 //        top = u;
+//        topFather = fa;
+//        topSide = side;
+//        topDimension = dimension;
 //    }
 //    return u;
 //}
 //
 //void add(int qx, int qy) {
-//    top = 0;
+//    top = topFather = topSide = topDimension = 0;
 //    int insertNode = init(qx, qy);
-//    root = insert(insertNode, root, 0);
+//    root = add(insertNode, root, 0, 0, 0);
 //    rebuild();
 //}
 //
