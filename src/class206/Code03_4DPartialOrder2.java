@@ -41,7 +41,9 @@ package class206;
 //int n;
 //
 //ABCD abcd[MAXN];
+//
 //BI bi[MAXN];
+//
 //int ranking[MAXN];
 //
 //int c[MAXT];
@@ -58,6 +60,9 @@ package class206;
 //
 //double ALPHA = 0.7;
 //int top;
+//int topFather;
+//int topSide;
+//int topDimension;
 //int arr[MAXN];
 //int treeSiz;
 //
@@ -124,47 +129,44 @@ package class206;
 //    }
 //}
 //
-//int rebuild(int i, int dimension) {
-//    if (i == top) {
-//        treeSiz = 0;
-//        dfs(i);
-//        return build(1, treeSiz, dimension);
-//    }
-//    if (compareNode(top, i, dimension) < 0) {
-//        ls[i] = rebuild(ls[i], dimension ^ 1);
-//    } else {
-//        rs[i] = rebuild(rs[i], dimension ^ 1);
-//    }
-//    maintain(i);
-//    return i;
-//}
-//
 //void rebuild(int version) {
 //    if (top != 0) {
-//        root[version] = rebuild(root[version], 0);
+//        treeSiz = 0;
+//        dfs(top);
+//        int newRoot = build(1, treeSiz, topDimension);
+//        if (topFather == 0) {
+//            root[version] = newRoot;
+//        } else if (topSide == 1) {
+//            ls[topFather] = newRoot;
+//        } else {
+//            rs[topFather] = newRoot;
+//        }
 //    }
 //}
 //
-//int insert(int insertNode, int u, int dimension) {
+//int addKdt(int insertNode, int u, int fa, int side, int dimension) {
 //    if (u == 0) {
 //        return insertNode;
 //    }
 //    if (compareNode(insertNode, u, dimension) < 0) {
-//        ls[u] = insert(insertNode, ls[u], dimension ^ 1);
+//        ls[u] = addKdt(insertNode, ls[u], u, 1, dimension ^ 1);
 //    } else {
-//        rs[u] = insert(insertNode, rs[u], dimension ^ 1);
+//        rs[u] = addKdt(insertNode, rs[u], u, 2, dimension ^ 1);
 //    }
 //    maintain(u);
 //    if (!balance(u)) {
 //        top = u;
+//        topFather = fa;
+//        topSide = side;
+//        topDimension = dimension;
 //    }
 //    return u;
 //}
 //
-//void insertKdt(int version, int qx, int qy, int qv) {
-//    top = 0;
+//void addKdt(int version, int qx, int qy, int qv) {
+//    top = topFather = topSide = topDimension = 0;
 //    int insertNode = init(qx, qy, qv);
-//    root[version] = insert(insertNode, root[version], 0);
+//    root[version] = addKdt(insertNode, root[version], 0, 0, 0);
 //    rebuild(version);
 //}
 //
@@ -174,7 +176,7 @@ package class206;
 //
 //void add(int rank, int qc, int qd, int qv) {
 //    for (int i = rank; i <= n; i += lowbit(i)) {
-//        insertKdt(i, qc, qd, qv);
+//        addKdt(i, qc, qd, qv);
 //    }
 //}
 //
@@ -210,7 +212,7 @@ package class206;
 //}
 //
 //void prepare() {
-//    sort(abcd + 1, abcd + n + 1, ABCDCmp);
+//    stable_sort(abcd + 1, abcd + n + 1, ABCDCmp);
 //    for (int i = 1; i <= n; i++) {
 //        bi[i].b = abcd[i].b;
 //        bi[i].i = i;

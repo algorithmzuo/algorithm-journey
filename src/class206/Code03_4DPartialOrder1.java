@@ -47,6 +47,10 @@ public class Code03_4DPartialOrder1 {
 
 	public static double ALPHA = 0.7;
 	public static int top;
+	public static int topFather;
+	public static int topSide;
+	public static int topDimension;
+
 	public static int[] arr = new int[MAXN];
 	public static int treeSiz;
 
@@ -143,47 +147,44 @@ public class Code03_4DPartialOrder1 {
 		}
 	}
 
-	public static int rebuild(int i, int dimension) {
-		if (i == top) {
-			treeSiz = 0;
-			dfs(i);
-			return build(1, treeSiz, dimension);
-		}
-		if (compareNode(top, i, dimension) < 0) {
-			ls[i] = rebuild(ls[i], dimension ^ 1);
-		} else {
-			rs[i] = rebuild(rs[i], dimension ^ 1);
-		}
-		maintain(i);
-		return i;
-	}
-
 	public static void rebuild(int version) {
 		if (top != 0) {
-			root[version] = rebuild(root[version], 0);
+			treeSiz = 0;
+			dfs(top);
+			int newRoot = build(1, treeSiz, topDimension);
+			if (topFather == 0) {
+				root[version] = newRoot;
+			} else if (topSide == 1) {
+				ls[topFather] = newRoot;
+			} else {
+				rs[topFather] = newRoot;
+			}
 		}
 	}
 
-	public static int insert(int insertNode, int u, int dimension) {
+	public static int addKdt(int insertNode, int u, int fa, int side, int dimension) {
 		if (u == 0) {
 			return insertNode;
 		}
 		if (compareNode(insertNode, u, dimension) < 0) {
-			ls[u] = insert(insertNode, ls[u], dimension ^ 1);
+			ls[u] = addKdt(insertNode, ls[u], u, 1, dimension ^ 1);
 		} else {
-			rs[u] = insert(insertNode, rs[u], dimension ^ 1);
+			rs[u] = addKdt(insertNode, rs[u], u, 2, dimension ^ 1);
 		}
 		maintain(u);
 		if (!balance(u)) {
 			top = u;
+			topFather = fa;
+			topSide = side;
+			topDimension = dimension;
 		}
 		return u;
 	}
 
-	public static void insertKdt(int version, int qx, int qy, int qv) {
-		top = 0;
+	public static void addKdt(int version, int qx, int qy, int qv) {
+		top = topFather = topSide = topDimension = 0;
 		int insertNode = init(qx, qy, qv);
-		root[version] = insert(insertNode, root[version], 0);
+		root[version] = addKdt(insertNode, root[version], 0, 0, 0);
 		rebuild(version);
 	}
 
@@ -194,7 +195,7 @@ public class Code03_4DPartialOrder1 {
 	// 新增一个状态，b排名为rank，二维坐标为(qc, qd)，dp值为qv
 	public static void add(int rank, int qc, int qd, int qv) {
 		for (int i = rank; i <= n; i += lowbit(i)) {
-			insertKdt(i, qc, qd, qv);
+			addKdt(i, qc, qd, qv);
 		}
 	}
 
