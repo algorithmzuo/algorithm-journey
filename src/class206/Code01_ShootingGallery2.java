@@ -198,9 +198,9 @@ package class206;
 //    }
 //}
 //
-//void remove(int eraseNode) {
+//void remove(int removeNode) {
 //    top = topFather = topSide = topDimension = 0;
-//    remove(eraseNode, root, 0, 0, 0);
+//    remove(removeNode, root, 0, 0, 0);
 //    rebuild();
 //}
 //
