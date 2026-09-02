@@ -37,7 +37,6 @@ package class206;
 //int ls[MAXN];
 //int rs[MAXN];
 //bool alive[MAXN];
-//int allSiz[MAXN];
 //int aliveSiz[MAXN];
 //int xmin[MAXN];
 //int xmax[MAXN];
@@ -47,6 +46,10 @@ package class206;
 //
 //double ALPHA = 0.7;
 //int top;
+//int topFather;
+//int topSide;
+//int topDimension;
+//
 //int arr[MAXN];
 //int treeSiz;
 //
@@ -59,7 +62,6 @@ package class206;
 //    y[cntkdt] = qy;
 //    ls[cntkdt] = rs[cntkdt] = 0;
 //    alive[cntkdt] = true;
-//    allSiz[cntkdt] = 1;
 //    aliveSiz[cntkdt] = 1;
 //    xmin[cntkdt] = xmax[cntkdt] = qx;
 //    ymin[cntkdt] = ymax[cntkdt] = qy;
@@ -70,7 +72,6 @@ package class206;
 //void maintain(int i) {
 //    int l = ls[i];
 //    int r = rs[i];
-//    allSiz[i] = 1 + allSiz[l] + allSiz[r];
 //    if (alive[i]) {
 //        aliveSiz[i] = 1 + aliveSiz[l] + aliveSiz[r];
 //        xmin[i] = xmax[i] = x[i];
@@ -126,11 +127,11 @@ package class206;
 //}
 //
 //bool balance(int i) {
-//    return ALPHA * allSiz[i] >= max(allSiz[ls[i]], allSiz[rs[i]]) && aliveSiz[i] >= ALPHA * allSiz[i];
+//    return ALPHA * aliveSiz[i] >= max(aliveSiz[ls[i]], aliveSiz[rs[i]]);
 //}
 //
 //void dfs(int i) {
-//    if (i != 0) {
+//    if (i != 0 && aliveSiz[i] != 0) {
 //        if (alive[i]) {
 //            arr[++treeSiz] = i;
 //        }
@@ -139,67 +140,67 @@ package class206;
 //    }
 //}
 //
-//int rebuild(int i, int dimension) {
-//    if (i == top) {
-//        treeSiz = 0;
-//        dfs(i);
-//        return build(1, treeSiz, dimension);
-//    }
-//    if (compareNode(top, i, dimension) < 0) {
-//        ls[i] = rebuild(ls[i], dimension ^ 1);
-//    } else {
-//        rs[i] = rebuild(rs[i], dimension ^ 1);
-//    }
-//    maintain(i);
-//    return i;
-//}
-//
 //void rebuild() {
 //    if (top != 0) {
-//        root = rebuild(root, 0);
+//        treeSiz = 0;
+//        dfs(top);
+//        int newRoot = build(1, treeSiz, topDimension);
+//        if (topFather == 0) {
+//            root = newRoot;
+//        } else if (topSide == 1) {
+//            ls[topFather] = newRoot;
+//        } else {
+//            rs[topFather] = newRoot;
+//        }
 //    }
 //}
 //
-//int insert(int insertNode, int u, int dimension) {
-//    if (u == 0) {
+//int add(int insertNode, int u, int fa, int side, int dimension) {
+//    if (u == 0 || aliveSiz[u] == 0) {
 //        return insertNode;
 //    }
 //    if (compareNode(insertNode, u, dimension) < 0) {
-//        ls[u] = insert(insertNode, ls[u], dimension ^ 1);
+//        ls[u] = add(insertNode, ls[u], u, 1, dimension ^ 1);
 //    } else {
-//        rs[u] = insert(insertNode, rs[u], dimension ^ 1);
+//        rs[u] = add(insertNode, rs[u], u, 2, dimension ^ 1);
 //    }
 //    maintain(u);
 //    if (!balance(u)) {
 //        top = u;
+//        topFather = fa;
+//        topSide = side;
+//        topDimension = dimension;
 //    }
 //    return u;
 //}
 //
 //void add(int qx, int qy) {
-//    top = 0;
+//    top = topFather = topSide = topDimension = 0;
 //    int insertNode = init(qx, qy);
-//    root = insert(insertNode, root, 0);
+//    root = add(insertNode, root, 0, 0, 0);
 //    rebuild();
 //}
 //
-//void erase(int eraseNode, int u, int dimension) {
-//    if (u == eraseNode) {
+//void remove(int removeNode, int u, int fa, int side, int dimension) {
+//    if (u == removeNode) {
 //        alive[u] = false;
-//    } else if (compareNode(eraseNode, u, dimension) < 0) {
-//        erase(eraseNode, ls[u], dimension ^ 1);
+//    } else if (compareNode(removeNode, u, dimension) < 0) {
+//        remove(removeNode, ls[u], u, 1, dimension ^ 1);
 //    } else {
-//        erase(eraseNode, rs[u], dimension ^ 1);
+//        remove(removeNode, rs[u], u, 2, dimension ^ 1);
 //    }
 //    maintain(u);
 //    if (!balance(u)) {
 //        top = u;
+//        topFather = fa;
+//        topSide = side;
+//        topDimension = dimension;
 //    }
 //}
 //
 //void remove(int eraseNode) {
-//    top = 0;
-//    erase(eraseNode, root, 0);
+//    top = topFather = topSide = topDimension = 0;
+//    remove(eraseNode, root, 0, 0, 0);
 //    rebuild();
 //}
 //

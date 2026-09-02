@@ -33,10 +33,7 @@ public class Code01_ShootingGallery1 {
 	public static int root;
 	public static int[] ls = new int[MAXN];
 	public static int[] rs = new int[MAXN];
-
-	// 单个节点是否存活、所有节点数量、存活节点数量
 	public static boolean[] alive = new boolean[MAXN];
-	public static int[] allSiz = new int[MAXN];
 	public static int[] aliveSiz = new int[MAXN];
 
 	public static int[] xmin = new int[MAXN];
@@ -48,6 +45,10 @@ public class Code01_ShootingGallery1 {
 
 	public static double ALPHA = 0.7;
 	public static int top;
+	public static int topFather;
+	public static int topSide;
+	public static int topDimension;
+
 	public static int[] arr = new int[MAXN];
 	public static int treeSiz;
 
@@ -60,7 +61,6 @@ public class Code01_ShootingGallery1 {
 		y[cntkdt] = qy;
 		ls[cntkdt] = rs[cntkdt] = 0;
 		alive[cntkdt] = true;
-		allSiz[cntkdt] = 1;
 		aliveSiz[cntkdt] = 1;
 		xmin[cntkdt] = xmax[cntkdt] = qx;
 		ymin[cntkdt] = ymax[cntkdt] = qy;
@@ -71,7 +71,6 @@ public class Code01_ShootingGallery1 {
 	public static void maintain(int i) {
 		int l = ls[i];
 		int r = rs[i];
-		allSiz[i] = 1 + allSiz[l] + allSiz[r];
 		if (alive[i]) {
 			aliveSiz[i] = 1 + aliveSiz[l] + aliveSiz[r];
 			xmin[i] = xmax[i] = x[i];
@@ -157,11 +156,11 @@ public class Code01_ShootingGallery1 {
 	}
 
 	public static boolean balance(int i) {
-		return ALPHA * allSiz[i] >= Math.max(allSiz[ls[i]], allSiz[rs[i]]) && aliveSiz[i] >= ALPHA * allSiz[i];
+		return ALPHA * aliveSiz[i] >= Math.max(aliveSiz[ls[i]], aliveSiz[rs[i]]);
 	}
 
 	public static void dfs(int i) {
-		if (i != 0) {
+		if (i != 0 && aliveSiz[i] != 0) {
 			if (alive[i]) {
 				arr[++treeSiz] = i;
 			}
@@ -170,67 +169,67 @@ public class Code01_ShootingGallery1 {
 		}
 	}
 
-	public static int rebuild(int i, int dimension) {
-		if (i == top) {
-			treeSiz = 0;
-			dfs(i);
-			return build(1, treeSiz, dimension);
-		}
-		if (compareNode(top, i, dimension) < 0) {
-			ls[i] = rebuild(ls[i], dimension ^ 1);
-		} else {
-			rs[i] = rebuild(rs[i], dimension ^ 1);
-		}
-		maintain(i);
-		return i;
-	}
-
 	public static void rebuild() {
 		if (top != 0) {
-			root = rebuild(root, 0);
+			treeSiz = 0;
+			dfs(top);
+			int newRoot = build(1, treeSiz, topDimension);
+			if (topFather == 0) {
+				root = newRoot;
+			} else if (topSide == 1) {
+				ls[topFather] = newRoot;
+			} else {
+				rs[topFather] = newRoot;
+			}
 		}
 	}
 
-	public static int insert(int insertNode, int u, int dimension) {
-		if (u == 0) {
+	public static int add(int insertNode, int u, int fa, int side, int dimension) {
+		if (u == 0 || aliveSiz[u] == 0) {
 			return insertNode;
 		}
 		if (compareNode(insertNode, u, dimension) < 0) {
-			ls[u] = insert(insertNode, ls[u], dimension ^ 1);
+			ls[u] = add(insertNode, ls[u], u, 1, dimension ^ 1);
 		} else {
-			rs[u] = insert(insertNode, rs[u], dimension ^ 1);
+			rs[u] = add(insertNode, rs[u], u, 2, dimension ^ 1);
 		}
 		maintain(u);
 		if (!balance(u)) {
 			top = u;
+			topFather = fa;
+			topSide = side;
+			topDimension = dimension;
 		}
 		return u;
 	}
 
 	public static void add(int qx, int qy) {
-		top = 0;
+		top = topFather = topSide = topDimension = 0;
 		int insertNode = init(qx, qy);
-		root = insert(insertNode, root, 0);
+		root = add(insertNode, root, 0, 0, 0);
 		rebuild();
 	}
 
-	public static void erase(int eraseNode, int u, int dimension) {
-		if (u == eraseNode) {
+	public static void remove(int removeNode, int u, int fa, int side, int dimension) {
+		if (u == removeNode) {
 			alive[u] = false;
-		} else if (compareNode(eraseNode, u, dimension) < 0) {
-			erase(eraseNode, ls[u], dimension ^ 1);
+		} else if (compareNode(removeNode, u, dimension) < 0) {
+			remove(removeNode, ls[u], u, 1, dimension ^ 1);
 		} else {
-			erase(eraseNode, rs[u], dimension ^ 1);
+			remove(removeNode, rs[u], u, 2, dimension ^ 1);
 		}
 		maintain(u);
 		if (!balance(u)) {
 			top = u;
+			topFather = fa;
+			topSide = side;
+			topDimension = dimension;
 		}
 	}
 
-	public static void remove(int eraseNode) {
-		top = 0;
-		erase(eraseNode, root, 0);
+	public static void remove(int removeNode) {
+		top = topFather = topSide = topDimension = 0;
+		remove(removeNode, root, 0, 0, 0);
 		rebuild();
 	}
 
