@@ -1,54 +1,53 @@
 package class150;
 
-// 替罪羊树实现普通有序表，数据加强的测试，C++版
-// 这个文件课上没有讲，测试数据加强了，而且有强制在线的要求
-// 基本功能要求都是不变的，可以打开测试链接查看
+// 替罪羊树的实现，C++版
+// 这个文件课上没有讲
+// 替罪羊树不进行词频压缩的版本
+// 数据经过加强
 // 测试链接 : https://www.luogu.com.cn/problem/P6136
 // 如下实现是C++的版本，C++版本和java版本逻辑完全一样
 // 提交如下代码，可以通过所有测试用例
 
-//#include <iostream>
-//#include <vector>
-//#include <algorithm>
-//#include <cmath>
-//#include <climits>
-//#include <cstring>
+//#include <bits/stdc++.h>
 //
 //using namespace std;
 //
-//const double ALPHA = 0.7;
 //const int MAXN = 2000001;
-//int head = 0;
-//int cnt = 0;
+//
+//int cntn;
+//int root;
+//
 //int key[MAXN];
-//int key_count[MAXN];
 //int ls[MAXN];
 //int rs[MAXN];
-//int siz[MAXN];
-//int diff[MAXN];
-//int collect[MAXN];
-//int ci;
+//bool alive[MAXN];
+//int aliveSize[MAXN];
+//
+//double ALPHA = 0.7;
 //int top;
 //int father;
 //int side;
 //
+//int collect[MAXN];
+//int collectSiz;
+//
 //int init(int num) {
-//    key[++cnt] = num;
-//    ls[cnt] = rs[cnt] = 0;
-//    key_count[cnt] = siz[cnt] = diff[cnt] = 1;
-//    return cnt;
+//    key[++cntn] = num;
+//    ls[cntn] = rs[cntn] = 0;
+//    alive[cntn] = true;
+//    aliveSize[cntn] = 1;
+//    return cntn;
 //}
 //
 //void up(int i) {
-//    siz[i] = siz[ls[i]] + siz[rs[i]] + key_count[i];
-//    diff[i] = diff[ls[i]] + diff[rs[i]] + (key_count[i] > 0 ? 1 : 0);
+//    aliveSize[i] = (alive[i] ? 1 : 0) + aliveSize[ls[i]] + aliveSize[rs[i]];
 //}
 //
 //void inorder(int i) {
-//    if (i != 0) {
+//    if (i != 0 && aliveSize[i] != 0) {
 //        inorder(ls[i]);
-//        if (key_count[i] > 0) {
-//            collect[++ci] = i;
+//        if (alive[i]) {
+//            collect[++collectSiz] = i;
 //        }
 //        inorder(rs[i]);
 //    }
@@ -68,37 +67,35 @@ package class150;
 //
 //void rebuild() {
 //    if (top != 0) {
-//        ci = 0;
+//        collectSiz = 0;
 //        inorder(top);
-//        if (ci > 0) {
-//            if (father == 0) {
-//                head = build(1, ci);
-//            } else if (side == 1) {
-//                ls[father] = build(1, ci);
-//            } else {
-//                rs[father] = build(1, ci);
-//            }
+//        int newRoot = build(1, collectSiz);
+//        if (father == 0) {
+//            root = newRoot;
+//        } else if (side == 1) {
+//            ls[father] = newRoot;
+//        } else {
+//            rs[father] = newRoot;
 //        }
 //    }
 //}
 //
 //bool balance(int i) {
-//    return ALPHA * diff[i] >= max(diff[ls[i]], diff[rs[i]]);
+//    return ALPHA * aliveSize[i] >= max(aliveSize[ls[i]], aliveSize[rs[i]]);
 //}
 //
 //void add(int i, int f, int s, int num) {
-//    if (i == 0) {
+//    if (i == 0 || aliveSize[i] == 0) {
+//        int newNode = init(num);
 //        if (f == 0) {
-//            head = init(num);
+//            root = newNode;
 //        } else if (s == 1) {
-//            ls[f] = init(num);
+//            ls[f] = newNode;
 //        } else {
-//            rs[f] = init(num);
+//            rs[f] = newNode;
 //        }
 //    } else {
-//        if (key[i] == num) {
-//            key_count[i]++;
-//        } else if (key[i] > num) {
+//        if (num <= key[i]) {
 //            add(ls[i], i, 1, num);
 //        } else {
 //            add(rs[i], i, 2, num);
@@ -114,36 +111,39 @@ package class150;
 //
 //void add(int num) {
 //    top = father = side = 0;
-//    add(head, 0, 0, num);
+//    add(root, 0, 0, num);
 //    rebuild();
 //}
 //
 //int small(int i, int num) {
-//    if (i == 0) {
+//    if (i == 0 || aliveSize[i] == 0) {
 //        return 0;
 //    }
-//    if (key[i] >= num) {
+//    if (num <= key[i]) {
 //        return small(ls[i], num);
 //    } else {
-//        return siz[ls[i]] + key_count[i] + small(rs[i], num);
+//        return aliveSize[ls[i]] + (alive[i] ? 1 : 0) + small(rs[i], num);
 //    }
 //}
 //
 //int getRank(int num) {
-//    return small(head, num) + 1;
+//    return small(root, num) + 1;
 //}
 //
 //int index(int i, int x) {
-//    if (siz[ls[i]] >= x) {
+//    if (x <= aliveSize[ls[i]]) {
 //        return index(ls[i], x);
-//    } else if (siz[ls[i]] + key_count[i] < x) {
-//        return index(rs[i], x - siz[ls[i]] - key_count[i]);
+//    } else {
+//        int less = aliveSize[ls[i]] + (alive[i] ? 1 : 0);
+//        if (less < x) {
+//            return index(rs[i], x - less);
+//        }
 //    }
 //    return key[i];
 //}
 //
 //int index(int x) {
-//    return index(head, x);
+//    return index(root, x);
 //}
 //
 //int pre(int num) {
@@ -157,20 +157,24 @@ package class150;
 //
 //int post(int num) {
 //    int kth = getRank(num + 1);
-//    if (kth == siz[head] + 1) {
+//    if (kth == aliveSize[root] + 1) {
 //        return INT_MAX;
 //    } else {
 //        return index(kth);
 //    }
 //}
 //
-//void remove(int i, int f, int s, int num) {
-//    if (key[i] == num) {
-//        key_count[i]--;
-//    } else if (key[i] > num) {
-//        remove(ls[i], i, 1, num);
+//void remove(int i, int f, int s, int rank) {
+//    int lsiz = aliveSize[ls[i]];
+//    if (rank <= lsiz) {
+//        remove(ls[i], i, 1, rank);
 //    } else {
-//        remove(rs[i], i, 2, num);
+//        int cur = alive[i] ? 1 : 0;
+//        if (alive[i] && rank == lsiz + cur) {
+//            alive[i] = false;
+//        } else {
+//            remove(rs[i], i, 2, rank - lsiz - cur);
+//        }
 //    }
 //    up(i);
 //    if (!balance(i)) {
@@ -181,34 +185,26 @@ package class150;
 //}
 //
 //void remove(int num) {
-//    if (getRank(num) != getRank(num + 1)) {
+//    int rank1 = getRank(num);
+//    int rank2 = getRank(num + 1);
+//    if (rank1 != rank2) {
 //        top = father = side = 0;
-//        remove(head, 0, 0, num);
+//        remove(root, 0, 0, rank1);
 //        rebuild();
 //    }
-//}
-//
-//void clear() {
-//    memset(key, 0, sizeof(key));
-//    memset(key_count, 0, sizeof(key_count));
-//    memset(ls, 0, sizeof(ls));
-//    memset(rs, 0, sizeof(rs));
-//    memset(siz, 0, sizeof(siz));
-//    memset(diff, 0, sizeof(diff));
-//    cnt = 0;
-//    head = 0;
 //}
 //
 //int main() {
 //    ios::sync_with_stdio(false);
 //    cin.tie(nullptr);
-//    int n, m, lastAns = 0, ans = 0;
-//    cin >> n;
-//    cin >> m;
+//    int n, m;
+//    cin >> n >> m;
 //    for (int i = 1, num; i <= n; i++) {
 //        cin >> num;
 //        add(num);
 //    }
+//    int lastAns = 0;
+//    int ans = 0;
 //    for (int i = 1, op, x; i <= m; i++) {
 //        cin >> op >> x;
 //        x ^= lastAns;
@@ -230,7 +226,6 @@ package class150;
 //            ans ^= lastAns;
 //        }
 //    }
-//    cout << ans << endl;
-//    clear();
+//    cout << ans << "\n";
 //    return 0;
 //}
