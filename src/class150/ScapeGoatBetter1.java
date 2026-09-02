@@ -1,6 +1,6 @@
 package class150;
 
-// 替罪羊树的实现，java版
+// 替罪羊树更好的实现，java版
 // 这个文件课上没有讲
 // 替罪羊树不进行词频压缩的版本
 // 数据经过加强
@@ -13,7 +13,7 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
-public class FollowUp1 {
+public class ScapeGoatBetter1 {
 
 	public static int MAXN = 2000001;
 
