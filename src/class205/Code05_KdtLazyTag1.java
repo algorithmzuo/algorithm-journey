@@ -48,6 +48,9 @@ public class Code05_KdtLazyTag1 {
 
 	public static double ALPHA = 0.7;
 	public static int top;
+	public static int topFather;
+	public static int topSide;
+	public static int topDimension;
 
 	public static int[] arr = new int[MAXN];
 	public static int treeSiz;
@@ -162,51 +165,46 @@ public class Code05_KdtLazyTag1 {
 		}
 	}
 
-	public static int rebuild(int i, int dimension) {
-		if (i == top) {
-			treeSiz = 0;
-			dfs(i);
-			return build(1, treeSiz, dimension);
-		}
-		// 懒更新信息下发
-		down(i);
-		if (compareNode(top, i, dimension) < 0) {
-			ls[i] = rebuild(ls[i], (dimension + 1) % k);
-		} else {
-			rs[i] = rebuild(rs[i], (dimension + 1) % k);
-		}
-		maintain(i);
-		return i;
-	}
-
 	public static void rebuild() {
 		if (top != 0) {
-			root = rebuild(root, 0);
+			treeSiz = 0;
+			dfs(top);
+			int newRoot = build(1, treeSiz, topDimension);
+			if (topFather == 0) {
+				root = newRoot;
+			} else if (topSide == 1) {
+				ls[topFather] = newRoot;
+			} else {
+				rs[topFather] = newRoot;
+			}
 		}
 	}
 
-	public static int insert(int insertNode, int u, int dimension) {
+	public static int add(int insertNode, int u, int fa, int side, int dimension) {
 		if (u == 0) {
 			return insertNode;
 		}
 		// 懒更新信息下发
 		down(u);
 		if (compareNode(insertNode, u, dimension) < 0) {
-			ls[u] = insert(insertNode, ls[u], (dimension + 1) % k);
+			ls[u] = add(insertNode, ls[u], u, 1, (dimension + 1) % k);
 		} else {
-			rs[u] = insert(insertNode, rs[u], (dimension + 1) % k);
+			rs[u] = add(insertNode, rs[u], u, 2, (dimension + 1) % k);
 		}
 		maintain(u);
 		if (!balance(u)) {
 			top = u;
+			topFather = fa;
+			topSide = side;
+			topDimension = dimension;
 		}
 		return u;
 	}
 
 	public static void addNode() {
-		top = 0;
+		top = topFather = topSide = topDimension = 0;
 		int insertNode = init();
-		root = insert(insertNode, root, 0);
+		root = add(insertNode, root, 0, 0, 0);
 		rebuild();
 	}
 
