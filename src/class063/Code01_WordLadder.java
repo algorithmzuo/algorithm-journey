@@ -37,7 +37,7 @@ public class Code01_WordLadder {
 					// 每一位字符都试
 					char old = word[j];
 					for (char change = 'a'; change <= 'z'; change++) {
-						// // 每一位字符都从a到z换一遍
+						// 每一位字符都从a到z换一遍
 						if (change != old) {
 							word[j] = change;
 							String next = String.valueOf(word);

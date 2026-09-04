@@ -1,9 +1,11 @@
 package class150;
 
-// 替罪羊树更好的实现，C++版
-// 这个文件课上没有讲
-// 替罪羊树不进行词频压缩的版本
-// 数据经过加强
+// 替罪羊树的更好实现，C++版
+// 本节课的视频，做了重要更新，补充了很多说明
+// 介绍了我设计的替罪羊树，对比经典的替罪羊树，有哪些独特性和便利性
+// 说明了我设计的替罪羊树和经典替罪羊树，复杂度是一样的
+// 本文件是不做词频压缩的替罪羊树实现，并且数据经过了加强
+// 注意如下实现中的注释文字
 // 测试链接 : https://www.luogu.com.cn/problem/P6136
 // 如下实现是C++的版本，C++版本和java版本逻辑完全一样
 // 提交如下代码，可以通过所有测试用例
@@ -16,18 +18,20 @@ package class150;
 //
 //int cntn;
 //int root;
-//
 //int key[MAXN];
 //int ls[MAXN];
 //int rs[MAXN];
+//
+// // 节点是否存活，删掉就算死亡
 //bool alive[MAXN];
+//
+// // 子树的存活节点数量
 //int aliveSiz[MAXN];
 //
 //double ALPHA = 0.7;
 //int top;
 //int father;
 //int side;
-//
 //int collect[MAXN];
 //int collectSiz;
 //
@@ -39,11 +43,13 @@ package class150;
 //    return cntn;
 //}
 //
+// // 汇总存活节点数量
 //void up(int i) {
 //    aliveSiz[i] = (alive[i] ? 1 : 0) + aliveSiz[ls[i]] + aliveSiz[rs[i]];
 //}
 //
 //void inorder(int i) {
+//    // 增加剪枝：整棵树上没有存活节点也跳过
 //    if (i != 0 && aliveSiz[i] != 0) {
 //        inorder(ls[i]);
 //        if (alive[i]) {
@@ -84,7 +90,9 @@ package class150;
 //    return ALPHA * aliveSiz[i] >= max(aliveSiz[ls[i]], aliveSiz[rs[i]]);
 //}
 //
+// // 返回头节点编号
 //int add(int i, int f, int s, int num) {
+//    // 增加剪枝：整棵树上没有存活节点就算空树
 //    if (i == 0 || aliveSiz[i] == 0) {
 //        return init(num);
 //    }
@@ -109,6 +117,7 @@ package class150;
 //}
 //
 //int small(int i, int num) {
+//    // 增加剪枝：整棵树上没有存活节点，就算空树
 //    if (i == 0 || aliveSiz[i] == 0) {
 //        return 0;
 //    }
@@ -157,6 +166,12 @@ package class150;
 //    }
 //}
 //
+// // 注意remove方法
+// // 因为替罪羊树会重构，所以值相同的一批节点，重构时假设选出的头为h
+// // 那么这批节点，有可能在h的左侧，也有可能在h的右侧
+// // 所以删除时，如果h已经被删，还要继续寻找其他key值相同的节点
+// // 此时只根据key值的大小关系，方向无法确定是左还是右
+// // 所以先求出目标的排名，再按排名删除，这样移动方向是确定的
 //void remove(int i, int f, int s, int rank) {
 //    int lsiz = aliveSiz[ls[i]];
 //    if (rank <= lsiz) {

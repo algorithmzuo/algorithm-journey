@@ -1,84 +1,39 @@
 package class150;
 
-// 替罪羊树更好的实现，java版
-// 这个文件课上没有讲
-// 替罪羊树不进行词频压缩的版本
-// 数据经过加强
-// 注释比较清楚，结合课上的讲述，一看就会
+// 替罪羊树的更好实现，java版
+// 本节课的视频，做了重要更新，补充了很多说明
+// 介绍了我设计的替罪羊树，对比经典的替罪羊树，有哪些独特性和便利性
+// 说明了我设计的替罪羊树和经典替罪羊树，复杂度是一样的
+// 本文件是不做词频压缩的替罪羊树实现，并且数据经过了加强
+// 注意如下实现中的注释文字
 // 测试链接 : https://www.luogu.com.cn/problem/P6136
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
-//
-// 经典替罪羊树的设计
-// 1，allSiz代表总节点数，aliveSiz代表存活节点数
-// 2，某节点的左子树或右子树大小高于平衡因子，触发重构
-// 3，某节点的子树中，存活节点的比例低于设定阈值，触发重构
-// 4，重构时，去掉不平衡子树的所有死亡节点，留下存活节点
-// 5，因为allSiz需要正确维护，所以重构发生后，不平衡子树的上方节点需要遍历
-//
-// 我的设计
-// 1，只有aliveSiz，也就是存活节点数，新增节点 aliveSiz + 1，删除节点 aliveSiz - 1
-// 2，某节点的左子树或右子树，只关注存活节点数，一旦高于平衡因子，触发重构
-// 3，新增和删除之后，都可能触发重构，重构时，去掉不平衡子树的所有死亡节点，留下存活节点
-// 4，新增和删除的时候，节点的aliveSiz信息已经更新正确
-// 5，所以重构发生后，不平衡子树的上方节点不需要遍历
-// 6，如果某棵子树的存活节点数是0，查询时直接无视，新增时该子树直接被新增节点替换
-//
-// 为什么复杂度可以得到保证？
-// 1，如果某棵子树中已经没有存活节点了，这样的子树完全不用触碰
-// 2，我设计的替罪羊树中，不用触碰的子树直接无视，如下分析认为这些子树就是空树
-// 3，因为每次新增/删除操作后，所有子树只关注存活节点的数量，并且满足平衡条件
-// 4，ALPHA * aliveSiz[i] >= max(aliveSiz[ls[i]], aliveSiz[rs[i]])
-// 5，假设树的存活节点数量是k，因为满足平衡条件，一条从上到下的路径中，存活节点数量是O(log k)
-// 6，死亡节点必须有两个包含存活节点的儿子，否则一定会失衡并触发重构
-// 7，如果树中有k个存活节点，那么提供连接作用的死亡节点最多有k-1个
-// 8，死亡节点的连接方式，必然也是近乎平衡的，不可能是长链式的连接，不然也会触发重构
-// 9，所以一棵子树中，存活节点数量O(k)，死亡节点数量O(k)，总节点O(k)
-// 10，所以一条从上到下的路径中，存活数量O(log k)，死亡数量O(log k)，总节点O(log k)
-// 11，所以我设计的替罪羊树和经典替罪羊树的复杂度保持一致，单次均摊O(log n)
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
-public class ScapeGoatBetter1 {
+public class Better1 {
 
 	public static int MAXN = 2000001;
 
-	// 替罪羊树的节点计数
 	public static int cntn;
-
-	// 替罪羊树的根节点
 	public static int root;
-
-	// 节点的key值
 	public static int[] key = new int[MAXN];
-
-	// 节点的左儿子
 	public static int[] ls = new int[MAXN];
-
-	// 节点的右儿子
 	public static int[] rs = new int[MAXN];
 
-	// 节点是否存活，删掉就是不存活，否则就是存活
+	// 节点是否存活，删掉就算死亡
 	public static boolean[] alive = new boolean[MAXN];
 
-	// 子树上存活的节点数量
+	// 子树的存活节点数量
 	public static int[] aliveSiz = new int[MAXN];
 
-	// 替罪羊树的平衡因子
 	public static double ALPHA = 0.7;
-
-	// 最上方不平衡点
 	public static int top;
-
-	// 最上方不平衡点的父亲
 	public static int father;
-
-	// 最上方不平衡点是其父亲的哪侧儿子
 	public static int side;
-
-	// 收集重构子树的所有存活节点
 	public static int[] collect = new int[MAXN];
 	public static int collectSiz;
 
@@ -90,13 +45,13 @@ public class ScapeGoatBetter1 {
 		return cntn;
 	}
 
-	// 存活的节点的信息汇总
+	// 汇总存活节点数量
 	public static void up(int i) {
 		aliveSiz[i] = (alive[i] ? 1 : 0) + aliveSiz[ls[i]] + aliveSiz[rs[i]];
 	}
 
 	public static void inorder(int i) {
-		// 整棵树上没有存活节点也跳过
+		// 增加剪枝：整棵树上没有存活节点也跳过
 		if (i != 0 && aliveSiz[i] != 0) {
 			inorder(ls[i]);
 			if (alive[i]) {
@@ -139,7 +94,7 @@ public class ScapeGoatBetter1 {
 
 	// 返回头节点编号
 	public static int add(int i, int f, int s, int num) {
-		// 整棵树上没有存活节点，就算空树
+		// 增加剪枝：整棵树上没有存活节点就算空树
 		if (i == 0 || aliveSiz[i] == 0) {
 			return init(num);
 		}
@@ -164,7 +119,7 @@ public class ScapeGoatBetter1 {
 	}
 
 	public static int small(int i, int num) {
-		// 整棵树上没有存活节点，就算空树
+		// 增加剪枝：整棵树上没有存活节点，就算空树
 		if (i == 0 || aliveSiz[i] == 0) {
 			return 0;
 		}
