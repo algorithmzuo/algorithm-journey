@@ -21,13 +21,14 @@ package class205;
 //const int MAXN = 100001;
 //const ll INF = 1LL << 60;
 //int n, m;
-//
 //ll x[MAXN];
 //ll y[MAXN];
 //int arr[MAXN];
+//
 //int root;
 //int ls[MAXN];
 //int rs[MAXN];
+//
 //ll xmin[MAXN];
 //ll xmax[MAXN];
 //ll ymin[MAXN];
@@ -38,7 +39,10 @@ package class205;
 //    int id;
 //
 //    bool operator<(const HeapNode &other) const {
-//        return dist > other.dist;
+//        if (dist != other.dist) {
+//            return dist > other.dist;
+//        }
+//        return id < other.id;
 //    }
 //};
 //
@@ -93,43 +97,31 @@ package class205;
 //    return dx * dx + dy * dy;
 //}
 //
-//void updateAns(int qx, int qy, int i) {
+//void updateAns(int qx, int qy, int qk, int i) {
 //    if (i == 0) {
 //        return;
 //    }
-//    ll d = dist(qx, qy, x[i], y[i]);
-//    if (d > heap.top().dist || (d == heap.top().dist && i < heap.top().id)) {
+//    heap.push({dist(qx, qy, x[i], y[i]), i});
+//    if (heap.size() > qk) {
 //        heap.pop();
-//        heap.push({d, i});
 //    }
 //    ll gl = guess(qx, qy, ls[i]);
 //    ll gr = guess(qx, qy, rs[i]);
 //    if (gl > gr) {
-//        if (gl >= heap.top().dist) {
-//            updateAns(qx, qy, ls[i]);
+//        if (heap.size() < qk || gl >= heap.top().dist) {
+//            updateAns(qx, qy, qk, ls[i]);
 //        }
-//        if (gr >= heap.top().dist) {
-//            updateAns(qx, qy, rs[i]);
+//        if (heap.size() < qk || gr >= heap.top().dist) {
+//            updateAns(qx, qy, qk, rs[i]);
 //        }
 //    } else {
-//        if (gr >= heap.top().dist) {
-//            updateAns(qx, qy, rs[i]);
+//        if (heap.size() < qk || gr >= heap.top().dist) {
+//            updateAns(qx, qy, qk, rs[i]);
 //        }
-//        if (gl >= heap.top().dist) {
-//            updateAns(qx, qy, ls[i]);
+//        if (heap.size() < qk || gl >= heap.top().dist) {
+//            updateAns(qx, qy, qk, ls[i]);
 //        }
 //    }
-//}
-//
-//int query(int qx, int qy, int qk) {
-//    while (!heap.empty()) {
-//        heap.pop();
-//    }
-//    for (int i = 1; i <= qk; i++) {
-//        heap.push({-1, 0});
-//    }
-//    updateAns(qx, qy, root);
-//    return heap.top().id;
 //}
 //
 //int main() {
@@ -146,7 +138,11 @@ package class205;
 //    cin >> m;
 //    for (int i = 1, qx, qy, qk; i <= m; i++) {
 //        cin >> qx >> qy >> qk;
-//        cout << query(qx, qy, qk) << "\n";
+//        while (!heap.empty()) {
+//            heap.pop();
+//        }
+//        updateAns(qx, qy, qk, root);
+//        cout << heap.top().id << '\n';
 //    }
 //    return 0;
 //}

@@ -35,8 +35,11 @@ public class Code02_QueryKthFarthest1 {
 	public static long[] ymin = new long[MAXN];
 	public static long[] ymax = new long[MAXN];
 
-	// 距离、点的编号
-	public static PriorityQueue<long[]> heap = new PriorityQueue<>((a, b) -> Long.compare(a[0], b[0]));
+	// 堆中数据 = (距离、点的编号)
+	// 距离一样时，题目规定点的编号越小越远
+	// 所以小根堆先看距离，距离小的点先淘汰，距离一样，编号大的点先淘汰
+	public static PriorityQueue<long[]> heap = new PriorityQueue<>(
+			(a, b) -> a[0] != b[0] ? Long.compare(a[0], b[0]) : Long.compare(b[1], a[1]));
 
 	public static int compareNode(int i, int j, int dimension) {
 		long v1 = dimension == 0 ? x[i] : y[i];
@@ -118,44 +121,33 @@ public class Code02_QueryKthFarthest1 {
 		return dx * dx + dy * dy;
 	}
 
-	public static void updateAns(int qx, int qy, int i) {
+	public static void updateAns(int qx, int qy, int qk, int i) {
 		if (i == 0) {
 			return;
 		}
-		long d = dist(qx, qy, x[i], y[i]);
-		if (d > heap.peek()[0] || (d == heap.peek()[0] && i < heap.peek()[1])) {
+		heap.add(new long[] { dist(qx, qy, x[i], y[i]), i });
+		if (heap.size() > qk) {
 			heap.poll();
-			heap.add(new long[] { d, i });
 		}
 		long gl = guess(qx, qy, ls[i]);
 		long gr = guess(qx, qy, rs[i]);
 		if (gl > gr) {
 			// 注意判断必须是 >=
-			// 因为本题距离相同时编号较小者更优
-			// 所以距离相同，依然可能存在编号更小的点
-			if (gl >= heap.peek()[0]) {
-				updateAns(qx, qy, ls[i]);
+			// 因为距离相同，依然可能存在编号更小的点
+			if (heap.size() < qk || gl >= heap.peek()[0]) {
+				updateAns(qx, qy, qk, ls[i]);
 			}
-			if (gr >= heap.peek()[0]) {
-				updateAns(qx, qy, rs[i]);
+			if (heap.size() < qk || gr >= heap.peek()[0]) {
+				updateAns(qx, qy, qk, rs[i]);
 			}
 		} else {
-			if (gr >= heap.peek()[0]) {
-				updateAns(qx, qy, rs[i]);
+			if (heap.size() < qk || gr >= heap.peek()[0]) {
+				updateAns(qx, qy, qk, rs[i]);
 			}
-			if (gl >= heap.peek()[0]) {
-				updateAns(qx, qy, ls[i]);
+			if (heap.size() < qk || gl >= heap.peek()[0]) {
+				updateAns(qx, qy, qk, ls[i]);
 			}
 		}
-	}
-
-	public static int query(int qx, int qy, int qk) {
-		heap.clear();
-		for (int i = 1; i <= qk; i++) {
-			heap.add(new long[] { -1, 0 });
-		}
-		updateAns(qx, qy, root);
-		return (int) heap.peek()[1];
 	}
 
 	public static void main(String[] args) throws Exception {
@@ -175,7 +167,9 @@ public class Code02_QueryKthFarthest1 {
 			qx = in.nextInt();
 			qy = in.nextInt();
 			qk = in.nextInt();
-			out.println(query(qx, qy, qk));
+			heap.clear();
+			updateAns(qx, qy, qk, root);
+			out.println(heap.peek()[1]);
 		}
 		out.flush();
 		out.close();
