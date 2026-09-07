@@ -69,9 +69,9 @@ package class205;
 //}
 //
 //int compareNode(int i, int j, int dimension) {
-//    ll a = pos[i][dimension];
-//    ll b = pos[j][dimension];
-//    return a != b ? (a < b ? -1 : 1) : (i - j);
+//    ll v1 = pos[i][dimension];
+//    ll v2 = pos[j][dimension];
+//    return v1 == v2 ? 0 : v1 < v2 ? -1 : 1;
 //}
 //
 //struct Cmp {

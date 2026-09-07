@@ -74,9 +74,9 @@ public class Code05_KdtLazyTag3 {
 	}
 
 	public static int compareNode(int i, int j, int dimension) {
-		long a = pos[i][dimension];
-		long b = pos[j][dimension];
-		return a != b ? Long.compare(a, b) : (i - j);
+		long v1 = pos[i][dimension];
+		long v2 = pos[j][dimension];
+		return v1 == v2 ? 0 : v1 < v2 ? -1 : 1;
 	}
 
 	public static void swap(int i, int j) {

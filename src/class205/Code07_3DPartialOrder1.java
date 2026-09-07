@@ -73,7 +73,7 @@ public class Code07_3DPartialOrder1 {
 	public static int compareNode(int i, int j, int dimension) {
 		int v1 = dimension == 0 ? b[i] : c[i];
 		int v2 = dimension == 0 ? b[j] : c[j];
-		return v1 != v2 ? (v1 - v2) : (i - j);
+		return v1 == v2 ? 0 : v1 < v2 ? -1 : 1;
 	}
 
 	public static void swap(int i, int j) {
@@ -158,7 +158,7 @@ public class Code07_3DPartialOrder1 {
 		if (u == 0) {
 			return insertNode;
 		}
-		if (compareNode(insertNode, u, dimension) < 0) {
+		if (compareNode(insertNode, u, dimension) <= 0) {
 			ls[u] = add(insertNode, ls[u], u, 1, dimension ^ 1);
 		} else {
 			rs[u] = add(insertNode, rs[u], u, 2, dimension ^ 1);

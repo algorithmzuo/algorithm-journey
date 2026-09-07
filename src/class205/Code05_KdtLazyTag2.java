@@ -89,9 +89,9 @@ package class205;
 //}
 //
 //int compareNode(int i, int j, int dimension) {
-//    ll a = pos[i][dimension];
-//    ll b = pos[j][dimension];
-//    return a != b ? (a < b ? -1 : 1) : (i - j);
+//    ll v1 = pos[i][dimension];
+//    ll v2 = pos[j][dimension];
+//    return v1 == v2 ? 0 : v1 < v2 ? -1 : 1;
 //}
 //
 //struct Cmp {
@@ -148,7 +148,7 @@ package class205;
 //        return insertNode;
 //    }
 //    down(u);
-//    if (compareNode(insertNode, u, dimension) < 0) {
+//    if (compareNode(insertNode, u, dimension) <= 0) {
 //        ls[u] = add(insertNode, ls[u], u, 1, (dimension + 1) % k);
 //    } else {
 //        rs[u] = add(insertNode, rs[u], u, 2, (dimension + 1) % k);
