@@ -213,7 +213,7 @@ package class206;
 //}
 //
 //void prepare() {
-//    stable_sort(abcd + 1, abcd + n + 1, ABCDCmp);
+//    sort(abcd + 1, abcd + n + 1, ABCDCmp);
 //    for (int i = 1; i <= n; i++) {
 //        bi[i].b = abcd[i].b;
 //        bi[i].i = i;

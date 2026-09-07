@@ -176,7 +176,7 @@ package class205;
 //    for (int i = 1; i <= n; i++) {
 //        cin >> abc[i].a >> abc[i].b >> abc[i].c;
 //    }
-//    stable_sort(abc + 1, abc + n + 1, ACmp);
+//    sort(abc + 1, abc + n + 1, ACmp);
 //    bmin[0] = cmin[0] = INF;
 //    bmax[0] = cmax[0] = -INF;
 //    for (int l = 1, r = 1; l <= n; l = ++r) {

@@ -245,7 +245,7 @@ package class206;
 //        cin >> qx >> qy;
 //        add(qx, qy);
 //    }
-//    stable_sort(target + 1, target + n + 1, ZCmp);
+//    sort(target + 1, target + n + 1, ZCmp);
 //    for (int k = 1; k <= n; k++) {
 //        shot = INF;
 //        query(target[k].l, target[k].r, target[k].d, target[k].u, root);
