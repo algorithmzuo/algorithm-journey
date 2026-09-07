@@ -38,19 +38,16 @@ package class205;
 //    int id;
 //
 //    bool operator<(const HeapNode &other) const {
-//        if (dist != other.dist) {
-//            return dist > other.dist;
-//        }
-//        return id < other.id;
+//        return dist > other.dist;
 //    }
 //};
 //
 //priority_queue<HeapNode> heap;
 //
 //int compareNode(int i, int j, int dimension) {
-//    ll a = dimension == 0 ? x[i] : y[i];
-//    ll b = dimension == 0 ? x[j] : y[j];
-//    return a != b ? (a < b ? -1 : 1) : (i - j);
+//    ll v1 = dimension == 0 ? x[i] : y[i];
+//    ll v2 = dimension == 0 ? x[j] : y[j];
+//    return v1 == v2 ? 0 : v1 < v2 ? -1 : 1;
 //}
 //
 //struct Cmp {

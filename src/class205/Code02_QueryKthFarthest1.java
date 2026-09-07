@@ -36,13 +36,12 @@ public class Code02_QueryKthFarthest1 {
 	public static long[] ymax = new long[MAXN];
 
 	// 距离、点的编号
-	public static PriorityQueue<long[]> heap = new PriorityQueue<>(
-			(a, b) -> a[0] != b[0] ? Long.compare(a[0], b[0]) : Long.compare(b[1], a[1]));
+	public static PriorityQueue<long[]> heap = new PriorityQueue<>((a, b) -> Long.compare(a[0], b[0]));
 
 	public static int compareNode(int i, int j, int dimension) {
-		long a = dimension == 0 ? x[i] : y[i];
-		long b = dimension == 0 ? x[j] : y[j];
-		return a != b ? Long.compare(a, b) : (i - j);
+		long v1 = dimension == 0 ? x[i] : y[i];
+		long v2 = dimension == 0 ? x[j] : y[j];
+		return v1 == v2 ? 0 : v1 < v2 ? -1 : 1;
 	}
 
 	public static void swap(int i, int j) {
