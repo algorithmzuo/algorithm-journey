@@ -114,7 +114,7 @@ public class Code02_CameraRelocationAndQueries1 {
 	public static int compareNode(int i, int j, int dimension) {
 		double v1 = dimension == 0 ? x[i] : (dimension == 1 ? y[i] : z[i]);
 		double v2 = dimension == 0 ? x[j] : (dimension == 1 ? y[j] : z[j]);
-		return v1 != v2 ? Double.compare(v1, v2) : (i - j);
+		return v1 != v2 ? (v1 < v2 ? -1 : 1) : (i - j);
 	}
 
 	public static void swap(int i, int j) {
@@ -201,7 +201,7 @@ public class Code02_CameraRelocationAndQueries1 {
 		if (u == 0 || aliveSiz[u] == 0) {
 			return insertNode;
 		}
-		if (compareNode(insertNode, u, dimension) < 0) {
+		if (compareNode(insertNode, u, dimension) <= 0) {
 			ls[u] = add(insertNode, ls[u], u, 1, (dimension + 1) % 3);
 		} else {
 			rs[u] = add(insertNode, rs[u], u, 2, (dimension + 1) % 3);
@@ -227,7 +227,7 @@ public class Code02_CameraRelocationAndQueries1 {
 	public static void remove(int removeNode, int u, int fa, int side, int dimension) {
 		if (u == removeNode) {
 			alive[u] = false;
-		} else if (compareNode(removeNode, u, dimension) < 0) {
+		} else if (compareNode(removeNode, u, dimension) <= 0) {
 			remove(removeNode, ls[u], u, 1, (dimension + 1) % 3);
 		} else {
 			remove(removeNode, rs[u], u, 2, (dimension + 1) % 3);

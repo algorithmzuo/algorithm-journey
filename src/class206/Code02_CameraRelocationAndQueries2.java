@@ -160,7 +160,7 @@ package class206;
 //    if (u == 0 || aliveSiz[u] == 0) {
 //        return insertNode;
 //    }
-//    if (compareNode(insertNode, u, dimension) < 0) {
+//    if (compareNode(insertNode, u, dimension) <= 0) {
 //        ls[u] = add(insertNode, ls[u], u, 1, (dimension + 1) % 3);
 //    } else {
 //        rs[u] = add(insertNode, rs[u], u, 2, (dimension + 1) % 3);
@@ -186,7 +186,7 @@ package class206;
 //void remove(int removeNode, int u, int fa, int side, int dimension) {
 //    if (u == removeNode) {
 //        alive[u] = false;
-//    } else if (compareNode(removeNode, u, dimension) < 0) {
+//    } else if (compareNode(removeNode, u, dimension) <= 0) {
 //        remove(removeNode, ls[u], u, 1, (dimension + 1) % 3);
 //    } else {
 //        remove(removeNode, rs[u], u, 2, (dimension + 1) % 3);

@@ -102,10 +102,12 @@ public class Code01_ShootingGallery1 {
 		}
 	}
 
+	// 不仅数据的值参与排序，数据的编号也参与排序，这样一来
+	// 即便替罪羊树发生重构，删除数据时，移动的方向也是固定的
 	public static int compareNode(int i, int j, int dimension) {
-		int a = dimension == 0 ? x[i] : y[i];
-		int b = dimension == 0 ? x[j] : y[j];
-		return a != b ? (a - b) : (i - j);
+		int v1 = dimension == 0 ? x[i] : y[i];
+		int v2 = dimension == 0 ? x[j] : y[j];
+		return v1 != v2 ? v1 - v2 : i - j;
 	}
 
 	public static void swap(int i, int j) {
@@ -192,7 +194,7 @@ public class Code01_ShootingGallery1 {
 		if (u == 0 || aliveSiz[u] == 0) {
 			return insertNode;
 		}
-		if (compareNode(insertNode, u, dimension) < 0) {
+		if (compareNode(insertNode, u, dimension) <= 0) {
 			ls[u] = add(insertNode, ls[u], u, 1, dimension ^ 1);
 		} else {
 			rs[u] = add(insertNode, rs[u], u, 2, dimension ^ 1);
@@ -217,7 +219,7 @@ public class Code01_ShootingGallery1 {
 	public static void remove(int removeNode, int u, int fa, int side, int dimension) {
 		if (u == removeNode) {
 			alive[u] = false;
-		} else if (compareNode(removeNode, u, dimension) < 0) {
+		} else if (compareNode(removeNode, u, dimension) <= 0) {
 			remove(removeNode, ls[u], u, 1, dimension ^ 1);
 		} else {
 			remove(removeNode, rs[u], u, 2, dimension ^ 1);
