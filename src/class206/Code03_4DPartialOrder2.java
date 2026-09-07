@@ -94,7 +94,7 @@ package class206;
 //int compareNode(int i, int j, int dimension) {
 //    int v1 = dimension == 0 ? c[i] : d[i];
 //    int v2 = dimension == 0 ? c[j] : d[j];
-//    return v1 != v2 ? (v1 - v2) : (i - j);
+//    return v1 == v2 ? 0 : v1 < v2 ? -1 : 1;
 //}
 //
 //struct Cmp {
@@ -149,7 +149,7 @@ package class206;
 //    if (u == 0) {
 //        return insertNode;
 //    }
-//    if (compareNode(insertNode, u, dimension) < 0) {
+//    if (compareNode(insertNode, u, dimension) <= 0) {
 //        ls[u] = addKdt(insertNode, ls[u], u, 1, dimension ^ 1);
 //    } else {
 //        rs[u] = addKdt(insertNode, rs[u], u, 2, dimension ^ 1);

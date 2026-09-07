@@ -77,9 +77,9 @@ public class Code05_Jump1 {
 	}
 
 	public static int compareNode(int i, int j, int dimension) {
-		long a = dimension == 0 ? x[i] : y[i];
-		long b = dimension == 0 ? x[j] : y[j];
-		return a != b ? Long.compare(a, b) : (i - j);
+		long v1 = dimension == 0 ? x[i] : y[i];
+		long v2 = dimension == 0 ? x[j] : y[j];
+		return v1 == v2 ? 0 : v1 < v2 ? -1 : 1;
 	}
 
 	public static void swap(int i, int j) {

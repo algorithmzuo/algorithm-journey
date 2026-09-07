@@ -102,7 +102,7 @@ package class206;
 //int compareNode(int i, int j, int dimension) {
 //    int v1 = dimension == 0 ? x[i] : y[i];
 //    int v2 = dimension == 0 ? x[j] : y[j];
-//    return v1 != v2 ? v1 - v2 : i - j;
+//    return v1 != v2 ? (v1 < v2 ? -1 : 1) : (i - j);
 //}
 //
 //struct Cmp {

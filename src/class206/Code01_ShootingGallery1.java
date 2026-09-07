@@ -107,7 +107,7 @@ public class Code01_ShootingGallery1 {
 	public static int compareNode(int i, int j, int dimension) {
 		int v1 = dimension == 0 ? x[i] : y[i];
 		int v2 = dimension == 0 ? x[j] : y[j];
-		return v1 != v2 ? v1 - v2 : i - j;
+		return v1 != v2 ? (v1 < v2 ? -1 : 1) : (i - j);
 	}
 
 	public static void swap(int i, int j) {

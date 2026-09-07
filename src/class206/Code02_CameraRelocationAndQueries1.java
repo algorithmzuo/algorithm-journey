@@ -111,6 +111,8 @@ public class Code02_CameraRelocationAndQueries1 {
 		}
 	}
 
+	// 不仅数据的值参与排序，数据的编号也参与排序，这样一来
+	// 即便替罪羊树发生重构，删除数据时，移动的方向也是固定的
 	public static int compareNode(int i, int j, int dimension) {
 		double v1 = dimension == 0 ? x[i] : (dimension == 1 ? y[i] : z[i]);
 		double v2 = dimension == 0 ? x[j] : (dimension == 1 ? y[j] : z[j]);
