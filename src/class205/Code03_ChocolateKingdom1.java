@@ -103,7 +103,7 @@ public class Code03_ChocolateKingdom1 {
 		if (i == 0) {
 			return 0;
 		}
-		// a、b、x、y，可能是正或者负，所以最值的可能性要枚举完整
+		// a、b、x、y，可能是正或者负，最值的可能性要考虑完整
 		long ax1 = xmin[i] * a;
 		long ax2 = xmax[i] * a;
 		long by1 = ymin[i] * b;
@@ -112,17 +112,17 @@ public class Code03_ChocolateKingdom1 {
 		long maxv = Math.max(ax1, ax2) + Math.max(by1, by2);
 		if (minv >= c) {
 			return 0;
-		} else if (maxv < c) {
-			return sum[i];
-		} else {
-			long ans = 0;
-			if (a * x[i] + b * y[i] < c) {
-				ans += v[i];
-			}
-			ans += query(a, b, c, ls[i]);
-			ans += query(a, b, c, rs[i]);
-			return ans;
 		}
+		if (maxv < c) {
+			return sum[i];
+		}
+		long ans = 0;
+		if (a * x[i] + b * y[i] < c) {
+			ans += v[i];
+		}
+		ans += query(a, b, c, ls[i]);
+		ans += query(a, b, c, rs[i]);
+		return ans;
 	}
 
 	public static void main(String[] args) throws Exception {

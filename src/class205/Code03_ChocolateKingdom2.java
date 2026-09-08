@@ -81,17 +81,17 @@ package class205;
 //    ll maxv = max(ax1, ax2) + max(by1, by2);
 //    if (minv >= c) {
 //        return 0;
-//    } else if (maxv < c) {
-//        return sum[i];
-//    } else {
-//        ll ans = 0;
-//        if (a * x[i] + b * y[i] < c) {
-//            ans += v[i];
-//        }
-//        ans += query(a, b, c, ls[i]);
-//        ans += query(a, b, c, rs[i]);
-//        return ans;
 //    }
+//    if (maxv < c) {
+//        return sum[i];
+//    }
+//    ll ans = 0;
+//    if (a * x[i] + b * y[i] < c) {
+//        ans += v[i];
+//    }
+//    ans += query(a, b, c, ls[i]);
+//    ans += query(a, b, c, rs[i]);
+//    return ans;
 //}
 //
 //int main() {
