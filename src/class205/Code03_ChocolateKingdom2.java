@@ -28,6 +28,7 @@ package class205;
 //int root;
 //int ls[MAXN];
 //int rs[MAXN];
+//
 //ll sum[MAXN];
 //ll xmin[MAXN];
 //ll xmax[MAXN];

@@ -28,6 +28,8 @@ public class Code03_ChocolateKingdom1 {
 	public static int root;
 	public static int[] ls = new int[MAXN];
 	public static int[] rs = new int[MAXN];
+
+	// 区域点权和
 	public static long[] sum = new long[MAXN];
 	public static long[] xmin = new long[MAXN];
 	public static long[] xmax = new long[MAXN];
