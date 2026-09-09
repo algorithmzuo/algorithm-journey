@@ -173,6 +173,7 @@ public class Code06_AngelDoll1 {
 		rebuild();
 	}
 
+	// 估计查询点到i的掌管区域中，最小的曼哈顿距离
 	public static int guess(int qx, int qy, int i) {
 		if (i == 0) {
 			return INF;
@@ -188,6 +189,7 @@ public class Code06_AngelDoll1 {
 		if (i == 0) {
 			return;
 		}
+		// 单点的答案
 		queryAns = Math.min(queryAns, Math.abs(qx - x[i]) + Math.abs(qy - y[i]));
 		int gl = guess(qx, qy, ls[i]);
 		int gr = guess(qx, qy, rs[i]);
