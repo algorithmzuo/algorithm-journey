@@ -27,16 +27,20 @@ public class Code04_SimpleProblem1 {
 	public static int[] y = new int[MAXN];
 	public static int[] v = new int[MAXN];
 
+	// K-D树的节点计数
 	public static int cntkdt;
 
 	// K-D树采用替罪羊树的方式，只有一个头
 	public static int root;
 	public static int[] ls = new int[MAXN];
 	public static int[] rs = new int[MAXN];
+
 	// 子树节点数量
 	public static int[] siz = new int[MAXN];
+
 	// 子树点权累加和
 	public static int[] sum = new int[MAXN];
+
 	public static int[] xmin = new int[MAXN];
 	public static int[] xmax = new int[MAXN];
 	public static int[] ymin = new int[MAXN];
@@ -55,9 +59,10 @@ public class Code04_SimpleProblem1 {
 
 	// 不平衡时收集节点编号
 	public static int[] arr = new int[MAXN];
-	// 遍历不平衡子树收集的节点数量
+	// 遍历不平衡子树，收集到的节点数量
 	public static int treeSiz;
 
+	// 建立单个节点，返回节点编号
 	public static int init(int qx, int qy, int qv) {
 		cntkdt++;
 		x[cntkdt] = qx;
@@ -137,14 +142,12 @@ public class Code04_SimpleProblem1 {
 		return rt;
 	}
 
-	// 评估子树是否平衡
+	// 判断是否平衡
 	public static boolean balance(int i) {
 		return ALPHA * siz[i] >= Math.max(siz[ls[i]], siz[rs[i]]);
 	}
 
-	// 收集子树中的所有节点编号
-	// 先序、中序、后序哪种遍历都可以
-	// 因为重构时会重新选择中位点
+	// 收集不平衡子树的节点编号，先序、中序、后序都可以，因为重构交替维度选中位点
 	public static void dfs(int i) {
 		if (i != 0) {
 			arr[++treeSiz] = i;
@@ -153,6 +156,7 @@ public class Code04_SimpleProblem1 {
 		}
 	}
 
+	// 重构不平衡子树
 	public static void rebuild() {
 		if (top != 0) {
 			treeSiz = 0;
@@ -168,6 +172,7 @@ public class Code04_SimpleProblem1 {
 		}
 	}
 
+	// 插入节点编号insertNode，当前节点u，父亲fa，哪侧side，维度dimension，返回头节点编号
 	public static int add(int insertNode, int u, int fa, int side, int dimension) {
 		if (u == 0) {
 			return insertNode;
@@ -195,6 +200,8 @@ public class Code04_SimpleProblem1 {
 		rebuild();
 	}
 
+	// 查询矩形的范围[x1~x2] * [y1~y2]，节点i有掌管的区域
+	// 返回节点i的区域中，属于查询范围的点权累加和
 	public static int query(int x1, int y1, int x2, int y2, int i) {
 		if (i == 0) {
 			return 0;
