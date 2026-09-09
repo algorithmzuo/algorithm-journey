@@ -214,6 +214,7 @@ public class Code05_KdtLazyTag1 {
 		rebuild();
 	}
 
+	// 判断操作区域是否和节点i的区域无交集
 	public static boolean outside(int i) {
 		for (int d = 0; d < k; d++) {
 			if (maxv[i][d] < qx[d] || qy[d] < minv[i][d]) {
@@ -223,6 +224,7 @@ public class Code05_KdtLazyTag1 {
 		return false;
 	}
 
+	// 判断操作区域是否完全包住节点i的区域
 	public static boolean covered(int i) {
 		for (int d = 0; d < k; d++) {
 			if (qx[d] > minv[i][d] || qy[d] < maxv[i][d]) {
@@ -232,6 +234,7 @@ public class Code05_KdtLazyTag1 {
 		return true;
 	}
 
+	// 判断操作区域是否包含节点i这个单点
 	public static boolean pointIn(int i) {
 		for (int d = 0; d < k; d++) {
 			if (qx[d] > pos[i][d] || qy[d] < pos[i][d]) {
