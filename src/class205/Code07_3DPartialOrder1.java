@@ -180,6 +180,7 @@ public class Code07_3DPartialOrder1 {
 		rebuild();
 	}
 
+	// 查询 <= qb 并且 <= qc 点的数量
 	public static int query(int qb, int qc, int i) {
 		if (i == 0) {
 			return 0;
@@ -220,8 +221,8 @@ public class Code07_3DPartialOrder1 {
 				add(abc[i][1], abc[i][2]);
 			}
 			for (int i = l; i <= r; i++) {
-				int cur = query(abc[i][1], abc[i][2], root);
-				ans[cur - 1]++;
+				int fi = query(abc[i][1], abc[i][2], root) - 1;
+				ans[fi]++;
 			}
 		}
 		for (int d = 0; d < n; d++) {

@@ -187,8 +187,8 @@ package class205;
 //            add(abc[i].b, abc[i].c);
 //        }
 //        for (int i = l; i <= r; i++) {
-//            int cur = query(abc[i].b, abc[i].c, root);
-//            ans[cur - 1]++;
+//            int fi = query(abc[i].b, abc[i].c, root) - 1;
+//            ans[fi]++;
 //        }
 //    }
 //    for (int d = 0; d < n; d++) {
