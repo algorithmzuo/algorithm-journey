@@ -37,9 +37,11 @@ package class205;
 //int rs[MAXN];
 //int siz[MAXN];
 //ll sum[MAXN];
-//ll tag[MAXN];
+//
 //ll minv[MAXN][MAXK];
 //ll maxv[MAXN][MAXK];
+//
+//ll addTag[MAXN];
 //
 //double ALPHA = 0.7;
 //int top;
@@ -59,7 +61,7 @@ package class205;
 //    ls[cntkdt] = rs[cntkdt] = 0;
 //    siz[cntkdt] = 1;
 //    sum[cntkdt] = qv;
-//    tag[cntkdt] = 0;
+//    addTag[cntkdt] = 0;
 //    return cntkdt;
 //}
 //
@@ -76,15 +78,15 @@ package class205;
 //    if (i != 0) {
 //        val[i] += v;
 //        sum[i] += v * siz[i];
-//        tag[i] += v;
+//        addTag[i] += v;
 //    }
 //}
 //
 //void down(int i) {
-//    if (tag[i] != 0) {
-//        lazy(ls[i], tag[i]);
-//        lazy(rs[i], tag[i]);
-//        tag[i] = 0;
+//    if (addTag[i] != 0) {
+//        lazy(ls[i], addTag[i]);
+//        lazy(rs[i], addTag[i]);
+//        addTag[i] = 0;
 //    }
 //}
 //

@@ -39,9 +39,11 @@ package class205;
 //int rs[MAXN];
 //int siz[MAXN];
 //ll sum[MAXN];
-//ll addTag[MAXN];
+//
 //ll minv[MAXN][MAXK];
 //ll maxv[MAXN][MAXK];
+//
+//ll addTag[MAXN];
 //
 //void maintain(int i) {
 //    siz[i] = 1 + siz[ls[i]] + siz[rs[i]];

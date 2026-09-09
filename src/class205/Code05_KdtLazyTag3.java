@@ -40,13 +40,13 @@ public class Code05_KdtLazyTag3 {
 	public static int[] root = new int[MAXP];
 	public static int[] ls = new int[MAXN];
 	public static int[] rs = new int[MAXN];
-
 	public static int[] siz = new int[MAXN];
 	public static long[] sum = new long[MAXN];
-	public static long[] addTag = new long[MAXN];
 
 	public static long[][] minv = new long[MAXN][MAXK];
 	public static long[][] maxv = new long[MAXN][MAXK];
+
+	public static long[] addTag = new long[MAXN];
 
 	public static void maintain(int i) {
 		siz[i] = 1 + siz[ls[i]] + siz[rs[i]];
