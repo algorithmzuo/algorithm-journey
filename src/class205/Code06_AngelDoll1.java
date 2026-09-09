@@ -177,17 +177,8 @@ public class Code06_AngelDoll1 {
 		if (i == 0) {
 			return INF;
 		}
-		int ans = 0;
-		if (qx < xmin[i]) {
-			ans += xmin[i] - qx;
-		} else if (qx > xmax[i]) {
-			ans += qx - xmax[i];
-		}
-		if (qy < ymin[i]) {
-			ans += ymin[i] - qy;
-		} else if (qy > ymax[i]) {
-			ans += qy - ymax[i];
-		}
+		int ans = qx < xmin[i] ? xmin[i] - qx : qx > xmax[i] ? qx - xmax[i] : 0;
+		ans += qy < ymin[i] ? ymin[i] - qy : qy > ymax[i] ? qy - ymax[i] : 0;
 		return ans;
 	}
 
