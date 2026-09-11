@@ -143,7 +143,7 @@ public class Code05_Jump1 {
 		return rt;
 	}
 
-	public static void update(int d, int i) {
+	public static void heapAdd(int d, int i) {
 		if (!vis[i] && dist[i] > d) {
 			dist[i] = d;
 			heap.add(new int[] { d, i });
@@ -164,11 +164,11 @@ public class Code05_Jump1 {
 			return;
 		}
 		if (jl <= xmin[i] && xmax[i] <= jr && jd <= ymin[i] && ymax[i] <= ju) {
-			update(jdist, n + i);
+			heapAdd(jdist, n + i);
 			return;
 		}
 		if (jl <= x[i] && x[i] <= jr && jd <= y[i] && y[i] <= ju) {
-			update(jdist, i);
+			heapAdd(jdist, i);
 		}
 		xToRectangle(jl, jr, jd, ju, jdist, ls[i]);
 		xToRectangle(jl, jr, jd, ju, jdist, rs[i]);
@@ -185,7 +185,7 @@ public class Code05_Jump1 {
 			if (!vis[i]) {
 				vis[i] = true;
 				for (int e = headg[i]; e > 0; e = nextg[e]) {
-					update(d, tog[e]);
+					heapAdd(d, tog[e]);
 				}
 				if (i <= n) {
 					for (int e = headj[i]; e > 0; e = nextj[e]) {
