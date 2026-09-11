@@ -26,9 +26,9 @@ public class Code01_ShootingGallery1 {
 	// l、r、d、u、z、id
 	public static int[][] target = new int[MAXN][6];
 
+	// 子弹的K-D树
 	public static int[] x = new int[MAXN];
 	public static int[] y = new int[MAXN];
-
 	public static int cntkdt;
 	public static int root;
 	public static int[] ls = new int[MAXN];
@@ -44,18 +44,20 @@ public class Code01_ShootingGallery1 {
 	public static int[] xmax = new int[MAXN];
 	public static int[] ymin = new int[MAXN];
 	public static int[] ymax = new int[MAXN];
-	// 区域内存活节点的最小编号
+
+	// 区域内的子弹最小编号
 	public static int[] idmin = new int[MAXN];
 
+	// 替罪羊树的重构
 	public static double ALPHA = 0.7;
 	public static int top;
 	public static int topFather;
 	public static int topSide;
 	public static int topDimension;
-
 	public static int[] arr = new int[MAXN];
 	public static int treeSiz;
 
+	// 答案的查询和收集
 	public static int bullet;
 	public static int[] ans = new int[MAXN];
 

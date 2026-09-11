@@ -44,6 +44,7 @@ package class206;
 //int xmax[MAXN];
 //int ymin[MAXN];
 //int ymax[MAXN];
+//
 //int idmin[MAXN];
 //
 //double ALPHA = 0.7;
@@ -51,7 +52,6 @@ package class206;
 //int topFather;
 //int topSide;
 //int topDimension;
-//
 //int arr[MAXN];
 //int treeSiz;
 //
