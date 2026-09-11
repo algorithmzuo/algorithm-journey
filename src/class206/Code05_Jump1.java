@@ -154,9 +154,7 @@ public class Code05_Jump1 {
 		if (i == 0) {
 			return;
 		}
-		// 这棵KDT子树已经存在优于jdist的方案
-		// 虚点可以通过权值为0的边，到达子树所有真实点
-		// 于是可以剪枝
+		// 从1号点到当前虚点的最短距离，已经优于jdist，可以剪枝了
 		if (dist[n + i] <= jdist) {
 			return;
 		}
@@ -187,6 +185,8 @@ public class Code05_Jump1 {
 				for (int e = headg[i]; e > 0; e = nextg[e]) {
 					heapAdd(d, tog[e]);
 				}
+				// 如果当前点有弹跳装置，根据弹跳装置找区域虚点连边
+				// 同时利用dist信息尽量剪枝，优化常数时间
 				if (i <= n) {
 					for (int e = headj[i]; e > 0; e = nextj[e]) {
 						int j = toj[e];
