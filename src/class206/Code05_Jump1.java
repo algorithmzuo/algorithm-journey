@@ -154,17 +154,20 @@ public class Code05_Jump1 {
 		if (i == 0) {
 			return;
 		}
-		// 从1号点到当前虚点的最短距离，已经优于jdist，可以剪枝了
+		// 从1号点到当前虚点的最短距离，已经优于jdist，可以剪枝
 		if (dist[n + i] <= jdist) {
 			return;
 		}
+		// 弹跳装置在当前区域之外，可以剪枝
 		if (xmax[i] < jl || jr < xmin[i] || ymax[i] < jd || ju < ymin[i]) {
 			return;
 		}
+		// 弹跳装置包括了当前区域，更新1号点到当前区域虚点的最短距离
 		if (jl <= xmin[i] && xmax[i] <= jr && jd <= ymin[i] && ymax[i] <= ju) {
 			heapAdd(jdist, n + i);
 			return;
 		}
+		// 弹跳装置包括了当前点，更新1号点到当前点的最短距离
 		if (jl <= x[i] && x[i] <= jr && jd <= y[i] && y[i] <= ju) {
 			heapAdd(jdist, i);
 		}
