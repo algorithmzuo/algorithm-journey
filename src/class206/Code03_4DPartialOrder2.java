@@ -59,6 +59,9 @@ package class206;
 //int dmin[MAXT];
 //int dmax[MAXT];
 //
+//int dp[MAXT];
+//int maxdp[MAXT];
+//
 //double ALPHA = 0.7;
 //int top;
 //int topFather;
@@ -66,9 +69,6 @@ package class206;
 //int topDimension;
 //int arr[MAXN];
 //int treeSiz;
-//
-//int dp[MAXT];
-//int maxdp[MAXT];
 //
 //int init(int qc, int qd, int qv) {
 //    cntkdt++;
