@@ -27,9 +27,7 @@ public class Code02_CameraRelocationAndQueries1 {
 
 	// 加密参数
 	public static double a, b;
-
-	// 题目规定lastAns的初始值是0.1
-	public static double lastAns = 0.1;
+	public static double lastAns;
 
 	// 三维坐标
 	public static double[] x = new double[MAXN];
@@ -46,6 +44,7 @@ public class Code02_CameraRelocationAndQueries1 {
 	public static int root;
 	public static int[] ls = new int[MAXN];
 	public static int[] rs = new int[MAXN];
+
 	public static boolean[] alive = new boolean[MAXN];
 	public static int[] aliveSiz = new int[MAXN];
 
@@ -61,7 +60,6 @@ public class Code02_CameraRelocationAndQueries1 {
 	public static int topFather;
 	public static int topSide;
 	public static int topDimension;
-
 	public static int[] arr = new int[MAXN];
 	public static int treeSiz;
 
@@ -298,7 +296,7 @@ public class Code02_CameraRelocationAndQueries1 {
 
 	// 解密函数
 	// 以下解密逻辑和题目规定的加密方式有关
-	// 具体不再多说，因为和讲述的主题无关
+	// 具体细节请自行研究，因为和讲述的主题无关
 	// 总之
 	// 给定密文encrypt，给定明文足够的范围l~r，就可以得到明文
 	// 其中，明文足够的范围l~r，如何确定？

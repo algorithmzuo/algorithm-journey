@@ -24,7 +24,7 @@ package class206;
 //int n, m;
 //
 //double a, b;
-//double lastAns = 0.1;
+//double lastAns;
 //
 //double x[MAXN];
 //double y[MAXN];
@@ -37,8 +37,10 @@ package class206;
 //int root;
 //int ls[MAXN];
 //int rs[MAXN];
+//
 //bool alive[MAXN];
 //int aliveSiz[MAXN];
+//
 //double xmin[MAXN];
 //double xmax[MAXN];
 //double ymin[MAXN];
