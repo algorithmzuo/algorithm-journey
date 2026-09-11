@@ -2,7 +2,7 @@ package class206;
 
 // 射击场，C++版
 // 每个靶子是一个矩形区域，x轴的范围[l, r]，y轴的范围[d, u]，还有z轴的数值
-// 空间里有n个靶子，接下来有m发子弹，每发子弹给定出发时的xy坐标，沿z轴前进
+// 空间里有n个靶子，接下来有m发子弹，每发子弹给定出发时的x和y坐标，子弹沿z轴前进
 // 子弹会击中前进过程中遇到的第一个尚未消失的靶子，随后击中的靶子和这发子弹都消失
 // 对于每一发子弹，打印它击中的靶子编号，如果没有击中打印0
 // 1 <= n、m <= 10^5
@@ -36,8 +36,10 @@ package class206;
 //int root;
 //int ls[MAXN];
 //int rs[MAXN];
+//
 //bool alive[MAXN];
 //int aliveSiz[MAXN];
+//
 //int xmin[MAXN];
 //int xmax[MAXN];
 //int ymin[MAXN];
@@ -53,7 +55,7 @@ package class206;
 //int arr[MAXN];
 //int treeSiz;
 //
-//int shot;
+//int bullet;
 //int ans[MAXN];
 //
 //int init(int qx, int qy) {
@@ -205,18 +207,18 @@ package class206;
 //}
 //
 //void query(int ql, int qr, int qd, int qu, int i) {
-//    if (i == 0 || aliveSiz[i] == 0 || idmin[i] >= shot) {
+//    if (i == 0 || aliveSiz[i] == 0 || idmin[i] >= bullet) {
 //        return;
 //    }
 //    if (xmax[i] < ql || qr < xmin[i] || ymax[i] < qd || qu < ymin[i]) {
 //        return;
 //    }
 //    if (ql <= xmin[i] && xmax[i] <= qr && qd <= ymin[i] && ymax[i] <= qu) {
-//        shot = min(shot, idmin[i]);
+//        bullet = min(bullet, idmin[i]);
 //        return;
 //    }
 //    if (alive[i] && ql <= x[i] && x[i] <= qr && qd <= y[i] && y[i] <= qu) {
-//        shot = min(shot, i);
+//        bullet = min(bullet, i);
 //    }
 //    int l = ls[i];
 //    int r = rs[i];
@@ -247,11 +249,11 @@ package class206;
 //    }
 //    sort(target + 1, target + n + 1, ZCmp);
 //    for (int k = 1; k <= n; k++) {
-//        shot = INF;
+//        bullet = INF;
 //        query(target[k].l, target[k].r, target[k].d, target[k].u, root);
-//        if (shot != INF) {
-//            ans[shot] = target[k].id;
-//            remove(shot);
+//        if (bullet != INF) {
+//            ans[bullet] = target[k].id;
+//            remove(bullet);
 //        }
 //    }
 //    for (int i = 1; i <= m; i++) {

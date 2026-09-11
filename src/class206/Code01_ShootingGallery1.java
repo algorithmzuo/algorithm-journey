@@ -2,7 +2,7 @@ package class206;
 
 // 射击场，java版
 // 每个靶子是一个矩形区域，x轴的范围[l, r]，y轴的范围[d, u]，还有z轴的数值
-// 空间里有n个靶子，接下来有m发子弹，每发子弹给定出发时的xy坐标，沿z轴前进
+// 空间里有n个靶子，接下来有m发子弹，每发子弹给定出发时的x和y坐标，子弹沿z轴前进
 // 子弹会击中前进过程中遇到的第一个尚未消失的靶子，随后击中的靶子和这发子弹都消失
 // 对于每一发子弹，打印它击中的靶子编号，如果没有击中打印0
 // 1 <= n、m <= 10^5
@@ -56,7 +56,7 @@ public class Code01_ShootingGallery1 {
 	public static int[] arr = new int[MAXN];
 	public static int treeSiz;
 
-	public static int shot;
+	public static int bullet;
 	public static int[] ans = new int[MAXN];
 
 	public static int init(int qx, int qy) {
@@ -240,18 +240,18 @@ public class Code01_ShootingGallery1 {
 	}
 
 	public static void query(int ql, int qr, int qd, int qu, int i) {
-		if (i == 0 || aliveSiz[i] == 0 || idmin[i] >= shot) {
+		if (i == 0 || aliveSiz[i] == 0 || idmin[i] >= bullet) {
 			return;
 		}
 		if (xmax[i] < ql || qr < xmin[i] || ymax[i] < qd || qu < ymin[i]) {
 			return;
 		}
 		if (ql <= xmin[i] && xmax[i] <= qr && qd <= ymin[i] && ymax[i] <= qu) {
-			shot = Math.min(shot, idmin[i]);
+			bullet = Math.min(bullet, idmin[i]);
 			return;
 		}
 		if (alive[i] && ql <= x[i] && x[i] <= qr && qd <= y[i] && y[i] <= qu) {
-			shot = Math.min(shot, i);
+			bullet = Math.min(bullet, i);
 		}
 		int l = ls[i];
 		int r = rs[i];
@@ -287,11 +287,11 @@ public class Code01_ShootingGallery1 {
 		}
 		Arrays.sort(target, 1, n + 1, (a, b) -> a[4] - b[4]);
 		for (int k = 1; k <= n; k++) {
-			shot = INF;
+			bullet = INF;
 			query(target[k][0], target[k][1], target[k][2], target[k][3], root);
-			if (shot != INF) {
-				ans[shot] = target[k][5];
-				remove(shot);
+			if (bullet != INF) {
+				ans[bullet] = target[k][5];
+				remove(bullet);
 			}
 		}
 		for (int i = 1; i <= m; i++) {
