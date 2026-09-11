@@ -34,10 +34,10 @@ public class Code01_ShootingGallery1 {
 	public static int[] ls = new int[MAXN];
 	public static int[] rs = new int[MAXN];
 
-	// 节点是否存活，删掉就是不存活，没删掉就是存活
+	// 节点是否存活
 	public static boolean[] alive = new boolean[MAXN];
 
-	// 存活节点的数量，加节点增加，删节点减少，平衡性也只用aliveSiz评价
+	// 子树的存活节点数量，平衡性只用aliveSiz判断
 	public static int[] aliveSiz = new int[MAXN];
 
 	public static int[] xmin = new int[MAXN];
