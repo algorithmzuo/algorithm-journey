@@ -4,7 +4,7 @@ package class206;
 // 三维空间中有n个摄像头，给定每个摄像头的初始位置，三维坐标(x, y, z)
 // 接下来有m条操作，格式如下
 // 操作 0 i x y z : 第i号摄像头位置变成(x, y, z)
-// 操作 1 x y z r : 一个球体出现了，圆心在(x, y, z)，半径为r
+// 操作 1 x y z r : 一个球体出现了，球心在(x, y, z)，半径为r
 //                  题目保证该球体的表面只会碰到一个摄像头
 //                  打印这个摄像头的编号，注意在内部的摄像头不算数
 // 本题要求强制在线，得到操作参数的规则，打开测试链接查看
@@ -303,7 +303,7 @@ package class206;
 //            qx = decode(qx, -100, 100);
 //            qy = decode(qy, -100, 100);
 //            qz = decode(qz, -100, 100);
-//            qr = decode(qr, 0, 400);
+//            qr = decode(qr, 0, 347);
 //            curAns = query(qx, qy, qz, qr);
 //            cout << curAns << "\n";
 //            lastAns = curAns;

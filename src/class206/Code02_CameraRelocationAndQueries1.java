@@ -4,7 +4,7 @@ package class206;
 // 三维空间中有n个摄像头，给定每个摄像头的初始位置，三维坐标(x, y, z)
 // 接下来有m条操作，格式如下
 // 操作 0 i x y z : 第i号摄像头位置变成(x, y, z)
-// 操作 1 x y z r : 一个球体出现了，圆心在(x, y, z)，半径为r
+// 操作 1 x y z r : 一个球体出现了，球心在(x, y, z)，半径为r
 //                  题目保证该球体的表面只会碰到一个摄像头
 //                  打印这个摄像头的编号，注意在内部的摄像头不算数
 // 本题要求强制在线，得到操作参数的规则，打开测试链接查看
@@ -111,8 +111,6 @@ public class Code02_CameraRelocationAndQueries1 {
 		}
 	}
 
-	// 不仅数据的值参与排序，数据的编号也参与排序，这样一来
-	// 即便替罪羊树发生重构，删除数据时，移动的方向也是固定的
 	public static int compareNode(int i, int j, int dimension) {
 		double v1 = dimension == 0 ? x[i] : (dimension == 1 ? y[i] : z[i]);
 		double v2 = dimension == 0 ? x[j] : (dimension == 1 ? y[j] : z[j]);
@@ -298,7 +296,16 @@ public class Code02_CameraRelocationAndQueries1 {
 		return query(qx, qy, qz, low, high, root);
 	}
 
-	// 解密
+	// 解密函数
+	// 密文encrypt，足够的明文范围l~r，返回解密后的明文
+	// 解密输入参数，得到真实值，需要数据的足够范围
+	// 关于坐标，题目说了范围 -100 ~ +100
+	// 关于摄像头编号，范围明显是 1 ~ n
+	// 关于半径，如何确定范围？
+	// 球心和摄像头的每一维坐标都在 -100 ~ +100
+	// 所以每个维度的差值最多200
+	// 题目保证球面上恰好有一个摄像头，所以半径就是球心到该摄像头的距离
+	// 因此半径最多为sqrt(200 * 200 * 3) < 347，解密范围取0 ~ 347
 	public static double decode(double encrypt, double l, double r) {
 		l = lastAns * l + 1;
 		r = lastAns * r + 1;
@@ -358,7 +365,7 @@ public class Code02_CameraRelocationAndQueries1 {
 				qx = decode(qx, -100, 100);
 				qy = decode(qy, -100, 100);
 				qz = decode(qz, -100, 100);
-				qr = decode(qr, 0, 400);
+				qr = decode(qr, 0, 347);
 				curAns = query(qx, qy, qz, qr);
 				out.println(curAns);
 				lastAns = curAns;

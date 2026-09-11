@@ -102,8 +102,9 @@ public class Code01_ShootingGallery1 {
 		}
 	}
 
-	// 不仅数据的值参与排序，数据的编号也参与排序，这样一来
-	// 即便替罪羊树发生重构，删除数据时，移动的方向也是固定的
+	// 先按照维度坐标比较，坐标相同时按kdt节点编号比较
+	// 建树、插入、删除使用相同的比较规则
+	// 即便发生重构，根据比较规则，删除时也能确定唯一的方向
 	public static int compareNode(int i, int j, int dimension) {
 		int v1 = dimension == 0 ? x[i] : y[i];
 		int v2 = dimension == 0 ? x[j] : y[j];
