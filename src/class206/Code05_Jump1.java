@@ -150,7 +150,7 @@ public class Code05_Jump1 {
 		}
 	}
 
-	public static void xToRectangle(int jl, int jr, int jd, int ju, int jdist, int i) {
+	public static void jumpToRectangle(int jl, int jr, int jd, int ju, int jdist, int i) {
 		if (i == 0) {
 			return;
 		}
@@ -171,8 +171,8 @@ public class Code05_Jump1 {
 		if (jl <= x[i] && x[i] <= jr && jd <= y[i] && y[i] <= ju) {
 			heapAdd(jdist, i);
 		}
-		xToRectangle(jl, jr, jd, ju, jdist, ls[i]);
-		xToRectangle(jl, jr, jd, ju, jdist, rs[i]);
+		jumpToRectangle(jl, jr, jd, ju, jdist, ls[i]);
+		jumpToRectangle(jl, jr, jd, ju, jdist, rs[i]);
 	}
 
 	public static void dijkstra() {
@@ -185,20 +185,16 @@ public class Code05_Jump1 {
 			int i = cur[1];
 			if (!vis[i]) {
 				vis[i] = true;
-				for (int e = headg[i]; e > 0; e = nextg[e]) {
-					heapAdd(d, tog[e]);
-				}
-				// 如果当前点有弹跳装置，根据弹跳装置找区域虚点连边
-				// 同时利用dist信息尽量剪枝，优化常数时间
 				if (i <= n) {
+					// 真实点有弹跳装置，利用dist信息尽量剪枝，优化常数时间
 					for (int e = headj[i]; e > 0; e = nextj[e]) {
 						int j = toj[e];
-						int jt = jump[j][0];
-						int jl = jump[j][1];
-						int jr = jump[j][2];
-						int jd = jump[j][3];
-						int ju = jump[j][4];
-						xToRectangle(jl, jr, jd, ju, d + jt, root);
+						jumpToRectangle(jump[j][1], jump[j][2], jump[j][3], jump[j][4], d + jump[j][0], root);
+					}
+				} else {
+					// 区域虚点通过优化建图，去往区域内所有真实点
+					for (int e = headg[i]; e > 0; e = nextg[e]) {
+						heapAdd(d, tog[e]);
 					}
 				}
 			}
