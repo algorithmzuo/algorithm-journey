@@ -295,8 +295,8 @@ public class Code02_CameraRelocationAndQueries1 {
 
 	// 解密函数，密文encrypt，明文范围 l ~ r，解密得到明文返回
 	// 题目给定的加密函数f(x)，该函数是严格单调递增的
-	// 所以x在其范围上不断二分，可以得到 f(x) == 密文
-	// 于是需要确定，不同数据的足够范围
+	// 所以x在其范围上不断二分，当 f(x) == 密文，x就确定了
+	// 于是需要确定，不同数据各自的范围，范围够用即可
 	// 关于坐标，题目说了范围 -100 ~ +100
 	// 关于摄像头编号，范围明显是 1 ~ n
 	// 关于半径，题目保证每次出现球体时，表面一定会恰好出现一个摄像头
@@ -307,7 +307,7 @@ public class Code02_CameraRelocationAndQueries1 {
 	public static double decode(double encrypt, double l, double r) {
 		l = lastAns * l + 1;
 		r = lastAns * r + 1;
-		for (int i = 0; i < 60; i++) {
+		for (int i = 1; i <= 60; i++) {
 			double mid = (l + r) / 2;
 			double fx = a * mid - b * Math.sin(mid);
 			if (fx <= encrypt) {

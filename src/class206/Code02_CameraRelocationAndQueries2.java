@@ -259,7 +259,7 @@ package class206;
 //double decode(double encrypt, double l, double r) {
 //    l = lastAns * l + 1;
 //    r = lastAns * r + 1;
-//    for (int i = 0; i < 60; i++) {
+//    for (int i = 1; i <= 60; i++) {
 //        double mid = (l + r) / 2;
 //        double fx = a * mid - b * sin(mid);
 //        if (fx <= encrypt) {
