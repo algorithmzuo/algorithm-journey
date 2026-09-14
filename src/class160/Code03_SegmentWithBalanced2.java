@@ -21,12 +21,10 @@ package class160;
 //const int MAXT = MAXN * 40;
 //const int INF = INT_MAX;
 //int n, m;
-//
 //int arr[MAXN];
 //
-//int root[MAXN << 2];
-//
 //int cntn;
+//int root[MAXN << 2];
 //int key[MAXT];
 //int ls[MAXT];
 //int rs[MAXT];
@@ -37,7 +35,6 @@ package class160;
 //int top;
 //int father;
 //int side;
-//
 //int collect[MAXN];
 //int collectSiz;
 //
@@ -67,133 +64,134 @@ package class160;
 //    }
 //}
 //
-//int innerBuild(int l, int r) {
+//int build(int l, int r) {
 //    if (l > r) {
 //        return 0;
 //    }
-//    int mid = (l + r) >> 1;
+//    int mid = (l + r) / 2;
 //    int h = collect[mid];
-//    ls[h] = innerBuild(l, mid - 1);
-//    rs[h] = innerBuild(mid + 1, r);
+//    ls[h] = build(l, mid - 1);
+//    rs[h] = build(mid + 1, r);
 //    up(h);
 //    return h;
 //}
 //
-//int innerRebuild(int h) {
+//int treeAdd(int i, int f, int s, int num) {
+//    if (i == 0 || aliveSiz[i] == 0) {
+//        return init(num);
+//    }
+//    if (num <= key[i]) {
+//        ls[i] = treeAdd(ls[i], i, 1, num);
+//    } else {
+//        rs[i] = treeAdd(rs[i], i, 2, num);
+//    }
+//    up(i);
+//    if (!balance(i)) {
+//        top = i;
+//        father = f;
+//        side = s;
+//    }
+//    return i;
+//}
+//
+//int treeSmall(int i, int num) {
+//    if (i == 0 || aliveSiz[i] == 0) {
+//        return 0;
+//    }
+//    if (num <= key[i]) {
+//        return treeSmall(ls[i], num);
+//    } else {
+//        return aliveSiz[ls[i]] + (alive[i] ? 1 : 0) + treeSmall(rs[i], num);
+//    }
+//}
+//
+//int treeIndex(int i, int x) {
+//    if (x <= aliveSiz[ls[i]]) {
+//        return treeIndex(ls[i], x);
+//    } else {
+//        int less = aliveSiz[ls[i]] + (alive[i] ? 1 : 0);
+//        if (less < x) {
+//            return treeIndex(rs[i], x - less);
+//        }
+//    }
+//    return key[i];
+//}
+//
+//void treeRemove(int i, int f, int s, int rank) {
+//    int lsiz = aliveSiz[ls[i]];
+//    if (rank <= lsiz) {
+//        treeRemove(ls[i], i, 1, rank);
+//    } else {
+//        int cur = alive[i] ? 1 : 0;
+//        if (alive[i] && rank == lsiz + cur) {
+//            alive[i] = false;
+//        } else {
+//            treeRemove(rs[i], i, 2, rank - lsiz - cur);
+//        }
+//    }
+//    up(i);
+//    if (!balance(i)) {
+//        top = i;
+//        father = f;
+//        side = s;
+//    }
+//}
+//
+//void rebuild(int version) {
 //    if (top != 0) {
 //        collectSiz = 0;
 //        inorder(top);
-//        int newRoot = innerBuild(1, collectSiz);
+//        int newRoot = build(1, collectSiz);
 //        if (father == 0) {
-//            h = newRoot;
+//            root[version] = newRoot;
 //        } else if (side == 1) {
 //            ls[father] = newRoot;
 //        } else {
 //            rs[father] = newRoot;
 //        }
 //    }
-//    return h;
 //}
 //
-//int innerInsert(int num, int i, int f, int s) {
-//    if (i == 0 || aliveSiz[i] == 0) {
-//        return init(num);
-//    }
-//    if (num <= key[i]) {
-//        ls[i] = innerInsert(num, ls[i], i, 1);
-//    } else {
-//        rs[i] = innerInsert(num, rs[i], i, 2);
-//    }
-//    up(i);
-//    if (!balance(i)) {
-//        top = i;
-//        father = f;
-//        side = s;
-//    }
-//    return i;
-//}
-//
-//int innerInsert(int num, int i) {
+//void innerAdd(int version, int num) {
 //    top = father = side = 0;
-//    i = innerInsert(num, i, 0, 0);
-//    i = innerRebuild(i);
-//    return i;
+//    root[version] = treeAdd(root[version], 0, 0, num);
+//    rebuild(version);
 //}
 //
-//int innerSmall(int num, int i) {
-//    if (i == 0 || aliveSiz[i] == 0) {
-//        return 0;
-//    }
-//    if (num <= key[i]) {
-//        return innerSmall(num, ls[i]);
-//    } else {
-//        return aliveSiz[ls[i]] + (alive[i] ? 1 : 0) + innerSmall(num, rs[i]);
-//    }
+//int innerRank(int version, int num) {
+//    return treeSmall(root[version], num) + 1;
 //}
 //
-//int innerIndex(int index, int i) {
-//    int lsiz = aliveSiz[ls[i]];
-//    if (index <= lsiz) {
-//        return innerIndex(index, ls[i]);
-//    }
-//    int cur = alive[i] ? 1 : 0;
-//    if (lsiz + cur < index) {
-//        return innerIndex(index - lsiz - cur, rs[i]);
-//    }
-//    return key[i];
-//}
-//
-//int innerPre(int num, int i) {
-//    int kth = innerSmall(num, i) + 1;
-//    if (kth == 1) {
-//        return -INF;
-//    } else {
-//        return innerIndex(kth - 1, i);
-//    }
-//}
-//
-//int innerPost(int num, int i) {
-//    int k = innerSmall(num + 1, i);
-//    if (k == aliveSiz[i]) {
-//        return INF;
-//    } else {
-//        return innerIndex(k + 1, i);
-//    }
-//}
-//
-//void innerRemove(int i, int f, int s, int rank) {
-//    int leftSize = aliveSiz[ls[i]];
-//    if (rank <= leftSize) {
-//        innerRemove(ls[i], i, 1, rank);
-//    } else {
-//        int cur = alive[i] ? 1 : 0;
-//        if (alive[i] && rank == leftSize + cur) {
-//            alive[i] = false;
-//        } else {
-//            innerRemove(rs[i], i, 2, rank - leftSize - cur);
-//        }
-//    }
-//    up(i);
-//    if (!balance(i)) {
-//        top = i;
-//        father = f;
-//        side = s;
-//    }
-//}
-//
-//int innerRemove(int num, int i) {
-//    int rank1 = innerSmall(num, i) + 1;
-//    int rank2 = innerSmall(num + 1, i) + 1;
+//void innerRemove(int version, int num) {
+//    int rank1 = innerRank(version, num);
+//    int rank2 = innerRank(version, num + 1);
 //    if (rank1 != rank2) {
 //        top = father = side = 0;
-//        innerRemove(i, 0, 0, rank1);
-//        i = innerRebuild(i);
+//        treeRemove(root[version], 0, 0, rank1);
+//        rebuild(version);
 //    }
-//    return i;
+//}
+//
+//int innerPre(int version, int num) {
+//    int rank = innerRank(version, num);
+//    if (rank == 1) {
+//        return -INF;
+//    } else {
+//        return treeIndex(root[version], rank - 1);
+//    }
+//}
+//
+//int innerPost(int version, int num) {
+//    int rank = innerRank(version, num + 1);
+//    if (rank == aliveSiz[root[version]] + 1) {
+//        return INF;
+//    } else {
+//        return treeIndex(root[version], rank);
+//    }
 //}
 //
 //void add(int jobi, int jobv, int l, int r, int i) {
-//    root[i] = innerInsert(jobv, root[i]);
+//    innerAdd(i, jobv);
 //    if (l < r) {
 //        int mid = (l + r) >> 1;
 //        if (jobi <= mid) {
@@ -205,8 +203,8 @@ package class160;
 //}
 //
 //void update(int jobi, int jobv, int l, int r, int i) {
-//    root[i] = innerRemove(arr[jobi], root[i]);
-//    root[i] = innerInsert(jobv, root[i]);
+//    innerRemove(i, arr[jobi]);
+//    innerAdd(i, jobv);
 //    if (l < r) {
 //        int mid = (l + r) >> 1;
 //        if (jobi <= mid) {
@@ -219,7 +217,7 @@ package class160;
 //
 //int small(int jobl, int jobr, int jobv, int l, int r, int i) {
 //    if (jobl <= l && r <= jobr) {
-//        return innerSmall(jobv, root[i]);
+//        return treeSmall(root[i], jobv);
 //    }
 //    int mid = (l + r) >> 1;
 //    int ans = 0;
@@ -248,7 +246,7 @@ package class160;
 //
 //int pre(int jobl, int jobr, int jobv, int l, int r, int i) {
 //    if (jobl <= l && r <= jobr) {
-//        return innerPre(jobv, root[i]);
+//        return innerPre(i, jobv);
 //    }
 //    int mid = (l + r) >> 1;
 //    int ans = -INF;
@@ -263,7 +261,7 @@ package class160;
 //
 //int post(int jobl, int jobr, int jobv, int l, int r, int i) {
 //    if (jobl <= l && r <= jobr) {
-//        return innerPost(jobv, root[i]);
+//        return innerPost(i, jobv);
 //    }
 //    int mid = (l + r) >> 1;
 //    int ans = INF;
@@ -294,13 +292,13 @@ package class160;
 //        } else {
 //            cin >> z;
 //            if (op == 1) {
-//                cout << small(x, y, z, 1, n, 1) + 1 << "\n";
+//                cout << small(x, y, z, 1, n, 1) + 1 << '\n';
 //            } else if (op == 2) {
-//                cout << number(x, y, z) << "\n";
+//                cout << number(x, y, z) << '\n';
 //            } else if (op == 4) {
-//                cout << pre(x, y, z, 1, n, 1) << "\n";
+//                cout << pre(x, y, z, 1, n, 1) << '\n';
 //            } else {
-//                cout << post(x, y, z, 1, n, 1) << "\n";
+//                cout << post(x, y, z, 1, n, 1) << '\n';
 //            }
 //        }
 //    }

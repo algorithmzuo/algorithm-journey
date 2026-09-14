@@ -11,8 +11,8 @@ package class160;
 // 数组中的值永远在[0, 10^8]范围内
 // 测试链接 : https://www.luogu.com.cn/problem/P3380
 // 提交以下的code，提交时请把类名改成"Main"
-// 本题后来增加了测试用例，数据范围放大到 2 * 10^5
-// 线段树套平衡树，常数时间大，加上是java实现，导致卡常无法通过
+// 线段树套平衡树不是正解，操作2的复杂度较高，正解是题目4的实现
+// 加上是java实现，常数较大，无法通过
 // 想通过用C++实现，本节课Code03_SegmentWithBalanced2文件就是C++的实现
 // 两个版本的逻辑完全一样，C++版本可以通过所有测试
 
@@ -27,47 +27,29 @@ public class Code03_SegmentWithBalanced1 {
 	public static int MAXT = MAXN * 40;
 	public static int INF = Integer.MAX_VALUE;
 	public static int n, m;
-
-	// 原始数组
 	public static int[] arr = new int[MAXN];
-
-	// 线段树维护的替罪羊树根节点编号
-	public static int[] root = new int[MAXN << 2];
 
 	// 替罪羊树的节点计数
 	public static int cntn;
 
-	// 替罪羊树节点的key值
+	// 线段树维护的替罪羊树根节点编号
+	public static int[] root = new int[MAXN << 2];
+
+	// 替罪羊树，讲解150
 	public static int[] key = new int[MAXT];
-
-	// 替罪羊树节点的左儿子
 	public static int[] ls = new int[MAXT];
-
-	// 替罪羊树节点的右儿子
 	public static int[] rs = new int[MAXT];
-
-	// 替罪羊树节点是否存活，删掉就是不存活，否则就是存活
 	public static boolean[] alive = new boolean[MAXT];
-
-	// 子树上存活的节点数量
 	public static int[] aliveSiz = new int[MAXT];
 
-	// 替罪羊树的平衡因子
 	public static double ALPHA = 0.7;
-
-	// 最上方不平衡点
 	public static int top;
-
-	// 最上方不平衡点的父亲
 	public static int father;
-
-	// 最上方不平衡点是其父亲的哪侧儿子
 	public static int side;
-
-	// 收集重构子树的所有存活节点
 	public static int[] collect = new int[MAXN];
 	public static int collectSiz;
 
+	// 初始化替罪羊树的节点，返回节点编号
 	public static int init(int num) {
 		key[++cntn] = num;
 		ls[cntn] = rs[cntn] = 0;
@@ -76,18 +58,18 @@ public class Code03_SegmentWithBalanced1 {
 		return cntn;
 	}
 
-	// 存活的节点的信息汇总
+	// 汇总存活节点信息
 	public static void up(int i) {
 		aliveSiz[i] = (alive[i] ? 1 : 0) + aliveSiz[ls[i]] + aliveSiz[rs[i]];
 	}
 
-	// 存活节点的多少来判断是否平衡
+	// 替罪羊树判断平衡
 	public static boolean balance(int i) {
 		return ALPHA * aliveSiz[i] >= Math.max(aliveSiz[ls[i]], aliveSiz[rs[i]]);
 	}
 
+	// 中序遍历收集不平衡子树的存活节点
 	public static void inorder(int i) {
-		// 整棵树上没有存活节点也跳过
 		if (i != 0 && aliveSiz[i] != 0) {
 			inorder(ls[i]);
 			if (alive[i]) {
@@ -97,147 +79,151 @@ public class Code03_SegmentWithBalanced1 {
 		}
 	}
 
-	public static int innerBuild(int l, int r) {
+	// 替罪羊树建树
+	public static int build(int l, int r) {
 		if (l > r) {
 			return 0;
 		}
-		int mid = (l + r) >> 1;
+		int mid = (l + r) / 2;
 		int h = collect[mid];
-		ls[h] = innerBuild(l, mid - 1);
-		rs[h] = innerBuild(mid + 1, r);
+		ls[h] = build(l, mid - 1);
+		rs[h] = build(mid + 1, r);
 		up(h);
 		return h;
 	}
 
-	public static int innerRebuild(int h) {
+	// 替罪羊树上，加入数字num，返回头节点编号
+	public static int treeAdd(int i, int f, int s, int num) {
+		if (i == 0 || aliveSiz[i] == 0) {
+			return init(num);
+		}
+		if (num <= key[i]) {
+			ls[i] = treeAdd(ls[i], i, 1, num);
+		} else {
+			rs[i] = treeAdd(rs[i], i, 2, num);
+		}
+		up(i);
+		if (!balance(i)) {
+			top = i;
+			father = f;
+			side = s;
+		}
+		return i;
+	}
+
+	// 替罪羊树上，查询<num的数字个数
+	public static int treeSmall(int i, int num) {
+		if (i == 0 || aliveSiz[i] == 0) {
+			return 0;
+		}
+		if (num <= key[i]) {
+			return treeSmall(ls[i], num);
+		} else {
+			return aliveSiz[ls[i]] + (alive[i] ? 1 : 0) + treeSmall(rs[i], num);
+		}
+	}
+
+	// 替罪羊树上，查询第x小的数字
+	public static int treeIndex(int i, int x) {
+		if (x <= aliveSiz[ls[i]]) {
+			return treeIndex(ls[i], x);
+		} else {
+			int less = aliveSiz[ls[i]] + (alive[i] ? 1 : 0);
+			if (less < x) {
+				return treeIndex(rs[i], x - less);
+			}
+		}
+		return key[i];
+	}
+
+	// 替罪羊树上，删除排名是rank的数字
+	public static void treeRemove(int i, int f, int s, int rank) {
+		int lsiz = aliveSiz[ls[i]];
+		if (rank <= lsiz) {
+			treeRemove(ls[i], i, 1, rank);
+		} else {
+			int cur = alive[i] ? 1 : 0;
+			if (alive[i] && rank == lsiz + cur) {
+				alive[i] = false;
+			} else {
+				treeRemove(rs[i], i, 2, rank - lsiz - cur);
+			}
+		}
+		up(i);
+		if (!balance(i)) {
+			top = i;
+			father = f;
+			side = s;
+		}
+	}
+
+	// 替罪羊树的局部重构，如果整棵树换头，则修改root[version]
+	public static void rebuild(int version) {
 		if (top != 0) {
 			collectSiz = 0;
 			inorder(top);
-			int newRoot = innerBuild(1, collectSiz);
+			int newRoot = build(1, collectSiz);
 			if (father == 0) {
-				h = newRoot;
+				root[version] = newRoot;
 			} else if (side == 1) {
 				ls[father] = newRoot;
 			} else {
 				rs[father] = newRoot;
 			}
 		}
-		return h;
 	}
 
-	public static int innerInsert(int num, int i, int f, int s) {
-		// 整棵树上没有存活节点，就算空树
-		if (i == 0 || aliveSiz[i] == 0) {
-			return init(num);
-		}
-		if (num <= key[i]) {
-			ls[i] = innerInsert(num, ls[i], i, 1);
-		} else {
-			rs[i] = innerInsert(num, rs[i], i, 2);
-		}
-		up(i);
-		if (!balance(i)) {
-			top = i;
-			father = f;
-			side = s;
-		}
-		return i;
-	}
-
-	// 平衡树当前来到i号节点，把num这个数字插入
-	// 返回头节点编号
-	public static int innerInsert(int num, int i) {
+	// 内层替罪羊树，版本是version，头节点是root[version]，加入数字num
+	public static void innerAdd(int version, int num) {
 		top = father = side = 0;
-		i = innerInsert(num, i, 0, 0);
-		i = innerRebuild(i);
-		return i;
+		root[version] = treeAdd(root[version], 0, 0, num);
+		rebuild(version);
 	}
 
-	// 平衡树当前来到i号节点，返回<num的数字个数
-	public static int innerSmall(int num, int i) {
-		// 整棵树上没有存活节点，就算空树
-		if (i == 0 || aliveSiz[i] == 0) {
-			return 0;
-		}
-		if (num <= key[i]) {
-			return innerSmall(num, ls[i]);
-		} else {
-			return aliveSiz[ls[i]] + (alive[i] ? 1 : 0) + innerSmall(num, rs[i]);
-		}
+	// 内层替罪羊树，版本是version，头节点是root[version]，查询num的排名
+	public static int innerRank(int version, int num) {
+		return treeSmall(root[version], num) + 1;
 	}
 
-	// 平衡树当前来到i号节点，返回第index小的数字
-	public static int innerIndex(int index, int i) {
-		int lsiz = aliveSiz[ls[i]];
-		if (index <= lsiz) {
-			return innerIndex(index, ls[i]);
-		}
-		int cur = alive[i] ? 1 : 0;
-		if (lsiz + cur < index) {
-			return innerIndex(index - lsiz - cur, rs[i]);
-		}
-		return key[i];
-	}
-
-	// 平衡树当前来到i号节点，返回num的前驱
-	public static int innerPre(int num, int i) {
-		int kth = innerSmall(num, i) + 1;
-		if (kth == 1) {
-			return -INF;
-		} else {
-			return innerIndex(kth - 1, i);
-		}
-	}
-
-	// 平衡树当前来到i号节点，返回num的后继
-	public static int innerPost(int num, int i) {
-		int k = innerSmall(num + 1, i);
-		if (k == aliveSiz[i]) {
-			return INF;
-		} else {
-			return innerIndex(k + 1, i);
-		}
-	}
-
-	// 注意innerRemove方法
+	// 内层替罪羊树，版本是version，头节点是root[version]，删除数字num
 	// 因为替罪羊树会重构，所以值相同的一批节点，重构时假设选出的头为h
 	// 那么这批节点，有可能在h的左侧，也有可能在h的右侧
 	// 所以删除时，如果h已经被删，还要继续寻找其他key值相同的节点
 	// 此时只根据key值的大小关系，方向无法确定是左还是右
 	// 所以先求出目标的排名，再按排名删除，这样移动方向是确定的
-	public static void innerRemove(int i, int f, int s, int rank) {
-		int leftSize = aliveSiz[ls[i]];
-		if (rank <= leftSize) {
-			innerRemove(ls[i], i, 1, rank);
-		} else {
-			int cur = alive[i] ? 1 : 0;
-			if (alive[i] && rank == leftSize + cur) {
-				alive[i] = false;
-			} else {
-				innerRemove(rs[i], i, 2, rank - leftSize - cur);
-			}
-		}
-		up(i);
-		if (!balance(i)) {
-			top = i;
-			father = f;
-			side = s;
-		}
-	}
-
-	public static int innerRemove(int num, int i) {
-		int rank1 = innerSmall(num, i) + 1;
-		int rank2 = innerSmall(num + 1, i) + 1;
+	public static void innerRemove(int version, int num) {
+		int rank1 = innerRank(version, num);
+		int rank2 = innerRank(version, num + 1);
 		if (rank1 != rank2) {
 			top = father = side = 0;
-			innerRemove(i, 0, 0, rank1);
-			i = innerRebuild(i);
+			treeRemove(root[version], 0, 0, rank1);
+			rebuild(version);
 		}
-		return i;
 	}
 
+	// 内层替罪羊树，版本是version，头节点是root[version]，查询num的前驱
+	public static int innerPre(int version, int num) {
+		int rank = innerRank(version, num);
+		if (rank == 1) {
+			return -INF;
+		} else {
+			return treeIndex(root[version], rank - 1);
+		}
+	}
+
+	// 内层替罪羊树，版本是version，头节点是root[version]，查询num的后继
+	public static int innerPost(int version, int num) {
+		int rank = innerRank(version, num + 1);
+		if (rank == aliveSiz[root[version]] + 1) {
+			return INF;
+		} else {
+			return treeIndex(root[version], rank);
+		}
+	}
+
+	// 外层线段树
 	public static void add(int jobi, int jobv, int l, int r, int i) {
-		root[i] = innerInsert(jobv, root[i]);
+		innerAdd(i, jobv);
 		if (l < r) {
 			int mid = (l + r) >> 1;
 			if (jobi <= mid) {
@@ -248,9 +234,10 @@ public class Code03_SegmentWithBalanced1 {
 		}
 	}
 
+	// 外层线段树
 	public static void update(int jobi, int jobv, int l, int r, int i) {
-		root[i] = innerRemove(arr[jobi], root[i]);
-		root[i] = innerInsert(jobv, root[i]);
+		innerRemove(i, arr[jobi]);
+		innerAdd(i, jobv);
 		if (l < r) {
 			int mid = (l + r) >> 1;
 			if (jobi <= mid) {
@@ -261,9 +248,10 @@ public class Code03_SegmentWithBalanced1 {
 		}
 	}
 
+	// 外层线段树
 	public static int small(int jobl, int jobr, int jobv, int l, int r, int i) {
 		if (jobl <= l && r <= jobr) {
-			return innerSmall(jobv, root[i]);
+			return treeSmall(root[i], jobv);
 		}
 		int mid = (l + r) >> 1;
 		int ans = 0;
@@ -276,6 +264,7 @@ public class Code03_SegmentWithBalanced1 {
 		return ans;
 	}
 
+	// 外层线段树
 	public static int number(int jobl, int jobr, int jobk) {
 		int l = 0, r = 100000000, mid, ans = 0;
 		while (l <= r) {
@@ -290,9 +279,10 @@ public class Code03_SegmentWithBalanced1 {
 		return ans;
 	}
 
+	// 外层线段树
 	public static int pre(int jobl, int jobr, int jobv, int l, int r, int i) {
 		if (jobl <= l && r <= jobr) {
-			return innerPre(jobv, root[i]);
+			return innerPre(i, jobv);
 		}
 		int mid = (l + r) >> 1;
 		int ans = -INF;
@@ -305,9 +295,10 @@ public class Code03_SegmentWithBalanced1 {
 		return ans;
 	}
 
+	// 外层线段树
 	public static int post(int jobl, int jobr, int jobv, int l, int r, int i) {
 		if (jobl <= l && r <= jobr) {
-			return innerPost(jobv, root[i]);
+			return innerPost(i, jobv);
 		}
 		int mid = (l + r) >> 1;
 		int ans = INF;
