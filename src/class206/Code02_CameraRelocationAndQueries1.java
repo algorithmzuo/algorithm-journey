@@ -293,8 +293,9 @@ public class Code02_CameraRelocationAndQueries1 {
 		return query(qx, qy, qz, low, high, root);
 	}
 
-	// 解密函数
-	// 给定密文encrypt，给定明文的足够范围l~r，返回明文
+	// 解密函数，密文encrypt，明文的足够范围l~r，返回明文
+	// 题目给定了加密函数f(x)，该函数严格单调递增
+	// 所以根据密文，得到明文x，只要在x的范围上，不断二分即可
 	// 其中，明文足够的范围l~r，如何确定？
 	// 关于坐标，题目说了范围 -100 ~ +100
 	// 关于摄像头编号，范围明显是 1 ~ n
