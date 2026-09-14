@@ -8,8 +8,7 @@ package class206;
 //                  题目保证该球体的表面会恰好碰到一个摄像头
 //                  打印这个摄像头的编号，注意在内部的摄像头不算数
 // 本题要求强制在线，得到操作参数的规则，打开测试链接查看
-// 1 <= n、m <= 65536
-// 坐标值是double，绝对值不超过100，均为随机生成，精确到小数点后五位
+// 1 <= n、m <= 65536    随机生成坐标的绝对值 <= 100，至少小数点后5位
 // 测试链接 : https://www.luogu.com.cn/problem/P11716
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
@@ -295,10 +294,7 @@ public class Code02_CameraRelocationAndQueries1 {
 	}
 
 	// 解密函数
-	// 以下解密逻辑和题目规定的加密方式有关
-	// 具体细节请自行研究，因为和讲述的主题无关
-	// 总之
-	// 给定密文encrypt，给定明文足够的范围l~r，就可以得到明文
+	// 给定密文encrypt，给定明文的足够范围l~r，返回明文
 	// 其中，明文足够的范围l~r，如何确定？
 	// 关于坐标，题目说了范围 -100 ~ +100
 	// 关于摄像头编号，范围明显是 1 ~ n
@@ -306,22 +302,20 @@ public class Code02_CameraRelocationAndQueries1 {
 	// 所以球体的半径 <= 到达最远摄像头的距离
 	// 球心和摄像头的每一维的坐标都在 -100 ~ +100
 	// 所以每个维度的差值最多200，一共三个维度，根据欧式距离的计算公式
-	// 半径 <= sqrt(200 * 200 * 3) < 347，所以范围取 0 ~ 347
+	// 半径 <= sqrt(200 * 200 * 3) < 347，所以范围取 0 ~ 400
 	public static double decode(double encrypt, double l, double r) {
 		l = lastAns * l + 1;
 		r = lastAns * r + 1;
 		for (int i = 0; i < 60; i++) {
 			double mid = (l + r) / 2;
 			double val = a * mid - b * Math.sin(mid);
-			if (val < encrypt) {
+			if (val <= encrypt) {
 				l = mid;
 			} else {
 				r = mid;
 			}
 		}
-		double decrypt = (l + r) / 2;
-		decrypt = (decrypt - 1) / lastAns;
-		return decrypt;
+		return (l - 1) / lastAns;
 	}
 
 	public static void main(String[] args) throws Exception {
@@ -366,7 +360,7 @@ public class Code02_CameraRelocationAndQueries1 {
 				qx = decode(qx, -100, 100);
 				qy = decode(qy, -100, 100);
 				qz = decode(qz, -100, 100);
-				qr = decode(qr, 0, 347);
+				qr = decode(qr, 0, 400);
 				curAns = query(qx, qy, qz, qr);
 				out.println(curAns);
 				lastAns = curAns;
