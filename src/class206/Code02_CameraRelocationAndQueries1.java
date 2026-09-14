@@ -1,6 +1,6 @@
 package class206;
 
-// 摄像头改位置和查询，java版
+// 摄像头的修改和查询，java版
 // 三维空间中有n个摄像头，给定每个摄像头的初始位置，三维坐标(x, y, z)
 // 接下来有m条操作，格式如下
 // 操作 0 i x y z : 第i号摄像头位置变成(x, y, z)
@@ -293,24 +293,24 @@ public class Code02_CameraRelocationAndQueries1 {
 		return query(qx, qy, qz, low, high, root);
 	}
 
-	// 解密函数，密文encrypt，明文的足够范围l~r，返回明文
-	// 题目给定了加密函数f(x)，该函数严格单调递增
-	// 所以根据密文，得到明文x，只要在x的范围上，不断二分即可
-	// 其中，明文足够的范围l~r，如何确定？
+	// 解密函数，密文encrypt，明文范围 l ~ r，解密得到明文返回
+	// 题目给定的加密函数f(x)，该函数是严格单调递增的
+	// 所以x在其范围上不断二分，可以得到 f(x) == 密文
+	// 于是需要确定，不同数据的足够范围
 	// 关于坐标，题目说了范围 -100 ~ +100
 	// 关于摄像头编号，范围明显是 1 ~ n
 	// 关于半径，题目保证每次出现球体时，表面一定会恰好出现一个摄像头
 	// 所以球体的半径 <= 到达最远摄像头的距离
 	// 球心和摄像头的每一维的坐标都在 -100 ~ +100
 	// 所以每个维度的差值最多200，一共三个维度，根据欧式距离的计算公式
-	// 半径 <= sqrt(200 * 200 * 3) < 347，所以范围取 0 ~ 400
+	// 半径 <= sqrt(200 * 200 * 3) < 347，所以半径范围取 0 ~ 400
 	public static double decode(double encrypt, double l, double r) {
 		l = lastAns * l + 1;
 		r = lastAns * r + 1;
 		for (int i = 0; i < 60; i++) {
 			double mid = (l + r) / 2;
-			double val = a * mid - b * Math.sin(mid);
-			if (val <= encrypt) {
+			double fx = a * mid - b * Math.sin(mid);
+			if (fx <= encrypt) {
 				l = mid;
 			} else {
 				r = mid;

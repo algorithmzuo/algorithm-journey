@@ -1,6 +1,6 @@
 package class206;
 
-// 摄像头改位置和查询，C++版
+// 摄像头的修改和查询，C++版
 // 三维空间中有n个摄像头，给定每个摄像头的初始位置，三维坐标(x, y, z)
 // 接下来有m条操作，格式如下
 // 操作 0 i x y z : 第i号摄像头位置变成(x, y, z)
@@ -261,8 +261,8 @@ package class206;
 //    r = lastAns * r + 1;
 //    for (int i = 0; i < 60; i++) {
 //        double mid = (l + r) / 2;
-//        double val = a * mid - b * sin(mid);
-//        if (val <= encrypt) {
+//        double fx = a * mid - b * sin(mid);
+//        if (fx <= encrypt) {
 //            l = mid;
 //        } else {
 //            r = mid;
