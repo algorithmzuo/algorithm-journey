@@ -25,12 +25,13 @@ public class Code03_4DPartialOrder1 {
 
 	public static int[][] abcd = new int[MAXN][4];
 
-	// b值、数据下标
+	// b值、点的编号
 	public static int[][] bi = new int[MAXN][2];
 
-	// b值排名
+	// (b值，点编号)的排名
 	public static int[] ranking = new int[MAXN];
 
+	// K-D树维护c、d坐标
 	public static int[] c = new int[MAXT];
 	public static int[] d = new int[MAXT];
 	public static int cntkdt;
