@@ -225,7 +225,7 @@ public class Code04_LaoshanBaihua1 {
 		return ans;
 	}
 
-	// 查询权值线段树中，矩形内第jobk大的点权，确定存在
+	// 查询权值线段树中，矩形内第k大的点权，确定存在
 	public static int query(int a, int b, int c, int d, int k, int l, int r, int i) {
 		if (l == r) {
 			return l;
