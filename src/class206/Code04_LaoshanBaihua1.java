@@ -32,7 +32,7 @@ public class Code04_LaoshanBaihua1 {
 	// K-D树的节点计数
 	public static int cntkdt;
 
-	// 外层是权值线段树
+	// 外层是权值线段树，开点的设计
 	public static int rootseg;
 	public static int[] lseg = new int[MAXT];
 	public static int[] rseg = new int[MAXT];
