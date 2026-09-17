@@ -144,6 +144,7 @@ public class Code05_Jump1 {
 		return rt;
 	}
 
+	// 1号点到i号点，出现了新距离d，尝试更新堆
 	public static void heapAdd(int d, int i) {
 		if (!vis[i] && dist[i] > d) {
 			dist[i] = d;
