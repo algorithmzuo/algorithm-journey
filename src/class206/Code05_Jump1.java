@@ -185,8 +185,10 @@ public class Code05_Jump1 {
 			int i = cur[1];
 			if (!vis[i]) {
 				vis[i] = true;
+				// 如果是真实点，可能有若干弹跳装置，但一定没有出边
+				// 如果是虚点，一定没有弹跳装置，但肯定有出边
 				if (i <= n) {
-					// 真实点有弹跳装置，利用dist信息尽量剪枝，优化常数时间
+					// 枚举弹跳装置，利用dist信息尽量剪枝，优化常数时间
 					for (int e = headj[i]; e > 0; e = nextj[e]) {
 						int j = toj[e];
 						jumpToRectangle(jump[j][1], jump[j][2], jump[j][3], jump[j][4], d + jump[j][0], root);
