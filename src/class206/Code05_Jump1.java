@@ -31,6 +31,7 @@ public class Code05_Jump1 {
 	// t、l、r、d、u
 	public static int[][] jump = new int[MAXN][5];
 
+	// 静态K-D树
 	public static int root;
 	public static int[] ls = new int[MAXN];
 	public static int[] rs = new int[MAXN];
@@ -39,13 +40,13 @@ public class Code05_Jump1 {
 	public static int[] ymin = new int[MAXN];
 	public static int[] ymax = new int[MAXN];
 
-	// 优化建图
+	// 优化建图，链式前向星实现建图
 	public static int[] headg = new int[MAXN];
 	public static int[] nextg = new int[MAXN];
 	public static int[] tog = new int[MAXN];
 	public static int cntg;
 
-	// 弹跳装置列表
+	// 每个真实点拥有的弹跳装置列表，链式前向星实现列表
 	public static int[] headj = new int[MAXN];
 	public static int[] nextj = new int[MAXN];
 	public static int[] toj = new int[MAXN];
