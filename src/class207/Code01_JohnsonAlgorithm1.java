@@ -78,16 +78,16 @@ public class Code01_JohnsonAlgorithm1 {
 		}
 	}
 
+	public static boolean isEmpty() {
+		return heapSize == 0;
+	}
+
 	public static int pop() {
 		int ans = heap[0];
 		swap(0, --heapSize);
 		heapify(0);
 		where[ans] = -2;
 		return ans;
-	}
-
-	public static boolean isEmpty() {
-		return heapSize == 0;
 	}
 
 	public static void addOrUpdateOrIgnore(int v, int d) {
