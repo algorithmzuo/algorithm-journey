@@ -4,7 +4,7 @@ package class207;
 // 测试链接 : https://www.luogu.com.cn/problem/P5905
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 // java的实现，dijkstra算法，反向索引堆优化，讲解064讲了
-// C++的实现，使用普通版本的dijkstra算法即可，可以直接通过
+// C++的实现，使用普通版本的dijkstra算法，可以直接通过
 
 import java.io.IOException;
 import java.io.InputStream;
