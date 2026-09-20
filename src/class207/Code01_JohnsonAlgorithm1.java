@@ -3,7 +3,7 @@ package class207;
 // Johnson全源最短路，java版
 // 测试链接 : https://www.luogu.com.cn/problem/P5905
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
-// java的实现，dijkstra算法，需要反向索引堆的优化才能通过，讲解064讲了
+// java的实现，dijkstra算法，反向索引堆优化，讲解064讲了
 // C++的实现，使用正常的dijkstra算法即可，可以直接通过
 
 import java.io.IOException;
@@ -57,31 +57,11 @@ public class Code01_JohnsonAlgorithm1 {
 		where[heap[j]] = j;
 	}
 
-	public static void addOrUpdateOrIgnore(int v, int w) {
-		if (where[v] == -1) {
-			heap[heapSize] = v;
-			where[v] = heapSize++;
-			dist[v] = w;
-			heapInsert(where[v]);
-		} else if (where[v] >= 0) {
-			dist[v] = Math.min(dist[v], w);
-			heapInsert(where[v]);
-		}
-	}
-
 	public static void heapInsert(int i) {
 		while (dist[heap[i]] < dist[heap[(i - 1) / 2]]) {
 			swap(i, (i - 1) / 2);
 			i = (i - 1) / 2;
 		}
-	}
-
-	public static int pop() {
-		int ans = heap[0];
-		swap(0, --heapSize);
-		heapify(0);
-		where[ans] = -2;
-		return ans;
 	}
 
 	public static void heapify(int i) {
@@ -98,8 +78,28 @@ public class Code01_JohnsonAlgorithm1 {
 		}
 	}
 
+	public static int pop() {
+		int ans = heap[0];
+		swap(0, --heapSize);
+		heapify(0);
+		where[ans] = -2;
+		return ans;
+	}
+
 	public static boolean isEmpty() {
 		return heapSize == 0;
+	}
+
+	public static void addOrUpdateOrIgnore(int v, int d) {
+		if (where[v] == -2 || dist[v] <= d) {
+			return;
+		}
+		if (where[v] == -1) {
+			heap[heapSize] = v;
+			where[v] = heapSize++;
+		}
+		dist[v] = d;
+		heapInsert(where[v]);
 	}
 
 	// 返回是否发现了负环
@@ -141,11 +141,7 @@ public class Code01_JohnsonAlgorithm1 {
 			int u = pop();
 			int d = dist[u];
 			for (int e = head[u]; e > 0; e = nxt[e]) {
-				int v = to[e];
-				int w = weight[e];
-				if (where[v] != -2 && dist[v] > d + w) {
-					addOrUpdateOrIgnore(v, d + w);
-				}
+				addOrUpdateOrIgnore(to[e], d + weight[e]);
 			}
 		}
 	}
