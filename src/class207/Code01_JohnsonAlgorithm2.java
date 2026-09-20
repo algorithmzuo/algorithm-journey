@@ -2,7 +2,7 @@ package class207;
 
 // Johnson全源最短路，C++版
 // 测试链接 : https://www.luogu.com.cn/problem/P5905
-// 如下实现是C++的版本，C++版本使用正常的dijkstra算法
+// 如下实现是C++的版本，使用普通版本的dijkstra算法
 // 提交如下代码，可以通过所有测试用例
 
 //#include <bits/stdc++.h>
