@@ -1,6 +1,6 @@
 package class207;
 
-// Johnson全源最短路，java版
+// Johnson全源最短路径算法，java版
 // 测试链接 : https://www.luogu.com.cn/problem/P5905
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 // java的实现，dijkstra需要反向索引堆优化，才能通过，讲解064讲了
