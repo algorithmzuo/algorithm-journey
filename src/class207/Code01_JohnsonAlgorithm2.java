@@ -12,6 +12,7 @@ package class207;
 //using ll = long long;
 //
 //const int MAXN = 10001;
+//const int MAXQ = 5000001;
 //int INF = 1000000000;
 //int n, m;
 //
@@ -21,10 +22,10 @@ package class207;
 //int weight[MAXN];
 //int cntg;
 //
-//int energy[MAXN];
-//int updateCnt[MAXN];
-//bool enterQue[MAXN];
-//queue<int> que;
+//int h[MAXN];
+//int update[MAXN];
+//bool enter[MAXN];
+//int que[MAXQ];
 //
 //int dist[MAXN];
 //bool vis[MAXN];
@@ -48,26 +49,26 @@ package class207;
 //}
 //
 //bool spfa(int s) {
-//    fill(energy + 1, energy + n + 1, INF);
-//    energy[s] = 0;
-//    updateCnt[s] = 1;
-//    enterQue[s] = true;
-//    que.push(s);
-//    while (!que.empty()) {
-//        int u = que.front();
-//        que.pop();
-//        enterQue[u] = false;
+//    fill(h + 1, h + n + 1, INF);
+//    h[s] = 0;
+//    update[s] = 1;
+//    enter[s] = true;
+//    int ql = 1, qr = 0;
+//    que[++qr] = s;
+//    while (ql <= qr) {
+//        int u = que[ql++];
+//        enter[u] = false;
 //        for (int ei = head[u], v, w; ei > 0; ei = nxt[ei]) {
 //            v = to[ei];
 //            w = weight[ei];
-//            if (energy[v] > energy[u] + w) {
-//                energy[v] = energy[u] + w;
-//                if (!enterQue[v]) {
-//                    if (++updateCnt[v] > n) {
+//            if (h[v] > h[u] + w) {
+//                h[v] = h[u] + w;
+//                if (!enter[v]) {
+//                    if (++update[v] > n) {
 //                        return true;
 //                    }
-//                    que.push(v);
-//                    enterQue[v] = true;
+//                    que[++qr] = v;
+//                    enter[v] = true;
 //                }
 //            }
 //        }
@@ -119,7 +120,7 @@ package class207;
 //        for (int u = 1; u <= n; u++) {
 //            for (int e = head[u]; e > 0; e = nxt[e]) {
 //                int v = to[e];
-//                weight[e] += energy[u] - energy[v];
+//                weight[e] += h[u] - h[v];
 //            }
 //        }
 //        for (int u = 1; u <= n; u++) {
@@ -129,7 +130,7 @@ package class207;
 //                if (dist[v] == INF) {
 //                    ans += 1LL * v * INF;
 //                } else {
-//                    ans += 1LL * v * (dist[v] - energy[u] + energy[v]);
+//                    ans += 1LL * v * (dist[v] - h[u] + h[v]);
 //                }
 //            }
 //            cout << ans << '\n';

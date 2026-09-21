@@ -11,12 +11,11 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.Queue;
 
 public class Code01_JohnsonAlgorithm1 {
 
 	public static int MAXN = 10001;
+	public static int MAXQ = 5000001;
 	public static int INF = 1000000000;
 	public static int n, m;
 
@@ -28,10 +27,10 @@ public class Code01_JohnsonAlgorithm1 {
 	public static int cntg;
 
 	// spfa
-	public static int[] energy = new int[MAXN];
-	public static int[] updateCnt = new int[MAXN];
-	public static boolean[] enterQue = new boolean[MAXN];
-	public static Queue<Integer> que = new LinkedList<>();
+	public static int[] h = new int[MAXN];
+	public static int[] update = new int[MAXN];
+	public static boolean[] enter = new boolean[MAXN];
+	public static int[] que = new int[MAXQ];
 
 	// dijkstra，使用反向索引堆优化
 	public static int[] dist = new int[MAXN];
@@ -104,26 +103,26 @@ public class Code01_JohnsonAlgorithm1 {
 
 	// 返回是否发现了负环
 	public static boolean spfa(int s) {
-		Arrays.fill(energy, 1, n + 1, INF);
-		energy[s] = 0;
-		updateCnt[s] = 1;
-		enterQue[s] = true;
-		que.clear();
-		que.add(s);
-		while (!que.isEmpty()) {
-			int u = que.poll();
-			enterQue[u] = false;
+		Arrays.fill(h, 1, n + 1, INF);
+		h[s] = 0;
+		update[s] = 1;
+		enter[s] = true;
+		int ql = 1, qr = 0;
+		que[++qr] = s;
+		while (ql <= qr) {
+			int u = que[ql++];
+			enter[u] = false;
 			for (int ei = head[u], v, w; ei > 0; ei = nxt[ei]) {
 				v = to[ei];
 				w = weight[ei];
-				if (energy[v] > energy[u] + w) {
-					energy[v] = energy[u] + w;
-					if (!enterQue[v]) {
-						if (++updateCnt[v] > n) {
+				if (h[v] > h[u] + w) {
+					h[v] = h[u] + w;
+					if (!enter[v]) {
+						if (++update[v] > n) {
 							return true;
 						}
-						que.add(v);
-						enterQue[v] = true;
+						que[++qr] = v;
+						enter[v] = true;
 					}
 				}
 			}
@@ -168,7 +167,7 @@ public class Code01_JohnsonAlgorithm1 {
 			for (int u = 1; u <= n; u++) {
 				for (int e = head[u]; e > 0; e = nxt[e]) {
 					int v = to[e];
-					weight[e] += energy[u] - energy[v];
+					weight[e] += h[u] - h[v];
 				}
 			}
 			for (int u = 1; u <= n; u++) {
@@ -178,7 +177,7 @@ public class Code01_JohnsonAlgorithm1 {
 					if (dist[v] == INF) {
 						ans += 1L * v * INF;
 					} else {
-						ans += 1L * v * (dist[v] - energy[u] + energy[v]);
+						ans += 1L * v * (dist[v] - h[u] + h[v]);
 					}
 				}
 				out.println(ans);
