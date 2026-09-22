@@ -1,7 +1,7 @@
 package class208;
 
-// 确定奶牛能力，java版
-// 测试链接 : https://www.luogu.com.cn/problem/P2419
+// 需要关系，java版
+// 测试链接 : https://www.luogu.com.cn/problem/P2881
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
 import java.io.IOException;
@@ -10,11 +10,10 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.util.BitSet;
 
-public class Code03_CowContest1 {
+public class Code04_Ranking1 {
 
-	public static int MAXN = 101;
+	public static int MAXN = 1001;
 	public static int n, m;
-
 	public static BitSet[] dp = new BitSet[MAXN];
 
 	public static void floyd() {
@@ -41,27 +40,22 @@ public class Code03_CowContest1 {
 			b = in.nextInt();
 			dp[a].set(b);
 		}
-		// i == j 也能通过检查，不表示自己能战胜自己
-		for (int i = 1; i <= n; i++) {
-			dp[i].set(i);
-		}
 		floyd();
-		int ans = 0;
+		int need = 0;
 		for (int i = 1; i <= n; i++) {
-			boolean cur = true;
-			for (int j = 1; j <= n; j++) {
-				cur &= dp[i].get(j) || dp[j].get(i);
+			for (int j = i + 1; j <= n; j++) {
+				if (!dp[i].get(j) && !dp[j].get(i)) {
+					need++;
+				}
 			}
-			ans += cur ? 1 : 0;
 		}
-		out.println(ans);
+		out.println(need);
 		out.flush();
 		out.close();
 	}
 
 	// 读写工具类
 	static class FastReader {
-
 		private final byte[] buffer = new byte[1 << 16];
 		private int ptr = 0, len = 0;
 		private final InputStream in;
@@ -97,7 +91,6 @@ public class Code03_CowContest1 {
 			}
 			return neg ? -val : val;
 		}
-
 	}
 
 }
