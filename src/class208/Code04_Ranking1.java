@@ -91,6 +91,7 @@ public class Code04_Ranking1 {
 			}
 			return neg ? -val : val;
 		}
+
 	}
 
 }
