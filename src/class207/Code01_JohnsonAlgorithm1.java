@@ -11,7 +11,7 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
-public class JohnsonAlgorithm1 {
+public class Code01_JohnsonAlgorithm1 {
 
 	public static int MAXN = 10001;
 	public static int MAXQ = 5000001;

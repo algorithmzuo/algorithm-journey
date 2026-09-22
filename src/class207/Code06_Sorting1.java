@@ -1,4 +1,4 @@
-package class208;
+package class207;
 
 // 排序，java版
 // 测试链接 : https://www.luogu.com.cn/problem/P1347
@@ -10,7 +10,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.util.BitSet;
 
-public class Code05_Sorting1 {
+public class Code06_Sorting1 {
 
 	public static int MAXN = 27;
 	public static int MAXM = 601;

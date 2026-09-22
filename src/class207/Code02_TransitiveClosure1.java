@@ -1,4 +1,4 @@
-package class208;
+package class207;
 
 // 传递闭包，java版
 // 测试链接 : https://www.luogu.com.cn/problem/B3611
@@ -10,7 +10,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.util.BitSet;
 
-public class Code01_TransitiveClosure1 {
+public class Code02_TransitiveClosure1 {
 
 	public static int MAXN = 101;
 	public static int n;

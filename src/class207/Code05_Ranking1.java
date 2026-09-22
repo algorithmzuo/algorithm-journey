@@ -1,7 +1,7 @@
-package class208;
+package class207;
 
-// 连通数，java版
-// 测试链接 : https://www.luogu.com.cn/problem/P4306
+// 需要关系，java版
+// 测试链接 : https://www.luogu.com.cn/problem/P2881
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
 import java.io.IOException;
@@ -10,11 +10,10 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.util.BitSet;
 
-public class Code02_Connectivity1 {
+public class Code05_Ranking1 {
 
-	public static int MAXN = 2001;
-	public static int n;
-
+	public static int MAXN = 1001;
+	public static int n, m;
 	public static BitSet[] dp = new BitSet[MAXN];
 
 	public static void floyd() {
@@ -31,33 +30,32 @@ public class Code02_Connectivity1 {
 		FastReader in = new FastReader(System.in);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
 		n = in.nextInt();
+		m = in.nextInt();
 		for (int i = 1; i <= n; i++) {
 			dp[i] = new BitSet(n + 1);
 		}
-		char s;
-		for (int i = 1; i <= n; i++) {
-			for (int j = 1; j <= n; j++) {
-				s = in.nextChar();
-				dp[i].set(j, s == '1');
-			}
-		}
-		// 主动设置对角线
-		for (int i = 1; i <= n; i++) {
-			dp[i].set(i);
+		int a, b;
+		for (int i = 1; i <= m; i++) {
+			a = in.nextInt();
+			b = in.nextInt();
+			dp[a].set(b);
 		}
 		floyd();
-		int ans = 0;
+		int need = 0;
 		for (int i = 1; i <= n; i++) {
-			ans += dp[i].cardinality();
+			for (int j = i + 1; j <= n; j++) {
+				if (!dp[i].get(j) && !dp[j].get(i)) {
+					need++;
+				}
+			}
 		}
-		out.println(ans);
+		out.println(need);
 		out.flush();
 		out.close();
 	}
 
 	// 读写工具类
 	static class FastReader {
-
 		private final byte[] buffer = new byte[1 << 16];
 		private int ptr = 0, len = 0;
 		private final InputStream in;
@@ -92,14 +90,6 @@ public class Code02_Connectivity1 {
 				c = readByte();
 			}
 			return neg ? -val : val;
-		}
-
-		char nextChar() throws IOException {
-			int c;
-			do {
-				c = readByte();
-			} while (c <= ' ' && c != -1);
-			return (char) c;
 		}
 
 	}

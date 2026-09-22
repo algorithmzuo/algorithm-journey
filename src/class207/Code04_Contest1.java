@@ -1,4 +1,4 @@
-package class208;
+package class207;
 
 // 确定能力，java版
 // 测试链接 : https://www.luogu.com.cn/problem/P2419
@@ -10,7 +10,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.util.BitSet;
 
-public class Code03_Contest1 {
+public class Code04_Contest1 {
 
 	public static int MAXN = 101;
 	public static int n, m;
