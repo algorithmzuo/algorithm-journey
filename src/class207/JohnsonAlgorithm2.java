@@ -49,7 +49,9 @@ package class207;
 //}
 //
 //bool spfa(int s) {
-//    fill(h + 1, h + n + 1, INF);
+//    for (int i = 1; i <= n; i++) {
+//        h[i] = INF;
+//    }
 //    h[s] = 0;
 //    update[s] = 1;
 //    enter[s] = true;
@@ -77,8 +79,10 @@ package class207;
 //}
 //
 //void dijkstra(int s) {
-//    fill(dist + 1, dist + n + 1, INF);
-//    fill(vis + 1, vis + n + 1, false);
+//    for (int i = 1; i <= n; i++) {
+//        dist[i] = INF;
+//        vis[i] = false;
+//    }
 //    dist[s] = 0;
 //    heap.push({0, s});
 //    while (!heap.empty()) {
@@ -110,7 +114,7 @@ package class207;
 //        cin >> u >> v >> w;
 //        addEdge(u, v, w);
 //    }
-//    int virtualNode = n + 1;
+//    int virtualNode = 0;
 //    for (int i = 1; i <= n; i++) {
 //        addEdge(virtualNode, i, 0);
 //    }

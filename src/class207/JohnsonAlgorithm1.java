@@ -10,7 +10,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
-import java.util.Arrays;
 
 public class JohnsonAlgorithm1 {
 
@@ -103,7 +102,9 @@ public class JohnsonAlgorithm1 {
 
 	// 返回是否发现了负环
 	public static boolean spfa(int s) {
-		Arrays.fill(h, 1, n + 1, INF);
+		for (int i = 1; i <= n; i++) {
+			h[i] = INF;
+		}
 		h[s] = 0;
 		update[s] = 1;
 		enter[s] = true;
@@ -132,8 +133,10 @@ public class JohnsonAlgorithm1 {
 
 	// dijkstra算法，反向索引堆优化，讲解064
 	public static void dijkstra(int s) {
-		Arrays.fill(dist, 1, n + 1, INF);
-		Arrays.fill(where, 1, n + 1, -1);
+		for (int i = 1; i <= n; i++) {
+			dist[i] = INF;
+			where[i] = -1;
+		}
 		heapSize = 0;
 		addOrUpdateOrIgnore(s, 0);
 		while (!isEmpty()) {
@@ -156,7 +159,7 @@ public class JohnsonAlgorithm1 {
 			w = in.nextInt();
 			addEdge(u, v, w);
 		}
-		int virtualNode = n + 1;
+		int virtualNode = 0;
 		for (int i = 1; i <= n; i++) {
 			addEdge(virtualNode, i, 0);
 		}
