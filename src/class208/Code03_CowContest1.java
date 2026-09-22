@@ -1,7 +1,7 @@
 package class208;
 
-// 连通数，java版
-// 测试链接 : https://www.luogu.com.cn/problem/P4306
+// 确定奶牛能力，java版
+// 测试链接 : https://www.luogu.com.cn/problem/P2419
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
 import java.io.IOException;
@@ -10,10 +10,10 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.util.BitSet;
 
-public class Code02_Connectivity1 {
+public class Code03_CowContest1 {
 
-	public static int MAXN = 2001;
-	public static int n;
+	public static int MAXN = 101;
+	public static int n, m;
 
 	public static BitSet[] dp = new BitSet[MAXN];
 
@@ -31,24 +31,28 @@ public class Code02_Connectivity1 {
 		FastReader in = new FastReader(System.in);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
 		n = in.nextInt();
+		m = in.nextInt();
 		for (int i = 1; i <= n; i++) {
 			dp[i] = new BitSet(n + 1);
 		}
-		char s;
-		for (int i = 1; i <= n; i++) {
-			for (int j = 1; j <= n; j++) {
-				s = in.nextChar();
-				dp[i].set(j, s == '1');
-			}
+		int a, b;
+		for (int i = 1; i <= m; i++) {
+			a = in.nextInt();
+			b = in.nextInt();
+			dp[a].set(b);
 		}
-		// 主动设置对角线
+		// i == j 也能通过检查，不表示自己能战胜自己
 		for (int i = 1; i <= n; i++) {
 			dp[i].set(i);
 		}
 		floyd();
 		int ans = 0;
 		for (int i = 1; i <= n; i++) {
-			ans += dp[i].cardinality();
+			boolean cur = true;
+			for (int j = 1; j <= n; j++) {
+				cur &= dp[i].get(j) || dp[j].get(i);
+			}
+			ans += cur ? 1 : 0;
 		}
 		out.println(ans);
 		out.flush();
@@ -92,14 +96,6 @@ public class Code02_Connectivity1 {
 				c = readByte();
 			}
 			return neg ? -val : val;
-		}
-
-		char nextChar() throws IOException {
-			int c;
-			do {
-				c = readByte();
-			} while (c <= ' ' && c != -1);
-			return (char) c;
 		}
 
 	}
