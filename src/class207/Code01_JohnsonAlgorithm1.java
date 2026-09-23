@@ -1,6 +1,14 @@
 package class207;
 
 // Johnson全源最短路，java版
+// 一共n个点，m条有向边，边有边权，可能有负边、重边、自环
+// 如果图中存在负环，打印-1即可，否则计算任意两点的最短距离
+// 如果不存在通路，认为距离是10^9，每个点到自己的距离认为是0
+// 无负环时，输出n行结果，点i到点j的最短距离记为dist(i, j)
+// 第i行的输出 = 累加所有 { dist(i, j) * j }，1 <= j <= n
+// 1 <= n <= 3 * 10^3
+// 1 <= m <= 6 * 10^3
+// -3 * 10^5 <= 边权 <= +3 * 10^5
 // 测试链接 : https://www.luogu.com.cn/problem/P5905
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 // java的实现，反向索引堆实现的Dijkstra算法，才能通过，讲解064讲了
@@ -173,14 +181,14 @@ public class Code01_JohnsonAlgorithm1 {
 					weight[e] += h[u] - h[v];
 				}
 			}
-			for (int u = 1; u <= n; u++) {
-				dijkstra(u);
+			for (int i = 1; i <= n; i++) {
+				dijkstra(i);
 				long ans = 0;
-				for (int v = 1; v <= n; v++) {
-					if (dist[v] == INF) {
-						ans += 1L * v * INF;
+				for (int j = 1; j <= n; j++) {
+					if (dist[j] == INF) {
+						ans += 1L * j * INF;
 					} else {
-						ans += 1L * v * (dist[v] - h[u] + h[v]);
+						ans += 1L * j * (dist[j] - h[i] + h[j]);
 					}
 				}
 				out.println(ans);
