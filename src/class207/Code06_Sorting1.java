@@ -1,6 +1,16 @@
 package class207;
 
 // 排序，java版
+// 一共n个元素，用大写字母 A、B、C... 表示，元素的值互不相同
+// 给定m条大小关系，格式为 A<B，表示A的值小于B，大小关系具有传递性
+// 按输入顺序逐条考虑这些关系，判断以下情况
+// 如果首次在前k条关系后，已经能唯一确定完整排名，输出k和升序序列，然后结束
+// 输出 Sorted sequence determined after {k} relations: {升序序列}.
+// 如果首次在前k条关系后，发现了矛盾，那么停止判断，不再考虑后续的关系
+// 输出 Inconsistency found after {k} relations.
+// 如果考察完所有m条关系，仍然没有矛盾，但无法唯一确定完整排名
+// 输出 Sorted sequence cannot be determined.
+// 2 <= n <= 26    1 <= m <= 600
 // 测试链接 : https://www.luogu.com.cn/problem/P1347
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
