@@ -1,6 +1,14 @@
 package class207;
 
 // 需要关系，java版
+// 一共n头奶牛，编号为1~n，每头奶牛的能力互不相同
+// 给定m条已知关系，格式 a b，表示a的能力强于b
+// 能力关系具有传递性，如果a强于b，b强于c，那么a强于c
+// 希望确定所有奶牛能力从强到弱的完整排名，所以m条关系可能不够
+// 你可以询问任意两只奶牛的强弱，所有询问必须提前准备好，不可以动态调整
+// 求至少需要询问多少次，才能保证确定完整排名，打印这个数量
+// 1 <= n <= 1000
+// 1 <= m <= 10000
 // 测试链接 : https://www.luogu.com.cn/problem/P2881
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
@@ -34,8 +42,7 @@ public class Code05_Ranking1 {
 		for (int i = 1; i <= n; i++) {
 			dp[i] = new BitSet(n + 1);
 		}
-		int a, b;
-		for (int i = 1; i <= m; i++) {
+		for (int i = 1, a, b; i <= m; i++) {
 			a = in.nextInt();
 			b = in.nextInt();
 			dp[a].set(b);

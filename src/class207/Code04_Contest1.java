@@ -2,10 +2,10 @@ package class207;
 
 // 确定能力，java版
 // 一共n头奶牛，编号为1~n，每头奶牛的能力互不相同
-// 给定m场比赛的结果，格式 a b，表示a的能力强于b
+// 给定m条已知关系，格式 a b，表示a的能力强于b
 // 能力关系具有传递性，如果a强于b，b强于c，那么a强于c
-// 题目保证没有矛盾，根据比赛的结果，希望确定奶牛的排名
-// 计算有多少头奶牛的具体名次能够确定，打印这个数量
+// 题目保证没有矛盾，根据已知关系，希望确定奶牛的排名
+// 计算有多少头奶牛的具体名次已经能够确定，打印这个数量
 // 1 <= n <= 100
 // 1 <= m <= 4500
 // 测试链接 : https://www.luogu.com.cn/problem/P2419
@@ -43,8 +43,7 @@ public class Code04_Contest1 {
 		for (int i = 1; i <= n; i++) {
 			dp[i] = new BitSet(n + 1);
 		}
-		int a, b;
-		for (int i = 1; i <= m; i++) {
+		for (int i = 1, a, b; i <= m; i++) {
 			a = in.nextInt();
 			b = in.nextInt();
 			dp[a].set(b);
