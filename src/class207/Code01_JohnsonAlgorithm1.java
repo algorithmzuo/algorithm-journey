@@ -173,7 +173,6 @@ public class Code01_JohnsonAlgorithm1 {
 		}
 		if (spfa(virtualNode)) {
 			out.println("-1");
-			out.flush();
 		} else {
 			for (int u = 1; u <= n; u++) {
 				for (int e = head[u]; e > 0; e = nxt[e]) {
@@ -192,9 +191,9 @@ public class Code01_JohnsonAlgorithm1 {
 					}
 				}
 				out.println(ans);
-				out.flush();
 			}
 		}
+		out.flush();
 		out.close();
 	}
 
