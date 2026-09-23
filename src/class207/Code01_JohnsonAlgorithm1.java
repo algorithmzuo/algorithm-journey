@@ -3,8 +3,8 @@ package class207;
 // Johnson全源最短路，java版
 // 测试链接 : https://www.luogu.com.cn/problem/P5905
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
-// java的实现，dijkstra需要反向索引堆优化，才能通过，讲解064讲了
-// C++的实现，使用普通版本的dijkstra算法，就可以直接通过
+// java的实现，反向索引堆实现的Dijkstra算法，才能通过，讲解064讲了
+// C++的实现，普通堆实现的Dijkstra算法，可以直接通过
 
 import java.io.IOException;
 import java.io.InputStream;
