@@ -32,6 +32,9 @@ public class Code07_DirectedGraphAndQuery1 {
 	public static int[] ans = new int[MAXQ];
 
 	public static void floyd() {
+		for (int i = 1; i <= q; i++) {
+			ans[i] = -1;
+		}
 		for (int bridge = 1; bridge <= n; bridge++) {
 			for (int i = 1; i <= n; i++) {
 				if (dp[i].get(bridge)) {
@@ -39,8 +42,8 @@ public class Code07_DirectedGraphAndQuery1 {
 				}
 			}
 			for (int i = 1; i <= q; i++) {
-				if (dp[s[i]].get(t[i])) {
-					ans[i] = Math.min(ans[i], Math.max(bridge, Math.max(s[i], t[i])));
+				if (ans[i] == -1 && dp[s[i]].get(t[i])) {
+					ans[i] = Math.max(bridge, Math.max(s[i], t[i]));
 				}
 			}
 		}
@@ -64,13 +67,9 @@ public class Code07_DirectedGraphAndQuery1 {
 			s[i] = in.nextInt();
 			t[i] = in.nextInt();
 		}
-		int inf = n + 1;
-		for (int i = 1; i <= q; i++) {
-			ans[i] = inf;
-		}
 		floyd();
 		for (int i = 1; i <= q; i++) {
-			out.println(ans[i] == inf ? -1 : ans[i]);
+			out.println(ans[i]);
 		}
 		out.flush();
 		out.close();

@@ -26,10 +26,12 @@ package class207;
 //int t[MAXQ];
 //
 //bitset<MAXN> dp[MAXN];
-//
 //int ans[MAXQ];
 //
 //void floyd() {
+//    for (int i = 1; i <= q; i++) {
+//        ans[i] = -1;
+//    }
 //    for (int bridge = 1; bridge <= n; bridge++) {
 //        for (int i = 1; i <= n; i++) {
 //            if (dp[i][bridge]) {
@@ -37,8 +39,8 @@ package class207;
 //            }
 //        }
 //        for (int i = 1; i <= q; i++) {
-//            if (dp[s[i]][t[i]]) {
-//                ans[i] = min(ans[i], max(bridge, max(s[i], t[i])));
+//            if (ans[i] == -1 && dp[s[i]][t[i]]) {
+//                ans[i] = max(bridge, max(s[i], t[i]));
 //            }
 //        }
 //    }
@@ -56,13 +58,9 @@ package class207;
 //    for (int i = 1; i <= q; i++) {
 //        cin >> s[i] >> t[i];
 //    }
-//    int inf = n + 1;
-//    for (int i = 1; i <= q; i++) {
-//        ans[i] = inf;
-//    }
 //    floyd();
 //    for (int i = 1; i <= q; i++) {
-//        cout << (ans[i] == inf ? -1 : ans[i]) << '\n';
+//        cout << ans[i] << '\n';
 //    }
 //    return 0;
 //}
