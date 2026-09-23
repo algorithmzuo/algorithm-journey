@@ -1,6 +1,13 @@
 package class207;
 
 // 确定能力，java版
+// 一共n头奶牛，编号为1~n，每头奶牛的能力互不相同
+// 给定m场比赛的结果，格式 a b，表示a的能力强于b
+// 能力关系具有传递性，如果a强于b，b强于c，那么a强于c
+// 题目保证没有矛盾，根据比赛的结果，希望确定奶牛的排名
+// 计算有多少头奶牛的具体名次能够确定，打印这个数量
+// 1 <= n <= 100
+// 1 <= m <= 4500
 // 测试链接 : https://www.luogu.com.cn/problem/P2419
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
@@ -16,7 +23,7 @@ public class Code04_Contest1 {
 	public static int n, m;
 
 	public static BitSet[] dp = new BitSet[MAXN];
-	public static int[] confirm = new int[MAXN];
+	public static int[] cnt = new int[MAXN];
 
 	public static void floyd() {
 		for (int bridge = 1; bridge <= n; bridge++) {
@@ -46,14 +53,14 @@ public class Code04_Contest1 {
 		for (int i = 1; i <= n; i++) {
 			for (int j = i + 1; j <= n; j++) {
 				if (dp[i].get(j) || dp[j].get(i)) {
-					confirm[i]++;
-					confirm[j]++;
+					cnt[i]++;
+					cnt[j]++;
 				}
 			}
 		}
 		int ans = 0;
 		for (int i = 1; i <= n; i++) {
-			if (confirm[i] == n - 1) {
+			if (cnt[i] == n - 1) {
 				ans++;
 			}
 		}
