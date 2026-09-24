@@ -17,7 +17,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.util.BitSet;
 
-public class Code04_Contest1 {
+public class Code05_Contest1 {
 
 	public static int MAXN = 101;
 	public static int n, m;

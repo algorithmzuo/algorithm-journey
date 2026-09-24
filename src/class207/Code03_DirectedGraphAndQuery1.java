@@ -19,7 +19,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.util.BitSet;
 
-public class Code07_DirectedGraphAndQuery1 {
+public class Code03_DirectedGraphAndQuery1 {
 
 	public static int MAXN = 2001;
 	public static int MAXQ = 10001;
