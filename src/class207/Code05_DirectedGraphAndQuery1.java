@@ -1,15 +1,16 @@
 package class207;
 
-// 需要关系，java版
-// 一共n头奶牛，编号为1~n，每头奶牛的能力互不相同
-// 给定m条已知关系，格式 a b，表示a的能力强于b
-// 能力关系具有传递性，如果a强于b，b强于c，那么a强于c
-// 希望确定所有奶牛能力从强到弱的完整排名，所以m条关系可能不够
-// 你可以询问任意两只奶牛的强弱，所有询问必须提前准备好，不可以动态调整
-// 求至少需要询问多少次，才能保证确定完整排名，打印这个数量
-// 1 <= n <= 1000
-// 1 <= m <= 10000
-// 测试链接 : https://www.luogu.com.cn/problem/P2881
+// 有向图与查询，java版
+// 一共n个点，编号1~n，给定m条有向边，没有重边和自环
+// 每条边的格式 a b，表示存在从a到b的有向边
+// 定义有向路径的代价，路径上所有点的编号最大值，包括起点和终点
+// 一共q条查询，每条查询的格式 s t，保证 s != t
+// 求从s到t的所有有向路径中，最小的路径代价，不存在路径输出-1
+// 2 <= n <= 2000
+// 0 <= m <= n * (n - 1)
+// 1 <= q <= 10000
+// 测试链接 : https://www.luogu.com.cn/problem/AT_abc287_h
+// 测试链接 : https://atcoder.jp/contests/abc287/tasks/abc287_h
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
 import java.io.IOException;
@@ -18,17 +19,31 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.util.BitSet;
 
-public class Code06_Ranking1 {
+public class Code05_DirectedGraphAndQuery1 {
 
-	public static int MAXN = 1001;
-	public static int n, m;
+	public static int MAXN = 2001;
+	public static int MAXQ = 10001;
+	public static int n, m, q;
+
+	public static int[] s = new int[MAXQ];
+	public static int[] t = new int[MAXQ];
+
 	public static BitSet[] dp = new BitSet[MAXN];
+	public static int[] ans = new int[MAXQ];
 
 	public static void floyd() {
+		for (int i = 1; i <= q; i++) {
+			ans[i] = -1;
+		}
 		for (int bridge = 1; bridge <= n; bridge++) {
 			for (int i = 1; i <= n; i++) {
 				if (dp[i].get(bridge)) {
 					dp[i].or(dp[bridge]);
+				}
+			}
+			for (int i = 1; i <= q; i++) {
+				if (ans[i] == -1 && dp[s[i]].get(t[i])) {
+					ans[i] = Math.max(bridge, Math.max(s[i], t[i]));
 				}
 			}
 		}
@@ -47,16 +62,15 @@ public class Code06_Ranking1 {
 			b = in.nextInt();
 			dp[a].set(b);
 		}
-		floyd();
-		int need = 0;
-		for (int i = 1; i <= n; i++) {
-			for (int j = i + 1; j <= n; j++) {
-				if (!dp[i].get(j) && !dp[j].get(i)) {
-					need++;
-				}
-			}
+		q = in.nextInt();
+		for (int i = 1; i <= q; i++) {
+			s[i] = in.nextInt();
+			t[i] = in.nextInt();
 		}
-		out.println(need);
+		floyd();
+		for (int i = 1; i <= q; i++) {
+			out.println(ans[i]);
+		}
 		out.flush();
 		out.close();
 	}
