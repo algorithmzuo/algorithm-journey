@@ -1,14 +1,14 @@
 package class207;
 
-// 连通数，java版
-// 一共n个点，给定有向图的邻接矩阵a
-// 如果 a[i][j] == 1，表示存在从i到j的有向边
-// 如果 a[i][j] == 0，表示不存在从i到j的有向边
-// 如果i可以直接或间接到达j，则有序点对(i, j)计入答案
-// 每个点都认为可以到达自己，因此(i, i)也计入答案
-// 求所有可达有序点对的数量，打印这个数量
-// 1 <= n <= 2000
-// 测试链接 : https://www.luogu.com.cn/problem/P4306
+// 确定能力，java版
+// 一共n头奶牛，编号为1~n，每头奶牛的能力互不相同
+// 给定m条已知关系，格式 a b，表示a的能力强于b
+// 能力关系具有传递性，如果a强于b，b强于c，那么a强于c
+// 题目保证没有矛盾，根据已知关系，希望确定奶牛的排名
+// 计算有多少头奶牛的具体名次已经能够确定，打印这个数量
+// 1 <= n <= 100
+// 1 <= m <= 4500
+// 测试链接 : https://www.luogu.com.cn/problem/P2419
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
 import java.io.IOException;
@@ -17,12 +17,13 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.util.BitSet;
 
-public class Code07_Connectivity1 {
+public class Code04_Contest1 {
 
-	public static int MAXN = 2001;
-	public static int n;
+	public static int MAXN = 101;
+	public static int n, m;
 
 	public static BitSet[] dp = new BitSet[MAXN];
+	public static int[] cnt = new int[MAXN];
 
 	public static void floyd() {
 		for (int bridge = 1; bridge <= n; bridge++) {
@@ -38,24 +39,29 @@ public class Code07_Connectivity1 {
 		FastReader in = new FastReader(System.in);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
 		n = in.nextInt();
+		m = in.nextInt();
 		for (int i = 1; i <= n; i++) {
 			dp[i] = new BitSet(n + 1);
 		}
-		char s;
-		for (int i = 1; i <= n; i++) {
-			for (int j = 1; j <= n; j++) {
-				s = in.nextChar();
-				dp[i].set(j, s == '1');
-			}
-		}
-		// 主动设置对角线
-		for (int i = 1; i <= n; i++) {
-			dp[i].set(i);
+		for (int i = 1, a, b; i <= m; i++) {
+			a = in.nextInt();
+			b = in.nextInt();
+			dp[a].set(b);
 		}
 		floyd();
+		for (int i = 1; i <= n; i++) {
+			for (int j = i + 1; j <= n; j++) {
+				if (dp[i].get(j) || dp[j].get(i)) {
+					cnt[i]++;
+					cnt[j]++;
+				}
+			}
+		}
 		int ans = 0;
 		for (int i = 1; i <= n; i++) {
-			ans += dp[i].cardinality();
+			if (cnt[i] == n - 1) {
+				ans++;
+			}
 		}
 		out.println(ans);
 		out.flush();
@@ -99,14 +105,6 @@ public class Code07_Connectivity1 {
 				c = readByte();
 			}
 			return neg ? -val : val;
-		}
-
-		char nextChar() throws IOException {
-			int c;
-			do {
-				c = readByte();
-			} while (c <= ' ' && c != -1);
-			return (char) c;
 		}
 
 	}

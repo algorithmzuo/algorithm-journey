@@ -20,7 +20,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.util.BitSet;
 
-public class Code06_Sorting1 {
+public class Code07_Sorting1 {
 
 	public static int MAXN = 27;
 	public static int MAXM = 601;

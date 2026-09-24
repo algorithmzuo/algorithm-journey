@@ -1,16 +1,14 @@
 package class207;
 
-// 有向图与查询，java版
-// 一共n个点，编号1~n，给定m条有向边，没有重边和自环
-// 每条边的格式 a b，表示存在从a到b的有向边
-// 定义有向路径的代价，路径上所有点的编号最大值，包括起点和终点
-// 一共q条查询，每条查询的格式 s t，保证 s != t
-// 求从s到t的所有有向路径中，最小的路径代价，不存在路径输出-1
-// 2 <= n <= 2000
-// 0 <= m <= n * (n - 1)
-// 1 <= q <= 10000
-// 测试链接 : https://www.luogu.com.cn/problem/AT_abc287_h
-// 测试链接 : https://atcoder.jp/contests/abc287/tasks/abc287_h
+// 连通数，java版
+// 一共n个点，给定有向图的邻接矩阵a
+// 如果 a[i][j] == 1，表示存在从i到j的有向边
+// 如果 a[i][j] == 0，表示不存在从i到j的有向边
+// 如果i可以直接或间接到达j，则有序点对(i, j)计入答案
+// 每个点都认为可以到达自己，因此(i, i)也计入答案
+// 求所有可达有序点对的数量，打印这个数量
+// 1 <= n <= 2000
+// 测试链接 : https://www.luogu.com.cn/problem/P4306
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
 import java.io.IOException;
@@ -19,31 +17,18 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.util.BitSet;
 
-public class Code05_DirectedGraphAndQuery1 {
+public class Code03_Connectivity1 {
 
 	public static int MAXN = 2001;
-	public static int MAXQ = 10001;
-	public static int n, m, q;
-
-	public static int[] s = new int[MAXQ];
-	public static int[] t = new int[MAXQ];
+	public static int n;
 
 	public static BitSet[] dp = new BitSet[MAXN];
-	public static int[] ans = new int[MAXQ];
 
 	public static void floyd() {
-		for (int i = 1; i <= q; i++) {
-			ans[i] = -1;
-		}
 		for (int bridge = 1; bridge <= n; bridge++) {
 			for (int i = 1; i <= n; i++) {
 				if (dp[i].get(bridge)) {
 					dp[i].or(dp[bridge]);
-				}
-			}
-			for (int i = 1; i <= q; i++) {
-				if (ans[i] == -1 && dp[s[i]].get(t[i])) {
-					ans[i] = Math.max(bridge, Math.max(s[i], t[i]));
 				}
 			}
 		}
@@ -53,30 +38,33 @@ public class Code05_DirectedGraphAndQuery1 {
 		FastReader in = new FastReader(System.in);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
 		n = in.nextInt();
-		m = in.nextInt();
 		for (int i = 1; i <= n; i++) {
 			dp[i] = new BitSet(n + 1);
 		}
-		for (int i = 1, a, b; i <= m; i++) {
-			a = in.nextInt();
-			b = in.nextInt();
-			dp[a].set(b);
+		char s;
+		for (int i = 1; i <= n; i++) {
+			for (int j = 1; j <= n; j++) {
+				s = in.nextChar();
+				dp[i].set(j, s == '1');
+			}
 		}
-		q = in.nextInt();
-		for (int i = 1; i <= q; i++) {
-			s[i] = in.nextInt();
-			t[i] = in.nextInt();
+		// 主动设置对角线
+		for (int i = 1; i <= n; i++) {
+			dp[i].set(i);
 		}
 		floyd();
-		for (int i = 1; i <= q; i++) {
-			out.println(ans[i]);
+		int ans = 0;
+		for (int i = 1; i <= n; i++) {
+			ans += dp[i].cardinality();
 		}
+		out.println(ans);
 		out.flush();
 		out.close();
 	}
 
 	// 读写工具类
 	static class FastReader {
+
 		private final byte[] buffer = new byte[1 << 16];
 		private int ptr = 0, len = 0;
 		private final InputStream in;
@@ -111,6 +99,14 @@ public class Code05_DirectedGraphAndQuery1 {
 				c = readByte();
 			}
 			return neg ? -val : val;
+		}
+
+		char nextChar() throws IOException {
+			int c;
+			do {
+				c = readByte();
+			} while (c <= ' ' && c != -1);
+			return (char) c;
 		}
 
 	}
