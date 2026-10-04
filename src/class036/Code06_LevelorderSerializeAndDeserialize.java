@@ -26,7 +26,7 @@ public class Code06_LevelorderSerializeAndDeserialize {
 			StringBuilder builder = new StringBuilder();
 			if (root != null) {
 				builder.append(root.val + ",");
-				// 修改了课上讲的代码，使用了语言自带的队列
+				// 修改了课上代码，改用自带的队列结构
 				Queue<TreeNode> que = new LinkedList<>();
 				que.offer(root);
 				while (!que.isEmpty()) {
@@ -55,7 +55,7 @@ public class Code06_LevelorderSerializeAndDeserialize {
 			String[] nodes = data.split(",");
 			int index = 0;
 			TreeNode root = generate(nodes[index++]);
-			// 修改了课上讲的代码，使用了语言自带的队列
+			// 修改了课上代码，改用自带的队列结构
 			Queue<TreeNode> que = new LinkedList<>();
 			que.offer(root);
 			while (!que.isEmpty()) {

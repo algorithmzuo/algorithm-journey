@@ -51,7 +51,7 @@ public class Code05_PreorderSerializeAndDeserialize {
 
 		// leetcode增加了本题的限制
 		// 不允许使用外部变量传递信息
-		// 所以这里改用了队列
+		// 所以改用自带的队列结构
 		// 消费队列中的字符串
 		public TreeNode deserialize(String data) {
 			Queue<String> vals = new LinkedList<>();
