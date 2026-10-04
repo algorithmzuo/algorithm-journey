@@ -19,11 +19,13 @@ public class Code06_LevelorderSerializeAndDeserialize {
 	// 按层序列化
 	public class Codec {
 
-		public static int MAXN = 10001;
-
-		public static TreeNode[] queue = new TreeNode[MAXN];
-
-		public static int l, r;
+		// leetcode后来改了本题的规则
+		// 不能用静态变量
+		// 所以改成private变量就能通过了
+		private int MAXN = 10001;
+		private TreeNode[] queue = new TreeNode[MAXN];
+		private int l = 0;
+		private int r = 0;
 
 		public String serialize(TreeNode root) {
 			StringBuilder builder = new StringBuilder();

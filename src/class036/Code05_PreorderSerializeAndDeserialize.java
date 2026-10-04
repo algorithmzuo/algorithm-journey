@@ -53,7 +53,10 @@ public class Code05_PreorderSerializeAndDeserialize {
 		}
 
 		// 当前数组消费到哪了
-		public static int cnt;
+		// leetcode后来改了本题的规则
+		// 不能用静态变量
+		// 所以改成private变量就能通过了
+		private int cnt;
 
 		TreeNode g(String[] vals) {
 			String cur = vals[cnt++];
