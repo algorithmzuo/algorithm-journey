@@ -1,5 +1,8 @@
 package class036;
 
+import java.util.LinkedList;
+import java.util.Queue;
+
 // 二叉树先序序列化和反序列化
 // 测试链接 : https://leetcode.cn/problems/serialize-and-deserialize-binary-tree/
 public class Code05_PreorderSerializeAndDeserialize {
@@ -46,20 +49,20 @@ public class Code05_PreorderSerializeAndDeserialize {
 			}
 		}
 
+		// leetcode增加了本题的限制
+		// 不允许使用外部变量传递信息
+		// 所以这里改用了队列
+		// 消费队列中的字符串
 		public TreeNode deserialize(String data) {
-			String[] vals = data.split(",");
-			cnt = 0;
+			Queue<String> vals = new LinkedList<>();
+			for (String v : data.split(",")) {
+				vals.offer(v);
+			}
 			return g(vals);
 		}
 
-		// 当前数组消费到哪了
-		// leetcode后来改了本题的规则
-		// 不能用静态变量
-		// 所以改成private变量就能通过了
-		private int cnt;
-
-		TreeNode g(String[] vals) {
-			String cur = vals[cnt++];
+		TreeNode g(Queue<String> vals) {
+			String cur = vals.poll();
 			if (cur.equals("#")) {
 				return null;
 			} else {
