@@ -12,7 +12,9 @@ package class133;
 // 如果称重数据无效，打印"illegal"
 // 1 <= m <= n <= 100
 // 测试链接 : https://www.luogu.com.cn/problem/P5027
-// 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
+// 提交以下的code，提交时请把类名改成"Main"
+// 这道题目后来增加了一个测试用例，让double类型的精度不够，导致出错
+// 能通过的代码，就是本节课 Code04_FindMaxWeighing2 文件
 
 import java.io.BufferedReader;
 import java.io.IOException;
