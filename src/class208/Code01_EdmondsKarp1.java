@@ -15,7 +15,7 @@ public class Code01_EdmondsKarp1 {
 	public static int MAXN = 201;
 	public static int MAXM = 5001;
 	public static int INF = 1000000001;
-	public static int n, m, s, t;
+	public static int n, m;
 
 	public static int[] head = new int[MAXN];
 	public static int[] nxt = new int[MAXM << 1];
@@ -75,8 +75,8 @@ public class Code01_EdmondsKarp1 {
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
 		n = in.nextInt();
 		m = in.nextInt();
-		s = in.nextInt();
-		t = in.nextInt();
+		int s = in.nextInt();
+		int t = in.nextInt();
 		cntg = 1;
 		for (int i = 1, u, v, w; i <= m; i++) {
 			u = in.nextInt();

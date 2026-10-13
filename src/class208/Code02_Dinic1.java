@@ -14,7 +14,7 @@ public class Code02_Dinic1 {
 	public static int MAXN = 201;
 	public static int MAXM = 5001;
 	public static int INF = 1000000001;
-	public static int n, m, s, t;
+	public static int n, m;
 
 	public static int[] head = new int[MAXN];
 	public static int[] nxt = new int[MAXM << 1];
@@ -54,7 +54,7 @@ public class Code02_Dinic1 {
 		}
 	}
 
-	public static long dfs(int u, int t, long rest) {
+	public static long dfs(int u, long rest, int t) {
 		if (u == t) {
 			return rest;
 		}
@@ -64,7 +64,7 @@ public class Code02_Dinic1 {
 			int v = to[e];
 			long c = Math.min(rest, limit[e]);
 			if (dis[u] + 1 == dis[v] && c > 0) {
-				long k = dfs(v, t, c);
+				long k = dfs(v, c, t);
 				flow += k;
 				rest -= k;
 				limit[e] -= k;
@@ -82,7 +82,7 @@ public class Code02_Dinic1 {
 		long ans = 0;
 		bfs(s, t);
 		while (dis[t] != -1) {
-			ans += dfs(s, t, INF);
+			ans += dfs(s, INF, t);
 			bfs(s, t);
 		}
 		return ans;
@@ -93,8 +93,8 @@ public class Code02_Dinic1 {
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
 		n = in.nextInt();
 		m = in.nextInt();
-		s = in.nextInt();
-		t = in.nextInt();
+		int s = in.nextInt();
+		int t = in.nextInt();
 		cntg = 1;
 		for (int i = 1, u, v, w; i <= m; i++) {
 			u = in.nextInt();
