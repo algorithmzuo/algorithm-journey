@@ -23,8 +23,8 @@ public class Code02_Dinic1 {
 	public static int cntg;
 
 	public static int[] dis = new int[MAXN];
-	public static int[] cur = new int[MAXN];
 	public static int[] que = new int[MAXN];
+	public static int[] cur = new int[MAXN];
 
 	public static void addEdge(int u, int v, int w) {
 		nxt[++cntg] = head[u];
@@ -35,8 +35,8 @@ public class Code02_Dinic1 {
 
 	public static void bfs(int s, int t) {
 		for (int i = 1; i <= n; i++) {
-			cur[i] = head[i];
 			dis[i] = -1;
+			cur[i] = head[i];
 		}
 		dis[s] = 0;
 		int l = 1, r = 0;
@@ -71,6 +71,7 @@ public class Code02_Dinic1 {
 				limit[e ^ 1] += k;
 			}
 		}
+		// 死点剪枝
 		if (flow == 0) {
 			dis[u] = -1;
 		}
