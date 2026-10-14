@@ -35,7 +35,7 @@ public class Code02_Dinic1 {
 
 	public static void bfs(int s, int t) {
 		for (int i = 1; i <= n; i++) {
-			dis[i] = -1;
+			dis[i] = n;
 			cur[i] = head[i];
 		}
 		dis[s] = 0;
@@ -46,7 +46,7 @@ public class Code02_Dinic1 {
 			for (int e = head[u]; e > 0; e = nxt[e]) {
 				int v = to[e];
 				int lim = limit[e];
-				if (dis[v] == -1 && lim > 0) {
+				if (dis[v] == n && lim > 0) {
 					dis[v] = dis[u] + 1;
 					que[++r] = v;
 				}
@@ -73,7 +73,7 @@ public class Code02_Dinic1 {
 		}
 		// 死点剪枝
 		if (flow == 0) {
-			dis[u] = -1;
+			dis[u] = n;
 		}
 		return flow;
 	}
@@ -81,7 +81,7 @@ public class Code02_Dinic1 {
 	public static long maxflow(int s, int t) {
 		long ans = 0;
 		bfs(s, t);
-		while (dis[t] != -1) {
+		while (dis[t] != n) {
 			ans += dfs(s, INF, t);
 			bfs(s, t);
 		}
