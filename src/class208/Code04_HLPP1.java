@@ -44,12 +44,11 @@ public class Code04_HLPP1 {
 		highest = Math.max(highest, dis[u]);
 	}
 
-	public static void pushFlow(int u, int e, long k) {
-		int v = to[e];
-		limit[e] -= k;
-		limit[e ^ 1] += k;
+	public static void pushFlow(int u, int v, int e, long k) {
 		excess[u] -= k;
 		excess[v] += k;
+		limit[e] -= k;
+		limit[e ^ 1] += k;
 	}
 
 	public static void bfs(int s, int t) {
@@ -119,7 +118,7 @@ public class Code04_HLPP1 {
 			int lim = limit[e];
 			if (dis[u] == dis[v] + 1 && lim > 0) {
 				long k = Math.min(excess[u], lim);
-				pushFlow(u, e, k);
+				pushFlow(u, v, e, k);
 				if (v != s && v != t && excess[v] == k) {
 					addActive(v);
 				}
@@ -141,11 +140,7 @@ public class Code04_HLPP1 {
 			gap[dis[i]]++;
 		}
 		for (int e = head[s]; e > 0; e = nxt[e]) {
-			int v = to[e];
-			int k = limit[e];
-			if (v != s && k > 0) {
-				pushFlow(s, e, k);
-			}
+			pushFlow(s, to[e], e, limit[e]);
 		}
 		rebuild(s, t);
 		while (highest >= 0) {
