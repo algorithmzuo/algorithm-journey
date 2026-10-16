@@ -39,9 +39,9 @@ public class Code04_HLPP1 {
 	}
 
 	public static void addActive(int u) {
+		highest = Math.max(highest, dis[u]);
 		nextActive[u] = bucket[dis[u]];
 		bucket[dis[u]] = u;
-		highest = Math.max(highest, dis[u]);
 	}
 
 	public static void pushFlow(int u, int v, int e, long k) {
@@ -73,7 +73,7 @@ public class Code04_HLPP1 {
 	}
 
 	public static void rebuild(int s, int t) {
-		for (int i = 0; i <= 2 * n; i++) {
+		for (int i = 0; i <= n << 1; i++) {
 			bucket[i] = 0;
 		}
 		highest = -1;
@@ -97,31 +97,34 @@ public class Code04_HLPP1 {
 			}
 			rebuild(s, t);
 		} else {
-			int best = 2 * n - 1;
+			int lowest = (n << 1) - 1;
 			for (int e = head[u]; e > 0; e = nxt[e]) {
-				if (limit[e] > 0 && to[e] != u) {
-					best = Math.min(best, dis[to[e]]);
+				int v = to[e];
+				int lim = limit[e];
+				if (u != v && lim > 0) {
+					lowest = Math.min(lowest, dis[v]);
 				}
 			}
 			gap[dis[u]]--;
-			dis[u] = best + 1;
+			dis[u] = lowest + 1;
 			gap[dis[u]]++;
 			cur[u] = head[u];
 			addActive(u);
 		}
 	}
 
-	public static void discharge(int u, int s, int t) {
+	public static void discharge(int s, int t) {
+		int u = bucket[highest];
+		bucket[highest] = nextActive[u];
 		for (int e = cur[u]; e > 0; e = nxt[e]) {
 			cur[u] = e;
 			int v = to[e];
 			int lim = limit[e];
 			if (dis[u] == dis[v] + 1 && lim > 0) {
-				long k = Math.min(excess[u], lim);
-				pushFlow(u, v, e, k);
-				if (v != s && v != t && excess[v] == k) {
+				if (v != s && v != t && excess[v] == 0) {
 					addActive(v);
 				}
+				pushFlow(u, v, e, Math.min(excess[u], lim));
 				if (excess[u] == 0) {
 					return;
 				}
@@ -146,11 +149,9 @@ public class Code04_HLPP1 {
 		while (highest >= 0) {
 			if (bucket[highest] == 0) {
 				highest--;
-				continue;
+			} else {
+				discharge(s, t);
 			}
-			int u = bucket[highest];
-			bucket[highest] = nextActive[u];
-			discharge(u, s, t);
 		}
 		return excess[t];
 	}
