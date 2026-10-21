@@ -63,23 +63,10 @@ public class Code04_HLPP1 {
 			int u = que[l++];
 			for (int e = head[u]; e > 0; e = nxt[e]) {
 				int v = to[e];
-				int lim = limit[e ^ 1];
-				if (dis[v] == n + 1 && lim > 0) {
+				if (dis[v] == n + 1 && limit[e ^ 1] > 0) {
 					dis[v] = dis[u] + 1;
 					que[++r] = v;
 				}
-			}
-		}
-	}
-
-	public static void rebuild(int s, int t) {
-		for (int i = 0; i <= n << 1; i++) {
-			bucket[i] = 0;
-		}
-		highest = -1;
-		for (int i = 1; i <= n; i++) {
-			if (i != s && i != t && excess[i] > 0) {
-				addActive(i);
 			}
 		}
 	}
@@ -95,13 +82,11 @@ public class Code04_HLPP1 {
 					cur[i] = head[i];
 				}
 			}
-			rebuild(s, t);
 		} else {
 			int lowest = (n << 1) - 1;
 			for (int e = head[u]; e > 0; e = nxt[e]) {
 				int v = to[e];
-				int lim = limit[e];
-				if (u != v && lim > 0) {
+				if (u != v && limit[e] > 0) {
 					lowest = Math.min(lowest, dis[v]);
 				}
 			}
@@ -109,28 +94,29 @@ public class Code04_HLPP1 {
 			dis[u] = lowest + 1;
 			gap[dis[u]]++;
 			cur[u] = head[u];
-			addActive(u);
 		}
 	}
 
 	public static void discharge(int s, int t) {
 		int u = bucket[highest];
 		bucket[highest] = nextActive[u];
-		for (int e = cur[u]; e > 0; e = nxt[e]) {
-			cur[u] = e;
-			int v = to[e];
-			int lim = limit[e];
-			if (dis[u] == dis[v] + 1 && lim > 0) {
-				if (v != s && v != t && excess[v] == 0) {
-					addActive(v);
-				}
-				pushFlow(u, v, e, Math.min(excess[u], lim));
-				if (excess[u] == 0) {
-					return;
+		while (excess[u] > 0) {
+			for (int e = cur[u]; e > 0; e = nxt[e]) {
+				cur[u] = e;
+				int v = to[e];
+				int lim = limit[e];
+				if (dis[u] == dis[v] + 1 && lim > 0) {
+					if (v != s && v != t && excess[v] == 0) {
+						addActive(v);
+					}
+					pushFlow(u, v, e, Math.min(excess[u], lim));
+					if (excess[u] == 0) {
+						return;
+					}
 				}
 			}
+			relabel(u, s, t);
 		}
-		relabel(u, s, t);
 	}
 
 	public static long maxflow(int s, int t) {
@@ -143,9 +129,20 @@ public class Code04_HLPP1 {
 			gap[dis[i]]++;
 		}
 		for (int e = head[s]; e > 0; e = nxt[e]) {
-			pushFlow(s, to[e], e, limit[e]);
+			int v = to[e];
+			if (dis[v] < n) {
+				pushFlow(s, v, e, limit[e]);
+			}
 		}
-		rebuild(s, t);
+		for (int i = 0; i <= n << 1; i++) {
+			bucket[i] = 0;
+		}
+		highest = -1;
+		for (int i = 1; i <= n; i++) {
+			if (i != s && i != t && excess[i] > 0) {
+				addActive(i);
+			}
+		}
 		while (highest >= 0) {
 			if (bucket[highest] == 0) {
 				highest--;
