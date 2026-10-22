@@ -1,7 +1,13 @@
 package class208;
 
 // HLPP算法，java版
-// 测试链接：https://www.luogu.com.cn/problem/P4722
+// 图中一共n个点，m条有向边，给定源点s和汇点t
+// 给定每条有向边的起点、终点、容量
+// 计算源点s到汇点t的网络最大流
+// 1 <= n <= 1200
+// 1 <= m <= 120000
+// 边的容量为非负整数
+// 测试链接 : https://www.luogu.com.cn/problem/P4722
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
 import java.io.IOException;
