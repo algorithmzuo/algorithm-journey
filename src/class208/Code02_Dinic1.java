@@ -19,7 +19,7 @@ public class Code02_Dinic1 {
 
 	public static int MAXN = 201;
 	public static int MAXM = 5001;
-	public static int INF = 1000000001;
+	public static long INF = 1L << 60;
 	public static int n, m;
 
 	public static int[] head = new int[MAXN];

@@ -19,7 +19,7 @@ package class208;
 //
 //const int MAXN = 201;
 //const int MAXM = 5001;
-//int INF = 1000000001;
+//ll INF = 1LL << 60;
 //int n, m;
 //
 //int head[MAXN];
