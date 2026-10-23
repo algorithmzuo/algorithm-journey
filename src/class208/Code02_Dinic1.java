@@ -39,7 +39,7 @@ public class Code02_Dinic1 {
 		head[u] = cntg;
 	}
 
-	public static void bfs(int s, int t) {
+	public static void bfs(int s) {
 		for (int i = 1; i <= n; i++) {
 			dis[i] = n;
 			cur[i] = head[i];
@@ -86,10 +86,10 @@ public class Code02_Dinic1 {
 
 	public static long maxflow(int s, int t) {
 		long ans = 0;
-		bfs(s, t);
+		bfs(s);
 		while (dis[t] != n) {
 			ans += dfs(s, INF, t);
-			bfs(s, t);
+			bfs(s);
 		}
 		return ans;
 	}

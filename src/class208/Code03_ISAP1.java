@@ -40,7 +40,7 @@ public class Code03_ISAP1 {
 		head[u] = cntg;
 	}
 
-	public static void bfs(int s, int t) {
+	public static void bfs(int t) {
 		gap[0] = 0;
 		for (int i = 1; i <= n; i++) {
 			gap[i] = 0;
@@ -54,8 +54,7 @@ public class Code03_ISAP1 {
 			int u = que[l++];
 			for (int e = head[u]; e > 0; e = nxt[e]) {
 				int v = to[e];
-				int lim = limit[e ^ 1];
-				if (dis[v] == n && lim > 0) {
+				if (dis[v] == n && limit[e ^ 1] > 0) {
 					dis[v] = dis[u] + 1;
 					que[++r] = v;
 				}
@@ -100,7 +99,7 @@ public class Code03_ISAP1 {
 
 	public static long maxflow(int s, int t) {
 		long ans = 0;
-		bfs(s, t);
+		bfs(t);
 		while (dis[s] != n) {
 			ans += dfs(s, INF, s, t);
 		}

@@ -47,15 +47,15 @@ public class Code01_EdmondsKarp1 {
 		que[++r] = s;
 		while (l <= r) {
 			int u = que[l++];
-			if (u == t) {
-				break;
-			}
 			for (int e = head[u]; e > 0; e = nxt[e]) {
 				int v = to[e];
 				int lim = limit[e];
 				if (lim > 0 && flow[v] == -1) {
 					flow[v] = Math.min(flow[u], lim);
 					pre[v] = e;
+					if (v == t) {
+						return;
+					}
 					que[++r] = v;
 				}
 			}

@@ -57,7 +57,7 @@ public class Code04_HLPP1 {
 		limit[e ^ 1] += k;
 	}
 
-	public static void bfs(int s, int t) {
+	public static void bfs(int t) {
 		for (int i = 1; i <= n; i++) {
 			dis[i] = n + 1;
 			cur[i] = head[i];
@@ -126,7 +126,7 @@ public class Code04_HLPP1 {
 	}
 
 	public static long maxflow(int s, int t) {
-		bfs(s, t);
+		bfs(t);
 		if (dis[s] == n + 1) {
 			return 0;
 		}
