@@ -77,10 +77,6 @@ public class Code02_Dinic1 {
 				limit[e ^ 1] += k;
 			}
 		}
-		// 死点剪枝
-		if (flow == 0) {
-			dis[u] = n;
-		}
 		return flow;
 	}
 

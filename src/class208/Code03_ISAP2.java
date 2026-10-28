@@ -87,7 +87,17 @@ package class208;
 //    }
 //    if (rest > 0) {
 //        if (--gap[dis[u]] > 0) {
-//            dis[u]++;
+//            int lowest = n - 1;
+//            for (int e = head[u]; e > 0; e = nxt[e]) {
+//                int v = to[e];
+//                if (u != v && limit[e] > 0) {
+//                    lowest = min(lowest, dis[v]);
+//                }
+//            }
+//            if (u != s && flow > 0) {
+//                lowest = min(lowest, dis[u] + 1);
+//            }
+//            dis[u] = lowest + 1;
 //            gap[dis[u]]++;
 //            cur[u] = head[u];
 //        } else {

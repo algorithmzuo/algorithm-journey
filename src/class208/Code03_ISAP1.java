@@ -87,7 +87,20 @@ public class Code03_ISAP1 {
 		}
 		if (rest > 0) {
 			if (--gap[dis[u]] > 0) {
-				dis[u]++;
+				int lowest = n - 1;
+				for (int e = head[u]; e > 0; e = nxt[e]) {
+					int v = to[e];
+					if (u != v && limit[e] > 0) {
+						lowest = Math.min(lowest, dis[v]);
+					}
+				}
+				// 非源点u在dfs中，有父节点，父节点标号为dis[u]+1
+				// 如果flow > 0，那么dfs返回后，会增加u指向父节点的剩余容量
+				// 调整是回到父节点之后才完成的，所以此时重标号，需要额外考虑父节点
+				if (u != s && flow > 0) {
+					lowest = Math.min(lowest, dis[u] + 1);
+				}
+				dis[u] = lowest + 1;
 				gap[dis[u]]++;
 				cur[u] = head[u];
 			} else {
