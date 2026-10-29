@@ -73,9 +73,9 @@ package class208;
 //    for (int e = cur[u]; e > 0 && rest > 0; e = nxt[e]) {
 //        cur[u] = e;
 //        int v = to[e];
-//        ll c = min(rest, (ll) limit[e]);
-//        if (dis[u] == dis[v] + 1 && c > 0) {
-//            ll k = dfs(v, c, s, t);
+//        int lim = limit[e];
+//        if (dis[u] == dis[v] + 1 && lim > 0) {
+//            ll k = dfs(v, min(rest, (ll) lim), s, t);
 //            flow += k;
 //            rest -= k;
 //            limit[e] -= k;

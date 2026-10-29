@@ -68,9 +68,9 @@ public class Code02_Dinic1 {
 		for (int e = cur[u]; e > 0 && rest > 0; e = nxt[e]) {
 			cur[u] = e;
 			int v = to[e];
-			long c = Math.min(rest, limit[e]);
-			if (dis[u] + 1 == dis[v] && c > 0) {
-				long k = dfs(v, c, t);
+			int lim = limit[e];
+			if (dis[u] + 1 == dis[v] && lim > 0) {
+				long k = dfs(v, Math.min(rest, lim), t);
 				flow += k;
 				rest -= k;
 				limit[e] -= k;

@@ -73,9 +73,9 @@ public class Code03_ISAP1 {
 		for (int e = cur[u]; e > 0 && rest > 0; e = nxt[e]) {
 			cur[u] = e;
 			int v = to[e];
-			long c = Math.min(rest, limit[e]);
-			if (dis[u] == dis[v] + 1 && c > 0) {
-				long k = dfs(v, c, s, t);
+			int lim = limit[e];
+			if (dis[u] == dis[v] + 1 && lim > 0) {
+				long k = dfs(v, Math.min(rest, lim), s, t);
 				flow += k;
 				rest -= k;
 				limit[e] -= k;
