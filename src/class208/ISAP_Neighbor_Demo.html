@@ -1,0 +1,1571 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>ISAP：可用邻居与父节点</title><style>:root {
+  color-scheme: light dark;
+  background-color: var(
+    --background,
+    var(--color-background-primary, light-dark(rgb(255 255 255), rgb(24 24 24)))
+  ) !important;
+
+  /* Agent-facing contract; keep in sync with SKILL.md. */
+  --background: var(
+    --color-background-primary,
+    light-dark(rgb(255 255 255), rgb(24 24 24))
+  );
+  --foreground: var(
+    --color-text-primary,
+    light-dark(rgb(26 28 31), rgb(255 255 255))
+  );
+  --card: color-mix(in oklab, var(--foreground) 5%, var(--background));
+  --card-foreground: var(
+    --color-text-primary,
+    light-dark(rgb(26 28 31), rgb(255 255 255))
+  );
+  --popover: var(
+    --color-background-secondary,
+    light-dark(rgb(255 255 255), rgb(45 45 45))
+  );
+  --popover-foreground: var(
+    --color-text-primary,
+    light-dark(rgb(26 28 31), rgb(255 255 255))
+  );
+  --primary: var(
+    --color-text-info,
+    light-dark(rgb(51 156 255), rgb(131 195 255))
+  );
+  --primary-foreground: var(
+    --color-text-inverse,
+    light-dark(rgb(255 255 255), rgb(13 13 13))
+  );
+  --secondary: var(
+    --color-background-secondary,
+    light-dark(rgb(255 255 255 / 96%), rgb(54 54 54 / 96%))
+  );
+  --secondary-foreground: var(
+    --color-text-primary,
+    light-dark(rgb(26 28 31), rgb(255 255 255))
+  );
+  --muted: color-mix(in srgb, var(--foreground) 10%, transparent);
+  --muted-foreground: var(
+    --color-text-secondary,
+    light-dark(rgb(26 28 31 / 49.4%), rgb(255 255 255 / 49.8%))
+  );
+  --accent: var(
+    --color-background-info,
+    light-dark(rgb(229 242 255), rgb(13 39 63))
+  );
+  --accent-foreground: var(
+    --color-text-info,
+    light-dark(rgb(51 156 255), rgb(131 195 255))
+  );
+  --destructive: var(
+    --color-text-warning,
+    light-dark(rgb(226 85 7), rgb(255 133 73))
+  );
+  --border: var(
+    --color-border-secondary,
+    light-dark(rgb(26 28 31 / 8%), rgb(255 255 255 / 8.2%))
+  );
+  --input: var(
+    --color-border-primary,
+    light-dark(
+      rgb(26 28 31 / 11.8%),
+      color-mix(in oklab, rgb(0 0 0) 10%, transparent)
+    )
+  );
+  --ring: var(
+    --color-ring-primary,
+    light-dark(rgb(51 156 255), rgb(131 195 255 / 76%))
+  );
+  --font-size-base: var(--font-text-md-size, 16px);
+  --blue: light-dark(rgb(51 156 255), rgb(51 156 255));
+  --orange: light-dark(rgb(226 85 7), rgb(251 106 34));
+  --green: light-dark(rgb(0 162 64), rgb(64 201 119));
+  --red: light-dark(rgb(224 46 42), rgb(255 103 100));
+  --purple: light-dark(rgb(146 79 247), rgb(173 123 249));
+  --yellow: light-dark(rgb(255 195 0), rgb(255 210 64));
+  --viz-series-1: var(--primary);
+  --viz-series-2: light-dark(rgb(243 136 59), rgb(245 154 86));
+  --viz-series-3: light-dark(rgb(93 201 119), rgb(116 213 139));
+  --viz-series-4: light-dark(rgb(235 119 177), rgb(240 143 192));
+  --viz-series-5: light-dark(rgb(155 121 236), rgb(170 145 239));
+  --viz-series-6: light-dark(rgb(58 185 177), rgb(90 203 194));
+
+  /* Internal implementation variables; not part of the agent contract. */
+  --font-sans:
+    -apple-system-body, ui-sans-serif, -apple-system, system-ui, "Segoe UI",
+    Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji",
+    "Segoe UI Symbol";
+  --font-mono:
+    ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono",
+    monospace;
+  --font-size-normal: max(11px, var(--font-size-base));
+  --font-size-tooltip: calc(var(--font-size-base) - 1px);
+  --font-size-small: max(11px, calc(var(--font-size-base) - 2px));
+  --font-size-h1: calc(var(--font-size-normal) * 1.7142857143);
+  --font-size-h2: calc(var(--font-size-normal) * 1.4285714286);
+  --font-size-h3: calc(var(--font-size-normal) * 1.2857142857);
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --icon-size: 16px;
+  --line-height-normal: calc(var(--font-size-normal) * 1.5);
+  --line-height-tooltip: calc(var(--font-size-tooltip) * 1.4285714286);
+  --line-height-small: calc(var(--font-size-small) + 4px);
+  --corner-shape: round;
+  --radius: var(--border-radius-lg, 8px);
+  --radius-sm: calc(var(--radius) * 0.5);
+  --radius-md: calc(var(--radius) * 0.75);
+  --radius-lg: var(--radius);
+  --radius-2xl: calc(var(--radius) * 2);
+  --radius-full: 9999px;
+  --shadow-sm: 0 1px 2px -1px rgb(0 0 0 / 8%);
+  --checkmark-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 17 17'%3E%3Cpath d='M12.8961 3.64101C13.1297 3.41418 13.4984 3.37523 13.7779 3.56581C14.0571 3.75635 14.1554 4.11331 14.0299 4.41347L13.9615 4.53847L7.71151 13.7045C7.59411 13.8767 7.4063 13.9877 7.19881 14.0072C6.99136 14.0267 6.78564 13.9533 6.63826 13.806L2.88826 10.056L2.79842 9.9457C2.6192 9.67407 2.64927 9.30496 2.88826 9.06581C3.12738 8.82669 3.49647 8.79676 3.76815 8.97597L3.8785 9.06581L7.03084 12.2182L12.8053 3.74941L12.8961 3.64101Z'/%3E%3C/svg%3E");
+
+  /* Legacy aliases; not part of the current agent contract. */
+  --viz-bg: transparent;
+  --viz-panel: var(--card);
+  --viz-border: var(--border);
+  --viz-text: var(--foreground);
+  --viz-muted: var(--muted-foreground);
+  --viz-accent: var(--primary);
+  --viz-accent-text: var(--primary-foreground);
+  --viz-accent-bg: var(--accent);
+  --viz-font-size: var(--font-size-base);
+  --viz-warning: var(--destructive);
+}
+
+:root[data-theme="light"] {
+  color-scheme: light;
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html > body {
+  /* Preserve MCP aliases for older inline renderers without creating :root cycles. */
+  --color-background-primary: var(
+    --background,
+    light-dark(rgb(255 255 255), rgb(24 24 24))
+  );
+  --color-text-primary: var(
+    --foreground,
+    light-dark(rgb(26 28 31), rgb(255 255 255))
+  );
+  --color-border-secondary: var(
+    --border,
+    light-dark(rgb(26 28 31 / 8%), rgb(255 255 255 / 8.2%))
+  );
+
+  margin: 0;
+  padding: var(--visualize-paint-gutter, 0px);
+  color: var(--foreground);
+  background: transparent !important;
+  font-family: var(--font-sans) !important;
+  -webkit-font-smoothing: antialiased;
+  font-size: var(--font-size-base);
+  line-height: calc(var(--font-size-base) * 1.625);
+  font-weight: var(--font-weight-normal);
+}
+
+:root:not([data-app-block-surface], [data-visualize-standalone]) > body {
+  padding: 12px;
+}
+
+.cursor-interaction {
+  cursor: var(--cursor-interaction, pointer);
+}
+
+a {
+  color: color-mix(in srgb, var(--viz-accent) 80%, var(--viz-text) 20%);
+  cursor: var(--cursor-interaction, pointer);
+  text-decoration: none;
+  text-underline-offset: 2px;
+  font-weight: inherit;
+}
+
+a:is(:hover, :focus-visible) {
+  text-decoration-line: underline;
+  text-decoration-style: dashed;
+  text-decoration-thickness: 0.5px;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  margin-block: 0;
+}
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+li,
+.table {
+  font-family: var(--font-sans);
+}
+
+h1 {
+  font-size: calc(var(--font-size-base) * 1.5);
+  line-height: 1.3333333333;
+}
+
+h2 {
+  font-size: calc(var(--font-size-base) * 1.25);
+  line-height: 1.4;
+}
+h3 {
+  font-size: calc(var(--font-size-base) * 1.125);
+  line-height: 1.5555555556;
+}
+h4 {
+  font-size: var(--font-size-base);
+  line-height: 1.5;
+}
+h5,
+h6 {
+  font-size: var(--font-size-base);
+  line-height: calc(var(--font-size-base) * 1.625);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+b,
+strong,
+th {
+  font-weight: 600;
+}
+
+code:not(pre code) {
+  display: inline;
+  padding: 1px 6px;
+  border-radius: var(--radius-sm);
+  corner-shape: var(--corner-shape);
+  background: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 0.92em;
+  overflow-wrap: anywhere;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+  word-break: break-word;
+}
+pre,
+pre code {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  line-height: 20px;
+}
+
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+  scrollbar-width: thin;
+}
+
+.table {
+  width: 100%;
+  color: var(--foreground);
+  font: inherit;
+  text-align: start;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: calc(var(--font-size-base) * 0.875);
+  line-height: calc(var(--font-size-base) * 1.625);
+  font-family: var(--font-sans);
+}
+
+.table :is(th, td) {
+  padding-block: 10px;
+  padding-inline: 0 24px;
+  overflow-wrap: anywhere;
+  border-bottom: 1px solid var(--border);
+  text-align: start;
+  vertical-align: top;
+  border-bottom-color: color-mix(in srgb, var(--foreground) 5%, transparent);
+}
+.table :is(th, td):not(:last-child) {
+  padding-inline-end: calc(var(--font-size-base) * 1.5);
+}
+
+.table-responsive > .table :is(th, td) {
+  overflow-wrap: break-word;
+}
+
+.table :is(th, td):last-child {
+  padding-inline-end: 0;
+}
+
+.table :is(caption, thead th) {
+  font-weight: 600;
+}
+
+.table thead :is(th, td) {
+  border-bottom-color: var(--border-strong, var(--input));
+  padding-block: calc(var(--font-size-base) / 2);
+  line-height: var(--font-size-base);
+}
+
+.table tbody tr:last-child :is(th, td) {
+  border-bottom: 0;
+}
+.table tbody :is(th, td) {
+  padding-block: calc(var(--font-size-base) * 0.625);
+}
+
+.table.table-sm :is(th, td) {
+  padding-block: 8px;
+}
+
+.table.table-sm :is(th, td):not(:last-child) {
+  padding-inline-end: 16px;
+}
+
+.table :is(.text-end, [align="right"]) {
+  text-align: end;
+  font-variant-numeric: tabular-nums;
+}
+
+.table :is(.text-center, [align="center"]) {
+  text-align: center;
+}
+
+.table .text-nowrap {
+  white-space: nowrap;
+}
+
+#widget {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  padding: 0;
+  background: transparent !important;
+}
+
+.card {
+  min-width: 0;
+  padding: 12px;
+  overflow: hidden;
+  overflow-wrap: break-word;
+  border-radius: var(--radius-2xl);
+  corner-shape: var(--corner-shape);
+  color: var(--card-foreground);
+  background: var(--card);
+}
+
+.widget {
+  min-width: 0;
+  overflow: hidden;
+  border: 0;
+  border-radius: var(--radius-lg);
+  corner-shape: var(--corner-shape);
+  box-shadow: 0 0 0 0.5px var(--border-strong, var(--border));
+  color: var(--foreground);
+  background: var(--background);
+}
+
+#widget > :not(.card, .widget, .progress) {
+  width: 100% !important;
+  max-width: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.tooltip {
+  position: fixed;
+  z-index: 50;
+  top: 0;
+  left: 0;
+  width: max-content;
+  max-width: min(
+    20rem,
+    var(--tooltip-available-width, calc(100vw - 10px)),
+    calc(100vw - 10px)
+  );
+  max-height: min(
+    var(--tooltip-available-height, calc(100vh - 10px)),
+    calc(100vh - 10px)
+  );
+  border: 1px solid var(--border);
+  corner-shape: var(--corner-shape);
+  overflow-wrap: break-word;
+  white-space: normal;
+  pointer-events: none;
+  user-select: none;
+  font-family: var(--font-sans);
+  padding: 5px 12px;
+  border-color: color-mix(
+    in oklab,
+    light-dark(var(--primary-foreground), var(--foreground)) 5%,
+    transparent
+  );
+  border-radius: var(--radius-2xl);
+  color: light-dark(var(--primary-foreground), var(--foreground));
+  background: light-dark(var(--foreground), var(--popover));
+  box-shadow: 0 8px 18px rgb(15 23 42 / 20%);
+  letter-spacing: -0.15px;
+  font-size: calc(var(--font-size-base) * 14 / 16);
+  font-size: round(nearest, calc(var(--font-size-base) * 14 / 16), 1px);
+  font-weight: 600;
+  line-height: 18px;
+  text-align: center;
+}
+
+/* The shared runtime owns data-tooltip; suppress AppBlock's pseudo-tooltip. */
+main [data-tooltip]::after {
+  content: none;
+}
+
+.viz-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(max(180px, 24%), 1fr));
+  gap: 10px;
+}
+
+.viz-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.viz-stat-value {
+  font-size: var(--font-size-h2);
+  font-weight: var(--font-weight-medium);
+  line-height: 1.25;
+}
+
+.viz-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+}
+
+hr {
+  width: 100%;
+  height: 1px;
+  margin-block: 6px;
+  border: 0;
+  background: var(--border);
+}
+
+.nav {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: 4px;
+}
+
+.progress {
+  display: flex;
+  height: 8px;
+  margin-block: calc((var(--line-height-normal, 1.5em) - 8px) / 2);
+  overflow: hidden;
+  border: 0;
+  border-radius: var(--radius-full);
+  background: var(--muted);
+}
+
+.progress-bar:only-child {
+  border-radius: var(--radius-full);
+}
+
+.progress-bar {
+  height: 100%;
+  flex-shrink: 0;
+  border: 0;
+  background: var(--viz-series-1);
+}
+
+.viz-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 8px;
+  border-radius: var(--radius-sm);
+  color: color-mix(in srgb, var(--foreground) 40%, var(--muted-foreground));
+  background: color-mix(in srgb, var(--foreground) 5%, transparent);
+  font-family: var(--font-sans);
+  font-size: calc(var(--font-size-base) * 14 / 16);
+  font-size: round(nearest, calc(var(--font-size-base) * 14 / 16), 1px);
+  font-weight: var(--font-weight-normal);
+  line-height: 1;
+}
+
+small,
+.text-small {
+  font-size: var(--font-size-small);
+  line-height: var(--line-height-small);
+}
+
+.text-muted {
+  color: var(--muted-foreground);
+}
+
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.viz-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.viz-controls > .form-label {
+  display: grid;
+  min-width: min(100%, 260px);
+  flex: 1 1 280px;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: baseline;
+  gap: 2px 12px;
+  margin-bottom: 0;
+}
+
+.viz-controls > .form-label > :is(.form-control, .form-range, .form-select) {
+  grid-column: 1 / -1;
+}
+
+.btn,
+.nav-link,
+.form-check-input,
+.form-control,
+.form-range,
+.form-select {
+  font: inherit;
+}
+
+/* Match inline alignment without overriding a containing flex or grid layout. */
+.btn,
+.nav-link,
+.form-control,
+.form-select,
+.form-range,
+.form-check {
+  vertical-align: middle;
+}
+
+.btn,
+.nav-link {
+  appearance: button;
+  display: inline-flex;
+  inline-size: fit-content;
+  max-inline-size: 100%;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  margin: 0;
+  padding: 0 8px;
+  -webkit-app-region: no-drag;
+  border: 1px solid var(--input);
+  corner-shape: var(--corner-shape);
+  cursor: var(--cursor-interaction, pointer);
+  text-align: center;
+  text-decoration: none;
+  white-space: nowrap;
+  user-select: none;
+  -webkit-font-smoothing: inherit;
+  font-family: var(--font-sans);
+  height: fit-content;
+  min-height: calc(12px + 2 * var(--control-spacing, 12px));
+  padding-inline: var(--control-spacing, 12px);
+  border-color: transparent;
+  border-radius: var(--radius-full);
+  color: var(--foreground);
+  background: color-mix(in srgb, var(--foreground) 5%, transparent);
+  font-size: calc(var(--font-size-base) * 14 / 16);
+  font-size: round(nearest, calc(var(--font-size-base) * 14 / 16), 1px);
+  font-weight: var(--font-weight-normal);
+  line-height: 18px;
+}
+
+.btn {
+  border-color: var(--border);
+  color: var(--secondary-foreground);
+  background: var(--secondary);
+}
+
+.btn:is(.btn-block, .viz-tile) {
+  inline-size: 100%;
+}
+
+.btn.viz-tile {
+  min-width: 0;
+  overflow-wrap: anywhere;
+  white-space: normal;
+}
+
+a.btn {
+  cursor: var(--cursor-interaction, pointer);
+  text-decoration: none;
+}
+
+.btn:not(:disabled):hover {
+  background: light-dark(
+    color-mix(in srgb, var(--foreground) 5.5%, transparent),
+    color-mix(in srgb, var(--foreground) 8%, transparent)
+  );
+}
+
+.nav-link:not(:disabled):not([aria-disabled="true"]):hover {
+  background: color-mix(in srgb, var(--foreground) 10%, transparent);
+}
+
+.btn-primary {
+  border-color: var(--border);
+  color: var(--primary-foreground);
+  background: var(--foreground);
+  background-clip: border-box;
+}
+
+.btn-primary .text-muted {
+  color: color-mix(in srgb, var(--primary-foreground) 50%, transparent);
+}
+
+.btn-primary:not(:disabled):hover {
+  background: color-mix(in srgb, var(--foreground) 80%, transparent);
+  background-clip: border-box;
+}
+
+.btn-ghost {
+  border-color: transparent;
+  color: var(--muted-foreground);
+  background: transparent;
+}
+
+.btn-ghost:not(:disabled):hover {
+  color: var(--muted-foreground);
+  background: light-dark(
+    color-mix(in srgb, var(--foreground) 5.5%, transparent),
+    color-mix(in srgb, var(--foreground) 8%, transparent)
+  );
+}
+
+.nav-pills .nav-link {
+  min-width: 0;
+  border-color: transparent;
+  color: var(--muted-foreground);
+  background: transparent;
+}
+
+.nav-justified .nav-link {
+  flex: 1 1 0;
+  overflow-wrap: anywhere;
+  white-space: normal;
+}
+
+.nav-pills .nav-link.active {
+  color: var(--foreground);
+  background: var(--muted);
+}
+
+/* Shared preview chrome; product styles stay inside each variant. */
+.viz-dotted-background {
+  background-image: radial-gradient(
+    circle,
+    color-mix(in srgb, var(--foreground) 14%, transparent) 0.8px,
+    transparent 0.8px
+  );
+  background-position: center;
+  background-size: 16px 16px;
+}
+
+.viz-carousel {
+  position: relative;
+  min-width: 0;
+}
+
+.viz-carousel:has(> .viz-carousel-controls) {
+  min-height: calc(60px + var(--viz-carousel-picker-height, 0px));
+  padding-bottom: 60px;
+}
+
+.viz-carousel > [data-variant][hidden] {
+  display: none !important;
+}
+
+.viz-carousel > [data-variant] {
+  isolation: isolate;
+}
+
+.viz-carousel-controls {
+  --viz-carousel-hover: light-dark(
+    color-mix(in srgb, var(--foreground) 5.4%, transparent),
+    color-mix(in srgb, var(--foreground) 7.8%, transparent)
+  );
+  position: absolute;
+  z-index: 2;
+  bottom: 8px;
+  left: 50%;
+  display: flex;
+  width: max-content;
+  /* Leave room for the host's design-controls launcher at the trailing edge. */
+  max-width: calc(100% - 96px);
+  align-items: center;
+  gap: 0;
+  padding: 0;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  color: var(--foreground);
+  background: var(--background);
+  font-family: var(--font-sans);
+  /* Match the settings dropdown chrome independently of the content font size. */
+  font-size: 13px;
+  font-weight: var(--font-weight-normal);
+  line-height: 18px;
+  transform: translateX(-50%);
+  user-select: none;
+}
+
+/* Keep authored mockup button styles out of the shared carousel chrome. */
+.viz-carousel-controls button,
+.viz-carousel-picker > summary {
+  display: flex !important;
+  height: auto !important;
+  min-height: 30px;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 4px;
+  padding: 0 6px !important;
+  -webkit-app-region: no-drag;
+  border: 0 !important;
+  border-radius: 14px !important;
+  color: inherit !important;
+  background: transparent !important;
+  font: inherit !important;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.viz-carousel-controls > button,
+.viz-carousel-picker > summary {
+  position: relative;
+  isolation: isolate;
+}
+
+.viz-carousel-controls > button {
+  --icon-size: 16px;
+  width: 30px !important;
+  padding: 0 !important;
+}
+
+.viz-carousel-picker > summary {
+  padding-inline: 12px !important;
+}
+
+.viz-carousel-controls .viz-carousel-caret {
+  width: 14px;
+  height: 14px;
+  flex: none;
+  margin: 0;
+  color: inherit;
+  transform: rotate(180deg);
+}
+
+.viz-carousel-controls > button > svg,
+.viz-carousel-controls .viz-carousel-caret,
+.viz-carousel-count {
+  opacity: 0.5;
+}
+
+.viz-carousel-controls > button::before,
+.viz-carousel-picker > summary::before {
+  position: absolute;
+  z-index: -1;
+  inset: 3px;
+  border-radius: 12px;
+  content: "";
+  pointer-events: none;
+}
+
+.viz-carousel-controls > button:hover::before,
+.viz-carousel-picker > summary:hover::before {
+  background: var(--viz-carousel-hover);
+}
+
+.viz-carousel-controls > button,
+.viz-carousel-controls [data-lucide],
+.viz-carousel-controls .lucide {
+  flex-shrink: 0;
+}
+
+.viz-carousel-picker {
+  min-width: 0;
+}
+
+.viz-carousel-picker > summary {
+  min-width: 0;
+  list-style: none;
+}
+
+.viz-carousel-picker > summary::-webkit-details-marker {
+  display: none;
+}
+
+.viz-carousel-count {
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+.viz-carousel-name {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.viz-carousel-options {
+  position: absolute;
+  right: 0;
+  bottom: calc(100% + 4px);
+  left: 0;
+  display: flex;
+  max-height: 240px;
+  flex-direction: column;
+  gap: 2px;
+  overflow: auto;
+  padding: 4px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--background);
+  box-shadow: 0 4px 12px light-dark(rgb(0 0 0 / 6%), rgb(0 0 0 / 25%));
+}
+
+.viz-carousel-options > button {
+  border-radius: max(0px, calc(var(--radius-lg) - 5px)) !important;
+  width: 100% !important;
+  min-height: 28px;
+  justify-content: flex-start !important;
+  padding: 4px 8px !important;
+  font-size: var(--font-size-small) !important;
+  text-align: start;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
+.viz-carousel-options > [aria-current="true"],
+.viz-carousel-options > button:hover {
+  background: var(--viz-carousel-hover) !important;
+}
+
+.btn:disabled,
+.nav-link:disabled,
+.nav-link[aria-disabled="true"] {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+[data-lucide] {
+  stroke-width: 1.6;
+}
+
+.form-label {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--foreground);
+}
+
+.form-control {
+  display: block;
+  width: 100%;
+  padding: 0 8px;
+  outline: none;
+  border: 1px solid var(--input);
+  corner-shape: var(--corner-shape);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  height: calc(12px + 2 * var(--control-spacing, 12px));
+  min-height: calc(12px + 2 * var(--control-spacing, 12px));
+  padding-inline: calc(4px + var(--control-spacing, 12px) / 2);
+  border-color: var(--input);
+  border-radius: var(--radius-md);
+  background: color-mix(in srgb, var(--popover) 96%, transparent);
+  font-size: calc(var(--font-size-base) * 14 / 16);
+  font-size: round(nearest, calc(var(--font-size-base) * 14 / 16), 1px);
+  font-weight: var(--font-weight-normal);
+  line-height: 1.4285714286;
+}
+.form-control:is(
+  [type="file"],
+  [type="date"],
+  [type="datetime-local"],
+  [type="month"],
+  [type="week"],
+  [type="color"]
+) {
+  height: calc(12px + 2 * var(--control-spacing, 12px));
+  min-height: calc(12px + 2 * var(--control-spacing, 12px));
+  line-height: 18px;
+}
+.form-control:is(
+  [type="date"],
+  [type="datetime-local"],
+  [type="month"],
+  [type="week"]
+) {
+  padding-inline: var(--control-spacing, 12px);
+}
+
+.form-control::placeholder {
+  color: var(--muted-foreground);
+}
+
+.form-control[type="file"] {
+  overflow: hidden;
+  cursor: var(--cursor-interaction, pointer);
+  padding: 0;
+}
+
+.form-control[type="file"]::file-selector-button {
+  padding: 0 8px;
+  border: 0;
+  border-right: 1px solid var(--input);
+  color: var(--secondary-foreground);
+  background: var(--secondary);
+  cursor: inherit;
+  font: inherit;
+  min-height: calc(10px + 2 * var(--control-spacing, 12px));
+  padding-inline: var(--control-spacing, 12px);
+  margin-inline-end: var(--control-spacing, 12px);
+}
+
+.form-control[type="file"]:not(:disabled):hover::file-selector-button {
+  background: color-mix(in srgb, var(--foreground) 6%, var(--secondary));
+}
+
+.form-control-color[type="color"] {
+  width: 40px;
+  height: calc(12px + 2 * var(--control-spacing, 12px));
+  padding: 3px;
+  cursor: var(--cursor-interaction, pointer);
+}
+
+.form-control-color[type="color"]::-webkit-color-swatch-wrapper {
+  padding: 0;
+}
+
+.form-control-color[type="color"]::-webkit-color-swatch {
+  border: 0;
+  border-radius: calc(var(--radius-lg) - 4px);
+  corner-shape: var(--corner-shape);
+}
+
+textarea.form-control {
+  height: auto;
+  resize: vertical;
+  min-height: 96px;
+  padding: 8px 10px;
+}
+
+.form-control:focus-visible {
+  border-color: var(--ring);
+  box-shadow: none;
+}
+.form-control:disabled {
+  color: var(--muted-foreground);
+  background: color-mix(in srgb, var(--foreground) 5%, transparent);
+  opacity: 1;
+}
+.form-control[aria-invalid="true"] {
+  border-color: var(--red);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--red) 20%, transparent);
+}
+
+.form-control:disabled,
+.form-select:disabled {
+  cursor: not-allowed;
+}
+
+.form-select {
+  appearance: none;
+  display: block;
+  width: 100%;
+  height: fit-content;
+  min-height: calc(12px + 2 * var(--control-spacing, 12px));
+  margin: 0;
+  /* The secondary icon role is 14px at compact density and 16px at web density. */
+  --icon-size: calc(10px + var(--control-spacing, 12px) / 2);
+  /* Settings dropdowns retain a 12px inset and a 4px text-to-chevron gap. */
+  padding: 0 calc(16px + var(--icon-size)) 0 12px;
+  outline: none;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-full);
+  corner-shape: var(--corner-shape);
+  color: var(--foreground);
+  background-color: var(--secondary);
+  background-image:
+    linear-gradient(
+      45deg,
+      transparent calc(50% - 0.6px),
+      var(--muted-foreground) calc(50% - 0.6px) calc(50% + 0.6px),
+      transparent calc(50% + 0.6px)
+    ),
+    linear-gradient(
+      135deg,
+      transparent calc(50% - 0.6px),
+      var(--muted-foreground) calc(50% - 0.6px) calc(50% + 0.6px),
+      transparent calc(50% + 0.6px)
+    );
+  background-position:
+    calc(100% - 12px - var(--icon-size) / 2) 50%,
+    calc(100% - 12px - var(--icon-size) * 0.18) 50%;
+  background-repeat: no-repeat;
+  background-size: calc(var(--icon-size) * 0.32) calc(var(--icon-size) * 0.32);
+  cursor: var(--cursor-interaction, default);
+  font-size: calc(var(--font-size-base) * 14 / 16);
+  font-size: round(nearest, calc(var(--font-size-base) * 14 / 16), 1px);
+  font-weight: var(--font-weight-normal);
+  line-height: 18px;
+}
+
+.form-select :is(option, optgroup) {
+  color: var(--popover-foreground);
+  background-color: var(--popover);
+}
+
+.form-select :is(option, optgroup):disabled {
+  color: var(--muted-foreground);
+}
+
+.form-select:not(:disabled):hover {
+  background-color: light-dark(
+    color-mix(in srgb, var(--foreground) 5.5%, transparent),
+    color-mix(in srgb, var(--foreground) 8%, transparent)
+  );
+}
+
+.form-select:focus-visible {
+  box-shadow: 0 0 0 2px var(--ring);
+}
+.form-select:disabled {
+  opacity: 0.4;
+}
+
+.form-check {
+  display: flex;
+  min-height: calc(12px + 2 * var(--control-spacing, 12px));
+  align-items: center;
+  gap: 6px;
+}
+
+.form-check-input {
+  appearance: none;
+  width: 14px;
+  height: 14px;
+  flex: 0 0 auto;
+  margin: 0;
+  border: 1px solid var(--input);
+  color: var(--primary-foreground);
+  background-color: transparent;
+  cursor: var(--cursor-interaction, default);
+  transition:
+    background-color 150ms,
+    border-color 150ms,
+    box-shadow 150ms;
+}
+
+.form-check:not(.form-switch) .form-check-input[type="checkbox"] {
+  corner-shape: round;
+  box-shadow: var(--shadow-sm);
+  position: relative;
+  width: calc(10px + var(--control-spacing, 12px) / 2);
+  height: calc(10px + var(--control-spacing, 12px) / 2);
+  border-color: var(--border-strong, var(--input));
+  border-radius: calc(var(--radius-sm) / 2);
+  background-color: transparent;
+  color: var(--foreground);
+}
+
+.form-check:not(.form-switch)
+  .form-check-input:not(:disabled):not(:checked):hover {
+  background-color: var(--card);
+}
+
+.form-check:not(.form-switch)
+  .form-check-input[type="checkbox"]:is(:checked, :indeterminate) {
+  border-color: var(--border-strong, var(--input));
+  background-color: color-mix(in srgb, var(--popover) 96%, transparent);
+}
+
+.form-check:not(.form-switch)
+  .form-check-input[type="checkbox"]:checked::before {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: var(--primary-foreground);
+  content: "";
+  mask: var(--checkmark-image) center / 12px 12px no-repeat;
+  background-color: var(--foreground);
+}
+.form-check:not(.form-switch)
+  .form-check-input[type="checkbox"]:indeterminate::before {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 65%;
+  height: 6.65%;
+  margin: auto;
+  border-radius: var(--radius-full);
+  background: var(--foreground);
+  mask: none;
+  content: "";
+}
+
+.form-check-input[type="radio"] {
+  border-radius: var(--radius-full);
+  width: 16px;
+  height: 16px;
+  border: 0;
+  box-shadow: inset 0 0 0 1px var(--input);
+}
+
+.form-check-input[type="radio"]:checked {
+  border: 0;
+  background: radial-gradient(
+    circle,
+    var(--primary-foreground) 0 3px,
+    var(--foreground) 3px
+  );
+  box-shadow: none;
+}
+
+.form-check:not(.form-switch) .form-check-input:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+.form-check:not(.form-switch) .form-check-input[type="checkbox"]:focus-visible {
+  border-color: var(--ring);
+  outline: none;
+  box-shadow: 0 0 0 2px var(--ring);
+}
+
+.form-check:not(.form-switch) .form-check-input:disabled {
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.form-check:not(.form-switch) .form-check-input:disabled + .form-check-label {
+  cursor: not-allowed;
+}
+.form-check:not(.form-switch) .form-check-input[type="radio"]:disabled,
+.form-check:not(.form-switch)
+  .form-check-input[type="radio"]:disabled
+  + .form-check-label {
+  opacity: 0.5;
+}
+
+.form-switch .form-check-input:disabled,
+.form-switch .form-check-input:disabled + .form-check-label {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.form-check-label {
+  color: var(--foreground);
+  cursor: var(--cursor-interaction, default);
+}
+
+.form-switch .form-check-input {
+  position: relative;
+  width: 32px;
+  height: 20px;
+  border: 0;
+  border-radius: var(--radius-full);
+  background: var(--muted);
+  box-shadow: none;
+  transition: background-color 200ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.form-switch .form-check-input::before {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 16px;
+  height: 16px;
+  box-sizing: border-box;
+  border: 1px solid light-dark(var(--primary-foreground), var(--foreground));
+  border-radius: var(--radius-full);
+  box-shadow: var(--shadow-sm);
+  content: "";
+  transform: translate(2px, -50%);
+  transition: transform 200ms cubic-bezier(0, 0, 0.2, 1);
+  border-color: #fff;
+  background: #fff;
+}
+
+.form-switch .form-check-input:checked {
+  background: var(--blue);
+}
+
+.form-switch .form-check-input:checked::before {
+  transform: translate(14px, -50%);
+}
+
+.form-switch .form-check-input:focus-visible {
+  box-shadow: 0 0 0 2px var(--ring);
+  outline: none;
+}
+
+.form-range {
+  appearance: none;
+  display: block;
+  width: 100%;
+  flex: 1;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  accent-color: var(--primary);
+  height: calc(12px + 2 * var(--control-spacing, 12px));
+  min-height: calc(12px + 2 * var(--control-spacing, 12px));
+  outline: none;
+  border-radius: var(--radius-full);
+  color: var(--foreground);
+  background: transparent;
+}
+
+.form-range::-webkit-slider-runnable-track {
+  background: var(--form-range-track, var(--border));
+  height: 2px;
+  border-radius: var(--radius-full);
+}
+
+.form-range::-webkit-slider-thumb {
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-full);
+  margin-top: -9px;
+  border-color: transparent;
+  background: currentColor;
+  box-shadow: var(--shadow-sm);
+}
+
+/* Outline the native track and thumb, preserving the larger input hit area. */
+.form-range:focus-visible::-webkit-slider-runnable-track {
+  outline: 2px auto Highlight;
+  outline-color: -webkit-focus-ring-color;
+}
+
+.form-range::-moz-range-track {
+  background: var(--form-range-track, var(--border));
+  height: 2px;
+  border-radius: var(--radius-full);
+}
+
+.form-range::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-full);
+  border-color: transparent;
+  background: currentColor;
+  box-shadow: var(--shadow-sm);
+}
+
+.form-range:focus-visible::-moz-range-thumb {
+  outline: 2px solid Highlight;
+  outline-offset: 2px;
+}
+
+.form-range:disabled {
+  opacity: 1;
+  cursor: default;
+}
+
+.btn:not(.btn-primary, .viz-tile):is(
+  [aria-pressed="true"],
+  [aria-selected="true"],
+  .is-selected
+) {
+  border-color: transparent;
+  color: var(--primary-foreground);
+  background: var(--blue);
+}
+
+.btn.viz-tile:is([aria-pressed="true"], [aria-selected="true"], .is-selected) {
+  border-color: var(--primary);
+  box-shadow: inset 0 0 0 1px var(--primary);
+}
+
+.btn:focus-visible,
+.nav-link:focus-visible {
+  outline-offset: 2px;
+  outline: none;
+  box-shadow: 0 0 0 2px var(--ring);
+}
+
+.viz-carousel-controls :is(button, summary):focus-visible {
+  outline: 2px solid var(--ring) !important;
+  outline-offset: 2px !important;
+}
+
+/* Web recipes are the default, including on renderers without inline style queries. */
+@supports (border-radius: if(style(--corner-shape: round): 1px; else: 2px)) {
+  /* Match the host's proportional text-sm scale at every text preference. */
+  .tooltip,
+  .viz-badge,
+  .btn,
+  .nav-link,
+  .form-control,
+  .form-select {
+    font-size: if(
+      style(--corner-shape: round): round(
+          nearest,
+          calc(var(--font-size-base) * 14 / 16),
+          1px
+        );
+        else: round(nearest, calc(var(--font-size-base) * 13 / 14), 1px)
+    );
+  }
+
+  .btn,
+  .nav-link,
+  .form-select {
+    border-radius: if(
+      style(--corner-shape: round): var(--radius-full); else: var(--radius-lg)
+    );
+  }
+
+  .form-check:not(.form-switch) .form-check-input[type="checkbox"] {
+    border-radius: if(
+      style(--corner-shape: round): calc(var(--radius-sm) / 2);
+        else: calc(var(--radius-lg) * 0.4)
+    );
+  }
+
+  .tooltip {
+    font-weight: if(
+      style(--corner-shape: round): 600; else: var(--font-weight-normal)
+    );
+  }
+}
+
+@media (pointer: coarse) {
+  .viz-carousel:has(> .viz-carousel-controls) {
+    min-height: calc(76px + var(--viz-carousel-picker-height, 0px));
+    padding-bottom: 76px;
+  }
+
+  .btn,
+  .nav-link,
+  .viz-carousel-controls button,
+  .viz-carousel-picker > summary,
+  .form-control,
+  .form-select {
+    min-width: 44px;
+    min-height: 44px;
+  }
+
+  /* Keep small-screen WebKit from zooming when a text field receives focus. */
+  .form-control,
+  .form-select {
+    font-size: max(16px, calc(var(--font-size-base) * 14 / 16));
+    font-size: max(
+      16px,
+      round(nearest, calc(var(--font-size-base) * 14 / 16), 1px)
+    );
+  }
+  .form-control:is(
+    [type="file"],
+    [type="date"],
+    [type="datetime-local"],
+    [type="month"],
+    [type="week"],
+    [type="time"],
+    [type="color"]
+  ) {
+    height: 44px;
+    min-height: 44px;
+    font-size: max(16px, calc(var(--font-size-base) * 14 / 16));
+    font-size: max(
+      16px,
+      round(nearest, calc(var(--font-size-base) * 14 / 16), 1px)
+    );
+  }
+
+  .form-control[type="file"]::file-selector-button {
+    min-width: 44px;
+    min-height: 44px;
+  }
+
+  .form-control-color[type="color"] {
+    width: 44px;
+    height: 44px;
+  }
+
+  .form-control:is(
+    [type="date"],
+    [type="datetime-local"],
+    [type="month"],
+    [type="time"],
+    [type="week"]
+  ) {
+    min-width: 0;
+    max-width: 100%;
+    padding-block: 8px;
+  }
+
+  .form-check {
+    min-height: 44px;
+    padding-inline: 15px;
+  }
+
+  .form-check-input {
+    position: relative;
+  }
+
+  .form-check-input::after {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 44px;
+    height: 44px;
+    content: "";
+    transform: translate(-50%, -50%);
+  }
+
+  .form-check-label {
+    display: inline-flex;
+    min-width: 44px;
+    min-height: 44px;
+    align-items: center;
+  }
+
+  .form-range {
+    height: 44px;
+    touch-action: pan-y;
+  }
+}
+
+svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+#widget > svg {
+  width: 100%;
+}
+
+/* Model-authored chart rules can otherwise stretch icons after these styles load. */
+svg.lucide {
+  display: block;
+  width: var(--icon-size) !important;
+  height: var(--icon-size) !important;
+  flex: none;
+  margin: 0 !important;
+  stroke-width: 1.6;
+}
+
+.text-warning,
+.text-destructive {
+  color: var(--destructive);
+}
+
+
+html>body{padding:0}
+body{margin:0;padding:16px}main{max-width:1024px;margin:0 auto}
+#isap-six-correct{display:flex;flex-direction:column;gap:10px;width:100%}
+#isap-six-correct [hidden]{display:none!important}
+#is6c-graph{width:100%;min-width:680px}.graph-scroll{overflow-x:auto}
+#isap-six-correct svg{display:block;width:100%}
+#isap-six-correct svg text{fill:var(--foreground);font-size:12px;font-family:inherit}
+#is6c-title{font-weight:500}#is6c-status{color:var(--muted-foreground)}
+.is6c-edge{stroke:var(--muted-foreground);stroke-width:1.3;fill:none}
+.is6c-hi{stroke:var(--viz-series-2);stroke-width:3;fill:none}
+.is6c-label{paint-order:stroke;stroke:var(--background);stroke-width:5px;stroke-linejoin:round}
+.is6c-node{fill:var(--background);stroke:var(--border);stroke-width:1.2}
+.is6c-current{fill:none;stroke:var(--viz-series-2);stroke-width:2;stroke-dasharray:4 3}
+</style></head><body><main id="isap-six-correct">
+<div class="viz-controls"><label class="form-label">演示<select class="form-select" id="is6c-mode"><option value="original">原图</option><option value="correct">正确展示，可用邻居考虑父节点</option><option value="wrong">错误展示，可用邻居忽略父节点</option></select></label><button class="btn" id="is6c-prev" hidden>上一步</button><button class="btn btn-primary" id="is6c-next" hidden>下一步</button></div>
+<div class="viz-controls" id="is6c-step-controls" hidden><label class="form-label">步骤<select class="form-select" id="is6c-step-select"></select></label></div>
+<div class="viz-row tabular-nums" id="is6c-status"><span id="is6c-step"></span><span id="is6c-flow"></span></div>
+<div class="graph-scroll"><div id="is6c-graph"></div></div>
+<div class="viz-row text-small" id="is6c-legend"></div><div id="is6c-title"></div><div id="is6c-detail" aria-live="polite"></div>
+<script type="application/json" id="is6c-data">{"edges": [[4, 3, 1], [1, 4, 1], [2, 5, 2], [3, 6, 1], [2, 3, 2], [1, 2, 2], [5, 6, 2]], "names": ["", "s", "a", "b", "c", "d", "t"], "original": [{"title": "原图：源点 s，汇点 t", "detail": "n = 6；邻居按给定输入的头插顺序遍历。", "node": 0, "path": [], "h": null, "f": [0, 0, 0, 0, 0, 0, 0], "stack": [], "event": ""}], "correct": [{"title": "反向 BFS：初始化标号", "detail": "s 的高度为 3；a、c 为 2；b、d 为 1；t 为 0。", "node": 0, "path": [], "h": [3, 2, 1, 2, 1, 0], "f": [0, 0, 0, 0, 0, 0, 0], "stack": [], "event": "bfs"}, {"title": "进入 s：rest = ∞", "detail": "从源点开始本轮 DFS。", "node": 1, "path": [1], "h": [3, 2, 1, 2, 1, 0], "f": [0, 0, 0, 0, 0, 0, 0], "stack": [{"node": 1, "rest": "∞"}], "event": "enter"}, {"title": "进入 a：rest = 2", "detail": "从 s 进入；请求取父节点 rest 与这条边剩余容量的较小值。", "node": 2, "path": [1, 2], "h": [3, 2, 1, 2, 1, 0], "f": [0, 0, 0, 0, 0, 0, 0], "stack": [{"node": 1, "rest": "∞"}, {"node": 2, "rest": 2}], "event": "enter"}, {"title": "进入 b：rest = 2", "detail": "从 a 进入；请求取父节点 rest 与这条边剩余容量的较小值。", "node": 3, "path": [1, 2, 3], "h": [3, 2, 1, 2, 1, 0], "f": [0, 0, 0, 0, 0, 0, 0], "stack": [{"node": 1, "rest": "∞"}, {"node": 2, "rest": 2}, {"node": 3, "rest": 2}], "event": "enter"}, {"title": "进入 t：rest = 1", "detail": "从 b 进入；请求取父节点 rest 与这条边剩余容量的较小值。", "node": 6, "path": [1, 2, 3, 6], "h": [3, 2, 1, 2, 1, 0], "f": [0, 0, 0, 0, 0, 0, 0], "stack": [{"node": 1, "rest": "∞"}, {"node": 2, "rest": 2}, {"node": 3, "rest": 2}, {"node": 6, "rest": 1}], "event": "enter"}, {"title": "汇点 t 返回 1", "detail": "此处只返回流量；边的剩余容量由上一层收到返回值后更新。", "node": 6, "path": [1, 2, 3, 6], "h": [3, 2, 1, 2, 1, 0], "f": [0, 0, 0, 0, 0, 0, 0], "stack": [{"node": 1, "rest": "∞"}, {"node": 2, "rest": 2}, {"node": 3, "rest": 2}, {"node": 6, "rest": 1}], "event": "return"}, {"title": "回到 b：rest = 1", "detail": "b → t 已饱和；flow = 1、rest = 1，但 b → a 尚未回写，剩余容量仍为 0。", "node": 3, "path": [3, 6], "h": [3, 2, 1, 2, 1, 0], "f": [0, 0, 0, 1, 0, 0, 0], "stack": [{"node": 1, "rest": "∞"}, {"node": 2, "rest": 2}, {"node": 3, "rest": 1}], "event": "receive"}, {"title": "b 无法继续推流：准备重标号", "detail": "flow = 1；当前扫描不到可用出边，b → a 的反向容量要等返回 a 后才增加。", "node": 3, "path": [], "h": [3, 2, 1, 2, 1, 0], "f": [0, 0, 0, 1, 0, 0, 0], "stack": [{"node": 1, "rest": "∞"}, {"node": 2, "rest": 2}, {"node": 3, "rest": 1}], "event": "blocked"}, {"title": "b 重标号：1 → 3", "detail": "额外考虑父节点 a（h=2）：b 的新高度为 3；重置当前弧。", "node": 3, "path": [3, 2], "h": [3, 2, 3, 2, 1, 0], "f": [0, 0, 0, 1, 0, 0, 0], "stack": [{"node": 1, "rest": "∞"}, {"node": 2, "rest": 2}, {"node": 3, "rest": 1}], "event": "relabel"}, {"title": "b 返回 1", "detail": "本次调用累计返回 flow = 1；上一层将继续检查后续边。", "node": 3, "path": [], "h": [3, 2, 3, 2, 1, 0], "f": [0, 0, 0, 1, 0, 0, 0], "stack": [{"node": 1, "rest": "∞"}, {"node": 2, "rest": 2}, {"node": 3, "rest": 1}], "event": "return"}, {"title": "回到 a：rest = 1", "detail": "b 返回 k = 1；本步仅更新 a → b 及其反向边；累计 flow = 1。", "node": 2, "path": [2, 3], "h": [3, 2, 3, 2, 1, 0], "f": [0, 0, 0, 1, 1, 0, 0], "stack": [{"node": 1, "rest": "∞"}, {"node": 2, "rest": 1}], "event": "receive"}, {"title": "进入 d：rest = 1", "detail": "从 a 进入；请求取父节点 rest 与这条边剩余容量的较小值。", "node": 5, "path": [1, 2, 5], "h": [3, 2, 3, 2, 1, 0], "f": [0, 0, 0, 1, 1, 0, 0], "stack": [{"node": 1, "rest": "∞"}, {"node": 2, "rest": 1}, {"node": 5, "rest": 1}], "event": "enter"}, {"title": "进入 t：rest = 1", "detail": "从 d 进入；请求取父节点 rest 与这条边剩余容量的较小值。", "node": 6, "path": [1, 2, 5, 6], "h": [3, 2, 3, 2, 1, 0], "f": [0, 0, 0, 1, 1, 0, 0], "stack": [{"node": 1, "rest": "∞"}, {"node": 2, "rest": 1}, {"node": 5, "rest": 1}, {"node": 6, "rest": 1}], "event": "enter"}, {"title": "汇点 t 返回 1", "detail": "此处只返回流量；边的剩余容量由上一层收到返回值后更新。", "node": 6, "path": [1, 2, 5, 6], "h": [3, 2, 3, 2, 1, 0], "f": [0, 0, 0, 1, 1, 0, 0], "stack": [{"node": 1, "rest": "∞"}, {"node": 2, "rest": 1}, {"node": 5, "rest": 1}, {"node": 6, "rest": 1}], "event": "return"}, {"title": "回到 d：rest = 0", "detail": "t 返回 k = 1；本步仅更新 d → t 及其反向边；累计 flow = 1。", "node": 5, "path": [5, 6], "h": [3, 2, 3, 2, 1, 0], "f": [0, 0, 0, 1, 1, 0, 1], "stack": [{"node": 1, "rest": "∞"}, {"node": 2, "rest": 1}, {"node": 5, "rest": 0}], "event": "receive"}, {"title": "d 返回 1", "detail": "本次调用累计返回 flow = 1；上一层将继续检查后续边。", "node": 5, "path": [], "h": [3, 2, 3, 2, 1, 0], "f": [0, 0, 0, 1, 1, 0, 1], "stack": [{"node": 1, "rest": "∞"}, {"node": 2, "rest": 1}, {"node": 5, "rest": 0}], "event": "return"}, {"title": "回到 a：rest = 0", "detail": "d 返回 k = 1；本步仅更新 a → d 及其反向边；累计 flow = 2。", "node": 2, "path": [2, 5], "h": [3, 2, 3, 2, 1, 0], "f": [0, 0, 1, 1, 1, 0, 1], "stack": [{"node": 1, "rest": "∞"}, {"node": 2, "rest": 0}], "event": "receive"}, {"title": "a 返回 2", "detail": "本次调用累计返回 flow = 2；上一层将继续检查后续边。", "node": 2, "path": [], "h": [3, 2, 3, 2, 1, 0], "f": [0, 0, 1, 1, 1, 0, 1], "stack": [{"node": 1, "rest": "∞"}, {"node": 2, "rest": 0}], "event": "return"}, {"title": "回到 s：rest = ∞", "detail": "a 返回 k = 2；本步仅更新 s → a 及其反向边；累计 flow = 2。", "node": 1, "path": [1, 2], "h": [3, 2, 3, 2, 1, 0], "f": [0, 0, 1, 1, 1, 2, 1], "stack": [{"node": 1, "rest": "∞"}], "event": "receive"}, {"title": "进入 c：rest = 1", "detail": "从 s 进入；请求取父节点 rest 与这条边剩余容量的较小值。", "node": 4, "path": [1, 4], "h": [3, 2, 3, 2, 1, 0], "f": [0, 0, 1, 1, 1, 2, 1], "stack": [{"node": 1, "rest": "∞"}, {"node": 4, "rest": 1}], "event": "enter"}, {"title": "c 重标号：2 → 4", "detail": "可用邻居：b（h=3)；新高度最多记为 n=6，随后重置当前弧。", "node": 4, "path": [], "h": [3, 2, 3, 4, 1, 0], "f": [0, 0, 1, 1, 1, 2, 1], "stack": [{"node": 1, "rest": "∞"}, {"node": 4, "rest": 1}], "event": "relabel"}, {"title": "c 返回 0", "detail": "本次调用累计返回 flow = 0；上一层将继续检查后续边。", "node": 4, "path": [], "h": [3, 2, 3, 4, 1, 0], "f": [0, 0, 1, 1, 1, 2, 1], "stack": [{"node": 1, "rest": "∞"}, {"node": 4, "rest": 1}], "event": "return"}, {"title": "回到 s：rest = ∞", "detail": "c 返回 k = 0；本步仅更新 s → c 及其反向边；累计 flow = 2。", "node": 1, "path": [1, 4], "h": [3, 2, 3, 4, 1, 0], "f": [0, 0, 1, 1, 1, 2, 1], "stack": [{"node": 1, "rest": "∞"}], "event": "receive"}, {"title": "s 重标号：3 → 5", "detail": "可用邻居：c（h=4)；新高度最多记为 n=6，随后重置当前弧。", "node": 1, "path": [], "h": [5, 2, 3, 4, 1, 0], "f": [0, 0, 1, 1, 1, 2, 1], "stack": [{"node": 1, "rest": "∞"}], "event": "relabel"}, {"title": "s 返回 2", "detail": "本次调用累计返回 flow = 2；上一层将继续检查后续边。", "node": 1, "path": [], "h": [5, 2, 3, 4, 1, 0], "f": [0, 0, 1, 1, 1, 2, 1], "stack": [{"node": 1, "rest": "∞"}], "event": "return"}, {"title": "本轮 DFS 返回：累计流量 2", "detail": "源点标号为 5；开始下一轮 DFS，继续寻找增广路。", "node": 0, "path": [], "h": [5, 2, 3, 4, 1, 0], "f": [0, 0, 1, 1, 1, 2, 1], "stack": [], "event": "root"}, {"title": "进入 s：rest = ∞", "detail": "从源点开始本轮 DFS。", "node": 1, "path": [1], "h": [5, 2, 3, 4, 1, 0], "f": [0, 0, 1, 1, 1, 2, 1], "stack": [{"node": 1, "rest": "∞"}], "event": "enter"}, {"title": "进入 c：rest = 1", "detail": "从 s 进入；请求取父节点 rest 与这条边剩余容量的较小值。", "node": 4, "path": [1, 4], "h": [5, 2, 3, 4, 1, 0], "f": [0, 0, 1, 1, 1, 2, 1], "stack": [{"node": 1, "rest": "∞"}, {"node": 4, "rest": 1}], "event": "enter"}, {"title": "进入 b：rest = 1", "detail": "从 c 进入；请求取父节点 rest 与这条边剩余容量的较小值。", "node": 3, "path": [1, 4, 3], "h": [5, 2, 3, 4, 1, 0], "f": [0, 0, 1, 1, 1, 2, 1], "stack": [{"node": 1, "rest": "∞"}, {"node": 4, "rest": 1}, {"node": 3, "rest": 1}], "event": "enter"}, {"title": "进入 a：rest = 1", "detail": "从 b 进入；请求取父节点 rest 与这条边剩余容量的较小值。", "node": 2, "path": [1, 4, 3, 2], "h": [5, 2, 3, 4, 1, 0], "f": [0, 0, 1, 1, 1, 2, 1], "stack": [{"node": 1, "rest": "∞"}, {"node": 4, "rest": 1}, {"node": 3, "rest": 1}, {"node": 2, "rest": 1}], "event": "enter"}, {"title": "进入 d：rest = 1", "detail": "从 a 进入；请求取父节点 rest 与这条边剩余容量的较小值。", "node": 5, "path": [1, 4, 3, 2, 5], "h": [5, 2, 3, 4, 1, 0], "f": [0, 0, 1, 1, 1, 2, 1], "stack": [{"node": 1, "rest": "∞"}, {"node": 4, "rest": 1}, {"node": 3, "rest": 1}, {"node": 2, "rest": 1}, {"node": 5, "rest": 1}], "event": "enter"}, {"title": "进入 t：rest = 1", "detail": "从 d 进入；请求取父节点 rest 与这条边剩余容量的较小值。", "node": 6, "path": [1, 4, 3, 2, 5, 6], "h": [5, 2, 3, 4, 1, 0], "f": [0, 0, 1, 1, 1, 2, 1], "stack": [{"node": 1, "rest": "∞"}, {"node": 4, "rest": 1}, {"node": 3, "rest": 1}, {"node": 2, "rest": 1}, {"node": 5, "rest": 1}, {"node": 6, "rest": 1}], "event": "enter"}, {"title": "汇点 t 返回 1", "detail": "此处只返回流量；边的剩余容量由上一层收到返回值后更新。", "node": 6, "path": [1, 4, 3, 2, 5, 6], "h": [5, 2, 3, 4, 1, 0], "f": [0, 0, 1, 1, 1, 2, 1], "stack": [{"node": 1, "rest": "∞"}, {"node": 4, "rest": 1}, {"node": 3, "rest": 1}, {"node": 2, "rest": 1}, {"node": 5, "rest": 1}, {"node": 6, "rest": 1}], "event": "return"}, {"title": "回到 d：rest = 0", "detail": "t 返回 k = 1；本步仅更新 d → t 及其反向边；累计 flow = 1。", "node": 5, "path": [5, 6], "h": [5, 2, 3, 4, 1, 0], "f": [0, 0, 1, 1, 1, 2, 2], "stack": [{"node": 1, "rest": "∞"}, {"node": 4, "rest": 1}, {"node": 3, "rest": 1}, {"node": 2, "rest": 1}, {"node": 5, "rest": 0}], "event": "receive"}, {"title": "d 返回 1", "detail": "本次调用累计返回 flow = 1；上一层将继续检查后续边。", "node": 5, "path": [], "h": [5, 2, 3, 4, 1, 0], "f": [0, 0, 1, 1, 1, 2, 2], "stack": [{"node": 1, "rest": "∞"}, {"node": 4, "rest": 1}, {"node": 3, "rest": 1}, {"node": 2, "rest": 1}, {"node": 5, "rest": 0}], "event": "return"}, {"title": "回到 a：rest = 0", "detail": "d 返回 k = 1；本步仅更新 a → d 及其反向边；累计 flow = 1。", "node": 2, "path": [2, 5], "h": [5, 2, 3, 4, 1, 0], "f": [0, 0, 2, 1, 1, 2, 2], "stack": [{"node": 1, "rest": "∞"}, {"node": 4, "rest": 1}, {"node": 3, "rest": 1}, {"node": 2, "rest": 0}], "event": "receive"}, {"title": "a 返回 1", "detail": "本次调用累计返回 flow = 1；上一层将继续检查后续边。", "node": 2, "path": [], "h": [5, 2, 3, 4, 1, 0], "f": [0, 0, 2, 1, 1, 2, 2], "stack": [{"node": 1, "rest": "∞"}, {"node": 4, "rest": 1}, {"node": 3, "rest": 1}, {"node": 2, "rest": 0}], "event": "return"}, {"title": "回到 b：rest = 0", "detail": "a 返回 k = 1；本步仅更新 b → a 及其反向边；累计 flow = 1。", "node": 3, "path": [3, 2], "h": [5, 2, 3, 4, 1, 0], "f": [0, 0, 2, 1, 0, 2, 2], "stack": [{"node": 1, "rest": "∞"}, {"node": 4, "rest": 1}, {"node": 3, "rest": 0}], "event": "receive"}, {"title": "b 返回 1", "detail": "本次调用累计返回 flow = 1；上一层将继续检查后续边。", "node": 3, "path": [], "h": [5, 2, 3, 4, 1, 0], "f": [0, 0, 2, 1, 0, 2, 2], "stack": [{"node": 1, "rest": "∞"}, {"node": 4, "rest": 1}, {"node": 3, "rest": 0}], "event": "return"}, {"title": "回到 c：rest = 0", "detail": "b 返回 k = 1；本步仅更新 c → b 及其反向边；累计 flow = 1。", "node": 4, "path": [4, 3], "h": [5, 2, 3, 4, 1, 0], "f": [1, 0, 2, 1, 0, 2, 2], "stack": [{"node": 1, "rest": "∞"}, {"node": 4, "rest": 0}], "event": "receive"}, {"title": "c 返回 1", "detail": "本次调用累计返回 flow = 1；上一层将继续检查后续边。", "node": 4, "path": [], "h": [5, 2, 3, 4, 1, 0], "f": [1, 0, 2, 1, 0, 2, 2], "stack": [{"node": 1, "rest": "∞"}, {"node": 4, "rest": 0}], "event": "return"}, {"title": "回到 s：rest = ∞", "detail": "c 返回 k = 1；本步仅更新 s → c 及其反向边；累计 flow = 1。", "node": 1, "path": [1, 4], "h": [5, 2, 3, 4, 1, 0], "f": [1, 1, 2, 1, 0, 2, 2], "stack": [{"node": 1, "rest": "∞"}], "event": "receive"}, {"title": "s 重标号：5 → 6", "detail": "可用邻居：无；新高度最多记为 n=6，随后重置当前弧。", "node": 1, "path": [], "h": [6, 2, 3, 4, 1, 0], "f": [1, 1, 2, 1, 0, 2, 2], "stack": [{"node": 1, "rest": "∞"}], "event": "relabel"}, {"title": "s 返回 1", "detail": "本次调用累计返回 flow = 1；上一层将继续检查后续边。", "node": 1, "path": [], "h": [6, 2, 3, 4, 1, 0], "f": [1, 1, 2, 1, 0, 2, 2], "stack": [{"node": 1, "rest": "∞"}], "event": "return"}, {"title": "本轮 DFS 返回：累计流量 3", "detail": "源点标号为 6；达到 n=6，结束搜索。", "node": 0, "path": [], "h": [6, 2, 3, 4, 1, 0], "f": [1, 1, 2, 1, 0, 2, 2], "stack": [], "event": "root"}, {"title": "正确结果：最大流 3", "detail": "s → a → d → t 送出 2，s → c → b → t 送出 1。", "node": 0, "path": [], "h": [6, 2, 3, 4, 1, 0], "f": [1, 1, 2, 1, 0, 2, 2], "stack": [], "event": "end"}], "wrong": [{"title": "反向 BFS：初始化标号", "detail": "s 的高度为 3；a、c 为 2；b、d 为 1；t 为 0。", "node": 0, "path": [], "h": [3, 2, 1, 2, 1, 0], "f": [0, 0, 0, 0, 0, 0, 0], "stack": [], "event": "bfs"}, {"title": "进入 s：rest = ∞", "detail": "从源点开始本轮 DFS。", "node": 1, "path": [1], "h": [3, 2, 1, 2, 1, 0], "f": [0, 0, 0, 0, 0, 0, 0], "stack": [{"node": 1, "rest": "∞"}], "event": "enter"}, {"title": "进入 a：rest = 2", "detail": "从 s 进入；请求取父节点 rest 与这条边剩余容量的较小值。", "node": 2, "path": [1, 2], "h": [3, 2, 1, 2, 1, 0], "f": [0, 0, 0, 0, 0, 0, 0], "stack": [{"node": 1, "rest": "∞"}, {"node": 2, "rest": 2}], "event": "enter"}, {"title": "进入 b：rest = 2", "detail": "从 a 进入；请求取父节点 rest 与这条边剩余容量的较小值。", "node": 3, "path": [1, 2, 3], "h": [3, 2, 1, 2, 1, 0], "f": [0, 0, 0, 0, 0, 0, 0], "stack": [{"node": 1, "rest": "∞"}, {"node": 2, "rest": 2}, {"node": 3, "rest": 2}], "event": "enter"}, {"title": "进入 t：rest = 1", "detail": "从 b 进入；请求取父节点 rest 与这条边剩余容量的较小值。", "node": 6, "path": [1, 2, 3, 6], "h": [3, 2, 1, 2, 1, 0], "f": [0, 0, 0, 0, 0, 0, 0], "stack": [{"node": 1, "rest": "∞"}, {"node": 2, "rest": 2}, {"node": 3, "rest": 2}, {"node": 6, "rest": 1}], "event": "enter"}, {"title": "汇点 t 返回 1", "detail": "此处只返回流量；边的剩余容量由上一层收到返回值后更新。", "node": 6, "path": [1, 2, 3, 6], "h": [3, 2, 1, 2, 1, 0], "f": [0, 0, 0, 0, 0, 0, 0], "stack": [{"node": 1, "rest": "∞"}, {"node": 2, "rest": 2}, {"node": 3, "rest": 2}, {"node": 6, "rest": 1}], "event": "return"}, {"title": "回到 b：rest = 1", "detail": "b → t 已饱和；flow = 1、rest = 1，但 b → a 尚未回写，剩余容量仍为 0。", "node": 3, "path": [3, 6], "h": [3, 2, 1, 2, 1, 0], "f": [0, 0, 0, 1, 0, 0, 0], "stack": [{"node": 1, "rest": "∞"}, {"node": 2, "rest": 2}, {"node": 3, "rest": 1}], "event": "receive"}, {"title": "b 无法继续推流：准备重标号", "detail": "flow = 1；当前扫描不到可用出边，b → a 的反向容量要等返回 a 后才增加。", "node": 3, "path": [], "h": [3, 2, 1, 2, 1, 0], "f": [0, 0, 0, 1, 0, 0, 0], "stack": [{"node": 1, "rest": "∞"}, {"node": 2, "rest": 2}, {"node": 3, "rest": 1}], "event": "blocked"}, {"title": "b 重标号：1 → 6", "detail": "遗漏父节点 a，误以为无可用邻居：b 的高度直接设为 n=6；重置当前弧。", "node": 3, "path": [], "h": [3, 2, 6, 2, 1, 0], "f": [0, 0, 0, 1, 0, 0, 0], "stack": [{"node": 1, "rest": "∞"}, {"node": 2, "rest": 2}, {"node": 3, "rest": 1}], "event": "relabel"}, {"title": "b 返回 1", "detail": "本次调用累计返回 flow = 1；上一层将继续检查后续边。", "node": 3, "path": [], "h": [3, 2, 6, 2, 1, 0], "f": [0, 0, 0, 1, 0, 0, 0], "stack": [{"node": 1, "rest": "∞"}, {"node": 2, "rest": 2}, {"node": 3, "rest": 1}], "event": "return"}, {"title": "回到 a：rest = 1", "detail": "b 返回 k = 1；本步仅更新 a → b 及其反向边；累计 flow = 1。", "node": 2, "path": [2, 3], "h": [3, 2, 6, 2, 1, 0], "f": [0, 0, 0, 1, 1, 0, 0], "stack": [{"node": 1, "rest": "∞"}, {"node": 2, "rest": 1}], "event": "receive"}, {"title": "进入 d：rest = 1", "detail": "从 a 进入；请求取父节点 rest 与这条边剩余容量的较小值。", "node": 5, "path": [1, 2, 5], "h": [3, 2, 6, 2, 1, 0], "f": [0, 0, 0, 1, 1, 0, 0], "stack": [{"node": 1, "rest": "∞"}, {"node": 2, "rest": 1}, {"node": 5, "rest": 1}], "event": "enter"}, {"title": "进入 t：rest = 1", "detail": "从 d 进入；请求取父节点 rest 与这条边剩余容量的较小值。", "node": 6, "path": [1, 2, 5, 6], "h": [3, 2, 6, 2, 1, 0], "f": [0, 0, 0, 1, 1, 0, 0], "stack": [{"node": 1, "rest": "∞"}, {"node": 2, "rest": 1}, {"node": 5, "rest": 1}, {"node": 6, "rest": 1}], "event": "enter"}, {"title": "汇点 t 返回 1", "detail": "此处只返回流量；边的剩余容量由上一层收到返回值后更新。", "node": 6, "path": [1, 2, 5, 6], "h": [3, 2, 6, 2, 1, 0], "f": [0, 0, 0, 1, 1, 0, 0], "stack": [{"node": 1, "rest": "∞"}, {"node": 2, "rest": 1}, {"node": 5, "rest": 1}, {"node": 6, "rest": 1}], "event": "return"}, {"title": "回到 d：rest = 0", "detail": "t 返回 k = 1；本步仅更新 d → t 及其反向边；累计 flow = 1。", "node": 5, "path": [5, 6], "h": [3, 2, 6, 2, 1, 0], "f": [0, 0, 0, 1, 1, 0, 1], "stack": [{"node": 1, "rest": "∞"}, {"node": 2, "rest": 1}, {"node": 5, "rest": 0}], "event": "receive"}, {"title": "d 返回 1", "detail": "本次调用累计返回 flow = 1；上一层将继续检查后续边。", "node": 5, "path": [], "h": [3, 2, 6, 2, 1, 0], "f": [0, 0, 0, 1, 1, 0, 1], "stack": [{"node": 1, "rest": "∞"}, {"node": 2, "rest": 1}, {"node": 5, "rest": 0}], "event": "return"}, {"title": "回到 a：rest = 0", "detail": "d 返回 k = 1；本步更新 a → d 及其反向边，a 的累计 flow = 2、rest = 0。汇点已收流量为 2，a → d 仍有 1 单位剩余容量。a 的请求已满足，因此本次不重标号，标号仍为 2。随后 a 返回 2，s → a 将被推满；在这个错误执行过程中，a 后续不会再次被访问，其标号也不会改变。此时 b 的标号是 6，a 的标号是 2，b → a 虽有 1 单位剩余容量，却不满足沿途标号恰好减少 1 的推流条件，后续无法被利用。这份错误实现最终只能得到流量 2，而本图最大流为 3。错误已经产生，后续过程不再展示。", "node": 2, "path": [2, 5], "h": [3, 2, 6, 2, 1, 0], "f": [0, 0, 1, 1, 1, 0, 1], "stack": [{"node": 1, "rest": "∞"}, {"node": 2, "rest": 0}], "event": "receive"}]}</script><script>
+(() => {
+  const root=document.getElementById('isap-six-correct');
+  const get=id=>root.querySelector('#is6c-'+id);
+  const data=JSON.parse(get('data').textContent);
+  const graph=get('graph');
+  let index=0, mode='original';
+const states=()=>data[mode];
+  const esc=x=>String(x).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  function draw(){
+    const list=states(), st=list[index];
+    get('prev').disabled=index===0; get('next').disabled=index===list.length-1;
+    get('step').textContent=mode==='original'?'原图':'步骤 '+(index+1)+' / '+list.length;
+    get('prev').hidden=mode==='original'; get('next').hidden=mode==='original'; get('step-controls').hidden=mode==='original';
+    get('step-select').innerHTML=list.map((s,i)=>'<option value="'+i+'">'+(i+1)+' · '+esc(s.title)+'</option>').join('');get('step-select').value=index;
+    
+    get('flow').textContent='汇点已收流量：'+(st.f[3]+st.f[6]);
+    get('title').textContent=st.title;get('detail').textContent=st.detail;
+    get('legend').textContent=st.h?'圆内：名称、标号 h；圆下：rest。边：反向剩余容量 / 正向剩余容量。虚线：反向边（重标号时也可能是待回写边）。':'原图：节点名称、边方向及容量；源点 s，汇点 t。';
+    const w=Math.max(680,graph.getBoundingClientRect().width), H=395;
+    const x1=32,x2=32+(w-64)/3,x3=32+2*(w-64)/3,x4=w-32;
+    const p={1:[x1,185],2:[x2,65],3:[x3,285],4:[x2,285],5:[x3,65],6:[x4,185]};
+    const r=25, paths=[];
+    for(let j=1;j<st.path.length;j++)paths.push([st.path[j-1],st.path[j]]);
+    let svg='<svg class="is6c-svg" viewBox="0 0 '+w+' '+H+'" role="img" aria-label="'+esc(st.title)+'；6 个节点的残量网络">';
+    svg+='<defs><marker id="is6c-arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="var(--muted-foreground)"/></marker><marker id="is6c-active" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="var(--viz-series-2)"/></marker></defs>';
+    const labels=[];
+    data.edges.forEach(([u,v,c],i)=>{
+      const a=p[u],b=p[v],dx=b[0]-a[0],dy=b[1]-a[1],len=Math.hypot(dx,dy),ux=dx/len,uy=dy/len;
+      const start=[a[0]+ux*(r+3),a[1]+uy*(r+3)],end=[b[0]-ux*(r+5),b[1]-uy*(r+5)];
+      const line=(x,y)=>'M'+x[0]+' '+x[1]+' L'+y[0]+' '+y[1];
+      svg+='<path class="is6c-edge" d="'+line(start,end)+'" marker-end="url(#is6c-arr)"/>';
+      const forward=paths.some(x=>x[0]===u&&x[1]===v),back=paths.some(x=>x[0]===v&&x[1]===u);
+      if(forward||back)svg+='<path class="is6c-hi" d="'+line(back?end:start,back?start:end)+'" '+(back?'stroke-dasharray="6 4" ':'')+'marker-end="url(#is6c-active)"/>';
+      const label=st.h?st.f[i]+'/'+(c-st.f[i]):String(c);
+      const x=(a[0]+b[0])/2-uy*13,y=(a[1]+b[1])/2+ux*13;
+      labels.push('<g><text class="is6c-label text-small" x="'+x+'" y="'+y+'" text-anchor="middle" dominant-baseline="middle">'+label+'</text></g>');
+    });
+    svg+=labels.join('');
+    for(let u=1;u<=6;u++){
+      const [x,y]=p[u];
+      svg+='<circle class="is6c-node" cx="'+x+'" cy="'+y+'" r="'+r+'"/>';
+      if(u===st.node)svg+='<circle class="is6c-current" cx="'+x+'" cy="'+y+'" r="29"/>';
+      svg+='<text x="'+x+'" y="'+(st.h?y-6:y)+'" text-anchor="middle" dominant-baseline="middle">'+data.names[u]+'</text>';
+      if(st.h)svg+='<text class="text-small" x="'+x+'" y="'+(y+10)+'" text-anchor="middle" dominant-baseline="middle">h='+st.h[u-1]+'</text>';
+      const frame=st.stack.find(f=>f.node===u);
+      if(frame)svg+='<text class="text-small" x="'+Math.max(34,Math.min(w-34,x))+'" y="'+(y+42)+'" text-anchor="middle">rest='+esc(frame.rest)+'</text>';
+    }
+    svg+='</svg>';graph.innerHTML=svg;
+  }
+  get('prev').addEventListener('click',()=>{if(index>0){index--;draw();}});
+  get('next').addEventListener('click',()=>{if(index<states().length-1){index++;draw();}});
+  get('mode').addEventListener('change',()=>{mode=get('mode').value;index=0;draw();});
+  get('step-select').addEventListener('change',()=>{index=Number(get('step-select').value);draw();});
+  document.addEventListener('keydown',e=>{if(mode==='original'||['BUTTON','SELECT'].includes(e.target.tagName))return;if(e.key==='ArrowRight')get('next').click();if(e.key==='ArrowLeft')get('prev').click();});
+  new ResizeObserver(draw).observe(graph);
+  draw();
+})();
+</script></main></body></html>
