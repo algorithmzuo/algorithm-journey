@@ -77,11 +77,17 @@ public class Code04_HLPP1 {
 		}
 	}
 
-	public static void relabel(int u, int s, int t) {
-		if (dis[u] < n && gap[dis[u]] == 1) {
-			int h = dis[u];
+	public static void relabel(int u) {
+		int h = dis[u];
+		if (gap[h] == 1) {
+			// 任何中间节点的盈余流量，不一定都能推送到汇点，但一定能回到源点
+			// 所以当前节点有盈余，但是无法继续推流，准备提高标号时
+			// 如果旧标号层的计数从1变为0，说明旧标号一定小于n，不可能大于等于n
+			// 课上进行了重点说明
+			// 标号范围在[dis[u], n - 1]的所有节点，标号提升到n + 1
+			// 之后这些节点推送的盈余量，都会给源点
 			for (int i = 1; i <= n; i++) {
-				if (i != s && i != t && dis[i] >= h && dis[i] < n) {
+				if (dis[i] >= h && dis[i] < n) {
 					gap[dis[i]]--;
 					dis[i] = n + 1;
 					gap[dis[i]]++;
@@ -89,6 +95,8 @@ public class Code04_HLPP1 {
 				}
 			}
 		} else {
+			// 没有出现旧标号层的计数从1变为0，那么提升u的标号即可
+			// 新标号 = 可用邻居的最小标号 + 1
 			int lowest = (n << 1) - 1;
 			for (int e = head[u]; e > 0; e = nxt[e]) {
 				int v = to[e];
@@ -96,7 +104,7 @@ public class Code04_HLPP1 {
 					lowest = Math.min(lowest, dis[v]);
 				}
 			}
-			gap[dis[u]]--;
+			gap[h]--;
 			dis[u] = lowest + 1;
 			gap[dis[u]]++;
 			cur[u] = head[u];
@@ -106,9 +114,11 @@ public class Code04_HLPP1 {
 	public static void discharge(int s, int t) {
 		int u = bucket[highest];
 		bucket[highest] = nextActive[u];
+		int e = cur[u];
 		while (excess[u] > 0) {
-			for (int e = cur[u]; e > 0; e = nxt[e]) {
-				cur[u] = e;
+			cur[u] = e;
+			if (e > 0) {
+				// 有边可用继续尝试
 				int v = to[e];
 				int lim = limit[e];
 				if (dis[u] == dis[v] + 1 && lim > 0) {
@@ -116,12 +126,13 @@ public class Code04_HLPP1 {
 						addActive(v);
 					}
 					pushFlow(u, v, e, Math.min(excess[u], lim));
-					if (excess[u] == 0) {
-						return;
-					}
 				}
+				e = nxt[e];
+			} else {
+				// 无边可用提高标号
+				relabel(u);
+				e = cur[u];
 			}
-			relabel(u, s, t);
 		}
 	}
 

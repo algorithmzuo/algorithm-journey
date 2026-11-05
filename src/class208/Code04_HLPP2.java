@@ -77,11 +77,11 @@ package class208;
 //    }
 //}
 //
-//void relabel(int u, int s, int t) {
-//    if (dis[u] < n && gap[dis[u]] == 1) {
-//        int h = dis[u];
+//void relabel(int u) {
+//    int h = dis[u];
+//    if (gap[h] == 1) {
 //        for (int i = 1; i <= n; i++) {
-//            if (i != s && i != t && dis[i] >= h && dis[i] < n) {
+//            if (dis[i] >= h && dis[i] < n) {
 //                gap[dis[i]]--;
 //                dis[i] = n + 1;
 //                gap[dis[i]]++;
@@ -96,7 +96,7 @@ package class208;
 //                lowest = min(lowest, dis[v]);
 //            }
 //        }
-//        gap[dis[u]]--;
+//        gap[h]--;
 //        dis[u] = lowest + 1;
 //        gap[dis[u]]++;
 //        cur[u] = head[u];
@@ -106,9 +106,10 @@ package class208;
 //void discharge(int s, int t) {
 //    int u = bucket[highest];
 //    bucket[highest] = nextActive[u];
+//    int e = cur[u];
 //    while (excess[u] > 0) {
-//        for (int e = cur[u]; e > 0; e = nxt[e]) {
-//            cur[u] = e;
+//        cur[u] = e;
+//        if (e > 0) {
 //            int v = to[e];
 //            int lim = limit[e];
 //            if (dis[u] == dis[v] + 1 && lim > 0) {
@@ -116,12 +117,12 @@ package class208;
 //                    addActive(v);
 //                }
 //                pushFlow(u, v, e, min(excess[u], (ll) lim));
-//                if (excess[u] == 0) {
-//                    return;
-//                }
 //            }
+//            e = nxt[e];
+//        } else {
+//            relabel(u);
+//            e = cur[u];
 //        }
-//        relabel(u, s, t);
 //    }
 //}
 //
