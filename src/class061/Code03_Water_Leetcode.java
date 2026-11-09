@@ -2,6 +2,10 @@ package class061;
 
 import java.util.Arrays;
 
+// 特别说明
+// 本题目前变成了 Leetcode 会员题，如果不想充值会员，可以去洛谷提交
+// 洛谷 P1550 是同样的题，本节课代码 Code03_Water_Luogu 就是实现
+//
 // 水资源分配优化
 // 村里面一共有 n 栋房子。我们希望通过建造水井和铺设管道来为所有房子供水。
 // 对于每个房子 i，我们有两种可选的供水方案：一种是直接在房子内建造水井
@@ -11,7 +15,8 @@ import java.util.Arrays;
 // 代表用管道将 house1j 和 house2j连接在一起的成本。连接是双向的。
 // 请返回 为所有房子都供水的最低总成本
 // 测试链接 : https://leetcode.cn/problems/optimize-water-distribution-in-a-village/
-public class Code03_OptimizeWaterDistribution {
+
+public class Code03_Water_Leetcode {
 
 	public static int minCostToSupplyWater(int n, int[] wells, int[][] pipes) {
 		build(n);
