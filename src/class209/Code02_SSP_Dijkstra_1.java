@@ -1,6 +1,6 @@
 package class209;
 
-// 费用流，EK + SPFA，java版
+// 费用流，SSP + Dijkstra，java版
 // 题目保证不会出现有负圈的费用流
 // 有负圈的费用流问题，后续的上下界流再讲述
 // 测试链接 : https://www.luogu.com.cn/problem/P3381
@@ -11,9 +11,10 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.util.LinkedList;
+import java.util.PriorityQueue;
 import java.util.Queue;
 
-public class Code01_EK_SPFA_1 {
+public class Code02_SSP_Dijkstra_1 {
 
 	public static int MAXN = 5001;
 	public static int MAXM = 50001;
@@ -27,17 +28,21 @@ public class Code01_EK_SPFA_1 {
 	public static int[] cost = new int[MAXM << 1];
 	public static int cntg;
 
-	// ek算法
+	// ssp算法，单路增广，所需的瓶颈流量和前驱边
 	public static int[] flow = new int[MAXN];
 	public static int[] pre = new int[MAXN];
 
-	// spfa算法
+	// ssp算法，计算初始势能，spfa算法
 	public static Queue<Integer> que = new LinkedList<>();
-	public static int[] dist = new int[MAXN];
+	public static int[] h = new int[MAXN];
 	public static int[] update = new int[MAXN];
 	public static boolean[] enter = new boolean[MAXN];
 
-	// 答案
+	// ssp算法，计算费用最小的增广路，Dijkstra算法
+	public static PriorityQueue<int[]> heap = new PriorityQueue<>((a, b) -> Integer.compare(a[0], b[0]));
+	public static int[] dist = new int[MAXN];
+	public static boolean[] vis = new boolean[MAXN];
+
 	public static int maxflow, mincost;
 
 	public static void addEdge(int u, int v, int w, int c) {
@@ -48,29 +53,27 @@ public class Code01_EK_SPFA_1 {
 		head[u] = cntg;
 	}
 
-	// 返回是否发现负费用环
+	// 计算初始势能，返回是否发现从s可达的负费用环
 	public static boolean spfa(int s) {
 		for (int i = 1; i <= n; i++) {
-			dist[i] = INF;
+			h[i] = INF;
 			update[i] = 0;
 			enter[i] = false;
-			flow[i] = -1;
 		}
-		dist[s] = 0;
+		h[s] = 0;
 		update[s] = 1;
 		enter[s] = true;
-		flow[s] = INF;
 		que.clear();
 		que.offer(s);
 		while (!que.isEmpty()) {
 			int u = que.poll();
 			enter[u] = false;
-			for (int e = head[u]; e > 0; e = nxt[e]) {
-				int v = to[e], w = weight[e], c = cost[e];
-				if (w > 0 && dist[v] > dist[u] + c) {
-					dist[v] = dist[u] + c;
-					flow[v] = Math.min(w, flow[u]);
-					pre[v] = e;
+			for (int e = head[u], v, w, c; e > 0; e = nxt[e]) {
+				v = to[e];
+				w = weight[e];
+				c = cost[e];
+				if (w > 0 && h[v] > h[u] + c) {
+					h[v] = h[u] + c;
 					if (!enter[v]) {
 						if (++update[v] > n) {
 							return true;
@@ -84,22 +87,58 @@ public class Code01_EK_SPFA_1 {
 		return false;
 	}
 
-	// 返回是否发现负费用环
-	public static boolean ek(int s, int t) {
+	public static void dijkstra(int s) {
+		for (int i = 1; i <= n; i++) {
+			dist[i] = INF;
+			flow[i] = -1;
+			vis[i] = false;
+		}
+		flow[s] = INF;
+		dist[s] = 0;
+		heap.clear();
+		heap.add(new int[] { 0, s });
+		while (!heap.isEmpty()) {
+			int[] cur = heap.poll();
+			int d = cur[0];
+			int u = cur[1];
+			if (!vis[u]) {
+				vis[u] = true;
+				for (int e = head[u], v, w, c; e > 0; e = nxt[e]) {
+					v = to[e];
+					w = weight[e];
+					c = cost[e] + h[u] - h[v];
+					if (w > 0 && !vis[v] && dist[v] > d + c) {
+						dist[v] = dist[u] + c;
+						flow[v] = Math.min(w, flow[u]);
+						pre[v] = e;
+						heap.add(new int[] { dist[v], v });
+					}
+				}
+			}
+		}
+	}
+
+	// 返回是否发现从s可达的负费用环
+	public static boolean ssp(int s, int t) {
 		boolean negCycle = spfa(s);
 		if (negCycle) {
 			return true;
 		}
 		maxflow = mincost = 0;
+		dijkstra(s);
 		while (flow[t] != -1) {
+			for (int i = 1; i <= n; i++) {
+				if (dist[i] != INF) {
+					h[i] += dist[i];
+				}
+			}
 			maxflow += flow[t];
 			for (int u = t; u != s; u = to[pre[u] ^ 1]) {
 				weight[pre[u]] -= flow[t];
 				weight[pre[u] ^ 1] += flow[t];
 				mincost += flow[t] * cost[pre[u]];
 			}
-			// 初始残量网络无负费用环，每次沿费用最短路增广后仍无负费用环
-			spfa(s);
+			dijkstra(s);
 		}
 		return false;
 	}
@@ -120,7 +159,7 @@ public class Code01_EK_SPFA_1 {
 			addEdge(u, v, w, c);
 			addEdge(v, u, 0, -c);
 		}
-		if (ek(s, t)) {
+		if (ssp(s, t)) {
 			out.println(-1);
 		} else {
 			out.println(maxflow + " " + mincost);
