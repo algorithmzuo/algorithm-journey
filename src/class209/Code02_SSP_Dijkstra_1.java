@@ -127,16 +127,16 @@ public class Code02_SSP_Dijkstra_1 {
 		maxflow = mincost = 0;
 		dijkstra(s);
 		while (flow[t] != -1) {
-			for (int i = 1; i <= n; i++) {
-				if (dist[i] != INF) {
-					h[i] += dist[i];
-				}
-			}
 			maxflow += flow[t];
 			for (int u = t; u != s; u = to[pre[u] ^ 1]) {
 				weight[pre[u]] -= flow[t];
 				weight[pre[u] ^ 1] += flow[t];
 				mincost += flow[t] * cost[pre[u]];
+			}
+			for (int i = 1; i <= n; i++) {
+				if (dist[i] != INF) {
+					h[i] += dist[i];
+				}
 			}
 			dijkstra(s);
 		}
