@@ -16,31 +16,31 @@ public class Code03_Transport1 {
 
 	public static int MAXN = 301;
 	public static int MAXM = 20001;
-	public static long INF = 1L << 60;
+	public static int INF = 1000000001;
 	public static int n;
 
 	public static int[] head = new int[MAXN];
 	public static int[] nxt = new int[MAXM << 1];
 	public static int[] to = new int[MAXM << 1];
-	public static long[] weight = new long[MAXM << 1];
-	public static long[] cost = new long[MAXM << 1];
+	public static int[] weight = new int[MAXM << 1];
+	public static int[] cost = new int[MAXM << 1];
 	public static int cntg;
 
-	public static long[] flow = new long[MAXN];
+	public static int[] flow = new int[MAXN];
 	public static int[] pre = new int[MAXN];
 
 	public static Queue<Integer> que = new LinkedList<>();
-	public static long[] h = new long[MAXN];
+	public static int[] h = new int[MAXN];
 	public static int[] update = new int[MAXN];
 	public static boolean[] enter = new boolean[MAXN];
 
-	public static PriorityQueue<long[]> heap = new PriorityQueue<>((a, b) -> Long.compare(a[0], b[0]));
-	public static long[] dist = new long[MAXN];
+	public static PriorityQueue<int[]> heap = new PriorityQueue<>((a, b) -> Integer.compare(a[0], b[0]));
+	public static int[] dist = new int[MAXN];
 	public static boolean[] vis = new boolean[MAXN];
 
-	public static long maxflow, mincost;
+	public static int maxflow, mincost;
 
-	public static void addEdge(int u, int v, long w, long c) {
+	public static void addEdge(int u, int v, int w, int c) {
 		nxt[++cntg] = head[u];
 		to[cntg] = v;
 		weight[cntg] = w;
@@ -62,10 +62,10 @@ public class Code03_Transport1 {
 		while (!que.isEmpty()) {
 			int u = que.poll();
 			enter[u] = false;
-			for (int e = head[u]; e > 0; e = nxt[e]) {
-				int v = to[e];
-				long w = weight[e];
-				long c = cost[e];
+			for (int e = head[u], v, w, c; e > 0; e = nxt[e]) {
+				v = to[e];
+				w = weight[e];
+				c = cost[e];
 				if (w > 0 && h[v] > h[u] + c) {
 					h[v] = h[u] + c;
 					if (!enter[v]) {
@@ -90,22 +90,22 @@ public class Code03_Transport1 {
 		flow[s] = INF;
 		dist[s] = 0;
 		heap.clear();
-		heap.add(new long[] { 0, s });
+		heap.add(new int[] { 0, s });
 		while (!heap.isEmpty()) {
-			long[] cur = heap.poll();
-			long d = cur[0];
-			int u = (int) cur[1];
+			int[] cur = heap.poll();
+			int d = cur[0];
+			int u = cur[1];
 			if (!vis[u]) {
 				vis[u] = true;
-				for (int e = head[u]; e > 0; e = nxt[e]) {
-					int v = to[e];
-					long w = weight[e];
-					long c = cost[e] + h[u] - h[v];
+				for (int e = head[u], v, w, c; e > 0; e = nxt[e]) {
+					v = to[e];
+					w = weight[e];
+					c = cost[e] + h[u] - h[v];
 					if (w > 0 && !vis[v] && dist[v] > d + c) {
 						dist[v] = dist[u] + c;
 						flow[v] = Math.min(w, flow[u]);
 						pre[v] = e;
-						heap.add(new long[] { dist[v], v });
+						heap.add(new int[] { dist[v], v });
 					}
 				}
 			}
@@ -155,8 +155,7 @@ public class Code03_Transport1 {
 			addEdge(m + j, t, w, 0);
 			addEdge(t, m + j, 0, 0);
 		}
-		long c;
-		for (int i = 1; i <= m; i++) {
+		for (int i = 1, c; i <= m; i++) {
 			for (int j = 1; j <= k; j++) {
 				c = in.nextInt();
 				addEdge(i, m + j, INF, c);
@@ -164,7 +163,7 @@ public class Code03_Transport1 {
 			}
 		}
 		ssp(s, t);
-		long ans1 = mincost;
+		int ans1 = mincost;
 		for (int e = 2; e <= cntg; e += 2) {
 			weight[e] += weight[e ^ 1];
 			weight[e ^ 1] = 0;
@@ -172,7 +171,7 @@ public class Code03_Transport1 {
 			cost[e ^ 1] = -cost[e ^ 1];
 		}
 		ssp(s, t);
-		long ans2 = -mincost;
+		int ans2 = -mincost;
 		out.println(ans1);
 		out.println(ans2);
 		out.flush();
