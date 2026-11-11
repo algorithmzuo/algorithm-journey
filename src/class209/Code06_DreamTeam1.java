@@ -17,7 +17,7 @@ public class Code06_DreamTeam1 {
 
 	public static int MAXN = 401;
 	public static int MAXM = 40001;
-	public static int LIMIT = 150;
+	public static int OFFSET = 150;
 	public static long INF = 1L << 60;
 	public static int n;
 
@@ -144,23 +144,23 @@ public class Code06_DreamTeam1 {
 	public static void main(String[] args) throws Exception {
 		FastReader in = new FastReader(System.in);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
-		n = LIMIT << 1;
+		n = OFFSET << 1;
 		int s = ++n;
 		int t = ++n;
 		cntg = 1;
-		for (int i = 1; i <= LIMIT; i++) {
+		for (int i = 1; i <= OFFSET; i++) {
 			addEdge(s, i, 1, 0);
 			addEdge(i, s, 0, 0);
-			addEdge(i + LIMIT, t, 1, 0);
-			addEdge(t, i + LIMIT, 0, 0);
+			addEdge(i + OFFSET, t, 1, 0);
+			addEdge(t, i + OFFSET, 0, 0);
 		}
 		int m = in.nextInt();
 		for (int i = 1, u, v, c; i <= m; i++) {
 			u = in.nextInt();
 			v = in.nextInt();
 			c = in.nextInt();
-			addEdge(u, v + LIMIT, 1, -c);
-			addEdge(v + LIMIT, u, 0, c);
+			addEdge(u, v + OFFSET, 1, -c);
+			addEdge(v + OFFSET, u, 0, c);
 		}
 		ssp(s, t);
 		out.println(maxflow);
