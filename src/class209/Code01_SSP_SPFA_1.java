@@ -1,6 +1,6 @@
 package class209;
 
-// 费用流简单模版，SSP + SPFA，java版
+// 费用流启发算法，SSP + SPFA，java版
 // 题目保证不会出现有负圈的费用流
 // 有负圈的费用流问题，后续的上下界流再讲述
 // 测试链接 : https://www.luogu.com.cn/problem/P3381
