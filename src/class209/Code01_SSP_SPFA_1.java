@@ -86,6 +86,7 @@ public class Code01_SSP_SPFA_1 {
 	}
 
 	// 返回是否发现从s可达的负费用环
+	// 如果初始时没有负费用环，那么后续每次增广都没有，课上解释了
 	public static boolean ssp(int s, int t) {
 		boolean negCycle = spfa(s);
 		if (negCycle) {
@@ -99,7 +100,6 @@ public class Code01_SSP_SPFA_1 {
 				weight[pre[u] ^ 1] += flow[t];
 				mincost += flow[t] * cost[pre[u]];
 			}
-			// 初始残量网络无负费用环，每次沿费用最短路增广后仍无负费用环
 			spfa(s);
 		}
 		return false;
