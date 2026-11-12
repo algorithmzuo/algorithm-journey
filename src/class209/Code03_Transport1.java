@@ -1,6 +1,12 @@
 package class209;
 
 // 运输问题，java版
+// 一共有a个仓库，每个仓库给定库存量，一共有b个商店，每个商店给定需求量
+// 给定c[i][j]，表示从仓库i向商店j运输1单位货物的费用
+// 题目保证所有仓库的库存量之和等于所有商店的需求量之和
+// 将所有货物运送到商店，并恰好满足每个商店的需求
+// 打印最小运输费用和最大运输费用
+// 1 <= a、b <= 100
 // 测试链接 : https://www.luogu.com.cn/problem/P4015
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
@@ -139,27 +145,27 @@ public class Code03_Transport1 {
 	public static void main(String[] args) throws Exception {
 		FastReader in = new FastReader(System.in);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
-		int m = in.nextInt();
-		int k = in.nextInt();
-		n = m + k;
+		int a = in.nextInt();
+		int b = in.nextInt();
+		n = a + b;
 		int s = ++n;
 		int t = ++n;
 		cntg = 1;
-		for (int i = 1, w; i <= m; i++) {
+		for (int i = 1, w; i <= a; i++) {
 			w = in.nextInt();
 			addEdge(s, i, w, 0);
 			addEdge(i, s, 0, 0);
 		}
-		for (int j = 1, w; j <= k; j++) {
+		for (int j = 1, w; j <= b; j++) {
 			w = in.nextInt();
-			addEdge(m + j, t, w, 0);
-			addEdge(t, m + j, 0, 0);
+			addEdge(a + j, t, w, 0);
+			addEdge(t, a + j, 0, 0);
 		}
-		for (int i = 1, c; i <= m; i++) {
-			for (int j = 1; j <= k; j++) {
+		for (int i = 1, c; i <= a; i++) {
+			for (int j = 1; j <= b; j++) {
 				c = in.nextInt();
-				addEdge(i, m + j, INF, c);
-				addEdge(m + j, i, 0, -c);
+				addEdge(i, a + j, INF, c);
+				addEdge(a + j, i, 0, -c);
 			}
 		}
 		ssp(s, t);
