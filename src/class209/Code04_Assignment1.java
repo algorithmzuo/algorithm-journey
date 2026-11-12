@@ -145,24 +145,24 @@ public class Code04_Assignment1 {
 	public static void main(String[] args) throws Exception {
 		FastReader in = new FastReader(System.in);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
-		int m = in.nextInt();
-		n = m + m;
+		int k = in.nextInt();
+		n = k + k;
 		int s = ++n;
 		int t = ++n;
 		cntg = 1;
-		for (int i = 1; i <= m; i++) {
+		for (int i = 1; i <= k; i++) {
 			addEdge(s, i, 1, 0);
 			addEdge(i, s, 0, 0);
 		}
-		for (int j = 1; j <= m; j++) {
-			addEdge(m + j, t, 1, 0);
-			addEdge(t, m + j, 0, 0);
+		for (int j = 1; j <= k; j++) {
+			addEdge(k + j, t, 1, 0);
+			addEdge(t, k + j, 0, 0);
 		}
-		for (int i = 1, c; i <= m; i++) {
-			for (int j = 1; j <= m; j++) {
+		for (int i = 1, c; i <= k; i++) {
+			for (int j = 1; j <= k; j++) {
 				c = in.nextInt();
-				addEdge(i, m + j, 1, c);
-				addEdge(m + j, i, 0, -c);
+				addEdge(i, k + j, 1, c);
+				addEdge(k + j, i, 0, -c);
 			}
 		}
 		ssp(s, t);

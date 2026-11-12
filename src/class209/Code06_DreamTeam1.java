@@ -1,6 +1,13 @@
 package class209;
 
 // 梦之队，java版
+// 一共有k个人，第i个人所属大学为a[i]，擅长领域为b[i]，实力为c[i]
+// 从中选出一些人组成队伍，要求任意两人的所属大学不同，擅长领域也不同
+// 满足要求的情况下，计算队伍最多能选几个人，假设该值是q，打印该值
+// 接下来q行，对于每个i = 1、2、...、q，打印恰好选出i个人时，队伍最大总实力
+// 1 <= k <= 3 * 10^4
+// 1 <= a[i]、b[i] <= 150
+// 1 <= c[i] <= 10^9
 // 测试链接 : https://www.luogu.com.cn/problem/AT_abc247_g
 // 测试链接 : https://atcoder.jp/contests/abc247/tasks/abc247_g
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
@@ -154,8 +161,8 @@ public class Code06_DreamTeam1 {
 			addEdge(i + OFFSET, t, 1, 0);
 			addEdge(t, i + OFFSET, 0, 0);
 		}
-		int m = in.nextInt();
-		for (int i = 1, u, v, c; i <= m; i++) {
+		int k = in.nextInt();
+		for (int i = 1, u, v, c; i <= k; i++) {
 			u = in.nextInt();
 			v = in.nextInt();
 			c = in.nextInt();
