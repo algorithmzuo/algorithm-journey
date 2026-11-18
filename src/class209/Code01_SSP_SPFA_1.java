@@ -25,6 +25,7 @@ public class Code01_SSP_SPFA_1 {
 	public static int INF = 1000000001;
 	public static int n, m;
 
+	// weight代表剩余容量、cost代表单位费用
 	public static int[] head = new int[MAXN];
 	public static int[] nxt = new int[MAXM << 1];
 	public static int[] to = new int[MAXM << 1];
