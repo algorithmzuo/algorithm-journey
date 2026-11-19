@@ -24,7 +24,7 @@ public class Code05_MorningRun1 {
 	public static int MAXN = 401;
 	public static int MAXM = 30001;
 	public static int INF = 1000000001;
-	public static int n;
+	public static int n, m;
 
 	public static int[] head = new int[MAXN];
 	public static int[] nxt = new int[MAXM << 1];
@@ -146,24 +146,26 @@ public class Code05_MorningRun1 {
 	public static void main(String[] args) throws Exception {
 		FastReader in = new FastReader(System.in);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
-		int k = in.nextInt();
-		int m = in.nextInt();
-		n = k << 1;
-		int s = k + 1;
-		int t = k;
+		n = in.nextInt();
+		m = in.nextInt();
 		cntg = 1;
-		for (int i = 2; i < k; i++) {
-			addEdge(i, i + k, 1, 0);
-			addEdge(i + k, i, 0, 0);
+		addEdge(1, 1 + n, INF, 0);
+		addEdge(1 + n, 1, 0, 0);
+		addEdge(n, n + n, INF, 0);
+		addEdge(n + n, n, 0, 0);
+		for (int i = 2; i < n; i++) {
+			addEdge(i, i + n, 1, 0);
+			addEdge(i + n, i, 0, 0);
 		}
 		for (int i = 1, u, v, c; i <= m; i++) {
 			u = in.nextInt();
 			v = in.nextInt();
 			c = in.nextInt();
-			addEdge(u + k, v, 1, c);
-			addEdge(v, u + k, 0, -c);
+			addEdge(u + n, v, 1, c);
+			addEdge(v, u + n, 0, -c);
 		}
-		ssp(s, t);
+		n <<= 1;
+		ssp(1, n);
 		out.println(maxflow + " " + mincost);
 		out.flush();
 		out.close();

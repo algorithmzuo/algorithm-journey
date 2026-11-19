@@ -19,7 +19,7 @@ package class209;
 //const int MAXN = 401;
 //const int MAXM = 30001;
 //int INF = 1000000001;
-//int n;
+//int n, m;
 //
 //int head[MAXN];
 //int nxt[MAXM << 1];
@@ -152,22 +152,23 @@ package class209;
 //int main() {
 //    ios::sync_with_stdio(false);
 //    cin.tie(nullptr);
-//    int k, m;
-//    cin >> k >> m;
-//    n = k << 1;
-//    int s = k + 1;
-//    int t = k;
+//    cin >> n >> m;
 //    cntg = 1;
-//    for (int i = 2; i < k; i++) {
-//        addEdge(i, i + k, 1, 0);
-//        addEdge(i + k, i, 0, 0);
+//    addEdge(1, 1 + n, INF, 0);
+//    addEdge(1 + n, 1, 0, 0);
+//    addEdge(n, n + n, INF, 0);
+//    addEdge(n + n, n, 0, 0);
+//    for (int i = 2; i < n; i++) {
+//        addEdge(i, i + n, 1, 0);
+//        addEdge(i + n, i, 0, 0);
 //    }
 //    for (int i = 1, u, v, c; i <= m; i++) {
 //        cin >> u >> v >> c;
-//        addEdge(u + k, v, 1, c);
-//        addEdge(v, u + k, 0, -c);
+//        addEdge(u + n, v, 1, c);
+//        addEdge(v, u + n, 0, -c);
 //    }
-//    ssp(s, t);
+//    n <<= 1;
+//    ssp(1, n);
 //    cout << maxflow << " " << mincost << '\n';
 //    return 0;
 //}
