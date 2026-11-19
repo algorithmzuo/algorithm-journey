@@ -166,6 +166,7 @@ public class Code06_DreamTeam1 {
 			u = in.nextInt();
 			v = in.nextInt();
 			c = in.nextInt();
+			// 单位费用设置成相反数，求最大费用
 			addEdge(u, v + OFFSET, 1, -c);
 			addEdge(v + OFFSET, u, 0, c);
 		}
