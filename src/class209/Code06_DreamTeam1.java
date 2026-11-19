@@ -136,7 +136,7 @@ public class Code06_DreamTeam1 {
 				weight[pre[u] ^ 1] += flow[t];
 				mincost += flow[t] * cost[pre[u]];
 			}
-			// 每次增广量为1，记录当前人数对应的最大总实力
+			// 每次增广，流量稳定加1，记录对应的最大总实力
 			ans[(int) maxflow] = -mincost;
 			for (int i = 1; i <= n; i++) {
 				if (dist[i] != INF) {
@@ -166,7 +166,7 @@ public class Code06_DreamTeam1 {
 			u = in.nextInt();
 			v = in.nextInt();
 			c = in.nextInt();
-			// 单位费用设置成相反数，求最大费用
+			// 单位费用设置成相反数，转化成求解最大费用
 			addEdge(u, v + OFFSET, 1, -c);
 			addEdge(v + OFFSET, u, 0, c);
 		}
