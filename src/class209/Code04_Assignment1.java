@@ -161,7 +161,7 @@ public class Code04_Assignment1 {
 		for (int i = 1, c; i <= k; i++) {
 			for (int j = 1; j <= k; j++) {
 				c = in.nextInt();
-				addEdge(i, k + j, 1, c);
+				addEdge(i, k + j, INF, c);
 				addEdge(k + j, i, 0, -c);
 			}
 		}
