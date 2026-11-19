@@ -151,16 +151,19 @@ public class Code03_Transport1 {
 		int s = ++n;
 		int t = ++n;
 		cntg = 1;
+		// 超级源点s向仓库连边
 		for (int i = 1, w; i <= a; i++) {
 			w = in.nextInt();
 			addEdge(s, i, w, 0);
 			addEdge(i, s, 0, 0);
 		}
+		// 商店向超级汇点t连边
 		for (int j = 1, w; j <= b; j++) {
 			w = in.nextInt();
 			addEdge(a + j, t, w, 0);
 			addEdge(t, a + j, 0, 0);
 		}
+		// 仓库向商店连边，设置单位费用
 		for (int i = 1, c; i <= a; i++) {
 			for (int j = 1; j <= b; j++) {
 				c = in.nextInt();
@@ -168,15 +171,20 @@ public class Code03_Transport1 {
 				addEdge(a + j, i, 0, -c);
 			}
 		}
+		// 最小费用的求解
 		ssp(s, t);
 		int ans1 = mincost;
+		// 每条边的单位费用取相反数，最小费用模版求解最大费用
 		for (int e = 2; e <= cntg; e += 2) {
+			// 恢复初始正向边的剩余容量
 			weight[e] += weight[e ^ 1];
 			weight[e ^ 1] = 0;
 			cost[e] = -cost[e];
 			cost[e ^ 1] = -cost[e ^ 1];
 		}
+		// 最大费用的求解
 		ssp(s, t);
+		// 结果取相反数才是真实的最大费用
 		int ans2 = -mincost;
 		out.println(ans1);
 		out.println(ans2);
