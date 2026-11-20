@@ -167,7 +167,7 @@ public class Code06_Collecting1 {
 		}
 	}
 
-	// 本题初始有容量的边费用都是非负的，于是可以跳过spfa，不然会超时
+	// 初始有容量的边，费用都是非负的，可以跳过spfa，不然会超时
 	public static boolean ssp(int s, int t) {
 		maxflow = mincost = 0;
 		dijkstra(s);
