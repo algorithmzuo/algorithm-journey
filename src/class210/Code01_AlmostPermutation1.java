@@ -18,7 +18,7 @@ public class Code01_AlmostPermutation1 {
 	public static int MAXN = 201;
 	public static int MAXM = 6001;
 	public static int INF = 1000000001;
-	public static int len, n, q;
+	public static int n;
 
 	public static int[] low = new int[MAXN];
 	public static int[] high = new int[MAXN];
@@ -143,9 +143,9 @@ public class Code01_AlmostPermutation1 {
 	public static void main(String[] args) throws Exception {
 		FastReader in = new FastReader(System.in);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
-		len = in.nextInt();
+		int len = in.nextInt();
+		int q = in.nextInt();
 		n = len << 1;
-		q = in.nextInt();
 		int s = ++n;
 		int t = ++n;
 		cntg = 1;
