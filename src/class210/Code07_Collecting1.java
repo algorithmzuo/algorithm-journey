@@ -1,28 +1,45 @@
 package class210;
 
-// 通信，java版
-// 测试链接 : https://www.luogu.com.cn/problem/P5331
+// 收集，java版
+// 测试链接 : https://www.luogu.com.cn/problem/AT_abc214_h
+// 测试链接 : https://atcoder.jp/contests/abc214/tasks/abc214_h
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.PriorityQueue;
 import java.util.Queue;
 
-public class Code07_Communication1 {
+public class Code07_Collecting1 {
 
-	public static int MAXN = 20001;
-	public static int MAXM = 50001;
+	public static int MAXN = 500001;
+	public static int MAXM = 1000001;
 	public static long INF = 1L << 60;
-	public static int k, n;
+	public static int n, m, k;
 
 	public static int[] arr = new int[MAXN];
-	public static int[] idx = new int[MAXN];
-	public static int[] tmp = new int[MAXN];
+	public static int[] a = new int[MAXN];
+	public static int[] b = new int[MAXN];
 
+	// tarjan算法求解强连通分量和缩点
+	public static int[] dfn = new int[MAXN];
+	public static int[] low = new int[MAXN];
+	public static int cntd;
+	public static int[] sta = new int[MAXN];
+	public static int top;
+	public static int[] belong = new int[MAXN];
+	// 强连通分量的点权和
+	public static long[] sum = new long[MAXN];
+	public static int sccCnt;
+
+	// 强连通分量点权和的前缀和
+	public static long[] prefix = new long[MAXN];
+
+	// 原图和费用流图，使用同一套链式前向星
 	public static int[] head = new int[MAXN];
 	public static int[] nxt = new int[MAXM << 1];
 	public static int[] to = new int[MAXM << 1];
@@ -41,7 +58,14 @@ public class Code07_Communication1 {
 	public static PriorityQueue<long[]> heap = new PriorityQueue<>((a, b) -> Long.compare(a[0], b[0]));
 	public static long[] dist = new long[MAXN];
 	public static boolean[] vis = new boolean[MAXN];
+
 	public static long maxflow, mincost;
+
+	public static void addEdge(int u, int v) {
+		nxt[++cntg] = head[u];
+		to[cntg] = v;
+		head[u] = cntg;
+	}
 
 	public static void addEdge(int u, int v, long w, long c) {
 		nxt[++cntg] = head[u];
@@ -51,37 +75,65 @@ public class Code07_Communication1 {
 		head[u] = cntg;
 	}
 
-	public static boolean spfa(int s) {
-		for (int i = 1; i <= n; i++) {
-			h[i] = INF;
-			update[i] = 0;
-			enter[i] = false;
-		}
-		h[s] = 0;
-		update[s] = 1;
-		enter[s] = true;
-		que.clear();
-		que.offer(s);
-		while (!que.isEmpty()) {
-			int u = que.poll();
-			enter[u] = false;
-			for (int e = head[u]; e > 0; e = nxt[e]) {
-				int v = to[e];
-				long w = weight[e];
-				long c = cost[e];
-				if (w > 0 && h[v] > h[u] + c) {
-					h[v] = h[u] + c;
-					if (!enter[v]) {
-						if (++update[v] > n) {
-							return true;
-						}
-						que.offer(v);
-						enter[v] = true;
-					}
+	public static void tarjan(int u) {
+		dfn[u] = low[u] = ++cntd;
+		sta[++top] = u;
+		for (int e = head[u]; e > 0; e = nxt[e]) {
+			int v = to[e];
+			if (dfn[v] == 0) {
+				tarjan(v);
+				low[u] = Math.min(low[u], low[v]);
+			} else {
+				if (belong[v] == 0) {
+					low[u] = Math.min(low[u], dfn[v]);
 				}
 			}
 		}
-		return false;
+		if (dfn[u] == low[u]) {
+			sccCnt++;
+			int pop;
+			do {
+				pop = sta[top--];
+				belong[pop] = sccCnt;
+				sum[sccCnt] += arr[pop];
+			} while (pop != u);
+		}
+	}
+
+	public static void condense(int s, int t) {
+		// 清空然后建立费用流图
+		Arrays.fill(head, 1, n + 1, 0);
+		cntg = 1;
+		for (int i = 1; i <= sccCnt; i++) {
+			prefix[i] = prefix[i - 1] + sum[i];
+		}
+		int start = belong[1];
+		long c = prefix[sccCnt] - prefix[start];
+		addEdge(s, start, k, c);
+		addEdge(start, s, 0, -c);
+		for (int i = 1; i <= sccCnt; i++) {
+			int out = i + sccCnt;
+			// 第一个经过分量i的人取走全部物品，损失为0
+			addEdge(i, out, 1, 0);
+			addEdge(out, i, 0, 0);
+			// 后来的人仍可经过，每人少拿sum[i]个物品
+			addEdge(i, out, k, sum[i]);
+			addEdge(out, i, 0, -sum[i]);
+			// 在分量i停下，跳过编号1到i-1的分量
+			c = prefix[i - 1];
+			addEdge(out, t, k, c);
+			addEdge(t, out, 0, -c);
+		}
+		for (int i = 1; i <= m; i++) {
+			int u = belong[a[i]];
+			int v = belong[b[i]];
+			if (u != v) {
+				// 跨分量边满足 u > v，从u走到v，跳过编号v+1到u-1的分量
+				c = prefix[u - 1] - prefix[v];
+				addEdge(u + sccCnt, v, k, c);
+				addEdge(v, u + sccCnt, 0, -c);
+			}
+		}
 	}
 
 	public static void dijkstra(int s) {
@@ -115,11 +167,8 @@ public class Code07_Communication1 {
 		}
 	}
 
+	// 初始有容量的边，费用都是非负的，可以跳过spfa，不然会超时
 	public static boolean ssp(int s, int t) {
-		boolean negCycle = spfa(s);
-		if (negCycle) {
-			return true;
-		}
 		maxflow = mincost = 0;
 		dijkstra(s);
 		while (flow[t] != -1) {
@@ -139,81 +188,33 @@ public class Code07_Communication1 {
 		return false;
 	}
 
-	public static void merge(int l, int mid, int r) {
-		int p1 = l, p2 = mid + 1, ti = 0;
-		while (p1 <= mid && p2 <= r) {
-			if (arr[idx[p1]] <= arr[idx[p2]]) {
-				tmp[++ti] = idx[p1++];
-			} else {
-				tmp[++ti] = idx[p2++];
-			}
-		}
-		while (p1 <= mid) {
-			tmp[++ti] = idx[p1++];
-		}
-		while (p2 <= r) {
-			tmp[++ti] = idx[p2++];
-		}
-		// tmp已按频段排好序，先建第一个频段的虚点
-		int last = arr[tmp[1]];
-		int cur = ++n;
-		for (int i = l, j = 1; i <= r; i++, j++) {
-			int u = tmp[j];
-			if (arr[u] != last) {
-				int pre = cur;
-				cur = ++n;
-				long c = (long) arr[u] - last;
-				// 相邻频段之间双向通行，每个方向各有一条残量反向边
-				addEdge(pre, cur, k, c);
-				addEdge(cur, pre, 0, -c);
-				addEdge(cur, pre, k, c);
-				addEdge(pre, cur, 0, -c);
-				last = arr[u];
-			}
-			// 按原下标判断，右半区进链，左半区出链
-			if (u > mid) {
-				addEdge(u, cur, 1, 0);
-				addEdge(cur, u, 0, 0);
-			} else {
-				addEdge(cur, k + u, 1, 0);
-				addEdge(k + u, cur, 0, 0);
-			}
-			idx[i] = u;
-		}
-	}
-
-	public static void cdq(int l, int r) {
-		if (l == r) {
-			return;
-		}
-		int mid = (l + r) / 2;
-		cdq(l, mid);
-		cdq(mid + 1, r);
-		merge(l, mid, r);
-	}
-
 	public static void main(String[] args) throws Exception {
 		FastReader in = new FastReader(System.in);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
+		n = in.nextInt();
+		m = in.nextInt();
 		k = in.nextInt();
-		int w = in.nextInt();
-		n = k << 1;
+		for (int i = 1; i <= m; i++) {
+			a[i] = in.nextInt();
+			b[i] = in.nextInt();
+			addEdge(a[i], b[i]);
+		}
+		for (int i = 1; i <= n; i++) {
+			arr[i] = in.nextInt();
+		}
+		for (int i = 1; i <= n; i++) {
+			if (dfn[i] == 0) {
+				tarjan(i);
+			}
+		}
+		// 分量i的入点为i，出点为i+sccCnt
+		n = sccCnt << 1;
 		int s = ++n;
 		int t = ++n;
-		cntg = 1;
-		for (int i = 1; i <= k; i++) {
-			arr[i] = in.nextInt();
-			idx[i] = i;
-			addEdge(s, i, 1, 0);
-			addEdge(i, s, 0, 0);
-			addEdge(i, t, 1, w);
-			addEdge(t, i, 0, -w);
-			addEdge(k + i, t, 1, 0);
-			addEdge(t, k + i, 0, 0);
-		}
-		cdq(1, k);
+		condense(s, t);
 		ssp(s, t);
-		out.println(mincost);
+		// 每人先计入所有物品，再减去跳过和重复经过分量造成的总损失
+		out.println(k * prefix[sccCnt] - mincost);
 		out.flush();
 		out.close();
 	}
