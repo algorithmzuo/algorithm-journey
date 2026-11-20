@@ -1,48 +1,52 @@
 package class210;
 
-// 餐巾计划，java版
-// 测试链接 : https://www.luogu.com.cn/problem/P1251
+// 最长k可重区间集，java版
+// 测试链接 : https://www.luogu.com.cn/problem/P3358
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.PriorityQueue;
 import java.util.Queue;
 
-public class Code03_NapkinPlan1 {
+public class Code05_MultisetIntervals1 {
 
-	public static int MAXN = 5001;
-	public static int MAXM = 12001;
-	public static long INF = 1L << 60;
+	public static int MAXN = 2001;
+	public static int MAXM = 2001;
+	public static int INF = 1000000001;
 	public static int n;
 
-	public static int[] need = new int[MAXN];
+	public static int[] l = new int[MAXN];
+	public static int[] r = new int[MAXN];
+	public static int[] sortv = new int[MAXN << 1];
+	public static int cntv;
 
 	public static int[] head = new int[MAXN];
 	public static int[] nxt = new int[MAXM << 1];
 	public static int[] to = new int[MAXM << 1];
-	public static long[] weight = new long[MAXM << 1];
-	public static long[] cost = new long[MAXM << 1];
+	public static int[] weight = new int[MAXM << 1];
+	public static int[] cost = new int[MAXM << 1];
 	public static int cntg;
 
-	public static long[] flow = new long[MAXN];
+	public static int[] flow = new int[MAXN];
 	public static int[] pre = new int[MAXN];
 
 	public static Queue<Integer> que = new LinkedList<>();
-	public static long[] h = new long[MAXN];
+	public static int[] h = new int[MAXN];
 	public static int[] update = new int[MAXN];
 	public static boolean[] enter = new boolean[MAXN];
 
-	public static PriorityQueue<long[]> heap = new PriorityQueue<>((a, b) -> Long.compare(a[0], b[0]));
-	public static long[] dist = new long[MAXN];
+	public static PriorityQueue<int[]> heap = new PriorityQueue<>((a, b) -> Integer.compare(a[0], b[0]));
+	public static int[] dist = new int[MAXN];
 	public static boolean[] vis = new boolean[MAXN];
 
-	public static long maxflow, mincost;
+	public static int maxflow, mincost;
 
-	public static void addEdge(int u, int v, long w, long c) {
+	public static void addEdge(int u, int v, int w, int c) {
 		nxt[++cntg] = head[u];
 		to[cntg] = v;
 		weight[cntg] = w;
@@ -64,10 +68,10 @@ public class Code03_NapkinPlan1 {
 		while (!que.isEmpty()) {
 			int u = que.poll();
 			enter[u] = false;
-			for (int e = head[u]; e > 0; e = nxt[e]) {
-				int v = to[e];
-				long w = weight[e];
-				long c = cost[e];
+			for (int e = head[u], v, w, c; e > 0; e = nxt[e]) {
+				v = to[e];
+				w = weight[e];
+				c = cost[e];
 				if (w > 0 && h[v] > h[u] + c) {
 					h[v] = h[u] + c;
 					if (!enter[v]) {
@@ -92,22 +96,22 @@ public class Code03_NapkinPlan1 {
 		flow[s] = INF;
 		dist[s] = 0;
 		heap.clear();
-		heap.add(new long[] { 0, s });
+		heap.add(new int[] { 0, s });
 		while (!heap.isEmpty()) {
-			long[] cur = heap.poll();
-			long d = cur[0];
-			int u = (int) cur[1];
+			int[] cur = heap.poll();
+			int d = cur[0];
+			int u = cur[1];
 			if (!vis[u]) {
 				vis[u] = true;
-				for (int e = head[u]; e > 0; e = nxt[e]) {
-					int v = to[e];
-					long w = weight[e];
-					long c = cost[e] + h[u] - h[v];
+				for (int e = head[u], v, w, c; e > 0; e = nxt[e]) {
+					v = to[e];
+					w = weight[e];
+					c = cost[e] + h[u] - h[v];
 					if (w > 0 && !vis[v] && dist[v] > d + c) {
 						dist[v] = dist[u] + c;
 						flow[v] = Math.min(w, flow[u]);
 						pre[v] = e;
-						heap.add(new long[] { dist[v], v });
+						heap.add(new int[] { dist[v], v });
 					}
 				}
 			}
@@ -138,56 +142,70 @@ public class Code03_NapkinPlan1 {
 		return false;
 	}
 
+	public static void build(int intervals) {
+		for (int i = 1; i <= intervals; i++) {
+			sortv[++cntv] = l[i];
+			sortv[++cntv] = r[i];
+		}
+		Arrays.sort(sortv, 1, cntv + 1);
+		int len = 1;
+		for (int i = 2; i <= cntv; i++) {
+			if (sortv[len] != sortv[i]) {
+				sortv[++len] = sortv[i];
+			}
+		}
+		cntv = len;
+	}
+
+	public static int kth(int num) {
+		int l = 1, r = cntv, mid;
+		while (l <= r) {
+			mid = (l + r) / 2;
+			if (sortv[mid] == num) {
+				return mid;
+			} else if (sortv[mid] < num) {
+				l = mid + 1;
+			} else {
+				r = mid - 1;
+			}
+		}
+		return -1;
+	}
+
 	public static void main(String[] args) throws Exception {
 		FastReader in = new FastReader(System.in);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
-		int days = in.nextInt();
-		n = days << 1;
+		int intervals = in.nextInt();
+		int k = in.nextInt();
+		for (int i = 1; i <= intervals; i++) {
+			l[i] = in.nextInt();
+			r[i] = in.nextInt();
+		}
+		build(intervals);
+		n = cntv;
 		int s = ++n;
 		int t = ++n;
 		cntg = 1;
-		long total = 0;
-		for (int i = 1; i <= days; i++) {
-			need[i] = in.nextInt();
-			total += need[i];
+		// 最多送k单位流，每单位流对应一组互不重叠的区间
+		addEdge(s, 1, k, 0);
+		addEdge(1, s, 0, 0);
+		addEdge(cntv, t, k, 0);
+		addEdge(t, cntv, 0, 0);
+		// 沿数轴向右走，不选区间时费用为0
+		for (int i = 1; i < cntv; i++) {
+			addEdge(i, i + 1, k, 0);
+			addEdge(i + 1, i, 0, 0);
 		}
-		int buy = in.nextInt();
-		int fastDays = in.nextInt();
-		int fastCost = in.nextInt();
-		int slowDays = in.nextInt();
-		int slowCost = in.nextInt();
-		for (int i = 1; i <= days; i++) {
-			int dirty = i;
-			int clean = days + i;
-			// 第i天用完后，有need[i]块脏餐巾可供后续使用
-			addEdge(s, dirty, need[i], 0);
-			addEdge(dirty, s, 0, 0);
-			// 第i天购买新餐巾，最多只需买当天的需求量
-			addEdge(s, clean, need[i], buy);
-			addEdge(clean, s, 0, -buy);
-			// 满足第i天的需求，最大流时，每天的这条边都恰好流满
-			addEdge(clean, t, need[i], 0);
-			addEdge(t, clean, 0, 0);
-			// 脏餐巾可以免费留到明天，连续走多条这样的边就能延期送洗
-			if (i < days) {
-				addEdge(dirty, dirty + 1, total, 0);
-				addEdge(dirty + 1, dirty, 0, 0);
-			}
-			// 第i天送快洗，第i+fastDays天可用
-			if (fastDays <= days - i) {
-				int back = i + fastDays;
-				addEdge(dirty, days + back, need[back], fastCost);
-				addEdge(days + back, dirty, 0, -fastCost);
-			}
-			// 第 i 天送慢洗，第 i + slowDays 天可用
-			if (slowDays <= days - i) {
-				int back = i + slowDays;
-				addEdge(dirty, days + back, need[back], slowCost);
-				addEdge(days + back, dirty, 0, -slowCost);
-			}
+		// 每个输入区间单独连一条容量为1的边，即使端点相同也分别连边
+		for (int i = 1; i <= intervals; i++) {
+			int u = kth(l[i]);
+			int v = kth(r[i]);
+			int c = r[i] - l[i];
+			addEdge(u, v, 1, -c);
+			addEdge(v, u, 0, c);
 		}
 		ssp(s, t);
-		out.println(mincost);
+		out.println(-mincost);
 		out.flush();
 		out.close();
 	}
