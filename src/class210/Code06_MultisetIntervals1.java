@@ -1,23 +1,29 @@
 package class210;
 
-// 修车，java版
-// 测试链接 : https://www.luogu.com.cn/problem/P2053
+// 最长k可重区间集，java版
+// 测试链接 : https://www.luogu.com.cn/problem/P3358
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.PriorityQueue;
 import java.util.Queue;
 
-public class Code02_RepairCar1 {
+public class Code06_MultisetIntervals1 {
 
-	public static int MAXN = 1001;
-	public static int MAXM = 50001;
+	public static int MAXN = 2001;
+	public static int MAXM = 2001;
 	public static int INF = 1000000001;
 	public static int n;
+
+	public static int[] l = new int[MAXN];
+	public static int[] r = new int[MAXN];
+	public static int[] sortv = new int[MAXN << 1];
+	public static int cntv;
 
 	public static int[] head = new int[MAXN];
 	public static int[] nxt = new int[MAXM << 1];
@@ -136,35 +142,70 @@ public class Code02_RepairCar1 {
 		return false;
 	}
 
+	public static void build(int intervals) {
+		for (int i = 1; i <= intervals; i++) {
+			sortv[++cntv] = l[i];
+			sortv[++cntv] = r[i];
+		}
+		Arrays.sort(sortv, 1, cntv + 1);
+		int len = 1;
+		for (int i = 2; i <= cntv; i++) {
+			if (sortv[len] != sortv[i]) {
+				sortv[++len] = sortv[i];
+			}
+		}
+		cntv = len;
+	}
+
+	public static int kth(int num) {
+		int l = 1, r = cntv, mid;
+		while (l <= r) {
+			mid = (l + r) / 2;
+			if (sortv[mid] == num) {
+				return mid;
+			} else if (sortv[mid] < num) {
+				l = mid + 1;
+			} else {
+				r = mid - 1;
+			}
+		}
+		return -1;
+	}
+
 	public static void main(String[] args) throws Exception {
 		FastReader in = new FastReader(System.in);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
-		int workers = in.nextInt();
-		int cars = in.nextInt();
-		n = cars + workers * cars;
+		int intervals = in.nextInt();
+		int k = in.nextInt();
+		for (int i = 1; i <= intervals; i++) {
+			l[i] = in.nextInt();
+			r[i] = in.nextInt();
+		}
+		build(intervals);
+		n = cntv;
 		int s = ++n;
 		int t = ++n;
 		cntg = 1;
-		for (int i = 1; i <= cars; i++) {
-			addEdge(s, i, 1, 0);
-			addEdge(i, s, 0, 0);
-			for (int j = 1; j <= workers; j++) {
-				int time = in.nextInt();
-				for (int k = 1; k <= cars; k++) {
-					int slot = cars + (j - 1) * cars + k;
-					int c = time * k;
-					addEdge(i, slot, 1, c);
-					addEdge(slot, i, 0, -c);
-				}
-			}
+		// 最多送k单位流，每单位流对应一组互不重叠的区间
+		addEdge(s, 1, k, 0);
+		addEdge(1, s, 0, 0);
+		addEdge(cntv, t, k, 0);
+		addEdge(t, cntv, 0, 0);
+		// 沿数轴向右走，不选区间时费用为0
+		for (int i = 1; i < cntv; i++) {
+			addEdge(i, i + 1, k, 0);
+			addEdge(i + 1, i, 0, 0);
 		}
-		for (int slot = cars + 1; slot < s; slot++) {
-			addEdge(slot, t, 1, 0);
-			addEdge(t, slot, 0, 0);
+		// 每个输入区间单独连一条容量为1的边，即使端点相同也分别连边
+		for (int i = 1; i <= intervals; i++) {
+			int u = kth(l[i]);
+			int v = kth(r[i]);
+			int c = r[i] - l[i];
+			addEdge(u, v, 1, -c);
+			addEdge(v, u, 0, c);
 		}
 		ssp(s, t);
-		double ans = (double) mincost / cars;
-		out.printf("%.2f\n", ans);
+		out.println(-mincost);
 		out.flush();
 		out.close();
 	}

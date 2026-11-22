@@ -13,7 +13,7 @@ import java.util.LinkedList;
 import java.util.PriorityQueue;
 import java.util.Queue;
 
-public class Code01_AlmostPermutation1 {
+public class Code02_AlmostPermutation1 {
 
 	public static int MAXN = 201;
 	public static int MAXM = 6001;

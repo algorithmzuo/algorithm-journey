@@ -12,7 +12,7 @@ import java.util.LinkedList;
 import java.util.PriorityQueue;
 import java.util.Queue;
 
-public class Code08_Communication1 {
+public class Code09_Communication1 {
 
 	public static int MAXN = 20001;
 	public static int MAXM = 50001;

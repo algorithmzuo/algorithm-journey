@@ -1,29 +1,30 @@
 package class210;
 
-// 最长k可重区间集，java版
-// 测试链接 : https://www.luogu.com.cn/problem/P3358
+// 航空路线，java版
+// 测试链接 : https://www.luogu.com.cn/problem/P2770
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
-import java.util.Arrays;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.PriorityQueue;
 import java.util.Queue;
 
-public class Code05_MultisetIntervals1 {
+public class Code04_AirRoute1 {
 
-	public static int MAXN = 2001;
-	public static int MAXM = 2001;
+	public static int MAXN = 201;
+	public static int MAXM = 5001;
 	public static int INF = 1000000001;
 	public static int n;
 
-	public static int[] l = new int[MAXN];
-	public static int[] r = new int[MAXN];
-	public static int[] sortv = new int[MAXN << 1];
-	public static int cntv;
+	public static String[] name = new String[MAXN];
+	public static HashMap<String, Integer> id = new HashMap<>();
+
+	public static int[] ans = new int[MAXN];
+	public static int siz;
 
 	public static int[] head = new int[MAXN];
 	public static int[] nxt = new int[MAXM << 1];
@@ -142,70 +143,68 @@ public class Code05_MultisetIntervals1 {
 		return false;
 	}
 
-	public static void build(int intervals) {
-		for (int i = 1; i <= intervals; i++) {
-			sortv[++cntv] = l[i];
-			sortv[++cntv] = r[i];
-		}
-		Arrays.sort(sortv, 1, cntv + 1);
-		int len = 1;
-		for (int i = 2; i <= cntv; i++) {
-			if (sortv[len] != sortv[i]) {
-				sortv[++len] = sortv[i];
+	public static void getPath(int cities) {
+		int u = 1;
+		siz = 0;
+		ans[++siz] = u;
+		// 去程，从当前城市的出点找正向航线，取走一单位流
+		while (u != cities) {
+			for (int e = head[cities + u]; e > 0; e = nxt[e]) {
+				if (cost[e] == -1 && weight[e ^ 1] > 0) {
+					weight[e ^ 1]--;
+					weight[e]++;
+					u = to[e];
+					ans[++siz] = u;
+					break;
+				}
 			}
 		}
-		cntv = len;
-	}
-
-	public static int kth(int num) {
-		int l = 1, r = cntv, mid;
-		while (l <= r) {
-			mid = (l + r) / 2;
-			if (sortv[mid] == num) {
-				return mid;
-			} else if (sortv[mid] < num) {
-				l = mid + 1;
-			} else {
-				r = mid - 1;
+		// 返程，从当前城市的入点找反向航线，沿剩下的一单位流向西走
+		while (u != 1) {
+			for (int e = head[u]; e > 0; e = nxt[e]) {
+				if (cost[e] == 1 && weight[e] > 0) {
+					u = to[e] - cities;
+					ans[++siz] = u;
+					break;
+				}
 			}
 		}
-		return -1;
 	}
 
 	public static void main(String[] args) throws Exception {
 		FastReader in = new FastReader(System.in);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
-		int intervals = in.nextInt();
-		int k = in.nextInt();
-		for (int i = 1; i <= intervals; i++) {
-			l[i] = in.nextInt();
-			r[i] = in.nextInt();
-		}
-		build(intervals);
-		n = cntv;
-		int s = ++n;
-		int t = ++n;
+		int cities = in.nextInt();
+		int flights = in.nextInt();
+		n = cities << 1;
+		int s = 1;
+		int t = n;
 		cntg = 1;
-		// 最多送k单位流，每单位流对应一组互不重叠的区间
-		addEdge(s, 1, k, 0);
-		addEdge(1, s, 0, 0);
-		addEdge(cntv, t, k, 0);
-		addEdge(t, cntv, 0, 0);
-		// 沿数轴向右走，不选区间时费用为0
-		for (int i = 1; i < cntv; i++) {
-			addEdge(i, i + 1, k, 0);
-			addEdge(i + 1, i, 0, 0);
+		for (int i = 1; i <= cities; i++) {
+			name[i] = in.nextString();
+			id.put(name[i], i);
+			int cap = (i == 1 || i == cities) ? 2 : 1;
+			addEdge(i, cities + i, cap, 0);
+			addEdge(cities + i, i, 0, 0);
 		}
-		// 每个输入区间单独连一条容量为1的边，即使端点相同也分别连边
-		for (int i = 1; i <= intervals; i++) {
-			int u = kth(l[i]);
-			int v = kth(r[i]);
-			int c = r[i] - l[i];
-			addEdge(u, v, 1, -c);
-			addEdge(v, u, 0, c);
+		for (int i = 1; i <= flights; i++) {
+			int a = id.get(in.nextString());
+			int b = id.get(in.nextString());
+			int u = Math.min(a, b);
+			int v = Math.max(a, b);
+			addEdge(cities + u, v, 2, -1);
+			addEdge(v, cities + u, 0, 1);
 		}
 		ssp(s, t);
-		out.println(-mincost);
+		if (maxflow != 2) {
+			out.println("No Solution!");
+		} else {
+			out.println(-mincost);
+			getPath(cities);
+			for (int i = 1; i <= siz; i++) {
+				out.println(name[ans[i]]);
+			}
+		}
 		out.flush();
 		out.close();
 	}
@@ -247,6 +246,22 @@ public class Code05_MultisetIntervals1 {
 				c = readByte();
 			}
 			return neg ? -val : val;
+		}
+
+		String nextString() throws IOException {
+			int c;
+			do {
+				c = readByte();
+			} while (c <= ' ' && c != -1);
+			if (c == -1) {
+				return null;
+			}
+			StringBuilder sb = new StringBuilder();
+			while (c > ' ' && c != -1) {
+				sb.append((char) c);
+				c = readByte();
+			}
+			return sb.toString();
 		}
 
 	}

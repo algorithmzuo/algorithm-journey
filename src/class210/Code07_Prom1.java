@@ -13,7 +13,7 @@ import java.util.LinkedList;
 import java.util.PriorityQueue;
 import java.util.Queue;
 
-public class Code06_Prom1 {
+public class Code07_Prom1 {
 
 	public static int MAXN = 301;
 	public static int MAXM = 20001;

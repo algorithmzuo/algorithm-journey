@@ -14,7 +14,7 @@ import java.util.LinkedList;
 import java.util.PriorityQueue;
 import java.util.Queue;
 
-public class Code07_Collecting1 {
+public class Code08_Collecting1 {
 
 	public static int MAXN = 500001;
 	public static int MAXM = 1000001;
