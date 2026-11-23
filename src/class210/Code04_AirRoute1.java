@@ -152,30 +152,34 @@ public class Code04_AirRoute1 {
 	}
 
 	public static void getPath(int cities) {
-		int u = 1;
 		siz = 0;
-		ans[++siz] = u;
-		// 去程，从当前城市的出点找正向航线，取走一单位流
-		while (u != cities) {
-			for (int e = head[cities + u]; e > 0; e = nxt[e]) {
-				if (cost[e] == -1 && weight[e ^ 1] > 0) {
-					weight[e ^ 1]--;
-					weight[e]++;
-					u = to[e];
-					ans[++siz] = u;
-					break;
+		// 从西到东取出两条路线，第一条作为去程，第二条逆序后作为返程
+		// len1是去程的城市数，也是最东城市的下标
+		int len1 = 0;
+		for (int trip = 1; trip <= 2; trip++) {
+			int u = 1;
+			while (u != cities) {
+				ans[++siz] = u;
+				for (int e = head[cities + u]; e > 0; e = nxt[e]) {
+					if (cost[e] == -1 && weight[e ^ 1] > 0) {
+						weight[e ^ 1]--;
+						weight[e]++;
+						u = to[e];
+						break;
+					}
 				}
+			}
+			// 最东城市，只添加一次
+			if (trip == 1) {
+				ans[++siz] = cities;
+				len1 = siz;
 			}
 		}
-		// 返程，从当前城市的入点找反向航线，沿剩下的一单位流向西走
-		while (u != 1) {
-			for (int e = head[u]; e > 0; e = nxt[e]) {
-				if (cost[e] == 1 && weight[e] > 0) {
-					u = to[e] - cities;
-					ans[++siz] = u;
-					break;
-				}
-			}
+		// 后一条路线逆序，得到返程
+		for (int l = len1 + 1, r = siz; l < r; l++, r--) {
+			int tmp = ans[l];
+			ans[l] = ans[r];
+			ans[r] = tmp;
 		}
 	}
 
@@ -191,8 +195,8 @@ public class Code04_AirRoute1 {
 		for (int i = 1; i <= cities; i++) {
 			name[i] = in.nextString();
 			id.put(name[i], i);
-			int cap = (i == 1 || i == cities) ? 2 : 1;
-			addEdge(i, cities + i, cap, 0);
+			int w = (i == 1 || i == cities) ? 2 : 1;
+			addEdge(i, cities + i, w, 0);
 			addEdge(cities + i, i, 0, 0);
 		}
 		for (int i = 1; i <= flights; i++) {
@@ -207,6 +211,8 @@ public class Code04_AirRoute1 {
 		if (maxflow != 2) {
 			out.println("No Solution!");
 		} else {
+			// 去程飞a次，经过a+1座城市，返程飞b次，经过b+1座城市
+			// 两程共用最西和最东两座城市，所以城市总数 = (a+1) + (b+1) - 2 = -mincost
 			out.println(-mincost);
 			getPath(cities);
 			for (int i = 1; i <= siz; i++) {
