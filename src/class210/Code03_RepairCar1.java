@@ -1,6 +1,13 @@
 package class210;
 
 // 修车，java版
+// 一共w名技师，c辆车同时到达，mat[i][j]表示第j名技师修好第i辆车所需的时间
+// 每辆车交给一名技师修理，每名技师只能修完一辆车后，再去修下一辆
+// 车主等待时间 = 到达的时刻开始，到车被修好的时刻为止，总共花费的时间
+// 你来安排修理的调度，求所有车主的最小平均等待时间，答案保留两位小数
+// 2 <= w <= 9
+// 1 <= c <= 60
+// 1 <= mat[i][j] <= 1000
 // 测试链接 : https://www.luogu.com.cn/problem/P2053
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
@@ -148,19 +155,21 @@ public class Code03_RepairCar1 {
 		for (int i = 1; i <= cars; i++) {
 			addEdge(s, i, 1, 0);
 			addEdge(i, s, 0, 0);
-			for (int j = 1; j <= workers; j++) {
-				int time = in.nextInt();
-				for (int k = 1; k <= cars; k++) {
-					int slot = cars + (j - 1) * cars + k;
-					int c = time * k;
-					addEdge(i, slot, 1, c);
-					addEdge(slot, i, 0, -c);
+			for (int j = 1, time; j <= workers; j++) {
+				time = in.nextInt();
+				// a是j号技师倒数第k个修车位置的编号，从i向a连边，表示i号车安排在这里
+				// 当前车主和排在本车之后的k-1个车主，都要等这辆车修好，之前的车主不用等待
+				// 因此修理时间会计入k位车主的等待时间，费用c = time * k
+				for (int k = 1, a = j * cars + 1, c = time; k <= cars; k++, a++, c += time) {
+					addEdge(i, a, 1, c);
+					addEdge(a, i, 0, -c);
 				}
 			}
 		}
-		for (int slot = cars + 1; slot < s; slot++) {
-			addEdge(slot, t, 1, 0);
-			addEdge(t, slot, 0, 0);
+		// 每个修车位置向汇点连一条容量为1，费用为0的边，保证每个位置最多安排一辆车
+		for (int a = cars + 1; a < s; a++) {
+			addEdge(a, t, 1, 0);
+			addEdge(t, a, 0, 0);
 		}
 		ssp(s, t);
 		double ans = (double) mincost / cars;
