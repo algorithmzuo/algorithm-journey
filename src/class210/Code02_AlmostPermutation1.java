@@ -9,7 +9,6 @@ package class210;
 // 求满足所有限制的数组的最小代价，如果无解，输出-1
 // 1 <= n <= 50
 // 0 <= q <= 100
-// 1 <= l、r、v <= n
 // 测试链接 : https://www.luogu.com.cn/problem/CF863F
 // 测试链接 : https://codeforces.com/problemset/problem/863/F
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
@@ -25,7 +24,7 @@ import java.util.Queue;
 public class Code02_AlmostPermutation1 {
 
 	public static int MAXN = 201;
-	public static int MAXM = 6001;
+	public static int MAXM = 10001;
 	public static int INF = 1000000001;
 	public static int n;
 
@@ -162,16 +161,16 @@ public class Code02_AlmostPermutation1 {
 			low[i] = 1;
 			high[i] = len;
 		}
-		for (int k = 1, op, l, r, v; k <= q; k++) {
+		for (int i = 1, op, l, r, v; i <= q; i++) {
 			op = in.nextInt();
 			l = in.nextInt();
 			r = in.nextInt();
 			v = in.nextInt();
-			for (int i = l; i <= r; i++) {
+			for (int j = l; j <= r; j++) {
 				if (op == 1) {
-					low[i] = Math.max(low[i], v);
+					low[j] = Math.max(low[j], v);
 				} else {
-					high[i] = Math.min(high[i], v);
+					high[j] = Math.min(high[j], v);
 				}
 			}
 		}
@@ -183,9 +182,11 @@ public class Code02_AlmostPermutation1 {
 				addEdge(len + v, i, 0, 0);
 			}
 		}
+		// 数字v第k次出现时，代价从(k-1)*(k-1)增加到k*k，新增代价为2*k - 1
+		// 因此数字v向汇点连接len条平行边，每条容量为1，费用依次为1, 3, 5 ..
+		// 如果数字v出现x次，最小费用方案会选最便宜的x条边，费用恰好为x*x
 		for (int v = 1; v <= len; v++) {
-			for (int k = 1; k <= len; k++) {
-				int c = 2 * k - 1;
+			for (int k = 1, c = 1; k <= len; k++, c += 2) {
 				addEdge(len + v, t, 1, c);
 				addEdge(t, len + v, 0, -c);
 			}
