@@ -1,6 +1,13 @@
 package class210;
 
 // 方格取数加强版，java版
+// 给定n * n的矩阵，每个格子的值是非负整数，表示该格子的收益
+// 从(1, 1)到(n, n)，一共走k次，每步只能向右或向下走一格
+// 在这k次行走中，每个格子的收益只在第一次经过时获得
+// 求能获得的最大总收益
+// 1 <= n <= 50
+// 0 <= k <= 10
+// 0 <= 格子的值 <= 1000
 // 测试链接 : https://www.luogu.com.cn/problem/P2045
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
@@ -14,10 +21,13 @@ import java.util.Queue;
 
 public class Code01_GridNumberTaking1 {
 
+	public static int MAXG = 51;
 	public static int MAXN = 5001;
 	public static int MAXM = 10001;
 	public static int INF = 1000000001;
 	public static int n;
+
+	public static int[][] mat = new int[MAXG][MAXG];
 
 	public static int[] head = new int[MAXN];
 	public static int[] nxt = new int[MAXM << 1];
@@ -141,36 +151,46 @@ public class Code01_GridNumberTaking1 {
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
 		int side = in.nextInt();
 		int k = in.nextInt();
-		int cells = side * side;
-		int first = Math.min(k, 1);
-		n = cells << 1;
-		int s = 1;
-		int t = n;
-		cntg = 1;
 		for (int i = 1; i <= side; i++) {
 			for (int j = 1; j <= side; j++) {
-				int u = (i - 1) * side + j;
-				int v = cells + u;
-				int c = in.nextInt();
-				// u是入点，v是出点，最多取数一次，其余路径免费通过
-				addEdge(u, v, first, -c);
-				addEdge(v, u, 0, c);
-				addEdge(u, v, k - first, 0);
-				addEdge(v, u, 0, 0);
-				// 从本格出点向右边格子的入点连边
-				if (j < side) {
-					addEdge(v, u + 1, k, 0);
-					addEdge(u + 1, v, 0, 0);
-				}
-				// 从本格出点向下边格子的入点连边
-				if (i < side) {
-					addEdge(v, u + side, k, 0);
-					addEdge(u + side, v, 0, 0);
-				}
+				mat[i][j] = in.nextInt();
 			}
 		}
-		ssp(s, t);
-		out.println(-mincost);
+		int ans = 0;
+		if (k > 0) {
+			int cells = side * side;
+			n = cells << 1;
+			int s = 1;
+			int t = n;
+			cntg = 1;
+			for (int i = 1; i <= side; i++) {
+				for (int j = 1; j <= side; j++) {
+					// u是当前格子的入点，v是当前格子的出点，c是当前格子的收益
+					int u = (i - 1) * side + j;
+					int v = cells + u;
+					int c = mat[i][j];
+					// 第一次经过可以获得收益，取负值转化成求解最大费用
+					addEdge(u, v, 1, -c);
+					addEdge(v, u, 0, c);
+					// 其余路径也能经过，但是收益为0
+					addEdge(u, v, k - 1, 0);
+					addEdge(v, u, 0, 0);
+					// 从当前格子的出点，向右走，连到右格子的入点
+					if (j < side) {
+						addEdge(v, u + 1, k, 0);
+						addEdge(u + 1, v, 0, 0);
+					}
+					// 从当前格子的出点，向下走，连到下格子的入点
+					if (i < side) {
+						addEdge(v, u + side, k, 0);
+						addEdge(u + side, v, 0, 0);
+					}
+				}
+			}
+			ssp(s, t);
+			ans = -mincost;
+		}
+		out.println(ans);
 		out.flush();
 		out.close();
 	}
