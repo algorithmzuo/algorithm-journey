@@ -158,8 +158,8 @@ public class Code03_RepairCar1 {
 			for (int j = 1, time; j <= workers; j++) {
 				time = in.nextInt();
 				// a是j号技师倒数第k个修车位置的编号，从i向a连边，表示i号车安排在这里
-				// 当前车主和排在本车之后的k-1个车主，都要等这辆车修好，之前的车主不用等待
-				// 因此修理时间会计入k位车主的等待时间，费用c = time * k
+				// 因为是倒数第k个，所以当前车主和之后的k-1个车主，都要等这辆车修好
+				// 本车的修理时间time，在k位车主的等待时间里都算一次，总贡献为time * k
 				for (int k = 1, a = j * cars + 1, c = time; k <= cars; k++, a++, c += time) {
 					addEdge(i, a, 1, c);
 					addEdge(a, i, 0, -c);
