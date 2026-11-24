@@ -1,6 +1,13 @@
 package class210;
 
 // 最长k可重区间集，java版
+// 给定a个开区间，第i个区间为(l[i], r[i])，长度为r[i] - l[i]
+// 选出若干区间，要求数轴上的任意一点，最多被k个选中的区间覆盖
+// 因为开区间不包含左右端点，所以两个区间只在端点处相接，认为没有重叠
+// 求所选区间长度之和的最大值，重叠部分的长度，在各自的区间都要计入
+// 1 <= a <= 500
+// 1 <= k <= 3
+// 1 <= l[i] < r[i] <= 10^5
 // 测试链接 : https://www.luogu.com.cn/problem/P3358
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
@@ -22,8 +29,9 @@ public class Code06_MultisetIntervals1 {
 
 	public static int[] l = new int[MAXN];
 	public static int[] r = new int[MAXN];
-	public static int[] sortv = new int[MAXN << 1];
-	public static int cntv;
+	public static int[] len = new int[MAXN];
+	public static int[] sortlr = new int[MAXN << 1];
+	public static int cntlr;
 
 	public static int[] head = new int[MAXN];
 	public static int[] nxt = new int[MAXM << 1];
@@ -144,26 +152,27 @@ public class Code06_MultisetIntervals1 {
 
 	public static void build(int intervals) {
 		for (int i = 1; i <= intervals; i++) {
-			sortv[++cntv] = l[i];
-			sortv[++cntv] = r[i];
+			len[i] = r[i] - l[i];
+			sortlr[++cntlr] = l[i];
+			sortlr[++cntlr] = r[i];
 		}
-		Arrays.sort(sortv, 1, cntv + 1);
-		int len = 1;
-		for (int i = 2; i <= cntv; i++) {
-			if (sortv[len] != sortv[i]) {
-				sortv[++len] = sortv[i];
+		Arrays.sort(sortlr, 1, cntlr + 1);
+		int siz = 1;
+		for (int i = 2; i <= cntlr; i++) {
+			if (sortlr[siz] != sortlr[i]) {
+				sortlr[++siz] = sortlr[i];
 			}
 		}
-		cntv = len;
+		cntlr = siz;
 	}
 
 	public static int kth(int num) {
-		int l = 1, r = cntv, mid;
+		int l = 1, r = cntlr, mid;
 		while (l <= r) {
 			mid = (l + r) / 2;
-			if (sortv[mid] == num) {
+			if (sortlr[mid] == num) {
 				return mid;
-			} else if (sortv[mid] < num) {
+			} else if (sortlr[mid] < num) {
 				l = mid + 1;
 			} else {
 				r = mid - 1;
@@ -175,32 +184,32 @@ public class Code06_MultisetIntervals1 {
 	public static void main(String[] args) throws Exception {
 		FastReader in = new FastReader(System.in);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
-		int intervals = in.nextInt();
+		int a = in.nextInt();
 		int k = in.nextInt();
-		for (int i = 1; i <= intervals; i++) {
+		for (int i = 1; i <= a; i++) {
 			l[i] = in.nextInt();
 			r[i] = in.nextInt();
 		}
-		build(intervals);
-		n = cntv;
+		build(a);
+		n = cntlr;
 		int s = ++n;
 		int t = ++n;
 		cntg = 1;
-		// 最多送k单位流，每单位流对应一组互不重叠的区间
+		// 最大流恰好为k，每单位流对应一组互不重叠的区间，这组也可以为空
 		addEdge(s, 1, k, 0);
 		addEdge(1, s, 0, 0);
-		addEdge(cntv, t, k, 0);
-		addEdge(t, cntv, 0, 0);
+		addEdge(cntlr, t, k, 0);
+		addEdge(t, cntlr, 0, 0);
 		// 沿数轴向右走，不选区间时费用为0
-		for (int i = 1; i < cntv; i++) {
+		for (int i = 1; i < cntlr; i++) {
 			addEdge(i, i + 1, k, 0);
 			addEdge(i + 1, i, 0, 0);
 		}
 		// 每个输入区间单独连一条容量为1的边，即使端点相同也分别连边
-		for (int i = 1; i <= intervals; i++) {
-			int u = kth(l[i]);
-			int v = kth(r[i]);
-			int c = r[i] - l[i];
+		for (int i = 1, u, v, c; i <= a; i++) {
+			u = kth(l[i]);
+			v = kth(r[i]);
+			c = len[i];
 			addEdge(u, v, 1, -c);
 			addEdge(v, u, 0, c);
 		}
