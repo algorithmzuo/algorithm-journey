@@ -20,7 +20,7 @@ import java.util.LinkedList;
 import java.util.PriorityQueue;
 import java.util.Queue;
 
-public class Code06_MultisetIntervals1 {
+public class Code06_ChooseIntervals1 {
 
 	public static int MAXN = 2001;
 	public static int MAXM = 2001;
@@ -29,9 +29,8 @@ public class Code06_MultisetIntervals1 {
 
 	public static int[] l = new int[MAXN];
 	public static int[] r = new int[MAXN];
-	public static int[] len = new int[MAXN];
-	public static int[] sortlr = new int[MAXN << 1];
-	public static int cntPoint;
+	public static int[] sortv = new int[MAXN << 1];
+	public static int cntv;
 
 	public static int[] head = new int[MAXN];
 	public static int[] nxt = new int[MAXM << 1];
@@ -152,27 +151,26 @@ public class Code06_MultisetIntervals1 {
 
 	public static void build(int intervals) {
 		for (int i = 1; i <= intervals; i++) {
-			len[i] = r[i] - l[i];
-			sortlr[++cntPoint] = l[i];
-			sortlr[++cntPoint] = r[i];
+			sortv[++cntv] = l[i];
+			sortv[++cntv] = r[i];
 		}
-		Arrays.sort(sortlr, 1, cntPoint + 1);
+		Arrays.sort(sortv, 1, cntv + 1);
 		int siz = 1;
-		for (int i = 2; i <= cntPoint; i++) {
-			if (sortlr[siz] != sortlr[i]) {
-				sortlr[++siz] = sortlr[i];
+		for (int i = 2; i <= cntv; i++) {
+			if (sortv[siz] != sortv[i]) {
+				sortv[++siz] = sortv[i];
 			}
 		}
-		cntPoint = siz;
+		cntv = siz;
 	}
 
 	public static int kth(int num) {
-		int l = 1, r = cntPoint, mid;
+		int l = 1, r = cntv, mid;
 		while (l <= r) {
 			mid = (l + r) / 2;
-			if (sortlr[mid] == num) {
+			if (sortv[mid] == num) {
 				return mid;
-			} else if (sortlr[mid] < num) {
+			} else if (sortv[mid] < num) {
 				l = mid + 1;
 			} else {
 				r = mid - 1;
@@ -191,25 +189,25 @@ public class Code06_MultisetIntervals1 {
 			r[i] = in.nextInt();
 		}
 		build(a);
-		n = cntPoint;
+		n = cntv;
 		int s = ++n;
 		int t = ++n;
 		cntg = 1;
-		// 最大流恰好为k，每单位流对应一组互不重叠的区间，这组也可以为空
+		// 最大流恰好为k，每单位流对应一组互不重叠的区间
 		addEdge(s, 1, k, 0);
 		addEdge(1, s, 0, 0);
-		addEdge(cntPoint, t, k, 0);
-		addEdge(t, cntPoint, 0, 0);
-		// 沿数轴向右走，不选区间时费用为0
-		for (int i = 1; i < cntPoint; i++) {
+		addEdge(cntv, t, k, 0);
+		addEdge(t, cntv, 0, 0);
+		// 如果不选以当前端点为左端点的区间，就走到下一个端点，费用为0
+		for (int i = 1; i < cntv; i++) {
 			addEdge(i, i + 1, k, 0);
 			addEdge(i + 1, i, 0, 0);
 		}
-		// 每个输入区间单独连一条容量为1的边，即使端点相同也分别连边
+		// 从每个区间的左端点向右端点连边，容量为1表示最多选一次，费用为区间长度的相反数
 		for (int i = 1, u, v, c; i <= a; i++) {
 			u = kth(l[i]);
 			v = kth(r[i]);
-			c = len[i];
+			c = r[i] - l[i];
 			addEdge(u, v, 1, -c);
 			addEdge(v, u, 0, c);
 		}
