@@ -31,7 +31,7 @@ public class Code06_MultisetIntervals1 {
 	public static int[] r = new int[MAXN];
 	public static int[] len = new int[MAXN];
 	public static int[] sortlr = new int[MAXN << 1];
-	public static int cntlr;
+	public static int cntPoint;
 
 	public static int[] head = new int[MAXN];
 	public static int[] nxt = new int[MAXM << 1];
@@ -153,21 +153,21 @@ public class Code06_MultisetIntervals1 {
 	public static void build(int intervals) {
 		for (int i = 1; i <= intervals; i++) {
 			len[i] = r[i] - l[i];
-			sortlr[++cntlr] = l[i];
-			sortlr[++cntlr] = r[i];
+			sortlr[++cntPoint] = l[i];
+			sortlr[++cntPoint] = r[i];
 		}
-		Arrays.sort(sortlr, 1, cntlr + 1);
+		Arrays.sort(sortlr, 1, cntPoint + 1);
 		int siz = 1;
-		for (int i = 2; i <= cntlr; i++) {
+		for (int i = 2; i <= cntPoint; i++) {
 			if (sortlr[siz] != sortlr[i]) {
 				sortlr[++siz] = sortlr[i];
 			}
 		}
-		cntlr = siz;
+		cntPoint = siz;
 	}
 
 	public static int kth(int num) {
-		int l = 1, r = cntlr, mid;
+		int l = 1, r = cntPoint, mid;
 		while (l <= r) {
 			mid = (l + r) / 2;
 			if (sortlr[mid] == num) {
@@ -191,17 +191,17 @@ public class Code06_MultisetIntervals1 {
 			r[i] = in.nextInt();
 		}
 		build(a);
-		n = cntlr;
+		n = cntPoint;
 		int s = ++n;
 		int t = ++n;
 		cntg = 1;
 		// 最大流恰好为k，每单位流对应一组互不重叠的区间，这组也可以为空
 		addEdge(s, 1, k, 0);
 		addEdge(1, s, 0, 0);
-		addEdge(cntlr, t, k, 0);
-		addEdge(t, cntlr, 0, 0);
+		addEdge(cntPoint, t, k, 0);
+		addEdge(t, cntPoint, 0, 0);
 		// 沿数轴向右走，不选区间时费用为0
-		for (int i = 1; i < cntlr; i++) {
+		for (int i = 1; i < cntPoint; i++) {
 			addEdge(i, i + 1, k, 0);
 			addEdge(i + 1, i, 0, 0);
 		}
