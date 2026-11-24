@@ -1,6 +1,15 @@
 package class210;
 
 // 餐巾计划，java版
+// 餐厅连续营业openDays天，第i天需要need[i]个干净餐巾，餐巾用完就变脏了
+// 每天都可以买新餐巾，每个花费buyCost，买来当天就能使用
+// 每天结束时，可以把脏餐巾送去快洗或慢洗，也可以留到以后再洗
+// 快洗每个花费fastCost，第i天送洗，第 i + fastDays 天可以使用
+// 慢洗每个花费slowCost，第i天送洗，第 i + slowDays 天可以使用
+// 求满足每天餐巾需求的最小总花费
+// 1 <= openDays <= 2000    1 <= need[i] <= 10^7
+// 1 <= buyCost、slowCost、fastCost <= 10^4
+// slowCost < fastCost      fastDays < slowDays
 // 测试链接 : https://www.luogu.com.cn/problem/P1251
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
@@ -141,49 +150,51 @@ public class Code05_NapkinPlan1 {
 	public static void main(String[] args) throws Exception {
 		FastReader in = new FastReader(System.in);
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
-		int days = in.nextInt();
-		n = days << 1;
-		int s = ++n;
-		int t = ++n;
-		cntg = 1;
-		long total = 0;
-		for (int i = 1; i <= days; i++) {
+		int openDays = in.nextInt();
+		for (int i = 1; i <= openDays; i++) {
 			need[i] = in.nextInt();
-			total += need[i];
 		}
-		int buy = in.nextInt();
+		int buyCost = in.nextInt();
 		int fastDays = in.nextInt();
 		int fastCost = in.nextInt();
 		int slowDays = in.nextInt();
 		int slowCost = in.nextInt();
-		for (int i = 1; i <= days; i++) {
+		n = openDays << 1;
+		int s = ++n;
+		int t = ++n;
+		cntg = 1;
+		long total = 0;
+		for (int i = 1; i <= openDays; i++) {
+			total += need[i];
+		}
+		for (int i = 1; i <= openDays; i++) {
 			int dirty = i;
-			int clean = days + i;
-			// 第i天用完后，有need[i]块脏餐巾可供后续使用
+			int clean = openDays + i;
+			// 第i天用完后，有need[i]个脏餐巾可供后续使用
 			addEdge(s, dirty, need[i], 0);
 			addEdge(dirty, s, 0, 0);
 			// 第i天购买新餐巾，最多只需买当天的需求量
-			addEdge(s, clean, need[i], buy);
-			addEdge(clean, s, 0, -buy);
+			addEdge(s, clean, need[i], buyCost);
+			addEdge(clean, s, 0, -buyCost);
 			// 满足第i天的需求，最大流时，每天的这条边都恰好流满
 			addEdge(clean, t, need[i], 0);
 			addEdge(t, clean, 0, 0);
-			// 脏餐巾可以免费留到明天，连续走多条这样的边就能延期送洗
-			if (i < days) {
+			// 脏餐巾可以免费留到明天，连续走多条这样的边，意味着延期再洗
+			if (i < openDays) {
 				addEdge(dirty, dirty + 1, total, 0);
 				addEdge(dirty + 1, dirty, 0, 0);
 			}
-			// 第i天送快洗，第i+fastDays天可用
-			if (fastDays <= days - i) {
+			// 第i天送快洗，第 i + fastDays 天可用
+			if (fastDays <= openDays - i) {
 				int back = i + fastDays;
-				addEdge(dirty, days + back, need[back], fastCost);
-				addEdge(days + back, dirty, 0, -fastCost);
+				addEdge(dirty, openDays + back, need[back], fastCost);
+				addEdge(openDays + back, dirty, 0, -fastCost);
 			}
-			// 第 i 天送慢洗，第 i + slowDays 天可用
-			if (slowDays <= days - i) {
+			// 第i天送慢洗，第 i + slowDays 天可用
+			if (slowDays <= openDays - i) {
 				int back = i + slowDays;
-				addEdge(dirty, days + back, need[back], slowCost);
-				addEdge(days + back, dirty, 0, -slowCost);
+				addEdge(dirty, openDays + back, need[back], slowCost);
+				addEdge(openDays + back, dirty, 0, -slowCost);
 			}
 		}
 		ssp(s, t);
