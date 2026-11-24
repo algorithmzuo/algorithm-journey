@@ -151,19 +151,27 @@ public class Code07_Prom1 {
 	public static boolean check(double x) {
 		Arrays.fill(head, 1, n + 1, 0);
 		cntg = 1;
+		// 男生i的编号为i，女生i的编号为k + i，都是最多被选一次
 		for (int i = 1; i <= k; i++) {
 			addEdge(s, i, 1, 0);
 			addEdge(i, s, 0, 0);
 			addEdge(k + i, t, 1, 0);
 			addEdge(t, k + i, 0, 0);
+		}
+		// 男生i选女生j，只能配对一次，注意费用的设置，就是01分数规划
+		for (int i = 1; i <= k; i++) {
 			for (int j = 1; j <= k; j++) {
+				// 方案得分至少为x，等价于，喜爱值之和 - x * 讨厌值之和 >= 0
+				// 男生i和女生j配对，对这个差值的贡献为c
+				// 正向边的费用取-c，转成用最小费用流求出最大的总贡献
 				double c = a[i][j] - x * b[i][j];
 				addEdge(i, k + j, 1, -c);
 				addEdge(k + j, i, 0, c);
 			}
 		}
 		ssp(s, t);
-		return mincost <= 0;
+		// -mincost是最大总贡献，如果 >= 0，就存在得分至少为x的方案
+		return -mincost >= 0;
 	}
 
 	public static void main(String[] args) throws Exception {
