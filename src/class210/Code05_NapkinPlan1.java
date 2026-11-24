@@ -3,7 +3,7 @@ package class210;
 // 餐巾计划，java版
 // 餐厅连续营业openDays天，第i天需要need[i]个干净餐巾，餐巾用完就变脏了
 // 每天都可以买新餐巾，每个花费buyCost，买来当天就能使用
-// 每天结束时，可以把脏餐巾送去快洗或慢洗，也可以留到以后再洗
+// 每天结束时，每个脏餐巾可以送去快洗或慢洗，也可以留到以后再洗
 // 快洗每个花费fastCost，第i天送洗，第 i + fastDays 天可以使用
 // 慢洗每个花费slowCost，第i天送洗，第 i + slowDays 天可以使用
 // 求满足每天餐巾需求的最小总花费
@@ -163,38 +163,37 @@ public class Code05_NapkinPlan1 {
 		int s = ++n;
 		int t = ++n;
 		cntg = 1;
-		long total = 0;
 		for (int i = 1; i <= openDays; i++) {
-			total += need[i];
-		}
-		for (int i = 1; i <= openDays; i++) {
+			// dirty和clean是最重要的概念，表示 脏餐巾处理点 和 干净餐巾拿取点
+			// dirty是第i天的脏餐巾处理点，当天用脏的和以前留下的，都可以从这里送洗或继续留存
+			// clean是第i天的干净餐巾拿取点，当天新买的和洗好的，都在这里供当天使用
 			int dirty = i;
-			int clean = openDays + i;
+			int clean = i + openDays;
 			// 第i天用完后，有need[i]个脏餐巾可供后续使用
 			addEdge(s, dirty, need[i], 0);
 			addEdge(dirty, s, 0, 0);
 			// 第i天购买新餐巾，最多只需买当天的需求量
 			addEdge(s, clean, need[i], buyCost);
 			addEdge(clean, s, 0, -buyCost);
-			// 满足第i天的需求，最大流时，每天的这条边都恰好流满
+			// 最大流时，这条边的流量恰好为need[i]，表示第i天的餐巾需求全部得到满足
 			addEdge(clean, t, need[i], 0);
 			addEdge(t, clean, 0, 0);
-			// 脏餐巾可以免费留到明天，连续走多条这样的边，意味着延期再洗
+			// 当天结束时，可以把任意数量的脏餐巾免费留到明天，以后再送洗
 			if (i < openDays) {
-				addEdge(dirty, dirty + 1, total, 0);
+				addEdge(dirty, dirty + 1, INF, 0);
 				addEdge(dirty + 1, dirty, 0, 0);
 			}
 			// 第i天送快洗，第 i + fastDays 天可用
-			if (fastDays <= openDays - i) {
-				int back = i + fastDays;
-				addEdge(dirty, openDays + back, need[back], fastCost);
-				addEdge(openDays + back, dirty, 0, -fastCost);
+			int back = i + fastDays;
+			if (back <= openDays) {
+				addEdge(dirty, back + openDays, need[back], fastCost);
+				addEdge(back + openDays, dirty, 0, -fastCost);
 			}
 			// 第i天送慢洗，第 i + slowDays 天可用
-			if (slowDays <= openDays - i) {
-				int back = i + slowDays;
-				addEdge(dirty, openDays + back, need[back], slowCost);
-				addEdge(openDays + back, dirty, 0, -slowCost);
+			back = i + slowDays;
+			if (back <= openDays) {
+				addEdge(dirty, back + openDays, need[back], slowCost);
+				addEdge(back + openDays, dirty, 0, -slowCost);
 			}
 		}
 		ssp(s, t);
