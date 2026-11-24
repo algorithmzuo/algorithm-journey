@@ -48,6 +48,7 @@ public class Code07_Prom1 {
 	public static PriorityQueue<double[]> heap = new PriorityQueue<>((a, b) -> Double.compare(a[0], b[0]));
 	public static double[] dist = new double[MAXN];
 	public static boolean[] vis = new boolean[MAXN];
+
 	public static long maxflow;
 	public static double mincost;
 

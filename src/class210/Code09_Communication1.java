@@ -41,6 +41,7 @@ public class Code09_Communication1 {
 	public static PriorityQueue<long[]> heap = new PriorityQueue<>((a, b) -> Long.compare(a[0], b[0]));
 	public static long[] dist = new long[MAXN];
 	public static boolean[] vis = new boolean[MAXN];
+
 	public static long maxflow, mincost;
 
 	public static void addEdge(int u, int v, long w, long c) {
