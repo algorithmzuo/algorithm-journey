@@ -139,7 +139,7 @@ public class Code08_Collecting1 {
 		h[s] = h[belong[1]] = 0;
 		// 分量编号从大到小，对应拓扑序，讲解190讲了
 		// 分量的入点是i，出点是out
-		for (int i = sccCnt, out = i + sccCnt; i >= 1; i--, out--) {
+		for (int i = sccCnt, out = sccCnt << 1; i >= 1; i--, out--) {
 			if (h[i] != INF) {
 				h[out] = h[i] - sum[i];
 				for (int e = head[out]; e > 0; e = nxt[e]) {
