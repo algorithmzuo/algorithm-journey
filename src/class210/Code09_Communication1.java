@@ -149,6 +149,36 @@ public class Code09_Communication1 {
 	}
 
 	public static void merge(int l, int mid, int r) {
+		long curVal = Math.min(arr[idx[l]], arr[idx[mid + 1]]);
+		int curNode = ++n;
+		for (int p1 = l, p2 = mid + 1, u; p1 <= mid || p2 <= r;) {
+			if (p1 <= mid && (p2 > r || arr[idx[p1]] <= arr[idx[p2]])) {
+				u = idx[p1++];
+			} else {
+				u = idx[p2++];
+			}
+			// 相同频段共用一个虚点，遇到新频段时，将新旧虚点双向连边
+			if (arr[u] != curVal) {
+				int preNode = curNode;
+				curNode = ++n;
+				long c = arr[u] - curVal;
+				addEdge(preNode, curNode, k, c);
+				addEdge(curNode, preNode, 0, -c);
+				addEdge(curNode, preNode, k, c);
+				addEdge(preNode, curNode, 0, -c);
+				curVal = arr[u];
+			}
+			if (u > mid) {
+				// u在右半区，从选择点u进入频段链，选择左侧哨站
+				addEdge(u, curNode, 1, 0);
+				addEdge(curNode, u, 0, 0);
+			} else {
+				// u在左半区，从频段链走到接收点u + k，表示右侧哨站选择了u
+				addEdge(curNode, u + k, 1, 0);
+				addEdge(u + k, curNode, 0, 0);
+			}
+		}
+		// 归并的过程
 		int p1 = l, p2 = mid + 1, ti = 0;
 		while (p1 <= mid && p2 <= r) {
 			if (arr[idx[p1]] <= arr[idx[p2]]) {
@@ -163,30 +193,8 @@ public class Code09_Communication1 {
 		while (p2 <= r) {
 			tmp[++ti] = idx[p2++];
 		}
-		long lval = arr[tmp[1]];
-		int cur = ++n;
 		for (int i = l, j = 1; i <= r; i++, j++) {
-			int u = tmp[j];
-			if (arr[u] != lval) {
-				int pre = cur;
-				cur = ++n;
-				long c = arr[u] - lval;
-				// 相邻频段之间双向通行，每个方向各有一条残量反向边
-				addEdge(pre, cur, k, c);
-				addEdge(cur, pre, 0, -c);
-				addEdge(cur, pre, k, c);
-				addEdge(pre, cur, 0, -c);
-				lval = arr[u];
-			}
-			// 按原下标判断，右半区进链，左半区出链
-			if (u > mid) {
-				addEdge(u, cur, 1, 0);
-				addEdge(cur, u, 0, 0);
-			} else {
-				addEdge(cur, k + u, 1, 0);
-				addEdge(k + u, cur, 0, 0);
-			}
-			idx[i] = u;
+			idx[i] = tmp[j];
 		}
 	}
 
@@ -206,19 +214,28 @@ public class Code09_Communication1 {
 		k = in.nextInt();
 		int w = in.nextInt();
 		n = k << 1;
+		int center = ++n;
 		int s = ++n;
 		int t = ++n;
 		cntg = 1;
+		// 节点i，代表哨站i做的选择，我要连接谁
+		// 节点i + k，代表哨站i提供的接收名额，谁可以连接我
 		for (int i = 1; i <= k; i++) {
 			arr[i] = in.nextInt();
 			idx[i] = i;
+			// s到i分配1的流量，表示哨站i做的选择只能有1个
 			addEdge(s, i, 1, 0);
 			addEdge(i, s, 0, 0);
-			addEdge(i, t, 1, w);
-			addEdge(t, i, 0, -w);
-			addEdge(k + i, t, 1, 0);
-			addEdge(t, k + i, 0, 0);
+			// 哨站i可以直接连向中心点，费用为w
+			addEdge(i, center, 1, w);
+			addEdge(center, i, 0, -w);
+			// i + k到t分配1的流量，表示只有1个哨站可以连接过来
+			addEdge(i + k, t, 1, 0);
+			addEdge(t, i + k, 0, 0);
 		}
+		// 控制中心可以被k个哨站的连接
+		addEdge(center, t, k, 0);
+		addEdge(t, center, 0, 0);
 		cdq(1, k);
 		ssp(s, t);
 		out.println(mincost);
