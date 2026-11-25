@@ -1,6 +1,14 @@
 package class210;
 
 // 收集，java版
+// 一共有n个点、m条有向边，图中没有自环，也没有重边
+// 第i号边从a[i]指向b[i]，第i号点有arr[i]件物品，有k个人要收集物品
+// 每个人都从1号点出发，每一步沿着有向边前进，可以随时停下
+// 每个点可以反复经过，第一次经过时，物品就被完全拿走，以后不会再有收益
+// 求这k个人总共最多能收集多少件物品
+// 1 <= n、m <= 2 * 10^5
+// 1 <= k <= 10
+// 1 <= arr[i] <= 10^9
 // 测试链接 : https://www.luogu.com.cn/problem/AT_abc214_h
 // 测试链接 : https://atcoder.jp/contests/abc214/tasks/abc214_h
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
@@ -101,7 +109,7 @@ public class Code08_Collecting1 {
 	}
 
 	public static void condense(int s, int t) {
-		// 清空然后建立费用流图
+		// 原图清空建立费用流图
 		Arrays.fill(head, 1, n + 1, 0);
 		cntg = 1;
 		for (int i = 1; i <= sccCnt; i++) {
