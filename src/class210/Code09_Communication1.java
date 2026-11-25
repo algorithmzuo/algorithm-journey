@@ -2,11 +2,11 @@ package class210;
 
 // 通信，java版
 // 一共有k个哨站，从左到右编号为1到k，第i号哨站的频段为arr[i]
-// 每个哨站必须选择以下两种方式中的一种进行连接
+// 每个哨站必须选择以下两种连接方式中的一种
 // 方式1，第i号哨站直接连接控制中心，花费为w
-// 方式2，第i号哨站选择左侧哨站j进行连接，花费为|arr[i] - arr[j]|
-// 控制中心可以被任意多个哨站连接，每个哨站最多只能被一个右侧哨站连接
-// 求所有哨站完成连接的最小总花费
+// 方式2，第i号哨站选择左侧哨站j连接，花费为|arr[i] - arr[j]|
+// 控制中心可以被多个哨站直接连接，每个哨站最多只能被一个右侧哨站直接连接
+// 求所有哨站都直接或间接连上控制中心的最小总花费
 // 1 <= k <= 1000
 // 0 <= w、arr[i] <= 10^9
 // 测试链接 : https://www.luogu.com.cn/problem/P5331
@@ -27,7 +27,7 @@ public class Code09_Communication1 {
 	public static long INF = 1L << 60;
 	public static int k, n;
 
-	public static int[] arr = new int[MAXN];
+	public static long[] arr = new long[MAXN];
 	public static int[] idx = new int[MAXN];
 	public static int[] tmp = new int[MAXN];
 
@@ -163,21 +163,20 @@ public class Code09_Communication1 {
 		while (p2 <= r) {
 			tmp[++ti] = idx[p2++];
 		}
-		// tmp已按频段排好序，先建第一个频段的虚点
-		int last = arr[tmp[1]];
+		long lval = arr[tmp[1]];
 		int cur = ++n;
 		for (int i = l, j = 1; i <= r; i++, j++) {
 			int u = tmp[j];
-			if (arr[u] != last) {
+			if (arr[u] != lval) {
 				int pre = cur;
 				cur = ++n;
-				long c = (long) arr[u] - last;
+				long c = arr[u] - lval;
 				// 相邻频段之间双向通行，每个方向各有一条残量反向边
 				addEdge(pre, cur, k, c);
 				addEdge(cur, pre, 0, -c);
 				addEdge(cur, pre, k, c);
 				addEdge(pre, cur, 0, -c);
-				last = arr[u];
+				lval = arr[u];
 			}
 			// 按原下标判断，右半区进链，左半区出链
 			if (u > mid) {
