@@ -2,9 +2,9 @@ package class210;
 
 // 收集，java版
 // 一共有n个点、m条有向边，图中没有自环，也没有重边
-// 第i号边从a[i]指向b[i]，第i号点有arr[i]件物品，有k个人要收集物品
-// 每个人都从1号点出发，每一步沿着有向边前进，可以随时停下
-// 每个点可以反复经过，第一次经过时，物品就被完全拿走，以后不会再有收益
+// 第i号边从a[i]指向b[i]，第i号点有arr[i]件物品
+// 一共k个人，依次从1号点出发，每步沿着有向边前进，可以随时停下
+// 每个点可以反复访问，第一个访问的人拿走全部物品，以后不会再有收益
 // 求这k个人总共最多能收集多少件物品
 // 1 <= n、m <= 2 * 10^5
 // 1 <= k <= 10
@@ -45,7 +45,7 @@ public class Code08_Collecting1 {
 	public static int sccCnt;
 
 	// 强连通分量点权和的前缀和
-	public static long[] prefix = new long[MAXN];
+	public static long[] presum = new long[MAXN];
 
 	// 原图和费用流图，使用同一套链式前向星
 	public static int[] head = new int[MAXN];
@@ -113,12 +113,11 @@ public class Code08_Collecting1 {
 		Arrays.fill(head, 1, n + 1, 0);
 		cntg = 1;
 		for (int i = 1; i <= sccCnt; i++) {
-			prefix[i] = prefix[i - 1] + sum[i];
+			presum[i] = presum[i - 1] + sum[i];
 		}
-		int start = belong[1];
-		long c = prefix[sccCnt] - prefix[start];
-		addEdge(s, start, k, c);
-		addEdge(start, s, 0, -c);
+		long c = presum[sccCnt] - presum[belong[1]];
+		addEdge(s, belong[1], k, c);
+		addEdge(belong[1], s, 0, -c);
 		for (int i = 1; i <= sccCnt; i++) {
 			int out = i + sccCnt;
 			// 第一个经过分量i的人取走全部物品，损失为0
@@ -128,7 +127,7 @@ public class Code08_Collecting1 {
 			addEdge(i, out, k, sum[i]);
 			addEdge(out, i, 0, -sum[i]);
 			// 在分量i停下，跳过编号1到i-1的分量
-			c = prefix[i - 1];
+			c = presum[i - 1];
 			addEdge(out, t, k, c);
 			addEdge(t, out, 0, -c);
 		}
@@ -137,7 +136,7 @@ public class Code08_Collecting1 {
 			int v = belong[b[i]];
 			if (u != v) {
 				// 跨分量边满足 u > v，从u走到v，跳过编号v+1到u-1的分量
-				c = prefix[u - 1] - prefix[v];
+				c = presum[u - 1] - presum[v];
 				addEdge(u + sccCnt, v, k, c);
 				addEdge(v, u + sccCnt, 0, -c);
 			}
@@ -222,7 +221,7 @@ public class Code08_Collecting1 {
 		condense(s, t);
 		ssp(s, t);
 		// 每人先计入所有物品，再减去跳过和重复经过分量造成的总损失
-		out.println(k * prefix[sccCnt] - mincost);
+		out.println(k * presum[sccCnt] - mincost);
 		out.flush();
 		out.close();
 	}
