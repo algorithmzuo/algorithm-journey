@@ -159,14 +159,15 @@ public class Code09_Communication1 {
 			}
 			// 相同频段共用一个虚点，遇到新频段时，将新旧虚点双向连边
 			if (arr[u] != curVal) {
-				int preNode = curNode;
-				curNode = ++n;
-				long c = arr[u] - curVal;
-				addEdge(preNode, curNode, k, c);
-				addEdge(curNode, preNode, 0, -c);
-				addEdge(curNode, preNode, k, c);
-				addEdge(preNode, curNode, 0, -c);
-				curVal = arr[u];
+				long nextVal = arr[u];
+				int nextNode = ++n;
+				long c = nextVal - curVal;
+				addEdge(curNode, nextNode, k, c);
+				addEdge(nextNode, curNode, 0, -c);
+				addEdge(nextNode, curNode, k, c);
+				addEdge(curNode, nextNode, 0, -c);
+				curVal = nextVal;
+				curNode = nextNode;
 			}
 			if (u > mid) {
 				// u在右半区，从选择点u进入频段链，选择左侧哨站
@@ -178,7 +179,7 @@ public class Code09_Communication1 {
 				addEdge(u + k, curNode, 0, 0);
 			}
 		}
-		// 归并的过程
+		// 归并过程
 		int p1 = l, p2 = mid + 1, ti = 0;
 		while (p1 <= mid && p2 <= r) {
 			if (arr[idx[p1]] <= arr[idx[p2]]) {
@@ -223,17 +224,17 @@ public class Code09_Communication1 {
 		for (int i = 1; i <= k; i++) {
 			arr[i] = in.nextInt();
 			idx[i] = i;
-			// s到i分配1的流量，表示哨站i做的选择只能有1个
+			// s到i分配1的流量，表示哨站i做的连接选择只有1个
 			addEdge(s, i, 1, 0);
 			addEdge(i, s, 0, 0);
 			// 哨站i可以直接连向中心点，费用为w
 			addEdge(i, center, 1, w);
 			addEdge(center, i, 0, -w);
-			// i + k到t分配1的流量，表示只有1个哨站可以连接过来
+			// i + k到t分配1的流量，表示最多有1个哨站可以连过来
 			addEdge(i + k, t, 1, 0);
 			addEdge(t, i + k, 0, 0);
 		}
-		// 控制中心可以被k个哨站的连接
+		// 控制中心可以被k个哨站连接过来
 		addEdge(center, t, k, 0);
 		addEdge(t, center, 0, 0);
 		cdq(1, k);
