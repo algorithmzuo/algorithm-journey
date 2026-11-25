@@ -75,6 +75,58 @@ public class Code08_Collecting1 {
 		head[u] = cntg;
 	}
 
+	public static void dijkstra(int s) {
+		for (int i = 1; i <= n; i++) {
+			dist[i] = INF;
+			flow[i] = -1;
+			vis[i] = false;
+		}
+		flow[s] = INF;
+		dist[s] = 0;
+		heap.clear();
+		heap.add(new long[] { 0, s });
+		while (!heap.isEmpty()) {
+			long[] cur = heap.poll();
+			long d = cur[0];
+			int u = (int) cur[1];
+			if (!vis[u]) {
+				vis[u] = true;
+				for (int e = head[u]; e > 0; e = nxt[e]) {
+					int v = to[e];
+					long w = weight[e];
+					long c = cost[e] + h[u] - h[v];
+					if (w > 0 && !vis[v] && dist[v] > d + c) {
+						dist[v] = dist[u] + c;
+						flow[v] = Math.min(w, flow[u]);
+						pre[v] = e;
+						heap.add(new long[] { dist[v], v });
+					}
+				}
+			}
+		}
+	}
+
+	// 初始有容量的边，费用都是非负的，可以跳过spfa，不然会超时
+	public static boolean ssp(int s, int t) {
+		maxflow = mincost = 0;
+		dijkstra(s);
+		while (flow[t] != -1) {
+			maxflow += flow[t];
+			for (int u = t; u != s; u = to[pre[u] ^ 1]) {
+				weight[pre[u]] -= flow[t];
+				weight[pre[u] ^ 1] += flow[t];
+				mincost += flow[t] * cost[pre[u]];
+			}
+			for (int i = 1; i <= n; i++) {
+				if (dist[i] != INF) {
+					h[i] += dist[i];
+				}
+			}
+			dijkstra(s);
+		}
+		return false;
+	}
+
 	public static void addEdge(int u, int v, long w, long c) {
 		nxt[++cntg] = head[u];
 		to[cntg] = v;
@@ -141,58 +193,6 @@ public class Code08_Collecting1 {
 				addEdge(v, u + sccCnt, 0, -c);
 			}
 		}
-	}
-
-	public static void dijkstra(int s) {
-		for (int i = 1; i <= n; i++) {
-			dist[i] = INF;
-			flow[i] = -1;
-			vis[i] = false;
-		}
-		flow[s] = INF;
-		dist[s] = 0;
-		heap.clear();
-		heap.add(new long[] { 0, s });
-		while (!heap.isEmpty()) {
-			long[] cur = heap.poll();
-			long d = cur[0];
-			int u = (int) cur[1];
-			if (!vis[u]) {
-				vis[u] = true;
-				for (int e = head[u]; e > 0; e = nxt[e]) {
-					int v = to[e];
-					long w = weight[e];
-					long c = cost[e] + h[u] - h[v];
-					if (w > 0 && !vis[v] && dist[v] > d + c) {
-						dist[v] = dist[u] + c;
-						flow[v] = Math.min(w, flow[u]);
-						pre[v] = e;
-						heap.add(new long[] { dist[v], v });
-					}
-				}
-			}
-		}
-	}
-
-	// 初始有容量的边，费用都是非负的，可以跳过spfa，不然会超时
-	public static boolean ssp(int s, int t) {
-		maxflow = mincost = 0;
-		dijkstra(s);
-		while (flow[t] != -1) {
-			maxflow += flow[t];
-			for (int u = t; u != s; u = to[pre[u] ^ 1]) {
-				weight[pre[u]] -= flow[t];
-				weight[pre[u] ^ 1] += flow[t];
-				mincost += flow[t] * cost[pre[u]];
-			}
-			for (int i = 1; i <= n; i++) {
-				if (dist[i] != INF) {
-					h[i] += dist[i];
-				}
-			}
-			dijkstra(s);
-		}
-		return false;
 	}
 
 	public static void main(String[] args) throws Exception {
