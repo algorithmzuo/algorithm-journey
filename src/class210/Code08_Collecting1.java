@@ -44,9 +44,6 @@ public class Code08_Collecting1 {
 	public static long[] sum = new long[MAXN];
 	public static int sccCnt;
 
-	// 强连通分量点权和的前缀和
-	public static long[] presum = new long[MAXN];
-
 	// 原图和费用流图，使用同一套链式前向星
 	public static int[] head = new int[MAXN];
 	public static int[] nxt = new int[MAXM << 1];
@@ -73,58 +70,6 @@ public class Code08_Collecting1 {
 		nxt[++cntg] = head[u];
 		to[cntg] = v;
 		head[u] = cntg;
-	}
-
-	public static void dijkstra(int s) {
-		for (int i = 1; i <= n; i++) {
-			dist[i] = INF;
-			flow[i] = -1;
-			vis[i] = false;
-		}
-		flow[s] = INF;
-		dist[s] = 0;
-		heap.clear();
-		heap.add(new long[] { 0, s });
-		while (!heap.isEmpty()) {
-			long[] cur = heap.poll();
-			long d = cur[0];
-			int u = (int) cur[1];
-			if (!vis[u]) {
-				vis[u] = true;
-				for (int e = head[u]; e > 0; e = nxt[e]) {
-					int v = to[e];
-					long w = weight[e];
-					long c = cost[e] + h[u] - h[v];
-					if (w > 0 && !vis[v] && dist[v] > d + c) {
-						dist[v] = dist[u] + c;
-						flow[v] = Math.min(w, flow[u]);
-						pre[v] = e;
-						heap.add(new long[] { dist[v], v });
-					}
-				}
-			}
-		}
-	}
-
-	// 初始有容量的边，费用都是非负的，可以跳过spfa，不然会超时
-	public static boolean ssp(int s, int t) {
-		maxflow = mincost = 0;
-		dijkstra(s);
-		while (flow[t] != -1) {
-			maxflow += flow[t];
-			for (int u = t; u != s; u = to[pre[u] ^ 1]) {
-				weight[pre[u]] -= flow[t];
-				weight[pre[u] ^ 1] += flow[t];
-				mincost += flow[t] * cost[pre[u]];
-			}
-			for (int i = 1; i <= n; i++) {
-				if (dist[i] != INF) {
-					h[i] += dist[i];
-				}
-			}
-			dijkstra(s);
-		}
-		return false;
 	}
 
 	public static void addEdge(int u, int v, long w, long c) {
@@ -161,38 +106,104 @@ public class Code08_Collecting1 {
 	}
 
 	public static void condense(int s, int t) {
-		// 原图清空建立费用流图
 		Arrays.fill(head, 1, n + 1, 0);
 		cntg = 1;
-		for (int i = 1; i <= sccCnt; i++) {
-			presum[i] = presum[i - 1] + sum[i];
-		}
-		long c = presum[sccCnt] - presum[belong[1]];
-		addEdge(s, belong[1], k, c);
-		addEdge(belong[1], s, 0, -c);
+		addEdge(s, belong[1], k, 0);
+		addEdge(belong[1], s, 0, 0);
 		for (int i = 1; i <= sccCnt; i++) {
 			int out = i + sccCnt;
-			// 第一个经过分量i的人取走全部物品，损失为0
-			addEdge(i, out, 1, 0);
+			// 第一个经过的人，拿走所有物品，收益为sum[i]
+			addEdge(i, out, 1, -sum[i]);
+			addEdge(out, i, 0, sum[i]);
+			// 后续的人也可以经过，但是收益为0
+			addEdge(i, out, k - 1, 0);
 			addEdge(out, i, 0, 0);
-			// 后来的人仍可经过，每人少拿sum[i]个物品
-			addEdge(i, out, k, sum[i]);
-			addEdge(out, i, 0, -sum[i]);
-			// 在分量i停下，跳过编号1到i-1的分量
-			c = presum[i - 1];
-			addEdge(out, t, k, c);
-			addEdge(t, out, 0, -c);
+			// 每个人都可以在当前分量结束行程
+			addEdge(out, t, k, 0);
+			addEdge(t, out, 0, 0);
 		}
 		for (int i = 1; i <= m; i++) {
 			int u = belong[a[i]];
 			int v = belong[b[i]];
 			if (u != v) {
-				// 跨分量边满足 u > v，从u走到v，跳过编号v+1到u-1的分量
-				c = presum[u - 1] - presum[v];
-				addEdge(u + sccCnt, v, k, c);
-				addEdge(v, u + sccCnt, 0, -c);
+				// 从分量u的出点走到分量v的入点，费用为0
+				addEdge(u + sccCnt, v, k, 0);
+				addEdge(v, u + sccCnt, 0, 0);
 			}
 		}
+	}
+
+	// 缩点之后转成DAG，利用拓扑序求最短距离作为初始势能，替代spfa
+	public static void init(int s) {
+		Arrays.fill(h, 1, n + 1, INF);
+		h[s] = h[belong[1]] = 0;
+		// 分量编号从大到小，对应拓扑序，讲解190讲了
+		// 分量的入点是i，出点是out
+		for (int i = sccCnt, out = i + sccCnt; i >= 1; i--, out--) {
+			if (h[i] != INF) {
+				h[out] = h[i] - sum[i];
+				for (int e = head[out]; e > 0; e = nxt[e]) {
+					int v = to[e];
+					long c = cost[e];
+					if (weight[e] > 0) {
+						h[v] = Math.min(h[v], h[out] + c);
+					}
+				}
+			}
+		}
+	}
+
+	public static void dijkstra(int s) {
+		for (int i = 1; i <= n; i++) {
+			dist[i] = INF;
+			flow[i] = -1;
+			vis[i] = false;
+		}
+		flow[s] = INF;
+		dist[s] = 0;
+		heap.clear();
+		heap.add(new long[] { 0, s });
+		while (!heap.isEmpty()) {
+			long[] cur = heap.poll();
+			long d = cur[0];
+			int u = (int) cur[1];
+			if (!vis[u]) {
+				vis[u] = true;
+				for (int e = head[u]; e > 0; e = nxt[e]) {
+					int v = to[e];
+					long w = weight[e];
+					long c = cost[e] + h[u] - h[v];
+					if (w > 0 && !vis[v] && dist[v] > d + c) {
+						dist[v] = dist[u] + c;
+						flow[v] = Math.min(w, flow[u]);
+						pre[v] = e;
+						heap.add(new long[] { dist[v], v });
+					}
+				}
+			}
+		}
+	}
+
+	// 通过缩点已经转成DAG，按拓扑序在线性时间内求出初始势能，不要使用spfa，因为会超时
+	public static boolean ssp(int s, int t) {
+		maxflow = mincost = 0;
+		init(s);
+		dijkstra(s);
+		while (flow[t] != -1) {
+			maxflow += flow[t];
+			for (int u = t; u != s; u = to[pre[u] ^ 1]) {
+				weight[pre[u]] -= flow[t];
+				weight[pre[u] ^ 1] += flow[t];
+				mincost += flow[t] * cost[pre[u]];
+			}
+			for (int i = 1; i <= n; i++) {
+				if (dist[i] != INF) {
+					h[i] += dist[i];
+				}
+			}
+			dijkstra(s);
+		}
+		return false;
 	}
 
 	public static void main(String[] args) throws Exception {
@@ -214,14 +225,12 @@ public class Code08_Collecting1 {
 				tarjan(i);
 			}
 		}
-		// 分量i的入点为i，出点为i+sccCnt
 		n = sccCnt << 1;
 		int s = ++n;
 		int t = ++n;
 		condense(s, t);
 		ssp(s, t);
-		// 每人先计入所有物品，再减去跳过和重复经过分量造成的总损失
-		out.println(k * presum[sccCnt] - mincost);
+		out.println(-mincost);
 		out.flush();
 		out.close();
 	}
