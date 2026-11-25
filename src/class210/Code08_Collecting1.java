@@ -184,7 +184,8 @@ public class Code08_Collecting1 {
 		}
 	}
 
-	// 通过缩点已经转成DAG，按拓扑序在线性时间内求出初始势能，不要使用spfa，因为会超时
+	// 初始时只看剩余容量大于0的边，整张图是DAG，可以利用拓扑序求出初始势能
+	// 不要使用spfa，因为本题的数据量大，spfa会超时
 	public static boolean ssp(int s, int t) {
 		maxflow = mincost = 0;
 		init(s);
