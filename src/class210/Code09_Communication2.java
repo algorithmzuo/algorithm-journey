@@ -176,12 +176,12 @@ package class210;
 //            curVal = nextVal;
 //            curNode = nextNode;
 //        }
-//        if (u > mid) {
-//            addEdge(u, curNode, 1, 0);
-//            addEdge(curNode, u, 0, 0);
-//        } else {
+//        if (u <= mid) {
 //            addEdge(curNode, u + k, 1, 0);
 //            addEdge(u + k, curNode, 0, 0);
+//        } else {
+//            addEdge(u, curNode, 1, 0);
+//            addEdge(curNode, u, 0, 0);
 //        }
 //    }
 //    int p1 = l, p2 = mid + 1, ti = 0;
@@ -219,7 +219,6 @@ package class210;
 //    int w;
 //    cin >> k >> w;
 //    n = k << 1;
-//    int center = ++n;
 //    int s = ++n;
 //    int t = ++n;
 //    cntg = 1;
@@ -228,13 +227,11 @@ package class210;
 //        idx[i] = i;
 //        addEdge(s, i, 1, 0);
 //        addEdge(i, s, 0, 0);
-//        addEdge(i, center, 1, w);
-//        addEdge(center, i, 0, -w);
+//        addEdge(i, t, 1, w);
+//        addEdge(t, i, 0, -w);
 //        addEdge(i + k, t, 1, 0);
 //        addEdge(t, i + k, 0, 0);
 //    }
-//    addEdge(center, t, k, 0);
-//    addEdge(t, center, 0, 0);
 //    cdq(1, k);
 //    ssp(s, t);
 //    cout << mincost << '\n';
