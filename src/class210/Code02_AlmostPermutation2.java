@@ -192,7 +192,10 @@ package class210;
 //        }
 //    }
 //    ssp(s, t);
-//    int ans = maxflow == len ? mincost : -1;
-//    cout << ans << '\n';
+//    if (maxflow == len) {
+//        cout << mincost << '\n';
+//    } else {
+//        cout << -1 << '\n';
+//    }
 //    return 0;
 //}

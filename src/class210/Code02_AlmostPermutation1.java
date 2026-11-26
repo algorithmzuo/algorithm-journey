@@ -192,8 +192,11 @@ public class Code02_AlmostPermutation1 {
 			}
 		}
 		ssp(s, t);
-		int ans = maxflow == len ? mincost : -1;
-		out.println(ans);
+		if (maxflow == len) {
+			out.println(mincost);
+		} else {
+			out.println(-1);
+		}
 		out.flush();
 		out.close();
 	}
