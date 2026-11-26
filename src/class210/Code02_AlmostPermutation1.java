@@ -184,7 +184,7 @@ public class Code02_AlmostPermutation1 {
 		}
 		// 数字v第k次出现时，代价从(k-1)*(k-1)增加到k*k，新增代价为2*k - 1
 		// 因此数字v向汇点连接len条平行边，每条容量为1，费用依次为1, 3, 5 ..
-		// 如果数字v出现x次，最小费用方案会选最便宜的x条边，费用恰好为x*x
+		// 如果数字v出现x次，最小费用流的求解过程会选最便宜的x条边，费用恰好为x*x
 		for (int v = 1; v <= len; v++) {
 			for (int k = 1, c = 1; k <= len; k++, c += 2) {
 				addEdge(len + v, t, 1, c);
