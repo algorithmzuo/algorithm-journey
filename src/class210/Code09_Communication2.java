@@ -157,31 +157,53 @@ package class210;
 //}
 //
 //void merge(int l, int mid, int r) {
-//    ll curVal = min(arr[idx[l]], arr[idx[mid + 1]]);
+//    ll curVal = arr[idx[l]];
 //    int curNode = ++n;
-//    for (int p1 = l, p2 = mid + 1, u; p1 <= mid || p2 <= r;) {
-//        if (p1 <= mid && (p2 > r || arr[idx[p1]] <= arr[idx[p2]])) {
-//            u = idx[p1++];
-//        } else {
-//            u = idx[p2++];
+//    ll newVal;
+//    int newNode;
+//    ll c;
+//    for (int p1 = l, p2 = mid + 1; p2 <= r; p2++) {
+//        while (p1 <= mid && arr[idx[p1]] <= arr[idx[p2]]) {
+//            newVal = arr[idx[p1]];
+//            if (newVal != curVal) {
+//                newNode = ++n;
+//                c = newVal - curVal;
+//                addEdge(newNode, curNode, k, c);
+//                addEdge(curNode, newNode, 0, -c);
+//                curVal = newVal;
+//                curNode = newNode;
+//            }
+//            addEdge(curNode, idx[p1] + k, 1, 0);
+//            addEdge(idx[p1] + k, curNode, 0, 0);
+//            p1++;
 //        }
-//        if (arr[u] != curVal) {
-//            ll nextVal = arr[u];
-//            int nextNode = ++n;
-//            ll c = nextVal - curVal;
-//            addEdge(curNode, nextNode, k, c);
-//            addEdge(nextNode, curNode, 0, -c);
-//            addEdge(nextNode, curNode, k, c);
-//            addEdge(curNode, nextNode, 0, -c);
-//            curVal = nextVal;
-//            curNode = nextNode;
+//        if (p1 > l) {
+//            c = arr[idx[p2]] - curVal;
+//            addEdge(idx[p2], curNode, 1, c);
+//            addEdge(curNode, idx[p2], 0, -c);
 //        }
-//        if (u <= mid) {
-//            addEdge(curNode, u + k, 1, 0);
-//            addEdge(u + k, curNode, 0, 0);
-//        } else {
-//            addEdge(u, curNode, 1, 0);
-//            addEdge(curNode, u, 0, 0);
+//    }
+//    curVal = arr[idx[mid]];
+//    curNode = ++n;
+//    for (int p1 = mid, p2 = r; p2 > mid; p2--) {
+//        while (p1 >= l && arr[idx[p1]] > arr[idx[p2]]) {
+//            newVal = arr[idx[p1]];
+//            if (newVal != curVal) {
+//                newNode = ++n;
+//                c = curVal - newVal;
+//                addEdge(newNode, curNode, k, c);
+//                addEdge(curNode, newNode, 0, -c);
+//                curVal = newVal;
+//                curNode = newNode;
+//            }
+//            addEdge(curNode, idx[p1] + k, 1, 0);
+//            addEdge(idx[p1] + k, curNode, 0, 0);
+//            p1--;
+//        }
+//        if (p1 < mid) {
+//            c = curVal - arr[idx[p2]];
+//            addEdge(idx[p2], curNode, 1, c);
+//            addEdge(curNode, idx[p2], 0, -c);
 //        }
 //    }
 //    int p1 = l, p2 = mid + 1, ti = 0;

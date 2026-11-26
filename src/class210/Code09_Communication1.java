@@ -149,38 +149,60 @@ public class Code09_Communication1 {
 	}
 
 	public static void merge(int l, int mid, int r) {
-		// 优化建图的过程
-		long curVal = Math.min(arr[idx[l]], arr[idx[mid + 1]]);
+		// 建立 左侧频率 <= 右侧频率 的连接
+		long curVal = arr[idx[l]];
 		int curNode = ++n;
-		for (int p1 = l, p2 = mid + 1, u; p1 <= mid || p2 <= r;) {
-			if (p1 <= mid && (p2 > r || arr[idx[p1]] <= arr[idx[p2]])) {
-				u = idx[p1++];
-			} else {
-				u = idx[p2++];
+		long newVal;
+		int newNode;
+		long c;
+		for (int p1 = l, p2 = mid + 1; p2 <= r; p2++) {
+			while (p1 <= mid && arr[idx[p1]] <= arr[idx[p2]]) {
+				newVal = arr[idx[p1]];
+				if (newVal != curVal) {
+					newNode = ++n;
+					c = newVal - curVal;
+					addEdge(newNode, curNode, k, c);
+					addEdge(curNode, newNode, 0, -c);
+					curVal = newVal;
+					curNode = newNode;
+				}
+				addEdge(curNode, idx[p1] + k, 1, 0);
+				addEdge(idx[p1] + k, curNode, 0, 0);
+				p1++;
 			}
-			// 相同频段共用一个虚点，遇到新频段时，将新旧虚点双向连边
-			if (arr[u] != curVal) {
-				long nextVal = arr[u];
-				int nextNode = ++n;
-				long c = nextVal - curVal;
-				addEdge(curNode, nextNode, k, c);
-				addEdge(nextNode, curNode, 0, -c);
-				addEdge(nextNode, curNode, k, c);
-				addEdge(curNode, nextNode, 0, -c);
-				curVal = nextVal;
-				curNode = nextNode;
-			}
-			if (u <= mid) {
-				// u在左半区，从频段链走到接收点u + k，表示右侧哨站选择了u
-				addEdge(curNode, u + k, 1, 0);
-				addEdge(u + k, curNode, 0, 0);
-			} else {
-				// u在右半区，从选择点u进入频段链，选择左侧哨站
-				addEdge(u, curNode, 1, 0);
-				addEdge(curNode, u, 0, 0);
+			// 左侧频率 <= 当前右侧哨站的频率，真的存在这个部分，才去连边
+			if (p1 > l) {
+				c = arr[idx[p2]] - curVal;
+				addEdge(idx[p2], curNode, 1, c);
+				addEdge(curNode, idx[p2], 0, -c);
 			}
 		}
-		// 归并的过程
+		// 建立 左侧频率 > 右侧频率 的连接
+		curVal = arr[idx[mid]];
+		curNode = ++n;
+		for (int p1 = mid, p2 = r; p2 > mid; p2--) {
+			while (p1 >= l && arr[idx[p1]] > arr[idx[p2]]) {
+				newVal = arr[idx[p1]];
+				if (newVal != curVal) {
+					newNode = ++n;
+					c = curVal - newVal;
+					addEdge(newNode, curNode, k, c);
+					addEdge(curNode, newNode, 0, -c);
+					curVal = newVal;
+					curNode = newNode;
+				}
+				addEdge(curNode, idx[p1] + k, 1, 0);
+				addEdge(idx[p1] + k, curNode, 0, 0);
+				p1--;
+			}
+			// 左侧频率 > 当前右侧哨站的频率，真的存在这个部分，才去连边
+			if (p1 < mid) {
+				c = curVal - arr[idx[p2]];
+				addEdge(idx[p2], curNode, 1, c);
+				addEdge(curNode, idx[p2], 0, -c);
+			}
+		}
+		// 归并
 		int p1 = l, p2 = mid + 1, ti = 0;
 		while (p1 <= mid && p2 <= r) {
 			if (arr[idx[p1]] <= arr[idx[p2]]) {
