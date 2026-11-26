@@ -149,7 +149,7 @@ public class Code09_Communication1 {
 	}
 
 	public static void merge(int l, int mid, int r) {
-		// 建立 左侧频率 <= 右侧频率 的连接
+		// 建立 左侧频段 <= 右侧频段 的连接
 		long curVal = arr[idx[l]];
 		int curNode = ++n;
 		long newVal;
@@ -170,14 +170,14 @@ public class Code09_Communication1 {
 				addEdge(idx[p1] + k, curNode, 0, 0);
 				p1++;
 			}
-			// 左侧频率 <= 当前右侧哨站的频率，真的存在这个部分，才去连边
+			// 左侧频段 <= 当前右侧频段的频段，真的存在这个部分，才去连边
 			if (p1 > l) {
 				c = arr[idx[p2]] - curVal;
 				addEdge(idx[p2], curNode, 1, c);
 				addEdge(curNode, idx[p2], 0, -c);
 			}
 		}
-		// 建立 左侧频率 > 右侧频率 的连接
+		// 建立 左侧频段 > 右侧频段 的连接
 		curVal = arr[idx[mid]];
 		curNode = ++n;
 		for (int p1 = mid, p2 = r; p2 > mid; p2--) {
@@ -195,7 +195,7 @@ public class Code09_Communication1 {
 				addEdge(idx[p1] + k, curNode, 0, 0);
 				p1--;
 			}
-			// 左侧频率 > 当前右侧哨站的频率，真的存在这个部分，才去连边
+			// 左侧频段 > 当前右侧哨站的频段，真的存在这个部分，才去连边
 			if (p1 < mid) {
 				c = curVal - arr[idx[p2]];
 				addEdge(idx[p2], curNode, 1, c);
