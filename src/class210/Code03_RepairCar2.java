@@ -1,12 +1,12 @@
 package class210;
 
 // 修车，C++版
-// 一共w名技师，c辆车同时到达，mat[i][j]表示第j名技师修好第i辆车所需的时间
+// 一共a名技师，b辆车同时到达，mat[i][j]表示第j名技师修好第i辆车所需的时间
 // 每辆车交给一名技师修理，每名技师只能修完一辆车后，再去修下一辆
 // 车主等待时间 = 到达的时刻开始，到车被修好的时刻为止，总共花费的时间
 // 你来安排修理的调度，求所有车主的最小平均等待时间，答案保留两位小数
-// 2 <= w <= 9
-// 1 <= c <= 60
+// 2 <= a <= 9
+// 1 <= b <= 60
 // 1 <= mat[i][j] <= 1000
 // 测试链接 : https://www.luogu.com.cn/problem/P2053
 // 如下实现是C++的版本，C++版本和java版本逻辑完全一样
@@ -150,30 +150,32 @@ package class210;
 //}
 //
 //int main() {
-//    int workers, cars, s, t;
-//    scanf("%d", &workers);
-//    scanf("%d", &cars);
-//    n = cars + workers * cars;
+//    int a, b, s, t;
+//    scanf("%d", &a);
+//    scanf("%d", &b);
+//    n = b + a * b;
 //    s = ++n;
 //    t = ++n;
 //    cntg = 1;
-//    for (int i = 1; i <= cars; i++) {
+//    for (int i = 1; i <= b; i++) {
 //        addEdge(s, i, 1, 0);
 //        addEdge(i, s, 0, 0);
-//        for (int j = 1, time; j <= workers; j++) {
+//        for (int j = 1, time; j <= a; j++) {
 //            scanf("%d", &time);
-//            for (int k = 1, a = j * cars + 1, c = time; k <= cars; k++, a++, c += time) {
-//                addEdge(i, a, 1, c);
-//                addEdge(a, i, 0, -c);
+//            for (int k = 1; k <= b; k++) {
+//                int u = j * b + k;
+//                int c = time * k;
+//                addEdge(i, u, 1, c);
+//                addEdge(u, i, 0, -c);
 //            }
 //        }
 //    }
-//    for (int a = cars + 1; a < s; a++) {
-//        addEdge(a, t, 1, 0);
-//        addEdge(t, a, 0, 0);
+//    for (int u = b + 1; u < s; u++) {
+//        addEdge(u, t, 1, 0);
+//        addEdge(t, u, 0, 0);
 //    }
 //    ssp(s, t);
-//    double ans = (double) mincost / cars;
+//    double ans = (double) mincost / b;
 //    printf("%.2f\n", ans);
 //    return 0;
 //}
