@@ -1,18 +1,18 @@
 package class128;
 
-// 感谢热心的同学，找到了题目2的在线测试
 // 最好的部署
-// 一共有n台机器，编号1 ~ n，所有机器排成一排
-// 你只能一台一台的部署机器，你可以决定部署的顺序，最终所有机器都要部署
+// 感谢热心的同学，找到了题目2的在线测试
+// 一共有n台机器，按编号1 ~ n从左到右排成一排
+// 每次部署一台机器，部署顺序由你决定，每台机器都要部署恰好一次
 // 给定三个长度为n的数组a[]、b[]、c[]
-// a[i] : 如果i号机器部署时，相邻有0台机器部署，此时能获得的收益
-// b[i] : 如果i号机器部署时，相邻有1台机器部署，此时能获得的收益
-// c[i] : 如果i号机器部署时，相邻有2台机器部署，此时能获得的收益
-// 第1号机器、第n号机器当然不会有两台相邻的机器
-// 返回部署的最大收益
-// 1 <= n、a[i]、b[i]、c[i] <= 10^4
-// 测试链接 : https://vjudge.net/problem/OpenJ_Bailian-4150
-// 测试链接 : http://bailian.openjudge.cn/practice/4150/
+// a[i] : 部署i号机器时，如果相邻机器都还没有部署，获得的收益
+// b[i] : 部署i号机器时，如果恰好有1台相邻机器已经部署，获得的收益
+// c[i] : 部署i号机器时，如果恰好有2台相邻机器已经部署，获得的收益
+// 第1号机器和第n号机器最多只有1台相邻机器
+// 求部署所有机器能获得的最大总收益
+// 1 <= n <= 3000
+// 0 <= a[i]、b[i]、c[i] <= 10^5
+// 测试链接 : https://codeforces.com/problemset/problem/358/D
 // 提交以下的code，提交时请把类名改成"Main"，可以通过所有测试用例
 
 import java.io.IOException;
@@ -22,15 +22,14 @@ import java.io.PrintWriter;
 
 public class Code02_BestDeploy2 {
 
-	public static int MAXN = 10002;
+	public static int MAXN = 3001;
 	public static int n;
 
 	public static int[] a = new int[MAXN];
 	public static int[] b = new int[MAXN];
 	public static int[] c = new int[MAXN];
 
-	// 课上讲的时间复杂度O(n)的方法
-	// 逻辑没有任何修改
+	// 课上讲的时间复杂度O(n)的方法，逻辑没有任何修改
 	public static int compute() {
 		int[][] dp = new int[n + 1][2];
 		dp[n][0] = a[n];
@@ -62,6 +61,7 @@ public class Code02_BestDeploy2 {
 
 	// 读写工具类
 	static class FastReader {
+
 		private final byte[] buffer = new byte[1 << 16];
 		private int ptr = 0, len = 0;
 		private final InputStream in;
@@ -97,6 +97,7 @@ public class Code02_BestDeploy2 {
 			}
 			return neg ? -val : val;
 		}
+
 	}
 
 }
