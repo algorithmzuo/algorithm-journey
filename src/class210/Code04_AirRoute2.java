@@ -156,7 +156,7 @@ package class210;
 //    return false;
 //}
 //
-//void getPath(int cities) {
+//void getRoute(int cities) {
 //    siz = 0;
 //    int len1 = 0;
 //    for (int trip = 1; trip <= 2; trip++) {
@@ -194,27 +194,31 @@ package class210;
 //    for (int i = 1; i <= cities; i++) {
 //        cin >> name[i];
 //        id[name[i]] = i;
-//        int w = (i == 1 || i == cities) ? 2 : 1;
-//        addEdge(i, cities + i, w, 0);
-//        addEdge(cities + i, i, 0, 0);
+//        if (i == 1 || i == cities) {
+//            addEdge(i, cities + i, 2, 0);
+//            addEdge(cities + i, i, 0, 0);
+//        } else {
+//            addEdge(i, cities + i, 1, 0);
+//            addEdge(cities + i, i, 0, 0);
+//        }
 //    }
-//    string city;
+//    string s1, s2;
+//    int a, b, u, v;
 //    for (int i = 1; i <= flights; i++) {
-//        cin >> city;
-//        int a = id[city];
-//        cin >> city;
-//        int b = id[city];
-//        int u = min(a, b);
-//        int v = max(a, b);
-//        addEdge(cities + u, v, 2, -1);
-//        addEdge(v, cities + u, 0, 1);
+//        cin >> s1 >> s2;
+//        a = id[s1];
+//        b = id[s2];
+//        u = min(a, b);
+//        v = max(a, b);
+//        addEdge(u + cities, v, 2, -1);
+//        addEdge(v, u + cities, 0, 1);
 //    }
 //    ssp(s, t);
 //    if (maxflow != 2) {
 //        cout << "No Solution!" << '\n';
 //    } else {
 //        cout << -mincost << '\n';
-//        getPath(cities);
+//        getRoute(cities);
 //        for (int i = 1; i <= siz; i++) {
 //            cout << name[ans[i]] << '\n';
 //        }

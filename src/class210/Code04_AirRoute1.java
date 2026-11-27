@@ -152,7 +152,7 @@ public class Code04_AirRoute1 {
 		return false;
 	}
 
-	public static void getPath(int cities) {
+	public static void getRoute(int cities) {
 		siz = 0;
 		// 从西到东取出两条路线，第一条作为去程，第二条逆序后作为返程
 		// len1是去程的城市数，也是最东城市的下标
@@ -196,17 +196,25 @@ public class Code04_AirRoute1 {
 		for (int i = 1; i <= cities; i++) {
 			name[i] = in.nextString();
 			id.put(name[i], i);
-			int w = (i == 1 || i == cities) ? 2 : 1;
-			addEdge(i, cities + i, w, 0);
-			addEdge(cities + i, i, 0, 0);
+			if (i == 1 || i == cities) {
+				addEdge(i, cities + i, 2, 0);
+				addEdge(cities + i, i, 0, 0);
+			} else {
+				addEdge(i, cities + i, 1, 0);
+				addEdge(cities + i, i, 0, 0);
+			}
 		}
+		String s1, s2;
+		int a, b, u, v;
 		for (int i = 1; i <= flights; i++) {
-			int a = id.get(in.nextString());
-			int b = id.get(in.nextString());
-			int u = Math.min(a, b);
-			int v = Math.max(a, b);
-			addEdge(cities + u, v, 2, -1);
-			addEdge(v, cities + u, 0, 1);
+			s1 = in.nextString();
+			s2 = in.nextString();
+			a = id.get(s1);
+			b = id.get(s2);
+			u = Math.min(a, b);
+			v = Math.max(a, b);
+			addEdge(u + cities, v, 2, -1);
+			addEdge(v, u + cities, 0, 1);
 		}
 		ssp(s, t);
 		if (maxflow != 2) {
@@ -215,7 +223,7 @@ public class Code04_AirRoute1 {
 			// 去程飞a次，经过a+1座城市，返程飞b次，经过b+1座城市
 			// 两程共用最西和最东两座城市，所以城市总数 = (a+1) + (b+1) - 2 = -mincost
 			out.println(-mincost);
-			getPath(cities);
+			getRoute(cities);
 			for (int i = 1; i <= siz; i++) {
 				out.println(name[ans[i]]);
 			}
