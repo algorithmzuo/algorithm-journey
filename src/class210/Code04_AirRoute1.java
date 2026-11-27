@@ -222,8 +222,8 @@ public class Code04_AirRoute1 {
 		if (maxflow != 2) {
 			out.println("No Solution!");
 		} else {
-			// 去程飞a次，经过a+1座城市，返程飞b次，经过b+1座城市
-			// 两程共用最西和最东两座城市，所以城市总数 = (a+1) + (b+1) - 2 = -mincost
+			// 通过1流量时，边有a条，经过a+1座城，再通过1流量，边有b条，经过b+1座城
+			// 代表一次往返，共用了起点和终点，所以城市总数 = (a+1) + (b+1) - 2 = -mincost
 			out.println(-mincost);
 			getRoute(cities);
 			for (int i = 1; i <= siz; i++) {
