@@ -213,6 +213,8 @@ public class Code04_AirRoute1 {
 			b = id.get(s2);
 			u = Math.min(a, b);
 			v = Math.max(a, b);
+			// 最西城市和最东城市的直达航线，去程和返程可以各用一次，所以容量为2
+			// 如果航线有一端是中间城市，受拆点边容量1的限制，设置成2也是正确的
 			addEdge(u + cities, v, 2, -1);
 			addEdge(v, u + cities, 0, 1);
 		}
