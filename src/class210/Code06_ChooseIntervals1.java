@@ -203,7 +203,8 @@ public class Code06_ChooseIntervals1 {
 			addEdge(i, i + 1, k, 0);
 			addEdge(i + 1, i, 0, 0);
 		}
-		// 从每个区间的左端点向右端点连边，容量为1表示最多选一次，费用为区间长度的相反数
+		// 从每个区间的左端点向右端点连边，每个区间只能使用1次
+		// 费用为区间长度的相反数，求解长度累加和的最大值
 		for (int i = 1, u, v, c; i <= a; i++) {
 			u = kth(l[i]);
 			v = kth(r[i]);
