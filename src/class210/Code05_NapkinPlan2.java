@@ -170,27 +170,27 @@ package class210;
 //    int t = ++n;
 //    cntg = 1;
 //    for (int i = 1; i <= openDays; i++) {
-//        int dirty = i;
-//        int clean = i + openDays;
-//        addEdge(s, dirty, need[i], 0);
-//        addEdge(dirty, s, 0, 0);
+//        int clean = i;
+//        int dirty = i + openDays;
 //        addEdge(s, clean, need[i], buyCost);
 //        addEdge(clean, s, 0, -buyCost);
+//        addEdge(s, dirty, need[i], 0);
+//        addEdge(dirty, s, 0, 0);
 //        addEdge(clean, t, need[i], 0);
 //        addEdge(t, clean, 0, 0);
 //        if (i < openDays) {
 //            addEdge(dirty, dirty + 1, INF, 0);
 //            addEdge(dirty + 1, dirty, 0, 0);
 //        }
-//        int back = i + fastDays;
-//        if (back <= openDays) {
-//            addEdge(dirty, back + openDays, need[back], fastCost);
-//            addEdge(back + openDays, dirty, 0, -fastCost);
+//        int nextClean = i + fastDays;
+//        if (nextClean <= openDays) {
+//            addEdge(dirty, nextClean, need[nextClean], fastCost);
+//            addEdge(nextClean, dirty, 0, -fastCost);
 //        }
-//        back = i + slowDays;
-//        if (back <= openDays) {
-//            addEdge(dirty, back + openDays, need[back], slowCost);
-//            addEdge(back + openDays, dirty, 0, -slowCost);
+//        nextClean = i + slowDays;
+//        if (nextClean <= openDays) {
+//            addEdge(dirty, nextClean, need[nextClean], slowCost);
+//            addEdge(nextClean, dirty, 0, -slowCost);
 //        }
 //    }
 //    ssp(s, t);

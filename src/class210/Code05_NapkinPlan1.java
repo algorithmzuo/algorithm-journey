@@ -164,17 +164,17 @@ public class Code05_NapkinPlan1 {
 		int t = ++n;
 		cntg = 1;
 		for (int i = 1; i <= openDays; i++) {
-			// dirty和clean是最重要的概念，表示 脏餐巾处理点 和 干净餐巾拿取点
-			// dirty是第i天的脏餐巾处理点，当天用脏的和以前留下的，都可以从这里送洗或继续留存
+			// clean和dirty是最重要的概念，表示 干净餐巾拿取点 和 脏餐巾处理点
 			// clean是第i天的干净餐巾拿取点，当天新买的和洗好的，都在这里供当天使用
-			int dirty = i;
-			int clean = i + openDays;
-			// 第i天用完后，有need[i]个脏餐巾可供后续使用
-			addEdge(s, dirty, need[i], 0);
-			addEdge(dirty, s, 0, 0);
-			// 第i天购买新餐巾，最多只需买当天的需求量
+			// dirty是第i天的脏餐巾处理点，当天用脏的和以前留下的，都可以从这里送洗或继续留存
+			int clean = i;
+			int dirty = i + openDays;
+			// 第i天餐巾的需求量，可以由购买来满足
 			addEdge(s, clean, need[i], buyCost);
 			addEdge(clean, s, 0, -buyCost);
+			// 第i天用完后产生need[i]条脏餐巾
+			addEdge(s, dirty, need[i], 0);
+			addEdge(dirty, s, 0, 0);
 			// 最大流时，这条边的流量恰好为need[i]，表示第i天的餐巾需求全部得到满足
 			addEdge(clean, t, need[i], 0);
 			addEdge(t, clean, 0, 0);
@@ -184,16 +184,16 @@ public class Code05_NapkinPlan1 {
 				addEdge(dirty + 1, dirty, 0, 0);
 			}
 			// 第i天送快洗，第 i + fastDays 天可用
-			int back = i + fastDays;
-			if (back <= openDays) {
-				addEdge(dirty, back + openDays, need[back], fastCost);
-				addEdge(back + openDays, dirty, 0, -fastCost);
+			int nextClean = i + fastDays;
+			if (nextClean <= openDays) {
+				addEdge(dirty, nextClean, need[nextClean], fastCost);
+				addEdge(nextClean, dirty, 0, -fastCost);
 			}
 			// 第i天送慢洗，第 i + slowDays 天可用
-			back = i + slowDays;
-			if (back <= openDays) {
-				addEdge(dirty, back + openDays, need[back], slowCost);
-				addEdge(back + openDays, dirty, 0, -slowCost);
+			nextClean = i + slowDays;
+			if (nextClean <= openDays) {
+				addEdge(dirty, nextClean, need[nextClean], slowCost);
+				addEdge(nextClean, dirty, 0, -slowCost);
 			}
 		}
 		ssp(s, t);
