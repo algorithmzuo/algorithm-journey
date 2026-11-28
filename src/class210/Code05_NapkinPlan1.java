@@ -178,21 +178,21 @@ public class Code05_NapkinPlan1 {
 			// 最大流时，这条边的流量恰好为need[i]，表示第i天的餐巾需求全部得到满足
 			addEdge(clean, t, need[i], 0);
 			addEdge(t, clean, 0, 0);
-			// 当天结束时，可以把任意数量的脏餐巾免费留到明天，以后再送洗
+			// 当天结束时，可以把之前留下的、任意数量的脏餐巾留到明天
 			if (i < openDays) {
 				addEdge(dirty, dirty + 1, INF, 0);
 				addEdge(dirty + 1, dirty, 0, 0);
 			}
-			// 第i天送快洗，第 i + fastDays 天可用
+			// 第i天可以之前留下的、任意数量的脏餐巾送去快洗
 			int nextClean = i + fastDays;
 			if (nextClean <= openDays) {
-				addEdge(dirty, nextClean, need[nextClean], fastCost);
+				addEdge(dirty, nextClean, INF, fastCost);
 				addEdge(nextClean, dirty, 0, -fastCost);
 			}
-			// 第i天送慢洗，第 i + slowDays 天可用
+			// 第i天可以之前留下的、任意数量的脏餐巾送去慢洗
 			nextClean = i + slowDays;
 			if (nextClean <= openDays) {
-				addEdge(dirty, nextClean, need[nextClean], slowCost);
+				addEdge(dirty, nextClean, INF, slowCost);
 				addEdge(nextClean, dirty, 0, -slowCost);
 			}
 		}

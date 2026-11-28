@@ -184,12 +184,12 @@ package class210;
 //        }
 //        int nextClean = i + fastDays;
 //        if (nextClean <= openDays) {
-//            addEdge(dirty, nextClean, need[nextClean], fastCost);
+//            addEdge(dirty, nextClean, INF, fastCost);
 //            addEdge(nextClean, dirty, 0, -fastCost);
 //        }
 //        nextClean = i + slowDays;
 //        if (nextClean <= openDays) {
-//            addEdge(dirty, nextClean, need[nextClean], slowCost);
+//            addEdge(dirty, nextClean, INF, slowCost);
 //            addEdge(nextClean, dirty, 0, -slowCost);
 //        }
 //    }
